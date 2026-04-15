@@ -1,12 +1,12 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import {
   DEFAULT_BASIC,
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import type { CharacterId } from 'types/character'
 import type {
   CharacterConditionalsController,

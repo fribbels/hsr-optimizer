@@ -1,12 +1,19 @@
 // @vitest-environment jsdom
-import { describe, expect, it } from 'vitest'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { addAbility, removeAbility } from './ComboFilter'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
+import {
+  addAbility,
+  removeAbility,
+} from './ComboFilter'
 
 function makeAbilities(count: number): TurnAbilityName[] {
   const abilities: TurnAbilityName[] = [NULL_TURN_ABILITY_NAME]

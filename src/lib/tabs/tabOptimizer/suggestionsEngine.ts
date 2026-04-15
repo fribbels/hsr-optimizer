@@ -1,17 +1,24 @@
-import { Constants, Parts } from 'lib/constants/constants'
+import { AppPages } from 'lib/constants/appPages'
+import {
+  Constants,
+  Parts,
+} from 'lib/constants/constants'
 import {
   OpenCloseIDs,
   setClose,
 } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
-import { AppPages } from 'lib/constants/appPages'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
-import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { getRelics } from 'lib/stores/relic/relicStore'
+import type {
+  MainStatPart,
+  RatingFilterState,
+  StatFilterState,
+} from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import type { MainStatPart, RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { getRelics } from 'lib/stores/relic/relicStore'
+import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import type { Form } from 'types/form'
 
 // ---- Zero Permutations ----

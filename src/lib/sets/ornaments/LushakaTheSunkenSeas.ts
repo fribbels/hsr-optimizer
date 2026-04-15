@@ -1,7 +1,13 @@
-import { ConditionalDataType, Sets } from 'lib/constants/constants'
-import { type BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
-import { Source } from 'lib/optimization/buffSource'
+import {
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
+import {
+  type BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   type OptimizerContext,

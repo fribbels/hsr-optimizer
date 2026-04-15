@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
+import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import { type SwitchRelicsFormSelectedCharacter } from 'lib/overlays/modals/SwitchRelicsModal'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import * as equipmentService from 'lib/services/equipmentService'
@@ -8,7 +9,6 @@ import { SaveState } from 'lib/state/saveState'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import type { CharacterId } from 'types/character'
-import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import type { Form } from 'types/form'
 
 export const CharacterTabController = {

@@ -6,10 +6,13 @@ import {
   SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
 } from 'lib/constants/constants'
-import { teammateOrnamentOptions, teammateRelicOptions } from 'lib/sets/setConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
-import iconClasses from 'style/icons.module.css'
+import {
+  teammateOrnamentOptions,
+  teammateRelicOptions,
+} from 'lib/sets/setConfigRegistry'
 import { getRelicById } from 'lib/stores/relic/relicStore'
+import iconClasses from 'style/icons.module.css'
 
 import { ArrayFilters } from 'lib/utils/arrayUtils'
 import type { Character } from 'types/character'
@@ -44,8 +47,8 @@ const teammateOrnamentSets = [
 export function calculateTeammateSets(teammateCharacter: Character) {
   const relics = Object.values(teammateCharacter.equipped).map((id) => getRelicById(id)).filter(ArrayFilters.nonNullable)
   const activeTeammateSets: {
-    teamRelicSet?: string
-    teamOrnamentSet?: string
+    teamRelicSet?: string,
+    teamOrnamentSet?: string,
   } = {}
   for (const set of teammateRelicSets) {
     if (relics.filter((relic) => relic.set === set).length === 4) {
@@ -75,10 +78,10 @@ export function calculateTeammateSets(teammateCharacter: Character) {
 }
 
 export type OptionRender = {
-  value: string
-  desc: string
-  text: string
-  label: ReactElement
+  value: string,
+  desc: string,
+  text: string,
+  label: ReactElement,
 }
 
 export function renderTeammateRelicSetOptions(t: TFunction<'optimizerTab', 'TeammateCard'>) {

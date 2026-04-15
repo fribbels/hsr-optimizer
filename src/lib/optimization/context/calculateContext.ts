@@ -4,12 +4,12 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
+import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import { emptyLightCone } from 'lib/optimization/optimizerUtils'
 import { transformComboState } from 'lib/optimization/rotation/comboStateTransform'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import {
   type Form,
   type Teammate,

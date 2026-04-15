@@ -3,13 +3,23 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { BasicKey, type BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
+import {
+  basicP2,
+  basicP4,
+} from 'lib/gpu/injection/generateBasicSetEffects'
+import {
+  BasicKey,
+  type BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { basicP2, basicP4 } from 'lib/gpu/injection/generateBasicSetEffects'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   type OptimizerAction,
   type OptimizerContext,

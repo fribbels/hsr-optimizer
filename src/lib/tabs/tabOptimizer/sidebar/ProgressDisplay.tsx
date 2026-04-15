@@ -19,12 +19,19 @@ export const ProgressDisplay = React.memo(function ProgressDisplay() {
     })),
   )
 
-  const progressText = calculateProgressText(optimizerStartTime, optimizerEndTime, permutations, permutationsSearched, optimizationInProgress, optimizerRunningEngine)
+  const progressText = calculateProgressText(
+    optimizerStartTime,
+    optimizerEndTime,
+    permutations,
+    permutationsSearched,
+    optimizationInProgress,
+    optimizerRunningEngine,
+  )
   const progress = permutations ? permutationsSearched / permutations : 0
   const filledSegments = Math.round(progress * SEGMENT_COUNT)
 
   return (
-    <Flex direction="column" gap={4}>
+    <Flex direction='column' gap={4}>
       <HeaderText>
         {progressText}
       </HeaderText>

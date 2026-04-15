@@ -4,7 +4,7 @@ import classes from './FilterContainer.module.css'
 
 export function FilterContainer({ children }: { children: ReactElement | ReactElement[] }) {
   return (
-    <Flex direction="column" className={classes.container}>
+    <Flex direction='column' className={classes.container}>
       {children}
     </Flex>
   )

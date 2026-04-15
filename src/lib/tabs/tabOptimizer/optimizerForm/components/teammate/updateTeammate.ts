@@ -1,10 +1,10 @@
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import { calculateTeammateSets } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import type {
   Form,

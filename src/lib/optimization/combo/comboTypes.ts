@@ -1,5 +1,8 @@
 import { type ConditionalDataType } from 'lib/constants/constants'
-import type { ElementName, PathName } from 'lib/constants/constants'
+import type {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import { type defaultSetConditionals } from 'lib/optimization/defaultForm'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { CharacterId } from 'types/character'

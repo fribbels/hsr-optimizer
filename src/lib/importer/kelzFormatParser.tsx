@@ -16,7 +16,9 @@ import type { ScannerConfig } from 'lib/importer/importConfig'
 import { Message } from 'lib/interactions/message'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { truncate10000ths } from 'lib/utils/mathUtils'
 import { isVersionOutdated } from 'lib/utils/miscUtils'
+import { isFlat } from 'lib/utils/statUtils'
 import type {
   Character,
   CharacterId,
@@ -27,8 +29,6 @@ import type {
   RelicSubstatMetadata,
   UnaugmentedRelic,
 } from 'types/relic'
-import { isFlat } from 'lib/utils/statUtils'
-import { truncate10000ths } from 'lib/utils/mathUtils'
 
 const characterList = Object.values(gameData.characters)
 

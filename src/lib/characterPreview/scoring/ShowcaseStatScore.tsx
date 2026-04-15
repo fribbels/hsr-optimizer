@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import classes from './ShowcaseStatScore.module.css'
 
 export const ShowcaseStatScore = memo(function ShowcaseStatScore({ scoringResults }: {
-  scoringResults: ScoringResults
+  scoringResults: ScoringResults,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 

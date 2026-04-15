@@ -1,4 +1,7 @@
-import { HoverCard, Text } from '@mantine/core'
+import {
+  HoverCard,
+  Text,
+} from '@mantine/core'
 import type { HintContent } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import classes from './TooltipImage.module.css'

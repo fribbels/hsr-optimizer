@@ -1,15 +1,30 @@
 import { Drawer } from '@mantine/core'
 import { ConditionalDataType } from 'lib/constants/constants'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { useScrollLock } from 'lib/layout/scrollController'
+import type {
+  ComboDataKey,
+  ComboNumberConditional,
+} from 'lib/optimization/combo/comboTypes'
+import { flushComboDrawerToForm } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
+import { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { ComboHeader } from 'lib/tabs/tabOptimizer/combo/ComboHeader'
 import { StateDisplay } from 'lib/tabs/tabOptimizer/combo/StateDisplay'
-import { elementToDataKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
-import type { ComboDataKey, ComboNumberConditional } from 'lib/optimization/combo/comboTypes'
-import { useComboDrawerStore, locateConditional } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
-import { flushComboDrawerToForm } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
+import {
+  locateConditional,
+  useComboDrawerStore,
+} from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { useCallback, useLayoutEffect, useRef, useState, type RefObject } from 'react'
+import {
+  type RefObject,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import Selecto from 'react-selecto'
 
 const drawerContentStyle = { width: 1560, height: '100%' } as const
@@ -118,7 +133,7 @@ function ComboDrawerContent() {
 
   const handleSelect = useCallback((e: Parameters<React.ComponentProps<typeof Selecto>['onSelect'] & {}>[0]) => {
     const activate = selectActivationState.current
-    const updates: Array<{ sourceKey: string; id: string; index: number; value: boolean }> = []
+    const updates: Array<{ sourceKey: string, id: string, index: number, value: boolean }> = []
 
     e.added.forEach((el) => {
       const keyStr = elementToDataKey(el)

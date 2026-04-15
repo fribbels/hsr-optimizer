@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
-import { STORAGE_STATE } from './playwright.config'
 import sampleSave from '../src/data/sample-save.json' with { type: 'json' }
+import { STORAGE_STATE } from './playwright.config'
 
 // Write sample data directly to localStorage storage state.
 // The raw sample-save.json (relics + characters) is a valid subset of HsrOptimizerSaveFormat.

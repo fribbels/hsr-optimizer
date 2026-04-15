@@ -4,11 +4,11 @@ import {
   type Sets,
   type SubStats,
 } from 'lib/constants/constants'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { type generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'
-import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 
 export type ValueColumnField = ReturnType<typeof generateValueColumnOptions>[number]['options'][number]['value']
 
@@ -99,9 +99,11 @@ const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set, get) => ({
     const newSelectedId = ids.at(-1) ?? null
     const currentIds = get().selectedRelicsIds
     // Skip no-op updates to avoid unnecessary re-renders from new array spreads
-    if (newSelectedId === get().selectedRelicId
+    if (
+      newSelectedId === get().selectedRelicId
       && ids.length === currentIds.length
-      && ids.every((id, i) => id === currentIds[i])) return
+      && ids.every((id, i) => id === currentIds[i])
+    ) return
     return set({ selectedRelicId: newSelectedId, selectedRelicsIds: [...ids] })
   },
   setValueColumns: (cols) => set({ valueColumns: [...cols] }),

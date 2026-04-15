@@ -55,6 +55,7 @@ import {
   START_ULT,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type NumberToNumberMap } from 'types/common'
@@ -67,7 +68,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const XueyiEntities = createEnum('Xueyi')
 export const XueyiAbilities: AbilityKind[] = [

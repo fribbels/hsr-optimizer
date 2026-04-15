@@ -1,10 +1,10 @@
-import { ReliquaryArchiverConfig } from 'lib/importer/importConfig'
-import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import { useTranslation } from 'react-i18next'
 import {
   DOWNTIME_VERSION,
   RELIQUARY_DOWNTIME,
 } from 'lib/constants/constants'
+import { ReliquaryArchiverConfig } from 'lib/importer/importConfig'
+import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import { useTranslation } from 'react-i18next'
 
 export function ReliquaryDescription() {
   const { t } = useTranslation('importSaveTab', { keyPrefix: 'Import.Stage1.ReliquaryDesc' })

@@ -9,7 +9,7 @@ const BORDER_SCALAR = (NAT_HEIGHT + NAT_WIDTH - NAT_BORDER * 4) / (NAT_HEIGHT + 
 // Minimum zoom to push the border outside the container.
 const BORDER_HIDE_ZOOM = 1 + 2 * 28 / NAT_WIDTH
 
-export type LcImageOffset = { x: number; y: number; s: number }
+export type LcImageOffset = { x: number, y: number, s: number }
 
 /**
  * Compute the raw vertical offset (dy) from game data.
@@ -47,7 +47,7 @@ export function computeLcTransform(
   offset: LcImageOffset,
   containerWidth: number,
   containerHeight: number,
-): { dy: number; scale: number } {
+): { dy: number, scale: number } {
   // Keep render zoom fixed to border-hide behavior.
   const scale = BORDER_HIDE_ZOOM
 

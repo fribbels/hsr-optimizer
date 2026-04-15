@@ -1,5 +1,8 @@
 import { Parts } from 'lib/constants/constants'
-import { MIN_ROLL_VALUE, RATINGS } from 'lib/relics/scoring/scoringConstants'
+import {
+  MIN_ROLL_VALUE,
+  RATINGS,
+} from 'lib/relics/scoring/scoringConstants'
 import { precisionRound } from 'lib/utils/mathUtils'
 
 export function scoreToRating(

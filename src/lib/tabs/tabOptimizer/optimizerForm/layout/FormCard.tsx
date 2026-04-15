@@ -1,7 +1,10 @@
 import { Flex } from '@mantine/core'
 import { defaultPadding } from 'lib/constants/constantsUi'
 import { panelWidth } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import type { CSSProperties, ReactNode } from 'react'
+import type {
+  CSSProperties,
+  ReactNode,
+} from 'react'
 
 const defaultGap = 5
 
@@ -17,11 +20,11 @@ const dimsBySize: Record<string, number> = {
 }
 
 export function FormCard({ size: sizeProp, children, height, style, justify }: {
-  size?: string
-  children?: ReactNode
-  height?: number
-  style?: CSSProperties
-  justify?: string
+  size?: string,
+  children?: ReactNode,
+  height?: number,
+  style?: CSSProperties,
+  justify?: string,
 }) {
   const size = sizeProp ?? 'small'
   const width = dimsBySize[size]
@@ -43,7 +46,7 @@ export function FormCard({ size: sizeProp, children, height, style, justify }: {
         justify={justify}
       >
         <Flex
-          direction="column"
+          direction='column'
           style={{ width: width }}
           gap={defaultGap}
           justify={justify}

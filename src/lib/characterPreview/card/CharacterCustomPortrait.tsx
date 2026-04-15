@@ -12,9 +12,9 @@ export function CharacterCustomPortrait({
   parentW,
   scoringType,
 }: {
-  customPortrait: CustomImageConfig
-  parentW: number
-  scoringType: ScoringType
+  customPortrait: CustomImageConfig,
+  parentW: number,
+  scoringType: ScoringType,
 }) {
   // Scale by height so that the light cone in combat scoring doesn't cut off part of the image
   const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width

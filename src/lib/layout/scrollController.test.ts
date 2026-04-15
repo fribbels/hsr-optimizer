@@ -1,6 +1,17 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { scrollLock, scrollUnlock, _getLockCount, _resetForTesting } from './scrollController'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
+import {
+  _getLockCount,
+  _resetForTesting,
+  scrollLock,
+  scrollUnlock,
+} from './scrollController'
 
 // ---- Helpers ----
 

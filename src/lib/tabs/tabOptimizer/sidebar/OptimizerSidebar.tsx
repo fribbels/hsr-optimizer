@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
-import { useScrollLockState } from 'lib/layout/scrollController'
 import { defaultPadding } from 'lib/constants/constantsUi'
+import { useScrollLockState } from 'lib/layout/scrollController'
 import { BuildsSection } from 'lib/tabs/tabOptimizer/sidebar/BuildsSection'
 import { OptimizerControlsSection } from 'lib/tabs/tabOptimizer/sidebar/OptimizerControlsSection'
 import { PermutationsSection } from 'lib/tabs/tabOptimizer/sidebar/PermutationsSection'
@@ -13,7 +13,7 @@ export function OptimizerSidebar({ isFullSize }: { isFullSize: boolean }) {
   const { offset, isLocked } = useScrollLockState()
   const totalSideOffset = SCROLLBAR_WIDTH + RESERVED_SPACE
   return (
-    <Flex direction="column" style={{ overflow: 'clip' }}>
+    <Flex direction='column' style={{ overflow: 'clip' }}>
       <Flex
         justify={isFullSize ? 'center' : 'space-evenly'}
         style={isFullSize

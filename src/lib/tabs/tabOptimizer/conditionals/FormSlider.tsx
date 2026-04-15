@@ -1,9 +1,21 @@
-import { Flex, NumberInput, Slider } from '@mantine/core'
-import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
+import {
+  Flex,
+  NumberInput,
+  Slider,
+} from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
+import {
+  conditionalAlign,
+  conditionalJustify,
+  ConditionalText as Text,
+} from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
+import {
+  getItemName,
+  resolveConditionalValue,
+} from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { WithPopover } from 'lib/ui/WithPopover'
+import { precisionRound } from 'lib/utils/mathUtils'
 import type {
   ComponentProps,
   ComponentType,
@@ -12,7 +24,6 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 const inputWidth = 61
 const numberWidth = 55
@@ -34,14 +45,23 @@ export interface FormSliderProps {
 }
 
 export const FormSlider: ComponentType<FormSliderProps> = ({
-  disabled, min, max, text, id, percent, lc, set, teammateIndex, removeForm, onChange, value,
+  disabled,
+  min,
+  max,
+  text,
+  id,
+  percent,
+  lc,
+  set,
+  teammateIndex,
+  removeForm,
+  onChange,
+  value,
 }) => {
   const props = { disabled, min, max, text, id, percent, lc, set, teammateIndex, removeForm, onChange, value }
   const itemName = getItemName(props)
 
-  const storeValue = useOptimizerRequestStore((s) =>
-    removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined,
-  )
+  const storeValue = useOptimizerRequestStore((s) => removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined)
 
   const currentValue = removeForm ? value : storeValue
   const [dragState, setDragState] = useState<number | undefined>(undefined)
@@ -58,7 +78,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
     if (clamped !== fieldValue) {
       handleConditionalChange(itemName as (string | number)[], clamped)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: only re-clamp when bounds change; storeValue read for current value, not as trigger
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: only re-clamp when bounds change; storeValue read for current value, not as trigger
   }, [min, max])
 
   const displayValue = dragState ?? currentValue
@@ -112,7 +132,7 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
   )
 
   return (
-    <Flex direction="column" style={{ marginBottom: 0 }}>
+    <Flex direction='column' style={{ marginBottom: 0 }}>
       <Flex justify={conditionalJustify} align={conditionalAlign}>
         <div style={{ minWidth: inputWidth, display: 'block' }}>
           {internalInputNumber}

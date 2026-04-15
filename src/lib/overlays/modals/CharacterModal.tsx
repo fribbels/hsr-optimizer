@@ -1,29 +1,35 @@
-import { Button, Flex, Modal, SegmentedControl, Select } from '@mantine/core'
-import iconClasses from 'style/icons.module.css'
+import {
+  Button,
+  Flex,
+  Modal,
+  SegmentedControl,
+  Select,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
-import { useFormOnOpen } from 'lib/overlays/modals/useFormOnOpen'
 import { Constants } from 'lib/constants/constants'
+import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
+import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
+import { useFormOnOpen } from 'lib/overlays/modals/useFormOnOpen'
 import { Assets } from 'lib/rendering/assets'
 import { getCharacterById } from 'lib/stores/character/characterStore'
-import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
-import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   renderTeammateOrnamentSetOptions,
   renderTeammateRelicSetOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
 import type {
   CharacterId,
 } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
-import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 
 export function CharacterModal() {
   const open = useCharacterModalStore((s) => s.open)
@@ -94,8 +100,8 @@ function CharacterModalContent() {
   return (
     <>
       <div>
-        <Flex direction="column" gap={10}>
-          <Flex direction="column" gap={5}>
+        <Flex direction='column' gap={10}>
+          <Flex direction='column' gap={5}>
             <HeaderText>{t('Character')}</HeaderText>
             <CharacterSelect
               value={characterForm.getValues().characterId ?? null}
@@ -127,7 +133,7 @@ function CharacterModalContent() {
             />
           </Flex>
 
-          <Flex direction="column" gap={5}>
+          <Flex direction='column' gap={5}>
             <HeaderText>{t('Lightcone')}</HeaderText>
             <LightConeSelect
               value={characterForm.getValues().lightCone ?? null}
@@ -154,7 +160,7 @@ function CharacterModalContent() {
           </Flex>
 
           {config.showSetSelection && (
-            <Flex direction="column" gap={5}>
+            <Flex direction='column' gap={5}>
               <HeaderText>{t('Sets')}</HeaderText>
               <SetSelect
                 data={relicSetData}
@@ -190,10 +196,10 @@ function SetSelect({
   fieldKey,
   form,
 }: {
-  data: { value: string; label: string }[]
-  placeholder: string
-  fieldKey: 'teamRelicSet' | 'teamOrnamentSet'
-  form: UseFormReturnType<CharacterModalForm>
+  data: { value: string, label: string }[],
+  placeholder: string,
+  fieldKey: 'teamRelicSet' | 'teamOrnamentSet',
+  form: UseFormReturnType<CharacterModalForm>,
 }) {
   const val = form.getValues()[fieldKey]
   return (

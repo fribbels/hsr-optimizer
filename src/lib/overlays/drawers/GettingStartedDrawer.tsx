@@ -1,6 +1,10 @@
-import { IconFileImport } from '@tabler/icons-react'
-import { Button, Drawer, Flex } from '@mantine/core'
+import {
+  Button,
+  Drawer,
+  Flex,
+} from '@mantine/core'
 import { modals } from '@mantine/modals'
+import { IconFileImport } from '@tabler/icons-react'
 import sampleSave from 'data/sample-save.json' with { type: 'json' }
 import {
   OpenCloseIDs,
@@ -34,7 +38,7 @@ export function GettingStartedDrawer() {
       size={250}
     >
       {isOpenBeginnerDrawer && (
-        <Flex direction="column" gap={20}>
+        <Flex direction='column' gap={20}>
           <ColorizedLinkWithIcon
             text={t('TryOut.DocumentationTitle') /* See full guide */}
             linkIcon={true}
@@ -44,17 +48,18 @@ export function GettingStartedDrawer() {
           <Button
             leftSection={<IconFileImport size={16} />}
             style={{ width: 200 }}
-            onClick={() => modals.openConfirmModal({
-              title: t('common:Confirm'),
-              children: (
-                <Flex style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}>
-                  {t('TryOut.description')}
-                </Flex>
-              ),
-              labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
-              centered: true,
-              onConfirm: tryItOutClicked,
-            })}
+            onClick={() =>
+              modals.openConfirmModal({
+                title: t('common:Confirm'),
+                children: (
+                  <Flex style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}>
+                    {t('TryOut.description')}
+                  </Flex>
+                ),
+                labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
+                centered: true,
+                onConfirm: tryItOutClicked,
+              })}
           >
             {t('TryOut.ButtonText') /* Try it out! */}
           </Button>

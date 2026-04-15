@@ -4,9 +4,16 @@ import {
   RelicSetFilterOptions,
 } from 'lib/constants/constants'
 import type { StatsValues } from 'lib/constants/constants'
-import type { RelicsByPart, SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type {
+  RelicsByPart,
+  SingleRelicByPart,
+} from 'lib/gpu/webgpuTypes'
 import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
-import { FLAT_STAT_SCALING, STAT_NORMALIZATION } from 'lib/relics/scoring/scoringConstants'
+import { calculateRelicMainStatValue } from 'lib/relics/relicUtils'
+import {
+  FLAT_STAT_SCALING,
+  STAT_NORMALIZATION,
+} from 'lib/relics/scoring/scoringConstants'
 import { weightedSubstatScore } from 'lib/relics/scoring/substatScoring'
 import {
   OrnamentSetToIndex,
@@ -14,14 +21,19 @@ import {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import { getCharacterById, getCharacters } from 'lib/stores/character/characterStore'
+import {
+  getCharacterById,
+  getCharacters,
+} from 'lib/stores/character/characterStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
-import { calculateRelicMainStatValue } from 'lib/relics/relicUtils'
+import {
+  arrayOfValue,
+  arrayOfZeroes,
+} from 'lib/utils/arrayUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
+import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
-import { isFlat } from 'lib/utils/statUtils'
-import { arrayOfZeroes, arrayOfValue } from 'lib/utils/arrayUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export type PartCounts = Record<Parts, number>
 
@@ -56,7 +68,7 @@ function computeWeightScore(relic: Relic, weights: Record<string, number>, upgra
 
 export const RelicFilters = {
   // Count-only variant of getFilteredRelics — single pass, no clone, no mutation
-  getFilteredRelicCounts: (request: Form): { counts: PartCounts; preCounts: PartCounts } => {
+  getFilteredRelicCounts: (request: Form): { counts: PartCounts, preCounts: PartCounts } => {
     const allRelics = getRelics()
     const characters = getCharacters()
     const selfId = request.characterId || '99999999'

@@ -68,7 +68,9 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
         }, {} as Record<SubStats, number>),
       )
     })
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [upgradePromise])
 
   const upgradeByStatMap = useMemo(() => {

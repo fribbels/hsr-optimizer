@@ -1,5 +1,13 @@
-import { describe, expect, it } from 'vitest'
-import { deriveCustomLayers, deriveDarkPalette, derivePrimaryPalette } from './themeColors'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
+import {
+  deriveCustomLayers,
+  deriveDarkPalette,
+  derivePrimaryPalette,
+} from './themeColors'
 
 describe('deriveDarkPalette', () => {
   it('produces 10-element tuple from seed hue', () => {

@@ -1,6 +1,15 @@
-import { CombatBuffs, DEFAULT_MEMO_DISPLAY, DEFAULT_STAT_DISPLAY, Sets } from 'lib/constants/constants'
+import {
+  CombatBuffs,
+  DEFAULT_MEMO_DISPLAY,
+  DEFAULT_STAT_DISPLAY,
+  Sets,
+} from 'lib/constants/constants'
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import { ComboType } from 'lib/optimization/rotation/comboType'
-import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  DEFAULT_BASIC,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import {
   type OptimizerRequestState,
@@ -8,12 +17,11 @@ import {
   type StatFilterState,
   type TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 
 function buildDefaultSetConditionals(): SetConditionals {
   const result = {} as SetConditionals
   for (const [id, config] of setConfigRegistry) {
-    (result as Record<string, [undefined, boolean | number]>)[Sets[id]] = [undefined, config.display.defaultValue]
+    ;(result as Record<string, [undefined, boolean | number]>)[Sets[id]] = [undefined, config.display.defaultValue]
   }
   return result
 }

@@ -1,18 +1,6 @@
 // @vitest-environment jsdom
-import {
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
-import {
-  generateE6S5Test,
-  testCharacter,
-  testMains,
-  testSets,
-  testStatSpread,
-} from 'lib/simulations/tests/simTestUtils'
-import { expectSimResultsToMatch } from 'lib/simulations/tests/statSim/statSimTestUtils'
-import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { FuXuan } from 'lib/conditionals/character/1200/FuXuan'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
@@ -27,6 +15,18 @@ import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeS
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { SheAlreadyShutHerEyes } from 'lib/conditionals/lightcone/5star/SheAlreadyShutHerEyes'
 import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
+import {
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import {
+  generateE6S5Test,
+  testCharacter,
+  testMains,
+  testSets,
+  testStatSpread,
+} from 'lib/simulations/tests/simTestUtils'
+import { expectSimResultsToMatch } from 'lib/simulations/tests/statSim/statSimTestUtils'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 

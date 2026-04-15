@@ -1,13 +1,21 @@
-import { CloseButton, Flex, Modal, TextInput } from '@mantine/core'
+import {
+  CloseButton,
+  Flex,
+  Modal,
+  TextInput,
+} from '@mantine/core'
 import type { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { generateLightConeOptions, type LcOptions } from 'lib/ui/selectors/optionGenerator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   generatePathTags,
   generateRarityTags,
   SegmentedFilterRow,
 } from 'lib/ui/selectors/CardSelectModalComponents'
+import {
+  generateLightConeOptions,
+  type LcOptions,
+} from 'lib/ui/selectors/optionGenerator'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
 import {
   LC_CARD_IMAGE_HEIGHT,
@@ -20,16 +28,19 @@ import {
 } from 'lib/ui/selectors/selectConstants'
 import { useSelectModal } from 'lib/ui/selectors/useSelectModal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
-import { type CSSProperties, useMemo } from 'react'
+import {
+  type CSSProperties,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import classes from './SelectCardGrid.module.css'
 
 type LightConeFilters = {
-  rarity: number[]
-  path: PathName[]
-  name: string
+  rarity: number[],
+  path: PathName[],
+  name: string,
 }
 
 const lcPathTags = generatePathTags()
@@ -44,13 +55,13 @@ export function LightConeSelect({
   onOpenChange,
   clearable = true,
 }: {
-  value: LightConeId | null
-  onChange: (id: LightConeId | null) => void
-  characterId?: CharacterId | null
-  selectStyle?: CSSProperties
-  opened?: boolean
-  onOpenChange?: (open: boolean) => void
-  clearable?: boolean
+  value: LightConeId | null,
+  onChange: (id: LightConeId | null) => void,
+  characterId?: CharacterId | null,
+  selectStyle?: CSSProperties,
+  opened?: boolean,
+  onOpenChange?: (open: boolean) => void,
+  clearable?: boolean,
 }) {
   const metadata = getGameMetadata()
   const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
@@ -87,11 +98,12 @@ export function LightConeSelect({
   }, [value, lightConeOptions])
 
   const filteredOptions = useMemo(
-    () => lightConeOptions.filter((x: LcOptions[LightConeId]) => {
-      if (filters.rarity.length && !filters.rarity.includes(x.rarity)) return false
-      if (filters.path.length && !filters.path.includes(x.path)) return false
-      return x.label.toLowerCase().includes(filters.name)
-    }),
+    () =>
+      lightConeOptions.filter((x: LcOptions[LightConeId]) => {
+        if (filters.rarity.length && !filters.rarity.includes(x.rarity)) return false
+        if (filters.path.length && !filters.path.includes(x.path)) return false
+        return x.label.toLowerCase().includes(filters.name)
+      }),
     [lightConeOptions, filters],
   )
 
@@ -105,7 +117,15 @@ export function LightConeSelect({
         onClick={open}
         rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
         rightSection={clearable && value
-          ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(null) }} />
+          ? (
+            <CloseButton
+              size='xs'
+              onClick={(e) => {
+                e.stopPropagation()
+                onChange(null)
+              }}
+            />
+          )
           : null}
         styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: clearable && value ? 28 : undefined, fontSize: 13 } }}
       />
@@ -114,13 +134,13 @@ export function LightConeSelect({
         opened={isOpen}
         onClose={close}
         centered
-        size="90%"
+        size='90%'
         styles={LC_MODAL_STYLES}
         title={t('Title')}
       >
         {isOpen && (
           <div className={classes.modalContent}>
-            <Flex gap={12} wrap="wrap">
+            <Flex gap={12} wrap='wrap'>
               <TextInput
                 className={classes.searchInput}
                 styles={SEARCH_INPUT_STYLES}
@@ -135,19 +155,19 @@ export function LightConeSelect({
                   }
                 }}
               />
-              <Flex wrap="wrap" className={classes.filterWrapper} gap={12}>
-                <Flex wrap="wrap" className={classes.filterWrapper}>
+              <Flex wrap='wrap' className={classes.filterWrapper} gap={12}>
+                <Flex wrap='wrap' className={classes.filterWrapper}>
                   <SegmentedFilterRow
                     tags={lcPathTags}
-                    flexBasis="11.111%"
+                    flexBasis='11.111%'
                     currentFilter={filters.path}
                     setCurrentFilters={(v) => updateFilter('path', v)}
                   />
                 </Flex>
-                <Flex wrap="wrap" className={classes.filterWrapper}>
+                <Flex wrap='wrap' className={classes.filterWrapper}>
                   <SegmentedFilterRow
                     tags={lcRarityTags}
-                    flexBasis="14.2%"
+                    flexBasis='14.2%'
                     currentFilter={filters.rarity}
                     setCurrentFilters={(v) => updateFilter('rarity', v)}
                   />

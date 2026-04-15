@@ -151,7 +151,12 @@ function emptyRegistry(): ConditionalRegistry {
   }
 }
 
-function getTotalReachableConditionals(stat: ConvertibleStatsType, remainingConditionals: Set<string>, registry: ConditionalRegistry, visited = new Set<ConvertibleStatsType>()): number {
+function getTotalReachableConditionals(
+  stat: ConvertibleStatsType,
+  remainingConditionals: Set<string>,
+  registry: ConditionalRegistry,
+  visited = new Set<ConvertibleStatsType>(),
+): number {
   if (visited.has(stat)) return 0
   visited.add(stat)
 

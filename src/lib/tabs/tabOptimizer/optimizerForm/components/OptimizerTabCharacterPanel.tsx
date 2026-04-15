@@ -1,6 +1,6 @@
-import type { CharacterId } from 'types/character'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import type { CharacterId } from 'types/character'
 
 const parentW = 233
 const parentH = 350
@@ -18,9 +18,9 @@ export function OptimizerTabCharacterPanel() {
 }
 
 export function CharacterPreviewInternalImage({ id, disableClick, parentH: customParentHProp }: {
-  id: CharacterId
-  disableClick?: boolean
-  parentH?: number
+  id: CharacterId,
+  disableClick?: boolean,
+  parentH?: number,
 }) {
   const customParentH = customParentHProp ?? parentH
   const customInnerH = customParentH >= innerH ? customParentH : innerH

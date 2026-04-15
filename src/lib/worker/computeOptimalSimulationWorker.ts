@@ -1,3 +1,4 @@
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { Stats } from 'lib/constants/constants'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
@@ -10,14 +11,13 @@ import {
   type Simulation,
   type SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
-import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { toSubstatCounts } from 'lib/worker/maxima/tree/statIndexMap'
 import { clone } from 'lib/utils/objectUtils'
 import {
   type ComputeOptimalSimulationWorkerInput,
   type ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
+import { toSubstatCounts } from 'lib/worker/maxima/tree/statIndexMap'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {

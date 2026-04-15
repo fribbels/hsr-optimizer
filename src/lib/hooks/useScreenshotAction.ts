@@ -1,7 +1,10 @@
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
 import { screenshotElementById } from 'lib/utils/screenshotUtils'
-import { useCallback, useState } from 'react'
+import {
+  useCallback,
+  useState,
+} from 'react'
 
 export function useScreenshotAction(elementId: string) {
   const [loading, setLoading] = useState(false)

@@ -5,10 +5,13 @@ import {
 import type { StatsValues } from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { RelicRollGrader } from 'lib/relics/relicRollGrader'
-import type { Relic, UnaugmentedRelic } from 'types/relic'
-import { isFlat } from 'lib/utils/statUtils'
-import { uuid } from 'lib/utils/miscUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { uuid } from 'lib/utils/miscUtils'
+import { isFlat } from 'lib/utils/statUtils'
+import type {
+  Relic,
+  UnaugmentedRelic,
+} from 'types/relic'
 
 export type AugmentedStats = Record<StatsValues, number> & {
   mainStat: string,

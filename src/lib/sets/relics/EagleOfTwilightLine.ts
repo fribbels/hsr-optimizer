@@ -3,9 +3,12 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { type BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
-import { Source } from 'lib/optimization/buffSource'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
+import {
+  type BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
 import {
   type OptimizerContext,
 } from 'types/optimizer'

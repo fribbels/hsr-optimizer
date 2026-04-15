@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
-import { describe, expect, it } from 'vitest'
+import { CombatBuffs } from 'lib/constants/constants'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import {
   createDefaultCombatBuffs,
   createDefaultFormState,
@@ -7,8 +8,11 @@ import {
   createDefaultStatFilters,
   createDefaultTeammate,
 } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import { CombatBuffs } from 'lib/constants/constants'
-import { ComboType } from 'lib/optimization/rotation/comboType'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 describe('createDefaultTeammate', () => {
   it('should have undefined identity fields', () => {

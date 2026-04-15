@@ -1,7 +1,13 @@
 import { Flex } from '@mantine/core'
-import { Constants, UnreleasedSets } from 'lib/constants/constants'
+import {
+  Constants,
+  UnreleasedSets,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { SetsOrnamentsNames, setToId } from 'lib/sets/setConfigRegistry'
+import {
+  SetsOrnamentsNames,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './OrnamentsOptions.module.css'

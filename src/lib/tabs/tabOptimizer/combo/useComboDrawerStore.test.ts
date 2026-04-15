@@ -1,6 +1,4 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { Metadata } from 'lib/state/metadataInitializer'
 import { ConditionalDataType } from 'lib/constants/constants'
 import {
   DEFAULT_BASIC,
@@ -9,7 +7,21 @@ import {
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import { Metadata } from 'lib/state/metadataInitializer'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
 
+import { DanHeng } from 'lib/conditionals/character/1000/DanHeng'
+import { Kafka } from 'lib/conditionals/character/1000/Kafka'
+import type {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import type {
   ComboBooleanConditional,
   ComboCharacter,
@@ -17,11 +29,11 @@ import type {
   ComboSelectConditional,
   ComboTeammate,
 } from 'lib/optimization/combo/comboTypes'
-import type { ElementName, PathName } from 'lib/constants/constants'
-import { Kafka } from 'lib/conditionals/character/1000/Kafka'
-import { DanHeng } from 'lib/conditionals/character/1000/DanHeng'
 
-import { locateConditional, useComboDrawerStore } from './useComboDrawerStore'
+import {
+  locateConditional,
+  useComboDrawerStore,
+} from './useComboDrawerStore'
 import type { ComboDrawerStore } from './useComboDrawerStore'
 
 // ---------------------------------------------------------------------------

@@ -1,8 +1,17 @@
-import { Constants, Parts } from 'lib/constants/constants'
-import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
+import {
+  Constants,
+  Parts,
+} from 'lib/constants/constants'
+import {
+  precisionRound,
+  truncate10ths,
+} from 'lib/utils/mathUtils'
 import { objectHash } from 'lib/utils/objectUtils'
 import { isFlat } from 'lib/utils/statUtils'
-import type { Relic, Stat } from 'types/relic'
+import type {
+  Relic,
+  Stat,
+} from 'types/relic'
 
 export function partIsOrnament(part: Parts) {
   return part === Parts.PlanarSphere
@@ -19,7 +28,7 @@ export function partIsRelic(part: Parts) {
 export function calculateRelicMainStatValue(mainStatType: string, grade: number, enhance: number): number {
   return precisionRound(
     Constants.MainStatsValues[mainStatType][grade].base
-    + Constants.MainStatsValues[mainStatType][grade].increment * enhance,
+      + Constants.MainStatsValues[mainStatType][grade].increment * enhance,
   )
 }
 

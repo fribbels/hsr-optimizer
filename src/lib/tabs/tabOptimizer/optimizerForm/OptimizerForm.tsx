@@ -1,11 +1,14 @@
 import { Flex } from '@mantine/core'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import { CharacterConditionalsDisplay } from 'lib/tabs/tabOptimizer/conditionals/CharacterConditionalsDisplay'
 import { LightConeConditionalDisplay } from 'lib/tabs/tabOptimizer/conditionals/LightConeConditionalDisplay'
 import { AdvancedOptionsPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/AdvancedOptionsPanel'
@@ -29,10 +32,17 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { DeferCreate, DeferReveal } from 'lib/ui/DeferredRender'
-import { memo, useEffect, useMemo } from 'react'
-import type { DBMetadata } from 'types/metadata'
+import {
+  DeferCreate,
+  DeferReveal,
+} from 'lib/ui/DeferredRender'
 import { mergeDefinedValues } from 'lib/utils/objectUtils'
+import {
+  memo,
+  useEffect,
+  useMemo,
+} from 'react'
+import type { DBMetadata } from 'types/metadata'
 
 export function OptimizerForm() {
   // On first load, load from last session, else display the first character from the roster
@@ -146,7 +156,7 @@ const LightConeConditionalDisplayWrapper = memo(function LightConeConditionalDis
   }, [lcId, superimposition, charId])
 
   return (
-    <Flex direction="column" justify='space-between' style={{ height: '100%', marginBottom: 8 }}>
+    <Flex direction='column' justify='space-between' style={{ height: '100%', marginBottom: 8 }}>
       <LightConeConditionalDisplay
         id={lcId}
         superImposition={superimposition}

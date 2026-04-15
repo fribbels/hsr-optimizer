@@ -1,11 +1,18 @@
 import { ConditionalDataType } from 'lib/constants/constants'
-import { type TurnAbilityName, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  NULL_TURN_ABILITY_NAME,
+  type TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
-import { SetsOrnaments, SetsRelics } from 'lib/sets/setConfigRegistry'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { Form } from 'types/form'
 
+import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
 import type {
   ComboCharacter,
   ComboCharacterMetadata,
@@ -15,39 +22,44 @@ import type {
   ComboState,
   ComboTeammate,
 } from 'lib/optimization/combo/comboTypes'
-import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
-import { forEachActivation, getEntityConditionals, resolveSourceKeyRoute, shiftLeft, withEntityConditionals } from './comboDrawerUtils'
+import {
+  forEachActivation,
+  getEntityConditionals,
+  resolveSourceKeyRoute,
+  shiftLeft,
+  withEntityConditionals,
+} from './comboDrawerUtils'
 
 // ─── State Shape ───────────────────────────────────────────────
 
 export type ComboDrawerState = {
-  comboCharacter: ComboCharacter | null
-  comboTeammate0: ComboTeammate | null
-  comboTeammate1: ComboTeammate | null
-  comboTeammate2: ComboTeammate | null
-  comboTurnAbilities: TurnAbilityName[]
-  version: string | undefined
-  initialized: boolean
+  comboCharacter: ComboCharacter | null,
+  comboTeammate0: ComboTeammate | null,
+  comboTeammate1: ComboTeammate | null,
+  comboTeammate2: ComboTeammate | null,
+  comboTurnAbilities: TurnAbilityName[],
+  version: string | undefined,
+  initialized: boolean,
 }
 
 type ComboDrawerActions = {
-  initialize: (form: Form) => void
-  reset: () => void
+  initialize: (form: Form) => void,
+  reset: () => void,
 
-  setActivation: (sourceKey: string, id: string, index: number, value: boolean) => void
-  setPartitionActivation: (sourceKey: string, id: string, partitionIndex: number, index: number) => void
+  setActivation: (sourceKey: string, id: string, index: number, value: boolean) => void,
+  setPartitionActivation: (sourceKey: string, id: string, partitionIndex: number, index: number) => void,
   batchSetActivations: (
-    updates: Array<{ sourceKey: string; id: string; index: number; value: boolean }>,
-    partitionUpdate?: { sourceKey: string; id: string; partitionIndex: number; index: number } | null,
-  ) => void
-  setNumberDefault: (sourceKey: string, id: string, partitionIndex: number, value: number) => void
-  addPartition: (sourceKey: string, id: string, partitionIndex: number, newValue: number) => void
-  deletePartition: (sourceKey: string, id: string, partitionIndex: number) => void
-  setBooleanDefault: (sourceKey: string, id: string, value: boolean) => void
-  setAbilityRotation: (index: number, name: TurnAbilityName) => void
-  updateSelectedSets: (sets: string[], isOrnaments: boolean) => void
+    updates: Array<{ sourceKey: string, id: string, index: number, value: boolean }>,
+    partitionUpdate?: { sourceKey: string, id: string, partitionIndex: number, index: number } | null,
+  ) => void,
+  setNumberDefault: (sourceKey: string, id: string, partitionIndex: number, value: number) => void,
+  addPartition: (sourceKey: string, id: string, partitionIndex: number, newValue: number) => void,
+  deletePartition: (sourceKey: string, id: string, partitionIndex: number) => void,
+  setBooleanDefault: (sourceKey: string, id: string, value: boolean) => void,
+  setAbilityRotation: (index: number, name: TurnAbilityName) => void,
+  updateSelectedSets: (sets: string[], isOrnaments: boolean) => void,
 
-  getComboState: () => ComboState | null
+  getComboState: () => ComboState | null,
 }
 
 export type ComboDrawerStore = ComboDrawerState & ComboDrawerActions
@@ -112,7 +124,7 @@ function cloneConditionalPath(
   state: ComboDrawerState,
   sourceKey: string,
   contentItemId: string,
-): { newState: Partial<ComboDrawerState>; conditional: ComboConditionalCategory | null } {
+): { newState: Partial<ComboDrawerState>, conditional: ComboConditionalCategory | null } {
   const route = resolveSourceKeyRoute(sourceKey)
   if (!route) return { newState: {}, conditional: null }
 
@@ -208,7 +220,7 @@ export const useComboDrawerStore = createTabAwareStore<ComboDrawerStore>((set, g
     if (conditional.type !== ConditionalDataType.NUMBER && conditional.type !== ConditionalDataType.SELECT) return
     const numberCond = conditional as ComboNumberConditional
     for (let i = 0; i < numberCond.partitions.length; i++) {
-      numberCond.partitions[i].activations[index] = (i === partitionIndex)
+      numberCond.partitions[i].activations[index] = i === partitionIndex
     }
     set(newState)
   },
@@ -252,7 +264,7 @@ export const useComboDrawerStore = createTabAwareStore<ComboDrawerStore>((set, g
         if (conditional && (conditional.type === ConditionalDataType.NUMBER || conditional.type === ConditionalDataType.SELECT)) {
           const numberCond = conditional as ComboNumberConditional
           for (let i = 0; i < numberCond.partitions.length; i++) {
-            numberCond.partitions[i].activations[pu.index] = (i === pu.partitionIndex)
+            numberCond.partitions[i].activations[pu.index] = i === pu.partitionIndex
           }
           mergedNewState = { ...mergedNewState, ...pathState }
         }
@@ -299,7 +311,10 @@ export const useComboDrawerStore = createTabAwareStore<ComboDrawerStore>((set, g
     for (let i = 0; i < numberCond.partitions[0].activations.length; i++) {
       let hasValue = false
       for (let j = 0; j < numberCond.partitions.length; j++) {
-        if (numberCond.partitions[j].activations[i]) { hasValue = true; break }
+        if (numberCond.partitions[j].activations[i]) {
+          hasValue = true
+          break
+        }
       }
       if (!hasValue) numberCond.partitions[0].activations[i] = true
     }
@@ -354,10 +369,26 @@ export const useComboDrawerStore = createTabAwareStore<ComboDrawerStore>((set, g
       const clonedTeammate1 = state.comboTeammate1 ? clone(state.comboTeammate1) : null
       const clonedTeammate2 = state.comboTeammate2 ? clone(state.comboTeammate2) : null
 
-      if (clonedCharacter) forEachActivation(clonedCharacter, (arr) => { arr[index] = arr[0] })
-      if (clonedTeammate0) forEachActivation(clonedTeammate0, (arr) => { arr[index] = arr[0] })
-      if (clonedTeammate1) forEachActivation(clonedTeammate1, (arr) => { arr[index] = arr[0] })
-      if (clonedTeammate2) forEachActivation(clonedTeammate2, (arr) => { arr[index] = arr[0] })
+      if (clonedCharacter) {
+        forEachActivation(clonedCharacter, (arr) => {
+          arr[index] = arr[0]
+        })
+      }
+      if (clonedTeammate0) {
+        forEachActivation(clonedTeammate0, (arr) => {
+          arr[index] = arr[0]
+        })
+      }
+      if (clonedTeammate1) {
+        forEachActivation(clonedTeammate1, (arr) => {
+          arr[index] = arr[0]
+        })
+      }
+      if (clonedTeammate2) {
+        forEachActivation(clonedTeammate2, (arr) => {
+          arr[index] = arr[0]
+        })
+      }
 
       set({
         comboCharacter: clonedCharacter,

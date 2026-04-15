@@ -246,7 +246,7 @@ export const orderedSetConditionalFields = [
   ...intFields.map((e) => e.field),
 ]
 
-type ToNameMap<T extends readonly { setKey: string; id: string }[]> = {
+type ToNameMap<T extends readonly { setKey: string, id: string }[]> = {
   readonly [C in T[number] as C['setKey']]: C['id']
 }
 

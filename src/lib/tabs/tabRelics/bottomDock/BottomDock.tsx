@@ -1,7 +1,10 @@
 import { relicCardH } from 'lib/constants/constantsUi'
-import { RelicInsightsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
-import { BottomToolbarLeft, BottomToolbarRight } from 'lib/tabs/tabRelics/bottomDock/BottomToolbar'
+import {
+  BottomToolbarLeft,
+  BottomToolbarRight,
+} from 'lib/tabs/tabRelics/bottomDock/BottomToolbar'
 import { ScoredRelicPreview } from 'lib/tabs/tabRelics/bottomDock/ScoredRelicPreview'
+import { RelicInsightsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import { VerticalDivider } from 'lib/ui/Dividers'
 
 export function BottomDock() {

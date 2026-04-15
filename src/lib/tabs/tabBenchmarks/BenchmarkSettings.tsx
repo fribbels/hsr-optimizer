@@ -1,8 +1,8 @@
 import { Flex } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
+import { type BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { cloneElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { type BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { type ReactElement } from 'types/components'
 
 interface BenchmarkSettingProps {

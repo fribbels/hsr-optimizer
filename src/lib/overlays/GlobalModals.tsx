@@ -13,12 +13,14 @@ import { CombatBuffsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/component
 import { EnemyConfigurationsDrawer } from 'lib/tabs/tabOptimizer/optimizerForm/components/EnemyConfigurationsDrawer'
 import { FormSetConditionals } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormSetConditionals'
 import { RelicSetFilterModal } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal'
-import { ZeroPermutationsSuggestionsModal, ZeroResultSuggestionModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
+import {
+  ZeroPermutationsSuggestionsModal,
+  ZeroResultSuggestionModal,
+} from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { ErrorBoundary } from 'react-error-boundary'
 import type { FallbackProps } from 'react-error-boundary'
 
-const defaultErrorRender = ({ error }: FallbackProps) =>
-  <div>Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
+const defaultErrorRender = ({ error }: FallbackProps) => <div>Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
 
 export function GlobalModals() {
   return (

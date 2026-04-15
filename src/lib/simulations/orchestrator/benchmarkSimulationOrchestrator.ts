@@ -1,3 +1,11 @@
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import {
+  TrailblazerHarmonyCaelus,
+  TrailblazerHarmonyStelle,
+} from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import { applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
 import {
   Parts,
@@ -5,9 +13,9 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
-import { generateContext } from 'lib/optimization/context/calculateContext'
 import {
   AbilityKind,
   toTurnAbility,
@@ -41,7 +49,6 @@ import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateB
 import { generateStatImprovements } from 'lib/simulations/scoringUpgrades'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import { convertRelicsToSimulation } from 'lib/simulations/statSimulationUtils'
 import type {
   RunSimulationsParams,
   RunStatSimulationsResult,
@@ -49,18 +56,15 @@ import type {
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { TrailblazerHarmonyCaelus, TrailblazerHarmonyStelle } from 'lib/conditionals/character/8000/TrailblazerHarmony'
+import { convertRelicsToSimulation } from 'lib/simulations/statSimulationUtils'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
-import { runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { clone } from 'lib/utils/objectUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { uuid } from 'lib/utils/miscUtils'
+import { clone } from 'lib/utils/objectUtils'
 import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
+import { runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,
@@ -72,7 +76,6 @@ import type {
 } from 'types/form'
 import type { SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export class BenchmarkSimulationOrchestrator {
   public metadata: SimulationMetadata
@@ -157,7 +160,9 @@ export class BenchmarkSimulationOrchestrator {
     }
 
     // Add banana if DH PT is on the team
-    if (!metadata.ornamentSets.find((set) => set == Sets.TheWondrousBananAmusementPark) && metadata.teammates.find((x) => x.characterId == PermansorTerrae.id)) {
+    if (
+      !metadata.ornamentSets.find((set) => set == Sets.TheWondrousBananAmusementPark) && metadata.teammates.find((x) => x.characterId == PermansorTerrae.id)
+    ) {
       metadata.ornamentSets.push(Sets.TheWondrousBananAmusementPark)
     }
 

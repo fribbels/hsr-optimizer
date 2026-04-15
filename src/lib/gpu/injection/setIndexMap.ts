@@ -8,8 +8,8 @@ import { SetType } from 'types/setConfig'
  * Ornament sets use bits 0..M in ornamentMatch2.
  */
 export function generateSetBitConstants(): string {
-  const relics: { id: string; index: number }[] = []
-  const ornaments: { id: string; index: number }[] = []
+  const relics: { id: string, index: number }[] = []
+  const ornaments: { id: string, index: number }[] = []
 
   for (const config of setConfigRegistry.values()) {
     const entry = { id: config.setKey, index: config.info.index }

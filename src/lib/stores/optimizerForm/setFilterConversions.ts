@@ -1,9 +1,16 @@
 import { RelicSetFilterOptions } from 'lib/constants/constants'
 import { STAT_TAG_TO_SETS } from 'lib/sets/setConfigRegistry'
 import type { SetsRelics } from 'lib/sets/setConfigRegistry'
-import type { OrnamentSetFilters, RelicSetFilters } from 'types/form'
-import type { ModalState, SetFilters, TwoPieceSlot } from 'lib/stores/optimizerForm/setFilterTypes'
+import type {
+  ModalState,
+  SetFilters,
+  TwoPieceSlot,
+} from 'lib/stores/optimizerForm/setFilterTypes'
 import { TwoPieceSlotType } from 'lib/stores/optimizerForm/setFilterTypes'
+import type {
+  OrnamentSetFilters,
+  RelicSetFilters,
+} from 'types/form'
 
 export const DEFAULT_SET_FILTERS: SetFilters = {
   fourPiece: [],
@@ -15,15 +22,18 @@ export const DEFAULT_SET_FILTERS: SetFilters = {
 
 function resolveSlot(slot: TwoPieceSlot): SetsRelics[] {
   switch (slot.type) {
-    case TwoPieceSlotType.Set: return [slot.value]
-    case TwoPieceSlotType.Stat: return STAT_TAG_TO_SETS[slot.value] ?? []
-    case TwoPieceSlotType.Any: return []
+    case TwoPieceSlotType.Set:
+      return [slot.value]
+    case TwoPieceSlotType.Stat:
+      return STAT_TAG_TO_SETS[slot.value] ?? []
+    case TwoPieceSlotType.Any:
+      return []
   }
 }
 
 export function expandSetFilters(display: SetFilters): {
-  relicSets: RelicSetFilters
-  ornamentSets: OrnamentSetFilters
+  relicSets: RelicSetFilters,
+  ornamentSets: OrnamentSetFilters,
 } {
   const relicSets: RelicSetFilters = []
 

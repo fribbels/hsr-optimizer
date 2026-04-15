@@ -3,10 +3,10 @@ import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import type { CSSProperties } from 'react'
 
 export function CenteredImage({ src, containerW, containerH, imageOffset }: {
-  src: string
-  containerW: number
-  containerH: number
-  imageOffset?: { x: number; y: number; s: number }
+  src: string,
+  containerW: number,
+  containerH: number,
+  imageOffset?: { x: number, y: number, s: number },
 }) {
   let imageStyle: CSSProperties
 

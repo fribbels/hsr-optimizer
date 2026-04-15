@@ -1,5 +1,4 @@
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { floorSafe } from 'lib/utils/mathUtils'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import {
@@ -52,6 +51,7 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 
 import type { Eidolon } from 'types/character'

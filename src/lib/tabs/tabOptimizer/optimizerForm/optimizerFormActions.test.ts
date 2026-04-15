@@ -1,13 +1,25 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { Metadata } from 'lib/state/metadataInitializer'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { useCharacterStore, getCharacterById } from 'lib/stores/character/characterStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { ComboType } from 'lib/optimization/rotation/comboType'
-import { resetFilters, updateCharacter } from './optimizerFormActions'
+import { Metadata } from 'lib/state/metadataInitializer'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import type { Character } from 'types/character'
 import type { Form } from 'types/form'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
+import {
+  resetFilters,
+  updateCharacter,
+} from './optimizerFormActions'
 
 // ---- Mocks ----
 

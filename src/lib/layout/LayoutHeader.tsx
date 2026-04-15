@@ -1,19 +1,25 @@
 import {
+  Button,
+  Flex,
+} from '@mantine/core'
+import {
   IconMenu2,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import {
+  AppPages,
+  BASE_PATH,
+} from 'lib/constants/appPages'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { LanguageSelector } from 'lib/i18n/LanguageSelector'
-import { Assets } from 'lib/rendering/assets'
-import { AppPages, BASE_PATH } from 'lib/constants/appPages'
-import { useGlobalStore } from 'lib/stores/app/appStore'
-import { SaveState } from 'lib/state/saveState'
 import classes from 'lib/layout/layout.module.css'
+import { Assets } from 'lib/rendering/assets'
+import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 
 export const HEADER_HEIGHT = 48
 

@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState,
+} from 'react'
 
 /** Clears to null, skipping re-render if already null (returns same reference) */
 const clear = <T>(prev: T | null): T | null => prev === null ? prev : null
@@ -19,10 +22,14 @@ export function usePromise<T>(promise: Promise<T> | null): T | null {
 
     let cancelled = false
     promise
-      .then((value) => { if (!cancelled) setResult(value) })
+      .then((value) => {
+        if (!cancelled) setResult(value)
+      })
       .catch(() => {})
 
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [promise])
 
   return result

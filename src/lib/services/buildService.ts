@@ -1,24 +1,35 @@
 import i18next from 'i18next'
+import { handleTeamSelection } from 'lib/characterPreview/characterPreviewController'
+import { AppPages } from 'lib/constants/appPages'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { AppPages } from 'lib/constants/appPages'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { handleTeamSelection } from 'lib/characterPreview/characterPreviewController'
-import { deserializeBuild, serializeFromCharacterTab, serializeFromOptimizer } from 'lib/services/buildConverter'
+import {
+  deserializeBuild,
+  serializeFromCharacterTab,
+  serializeFromOptimizer,
+} from 'lib/services/buildConverter'
 import * as equipmentService from 'lib/services/equipmentService'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
+import { computeLoadForm } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { computeLoadForm } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import { BuildSource, type Build, type SavedBuild } from 'types/savedBuild'
+import {
+  type Build,
+  BuildSource,
+  type SavedBuild,
+} from 'types/savedBuild'
 
 export function saveBuild(
   name: string,

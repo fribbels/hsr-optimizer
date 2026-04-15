@@ -9,12 +9,12 @@ export const ShowcasePortraitRow = memo(function ShowcasePortraitRow({
   selectedIndex,
   onSelect,
 }: {
-  characters: ShowcaseTabCharacter[]
-  selectedIndex: number
-  onSelect: (index: number) => void
+  characters: ShowcaseTabCharacter[],
+  selectedIndex: number,
+  onSelect: (index: number) => void,
 }) {
   return (
-    <Flex justify="center" align="center" gap={20} wrap="wrap">
+    <Flex justify='center' align='center' gap={20} wrap='wrap'>
       {characters.map((char, index) => (
         <div
           key={char.id + '-' + index}

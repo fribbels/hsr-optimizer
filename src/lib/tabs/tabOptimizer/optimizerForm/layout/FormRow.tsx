@@ -1,9 +1,12 @@
-import { Accordion, Flex } from '@mantine/core'
+import {
+  Accordion,
+  Flex,
+} from '@mantine/core'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 
-export function FormRow({ id, label, children }: { id: string; label?: string; children: ReactNode }) {
+export function FormRow({ id, label, children }: { id: string, label?: string, children: ReactNode }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'FormRowLabels' })
   const isOpen = useOptimizerDisplayStore((s) => s.menuState[id])
 
@@ -14,7 +17,7 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
 
   return (
     <Flex
-      direction="column"
+      direction='column'
       style={{
         minWidth: '100%',
       }}
@@ -47,7 +50,7 @@ export function FormRow({ id, label, children }: { id: string; label?: string; c
   )
 }
 
-export function TeammateFormRow({ id, children }: { id: string; children: ReactNode }) {
+export function TeammateFormRow({ id, children }: { id: string, children: ReactNode }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateRow' })
 
   return (

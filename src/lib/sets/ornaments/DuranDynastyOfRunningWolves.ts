@@ -3,10 +3,15 @@ import {
   Sets,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -14,14 +19,13 @@ import {
 } from 'types/optimizer'
 import {
   type SelectOptionContent,
-  type SetConditionalTFunction,
   type SetConditionals,
+  type SetConditionalTFunction,
   type SetConfig,
   type SetDisplay,
   type SetInfo,
   SetType,
 } from 'types/setConfig'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 const info = {
   index: 14,

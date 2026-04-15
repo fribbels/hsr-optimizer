@@ -1,6 +1,14 @@
-import { type GetLocaleTextParams, type PaginationNumberFormatterParams } from 'ag-grid-community'
+import {
+  type GetLocaleTextParams,
+  type PaginationNumberFormatterParams,
+} from 'ag-grid-community'
 import { localeNumber } from 'lib/utils/i18nUtils'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function useGridLocale(translationNs: string, keyPrefix?: string) {

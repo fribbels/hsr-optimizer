@@ -1,10 +1,8 @@
 // @vitest-environment jsdom
-import { describe, expect, it } from 'vitest'
-import { Constants, ConditionalDataType } from 'lib/constants/constants'
 import {
-  createDefaultFormState,
-  createDefaultTeammate,
-} from 'lib/stores/optimizerForm/optimizerFormDefaults'
+  ConditionalDataType,
+  Constants,
+} from 'lib/constants/constants'
 import {
   buildOptimizerRequest,
   buildSaveForm,
@@ -14,9 +12,18 @@ import {
   normalizeForm,
   patchComboConditionalDefault,
 } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import {
+  createDefaultFormState,
+  createDefaultTeammate,
+} from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { type OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { type CharacterId } from 'types/character'
 import { type LightConeId } from 'types/lightCone'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 const MAX_INT = Constants.MAX_INT
 
@@ -445,7 +452,11 @@ describe('internalToDisplay', () => {
 // ─── Task 7: patchComboConditionalDefault ─────────────────────────────
 
 // Helper to build a minimal combo state JSON string
-function makeComboStateJson(characterConditionals: Record<string, unknown> = {}, lightConeConditionals: Record<string, unknown> = {}, setConditionals: Record<string, unknown> = {}): string {
+function makeComboStateJson(
+  characterConditionals: Record<string, unknown> = {},
+  lightConeConditionals: Record<string, unknown> = {},
+  setConditionals: Record<string, unknown> = {},
+): string {
   return JSON.stringify({
     comboCharacter: {
       characterConditionals,
@@ -960,7 +971,11 @@ describe('stat filter conversion', () => {
 
 describe('teammate round-trip', () => {
   it('should preserve all 3 teammates through displayToInternal → internalFormToState', () => {
-    const teammates: [typeof createDefaultTeammate extends () => infer T ? T : never, typeof createDefaultTeammate extends () => infer T ? T : never, typeof createDefaultTeammate extends () => infer T ? T : never] = [
+    const teammates: [
+      typeof createDefaultTeammate extends () => infer T ? T : never,
+      typeof createDefaultTeammate extends () => infer T ? T : never,
+      typeof createDefaultTeammate extends () => infer T ? T : never,
+    ] = [
       {
         ...createDefaultTeammate(),
         characterId: '1101' as CharacterId,

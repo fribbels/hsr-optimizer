@@ -1,5 +1,22 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
+import type {
+  ScannerParserJson,
+  V4ParserCharacter,
+  V4ParserRelic,
+} from 'lib/importer/kelzFormatParser'
+import * as equipmentService from 'lib/services/equipmentService'
+import * as persistenceService from 'lib/services/persistenceService'
+import { SaveState } from 'lib/state/saveState'
+import { getRelics } from 'lib/stores/relic/relicStore'
+import type { CharacterId } from 'types/character'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
 import {
   DEFAULT_WEBSOCKET_URL,
   handleDeleteRelic,
@@ -7,13 +24,6 @@ import {
   usePrivateScannerState,
   useScannerState,
 } from './scannerStore'
-import type { ScannerParserJson, V4ParserCharacter, V4ParserRelic } from 'lib/importer/kelzFormatParser'
-import type { CharacterId } from 'types/character'
-import { getRelics } from 'lib/stores/relic/relicStore'
-import { SaveState } from 'lib/state/saveState'
-import * as equipmentService from 'lib/services/equipmentService'
-import * as persistenceService from 'lib/services/persistenceService'
-import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 
 // ---- Mocks ----
 
@@ -60,9 +70,9 @@ const RELIC_UID_1 = 'cd85c14c-a662-4413-a149-a379e6d538d3'
 const RELIC_UID_2 = '0bd7404f-3420-4bf5-9e45-f79343728685'
 const RELIC_UID_3 = '77ac4c85-21a7-4526-999a-6e54646dda6d'
 const LC_UID_1 = 'e1f2a3b4-c5d6-7890-abcd-ef1234567890'
-const MATERIAL_ID_1 = '2'       // Trailblaze EXP
-const CHAR_ID_1 = '1001'        // March 7th
-const CHAR_ID_2 = '1002'        // Dan Heng
+const MATERIAL_ID_1 = '2' // Trailblaze EXP
+const CHAR_ID_1 = '1001' // March 7th
+const CHAR_ID_2 = '1002' // Dan Heng
 
 // ---- Helpers ----
 
@@ -198,9 +208,7 @@ describe('scannerStore', () => {
     })
 
     it('updateInitialScan sets recentRelics to last 6 UIDs reversed', () => {
-      const relics = Array.from({ length: 8 }, (_, i) =>
-        makeRelic({ _uid: `r-uid-${String(i).padStart(3, '0')}` }),
-      )
+      const relics = Array.from({ length: 8 }, (_, i) => makeRelic({ _uid: `r-uid-${String(i).padStart(3, '0')}` }))
       state().updateInitialScan(makeScanData({ relics }))
 
       expect(state().recentRelics).toHaveLength(6)
@@ -388,12 +396,22 @@ describe('scannerStore', () => {
       vi.mocked(ReliquaryArchiverParser.parseCharacter).mockReturnValueOnce({ characterId: CHAR_ID_1 } as any)
 
       const callOrder: string[] = []
-      vi.mocked(persistenceService.upsertCharacterFromForm).mockImplementation((() => { callOrder.push('upsertCharacter') }) as any)
-      vi.mocked(equipmentService.equipRelic).mockImplementation(() => { callOrder.push('equipRelic') })
+      vi.mocked(persistenceService.upsertCharacterFromForm).mockImplementation(
+        (() => {
+          callOrder.push('upsertCharacter')
+        }) as any,
+      )
+      vi.mocked(equipmentService.equipRelic).mockImplementation(() => {
+        callOrder.push('equipRelic')
+      })
 
       handleUpdateCharacter(state(), {
-        id: CHAR_ID_1, name: 'March 7th', path: 'Preservation',
-        level: 80, ascension: 6, eidolon: 0,
+        id: CHAR_ID_1,
+        name: 'March 7th',
+        path: 'Preservation',
+        level: 80,
+        ascension: 6,
+        eidolon: 0,
       })
 
       expect(callOrder).toEqual(['upsertCharacter', 'equipRelic'])

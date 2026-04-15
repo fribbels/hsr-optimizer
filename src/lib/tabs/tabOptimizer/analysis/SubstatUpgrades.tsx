@@ -1,6 +1,10 @@
 import { Table } from '@mantine/core'
 import type { SubStats } from 'lib/constants/constants'
-import { type AKeyType, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  type AKeyType,
+  GlobalRegister,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
 import { calculateStatUpgrades } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
@@ -9,10 +13,10 @@ import {
   localeNumber_0,
   localeNumber_00,
 } from 'lib/utils/i18nUtils'
+import { truncate100ths } from 'lib/utils/mathUtils'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './SubstatUpgrades.module.css'
-import { truncate100ths } from 'lib/utils/mathUtils'
 
 type Metrics = 'COMBO_DMG' | 'EHP'
 
@@ -28,7 +32,7 @@ type StatUpgradeItem = {
 }
 
 export function DamageUpgrades({ analysis }: {
-  analysis: OptimizerResultAnalysis
+  analysis: OptimizerResultAnalysis,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.SubstatUpgrades' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })

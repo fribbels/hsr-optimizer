@@ -10,7 +10,6 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import iconClasses from 'style/icons.module.css'
 import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -18,7 +17,11 @@ import { Assets } from 'lib/rendering/assets'
 import {
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { type PrimaryActionStats, type RunStatSimulationsResult } from 'lib/simulations/statSimulationTypes'
+import {
+  type PrimaryActionStats,
+  type RunStatSimulationsResult,
+} from 'lib/simulations/statSimulationTypes'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import {
   filterUnique,
@@ -29,17 +32,23 @@ import {
   localeNumber_0,
   localeNumber_000,
 } from 'lib/utils/i18nUtils'
-import { memo, type ReactElement } from 'react'
-import { useTranslation } from 'react-i18next'
-import { type DBMetadataCharacter } from 'types/metadata'
-import { useGlobalStore } from 'lib/stores/app/appStore'
+import {
+  precisionRound,
+  truncate10ths,
+} from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
+import {
+  memo,
+  type ReactElement,
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
+import { type DBMetadataCharacter } from 'types/metadata'
 
 export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs }: {
-  characterMetadata: DBMetadataCharacter
-  originalSimResult: RunStatSimulationsResult
-  deprioritizeBuffs: boolean
+  characterMetadata: DBMetadataCharacter,
+  originalSimResult: RunStatSimulationsResult,
+  deprioritizeBuffs: boolean,
 }) {
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')

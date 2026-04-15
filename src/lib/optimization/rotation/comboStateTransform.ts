@@ -1,30 +1,30 @@
-import { ComboType } from 'lib/optimization/rotation/comboType'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   ConditionalDataType,
 } from 'lib/constants/constants'
 import { type DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import {
-  getTeammateOption,
-  orderedSetConditionalFields,
-  setConfigRegistry,
-} from 'lib/sets/setConfigRegistry'
-import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
-import {
-  DEFAULT_BASIC,
-  getAbilityKind,
-  NULL_TURN_ABILITY_NAME,
-  type TurnAbilityName,
-} from 'lib/optimization/rotation/turnAbilityConfig'
-import { getGameMetadata } from 'lib/state/gameMetadata'
+import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
 import type {
   ComboConditionalCategory,
   ComboConditionals,
   ComboSelectConditional,
   ComboState,
 } from 'lib/optimization/combo/comboTypes'
-import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
+import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
+import { ComboType } from 'lib/optimization/rotation/comboType'
+import {
+  DEFAULT_BASIC,
+  getAbilityKind,
+  NULL_TURN_ABILITY_NAME,
+  type TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  getTeammateOption,
+  orderedSetConditionalFields,
+  setConfigRegistry,
+} from 'lib/sets/setConfigRegistry'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { type CharacterId } from 'types/character'
 import {
   type CharacterConditionalsController,
@@ -85,7 +85,7 @@ export function defineAction(
     ? 'Rotation' + actionIndex
     : 'Default' + actionIndex
 
-  const conditionalIndex = rotation ?  actionIndex : 0
+  const conditionalIndex = rotation ? actionIndex : 0
   action.conditionalIndex = conditionalIndex
 
   action.characterConditionals = transformConditionals(conditionalIndex, comboState.comboCharacter.characterConditionals)
@@ -295,4 +295,3 @@ function overrideSetConditionals(setConditionals: SetConditional, context: Optim
   }
   return setConditionals
 }
-

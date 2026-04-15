@@ -1,9 +1,9 @@
-import { SUBSTAT_COUNT } from 'lib/worker/maxima/tree/statIndexMap'
 import {
   type SearchTree,
   type TreeConfig,
   type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
+import { SUBSTAT_COUNT } from 'lib/worker/maxima/tree/statIndexMap'
 
 export function calculateMinMaxMetadata(lower: Float32Array, upper: Float32Array) {
   const activeStats: number[] = []

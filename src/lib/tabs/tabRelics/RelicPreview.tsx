@@ -2,14 +2,17 @@ import i18next from 'i18next'
 import {
   showcaseShadow,
   showcaseShadowInsetAddition,
-  showcaseTransition,
   ShowcaseSource,
+  showcaseTransition,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Parts } from 'lib/constants/constants'
-import { relicCardH, relicCardW } from 'lib/constants/constantsUi'
-import iconClasses from 'style/icons.module.css'
+import {
+  relicCardH,
+  relicCardW,
+} from 'lib/constants/constantsUi'
 import { type RelicScoringResult } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
+import iconClasses from 'style/icons.module.css'
 
 import { Renderer } from 'lib/rendering/renderer'
 import { ScoreCategory } from 'lib/scoring/scoreComparison'
@@ -23,7 +26,10 @@ import {
   type Languages,
   localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
-import { memo, useMemo } from 'react'
+import {
+  memo,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type {
@@ -77,10 +83,11 @@ export const RelicPreview = memo(function RelicPreview(props: {
   } = props
 
   // Memoize merged relic object to avoid recreation on every render
-  const relic = useMemo<Relic>(() => ({
-    ...PLACEHOLDER_RELIC,
-    ...props.relic,
-  }) as Relic, [props.relic])
+  const relic = useMemo<Relic>(() =>
+    ({
+      ...PLACEHOLDER_RELIC,
+      ...props.relic,
+    }) as Relic, [props.relic])
 
   const relicSrc = relic.set ? Assets.getSetImage(relic.set, relic.part) : Assets.getBlank()
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
@@ -113,7 +120,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
 
   return (
     <div
-      data-testid="relic-preview"
+      data-testid='relic-preview'
       onClick={cardClicked}
       style={{
         flex: fill ? 1 : undefined,

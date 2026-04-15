@@ -1,12 +1,15 @@
 import type { Relic } from 'types/relic'
-import type { RelicScoringResult, ScorerMetadata } from './types'
+import { scoreToRating } from './scoreFormatting'
 import { toFixed1 } from './scoringConstants'
 import {
   computeMainStatScore,
   mainStatBonus,
   normalizeDisplayScore,
 } from './substatScoring'
-import { scoreToRating } from './scoreFormatting'
+import type {
+  RelicScoringResult,
+  ScorerMetadata,
+} from './types'
 
 export function scoreCurrentRelic(
   relic: Relic,

@@ -1,6 +1,10 @@
 import type { UseFormReturnType } from '@mantine/form'
-import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { Moze } from 'lib/conditionals/character/1200/Moze'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   Constants,
   ElementNames,
@@ -16,18 +20,18 @@ import {
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
-import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
-import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import { Moze } from 'lib/conditionals/character/1200/Moze'
-import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import type { PresetDefinition } from 'lib/scoring/presetEffects'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { setSortColumn } from 'lib/stores/gridStore'
+import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import type { PresetDefinition } from 'lib/scoring/presetEffects'
-import { setSortColumn } from 'lib/stores/gridStore'
-import { clone, mergeDefinedValues, mergeUndefinedValues } from 'lib/utils/objectUtils'
+import {
+  clone,
+  mergeDefinedValues,
+  mergeUndefinedValues,
+} from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { ScoringMetadata } from 'types/metadata'

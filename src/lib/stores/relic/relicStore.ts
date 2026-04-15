@@ -1,19 +1,19 @@
-import { useCallback } from 'react'
+import { indexRelics } from 'lib/relics/relicUtils'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { ArrayFilters } from 'lib/utils/arrayUtils'
-import { indexRelics } from 'lib/relics/relicUtils'
+import { useCallback } from 'react'
 import type { Relic } from 'types/relic'
 
 type RelicStoreState = {
-  relics: Relic[]
-  relicsById: Partial<Record<string, Relic>>
+  relics: Relic[],
+  relicsById: Partial<Record<string, Relic>>,
 }
 
 type RelicStoreActions = {
-  setRelics: (relics: Relic[]) => void
-  upsertRelic: (relic: Relic) => void
-  batchUpsertRelics: (relics: Relic[]) => void
-  deleteRelic: (id: string) => void
+  setRelics: (relics: Relic[]) => void,
+  upsertRelic: (relic: Relic) => void,
+  batchUpsertRelics: (relics: Relic[]) => void,
+  deleteRelic: (id: string) => void,
 }
 
 export type RelicStore = RelicStoreState & RelicStoreActions
@@ -78,4 +78,3 @@ export function getRelicById(id: string | undefined): Relic | undefined {
 export function useRelicById(id: string | null | undefined): Relic | null {
   return useRelicStore(useCallback((s) => (id ? s.relicsById[id] : null) ?? null, [id]))
 }
-

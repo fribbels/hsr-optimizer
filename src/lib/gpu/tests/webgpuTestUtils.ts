@@ -2,10 +2,6 @@ import {
   COMPUTE_ENGINE_GPU_STABLE,
   Stats,
 } from 'lib/constants/constants'
-import {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
 import type { WebgpuTest } from 'lib/gpu/tests/webgpuTestGenerator'
 import {
   destroyPipeline,
@@ -23,6 +19,10 @@ import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
+import {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import type { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import type { Form } from 'types/form'

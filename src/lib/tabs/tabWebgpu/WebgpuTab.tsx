@@ -1,9 +1,14 @@
 import {
+  Accordion,
+  Button,
+  Flex,
+  Table,
+} from '@mantine/core'
+import {
   IconCircleCheckFilled,
   IconCircleXFilled,
   IconQuestionMark,
 } from '@tabler/icons-react'
-import { Accordion, Button, Flex, Table } from '@mantine/core'
 import {
   generateAllTests,
   type WebgpuTest,
@@ -46,7 +51,7 @@ function WebgpuDashboard() {
   }
 
   return (
-    <Flex direction="column" style={{ width: 1200, minHeight: 2000 }}>
+    <Flex direction='column' style={{ width: 1200, minHeight: 2000 }}>
       <Button
         onClick={startTests}
         style={{ height: 50, background: done ? '#248453' : undefined }}
@@ -121,11 +126,21 @@ function TestRow(props: { test: WebgpuTest }) {
                 {delta.pass ? <IconCircleCheckFilled /> : <IconCircleXFilled />}
               </Flex>
             </Table.Td>
-            <Table.Td><RenderText text={delta.key} /></Table.Td>
-            <Table.Td><RenderText text={delta.cpu} /></Table.Td>
-            <Table.Td><RenderText text={delta.gpu} /></Table.Td>
-            <Table.Td><RenderText text={delta.deltaString} /></Table.Td>
-            <Table.Td><RenderText text={String(delta.precision)} /></Table.Td>
+            <Table.Td>
+              <RenderText text={delta.key} />
+            </Table.Td>
+            <Table.Td>
+              <RenderText text={delta.cpu} />
+            </Table.Td>
+            <Table.Td>
+              <RenderText text={delta.gpu} />
+            </Table.Td>
+            <Table.Td>
+              <RenderText text={delta.deltaString} />
+            </Table.Td>
+            <Table.Td>
+              <RenderText text={String(delta.precision)} />
+            </Table.Td>
           </Table.Tr>
         ))}
       </Table.Tbody>

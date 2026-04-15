@@ -52,5 +52,9 @@ export function precisionRound(number: number, precision: number = 5): number {
 
 // Safe floor/ceil: bias protects against f32 rounding causing off-by-one
 // when accumulated stat values land just below exact thresholds.
-export function floorSafe(x: number): number { return Math.floor(x + 0.0001) }
-export function ceilSafe(x: number): number { return Math.ceil(x - 0.0001) }
+export function floorSafe(x: number): number {
+  return Math.floor(x + 0.0001)
+}
+export function ceilSafe(x: number): number {
+  return Math.ceil(x - 0.0001)
+}

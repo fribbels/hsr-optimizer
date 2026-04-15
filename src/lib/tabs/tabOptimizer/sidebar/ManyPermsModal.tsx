@@ -1,10 +1,14 @@
-import { Button, Flex, Modal } from '@mantine/core'
+import {
+  Button,
+  Flex,
+  Modal,
+} from '@mantine/core'
 import { useTranslation } from 'react-i18next'
 
 export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, startSearch }: {
-  manyPermsModalOpen: boolean
-  setManyPermsModalOpen: (open: boolean) => void
-  startSearch: () => void
+  manyPermsModalOpen: boolean,
+  setManyPermsModalOpen: (open: boolean) => void,
+  startSearch: () => void,
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'ManyPerms' })
   return (

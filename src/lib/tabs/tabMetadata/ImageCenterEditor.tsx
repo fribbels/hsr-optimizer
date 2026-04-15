@@ -1,13 +1,41 @@
-import { ActionIcon, Badge, Button, Checkbox, CopyButton, Flex, NumberInput } from '@mantine/core'
-import { IconCheck, IconClipboard, IconCopy } from '@tabler/icons-react'
-import { innerW, newLcHeight, newLcMargin, parentH, parentW, simScoreInnerW } from 'lib/constants/constantsUi'
+import {
+  ActionIcon,
+  Badge,
+  Button,
+  Checkbox,
+  CopyButton,
+  Flex,
+  NumberInput,
+} from '@mantine/core'
+import {
+  IconCheck,
+  IconClipboard,
+  IconCopy,
+} from '@tabler/icons-react'
+import i18next from 'i18next'
+import {
+  innerW,
+  newLcHeight,
+  newLcMargin,
+  parentH,
+  parentW,
+  simScoreInnerW,
+} from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { SpinePortrait } from 'lib/spine/SpinePortrait'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { SearchableCombobox, type SearchableComboboxOption } from 'lib/ui/SearchableCombobox'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import i18next from 'i18next'
+import {
+  SearchableCombobox,
+  type SearchableComboboxOption,
+} from 'lib/ui/SearchableCombobox'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
@@ -93,7 +121,7 @@ function computePortraitStyle(center: ImageCenter, tempInnerW: number, container
   }
 }
 
-function Crosshairs({ width, height, visible }: { width: number; height: number; visible: boolean }) {
+function Crosshairs({ width, height, visible }: { width: number, height: number, visible: boolean }) {
   if (!visible) return null
   const lineStyle = {
     position: 'absolute' as const,
@@ -115,36 +143,46 @@ function formatCharConfigString(center: ImageCenter) {
 // =========================================== Shared Controls ===========================================
 
 function CharCenterControls({ center, setCenter, configString, onReset, onCopyCenter, onPasteCenter, clipboard }: {
-  center: ImageCenter
-  setCenter: React.Dispatch<React.SetStateAction<ImageCenter>>
-  configString: string
-  onReset: () => void
-  onCopyCenter: () => void
-  onPasteCenter: () => void
-  clipboard: ImageCenter | null
+  center: ImageCenter,
+  setCenter: React.Dispatch<React.SetStateAction<ImageCenter>>,
+  configString: string,
+  onReset: () => void,
+  onCopyCenter: () => void,
+  onPasteCenter: () => void,
+  clipboard: ImageCenter | null,
 }) {
   return (
     <>
       <Flex gap={8}>
-        <NumberInput label="x" value={Math.round(center.x)} onChange={(v) => setCenter((c) => ({ ...c, x: Number(v) || 0 }))} style={{ width: 100 }} />
-        <NumberInput label="y" value={Math.round(center.y)} onChange={(v) => setCenter((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 100 }} />
-        <NumberInput label="z" value={Number(center.z.toFixed(2))} onChange={(v) => setCenter((c) => ({ ...c, z: Number(v) || 1 }))} step={0.01} decimalScale={2} style={{ width: 100 }} />
+        <NumberInput label='x' value={Math.round(center.x)} onChange={(v) => setCenter((c) => ({ ...c, x: Number(v) || 0 }))} style={{ width: 100 }} />
+        <NumberInput label='y' value={Math.round(center.y)} onChange={(v) => setCenter((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 100 }} />
+        <NumberInput
+          label='z'
+          value={Number(center.z.toFixed(2))}
+          onChange={(v) => setCenter((c) => ({ ...c, z: Number(v) || 1 }))}
+          step={0.01}
+          decimalScale={2}
+          style={{ width: 100 }}
+        />
       </Flex>
-      <Flex gap={8} align="center">
+      <Flex gap={8} align='center'>
         <CopyButton value={configString}>
           {({ copied, copy }) => (
             <Button
-              size="xs"
-              variant="subtle"
+              size='xs'
+              variant='subtle'
               leftSection={copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
-              onClick={() => { copy(); onCopyCenter() }}
+              onClick={() => {
+                copy()
+                onCopyCenter()
+              }}
             >
               {copied ? 'Copied' : 'Copy'}
             </Button>
           )}
         </CopyButton>
-        <Button size="xs" variant="subtle" onClick={onPasteCenter} disabled={!clipboard} leftSection={<IconClipboard size={14} />}>Paste</Button>
-        <Button size="xs" variant="subtle" onClick={onReset}>Reset</Button>
+        <Button size='xs' variant='subtle' onClick={onPasteCenter} disabled={!clipboard} leftSection={<IconClipboard size={14} />}>Paste</Button>
+        <Button size='xs' variant='subtle' onClick={onReset}>Reset</Button>
       </Flex>
       <code style={{ fontSize: 13, background: '#222', padding: '4px 8px', borderRadius: 4, width: 'fit-content' }}>{configString}</code>
     </>
@@ -176,16 +214,16 @@ function useCharacterDragZoom(setCenter: React.Dispatch<React.SetStateAction<Ima
 // =========================================== Generic Character Editor ===========================================
 
 function CharacterEditor({ label, selectedCharId, center, setCenter, clipboard, setClipboard, tempInnerW, containerH, mode, showCrosshairs }: {
-  label: string
-  selectedCharId: CharacterId | null
-  center: ImageCenter
-  setCenter: React.Dispatch<React.SetStateAction<ImageCenter>>
-  clipboard: ImageCenter | null
-  setClipboard: (c: ImageCenter) => void
-  tempInnerW: number
-  containerH: number
-  mode: 'static' | 'spine'
-  showCrosshairs: boolean
+  label: string,
+  selectedCharId: CharacterId | null,
+  center: ImageCenter,
+  setCenter: React.Dispatch<React.SetStateAction<ImageCenter>>,
+  clipboard: ImageCenter | null,
+  setClipboard: (c: ImageCenter) => void,
+  tempInnerW: number,
+  containerH: number,
+  mode: 'static' | 'spine',
+  showCrosshairs: boolean,
 }) {
   const [spineUnsupported, setSpineUnsupported] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -208,7 +246,7 @@ function CharacterEditor({ label, selectedCharId, center, setCenter, clipboard, 
   }
 
   return (
-    <Flex direction="column" gap={10}>
+    <Flex direction='column' gap={10}>
       <b>{label}</b>
       <div
         ref={containerRef}
@@ -317,20 +355,20 @@ function LightConeCenterEditor({ showCrosshairs }: { showCrosshairs: boolean }) 
   }
 
   return (
-    <Flex direction="column" gap={10}>
+    <Flex direction='column' gap={10}>
       <b>Light Cone</b>
       <SearchableCombobox
         options={lcOptions}
         value={selectedLcId}
         onChange={(v) => setSelectedLcId(v as LightConeId | null)}
-        placeholder="Select light cone"
+        placeholder='Select light cone'
         style={{ width: parentW }}
       />
       <div style={{ position: 'relative' }}>
         {selectedLcId && (
           <Flex
-            direction="column"
-            align="flex-end"
+            direction='column'
+            align='flex-end'
             style={{
               position: 'relative',
               height: 0,
@@ -340,21 +378,23 @@ function LightConeCenterEditor({ showCrosshairs }: { showCrosshairs: boolean }) 
               pointerEvents: 'none',
             }}
           >
-            <div style={{
-              position: 'absolute',
-              height: 30,
-              backgroundColor: 'rgb(0 0 0 / 70%)',
-              padding: '3px 12px',
-              borderRadius: 6,
-              fontSize: 14,
-              width: 'fit-content',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              whiteSpace: 'nowrap',
-              maxWidth: parentW - 50,
-              border: '1px solid rgba(255,255,255,0.15)',
-              zIndex: 21,
-            }}>
+            <div
+              style={{
+                position: 'absolute',
+                height: 30,
+                backgroundColor: 'rgb(0 0 0 / 70%)',
+                padding: '3px 12px',
+                borderRadius: 6,
+                fontSize: 14,
+                width: 'fit-content',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                maxWidth: parentW - 50,
+                border: '1px solid rgba(255,255,255,0.15)',
+                zIndex: 21,
+              }}
+            >
               {`S5 - ${t(`Lightcones.${selectedLcId}.Name`)}`}
             </div>
           </Flex>
@@ -390,19 +430,26 @@ function LightConeCenterEditor({ showCrosshairs }: { showCrosshairs: boolean }) 
         </div>
       </div>
       <Flex gap={8}>
-        <NumberInput label="y" value={Math.round(offset.y)} onChange={(v) => setOffset((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 100 }} />
-        <NumberInput label="s" value={Number(offset.s.toFixed(2))} onChange={(v) => setOffset((c) => ({ ...c, s: Number(v) || 1 }))} step={0.01} decimalScale={2} style={{ width: 100 }} />
+        <NumberInput label='y' value={Math.round(offset.y)} onChange={(v) => setOffset((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 100 }} />
+        <NumberInput
+          label='s'
+          value={Number(offset.s.toFixed(2))}
+          onChange={(v) => setOffset((c) => ({ ...c, s: Number(v) || 1 }))}
+          step={0.01}
+          decimalScale={2}
+          style={{ width: 100 }}
+        />
       </Flex>
-      <Flex gap={8} align="center">
+      <Flex gap={8} align='center'>
         <code style={{ fontSize: 13, background: '#222', padding: '4px 8px', borderRadius: 4 }}>{configString}</code>
         <CopyButton value={configString}>
           {({ copied, copy }) => (
-            <ActionIcon color={copied ? 'teal' : 'gray'} onClick={copy} variant="subtle" title="Copy config string">
+            <ActionIcon color={copied ? 'teal' : 'gray'} onClick={copy} variant='subtle' title='Copy config string'>
               {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
             </ActionIcon>
           )}
         </CopyButton>
-        <Button size="xs" variant="subtle" onClick={handleReset}>Reset</Button>
+        <Button size='xs' variant='subtle' onClick={handleReset}>Reset</Button>
       </Flex>
     </Flex>
   )
@@ -431,28 +478,26 @@ export function ImageCenterEditorSection() {
   }, [selectedCharId])
 
   return (
-    <Flex direction="column" gap={20}>
-      <Flex gap={16} align="center">
+    <Flex direction='column' gap={20}>
+      <Flex gap={16} align='center'>
         <SearchableCombobox
           options={characterOptions}
           value={selectedCharId}
           onChange={(v) => setSelectedCharId(v as CharacterId | null)}
-          placeholder="Select character"
+          placeholder='Select character'
           style={{ width: parentW }}
         />
         <Checkbox
-          label="Crosshairs"
+          label='Crosshairs'
           checked={showCrosshairs}
           onChange={(e) => setShowCrosshairs(e.currentTarget.checked)}
         />
-        {selectedCharId && disableSpine && (
-          <Badge color="red" variant="filled">Spine Disabled</Badge>
-        )}
+        {selectedCharId && disableSpine && <Badge color='red' variant='filled'>Spine Disabled</Badge>}
       </Flex>
 
-      <Flex gap={40} wrap="nowrap" align="center">
+      <Flex gap={40} wrap='nowrap' align='center'>
         <CharacterEditor
-          label="Full View - Static"
+          label='Full View - Static'
           selectedCharId={selectedCharId}
           center={portraitCenter}
           setCenter={setPortraitCenter}
@@ -460,11 +505,11 @@ export function ImageCenterEditorSection() {
           setClipboard={setClipboard}
           tempInnerW={innerW}
           containerH={parentH}
-          mode="static"
+          mode='static'
           showCrosshairs={showCrosshairs}
         />
         <CharacterEditor
-          label="DPS Score - Static"
+          label='DPS Score - Static'
           selectedCharId={selectedCharId}
           center={portraitCenter}
           setCenter={setPortraitCenter}
@@ -472,11 +517,11 @@ export function ImageCenterEditorSection() {
           setClipboard={setClipboard}
           tempInnerW={simScoreInnerW}
           containerH={DPS_CONTAINER_H}
-          mode="static"
+          mode='static'
           showCrosshairs={showCrosshairs}
         />
         <CharacterEditor
-          label="Full View - Spine"
+          label='Full View - Spine'
           selectedCharId={selectedCharId}
           center={spineCenter}
           setCenter={setSpineCenter}
@@ -484,11 +529,11 @@ export function ImageCenterEditorSection() {
           setClipboard={setClipboard}
           tempInnerW={innerW}
           containerH={parentH}
-          mode="spine"
+          mode='spine'
           showCrosshairs={showCrosshairs}
         />
         <CharacterEditor
-          label="DPS Score - Spine"
+          label='DPS Score - Spine'
           selectedCharId={selectedCharId}
           center={spineCenter}
           setCenter={setSpineCenter}
@@ -496,7 +541,7 @@ export function ImageCenterEditorSection() {
           setClipboard={setClipboard}
           tempInnerW={simScoreInnerW}
           containerH={DPS_CONTAINER_H}
-          mode="spine"
+          mode='spine'
           showCrosshairs={showCrosshairs}
         />
         <LightConeCenterEditor showCrosshairs={showCrosshairs} />

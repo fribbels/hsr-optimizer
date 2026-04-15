@@ -1,21 +1,33 @@
+import {
+  Badge,
+  Button,
+  Checkbox,
+  Combobox,
+  Group,
+  useCombobox,
+} from '@mantine/core'
 import { IconFilter } from '@tabler/icons-react'
-import { Badge, Button, Checkbox, Combobox, Group, useCombobox } from '@mantine/core'
-import { type ReactNode, memo, useMemo, useState } from 'react'
+import {
+  memo,
+  type ReactNode,
+  useMemo,
+  useState,
+} from 'react'
 
 export type FilterOption<T> = {
-  value: T
-  label: string
-  icon?: ReactNode
+  value: T,
+  label: string,
+  icon?: ReactNode,
 }
 
 type FilterPillProps<T> = {
-  label: string
-  options: FilterOption<T>[]
-  selected: T[]
-  onChange: (values: T[]) => void
-  searchable?: boolean
-  flex?: number
-  columns?: number
+  label: string,
+  options: FilterOption<T>[],
+  selected: T[],
+  onChange: (values: T[]) => void,
+  searchable?: boolean,
+  flex?: number,
+  columns?: number,
 }
 
 function FilterPillInner<T extends string | number | boolean>({
@@ -67,12 +79,10 @@ function FilterPillInner<T extends string | number | boolean>({
       <Combobox.Target>
         <Button
           variant={activeCount > 0 ? 'light' : 'default'}
-          size="xs"
+          size='xs'
           onClick={() => combobox.toggleDropdown()}
           leftSection={<IconFilter size={12} />}
-          rightSection={activeCount > 0 ? (
-            <Badge size="xs" circle variant="filled">{activeCount}</Badge>
-          ) : undefined}
+          rightSection={activeCount > 0 ? <Badge size='xs' circle variant='filled'>{activeCount}</Badge> : undefined}
           style={{ flex, minWidth: 0, width: '100%' }}
         >
           {label}
@@ -84,20 +94,23 @@ function FilterPillInner<T extends string | number | boolean>({
           <Combobox.Search
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
-            placeholder="Search..."
+            placeholder='Search...'
           />
         )}
-        <Combobox.Options mah={800} style={{
-          overflowY: 'auto',
-          ...(columns > 1 ? { display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)` } : {}),
-        }}>
+        <Combobox.Options
+          mah={800}
+          style={{
+            overflowY: 'auto',
+            ...(columns > 1 ? { display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)` } : {}),
+          }}
+        >
           {combobox.dropdownOpened && filteredOptions.map((opt) => {
             const isSelected = selected.includes(opt.value)
             return (
               <Combobox.Option key={String(opt.value)} value={String(opt.value)} active={isSelected}>
-                <Group gap={8} wrap="nowrap">
+                <Group gap={8} wrap='nowrap'>
                   <Checkbox
-                    size="xs"
+                    size='xs'
                     checked={isSelected}
                     onChange={() => {}}
                     tabIndex={-1}
@@ -113,9 +126,7 @@ function FilterPillInner<T extends string | number | boolean>({
               </Combobox.Option>
             )
           })}
-          {combobox.dropdownOpened && filteredOptions.length === 0 && (
-            <Combobox.Empty>No results</Combobox.Empty>
-          )}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

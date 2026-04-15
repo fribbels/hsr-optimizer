@@ -1,6 +1,6 @@
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 
 /**
  * Dev utility: resets all showcase color customizations back to AUTO mode.
@@ -25,5 +25,7 @@ export function resetShowcaseColors() {
   // Disable global STANDARD mode → falls through to AUTO
   globalStore.setSavedSessionKey(SavedSessionKeys.showcaseStandardMode, false)
 
-  console.log('[resetShowcaseColors] Cleared all per-character color preferences, portrait colors/swatches, and disabled STANDARD mode. All characters now use AUTO.')
+  console.log(
+    '[resetShowcaseColors] Cleared all per-character color preferences, portrait colors/swatches, and disabled STANDARD mode. All characters now use AUTO.',
+  )
 }

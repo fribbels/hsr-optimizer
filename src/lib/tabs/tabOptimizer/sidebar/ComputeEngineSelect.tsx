@@ -1,5 +1,9 @@
+import {
+  Button,
+  Flex,
+  Menu,
+} from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
-import { Button, Flex, Menu } from '@mantine/core'
 import i18next from 'i18next'
 import {
   COMPUTE_ENGINE_CPU,
@@ -11,9 +15,9 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 
 type GpuOption = { label: ReactElement, key: ComputeEngine }
 
@@ -71,7 +75,7 @@ export function ComputeEngineSelect() {
   return (
     <Menu position='bottom-end'>
       <Menu.Target>
-        <Button variant="default" className='custom-dropdown-button' style={{ padding: 3 }}>
+        <Button variant='default' className='custom-dropdown-button' style={{ padding: 3 }}>
           <Flex justify='space-around' align='center' w='100%'>
             <div style={{ width: 1 }} />
             <div>

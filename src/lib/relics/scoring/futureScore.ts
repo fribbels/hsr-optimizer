@@ -10,12 +10,18 @@ import {
   PERCENT_TO_SCORE,
 } from 'lib/relics/scoring/scoringConstants'
 import type { ValidGrade } from 'lib/relics/scoring/scoringConstants'
-import type { FutureScoringResult, ScorerMetadata } from 'lib/relics/scoring/types'
+import type {
+  FutureScoringResult,
+  ScorerMetadata,
+} from 'lib/relics/scoring/types'
 import {
   arrayToMap,
   stringArrayToMap,
 } from 'lib/utils/arrayUtils'
-import type { Relic, RelicSubstatMetadata } from 'types/relic'
+import type {
+  Relic,
+  RelicSubstatMetadata,
+} from 'types/relic'
 
 const EMPTY_FUTURE_META: FutureScoringResult['meta'] = {}
 
@@ -94,13 +100,13 @@ export function computeFutureScores(
   const vc0 = sub0.value * c0
   const mr0 = midRolls[stat0]
 
-  let baseRaw = vc0                        // shared base for best + worst (forked after loop)
-  let currentRaw = vc0                     // only includes relic.substats (not preview)
-  let avgRaw = vc0 + rollMidFactor * mr0   // includes mid-roll upgrade projection
+  let baseRaw = vc0 // shared base for best + worst (forked after loop)
+  let currentRaw = vc0 // only includes relic.substats (not preview)
+  let avgRaw = vc0 + rollMidFactor * mr0 // includes mid-roll upgrade projection
   let addedRollsSum = sub0.addedRolls ?? 0 // for reroll totalRolls
-  let midRollSum = mr0                     // for closed-form reroll (eliminates reroll loop)
-  let maxWeight = meta.stats[stat0]        // tracks best upgrade stat
-  let minWeight = maxWeight                // tracks worst upgrade stat (= blocked stat for reroll)
+  let midRollSum = mr0 // for closed-form reroll (eliminates reroll loop)
+  let maxWeight = meta.stats[stat0] // tracks best upgrade stat
+  let minWeight = maxWeight // tracks worst upgrade stat (= blocked stat for reroll)
   let bestUpgradeStat: SubStats = stat0
   let worstUpgradeStat: SubStats = stat0
 
@@ -122,8 +128,14 @@ export function computeFutureScores(
 
     // ── Best/worst upgrade stat tracking ──
     const w = meta.stats[stat]
-    if (w > maxWeight) { maxWeight = w; bestUpgradeStat = stat }
-    if (w < minWeight) { minWeight = w; worstUpgradeStat = stat }
+    if (w > maxWeight) {
+      maxWeight = w
+      bestUpgradeStat = stat
+    }
+    if (w < minWeight) {
+      minWeight = w
+      worstUpgradeStat = stat
+    }
   }
 
   let bestRaw = baseRaw
@@ -140,12 +152,18 @@ export function computeFutureScores(
       const bestStat = availableSubstats[idx][0]
       bestRaw += meta.highRollScores[bestStat]
       const bw = meta.stats[bestStat]
-      if (bw > maxWeight) { maxWeight = bw; bestUpgradeStat = bestStat }
+      if (bw > maxWeight) {
+        maxWeight = bw
+        bestUpgradeStat = bestStat
+      }
       // Worst: bottom available
       const worstStat = availableSubstats[availLen - 1 - idx][0]
       worstRaw += meta.lowRollScores[worstStat]
       const ww = meta.stats[worstStat]
-      if (ww < minWeight) { minWeight = ww; worstUpgradeStat = worstStat }
+      if (ww < minWeight) {
+        minWeight = ww
+        worstUpgradeStat = worstStat
+      }
     }
     // Average: mean mid-roll contribution of available stats
     let avgNewContrib = 0
@@ -164,8 +182,8 @@ export function computeFutureScores(
 
   // ── Levelup metadata ──
   let levelupMetadata: {
-    bestAddedStats: SubStats[]
-    bestUpgradedStats: SubStats[]
+    bestAddedStats: SubStats[],
+    bestUpgradedStats: SubStats[],
   } | undefined = undefined
 
   if (withMeta) {

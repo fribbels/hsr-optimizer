@@ -1,5 +1,9 @@
-import { memo, useMemo, type CSSProperties } from 'react'
 import { type Languages } from 'lib/utils/i18nUtils'
+import {
+  type CSSProperties,
+  memo,
+  useMemo,
+} from 'react'
 
 // Pre-computed styles for languages with longer text
 const COMPACT_STYLE: CSSProperties = { whiteSpace: 'nowrap', fontSize: 13, lineHeight: '22px' }

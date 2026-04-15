@@ -1,6 +1,9 @@
 import * as htmlToImage from 'html-to-image'
 import i18next from 'i18next'
-import { cardTotalW, parentH } from 'lib/constants/constantsUi'
+import {
+  cardTotalW,
+  parentH,
+} from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message.js'
 
 function isMobileOrSafari(): boolean {

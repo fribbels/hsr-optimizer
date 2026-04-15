@@ -1,8 +1,24 @@
-import { describe, expect, it } from 'vitest'
-import { expandSetFilters, parseDisplayToModalState, buildDisplayFromModalState, DEFAULT_SET_FILTERS } from 'lib/stores/optimizerForm/setFilterConversions'
-import { type SetFilters, TwoPieceSlotType } from 'lib/stores/optimizerForm/setFilterTypes'
-import { type SetsRelics, type SetsOrnaments, STAT_TAG_TO_SETS } from 'lib/sets/setConfigRegistry'
 import { Stats } from 'lib/constants/constants'
+import {
+  type SetsOrnaments,
+  type SetsRelics,
+  STAT_TAG_TO_SETS,
+} from 'lib/sets/setConfigRegistry'
+import {
+  buildDisplayFromModalState,
+  DEFAULT_SET_FILTERS,
+  expandSetFilters,
+  parseDisplayToModalState,
+} from 'lib/stores/optimizerForm/setFilterConversions'
+import {
+  type SetFilters,
+  TwoPieceSlotType,
+} from 'lib/stores/optimizerForm/setFilterTypes'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 const SET_A = 'Musketeer of Wild Wheat' as SetsRelics
 const SET_B = 'Knight of Purity Palace' as SetsRelics

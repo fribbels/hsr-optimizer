@@ -1,8 +1,9 @@
+import { AppPages } from 'lib/constants/appPages'
 import { type V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicRerollModal } from 'lib/overlays/modals/RelicRerollModal'
-import { useGlobalStore } from 'lib/stores/app/appStore'
-import { AppPages } from 'lib/constants/appPages'
 import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { gridStore } from 'lib/stores/gridStore'
 import {
   handleDeleteLightCone,
   handleDeleteRelic,
@@ -17,7 +18,6 @@ import {
 } from 'lib/tabs/tabImport/scannerStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { debounceEffect } from 'lib/utils/frontendUtils'
-import { gridStore } from 'lib/stores/gridStore'
 import useWebSocket from 'partysocket/use-ws'
 import {
   useEffect,

@@ -1,10 +1,14 @@
 // @vitest-environment jsdom
-import { describe, expect, it } from 'vitest'
-import { BuildSource } from 'types/savedBuild'
-import type { LightConeId } from 'types/lightCone'
-import type { CharacterId } from 'types/character'
-import type { Relic } from 'types/relic'
 import { Metadata } from 'lib/state/metadataInitializer'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+import type { Relic } from 'types/relic'
+import { BuildSource } from 'types/savedBuild'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 import { migrateBuild } from './buildMigration'
 
 Metadata.initialize()
@@ -231,7 +235,16 @@ describe('migrateBuild', () => {
 
   describe('Layer 3: new format (already migrated)', () => {
     it('returns build unchanged if source field exists', () => {
-      const newBuild = { source: BuildSource.Character, name: 'Test', characterId: CHAR_ID, equipped: {}, characterEidolon: 0, lightCone: LC_ID, lightConeSuperimposition: 1, team: [null, null, null] }
+      const newBuild = {
+        source: BuildSource.Character,
+        name: 'Test',
+        characterId: CHAR_ID,
+        equipped: {},
+        characterEidolon: 0,
+        lightCone: LC_ID,
+        lightConeSuperimposition: 1,
+        team: [null, null, null],
+      }
       const result = migrateBuild(newBuild as any, CHAR_ID, CHAR_FORM, EMPTY_RELICS)
       expect(result).toEqual(newBuild)
     })

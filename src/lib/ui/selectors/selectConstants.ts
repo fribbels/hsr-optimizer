@@ -1,4 +1,7 @@
-import type { ElementName, PathName } from 'lib/constants/constants'
+import type {
+  ElementName,
+  PathName,
+} from 'lib/constants/constants'
 import type { CharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import type { CharacterId } from 'types/character'
 
@@ -46,9 +49,9 @@ export const SEARCH_INPUT_STYLES = {
 
 /** Character filter types shared between CharacterSelect and CharacterMultiSelect */
 export type CharacterFilters = {
-  element: ElementName[]
-  path: PathName[]
-  name: string
+  element: ElementName[],
+  path: PathName[],
+  name: string,
 }
 
 export const defaultCharacterFilters: CharacterFilters = {

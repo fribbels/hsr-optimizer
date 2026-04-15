@@ -1,7 +1,4 @@
 import i18next from 'i18next'
-import { type ReactNode, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
 import {
   Constants,
   type MainStats,
@@ -10,18 +7,34 @@ import {
   type SubStats,
   UnreleasedSets,
 } from 'lib/constants/constants'
-import { SetsOrnaments, SetsRelics, setToId } from 'lib/sets/setConfigRegistry'
-import { Assets } from 'lib/rendering/assets'
 import { Hint } from 'lib/interactions/hint'
+import { Assets } from 'lib/rendering/assets'
+import {
+  SetsOrnaments,
+  SetsRelics,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
 import { SaveState } from 'lib/state/saveState'
+import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
+import {
+  type FilterOption,
+  FilterPill,
+} from 'lib/tabs/tabRelics/topBar/FilterPill'
+import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { CharacterMultiSelect } from 'lib/ui/selectors/CharacterMultiSelect'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { generateValueColumnOptions } from 'lib/tabs/tabRelics/columnDefs'
-import { FilterPill, type FilterOption } from 'lib/tabs/tabRelics/topBar/FilterPill'
-import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { isStatsValues, languages } from 'lib/utils/i18nUtils'
+import {
+  isStatsValues,
+  languages,
+} from 'lib/utils/i18nUtils'
+import {
+  type ReactNode,
+  useMemo,
+} from 'react'
+import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
+import { useShallow } from 'zustand/react/shallow'
 
 export function FilterPillBar() {
   const {
@@ -71,20 +84,13 @@ export function FilterPillBar() {
       value: part,
       label: tParts(part),
       icon: <img src={Assets.getPart(part)} style={{ width: 22, height: 22 }} />,
-    })),
-  [tParts])
+    })), [tParts])
 
-  const enhanceOptions: FilterOption<number>[] = useMemo(() =>
-    [0, 3, 6, 9, 12, 15].map((n) => ({ value: n, label: `+${n}` })),
-  [])
+  const enhanceOptions: FilterOption<number>[] = useMemo(() => [0, 3, 6, 9, 12, 15].map((n) => ({ value: n, label: `+${n}` })), [])
 
-  const gradeOptions: FilterOption<number>[] = useMemo(() =>
-    [5, 4, 3, 2].map((n) => ({ value: n, label: `${n}★` })),
-  [])
+  const gradeOptions: FilterOption<number>[] = useMemo(() => [5, 4, 3, 2].map((n) => ({ value: n, label: `${n}★` })), [])
 
-  const initialRollsOptions: FilterOption<number>[] = useMemo(() =>
-    [4, 3].map((n) => ({ value: n, label: `${n} substats` })),
-  [])
+  const initialRollsOptions: FilterOption<number>[] = useMemo(() => [4, 3].map((n) => ({ value: n, label: `${n} substats` })), [])
 
   const equippedOptions: FilterOption<boolean>[] = useMemo(() => [
     { value: true, label: t('RelicFilterBar.Equipped') },
@@ -101,32 +107,28 @@ export function FilterPillBar() {
       value: set,
       label: tSets(`${setToId[set]}.Name`),
       icon: <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 22, height: 22 }} />,
-    })),
-  [tSets])
+    })), [tSets])
 
   const ornamentSetOptions: FilterOption<Sets>[] = useMemo(() =>
     Object.values(SetsOrnaments).filter((x) => !UnreleasedSets[x]).map((set) => ({
       value: set,
       label: tSets(`${setToId[set]}.Name`),
       icon: <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 22, height: 22 }} />,
-    })),
-  [tSets])
+    })), [tSets])
 
   const mainStatOptions: FilterOption<MainStats>[] = useMemo(() =>
     Constants.MainStats.map((stat) => ({
       value: stat,
       label: isStatsValues(stat) ? tStats(stat) : stat,
       icon: <img src={Assets.getStatIcon(stat, true)} style={{ width: 22, height: 22 }} />,
-    })),
-  [tStats])
+    })), [tStats])
 
   const subStatOptions: FilterOption<SubStats>[] = useMemo(() =>
     Constants.SubStats.map((stat) => ({
       value: stat,
       label: isStatsValues(stat) ? tStats(stat) : stat,
       icon: <img src={Assets.getStatIcon(stat, true)} style={{ width: 22, height: 22 }} />,
-    })),
-  [tStats])
+    })), [tStats])
 
   const excludedCharactersSet = useMemo(
     () => new Set(excludedRelicPotentialCharacters),
@@ -148,17 +150,38 @@ export function FilterPillBar() {
         <FilterPill label={t('RelicFilterBar.Substat')} options={subStatOptions} selected={filters.subStat} onChange={filterHandlers.subStat} searchable />
         <FilterPill label={t('RelicFilterBar.Enhance')} options={enhanceOptions} selected={filters.enhance} onChange={filterHandlers.enhance} />
         <FilterPill label={t('RelicFilterBar.Grade')} options={gradeOptions} selected={filters.grade} onChange={filterHandlers.grade} />
-        <FilterPill label={t('RelicFilterBar.InitialRolls')} options={initialRollsOptions} selected={filters.initialRolls} onChange={filterHandlers.initialRolls} />
+        <FilterPill
+          label={t('RelicFilterBar.InitialRolls')}
+          options={initialRollsOptions}
+          selected={filters.initialRolls}
+          onChange={filterHandlers.initialRolls}
+        />
         <FilterPill label={t('RelicFilterBar.Equipped')} options={equippedOptions} selected={filters.equipped} onChange={filterHandlers.equipped} />
         <FilterPill label={t('RelicFilterBar.Verified')} options={verifiedOptions} selected={filters.verified} onChange={filterHandlers.verified} />
-        <div style={{ marginLeft: 4 }}><TooltipImage type={Hint.relics()} /></div>
+        <div style={{ marginLeft: 4 }}>
+          <TooltipImage type={Hint.relics()} />
+        </div>
 
         {/* Row 2: 4 × 2-unit items (each spans 2 grid columns) */}
         <div style={{ gridColumn: 'span 2' }}>
-          <FilterPill label={t('RelicFilterBar.RelicSets')} options={relicSetOptions} selected={filters.set} onChange={filterHandlers.set} searchable columns={2} />
+          <FilterPill
+            label={t('RelicFilterBar.RelicSets')}
+            options={relicSetOptions}
+            selected={filters.set}
+            onChange={filterHandlers.set}
+            searchable
+            columns={2}
+          />
         </div>
         <div style={{ gridColumn: 'span 2' }}>
-          <FilterPill label={t('RelicFilterBar.OrnamentSets')} options={ornamentSetOptions} selected={filters.set} onChange={filterHandlers.set} searchable columns={2} />
+          <FilterPill
+            label={t('RelicFilterBar.OrnamentSets')}
+            options={ornamentSetOptions}
+            selected={filters.set}
+            onChange={filterHandlers.set}
+            searchable
+            columns={2}
+          />
         </div>
         <div style={{ gridColumn: 'span 2' }}>
           <CharacterMultiSelect
@@ -171,7 +194,7 @@ export function FilterPillBar() {
         <div style={{ gridColumn: 'span 2' }}>
           <MultiSelectPills
             clearable
-            size="xs"
+            size='xs'
             value={valueColumns}
             onChange={(values) => setValueColumns(values as typeof valueColumns)}
             data={valueColumnOptions.map((group) => ({
@@ -179,10 +202,12 @@ export function FilterPillBar() {
               items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
             }))}
             maxDropdownHeight={750}
-            dropdownWidth="fit-content"
+            dropdownWidth='fit-content'
           />
         </div>
-        <div style={{ marginLeft: 4 }}><TooltipImage type={Hint.valueColumns()} /></div>
+        <div style={{ marginLeft: 4 }}>
+          <TooltipImage type={Hint.valueColumns()} />
+        </div>
       </div>
     </div>
   )

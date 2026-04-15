@@ -1,14 +1,24 @@
-import { Flex, Select } from '@mantine/core'
-import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
-import type { SelectOptionContent } from 'types/setConfig'
+import {
+  Flex,
+  Select,
+} from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { getItemName, resolveConditionalValue } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
+import {
+  conditionalAlign,
+  conditionalJustify,
+  ConditionalText as Text,
+} from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
+import {
+  getItemName,
+  resolveConditionalValue,
+} from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { WithPopover } from 'lib/ui/WithPopover'
 import type {
   ComponentProps,
   ComponentType,
 } from 'react'
+import type { SelectOptionContent } from 'types/setConfig'
 
 export interface FormSelectProps {
   disabled?: boolean
@@ -25,13 +35,21 @@ export interface FormSelectProps {
 }
 
 export const FormSelect: ComponentType<FormSelectProps> = ({
-  disabled, id, text, lc, set, teammateIndex, removeForm, onChange, value, fullWidth, options,
+  disabled,
+  id,
+  text,
+  lc,
+  set,
+  teammateIndex,
+  removeForm,
+  onChange,
+  value,
+  fullWidth,
+  options,
 }) => {
   const itemName = getItemName({ disabled, id, text, lc, set, teammateIndex, removeForm, onChange, value, fullWidth, options })
 
-  const storeValue = useOptimizerRequestStore((s) =>
-    removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined,
-  )
+  const storeValue = useOptimizerRequestStore((s) => removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as number | undefined)
 
   const currentValue = removeForm ? value : storeValue
   const handleChange = removeForm

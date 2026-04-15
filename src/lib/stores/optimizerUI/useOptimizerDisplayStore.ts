@@ -3,34 +3,40 @@ import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import type { OptimizerDisplayState, PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
-import type { Build, CharacterId } from 'types/character'
-import type { OptimizerContext } from 'types/optimizer'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
+import type {
+  OptimizerDisplayState,
+  PermutationDetails,
+} from 'lib/stores/optimizerUI/optimizerUITypes'
+import type {
+  Build,
+  CharacterId,
+} from 'types/character'
+import type { OptimizerContext } from 'types/optimizer'
 
 type OptimizerDisplayActions = {
-  setFocusCharacterId: (id: CharacterId | undefined) => void
-  setContext: (ctx: OptimizerContext | null) => void
-  setPermutations: (n: number) => void
-  setPermutationDetails: (details: PermutationDetails) => void
-  setOptimizationInProgress: (inProgress: boolean) => void
-  setOptimizationId: (id: string | null) => void
-  setOptimizerRunningEngine: (engine: ComputeEngine) => void
-  setOptimizerStartTime: (time: number | null) => void
-  setOptimizerEndTime: (time: number | null) => void
-  setPermutationsSearched: (n: number) => void
-  setPermutationsResults: (n: number) => void
-  setOptimizerBuild: (build: Build | null) => void
-  setOptimizerSelectedRowData: (data: OptimizerDisplayDataStatSim | null) => void
-  setStatSimulationDisplay: (display: StatSimTypes) => void
-  setStatSimulations: (sims: Simulation[]) => void
-  addSimulation: (sim: Simulation) => void
-  removeSimulation: (key: Simulation['key']) => void
-  replaceSimulation: (oldKey: Simulation['key'], sim: Simulation) => void
-  clearSimulations: () => void
-  setSelectedStatSimulations: (keys: Simulation['key'][]) => void
-  setCharacterSelectModalOpen: (open: boolean) => void
-  setMenuState: (state: Record<string, boolean>) => void
+  setFocusCharacterId: (id: CharacterId | undefined) => void,
+  setContext: (ctx: OptimizerContext | null) => void,
+  setPermutations: (n: number) => void,
+  setPermutationDetails: (details: PermutationDetails) => void,
+  setOptimizationInProgress: (inProgress: boolean) => void,
+  setOptimizationId: (id: string | null) => void,
+  setOptimizerRunningEngine: (engine: ComputeEngine) => void,
+  setOptimizerStartTime: (time: number | null) => void,
+  setOptimizerEndTime: (time: number | null) => void,
+  setPermutationsSearched: (n: number) => void,
+  setPermutationsResults: (n: number) => void,
+  setOptimizerBuild: (build: Build | null) => void,
+  setOptimizerSelectedRowData: (data: OptimizerDisplayDataStatSim | null) => void,
+  setStatSimulationDisplay: (display: StatSimTypes) => void,
+  setStatSimulations: (sims: Simulation[]) => void,
+  addSimulation: (sim: Simulation) => void,
+  removeSimulation: (key: Simulation['key']) => void,
+  replaceSimulation: (oldKey: Simulation['key'], sim: Simulation) => void,
+  clearSimulations: () => void,
+  setSelectedStatSimulations: (keys: Simulation['key'][]) => void,
+  setCharacterSelectModalOpen: (open: boolean) => void,
+  setMenuState: (state: Record<string, boolean>) => void,
 }
 
 type OptimizerDisplayStore = OptimizerDisplayState & OptimizerDisplayActions

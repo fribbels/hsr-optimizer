@@ -1,17 +1,41 @@
+import {
+  Alert,
+  Button,
+  Flex,
+  NumberInput,
+  SegmentedControl,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { Alert, Button, Flex, NumberInput, SegmentedControl } from '@mantine/core'
-import { SearchableCombobox, type SearchableComboboxOption } from 'lib/ui/SearchableCombobox'
 import {
   Constants,
   Parts,
   UnreleasedSets,
 } from 'lib/constants/constants'
+import { useScrollLock } from 'lib/layout/scrollController'
+import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { Assets } from 'lib/rendering/assets'
+import { generateCharacterList } from 'lib/rendering/displayUtils'
 import {
   SetsOrnaments,
   SetsRelics,
   setToId,
 } from 'lib/sets/setConfigRegistry'
-import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
+import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
+import { HeaderText } from 'lib/ui/HeaderText'
+import {
+  SearchableCombobox,
+  type SearchableComboboxOption,
+} from 'lib/ui/SearchableCombobox'
+import {
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import modalClasses from './RelicModal.module.css'
 import {
   calculateUpgradeValues,
   computeInitialFormValues,
@@ -26,23 +50,12 @@ import { relicsAreDifferent } from './relicModalHelpers'
 import { useRelicModalStore } from './relicModalStore'
 import type { RelicForm } from './relicModalTypes'
 import { SubstatInput } from './SubstatInput'
-import { Assets } from 'lib/rendering/assets'
-import modalClasses from './RelicModal.module.css'
-import { generateCharacterList } from 'lib/rendering/displayUtils'
-import { useScrollLock } from 'lib/layout/scrollController'
-import { useCharacterStore } from 'lib/stores/character/characterStore'
-import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
-import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
-import { HeaderText } from 'lib/ui/HeaderText'
-import { useEffect, useMemo, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 
 function partSegmentData(value: string, src: string) {
   return {
     value,
     label: (
-      <Flex align="center" justify="center">
+      <Flex align='center' justify='center'>
         <img
           data-testid={`relic-part-${value}`}
           style={{ width: 20 }}
@@ -158,16 +171,14 @@ export function RelicModalContent() {
   // ── JSX ──
 
   return (
-    <Flex direction="column" gap={5}>
-      {isLiveImport && (
-        <Alert color="yellow">{t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */}</Alert>
-      )}
+    <Flex direction='column' gap={5}>
+      {isLiveImport && <Alert color='yellow'>{t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */}</Alert>}
       <div className={modalClasses.relicGrid}>
-        <Flex direction="column" gap={5}>
+        <Flex direction='column' gap={5}>
           <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
 
           <SegmentedControl
-            size="md"
+            size='md'
             value={formValues.part}
             onChange={onPartChange}
             data={[
@@ -233,7 +244,7 @@ export function RelicModalContent() {
 
         <div />
 
-        <Flex direction="column" gap={5}>
+        <Flex direction='column' gap={5}>
           <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
           <SearchableCombobox
             options={characterOptions.map((opt) => ({

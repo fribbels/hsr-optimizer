@@ -1,5 +1,10 @@
 import i18next from 'i18next'
-import type { DefaultNamespace, KeyPrefix, Namespace, TFunction } from 'i18next'
+import type {
+  DefaultNamespace,
+  KeyPrefix,
+  Namespace,
+  TFunction,
+} from 'i18next'
 import type { StatsValues } from 'lib/constants/constants'
 
 export const languages = {

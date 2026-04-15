@@ -1,16 +1,19 @@
 import i18next from 'i18next'
 import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
-import { TEXT_DIM, PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
+import {
+  PILL_SIZE,
+  TEXT_DIM,
+} from 'lib/characterPreview/buffsAnalysis/designContext'
 import type { AKeyType } from 'lib/optimization/engine/config/keys'
 import type { StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
 import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import { currentLocale } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import type { ReactElement } from 'react'
 import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export function getStatConfig(stat: string): StatConfigEntry | undefined {
   return newStatsConfig[stat as AKeyType]
@@ -87,4 +90,3 @@ export function getSelectedActions(
   }
   return selectedAction != null ? [] : context.defaultActions
 }
-

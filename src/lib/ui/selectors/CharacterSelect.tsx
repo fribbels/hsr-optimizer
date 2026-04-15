@@ -1,30 +1,38 @@
-import { CloseButton, Flex, Modal, TextInput } from '@mantine/core'
+import {
+  CloseButton,
+  Flex,
+  Modal,
+  TextInput,
+} from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import {
   generateElementTags,
   generatePathTags,
   SegmentedFilterRow,
 } from 'lib/ui/selectors/CardSelectModalComponents'
+import { generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
 import {
+  applyCharacterFilters,
   CHARACTER_CARD_IMAGE_HEIGHT,
   CHARACTER_CARD_IMAGE_WIDTH,
   CHARACTER_CARD_IMAGE_X_OFFSET,
   CHARACTER_CARD_IMAGE_Y_OFFSET,
   CHARACTER_MODAL_STYLES,
   type CharacterFilters,
+  defaultCharacterFilters,
   OVERLAY_SCROLLBAR_OPTIONS,
   SEARCH_INPUT_STYLES,
-  applyCharacterFilters,
-  defaultCharacterFilters,
 } from 'lib/ui/selectors/selectConstants'
 import { useSelectModal } from 'lib/ui/selectors/useSelectModal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
-import { type CSSProperties, useMemo } from 'react'
+import {
+  type CSSProperties,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import type { CharacterId } from 'types/character'
 import iconClasses from 'style/icons.module.css'
+import type { CharacterId } from 'types/character'
 import classes from './SelectCardGrid.module.css'
 
 const elementTags = generateElementTags()
@@ -39,13 +47,13 @@ export function CharacterSelect({
   showIcon = true,
   clearable = true,
 }: {
-  value: CharacterId | null
-  onChange: (id: CharacterId | null) => void
-  selectStyle?: CSSProperties
-  opened?: boolean
-  onOpenChange?: (open: boolean) => void
-  showIcon?: boolean
-  clearable?: boolean
+  value: CharacterId | null,
+  onChange: (id: CharacterId | null) => void,
+  selectStyle?: CSSProperties,
+  opened?: boolean,
+  onOpenChange?: (open: boolean) => void,
+  showIcon?: boolean,
+  clearable?: boolean,
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
@@ -90,7 +98,15 @@ export function CharacterSelect({
         leftSection={showIcon && value ? <img src={Assets.getCharacterAvatarById(value)} className={iconClasses.icon20} /> : null}
         rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
         rightSection={clearable && value
-          ? <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(null) }} />
+          ? (
+            <CloseButton
+              size='xs'
+              onClick={(e) => {
+                e.stopPropagation()
+                onChange(null)
+              }}
+            />
+          )
           : null}
         styles={{ input: { cursor: 'pointer', textOverflow: 'ellipsis', paddingRight: clearable && value ? 28 : undefined, fontSize: 13 } }}
       />
@@ -99,13 +115,13 @@ export function CharacterSelect({
         opened={isOpen}
         onClose={close}
         centered
-        size="90%"
+        size='90%'
         styles={CHARACTER_MODAL_STYLES}
         title={t('SingleSelect.ModalTitle')}
       >
         {isOpen && (
           <div className={classes.modalContent}>
-            <Flex gap={12} wrap="wrap">
+            <Flex gap={12} wrap='wrap'>
               <TextInput
                 className={classes.searchInput}
                 styles={SEARCH_INPUT_STYLES}
@@ -120,19 +136,19 @@ export function CharacterSelect({
                   }
                 }}
               />
-              <Flex wrap="wrap" className={classes.filterWrapper} gap={12}>
-                <Flex wrap="wrap" className={classes.filterWrapper}>
+              <Flex wrap='wrap' className={classes.filterWrapper} gap={12}>
+                <Flex wrap='wrap' className={classes.filterWrapper}>
                   <SegmentedFilterRow
                     tags={elementTags}
-                    flexBasis="14.2%"
+                    flexBasis='14.2%'
                     currentFilter={filters.element}
                     setCurrentFilters={(v) => updateFilter('element', v)}
                   />
                 </Flex>
-                <Flex wrap="wrap" className={classes.filterWrapper}>
+                <Flex wrap='wrap' className={classes.filterWrapper}>
                   <SegmentedFilterRow
                     tags={pathTags}
-                    flexBasis="11.111%"
+                    flexBasis='11.111%'
                     currentFilter={filters.path}
                     setCurrentFilters={(v) => updateFilter('path', v)}
                   />

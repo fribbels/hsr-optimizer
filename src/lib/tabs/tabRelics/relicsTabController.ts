@@ -10,11 +10,11 @@ import { Message } from 'lib/interactions/message'
 import { RelicModalController } from 'lib/overlays/modals/relicModal/relicModalController'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { type ScoredRelic } from 'lib/relics/scoreRelics'
-import { SaveState } from 'lib/state/saveState'
 import * as equipmentService from 'lib/services/equipmentService'
+import { SaveState } from 'lib/state/saveState'
+import { gridStore } from 'lib/stores/gridStore'
 import { getRelicById } from 'lib/stores/relic/relicStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { gridStore } from 'lib/stores/gridStore'
 import type { Relic } from 'types/relic'
 
 export const RelicsTabController = {

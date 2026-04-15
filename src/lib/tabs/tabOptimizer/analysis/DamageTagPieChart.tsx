@@ -5,7 +5,10 @@ import {
 import type { DamageTagSlice } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
-import { useMemo, type CSSProperties } from 'react'
+import {
+  type CSSProperties,
+  useMemo,
+} from 'react'
 
 import {
   Pie,
@@ -14,9 +17,9 @@ import {
 } from 'recharts'
 
 type TooltipPayloadEntry = {
-  payload?: DamageTagSlice
-  value?: number
-  name?: string
+  payload?: DamageTagSlice,
+  value?: number,
+  name?: string,
 }
 
 const TOOLTIP_STYLE: CSSProperties = {
@@ -28,7 +31,7 @@ const TOOLTIP_STYLE: CSSProperties = {
   borderRadius: 'var(--radius-sm)',
 }
 
-function CustomTooltip({ active, payload }: { active?: boolean; payload?: TooltipPayloadEntry[] }) {
+function CustomTooltip({ active, payload }: { active?: boolean, payload?: TooltipPayloadEntry[] }) {
   if (!active || !payload || payload.length === 0) return null
 
   const slice = payload[0]?.payload
@@ -46,7 +49,7 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Toolti
 const PIE_SIZE = 260
 
 export function DamageTagPieChart({ analysis }: {
-  analysis: OptimizerResultAnalysis
+  analysis: OptimizerResultAnalysis,
 }) {
   const { newX, context } = analysis
   const actions = context.rotationActions.length > 0 ? context.rotationActions : context.defaultActions
@@ -105,18 +108,31 @@ export function DamageTagPieChart({ analysis }: {
         />
       </PieChart>
 
-      <table style={{
-        alignSelf: 'stretch',
-        borderCollapse: 'collapse',
-        marginTop: -4,
-      }}>
+      <table
+        style={{
+          alignSelf: 'stretch',
+          borderCollapse: 'collapse',
+          marginTop: -4,
+        }}
+      >
         <thead>
           <tr>
             <th style={{ paddingBottom: 6, width: '100%' }} />
             <th style={{ textAlign: 'right', fontWeight: 400, fontSize: 12, color: '#6b7d99', paddingBottom: 6, width: '1%', whiteSpace: 'nowrap' }}>
               #
             </th>
-            <th style={{ textAlign: 'right', fontWeight: 400, fontSize: 12, color: '#6b7d99', paddingBottom: 6, paddingLeft: 20, width: '1%', whiteSpace: 'nowrap' }}>
+            <th
+              style={{
+                textAlign: 'right',
+                fontWeight: 400,
+                fontSize: 12,
+                color: '#6b7d99',
+                paddingBottom: 6,
+                paddingLeft: 20,
+                width: '1%',
+                whiteSpace: 'nowrap',
+              }}
+            >
               %
             </th>
           </tr>
@@ -126,13 +142,15 @@ export function DamageTagPieChart({ analysis }: {
             <tr key={slice.damageType}>
               <td style={{ paddingTop: 4, paddingBottom: 4 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <div style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 2,
-                    backgroundColor: slice.color,
-                    flexShrink: 0,
-                  }} />
+                  <div
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: 2,
+                      backgroundColor: slice.color,
+                      flexShrink: 0,
+                    }}
+                  />
                   <span style={{ fontSize: 13, color: chartColor }}>{slice.label}</span>
                 </div>
               </td>

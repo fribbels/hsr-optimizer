@@ -1,5 +1,4 @@
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
-import { floorSafe } from 'lib/utils/mathUtils'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
@@ -48,7 +47,9 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -60,7 +61,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SilverWolfB1Entities = createEnum('SilverWolfB1')
 export const SilverWolfB1Abilities: AbilityKind[] = [

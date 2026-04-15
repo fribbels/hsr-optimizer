@@ -2,10 +2,10 @@ import { createContext } from 'react'
 
 export type TabVisibilityValue = {
   /** Ref that always reflects the current tab's active state */
-  isActiveRef: { current: boolean }
+  isActiveRef: { current: boolean },
   /** Register a callback to be called when the tab activates (hidden → visible).
    *  Returns an unsubscribe function. */
-  addActivationListener: (cb: () => void) => () => void
+  addActivationListener: (cb: () => void) => () => void,
 }
 
 const defaultValue: TabVisibilityValue = {

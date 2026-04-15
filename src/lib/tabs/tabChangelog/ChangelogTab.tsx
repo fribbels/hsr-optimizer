@@ -1,8 +1,18 @@
-import { Flex, Pagination, Title } from '@mantine/core'
+import {
+  Flex,
+  Pagination,
+  Title,
+} from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { type ChangelogContent, getChangelogContent } from 'lib/tabs/tabChangelog/changelogData'
+import {
+  type ChangelogContent,
+  getChangelogContent,
+} from 'lib/tabs/tabChangelog/changelogData'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import React, { useMemo, useState } from 'react'
+import React, {
+  useMemo,
+  useState,
+} from 'react'
 
 const PAGE_SIZE = 3
 

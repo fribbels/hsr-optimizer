@@ -1,17 +1,32 @@
 import {
+  Button,
+  Flex,
+  Paper,
+  SegmentedControl,
+} from '@mantine/core'
+import { useForm } from '@mantine/form'
+import type { UseFormReturnType } from '@mantine/form'
+import {
   IconBoltFilled,
   IconCheck,
   IconSettings,
   IconTrash,
   IconX,
 } from '@tabler/icons-react'
-import { Button, Flex, Paper, SegmentedControl } from '@mantine/core'
-import { useForm } from '@mantine/form'
-import type { UseFormReturnType } from '@mantine/form'
 import {
   OverlayText,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { Jade } from 'lib/conditionals/character/1300/Jade'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
+import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
+import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import { Sets } from 'lib/constants/constants'
+import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
 import {
   OpenCloseIDs,
   setOpen,
@@ -19,14 +34,6 @@ import {
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { Jade } from 'lib/conditionals/character/1300/Jade'
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
-import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
-import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
-import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
-import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
-import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
@@ -42,34 +49,46 @@ import {
   type BenchmarkForm,
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
-import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
-import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
 import { SetsSection } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SetsSection'
-import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
-import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
+import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
 import { CustomHorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
   useEffect,
   useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
+import teammateClasses from 'style/teammateCard.module.css'
 import type {
   CharacterId,
 } from 'types/character'
 import type { ReactElement } from 'types/components'
+import { useShallow } from 'zustand/react/shallow'
 import styles from './BenchmarksTab.module.css'
-import teammateClasses from 'style/teammateCard.module.css'
 
 const GAP = 8
 
 const BOOLEAN_SEGMENTS = [
-  { label: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><IconCheck size={16} /></div>, value: 'true' },
-  { label: <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><IconX size={16} /></div>, value: 'false' },
+  {
+    label: (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <IconCheck size={16} />
+      </div>
+    ),
+    value: 'true',
+  },
+  {
+    label: (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <IconX size={16} />
+      </div>
+    ),
+    value: 'false',
+  },
 ]
 
 const defaultForm: Partial<BenchmarkForm> = {
@@ -133,13 +152,13 @@ export function BenchmarksTab(): ReactElement {
   }, [teammate0, teammate1, teammate2])
 
   return (
-    <Flex direction="column" className={styles.container} align='center' gap="xl">
+    <Flex direction='column' className={styles.container} align='center' gap='xl'>
       <ColorizedTitleWithInfo
         text={t('Title') /* 'Benchmark Generator' */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
-      <Paper p="xl" withBorder className={styles.inputPaper}>
+      <Paper p='xl' withBorder className={styles.inputPaper}>
         <BenchmarkInputs form={benchmarkForm} />
       </Paper>
 
@@ -152,7 +171,7 @@ export function BenchmarksTab(): ReactElement {
 
 function BenchmarkInputs({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   return (
-    <Flex direction="column" align='center'>
+    <Flex direction='column' align='center'>
       <Flex gap={GAP * 3} className={styles.inputRow} justify='space-between'>
         <LeftPanel form={form} />
         <MiddlePanel form={form} />
@@ -171,8 +190,8 @@ function LeftPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
 
   return (
-    <Flex direction="column" gap={GAP}>
-      <Flex direction="column" gap={GAP}>
+    <Flex direction='column' gap={GAP}>
+      <Flex direction='column' gap={GAP}>
         <HeaderText>{t('Header') /* Benchmark */}</HeaderText>
         <CenteredImage
           src={Assets.getCharacterPreviewById(characterId)}
@@ -195,8 +214,8 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const characterId = form.values.characterId ?? ''
 
   return (
-    <Flex direction="column" gap={GAP} className={styles.middlePanel} justify='space-between'>
-      <Flex direction="column" gap={GAP}>
+    <Flex direction='column' gap={GAP} className={styles.middlePanel} justify='space-between'>
+      <Flex direction='column' gap={GAP}>
         <HeaderText>{t('CharacterHeader') /* Character */}</HeaderText>
         <CharacterSelect
           value={form.values.characterId}
@@ -210,7 +229,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
         <CharacterEidolonFormRadio form={form} />
       </Flex>
 
-      <Flex direction="column" gap={GAP}>
+      <Flex direction='column' gap={GAP}>
         <HeaderText>{t('LCHeader') /* Light Cone */}</HeaderText>
         <LightConeSelect
           value={form.values.lightCone}
@@ -234,8 +253,8 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t: tOptimizerTab } = useTranslation('optimizerTab')
 
   return (
-    <Flex direction="column" className={styles.rightPanel} justify='space-between'>
-      <Flex direction="column" gap={GAP}>
+    <Flex direction='column' className={styles.rightPanel} justify='space-between'>
+      <Flex direction='column' gap={GAP}>
         <HeaderText>{t('Settings.Header') /* Settings */}</HeaderText>
 
         <SpdBenchmarkSetting form={form} />
@@ -250,7 +269,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
         <HeaderText>{t('SetsHeader') /* Benchmark sets */}</HeaderText>
 
-        <Flex direction="column" gap={5}>
+        <Flex direction='column' gap={5}>
           <SetsSection simType={StatSimTypes.Benchmarks} form={form} />
           <Button
             onClick={() => setOpen(OpenCloseIDs.BENCHMARKS_SETS_DRAWER)}
@@ -260,10 +279,9 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
             {tOptimizerTab('SetConditionals.Title') /* Conditional set effects */}
           </Button>
         </Flex>
-
       </Flex>
 
-      <Flex direction="column" gap={GAP}>
+      <Flex direction='column' gap={GAP}>
         <Button
           onClick={() => handleBenchmarkFormSubmit(form.getValues())}
           loading={loading}
@@ -307,7 +325,7 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
 function TeammatesSection() {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'MiddlePanel' })
   return (
-    <Flex direction="column">
+    <Flex direction='column'>
       <HeaderText>{t('TeammatesHeader') /* Teammates */}</HeaderText>
       <Flex justify='space-around'>
         <Teammate index={0} />
@@ -347,7 +365,7 @@ function Teammate({ index }: { index: number }) {
         })
       }}
     >
-      <Flex direction="column" align='center'>
+      <Flex direction='column' align='center'>
         <img
           src={Assets.getCharacterAvatarById(characterId)}
           className={teammateClasses.teammateAvatar}
@@ -387,4 +405,3 @@ function Teammate({ index }: { index: number }) {
     </div>
   )
 }
-

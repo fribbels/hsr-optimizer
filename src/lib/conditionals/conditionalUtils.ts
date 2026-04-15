@@ -196,7 +196,6 @@ export function createEnum<T extends string>(...values: T[]) {
   return obj as { [K in T as Sanitize<K>]: K }
 }
 
-
 // Returns the entity index of the memosprite, or -1 if not found
 export function findMemospriteIndex(action: OptimizerAction): number {
   const config = action.config

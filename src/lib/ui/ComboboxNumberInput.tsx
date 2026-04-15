@@ -1,6 +1,14 @@
-import { Combobox, Flex, NumberInput, useCombobox } from '@mantine/core'
+import {
+  Combobox,
+  Flex,
+  NumberInput,
+  useCombobox,
+} from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
-import { useRef, useState } from 'react'
+import {
+  useRef,
+  useState,
+} from 'react'
 
 export interface ComboboxNumberOption {
   value: string

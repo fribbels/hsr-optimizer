@@ -1,22 +1,9 @@
 // @vitest-environment jsdom
-import {
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
-import { expectDpsScoreResultsToMatch } from 'lib/simulations/tests/dpsScore/dpsScoreOrchestratorTestUtils'
-import {
-  generateE6S5Test,
-  testCharacter,
-  testMains,
-  testSets,
-  testStatSpread,
-  testStatSpreadSpd,
-} from 'lib/simulations/tests/simTestUtils'
 import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
-import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Pela } from 'lib/conditionals/character/1100/Pela'
 import { Serval } from 'lib/conditionals/character/1100/Serval'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
@@ -41,6 +28,19 @@ import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeS
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import {
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import { expectDpsScoreResultsToMatch } from 'lib/simulations/tests/dpsScore/dpsScoreOrchestratorTestUtils'
+import {
+  generateE6S5Test,
+  testCharacter,
+  testMains,
+  testSets,
+  testStatSpread,
+  testStatSpreadSpd,
+} from 'lib/simulations/tests/simTestUtils'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 

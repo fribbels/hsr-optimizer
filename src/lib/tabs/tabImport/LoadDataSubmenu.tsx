@@ -1,18 +1,25 @@
 import {
+  Button,
+  Flex,
+  Timeline,
+} from '@mantine/core'
+import {
   IconFileImport,
   IconUpload,
 } from '@tabler/icons-react'
-import { Button, Flex, Timeline } from '@mantine/core'
+import type { TFunction } from 'i18next'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
 } from 'lib/tabs/tabImport/importerTabUiConstants'
-import { useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import type { TFunction } from 'i18next'
+import {
+  useRef,
+  useState,
+} from 'react'
 import type { RefObject } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { HsrOptimizerSaveFormat } from 'types/store'
 import classes from './LoadDataSubmenu.module.css'
 
@@ -25,11 +32,11 @@ enum Stages {
 type LoadDataTranslate = TFunction<'importSaveTab', 'LoadData'>
 
 function UploadFileStage(props: {
-  loading: boolean
-  fileInputRef: RefObject<HTMLInputElement | null>
-  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onUploadClick: () => void
-  t: LoadDataTranslate
+  loading: boolean,
+  fileInputRef: RefObject<HTMLInputElement | null>,
+  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  onUploadClick: () => void,
+  t: LoadDataTranslate,
 }) {
   return (
     <Flex className={classes.stageContainer}>
@@ -59,11 +66,11 @@ function UploadFileStage(props: {
 }
 
 function ConfirmDataStage(props: {
-  currentSave: HsrOptimizerSaveFormat | undefined
-  currentStage: Stages
-  loading: boolean
-  onConfirm: () => void
-  t: LoadDataTranslate
+  currentSave: HsrOptimizerSaveFormat | undefined,
+  currentStage: Stages,
+  loading: boolean,
+  onConfirm: () => void,
+  t: LoadDataTranslate,
 }) {
   const isVisible = props.currentStage >= Stages.CONFIRM_DATA
   const displayStyle = { display: isVisible ? 'flex' : 'none' }
@@ -98,7 +105,7 @@ function ConfirmDataStage(props: {
   )
 }
 
-function CompletedStage(props: { currentStage: Stages; t: LoadDataTranslate }) {
+function CompletedStage(props: { currentStage: Stages, t: LoadDataTranslate }) {
   return (
     <Flex className={classes.stageContainer}>
       <Flex direction='column' gap={10} style={{ display: props.currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>

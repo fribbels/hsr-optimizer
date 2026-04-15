@@ -5,8 +5,8 @@ import {
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
-import { isFlat } from 'lib/utils/statUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { isFlat } from 'lib/utils/statUtils'
 
 const maxedMainStats = {
   [Constants.Stats.SPD]: [7.613, 11.419, 16.426, 25.032],

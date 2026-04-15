@@ -1,12 +1,6 @@
-import { MinQueue } from 'lib/dataStructures/minQueue'
 import { SubStats } from 'lib/constants/constants'
+import { MinQueue } from 'lib/dataStructures/minQueue'
 import { type SubstatCounts } from 'lib/simulations/statSimulationTypes'
-import {
-  SUBSTAT_COUNT,
-  SPD_INDEX,
-  toFloat32Array,
-  writeToSubstatCounts,
-} from 'lib/worker/maxima/tree/statIndexMap'
 import {
   calculateMinMaxMetadata,
   calculateRegionMidpoint,
@@ -14,6 +8,12 @@ import {
   getSearchTreeConfig,
   pointToBitwiseId,
 } from 'lib/worker/maxima/tree/searchTreeUtils'
+import {
+  SPD_INDEX,
+  SUBSTAT_COUNT,
+  toFloat32Array,
+  writeToSubstatCounts,
+} from 'lib/worker/maxima/tree/statIndexMap'
 import {
   isRegionFeasible,
 } from 'lib/worker/maxima/validator/regionFeasibilityValidator'

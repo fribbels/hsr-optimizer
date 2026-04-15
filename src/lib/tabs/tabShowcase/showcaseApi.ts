@@ -1,17 +1,20 @@
 import i18next from 'i18next'
 import {
+  AppPages,
+  PageToRoute,
+} from 'lib/constants/appPages'
+import {
   CharacterConverter,
   type UnconvertedCharacter,
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
-import { AppPages, PageToRoute } from 'lib/constants/appPages'
+import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import {
   type APIResponse,
   processEnkaData,
   processMihomoData,
 } from 'lib/tabs/tabShowcase/dataProcessors'
-import { Assets } from 'lib/rendering/assets'
 import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 
@@ -20,7 +23,7 @@ const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/pro
 const THROTTLE_SECONDS = 10
 
 export type ShowcaseTabForm = {
-  scorerId: string | null
+  scorerId: string | null,
 }
 
 export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boolean }) {

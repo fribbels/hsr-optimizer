@@ -4,7 +4,10 @@ import {
   SearchTree,
   type TreeStatRegion,
 } from 'lib/worker/maxima/tree/searchTree'
-import { STAT_INDEX, toFloat32Array } from 'lib/worker/maxima/tree/statIndexMap'
+import {
+  STAT_INDEX,
+  toFloat32Array,
+} from 'lib/worker/maxima/tree/statIndexMap'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 import {
   describe,

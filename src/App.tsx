@@ -7,12 +7,18 @@ import { LayoutHeader } from 'lib/layout/LayoutHeader'
 import { LayoutSider } from 'lib/layout/LayoutSider'
 import { GlobalModals } from 'lib/overlays/GlobalModals'
 import { Gradient } from 'lib/rendering/gradient'
-import { createMantineTheme, themeResolver } from 'lib/ui/theme'
-import { useThemeStore } from 'lib/stores/themeStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { useThemeStore } from 'lib/stores/themeStore'
 import { Tabs } from 'lib/tabs/Tabs'
+import {
+  createMantineTheme,
+  themeResolver,
+} from 'lib/ui/theme'
 
-import { useEffect, useMemo } from 'react'
+import {
+  useEffect,
+  useMemo,
+} from 'react'
 
 // Initial gradient setup before first render
 {

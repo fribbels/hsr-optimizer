@@ -1,21 +1,26 @@
+import {
+  Drawer,
+  Flex,
+  Select,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { Drawer, Flex, Select } from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { SaveState } from 'lib/state/saveState'
-import { clone, mergeDefinedValues } from 'lib/utils/objectUtils'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import {
+  clone,
+  mergeDefinedValues,
+} from 'lib/utils/objectUtils'
 import {
   useEffect,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type UserSettings } from 'types/store'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 
-const SelectOptionWordWrap = (props: React.ComponentPropsWithoutRef<'span'>) => (
-  <span style={{ whiteSpace: 'wrap', wordBreak: 'break-word' }} {...props} />
-)
+const SelectOptionWordWrap = (props: React.ComponentPropsWithoutRef<'span'>) => <span style={{ whiteSpace: 'wrap', wordBreak: 'break-word' }} {...props} />
 
 export const SettingOptions = {
   RelicEquippingBehavior: {
@@ -78,7 +83,7 @@ function SettingsDrawerContent() {
     },
   })
 
-  const optionsMap: Partial<Record<keyof UserSettings, { value: string; label: string }[]>> = {}
+  const optionsMap: Partial<Record<keyof UserSettings, { value: string, label: string }[]>> = {}
   for (const key of Object.keys(SettingOptions) as (keyof typeof SettingOptions)[]) {
     const group = SettingOptions[key]
     optionsMap[key] = Object.entries(group)
@@ -93,7 +98,7 @@ function SettingsDrawerContent() {
   }, [])
 
   return (
-    <Flex direction="column" gap={10}>
+    <Flex direction='column' gap={10}>
       {(Object.keys(SettingOptions) as (keyof typeof SettingOptions)[])
         .map((option) => (
           <Flex justify='space-between' align='center' key={option}>

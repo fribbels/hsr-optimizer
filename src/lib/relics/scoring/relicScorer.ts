@@ -1,7 +1,19 @@
-import type { MainStats, Parts } from 'lib/constants/constants'
-import type { Character, CharacterId } from 'types/character'
-import type { Relic, RelicId } from 'types/relic'
-import { scoreCharacterUsingScorer, scoreCharacterWithRelicsUsingScorer } from './characterScore'
+import type {
+  MainStats,
+  Parts,
+} from 'lib/constants/constants'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
+import type {
+  Relic,
+  RelicId,
+} from 'types/relic'
+import {
+  scoreCharacterUsingScorer,
+  scoreCharacterWithRelicsUsingScorer,
+} from './characterScore'
 import { scoreCurrentRelic } from './currentScore'
 import { computeFutureScores } from './futureScore'
 import { computeOptimalScore } from './optimalScore'
@@ -15,7 +27,7 @@ import type {
   ScorerMetadata,
 } from './types'
 
-export type { ScorerMetadata, RelicScoringResult, FutureScoringResult, PotentialResult, CharacterScoringResult }
+export type { CharacterScoringResult, FutureScoringResult, PotentialResult, RelicScoringResult, ScorerMetadata }
 
 /**
  * Caching layer for batch scoring operations.

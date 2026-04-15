@@ -1,8 +1,11 @@
+import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
+import {
+  oklchCardBackgroundColor,
+  oklchCardBorderColor,
+} from 'lib/characterPreview/color/colorUtilsOklch'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import type { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
-import { oklchCardBackgroundColor, oklchCardBorderColor } from 'lib/characterPreview/color/colorUtilsOklch'
-import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { CharacterId } from 'types/character'
 import type { ShowcasePreferences } from 'types/metadata'
 

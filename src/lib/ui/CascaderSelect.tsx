@@ -1,19 +1,28 @@
-import { Input, InputBase, Menu, type MantineRadius, type MantineSize } from '@mantine/core'
+import {
+  Input,
+  InputBase,
+  type MantineRadius,
+  type MantineSize,
+  Menu,
+} from '@mantine/core'
 import { IconX } from '@tabler/icons-react'
-import { useMemo, type ReactNode } from 'react'
+import {
+  type ReactNode,
+  useMemo,
+} from 'react'
 
 // === Types ===
 
 export type CascaderOption = {
-  label: string
-  value: string
-  leftSection?: ReactNode
+  label: string,
+  value: string,
+  leftSection?: ReactNode,
 }
 
 export type CascaderGroup = {
-  label: string
-  leftSection?: ReactNode
-  options: CascaderOption[]
+  label: string,
+  leftSection?: ReactNode,
+  options: CascaderOption[],
 }
 
 export type CascaderData = CascaderGroup[]
@@ -102,8 +111,8 @@ export function CascaderSelect(props: CascaderSelectProps) {
     >
       <Menu.Target>
         <InputBase
-          component="button"
-          type="button"
+          component='button'
+          type='button'
           pointer
           size={size}
           variant={variant}

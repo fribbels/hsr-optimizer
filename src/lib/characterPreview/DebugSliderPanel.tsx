@@ -6,7 +6,7 @@ type DebugPreset = { label: string, apply: () => void }
 type PillGroup = { title: string, active: string, options: { label: string, value: string, apply: () => void }[] }
 type PresetGroup = { title: string, presets: DebugPreset[] }
 
-export type { SliderDef, SliderGroup, DebugPreset, PillGroup, PresetGroup }
+export type { DebugPreset, PillGroup, PresetGroup, SliderDef, SliderGroup }
 
 const pillStyle: React.CSSProperties = {
   padding: '3px 10px',
@@ -27,13 +27,13 @@ const pillActiveStyle: React.CSSProperties = {
   color: '#fff',
 }
 
-export { pillStyle, pillActiveStyle }
+export { pillActiveStyle, pillStyle }
 
 // Debug slider panel for tuning card visuals — shown by default, click [x] to hide
 export function DebugSliderPanel({ groups, savedPresetGroups, pillGroups }: {
-  groups: SliderGroup[]
-  savedPresetGroups?: PresetGroup[]
-  pillGroups?: PillGroup[]
+  groups: SliderGroup[],
+  savedPresetGroups?: PresetGroup[],
+  pillGroups?: PillGroup[],
 }) {
   const [open, setOpen] = useState(true)
   const [activePreset, setActivePreset] = useState<string | null>(null)

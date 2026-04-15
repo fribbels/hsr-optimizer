@@ -1,7 +1,10 @@
 import { SubStatValues } from 'lib/constants/constants'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import type { StatRolls, UnaugmentedRelic } from 'types/relic'
 import { precisionRound } from 'lib/utils/mathUtils'
+import type {
+  StatRolls,
+  UnaugmentedRelic,
+} from 'types/relic'
 
 // non exported interface, the number are float
 interface IncrementOptions {

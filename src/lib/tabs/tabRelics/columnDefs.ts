@@ -6,7 +6,11 @@ import type { TFunction } from 'i18next'
 import { Stats } from 'lib/constants/constants'
 import { type ScoredRelic } from 'lib/relics/scoreRelics'
 import { Gradient } from 'lib/rendering/gradient'
-import { AnySetCellRenderer, CharacterIconCellRenderer, GradeCellRenderer } from 'lib/rendering/gridRenderers'
+import {
+  AnySetCellRenderer,
+  CharacterIconCellRenderer,
+  GradeCellRenderer,
+} from 'lib/rendering/gridRenderers'
 import { Renderer } from 'lib/rendering/renderer'
 
 export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'>) {

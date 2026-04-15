@@ -5,16 +5,21 @@ import {
   Stats,
   type SubStats,
 } from 'lib/constants/constants'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
+import { generateContext } from 'lib/optimization/context/calculateContext'
+import {
+  type AKeyValue,
+  getAKeyName,
+  GlobalRegister,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   type SetsOrnaments,
   type SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { BasicKey } from 'lib/optimization/basicStatsArray'
-import { type AKeyValue, getAKeyName, GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
-import { generateContext } from 'lib/optimization/context/calculateContext'
-import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
   type RunStatSimulationsResult,
@@ -22,11 +27,11 @@ import {
   StatSimTypes,
 } from 'lib/simulations/statSimulationTypes'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterId } from 'types/character'
 import { type Form } from 'types/form'
 import { type LightConeId } from 'types/lightCone'
 import { type Relic } from 'types/relic'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export type SimTestUtils = {
   characterId: CharacterId,
@@ -206,7 +211,8 @@ export function collectResults(input: TestInput) {
   // Total DMG% = generic DMG_BOOST (action+hit) + element-specific boost (action)
   if (primaryActionStats) {
     nameCombatResults['DMG_BOOST'] = precisionRound(
-      primaryActionStats.DMG_BOOST + primaryActionStats.sourceEntityElementDmgBoost, 7,
+      primaryActionStats.DMG_BOOST + primaryActionStats.sourceEntityElementDmgBoost,
+      7,
     )
   }
 

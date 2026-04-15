@@ -38,7 +38,7 @@ export const CharacterConditionalsDisplay = memo(function CharacterConditionalsD
     : character.content()
 
   return (
-    <Flex direction="column" gap={5}>
+    <Flex direction='column' gap={5}>
       {(teammateIndex == null)
         && (
           <Flex justify='space-between' align='center'>

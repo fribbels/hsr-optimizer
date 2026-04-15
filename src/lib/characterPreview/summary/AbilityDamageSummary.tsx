@@ -1,3 +1,4 @@
+import { usePromise } from 'hooks/usePromise'
 import {
   AbilityKind,
   toTurnAbility,
@@ -6,7 +7,6 @@ import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { RotationDamageStep } from 'lib/simulations/statSimulationTypes'
 import { toI18NVisual } from 'lib/utils/displayUtils'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
-import { usePromise } from 'hooks/usePromise'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './AbilityDamageSummary.module.css'

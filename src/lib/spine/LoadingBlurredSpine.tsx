@@ -1,3 +1,4 @@
+import { SpinePortrait } from 'lib/spine/SpinePortrait'
 import {
   type CSSProperties,
   useCallback,
@@ -6,7 +7,6 @@ import {
   useState,
 } from 'react'
 import type { CharacterId } from 'types/character'
-import { SpinePortrait } from 'lib/spine/SpinePortrait'
 
 const BLUR_OUT_MS = 1000
 const BLUR_PX = 8.5
@@ -17,9 +17,9 @@ export function LoadingBlurredSpine({
   style,
   onUnsupported,
 }: {
-  characterId: CharacterId
-  style: CSSProperties
-  onUnsupported?: () => void
+  characterId: CharacterId,
+  style: CSSProperties,
+  onUnsupported?: () => void,
 }) {
   const styleRef = useRef(style)
   styleRef.current = style

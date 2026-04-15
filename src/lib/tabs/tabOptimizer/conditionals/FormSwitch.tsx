@@ -1,8 +1,15 @@
-import { Flex, Switch } from '@mantine/core'
+import {
+  Flex,
+  Switch,
+} from '@mantine/core'
 import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import {
+  conditionalAlign,
+  conditionalJustify,
+  ConditionalText as Text,
+} from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
 import type { FormSelectProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
-import { conditionalAlign, conditionalJustify, ConditionalText as Text } from 'lib/tabs/tabOptimizer/conditionals/ConditionalShared'
 import type { FormSliderProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { WithPopover } from 'lib/ui/WithPopover'
@@ -78,12 +85,20 @@ export interface FormSwitchProps {
 }
 
 export const FormSwitch: ComponentType<FormSwitchProps> = ({
-  disabled, id, text, lc, set, teammateIndex, removeForm, onChange: onChangeProp, value,
+  disabled,
+  id,
+  text,
+  lc,
+  set,
+  teammateIndex,
+  removeForm,
+  onChange: onChangeProp,
+  value,
 }) => {
   const itemName = getItemName({ disabled, id, text, lc, set, teammateIndex, removeForm, onChange: onChangeProp, value })
 
   const storeValue = useOptimizerRequestStore((s) =>
-    removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as boolean | undefined,
+    removeForm ? undefined : resolveConditionalValue(s, itemName as (string | number)[]) as boolean | undefined
   )
 
   const checked = removeForm ? value : storeValue

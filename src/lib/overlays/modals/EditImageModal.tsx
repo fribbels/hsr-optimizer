@@ -1,13 +1,26 @@
 import {
+  Button,
+  Flex,
+  Loader,
+  Modal,
+  SegmentedControl,
+  Slider,
+  Stepper,
+  TextInput,
+} from '@mantine/core'
+import {
+  Dropzone,
+  IMAGE_MIME_TYPE,
+} from '@mantine/dropzone'
+import { useForm } from '@mantine/form'
+import {
   IconGripVertical,
   IconInbox,
   IconZoomIn,
 } from '@tabler/icons-react'
-import { Button, Flex, Loader, Modal, SegmentedControl, Slider, Stepper, TextInput } from '@mantine/core'
-import { useForm } from '@mantine/form'
-import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone'
 import i18next from 'i18next'
 import { Message } from 'lib/interactions/message'
+import styles from 'lib/overlays/modals/EditImageModal.module.css'
 import {
   DEFAULT_CROP,
   DEFAULT_CUSTOM_IMAGE_PARAMS,
@@ -22,7 +35,6 @@ import {
   validateFileSize,
   validateUrlFileSize,
 } from 'lib/overlays/modals/editImageUtils'
-import styles from 'lib/overlays/modals/EditImageModal.module.css'
 import * as React from 'react'
 import Cropper from 'react-easy-crop'
 import { useTranslation } from 'react-i18next'
@@ -297,9 +309,9 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
               onChange={onRadioChange}
               value={radio}
               data={[
-                { label: t('Upload.Radio.Upload') /* Upload image */, value: 'upload' },
-                { label: t('Upload.Radio.Url') /* Enter image URL */, value: 'url' },
-                ...(defaultImageUrl ? [{ label: t('Upload.Radio.Default') /* Use default image */, value: 'default' }] : []),
+                { label: t('Upload.Radio.Upload'), /* Upload image */ value: 'upload' },
+                { label: t('Upload.Radio.Url'), /* Enter image URL */ value: 'url' },
+                ...(defaultImageUrl ? [{ label: t('Upload.Radio.Default'), /* Use default image */ value: 'default' }] : []),
               ]}
             />
           </div>
@@ -316,11 +328,11 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
                 {isVerificationLoading
                   ? (
                     <Flex className={styles.dropzoneArea} justify='center' align='center'>
-                      <Loader size="lg" />
+                      <Loader size='lg' />
                     </Flex>
                   )
                   : (
-                    <Flex className={styles.dropzoneArea} justify='center' align='center' direction="column">
+                    <Flex className={styles.dropzoneArea} justify='center' align='center' direction='column'>
                       <p>
                         <IconInbox />
                       </p>
@@ -463,7 +475,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
               {tCommon('Cancel') /* Cancel */}
             </Button>
             {(current > 0 && existingConfig) && (
-              <Button onClick={prev} color="red">
+              <Button onClick={prev} color='red'>
                 {t('Footer.Change') /* Change image */}
               </Button>
             )}

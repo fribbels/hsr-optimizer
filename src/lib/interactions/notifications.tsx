@@ -1,13 +1,16 @@
+import {
+  Button,
+  Flex,
+} from '@mantine/core'
+import { notifications } from '@mantine/notifications'
 import { IconList } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
 import i18next from 'i18next'
+import { AppPages } from 'lib/constants/appPages'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { AppPages } from 'lib/constants/appPages'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import { Trans } from 'react-i18next'
-import { notifications } from '@mantine/notifications'
 import { isVersionOutdated } from 'lib/utils/miscUtils'
+import { Trans } from 'react-i18next'
 
 export function checkForUpdatesNotification(version: string) {
   const t = i18next.getFixedT(null, 'notifications', 'Changelog')
@@ -22,7 +25,7 @@ export function checkForUpdatesNotification(version: string) {
       id: 'update-notification',
       title: t('Message'),
       message: (
-        <Flex direction="column" gap={8}>
+        <Flex direction='column' gap={8}>
           <div>{t('Description')}</div>
           <Flex gap={8}>
             <Button
@@ -54,7 +57,7 @@ export function webgpuNotSupportedNotification() {
     notifications.show({
       title: t('Message'),
       message: (
-        <Flex direction="column">
+        <Flex direction='column'>
           <div>{t('Description.l1')}</div>
           <div>
             <ul>
@@ -96,7 +99,7 @@ export function webgpuCrashNotification() {
     notifications.show({
       title: t('Message'),
       message: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <div>{t('Description.l1')}</div>
           <div>
             <Trans

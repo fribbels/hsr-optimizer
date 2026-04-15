@@ -1,8 +1,12 @@
+import { useElementSize } from '@mantine/hooks'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import { useRelicById } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel'
@@ -13,11 +17,13 @@ import {
   RelicInsights,
   useRelicsTabStore,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { memo, useMemo } from 'react'
-import { useElementSize } from '@mantine/hooks'
+import {
+  memo,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
 import type { CharacterId } from 'types/character'
+import { useShallow } from 'zustand/react/shallow'
 
 export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
   const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore(
@@ -69,7 +75,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
   return <RelicInsightsPanelContent scores={scores} insightsMode={insightsMode} />
 })
 
-function RelicInsightsPanelContent({ scores, insightsMode }: { scores: Score[]; insightsMode: RelicInsights }) {
+function RelicInsightsPanelContent({ scores, insightsMode }: { scores: Score[], insightsMode: RelicInsights }) {
   const { ref: containerRef, width: containerWidth } = useElementSize()
   const chartWidth = containerWidth || undefined
 
@@ -97,7 +103,7 @@ type Score = {
 }
 
 export type PanelProps = {
-  scores: Score[]
-  width?: number
-  height?: number
+  scores: Score[],
+  width?: number,
+  height?: number,
 }

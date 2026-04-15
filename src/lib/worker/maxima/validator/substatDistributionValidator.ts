@@ -1,5 +1,8 @@
 import { Stats } from 'lib/constants/constants'
-import { STAT_INDEX, SUBSTAT_COUNT } from 'lib/worker/maxima/tree/statIndexMap'
+import {
+  STAT_INDEX,
+  SUBSTAT_COUNT,
+} from 'lib/worker/maxima/tree/statIndexMap'
 
 interface StatConstraints {
   statIdx: number

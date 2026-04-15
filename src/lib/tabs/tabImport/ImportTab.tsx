@@ -1,5 +1,9 @@
+import {
+  Button,
+  Flex,
+  Tabs,
+} from '@mantine/core'
 import { IconDownload } from '@tabler/icons-react'
-import { Button, Flex, Tabs } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
 import { ClearDataSubmenu } from 'lib/tabs/tabImport/ClearDataSubmenu'
@@ -118,10 +122,18 @@ export function ImportTab() {
             <Tabs.Tab value='Clear'>{t('Clear')}</Tabs.Tab>
           </Tabs.List>
 
-          <Tabs.Panel value='Import'><ScannerImportSubmenu /></Tabs.Panel>
-          <Tabs.Panel value='Load'><LoadDataSubmenu /></Tabs.Panel>
-          <Tabs.Panel value='Save'><SaveDataSubmenu /></Tabs.Panel>
-          <Tabs.Panel value='Clear'><ClearDataSubmenu /></Tabs.Panel>
+          <Tabs.Panel value='Import'>
+            <ScannerImportSubmenu />
+          </Tabs.Panel>
+          <Tabs.Panel value='Load'>
+            <LoadDataSubmenu />
+          </Tabs.Panel>
+          <Tabs.Panel value='Save'>
+            <SaveDataSubmenu />
+          </Tabs.Panel>
+          <Tabs.Panel value='Clear'>
+            <ClearDataSubmenu />
+          </Tabs.Panel>
         </Tabs>
       </Flex>
     </div>

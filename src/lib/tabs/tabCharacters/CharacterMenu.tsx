@@ -1,19 +1,23 @@
 import {
+  Button,
+  Menu,
+} from '@mantine/core'
+import {
   IconChevronDown,
   IconUser,
 } from '@tabler/icons-react'
-import { Button, Menu } from '@mantine/core'
 import type { TFunction } from 'i18next'
 import { useConfirmAction } from 'lib/hooks/useConfirmAction'
 import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import { BuildSource } from 'types/savedBuild'
 import { Message } from 'lib/interactions/message'
 import { useBuildsModalStore } from 'lib/overlays/modals/buildsModalStore'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { useSaveBuildModalStore } from 'lib/overlays/modals/saveBuildModalStore'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { getCharacterById } from 'lib/stores/character/characterStore'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
@@ -25,8 +29,7 @@ import {
   Trans,
   useTranslation,
 } from 'react-i18next'
-import { getCharacterById } from 'lib/stores/character/characterStore'
-import { useGlobalStore } from 'lib/stores/app/appStore'
+import { BuildSource } from 'types/savedBuild'
 
 export function CharacterMenu() {
   const { t } = useTranslation('charactersTab')
@@ -38,7 +41,7 @@ export function CharacterMenu() {
 
   return (
     <>
-      <Menu trigger='click' position='top-start' width="target">
+      <Menu trigger='click' position='top-start' width='target'>
         <Menu.Target>
           <Button
             style={{ width: '100%', height: 40, boxShadow: 'unset', borderRadius: 4 }}

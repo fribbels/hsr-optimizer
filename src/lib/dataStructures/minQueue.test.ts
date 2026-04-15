@@ -1,6 +1,10 @@
-import { describe, expect, it } from 'vitest'
-import { MinQueue } from 'lib/dataStructures/minQueue'
 import { FixedSizeNumericMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
+import { MinQueue } from 'lib/dataStructures/minQueue'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 describe('MinQueue', () => {
   it('basic push and pop', () => {
@@ -25,7 +29,7 @@ describe('MinQueue', () => {
     q.push(2, 5)
     q.push(3, 15)
 
-    q.pop()      // removes key=2 (priority 5, the minimum); sets _hasPoppedElement=true
+    q.pop() // removes key=2 (priority 5, the minimum); sets _hasPoppedElement=true
     q.push(4, 8) // takes the lazy path: writes (4,8) directly to root slot, then sifts down
 
     expect(q.length).toBe(3)
@@ -41,7 +45,7 @@ describe('MinQueue', () => {
 
     // Mirrors the fixedSizePushOvercapped sequence: push overcapacity, pop min, peek new min
     q.push(4, 25) // length=4
-    q.pop()       // lazy — evicts 10 (the current min), length=3
+    q.pop() // lazy — evicts 10 (the current min), length=3
     const newMin = q.peekPriority() // flushes the lazy pop, returns new min
 
     // Min 10 is gone; remaining {20, 25, 30} → new min is 20
@@ -65,7 +69,7 @@ describe('MinQueue', () => {
     // Starting from {1..100}, after replacing 1→101, 2→102, ..., the min at step newVal is (newVal - 99).
     for (let newVal = 101; newVal <= 200; newVal++) {
       q.push(newVal, newVal) // push (length -> 101)
-      q.pop()                // pop min (length -> 100, lazy)
+      q.pop() // pop min (length -> 100, lazy)
       const min = q.peekPriority() // flush
 
       expect(min).toBe(newVal - 99)
@@ -205,7 +209,7 @@ describe('FixedSizeNumericMinQueue', () => {
   it('fixedSizePushOvercapped with random data - stress test', () => {
     const limit = 50
     const q = new FixedSizeNumericMinQueue(limit)
-    const allValues: { key: number; value: number }[] = []
+    const allValues: { key: number, value: number }[] = []
 
     // Generate random data
     const rng = mulberry32(12345) // deterministic seed

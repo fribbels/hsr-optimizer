@@ -10,7 +10,10 @@ import { type ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   RelicPreview,
 } from 'lib/tabs/tabRelics/RelicPreview'
-import { memo, useMemo } from 'react'
+import {
+  memo,
+  useMemo,
+} from 'react'
 import { type CharacterId } from 'types/character'
 import { type Relic } from 'types/relic'
 
@@ -28,14 +31,14 @@ export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
   characterId,
   scoredRelics,
 }: {
-  setSelectedRelic: (r: Relic) => void
-  setEditModalOpen: (b: boolean, relic?: Relic) => void
-  setAddModalOpen: (b: boolean, part: Parts, relic?: Relic) => void
-  displayRelics: SingleRelicByPart
-  source: ShowcaseSource
-  scoringType: ScoringType
-  characterId: CharacterId
-  scoredRelics: RelicScoringResult[]
+  setSelectedRelic: (r: Relic) => void,
+  setEditModalOpen: (b: boolean, relic?: Relic) => void,
+  setAddModalOpen: (b: boolean, part: Parts, relic?: Relic) => void,
+  displayRelics: SingleRelicByPart,
+  source: ShowcaseSource,
+  scoringType: ScoringType,
+  characterId: CharacterId,
+  scoredRelics: RelicScoringResult[],
 }) {
   const relicByPart = useMemo(() => {
     const map: Partial<Record<Parts, Relic>> = {}

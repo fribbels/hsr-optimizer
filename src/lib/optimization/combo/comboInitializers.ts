@@ -5,14 +5,14 @@ import {
   ABILITY_LIMIT,
   ConditionalDataType,
 } from 'lib/constants/constants'
-import {
-  SetsOrnamentsNames,
-  SetsRelicsNames,
-} from 'lib/sets/setConfigRegistry'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { getComboTypeAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/preprocessor/rotationPreprocessor'
 import { ConditionalSetMetadata } from 'lib/optimization/rotation/setConditionalContent'
+import {
+  SetsOrnamentsNames,
+  SetsRelicsNames,
+} from 'lib/sets/setConfigRegistry'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import type {
@@ -21,7 +21,10 @@ import type {
   ContentItem,
   LightConeConditionalsController,
 } from 'types/conditionals'
-import type { Form, Teammate } from 'types/form'
+import type {
+  Form,
+  Teammate,
+} from 'types/form'
 import type { DBMetadata } from 'types/metadata'
 import type { BasicForm } from 'types/optimizer'
 

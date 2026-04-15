@@ -1,7 +1,5 @@
 import { Flex } from '@mantine/core'
-import type { CSSProperties } from 'react'
 import type { TFunction } from 'i18next'
-import { useTranslation } from 'react-i18next'
 import type { SubStats } from 'lib/constants/constants'
 import {
   Constants,
@@ -10,8 +8,10 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import type { Stat } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
+import type { CSSProperties } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { Stat } from 'types/relic'
 
 const IMG_SIZE = 22
 
@@ -49,7 +49,7 @@ function renderStat(x: Stat, simType: StatSimTypes, t: TFunction<'common', 'Shor
 
 export function StatSimulationName(props: { sim: Simulation }) {
   return (
-    <Flex gap={5} align="center">
+    <Flex gap={5} align='center'>
       <SimSetsDisplay sim={props.sim} />
 
       <span>|</span>
@@ -98,7 +98,7 @@ function SimMainsDisplay(props: { sim: Simulation }) {
 
 function SimSubstatsDisplay(props: { sim: Simulation }) {
   const { t } = useTranslation('common', { keyPrefix: 'ShortStats' })
-  const renderArray: { stat: SubStats; value: number }[] = []
+  const renderArray: { stat: SubStats, value: number }[] = []
   const substats = props.sim.request.stats
   for (const stat of Constants.SubStats) {
     const value = substats[stat]

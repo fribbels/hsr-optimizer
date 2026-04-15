@@ -1,18 +1,21 @@
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import type { Character, CharacterId } from 'types/character'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 
 type CharacterStoreState = {
-  characters: Character[]
-  charactersById: Partial<Record<CharacterId, Character>>
+  characters: Character[],
+  charactersById: Partial<Record<CharacterId, Character>>,
 }
 
 type CharacterStoreActions = {
-  setCharacters: (characters: Character[]) => void
-  setCharacter: (character: Character) => void
-  addCharacter: (character: Character) => void
-  removeCharacter: (characterId: CharacterId) => void
-  insertCharacter: (id: CharacterId, index: number) => void
+  setCharacters: (characters: Character[]) => void,
+  setCharacter: (character: Character) => void,
+  addCharacter: (character: Character) => void,
+  removeCharacter: (characterId: CharacterId) => void,
+  insertCharacter: (id: CharacterId, index: number) => void,
 }
 
 export type CharacterStore = CharacterStoreState & CharacterStoreActions

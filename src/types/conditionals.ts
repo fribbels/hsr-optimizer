@@ -1,7 +1,7 @@
 import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import type { ActionModifier } from 'lib/optimization/context/calculateActions'
-import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { FormSelectWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSelect'
 import type { FormSliderWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import type { FormSwitchWithPopoverProps } from 'lib/tabs/tabOptimizer/conditionals/FormSwitch'

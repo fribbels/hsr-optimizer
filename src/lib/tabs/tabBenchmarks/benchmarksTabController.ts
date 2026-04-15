@@ -17,7 +17,10 @@ import {
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { filterUniqueStringify } from 'lib/utils/arrayUtils'
-import { clone, objectHash } from 'lib/utils/objectUtils'
+import {
+  clone,
+  objectHash,
+} from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 

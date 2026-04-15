@@ -1,7 +1,7 @@
 import { SegmentedControl } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
-import { useTranslation } from 'react-i18next'
 import { type BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import { useTranslation } from 'react-i18next'
 
 export function LightConeSuperimpositionFormRadio(props: { form: UseFormReturnType<BenchmarkForm> }) {
   const { t } = useTranslation('modals', { keyPrefix: 'EditCharacter' })

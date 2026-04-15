@@ -1,10 +1,10 @@
+import { Modal } from '@mantine/core'
 import {
   IconTriangleInvertedFilled,
 } from '@tabler/icons-react'
-import { Modal } from '@mantine/core'
-import { useRelicModalStore } from './relicModalStore'
-import { RelicModalContent } from './RelicModalContent'
 import modalClasses from './RelicModal.module.css'
+import { RelicModalContent } from './RelicModalContent'
+import { useRelicModalStore } from './relicModalStore'
 
 export function RelicModal() {
   const open = useRelicModalStore((s) => s.open)

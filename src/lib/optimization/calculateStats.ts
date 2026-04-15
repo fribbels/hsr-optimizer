@@ -1,13 +1,28 @@
-import { Stats, type StatsValues, } from 'lib/constants/constants'
+import {
+  Stats,
+  type StatsValues,
+} from 'lib/constants/constants'
 import { evaluateConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import { BasicKey, type BasicStatsArray, BasicStatToKey } from 'lib/optimization/basicStatsArray'
-import { type SetCounts } from 'lib/optimization/setMatching'
-import { getAllSetDynamicConditionals, ornamentIndexToSetConfig, relicIndexToSetConfig } from 'lib/sets/setConfigRegistry'
+import {
+  BasicKey,
+  type BasicStatsArray,
+  BasicStatToKey,
+} from 'lib/optimization/basicStatsArray'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type SetCounts } from 'lib/optimization/setMatching'
+import {
+  getAllSetDynamicConditionals,
+  ornamentIndexToSetConfig,
+  relicIndexToSetConfig,
+} from 'lib/sets/setConfigRegistry'
 import { type SimulationRelic } from 'lib/simulations/statSimulationTypes'
-import type { OptimizerAction, OptimizerContext, SetConditional } from 'types/optimizer'
+import type {
+  OptimizerAction,
+  OptimizerContext,
+  SetConditional,
+} from 'types/optimizer'
 
 export function calculateSetCounts(
   sets: number[],
@@ -19,7 +34,7 @@ export function calculateSetCounts(
 
   return {
     relicMatch2: (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
-               | (maskG & maskB) | (maskG & maskF) | (maskB & maskF),
+      | (maskG & maskB) | (maskG & maskF) | (maskB & maskF),
     relicMatch4: maskH & maskG & maskB & maskF,
     ornamentMatch2: (1 << sets[4]) & (1 << sets[5]),
   }
@@ -35,7 +50,7 @@ export function calculateSetCountsInPlace(
   const maskF = 1 << sets[3]
 
   setCounts.relicMatch2 = (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
-                        | (maskG & maskB) | (maskG & maskF) | (maskB & maskF)
+    | (maskG & maskB) | (maskG & maskF) | (maskB & maskF)
   setCounts.relicMatch4 = maskH & maskG & maskB & maskF
   setCounts.ornamentMatch2 = (1 << sets[4]) & (1 << sets[5])
 }
@@ -184,7 +199,6 @@ function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicS
     a[o + StatKey.QUANTUM_DMG_BOOST] += ca[BasicKey.QUANTUM_DMG_BOOST]
     a[o + StatKey.IMAGINARY_DMG_BOOST] += ca[BasicKey.IMAGINARY_DMG_BOOST]
     a[o + StatKey.ELATION] += ca[BasicKey.ELATION]
-
   }
 }
 
@@ -408,4 +422,3 @@ function sumFlatStat(
 ): number {
   return baseValue * (1 + setEffects + relicSum.a[BasicStatToKey[statP]] + trace[statP] + lc[statP]) + relicSum.a[BasicStatToKey[stat]] + trace[stat]
 }
-

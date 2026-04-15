@@ -1,4 +1,7 @@
-import { Button, Flex } from '@mantine/core'
+import {
+  Button,
+  Flex,
+} from '@mantine/core'
 import { Hint } from 'lib/interactions/hint'
 import { useBuildsModalStore } from 'lib/overlays/modals/buildsModalStore'
 import { useSaveBuildModalStore } from 'lib/overlays/modals/saveBuildModalStore'
@@ -18,21 +21,21 @@ export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: {
   if (!isFullSize || !focusCharacter) return null
 
   return (
-    <Flex direction="column">
+    <Flex direction='column'>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Header')}</HeaderText>
         <TooltipImage type={Hint.builds()} />
       </Flex>
       <Flex gap={defaultGap} justify='space-around'>
         <Button
-          variant="default"
+          variant='default'
           style={{ flex: 1 }}
           onClick={() => useSaveBuildModalStore.getState().openOverlay({ source: BuildSource.Optimizer, characterId: focusCharacter })}
         >
           {t('Save')}
         </Button>
         <Button
-          variant="default"
+          variant='default'
           style={{ flex: 1 }}
           onClick={() => useBuildsModalStore.getState().openOverlay({ characterId: focusCharacter })}
         >

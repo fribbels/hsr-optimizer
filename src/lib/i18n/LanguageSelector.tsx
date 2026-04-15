@@ -1,13 +1,13 @@
 import { Select } from '@mantine/core'
 import {
+  BASE_PATH,
+  BasePath,
+} from 'lib/constants/appPages'
+import {
   completedLocales,
   isBeta,
 } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
-import {
-  BASE_PATH,
-  BasePath,
-} from 'lib/constants/appPages'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { languages } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
@@ -30,9 +30,7 @@ export function LanguageSelector() {
   return (
     <Select
       data={selectData}
-      renderOption={({ option }) => (
-        <span title={option.value}>{option.label}</span>
-      )}
+      renderOption={({ option }) => <span title={option.value}>{option.label}</span>}
       onChange={(value) => {
         if (!value) return
         if (i18n.resolvedLanguage === 'aa_ER') window.jipt?.stop()
@@ -46,7 +44,7 @@ export function LanguageSelector() {
             console.log('setting language to:', i18n.resolvedLanguage)
           })
       }}
-      size="xs"
+      size='xs'
       style={{ width: isBeta ? 200 : 150, marginRight: 10 }}
       styles={{ input: { height: 32, minHeight: 32, paddingLeft: 32, backgroundColor: 'var(--layer-1)', borderColor: 'rgba(255, 255, 255, 0.06)' } }}
       maxDropdownHeight={400}

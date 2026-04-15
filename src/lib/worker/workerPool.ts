@@ -135,7 +135,7 @@ export class WorkerPool {
     this.initialized = false
   }
 
-  getStats(): { workers: number; available: number; queued: number; inFlight: number } {
+  getStats(): { workers: number, available: number, queued: number, inFlight: number } {
     return {
       workers: this.workers.filter(Boolean).length,
       available: this.available.length,
@@ -300,8 +300,14 @@ export class WorkerPool {
     if (this.queue.length > 0) {
       const task = this.queue.shift()!
       this.runTaskOnWorker(
-        task.input, task.resolve, task.reject, workerIndex,
-        task.transferables, task.prepareInput, task.maxRetries, task.attempts,
+        task.input,
+        task.resolve,
+        task.reject,
+        workerIndex,
+        task.transferables,
+        task.prepareInput,
+        task.maxRetries,
+        task.attempts,
       )
     } else {
       this.available.push(workerIndex)
@@ -313,8 +319,14 @@ export class WorkerPool {
       const task = this.queue.shift()!
       const workerIndex = this.available.shift()!
       this.runTaskOnWorker(
-        task.input, task.resolve, task.reject, workerIndex,
-        task.transferables, task.prepareInput, task.maxRetries, task.attempts,
+        task.input,
+        task.resolve,
+        task.reject,
+        workerIndex,
+        task.transferables,
+        task.prepareInput,
+        task.maxRetries,
+        task.attempts,
       )
     }
   }

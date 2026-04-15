@@ -13,7 +13,10 @@ import {
   SortOption,
 } from 'lib/optimization/sortOptions'
 import { Gradient } from 'lib/rendering/gradient'
-import { OrnamentSetCellRenderer, RelicSetCellRenderer } from 'lib/rendering/gridRenderers'
+import {
+  OrnamentSetCellRenderer,
+  RelicSetCellRenderer,
+} from 'lib/rendering/gridRenderers'
 import { Renderer } from 'lib/rendering/renderer'
 import { uuid } from 'lib/utils/miscUtils'
 
@@ -99,7 +102,14 @@ function buildColumnDefs(mode: DisplayMode, t: TFunction<'optimizerTab', 'Grid'>
       headerName: headerMemo(col.headerKey),
     })),
 
-    { field: dmgFields[mode] as keyof OptimizerDisplayData, valueFormatter: Renderer.x100Tenths, cellStyle: Gradient.getOptimizerColumnGradient, minWidth: DIGITS_4, flex: 10, headerName: headerMemo('DMG') },
+    {
+      field: dmgFields[mode] as keyof OptimizerDisplayData,
+      valueFormatter: Renderer.x100Tenths,
+      cellStyle: Gradient.getOptimizerColumnGradient,
+      minWidth: DIGITS_4,
+      flex: 10,
+      headerName: headerMemo('DMG'),
+    },
     {
       field: getGridColumn(SortOption.EHP, statDisplay, memoDisplay) as keyof OptimizerDisplayData,
       valueFormatter: Renderer.floor,
@@ -109,7 +119,14 @@ function buildColumnDefs(mode: DisplayMode, t: TFunction<'optimizerTab', 'Grid'>
       headerName: header('EHP'),
     },
     // Dynamic ability columns (BASIC, SKILL, ULT, etc.) are injected in OptimizerGrid.tsx
-    { field: getGridColumn(SortOption.COMBO, statDisplay, memoDisplay) as keyof OptimizerDisplayData, valueFormatter: Renderer.floor, cellStyle: Gradient.getOptimizerColumnGradient, minWidth: DIGITS_6, flex: 13, headerName: header('COMBO') },
+    {
+      field: getGridColumn(SortOption.COMBO, statDisplay, memoDisplay) as keyof OptimizerDisplayData,
+      valueFormatter: Renderer.floor,
+      cellStyle: Gradient.getOptimizerColumnGradient,
+      minWidth: DIGITS_6,
+      flex: 13,
+      headerName: header('COMBO'),
+    },
   ]
 }
 

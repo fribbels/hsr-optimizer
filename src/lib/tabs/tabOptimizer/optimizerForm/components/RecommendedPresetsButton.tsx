@@ -1,12 +1,19 @@
+import {
+  Button,
+  Flex,
+  Menu,
+} from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
-import { Button, Flex, Menu } from '@mantine/core'
 import { applySpdPreset } from 'lib/conditionals/evaluation/applyPresets'
+import { generateSpdPresets } from 'lib/constants/spdPresetConfig'
 import { Message } from 'lib/interactions/message'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { Fragment, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { generateSpdPresets } from 'lib/constants/spdPresetConfig'
+import {
+  Fragment,
+  useMemo,
+} from 'react'
+import { useTranslation } from 'react-i18next'
 
 export function RecommendedPresetsButton() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
@@ -72,7 +79,7 @@ export function RecommendedPresetsButton() {
                 </Menu.Item>
               ))}
             </Fragment>
-          )),
+          ))
         )}
       </Menu.Dropdown>
     </Menu>

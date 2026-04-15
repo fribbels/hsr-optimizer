@@ -1,5 +1,8 @@
 import { Flex } from '@mantine/core'
-import type { RatingFilterState, StatFilterState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type {
+  RatingFilterState,
+  StatFilterState,
+} from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { FormStatTextStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
 import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
@@ -12,17 +15,17 @@ function filterValue(val: number | string): number | undefined | null {
   return null // intermediate string — don't update store
 }
 
-export function FilterRow({ name, label, type }: { name: string; label: string; type?: 'stat' | 'rating' }) {
+export function FilterRow({ name, label, type }: { name: string, label: string, type?: 'stat' | 'rating' }) {
   const minKey = `min${name}` as keyof StatFilterState & keyof RatingFilterState
   const maxKey = `max${name}` as keyof StatFilterState & keyof RatingFilterState
 
   const isRating = type === 'rating'
 
   const minValue = useOptimizerRequestStore((s) =>
-    isRating ? s.ratingFilters[minKey as keyof RatingFilterState] : s.statFilters[minKey as keyof StatFilterState],
+    isRating ? s.ratingFilters[minKey as keyof RatingFilterState] : s.statFilters[minKey as keyof StatFilterState]
   )
   const maxValue = useOptimizerRequestStore((s) =>
-    isRating ? s.ratingFilters[maxKey as keyof RatingFilterState] : s.statFilters[maxKey as keyof StatFilterState],
+    isRating ? s.ratingFilters[maxKey as keyof RatingFilterState] : s.statFilters[maxKey as keyof StatFilterState]
   )
 
   const setFilter = (key: string, val: number | undefined) => {
@@ -39,14 +42,20 @@ export function FilterRow({ name, label, type }: { name: string; label: string; 
         hideControls
         style={{ margin: 0, width: 63 }}
         value={minValue}
-        onChange={(val) => { const v = filterValue(val); if (v !== null) setFilter(minKey, v as number | undefined) }}
+        onChange={(val) => {
+          const v = filterValue(val)
+          if (v !== null) setFilter(minKey, v as number | undefined)
+        }}
       />
       <FormStatTextStyled>{label}</FormStatTextStyled>
       <InputNumberStyled
         hideControls
         style={{ margin: 0, width: 63 }}
         value={maxValue}
-        onChange={(val) => { const v = filterValue(val); if (v !== null) setFilter(maxKey, v as number | undefined) }}
+        onChange={(val) => {
+          const v = filterValue(val)
+          if (v !== null) setFilter(maxKey, v as number | undefined)
+        }}
       />
     </Flex>
   )

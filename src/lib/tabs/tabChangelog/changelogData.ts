@@ -3,7 +3,7 @@ import {
   officialOnly,
 } from 'lib/constants/constants'
 
-export type ChangelogContent = { title: string; date: string; content: string[] }
+export type ChangelogContent = { title: string, date: string, content: string[] }
 
 function leaks(str: string) {
   return officialOnly ? '' : str

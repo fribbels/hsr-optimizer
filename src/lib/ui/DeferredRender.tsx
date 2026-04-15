@@ -1,12 +1,12 @@
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import {
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useRef,
   useSyncExternalStore,
-  type ReactNode,
 } from 'react'
 
 // ---------------------------------------------------------------------------
@@ -76,7 +76,9 @@ function createQueue(batchSize: number, enabled: boolean): DeferredQueue {
       if (queue.counter >= ticket) return () => {}
       queue.listeners.set(ticket, cb)
       if (queue.enabled) ensureRafRunning(queue)
-      return () => { queue.listeners.delete(ticket) }
+      return () => {
+        queue.listeners.delete(ticket)
+      }
     },
 
     isVisible(ticket: number): boolean {
@@ -167,10 +169,10 @@ export function DeferCreateProvider({
   batchSize = 1,
   enabled = true,
 }: {
-  children: ReactNode
-  resetKey: unknown
-  batchSize?: number
-  enabled?: boolean
+  children: ReactNode,
+  resetKey: unknown,
+  batchSize?: number,
+  enabled?: boolean,
 }) {
   const queueRef = useRef<DeferredQueue | null>(null)
   if (!queueRef.current) {
@@ -225,7 +227,7 @@ const alwaysTrue = () => true
 export function useDeferredSlot(): boolean {
   const queue = useContext(DeferredContext)
 
-  const ticketRef = useRef<{ ticket: number; generation: number } | null>(null)
+  const ticketRef = useRef<{ ticket: number, generation: number } | null>(null)
 
   // Claim ticket during render (preserves tree order).
   // Re-claim if generation changed (resetKey changed).
@@ -272,8 +274,8 @@ export function DeferCreate({
   children,
   fallback = null,
 }: {
-  children: ReactNode
-  fallback?: ReactNode
+  children: ReactNode,
+  fallback?: ReactNode,
 }) {
   const visible = useDeferredSlot()
   return visible ? children : fallback

@@ -4,6 +4,7 @@ import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { calculateCurrentlyEquippedRow } from 'lib/optimization/optimizer'
 import { SortOption } from 'lib/optimization/sortOptions'
+import * as persistenceService from 'lib/services/persistenceService'
 import { transformOptimizerDisplayData } from 'lib/simulations/optimizerDisplayDataTransform'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import type {
@@ -16,26 +17,29 @@ import {
   ornamentSetIndexToName,
   relicSetIndexToNames,
 } from 'lib/simulations/statSimulationUtils'
-import * as persistenceService from 'lib/services/persistenceService'
+import { SaveState } from 'lib/state/saveState'
+import {
+  gridStore,
+  setSortColumn,
+} from 'lib/stores/gridStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { SaveState } from 'lib/state/saveState'
-import { gridStore, setSortColumn } from 'lib/stores/gridStore'
 import {
   getForm,
   validateForm,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { objectHash } from 'lib/utils/objectUtils'
 import { uuid } from 'lib/utils/miscUtils'
+import { objectHash } from 'lib/utils/objectUtils'
 
 export function saveStatSimulationBuildFromForm(startSim = true) {
   const statSim = useOptimizerRequestStore.getState().statSim
   const simType: StatSimTypes = useOptimizerDisplayStore.getState().statSimulationDisplay
 
-  const simRequest: SimulationRequest | undefined
-    = simType === StatSimTypes.SubstatRolls ? statSim?.substatRolls
-    : simType === StatSimTypes.Benchmarks ? statSim?.benchmarks
+  const simRequest: SimulationRequest | undefined = simType === StatSimTypes.SubstatRolls
+    ? statSim?.substatRolls
+    : simType === StatSimTypes.Benchmarks
+    ? statSim?.benchmarks
     : undefined
 
   if (!simRequest) {
@@ -105,9 +109,10 @@ export function overwriteStatSimulationBuild() {
   const statSim = useOptimizerRequestStore.getState().statSim
   const simType: StatSimTypes = useOptimizerDisplayStore.getState().statSimulationDisplay
 
-  const simRequest: SimulationRequest | undefined
-    = simType === StatSimTypes.SubstatRolls ? statSim?.substatRolls
-    : simType === StatSimTypes.Benchmarks ? statSim?.benchmarks
+  const simRequest: SimulationRequest | undefined = simType === StatSimTypes.SubstatRolls
+    ? statSim?.substatRolls
+    : simType === StatSimTypes.Benchmarks
+    ? statSim?.benchmarks
     : undefined
 
   if (!simRequest) {

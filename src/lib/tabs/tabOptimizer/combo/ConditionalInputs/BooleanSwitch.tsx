@@ -8,9 +8,9 @@ import type { ContentItem } from 'types/conditionals'
 // Passes removeForm={true} and onChange that writes to the combo drawer store,
 // not the form store, preventing stale local state overwrite on drawer close.
 export function BooleanSwitch({ contentItem, sourceKey, value }: {
-  contentItem: ContentItem
-  sourceKey: string
-  value: boolean
+  contentItem: ContentItem,
+  sourceKey: string,
+  value: boolean,
 }) {
   const isDisabled = (sourceKey.includes('Teammate') && sourceKey.includes('Set')) || contentItem.disabled
 

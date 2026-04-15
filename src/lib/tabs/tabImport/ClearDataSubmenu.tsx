@@ -1,6 +1,9 @@
-import { IconTrash } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import {
+  Button,
+  Flex,
+} from '@mantine/core'
 import { modals } from '@mantine/modals'
+import { IconTrash } from '@tabler/icons-react'
 import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
 import {
@@ -26,7 +29,7 @@ export function ClearDataSubmenu() {
   }
 
   return (
-    <Flex direction="column" gap={5}>
+    <Flex direction='column' gap={5}>
       <div>
         {t('Label') /* Clear all optimizer data. */}
       </div>
@@ -34,13 +37,14 @@ export function ClearDataSubmenu() {
         leftSection={<IconTrash size={16} />}
         loading={loading}
         w={importerTabButtonWidth}
-        onClick={() => modals.openConfirmModal({
-          title: t('WarningTitle'),
-          children: t('WarningDescription'),
-          labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-          centered: true,
-          onConfirm: clearDataClicked,
-        })}
+        onClick={() =>
+          modals.openConfirmModal({
+            title: t('WarningTitle'),
+            children: t('WarningDescription'),
+            labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+            centered: true,
+            onConfirm: clearDataClicked,
+          })}
       >
         {t('ButtonText') /* Clear data */}
       </Button>

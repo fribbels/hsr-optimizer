@@ -1,15 +1,25 @@
+import {
+  Button,
+  Flex,
+  TextInput,
+} from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
-import { Button, Flex, TextInput } from '@mantine/core'
+import {
+  AppPages,
+  PageToRoute,
+} from 'lib/constants/appPages'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { AppPages, PageToRoute } from 'lib/constants/appPages'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { validateUuid } from 'lib/utils/miscUtils'
 import { useRef } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import {
+  Trans,
+  useTranslation,
+} from 'react-i18next'
 import classes from './HeroHeader.module.css'
 
 export function HeroHeader() {
@@ -24,7 +34,7 @@ export function HeroHeader() {
         } as React.CSSProperties}
       />
       <Flex
-        direction="column"
+        direction='column'
         className={classes.headerSection}
         align='center'
         justify='space-between'
@@ -61,7 +71,7 @@ function SearchBar() {
 
   return (
     <Flex
-      direction="column"
+      direction='column'
       className={classes.searchBarContainer}
       align='center'
       justify='center'
@@ -77,21 +87,23 @@ function SearchBar() {
       </Flex>
       <Flex w='100%' gap={0}>
         <Button
-          size="md"
+          size='md'
           onClick={handleSearchSubmit}
-          aria-label="Search"
+          aria-label='Search'
           style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
         >
           <IconSearch size={20} />
         </Button>
         <TextInput
           ref={inputRef}
-          size="md"
+          size='md'
           placeholder={t('Placeholder') /* 'UID' */}
           style={{ flex: 1 }}
           styles={{ input: { fontSize: 16, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 } }}
           defaultValue={scorerId ?? ''}
-          onKeyDown={(e) => { if (e.key === 'Enter') handleSearchSubmit() }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleSearchSubmit()
+          }}
         />
       </Flex>
     </Flex>

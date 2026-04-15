@@ -23,12 +23,12 @@ import { type CharacterConfig } from 'types/characterConfig'
 import { type ScoringMetadata } from 'types/metadata'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TrailblazerPreservationEntities = createEnum('TrailblazerPreservation')
 export const TrailblazerPreservationAbilities: AbilityKind[] = [

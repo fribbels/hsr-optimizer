@@ -1,4 +1,7 @@
-import type { ShowcaseTabCharacter, ShowcaseTabState } from 'lib/tabs/tabShowcase/showcaseTabTypes'
+import type {
+  ShowcaseTabCharacter,
+  ShowcaseTabState,
+} from 'lib/tabs/tabShowcase/showcaseTabTypes'
 
 /**
  * Pure compute function for applying a character override at the selected index.
@@ -18,9 +21,7 @@ export function computeCharacterOverride(
     id: form.characterId!,
     form,
     equipped: Object.fromEntries(
-      Object.entries(currentChar.equipped).map(([part, relic]) =>
-        [part, relic ? { ...relic, equippedBy: form.characterId! } : null],
-      ),
+      Object.entries(currentChar.equipped).map(([part, relic]) => [part, relic ? { ...relic, equippedBy: form.characterId! } : null]),
     ) as ShowcaseTabCharacter['equipped'],
   }
 

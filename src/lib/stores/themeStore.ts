@@ -14,11 +14,11 @@ function isValidColor(color: string): boolean {
 }
 
 type ThemeState = {
-  seedColor: string
+  seedColor: string,
 }
 
 type ThemeActions = {
-  setSeedColor: (color: string) => void
+  setSeedColor: (color: string) => void,
 }
 
 export type ThemeStore = ThemeState & ThemeActions
@@ -27,11 +27,12 @@ export const useThemeStore = create<ThemeStore>()(
   persist(
     (set) => ({
       seedColor: DEFAULT_SEED,
-      setSeedColor: (color) => set((s) => {
-        if (s.seedColor === color) return s
-        if (!isValidColor(color)) return s
-        return { seedColor: color }
-      }),
+      setSeedColor: (color) =>
+        set((s) => {
+          if (s.seedColor === color) return s
+          if (!isValidColor(color)) return s
+          return { seedColor: color }
+        }),
     }),
     {
       name: 'theme-store-v1',

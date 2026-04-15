@@ -1,3 +1,16 @@
+import { Archer } from 'lib/conditionals/character/1000/Archer'
+import { Saber } from 'lib/conditionals/character/1000/Saber'
+import { Hook } from 'lib/conditionals/character/1100/Hook'
+import { JingliuB1 } from 'lib/conditionals/character/1200/JingliuB1'
+import { Yunli } from 'lib/conditionals/character/1200/Yunli'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import {
   AbilityPreprocessorBase,
@@ -9,19 +22,6 @@ import {
   type TurnAbility,
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { Archer } from 'lib/conditionals/character/1000/Archer'
-import { Saber } from 'lib/conditionals/character/1000/Saber'
-import { Hook } from 'lib/conditionals/character/1100/Hook'
-import { JingliuB1 } from 'lib/conditionals/character/1200/JingliuB1'
-import { Yunli } from 'lib/conditionals/character/1200/Yunli'
-import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
-import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
-import { Castorice } from 'lib/conditionals/character/1400/Castorice'
-import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
-import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
-import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import type { ComboState } from 'lib/optimization/combo/comboTypes'
 
 export class CastoricePreprocessor extends AbilityPreprocessorBase {
   id = Castorice.id

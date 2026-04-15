@@ -1,23 +1,32 @@
 import i18next from 'i18next'
 import {
+  type MainStats,
   MainStatsValues,
   Parts,
-  Stats,
-  SubStatValues,
-  type MainStats,
   type Sets,
+  Stats,
   type SubStats,
+  SubStatValues,
 } from 'lib/constants/constants'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { SetsOrnamentsNames, SetsRelicsNames } from 'lib/sets/setConfigRegistry'
+import {
+  SetsOrnamentsNames,
+  SetsRelicsNames,
+} from 'lib/sets/setConfigRegistry'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { uuid } from 'lib/utils/miscUtils'
-import type { Character, CharacterId } from 'types/character'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { DBMetadataLightCone } from 'types/metadata'
-import type { Relic, RelicSubstatMetadata } from 'types/relic'
+import type {
+  Relic,
+  RelicSubstatMetadata,
+} from 'types/relic'
 import type { Build } from 'types/savedBuild'
 
 const GRADE = 5
@@ -203,9 +212,10 @@ export function populateAllCharacters() {
   })
   store.setCharacters(allCharacters)
 
-  console.log(`[populateAllCharacters] Added ${added.length} characters, ${allRelics.length} relics, removed ${removed.length} buffed, skipped ${skipped.length}, total ${allCharacters.length} (sorted by name)`)
+  console.log(
+    `[populateAllCharacters] Added ${added.length} characters, ${allRelics.length} relics, removed ${removed.length} buffed, skipped ${skipped.length}, total ${allCharacters.length} (sorted by name)`,
+  )
   if (removed.length) console.log('Removed:', removed)
   if (added.length) console.table(added)
   if (skipped.length) console.log('Skipped:', skipped)
 }
-

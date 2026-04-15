@@ -1,7 +1,7 @@
+import type { ComboNumberConditional } from 'lib/optimization/combo/comboTypes'
+import { comboColumnStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
 import { Partition } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/Partition'
 import { PartitionDivider } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/PartitionDivider'
-import { comboColumnStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
-import type { ComboNumberConditional } from 'lib/optimization/combo/comboTypes'
 import type { ContentItem } from 'types/conditionals'
 
 export function NumberConditionalActivationRow({
@@ -10,10 +10,10 @@ export function NumberConditionalActivationRow({
   actionCount,
   sourceKey,
 }: {
-  comboConditional: ComboNumberConditional
-  contentItem: ContentItem
-  actionCount: number
-  sourceKey: string
+  comboConditional: ComboNumberConditional,
+  contentItem: ContentItem,
+  actionCount: number,
+  sourceKey: string,
 }) {
   const sortedPartitions = comboConditional.partitions
     .map((partition, i) => ({ partition, originalIndex: i }))

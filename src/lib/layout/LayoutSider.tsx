@@ -2,10 +2,10 @@ import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
-import { HEADER_HEIGHT } from 'lib/layout/LayoutHeader'
-import { MenuDrawer } from 'lib/overlays/drawers/MenuDrawer'
-import { useScrollLockState } from 'lib/layout/scrollController'
 import classes from 'lib/layout/layout.module.css'
+import { HEADER_HEIGHT } from 'lib/layout/LayoutHeader'
+import { useScrollLockState } from 'lib/layout/scrollController'
+import { MenuDrawer } from 'lib/overlays/drawers/MenuDrawer'
 
 const SIDEBAR_WIDTH = 160
 

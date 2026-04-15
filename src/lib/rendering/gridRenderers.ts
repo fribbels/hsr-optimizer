@@ -6,7 +6,10 @@
  * React entirely, letting AG Grid manage the DOM directly. This eliminates React
  * mount/unmount overhead on every scroll-driven row virtualization cycle.
  */
-import type { ICellRendererComp, ICellRendererParams } from 'ag-grid-community'
+import type {
+  ICellRendererComp,
+  ICellRendererParams,
+} from 'ag-grid-community'
 import { Constants } from 'lib/constants/constants'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import type { ScoredRelic } from 'lib/relics/scoreRelics'
@@ -26,8 +29,8 @@ const relicIndexToImage = SetsRelicsNames.map((name) => Assets.getSetImage(name,
 const ornamentIndexToImage = SetsOrnamentsNames.map((name) => Assets.getSetImage(name, Constants.Parts.PlanarSphere))
 
 // Pre-warm browser image cache so synchronous decode is near-instant
-for (const url of relicIndexToImage) { new Image().src = url }
-for (const url of ornamentIndexToImage) { new Image().src = url }
+for (const url of relicIndexToImage) new Image().src = url
+for (const url of ornamentIndexToImage) new Image().src = url
 
 // ── DOM helpers ──
 
@@ -128,7 +131,11 @@ export class RelicSetCellRenderer implements ICellRendererComp {
     }
 
     // Stable ordering
-    if (url1 && url2 && url1 > url2) { const tmp = url1; url1 = url2; url2 = tmp }
+    if (url1 && url2 && url1 > url2) {
+      const tmp = url1
+      url1 = url2
+      url2 = tmp
+    }
 
     const div = centeredDiv()
     if (url1) div.appendChild(createImg(url1))
@@ -136,8 +143,12 @@ export class RelicSetCellRenderer implements ICellRendererComp {
     this.eGui = div
   }
 
-  getGui() { return this.eGui }
-  refresh() { return false }
+  getGui() {
+    return this.eGui
+  }
+  refresh() {
+    return false
+  }
 }
 
 export class OrnamentSetCellRenderer implements ICellRendererComp {
@@ -163,8 +174,12 @@ export class OrnamentSetCellRenderer implements ICellRendererComp {
     this.eGui = div
   }
 
-  getGui() { return this.eGui }
-  refresh() { return false }
+  getGui() {
+    return this.eGui
+  }
+  refresh() {
+    return false
+  }
 }
 
 // ── Relics grid renderers ──
@@ -185,8 +200,12 @@ export class AnySetCellRenderer implements ICellRendererComp {
     this.eGui = div
   }
 
-  getGui() { return this.eGui }
-  refresh() { return false }
+  getGui() {
+    return this.eGui
+  }
+  refresh() {
+    return false
+  }
 }
 
 export class CharacterIconCellRenderer implements ICellRendererComp {
@@ -204,8 +223,12 @@ export class CharacterIconCellRenderer implements ICellRendererComp {
     this.eGui = div
   }
 
-  getGui() { return this.eGui }
-  refresh() { return false }
+  getGui() {
+    return this.eGui
+  }
+  refresh() {
+    return false
+  }
 }
 
 export class GradeCellRenderer implements ICellRendererComp {
@@ -221,6 +244,10 @@ export class GradeCellRenderer implements ICellRendererComp {
     this.eGui = getGradeNode(relic)
   }
 
-  getGui() { return this.eGui }
-  refresh() { return false }
+  getGui() {
+    return this.eGui
+  }
+  refresh() {
+    return false
+  }
 }

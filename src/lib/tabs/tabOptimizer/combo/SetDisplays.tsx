@@ -13,7 +13,7 @@ export function SetDisplayRows({ actionCount }: { actionCount: number }) {
   if (allSets.length === 0) return null
 
   return (
-    <Flex direction="column" gap={8}>
+    <Flex direction='column' gap={8}>
       {allSets.map((setName) => (
         <DeferCreate key={setName}>
           <ComboConditionalsGroupRow

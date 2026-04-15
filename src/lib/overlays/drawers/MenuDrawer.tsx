@@ -1,5 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Box, Tooltip, UnstyledButton } from '@mantine/core'
+import {
+  Box,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core'
 import {
   IconBook,
   IconChartRadar,
@@ -17,10 +20,21 @@ import {
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
-import { officialOnly } from 'lib/constants/constants'
 import { AppPages } from 'lib/constants/appPages'
-import { OpenCloseIDs, setOpen, useIsOpen } from 'lib/hooks/useOpenClose'
+import { officialOnly } from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  setOpen,
+  useIsOpen,
+} from 'lib/hooks/useOpenClose'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import classes from './MenuDrawer.module.css'
@@ -28,16 +42,16 @@ import classes from './MenuDrawer.module.css'
 // ---- Types ----
 
 type NavItem = {
-  key: string
-  label: string
-  icon: React.ReactNode
-  href?: string
-  onClick?: () => void
+  key: string,
+  label: string,
+  icon: React.ReactNode,
+  href?: string,
+  onClick?: () => void,
 }
 
 type NavGroup = {
-  label: string
-  items: NavItem[]
+  label: string,
+  items: NavItem[],
 }
 
 // Drawer-opening items that should hold visual focus when clicked
@@ -46,10 +60,10 @@ const DRAWER_KEYS = new Set(['link settings', 'link gettingstarted'])
 // ---- Expanded sidebar ----
 
 function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
-  groups: NavGroup[]
-  activeKey: string
-  onNavigate: (item: NavItem) => void
-  anyDrawerOpen: boolean
+  groups: NavGroup[],
+  activeKey: string,
+  onNavigate: (item: NavItem) => void,
+  anyDrawerOpen: boolean,
 }) {
   const navRef = useRef<HTMLDivElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
@@ -126,7 +140,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
               const isFocused = item.key === focusedKey
               const ref = isHighlighted ? highlightedRef : undefined
               const dataProps = {
-                className: classes.item,
+                'className': classes.item,
                 'data-active': isActive || undefined,
                 'data-focused': isFocused || undefined,
               }
@@ -136,15 +150,24 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
                   <span className={classes.itemLabel}>{item.label}</span>
                 </>
               )
-              return item.href ? (
-                <a key={item.key} ref={ref as React.Ref<HTMLAnchorElement>} {...dataProps} href={item.href} target="_blank" rel="noopener noreferrer">
-                  {content}
-                </a>
-              ) : (
-                <UnstyledButton key={item.key} ref={ref as React.Ref<HTMLButtonElement>} {...dataProps} onMouseDown={(e: React.MouseEvent) => { if (e.button === 0) handleClick(item) }}>
-                  {content}
-                </UnstyledButton>
-              )
+              return item.href
+                ? (
+                  <a key={item.key} ref={ref as React.Ref<HTMLAnchorElement>} {...dataProps} href={item.href} target='_blank' rel='noopener noreferrer'>
+                    {content}
+                  </a>
+                )
+                : (
+                  <UnstyledButton
+                    key={item.key}
+                    ref={ref as React.Ref<HTMLButtonElement>}
+                    {...dataProps}
+                    onMouseDown={(e: React.MouseEvent) => {
+                      if (e.button === 0) handleClick(item)
+                    }}
+                  >
+                    {content}
+                  </UnstyledButton>
+                )
             })}
           </div>
         </div>
@@ -156,9 +179,9 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
 // ---- Collapsed sidebar (icon-only with tooltips) ----
 
 function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
-  groups: NavGroup[]
-  activeKey: string
-  onNavigate: (item: NavItem) => void
+  groups: NavGroup[],
+  activeKey: string,
+  onNavigate: (item: NavItem) => void,
 }) {
   return (
     <div className={classes.rootCollapsed}>
@@ -169,26 +192,30 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
               const isActive = item.key === activeKey
               const iconContent = <Box className={classes.itemIcon}>{item.icon}</Box>
               return (
-                <Tooltip key={item.key} label={item.label} position="right" withArrow openDelay={300}>
-                  {item.href ? (
-                    <a
-                      className={classes.itemCollapsed}
-                      data-active={isActive || undefined}
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {iconContent}
-                    </a>
-                  ) : (
-                    <UnstyledButton
-                      className={classes.itemCollapsed}
-                      data-active={isActive || undefined}
-                      onMouseDown={(e: React.MouseEvent) => { if (e.button === 0) onNavigate(item) }}
-                    >
-                      {iconContent}
-                    </UnstyledButton>
-                  )}
+                <Tooltip key={item.key} label={item.label} position='right' withArrow openDelay={300}>
+                  {item.href
+                    ? (
+                      <a
+                        className={classes.itemCollapsed}
+                        data-active={isActive || undefined}
+                        href={item.href}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
+                        {iconContent}
+                      </a>
+                    )
+                    : (
+                      <UnstyledButton
+                        className={classes.itemCollapsed}
+                        data-active={isActive || undefined}
+                        onMouseDown={(e: React.MouseEvent) => {
+                          if (e.button === 0) onNavigate(item)
+                        }}
+                      >
+                        {iconContent}
+                      </UnstyledButton>
+                    )}
                 </Tooltip>
               )
             })}

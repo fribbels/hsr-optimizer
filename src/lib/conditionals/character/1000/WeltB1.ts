@@ -49,7 +49,10 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
-import { floorSafe, precisionRound } from 'lib/utils/mathUtils'
+import {
+  floorSafe,
+  precisionRound,
+} from 'lib/utils/mathUtils'
 
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'

@@ -1,11 +1,19 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
-import { type Simulation, StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
-import { type OptimizerContext } from 'types/optimizer'
+import { COMPUTE_ENGINE_CPU } from 'lib/constants/constants'
+import {
+  type Simulation,
+  StatSimTypes,
+} from 'lib/simulations/statSimulationTypes'
 import { type PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { type OptimizerContext } from 'types/optimizer'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 // ---- Helpers ----
 
@@ -88,8 +96,18 @@ describe('useOptimizerDisplayStore', () => {
       const build = { Head: 'r1' } as any
       const row = { stat: 1 } as any
       const details: PermutationDetails = {
-        Head: 10, Hands: 20, Body: 30, Feet: 40, PlanarSphere: 50, LinkRope: 60,
-        HeadTotal: 100, HandsTotal: 200, BodyTotal: 300, FeetTotal: 400, PlanarSphereTotal: 500, LinkRopeTotal: 600,
+        Head: 10,
+        Hands: 20,
+        Body: 30,
+        Feet: 40,
+        PlanarSphere: 50,
+        LinkRope: 60,
+        HeadTotal: 100,
+        HandsTotal: 200,
+        BodyTotal: 300,
+        FeetTotal: 400,
+        PlanarSphereTotal: 500,
+        LinkRopeTotal: 600,
       }
 
       state().setContext(ctx)

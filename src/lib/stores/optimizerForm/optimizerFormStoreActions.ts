@@ -1,18 +1,24 @@
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import { type OptimizerRequestState, type TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import type { MainConditionalType, TeammateConditionalType } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import {
+  type OptimizerRequestState,
+  type TeammateState,
+} from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
+import type {
+  MainConditionalType,
+  TeammateConditionalType,
+} from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { mergeDefinedValues } from 'lib/utils/objectUtils'
 import { type Form } from 'types/form'
-import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 
 export type SuggestionFixes = {
-  setFilters?: SetFilters
-  mainBody?: string[]
-  mainFeet?: string[]
-  mainPlanarSphere?: string[]
-  mainLinkRope?: string[]
+  setFilters?: SetFilters,
+  mainBody?: string[],
+  mainFeet?: string[],
+  mainPlanarSphere?: string[],
+  mainLinkRope?: string[],
 }
 
 /**

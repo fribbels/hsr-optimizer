@@ -30,28 +30,31 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabStore>((set, g
 
   // ── Compound fetch transitions ──
 
-  startFetch: () => set((s) => ({
-    loading: true,
-    // Landing → show Loading screen. Already Loaded → stay Loaded (just button spinner)
-    screen: s.screen === ShowcaseScreen.Landing ? ShowcaseScreen.Loading : s.screen,
-  })),
+  startFetch: () =>
+    set((s) => ({
+      loading: true,
+      // Landing → show Loading screen. Already Loaded → stay Loaded (just button spinner)
+      screen: s.screen === ShowcaseScreen.Landing ? ShowcaseScreen.Loading : s.screen,
+    })),
 
-  setFetchResult: (characters) => set({
-    availableCharacters: characters,
-    selectedIndex: 0,
-    loading: false,
-    // Screen NOT changed here — API layer controls reveal timing
-    // to allow hidden pre-rendering of ShowcaseLoaded
-  }),
+  setFetchResult: (characters) =>
+    set({
+      availableCharacters: characters,
+      selectedIndex: 0,
+      loading: false,
+      // Screen NOT changed here — API layer controls reveal timing
+      // to allow hidden pre-rendering of ShowcaseLoaded
+    }),
 
   setScreen: (screen) => set({ screen }),
 
-  handleFetchFailure: () => set((s) => ({
-    loading: false,
-    // Was on Loading screen (first fetch failed) → show Loaded with input form
-    // Was on Loaded (re-fetch failed) → stay Loaded, old data preserved
-    screen: s.screen === ShowcaseScreen.Loading ? ShowcaseScreen.Loaded : s.screen,
-  })),
+  handleFetchFailure: () =>
+    set((s) => ({
+      loading: false,
+      // Was on Loading screen (first fetch failed) → show Loaded with input form
+      // Was on Loaded (re-fetch failed) → stay Loaded, old data preserved
+      screen: s.screen === ShowcaseScreen.Loading ? ShowcaseScreen.Loaded : s.screen,
+    })),
 
   setLatestRefreshDate: (latestRefreshDate) => set({ latestRefreshDate }),
 

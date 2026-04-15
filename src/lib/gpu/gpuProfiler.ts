@@ -64,24 +64,36 @@ export class GpuProfiler {
     lines.push(row('TOTAL', stats(this.iterations.map((i) => i.total)), false))
 
     lines.push('')
-    lines.push(`[GpuProfiler] Device limits: ${JSON.stringify({
-      maxComputeInvocationsPerWorkgroup: l.maxComputeInvocationsPerWorkgroup,
-      maxComputeWorkgroupSizeX: l.maxComputeWorkgroupSizeX,
-      maxComputeWorkgroupsPerDimension: l.maxComputeWorkgroupsPerDimension,
-      maxStorageBufferBindingSize: l.maxStorageBufferBindingSize,
-      maxBufferSize: l.maxBufferSize,
-      maxUniformBufferBindingSize: l.maxUniformBufferBindingSize,
-      maxStorageBuffersPerShaderStage: l.maxStorageBuffersPerShaderStage,
-      maxComputeWorkgroupStorageSize: l.maxComputeWorkgroupStorageSize,
-      maxBindGroups: l.maxBindGroups,
-    }, null, 2)}`)
-    lines.push(`[GpuProfiler] Pipeline config: ${JSON.stringify({
-      WORKGROUP_SIZE: gpuContext.WORKGROUP_SIZE,
-      NUM_WORKGROUPS: gpuContext.NUM_WORKGROUPS,
-      BLOCK_SIZE: gpuContext.BLOCK_SIZE,
-      CYCLES_PER_INVOCATION: gpuContext.CYCLES_PER_INVOCATION,
-      permsPerDispatch: permStride,
-    }, null, 2)}`)
+    lines.push(`[GpuProfiler] Device limits: ${
+      JSON.stringify(
+        {
+          maxComputeInvocationsPerWorkgroup: l.maxComputeInvocationsPerWorkgroup,
+          maxComputeWorkgroupSizeX: l.maxComputeWorkgroupSizeX,
+          maxComputeWorkgroupsPerDimension: l.maxComputeWorkgroupsPerDimension,
+          maxStorageBufferBindingSize: l.maxStorageBufferBindingSize,
+          maxBufferSize: l.maxBufferSize,
+          maxUniformBufferBindingSize: l.maxUniformBufferBindingSize,
+          maxStorageBuffersPerShaderStage: l.maxStorageBuffersPerShaderStage,
+          maxComputeWorkgroupStorageSize: l.maxComputeWorkgroupStorageSize,
+          maxBindGroups: l.maxBindGroups,
+        },
+        null,
+        2,
+      )
+    }`)
+    lines.push(`[GpuProfiler] Pipeline config: ${
+      JSON.stringify(
+        {
+          WORKGROUP_SIZE: gpuContext.WORKGROUP_SIZE,
+          NUM_WORKGROUPS: gpuContext.NUM_WORKGROUPS,
+          BLOCK_SIZE: gpuContext.BLOCK_SIZE,
+          CYCLES_PER_INVOCATION: gpuContext.CYCLES_PER_INVOCATION,
+          permsPerDispatch: permStride,
+        },
+        null,
+        2,
+      )
+    }`)
 
     const output = lines.join('\n')
     console.log(output)

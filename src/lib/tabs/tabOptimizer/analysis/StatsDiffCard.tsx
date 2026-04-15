@@ -4,15 +4,25 @@ import {
 } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
 import { Stats } from 'lib/constants/constants'
+import {
+  GlobalRegister,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
+import {
+  arrowColor,
+  arrowDirection,
+} from 'lib/utils/displayUtils'
+import {
+  precisionRound,
+  truncate1000ths,
+  truncate10ths,
+} from 'lib/utils/mathUtils'
+import { isFlat } from 'lib/utils/statUtils'
 import { useTranslation } from 'react-i18next'
 import classes from './StatsDiffCard.module.css'
-import { arrowColor, arrowDirection } from 'lib/utils/displayUtils'
-import { isFlat } from 'lib/utils/statUtils'
-import { precisionRound, truncate10ths, truncate1000ths } from 'lib/utils/mathUtils'
 
 const baseCardHeight = 429
 const basePortraitHeight = 400
@@ -73,9 +83,7 @@ function StatDiffSummary({ analysis }: { analysis: OptimizerResultAnalysis }) {
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.OHB} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ERR} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={analysis.elementalDmgValue} />
-        {analysis.extraRows.map((stat) => (
-          <DiffRow key={stat} oldStats={oldStats} newStats={newStats} stat={stat} />
-        ))}
+        {analysis.extraRows.map((stat) => <DiffRow key={stat} oldStats={oldStats} newStats={newStats} stat={stat} />)}
       </div>
     </StatText>
   )

@@ -1,4 +1,8 @@
-import { Divider, Progress, Tooltip } from '@mantine/core'
+import {
+  Divider,
+  Progress,
+  Tooltip,
+} from '@mantine/core'
 import chroma from 'chroma-js'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
@@ -6,10 +10,13 @@ import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacters } from 'lib/stores/character/characterStore'
-import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import classes from 'lib/tabs/tabRelics/RecentRelicCard.module.css'
+import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { memo, useMemo } from 'react'
+import {
+  memo,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { Relic } from 'types/relic'
@@ -130,7 +137,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
               </div>
             </div>
 
-            <Progress.Root size="xs" style={{ lineHeight: 0 }}>
+            <Progress.Root size='xs' style={{ lineHeight: 0 }}>
               <Progress.Section value={avgPotential} color={getColorAtPercent(avgPotential)} />
               <Progress.Section value={maxPotential - avgPotential} color={getColorAtPercent(maxPotential)} />
             </Progress.Root>
@@ -210,7 +217,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                         </div>
                       </div>
 
-                      <Progress.Root size="xs" style={{ lineHeight: 0 }}>
+                      <Progress.Root size='xs' style={{ lineHeight: 0 }}>
                         <Progress.Section value={avgPct} color={getColorAtPercent(avgPct)} />
                         <Progress.Section value={maxPct - avgPct} color={getColorAtPercent(maxPct)} />
                       </Progress.Root>

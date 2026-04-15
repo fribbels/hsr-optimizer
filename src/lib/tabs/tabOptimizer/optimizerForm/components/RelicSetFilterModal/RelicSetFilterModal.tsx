@@ -1,5 +1,8 @@
 import { Modal } from '@mantine/core'
-import { OpenCloseIDs, useOpenClose } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
 import { RelicSetFilterModalContent } from './RelicSetFilterModalContent'
 
 export function RelicSetFilterModal() {

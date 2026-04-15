@@ -1,12 +1,22 @@
 import type { UseFormReturnType } from '@mantine/form'
-import { Constants, UnreleasedSets } from 'lib/constants/constants'
+import {
+  Constants,
+  UnreleasedSets,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { SetsOrnaments, SetsRelics, setToId } from 'lib/sets/setConfigRegistry'
+import {
+  SetsOrnaments,
+  SetsRelics,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
+import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import type { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { useStatSimField } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
-import { SearchableCombobox, type SearchableComboboxOption } from 'lib/ui/SearchableCombobox'
-import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import {
+  SearchableCombobox,
+  type SearchableComboboxOption,
+} from 'lib/ui/SearchableCombobox'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -19,8 +29,7 @@ function useRelicSetOptions(): SearchableComboboxOption[] {
         value: x,
         label: t(`${setToId[x]}.Name`),
         icon: Assets.getSetImage(x, Constants.Parts.Head),
-      })),
-  [t, i18n.resolvedLanguage])
+      })), [t, i18n.resolvedLanguage])
 }
 
 function useOrnamentSetOptions(): SearchableComboboxOption[] {
@@ -32,8 +41,7 @@ function useOrnamentSetOptions(): SearchableComboboxOption[] {
         value: x,
         label: t(`${setToId[x]}.Name`),
         icon: Assets.getSetImage(x, Constants.Parts.PlanarSphere),
-      })),
-  [t, i18n.resolvedLanguage])
+      })), [t, i18n.resolvedLanguage])
 }
 
 // Optimizer-tab version: reads/writes from Zustand store (no AntD Form context needed)
@@ -84,7 +92,7 @@ export function OptimizerSetsSection({ simType }: { simType: StatSimType }) {
 }
 
 // BenchmarksTab version: uses Mantine form instance passed as prop
-export function SetsSection({ simType, form }: { simType: StatSimType; form: UseFormReturnType<BenchmarkForm> }) {
+export function SetsSection({ simType, form }: { simType: StatSimType, form: UseFormReturnType<BenchmarkForm> }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
 
   const relicSetData = useRelicSetOptions()

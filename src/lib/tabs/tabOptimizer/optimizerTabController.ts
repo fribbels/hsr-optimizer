@@ -14,21 +14,24 @@ import type {
   OptimizerDisplayData,
   OptimizerDisplayDataStatSim,
 } from 'lib/optimization/bufferPacker'
-import { Gradient, type GridAggregations } from 'lib/rendering/gradient'
 import {
   columnsToAggregateMap,
   getGridColumn,
   SortOption,
 } from 'lib/optimization/sortOptions'
+import {
+  Gradient,
+  type GridAggregations,
+} from 'lib/rendering/gradient'
 import { getCharacterById } from 'lib/stores/character/characterStore'
-import { getRelicById } from 'lib/stores/relic/relicStore'
+import { gridStore } from 'lib/stores/gridStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { getRelicById } from 'lib/stores/relic/relicStore'
 import {
   getForm,
   optimizerFormCache,
 } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { gridStore } from 'lib/stores/gridStore'
 import { smoothScrollNearest } from 'lib/utils/frontendUtils'
 import type {
   Form,
@@ -50,13 +53,13 @@ type SortModel = {
 }
 
 const controllerState: {
-  relics: RelicsByPart
-  permutationSizes: PermutationSizes
-  aggregations: GridAggregations | undefined
-  rows: OptimizerDisplayData[]
-  filteredIndices: number[]
-  filterModel: Form | undefined
-  sortModel: SortModel
+  relics: RelicsByPart,
+  permutationSizes: PermutationSizes,
+  aggregations: GridAggregations | undefined,
+  rows: OptimizerDisplayData[],
+  filteredIndices: number[],
+  filterModel: Form | undefined,
+  sortModel: SortModel,
 } = {
   relics: { Head: [], Hands: [], Body: [], Feet: [], PlanarSphere: [], LinkRope: [] },
   permutationSizes: { hSize: 0, gSize: 0, bSize: 0, fSize: 0, pSize: 0, lSize: 0 },
@@ -177,7 +180,9 @@ export const OptimizerTabController = {
   },
 
   resetDataSource: () => {
-    gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource(controllerState.sortModel, controllerState.filterModel) })
+    gridStore.optimizerGridApi()?.updateGridOptions({
+      datasource: OptimizerTabController.getDataSource(controllerState.sortModel, controllerState.filterModel),
+    })
   },
 
   getDataSource: (newSortModel?: SortModel, newFilterModel?: Form) => {
@@ -191,41 +196,43 @@ export const OptimizerTabController = {
 
         // Yield one frame so the loading indicator can paint before we block
         requestAnimationFrame(() => {
-            if (!gridStore.optimizerGridApi()) return
-            Gradient.clearOptimizerGradientCache()
-            const newSort = params.sortModel[0]
-            if (params.sortModel.length > 0
-              && (newSort.colId !== controllerState.sortModel.colId
-                || newSort.sort !== controllerState.sortModel.sort)) {
-              controllerState.sortModel = newSort
-              sort()
+          if (!gridStore.optimizerGridApi()) return
+          Gradient.clearOptimizerGradientCache()
+          const newSort = params.sortModel[0]
+          if (
+            params.sortModel.length > 0
+            && (newSort.colId !== controllerState.sortModel.colId
+              || newSort.sort !== controllerState.sortModel.sort)
+          ) {
+            controllerState.sortModel = newSort
+            sort()
+          }
+
+          if (controllerState.filterModel) {
+            filter(controllerState.filterModel)
+            const indicesSubArray = controllerState.filteredIndices.slice(params.startRow, params.endRow)
+            const subArray: OptimizerDisplayData[] = []
+            for (const index of indicesSubArray) {
+              subArray.push(controllerState.rows[index])
             }
+            aggregate(subArray)
+            params.successCallback(subArray, controllerState.filteredIndices.length)
+          } else {
+            const subArray = controllerState.rows.slice(params.startRow, params.endRow)
+            aggregate(subArray)
 
-            if (controllerState.filterModel) {
-              filter(controllerState.filterModel)
-              const indicesSubArray = controllerState.filteredIndices.slice(params.startRow, params.endRow)
-              const subArray: OptimizerDisplayData[] = []
-              for (const index of indicesSubArray) {
-                subArray.push(controllerState.rows[index])
-              }
-              aggregate(subArray)
-              params.successCallback(subArray, controllerState.filteredIndices.length)
-            } else {
-              const subArray = controllerState.rows.slice(params.startRow, params.endRow)
-              aggregate(subArray)
+            params.successCallback(subArray, controllerState.rows.length)
+          }
 
-              params.successCallback(subArray, controllerState.rows.length)
-            }
+          // Refresh pinned top row so its gradient colors reflect the updated aggregations
+          const pinnedNode = gridStore.optimizerGridApi()?.getPinnedTopRow(0)
+          if (pinnedNode) {
+            gridStore.optimizerGridApi()?.refreshCells({ rowNodes: [pinnedNode], force: true })
+          }
 
-            // Refresh pinned top row so its gradient colors reflect the updated aggregations
-            const pinnedNode = gridStore.optimizerGridApi()?.getPinnedTopRow(0)
-            if (pinnedNode) {
-              gridStore.optimizerGridApi()?.refreshCells({ rowNodes: [pinnedNode], force: true })
-            }
-
-            // cannot assume a fast click race-condition didn't happen
-            gridStore.optimizerGridApi()?.setGridOption('loading', false)
-          })
+          // cannot assume a fast click race-condition didn't happen
+          gridStore.optimizerGridApi()?.setGridOption('loading', false)
+        })
       },
     }
   },
@@ -284,8 +291,6 @@ export const OptimizerTabController = {
       LinkRope: relicsFromId.LinkRope?.id,
     }
   },
-
-
 
   redrawRows: () => {
     gridStore.optimizerGridApi()?.refreshCells({ force: true })

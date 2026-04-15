@@ -40,7 +40,7 @@ export enum TargetTag {
   SelfAndSummon = Self | Summon,
 }
 
-export function computeTargetMask(entity: { primary: boolean; pet?: boolean; memosprite: boolean; summon: boolean }): number {
+export function computeTargetMask(entity: { primary: boolean, pet?: boolean, memosprite: boolean, summon: boolean }): number {
   return (entity.primary ? TargetTag.Self : 0)
     | (entity.pet ? TargetTag.Pet : 0)
     | (entity.memosprite ? TargetTag.Memosprite : 0)
@@ -66,9 +66,9 @@ export enum OutputTag {
 }
 
 // DirectnessTag classifies whether an action is "direct" (player-initiated attacks)
-// or "indirect" (automatic damage like DOT/Break). 
+// or "indirect" (automatic damage like DOT/Break).
 export enum DirectnessTag {
-  Direct = 1,   // Actions where primaryHit.directHit === true
+  Direct = 1, // Actions where primaryHit.directHit === true
   Indirect = 2, // Actions where primaryHit.directHit === false
 }
 

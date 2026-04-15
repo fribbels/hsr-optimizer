@@ -1,12 +1,12 @@
-import { IconX } from '@tabler/icons-react'
 import { Flex } from '@mantine/core'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { IconX } from '@tabler/icons-react'
 import { deleteStatSimulationBuild } from 'lib/simulations/statSimulationController'
 import { StatSimulationName } from 'lib/simulations/StatSimulationName'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
-import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { gridStore } from 'lib/stores/gridStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { STAT_SIMULATION_GRID_WIDTH } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { clone } from 'lib/utils/objectUtils'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -78,12 +78,12 @@ export function SimulatedBuildsGrid() {
           </Flex>
         )
         : (
-          <Flex direction="column">
+          <Flex direction='column'>
             {statSimulations.map((record) => (
               <Flex
                 key={record.key}
                 onClick={() => onRowClick(record.key)}
-                align="center"
+                align='center'
                 style={{
                   cursor: 'pointer',
                   backgroundColor: selectedStatSimulations[0] === record.key ? 'var(--primary-light-alpha)' : undefined,

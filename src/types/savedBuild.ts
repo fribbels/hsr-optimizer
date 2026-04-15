@@ -16,46 +16,46 @@ export enum BuildSource {
 
 // Uses canonical TeammateState field names — no renaming
 export type SavedTeammate = {
-  characterId: CharacterId
-  characterEidolon: number
-  lightCone: LightConeId
-  lightConeSuperimposition: number
-  teamRelicSet: string | undefined
-  teamOrnamentSet: string | undefined
+  characterId: CharacterId,
+  characterEidolon: number,
+  lightCone: LightConeId,
+  lightConeSuperimposition: number,
+  teamRelicSet: string | undefined,
+  teamOrnamentSet: string | undefined,
 }
 
 export type SavedTeammateWithConditionals = SavedTeammate & {
-  characterConditionals: ConditionalValueMap
-  lightConeConditionals: ConditionalValueMap
+  characterConditionals: ConditionalValueMap,
+  lightConeConditionals: ConditionalValueMap,
 }
 
 export type TeamTuple<T> = [T | null, T | null, T | null]
 
 type SavedBuildBase = {
-  name: string
-  characterId: CharacterId
-  equipped: Build
-  characterEidolon: number
-  lightCone: LightConeId
-  lightConeSuperimposition: number
+  name: string,
+  characterId: CharacterId,
+  equipped: Build,
+  characterEidolon: number,
+  lightCone: LightConeId,
+  lightConeSuperimposition: number,
 }
 
 export type CharacterSavedBuild = SavedBuildBase & {
-  source: BuildSource.Character
-  team: TeamTuple<SavedTeammate>
+  source: BuildSource.Character,
+  team: TeamTuple<SavedTeammate>,
 }
 
 export type OptimizerSavedBuild = SavedBuildBase & {
-  source: BuildSource.Optimizer
-  team: TeamTuple<SavedTeammateWithConditionals>
-  characterConditionals: ConditionalValueMap
-  lightConeConditionals: ConditionalValueMap
-  setConditionals: SetConditionals
-  comboType: ComboType
-  comboStateJson: string
-  comboPreprocessor: boolean
-  comboTurnAbilities: TurnAbilityName[]
-  deprioritizeBuffs: boolean
+  source: BuildSource.Optimizer,
+  team: TeamTuple<SavedTeammateWithConditionals>,
+  characterConditionals: ConditionalValueMap,
+  lightConeConditionals: ConditionalValueMap,
+  setConditionals: SetConditionals,
+  comboType: ComboType,
+  comboStateJson: string,
+  comboPreprocessor: boolean,
+  comboTurnAbilities: TurnAbilityName[],
+  deprioritizeBuffs: boolean,
 }
 
 export type SavedBuild = CharacterSavedBuild | OptimizerSavedBuild

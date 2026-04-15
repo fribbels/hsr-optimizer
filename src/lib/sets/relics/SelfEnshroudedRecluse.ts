@@ -2,15 +2,19 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
+import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import {
   OutputTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   type OptimizerAction,
   type OptimizerContext,

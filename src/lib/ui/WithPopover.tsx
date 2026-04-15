@@ -1,4 +1,7 @@
-import { Popover, Text } from '@mantine/core'
+import {
+  Popover,
+  Text,
+} from '@mantine/core'
 import {
   type ComponentType,
   type ReactNode,
@@ -41,11 +44,11 @@ function WithPopover<T>(WrappedComponent: ComponentType<T>): ComponentType<WithP
             <WrappedComponent {...props} />
           </span>
         </Popover.Target>
-        <Popover.Dropdown data-testid="conditional-popover">
+        <Popover.Dropdown data-testid='conditional-popover'>
           {open && (
             <>
-              <Text fw={600} mb={4} size="sm">{props.title}</Text>
-              <Text component="div" size="sm" style={{ width: 400, display: 'block' }}>
+              <Text fw={600} mb={4} size='sm'>{props.title}</Text>
+              <Text component='div' size='sm' style={{ width: 400, display: 'block' }}>
                 <hr />
                 {props.content}
               </Text>

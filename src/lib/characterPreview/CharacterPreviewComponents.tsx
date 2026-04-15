@@ -36,8 +36,8 @@ export const showcaseButtonStyle: CSSProperties = {
 }
 
 export function OverlayText({ text, top }: {
-  text: string
-  top: number
+  text: string,
+  top: number,
 }) {
   return (
     <div

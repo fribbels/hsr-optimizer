@@ -15,8 +15,8 @@ export const StatsViewSelect = React.memo(function StatsViewSelect() {
       value={statDisplay}
       fullWidth
       data={[
-        { label: t('StatViewGroup.CombatStats') /* Combat stats */, value: 'combat' },
-        { label: t('StatViewGroup.BasicStats') /* Basic stats */, value: 'base' },
+        { label: t('StatViewGroup.CombatStats'), /* Combat stats */ value: 'combat' },
+        { label: t('StatViewGroup.BasicStats'), /* Basic stats */ value: 'base' },
       ]}
     />
   )

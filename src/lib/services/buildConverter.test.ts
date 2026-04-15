@@ -1,17 +1,38 @@
 // @vitest-environment jsdom
-import { describe, expect, it } from 'vitest'
-import { deserializeBuild, resolveEidolon, resolveFlexibleLC, serializeFromCharacterTab, serializeFromOptimizer } from './buildConverter'
-import { Metadata } from 'lib/state/metadataInitializer'
-import { createDefaultFormState, createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import type { OptimizerRequestState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import { type Build, BuildSource, type CharacterSavedBuild, type OptimizerSavedBuild } from 'types/savedBuild'
-import { ComboType } from 'lib/optimization/rotation/comboType'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
-import type { LightConeId } from 'types/lightCone'
+import { DEFAULT_TEAM } from 'lib/constants/constants'
+import { ComboType } from 'lib/optimization/rotation/comboType'
+import { Metadata } from 'lib/state/metadataInitializer'
+import {
+  createDefaultFormState,
+  createDefaultTeammate,
+} from 'lib/stores/optimizerForm/optimizerFormDefaults'
+import type {
+  OptimizerRequestState,
+  TeammateState,
+} from 'lib/stores/optimizerForm/optimizerFormTypes'
 import type { Character } from 'types/character'
 import type { Teammate } from 'types/form'
-import { DEFAULT_TEAM } from 'lib/constants/constants'
+import type { LightConeId } from 'types/lightCone'
+import {
+  type Build,
+  BuildSource,
+  type CharacterSavedBuild,
+  type OptimizerSavedBuild,
+} from 'types/savedBuild'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
+import {
+  deserializeBuild,
+  resolveEidolon,
+  resolveFlexibleLC,
+  serializeFromCharacterTab,
+  serializeFromOptimizer,
+} from './buildConverter'
 
 Metadata.initialize()
 
@@ -306,9 +327,14 @@ describe('deserializeBuild', () => {
       const build = makeOptimizerSavedBuild({
         team: [
           {
-            characterId: Jingliu.id, characterEidolon: 1, lightCone: '21002' as LightConeId,
-            lightConeSuperimposition: 3, teamRelicSet: 'SetA', teamOrnamentSet: 'SetB',
-            characterConditionals: { x: 1 }, lightConeConditionals: { y: 2 },
+            characterId: Jingliu.id,
+            characterEidolon: 1,
+            lightCone: '21002' as LightConeId,
+            lightConeSuperimposition: 3,
+            teamRelicSet: 'SetA',
+            teamOrnamentSet: 'SetB',
+            characterConditionals: { x: 1 },
+            lightConeConditionals: { y: 2 },
           },
           null,
           null,
@@ -359,11 +385,14 @@ describe('deserializeBuild', () => {
         deprioritizeBuffs: true,
       })
       const serialized = serializeFromOptimizer('Test', Kafka.id, state, { Head: 'r1' })
-      const patch = deserializeBuild(serialized, makeForm({
-        characterEidolon: 2,
-        lightCone: '21001' as LightConeId,
-        lightConeSuperimposition: 3,
-      }))
+      const patch = deserializeBuild(
+        serialized,
+        makeForm({
+          characterEidolon: 2,
+          lightCone: '21001' as LightConeId,
+          lightConeSuperimposition: 3,
+        }),
+      )
       expect(patch.comboType).toBe(ComboType.ADVANCED)
       expect(patch.characterConditionals).toEqual({ enhancedState: true })
       expect(patch.deprioritizeBuffs).toBe(true)
@@ -372,11 +401,14 @@ describe('deserializeBuild', () => {
     it('character tab: serialize then deserialize returns only LC + eidolon overrides', () => {
       const character = makeCharacter()
       const serialized = serializeFromCharacterTab('Test', character, undefined, undefined)
-      const patch = deserializeBuild(serialized, makeForm({
-        characterEidolon: 0,
-        lightCone: '21001' as LightConeId,
-        lightConeSuperimposition: 1,
-      }))
+      const patch = deserializeBuild(
+        serialized,
+        makeForm({
+          characterEidolon: 0,
+          lightCone: '21001' as LightConeId,
+          lightConeSuperimposition: 1,
+        }),
+      )
       // LC flexibility: same LC → max SI (3 vs 1 = 3)
       expect(patch.lightConeSuperimposition).toBe(3)
       // eidolon max: max(2, 0) = 2

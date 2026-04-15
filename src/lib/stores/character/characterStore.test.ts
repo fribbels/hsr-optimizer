@@ -1,10 +1,23 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { getCharacterById, getCharacters, useCharacterStore } from './characterStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
-import type { Character, CharacterId } from 'types/character'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
+import {
+  getCharacterById,
+  getCharacters,
+  useCharacterStore,
+} from './characterStore'
 
 // ---- Constants ----
 

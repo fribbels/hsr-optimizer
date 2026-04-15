@@ -1,26 +1,32 @@
 import {
+  Accordion,
+  Button,
+  Divider,
+  Flex,
+  Paper,
+} from '@mantine/core'
+import {
   IconChevronRight,
   IconExternalLink,
 } from '@tabler/icons-react'
-import { Accordion, Button, Divider, Flex, Paper } from '@mantine/core'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { HeroHeader } from 'lib/ui/HeroHeader'
 import { type Languages } from 'lib/utils/i18nUtils'
 import { useState } from 'react'
-import classes from './HomeTab.module.css'
 import {
   Trans,
   useTranslation,
 } from 'react-i18next'
+import classes from './HomeTab.module.css'
 
 const headerWidth = 1600
 
 export function HomeTab() {
   return (
     <Flex
-      direction="column"
+      direction='column'
       className={classes.rootContainer}
       align='center'
     >
@@ -62,7 +68,7 @@ function CommunityCollapse() {
   const { t } = useTranslation('hometab')
   return (
     <Flex px={25} py={0} gap={50}>
-      <Flex direction="column" style={{ flex: 1, fontSize: 20 }} gap={20}>
+      <Flex direction='column' style={{ flex: 1, fontSize: 20 }} gap={20}>
         <Trans t={t} i18nKey='CommunityCollapse'>
           <span>
             A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it
@@ -130,7 +136,7 @@ function FeatureCard({ title, id, content, url }: { title: string, id: string, c
     <Paper
       withBorder
       className={classes.featureCard}
-      radius="md"
+      radius='md'
     >
       <div className={classes.featureCardHeader}>
         {title}
@@ -158,7 +164,7 @@ function FeaturesCollapse() {
 
   return (
     <Flex className={classes.featuresContainer}>
-      <Flex direction="column" w='100%' gap={cardGap}>
+      <Flex direction='column' w='100%' gap={cardGap}>
         <Flex gap={cardGap}>
           <FeatureCard
             title={t('Showcase.Title') /* Character Showcase */}

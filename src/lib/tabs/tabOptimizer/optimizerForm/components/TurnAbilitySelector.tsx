@@ -1,25 +1,30 @@
 import type { TFunction } from 'i18next'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { type CharacterId } from 'types/character'
 import {
   AbilityKind,
   ALL_ABILITIES,
   ComboOptionsLabelMapping,
   createAbility,
   NULL_TURN_ABILITY_NAME,
-  TurnMarker,
   type TurnAbility,
   type TurnAbilityName,
+  TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
-import { CascaderSelect, type CascaderData, type CascaderGroup } from 'lib/ui/CascaderSelect'
-import { useMemo, type CSSProperties } from 'react'
-import { useTranslation } from 'react-i18next'
-import type { CharacterConditionalsController } from 'types/conditionals'
+import {
+  type CascaderData,
+  type CascaderGroup,
+  CascaderSelect,
+} from 'lib/ui/CascaderSelect'
 import { toI18NVisual } from 'lib/utils/displayUtils'
-
-
+import {
+  type CSSProperties,
+  useMemo,
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import { type CharacterId } from 'types/character'
+import type { CharacterConditionalsController } from 'types/conditionals'
 
 const compactInputStyles = {
   input: {
@@ -67,7 +72,7 @@ function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter
   return ALL_ABILITIES.map((kind) => mapKindToGroup(kind, t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`), t))
 }
 
-export function TurnAbilitySelector({ index, disabled }: { index: number; disabled: boolean }) {
+export function TurnAbilitySelector({ index, disabled }: { index: number, disabled: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const characterId = useOptimizerRequestStore((s) => s.characterId)
   const characterEidolon = useOptimizerRequestStore((s) => s.characterEidolon)
@@ -97,7 +102,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number; disabl
   )
 }
 
-export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName; index: number }) {
+export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName, index: number }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const options = useMemo(() => generateAbilityGroupedOptions(t), [t])
 
@@ -125,9 +130,9 @@ export function ControlledTurnAbilitySelector({
   value,
   style,
 }: {
-  index: number
-  value: TurnAbilityName
-  style?: CSSProperties
+  index: number,
+  value: TurnAbilityName,
+  style?: CSSProperties,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   const characterId = useOptimizerRequestStore((s) => s.characterId)

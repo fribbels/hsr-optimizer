@@ -1,9 +1,10 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
+import * as persistenceService from 'lib/services/persistenceService'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacters } from 'lib/stores/character/characterStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
-import * as persistenceService from 'lib/services/persistenceService'
 import {
   DEFAULT_WEBSOCKET_URL,
   useScannerState,
@@ -12,7 +13,6 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import type { Relic } from 'types/relic'
 import type { HsrOptimizerSaveFormat } from 'types/store'
 

@@ -46,6 +46,7 @@ import {
   NULL_TURN_ABILITY_NAME,
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type NumberToNumberMap } from 'types/common'
@@ -58,7 +59,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const YunliEntities = createEnum('Yunli')
 export const YunliAbilities: AbilityKind[] = [

@@ -1,4 +1,8 @@
-import { Drawer, Flex, Switch } from '@mantine/core'
+import {
+  Drawer,
+  Flex,
+  Switch,
+} from '@mantine/core'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -6,8 +10,8 @@ import {
 import { Hint } from 'lib/interactions/hint'
 import type { EnemyConfigFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -61,29 +65,25 @@ function EnemyConfigurationsDrawerContent() {
     Array.from({ length: 100 }, (_, i) => 100 - i).map((level) => ({
       value: level,
       label: t('LevelOptionLabel', { level, defense: 200 + 10 * level }),
-    })),
-  [t])
+    })), [t])
 
   const enemyCountOptions = useMemo(() =>
     [1, 3, 5].map((count) => ({
       value: count,
       label: t('CountOptionLabel', { targetCount: count }),
-    })),
-  [t])
+    })), [t])
 
   const enemyResistanceOptions = useMemo(() =>
     [20, 40, 60].map((res) => ({
       value: res / 100,
       label: t('DmgResOptionLabel', { resistance: res }),
-    })),
-  [t])
+    })), [t])
 
   const enemyEffectResistanceOptions = useMemo(() =>
     [0, 10, 20, 30, 40].map((res) => ({
       value: res / 100,
       label: t('EffResOptionLabel', { resistance: res }),
-    })),
-  [t])
+    })), [t])
 
   const enemyMaxToughnessOptions = useMemo(() =>
     Array.from({ length: Math.ceil(720 / 30) }, (_, i) => 720 - i * 30)
@@ -91,11 +91,10 @@ function EnemyConfigurationsDrawerContent() {
       .map((toughness) => ({
         value: toughness,
         label: t('ToughnessOptionLabel', { toughness: toughness / 3 }),
-      })),
-  [t])
+      })), [t])
 
   return (
-    <Flex direction="column" gap={10}>
+    <Flex direction='column' gap={10}>
       <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>
         <HeaderText>{t('StatHeader') /* Enemy stat options */}</HeaderText>
         <TooltipImage type={Hint.enemyOptions()} />
@@ -104,34 +103,44 @@ function EnemyConfigurationsDrawerContent() {
       <SearchableCombobox
         options={enemyLevelOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyLevel != null ? String(enemyLevel) : null}
-        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyLevel', Number(val)) }}
+        onChange={(val) => {
+          if (val != null) setEnemyAndRecalculate('enemyLevel', Number(val))
+        }}
       />
 
       <SearchableCombobox
         options={enemyMaxToughnessOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyMaxToughness != null ? String(enemyMaxToughness) : null}
-        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyMaxToughness', Number(val)) }}
+        onChange={(val) => {
+          if (val != null) setEnemyAndRecalculate('enemyMaxToughness', Number(val))
+        }}
       />
 
       <SearchableCombobox
         searchable={false}
         options={enemyResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyResistance != null ? String(enemyResistance) : null}
-        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyResistance', Number(val)) }}
+        onChange={(val) => {
+          if (val != null) setEnemyAndRecalculate('enemyResistance', Number(val))
+        }}
       />
 
       <SearchableCombobox
         searchable={false}
         options={enemyEffectResistanceOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyEffectResistance != null ? String(enemyEffectResistance) : null}
-        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyEffectResistance', Number(val)) }}
+        onChange={(val) => {
+          if (val != null) setEnemyAndRecalculate('enemyEffectResistance', Number(val))
+        }}
       />
 
       <SearchableCombobox
         searchable={false}
         options={enemyCountOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={enemyCount != null ? String(enemyCount) : null}
-        onChange={(val) => { if (val != null) setEnemyAndRecalculate('enemyCount', Number(val)) }}
+        onChange={(val) => {
+          if (val != null) setEnemyAndRecalculate('enemyCount', Number(val))
+        }}
       />
 
       <Flex align='center'>

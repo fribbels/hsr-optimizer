@@ -1,14 +1,43 @@
-import { useState, useCallback, useMemo, useRef } from 'react'
-import { Box, Button, CloseButton, Divider, Group, SegmentedControl, Stack, TextInput } from '@mantine/core'
+import {
+  Box,
+  Button,
+  CloseButton,
+  Divider,
+  Group,
+  SegmentedControl,
+  Stack,
+  TextInput,
+} from '@mantine/core'
+import {
+  ornamentIndexToSetConfig,
+  relicIndexToSetConfig,
+  type SetsOrnaments,
+  type SetsRelics,
+} from 'lib/sets/setConfigRegistry'
+import {
+  buildDisplayFromModalState,
+  parseDisplayToModalState,
+} from 'lib/stores/optimizerForm/setFilterConversions'
+import type {
+  ModalState,
+  TwoPieceCombo,
+  TwoPieceSlot,
+} from 'lib/stores/optimizerForm/setFilterTypes'
+import {
+  RelicSetMode,
+  TwoPieceSlotType,
+} from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { relicIndexToSetConfig, ornamentIndexToSetConfig, type SetsRelics, type SetsOrnaments } from 'lib/sets/setConfigRegistry'
-import type { TwoPieceSlot, TwoPieceCombo, ModalState } from 'lib/stores/optimizerForm/setFilterTypes'
-import { TwoPieceSlotType, RelicSetMode } from 'lib/stores/optimizerForm/setFilterTypes'
-import { parseDisplayToModalState, buildDisplayFromModalState } from 'lib/stores/optimizerForm/setFilterConversions'
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import classes from './RelicSetFilterModal.module.css'
+import { ResultsCollector } from './ResultsCollector'
 import { SetGrid } from './SetGrid'
 import { StatChips } from './StatChips'
-import { ResultsCollector } from './ResultsCollector'
-import classes from './RelicSetFilterModal.module.css'
 
 function slotsEqual(a: TwoPieceSlot, b: TwoPieceSlot): boolean {
   if (a.type !== b.type) return false
@@ -137,7 +166,7 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
 
   return (
     <Stack gap={0}>
-      <Divider label="Selected Sets" labelPosition="center" mx="sm" mt="xs" />
+      <Divider label='Selected Sets' labelPosition='center' mx='sm' mt='xs' />
 
       <ResultsCollector
         checked4p={checked4p}
@@ -151,24 +180,24 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
         onClearAll={clearAll}
       />
 
-      <Box p="sm">
+      <Box p='sm'>
         <Stack gap={10}>
           <TextInput
             data-autofocus
-            placeholder="Search sets..."
+            placeholder='Search sets...'
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
-            size="xs"
-            rightSection={search && <CloseButton size="xs" onClick={() => setSearch('') } />}
+            size='xs'
+            rightSection={search && <CloseButton size='xs' onClick={() => setSearch('')} />}
           />
 
-          <Divider label="Relic Sets" labelPosition="center" />
+          <Divider label='Relic Sets' labelPosition='center' />
 
-          <Group gap={10} wrap="nowrap">
+          <Group gap={10} wrap='nowrap'>
             <SegmentedControl
               value={mode}
               onChange={handleModeSwitch}
-              size="xs"
+              size='xs'
               data={[
                 { label: '4-Piece', value: RelicSetMode.FourPiece },
                 { label: '2-Piece', value: RelicSetMode.TwoPiece },
@@ -184,7 +213,7 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
             search={search}
           />
 
-          <Divider label="Ornament Sets" labelPosition="center" />
+          <Divider label='Ornament Sets' labelPosition='center' />
           <SetGrid
             configs={ornamentIndexToSetConfig}
             checkedNames={checkedOrnaments as Set<string>}
@@ -194,9 +223,9 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
         </Stack>
       </Box>
 
-      <Group className={classes.footer} p="sm" justify="flex-end" gap={6}>
-        <Button variant="default" size="xs" onClick={handleRevert}>Revert</Button>
-        <Button variant="filled" size="xs" onClick={close}>Done</Button>
+      <Group className={classes.footer} p='sm' justify='flex-end' gap={6}>
+        <Button variant='default' size='xs' onClick={handleRevert}>Revert</Button>
+        <Button variant='filled' size='xs' onClick={close}>Done</Button>
       </Group>
     </Stack>
   )

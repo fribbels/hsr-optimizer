@@ -2,8 +2,8 @@ import type { TFunction } from 'i18next'
 import {
   ComboOptionsLabelMapping,
   NULL_TURN_ABILITY,
-  TurnMarker,
   type TurnAbility,
+  TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 
 // ---- Arrow color/direction for stat diffs ----

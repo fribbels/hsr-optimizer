@@ -1,9 +1,15 @@
-import { Divider, Flex } from '@mantine/core'
+import {
+  Divider,
+  Flex,
+} from '@mantine/core'
 import { ComboConditionalsGroupRow } from 'lib/tabs/tabOptimizer/combo/ComboConditionalsGroupRow'
 import { SetDisplayRows } from 'lib/tabs/tabOptimizer/combo/SetDisplays'
 import { SetSelectors } from 'lib/tabs/tabOptimizer/combo/SetSelectors'
 import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
-import { DeferCreate, DeferCreateProvider } from 'lib/ui/DeferredRender'
+import {
+  DeferCreate,
+  DeferCreateProvider,
+} from 'lib/ui/DeferredRender'
 import { useTranslation } from 'react-i18next'
 
 function GroupDivider({ text }: { text: string }) {
@@ -20,7 +26,7 @@ export function StateDisplay() {
 
   return (
     <DeferCreateProvider resetKey={0} batchSize={1}>
-      <Flex direction="column" gap={8}>
+      <Flex direction='column' gap={8}>
         {hasCharacter && (
           <>
             <DeferCreate>

@@ -1,20 +1,26 @@
 import {
+  Button,
+  Flex,
+} from '@mantine/core'
+import {
   IconCircleMinus,
   IconCirclePlus,
 } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
 import { buttonStyle } from 'lib/tabs/tabOptimizer/combo/comboDrawerConstants'
-import { getTeammateIndex, handlePartitionButtonClick } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
+import {
+  getTeammateIndex,
+  handlePartitionButtonClick,
+} from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { FormSliderWithPopover } from 'lib/tabs/tabOptimizer/conditionals/FormSlider'
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
 import type { ContentItem } from 'types/conditionals'
 
 export function NumberSlider({ contentItem, value, sourceKey, partitionIndex }: {
-  contentItem: ContentItem & { min: number; max: number }
-  value: number
-  sourceKey: string
-  partitionIndex: number
+  contentItem: ContentItem & { min: number, max: number },
+  value: number,
+  sourceKey: string,
+  partitionIndex: number,
 }) {
   return (
     <Flex style={{ width: 275, marginRight: 10 }} align='center'>

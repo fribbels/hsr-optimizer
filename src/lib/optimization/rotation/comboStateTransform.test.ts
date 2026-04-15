@@ -1,12 +1,12 @@
 // @vitest-environment jsdom
 import { ConditionalDataType } from 'lib/constants/constants'
-import { transformConditionals } from 'lib/optimization/rotation/comboStateTransform'
-import { Metadata } from 'lib/state/metadataInitializer'
 import type {
   ComboBooleanConditional,
   ComboNumberConditional,
   ComboSelectConditional,
 } from 'lib/optimization/combo/comboTypes'
+import { transformConditionals } from 'lib/optimization/rotation/comboStateTransform'
+import { Metadata } from 'lib/state/metadataInitializer'
 import {
   describe,
   expect,

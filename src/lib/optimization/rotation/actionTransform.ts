@@ -1,6 +1,7 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
+import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import {
   type ActionModifier,
   type ModifierContext,
@@ -19,14 +20,16 @@ import {
   transformConditionals,
 } from 'lib/optimization/rotation/comboStateTransform'
 import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { clone } from 'lib/utils/objectUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type Form,
   type OptimizerForm,
 } from 'types/form'
-import { type EntityDefinition, type Hit } from 'types/hitConditionalTypes'
+import {
+  type EntityDefinition,
+  type Hit,
+} from 'types/hitConditionalTypes'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -180,7 +183,6 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   }
 
   // ========== FINALIZE CONTEXT ==========
-
 }
 
 function computeEntityBaseStats(def: EntityDefinition, context: OptimizerContext) {

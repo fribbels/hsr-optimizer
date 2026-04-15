@@ -1,24 +1,35 @@
-import { CheckIcon, Combobox, Flex, Group, Input, InputBase, useCombobox } from '@mantine/core'
-import { Parts, Stats } from 'lib/constants/constants'
+import {
+  CheckIcon,
+  Combobox,
+  Flex,
+  Group,
+  Input,
+  InputBase,
+  useCombobox,
+} from '@mantine/core'
+import {
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import iconClasses from 'style/icons.module.css'
+import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
   STAT_SIMULATION_OPTIONS_WIDTH,
   useStatSimField,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { HeaderText } from 'lib/ui/HeaderText'
-import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
 
 type SelectorOptions = {
-  value: string
-  short: string
-  label: string
+  value: string,
+  short: string,
+  label: string,
 }
 
-function MainStatSelector({ simType, placeholder, part, options }: { simType: StatSimType; placeholder: string; part: string; options: SelectorOptions[] }) {
+function MainStatSelector({ simType, placeholder, part, options }: { simType: StatSimType, placeholder: string, part: string, options: SelectorOptions[] }) {
   const field = 'sim' + part
   const value = useStatSimField<string>(simType, field)
 
@@ -41,12 +52,12 @@ function MainStatSelector({ simType, placeholder, part, options }: { simType: St
     >
       <Combobox.Target>
         <InputBase
-          component="button"
-          type="button"
-          size="xs"
+          component='button'
+          type='button'
+          size='xs'
           pointer
           rightSection={<Combobox.Chevron />}
-          rightSectionPointerEvents="none"
+          rightSectionPointerEvents='none'
           onClick={() => combobox.toggleDropdown()}
           style={{ flex: 1 }}
         >
@@ -56,17 +67,18 @@ function MainStatSelector({ simType, placeholder, part, options }: { simType: St
 
       <Combobox.Dropdown>
         <Combobox.Options mah={750} style={{ overflowY: 'auto' }}>
-          {combobox.dropdownOpened && options.map((opt) => (
-            <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
-              <Group gap={6} justify='space-between'>
-                <Flex align='center' gap={6}>
-                  <img src={Assets.getStatIcon(opt.value, true)} className={iconClasses.icon22} />
-                  {opt.short}
-                </Flex>
-                {opt.value === value && <CheckIcon size={12} />}
-              </Group>
-            </Combobox.Option>
-          ))}
+          {combobox.dropdownOpened
+            && options.map((opt) => (
+              <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
+                <Group gap={6} justify='space-between'>
+                  <Flex align='center' gap={6}>
+                    <img src={Assets.getStatIcon(opt.value, true)} className={iconClasses.icon22} />
+                    {opt.short}
+                  </Flex>
+                  {opt.value === value && <CheckIcon size={12} />}
+                </Group>
+              </Combobox.Option>
+            ))}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>
@@ -117,7 +129,7 @@ export function MainStatsSection({ simType }: { simType: StatSimType }) {
   return (
     <>
       <HeaderText>{t('Header')}</HeaderText>
-      <Flex direction="column" gap={5}>
+      <Flex direction='column' gap={5}>
         <Flex gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
           <MainStatSelector placeholder={t('BodyPlaceholder')} part={Parts.Body} options={BodyStatOptions} simType={simType} />
           <MainStatSelector placeholder={t('FeetPlaceholder')} part={Parts.Feet} options={FeetStatOptions} simType={simType} />

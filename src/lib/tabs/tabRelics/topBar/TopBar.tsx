@@ -1,12 +1,24 @@
-import { Button, Divider } from '@mantine/core'
-import { IconEraser, IconPlus } from '@tabler/icons-react'
-import { OpenCloseIDs, setOpen } from 'lib/hooks/useOpenClose'
+import {
+  Button,
+  Divider,
+} from '@mantine/core'
+import {
+  IconEraser,
+  IconPlus,
+} from '@tabler/icons-react'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
-import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { FilterPillBar } from 'lib/tabs/tabRelics/topBar/FilterPillBar'
-import { useCallback, useState } from 'react'
+import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import {
+  useCallback,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function TopBar() {
@@ -77,12 +89,12 @@ export function TopBar() {
           onOpenChange={setCharSelectOpen}
           showIcon={false}
         />
-        <Button variant="default" onClick={handleScoringClick} size="xs" fullWidth>
+        <Button variant='default' onClick={handleScoringClick} size='xs' fullWidth>
           {t('RelicFilterBar.ScoringButton')}
         </Button>
       </div>
 
-      <Divider orientation="vertical" mx={0} />
+      <Divider orientation='vertical' mx={0} />
 
       {/* Filters (top) / Ratings + Custom characters (bottom) */}
       <FilterPillBar />
@@ -90,12 +102,12 @@ export function TopBar() {
       {/* Clear */}
       <div style={{ display: 'flex', alignItems: 'center', minWidth: 'fit-content' }}>
         <Button
-          variant="subtle"
-          size="xs"
+          variant='subtle'
+          size='xs'
           onClick={resetFilters}
-          color="dimmed"
+          color='dimmed'
           leftSection={<IconEraser size={12} />}
-          h="100%"
+          h='100%'
           style={{ border: 'var(--border-subtle)' }}
         >
           {t('RelicFilterBar.Clear')}

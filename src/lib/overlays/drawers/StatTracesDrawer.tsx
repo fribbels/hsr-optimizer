@@ -1,5 +1,15 @@
-import { IconChevronDown, IconChevronRight } from '@tabler/icons-react'
-import { Button, Checkbox, Collapse, Drawer, Flex } from '@mantine/core'
+import {
+  Button,
+  Checkbox,
+  Collapse,
+  Drawer,
+  Flex,
+} from '@mantine/core'
+import {
+  IconChevronDown,
+  IconChevronRight,
+} from '@tabler/icons-react'
+import type { TFunction } from 'i18next'
 import {
   OpenCloseIDs,
   useOpenClose,
@@ -12,6 +22,8 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { precisionRound } from 'lib/utils/mathUtils'
+import { isFlat } from 'lib/utils/statUtils'
 import type React from 'react'
 import {
   useCallback,
@@ -19,12 +31,9 @@ import {
   useMemo,
   useState,
 } from 'react'
-import type { TFunction } from 'i18next'
 import { useTranslation } from 'react-i18next'
 import { type TraceNode } from 'types/metadata'
 import classes from './StatTracesDrawer.module.css'
-import { isFlat } from 'lib/utils/statUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 const TraceTreeNode = ({
   node,
@@ -33,11 +42,11 @@ const TraceTreeNode = ({
   tCommon,
   level,
 }: {
-  node: TraceNode
-  checkedKeys: React.Key[]
-  onToggle: (node: TraceNode, checked: boolean) => void
-  tCommon: TFunction<'common'>
-  level: number
+  node: TraceNode,
+  checkedKeys: React.Key[],
+  onToggle: (node: TraceNode, checked: boolean) => void,
+  tCommon: TFunction<'common'>,
+  level: number,
 }) => {
   const [expanded, setExpanded] = useState(true)
   const hasChildren = node.children.length > 0
@@ -45,7 +54,7 @@ const TraceTreeNode = ({
 
   return (
     <div style={{ paddingLeft: level > 0 ? 20 : 0 }}>
-      <Flex gap={4} align="center" className={classes.nodeRow}>
+      <Flex gap={4} align='center' className={classes.nodeRow}>
         {hasChildren
           ? (
             <div
@@ -54,7 +63,7 @@ const TraceTreeNode = ({
             >
               {expanded ? <IconChevronDown size={16} /> : <IconChevronRight size={16} />}
             </div>
-            )
+          )
           : <div className={classes.expandSpacer} />}
 
         <Checkbox
@@ -63,7 +72,7 @@ const TraceTreeNode = ({
           styles={{ input: { cursor: 'pointer' } }}
         />
 
-        <Flex align="center" className={classes.nodeLabel} onClick={() => onToggle(node, !isChecked)}>
+        <Flex align='center' className={classes.nodeLabel} onClick={() => onToggle(node, !isChecked)}>
           <img src={Assets.getStatIcon(node.stat)} className={classes.statIcon} />
           <div className={classes.nodeText}>
             {`${
@@ -189,7 +198,7 @@ function StatTracesDrawerContent({ close }: { close: () => void }) {
   }, [statTraceDrawerFocusCharacter, nodesById, checkedKeys, close, tCommon])
 
   return (
-    <Flex direction="column" gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
+    <Flex direction='column' gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
       <HeaderText>
         {t('Header') /* Activated stat traces (all enabled by default) */}
       </HeaderText>
@@ -225,7 +234,7 @@ export function StatTracesDrawer() {
   return (
     <Drawer
       title={t('Title')}
-      position="right"
+      position='right'
       onClose={closeTracesDrawer}
       opened={isOpenTracesDrawer}
       size={400}

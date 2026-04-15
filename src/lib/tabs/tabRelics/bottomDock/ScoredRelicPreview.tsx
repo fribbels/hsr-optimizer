@@ -1,11 +1,11 @@
-import { useCallback } from 'react'
-import { useRelicScore } from 'lib/tabs/tabRelics/bottomDock/useRelicScore'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { useRelicById } from 'lib/stores/relic/relicStore'
+import { useRelicScore } from 'lib/tabs/tabRelics/bottomDock/useRelicScore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { useCallback } from 'react'
 import type { Relic } from 'types/relic'
 
 export function ScoredRelicPreview() {

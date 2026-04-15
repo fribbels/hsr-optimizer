@@ -3,8 +3,13 @@ import {
   setOpen,
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { type PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
-import { memo, useMemo } from 'react'
+import { precisionRound } from 'lib/utils/mathUtils'
+import {
+  memo,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CartesianGrid,
@@ -18,8 +23,6 @@ import {
   YAxis,
 } from 'recharts'
 import type { CharacterId } from 'types/character'
-import { useGlobalStore } from 'lib/stores/app/appStore'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 const N_Displayed = 10
 
@@ -101,7 +104,7 @@ export const Top10Panel = memo(({ scores, width: propWidth, height: propHeight }
         <Scatter
           data={data}
           animationDuration={300}
-          animationEasing="ease"
+          animationEasing='ease'
           style={{ cursor: 'pointer' }}
           onClick={(entry) => onClick(entry.payload.id as CharacterId)()}
         >
@@ -112,7 +115,7 @@ export const Top10Panel = memo(({ scores, width: propWidth, height: propHeight }
   )
 })
 
-function LegendContent({ scores, compact }: { scores: PanelProps['scores']; compact?: boolean }) {
+function LegendContent({ scores, compact }: { scores: PanelProps['scores'], compact?: boolean }) {
   const entryHeight = compact ? 18 : 25.3
   const avatarSize = compact ? 16 : 20
   const legendHeight = compact ? entryHeight * N_Displayed : 250

@@ -1,10 +1,10 @@
+import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import {
   type AbilityKind,
   type TurnAbility,
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { ComboState } from 'lib/optimization/combo/comboTypes'
 
 type ActivationFunction =
   | ((comboState: ComboState, key: string, index: number, value: boolean) => void)

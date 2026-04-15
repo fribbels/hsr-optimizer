@@ -18,7 +18,6 @@ import {
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
-import { floorSafe } from 'lib/utils/mathUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -31,6 +30,7 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'

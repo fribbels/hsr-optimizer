@@ -1,8 +1,8 @@
 import {
-  extractPalette,
   classifySwatches,
-  validateOptions,
+  extractPalette,
   MmcqQuantizer,
+  validateOptions,
 } from './colorthiefImports'
 
 // Runs in a dedicated Web Worker — image decode, downsample, and OKLCH quantization all happen here.

@@ -4,8 +4,8 @@ import type { CharacterId } from 'types/character'
 import type { SimulationMetadata } from 'types/metadata'
 
 export function CharacterAnnouncement({ characterId, simulationMetadata }: {
-  characterId: CharacterId
-  simulationMetadata: SimulationMetadata | null
+  characterId: CharacterId,
+  simulationMetadata: SimulationMetadata | null,
 }) {
   const messages: string[] = []
 

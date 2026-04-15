@@ -1,5 +1,8 @@
 import i18next from 'i18next'
-import { DamageTag, OutputTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  OutputTag,
+} from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { OptimizerAction } from 'types/optimizer'
@@ -7,16 +10,16 @@ import type { OptimizerAction } from 'types/optimizer'
 // --- Types ---
 
 export type DamageSplitSegment = {
-  damageType: number
-  label: string
-  damage: number
-  hitIndex: number
+  damageType: number,
+  label: string,
+  damage: number,
+  hitIndex: number,
 }
 
 export type DamageSplitEntry = {
-  name: string
-  segments: DamageSplitSegment[]
-  total: number
+  name: string,
+  segments: DamageSplitSegment[],
+  total: number,
 }
 
 // --- True DMG segment sentinel (not a real DamageTag bitmask value) ---
@@ -121,12 +124,12 @@ export function getDamageTypeColor(damageType: number): string {
 // --- Pie chart aggregation ---
 
 export type DamageTagSlice = {
-  damageType: number
-  label: string
-  color: string
-  fill: string
-  value: number
-  percent: number
+  damageType: number,
+  label: string,
+  color: string,
+  fill: string,
+  value: number,
+  percent: number,
 }
 
 export function extractDamageByTag(

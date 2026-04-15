@@ -1,6 +1,6 @@
+import type { ScoredRelic } from 'lib/relics/scoreRelics'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
-import type { ScoredRelic } from 'lib/relics/scoreRelics'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { getRelicById } from 'lib/stores/relic/relicStore'
@@ -9,18 +9,18 @@ import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
 
 export type ScoreRelicsWorkerInput = {
-  generation: number
-  relics: Relic[]
-  characterIds: CharacterId[]
-  metadataByCharacter: Map<CharacterId, ScorerMetadata>
-  focusCharacter: Nullable<CharacterId>
-  excludedRelicPotentialCharacters: CharacterId[]
-  equippedRelicByPart: Record<string, Relic | undefined>
+  generation: number,
+  relics: Relic[],
+  characterIds: CharacterId[],
+  metadataByCharacter: Map<CharacterId, ScorerMetadata>,
+  focusCharacter: Nullable<CharacterId>,
+  excludedRelicPotentialCharacters: CharacterId[],
+  equippedRelicByPart: Record<string, Relic | undefined>,
 }
 
 export type ScoreRelicsWorkerOutput = {
-  generation: number
-  scoredRelics: ScoredRelic[]
+  generation: number,
+  scoredRelics: ScoredRelic[],
 }
 
 let worker: Worker | null = null

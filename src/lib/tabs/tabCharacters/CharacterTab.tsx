@@ -1,24 +1,43 @@
-import { Flex, SegmentedControl } from '@mantine/core'
+import {
+  Flex,
+  SegmentedControl,
+} from '@mantine/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
-import { type CharacterGridDensity, characterGridPresets, precomputedCssVars } from 'lib/tabs/tabCharacters/characterGridPresets'
+import {
+  type CharacterGridDensity,
+  characterGridPresets,
+  precomputedCssVars,
+} from 'lib/tabs/tabCharacters/characterGridPresets'
 import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useDeferReveal } from 'lib/ui/DeferredRender'
-import { useCallback, useContext, useEffect, useRef } from 'react'
-import type { Character, CharacterId } from 'types/character'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 
-import { cardTotalW, defaultGap, parentH } from 'lib/constants/constantsUi'
+import {
+  cardTotalW,
+  defaultGap,
+  parentH,
+} from 'lib/constants/constantsUi'
 
 const densityOptions = [
   { value: 'default', label: 'Default' },
@@ -78,10 +97,10 @@ export function CharacterTab() {
       }}
       gap={defaultGap}
     >
-      <Flex direction="column" gap={defaultGap}>
+      <Flex direction='column' gap={defaultGap}>
         <CharacterMenu />
 
-        <Flex direction="column" gap={defaultGap} miw={preset.listWidth}>
+        <Flex direction='column' gap={defaultGap} miw={preset.listWidth}>
           <div
             id='characterGrid'
             style={{
@@ -101,7 +120,7 @@ export function CharacterTab() {
         </Flex>
       </Flex>
 
-      <Flex direction="column" gap={defaultGap} w={cardTotalW}>
+      <Flex direction='column' gap={defaultGap} w={cardTotalW}>
         <FilterBar />
 
         <CharacterPreview

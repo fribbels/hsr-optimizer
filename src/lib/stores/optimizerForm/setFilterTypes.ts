@@ -1,5 +1,8 @@
 import type { TwoPieceStatTag } from 'lib/constants/constants'
-import type { SetsOrnaments, SetsRelics } from 'lib/sets/setConfigRegistry'
+import type {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 
 // ── Relic set mode (4-piece vs 2-piece toggle) ──
 
@@ -19,12 +22,12 @@ export const TwoPieceSlotType = {
 export type TwoPieceSlotType = (typeof TwoPieceSlotType)[keyof typeof TwoPieceSlotType]
 
 // ── Valid 2pc stat tags — subset of Constants.Stats values ──
-export { TwoPieceStatTags, type TwoPieceStatTag } from 'lib/constants/constants'
+export { type TwoPieceStatTag, TwoPieceStatTags } from 'lib/constants/constants'
 
 // ── Combo slot types ──
 
-export type TwoPieceSlotSet = { type: 'Set'; value: SetsRelics }
-export type TwoPieceSlotStat = { type: 'Stat'; value: TwoPieceStatTag }
+export type TwoPieceSlotSet = { type: 'Set', value: SetsRelics }
+export type TwoPieceSlotStat = { type: 'Stat', value: TwoPieceStatTag }
 export type TwoPieceSlotAny = { type: 'Any' }
 
 export type TwoPieceSlot = TwoPieceSlotSet | TwoPieceSlotStat | TwoPieceSlotAny
@@ -32,22 +35,22 @@ export type TwoPieceSlot = TwoPieceSlotSet | TwoPieceSlotStat | TwoPieceSlotAny
 // ── A complete 2-piece combo ──
 
 export type TwoPieceCombo = {
-  a: TwoPieceSlot
-  b: TwoPieceSlot
+  a: TwoPieceSlot,
+  b: TwoPieceSlot,
 }
 
 // ── The persisted model (single source of truth in store) ──
 
 export type SetFilters = {
-  fourPiece: SetsRelics[]
-  twoPieceCombos: TwoPieceCombo[]
-  ornaments: SetsOrnaments[]
+  fourPiece: SetsRelics[],
+  twoPieceCombos: TwoPieceCombo[],
+  ornaments: SetsOrnaments[],
 }
 
 // ── Ephemeral modal state (local useState, not persisted) ──
 
 export type ModalState = {
-  checked4p: Set<SetsRelics>
-  combos: TwoPieceCombo[]
-  checkedOrnaments: Set<SetsOrnaments>
+  checked4p: Set<SetsRelics>,
+  combos: TwoPieceCombo[],
+  checkedOrnaments: Set<SetsOrnaments>,
 }

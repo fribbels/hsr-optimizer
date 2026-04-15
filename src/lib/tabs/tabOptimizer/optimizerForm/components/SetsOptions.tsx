@@ -1,18 +1,18 @@
 import { Flex } from '@mantine/core'
-import type { ReactElement } from 'react'
 import i18next from 'i18next'
 import {
   Constants,
   UnreleasedSets,
 } from 'lib/constants/constants'
+import { Assets } from 'lib/rendering/assets'
 import {
   SetsRelicsNames,
   setToId,
 } from 'lib/sets/setConfigRegistry'
-import { Assets } from 'lib/rendering/assets'
+import type { ReactElement } from 'react'
 
 // This should be memoised with either the t function or resolved language as a dependency
-export function GenerateBasicSetsOptions(): { value: string; label: ReactElement }[] {
+export function GenerateBasicSetsOptions(): { value: string, label: ReactElement }[] {
   const tGameData = i18next.getFixedT(null, 'gameData', 'RelicSets')
   return SetsRelicsNames
     .filter((x) => !UnreleasedSets[x])

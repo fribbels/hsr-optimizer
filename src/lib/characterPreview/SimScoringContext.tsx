@@ -1,5 +1,5 @@
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { usePromise } from 'hooks/usePromise'
+import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
   computeScoringCacheKey,
   getOrComputePreview,
@@ -104,11 +104,15 @@ export function useSimScoringContext(selector: ScoringSelector.Preview): Prepare
 export function useSimScoringContext(selector: ScoringSelector.Score | ScoringSelector.Upgrades): SimulationScore | null
 export function useSimScoringContext(selector: ScoringSelector) {
   const ctx = use(SimScoringContext)
-  const promise = selector === ScoringSelector.Score ? ctx.scoringPromise
-    : selector === ScoringSelector.Upgrades ? ctx.upgradePromise
+  const promise = selector === ScoringSelector.Score
+    ? ctx.scoringPromise
+    : selector === ScoringSelector.Upgrades
+    ? ctx.upgradePromise
     : null
-  const cached = selector === ScoringSelector.Score ? ctx.cachedScore
-    : selector === ScoringSelector.Upgrades ? ctx.cachedUpgrades
+  const cached = selector === ScoringSelector.Score
+    ? ctx.cachedScore
+    : selector === ScoringSelector.Upgrades
+    ? ctx.cachedUpgrades
     : null
   const promised = usePromise(promise)
   return selector === ScoringSelector.Preview ? ctx.preview : cached ?? promised

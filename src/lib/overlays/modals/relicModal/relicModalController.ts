@@ -9,32 +9,44 @@ import {
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
+import { Message } from 'lib/interactions/message'
+import { RelicAugmenter } from 'lib/relics/relicAugmenter'
+import { RelicRollFixer } from 'lib/relics/relicRollFixer'
+import {
+  calculateRelicMainStatValue,
+  partIsOrnament,
+  partIsRelic,
+} from 'lib/relics/relicUtils'
+import { Assets } from 'lib/rendering/assets'
+import * as equipmentService from 'lib/services/equipmentService'
 import {
   SetsOrnaments,
   SetsOrnamentsNames,
   SetsRelics,
   SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
-import { Message } from 'lib/interactions/message'
-import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { RelicRollFixer } from 'lib/relics/relicRollFixer'
-import * as equipmentService from 'lib/services/equipmentService'
 import { SaveState } from 'lib/state/saveState'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import {
-  calculateRelicMainStatValue,
-  partIsOrnament,
-  partIsRelic,
-} from 'lib/relics/relicUtils'
+  precisionRound,
+  truncate10ths,
+} from 'lib/utils/mathUtils'
 import { clone } from 'lib/utils/objectUtils'
-import { Assets } from 'lib/rendering/assets'
-import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths, precisionRound } from 'lib/utils/mathUtils'
-import type { MainStatOption, RelicForm, RelicFormStat, RelicUpgradeValues } from './relicModalTypes'
+import type { Relic } from 'types/relic'
+import {
+  defaultMainStatPerPart,
+  defaultSubstatValues,
+  renderMainStat,
+} from './relicModalHelpers'
 import type { RelicModalConfig } from './relicModalStore'
-import { defaultMainStatPerPart, defaultSubstatValues, renderMainStat } from './relicModalHelpers'
+import type {
+  MainStatOption,
+  RelicForm,
+  RelicFormStat,
+  RelicUpgradeValues,
+} from './relicModalTypes'
 
 // ─── Initialization ──────────────────────────────────────────────────────────
 
@@ -58,7 +70,7 @@ export function computeInitialFormValues(config: RelicModalConfig): RelicForm {
   const defaultMain = defaultMainStatPerPart[defaultPart]
   let defaultValue = precisionRound(
     Constants.MainStatsValues[defaultMain][5].base
-    + Constants.MainStatsValues[defaultMain][5].increment * 15,
+      + Constants.MainStatsValues[defaultMain][5].increment * 15,
   )
   defaultValue = isFlat(defaultMain) ? Math.floor(defaultValue) : defaultValue
 
@@ -92,8 +104,14 @@ export function computeMainStatDisplayValue(
   if (mainStatType == null || enhance == null || grade == null) return undefined
 
   const specialStats = [
-    Stats.OHB, Stats.Physical_DMG, Stats.Fire_DMG, Stats.Ice_DMG,
-    Stats.Lightning_DMG, Stats.Wind_DMG, Stats.Quantum_DMG, Stats.Imaginary_DMG,
+    Stats.OHB,
+    Stats.Physical_DMG,
+    Stats.Fire_DMG,
+    Stats.Ice_DMG,
+    Stats.Lightning_DMG,
+    Stats.Wind_DMG,
+    Stats.Quantum_DMG,
+    Stats.Imaginary_DMG,
   ]
   const floorStats = [Stats.HP, Stats.ATK]
 
@@ -102,7 +120,7 @@ export function computeMainStatDisplayValue(
   // @ts-expect-error - MainStats vs Stats type mismatch in includes check
   if (specialStats.includes(mainStatType)) {
     value = truncate10ths(value)
-  // @ts-expect-error - MainStats vs Stats type mismatch in includes check
+    // @ts-expect-error - MainStats vs Stats type mismatch in includes check
   } else if (floorStats.includes(mainStatType)) {
     value = Math.floor(value)
   } else {
@@ -145,7 +163,7 @@ export function computePartChangeUpdates(
 
 // ─── Static options ──────────────────────────────────────────────────────────
 
-export const ENHANCE_OPTIONS: { value: string; label: string }[] = Array.from(
+export const ENHANCE_OPTIONS: { value: string, label: string }[] = Array.from(
   { length: 16 },
   (_, i) => ({ value: String(15 - i), label: `+${15 - i}` }),
 )
@@ -303,8 +321,8 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     },
   } as Relic
 
-  const substats: { value: number; stat: SubStats }[] = []
-  const previewSubstats: { value: number; stat: SubStats }[] = []
+  const substats: { value: number, stat: SubStats }[] = []
+  const previewSubstats: { value: number, stat: SubStats }[] = []
   if (relicForm.substatType0 != undefined && relicForm.substatValue0 != undefined) {
     if (relicForm.substat0IsPreview) {
       previewSubstats.push({

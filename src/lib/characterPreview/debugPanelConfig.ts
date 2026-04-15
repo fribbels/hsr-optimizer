@@ -1,5 +1,12 @@
-import type { PresetGroup, PillGroup, SliderGroup } from './DebugSliderPanel'
-import { TEXT_SHADOW_PRESETS, useDebugVisualConfigStore } from './debugVisualConfigStore'
+import type {
+  PillGroup,
+  PresetGroup,
+  SliderGroup,
+} from './DebugSliderPanel'
+import {
+  TEXT_SHADOW_PRESETS,
+  useDebugVisualConfigStore,
+} from './debugVisualConfigStore'
 
 // Hook version for reactive components
 export function useDebugPanelConfig() {
@@ -19,53 +26,325 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
     {
       title: 'Reference',
       presets: [
-        { label: 'Legacy', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.50, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.45, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
+        {
+          label: 'Legacy',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.50,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.36,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.45,
+              debugMinL: 0.05,
+              debugMaxL: 0.45,
+              blendMode: 'normal',
+            }),
+        },
       ],
     },
     {
       title: 'Experimental',
       presets: [
-        { label: 'Coral', apply: () => store.applyPreset({ portraitBlur: 25, portraitBrightness: 0.28, portraitSaturate: 2.00, cardBgAlpha: 0.20, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 1.00, debugTargetL: 0.425, debugMinL: 0.04, debugMaxL: 0.50, blendMode: 'screen' }) },
-        { label: 'Matte', apply: () => store.applyPreset({ portraitBlur: 25, portraitBrightness: 0.40, portraitSaturate: 1.75, cardBgAlpha: 0.40, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.45, debugMinL: 0.05, debugMaxL: 0.47, blendMode: 'normal' }) },
-        { label: 'AvgNormal', apply: () => store.applyPreset({ portraitBlur: 29, portraitBrightness: 0.54, portraitSaturate: 1.63, cardBgAlpha: 0.39, debugMaxC: 0.077, debugMinC: 0.043, debugChromaScale: 0.52, debugTargetL: 0.46, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
-        { label: 'AvgScreen', apply: () => store.applyPreset({ portraitBlur: 30, portraitBrightness: 0.34, portraitSaturate: 2.08, cardBgAlpha: 0.33, debugMaxC: 0.089, debugMinC: 0.042, debugChromaScale: 0.75, debugTargetL: 0.49, debugMinL: 0.04, debugMaxL: 0.52, blendMode: 'screen' }) },
-        { label: 'CurSilk', apply: () => store.applyPreset({ portraitBlur: 27, portraitBrightness: 0.47, portraitSaturate: 1.67, cardBgAlpha: 0.42, debugMaxC: 0.060, debugMinC: 0.036, debugChromaScale: 0.53, debugTargetL: 0.45, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
+        {
+          label: 'Coral',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 25,
+              portraitBrightness: 0.28,
+              portraitSaturate: 2.00,
+              cardBgAlpha: 0.20,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 1.00,
+              debugTargetL: 0.425,
+              debugMinL: 0.04,
+              debugMaxL: 0.50,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Matte',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 25,
+              portraitBrightness: 0.40,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.40,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.45,
+              debugMinL: 0.05,
+              debugMaxL: 0.47,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'AvgNormal',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 29,
+              portraitBrightness: 0.54,
+              portraitSaturate: 1.63,
+              cardBgAlpha: 0.39,
+              debugMaxC: 0.077,
+              debugMinC: 0.043,
+              debugChromaScale: 0.52,
+              debugTargetL: 0.46,
+              debugMinL: 0.05,
+              debugMaxL: 0.45,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'AvgScreen',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 30,
+              portraitBrightness: 0.34,
+              portraitSaturate: 2.08,
+              cardBgAlpha: 0.33,
+              debugMaxC: 0.089,
+              debugMinC: 0.042,
+              debugChromaScale: 0.75,
+              debugTargetL: 0.49,
+              debugMinL: 0.04,
+              debugMaxL: 0.52,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'CurSilk',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 27,
+              portraitBrightness: 0.47,
+              portraitSaturate: 1.67,
+              cardBgAlpha: 0.42,
+              debugMaxC: 0.060,
+              debugMinC: 0.036,
+              debugChromaScale: 0.53,
+              debugTargetL: 0.45,
+              debugMinL: 0.05,
+              debugMaxL: 0.45,
+              blendMode: 'normal',
+            }),
+        },
       ],
     },
     {
       title: 'Normal',
       presets: [
-        { label: 'Silk', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.54, portraitSaturate: 1.53, cardBgAlpha: 0.38, debugMaxC: 0.067, debugMinC: 0.037, debugChromaScale: 0.47, debugTargetL: 0.47, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
+        {
+          label: 'Silk',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.54,
+              portraitSaturate: 1.53,
+              cardBgAlpha: 0.38,
+              debugMaxC: 0.067,
+              debugMinC: 0.037,
+              debugChromaScale: 0.47,
+              debugTargetL: 0.47,
+              debugMinL: 0.05,
+              debugMaxL: 0.45,
+              blendMode: 'normal',
+            }),
+        },
       ],
     },
     {
       title: 'Silk Variations',
       presets: [
-        { label: 'SW4849', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.48, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.49, debugMinL: 0.05, debugMaxL: 0.47, blendMode: 'normal' }) },
-        { label: 'SW.44', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.44, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.49, debugMinL: 0.05, debugMaxL: 0.47, blendMode: 'normal' }) },
-        { label: 'SW.46', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.46, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.49, debugMinL: 0.05, debugMaxL: 0.47, blendMode: 'normal' }) },
-        { label: 'SW.50', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.50, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.49, debugMinL: 0.05, debugMaxL: 0.47, blendMode: 'normal' }) },
-        { label: 'SW.50/.45', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.50, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.45, debugMinL: 0.05, debugMaxL: 0.45, blendMode: 'normal' }) },
-        { label: 'SW.52', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.52, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.49, debugMinL: 0.05, debugMaxL: 0.47, blendMode: 'normal' }) },
-        { label: 'SW.54', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.54, portraitSaturate: 1.75, cardBgAlpha: 0.36, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.55, debugTargetL: 0.49, debugMinL: 0.05, debugMaxL: 0.47, blendMode: 'normal' }) },
+        {
+          label: 'SW4849',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.48,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.36,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.49,
+              debugMinL: 0.05,
+              debugMaxL: 0.47,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'SW.44',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.44,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.36,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.49,
+              debugMinL: 0.05,
+              debugMaxL: 0.47,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'SW.46',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.46,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.36,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.49,
+              debugMinL: 0.05,
+              debugMaxL: 0.47,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'SW.50',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.50,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.36,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.49,
+              debugMinL: 0.05,
+              debugMaxL: 0.47,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'SW.50/.45',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.50,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.36,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.45,
+              debugMinL: 0.05,
+              debugMaxL: 0.45,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'SW.52',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.52,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.36,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.49,
+              debugMinL: 0.05,
+              debugMaxL: 0.47,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'SW.54',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.54,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.36,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.55,
+              debugTargetL: 0.49,
+              debugMinL: 0.05,
+              debugMaxL: 0.47,
+              blendMode: 'normal',
+            }),
+        },
       ],
     },
     {
       title: 'Screen Soft',
       presets: [
-        { label: 'Plush', apply: () => store.applyPreset({ portraitBlur: 44, portraitBrightness: 0.30, portraitSaturate: 1.68, cardBgAlpha: 0.40, debugMaxC: 0.095, debugMinC: 0.050, debugChromaScale: 0.56, debugTargetL: 0.48, debugMinL: 0.06, debugMaxL: 0.48, blendMode: 'screen' }) },
+        {
+          label: 'Plush',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 44,
+              portraitBrightness: 0.30,
+              portraitSaturate: 1.68,
+              cardBgAlpha: 0.40,
+              debugMaxC: 0.095,
+              debugMinC: 0.050,
+              debugChromaScale: 0.56,
+              debugTargetL: 0.48,
+              debugMinL: 0.06,
+              debugMaxL: 0.48,
+              blendMode: 'screen',
+            }),
+        },
       ],
     },
     {
       title: 'Screen Moody',
       presets: [
-        { label: 'Shade', apply: () => store.applyPreset({ portraitBlur: 31, portraitBrightness: 0.33, portraitSaturate: 1.88, cardBgAlpha: 0.34, debugMaxC: 0.101, debugMinC: 0.048, debugChromaScale: 0.76, debugTargetL: 0.47, debugMinL: 0.04, debugMaxL: 0.51, blendMode: 'screen' }) },
+        {
+          label: 'Shade',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 31,
+              portraitBrightness: 0.33,
+              portraitSaturate: 1.88,
+              cardBgAlpha: 0.34,
+              debugMaxC: 0.101,
+              debugMinC: 0.048,
+              debugChromaScale: 0.76,
+              debugTargetL: 0.47,
+              debugMinL: 0.04,
+              debugMaxL: 0.51,
+              blendMode: 'screen',
+            }),
+        },
       ],
     },
     {
       title: 'Screen Warm',
       presets: [
-        { label: 'CoralSilk', apply: () => store.applyPreset({ portraitBlur: 28, portraitBrightness: 0.36, portraitSaturate: 1.88, cardBgAlpha: 0.28, debugMaxC: 0.080, debugMinC: 0.040, debugChromaScale: 0.78, debugTargetL: 0.46, debugMinL: 0.045, debugMaxL: 0.49, blendMode: 'screen' }) },
+        {
+          label: 'CoralSilk',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 28,
+              portraitBrightness: 0.36,
+              portraitSaturate: 1.88,
+              cardBgAlpha: 0.28,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.78,
+              debugTargetL: 0.46,
+              debugMinL: 0.045,
+              debugMaxL: 0.49,
+              blendMode: 'screen',
+            }),
+        },
       ],
     },
   ]

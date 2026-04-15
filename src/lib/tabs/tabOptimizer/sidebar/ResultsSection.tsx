@@ -1,12 +1,15 @@
-import { Button, Flex } from '@mantine/core'
+import {
+  Button,
+  Flex,
+} from '@mantine/core'
 import i18next from 'i18next'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
+import { gridStore } from 'lib/stores/gridStore'
 import { equipClicked } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { gridStore } from 'lib/stores/gridStore'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -47,7 +50,7 @@ function clearPinned() {
 export const ResultsSection = React.memo(function ResultsSection({ isFullSize }: { isFullSize: boolean }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar.ResultsGroup' })
   return (
-    <Flex direction="column" gap={5}>
+    <Flex direction='column' gap={5}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Header') /* Results */}</HeaderText>
         <TooltipImage type={Hint.actions()} />
@@ -56,15 +59,15 @@ export const ResultsSection = React.memo(function ResultsSection({ isFullSize }:
         <Button onClick={equipClicked} style={buttonStyle}>
           {t('Equip') /* Equip */}
         </Button>
-        <Button variant="default" onClick={OptimizerTabController.applyRowFilters} style={buttonStyle}>
+        <Button variant='default' onClick={OptimizerTabController.applyRowFilters} style={buttonStyle}>
           {t('Filter') /* Filter */}
         </Button>
       </Flex>
       <Flex gap={isFullSize ? defaultGap : 8} justify='space-around'>
-        <Button variant="default" style={buttonStyle} onClick={addToPinned}>
+        <Button variant='default' style={buttonStyle} onClick={addToPinned}>
           {t('Pin') /* Pin build */}
         </Button>
-        <Button variant="default" style={buttonStyle} onClick={clearPinned}>
+        <Button variant='default' style={buttonStyle} onClick={clearPinned}>
           {t('Clear') /* Clear pins */}
         </Button>
       </Flex>

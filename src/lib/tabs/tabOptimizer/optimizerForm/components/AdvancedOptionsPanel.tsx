@@ -1,16 +1,19 @@
+import {
+  Button,
+  Flex,
+} from '@mantine/core'
 import { IconSettings } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
 import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
-import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { HeaderText } from 'lib/ui/HeaderText'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 
 export function AdvancedOptionsPanel() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
@@ -25,11 +28,11 @@ export function AdvancedOptionsPanel() {
   }, [formCombatBuffs])
 
   return (
-    <Flex direction="column" gap={optimizerTabDefaultGap}>
+    <Flex direction='column' gap={optimizerTabDefaultGap}>
       <HeaderText style={{ marginTop: 25 }}>{t('Header') /* Advanced options */}</HeaderText>
 
       <Button
-        variant="default"
+        variant='default'
         onClick={() => {
           setOpen(OpenCloseIDs.TRACES_DRAWER)
           setStatTracesDrawerFocusCharacter(useOptimizerDisplayStore.getState().focusCharacterId!)
@@ -41,7 +44,7 @@ export function AdvancedOptionsPanel() {
 
       {/* TODO: TEMPORARILY DISABLED - Extra combat buffs */}
       <Button
-        variant="default"
+        variant='default'
         disabled
         onClick={() => setOpen(OpenCloseIDs.COMBAT_BUFFS_DRAWER)}
         leftSection={<IconSettings size={16} />}
@@ -53,7 +56,7 @@ export function AdvancedOptionsPanel() {
       </Button>
 
       <Button
-        variant="default"
+        variant='default'
         onClick={() => setOpen(OpenCloseIDs.ENEMY_DRAWER)}
         leftSection={<IconSettings size={16} />}
       >

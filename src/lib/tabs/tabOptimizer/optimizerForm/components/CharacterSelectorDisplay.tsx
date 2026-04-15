@@ -1,6 +1,10 @@
-import { Flex, SegmentedControl, Select } from '@mantine/core'
-import { Stats } from 'lib/constants/constants'
+import {
+  Flex,
+  SegmentedControl,
+  Select,
+} from '@mantine/core'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { Stats } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
 import {
   type AbilityKind,
@@ -11,8 +15,6 @@ import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
-import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
   optimizerTabDefaultGap,
@@ -20,12 +22,14 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
-import classes from './CharacterSelectorDisplay.module.css'
 import { useShallow } from 'zustand/react/shallow'
+import classes from './CharacterSelectorDisplay.module.css'
 
 const sortKeyToStat: Record<string, string> = {
   HP: Stats.HP,
@@ -66,19 +70,17 @@ export function CharacterSelectorDisplay() {
     })),
   )
 
-  const eidolonOptions = useMemo(() =>
-    Array.from({ length: 7 }, (_, i) => ({ value: i, label: t('common:EidolonNShort', { eidolon: i }) })),
-  [t])
+  const eidolonOptions = useMemo(() => Array.from({ length: 7 }, (_, i) => ({ value: i, label: t('common:EidolonNShort', { eidolon: i }) })), [t])
 
-  const superimpositionOptions = useMemo(() =>
-    Array.from({ length: 5 }, (_, i) => ({ value: i + 1, label: t('common:SuperimpositionNShort', { superimposition: i + 1 }) })),
-  [t])
+  const superimpositionOptions = useMemo(
+    () => Array.from({ length: 5 }, (_, i) => ({ value: i + 1, label: t('common:SuperimpositionNShort', { superimposition: i + 1 }) })),
+    [t],
+  )
 
   const resultLimitOptions = useMemo(() =>
     Array.from({ length: 11 }, (_, i) => 64 * Math.pow(2, i))
       .filter((v) => v <= 65536)
-      .map((v) => ({ value: v, label: t('ResultLimitN', { limit: v }) })),
-  [t])
+      .map((v) => ({ value: v, label: t('ResultLimitN', { limit: v }) })), [t])
 
   const resultSortOptions = useMemo(() => { // `Sorted by ${key}`
     // Get available actions for the selected character
@@ -92,7 +94,7 @@ export function CharacterSelectorDisplay() {
     }
 
     // Build damage options: COMBO always first, then character-specific actions, then EHP
-    const damageOptions: { value: string; label: string }[] = [
+    const damageOptions: { value: string, label: string }[] = [
       { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
     ]
 
@@ -133,12 +135,12 @@ export function CharacterSelectorDisplay() {
   }, [t, optimizerTabFocusCharacter, characterEidolon])
 
   return (
-    <Flex direction="column" gap={optimizerTabDefaultGap}>
+    <Flex direction='column' gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('CharacterSelector.Character') /* Character */}</HeaderText>
         <TooltipImage type={Hint.character()} />
       </Flex>
-      <Flex direction="column" gap={optimizerTabDefaultGap}>
+      <Flex direction='column' gap={optimizerTabDefaultGap}>
         <CharacterSelect
           value={characterId ?? null}
           onChange={(id) => {
@@ -166,7 +168,7 @@ export function CharacterSelectorDisplay() {
         <HeaderText>{t('CharacterSelector.Lightcone') /* Light cone */}</HeaderText>
         <TooltipImage type={Hint.lightCone()} />
       </Flex>
-      <Flex direction="column" gap={optimizerTabDefaultGap}>
+      <Flex direction='column' gap={optimizerTabDefaultGap}>
         <LightConeSelect
           value={lightCone ?? null}
           onChange={(id) => useOptimizerRequestStore.getState().setLightCone(id ?? undefined)}
@@ -196,7 +198,9 @@ export function CharacterSelectorDisplay() {
         style={{ width: panelWidth }}
         data={resultLimitOptions.map((opt) => ({ value: String(opt.value), label: opt.label }))}
         value={resultsLimit != null ? String(resultsLimit) : null}
-        onChange={(val) => { if (val != null) useOptimizerRequestStore.getState().setResultsLimit(Number(val)) }}
+        onChange={(val) => {
+          if (val != null) useOptimizerRequestStore.getState().setResultsLimit(Number(val))
+        }}
         placeholder={t('CharacterSelector.ResultsPlaceholder')} // 'Find top results'
         maxDropdownHeight={800}
       />
@@ -210,7 +214,7 @@ export function CharacterSelectorDisplay() {
         renderOption={({ option }) => {
           const stat = sortKeyToStat[option.value]
           return (
-            <Flex align="center" gap={6}>
+            <Flex align='center' gap={6}>
               {stat && <img src={Assets.getStatIcon(stat)} className={iconClasses.icon20} />}
               <span>{option.label}</span>
             </Flex>

@@ -1,8 +1,16 @@
-import { type MainStats, type Parts, Stats, SubStats, } from 'lib/constants/constants'
-import { getRollQualityDistribution, thresholdProbability, } from 'lib/relics/estTbp/convolution'
+import {
+  type MainStats,
+  type Parts,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
+import {
+  getRollQualityDistribution,
+  thresholdProbability,
+} from 'lib/relics/estTbp/convolution'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { clone } from 'lib/utils/objectUtils'
 import type { Relic } from 'types/relic'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export function scoreTbp(preRelic: Relic, weights: { [stat: string]: number }): number {
   const relic = clone(preRelic)
@@ -246,4 +254,3 @@ export function* combinationsWithReplacement<T>(l: Array<T>, k: number): Generat
   if (k < 1) return yield []
   for (const [i, x] of l.entries()) for (const set of combinationsWithReplacement(l.slice(i), k - 1)) yield [x, ...set]
 }
-

@@ -1,5 +1,9 @@
 import { Stats } from 'lib/constants/constants'
-import { AKey, type AKeyType, type AKeyValue } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  type AKeyType,
+  type AKeyValue,
+} from 'lib/optimization/engine/config/keys'
 
 type StatConversionConfigEntry = {
   stat: string,

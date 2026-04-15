@@ -1,4 +1,7 @@
-import type { CSSProperties, PropsWithChildren } from 'react'
+import type {
+  CSSProperties,
+  PropsWithChildren,
+} from 'react'
 
 export const conditionalJustify = 'flex-start'
 export const conditionalAlign = 'center'

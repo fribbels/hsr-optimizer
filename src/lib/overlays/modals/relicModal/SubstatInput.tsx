@@ -1,29 +1,34 @@
 import {
+  Button,
+  Flex,
+  TextInput,
+  Tooltip,
+} from '@mantine/core'
+import type { UseFormReturnType } from '@mantine/form'
+import {
   IconChevronRight,
   IconLock,
 } from '@tabler/icons-react'
-import type { UseFormReturnType } from '@mantine/form'
-import { Button, Flex, TextInput, Tooltip } from '@mantine/core'
 import {
   Constants,
   Stats,
 } from 'lib/constants/constants'
-import type {
-  RelicForm,
-  RelicUpgradeValues,
-} from './relicModalTypes'
 import { Assets } from 'lib/rendering/assets'
+import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 import {
   localeNumber,
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
+import { isFlat } from 'lib/utils/statUtils'
 import {
   useMemo,
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
-import { isFlat } from 'lib/utils/statUtils'
+import type {
+  RelicForm,
+  RelicUpgradeValues,
+} from './relicModalTypes'
 
 const BUTTON_STYLE = { width: '100%', padding: 0 }
 const CONTENTS_STYLE = { display: 'contents' }
@@ -33,15 +38,15 @@ const COMBOBOX_STYLE = { width: 210 }
 const TOOLTIP_EVENTS = { hover: false, focus: true, touch: false }
 
 function UpgradeButton({ value, label, onClick }: {
-  value: number | undefined | null
-  label: string
-  onClick: () => void
+  value: number | undefined | null,
+  label: string,
+  onClick: () => void,
 }) {
   if (value === null) return null
   return (
-    <Flex w="100%">
+    <Flex w='100%'>
       <Button
-        variant="default"
+        variant='default'
         style={BUTTON_STYLE}
         onClick={onClick}
         disabled={value === undefined}
@@ -54,10 +59,10 @@ function UpgradeButton({ value, label, onClick }: {
 }
 
 export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
-  index: 0 | 1 | 2 | 3
-  upgrades: RelicUpgradeValues[]
-  relicForm: UseFormReturnType<RelicForm>
-  plusThree: () => void
+  index: 0 | 1 | 2 | 3,
+  upgrades: RelicUpgradeValues[],
+  relicForm: UseFormReturnType<RelicForm>,
+  plusThree: () => void,
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const statTypeField = `substatType${index}` as `substatType${typeof index}`
@@ -133,7 +138,7 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
 
         <Tooltip
           label={stat === Stats.SPD ? t('SpdInputWarning') : ''}
-          position="top"
+          position='top'
           events={TOOLTIP_EVENTS}
         >
           <TextInput
@@ -150,7 +155,7 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
         </Tooltip>
       </Flex>
 
-      <Flex align="center" justify="center" h="100%">
+      <Flex align='center' justify='center' h='100%'>
         <div style={ICON_TOGGLE_STYLE}>
           {isPreview
             ? <IconLock size={18} onClick={handlePreviewToggle} />

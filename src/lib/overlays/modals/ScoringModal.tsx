@@ -1,5 +1,17 @@
-import { type UseFormReturnType, useForm } from '@mantine/form'
-import { Button, CheckIcon, Combobox, Divider, Flex, Modal, MultiSelect, NumberInput } from '@mantine/core'
+import {
+  Button,
+  CheckIcon,
+  Combobox,
+  Divider,
+  Flex,
+  Modal,
+  MultiSelect,
+  NumberInput,
+} from '@mantine/core'
+import {
+  useForm,
+  type UseFormReturnType,
+} from '@mantine/form'
 import { modals } from '@mantine/modals'
 import {
   Parts,
@@ -10,28 +22,27 @@ import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
+import classes from 'lib/overlays/modals/ScoringModal.module.css'
 import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringStore'
-import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
+import {
+  getScoringMetadata,
+  useScoringStore,
+} from 'lib/stores/scoring/scoringStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadata } from 'types/metadata'
-import iconClasses from 'style/icons.module.css'
-import classes from 'lib/overlays/modals/ScoringModal.module.css'
 
-const TitleDivider = (props: React.ComponentPropsWithoutRef<typeof Divider>) => (
-  <Divider my={10} {...props} />
-)
+const TitleDivider = (props: React.ComponentPropsWithoutRef<typeof Divider>) => <Divider my={10} {...props} />
 
-const InputNumberStyled = (props: React.ComponentPropsWithoutRef<typeof NumberInput>) => (
-  <NumberInput w={62} {...props} />
-)
+const InputNumberStyled = (props: React.ComponentPropsWithoutRef<typeof NumberInput>) => <NumberInput w={62} {...props} />
 
 type ScoringAlgorithmForm = Pick<ScoringMetadata, 'stats' | 'parts' | 'characterId'>
 
@@ -100,14 +111,15 @@ function ResetAllCharactersButton({ focusCharacter, form }: {
 
   return (
     <Button
-      color="red"
-      onClick={() => modals.openConfirmModal({
-        title: t('Scoring.ResetAllConfirm.Title'),
-        children: t('Scoring.ResetAllConfirm.Description'),
-        labels: { confirm: t('common:Yes'), cancel: t('common:No') },
-        centered: true,
-        onConfirm: resetAllCharacters,
-      })}
+      color='red'
+      onClick={() =>
+        modals.openConfirmModal({
+          title: t('Scoring.ResetAllConfirm.Title'),
+          children: t('Scoring.ResetAllConfirm.Description'),
+          labels: { confirm: t('common:Yes'), cancel: t('common:No') },
+          centered: true,
+          onConfirm: resetAllCharacters,
+        })}
     >
       {t('Scoring.Footer.ResetAll') /* Reset all characters */}
     </Button>
@@ -195,7 +207,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
         <TitleDivider label={t('Scoring.StatWeightsHeader') /* Stat weights */} labelPosition='center' />
 
         <Flex gap={20}>
-          <Flex direction="column" gap={5}>
+          <Flex direction='column' gap={5}>
             <CharacterSelect
               value={scoringAlgorithmForm.getValues().characterId || null}
               onChange={characterSelectorChange}
@@ -209,10 +221,10 @@ function ScoringModalContent({ close }: { close: () => void }) {
 
           <VerticalDivider />
 
-          <Flex direction="column" style={{ flex: 1 }}>
+          <Flex direction='column' style={{ flex: 1 }}>
             <Flex justify='space-between'>
-              <Flex direction="column" gap={defaultGap * 2} style={{ width: '100%' }}>
-                <Flex direction="column" gap={1}>
+              <Flex direction='column' gap={defaultGap * 2} style={{ width: '100%' }}>
+                <Flex direction='column' gap={1}>
                   <div className={classes.partLabel}>
                     {t('common:Parts.Body')}
                   </div>
@@ -235,7 +247,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                   />
                 </Flex>
 
-                <Flex direction="column" gap={1}>
+                <Flex direction='column' gap={1}>
                   <div className={classes.partLabel}>
                     {t('common:Parts.Feet')}
                   </div>
@@ -255,7 +267,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                   />
                 </Flex>
 
-                <Flex direction="column" gap={1}>
+                <Flex direction='column' gap={1}>
                   <div className={classes.partLabel}>
                     {t('common:Parts.PlanarSphere')}
                   </div>
@@ -282,7 +294,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
                   />
                 </Flex>
 
-                <Flex direction="column" gap={1}>
+                <Flex direction='column' gap={1}>
                   <div className={classes.partLabel}>
                     {t('common:Parts.LinkRope')}
                   </div>
@@ -308,7 +320,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
 
           <VerticalDivider />
 
-          <Flex direction="column" gap={3}>
+          <Flex direction='column' gap={3}>
             <StatValueRow stat={Stats.ATK} form={scoringAlgorithmForm} />
             <StatValueRow stat={Stats.HP} form={scoringAlgorithmForm} />
             <StatValueRow stat={Stats.DEF} form={scoringAlgorithmForm} />
@@ -334,10 +346,10 @@ function ScoringModalContent({ close }: { close: () => void }) {
         />
       </div>
       <Flex justify='flex-end' gap={8} className={classes.footerActions}>
-        <Button key='back' variant="default" onClick={close}>
+        <Button key='back' variant='default' onClick={close}>
           {t('common:Cancel') /* Cancel */}
         </Button>
-        <Button key='default' variant="default" onClick={handleResetDefault}>
+        <Button key='default' variant='default' onClick={handleResetDefault}>
           {t('Scoring.Footer.Reset') /* Reset to default */}
         </Button>
         <ResetAllCharactersButton key='resetAll' focusCharacter={scoringAlgorithmFocusCharacter} form={scoringAlgorithmForm} />

@@ -1,10 +1,10 @@
 import { Constants } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { flipStringMapping } from 'lib/utils/objectUtils'
-import type { UnaugmentedRelic } from 'types/relic'
-import { isFlat } from 'lib/utils/statUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { flipStringMapping } from 'lib/utils/objectUtils'
+import { isFlat } from 'lib/utils/statUtils'
+import type { UnaugmentedRelic } from 'types/relic'
 
 let optimizerStatToJsonSubStat: Record<string, string>
 let optimizerStatToAffixStat: Record<string, string>

@@ -4,11 +4,15 @@ import {
   Stats,
   type SubStats,
 } from 'lib/constants/constants'
-import type { SubstatValues } from './relicModalTypes'
+import {
+  precisionRound,
+  truncate1000ths,
+  truncate10ths,
+} from 'lib/utils/mathUtils'
 import { objectHash } from 'lib/utils/objectUtils'
-import type { Relic } from 'types/relic'
 import { isFlat } from 'lib/utils/statUtils'
-import { truncate10ths, truncate1000ths, precisionRound } from 'lib/utils/mathUtils'
+import type { Relic } from 'types/relic'
+import type { SubstatValues } from './relicModalTypes'
 
 export const defaultMainStatPerPart = {
   [Parts.Head]: Stats.HP,

@@ -24,9 +24,7 @@ export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
 
   // Initialize without blur if the image is already browser-cached
   const cached = isImageCached(src)
-  const [storedSrc, setStoredSrc] = useState<string | undefined>(() =>
-    cached ? src : undefined
-  )
+  const [storedSrc, setStoredSrc] = useState<string | undefined>(() => cached ? src : undefined)
   const [storedStyle, setStoredStyle] = useState<CSSProperties>(style)
   const [blur, setBlur] = useState<boolean>(() => !cached)
 
@@ -56,7 +54,9 @@ export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
       setBlur(false)
     }
 
-    return () => { img.onload = null }
+    return () => {
+      img.onload = null
+    }
   }, [src])
 
   // During blur (src transition), freeze position so old image doesn't jump.

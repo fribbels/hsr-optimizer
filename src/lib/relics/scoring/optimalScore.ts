@@ -1,8 +1,8 @@
 import {
   AllStats,
   Constants,
-  SubStatValues,
   PartsMainStats,
+  SubStatValues,
 } from 'lib/constants/constants'
 import type {
   MainStats,

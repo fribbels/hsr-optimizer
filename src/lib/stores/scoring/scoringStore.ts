@@ -1,21 +1,31 @@
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
-import { mergeAndPruneOverride, mergeDeltaWithDefaults } from 'lib/stores/scoring/scoringDelta'
-import { omit, setOrOmit } from 'lib/utils/objectUtils'
+import {
+  mergeAndPruneOverride,
+  mergeDeltaWithDefaults,
+} from 'lib/stores/scoring/scoringDelta'
+import {
+  omit,
+  setOrOmit,
+} from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
-import type { ScoringMetadata, ScoringMetadataOverride, SimulationMetadata } from 'types/metadata'
+import type {
+  ScoringMetadata,
+  ScoringMetadataOverride,
+  SimulationMetadata,
+} from 'types/metadata'
 
 type ScoringStoreState = {
-  scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadataOverride>>
-  scoringVersion: number
+  scoringMetadataOverrides: Partial<Record<CharacterId, ScoringMetadataOverride>>,
+  scoringVersion: number,
 }
 
 type ScoringStoreActions = {
-  setScoringMetadataOverrides: (overrides: Partial<Record<CharacterId, ScoringMetadataOverride>>) => void
-  updateCharacterOverrides: (id: CharacterId, updated: Partial<ScoringMetadataOverride>) => void
-  updateSimulationOverrides: (id: CharacterId, simulation: Partial<SimulationMetadata>) => void
-  clearSimulationOverrides: (id: CharacterId) => void
-  clearCharacterOverrides: (id: CharacterId) => void
+  setScoringMetadataOverrides: (overrides: Partial<Record<CharacterId, ScoringMetadataOverride>>) => void,
+  updateCharacterOverrides: (id: CharacterId, updated: Partial<ScoringMetadataOverride>) => void,
+  updateSimulationOverrides: (id: CharacterId, simulation: Partial<SimulationMetadata>) => void,
+  clearSimulationOverrides: (id: CharacterId) => void,
+  clearCharacterOverrides: (id: CharacterId) => void,
 }
 
 export type ScoringStore = ScoringStoreState & ScoringStoreActions
@@ -24,10 +34,11 @@ export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => (
   scoringMetadataOverrides: {},
   scoringVersion: 0,
 
-  setScoringMetadataOverrides: (overrides) => set({
-    scoringMetadataOverrides: overrides,
-    scoringVersion: get().scoringVersion + 1,
-  }),
+  setScoringMetadataOverrides: (overrides) =>
+    set({
+      scoringMetadataOverrides: overrides,
+      scoringVersion: get().scoringVersion + 1,
+    }),
 
   updateCharacterOverrides: (id, updated) => {
     const prev = get().scoringMetadataOverrides

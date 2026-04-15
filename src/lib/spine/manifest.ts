@@ -1,5 +1,5 @@
-import type { CharacterId } from 'types/character'
 import { BASE_PATH } from 'lib/constants/appPages'
+import type { CharacterId } from 'types/character'
 import manifest from './spineManifest.json' with { type: 'json' }
 
 const SPINE_BASE = new URL(BASE_PATH + '/assets/spine', import.meta.url).href
@@ -21,7 +21,7 @@ export function getSkeletonCount(characterId: CharacterId): number | null {
  * Single skeleton: {charId}.skel, {charId}.atlas
  * Multi skeleton:  {charId}_0.skel, {charId}_0.atlas, {charId}_1.skel, ...
  */
-export function getSkeletonFiles(characterId: CharacterId, count: number): { skelFile: string; atlasFile: string }[] {
+export function getSkeletonFiles(characterId: CharacterId, count: number): { skelFile: string, atlasFile: string }[] {
   const baseId = toBaseCharacterId(characterId)
   if (count === 1) {
     return [{ skelFile: `${baseId}.skel`, atlasFile: `${baseId}.atlas` }]

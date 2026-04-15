@@ -1,4 +1,7 @@
-import { Flex, TextInput } from '@mantine/core'
+import {
+  Flex,
+  TextInput,
+} from '@mantine/core'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   generateElementTags,

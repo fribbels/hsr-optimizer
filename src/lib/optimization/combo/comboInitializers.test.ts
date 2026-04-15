@@ -1,26 +1,37 @@
 // @vitest-environment jsdom
-import { describe, expect, test } from 'vitest'
-import { ABILITY_LIMIT, ConditionalDataType, Sets } from 'lib/constants/constants'
-import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { Metadata } from 'lib/state/metadataInitializer'
-import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
-import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
+  ABILITY_LIMIT,
+  ConditionalDataType,
+  Sets,
+} from 'lib/constants/constants'
+import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
+import {
+  COMBO_STATE_JSON_VERSION,
   type ComboBooleanConditional,
   type ComboNumberConditional,
   type ComboSelectConditional,
   type ComboState,
-  COMBO_STATE_JSON_VERSION,
 } from 'lib/optimization/combo/comboTypes'
-import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
-import type { Form, Teammate } from 'types/form'
+import { getDefaultForm } from 'lib/optimization/defaultForm'
+import { Metadata } from 'lib/state/metadataInitializer'
+import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import type { CharacterId } from 'types/character'
+import type {
+  Form,
+  Teammate,
+} from 'types/form'
+import {
+  describe,
+  expect,
+  test,
+} from 'vitest'
 
 // ---------------------------------------------------------------------------
 // Global setup — exactly once, matching the existing test pattern

@@ -1,4 +1,7 @@
-import { Flex, TextInput } from '@mantine/core'
+import {
+  Flex,
+  TextInput,
+} from '@mantine/core'
 import { SubStats } from 'lib/constants/constants'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -41,7 +44,7 @@ export function SimulationInputs() {
     return (
       <>
         <Flex gap={5} style={{ display: statSimulationDisplay === StatSimTypes.SubstatRolls ? 'flex' : 'none' }}>
-          <Flex direction="column" gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
+          <Flex direction='column' gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
             <HeaderText>{t('SetSelection.Header')}</HeaderText>
             <OptimizerSetsSection simType={simType} />
             <MainStatsSection simType={simType} />

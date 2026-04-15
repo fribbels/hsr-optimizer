@@ -1,3 +1,9 @@
+import { Sets } from 'lib/constants/constants'
+import {
+  ComboBooleanConditional,
+  ComboState,
+} from 'lib/optimization/combo/comboTypes'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import {
   AnaxaCyreneEffectPreprocessor,
   ArcherPreprocessor,
@@ -13,6 +19,7 @@ import {
   TheHertaPreprocessor,
   YunliPreprocessor,
 } from 'lib/optimization/rotation/preprocessor/preprocessCharacters'
+import { ThusBurnsTheDawnPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessLightCones'
 import {
   BandOfSizzlingThunderPreprocessor,
   FiresmithOfLavaForging as FiresmithOfLavaForgingPreprocessor,
@@ -20,14 +27,10 @@ import {
   ScholarLostInEruditionPreprocessor,
   WavestriderCaptainPreprocessor,
 } from 'lib/optimization/rotation/preprocessor/preprocessSets'
-import { Sets } from 'lib/constants/constants'
-import { ComboBooleanConditional, ComboState } from 'lib/optimization/combo/comboTypes'
-import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { type AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilities } from 'lib/optimization/rotation/turnPreprocessor'
 import { type Form } from 'types/form'
-import { ThusBurnsTheDawnPreprocessor } from 'lib/optimization/rotation/preprocessor/preprocessLightCones'
 
 const characterPreprocessors: AbilityPreprocessorBase[] = [
   new AshveilPreprocessor(),

@@ -1,13 +1,28 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
-import { getScoringMetadata, useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
-import { SubStats, Stats } from 'lib/constants/constants'
-import { Metadata } from 'lib/state/metadataInitializer'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import type { ScoringMetadata, ScoringMetadataOverride, SimulationMetadata } from 'types/metadata'
+import { Metadata } from 'lib/state/metadataInitializer'
+import {
+  getScoringMetadata,
+  useScoringStore,
+} from 'lib/stores/scoring/scoringStore'
 import type { CharacterId } from 'types/character'
+import type {
+  ScoringMetadata,
+  ScoringMetadataOverride,
+  SimulationMetadata,
+} from 'types/metadata'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 // ---- Setup ----
 

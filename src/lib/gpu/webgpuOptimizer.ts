@@ -23,10 +23,10 @@ import { initializeContextConditionals } from 'lib/simulations/contextConditiona
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { type SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { setSortColumn } from 'lib/stores/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { gridStore } from 'lib/stores/gridStore'
 import { type Form } from 'types/form'
 import { type OptimizerContext } from 'types/optimizer'
 
@@ -279,13 +279,15 @@ async function revisitOverflowedDispatches(
 
       permutationsSearched += permStride
       const searchedSnapshot = permutationsSearched
-      await new Promise<void>((resolve) => setTimeout(() => {
-        const uiState = useOptimizerDisplayStore.getState()
-        uiState.setOptimizerEndTime(Date.now())
-        uiState.setPermutationsResults(gpuContext.resultsQueue.size())
-        uiState.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
-        resolve()
-      }, 0))
+      await new Promise<void>((resolve) =>
+        setTimeout(() => {
+          const uiState = useOptimizerDisplayStore.getState()
+          uiState.setOptimizerEndTime(Date.now())
+          uiState.setPermutationsResults(gpuContext.resultsQueue.size())
+          uiState.setPermutationsSearched(Math.min(gpuContext.permutations, searchedSnapshot))
+          resolve()
+        }, 0)
+      )
     }
   }
 }

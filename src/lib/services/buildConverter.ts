@@ -1,13 +1,22 @@
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import type { OptimizerRequestState, TeammateState } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import type { Character, CharacterId } from 'types/character'
-import type { Form, Teammate } from 'types/form'
+import type {
+  OptimizerRequestState,
+  TeammateState,
+} from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
+import type {
+  Form,
+  Teammate,
+} from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import {
-  BuildSource,
   type Build,
+  BuildSource,
   type CharacterSavedBuild,
   type OptimizerSavedBuild,
   type SavedBuild,
@@ -21,7 +30,7 @@ export function resolveFlexibleLC(
   savedSI: number,
   currentLC: LightConeId,
   currentSI: number,
-): { lightCone: LightConeId; lightConeSuperimposition: number } {
+): { lightCone: LightConeId, lightConeSuperimposition: number } {
   if (savedLC === currentLC) {
     return { lightCone: savedLC, lightConeSuperimposition: Math.max(savedSI, currentSI) }
   }
@@ -127,8 +136,10 @@ export function deserializeBuild(
 ): Partial<OptimizerRequestState> {
   // LC flexibility — applies to both sources
   const lc = resolveFlexibleLC(
-    build.lightCone, build.lightConeSuperimposition,
-    currentForm.lightCone, currentForm.lightConeSuperimposition,
+    build.lightCone,
+    build.lightConeSuperimposition,
+    currentForm.lightCone,
+    currentForm.lightConeSuperimposition,
   )
   const eidolon = resolveEidolon(build.characterEidolon, currentForm.characterEidolon)
 

@@ -1,6 +1,7 @@
-import { HitDefinitionRows } from 'lib/characterPreview/buffsAnalysis/HitDefinitionDisplay'
-import type { OptimizerContext } from 'types/optimizer'
-import type { AbilityColorKey, TagColorEntry } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import type {
+  AbilityColorKey,
+  TagColorEntry,
+} from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import {
   ABILITY_COLORS,
   DAMAGE_TAG_ENTRIES,
@@ -23,12 +24,14 @@ import {
   getSourceLabelStyle,
   GROUP_ORDER,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
+import { HitDefinitionRows } from 'lib/characterPreview/buffsAnalysis/HitDefinitionDisplay'
 import type { Buff } from 'lib/optimization/basicStatsArray'
 import { AKeyNames } from 'lib/optimization/engine/config/keys'
 import type { DamageTag } from 'lib/optimization/engine/config/tag'
 import type { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { OptimizerContext } from 'types/optimizer'
 
 // Summary totals filter: only sums universal buffs when unfiltered, sums universal + matching when filtered
 function buffMatchesSumFilter(buff: Buff, filter: DamageTag | null): boolean {
@@ -180,8 +183,8 @@ function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
 }
 
 export function StatSummaryTable(props: {
-  sums: StatSum[]
-  avatarSrc: string
+  sums: StatSum[],
+  avatarSrc: string,
 }) {
   const options = useContext(DesignContext)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
@@ -225,9 +228,9 @@ export function StatSummaryTable(props: {
 }
 
 export function HitDefinitionTable(props: {
-  avatarSrc: string
-  context: OptimizerContext
-  selectedAction?: number | null
+  avatarSrc: string,
+  context: OptimizerContext,
+  selectedAction?: number | null,
 }) {
   return (
     <CardShell avatarSrc={props.avatarSrc}>
@@ -238,4 +241,3 @@ export function HitDefinitionTable(props: {
     </CardShell>
   )
 }
-

@@ -1,7 +1,19 @@
-import { describe, expect, it } from 'vitest'
-import { Parts, Stats, SubStats } from 'lib/constants/constants'
+import {
+  Parts,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import type { MainStats } from 'lib/constants/constants'
-import type { ScoringMetadata, ScoringMetadataOverride, ScoringParts } from 'types/metadata'
+import type {
+  ScoringMetadata,
+  ScoringMetadataOverride,
+  ScoringParts,
+} from 'types/metadata'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 import {
   extractPartsDelta,
   extractStatsDelta,

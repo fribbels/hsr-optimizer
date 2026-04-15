@@ -3,6 +3,7 @@ import {
   setOpen,
 } from 'lib/hooks/useOpenClose'
 import { Assets } from 'lib/rendering/assets'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { type PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import {
   memo,
@@ -20,21 +21,20 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 
 type Bucket = Array<PanelProps['scores'][number]>
 
 type Score = Bucket[number]
 
 type DataPoint = {
-  x: number
-  y: number
-  name: Score['name']
-  id: Score['id']
-  bestAdded: Score['score']['meta']['bestAddedStats']
-  bestUpgraded: Score['score']['meta']['bestUpgradedStats']
-  imgWidth: number
-  imgHeight: number
+  x: number,
+  y: number,
+  name: Score['name'],
+  id: Score['id'],
+  bestAdded: Score['score']['meta']['bestAddedStats'],
+  bestUpgraded: Score['score']['meta']['bestUpgradedStats'],
+  imgWidth: number,
+  imgHeight: number,
 }
 
 const DEFAULT_WIDTH = 1222
@@ -154,7 +154,7 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
 })
 
 function ShapeFunction(untypedProps: unknown) {
-  const props = untypedProps as DataPoint & { x: number; y: number }
+  const props = untypedProps as DataPoint & { x: number, y: number }
   const w = props.imgWidth
   const h = props.imgHeight
   return (

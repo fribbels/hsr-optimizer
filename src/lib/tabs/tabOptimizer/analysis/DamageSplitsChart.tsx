@@ -4,9 +4,15 @@ import {
   getDamageTypeColor,
 } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import type { DamageSplitEntry } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
-import { localeNumberComma, renderThousandsK } from 'lib/utils/i18nUtils'
+import {
+  localeNumberComma,
+  renderThousandsK,
+} from 'lib/utils/i18nUtils'
 import type { ReactNode } from 'react'
-import { useMemo, type CSSProperties } from 'react'
+import {
+  type CSSProperties,
+  useMemo,
+} from 'react'
 import type { LabelProps } from 'recharts'
 import {
   Bar,
@@ -18,10 +24,10 @@ import {
 } from 'recharts'
 
 type TooltipPayloadEntry = {
-  dataKey?: string | number
-  value?: number
-  name?: string
-  color?: string
+  dataKey?: string | number,
+  value?: number,
+  name?: string,
+  color?: string,
 }
 
 const TOOLTIP_STYLE: CSSProperties = {
@@ -36,30 +42,30 @@ const TOOLTIP_STYLE: CSSProperties = {
 const DAMAGE_SPLITS_CHART_WIDTH = 730
 const BAR_HEIGHT = 48
 const CHART_PADDING = 80
-const CHART_LEFT_MARGIN = 105  // 25 margin + 80 YAxis width
+const CHART_LEFT_MARGIN = 105 // 25 margin + 80 YAxis width
 const CHART_RIGHT_MARGIN = 60
 const PLOT_WIDTH = DAMAGE_SPLITS_CHART_WIDTH - CHART_LEFT_MARGIN - CHART_RIGHT_MARGIN
 
 type FlattenedBar = {
-  key: string
-  damageType: number
-  label: string
-  color: string
-  shape: (props: { x: number; y: number; width: number; height: number }) => ReactNode
+  key: string,
+  damageType: number,
+  label: string,
+  color: string,
+  shape: (props: { x: number, y: number, width: number, height: number }) => ReactNode,
 }
 
 type LegendItem = {
-  damageType: number
-  color: string
-  label: string
+  damageType: number,
+  color: string,
+  label: string,
 }
 
 type FlatRow = Record<string, number | string> & {
-  name: string
-  total: number
+  name: string,
+  total: number,
 }
 
-function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[]; bars: FlattenedBar[]; legendItems: LegendItem[] } {
+function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[], bars: FlattenedBar[], legendItems: LegendItem[] } {
   const bars: FlattenedBar[] = []
   const rows: FlatRow[] = []
   const seenDamageTypes = new Set<number>()
@@ -137,7 +143,7 @@ function createBarLabelRenderer(maxTotal: number) {
 }
 
 function GapBar(color: string, isFirst: boolean) {
-  return (props: { x: number; y: number; width: number; height: number }) => {
+  return (props: { x: number, y: number, width: number, height: number }) => {
     if (props.width <= 0) return null
     if (isFirst) {
       return (
@@ -177,13 +183,13 @@ function GapBar(color: string, isFirst: boolean) {
   }
 }
 
-function parseLabel(name: string): { num: string; label: string } {
+function parseLabel(name: string): { num: string, label: string } {
   const match = name.match(/^(\d+)\.\s*(.+)$/)
   if (match) return { num: match[1], label: match[2] }
   return { num: '', label: name }
 }
 
-function dimNumberLeftTick(props: { x: string | number; y: string | number; payload: { value: string } }) {
+function dimNumberLeftTick(props: { x: string | number, y: string | number, payload: { value: string } }) {
   const { x, y, payload } = props
   const tx = Number(x) - 70
   const { num, label } = parseLabel(payload.value)
@@ -195,25 +201,21 @@ function dimNumberLeftTick(props: { x: string | number; y: string | number; payl
   if (!num) {
     return (
       <text x={tx} y={y} textAnchor='start' fontSize={13} fontWeight={300} dominantBaseline='central'>
-        <tspan fill='transparent'>0. </tspan>
-        {words.map((word, i) => (
-          <tspan key={i} x={tx + 23} dy={i === 0 ? startDy : lineHeight} fill={chartColor}>{word}</tspan>
-        ))}
+        <tspan fill='transparent'>0.</tspan>
+        {words.map((word, i) => <tspan key={i} x={tx + 23} dy={i === 0 ? startDy : lineHeight} fill={chartColor}>{word}</tspan>)}
       </text>
     )
   }
 
   return (
     <text x={tx} y={y} textAnchor='start' fontSize={13} fontWeight={300} dominantBaseline='central'>
-      <tspan fill='#667'>{num}. </tspan>
-      {words.map((word, i) => (
-        <tspan key={i} x={tx + 23} dy={i === 0 ? startDy : lineHeight} fill={chartColor}>{word}</tspan>
-      ))}
+      <tspan fill='#667'>{num}.</tspan>
+      {words.map((word, i) => <tspan key={i} x={tx + 23} dy={i === 0 ? startDy : lineHeight} fill={chartColor}>{word}</tspan>)}
     </text>
   )
 }
 
-function CustomTooltip({ active, payload, bars }: { active?: boolean; payload?: TooltipPayloadEntry[]; bars: FlattenedBar[] }) {
+function CustomTooltip({ active, payload, bars }: { active?: boolean, payload?: TooltipPayloadEntry[], bars: FlattenedBar[] }) {
   if (!active || !payload || payload.length === 0) return null
 
   // Find the first non-zero payload entry
@@ -287,21 +289,21 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
             isAnimationActive={false}
           >
             {/* Attach labels to last bar; position calculated from total value, not bar width */}
-            {i === bars.length - 1 && (
-              <LabelList dataKey='total' position='right' content={renderBarLabel} />
-            )}
+            {i === bars.length - 1 && <LabelList dataKey='total' position='right' content={renderBarLabel} />}
           </Bar>
         ))}
       </BarChart>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 16, marginTop: -10, paddingBlock: 8 }}>
         {legendItems.map((item) => (
           <div key={item.damageType} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{
-              width: 12,
-              height: 12,
-              borderRadius: 2,
-              backgroundColor: item.color,
-            }} />
+            <div
+              style={{
+                width: 12,
+                height: 12,
+                borderRadius: 2,
+                backgroundColor: item.color,
+              }}
+            />
             <span style={{ fontSize: 13, color: chartColor }}>{item.label}</span>
           </div>
         ))}
@@ -309,4 +311,3 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
     </div>
   )
 }
-

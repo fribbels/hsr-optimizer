@@ -1,9 +1,16 @@
-import { useEffect, useRef } from 'react'
-import type { CSSProperties } from 'react'
-import type { CharacterId } from 'types/character'
-import { getSkeletonCount, getSkeletonFiles, getSpineAssetBaseUrl } from 'lib/spine/manifest'
+import {
+  getSkeletonCount,
+  getSkeletonFiles,
+  getSpineAssetBaseUrl,
+} from 'lib/spine/manifest'
 import { createSpineInstance } from 'lib/spine/spineEngine'
 import type { SpineInstance } from 'lib/spine/spineEngine'
+import {
+  useEffect,
+  useRef,
+} from 'react'
+import type { CSSProperties } from 'react'
+import type { CharacterId } from 'types/character'
 
 const CANVAS_SIZE = 2048
 
@@ -13,10 +20,10 @@ export function SpinePortrait({
   onUnsupported,
   onReady,
 }: {
-  characterId: CharacterId
-  style?: CSSProperties
-  onUnsupported?: () => void
-  onReady?: () => void
+  characterId: CharacterId,
+  style?: CSSProperties,
+  onUnsupported?: () => void,
+  onReady?: () => void,
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const instanceRef = useRef<SpineInstance | null>(null)

@@ -24,7 +24,10 @@ import {
   useContext,
 } from 'react'
 import type { Hit } from 'types/hitConditionalTypes'
-import type { OptimizerAction, OptimizerContext } from 'types/optimizer'
+import type {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
 
 function pct(v: number): string {
   return `${Math.round(v * 100)}%`
@@ -181,8 +184,8 @@ function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
 }
 
 function ActionHitGroup({ action, isLastAction }: {
-  action: OptimizerAction
-  isLastAction: boolean
+  action: OptimizerAction,
+  isLastAction: boolean,
 }) {
   const hits = action.hits ?? []
   if (hits.length === 0) return null
@@ -212,8 +215,8 @@ function ActionHitGroup({ action, isLastAction }: {
 }
 
 export function HitDefinitionRows({ context, selectedAction }: {
-  context: OptimizerContext
-  selectedAction: number | null
+  context: OptimizerContext,
+  selectedAction: number | null,
 }) {
   const actions = getSelectedActions(context, selectedAction)
   if (!actions.length) return null

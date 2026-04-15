@@ -3,11 +3,11 @@ import {
   type PathName,
 } from 'lib/constants/constants'
 import { getCharacterById } from 'lib/stores/character/characterStore'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { clone } from 'lib/utils/objectUtils'
 import type {
   CharacterId,
 } from 'types/character'
-import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 
 export type CharacterTabFilters = {
   name: string,

@@ -1,12 +1,29 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
-import { savedSessionDefaults, useGlobalStore } from 'lib/stores/app/appStore'
-import { DefaultSettingOptions, SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
-import { COMPUTE_ENGINE_CPU, CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
-import { AppPages, getDefaultActiveKey } from 'lib/constants/appPages'
+import {
+  AppPages,
+  getDefaultActiveKey,
+} from 'lib/constants/appPages'
+import {
+  COMPUTE_ENGINE_CPU,
+  CURRENT_OPTIMIZER_VERSION,
+} from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import {
+  DefaultSettingOptions,
+  SettingOptions,
+} from 'lib/overlays/drawers/SettingsDrawer'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
+import {
+  savedSessionDefaults,
+  useGlobalStore,
+} from 'lib/stores/app/appStore'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 // ---- Helpers ----
 

@@ -1,24 +1,55 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { Metadata } from 'lib/state/metadataInitializer'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
-import { getRelicById, getRelics, useRelicStore } from 'lib/stores/relic/relicStore'
-import { getCharacters, useCharacterStore } from 'lib/stores/character/characterStore'
-import { useScoringStore } from 'lib/stores/scoring/scoringStore'
-import { savedSessionDefaults, useGlobalStore } from 'lib/stores/app/appStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import {
+  loadSaveData,
+  mergePartialRelics,
+  mergeRelics,
+  resetAll,
+} from 'lib/services/persistenceService'
+import { Metadata } from 'lib/state/metadataInitializer'
+import {
+  savedSessionDefaults,
+  useGlobalStore,
+} from 'lib/stores/app/appStore'
+import {
+  getCharacters,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import {
+  getRelicById,
+  getRelics,
+  useRelicStore,
+} from 'lib/stores/relic/relicStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
-import { loadSaveData, mergePartialRelics, mergeRelics, resetAll } from 'lib/services/persistenceService'
-import type { Character, CharacterId } from 'types/character'
-import { BuildSource } from 'types/savedBuild'
-import type { Relic } from 'types/relic'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import type { Form } from 'types/form'
-import type { HsrOptimizerSaveFormat, UserSettings } from 'types/store'
 import type { LightConeId } from 'types/lightCone'
 import type { ScoringMetadata } from 'types/metadata'
+import type { Relic } from 'types/relic'
+import { BuildSource } from 'types/savedBuild'
+import type {
+  HsrOptimizerSaveFormat,
+  UserSettings,
+} from 'types/store'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
 
 // ---- Mocks ----
 
@@ -110,8 +141,11 @@ describe('mergeRelics', () => {
   it('mergeRelics accumulates remap across multiple equipped parts', () => {
     const headOld = makeRelic({ id: RELIC_HEAD_OLD, part: Parts.Head, equippedBy: Kafka.id })
     const bodyOld = makeRelic({
-      id: RELIC_BODY_OLD, part: Parts.Body, equippedBy: Kafka.id,
-      set: Sets.MusketeerOfWildWheat, main: { stat: Stats.ATK_P, value: 43.2 },
+      id: RELIC_BODY_OLD,
+      part: Parts.Body,
+      equippedBy: Kafka.id,
+      set: Sets.MusketeerOfWildWheat,
+      main: { stat: Stats.ATK_P, value: 43.2 },
     })
 
     const char = makeCharacter({
@@ -124,8 +158,11 @@ describe('mergeRelics', () => {
     // Verified import with different IDs, no newCharacters so remap loop is sole updater
     const headNew = makeRelic({ id: RELIC_HEAD_NEW, part: Parts.Head, verified: true })
     const bodyNew = makeRelic({
-      id: RELIC_BODY_NEW, part: Parts.Body, verified: true,
-      set: Sets.MusketeerOfWildWheat, main: { stat: Stats.ATK_P, value: 43.2 },
+      id: RELIC_BODY_NEW,
+      part: Parts.Body,
+      verified: true,
+      set: Sets.MusketeerOfWildWheat,
+      main: { stat: Stats.ATK_P, value: 43.2 },
     })
 
     mergeRelics([headNew, bodyNew], [])
@@ -140,8 +177,11 @@ describe('mergeRelics', () => {
   it('mergeRelics single-part remap preserves other equipment slots', () => {
     const headOld = makeRelic({ id: RELIC_HEAD_OLD, part: Parts.Head, equippedBy: Kafka.id })
     const feet = makeRelic({
-      id: RELIC_FEET, part: Parts.Feet, equippedBy: Kafka.id,
-      set: Sets.MusketeerOfWildWheat, main: { stat: Stats.SPD, value: 25.0 },
+      id: RELIC_FEET,
+      part: Parts.Feet,
+      equippedBy: Kafka.id,
+      set: Sets.MusketeerOfWildWheat,
+      main: { stat: Stats.SPD, value: 25.0 },
     })
 
     const char = makeCharacter({
@@ -154,8 +194,10 @@ describe('mergeRelics', () => {
     // Only head gets a new ID via verified import, feet keeps same ID
     const headNew = makeRelic({ id: RELIC_HEAD_NEW, part: Parts.Head, verified: true })
     const feetSame = makeRelic({
-      id: RELIC_FEET, part: Parts.Feet,
-      set: Sets.MusketeerOfWildWheat, main: { stat: Stats.SPD, value: 25.0 },
+      id: RELIC_FEET,
+      part: Parts.Feet,
+      set: Sets.MusketeerOfWildWheat,
+      main: { stat: Stats.SPD, value: 25.0 },
     })
 
     mergeRelics([headNew, feetSame], [])
@@ -299,8 +341,13 @@ describe('mergeRelics — cleanup loop stale reference', () => {
   it('cleans multiple invalid equipped slots on same character', () => {
     const deletedHead = 'deleted-head-id'
     const deletedBody = 'deleted-body-id'
-    const validFeet = makeRelic({ id: RELIC_FEET, part: Parts.Feet, equippedBy: Kafka.id,
-      set: Sets.MusketeerOfWildWheat, main: { stat: Stats.SPD, value: 25 } })
+    const validFeet = makeRelic({
+      id: RELIC_FEET,
+      part: Parts.Feet,
+      equippedBy: Kafka.id,
+      set: Sets.MusketeerOfWildWheat,
+      main: { stat: Stats.SPD, value: 25 },
+    })
 
     const char = makeCharacter({
       equipped: {

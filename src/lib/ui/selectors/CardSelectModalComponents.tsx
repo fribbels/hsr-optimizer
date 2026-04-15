@@ -1,4 +1,7 @@
-import { Flex, UnstyledButton } from '@mantine/core'
+import {
+  Flex,
+  UnstyledButton,
+} from '@mantine/core'
 import {
   type ElementName,
   ElementToDamage,
@@ -9,7 +12,7 @@ import { Assets } from 'lib/rendering/assets'
 import type { ReactElement } from 'react'
 import classes from './CardSelectModalComponents.module.css'
 
-type PathTag = { key: PathName; display: ReactElement }
+type PathTag = { key: PathName, display: ReactElement }
 let cachedPathTags: PathTag[] | null = null
 export function generatePathTags(): PathTag[] {
   if (cachedPathTags) return cachedPathTags
@@ -25,15 +28,13 @@ export function generateRarityTags() {
     key: x,
     display: (
       <Flex flex={1} justify='center' align='center' className={classes.rarityContainer}>
-        {Array.from({ length: x }, (_, i) => (
-          <img key={i} className={classes.starImage} src={Assets.getStar()} />
-        ))}
+        {Array.from({ length: x }, (_, i) => <img key={i} className={classes.starImage} src={Assets.getStar()} />)}
       </Flex>
     ),
   }))
 }
 
-type ElementTag = { key: ElementName; display: ReactElement }
+type ElementTag = { key: ElementName, display: ReactElement }
 let cachedElementTags: ElementTag[] | null = null
 export function generateElementTags(): ElementTag[] {
   if (cachedElementTags) return cachedElementTags
@@ -51,11 +52,11 @@ export function SegmentedFilterRow<T extends string | number | boolean>({
   flexBasis,
   noHeight,
 }: {
-  tags: { key: T, display: ReactElement, flexBasis?: string }[]
-  currentFilter: NoInfer<T>[]
-  setCurrentFilters(filters: NoInfer<T>[]): void
-  flexBasis?: string
-  noHeight?: boolean
+  tags: { key: T, display: ReactElement, flexBasis?: string }[],
+  currentFilter: NoInfer<T>[],
+  setCurrentFilters(filters: NoInfer<T>[]): void,
+  flexBasis?: string,
+  noHeight?: boolean,
 }) {
   const handleChange = (tag: T, checked: boolean) => {
     const nextSelectedTags = checked

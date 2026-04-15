@@ -1,4 +1,7 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import type { SubstatCounts } from 'lib/simulations/statSimulationTypes'
 
 export const SUBSTAT_COUNT = SubStats.length

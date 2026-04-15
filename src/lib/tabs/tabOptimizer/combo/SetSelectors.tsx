@@ -1,21 +1,25 @@
 import { Flex } from '@mantine/core'
-import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
+import { persistSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
+import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { useOrnamentsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions'
 import { GenerateBasicSetsOptions } from 'lib/tabs/tabOptimizer/optimizerForm/components/SetsOptions'
-import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
-import { persistSelectedSets } from 'lib/tabs/tabOptimizer/combo/comboDrawerService'
-import { type ReactNode, useCallback, useMemo } from 'react'
+import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
+import {
+  type ReactNode,
+  useCallback,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ReactElement } from 'types/components'
 
 function SetSelector({ selected, options, placeholder, submit }: {
-  selected: string[]
+  selected: string[],
   options: {
-    value: string
-    label: ReactElement
-  }[]
-  placeholder: string
-  submit: (arr: string[]) => void
+    value: string,
+    label: ReactElement,
+  }[],
+  placeholder: string,
+  submit: (arr: string[]) => void,
 }) {
   const values = selected ?? []
 
@@ -30,7 +34,7 @@ function SetSelector({ selected, options, placeholder, submit }: {
   )
 
   const renderOption = useCallback(
-    (opt: { value: string; label: string }): ReactNode => labelMap.get(opt.value) ?? opt.label,
+    (opt: { value: string, label: string }): ReactNode => labelMap.get(opt.value) ?? opt.label,
     [labelMap],
   )
 

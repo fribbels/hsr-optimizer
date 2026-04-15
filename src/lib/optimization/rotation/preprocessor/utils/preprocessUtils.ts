@@ -1,10 +1,10 @@
 import { ABILITY_LIMIT } from 'lib/constants/constants'
-import { type TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   ComboBooleanConditional,
   ComboNumberConditional,
   ComboState,
 } from 'lib/optimization/combo/comboTypes'
+import { type TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 
 export abstract class AbilityPreprocessorBase {
   abstract id: string

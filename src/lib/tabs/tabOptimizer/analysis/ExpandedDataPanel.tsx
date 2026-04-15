@@ -3,6 +3,9 @@ import { BuffsAnalysisDisplay } from 'lib/characterPreview/buildAnalysis/BuffsAn
 import { AppPages } from 'lib/constants/appPages'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
+import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
 import {
   generateAnalysisData,
   getCachedForm,
@@ -10,15 +13,12 @@ import {
   mismatchedCharacter,
 } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
-import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
-import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
 import { FilterContainer } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import { FormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useMemo } from 'react'
 
 export function ExpandedDataPanel() {

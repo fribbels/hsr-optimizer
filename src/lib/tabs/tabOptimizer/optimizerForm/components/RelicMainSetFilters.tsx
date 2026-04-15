@@ -1,5 +1,11 @@
-import { IconFilter, IconSettings } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import {
+  Button,
+  Flex,
+} from '@mantine/core'
+import {
+  IconFilter,
+  IconSettings,
+} from '@tabler/icons-react'
 import {
   Constants,
   Parts,
@@ -37,7 +43,7 @@ function MainStatBody() {
   return (
     <MultiSelectPills
       clearable
-      size="xs"
+      size='xs'
       className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.Body')}
@@ -70,7 +76,7 @@ function MainStatFeet() {
   return (
     <MultiSelectPills
       clearable
-      size="xs"
+      size='xs'
       className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.Feet')}
@@ -100,7 +106,7 @@ function MainStatPlanarSphere() {
   return (
     <MultiSelectPills
       clearable
-      size="xs"
+      size='xs'
       className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.PlanarSphere')}
@@ -137,7 +143,7 @@ function MainStatLinkRope() {
   return (
     <MultiSelectPills
       clearable
-      size="xs"
+      size='xs'
       className={inputClasses.compactPadding}
       style={mainStatStyle}
       placeholder={t('Parts.LinkRope')}
@@ -165,7 +171,7 @@ function MainStatLinkRope() {
 function SetFilterButton() {
   return (
     <Button
-      variant="default"
+      variant='default'
       fullWidth
       onClick={() => setOpen(OpenCloseIDs.RELIC_SET_FILTER_MODAL)}
       leftSection={<IconFilter size={16} />}
@@ -179,12 +185,12 @@ export function RelicMainSetFilters() {
   const { t } = useTranslation('optimizerTab')
 
   return (
-    <Flex direction="column" gap={optimizerTabDefaultGap}>
+    <Flex direction='column' gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('MainStats') /* Main stats */}</HeaderText>
         <TooltipImage type={Hint.mainStats()} />
       </Flex>
-      <Flex direction="column" gap={7}>
+      <Flex direction='column' gap={7}>
         <MainStatBody />
         <MainStatFeet />
         <MainStatPlanarSphere />
@@ -196,9 +202,9 @@ export function RelicMainSetFilters() {
         <TooltipImage type={Hint.sets()} />
       </Flex>
 
-      <Flex direction="column" gap={7}>
+      <Flex direction='column' gap={7}>
         <Button
-          variant="default"
+          variant='default'
           onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
           leftSection={<IconSettings size={16} />}
         >

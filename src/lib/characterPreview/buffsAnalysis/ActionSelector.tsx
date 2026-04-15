@@ -2,7 +2,10 @@ import {
   ABILITY_COLORS,
   ACTION_COLORS,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
-import { TEXT_DIM, TEXT_PRIMARY } from 'lib/characterPreview/buffsAnalysis/designContext'
+import {
+  TEXT_DIM,
+  TEXT_PRIMARY,
+} from 'lib/characterPreview/buffsAnalysis/designContext'
 import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { RotationStepEntry } from 'lib/simulations/combatBuffsAnalysis'
@@ -10,17 +13,17 @@ import { useTranslation } from 'react-i18next'
 import classes from './ActionSelector.module.css'
 
 type ActionItem = {
-  label: string
-  color: string
-  isActive: boolean
-  onClick: () => void
-  index: number
+  label: string,
+  color: string,
+  isActive: boolean,
+  onClick: () => void,
+  index: number,
 }
 
 export function ActionSelector({ rotationSteps, selectedAction, onActionChange }: {
-  rotationSteps: RotationStepEntry[]
-  selectedAction: number | null
-  onActionChange: (action: number | null) => void
+  rotationSteps: RotationStepEntry[],
+  selectedAction: number | null,
+  onActionChange: (action: number | null) => void,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const { t: tCombo } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })

@@ -8,10 +8,15 @@ import {
   AgGridReact,
   type AgGridReactProps,
 } from 'ag-grid-react'
-import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
-import { useTranslation } from 'react-i18next'
+import {
+  useGridLocale,
+  useGridLocaleRebuild,
+} from 'lib/hooks/useGridLocale'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import type { ScoredRelic } from 'lib/relics/scoreRelics'
-import { scoreRelicsAsync } from 'lib/worker/scoreRelicsWorkerRunner'
+import { gridStore } from 'lib/stores/gridStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import {
   defaultRelicsGridColDefs,
   generateBaselineColDefs,
@@ -19,9 +24,11 @@ import {
 } from 'lib/tabs/tabRelics/columnDefs'
 import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
-import { useRelicsTabStore, type ValueColumnField } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { gridStore } from 'lib/stores/gridStore'
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
+import {
+  useRelicsTabStore,
+  type ValueColumnField,
+} from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { scoreRelicsAsync } from 'lib/worker/scoreRelicsWorkerRunner'
 import {
   startTransition,
   useCallback,
@@ -31,8 +38,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { useRelicStore } from 'lib/stores/relic/relicStore'
-import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
 const gridOptions: GridOptions<ScoredRelic> = {
@@ -121,7 +127,9 @@ export function RelicsGrid() {
       .catch((err) => {
         if (!cancelled) console.warn('scoreRelicsAsync error:', err)
       })
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
     // scoringVersion is not passed to the worker but triggers re-scoring via this dep array
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [relics, scoringVersion, focusCharacter, excludedRelicPotentialCharacters])

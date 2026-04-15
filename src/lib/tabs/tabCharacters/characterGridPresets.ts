@@ -3,24 +3,24 @@ import type { CSSProperties } from 'react'
 export type CharacterGridDensity = 'default' | 'compact'
 
 export type CharacterGridPreset = {
-  listWidth: number
-  rowHeight: number
-  rowGap: number
-  padding: number
-  innerGap: number
-  portraitScale: number
-  portraitX: number
-  portraitY: number
-  lcSize: number
-  lcStripWidth: number
-  fontSize: number
-  lineHeight: number
-  subtitleGap: number
-  subtitleFontFamily: string
-  subtitleFontSize: number
-  subtitleLineHeight: number
-  frostFadeStart: number
-  frostFadeEnd: number
+  listWidth: number,
+  rowHeight: number,
+  rowGap: number,
+  padding: number,
+  innerGap: number,
+  portraitScale: number,
+  portraitX: number,
+  portraitY: number,
+  lcSize: number,
+  lcStripWidth: number,
+  fontSize: number,
+  lineHeight: number,
+  subtitleGap: number,
+  subtitleFontFamily: string,
+  subtitleFontSize: number,
+  subtitleLineHeight: number,
+  frostFadeStart: number,
+  frostFadeEnd: number,
 }
 
 export const characterGridPresets: Record<CharacterGridDensity, CharacterGridPreset> = {

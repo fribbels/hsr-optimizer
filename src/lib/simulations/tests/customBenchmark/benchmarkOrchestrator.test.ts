@@ -1,16 +1,4 @@
 // @vitest-environment jsdom
-import {
-  Sets,
-  Stats,
-} from 'lib/constants/constants'
-import { expectBenchmarkResultsToMatch } from 'lib/simulations/tests/customBenchmark/benchmarkOrchestratorTestUtils'
-import {
-  generateE6S5Test,
-  testCharacter,
-  testMains,
-  testSets,
-  testStatSpread,
-} from 'lib/simulations/tests/simTestUtils'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
@@ -37,6 +25,18 @@ import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRe
 import { SailingTowardsASecondLife } from 'lib/conditionals/lightcone/5star/SailingTowardsASecondLife'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
+import {
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
+import { expectBenchmarkResultsToMatch } from 'lib/simulations/tests/customBenchmark/benchmarkOrchestratorTestUtils'
+import {
+  generateE6S5Test,
+  testCharacter,
+  testMains,
+  testSets,
+  testStatSpread,
+} from 'lib/simulations/tests/simTestUtils'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 

@@ -1,9 +1,24 @@
-import { useCallback, useMemo } from 'react'
-import { Badge, Group, type MantineSpacing, Stack } from '@mantine/core'
+import {
+  Badge,
+  Group,
+  type MantineSpacing,
+  Stack,
+} from '@mantine/core'
+import type {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import type { SetsRelics, SetsOrnaments } from 'lib/sets/setConfigRegistry'
-import { FourPieceBadges, TwoPieceComboBadges, OrnamentBadges } from './SetFilterBadges'
+import {
+  useCallback,
+  useMemo,
+} from 'react'
 import classes from './RelicSetFilterModal.module.css'
+import {
+  FourPieceBadges,
+  OrnamentBadges,
+  TwoPieceComboBadges,
+} from './SetFilterBadges'
 
 const MAX_VISIBLE_RELICS = 2
 const MAX_VISIBLE_ORNAMENTS = 3
@@ -44,11 +59,11 @@ export function SetFilterSummary({ mt }: { mt?: MantineSpacing }) {
   return (
     <Stack gap={4} mt={mt}>
       {relicTotal > 0 && (
-        <Group gap={5} wrap="nowrap" align="center" className={classes.collectorRow}>
+        <Group gap={5} wrap='nowrap' align='center' className={classes.collectorRow}>
           <FourPieceBadges checked4p={visible4p} onRemove={remove4p} />
           <TwoPieceComboBadges combos={visibleCombos} onRemove={removeCombo} />
           {relicOverflow > 0 && (
-            <Badge variant="default" radius="sm" size="lg" h={28} fz={12} fw="normal">
+            <Badge variant='default' radius='sm' size='lg' h={28} fz={12} fw='normal'>
               +{relicOverflow}
             </Badge>
           )}
@@ -56,10 +71,10 @@ export function SetFilterSummary({ mt }: { mt?: MantineSpacing }) {
       )}
 
       {checkedOrnaments.size > 0 && (
-        <Group gap={5} wrap="nowrap" align="center" className={classes.collectorRow}>
+        <Group gap={5} wrap='nowrap' align='center' className={classes.collectorRow}>
           <OrnamentBadges checkedOrnaments={visibleOrnaments} onRemove={removeOrnament} />
           {ornamentOverflow > 0 && (
-            <Badge variant="default" radius="sm" size="lg" h={28} fz={12} fw="normal">
+            <Badge variant='default' radius='sm' size='lg' h={28} fz={12} fw='normal'>
               +{ornamentOverflow}
             </Badge>
           )}

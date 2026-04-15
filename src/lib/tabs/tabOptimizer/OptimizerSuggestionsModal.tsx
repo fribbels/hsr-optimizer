@@ -1,4 +1,8 @@
-import { Button, Flex, Modal } from '@mantine/core'
+import {
+  Button,
+  Flex,
+  Modal,
+} from '@mantine/core'
 import type { TFunction } from 'i18next'
 import {
   OpenCloseIDs,
@@ -84,7 +88,7 @@ function ZeroPermutationsSuggestionsContent() {
   const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
 
   return (
-    <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
+    <Flex direction='column' gap={15} style={{ marginBottom: 15 }}>
       <div>
         {
           t(
@@ -120,7 +124,7 @@ function ZeroResultSuggestionContent({ close: closeZeroResultsModal }: { close: 
   const rootCauseDisplay = rootCauses.map((rootCause) => convertRootCauseToDisplay(rootCause, t))
 
   return (
-    <Flex direction="column" gap={15} style={{ marginBottom: 15 }}>
+    <Flex direction='column' gap={15} style={{ marginBottom: 15 }}>
       <Flex justify='space-between' align='center' h={45}>
         <div>
           {t('0Results.ResetAll.Description') /* This means your stat and/or rating filters are too restrictive. */}

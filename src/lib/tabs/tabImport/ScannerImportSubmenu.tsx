@@ -1,9 +1,21 @@
 import {
+  Accordion,
+  Alert,
+  Button,
+  Checkbox,
+  Divider,
+  Flex,
+  Switch,
+  TextInput,
+  Timeline,
+  Tooltip,
+} from '@mantine/core'
+import { modals } from '@mantine/modals'
+import {
   IconRefresh,
   IconUpload,
 } from '@tabler/icons-react'
-import { Accordion, Alert, Button, Checkbox, Divider, Flex, Switch, TextInput, Timeline, Tooltip } from '@mantine/core'
-import { modals } from '@mantine/modals'
+import { AppPages } from 'lib/constants/appPages'
 import {
   type HoyolabData,
   hoyolabParser,
@@ -16,28 +28,33 @@ import {
 } from 'lib/importer/importConfig'
 import { type ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
-import { AppPages } from 'lib/constants/appPages'
 import * as persistenceService from 'lib/services/persistenceService'
-import { useGlobalStore } from 'lib/stores/app/appStore'
-import { getCharacterById, getCharacters } from 'lib/stores/character/characterStore'
 import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import {
+  getCharacterById,
+  getCharacters,
+} from 'lib/stores/character/characterStore'
 import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
 } from 'lib/tabs/tabImport/importerTabUiConstants'
 import { ReliquaryDescription } from 'lib/tabs/tabImport/ReliquaryDescription'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import { useRef, useState } from 'react'
-import { useShallow } from 'zustand/react/shallow'
+import {
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
+import { useShallow } from 'zustand/react/shallow'
+import classes from './ScannerImportSubmenu.module.css'
 import {
   DEFAULT_WEBSOCKET_URL,
   useScannerState,
 } from './ScannerWebsocketClient'
-import classes from './ScannerImportSubmenu.module.css'
 
 type ParsedCharacter = {
   characterId: CharacterId,
@@ -195,7 +212,7 @@ export function ScannerImportSubmenu() {
   function uploadScannerFile() {
     return (
       <Flex className={classes.uploadStage} gap={30}>
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <div>
             {t('Import.Stage1.Header')}
           </div>
@@ -243,11 +260,11 @@ export function ScannerImportSubmenu() {
               </li>
             </ul>
           </div>
-          <Flex direction="column" align='flex-start'>
+          <Flex direction='column' align='flex-start'>
             <Flex gap={10} align='center'>
               <input
-                type="file"
-                accept=".json"
+                type='file'
+                accept='.json'
                 ref={fileInputRef}
                 style={{ display: 'none' }}
                 onChange={(e) => {
@@ -267,7 +284,7 @@ export function ScannerImportSubmenu() {
                   setCurrentStage(Stages.LOAD_FILE)
                   fileInputRef.current?.click()
                 }}
-                variant="default"
+                variant='default'
               >
                 {t('Import.Stage1.ButtonText')}
               </Button>
@@ -291,8 +308,8 @@ export function ScannerImportSubmenu() {
                 }}
               />
             </Flex>
-            <Divider w="100%" my={20} label={t('Import.LiveImport.Title') /* Live Import Controls */} labelPosition='center' />
-            <Flex direction="column" gap={10}>
+            <Divider w='100%' my={20} label={t('Import.LiveImport.Title') /* Live Import Controls */} labelPosition='center' />
+            <Flex direction='column' gap={10}>
               <div>
                 {
                   t(
@@ -344,7 +361,7 @@ export function ScannerImportSubmenu() {
 
                 <div>{t('Import.LiveImport.Enable') /* Enable Live Import (Recommended) */}</div>
 
-                <Divider variant="dashed" className={classes.dividerLine} />
+                <Divider variant='dashed' className={classes.dividerLine} />
 
                 <Tooltip
                   position='top-end'
@@ -381,11 +398,11 @@ export function ScannerImportSubmenu() {
               </Flex>
 
               <Accordion>
-                <Accordion.Item value="1">
+                <Accordion.Item value='1'>
                   <Accordion.Control>{t('Import.LiveImport.AdvancedSettings.Title') /* Advanced Settings */}</Accordion.Control>
                   <Accordion.Panel>
-                    <Flex direction="column" gap={10}>
-                      <Flex direction="column">
+                    <Flex direction='column' gap={10}>
+                      <Flex direction='column'>
                         <div>{t('Import.LiveImport.AdvancedSettings.WebsocketUrl') /* Websocket URL */}</div>
                         <Flex gap={10}>
                           <TextInput
@@ -394,7 +411,9 @@ export function ScannerImportSubmenu() {
                             onChange={(e) => setWebsocketUrl(e.target.value)}
                           />
                           <Tooltip label={t('Import.LiveImport.AdvancedSettings.WebsocketUrlReset') /* Reset to default */}>
-                            <Button onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} variant="default"><IconRefresh size={16} /></Button>
+                            <Button onClick={() => setWebsocketUrl(DEFAULT_WEBSOCKET_URL)} variant='default'>
+                              <IconRefresh size={16} />
+                            </Button>
                           </Tooltip>
                         </Flex>
                       </Flex>
@@ -413,7 +432,7 @@ export function ScannerImportSubmenu() {
     if (!currentRelics) {
       return (
         <Flex className={classes.stageContainer}>
-          <Flex direction="column" gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
+          <Flex direction='column' gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
             {t('Import.Stage2.NoRelics')}
           </Flex>
         </Flex>
@@ -422,7 +441,7 @@ export function ScannerImportSubmenu() {
 
     return (
       <Flex className={classes.confirmStage}>
-        <Flex direction="column" gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
+        <Flex direction='column' gap={10} style={{ display: currentStage >= 1 ? 'flex' : 'none' }}>
           <div>
             {t('Import.Stage2.FileInfo', {
               relicCount: currentRelics.length ?? 0,
@@ -460,13 +479,14 @@ export function ScannerImportSubmenu() {
           <Button
             style={{ width: importerTabButtonWidth }}
             loading={loading2}
-            onClick={() => modals.openConfirmModal({
-              title: t('Import.Stage2.CharactersImport.WarningTitle'),
-              children: t('Import.Stage2.CharactersImport.WarningDescription'),
-              labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
-              centered: true,
-              onConfirm: mergeCharactersConfirmed,
-            })}
+            onClick={() =>
+              modals.openConfirmModal({
+                title: t('Import.Stage2.CharactersImport.WarningTitle'),
+                children: t('Import.Stage2.CharactersImport.WarningDescription'),
+                labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
+                centered: true,
+                onConfirm: mergeCharactersConfirmed,
+              })}
           >
             {t('Import.Stage2.CharactersImport.ButtonText', {
               relicCount: currentRelics.length ?? 0,
@@ -481,7 +501,7 @@ export function ScannerImportSubmenu() {
   function mergeCompleted() {
     return (
       <Flex className={classes.stageContainer}>
-        <Flex direction="column" gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
+        <Flex direction='column' gap={10} style={{ display: currentStage >= 2 ? 'flex' : 'none' }}>
           <div>
             {t('Import.Stage3.SuccessMessage')}
           </div>

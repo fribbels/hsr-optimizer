@@ -3,8 +3,8 @@ import {
   Stats,
   type StatsValues,
 } from 'lib/constants/constants'
-import { type AKeyType } from 'lib/optimization/engine/config/keys'
 import { type BuffSource } from 'lib/optimization/buffSource'
+import { type AKeyType } from 'lib/optimization/engine/config/keys'
 import { type SetCounts } from 'lib/optimization/setMatching'
 
 export type Buff = {
@@ -73,7 +73,10 @@ export const BasicKey: Record<BasicKeyType, number> = Object.keys(baseCharacterS
 )
 
 export const WgslStatName = Object.keys(BasicKey).reduce(
-  (acc, key) => { acc[key as BasicKeyType] = key as BasicKeyType; return acc },
+  (acc, key) => {
+    acc[key as BasicKeyType] = key as BasicKeyType
+    return acc
+  },
   {} as Record<BasicKeyType, BasicKeyType>,
 ) as { readonly [K in BasicKeyType]: K }
 

@@ -1,4 +1,9 @@
-import { ElementToDamage, PathNames, Stats, SubStats } from 'lib/constants/constants'
+import {
+  ElementToDamage,
+  PathNames,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import type { StatsValues } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
@@ -10,22 +15,22 @@ import { aggregatePerActionBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import type { PerActionBuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
-import {
-  convertRelicsToSimulation,
-  ornamentSetIndexToName,
-  relicSetIndexToNames,
-} from 'lib/simulations/statSimulationUtils'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import type {
   Simulation,
   SimulationRelicByPart,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
+import {
+  convertRelicsToSimulation,
+  ornamentSetIndexToName,
+  relicSetIndexToNames,
+} from 'lib/simulations/statSimulationUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { gridStore } from 'lib/stores/gridStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { gridStore } from 'lib/stores/gridStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { OptimizerForm } from 'types/form'

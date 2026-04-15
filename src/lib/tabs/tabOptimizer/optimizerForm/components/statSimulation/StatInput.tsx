@@ -1,11 +1,15 @@
 import { Flex } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { STAT_SIMULATION_INPUT_WIDTH, STAT_SIMULATION_STATS_WIDTH, useStatSimStat } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
+import {
+  STAT_SIMULATION_INPUT_WIDTH,
+  STAT_SIMULATION_STATS_WIDTH,
+  useStatSimStat,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
 
 import type { StatSimType } from 'lib/stores/optimizerForm/optimizerFormTypes'
 
-export function StatInput({ label, name, simType }: { label: string; name: string; simType: StatSimType }) {
+export function StatInput({ label, name, simType }: { label: string, name: string, simType: StatSimType }) {
   const value = useStatSimStat(simType, name)
 
   function handleChange(val: string | number) {

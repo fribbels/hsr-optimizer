@@ -1,11 +1,8 @@
-
 import {
   type GpuExecutionContext,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
-import { type StringToNumberMap } from 'types/common'
-import { type Relic } from 'types/relic'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
@@ -13,6 +10,8 @@ import {
   type SetsRelics,
   SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
+import { type StringToNumberMap } from 'types/common'
+import { type Relic } from 'types/relic'
 
 export function generateParamsMatrix(
   offset: number,

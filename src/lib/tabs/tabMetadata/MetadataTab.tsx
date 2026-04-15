@@ -1,18 +1,30 @@
-import { Accordion, Flex } from '@mantine/core'
+import {
+  Accordion,
+  Flex,
+} from '@mantine/core'
 import gameData from 'data/game_data.json' with { type: 'json' }
 import type { TFunction } from 'i18next'
+import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { useDebugPanelConfig } from 'lib/characterPreview/debugPanelConfig'
+import { DebugSliderPanel } from 'lib/characterPreview/DebugSliderPanel'
+import { useDebugVisualConfigStore } from 'lib/characterPreview/debugVisualConfigStore'
 import {
   type PathName,
   PathNames,
   Sets,
   Stats,
 } from 'lib/constants/constants'
+import { cardTotalW } from 'lib/constants/constantsUi'
 import {
   NULL_TURN_ABILITY_NAME,
   toTurnAbility,
   type TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Assets } from 'lib/rendering/assets'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { ImageCenterEditorSection } from 'lib/tabs/tabMetadata/ImageCenterEditor'
 import { toI18NVisual } from 'lib/utils/displayUtils'
 import {
   Fragment,
@@ -20,19 +32,10 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { Character } from 'types/character'
 import type { StringToNumberMap } from 'types/common'
 import type { ReactElement } from 'types/components'
 import type { DBMetadataCharacter } from 'types/metadata'
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import { ImageCenterEditorSection } from 'lib/tabs/tabMetadata/ImageCenterEditor'
-import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { DebugSliderPanel } from 'lib/characterPreview/DebugSliderPanel'
-import { useDebugPanelConfig } from 'lib/characterPreview/debugPanelConfig'
-import { useDebugVisualConfigStore } from 'lib/characterPreview/debugVisualConfigStore'
-import { useCharacterStore } from 'lib/stores/character/characterStore'
-import { cardTotalW } from 'lib/constants/constantsUi'
-import type { Character } from 'types/character'
 
 const iconSize = 40
 
@@ -41,38 +44,52 @@ const setToIndex: StringToNumberMap = Object.fromEntries(sets.map((set, i) => [s
 
 export function MetadataTab(): ReactElement {
   return (
-    <Flex direction="column" style={{ width: '100%', height: 'fit-content' }}>
+    <Flex direction='column' style={{ width: '100%', height: 'fit-content' }}>
       <h1 style={{ marginLeft: 20 }}>
         Metadata viewer
       </h1>
       <Accordion multiple defaultValue={['color-grid']}>
-        <Accordion.Item value="color-grid">
+        <Accordion.Item value='color-grid'>
           <Accordion.Control>Character Color Grid</Accordion.Control>
-          <Accordion.Panel><CharacterColorGridDashboard /></Accordion.Panel>
+          <Accordion.Panel>
+            <CharacterColorGridDashboard />
+          </Accordion.Panel>
         </Accordion.Item>
-        <Accordion.Item value="image-center">
+        <Accordion.Item value='image-center'>
           <Accordion.Control>Image center editor</Accordion.Control>
-          <Accordion.Panel><ImageCenterEditorSection /></Accordion.Panel>
+          <Accordion.Panel>
+            <ImageCenterEditorSection />
+          </Accordion.Panel>
         </Accordion.Item>
-        <Accordion.Item value="1">
+        <Accordion.Item value='1'>
           <Accordion.Control>Simulation sets</Accordion.Control>
-          <Accordion.Panel><SimulationEquivalentSetsDashboard /></Accordion.Panel>
+          <Accordion.Panel>
+            <SimulationEquivalentSetsDashboard />
+          </Accordion.Panel>
         </Accordion.Item>
-        <Accordion.Item value="2">
+        <Accordion.Item value='2'>
           <Accordion.Control>Simulation teams</Accordion.Control>
-          <Accordion.Panel><SimulationTeamDashboard /></Accordion.Panel>
+          <Accordion.Panel>
+            <SimulationTeamDashboard />
+          </Accordion.Panel>
         </Accordion.Item>
-        <Accordion.Item value="3">
+        <Accordion.Item value='3'>
           <Accordion.Control>Simulation combo</Accordion.Control>
-          <Accordion.Panel><SimulationComboDashboard /></Accordion.Panel>
+          <Accordion.Panel>
+            <SimulationComboDashboard />
+          </Accordion.Panel>
         </Accordion.Item>
-        <Accordion.Item value="4">
+        <Accordion.Item value='4'>
           <Accordion.Control>Conditional sets presets</Accordion.Control>
-          <Accordion.Panel><ConditionalSetsPresetsDashboard /></Accordion.Panel>
+          <Accordion.Panel>
+            <ConditionalSetsPresetsDashboard />
+          </Accordion.Panel>
         </Accordion.Item>
-        <Accordion.Item value="5">
+        <Accordion.Item value='5'>
           <Accordion.Control>Substat weight dashboard</Accordion.Control>
-          <Accordion.Panel><SubstatWeightDashboard /></Accordion.Panel>
+          <Accordion.Panel>
+            <SubstatWeightDashboard />
+          </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
     </Flex>
@@ -85,7 +102,7 @@ function SimulationEquivalentSetsDashboard() {
   const characters = Object.values(getGameMetadata().characters)
 
   return (
-    <Flex direction="column" gap={50}>
+    <Flex direction='column' gap={50}>
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Destruction))} />
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Hunt))} />
       <GridDisplay grid={generateEquivalentSetsGrid(filterByPath(characters, PathNames.Erudition))} />
@@ -138,7 +155,7 @@ function generateEquivalentSetsGrid(characters: DBMetadataCharacter[]) {
 function SimulationTeamDashboard() {
   const characters = Object.values(getGameMetadata().characters)
   return (
-    <Flex direction="column" gap={40}>
+    <Flex direction='column' gap={40}>
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Destruction))} />
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Hunt))} />
       <GridDisplay grid={generateTeamGrid(filterByPath(characters, PathNames.Erudition))} />
@@ -179,7 +196,7 @@ function SimulationComboDashboard() {
   const characters = Object.values(getGameMetadata().characters)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
   return (
-    <Flex direction="column" gap={40}>
+    <Flex direction='column' gap={40}>
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Destruction), t)} />
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Hunt), t)} />
       <GridDisplay grid={generateComboGrid(filterByPath(characters, PathNames.Erudition), t)} />
@@ -236,7 +253,7 @@ function ConditionalSetsPresetsDashboard() {
   const characters = Object.values(getGameMetadata().characters)
 
   return (
-    <Flex direction="column" gap={10}>
+    <Flex direction='column' gap={10}>
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Destruction))} />
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Hunt))} />
       <GridDisplay grid={generateConditionalSetsGrid(filterByPath(characters, PathNames.Erudition))} />
@@ -276,7 +293,7 @@ function SubstatWeightDashboard() {
   const characters = Object.values(getGameMetadata().characters)
 
   return (
-    <Flex direction="column" gap={10}>
+    <Flex direction='column' gap={10}>
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Destruction))} />
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Hunt))} />
       <GridDisplay grid={generateSubstatWeightGrid(filterByPath(characters, PathNames.Erudition))} />

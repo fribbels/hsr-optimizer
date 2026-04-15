@@ -1,4 +1,7 @@
-import { Drawer, Flex } from '@mantine/core'
+import {
+  Drawer,
+  Flex,
+} from '@mantine/core'
 import { CombatBuffs } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
@@ -32,21 +35,19 @@ function CombatBuffsDrawerContent() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
 
   const combatBuffsList = useMemo(() => {
-    return Object.values(CombatBuffs).map((x) => (
-      <CombatBuff title={t(`${x.key}` as never)} name={x.key} key={x.key} />
-    ))
+    return Object.values(CombatBuffs).map((x) => <CombatBuff title={t(`${x.key}` as never)} name={x.key} key={x.key} />)
   }, [t])
 
   return (
-    <Flex direction="column" gap={defaultGap}>
-      <Flex direction="column" gap={optimizerTabDefaultGap}>
+    <Flex direction='column' gap={defaultGap}>
+      <Flex direction='column' gap={optimizerTabDefaultGap}>
         {combatBuffsList}
       </Flex>
     </Flex>
   )
 }
 
-function CombatBuff({ title, name }: { title: string; name: string }) {
+function CombatBuff({ title, name }: { title: string, name: string }) {
   const value = useOptimizerRequestStore((s) => s.combatBuffs[name])
 
   return (

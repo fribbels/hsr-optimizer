@@ -1,12 +1,24 @@
-import { createTheme, type CSSVariablesResolver, type MantineThemeOverride } from '@mantine/core'
+import {
+  createTheme,
+  type CSSVariablesResolver,
+  type MantineThemeOverride,
+} from '@mantine/core'
 import chroma from 'chroma-js'
-import { deriveCustomLayers, deriveDarkPalette, derivePrimaryPalette } from './themeColors'
+import {
+  deriveCustomLayers,
+  deriveDarkPalette,
+  derivePrimaryPalette,
+} from './themeColors'
 
 const DEFAULT_SEED = '#1668DC'
 
 export function createMantineTheme(seed: string): MantineThemeOverride {
   let safeSeed = seed
-  try { chroma(seed) } catch { safeSeed = DEFAULT_SEED }
+  try {
+    chroma(seed)
+  } catch {
+    safeSeed = DEFAULT_SEED
+  }
   const [h] = chroma(safeSeed).hsl()
   const layers = deriveCustomLayers(h)
   return createTheme({

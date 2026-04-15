@@ -1,13 +1,28 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
-import { getSelectedCharacter, useShowcaseTabStore } from './useShowcaseTabStore'
-import { ShowcaseScreen, type ShowcaseTabCharacter } from './showcaseTabTypes'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
-import { CUSTOM_TEAM, DEFAULT_TEAM, Parts } from 'lib/constants/constants'
+import {
+  CUSTOM_TEAM,
+  DEFAULT_TEAM,
+  Parts,
+} from 'lib/constants/constants'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { Relic } from 'types/relic'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
+import {
+  ShowcaseScreen,
+  type ShowcaseTabCharacter,
+} from './showcaseTabTypes'
+import {
+  getSelectedCharacter,
+  useShowcaseTabStore,
+} from './useShowcaseTabStore'
 
 // ---- Constants ----
 
@@ -59,8 +74,7 @@ function seedWithCharacters(count = 2) {
         characterEidolon: 0,
         lightConeSuperimposition: 1,
       },
-    }),
-  )
+    }))
   state().setFetchResult(characters)
   // Transition to Loaded screen for override tests
   state().setScreen(ShowcaseScreen.Loaded)

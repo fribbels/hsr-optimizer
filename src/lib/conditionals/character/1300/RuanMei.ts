@@ -26,6 +26,10 @@ import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import {
+  floorSafe,
+  precisionRound,
+} from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -34,10 +38,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import {
-  floorSafe,
-  precisionRound,
-} from 'lib/utils/mathUtils'
 
 export const RuanMeiEntities = createEnum('RuanMei')
 export const RuanMeiAbilities: AbilityKind[] = [

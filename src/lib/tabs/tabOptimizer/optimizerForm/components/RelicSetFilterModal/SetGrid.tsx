@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 import type { SetConfig } from 'types/setConfig'
-import { SetRow } from './SetRow'
 import classes from './RelicSetFilterModal.module.css'
+import { SetRow } from './SetRow'
 
 export function SetGrid({ configs, checkedNames, onToggle, search }: {
-  configs: SetConfig[]
-  checkedNames: Set<string>
-  onToggle: (name: string) => void
-  search: string
+  configs: SetConfig[],
+  checkedNames: Set<string>,
+  onToggle: (name: string) => void,
+  search: string,
 }) {
   const columns = useMemo(() => {
     const cols: SetConfig[][] = [[], [], [], [], [], []]

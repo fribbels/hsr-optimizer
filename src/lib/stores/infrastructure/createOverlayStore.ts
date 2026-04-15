@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 
 type OverlayStore<TConfig> = {
-  open: boolean
-  config: TConfig | null // stays populated after close to avoid animation flash
-  openOverlay: (config: TConfig) => void
-  closeOverlay: () => void
-  updateConfig: (partial: Partial<TConfig>) => void
+  open: boolean,
+  config: TConfig | null, // stays populated after close to avoid animation flash
+  openOverlay: (config: TConfig) => void,
+  closeOverlay: () => void,
+  updateConfig: (partial: Partial<TConfig>) => void,
 }
 
 export function createOverlayStore<TConfig>() {
@@ -18,9 +18,10 @@ export function createOverlayStore<TConfig>() {
     // during Mantine's close animation (content unmounts via {open && <Content />}
     // but the backdrop fades out). Stale config is harmless since content is
     // unmounted. Config is overwritten on next openOverlay() call.
-    updateConfig: (partial) => set((state) => ({
-      config: state.config ? { ...state.config, ...partial } : null,
-    })),
+    updateConfig: (partial) =>
+      set((state) => ({
+        config: state.config ? { ...state.config, ...partial } : null,
+      })),
   }))
 }
 

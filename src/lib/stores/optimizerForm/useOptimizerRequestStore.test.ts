@@ -1,13 +1,18 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
-import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Sets } from 'lib/constants/constants'
-import { type LightConeId } from 'types/lightCone'
+import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { type LightConeId } from 'types/lightCone'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 // ---- Constants ----
 

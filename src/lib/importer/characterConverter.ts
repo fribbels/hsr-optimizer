@@ -9,12 +9,12 @@ import type {
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { precisionRound } from 'lib/utils/mathUtils'
+import { uuid } from 'lib/utils/miscUtils'
+import { isFlat } from 'lib/utils/statUtils'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { Relic } from 'types/relic'
-import { isFlat } from 'lib/utils/statUtils'
-import { uuid } from 'lib/utils/miscUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 const partConversion = {
   1: Constants.Parts.Head,

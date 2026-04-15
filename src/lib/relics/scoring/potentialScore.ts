@@ -1,7 +1,11 @@
+import type { Relic } from 'types/relic'
 import { PERCENT_TO_SCORE } from './scoringConstants'
 import { mainStatBonus } from './substatScoring'
-import type { FutureScoringResult, PotentialResult, ScorerMetadata } from './types'
-import type { Relic } from 'types/relic'
+import type {
+  FutureScoringResult,
+  PotentialResult,
+  ScorerMetadata,
+} from './types'
 
 function toPct(score: number, bonus: number, multiplier: number): number {
   return Math.max(0, score - bonus) / PERCENT_TO_SCORE * multiplier

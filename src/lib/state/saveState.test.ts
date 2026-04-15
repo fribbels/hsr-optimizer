@@ -1,13 +1,27 @@
 // @vitest-environment jsdom
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { Kafka } from 'lib/conditionals/character/1000/Kafka'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useRelicStore } from 'lib/stores/relic/relicStore'
-import { Kafka } from 'lib/conditionals/character/1000/Kafka'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
-import type { Character, CharacterId } from 'types/character'
-import type { HsrOptimizerSaveFormat } from 'types/store'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import type { Relic } from 'types/relic'
+import type { HsrOptimizerSaveFormat } from 'types/store'
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
 
 // ---- Constants ----
 
@@ -69,7 +83,9 @@ describe('save', () => {
   // save() wraps localStorage.setItem in try/catch for QuotaExceededError
   it('save catches QuotaExceededError from localStorage.setItem and does not crash', () => {
     const quota = new DOMException('quota exceeded', 'QuotaExceededError')
-    setItemSpy.mockImplementation(() => { throw quota })
+    setItemSpy.mockImplementation(() => {
+      throw quota
+    })
 
     // Seed stores with data so the empty-save guard doesn't block
     useCharacterStore.setState({ characters: [makeCharacter()] })

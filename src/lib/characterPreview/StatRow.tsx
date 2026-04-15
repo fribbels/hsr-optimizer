@@ -10,6 +10,8 @@ import {
 import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import iconClasses from 'style/icons.module.css'
 
+import { Skeleton } from '@mantine/core'
+import { usePromise } from 'hooks/usePromise'
 import {
   type i18n,
   type TFunction,
@@ -21,8 +23,6 @@ import {
   type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { usePromise } from 'hooks/usePromise'
-import { Skeleton } from '@mantine/core'
 import {
   localeNumber,
   localeNumber_0,
@@ -88,7 +88,7 @@ const displayTextMap: Record<string, string> = {
 }
 
 function StatRowDivider() {
-  return <span role="separator" style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: '1px dashed rgba(255, 255, 255, 0.10)' }} />
+  return <span role='separator' style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: '1px dashed rgba(255, 255, 255, 0.10)' }} />
 }
 
 export const StatRow = memo(function StatRow({
@@ -172,7 +172,11 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
   }, [output, type, subType, stat, preciseSpd, elementalDmgValue, element, path])
 
   const valueNode = transformed
-    ? <span>{`${transformed.valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}</span>
+    ? (
+      <span>
+        {`${transformed.valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
+      </span>
+    )
     : <Skeleton width={70} />
 
   return (

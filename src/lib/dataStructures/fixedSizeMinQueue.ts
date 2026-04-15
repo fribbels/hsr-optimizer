@@ -16,11 +16,17 @@ export class FixedSizeNumericMinQueue {
     this.heap = new MinQueue(limit + 1, Float64Array)
   }
 
-  size(): number { return this.heap.length }
+  size(): number {
+    return this.heap.length
+  }
 
-  topPriority(): number { return this.heap.peekPriority() }
+  topPriority(): number {
+    return this.heap.peekPriority()
+  }
 
-  topKey(): number { return this.heap.peekKey() }
+  topKey(): number {
+    return this.heap.peekKey()
+  }
 
   fixedSizePush(key: number, priority: number): void {
     if (this.heap.length >= this.limit) {
@@ -43,9 +49,9 @@ export class FixedSizeNumericMinQueue {
     return this.heap.peekPriority()
   }
 
-  toResults(): { index: number; value: number }[] {
+  toResults(): { index: number, value: number }[] {
     this.heap.flush()
-    const result: { index: number; value: number }[] = []
+    const result: { index: number, value: number }[] = []
     for (let i = 1; i <= this.heap.length; i++) {
       result.push({ index: this.heap.keyAt(i), value: this.heap.priorityAt(i) })
     }
@@ -74,13 +80,17 @@ export class FixedSizeMinQueue<T> {
     this.objects = new Array(limit + 1)
   }
 
-  size(): number { return this.heap.length }
+  size(): number {
+    return this.heap.length
+  }
 
   top(): T | undefined {
     return this.heap.length > 0 ? this.objects[this.heap.peekKey()] : undefined
   }
 
-  topPriority(): number { return this.heap.peekPriority() }
+  topPriority(): number {
+    return this.heap.peekPriority()
+  }
 
   fixedSizePush(item: T, priority: number): void {
     if (this.heap.length >= this.limit) {

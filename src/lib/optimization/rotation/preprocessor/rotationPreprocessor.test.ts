@@ -1,21 +1,21 @@
 // @vitest-environment jsdom
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
+import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
+import type {
+  ComboBooleanConditional,
+  ComboState,
+} from 'lib/optimization/combo/comboTypes'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { precomputeConditionalActivations } from 'lib/optimization/rotation/preprocessor/rotationPreprocessor'
 import { setComboBooleanCategorySetActivation } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
-import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
-import { Metadata } from 'lib/state/metadataInitializer'
-import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import {
   DEFAULT_ULT,
   NULL_TURN_ABILITY_NAME,
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import type {
-  ComboBooleanConditional,
-  ComboState,
-} from 'lib/optimization/combo/comboTypes'
-import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
+import { Metadata } from 'lib/state/metadataInitializer'
+import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import {
   expect,
   test,

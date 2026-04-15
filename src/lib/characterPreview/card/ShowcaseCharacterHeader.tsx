@@ -1,5 +1,5 @@
-import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { ShowcaseRarity } from 'lib/characterPreview/card/ShowcaseRarity'
+import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { StatText } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next'
 import classes from './ShowcaseCharacterHeader.module.css'
 
 export const ShowcaseCharacterHeader = memo(function ShowcaseCharacterHeader({ showcaseMetadata, scoringType }: {
-  showcaseMetadata: ShowcaseMetadata
-  scoringType?: ScoringType
+  showcaseMetadata: ShowcaseMetadata,
+  scoringType?: ScoringType,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -26,7 +26,10 @@ export const ShowcaseCharacterHeader = memo(function ShowcaseCharacterHeader({ s
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div className={classes.headerRow} style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginBottom: marginVertical, marginTop: marginVertical }}>
+      <div
+        className={classes.headerRow}
+        style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center', marginBottom: marginVertical, marginTop: marginVertical }}
+      >
         <img
           className={classes.elementIcon}
           src={Assets.getElement(characterElement)}

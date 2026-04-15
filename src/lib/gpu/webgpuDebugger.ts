@@ -1,17 +1,17 @@
 import { ElementNames } from 'lib/constants/constants'
 import { type GpuExecutionContext } from 'lib/gpu/webgpuTypes'
-import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   OutputTag,
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
+import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { logRegisters } from 'lib/simulations/registerLogger'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { gridStore } from 'lib/stores/gridStore'
-import { type OptimizerContext } from 'types/optimizer'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { type OptimizerContext } from 'types/optimizer'
 
 export function debugWebgpuOutput(gpuContext: GpuExecutionContext, arrayBuffer: ArrayBuffer) {
   const array = new Float32Array(arrayBuffer)

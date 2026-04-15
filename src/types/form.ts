@@ -1,3 +1,4 @@
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type { ComboType } from 'lib/optimization/rotation/comboType'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { SortOption } from 'lib/optimization/sortOptions'
@@ -5,12 +6,16 @@ import type {
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
-import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type {
   CharacterId,
   Eidolon,
 } from 'types/character'
 
+import type {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
+import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type {
   LightConeId,
@@ -25,11 +30,6 @@ import type {
   MemoDisplay,
   StatDisplay,
 } from 'types/store'
-import type {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
-import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 
 export type Teammate = {
   characterId: CharacterId,

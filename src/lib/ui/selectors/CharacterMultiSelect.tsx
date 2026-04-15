@@ -1,27 +1,40 @@
-import { Button, CloseButton, Flex, Modal, MultiSelect, Pill, PillsInput, TextInput } from '@mantine/core'
-import { generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
+import {
+  Button,
+  CloseButton,
+  Flex,
+  Modal,
+  MultiSelect,
+  Pill,
+  PillsInput,
+  TextInput,
+} from '@mantine/core'
+import { Assets } from 'lib/rendering/assets'
 import {
   generateElementTags,
   generatePathTags,
   SegmentedFilterRow,
 } from 'lib/ui/selectors/CardSelectModalComponents'
-import { Assets } from 'lib/rendering/assets'
+import { generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
 import {
+  applyCharacterFilters,
   CHARACTER_CARD_IMAGE_HEIGHT,
   CHARACTER_CARD_IMAGE_WIDTH,
   CHARACTER_CARD_IMAGE_X_OFFSET,
   CHARACTER_CARD_IMAGE_Y_OFFSET,
   CHARACTER_MODAL_STYLES,
   type CharacterFilters,
+  defaultCharacterFilters,
   OVERLAY_SCROLLBAR_OPTIONS,
   SEARCH_INPUT_STYLES,
-  applyCharacterFilters,
-  defaultCharacterFilters,
 } from 'lib/ui/selectors/selectConstants'
 import { useSelectModal } from 'lib/ui/selectors/useSelectModal'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
-import { type CSSProperties, useMemo, useState } from 'react'
+import {
+  type CSSProperties,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import classes from './SelectCardGrid.module.css'
@@ -35,10 +48,10 @@ export function CharacterMultiSelect({
   selectStyle,
   maxDisplayedValues,
 }: {
-  value: Set<CharacterId>
-  onChange: (excluded: Set<CharacterId>) => void
-  selectStyle?: CSSProperties
-  maxDisplayedValues?: number
+  value: Set<CharacterId>,
+  onChange: (excluded: Set<CharacterId>) => void,
+  selectStyle?: CSSProperties,
+  maxDisplayedValues?: number,
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const characterOptions = useMemo(() => generateCharacterOptions(), [t])
@@ -114,13 +127,21 @@ export function CharacterMultiSelect({
       {maxDisplayedValues === 0
         ? (
           <PillsInput
-            size="xs"
+            size='xs'
             onClick={open}
             style={selectStyle}
             styles={{ input: { cursor: 'pointer', minHeight: 'unset' } }}
-            rightSection={value.size > 0 ? (
-              <CloseButton size="xs" onClick={(e) => { e.stopPropagation(); onChange(new Set()) }} />
-            ) : undefined}
+            rightSection={value.size > 0
+              ? (
+                <CloseButton
+                  size='xs'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onChange(new Set())
+                  }}
+                />
+              )
+              : undefined}
           >
             <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden' }}>
               {value.size > 0
@@ -148,13 +169,13 @@ export function CharacterMultiSelect({
         opened={isOpen}
         onClose={handleClose}
         centered
-        size="90%"
+        size='90%'
         styles={CHARACTER_MODAL_STYLES}
         title={t('MultiSelect.ModalTitle')}
       >
         {isOpen && (
           <div className={classes.modalContent}>
-            <Flex gap={12} wrap="wrap">
+            <Flex gap={12} wrap='wrap'>
               <Flex style={{ flexGrow: 1 }} gap={10}>
                 <TextInput
                   className={classes.searchInput}
@@ -165,27 +186,27 @@ export function CharacterMultiSelect({
                   onChange={setNameFilter}
                 />
                 <Flex gap={12}>
-                  <Button variant="default" onClick={excludeAll} className={classes.bulkActionButton}>
+                  <Button variant='default' onClick={excludeAll} className={classes.bulkActionButton}>
                     {t('ExcludeButton')}
                   </Button>
-                  <Button variant="default" onClick={clearAll} className={classes.bulkActionButton}>
+                  <Button variant='default' onClick={clearAll} className={classes.bulkActionButton}>
                     {t('ClearButton')}
                   </Button>
                 </Flex>
               </Flex>
-              <Flex wrap="wrap" className={classes.filterWrapper} gap={12}>
-                <Flex wrap="wrap" className={classes.filterWrapper}>
+              <Flex wrap='wrap' className={classes.filterWrapper} gap={12}>
+                <Flex wrap='wrap' className={classes.filterWrapper}>
                   <SegmentedFilterRow
                     tags={elementTags}
-                    flexBasis="14.2%"
+                    flexBasis='14.2%'
                     currentFilter={filters.element}
                     setCurrentFilters={(v) => updateFilter('element', v)}
                   />
                 </Flex>
-                <Flex wrap="wrap" className={classes.filterWrapper}>
+                <Flex wrap='wrap' className={classes.filterWrapper}>
                   <SegmentedFilterRow
                     tags={pathTags}
-                    flexBasis="11.111%"
+                    flexBasis='11.111%'
                     currentFilter={filters.path}
                     setCurrentFilters={(v) => updateFilter('path', v)}
                   />

@@ -4,13 +4,23 @@ import type {
   NavigateToNextCellParams,
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
+import {
+  useGridLocale,
+  useGridLocaleRebuild,
+} from 'lib/hooks/useGridLocale'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import {
+  AbilityKind,
+  AbilityMeta,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { AbilityKind, AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { gridStore } from 'lib/stores/gridStore'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   DIGITS_5,
   getBasicColumnDefs,
@@ -22,19 +32,15 @@ import {
   optimizerGridOptions,
   optimizerRowSelection,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { useGridLocale, useGridLocaleRebuild } from 'lib/hooks/useGridLocale'
-import { useTranslation } from 'react-i18next'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { isRemembrance } from 'lib/tabs/tabOptimizer/sidebar/MemoViewSelect'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { gridStore } from 'lib/stores/gridStore'
 import {
   useCallback,
   useEffect,
   useMemo,
   useRef,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const defaultHiddenColumns = [
   SortOption.OHB,

@@ -1,8 +1,16 @@
-import { MainStatPartsArray, SubStats } from 'lib/constants/constants'
+import {
+  MainStatPartsArray,
+  SubStats,
+} from 'lib/constants/constants'
 import type { MainStats } from 'lib/constants/constants'
-import type { ScoringMetadata, ScoringMetadataOverride, ScoringParts, SimulationMetadata } from 'types/metadata'
-import { clone } from 'lib/utils/objectUtils'
 import { arraysShallowEqual } from 'lib/utils/arrayUtils'
+import { clone } from 'lib/utils/objectUtils'
+import type {
+  ScoringMetadata,
+  ScoringMetadataOverride,
+  ScoringParts,
+  SimulationMetadata,
+} from 'types/metadata'
 
 // ─── Delta Extraction ────────────────────────────────────────────
 
@@ -165,7 +173,7 @@ export function mergeAndPruneOverride(
 export function pruneOverridesOnLoad(
   overrides: Record<string, ScoringMetadataOverride>,
   getDefaults: (id: string) => ScoringMetadata | undefined,
-): { result: Record<string, ScoringMetadataOverride>; changed: boolean } {
+): { result: Record<string, ScoringMetadataOverride>, changed: boolean } {
   const result: Record<string, ScoringMetadataOverride> = {}
   let changed = false
 

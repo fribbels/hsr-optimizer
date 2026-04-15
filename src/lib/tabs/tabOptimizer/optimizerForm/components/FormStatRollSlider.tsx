@@ -1,10 +1,16 @@
-import { Flex, Slider } from '@mantine/core'
+import {
+  Flex,
+  Slider,
+} from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
 import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 
 import { HeaderText } from 'lib/ui/HeaderText'
-import { Fragment, type ReactNode } from 'react'
+import {
+  Fragment,
+  type ReactNode,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
 const StatSliders = [
@@ -68,7 +74,9 @@ export function FormStatRollSliders({ rollsHeader }: { rollsHeader?: ReactNode }
       {StatSliders.map((stat) => (
         <Fragment key={stat.name}>
           <span style={labelStyle}>{t(stat.text)}</span>
-          <div style={sliderRowStyle}><WeightSlider stat={stat.name} /></div>
+          <div style={sliderRowStyle}>
+            <WeightSlider stat={stat.name} />
+          </div>
         </Fragment>
       ))}
       {rollsHeader && (
@@ -77,7 +85,9 @@ export function FormStatRollSliders({ rollsHeader }: { rollsHeader?: ReactNode }
             <HeaderText>{rollsHeader}</HeaderText>
           </div>
           <span style={labelStyle}>#</span>
-          <div style={sliderRowStyle}><MinWeightedRollsSlider /></div>
+          <div style={sliderRowStyle}>
+            <MinWeightedRollsSlider />
+          </div>
         </>
       )}
     </div>

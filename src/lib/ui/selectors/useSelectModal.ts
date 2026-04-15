@@ -1,5 +1,10 @@
 import { clone } from 'lib/utils/objectUtils'
-import { type ChangeEvent, useCallback, useRef, useState } from 'react'
+import {
+  type ChangeEvent,
+  useCallback,
+  useRef,
+  useState,
+} from 'react'
 
 export interface UseSelectModalOptions<TFilters extends Record<string, unknown>> {
   defaultFilters: TFilters

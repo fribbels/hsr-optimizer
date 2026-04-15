@@ -1,26 +1,38 @@
-import { CheckIcon, Combobox, Flex, Group, Input, InputBase, useCombobox } from '@mantine/core'
+import {
+  CheckIcon,
+  Combobox,
+  Flex,
+  Group,
+  Input,
+  InputBase,
+  useCombobox,
+} from '@mantine/core'
+import {
+  type ReactNode,
+  useMemo,
+  useState,
+} from 'react'
 import iconClasses from 'style/icons.module.css'
-import { useMemo, useState, type ReactNode } from 'react'
 
 export type SearchableComboboxOption = {
-  value: string
-  label: string
-  icon?: string
+  value: string,
+  label: string,
+  icon?: string,
 }
 
 export function SearchableCombobox(props: {
-  options: SearchableComboboxOption[]
-  value: string | null | undefined
-  onChange: (value: string | null) => void
-  placeholder?: string
-  dropdownWidth?: number | 'auto'
-  dropdownMaxHeight?: number
-  style?: React.CSSProperties
-  clearable?: boolean
-  disabled?: boolean
-  searchable?: boolean
-  leftSection?: ReactNode
-  renderOption?: (option: SearchableComboboxOption) => ReactNode
+  options: SearchableComboboxOption[],
+  value: string | null | undefined,
+  onChange: (value: string | null) => void,
+  placeholder?: string,
+  dropdownWidth?: number | 'auto',
+  dropdownMaxHeight?: number,
+  style?: React.CSSProperties,
+  clearable?: boolean,
+  disabled?: boolean,
+  searchable?: boolean,
+  leftSection?: ReactNode,
+  renderOption?: (option: SearchableComboboxOption) => ReactNode,
 }) {
   const {
     options,
@@ -71,17 +83,15 @@ export function SearchableCombobox(props: {
     >
       <Combobox.Target>
         <InputBase
-          component="button"
-          type="button"
-          size="xs"
+          component='button'
+          type='button'
+          size='xs'
           pointer
           disabled={disabled}
           leftSection={resolvedLeftSection}
-          rightSection={
-            clearable && value
-              ? <Combobox.ClearButton onClear={() => onChange(null)} />
-              : <Combobox.Chevron />
-          }
+          rightSection={clearable && value
+            ? <Combobox.ClearButton onClear={() => onChange(null)} />
+            : <Combobox.Chevron />}
           rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
           onClick={() => combobox.toggleDropdown()}
           style={style}
@@ -99,21 +109,22 @@ export function SearchableCombobox(props: {
           />
         )}
         <Combobox.Options mah={dropdownMaxHeight} style={{ overflowY: 'auto' }}>
-          {combobox.dropdownOpened && filteredOptions.map((opt) => (
-            <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
-              <Group gap={6} justify='space-between' wrap='nowrap'>
-                {renderOption
-                  ? renderOption(opt)
-                  : (
-                    <Flex gap={6} align="center">
-                      {opt.icon && <img src={opt.icon} className={iconClasses.icon22} />}
-                      {opt.label}
-                    </Flex>
-                  )}
-                {opt.value === value && <CheckIcon size={12} />}
-              </Group>
-            </Combobox.Option>
-          ))}
+          {combobox.dropdownOpened
+            && filteredOptions.map((opt) => (
+              <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
+                <Group gap={6} justify='space-between' wrap='nowrap'>
+                  {renderOption
+                    ? renderOption(opt)
+                    : (
+                      <Flex gap={6} align='center'>
+                        {opt.icon && <img src={opt.icon} className={iconClasses.icon22} />}
+                        {opt.label}
+                      </Flex>
+                    )}
+                  {opt.value === value && <CheckIcon size={12} />}
+                </Group>
+              </Combobox.Option>
+            ))}
           {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>

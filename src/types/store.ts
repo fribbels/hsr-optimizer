@@ -1,8 +1,9 @@
+import type { AppPages } from 'lib/constants/appPages'
 import type {
   ComputeEngine,
 } from 'lib/constants/constants'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
-import type { AppPages } from 'lib/constants/appPages'
+import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import type {
@@ -14,7 +15,6 @@ import type {
   ShowcasePreferences,
 } from 'types/metadata'
 import type { Relic } from 'types/relic'
-import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 
 export type HsrOptimizerStore = {
   version: string,

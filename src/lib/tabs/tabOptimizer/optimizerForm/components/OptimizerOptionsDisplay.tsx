@@ -1,13 +1,26 @@
-import { CheckIcon, Combobox, Flex, Group, Input, InputBase, SegmentedControl, Select, Switch, useCombobox } from '@mantine/core'
+import {
+  CheckIcon,
+  Combobox,
+  Flex,
+  Group,
+  Input,
+  InputBase,
+  SegmentedControl,
+  Select,
+  Switch,
+  useCombobox,
+} from '@mantine/core'
 
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
-import iconClasses from 'style/icons.module.css'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import type { RelicFilterFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   optimizerTabDefaultGap,
   panelWidth,
@@ -15,14 +28,20 @@ import {
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
-import { memo, type ReactElement, useMemo, useState } from 'react'
+import {
+  memo,
+  type ReactElement,
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
 import classes from './OptimizerOptionsDisplay.module.css'
 
 function PriorityCombobox(props: {
-  options: { value: string; label: string; characterId: string }[]
-  rank: number | undefined
-  placeholder: string
+  options: { value: string, label: string, characterId: string }[],
+  rank: number | undefined,
+  placeholder: string,
 }) {
   const { options, rank, placeholder } = props
   const [search, setSearch] = useState('')
@@ -61,12 +80,12 @@ function PriorityCombobox(props: {
     >
       <Combobox.Target>
         <InputBase
-          component="button"
-          type="button"
-          size="xs"
+          component='button'
+          type='button'
+          size='xs'
           pointer
           rightSection={<Combobox.Chevron />}
-          rightSectionPointerEvents="none"
+          rightSectionPointerEvents='none'
           onClick={() => combobox.toggleDropdown()}
           style={{ width: (panelWidth - optimizerTabDefaultGap) / 2 }}
         >
@@ -81,17 +100,18 @@ function PriorityCombobox(props: {
           placeholder={placeholder}
         />
         <Combobox.Options mah={500} style={{ overflowY: 'auto' }}>
-          {combobox.dropdownOpened && filteredOptions.map((opt) => (
-            <Combobox.Option key={opt.value} value={opt.value} active={opt.value === rankStr} style={{ whiteSpace: 'nowrap' }}>
-              <Group gap={6} justify='space-between' wrap='nowrap'>
-                <Flex align='center' gap={10}>
-                  <img src={Assets.getCharacterAvatarById(opt.characterId)} className={iconClasses.icon22} />
-                  {opt.label}
-                </Flex>
-                {opt.value === rankStr && <CheckIcon size={12} />}
-              </Group>
-            </Combobox.Option>
-          ))}
+          {combobox.dropdownOpened
+            && filteredOptions.map((opt) => (
+              <Combobox.Option key={opt.value} value={opt.value} active={opt.value === rankStr} style={{ whiteSpace: 'nowrap' }}>
+                <Group gap={6} justify='space-between' wrap='nowrap'>
+                  <Flex align='center' gap={10}>
+                    <img src={Assets.getCharacterAvatarById(opt.characterId)} className={iconClasses.icon22} />
+                    {opt.label}
+                  </Flex>
+                  {opt.value === rankStr && <CheckIcon size={12} />}
+                </Group>
+              </Combobox.Option>
+            ))}
           {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
@@ -142,8 +162,8 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
   }, [characters, t])
 
   return (
-    <Flex direction="column">
-      <Flex direction="column" gap={optimizerTabDefaultGap}>
+    <Flex direction='column'>
+      <Flex direction='column' gap={optimizerTabDefaultGap}>
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('Header') /* Optimizer options */}</HeaderText>
           <TooltipImage type={Hint.optimizerOptions()} />
@@ -177,7 +197,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
         </Flex>
 
         <Flex gap={optimizerTabDefaultGap} className={classes.sectionSpacerTop}>
-          <Flex direction="column" gap={2}>
+          <Flex direction='column' gap={2}>
             <HeaderText>
               {t('Priority.Header') /* Priority */}
             </HeaderText>
@@ -187,7 +207,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               placeholder={t('Priority.Header') /* Priority */}
             />
           </Flex>
-          <Flex direction="column" gap={2}>
+          <Flex direction='column' gap={2}>
             <HeaderText>
               {t('Exclude') /* Exclude */}
             </HeaderText>
@@ -214,7 +234,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
         </Flex>
 
         <Flex justify='space-between'>
-          <Flex direction="column" gap={2}>
+          <Flex direction='column' gap={2}>
             <HeaderText>
               {t('MinEnhance.Header') /* Min enhance */}
             </HeaderText>
@@ -236,7 +256,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
             />
           </Flex>
 
-          <Flex direction="column" gap={2}>
+          <Flex direction='column' gap={2}>
             <HeaderText>
               {t('MinRarity.Header') /* Min rarity */}
             </HeaderText>
@@ -258,7 +278,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
         </Flex>
 
         <Flex justify='space-between' align='center'>
-          <Flex direction="column" gap={2}>
+          <Flex direction='column' gap={2}>
             <HeaderText>
               {t('BoostMain.Header') /* Boost main stat */}
             </HeaderText>
@@ -282,7 +302,7 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
         </Flex>
 
         <Flex align='center' className={classes.dpsModeSection}>
-          <Flex direction="column" gap={2} className={classes.dpsModeColumn}>
+          <Flex direction='column' gap={2} className={classes.dpsModeColumn}>
             <HeaderText>
               {t('DPSMode.Header') /* DPS Mode */}
             </HeaderText>
@@ -291,8 +311,8 @@ export const OptimizerOptionsDisplay = memo(function OptimizerOptionsDisplay(): 
               value={String(deprioritizeBuffs)}
               onChange={(value) => useOptimizerRequestStore.getState().setDeprioritizeBuffs(value === 'true')}
               data={[
-                { label: t('DPSMode.Main') /* Main */, value: 'false' },
-                { label: t('DPSMode.Sub') /* Sub */, value: 'true' },
+                { label: t('DPSMode.Main'), /* Main */ value: 'false' },
+                { label: t('DPSMode.Sub'), /* Sub */ value: 'true' },
               ]}
             />
           </Flex>

@@ -2,7 +2,6 @@ import {
   Constants,
   RelicSetFilterOptions,
 } from 'lib/constants/constants'
-import { type Form } from 'types/form'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
@@ -11,7 +10,11 @@ import {
   SetsRelics,
   SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
-import { arrayOfZeroes, arrayOfValue } from 'lib/utils/arrayUtils'
+import {
+  arrayOfValue,
+  arrayOfZeroes,
+} from 'lib/utils/arrayUtils'
+import { type Form } from 'types/form'
 
 // Here be dragons
 export function generateRelicSetSolutions(request: Form) {
@@ -157,7 +160,7 @@ export function bitpackBooleanArray(arr: number[]) {
     let packedValue = 0
     for (let j = 0; j < 32; j++) {
       const val = i + j < arr.length ? arr[i + j] : 0
-      packedValue |= (val << j)
+      packedValue |= val << j
     }
     result.push(packedValue >>> 0)
   }

@@ -9,9 +9,9 @@ import {
   DEFAULT_STAT_DISPLAY,
   Sets,
 } from 'lib/constants/constants'
-import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
@@ -54,7 +54,9 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   const weights = scoringMetadata?.stats || getDefaultWeights()
 
   const combatBuffs = {} as Record<typeof CombatBuffs[keyof typeof CombatBuffs]['key'], number>
-  Object.values(CombatBuffs).forEach((x) => { combatBuffs[x.key] = 0 })
+  Object.values(CombatBuffs).forEach((x) => {
+    combatBuffs[x.key] = 0
+  })
 
   const defaultForm: Partial<Form> = clone({
     characterId: initialCharacter?.id,

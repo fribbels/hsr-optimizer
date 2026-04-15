@@ -1,22 +1,26 @@
+import {
+  Button,
+  Flex,
+  Modal,
+} from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { Button, Flex, Modal } from '@mantine/core'
-import { Assets } from 'lib/rendering/assets'
-import { useFormOnOpen } from 'lib/overlays/modals/useFormOnOpen'
 import { defaultGap } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
+import { useFormOnOpen } from 'lib/overlays/modals/useFormOnOpen'
+import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
-import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { ReactElement } from 'types/components'
-import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 
 export type SwitchRelicsFormSelectedCharacter = {
   key: string,
@@ -69,9 +73,7 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
       value: opt.value,
       label: opt.title ?? opt.value,
       icon: Assets.getCharacterAvatarById(opt.value),
-    })),
-    [characterOptions],
-  )
+    })), [characterOptions])
 
   useFormOnOpen(characterForm, () => ({
     selectedCharacter: null,
@@ -90,7 +92,7 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
           <HeaderText>{t('Title') /* Switch relics with character */}</HeaderText>
         </Flex>
 
-        <Flex direction="column" gap={defaultGap}>
+        <Flex direction='column' gap={defaultGap}>
           <Flex gap={defaultGap}>
             <SearchableCombobox
               options={comboboxOptions}
@@ -103,7 +105,7 @@ function SwitchRelicsModalContent({ close }: { close: () => void }) {
         </Flex>
       </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
-        <Button key='back' variant="default" onClick={close}>
+        <Button key='back' variant='default' onClick={close}>
           {tCommon('Cancel') /* Cancel */}
         </Button>
         <Button key='submit' onClick={onModalOk}>

@@ -1,22 +1,36 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { clearBuilds, deleteBuild, loadBuildInOptimizer, saveBuild } from './buildService'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
-import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
-import { Metadata } from 'lib/state/metadataInitializer'
 import { ComboType } from 'lib/optimization/rotation/comboType'
+import { Metadata } from 'lib/state/metadataInitializer'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import type { Character } from 'types/character'
-import type { LightConeId } from 'types/lightCone'
 import type { Teammate } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
 import {
   BuildSource,
   type CharacterSavedBuild,
   type OptimizerSavedBuild,
   type SavedBuild,
 } from 'types/savedBuild'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
+import {
+  clearBuilds,
+  deleteBuild,
+  loadBuildInOptimizer,
+  saveBuild,
+} from './buildService'
 
 // ---- Mocks ----
 
@@ -165,9 +179,30 @@ describe('buildService', () => {
         lightCone: '21001' as any,
         lightConeSuperimposition: 1,
         teammates: [
-          { characterId: Jingliu.id, characterEidolon: 0, lightCone: '21001' as any, lightConeSuperimposition: 1, characterConditionals: {}, lightConeConditionals: {} } as any,
-          { characterId: undefined, characterEidolon: 0, lightCone: undefined, lightConeSuperimposition: 1, characterConditionals: {}, lightConeConditionals: {} } as any,
-          { characterId: undefined, characterEidolon: 0, lightCone: undefined, lightConeSuperimposition: 1, characterConditionals: {}, lightConeConditionals: {} } as any,
+          {
+            characterId: Jingliu.id,
+            characterEidolon: 0,
+            lightCone: '21001' as any,
+            lightConeSuperimposition: 1,
+            characterConditionals: {},
+            lightConeConditionals: {},
+          } as any,
+          {
+            characterId: undefined,
+            characterEidolon: 0,
+            lightCone: undefined,
+            lightConeSuperimposition: 1,
+            characterConditionals: {},
+            lightConeConditionals: {},
+          } as any,
+          {
+            characterId: undefined,
+            characterEidolon: 0,
+            lightCone: undefined,
+            lightConeSuperimposition: 1,
+            characterConditionals: {},
+            lightConeConditionals: {},
+          } as any,
         ],
       })
 

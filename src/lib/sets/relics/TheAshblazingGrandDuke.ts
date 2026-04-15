@@ -4,10 +4,14 @@ import {
 } from 'lib/constants/constants'
 import { type BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -15,8 +19,8 @@ import {
 } from 'types/optimizer'
 import {
   type SelectOptionContent,
-  type SetConditionalTFunction,
   type SetConditionals,
+  type SetConditionalTFunction,
   type SetConfig,
   type SetDisplay,
   type SetInfo,

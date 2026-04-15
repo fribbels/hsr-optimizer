@@ -9,7 +9,6 @@ export function withAlpha(cssColor: string, alpha: number): string {
   return chroma(cssColor).alpha(alpha).css()
 }
 
-
 const DEFAULT_FALLBACK = '#2241be'
 
 /**
@@ -35,14 +34,18 @@ const DEFAULT_FALLBACK = '#2241be'
  */
 export function pickBestSeed(palette: PaletteResponse): string {
   const all = [
-    palette.Vibrant, palette.DarkVibrant, palette.Muted,
-    palette.DarkMuted, palette.LightVibrant, palette.LightMuted,
+    palette.Vibrant,
+    palette.DarkVibrant,
+    palette.Muted,
+    palette.DarkMuted,
+    palette.LightVibrant,
+    palette.LightMuted,
     ...palette.colors,
   ].filter((c) => {
     if (c === DEFAULT_FALLBACK) return false
     const [l, ch] = chroma(c).oklch()
-    if (l > 0.90 && ch < 0.03) return false  // near-white achromatic (no usable hue)
-    if (l < 0.05) return false                 // near-black (too dark to tint)
+    if (l > 0.90 && ch < 0.03) return false // near-white achromatic (no usable hue)
+    if (l < 0.05) return false // near-black (too dark to tint)
     return true
   })
 
@@ -68,7 +71,10 @@ export function pickBestSeed(palette: PaletteResponse): string {
     const lDist = Math.abs(l - 0.45)
     score *= Math.max(0.2, 1 - lDist * 2)
 
-    if (score > bestScore) { bestScore = score; best = color }
+    if (score > bestScore) {
+      bestScore = score
+      best = color
+    }
   }
 
   return best
@@ -119,15 +125,17 @@ function sortColorsByGroups(colors: string[], groupSize: number): string[] {
  * bands with hue ordering within each band.
  */
 export function organizeColors(palette: PaletteResponse): string[] {
-  const sourceColors = [...new Set([
-    palette.Vibrant,
-    palette.DarkVibrant,
-    palette.Muted,
-    palette.DarkMuted,
-    palette.LightVibrant,
-    palette.LightMuted,
-    ...palette.colors,
-  ])]
+  const sourceColors = [
+    ...new Set([
+      palette.Vibrant,
+      palette.DarkVibrant,
+      palette.Muted,
+      palette.DarkMuted,
+      palette.LightVibrant,
+      palette.LightMuted,
+      ...palette.colors,
+    ]),
+  ]
 
   // Light tier: L=0.70
   const lightColors = sourceColors.map((hex) => {

@@ -8,6 +8,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { FixedSizeMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { type RelicsByPart } from 'lib/gpu/webgpuTypes'
@@ -19,9 +20,11 @@ import {
   type OptimizerDisplayData,
 } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  GlobalRegister,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { FixedSizeMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import {
   bitpackBooleanArray,
   generateOrnamentSetSolutions,
@@ -37,23 +40,26 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'
-import { getRelics } from 'lib/stores/relic/relicStore'
 import { setSortColumn } from 'lib/stores/gridStore'
+import { gridStore } from 'lib/stores/gridStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { getRelics } from 'lib/stores/relic/relicStore'
 import {
   activateZeroPermutationsSuggestionsModal,
   activateZeroResultSuggestionsModal,
 } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { gridStore } from 'lib/stores/gridStore'
+import { sleep } from 'lib/utils/frontendUtils'
 import { clone } from 'lib/utils/objectUtils'
-import { WorkerCancelledError, workerPool } from 'lib/worker/workerPool'
+import {
+  WorkerCancelledError,
+  workerPool,
+} from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import {
   type Form,
   type OptimizerForm,
 } from 'types/form'
-import { sleep } from 'lib/utils/frontendUtils'
 
 // Module-level cancellation flag shared across optimization runs.
 // RACE CONDITION NOTE: If a second optimize() call is triggered before the first finishes,
@@ -64,7 +70,7 @@ import { sleep } from 'lib/utils/frontendUtils'
 let CANCEL = false
 
 type OptimizerWorkerResult = {
-  buffer: ArrayBuffer
+  buffer: ArrayBuffer,
 }
 
 // Buffer pool managed by the optimizer
@@ -216,8 +222,7 @@ export const Optimizer = {
     const showMemo = request.memoDisplay === 'memo'
     const gridSortColumn = (request.statDisplay == 'combat'
       ? (showMemo ? sortOption.memoCombatGridColumn : sortOption.combatGridColumn)
-      : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)
-    ) as keyof OptimizerDisplayData
+      : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)) as keyof OptimizerDisplayData
     const resultsLimit = request.resultsLimit ?? 1024
     const queueResults = new FixedSizeMinQueue<OptimizerDisplayData>(resultsLimit)
 

@@ -14,8 +14,8 @@ export interface ModifierContext {
 }
 
 export type ActionModifier = {
-  characterId?: CharacterId
-  eidolon?: number
-  isTeammate?: boolean
-  modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => void
+  characterId?: CharacterId,
+  eidolon?: number,
+  isTeammate?: boolean,
+  modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => void,
 }

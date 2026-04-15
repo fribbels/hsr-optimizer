@@ -3,12 +3,12 @@ import React from 'react'
 const flexRow: React.CSSProperties = { display: 'flex' }
 
 export const BoxComponent = React.memo(function BoxComponent({ active, index, disabled, dataKey, partition, unselectable }: {
-  active: boolean
-  index: number
-  disabled: boolean
-  dataKey: string
-  partition: boolean
-  unselectable?: boolean
+  active: boolean,
+  index: number,
+  disabled: boolean,
+  dataKey: string,
+  partition: boolean,
+  unselectable?: boolean,
 }) {
   let classnames: string
   if (disabled) {
@@ -37,11 +37,11 @@ export const BoxComponent = React.memo(function BoxComponent({ active, index, di
 })
 
 export function BoxArray({ activations, actionCount, dataKeys, partition, unselectable }: {
-  activations: boolean[]
-  actionCount: number
-  dataKeys: string[]
-  partition: boolean
-  unselectable?: boolean
+  activations: boolean[],
+  actionCount: number,
+  dataKeys: string[],
+  partition: boolean,
+  unselectable?: boolean,
 }) {
   return (
     <div style={flexRow}>

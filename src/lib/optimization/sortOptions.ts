@@ -1,4 +1,8 @@
-import { GlobalRegister, StatKey, type StatKeyValue } from 'lib/optimization/engine/config/keys'
+import {
+  GlobalRegister,
+  StatKey,
+  type StatKeyValue,
+} from 'lib/optimization/engine/config/keys'
 
 export type SortOptionKey = keyof typeof SortOption
 

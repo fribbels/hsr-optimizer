@@ -12,9 +12,9 @@ export type { SelectOptionContent } from 'types/setConfig'
 type SetConditionalTFunction = TFunction<'optimizerTab', 'SetConditionals.SelectOptions'>
 
 export type SetMetadata = {
-  type: ConditionalDataType
-  modifiable?: boolean
-  selectionOptions?: (t: SetConditionalTFunction) => SelectOptionContent[]
+  type: ConditionalDataType,
+  modifiable?: boolean,
+  selectionOptions?: (t: SetConditionalTFunction) => SelectOptionContent[],
 }
 
 export function generateSetConditionalContent(t: SetConditionalTFunction) {

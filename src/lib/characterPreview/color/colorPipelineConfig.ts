@@ -1,23 +1,23 @@
 export interface CardColorConfig {
   // Lightness
-  targetL: number       // base OKLCH lightness
-  lInputScale: number   // how much input L influences output: outputL = targetL + (inputL - 0.5) * lInputScale
-  minL: number          // floor for output L
-  maxL: number          // ceiling for output L
+  targetL: number // base OKLCH lightness
+  lInputScale: number // how much input L influences output: outputL = targetL + (inputL - 0.5) * lInputScale
+  minL: number // floor for output L
+  maxL: number // ceiling for output L
 
   // Chroma
-  chromaScale: number   // multiply input chroma by this
-  minC: number          // floor for scaled chroma
-  maxC: number          // ceiling for scaled chroma
+  chromaScale: number // multiply input chroma by this
+  minC: number // floor for scaled chroma
+  maxC: number // ceiling for scaled chroma
 
   // Alpha
-  alpha: number         // CSS alpha
+  alpha: number // CSS alpha
 }
 
 export interface DarkModeConfig {
-  lOffset: number           // added to L (negative = darker)
-  cScale: number            // multiplied with C (< 1 = desaturate)
-  brightnessOffset: number  // added to portrait filter brightness (negative = darker)
+  lOffset: number // added to L (negative = darker)
+  cScale: number // multiplied with C (< 1 = desaturate)
+  brightnessOffset: number // added to portrait filter brightness (negative = darker)
 }
 
 export interface ColorPipelineConfig {

@@ -1,4 +1,12 @@
 // @vitest-environment jsdom
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   Sets,
   Stats,
@@ -11,14 +19,6 @@ import {
   testSets,
   testStatSpread,
 } from 'lib/simulations/tests/simTestUtils'
-import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
-import { Robin } from 'lib/conditionals/character/1300/Robin'
-import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
-import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
-import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { test } from 'vitest'
 

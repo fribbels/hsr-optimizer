@@ -57,6 +57,7 @@ import {
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { floorSafe } from 'lib/utils/mathUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
   type CharacterId,
   type Eidolon,
@@ -71,7 +72,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const CHRYSOS_HEIR_IDS = [
   '1402', // Aglaea

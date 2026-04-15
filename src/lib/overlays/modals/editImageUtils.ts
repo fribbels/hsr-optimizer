@@ -6,17 +6,18 @@ const CLIENT_ID = '13bf25a25cf82e9'
 
 const isLocalhost = () => location.hostname === 'localhost' || location.hostname === '127.0.0.1'
 
-function fileToDataUrl(file: File): Promise<{ link: string; dimensions?: ImageDimensions } | null> {
+function fileToDataUrl(file: File): Promise<{ link: string, dimensions?: ImageDimensions } | null> {
   return new Promise((resolve) => {
     const reader = new FileReader()
     reader.onerror = () => resolve(null)
     reader.onload = (e) => {
       const dataUrl = e.target?.result as string
       const img = new Image()
-      img.onload = () => resolve({
-        link: dataUrl,
-        dimensions: { width: img.naturalWidth, height: img.naturalHeight },
-      })
+      img.onload = () =>
+        resolve({
+          link: dataUrl,
+          dimensions: { width: img.naturalWidth, height: img.naturalHeight },
+        })
       img.onerror = () => resolve(null)
       img.src = dataUrl
     }
@@ -38,7 +39,7 @@ const MAX_IMAGE_SIZE_MB = 20
 const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1024 * 1024
 
 // Validates file size against limit
-export function validateFileSize(file: File, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): { valid: boolean; error?: string } {
+export function validateFileSize(file: File, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): { valid: boolean, error?: string } {
   if (file.size > maxSizeBytes) {
     return {
       valid: false,
@@ -49,7 +50,7 @@ export function validateFileSize(file: File, maxSizeBytes: number = MAX_IMAGE_SI
 }
 
 // Validates URL file size by fetching Content-Length header (no full download)
-export async function validateUrlFileSize(url: string, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): Promise<{ valid: boolean; error?: string }> {
+export async function validateUrlFileSize(url: string, maxSizeBytes: number = MAX_IMAGE_SIZE_BYTES): Promise<{ valid: boolean, error?: string }> {
   try {
     const response = await fetch(url, { method: 'HEAD', mode: 'cors' })
     const contentLength = response.headers.get('content-length')
@@ -90,7 +91,7 @@ export async function isCORSallowedImageUrl(url: string) {
 }
 
 // Verifies that the URL actually links to an image
-export async function isValidImageUrl(url: string): Promise<{ valid: boolean; dimensions?: ImageDimensions }> {
+export async function isValidImageUrl(url: string): Promise<{ valid: boolean, dimensions?: ImageDimensions }> {
   // Sometimes copying an image address that isn't fully loaded will copy the base64
   // We don't want that, so checking here to make sure this is actually a URL
   if (!url.includes('http')) {
@@ -115,7 +116,7 @@ export async function isValidImageUrl(url: string): Promise<{ valid: boolean; di
 }
 
 // Verifies that the uploaded file is actually an image
-export async function isValidImageFile(file: File): Promise<{ valid: boolean; dimensions?: ImageDimensions }> {
+export async function isValidImageFile(file: File): Promise<{ valid: boolean, dimensions?: ImageDimensions }> {
   return new Promise((resolve) => {
     const fileReader = new FileReader()
     fileReader.onerror = () => {
@@ -164,7 +165,7 @@ export async function isValidImageFile(file: File): Promise<{ valid: boolean; di
 
  When the key goes down: https://api.imgur.com/oauth2/addclient
  *************************************************/
-export async function uploadToImgur(image: string | File): Promise<{ link: string; dimensions?: ImageDimensions } | null> {
+export async function uploadToImgur(image: string | File): Promise<{ link: string, dimensions?: ImageDimensions } | null> {
   // Localhost bypass: imgur blocks requests from localhost/127.0.0.1
   if (isLocalhost() && image instanceof File) {
     console.log('[editImageUtils] Localhost detected, using data URL instead of imgur')

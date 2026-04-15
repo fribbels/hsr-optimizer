@@ -4,17 +4,25 @@ import {
   ConditionalDataType,
   type Sets,
 } from 'lib/constants/constants'
+import type {
+  ComboBooleanConditional,
+  ComboConditionalCategory,
+  ComboConditionals,
+  ComboNumberConditional,
+  ComboSelectConditional,
+} from 'lib/optimization/combo/comboTypes'
+import {
+  ConditionalSetMetadata,
+  generateSetConditionalContent,
+} from 'lib/optimization/rotation/setConditionalContent'
+import { Assets } from 'lib/rendering/assets'
 import {
   type SetsOrnaments,
   type SetsRelics,
   setToConditionalKey,
   setToId,
 } from 'lib/sets/setConfigRegistry'
-import {
-  ConditionalSetMetadata,
-  generateSetConditionalContent,
-} from 'lib/optimization/rotation/setConditionalContent'
-import { Assets } from 'lib/rendering/assets'
+import { resolveSourceKeyRoute } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import {
   BooleanConditionalActivationRow,
 } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/BooleanConditionalActivationRow'
@@ -24,23 +32,21 @@ import {
 import {
   SelectConditionalActivationRow,
 } from 'lib/tabs/tabOptimizer/combo/ConditionalActivationRows/SelectConditionalActivationRow'
-import type {
-  ComboBooleanConditional,
-  ComboConditionalCategory,
-  ComboConditionals,
-  ComboNumberConditional,
-  ComboSelectConditional,
-} from 'lib/optimization/combo/comboTypes'
-import { resolveSourceKeyRoute } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
-import { resolveConditionals, resolveMetadata, useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
-import { memo, useMemo } from 'react'
+import {
+  resolveConditionals,
+  resolveMetadata,
+  useComboDrawerStore,
+} from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
+import {
+  memo,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type {
   CharacterConditionalsController,
   ContentItem,
   LightConeConditionalsController,
 } from 'types/conditionals'
-
 
 const columnStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column' }
 const groupRowStyle: React.CSSProperties = { display: 'flex', gap: 10, alignItems: 'center', padding: 8, background: 'var(--layer-3)', borderRadius: 6 }
@@ -51,10 +57,10 @@ const ConditionalActivationRow = memo(function ConditionalActivationRow({
   actionCount,
   sourceKey,
 }: {
-  contentItem: ContentItem
-  comboConditional: ComboConditionalCategory
-  actionCount: number
-  sourceKey: string
+  contentItem: ContentItem,
+  comboConditional: ComboConditionalCategory,
+  actionCount: number,
+  sourceKey: string,
 }) {
   if (contentItem.formItem === 'switch') {
     return (
@@ -91,10 +97,10 @@ export function ContentRows({
   actionCount,
   sourceKey,
 }: {
-  contentItems: ContentItem[]
-  comboConditionals: ComboConditionals
-  actionCount: number
-  sourceKey: string
+  contentItems: ContentItem[],
+  comboConditionals: ComboConditionals,
+  actionCount: number,
+  sourceKey: string,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboDrawer' })
 
@@ -126,9 +132,9 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
   actionCount,
   originKey,
 }: {
-  conditionalType: string
-  actionCount: number
-  originKey: string
+  conditionalType: string,
+  actionCount: number,
+  originKey: string,
 }) {
   const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   const { t: setSelectOptionTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })

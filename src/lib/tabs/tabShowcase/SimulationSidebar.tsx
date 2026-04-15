@@ -1,5 +1,11 @@
-import { IconFlask, IconPlus } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
+import {
+  Button,
+  Flex,
+} from '@mantine/core'
+import {
+  IconFlask,
+  IconPlus,
+} from '@tabler/icons-react'
 import { Assets } from 'lib/rendering/assets'
 import {
   type CharacterPreset,
@@ -14,19 +20,19 @@ export function SimulationSidebar({
   onToggle,
   onPresetClick,
 }: {
-  open: boolean
-  onToggle: () => void
-  onPresetClick: (preset: Preset) => void
+  open: boolean,
+  onToggle: () => void,
+  onPresetClick: (preset: Preset) => void,
 }) {
   const presets = useMemo(() => presetCharacters(), [])
 
   return (
     <div className={styles.simSidebar}>
-      <Flex direction="column" align="center" gap={8}>
+      <Flex direction='column' align='center' gap={8}>
         <Button
           className={styles.toggleButton}
           onClick={onToggle}
-          variant="default"
+          variant='default'
           style={{ width: 80, height: 40, margin: '0 8px' }}
         >
           <IconFlask size={28} />
@@ -34,41 +40,41 @@ export function SimulationSidebar({
 
         <div className={styles.simSidebarPanel} style={{ display: open ? undefined : 'none' }}>
           {presets.map((preset, index) => {
-              if (preset.custom) {
-                return (
-                  <Flex key="custom" justify="center" align="center">
-                    <Button
-                      variant="transparent"
-                      p={0}
-                      onClick={() => onPresetClick(preset)}
-                      style={{ width: 80, height: 80 }}
-                    >
-                      <div className={styles.customPresetIcon}>
-                        <IconPlus size={28} />
-                      </div>
-                    </Button>
-                  </Flex>
-                )
-              }
-
-              const charPreset = preset as CharacterPreset
-              const isRerun = charPreset.rerun
-              const size = isRerun ? 38 : 80
+            if (preset.custom) {
               return (
-                <Button
-                  key={charPreset.characterId ?? index}
-                  variant="transparent"
-                  p={0}
-                  onClick={() => onPresetClick(preset)}
-                  style={{ width: size, height: size, minWidth: size, display: 'inline-flex' }}
-                >
-                  <img
-                    className={styles.presetImage}
-                    src={Assets.getCharacterAvatarById(charPreset.characterId!)}
-                  />
-                </Button>
+                <Flex key='custom' justify='center' align='center'>
+                  <Button
+                    variant='transparent'
+                    p={0}
+                    onClick={() => onPresetClick(preset)}
+                    style={{ width: 80, height: 80 }}
+                  >
+                    <div className={styles.customPresetIcon}>
+                      <IconPlus size={28} />
+                    </div>
+                  </Button>
+                </Flex>
               )
-            })}
+            }
+
+            const charPreset = preset as CharacterPreset
+            const isRerun = charPreset.rerun
+            const size = isRerun ? 38 : 80
+            return (
+              <Button
+                key={charPreset.characterId ?? index}
+                variant='transparent'
+                p={0}
+                onClick={() => onPresetClick(preset)}
+                style={{ width: size, height: size, minWidth: size, display: 'inline-flex' }}
+              >
+                <img
+                  className={styles.presetImage}
+                  src={Assets.getCharacterAvatarById(charPreset.characterId!)}
+                />
+              </Button>
+            )
+          })}
         </div>
       </Flex>
     </div>

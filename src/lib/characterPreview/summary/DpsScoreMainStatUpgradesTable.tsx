@@ -9,7 +9,6 @@ import {
   SimScoringContext,
   useSimScoringContext,
 } from 'lib/characterPreview/SimScoringContext'
-import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import {
   type MainStatParts,
@@ -23,6 +22,7 @@ import { Stats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { setToId } from 'lib/sets/setConfigRegistry'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
@@ -118,7 +118,9 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
         [Parts.LinkRope]: {},
       } as Record<MainStatParts, Partial<Record<MainStats, number>>>))
     })
-    return () => { cancelled = true }
+    return () => {
+      cancelled = true
+    }
   }, [upgradesPromise])
 
   const iterator: Array<[MainStatParts, MainStats]> = (Object.keys(initialRankMapping) as MainStatParts[])

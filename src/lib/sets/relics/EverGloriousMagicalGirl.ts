@@ -3,16 +3,22 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { type BasicStatsArray, WgslStatName } from 'lib/optimization/basicStatsArray'
-import { Source } from 'lib/optimization/buffSource'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
-import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  type BasicStatsArray,
+  WgslStatName,
+} from 'lib/optimization/basicStatsArray'
+import { Source } from 'lib/optimization/buffSource'
+import {
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -20,8 +26,8 @@ import {
 } from 'types/optimizer'
 import {
   type SelectOptionContent,
-  type SetConditionalTFunction,
   type SetConditionals,
+  type SetConditionalTFunction,
   type SetConfig,
   type SetDisplay,
   type SetInfo,
@@ -48,15 +54,21 @@ const conditionals: SetConditionals = {
     c.CD.buff(0.16, Source.EverGloriousMagicalGirl)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DEF_PEN, 0.10 + 0.01 * setConditionals.valueEverGloriousMagicalGirl,
-      x.damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).source(Source.EverGloriousMagicalGirl))
+    x.buff(
+      StatKey.DEF_PEN,
+      0.10 + 0.01 * setConditionals.valueEverGloriousMagicalGirl,
+      x.damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).source(Source.EverGloriousMagicalGirl),
+    )
   },
   gpuBasic: () => [
     basicP2(WgslStatName.CD, 0.16, EverGloriousMagicalGirl),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_EverGloriousMagicalGirl) >= 1) {
-      ${buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
+      ${
+    buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite)
+      .wgsl(action, 2)
+  }
     }
   `,
 }

@@ -1,6 +1,9 @@
 import { Flex } from '@mantine/core'
+import {
+  AppPages,
+  PageToRoute,
+} from 'lib/constants/appPages'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import { ChangelogTab } from 'lib/tabs/tabChangelog/ChangelogTab'
 import { CharacterTab } from 'lib/tabs/tabCharacters/CharacterTab'
@@ -11,24 +14,29 @@ import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 
+import {
+  TabVisibilityContext,
+  type TabVisibilityValue,
+} from 'lib/hooks/useTabVisibility'
 import { workerPool } from 'lib/worker/workerPool'
-import { TabVisibilityContext, type TabVisibilityValue } from 'lib/hooks/useTabVisibility'
 import React, {
-  type ReactElement,
-  Suspense,
   lazy,
+  type ReactElement,
   startTransition,
+  Suspense,
   useEffect,
   useRef,
   useState,
 } from 'react'
-import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
+import {
+  ErrorBoundary,
+  type FallbackProps,
+} from 'react-error-boundary'
 
 const MetadataTab = lazy(() => import('lib/tabs/tabMetadata/MetadataTab').then((m) => ({ default: m.MetadataTab })))
 const WebgpuTab = lazy(() => import('lib/tabs/tabWebgpu/WebgpuTab').then((m) => ({ default: m.WebgpuTab })))
 
-const defaultErrorRender = ({ error }: FallbackProps) =>
-  <div>Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
+const defaultErrorRender = ({ error }: FallbackProps) => <div>Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
 
 const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.HOME, HomeTab],
@@ -156,12 +164,11 @@ const Tabs = () => {
 
 export { Tabs }
 
-
 function TabRenderer({ activeKey, fallbackKey, tabKey, children }: {
-  activeKey: AppPages
-  fallbackKey: AppPages | null
-  tabKey: AppPages
-  children: ReactElement | null
+  activeKey: AppPages,
+  fallbackKey: AppPages | null,
+  tabKey: AppPages,
+  children: ReactElement | null,
 }) {
   const isActive = activeKey === tabKey
   const isFallback = fallbackKey === tabKey
@@ -178,7 +185,9 @@ function TabRenderer({ activeKey, fallbackKey, tabKey, children }: {
     isActiveRef,
     addActivationListener: (cb: () => void) => {
       listenersRef.current.add(cb)
-      return () => { listenersRef.current.delete(cb) }
+      return () => {
+        listenersRef.current.delete(cb)
+      }
     },
   }))
 

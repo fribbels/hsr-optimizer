@@ -1,5 +1,5 @@
-import { create } from 'zustand'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
+import { create } from 'zustand'
 
 export type BlendMode = 'screen' | 'normal'
 
@@ -48,16 +48,31 @@ export const INSET_OPACITY = 0.30
 export const TEXT_SHADOW_DEFAULT = '1px 1px 0 rgba(0,0,0,0.3), -1px -1px 0 rgba(0,0,0,0.3), 1px -1px 0 rgba(0,0,0,0.3), -1px 1px 0 rgba(0,0,0,0.3)'
 
 // Text shadow presets for readability tuning
-export const TEXT_SHADOW_PRESETS: { label: string; value: string }[] = [
+export const TEXT_SHADOW_PRESETS: { label: string, value: string }[] = [
   { label: 'Default', value: TEXT_SHADOW_DEFAULT },
   { label: 'Faint 0.20', value: '1px 1px 0 rgba(0,0,0,0.2), -1px -1px 0 rgba(0,0,0,0.2), 1px -1px 0 rgba(0,0,0,0.2), -1px 1px 0 rgba(0,0,0,0.2)' },
   { label: 'Subtle 0.30', value: '1px 1px 0 rgba(0,0,0,0.3), -1px -1px 0 rgba(0,0,0,0.3), 1px -1px 0 rgba(0,0,0,0.3), -1px 1px 0 rgba(0,0,0,0.3)' },
   { label: 'Light 0.40', value: '1px 1px 0 rgba(0,0,0,0.4), -1px -1px 0 rgba(0,0,0,0.4), 1px -1px 0 rgba(0,0,0,0.4), -1px 1px 0 rgba(0,0,0,0.4)' },
   { label: 'Medium 0.60', value: '1px 1px 0 rgba(0,0,0,0.6), -1px -1px 0 rgba(0,0,0,0.6), 1px -1px 0 rgba(0,0,0,0.6), -1px 1px 0 rgba(0,0,0,0.6)' },
-  { label: 'Glow', value: '1px 1px 0 rgba(0,0,0,0.5), -1px -1px 0 rgba(0,0,0,0.5), 1px -1px 0 rgba(0,0,0,0.5), -1px 1px 0 rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.4)' },
-  { label: '8-dir light', value: '-1px 0 0 rgba(0,0,0,0.35), 1px 0 0 rgba(0,0,0,0.35), 0 -1px 0 rgba(0,0,0,0.35), 0 1px 0 rgba(0,0,0,0.35), -1px -1px 0 rgba(0,0,0,0.35), 1px -1px 0 rgba(0,0,0,0.35), -1px 1px 0 rgba(0,0,0,0.35), 1px 1px 0 rgba(0,0,0,0.35)' },
-  { label: '8-dir medium', value: '-1px 0 0 rgba(0,0,0,0.55), 1px 0 0 rgba(0,0,0,0.55), 0 -1px 0 rgba(0,0,0,0.55), 0 1px 0 rgba(0,0,0,0.55), -1px -1px 0 rgba(0,0,0,0.55), 1px -1px 0 rgba(0,0,0,0.55), -1px 1px 0 rgba(0,0,0,0.55), 1px 1px 0 rgba(0,0,0,0.55)' },
-  { label: '8-dir glow', value: '-1px 0 0 rgba(0,0,0,0.45), 1px 0 0 rgba(0,0,0,0.45), 0 -1px 0 rgba(0,0,0,0.45), 0 1px 0 rgba(0,0,0,0.45), -1px -1px 0 rgba(0,0,0,0.45), 1px -1px 0 rgba(0,0,0,0.45), -1px 1px 0 rgba(0,0,0,0.45), 1px 1px 0 rgba(0,0,0,0.45), 0 0 6px rgba(0,0,0,0.35)' },
+  {
+    label: 'Glow',
+    value: '1px 1px 0 rgba(0,0,0,0.5), -1px -1px 0 rgba(0,0,0,0.5), 1px -1px 0 rgba(0,0,0,0.5), -1px 1px 0 rgba(0,0,0,0.5), 0 0 8px rgba(0,0,0,0.4)',
+  },
+  {
+    label: '8-dir light',
+    value:
+      '-1px 0 0 rgba(0,0,0,0.35), 1px 0 0 rgba(0,0,0,0.35), 0 -1px 0 rgba(0,0,0,0.35), 0 1px 0 rgba(0,0,0,0.35), -1px -1px 0 rgba(0,0,0,0.35), 1px -1px 0 rgba(0,0,0,0.35), -1px 1px 0 rgba(0,0,0,0.35), 1px 1px 0 rgba(0,0,0,0.35)',
+  },
+  {
+    label: '8-dir medium',
+    value:
+      '-1px 0 0 rgba(0,0,0,0.55), 1px 0 0 rgba(0,0,0,0.55), 0 -1px 0 rgba(0,0,0,0.55), 0 1px 0 rgba(0,0,0,0.55), -1px -1px 0 rgba(0,0,0,0.55), 1px -1px 0 rgba(0,0,0,0.55), -1px 1px 0 rgba(0,0,0,0.55), 1px 1px 0 rgba(0,0,0,0.55)',
+  },
+  {
+    label: '8-dir glow',
+    value:
+      '-1px 0 0 rgba(0,0,0,0.45), 1px 0 0 rgba(0,0,0,0.45), 0 -1px 0 rgba(0,0,0,0.45), 0 1px 0 rgba(0,0,0,0.45), -1px -1px 0 rgba(0,0,0,0.45), 1px -1px 0 rgba(0,0,0,0.45), -1px 1px 0 rgba(0,0,0,0.45), 1px 1px 0 rgba(0,0,0,0.45), 0 0 6px rgba(0,0,0,0.35)',
+  },
   { label: 'None', value: 'none' },
 ]
 

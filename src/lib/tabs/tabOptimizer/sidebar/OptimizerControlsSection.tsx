@@ -1,5 +1,9 @@
+import {
+  Button,
+  Flex,
+} from '@mantine/core'
+import { modals } from '@mantine/modals'
 import { IconBoltFilled } from '@tabler/icons-react'
-import { Button, Flex } from '@mantine/core'
 import {
   COMPUTE_ENGINE_GPU_EXPERIMENTAL,
   COMPUTE_ENGINE_GPU_STABLE,
@@ -7,6 +11,7 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Hint } from 'lib/interactions/hint'
 import { Optimizer } from 'lib/optimization/optimizer'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   resetFilters,
@@ -18,13 +23,15 @@ import { MemoViewSelect } from 'lib/tabs/tabOptimizer/sidebar/MemoViewSelect'
 import { ProgressDisplay } from 'lib/tabs/tabOptimizer/sidebar/ProgressDisplay'
 import { StatsViewSelect } from 'lib/tabs/tabOptimizer/sidebar/StatsViewSelect'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { modals } from '@mantine/modals'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import type { CSSProperties } from 'react'
-import { memo, useCallback, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 
 const defaultGap = 5
 const fullSizeOuterStyle: CSSProperties = { display: 'flex', flexDirection: 'column' }
@@ -77,9 +84,9 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
       style={isFullSize ? fullSizeOuterStyle : compactOuterStyle}
     >
       <ManyPermsModal startSearch={startOptimization} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen} />
-      <Flex direction="column" gap={5}>
+      <Flex direction='column' gap={5}>
         <HeaderText>{t('ControlsGroup.Header') /* Controls */}</HeaderText>
-        <Flex gap={defaultGap} style={controlsGapStyle} direction="column">
+        <Flex gap={defaultGap} style={controlsGapStyle} direction='column'>
           <Flex gap={defaultGap}>
             <Button
               leftSection={<IconBoltFilled size={16} />}
@@ -94,20 +101,21 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
           {isFullSize && <ComputeEngineSelect />}
 
           <Flex gap={defaultGap} justify='space-around'>
-            <Button variant="default" onClick={cancelClicked} style={buttonStyle}>
+            <Button variant='default' onClick={cancelClicked} style={buttonStyle}>
               {tCommon('Cancel') /* Cancel */}
             </Button>
 
             <Button
-              variant="default"
+              variant='default'
               style={buttonStyle}
-              onClick={() => modals.openConfirmModal({
-                title: t('ControlsGroup.ResetConfirm.Title'),
-                children: t('ControlsGroup.ResetConfirm.Description'),
-                labels: { confirm: tCommon('Yes'), cancel: tCommon('No') },
-                centered: true,
-                onConfirm: resetClicked,
-              })}
+              onClick={() =>
+                modals.openConfirmModal({
+                  title: t('ControlsGroup.ResetConfirm.Title'),
+                  children: t('ControlsGroup.ResetConfirm.Description'),
+                  labels: { confirm: tCommon('Yes'), cancel: tCommon('No') },
+                  centered: true,
+                  onConfirm: resetClicked,
+                })}
             >
               {tCommon('Reset') /* Reset */}
             </Button>
@@ -115,7 +123,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
         </Flex>
       </Flex>
 
-      <Flex direction="column" gap={5} style={statViewStyle}>
+      <Flex direction='column' gap={5} style={statViewStyle}>
         <Flex justify='space-between' align='center'>
           <HeaderText>{t('StatViewGroup.Header') /* Stat and filter view */}</HeaderText>
           <TooltipImage type={Hint.statDisplay()} />
@@ -128,7 +136,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
 
       {!isFullSize
         && (
-          <Flex direction="column" gap={3} style={statViewStyle}>
+          <Flex direction='column' gap={3} style={statViewStyle}>
             <HeaderText>{t('ComputeEngine') /* Compute engine */}</HeaderText>
             <ComputeEngineSelect />
             <ProgressDisplay />

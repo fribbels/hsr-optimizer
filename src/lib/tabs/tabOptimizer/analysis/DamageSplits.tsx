@@ -1,15 +1,21 @@
-import { chartColor, extractDamageSplits } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import { DamageSplitsChart } from 'lib/tabs/tabOptimizer/analysis/DamageSplitsChart'
+import {
+  chartColor,
+  extractDamageSplits,
+} from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
-import { useMemo, useState } from 'react'
+import {
+  useMemo,
+  useState,
+} from 'react'
 
 type SplitMode = 'default' | 'rotation'
 
 function ModeToggle({ mode, onModeChange }: {
-  mode: SplitMode
-  onModeChange: (mode: SplitMode) => void
+  mode: SplitMode,
+  onModeChange: (mode: SplitMode) => void,
 }) {
-  const modes: { key: SplitMode; label: string }[] = [
+  const modes: { key: SplitMode, label: string }[] = [
     { key: 'default', label: 'Default' },
     { key: 'rotation', label: 'Rotation' },
   ]
@@ -41,7 +47,7 @@ function ModeToggle({ mode, onModeChange }: {
 }
 
 export function DamageSplits({ analysis }: {
-  analysis: OptimizerResultAnalysis
+  analysis: OptimizerResultAnalysis,
 }) {
   const { newX, context } = analysis
   const hasRotation = context.rotationActions.length > 0

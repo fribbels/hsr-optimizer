@@ -1,31 +1,46 @@
 import i18next from 'i18next'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import {
   Constants,
   DEFAULT_STAT_DISPLAY,
 } from 'lib/constants/constants'
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Message } from 'lib/interactions/message'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import { calculateCurrentlyEquippedRow, Optimizer } from 'lib/optimization/optimizer'
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import * as persistenceService from 'lib/services/persistenceService'
-import { SaveState } from 'lib/state/saveState'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
+import {
+  calculateCurrentlyEquippedRow,
+  Optimizer,
+} from 'lib/optimization/optimizer'
 import * as equipmentService from 'lib/services/equipmentService'
-import { displayToInternal, patchComboConditionalDefault } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { type MainConditionalType, type TeammateConditionalType, useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import * as persistenceService from 'lib/services/persistenceService'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { SaveState } from 'lib/state/saveState'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
+import { gridStore } from 'lib/stores/gridStore'
+import {
+  displayToInternal,
+  patchComboConditionalDefault,
+} from 'lib/stores/optimizerForm/optimizerFormConversions'
+import {
+  type MainConditionalType,
+  type TeammateConditionalType,
+  useOptimizerRequestStore,
+} from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { syncFormToCharacterStore } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { gridStore } from 'lib/stores/gridStore'
-import type { Build, CharacterId } from 'types/character'
-import type { Form } from 'types/form'
 import { uuid } from 'lib/utils/miscUtils'
+import type {
+  Build,
+  CharacterId,
+} from 'types/character'
+import type { Form } from 'types/form'
 
 // Sync optimizer form to character store before page unload so SaveState.save() has latest data
 window.addEventListener('beforeunload', () => syncFormToCharacterStore())
-
 
 const OPTIMIZER_FORM_CACHE_MAX = 50
 const _optimizerFormCacheMap = new Map<string, Form>()
@@ -173,11 +188,21 @@ export function recalculatePermutations(): void {
  * permutations are automatically recalculated via the subscription below.
  */
 const PERMUTATION_KEYS = [
-  'characterId', 'rank', 'rankFilter',
-  'enhance', 'grade', 'exclude',
-  'includeEquippedRelics', 'keepCurrentRelics',
-  'mainBody', 'mainFeet', 'mainPlanarSphere', 'mainLinkRope',
-  'mainStatUpscaleLevel', 'setFilters', 'weights',
+  'characterId',
+  'rank',
+  'rankFilter',
+  'enhance',
+  'grade',
+  'exclude',
+  'includeEquippedRelics',
+  'keepCurrentRelics',
+  'mainBody',
+  'mainFeet',
+  'mainPlanarSphere',
+  'mainLinkRope',
+  'mainStatUpscaleLevel',
+  'setFilters',
+  'weights',
 ] as const
 
 let permutationRafId: number | null = null

@@ -4,9 +4,12 @@ import {
 } from 'lib/constants/constants'
 import { type BasicStatsArray } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
-import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   type OptimizerAction,
   type OptimizerContext,

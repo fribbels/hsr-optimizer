@@ -1,9 +1,9 @@
 import { BuffRow } from 'lib/characterPreview/buffsAnalysis/BuffRow'
 import {
   DesignContext,
-  TEXT_DIM,
   getCardStyle,
   getIconStyle,
+  TEXT_DIM,
   TEXT_SECONDARY,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
 import type { SetKey } from 'lib/constants/constants'
@@ -26,7 +26,7 @@ function getBuffSourceIcon(id: string, buffType: BUFF_TYPE) {
   return Assets.getBlank()
 }
 
-export function CardShell({ avatarSrc, children }: { avatarSrc: string; children: ReactNode }) {
+export function CardShell({ avatarSrc, children }: { avatarSrc: string, children: ReactNode }) {
   const options = useContext(DesignContext)
   const token = { colorBgContainer: 'var(--layer-2)' }
   return (

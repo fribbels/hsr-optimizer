@@ -1,8 +1,17 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { Metadata } from 'lib/state/metadataInitializer'
 import { ReliquaryArchiverConfig } from 'lib/importer/importConfig'
-import { KelzFormatParser, type V4ParserRelic } from './kelzFormatParser'
+import { Metadata } from 'lib/state/metadataInitializer'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
+import {
+  KelzFormatParser,
+  type V4ParserRelic,
+} from './kelzFormatParser'
 
 // ---- Mocks ----
 

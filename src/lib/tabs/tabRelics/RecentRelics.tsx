@@ -1,9 +1,12 @@
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RecentRelicCard } from 'lib/tabs/tabRelics/RecentRelicCard'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { memo, useCallback } from 'react'
+import {
+  memo,
+  useCallback,
+} from 'react'
 import { useShallow } from 'zustand/react/shallow'
-import { useRelicStore } from 'lib/stores/relic/relicStore'
 
 function padArray<T>(array: T[], length: number, filler: T): T[] {
   return [...array, ...Array(length - array.length).fill(filler)]

@@ -60,13 +60,13 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const MydeiEntities = createEnum('Mydei')
 export const MydeiAbilities: AbilityKind[] = [

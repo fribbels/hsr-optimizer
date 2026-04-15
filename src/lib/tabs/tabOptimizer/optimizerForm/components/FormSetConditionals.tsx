@@ -1,5 +1,18 @@
-import { Drawer, Flex, Popover, Select, Switch, Text } from '@mantine/core'
+import {
+  Drawer,
+  Flex,
+  Popover,
+  Select,
+  Switch,
+  Text,
+} from '@mantine/core'
 import { Constants } from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
+import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
+import { Assets } from 'lib/rendering/assets'
 import {
   ornamentIndexToSetConfig,
   relicIndexToSetConfig,
@@ -8,21 +21,18 @@ import {
   setToConditionalKey,
   setToId,
 } from 'lib/sets/setConfigRegistry'
-import {
-  OpenCloseIDs,
-  useOpenClose,
-} from 'lib/hooks/useOpenClose'
-import type { SelectOptionContent } from 'types/setConfig'
-import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { handleConditionalChange } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { ColorizeNumbers } from 'lib/ui/ColorizeNumbers'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { useMemo, useState } from 'react'
+import {
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
-import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
+import type { SelectOptionContent } from 'types/setConfig'
 
 /**
  * Enum for identifying which store to use for set conditionals.
@@ -67,12 +77,8 @@ type ConditionalSetOptionsProps = OrnamentConditionalSetOptionProps | RelicCondi
 function ConditionalSetOption({ set, description, conditional, selectOptions, storeType, ...rest }: ConditionalSetOptionsProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
 
-  const fromOptimizer = useOptimizerRequestStore((s) =>
-    getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Optimizer)
-  )
-  const fromBenchmark = useBenchmarksTabStore((s) =>
-    getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Benchmark)
-  )
+  const fromOptimizer = useOptimizerRequestStore((s) => getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Optimizer))
+  const fromBenchmark = useBenchmarksTabStore((s) => getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Benchmark))
 
   const value = storeType === SetConditionalsStoreType.Optimizer ? fromOptimizer : fromBenchmark
 
@@ -87,15 +93,15 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
   }
 
   const content = (
-    <Flex direction="column" gap={12}>
-      <Flex direction="column" gap={4}>
+    <Flex direction='column' gap={12}>
+      <Flex direction='column' gap={4}>
         <HeaderText>{t('DescriptionHeader') /* Set description */}</HeaderText>
-        <Text size="xs">{ColorizeNumbers(description)}</Text>
+        <Text size='xs'>{ColorizeNumbers(description)}</Text>
       </Flex>
 
-      <Flex direction="column" gap={4}>
+      <Flex direction='column' gap={4}>
         <HeaderText>{t('EffectHeader') /* Enabled effect */}</HeaderText>
-        <Text size="xs">{conditional}</Text>
+        <Text size='xs'>{conditional}</Text>
       </Flex>
     </Flex>
   )
@@ -154,7 +160,7 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
         </Flex>
       </Popover.Target>
       <Popover.Dropdown style={{ fontSize: 13 }}>
-        <Text fw={600} mb={4} size="sm">{t('SetName', { id: setToId[set] })}</Text>
+        <Text fw={600} mb={4} size='sm'>{t('SetName', { id: setToId[set] })}</Text>
         {content}
       </Popover.Dropdown>
     </Popover>
@@ -225,7 +231,7 @@ function FormSetConditionalsContent({ storeType }: { storeType: SetConditionalsS
 
   return (
     <Flex justify='space-around'>
-      <Flex direction="column" gap={columnGap}>
+      <Flex direction='column' gap={columnGap}>
         <Flex gap={defaultGap} align='center'>
           <div style={{ width: setConditionalsIconWidth }} />
           <div style={{ width: setConditionalsNameWidth }} />
@@ -233,7 +239,7 @@ function FormSetConditionalsContent({ storeType }: { storeType: SetConditionalsS
         {relicOptions}
       </Flex>
       <VerticalDivider />
-      <Flex direction="column" gap={columnGap}>
+      <Flex direction='column' gap={columnGap}>
         <Flex gap={defaultGap} align='center'>
           <div style={{ width: setConditionalsIconWidth }} />
           <div style={{ width: setConditionalsNameWidth }} />

@@ -1,19 +1,29 @@
-import { IconChevronDown, IconSearch } from '@tabler/icons-react'
-import { Button, Flex, Loader, Menu, TextInput } from '@mantine/core'
-import { Hint } from 'lib/interactions/hint'
-import { TooltipImage } from 'lib/ui/TooltipImage'
+import {
+  Button,
+  Flex,
+  Loader,
+  Menu,
+  TextInput,
+} from '@mantine/core'
+import {
+  IconChevronDown,
+  IconSearch,
+} from '@tabler/icons-react'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
+import { AppPages } from 'lib/constants/appPages'
 import {
   DOWNTIME_VERSION,
   SHOWCASE_DOWNTIME,
 } from 'lib/constants/constants'
-import { AppPages } from 'lib/constants/appPages'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
+import { Hint } from 'lib/interactions/hint'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
+import { ShowcasePortraitRow } from 'lib/tabs/tabShowcase/ShowcasePortraitRow'
 import {
   handleCharacterModalOk,
   importShowcaseCharacters,
@@ -23,10 +33,13 @@ import {
   syncShowcaseUrl,
 } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
-import { ShowcasePortraitRow } from 'lib/tabs/tabShowcase/ShowcasePortraitRow'
 import { SimulationSidebar } from 'lib/tabs/tabShowcase/SimulationSidebar'
-import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
-import { getSelectedCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import {
+  getSelectedCharacter,
+  useShowcaseTabStore,
+} from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { useDeferReveal } from 'lib/ui/DeferredRender'
+import { TooltipImage } from 'lib/ui/TooltipImage'
 import {
   startTransition,
   useCallback,
@@ -34,10 +47,9 @@ import {
   useEffect,
   useState,
 } from 'react'
-import { useDeferReveal } from 'lib/ui/DeferredRender'
 import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
 import type { Character } from 'types/character'
+import { useShallow } from 'zustand/react/shallow'
 import styles from './ShowcaseTab.module.css'
 
 const PRERENDER_HIDDEN: React.CSSProperties = {
@@ -73,7 +85,7 @@ export function ShowcaseTab() {
   const { t } = useTranslation('relicScorerTab')
 
   return (
-    <Flex direction="column" align="center" style={{ flex: 1 }}>
+    <Flex direction='column' align='center' style={{ flex: 1 }}>
       {SHOWCASE_DOWNTIME && (
         <h3 className={styles.downtimeWarning}>
           {t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}
@@ -113,7 +125,7 @@ function ShowcaseLoading() {
 
   return (
     <div className={styles.loadingContainer}>
-      <Loader size="lg" />
+      <Loader size='lg' />
       <div className={styles.loadingText}>
         {t('Loading.FetchingShowcase', { scorerId: scorerId ?? '' })}
       </div>
@@ -187,7 +199,6 @@ function ShowcaseLoaded() {
     })
   }, [])
 
-
   const onSidebarToggle = useCallback(() => {
     const current = useShowcaseTabStore.getState().savedSession.sidebarOpen
     useShowcaseTabStore.getState().setSidebarOpen(!current)
@@ -216,10 +227,10 @@ function ShowcaseLoaded() {
   ]
 
   return (
-    <Flex ref={containerRef} className={styles.outerWrapper} justify="space-around">
-      <Flex direction="column" align="center" gap={8} className={styles.loadedContainer}>
+    <Flex ref={containerRef} className={styles.outerWrapper} justify='space-around'>
+      <Flex direction='column' align='center' gap={8} className={styles.loadedContainer}>
         {/* UID input row */}
-        <Flex className={styles.formRow} justify="center" align="center" gap={10}>
+        <Flex className={styles.formRow} justify='center' align='center' gap={10}>
           <TextInput
             className={styles.uidInput}
             placeholder={t('SubmissionBar.Placeholder')}
@@ -242,7 +253,7 @@ function ShowcaseLoaded() {
               <Menu.Target>
                 <Button
                   rightSection={<IconChevronDown size={14} />}
-                  variant="default"
+                  variant='default'
                 >
                   {t('relicScorerTab:Buttons.Import')}
                 </Button>
@@ -281,7 +292,7 @@ function ShowcaseLoaded() {
           <CharacterPreview
             character={selectedCharacter}
             source={ShowcaseSource.SHOWCASE_TAB}
-            id="relicScorerPreview"
+            id='relicScorerPreview'
             setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
             setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
           />

@@ -3,12 +3,21 @@ import { Constants } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
-import { getRelicById, useRelicStore } from 'lib/stores/relic/relicStore'
-import { debounceEffect } from 'lib/utils/frontendUtils'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import { gridStore } from 'lib/stores/gridStore'
+import {
+  getRelicById,
+  useRelicStore,
+} from 'lib/stores/relic/relicStore'
+import { debounceEffect } from 'lib/utils/frontendUtils'
 import type { CharacterId } from 'types/character'
-import type { Relic, RelicId } from 'types/relic'
+import type {
+  Relic,
+  RelicId,
+} from 'types/relic'
 
 function getSwapSetting(): boolean {
   return useGlobalStore.getState().settings.RelicEquippingBehavior === SettingOptions.RelicEquippingBehavior.Swap

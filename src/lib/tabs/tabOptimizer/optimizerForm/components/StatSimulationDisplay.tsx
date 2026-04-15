@@ -1,13 +1,17 @@
 import {
+  Button,
+  Flex,
+  SegmentedControl,
+} from '@mantine/core'
+import { modals } from '@mantine/modals'
+import {
   IconArrowsExchange,
   IconChevronDown,
-  IconChevronUp,
   IconChevronsLeft,
+  IconChevronUp,
   IconSettings,
   IconTrash,
 } from '@tabler/icons-react'
-import { Button, Flex, SegmentedControl } from '@mantine/core'
-import { modals } from '@mantine/modals'
 import {
   OpenCloseIDs,
   setOpen,
@@ -20,16 +24,16 @@ import {
   startOptimizerStatSimulation,
 } from 'lib/simulations/statSimulationController'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
-import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/SimulatedBuildsGrid'
-import { FormCard } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { memo } from 'react'
-import { useTranslation } from 'react-i18next'
+import { SimulatedBuildsGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/SimulatedBuildsGrid'
 import { SimulationInputs } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/SimulationInputs'
 import {
   STAT_SIMULATION_GRID_WIDTH,
   STAT_SIMULATION_ROW_HEIGHT,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/statSimulation/statSimConstants'
+import { FormCard } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormCard'
+import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'StatSimulation' })
@@ -44,7 +48,7 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
   return (
     <FormCard style={{ overflow: 'hidden' }} size='large' height={STAT_SIMULATION_ROW_HEIGHT}>
       <Flex gap={15} style={{ height: '100%' }}>
-        <Flex direction="column" gap={15} align='center'>
+        <Flex direction='column' gap={15} align='center'>
           <SegmentedControl
             onChange={(value) => setStatSimulationDisplay(value as StatSimTypes)}
             value={statSimulationDisplay}
@@ -62,7 +66,7 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
 
           <Flex gap={10}>
             <Button
-              variant="default"
+              variant='default'
               style={{ width: 200 }}
               disabled={isHidden()}
               onClick={startOptimizerStatSimulation}
@@ -70,11 +74,11 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
             >
               {t('FooterLabels.Simulate')}
             </Button>
-            <Button variant="default" style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} leftSection={<IconChevronUp size={16} />}>
+            <Button variant='default' style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} leftSection={<IconChevronUp size={16} />}>
               {t('FooterLabels.Import')}
             </Button>
             <Button
-              variant="default"
+              variant='default'
               style={{ width: 200 }}
               disabled={isHidden()}
               onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
@@ -85,8 +89,8 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
           </Flex>
         </Flex>
 
-        <Flex direction="column" justify='space-around'>
-          <Flex direction="column" gap={10}>
+        <Flex direction='column' justify='space-around'>
+          <Flex direction='column' gap={10}>
             <Button
               style={{ width: 35, height: 100, padding: 0 }}
               onClick={() => saveStatSimulationBuildFromForm()}
@@ -95,7 +99,7 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
               <IconChevronsLeft />
             </Button>
             <Button
-              variant="default"
+              variant='default'
               style={{ width: 35, height: 35, padding: 0 }}
               disabled={isHidden()}
               onClick={overwriteStatSimulationBuild}
@@ -103,16 +107,17 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
               <IconArrowsExchange />
             </Button>
             <Button
-              variant="default"
+              variant='default'
               style={{ width: 35, height: 35, padding: 0 }}
               disabled={isHidden()}
-              onClick={() => modals.openConfirmModal({
-                title: t('DeletePopup.Title'),
-                children: t('DeletePopup.Description'),
-                labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-                centered: true,
-                onConfirm: deleteAllStatSimulationBuilds,
-              })}
+              onClick={() =>
+                modals.openConfirmModal({
+                  title: t('DeletePopup.Title'),
+                  children: t('DeletePopup.Description'),
+                  labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                  centered: true,
+                  onConfirm: deleteAllStatSimulationBuilds,
+                })}
             >
               <IconTrash />
             </Button>

@@ -1,11 +1,18 @@
-import { Button, Group, SegmentedControl, Select, Tooltip } from '@mantine/core'
+import {
+  Button,
+  Group,
+  SegmentedControl,
+  Select,
+  Tooltip,
+} from '@mantine/core'
 import { modals } from '@mantine/modals'
-import { IconEdit, IconPlus, IconTrash } from '@tabler/icons-react'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { useShallow } from 'zustand/react/shallow'
-import { Hint } from 'lib/interactions/hint'
+import {
+  IconEdit,
+  IconPlus,
+  IconTrash,
+} from '@tabler/icons-react'
 import { relicCardW } from 'lib/constants/constantsUi'
+import { Hint } from 'lib/interactions/hint'
 import { useRelicById } from 'lib/stores/relic/relicStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
@@ -16,14 +23,15 @@ import {
   useRelicsTabStore,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { TooltipImage } from 'lib/ui/TooltipImage'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useShallow } from 'zustand/react/shallow'
 
 export function BottomToolbarLeft() {
   const selectedRelicId = useRelicsTabStore((s) => s.selectedRelicId)
   const selectedRelic = useRelicById(selectedRelicId)
 
-  return (
-    <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-default)', height: 30 }} />
-  )
+  return <RelicLocator relic={selectedRelic} compact style={{ width: relicCardW, outline: 'none', border: '1px solid var(--border-default)', height: 30 }} />
 }
 
 export function BottomToolbarRight() {
@@ -57,8 +65,8 @@ export function BottomToolbarRight() {
     <Group gap={5} justify='space-between'>
       <Group gap={5}>
         <Button
-          variant="default"
-          size="xs"
+          variant='default'
+          size='xs'
           w={170}
           leftSection={<IconPlus size={14} />}
           disabled={isLiveImport}
@@ -68,25 +76,26 @@ export function BottomToolbarRight() {
         </Button>
         <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''} disabled={!isLiveImport}>
           <Button
-            variant="default"
-            size="xs"
+            variant='default'
+            size='xs'
             w={170}
             leftSection={<IconTrash size={14} />}
             disabled={selectedRelicsIds.length === 0 || isLiveImport}
-            onClick={() => modals.openConfirmModal({
-              title: tCommon('Confirm'),
-              children: t('DeleteRelic.Warning', { count: selectedRelicsIds.length }),
-              labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-              centered: true,
-              onConfirm: RelicsTabController.deleteConfirmed,
-            })}
+            onClick={() =>
+              modals.openConfirmModal({
+                title: tCommon('Confirm'),
+                children: t('DeleteRelic.Warning', { count: selectedRelicsIds.length }),
+                labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                centered: true,
+                onConfirm: RelicsTabController.deleteConfirmed,
+              })}
           >
             {t('DeleteRelic.ButtonText')}
           </Button>
         </Tooltip>
         <Button
-          variant="default"
-          size="xs"
+          variant='default'
+          size='xs'
           w={170}
           leftSection={<IconEdit size={14} />}
           disabled={selectedRelicsIds.length !== 1}
@@ -99,7 +108,7 @@ export function BottomToolbarRight() {
       <Group gap={5}>
         <TooltipImage type={Hint.relicInsight()} />
         <SegmentedControl
-          size="xs"
+          size='xs'
           value={String(insightsMode)}
           onChange={(value) => setInsightsMode(Number(value) as RelicInsights)}
           data={relicInsightOptions}
@@ -107,7 +116,7 @@ export function BottomToolbarRight() {
           style={{ width: 260 }}
         />
         <Select
-          size="xs"
+          size='xs'
           w={220}
           value={String(insightsCharacters)}
           onChange={(value) => setInsightsCharacters(Number(value) as InsightCharacters)}

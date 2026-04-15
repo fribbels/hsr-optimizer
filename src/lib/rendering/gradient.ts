@@ -1,9 +1,9 @@
 import { type CellClassParams } from 'ag-grid-community'
+import chroma from 'chroma-js'
 import { type SubStats } from 'lib/constants/constants'
 import { type OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
 import { type ScoredRelic } from 'lib/relics/scoreRelics'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import chroma from 'chroma-js'
 
 export type GridAggregations = {
   min: Record<string, number>,

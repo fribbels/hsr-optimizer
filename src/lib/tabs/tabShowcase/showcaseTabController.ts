@@ -18,37 +18,43 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import { WelcomeToTheCityOfStars } from 'lib/conditionals/lightcone/5star/WelcomeToTheCityOfStars'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
-import { AppPages, PageToRoute } from 'lib/constants/appPages'
+import {
+  AppPages,
+  PageToRoute,
+} from 'lib/constants/appPages'
 import { Message } from 'lib/interactions/message'
-import * as persistenceService from 'lib/services/persistenceService'
-import { SaveState } from 'lib/state/saveState'
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
-import { getSelectedCharacter, useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
+import * as persistenceService from 'lib/services/persistenceService'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { SaveState } from 'lib/state/saveState'
+import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
+import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
+import {
+  getSelectedCharacter,
+  useShowcaseTabStore,
+} from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
-import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 
 // ── Preset types ──
 
 export type Preset = CharacterPreset | FillerPreset
 
 export type CharacterPreset = {
-  characterId: CharacterId | null
-  lightConeId: LightConeId | null
-  characterEidolon?: number
-  lightConeSuperimposition?: number
-  rerun?: boolean
-  custom?: never
+  characterId: CharacterId | null,
+  lightConeId: LightConeId | null,
+  characterEidolon?: number,
+  lightConeSuperimposition?: number,
+  rerun?: boolean,
+  custom?: never,
 }
 
 type FillerPreset = {
-  characterId?: never
-  lightConeId?: never
-  rerun?: never
-  custom: true
+  characterId?: never,
+  lightConeId?: never,
+  rerun?: never,
+  custom: true,
 }
 
 // ── Preset characters ──
@@ -162,4 +168,3 @@ export function importShowcaseCharacters(mode: 'relics' | 'singleCharacter' | 'm
   persistenceService.mergePartialRelics(newRelics, newCharacters)
   SaveState.delayedSave()
 }
-

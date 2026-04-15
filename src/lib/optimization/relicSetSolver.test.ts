@@ -1,5 +1,12 @@
-import { describe, it, expect } from 'vitest'
-import { bitpackBooleanArray, isSetSolutionValid } from 'lib/optimization/relicSetSolver'
+import {
+  bitpackBooleanArray,
+  isSetSolutionValid,
+} from 'lib/optimization/relicSetSolver'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 describe('isSetSolutionValid', () => {
   it('returns true for valid (1) positions in bitpacked array', () => {

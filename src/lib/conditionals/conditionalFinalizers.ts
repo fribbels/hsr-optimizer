@@ -1,10 +1,16 @@
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { relic4p, SetKeys } from 'lib/optimization/setMatching'
-import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  relic4p,
+  SetKeys,
+} from 'lib/optimization/setMatching'
 import type { OptimizerAction } from 'types/optimizer'
 
 export function boostAshblazingAtkContainer(x: ComputedStatsContainer, action: OptimizerAction, hitMulti: number) {

@@ -1,4 +1,7 @@
-import { ScoringSelector, useSimScoringContext } from 'lib/characterPreview/SimScoringContext'
+import {
+  ScoringSelector,
+  useSimScoringContext,
+} from 'lib/characterPreview/SimScoringContext'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { renderThousandsK } from 'lib/utils/i18nUtils'
@@ -111,15 +114,15 @@ function setGradient(minimum: number, benchmark: number, maximum: number) {
 
 const smoothTransition = 'all 0.5s ease-in-out'
 type RulerState = {
-  transition: string | undefined
-  minimum: number
-  benchmark: number
-  maximum: number
-  barPercent: string
-  scorePercent: string
-  minPercent: string
-  benchPercent: string
-  maxPercent: string
+  transition: string | undefined,
+  minimum: number,
+  benchmark: number,
+  maximum: number,
+  barPercent: string,
+  scorePercent: string,
+  minPercent: string,
+  benchPercent: string,
+  maxPercent: string,
 }
 
 const initialState: RulerState = {

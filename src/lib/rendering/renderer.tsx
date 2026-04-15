@@ -1,9 +1,9 @@
+import { Tooltip } from '@mantine/core'
 import {
   IconCircleCheckFilled,
   IconCircleXFilled,
 } from '@tabler/icons-react'
 import { type ValueFormatterParams } from 'ag-grid-community'
-import { Tooltip } from '@mantine/core'
 import i18next from 'i18next'
 import { CircleIcon } from 'icons/CircleIcon'
 import { RingedCircle4Icon } from 'icons/RingedCircle4Icon'
@@ -21,11 +21,14 @@ import {
   localeNumber_0,
 } from 'lib/utils/i18nUtils'
 import {
+  precisionRound,
+  truncate10ths,
+} from 'lib/utils/mathUtils'
+import { isFlat } from 'lib/utils/statUtils'
+import {
   type Relic,
   type Stat,
 } from 'types/relic'
-import { isFlat } from 'lib/utils/statUtils'
-import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
 
 export const GRADE_COLORS: Record<number, string> = {
   5: '#efb679',

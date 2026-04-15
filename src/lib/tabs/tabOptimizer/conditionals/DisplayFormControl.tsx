@@ -16,8 +16,8 @@ const FormItemComponentMap: ContentComponentMap = {
 }
 
 export function DisplayFormControl({ content, teammateIndex }: {
-  content?: ContentItem[]
-  teammateIndex?: number
+  content?: ContentItem[],
+  teammateIndex?: number,
 }) {
   const { t } = useTranslation('optimizerTab')
 
@@ -25,11 +25,15 @@ export function DisplayFormControl({ content, teammateIndex }: {
     const message = teammateIndex != null
       ? t('NoTeamConditionals') /* No conditional team passives */
       : t('NoConditionals') /* No conditional passives */
-    return <Flex direction="column" gap={5}><div>{message}</div></Flex>
+    return (
+      <Flex direction='column' gap={5}>
+        <div>{message}</div>
+      </Flex>
+    )
   }
 
   return (
-    <Flex direction="column" gap={5}>
+    <Flex direction='column' gap={5}>
       {content.map((passive, i) => {
         const Item = FormItemComponentMap[passive.formItem]
         return (

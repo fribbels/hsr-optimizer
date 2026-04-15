@@ -1,8 +1,21 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
-import { getRelicById, getRelics, useRelicStore } from './relicStore'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import type { Relic } from 'types/relic'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
+import {
+  getRelicById,
+  getRelics,
+  useRelicStore,
+} from './relicStore'
 
 // ---- Constants ----
 

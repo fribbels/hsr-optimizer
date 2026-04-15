@@ -9,6 +9,9 @@ import { verifyWebgpuSupport } from 'lib/gpu/webgpuDevice'
 import '@mantine/core/styles.layer.css'
 import '@mantine/notifications/styles.layer.css'
 import 'overlayscrollbars/overlayscrollbars.css'
+import { exportShowcaseColors } from 'lib/dev/exportShowcaseColors'
+import { populateAllCharacters } from 'lib/dev/populateAllCharacters'
+import { resetShowcaseColors } from 'lib/dev/resetShowcaseColors'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { Hint } from 'lib/interactions/hint'
 import { Message } from 'lib/interactions/message'
@@ -23,14 +26,14 @@ import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
-import { populateAllCharacters } from 'lib/dev/populateAllCharacters'
-import { resetShowcaseColors } from 'lib/dev/resetShowcaseColors'
-import { exportShowcaseColors } from 'lib/dev/exportShowcaseColors'
 
 import { workerPool } from 'lib/worker/workerPool'
 import { OverlayScrollbars } from 'overlayscrollbars'
 import ReactDOM from 'react-dom/client'
-import { ErrorBoundary, type FallbackProps } from 'react-error-boundary'
+import {
+  ErrorBoundary,
+  type FallbackProps,
+} from 'react-error-boundary'
 import 'style/tokens.css'
 import 'style/global.css'
 import 'style/ag-grid-overrides.css'
@@ -99,9 +102,11 @@ SaveState.load(false, false)
 
 void verifyWebgpuSupport(false)
 
-const defaultErrorRender = ({ error }: FallbackProps) =>
+const defaultErrorRender = ({ error }: FallbackProps) => (
   <div>
-    Something went wrong: {error instanceof Error ? error.message : String(error)}</div>
+    Something went wrong: {error instanceof Error ? error.message : String(error)}
+  </div>
+)
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 

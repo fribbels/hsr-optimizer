@@ -30,8 +30,8 @@ export const MemoViewSelect = React.memo(function MemoViewSelect({ isFullSize }:
       fullWidth
       style={{ display: hasMemo || !isFullSize ? 'flex' : 'none' }}
       data={[
-        { label: t('SummonerStats') /* Summoner */, value: 'summoner' },
-        { label: t('MemospriteStats') /* Memosprite */, value: 'memo' },
+        { label: t('SummonerStats'), /* Summoner */ value: 'summoner' },
+        { label: t('MemospriteStats'), /* Memosprite */ value: 'memo' },
       ]}
     />
   )

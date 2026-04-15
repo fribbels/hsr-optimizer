@@ -1,5 +1,12 @@
 // @vitest-environment jsdom
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Sets } from 'lib/constants/constants'
+import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
+import type {
+  ComboBooleanConditional,
+  ComboNumberConditional,
+  ComboState,
+} from 'lib/optimization/combo/comboTypes'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import {
   setComboBooleanCategorySetActivation,
@@ -23,15 +30,8 @@ import {
   WHOLE_BASIC,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import type {
-  ComboBooleanConditional,
-  ComboNumberConditional,
-  ComboState,
-} from 'lib/optimization/combo/comboTypes'
-import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
 import {
   expect,
   test,

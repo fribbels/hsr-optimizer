@@ -1,5 +1,8 @@
 import { type UseFormReturnType } from '@mantine/form'
-import { type DependencyList, useEffect } from 'react'
+import {
+  type DependencyList,
+  useEffect,
+} from 'react'
 
 /**
  * Initializes form values on mount and whenever `deps` items change.

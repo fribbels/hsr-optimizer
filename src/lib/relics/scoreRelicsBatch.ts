@@ -1,12 +1,22 @@
-import type { MainStats, Parts } from 'lib/constants/constants'
+import type {
+  MainStats,
+  Parts,
+} from 'lib/constants/constants'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
 import { computePotentialScores } from 'lib/relics/scoring/potentialScore'
-import type { FutureScoringResult, PotentialResult, ScorerMetadata } from 'lib/relics/scoring/types'
+import type {
+  FutureScoringResult,
+  PotentialResult,
+  ScorerMetadata,
+} from 'lib/relics/scoring/types'
 import type { CharacterId } from 'types/character'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
-import { DEFAULT_WEIGHTS, type ScoredRelic } from './scoreRelics'
+import {
+  DEFAULT_WEIGHTS,
+  type ScoredRelic,
+} from './scoreRelics'
 
 /**
  * Pure scoring batch function — no store or singleton dependencies.
@@ -70,8 +80,12 @@ class PureScoringCache {
     if (!cached) {
       if (!meta.sortedSubstats[0]?.[0]) {
         cached = {
-          current: 0, best: 0, average: 0, worst: 0,
-          rerollAvg: 0, blockerAvg: 0,
+          current: 0,
+          best: 0,
+          average: 0,
+          worst: 0,
+          rerollAvg: 0,
+          blockerAvg: 0,
           meta: { bestAddedStats: [], bestUpgradedStats: [] },
         }
       } else {

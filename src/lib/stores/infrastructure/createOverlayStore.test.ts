@@ -1,13 +1,18 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
 import { createOverlayStore } from './createOverlayStore'
 
 // ---- Types ----
 
 type TestConfig = {
-  itemId: string
-  label: string
-  onSave: (result: string) => void
+  itemId: string,
+  label: string,
+  onSave: (result: string) => void,
 }
 
 // ---- Helpers ----

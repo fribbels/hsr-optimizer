@@ -1,16 +1,25 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { useBenchmarksTabStore, type SimpleCharacterSets } from './useBenchmarksTabStore'
-import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
-import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { IShallBeMyOwnSword } from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { Sets } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
-import { clone } from 'lib/utils/objectUtils'
+import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { clone } from 'lib/utils/objectUtils'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest'
+import {
+  type SimpleCharacterSets,
+  useBenchmarksTabStore,
+} from './useBenchmarksTabStore'
 
 // ---- Constants ----
 

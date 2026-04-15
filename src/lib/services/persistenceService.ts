@@ -3,30 +3,50 @@ import {
   Constants,
   Parts,
 } from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  setClose,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { RelicAugmenter } from 'lib/relics/relicAugmenter'
-import { pruneOverridesOnLoad } from 'lib/stores/scoring/scoringDelta'
-import * as equipmentService from 'lib/services/equipmentService'
-import { OpenCloseIDs, setClose, setOpen } from 'lib/hooks/useOpenClose'
 import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
-import { savedSessionDefaults, useGlobalStore } from 'lib/stores/app/appStore'
+import { RelicAugmenter } from 'lib/relics/relicAugmenter'
+import {
+  findRelicMatch,
+  hashRelic,
+  partialHashRelic,
+} from 'lib/relics/relicUtils'
+import { migrateBuild } from 'lib/services/buildMigration'
+import * as equipmentService from 'lib/services/equipmentService'
+import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
-import { getCharacterById, getCharacters, useCharacterStore } from 'lib/stores/character/characterStore'
+import {
+  savedSessionDefaults,
+  useGlobalStore,
+} from 'lib/stores/app/appStore'
+import {
+  getCharacterById,
+  getCharacters,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { getRelicById, getRelics, useRelicStore } from 'lib/stores/relic/relicStore'
+import {
+  getRelicById,
+  getRelics,
+  useRelicStore,
+} from 'lib/stores/relic/relicStore'
+import { pruneOverridesOnLoad } from 'lib/stores/scoring/scoringDelta'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
-import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { findRelicMatch, hashRelic, partialHashRelic } from 'lib/relics/relicUtils'
-import { migrateBuild } from 'lib/services/buildMigration'
 import type {
   Build,
   Character,
@@ -34,14 +54,13 @@ import type {
 } from 'types/character'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
-import type { SavedBuild } from 'types/savedBuild'
 import type { DBMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
+import type { SavedBuild } from 'types/savedBuild'
 import type {
   GlobalSavedSession,
   HsrOptimizerSaveFormat,
 } from 'types/store'
-import type { Simulation } from 'lib/simulations/statSimulationTypes'
 
 // ─── Public API ────────────────────────────────────────────────
 
@@ -84,12 +103,14 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
     // Migrate builds from all legacy formats to new SavedBuild discriminated union
     character.builds = (character.builds ?? [])
-      .map((raw: Record<string, unknown>) => migrateBuild(
-        raw,
-        character.id,
-        character.form,
-        relicsById,
-      ))
+      .map((raw: Record<string, unknown>) =>
+        migrateBuild(
+          raw,
+          character.id,
+          character.form,
+          relicsById,
+        )
+      )
       .filter((b): b is SavedBuild => b != null)
   }
 
@@ -357,8 +378,8 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
   const updatedOldRelics: Relic[] = []
   const addedNewRelics: Relic[] = []
   const equipUpdates: {
-    relic: Relic
-    equippedBy: CharacterId | undefined
+    relic: Relic,
+    equippedBy: CharacterId | undefined,
   }[] = []
 
   // Build partial-hash map once instead of per-iteration

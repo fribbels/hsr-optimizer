@@ -18,7 +18,7 @@ import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import type { Relic } from 'types/relic'
 
 export function weightedSubstatScore(
-  substats: readonly { stat: SubStats; value: number }[],
+  substats: readonly { stat: SubStats, value: number }[],
   weights: Record<StatsValues, number>,
 ): number {
   let score = 0

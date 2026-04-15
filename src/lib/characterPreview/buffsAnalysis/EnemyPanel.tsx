@@ -11,7 +11,7 @@ import {
 import { useContext } from 'react'
 import type { OptimizerContext } from 'types/optimizer'
 
-type EnemyRow = { label: string; value: string }
+type EnemyRow = { label: string, value: string }
 
 function formatEnemyRows(context: OptimizerContext): EnemyRow[] {
   return [
@@ -26,8 +26,8 @@ function formatEnemyRows(context: OptimizerContext): EnemyRow[] {
 }
 
 export function EnemyPanel({ avatarSrc, context }: {
-  avatarSrc: string
-  context: OptimizerContext
+  avatarSrc: string,
+  context: OptimizerContext,
 }) {
   const options = useContext(DesignContext)
   const rowBase = getRowBaseStyle(options)

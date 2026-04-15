@@ -38,6 +38,7 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type ScoringMetadata,
@@ -47,7 +48,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const SeeleEntities = createEnum('Seele')
 export const SeeleAbilities: AbilityKind[] = [

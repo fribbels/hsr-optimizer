@@ -1,4 +1,7 @@
-import { type MouseEvent, useMemo } from 'react'
+import {
+  type MouseEvent,
+  useMemo,
+} from 'react'
 import classes from './SelectCardGrid.module.css'
 
 const rarityClass: Record<number, string> = {
@@ -18,15 +21,15 @@ export function SelectCardGrid<TId extends string>({
   textRows = 1,
   excludedIds,
 }: {
-  options: Array<{ id: TId; label: string; rarity: number }>
-  onSelect: (id: TId) => void
-  getImageSrc: (id: TId) => string
-  cardImageHeight: string
-  imageWidth?: string
-  imageXOffset?: string
-  imageYOffset?: string
-  textRows?: 1 | 2
-  excludedIds?: Set<TId>
+  options: Array<{ id: TId, label: string, rarity: number }>,
+  onSelect: (id: TId) => void,
+  getImageSrc: (id: TId) => string,
+  cardImageHeight: string,
+  imageWidth?: string,
+  imageXOffset?: string,
+  imageYOffset?: string,
+  textRows?: 1 | 2,
+  excludedIds?: Set<TId>,
 }) {
   const sortedOptions = useMemo(
     () => [...options].sort((a: { rarity: number }, b: { rarity: number }) => b.rarity - a.rarity),
@@ -71,7 +74,7 @@ export function SelectCardGrid<TId extends string>({
             className={classes.cardImage}
             src={getImageSrc(option.id)}
             alt={option.label}
-            loading="lazy"
+            loading='lazy'
           />
           <div className={classes.textOverlay} style={textOverlayStyle}>
             <div className={classes.textInner} style={textInnerStyle}>

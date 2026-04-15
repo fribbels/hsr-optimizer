@@ -1,9 +1,25 @@
-import { CheckIcon, CloseButton, Combobox, Group, Input, type MantineSize, Pill, PillsInput, type PillsInputProps, useCombobox } from '@mantine/core'
-import { type CSSProperties, type ReactNode, useMemo, useState } from 'react'
+import {
+  CheckIcon,
+  CloseButton,
+  Combobox,
+  Group,
+  Input,
+  type MantineSize,
+  Pill,
+  PillsInput,
+  type PillsInputProps,
+  useCombobox,
+} from '@mantine/core'
+import {
+  type CSSProperties,
+  type ReactNode,
+  useMemo,
+  useState,
+} from 'react'
 import classes from './MultiSelectPills.module.css'
 
-type SimpleOption = { value: string; label: string }
-type GroupedOption = { group: string; items: SimpleOption[] }
+type SimpleOption = { value: string, label: string }
+type GroupedOption = { group: string, items: SimpleOption[] }
 type DataItem = SimpleOption | GroupedOption
 
 const compactPillStyle = { '--pill-height': '20px' } as CSSProperties
@@ -39,25 +55,25 @@ export function MultiSelectPills({
   height,
   className,
 }: {
-  data: DataItem[]
-  value: string[]
-  onChange: (val: string[]) => void
-  placeholder?: string
-  clearable?: boolean
-  searchable?: boolean
-  maxDropdownHeight?: number
-  maxDisplayedValues?: number
-  dropdownWidth?: number | string
-  columns?: number
-  style?: CSSProperties
-  leftSection?: ReactNode
-  leftSectionWidth?: number
-  rightSection?: ReactNode
-  renderOption?: (option: SimpleOption, active: boolean) => ReactNode
-  size?: MantineSize
-  styles?: PillsInputProps['styles']
-  height?: number
-  className?: string
+  data: DataItem[],
+  value: string[],
+  onChange: (val: string[]) => void,
+  placeholder?: string,
+  clearable?: boolean,
+  searchable?: boolean,
+  maxDropdownHeight?: number,
+  maxDisplayedValues?: number,
+  dropdownWidth?: number | string,
+  columns?: number,
+  style?: CSSProperties,
+  leftSection?: ReactNode,
+  leftSectionWidth?: number,
+  rightSection?: ReactNode,
+  renderOption?: (option: SimpleOption, active: boolean) => ReactNode,
+  size?: MantineSize,
+  styles?: PillsInputProps['styles'],
+  height?: number,
+  className?: string,
 }) {
   const compact = size === 'xs'
   const compactHeight = height ?? (compact ? 30 : undefined)
@@ -126,8 +142,14 @@ export function MultiSelectPills({
   function renderOptionItem(opt: SimpleOption) {
     const active = value.includes(opt.value)
     return (
-      <Combobox.Option value={opt.value} key={opt.value} active={active} className={active ? classes.activeOption : undefined} style={columns ? ellipsisOptionStyle : undefined}>
-        <Group gap="sm" justify="space-between" wrap="nowrap">
+      <Combobox.Option
+        value={opt.value}
+        key={opt.value}
+        active={active}
+        className={active ? classes.activeOption : undefined}
+        style={columns ? ellipsisOptionStyle : undefined}
+      >
+        <Group gap='sm' justify='space-between' wrap='nowrap'>
           <span style={columns ? ellipsisTextStyle : undefined}>
             {renderOption ? renderOption(opt, active) : opt.label}
           </span>
@@ -169,11 +191,18 @@ export function MultiSelectPills({
           onClick={() => combobox.toggleDropdown()}
           leftSection={leftSection}
           leftSectionWidth={leftSectionWidth}
-          rightSection={
-            showClear
-              ? <CloseButton size="sm" onMouseDown={(e) => e.preventDefault()} onClick={(e) => { e.stopPropagation(); onChange([]) }} />
-              : rightSection
-          }
+          rightSection={showClear
+            ? (
+              <CloseButton
+                size='sm'
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onChange([])
+                }}
+              />
+            )
+            : rightSection}
           style={style}
         >
           <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden', alignItems: 'center', gap: compactHeight != null ? 4 : undefined }}>
@@ -184,7 +213,11 @@ export function MultiSelectPills({
                   {overflowCount > 0 && <Pill style={pillStyle}>+{overflowCount}</Pill>}
                 </>
               )
-              : !search && <Input.Placeholder style={{ height: 'var(--pill-height, 22px)', display: 'flex', alignItems: 'center', position: 'absolute' }}>{placeholder}</Input.Placeholder>}
+              : !search && (
+                <Input.Placeholder style={{ height: 'var(--pill-height, 22px)', display: 'flex', alignItems: 'center', position: 'absolute' }}>
+                  {placeholder}
+                </Input.Placeholder>
+              )}
 
             <Combobox.EventsTarget>
               <PillsInput.Field

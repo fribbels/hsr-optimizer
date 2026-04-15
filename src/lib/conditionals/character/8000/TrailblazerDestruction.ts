@@ -43,12 +43,12 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TrailblazerDestructionEntities = createEnum('TrailblazerDestruction')
 export const TrailblazerDestructionAbilities: AbilityKind[] = [

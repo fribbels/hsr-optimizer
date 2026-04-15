@@ -64,9 +64,7 @@ export function UnreleasedCharacterDisclaimer() {
   }
 
   return (
-    <Alert
-      color='yellow'
-    >
+    <Alert color='yellow'>
       {t('UnreleasedDisclaimer', { nameList: unreleasedNames.join(', ') })}
     </Alert>
   )

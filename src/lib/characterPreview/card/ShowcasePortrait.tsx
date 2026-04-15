@@ -1,13 +1,13 @@
-import { IconEdit } from '@tabler/icons-react'
 import { Button } from '@mantine/core'
+import { IconEdit } from '@tabler/icons-react'
 import { CharacterCustomPortrait } from 'lib/characterPreview/card/CharacterCustomPortrait'
+import styles from 'lib/characterPreview/card/ShowcasePortrait.module.css'
 import {
   showcaseButtonStyle,
   showcaseShadow,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { type ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
-import styles from 'lib/characterPreview/card/ShowcasePortrait.module.css'
 import {
   parentH,
   parentW,
@@ -17,16 +17,21 @@ import { Assets } from 'lib/rendering/assets'
 import { type ScoringType } from 'lib/scoring/simScoringUtils'
 import { LoadingBlurredSpine } from 'lib/spine/LoadingBlurredSpine'
 import { getSkeletonCount } from 'lib/spine/manifest'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { memo, useCallback, useRef, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import { type Character } from 'types/character'
 import {
   type CustomImageConfig,
   type CustomImagePayload,
 } from 'types/customImage'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 
 export const ShowcasePortrait = memo(function ShowcasePortrait({
   source,
@@ -41,17 +46,17 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   setOriginalCharacterModalInitialCharacter,
   setOriginalCharacterModalOpen,
 }: {
-  source: ShowcaseSource
-  character: Character
-  scoringType: ScoringType
-  displayDimensions: ShowcaseDisplayDimensions
-  customPortrait: CustomImageConfig | undefined
-  editPortraitModalOpen: boolean
-  setEditPortraitModalOpen: (b: boolean) => void
-  onEditPortraitOk: (p: CustomImagePayload) => void
-  artistName: string | undefined
-  setOriginalCharacterModalInitialCharacter: (c: Character) => void
-  setOriginalCharacterModalOpen: (b: boolean) => void
+  source: ShowcaseSource,
+  character: Character,
+  scoringType: ScoringType,
+  displayDimensions: ShowcaseDisplayDimensions,
+  customPortrait: CustomImageConfig | undefined,
+  editPortraitModalOpen: boolean,
+  setEditPortraitModalOpen: (b: boolean) => void,
+  onEditPortraitOk: (p: CustomImagePayload) => void,
+  artistName: string | undefined,
+  setOriginalCharacterModalInitialCharacter: (c: Character) => void,
+  setOriginalCharacterModalOpen: (b: boolean) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
@@ -117,19 +122,19 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
           />
         )
         : (character.portrait ?? customPortrait)
-          ? (
-            <CharacterCustomPortrait
-              customPortrait={customPortrait ?? character.portrait!}
-              parentW={parentW}
-              scoringType={scoringType}
-            />
-          )
-          : (
-            <LoadingBlurredImage
-              src={Assets.getCharacterPortraitById(character.id)}
-              style={portraitStyle}
-            />
-          )}
+        ? (
+          <CharacterCustomPortrait
+            customPortrait={customPortrait ?? character.portrait!}
+            parentW={parentW}
+            scoringType={scoringType}
+          />
+        )
+        : (
+          <LoadingBlurredImage
+            src={Assets.getCharacterPortraitById(character.id)}
+            style={portraitStyle}
+          />
+        )}
 
       <div className={styles.buttonColumn} style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
         {source !== ShowcaseSource.BUILDS_MODAL && (

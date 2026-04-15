@@ -1,5 +1,15 @@
-import { describe, expect, it } from 'vitest'
-import { nullUndefinedToZero, truncate10000ths, truncate100ths, truncate1000ths, truncate10ths } from 'lib/utils/mathUtils'
+import {
+  nullUndefinedToZero,
+  truncate10000ths,
+  truncate1000ths,
+  truncate100ths,
+  truncate10ths,
+} from 'lib/utils/mathUtils'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 describe('truncate functions', () => {
   it('truncate10ths', () => {

@@ -3,13 +3,23 @@ import {
   type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import {
+  wgsl,
+  wgslTrue,
+} from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, StatKey } from 'lib/optimization/engine/config/keys'
-import { SELF_ENTITY_INDEX, TargetTag } from 'lib/optimization/engine/config/tag'
+import {
+  AKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import {
+  SELF_ENTITY_INDEX,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
@@ -17,7 +27,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ScentAloneStaysTrue')
@@ -75,12 +84,20 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.VULNERABILITY, (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(
+        StatKey.VULNERABILITY,
+        (t.woefreeState && t.additionalVulnerability) ? sValuesVulnerabilityAdditional[s] : 0,
+        x.targets(TargetTag.FullTeam).source(SOURCE_LC),
+      )
     },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.VULNERABILITY, (r.woefreeState && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0, x.source(SOURCE_LC))
+      x.buff(
+        StatKey.VULNERABILITY,
+        (r.woefreeState && x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX) >= 1.50) ? sValuesVulnerabilityAdditional[s] : 0,
+        x.source(SOURCE_LC),
+      )
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>

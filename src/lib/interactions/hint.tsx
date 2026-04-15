@@ -13,7 +13,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:RatingFilter.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:RatingFilter.p1')}</p>
           <p>{i18next.t('hint:RatingFilter.p2')}</p>
           <p>{i18next.t('hint:RatingFilter.p3')}</p>
@@ -32,7 +32,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:ComboFilters.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:ComboFilters.p1')}</p>
           <p>{i18next.t('hint:ComboFilters.p2')}</p>
         </Flex>
@@ -49,7 +49,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:CombatBuffs.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:CombatBuffs.p1')}</p>
         </Flex>
         /*
@@ -64,7 +64,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:StatFilters.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:StatFilters.p1')}</p>
           <p>{i18next.t('hint:StatFilters.p2')}</p>
           <p>{i18next.t('hint:StatFilters.p3')}</p>
@@ -83,7 +83,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:Mainstats.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:Mainstats.p1')}</p>
         </Flex>
         /*
@@ -98,7 +98,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:Sets.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:Sets.p1')}</p>
           <p>{i18next.t('hint:Sets.p2')}</p>
         </Flex>
@@ -115,7 +115,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:Character.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:Character.p1')}</p>
         </Flex>
         /*
@@ -130,7 +130,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:CharacterPassives.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:CharacterPassives.p1')}</p>
           <p>{i18next.t('hint:CharacterPassives.p2')}</p>
         </Flex>
@@ -147,7 +147,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:LightconePassives.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:LightconePassives.p1')}</p>
           <p>{i18next.t('hint:LightconePassives.p2')}</p>
         </Flex>
@@ -164,7 +164,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:Lightcone.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:Lightcone.p1')}</p>
           <p>{i18next.t('hint:Lightcone.p2')}</p>
         </Flex>
@@ -181,7 +181,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:Actions.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:Actions.p1')}</p>
           <p>{i18next.t('hint:Actions.p2')}</p>
           <p>{i18next.t('hint:Actions.p3')}</p>
@@ -202,7 +202,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:Builds.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:Builds.p1')}</p>
           <p>{i18next.t('hint:Builds.p2')}</p>
         </Flex>
@@ -219,7 +219,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:OptimizerOptions.Title'), /* Optimizer options */
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>
             <Trans ns='hint' i18nKey='OptimizerOptions.AllowEquipped'>
               <strong>Allow equipped relics</strong>
@@ -279,7 +279,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:Relics.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:Relics.p1')}</p>
           <p>{i18next.t('hint:Relics.p2')}</p>
           <p>{i18next.t('hint:Relics.p3')}</p>
@@ -302,7 +302,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:OptimizationDetails.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:OptimizationDetails.p1')}</p>
           <p>{i18next.t('hint:OptimizationDetails.p2')}</p>
           <p>{i18next.t('hint:OptimizationDetails.p3')}</p>
@@ -323,7 +323,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:EnemyOptions.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:EnemyOptions.p1')}</p>
           <p>{i18next.t('hint:EnemyOptions.p2')}</p>
           <p>{i18next.t('hint:EnemyOptions.p3')}</p>
@@ -348,7 +348,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:SubstatWeightFilter.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:SubstatWeightFilter.p1')}</p>
           <p>{i18next.t('hint:SubstatWeightFilter.p2')}</p>
           <p>{i18next.t('hint:SubstatWeightFilter.p3')}</p>
@@ -369,7 +369,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:StatDisplay.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:StatDisplay.p1')}</p>
           <p>{i18next.t('hint:StatDisplay.p2')}</p>
           <p>{i18next.t('hint:StatDisplay.p3')}</p>
@@ -388,7 +388,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:ValueColumns.Title'),
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:ValueColumns.p1')}</p>
           <p>
             <b>{i18next.t('hint:ValueColumns.p2')}</b>
@@ -416,7 +416,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:RelicInsights.Title'), /* Relic Insight */
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{t('p1') /* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
           <p>
             <Trans ns='hint' i18nKey='RelicInsights.p2'>
@@ -443,7 +443,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:RelicLocation.Title'), /* Relic Location */
       content: (
-        <Flex direction="column" gap={10}>
+        <Flex direction='column' gap={10}>
           <p>{i18next.t('hint:RelicLocation.p1') /* When a relic is selected in the grid, its position in the ingame inventory is displayed here. */}</p>
           <p>
             {
@@ -452,7 +452,7 @@ export const Hint = {
             }
           </p>
 
-          <Flex direction="column">
+          <Flex direction='column'>
             <div>{i18next.t('hint:RelicLocation.p3') /* ⚠️Usage notes⚠️ */}</div>
             <ul>
               <li>{i18next.t('hint:RelicLocation.p4') /* This is only supported with Reliquary Archiver import */}</li>
@@ -476,7 +476,7 @@ export const Hint = {
     return {
       title: i18next.t('hint:LocatorParams.Title'), /* Relic Locator Options */
       content: (
-        <Flex direction="column" gap={8}>
+        <Flex direction='column' gap={8}>
           <p>
             <Trans ns='hint' i18nKey='LocatorParams.p1'>
               <strong>Inventory Width</strong>
@@ -498,9 +498,7 @@ export const Hint = {
   showcaseUid: (): HintContent => {
     return {
       title: i18next.t('relicScorerTab:SubmissionBar.Placeholder'),
-      content: (
-        <p>{i18next.t('relicScorerTab:Header.WithoutVersion')}</p>
-      ),
+      content: <p>{i18next.t('relicScorerTab:Header.WithoutVersion')}</p>,
     }
   },
 }

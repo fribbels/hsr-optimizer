@@ -1,14 +1,18 @@
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
+import { ComboType } from 'lib/optimization/rotation/comboType'
+import {
+  DEFAULT_BASIC,
+  NULL_TURN_ABILITY_NAME,
+  type TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import type { CharacterId } from 'types/character'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import type { Relic } from 'types/relic'
-import { defaultSetConditionals } from 'lib/optimization/defaultForm'
-import { ComboType } from 'lib/optimization/rotation/comboType'
-import { DEFAULT_BASIC, NULL_TURN_ABILITY_NAME, type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
-  BuildSource,
   type Build,
+  BuildSource,
   type CharacterSavedBuild,
   type OptimizerSavedBuild,
   type SavedBuild,
@@ -110,7 +114,8 @@ function migrateCurrentFormat(
   // Optimizer build: flatten optimizerMetadata fields onto top level
   const comboType = (meta.comboType as ComboType)
     ?? (meta.comboStateJson && meta.comboStateJson !== '{}'
-      ? ComboType.ADVANCED : ComboType.SIMPLE)
+      ? ComboType.ADVANCED
+      : ComboType.SIMPLE)
   const comboStateJson = (meta.comboStateJson as string) ?? '{}'
   const comboPreprocessor = (meta.presets as boolean) ?? true
   const setConditionals = (meta.setConditionals as OptimizerSavedBuild['setConditionals']) ?? defaultSetConditionals

@@ -26,12 +26,12 @@ import { type ScoringMetadata } from 'types/metadata'
 import { type Eidolon } from 'types/character'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TrailblazerHarmonyEntities = createEnum('TrailblazerHarmony')
 export const TrailblazerHarmonyAbilities: AbilityKind[] = [

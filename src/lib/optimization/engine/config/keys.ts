@@ -28,7 +28,7 @@ export const AKey = Object.keys(newStatsConfig).reduce(
     return acc
   },
   {} as Record<AKeyType, AKeyValue>,
-) as AKeyRecord  // narrowing: AKeyRecord extends Record<AKeyType, AKeyValue> since HitAKeyValue extends AKeyValue
+) as AKeyRecord // narrowing: AKeyRecord extends Record<AKeyType, AKeyValue> since HitAKeyValue extends AKeyValue
 
 export const AKeyNames = Object.keys(newStatsConfig) as AKeyType[]
 

@@ -1,20 +1,24 @@
-import type { ColorWorkerRequest, ColorWorkerResponse, ColorWorkerResult } from './colorExtractionWorker'
+import type {
+  ColorWorkerRequest,
+  ColorWorkerResponse,
+  ColorWorkerResult,
+} from './colorExtractionWorker'
 
 export type PaletteResponse = {
-  Vibrant: string
-  Muted: string
-  DarkVibrant: string
-  DarkMuted: string
-  LightVibrant: string
-  LightMuted: string
-  colors: string[]
+  Vibrant: string,
+  Muted: string,
+  DarkVibrant: string,
+  DarkMuted: string,
+  LightVibrant: string,
+  LightMuted: string,
+  colors: string[],
 }
 
 let worker: Worker | null = null
 let nextId = 0
 const pending = new Map<number, {
-  resolve: (value: ColorWorkerResult | null) => void
-  reject: (reason: unknown) => void
+  resolve: (value: ColorWorkerResult | null) => void,
+  reject: (reason: unknown) => void,
 }>()
 
 // URL-keyed cache so repeat extractions for the same image are free

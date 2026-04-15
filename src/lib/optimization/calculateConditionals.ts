@@ -1,9 +1,9 @@
 import { type ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
-import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
 import { type DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
+import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import { getAllSetDynamicConditionals } from 'lib/sets/setConfigRegistry'
 import {
   type CharacterConditionalsController,

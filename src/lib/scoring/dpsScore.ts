@@ -2,6 +2,9 @@ import {
   Parts,
 } from 'lib/constants/constants'
 import type {
+  RelicBuild,
+} from 'lib/scoring/simScoringUtils'
+import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
@@ -9,11 +12,8 @@ import {
   OrnamentSetToIndex,
   RelicSetToIndex,
 } from 'lib/sets/setConfigRegistry'
-import type {
-  RelicBuild,
-} from 'lib/scoring/simScoringUtils'
-import type { SimulationMetadata } from 'types/metadata'
 import { precisionRound } from 'lib/utils/mathUtils'
+import type { SimulationMetadata } from 'types/metadata'
 
 export type SimulationSets = {
   relicSet1: SetsRelics,

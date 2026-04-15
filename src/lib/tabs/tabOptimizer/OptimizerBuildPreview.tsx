@@ -1,12 +1,12 @@
-import { useCallback } from 'react'
 import { Parts } from 'lib/constants/constants'
+import { useCallback } from 'react'
 
 import { RelicModalController } from 'lib/overlays/modals/relicModal/relicModalController'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import type { Relic } from 'types/relic'
 
 const partToIndex: Record<Parts, number> = {

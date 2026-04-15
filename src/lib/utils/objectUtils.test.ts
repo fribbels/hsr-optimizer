@@ -1,5 +1,14 @@
-import { describe, expect, it } from 'vitest'
-import { clone, mergeDefinedValues, mergeUndefinedValues, objectHash } from 'lib/utils/objectUtils'
+import {
+  clone,
+  mergeDefinedValues,
+  mergeUndefinedValues,
+  objectHash,
+} from 'lib/utils/objectUtils'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 describe('clone', () => {
   it('returns null for null input', () => {
@@ -36,7 +45,6 @@ describe('mergeUndefinedValues', () => {
     const source = { nested: { items: [1, 2, 3] } }
     const target = {} as Record<string, unknown>
     mergeUndefinedValues(target, source)
-
     ;(target.nested as { items: number[] }).items.push(4)
 
     expect(source.nested.items).toEqual([1, 2, 3])
@@ -46,7 +54,6 @@ describe('mergeUndefinedValues', () => {
     const source = { tuple: [undefined, true] as [undefined, boolean] }
     const target = {} as Record<string, unknown>
     mergeUndefinedValues(target, source)
-
     ;(target.tuple as [undefined, boolean])[1] = false
 
     expect(source.tuple[1]).toBe(true)
@@ -73,7 +80,6 @@ describe('mergeDefinedValues', () => {
     const source = { items: [1, 2, 3] }
     const target = { items: [] as number[] } as Record<string, unknown>
     mergeDefinedValues(target, source)
-
     ;(target.items as number[]).push(4)
 
     expect(source.items).toEqual([1, 2, 3])

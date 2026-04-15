@@ -31,9 +31,9 @@ export function buffMatchesFilter(buff: Buff, filter: DamageTag | null): boolean
 }
 
 export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
-  selectedFilter: DamageTag | null
-  onFilterChange: (f: DamageTag | null) => void
-  relevantTags: Set<DamageTag>
+  selectedFilter: DamageTag | null,
+  onFilterChange: (f: DamageTag | null) => void,
+  relevantTags: Set<DamageTag>,
 }) {
   const visibleEntries = DAMAGE_TAG_ENTRIES.filter((e) => relevantTags.has(e.tag))
 
@@ -63,10 +63,10 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
 }
 
 function FilterButton({ label, color, isActive, onClick }: {
-  label: string
-  color: string
-  isActive: boolean
-  onClick: () => void
+  label: string,
+  color: string,
+  isActive: boolean,
+  onClick: () => void,
 }) {
   return (
     <span

@@ -1,9 +1,9 @@
+import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
 import {
   type AbilityKind,
   type TurnAbility,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { ComboState } from 'lib/optimization/combo/comboTypes'
 
 export class AbilityTriggeredStackPreprocessor extends AbilityPreprocessorBase {
   id: string

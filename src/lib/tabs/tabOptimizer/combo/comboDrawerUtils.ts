@@ -1,10 +1,21 @@
-import { getCharacterById, useCharacterStore } from 'lib/stores/character/characterStore'
 import { SaveState } from 'lib/state/saveState'
+import {
+  getCharacterById,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import { getForm } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 
 import { ConditionalDataType } from 'lib/constants/constants'
-import type { ComboCharacter, ComboConditionals, ComboNumberConditional, ComboTeammate } from 'lib/optimization/combo/comboTypes'
-import { locateConditional, useComboDrawerStore } from './useComboDrawerStore'
+import type {
+  ComboCharacter,
+  ComboConditionals,
+  ComboNumberConditional,
+  ComboTeammate,
+} from 'lib/optimization/combo/comboTypes'
+import {
+  locateConditional,
+  useComboDrawerStore,
+} from './useComboDrawerStore'
 
 // ─── Teammate Helpers ────────────────────────────────────────
 
@@ -32,7 +43,6 @@ export function shiftLeft(arr: boolean[], index: number) {
   arr.splice(index, 1)
   // No push — array should shrink by 1 to match comboTurnAbilities after deletion
 }
-
 
 // ─── Persistence Helpers ─────────────────────────────────────
 
@@ -77,9 +87,9 @@ export function handlePartitionButtonClick(
 export type EntityKey = 'comboCharacter' | 'comboTeammate0' | 'comboTeammate1' | 'comboTeammate2'
 
 export type SourceKeyRoute = {
-  entityKey: EntityKey
-  conditionalsKey: string
-  isTeammate: boolean
+  entityKey: EntityKey,
+  conditionalsKey: string,
+  isTeammate: boolean,
 }
 
 const SOURCE_KEY_ROUTES: Record<string, SourceKeyRoute> = {}
@@ -119,12 +129,18 @@ export function getEntityConditionals(
   conditionalsKey: string,
 ): ComboConditionals | undefined {
   switch (conditionalsKey) {
-    case 'characterConditionals': return entity.characterConditionals
-    case 'lightConeConditionals': return entity.lightConeConditionals
-    case 'setConditionals': return isComboCharacter(entity) ? entity.setConditionals : undefined
-    case 'relicSetConditionals': return !isComboCharacter(entity) ? entity.relicSetConditionals : undefined
-    case 'ornamentSetConditionals': return !isComboCharacter(entity) ? entity.ornamentSetConditionals : undefined
-    default: return undefined
+    case 'characterConditionals':
+      return entity.characterConditionals
+    case 'lightConeConditionals':
+      return entity.lightConeConditionals
+    case 'setConditionals':
+      return isComboCharacter(entity) ? entity.setConditionals : undefined
+    case 'relicSetConditionals':
+      return !isComboCharacter(entity) ? entity.relicSetConditionals : undefined
+    case 'ornamentSetConditionals':
+      return !isComboCharacter(entity) ? entity.ornamentSetConditionals : undefined
+    default:
+      return undefined
   }
 }
 

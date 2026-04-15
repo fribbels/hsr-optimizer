@@ -9,12 +9,12 @@ import {
   probabilityOfCorrectStat,
 } from 'lib/relics/estTbp/estTbp'
 import { Metadata } from 'lib/state/metadataInitializer'
+import { precisionRound } from 'lib/utils/mathUtils'
 import type {
   Relic,
   RelicSubstatMetadata,
 } from 'types/relic'
 import { test } from 'vitest'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 Metadata.initialize()
 

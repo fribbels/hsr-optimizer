@@ -1,10 +1,25 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
-import { useRelicsTabStore, RelicInsights, InsightCharacters } from './useRelicsTabStore'
-import type { RelicTabFilters, ValueColumnField } from './useRelicsTabStore'
-import { Parts, Sets } from 'lib/constants/constants'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
+import {
+  Parts,
+  Sets,
+} from 'lib/constants/constants'
+import {
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest'
+import {
+  InsightCharacters,
+  RelicInsights,
+  useRelicsTabStore,
+} from './useRelicsTabStore'
+import type {
+  RelicTabFilters,
+  ValueColumnField,
+} from './useRelicsTabStore'
 
 // ---- Constants ----
 

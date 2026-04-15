@@ -4,9 +4,12 @@ import {
   Text,
 } from '@mantine/core'
 import { STAT_TAG_TO_SETS } from 'lib/sets/setConfigRegistry'
-import { useTranslation } from 'react-i18next'
 import type { TwoPieceSlot } from 'lib/stores/optimizerForm/setFilterTypes'
-import { TwoPieceSlotType, TwoPieceStatTags } from 'lib/stores/optimizerForm/setFilterTypes'
+import {
+  TwoPieceSlotType,
+  TwoPieceStatTags,
+} from 'lib/stores/optimizerForm/setFilterTypes'
+import { useTranslation } from 'react-i18next'
 
 const chipStyles = { root: { backgroundColor: 'var(--layer-4)' }, label: { fontSize: 12, fontWeight: 'normal' } } as const
 

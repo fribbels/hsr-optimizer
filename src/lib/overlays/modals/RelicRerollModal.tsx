@@ -1,5 +1,9 @@
+import {
+  Flex,
+  Modal,
+  Text,
+} from '@mantine/core'
 import { IconChevronsRight } from '@tabler/icons-react'
-import { Flex, Modal, Text } from '@mantine/core'
 import { ReliquaryArchiverParser } from 'lib/importer/importConfig'
 import { type V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
@@ -45,9 +49,9 @@ function RelicRerollModalContent({ relic }: { relic: V4ParserRelic }) {
   }
 
   return (
-    <Flex direction="column" gap={16}>
+    <Flex direction='column' gap={16}>
       <Flex gap={16} justify='space-between'>
-        <Flex direction="column" align='center' gap={4}>
+        <Flex direction='column' align='center' gap={4}>
           <RelicPreview
             relic={originalRelic}
             score={originalRelic.equippedBy ? RelicScorer.scoreCurrentRelic(originalRelic, originalRelic.equippedBy) : undefined}
@@ -59,7 +63,7 @@ function RelicRerollModalContent({ relic }: { relic: V4ParserRelic }) {
 
         <IconChevronsRight size={24} />
 
-        <Flex direction="column" align='center' gap={4}>
+        <Flex direction='column' align='center' gap={4}>
           <RelicPreview
             relic={rerolledRelic}
             score={rerolledRelic.equippedBy ? RelicScorer.scoreCurrentRelic(rerolledRelic, rerolledRelic.equippedBy) : undefined}

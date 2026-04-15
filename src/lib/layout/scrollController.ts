@@ -5,7 +5,10 @@
  * keep scroll locked until ALL overlays close.
  */
 
-import { useEffect, useRef } from 'react'
+import {
+  useEffect,
+  useRef,
+} from 'react'
 import { create } from 'zustand'
 import { useShallow } from 'zustand/react/shallow'
 

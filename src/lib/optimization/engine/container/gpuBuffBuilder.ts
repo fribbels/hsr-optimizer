@@ -240,6 +240,7 @@ export const buff = {
   action: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value),
   actionSet: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.SET),
   actionMultiply: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.MULTIPLY),
-  actionMultiplicativeComplement: (actionKey: AKeyValue, value: WgslBuffValue) => new ActionBuffBuilder(actionKey, value, WgslOperator.MULTIPLICATIVE_COMPLEMENT),
+  actionMultiplicativeComplement: (actionKey: AKeyValue, value: WgslBuffValue) =>
+    new ActionBuffBuilder(actionKey, value, WgslOperator.MULTIPLICATIVE_COMPLEMENT),
   hit: (hitKey: HKeyValue, value: WgslBuffValue) => new HitBuffBuilder(hitKey, value),
 }

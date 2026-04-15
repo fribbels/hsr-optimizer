@@ -55,6 +55,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type NumberToNumberMap } from 'types/common'
@@ -68,7 +69,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const TheDahliaEntities = createEnum('TheDahlia')
 export const TheDahliaAbilities: AbilityKind[] = [

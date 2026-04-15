@@ -1,10 +1,10 @@
-import { useMemo } from 'react'
-import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
+import { RelicScorer } from 'lib/relics/scoring/relicScorer'
+import type { RelicScoringResult } from 'lib/relics/scoring/relicScorer'
+import { useMemo } from 'react'
 import type { CharacterId } from 'types/character'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
-import type { RelicScoringResult } from 'lib/relics/scoring/relicScorer'
 
 /**
  * Computes a memoized relic score with per-character granularity.

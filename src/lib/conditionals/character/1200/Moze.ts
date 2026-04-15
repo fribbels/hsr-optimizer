@@ -55,12 +55,12 @@ import {
   NULL_TURN_ABILITY_NAME,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { precisionRound } from 'lib/utils/mathUtils'
 
 export const MozeEntities = createEnum('Moze')
 export const MozeAbilities: AbilityKind[] = [

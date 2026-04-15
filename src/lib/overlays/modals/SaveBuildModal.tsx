@@ -1,19 +1,26 @@
-import { Button, Divider, Flex, Modal, TextInput, Tooltip } from '@mantine/core'
+import {
+  Button,
+  Divider,
+  Flex,
+  Modal,
+  TextInput,
+  Tooltip,
+} from '@mantine/core'
 import i18next from 'i18next'
 import { useConfirmAction } from 'lib/hooks/useConfirmAction'
 import { Message } from 'lib/interactions/message'
+import { useScrollLock } from 'lib/layout/scrollController'
 import {
   BuildList,
   BuildPreview,
 } from 'lib/overlays/modals/BuildsModal'
 import styles from 'lib/overlays/modals/SaveBuildModal.module.css'
 import { useSaveBuildModalStore } from 'lib/overlays/modals/saveBuildModalStore'
-import { useScrollLock } from 'lib/layout/scrollController'
-import * as buildService from 'lib/services/buildService'
 import { serializeFromOptimizer } from 'lib/services/buildConverter'
+import * as buildService from 'lib/services/buildService'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { useCharacterStore } from 'lib/stores/character/characterStore'
 import {
   useCallback,
   useMemo,
@@ -21,7 +28,10 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LightConeId } from 'types/lightCone'
-import { BuildSource, type SavedBuild } from 'types/savedBuild'
+import {
+  BuildSource,
+  type SavedBuild,
+} from 'types/savedBuild'
 
 export function SaveBuildModal() {
   const open = useSaveBuildModalStore((s) => s.open)
@@ -74,9 +84,10 @@ function SaveBuildModalContent() {
       Message.error(result.error)
       return
     }
-    Message.success(mode === 'overwrite'
-      ? i18next.t('modals:SaveBuild.ConfirmOverwrite.SuccessMessage', { name: inputName })
-      : i18next.t('charactersTab:Messages.SaveSuccess', { name: inputName }),
+    Message.success(
+      mode === 'overwrite'
+        ? i18next.t('modals:SaveBuild.ConfirmOverwrite.SuccessMessage', { name: inputName })
+        : i18next.t('charactersTab:Messages.SaveSuccess', { name: inputName }),
     )
     closeOverlay()
   }
@@ -112,7 +123,7 @@ function SaveBuildModalContent() {
 
   return (
     <Flex gap={10} className={styles.outerFlex}>
-      <Flex direction="column" className={styles.leftColumn}>
+      <Flex direction='column' className={styles.leftColumn}>
         <TextInput
           label={t('Label')}
           value={inputName}
@@ -124,7 +135,7 @@ function SaveBuildModalContent() {
           }}
         />
         <Divider className={styles.divider} />
-        <Button variant="default" onClick={closeOverlay} className={styles.actionButton}>
+        <Button variant='default' onClick={closeOverlay} className={styles.actionButton}>
           {tCommon('Cancel')}
         </Button>
         <Tooltip

@@ -1,13 +1,20 @@
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
-import { useCallback, useContext, useSyncExternalStore } from 'react'
-import type { StateCreator, StoreApi } from 'zustand/vanilla'
+import {
+  useCallback,
+  useContext,
+  useSyncExternalStore,
+} from 'react'
+import type {
+  StateCreator,
+  StoreApi,
+} from 'zustand/vanilla'
 import { createStore } from 'zustand/vanilla'
 
 type ExtractState<S> = S extends { getState: () => infer T } ? T : never
 
 type UseBoundTabAwareStore<S extends ReadonlyStoreApi<unknown>> = {
-  (): ExtractState<S>
-  <U>(selector: (state: ExtractState<S>) => U): U
+  (): ExtractState<S>,
+  <U>(selector: (state: ExtractState<S>) => U): U,
 } & S
 
 type ReadonlyStoreApi<T> = Pick<StoreApi<T>, 'getState' | 'getInitialState' | 'subscribe'>

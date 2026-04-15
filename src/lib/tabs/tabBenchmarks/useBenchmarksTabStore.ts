@@ -1,17 +1,16 @@
-
-import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
-import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
-import type { CharacterId } from 'types/character'
-import type { LightConeId } from 'types/lightCone'
-import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
-import { clone } from 'lib/utils/objectUtils'
-import { computeSetSetConditional } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
+import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
+import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
+import { computeSetSetConditional } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
+import { clone } from 'lib/utils/objectUtils'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 
 export type BenchmarkForm = {
   characterId: CharacterId,
@@ -147,10 +146,7 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
       loading,
     }),
 
-  setSetConditional: (key, value) => set((state) =>
-    computeSetSetConditional(state, key, value)
-  ),
+  setSetConditional: (key, value) => set((state) => computeSetSetConditional(state, key, value)),
 
-  setSetConditionals: (conditionals: SetConditionals) =>
-    set({ setConditionals: conditionals }),
+  setSetConditionals: (conditionals: SetConditionals) => set({ setConditionals: conditionals }),
 }))

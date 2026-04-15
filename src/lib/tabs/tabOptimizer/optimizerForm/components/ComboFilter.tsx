@@ -1,4 +1,14 @@
 import {
+  ActionIcon,
+  Button,
+  Flex,
+  rem,
+  SegmentedControl,
+  Tooltip,
+} from '@mantine/core'
+import { modals } from '@mantine/modals'
+import { notifications } from '@mantine/notifications'
+import {
   IconMinus,
   IconPlus,
   IconRefresh,
@@ -6,17 +16,14 @@ import {
   IconWand,
   IconWandOff,
 } from '@tabler/icons-react'
-import { ActionIcon, Button, Flex, rem, SegmentedControl, Tooltip } from '@mantine/core'
-import { modals } from '@mantine/modals'
-import { notifications } from '@mantine/notifications'
 import { ABILITY_LIMIT } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
 import { Hint } from 'lib/interactions/hint'
-import { ComboType } from 'lib/optimization/rotation/comboType'
 import { getDefaultComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import {
   DEFAULT_BASIC,
   NULL_TURN_ABILITY_NAME,
@@ -44,7 +51,7 @@ export function ComboFilters() {
   const comboType = useOptimizerRequestStore((s) => s.comboType)
 
   return (
-    <Flex direction="column" gap={optimizerTabDefaultGap + 3}>
+    <Flex direction='column' gap={optimizerTabDefaultGap + 3}>
       <Flex justify='space-between' align='center'>
         <HeaderText>{t('Header') /* Rotation COMBO formula */}</HeaderText>
         <TooltipImage type={Hint.comboFilters()} />
@@ -61,10 +68,12 @@ export function ComboFilters() {
 
       <ComboBasicDefinition />
 
-      <Flex direction="column" gap={8} className={classes.advancedButtonContainer}>
+      <Flex direction='column' gap={8} className={classes.advancedButtonContainer}>
         <Button
-          variant="default"
-          onMouseDown={(e: React.MouseEvent) => { if (e.button === 0) setOpen(OpenCloseIDs.COMBO_DRAWER) }}
+          variant='default'
+          onMouseDown={(e: React.MouseEvent) => {
+            if (e.button === 0) setOpen(OpenCloseIDs.COMBO_DRAWER)
+          }}
           leftSection={<IconSettings size={16} stroke={1.5} />}
           disabled={comboType === ComboType.SIMPLE}
         >
@@ -146,8 +155,8 @@ function ComboBasicDefinition() {
 
   return (
     <Flex className={classes.comboContainer}>
-      <Flex direction="column" flex={1} className={classes.abilitiesColumn} gap={3}>
-        <Flex direction="column" flex={1} className={classes.abilitiesColumn} style={{ display: comboType === ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
+      <Flex direction='column' flex={1} className={classes.abilitiesColumn} gap={3}>
+        <Flex direction='column' flex={1} className={classes.abilitiesColumn} style={{ display: comboType === ComboType.ADVANCED ? 'flex' : 'none' }} gap={3}>
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => (
             <ComboOptionRowSelect
               key={i + 1}
@@ -157,26 +166,33 @@ function ComboBasicDefinition() {
           ))}
         </Flex>
 
-        <Flex direction="column" flex={1} className={`${classes.abilitiesColumn} ${classes.simpleAbilities}`} style={{ display: comboType === ComboType.SIMPLE ? 'flex' : 'none' }} gap={3}>
+        <Flex
+          direction='column'
+          flex={1}
+          className={`${classes.abilitiesColumn} ${classes.simpleAbilities}`}
+          style={{ display: comboType === ComboType.SIMPLE ? 'flex' : 'none' }}
+          gap={3}
+        >
           {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} />)}
         </Flex>
       </Flex>
 
-      <Flex direction="column" gap={controlSize / 2} w={controlSize}>
-        <Flex direction="column" gap={5}>
+      <Flex direction='column' gap={controlSize / 2} w={controlSize}>
+        <Flex direction='column' gap={5}>
           <Tooltip label={t('RowControls.ResetTooltip')} position='right' openDelay={300} withArrow>
             <ActionIcon
               variant='default'
               w='100%'
               h={controlSize}
               disabled={disabled}
-              onClick={() => modals.openConfirmModal({
-                title: tCommon('Confirm'),
-                children: t('RowControls.ResetConfirm.Description'),
-                labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
-                centered: true,
-                onConfirm: () => resetClicked(),
-              })}
+              onClick={() =>
+                modals.openConfirmModal({
+                  title: tCommon('Confirm'),
+                  children: t('RowControls.ResetConfirm.Description'),
+                  labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                  centered: true,
+                  onConfirm: () => resetClicked(),
+                })}
             >
               <IconRefresh size={16} />
             </ActionIcon>
@@ -229,7 +245,7 @@ function ComboBasicDefinition() {
   )
 }
 
-function ComboOptionRowSelect({ index, disabled }: { index: number; disabled: boolean }) {
+function ComboOptionRowSelect({ index, disabled }: { index: number, disabled: boolean }) {
   const comboTurnAbilities = useOptimizerRequestStore((s) => s.comboTurnAbilities)
   const shouldRenderSegmented = comboTurnAbilities[index] != null || index < 2
 

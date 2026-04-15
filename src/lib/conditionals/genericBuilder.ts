@@ -23,8 +23,8 @@ type BuilderFor<T> =
   & { build: () => T }
 
 export function schemaBuilder<TFull, TDefaults, TRequired>(schema: {
-  defaults: TDefaults
-  required: ReadonlyArray<keyof TRequired>
+  defaults: TDefaults,
+  required: ReadonlyArray<keyof TRequired>,
 }) {
   return () => {
     const obj = { ...schema.defaults } as any
@@ -35,7 +35,7 @@ export function schemaBuilder<TFull, TDefaults, TRequired>(schema: {
       get(target, prop) {
         if (prop === 'build') {
           return () => {
-            const missing = [...requiredSet].filter(k => !setFields.has(k as string))
+            const missing = [...requiredSet].filter((k) => !setFields.has(k as string))
             if (missing.length > 0) {
               throw new Error(`Missing required fields: ${missing.join(', ')}`)
             }

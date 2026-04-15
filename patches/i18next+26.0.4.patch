@@ -1,8 +1,8 @@
 diff --git a/node_modules/i18next/typescript/t.d.ts b/node_modules/i18next/typescript/t.d.ts
-index 2864f98..73e0054 100644
+index 75aa72a..f5fd077 100644
 --- a/node_modules/i18next/typescript/t.d.ts
 +++ b/node_modules/i18next/typescript/t.d.ts
-@@ -193,7 +193,7 @@ type _BuiltInFormatTypeMap = {
+@@ -196,7 +196,7 @@ type _StripFormatOptions<F> = F extends `${infer Name}(${string})` ? Name : F;
  type _ResolveEntryType<Name extends string, Format> = [Format] extends [never]
    ? Name extends 'count'
      ? number
@@ -10,4 +10,4 @@ index 2864f98..73e0054 100644
 +    : string | number
    : Format extends keyof _InterpolationFormatTypeMap
      ? _InterpolationFormatTypeMap[Format]
-     : Format extends keyof _BuiltInFormatTypeMap
+     : _StripFormatOptions<Format> extends keyof _InterpolationFormatTypeMap

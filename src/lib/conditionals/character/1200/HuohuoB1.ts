@@ -1,8 +1,9 @@
 import i18next from 'i18next'
+import type {
+  Conditionals,
+  ContentDefinition} from 'lib/conditionals/conditionalUtils';
 import {
   AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -17,7 +18,7 @@ import {
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'

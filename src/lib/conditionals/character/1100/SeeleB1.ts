@@ -2,10 +2,11 @@ import i18next from 'i18next'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import type {
+  Conditionals,
+  ContentDefinition} from 'lib/conditionals/conditionalUtils';
 import {
   AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -21,7 +22,7 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
   DEFAULT_SKILL,

@@ -5,6 +5,7 @@ import type {
   V4ParserCharacter,
   V4ParserRelic,
 } from 'lib/importer/kelzFormatParser'
+import type * as KelzFormatParser from 'lib/importer/kelzFormatParser'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
@@ -56,7 +57,7 @@ vi.mock('lib/importer/importConfig', () => ({
 }))
 
 vi.mock('lib/importer/kelzFormatParser', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('lib/importer/kelzFormatParser')>()
+  const actual = await importOriginal<typeof KelzFormatParser>()
   return {
     ...actual,
     getActivatedBuffs: vi.fn(() => ({})),

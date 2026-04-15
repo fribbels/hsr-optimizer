@@ -24,10 +24,11 @@ import {
 import { Hint } from 'lib/interactions/hint'
 import { getDefaultComboTurnAbilities } from 'lib/optimization/rotation/comboStateTransform'
 import { ComboType } from 'lib/optimization/rotation/comboType'
+import type {
+  TurnAbilityName} from 'lib/optimization/rotation/turnAbilityConfig';
 import {
   DEFAULT_BASIC,
   NULL_TURN_ABILITY_NAME,
-  TurnAbilityName,
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'

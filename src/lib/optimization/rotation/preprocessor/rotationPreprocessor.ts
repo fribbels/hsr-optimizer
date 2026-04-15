@@ -1,5 +1,5 @@
-import { Sets } from 'lib/constants/constants'
-import {
+import type { Sets } from 'lib/constants/constants'
+import type {
   ComboBooleanConditional,
   ComboState,
 } from 'lib/optimization/combo/comboTypes'

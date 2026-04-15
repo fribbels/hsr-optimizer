@@ -2,10 +2,11 @@ import i18next from 'i18next'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import type {
+  Conditionals,
+  ContentDefinition} from 'lib/conditionals/conditionalUtils';
 import {
   AbilityEidolon,
-  Conditionals,
-  ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
@@ -34,7 +35,7 @@ import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
   END_SKILL,

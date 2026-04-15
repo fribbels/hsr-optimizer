@@ -18,6 +18,7 @@ import type {
   CharacterId,
 } from 'types/character'
 import type { Relic } from 'types/relic'
+import type * as FrontendUtils from 'lib/utils/frontendUtils'
 import {
   beforeEach,
   describe,
@@ -34,7 +35,7 @@ import {
 // ---- Mocks ----
 
 vi.mock('lib/utils/frontendUtils', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('lib/utils/frontendUtils')>()
+  const actual = await importOriginal<typeof FrontendUtils>()
   return { ...actual, debounceEffect: vi.fn() }
 })
 

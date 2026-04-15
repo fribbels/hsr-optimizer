@@ -1,5 +1,5 @@
 import i18next from 'i18next'
-import {
+import type {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
@@ -9,11 +9,11 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { LightConeConditionalsController } from 'types/conditionals'
-import { SuperImpositionLevel } from 'types/lightCone'
-import { LightConeConfig } from 'types/lightConeConfig'
-import {
+import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { LightConeConditionalsController } from 'types/conditionals'
+import type { SuperImpositionLevel } from 'types/lightCone'
+import type { LightConeConfig } from 'types/lightConeConfig'
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'

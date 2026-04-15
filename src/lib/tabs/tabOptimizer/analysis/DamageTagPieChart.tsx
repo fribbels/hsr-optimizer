@@ -1,4 +1,3 @@
-import { ChartTooltipContainer, ChartTooltipContent, useChartTooltip } from 'lib/tabs/tabOptimizer/analysis/ChartTooltip'
 import {
   chartColor,
   extractDamageByTag,
@@ -6,12 +5,43 @@ import {
 import type { DamageTagSlice } from 'lib/tabs/tabOptimizer/analysis/damageSplitsExtractor'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
-import { useMemo, useState } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 
 import {
   Pie,
   PieChart,
+  Tooltip,
 } from 'recharts'
+
+type TooltipPayloadEntry = {
+  payload?: DamageTagSlice
+  value?: number
+  name?: string
+}
+
+const TOOLTIP_STYLE: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  background: 'var(--layer-3)',
+  border: '1px solid var(--border-default)',
+  padding: 8,
+  borderRadius: 'var(--radius-sm)',
+}
+
+function CustomTooltip({ active, payload }: { active?: boolean; payload?: TooltipPayloadEntry[] }) {
+  if (!active || !payload || payload.length === 0) return null
+
+  const slice = payload[0]?.payload
+  if (!slice) return null
+
+  return (
+    <div className='pre-font' style={TOOLTIP_STYLE}>
+      <span style={{ fontSize: 14, fontWeight: 'bold' }}>{slice.label}</span>
+      <span>{localeNumberComma(Math.floor(slice.value))}</span>
+      <span>{`${(slice.percent * 100).toFixed(1)}%`}</span>
+    </div>
+  )
+}
 
 const PIE_SIZE = 260
 
@@ -20,9 +50,6 @@ export function DamageTagPieChart({ analysis }: {
 }) {
   const { newX, context } = analysis
   const actions = context.rotationActions.length > 0 ? context.rotationActions : context.defaultActions
-
-  const [hoveredSlice, setHoveredSlice] = useState<DamageTagSlice | null>(null)
-  const { containerRef, tooltipRef, handleMouseMove } = useChartTooltip()
 
   const slices = useMemo(
     () => extractDamageByTag(newX, actions),
@@ -53,38 +80,30 @@ export function DamageTagPieChart({ analysis }: {
         Combo Distribution
       </span>
 
-      <div ref={containerRef} style={{ position: 'relative' }} onMouseMove={handleMouseMove}>
-        <PieChart width={PIE_SIZE} height={PIE_SIZE}>
-          <Pie
-            data={slices}
-            dataKey='value'
-            nameKey='label'
-            cx='50%'
-            cy='50%'
-            outerRadius={110}
-            innerRadius={45}
-            cornerRadius={2}
-            startAngle={90}
-            endAngle={-270}
-            stroke='var(--layer-2)'
-            strokeWidth={2}
-            isAnimationActive={false}
-            style={{ cursor: 'default' }}
-            onMouseEnter={(_, index) => setHoveredSlice(slices[index])}
-            onMouseLeave={() => setHoveredSlice(null)}
-          />
-        </PieChart>
-
-        <ChartTooltipContainer tooltipRef={tooltipRef} visible={!!hoveredSlice}>
-          {hoveredSlice && (
-            <ChartTooltipContent>
-              <span style={{ fontSize: 14, fontWeight: 'bold' }}>{hoveredSlice.label}</span>
-              <span>{localeNumberComma(Math.floor(hoveredSlice.value))}</span>
-              <span>{`${(hoveredSlice.percent * 100).toFixed(1)}%`}</span>
-            </ChartTooltipContent>
-          )}
-        </ChartTooltipContainer>
-      </div>
+      <PieChart width={PIE_SIZE} height={PIE_SIZE}>
+        <Pie
+          data={slices}
+          dataKey='value'
+          nameKey='label'
+          cx='50%'
+          cy='50%'
+          outerRadius={110}
+          innerRadius={45}
+          cornerRadius={2}
+          startAngle={90}
+          endAngle={-270}
+          stroke='var(--layer-2)'
+          strokeWidth={2}
+          isAnimationActive={false}
+          style={{ cursor: 'default' }}
+        />
+        {/* Only animate opacity (not position) to prevent fly-in from corner on first render */}
+        <Tooltip
+          content={<CustomTooltip />}
+          isAnimationActive={false}
+          wrapperStyle={{ transition: 'opacity 0.15s ease-out', pointerEvents: 'none' }}
+        />
+      </PieChart>
 
       <table style={{
         alignSelf: 'stretch',

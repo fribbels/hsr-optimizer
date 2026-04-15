@@ -6,6 +6,7 @@ import {
   Switch,
   Text,
 } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks'
 import { Constants } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -76,6 +77,7 @@ type ConditionalSetOptionsProps = OrnamentConditionalSetOptionProps | RelicCondi
 
 function ConditionalSetOption({ set, description, conditional, selectOptions, storeType, ...rest }: ConditionalSetOptionsProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
+  const [opened, { open, close }] = useDisclosure()
 
   const fromOptimizer = useOptimizerRequestStore((s) => getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Optimizer))
   const fromBenchmark = useBenchmarksTabStore((s) => getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Benchmark))
@@ -135,9 +137,15 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
   }
 
   return (
-    <Popover width={400} position='left' withArrow>
+    <Popover width={400} position='left' withArrow opened={opened}>
       <Popover.Target>
-        <Flex gap={defaultGap} align='center' style={{ cursor: 'pointer' }}>
+        <Flex
+          gap={defaultGap}
+          align='center'
+          style={{ cursor: 'pointer' }}
+          onMouseEnter={open}
+          onMouseLeave={close}
+        >
           <div style={{ width: setConditionalsIconWidth, marginRight: 5 }}>
             <img
               src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)}

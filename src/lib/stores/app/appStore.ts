@@ -4,7 +4,7 @@ import {
   CURRENT_OPTIMIZER_VERSION,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { DefaultSettingOptions } from 'lib/overlays/drawers/SettingsDrawer'
+import { DefaultSettingOptions } from 'lib/constants/settingsConstants'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import type {
   GlobalSavedSession,

@@ -5,6 +5,10 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import {
+  DefaultSettingOptions,
+  SettingOptions,
+} from 'lib/constants/settingsConstants'
+import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
@@ -21,38 +25,6 @@ import { useTranslation } from 'react-i18next'
 import { type UserSettings } from 'types/store'
 
 const SelectOptionWordWrap = (props: React.ComponentPropsWithoutRef<'span'>) => <span style={{ whiteSpace: 'wrap', wordBreak: 'break-word' }} {...props} />
-
-export const SettingOptions = {
-  RelicEquippingBehavior: {
-    Replace: 'Replace',
-    Swap: 'Swap',
-  },
-  PermutationsSidebarBehavior: {
-    ShowXL: 'Show XL',
-    ShowXXL: 'Show XXL',
-    NoShow: 'Do Not Show',
-  },
-  ExpandedInfoPanelPosition: {
-    Above: 'Above',
-    Below: 'Below',
-  },
-  ShowLocatorInRelicsModal: {
-    No: 'No',
-    Yes: 'Yes',
-  },
-  ShowComboDmgWarning: {
-    Show: 'Show',
-    Hide: 'Hide',
-  },
-} as const satisfies Record<keyof UserSettings, Record<string, string>>
-
-export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
-  RelicEquippingBehavior: SettingOptions.RelicEquippingBehavior.Replace,
-  PermutationsSidebarBehavior: SettingOptions.PermutationsSidebarBehavior.ShowXL,
-  ExpandedInfoPanelPosition: SettingOptions.ExpandedInfoPanelPosition.Below,
-  ShowLocatorInRelicsModal: SettingOptions.ShowLocatorInRelicsModal.No,
-  ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Show,
-}
 
 export function SettingsDrawer() {
   const { close: closeSettingsDrawer, isOpen: isOpenSettingsDrawer } = useOpenClose(OpenCloseIDs.SETTINGS_DRAWER)

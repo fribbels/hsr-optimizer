@@ -12,7 +12,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
   DefaultSettingOptions,
   SettingOptions,
-} from 'lib/overlays/drawers/SettingsDrawer'
+} from 'lib/constants/settingsConstants'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import {
   savedSessionDefaults,

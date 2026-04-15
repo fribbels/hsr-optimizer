@@ -21,6 +21,15 @@
   width: 30px;
 }
 
+.expandCell {
+  vertical-align: middle;
+}
+
+.expandCell svg {
+  display: block;
+  margin: auto;
+}
+
 .comboColumn {
   text-align: center !important;
   width: 200px;

@@ -120,8 +120,8 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
                   onClick={() => toggleExpand(row.key)}
                   className={styles.clickableRow}
                 >
-                  <Table.Td>
-                    {expanded ? <IconChevronDown /> : <IconChevronRight />}
+                  <Table.Td className={styles.expandCell}>
+                    {expanded ? <IconChevronDown size={18} /> : <IconChevronRight size={18} />}
                   </Table.Td>
                   <Table.Td className={styles.comboCellInner}>
                     <ComboDmgCell comboDmg={row.comboDmg} row={row} />

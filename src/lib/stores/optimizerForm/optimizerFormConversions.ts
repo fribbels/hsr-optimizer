@@ -243,8 +243,8 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
     enemyWeaknessBroken: form.enemyWeaknessBroken,
 
     // Conditionals — shallow-clone to prevent shared references with character store (mirrors displayToInternal)
-    characterConditionals: { ...(form.characterConditionals ?? {}) },
-    lightConeConditionals: { ...(form.lightConeConditionals ?? {}) },
+    characterConditionals: { ...form.characterConditionals },
+    lightConeConditionals: { ...form.lightConeConditionals },
     setConditionals: Object.fromEntries(
       Object.entries(form.setConditionals ?? defaultSetConditionals).map(([k, v]) => [k, [...v]]),
     ) as typeof defaultSetConditionals,
@@ -269,7 +269,7 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
     memoDisplay: form.memoDisplay,
 
     // Weights — shallow-clone to prevent shared references (mirrors displayToInternal)
-    weights: { ...(form.weights ?? {}) },
+    weights: { ...form.weights },
 
     // Combat buffs (internal → display: multiply percent buffs by 100)
     combatBuffs: convertCombatBuffsToDisplay(form.combatBuffs),
@@ -395,8 +395,8 @@ function teammateToTeammateState(teammate: Teammate | undefined): TeammateState 
     teamRelicSet: teammate.teamRelicSet,
     teamOrnamentSet: teammate.teamOrnamentSet,
     // Shallow-clone to prevent shared references (mirrors teammateStateToTeammate)
-    characterConditionals: { ...(teammate.characterConditionals ?? {}) },
-    lightConeConditionals: { ...(teammate.lightConeConditionals ?? {}) },
+    characterConditionals: { ...teammate.characterConditionals },
+    lightConeConditionals: { ...teammate.lightConeConditionals },
   }
 }
 

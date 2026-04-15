@@ -81,7 +81,7 @@
     "oxc/number-arg-out-of-range": "warn",
     "oxc/only-used-in-recursion": "warn",
     "oxc/uninvoked-array-callback": "warn",
-    "react/exhaustive-deps": "warn",
+    "react/exhaustive-deps": "off",
     "react/forward-ref-uses-ref": "warn",
     "react/jsx-key": "warn",
     "react/jsx-no-duplicate-props": "warn",
@@ -116,7 +116,7 @@
     "unicorn/no-unnecessary-await": "warn",
     "unicorn/no-useless-fallback-in-spread": "warn",
     "unicorn/no-useless-length-check": "warn",
-    "unicorn/no-useless-spread": "warn",
+    "unicorn/no-useless-spread": "off",
     "unicorn/prefer-set-size": "warn",
     "unicorn/prefer-string-starts-ends-with": "warn",
     // Custom

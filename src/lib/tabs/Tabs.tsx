@@ -75,7 +75,7 @@ const Tabs = () => {
 
   // Create all element descriptions once (stable references, but not mounted until included in tree)
   const tabElements = React.useMemo(
-    () => new Map(TAB_COMPONENTS.map(([key, Component]) => [key, <Component />] as const)),
+    () => new Map(TAB_COMPONENTS.map(([key, Component]) => [key, <Component key={key} />] as const)),
     [],
   )
 

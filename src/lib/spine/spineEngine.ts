@@ -88,9 +88,11 @@ export async function createSpineInstance(
     await new Promise<void>((resolve, reject) => {
       function check() {
         if (assetManager.isLoadingComplete()) {
-          assetManager.hasErrors()
-            ? reject(new Error(JSON.stringify(assetManager.getErrors())))
-            : resolve()
+          if (assetManager.hasErrors()) {
+            reject(new Error(JSON.stringify(assetManager.getErrors())))
+          } else {
+            resolve()
+          }
         } else {
           requestAnimationFrame(check)
         }

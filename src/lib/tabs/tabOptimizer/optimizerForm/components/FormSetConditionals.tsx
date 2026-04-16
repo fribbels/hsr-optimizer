@@ -1,12 +1,11 @@
 import {
   Drawer,
   Flex,
-  Popover,
+  HoverCard,
   Select,
   Switch,
   Text,
 } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import { Constants } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -77,7 +76,6 @@ type ConditionalSetOptionsProps = OrnamentConditionalSetOptionProps | RelicCondi
 
 function ConditionalSetOption({ set, description, conditional, selectOptions, storeType, ...rest }: ConditionalSetOptionsProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
-  const [opened, { open, close }] = useDisclosure()
 
   const fromOptimizer = useOptimizerRequestStore((s) => getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Optimizer))
   const fromBenchmark = useBenchmarksTabStore((s) => getSetConditionalValue(s.setConditionals, set, storeType, SetConditionalsStoreType.Benchmark))
@@ -137,14 +135,12 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
   }
 
   return (
-    <Popover width={400} position='left' withArrow opened={opened}>
-      <Popover.Target>
+    <HoverCard width={400} position='left' withArrow openDelay={300} closeDelay={200}>
+      <HoverCard.Target>
         <Flex
           gap={defaultGap}
           align='center'
           style={{ cursor: 'pointer' }}
-          onMouseEnter={open}
-          onMouseLeave={close}
         >
           <div style={{ width: setConditionalsIconWidth, marginRight: 5 }}>
             <img
@@ -166,12 +162,12 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
             {inputType}
           </Flex>
         </Flex>
-      </Popover.Target>
-      <Popover.Dropdown style={{ fontSize: 13 }}>
+      </HoverCard.Target>
+      <HoverCard.Dropdown style={{ fontSize: 13 }}>
         <Text fw={600} mb={4} size='sm'>{t('SetName', { id: setToId[set] })}</Text>
         {content}
-      </Popover.Dropdown>
-    </Popover>
+      </HoverCard.Dropdown>
+    </HoverCard>
   )
 }
 

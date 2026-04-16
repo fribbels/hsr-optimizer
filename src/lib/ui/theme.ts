@@ -41,7 +41,6 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
     components: {
       Input: {
         defaultProps: { size: 'xs' },
-        styles: { input: { lineHeight: '30px' } },
       },
       InputBase: { defaultProps: { size: 'xs' } },
       InputWrapper: { defaultProps: { size: 'xs' } },

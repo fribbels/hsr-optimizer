@@ -89,7 +89,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
           direction='column'
           py={10}
           pl={10}
-          pr={5}
+          pr={3}
           style={{ flex: 1, minWidth: 0 }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
@@ -135,7 +135,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
           direction='column'
           w={135}
           py={10}
-          pl={5}
+          pl={3}
           pr={10}
           gap={16}
           className={classes.rightCol}
@@ -186,7 +186,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
           direction='column'
           py={10}
           pl={10}
-          pr={5}
+          pr={3}
           style={{ flex: 1, minWidth: 0 }}
         >
           <Group gap={6} wrap='nowrap' mb={6}>
@@ -220,7 +220,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
           direction='column'
           w={135}
           py={10}
-          pl={5}
+          pl={3}
           pr={10}
           gap={6}
           className={classes.rightColLc}

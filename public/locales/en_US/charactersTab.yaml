@@ -27,10 +27,9 @@ CharacterMenu:
       SortByScore: Sort all characters by score
       MoveToTop: Move character to top
 SearchPlaceholder: Search
-GridHeaders:
-  Icon: Icon
-  Priority: Priority
-  Character: Character
+GridDensityOptions:
+  default: Default
+  compact: Compact
 Messages:
   RemoveSuccess: Successfully removed character
   UnequipSuccess: Successfully unequipped character

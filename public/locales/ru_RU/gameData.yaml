@@ -267,11 +267,11 @@ Characters:
     Name: Стелла
     LongName: Стелла (Память)
   "8009":
-    Name: Келус
-    LongName: Келус (Радость)
+    Name: Caelus
+    LongName: Caelus (Радость)
   "8010":
-    Name: Стелла
-    LongName: Стелла (Радость)
+    Name: Stelle
+    LongName: Stelle (Радость)
   1212b1:
     Name: Цзинлю
     LongName: Цзинлю
@@ -290,18 +290,18 @@ Characters:
   1306b1:
     Name: Искорка
     LongName: Искорка
-  1102b1:
-    Name: Зеле
-    LongName: Зеле
-  1217b1:
-    Name: Хохо
-    LongName: Хохо
-  1310b1:
-    Name: Светлячок
-    LongName: Светлячок
   1004b1:
-    Name: Вельт
-    LongName: Вельт
+    Name: Welt
+    LongName: Welt
+  1102b1:
+    Name: Seele
+    LongName: Seele
+  1217b1:
+    Name: Huohuo
+    LongName: Huohuo
+  1310b1:
+    Name: Firefly
+    LongName: Firefly
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака

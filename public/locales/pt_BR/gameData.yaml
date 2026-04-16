@@ -290,6 +290,9 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
+  1004b1:
+    Name: Welt
+    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -297,11 +300,8 @@ Characters:
     Name: Huohuo
     LongName: Huohuo
   1310b1:
-    Name: Vaga-lume
-    LongName: Vaga-lume
-  1004b1:
-    Name: Welt
-    LongName: Welt
+    Name: Firefly
+    LongName: Firefly
 RelicSets:
   "101":
     Name: Transeunte da Nuvem Errante

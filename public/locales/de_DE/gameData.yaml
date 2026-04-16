@@ -270,8 +270,8 @@ Characters:
     Name: Caelus
     LongName: Caelus (Das Hochgefühl)
   "8010":
-    Name: Stella
-    LongName: Stella (Das Hochgefühl)
+    Name: Stelle
+    LongName: Stelle (Das Hochgefühl)
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -290,6 +290,9 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
+  1004b1:
+    Name: Welt
+    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -297,11 +300,8 @@ Characters:
     Name: Huohuo
     LongName: Huohuo
   1310b1:
-    Name: Glühwürmchen
-    LongName: Glühwürmchen
-  1004b1:
-    Name: Welt
-    LongName: Welt
+    Name: Firefly
+    LongName: Firefly
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke

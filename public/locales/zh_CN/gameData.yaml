@@ -237,11 +237,11 @@ Characters:
     Name: 不死途
     LongName: 不死途
   "1505":
-    Name: Evanescia
-    LongName: Evanescia
+    Name: 绯英
+    LongName: 绯英
   "1506":
-    Name: Silver Wolf LV.999
-    LongName: Silver Wolf LV.999
+    Name: 银狼LV.999
+    LongName: 银狼LV.999
   "8001":
     Name: 穹
     LongName: 穹 (毁灭)
@@ -290,6 +290,9 @@ Characters:
   1306b1:
     Name: 花火
     LongName: 花火
+  1004b1:
+    Name: 瓦尔特
+    LongName: 瓦尔特
   1102b1:
     Name: 希儿
     LongName: 希儿
@@ -299,9 +302,6 @@ Characters:
   1310b1:
     Name: 流萤
     LongName: 流萤
-  1004b1:
-    Name: 瓦尔特
-    LongName: 瓦尔特
 RelicSets:
   "101":
     Name: 云无留迹的过客
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: 飞向粉色的明天
   "22007":
-    Name: Tomorrow, Together
+    Name: 未来，有我们一起
   "23000":
     Name: 银河铁道之夜
   "23001":
@@ -807,9 +807,9 @@ Lightcones:
   "23056":
     Name: 一场谎言的终幕
   "23057":
-    Name: Welcome to the Cosmic City
+    Name: 欢迎来到银河城
   "23058":
-    Name: Until the Flowers Bloom Again
+    Name: 邂逅于下一个花季
   "24000":
     Name: 记一位星神的陨落
   "24001":

@@ -237,11 +237,11 @@ Characters:
     Name: 不死途
     LongName: 不死途
   "1505":
-    Name: Evanescia
-    LongName: Evanescia
+    Name: 緋英
+    LongName: 緋英
   "1506":
-    Name: Silver Wolf LV.999
-    LongName: Silver Wolf LV.999
+    Name: 銀狼LV.999
+    LongName: 銀狼LV.999
   "8001":
     Name: 穹
     LongName: 穹 (壊滅)
@@ -290,6 +290,9 @@ Characters:
   1306b1:
     Name: 花火
     LongName: 花火
+  1004b1:
+    Name: ヴェルト
+    LongName: ヴェルト
   1102b1:
     Name: ゼーレ
     LongName: ゼーレ
@@ -299,9 +302,6 @@ Characters:
   1310b1:
     Name: ホタル
     LongName: ホタル
-  1004b1:
-    Name: ヴェルト
-    LongName: ヴェルト
 RelicSets:
   "101":
     Name: 流雲無痕の過客
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: ピンク色の明日へ
   "22007":
-    Name: Tomorrow, Together
+    Name: みんなで一緒に未来へ
   "23000":
     Name: 銀河鉄道の夜
   "23001":
@@ -807,9 +807,9 @@ Lightcones:
   "23056":
     Name: 或る嘘の終幕
   "23057":
-    Name: Welcome to the Cosmic City
+    Name: 銀河シティへようこそ
   "23058":
-    Name: Until the Flowers Bloom Again
+    Name: 再び花が咲く季節に
   "24000":
     Name: とある星神の殞落を記す
   "24001":

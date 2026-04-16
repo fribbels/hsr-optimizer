@@ -79,9 +79,6 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
             alignItems: 'center',
           }}
         >
-          <div style={{ width: 150 }}>
-            {t('CharacterPreview.AlgorithmSlider.Title') /* Scoring algorithm: */}
-          </div>
           <SegmentedControl
             style={{ width: 354, height: 30 }}
             onChange={handleScoringTypeChange}

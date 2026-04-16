@@ -15,6 +15,7 @@
   overflow: hidden;
   box-shadow: var(--shadow-card);
   border-radius: var(--radius-md);
+  background: var(--layer-2);
   height: 100%;
   max-width: 233px;
 }

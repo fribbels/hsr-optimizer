@@ -453,7 +453,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
             '--showcase-shadow': buildShadow(visual.shadowX, visual.shadowY, visual.shadowBlur, visual.shadowOpacity),
             '--showcase-shadow-inset': buildInsetShadow(visual.insetBlur, visual.insetOpacity),
-            'color': 'rgba(220, 220, 220, 1)',
+            'color': 'rgba(225, 225, 225, 1)',
             'textShadow': visual.textShadow,
             'position': 'relative',
             'display': 'flex',

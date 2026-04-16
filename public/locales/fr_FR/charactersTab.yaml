@@ -89,7 +89,6 @@ CharacterPreview:
     TitleBenchmark: 'Référence à {{spd}} VIT'
     Score: 'Note DPS {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: 'Mode d''évaluation:'
     Labels:
       CombatScore: Note de Combat
       CombatScoreTBD: Combat (TBD)

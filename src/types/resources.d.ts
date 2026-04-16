@@ -256,10 +256,9 @@ interface Resources {
         "UpgradedDpsScore": "Upgraded DPS Score"
       }
     },
-    "GridHeaders": {
-      "Character": "Character",
-      "Icon": "Icon",
-      "Priority": "Priority"
+    "GridDensityOptions": {
+      "compact": "Compact",
+      "default": "Default"
     },
     "Messages": {
       "BuildAlreadyExists": "Build name {{name}} already exists",

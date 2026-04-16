@@ -11,7 +11,7 @@ import {
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
+import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { validateUuid } from 'lib/utils/miscUtils'
@@ -65,8 +65,9 @@ function SearchBar() {
     }
 
     window.history.pushState({}, '', `${PageToRoute[AppPages.SHOWCASE]}?id=${uuid}`)
+    useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loading)
     useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)
-    submitForm({ scorerId: uuid })
+    // submitForm is called by initializeShowcaseOnMount when tab activates - it reads the URL ID
   }
 
   return (

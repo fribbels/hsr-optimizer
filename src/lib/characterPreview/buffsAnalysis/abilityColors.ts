@@ -22,7 +22,7 @@ export const ABILITY_COLORS = {
 
 export type AbilityColorKey = keyof typeof ABILITY_COLORS
 export type TagColorEntry = { key: AbilityColorKey, label: string, color: string }
-type DamageTagEntry = TagColorEntry & { tag: DamageTag }
+export type DamageTagEntry = TagColorEntry & { tag: DamageTag }
 
 export const DAMAGE_TAG_ENTRIES: DamageTagEntry[] = [
   { tag: DamageTag.BASIC, key: 'BASIC', label: 'BASIC', color: ABILITY_COLORS.BASIC },
@@ -36,6 +36,10 @@ export const DAMAGE_TAG_ENTRIES: DamageTagEntry[] = [
   { tag: DamageTag.ADDITIONAL, key: 'ADDITIONAL', label: 'ADDITIONAL', color: ABILITY_COLORS.ADDITIONAL },
   { tag: DamageTag.ELATION, key: 'ELATION', label: 'ELATION', color: ABILITY_COLORS.ELATION },
 ]
+
+export const DAMAGE_TAG_BY_KEY = new Map<AbilityColorKey, DamageTagEntry>(
+  DAMAGE_TAG_ENTRIES.map((e) => [e.key, e]),
+)
 
 export const ACTION_COLORS: Partial<Record<AbilityKind, string>> = {
   [AbilityKind.BASIC]: ABILITY_COLORS.BASIC,

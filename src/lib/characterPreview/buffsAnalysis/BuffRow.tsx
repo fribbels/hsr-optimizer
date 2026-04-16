@@ -23,10 +23,7 @@ import {
   BUFF_TYPE,
 } from 'lib/optimization/buffSource'
 import type { ReactElement } from 'react'
-import {
-  useContext,
-  useMemo,
-} from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
@@ -118,20 +115,21 @@ function DamageTagPills({ damageTags }: { damageTags?: number }) {
   const onFilterChange = useContext(FilterChangeContext)
   const selectedFilter = useContext(FilterContext)
 
-  const pills = useMemo(() => {
-    if (damageTags == null) {
-      return [renderPill('ALL', ABILITY_COLORS.ALL, 'ALL', undefined, () => onFilterChange?.(null))]
-    }
+  if (damageTags == null) {
+    return (
+      <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap', flexShrink: 0 }}>
+        {renderPill('ALL', ABILITY_COLORS.ALL, 'ALL', { onClick: () => onFilterChange?.(null) })}
+      </div>
+    )
+  }
 
-    const result: ReactElement[] = []
-    for (const entry of DAMAGE_TAG_ENTRIES) {
-      if ((damageTags & entry.tag) !== 0) {
-        const active = selectedFilter != null && (entry.tag & selectedFilter) !== 0
-        result.push(renderPill(String(entry.tag), entry.color, entry.label, undefined, () => onFilterChange?.(entry.tag), active))
-      }
+  const pills: ReactElement[] = []
+  for (const entry of DAMAGE_TAG_ENTRIES) {
+    if ((damageTags & entry.tag) !== 0) {
+      const active = selectedFilter != null && (entry.tag & selectedFilter) !== 0
+      pills.push(renderPill(String(entry.tag), entry.color, entry.label, { onClick: () => onFilterChange?.(entry.tag), active }))
     }
-    return result
-  }, [damageTags, onFilterChange, selectedFilter])
+  }
 
   if (pills.length === 0) return null
   return <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap', flexShrink: 0 }}>{pills}</div>

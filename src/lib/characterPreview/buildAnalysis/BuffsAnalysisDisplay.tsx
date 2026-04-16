@@ -79,13 +79,15 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   }), [size])
 
   const byAction = perActionBuffGroups?.byAction
+  const rotationSteps = perActionBuffGroups?.rotationSteps
+  const primaryAction = perActionBuffGroups?.primaryAction
   const buffGroups = useMemo(() => {
     if (!byAction || Object.keys(byAction).length === 0) return null
-    if (selectedAction != null && perActionBuffGroups?.rotationSteps[selectedAction]) {
-      return perActionBuffGroups.rotationSteps[selectedAction].groups
+    if (selectedAction != null && rotationSteps?.[selectedAction]) {
+      return rotationSteps[selectedAction].groups
     }
-    return byAction[perActionBuffGroups!.primaryAction] ?? byAction[Object.keys(byAction)[0]]
-  }, [byAction, selectedAction, perActionBuffGroups])
+    return (primaryAction != null ? byAction[primaryAction] : undefined) ?? byAction[Object.keys(byAction)[0]]
+  }, [byAction, selectedAction, rotationSteps, primaryAction])
 
   const allBuffs = useMemo(() => buffGroups ? collectAllBuffs(buffGroups) : [], [buffGroups])
   const relevantTags = useMemo(() => computeRelevantTags(allBuffs), [allBuffs])
@@ -99,14 +101,17 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined
   const summaryAvatarSrc = firstPrimaryId ? Assets.getCharacterAvatarById(firstPrimaryId) : Assets.getBlank()
 
-  const summaryColumn = (
+  const statSummary = (
+    <DeferCreate>
+      <StatSummaryTable
+        sums={statSums}
+        avatarSrc={summaryAvatarSrc}
+      />
+    </DeferCreate>
+  )
+
+  const hitAndEnemy = (
     <>
-      <DeferCreate>
-        <StatSummaryTable
-          sums={statSums}
-          avatarSrc={summaryAvatarSrc}
-        />
-      </DeferCreate>
       {context && (
         <DeferCreate>
           <HitDefinitionTable
@@ -129,9 +134,9 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
 
   const buffsColumn = <GroupedLayout buffGroups={buffGroups} />
 
-  const actionSelector = (
+  const actionSelector = rotationSteps && (
     <ActionSelector
-      rotationSteps={perActionBuffGroups!.rotationSteps}
+      rotationSteps={rotationSteps}
       selectedAction={selectedAction}
       onActionChange={setSelectedAction}
     />
@@ -148,7 +153,8 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               <div style={{ display: 'flex', gap: GROUP_SPACING, alignItems: 'start' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
-                  {summaryColumn}
+                  {statSummary}
+                  {hitAndEnemy}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
                   {buffsColumn}
@@ -158,33 +164,12 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
           )
           : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
-              <DeferCreate>
-                <StatSummaryTable
-                  sums={statSums}
-                  avatarSrc={summaryAvatarSrc}
-                />
-              </DeferCreate>
+              {statSummary}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               {actionSelector}
               {buffsColumn}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-              {context && (
-                <DeferCreate>
-                  <HitDefinitionTable
-                    avatarSrc={summaryAvatarSrc}
-                    context={context}
-                    selectedAction={selectedAction}
-                  />
-                </DeferCreate>
-              )}
-              {context && (
-                <DeferCreate>
-                  <EnemyPanel
-                    avatarSrc={summaryAvatarSrc}
-                    context={context}
-                  />
-                </DeferCreate>
-              )}
+              {hitAndEnemy}
             </div>
           )}
         </FilterChangeContext.Provider>

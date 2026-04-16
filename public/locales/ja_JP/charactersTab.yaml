@@ -91,7 +91,6 @@ CharacterPreview:
     TitleBenchmark: '{{spd}} 基準速度'
     Score: 'DPSスコア {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: 'スコア計算方法'
     Labels:
       CombatScore: 戦闘スコア
       CombatScoreTBD: 戦闘 (TBD)

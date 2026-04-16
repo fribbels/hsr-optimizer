@@ -605,6 +605,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               showcaseMetadata={showcaseMetadata}
               scoringType={state.storedScoringType}
               displayRelics={displayRelics}
+              source={source}
             />
           </DeferReveal>
         )}

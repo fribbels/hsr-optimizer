@@ -39,7 +39,7 @@ function openConfirmModal() {
 export function DPSScoreDisclaimer() {
   const showComboDmgWarning = useGlobalStore((s) => s.settings.ShowComboDmgWarning)
 
-  if (showComboDmgWarning !== SettingOptions.ShowComboDmgWarning.Show) return null
+  if (showComboDmgWarning === SettingOptions.ShowComboDmgWarning.Hide) return null
 
   return (
     <div className={styles.wrapper}>

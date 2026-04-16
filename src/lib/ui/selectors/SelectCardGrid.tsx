@@ -43,7 +43,11 @@ export function SelectCardGrid<TId extends string>({
   )
 
   const textOverlayStyle = useMemo(() => ({ height: 18 * textRows }), [textRows])
-  const textInnerStyle = useMemo(() => ({ WebkitLineClamp: textRows, maxHeight: 18 * textRows }), [textRows])
+  const textInnerStyle = useMemo(() => ({
+    WebkitLineClamp: textRows,
+    maxHeight: 18 * textRows,
+    wordBreak: textRows > 1 ? 'break-word' as const : undefined,
+  }), [textRows])
 
   // Event delegation: single handler on the grid, read data-id from clicked card
   const handleGridMouseDown = (e: MouseEvent<HTMLDivElement>) => {

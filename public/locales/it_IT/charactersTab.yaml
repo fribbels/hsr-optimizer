@@ -89,7 +89,6 @@ CharacterPreview:
     TitleBenchmark: '{{spd}} VEL Benchmark'
     Score: 'Punteggio DPS {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: 'Algoritmo del punteggio:'
     Labels:
       CombatScore: Punteggio Combat
       CombatScoreTBD: Combat (TBD)

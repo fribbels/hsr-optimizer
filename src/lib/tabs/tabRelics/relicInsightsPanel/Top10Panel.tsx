@@ -99,7 +99,11 @@ export const Top10Panel = memo(({ scores, width: propWidth, height: propHeight }
           allowDataOverflow
           hide
         />
-        <Tooltip content={TooltipContent} />
+        <Tooltip
+          content={TooltipContent}
+          isAnimationActive={false}
+          wrapperStyle={{ transition: 'opacity 0.15s ease-out', pointerEvents: 'none' }}
+        />
         <Legend align='right' verticalAlign='middle' width={legendWidth} content={<LegendContent scores={sortedScores} compact={compact} />} />
         <Scatter
           data={data}

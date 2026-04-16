@@ -327,10 +327,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // E6: Skill/Ult hitting Slow target → CR +30%, CD +60%
-      x.buff(StatKey.CR, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.30 : 0, x.actionKind(AbilityKind.SKILL).source(SOURCE_E6))
-      x.buff(StatKey.CR, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.30 : 0, x.actionKind(AbilityKind.ULT).source(SOURCE_E6))
-      x.buff(StatKey.CD, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.60 : 0, x.actionKind(AbilityKind.SKILL).source(SOURCE_E6))
-      x.buff(StatKey.CD, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.60 : 0, x.actionKind(AbilityKind.ULT).source(SOURCE_E6))
+      const e6DamageTags = DamageTag.SKILL | DamageTag.ULT | DamageTag.ADDITIONAL
+      x.buff(StatKey.CR, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.30 : 0, x.actionKind(AbilityKind.SKILL).damageType(e6DamageTags).source(SOURCE_E6))
+      x.buff(StatKey.CR, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.30 : 0, x.actionKind(AbilityKind.ULT).damageType(e6DamageTags).source(SOURCE_E6))
+      x.buff(StatKey.CD, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.60 : 0, x.actionKind(AbilityKind.SKILL).damageType(e6DamageTags).source(SOURCE_E6))
+      x.buff(StatKey.CD, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.60 : 0, x.actionKind(AbilityKind.ULT).damageType(e6DamageTags).source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

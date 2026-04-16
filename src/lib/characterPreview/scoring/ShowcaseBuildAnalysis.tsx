@@ -69,8 +69,6 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           style={{
             display: 'flex',
             justifyContent: 'center',
-            paddingLeft: 20,
-            paddingRight: 5,
             borderRadius: 6,
             height: 40,
             marginTop: 10,
@@ -80,7 +78,8 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           }}
         >
           <SegmentedControl
-            style={{ width: 354, height: 30 }}
+            size="sm"
+            style={{ width: 400 }}
             onChange={handleScoringTypeChange}
             value={String(scoringType)}
             fullWidth

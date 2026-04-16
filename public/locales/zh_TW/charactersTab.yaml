@@ -61,7 +61,6 @@ CharacterPreview:
     Title: 戰鬥模擬
     Score: 'DPS評分 {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: '評分算法'
     Labels:
       CombatScore: 戰鬥評分
       StatScore: 屬性評分

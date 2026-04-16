@@ -34,7 +34,6 @@ export function GlobalModals() {
       <EnemyConfigurationsDrawer />
       <FormSetConditionals id={OpenCloseIDs.OPTIMIZER_SETS_DRAWER} />
       <FormSetConditionals id={OpenCloseIDs.BENCHMARKS_SETS_DRAWER} />
-
       {/* Modals */}
       <RelicSetFilterModal />
       <ErrorBoundary fallbackRender={defaultErrorRender}>

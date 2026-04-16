@@ -74,6 +74,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
             borderRadius: 6,
             height: 40,
             marginTop: 10,
+            marginBottom: 10,
             backgroundColor: 'color-mix(in srgb, var(--layer-0) 52%, transparent)',
             alignItems: 'center',
           }}

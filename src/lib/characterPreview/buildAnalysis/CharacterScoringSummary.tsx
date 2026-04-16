@@ -300,13 +300,13 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         {/* Grade ruler */}
         <DeferCreate>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
+            <DPSScoreDisclaimer />
             <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
                 text={t('CharacterPreview.BuildAnalysis.Header')}
                 url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
               />
             </div>
-            <DPSScoreDisclaimer />
             <DpsScoreGradeRuler />
           </div>
         </DeferCreate>

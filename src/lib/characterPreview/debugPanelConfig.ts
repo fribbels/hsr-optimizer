@@ -3,7 +3,20 @@ import type {
   PresetGroup,
   SliderGroup,
 } from './DebugSliderPanel'
+import { DEFAULT_CONFIG } from './color/colorPipelineConfig'
 import {
+  BLEND_MODE_DEFAULT,
+  CARD_BG_ALPHA_DEFAULT,
+  INSET_BLUR,
+  INSET_OPACITY,
+  PORTRAIT_BLUR,
+  PORTRAIT_BRIGHTNESS,
+  PORTRAIT_SATURATE,
+  SHADOW_BLUR,
+  SHADOW_OPACITY,
+  SHADOW_X,
+  SHADOW_Y,
+  TEXT_SHADOW_DEFAULT,
   TEXT_SHADOW_PRESETS,
   useDebugVisualConfigStore,
 } from './debugVisualConfigStore'
@@ -23,6 +36,35 @@ export function getDebugPanelConfig() {
 // Shared config builder
 function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStore.getState>) {
   const savedPresetGroups: PresetGroup[] = [
+    {
+      title: 'Default',
+      presets: [
+        {
+          label: 'Default',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: PORTRAIT_BLUR,
+              portraitBrightness: PORTRAIT_BRIGHTNESS,
+              portraitSaturate: PORTRAIT_SATURATE,
+              cardBgAlpha: CARD_BG_ALPHA_DEFAULT,
+              debugMaxC: DEFAULT_CONFIG.cardBg.maxC,
+              debugMinC: DEFAULT_CONFIG.cardBg.minC,
+              debugChromaScale: DEFAULT_CONFIG.cardBg.chromaScale,
+              debugTargetL: DEFAULT_CONFIG.cardBg.targetL,
+              debugMinL: DEFAULT_CONFIG.cardBg.minL,
+              debugMaxL: DEFAULT_CONFIG.cardBg.maxL,
+              blendMode: BLEND_MODE_DEFAULT,
+              shadowX: SHADOW_X,
+              shadowY: SHADOW_Y,
+              shadowBlur: SHADOW_BLUR,
+              shadowOpacity: SHADOW_OPACITY,
+              insetBlur: INSET_BLUR,
+              insetOpacity: INSET_OPACITY,
+              textShadow: TEXT_SHADOW_DEFAULT,
+            }),
+        },
+      ],
+    },
     {
       title: 'Reference',
       presets: [

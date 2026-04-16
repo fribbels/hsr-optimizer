@@ -36,6 +36,9 @@ export const PORTRAIT_BRIGHTNESS = 0.40
 export const PORTRAIT_SATURATE = 1.75
 export const CARD_BG_ALPHA_DEFAULT = 0.40
 
+// Blend mode default
+export const BLEND_MODE_DEFAULT: BlendMode = 'normal'
+
 // Shadow/glow defaults
 export const SHADOW_X = 1
 export const SHADOW_Y = 1
@@ -109,7 +112,7 @@ export const useDebugVisualConfigStore = create<DebugVisualConfigStore>((set) =>
   debugTargetL: DEFAULT_CONFIG.cardBg.targetL,
   debugMinL: DEFAULT_CONFIG.cardBg.minL,
   debugMaxL: DEFAULT_CONFIG.cardBg.maxL,
-  blendMode: 'normal',
+  blendMode: BLEND_MODE_DEFAULT,
   shadowX: SHADOW_X,
   shadowY: SHADOW_Y,
   shadowBlur: SHADOW_BLUR,

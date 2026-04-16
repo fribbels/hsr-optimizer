@@ -86,7 +86,6 @@ CharacterPreview:
     TitleBenchmark: '{{spd}} Mốc chuẩn SPD'
     Score: 'Điểm DPS {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: 'Thuật toán chấm điểm:'
     Labels:
       CombatScore: Điểm combat
       CombatScoreTBD: Combat (TBD)

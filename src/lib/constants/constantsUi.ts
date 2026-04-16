@@ -20,3 +20,9 @@ export const lcInnerH = 1260 / 904 * lcInnerW
 export const newLcMargin = 8
 export const newLcHeight = 150
 export const simScoreInnerW = 950
+
+// Recharts tooltip styling
+export const RECHARTS_TOOLTIP_WRAPPER_STYLE: React.CSSProperties = {
+  transition: 'opacity 0.15s ease-out',
+  pointerEvents: 'none',
+}

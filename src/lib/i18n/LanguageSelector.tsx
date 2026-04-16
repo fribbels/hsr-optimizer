@@ -1,4 +1,5 @@
 import { CheckIcon, Select } from '@mantine/core'
+import type { CSSProperties } from 'react'
 import {
   BASE_PATH,
   BasePath,
@@ -11,6 +12,8 @@ import { Assets } from 'lib/rendering/assets'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { languages } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
+
+const optionStyle: CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
@@ -31,7 +34,7 @@ export function LanguageSelector() {
     <Select
       data={selectData}
       renderOption={({ option, checked }) => (
-        <span title={option.value} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+        <span title={option.value} style={optionStyle}>
           {option.label}
           {checked && <CheckIcon size={12} />}
         </span>

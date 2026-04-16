@@ -1,3 +1,4 @@
+import { RECHARTS_TOOLTIP_WRAPPER_STYLE } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
   setOpen,
@@ -122,7 +123,7 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
           cursor={false}
           content={TooltipContent}
           isAnimationActive={false}
-          wrapperStyle={{ transition: 'opacity 0.15s ease-out', pointerEvents: 'none' }}
+          wrapperStyle={RECHARTS_TOOLTIP_WRAPPER_STYLE}
         />
         <Scatter
           name='scores'

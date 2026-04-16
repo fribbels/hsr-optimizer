@@ -67,7 +67,6 @@ function SearchBar() {
     window.history.pushState({}, '', `${PageToRoute[AppPages.SHOWCASE]}?id=${uuid}`)
     useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loading)
     useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)
-    // submitForm is called by initializeShowcaseOnMount when tab activates - it reads the URL ID
   }
 
   return (

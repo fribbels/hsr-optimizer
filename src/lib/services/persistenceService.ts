@@ -4,6 +4,10 @@ import {
   Parts,
 } from 'lib/constants/constants'
 import {
+  DefaultSettingOptions,
+  SettingOptions,
+} from 'lib/constants/settingsConstants'
+import {
   OpenCloseIDs,
   setClose,
   setOpen,
@@ -11,7 +15,6 @@ import {
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { DefaultSettingOptions } from 'lib/constants/settingsConstants'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import {
   findRelicMatch,
@@ -60,6 +63,7 @@ import type { SavedBuild } from 'types/savedBuild'
 import type {
   GlobalSavedSession,
   HsrOptimizerSaveFormat,
+  UserSettings,
 } from 'types/store'
 
 // ─── Public API ────────────────────────────────────────────────
@@ -159,7 +163,9 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   }
 
   if (saveData.settings) {
-    useGlobalStore.getState().setSettings({ ...DefaultSettingOptions, ...saveData.settings })
+    const settings = saveData.settings
+    if (settings.ShowComboDmgWarning === 'Hide') settings.ShowComboDmgWarning = 'Show'
+    useGlobalStore.getState().setSettings({ ...DefaultSettingOptions, ...settings })
   }
 
   // Set relics tab state

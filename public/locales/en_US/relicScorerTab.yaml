@@ -25,5 +25,17 @@ Loading:
   FetchingShowcase: 'Fetching showcase for {{scorerId}}'
 Buttons:
   Import: Import
+DPSScoreDisclaimer:
+  Title: Do NOT use Combo DMG or DPS Score to compare teams, light cones, or eidolons!
+  Body:
+    l1: Combo DMG and DPS Score measure how much damage your build deals in a fixed ability rotation, specific to your current team setup.
+    l2: Different teams, light cones, eidolons, or beta versions can all affect the rotation, and the resulting scores cannot be meaningfully compared against each other.
+    l3: Within your current team setup, use Combo DMG to see how different relics, main stats, and set effects impact your rotation damage. DPS Score compares your Combo DMG against simulated benchmark builds with optimally distributed substats at the same speed, showing how close your relics are to the best possible build for your team.
+    l4: Benchmarks are generated to match your character's combat speed. Builds at different speed targets are scored against fundamentally different benchmarks, so their scores should not be compared. This is why when comparing two builds at different speeds, you might see the slower one have higher Combo DMG, but the faster one have a higher DPS Score, because the benchmark redistributes substats to match each speed target. The fixed rotation does not model changes in action advance, energy regen, or other differences between team compositions. Each character is measured with their own unique rotation and rotation length.
+    l5: If you wish to compare builds with different amounts of speed substats, use the sidebar to configure the SPD benchmark such that both builds are evaluated at the same speed value.
+  ButtonText: Understood, hide warning
+  Confirmation:
+    Title: Acknowledge and hide warning
+    Body: I will not compare Combo DMG or DPS Score against different teams, light cones, eidolons, or versions.
 Disclaimer: 'Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!'
 DisclaimerDescription: 'Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team. Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc. This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.'

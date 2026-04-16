@@ -62,8 +62,9 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   //   generateOption('3.8', 2, WarpIncomeType.BP_EXPRESS, 36),
   //   generateOption('3.8', 3, WarpIncomeType.BP_EXPRESS, 31),
   // ],
-  ...generateOptions('4.0', 115, 96, 138, 107, 146, 115),
+  // ...generateOptions('4.0', 115, 96, 138, 107, 146, 115),
   ...generateOptions('4.1', 98, 81, 114, 89, 122, 97),
+  ...generateOptions('4.2', 117, 91, 140, 103, 149, 112),
 ]
 
 export enum WarpStrategy {

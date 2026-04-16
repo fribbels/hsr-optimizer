@@ -19,6 +19,7 @@ import {
 import {
   DesignContext,
   ellipsisStyle,
+  FilterChangeContext,
   FilterContext,
   getRowBaseStyle,
   getSourceLabelStyle,
@@ -172,12 +173,17 @@ function isPillActive(pillKey: AbilityColorKey, filter: DamageTag | null): boole
 
 function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
   const filter = useContext(FilterContext)
+  const onFilterChange = useContext(FilterChangeContext)
   const pills = getContributionTagPills(props.allContributions)
   if (pills.length === 0) return null
 
   return (
     <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
-      {pills.map((p) => renderPill(p.key, p.color, p.label, !isPillActive(p.key, filter)))}
+      {pills.map((p) => {
+        const tag = p.key === 'ALL' ? null : DAMAGE_TAG_ENTRIES.find((e) => e.key === p.key)?.tag ?? null
+        const active = p.key !== 'ALL' && tag != null && filter != null && (tag & filter) !== 0
+        return renderPill(p.key, p.color, p.label, !isPillActive(p.key, filter), () => onFilterChange?.(tag), active)
+      })}
     </div>
   )
 }

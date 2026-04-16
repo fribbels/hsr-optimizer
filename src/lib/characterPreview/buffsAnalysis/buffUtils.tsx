@@ -60,20 +60,23 @@ export function formatBuffValue(value: number, percent: boolean): string {
   return precisionRound(value, 0).toLocaleString(currentLocale())
 }
 
-export function renderPill(key: string, color: string, label: string, dimmed?: boolean): ReactElement {
+export function renderPill(key: string, color: string, label: string, dimmed?: boolean, onClick?: () => void, active?: boolean): ReactElement {
   const displayColor = dimmed ? TEXT_DIM : color
   return (
     <span
       key={key}
+      onClick={onClick}
       style={{
         padding: PILL_SIZE.padding,
         borderRadius: 2,
         fontSize: PILL_SIZE.fontSize,
         fontWeight: 600,
         lineHeight: PILL_SIZE.lineHeight,
-        color: displayColor,
+        color: active ? '#141414' : displayColor,
+        backgroundColor: active ? color : undefined,
         whiteSpace: 'nowrap',
         border: `1px solid ${displayColor}`,
+        cursor: onClick ? 'pointer' : undefined,
       }}
     >
       {label}

@@ -12,6 +12,7 @@ import {
 import {
   DesignContext,
   ellipsisStyle,
+  FilterChangeContext,
   FilterContext,
   getSourceLabelStyle,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
@@ -115,19 +116,23 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
 }
 
 function DamageTagPills({ damageTags }: { damageTags?: number }) {
+  const onFilterChange = useContext(FilterChangeContext)
+  const selectedFilter = useContext(FilterContext)
+
   const pills = useMemo(() => {
     if (damageTags == null) {
-      return [renderPill('ALL', ABILITY_COLORS.ALL, 'ALL')]
+      return [renderPill('ALL', ABILITY_COLORS.ALL, 'ALL', undefined, () => onFilterChange?.(null))]
     }
 
     const result: ReactElement[] = []
     for (const entry of DAMAGE_TAG_ENTRIES) {
       if ((damageTags & entry.tag) !== 0) {
-        result.push(renderPill(String(entry.tag), entry.color, entry.label))
+        const active = selectedFilter != null && (entry.tag & selectedFilter) !== 0
+        result.push(renderPill(String(entry.tag), entry.color, entry.label, undefined, () => onFilterChange?.(entry.tag), active))
       }
     }
     return result
-  }, [damageTags])
+  }, [damageTags, onFilterChange, selectedFilter])
 
   if (pills.length === 0) return null
   return <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap', flexShrink: 0 }}>{pills}</div>

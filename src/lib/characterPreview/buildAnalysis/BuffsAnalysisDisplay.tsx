@@ -3,6 +3,7 @@ import { BuffGroup } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
 import {
   DEFAULT_OPTIONS,
   DesignContext,
+  FilterChangeContext,
   FilterContext,
   GROUP_ORDER,
   GROUP_SPACING,
@@ -139,6 +140,7 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   return (
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
+        <FilterChangeContext.Provider value={setSelectedFilter}>
         {twoColumn
           ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING }}>
@@ -185,6 +187,7 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
               )}
             </div>
           )}
+        </FilterChangeContext.Provider>
       </FilterContext.Provider>
     </DesignContext.Provider>
   )

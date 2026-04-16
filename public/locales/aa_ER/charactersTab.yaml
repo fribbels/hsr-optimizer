@@ -92,7 +92,6 @@ CharacterPreview:
     TitleBenchmark: 'crwdns44466:0{{spd}}crwdne44466:0'
     Score: 'crwdns39684:0{{score}}crwdnd39684:0{{grade}}crwdne39684:0'
   AlgorithmSlider:
-    Title: 'crwdns39686:0crwdne39686:0'
     Labels:
       CombatScore: crwdns39688:0crwdne39688:0
       CombatScoreTBD: crwdns43670:0crwdne43670:0

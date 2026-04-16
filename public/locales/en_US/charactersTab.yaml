@@ -92,7 +92,6 @@ CharacterPreview:
     TitleBenchmark: '{{spd}} SPD Benchmark'
     Score: 'DPS Score {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: 'Scoring algorithm:'
     Labels:
       CombatScore: Combat Score
       CombatScoreTBD: Combat (TBD)

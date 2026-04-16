@@ -91,7 +91,6 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
         borderBottom: borderBottomStyle,
         background: rowBackground,
         opacity: dimmed ? 0.15 : 1,
-        transition: 'opacity 0.15s',
       }}
     >
       <span style={{ minWidth: 60, textWrap: 'nowrap', fontSize: options.fontSize }}>{value}</span>

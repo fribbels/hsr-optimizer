@@ -210,7 +210,6 @@ export function StatSummaryTable(props: {
             ...rowBase,
             borderBottom: i < props.sums.length - 1 ? `1px solid ${options.borderColor}` : undefined,
             opacity: sum.total === 0 ? 0.15 : 1,
-            transition: 'opacity 0.15s',
           }}
         >
           <span style={{ minWidth: 60, fontSize: options.fontSize, textWrap: 'nowrap' }}>

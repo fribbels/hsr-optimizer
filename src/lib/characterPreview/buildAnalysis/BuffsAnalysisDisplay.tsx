@@ -78,22 +78,22 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
     panelWidth: size ?? DEFAULT_OPTIONS.panelWidth,
   }), [size])
 
-  if (!perActionBuffGroups || Object.keys(perActionBuffGroups.byAction).length === 0) {
-    return null
-  }
+  const byAction = perActionBuffGroups?.byAction
+  const buffGroups = useMemo(() => {
+    if (!byAction || Object.keys(byAction).length === 0) return null
+    if (selectedAction != null && perActionBuffGroups?.rotationSteps[selectedAction]) {
+      return perActionBuffGroups.rotationSteps[selectedAction].groups
+    }
+    return byAction[perActionBuffGroups!.primaryAction] ?? byAction[Object.keys(byAction)[0]]
+  }, [byAction, selectedAction, perActionBuffGroups])
 
-  const byAction = perActionBuffGroups.byAction
-  const buffGroups = selectedAction != null && perActionBuffGroups.rotationSteps[selectedAction]
-    ? perActionBuffGroups.rotationSteps[selectedAction].groups
-    : byAction[perActionBuffGroups.primaryAction] ?? byAction[Object.keys(byAction)[0]]
+  const allBuffs = useMemo(() => buffGroups ? collectAllBuffs(buffGroups) : [], [buffGroups])
+  const relevantTags = useMemo(() => computeRelevantTags(allBuffs), [allBuffs])
+  const statSums = useMemo(() => computeStatSums(allBuffs, selectedFilter), [allBuffs, selectedFilter])
 
   if (!buffGroups) {
     return null
   }
-
-  const allBuffs = useMemo(() => collectAllBuffs(buffGroups), [buffGroups])
-  const relevantTags = useMemo(() => computeRelevantTags(allBuffs), [allBuffs])
-  const statSums = useMemo(() => computeStatSums(allBuffs, selectedFilter), [allBuffs, selectedFilter])
 
   const primaryGroup = buffGroups[BUFF_TYPE.PRIMARY]
   const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined
@@ -131,7 +131,7 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
 
   const actionSelector = (
     <ActionSelector
-      rotationSteps={perActionBuffGroups.rotationSteps}
+      rotationSteps={perActionBuffGroups!.rotationSteps}
       selectedAction={selectedAction}
       onActionChange={setSelectedAction}
     />

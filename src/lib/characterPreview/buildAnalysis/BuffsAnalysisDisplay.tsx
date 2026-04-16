@@ -156,12 +156,33 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
           )
           : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
+              <DeferCreate>
+                <StatSummaryTable
+                  sums={statSums}
+                  avatarSrc={summaryAvatarSrc}
+                />
+              </DeferCreate>
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               {actionSelector}
-              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-              {summaryColumn}
-              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               {buffsColumn}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+              {context && (
+                <DeferCreate>
+                  <HitDefinitionTable
+                    avatarSrc={summaryAvatarSrc}
+                    context={context}
+                    selectedAction={selectedAction}
+                  />
+                </DeferCreate>
+              )}
+              {context && (
+                <DeferCreate>
+                  <EnemyPanel
+                    avatarSrc={summaryAvatarSrc}
+                    context={context}
+                  />
+                </DeferCreate>
+              )}
             </div>
           )}
       </FilterContext.Provider>

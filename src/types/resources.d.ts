@@ -4392,6 +4392,14 @@ interface Resources {
           }
         }
       },
+      "TomorrowTogether": {
+        "Content": {
+          "elationBuff": {
+            "content": "After the wearer uses their Ultimate, increases the Elation of all allies by {{elationBuff}}%, lasting for 1 turns.",
+            "text": "Elation buff"
+          }
+        }
+      },
       "UnderTheBlueSky": {
         "Content": {
           "defeatedEnemyCrBuff": {

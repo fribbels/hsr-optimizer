@@ -724,6 +724,19 @@ ExpandedDataPanel:
       HEAL_VALUE_P: Δ% Heal
       SHIELD_VALUE: Δ Shield
       SHIELD_VALUE_P: Δ% Shield
+  DamageTags:
+    ALL: ALL
+    BASIC: BASIC
+    SKILL: SKILL
+    ULT: ULT
+    FUA: FUA
+    DOT: DOT
+    BREAK: BREAK
+    SUPER_BREAK: SUPER_BREAK
+    MEMO: MEMO
+    ADDITIONAL: ADDITIONAL
+    ELATION: ELATION
+    UNIQUE: UNIQUE
   DamageSplits:
     Title: Combo Breakdown
     Legend:

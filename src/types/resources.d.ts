@@ -6519,6 +6519,20 @@ interface Resources {
           "ULT_DMG": "Ult"
         }
       },
+      "DamageTags": {
+        "ADDITIONAL": "ADDITIONAL",
+        "ALL": "ALL",
+        "BASIC": "BASIC",
+        "BREAK": "BREAK",
+        "DOT": "DOT",
+        "ELATION": "ELATION",
+        "FUA": "FUA",
+        "MEMO": "MEMO",
+        "SKILL": "SKILL",
+        "SUPER_BREAK": "SUPER_BREAK",
+        "ULT": "ULT",
+        "UNIQUE": "UNIQUE"
+      },
       "SubstatUpgrades": {
         "ColumnHeaders": {
           "COMBO_DMG": "Δ Combo DMG",

@@ -5,6 +5,7 @@ import {
 import { PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
 import type { Buff } from 'lib/optimization/basicStatsArray'
 import type { DamageTag } from 'lib/optimization/engine/config/tag'
+import { useTranslation } from 'react-i18next'
 import classes from './FilterBar.module.css'
 
 export function computeRelevantTags(allBuffs: Buff[]): Set<DamageTag> {
@@ -35,13 +36,14 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
   onFilterChange: (f: DamageTag | null) => void,
   relevantTags: Set<DamageTag>,
 }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
   const visibleEntries = DAMAGE_TAG_ENTRIES.filter((e) => relevantTags.has(e.tag))
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }} className={classes.filterBarOuter}>
       <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
         <FilterButton
-          label='ALL'
+          label={t('ALL')}
           color={ABILITY_COLORS.ALL}
           isActive={selectedFilter === null}
           onClick={() => onFilterChange(null)}
@@ -50,7 +52,7 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
           (entry) => (
             <FilterButton
               key={entry.tag}
-              label={entry.label}
+              label={t(entry.key)}
               color={entry.color}
               isActive={selectedFilter === entry.tag}
               onClick={() => onFilterChange(entry.tag)}

@@ -158,9 +158,9 @@ function getContributionTagPills(contributions: StatSumContribution[]): TagColor
   }
 
   const pills: TagColorEntry[] = []
-  if (hasAll) pills.push({ color: ABILITY_COLORS.ALL, key: 'ALL', label: 'ALL' })
+  if (hasAll) pills.push({ color: ABILITY_COLORS.ALL, key: 'ALL' })
   for (const entry of DAMAGE_TAG_ENTRIES) {
-    if (specificTags.has(entry.tag)) pills.push({ color: entry.color, key: entry.key, label: entry.label })
+    if (specificTags.has(entry.tag)) pills.push({ color: entry.color, key: entry.key })
   }
   return pills
 }
@@ -173,6 +173,7 @@ function isPillActive(pillKey: AbilityColorKey, filter: DamageTag | null): boole
 }
 
 function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
   const filter = useContext(FilterContext)
   const onFilterChange = useContext(FilterChangeContext)
   const pills = getContributionTagPills(props.allContributions)
@@ -183,7 +184,7 @@ function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
       {pills.map((p) => {
         const tag = p.key === 'ALL' ? null : DAMAGE_TAG_BY_KEY.get(p.key)?.tag ?? null
         const active = p.key !== 'ALL' && tag != null && filter != null && (tag & filter) !== 0
-        return renderPill(p.key, p.color, p.label, { dimmed: !isPillActive(p.key, filter), onClick: () => onFilterChange?.(tag), active })
+        return renderPill(p.key, p.color, t(p.key), { dimmed: !isPillActive(p.key, filter), onClick: () => onFilterChange?.(tag), active })
       })}
     </div>
   )

@@ -1,5 +1,8 @@
 import i18next, { type TFunction } from 'i18next'
-import { DAMAGE_TAG_ENTRIES } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import {
+  type AbilityColorKey,
+  DAMAGE_TAG_ENTRIES,
+} from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { CardHeader } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
 import {
   getSelectedActions,
@@ -136,21 +139,23 @@ function HitSubHeader({ label }: { label: string }) {
 
 function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
   const options = useContext(DesignContext)
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageFunctions' })
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel' })
   const onFilterChange = useContext(FilterChangeContext)
   const selectedFilter = useContext(FilterContext)
   const rowBase = getRowBaseStyle(options)
   const sourceLabelStyle = getSourceLabelStyle(options)
 
   const rows = buildRows(hit)
-  const fnLabel = FUNCTION_LABELS[hit.damageFunctionType] ? t(FUNCTION_LABELS[hit.damageFunctionType]!) : undefined
+  const fnLabel = FUNCTION_LABELS[hit.damageFunctionType]
+    ? t(`BuffsAnalysisDisplay.DamageFunctions.${FUNCTION_LABELS[hit.damageFunctionType]!}`)
+    : undefined
 
   const tagPills = hit.outputTag === OutputTag.DAMAGE
     ? DAMAGE_TAG_ENTRIES
       .filter((e) => (hit.damageType & e.tag) !== 0)
       .map((e) => {
         const active = selectedFilter != null && (e.tag & selectedFilter) !== 0
-        return renderPill(String(e.tag), e.color, e.label, { onClick: () => onFilterChange?.(e.tag), active })
+        return renderPill(String(e.tag), e.color, t(`DamageTags.${e.key}`), { onClick: () => onFilterChange?.(e.tag), active })
       })
     : []
 
@@ -201,7 +206,7 @@ function ActionHitGroup({ action, isLastAction, t }: {
   const hits = action.hits ?? []
   if (hits.length === 0) return null
 
-  const label = t(`ComboFilter.ComboOptions.${AbilityMeta[action.actionType].label}`)
+  const label = t(`ComboFilter.ComboOptions.${AbilityMeta[action.actionType].label}`) + ' FOO'
 
   return (
     <>

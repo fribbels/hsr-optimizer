@@ -112,13 +112,14 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
 }
 
 function DamageTagPills({ damageTags }: { damageTags?: number }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
   const onFilterChange = useContext(FilterChangeContext)
   const selectedFilter = useContext(FilterContext)
 
   if (damageTags == null) {
     return (
       <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap', flexShrink: 0 }}>
-        {renderPill('ALL', ABILITY_COLORS.ALL, 'ALL', { onClick: () => onFilterChange?.(null) })}
+        {renderPill('ALL', ABILITY_COLORS.ALL, t('ALL'), { onClick: () => onFilterChange?.(null) })}
       </div>
     )
   }
@@ -127,7 +128,7 @@ function DamageTagPills({ damageTags }: { damageTags?: number }) {
   for (const entry of DAMAGE_TAG_ENTRIES) {
     if ((damageTags & entry.tag) !== 0) {
       const active = selectedFilter != null && (entry.tag & selectedFilter) !== 0
-      pills.push(renderPill(String(entry.tag), entry.color, entry.label, { onClick: () => onFilterChange?.(entry.tag), active }))
+      pills.push(renderPill(String(entry.tag), entry.color, t(entry.key), { onClick: () => onFilterChange?.(entry.tag), active }))
     }
   }
 

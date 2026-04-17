@@ -4448,6 +4448,14 @@ interface Resources {
           }
         }
       },
+      "WelcomeToTheCosmicCity": {
+        "Content": {
+          "elationDefPen": {
+            "content": "Elation DMG dealt ignores {{defShred}}% of the target's DEF.",
+            "text": "Elation DEF PEN"
+          }
+        }
+      },
       "WhenSheDecidedToSee": {
         "Content": {
           "greatFortune": {

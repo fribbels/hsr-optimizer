@@ -401,6 +401,11 @@ Lightcones:
         text: Stacked Basic DMG boost
         content: >-
           After the wearer and the wearer's memosprite attacks, the wearer gains 1 stack of "Brocade."::BR:: Each stack of "Brocade" increases the wearer and their memosprite's CRIT DMG by {{CdBuff}}%, stacking up to 6 times.::BR:: When reaching maximum stacks, each "Brocade" stack will additionally increase Basic ATK DMG dealt by {{DmgBuff}}%.
+  WelcomeToTheCosmicCity:
+    Content:
+      elationDefPen:
+        text: Elation DEF PEN
+        content: Elation DMG dealt ignores {{defShred}}% of the target's DEF.
   WhenSheDecidedToSee:
     Content:
       greatFortune:

@@ -1183,11 +1183,11 @@ interface Resources {
             "text": "CD to Elation conversion"
           },
           "certifiedBanger": {
-            "content": "When Evanescia possesses \"Certified Banger\": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account \"Certified Banger\" at least equal to Max Energy. ::BR:: \"Master Fox's\" Follow-Up ATK deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.",
+            "content": "When Evanescia possesses \"Certified Banger\": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account \"Certified Banger\" at least equal to Max Energy. ::BR:: \"Master Fox's\" attack deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.",
             "text": "Certified Banger"
           },
           "certifiedBangerStacks": {
-            "content": "When Evanescia possesses \"Certified Banger\": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account \"Certified Banger\" at least equal to Max Energy. ::BR:: \"Master Fox's\" Follow-Up ATK deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.",
+            "content": "When Evanescia possesses \"Certified Banger\": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account \"Certified Banger\" at least equal to Max Energy. ::BR:: \"Master Fox's\" attack deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.",
             "text": "Certified Banger stacks"
           },
           "e1ResPen": {
@@ -2955,6 +2955,46 @@ interface Resources {
           "skillExtraHits": {
             "content": "Deals Imaginary DMG equal to {{skillScaling}}% of Welt's ATK to a single enemy and further deals DMG 2 extra times, with each time dealing Imaginary DMG equal to {{skillScaling}}% of Welt's ATK to a random enemy.",
             "text": "Skill extra hits on target"
+          }
+        }
+      },
+      "WeltB1": {
+        "Content": {
+          "e1WeightlessAdditionalDmg": {
+            "content": "After using a Skill or Ultimate to hit a target in the \"Weightless\" state, deals 1 additional instance of Imaginary Additional DMG equal to 40% of the Ultimate's DMG multiplier. This effect can only be triggered once per target per attack.",
+            "text": "E1 Weightless Additional DMG"
+          },
+          "e4WeightlessResPen": {
+            "content": "Enemy targets in the \"Weightless\" state have their All-Type RES reduced by 30%.",
+            "text": "E4 RES PEN"
+          },
+          "e6SlowedCrCdBoost": {
+            "content": "When using a Skill or Ultimate to hit an enemy target in the Slow state, increases CRIT Rate by 30% and CRIT DMG by 60%.",
+            "text": "E6 Slowed CR/CD boost"
+          },
+          "ehrToAtkBoost": {
+            "content": "When Welt's Effect Hit Rate is greater than 40%, for every 10% that exceeds this value, increases ATK by 20%, up to a maximum increase of 80%.",
+            "text": "EHR to ATK boost"
+          },
+          "enemySlowed": {
+            "content": "When Welt attacks an enemy that is already Slowed, he additionally deals Imaginary Additional DMG equal to {{talentAdditionalScaling}}% of his ATK to the enemy.",
+            "text": "Enemy slowed"
+          },
+          "enemyWeightless": {
+            "content": "Enemy targets in the \"Weightless\" state have their DEF reduced by 40% and their SPD reduced by 5%. ::BR:: E1: After using a Skill or Ultimate to hit a target in the \"Weightless\" state, deals 1 additional instance of Imaginary Additional DMG equal to 40% of the Ultimate's DMG multiplier. This effect can only be triggered once per target per attack. ::BR:: E4: Enemy targets in the \"Weightless\" state have their All-Type RES reduced by 30%.",
+            "text": "Enemy Weightless"
+          },
+          "retributionDmgStacks": {
+            "content": "When ally targets attack targets under the \"Weightless\" state, their DMG dealt increases by 10%. This effect stacks up to 10 times and lasts for 2 turns.",
+            "text": "Retribution DMG stacks"
+          },
+          "skillExtraHits": {
+            "content": "Deals Imaginary DMG equal to {{skillScaling}}% of Welt's ATK to a single enemy and further deals DMG 2 extra times, with each time dealing Imaginary DMG equal to {{skillScaling}}% of Welt's ATK to a random enemy.",
+            "text": "Skill extra hits on target"
+          },
+          "traceAdditionalDmg": {
+            "content": "When Welt uses Basic ATK or Skill, additionally deals 1 extra instance of Additional DMG to the enemy target. The Additional DMG dealt when using Basic ATK is equal to 80% of Basic ATK DMG multiplier. The Additional DMG dealt when using Skill is equal to 120% of Skill DMG multiplier.",
+            "text": "Trace Additional DMG"
           }
         }
       },

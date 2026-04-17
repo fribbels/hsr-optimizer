@@ -1568,6 +1568,22 @@ interface Resources {
           }
         }
       },
+      "HuohuoB1": {
+        "Content": {
+          "e6DmgBuff": {
+            "content": "When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.",
+            "text": "E6 DMG buff"
+          },
+          "skillBuff": {
+            "content": "When Huohuo possesses \"Divine Provision,\" her Outgoing Healing increases by 20%, all allies' SPD increases by 12%.",
+            "text": "E1 buffs"
+          },
+          "ultBuff": {
+            "content": "Increases all allies' ATK by {{ultBuffValue}}% for 2 turns after using Ultimate. ::BR:: A4: When using Ultimate, if an ally target's Max Energy is 160 or higher, additionally increases their ATK by 24%",
+            "text": "Ult ATK buff"
+          }
+        }
+      },
       "Hyacine": {
         "Content": {
           "clearSkies": {
@@ -2355,7 +2371,7 @@ interface Resources {
       "SeeleB1": {
         "Content": {
           "buffedState": {
-            "content": "Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 1 turn.::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 20%.",
+            "content": "Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 3 turns.::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 25%.",
             "text": "Buffed state"
           },
           "dmgBoostStacks": {
@@ -2363,11 +2379,11 @@ interface Resources {
             "text": "DMG boost stacks"
           },
           "e1EnemyHp80CrBoost": {
-            "content": "When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%.",
+            "content": "When dealing DMG to an enemy whose HP percentage is 80% or lower, increases CRIT Rate by 15%, and DMG ignores 20% of target's DEF.",
             "text": "E1 enemy HP ≤ 80% CR boost"
           },
           "e6UltTargetDebuff": {
-            "content": "After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn. Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked.",
+            "content": "After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 3 turns. Enemy targets in \"Butterfly Flurry\" will additionally take 1 instance of True DMG equal to 30% of Seele's Ultimate DMG after receiving an attack. When the target under the \"Butterfly Flurry\" state is defeated by any unit, Seele's Talent will also be triggered.",
             "text": "E6 Butterfly Flurry"
           },
           "speedBoostStacks": {

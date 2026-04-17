@@ -1,14 +1,13 @@
-import i18next from 'i18next'
 import type {
   Conditionals,
-  ContentDefinition} from 'lib/conditionals/conditionalUtils';
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import {
   AbilityEidolon,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
-  CURRENT_DATA_VERSION,
   Parts,
   Stats,
 } from 'lib/constants/constants'
@@ -43,9 +42,7 @@ export const HuohuoB1Abilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  // TODO
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
-  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Huohuo')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.HuohuoB1')
   const { basic, ult, skill, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,

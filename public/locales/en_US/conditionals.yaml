@@ -1682,6 +1682,20 @@ Characters:
       e6DmgBuff:
         text: E6 DMG buff
         content: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.
+  HuohuoB1:
+    Content:
+      ultBuff:
+        text: Ult ATK buff
+        content: >-
+          Increases all allies' ATK by {{ultBuffValue}}% for 2 turns after using Ultimate.
+          ::BR::
+          A4: When using Ultimate, if an ally target's Max Energy is 160 or higher, additionally increases their ATK by 24%
+      skillBuff:
+        text: E1 buffs
+        content: When Huohuo possesses "Divine Provision," her Outgoing Healing increases by 20%, all allies' SPD increases by 12%.
+      e6DmgBuff:
+        text: E6 DMG buff
+        content: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.
   Hyacine:
     Content:
       healTargetHp50:

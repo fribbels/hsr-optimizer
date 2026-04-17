@@ -6408,7 +6408,7 @@ interface Resources {
               "DEF PEN": "DEF PEN",
               "DEF scaling": "DEF scaling",
               "DMG": "DMG",
-              "DMG boost": "DMG boost",
+              "DMG Boost": "DMG Boost",
               "Final DMG multiplier": "Final DMG multiplier",
               "Fixed Toughness DMG": "Fixed Toughness DMG",
               "HP scaling": "HP scaling",
@@ -6433,6 +6433,7 @@ interface Resources {
             "SuperBreak": "Super Break DMG type",
             "Ult": "Ult DMG type"
           },
+          "ElementalDmgBoost": "$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)",
           "Misc": {
             "Additional DMG boost": "Additional DMG boost",
             "Base ATK": "Base ATK",
@@ -6447,6 +6448,7 @@ interface Resources {
             "Dot stacks": "Dot stacks",
             "Effect RES PEN": "Effect RES PEN",
             "Effective HP": "Effective HP",
+            "Elation": "Elation",
             "Elemental DMG": "Elemental DMG",
             "Enemy weakness broken": "Enemy weakness broken",
             "Heal ability type": "Heal ability type",
@@ -6477,7 +6479,6 @@ interface Resources {
             "Ult Additional DMG CR override": "Ult Additional DMG CR override",
             "Ult Outgoing Healing Boost": "Ult Outgoing Healing Boost"
           },
-          "ResPen": "$t(common:Elements.{{element}}) RES PEN",
           "Unconvertible": "Unconvertible  $t(common:Stats.{{stat}})"
         },
         "SummaryLabel": "BUFF TOTALS",

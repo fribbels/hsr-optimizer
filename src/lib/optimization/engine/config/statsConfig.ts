@@ -14,7 +14,7 @@ export interface StatConfigEntry {
   flat?: boolean
   bool?: boolean
   default?: number
-  label: SimpleLabel | string
+  label: SimpleLabel
 }
 
 const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) => (value: K): SimpleLabel =>
@@ -29,7 +29,7 @@ const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStat
 const optimizerTabMisc = createI18nKey<keyof Prefixed['Misc']>('optimizerTab', `${keyPrefix}.Misc`)
 const optimizerTabCompositeSuffix = createI18nKey<keyof Prefixed['CompositeLabels']['Suffix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Suffix`)
 const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats']>('optimizerTab', `${keyPrefix}.Unconvertible`, 'stat')
-const optimizerTabResPen = createI18nKey<keyof Resources['common']['Elements']>('optimizerTab', `${keyPrefix}.ResPen`, 'element')
+const optimizerTabDmgBoost = createI18nKey<keyof Resources['gameData']['Elements']>('optimizerTab', `${keyPrefix}.ElementalDmgBoost`, 'element')
 
 export const newStatsConfig = {
   // ================ Hit Stats ================
@@ -50,7 +50,7 @@ export const newStatsConfig = {
   ERR: { hit: true, label: commonReadableStat('Energy Regeneration Rate') },
   OHB: { hit: true, label: commonReadableStat('Outgoing Healing Boost') },
 
-  DMG_BOOST: { hit: true, label: 'DMG Boost' },
+  DMG_BOOST: { hit: true, label: optimizerTabCompositeSuffix('DMG Boost') },
 
   VULNERABILITY: { hit: true, label: optimizerTabCompositeSuffix('Vulnerability') },
   RES_PEN: { hit: true, label: optimizerTabCompositeSuffix('RES PEN') },
@@ -61,16 +61,16 @@ export const newStatsConfig = {
 
   // ================ Action Stats ================
 
-  PHYSICAL_DMG_BOOST: { label: 'Physical DMG Boost' },
-  FIRE_DMG_BOOST: { label: 'Fire DMG Boost' },
-  ICE_DMG_BOOST: { label: 'Ice DMG Boost' },
-  LIGHTNING_DMG_BOOST: { label: 'Lightning DMG Boost' },
-  WIND_DMG_BOOST: { label: 'Wind DMG Boost' },
-  QUANTUM_DMG_BOOST: { label: 'Quantum DMG Boost' },
-  IMAGINARY_DMG_BOOST: { label: 'Imaginary DMG Boost' },
+  PHYSICAL_DMG_BOOST: { label: optimizerTabDmgBoost('Physical') },
+  FIRE_DMG_BOOST: { label: optimizerTabDmgBoost('Fire') },
+  ICE_DMG_BOOST: { label: optimizerTabDmgBoost('Ice') },
+  LIGHTNING_DMG_BOOST: { label: optimizerTabDmgBoost('Thunder') },
+  WIND_DMG_BOOST: { label: optimizerTabDmgBoost('Wind') },
+  QUANTUM_DMG_BOOST: { label: optimizerTabDmgBoost('Quantum') },
+  IMAGINARY_DMG_BOOST: { label: optimizerTabDmgBoost('Imaginary') },
 
-  ELATION: { label: 'Elation' },
-  MERRYMAKING: { label: 'Merrymaking' },
+  ELATION: { label: optimizerTabMisc('Elation') },
+  MERRYMAKING: { label: optimizerTabMisc('Merrymaking') },
 
   // Secondary conversions
   UNCONVERTIBLE_HP_BUFF: { flat: true, label: optimizerTabUnconvertible('HP') },

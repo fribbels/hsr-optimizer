@@ -2380,6 +2380,50 @@ interface Resources {
           }
         }
       },
+      "SilverWolfLv999": {
+        "Content": {
+          "certifiedBanger": {
+            "content": "\"While Silver Wolf LV.999 possesses \"Certified Banger,\", using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier. each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's \"Top Loot Box\" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects: \"Big Flipping Sword\": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time. \"Kaboom Eggsplosion\": Recovers 2 Skill Points. \"Funky Munch Bean\": Gains 3 Punchlines.\"",
+            "text": "Certified Banger"
+          },
+          "certifiedBangerStacks": {
+            "content": "\"While Silver Wolf LV.999 possesses \"Certified Banger,\", using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier. each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's \"Top Loot Box\" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects: \"Big Flipping Sword\": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time. \"Kaboom Eggsplosion\": Recovers 2 Skill Points. \"Funky Munch Bean\": Gains 3 Punchlines.\"",
+            "text": "Certified Banger stacks"
+          },
+          "e1Vulnerability": {
+            "content": "Increases the DMG taken by enemy targets in the Zone by 20%.",
+            "text": "E1 Vulnerability"
+          },
+          "e4PunchlineBoost": {
+            "content": "Elation DMG dealt by \"Honkai-DMG Demo\" additionally takes into account Punchline points times 5.",
+            "text": "E4 Punchline boost"
+          },
+          "e6Merrymake": {
+            "content": "Elation DMG dealt during Enhanced Basic ATK merrymakes by 50%.",
+            "text": "E6 Merrymake"
+          },
+          "e6ResPen": {
+            "content": "Elation DMG dealt during Enhanced Basic ATK merrymakes by 50%. When enemy targets enter combat, they are inflicted with \"Absolute Weakness\": Has All-Type Weakness, and All-Type Base RES is reduced to 0 (If Base RES is already at 0, then the corresponding Type RES decreases by 20%).",
+            "text": "E6 RES PEN"
+          },
+          "godmodePlayer": {
+            "content": "While in the \"Godmode Player\" state, Silver Wolf LV.999 is immune to Crowd Control debuffs, cannot use her Ultimate, and gains Enhanced Basic ATK and Enhanced Elation Skill. Deploys a Zone while in the \"Godmode Player\" state. While Silver Wolf LV.999 possesses \"Certified Banger,\" each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger 1 time Silver Wolf LV.999's \"Top Loot Box\": Deal Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies. ::BR:: E1: Increases the DMG taken by enemy targets in the Zone by 20%.",
+            "text": "Godmode Player state"
+          },
+          "hiddenMmr": {
+            "content": "When gaining Punchline, Silver Wolf LV.999 gains an equal amount of \"Hidden MMR.\" Each point of \"Hidden MMR\" increases CRIT Rate by {{hiddenMmrCrStep}}%. After CRIT Rate increases to 100%, each remaining point of \"Hidden MMR\" switches to increasing CRIT DMG by {{hiddenMmrCdStep}}%.",
+            "text": "Hidden MMR"
+          },
+          "punchlineStacks": {
+            "content": "Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.",
+            "text": "Punchline stacks"
+          },
+          "spdToElation": {
+            "content": "When SPD is 160 or higher, increases this unit's Elation by 50%. For every 1 SPD exceeded, increases this unit's Elation by 2%. Up to a max of 100 excess SPD can be taken into account for this effect.",
+            "text": "SPD to Elation conversion"
+          }
+        }
+      },
       "Sparkle": {
         "Content": {
           "cipherBuff": {

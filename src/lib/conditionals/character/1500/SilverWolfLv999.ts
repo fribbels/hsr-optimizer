@@ -57,7 +57,11 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
-import { ceilSafe } from 'lib/utils/mathUtils'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import {
+  ceilSafe,
+  precisionRound,
+} from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -81,6 +85,7 @@ export const SilverWolfLv999Abilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolfLv999.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
   const {
@@ -136,71 +141,80 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     godmodePlayer: {
       id: 'godmodePlayer',
       formItem: 'switch',
-      text: 'Godmode Player state',
-      content: betaContent,
+      text: t('godmodePlayer.text'),
+      content: t('godmodePlayer.content', { lootboxScaling: precisionRound(100 * mysteryBoxElationScaling) }),
     },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: 'Punchline stacks',
-      content: betaContent,
+      text: t('punchlineStacks.text'),
+      content: t('punchlineStacks.content'),
       min: 0,
       max: 100,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: 'Certified Banger',
-      content: betaContent,
+      text: t('certifiedBanger.text'),
+      content: t('certifiedBanger.content', {
+        lootboxScaling: precisionRound(100 * mysteryBoxElationScaling),
+        talentCBScaling: precisionRound(100 * talentCBElationScaling),
+      }),
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: 'Certified Banger stacks',
-      content: betaContent,
+      text: t('certifiedBangerStacks.text'),
+      content: t('certifiedBangerStacks.content', {
+        lootboxScaling: precisionRound(100 * mysteryBoxElationScaling),
+        talentCBScaling: precisionRound(100 * talentCBElationScaling),
+      }),
       min: 0,
       max: 200,
     },
     hiddenMmr: {
       id: 'hiddenMmr',
       formItem: 'slider',
-      text: 'Hidden MMR',
-      content: betaContent,
+      text: t('hiddenMmr.text'),
+      content: t('hiddenMmr.content', {
+        hiddenMmrCrStep: precisionRound(100 * mmrCrPerPoint),
+        hiddenMmrCdStep: precisionRound(100 * mmrCdPerPoint),
+      }),
       min: 0,
       max: 300,
     },
     spdToElation: {
       id: 'spdToElation',
       formItem: 'switch',
-      text: 'SPD to Elation conversion',
-      content: betaContent,
+      text: t('spdToElation.text'),
+      content: t('spdToElation.content'),
     },
     e1Vulnerability: {
       id: 'e1Vulnerability',
       formItem: 'switch',
-      text: 'E1 Vulnerability',
-      content: betaContent,
+      text: t('e1Vulnerability.text'),
+      content: t('e1Vulnerability.content'),
       disabled: e < 1,
     },
     e4PunchlineBoost: {
       id: 'e4PunchlineBoost',
       formItem: 'switch',
-      text: 'E4 Punchline boost',
-      content: betaContent,
+      text: t('e4PunchlineBoost.text'),
+      content: t('e4PunchlineBoost.content'),
       disabled: e < 4,
     },
     e6Merrymake: {
       id: 'e6Merrymake',
       formItem: 'switch',
-      text: 'E6 Merrymake',
-      content: betaContent,
+      text: t('e6Merrymake.text'),
+      content: t('e6Merrymake.content'),
       disabled: e < 6,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: 'E6 RES PEN',
-      content: betaContent,
+      text: t('e6ResPen.text'),
+      content: t('e6ResPen.content'),
       disabled: e < 6,
     },
   }

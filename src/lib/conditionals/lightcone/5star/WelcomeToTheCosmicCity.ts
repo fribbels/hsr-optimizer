@@ -3,10 +3,12 @@ import type {
   Conditionals,
   ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
+import {
+  CURRENT_DATA_VERSION,
+} from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import type { LightConeConditionalsController } from 'types/conditionals'
 import type { SuperImpositionLevel } from 'types/lightCone'
@@ -18,48 +20,37 @@ import type {
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
-  const { SOURCE_LC } = Source.lightCone(TomorrowWithUsAll.id)
+  const { SOURCE_LC } = Source.lightCone(WelcomeToTheCosmicCity.id)
 
-  const sValuesElation = [0.08, 0.09, 0.10, 0.11, 0.12]
+  const sValuesDefPen = [0.18, 0.21, 0.24, 0.27, 0.30]
 
   const defaults = {
-    elationBuff: true,
-  }
-
-  const teammateDefaults = {
-    elationBuff: true,
+    elationDefPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    elationBuff: {
+    elationDefPen: {
       lc: true,
-      id: 'elationBuff',
+      id: 'elationDefPen',
       formItem: 'switch',
-      text: 'Elation buff',
+      text: 'Elation DEF PEN',
       content: betaContent,
     },
   }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    elationBuff: content.elationBuff,
-  }
-
   return {
     content: () => Object.values(content),
-    teammateContent: () => Object.values(teammateContent),
     defaults: () => defaults,
-    teammateDefaults: () => teammateDefaults,
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-    },
-    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
+      const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ELATION, (m.elationBuff) ? sValuesElation[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+      // Elation DMG ignores DEF
+      x.buff(StatKey.DEF_PEN, (r.elationDefPen) ? sValuesDefPen[s] : 0, x.damageType(DamageTag.ELATION).source(SOURCE_LC))
     },
   }
 }
 
-export const TomorrowWithUsAll: LightConeConfig = {
-  id: '22007',
+export const WelcomeToTheCosmicCity: LightConeConfig = {
+  id: '23057',
   conditionals,
 }

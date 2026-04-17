@@ -11,12 +11,12 @@ import {
   TrailblazerElationStelle,
 } from 'lib/conditionals/character/8000/TrailblazerElation'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
-import { EncounterAtFloweringsComing } from 'lib/conditionals/lightcone/5star/EncounterAtFloweringsComing'
 import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
 import { InTheNight } from 'lib/conditionals/lightcone/5star/InTheNight'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
-import { WelcomeToTheCityOfStars } from 'lib/conditionals/lightcone/5star/WelcomeToTheCityOfStars'
+import { UntilTheFlowersBloomAgain } from 'lib/conditionals/lightcone/5star/UntilTheFlowersBloomAgain'
+import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   AppPages,
@@ -65,8 +65,8 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
-    { characterId: char(SilverWolfLv999.id), lightConeId: lc(WelcomeToTheCityOfStars.id) },
-    { characterId: char(Evanescia.id), lightConeId: lc(EncounterAtFloweringsComing.id) },
+    { characterId: char(SilverWolfLv999.id), lightConeId: lc(WelcomeToTheCosmicCity.id) },
+    { characterId: char(Evanescia.id), lightConeId: lc(UntilTheFlowersBloomAgain.id) },
     { characterId: char(TrailblazerElationStelle.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
     { characterId: char(TrailblazerElationCaelus.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
     { characterId: char(Ashveil.id), lightConeId: lc(TheFinaleOfALie.id) },

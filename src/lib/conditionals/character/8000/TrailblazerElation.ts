@@ -16,7 +16,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
-import { WelcomeToTheCityOfStars } from 'lib/conditionals/lightcone/5star/WelcomeToTheCityOfStars'
+import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -367,7 +367,7 @@ const simulation = (): SimulationMetadata => ({
   teammates: [
     {
       characterId: SilverWolfLv999.id,
-      lightCone: WelcomeToTheCityOfStars.id,
+      lightCone: WelcomeToTheCosmicCity.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

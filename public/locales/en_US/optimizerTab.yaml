@@ -732,22 +732,29 @@ ExpandedDataPanel:
     FUA: FUA
     DOT: DOT
     BREAK: BREAK
-    SUPER_BREAK: SUPER_BREAK
+    SUPER_BREAK: 'S.BREAK'
     MEMO: MEMO
     ADDITIONAL: ADDITIONAL
     ELATION: ELATION
     UNIQUE: UNIQUE
   DamageSplits:
     Title: Combo Breakdown
+    PieTitle: Combo Distribution
+    Mode:
+      Default: Default
+      Rotation: Rotation
     Legend:
-      abilityDmg: Ability
-      breakDmg: Break
-      superBreakDmg: Super Break
-      additionalDmg: Additional
-      trueDmg: 'True'
-      jointDmg: Joint
-      dotDmg: Dot
-      memoDmg: Memo
+      Basic: Basic
+      Skill: Skill
+      Ult: Ult
+      Fua: Fua
+      DoT: DoT
+      Break: Break
+      Super Break: Super Break
+      Memo: Memo
+      Additional: Additional
+      Elation: Elation
+      'True': 'True'
     YAxisLabel:
       BASIC_DMG: Basic
       SKILL_DMG: Skill

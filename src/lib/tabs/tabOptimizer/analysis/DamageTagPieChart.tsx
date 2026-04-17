@@ -10,6 +10,7 @@ import {
   type CSSProperties,
   useMemo,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 import {
   Pie,
@@ -52,12 +53,13 @@ const PIE_SIZE = 260
 export function DamageTagPieChart({ analysis }: {
   analysis: OptimizerResultAnalysis,
 }) {
+  const { t } = useTranslation('optimizerTab')
   const { newX, context } = analysis
   const actions = context.rotationActions.length > 0 ? context.rotationActions : context.defaultActions
 
   const slices = useMemo(
-    () => extractDamageByTag(newX, actions),
-    [newX, actions],
+    () => extractDamageByTag(newX, actions, t),
+    [newX, actions, t],
   )
 
   if (slices.length === 0) return null
@@ -81,7 +83,7 @@ export function DamageTagPieChart({ analysis }: {
       }}
     >
       <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-default)', paddingBottom: 4 }}>
-        Combo Distribution
+        {t('ExpandedDataPanel.DamageSplits.PieTitle') /* Combo Distribution */}
       </span>
 
       <PieChart width={PIE_SIZE} height={PIE_SIZE}>

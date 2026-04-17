@@ -6489,15 +6489,23 @@ interface Resources {
       },
       "DamageSplits": {
         "Legend": {
-          "abilityDmg": "Ability",
-          "additionalDmg": "Additional",
-          "breakDmg": "Break",
-          "dotDmg": "Dot",
-          "jointDmg": "Joint",
-          "memoDmg": "Memo",
-          "superBreakDmg": "Super Break",
-          "trueDmg": "True"
+          "Additional": "Additional",
+          "Basic": "Basic",
+          "Break": "Break",
+          "DoT": "DoT",
+          "Elation": "Elation",
+          "Fua": "Fua",
+          "Memo": "Memo",
+          "Skill": "Skill",
+          "Super Break": "Super Break",
+          "True": "True",
+          "Ult": "Ult"
         },
+        "Mode": {
+          "Default": "Default",
+          "Rotation": "Rotation"
+        },
+        "PieTitle": "Combo Distribution",
         "Title": "Combo Breakdown",
         "TooltipText": {
           "abilityDmg": "Ability DMG",
@@ -6530,7 +6538,7 @@ interface Resources {
         "FUA": "FUA",
         "MEMO": "MEMO",
         "SKILL": "SKILL",
-        "SUPER_BREAK": "SUPER_BREAK",
+        "SUPER_BREAK": "S.BREAK",
         "ULT": "ULT",
         "UNIQUE": "UNIQUE"
       },

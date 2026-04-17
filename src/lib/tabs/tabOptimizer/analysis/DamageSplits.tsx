@@ -8,6 +8,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type SplitMode = 'default' | 'rotation'
 
@@ -15,9 +16,10 @@ function ModeToggle({ mode, onModeChange }: {
   mode: SplitMode,
   onModeChange: (mode: SplitMode) => void,
 }) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageSplits.Mode' })
   const modes: { key: SplitMode, label: string }[] = [
-    { key: 'default', label: 'Default' },
-    { key: 'rotation', label: 'Rotation' },
+    { key: 'default', label: t('Default') },
+    { key: 'rotation', label: t('Rotation') },
   ]
 
   return (
@@ -49,6 +51,7 @@ function ModeToggle({ mode, onModeChange }: {
 export function DamageSplits({ analysis }: {
   analysis: OptimizerResultAnalysis,
 }) {
+  const { t } = useTranslation('optimizerTab')
   const { newX, context } = analysis
   const hasRotation = context.rotationActions.length > 0
   const [mode, setMode] = useState<SplitMode>(hasRotation ? 'rotation' : 'default')
@@ -56,8 +59,8 @@ export function DamageSplits({ analysis }: {
   const actions = mode === 'default' ? context.defaultActions : context.rotationActions
 
   const data = useMemo(
-    () => extractDamageSplits(newX, actions, mode),
-    [newX, actions, mode],
+    () => extractDamageSplits(newX, actions, mode, t),
+    [newX, actions, mode, t],
   )
 
   return (
@@ -76,7 +79,7 @@ export function DamageSplits({ analysis }: {
       }}
     >
       <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-default)', paddingBottom: 4 }}>
-        Combo Breakdown
+        {t('ExpandedDataPanel.DamageSplits.Title') /* Combo Breakdown */}
       </span>
       <ModeToggle mode={mode} onModeChange={setMode} />
       <DamageSplitsChart data={data} />

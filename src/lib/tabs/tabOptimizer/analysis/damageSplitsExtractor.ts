@@ -1,4 +1,4 @@
-import i18next from 'i18next'
+import i18next, { type TFunction } from 'i18next'
 import {
   DamageTag,
   OutputTag,
@@ -28,7 +28,7 @@ export const TRUE_DMG_SEGMENT_TYPE = 0x8000
 
 // --- Label decoding ---
 
-const DAMAGE_TAG_NAMES: Record<number, string> = {
+const DAMAGE_TAG_NAMES = {
   [DamageTag.BASIC]: 'Basic',
   [DamageTag.SKILL]: 'Skill',
   [DamageTag.ULT]: 'Ult',
@@ -40,18 +40,22 @@ const DAMAGE_TAG_NAMES: Record<number, string> = {
   [DamageTag.ADDITIONAL]: 'Additional',
   [DamageTag.ELATION]: 'Elation',
   [TRUE_DMG_SEGMENT_TYPE]: 'True',
-}
+} as const satisfies Record<number, string>
 
 const DAMAGE_TAG_FLAGS = Object.values(DamageTag)
   .filter((v): v is number => typeof v === 'number' && v > 0)
   .sort((a, b) => a - b)
 
-export function decodeDamageTypeLabel(damageType: number): string {
-  if (damageType === TRUE_DMG_SEGMENT_TYPE) return DAMAGE_TAG_NAMES[TRUE_DMG_SEGMENT_TYPE]
+export function decodeDamageTypeLabel(damageType: number, t: TFunction<'optimizerTab'>): string {
+  if (damageType === TRUE_DMG_SEGMENT_TYPE) return t(`ExpandedDataPanel.DamageSplits.Legend.${DAMAGE_TAG_NAMES[TRUE_DMG_SEGMENT_TYPE]}`)
   const parts: string[] = []
   for (const flag of DAMAGE_TAG_FLAGS) {
     if (damageType & flag) {
-      parts.push(DAMAGE_TAG_NAMES[flag] ?? `Unknown(${flag})`)
+      if (flag in DAMAGE_TAG_NAMES) {
+        parts.push(t(`ExpandedDataPanel.DamageSplits.Legend.${DAMAGE_TAG_NAMES[flag as keyof typeof DAMAGE_TAG_NAMES]}`))
+      } else {
+        parts.push(`Unknown(${flag})`)
+      }
     }
   }
   return parts.join(' · ') || 'None'
@@ -135,6 +139,7 @@ export type DamageTagSlice = {
 export function extractDamageByTag(
   x: ComputedStatsContainer,
   actions: OptimizerAction[],
+  t: TFunction<'optimizerTab'>,
 ): DamageTagSlice[] {
   const totals = new Map<number, number>()
   let grandTotal = 0
@@ -157,7 +162,7 @@ export function extractDamageByTag(
     const color = getDamageTypeColor(damageType)
     slices.push({
       damageType,
-      label: decodeDamageTypeLabel(damageType),
+      label: decodeDamageTypeLabel(damageType, t),
       color,
       fill: color,
       value,
@@ -171,9 +176,14 @@ export function extractDamageByTag(
 
 // --- Action name formatting ---
 
-function formatActionName(action: OptimizerAction, mode: 'default' | 'rotation', comboIndex?: number): string {
+function formatActionName(
+  action: OptimizerAction,
+  mode: 'default' | 'rotation',
+  t: TFunction<'optimizerTab'>,
+  comboIndex?: number,
+): string {
   const labelKey = AbilityMeta[action.actionType].label
-  const label = i18next.t(`optimizerTab:ComboFilter.ComboOptions.${labelKey}`)
+  const label = t(`ComboFilter.ComboOptions.${labelKey}`)
 
   if (mode === 'default') {
     return label
@@ -188,6 +198,7 @@ export function extractDamageSplits(
   x: ComputedStatsContainer,
   actions: OptimizerAction[],
   mode: 'default' | 'rotation',
+  t: TFunction<'optimizerTab'>,
 ): DamageSplitEntry[] {
   const entries: DamageSplitEntry[] = []
 
@@ -223,7 +234,7 @@ export function extractDamageSplits(
     for (const [damageType, damage] of segmentMap) {
       segments.push({
         damageType,
-        label: decodeDamageTypeLabel(damageType),
+        label: decodeDamageTypeLabel(damageType, t),
         damage,
         hitIndex: -1,
       })
@@ -241,7 +252,7 @@ export function extractDamageSplits(
     if (segments.length === 0) continue
 
     entries.push({
-      name: formatActionName(action, mode, actionIdx),
+      name: formatActionName(action, mode, t, actionIdx),
       segments,
       total,
     })

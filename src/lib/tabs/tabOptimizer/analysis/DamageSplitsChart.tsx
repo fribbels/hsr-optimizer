@@ -1,3 +1,4 @@
+import { type TFunction } from 'i18next'
 import { RECHARTS_TOOLTIP_WRAPPER_STYLE } from 'lib/constants/constantsUi'
 import {
   chartColor,
@@ -14,6 +15,7 @@ import {
   type CSSProperties,
   useMemo,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { LabelProps } from 'recharts'
 import {
   Bar,
@@ -66,7 +68,7 @@ type FlatRow = Record<string, number | string> & {
   total: number,
 }
 
-function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[], bars: FlattenedBar[], legendItems: LegendItem[] } {
+function flattenData(data: DamageSplitEntry[], t: TFunction<'optimizerTab'>): { rows: FlatRow[], bars: FlattenedBar[], legendItems: LegendItem[] } {
   const bars: FlattenedBar[] = []
   const rows: FlatRow[] = []
   const seenDamageTypes = new Set<number>()
@@ -96,7 +98,7 @@ function flattenData(data: DamageSplitEntry[]): { rows: FlatRow[], bars: Flatten
         legendItems.push({
           damageType: seg.damageType,
           color,
-          label: decodeDamageTypeLabel(seg.damageType),
+          label: decodeDamageTypeLabel(seg.damageType, t),
         })
       }
     }
@@ -235,7 +237,8 @@ function CustomTooltip({ active, payload, bars }: { active?: boolean, payload?: 
 }
 
 export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
-  const { rows, bars, legendItems } = useMemo(() => flattenData(data), [data])
+  const { t } = useTranslation('optimizerTab')
+  const { rows, bars, legendItems } = useMemo(() => flattenData(data, t), [data, t])
 
   if (rows.length === 0) {
     return null

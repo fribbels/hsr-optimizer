@@ -237,11 +237,11 @@ Characters:
     Name: Эшвейл
     LongName: Эшвейл
   "1505":
-    Name: Evanescia
-    LongName: Evanescia
+    Name: Эванесса
+    LongName: Эванесса
   "1506":
-    Name: Silver Wolf LV.999
-    LongName: Silver Wolf LV.999
+    Name: Серебряный Волк ур. 999
+    LongName: Серебряный Волк ур. 999
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -267,11 +267,11 @@ Characters:
     Name: Стелла
     LongName: Стелла (Память)
   "8009":
-    Name: Caelus
-    LongName: Caelus (Радость)
+    Name: Келус
+    LongName: Келус (Радость)
   "8010":
-    Name: Stelle
-    LongName: Stelle (Радость)
+    Name: Стелла
+    LongName: Стелла (Радость)
   1212b1:
     Name: Цзинлю
     LongName: Цзинлю
@@ -290,18 +290,18 @@ Characters:
   1306b1:
     Name: Искорка
     LongName: Искорка
-  1004b1:
-    Name: Welt
-    LongName: Welt
   1102b1:
-    Name: Seele
-    LongName: Seele
+    Name: Зеле
+    LongName: Зеле
   1217b1:
-    Name: Huohuo
-    LongName: Huohuo
+    Name: Хохо
+    LongName: Хохо
   1310b1:
-    Name: Firefly
-    LongName: Firefly
+    Name: Светлячок
+    LongName: Светлячок
+  1004b1:
+    Name: Вельт
+    LongName: Вельт
 RelicSets:
   "101":
     Name: Скиталец блуждающего облака
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: Полёт к розовому завтра
   "22007":
-    Name: Tomorrow, Together
+    Name: Будущее вместе
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -807,9 +807,9 @@ Lightcones:
   "23056":
     Name: Эпилог лжи
   "23057":
-    Name: Welcome to the Cosmic City
+    Name: Добро пожаловать в космический город
   "23058":
-    Name: Until the Flowers Bloom Again
+    Name: Пока не распустятся цветы
   "24000":
     Name: О падении Эона
   "24001":

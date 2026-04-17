@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
-  1004b1:
-    Name: Welt
-    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: Firefly
     LongName: Firefly
+  1004b1:
+    Name: Welt
+    LongName: Welt
 RelicSets:
   "101":
     Name: Passerby of Wandering Cloud

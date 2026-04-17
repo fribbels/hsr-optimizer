@@ -240,8 +240,8 @@ Characters:
     Name: 에바네시아
     LongName: 에바네시아
   "1506":
-    Name: 은랑 LV.999
-    LongName: 은랑 LV.999
+    Name: "은랑\_LV.999"
+    LongName: "은랑\_LV.999"
   "8001":
     Name: 카일루스
     LongName: 카일루스 (파멸)
@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: 스파클
     LongName: 스파클
-  1004b1:
-    Name: 웰트
-    LongName: 웰트
   1102b1:
     Name: 제레
     LongName: 제레
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: 반디
     LongName: 반디
+  1004b1:
+    Name: 웰트
+    LongName: 웰트
 RelicSets:
   "101":
     Name: "흔적을\_남기지\_않은\_과객"
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: "핑크빛\_내일을\_향해"
   "22007":
-    Name: 미래엔 우리가 함께할 거야
+    Name: "미래엔\_우리가\_함께할\_거야"
   "23000":
     Name: "은하철도의\_밤"
   "23001":
@@ -807,9 +807,9 @@ Lightcones:
   "23056":
     Name: "거짓말의\_종막"
   "23057":
-    Name: 갤럭시 시티에 오신 것을 환영합니다
+    Name: "갤럭시\_시티에\_오신\_것을\_환영합니다"
   "23058":
-    Name: 다음 꽃피는 계절의 만남
+    Name: "다음\_꽃피는\_계절의\_만남"
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":

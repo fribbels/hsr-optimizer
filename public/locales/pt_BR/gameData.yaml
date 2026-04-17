@@ -240,8 +240,8 @@ Characters:
     Name: Evanescia
     LongName: Evanescia
   "1506":
-    Name: Silver Wolf LV.999
-    LongName: Silver Wolf LV.999
+    Name: Loba Prateada Nv. 999
+    LongName: Loba Prateada Nv. 999
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
-  1004b1:
-    Name: Welt
-    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -300,8 +297,11 @@ Characters:
     Name: Huohuo
     LongName: Huohuo
   1310b1:
-    Name: Firefly
-    LongName: Firefly
+    Name: Vaga-lume
+    LongName: Vaga-lume
+  1004b1:
+    Name: Welt
+    LongName: Welt
 RelicSets:
   "101":
     Name: Transeunte da Nuvem Errante
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: Rumo ao Amanhã Cor-de-Rosa
   "22007":
-    Name: Tomorrow, Together
+    Name: Juntos no Futuro
   "23000":
     Name: Noite na Via Láctea
   "23001":
@@ -807,9 +807,9 @@ Lightcones:
   "23056":
     Name: O Fim de uma Mentira
   "23057":
-    Name: Welcome to the Cosmic City
+    Name: Bem-vindo à Cidade Cósmica
   "23058":
-    Name: Until the Flowers Bloom Again
+    Name: Um Encontro na Próxima Primavera
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

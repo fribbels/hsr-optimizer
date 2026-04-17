@@ -240,8 +240,8 @@ Characters:
     Name: Evanescia
     LongName: Evanescia
   "1506":
-    Name: Silver Wolf LV.999
-    LongName: Silver Wolf LV.999
+    Name: Silberwolf St. 999
+    LongName: Silberwolf St. 999
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -270,8 +270,8 @@ Characters:
     Name: Caelus
     LongName: Caelus (Das Hochgefühl)
   "8010":
-    Name: Stelle
-    LongName: Stelle (Das Hochgefühl)
+    Name: Stella
+    LongName: Stella (Das Hochgefühl)
   1212b1:
     Name: Jingliu
     LongName: Jingliu
@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
-  1004b1:
-    Name: Welt
-    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -300,8 +297,11 @@ Characters:
     Name: Huohuo
     LongName: Huohuo
   1310b1:
-    Name: Firefly
-    LongName: Firefly
+    Name: Glühwürmchen
+    LongName: Glühwürmchen
+  1004b1:
+    Name: Welt
+    LongName: Welt
 RelicSets:
   "101":
     Name: Wanderer der vorbeiziehenden Wolke
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: Flug in einen rosaroten Morgen
   "22007":
-    Name: Tomorrow, Together
+    Name: Gemeinsam in die Zukunft
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":
@@ -807,9 +807,9 @@ Lightcones:
   "23056":
     Name: Das Finale einer Lüge
   "23057":
-    Name: Welcome to the Cosmic City
+    Name: Willkommen in der kosmischen Stadt
   "23058":
-    Name: Until the Flowers Bloom Again
+    Name: Begegnung in der nächsten Blütezeit
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

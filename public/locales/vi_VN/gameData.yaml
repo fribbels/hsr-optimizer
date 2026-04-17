@@ -240,8 +240,8 @@ Characters:
     Name: Evanescia
     LongName: Evanescia
   "1506":
-    Name: Silver Wolf LV.999
-    LongName: Silver Wolf LV.999
+    Name: Sói Bạc LV.999
+    LongName: Sói Bạc LV.999
   "8001":
     Name: Caelus
     LongName: Caelus (Hủy Diệt)
@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: Sparkle
     LongName: Sparkle
-  1004b1:
-    Name: Welt
-    LongName: Welt
   1102b1:
     Name: Seele
     LongName: Seele
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: Firefly
     LongName: Firefly
+  1004b1:
+    Name: Welt
+    LongName: Welt
 RelicSets:
   "101":
     Name: Lãng Khách Âm Thầm
@@ -693,7 +693,7 @@ Lightcones:
   "22006":
     Name: Bay Đến Ngày Mai Màu Hồng
   "22007":
-    Name: Tomorrow, Together
+    Name: Tương Lai, Có Chúng Ta Cùng Nhau
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
   "23001":
@@ -807,9 +807,9 @@ Lightcones:
   "23056":
     Name: Màn Kết Của Một Lời Nói Dối
   "23057":
-    Name: Welcome to the Cosmic City
+    Name: Chào Mừng Đến Với Thành Phố Vũ Trụ
   "23058":
-    Name: Until the Flowers Bloom Again
+    Name: Hẹn Gặp Mùa Hoa Tới
   "24000":
     Name: Sự Sụp Đổ Của Aeon
   "24001":

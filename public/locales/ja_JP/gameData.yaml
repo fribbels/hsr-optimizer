@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: 花火
     LongName: 花火
-  1004b1:
-    Name: ヴェルト
-    LongName: ヴェルト
   1102b1:
     Name: ゼーレ
     LongName: ゼーレ
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: ホタル
     LongName: ホタル
+  1004b1:
+    Name: ヴェルト
+    LongName: ヴェルト
 RelicSets:
   "101":
     Name: 流雲無痕の過客

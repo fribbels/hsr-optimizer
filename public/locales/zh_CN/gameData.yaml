@@ -290,9 +290,6 @@ Characters:
   1306b1:
     Name: 花火
     LongName: 花火
-  1004b1:
-    Name: 瓦尔特
-    LongName: 瓦尔特
   1102b1:
     Name: 希儿
     LongName: 希儿
@@ -302,6 +299,9 @@ Characters:
   1310b1:
     Name: 流萤
     LongName: 流萤
+  1004b1:
+    Name: 瓦尔特
+    LongName: 瓦尔特
 RelicSets:
   "101":
     Name: 云无留迹的过客

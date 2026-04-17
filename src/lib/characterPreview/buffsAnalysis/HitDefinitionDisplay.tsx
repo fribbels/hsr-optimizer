@@ -206,7 +206,7 @@ function ActionHitGroup({ action, isLastAction, t }: {
   const hits = action.hits ?? []
   if (hits.length === 0) return null
 
-  const label = t(`ComboFilter.ComboOptions.${AbilityMeta[action.actionType].label}`) + ' FOO'
+  const label = t(`ComboFilter.ComboOptions.${AbilityMeta[action.actionType].label}`)
 
   return (
     <>

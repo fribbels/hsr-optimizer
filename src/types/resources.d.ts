@@ -306,6 +306,7 @@ interface Resources {
     "Damage": "DMG",
     "DamagePercent": "DMG %",
     "EidolonNShort": "E{{eidolon}}",
+    "Element": "Element",
     "Elements": {
       "Fire": "$t(gameData:Elements.Fire)",
       "Ice": "$t(gameData:Elements.Ice)",
@@ -6354,6 +6355,14 @@ interface Resources {
     },
     "ExpandedDataPanel": {
       "BuffsAnalysisDisplay": {
+        "DamageFunctions": {
+          "Add": "Add",
+          "Break": "Break",
+          "Crit": "Crit",
+          "DoT": "DoT",
+          "Elation": "Elation",
+          "S.Break": "S.Break"
+        },
         "DefaultAction": "Default",
         "Sources": {
           "Basic": "Basic",

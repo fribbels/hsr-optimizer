@@ -775,6 +775,13 @@ ExpandedDataPanel:
       Set: Set
     DefaultAction: Default
     SummaryLabel: BUFF TOTALS
+    DamageFunctions:
+      Crit: Crit
+      DoT: DoT
+      Break: Break
+      S.Break: S.Break
+      Add: Add
+      Elation: Elation
     Stats:
       CompositeLabels:
         Label: '{{prefix}} {{suffix}}'

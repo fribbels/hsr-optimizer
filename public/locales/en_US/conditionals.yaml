@@ -2636,6 +2636,32 @@ Characters:
       talentStacks:
         text: Talent stacks
         content: Each time after this character inflicts Weakness Break on an enemy, ATK increases by {{talentAtkScalingValue}}% and DEF increases by 10%. This effect stacks up to 2 times.
+  TrailblazerElation:
+    Content:
+      punchlineStacks:
+        text: Punchline stacks
+        content: Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.
+      certifiedBanger:
+        text: Certified Banger
+        content: When the Trailblazer holds "Certified Banger," their Skill additionally deals {{skillAdditionalElationScaling}}% Lightning Elation DMG to all enemies.
+      certifiedBangerStacks:
+        text: Certified Banger stacks
+        content: When the Trailblazer holds "Certified Banger," their Skill additionally deals {{skillAdditionalElationScaling}}% Lightning Elation DMG to all enemies.
+      ultCdBuff:
+        text: Ult CD buff
+        content: Increases the CRIT DMG of a designated ally by 50% for 3 turns.
+      atkToElation:
+        text: ATK to Elation conversion
+        content: For every 200 points of Trailblazer's ATK that exceeds 1000, increases this unit's Elation by 10%, up to a maximum increase of 60%.
+      e2UltElation:
+        text: E2 Ult Elation
+        content: Ultimate additionally increases the Elation of a designated ally by 12%, lasting for 2 turns.
+      e4Vulnerability:
+        text: E4 Vulnerability
+        content: When using the Elation Skill, increases the DMG taken by enemy targets by 10% for 2 turns.
+      e6CritDmg:
+        text: E6 Crit DMG
+        content: When using Elation Skill, increases this unit's CRIT DMG by 100% for 3 turns.
   TrailblazerHarmony:
     Content:
       backupDancer:

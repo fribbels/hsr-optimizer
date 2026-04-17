@@ -1208,7 +1208,7 @@ interface Resources {
           },
           "masterFoxVuln": {
             "content": "When \"Master Fox\" uses an attack, it additionally inflicts Vulnerability on the target, increasing the DMG they take by 12% for 3 turns.",
-            "text": "Vulnerability stacks"
+            "text": "Vulnerability"
           },
           "punchlineStacks": {
             "content": "Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.",
@@ -2771,6 +2771,42 @@ interface Resources {
           "talentStacks": {
             "content": "Each time after this character inflicts Weakness Break on an enemy, ATK increases by {{talentAtkScalingValue}}% and DEF increases by 10%. This effect stacks up to 2 times.",
             "text": "Talent stacks"
+          }
+        }
+      },
+      "TrailblazerElation": {
+        "Content": {
+          "atkToElation": {
+            "content": "For every 200 points of Trailblazer's ATK that exceeds 1000, increases this unit's Elation by 10%, up to a maximum increase of 60%.",
+            "text": "ATK to Elation conversion"
+          },
+          "certifiedBanger": {
+            "content": "When the Trailblazer holds \"Certified Banger,\" their Skill additionally deals {{skillAdditionalElationScaling}}% Lightning Elation DMG to all enemies.",
+            "text": "Certified Banger"
+          },
+          "certifiedBangerStacks": {
+            "content": "When the Trailblazer holds \"Certified Banger,\" their Skill additionally deals {{skillAdditionalElationScaling}}% Lightning Elation DMG to all enemies.",
+            "text": "Certified Banger stacks"
+          },
+          "e2UltElation": {
+            "content": "Ultimate additionally increases the Elation of a designated ally by 12%, lasting for 2 turns.",
+            "text": "E2 Ult Elation"
+          },
+          "e4Vulnerability": {
+            "content": "When using the Elation Skill, increases the DMG taken by enemy targets by 10% for 2 turns.",
+            "text": "E4 Vulnerability"
+          },
+          "e6CritDmg": {
+            "content": "When using Elation Skill, increases this unit's CRIT DMG by 100% for 3 turns.",
+            "text": "E6 Crit DMG"
+          },
+          "punchlineStacks": {
+            "content": "Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.",
+            "text": "Punchline stacks"
+          },
+          "ultCdBuff": {
+            "content": "Increases the CRIT DMG of a designated ally by 50% for 3 turns.",
+            "text": "Ult CD buff"
           }
         }
       },

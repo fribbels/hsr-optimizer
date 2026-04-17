@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 
@@ -23,7 +22,6 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -56,7 +54,6 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   ceilSafe,
@@ -86,7 +83,6 @@ export const SilverWolfLv999Abilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolfLv999.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_BASIC_ELATION_SKILL_3_ULT_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,

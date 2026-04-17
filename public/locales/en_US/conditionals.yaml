@@ -1374,6 +1374,49 @@ Characters:
         text: Enemy debuff stacks
         content: >-
           When using his Skill, Dr. Ratio has a 40% fixed chance of launching a follow-up attack against his target for 1 time, dealing Imaginary DMG equal to {{FuaScaling}}% of Dr. Ratio's ATK. For each debuff the target enemy has, the fixed chance of launching follow-up attack increases by 20%. If the target enemy is defeated before the follow-up attack triggers, the follow-up attack will be directed at a single random enemy instead.::BR::When dealing DMG to a target that has 3 or more debuffs, for each debuff the target has, the DMG dealt by Dr. Ratio to this target increases by 10%, up to a maximum increase of 50%.::BR::E2: When his Talent's follow-up attack hits a target, for every debuff the target has, additionally deals Imaginary Additional DMG equal to 20% of Dr. Ratio's ATK. This effect can be triggered for a maximum of 4 times during each follow-up attack.
+  Evanescia:
+    Content:
+      punchlineStacks:
+        text: Punchline stacks
+        content: Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.
+      certifiedBanger:
+        text: Certified Banger
+        content: >-
+          When Evanescia possesses "Certified Banger":
+          ::BR::
+          Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target.
+          ::BR::
+          Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account "Certified Banger" at least equal to Max Energy.
+          ::BR::
+          "Master Fox's" Follow-Up ATK deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.
+      certifiedBangerStacks:
+        text: Certified Banger stacks
+        content: >-
+          When Evanescia possesses "Certified Banger":
+          ::BR::
+          Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target.
+          ::BR::
+          Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account "Certified Banger" at least equal to Max Energy.
+          ::BR::
+          "Master Fox's" Follow-Up ATK deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.
+      cdToElation:
+        text: CD to Elation conversion
+        content: Evanescia gains Elation equal to 20% of her CRIT DMG.
+      masterFoxVuln:
+        text: Vulnerability
+        content: When "Master Fox" uses an attack, it additionally inflicts Vulnerability on the target, increasing the DMG they take by 12% for 3 turns.
+      e1ResPen:
+        text: E1 RES PEN
+        content: Increases All-Type RES PEN by 20%.
+      e2CritDmg:
+        text: E2 Crit DMG
+        content: CRIT DMG increases by 36%.
+      e4DefPen:
+        text: E4 DEF PEN
+        content: Evanescia's DMG dealt ignores 15% of the enemy target's DEF.
+      e6Merrymake:
+        text: E6 Merrymake
+        content: Elation DMG dealt by Evanescia merrymakes by 15%. For every 100 points of "Certified Banger" possessed, it additionally merrymakes by 2.0%, with a maximum of 1000 points of "Certified Banger" taken into account.
   Evernight:
     Content:
       memoTalentDmgBuff:

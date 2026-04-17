@@ -1176,6 +1176,46 @@ interface Resources {
           }
         }
       },
+      "Evanescia": {
+        "Content": {
+          "cdToElation": {
+            "content": "Evanescia gains Elation equal to 20% of her CRIT DMG.",
+            "text": "CD to Elation conversion"
+          },
+          "certifiedBanger": {
+            "content": "When Evanescia possesses \"Certified Banger\": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account \"Certified Banger\" at least equal to Max Energy. ::BR:: \"Master Fox's\" Follow-Up ATK deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.",
+            "text": "Certified Banger"
+          },
+          "certifiedBangerStacks": {
+            "content": "When Evanescia possesses \"Certified Banger\": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account \"Certified Banger\" at least equal to Max Energy. ::BR:: \"Master Fox's\" Follow-Up ATK deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.",
+            "text": "Certified Banger stacks"
+          },
+          "e1ResPen": {
+            "content": "Increases All-Type RES PEN by 20%.",
+            "text": "E1 RES PEN"
+          },
+          "e2CritDmg": {
+            "content": "CRIT DMG increases by 36%.",
+            "text": "E2 Crit DMG"
+          },
+          "e4DefPen": {
+            "content": "Evanescia's DMG dealt ignores 15% of the enemy target's DEF.",
+            "text": "E4 DEF PEN"
+          },
+          "e6Merrymake": {
+            "content": "Elation DMG dealt by Evanescia merrymakes by 15%. For every 100 points of \"Certified Banger\" possessed, it additionally merrymakes by 2.0%, with a maximum of 1000 points of \"Certified Banger\" taken into account.",
+            "text": "E6 Merrymake"
+          },
+          "masterFoxVuln": {
+            "content": "When \"Master Fox\" uses an attack, it additionally inflicts Vulnerability on the target, increasing the DMG they take by 12% for 3 turns.",
+            "text": "Vulnerability stacks"
+          },
+          "punchlineStacks": {
+            "content": "Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.",
+            "text": "Punchline stacks"
+          }
+        }
+      },
       "Evernight": {
         "Content": {
           "cyreneSpecialEffect": {
@@ -2383,11 +2423,11 @@ interface Resources {
       "SilverWolfLv999": {
         "Content": {
           "certifiedBanger": {
-            "content": "\"While Silver Wolf LV.999 possesses \"Certified Banger,\", using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier. each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's \"Top Loot Box\" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects: \"Big Flipping Sword\": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time. \"Kaboom Eggsplosion\": Recovers 2 Skill Points. \"Funky Munch Bean\": Gains 3 Punchlines.\"",
+            "content": "\"While Silver Wolf LV.999 possesses \"Certified Banger,\", using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier. ::BR:: Each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's \"Top Loot Box\" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects: ::BR:: \"Big Flipping Sword\": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time. ::BR:: \"Kaboom Eggsplosion\": Recovers 2 Skill Points. ::BR:: \"Funky Munch Bean\": Gains 3 Punchlines.\"",
             "text": "Certified Banger"
           },
           "certifiedBangerStacks": {
-            "content": "\"While Silver Wolf LV.999 possesses \"Certified Banger,\", using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier. each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's \"Top Loot Box\" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects: \"Big Flipping Sword\": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time. \"Kaboom Eggsplosion\": Recovers 2 Skill Points. \"Funky Munch Bean\": Gains 3 Punchlines.\"",
+            "content": "\"While Silver Wolf LV.999 possesses \"Certified Banger,\", using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier ::BR:: Each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's \"Top Loot Box\" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects: ::BR:: \"Big Flipping Sword\": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time. ::BR:: \"Kaboom Eggsplosion\": Recovers 2 Skill Points. ::BR:: \"Funky Munch Bean\": Gains 3 Punchlines.\"",
             "text": "Certified Banger stacks"
           },
           "e1Vulnerability": {

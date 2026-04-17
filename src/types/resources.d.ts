@@ -1338,6 +1338,42 @@ interface Resources {
           }
         }
       },
+      "FireflyB1": {
+        "Content": {
+          "atkToBeConversion": {
+            "content": "For every 10 points of SAM's ATK that exceeds 1800, increases this unit's Break Effect by 0.8%.",
+            "text": "ATK to BE buff"
+          },
+          "e1DefShred": {
+            "content": "When using the Enhanced Skill, ignores 15% of the target's DEF. The Enhanced Skill does not consume Skill Points.",
+            "text": "E1 DEF PEN"
+          },
+          "e4ResBuff": {
+            "content": "While in Complete Combustion, increases SAM's Effect RES by 50%.",
+            "text": "E4 RES buff"
+          },
+          "e6Buffs": {
+            "content": "While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or Enhanced Skill, increases the Weakness Break efficiency by 50%.",
+            "text": "E6 buffs"
+          },
+          "enhancedStateActive": {
+            "content": "Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK and Enhanced Skill. While in Complete Combustion, increases SPD by 60, and when using the Enhanced Basic ATK or Enhanced Skill, increases this unit's Weakness Break Efficiency by 50% and increases the Break DMG dealt by SAM to the enemy targets by {{breakDmgDealt}}%, lasting until this current attack ends. ::BR:: A2: While in the Complete Combustion state, SAM's Break Effect increases by 25%. ::BR:: A4: When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 150%/ 300%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 100%/150% Super Break DMG. ::BR:: E1: When using the Enhanced Skill, ignores 15% of the target's DEF. ::BR:: E4: While in Complete Combustion, increases SAM's Effect RES by 50%. ::BR:: E6: While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or Enhanced Skill, increases Weakness Break Efficiency by 50%.",
+            "text": "Enhanced state"
+          },
+          "enhancedStateSpdBuff": {
+            "content": "While in Complete Combustion, increases SPD by {{ultSpdBuff}}.",
+            "text": "Enhanced SPD buff"
+          },
+          "superBreakDmg": {
+            "content": "When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 100%/150% Super Break DMG.",
+            "text": "Super Break enabled (force weakness break)"
+          },
+          "talentDmgReductionBuff": {
+            "content": "The lower the HP, the less DMG received. When HP is 20% or lower, the DMG Reduction reaches its maximum effect, reducing up to {{talentDmgReductionBuff}}%. During the Complete Combustion, the DMG Reduction remains at its maximum effect, and the Effect RES increases by {{talentResBuff}}%.",
+            "text": "Max EHP buff"
+          }
+        }
+      },
       "FuXuan": {
         "Content": {
           "e6TeamHpLostPercent": {

@@ -3,7 +3,8 @@ import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import type {
   Conditionals,
-  ContentDefinition} from 'lib/conditionals/conditionalUtils';
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import {
   AbilityEidolon,
   createEnum,
@@ -76,7 +77,7 @@ export const FireflyB1Abilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Firefly')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.FireflyB1')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -119,7 +120,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedStateActive',
       formItem: 'switch',
       text: t('Content.enhancedStateActive.text'),
-      content: t('Content.enhancedStateActive.content'),
+      content: t('Content.enhancedStateActive.content', {
+        breakDmgDealt: precisionRound(100 * ultWeaknessBrokenBreakVulnerability),
+      }),
     },
     enhancedStateSpdBuff: {
       id: 'enhancedStateSpdBuff',

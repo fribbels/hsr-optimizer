@@ -4408,6 +4408,18 @@ interface Resources {
           }
         }
       },
+      "UntilTheFlowersBloomAgain": {
+        "Content": {
+          "maxEnergyErrConversion": {
+            "content": "Increases the wearer's Energy Regeneration Rate by {{baseErr}}%. When the wearer's Max Energy is greater than 120, for every 10 points of Max Energy that exceeds this amount, further increases Energy Regeneration Rate by 0.3%, up to a maximum of 360 points of excess Max Energy taken into account.",
+            "text": "Max Energy ERR buff"
+          },
+          "vulnerability": {
+            "content": "When the wearer uses an Elation Skill, increases the DMG received by enemy targets by {{vuln}}% for 2 turns.",
+            "text": "Elation Skill vulnerability"
+          }
+        }
+      },
       "UntoTomorrowsMorrow": {
         "Content": {
           "hp50DmgBoost": {

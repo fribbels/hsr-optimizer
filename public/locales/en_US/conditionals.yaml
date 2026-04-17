@@ -401,6 +401,14 @@ Lightcones:
         text: Stacked Basic DMG boost
         content: >-
           After the wearer and the wearer's memosprite attacks, the wearer gains 1 stack of "Brocade."::BR:: Each stack of "Brocade" increases the wearer and their memosprite's CRIT DMG by {{CdBuff}}%, stacking up to 6 times.::BR:: When reaching maximum stacks, each "Brocade" stack will additionally increase Basic ATK DMG dealt by {{DmgBuff}}%.
+  UntilTheFlowersBloomAgain:
+    Content:
+      maxEnergyErrConversion:
+        text: Max Energy ERR buff
+        content: Increases the wearer's Energy Regeneration Rate by {{baseErr}}%. When the wearer's Max Energy is greater than 120, for every 10 points of Max Energy that exceeds this amount, further increases Energy Regeneration Rate by 0.3%, up to a maximum of 360 points of excess Max Energy taken into account.
+      vulnerability:
+        text: Elation Skill vulnerability
+        content: When the wearer uses an Elation Skill, increases the DMG received by enemy targets by {{vuln}}% for 2 turns.
   WelcomeToTheCosmicCity:
     Content:
       elationDefPen:

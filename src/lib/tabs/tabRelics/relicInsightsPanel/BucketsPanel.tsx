@@ -1,3 +1,4 @@
+import { RECHARTS_TOOLTIP_WRAPPER_STYLE } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
   setOpen,
@@ -5,11 +6,7 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { type PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
-import {
-  memo,
-  useRef,
-  useState,
-} from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   CartesianGrid,
@@ -53,8 +50,6 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
   const imgWidth = compact ? IMG_WIDTH_COMPACT : IMG_WIDTH_NORMAL
   const imgHeight = compact ? IMG_HEIGHT_COMPACT : IMG_HEIGHT_NORMAL
 
-  const [tooltipActive, setTooltipActive] = useState(false)
-  const timeout = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
   const buckets = Array.from<Bucket>({ length: 10 })
   for (let i = 0; i < 10; i++) buckets[i] = []
 
@@ -88,16 +83,6 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
       imgHeight,
     }))
   )
-
-  const onMouseEnterScatter = () => {
-    clearTimeout(timeout.current)
-    setTooltipActive(true)
-  }
-
-  const onMouseLeaveScatter = () => {
-    clearTimeout(timeout.current)
-    timeout.current = setTimeout(() => setTooltipActive(false), 100)
-  }
 
   const onScatterClick = (data: ScatterPointItem) => {
     const point = data.payload as DataPoint
@@ -136,17 +121,16 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
         <CartesianGrid opacity={0.2} vertical={false} />
         <Tooltip
           cursor={false}
-          active={tooltipActive}
           content={TooltipContent}
+          isAnimationActive={false}
+          wrapperStyle={RECHARTS_TOOLTIP_WRAPPER_STYLE}
         />
         <Scatter
-          onMouseEnter={onMouseEnterScatter}
-          onMouseLeave={onMouseLeaveScatter}
           name='scores'
           data={data}
           onClick={onScatterClick}
           shape={<ShapeFunction />}
-          isAnimationActive={false}
+          isAnimationActive={true}
         />
       </ScatterChart>
     </div>

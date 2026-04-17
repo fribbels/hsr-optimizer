@@ -145,6 +145,7 @@ function ShowcaseLoaded() {
       sidebarOpen: s.savedSession.sidebarOpen,
     })),
   )
+  const hasCharacters = !!availableCharacters?.length
 
   const setScoringAlgorithmFocusCharacter = useGlobalStore((s) => s.setScoringAlgorithmFocusCharacter)
 
@@ -248,7 +249,7 @@ function ShowcaseLoaded() {
           >
             {t('common:Submit')}
           </Button>
-          {availableCharacters && availableCharacters.length > 0 && (
+          {hasCharacters && (
             <Menu>
               <Menu.Target>
                 <Button
@@ -271,10 +272,10 @@ function ShowcaseLoaded() {
         </Flex>
 
         {/* DPS Score Disclaimer */}
-        <DPSScoreDisclaimer />
+        {hasCharacters && <DPSScoreDisclaimer />}
 
         {/* Portrait row */}
-        {availableCharacters && availableCharacters.length > 0 && (
+        {hasCharacters && (
           <ShowcasePortraitRow
             characters={availableCharacters}
             selectedIndex={selectedIndex}
@@ -284,11 +285,13 @@ function ShowcaseLoaded() {
 
         {/* Card area with simulation sidebar */}
         <div className={styles.cardArea}>
-          <SimulationSidebar
-            open={sidebarOpen}
-            onToggle={onSidebarToggle}
-            onPresetClick={presetClicked}
-          />
+          {hasCharacters && (
+            <SimulationSidebar
+              open={sidebarOpen}
+              onToggle={onSidebarToggle}
+              onPresetClick={presetClicked}
+            />
+          )}
           <CharacterPreview
             character={selectedCharacter}
             source={ShowcaseSource.SHOWCASE_TAB}

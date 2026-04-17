@@ -1,3 +1,4 @@
+import { RECHARTS_TOOLTIP_WRAPPER_STYLE } from 'lib/constants/constantsUi'
 import {
   OpenCloseIDs,
   setOpen,
@@ -99,7 +100,11 @@ export const Top10Panel = memo(({ scores, width: propWidth, height: propHeight }
           allowDataOverflow
           hide
         />
-        <Tooltip content={TooltipContent} />
+        <Tooltip
+          content={TooltipContent}
+          isAnimationActive={false}
+          wrapperStyle={RECHARTS_TOOLTIP_WRAPPER_STYLE}
+        />
         <Legend align='right' verticalAlign='middle' width={legendWidth} content={<LegendContent scores={sortedScores} compact={compact} />} />
         <Scatter
           data={data}

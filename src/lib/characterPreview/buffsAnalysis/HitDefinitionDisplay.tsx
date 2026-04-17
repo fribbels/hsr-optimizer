@@ -8,6 +8,8 @@ import {
 import {
   DesignContext,
   ellipsisStyle,
+  FilterChangeContext,
+  FilterContext,
   getRowBaseStyle,
   getSourceLabelStyle,
   TEXT_DIM,
@@ -135,6 +137,8 @@ function HitSubHeader({ label }: { label: string }) {
 function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
   const options = useContext(DesignContext)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay.DamageFunctions' })
+  const onFilterChange = useContext(FilterChangeContext)
+  const selectedFilter = useContext(FilterContext)
   const rowBase = getRowBaseStyle(options)
   const sourceLabelStyle = getSourceLabelStyle(options)
 
@@ -144,7 +148,10 @@ function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
   const tagPills = hit.outputTag === OutputTag.DAMAGE
     ? DAMAGE_TAG_ENTRIES
       .filter((e) => (hit.damageType & e.tag) !== 0)
-      .map((e) => renderPill(String(e.tag), e.color, e.label))
+      .map((e) => {
+        const active = selectedFilter != null && (e.tag & selectedFilter) !== 0
+        return renderPill(String(e.tag), e.color, e.label, { onClick: () => onFilterChange?.(e.tag), active })
+      })
     : []
 
   return (

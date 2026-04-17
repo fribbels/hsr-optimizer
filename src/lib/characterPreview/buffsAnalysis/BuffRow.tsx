@@ -12,6 +12,7 @@ import {
 import {
   DesignContext,
   ellipsisStyle,
+  FilterChangeContext,
   FilterContext,
   getSourceLabelStyle,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
@@ -22,10 +23,7 @@ import {
   BUFF_TYPE,
 } from 'lib/optimization/buffSource'
 import type { ReactElement } from 'react'
-import {
-  useContext,
-  useMemo,
-} from 'react'
+import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
@@ -90,7 +88,6 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
         borderBottom: borderBottomStyle,
         background: rowBackground,
         opacity: dimmed ? 0.15 : 1,
-        transition: 'opacity 0.15s',
       }}
     >
       <span style={{ minWidth: 60, textWrap: 'nowrap', fontSize: options.fontSize }}>{value}</span>
@@ -115,19 +112,24 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
 }
 
 function DamageTagPills({ damageTags }: { damageTags?: number }) {
-  const pills = useMemo(() => {
-    if (damageTags == null) {
-      return [renderPill('ALL', ABILITY_COLORS.ALL, 'ALL')]
-    }
+  const onFilterChange = useContext(FilterChangeContext)
+  const selectedFilter = useContext(FilterContext)
 
-    const result: ReactElement[] = []
-    for (const entry of DAMAGE_TAG_ENTRIES) {
-      if ((damageTags & entry.tag) !== 0) {
-        result.push(renderPill(String(entry.tag), entry.color, entry.label))
-      }
+  if (damageTags == null) {
+    return (
+      <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap', flexShrink: 0 }}>
+        {renderPill('ALL', ABILITY_COLORS.ALL, 'ALL', { onClick: () => onFilterChange?.(null) })}
+      </div>
+    )
+  }
+
+  const pills: ReactElement[] = []
+  for (const entry of DAMAGE_TAG_ENTRIES) {
+    if ((damageTags & entry.tag) !== 0) {
+      const active = selectedFilter != null && (entry.tag & selectedFilter) !== 0
+      pills.push(renderPill(String(entry.tag), entry.color, entry.label, { onClick: () => onFilterChange?.(entry.tag), active }))
     }
-    return result
-  }, [damageTags])
+  }
 
   if (pills.length === 0) return null
   return <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap', flexShrink: 0 }}>{pills}</div>

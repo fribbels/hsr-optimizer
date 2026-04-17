@@ -1,3 +1,4 @@
+import { RECHARTS_TOOLTIP_WRAPPER_STYLE } from 'lib/constants/constantsUi'
 import {
   chartColor,
   decodeDamageTypeLabel,
@@ -274,7 +275,7 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
           content={<CustomTooltip bars={bars} />}
           cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
           isAnimationActive={false}
-          wrapperStyle={{ transition: 'opacity 0.15s ease-out', pointerEvents: 'none' }}
+          wrapperStyle={RECHARTS_TOOLTIP_WRAPPER_STYLE}
         />
 
         {bars.map((bar, i) => (

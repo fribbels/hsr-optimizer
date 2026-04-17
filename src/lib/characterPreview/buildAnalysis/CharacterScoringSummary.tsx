@@ -8,6 +8,7 @@ import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import {
   ScoringSelector,
@@ -288,9 +289,11 @@ function ScoringColumnsSection() {
 export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   displayRelics,
   showcaseMetadata,
+  source,
 }: {
   displayRelics: PreviewRelics,
   showcaseMetadata: ShowcaseMetadata,
+  source: ShowcaseSource,
 }) {
   const { t } = useTranslation('charactersTab')
 
@@ -300,7 +303,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         {/* Grade ruler */}
         <DeferCreate>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
-            <DPSScoreDisclaimer />
+            {source !== ShowcaseSource.SHOWCASE_TAB && <DPSScoreDisclaimer />}
             <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
                 text={t('CharacterPreview.BuildAnalysis.Header')}

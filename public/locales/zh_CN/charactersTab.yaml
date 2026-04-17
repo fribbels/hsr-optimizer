@@ -92,7 +92,6 @@ CharacterPreview:
     TitleBenchmark: '{{spd}}速度基准'
     Score: 'DPS评分 {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: '评分算法:'
     Labels:
       CombatScore: 战斗评分
       CombatScoreTBD: 战斗属性（待定）

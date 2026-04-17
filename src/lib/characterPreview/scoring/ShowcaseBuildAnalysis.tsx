@@ -4,6 +4,7 @@ import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
@@ -24,12 +25,14 @@ interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType
   showcaseMetadata: ShowcaseMetadata
   displayRelics: PreviewRelics
+  source: ShowcaseSource
 }
 
 export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   scoringType,
   showcaseMetadata,
   displayRelics,
+  source,
 }: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -93,6 +96,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           <CharacterScoringSummary
             displayRelics={displayRelics}
             showcaseMetadata={showcaseMetadata}
+            source={source}
           />
         )}
       {(scoringType === ScoringType.SUBSTAT_SCORE || simulationNull)

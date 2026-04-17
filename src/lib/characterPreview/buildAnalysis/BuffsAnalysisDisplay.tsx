@@ -3,6 +3,7 @@ import { BuffGroup } from 'lib/characterPreview/buffsAnalysis/BuffGroup'
 import {
   DEFAULT_OPTIONS,
   DesignContext,
+  FilterChangeContext,
   FilterContext,
   GROUP_ORDER,
   GROUP_SPACING,
@@ -77,35 +78,40 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
     panelWidth: size ?? DEFAULT_OPTIONS.panelWidth,
   }), [size])
 
-  if (!perActionBuffGroups || Object.keys(perActionBuffGroups.byAction).length === 0) {
-    return null
-  }
+  const byAction = perActionBuffGroups?.byAction
+  const rotationSteps = perActionBuffGroups?.rotationSteps
+  const primaryAction = perActionBuffGroups?.primaryAction
+  const buffGroups = useMemo(() => {
+    if (!byAction || Object.keys(byAction).length === 0) return null
+    if (selectedAction != null && rotationSteps?.[selectedAction]) {
+      return rotationSteps[selectedAction].groups
+    }
+    return (primaryAction != null ? byAction[primaryAction] : undefined) ?? byAction[Object.keys(byAction)[0]]
+  }, [byAction, selectedAction, rotationSteps, primaryAction])
 
-  const byAction = perActionBuffGroups.byAction
-  const buffGroups = selectedAction != null && perActionBuffGroups.rotationSteps[selectedAction]
-    ? perActionBuffGroups.rotationSteps[selectedAction].groups
-    : byAction[perActionBuffGroups.primaryAction] ?? byAction[Object.keys(byAction)[0]]
+  const allBuffs = useMemo(() => buffGroups ? collectAllBuffs(buffGroups) : [], [buffGroups])
+  const relevantTags = useMemo(() => computeRelevantTags(allBuffs), [allBuffs])
+  const statSums = useMemo(() => computeStatSums(allBuffs, selectedFilter), [allBuffs, selectedFilter])
 
   if (!buffGroups) {
     return null
   }
 
-  const allBuffs = useMemo(() => collectAllBuffs(buffGroups), [buffGroups])
-  const relevantTags = useMemo(() => computeRelevantTags(allBuffs), [allBuffs])
-  const statSums = useMemo(() => computeStatSums(allBuffs, selectedFilter), [allBuffs, selectedFilter])
-
   const primaryGroup = buffGroups[BUFF_TYPE.PRIMARY]
   const firstPrimaryId = primaryGroup ? Object.keys(primaryGroup)[0] : undefined
   const summaryAvatarSrc = firstPrimaryId ? Assets.getCharacterAvatarById(firstPrimaryId) : Assets.getBlank()
 
-  const summaryColumn = (
+  const statSummary = (
+    <DeferCreate>
+      <StatSummaryTable
+        sums={statSums}
+        avatarSrc={summaryAvatarSrc}
+      />
+    </DeferCreate>
+  )
+
+  const hitAndEnemy = (
     <>
-      <DeferCreate>
-        <StatSummaryTable
-          sums={statSums}
-          avatarSrc={summaryAvatarSrc}
-        />
-      </DeferCreate>
       {context && (
         <DeferCreate>
           <HitDefinitionTable
@@ -128,9 +134,9 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
 
   const buffsColumn = <GroupedLayout buffGroups={buffGroups} />
 
-  const actionSelector = (
+  const actionSelector = rotationSteps && (
     <ActionSelector
-      rotationSteps={perActionBuffGroups.rotationSteps}
+      rotationSteps={rotationSteps}
       selectedAction={selectedAction}
       onActionChange={setSelectedAction}
     />
@@ -139,6 +145,7 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   return (
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
+        <FilterChangeContext.Provider value={setSelectedFilter}>
         {twoColumn
           ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING }}>
@@ -146,7 +153,8 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               <div style={{ display: 'flex', gap: GROUP_SPACING, alignItems: 'start' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
-                  {summaryColumn}
+                  {statSummary}
+                  {hitAndEnemy}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
                   {buffsColumn}
@@ -156,14 +164,15 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
           )
           : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
+              {statSummary}
+              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               {actionSelector}
-              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-              {summaryColumn}
-              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
               {buffsColumn}
               <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+              {hitAndEnemy}
             </div>
           )}
+        </FilterChangeContext.Provider>
       </FilterContext.Provider>
     </DesignContext.Provider>
   )

@@ -4,6 +4,7 @@ import type {
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import {
   ABILITY_COLORS,
+  DAMAGE_TAG_BY_KEY,
   DAMAGE_TAG_ENTRIES,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import {
@@ -19,6 +20,7 @@ import {
 import {
   DesignContext,
   ellipsisStyle,
+  FilterChangeContext,
   FilterContext,
   getRowBaseStyle,
   getSourceLabelStyle,
@@ -166,18 +168,23 @@ function getContributionTagPills(contributions: StatSumContribution[]): TagColor
 function isPillActive(pillKey: AbilityColorKey, filter: DamageTag | null): boolean {
   if (pillKey === 'ALL') return true
   if (filter === null) return false
-  const entry = DAMAGE_TAG_ENTRIES.find((e) => e.key === pillKey)
+  const entry = DAMAGE_TAG_BY_KEY.get(pillKey)
   return entry != null && (entry.tag & filter) !== 0
 }
 
 function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
   const filter = useContext(FilterContext)
+  const onFilterChange = useContext(FilterChangeContext)
   const pills = getContributionTagPills(props.allContributions)
   if (pills.length === 0) return null
 
   return (
     <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
-      {pills.map((p) => renderPill(p.key, p.color, p.label, !isPillActive(p.key, filter)))}
+      {pills.map((p) => {
+        const tag = p.key === 'ALL' ? null : DAMAGE_TAG_BY_KEY.get(p.key)?.tag ?? null
+        const active = p.key !== 'ALL' && tag != null && filter != null && (tag & filter) !== 0
+        return renderPill(p.key, p.color, p.label, { dimmed: !isPillActive(p.key, filter), onClick: () => onFilterChange?.(tag), active })
+      })}
     </div>
   )
 }
@@ -204,7 +211,6 @@ export function StatSummaryTable(props: {
             ...rowBase,
             borderBottom: i < props.sums.length - 1 ? `1px solid ${options.borderColor}` : undefined,
             opacity: sum.total === 0 ? 0.15 : 1,
-            transition: 'opacity 0.15s',
           }}
         >
           <span style={{ minWidth: 60, fontSize: options.fontSize, textWrap: 'nowrap' }}>

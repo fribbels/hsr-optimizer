@@ -89,7 +89,6 @@ CharacterPreview:
     TitleBenchmark: '{{spd}} 속도 벤치마크'
     Score: 'DPS 점수 {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: '점수 계산 알고리즘:'
     Labels:
       CombatScore: 전투 점수
       CombatScoreTBD: 전투 (TBD)

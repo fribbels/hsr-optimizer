@@ -45,6 +45,7 @@ export const DEFAULT_OPTIONS: DesignOptions = {
 
 export const DesignContext = createContext<DesignOptions>(DEFAULT_OPTIONS)
 export const FilterContext = createContext<DamageTag | null>(null)
+export const FilterChangeContext = createContext<((f: DamageTag | null) => void) | null>(null)
 
 export const ellipsisStyle = (fontSize: number): React.CSSProperties => ({
   overflow: 'hidden',

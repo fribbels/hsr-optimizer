@@ -125,7 +125,7 @@ function WarpPlanner() {
             </Title>
 
             <Flex direction="column" gap={16}>
-              <Flex gap={25} justify='space-between'>
+              <Flex gap={20} justify='space-between'>
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex direction="column" gap={HEADER_LABEL_GAP}>
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
@@ -161,7 +161,7 @@ function WarpPlanner() {
                 </Flex>
               </Flex>
 
-              <Flex gap={25}>
+              <Flex gap={20}>
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex direction="column" gap={HEADER_LABEL_GAP}>
                     <HeaderText>{t('Passes')/* Passes */}</HeaderText>
@@ -196,7 +196,7 @@ function WarpPlanner() {
                 </Flex>
               </Flex>
 
-              <Flex gap={25}>
+              <Flex gap={20}>
                 <Flex direction="column" gap={HEADER_LABEL_GAP} style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
 
@@ -279,15 +279,19 @@ function WarpSummary(props: { enriched: EnrichedWarpRequest }) {
     <Divider
       mt={40} mb={30}
       label={
-        <Flex align='center' gap={4} style={{ fontSize: 14 }}>
+        <Flex align='center' gap={4} style={{ fontSize: 16 }}>
           {localeNumberComma(enriched.totalJade)}
           <img style={{ height: 16 }} src={Assets.getJade()}/>
           <span>+</span>
           {localeNumberComma(enriched.passes)}
           <img style={{ height: 16 }} src={Assets.getPass()}/>
-          <span>+</span>
-          {localeNumberComma(enriched.additionalPasses)}
-          <img style={{ height: 16 }} src={Assets.getPass()}/>
+          {enriched.additionalPasses > 0 && (
+            <>
+              <span>+</span>
+              {localeNumberComma(enriched.additionalPasses)}
+              <img style={{ height: 16 }} src={Assets.getPass()}/>
+            </>
+          )}
           <span>+</span>
           {localeNumberComma(enriched.totalStarlight)}
           <img style={{ height: 16 }} src={Assets.getStarlight()}/>
@@ -391,7 +395,7 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
   const guaranteedField = `guaranteed${props.banner}` as keyof WarpRequest
 
   return (
-    <Flex gap={25} w='100%'>
+    <Flex gap={20} w='100%'>
       <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
         <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
 

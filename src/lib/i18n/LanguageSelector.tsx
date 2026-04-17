@@ -1,4 +1,5 @@
-import { Select } from '@mantine/core'
+import { CheckIcon, Select } from '@mantine/core'
+import type { CSSProperties } from 'react'
 import {
   BASE_PATH,
   BasePath,
@@ -11,6 +12,8 @@ import { Assets } from 'lib/rendering/assets'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { languages } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
+
+const optionStyle: CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }
 
 export function LanguageSelector() {
   const { i18n } = useTranslation()
@@ -30,7 +33,12 @@ export function LanguageSelector() {
   return (
     <Select
       data={selectData}
-      renderOption={({ option }) => <span title={option.value}>{option.label}</span>}
+      renderOption={({ option, checked }) => (
+        <span title={option.value} style={optionStyle}>
+          {option.label}
+          {checked && <CheckIcon size={12} />}
+        </span>
+      )}
       onChange={(value) => {
         if (!value) return
         if (i18n.resolvedLanguage === 'aa_ER') window.jipt?.stop()
@@ -49,6 +57,7 @@ export function LanguageSelector() {
       styles={{ input: { height: 32, minHeight: 32, paddingLeft: 32, backgroundColor: 'var(--layer-1)', borderColor: 'rgba(255, 255, 255, 0.06)' } }}
       maxDropdownHeight={400}
       comboboxProps={{ keepMounted: false, width: 210 }}
+      allowDeselect={false}
       defaultValue={i18n.resolvedLanguage}
       leftSection={<img style={{ width: 18 }} src={Assets.getGlobe()} />}
     />

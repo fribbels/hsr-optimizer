@@ -3,10 +3,7 @@ import {
   AppPages,
   PageToRoute,
 } from 'lib/constants/appPages'
-import {
-  CharacterConverter,
-  type UnconvertedCharacter,
-} from 'lib/importer/characterConverter'
+import { CharacterConverter, type UnconvertedCharacter } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'

@@ -1,3 +1,4 @@
+import { RECHARTS_TOOLTIP_WRAPPER_STYLE } from 'lib/constants/constantsUi'
 import {
   chartColor,
   extractDamageByTag,
@@ -104,7 +105,7 @@ export function DamageTagPieChart({ analysis }: {
         <Tooltip
           content={<CustomTooltip />}
           isAnimationActive={false}
-          wrapperStyle={{ transition: 'opacity 0.15s ease-out', pointerEvents: 'none' }}
+          wrapperStyle={RECHARTS_TOOLTIP_WRAPPER_STYLE}
         />
       </PieChart>
 

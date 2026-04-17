@@ -91,7 +91,6 @@ CharacterPreview:
     TitleBenchmark: 'Эталонная СКР {{spd}}'
     Score: 'Оценка урона {{score}}% {{grade}}'
   AlgorithmSlider:
-    Title: 'Способ оценки:'
     Labels:
       CombatScore: В бою
       CombatScoreTBD: В бою (недоступно)

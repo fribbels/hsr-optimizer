@@ -263,6 +263,7 @@ const EstbpMetricCard = memo(function EstbpMetricCard({ relic, weights }: {
               textSpanClassName={styles.metricValue}
               promise={estbpPromise}
               selector={daysSelector}
+              keepPrevious
             />
           )
           : '-'}
@@ -279,6 +280,7 @@ const EstbpMetricCard = memo(function EstbpMetricCard({ relic, weights }: {
               textSpanClassName={styles.metricValue}
               promise={estbpPromise}
               selector={estbpSelector}
+              keepPrevious
             />
           )
           : '-'}

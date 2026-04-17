@@ -1,10 +1,10 @@
-import i18next from 'i18next'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import type {
   Conditionals,
-  ContentDefinition} from 'lib/conditionals/conditionalUtils';
+  ContentDefinition,
+} from 'lib/conditionals/conditionalUtils'
 import {
   AbilityEidolon,
   createEnum,
@@ -14,7 +14,6 @@ import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBat
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -61,8 +60,7 @@ export const SeeleB1Abilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
-  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Seele')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SeeleB1')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
   const {
     SOURCE_SKILL,
@@ -104,8 +102,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     dmgBoostStacks: {
       id: 'dmgBoostStacks',
       formItem: 'slider',
-      text: 'DMG boost stacks',
-      content: betaContent,
+      text: t('Content.dmgBoostStacks.text'),
+      content: t('Content.dmgBoostStacks.content'),
       min: 0,
       max: 3,
     },

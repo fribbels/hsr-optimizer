@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -21,7 +20,6 @@ import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorlds
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -77,7 +75,6 @@ export const WeltB1Abilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.WeltB1.Content')
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {

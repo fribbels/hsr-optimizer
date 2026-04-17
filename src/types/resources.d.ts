@@ -2352,6 +2352,30 @@ interface Resources {
           }
         }
       },
+      "SeeleB1": {
+        "Content": {
+          "buffedState": {
+            "content": "Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 1 turn.::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 20%.",
+            "text": "Buffed state"
+          },
+          "dmgBoostStacks": {
+            "content": "When defeating an enemy target, increases the wearer's DMG dealt by 50%. This effect can stack up to 3 times and lasts for 3 turns.",
+            "text": "DMG boost stacks"
+          },
+          "e1EnemyHp80CrBoost": {
+            "content": "When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%.",
+            "text": "E1 enemy HP ≤ 80% CR boost"
+          },
+          "e6UltTargetDebuff": {
+            "content": "After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn. Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked.",
+            "text": "E6 Butterfly Flurry"
+          },
+          "speedBoostStacks": {
+            "content": "After using her skill, Seele's SPD increases by 25% for 2 turns.::BR::E2: The SPD Boost effect of Seele's Skill can stack up to 2 times.",
+            "text": "Speed buff stacks"
+          }
+        }
+      },
       "Serval": {
         "Content": {
           "enemyDefeatedBuff": {

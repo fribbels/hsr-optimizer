@@ -94,7 +94,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   // only the character scoring column will pass as null as all other info is available synchronously
   const headerText = props.percent !== null
     ? t(`CharacterPreview.ScoringColumn.${props.type}.Header`, {
-      score: truncate10ths(precisionRound(props.percent * 100)),
+      score: truncate10ths(precisionRound(props.percent * 100)).toFixed(1),
     })
     : null
 

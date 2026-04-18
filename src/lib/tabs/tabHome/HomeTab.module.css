@@ -303,6 +303,14 @@
   width: 100%;
 }
 
+.imageBlockLeft {
+  justify-content: flex-end;
+}
+
+.imageBlockRight {
+  justify-content: flex-start;
+}
+
 .sectionImage {
   width: 100%;
   max-width: 550px;
@@ -317,7 +325,7 @@
 }
 
 .sectionImage:hover {
-  transform: translateY(-4px) scale(1.05);
+  transform: translateY(-4px) scale(1.025);
   box-shadow:
     0 12px 32px rgba(0, 0, 0, 0.55),
     0 20px 56px rgba(0, 0, 0, 0.45);
@@ -363,6 +371,11 @@
 .communityCard:hover {
   transform: translateY(-2px);
   border-color: var(--mantine-color-primary-5);
+}
+
+.communityCard:focus-visible {
+  outline: 2px solid var(--mantine-color-primary-5);
+  outline-offset: 2px;
 }
 
 .communityCardHeader {
@@ -439,7 +452,7 @@
     padding: 60px 48px;
   }
   .textBlock {
-    max-width: 250px;
+    max-width: 300px;
   }
   .sectionImage {
     max-width: 400px;

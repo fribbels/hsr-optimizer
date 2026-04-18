@@ -8,7 +8,13 @@ import {
   IconHistory,
   IconSearch,
 } from '@tabler/icons-react'
+import { AppPages, PageToRoute } from 'lib/constants/appPages'
+import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { validateUuid } from 'lib/utils/miscUtils'
 import { useTranslation } from 'react-i18next'
 import classes from './HomeTab.module.css'
 
@@ -99,6 +105,22 @@ export function HomeTab() {
 
 function HeroSection() {
   const { t } = useTranslation('hometab')
+  const inputRef = useRef<HTMLInputElement>(null)
+  const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
+
+  function handleSearchSubmit() {
+    const uuid = inputRef.current?.value
+    if (!uuid) return
+
+    const validated = validateUuid(uuid)
+    if (!validated) {
+      return Message.warning(t('SearchBar.Message'))
+    }
+
+    window.history.pushState({}, '', `${PageToRoute[AppPages.SHOWCASE]}?id=${uuid}`)
+    useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loading)
+    useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)
+  }
 
   return (
     <section className={classes.hero}>
@@ -133,6 +155,7 @@ function HeroSection() {
               <Button
                 size="md"
                 aria-label={t('SearchBar.Search')}
+                onClick={handleSearchSubmit}
                 style={{
                   borderTopRightRadius: 0,
                   borderBottomRightRadius: 0,
@@ -141,6 +164,7 @@ function HeroSection() {
                 <IconSearch size={20} />
               </Button>
               <TextInput
+                ref={inputRef}
                 placeholder={t('SearchBar.Placeholder')}
                 size="md"
                 style={{ flex: 1 }}
@@ -150,6 +174,10 @@ function HeroSection() {
                     borderTopLeftRadius: 0,
                     borderBottomLeftRadius: 0,
                   },
+                }}
+                defaultValue={scorerId ?? ''}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleSearchSubmit()
                 }}
               />
             </div>
@@ -223,7 +251,7 @@ function FeatureCard({ title, description, features, background, image, align }:
   )
 
   const imageBlock = (
-    <div className={classes.imageBlock} style={{ justifyContent: isLeft ? 'flex-end' : 'flex-start' }}>
+    <div className={`${classes.imageBlock} ${isLeft ? classes.imageBlockLeft : classes.imageBlockRight}`}>
       <img src={Assets.getHomeFeature(image)} alt={title} className={classes.sectionImage} loading="lazy" />
     </div>
   )
@@ -250,8 +278,8 @@ function FeatureCard({ title, description, features, background, image, align }:
 function FeatureList({ features }: { features: string[] }) {
   return (
     <div className={classes.featureBulletDividers}>
-      {features.map((text, i) => (
-        <div key={i} className={classes.featureBulletDividerItem}>
+      {features.map((text) => (
+        <div key={text} className={classes.featureBulletDividerItem}>
           <span className={classes.bullet}>•</span>
           <span>{text}</span>
         </div>
@@ -293,9 +321,10 @@ function CommunitySection() {
             icon={<IconHistory size={28} />}
             title="Changelog"
             description="Check out recent updates, new features, and bug fixes."
-            href="/hsr-optimizer#changelog"
+            href={PageToRoute[AppPages.CHANGELOG]}
             iconColor="#ffffff"
             iconBg="#b8863b"
+            external={false}
           />
         </div>
       </FadeSection>
@@ -330,16 +359,22 @@ interface CommunityCardProps {
   href: string
   iconColor?: string
   iconBg?: string
+  external?: boolean
 }
 
-function CommunityCard({ icon, title, description, href, iconColor, iconBg }: CommunityCardProps) {
+function CommunityCard({ icon, title, description, href, iconColor, iconBg, external = true }: CommunityCardProps) {
   const iconStyle = {
     '--icon-color': iconColor,
     '--icon-bg': iconBg,
   } as React.CSSProperties
 
   return (
-    <a href={href} target="_blank" rel="noreferrer" className={classes.communityCard}>
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noreferrer' : undefined}
+      className={classes.communityCard}
+    >
       <div className={classes.communityCardHeader}>
         <div className={classes.communityCardIcon} style={iconStyle}>{icon}</div>
         <h4 className={classes.communityCardTitle}>{title}</h4>

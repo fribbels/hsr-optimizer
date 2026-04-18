@@ -24,6 +24,7 @@ VerifiedRelicHoverText: Relic substats verified by relic scorer (speed decimals)
 Verified4LinerHoverText: Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
 CombatStats: Combat Stats
 MemospriteLabel: '{{label}}ᴹ'
+Element: Element
 Parts:
   Head: Head
   Hands: Hands

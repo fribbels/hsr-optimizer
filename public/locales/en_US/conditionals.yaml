@@ -2428,7 +2428,7 @@ Characters:
       certifiedBanger:
         text: Certified Banger
         content: >-
-          "While Silver Wolf LV.999 possesses "Certified Banger,", using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier.
+          While Silver Wolf LV.999 possesses "Certified Banger," using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier.
           ::BR::
           Each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's "Top Loot Box" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects:
           ::BR::
@@ -2436,11 +2436,11 @@ Characters:
           ::BR::
           "Kaboom Eggsplosion": Recovers 2 Skill Points.
           ::BR::
-          "Funky Munch Bean": Gains 3 Punchlines."
+          "Funky Munch Bean": Gains 3 Punchlines.
       certifiedBangerStacks:
         text: Certified Banger stacks
         content: >-
-          "While Silver Wolf LV.999 possesses "Certified Banger,", using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier
+          While Silver Wolf LV.999 possesses "Certified Banger," using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier.
           ::BR::
           Each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's "Top Loot Box" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects:
           ::BR::
@@ -2448,7 +2448,7 @@ Characters:
           ::BR::
           "Kaboom Eggsplosion": Recovers 2 Skill Points.
           ::BR::
-          "Funky Munch Bean": Gains 3 Punchlines."
+          "Funky Munch Bean": Gains 3 Punchlines.
       hiddenMmr:
         text: Hidden MMR
         content: When gaining Punchline, Silver Wolf LV.999 gains an equal amount of "Hidden MMR." Each point of "Hidden MMR" increases CRIT Rate by {{hiddenMmrCrStep}}%. After CRIT Rate increases to 100%, each remaining point of "Hidden MMR" switches to increasing CRIT DMG by {{hiddenMmrCdStep}}%.

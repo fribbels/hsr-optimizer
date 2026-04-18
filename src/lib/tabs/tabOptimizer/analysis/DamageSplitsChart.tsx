@@ -1,7 +1,4 @@
-import {
-  Divider,
-  Flex,
-} from '@mantine/core'
+import { Divider } from '@mantine/core'
 import { type TFunction } from 'i18next'
 import { RECHARTS_TOOLTIP_WRAPPER_STYLE } from 'lib/constants/constantsUi'
 import {
@@ -228,6 +225,7 @@ function CustomTooltip({ active, payload, bars }: { active?: boolean, payload?: 
   if (!active || !payload || payload.length === 0) return null
 
   const entries = payload.filter((p) => typeof p.value === 'number' && p.value > 0)
+  if (entries.length === 0) return null
 
   return (
     <div className='pre-font' style={TOOLTIP_STYLE}>

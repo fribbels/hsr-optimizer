@@ -115,7 +115,7 @@ export function DPSScoreDisclaimer() {
           fullWidth
           onClick={() => openConfirmModal(t)}
         >
-          Understood, hide warning
+          {t('ButtonText')}
         </Button>
       </div>
     </div>

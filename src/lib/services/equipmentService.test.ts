@@ -129,6 +129,101 @@ describe('equipmentService', () => {
       expect(() => switchRelics(NON_EXISTENT_CHAR, CHAR_2)).not.toThrow()
       expect(getCharacterById(CHAR_2)!.equipped).toEqual({})
     })
+
+    it('returns early when target character does not exist in store', () => {
+      useCharacterStore.getState().setCharacters([makeCharacter(CHAR_1)])
+
+      expect(() => switchRelics(CHAR_1, NON_EXISTENT_CHAR)).not.toThrow()
+      expect(getCharacterById(CHAR_1)!.equipped).toEqual({})
+    })
+  })
+
+  describe('switchRelics — swaps all relics between characters', () => {
+    it('swaps relics when target has more equipped than source', () => {
+      // Source has Head only, Target has Head + Body
+      const sourceHead = makeRelic({ id: 'src-head', part: Parts.Head, equippedBy: CHAR_1 })
+      const targetHead = makeRelic({ id: 'tgt-head', part: Parts.Head, equippedBy: CHAR_2 })
+      const targetBody = makeRelic({ id: 'tgt-body', part: Parts.Body, equippedBy: CHAR_2 })
+
+      useRelicStore.getState().setRelics([sourceHead, targetHead, targetBody])
+      useCharacterStore.getState().setCharacters([
+        makeCharacter(CHAR_1, { equipped: { [Parts.Head]: 'src-head' } }),
+        makeCharacter(CHAR_2, { equipped: { [Parts.Head]: 'tgt-head', [Parts.Body]: 'tgt-body' } }),
+      ])
+
+      switchRelics(CHAR_1, CHAR_2)
+
+      // Source should now have target's Head + Body
+      expect(getCharacterById(CHAR_1)!.equipped[Parts.Head]).toBe('tgt-head')
+      expect(getCharacterById(CHAR_1)!.equipped[Parts.Body]).toBe('tgt-body')
+      // Target should now have source's Head only
+      expect(getCharacterById(CHAR_2)!.equipped[Parts.Head]).toBe('src-head')
+      expect(getCharacterById(CHAR_2)!.equipped[Parts.Body]).toBeUndefined()
+    })
+
+    it('swaps relics when source has more equipped than target', () => {
+      // Source has Head + Body, Target has Head only
+      const sourceHead = makeRelic({ id: 'src-head', part: Parts.Head, equippedBy: CHAR_1 })
+      const sourceBody = makeRelic({ id: 'src-body', part: Parts.Body, equippedBy: CHAR_1 })
+      const targetHead = makeRelic({ id: 'tgt-head', part: Parts.Head, equippedBy: CHAR_2 })
+
+      useRelicStore.getState().setRelics([sourceHead, sourceBody, targetHead])
+      useCharacterStore.getState().setCharacters([
+        makeCharacter(CHAR_1, { equipped: { [Parts.Head]: 'src-head', [Parts.Body]: 'src-body' } }),
+        makeCharacter(CHAR_2, { equipped: { [Parts.Head]: 'tgt-head' } }),
+      ])
+
+      switchRelics(CHAR_1, CHAR_2)
+
+      // Source should now have target's Head only
+      expect(getCharacterById(CHAR_1)!.equipped[Parts.Head]).toBe('tgt-head')
+      expect(getCharacterById(CHAR_1)!.equipped[Parts.Body]).toBeUndefined()
+      // Target should now have source's Head + Body
+      expect(getCharacterById(CHAR_2)!.equipped[Parts.Head]).toBe('src-head')
+      expect(getCharacterById(CHAR_2)!.equipped[Parts.Body]).toBe('src-body')
+    })
+
+    it('moves all relics to target when source has zero relics', () => {
+      // Source has no relics, Target has Head + Body
+      const targetHead = makeRelic({ id: 'tgt-head', part: Parts.Head, equippedBy: CHAR_2 })
+      const targetBody = makeRelic({ id: 'tgt-body', part: Parts.Body, equippedBy: CHAR_2 })
+
+      useRelicStore.getState().setRelics([targetHead, targetBody])
+      useCharacterStore.getState().setCharacters([
+        makeCharacter(CHAR_1, { equipped: {} }),
+        makeCharacter(CHAR_2, { equipped: { [Parts.Head]: 'tgt-head', [Parts.Body]: 'tgt-body' } }),
+      ])
+
+      switchRelics(CHAR_1, CHAR_2)
+
+      // Source should now have target's relics
+      expect(getCharacterById(CHAR_1)!.equipped[Parts.Head]).toBe('tgt-head')
+      expect(getCharacterById(CHAR_1)!.equipped[Parts.Body]).toBe('tgt-body')
+      // Target should now be empty
+      expect(getCharacterById(CHAR_2)!.equipped[Parts.Head]).toBeUndefined()
+      expect(getCharacterById(CHAR_2)!.equipped[Parts.Body]).toBeUndefined()
+    })
+
+    it('moves all relics to source when target has zero relics', () => {
+      // Source has Head + Body, Target has no relics
+      const sourceHead = makeRelic({ id: 'src-head', part: Parts.Head, equippedBy: CHAR_1 })
+      const sourceBody = makeRelic({ id: 'src-body', part: Parts.Body, equippedBy: CHAR_1 })
+
+      useRelicStore.getState().setRelics([sourceHead, sourceBody])
+      useCharacterStore.getState().setCharacters([
+        makeCharacter(CHAR_1, { equipped: { [Parts.Head]: 'src-head', [Parts.Body]: 'src-body' } }),
+        makeCharacter(CHAR_2, { equipped: {} }),
+      ])
+
+      switchRelics(CHAR_1, CHAR_2)
+
+      // Source should now be empty
+      expect(getCharacterById(CHAR_1)!.equipped[Parts.Head]).toBeUndefined()
+      expect(getCharacterById(CHAR_1)!.equipped[Parts.Body]).toBeUndefined()
+      // Target should now have source's relics
+      expect(getCharacterById(CHAR_2)!.equipped[Parts.Head]).toBe('src-head')
+      expect(getCharacterById(CHAR_2)!.equipped[Parts.Body]).toBe('src-body')
+    })
   })
 
   describe('upsertRelicWithEquipment — M3 empty store', () => {

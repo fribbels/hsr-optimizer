@@ -121,15 +121,27 @@ export function equipRelicIds(relicIds: RelicId[], characterId: CharacterId, for
 }
 
 /**
- * Transfers all equipped relics from one character to another.
+ * Swaps all equipped relics between two characters.
  */
 export function switchRelics(fromId: CharacterId, toId: CharacterId): void {
   if (!fromId) return console.warn('No characterId to equip from')
   if (!toId) return console.warn('No characterId to equip to')
   const fromCharacter = getCharacterById(fromId)
   if (!fromCharacter) return console.warn('Source character not found', fromId)
-  const relicIds = Object.values(fromCharacter.equipped).filter((id): id is RelicId => id != null)
-  equipRelicIds(relicIds, toId, true)
+  const toCharacter = getCharacterById(toId)
+  if (!toCharacter) return console.warn('Target character not found', toId)
+
+  // Collect relics from both characters before any mutations
+  const fromRelics = Object.values(fromCharacter.equipped).filter((id): id is RelicId => id != null).map(getRelicById).filter((r): r is Relic => r != null)
+  const toRelics = Object.values(toCharacter.equipped).filter((id): id is RelicId => id != null).map(getRelicById).filter((r): r is Relic => r != null)
+
+  // Unequip both characters
+  unequipCharacter(fromId)
+  unequipCharacter(toId)
+
+  // Re-equip: source's relics → target, target's relics → source
+  for (const relic of fromRelics) equipRelic(relic, toId)
+  for (const relic of toRelics) equipRelic(relic, fromId)
 }
 
 /**

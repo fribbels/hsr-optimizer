@@ -102,12 +102,6 @@ export function DPSScoreDisclaimer() {
               }
             </Text>
           </li>
-          <li>
-            <Text size='md'>
-              {t('Body.l5')}
-              {/* If you wish to compare builds with different amounts of speed substats, use the sidebar to configure the SPD benchmark such that both builds are evaluated at the same speed value. */}
-            </Text>
-          </li>
         </ul>
 
         <Button

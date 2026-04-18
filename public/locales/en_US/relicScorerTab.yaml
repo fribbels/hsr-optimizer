@@ -29,10 +29,9 @@ DPSScoreDisclaimer:
   Title: Do NOT use Combo DMG or DPS Score to compare teams, light cones, or eidolons!
   Body:
     l1: Combo DMG and DPS Score measure how much damage your build deals in a fixed ability rotation, specific to your current team setup.
-    l2: Different teams, light cones, eidolons, or beta versions can all affect the rotation, and the resulting scores cannot be meaningfully compared against each other.
-    l3: Within your current team setup, use Combo DMG to see how different relics, main stats, and set effects impact your rotation damage. DPS Score compares your Combo DMG against simulated benchmark builds with optimally distributed substats at the same speed, showing how close your relics are to the best possible build for your team.
-    l4: Benchmarks are generated to match your character's combat speed. Builds at different speed targets are scored against fundamentally different benchmarks, so their scores should not be compared. This is why when comparing two builds at different speeds, you might see the slower one have higher Combo DMG, but the faster one have a higher DPS Score, because the benchmark redistributes substats to match each speed target. The fixed rotation does not model changes in action advance, energy regen, or other differences between team compositions. Each character is measured with their own unique rotation and rotation length.
-    l5: If you wish to compare builds with different amounts of speed substats, use the sidebar to configure the SPD benchmark such that both builds are evaluated at the same speed value.
+    l2: Different teams, light cones, eidolons, or versions all affect action advance, energy, and other mechanics not captured by the fixed rotation, so scores across setups cannot be meaningfully compared. Each character has their own unique rotation and target length.
+    l3: Within your current team, use Combo DMG to compare how different relics, main stats, and set effects impact your rotation damage. DPS Score compares your Combo DMG against simulated benchmarks with optimally distributed substats at the same speed, showing how close your relics are to the best possible build.
+    l4: DPS Score benchmarks are generated to match your character's combat speed. Builds at different speeds are scored against fundamentally different benchmarks and can't be compared. This explains why a slower build might show higher Combo DMG but a lower DPS Score. Set the SPD benchmark in the sidebar to compare DPS Scores of builds at the same speed target.
   ButtonText: Understood, hide warning
   Confirmation:
     Title: Acknowledge and hide warning

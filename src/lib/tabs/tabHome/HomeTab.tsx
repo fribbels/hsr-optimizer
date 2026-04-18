@@ -335,6 +335,7 @@ function CommunitySection() {
             iconColor='#ffffff'
             iconBg='#b8863b'
             external={false}
+            appPage={AppPages.CHANGELOG}
           />
         </div>
       </FadeSection>
@@ -375,9 +376,10 @@ interface CommunityCardProps {
   iconColor?: string
   iconBg?: string
   external?: boolean
+  appPage?: AppPages
 }
 
-function CommunityCard({ icon, title, description, href, iconColor, iconBg, external = true }: CommunityCardProps) {
+function CommunityCard({ icon, title, description, href, iconColor, iconBg, external = true, appPage }: CommunityCardProps) {
   const iconStyle = {
     '--icon-color': iconColor,
     '--icon-bg': iconBg,
@@ -389,6 +391,13 @@ function CommunityCard({ icon, title, description, href, iconColor, iconBg, exte
       target={external ? '_blank' : undefined}
       rel={external ? 'noreferrer' : undefined}
       className={classes.communityCard}
+      onClick={!external && appPage != null
+        ? (e) => {
+          if (e.ctrlKey || e.metaKey || e.shiftKey) return
+          e.preventDefault()
+          useGlobalStore.getState().setActiveKey(appPage)
+        }
+        : undefined}
     >
       <div className={classes.communityCardHeader}>
         <div className={classes.communityCardIcon} style={iconStyle}>{icon}</div>

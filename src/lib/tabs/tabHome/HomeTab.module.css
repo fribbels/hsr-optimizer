@@ -9,9 +9,8 @@
 
 /* Hero container - wider for prominence */
 .heroContainer {
-  max-width: 2000px;
+  max-width: 1900px;
   margin: 0 auto;
-  padding: 0 20px;
 }
 
 /* Content container - narrower for cards */
@@ -25,7 +24,7 @@
 .hero {
   position: relative;
   width: 100%;
-  min-height: 80vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,19 +49,25 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
-  filter: brightness(0.95);
 }
 
 .heroOverlay {
   position: absolute;
   inset: 0;
   border-radius: 16px;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.1) 0%,
-    rgba(0, 0, 0, 0.25) 60%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.1) 20%,
+      rgba(0, 0, 0, 0) 35%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.3) 0%,
+      rgba(0, 0, 0, 0.1) 10%,
+      rgba(0, 0, 0, 0) 20%
+    );
 }
 
 .heroContent {
@@ -80,10 +85,12 @@
 .heroWelcome {
   font-size: 24px;
   font-weight: 400;
-  color: rgba(200, 200, 200, 0.9);
+  color: rgba(255, 255, 255, 0.9);
   margin: 0 0 8px 0;
   letter-spacing: 0.02em;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+  text-shadow:
+    0 0 20px rgba(0, 0, 0, 0.7),
+    0 2px 30px rgba(0, 0, 0, 0.5);
 }
 
 .heroTitle {
@@ -92,8 +99,10 @@
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin: 0;
-  color: var(--mantine-color-dark-0);
-  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow:
+    0 0 20px rgba(0, 0, 0, 0.7),
+    0 2px 30px rgba(0, 0, 0, 0.5);
 }
 
 .searchBarContainer {
@@ -151,7 +160,7 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  color: rgba(168, 168, 168, 0.8);
+  color: rgba(220, 220, 220, 0.9);
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;

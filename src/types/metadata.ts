@@ -54,6 +54,11 @@ export type SimulationMetadata = {
   parts: {
     [part: string]: MainStats[],
   },
+  /**
+   * Must contain at least 5 non-SPD stats so the benchmark search space can fill all 24 substat
+   * slots on a real 6-piece build. If the character only has 3-4 real damage stats, pad with a
+   * flat filler (`Stats.ATK` / `Stats.HP` / `Stats.DEF`) — SPD is implicit and doesn't count.
+   */
   substats: SubStats[],
   errRopeEidolon?: number,
   deprioritizeBuffs?: boolean,

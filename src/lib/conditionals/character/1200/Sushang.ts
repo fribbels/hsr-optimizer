@@ -253,6 +253,7 @@ const simulation = (): SimulationMetadata => ({
     Stats.CD,
     Stats.ATK_P,
     Stats.BE,
+    Stats.ATK,
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,

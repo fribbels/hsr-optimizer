@@ -1,5 +1,8 @@
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { Stats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   applyScoringFunction,
@@ -17,7 +20,10 @@ import {
   type ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
-import { toSubstatCounts } from 'lib/worker/maxima/tree/statIndexMap'
+import {
+  SUBSTAT_COUNT,
+  toSubstatCounts,
+} from 'lib/worker/maxima/tree/statIndexMap'
 import { SubstatDistributionValidator } from 'lib/worker/maxima/validator/substatDistributionValidator'
 
 export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSimulationWorkerInput>) {
@@ -125,6 +131,20 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   ]
 
   const substatValidator = new SubstatDistributionValidator(goal, request)
+
+  let maxAssignments = 0
+  for (let i = 0; i < SUBSTAT_COUNT; i++) {
+    maxAssignments += Math.min(
+      maxSubstatRollCounts[SubStats[i]] ?? 0,
+      substatValidator.getAvailablePieces(i),
+    )
+  }
+  if (maxAssignments < 24) {
+    throw new Error(
+      `Search space assignment-infeasible: ${maxAssignments}/24 slots fillable. `
+      + `Character's effectiveSubstats needs more filler stats.`,
+    )
+  }
 
   const tree = new SearchTree(
     goal,

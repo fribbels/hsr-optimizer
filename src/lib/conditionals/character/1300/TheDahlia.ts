@@ -438,6 +438,7 @@ const simulation = (): SimulationMetadata => ({
     Stats.ATK_P,
     Stats.CR,
     Stats.CD,
+    Stats.ATK,
   ],
   errRopeEidolon: 0,
   comboTurnAbilities: [

@@ -54,5 +54,11 @@ const RouteToPage: Record<string, AppPages> = {
 export function getDefaultActiveKey() {
   const pathname = stripTrailingSlashes(window.location.pathname)
   const page = RouteToPage[pathname + window.location.hash.split('?')[0] as Route]
+
+  // Redirect #main to HOME for first-time users (no prior save data)
+  if (page === AppPages.OPTIMIZER && localStorage.getItem('state') === null) {
+    return AppPages.HOME
+  }
+
   return page ?? AppPages.HOME
 }

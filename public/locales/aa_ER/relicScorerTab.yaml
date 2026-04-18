@@ -25,5 +25,16 @@ Loading:
   FetchingShowcase: 'crwdns46734:0{{scorerId}}crwdne46734:0'
 Buttons:
   Import: crwdns46736:0crwdne46736:0
+DPSScoreDisclaimer:
+  Title: crwdns47088:0crwdne47088:0
+  Body:
+    l1: crwdns47090:0crwdne47090:0
+    l2: crwdns47092:0crwdne47092:0
+    l3: crwdns47094:0crwdne47094:0
+    l4: crwdns47096:0crwdne47096:0
+  ButtonText: crwdns47098:0crwdne47098:0
+  Confirmation:
+    Title: crwdns47100:0crwdne47100:0
+    Body: crwdns47102:0crwdne47102:0
 Disclaimer: 'crwdns45432:0crwdne45432:0'
 DisclaimerDescription: 'crwdns45986:0crwdne45986:0'

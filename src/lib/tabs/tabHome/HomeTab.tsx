@@ -207,12 +207,11 @@ interface FeatureCardProps {
   description: string
   features: string[]
   background: 'evernight' | 'nous' | 'blackswan' | 'ruanmeibloom' | 'sparkle' | 'silverwolf' | 'ciphergem'
-  backgroundOffsetX?: string
   image: 'showcase' | 'optimizer' | 'warp' | 'damage' | 'benchmark' | 'rarity'
   align: 'left' | 'right'
 }
 
-function FeatureCard({ title, description, features, background, backgroundOffsetX = '50%', image, align }: FeatureCardProps) {
+function FeatureCard({ title, description, features, background, image, align }: FeatureCardProps) {
   const isLeft = align === 'left'
 
   const textBlock = (
@@ -224,7 +223,7 @@ function FeatureCard({ title, description, features, background, backgroundOffse
   )
 
   const imageBlock = (
-    <div className={classes.imageBlock}>
+    <div className={isLeft ? classes.imageBlockRight : classes.imageBlockLeft}>
       <img src={Assets.getHomeFeature(image)} alt={title} className={classes.sectionImage} />
     </div>
   )
@@ -235,13 +234,10 @@ function FeatureCard({ title, description, features, background, backgroundOffse
         <div className={classes.featureCard}>
           <div
             className={classes.cardBackground}
-            style={{
-              backgroundImage: `url(${Assets.getHomeBackground(background)})`,
-              backgroundPosition: `${backgroundOffsetX} top`,
-            }}
+            style={{ backgroundImage: `url(${Assets.getHomeBackground(background)})` }}
           />
           <div className={isLeft ? classes.overlayLeftHeavy : classes.overlayRightHeavy} />
-          <div className={isLeft ? classes.cardContent : `${classes.cardContent} ${classes.contentRight}`}>
+          <div className={classes.cardContent}>
             {isLeft ? textBlock : imageBlock}
             {isLeft ? imageBlock : textBlock}
           </div>
@@ -331,7 +327,7 @@ interface CommunityCardProps {
   icon: React.ReactNode
   title: string
   description: string
-  href?: string
+  href: string
   iconColor?: string
   iconBg?: string
 }
@@ -342,27 +338,13 @@ function CommunityCard({ icon, title, description, href, iconColor, iconBg }: Co
     '--icon-bg': iconBg,
   } as React.CSSProperties
 
-  const content = (
-    <>
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className={classes.communityCard}>
       <div className={classes.communityCardHeader}>
         <div className={classes.communityCardIcon} style={iconStyle}>{icon}</div>
         <h4 className={classes.communityCardTitle}>{title}</h4>
       </div>
       <p className={classes.communityCardDescription}>{description}</p>
-    </>
-  )
-
-  if (href) {
-    return (
-      <a href={href} target="_blank" rel="noreferrer" className={classes.communityCard}>
-        {content}
-      </a>
-    )
-  }
-
-  return (
-    <div className={classes.communityCard}>
-      {content}
-    </div>
+    </a>
   )
 }

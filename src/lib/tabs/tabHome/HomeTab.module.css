@@ -238,31 +238,12 @@
   align-items: center;
 }
 
-.contentRight {
-  flex-direction: row;
-}
-
 .textBlock {
   display: flex;
   flex-direction: column;
   gap: 40px;
   justify-content: center;
   max-width: 450px;
-}
-
-.faceGap {
-  /* Empty - shows character face */
-}
-
-.sectionLabel {
-  font-size: 13px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--mantine-color-primary-5);
-  text-shadow:
-    0 2px 8px rgba(0, 0, 0, 1),
-    0 4px 16px rgba(0, 0, 0, 0.8);
 }
 
 .sectionTitle {
@@ -318,15 +299,18 @@
   font-size: 18px;
 }
 
-.imageBlock {
+.imageBlockRight {
   display: flex;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
 }
 
-.contentRight .imageBlock {
+.imageBlockLeft {
+  display: flex;
   justify-content: flex-start;
+  align-items: center;
+  width: 100%;
 }
 
 .sectionImage {

@@ -50,7 +50,7 @@ export function LayoutHeader() {
             href={BASE_PATH}
             style={{ textDecoration: 'none', color: 'inherit' }}
             onClick={(e) => {
-              if (e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return
+              if (e.ctrlKey || e.metaKey || e.shiftKey) return
               e.preventDefault()
               useGlobalStore.getState().setActiveKey(AppPages.HOME)
             }}

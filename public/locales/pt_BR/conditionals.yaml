@@ -1152,6 +1152,12 @@ Characters:
         text: Acúmulos de debuffs no inimigo
         content: >-
           Ao usar sua Habilidade, Dr. Ratio tem 40% de chance fixa de lançar um ataque adicional contra seu alvo uma vez, causando DMG Imaginário igual a {{FuaScaling}}% do ATK de Dr. Ratio. Para cada debuff que o inimigo alvo possui, a chance fixa de lançar o ataque adicional aumenta em 20%. Se o inimigo alvo for derrotado antes que o ataque adicional ocorra, o ataque adicional será direcionado a um único inimigo aleatório.::BR::Ao causar DMG a um alvo que possui 3 ou mais debuffs, para cada debuff que o alvo tem, o DMG causado por Dr. Ratio a esse alvo aumenta em 10%, até um aumento máximo de 50%.::BR::E2: Quando o ataque adicional de seu Talento atinge um alvo, para cada debuff que o alvo possui, causa adicionalmente DMG Imaginário igual a 20% do ATK de Dr. Ratio. Esse efeito pode ser acionado no máximo 4 vezes durante cada ataque adicional.
+  Evanescia:
+    Content:
+      masterFoxVuln:
+        text: Vulnerabilidade
+      e4DefPen:
+        text: E4 DEF PEN
   Evernight:
     Content:
       memoriaStacks:
@@ -1198,6 +1204,31 @@ Characters:
         text: Super Break ativado (forçar quebra de fraqueza)
         content: >-
           Quando o SAM está em Combustão Completa com um Efeito de Quebra igual ou superior a 200%/360%, atacar um alvo inimigo com Fraqueza Quebrada converterá a Redução de Resistência deste ataque em 1 instância de 35%/50% de DMG de Super Break.
+      atkToBeConversion:
+        text: Buff de ATK para BE
+        content: Para cada 10 pontos de ATK do SAM que excedem 1800, aumenta o Efeito de Quebra desta unidade em 0,8%.
+      talentDmgReductionBuff:
+        text: Buff de EHP máximo
+        content: >-
+          Quanto menor o HP, menos DMG recebido. Quando o HP está em 20% ou menos, a Redução de DMG atinge seu efeito máximo, reduzindo até {{talentDmgReductionBuff}}%. Durante a Combustão Completa, a Redução de DMG permanece em seu efeito máximo, e a RES ao Efeito aumenta em {{talentResBuff}}%.
+      e1DefShred:
+        text: PEN de DEF E1
+        content: Ao usar a Habilidade Aprimorada, ignora 15% da DEF do alvo. A Habilidade Aprimorada não consome Pontos de Habilidade.
+      e4ResBuff:
+        text: Buff de RES E4
+        content: Enquanto estiver em Combustão Completa, aumenta a RES ao Efeito do SAM em 50%.
+      e6Buffs:
+        text: Buffs E6
+        content: Enquanto estiver em Combustão Completa, aumenta a PEN de RES de Fogo do SAM em 20%. Ao usar o ATK Básico Aprimorado ou a Habilidade Aprimorada, aumenta a eficiência da quebra de fraqueza em 50%.
+  FireflyB1:
+    Content:
+      enhancedStateActive:
+        text: Estado aprimorado
+      enhancedStateSpdBuff:
+        text: Buff SPD aprimorado
+        content: Enquanto estiver em Combustão Completa, aumenta a SPD em {{ultSpdBuff}}.
+      superBreakDmg:
+        text: Super Break ativado (forçar quebra de fraqueza)
       atkToBeConversion:
         text: Buff de ATK para BE
         content: Para cada 10 pontos de ATK do SAM que excedem 1800, aumenta o Efeito de Quebra desta unidade em 0,8%.
@@ -1381,6 +1412,15 @@ Characters:
       skillBuff:
         text: Buff de SPD E1
         content: Quando Huohuo possui Provisão Divina, a SPD de todos os aliados aumenta em 12%.
+      e6DmgBuff:
+        text: Buff de DMG E6
+        content: Quando cura um aliado alvo, aumenta o DMG causado pelo aliado alvo em 50% por 2 turnos.
+  HuohuoB1:
+    Content:
+      ultBuff:
+        text: Buff de ATK da Ultimate
+      skillBuff:
+        text: Buffs da E1
       e6DmgBuff:
         text: Buff de DMG E6
         content: Quando cura um aliado alvo, aumenta o DMG causado pelo aliado alvo em 50% por 2 turnos.
@@ -1880,6 +1920,19 @@ Characters:
       e6UltTargetDebuff:
         text: E6 Flurry da Borboleta
         content: Após Seele usar sua Ultimate, inflige ao inimigo alvo o efeito Flurry da Borboleta por 1 turnos. Inimigos sofrendo com Flurry da Borboleta receberão Dano Quantum Adicional igual a 15% do DMG da Ultimativa de Seele toda vez que forem atacados.
+  SeeleB1:
+    Content:
+      buffedState:
+        text: Estado Buffado
+      speedBoostStacks:
+        text: Acúmulos de buff de velocidade
+        content: "Após usar sua perícia, aumenta a VEL de Seele em 25% por 2 rodadas.:BR::E2: O aumento de VEL da perícia pode acumular até 2 vezes."
+      dmgBoostStacks:
+        text: Acúmulo de bônus de Dano
+      e1EnemyHp80CrBoost:
+        text: E1 HP do inimigo ≤ 80% aumento de CR
+      e6UltTargetDebuff:
+        text: E6 Flurry da Borboleta
   Serval:
     Content:
       targetShocked:
@@ -1927,6 +1980,10 @@ Characters:
       e2Vulnerability:
         text: Vulnerabilidade da E2
         content: Quando um inimigo-alvo entra em batalha, aumenta o Dano recebido em 20%.
+  SilverWolfLv999:
+    Content:
+      e6ResPen:
+        text: E6 RES PEN
   Sparkle:
     Content:
       skillCdBuff:
@@ -2097,6 +2154,10 @@ Characters:
       talentStacks:
         text: Acúmulos de Talento
         content: Cada vez que este personagem inflige Quebra de Fraqueza em um inimigo, o ATK aumenta em {{talentAtkScalingValue}}% e a DEF aumenta em 10%. Esse efeito acumula até 2 vezes.
+  TrailblazerElation:
+    Content:
+      ultCdBuff:
+        text: Buff de CD da Ult
   TrailblazerHarmony:
     Content:
       backupDancer:
@@ -2211,6 +2272,14 @@ Characters:
       e1EnhancedState:
         text: Estado aprimorado E1
         content: Após Welt usar sua Ultimativa, suas habilidades são aprimoradas. Nas próximas 2 vezes que ele usar seu ATK Básico ou Habilidade, causará Dano Adicional ao alvo igual a 50% do multiplicador de DMG do seu ATK Básico ou 80% do multiplicador de DMG da sua Habilidade, respectivamente.
+  WeltB1:
+    Content:
+      enemySlowed:
+        text: Inimigo desacelerado
+      skillExtraHits:
+        text: Acertos extras da Habilidade no alvo
+        content: >-
+          Causa Dano Imaginário igual a {{skillScaling}}% do ATK de Welt a um único inimigo e, adicionalmente, causa Dano 2 vezes a mais, com cada ataque causando Dano Imaginário igual a {{skillScaling}}% do ATK de Welt a um inimigo aleatório.
   Xueyi:
     Content:
       beToDmgBoost:

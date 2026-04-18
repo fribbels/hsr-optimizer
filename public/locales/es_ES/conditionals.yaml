@@ -1279,6 +1279,14 @@ Characters:
         text: Acumulaciones de afecciones en enemigo
         content: >-
           Al usar su habilidad básica, el Dr. Ratio tiene una probabilidad fija del 40% de lanzar un ataque adicional contra el objetivo e infligir un Daño Imaginario equivalente al {{FuaScaling}}% de su ATQ. Por cada estado negativo que tenga el objetivo, la probabilidad fija de lanzar el ataque adicional aumenta en un 20%. Si el objetivo es derrotado antes de que se lance el ataque adicional, el ataque adicional se dirige contra otro enemigo al azar.::BR::Al infligir daño, si el objetivo tiene 3 o más estados negativos, el Dr. Ratio le inflige un 10% más de daño por cada estado negativo, hasta un aumento máximo del 50%.::BR::E2: Cuando el ataque adicional de su talento golpea a un enemigo, el Dr. Ratio inflige un 20% de su ATQ como Daño Imaginario adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 4 veces cada vez que use su ataque adicional.
+  Evanescia:
+    Content:
+      masterFoxVuln:
+        text: Vulnerabilidad
+      e1ResPen:
+        text: E1 PEN RES
+      e4DefPen:
+        text: E4 PEN DEF
   Evernight:
     Content:
       memoTalentDmgBuff:
@@ -1358,6 +1366,31 @@ Characters:
         text: Ultrarruptura habilitada (forzar rupt. de debilidad)
         content: >-
           Si el efecto de Ruptura de SAM es igual o superior al 200%/360% cuando está en el estado de Combustión completa, tras atacar a un enemigo con Ruptura de Debilidad, la Reducción de Firmeza de este ataque se convertirá 1 vez en un 35%/50% de Daño de Ultrarruptura.
+      atkToBeConversion:
+        text: Mejora de ATQ a EdR
+        content: Si el ATQ de SAM es superior a 1800, por cada 10 pts. de ATQ que superen este valor, el efecto de Ruptura de SAM aumenta en un 0.8%.
+      talentDmgReductionBuff:
+        text: Mejora de PVE máx.
+        content: >-
+          Cuantos menos PV tenga, menos daño recibe. Cuando tenga un 20% o menos de PV, alcanza el máximo efecto de reducción de daño, hasta una reducción máxima del {{talentDmgReductionBuff}}%. Mientras esté en el estado de Combustión completa, el efecto de reducción de daño se mantiene al máximo y su RES a efecto aumenta en un {{talentResBuff}}%.
+      e1DefShred:
+        text: E1 PEN DEF
+        content: La habilidad básica potenciada ignora un 15% de la DEF de los objetivos y no consume pts. de habilidad básica.
+      e4ResBuff:
+        text: E4 Mejora de RES
+        content: En el estado de Combustión completa, la RES a efecto de SAM aumenta en un 50%.
+      e6Buffs:
+        text: E6 Mejoras
+        content: Cuando SAM está en el estado de Combustión completa, su PEN de la RES a Fuego aumenta en un 20%. Al usar el ATQ básico potenciado o la habilidad básica potenciada, su eficiencia de la Ruptura de Debilidad aumenta en un 50%.
+  FireflyB1:
+    Content:
+      enhancedStateActive:
+        text: Estado potenciado
+      enhancedStateSpdBuff:
+        text: Mejora de VEL potenciamiento
+        content: En el estado de Combustión completa, su VEL aumenta en {{ultSpdBuff}} pts.
+      superBreakDmg:
+        text: Ultrarruptura habilitada (forzar rupt. de debilidad)
       atkToBeConversion:
         text: Mejora de ATQ a EdR
         content: Si el ATQ de SAM es superior a 1800, por cada 10 pts. de ATQ que superen este valor, el efecto de Ruptura de SAM aumenta en un 0.8%.
@@ -1541,6 +1574,15 @@ Characters:
       skillBuff:
         text: E1 Mejora de VEL
         content: Cuando Huohuo tiene Vida sacrificada, la VEL de todos los aliados aumenta en un 12%.
+      e6DmgBuff:
+        text: E6 Mejora de daño
+        content: Al curar a un aliado, el daño infligido por el aliado aumenta en un 50% durante 2 turnos.
+  HuohuoB1:
+    Content:
+      ultBuff:
+        text: Mejora ATQ Definitiva
+      skillBuff:
+        text: E1 Mejoras
       e6DmgBuff:
         text: E6 Mejora de daño
         content: Al curar a un aliado, el daño infligido por el aliado aumenta en un 50% durante 2 turnos.
@@ -2133,6 +2175,19 @@ Characters:
       e6UltTargetDebuff:
         text: E6 Mariposa desbocada
         content: Tras usar la habilidad definitiva de Seele, el objetivo entra en el estado de Mariposa desbocada durante 1 turno. Cuando un enemigo afectado por Mariposa desbocada es atacado, recibe un Daño Cuántico adicional equivalente al 15% del daño de habilidad definitiva de Seele.
+  SeeleB1:
+    Content:
+      buffedState:
+        text: Estado mejorado
+      speedBoostStacks:
+        text: Acumulaciones de la mejora de velocidad
+        content: "Luego de usar su Habilidad, Seele aumenta su VEL en un 25% durante 2 turnos.::BR::E2: El efecto de aumento de VEL de la habilidad básica se puede acumular hasta 2 veces."
+      dmgBoostStacks:
+        text: Acumulaciones de aumento de daño
+      e1EnemyHp80CrBoost:
+        text: "E1 Aumento de PC por\nPV enemigo  ≤ 80%"
+      e6UltTargetDebuff:
+        text: E6 Mariposa desbocada
   Serval:
     Content:
       targetShocked:
@@ -2186,6 +2241,10 @@ Characters:
       e2Vulnerability:
         text: E2 Vulnerabilidad
         content: Cuando el objetivo enemigo entra en combate, el daño que recibe aumenta en un 20%.
+  SilverWolfLv999:
+    Content:
+      e6ResPen:
+        text: E6 PEN RES
   Sparkle:
     Content:
       skillCdBuff:
@@ -2384,6 +2443,12 @@ Characters:
       talentStacks:
         text: Acumulaciones Talento
         content: Cada Ruptura de Debilidad que inflige al objetivo enemigo aumenta el ATQ de la(del) Trazacaminos en un {{talentAtkScalingValue}}% y la DEF en un 10%. Este efecto puede acumularse hasta 2 veces.
+  TrailblazerElation:
+    Content:
+      ultCdBuff:
+        text: Mejora de DC de la Definitiva
+      e4Vulnerability:
+        text: E4 Vulnerabilidad
   TrailblazerHarmony:
     Content:
       backupDancer:
@@ -2503,6 +2568,16 @@ Characters:
       e1EnhancedState:
         text: E1 Estado potenciado
         content: 'Tras usar su habilidad definitiva, Welt obtiene una potenciación: las 2 siguientes veces que ataque usando el ATQ básico o la habilidad básica, inflige daño adicional igual al 50% del multiplicador del daño de ATQ básico o igual al 80% del multiplicador del daño de habilidad básica respectivamente.'
+  WeltB1:
+    Content:
+      enemySlowed:
+        text: Enemigo ralentizado
+      skillExtraHits:
+        text: Golpes extra en objetivo de Habilidad
+        content: >-
+          Inflige un {{skillScaling}}% del ATQ de Welt como Daño Imaginario a un enemigo e inflige daño 2 veces más. Cada golpe inflige un {{skillScaling}}% del ATQ de Welt como Daño Imaginario a un enemigo al azar.
+      e4WeightlessResPen:
+        text: E4 PEN RES
   Xueyi:
     Content:
       beToDmgBoost:

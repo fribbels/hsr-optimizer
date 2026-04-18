@@ -822,6 +822,30 @@ Characters:
       e6Buffs:
         text: 6魂增益
         content: '「完全燃燒」狀態下裝甲「薩姆」的火屬性抗性穿透提高20%。施放強化普攻、強化戰技時弱點擊破效率提高50%。'
+  FireflyB1:
+    Content:
+      enhancedStateActive:
+        text: 強化狀態
+      enhancedStateSpdBuff:
+        text: 強化狀態速度增益
+        content: '「完全燃燒」狀態下速度提高{{ultSpdBuff}}點。'
+      superBreakDmg:
+        text: 啟用超擊破傷害（強制弱點擊破）
+      atkToBeConversion:
+        text: 攻擊力轉至擊破特攻增益
+      talentDmgReductionBuff:
+        text: 有效生命值上限增益
+        content: >-
+          生命值越低受到的傷害越低，生命值小於等於20%時減傷效果達到最大值，最多降低{{talentDmgReductionBuff}}%。 「完全燃燒」狀態下減傷效果維持最大值，效果抗性提高{{talentResBuff}}%。
+      e1DefShred:
+        text: 1魂防禦穿透
+        content: 施放強化戰技時無視目標15%的防禦，且強化戰技不消耗戰技點。
+      e4ResBuff:
+        text: 4魂效果抵抗增益
+        content: '「完全燃燒」狀態下，裝甲「薩姆」的效果抵抗提高50%。'
+      e6Buffs:
+        text: 6魂增益
+        content: '「完全燃燒」狀態下裝甲「薩姆」的火屬性抗性穿透提高20%。施放強化普攻、強化戰技時弱點擊破效率提高50%。'
   Fugue:
     Content:
       torridScorch:
@@ -916,6 +940,10 @@ Characters:
     Content:
       skillExtraHits:
         text: 戰技額外擊中次數
+  SeeleB1:
+    Content:
+      dmgBoostStacks:
+        text: 傷害提高層數
   Sunday:
     Content:
       skillDmgBuff:
@@ -945,6 +973,10 @@ Characters:
       superBreakDmg:
         text: 超擊破傷害（強制弱點擊破）
   Welt:
+    Content:
+      enemySlowed:
+        text: 敵人處於減速狀態
+  WeltB1:
     Content:
       enemySlowed:
         text: 敵人處於減速狀態

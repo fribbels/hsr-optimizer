@@ -29,6 +29,7 @@ CharacterMenu:
 SearchPlaceholder: 搜索
 GridDensityOptions:
   default: 默认
+  compact: 紧凑
 Messages:
   RemoveSuccess: 成功移除角色
   UnequipSuccess: 成功卸下角色遗器

@@ -724,17 +724,37 @@ ExpandedDataPanel:
       HEAL_VALUE_P: Δ% Heal
       SHIELD_VALUE: Δ Shield
       SHIELD_VALUE_P: Δ% Shield
+  DamageTags:
+    ALL: ALL
+    BASIC: BASIC
+    SKILL: SKILL
+    ULT: ULT
+    FUA: FUA
+    DOT: DOT
+    BREAK: BREAK
+    SUPER_BREAK: 'S.BREAK'
+    MEMO: MEMO
+    ADDITIONAL: ADDITIONAL
+    ELATION: ELATION
+    UNIQUE: UNIQUE
   DamageSplits:
     Title: Combo Breakdown
+    PieTitle: Combo Distribution
+    Mode:
+      Default: Default
+      Rotation: Rotation
     Legend:
-      abilityDmg: Ability
-      breakDmg: Break
-      superBreakDmg: Super Break
-      additionalDmg: Additional
-      trueDmg: 'True'
-      jointDmg: Joint
-      dotDmg: Dot
-      memoDmg: Memo
+      Basic: Basic
+      Skill: Skill
+      Ult: Ult
+      Fua: Fua
+      DoT: DoT
+      Break: Break
+      Super Break: Super Break
+      Memo: Memo
+      Additional: Additional
+      Elation: Elation
+      'True': 'True'
     YAxisLabel:
       BASIC_DMG: Basic
       SKILL_DMG: Skill
@@ -775,6 +795,13 @@ ExpandedDataPanel:
       Set: Set
     DefaultAction: Default
     SummaryLabel: BUFF TOTALS
+    DamageFunctions:
+      Crit: Crit
+      DoT: DoT
+      Break: Break
+      S.Break: S.Break
+      Add: Add
+      Elation: Elation
     Stats:
       CompositeLabels:
         Label: '{{prefix}} {{suffix}}'
@@ -796,7 +823,7 @@ ExpandedDataPanel:
           'ATK % boost': ATK % boost
           Crit Rate boost: Crit Rate boost
           Crit DMG boost: Crit DMG boost
-          DMG boost: DMG boost
+          DMG Boost: DMG Boost
           Vulnerability: Vulnerability
           RES PEN: RES PEN
           DEF PEN: DEF PEN
@@ -854,6 +881,7 @@ ExpandedDataPanel:
         Ult Additional DMG CR override: Ult Additional DMG CR override
         Ult Additional DMG CD override: Ult Additional DMG CD override
         Merrymaking: Merrymaking
+        Elation: Elation
       DmgTypes:
         Basic: Basic DMG type
         Skill: Skill DMG type
@@ -866,5 +894,5 @@ ExpandedDataPanel:
         ElationSkill: Elation DMG type
         Additional: Additional DMG type
         SuperBreak: Super Break DMG type
-      ResPen: '$t(common:Elements.{{element}}) RES PEN'
       Unconvertible: 'Unconvertible  $t(common:Stats.{{stat}})'
+      ElementalDmgBoost: '$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'

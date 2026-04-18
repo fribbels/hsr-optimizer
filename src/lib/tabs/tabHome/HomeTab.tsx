@@ -35,7 +35,7 @@ export function HomeTab() {
           title="Optimization Engine"
           description="Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats."
           features={[
-            'Find best builds for stats, ability damage, or rotation damage',
+            'Find best builds for stats, abilities, or rotation damage',
             'GPU-accelerated compute at billions of builds per second',
             'Set up teammate conditional buffs for damage calculations',
           ]}
@@ -59,7 +59,7 @@ export function HomeTab() {
           title="Damage Calculator"
           description="Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output."
           features={[
-            'Customize rotations and teammates, with damage visualizations',
+            'Customize rotations, teammates, and relics',
             'See the buff breakdown by source and ability',
             'Easy-to-use presets to get started with',
           ]}

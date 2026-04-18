@@ -270,6 +270,7 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
       >
         <XAxis
           type='number'
+          domain={[0, maxTotal]}
           tick={{ fill: chartColor, textRendering: 'geometricPrecision', fontWeight: 300, fontSize: 13 }}
           tickFormatter={renderThousandsK}
           width={100}

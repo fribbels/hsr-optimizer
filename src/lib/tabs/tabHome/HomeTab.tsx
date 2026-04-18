@@ -19,12 +19,78 @@ export function HomeTab() {
         <HeroSection />
       </div>
       <div className={classes.container}>
-        <CharacterShowcaseSection />
-        <RelicOptimizerSection />
-        <WarpPlannerSection />
-        <DamageCalculatorSection />
-        <BenchmarkGeneratorSection />
-        <RarityAnalysisSection />
+        <FeatureCard
+          title="Character Showcase"
+          description="Showcase and share your character's stats or prebuild future characters with simulated gear and teammates."
+          features={[
+            'Full stats display with DPS Score and stats analysis',
+            'Configure teammate buffs for accurate scoring',
+            'Simulate unreleased character stats on current relics',
+          ]}
+          background="blackswan"
+          image="showcase"
+          align="left"
+        />
+        <FeatureCard
+          title="Optimization Engine"
+          description="Search billions of relic combinations using GPU acceleration to find your character's strongest builds."
+          features={[
+            'GPU-accelerated compute finds optimal builds in seconds',
+            'Filter by stat thresholds, sets, and main stats',
+            'Compare builds side-by-side with damage breakdowns',
+          ]}
+          background="nous"
+          image="optimizer"
+          align="right"
+        />
+        <FeatureCard
+          title="Warp Planner"
+          description="Plan your pulls and estimate stellar jade costs to guarantee your target characters and light cones."
+          features={[
+            'Track pity and estimate pulls needed for guarantees',
+            'Plan ahead for upcoming banners and reruns',
+            'Calculate jade income from events and dailies',
+          ]}
+          background="ruanmeibloom"
+          image="warp"
+          align="left"
+        />
+        <FeatureCard
+          title="Damage Calculator"
+          description="Break down damage formulas and see exactly how stats, buffs, and enemy defenses affect your output."
+          features={[
+            'Full damage formula breakdown with multipliers',
+            'Real-time stat adjustments show damage impact',
+            'Compare rotations and team buff combinations',
+          ]}
+          background="sparkle"
+          image="damage"
+          align="right"
+        />
+        <FeatureCard
+          title="Build Benchmarks"
+          description="See where your builds rank against community standards and get actionable upgrade recommendations."
+          features={[
+            'Compare your stats against optimized benchmarks',
+            'Identify which relics to prioritize upgrading',
+            'Track improvement progress over time',
+          ]}
+          background="silverwolf"
+          image="benchmark"
+          align="left"
+        />
+        <FeatureCard
+          title="Rarity Analysis"
+          description="Understand relic rarity and substat distribution to focus your farming on the highest value pieces."
+          features={[
+            'See substat roll quality and upgrade potential',
+            'Identify rare stat combinations worth keeping',
+            'Prioritize farming based on expected value',
+          ]}
+          background="ciphergem"
+          image="rarity"
+          align="right"
+        />
         <CommunitySection />
       </div>
     </div>
@@ -38,7 +104,7 @@ function HeroSection() {
     <section className={classes.hero}>
       <div className={classes.heroBackgroundContainer}>
         <img
-          src={Assets.getHomeBackground('blackswan')}
+          src={Assets.getHomeBackground('evernight')}
           alt=""
           className={classes.heroBackground}
         />
@@ -136,117 +202,32 @@ function FadeSection({ children, className = '' }: FadeSectionProps) {
   )
 }
 
-function CharacterShowcaseSection() {
-  const features = [
-    'Full stats display with DPS Score and stats analysis',
-    'Configure teammate buffs for accurate scoring',
-    'Simulate unreleased character stats on current relics',
-  ]
-
-  return (
-    <section className={classes.featureSection}>
-      <FadeSection>
-        <div className={classes.featureCard}>
-          <div
-            className={classes.cardBackground}
-            style={{ backgroundImage: `url(${Assets.getHomeBackground('evernight')})` }}
-          />
-          <div className={classes.overlayLeftHeavy} />
-          <div className={classes.cardContent}>
-            <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>Character Showcase</h2>
-              <p className={classes.sectionDescription}>
-                Showcase and share your character's stats or prebuild future characters. Simulate combat damage with DPS score and measure it against the benchmarks.
-              </p>
-              <FeatureList features={features} />
-            </div>
-            <div className={classes.faceGap} />
-            <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('showcase')} alt="Character Showcase" className={classes.sectionImage} />
-            </div>
-          </div>
-        </div>
-      </FadeSection>
-    </section>
-  )
+interface FeatureCardProps {
+  title: string
+  description: string
+  features: string[]
+  background: 'evernight' | 'nous' | 'blackswan' | 'ruanmeibloom' | 'sparkle' | 'silverwolf' | 'ciphergem'
+  backgroundOffsetX?: string
+  image: 'showcase' | 'optimizer' | 'warp' | 'damage' | 'benchmark' | 'rarity'
+  align: 'left' | 'right'
 }
 
-function RelicOptimizerSection() {
-  const features = [
-    'Find best builds for stats, ability damage, or rotation damage',
-    'GPU accelerated compute at billions of permutations per second',
-    'Configure teammate conditional buffs for damage calculations',
-  ]
+function FeatureCard({ title, description, features, background, backgroundOffsetX = '50%', image, align }: FeatureCardProps) {
+  const isLeft = align === 'left'
 
-  return (
-    <section className={classes.featureSection}>
-      <FadeSection>
-        <div className={classes.featureCard}>
-          <div
-            className={classes.cardBackground}
-            style={{ backgroundImage: `url(${Assets.getHomeBackground('nous')})` }}
-          />
-          <div className={classes.overlayRightHeavy} />
-          <div className={`${classes.cardContent} ${classes.contentRight}`}>
-            <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('optimizer')} alt="Optimization Engine" className={classes.sectionImage} />
-            </div>
-            <div className={classes.faceGap} />
-            <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>Optimization Engine</h2>
-              <p className={classes.sectionDescription}>
-                Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.
-              </p>
-              <FeatureList features={features} />
-            </div>
-          </div>
-        </div>
-      </FadeSection>
-    </section>
+  const textBlock = (
+    <div className={classes.textBlock}>
+      <h2 className={classes.sectionTitle}>{title}</h2>
+      <p className={classes.sectionDescription}>{description}</p>
+      <FeatureList features={features} />
+    </div>
   )
-}
 
-function DamageCalculatorSection() {
-  const features = [
-    'Customize the rotation and teammates, and filter by any stat',
-    'See the buff breakdown by source and ability',
-    'Easy-to-use presets for quick setup',
-  ]
-
-  return (
-    <section className={classes.featureSection}>
-      <FadeSection>
-        <div className={classes.featureCard}>
-          <div
-            className={classes.cardBackground}
-            style={{ backgroundImage: `url(${Assets.getHomeBackground('nous')})` }}
-          />
-          <div className={classes.overlayRightHeavy} />
-          <div className={`${classes.cardContent} ${classes.contentRight}`}>
-            <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('calculator')} alt="Damage Calculator" className={classes.sectionImage} />
-            </div>
-            <div className={classes.faceGap} />
-            <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>Damage Calculator</h2>
-              <p className={classes.sectionDescription}>
-                Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.
-              </p>
-              <FeatureList features={features} />
-            </div>
-          </div>
-        </div>
-      </FadeSection>
-    </section>
+  const imageBlock = (
+    <div className={classes.imageBlock}>
+      <img src={Assets.getHomeFeature(image)} alt={title} className={classes.sectionImage} />
+    </div>
   )
-}
-
-function WarpPlannerSection() {
-  const features = [
-    'Shows expected average warps needed for each target',
-    'Per-patch income tracking for F2P and spending tiers',
-    'Calculates starlight refund from duplicate trades',
-  ]
 
   return (
     <section className={classes.featureSection}>
@@ -254,91 +235,15 @@ function WarpPlannerSection() {
         <div className={classes.featureCard}>
           <div
             className={classes.cardBackground}
-            style={{ backgroundImage: `url(${Assets.getHomeBackground('evernight')})` }}
+            style={{
+              backgroundImage: `url(${Assets.getHomeBackground(background)})`,
+              backgroundPosition: `${backgroundOffsetX} top`,
+            }}
           />
-          <div className={classes.overlayLeftHeavy} />
-          <div className={classes.cardContent}>
-            <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>Warp Planner</h2>
-              <p className={classes.sectionDescription}>
-                Calculate exact success probabilities for character and light cone banner targets, accounting for pity progress, starlight refunds, and upcoming patch income.
-              </p>
-              <FeatureList features={features} />
-            </div>
-            <div className={classes.faceGap} />
-            <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('showcase')} alt="Warp Planner" className={classes.sectionImage} />
-            </div>
-          </div>
-        </div>
-      </FadeSection>
-    </section>
-  )
-}
-
-function BenchmarkGeneratorSection() {
-  const features = [
-    'Compare relic set and main stat combinations head-to-head',
-    'Two tiers: realistic benchmark and perfection builds',
-    'Expandable rows show stats, rolls, and damage breakdown',
-  ]
-
-  return (
-    <section className={classes.featureSection}>
-      <FadeSection>
-        <div className={classes.featureCard}>
-          <div
-            className={classes.cardBackground}
-            style={{ backgroundImage: `url(${Assets.getHomeBackground('evernight')})` }}
-          />
-          <div className={classes.overlayLeftHeavy} />
-          <div className={classes.cardContent}>
-            <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>Build Benchmarks</h2>
-              <p className={classes.sectionDescription}>
-                Determine which relic sets and main stats produce the highest damage for your character. Find the optimal substat distribution for each configuration.
-              </p>
-              <FeatureList features={features} />
-            </div>
-            <div className={classes.faceGap} />
-            <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('showcase')} alt="Build Benchmarks" className={classes.sectionImage} />
-            </div>
-          </div>
-        </div>
-      </FadeSection>
-    </section>
-  )
-}
-
-function RarityAnalysisSection() {
-  const features = [
-    'Estimate days of farming needed to replace a relic',
-    'Visualize high, mid, and low rolls across your substats',
-    'See the reroll dice potential for each piece',
-  ]
-
-  return (
-    <section className={classes.featureSection}>
-      <FadeSection>
-        <div className={classes.featureCard}>
-          <div
-            className={classes.cardBackground}
-            style={{ backgroundImage: `url(${Assets.getHomeBackground('nous')})` }}
-          />
-          <div className={classes.overlayRightHeavy} />
-          <div className={`${classes.cardContent} ${classes.contentRight}`}>
-            <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('optimizer')} alt="Rarity Analysis" className={classes.sectionImage} />
-            </div>
-            <div className={classes.faceGap} />
-            <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>Rarity Analysis</h2>
-              <p className={classes.sectionDescription}>
-                Evaluate relic quality using character-specific substat weights that rank each piece against its theoretical maximum.
-              </p>
-              <FeatureList features={features} />
-            </div>
+          <div className={isLeft ? classes.overlayLeftHeavy : classes.overlayRightHeavy} />
+          <div className={isLeft ? classes.cardContent : `${classes.cardContent} ${classes.contentRight}`}>
+            {isLeft ? textBlock : imageBlock}
+            {isLeft ? imageBlock : textBlock}
           </div>
         </div>
       </FadeSection>

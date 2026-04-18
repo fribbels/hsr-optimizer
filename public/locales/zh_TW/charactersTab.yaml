@@ -27,10 +27,6 @@ CharacterMenu:
       SortByScore: 依照評分排序所有角色
       MoveToTop: 把角色移動到第一位
 SearchPlaceholder: 搜尋
-GridHeaders:
-  Icon: 圖標
-  Priority: 優先級
-  Character: 角色
 Messages:
   RemoveSuccess: 成功移除角色
   UnequipSuccess: 成功卸下角色遺器

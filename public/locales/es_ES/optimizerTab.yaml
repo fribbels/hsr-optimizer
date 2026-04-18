@@ -590,16 +590,23 @@ ExpandedDataPanel:
       HEAL_VALUE_P: Δ% Curación
       SHIELD_VALUE: Δ Escudo
       SHIELD_VALUE_P: Δ% Escudo
+  DamageTags:
+    BASIC: BÁSICO
+    SKILL: HABILIDAD
+    ULT: DEFINITIVA
+    FUA: ATQ. ADICIONAL
+    DOT: DOT
+    BREAK: RUPTURA
   DamageSplits:
+    Mode:
+      Default: Por defecto
     Legend:
-      abilityDmg: Base
-      breakDmg: Ruptura
-      superBreakDmg: Ultrarruptura
-      additionalDmg: Adicional
-      trueDmg: 'Verdadero'
-      jointDmg: Combinado
-      dotDmg: DoT
-      memoDmg: Mnemo
+      Basic: Básico
+      Skill: Habilidad
+      Ult: Definitiva
+      Fua: Atq. Adic.
+      Break: Ruptura
+      Memo: Mnemo
     YAxisLabel:
       BASIC_DMG: Básico
       SKILL_DMG: Habilid.
@@ -637,6 +644,8 @@ ExpandedDataPanel:
       LightCone: Cono de luz
       Set: Conjunto
     DefaultAction: Por defecto
+    DamageFunctions:
+      Break: Ruptura
     Stats:
       CompositeLabels:
         Label: '{{suffix}} de {{prefix}}'
@@ -657,7 +666,7 @@ ExpandedDataPanel:
           'ATK % boost': Mejora de ATQ %
           Crit Rate boost: Mejora de Prob. CRIT
           Crit DMG boost: Mejora de Daño CRIT
-          DMG boost: Mejora de daño
+          DMG Boost: Aumento de daño
           Vulnerability: Vulnerabilidad
           RES PEN: PEN RES
           DEF PEN: PEN DEF
@@ -725,5 +734,4 @@ ExpandedDataPanel:
         MemoTalent: Tipo de daño de Talento mnemo
         Additional: Tipo de Daño adicional
         SuperBreak: Tipo de Daño de Ultrarruptura
-      ResPen: 'PEN RES $t(common:Elements.{{element}})'
       Unconvertible: '$t(common:Stats.{{stat}}) inconvertible'

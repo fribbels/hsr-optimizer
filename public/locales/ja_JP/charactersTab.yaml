@@ -130,7 +130,7 @@ CharacterPreview:
       BREAKS: '撃破 '
     CombatResults:
       Character: キャラクター
-      Benchmark: ベンチマーク
+      Benchmark: 基準
       Abilities:
         BASIC: 通常攻撃
         SKILL: 戦闘スキル

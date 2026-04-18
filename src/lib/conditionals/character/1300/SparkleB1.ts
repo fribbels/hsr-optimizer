@@ -1,10 +1,11 @@
 import type {
-  Mutual} from 'lib/conditionals/conditionalUtils';
+  Mutual,
+} from 'lib/conditionals/conditionalUtils'
 import {
   AbilityEidolon,
   type Conditionals,
   type ContentDefinition,
-  createEnum
+  createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
   dynamicStatConversionContainer,

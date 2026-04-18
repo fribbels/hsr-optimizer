@@ -11,8 +11,8 @@ import {
   Parts,
   UnreleasedSets,
 } from 'lib/constants/constants'
-import { useScrollLock } from 'lib/layout/scrollController'
 import { SettingOptions } from 'lib/constants/settingsConstants'
+import { useScrollLock } from 'lib/layout/scrollController'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import {

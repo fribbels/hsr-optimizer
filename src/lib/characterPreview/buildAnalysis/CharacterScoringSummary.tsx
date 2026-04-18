@@ -4,11 +4,11 @@ import {
   BuffDisplaySize,
   BuffsAnalysisDisplay,
 } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import {
   ScoringSelector,

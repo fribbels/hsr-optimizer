@@ -1,7 +1,7 @@
 import i18next from 'i18next'
 import { Constants } from 'lib/constants/constants'
-import { Message } from 'lib/interactions/message'
 import { SettingOptions } from 'lib/constants/settingsConstants'
+import { Message } from 'lib/interactions/message'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import {
   getCharacterById,

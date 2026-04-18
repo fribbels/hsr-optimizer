@@ -1,9 +1,9 @@
+import { DEFAULT_CONFIG } from './color/colorPipelineConfig'
 import type {
   PillGroup,
   PresetGroup,
   SliderGroup,
 } from './DebugSliderPanel'
-import { DEFAULT_CONFIG } from './color/colorPipelineConfig'
 import {
   BLEND_MODE_DEFAULT,
   CARD_BG_ALPHA_DEFAULT,

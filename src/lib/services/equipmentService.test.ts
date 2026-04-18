@@ -13,12 +13,12 @@ import {
   getRelicById,
   useRelicStore,
 } from 'lib/stores/relic/relicStore'
+import type * as FrontendUtils from 'lib/utils/frontendUtils'
 import type {
   Character,
   CharacterId,
 } from 'types/character'
 import type { Relic } from 'types/relic'
-import type * as FrontendUtils from 'lib/utils/frontendUtils'
 import {
   beforeEach,
   describe,

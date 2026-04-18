@@ -1,6 +1,6 @@
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import type {
   Character,
   CharacterId,

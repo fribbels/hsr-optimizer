@@ -1,20 +1,30 @@
-import { useEffect, useRef, useState } from 'react'
-import { Button, TextInput } from '@mantine/core'
 import {
-  IconChevronDown,
+  Button,
+  TextInput,
+} from '@mantine/core'
+import {
   IconBrandDiscord,
   IconBrandGithub,
-  IconLayoutKanban,
+  IconChevronDown,
   IconHistory,
+  IconLayoutKanban,
   IconSearch,
 } from '@tabler/icons-react'
-import { AppPages, PageToRoute } from 'lib/constants/appPages'
+import {
+  AppPages,
+  PageToRoute,
+} from 'lib/constants/appPages'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { validateUuid } from 'lib/utils/miscUtils'
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './HomeTab.module.css'
 
@@ -26,76 +36,76 @@ export function HomeTab() {
       </div>
       <div className={classes.container}>
         <FeatureCard
-          title="Character Showcase"
+          title='Character Showcase'
           description="Showcase and share your character's stats or prebuild future characters. Simulate combat damage with DPS score and measure it against the benchmarks."
           features={[
             'Full stats display with DPS Score and stats analysis',
             'Configure teammate buffs for accurate scoring',
             'Simulate unreleased character stats on current relics',
           ]}
-          background="blackswan"
-          image="showcase"
-          align="left"
+          background='blackswan'
+          image='showcase'
+          align='left'
         />
         <FeatureCard
-          title="Optimization Engine"
-          description="Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats."
+          title='Optimization Engine'
+          description='Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.'
           features={[
             'Find best builds for stats, abilities, or rotation damage',
             'GPU-accelerated compute at billions of builds per second',
             'Set up teammate conditional buffs for damage calculations',
           ]}
-          background="nous"
-          image="optimizer"
-          align="right"
+          background='nous'
+          image='optimizer'
+          align='right'
         />
         <FeatureCard
-          title="Warp Planner"
-          description="Calculate exact success probabilities for character and light cone banner targets, with pity counters, starlight refunds, and predicted future resources."
+          title='Warp Planner'
+          description='Calculate exact success probabilities for character and light cone banner targets, with pity counters, starlight refunds, and predicted future resources.'
           features={[
             'Shows expected average warps needed for each target',
             'Per-patch income tracking for F2P and spending tiers',
             'Calculates starlight refund from duplicate trades',
           ]}
-          background="ruanmeibloom"
-          image="warp"
-          align="left"
+          background='ruanmeibloom'
+          image='warp'
+          align='left'
         />
         <FeatureCard
-          title="Damage Calculator"
-          description="Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output."
+          title='Damage Calculator'
+          description='Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.'
           features={[
             'Customize rotations, teammates, and relics',
             'See the buff breakdown by source and ability',
             'Easy-to-use presets to get started with',
           ]}
-          background="sparkle"
-          image="damage"
-          align="right"
+          background='sparkle'
+          image='damage'
+          align='right'
         />
         <FeatureCard
-          title="Build Benchmarks"
-          description="Determine which relic sets and main stats produce the highest damage for your character. Find the optimal substat distribution for each configuration."
+          title='Build Benchmarks'
+          description='Determine which relic sets and main stats produce the highest damage for your character. Find the optimal substat distribution for each configuration.'
           features={[
             'Compare main stat and relic combinations head-to-head',
             'Two tiers: realistic benchmark and perfection builds',
             'Expandable rows show stats, rolls, and damage breakdown',
           ]}
-          background="silverwolf"
-          image="benchmark"
-          align="left"
+          background='silverwolf'
+          image='benchmark'
+          align='left'
         />
         <FeatureCard
-          title="Rarity Analysis"
-          description="Evaluate relic quality using character-specific substat weights that rank each piece against its theoretical maximum."
+          title='Rarity Analysis'
+          description='Evaluate relic quality using character-specific substat weights that rank each piece against its theoretical maximum.'
           features={[
             'Estimate days of farming needed to replace a relic',
             'Visualize high, mid, and low rolls across your substats',
             'See the reroll dice potential for each piece',
           ]}
-          background="ciphergem"
-          image="rarity"
-          align="right"
+          background='ciphergem'
+          image='rarity'
+          align='right'
         />
         <CommunitySection />
       </div>
@@ -127,7 +137,7 @@ function HeroSection() {
       <div className={classes.heroBackgroundContainer}>
         <img
           src={Assets.getHomeBackground('evernight')}
-          alt=""
+          alt=''
           className={classes.heroBackground}
         />
         <div className={classes.heroOverlay} />
@@ -146,14 +156,14 @@ function HeroSection() {
                 {t('SearchBar.Label')}
               </span>
               <span className={classes.searchBarApi}>
-                <a href="https://enka.network/?hsr" target="_blank" rel="noreferrer">
+                <a href='https://enka.network/?hsr' target='_blank' rel='noreferrer'>
                   {t('SearchBar.Api')}
                 </a>
               </span>
             </div>
             <div className={classes.searchBarInputRow}>
               <Button
-                size="md"
+                size='md'
                 aria-label={t('SearchBar.Search')}
                 onClick={handleSearchSubmit}
                 style={{
@@ -166,7 +176,7 @@ function HeroSection() {
               <TextInput
                 ref={inputRef}
                 placeholder={t('SearchBar.Placeholder')}
-                size="md"
+                size='md'
                 style={{ flex: 1 }}
                 styles={{
                   input: {
@@ -234,8 +244,8 @@ interface FeatureCardProps {
   title: string
   description: string
   features: string[]
-  background: 'evernight' | 'nous' | 'blackswan' | 'ruanmeibloom' | 'sparkle' | 'silverwolf' | 'ciphergem'
-  image: 'showcase' | 'optimizer' | 'warp' | 'damage' | 'benchmark' | 'rarity'
+  background: string
+  image: string
   align: 'left' | 'right'
 }
 
@@ -252,7 +262,7 @@ function FeatureCard({ title, description, features, background, image, align }:
 
   const imageBlock = (
     <div className={`${classes.imageBlock} ${isLeft ? classes.imageBlockLeft : classes.imageBlockRight}`}>
-      <img src={Assets.getHomeFeature(image)} alt={title} className={classes.sectionImage} loading="lazy" />
+      <img src={Assets.getHomeFeature(image)} alt={title} className={classes.sectionImage} loading='lazy' />
     </div>
   )
 
@@ -295,35 +305,35 @@ function CommunitySection() {
         <div className={classes.communityGrid}>
           <CommunityCard
             icon={<IconBrandDiscord size={28} />}
-            title="Discord"
-            description="Join thousands of players sharing builds, strategies, and optimization tips."
-            href="https://discord.gg/rDmB4Un7qg"
-            iconColor="#ffffff"
-            iconBg="#5865F2"
+            title='Discord'
+            description='Join thousands of players sharing builds, strategies, and optimization tips.'
+            href='https://discord.gg/rDmB4Un7qg'
+            iconColor='#ffffff'
+            iconBg='#5865F2'
           />
           <CommunityCard
             icon={<IconBrandGithub size={28} />}
-            title="GitHub"
-            description="Contribute to the project. Bug reports, features, and pull requests welcome."
-            href="https://github.com/fribbels/hsr-optimizer"
-            iconColor="#ffffff"
-            iconBg="#24292f"
+            title='GitHub'
+            description='Contribute to the project. Bug reports, features, and pull requests welcome.'
+            href='https://github.com/fribbels/hsr-optimizer'
+            iconColor='#ffffff'
+            iconBg='#24292f'
           />
           <CommunityCard
             icon={<IconLayoutKanban size={28} />}
-            title="Roadmap"
+            title='Roadmap'
             description="See what's planned and in progress on the project board."
-            href="https://github.com/users/fribbels/projects/2"
-            iconColor="#ffffff"
-            iconBg="#2d8a85"
+            href='https://github.com/users/fribbels/projects/2'
+            iconColor='#ffffff'
+            iconBg='#2d8a85'
           />
           <CommunityCard
             icon={<IconHistory size={28} />}
-            title="Changelog"
-            description="Check out recent updates, new features, and bug fixes."
+            title='Changelog'
+            description='Check out recent updates, new features, and bug fixes.'
             href={PageToRoute[AppPages.CHANGELOG]}
-            iconColor="#ffffff"
-            iconBg="#b8863b"
+            iconColor='#ffffff'
+            iconBg='#b8863b'
             external={false}
           />
         </div>
@@ -345,8 +355,13 @@ function ContributorsSection() {
         <h3 className={classes.contributorsTitle}>{t('Contributors.Title')}</h3>
         <p className={classes.contributorsSubtitle}>{t('CommunityCollapse')}</p>
       </div>
-      <a href="https://github.com/fribbels/hsr-optimizer/graphs/contributors" target="_blank" rel="noreferrer">
-        <img src="https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1" alt={t('Contributors.Title')} className={classes.contributorsImage} loading="lazy" />
+      <a href='https://github.com/fribbels/hsr-optimizer/graphs/contributors' target='_blank' rel='noreferrer'>
+        <img
+          src='https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1'
+          alt={t('Contributors.Title')}
+          className={classes.contributorsImage}
+          loading='lazy'
+        />
       </a>
     </div>
   )

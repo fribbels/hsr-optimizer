@@ -146,32 +146,32 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
         <FilterChangeContext.Provider value={setSelectedFilter}>
-        {twoColumn
-          ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING }}>
-              {actionSelector}
-              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-              <div style={{ display: 'flex', gap: GROUP_SPACING, alignItems: 'start' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
-                  {statSummary}
-                  {hitAndEnemy}
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
-                  {buffsColumn}
+          {twoColumn
+            ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING }}>
+                {actionSelector}
+                <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+                <div style={{ display: 'flex', gap: GROUP_SPACING, alignItems: 'start' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
+                    {statSummary}
+                    {hitAndEnemy}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
+                    {buffsColumn}
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-          : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
-              {statSummary}
-              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-              {actionSelector}
-              {buffsColumn}
-              <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
-              {hitAndEnemy}
-            </div>
-          )}
+            )
+            : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
+                {statSummary}
+                <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+                {actionSelector}
+                {buffsColumn}
+                <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+                {hitAndEnemy}
+              </div>
+            )}
         </FilterChangeContext.Provider>
       </FilterContext.Provider>
     </DesignContext.Provider>

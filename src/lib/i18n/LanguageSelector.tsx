@@ -1,5 +1,7 @@
-import { CheckIcon, Select } from '@mantine/core'
-import type { CSSProperties } from 'react'
+import {
+  CheckIcon,
+  Select,
+} from '@mantine/core'
 import {
   BASE_PATH,
   BasePath,
@@ -11,6 +13,7 @@ import {
 import { Assets } from 'lib/rendering/assets'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { languages } from 'lib/utils/i18nUtils'
+import type { CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const optionStyle: CSSProperties = { display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }

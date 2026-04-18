@@ -719,17 +719,25 @@ ExpandedDataPanel:
       HEAL_VALUE_P: Δ%治疗量
       SHIELD_VALUE: Δ护盾值
       SHIELD_VALUE_P: Δ%护盾值
+  DamageTags:
+    BASIC: 普攻
+    SKILL: 战技
+    ULT: 终结技
+    FUA: 追加攻击
+    DOT: 持续伤害
+    BREAK: 击破
   DamageSplits:
     Title: 连招明细
+    Mode:
+      Default: 默认
     Legend:
-      abilityDmg: 技能
-      breakDmg: 击破
-      superBreakDmg: 超击破
-      additionalDmg: 额外
-      trueDmg: '真实'
-      jointDmg: 连携
-      dotDmg: 持续
-      memoDmg: 忆灵
+      Basic: 普攻
+      Skill: 战技
+      Ult: 终结技
+      Fua: 追加攻击
+      Break: 击破
+      Memo: 忆灵
+      Elation: 欢愉度
     YAxisLabel:
       BASIC_DMG: 普攻
       SKILL_DMG: 战技
@@ -770,6 +778,9 @@ ExpandedDataPanel:
       Set: 套装
     DefaultAction: 默认
     SummaryLabel: 增益总计
+    DamageFunctions:
+      Break: 击破
+      Elation: 欢愉度
     Stats:
       CompositeLabels:
         Label: '{{prefix}}{{suffix}}'
@@ -791,7 +802,7 @@ ExpandedDataPanel:
           'ATK % boost': 攻击力%提升
           Crit Rate boost: 暴击率提升
           Crit DMG boost: 暴击伤害提升
-          DMG boost: 伤害提高
+          DMG Boost: 伤害提高
           Vulnerability: 易伤
           RES PEN: 抗性穿透
           DEF PEN: 防御穿透
@@ -849,6 +860,7 @@ ExpandedDataPanel:
         Ult Additional DMG CR override: 终结技额外伤害暴击率覆盖
         Ult Additional DMG CD override: 终结技额外伤害爆伤覆盖
         Merrymaking: 增笑
+        Elation: 欢愉度
       DmgTypes:
         Basic: 普攻伤害类型
         Skill: 战技伤害类型
@@ -861,5 +873,4 @@ ExpandedDataPanel:
         ElationSkill: 欢愉伤害类型
         Additional: 额外伤害类型
         SuperBreak: 超击破伤害类型
-      ResPen: '$t(common:Elements.{{element}})抗性穿透'
       Unconvertible: '不可转化的$t(common:Stats.{{stat}})'

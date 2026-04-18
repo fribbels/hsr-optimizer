@@ -21,7 +21,7 @@ export function HomeTab() {
       <div className={classes.container}>
         <FeatureCard
           title="Character Showcase"
-          description="Showcase and share your character's stats or prebuild future characters with simulated gear and teammates."
+          description="Showcase and share your character's stats or prebuild future characters. Simulate combat damage with DPS score and measure it against the benchmarks."
           features={[
             'Full stats display with DPS Score and stats analysis',
             'Configure teammate buffs for accurate scoring',
@@ -33,11 +33,11 @@ export function HomeTab() {
         />
         <FeatureCard
           title="Optimization Engine"
-          description="Search billions of relic combinations using GPU acceleration to find your character's strongest builds."
+          description="Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats."
           features={[
-            'GPU-accelerated compute finds optimal builds in seconds',
-            'Filter by stat thresholds, sets, and main stats',
-            'Compare builds side-by-side with damage breakdowns',
+            'Find best builds for stats, ability damage, or rotation damage',
+            'GPU-accelerated compute at billions of builds per second',
+            'Set up teammate conditional buffs for damage calculations',
           ]}
           background="nous"
           image="optimizer"
@@ -45,11 +45,11 @@ export function HomeTab() {
         />
         <FeatureCard
           title="Warp Planner"
-          description="Plan your pulls and estimate stellar jade costs to guarantee your target characters and light cones."
+          description="Calculate exact success probabilities for character and light cone banner targets, with pity counters, starlight refunds, and predicted future resources."
           features={[
-            'Track pity and estimate pulls needed for guarantees',
-            'Plan ahead for upcoming banners and reruns',
-            'Calculate jade income from events and dailies',
+            'Shows expected average warps needed for each target',
+            'Per-patch income tracking for F2P and spending tiers',
+            'Calculates starlight refund from duplicate trades',
           ]}
           background="ruanmeibloom"
           image="warp"
@@ -57,11 +57,11 @@ export function HomeTab() {
         />
         <FeatureCard
           title="Damage Calculator"
-          description="Break down damage formulas and see exactly how stats, buffs, and enemy defenses affect your output."
+          description="Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output."
           features={[
-            'Full damage formula breakdown with multipliers',
-            'Real-time stat adjustments show damage impact',
-            'Compare rotations and team buff combinations',
+            'Customize rotations and teammates, with damage visualizations',
+            'See the buff breakdown by source and ability',
+            'Easy-to-use presets to get started with',
           ]}
           background="sparkle"
           image="damage"
@@ -69,11 +69,11 @@ export function HomeTab() {
         />
         <FeatureCard
           title="Build Benchmarks"
-          description="See where your builds rank against community standards and get actionable upgrade recommendations."
+          description="Determine which relic sets and main stats produce the highest damage for your character. Find the optimal substat distribution for each configuration."
           features={[
-            'Compare your stats against optimized benchmarks',
-            'Identify which relics to prioritize upgrading',
-            'Track improvement progress over time',
+            'Compare main stat and relic combinations head-to-head',
+            'Two tiers: realistic benchmark and perfection builds',
+            'Expandable rows show stats, rolls, and damage breakdown',
           ]}
           background="silverwolf"
           image="benchmark"
@@ -81,11 +81,11 @@ export function HomeTab() {
         />
         <FeatureCard
           title="Rarity Analysis"
-          description="Understand relic rarity and substat distribution to focus your farming on the highest value pieces."
+          description="Evaluate relic quality using character-specific substat weights that rank each piece against its theoretical maximum."
           features={[
-            'See substat roll quality and upgrade potential',
-            'Identify rare stat combinations worth keeping',
-            'Prioritize farming based on expected value',
+            'Estimate days of farming needed to replace a relic',
+            'Visualize high, mid, and low rolls across your substats',
+            'See the reroll dice potential for each piece',
           ]}
           background="ciphergem"
           image="rarity"
@@ -297,7 +297,7 @@ function CommunitySection() {
             icon={<IconHistory size={28} />}
             title="Changelog"
             description="Check out recent updates, new features, and bug fixes."
-            href="https://github.com/fribbels/hsr-optimizer/releases"
+            href="/hsr-optimizer#changelog"
             iconColor="#ffffff"
             iconBg="#b8863b"
           />

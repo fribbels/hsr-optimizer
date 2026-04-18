@@ -449,7 +449,7 @@
 }
 
 /* Responsive */
-@media (max-width: 1200px) {
+@media (max-width: 1300px) {
   .cardContent {
     padding: 60px 48px;
   }

@@ -679,17 +679,37 @@ ExpandedDataPanel:
       HEAL_VALUE_P: crwdns44692:0crwdne44692:0
       SHIELD_VALUE: crwdns44694:0crwdne44694:0
       SHIELD_VALUE_P: crwdns44696:0crwdne44696:0
+  DamageTags:
+    ALL: crwdns47018:0crwdne47018:0
+    BASIC: crwdns47020:0crwdne47020:0
+    SKILL: crwdns47022:0crwdne47022:0
+    ULT: crwdns47024:0crwdne47024:0
+    FUA: crwdns47026:0crwdne47026:0
+    DOT: crwdns47028:0crwdne47028:0
+    BREAK: crwdns47030:0crwdne47030:0
+    SUPER_BREAK: 'crwdns47032:0crwdne47032:0'
+    MEMO: crwdns47034:0crwdne47034:0
+    ADDITIONAL: crwdns47036:0crwdne47036:0
+    ELATION: crwdns47038:0crwdne47038:0
+    UNIQUE: crwdns47040:0crwdne47040:0
   DamageSplits:
     Title: crwdns46522:0crwdne46522:0
+    PieTitle: crwdns47042:0crwdne47042:0
+    Mode:
+      Default: crwdns47044:0crwdne47044:0
+      Rotation: crwdns47046:0crwdne47046:0
     Legend:
-      abilityDmg: crwdns44700:0crwdne44700:0
-      breakDmg: crwdns44702:0crwdne44702:0
-      superBreakDmg: crwdns44704:0crwdne44704:0
-      additionalDmg: crwdns44706:0crwdne44706:0
-      trueDmg: 'crwdns44708:0crwdne44708:0'
-      jointDmg: crwdns44710:0crwdne44710:0
-      dotDmg: crwdns44712:0crwdne44712:0
-      memoDmg: crwdns44714:0crwdne44714:0
+      Basic: crwdns47048:0crwdne47048:0
+      Skill: crwdns47050:0crwdne47050:0
+      Ult: crwdns47052:0crwdne47052:0
+      Fua: crwdns47054:0crwdne47054:0
+      DoT: crwdns47056:0crwdne47056:0
+      Break: crwdns47058:0crwdne47058:0
+      Super Break: crwdns47060:0crwdne47060:0
+      Memo: crwdns47062:0crwdne47062:0
+      Additional: crwdns47064:0crwdne47064:0
+      Elation: crwdns47066:0crwdne47066:0
+      'True': 'crwdns47068:0crwdne47068:0'
     YAxisLabel:
       BASIC_DMG: crwdns44716:0crwdne44716:0
       SKILL_DMG: crwdns44718:0crwdne44718:0
@@ -730,6 +750,13 @@ ExpandedDataPanel:
       Set: crwdns46696:0crwdne46696:0
     DefaultAction: crwdns46700:0crwdne46700:0
     SummaryLabel: crwdns46702:0crwdne46702:0
+    DamageFunctions:
+      Crit: crwdns47070:0crwdne47070:0
+      DoT: crwdns47072:0crwdne47072:0
+      Break: crwdns47074:0crwdne47074:0
+      S.Break: crwdns47076:0crwdne47076:0
+      Add: crwdns47078:0crwdne47078:0
+      Elation: crwdns47080:0crwdne47080:0
     Stats:
       CompositeLabels:
         Label: 'crwdns45035:0{{prefix}}crwdnd45035:0{{suffix}}crwdne45035:0'
@@ -751,7 +778,7 @@ ExpandedDataPanel:
           'ATK % boost': crwdns45061:0crwdne45061:0
           Crit Rate boost: crwdns45063:0crwdne45063:0
           Crit DMG boost: crwdns45065:0crwdne45065:0
-          DMG boost: crwdns45067:0crwdne45067:0
+          DMG Boost: crwdns47082:0crwdne47082:0
           Vulnerability: crwdns45069:0crwdne45069:0
           RES PEN: crwdns45071:0crwdne45071:0
           DEF PEN: crwdns45073:0crwdne45073:0
@@ -809,6 +836,7 @@ ExpandedDataPanel:
         Ult Additional DMG CR override: crwdns45173:0crwdne45173:0
         Ult Additional DMG CD override: crwdns45175:0crwdne45175:0
         Merrymaking: crwdns46472:0crwdne46472:0
+        Elation: crwdns47084:0crwdne47084:0
       DmgTypes:
         Basic: crwdns45177:0crwdne45177:0
         Skill: crwdns45179:0crwdne45179:0
@@ -821,5 +849,5 @@ ExpandedDataPanel:
         ElationSkill: crwdns46474:0crwdne46474:0
         Additional: crwdns45193:0crwdne45193:0
         SuperBreak: crwdns45195:0crwdne45195:0
-      ResPen: 'crwdns45197:0$t(common:Elements.{{element}})crwdne45197:0'
       Unconvertible: 'crwdns45199:0$t(common:Stats.{{stat}})crwdne45199:0'
+      ElementalDmgBoost: 'crwdns47086:0$t(gameData:Elements.{{element}})crwdnd47086:0$t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)crwdne47086:0'

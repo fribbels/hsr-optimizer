@@ -1281,6 +1281,14 @@ Characters:
         text: 적 디버프 수
         content: >-
           전투 스킬 발동 시 40%의 고정 확률로 해당 목표에게 추가 공격을 1회 발동하며, Dr. 레이시오 공격력의 {{FuaScaling}}%만큼 허수 속성 피해를 가한다. 목표가 디버프 효과를 1개 보유할 때마다 추가 공격을 발동할 고정 확률이 20% 증가한다. 만약 추가 공격 발동 전에 목표가 처치되면 랜덤의 단일 적에게 추가 공격을 발동한다.::BR::피해를 가할 시 목표의 디버프 상태가 3개 이상일 경우, 목표가 보유한 디버프 효과 1개당 Dr. 레이시오가 해당 목표에게 가하는 피해가 10% 증가하며, 최대 50% 증가한다.::BR::E2: 특성의 추가 공격이 목표를 명중할 시, 목표가 디버프 효과를 1개 보유할 때마다 추가로 Dr. 레이시오 공격력의 20%만큼 허수 속성 추가 피해를 가한다. 해당 효과는 추가 공격을 할 때마다 최대 4회 발동된다.
+  Evanescia:
+    Content:
+      masterFoxVuln:
+        text: 취약
+      e1ResPen:
+        text: 1돌 속저관
+      e4DefPen:
+        text: 4돌 방어력 무시
   Evernight:
     Content:
       memoTalentDmgBuff:
@@ -1360,6 +1368,31 @@ Characters:
         text: 슈퍼 격파 적용 (격파 상태)
         content: >-
           [완전연소] 상태에서 기갑 [샘]의 격파 특수효과가 200%/360% 이상일 시, 약점 격파 상태의 적을 공격하면 이번 공격의 강인성 감소 수치가 35%/50%의 슈퍼 격파 피해 1회로 전환된다.
+      atkToBeConversion:
+        text: 공격력 비례 격특 버프
+        content: 기갑 [샘]의 공격력이 1800pt보다 높으면 공격력이 10pt 초과할 때마다 자신의 격파 특수효과가 0.8% 증가한다
+      talentDmgReductionBuff:
+        text: 최대 피해 감소 버프
+        content: >-
+          HP가 낮을수록 받는 피해가 감소한다. HP가 20% 이하일 경우 피해 감소 효과가 최대치에 도달하며, 최대 {{talentDmgReductionBuff}}% 감소한다. 「완전연소」 상태에서는 피해 감소 효과가 최대치를 유지하며, 효과 저항이 {{talentResBuff}}% 증가한다.
+      e1DefShred:
+        text: 1돌 방어력 무시
+        content: 강화된 전투 스킬 발동 시 목표의 방어력을 15% 무시하고, 강화된 전투 스킬은 전투 스킬 포인트를 소모하지 않는다.
+      e4ResBuff:
+        text: 4돌 효과 저항 버프
+        content: '[완전연소] 상태일 때 기갑 「샘」의 효과 저항이 50% 증가한다'
+      e6Buffs:
+        text: 6돌 버프
+        content: '[완전연소] 상태에서 기갑 [샘]의 화염 속성 저항 관통이 20% 증가한다. 강화된 일반 공격, 강화된 전투 스킬 발동 시 약점 격파 효율이 50% 증가한다.'
+  FireflyB1:
+    Content:
+      enhancedStateActive:
+        text: '[완전 연소] 상태'
+      enhancedStateSpdBuff:
+        text: '[완전 연소] 속도 버프'
+        content: '[완전 연소] 상태에서는 속도가 {{ultSpdBuff}}pt 증가한다.'
+      superBreakDmg:
+        text: 슈퍼 격파 적용 (격파 상태)
       atkToBeConversion:
         text: 공격력 비례 격특 버프
         content: 기갑 [샘]의 공격력이 1800pt보다 높으면 공격력이 10pt 초과할 때마다 자신의 격파 특수효과가 0.8% 증가한다
@@ -1544,6 +1577,15 @@ Characters:
       skillBuff:
         text: 1돌 속도 버프
         content: 곽향이 [양명]을 보유할 시 모든 아군의 속도가 12% 증가한다.
+      e6DmgBuff:
+        text: 6돌 데미지 버프
+        content: '아군에게 치유 제공 시, 목표가 가하는 피해가 50% 증가한다. 지속 시간: 2턴'
+  HuohuoB1:
+    Content:
+      ultBuff:
+        text: 필살기 공격력 버프
+      skillBuff:
+        text: 1돌 버프
       e6DmgBuff:
         text: 6돌 데미지 버프
         content: '아군에게 치유 제공 시, 목표가 가하는 피해가 50% 증가한다. 지속 시간: 2턴'
@@ -2138,6 +2180,19 @@ Characters:
       e6UltTargetDebuff:
         text: 6돌 [혼란의 나비]
         content: '필살기 발동 후 피격된 단일 적은 [혼란의 나비] 상태에 빠진다, 지속 시간: 1턴. [혼란의 나비] 상태의 적은 피격 후 추가로 제레 필살기 피해의 15%만큼 양자 속성 추가 피해를 1회 받는다. 다른 아군의 공격으로 [혼란의 나비] 상태의 추가 피해가 발동되어 해당 적이 처치되면 제레의 특성이 발동하지 않는다.'
+  SeeleB1:
+    Content:
+      buffedState:
+        text: '[증폭] 상태'
+      speedBoostStacks:
+        text: 속도 버프 스택
+        content: "제레의 속도가 25% 증가하고, 지정된 단일 적에게 제레 공격력 220%만큼의 양자 속성 피해를 준다. 속도 증가 효과 지속 시간: 2턴"
+      dmgBoostStacks:
+        text: '[신성한 영창] 스택'
+      e1EnemyHp80CrBoost:
+        text: 1돌 적 HP ≤ 80%  치확 버프
+      e6UltTargetDebuff:
+        text: 6돌 [혼란의 나비]
   Serval:
     Content:
       targetShocked:
@@ -2191,6 +2246,10 @@ Characters:
       e2Vulnerability:
         text: 2돌 받는 피해 증가
         content: 적이 전투 진입 시 대상이 받는 피해가 20% 증가한다. 
+  SilverWolfLv999:
+    Content:
+      e6ResPen:
+        text: 6돌 속성 저항 관통
   Sparkle:
     Content:
       skillCdBuff:
@@ -2388,6 +2447,12 @@ Characters:
       talentStacks:
         text: 특성 스택
         content: '적의 약점을 격파할 때마다 개척자의 공격력이 {{talentAtkScalingValue}}% 증가한다. 최대 중첩수: 2스택'
+  TrailblazerElation:
+    Content:
+      ultCdBuff:
+        text: 필살기 치피 버프
+      e4Vulnerability:
+        text: 4돌 받피증
   TrailblazerHarmony:
     Content:
       backupDancer:
@@ -2507,6 +2572,16 @@ Characters:
       e1EnhancedState:
         text: 1돌 강화 상태
         content: 필살기 발동 후 웰트는 강화를 획득하며 다음 2번의 일반 공격 혹은 전투 스킬 발동 시 적에게 1회 추가 피해를 가한다. 일반 공격 발동 시의 추가 피해는 일반 공격 피해 배율의 50%이고, 전투 스킬 발동 시의 추가 피해는 전투 스킬 피해 배율의 80%이다.
+  WeltB1:
+    Content:
+      enemySlowed:
+        text: 적 감속
+      skillExtraHits:
+        text: 전투 스킬 적중 수
+        content: >-
+          지정된 단일 적에게 웰트 공격력 {{skillScaling}}%만큼의 허수 속성 피해를 주고, 추가로 피해를 2회 가한다. 피해를 가할 때마다 임의의 단일 적에게 웰트 공격력 {{skillScaling}}%만큼의 허수 속성 피해를 준다. 
+      e4WeightlessResPen:
+        text: 4돌 저항 관통
   Xueyi:
     Content:
       beToDmgBoost:

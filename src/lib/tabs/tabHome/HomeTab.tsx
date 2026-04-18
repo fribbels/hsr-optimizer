@@ -1,228 +1,352 @@
+import { useEffect, useRef, useState } from 'react'
+import { Box, Button, TextInput } from '@mantine/core'
 import {
-  Accordion,
-  Button,
-  Divider,
-  Flex,
-  Paper,
-} from '@mantine/core'
-import {
-  IconChevronRight,
-  IconExternalLink,
+  IconChevronDown,
+  IconBrandDiscord,
+  IconBrandGithub,
+  IconLayoutKanban,
+  IconHistory,
+  IconSearch,
 } from '@tabler/icons-react'
-import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
-import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import { HeroHeader } from 'lib/ui/HeroHeader'
-import { type Languages } from 'lib/utils/i18nUtils'
-import { useState } from 'react'
-import {
-  Trans,
-  useTranslation,
-} from 'react-i18next'
 import classes from './HomeTab.module.css'
-
-const headerWidth = 1600
 
 export function HomeTab() {
   return (
-    <Flex
-      direction='column'
-      className={classes.rootContainer}
-      align='center'
-    >
-      <HeroHeader />
-      <ContentCollapse />
-    </Flex>
-  )
-}
-
-const collapseItems = [
-  {
-    value: '1',
-    label: <CollapseLabel i18nkey='Explore' /* Explore the features */ />,
-    children: <FeaturesCollapse />,
-  },
-  {
-    value: '2',
-    label: <CollapseLabel i18nkey='Join' /* Join the community */ />,
-    children: <CommunityCollapse />,
-  },
-]
-
-type CollapseLabelI18nKey = 'Explore' | 'Join'
-
-function CollapseLabel(props: { i18nkey: CollapseLabelI18nKey }) {
-  const { t } = useTranslation('hometab', { keyPrefix: 'CollapseLabels' })
-  return (
-    <div style={{ marginRight: 38, textAlign: 'center' }}>
-      <Divider
-        className={classes.collapseLabelDivider}
-        label={t(props.i18nkey)}
-        labelPosition='center'
-      />
-    </div>
-  )
-}
-
-function CommunityCollapse() {
-  const { t } = useTranslation('hometab')
-  return (
-    <Flex px={25} py={0} gap={50}>
-      <Flex direction='column' style={{ flex: 1, fontSize: 20 }} gap={20}>
-        <Trans t={t} i18nKey='CommunityCollapse'>
-          <span>
-            A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it
-            together!
-          </span>
-
-          <span>
-            Come be a part of our Star Rail community! Join the <ColorizedLinkWithIcon url='https://discord.gg/rDmB4Un7qg' />
-            {' server to hang out, or check out the '}
-            <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer' /> repo if you'd like to contribute.
-          </span>
-        </Trans>
-      </Flex>
-      <Flex flex={1} align='flex-start'>
-        <a href='https://github.com/fribbels/hsr-optimizer/graphs/contributors' target='_blank' rel='noreferrer' style={{ width: '100%' }}>
-          <img
-            src='https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1'
-            style={{
-              width: '100%',
-              maxWidth: headerWidth / 2,
-            }}
-          />
-        </a>
-      </Flex>
-    </Flex>
-  )
-}
-
-function ContentCollapse() {
-  return (
-    <Accordion
-      multiple
-      variant='default'
-      className={classes.contentAccordion}
-      chevronPosition='left'
-      defaultValue={collapseItems.map((x) => x.value)}
-    >
-      {collapseItems.map((item) => (
-        <Accordion.Item key={item.value} value={item.value}>
-          <Accordion.Control>{item.label}</Accordion.Control>
-          <Accordion.Panel>{item.children}</Accordion.Panel>
-        </Accordion.Item>
-      ))}
-    </Accordion>
-  )
-}
-
-const cardGap = 20
-
-function CardImage(props: { id: string }) {
-  return (
-    <div style={{ padding: '15px 15px 0px 15px' }}>
-      <TranslatedImage
-        src={Assets.getHomeFeature(props.id, i18next.resolvedLanguage as Languages)}
-        fallbackSrc={Assets.getHomeFeature(props.id)}
-        className={classes.cardImage}
-      />
-    </div>
-  )
-}
-
-function FeatureCard({ title, id, content, url }: { title: string, id: string, content: string, url: string }) {
-  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
-  return (
-    <Paper
-      withBorder
-      className={classes.featureCard}
-      radius='md'
-    >
-      <div className={classes.featureCardHeader}>
-        {title}
+    <div className={classes.root}>
+      <div className={classes.heroContainer}>
+        <HeroSection />
       </div>
-      <CardImage id={id} />
-      <Flex align='center' gap={10} justify='space-between' className={classes.featureCardBody}>
-        <span>{content}</span>
-        <Button
-          component='a'
-          href={url}
-          target='_blank'
-          variant='default'
-          leftSection={<IconExternalLink size={16} />}
-          style={{ flexShrink: 0 }}
-        >
-          {t('LearnMore') /* Learn more */}
-        </Button>
-      </Flex>
-    </Paper>
+      <div className={classes.container}>
+        <CharacterShowcaseSection />
+        <RelicOptimizerSection />
+        <DamageCalculatorSection />
+        <CommunitySection />
+      </div>
+    </div>
   )
 }
 
-function FeaturesCollapse() {
-  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards' })
-
+function HeroSection() {
   return (
-    <Flex className={classes.featuresContainer}>
-      <Flex direction='column' w='100%' gap={cardGap}>
-        <Flex gap={cardGap}>
-          <FeatureCard
-            title={t('Showcase.Title') /* Character Showcase */}
-            id='showcase'
-            content={
-              t('Showcase.Content')
-              // Showcase your character's stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.
-            }
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
-          />
-          <FeatureCard
-            title={t('Optimizer.Title') /* Relic Optimizer */}
-            id='optimizer'
-            content={
-              t('Optimizer.Content')
-              // Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.
-            }
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
-          />
-        </Flex>
-        <Flex gap={cardGap} w='100%'>
-          <FeatureCard
-            title={t('Calculator.Title') /* Damage Calculator */}
-            id='calculator'
-            content={
-              t('Calculator.Content')
-              // Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.
-            }
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md'
-          />
-          <FeatureCard
-            title={t('Organizer.Title') /* Inventory Organizer */}
-            id='relics'
-            content={
-              t('Organizer.Content')
-              // Organize your inventory by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character.
-            }
-            url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/relics-tab.md'
-          />
-        </Flex>
-      </Flex>
-    </Flex>
+    <section className={classes.hero}>
+      <div className={classes.heroBackgroundContainer}>
+        <img
+          src={Assets.getHomeBackground('blackswan')}
+          alt=""
+          className={classes.heroBackground}
+        />
+        <div className={classes.heroOverlay} />
+      </div>
+
+      <div className={classes.heroContent}>
+        <div className={classes.heroTitleSection}>
+          <p className={classes.heroWelcome}>Welcome to the</p>
+          <h1 className={classes.heroTitle}>
+            Fribbels Star Rail Optimizer
+          </h1>
+        </div>
+
+        <div className={classes.heroBottomSection}>
+          <div className={classes.searchBarContainer}>
+            <div className={classes.searchBarHeader}>
+              <span className={classes.searchBarLabel}>
+                Enter your UID to view your showcase characters
+              </span>
+              <span className={classes.searchBarApi}>
+                <a href="https://enka.network/?hsr" target="_blank" rel="noreferrer">
+                  Uses Enka.Network
+                </a>
+              </span>
+            </div>
+            <div className={classes.searchBarInputRow}>
+              <Button
+                size="md"
+                aria-label="Search"
+                style={{
+                  borderTopRightRadius: 0,
+                  borderBottomRightRadius: 0,
+                }}
+              >
+                <IconSearch size={20} />
+              </Button>
+              <TextInput
+                placeholder="UID"
+                size="md"
+                style={{ flex: 1 }}
+                styles={{
+                  input: {
+                    fontSize: 16,
+                    borderTopLeftRadius: 0,
+                    borderBottomLeftRadius: 0,
+                  },
+                }}
+              />
+            </div>
+          </div>
+
+          <div className={classes.scrollIndicator}>
+            <span>Scroll to explore</span>
+            <IconChevronDown size={20} />
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
-function TranslatedImage(props: { src: string, fallbackSrc: string, className?: string }) {
-  const [errored, setErrored] = useState(false)
-  return (
-    <img
-      className={props.className}
-      src={props.src}
-      onError={(e) => {
-        if (errored) { // this means the fallback image isn't loading either
-          return
+interface FadeSectionProps {
+  children: React.ReactNode
+  className?: string
+}
+
+function FadeSection({ children, className = '' }: FadeSectionProps) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
         }
-        e.currentTarget.src = props.fallbackSrc
-        setErrored(true)
-      }}
-    />
+      },
+      { threshold: 0 },
+    )
+
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      className={`${classes.fadeSection} ${isVisible ? classes.visible : ''} ${className}`}
+    >
+      {children}
+    </div>
+  )
+}
+
+function CharacterShowcaseSection() {
+  const features = [
+    'Real-time stat calculations and breakpoint tracking',
+    'DPS scoring against community benchmarks',
+    'Prebuild future characters before farming',
+  ]
+
+  return (
+    <section className={classes.featureSection}>
+      <FadeSection>
+        <div className={classes.featureCard}>
+          <div
+            className={classes.cardBackground}
+            style={{ backgroundImage: `url(${Assets.getHomeBackground('evernight')})` }}
+          />
+          <div className={classes.overlayLeftHeavy} />
+          <div className={classes.cardContent}>
+            <div className={classes.textBlock}>
+              <span className={classes.sectionLabel}>Character Showcase</span>
+              <h2 className={classes.sectionTitle}>
+                See your builds come to life
+              </h2>
+              <p className={classes.sectionDescription}>
+                Visualize your character builds with detailed stat breakdowns,
+                combat metrics, and beautiful preview cards you can share with
+                the community.
+              </p>
+              <FeatureList features={features} />
+            </div>
+            <div className={classes.faceGap} />
+            <div className={classes.imageBlock}>
+              <img src={Assets.getHomeFeature('showcase')} alt="Character Showcase" className={classes.sectionImage} />
+            </div>
+          </div>
+        </div>
+      </FadeSection>
+    </section>
+  )
+}
+
+function RelicOptimizerSection() {
+  const features = [
+    'WebGPU-powered parallel optimization',
+    'Advanced stat and set filtering options',
+    'Automatic breakpoint optimization',
+  ]
+
+  return (
+    <section className={classes.featureSection}>
+      <FadeSection>
+        <div className={classes.featureCard}>
+          <div
+            className={classes.cardBackground}
+            style={{ backgroundImage: `url(${Assets.getHomeBackground('nous')})` }}
+          />
+          <div className={classes.overlayRightHeavy} />
+          <div className={`${classes.cardContent} ${classes.contentRight}`}>
+            <div className={classes.imageBlock}>
+              <img src={Assets.getHomeFeature('optimizer')} alt="Relic Optimizer" className={classes.sectionImage} />
+            </div>
+            <div className={classes.faceGap} />
+            <div className={classes.textBlock}>
+              <span className={classes.sectionLabel}>Relic Optimizer</span>
+              <h2 className={classes.sectionTitle}>
+                Find optimal combinations instantly
+              </h2>
+              <p className={classes.sectionDescription}>
+                Search through millions of relic combinations in seconds using
+                GPU-accelerated optimization to find the perfect build for any
+                character.
+              </p>
+              <FeatureList features={features} />
+            </div>
+          </div>
+        </div>
+      </FadeSection>
+    </section>
+  )
+}
+
+function DamageCalculatorSection() {
+  const features = [
+    'Full team composition support with synergies',
+    'Conditional buff and debuff management',
+    'Custom rotation sequences for accurate DPS',
+  ]
+
+  return (
+    <section className={classes.featureSection}>
+      <FadeSection>
+        <div className={classes.featureCard}>
+          <div
+            className={classes.cardBackground}
+            style={{ backgroundImage: `url(${Assets.getHomeBackground('evernight')})` }}
+          />
+          <div className={classes.overlayLeftHeavy} />
+          <div className={classes.cardContent}>
+            <div className={classes.textBlock}>
+              <span className={classes.sectionLabel}>Damage Calculator</span>
+              <h2 className={classes.sectionTitle}>
+                Accurate simulations, real results
+              </h2>
+              <p className={classes.sectionDescription}>
+                Calculate precise damage output with fully customizable team
+                compositions, buff conditions, and ability rotations that match
+                real combat scenarios.
+              </p>
+              <FeatureList features={features} />
+            </div>
+            <div className={classes.faceGap} />
+            <div className={classes.imageBlock}>
+              <img src={Assets.getHomeFeature('calculator')} alt="Damage Calculator" className={classes.sectionImage} />
+            </div>
+          </div>
+        </div>
+      </FadeSection>
+    </section>
+  )
+}
+
+function FeatureList({ features }: { features: string[] }) {
+  return (
+    <div className={classes.featureBulletDividers}>
+      {features.map((text, i) => (
+        <div key={i} className={classes.featureBulletDividerItem}>
+          <span className={classes.bullet}>•</span>
+          <span>{text}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function CommunitySection() {
+  return (
+    <Box component="section" className={classes.communitySection}>
+      <FadeSection>
+        <div className={classes.communityGrid}>
+          <CommunityCard
+            icon={<IconBrandDiscord size={22} />}
+            title="Discord"
+            description="Join thousands of players sharing builds, strategies, and optimization tips."
+            href="https://discord.gg/rDmB4Un7qg"
+          />
+          <CommunityCard
+            icon={<IconBrandGithub size={22} />}
+            title="GitHub"
+            description="Contribute to the project. Bug reports, features, and pull requests welcome."
+            href="https://github.com/fribbels/hsr-optimizer"
+          />
+          <CommunityCard
+            icon={<IconLayoutKanban size={22} />}
+            title="Roadmap"
+            description="See what's planned and in progress on the project board."
+            href="https://github.com/users/fribbels/projects/2"
+          />
+          <CommunityCard
+            icon={<IconHistory size={22} />}
+            title="Changelog"
+            description="Check out recent updates, new features, and bug fixes."
+            href="https://github.com/fribbels/hsr-optimizer/releases"
+          />
+        </div>
+      </FadeSection>
+
+      <FadeSection>
+        <ContributorsSection />
+      </FadeSection>
+    </Box>
+  )
+}
+
+function ContributorsSection() {
+  return (
+    <div className={classes.contributorsSection}>
+      <div className={classes.contributorsHeader}>
+        <h3 className={classes.contributorsTitle}>Our Contributors</h3>
+        <p className={classes.contributorsSubtitle}>A huge thank you to everyone who has helped build and improve this tool</p>
+      </div>
+      <a href="https://github.com/fribbels/hsr-optimizer/graphs/contributors" target="_blank" rel="noreferrer">
+        <img src="https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1" alt="Contributors" className={classes.contributorsImage} />
+      </a>
+    </div>
+  )
+}
+
+interface CommunityCardProps {
+  icon: React.ReactNode
+  title: string
+  description: string
+  href?: string
+}
+
+function CommunityCard({ icon, title, description, href }: CommunityCardProps) {
+  const content = (
+    <>
+      <div className={classes.communityCardHeader}>
+        <div className={classes.communityCardIcon}>{icon}</div>
+        <h4 className={classes.communityCardTitle}>{title}</h4>
+      </div>
+      <p className={classes.communityCardDescription}>{description}</p>
+    </>
+  )
+
+  if (href) {
+    return (
+      <a href={href} target="_blank" rel="noreferrer" className={classes.communityCard}>
+        {content}
+      </a>
+    )
+  }
+
+  return (
+    <div className={classes.communityCard}>
+      {content}
+    </div>
   )
 }

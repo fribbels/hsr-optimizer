@@ -1,54 +1,503 @@
-.rootContainer {
+/* Homepage Layout */
+
+.root {
   width: 100%;
-  position: relative;
-  margin-bottom: 200px;
+  min-height: 100vh;
+  background-color: var(--layer-0);
+  color: var(--mantine-color-dark-0);
 }
 
-.collapseLabelDivider {
-  font-size: 24px;
-  padding-inline: 30px;
-  margin-block: 0;
+/* Hero container - wider for prominence */
+.heroContainer {
+  max-width: 2000px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.contentAccordion {
-  width: 100%;
+/* Content container - narrower for cards */
+.container {
   max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.cardImage {
+/* Hero Section */
+.hero {
+  position: relative;
   width: 100%;
-  height: 593px;
-  border-radius: var(--radius-md);
-  outline: rgba(255, 255, 255, 0.15) solid 1px;
-  box-shadow: rgb(0 0 0 / 50%) 2px 2px 3px;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  border: 1px solid var(--border-default);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.heroBackgroundContainer {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.heroBackground {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center top;
+  filter: brightness(0.75);
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.1) 0%,
+    rgba(0, 0, 0, 0.25) 60%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+}
+
+.heroContent {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 60px 60px 24px;
+}
+
+.heroTitleSection {
+  /* At top */
+}
+
+.heroWelcome {
+  font-size: 20px;
+  font-weight: 400;
+  color: rgba(200, 200, 200, 0.9);
+  margin: 0 0 8px 0;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.heroTitle {
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--mantine-color-dark-0);
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
+}
+
+.searchBarContainer {
+  width: 750px;
+  max-width: 100%;
+  padding: 26px;
+  background-color: rgba(30, 30, 45, 0.6);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.searchBarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.searchBarLabel {
+  font-size: 18px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 1), 0 0 5px rgba(0, 0, 0, 1);
+}
+
+.searchBarApi {
+  font-size: 15px;
+  opacity: 0.5;
+}
+
+.searchBarApi a {
+  color: var(--color-link);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.searchBarInputRow {
+  display: flex;
+  width: 100%;
+}
+
+.heroBottomSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.scrollIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgba(168, 168, 168, 0.8);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+/* Feature Section Cards */
+.featureSection {
+  padding: 40px 0;
 }
 
 .featureCard {
-  flex: 1;
-  cursor: default;
-  font-size: 16px;
-  min-width: 500px;
-  padding: 0;
-  overflow: hidden;
-  /* !important needed to override Mantine Paper's inline background-color */
-  background-color: var(--layer-1) !important;
-}
-
-.featureCardHeader {
-  font-size: 18px;
-  font-weight: 500;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border-default);
-}
-
-.featureCardBody {
-  padding: 12px 16px 16px;
-}
-
-.featuresContainer {
-  max-width: 1600px;
-  min-width: 1000px;
+  position: relative;
   width: 100%;
-  padding: 0px 20px;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 850px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-default);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.cardBackground {
+  position: absolute;
+  inset: 0;
+  background-attachment: scroll;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+.overlayLeftHeavy {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 1.00) 0%,
+    rgba(0, 0, 0, 0.90) 10%,
+    rgba(0, 0, 0, 0.80) 20%,
+    rgba(0, 0, 0, 0.70) 30%,
+    rgba(0, 0, 0, 0.50) 40%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.0) 100%
+  );
+}
+
+.overlayRightHeavy {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    270deg,
+    rgba(0, 0, 0, 1.00) 0%,
+    rgba(0, 0, 0, 0.90) 10%,
+    rgba(0, 0, 0, 0.80) 20%,
+    rgba(0, 0, 0, 0.70) 30%,
+    rgba(0, 0, 0, 0.50) 40%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.0) 100%
+  );
+}
+
+.cardContent {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 30% 28% 42%;
+  padding: 80px 60px;
+  align-items: center;
+}
+
+.contentRight {
+  grid-template-columns: 42% 28% 30%;
+}
+
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+}
+
+.faceGap {
+  /* Empty - shows character face */
+}
+
+.sectionLabel {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--mantine-color-primary-5);
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 1),
+    0 4px 16px rgba(0, 0, 0, 0.8);
+}
+
+.sectionTitle {
+  font-size: 46px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--mantine-color-dark-0);
+  text-shadow:
+    0 2px 8px rgba(0, 0, 0, 1),
+    0 4px 20px rgba(0, 0, 0, 0.9),
+    0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+.sectionDescription {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.8;
+  color: rgba(200, 200, 200, 0.95);
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 1),
+    0 2px 12px rgba(0, 0, 0, 0.8);
+}
+
+/* Bullet + Dividers feature list */
+.featureBulletDividers {
+  display: flex;
+  flex-direction: column;
+}
+
+.featureBulletDividerItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: rgba(220, 220, 220, 0.95);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 1px 4px rgba(0, 0, 0, 1),
+    0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.featureBulletDividerItem:not(:first-child) {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bullet {
+  color: var(--mantine-color-primary-5);
+  font-size: 18px;
+}
+
+.imageBlock {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+}
+
+.contentRight .imageBlock {
+  justify-content: flex-start;
+}
+
+.sectionImage {
+  max-width: 550px;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Fade animation */
+.fadeSection {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fadeSection.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Community Section */
+.communitySection {
+  background: var(--layer-0);
+  padding: 40px 0 100px;
+}
+
+.communityGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.communityCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px;
+  background: var(--layer-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.communityCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--mantine-color-primary-5);
+}
+
+.communityCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.communityCardIcon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mantine-color-primary-5);
+  flex-shrink: 0;
+}
+
+.communityCardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--mantine-color-dark-0);
+  margin: 0;
+}
+
+.communityCardDescription {
+  font-size: 14px;
+  color: var(--mantine-color-dark-1);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Contributors Section */
+.contributorsSection {
+  padding: 80px 0 0;
+}
+
+.contributorsHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contributorsTitle {
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--mantine-color-dark-0);
+  margin: 0 0 12px 0;
+}
+
+.contributorsSubtitle {
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--mantine-color-dark-2);
+  margin: 0;
+}
+
+.contributorsImage {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: block;
+  border-radius: var(--radius-md);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .cardContent {
+    grid-template-columns: 40% 20% 40%;
+    padding: 60px 48px;
+  }
+  .contentRight {
+    grid-template-columns: 40% 20% 40%;
+  }
+  .sectionTitle {
+    font-size: 36px;
+  }
+  .featureCard {
+    min-height: 750px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .communityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .hero {
+    margin-top: 10px;
+    border-radius: 12px;
+  }
+  .heroBackgroundContainer,
+  .heroOverlay {
+    border-radius: 12px;
+  }
+  .cardContent,
+  .contentRight {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .faceGap {
+    display: none;
+  }
+  .communityGrid {
+    grid-template-columns: 1fr;
+  }
+  .heroWelcome {
+    font-size: 16px;
+  }
+  .heroTitle {
+    font-size: 42px;
+  }
+  .heroContent {
+    padding: 40px 20px 24px;
+  }
+  .sectionTitle {
+    font-size: 28px;
+  }
+  .featureSection {
+    padding: 20px 0;
+  }
+  .featureCard {
+    min-height: auto;
+  }
 }

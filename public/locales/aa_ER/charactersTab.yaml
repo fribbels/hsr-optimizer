@@ -27,10 +27,9 @@ CharacterMenu:
       SortByScore: crwdns39628:0crwdne39628:0
       MoveToTop: crwdns39630:0crwdne39630:0
 SearchPlaceholder: crwdns39632:0crwdne39632:0
-GridHeaders:
-  Icon: crwdns39634:0crwdne39634:0
-  Priority: crwdns39636:0crwdne39636:0
-  Character: crwdns39638:0crwdne39638:0
+GridDensityOptions:
+  default: crwdns46788:0crwdne46788:0
+  compact: crwdns46790:0crwdne46790:0
 Messages:
   RemoveSuccess: crwdns39640:0crwdne39640:0
   UnequipSuccess: crwdns39642:0crwdne39642:0

@@ -21,7 +21,10 @@ export function HomeTab() {
       <div className={classes.container}>
         <CharacterShowcaseSection />
         <RelicOptimizerSection />
+        <WarpPlannerSection />
         <DamageCalculatorSection />
+        <BenchmarkGeneratorSection />
+        <RarityAnalysisSection />
         <CommunitySection />
       </div>
     </div>
@@ -134,12 +137,10 @@ function FadeSection({ children, className = '' }: FadeSectionProps) {
 }
 
 function CharacterShowcaseSection() {
-  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards.Showcase' })
-
   const features = [
-    'Real-time stat calculations and breakpoint tracking (TODO)',
-    'DPS scoring against community benchmarks (TODO)',
-    'Prebuild future characters before farming (TODO)',
+    'Full stats display with DPS Score and stats analysis',
+    'Configure teammate buffs for accurate scoring',
+    'Simulate unreleased character stats on current relics',
   ]
 
   return (
@@ -153,15 +154,15 @@ function CharacterShowcaseSection() {
           <div className={classes.overlayLeftHeavy} />
           <div className={classes.cardContent}>
             <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>{t('Title')}</h2>
+              <h2 className={classes.sectionTitle}>Character Showcase</h2>
               <p className={classes.sectionDescription}>
-                {t('Content')}
+                Showcase and share your character's stats or prebuild future characters. Simulate combat damage with DPS score and measure it against the benchmarks.
               </p>
               <FeatureList features={features} />
             </div>
             <div className={classes.faceGap} />
             <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('showcase')} alt={t('Title')} className={classes.sectionImage} />
+              <img src={Assets.getHomeFeature('showcase')} alt="Character Showcase" className={classes.sectionImage} />
             </div>
           </div>
         </div>
@@ -171,12 +172,10 @@ function CharacterShowcaseSection() {
 }
 
 function RelicOptimizerSection() {
-  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards.Optimizer' })
-
   const features = [
-    'WebGPU-powered parallel optimization (TODO)',
-    'Advanced stat and set filtering options (TODO)',
-    'Automatic breakpoint optimization (TODO)',
+    'Find best builds for stats, ability damage, or rotation damage',
+    'GPU accelerated compute at billions of permutations per second',
+    'Configure teammate conditional buffs for damage calculations',
   ]
 
   return (
@@ -190,13 +189,13 @@ function RelicOptimizerSection() {
           <div className={classes.overlayRightHeavy} />
           <div className={`${classes.cardContent} ${classes.contentRight}`}>
             <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('optimizer')} alt={t('Title')} className={classes.sectionImage} />
+              <img src={Assets.getHomeFeature('optimizer')} alt="Optimization Engine" className={classes.sectionImage} />
             </div>
             <div className={classes.faceGap} />
             <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>{t('Title')}</h2>
+              <h2 className={classes.sectionTitle}>Optimization Engine</h2>
               <p className={classes.sectionDescription}>
-                {t('Content')}
+                Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.
               </p>
               <FeatureList features={features} />
             </div>
@@ -208,12 +207,45 @@ function RelicOptimizerSection() {
 }
 
 function DamageCalculatorSection() {
-  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards.Calculator' })
-
   const features = [
-    'Full team composition support with synergies (TODO)',
-    'Conditional buff and debuff management (TODO)',
-    'Custom rotation sequences for accurate DPS (TODO)',
+    'Customize the rotation and teammates, and filter by any stat',
+    'See the buff breakdown by source and ability',
+    'Easy-to-use presets for quick setup',
+  ]
+
+  return (
+    <section className={classes.featureSection}>
+      <FadeSection>
+        <div className={classes.featureCard}>
+          <div
+            className={classes.cardBackground}
+            style={{ backgroundImage: `url(${Assets.getHomeBackground('nous')})` }}
+          />
+          <div className={classes.overlayRightHeavy} />
+          <div className={`${classes.cardContent} ${classes.contentRight}`}>
+            <div className={classes.imageBlock}>
+              <img src={Assets.getHomeFeature('calculator')} alt="Damage Calculator" className={classes.sectionImage} />
+            </div>
+            <div className={classes.faceGap} />
+            <div className={classes.textBlock}>
+              <h2 className={classes.sectionTitle}>Damage Calculator</h2>
+              <p className={classes.sectionDescription}>
+                Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.
+              </p>
+              <FeatureList features={features} />
+            </div>
+          </div>
+        </div>
+      </FadeSection>
+    </section>
+  )
+}
+
+function WarpPlannerSection() {
+  const features = [
+    'Shows expected average warps needed for each target',
+    'Per-patch income tracking for F2P and spending tiers',
+    'Calculates starlight refund from duplicate trades',
   ]
 
   return (
@@ -227,15 +259,85 @@ function DamageCalculatorSection() {
           <div className={classes.overlayLeftHeavy} />
           <div className={classes.cardContent}>
             <div className={classes.textBlock}>
-              <h2 className={classes.sectionTitle}>{t('Title')}</h2>
+              <h2 className={classes.sectionTitle}>Warp Planner</h2>
               <p className={classes.sectionDescription}>
-                {t('Content')}
+                Calculate exact success probabilities for character and light cone banner targets, accounting for pity progress, starlight refunds, and upcoming patch income.
               </p>
               <FeatureList features={features} />
             </div>
             <div className={classes.faceGap} />
             <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('calculator')} alt={t('Title')} className={classes.sectionImage} />
+              <img src={Assets.getHomeFeature('showcase')} alt="Warp Planner" className={classes.sectionImage} />
+            </div>
+          </div>
+        </div>
+      </FadeSection>
+    </section>
+  )
+}
+
+function BenchmarkGeneratorSection() {
+  const features = [
+    'Compare relic set and main stat combinations head-to-head',
+    'Two tiers: realistic benchmark and perfection builds',
+    'Expandable rows show stats, rolls, and damage breakdown',
+  ]
+
+  return (
+    <section className={classes.featureSection}>
+      <FadeSection>
+        <div className={classes.featureCard}>
+          <div
+            className={classes.cardBackground}
+            style={{ backgroundImage: `url(${Assets.getHomeBackground('evernight')})` }}
+          />
+          <div className={classes.overlayLeftHeavy} />
+          <div className={classes.cardContent}>
+            <div className={classes.textBlock}>
+              <h2 className={classes.sectionTitle}>Build Benchmarks</h2>
+              <p className={classes.sectionDescription}>
+                Determine which relic sets and main stats produce the highest damage for your character. Find the optimal substat distribution for each configuration.
+              </p>
+              <FeatureList features={features} />
+            </div>
+            <div className={classes.faceGap} />
+            <div className={classes.imageBlock}>
+              <img src={Assets.getHomeFeature('showcase')} alt="Build Benchmarks" className={classes.sectionImage} />
+            </div>
+          </div>
+        </div>
+      </FadeSection>
+    </section>
+  )
+}
+
+function RarityAnalysisSection() {
+  const features = [
+    'Estimate days of farming needed to replace a relic',
+    'Visualize high, mid, and low rolls across your substats',
+    'See the reroll dice potential for each piece',
+  ]
+
+  return (
+    <section className={classes.featureSection}>
+      <FadeSection>
+        <div className={classes.featureCard}>
+          <div
+            className={classes.cardBackground}
+            style={{ backgroundImage: `url(${Assets.getHomeBackground('nous')})` }}
+          />
+          <div className={classes.overlayRightHeavy} />
+          <div className={`${classes.cardContent} ${classes.contentRight}`}>
+            <div className={classes.imageBlock}>
+              <img src={Assets.getHomeFeature('optimizer')} alt="Rarity Analysis" className={classes.sectionImage} />
+            </div>
+            <div className={classes.faceGap} />
+            <div className={classes.textBlock}>
+              <h2 className={classes.sectionTitle}>Rarity Analysis</h2>
+              <p className={classes.sectionDescription}>
+                Evaluate relic quality using character-specific substat weights that rank each piece against its theoretical maximum.
+              </p>
+              <FeatureList features={features} />
             </div>
           </div>
         </div>
@@ -263,28 +365,36 @@ function CommunitySection() {
       <FadeSection>
         <div className={classes.communityGrid}>
           <CommunityCard
-            icon={<IconBrandDiscord size={22} />}
+            icon={<IconBrandDiscord size={28} />}
             title="Discord"
             description="Join thousands of players sharing builds, strategies, and optimization tips."
             href="https://discord.gg/rDmB4Un7qg"
+            iconColor="#ffffff"
+            iconBg="#5865F2"
           />
           <CommunityCard
-            icon={<IconBrandGithub size={22} />}
+            icon={<IconBrandGithub size={28} />}
             title="GitHub"
             description="Contribute to the project. Bug reports, features, and pull requests welcome."
             href="https://github.com/fribbels/hsr-optimizer"
+            iconColor="#ffffff"
+            iconBg="#24292f"
           />
           <CommunityCard
-            icon={<IconLayoutKanban size={22} />}
+            icon={<IconLayoutKanban size={28} />}
             title="Roadmap"
             description="See what's planned and in progress on the project board."
             href="https://github.com/users/fribbels/projects/2"
+            iconColor="#ffffff"
+            iconBg="#2d8a85"
           />
           <CommunityCard
-            icon={<IconHistory size={22} />}
+            icon={<IconHistory size={28} />}
             title="Changelog"
             description="Check out recent updates, new features, and bug fixes."
             href="https://github.com/fribbels/hsr-optimizer/releases"
+            iconColor="#ffffff"
+            iconBg="#b8863b"
           />
         </div>
       </FadeSection>
@@ -297,14 +407,16 @@ function CommunitySection() {
 }
 
 function ContributorsSection() {
+  const { t } = useTranslation('hometab')
+
   return (
     <div className={classes.contributorsSection}>
       <div className={classes.contributorsHeader}>
-        <h3 className={classes.contributorsTitle}>Our Contributors</h3>
-        <p className={classes.contributorsSubtitle}>A huge thank you to everyone who has helped build and improve this tool</p>
+        <h3 className={classes.contributorsTitle}>{t('Contributors.Title')}</h3>
+        <p className={classes.contributorsSubtitle}>{t('CommunityCollapse')}</p>
       </div>
       <a href="https://github.com/fribbels/hsr-optimizer/graphs/contributors" target="_blank" rel="noreferrer">
-        <img src="https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1" alt="Contributors" className={classes.contributorsImage} />
+        <img src="https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1" alt={t('Contributors.Title')} className={classes.contributorsImage} />
       </a>
     </div>
   )
@@ -315,13 +427,20 @@ interface CommunityCardProps {
   title: string
   description: string
   href?: string
+  iconColor?: string
+  iconBg?: string
 }
 
-function CommunityCard({ icon, title, description, href }: CommunityCardProps) {
+function CommunityCard({ icon, title, description, href, iconColor, iconBg }: CommunityCardProps) {
+  const iconStyle = {
+    '--icon-color': iconColor,
+    '--icon-bg': iconBg,
+  } as React.CSSProperties
+
   const content = (
     <>
       <div className={classes.communityCardHeader}>
-        <div className={classes.communityCardIcon}>{icon}</div>
+        <div className={classes.communityCardIcon} style={iconStyle}>{icon}</div>
         <h4 className={classes.communityCardTitle}>{title}</h4>
       </div>
       <p className={classes.communityCardDescription}>{description}</p>

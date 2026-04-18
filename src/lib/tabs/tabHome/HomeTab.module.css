@@ -356,7 +356,8 @@
 .communityGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 28px;
+  padding: 0 5px;
 }
 
 .communityCard {
@@ -383,13 +384,17 @@
 }
 
 .communityCardIcon {
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--mantine-color-primary-5);
+  color: var(--icon-color, var(--mantine-color-primary-5));
+  background: var(--icon-bg, rgba(100, 150, 255, 0.15));
+  border-radius: 50%;
   flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .communityCardTitle {
@@ -400,7 +405,7 @@
 }
 
 .communityCardDescription {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--mantine-color-dark-1);
   line-height: 1.6;
   margin: 0;
@@ -417,18 +422,19 @@
 }
 
 .contributorsTitle {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--mantine-color-dark-0);
-  margin: 0 0 12px 0;
+  margin: 0 0 16px 0;
 }
 
 .contributorsSubtitle {
-  font-size: 15px;
+  font-size: 18px;
   letter-spacing: 0.01em;
-  color: var(--mantine-color-dark-2);
-  margin: 0;
+  color: var(--mantine-color-dark-1);
+  margin: 0 auto;
+  max-width: 900px;
 }
 
 .contributorsImage {

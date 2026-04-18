@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Box, Button, TextInput } from '@mantine/core'
+import { Button, TextInput } from '@mantine/core'
 import {
   IconChevronDown,
   IconBrandDiscord,
@@ -112,7 +112,7 @@ function HeroSection() {
       </div>
 
       <div className={classes.heroContent}>
-        <div className={classes.heroTitleSection}>
+        <div>
           <p className={classes.heroWelcome}>{t('Hero.Welcome')}</p>
           <h1 className={classes.heroTitle}>{t('Hero.Title')}</h1>
         </div>
@@ -223,8 +223,8 @@ function FeatureCard({ title, description, features, background, image, align }:
   )
 
   const imageBlock = (
-    <div className={isLeft ? classes.imageBlockRight : classes.imageBlockLeft}>
-      <img src={Assets.getHomeFeature(image)} alt={title} className={classes.sectionImage} />
+    <div className={classes.imageBlock} style={{ justifyContent: isLeft ? 'flex-end' : 'flex-start' }}>
+      <img src={Assets.getHomeFeature(image)} alt={title} className={classes.sectionImage} loading="lazy" />
     </div>
   )
 
@@ -262,7 +262,7 @@ function FeatureList({ features }: { features: string[] }) {
 
 function CommunitySection() {
   return (
-    <Box component="section" className={classes.communitySection}>
+    <section className={classes.communitySection}>
       <FadeSection>
         <div className={classes.communityGrid}>
           <CommunityCard
@@ -303,7 +303,7 @@ function CommunitySection() {
       <FadeSection>
         <ContributorsSection />
       </FadeSection>
-    </Box>
+    </section>
   )
 }
 
@@ -317,7 +317,7 @@ function ContributorsSection() {
         <p className={classes.contributorsSubtitle}>{t('CommunityCollapse')}</p>
       </div>
       <a href="https://github.com/fribbels/hsr-optimizer/graphs/contributors" target="_blank" rel="noreferrer">
-        <img src="https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1" alt={t('Contributors.Title')} className={classes.contributorsImage} />
+        <img src="https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1" alt={t('Contributors.Title')} className={classes.contributorsImage} loading="lazy" />
       </a>
     </div>
   )

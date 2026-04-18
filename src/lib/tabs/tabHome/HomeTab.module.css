@@ -269,7 +269,7 @@
   letter-spacing: -0.01em;
   line-height: 1.15;
   margin: 0;
-  color: var(--mantine-color-dark-0);
+  color: var(--mantine-color-primary-3);
   text-shadow:
     0 2px 8px rgba(0, 0, 0, 1),
     0 4px 20px rgba(0, 0, 0, 0.9),
@@ -280,7 +280,7 @@
   font-size: 18px;
   font-weight: 400;
   line-height: 1.8;
-  color: rgba(200, 200, 200, 0.95);
+  color: rgba(210, 210, 210, 0.95);
   text-shadow:
     0 1px 4px rgba(0, 0, 0, 1),
     0 2px 12px rgba(0, 0, 0, 0.8);

@@ -9,6 +9,7 @@ import {
   IconSearch,
 } from '@tabler/icons-react'
 import { Assets } from 'lib/rendering/assets'
+import { useTranslation } from 'react-i18next'
 import classes from './HomeTab.module.css'
 
 export function HomeTab() {
@@ -28,6 +29,8 @@ export function HomeTab() {
 }
 
 function HeroSection() {
+  const { t } = useTranslation('hometab')
+
   return (
     <section className={classes.hero}>
       <div className={classes.heroBackgroundContainer}>
@@ -41,28 +44,26 @@ function HeroSection() {
 
       <div className={classes.heroContent}>
         <div className={classes.heroTitleSection}>
-          <p className={classes.heroWelcome}>Welcome to the</p>
-          <h1 className={classes.heroTitle}>
-            Fribbels Star Rail Optimizer
-          </h1>
+          <p className={classes.heroWelcome}>{t('Hero.Welcome')}</p>
+          <h1 className={classes.heroTitle}>{t('Hero.Title')}</h1>
         </div>
 
         <div className={classes.heroBottomSection}>
           <div className={classes.searchBarContainer}>
             <div className={classes.searchBarHeader}>
               <span className={classes.searchBarLabel}>
-                Enter your UID to view your showcase characters
+                {t('SearchBar.Label')}
               </span>
               <span className={classes.searchBarApi}>
                 <a href="https://enka.network/?hsr" target="_blank" rel="noreferrer">
-                  Uses Enka.Network
+                  {t('SearchBar.Api')}
                 </a>
               </span>
             </div>
             <div className={classes.searchBarInputRow}>
               <Button
                 size="md"
-                aria-label="Search"
+                aria-label={t('SearchBar.Search')}
                 style={{
                   borderTopRightRadius: 0,
                   borderBottomRightRadius: 0,
@@ -71,7 +72,7 @@ function HeroSection() {
                 <IconSearch size={20} />
               </Button>
               <TextInput
-                placeholder="UID"
+                placeholder={t('SearchBar.Placeholder')}
                 size="md"
                 style={{ flex: 1 }}
                 styles={{
@@ -86,7 +87,7 @@ function HeroSection() {
           </div>
 
           <div className={classes.scrollIndicator}>
-            <span>Scroll to explore</span>
+            <span>{t('ScrollToExplore')}</span>
             <IconChevronDown size={20} />
           </div>
         </div>
@@ -133,10 +134,12 @@ function FadeSection({ children, className = '' }: FadeSectionProps) {
 }
 
 function CharacterShowcaseSection() {
+  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards.Showcase' })
+
   const features = [
-    'Real-time stat calculations and breakpoint tracking',
-    'DPS scoring against community benchmarks',
-    'Prebuild future characters before farming',
+    'Real-time stat calculations and breakpoint tracking (TODO)',
+    'DPS scoring against community benchmarks (TODO)',
+    'Prebuild future characters before farming (TODO)',
   ]
 
   return (
@@ -150,20 +153,15 @@ function CharacterShowcaseSection() {
           <div className={classes.overlayLeftHeavy} />
           <div className={classes.cardContent}>
             <div className={classes.textBlock}>
-              <span className={classes.sectionLabel}>Character Showcase</span>
-              <h2 className={classes.sectionTitle}>
-                See your builds come to life
-              </h2>
+              <h2 className={classes.sectionTitle}>{t('Title')}</h2>
               <p className={classes.sectionDescription}>
-                Visualize your character builds with detailed stat breakdowns,
-                combat metrics, and beautiful preview cards you can share with
-                the community.
+                {t('Content')}
               </p>
               <FeatureList features={features} />
             </div>
             <div className={classes.faceGap} />
             <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('showcase')} alt="Character Showcase" className={classes.sectionImage} />
+              <img src={Assets.getHomeFeature('showcase')} alt={t('Title')} className={classes.sectionImage} />
             </div>
           </div>
         </div>
@@ -173,10 +171,12 @@ function CharacterShowcaseSection() {
 }
 
 function RelicOptimizerSection() {
+  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards.Optimizer' })
+
   const features = [
-    'WebGPU-powered parallel optimization',
-    'Advanced stat and set filtering options',
-    'Automatic breakpoint optimization',
+    'WebGPU-powered parallel optimization (TODO)',
+    'Advanced stat and set filtering options (TODO)',
+    'Automatic breakpoint optimization (TODO)',
   ]
 
   return (
@@ -190,18 +190,13 @@ function RelicOptimizerSection() {
           <div className={classes.overlayRightHeavy} />
           <div className={`${classes.cardContent} ${classes.contentRight}`}>
             <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('optimizer')} alt="Relic Optimizer" className={classes.sectionImage} />
+              <img src={Assets.getHomeFeature('optimizer')} alt={t('Title')} className={classes.sectionImage} />
             </div>
             <div className={classes.faceGap} />
             <div className={classes.textBlock}>
-              <span className={classes.sectionLabel}>Relic Optimizer</span>
-              <h2 className={classes.sectionTitle}>
-                Find optimal combinations instantly
-              </h2>
+              <h2 className={classes.sectionTitle}>{t('Title')}</h2>
               <p className={classes.sectionDescription}>
-                Search through millions of relic combinations in seconds using
-                GPU-accelerated optimization to find the perfect build for any
-                character.
+                {t('Content')}
               </p>
               <FeatureList features={features} />
             </div>
@@ -213,10 +208,12 @@ function RelicOptimizerSection() {
 }
 
 function DamageCalculatorSection() {
+  const { t } = useTranslation('hometab', { keyPrefix: 'FeatureCards.Calculator' })
+
   const features = [
-    'Full team composition support with synergies',
-    'Conditional buff and debuff management',
-    'Custom rotation sequences for accurate DPS',
+    'Full team composition support with synergies (TODO)',
+    'Conditional buff and debuff management (TODO)',
+    'Custom rotation sequences for accurate DPS (TODO)',
   ]
 
   return (
@@ -230,20 +227,15 @@ function DamageCalculatorSection() {
           <div className={classes.overlayLeftHeavy} />
           <div className={classes.cardContent}>
             <div className={classes.textBlock}>
-              <span className={classes.sectionLabel}>Damage Calculator</span>
-              <h2 className={classes.sectionTitle}>
-                Accurate simulations, real results
-              </h2>
+              <h2 className={classes.sectionTitle}>{t('Title')}</h2>
               <p className={classes.sectionDescription}>
-                Calculate precise damage output with fully customizable team
-                compositions, buff conditions, and ability rotations that match
-                real combat scenarios.
+                {t('Content')}
               </p>
               <FeatureList features={features} />
             </div>
             <div className={classes.faceGap} />
             <div className={classes.imageBlock}>
-              <img src={Assets.getHomeFeature('calculator')} alt="Damage Calculator" className={classes.sectionImage} />
+              <img src={Assets.getHomeFeature('calculator')} alt={t('Title')} className={classes.sectionImage} />
             </div>
           </div>
         </div>

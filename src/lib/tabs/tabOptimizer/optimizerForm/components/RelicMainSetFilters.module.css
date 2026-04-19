@@ -5,3 +5,7 @@
 .setsHeader {
   margin-top: 40px;
 }
+
+.setFilterRow input::placeholder {
+  color: var(--mantine-color-text);
+}

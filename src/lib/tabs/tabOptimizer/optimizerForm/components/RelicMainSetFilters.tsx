@@ -1,11 +1,11 @@
 import {
   Button,
+  CloseButton,
   Flex,
+  Group,
+  PillsInput,
 } from '@mantine/core'
-import {
-  IconFilter,
-  IconSettings,
-} from '@tabler/icons-react'
+import { IconSettings } from '@tabler/icons-react'
 import {
   Constants,
   Parts,
@@ -18,7 +18,6 @@ import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import type { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { SetFilterSummary } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterSummary'
 import {
   optimizerTabDefaultGap,
   panelWidth,
@@ -168,16 +167,87 @@ function MainStatLinkRope() {
   )
 }
 
-function SetFilterButton() {
+const relicBoxIcon = '/hsr-optimizer/assets/misc/defaultrelic.webp'
+
+function RelicSetFilterRow() {
+  const display = useOptimizerRequestStore((s) => s.setFilters)
+  const hasSelection = display.fourPiece.length > 0 || display.twoPieceCombos.length > 0
+  const totalCount = display.fourPiece.length + display.twoPieceCombos.length
+
+  const handleRemove = (e: React.MouseEvent, name: string) => {
+    e.stopPropagation()
+    const current = useOptimizerRequestStore.getState().setFilters
+    useOptimizerRequestStore.getState().setSetFilters({
+      ...current,
+      fourPiece: current.fourPiece.filter((s) => s !== name),
+    })
+  }
+
   return (
-    <Button
-      variant='default'
-      fullWidth
+    <PillsInput
+      size='xs'
+      style={mainStatStyle}
+      leftSectionWidth={32}
+      leftSection={<img src={relicBoxIcon} style={{ width: 20, marginLeft: 6 }} />}
       onClick={() => setOpen(OpenCloseIDs.RELIC_SET_FILTER_MODAL)}
-      leftSection={<IconFilter size={16} />}
+      styles={{ input: { cursor: 'pointer', paddingLeft: 38, paddingTop: 0, paddingBottom: 0, display: 'flex', alignItems: 'center', gap: 10 } }}
     >
-      Set filters
-    </Button>
+      {hasSelection
+        ? (
+          <Group gap={10} wrap='nowrap' align='center' style={{ overflow: 'hidden', flex: 1 }}>
+            {display.fourPiece.slice(0, 2).map((name) => (
+              <Group key={name} gap={4} wrap='nowrap' align='center' style={{ marginBottom: 1 }}>
+                <img src={Assets.getSetImage(name)} style={{ width: 20, height: 20 }} />
+                <img src={Assets.getSetImage(name)} style={{ width: 20, height: 20 }} />
+                <CloseButton size={14} variant='subtle' onClick={(e) => handleRemove(e, name)} />
+              </Group>
+            ))}
+            {totalCount > 2 && <span style={{ fontSize: 12, color: 'var(--mantine-color-dimmed)', marginLeft: 'auto' }}>+{totalCount - 2}</span>}
+          </Group>
+        )
+        : <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>Relic set filters</span>}
+    </PillsInput>
+  )
+}
+
+function OrnamentSetFilterRow() {
+  const display = useOptimizerRequestStore((s) => s.setFilters)
+  const hasSelection = display.ornaments.length > 0
+
+  const handleRemove = (e: React.MouseEvent, name: string) => {
+    e.stopPropagation()
+    const current = useOptimizerRequestStore.getState().setFilters
+    useOptimizerRequestStore.getState().setSetFilters({
+      ...current,
+      ornaments: current.ornaments.filter((s) => s !== name),
+    })
+  }
+
+  return (
+    <PillsInput
+      size='xs'
+      style={mainStatStyle}
+      leftSectionWidth={32}
+      leftSection={<img src={relicBoxIcon} style={{ width: 20, marginLeft: 6 }} />}
+      onClick={() => setOpen(OpenCloseIDs.RELIC_SET_FILTER_MODAL)}
+      styles={{ input: { cursor: 'pointer', paddingLeft: 38, paddingTop: 0, paddingBottom: 0, display: 'flex', alignItems: 'center', gap: 10 } }}
+    >
+      {hasSelection
+        ? (
+          <Group gap={10} wrap='nowrap' align='center' style={{ overflow: 'hidden', flex: 1 }}>
+            {display.ornaments.slice(0, 3).map((name) => (
+              <Group key={name} gap={4} wrap='nowrap' align='center' style={{ marginBottom: 1 }}>
+                <img src={Assets.getSetImage(name)} style={{ width: 20, height: 20 }} />
+                <CloseButton size={14} variant='subtle' onClick={(e) => handleRemove(e, name)} />
+              </Group>
+            ))}
+            {display.ornaments.length > 3 && (
+              <span style={{ fontSize: 12, color: 'var(--mantine-color-dimmed)', marginLeft: 'auto' }}>+{display.ornaments.length - 3}</span>
+            )}
+          </Group>
+        )
+        : <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>Ornament set filters</span>}
+    </PillsInput>
   )
 }
 
@@ -210,8 +280,8 @@ export function RelicMainSetFilters() {
         >
           {t('SetConditionals.Title') /* Conditional set effects */}
         </Button>
-        <SetFilterButton />
-        <SetFilterSummary mt={10} />
+        <RelicSetFilterRow />
+        <OrnamentSetFilterRow />
       </Flex>
     </Flex>
   )

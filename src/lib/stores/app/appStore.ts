@@ -1,3 +1,4 @@
+import { ShowcasePreset } from 'lib/characterPreview/debugVisualConfigStore'
 import { getDefaultActiveKey } from 'lib/constants/appPages'
 import {
   COMPUTE_ENGINE_GPU_STABLE,
@@ -18,6 +19,7 @@ export const savedSessionDefaults: GlobalSavedSession = {
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,
+  [SavedSessionKeys.showcasePreset]: ShowcasePreset.SHINE,
   [SavedSessionKeys.showcaseUID]: true,
   [SavedSessionKeys.showcasePreciseSpd]: false,
   [SavedSessionKeys.sidebarCollapsed]: false,

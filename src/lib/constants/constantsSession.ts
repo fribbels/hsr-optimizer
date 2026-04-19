@@ -4,6 +4,7 @@ export enum SavedSessionKeys {
   computeEngine = 'computeEngine',
   showcaseStandardMode = 'showcaseStandardMode',
   showcaseDarkMode = 'showcaseDarkMode',
+  showcasePreset = 'showcasePreset',
   showcaseUID = 'showcaseUID',
   showcasePreciseSpd = 'showcasePreciseSpd',
   sidebarCollapsed = 'sidebarCollapsed',

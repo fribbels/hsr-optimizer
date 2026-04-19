@@ -45,6 +45,7 @@ import {
   SHADOW_X,
   SHADOW_Y,
   TEXT_SHADOW_DEFAULT,
+  getShowcasePreset,
   useDebugVisualConfigStore,
 } from 'lib/characterPreview/debugVisualConfigStore'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
@@ -68,6 +69,7 @@ import type { RelicScoringResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { DeferReveal } from 'lib/ui/DeferredRender'
@@ -199,26 +201,29 @@ function ShowcaseBackgroundBlur({
 }
 
 /** Resolve debug visual config with defaults - single source of truth for fallback values */
-function resolveDebugVisualConfig(config: DebugVisualConfig | undefined) {
+function resolveDebugVisualConfig(
+  config: DebugVisualConfig | undefined,
+  presetFallback?: DebugVisualConfig,
+) {
   return {
-    portraitBlur: config?.portraitBlur ?? PORTRAIT_BLUR,
-    portraitBrightness: config?.portraitBrightness ?? PORTRAIT_BRIGHTNESS,
-    portraitSaturate: config?.portraitSaturate ?? PORTRAIT_SATURATE,
-    cardBgAlpha: config?.cardBgAlpha ?? CARD_BG_ALPHA_DEFAULT,
-    debugMaxC: config?.debugMaxC ?? DEFAULT_CONFIG.cardBg.maxC,
-    debugMinC: config?.debugMinC ?? DEFAULT_CONFIG.cardBg.minC,
-    debugChromaScale: config?.debugChromaScale ?? DEFAULT_CONFIG.cardBg.chromaScale,
-    debugTargetL: config?.debugTargetL ?? DEFAULT_CONFIG.cardBg.targetL,
-    debugMinL: config?.debugMinL ?? DEFAULT_CONFIG.cardBg.minL,
-    debugMaxL: config?.debugMaxL ?? DEFAULT_CONFIG.cardBg.maxL,
-    blendMode: config?.blendMode ?? 'normal' as const,
-    shadowX: config?.shadowX ?? SHADOW_X,
-    shadowY: config?.shadowY ?? SHADOW_Y,
-    shadowBlur: config?.shadowBlur ?? SHADOW_BLUR,
-    shadowOpacity: config?.shadowOpacity ?? SHADOW_OPACITY,
-    insetBlur: config?.insetBlur ?? INSET_BLUR,
-    insetOpacity: config?.insetOpacity ?? INSET_OPACITY,
-    textShadow: config?.textShadow ?? TEXT_SHADOW_DEFAULT,
+    portraitBlur: config?.portraitBlur ?? presetFallback?.portraitBlur ?? PORTRAIT_BLUR,
+    portraitBrightness: config?.portraitBrightness ?? presetFallback?.portraitBrightness ?? PORTRAIT_BRIGHTNESS,
+    portraitSaturate: config?.portraitSaturate ?? presetFallback?.portraitSaturate ?? PORTRAIT_SATURATE,
+    cardBgAlpha: config?.cardBgAlpha ?? presetFallback?.cardBgAlpha ?? CARD_BG_ALPHA_DEFAULT,
+    debugMaxC: config?.debugMaxC ?? presetFallback?.debugMaxC ?? DEFAULT_CONFIG.cardBg.maxC,
+    debugMinC: config?.debugMinC ?? presetFallback?.debugMinC ?? DEFAULT_CONFIG.cardBg.minC,
+    debugChromaScale: config?.debugChromaScale ?? presetFallback?.debugChromaScale ?? DEFAULT_CONFIG.cardBg.chromaScale,
+    debugTargetL: config?.debugTargetL ?? presetFallback?.debugTargetL ?? DEFAULT_CONFIG.cardBg.targetL,
+    debugMinL: config?.debugMinL ?? presetFallback?.debugMinL ?? DEFAULT_CONFIG.cardBg.minL,
+    debugMaxL: config?.debugMaxL ?? presetFallback?.debugMaxL ?? DEFAULT_CONFIG.cardBg.maxL,
+    blendMode: config?.blendMode ?? presetFallback?.blendMode ?? 'normal' as const,
+    shadowX: config?.shadowX ?? presetFallback?.shadowX ?? SHADOW_X,
+    shadowY: config?.shadowY ?? presetFallback?.shadowY ?? SHADOW_Y,
+    shadowBlur: config?.shadowBlur ?? presetFallback?.shadowBlur ?? SHADOW_BLUR,
+    shadowOpacity: config?.shadowOpacity ?? presetFallback?.shadowOpacity ?? SHADOW_OPACITY,
+    insetBlur: config?.insetBlur ?? presetFallback?.insetBlur ?? INSET_BLUR,
+    insetOpacity: config?.insetOpacity ?? presetFallback?.insetOpacity ?? INSET_OPACITY,
+    textShadow: config?.textShadow ?? presetFallback?.textShadow ?? TEXT_SHADOW_DEFAULT,
   }
 }
 
@@ -285,9 +290,11 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // handles the equipped field difference (Relic objects vs string IDs).
   const character = rawCharacter as Character
 
-  // Debug visual config with defaults
+  // Debug visual config with defaults — preset-aware (Satin/Gloss)
   const { t } = useTranslation('gameData')
-  const visual = resolveDebugVisualConfig(debugVisualConfig)
+  const showcasePreset = useGlobalStore((s) => s.savedSession.showcasePreset)
+  const presetFallback = getShowcasePreset(showcasePreset)
+  const visual = resolveDebugVisualConfig(debugVisualConfig, presetFallback)
 
   const colorPipelineConfig = useMemo<ColorPipelineConfig>(() => ({
     ...DEFAULT_CONFIG,

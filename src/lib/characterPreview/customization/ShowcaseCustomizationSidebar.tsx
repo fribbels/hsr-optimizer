@@ -7,7 +7,9 @@ import {
 import {
   IconCamera,
   IconCheck,
+  IconDiamond,
   IconDownload,
+  IconLeaf,
   IconMoon,
   IconSettings,
   IconSun,
@@ -16,6 +18,7 @@ import {
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
+import { ShowcasePreset } from 'lib/characterPreview/debugVisualConfigStore'
 import {
   DEFAULT_SHOWCASE_COLOR,
   resolveShowcaseTheme,
@@ -314,6 +317,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
 }) {
   const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
   const showcaseDarkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
+  const showcasePreset = useGlobalStore((s) => s.savedSession.showcasePreset)
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
 
   // setState-during-render (React 19): syncs local drag color to external seedColor without an extra effect render.
@@ -349,6 +353,11 @@ const CustomizationPanel = memo(function CustomizationPanel({
     SaveState.delayedSave()
   }
 
+  function onPresetChange(preset: ShowcasePreset) {
+    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcasePreset, preset)
+    SaveState.delayedSave()
+  }
+
   function onShowUIDChange(showUID: boolean) {
     useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcaseUID, showUID)
     SaveState.delayedSave()
@@ -378,8 +387,18 @@ const CustomizationPanel = memo(function CustomizationPanel({
 
       <SegmentedControl
         data={[
-          { value: 'false', label: <IconSun size={14} /> },
-          { value: 'true', label: <IconMoon size={14} /> },
+          { value: ShowcasePreset.SHINE, label: <IconDiamond size={18} /> },
+          { value: ShowcasePreset.NATURAL, label: <IconLeaf size={18} /> },
+        ]}
+        fullWidth
+        value={showcasePreset}
+        onChange={(value) => onPresetChange(value as ShowcasePreset)}
+      />
+
+      <SegmentedControl
+        data={[
+          { value: 'false', label: <IconSun size={18} /> },
+          { value: 'true', label: <IconMoon size={18} /> },
         ]}
         fullWidth
         value={String(showcaseDarkMode)}

@@ -167,7 +167,7 @@ function MainStatLinkRope() {
   )
 }
 
-const relicBoxIcon = '/hsr-optimizer/assets/misc/defaultrelic.webp'
+const relicBoxIcon = Assets.getDefaultRelic()
 
 function RelicSetFilterRow() {
   const display = useOptimizerRequestStore((s) => s.setFilters)

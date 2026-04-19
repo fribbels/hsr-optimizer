@@ -191,4 +191,8 @@ export const Assets = {
   getGlobe: () => {
     return getImageUrl(`/misc/globe.webp`)
   },
+
+  getDefaultRelic: () => {
+    return getImageUrl('/misc/defaultrelic.webp')
+  },
 }

@@ -176,7 +176,7 @@
 
 /* Feature Section Cards */
 .featureSection {
-  padding: 40px 0;
+  padding: 30px 0;
 }
 
 .featureCard {
@@ -353,16 +353,10 @@
   transform: translateY(0);
 }
 
-/* Skip transform for elements already in view on mount */
-.fadeSection.noTransform {
-  transform: none;
-  transition: none;
-}
-
 /* Community Section */
 .communitySection {
   background: var(--layer-0);
-  padding: 40px 0 100px;
+  padding: 30px 0 100px;
 }
 
 .communityGrid {

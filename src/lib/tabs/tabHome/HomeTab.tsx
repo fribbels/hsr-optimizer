@@ -211,23 +211,8 @@ interface FadeSectionProps {
 function FadeSection({ children, className = '' }: FadeSectionProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
-  // Track if element was in view on mount - skip animation for these
-  const [wasInViewOnMount, setWasInViewOnMount] = useState(false)
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    // Check if already in viewport on mount (before transform is applied)
-    const rect = el.getBoundingClientRect()
-    const inViewOnMount = rect.top < window.innerHeight && rect.bottom > 0
-
-    if (inViewOnMount) {
-      setWasInViewOnMount(true)
-      setIsVisible(true)
-      return
-    }
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -235,17 +220,20 @@ function FadeSection({ children, className = '' }: FadeSectionProps) {
           observer.disconnect()
         }
       },
-      { threshold: 0 },
+      { threshold: 0, rootMargin: '100px' },
     )
 
-    observer.observe(el)
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
     return () => observer.disconnect()
   }, [])
 
   return (
     <div
       ref={ref}
-      className={`${classes.fadeSection} ${isVisible ? classes.visible : ''} ${wasInViewOnMount ? classes.noTransform : ''} ${className}`}
+      className={`${classes.fadeSection} ${isVisible ? classes.visible : ''} ${className}`}
     >
       {children}
     </div>

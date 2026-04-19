@@ -353,6 +353,12 @@
   transform: translateY(0);
 }
 
+/* Skip transform for elements already in view on mount */
+.fadeSection.noTransform {
+  transform: none;
+  transition: none;
+}
+
 /* Community Section */
 .communitySection {
   background: var(--layer-0);

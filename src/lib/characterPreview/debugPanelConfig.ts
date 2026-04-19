@@ -88,7 +88,58 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
       ],
     },
     {
-      title: 'Experimental',
+      title: 'Finalists',
+      presets: [
+        {
+          label: 'Satin',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 28,
+              portraitBrightness: 0.37,
+              portraitSaturate: 2.00,
+              cardBgAlpha: 0.25,
+              debugMaxC: 0.08,
+              debugMinC: 0.06,
+              debugChromaScale: 1.00,
+              debugTargetL: 0.45,
+              debugMinL: 0.00,
+              debugMaxL: 0.66,
+              blendMode: 'screen',
+              shadowX: 1.00,
+              shadowY: 1.00,
+              shadowBlur: 5.00,
+              shadowOpacity: 0.75,
+              insetBlur: 2.00,
+              insetOpacity: 0.30,
+            }),
+        },
+        {
+          label: 'Gloss',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 46,
+              portraitBrightness: 0.50,
+              portraitSaturate: 1.75,
+              cardBgAlpha: 0.20,
+              debugMaxC: 0.06,
+              debugMinC: 0.04,
+              debugChromaScale: 1.00,
+              debugTargetL: 0.50,
+              debugMinL: 0.08,
+              debugMaxL: 0.63,
+              blendMode: 'normal',
+              shadowX: 1.00,
+              shadowY: 1.00,
+              shadowBlur: 5.00,
+              shadowOpacity: 0.75,
+              insetBlur: 2.00,
+              insetOpacity: 0.30,
+            }),
+        },
+      ],
+    },
+    {
+      title: 'Originals',
       presets: [
         {
           label: 'Coral',
@@ -175,6 +226,11 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               blendMode: 'normal',
             }),
         },
+      ],
+    },
+    {
+      title: 'Atm Normal',
+      presets: [
         {
           label: 'Mist',
           apply: () =>
@@ -190,40 +246,6 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               debugMinL: 0.08,
               debugMaxL: 0.52,
               blendMode: 'normal',
-            }),
-        },
-        {
-          label: 'Prism',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 25,
-              portraitBrightness: 0.32,
-              portraitSaturate: 2.30,
-              cardBgAlpha: 0.26,
-              debugMaxC: 0.120,
-              debugMinC: 0.060,
-              debugChromaScale: 1.15,
-              debugTargetL: 0.40,
-              debugMinL: 0.03,
-              debugMaxL: 0.45,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Gem',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 22,
-              portraitBrightness: 0.38,
-              portraitSaturate: 2.10,
-              cardBgAlpha: 0.24,
-              debugMaxC: 0.110,
-              debugMinC: 0.055,
-              debugChromaScale: 1.00,
-              debugTargetL: 0.44,
-              debugMinL: 0.04,
-              debugMaxL: 0.48,
-              blendMode: 'screen',
             }),
         },
         {
@@ -243,6 +265,28 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               blendMode: 'normal',
             }),
         },
+      ],
+    },
+    {
+      title: 'Gem Vivid',
+      presets: [
+        {
+          label: 'Prism',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 25,
+              portraitBrightness: 0.32,
+              portraitSaturate: 2.30,
+              cardBgAlpha: 0.26,
+              debugMaxC: 0.120,
+              debugMinC: 0.060,
+              debugChromaScale: 1.15,
+              debugTargetL: 0.40,
+              debugMinL: 0.03,
+              debugMaxL: 0.45,
+              blendMode: 'screen',
+            }),
+        },
         {
           label: 'Crystal',
           apply: () =>
@@ -257,23 +301,6 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               debugTargetL: 0.42,
               debugMinL: 0.04,
               debugMaxL: 0.46,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Opal',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 26,
-              portraitBrightness: 0.40,
-              portraitSaturate: 2.00,
-              cardBgAlpha: 0.22,
-              debugMaxC: 0.100,
-              debugMinC: 0.050,
-              debugChromaScale: 0.95,
-              debugTargetL: 0.44,
-              debugMinL: 0.04,
-              debugMaxL: 0.48,
               blendMode: 'screen',
             }),
         },
@@ -311,6 +338,45 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               blendMode: 'screen',
             }),
         },
+      ],
+    },
+    {
+      title: 'Gem Soft',
+      presets: [
+        {
+          label: 'Gem',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 22,
+              portraitBrightness: 0.38,
+              portraitSaturate: 2.10,
+              cardBgAlpha: 0.24,
+              debugMaxC: 0.110,
+              debugMinC: 0.055,
+              debugChromaScale: 1.00,
+              debugTargetL: 0.44,
+              debugMinL: 0.04,
+              debugMaxL: 0.48,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Opal',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 26,
+              portraitBrightness: 0.40,
+              portraitSaturate: 2.00,
+              cardBgAlpha: 0.22,
+              debugMaxC: 0.100,
+              debugMinC: 0.050,
+              debugChromaScale: 0.95,
+              debugTargetL: 0.44,
+              debugMinL: 0.04,
+              debugMaxL: 0.48,
+              blendMode: 'screen',
+            }),
+        },
         {
           label: 'Lagoon',
           apply: () =>
@@ -328,6 +394,11 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               blendMode: 'screen',
             }),
         },
+      ],
+    },
+    {
+      title: 'Core',
+      presets: [
         {
           label: 'Spread',
           apply: () =>
@@ -363,39 +434,117 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
             }),
         },
         {
-          label: 'Range',
+          label: 'Tide',
           apply: () =>
             store.applyPreset({
-              portraitBlur: 26,
-              portraitBrightness: 0.32,
-              portraitSaturate: 2.40,
-              cardBgAlpha: 0.28,
-              debugMaxC: 0.135,
-              debugMinC: 0.068,
-              debugChromaScale: 1.30,
-              debugTargetL: 0.38,
+              portraitBlur: 22,
+              portraitBrightness: 0.34,
+              portraitSaturate: 2.25,
+              cardBgAlpha: 0.27,
+              debugMaxC: 0.120,
+              debugMinC: 0.060,
+              debugChromaScale: 1.15,
+              debugTargetL: 0.40,
               debugMinL: 0.00,
               debugMaxL: 0.70,
               blendMode: 'screen',
             }),
         },
         {
-          label: 'Plume',
+          label: 'Current',
           apply: () =>
             store.applyPreset({
-              portraitBlur: 32,
-              portraitBrightness: 0.35,
-              portraitSaturate: 1.90,
-              cardBgAlpha: 0.24,
-              debugMaxC: 0.080,
-              debugMinC: 0.040,
-              debugChromaScale: 0.72,
+              portraitBlur: 24,
+              portraitBrightness: 0.36,
+              portraitSaturate: 2.10,
+              cardBgAlpha: 0.25,
+              debugMaxC: 0.108,
+              debugMinC: 0.054,
+              debugChromaScale: 1.00,
               debugTargetL: 0.44,
               debugMinL: 0.00,
               debugMaxL: 0.70,
               blendMode: 'screen',
             }),
         },
+      ],
+    },
+    {
+      title: 'Soft Chroma',
+      presets: [
+        {
+          label: 'Glimmer',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 24,
+              portraitBrightness: 0.36,
+              portraitSaturate: 2.30,
+              cardBgAlpha: 0.24,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 0.80,
+              debugTargetL: 0.43,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Orbit',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 24,
+              portraitBrightness: 0.36,
+              portraitSaturate: 2.30,
+              cardBgAlpha: 0.24,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 0.70,
+              debugTargetL: 0.43,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Cliff',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 25,
+              portraitBrightness: 0.36,
+              portraitSaturate: 2.25,
+              cardBgAlpha: 0.20,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 0.70,
+              debugTargetL: 0.43,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Meld',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 26,
+              portraitBrightness: 0.35,
+              portraitSaturate: 2.40,
+              cardBgAlpha: 0.26,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 0.70,
+              debugTargetL: 0.42,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+      ],
+    },
+    {
+      title: 'Vivid Mid',
+      presets: [
         {
           label: 'Thick',
           apply: () =>
@@ -408,91 +557,6 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               debugMinC: 0.058,
               debugChromaScale: 1.10,
               debugTargetL: 0.42,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Pane',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 22,
-              portraitBrightness: 0.40,
-              portraitSaturate: 2.00,
-              cardBgAlpha: 0.22,
-              debugMaxC: 0.090,
-              debugMinC: 0.045,
-              debugChromaScale: 0.80,
-              debugTargetL: 0.46,
-              debugMinL: 0.00,
-              debugMaxL: 0.65,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Rise',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 25,
-              portraitBrightness: 0.35,
-              portraitSaturate: 2.20,
-              cardBgAlpha: 0.25,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 1.10,
-              debugTargetL: 0.48,
-              debugMinL: 0.20,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Swell',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 25,
-              portraitBrightness: 0.35,
-              portraitSaturate: 2.20,
-              cardBgAlpha: 0.25,
-              debugMaxC: 0.160,
-              debugMinC: 0.020,
-              debugChromaScale: 1.10,
-              debugTargetL: 0.42,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Clamp',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 44,
-              portraitBrightness: 0.50,
-              portraitSaturate: 1.55,
-              cardBgAlpha: 0.22,
-              debugMaxC: 0.060,
-              debugMinC: 0.050,
-              debugChromaScale: 0.45,
-              debugTargetL: 0.48,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'normal',
-            }),
-        },
-        {
-          label: 'Tide',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 22,
-              portraitBrightness: 0.34,
-              portraitSaturate: 2.25,
-              cardBgAlpha: 0.27,
-              debugMaxC: 0.120,
-              debugMinC: 0.060,
-              debugChromaScale: 1.15,
-              debugTargetL: 0.40,
               debugMinL: 0.00,
               debugMaxL: 0.70,
               blendMode: 'screen',
@@ -515,17 +579,22 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               blendMode: 'screen',
             }),
         },
+      ],
+    },
+    {
+      title: 'Soft Mid',
+      presets: [
         {
-          label: 'Current',
+          label: 'Plume',
           apply: () =>
             store.applyPreset({
-              portraitBlur: 24,
-              portraitBrightness: 0.36,
-              portraitSaturate: 2.10,
-              cardBgAlpha: 0.25,
-              debugMaxC: 0.108,
-              debugMinC: 0.054,
-              debugChromaScale: 1.00,
+              portraitBlur: 32,
+              portraitBrightness: 0.35,
+              portraitSaturate: 1.90,
+              cardBgAlpha: 0.24,
+              debugMaxC: 0.080,
+              debugMinC: 0.040,
+              debugChromaScale: 0.72,
               debugTargetL: 0.44,
               debugMinL: 0.00,
               debugMaxL: 0.70,
@@ -566,40 +635,11 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               blendMode: 'screen',
             }),
         },
-        {
-          label: 'Burst',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 25,
-              portraitBrightness: 0.35,
-              portraitSaturate: 2.20,
-              cardBgAlpha: 0.25,
-              debugMaxC: 0.170,
-              debugMinC: 0.010,
-              debugChromaScale: 1.10,
-              debugTargetL: 0.42,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Glimmer',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 24,
-              portraitBrightness: 0.36,
-              portraitSaturate: 2.30,
-              cardBgAlpha: 0.24,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 0.80,
-              debugTargetL: 0.43,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
+      ],
+    },
+    {
+      title: 'Blur Vivid',
+      presets: [
         {
           label: 'Wisp',
           apply: () =>
@@ -612,176 +652,6 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               debugMinC: 0.058,
               debugChromaScale: 1.10,
               debugTargetL: 0.42,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Gauze',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 26,
-              portraitBrightness: 0.38,
-              portraitSaturate: 2.15,
-              cardBgAlpha: 0.16,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 1.05,
-              debugTargetL: 0.44,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Flux',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 24,
-              portraitBrightness: 0.42,
-              portraitSaturate: 2.40,
-              cardBgAlpha: 0.24,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 1.20,
-              debugTargetL: 0.46,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Dew',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 36,
-              portraitBrightness: 0.36,
-              portraitSaturate: 2.30,
-              cardBgAlpha: 0.24,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 0.80,
-              debugTargetL: 0.43,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Sway',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 36,
-              portraitBrightness: 0.42,
-              portraitSaturate: 2.40,
-              cardBgAlpha: 0.24,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 0.85,
-              debugTargetL: 0.45,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Orbit',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 24,
-              portraitBrightness: 0.36,
-              portraitSaturate: 2.30,
-              cardBgAlpha: 0.24,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 0.70,
-              debugTargetL: 0.43,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Tender',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 26,
-              portraitBrightness: 0.38,
-              portraitSaturate: 2.15,
-              cardBgAlpha: 0.20,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 1.05,
-              debugTargetL: 0.44,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Grove',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 32,
-              portraitBrightness: 0.37,
-              portraitSaturate: 2.25,
-              cardBgAlpha: 0.22,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 1.05,
-              debugTargetL: 0.44,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Echo',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 25,
-              portraitBrightness: 0.36,
-              portraitSaturate: 2.25,
-              cardBgAlpha: 0.16,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 0.70,
-              debugTargetL: 0.43,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Hymn',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 26,
-              portraitBrightness: 0.38,
-              portraitSaturate: 1.90,
-              cardBgAlpha: 0.16,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 0.68,
-              debugTargetL: 0.45,
-              debugMinL: 0.00,
-              debugMaxL: 0.70,
-              blendMode: 'screen',
-            }),
-        },
-        {
-          label: 'Cliff',
-          apply: () =>
-            store.applyPreset({
-              portraitBlur: 25,
-              portraitBrightness: 0.36,
-              portraitSaturate: 2.25,
-              cardBgAlpha: 0.20,
-              debugMaxC: 0.115,
-              debugMinC: 0.058,
-              debugChromaScale: 0.70,
-              debugTargetL: 0.43,
               debugMinL: 0.00,
               debugMaxL: 0.70,
               blendMode: 'screen',
@@ -821,6 +691,135 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               blendMode: 'screen',
             }),
         },
+      ],
+    },
+    {
+      title: 'Blur Soft',
+      presets: [
+        {
+          label: 'Dew',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 36,
+              portraitBrightness: 0.36,
+              portraitSaturate: 2.30,
+              cardBgAlpha: 0.24,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 0.80,
+              debugTargetL: 0.43,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Sway',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 36,
+              portraitBrightness: 0.42,
+              portraitSaturate: 2.40,
+              cardBgAlpha: 0.24,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 0.85,
+              debugTargetL: 0.45,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+      ],
+    },
+    {
+      title: 'Outliers',
+      presets: [
+        {
+          label: 'Rise',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 25,
+              portraitBrightness: 0.35,
+              portraitSaturate: 2.20,
+              cardBgAlpha: 0.25,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 1.10,
+              debugTargetL: 0.48,
+              debugMinL: 0.20,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Clamp',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 44,
+              portraitBrightness: 0.50,
+              portraitSaturate: 1.55,
+              cardBgAlpha: 0.22,
+              debugMaxC: 0.060,
+              debugMinC: 0.050,
+              debugChromaScale: 0.45,
+              debugTargetL: 0.48,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'normal',
+            }),
+        },
+        {
+          label: 'Range',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 26,
+              portraitBrightness: 0.32,
+              portraitSaturate: 2.40,
+              cardBgAlpha: 0.28,
+              debugMaxC: 0.135,
+              debugMinC: 0.068,
+              debugChromaScale: 1.30,
+              debugTargetL: 0.38,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Pane',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 22,
+              portraitBrightness: 0.40,
+              portraitSaturate: 2.00,
+              cardBgAlpha: 0.22,
+              debugMaxC: 0.090,
+              debugMinC: 0.045,
+              debugChromaScale: 0.80,
+              debugTargetL: 0.46,
+              debugMinL: 0.00,
+              debugMaxL: 0.65,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Flux',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 24,
+              portraitBrightness: 0.42,
+              portraitSaturate: 2.40,
+              cardBgAlpha: 0.24,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 1.20,
+              debugTargetL: 0.46,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
         {
           label: 'Shimmer',
           apply: () =>
@@ -839,17 +838,17 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
             }),
         },
         {
-          label: 'Meld',
+          label: 'Hymn',
           apply: () =>
             store.applyPreset({
               portraitBlur: 26,
-              portraitBrightness: 0.35,
-              portraitSaturate: 2.40,
-              cardBgAlpha: 0.26,
+              portraitBrightness: 0.38,
+              portraitSaturate: 1.90,
+              cardBgAlpha: 0.16,
               debugMaxC: 0.115,
               debugMinC: 0.058,
-              debugChromaScale: 0.70,
-              debugTargetL: 0.42,
+              debugChromaScale: 0.68,
+              debugTargetL: 0.45,
               debugMinL: 0.00,
               debugMaxL: 0.70,
               blendMode: 'screen',
@@ -867,6 +866,108 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
               debugMinC: 0.058,
               debugChromaScale: 1.25,
               debugTargetL: 0.42,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Grove',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 32,
+              portraitBrightness: 0.37,
+              portraitSaturate: 2.25,
+              cardBgAlpha: 0.22,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 1.05,
+              debugTargetL: 0.44,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Swell',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 25,
+              portraitBrightness: 0.35,
+              portraitSaturate: 2.20,
+              cardBgAlpha: 0.25,
+              debugMaxC: 0.160,
+              debugMinC: 0.020,
+              debugChromaScale: 1.10,
+              debugTargetL: 0.42,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Burst',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 25,
+              portraitBrightness: 0.35,
+              portraitSaturate: 2.20,
+              cardBgAlpha: 0.25,
+              debugMaxC: 0.170,
+              debugMinC: 0.010,
+              debugChromaScale: 1.10,
+              debugTargetL: 0.42,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Gauze',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 26,
+              portraitBrightness: 0.38,
+              portraitSaturate: 2.15,
+              cardBgAlpha: 0.16,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 1.05,
+              debugTargetL: 0.44,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Tender',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 26,
+              portraitBrightness: 0.38,
+              portraitSaturate: 2.15,
+              cardBgAlpha: 0.20,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 1.05,
+              debugTargetL: 0.44,
+              debugMinL: 0.00,
+              debugMaxL: 0.70,
+              blendMode: 'screen',
+            }),
+        },
+        {
+          label: 'Echo',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 25,
+              portraitBrightness: 0.36,
+              portraitSaturate: 2.25,
+              cardBgAlpha: 0.16,
+              debugMaxC: 0.115,
+              debugMinC: 0.058,
+              debugChromaScale: 0.70,
+              debugTargetL: 0.43,
               debugMinL: 0.00,
               debugMaxL: 0.70,
               blendMode: 'screen',
@@ -965,34 +1066,24 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
     {
       title: 'Iteration',
       presets: [
-        // Low-alpha crossovers — Gauze (0.16) and Tender (0.20) mixed with untested chroma/sat/targetL picks
-        { label: 'S-Echo', apply: () => store.applyPreset({ portraitBlur: 25, portraitBrightness: 0.36, portraitSaturate: 2.25, cardBgAlpha: 0.16, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.70, debugTargetL: 0.43, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Hymn', apply: () => store.applyPreset({ portraitBlur: 26, portraitBrightness: 0.38, portraitSaturate: 1.90, cardBgAlpha: 0.16, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.68, debugTargetL: 0.45, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Aria', apply: () => store.applyPreset({ portraitBlur: 26, portraitBrightness: 0.35, portraitSaturate: 2.40, cardBgAlpha: 0.16, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 1.10, debugTargetL: 0.42, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Vale', apply: () => store.applyPreset({ portraitBlur: 25, portraitBrightness: 0.33, portraitSaturate: 2.35, cardBgAlpha: 0.16, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 1.15, debugTargetL: 0.38, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Cliff', apply: () => store.applyPreset({ portraitBlur: 25, portraitBrightness: 0.36, portraitSaturate: 2.25, cardBgAlpha: 0.20, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.70, debugTargetL: 0.43, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Bluff', apply: () => store.applyPreset({ portraitBlur: 24, portraitBrightness: 0.42, portraitSaturate: 2.40, cardBgAlpha: 0.20, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 1.20, debugTargetL: 0.46, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        // High-blur crossovers — Wisp (38) mixed with untested chroma/sat/targetL
-        { label: 'S-Fern', apply: () => store.applyPreset({ portraitBlur: 38, portraitBrightness: 0.36, portraitSaturate: 2.25, cardBgAlpha: 0.24, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.70, debugTargetL: 0.43, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Willow', apply: () => store.applyPreset({ portraitBlur: 38, portraitBrightness: 0.34, portraitSaturate: 2.40, cardBgAlpha: 0.26, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 1.20, debugTargetL: 0.40, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Reed', apply: () => store.applyPreset({ portraitBlur: 38, portraitBrightness: 0.33, portraitSaturate: 2.30, cardBgAlpha: 0.26, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 1.25, debugTargetL: 0.41, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Brier', apply: () => store.applyPreset({ portraitBlur: 38, portraitBrightness: 0.40, portraitSaturate: 2.20, cardBgAlpha: 0.24, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 1.10, debugTargetL: 0.46, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        // Flux brightness (0.42) with softer chroma / different alpha (untested combos)
-        { label: 'S-Hollow', apply: () => store.applyPreset({ portraitBlur: 24, portraitBrightness: 0.42, portraitSaturate: 2.30, cardBgAlpha: 0.24, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.70, debugTargetL: 0.45, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Knoll', apply: () => store.applyPreset({ portraitBlur: 26, portraitBrightness: 0.42, portraitSaturate: 2.00, cardBgAlpha: 0.23, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.68, debugTargetL: 0.46, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Shimmer', apply: () => store.applyPreset({ portraitBlur: 28, portraitBrightness: 0.42, portraitSaturate: 2.10, cardBgAlpha: 0.24, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.72, debugTargetL: 0.45, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Dapple', apply: () => store.applyPreset({ portraitBlur: 24, portraitBrightness: 0.42, portraitSaturate: 2.40, cardBgAlpha: 0.20, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.85, debugTargetL: 0.45, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        // Darker brightness (0.32, Prism/Range/Ruby territory) mixed with softer chroma (untested)
-        { label: 'S-Glint', apply: () => store.applyPreset({ portraitBlur: 24, portraitBrightness: 0.32, portraitSaturate: 2.25, cardBgAlpha: 0.25, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.70, debugTargetL: 0.40, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Weave', apply: () => store.applyPreset({ portraitBlur: 26, portraitBrightness: 0.32, portraitSaturate: 1.95, cardBgAlpha: 0.24, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.68, debugTargetL: 0.42, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Knit', apply: () => store.applyPreset({ portraitBlur: 24, portraitBrightness: 0.32, portraitSaturate: 2.30, cardBgAlpha: 0.26, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.80, debugTargetL: 0.41, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        // Saturation edges (Range 2.40, Vapor 1.85) crossed with unusual chromaScale pairings
-        { label: 'S-Meld', apply: () => store.applyPreset({ portraitBlur: 26, portraitBrightness: 0.35, portraitSaturate: 2.40, cardBgAlpha: 0.26, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.70, debugTargetL: 0.42, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Nook', apply: () => store.applyPreset({ portraitBlur: 24, portraitBrightness: 0.36, portraitSaturate: 1.85, cardBgAlpha: 0.26, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 1.25, debugTargetL: 0.42, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        // TargetL crossovers (Range 0.38, Opal 0.48, Ruby 0.40) with mismatched partners
-        { label: 'S-Cove', apply: () => store.applyPreset({ portraitBlur: 25, portraitBrightness: 0.34, portraitSaturate: 2.25, cardBgAlpha: 0.25, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.70, debugTargetL: 0.38, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Inlet', apply: () => store.applyPreset({ portraitBlur: 26, portraitBrightness: 0.40, portraitSaturate: 2.00, cardBgAlpha: 0.16, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.95, debugTargetL: 0.48, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
-        { label: 'S-Wink', apply: () => store.applyPreset({ portraitBlur: 24, portraitBrightness: 0.33, portraitSaturate: 2.30, cardBgAlpha: 0.27, debugMaxC: 0.115, debugMinC: 0.058, debugChromaScale: 0.85, debugTargetL: 0.40, debugMinL: 0.00, debugMaxL: 0.70, blendMode: 'screen' }) },
+        {
+          // Avg of Clamp and Cloud
+          label: 'Nimbus',
+          apply: () =>
+            store.applyPreset({
+              portraitBlur: 47,
+              portraitBrightness: 0.53,
+              portraitSaturate: 1.55,
+              cardBgAlpha: 0.21,
+              debugMaxC: 0.059,
+              debugMinC: 0.040,
+              debugChromaScale: 0.45,
+              debugTargetL: 0.50,
+              debugMinL: 0.04,
+              debugMaxL: 0.63,
+              blendMode: 'normal',
+            }),
+        },
       ],
     },
   ]

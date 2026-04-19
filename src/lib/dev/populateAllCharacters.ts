@@ -203,13 +203,16 @@ export function populateAllCharacters() {
     useRelicStore.getState().batchUpsertRelics(allRelics)
   }
 
-  // Sort the full list (existing + new) by name
+  // Sort the full list (existing + new) by name and clear all custom portraits
   const allCharacters = [...useCharacterStore.getState().characters]
   allCharacters.sort((a, b) => {
     const nameA = t(`${a.id}.LongName`)
     const nameB = t(`${b.id}.LongName`)
     return nameA.localeCompare(nameB)
   })
+  for (const char of allCharacters) {
+    delete char.portrait
+  }
   store.setCharacters(allCharacters)
 
   console.log(

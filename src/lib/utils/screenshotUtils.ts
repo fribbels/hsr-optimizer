@@ -62,8 +62,11 @@ export async function screenshotElementById(
 
   function handleBlob(blob: Blob): void {
     const prefix = characterName || 'Hsr-optimizer'
-    const dateTime = new Date().toISOString()
-    const filename = `${prefix}_${dateTime}.png`
+    const now = new Date()
+    const pad = (n: number) => n.toString().padStart(2, '0')
+    const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
+    const time = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`
+    const filename = `${prefix}-${date}-${time}.png`
 
     if (action === 'clipboard') {
       if (mobile) {

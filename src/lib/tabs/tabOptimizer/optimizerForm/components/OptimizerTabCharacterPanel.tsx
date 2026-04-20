@@ -1,19 +1,61 @@
+import { Flex } from '@mantine/core'
+import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Assets } from 'lib/rendering/assets'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import { CenteredImage } from 'lib/ui/CenteredImage'
 import type { CharacterId } from 'types/character'
 
-const parentW = 233
-const parentH = 350
-const innerW = 350
-const innerH = 400
+const containerW = 248
+const charInnerW = 350
+const charInnerH = 400
+const charZoom = 0.75 // < 1 to zoom out, > 1 to zoom in
+const charVerticalOffset = -30 // negative = up
+
+const cardGap = 10
+const lcCardH = 90
+const charCardH = 415 - lcCardH - cardGap // 315
+const lcZoom = 1.15 // > 1 to zoom in
+
+const cardStyle = {
+  borderRadius: 6,
+  backgroundColor: 'var(--layer-2)',
+  boxShadow: 'var(--shadow-card)',
+  overflow: 'hidden' as const,
+}
 
 export function OptimizerTabCharacterPanel() {
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
+  const lightCone = useOptimizerRequestStore((s) => s.lightCone)
+
+  const lightConeMetadata = lightCone ? getGameMetadata().lightCones[lightCone] : null
+  const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
 
   return (
-    <div style={{ width: parentW, height: parentH, borderRadius: 6, position: 'relative' }}>
-      <CharacterPreviewInternalImage id={optimizerTabFocusCharacter!} />
-    </div>
+    <Flex direction="column" gap={cardGap}>
+      <div style={{ ...cardStyle, width: containerW, height: charCardH, position: 'relative' }}>
+        <CharacterPreviewInternalImage id={optimizerTabFocusCharacter!} parentH={charCardH} />
+      </div>
+      <div style={{
+        ...cardStyle,
+        width: containerW,
+        height: lcCardH,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: showcaseOutlineLight,
+      }}>
+        <div style={{ transform: `scale(${lcZoom})`, overflow: 'hidden' }}>
+          <CenteredImage
+            src={lightCone ? Assets.getLightConePortraitById(lightCone) : Assets.getBlank()}
+            containerW={containerW}
+            containerH={lcCardH}
+            imageOffset={lcOffset}
+          />
+        </div>
+      </div>
+    </Flex>
   )
 }
 
@@ -22,14 +64,14 @@ export function CharacterPreviewInternalImage({ id, disableClick, parentH: custo
   disableClick?: boolean,
   parentH?: number,
 }) {
-  const customParentH = customParentHProp ?? parentH
-  const customInnerH = customParentH >= innerH ? customParentH : innerH
+  const customParentH = customParentHProp ?? charCardH
+  const customInnerH = customParentH >= charInnerH ? customParentH : charInnerH
   return (
     <img
-      width={innerW}
+      width={charInnerW}
       src={Assets.getCharacterPreviewById(id)}
       style={{
-        transform: `translate(${(innerW - parentW) / 2 / innerW * -100}%, ${(customInnerH - customParentH) / 2 / customInnerH * -100}%)`,
+        transform: `translate(${(charInnerW - containerW) / 2 / charInnerW * -100}%, calc(${(customInnerH - customParentH) / 2 / customInnerH * -100}% + ${charVerticalOffset}px)) scale(${charZoom})`,
         cursor: disableClick ? '' : 'pointer',
       }}
       onClick={() => {

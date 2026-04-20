@@ -58,9 +58,7 @@ export function OptimizerForm() {
     <div style={{ position: 'relative' }}>
       <FilterContainer>
         <FormRow id={OptimizerMenuIds.characterOptions}>
-          <FormCard style={{ overflow: 'hidden', padding: 'none' }} size='narrow'>
-            <OptimizerTabCharacterPanel />
-          </FormCard>
+          <OptimizerTabCharacterPanel />
 
           <FormCard>
             <CharacterSelectorDisplay />

@@ -16,6 +16,7 @@ export function CenteredImage({ src, containerW, containerH, imageOffset }: {
       width: '100%',
       height: 'auto',
       transform: `translateY(${dy}px) scale(${scale})`,
+      imageRendering: '-webkit-optimize-contrast',
     }
   } else {
     imageStyle = {
@@ -26,6 +27,7 @@ export function CenteredImage({ src, containerW, containerH, imageOffset }: {
       height: 'auto',
       objectFit: 'cover',
       transform: 'translate(-50%, -50%)',
+      imageRendering: '-webkit-optimize-contrast',
     }
   }
 

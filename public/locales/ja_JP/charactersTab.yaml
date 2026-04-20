@@ -27,10 +27,8 @@ CharacterMenu:
       SortByScore: スコア順に並べ替え
       MoveToTop: 選択キャラを先頭に移動
 SearchPlaceholder: 検索
-GridHeaders:
-  Icon: アイコン
-  Priority: 優先順位
-  Character: キャラクター
+GridDensityOptions:
+  default: デフォルト
 Messages:
   RemoveSuccess: キャラクターを削除しました
   UnequipSuccess: キャラクターの遺物を外しました
@@ -132,7 +130,7 @@ CharacterPreview:
       BREAKS: '撃破 '
     CombatResults:
       Character: キャラクター
-      Benchmark: ベンチマーク
+      Benchmark: 基準
       Abilities:
         BASIC: 通常攻撃
         SKILL: 戦闘スキル

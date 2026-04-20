@@ -11,7 +11,8 @@ const containerW = 248
 const charInnerW = 350
 const charInnerH = 400
 const charZoom = 0.75 // < 1 to zoom out, > 1 to zoom in
-const charVerticalOffset = -30 // negative = up
+const charVerticalOffset = -20 // negative = up
+const charFilter = 'brightness(1.05) saturate(1.05)'
 
 const cardGap = 10
 const lcCardH = 90
@@ -46,7 +47,7 @@ export function OptimizerTabCharacterPanel() {
         alignItems: 'center',
         border: showcaseOutlineLight,
       }}>
-        <div style={{ transform: `scale(${lcZoom})`, overflow: 'hidden' }}>
+        <div style={{ transform: `scale(${lcZoom})`, overflow: 'hidden', filter: 'brightness(0.95) saturate(0.95)' }}>
           <CenteredImage
             src={lightCone ? Assets.getLightConePortraitById(lightCone) : Assets.getBlank()}
             containerW={containerW}
@@ -73,6 +74,7 @@ export function CharacterPreviewInternalImage({ id, disableClick, parentH: custo
       style={{
         transform: `translate(${(charInnerW - containerW) / 2 / charInnerW * -100}%, calc(${(customInnerH - customParentH) / 2 / customInnerH * -100}% + ${charVerticalOffset}px)) scale(${charZoom})`,
         cursor: disableClick ? '' : 'pointer',
+        filter: charFilter,
       }}
       onClick={() => {
         if (disableClick) return

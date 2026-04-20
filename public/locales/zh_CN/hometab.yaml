@@ -1,8 +1,6 @@
 CollapseLabels:
   Explore: 探索其功能
   Join: 加入社区
-CommunityCollapse: >-
-  <0>非常感谢所有贡献者、翻译者、用户，以及所有提供反馈意见的人，感谢你们支持这个项目并共同参与构建！</0><1>加入我们的星穹铁道社区吧！加入我们的<1 text='Discord'/>服务器一起交流，或者访问<3 text='GitHub'/>仓库参与贡献吧。</1>
 FeatureCards:
   LearnMore: 了解更多
   Showcase:
@@ -10,7 +8,6 @@ FeatureCards:
     Content: >-
       展示你的角色属性或为未来角色预配装。通过DPS评分模拟战斗伤害，并与基准值进行比较。
   Optimizer:
-    Title: 遗器优化器
     Content: >-
       优化你的角色，寻找最佳遗器组合，以达到属性分界点并最大化角色属性。
   Calculator:
@@ -21,6 +18,10 @@ FeatureCards:
     Title: 遗器管理器
     Content: >-
       通过对遗器的潜力进行评分和排序，整理你的遗器，并为每个角色找到最佳升级遗器。
+  WarpPlanner:
+    Title: 跃迁规划器
+  BenchmarkGenerator:
+    Title: 基准生成器
 Welcome: 欢迎来到<1/>Fribbels星穹铁道优化器
 SearchBar:
   Placeholder: UID

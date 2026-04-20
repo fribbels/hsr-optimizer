@@ -7,7 +7,7 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { getChangelogContent } from 'lib/tabs/tabChangelog/changelogData'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import { CtaCards } from 'lib/overlays/modals/changelogCta'
+import { CtaCards } from 'lib/overlays/modals/changelogCta/CtaCards'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import classes from './ChangelogModal.module.css'
 

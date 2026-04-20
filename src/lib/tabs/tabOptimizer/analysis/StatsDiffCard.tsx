@@ -1,3 +1,4 @@
+import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   getStatRenderValues,
   StatRow,
@@ -9,8 +10,11 @@ import {
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import { Assets } from 'lib/rendering/assets'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
+import { CenteredImage } from 'lib/ui/CenteredImage'
 import {
   arrowColor,
   arrowDirection,
@@ -25,22 +29,25 @@ import { useTranslation } from 'react-i18next'
 import classes from './StatsDiffCard.module.css'
 
 const baseCardHeight = 429
-const basePortraitHeight = 400
 const extraRowHeight = 27
+
+const lcCardH = 90
+const cardGap = 10
+const lcZoom = 1.15
+const containerW = 233
 
 export function StatsDiffCard({ analysis }: {
   analysis: OptimizerResultAnalysis,
 }) {
   const extraHeight = analysis.extraRows.length * extraRowHeight
   const cardHeight = baseCardHeight + extraHeight
-  const portraitHeight = basePortraitHeight + extraHeight
 
   return (
     <div
       className={classes.outerCard}
       style={{ display: 'flex', height: cardHeight, gap: 10 }}
     >
-      <CardImage analysis={analysis} portraitHeight={portraitHeight} />
+      <CardImage analysis={analysis} cardHeight={cardHeight} />
 
       <div className={classes.statsPanel}>
         <StatDiffSummary analysis={analysis} />
@@ -176,10 +183,41 @@ function visualDiff(n1: number, n2: number, stat: string) {
   }
 }
 
-function CardImage({ analysis, portraitHeight }: { analysis: OptimizerResultAnalysis, portraitHeight: number }) {
+function CardImage({ analysis, cardHeight }: { analysis: OptimizerResultAnalysis, cardHeight: number }) {
+  const lightCone = analysis.request.lightCone
+  const lightConeMetadata = lightCone ? getGameMetadata().lightCones[lightCone] : null
+  const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
+
+  const charCardH = cardHeight - lcCardH - cardGap
+
   return (
-    <div className={classes.cardImageContainer}>
-      <CharacterPreviewInternalImage id={analysis.request.characterId} disableClick={true} parentH={portraitHeight} />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: cardGap, height: '100%' }}>
+      <div className={classes.cardImageContainer} style={{ flex: 1 }}>
+        <CharacterPreviewInternalImage id={analysis.request.characterId} disableClick={true} parentH={charCardH} parentW={containerW} />
+      </div>
+      <div
+        style={{
+          width: containerW,
+          height: lcCardH,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 6,
+          backgroundColor: 'var(--layer-2)',
+          boxShadow: 'var(--shadow-card)',
+          overflow: 'hidden',
+          border: showcaseOutlineLight,
+        }}
+      >
+        <div style={{ transform: `scale(${lcZoom})`, overflow: 'hidden', filter: 'brightness(0.95) saturate(0.95)' }}>
+          <CenteredImage
+            src={lightCone ? Assets.getLightConePortraitById(lightCone) : Assets.getBlank()}
+            containerW={containerW}
+            containerH={lcCardH}
+            imageOffset={lcOffset}
+          />
+        </div>
+      </div>
     </div>
   )
 }

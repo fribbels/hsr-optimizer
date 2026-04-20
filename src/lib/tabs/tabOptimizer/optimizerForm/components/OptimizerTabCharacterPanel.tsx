@@ -64,19 +64,21 @@ export function OptimizerTabCharacterPanel() {
   )
 }
 
-export function CharacterPreviewInternalImage({ id, disableClick, parentH: customParentHProp }: {
+export function CharacterPreviewInternalImage({ id, disableClick, parentH: customParentHProp, parentW: customParentWProp }: {
   id: CharacterId,
   disableClick?: boolean,
   parentH?: number,
+  parentW?: number,
 }) {
   const customParentH = customParentHProp ?? charCardH
+  const customParentW = customParentWProp ?? containerW
   const customInnerH = customParentH >= charInnerH ? customParentH : charInnerH
   return (
     <img
       width={charInnerW}
       src={Assets.getCharacterPreviewById(id)}
       style={{
-        transform: `translate(${(charInnerW - containerW) / 2 / charInnerW * -100}%, calc(${(customInnerH - customParentH) / 2 / customInnerH * -100}% + ${charVerticalOffset}px)) scale(${charZoom})`,
+        transform: `translate(${(charInnerW - customParentW) / 2 / charInnerW * -100}%, calc(${(customInnerH - customParentH) / 2 / customInnerH * -100}% + ${charVerticalOffset}px)) scale(${charZoom})`,
         cursor: disableClick ? '' : 'pointer',
         filter: charFilter,
       }}

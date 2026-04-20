@@ -38,6 +38,8 @@ export function getChangelogContent() {
         `Warp Calculator now updates calculation results in real-time`,
         `Additional resources updated to patch 4.2`,
         `warp.webp`,
+        `Added light cone icon to Optimizer tab character`,
+        `lc.webp`,
         `Added clickable damage type pills in buff analysis for filtering by ability type`,
         `buffsfilter.webp`,
         `Improved readability of DPS Score analysis`,

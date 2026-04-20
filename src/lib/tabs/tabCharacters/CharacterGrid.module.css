@@ -23,17 +23,18 @@
 }
 
 /* Suppress row transitions for one frame after drop to prevent stale-position animation */
-.gridContainer[data-suppress-transition] .root {
+.gridContainer[data-suppress-transition] .root,
+.gridContainer[data-suppress-transition] .frame {
   transition: none !important;
 }
 
 /* Kill all hover effects and transitions during active drag for smooth animation */
-.gridContainer[data-dragging-active] .root {
+.gridContainer[data-dragging-active] .frame {
   transition: none;
   will-change: transform;
 }
 
-.gridContainer[data-dragging-active] .root:hover {
+.gridContainer[data-dragging-active] .root:hover .frame {
   transform: none;
   box-shadow: inset 0 0 0 1px transparent;
 }
@@ -69,30 +70,39 @@
   --cr-primary-border: color-mix(in srgb, var(--cr-primary) 15%, transparent);
   --cr-radius: 0;
 
-  /* Layout — box-shadow for border so it doesn't affect row height */
+  /* Hit area + flex slot. Stays put on hover so the cursor doesn't bounce off
+     when .frame lifts (which would oscillate hover on/off). */
   position: relative;
   height: var(--cr-row-height, 73px);
   flex-shrink: 0;
-  contain: content;
-  border-radius: var(--cr-radius);
-  overflow: hidden;
   cursor: grab;
-  border-bottom: 4px solid var(--layer-1);
-  margin-bottom: -4px;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: inset 0 0 0 1px transparent;
   user-select: none;
 }
 
-.root:hover {
+/* Visual frame — clips children and does the hover lift while .root stays
+   put. Decoupling visual from hit area is what eliminates the oscillation. */
+.frame {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--cr-radius);
+  overflow: hidden;
+  contain: content;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: inset 0 0 0 1px transparent;
+}
+
+.root:hover .frame {
   transform: translateY(var(--cr-hover-lift, -2px));
   box-shadow: var(--cr-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
 .root[data-dragging='true'] {
-  box-shadow: inset 0 0 0 1px var(--border-default), 0 4px 16px rgba(0, 0, 0, 0.5);
   z-index: 10;
   cursor: grabbing;
+}
+
+.root[data-dragging='true'] .frame {
+  box-shadow: inset 0 0 0 1px var(--border-default), 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
 /* --- Portrait background --- */
@@ -358,7 +368,7 @@
  * SELECTED STATE
  * ============================================================ */
 
-.root[data-selected='true'] {
+.root[data-selected='true'] .frame {
   box-shadow: inset 0 0 0 1px var(--cr-primary-border);
 }
 

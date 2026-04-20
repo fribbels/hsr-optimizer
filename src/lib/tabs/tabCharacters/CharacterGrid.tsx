@@ -306,12 +306,13 @@ const SortableCharacterRow = memo(
       [showcaseColor],
     )
 
-    const style: React.CSSProperties = {
+    const rootStyle: React.CSSProperties = {
       transform: CSS.Translate.toString(transform),
       transition: transform ? transition : undefined,
-      backgroundColor,
       opacity: isDragging ? 0.4 : undefined,
     }
+
+    const frameStyle: React.CSSProperties = { backgroundColor }
 
     return (
       <div
@@ -319,19 +320,21 @@ const SortableCharacterRow = memo(
         className={classes.root}
         data-selected={isFocused}
         data-scrim-mode='frosted'
-        style={style}
+        style={rootStyle}
         onClick={() => onClick(character.id)}
         onDoubleClick={() => onDoubleClick(character.id)}
         {...attributes}
         {...listeners}
       >
-        <CharacterRowContent
-          character={character}
-          rank={rank}
-          loadImages={loadImages}
-          onEdit={onEdit}
-          onRemove={onRemove}
-        />
+        <div className={classes.frame} style={frameStyle}>
+          <CharacterRowContent
+            character={character}
+            rank={rank}
+            loadImages={loadImages}
+            onEdit={onEdit}
+            onRemove={onRemove}
+          />
+        </div>
       </div>
     )
   },
@@ -350,9 +353,8 @@ function DragOverlayRow({ character, rank }: {
 }) {
   const showcaseColor = getCharacterConfig(character.id)?.display.showcaseColor
 
-  const style: React.CSSProperties = {
+  const frameStyle: React.CSSProperties = {
     backgroundColor: showcaseColor ? oklchCharacterListColor(showcaseColor, true, DEFAULT_CONFIG) : undefined,
-    cursor: 'grabbing',
   }
 
   return (
@@ -360,15 +362,17 @@ function DragOverlayRow({ character, rank }: {
       className={classes.root}
       data-dragging='true'
       data-scrim-mode='frosted'
-      style={style}
+      style={{ cursor: 'grabbing' }}
     >
-      <CharacterRowContent
-        character={character}
-        rank={rank}
-        loadImages={true}
-        onEdit={noop}
-        onRemove={noop}
-      />
+      <div className={classes.frame} style={frameStyle}>
+        <CharacterRowContent
+          character={character}
+          rank={rank}
+          loadImages={true}
+          onEdit={noop}
+          onRemove={noop}
+        />
+      </div>
     </div>
   )
 }

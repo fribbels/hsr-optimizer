@@ -28,13 +28,10 @@ FeatureCards:
       and find the top relics to upgrade for each character.
   WarpPlanner:
     Title: Warp Planner
-    Content: (TODO)
   BenchmarkGenerator:
     Title: Benchmark Generator
-    Content: (TODO)
   RarityAnalysis:
     Title: Rarity Analysis
-    Content: (TODO)
 Welcome: Welcome to the<1/>Fribbels Star Rail Optimizer
 Hero:
   Welcome: Welcome to the

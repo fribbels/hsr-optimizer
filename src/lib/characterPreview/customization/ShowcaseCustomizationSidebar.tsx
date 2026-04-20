@@ -234,7 +234,6 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
             value={String(deprioritizeBuffs)}
             onChange={(value) => onDeprioritizeBuffsChange(value === 'true')}
           />
-          <HorizontalDivider />
         </>
       )}
 
@@ -249,7 +248,6 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
             value={String(spdValue)}
             onChange={(value) => onSpdValueChange(Number(value))}
           />
-          <HorizontalDivider />
         </>
       )}
 

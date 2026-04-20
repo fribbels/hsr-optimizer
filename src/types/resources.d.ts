@@ -5850,8 +5850,14 @@ interface Resources {
       "Explore": "Explore the features",
       "Join": "Join the community"
     },
-    "CommunityCollapse": "<0> A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it together! </0> <1> Come be a part of our Star Rail community! Join the <1 text='Discord'/> server to hang out, or check out the <3 text='GitHub'/> repo if you'd like to contribute. </1>",
+    "CommunityCollapse": "A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it together!",
+    "Contributors": {
+      "Title": "Our Contributors"
+    },
     "FeatureCards": {
+      "BenchmarkGenerator": {
+        "Title": "Benchmark Generator"
+      },
       "Calculator": {
         "Content": "Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.",
         "Title": "Damage Calculator"
@@ -5859,17 +5865,28 @@ interface Resources {
       "LearnMore": "Learn more",
       "Optimizer": {
         "Content": "Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.",
-        "Title": "Relic Optimizer"
+        "Title": "Build Optimizer"
       },
       "Organizer": {
         "Content": "Organize your relics by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character.",
         "Title": "Relic Organizer"
       },
+      "RarityAnalysis": {
+        "Title": "Rarity Analysis"
+      },
       "Showcase": {
         "Content": "Showcase your character’s stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.",
         "Title": "Character Showcase"
+      },
+      "WarpPlanner": {
+        "Title": "Warp Planner"
       }
     },
+    "Hero": {
+      "Title": "Fribbels Star Rail Optimizer",
+      "Welcome": "Welcome to the"
+    },
+    "ScrollToExplore": "Scroll to explore",
     "SearchBar": {
       "Api": "Uses Enka.Network",
       "Label": "Enter your UID to view your showcase characters",
@@ -6485,12 +6502,6 @@ interface Resources {
     }
   },
   "notifications": {
-    "Changelog": {
-      "Description": "Check out the changelog for the latest optimizer updates.",
-      "Dismiss": "Dismiss",
-      "Message": "New updates!",
-      "View": "View changelog"
-    },
     "GPU": {
       "Description": {
         "l1": "Please use one of the following supported environments in order to enable GPU acceleration:",

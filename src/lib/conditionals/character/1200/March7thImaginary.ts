@@ -407,7 +407,12 @@ const display = {
     y: 950,
     z: 1.1,
   },
-  showcaseColor: '#cc7bd2',
+  backgroundCenterOffset: {
+    x: -310,
+    y: 112,
+    z: -0.17,
+  },
+  showcaseColor: '#d777c1',
 }
 
 export const March7thImaginary: CharacterConfig = {

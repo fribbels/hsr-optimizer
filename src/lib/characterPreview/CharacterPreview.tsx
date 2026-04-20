@@ -26,6 +26,7 @@ import {
   pickBestSeed,
 } from 'lib/characterPreview/color/colorUtils'
 import {
+  buildCardBgPipelineConfig,
   resolveShowcaseColor,
   resolveShowcaseTheme,
 } from 'lib/characterPreview/color/showcaseColorService'
@@ -39,6 +40,7 @@ import {
   INSET_OPACITY,
   PORTRAIT_BLUR,
   PORTRAIT_BRIGHTNESS,
+  PORTRAIT_CONTRAST,
   PORTRAIT_SATURATE,
   SHADOW_BLUR,
   SHADOW_OPACITY,
@@ -129,8 +131,8 @@ type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps
 
 globalThis.CARD_DEBUG = false
 
-function buildPortraitFilter(blur: number, brightness: number, saturate: number) {
-  return `blur(${blur}px) brightness(${brightness.toFixed(2)}) saturate(${saturate.toFixed(2)})`
+function buildPortraitFilter(blur: number, brightness: number, saturate: number, contrast: number) {
+  return `blur(${blur}px) brightness(${brightness.toFixed(2)}) saturate(${saturate.toFixed(2)}) contrast(${contrast.toFixed(2)})`
 }
 
 function buildShadow(x: number, y: number, blur: number, opacity: number) {
@@ -213,6 +215,7 @@ function resolveDebugVisualConfig(
     portraitBlur: config?.portraitBlur ?? presetFallback?.portraitBlur ?? PORTRAIT_BLUR,
     portraitBrightness: config?.portraitBrightness ?? presetFallback?.portraitBrightness ?? PORTRAIT_BRIGHTNESS,
     portraitSaturate: config?.portraitSaturate ?? presetFallback?.portraitSaturate ?? PORTRAIT_SATURATE,
+    portraitContrast: config?.portraitContrast ?? presetFallback?.portraitContrast ?? PORTRAIT_CONTRAST,
     cardBgAlpha: config?.cardBgAlpha ?? presetFallback?.cardBgAlpha ?? CARD_BG_ALPHA_DEFAULT,
     debugMaxC: config?.debugMaxC ?? presetFallback?.debugMaxC ?? DEFAULT_CONFIG.cardBg.maxC,
     debugMinC: config?.debugMinC ?? presetFallback?.debugMinC ?? DEFAULT_CONFIG.cardBg.minC,
@@ -302,24 +305,16 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const presetFallback = getShowcasePreset(showcasePreset)
   const visual = resolveDebugVisualConfig(debugVisualConfig, presetFallback)
 
-  const colorPipelineConfig = useMemo<ColorPipelineConfig>(() => ({
-    ...DEFAULT_CONFIG,
-    cardBg: {
-      ...DEFAULT_CONFIG.cardBg,
-      maxC: visual.debugMaxC,
-      minC: visual.debugMinC,
-      chromaScale: visual.debugChromaScale,
-      targetL: visual.debugTargetL,
-      minL: visual.debugMinL,
-      maxL: visual.debugMaxL,
-    },
-  }), [visual.debugMaxC, visual.debugMinC, visual.debugChromaScale, visual.debugTargetL, visual.debugMinL, visual.debugMaxL])
+  const colorPipelineConfig = useMemo<ColorPipelineConfig>(
+    () => buildCardBgPipelineConfig(visual),
+    [visual.debugMaxC, visual.debugMinC, visual.debugChromaScale, visual.debugTargetL, visual.debugMinL, visual.debugMaxL],
+  )
 
   const state = useCharacterPreviewState(source, rawCharacter, savedBuildOverride)
 
   // Portrait filter with dark mode brightness offset
   const effectiveBrightness = visual.portraitBrightness + (state.darkMode ? DEFAULT_CONFIG.darkMode.brightnessOffset : 0)
-  const portraitFilter = buildPortraitFilter(visual.portraitBlur, effectiveBrightness, visual.portraitSaturate)
+  const portraitFilter = buildPortraitFilter(visual.portraitBlur, effectiveBrightness, visual.portraitSaturate, visual.portraitContrast)
 
   const { displayRelics, scoringResults } = state.previewRelics
 

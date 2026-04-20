@@ -394,7 +394,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#50a2f8',
+  showcaseColor: '#7c95c4',
 }
 
 export const Yanqing: CharacterConfig = {

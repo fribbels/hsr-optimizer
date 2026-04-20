@@ -7,6 +7,7 @@ export interface DebugVisualConfig {
   portraitBlur: number
   portraitBrightness: number
   portraitSaturate: number
+  portraitContrast: number
   cardBgAlpha: number
   debugMaxC: number
   debugMinC: number
@@ -34,6 +35,7 @@ export interface DebugVisualConfig {
 export const PORTRAIT_BLUR = 25
 export const PORTRAIT_BRIGHTNESS = 0.40
 export const PORTRAIT_SATURATE = 1.75
+export const PORTRAIT_CONTRAST = 1.00
 export const CARD_BG_ALPHA_DEFAULT = 0.40
 
 // Blend mode default
@@ -88,16 +90,17 @@ export enum ShowcasePreset {
 }
 
 export const SHINE_PRESET: DebugVisualConfig = {
-  portraitBlur: 28,
-  portraitBrightness: 0.37,
-  portraitSaturate: 2.00,
-  cardBgAlpha: 0.25,
-  debugMaxC: 0.08,
-  debugMinC: 0.06,
+  portraitBlur: 40,
+  portraitBrightness: 0.40,
+  portraitSaturate: 1.50,
+  portraitContrast: 1.25,
+  cardBgAlpha: 0.35,
+  debugMaxC: 0.07,
+  debugMinC: 0.04,
   debugChromaScale: 1.00,
-  debugTargetL: 0.45,
+  debugTargetL: 0.40,
   debugMinL: 0.00,
-  debugMaxL: 0.66,
+  debugMaxL: 0.50,
   blendMode: 'screen',
   shadowX: 1.00,
   shadowY: 1.00,
@@ -112,6 +115,7 @@ export const NATURAL_PRESET: DebugVisualConfig = {
   portraitBlur: 46,
   portraitBrightness: 0.50,
   portraitSaturate: 1.75,
+  portraitContrast: 1.00,
   cardBgAlpha: 0.25,
   debugMaxC: 0.06,
   debugMinC: 0.04,
@@ -137,6 +141,7 @@ interface DebugVisualConfigStore extends DebugVisualConfig {
   setPortraitBlur: (v: number) => void
   setPortraitBrightness: (v: number) => void
   setPortraitSaturate: (v: number) => void
+  setPortraitContrast: (v: number) => void
   setCardBgAlpha: (v: number) => void
   setDebugMaxC: (v: number) => void
   setDebugMinC: (v: number) => void
@@ -159,6 +164,7 @@ export const useDebugVisualConfigStore = create<DebugVisualConfigStore>((set) =>
   portraitBlur: PORTRAIT_BLUR,
   portraitBrightness: PORTRAIT_BRIGHTNESS,
   portraitSaturate: PORTRAIT_SATURATE,
+  portraitContrast: PORTRAIT_CONTRAST,
   cardBgAlpha: CARD_BG_ALPHA_DEFAULT,
   debugMaxC: DEFAULT_CONFIG.cardBg.maxC,
   debugMinC: DEFAULT_CONFIG.cardBg.minC,
@@ -178,6 +184,7 @@ export const useDebugVisualConfigStore = create<DebugVisualConfigStore>((set) =>
   setPortraitBlur: (v) => set({ portraitBlur: v }),
   setPortraitBrightness: (v) => set({ portraitBrightness: v }),
   setPortraitSaturate: (v) => set({ portraitSaturate: v }),
+  setPortraitContrast: (v) => set({ portraitContrast: v }),
   setCardBgAlpha: (v) => set({ cardBgAlpha: v }),
   setDebugMaxC: (v) => set({ debugMaxC: v }),
   setDebugMinC: (v) => set({ debugMinC: v }),
@@ -202,6 +209,7 @@ export function getDebugVisualConfig(): DebugVisualConfig {
     portraitBlur: s.portraitBlur,
     portraitBrightness: s.portraitBrightness,
     portraitSaturate: s.portraitSaturate,
+    portraitContrast: s.portraitContrast,
     cardBgAlpha: s.cardBgAlpha,
     debugMaxC: s.debugMaxC,
     debugMinC: s.debugMinC,

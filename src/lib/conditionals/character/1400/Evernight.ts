@@ -655,7 +655,7 @@ const display = {
     y: 1009,
     z: 1.15,
   },
-  showcaseColor: '#ca7cd5',
+  showcaseColor: '#e09dc0',
 }
 
 export const Evernight: CharacterConfig = {

@@ -410,7 +410,7 @@ const display = {
     y: 1000,
     z: 1.2,
   },
-  showcaseColor: '#c37fdc',
+  showcaseColor: '#debfd8',
 }
 
 export const Lingsha: CharacterConfig = {

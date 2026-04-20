@@ -228,7 +228,7 @@ const display = {
     y: 981,
     z: 1.35,
   },
-  showcaseColor: '#7499fb',
+  showcaseColor: '#8ab8c2',
 }
 
 export const Luocha: CharacterConfig = {

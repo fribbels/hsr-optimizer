@@ -221,7 +221,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#51a2f8',
+  showcaseColor: '#5375e6',
 }
 
 export const Gepard: CharacterConfig = {

@@ -1,8 +1,12 @@
-import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
+import {
+  type ColorPipelineConfig,
+  DEFAULT_CONFIG,
+} from 'lib/characterPreview/color/colorPipelineConfig'
 import {
   oklchCardBackgroundColor,
   oklchCardBorderColor,
 } from 'lib/characterPreview/color/colorUtilsOklch'
+import type { DebugVisualConfig } from 'lib/characterPreview/debugVisualConfigStore'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { ShowcaseColorMode } from 'lib/constants/constants'
 import type { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
@@ -68,5 +72,20 @@ export function resolveShowcaseTheme(seedColor: string, darkMode: boolean, confi
   return {
     cardBackgroundColor: oklchCardBackgroundColor(seedColor, darkMode, config),
     cardBorderColor: oklchCardBorderColor(seedColor, darkMode, config),
+  }
+}
+
+export function buildCardBgPipelineConfig(visual: DebugVisualConfig): ColorPipelineConfig {
+  return {
+    ...DEFAULT_CONFIG,
+    cardBg: {
+      ...DEFAULT_CONFIG.cardBg,
+      maxC: visual.debugMaxC,
+      minC: visual.debugMinC,
+      chromaScale: visual.debugChromaScale,
+      targetL: visual.debugTargetL,
+      minL: visual.debugMinL,
+      maxL: visual.debugMaxL,
+    },
   }
 }

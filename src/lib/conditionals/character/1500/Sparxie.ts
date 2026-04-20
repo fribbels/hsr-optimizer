@@ -511,7 +511,7 @@ const display = {
     y: 1050,
     z: 1.10,
   },
-  showcaseColor: '#ae86ed',
+  showcaseColor: '#b385ea',
   gridPortraitOffset: 20,
 }
 

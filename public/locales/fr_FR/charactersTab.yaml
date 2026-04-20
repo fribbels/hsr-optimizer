@@ -27,10 +27,8 @@ CharacterMenu:
       SortByScore: Trier tous les personnages par note
       MoveToTop: Placer le personnage en haut
 SearchPlaceholder: Rechercher
-GridHeaders:
-  Icon: Icône
-  Priority: Priorité
-  Character: Personnage
+GridDensityOptions:
+  default: Standard
 Messages:
   RemoveSuccess: Personnage supprimé avec succès
   UnequipSuccess: Personnage déséquipé avec succès

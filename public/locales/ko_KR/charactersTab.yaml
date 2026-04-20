@@ -27,10 +27,8 @@ CharacterMenu:
       SortByScore: 캐릭터를 점수 순으로 정렬
       MoveToTop: 캐릭터를 최상단으로 이동
 SearchPlaceholder: 검색
-GridHeaders:
-  Icon: 아이콘
-  Priority: 우선순위
-  Character: 캐릭터
+GridDensityOptions:
+  default: 기본
 Messages:
   RemoveSuccess: 캐릭터를 삭제했습니다.
   UnequipSuccess: 유물을 제거했습니다.

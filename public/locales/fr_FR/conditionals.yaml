@@ -1224,6 +1224,14 @@ Characters:
         text: Nombre de malus sur la cible
         content: >-
           Dr Ratio a 40% de chances fixes de déclencher 1 attaque de suivi contre sa cible lorsqu'il utilise sa compétence, lui infligeant des DGT imaginaires équivalents à {{FuaScaling}}% de l'ATQ de Dr Ratio. Les chances fixes de déclencher l'attaque de suivi augmentent de 20% pour chaque malus appliqué à la cible ennemie. L'attaque de suivi est lancée sur un autre ennemi aléatoire si la cible ennemie est vaincue avant que l'attaque de suivi ne soit déclenchée.::BR::Lorsque Dr Ratio inflige des DGT à une cible ayant au moins 3 malus, les DGT infligés par Dr Ratio à cette cible augmentent de 10% pour chaque malus appliqué à la cible, jusqu'à une augmentation maximale de 50%.::BR::E2: Lorsque l'attaque de suivi de son talent touche une cible, cette dernière subit des DGT imaginaires supplémentaires équivalents à 20% de l'ATQ de Dr Ratio pour chaque malus qui lui est appliqué. Cet effet peut être déclenché un maximum de 4 fois durant chaque attaque de suivi.
+  Evanescia:
+    Content:
+      masterFoxVuln:
+        text: Vulnérabilité
+      e1ResPen:
+        text: 'E1: PÉN de RÉS'
+      e4DefPen:
+        text: 'E4: PÉN de DÉF'
   Evernight:
     Content:
       memoTalentDmgBuff:
@@ -1301,6 +1309,31 @@ Characters:
         text: Rupture extrême activée (force l'état de rupture)
         content: >-
           Lorsque SAM est en Combustion complète avec un effet de Rupture supérieur ou égal à 200%/360%, attaquer une cible ennemie en état de Rupture de faiblesse convertit la réduction de robustesse de cette attaque en 1 instance de 35%/50% de DGT de rupture extrême.
+      atkToBeConversion:
+        text: Conversion d'ATQ à ER
+        content: Pour chaque tranche de 10 d'ATQ de SAM qui dépasse 1800, son effet de Rupture augmente de 0,8%.
+      talentDmgReductionBuff:
+        text: Bonus de PV max
+        content: >-
+          Plus les PV de Luciole sont bas, moins elle subit de DGT. Lorsque ses PV sont inférieurs ou égaux à 20%, l'effet de réduction de DGT est à son maximum, atteignant {{talentDmgReductionBuff}}%. Dans l'état Combustion complète, l'effet de réduction de DGT est toujours à son maximum et la RÉS aux effets augmente de {{talentResBuff}}%.
+      e1DefShred:
+        text: 'E1: PÉN de DÉF'
+        content: Ignore 15% de la DÉF de la cible lors de l'utilisation de la compétence renforcée et la compétence renforcée ne consomme pas de point de compétence.
+      e4ResBuff:
+        text: 'E4: Bonus de RAE'
+        content: Augmente de 50% la RÉS aux effets de SAM dans l'état Combustion complète.
+      e6Buffs:
+        text: 'E6: Divers bonus'
+        content: Augmente de 20% la PÉN de RÉS au feu de SAM dans l'état Combustion complète. Son efficacité de Rupture de faiblesse augmente de 50% lors de l'utilisation de l'ATQ normale renforcée ou de la compétence renforcée.
+  FireflyB1:
+    Content:
+      enhancedStateActive:
+        text: État amélioré
+      enhancedStateSpdBuff:
+        text: Bonus de VIT état amélioré
+        content: Dans l'état Combustion complète, la VIT de Luciole augmente de {{ultSpdBuff}}.
+      superBreakDmg:
+        text: Rupture extrême activée (force l'état de rupture)
       atkToBeConversion:
         text: Conversion d'ATQ à ER
         content: Pour chaque tranche de 10 d'ATQ de SAM qui dépasse 1800, son effet de Rupture augmente de 0,8%.
@@ -1484,6 +1517,15 @@ Characters:
       skillBuff:
         text: 'E1: Bonus de VIT'
         content: Lorsque Huohuo bénéficie d'Intervention divine, la VIT de tous les alliés augmente de 12%.
+      e6DmgBuff:
+        text: 'E6: Bonus de DGT'
+        content: Lorsque Huohuo soigne une cible alliée, les DGT de la cible alliée augmentent de 50% pendant 2 tours.
+  HuohuoB1:
+    Content:
+      ultBuff:
+        text: Bonus d'ATQ de l'ULT
+      skillBuff:
+        text: 'E1: Divers bonus'
       e6DmgBuff:
         text: 'E6: Bonus de DGT'
         content: Lorsque Huohuo soigne une cible alliée, les DGT de la cible alliée augmentent de 50% pendant 2 tours.
@@ -2067,6 +2109,19 @@ Characters:
       e6UltTargetDebuff:
         text: 'E6: Volée de papillons'
         content: Après utilisation de son ultime, Seele inflige Volée de papillons à une cible ennemie pendant 1 tour. La cible affectée par Volée de papillons subissent des DGT quantiques supplémentaires équivalents à 15% des DGT de l'ultime de Seele chaque fois qu'ils sont attaqués.
+  SeeleB1:
+    Content:
+      buffedState:
+        text: État amélioré
+      speedBoostStacks:
+        text: Cumuls de Bonus de VIT
+        content: "La VIT de Seele augmente de 25% pour 2 tours après avoir utilisé sa compétence.::BR::E2: Le bonus de VIT de la compétence de Seele peux se cumuler jusqu'à 2 fois."
+      dmgBoostStacks:
+        text: Cumuls de bonus de DGT
+      e1EnemyHp80CrBoost:
+        text: 'E1: Bonus de TC ennemi PV ≤ 80%'
+      e6UltTargetDebuff:
+        text: 'E6: Volée de papillons'
   Serval:
     Content:
       targetShocked:
@@ -2120,6 +2175,10 @@ Characters:
       e2Vulnerability:
         text: 'E2: Vulnérabilité'
         content: Lorsqu'une cible ennemie entre en combat, les DGT qu'elle subit augmentent de 20%.
+  SilverWolfLv999:
+    Content:
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
   Sparkle:
     Content:
       skillCdBuff:
@@ -2292,6 +2351,10 @@ Characters:
       talentStacks:
         text: Cumuls du talent
         content: 'L''ATQ augmente de {{talentAtkScalingValue}}% à chaque fois que le personnage fait subir une Rupture de faiblesse à un ennemi. Effet cumulable jusqu''à 2 fois.::BR::A4: Chaque cumul du talent augmente la DÉF du pionnier/de la pionnière de 10%.'
+  TrailblazerElation:
+    Content:
+      ultCdBuff:
+        text: Bonus de DC de l'ULT
   TrailblazerHarmony:
     Content:
       backupDancer:
@@ -2408,6 +2471,16 @@ Characters:
       e1EnhancedState:
         text: 'E1: État amélioré'
         content: Après utilisation de l'ultime de Welt, ses capacités sont renforcées. Lors des 2 prochaines fois où il utilise son ATQ normale ou sa compétence, il inflige des DGT additionnels à la cible équivalents respectivement à 50% du multiplicateur de DGT de son ATQ normale et à 80% du multiplicateur de DGT de sa compétence.
+  WeltB1:
+    Content:
+      enemySlowed:
+        text: Ennemi ralenti
+      skillExtraHits:
+        text: Coups supplémentaires sur cible de compétence
+        content: >-
+          Inflige des DGT imaginaires équivalents à {{skillScaling}}% de l'ATQ de Welt à un ennemi unique et inflige des DGT 2 fois supplémentaires, infligeant à chaque fois des DGT imaginaires équivalents à {{skillScaling}}% de l'ATQ de Welt à un ennemi aléatoire.
+      e4WeightlessResPen:
+        text: 'E4: PÉN de RÉS'
   Xueyi:
     Content:
       beToDmgBoost:

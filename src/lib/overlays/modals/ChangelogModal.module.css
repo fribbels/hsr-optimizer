@@ -1,0 +1,201 @@
+/* Modal Content - Glass C style with accent highlights */
+.modalContent {
+  background: var(--layer-1) !important;
+  border: 1px solid var(--border-default);
+  box-shadow: var(--shadow-card);
+  max-width: calc(100vw - 32px);
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+}
+
+/* Header with accent underline */
+.header.header {
+  padding: 18px 24px !important;
+  background: var(--layer-2) !important;
+  background-color: var(--layer-2) !important;
+  border-bottom: 1px solid var(--border-default);
+  position: relative;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--primary-default) 25%,
+    var(--primary-hover) 50%,
+    var(--primary-default) 75%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.headerTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.versionBadge {
+  font-size: 14px;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-bg);
+  border: 1px solid var(--primary-subtle);
+  color: var(--primary-light);
+  font-weight: 500;
+}
+
+.scrollArea {
+  height: 68vh;
+  min-height: 400px;
+  max-height: 725px;
+  background: var(--layer-1);
+}
+
+.scrollViewport {
+  padding: 16px 24px 0;
+}
+
+.contentList {
+  margin: 0;
+  padding-left: 32px;
+  padding-right: 128px;
+  list-style: none;
+  margin-bottom: 50px;
+}
+
+.changelogItem {
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 6px 0;
+  padding-left: 18px;
+  position: relative;
+  color: var(--text-primary);
+}
+
+.changelogItem::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--primary-default);
+  font-weight: bold;
+}
+
+.changelogImage {
+  display: block;
+  max-width: 100%;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  margin: 16px 0;
+  box-shadow: var(--shadow-card-flat);
+}
+
+.ctaSection {
+  padding: 10px;
+  background: var(--layer-2);
+  border-top: 1px solid var(--border-default);
+}
+
+/* Scroll indicator - sticky at bottom of scroll area */
+.scrollIndicator {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 64px 0 8px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.scrollIndicatorHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Gradient background - doesn't bounce */
+.scrollIndicator::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--layer-1) 40%, transparent) 25%,
+    color-mix(in srgb, var(--layer-1) 70%, transparent) 50%,
+    color-mix(in srgb, var(--layer-1) 90%, transparent) 75%,
+    var(--layer-1) 100%
+  );
+  pointer-events: none;
+}
+
+/* Inner content - bounces */
+.scrollIndicatorContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--text-primary);
+  text-shadow: 0 1px 4px var(--layer-1), 0 0 12px var(--layer-1);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 11px;
+  animation: bounce 2s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .header {
+    padding: 14px 16px;
+  }
+
+  .headerTitle {
+    font-size: 18px;
+    gap: 10px;
+  }
+
+  .versionBadge {
+    font-size: 12px;
+    padding: 3px 10px;
+  }
+
+  .scrollViewport {
+    padding: 12px 16px;
+  }
+
+  .ctaSection {
+    padding: 12px 16px;
+  }
+
+  .footer {
+    padding: 12px 16px;
+  }
+}

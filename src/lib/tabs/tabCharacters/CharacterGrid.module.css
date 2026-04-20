@@ -77,14 +77,15 @@
   border-radius: var(--cr-radius);
   overflow: hidden;
   cursor: grab;
-  top: 0;
-  transition: top 0.2s ease, box-shadow 0.2s ease;
+  border-bottom: 4px solid var(--layer-1);
+  margin-bottom: -4px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
   box-shadow: inset 0 0 0 1px transparent;
   user-select: none;
 }
 
 .root:hover {
-  top: var(--cr-hover-lift, -2px);
+  transform: translateY(var(--cr-hover-lift, -2px));
   box-shadow: var(--cr-hover-shadow, 0 4px 12px rgba(0, 0, 0, 0.4));
 }
 

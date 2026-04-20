@@ -1,0 +1,68 @@
+/* CTA Cards E — Layered Depth */
+
+.cardsRootE {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.cardE {
+  flex: 1;
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 10px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background: var(--layer-3);
+  text-decoration: none;
+  box-shadow: var(--shadow-card-flat);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.cardE:hover {
+  box-shadow: var(--shadow-card);
+  transform: translateY(-1px);
+}
+
+/* Discord brand accent on hover */
+.cardE.cardEDiscord:hover {
+  border-color: rgba(88, 101, 242, 0.7);
+}
+
+/* Ko-fi brand accent on hover */
+.cardE.cardEKofi:hover {
+  border-color: rgba(255, 94, 91, 0.7);
+}
+
+/* GitHub / neutral accent on hover */
+.cardE.cardEDefault:hover {
+  border-color: var(--border-hover);
+}
+
+.cardLabelE {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.1px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .cardsRootE {
+    gap: 8px;
+  }
+
+  .cardE {
+    min-width: 100px;
+    padding: 10px 8px;
+  }
+
+  .cardLabelE {
+    font-size: 11px;
+  }
+}

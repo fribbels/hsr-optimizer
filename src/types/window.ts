@@ -40,4 +40,6 @@ declare global {
   var WEBGPU_DEBUG: boolean
   var SEQUENTIAL_BENCHMARKS: boolean
   var CARD_DEBUG: boolean
+  var CHANGELOG_CTA_DEBUG: boolean
+  var openChangelogModal: () => void
 }

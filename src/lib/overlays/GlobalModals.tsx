@@ -3,6 +3,7 @@ import { GettingStartedDrawer } from 'lib/overlays/drawers/GettingStartedDrawer'
 import { SettingsDrawer } from 'lib/overlays/drawers/SettingsDrawer'
 import { StatTracesDrawer } from 'lib/overlays/drawers/StatTracesDrawer'
 import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
+import { ChangelogModal } from 'lib/overlays/modals/ChangelogModal'
 import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
 import { RelicModal } from 'lib/overlays/modals/relicModal/RelicModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
@@ -44,6 +45,7 @@ export function GlobalModals() {
       <ZeroResultSuggestionModal />
       <RelicModal />
       <BuildsModal />
+      <ChangelogModal />
       <SaveBuildModal />
       <CharacterModal />
     </>

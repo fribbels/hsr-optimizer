@@ -1,19 +1,13 @@
-import {
-  Button,
-  Flex,
-} from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
-import { IconList } from '@tabler/icons-react'
 import i18next from 'i18next'
-import { AppPages } from 'lib/constants/appPages'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import { useGlobalStore } from 'lib/stores/app/appStore'
+import { setOpen, OpenCloseIDs } from 'lib/hooks/useOpenClose'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { isVersionOutdated } from 'lib/utils/miscUtils'
 import { Trans } from 'react-i18next'
 
 export function checkForUpdatesNotification(version: string) {
-  const t = i18next.getFixedT(null, 'notifications', 'Changelog')
   try {
     const isOutOfDate = !version || isVersionOutdated(version, CURRENT_OPTIMIZER_VERSION)
     console.log(`Is out of date? ${isOutOfDate}`, version, CURRENT_OPTIMIZER_VERSION)
@@ -21,31 +15,7 @@ export function checkForUpdatesNotification(version: string) {
       return
     }
 
-    notifications.show({
-      id: 'update-notification',
-      title: t('Message'),
-      message: (
-        <Flex direction='column' gap={8}>
-          <div>{t('Description')}</div>
-          <Flex gap={8}>
-            <Button
-              leftSection={<IconList size={16} />}
-              onClick={() => {
-                notifications.hide('update-notification')
-                useGlobalStore.getState().setActiveKey(AppPages.CHANGELOG)
-              }}
-            >
-              {t('View')}
-            </Button>
-            <Button variant='default' onClick={() => notifications.hide('update-notification')}>
-              {t('Dismiss')}
-            </Button>
-          </Flex>
-        </Flex>
-      ),
-      color: 'green',
-      autoClose: 30000,
-    })
+    setOpen(OpenCloseIDs.CHANGELOG_MODAL)
   } catch (e) {
     console.error(e)
   }

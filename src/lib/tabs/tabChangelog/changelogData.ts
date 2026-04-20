@@ -31,7 +31,7 @@ export function getChangelogContent() {
         `characterlist.webp`,
         `Added compact character grid toggle for denser character list display`,
         `compact.webp`,
-        `New redesigned Relics tab`,
+        `Redesigned Relics tab filtering`,
         `relicstab.webp`,
         `Added Hyacine DPS Score`,
         `hyacine.webp`,

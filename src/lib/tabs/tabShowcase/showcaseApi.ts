@@ -54,6 +54,9 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
     return
   }
 
+  setScorerId(id)
+  SaveState.delayedSave()
+
   startFetch()
   if (!options?.skipCooldown) {
     setLatestRefreshDate(new Date())
@@ -61,9 +64,6 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
       setLatestRefreshDate(null)
     }, THROTTLE_SECONDS * 1000)
   }
-
-  setScorerId(id)
-  SaveState.delayedSave()
 
   window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.SHOWCASE] + `?id=${id}`)
 

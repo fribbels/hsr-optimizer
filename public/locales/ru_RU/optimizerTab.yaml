@@ -712,17 +712,25 @@ ExpandedDataPanel:
       HEAL_VALUE_P: Δ% Исцеления
       SHIELD_VALUE: Δ Щит
       SHIELD_VALUE_P: Δ% Щит
+  DamageTags:
+    BASIC: Базовая атака
+    SKILL: Навык
+    ULT: Ультимейт
+    FUA: Бонусная атака
+    DOT: ДоТ'ы
+    BREAK: Пробитие
   DamageSplits:
     Title: Разбивка комбо
+    Mode:
+      Default: По-умолчанию
     Legend:
-      abilityDmg: Умения
-      breakDmg: Пробитие
-      superBreakDmg: Суперпробитие
-      additionalDmg: Доп урон
-      trueDmg: 'Истинный урон'
-      jointDmg: Совместная атака
-      dotDmg: ДоТ'ы
-      memoDmg: Мемо
+      Basic: БазАтака
+      Skill: Навык
+      Ult: Ульта
+      Fua: БонусАтк
+      Break: ЭП
+      Memo: Мемо
+      Elation: Радость
     YAxisLabel:
       BASIC_DMG: БазАтака
       SKILL_DMG: Навык
@@ -763,6 +771,9 @@ ExpandedDataPanel:
       Set: Набор
     DefaultAction: По-умолчанию
     SummaryLabel: РЕЗУЛЬТАТЫ БАФФОВ
+    DamageFunctions:
+      Break: ЭП
+      Elation: Радость
     Stats:
       CompositeLabels:
         Label: '{{prefix}} {{suffix}}'
@@ -784,7 +795,7 @@ ExpandedDataPanel:
           'ATK % boost': Атака%↑
           Crit Rate boost: КритШанс↑
           Crit DMG boost: КритУрон↑
-          DMG boost: Урон↑
+          DMG Boost: '↑Урон'
           Vulnerability: Слабость
           RES PEN: Игнор Сопр
           DEF PEN: Игнор Защиты
@@ -842,6 +853,7 @@ ExpandedDataPanel:
         Ult Additional DMG CR override: Переопределение КШ Доп Атаки с Ульты
         Ult Additional DMG CD override: Переопределение КУ Доп Атаки с Ульты
         Merrymaking: Радость
+        Elation: Радость
       DmgTypes:
         Basic: Тип Баз Атаки
         Skill: Тип Урона Навыка
@@ -854,5 +866,4 @@ ExpandedDataPanel:
         ElationSkill: Тип Урона Радости
         Additional: Тип Доп Урона
         SuperBreak: Тип Урона Пробития
-      ResPen: 'Игнор $t(common:Elements.{{element}}) Сопр'
       Unconvertible: '$t(common:Stats.{{stat}}) неконвертируем'

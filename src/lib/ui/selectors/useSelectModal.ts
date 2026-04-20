@@ -2,6 +2,7 @@ import { clone } from 'lib/utils/objectUtils'
 import {
   type ChangeEvent,
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from 'react'
@@ -38,6 +39,13 @@ export function useSelectModal<TFilters extends Record<string, unknown>>(
   onOpenChangeRef.current = onOpenChange
 
   const isOpen = opened ?? internalOpen
+
+  // Reset filters when opened externally (e.g. clicking LC image bypasses open())
+  useEffect(() => {
+    if (opened) {
+      setFilters(clone(defaultFiltersRef.current))
+    }
+  }, [opened])
 
   const open = useCallback(() => {
     setFilters(clone(defaultFiltersRef.current))

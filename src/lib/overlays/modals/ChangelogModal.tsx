@@ -42,6 +42,7 @@ export function ChangelogModal() {
       size={1000}
       centered
       withCloseButton
+      transitionProps={{ transition: 'pop', duration: 500, exitDuration: 150, timingFunction: 'ease' }}
       title={
         <div className={classes.headerTitle}>
           What's New

@@ -35,7 +35,7 @@ export function App() {
   }, [mantineTheme])
 
   useEffect(() => {
-    const timerId = setTimeout(() => checkForUpdatesNotification(useGlobalStore.getState().version), 5000)
+    const timerId = setTimeout(() => checkForUpdatesNotification(useGlobalStore.getState().version), 1000)
     return () => clearTimeout(timerId)
   }, [])
 

@@ -37,3 +37,7 @@ Characters:
         text: E1 PV nemico ≤ 50%
       e6Buffs:
         text: E6 buff
+  Evanescia:
+    Content:
+      masterFoxVuln:
+        text: Vulnerabilità

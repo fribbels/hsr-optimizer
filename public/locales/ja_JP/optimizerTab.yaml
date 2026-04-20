@@ -690,17 +690,25 @@ ExpandedDataPanel:
       HEAL_VALUE_P: 治癒量変化率
       SHIELD_VALUE: シールド量変化量
       SHIELD_VALUE_P: シールド量変化率
+  DamageTags:
+    BASIC: 通常攻撃
+    SKILL: 戦闘スキル
+    ULT: 必殺技
+    FUA: 追加攻撃
+    DOT: 持続
+    BREAK: 撃破
   DamageSplits:
     Title: スキル回しの内訳
+    Mode:
+      Default: デフォルト
     Legend:
-      abilityDmg: アビリティ
-      breakDmg: 撃破
-      superBreakDmg: 超撃破
-      additionalDmg: 付加
-      trueDmg: '確定'
-      jointDmg: 連携
-      dotDmg: 持続
-      memoDmg: 精霊
+      Basic: 通常
+      Skill: スキル
+      Ult: 必殺
+      Fua: 追加
+      Break: 撃破
+      Memo: 精霊
+      Elation: 愉悦
     YAxisLabel:
       BASIC_DMG: 通常
       SKILL_DMG: スキル
@@ -740,6 +748,9 @@ ExpandedDataPanel:
       Set: セット
     DefaultAction: デフォルト
     SummaryLabel: 合計バフ数
+    DamageFunctions:
+      Break: 撃破
+      Elation: 愉悦
     Stats:
       CompositeLabels:
         Label: '{{prefix}}　{{suffix}}'
@@ -761,7 +772,7 @@ ExpandedDataPanel:
           'ATK % boost': 攻撃力割合増加
           Crit Rate boost: 会心率増加
           Crit DMG boost: 会心ダメージ増加
-          DMG boost: ダメージバフ
+          DMG Boost: 味方与ダメージバフ
           Vulnerability: 敵被ダメージ増加
           RES PEN: 耐性貫通
           DEF PEN: 防御力無視
@@ -819,6 +830,7 @@ ExpandedDataPanel:
         Ult Additional DMG CR override: 必殺技付加ダメージ（会心率無視）
         Ult Additional DMG CD override: 必殺技付加ダメージ（会心ダメージ無視）
         Merrymaking: 上笑
+        Elation: 愉悦
       DmgTypes:
         Basic: 通常攻撃ダメージの種類
         Skill: スキルダメージの種類
@@ -831,5 +843,4 @@ ExpandedDataPanel:
         ElationSkill: 愉悦ダメージの種類
         Additional: 付加ダメージの種類
         SuperBreak: 超撃破ダメージの種類
-      ResPen: '$t(common:Elements.{{element}})耐性貫通'
       Unconvertible: '変換不能な$t(common:Stats.{{stat}})'

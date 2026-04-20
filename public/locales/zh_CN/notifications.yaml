@@ -11,8 +11,3 @@ GPUCrash:
   Description:
     l1: GPU加速进程已崩溃 - 结果可能无效。请重试或在Discord服务器上报告问题。
     l2: 如需要查看故障排除步骤，请访问<CustomLink text="文档页面。"/>
-Changelog:
-  View: 查看更新日志
-  Dismiss: 关闭
-  Message: 新版本更新！
-  Description: 查看更新日志以获取最新的优化器更新内容。

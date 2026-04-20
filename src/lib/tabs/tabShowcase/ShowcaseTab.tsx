@@ -106,16 +106,25 @@ export function ShowcaseTab() {
 }
 
 function RedirectToHome() {
-  const savedScorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
+  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
 
   useEffect(() => {
-    // Don't redirect if there's a UID in the URL or a saved session —
-    // initializeShowcaseOnMount will handle transitioning to Loading
-    const urlId = parseShowcaseUrlId()
-    if (urlId || savedScorerId) return
+    const doRedirect = () => {
+      // Don't redirect if there's a UID in the URL or a saved session —
+      // initializeShowcaseOnMount will handle transitioning to Loading
+      const urlId = parseShowcaseUrlId()
+      const savedScorerId = useShowcaseTabStore.getState().savedSession.scorerId
+      if (urlId || savedScorerId) return
 
-    useGlobalStore.getState().setActiveKey(AppPages.HOME)
-  }, [savedScorerId])
+      useGlobalStore.getState().setActiveKey(AppPages.HOME)
+    }
+
+    // Re-run on every tab activation, not just first mount — this component
+    // stays mounted across tab switches (display:none), so dep-based re-fires
+    // would miss subsequent sidebar navigations back to Showcase.
+    if (isActiveRef.current) doRedirect()
+    return addActivationListener(doRedirect)
+  }, [addActivationListener, isActiveRef])
   return null
 }
 

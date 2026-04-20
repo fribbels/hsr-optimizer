@@ -123,6 +123,7 @@ export type DBMetadataCharacter = {
   traceTree: TraceNode[],
   imageCenter: ImageCenter,
   spineCenter: ImageCenter,
+  backgroundCenterOffset: { x: number, y: number },
   disableSpine: boolean,
   scoringMetadata: ScoringMetadata,
 }

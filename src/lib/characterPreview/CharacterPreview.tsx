@@ -149,7 +149,7 @@ function ShowcaseBackgroundBlur({
 }: {
   portraitUrl: string,
   portraitToUse: CustomImageConfig | undefined,
-  displayDimensions: { charCenter: { x: number, y: number, z: number } },
+  displayDimensions: { charCenter: { x: number, y: number, z: number }, backgroundCenterOffset: { x: number, y: number } },
   portraitFilter: string,
   blendMode: 'screen' | 'normal',
 }) {
@@ -171,11 +171,13 @@ function ShowcaseBackgroundBlur({
       bgPos = 'center'
     }
   } else {
-    // Default portrait: pixel positioning using curated charCenter values
+    // Default portrait: pixel positioning using curated charCenter values + per-character offset
     const bgZoom = displayDimensions.charCenter.z * 1.75
     const bgScale = bgZoom / 2 * cardTotalW / 1024
+    const offsetX = displayDimensions.backgroundCenterOffset.x
+    const offsetY = displayDimensions.backgroundCenterOffset.y
     bgSize = `${cardTotalW * bgZoom}px auto`
-    bgPos = `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2}px`
+    bgPos = `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2 + offsetX}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2 + offsetY}px`
   }
 
   return (

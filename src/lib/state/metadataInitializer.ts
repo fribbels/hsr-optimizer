@@ -160,6 +160,7 @@ function applyCharacterConfig(
   const config = characterConfigs.get(characterId as CharacterId)
   const imageCenter = config?.display.imageCenter ?? DEFAULT_IMAGE_CENTER
   const spineCenter = config?.display.spineCenter ?? imageCenter
+  const backgroundCenterOffset = config?.display.backgroundCenterOffset ?? { x: 0, y: 0 }
   const disableSpine = config?.display.disableSpine ?? false
   const metadata = config?.scoring
 
@@ -167,6 +168,7 @@ function applyCharacterConfig(
   characters[characterId].traceTree = dbMetadataCharacter.traceTree
   characters[characterId].imageCenter = imageCenter
   characters[characterId].spineCenter = spineCenter
+  characters[characterId].backgroundCenterOffset = backgroundCenterOffset
   characters[characterId].disableSpine = disableSpine
 
   if (metadata) {

@@ -564,6 +564,10 @@ const display = {
     y: 1230,
     z: 1.65,
   },
+  backgroundOffset: {
+    x: 0,
+    y: 500,
+  },
   spineCenter: {
     x: 971,
     y: 1215,

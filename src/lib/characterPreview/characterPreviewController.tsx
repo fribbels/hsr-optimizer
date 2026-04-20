@@ -94,6 +94,7 @@ export type ShowcaseDisplayDimensions = {
   lcImageOffset: { x: number, y: number, s: number },
   charCenter: ImageCenter,
   spineCenter: ImageCenter,
+  backgroundCenterOffset: { x: number, y: number },
   disableSpine: boolean,
 }
 
@@ -166,6 +167,7 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
   const characterMeta = getGameMetadata().characters[character.id]
   const charCenter = characterMeta.imageCenter
   const spineCenter = characterMeta.spineCenter
+  const backgroundCenterOffset = characterMeta.backgroundCenterOffset
   const disableSpine = characterMeta.disableSpine
   // @ts-expect-error - Some APIs return empty light cone as '0'
   const lcImageOffset = (character.form.lightCone && character.form.lightCone !== '0' && getGameMetadata().lightCones[character.form.lightCone])
@@ -199,6 +201,7 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
     newLcMargin,
     charCenter,
     spineCenter,
+    backgroundCenterOffset,
     disableSpine,
     lcImageOffset,
   }

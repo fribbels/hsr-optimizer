@@ -12,7 +12,6 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
-import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
@@ -20,7 +19,7 @@ import {
   optimizerTabDefaultGap,
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+import { switchToCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
@@ -148,9 +147,7 @@ export function CharacterSelectorDisplay() {
           value={characterId ?? null}
           onChange={(id) => {
             if (id) {
-              useOptimizerDisplayStore.getState().setFocusCharacterId(id)
-              updateCharacter(id)
-              SaveState.delayedSave()
+              switchToCharacter(id)
             }
           }}
           selectStyle={{ width: panelWidth }}

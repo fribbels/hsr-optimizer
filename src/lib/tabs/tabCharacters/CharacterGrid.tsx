@@ -47,7 +47,7 @@ import {
 } from 'lib/stores/character/characterStore'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+import { switchToCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import { afterPaint } from 'lib/utils/frontendUtils'
 import {
@@ -196,7 +196,7 @@ export function CharacterGrid() {
 
   const handleRowDoubleClick = useCallback((characterId: CharacterId) => {
     useGlobalStore.getState().setActiveKey(AppPages.OPTIMIZER)
-    updateCharacter(characterId)
+    switchToCharacter(characterId)
   }, [])
 
   const handleEdit = useCallback((characterId: CharacterId) => {

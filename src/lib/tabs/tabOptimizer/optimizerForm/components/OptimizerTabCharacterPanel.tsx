@@ -15,7 +15,7 @@ const charVerticalOffset = -20 // negative = up
 const charFilter = 'brightness(1.05) saturate(1.05)'
 
 const cardGap = 10
-const lcCardH = 90
+const lcCardH = 85
 const charCardH = 415 - lcCardH - cardGap // 315
 const lcZoom = 1.15 // > 1 to zoom in
 

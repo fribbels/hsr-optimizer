@@ -4,6 +4,7 @@ import {
   Constants,
   DEFAULT_STAT_DISPLAY,
 } from 'lib/constants/constants'
+import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Message } from 'lib/interactions/message'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -15,6 +16,7 @@ import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
+import { useGlobalStore } from 'lib/stores/app/appStore'
 import {
   getCharacterById,
   useCharacterStore,
@@ -374,6 +376,17 @@ export function updateCharacter(characterId: CharacterId): void {
   const currentRequest = displayToInternal(useOptimizerRequestStore.getState())
   generateContext(currentRequest)
   calculateCurrentlyEquippedRow(currentRequest)
+}
+
+/**
+ * User-initiated character switch: loads form + persists session.
+ * Use this when the user actively selects a different character.
+ * For programmatic/initial load, use updateCharacter() directly.
+ */
+export function switchToCharacter(characterId: CharacterId): void {
+  updateCharacter(characterId)
+  useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
+  SaveState.delayedSave()
 }
 
 /**

@@ -89,7 +89,7 @@ import type {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import type { ShowcaseTemporaryOptions } from 'types/metadata'
+import type { ShowcaseDisplayDimensionsOverride, ShowcaseTemporaryOptions } from 'types/metadata'
 import {
   ScoringSelector,
   SimScoringContextProvider,
@@ -121,6 +121,8 @@ interface CharacterPreviewPropsBase {
   forceDebug?: boolean
   /** Override debug visual config (for shared debug panel across multiple cards) */
   debugVisualConfig?: DebugVisualConfig
+  /** Editor mode overrides for live preview of display dimensions */
+  editorOverrides?: ShowcaseDisplayDimensionsOverride
 }
 
 type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
@@ -149,7 +151,7 @@ function ShowcaseBackgroundBlur({
 }: {
   portraitUrl: string,
   portraitToUse: CustomImageConfig | undefined,
-  displayDimensions: { charCenter: { x: number, y: number, z: number }, backgroundCenterOffset: { x: number, y: number } },
+  displayDimensions: { charCenter: { x: number, y: number, z: number }, backgroundCenterOffset: { x: number, y: number, z: number } },
   portraitFilter: string,
   blendMode: 'screen' | 'normal',
 }) {
@@ -172,7 +174,7 @@ function ShowcaseBackgroundBlur({
     }
   } else {
     // Default portrait: pixel positioning using curated charCenter values + per-character offset
-    const bgZoom = displayDimensions.charCenter.z * 1.75
+    const bgZoom = Math.max(0.1, displayDimensions.charCenter.z * 1.75 + displayDimensions.backgroundCenterOffset.z)
     const bgScale = bgZoom / 2 * cardTotalW / 1024
     const offsetX = displayDimensions.backgroundCenterOffset.x
     const offsetY = displayDimensions.backgroundCenterOffset.y
@@ -233,6 +235,7 @@ export function CharacterPreview({
   character,
   forceDebug,
   debugVisualConfig,
+  editorOverrides,
   ...rest
 }: CharacterPreviewProps) {
   if (!character) {
@@ -255,7 +258,7 @@ export function CharacterPreview({
     return <CharacterPreviewWithDebug character={character} forceDebug={forceDebug} {...rest} />
   }
 
-  return <CharacterPreviewInner character={character} forceDebug={forceDebug} debugVisualConfig={debugVisualConfig} {...rest} />
+  return <CharacterPreviewInner character={character} forceDebug={forceDebug} debugVisualConfig={debugVisualConfig} editorOverrides={editorOverrides} {...rest} />
 }
 
 /** Wrapper that subscribes to debug store and renders panel - only used when CARD_DEBUG */
@@ -286,6 +289,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   id,
   forceDebug,
   debugVisualConfig,
+  editorOverrides,
 }: CharacterPreviewInnerProps) {
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
   // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
@@ -320,7 +324,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const { displayRelics, scoringResults } = state.previewRelics
 
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
-  const effectiveScoringType = forceDebug ? ScoringType.SUBSTAT_SCORE : state.storedScoringType
+  // editorOverrides.forceSimScoreLayout overrides to COMBAT_SCORE layout for preview
+  const effectiveScoringType = editorOverrides?.forceSimScoreLayout
+    ? ScoringType.COMBAT_SCORE
+    : (forceDebug ? ScoringType.SUBSTAT_SCORE : state.storedScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
   const layout = useMemo(
@@ -333,13 +340,13 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         savedBuildOverride,
         t,
       })
-      if (forceDebug) {
+      if (forceDebug && !editorOverrides?.forceSimScoreLayout) {
         return { ...baseLayout, displayDimensions: { ...baseLayout.displayDimensions, disableSpine: true } }
       }
       return baseLayout
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character, state.teamSelection, effectiveScoringType, savedBuildOverride, _scoringMetadataCacheBuster, t, forceDebug],
+    [character, state.teamSelection, effectiveScoringType, savedBuildOverride, _scoringMetadataCacheBuster, t, forceDebug, editorOverrides?.forceSimScoreLayout],
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====
@@ -409,9 +416,18 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     scoringType,
     portraitUrl,
     portraitToUse,
-    displayDimensions,
+    displayDimensions: baseDisplayDimensions,
     artistName,
   } = layout
+
+  // Apply editor overrides for live preview editing
+  const displayDimensions = editorOverrides
+    ? {
+        ...baseDisplayDimensions,
+        charCenter: editorOverrides.charCenter ?? baseDisplayDimensions.charCenter,
+        backgroundCenterOffset: editorOverrides.backgroundCenterOffset ?? baseDisplayDimensions.backgroundCenterOffset,
+      }
+    : baseDisplayDimensions
 
   const scoredRelics = scoringResults.relics ?? EMPTY_SCORED
 

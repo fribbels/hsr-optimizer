@@ -160,7 +160,7 @@ function applyCharacterConfig(
   const config = characterConfigs.get(characterId as CharacterId)
   const imageCenter = config?.display.imageCenter ?? DEFAULT_IMAGE_CENTER
   const spineCenter = config?.display.spineCenter ?? imageCenter
-  const backgroundCenterOffset = config?.display.backgroundCenterOffset ?? { x: 0, y: 0 }
+  const backgroundCenterOffset = config?.display.backgroundCenterOffset ?? { x: 0, y: 0, z: 0 }
   const disableSpine = config?.display.disableSpine ?? false
   const metadata = config?.scoring
 

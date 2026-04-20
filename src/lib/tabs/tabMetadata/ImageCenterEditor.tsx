@@ -6,14 +6,34 @@ import {
   CopyButton,
   Flex,
   NumberInput,
+  SegmentedControl,
+  Text,
 } from '@mantine/core'
 import {
   IconCheck,
   IconClipboard,
   IconCopy,
+  IconMoon,
+  IconSparkles,
+  IconSun,
+  IconTree,
 } from '@tabler/icons-react'
 import i18next from 'i18next'
+import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
+  type DebugVisualConfig,
+  getShowcasePreset,
+  NATURAL_PRESET,
+  PORTRAIT_BLUR,
+  PORTRAIT_BRIGHTNESS,
+  PORTRAIT_SATURATE,
+  SHINE_PRESET,
+  ShowcasePreset,
+} from 'lib/characterPreview/debugVisualConfigStore'
+import { Parts, Sets, Stats } from 'lib/constants/constants'
+import {
+  cardTotalW,
   innerW,
   newLcHeight,
   newLcMargin,
@@ -37,9 +57,10 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { CharacterId } from 'types/character'
-import type { LightConeId } from 'types/lightCone'
-import type { ImageCenter } from 'types/metadata'
+import type { Character, CharacterId } from 'types/character'
+import type { Relic } from 'types/relic'
+import { type LightConeId } from 'types/lightCone'
+import type { ImageCenter, ShowcaseDisplayDimensionsOverride } from 'types/metadata'
 
 // =========================================== Constants ===========================================
 
@@ -455,6 +476,374 @@ function LightConeCenterEditor({ showCrosshairs }: { showCrosshairs: boolean }) 
   )
 }
 
+// =========================================== Mock Relic Factory ===========================================
+
+function createMockRelic(part: Parts, index: number): Relic {
+  const relicSets = [Sets.MusketeerOfWildWheat, Sets.HunterOfGlacialForest, Sets.KnightOfPurityPalace, Sets.PasserbyOfWanderingCloud]
+  const ornamentSets = [Sets.SpaceSealingStation, Sets.FleetOfTheAgeless]
+  const isOrnament = part === Parts.PlanarSphere || part === Parts.LinkRope
+
+  const mainStats: Record<Parts, string> = {
+    [Parts.Head]: Stats.HP,
+    [Parts.Hands]: Stats.ATK,
+    [Parts.Body]: Stats.CR,
+    [Parts.Feet]: Stats.SPD,
+    [Parts.PlanarSphere]: Stats.Physical_DMG,
+    [Parts.LinkRope]: Stats.ATK_P,
+  }
+
+  const substats = [
+    { stat: Stats.ATK_P, value: 0.0864, rolls: { high: 2, mid: 1, low: 0 }, addedRolls: 2 },
+    { stat: Stats.CR, value: 0.0648, rolls: { high: 1, mid: 1, low: 0 }, addedRolls: 1 },
+    { stat: Stats.CD, value: 0.1296, rolls: { high: 1, mid: 1, low: 0 }, addedRolls: 1 },
+    { stat: Stats.SPD, value: 5, rolls: { high: 1, mid: 1, low: 0 }, addedRolls: 1 },
+  ]
+
+  return {
+    id: `mock-relic-${part}-${index}`,
+    set: isOrnament ? ornamentSets[index % 2] : relicSets[index % 4],
+    part: part,
+    enhance: 15,
+    grade: 5,
+    main: { stat: mainStats[part], value: 1 },
+    substats: substats,
+    previewSubstats: substats,
+    equippedBy: undefined,
+    weightScore: 0,
+    augmentedStats: {},
+    initialRolls: 4,
+  } as Relic
+}
+
+// =========================================== Mock Character Factory ===========================================
+
+function createMockCharacter(characterId: CharacterId, lightConeId: LightConeId | null): Character {
+  const partsArray = [Parts.Head, Parts.Hands, Parts.Body, Parts.Feet, Parts.PlanarSphere, Parts.LinkRope]
+  const mockRelics = partsArray.map((part, i) => createMockRelic(part, i))
+  const equippedRelics: Record<string, Relic> = {}
+  for (const relic of mockRelics) {
+    equippedRelics[relic.part] = relic
+  }
+
+  const meta = getGameMetadata().characters[characterId]
+  const lightCones = Object.keys(getGameMetadata().lightCones) as LightConeId[]
+  const matchingLc = lightConeId ?? lightCones.find((lc) => getGameMetadata().lightCones[lc]?.path === meta?.path) ?? lightCones[0]
+
+  return {
+    id: characterId,
+    key: `mock-${characterId}`,
+    form: {
+      characterId,
+      characterLevel: 80,
+      characterEidolon: 0,
+      lightCone: matchingLc,
+      lightConeLevel: 80,
+      lightConeSuperimposition: 1,
+    },
+    equipped: equippedRelics,
+  } as unknown as Character
+}
+
+// =========================================== Full Card Preview Editor ===========================================
+
+function buildLightConeOptions(): SearchableComboboxOption[] {
+  const t = i18next.getFixedT(null, 'gameData', 'Lightcones')
+  const lcs = Object.values(getGameMetadata().lightCones)
+  return lcs
+    .sort((a, b) => t(`${a.id}.Name`).localeCompare(t(`${b.id}.Name`)))
+    .map((lc) => ({
+      value: lc.id,
+      label: t(`${lc.id}.Name`),
+      icon: Assets.getLightConeIconById(lc.id),
+    }))
+}
+
+function CharacterPreviewEditor() {
+  const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // Character and light cone selection
+  const [selectedCharId, setSelectedCharId] = useState<CharacterId | null>(null)
+  const [selectedLcId, setSelectedLcId] = useState<LightConeId | null>(null)
+
+  // Position state
+  const [imageCenter, setImageCenter] = useState<ImageCenter>({ ...DEFAULT_CENTER })
+  const [backgroundOffset, setBackgroundOffset] = useState<{ x: number, y: number, z: number }>({ x: 0, y: 0, z: 0 })
+
+  // Visual settings
+  const [preset, setPreset] = useState<ShowcasePreset>(ShowcasePreset.SHINE)
+  const [darkMode, setDarkMode] = useState(false)
+  const [dpsScoreMode, setDpsScoreMode] = useState(false)
+
+  const characterOptions = useMemo(buildCharacterOptions, [])
+  const lightConeOptions = useMemo(buildLightConeOptions, [])
+
+  // Load character metadata when selection changes
+  useEffect(() => {
+    if (!selectedCharId) return
+    const meta = getGameMetadata().characters[selectedCharId]
+    if (meta) {
+      setImageCenter({ ...meta.imageCenter })
+      setBackgroundOffset(meta.backgroundCenterOffset ? { ...meta.backgroundCenterOffset } : { x: 0, y: 0, z: 0 })
+    }
+    // Auto-select matching light cone
+    const lightCones = Object.keys(getGameMetadata().lightCones) as LightConeId[]
+    const matchingLc = lightCones.find((lc) => getGameMetadata().lightCones[lc]?.path === meta?.path)
+    if (matchingLc) setSelectedLcId(matchingLc)
+  }, [selectedCharId])
+
+  const effectiveVisualConfig: DebugVisualConfig = useMemo(() => {
+    return getShowcasePreset(preset)
+  }, [preset])
+
+  // Mock character with selected light cone
+  const mockCharacter = useMemo(() => {
+    if (!selectedCharId) return null
+    return createMockCharacter(selectedCharId, selectedLcId)
+  }, [selectedCharId, selectedLcId])
+
+  // Editor overrides for live preview
+  const editorOverrides: ShowcaseDisplayDimensionsOverride = useMemo(() => ({
+    charCenter: imageCenter,
+    backgroundCenterOffset: backgroundOffset,
+    forceSimScoreLayout: dpsScoreMode,
+  }), [imageCenter, backgroundOffset, dpsScoreMode])
+
+  // Track which zone is being dragged
+  const draggingRef = useRef(false)
+  const lastPosRef = useRef({ x: 0, y: 0 })
+  const dragZoneRef = useRef<'portrait' | 'background'>('portrait')
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    const rect = containerRef.current?.getBoundingClientRect()
+    if (!rect) return
+
+    // Determine drag zone based on mouse position
+    // Portrait is on the left side (parentW pixels)
+    const relativeX = e.clientX - rect.left
+    dragZoneRef.current = relativeX < parentW ? 'portrait' : 'background'
+
+    draggingRef.current = true
+    lastPosRef.current = { x: e.clientX, y: e.clientY }
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!draggingRef.current) return
+      const dx = e.clientX - lastPosRef.current.x
+      const dy = e.clientY - lastPosRef.current.y
+      lastPosRef.current = { x: e.clientX, y: e.clientY }
+
+      if (dragZoneRef.current === 'portrait') {
+        setImageCenter((prev) => ({
+          ...prev,
+          x: prev.x - dx * 2 * 1024 / (prev.z * innerW),
+          y: prev.y - dy * 2 * 1024 / (prev.z * innerW),
+        }))
+      } else {
+        setBackgroundOffset((prev) => ({
+          ...prev,
+          x: prev.x + dx,
+          y: prev.y + dy,
+        }))
+      }
+    }
+
+    const handleMouseUp = () => {
+      draggingRef.current = false
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+  }, [])
+
+  // Zoom interaction (scroll) - portrait zoom vs background zoom based on cursor
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el || !selectedCharId) return
+    const handler = (e: WheelEvent) => {
+      e.preventDefault()
+      e.stopPropagation()
+
+      const rect = el.getBoundingClientRect()
+      const relativeX = e.clientX - rect.left
+      const isPortraitArea = relativeX < parentW
+      const step = e.ctrlKey ? 0.01 : 0.001
+
+      if (isPortraitArea) {
+        setImageCenter((prev) => ({
+          ...prev,
+          z: Math.max(0.5, Math.min(3, prev.z - e.deltaY * step)),
+        }))
+      } else {
+        setBackgroundOffset((prev) => ({
+          ...prev,
+          z: Math.max(-3, Math.min(5, prev.z - e.deltaY * step)),
+        }))
+      }
+    }
+    el.addEventListener('wheel', handler, { passive: false })
+    return () => el.removeEventListener('wheel', handler)
+  }, [selectedCharId])
+
+  // Config strings with proper character name
+  const characterName = selectedCharId ? t(`${selectedCharId}.LongName`) : 'Unknown'
+  const imageCenterString = `imageCenter: { x: ${Math.round(imageCenter.x)}, y: ${Math.round(imageCenter.y)}, z: ${Number(imageCenter.z.toFixed(2))} }, // ${characterName}`
+  const backgroundOffsetString = `backgroundCenterOffset: { x: ${Math.round(backgroundOffset.x)}, y: ${Math.round(backgroundOffset.y)}, z: ${Number(backgroundOffset.z.toFixed(2))} }, // ${characterName}`
+
+  const handleResetImageCenter = () => {
+    if (!selectedCharId) return
+    const meta = getGameMetadata().characters[selectedCharId]
+    setImageCenter(meta ? { ...meta.imageCenter } : { ...DEFAULT_CENTER })
+  }
+
+  const handleResetBackgroundOffset = () => {
+    if (!selectedCharId) return
+    const meta = getGameMetadata().characters[selectedCharId]
+    setBackgroundOffset(meta?.backgroundCenterOffset ? { ...meta.backgroundCenterOffset } : { x: 0, y: 0, z: 0 })
+  }
+
+  return (
+    <Flex direction='column' gap={10}>
+      <b>Full Card Preview</b>
+
+      {/* Character and Light Cone selectors */}
+      <Flex gap={16} align='center'>
+        <SearchableCombobox
+          options={characterOptions}
+          value={selectedCharId}
+          onChange={(v) => setSelectedCharId(v as CharacterId | null)}
+          placeholder='Select character'
+          style={{ width: 250 }}
+        />
+        <SearchableCombobox
+          options={lightConeOptions}
+          value={selectedLcId}
+          onChange={(v) => setSelectedLcId(v as LightConeId | null)}
+          placeholder='Select light cone'
+          style={{ width: 250 }}
+        />
+      </Flex>
+
+      {/* Visual controls */}
+      <Flex gap={16} align='center'>
+        <SegmentedControl
+          size='xs'
+          value={preset}
+          onChange={(v) => setPreset(v as ShowcasePreset)}
+          data={[
+            { label: <IconSparkles size={16} />, value: ShowcasePreset.SHINE },
+            { label: <IconTree size={16} />, value: ShowcasePreset.NATURAL },
+          ]}
+        />
+        <SegmentedControl
+          size='xs'
+          value={darkMode ? 'dark' : 'light'}
+          onChange={(v) => setDarkMode(v === 'dark')}
+          data={[
+            { label: <IconSun size={16} />, value: 'light' },
+            { label: <IconMoon size={16} />, value: 'dark' },
+          ]}
+        />
+        <SegmentedControl
+          size='xs'
+          value={dpsScoreMode ? 'dps' : 'full'}
+          onChange={(v) => setDpsScoreMode(v === 'dps')}
+          data={[
+            { label: 'Full', value: 'full' },
+            { label: 'DPS Score', value: 'dps' },
+          ]}
+        />
+      </Flex>
+
+      {/* Card preview */}
+      {!selectedCharId || !mockCharacter ? (
+        <div
+          style={{
+            width: cardTotalW,
+            height: parentH,
+            border: '1px solid #555',
+            borderRadius: 6,
+            background: '#1a1a2e',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#888',
+          }}
+        >
+          Select a character to preview
+        </div>
+      ) : (
+        <div
+          ref={containerRef}
+          style={{
+            position: 'relative',
+            cursor: 'grab',
+            borderRadius: 8,
+            width: cardTotalW,
+          }}
+          onMouseDown={handleMouseDown}
+        >
+          <div style={{ pointerEvents: 'none' }}>
+            <CharacterPreview
+              id='metadata-preview'
+              character={mockCharacter}
+              source={ShowcaseSource.BUILDS_MODAL}
+              savedBuildOverride={null}
+              forceDebug={true}
+              debugVisualConfig={effectiveVisualConfig}
+              editorOverrides={editorOverrides}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Image center controls */}
+      <Flex direction='column' gap={8}>
+        <Text size='sm' fw={600}>Image Center (Portrait) — drag on portrait to adjust</Text>
+        <Flex gap={8} align='flex-end'>
+          <NumberInput label='x' value={Math.round(imageCenter.x)} onChange={(v) => setImageCenter((c) => ({ ...c, x: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
+          <NumberInput label='y' value={Math.round(imageCenter.y)} onChange={(v) => setImageCenter((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
+          <NumberInput label='z' value={Number(imageCenter.z.toFixed(2))} onChange={(v) => setImageCenter((c) => ({ ...c, z: Number(v) || 1 }))} step={0.01} decimalScale={2} style={{ width: 90 }} size='xs' />
+          <Button size='xs' variant='subtle' onClick={handleResetImageCenter}>Reset</Button>
+        </Flex>
+        <Flex gap={8} align='center'>
+          <code style={{ fontSize: 12, background: '#222', padding: '4px 8px', borderRadius: 4 }}>{imageCenterString}</code>
+          <CopyButton value={imageCenterString}>
+            {({ copied, copy }) => (
+              <ActionIcon color={copied ? 'teal' : 'gray'} onClick={copy} variant='subtle' size='sm'>
+                {copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
+              </ActionIcon>
+            )}
+          </CopyButton>
+        </Flex>
+      </Flex>
+
+      {/* Background offset controls */}
+      <Flex direction='column' gap={8}>
+        <Text size='sm' fw={600}>Background Center Offset — drag outside portrait to adjust, scroll to zoom</Text>
+        <Flex gap={8} align='flex-end'>
+          <NumberInput label='x' value={Math.round(backgroundOffset.x)} onChange={(v) => setBackgroundOffset((c) => ({ ...c, x: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
+          <NumberInput label='y' value={Math.round(backgroundOffset.y)} onChange={(v) => setBackgroundOffset((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
+          <NumberInput label='z' value={Number(backgroundOffset.z.toFixed(2))} onChange={(v) => setBackgroundOffset((c) => ({ ...c, z: Number(v) || 0 }))} step={0.01} decimalScale={2} style={{ width: 90 }} size='xs' />
+          <Button size='xs' variant='subtle' onClick={handleResetBackgroundOffset}>Reset</Button>
+        </Flex>
+        <Flex gap={8} align='center'>
+          <code style={{ fontSize: 12, background: '#222', padding: '4px 8px', borderRadius: 4 }}>{backgroundOffsetString}</code>
+          <CopyButton value={backgroundOffsetString}>
+            {({ copied, copy }) => (
+              <ActionIcon color={copied ? 'teal' : 'gray'} onClick={copy} variant='subtle' size='sm'>
+                {copied ? <IconCheck size={14} /> : <IconCopy size={14} />}
+              </ActionIcon>
+            )}
+          </CopyButton>
+        </Flex>
+      </Flex>
+    </Flex>
+  )
+}
+
 // =========================================== Exported Section ===========================================
 
 export function ImageCenterEditorSection() {
@@ -546,6 +935,9 @@ export function ImageCenterEditorSection() {
         />
         <LightConeCenterEditor showCrosshairs={showCrosshairs} />
       </Flex>
+
+      {/* Full Card Preview Editor */}
+      <CharacterPreviewEditor />
     </Flex>
   )
 }

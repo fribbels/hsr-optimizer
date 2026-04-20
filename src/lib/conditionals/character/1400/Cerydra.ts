@@ -389,7 +389,7 @@ const display = {
     y: 933,
     z: 1.1,
   },
-  showcaseColor: '#8c92f9',
+  showcaseColor: '#151569',
 }
 
 export const Cerydra: CharacterConfig = {

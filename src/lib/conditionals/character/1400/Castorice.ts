@@ -513,7 +513,7 @@ const display = {
     y: 1039,
     z: 1.3,
   },
-  showcaseColor: '#ba82e4',
+  showcaseColor: '#4b0459',
 }
 
 export const Castorice: CharacterConfig = {

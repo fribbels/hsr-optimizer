@@ -406,7 +406,7 @@ const scoring = (): ScoringMetadata => ({
 })
 
 const display = {
-  showcaseColor: '#d877c0',
+  showcaseColor: '#874198',
 }
 
 export const Ashveil: CharacterConfig = {

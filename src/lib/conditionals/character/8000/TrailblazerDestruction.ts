@@ -290,7 +290,7 @@ const displayCaelus = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#8295fb',
+  showcaseColor: '#182b8f',
 }
 
 const displayStelle = {
@@ -300,7 +300,7 @@ const displayStelle = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#8a93fa',
+  showcaseColor: '#182b8f',
 }
 
 export const TrailblazerDestructionCaelus: CharacterConfig = {

@@ -573,7 +573,12 @@ const display = {
     y: 1215,
     z: 1.7,
   },
-  showcaseColor: '#a888f0',
+  backgroundCenterOffset: {
+    x: 144,
+    y: 384,
+    z: -0.5,
+  },
+  showcaseColor: '#561c91',
 }
 
 export function getCyreneAction(action: OptimizerAction) {

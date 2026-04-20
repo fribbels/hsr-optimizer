@@ -94,7 +94,7 @@ export type ShowcaseDisplayDimensions = {
   lcImageOffset: { x: number, y: number, s: number },
   charCenter: ImageCenter,
   spineCenter: ImageCenter,
-  backgroundCenterOffset: { x: number, y: number },
+  backgroundCenterOffset: { x: number, y: number, z: number },
   disableSpine: boolean,
 }
 

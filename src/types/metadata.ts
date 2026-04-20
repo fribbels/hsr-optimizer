@@ -103,6 +103,12 @@ export type ImageCenter = {
   z: number,
 }
 
+export type ShowcaseDisplayDimensionsOverride = {
+  charCenter?: ImageCenter,
+  backgroundCenterOffset?: { x: number, y: number, z: number },
+  forceSimScoreLayout?: boolean,
+}
+
 export type TraceNode = {
   id: string,
   stat: StatsValues,
@@ -123,7 +129,7 @@ export type DBMetadataCharacter = {
   traceTree: TraceNode[],
   imageCenter: ImageCenter,
   spineCenter: ImageCenter,
-  backgroundCenterOffset: { x: number, y: number },
+  backgroundCenterOffset: { x: number, y: number, z: number },
   disableSpine: boolean,
   scoringMetadata: ScoringMetadata,
 }

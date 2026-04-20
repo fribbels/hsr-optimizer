@@ -112,7 +112,7 @@ export const NATURAL_PRESET: DebugVisualConfig = {
   portraitBlur: 46,
   portraitBrightness: 0.50,
   portraitSaturate: 1.75,
-  cardBgAlpha: 0.20,
+  cardBgAlpha: 0.25,
   debugMaxC: 0.06,
   debugMinC: 0.04,
   debugChromaScale: 1.00,

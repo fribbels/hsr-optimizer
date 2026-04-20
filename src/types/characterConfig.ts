@@ -19,6 +19,7 @@ export type CharacterDisplay = {
   backgroundCenterOffset?: {
     x: number,
     y: number,
+    z: number,
   },
   disableSpine?: boolean,
   showcaseColor?: string,

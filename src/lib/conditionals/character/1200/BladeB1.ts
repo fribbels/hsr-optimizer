@@ -346,7 +346,7 @@ const display = {
     y: 804,
     z: 1.05,
   },
-  showcaseColor: '#7e96fb',
+  showcaseColor: '#27248c',
 }
 
 export const BladeB1: CharacterConfig = {

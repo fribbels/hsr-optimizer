@@ -348,7 +348,7 @@ const display = {
     y: 1027,
     z: 1.15,
   },
-  showcaseColor: '#ed7475',
+  showcaseColor: '#a8231d',
 }
 
 export const Archer: CharacterConfig = {

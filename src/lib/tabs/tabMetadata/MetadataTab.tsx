@@ -48,7 +48,7 @@ export function MetadataTab(): ReactElement {
       <h1 style={{ marginLeft: 20 }}>
         Metadata viewer
       </h1>
-      <Accordion multiple defaultValue={['color-grid']}>
+      <Accordion multiple>
         <Accordion.Item value='color-grid'>
           <Accordion.Control>Character Color Grid</Accordion.Control>
           <Accordion.Panel>

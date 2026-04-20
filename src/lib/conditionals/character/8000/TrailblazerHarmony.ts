@@ -261,7 +261,7 @@ const display = {
     z: 1.1,
   },
   disableSpine: true,
-  showcaseColor: '#bc81e3',
+  showcaseColor: '#7e45a1',
 }
 
 export const TrailblazerHarmonyCaelus: CharacterConfig = {

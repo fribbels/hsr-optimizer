@@ -76,6 +76,7 @@ CharacterPreview:
       Standard: Standard
     PaletteLabel: Portrait color palette
     ShowUID: Show UID
+    ShowL2D: Show Live2D
   ArtBy: 'Art by {{artistName}}'
   EditCharacter: Edit character
   EditPortrait: Edit portrait

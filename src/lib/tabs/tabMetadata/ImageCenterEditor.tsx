@@ -13,9 +13,7 @@ import {
   IconCheck,
   IconClipboard,
   IconCopy,
-  IconMoon,
   IconSparkles,
-  IconSun,
   IconTree,
 } from '@tabler/icons-react'
 import i18next from 'i18next'
@@ -572,7 +570,6 @@ function CharacterPreviewEditor() {
 
   // Visual settings
   const [preset, setPreset] = useState<ShowcasePreset>(ShowcasePreset.SHINE)
-  const [darkMode, setDarkMode] = useState(false)
   const [dpsScoreMode, setDpsScoreMode] = useState(false)
 
   const characterOptions = useMemo(buildCharacterOptions, [])
@@ -634,10 +631,11 @@ function CharacterPreviewEditor() {
       lastPosRef.current = { x: e.clientX, y: e.clientY }
 
       if (dragZoneRef.current === 'portrait') {
+        const dragInnerW = dpsScoreMode ? simScoreInnerW : innerW
         setImageCenter((prev) => ({
           ...prev,
-          x: prev.x - dx * 2 * 1024 / (prev.z * innerW),
-          y: prev.y - dy * 2 * 1024 / (prev.z * innerW),
+          x: prev.x - dx * 2 * 1024 / (prev.z * dragInnerW),
+          y: prev.y - dy * 2 * 1024 / (prev.z * dragInnerW),
         }))
       } else {
         setBackgroundOffset((prev) => ({
@@ -656,7 +654,7 @@ function CharacterPreviewEditor() {
 
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
-  }, [])
+  }, [dpsScoreMode])
 
   // Zoom interaction (scroll) - portrait zoom vs background zoom based on cursor
   useEffect(() => {
@@ -735,15 +733,6 @@ function CharacterPreviewEditor() {
           data={[
             { label: <IconSparkles size={16} />, value: ShowcasePreset.SHINE },
             { label: <IconTree size={16} />, value: ShowcasePreset.NATURAL },
-          ]}
-        />
-        <SegmentedControl
-          size='xs'
-          value={darkMode ? 'dark' : 'light'}
-          onChange={(v) => setDarkMode(v === 'dark')}
-          data={[
-            { label: <IconSun size={16} />, value: 'light' },
-            { label: <IconMoon size={16} />, value: 'dark' },
           ]}
         />
         <SegmentedControl

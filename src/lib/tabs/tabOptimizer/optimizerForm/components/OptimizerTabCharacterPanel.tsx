@@ -53,7 +53,7 @@ export function OptimizerTabCharacterPanel() {
         }}
         onClick={() => useOptimizerDisplayStore.getState().setLightConeSelectModalOpen(true)}
       >
-        <div style={{ transform: `scale(${lcZoom})`, overflow: 'hidden', filter: 'brightness(0.95) saturate(0.95)' }}>
+        <div style={{ transform: `scale(${lcZoom})`, overflow: 'hidden', filter: 'brightness(0.95) saturate(0.90)' }}>
           <CenteredImage
             src={lightCone ? Assets.getLightConePortraitById(lightCone) : Assets.getBlank()}
             containerW={containerW}

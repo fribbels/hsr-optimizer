@@ -11,8 +11,3 @@ GPUCrash:
   Description:
     l1: Le processus d'accélération GPU a planté - les résultats risquent d'être invalides. Veuillez réessayer ou rapporter le bug sur le serveur Discord.
     l2: Pour les étapes de dépannage, consultez <CustomLink text="la page de documentation."/>
-Changelog:
-  View: Voir notes de mise à jour
-  Dismiss: Fermer
-  Message: Nouvelles mises à jour !
-  Description: Voir les notes de mise à jour pour les dernières mises à jour

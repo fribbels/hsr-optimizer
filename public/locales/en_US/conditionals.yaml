@@ -1005,17 +1005,11 @@ Characters:
       enhancedFua:
         text: Enhanced Fua
         content: >-
-          After casting his ultimate, Ashveil will launch an enhanced Follow-Up Attack.
-          ::BR::
-          When "Gluttony" is in possession, for every 4 stacks of "Gluttony" consumed, this Attack additionally deals 1 instance of Lightning DMG equal to {{enhancedFuaGluttonyScaling}}% of Ashveil's ATK.
+          After casting his ultimate, Ashveil will launch an enhanced Follow-Up Attack. ::BR:: When "Gluttony" is in possession, for every 4 stacks of "Gluttony" consumed, this Attack additionally deals 1 instance of Lightning DMG equal to {{enhancedFuaGluttonyScaling}}% of Ashveil's ATK.
       gluttonyStacks:
         text: Gluttony stacks
         content: >-
-          After casting his ultimate, Ashveil will launch an enhanced Follow-Up Attack.
-          ::BR::
-          When "Gluttony" is in possession, for every 4 stacks of "Gluttony" consumed, this Attack additionally deals 1 instance of Lightning DMG equal to {{enhancedFuaGluttonyScaling}}% of Ashveil's ATK.
-          ::BR::
-          A4: DMG dealt by Ashveil's Follow-Up ATK increases by 80%, and for every 1 stacks of "Gluttony" in possession, DMG dealt by Follow-Up ATK additionally increases by 10%.
+          After casting his ultimate, Ashveil will launch an enhanced Follow-Up Attack. ::BR:: When "Gluttony" is in possession, for every 4 stacks of "Gluttony" consumed, this Attack additionally deals 1 instance of Lightning DMG equal to {{enhancedFuaGluttonyScaling}}% of Ashveil's ATK. ::BR:: A4: DMG dealt by Ashveil's Follow-Up ATK increases by 80%, and for every 1 stacks of "Gluttony" in possession, DMG dealt by Follow-Up ATK additionally increases by 10%.
       e1DmgVulnerability:
         text: E1 DMG vulnerability
         content: While Ashveil is on the field, increases DMG taken by all enemies by 24%. When an enemy target's current HP percentage is 50% or lower, the DMG they take increases to 36%.
@@ -1400,23 +1394,11 @@ Characters:
       certifiedBanger:
         text: Certified Banger
         content: >-
-          When Evanescia possesses "Certified Banger":
-          ::BR::
-          Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target.
-          ::BR::
-          Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account "Certified Banger" at least equal to Max Energy.
-          ::BR::
-          "Master Fox's" attack deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.
+          When Evanescia possesses "Certified Banger": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account "Certified Banger" at least equal to Max Energy. ::BR:: "Master Fox's" attack deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.
       certifiedBangerStacks:
         text: Certified Banger stacks
         content: >-
-          When Evanescia possesses "Certified Banger":
-          ::BR::
-          Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target.
-          ::BR::
-          Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account "Certified Banger" at least equal to Max Energy.
-          ::BR::
-          "Master Fox's" attack deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.
+          When Evanescia possesses "Certified Banger": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account "Certified Banger" at least equal to Max Energy. ::BR:: "Master Fox's" attack deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.
       cdToElation:
         text: CD to Elation conversion
         content: Evanescia gains Elation equal to 20% of her CRIT DMG.
@@ -1535,24 +1517,14 @@ Characters:
       enhancedStateActive:
         text: Enhanced state
         content: >-
-          Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK and Enhanced Skill. While in Complete Combustion, increases SPD by 60, and when using the Enhanced Basic ATK or Enhanced Skill, increases this unit's Weakness Break Efficiency by 50% and increases the Break DMG dealt by SAM to the enemy targets by {{breakDmgDealt}}%, lasting until this current attack ends.
-          ::BR::
-          A2: While in the Complete Combustion state, SAM's Break Effect increases by 25%.
-          ::BR::
-          A4: When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 150%/ 300%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 100%/150% Super Break DMG.
-          ::BR::
-          E1: When using the Enhanced Skill, ignores 15% of the target's DEF.
-          ::BR::
-          E4: While in Complete Combustion, increases SAM's Effect RES by 50%.
-          ::BR::
-          E6: While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or Enhanced Skill, increases Weakness Break Efficiency by 50%.
+          Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK and Enhanced Skill. While in Complete Combustion, increases SPD by 60, and when using the Enhanced Basic ATK or Enhanced Skill, increases this unit's Weakness Break Efficiency by 50% and increases the Break DMG dealt by SAM to the enemy targets by {{breakDmgDealt}}%, lasting until this current attack ends. ::BR:: A2: While in the Complete Combustion state, SAM's Break Effect increases by 25%. ::BR:: A4: When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 150%/ 300%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 100%/150% Super Break DMG. ::BR:: E1: When using the Enhanced Skill, ignores 15% of the target's DEF. ::BR:: E4: While in Complete Combustion, increases SAM's Effect RES by 50%. ::BR:: E6: While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or Enhanced Skill, increases Weakness Break Efficiency by 50%.
       enhancedStateSpdBuff:
         text: Enhanced SPD buff
         content: While in Complete Combustion, increases SPD by {{ultSpdBuff}}.
       superBreakDmg:
         text: Super Break enabled (force weakness break)
         content: >-
-          When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 100%/150% Super Break DMG.
+          When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 150%/300%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 100%/150% Super Break DMG.
       atkToBeConversion:
         text: ATK to BE buff
         content: For every 10 points of SAM's ATK that exceeds 1800, increases this unit's Break Effect by 0.8%.
@@ -1744,9 +1716,7 @@ Characters:
       ultBuff:
         text: Ult ATK buff
         content: >-
-          Increases all allies' ATK by {{ultBuffValue}}% for 2 turns after using Ultimate.
-          ::BR::
-          A4: When using Ultimate, if an ally target's Max Energy is 160 or higher, additionally increases their ATK by 24%
+          Increases all allies' ATK by {{ultBuffValue}}% for 2 turns after using Ultimate. ::BR:: A4: When using Ultimate, if an ally target's Max Energy is 160 or higher, additionally increases their ATK by 24%
       skillBuff:
         text: E1 buffs
         content: When Huohuo possesses "Divine Provision," her Outgoing Healing increases by 20%, all allies' SPD increases by 12%.
@@ -2418,37 +2388,18 @@ Characters:
       godmodePlayer:
         text: Godmode Player state
         content: >-
-          While in the "Godmode Player" state, Silver Wolf LV.999 is immune to Crowd Control debuffs, cannot use her Ultimate, and gains Enhanced Basic ATK and Enhanced Elation Skill.
-          Deploys a Zone while in the "Godmode Player" state. While Silver Wolf LV.999 possesses "Certified Banger," each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger 1 time Silver Wolf LV.999's "Top Loot Box": Deal Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies.
-          ::BR::
-          E1: Increases the DMG taken by enemy targets in the Zone by 20%.
+          While in the "Godmode Player" state, Silver Wolf LV.999 is immune to Crowd Control debuffs, cannot use her Ultimate, and gains Enhanced Basic ATK and Enhanced Elation Skill. Deploys a Zone while in the "Godmode Player" state. While Silver Wolf LV.999 possesses "Certified Banger," each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger 1 time Silver Wolf LV.999's "Top Loot Box": Deal Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies. ::BR:: E1: Increases the DMG taken by enemy targets in the Zone by 20%.
       punchlineStacks:
         text: Punchline stacks
         content: Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.
       certifiedBanger:
         text: Certified Banger
         content: >-
-          While Silver Wolf LV.999 possesses "Certified Banger," using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier.
-          ::BR::
-          Each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's "Top Loot Box" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects:
-          ::BR::
-          "Big Flipping Sword": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time.
-          ::BR::
-          "Kaboom Eggsplosion": Recovers 2 Skill Points.
-          ::BR::
-          "Funky Munch Bean": Gains 3 Punchlines.
+          While Silver Wolf LV.999 possesses "Certified Banger," using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier. ::BR:: Each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's "Top Loot Box" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects: ::BR:: "Big Flipping Sword": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time. ::BR:: "Kaboom Eggsplosion": Recovers 2 Skill Points. ::BR:: "Funky Munch Bean": Gains 3 Punchlines.
       certifiedBangerStacks:
         text: Certified Banger stacks
         content: >-
-          While Silver Wolf LV.999 possesses "Certified Banger," using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier.
-          ::BR::
-          Each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's "Top Loot Box" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects:
-          ::BR::
-          "Big Flipping Sword": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time.
-          ::BR::
-          "Kaboom Eggsplosion": Recovers 2 Skill Points.
-          ::BR::
-          "Funky Munch Bean": Gains 3 Punchlines.
+          While Silver Wolf LV.999 possesses "Certified Banger," using Basic ATK or Skill against attacked enemy targets deals {{talentCBScaling}}% Imaginary Elation DMG. Enhanced Basic ATK's ability DMG is converted to Elation DMG at the same multiplier. ::BR:: Each time an ally target within the Zone consumes 1 Skill Point, there is a chance to trigger Silver Wolf LV.999's "Top Loot Box" 1 time, dealing Imaginary Elation DMG equal to {{lootboxScaling}}% split evenly among all enemies, and randomly triggering 1 of the following effects: ::BR:: "Big Flipping Sword": Additionally deals True DMG to the enemy target with the highest HP equal to 20% of the total DMG dealt this time. ::BR:: "Kaboom Eggsplosion": Recovers 2 Skill Points. ::BR:: "Funky Munch Bean": Gains 3 Punchlines.
       hiddenMmr:
         text: Hidden MMR
         content: When gaining Punchline, Silver Wolf LV.999 gains an equal amount of "Hidden MMR." Each point of "Hidden MMR" increases CRIT Rate by {{hiddenMmrCrStep}}%. After CRIT Rate increases to 100%, each remaining point of "Hidden MMR" switches to increasing CRIT DMG by {{hiddenMmrCdStep}}%.
@@ -2524,32 +2475,18 @@ Characters:
       punchlineStacks:
         text: Punchline stacks
         content: >-
-          A6: For every 1 Punchline currently owned, increases all allies' CRIT DMG by 8%, up to a max increase of 80%.
-          ::BR::
-          E1: For every 1 Punchline owned, increases All-Type RES PEN for all allies by 1.5%, up to a max increase of 15%.
-          ::BR::
-          E6: For every 1 Punchline taken into account, the number of additional DMG instances dealt by the Elation Skill increases by 1, up to a max of 40.
+          A6: For every 1 Punchline currently owned, increases all allies' CRIT DMG by 8%, up to a max increase of 80%. ::BR:: E1: For every 1 Punchline owned, increases All-Type RES PEN for all allies by 1.5%, up to a max increase of 15%. ::BR:: E6: For every 1 Punchline taken into account, the number of additional DMG instances dealt by the Elation Skill increases by 1, up to a max of 40.
       certifiedBangerStacks:
         text: Certified Banger stacks
         content: >-
-          While Sparxie holds "Certified Banger":
-          ::BR::
-          Using Enhanced Basic ATK deals {{ebaPrimaryScaling}}% Fire Elation DMG to one designated enemy, and {{ebaAdjacentScaling}}% Fire Elation DMG to their adjacent targets.
-          Additionally, for every 1 instance of "Engagement Farming" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target.
-          ::BR::
-          Using Ultimate deals {{ultElationScaling}}% Fire Elation DMG to all enemies.
+          While Sparxie holds "Certified Banger": ::BR:: Using Enhanced Basic ATK deals {{ebaPrimaryScaling}}% Fire Elation DMG to one designated enemy, and {{ebaAdjacentScaling}}% Fire Elation DMG to their adjacent targets. Additionally, for every 1 instance of "Engagement Farming" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target. ::BR:: Using Ultimate deals {{ultElationScaling}}% Fire Elation DMG to all enemies.
       engagementFarmingStacks:
         text: Engagement Farming stacks
         content: For every 1 instance of "Engagement Farming" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target.
       certifiedBanger:
         text: Certified Banger
         content: >-
-          While Sparxie holds "Certified Banger":
-          ::BR::
-          Using Enhanced Basic ATK deals {{ebaPrimaryScaling}}% Fire Elation DMG to one designated enemy, and {{ebaAdjacentScaling}}% Fire Elation DMG to their adjacent targets.
-          Additionally, for every 1 instance of "Engagement Farming" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target.
-          ::BR::
-          Using Ultimate deals {{ultElationScaling}}% Fire Elation DMG to all enemies.
+          While Sparxie holds "Certified Banger": ::BR:: Using Enhanced Basic ATK deals {{ebaPrimaryScaling}}% Fire Elation DMG to one designated enemy, and {{ebaAdjacentScaling}}% Fire Elation DMG to their adjacent targets. Additionally, for every 1 instance of "Engagement Farming" triggered, the Enhanced Basic ATK deals 1 extra instance of {{ebaBounceScaling}}% Fire Elation DMG to 1 random attacked enemy target. ::BR:: Using Ultimate deals {{ultElationScaling}}% Fire Elation DMG to all enemies.
       atkToElation:
         text: ATK to Elation conversion
         content: For every 100 of Sparxie's ATK that exceeds 2000, increases this unit's Elation by 5.0%, up to a maximum increase of 80.0%.
@@ -2878,11 +2815,7 @@ Characters:
       enemyWeightless:
         text: Enemy Weightless
         content: >-
-          Enemy targets in the "Weightless" state have their DEF reduced by 40% and their SPD reduced by 5%.
-          ::BR::
-          E1: After using a Skill or Ultimate to hit a target in the "Weightless" state, deals 1 additional instance of Imaginary Additional DMG equal to 40% of the Ultimate's DMG multiplier. This effect can only be triggered once per target per attack.
-          ::BR::
-          E4: Enemy targets in the "Weightless" state have their All-Type RES reduced by 30%.
+          Enemy targets in the "Weightless" state have their DEF reduced by 40% and their SPD reduced by 5%. ::BR:: E1: After using a Skill or Ultimate to hit a target in the "Weightless" state, deals 1 additional instance of Imaginary Additional DMG equal to 40% of the Ultimate's DMG multiplier. This effect can only be triggered once per target per attack. ::BR:: E4: Enemy targets in the "Weightless" state have their All-Type RES reduced by 30%.
       retributionDmgStacks:
         text: Retribution DMG stacks
         content: When ally targets attack targets under the "Weightless" state, their DMG dealt increases by 10%. This effect stacks up to 10 times and lasts for 2 turns.
@@ -2958,21 +2891,11 @@ Characters:
       certifiedBanger:
         text: Certified Banger
         content: >-
-          While Yao Guang holds "Certified Banger":
-          ::BR::
-          After an ally target uses an attack, triggers the "Great Boon" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target.
-          ::BR::
-          If this attack consumes Skill Points, then additionally triggers "Great Boon" 1 time.
-          ::BR::
-          When triggering the "Great Boon" effect, if the attacker's Elation is lower than that of Yao Guang, then this instance of Elation DMG will take Yao Guang's Elation into calculation.
+          While Yao Guang holds "Certified Banger": ::BR:: After an ally target uses an attack, triggers the "Great Boon" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target. ::BR:: If this attack consumes Skill Points, then additionally triggers "Great Boon" 1 time. ::BR:: When triggering the "Great Boon" effect, if the attacker's Elation is lower than that of Yao Guang, then this instance of Elation DMG will take Yao Guang's Elation into calculation.
       yaoguangAhaInstant:
         text: Ult Aha Instant
         content: >-
-          Damage calculations for Elation skills will be done with a fixed {{punchlineCount}} punchline taken into account.
-          ::BR::
-          E1: In Aha's extra turn triggered by Ultimate, the fixed amount of Punchline taken into account increases to 40.
-          ::BR::
-          E4: In Aha's extra turn triggered by Yao Guang's Ultimate, the DMG dealt by all ally characters' Elation Skill becomes 150% of the original DMG.
+          Damage calculations for Elation skills will be done with a fixed {{punchlineCount}} punchline taken into account. ::BR:: E1: In Aha's extra turn triggered by Ultimate, the fixed amount of Punchline taken into account increases to 40. ::BR:: E4: In Aha's extra turn triggered by Yao Guang's Ultimate, the DMG dealt by all ally characters' Elation Skill becomes 150% of the original DMG.
       woesWhisperVulnerability:
         text: >-
           Woe's Whisper vulnerability
@@ -2993,18 +2916,14 @@ Characters:
       consumesSkillPoints:
         text: Consumes skill points
         content: >-
-          Whether or not the DPS consumed skill points in this attack. Triggers "Great Boon" 1 additional time.
-          ::BR::
-          After an ally target uses an attack, triggers the "Great Boon" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target. If this attack consumes Skill Points, then additionally triggers "Great Boon" 1 time.
+          Whether or not the DPS consumed skill points in this attack. Triggers "Great Boon" 1 additional time. ::BR:: After an ally target uses an attack, triggers the "Great Boon" effect, dealing 1 additional instance of {{greatBoonScaling}}% Elation DMG of the corresponding Type to 1 random hit target. If this attack consumes Skill Points, then additionally triggers "Great Boon" 1 time.
       teammateCertifiedBangerStacks:
         text: Yao Guang's Certified Banger stacks
         content: Select the number of Certified Banger the character possesses. This is used to calculate damage of "Great boon".
       teammateElationValue:
         text: Yao Guang's Elation
         content: >-
-          Yao Guang's combat Elation. Used to calculate damage dealt by "Great Boon"
-          ::BR::
-          When triggering the "Great Boon" effect, if the attacker's Elation is lower than that of Yao Guang, then this instance of Elation DMG will take Yao Guang's Elation into calculation.
+          Yao Guang's combat Elation. Used to calculate damage dealt by "Great Boon" ::BR:: When triggering the "Great Boon" effect, if the attacker's Elation is lower than that of Yao Guang, then this instance of Elation DMG will take Yao Guang's Elation into calculation.
   Yukong:
     Content:
       teamImaginaryDmgBoost:

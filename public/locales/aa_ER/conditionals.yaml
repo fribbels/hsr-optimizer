@@ -401,6 +401,19 @@ Lightcones:
         text: crwdns43832:0crwdne43832:0
         content: >-
           crwdns43834:0:BR:crwdnd43834:0{{CdBuff}}crwdnd43834:0:BR:crwdnd43834:0{{DmgBuff}}crwdne43834:0
+  UntilTheFlowersBloomAgain:
+    Content:
+      maxEnergyErrConversion:
+        text: crwdns46794:0crwdne46794:0
+        content: crwdns46796:0{{baseErr}}crwdne46796:0
+      vulnerability:
+        text: crwdns46798:0crwdne46798:0
+        content: crwdns46800:0{{vuln}}crwdne46800:0
+  WelcomeToTheCosmicCity:
+    Content:
+      elationDefPen:
+        text: crwdns46802:0crwdne46802:0
+        content: crwdns46804:0{{defShred}}crwdne46804:0
   WhenSheDecidedToSee:
     Content:
       greatFortune:
@@ -727,6 +740,11 @@ Lightcones:
       elationStacks:
         text: crwdns46550:0crwdne46550:0
         content: crwdns46552:0{{elationBuff}}crwdne46552:0
+  TomorrowTogether:
+    Content:
+      elationBuff:
+        text: crwdns46806:0crwdne46806:0
+        content: crwdns46808:0{{elationBuff}}crwdne46808:0
   UnderTheBlueSky:
     Content:
       defeatedEnemyCrBuff:
@@ -1368,6 +1386,37 @@ Characters:
         text: crwdns40858:0crwdne40858:0
         content: >-
           crwdns44112:0{{FuaScaling}}crwdnd44112:0:BR:crwdnd44112:0:BR:crwdnd44112:0:E2:crwdne44112:0
+  Evanescia:
+    Content:
+      punchlineStacks:
+        text: crwdns46810:0crwdne46810:0
+        content: crwdns46812:0crwdne46812:0
+      certifiedBanger:
+        text: crwdns46814:0crwdne46814:0
+        content: >-
+          crwdns46816:0:BR:crwdnd46816:0{{skillElationScaling}}crwdnd46816:0:BR:crwdnd46816:0{{ultElationScaling}}crwdnd46816:0{{ultBounceElationScaling}}crwdnd46816:0:BR:crwdnd46816:0{{foxElationScaling}}crwdne46816:0
+      certifiedBangerStacks:
+        text: crwdns46818:0crwdne46818:0
+        content: >-
+          crwdns46820:0:BR:crwdnd46820:0{{skillElationScaling}}crwdnd46820:0:BR:crwdnd46820:0{{ultElationScaling}}crwdnd46820:0{{ultBounceElationScaling}}crwdnd46820:0:BR:crwdnd46820:0{{foxElationScaling}}crwdne46820:0
+      cdToElation:
+        text: crwdns46822:0crwdne46822:0
+        content: crwdns46824:0crwdne46824:0
+      masterFoxVuln:
+        text: crwdns46826:0crwdne46826:0
+        content: crwdns46828:0crwdne46828:0
+      e1ResPen:
+        text: crwdns46830:0crwdne46830:0
+        content: crwdns46832:0crwdne46832:0
+      e2CritDmg:
+        text: crwdns46834:0crwdne46834:0
+        content: crwdns46836:0crwdne46836:0
+      e4DefPen:
+        text: crwdns46838:0crwdne46838:0
+        content: crwdns46840:0crwdne46840:0
+      e6Merrymake:
+        text: crwdns46842:0crwdne46842:0
+        content: crwdns46844:0crwdne46844:0
   Evernight:
     Content:
       memoTalentDmgBuff:
@@ -1463,6 +1512,35 @@ Characters:
       e6Buffs:
         text: crwdns40914:0crwdne40914:0
         content: crwdns40916:0crwdne40916:0
+  FireflyB1:
+    Content:
+      enhancedStateActive:
+        text: crwdns46846:0crwdne46846:0
+        content: >-
+          crwdns46848:0{{breakDmgDealt}}crwdnd46848:0:BR:crwdnd46848:0:BR:crwdnd46848:0:BR:crwdnd46848:0:BR:crwdnd46848:0:BR:crwdne46848:0
+      enhancedStateSpdBuff:
+        text: crwdns46850:0crwdne46850:0
+        content: crwdns46852:0{{ultSpdBuff}}crwdne46852:0
+      superBreakDmg:
+        text: crwdns46854:0crwdne46854:0
+        content: >-
+          crwdns46856:0crwdne46856:0
+      atkToBeConversion:
+        text: crwdns46858:0crwdne46858:0
+        content: crwdns46860:0crwdne46860:0
+      talentDmgReductionBuff:
+        text: crwdns46862:0crwdne46862:0
+        content: >-
+          crwdns46864:0{{talentDmgReductionBuff}}crwdnd46864:0{{talentResBuff}}crwdne46864:0
+      e1DefShred:
+        text: crwdns46866:0crwdne46866:0
+        content: crwdns46868:0crwdne46868:0
+      e4ResBuff:
+        text: crwdns46870:0crwdne46870:0
+        content: crwdns46872:0crwdne46872:0
+      e6Buffs:
+        text: crwdns46874:0crwdne46874:0
+        content: crwdns46876:0crwdne46876:0
   Fugue:
     Content:
       torridScorch:
@@ -1633,6 +1711,18 @@ Characters:
       e6DmgBuff:
         text: crwdns41098:0crwdne41098:0
         content: crwdns44352:0crwdne44352:0
+  HuohuoB1:
+    Content:
+      ultBuff:
+        text: crwdns46878:0crwdne46878:0
+        content: >-
+          crwdns46880:0{{ultBuffValue}}crwdnd46880:0:BR:crwdne46880:0
+      skillBuff:
+        text: crwdns46882:0crwdne46882:0
+        content: crwdns46884:0crwdne46884:0
+      e6DmgBuff:
+        text: crwdns46886:0crwdne46886:0
+        content: crwdns46888:0crwdne46888:0
   Hyacine:
     Content:
       healTargetHp50:
@@ -2222,6 +2312,24 @@ Characters:
       e6UltTargetDebuff:
         text: crwdns41492:0crwdne41492:0
         content: crwdns44414:0crwdne44414:0
+  SeeleB1:
+    Content:
+      buffedState:
+        text: crwdns46890:0crwdne46890:0
+        content: >-
+          crwdns46892:0{{buffedStateDmgBuff}}crwdnd46892:0:BR:crwdne46892:0
+      speedBoostStacks:
+        text: crwdns46894:0crwdne46894:0
+        content: "crwdns46896:0:BR:crwdnd46896:0:E2:crwdne46896:0"
+      dmgBoostStacks:
+        text: crwdns46898:0crwdne46898:0
+        content: crwdns46900:0crwdne46900:0
+      e1EnemyHp80CrBoost:
+        text: crwdns46902:0crwdne46902:0
+        content: crwdns46904:0crwdne46904:0
+      e6UltTargetDebuff:
+        text: crwdns46906:0crwdne46906:0
+        content: crwdns46908:0crwdne46908:0
   Serval:
     Content:
       targetShocked:
@@ -2275,6 +2383,42 @@ Characters:
       e2Vulnerability:
         text: crwdns45702:0crwdne45702:0
         content: crwdns45704:0crwdne45704:0
+  SilverWolfLv999:
+    Content:
+      godmodePlayer:
+        text: crwdns46910:0crwdne46910:0
+        content: >-
+          crwdns46912:0{{lootboxScaling}}crwdnd46912:0:BR:crwdne46912:0
+      punchlineStacks:
+        text: crwdns46914:0crwdne46914:0
+        content: crwdns46916:0crwdne46916:0
+      certifiedBanger:
+        text: crwdns46918:0crwdne46918:0
+        content: >-
+          crwdns46920:0{{talentCBScaling}}crwdnd46920:0:BR:crwdnd46920:0{{lootboxScaling}}crwdnd46920:0:BR:crwdnd46920:0:BR:crwdnd46920:0:BR:crwdne46920:0
+      certifiedBangerStacks:
+        text: crwdns46922:0crwdne46922:0
+        content: >-
+          crwdns46924:0{{talentCBScaling}}crwdnd46924:0:BR:crwdnd46924:0{{lootboxScaling}}crwdnd46924:0:BR:crwdnd46924:0:BR:crwdnd46924:0:BR:crwdne46924:0
+      hiddenMmr:
+        text: crwdns46926:0crwdne46926:0
+        content: crwdns46928:0{{hiddenMmrCrStep}}crwdnd46928:0{{hiddenMmrCdStep}}crwdne46928:0
+      spdToElation:
+        text: crwdns46930:0crwdne46930:0
+        content: crwdns46932:0crwdne46932:0
+      e1Vulnerability:
+        text: crwdns46934:0crwdne46934:0
+        content: crwdns46936:0crwdne46936:0
+      e4PunchlineBoost:
+        text: crwdns46938:0crwdne46938:0
+        content: crwdns46940:0crwdne46940:0
+      e6Merrymake:
+        text: crwdns46942:0crwdne46942:0
+        content: crwdns46944:0crwdne46944:0
+      e6ResPen:
+        text: crwdns46946:0crwdne46946:0
+        content: >-
+          crwdns46948:0crwdne46948:0
   Sparkle:
     Content:
       skillCdBuff:
@@ -2518,6 +2662,32 @@ Characters:
       talentStacks:
         text: crwdns41632:0crwdne41632:0
         content: crwdns41634:0{{talentAtkScalingValue}}crwdne41634:0
+  TrailblazerElation:
+    Content:
+      punchlineStacks:
+        text: crwdns46950:0crwdne46950:0
+        content: crwdns46952:0crwdne46952:0
+      certifiedBanger:
+        text: crwdns46954:0crwdne46954:0
+        content: crwdns46956:0{{skillAdditionalElationScaling}}crwdne46956:0
+      certifiedBangerStacks:
+        text: crwdns46958:0crwdne46958:0
+        content: crwdns46960:0{{skillAdditionalElationScaling}}crwdne46960:0
+      ultCdBuff:
+        text: crwdns46962:0crwdne46962:0
+        content: crwdns46964:0crwdne46964:0
+      atkToElation:
+        text: crwdns46966:0crwdne46966:0
+        content: crwdns46968:0crwdne46968:0
+      e2UltElation:
+        text: crwdns46970:0crwdne46970:0
+        content: crwdns46972:0crwdne46972:0
+      e4Vulnerability:
+        text: crwdns46974:0crwdne46974:0
+        content: crwdns46976:0crwdne46976:0
+      e6CritDmg:
+        text: crwdns46978:0crwdne46978:0
+        content: crwdns46980:0crwdne46980:0
   TrailblazerHarmony:
     Content:
       backupDancer:
@@ -2637,6 +2807,37 @@ Characters:
       e1EnhancedState:
         text: crwdns41684:0crwdne41684:0
         content: crwdns44432:0crwdne44432:0
+  WeltB1:
+    Content:
+      enemySlowed:
+        text: crwdns46982:0crwdne46982:0
+        content: crwdns46984:0{{talentAdditionalScaling}}crwdne46984:0
+      enemyWeightless:
+        text: crwdns46986:0crwdne46986:0
+        content: >-
+          crwdns46988:0:BR:crwdnd46988:0:BR:crwdne46988:0
+      retributionDmgStacks:
+        text: crwdns46990:0crwdne46990:0
+        content: crwdns46992:0crwdne46992:0
+      ehrToAtkBoost:
+        text: crwdns46994:0crwdne46994:0
+        content: crwdns46996:0crwdne46996:0
+      traceAdditionalDmg:
+        text: crwdns46998:0crwdne46998:0
+        content: crwdns47000:0crwdne47000:0
+      skillExtraHits:
+        text: crwdns47002:0crwdne47002:0
+        content: >-
+          crwdns47004:0{{skillScaling}}crwdnd47004:0{{skillScaling}}crwdne47004:0
+      e1WeightlessAdditionalDmg:
+        text: crwdns47006:0crwdne47006:0
+        content: crwdns47008:0crwdne47008:0
+      e4WeightlessResPen:
+        text: crwdns47010:0crwdne47010:0
+        content: crwdns47012:0crwdne47012:0
+      e6SlowedCrCdBoost:
+        text: crwdns47014:0crwdne47014:0
+        content: crwdns47016:0crwdne47016:0
   Xueyi:
     Content:
       beToDmgBoost:

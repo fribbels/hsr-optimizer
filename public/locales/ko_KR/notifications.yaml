@@ -11,8 +11,3 @@ GPUCrash:
   Description:
     l1: GPU 가속 프로세스가 충돌했습니다. 결과가 이상할 수 있습니다. 다시 시도하거나 Discord 서버에서 버그를 제보해주세요.
     l2: 문제 해결 절차를 확인하시려면, <CustomLink text="documentation page."/>를 클릭해주세요
-Changelog:
-  View: 변경 사항 보기
-  Dismiss: 닫기
-  Message: 신규 업데이트!
-  Description: 변경 내역을 통하여 Optimizer의 업데이트를 확인하세요

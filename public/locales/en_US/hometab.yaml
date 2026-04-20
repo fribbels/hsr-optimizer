@@ -2,14 +2,8 @@ CollapseLabels:
   Explore: Explore the features
   Join: Join the community
 CommunityCollapse: >-
-  <0>
   A huge thanks to all our contributors, translators, users,
   and everyone who provided feedback, for supporting this project and helping to build it together!
-  </0>
-  <1>
-  Come be a part of our Star Rail community! Join the <1 text='Discord'/> server to hang out,
-  or check out the <3 text='GitHub'/> repo if you'd like to contribute.
-  </1>
 FeatureCards:
   LearnMore: Learn more
   Showcase:
@@ -18,7 +12,7 @@ FeatureCards:
       Showcase your character’s stats or prebuild future characters.
       Simulate their combat damage with DPS score and measure it against the benchmarks.
   Optimizer:
-    Title: Relic Optimizer
+    Title: Build Optimizer
     Content: >-
       Optimize your characters to search for the best combination
       of relics to reach their breakpoints and maximize their stats.
@@ -32,10 +26,22 @@ FeatureCards:
     Content: >-
       Organize your relics by scoring and sorting relics based on their potential,
       and find the top relics to upgrade for each character.
+  WarpPlanner:
+    Title: Warp Planner
+  BenchmarkGenerator:
+    Title: Benchmark Generator
+  RarityAnalysis:
+    Title: Rarity Analysis
 Welcome: Welcome to the<1/>Fribbels Star Rail Optimizer
+Hero:
+  Welcome: Welcome to the
+  Title: Fribbels Star Rail Optimizer
 SearchBar:
   Placeholder: UID
   Label: 'Enter your UID to view your showcase characters'
   Api: 'Uses Enka.Network'
   Message: Invalid input - This should be your 9 digit ingame UUID
   Search: Search
+ScrollToExplore: Scroll to explore
+Contributors:
+  Title: Our Contributors

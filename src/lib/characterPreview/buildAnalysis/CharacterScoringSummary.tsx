@@ -303,7 +303,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         {/* Grade ruler */}
         <DeferCreate>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
-            {source !== ShowcaseSource.SHOWCASE_TAB && <DPSScoreDisclaimer />}
+            <DPSScoreDisclaimer />
             <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
                 text={t('CharacterPreview.BuildAnalysis.Header')}

@@ -8,7 +8,7 @@ import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { getChangelogContent } from 'lib/tabs/tabChangelog/changelogData'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { CtaCards } from 'lib/overlays/modals/changelogCta/CtaCards'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import classes from './ChangelogModal.module.css'
 
 globalThis.openChangelogModal = () => setOpen(OpenCloseIDs.CHANGELOG_MODAL)
@@ -16,9 +16,19 @@ globalThis.openChangelogModal = () => setOpen(OpenCloseIDs.CHANGELOG_MODAL)
 export function ChangelogModal() {
   const { isOpen, close } = useOpenClose(OpenCloseIDs.CHANGELOG_MODAL)
   const [atBottom, setAtBottom] = useState(false)
+  const [canDismiss, setCanDismiss] = useState(false)
   const viewportRef = useRef<HTMLDivElement>(null)
 
   const entry = useMemo(() => getChangelogContent()[1], [])
+
+  useEffect(() => {
+    if (!isOpen) {
+      setCanDismiss(false)
+      return
+    }
+    const t = setTimeout(() => setCanDismiss(true), 1000)
+    return () => clearTimeout(t)
+  }, [isOpen])
 
   const handleScroll = useCallback((position: { x: number; y: number }) => {
     const viewport = viewportRef.current
@@ -42,6 +52,8 @@ export function ChangelogModal() {
       size={1000}
       centered
       withCloseButton
+      closeOnClickOutside={canDismiss}
+      closeOnEscape={canDismiss}
       transitionProps={{ transition: 'pop', duration: 500, exitDuration: 150, timingFunction: 'ease' }}
       title={
         <div className={classes.headerTitle}>

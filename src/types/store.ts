@@ -43,6 +43,7 @@ export type GlobalSavedSession = {
   showcaseDarkMode: boolean,
   showcasePreset: ShowcasePreset,
   showcaseUID: boolean,
+  showcaseL2D: boolean,
   showcasePreciseSpd: boolean,
   sidebarCollapsed: boolean,
   characterGridDensity: CharacterGridDensity,

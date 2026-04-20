@@ -60,6 +60,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
+  const showcaseL2D = useGlobalStore((s) => s.savedSession.showcaseL2D)
   const uid = useShowcaseTabStore((s) => s.savedSession.scorerId)
 
   const prevCharIdRef = useRef(character.id)
@@ -102,7 +103,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
 
   const hasCustomPortrait = !!(character.portrait ?? customPortrait)
   const hasSpineData = getSkeletonCount(character.id) != null
-  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait
+  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D
 
   return (
     <div

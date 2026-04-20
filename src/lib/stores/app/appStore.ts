@@ -21,6 +21,7 @@ export const savedSessionDefaults: GlobalSavedSession = {
   [SavedSessionKeys.showcaseDarkMode]: false,
   [SavedSessionKeys.showcasePreset]: ShowcasePreset.SHINE,
   [SavedSessionKeys.showcaseUID]: true,
+  [SavedSessionKeys.showcaseL2D]: true,
   [SavedSessionKeys.showcasePreciseSpd]: false,
   [SavedSessionKeys.sidebarCollapsed]: false,
   [SavedSessionKeys.characterGridDensity]: 'default',

@@ -321,6 +321,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
   const showcaseDarkMode = useGlobalStore((s) => s.savedSession.showcaseDarkMode)
   const showcasePreset = useGlobalStore((s) => s.savedSession.showcasePreset)
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
+  const showcaseL2D = useGlobalStore((s) => s.savedSession.showcaseL2D)
 
   // setState-during-render (React 19): syncs local drag color to external seedColor without an extra effect render.
   const [localColor, setLocalColor] = useState(seedColor)
@@ -365,6 +366,11 @@ const CustomizationPanel = memo(function CustomizationPanel({
 
   function onShowUIDChange(showUID: boolean) {
     useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcaseUID, showUID)
+    SaveState.delayedSave()
+  }
+
+  function onShowL2DChange(showL2D: boolean) {
+    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcaseL2D, showL2D)
     SaveState.delayedSave()
   }
 
@@ -438,6 +444,20 @@ const CustomizationPanel = memo(function CustomizationPanel({
             fullWidth
             value={String(showcaseUID)}
             onChange={(value) => onShowUIDChange(value === 'true')}
+          />
+
+          <HorizontalDivider />
+          <HeaderText className={classes.headerCenteredMb} style={{ marginBottom: 1 }}>
+            {tCustomization('ShowL2D') /* Show Live2D */}
+          </HeaderText>
+          <SegmentedControl
+            data={[
+              { value: 'true', label: <IconCheck size={14} /> },
+              { value: 'false', label: <IconX size={14} /> },
+            ]}
+            fullWidth
+            value={String(showcaseL2D)}
+            onChange={(value) => onShowL2DChange(value === 'true')}
           />
         </>
       )}

@@ -24,7 +24,7 @@ export function ChangelogModal() {
     const viewport = viewportRef.current
     if (!viewport) return
     const isAtBottom = position.y + viewport.clientHeight >= viewport.scrollHeight - 20
-    setAtBottom(isAtBottom)
+    setAtBottom((prev) => prev !== isAtBottom ? isAtBottom : prev)
   }, [])
 
   const handleDismiss = () => {
@@ -52,9 +52,6 @@ export function ChangelogModal() {
         body: classes.modalBody,
         content: classes.modalContent,
         header: classes.header,
-      }}
-      styles={{
-        header: { backgroundColor: 'var(--layer-2)' },
       }}
     >
 

@@ -52,6 +52,7 @@ import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import {
@@ -322,6 +323,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
   const showcasePreset = useGlobalStore((s) => s.savedSession.showcasePreset)
   const showcaseUID = useGlobalStore((s) => s.savedSession.showcaseUID)
   const showcaseL2D = useGlobalStore((s) => s.savedSession.showcaseL2D)
+  const disableSpine = getGameMetadata().characters[characterId]?.disableSpine ?? false
 
   // setState-during-render (React 19): syncs local drag color to external seedColor without an extra effect render.
   const [localColor, setLocalColor] = useState(seedColor)
@@ -445,22 +447,23 @@ const CustomizationPanel = memo(function CustomizationPanel({
             value={String(showcaseUID)}
             onChange={(value) => onShowUIDChange(value === 'true')}
           />
-
-          <HorizontalDivider />
-          <HeaderText className={classes.headerCenteredMb} style={{ marginBottom: 1 }}>
-            {tCustomization('ShowL2D') /* Show Live2D */}
-          </HeaderText>
-          <SegmentedControl
-            data={[
-              { value: 'true', label: <IconCheck size={14} /> },
-              { value: 'false', label: <IconX size={14} /> },
-            ]}
-            fullWidth
-            value={String(showcaseL2D)}
-            onChange={(value) => onShowL2DChange(value === 'true')}
-          />
         </>
       )}
+
+      <HorizontalDivider />
+      <HeaderText className={classes.headerCenteredMb} style={{ marginBottom: 1 }}>
+        {tCustomization('ShowL2D') /* Show Live2D */}
+      </HeaderText>
+      <SegmentedControl
+        data={[
+          { value: 'true', label: <IconCheck size={14} /> },
+          { value: 'false', label: <IconX size={14} /> },
+        ]}
+        fullWidth
+        disabled={disableSpine}
+        value={String(showcaseL2D)}
+        onChange={(value) => onShowL2DChange(value === 'true')}
+      />
     </Flex>
   )
 })

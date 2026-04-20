@@ -27,10 +27,9 @@ CharacterMenu:
       SortByScore: 按评分排序所有角色
       MoveToTop: 将角色移至顶部
 SearchPlaceholder: 搜索
-GridHeaders:
-  Icon: 图标
-  Priority: 优先级
-  Character: 角色
+GridDensityOptions:
+  default: 默认
+  compact: 紧凑
 Messages:
   RemoveSuccess: 成功移除角色
   UnequipSuccess: 成功卸下角色遗器

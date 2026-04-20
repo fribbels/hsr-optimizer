@@ -11,6 +11,8 @@ const BORDER_HIDE_ZOOM = 1 + 2 * 28 / NAT_WIDTH
 
 export type LcImageOffset = { x: number, y: number, s: number }
 
+export const DEFAULT_LC_IMAGE_OFFSET: LcImageOffset = { x: 0, y: 0, s: 1.15 }
+
 /**
  * Compute the raw vertical offset (dy) from game data.
  * Uses metadata mapping to convert raw metadata y into container-space pixels.

@@ -11,6 +11,7 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
+import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
@@ -186,7 +187,7 @@ function visualDiff(n1: number, n2: number, stat: string) {
 function CardImage({ analysis, cardHeight }: { analysis: OptimizerResultAnalysis, cardHeight: number }) {
   const lightCone = analysis.request.lightCone
   const lightConeMetadata = lightCone ? getGameMetadata().lightCones[lightCone] : null
-  const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
+  const lcOffset = lightConeMetadata?.imageOffset ?? DEFAULT_LC_IMAGE_OFFSET
 
   const charCardH = cardHeight - lcCardH - cardGap
 

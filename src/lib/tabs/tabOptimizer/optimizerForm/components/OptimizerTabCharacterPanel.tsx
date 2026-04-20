@@ -1,6 +1,7 @@
 import { Flex } from '@mantine/core'
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import { Assets } from 'lib/rendering/assets'
+import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -16,7 +17,8 @@ const charFilter = 'brightness(1.05) saturate(1.05)'
 
 const cardGap = 10
 const lcCardH = 85
-const charCardH = 415 - lcCardH - cardGap // 315
+const formCardH = 415
+const charCardH = formCardH - lcCardH - cardGap
 const lcZoom = 1.15 // > 1 to zoom in
 
 const cardStyle = {
@@ -31,7 +33,7 @@ export function OptimizerTabCharacterPanel() {
   const lightCone = useOptimizerRequestStore((s) => s.lightCone)
 
   const lightConeMetadata = lightCone ? getGameMetadata().lightCones[lightCone] : null
-  const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
+  const lcOffset = lightConeMetadata?.imageOffset ?? DEFAULT_LC_IMAGE_OFFSET
 
   return (
     <Flex direction="column" gap={cardGap}>

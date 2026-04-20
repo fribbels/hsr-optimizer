@@ -33,6 +33,7 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
+import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
@@ -187,7 +188,7 @@ function LeftPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   const lightCone = form.values.lightCone ?? ''
 
   const lightConeMetadata = getGameMetadata().lightCones[lightCone]
-  const lcOffset = lightConeMetadata?.imageOffset ?? { x: 0, y: 0, s: 1.15 }
+  const lcOffset = lightConeMetadata?.imageOffset ?? DEFAULT_LC_IMAGE_OFFSET
 
   return (
     <Flex direction='column' gap={GAP}>

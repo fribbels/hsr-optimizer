@@ -23,6 +23,7 @@ import {
 } from 'lib/relics/relicUtils'
 import { migrateBuild } from 'lib/services/buildMigration'
 import * as equipmentService from 'lib/services/equipmentService'
+import { migrateSilverWolfLv999EvanesciaMainStats } from 'lib/services/migrations/silverWolfLv999EvanesciaMainStats'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
@@ -84,18 +85,18 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   // Remove invalid characters
   saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
 
-  // Prune overrides to delta format (converts old full-snapshots)
-  const { result: prunedOverrides, changed } = pruneOverridesOnLoad(
+  const migratedOverrides = migrateSilverWolfLv999EvanesciaMainStats(
     saveData.scoringMetadataOverrides ?? {},
     (id) => dbCharacters[id as CharacterId]?.scoringMetadata,
   )
 
-  useScoringStore.getState().setScoringMetadataOverrides(prunedOverrides)
+  // Prune overrides to delta format (converts old full-snapshots)
+  const { result: prunedOverrides } = pruneOverridesOnLoad(
+    migratedOverrides,
+    (id) => dbCharacters[id as CharacterId]?.scoringMetadata,
+  )
 
-  // Save if anything was pruned (triggers save outside of the normal autosave check)
-  if (changed && autosave) {
-    SaveState.delayedSave()
-  }
+  useScoringStore.getState().setScoringMetadataOverrides(prunedOverrides)
 
   const relicsById = new Map(saveData.relics.map((r) => [r.id, r]))
 

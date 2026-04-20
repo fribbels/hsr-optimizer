@@ -1,8 +1,9 @@
+import type { Icon } from '@tabler/icons-react'
 import { useState } from 'react'
 
 type SliderDef = { label: string, value: number, min: number, max: number, step: number, onChange: (v: number) => void }
 type SliderGroup = { title: string, sliders: SliderDef[] }
-type DebugPreset = { label: string, apply: () => void }
+type DebugPreset = { label: string, apply: () => void, icon?: Icon }
 type PillGroup = { title: string, active: string, options: { label: string, value: string, apply: () => void }[] }
 type PresetGroup = { title: string, presets: DebugPreset[] }
 
@@ -98,8 +99,9 @@ export function DebugSliderPanel({ groups, savedPresetGroups, pillGroups }: {
                       p.apply()
                       setActivePreset(p.label)
                     }}
-                    style={activePreset === p.label ? pillActiveStyle : pillStyle}
+                    style={{ ...activePreset === p.label ? pillActiveStyle : pillStyle, display: 'flex', alignItems: 'center', gap: 4 }}
                   >
+                    {p.icon && <p.icon size={12} />}
                     {p.label}
                   </span>
                 ))}

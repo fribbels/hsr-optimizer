@@ -1,3 +1,4 @@
+import { IconCircleHalf2, IconPalette } from '@tabler/icons-react'
 import { DEFAULT_CONFIG } from './color/colorPipelineConfig'
 import type {
   PillGroup,
@@ -94,10 +95,12 @@ function buildDebugPanelConfig(store: ReturnType<typeof useDebugVisualConfigStor
       presets: [
         {
           label: 'Shine',
+          icon: IconPalette,
           apply: () => store.applyPreset(SHINE_PRESET),
         },
         {
           label: 'Natural',
+          icon: IconCircleHalf2,
           apply: () => store.applyPreset(NATURAL_PRESET),
         },
       ],

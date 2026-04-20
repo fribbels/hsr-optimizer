@@ -7,10 +7,10 @@ import {
 import {
   IconCamera,
   IconCheck,
-  IconDiamond,
+  IconCircleHalf2,
   IconDownload,
-  IconLeaf,
   IconMoon,
+  IconPalette,
   IconSettings,
   IconSun,
   IconX,
@@ -392,8 +392,8 @@ const CustomizationPanel = memo(function CustomizationPanel({
 
       <SegmentedControl
         data={[
-          { value: ShowcasePreset.SHINE, label: <IconDiamond size={18} /> },
-          { value: ShowcasePreset.NATURAL, label: <IconLeaf size={18} /> },
+          { value: ShowcasePreset.SHINE, label: <IconPalette size={18} /> },
+          { value: ShowcasePreset.NATURAL, label: <IconCircleHalf2 size={18} /> },
         ]}
         fullWidth
         value={showcasePreset}

@@ -52,5 +52,6 @@ export type OptimizerDisplayState = {
   statSimulations: Simulation[],
   selectedStatSimulations: Simulation['key'][],
   characterSelectModalOpen: boolean,
+  lightConeSelectModalOpen: boolean,
   menuState: Record<string, boolean>,
 }

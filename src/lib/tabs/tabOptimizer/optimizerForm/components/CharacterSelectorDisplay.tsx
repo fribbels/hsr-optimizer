@@ -52,6 +52,9 @@ export function CharacterSelectorDisplay() {
   const optimizerTabFocusCharacterSelectModalOpen = useOptimizerDisplayStore((s) => s.characterSelectModalOpen)
   const setOptimizerTabFocusCharacterSelectModalOpen = useOptimizerDisplayStore((s) => s.setCharacterSelectModalOpen)
 
+  const lightConeSelectModalOpen = useOptimizerDisplayStore((s) => s.lightConeSelectModalOpen)
+  const setLightConeSelectModalOpen = useOptimizerDisplayStore((s) => s.setLightConeSelectModalOpen)
+
   const {
     characterId,
     characterEidolon,
@@ -174,6 +177,8 @@ export function CharacterSelectorDisplay() {
           onChange={(id) => useOptimizerRequestStore.getState().setLightCone(id ?? undefined)}
           selectStyle={{ width: panelWidth }}
           characterId={optimizerTabFocusCharacter}
+          opened={lightConeSelectModalOpen}
+          onOpenChange={setLightConeSelectModalOpen}
         />
         <SegmentedControl
           fullWidth

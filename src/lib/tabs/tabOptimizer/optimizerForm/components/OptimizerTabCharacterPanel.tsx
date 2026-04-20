@@ -38,15 +38,19 @@ export function OptimizerTabCharacterPanel() {
       <div style={{ ...cardStyle, width: containerW, height: charCardH, position: 'relative' }}>
         <CharacterPreviewInternalImage id={optimizerTabFocusCharacter!} parentH={charCardH} />
       </div>
-      <div style={{
-        ...cardStyle,
-        width: containerW,
-        height: lcCardH,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        border: showcaseOutlineLight,
-      }}>
+      <div
+        style={{
+          ...cardStyle,
+          width: containerW,
+          height: lcCardH,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          border: showcaseOutlineLight,
+          cursor: 'pointer',
+        }}
+        onClick={() => useOptimizerDisplayStore.getState().setLightConeSelectModalOpen(true)}
+      >
         <div style={{ transform: `scale(${lcZoom})`, overflow: 'hidden', filter: 'brightness(0.95) saturate(0.95)' }}>
           <CenteredImage
             src={lightCone ? Assets.getLightConePortraitById(lightCone) : Assets.getBlank()}

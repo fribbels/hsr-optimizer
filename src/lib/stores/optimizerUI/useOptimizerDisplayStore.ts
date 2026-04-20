@@ -36,6 +36,7 @@ type OptimizerDisplayActions = {
   clearSimulations: () => void,
   setSelectedStatSimulations: (keys: Simulation['key'][]) => void,
   setCharacterSelectModalOpen: (open: boolean) => void,
+  setLightConeSelectModalOpen: (open: boolean) => void,
   setMenuState: (state: Record<string, boolean>) => void,
 }
 
@@ -72,6 +73,7 @@ const initialState: OptimizerDisplayState = {
   statSimulations: [],
   selectedStatSimulations: [],
   characterSelectModalOpen: false,
+  lightConeSelectModalOpen: false,
   menuState: {},
 }
 
@@ -99,5 +101,6 @@ export const useOptimizerDisplayStore = createTabAwareStore<OptimizerDisplayStor
   clearSimulations: () => set({ statSimulations: [] }),
   setSelectedStatSimulations: (keys) => set({ selectedStatSimulations: keys }),
   setCharacterSelectModalOpen: (open) => set({ characterSelectModalOpen: open }),
+  setLightConeSelectModalOpen: (open) => set({ lightConeSelectModalOpen: open }),
   setMenuState: (menuState) => set({ menuState }),
 }))

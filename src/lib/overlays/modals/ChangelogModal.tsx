@@ -7,7 +7,7 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { getChangelogContent } from 'lib/tabs/tabChangelog/changelogData'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import { CtaCardsE } from 'lib/overlays/modals/changelogCta'
+import { CtaCards } from 'lib/overlays/modals/changelogCta'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import classes from './ChangelogModal.module.css'
 
@@ -99,7 +99,7 @@ export function ChangelogModal() {
       </ScrollArea>
 
       <div className={classes.ctaSection}>
-        <CtaCardsE />
+        <CtaCards />
       </div>
     </Modal>
   )

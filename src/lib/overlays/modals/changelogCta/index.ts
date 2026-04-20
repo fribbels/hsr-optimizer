@@ -1,1 +1,1 @@
-export { CtaCardsE } from './CtaCardsE'
+export { CtaCards } from './CtaCards'

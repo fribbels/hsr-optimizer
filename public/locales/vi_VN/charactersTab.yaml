@@ -27,10 +27,8 @@ CharacterMenu:
       SortByScore: Sắp xếp nhân vật theo điểm
       MoveToTop: Đưa nhân vật lên đầu
 SearchPlaceholder: Tìm Kiếm
-GridHeaders:
-  Icon: Ảnh
-  Priority: Ưu tiên
-  Character: Nhân vật
+GridDensityOptions:
+  default: Mặc định
 Messages:
   RemoveSuccess: Xóa nhân vật thành công
   UnequipSuccess: Gỡ đồ nhân vật thành công

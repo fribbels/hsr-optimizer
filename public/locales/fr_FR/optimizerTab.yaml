@@ -573,16 +573,23 @@ ExpandedDataPanel:
       HEAL_VALUE_P: Δ% Soins
       SHIELD_VALUE: Δ Bouclier
       SHIELD_VALUE_P: Δ% Bouclier
+  DamageTags:
+    BASIC: NORMALE
+    SKILL: COMPÉTENCE
+    ULT: ULT
+    FUA: ADS
+    DOT: DSD
+    BREAK: RUPTURE
   DamageSplits:
+    Mode:
+      Default: Standard
     Legend:
-      abilityDmg: Capacité
-      breakDmg: Rupture
-      superBreakDmg: Rupture Extrême
-      additionalDmg: Additionnels
-      trueDmg: 'Réels'
-      jointDmg: Conjointe
-      dotDmg: DsD
-      memoDmg: Mnémesprit
+      Basic: Norm
+      Skill: Comp
+      Ult: Ult
+      Fua: Ads
+      Break: Rupture
+      Memo: Mnémesprit
     YAxisLabel:
       BASIC_DMG: Norm
       SKILL_DMG: Comp
@@ -620,6 +627,8 @@ ExpandedDataPanel:
       LightCone: Cône de Lumière
       Set: Set
     DefaultAction: Standard
+    DamageFunctions:
+      Break: Rupture
     Stats:
       CompositeLabels:
         Label: '{{suffix}} de {{prefix}}'
@@ -640,7 +649,7 @@ ExpandedDataPanel:
           'ATK % boost': Bonus de % d'ATQ
           Crit Rate boost: Bonus de Taux Critique
           Crit DMG boost: Bonus de DGT Critique
-          DMG boost: Bonus de DGT
+          DMG Boost: Bonus de DGT
           Vulnerability: Vulnérabilité
           RES PEN: PÉN de RÉS
           DEF PEN: PÉN de DÉF
@@ -707,5 +716,4 @@ ExpandedDataPanel:
         MemoTalent: Type de DGT de Talent de Mnémesprit
         Additional: Type de DGT de DGT additionels
         SuperBreak: Type de DGT de Rupture Extrême
-      ResPen: 'PÉN de RÉS $t(common:Elements.{{element}})'
       Unconvertible: '$t(common:Stats.{{stat}}) inconvertible'

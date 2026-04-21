@@ -77,6 +77,17 @@
   flex-shrink: 0;
   cursor: grab;
   user-select: none;
+
+  /* Browser skips paint + layout + style for off-screen rows. Complements #3
+     (lazy image loading): images only fetch when near viewport; this also
+     skips the non-image work for the same set. dnd-kit sees the DOM unchanged
+     because `contain-intrinsic-size` declares the box for layout math even
+     when contents aren't rendered. The `auto` keyword tells the browser to
+     remember the actually-rendered size after first paint and use that on
+     subsequent viewport exits — so the value tracks whatever density preset
+     rendered (68px / 48px) without needing per-preset overrides. */
+  content-visibility: auto;
+  contain-intrinsic-size: auto var(--cr-row-height, 68px);
 }
 
 /* Visual frame — clips children and does the hover lift while .root stays

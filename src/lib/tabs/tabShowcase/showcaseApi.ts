@@ -96,11 +96,11 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
         ) => self.map((x) => x.id).indexOf(value.id) === index)
       converted.forEach((x, index) => x.index = index)
 
-      // Preload portrait + avatar images
-      for (const char of converted) {
-        new Image().src = Assets.getCharacterPortraitById(char.id)
-        new Image().src = Assets.getCharacterAvatarById(char.id)
-      }
+      // Previously preloaded portrait + avatar for each roster character via
+      // `new Image().src = …`. That decoded ~128 MB of bitmaps on every showcase
+      // load and saturated the browser's resource scheduler (triggering
+      // `ERR_INSUFFICIENT_RESOURCES` and dynamic-import failures in workers).
+      // Relying on the natural `<img>` decode when ShowcasePortraitRow renders.
 
       // Set data immediately — ShowcaseLoaded mounts hidden behind the loading spinner
       const wasOnLoadingScreen = useShowcaseTabStore.getState().screen === ShowcaseScreen.Loading

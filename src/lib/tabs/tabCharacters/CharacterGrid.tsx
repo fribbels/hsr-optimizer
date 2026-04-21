@@ -62,12 +62,22 @@ function trackImageLoad(characterId: string, type: 'portrait' | 'lightcone') {
   }
 }
 
+// Viewport observer state for lazy image loading.
+// Per-row IntersectionObservers update `visibleRows` with rootMargin:500px and
+// flip `loadImages` to true on first intersection (never back to false — see
+// comment in the observer effect). The summary log below shows how many rows
+// have ever been visible, which caps at the total ever-loaded image count.
+const visibleRows = new Set<string>()
+const unloadedImages = 0 // kept at 0 in the load-once scheme; diagnostic only
+
 // Expose to window for console debugging
 if (typeof window !== 'undefined') {
   ;(window as any).__CHARGRID_DEBUG__ = {
     getLoadedImages: () => Array.from(loadedImages),
     getLoadedCount: () => loadedImages.size,
     getImageLoadTimes: () => imageLoadTimes,
+    getVisibleRows: () => Array.from(visibleRows),
+    getUnloadedCount: () => unloadedImages,
   }
 }
 import { showImageOnLoad } from 'lib/utils/frontendUtils'
@@ -131,11 +141,6 @@ const dropAnimationConfig: DropAnimation = {
   }),
 }
 
-// Progressive image loading: set src on the first visible rows immediately,
-// then trickle one-by-one to avoid concurrent requests competing for bandwidth.
-const INITIAL_LOAD_COUNT = 12
-const TRICKLE_DELAY = 50
-
 export function CharacterGrid() {
   const gridRef = useRef<HTMLDivElement>(null)
   const osRef = useCallback((instance: OverlayScrollbarsComponentRef<'div'> | null) => {
@@ -151,6 +156,22 @@ export function CharacterGrid() {
   useEffect(() => {
     setLocalFocus(null)
   }, [focusCharacter])
+
+  // DIAGNOSTIC: 1-second summary of CharacterGrid image/viewport state.
+  // Baseline expectation (before #3/#8):
+  //   loaded ≈ 2× character_count (portrait + lightcone per row)
+  //   unloaded = 0 (nothing unloads today)
+  //   visible ≈ 10–20 depending on scroll position + 500px buffer
+  // After #3 lands: unloaded should grow as user scrolls,
+  //   and (loaded - unloaded) should plateau close to `visible`.
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(
+        `[CharGrid summary] loaded: ${loadedImages.size}, unloaded: ${unloadedImages}, visible-per-observer: ${visibleRows.size}`,
+      )
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
 
   const displayFocus = localFocus ?? focusCharacter
 
@@ -258,13 +279,12 @@ export function CharacterGrid() {
         onDragCancel={handleDragCancel}
       >
         <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
-          {filteredCharacters.map((character, i) => (
+          {filteredCharacters.map((character) => (
             <SortableCharacterRow
               key={character.id}
               character={character}
               rank={rankMap.get(character.id) ?? 0}
               isFocused={character.id === displayFocus}
-              loadDelay={i < INITIAL_LOAD_COUNT ? 0 : (i - INITIAL_LOAD_COUNT + 1) * TRICKLE_DELAY}
               onClick={handleRowClick}
               onDoubleClick={handleRowDoubleClick}
               onEdit={handleEdit}
@@ -289,7 +309,6 @@ type CharacterRowProps = {
   character: Character,
   rank: number,
   isFocused: boolean,
-  loadDelay: number,
   onClick: (id: CharacterId) => void,
   onDoubleClick: (id: CharacterId) => void,
   onEdit: (id: CharacterId) => void,
@@ -297,27 +316,60 @@ type CharacterRowProps = {
 }
 
 const SortableCharacterRow = memo(
-  function SortableCharacterRow({ character, rank, isFocused, loadDelay, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
+  function SortableCharacterRow({ character, rank, isFocused, onClick, onDoubleClick, onEdit, onRemove }: CharacterRowProps) {
     const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
       id: character.id,
       animateLayoutChanges: () => false,
     })
     const scrollRef = useRef<HTMLDivElement>(null)
 
-    // Per-row staggered image loading — replaces parent-level trickle to avoid parent re-renders
-    const [loadImages, setLoadImages] = useState(loadDelay === 0)
-    useEffect(() => {
-      if (loadDelay === 0) return
-      const timer = setTimeout(() => setLoadImages(true), loadDelay)
-      return () => clearTimeout(timer)
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []) // mount-only: delay is captured from initial render
+    // Image `src` is gated on viewport intersection via the IntersectionObserver
+    // below. Rows outside the 500 px buffer never fetch, and rows that scroll
+    // far enough away have their src cleared so the decoded bitmap can be GC'd.
+    // Replaces the old setTimeout trickle, which set src regardless of viewport
+    // and caused ~134 eager decodes during tab stagger-mount.
+    const [loadImages, setLoadImages] = useState(false)
 
     useEffect(() => {
       if (isFocused) {
         scrollRef.current?.scrollIntoView({ block: 'nearest' })
       }
     }, [isFocused])
+
+    // Per-row viewport observer. Triggers `loadImages=true` on first
+    // intersection; never reverts. Once a row's image has decoded, we keep its
+    // `src` set so rapid scroll and tab-switch don't cause re-decode flashes
+    // (empty/broken-glyph state during the fetch+decode round-trip). The
+    // win comes from the initial deferral: rows never visited never fetch.
+    // Long-term memory reclaim relies on the browser's own decoded-bitmap
+    // eviction heuristics when memory pressure is high.
+    useEffect(() => {
+      const el = scrollRef.current
+      if (!el) return
+      const charId = character.id
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            if (!visibleRows.has(charId)) {
+              visibleRows.add(charId)
+              console.log(`[CharGrid] row VISIBLE: ${charId} (visible total: ${visibleRows.size})`)
+            }
+            setLoadImages(true)
+          } else {
+            if (visibleRows.has(charId)) {
+              visibleRows.delete(charId)
+              console.log(`[CharGrid] row FAR: ${charId} (visible total: ${visibleRows.size})`)
+            }
+          }
+        },
+        { rootMargin: '500px 0px', threshold: 0 },
+      )
+      observer.observe(el)
+      return () => {
+        observer.disconnect()
+        visibleRows.delete(charId)
+      }
+    }, [character.id])
 
     const mergedRef = useMergedRef(setNodeRef, scrollRef)
 
@@ -425,7 +477,10 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
           alt=''
           draggable={false}
           decoding='async'
-          onLoad={() => trackImageLoad(character.id, 'portrait')}
+          onLoad={(e) => {
+            showImageOnLoad(e)
+            trackImageLoad(character.id, 'portrait')
+          }}
           style={getCharacterConfig(character.id)?.display.gridPortraitOffset
             ? { marginTop: -(getCharacterConfig(character.id)?.display.gridPortraitOffset ?? 0) }
             : undefined}

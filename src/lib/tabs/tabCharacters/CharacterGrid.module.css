@@ -127,6 +127,9 @@
     calc(-1 * var(--cr-portrait-y, 31%))
   );
   display: block;
+  /* Hidden until `showImageOnLoad` flips inline opacity on successful decode.
+     Prevents the broken-image glyph flash while `<img src>` is in-flight. */
+  opacity: 0;
 }
 
 .root:hover .portraitBg {

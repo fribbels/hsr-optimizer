@@ -78,7 +78,6 @@ CharacterPreview:
     SavedPortrait: Thêm ảnh mới thành công
     RevertedPortrait: Đưa ảnh về ban đầu thành công
     NoSelectedCharacter: Không nhân vật nào được chọn
-    NoSelectedLightCone: Không nón ánh sáng nào được chọn
   ScoreHeader:
     Title: Giả lập combat
     TitleBenchmark: '{{spd}} Mốc chuẩn SPD'

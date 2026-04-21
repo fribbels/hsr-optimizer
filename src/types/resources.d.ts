@@ -150,6 +150,7 @@ interface Resources {
           "Standard": "Standard"
         },
         "PaletteLabel": "Portrait color palette",
+        "ShowL2D": "Show Live2D",
         "ShowUID": "Show UID"
       },
       "DMGUpgrades": "Damage Upgrades",
@@ -176,7 +177,7 @@ interface Resources {
       "Messages": {
         "AddedRelic": "Successfully added relic",
         "NoSelectedCharacter": "No selected character",
-        "NoSelectedLightCone": "No Selected light cone",
+        "NoSelectedLightCone": "No selected light cone",
         "RevertedPortrait": "Successfully reverted portrait",
         "SavedPortrait": "Successfully saved portrait"
       },
@@ -268,6 +269,7 @@ interface Resources {
       "NoBuilds": "Attempted to overwrite build {{name}} but $t(gameData:Characters.{{charId}}.Name) has no saved builds",
       "NoMatchingBuild": "Attempted to overwrite build {{name}} but no such build exists",
       "NoSelectedCharacter": "No selected character",
+      "NoSelectedLightCone": "No selected light cone",
       "RemoveSuccess": "Successfully removed character",
       "SaveSuccess": "Successfully saved build: {{name}}",
       "SortByScoreWarning": "Are you sure you want to sort all characters? You will lose any custom rankings you have set.",
@@ -1365,7 +1367,7 @@ interface Resources {
             "text": "Enhanced SPD buff"
           },
           "superBreakDmg": {
-            "content": "When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 100%/150% Super Break DMG.",
+            "content": "When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 150%/300%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 100%/150% Super Break DMG.",
             "text": "Super Break enabled (force weakness break)"
           },
           "talentDmgReductionBuff": {
@@ -7486,6 +7488,7 @@ interface Resources {
       "InvalidIdWarning": "Invalid ID",
       "LookupError": "Error during lookup, please try again in a bit",
       "NoCharacterSelected": "No selected character",
+      "NoSelectedLightCone": "No selected light cone",
       "SuccessMsg": "Successfully loaded profile",
       "ThrottleWarning": "Please wait {{seconds}} seconds before retrying",
       "UnknownButtonClicked": "Unknown button clicked"

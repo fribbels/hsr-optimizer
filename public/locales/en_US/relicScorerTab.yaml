@@ -5,6 +5,7 @@ Messages:
   SuccessMsg: Successfully loaded profile
   LookupError: Error during lookup, please try again in a bit
   NoCharacterSelected: No selected character
+  NoSelectedLightCone: No selected light cone
   CharacterAlreadyExists: Selected character already exists
   UnknownButtonClicked: Unknown button clicked
 Header:

@@ -6,7 +6,6 @@ import {
   DEFAULT_TEAM,
   ElementToDamage,
   Parts,
-  Stats,
 } from 'lib/constants/constants'
 import {
   innerW,
@@ -218,13 +217,8 @@ export function getShowcaseStats(
   const context = generateContext(form)
   const { x } = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null)
   const basicStats = x.c.toBasicStatsObject()
-  const computedStats = x.toComputedStatsObject()
   const finalStats: BasicStatsObject = {
     ...basicStats,
-    // ERR and OHB from basicStats only include relic values. Override with computed stats
-    // to include light cone passive effects (e.g., UntilTheFlowersBloomAgain ERR buff).
-    [Stats.ERR]: computedStats[Stats.ERR],
-    [Stats.OHB]: computedStats[Stats.OHB],
   }
 
   // Element-specific DMG (e.g., "Ice DMG Boost") is already populated by toBasicStatsObject

@@ -7,7 +7,7 @@ import {
 } from 'lib/simulations/statSimulationTypes'
 import { type PermutationDetails } from 'lib/stores/optimizerUI/optimizerUITypes'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
+import { initialMenuState } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { type OptimizerContext } from 'types/optimizer'
 import {
   beforeEach,
@@ -53,13 +53,7 @@ describe('useOptimizerDisplayStore', () => {
       expect(state().statSimulations).toEqual([])
       expect(state().selectedStatSimulations).toEqual([])
       expect(state().characterSelectModalOpen).toBe(false)
-      expect(state().menuState).toEqual({
-        [OptimizerMenuIds.characterOptions]: true,
-        [OptimizerMenuIds.relicAndStatFilters]: true,
-        [OptimizerMenuIds.teammates]: true,
-        [OptimizerMenuIds.characterStatsSimulation]: false,
-        [OptimizerMenuIds.analysis]: true,
-      })
+      expect(state().menuState).toEqual(initialMenuState)
       expect(state().permutationDetails).toEqual({
         Head: 0,
         Hands: 0,

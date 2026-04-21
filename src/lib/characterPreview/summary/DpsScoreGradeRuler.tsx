@@ -6,6 +6,7 @@ import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { renderThousandsK } from 'lib/utils/i18nUtils'
 import {
+  type CSSProperties,
   memo,
   useEffect,
   useMemo,
@@ -69,48 +70,23 @@ function toPercent(value: number, minimum: number, maximum: number): string {
 
 // --- Component ---
 
-function getGradientStyleRule() {
-  for (const sheet of document.styleSheets) {
-    for (const rule of sheet.cssRules) {
-      if (!(rule instanceof CSSStyleRule)) continue
-      if (rule.selectorText.includes(styles.gradient)) {
-        return rule
-      }
-    }
-  }
-}
-
-const gradientStyleRule = getGradientStyleRule()
-
-function resetGradient() {
-  gradientStyleRule?.style.setProperty('--grad-point-1', 'calc(0 * 100% / 7)')
-  gradientStyleRule?.style.setProperty('--grad-point-2', 'calc(1 * 100% / 7)')
-  gradientStyleRule?.style.setProperty('--grad-point-3', 'calc(2 * 100% / 7)')
-  gradientStyleRule?.style.setProperty('--grad-point-4', 'calc(3 * 100% / 7)')
-  gradientStyleRule?.style.setProperty('--grad-point-5', 'calc(4 * 100% / 7)')
-  gradientStyleRule?.style.setProperty('--grad-point-6', 'calc(5 * 100% / 7)')
-  gradientStyleRule?.style.setProperty('--grad-point-7', 'calc(6 * 100% / 7)')
-  gradientStyleRule?.style.setProperty('--grad-point-8', 'calc(7 * 100% / 7)')
-}
-
-function setGradient(minimum: number, benchmark: number, maximum: number) {
+function computeGradientVars(minimum: number, benchmark: number, maximum: number): CSSProperties {
   const range = maximum - minimum
   const benchRatio = (benchmark - minimum) / range
   const maxRatio = (maximum - benchmark) / range
-  const offsets = [
-    0,
-    benchRatio / 2 * 100,
-    benchRatio * 0.75 * 100,
-    benchRatio * 100,
-    (maxRatio / 4 + benchRatio) * 100,
-    (maxRatio / 2 + benchRatio) * 100,
-    (maxRatio * 0.75 + benchRatio) * 100,
-    100,
-  ]
-  for (let i = 0; i < 8; i++) {
-    gradientStyleRule?.style.setProperty(`--grad-point-${i + 1}`, `${offsets[i]}%`)
-  }
+  return {
+    '--grad-point-1': '0%',
+    '--grad-point-2': `${benchRatio / 2 * 100}%`,
+    '--grad-point-3': `${benchRatio * 0.75 * 100}%`,
+    '--grad-point-4': `${benchRatio * 100}%`,
+    '--grad-point-5': `${(maxRatio / 4 + benchRatio) * 100}%`,
+    '--grad-point-6': `${(maxRatio / 2 + benchRatio) * 100}%`,
+    '--grad-point-7': `${(maxRatio * 0.75 + benchRatio) * 100}%`,
+    '--grad-point-8': '100%',
+  } as CSSProperties
 }
+
+const defaultGradientVars: CSSProperties = {}
 
 const smoothTransition = 'all 0.5s ease-in-out'
 type RulerState = {
@@ -123,6 +99,7 @@ type RulerState = {
   minPercent: string,
   benchPercent: string,
   maxPercent: string,
+  gradientVars: CSSProperties,
 }
 
 const initialState: RulerState = {
@@ -135,6 +112,7 @@ const initialState: RulerState = {
   minPercent: '0%',
   benchPercent: '50%',
   maxPercent: '100%',
+  gradientVars: defaultGradientVars,
 }
 
 const emptyState: RulerState = {
@@ -147,6 +125,7 @@ const emptyState: RulerState = {
   minPercent: '0%',
   benchPercent: '50%',
   maxPercent: '100%',
+  gradientVars: defaultGradientVars,
 }
 
 export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
@@ -179,20 +158,15 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
       minPercent: toPercent(minimum, minimum, maximum),
       benchPercent: toPercent(benchmark, minimum, maximum),
       maxPercent: toPercent(maximum, minimum, maximum),
+      gradientVars: computeGradientVars(minimum, benchmark, maximum),
     }
   }, [scoringResult])
 
-  // Update gradient CSS vars
   useEffect(() => {
-    if (!scoringResult) {
-      resetGradient()
-    } else {
-      setGradient(derivedState.minimum, derivedState.benchmark, derivedState.maximum)
-    }
     setState(derivedState)
-  }, [derivedState, scoringResult])
+  }, [derivedState])
 
-  const { transition, minimum, benchmark, maximum, barPercent, scorePercent, minPercent, benchPercent, maxPercent } = state
+  const { transition, minimum, benchmark, maximum, barPercent, scorePercent, minPercent, benchPercent, maxPercent, gradientVars } = state
 
   const dmgLabel = t('Damage')
   const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]
@@ -200,7 +174,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
   const dmgOffset = reversedLabels ? HIGH : LOW
 
   return (
-    <div className={styles.ruler} style={{ width: RULER_WIDTH, height: CHART_HEIGHT }}>
+    <div className={styles.ruler} style={{ ...gradientVars, width: RULER_WIDTH, height: CHART_HEIGHT }}>
       <div className={styles.chartArea} style={{ left: MARGIN_LR, right: MARGIN_LR }}>
         <BackgroundGradient transition={transition} />
 

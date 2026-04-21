@@ -1,6 +1,22 @@
 .ruler {
   position: relative;
   overflow: hidden;
+  --color-1: #FF6355dd;
+  --color-2: #faf742dd;
+  --color-3: #b0fa42dd;
+  --color-4: #75ec46dd;
+  --color-5: #17D553dd;
+  --color-6: #23BBFFdd;
+  --color-7: #9F50FFdd;
+  --color-8: #BC38FFdD;
+  --grad-point-1: calc(0 * 100% / 7);
+  --grad-point-2: calc(1 * 100% / 7);
+  --grad-point-3: calc(2 * 100% / 7);
+  --grad-point-4: calc(3 * 100% / 7);
+  --grad-point-5: calc(4 * 100% / 7);
+  --grad-point-6: calc(5 * 100% / 7);
+  --grad-point-7: calc(6 * 100% / 7);
+  --grad-point-8: calc(7 * 100% / 7);
 }
 
 .chartArea {
@@ -74,24 +90,7 @@
   line-height: 1;
 }
 
-/* .gradient is used to target the runtime modification of the --grad-point-n variables */
-.gradientBg, .scoreFill, .gradient {
-  --color-1: #FF6355dd;
-  --color-2: #faf742dd;
-  --color-3: #b0fa42dd;
-  --color-4: #75ec46dd;
-  --color-5: #17D553dd;
-  --color-6: #23BBFFdd;
-  --color-7: #9F50FFdd;
-  --color-8: #BC38FFdD;
-  --grad-point-1: calc(0 * 100% / 7);
-  --grad-point-2: calc(1 * 100% / 7);
-  --grad-point-3: calc(2 * 100% / 7);
-  --grad-point-4: calc(3 * 100% / 7);
-  --grad-point-5: calc(4 * 100% / 7);
-  --grad-point-6: calc(5 * 100% / 7);
-  --grad-point-7: calc(6 * 100% / 7);
-  --grad-point-8: calc(7 * 100% / 7);
+.gradientBg, .scoreFill {
   background: linear-gradient(
     to right,
     var(--color-1) var(--grad-point-1),

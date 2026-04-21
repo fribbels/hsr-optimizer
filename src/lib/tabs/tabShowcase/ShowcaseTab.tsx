@@ -82,16 +82,8 @@ export function ShowcaseTab() {
 
   useEffect(() => addActivationListener(() => syncShowcaseUrl()), [addActivationListener])
 
-  const { t } = useTranslation('relicScorerTab')
-
   return (
     <Flex direction='column' align='center' style={{ flex: 1 }}>
-      {SHOWCASE_DOWNTIME && (
-        <h3 className={styles.downtimeWarning}>
-          {t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}
-        </h3>
-      )}
-
       {screen === ShowcaseScreen.Landing && <RedirectToHome />}
       {screen === ShowcaseScreen.Loading && <ShowcaseLoading />}
 
@@ -138,6 +130,11 @@ function ShowcaseLoading() {
       <div className={styles.loadingText}>
         {t('Loading.FetchingShowcase', { scorerId: scorerId ?? '' })}
       </div>
+      {SHOWCASE_DOWNTIME && (
+        <h3 className={styles.downtimeWarning}>
+          {t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}
+        </h3>
+      )}
     </div>
   )
 }
@@ -239,6 +236,11 @@ function ShowcaseLoaded() {
   return (
     <Flex ref={containerRef} className={styles.outerWrapper} justify='space-around'>
       <Flex direction='column' align='center' gap={8} className={styles.loadedContainer}>
+        {SHOWCASE_DOWNTIME && (
+          <h3 className={styles.downtimeWarning}>
+            {t('Header.DowntimeWarning', { game_version: DOWNTIME_VERSION })}
+          </h3>
+        )}
         {/* UID input row */}
         <Flex className={styles.formRow} justify='center' align='center' gap={10}>
           <TextInput

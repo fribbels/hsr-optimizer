@@ -45,9 +45,9 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Sidebar' })
   const { t: tCommon } = useTranslation('common')
 
-  const { permutations, optimizationInProgress } = useOptimizerDisplayStore(
+  const { permutationsNaive, optimizationInProgress } = useOptimizerDisplayStore(
     useShallow((s) => ({
-      permutations: s.permutations,
+      permutationsNaive: s.permutationsNaive,
       optimizationInProgress: s.optimizationInProgress,
     })),
   )
@@ -62,8 +62,10 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
   }, [setOptimizationInProgress])
 
   const startClicked = useCallback(() => {
+    // Gate on the naive index-space size, not the valid count. Runtime scales
+    // with naive iterations even when set constraints reject most tuples (#1482).
     if (
-      permutations < 1000000000
+      permutationsNaive < 1000000000
       || computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL
       || computeEngine === COMPUTE_ENGINE_GPU_STABLE
     ) {
@@ -71,7 +73,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
     } else {
       setManyPermsModalOpen(true)
     }
-  }, [permutations, computeEngine])
+  }, [permutationsNaive, computeEngine])
 
   const resetClicked = useCallback(() => {
     resetFilters()

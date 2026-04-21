@@ -27,11 +27,22 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   bitpackBooleanArray,
+  computeValidPermutationCount,
   generateOrnamentSetSolutions,
   generateRelicSetSolutions,
 } from 'lib/optimization/relicSetSolver'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { RelicFilters } from 'lib/relics/relicFilters'
+import {
+  type PartCountsBySet,
+  RelicFilters,
+  zeroCountsBySet,
+} from 'lib/relics/relicFilters'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  type SetsOrnaments,
+  type SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { logRegisters } from 'lib/simulations/registerLogger'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import {
@@ -75,6 +86,17 @@ type OptimizerWorkerResult = {
 
 // Buffer pool managed by the optimizer
 const optimizerBuffers: ArrayBuffer[] = []
+
+function countRelicsBySet(relicsByPart: RelicsByPart): PartCountsBySet {
+  const out = zeroCountsBySet()
+  for (const r of relicsByPart.Head) out.Head[RelicSetToIndex[r.set as SetsRelics]]++
+  for (const r of relicsByPart.Hands) out.Hands[RelicSetToIndex[r.set as SetsRelics]]++
+  for (const r of relicsByPart.Body) out.Body[RelicSetToIndex[r.set as SetsRelics]]++
+  for (const r of relicsByPart.Feet) out.Feet[RelicSetToIndex[r.set as SetsRelics]]++
+  for (const r of relicsByPart.PlanarSphere) out.PlanarSphere[OrnamentSetToIndex[r.set as SetsOrnaments]]++
+  for (const r of relicsByPart.LinkRope) out.LinkRope[OrnamentSetToIndex[r.set as SetsOrnaments]]++
+  return out
+}
 
 function acquireBuffer(): ArrayBuffer {
   if (optimizerBuffers.length > 0) {
@@ -188,8 +210,18 @@ export const Optimizer = {
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
     OptimizerTabController.setMetadata(sizes, relics)
 
-    console.log(`Optimization permutations: ${permutations}, blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
-    if (permutations == 0) {
+    // True count of permutations that satisfy multi-piece set constraints (issue #1482).
+    // `permutations` above is the naive slot-product used internally as the worker index
+    // space. Kept unchanged for dispatch/indexing. `validPermutations` is the user-facing
+    // total, matching what the workers will actually process after set-filter skips.
+    const relicsBySet = countRelicsBySet(relics)
+    const validPermutations = computeValidPermutationCount(relicsBySet, relicSetSolutions, ornamentSetSolutions)
+    const progressScale = permutations > 0 ? validPermutations / permutations : 0
+    useOptimizerDisplayStore.getState().setPermutations(validPermutations)
+    useOptimizerDisplayStore.getState().setPermutationsNaive(permutations)
+
+    console.log(`Optimization permutations: ${permutations} (valid: ${validPermutations}), blocksize: ${Constants.THREAD_BUFFER_LENGTH}`)
+    if (permutations == 0 || validPermutations == 0) {
       useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
       activateZeroPermutationsSuggestionsModal(request)
       OptimizerTabController.setRows([])
@@ -249,6 +281,7 @@ export const Optimizer = {
               request: request,
               relics: relics,
               permutations: permutations,
+              validPermutations: validPermutations,
               computeEngine: computeEngine,
               relicSetSolutions: relicSetSolutions,
               ornamentSetSolutions: ornamentSetSolutions,
@@ -326,9 +359,14 @@ export const Optimizer = {
           const resultArr = new Float32Array(result.buffer)
           BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, taskInput.skip, gridSortColumn)
 
+          // permutationsSearched is rescaled into the valid-permutation space so
+          // searched/permutations stays meaningful for the progress bar (issue #1482).
+          // Worker still iterates the naive index space; valid tuples are approximately
+          // uniformly distributed, so this is accurate at completion and monotonic
+          // during.
           useOptimizerDisplayStore.setState({
             permutationsResults: queueResults.size(),
-            permutationsSearched: Math.min(permutations, searched),
+            permutationsSearched: Math.min(validPermutations, Math.round(searched * progressScale)),
             optimizerEndTime: Date.now(),
           })
 

@@ -19,7 +19,9 @@ import {
   OrnamentSetToIndex,
   RelicSetToIndex,
   SetsOrnaments,
+  SetsOrnamentsNames,
   SetsRelics,
+  SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
 import {
   getCharacterById,
@@ -36,11 +38,25 @@ import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
 
 export type PartCounts = Record<Parts, number>
+export type PartCountsBySet = Record<Parts, number[]>
 
 const RELIC_PARTS: ReadonlySet<string> = new Set([Parts.Head, Parts.Hands, Parts.Body, Parts.Feet])
 
 function zeroCounts(): PartCounts {
   return { Head: 0, Hands: 0, Body: 0, Feet: 0, PlanarSphere: 0, LinkRope: 0 }
+}
+
+export function zeroCountsBySet(): PartCountsBySet {
+  const relicLen = SetsRelicsNames.length
+  const ornLen = SetsOrnamentsNames.length
+  return {
+    Head: arrayOfZeroes(relicLen),
+    Hands: arrayOfZeroes(relicLen),
+    Body: arrayOfZeroes(relicLen),
+    Feet: arrayOfZeroes(relicLen),
+    PlanarSphere: arrayOfZeroes(ornLen),
+    LinkRope: arrayOfZeroes(ornLen),
+  }
 }
 
 // Returns true if at least one positively-weighted substat can appear on this relic
@@ -67,8 +83,10 @@ function computeWeightScore(relic: Relic, weights: Record<string, number>, upgra
 }
 
 export const RelicFilters = {
-  // Count-only variant of getFilteredRelics — single pass, no clone, no mutation
-  getFilteredRelicCounts: (request: Form): { counts: PartCounts, preCounts: PartCounts } => {
+  // Count-only variant of getFilteredRelics: single pass, no clone, no mutation.
+  // countsBySet buckets filtered relics by slot and set index, for combinatorial
+  // permutation counting that respects set-filter constraints (2pc, 4pc, 2+2).
+  getFilteredRelicCounts: (request: Form): { counts: PartCounts, preCounts: PartCounts, countsBySet: PartCountsBySet } => {
     const allRelics = getRelics()
     const characters = getCharacters()
     const selfId = request.characterId || '99999999'
@@ -147,7 +165,9 @@ export const RelicFilters = {
     // Single pass
     const preCounts = zeroCounts()
     const counts = zeroCounts()
+    const countsBySet = zeroCountsBySet()
     const lockedFound: Partial<Record<Parts, boolean>> = {}
+    const lockedRelicSetIdx: Partial<Record<Parts, number>> = {}
 
     for (const relic of allRelics) {
       const part = relic.part as Parts
@@ -162,25 +182,36 @@ export const RelicFilters = {
       if (mainFilter?.length && !mainFilter.includes(relic.main.stat)) continue
 
       const isRelic = RELIC_PARTS.has(part)
-      if (isRelic && relicSetsAllowed && relicSetsAllowed[RelicSetToIndex[relic.set as SetsRelics]] !== 1) continue
-      if (!isRelic && ornamentSetsAllowed && ornamentSetsAllowed[OrnamentSetToIndex[relic.set as SetsOrnaments]] !== 1) continue
+      const setIdx = isRelic
+        ? RelicSetToIndex[relic.set as SetsRelics]
+        : OrnamentSetToIndex[relic.set as SetsOrnaments]
+      if (isRelic && relicSetsAllowed && relicSetsAllowed[setIdx] !== 1) continue
+      if (!isRelic && ornamentSetsAllowed && ornamentSetsAllowed[setIdx] !== 1) continue
 
       if (hasAchievableWeightedSubstat(weights, relic.main.stat) && computeWeightScore(relic, weights, request.mainStatUpscaleLevel) < rollThreshold) continue
 
       if (lockedParts[part]) {
-        if (relic.id === lockedParts[part]) lockedFound[part] = true
+        if (relic.id === lockedParts[part]) {
+          lockedFound[part] = true
+          lockedRelicSetIdx[part] = setIdx
+        }
         continue
       }
 
       counts[part]++
+      countsBySet[part][setIdx]++
     }
 
-    // Resolve locked parts: count is 0 or 1
+    // Resolve locked parts: count is 0 or 1; the single relic contributes to its set bucket
     for (const part of Object.values(Parts)) {
-      if (lockedParts[part]) counts[part] = lockedFound[part] ? 1 : 0
+      if (!lockedParts[part]) continue
+      counts[part] = lockedFound[part] ? 1 : 0
+      if (lockedFound[part]) {
+        countsBySet[part][lockedRelicSetIdx[part]!] = 1
+      }
     }
 
-    return { counts, preCounts }
+    return { counts, preCounts, countsBySet }
   },
 
   calculateWeightScore: (request: Form, relics: Relic[]) => {

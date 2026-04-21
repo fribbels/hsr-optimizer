@@ -1,7 +1,9 @@
 import {
   Constants,
+  Parts,
   RelicSetFilterOptions,
 } from 'lib/constants/constants'
+import type { PartCountsBySet } from 'lib/relics/relicFilters'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
@@ -151,6 +153,92 @@ function convertRelicSetIndicesTo1D(setIndices: number[][]) {
   }
 
   return arr
+}
+
+/**
+ * Computes the true number of valid relic+ornament permutations after accounting for
+ * multi-piece set constraints (2pc / 4pc / 2+2 filters). The naive slot-product
+ * (`|Head| × |Hands| × |Body| × |Feet| × |Sphere| × |Rope|`) overestimates whenever
+ * a 2+Any filter widens the per-slot allow-list but the set solver actually restricts
+ * which 4-tuples of sets are valid. See issue #1482.
+ *
+ * This sums `countsBySet.Head[h] × Hands[g] × Body[b] × Feet[f]` over every (h,g,b,f)
+ * 4-tuple marked valid by `generateRelicSetSolutions`, and similarly for ornaments.
+ *
+ * Expected size is SetsRelicsNames.length^4 ≈ 20^4 = 160k iterations per call, trivial.
+ *
+ * NOTE: the index encoding here (`h + g·len + b·len² + f·len³`) matches
+ * `convertRelicSetIndicesTo1D`. The CPU/GPU search workers happen to decode with
+ * body/hands swapped, which is harmless there because `permutator()` marks every
+ * permutation of a set multiset as valid, but do not "fix" this to match the worker.
+ */
+export function computeValidPermutationCount(
+  countsBySet: PartCountsBySet,
+  relicSetSolutions: number[],
+  ornamentSetSolutions: number[],
+): number {
+  const parts = computeValidPermutationParts(countsBySet, relicSetSolutions, ornamentSetSolutions)
+  return parts.relicValid * parts.ornamentValid
+}
+
+/**
+ * Like `computeValidPermutationCount` but returns the relic (head/hands/body/feet)
+ * and ornament (sphere/rope) sums separately. The zero-permutation diagnosis in
+ * `suggestionsEngine` uses this to tell a user whether their relic filter or their
+ * ornament filter is the infeasible one.
+ */
+export function computeValidPermutationParts(
+  countsBySet: PartCountsBySet,
+  relicSetSolutions: number[],
+  ornamentSetSolutions: number[],
+): { relicValid: number, ornamentValid: number } {
+  const relicLen = SetsRelicsNames.length
+  const ornLen = SetsOrnamentsNames.length
+
+  const cHead = countsBySet[Parts.Head]
+  const cHands = countsBySet[Parts.Hands]
+  const cBody = countsBySet[Parts.Body]
+  const cFeet = countsBySet[Parts.Feet]
+  const cSphere = countsBySet[Parts.PlanarSphere]
+  const cRope = countsBySet[Parts.LinkRope]
+
+  let relicValid = 0
+  for (let h = 0; h < relicLen; h++) {
+    const vH = cHead[h]
+    if (!vH) continue
+    for (let g = 0; g < relicLen; g++) {
+      const vG = cHands[g]
+      if (!vG) continue
+      const hgBase = h + g * relicLen
+      for (let b = 0; b < relicLen; b++) {
+        const vB = cBody[b]
+        if (!vB) continue
+        const hgbBase = hgBase + b * relicLen * relicLen
+        for (let f = 0; f < relicLen; f++) {
+          const vF = cFeet[f]
+          if (!vF) continue
+          const key = hgbBase + f * relicLen * relicLen * relicLen
+          if (relicSetSolutions[key] !== 1) continue
+          relicValid += vH * vG * vB * vF
+        }
+      }
+    }
+  }
+
+  let ornamentValid = 0
+  for (let p = 0; p < ornLen; p++) {
+    const vP = cSphere[p]
+    if (!vP) continue
+    for (let l = 0; l < ornLen; l++) {
+      const vL = cRope[l]
+      if (!vL) continue
+      const key = p + l * ornLen
+      if (ornamentSetSolutions[key] !== 1) continue
+      ornamentValid += vP * vL
+    }
+  }
+
+  return { relicValid, ornamentValid }
 }
 
 export function bitpackBooleanArray(arr: number[]) {

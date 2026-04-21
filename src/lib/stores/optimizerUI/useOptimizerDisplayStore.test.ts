@@ -39,6 +39,7 @@ describe('useOptimizerDisplayStore', () => {
     it('store initializes with correct defaults for all fields', () => {
       expect(state().context).toBeNull()
       expect(state().permutations).toBe(0)
+      expect(state().permutationsNaive).toBe(0)
       expect(state().optimizationInProgress).toBe(false)
       expect(state().focusCharacterId).toBeUndefined()
       expect(state().optimizationId).toBeNull()
@@ -74,6 +75,7 @@ describe('useOptimizerDisplayStore', () => {
   describe('simple setters update their respective fields', () => {
     it('scalar setters update optimization lifecycle fields', () => {
       state().setPermutations(42)
+      state().setPermutationsNaive(137_000_000_000)
       state().setOptimizationInProgress(true)
       state().setOptimizationId('run-abc')
       state().setOptimizerRunningEngine('GPU Stable')
@@ -83,6 +85,7 @@ describe('useOptimizerDisplayStore', () => {
       state().setPermutationsResults(10)
 
       expect(state().permutations).toBe(42)
+      expect(state().permutationsNaive).toBe(137_000_000_000)
       expect(state().optimizationInProgress).toBe(true)
       expect(state().optimizationId).toBe('run-abc')
       expect(state().optimizerRunningEngine).toBe('GPU Stable')

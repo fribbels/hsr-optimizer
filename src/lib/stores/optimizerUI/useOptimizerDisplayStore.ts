@@ -19,6 +19,7 @@ type OptimizerDisplayActions = {
   setFocusCharacterId: (id: CharacterId | undefined) => void,
   setContext: (ctx: OptimizerContext | null) => void,
   setPermutations: (n: number) => void,
+  setPermutationsNaive: (n: number) => void,
   setPermutationDetails: (details: PermutationDetails) => void,
   setOptimizationInProgress: (inProgress: boolean) => void,
   setOptimizationId: (id: string | null) => void,
@@ -47,6 +48,7 @@ const initialState: OptimizerDisplayState = {
   focusCharacterId: undefined,
   context: null,
   permutations: 0,
+  permutationsNaive: 0,
   permutationDetails: {
     Head: 0,
     Hands: 0,
@@ -84,6 +86,7 @@ export const useOptimizerDisplayStore = createTabAwareStore<OptimizerDisplayStor
   setFocusCharacterId: (id) => set({ focusCharacterId: id }),
   setContext: (ctx) => set({ context: ctx }),
   setPermutations: (n) => set({ permutations: n }),
+  setPermutationsNaive: (n) => set({ permutationsNaive: n }),
   setPermutationDetails: (details) => set({ permutationDetails: details }),
   setOptimizationInProgress: (inProgress) => set({ optimizationInProgress: inProgress }),
   setOptimizationId: (id) => set({ optimizationId: id }),

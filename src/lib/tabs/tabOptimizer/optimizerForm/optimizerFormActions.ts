@@ -12,6 +12,11 @@ import {
   calculateCurrentlyEquippedRow,
   Optimizer,
 } from 'lib/optimization/optimizer'
+import {
+  computeValidPermutationCount,
+  generateOrnamentSetSolutions,
+  generateRelicSetSolutions,
+} from 'lib/optimization/relicSetSolver'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -158,7 +163,7 @@ export function recalculatePermutations(): void {
   if (!state.characterId) return
 
   const request = displayToInternal(state)
-  const { counts, preCounts } = Optimizer.getFilteredRelicCounts(request)
+  const { counts, preCounts, countsBySet } = Optimizer.getFilteredRelicCounts(request)
 
   const permutationDetails = {
     Head: counts.Head,
@@ -175,9 +180,17 @@ export function recalculatePermutations(): void {
     LinkRopeTotal: preCounts.LinkRope,
   }
   useOptimizerDisplayStore.getState().setPermutationDetails(permutationDetails)
-  useOptimizerDisplayStore.getState().setPermutations(
-    counts.Head * counts.Hands * counts.Body * counts.Feet * counts.PlanarSphere * counts.LinkRope,
-  )
+
+  // Count permutations that satisfy multi-piece set constraints (issue #1482).
+  // The naive slot-product overestimates when a 2+Any filter widens the per-slot
+  // allow-list but the actual 2pc-of-setA requirement can't be satisfied.
+  const relicSetSolutions = generateRelicSetSolutions(request)
+  const ornamentSetSolutions = generateOrnamentSetSolutions(request)
+  const validPermutations = computeValidPermutationCount(countsBySet, relicSetSolutions, ornamentSetSolutions)
+  const naivePermutations = counts.Head * counts.Hands * counts.Body * counts.Feet * counts.PlanarSphere * counts.LinkRope
+  useOptimizerDisplayStore.getState().setPermutations(validPermutations)
+  // Naive product drives the CPU-work warning. Runtime scales with the index space.
+  useOptimizerDisplayStore.getState().setPermutationsNaive(naivePermutations)
 }
 
 /**

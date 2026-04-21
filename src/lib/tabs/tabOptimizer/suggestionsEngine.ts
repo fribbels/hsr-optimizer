@@ -8,6 +8,11 @@ import {
   setClose,
 } from 'lib/hooks/useOpenClose'
 import { Optimizer } from 'lib/optimization/optimizer'
+import {
+  computeValidPermutationParts,
+  generateOrnamentSetSolutions,
+  generateRelicSetSolutions,
+} from 'lib/optimization/relicSetSolver'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import type {
@@ -131,12 +136,31 @@ export const ZeroPermRootCauseFixes = {
 export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] {
   const causes: ZeroPermRootCause[] = []
 
-  const { counts, preCounts } = Optimizer.getFilteredRelicCounts(request)
+  const { counts, preCounts, countsBySet } = Optimizer.getFilteredRelicCounts(request)
   const allRelics = getRelics()
 
   // Zero relics overrides everything else
   if (allRelics.length === 0) {
     return [ZeroPermRootCause.IMPORT]
+  }
+
+  // Set-constraint infeasibility: every slot has relics but no valid 4-tuple /
+  // ornament pair satisfies the filter (issue #1482). Per-slot counts can't see
+  // this, so consult the set solver directly. Split relic vs ornament so the
+  // right fix is suggested (clearing relic sets vs ornament sets).
+  const allSlotsNonEmpty = counts.Head > 0 && counts.Hands > 0
+    && counts.Body > 0 && counts.Feet > 0
+    && counts.PlanarSphere > 0 && counts.LinkRope > 0
+  let relicSetInfeasible = false
+  let ornamentSetInfeasible = false
+  if (allSlotsNonEmpty && (request.relicSets.length > 0 || request.ornamentSets.length > 0)) {
+    const { relicValid, ornamentValid } = computeValidPermutationParts(
+      countsBySet,
+      generateRelicSetSolutions(request),
+      generateOrnamentSetSolutions(request),
+    )
+    relicSetInfeasible = request.relicSets.length > 0 && relicValid === 0
+    ornamentSetInfeasible = request.ornamentSets.length > 0 && ornamentValid === 0
   }
 
   // Main stats
@@ -153,18 +177,25 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
     causes.push(ZeroPermRootCause.LINK_ROPE_MAIN)
   }
 
-  // Ornament sets
+  // Ornament sets: empty slot OR sphere/rope pair can't satisfy the 2pc
+  // constraint (e.g. sphere has set A only, rope has set B only, filter is [A, B]).
   if (counts.PlanarSphere === 0 || counts.LinkRope === 0) {
     if (request.ornamentSets.length > 0) {
       causes.push(ZeroPermRootCause.ORNAMENT_SETS)
     }
+  } else if (ornamentSetInfeasible) {
+    causes.push(ZeroPermRootCause.ORNAMENT_SETS)
   }
 
-  // Relic sets
+  // Relic sets: empty slot OR slot counts fine but the set-combination
+  // constraint can't be satisfied (e.g. 2+Any setA with every setA relic
+  // excluded by min-enhance, issue #1482).
   if (counts.Head === 0 || counts.Hands === 0 || counts.Body === 0 || counts.Feet === 0) {
     if (request.relicSets.length > 0) {
       causes.push(ZeroPermRootCause.RELIC_SETS)
     }
+  } else if (relicSetInfeasible) {
+    causes.push(ZeroPermRootCause.RELIC_SETS)
   }
 
   // Keep current

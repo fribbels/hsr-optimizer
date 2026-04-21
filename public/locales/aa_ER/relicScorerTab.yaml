@@ -5,6 +5,7 @@ Messages:
   SuccessMsg: crwdns43424:0crwdne43424:0
   LookupError: crwdns43426:0crwdne43426:0
   NoCharacterSelected: crwdns43428:0crwdne43428:0
+  NoSelectedLightCone: crwdns47130:0crwdne47130:0
   CharacterAlreadyExists: crwdns43430:0crwdne43430:0
   UnknownButtonClicked: crwdns43432:0crwdne43432:0
 Header:

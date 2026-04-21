@@ -94,12 +94,20 @@ export async function createSpineInstance(
   canvas: HTMLCanvasElement,
   baseUrl: string,
   files: { skelFile: string, atlasFile: string }[],
+  signal?: AbortSignal,
 ): Promise<SpineInstance> {
   const debugId = ++spineInstanceCounter
   const debugInfo = { baseUrl, createdAt: Date.now(), frameCount: 0 }
   activeSpineInstances.set(debugId, debugInfo)
 
   console.log(`[Spine #${debugId}] CREATE - baseUrl: ${baseUrl}, files: ${files.length}, total active: ${activeSpineInstances.size}`)
+
+  // Fast-path if already aborted before we did any work.
+  if (signal?.aborted) {
+    activeSpineInstances.delete(debugId)
+    console.log(`[Spine #${debugId}] ABORTED before start`)
+    throw new DOMException('Spine load aborted', 'AbortError')
+  }
 
   // --- WebGL context ---
 
@@ -130,6 +138,13 @@ export async function createSpineInstance(
   try {
     await new Promise<void>((resolve, reject) => {
       function check() {
+        // Bail out each rAF tick if the caller aborted — skips all downstream
+        // skeleton parsing, shader compilation, and rAF bootstrap for doomed
+        // loads during rapid character switching.
+        if (signal?.aborted) {
+          reject(new DOMException('Spine load aborted', 'AbortError'))
+          return
+        }
         if (assetManager.isLoadingComplete()) {
           if (assetManager.hasErrors()) {
             reject(new Error(JSON.stringify(assetManager.getErrors())))
@@ -144,6 +159,10 @@ export async function createSpineInstance(
     })
   } catch (err) {
     assetManager.dispose()
+    activeSpineInstances.delete(debugId)
+    if ((err as DOMException | undefined)?.name === 'AbortError') {
+      console.log(`[Spine #${debugId}] ABORTED during load`)
+    }
     throw err
   }
 
@@ -261,6 +280,16 @@ export async function createSpineInstance(
     } else {
       rafId = null
     }
+  }
+
+  // Final abort check after all synchronous setup (skeleton parsing, shader
+  // compile, renderer creation) but before we kick off the rAF loop.
+  if (signal?.aborted) {
+    renderer.dispose()
+    assetManager.dispose()
+    activeSpineInstances.delete(debugId)
+    console.log(`[Spine #${debugId}] ABORTED after setup`)
+    throw new DOMException('Spine load aborted', 'AbortError')
   }
 
   rafId = requestAnimationFrame(loop)

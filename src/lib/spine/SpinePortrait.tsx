@@ -73,6 +73,11 @@ export function SpinePortrait({
 
     const canvas = canvasRef.current!
     let disposed = false
+    // Abort in-flight loads when characterId changes (or component unmounts).
+    // createSpineInstance checks this signal at each await boundary and skips
+    // shader compile + rAF bootstrap for doomed loads. `disposed` still guards
+    // the rare race where abort fires AFTER the instance is already returned.
+    const abortController = new AbortController()
 
     const count = getSkeletonCount(characterId)
 
@@ -80,7 +85,7 @@ export function SpinePortrait({
       const files = getSkeletonFiles(characterId, count)
       const baseUrl = getSpineAssetBaseUrl(characterId)
 
-      createSpineInstance(canvas, baseUrl, files)
+      createSpineInstance(canvas, baseUrl, files, abortController.signal)
         .then((instance) => {
           if (disposed) {
             console.log(`[SpinePortrait #${debugId}] DISPOSED BEFORE READY - char: ${characterId}`)
@@ -100,6 +105,8 @@ export function SpinePortrait({
           onReadyRef.current?.()
         })
         .catch((err) => {
+          // Expected path when user switches characters mid-load — not an error.
+          if ((err as DOMException | undefined)?.name === 'AbortError') return
           console.error('SpinePortrait: failed to load', characterId, err)
           if (!disposed) onUnsupportedRef.current?.()
         })
@@ -112,6 +119,7 @@ export function SpinePortrait({
       console.log(`[SpinePortrait #${debugId}] UNMOUNT - char: ${characterId}, remaining: ${mountedPortraits.size - 1}`)
       mountedPortraits.delete(debugId)
       disposed = true
+      abortController.abort()
       instanceRef.current?.dispose()
       instanceRef.current = null
     }

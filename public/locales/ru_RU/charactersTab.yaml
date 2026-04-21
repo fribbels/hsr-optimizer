@@ -83,7 +83,6 @@ CharacterPreview:
     SavedPortrait: Картинка успешно сохранён
     RevertedPortrait: Изображение успешно восстановлено
     NoSelectedCharacter: Нет выбранного персонажа
-    NoSelectedLightCone: Конус не выбран
   ScoreHeader:
     Title: Эффективность сборки
     TitleBenchmark: 'Эталонная СКР {{spd}}'

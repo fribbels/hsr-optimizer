@@ -92,7 +92,10 @@ export function SpinePortrait({
       instanceRef.current?.dispose()
       instanceRef.current = null
     }
-  }, [characterId, isActiveRef])
+    // isActiveRef is a stable ref from context — .current is read in the async
+    // path but the ref identity never changes, so it's not a real dep.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [characterId])
 
   return (
     <canvas

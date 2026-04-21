@@ -289,9 +289,10 @@ const SortableCharacterRow = memo(
       const el = scrollRef.current
       if (!el) return
       const observer = new IntersectionObserver(
-        ([entry]) => {
+        ([entry], obs) => {
           if (entry.isIntersecting) {
             setLoadImages(true)
+            obs.disconnect() // load-once — no point watching after src is set
           }
         },
         { rootMargin: '500px 0px', threshold: 0 },

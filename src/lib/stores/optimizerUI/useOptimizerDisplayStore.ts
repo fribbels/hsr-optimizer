@@ -8,6 +8,7 @@ import type {
   OptimizerDisplayState,
   PermutationDetails,
 } from 'lib/stores/optimizerUI/optimizerUITypes'
+import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import type {
   Build,
   CharacterId,
@@ -74,7 +75,13 @@ const initialState: OptimizerDisplayState = {
   selectedStatSimulations: [],
   characterSelectModalOpen: false,
   lightConeSelectModalOpen: false,
-  menuState: {},
+  menuState: {
+    [OptimizerMenuIds.characterOptions]: true,
+    [OptimizerMenuIds.relicAndStatFilters]: true,
+    [OptimizerMenuIds.teammates]: true,
+    [OptimizerMenuIds.characterStatsSimulation]: false,
+    [OptimizerMenuIds.analysis]: true,
+  },
 }
 
 export const useOptimizerDisplayStore = createTabAwareStore<OptimizerDisplayStore>((set) => ({

@@ -309,8 +309,10 @@ describe('loadSaveData', () => {
 
     loadSaveData(saveData, false, false)
 
-    // The original reference should NOT have been mutated
-    expect(menuStateBefore[OptimizerMenuIds.characterOptions]).toBeUndefined()
+    const menuStateAfter = useOptimizerDisplayStore.getState().menuState
+
+    // A new object reference should have been created, not in-place mutation
+    expect(menuStateAfter).not.toBe(menuStateBefore)
   })
 
   it('loadSaveData merges settings with DefaultSettingOptions for missing keys', () => {

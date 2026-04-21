@@ -48,38 +48,6 @@ import {
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { switchToCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-
-// Debug: track loaded images
-const loadedImages = new Set<string>()
-const imageLoadTimes: { id: string, time: number }[] = []
-
-function trackImageLoad(characterId: string, type: 'portrait' | 'lightcone') {
-  const key = `${type}:${characterId}`
-  if (!loadedImages.has(key)) {
-    loadedImages.add(key)
-    imageLoadTimes.push({ id: key, time: Date.now() })
-    console.log(`[CharGrid] IMAGE LOADED: ${key}, total: ${loadedImages.size}`)
-  }
-}
-
-// Viewport observer state for lazy image loading.
-// Per-row IntersectionObservers update `visibleRows` with rootMargin:500px and
-// flip `loadImages` to true on first intersection (never back to false — see
-// comment in the observer effect). The summary log below shows how many rows
-// have ever been visible, which caps at the total ever-loaded image count.
-const visibleRows = new Set<string>()
-const unloadedImages = 0 // kept at 0 in the load-once scheme; diagnostic only
-
-// Expose to window for console debugging
-if (typeof window !== 'undefined') {
-  ;(window as any).__CHARGRID_DEBUG__ = {
-    getLoadedImages: () => Array.from(loadedImages),
-    getLoadedCount: () => loadedImages.size,
-    getImageLoadTimes: () => imageLoadTimes,
-    getVisibleRows: () => Array.from(visibleRows),
-    getUnloadedCount: () => unloadedImages,
-  }
-}
 import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import { afterPaint } from 'lib/utils/frontendUtils'
 import {
@@ -156,22 +124,6 @@ export function CharacterGrid() {
   useEffect(() => {
     setLocalFocus(null)
   }, [focusCharacter])
-
-  // DIAGNOSTIC: 1-second summary of CharacterGrid image/viewport state.
-  // Baseline expectation (before #3/#8):
-  //   loaded ≈ 2× character_count (portrait + lightcone per row)
-  //   unloaded = 0 (nothing unloads today)
-  //   visible ≈ 10–20 depending on scroll position + 500px buffer
-  // After #3 lands: unloaded should grow as user scrolls,
-  //   and (loaded - unloaded) should plateau close to `visible`.
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log(
-        `[CharGrid summary] loaded: ${loadedImages.size}, unloaded: ${unloadedImages}, visible-per-observer: ${visibleRows.size}`,
-      )
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
 
   const displayFocus = localFocus ?? focusCharacter
 
@@ -346,20 +298,10 @@ const SortableCharacterRow = memo(
     useEffect(() => {
       const el = scrollRef.current
       if (!el) return
-      const charId = character.id
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            if (!visibleRows.has(charId)) {
-              visibleRows.add(charId)
-              console.log(`[CharGrid] row VISIBLE: ${charId} (visible total: ${visibleRows.size})`)
-            }
             setLoadImages(true)
-          } else {
-            if (visibleRows.has(charId)) {
-              visibleRows.delete(charId)
-              console.log(`[CharGrid] row FAR: ${charId} (visible total: ${visibleRows.size})`)
-            }
           }
         },
         { rootMargin: '500px 0px', threshold: 0 },
@@ -367,7 +309,6 @@ const SortableCharacterRow = memo(
       observer.observe(el)
       return () => {
         observer.disconnect()
-        visibleRows.delete(charId)
       }
     }, [character.id])
 
@@ -477,10 +418,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
           alt=''
           draggable={false}
           decoding='async'
-          onLoad={(e) => {
-            showImageOnLoad(e)
-            trackImageLoad(character.id, 'portrait')
-          }}
+          onLoad={showImageOnLoad}
           style={getCharacterConfig(character.id)?.display.gridPortraitOffset
             ? { marginTop: -(getCharacterConfig(character.id)?.display.gridPortraitOffset ?? 0) }
             : undefined}
@@ -526,10 +464,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
               alt=''
               draggable={false}
               decoding='async'
-              onLoad={(e) => {
-                showImageOnLoad(e)
-                trackImageLoad(lightConeId, 'lightcone')
-              }}
+              onLoad={showImageOnLoad}
             />
           </div>
         )}

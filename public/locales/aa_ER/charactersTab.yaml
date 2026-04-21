@@ -34,6 +34,7 @@ Messages:
   RemoveSuccess: crwdns39640:0crwdne39640:0
   UnequipSuccess: crwdns39642:0crwdne39642:0
   NoSelectedCharacter: crwdns39644:0crwdne39644:0
+  NoSelectedLightCone: crwdns47126:0crwdne47126:0
   SwitchSuccess: 'crwdns39646:0$t(gameData:Characters.{{charId}}.Name)crwdne39646:0'
   SortByScoreWarning: crwdns39648:0crwdne39648:0
   SaveSuccess: 'crwdns39650:0{{name}}crwdne39650:0'
@@ -86,7 +87,7 @@ CharacterPreview:
     SavedPortrait: crwdns39676:0crwdne39676:0
     RevertedPortrait: crwdns39678:0crwdne39678:0
     NoSelectedCharacter: crwdns39680:0crwdne39680:0
-    NoSelectedLightCone: crwdns45205:0crwdne45205:0
+    NoSelectedLightCone: crwdns47128:0crwdne47128:0
   ScoreHeader:
     Title: crwdns39682:0crwdne39682:0
     TitleBenchmark: 'crwdns44466:0{{spd}}crwdne44466:0'

@@ -81,7 +81,6 @@ CharacterPreview:
     SavedPortrait: Retrato guardado con éxito
     RevertedPortrait: Retrato revertido con éxito
     NoSelectedCharacter: No hay personaje seleccionado
-    NoSelectedLightCone: No hay cono de luz seleccionado
   ScoreHeader:
     Title: Simulación de combate
     TitleBenchmark: 'Evaluación {{spd}} VEL'

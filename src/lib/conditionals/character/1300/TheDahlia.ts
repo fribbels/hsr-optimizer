@@ -2,7 +2,6 @@ import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Boothill } from 'lib/conditionals/character/1300/Boothill'
-import { Firefly } from 'lib/conditionals/character/1300/Firefly'
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
@@ -389,7 +388,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       const IMPLANT_CHARACTERS = [
-        Firefly.id,
+        FireflyB1.id,
         FireflyB1.id,
         Boothill.id,
         Phainon.id,
@@ -467,7 +466,7 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Firefly.id,
+      characterId: FireflyB1.id,
       lightCone: WhereaboutsShouldDreamsRest.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,

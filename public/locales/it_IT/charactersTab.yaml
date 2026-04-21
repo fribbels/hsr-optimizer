@@ -81,7 +81,6 @@ CharacterPreview:
     SavedPortrait: Immagine di copertina salvata con successo
     RevertedPortrait: Immagine di copertina ripristinata con successo
     NoSelectedCharacter: Nessun personaggio selezionato
-    NoSelectedLightCone: Nessun cono di luce selezionato
   ScoreHeader:
     Title: Sim Combat
     TitleBenchmark: '{{spd}} VEL Benchmark'

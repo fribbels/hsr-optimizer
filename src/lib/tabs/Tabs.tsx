@@ -174,6 +174,7 @@ function TabRenderer({ activeKey, fallbackKey, tabKey, children }: {
   const isFallback = fallbackKey === tabKey
   const prevActiveRef = useRef(isActive)
   const listenersRef = useRef(new Set<() => void>())
+  const deactivationListenersRef = useRef(new Set<() => void>())
   const isActiveRef = useRef(isActive)
 
   // Always keep the ref in sync — gated listeners read this synchronously
@@ -189,6 +190,12 @@ function TabRenderer({ activeKey, fallbackKey, tabKey, children }: {
         listenersRef.current.delete(cb)
       }
     },
+    addDeactivationListener: (cb: () => void) => {
+      deactivationListenersRef.current.add(cb)
+      return () => {
+        deactivationListenersRef.current.delete(cb)
+      }
+    },
   }))
 
   // On activation (hidden → visible): fire listeners in a macrotask (setTimeout)
@@ -200,6 +207,17 @@ function TabRenderer({ activeKey, fallbackKey, tabKey, children }: {
     setTimeout(() => {
       if (!isActiveRef.current) return // tab already hidden (rapid switch)
       for (const listener of listenersRef.current) {
+        listener()
+      }
+    }, 0)
+  }
+  // On deactivation (visible → hidden): fire synchronously in a microtask.
+  // Unlike activation, we don't need to wait for paint — callers just want to
+  // stop work (pause rAF loops, release resources) as soon as the tab is gone.
+  if (!isActive && prevActiveRef.current) {
+    setTimeout(() => {
+      if (isActiveRef.current) return // tab already visible again (rapid switch)
+      for (const listener of deactivationListenersRef.current) {
         listener()
       }
     }, 0)

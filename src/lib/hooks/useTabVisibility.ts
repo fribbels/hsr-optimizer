@@ -6,11 +6,15 @@ export type TabVisibilityValue = {
   /** Register a callback to be called when the tab activates (hidden → visible).
    *  Returns an unsubscribe function. */
   addActivationListener: (cb: () => void) => () => void,
+  /** Register a callback to be called when the tab deactivates (visible → hidden).
+   *  Returns an unsubscribe function. */
+  addDeactivationListener: (cb: () => void) => () => void,
 }
 
 const defaultValue: TabVisibilityValue = {
   isActiveRef: { current: true },
   addActivationListener: () => () => {},
+  addDeactivationListener: () => () => {},
 }
 
 /**

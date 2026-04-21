@@ -48,6 +48,28 @@ import {
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { switchToCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
+
+// Debug: track loaded images
+const loadedImages = new Set<string>()
+const imageLoadTimes: { id: string, time: number }[] = []
+
+function trackImageLoad(characterId: string, type: 'portrait' | 'lightcone') {
+  const key = `${type}:${characterId}`
+  if (!loadedImages.has(key)) {
+    loadedImages.add(key)
+    imageLoadTimes.push({ id: key, time: Date.now() })
+    console.log(`[CharGrid] IMAGE LOADED: ${key}, total: ${loadedImages.size}`)
+  }
+}
+
+// Expose to window for console debugging
+if (typeof window !== 'undefined') {
+  ;(window as any).__CHARGRID_DEBUG__ = {
+    getLoadedImages: () => Array.from(loadedImages),
+    getLoadedCount: () => loadedImages.size,
+    getImageLoadTimes: () => imageLoadTimes,
+  }
+}
 import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import { afterPaint } from 'lib/utils/frontendUtils'
 import {
@@ -403,6 +425,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
           alt=''
           draggable={false}
           decoding='async'
+          onLoad={() => trackImageLoad(character.id, 'portrait')}
           style={getCharacterConfig(character.id)?.display.gridPortraitOffset
             ? { marginTop: -(getCharacterConfig(character.id)?.display.gridPortraitOffset ?? 0) }
             : undefined}
@@ -443,7 +466,16 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         {/* Light cone icon */}
         {lightConeId && (
           <div className={classes.lcWrap} data-lc-style='shadow'>
-            <img src={loadImages ? Assets.getLightConeIconById(lightConeId) : undefined} alt='' draggable={false} decoding='async' onLoad={showImageOnLoad} />
+            <img
+              src={loadImages ? Assets.getLightConeIconById(lightConeId) : undefined}
+              alt=''
+              draggable={false}
+              decoding='async'
+              onLoad={(e) => {
+                showImageOnLoad(e)
+                trackImageLoad(lightConeId, 'lightcone')
+              }}
+            />
           </div>
         )}
       </div>

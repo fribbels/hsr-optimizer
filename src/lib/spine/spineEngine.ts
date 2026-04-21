@@ -12,6 +12,39 @@ import {
 
 export interface SpineInstance {
   dispose(): void
+  /** Stop the rAF loop. No-op if already paused or disposed. */
+  pause(): void
+  /** Restart the rAF loop. No-op if already running or disposed. */
+  resume(): void
+  /** Debug: unique ID for this instance */
+  readonly debugId: number
+}
+
+// Debug: track all active spine instances
+let spineInstanceCounter = 0
+const activeSpineInstances = new Map<number, { baseUrl: string, createdAt: number, frameCount: number }>()
+
+/** Debug: get current spine instance stats */
+export function getSpineDebugStats() {
+  const instances = Array.from(activeSpineInstances.entries()).map(([id, info]) => ({
+    id,
+    baseUrl: info.baseUrl,
+    ageMs: Date.now() - info.createdAt,
+    frameCount: info.frameCount,
+  }))
+  return {
+    activeCount: activeSpineInstances.size,
+    instances,
+    totalFrames: instances.reduce((sum, i) => sum + i.frameCount, 0),
+  }
+}
+
+// Expose to window for console debugging
+if (typeof window !== 'undefined') {
+  ;(window as any).__SPINE_DEBUG__ = {
+    getStats: getSpineDebugStats,
+    getActiveInstances: () => activeSpineInstances,
+  }
 }
 
 interface SkeletonEntry {
@@ -62,13 +95,23 @@ export async function createSpineInstance(
   baseUrl: string,
   files: { skelFile: string, atlasFile: string }[],
 ): Promise<SpineInstance> {
+  const debugId = ++spineInstanceCounter
+  const debugInfo = { baseUrl, createdAt: Date.now(), frameCount: 0 }
+  activeSpineInstances.set(debugId, debugInfo)
+
+  console.log(`[Spine #${debugId}] CREATE - baseUrl: ${baseUrl}, files: ${files.length}, total active: ${activeSpineInstances.size}`)
+
   // --- WebGL context ---
 
   // premultipliedAlpha:true because blending naturally produces premultiplied
   // output on a cleared framebuffer — tells browser not to multiply again.
   // drawSkeleton uses PMA=false because atlas textures are straight (un-premultiplied).
-  const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: true, preserveDrawingBuffer: true })
-    || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true, preserveDrawingBuffer: true })
+  // antialias:false and preserveDrawingBuffer:false to avoid the MSAA resolve buffer
+  // and persistent backing store — each saves ~60MB+ per 2048² canvas. We redraw
+  // every rAF frame so there's nothing to preserve between composites, and spine
+  // character edges are alpha-blended bitmaps (MSAA is near-imperceptible).
+  const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, preserveDrawingBuffer: false })
+    || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, preserveDrawingBuffer: false })
   if (!glContext) throw new Error('WebGL not available')
   const gl = glContext
 
@@ -183,10 +226,18 @@ export async function createSpineInstance(
 
   let rafId: number | null = null
   let lastTime = performance.now()
+  let paused = false
+  let disposed = false
 
   function loop(now: number) {
     const delta = Math.min((now - lastTime) / 1000, 0.1) // clamp to 100ms to avoid animation jumps on tab-resume
     lastTime = now
+
+    debugInfo.frameCount++
+    // Log every 300 frames (~5 seconds at 60fps) to track running instances
+    if (debugInfo.frameCount % 300 === 0) {
+      console.log(`[Spine #${debugId}] FRAME ${debugInfo.frameCount} - still running, total active: ${activeSpineInstances.size}`)
+    }
 
     for (const entry of entries) {
       entry.animState.update(delta)
@@ -204,16 +255,46 @@ export async function createSpineInstance(
     }
     renderer.end()
 
-    rafId = requestAnimationFrame(loop)
+    // Re-check paused/disposed in case pause()/dispose() was called during this frame
+    if (!paused && !disposed) {
+      rafId = requestAnimationFrame(loop)
+    } else {
+      rafId = null
+    }
   }
 
   rafId = requestAnimationFrame(loop)
+  console.log(`[Spine #${debugId}] LOOP STARTED`)
 
   // --- Cleanup handle ---
 
   return {
+    debugId,
+    pause() {
+      if (paused || disposed) return
+      paused = true
+      if (rafId != null) {
+        cancelAnimationFrame(rafId)
+        rafId = null
+      }
+      console.log(`[Spine #${debugId}] PAUSE at frame ${debugInfo.frameCount}`)
+    },
+    resume() {
+      if (!paused || disposed) return
+      paused = false
+      lastTime = performance.now() // avoid a large delta on the resumed frame
+      rafId = requestAnimationFrame(loop)
+      console.log(`[Spine #${debugId}] RESUME at frame ${debugInfo.frameCount}`)
+    },
     dispose() {
-      if (rafId != null) cancelAnimationFrame(rafId)
+      if (disposed) return
+      disposed = true
+      console.log(`[Spine #${debugId}] DISPOSE - ran ${debugInfo.frameCount} frames, remaining: ${activeSpineInstances.size - 1}`)
+      activeSpineInstances.delete(debugId)
+      if (rafId != null) {
+        cancelAnimationFrame(rafId)
+        rafId = null
+      }
       renderer.dispose()
       assetManager.dispose()
     },

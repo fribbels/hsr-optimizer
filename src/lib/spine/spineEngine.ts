@@ -77,10 +77,8 @@ export async function createSpineInstance(
   // premultipliedAlpha:true because blending naturally produces premultiplied
   // output on a cleared framebuffer — tells browser not to multiply again.
   // drawSkeleton uses PMA=false because atlas textures are straight (un-premultiplied).
-  // antialias:false and preserveDrawingBuffer:false to avoid the MSAA resolve buffer
-  // and persistent backing store — each saves ~60MB+ per 2048² canvas. We redraw
-  // every rAF frame so there's nothing to preserve between composites, and spine
-  // character edges are alpha-blended bitmaps (MSAA is near-imperceptible).
+  // antialias/preserveDrawingBuffer off: we redraw every frame (nothing to
+  // preserve) and spine edges are alpha-blended bitmaps (MSAA is moot).
   const glContext = canvas.getContext('webgl2', { alpha: true, premultipliedAlpha: true, antialias: false, preserveDrawingBuffer: false })
     || canvas.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false, preserveDrawingBuffer: false })
   if (!glContext) throw new Error('WebGL not available')
@@ -227,16 +225,9 @@ export async function createSpineInstance(
     }
     renderer.end()
 
-    // Re-check paused/disposed in case pause()/dispose() was called during this frame
-    if (!paused && !disposed) {
-      rafId = requestAnimationFrame(loop)
-    } else {
-      rafId = null
-    }
+    rafId = requestAnimationFrame(loop)
   }
 
-  // Final abort check after all synchronous setup (skeleton parsing, shader
-  // compile, renderer creation) but before we kick off the rAF loop.
   if (signal?.aborted) {
     renderer.dispose()
     assetManager.dispose()

@@ -275,11 +275,8 @@ const SortableCharacterRow = memo(
     })
     const scrollRef = useRef<HTMLDivElement>(null)
 
-    // Image `src` is gated on viewport intersection via the IntersectionObserver
-    // below. Rows outside the 500 px buffer never fetch, and rows that scroll
-    // far enough away have their src cleared so the decoded bitmap can be GC'd.
-    // Replaces the old setTimeout trickle, which set src regardless of viewport
-    // and caused ~134 eager decodes during tab stagger-mount.
+    // Load-once, gated on viewport intersection. Never reverts — keeps `src`
+    // set to avoid re-decode flashes on scroll or tab-switch.
     const [loadImages, setLoadImages] = useState(false)
 
     useEffect(() => {
@@ -288,13 +285,6 @@ const SortableCharacterRow = memo(
       }
     }, [isFocused])
 
-    // Per-row viewport observer. Triggers `loadImages=true` on first
-    // intersection; never reverts. Once a row's image has decoded, we keep its
-    // `src` set so rapid scroll and tab-switch don't cause re-decode flashes
-    // (empty/broken-glyph state during the fetch+decode round-trip). The
-    // win comes from the initial deferral: rows never visited never fetch.
-    // Long-term memory reclaim relies on the browser's own decoded-bitmap
-    // eviction heuristics when memory pressure is high.
     useEffect(() => {
       const el = scrollRef.current
       if (!el) return

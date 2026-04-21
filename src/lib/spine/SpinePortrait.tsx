@@ -53,10 +53,8 @@ export function SpinePortrait({
   useEffect(() => {
     const canvas = canvasRef.current!
     let disposed = false
-    // Abort in-flight loads when characterId changes (or component unmounts).
-    // createSpineInstance checks this signal at each await boundary and skips
-    // shader compile + rAF bootstrap for doomed loads. `disposed` still guards
-    // the rare race where abort fires AFTER the instance is already returned.
+    // Abort in-flight load on characterId change / unmount. `disposed` still
+    // guards the race where abort fires after the instance resolves.
     const abortController = new AbortController()
 
     const count = getSkeletonCount(characterId)
@@ -72,9 +70,7 @@ export function SpinePortrait({
             return
           }
           instanceRef.current = instance
-          // Start paused if the host tab became hidden during the async load.
-          // Without this, a spine that loads while its tab is invisible would
-          // run uselessly until the tab is focused and hidden again.
+          // Start paused if the tab hid mid-load.
           if (!isActiveRef.current) {
             instance.pause()
           }

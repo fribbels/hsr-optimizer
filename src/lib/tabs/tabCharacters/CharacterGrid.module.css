@@ -78,14 +78,9 @@
   cursor: grab;
   user-select: none;
 
-  /* Browser skips paint + layout + style for off-screen rows. Complements #3
-     (lazy image loading): images only fetch when near viewport; this also
-     skips the non-image work for the same set. dnd-kit sees the DOM unchanged
-     because `contain-intrinsic-size` declares the box for layout math even
-     when contents aren't rendered. The `auto` keyword tells the browser to
-     remember the actually-rendered size after first paint and use that on
-     subsequent viewport exits — so the value tracks whatever density preset
-     rendered (68px / 48px) without needing per-preset overrides. */
+  /* Skip paint/layout/style for off-screen rows. `auto <length>` caches the
+     first-rendered size so density switches (68/48 px) track without overrides;
+     declared box keeps dnd-kit's layout math correct. */
   content-visibility: auto;
   contain-intrinsic-size: auto var(--cr-row-height, 68px);
 }
@@ -138,8 +133,8 @@
     calc(-1 * var(--cr-portrait-y, 31%))
   );
   display: block;
-  /* Hidden until `showImageOnLoad` flips inline opacity on successful decode.
-     Prevents the broken-image glyph flash while `<img src>` is in-flight. */
+  /* Hidden until `showImageOnLoad` reveals it — avoids broken-glyph flash
+     while the `<img src>` is in-flight. */
   opacity: 0;
 }
 

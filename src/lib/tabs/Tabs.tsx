@@ -198,28 +198,14 @@ function TabRenderer({ activeKey, fallbackKey, tabKey, children }: {
     },
   }))
 
-  // On activation (hidden → visible): fire listeners in a macrotask (setTimeout)
-  // so the browser can paint the display toggle first. rAF runs BEFORE paint,
-  // which would block the tab from appearing until all catch-up re-renders finish.
-  // setTimeout runs AFTER paint, so the tab appears immediately with stale content,
-  // then catch-ups update it.
-  if (isActive && !prevActiveRef.current) {
+  // Fire listeners in a macrotask so the browser paints the display toggle
+  // first — rAF-timed callbacks would block the tab from appearing.
+  if (isActive !== prevActiveRef.current) {
+    const listeners = isActive ? listenersRef.current : deactivationListenersRef.current
+    const wantActive = isActive
     setTimeout(() => {
-      if (!isActiveRef.current) return // tab already hidden (rapid switch)
-      for (const listener of listenersRef.current) {
-        listener()
-      }
-    }, 0)
-  }
-  // On deactivation (visible → hidden): fire synchronously in a microtask.
-  // Unlike activation, we don't need to wait for paint — callers just want to
-  // stop work (pause rAF loops, release resources) as soon as the tab is gone.
-  if (!isActive && prevActiveRef.current) {
-    setTimeout(() => {
-      if (isActiveRef.current) return // tab already visible again (rapid switch)
-      for (const listener of deactivationListenersRef.current) {
-        listener()
-      }
+      if (isActiveRef.current !== wantActive) return // rapid switch
+      for (const listener of listeners) listener()
     }, 0)
   }
   prevActiveRef.current = isActive

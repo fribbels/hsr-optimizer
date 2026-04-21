@@ -52,7 +52,7 @@ export function getChangelogContent() {
         `filtermodal.webp`,
         `filterdisplay.webp`,
         `Fix: DPS Score loading state no longer hides combat stats`,
-        `Fix: Ode to Reason light cone was not buffing skill damage when Anaxa is used as a teammate`,
+        `Fix: Ode to Reason was not buffing skill damage when Anaxa is used as a teammate`,
         `Fix: Dr. Ratio E2 Additional DMG was incorrectly tagged as Follow-Up Attack damage`,
         `Fix: Silver Wolf Lv.999 200% benchmarks were generating invalid builds due to lack of effective substats`,
         `Fix: Silver Wolf Lv.999 Hidden MMR crit conversion calculations`,

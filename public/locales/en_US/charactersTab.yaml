@@ -34,6 +34,7 @@ Messages:
   RemoveSuccess: Successfully removed character
   UnequipSuccess: Successfully unequipped character
   NoSelectedCharacter: No selected character
+  NoSelectedLightCone: No selected light cone
   SwitchSuccess: 'Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)'
   SortByScoreWarning: Are you sure you want to sort all characters? You will lose any custom rankings you have set.
   SaveSuccess: 'Successfully saved build: {{name}}'
@@ -86,7 +87,7 @@ CharacterPreview:
     SavedPortrait: Successfully saved portrait
     RevertedPortrait: Successfully reverted portrait
     NoSelectedCharacter: No selected character
-    NoSelectedLightCone: No Selected light cone
+    NoSelectedLightCone: No selected light cone
   ScoreHeader:
     Title: Combat Sim
     TitleBenchmark: '{{spd}} SPD Benchmark'

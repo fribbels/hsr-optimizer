@@ -140,7 +140,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'teammateCDValue',
       formItem: 'slider',
       text: t('TeammateContent.teammateCDValue.text'),
-      content: t('TeammateContent.teammateCDValue.content'),
+      content: t('TeammateContent.teammateCDValue.content', {
+        skillCdBuffScaling: precisionRound(100 * skillCdBuffScaling),
+        skillCdBuffBase: precisionRound(100 * skillCdBuffBase),
+      }),
       min: 0,
       max: 3.50,
       percent: true,

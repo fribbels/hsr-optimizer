@@ -335,7 +335,7 @@ const SortableCharacterRow = memo(
           <CharacterRowContent
             character={character}
             rank={rank}
-            loadImages={loadImages}
+            loadImages={loadImages || isFocused}
             onEdit={onEdit}
             onRemove={onRemove}
           />

@@ -78,11 +78,11 @@
   cursor: grab;
   user-select: none;
 
-  /* Skip paint/layout/style for off-screen rows. `auto <length>` caches the
-     first-rendered size so density switches (68/48 px) track without overrides;
-     declared box keeps dnd-kit's layout math correct. */
+  /* Skip paint/layout/style for off-screen rows. Intrinsic size is fixed to
+     the row-height token so dnd-kit's layout math stays correct and density
+     changes (68 ↔ 48 px) propagate to skipped rows without a cache stale. */
   content-visibility: auto;
-  contain-intrinsic-size: auto var(--cr-row-height, 68px);
+  contain-intrinsic-size: var(--cr-row-height, 68px);
 }
 
 /* Visual frame — clips children and does the hover lift while .root stays

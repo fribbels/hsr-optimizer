@@ -205,7 +205,13 @@ function TabRenderer({ activeKey, fallbackKey, tabKey, children }: {
     const wantActive = isActive
     setTimeout(() => {
       if (isActiveRef.current !== wantActive) return // rapid switch
-      for (const listener of listeners) listener()
+      for (const listener of listeners) {
+        try {
+          listener()
+        } catch (err) {
+          console.error('TabRenderer: listener threw', err)
+        }
+      }
     }, 0)
   }
   prevActiveRef.current = isActive

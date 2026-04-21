@@ -200,9 +200,10 @@ export async function createSpineInstance(
   renderer.camera.setViewport(canvasSize, canvasSize)
   renderer.camera.update()
 
+  // Lifecycle invariant: `rafId != null` iff the loop is scheduled.
+  // `rafId == null && !disposed` means paused. `disposed` is terminal.
   let rafId: number | null = null
   let lastTime = performance.now()
-  let paused = false
   let disposed = false
 
   function loop(now: number) {
@@ -240,16 +241,12 @@ export async function createSpineInstance(
 
   return {
     pause() {
-      if (paused || disposed) return
-      paused = true
-      if (rafId != null) {
-        cancelAnimationFrame(rafId)
-        rafId = null
-      }
+      if (disposed || rafId == null) return
+      cancelAnimationFrame(rafId)
+      rafId = null
     },
     resume() {
-      if (!paused || disposed) return
-      paused = false
+      if (disposed || rafId != null) return
       lastTime = performance.now() // avoid a large delta on the resumed frame
       rafId = requestAnimationFrame(loop)
     },

@@ -13,7 +13,7 @@ export type CharacterModalForm = {
 
 export type CharacterModalConfig = {
   initialCharacter?: { form: CharacterModalForm } | null,
-  onOk: (form: CharacterModalForm) => void,
+  onOk: (form: CharacterModalForm) => boolean | void,
   showSetSelection?: boolean,
 }
 

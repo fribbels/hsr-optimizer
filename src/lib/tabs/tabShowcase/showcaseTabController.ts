@@ -131,15 +131,21 @@ export function syncShowcaseUrl(): void {
  * Keep: null characterId check.
  * Dropped: duplicate character restriction (users can simulate same character on multiple slots).
  */
-export function handleCharacterModalOk(form: CharacterModalForm): void {
+export function handleCharacterModalOk(form: CharacterModalForm): boolean {
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
 
-  if (!form.characterId || !form.lightCone) {
-    return Message.error(t('NoCharacterSelected') /* No selected character */)
+  if (!form.characterId) {
+    Message.error(t('NoCharacterSelected'))
+    return false
+  }
+  if (!form.lightCone) {
+    Message.error(t('NoSelectedLightCone'))
+    return false
   }
 
   // Safe cast: after guards, characterId and lightCone are non-null
   useShowcaseTabStore.getState().applyCharacterOverride(form as ShowcaseTabCharacter['form'])
+  return true
 }
 
 /**

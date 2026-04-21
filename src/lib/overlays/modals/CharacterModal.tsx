@@ -93,8 +93,10 @@ function CharacterModalContent() {
   })
 
   function onModalOk() {
-    onOk(characterForm.getValues())
-    closeOverlay()
+    const result = onOk(characterForm.getValues())
+    if (result !== false) {
+      closeOverlay()
+    }
   }
 
   return (

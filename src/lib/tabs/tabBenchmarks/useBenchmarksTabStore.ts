@@ -103,8 +103,8 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
       teammate2: index === 2 ? data : state.teammate2,
     })),
 
-  onCharacterModalOk: (form: CharacterModalForm) => {
-    if (!form.characterId || !form.lightCone) return
+  onCharacterModalOk: (form: CharacterModalForm): boolean => {
+    if (!form.characterId || !form.lightCone) return false
 
     const character: SimpleCharacterSets = {
       characterId: form.characterId,
@@ -124,6 +124,7 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
     set({
       selectedTeammateIndex: undefined,
     })
+    return true
   },
 
   setSelectedTeammateIndex: (index) => set({ selectedTeammateIndex: index }),

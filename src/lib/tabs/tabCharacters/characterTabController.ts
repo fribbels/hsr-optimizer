@@ -12,13 +12,21 @@ import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 
 export const CharacterTabController = {
-  onCharacterModalOk: (form: CharacterModalForm) => {
+  onCharacterModalOk: (form: CharacterModalForm): boolean => {
     const t = i18next.getFixedT(null, 'charactersTab', 'Messages')
-    if (!form.characterId || !form.lightCone) return Message.error(t('NoSelectedCharacter'))
+    if (!form.characterId) {
+      Message.error(t('NoSelectedCharacter'))
+      return false
+    }
+    if (!form.lightCone) {
+      Message.error(t('NoSelectedLightCone'))
+      return false
+    }
     // Safe cast: after guards, characterId and lightCone are non-null. upsertCharacterFromForm spreads form into character.form
     const character = persistenceService.upsertCharacterFromForm(form as Form)
     SaveState.delayedSave()
     useCharacterTabStore.getState().setFocusCharacter(character.id)
+    return true
   },
 
   onSwitchRelicsOk: (switchTo: SwitchRelicsFormSelectedCharacter) => {

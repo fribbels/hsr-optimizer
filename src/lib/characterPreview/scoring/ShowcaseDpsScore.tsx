@@ -249,13 +249,15 @@ function createOnCharacterModalOk(
   characterId: CharacterId,
   selectedTeammateIndex: number,
 ) {
-  return (form: CharacterModalForm) => {
+  return (form: CharacterModalForm): boolean => {
     const t = i18next.getFixedT(null, 'charactersTab', 'CharacterPreview.Messages')
     if (!form.characterId) {
-      return Message.error(t('NoSelectedCharacter') /* No selected character */)
+      Message.error(t('NoSelectedCharacter'))
+      return false
     }
     if (!form.lightCone) {
-      return Message.error(t('NoSelectedLightCone') /* No Selected light cone */)
+      Message.error(t('NoSelectedLightCone'))
+      return false
     }
 
     const simulation = getScoringMetadata(characterId).simulation
@@ -267,6 +269,7 @@ function createOnCharacterModalOk(
     useScoringStore.getState().updateSimulationOverrides(characterId, update)
     SaveState.delayedSave()
     setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
+    return true
   }
 }
 

@@ -76,6 +76,7 @@ CharacterPreview:
       Standard: 标准
     PaletteLabel: 头像色调
     ShowUID: 显示UID
+    ShowL2D: 显示 Live2D
   ArtBy: '{{artistName}}的作品'
   EditCharacter: 编辑角色
   EditPortrait: 编辑角色图像

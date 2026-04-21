@@ -90,21 +90,21 @@ export function parseShowcaseUrlId(): string | null {
 }
 
 /**
- * Called once on mount — handles URL parameter and saved session auto-load.
- * URL parameter takes priority over saved session.
+ * Called on tab activation — handles URL parameter and saved session auto-load.
+ * Idempotent: skips fetch if already loading or if the same ID is already loaded.
  */
 export function initializeShowcaseOnMount(): void {
   const urlId = parseShowcaseUrlId()
-  const { savedSession, availableCharacters } = useShowcaseTabStore.getState()
+  const { savedSession, availableCharacters, loading } = useShowcaseTabStore.getState()
+
+  if (loading) return
 
   if (urlId) {
-    // URL parameter takes priority — load that profile
+    if (availableCharacters?.length && savedSession.scorerId === urlId) return
     submitForm({ scorerId: urlId }, { skipCooldown: true })
   } else if (!availableCharacters?.length && savedSession.scorerId) {
-    // No URL param, no data yet, but saved session has a UID — auto-load
     submitForm({ scorerId: savedSession.scorerId }, { skipCooldown: true })
   }
-  // Otherwise: stay on Landing screen, wait for user input
 }
 
 /**

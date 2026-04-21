@@ -65,20 +65,9 @@ export function ShowcaseTab() {
   const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
 
   useEffect(() => {
-    if (isActiveRef.current) {
-      // Tab is active on mount — initialize immediately
-      initializeShowcaseOnMount()
-    } else {
-      // Tab mounted in background — defer until first activation
-      let initialized = false
-      return addActivationListener(() => {
-        if (!initialized) {
-          initialized = true
-          initializeShowcaseOnMount()
-        }
-      })
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    if (isActiveRef.current) initializeShowcaseOnMount()
+    return addActivationListener(() => initializeShowcaseOnMount())
+  }, [addActivationListener, isActiveRef])
 
   useEffect(() => addActivationListener(() => syncShowcaseUrl()), [addActivationListener])
 

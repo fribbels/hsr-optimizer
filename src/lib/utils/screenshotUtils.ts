@@ -1,13 +1,12 @@
 /**
  * Screenshot Utilities for Character Card Capture
  *
- * This module handles DOM-to-image capture using snapdom library, with specific
- * workarounds for iOS Safari compatibility issues.
+ * Uses `@zumer/snapdom` for DOM-to-image capture with iOS Safari workarounds.
  *
  * ## Architecture Overview
  *
- * The character card has two main visual layers:
- * 1. **Background layer** (`data-portrait-bg`): Blurred character portrait as CSS background-image
+ * The character card has two visual layers:
+ * 1. **Background layer** (`data-portrait-bg`): Blurred portrait as <img> with filter
  * 2. **Portrait layer** (`data-portrait-inject`): Either spine animation (L2D-on) or static image (L2D-off)
  *
  * ## iOS Safari Issues & Solutions
@@ -16,29 +15,30 @@
  * iOS Safari/WebKit has bugs rendering CSS background-image inside SVG foreignObject
  * (which snapdom uses internally). The background either doesn't render or has decode races.
  *
- * **Solution**: Inject a hidden `<img>` element into the live DOM alongside the CSS background.
- * In the clone's afterClone hook, strip the CSS background-image and reveal the injected img.
- * This converts the CSS background to a real img element that renders reliably.
+ * **Solution**: ShowcaseBackgroundBlur now uses an actual <img> element instead of CSS
+ * background-image. Filter is applied directly to the img (not a parent wrapper) because
+ * Safari sometimes fails to paint filtered imgs when the filter is on a parent element.
  *
- * ### Problem 2: Spine canvas capture shows animated frame
+ * ### Problem 2: Spine canvas capture shows animated frame / blank
  * When L2D is enabled, the portrait is a spine canvas animation. Snapdom converts canvas
  * elements to PNG images, but this captures whatever frame is currently showing (animated pose).
- * Users want the static character portrait instead.
+ * Additionally, spine canvases use `preserveDrawingBuffer: false` for performance, so pixels
+ * are cleared after presentation - snapdom may capture a blank canvas.
  *
  * **Solution**: For L2D-on mode, pre-fetch the static portrait image as a data URL, then
- * inject it directly into the clone during afterClone (hiding the spine-converted PNG).
+ * hide the spine wrapper and inject the static <img> in its place. We use data URLs (not
+ * external URLs) to avoid iOS decode race conditions.
  *
- * ### Problem 3: Injected imgs in live DOM don't render in clone
+ * ### Problem 3: Injected imgs don't render correctly in clones
  * When we inject portrait imgs into the live DOM before snapdom runs, they often don't
  * render correctly in the final capture. Issues include:
- * - `height: auto` doesn't work (clone img has 0 computed height)
+ * - `height: auto` doesn't work (clone img has 0 computed height - snapdom's offscreen
+ *   clone doesn't compute layout)
  * - External URLs have decode race conditions on iOS
  * - Snapdom may not properly embed the img data
  *
- * **Solution**: Don't inject portrait into live DOM. Instead:
- * 1. Pre-fetch the portrait as a data URL with explicit dimensions calculated from natural size
- * 2. Inject directly into the clone during afterClone callback
- * This bypasses all snapdom cloning issues since we create the img fresh in the clone.
+ * **Solution**: Pre-fetch the portrait as a data URL with explicit dimensions calculated
+ * from natural size. Set both width AND height explicitly on the injected img.
  *
  * ### Problem 4: L2D-off mode uses LoadingBlurredImage component
  * When L2D is disabled, the portrait is a React-rendered `<img>` inside `data-portrait-foreground`.
@@ -47,31 +47,58 @@
  * **Solution**: Only apply portrait injection for L2D-on (spine) containers. Leave L2D-off
  * containers alone so LoadingBlurredImage renders naturally.
  *
+ * ### Problem 5: Mobile background disappears when zoomed
+ * Mobile browsers (Safari + Chrome) aggressively cull off-screen content to save GPU resources.
+ * With a blur filter applied, the browser miscalculates the visible area and culls the element
+ * even when partially visible.
+ *
+ * **Solution**: `transform: translateZ(0)` on the background img forces a dedicated GPU
+ * compositing layer that won't be culled. (See ShowcaseBackgroundBlur in CharacterPreview.tsx)
+ *
  * ## Data Attributes Used
  *
- * - `data-portrait-bg`: The background blur layer div (has CSS background-image)
+ * - `data-portrait-bg`: The background blur layer div (now contains <img>, not CSS background)
  * - `data-portrait-inject`: The portrait container (has positioning data attributes)
- * - `data-portrait-spine`: Wrapper around spine canvas (L2D-on only)
+ * - `data-portrait-spine`: Wrapper around spine canvas (L2D-on only) - hidden during capture
  * - `data-portrait-foreground`: Wrapper around LoadingBlurredImage (L2D-off only)
- * - `data-snap-bg-img`: Injected background img (hidden in live DOM, revealed in clone)
  * - `data-portrait-url/left/top/width`: Portrait positioning data on container
  *
  * ## Capture Flow
  *
- * 1. Pre-cache resources with snapdom's preCache()
- * 2. For L2D-on containers: fetch portrait as data URL, calculate explicit dimensions
- * 3. Inject hidden bg imgs into live DOM
- * 4. Run snapdom capture with afterClone plugin:
- *    a. Strip CSS background-image from bg divs, reveal injected bg imgs
- *    b. For L2D-on: hide all imgs in container, inject fresh portrait img
- *    c. For L2D-off: leave container alone (LoadingBlurredImage renders naturally)
- * 5. Convert capture to PNG blob
- * 6. Clean up injected elements from live DOM
+ * 1. Patch canvas.getContext for Display P3 color space (better mobile colors)
+ * 2. For L2D containers: hide spine wrapper, inject static portrait as data URL
+ * 3. snapdom() capture with retry loop (up to 3x, break when blob > 1MB)
+ * 4. Restore live DOM (unhide spine, remove injected img)
+ * 5. Hand blob to download / Web Share / clipboard
  *
  * ## Mobile-specific Handling
  *
  * - Display P3 color space patch for iOS/Android Chrome (better color accuracy)
  * - Web Share API for clipboard action on mobile (clipboard.write not supported)
+ *
+ * ## Historical Notes (things we tried)
+ *
+ * These are documented to prevent re-investigation of the same issues:
+ *
+ * - **afterClone modifications**: Didn't work reliably on iOS Safari - modifications made in
+ *   afterClone hook weren't included in the final SVG foreignObject render due to timing issues.
+ *   Solution: Modify live DOM before capture instead.
+ *
+ * - **Cache-busting URLs for restore**: When restoring CSS background-image, iOS would evict
+ *   decoded images under memory pressure during snapdom's rasterization. Setting the exact same
+ *   URL didn't force re-decode. Solution: Use `#r=${Date.now()}` fragment to change cache key.
+ *   (No longer needed since we switched to <img> element)
+ *
+ * - **Filter toggle for re-composite**: Mobile browsers didn't properly re-render blur filter
+ *   after backgroundImage change. Solution: Toggle filter off, force reflow with offsetHeight,
+ *   toggle filter back. (No longer needed since we use <img> with translateZ(0))
+ *
+ * - **Safari XMLSerializer quirk**: Safari's XMLSerializer reads style from element.getAttribute('style')
+ *   not element.style properties. When injecting imgs for clone, use setAttribute for styles.
+ *
+ * - **snapdom safariWarmupAttempts**: Snapdom's iOS warmup loop mutates live element's inline
+ *   styles concurrently with our restore, causing style-recalc flushes that could drop our
+ *   restore. Setting safariWarmupAttempts: 0 disabled this. (Removed - no longer needed)
  */
 
 import {
@@ -124,384 +151,47 @@ function patchCanvasForDisplayP3(): () => void {
   }
 }
 
-function positionImgLikeBackground(img: HTMLImageElement, bgSize: string, bgPos: string): void {
-  img.style.position = 'absolute'
-  img.style.display = 'block'
-  img.style.pointerEvents = 'none'
-  if (bgSize === 'cover') {
-    img.style.left = '0'
-    img.style.top = '0'
-    img.style.width = '100%'
-    img.style.height = '100%'
-    img.style.objectFit = 'cover'
-    img.style.objectPosition = bgPos || 'center'
-  } else {
-    const sizeMatch = /^(-?[\d.]+)px\s+auto$/.exec(bgSize)
-    const posMatch = /^(-?[\d.]+)px\s+(-?[\d.]+)px$/.exec(bgPos)
-    if (sizeMatch && posMatch) {
-      img.style.width = `${sizeMatch[1]}px`
-      img.style.height = 'auto'
-      img.style.left = `${posMatch[1]}px`
-      img.style.top = `${posMatch[2]}px`
-    } else {
-      img.style.left = '0'
-      img.style.top = '0'
-      img.style.width = '100%'
-      img.style.height = 'auto'
-    }
-  }
-}
-
 /**
- * Injects hidden <img> elements into the live DOM to replace CSS background-images.
+ * Prepares the live DOM for screenshot capture by handling L2D spine canvases.
  *
- * iOS Safari has bugs rendering CSS background-image inside SVG foreignObject.
- * This function creates a real <img> positioned to match the CSS background,
- * hidden via visibility:hidden. The afterClone hook will strip the CSS background
- * and reveal the img.
+ * ## Why this exists
+ * Spine canvases use `preserveDrawingBuffer: false` for performance, which means
+ * their pixels can't be read after presentation. Snapdom would capture a blank canvas.
  *
- * Why inject into live DOM (not clone)?
- * - The bg img needs to be loaded before snapdom clones
- * - We use cache-busted URLs to ensure fresh fetch
- * - The img is positioned using the same size/position as the CSS background
+ * ## What it does
+ * For each L2D-on container (has `data-portrait-spine`):
+ * 1. Hide the spine canvas wrapper
+ * 2. Fetch the static portrait as a data URL (external URLs have decode races on iOS)
+ * 3. Inject a visible <img> with explicit pixel dimensions (height:auto doesn't work in clones)
  *
- * Returns a cleanup function to remove injected elements after capture.
+ * Returns a restore function that undoes all changes in reverse order.
  */
-/**
- * Modifies live DOM for screenshot capture - makes bg imgs visible, hides CSS backgrounds.
- * Returns a restore function to undo all changes after capture.
- */
-async function prepareLiveDomForCapture(root: HTMLElement, cacheBust: string): Promise<() => void> {
-  const restoreActions: Array<{ action: () => void; description: string }> = []
+async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> {
+  const restoreActions: Array<() => void> = []
 
-  // Helper to add restore action with description for debugging
-  const addRestore = (description: string, action: () => void) => {
-    restoreActions.push({ action, description })
-  }
-
-  try {
-    // Step 1: Process background layer - inject visible img, hide CSS background
-    const bgElements = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-bg]'))
-    const bgLoadPromises: Promise<void>[] = []
-
-    for (const el of bgElements) {
-      const bgStyleRaw = el.style.backgroundImage
-      const match = /url\(["']?([^"')]+)["']?\)/.exec(bgStyleRaw)
-      if (!match) continue
-
-      const url = match[1]
-      const bgSize = el.style.backgroundSize
-      const bgPos = el.style.backgroundPosition
-      const cacheBustedUrl = `${url}#${cacheBust}`
-
-      // Hide CSS background - capture original BEFORE modifying
-      const originalBgImage = bgStyleRaw
-      console.log('[screenshot] Original bg:', originalBgImage.slice(0, 50) + '...')
-      el.style.backgroundImage = 'none'
-      addRestore('restore-bg-image', () => {
-        Message.warning('[debug] restore-bg-image action running')
-        if (!el.isConnected) {
-          Message.error('[debug] bg el disconnected at restore time')
-          return
-        }
-        // Cache-bust the URL so Safari re-decodes. Setting the exact same URL
-        // Safari had pre-capture doesn't force a re-decode, and iOS evicts the
-        // decoded image under memory pressure during snapdom's rasterization.
-        // Result: inline/computed style look correct but the bg renders blank.
-        // Using a fragment (#r=...) changes the in-memory cache key without
-        // bypassing HTTP cache (fragments aren't sent to the server).
-        const urlMatch = /url\(["']?([^"')#]+)(?:#[^)"']*)?["']?\)/.exec(originalBgImage)
-        const restoredBg = urlMatch
-          ? `url("${urlMatch[1]}#r=${Date.now()}")`
-          : originalBgImage
-        el.style.backgroundImage = restoredBg
-
-        // Force browser to re-composite the filter layer by toggling it
-        // Mobile browsers don't properly re-render blur filter after backgroundImage change
-        const originalFilter = el.style.filter
-        el.style.filter = 'none'
-        void el.offsetHeight // force reflow
-        el.style.filter = originalFilter
-
-        // DIAGNOSTIC: inject a test <img> with the same URL (unfiltered) into
-        // the bg element's parent, positioned visibly in the top-left corner.
-        // If THIS img renders but the CSS bg doesn't, the resource is fine —
-        // Safari is refusing to repaint the CSS background specifically.
-        // If neither renders, the image resource itself is broken.
-        if (urlMatch && el.parentElement) {
-          const testImg = document.createElement('img')
-          testImg.src = urlMatch[1]
-          testImg.setAttribute('data-debug-test-img', '')
-          testImg.style.position = 'absolute'
-          testImg.style.top = '10px'
-          testImg.style.left = '10px'
-          testImg.style.width = '120px'
-          testImg.style.height = 'auto'
-          testImg.style.zIndex = '9999'
-          testImg.style.border = '2px solid red'
-          testImg.style.pointerEvents = 'none'
-          testImg.onload = () => Message.warning('[debug] test-img LOADED')
-          testImg.onerror = () => Message.error('[debug] test-img FAILED to load')
-          el.parentElement.appendChild(testImg)
-        }
-        // At 2s, unconditionally dump the full state of the bg div — inline style,
-        // computed style, dimensions, visibility. If the inline is correct but bg
-        // still doesn't render visually, the problem is elsewhere (computed style
-        // cascade, image decode failure, other background-* props).
-        setTimeout(() => {
-          if (!el.isConnected) {
-            Message.warning('[dump@2s] el detached')
-            return
-          }
-          const cs = getComputedStyle(el)
-          const inline = el.style.backgroundImage.slice(0, 40)
-          const computed = cs.backgroundImage.slice(0, 40)
-          const size = `${el.offsetWidth}x${el.offsetHeight}`
-          const vis = `${cs.display}/${cs.visibility}/${cs.opacity}`
-          const bgSize = cs.backgroundSize.slice(0, 20)
-          const bgPos = cs.backgroundPosition.slice(0, 20)
-          Message.warning(`[dump@2s] inline=${inline} computed=${computed} size=${size} vis=${vis} bgSize=${bgSize} bgPos=${bgPos}`, 10)
-
-          // Extended dump: filter, blend, border (snapdom mutates this!), transform, z-index
-          const filter = (cs.filter || 'none').slice(0, 50)
-          const blend = cs.mixBlendMode || 'normal'
-          const border = el.style.border || '(no inline border)'
-          const transform = cs.transform || 'none'
-          const zIdx = cs.zIndex
-          Message.warning(`[dump2@2s] filter=${filter} blend=${blend} border=${border} tx=${transform.slice(0, 30)} z=${zIdx}`, 10)
-
-          // Parent dump: maybe an ancestor got opacity/filter/transform that hides us
-          const parent = el.parentElement
-          if (parent) {
-            const pcs = getComputedStyle(parent)
-            Message.warning(`[dumpP@2s] parent opacity=${pcs.opacity} filter=${(pcs.filter || 'none').slice(0, 40)} overflow=${pcs.overflow} tx=${(pcs.transform || 'none').slice(0, 20)}`, 10)
-          }
-
-          // Check all siblings' z-index / position — something might be painting over
-          const siblings = Array.from(el.parentElement?.children ?? []).filter((s) => s !== el)
-          const siblingInfo = siblings.slice(0, 3).map((s) => {
-            const scs = getComputedStyle(s as HTMLElement)
-            return `${(s as HTMLElement).tagName}/z=${scs.zIndex}/pos=${scs.position}`
-          }).join(', ')
-          Message.warning(`[dumpS@2s] ${siblings.length} siblings: ${siblingInfo}`, 10)
-        }, 2000)
-
-        // Check if React overwrites us after a delay. Chain delays at 100ms, 500ms, 2s
-        // to catch late clobbers (e.g., after iOS share/download popup closes).
-        const checks = [100, 500, 2000]
-        for (const ms of checks) {
-          setTimeout(() => {
-            if (!el.isConnected) {
-              // Our captured reference is detached. Look up the CURRENT bg div in DOM
-              // (React may have replaced it) and inspect its live style.
-              const liveRoot = document.getElementById(root.id)
-              const liveBg = liveRoot?.querySelector<HTMLElement>('[data-portrait-bg]')
-              if (!liveBg) {
-                Message.error(`[debug] bg: after ${ms}ms, el detached AND no replacement in DOM`)
-                return
-              }
-              const liveStyle = liveBg.style.backgroundImage
-              if (!liveStyle || liveStyle === 'none') {
-                Message.error(`[debug] bg: after ${ms}ms, replaced el has EMPTY bg (${liveStyle || 'empty'})`)
-              } else {
-                Message.warning(`[debug] bg: after ${ms}ms, el replaced but new one has bg OK`)
-              }
-              return
-            }
-            const later = el.style.backgroundImage
-            if (later !== restoredBg) {
-              Message.error(`[debug] bg CLOBBERED after ${ms}ms — now ${later.slice(0, 30)}`)
-            }
-          }, ms)
-        }
-      })
-
-      // Inject VISIBLE img (not hidden)
-      const img = document.createElement('img')
-      positionImgLikeBackground(img, bgSize, bgPos)
-      img.setAttribute('data-snap-bg-img', '')
-
-      const loadPromise = new Promise<void>((resolve) => {
-        img.onload = async () => {
-          if (typeof img.decode === 'function') {
-            await img.decode().catch(() => {})
-          }
-          resolve()
-        }
-        img.onerror = () => resolve()
-      })
-      bgLoadPromises.push(loadPromise)
-
-      img.src = cacheBustedUrl
-      el.appendChild(img)
-      addRestore('remove-bg-img', () => {
-        if (img.isConnected) img.remove()
-      })
-    }
-
-    // Step 2: Process portrait layer - inject visible portrait, hide spine wrapper
-    const containers = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-inject]'))
-    const portraitLoadPromises: Promise<void>[] = []
-
-    for (const container of containers) {
-      const spineWrapper = container.querySelector('[data-portrait-spine]') as HTMLElement | null
-      if (!spineWrapper) continue // L2D-off, skip
-
-      const url = container.dataset.portraitUrl
-      const left = container.dataset.portraitLeft
-      const top = container.dataset.portraitTop
-      const width = container.dataset.portraitWidth
-      if (!url || !left || !top || !width) continue
-
-      // Hide spine wrapper
-      const originalDisplay = spineWrapper.style.display
-      spineWrapper.style.display = 'none'
-      addRestore('restore-spine-display', () => {
-        if (!spineWrapper.isConnected) {
-          console.warn('[screenshot] Spine wrapper disconnected, cannot restore display')
-          return
-        }
-        spineWrapper.style.display = originalDisplay
-      })
-
-      // Fetch and inject VISIBLE portrait img
-      try {
-        const response = await withTimeout(fetch(url), 4000)
-        const blob = await response.blob()
-        const dataUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader()
-          reader.onload = () => resolve(reader.result as string)
-          reader.onerror = reject
-          reader.readAsDataURL(blob)
-        })
-
-        // Get dimensions
-        const tempImg = new Image()
-        const dims = await new Promise<{ w: number; h: number }>((resolve) => {
-          tempImg.onload = () => resolve({ w: tempImg.naturalWidth, h: tempImg.naturalHeight })
-          tempImg.onerror = () => resolve({ w: 1, h: 1 })
-          tempImg.src = dataUrl
-        })
-
-        const w = parseFloat(width)
-        const h = w * (dims.h / dims.w)
-
-        // Create and inject visible portrait
-        const img = new Image()
-        img.src = dataUrl
-        img.style.position = 'absolute'
-        img.style.left = `${left}px`
-        img.style.top = `${top}px`
-        img.style.width = `${w}px`
-        img.style.height = `${h}px`
-        img.style.zIndex = '10'
-
-        const loadPromise = new Promise<void>((resolve) => {
-          img.onload = async () => {
-            if (typeof img.decode === 'function') {
-              await img.decode().catch(() => {})
-            }
-            resolve()
-          }
-          img.onerror = () => resolve()
-        })
-        portraitLoadPromises.push(loadPromise)
-
-        container.appendChild(img)
-        addRestore('remove-portrait-img', () => {
-          if (img.isConnected) img.remove()
-        })
-      } catch {
-        // Skip failed fetches - spine wrapper restore still registered
-      }
-    }
-
-    // Wait for all images to load and decode, with a hard timeout so we can't hang here.
-    try {
-      await withTimeout(Promise.all([...bgLoadPromises, ...portraitLoadPromises]), 4000)
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : String(e)
-      Message.warning(`[debug] prepare img-wait timed out: ${msg}`)
-    }
-  } catch (e) {
-    // If anything fails, still return the restore function for what was modified
-    const msg = e instanceof Error ? `${e.name}: ${e.message}` : String(e)
-    Message.error(`[debug] prepareLiveDom threw: ${msg}`)
-  }
-
-  // Return restore function that undoes all changes in reverse order
-  return () => {
-    Message.warning(`[debug] restore() start — ${restoreActions.length} actions`)
-    console.log('[screenshot] Restoring', restoreActions.length, 'actions:', restoreActions.map((r) => r.description).join(', '))
-    for (let i = restoreActions.length - 1; i >= 0; i--) {
-      const { action, description } = restoreActions[i]
-      try {
-        action()
-        console.log('[screenshot] Restored:', description)
-      } catch (e) {
-        const msg = e instanceof Error ? `${e.name}: ${e.message}` : String(e)
-        console.error('[screenshot] Restore failed:', description, e)
-        Message.error(`[debug] restore threw at ${description}: ${msg}`)
-      }
-    }
-    console.log('[screenshot] Restore complete')
-    Message.warning('[debug] restore() done')
-  }
-}
-
-/**
- * Pre-fetched portrait data for injection into clone.
- * Contains everything needed to create the img element in afterClone.
- */
-interface PortraitData {
-  dataUrl: string  // Base64 data URL (embedded, no external fetch needed)
-  left: string     // CSS left position
-  top: string      // CSS top position
-  width: number    // Explicit width in pixels
-  height: number   // Explicit height in pixels (calculated from aspect ratio)
-  decodedImg: HTMLImageElement  // Pre-decoded img element to clone in afterClone
-}
-
-/**
- * Pre-fetches portrait images as data URLs for L2D-on (spine) containers.
- *
- * Why pre-fetch as data URL?
- * - External URLs have decode race conditions on iOS Safari
- * - Data URLs are embedded, so no network fetch needed in clone
- * - We can calculate explicit dimensions from natural size
- *
- * Why explicit dimensions?
- * - `height: auto` doesn't work in cloned DOM (getBoundingClientRect returns 0x0)
- * - The clone is off-screen, so browser doesn't calculate auto dimensions
- * - We must set both width AND height explicitly
- *
- * Why only for L2D-on (spine) containers?
- * - L2D-off uses LoadingBlurredImage which renders correctly without intervention
- * - We detect spine by checking for [data-portrait-spine] child element
- *
- * Returns a Map from portrait URL to PortraitData for use in afterClone.
- */
-async function preparePortraitData(root: HTMLElement): Promise<Map<string, PortraitData>> {
   const containers = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-inject]'))
-  const portraitDataMap = new Map<string, PortraitData>()
+  const loadPromises: Promise<void>[] = []
 
-  // Filter to spine containers and extract positioning data
-  const spineContainers = containers
-    .filter((c) => c.querySelector('[data-portrait-spine]') != null)
-    .map((c) => ({
-      url: c.dataset.portraitUrl,
-      left: c.dataset.portraitLeft,
-      top: c.dataset.portraitTop,
-      width: c.dataset.portraitWidth,
-    }))
-    .filter((d): d is { url: string; left: string; top: string; width: string } =>
-      d.url != null && d.left != null && d.top != null && d.width != null
-    )
+  for (const container of containers) {
+    const spineWrapper = container.querySelector<HTMLElement>('[data-portrait-spine]')
+    if (!spineWrapper) continue // L2D-off: LoadingBlurredImage renders natively, skip
 
-  // Fetch all portraits in parallel
-  await Promise.all(spineContainers.map(async ({ url, left, top, width }) => {
+    const url = container.dataset.portraitUrl
+    const left = container.dataset.portraitLeft
+    const top = container.dataset.portraitTop
+    const width = container.dataset.portraitWidth
+    if (!url || !left || !top || !width) continue
+
+    // Hide spine wrapper
+    const originalDisplay = spineWrapper.style.display
+    spineWrapper.style.display = 'none'
+    restoreActions.push(() => {
+      if (spineWrapper.isConnected) spineWrapper.style.display = originalDisplay
+    })
+
+    // Fetch portrait as data URL to avoid iOS decode race conditions
     try {
-      const response = await fetch(url)
+      const response = await withTimeout(fetch(url), 4000)
       const blob = await response.blob()
       const dataUrl = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader()
@@ -510,48 +200,56 @@ async function preparePortraitData(root: HTMLElement): Promise<Map<string, Portr
         reader.readAsDataURL(blob)
       })
 
-      const tempImg = new Image()
+      // Probe natural dimensions - explicit height required (height:auto = 0 in clones)
+      const probe = new Image()
       const dims = await new Promise<{ w: number; h: number }>((resolve) => {
-        tempImg.onload = () => resolve({ w: tempImg.naturalWidth, h: tempImg.naturalHeight })
-        tempImg.onerror = () => resolve({ w: 1, h: 1 })
-        tempImg.src = dataUrl
+        probe.onload = () => resolve({ w: probe.naturalWidth, h: probe.naturalHeight })
+        probe.onerror = () => resolve({ w: 1, h: 1 })
+        probe.src = dataUrl
       })
 
       const w = parseFloat(width)
-      const aspectRatio = dims.h / dims.w
-      const h = w * aspectRatio
+      const h = w * (dims.h / dims.w)
 
-      // Pre-create and decode the img element so it's ready for afterClone
-      // This avoids Safari's foreignObject decode race condition
-      // Test B: Use setAttribute for style - Safari XMLSerializer reads attribute not property
-      const decodedImg = new Image()
-      decodedImg.src = dataUrl
-      decodedImg.setAttribute('style', `position: absolute; left: ${left}px; top: ${top}px; width: ${w}px; height: ${h}px; z-index: 10;`)
+      // Inject visible portrait img
+      const img = new Image()
+      img.src = dataUrl
+      img.style.position = 'absolute'
+      img.style.left = `${left}px`
+      img.style.top = `${top}px`
+      img.style.width = `${w}px`
+      img.style.height = `${h}px`
+      img.style.zIndex = '10'
 
-      // Explicitly decode before storing - ensures Safari has fully processed
-      if (typeof decodedImg.decode === 'function') {
-        await decodedImg.decode().catch(() => {})
-      }
+      loadPromises.push(new Promise<void>((resolve) => {
+        img.onload = async () => {
+          if (typeof img.decode === 'function') await img.decode().catch(() => {})
+          resolve()
+        }
+        img.onerror = () => resolve()
+      }))
 
-      portraitDataMap.set(url, {
-        dataUrl,
-        left,
-        top,
-        width: w,
-        height: h,
-        decodedImg,
+      container.appendChild(img)
+      restoreActions.push(() => {
+        if (img.isConnected) img.remove()
       })
     } catch {
-      // Skip failed fetches
+      // Fetch failed - spine wrapper restore already registered, UI will recover
     }
-  }))
+  }
 
-  return portraitDataMap
+  // Wait for images with timeout so we don't hang the capture
+  await withTimeout(Promise.all(loadPromises), 4000).catch(() => {})
+
+  // Return restore function - executes in reverse order for proper cleanup
+  return () => {
+    for (let i = restoreActions.length - 1; i >= 0; i--) {
+      try { restoreActions[i]() } catch { /* best-effort */ }
+    }
+  }
 }
 
-/**
- * No-op plugin - live DOM is now modified before capture, no afterClone needed.
- */
+/** No-op snapdom plugin - all DOM modifications happen before capture now */
 function buildNoOpPlugin() {
   return {
     name: 'no-op',
@@ -611,17 +309,14 @@ export async function screenshotElementById(
     }
 
     const restoreContext = patchCanvasForDisplayP3()
-    const cacheBust = `__snap-bg=${Date.now()}`
 
     let blob: Blob | null = null
     let lastError: unknown = null
     try {
       for (let i = 0; i < maxAttempts; i++) {
-        // Modify live DOM before capture - no afterClone modifications needed
-        // This avoids Safari foreignObject timing issues
         let restoreLiveDom: (() => void) | null = null
         try {
-          restoreLiveDom = await prepareLiveDomForCapture(element, cacheBust)
+          restoreLiveDom = await prepareLiveDomForCapture(element)
           const capture = await withTimeout(
             snapdom(element, {
               scale: 1.5,
@@ -632,11 +327,6 @@ export async function screenshotElementById(
               outerShadows: true,
               embedFonts: true,
               plugins: [buildNoOpPlugin()],
-              // Disable snapdom's iOS warmup loop — it mutates the live element's
-              // inline styles concurrently with our restore, and on iOS the extra
-              // style-recalc flushes can drop the application of our restore.
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              safariWarmupAttempts: 0 as any,
             }),
             attemptTimeoutMs,
           )
@@ -645,8 +335,6 @@ export async function screenshotElementById(
         } catch (e) {
           lastError = e
         } finally {
-          // Always restore, even if prepareLiveDomForCapture partially failed
-          console.log('[screenshot] Calling restore, restoreLiveDom exists:', !!restoreLiveDom)
           restoreLiveDom?.()
         }
       }
@@ -709,13 +397,6 @@ export async function screenshotElementById(
     }
   }
 
-  try {
-    const blob = await repeatLoadBlob()
-    console.log('[screenshot] Blob created, size:', blob.size)
-    handleBlob(blob)
-    console.log('[screenshot] handleBlob complete')
-  } catch (e) {
-    console.error('[screenshot] Error in screenshot flow:', e)
-    throw e
-  }
+  const blob = await repeatLoadBlob()
+  handleBlob(blob)
 }

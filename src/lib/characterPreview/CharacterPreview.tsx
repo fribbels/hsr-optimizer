@@ -143,7 +143,16 @@ function buildInsetShadow(blur: number, opacity: number) {
   return `, inset rgba(255, 255, 255, ${opacity.toFixed(2)}) 0px 0px ${blur}px`
 }
 
-/** Blurred portrait background fill behind the card */
+/**
+ * Blurred portrait background fill behind the card.
+ *
+ * Uses an <img> element instead of CSS background-image because:
+ * 1. iOS Safari has bugs rendering CSS backgrounds in SVG foreignObject (used by snapdom)
+ * 2. The filter is on the img directly because Safari sometimes fails to paint
+ *    filtered imgs when the filter is on a parent element
+ * 3. translateZ(0) forces a GPU layer to prevent mobile browsers from culling
+ *    the element when the user zooms in and the element is partially off-screen
+ */
 function ShowcaseBackgroundBlur({
   portraitUrl,
   portraitToUse,

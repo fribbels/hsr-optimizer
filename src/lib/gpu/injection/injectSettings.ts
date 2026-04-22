@@ -1,4 +1,5 @@
 import {
+  CombatBuffs,
   Constants,
   Stats,
 } from 'lib/constants/constants'
@@ -83,8 +84,9 @@ function generateRequest(request: Form) {
 
   // Buffs
   // TODO: TEMPORARILY DISABLED - Extra combat buffs zeroed out
-  for (const [key] of Object.entries(request.combatBuffs)) {
-    wgsl += `const combatBuffs${key}: f32 = 0;\n`
+  // Iterate over all known CombatBuffs keys (not request.combatBuffs which may be empty)
+  for (const buff of Object.values(CombatBuffs)) {
+    wgsl += `const combatBuffs${buff.key}: f32 = 0;\n`
   }
   wgsl += '\n'
 

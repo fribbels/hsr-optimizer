@@ -95,6 +95,7 @@ export function SearchableCombobox(props: {
           rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
           onClick={() => combobox.toggleDropdown()}
           style={style}
+          styles={{ input: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }}
         >
           {selected?.label || <Input.Placeholder>{placeholder}</Input.Placeholder>}
         </InputBase>

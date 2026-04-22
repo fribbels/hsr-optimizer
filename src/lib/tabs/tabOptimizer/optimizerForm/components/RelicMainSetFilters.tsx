@@ -5,7 +5,7 @@ import {
   Group,
   PillsInput,
 } from '@mantine/core'
-import { IconSettings } from '@tabler/icons-react'
+import { IconCircleAsterisk, IconSettings } from '@tabler/icons-react'
 import {
   Constants,
   Parts,
@@ -17,6 +17,8 @@ import {
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import type { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import type { TwoPieceSlot } from 'lib/stores/optimizerForm/setFilterTypes'
+import { TwoPieceSlotType } from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
   optimizerTabDefaultGap,
@@ -169,12 +171,23 @@ function MainStatLinkRope() {
 
 const relicBoxIcon = Assets.getDefaultRelic()
 
+function SlotIcon({ slot }: { slot: TwoPieceSlot }) {
+  switch (slot.type) {
+    case TwoPieceSlotType.Set:
+      return <img src={Assets.getSetImage(slot.value)} style={{ width: 20, height: 20 }} />
+    case TwoPieceSlotType.Stat:
+      return <img src={Assets.getStatIcon(slot.value)} style={{ width: 20, height: 20 }} />
+    case TwoPieceSlotType.Any:
+      return <IconCircleAsterisk size={20} opacity={0.5} />
+  }
+}
+
 function RelicSetFilterRow() {
   const display = useOptimizerRequestStore((s) => s.setFilters)
   const hasSelection = display.fourPiece.length > 0 || display.twoPieceCombos.length > 0
   const totalCount = display.fourPiece.length + display.twoPieceCombos.length
 
-  const handleRemove = (e: React.MouseEvent, name: string) => {
+  const handleRemove4p = (e: React.MouseEvent, name: string) => {
     e.stopPropagation()
     const current = useOptimizerRequestStore.getState().setFilters
     useOptimizerRequestStore.getState().setSetFilters({
@@ -182,6 +195,20 @@ function RelicSetFilterRow() {
       fourPiece: current.fourPiece.filter((s) => s !== name),
     })
   }
+
+  const handleRemove2p = (e: React.MouseEvent, index: number) => {
+    e.stopPropagation()
+    const current = useOptimizerRequestStore.getState().setFilters
+    useOptimizerRequestStore.getState().setSetFilters({
+      ...current,
+      twoPieceCombos: current.twoPieceCombos.filter((_, i) => i !== index),
+    })
+  }
+
+  const combined = [
+    ...display.fourPiece.map((name) => ({ type: '4p' as const, name })),
+    ...display.twoPieceCombos.map((combo, i) => ({ type: '2p' as const, combo, index: i })),
+  ]
 
   return (
     <PillsInput
@@ -195,13 +222,22 @@ function RelicSetFilterRow() {
       {hasSelection
         ? (
           <Group gap={10} wrap='nowrap' align='center' style={{ overflow: 'hidden', flex: 1 }}>
-            {display.fourPiece.slice(0, 2).map((name) => (
-              <Group key={name} gap={4} wrap='nowrap' align='center' style={{ marginBottom: 1 }}>
-                <img src={Assets.getSetImage(name)} style={{ width: 20, height: 20 }} />
-                <img src={Assets.getSetImage(name)} style={{ width: 20, height: 20 }} />
-                <CloseButton size={14} variant='subtle' onClick={(e) => handleRemove(e, name)} />
-              </Group>
-            ))}
+            {combined.slice(0, 2).map((item) =>
+              item.type === '4p'
+                ? (
+                  <Group key={`4p-${item.name}`} gap={4} wrap='nowrap' align='center' style={{ marginBottom: 1 }}>
+                    <img src={Assets.getSetImage(item.name)} style={{ width: 20, height: 20 }} />
+                    <img src={Assets.getSetImage(item.name)} style={{ width: 20, height: 20 }} />
+                    <CloseButton size={14} variant='subtle' onClick={(e) => handleRemove4p(e, item.name)} />
+                  </Group>
+                )
+                : (
+                  <Group key={`2p-${item.index}`} gap={4} wrap='nowrap' align='center' style={{ marginBottom: 1 }}>
+                    <SlotIcon slot={item.combo.a} />
+                    <SlotIcon slot={item.combo.b} />
+                    <CloseButton size={14} variant='subtle' onClick={(e) => handleRemove2p(e, item.index)} />
+                  </Group>
+                ))}
             {totalCount > 2 && <span style={{ fontSize: 12, color: 'var(--mantine-color-dimmed)', marginLeft: 'auto' }}>+{totalCount - 2}</span>}
           </Group>
         )

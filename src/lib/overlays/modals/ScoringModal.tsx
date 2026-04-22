@@ -16,7 +16,7 @@ import { modals } from '@mantine/modals'
 import {
   Parts,
   Stats,
-  type SubStats,
+  SubStats,
 } from 'lib/constants/constants'
 import {
   OpenCloseIDs,
@@ -178,6 +178,11 @@ function ScoringModalContent({ close }: { close: () => void }) {
     if (!scoringAlgorithmFocusCharacter) return
 
     const stats = { ...scoringMetadata.stats! }
+    for (const stat of SubStats) {
+      if (typeof stats[stat] !== 'number') {
+        stats[stat] = 0
+      }
+    }
     stats[Stats.ATK_P] = stats[Stats.ATK]
     stats[Stats.DEF_P] = stats[Stats.DEF]
     stats[Stats.HP_P] = stats[Stats.HP]

@@ -105,6 +105,19 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   const hasSpineData = getSkeletonCount(character.id) != null
   const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D
 
+  // Expose portrait positioning as data attributes for screenshot injection.
+  // The screenshot util injects a hidden <img> at capture time (like bg injection),
+  // which is more reliable than React-rendered hidden imgs on iOS Safari.
+  const portraitDataAttrs = hasCustomPortrait
+    ? {}
+    : {
+      'data-portrait-inject': '',
+      'data-portrait-url': Assets.getCharacterPortraitById(character.id),
+      'data-portrait-left': String(portraitStyle.left),
+      'data-portrait-top': String(portraitStyle.top),
+      'data-portrait-width': String(portraitStyle.width),
+    }
+
   return (
     <div
       className={styles.portraitContainer}
@@ -113,14 +126,17 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         height: `${tempParentH}px`,
         boxShadow: showcaseShadow,
       }}
+      {...portraitDataAttrs}
     >
       {useSpine
         ? (
-          <LoadingBlurredSpine
-            characterId={character.id}
-            style={spinePortraitStyle}
-            onUnsupported={handleSpineUnsupported}
-          />
+          <div data-portrait-spine>
+            <LoadingBlurredSpine
+              characterId={character.id}
+              style={spinePortraitStyle}
+              onUnsupported={handleSpineUnsupported}
+            />
+          </div>
         )
         : (character.portrait ?? customPortrait)
         ? (
@@ -131,10 +147,12 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
           />
         )
         : (
-          <LoadingBlurredImage
-            src={Assets.getCharacterPortraitById(character.id)}
-            style={portraitStyle}
-          />
+          <div data-portrait-foreground>
+            <LoadingBlurredImage
+              src={Assets.getCharacterPortraitById(character.id)}
+              style={portraitStyle}
+            />
+          </div>
         )}
 
       <div className={styles.buttonColumn} style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>

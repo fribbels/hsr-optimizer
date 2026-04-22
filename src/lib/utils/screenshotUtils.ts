@@ -1,4 +1,7 @@
-import { snapdom } from '@zumer/snapdom'
+import {
+  preCache,
+  snapdom,
+} from '@zumer/snapdom'
 import i18next from 'i18next'
 import {
   cardTotalW,
@@ -67,9 +70,10 @@ function positionImgLikeBackground(img: HTMLImageElement, bgSize: string, bgPos:
   }
 }
 
-function injectHiddenLiveBgImages(root: HTMLElement): () => void {
+async function injectHiddenLiveBgImages(root: HTMLElement): Promise<() => void> {
   const bgElements = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-bg]'))
   const injectedImgs: HTMLImageElement[] = []
+  const loadPromises: Promise<void>[] = []
 
   for (const el of bgElements) {
     const bgStyleRaw = el.style.backgroundImage
@@ -79,42 +83,140 @@ function injectHiddenLiveBgImages(root: HTMLElement): () => void {
     const url = match[1]
     const bgSize = el.style.backgroundSize
     const bgPos = el.style.backgroundPosition
+    const cacheBustedUrl = `${url}#__snap-bg=${Date.now()}`
 
     const img = document.createElement('img')
     positionImgLikeBackground(img, bgSize, bgPos)
     img.setAttribute('data-snap-bg-img', '')
-    img.style.visibility = 'hidden' // invisible on live page, only shown in clone
-    img.src = url
+    img.style.visibility = 'hidden'
+
+    const loadPromise = new Promise<void>((resolve) => {
+      img.onload = () => resolve()
+      img.onerror = () => resolve()
+    })
+    loadPromises.push(loadPromise)
+
+    img.src = cacheBustedUrl
     el.appendChild(img)
     injectedImgs.push(img)
   }
 
-  Message.warning(`[bg-inline] injected ${injectedImgs.length} bg imgs (sync)`)
+  if (loadPromises.length > 0) {
+    await Promise.all(loadPromises)
+  }
+
   return () => {
     for (const img of injectedImgs) img.remove()
   }
 }
 
-function buildRevealBgPlugin() {
+interface PortraitData {
+  dataUrl: string
+  left: string
+  top: string
+  width: number
+  height: number
+}
+
+async function preparePortraitData(root: HTMLElement): Promise<Map<string, PortraitData>> {
+  // Pre-fetch portrait data for spine containers (L2D-on).
+  // We'll inject directly into the clone in afterClone.
+  const containers = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-inject]'))
+  const portraitDataMap = new Map<string, PortraitData>()
+
+  for (const container of containers) {
+    const hasSpine = container.querySelector('[data-portrait-spine]') != null
+    if (!hasSpine) continue
+
+    const url = container.dataset.portraitUrl
+    const left = container.dataset.portraitLeft
+    const top = container.dataset.portraitTop
+    const width = container.dataset.portraitWidth
+
+    if (!url || left == null || top == null || width == null) continue
+
+    try {
+      const response = await fetch(url)
+      const blob = await response.blob()
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = () => resolve(reader.result as string)
+        reader.onerror = reject
+        reader.readAsDataURL(blob)
+      })
+
+      // Get natural dimensions
+      const tempImg = new Image()
+      const dims = await new Promise<{ w: number; h: number }>((resolve) => {
+        tempImg.onload = () => resolve({ w: tempImg.naturalWidth, h: tempImg.naturalHeight })
+        tempImg.onerror = () => resolve({ w: 1, h: 1 })
+        tempImg.src = dataUrl
+      })
+
+      const w = parseFloat(width)
+      const aspectRatio = dims.h / dims.w
+      portraitDataMap.set(url, {
+        dataUrl,
+        left,
+        top,
+        width: w,
+        height: w * aspectRatio,
+      })
+    } catch {
+      continue
+    }
+  }
+
+  return portraitDataMap
+}
+
+function buildRevealBgPlugin(portraitDataMap: Map<string, PortraitData>) {
   return {
     name: 'reveal-bg-in-clone',
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     afterClone(context: any) {
       const clone = context?.clone
-      if (!clone || typeof clone.querySelectorAll !== 'function') return
+      if (!clone || typeof clone.querySelectorAll !== 'function') {
+        return
+      }
+
+      // 1. Strip CSS background-image from bg divs and reveal injected bg imgs
       const bgDivs = clone.querySelectorAll('[data-portrait-bg]') as NodeListOf<HTMLElement>
-      let stripped = 0
-      let revealed = 0
       bgDivs.forEach((div) => {
         div.style.backgroundImage = 'none'
-        stripped++
-        const imgs = div.querySelectorAll('[data-snap-bg-img]') as NodeListOf<HTMLElement>
+        const imgs = div.querySelectorAll('[data-snap-bg-img]') as NodeListOf<HTMLImageElement>
         imgs.forEach((img) => {
           img.style.visibility = 'visible'
-          revealed++
         })
       })
-      Message.warning(`[bg-inline] clone reveal: stripped ${stripped} bgs, revealed ${revealed} imgs`)
+
+      // 2. Process portrait containers
+      const containers = clone.querySelectorAll('[data-portrait-inject]') as NodeListOf<HTMLElement>
+      containers.forEach((container) => {
+        const url = container.dataset.portraitUrl
+        const portraitData = url ? portraitDataMap.get(url) : null
+
+        // Only modify container if we have portrait data (L2D-on case)
+        // For L2D-off, LoadingBlurredImage renders naturally
+        if (portraitData) {
+          // Hide ALL existing imgs in container (spine PNG, etc)
+          const allImgs = container.querySelectorAll('img') as NodeListOf<HTMLImageElement>
+          allImgs.forEach((img) => {
+            img.style.display = 'none'
+          })
+
+          // Inject portrait directly into clone
+          const img = document.createElement('img')
+          img.src = portraitData.dataUrl
+          img.style.position = 'absolute'
+          img.style.left = `${portraitData.left}px`
+          img.style.top = `${portraitData.top}px`
+          img.style.width = `${portraitData.width}px`
+          img.style.height = `${portraitData.height}px`
+          img.style.zIndex = '10'
+          container.appendChild(img)
+        }
+      })
     },
   }
 }
@@ -152,19 +254,27 @@ export async function screenshotElementById(
     const maxAttempts = 3
     const attemptTimeoutMs = 8000
 
-    Message.warning(`[v38] sync-inject`)
+    // Warm snapdom's resource cache
+    try {
+      await preCache(element)
+    } catch {
+      // Best-effort
+    }
 
-    // Sync inject hidden <img> into live DOM — no awaits between injection and snapdom so React can't re-render and remove our imgs
-    const restoreBackgrounds = injectHiddenLiveBgImages(element)
-    // Plugin strips CSS bg + reveals the img only in the clone
-    const revealPlugin = buildRevealBgPlugin()
-    // Patch canvas to use Display P3 on mobile
+    // Pre-fetch portrait data (for L2D-on, we inject directly into clone)
+    const portraitDataMap = await preparePortraitData(element)
+
+    // Plugin handles bg reveal and portrait injection into clone
+    const revealPlugin = buildRevealBgPlugin(portraitDataMap)
     const restoreContext = patchCanvasForDisplayP3()
 
     let blob: Blob | null = null
     try {
       for (let i = 0; i < maxAttempts; i++) {
         const attemptStart = performance.now()
+
+        // Inject bg imgs into live DOM (will be cloned)
+        const restoreBgInjection = await injectHiddenLiveBgImages(element)
         try {
           const capture = await withTimeout(
             snapdom(element, {
@@ -180,15 +290,15 @@ export async function screenshotElementById(
             attemptTimeoutMs,
           )
           blob = await capture.toBlob({ type: 'png' })
-          Message.warning(`[snapdom] attempt ${i + 1}: ${blob ? `${Math.round(blob.size / 1024)}KB` : 'null'} ${Math.round(performance.now() - attemptStart)}ms`)
-          if (blob && blob.size > 50000) break
-        } catch (e) {
-          Message.error(`[snapdom] attempt ${i + 1} failed: ${e}`)
+          if (blob && blob.size > 1_000_000) break
+        } catch {
+          // Retry
+        } finally {
+          restoreBgInjection()
         }
       }
     } finally {
       restoreContext()
-      restoreBackgrounds()
     }
 
     if (!blob) {

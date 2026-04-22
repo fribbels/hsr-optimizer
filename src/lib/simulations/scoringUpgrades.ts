@@ -121,10 +121,10 @@ export function generateStatImprovements(
     upgrade.percent = percent
   }
 
-  // Sort upgrades descending
-  substatUpgradeResults.sort((a, b) => b.percent! - a.percent!)
-  setUpgradeResults.sort((a, b) => b.percent! - a.percent!)
-  mainUpgradeResults.sort((a, b) => b.percent! - a.percent!)
+  // Sort upgrades descending by combo damage
+  substatUpgradeResults.sort((a, b) => b.simulationResult.simScore - a.simulationResult.simScore)
+  setUpgradeResults.sort((a, b) => b.simulationResult.simScore - a.simulationResult.simScore)
+  mainUpgradeResults.sort((a, b) => b.simulationResult.simScore - a.simulationResult.simScore)
 
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }

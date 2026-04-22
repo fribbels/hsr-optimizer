@@ -95,11 +95,12 @@
 }
 
 .heroTitle {
-  font-size: 64px;
+  font-size: clamp(24px, 5vw, 64px);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.1;
   margin: 0;
+  white-space: nowrap;
   color: rgba(255, 255, 255, 0.95);
   text-shadow:
     0 0 20px rgba(0, 0, 0, 0.7),
@@ -456,7 +457,14 @@
   border-radius: var(--radius-md);
 }
 
-/* Responsive */
+/* Responsive - portrait/narrow screens */
+@media (max-aspect-ratio: 1/1) {
+  .hero {
+    min-height: auto;
+    height: clamp(500px, 75vh, 850px);
+  }
+}
+
 @media (max-width: 1300px) {
   .cardContent {
     padding: 60px 48px;

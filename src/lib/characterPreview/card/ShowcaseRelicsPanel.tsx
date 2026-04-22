@@ -62,6 +62,7 @@ export const ShowcaseRelicsPanel = memo(function ShowcaseRelicsPanel({
       {parts.map((part) => (
         <RelicPreview
           key={part}
+          part={part}
           setEditModalOpen={setEditModalOpen}
           setSelectedRelic={setSelectedRelic}
           setAddModalOpen={setAddModalOpen}

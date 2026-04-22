@@ -57,6 +57,7 @@ const PLACEHOLDER_RELIC: Partial<Relic> = {
 
 export const RelicPreview = memo(function RelicPreview(props: {
   relic?: Relic | null,
+  part?: Parts,
   source?: ShowcaseSource,
   characterId?: CharacterId | null,
   score?: RelicScoringResult,
@@ -96,12 +97,8 @@ export const RelicPreview = memo(function RelicPreview(props: {
     if ((!relic.id && !characterId) || source === ShowcaseSource.SHOWCASE_TAB || source === ShowcaseSource.BUILDS_MODAL) return
 
     if (!relic.id && characterId) {
-      relic.equippedBy = characterId
-      relic.enhance = 15
-      relic.grade = 5
-      relic.part = props.relic?.part ?? Parts.Head
-      setSelectedRelic?.(relic)
-      setAddModalOpen?.(true, relic.part, relic)
+      const part = props.part ?? props.relic?.part ?? Parts.Head
+      setAddModalOpen?.(true, part, undefined)
     } else {
       setSelectedRelic?.(relic)
       setEditModalOpen?.(true, relic)

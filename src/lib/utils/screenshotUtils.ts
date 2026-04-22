@@ -271,8 +271,6 @@ export async function screenshotElementById(
     let blob: Blob | null = null
     try {
       for (let i = 0; i < maxAttempts; i++) {
-        const attemptStart = performance.now()
-
         // Inject bg imgs into live DOM (will be cloned)
         const restoreBgInjection = await injectHiddenLiveBgImages(element)
         try {
@@ -318,15 +316,10 @@ export async function screenshotElementById(
     if (action === 'clipboard') {
       if (mobile) {
         const file = new File([blob], filename, { type: 'image/png' })
-        const hasCanShare = typeof navigator.canShare === 'function'
-        const canShareFiles = hasCanShare ? navigator.canShare({ files: [file] }) : false
-        Message.error(
-          `[debug] secure=${window.isSecureContext} hasCanShare=${hasCanShare} canShareFiles=${canShareFiles} blobSize=${blob.size} type=${blob.type}`,
-        )
+        const canShareFiles = typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })
         if (canShareFiles) {
-          navigator.share({ files: [file], title: '', text: '' }).catch((e: unknown) => {
-            const msg = e instanceof Error ? `${e.name}: ${e.message}` : String(e)
-            Message.error(`[debug] share() threw: ${msg}`)
+          navigator.share({ files: [file], title: '', text: '' }).catch(() => {
+            Message.error('Unable to share screenshot')
           })
         } else {
           Message.error('Unable to save screenshot to clipboard, try the download button to the right')

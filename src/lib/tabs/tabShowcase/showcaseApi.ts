@@ -20,6 +20,10 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 
 const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 
+// DEBUG: serves public/mock-showcase.json instead of hitting the live API.
+// For mobile screenshot testing. Revert before merging.
+const USE_MOCK = true
+
 const THROTTLE_SECONDS = 10
 
 export type ShowcaseTabForm = {
@@ -67,7 +71,10 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
 
   window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.SHOWCASE] + `?id=${id}`)
 
-  void fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
+  const url = USE_MOCK
+    ? `${window.location.origin}/hsr-optimizer/mock-showcase.json`
+    : `${API_ENDPOINT}/profile/${id}`
+  void fetch(url, { method: 'GET' })
     .then((response) => {
       if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`)
       return response.json() as Promise<APIResponse>

@@ -160,49 +160,82 @@ function ShowcaseBackgroundBlur({
   let bgSize: string
   let bgPos: string
 
+  // Render as a real <img> rather than CSS background-image. iOS Safari has a
+  // rendering-pipeline bug where CSS backgrounds fail to repaint after snapdom's
+  // SVG-foreignObject rasterization; <img> uses a different pipeline that
+  // survives the capture. The filter / blend / sizing / positioning below
+  // exactly match the old background-image behavior.
+  let imgStyle: React.CSSProperties
   if (portraitToUse) {
-    // Custom portrait: CSS cover guarantees no visible edges,
-    // percentage position centers on the crop focal point
+    // Custom portrait: "cover" behavior — object-fit:cover + object-position
     const crop = portraitToUse.customImageParams.croppedAreaPixels
     const origW = portraitToUse.originalDimensions.width
     const origH = portraitToUse.originalDimensions.height
-    bgSize = 'cover'
+    let objPos = 'center'
     if (origW > 0 && origH > 0) {
       const pctX = (crop.x + crop.width / 2) / origW * 100
       const pctY = (crop.y + crop.height / 2) / origH * 100
-      bgPos = `${pctX}% ${pctY}%`
-    } else {
-      bgPos = 'center'
+      objPos = `${pctX}% ${pctY}%`
+    }
+    imgStyle = {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      objectPosition: objPos,
     }
   } else {
-    // Default portrait: pixel positioning using curated charCenter values + per-character offset
+    // Default portrait: pixel width + computed top/left (height:auto preserves aspect)
     const bgZoom = Math.max(0.1, displayDimensions.charCenter.z * 1.75 + displayDimensions.backgroundCenterOffset.z)
     const bgScale = bgZoom / 2 * cardTotalW / 1024
     const offsetX = displayDimensions.backgroundCenterOffset.x
     const offsetY = displayDimensions.backgroundCenterOffset.y
-    bgSize = `${cardTotalW * bgZoom}px auto`
-    bgPos = `${-displayDimensions.charCenter.x * bgScale + cardTotalW / 2 + offsetX}px ${-displayDimensions.charCenter.y * bgScale + parentH / 2 + offsetY}px`
+    const imgW = cardTotalW * bgZoom
+    const imgLeft = -displayDimensions.charCenter.x * bgScale + cardTotalW / 2 + offsetX
+    const imgTop = -displayDimensions.charCenter.y * bgScale + parentH / 2 + offsetY
+    imgStyle = {
+      position: 'absolute',
+      width: `${imgW}px`,
+      height: 'auto',
+      left: `${imgLeft}px`,
+      top: `${imgTop}px`,
+    }
   }
 
+  // Safari renders an <img> inside a parent with CSS `filter` unreliably
+  // (the img sometimes doesn't paint at all). Moving filter onto the img
+  // itself avoids that bug. Blend mode stays on the wrapper so it composites
+  // against the parent card background the same way the old CSS-bg did.
   return (
     <div
       data-portrait-bg
       style={{
-        backgroundImage: `url(${portraitUrl})`,
-        backgroundPosition: bgPos,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: bgSize,
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
         zIndex: 0,
-        filter: portraitFilter,
-        WebkitFilter: portraitFilter,
+        overflow: 'hidden',
         mixBlendMode: blendMode,
       }}
-    />
+    >
+      <img
+        src={portraitUrl}
+        style={{
+          ...imgStyle,
+          display: 'block',
+          filter: portraitFilter,
+          WebkitFilter: portraitFilter,
+          pointerEvents: 'none',
+          transform: 'translateZ(0)', // Force GPU layer - prevents mobile culling when zoomed
+        }}
+        alt=''
+        draggable={false}
+      />
+    </div>
   )
 }
 

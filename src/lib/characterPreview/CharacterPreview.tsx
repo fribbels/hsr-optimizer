@@ -166,14 +166,6 @@ function ShowcaseBackgroundBlur({
   portraitFilter: string,
   blendMode: 'screen' | 'normal',
 }) {
-  let bgSize: string
-  let bgPos: string
-
-  // Render as a real <img> rather than CSS background-image. iOS Safari has a
-  // rendering-pipeline bug where CSS backgrounds fail to repaint after snapdom's
-  // SVG-foreignObject rasterization; <img> uses a different pipeline that
-  // survives the capture. The filter / blend / sizing / positioning below
-  // exactly match the old background-image behavior.
   let imgStyle: React.CSSProperties
   if (portraitToUse) {
     // Custom portrait: "cover" behavior — object-fit:cover + object-position

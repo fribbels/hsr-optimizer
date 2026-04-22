@@ -339,11 +339,14 @@ export const Optimizer = {
           if ((inProgress === 0 && nextRunIndex >= runs.length) || CANCEL) {
             useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
             results = queueResults.toArray()
+            results.sort((a, b) => (b[gridSortColumn] as number) - (a[gridSortColumn] as number))
 
             OptimizerTabController.setRows(results)
             setSortColumn(gridSortColumn)
 
-            gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+            gridStore.optimizerGridApi()?.updateGridOptions({
+              datasource: OptimizerTabController.getDataSource({ colId: gridSortColumn, sort: 'desc' }),
+            })
             console.log('Done', results.length)
             resultsShown = true
             if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
@@ -363,9 +366,12 @@ export const Optimizer = {
           if (inProgress === 0 && nextRunIndex >= runs.length) {
             useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
             results = queueResults.toArray()
+            results.sort((a, b) => (b[gridSortColumn] as number) - (a[gridSortColumn] as number))
             OptimizerTabController.setRows(results)
             setSortColumn(gridSortColumn)
-            gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
+            gridStore.optimizerGridApi()?.updateGridOptions({
+              datasource: OptimizerTabController.getDataSource({ colId: gridSortColumn, sort: 'desc' }),
+            })
             resultsShown = true
             if (!results.length) activateZeroResultSuggestionsModal(request)
             return

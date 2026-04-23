@@ -13,7 +13,7 @@ import type { ShowcaseTheme } from 'lib/tabs/tabRelics/RelicPreview'
 import type { CharacterId } from 'types/character'
 import type { ShowcasePreferences } from 'types/metadata'
 
-const STANDARD_COLOR = '#799ef4'
+const STANDARD_COLOR = '#647bb0'
 export const DEFAULT_SHOWCASE_COLOR = '#2473e1'
 // Placeholder shown while the worker extracts a custom portrait's color.
 const CUSTOM_PORTRAIT_PENDING_COLOR = '#6b7280'

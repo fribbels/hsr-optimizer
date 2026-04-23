@@ -552,6 +552,11 @@ const display = {
     y: 876,
     z: 1.05,
   },
+  backgroundCenterOffset: {
+    x: 95,
+    y: 364,
+    z: 0.17,
+  },
   showcaseColor: '#896ed4',
 }
 

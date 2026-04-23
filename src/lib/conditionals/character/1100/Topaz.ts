@@ -398,7 +398,7 @@ const display = {
     y: 886,
     z: 1.1,
   },
-  showcaseColor: '#5246bd',
+  showcaseColor: '#576ec2',
 }
 
 export const Topaz: CharacterConfig = {

@@ -395,6 +395,11 @@ const display = {
     y: 944,
     z: 1.15,
   },
+  backgroundCenterOffset: {
+    x: 277,
+    y: 213,
+    z: 0.5,
+  },
   showcaseColor: '#8395fb',
 }
 

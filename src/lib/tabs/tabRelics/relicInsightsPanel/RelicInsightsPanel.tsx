@@ -1,4 +1,4 @@
-import { useElementSize } from '@mantine/hooks'
+import { INSIGHTS_PANEL_WIDTH } from 'lib/constants/constantsUi'
 import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
@@ -17,10 +17,8 @@ import {
   RelicInsights,
   useRelicsTabStore,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import {
-  memo,
-  useMemo,
-} from 'react'
+import { DeferCreate } from 'lib/ui/DeferredRender'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import { useShallow } from 'zustand/react/shallow'
@@ -76,21 +74,20 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
 })
 
 function RelicInsightsPanelContent({ scores, insightsMode }: { scores: Score[], insightsMode: RelicInsights }) {
-  const { ref: containerRef, width: containerWidth } = useElementSize()
-  const chartWidth = containerWidth || undefined
-
   return (
-    <div ref={containerRef} style={{ width: '100%', overflow: 'hidden' }}>
-      {(() => {
-        switch (insightsMode) {
-          case RelicInsights.Buckets:
-            return <BucketsPanel scores={scores} width={chartWidth} />
-          case RelicInsights.Top10:
-            return <Top10Panel scores={scores} width={chartWidth} />
-          case RelicInsights.ESTBP:
-            return <EstbpCard />
-        }
-      })()}
+    <div style={{ width: '100%', overflow: 'hidden' }}>
+      <DeferCreate>
+        {(() => {
+          switch (insightsMode) {
+            case RelicInsights.Buckets:
+              return <BucketsPanel scores={scores} width={INSIGHTS_PANEL_WIDTH} />
+            case RelicInsights.Top10:
+              return <Top10Panel scores={scores} width={INSIGHTS_PANEL_WIDTH} />
+            case RelicInsights.ESTBP:
+              return <EstbpCard />
+          }
+        })()}
+      </DeferCreate>
     </div>
   )
 }

@@ -307,35 +307,24 @@ export function useDeferReveal() {
   const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    let rafId: number
     let firstActivation = true
 
     const unsub = addActivationListener(() => {
       // First activation: content was in display:none during stagger mount and
       // was never visible. Progressive reveal would just add extra layout passes
       // (hide then re-show) with no benefit. Skip it.
+      //
+      // Subsequent activations: content was ALREADY visible before the tab switch.
+      // The hide-then-show cycle causes a visible flash (content → blank → content).
+      // Since the content is already rendered, progressive reveal provides no benefit
+      // and actively harms UX. Skip it entirely.
       if (firstActivation) {
         firstActivation = false
-        return
       }
-
-      const sections = containerRef.current?.querySelectorAll<HTMLElement>(':scope [data-defer-reveal]')
-      if (!sections?.length) return
-      for (const section of sections) section.style.display = 'none'
-      let i = 0
-      cancelAnimationFrame(rafId)
-      function tick() {
-        if (i < sections!.length) {
-          sections![i].style.display = ''
-          i++
-          rafId = requestAnimationFrame(tick)
-        }
-      }
-      rafId = requestAnimationFrame(tick)
+      // Progressive reveal disabled - content stays visible without hide/show cycle
     })
     return () => {
       unsub()
-      cancelAnimationFrame(rafId)
     }
   }, [addActivationListener])
 

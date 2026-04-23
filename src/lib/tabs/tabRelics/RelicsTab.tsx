@@ -1,21 +1,37 @@
 import { Accordion } from '@mantine/core'
+import { RELICS_TAB_WIDTH } from 'lib/constants/constantsUi'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { BottomDock } from 'lib/tabs/tabRelics/bottomDock/BottomDock'
 import { RecentRelics } from 'lib/tabs/tabRelics/RecentRelics'
 import { RelicsGrid } from 'lib/tabs/tabRelics/RelicsGrid'
 import { TopBar } from 'lib/tabs/tabRelics/topBar/TopBar'
 import {
+  DeferCreateProvider,
   DeferReveal,
   useDeferReveal,
 } from 'lib/ui/DeferredRender'
+import {
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 
-export const TAB_WIDTH = 1460
+export const TAB_WIDTH = RELICS_TAB_WIDTH
 
 export function RelicsTab() {
   const hasRecentRelics = useScannerState((s) => s.connected && s.recentRelics.length > 0)
   const { t } = useTranslation('relicsTab')
   const containerRef = useDeferReveal()
+
+  // Enable deferred rendering after first tab activation
+  const { addActivationListener } = useContext(TabVisibilityContext)
+  const [activated, setActivated] = useState(false)
+
+  useEffect(() => {
+    return addActivationListener(() => setActivated(true))
+  }, [addActivationListener])
 
   return (
     <div ref={containerRef} style={{ display: 'flex', flexDirection: 'column', gap: 8, width: TAB_WIDTH, marginBottom: 100 }}>
@@ -58,7 +74,9 @@ export function RelicsTab() {
       </DeferReveal>
 
       <DeferReveal>
-        <BottomDock />
+        <DeferCreateProvider resetKey={null} enabled={activated}>
+          <BottomDock />
+        </DeferCreateProvider>
       </DeferReveal>
     </div>
   )

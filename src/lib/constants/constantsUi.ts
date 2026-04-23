@@ -29,3 +29,8 @@ export const RECHARTS_TOOLTIP_WRAPPER_STYLE: React.CSSProperties = {
   transition: 'opacity 0.15s ease-out',
   pointerEvents: 'none',
 }
+
+// Relics tab layout
+export const RELICS_TAB_WIDTH = 1460
+const DIVIDER_WIDTH = 4
+export const INSIGHTS_PANEL_WIDTH = RELICS_TAB_WIDTH - relicCardW - defaultGap * 2 - DIVIDER_WIDTH * 2 - 1

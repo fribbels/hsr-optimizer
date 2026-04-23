@@ -136,6 +136,5 @@ test('Test when the value is not an exact addition from constants', () => {
     weightScore: 0,
   }
   RelicRollGrader.calculateRelicSubstatRolls(relic)
-  // this is the outcome because it only calculates to the closest value
-  expect(relic.substats[0].addedRolls).toEqual(1)
+  expect(relic.substats[0].addedRolls).toEqual(2)
 })

@@ -7,6 +7,7 @@ import {
   Stats,
   type StatsValues,
 } from 'lib/constants/constants'
+import { separatorColor } from 'lib/constants/constantsUi'
 import { type ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import iconClasses from 'style/icons.module.css'
 
@@ -88,7 +89,7 @@ const displayTextMap: Record<string, string> = {
 }
 
 function StatRowDivider() {
-  return <span role='separator' style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: '1px dashed rgba(255, 255, 255, 0.10)' }} />
+  return <span role='separator' style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: `1px dashed ${separatorColor}` }} />
 }
 
 export const StatRow = memo(function StatRow({

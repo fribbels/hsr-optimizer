@@ -26,7 +26,9 @@ export function StatInput({ label, name, simType }: { label: string, name: strin
       </div>
       <InputNumberStyled
         hideControls
-        value={value}
+        // Coerce undefined → '' to keep Mantine's useUncontrolled in controlled mode.
+        // See `.claude/react-guidelines.md` → "Mantine Controlled Inputs".
+        value={value ?? ''}
         onChange={handleChange}
         style={{ width: STAT_SIMULATION_INPUT_WIDTH }}
       />

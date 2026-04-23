@@ -21,6 +21,9 @@ export const newLcMargin = 8
 export const newLcHeight = 150
 export const simScoreInnerW = 950
 
+// Separator styling
+export const separatorColor = 'rgba(255, 255, 255, 0.125)'
+
 // Recharts tooltip styling
 export const RECHARTS_TOOLTIP_WRAPPER_STYLE: React.CSSProperties = {
   transition: 'opacity 0.15s ease-out',

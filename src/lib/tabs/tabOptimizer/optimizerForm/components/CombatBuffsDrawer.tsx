@@ -57,7 +57,10 @@ function CombatBuff({ title, name }: { title: string, name: string }) {
       </div>
       <InputNumberStyled
         hideControls
-        value={value}
+        // Coerce undefined → 0 to keep Mantine's useUncontrolled in controlled mode.
+        // combatBuffs is seeded to 0 for all known keys, but a new buff key on an old save
+        // state could slip through as undefined. See `.claude/react-guidelines.md` → "Mantine Controlled Inputs".
+        value={value ?? 0}
         onChange={(val: number | string) => useOptimizerRequestStore.getState().setCombatBuff(name, typeof val === 'number' ? val : 0)}
       />
     </Flex>

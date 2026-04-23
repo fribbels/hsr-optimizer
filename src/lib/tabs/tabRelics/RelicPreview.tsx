@@ -9,6 +9,7 @@ import { Parts } from 'lib/constants/constants'
 import {
   relicCardH,
   relicCardW,
+  separatorColor,
 } from 'lib/constants/constantsUi'
 import { type RelicScoringResult } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
@@ -189,7 +190,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
 })
 
 // CSS divider - lighter than Mantine Divider component
-const relicDividerStyle: React.CSSProperties = { margin: '6px 0', borderBottom: '1px solid rgba(255, 255, 255, 0.10)' }
+const relicDividerStyle: React.CSSProperties = { margin: '6px 0', borderBottom: `1px solid ${separatorColor}` }
 
 function RelicDivider() {
   return <span style={relicDividerStyle} />

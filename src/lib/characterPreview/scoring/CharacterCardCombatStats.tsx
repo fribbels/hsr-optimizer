@@ -10,6 +10,7 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { separatorColor } from 'lib/constants/constantsUi'
 import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -226,5 +227,5 @@ function Arrow() {
 }
 
 function CombatStatDivider() {
-  return <span style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: '1px dashed rgba(255, 255, 255, 0.10)' }} />
+  return <span style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: `1px dashed ${separatorColor}` }} />
 }

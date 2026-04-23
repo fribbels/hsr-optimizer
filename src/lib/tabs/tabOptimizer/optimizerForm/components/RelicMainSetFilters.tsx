@@ -17,13 +17,13 @@ import {
 import { Hint } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
 import type { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
-import type { TwoPieceSlot } from 'lib/stores/optimizerForm/setFilterTypes'
-import { TwoPieceSlotType } from 'lib/stores/optimizerForm/setFilterTypes'
+import { RelicSetMode } from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
   optimizerTabDefaultGap,
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
+import { SlotImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterBadges'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -170,44 +170,19 @@ function MainStatLinkRope() {
 }
 
 const relicBoxIcon = Assets.getDefaultRelic()
-
-function SlotIcon({ slot }: { slot: TwoPieceSlot }) {
-  switch (slot.type) {
-    case TwoPieceSlotType.Set:
-      return <img src={Assets.getSetImage(slot.value)} style={{ width: 20, height: 20 }} />
-    case TwoPieceSlotType.Stat:
-      return <img src={Assets.getStatIcon(slot.value)} style={{ width: 20, height: 20 }} />
-    case TwoPieceSlotType.Any:
-      return <IconCircleAsterisk size={20} opacity={0.5} />
-  }
-}
+const anyIcon20 = <IconCircleAsterisk size={20} opacity={0.5} />
 
 function RelicSetFilterRow() {
   const display = useOptimizerRequestStore((s) => s.setFilters)
   const hasSelection = display.fourPiece.length > 0 || display.twoPieceCombos.length > 0
   const totalCount = display.fourPiece.length + display.twoPieceCombos.length
 
-  const handleRemove4p = (e: React.MouseEvent, name: string) => {
-    e.stopPropagation()
-    const current = useOptimizerRequestStore.getState().setFilters
-    useOptimizerRequestStore.getState().setSetFilters({
-      ...current,
-      fourPiece: current.fourPiece.filter((s) => s !== name),
-    })
-  }
-
-  const handleRemove2p = (e: React.MouseEvent, index: number) => {
-    e.stopPropagation()
-    const current = useOptimizerRequestStore.getState().setFilters
-    useOptimizerRequestStore.getState().setSetFilters({
-      ...current,
-      twoPieceCombos: current.twoPieceCombos.filter((_, i) => i !== index),
-    })
-  }
+  const removeFourPiece = useOptimizerRequestStore((s) => s.removeFourPieceFilter)
+  const removeTwoPiece = useOptimizerRequestStore((s) => s.removeTwoPieceComboFilter)
 
   const combined = [
-    ...display.fourPiece.map((name) => ({ type: '4p' as const, name })),
-    ...display.twoPieceCombos.map((combo, i) => ({ type: '2p' as const, combo, index: i })),
+    ...display.fourPiece.map((name) => ({ type: RelicSetMode.FourPiece, name })),
+    ...display.twoPieceCombos.map((combo, i) => ({ type: RelicSetMode.TwoPiece, combo, index: i })),
   ]
 
   return (
@@ -223,19 +198,33 @@ function RelicSetFilterRow() {
         ? (
           <Group gap={10} wrap='nowrap' align='center' style={{ overflow: 'hidden', flex: 1 }}>
             {combined.slice(0, 2).map((item) =>
-              item.type === '4p'
+              item.type === RelicSetMode.FourPiece
                 ? (
                   <Group key={`4p-${item.name}`} gap={4} wrap='nowrap' align='center' style={{ marginBottom: 1 }}>
                     <img src={Assets.getSetImage(item.name)} style={{ width: 20, height: 20 }} />
                     <img src={Assets.getSetImage(item.name)} style={{ width: 20, height: 20 }} />
-                    <CloseButton size={14} variant='subtle' onClick={(e) => handleRemove4p(e, item.name)} />
+                    <CloseButton
+                      size={14}
+                      variant='subtle'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        removeFourPiece(item.name)
+                      }}
+                    />
                   </Group>
                 )
                 : (
                   <Group key={`2p-${item.index}`} gap={4} wrap='nowrap' align='center' style={{ marginBottom: 1 }}>
-                    <SlotIcon slot={item.combo.a} />
-                    <SlotIcon slot={item.combo.b} />
-                    <CloseButton size={14} variant='subtle' onClick={(e) => handleRemove2p(e, item.index)} />
+                    <SlotImage slot={item.combo.a} size={20} anyIcon={anyIcon20} />
+                    <SlotImage slot={item.combo.b} size={20} anyIcon={anyIcon20} />
+                    <CloseButton
+                      size={14}
+                      variant='subtle'
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        removeTwoPiece(item.index)
+                      }}
+                    />
                   </Group>
                 ))}
             {totalCount > 2 && <span style={{ fontSize: 12, color: 'var(--mantine-color-dimmed)', marginLeft: 'auto' }}>+{totalCount - 2}</span>}
@@ -250,14 +239,7 @@ function OrnamentSetFilterRow() {
   const display = useOptimizerRequestStore((s) => s.setFilters)
   const hasSelection = display.ornaments.length > 0
 
-  const handleRemove = (e: React.MouseEvent, name: string) => {
-    e.stopPropagation()
-    const current = useOptimizerRequestStore.getState().setFilters
-    useOptimizerRequestStore.getState().setSetFilters({
-      ...current,
-      ornaments: current.ornaments.filter((s) => s !== name),
-    })
-  }
+  const removeOrnament = useOptimizerRequestStore((s) => s.removeOrnamentFilter)
 
   return (
     <PillsInput
@@ -274,7 +256,14 @@ function OrnamentSetFilterRow() {
             {display.ornaments.slice(0, 3).map((name) => (
               <Group key={name} gap={4} wrap='nowrap' align='center' style={{ marginBottom: 1 }}>
                 <img src={Assets.getSetImage(name)} style={{ width: 20, height: 20 }} />
-                <CloseButton size={14} variant='subtle' onClick={(e) => handleRemove(e, name)} />
+                <CloseButton
+                  size={14}
+                  variant='subtle'
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    removeOrnament(name)
+                  }}
+                />
               </Group>
             ))}
             {display.ornaments.length > 3 && (

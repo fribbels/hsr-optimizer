@@ -1,4 +1,3 @@
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import {
   createContext,
   type ReactNode,
@@ -9,30 +8,8 @@ import {
   useSyncExternalStore,
 } from 'react'
 
-// ---------------------------------------------------------------------------
-// Deferred Rendering — two complementary mechanisms
-//
-// DeferCreate — "don't CREATE this yet"
-//   Defers React mount via a rAF queue. Children don't exist until revealed.
-//   Requires DeferCreateProvider. Used for first-mount progressive rendering.
-//
-// DeferReveal — "don't SHOW this yet"
-//   Defers CSS display via imperative DOM. Children stay mounted, only
-//   visibility toggles. No provider needed. Used for tab-switch progressive
-//   reveal — an activation listener hides all [data-defer-reveal] elements,
-//   then a rAF loop shows them one per frame.
-//
-// Compose both when a section needs first-mount deferral AND tab-switch reveal:
-//   <DeferCreate><DeferReveal><Heavy /></DeferReveal></DeferCreate>
-//
-// When to use which:
-//   DeferCreate alone — scoring/analysis panel sections that mount once per
-//     character change (CharacterScoringSummary, BuffsAnalysisDisplay)
-//   DeferReveal alone — already-mounted content that's expensive to lay out
-//     on tab switch (CharacterGrid, ShowcaseBuildAnalysis)
-//   Both — tab sections that are heavy to mount AND heavy to lay out
-//     (OptimizerGrid, teammate cards, stat simulation)
-// ---------------------------------------------------------------------------
+// DeferCreate defers React mount via a rAF queue. Children don't exist until
+// their ticket is revealed by the provider's rAF loop. Requires DeferCreateProvider.
 
 // ---------------------------------------------------------------------------
 // Queue store (external, not React state — avoids parent re-renders)
@@ -281,52 +258,3 @@ export function DeferCreate({
   return visible ? children : fallback
 }
 
-/**
- * Marks a section for imperative progressive **reveal** on tab switches.
- * Children are always mounted. On each tab activation, an imperative rAF loop
- * hides all `[data-defer-reveal]` elements then shows them one per frame —
- * spreading browser layout work across frames without any React re-renders.
- *
- * This is a plain wrapper div — no React state, no queue integration.
- */
-export function DeferReveal({ children }: { children: ReactNode }) {
-  return <div data-defer-reveal>{children}</div>
-}
-
-/**
- * Hook that pairs with `<DeferReveal>`. Returns a ref to attach to the
- * container element. On every tab activation, all `[data-defer-reveal]`
- * descendants are hidden, then shown one per rAF frame.
- *
- * **Important:** Only one `useDeferReveal` should be an ancestor of any given
- * `<DeferReveal>` element. The selector finds ALL descendants at all depths,
- * so nested `useDeferReveal` hooks would race to toggle the same elements.
- */
-export function useDeferReveal() {
-  const { addActivationListener } = useContext(TabVisibilityContext)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    let firstActivation = true
-
-    const unsub = addActivationListener(() => {
-      // First activation: content was in display:none during stagger mount and
-      // was never visible. Progressive reveal would just add extra layout passes
-      // (hide then re-show) with no benefit. Skip it.
-      //
-      // Subsequent activations: content was ALREADY visible before the tab switch.
-      // The hide-then-show cycle causes a visible flash (content → blank → content).
-      // Since the content is already rendered, progressive reveal provides no benefit
-      // and actively harms UX. Skip it entirely.
-      if (firstActivation) {
-        firstActivation = false
-      }
-      // Progressive reveal disabled - content stays visible without hide/show cycle
-    })
-    return () => {
-      unsub()
-    }
-  }, [addActivationListener])
-
-  return containerRef
-}

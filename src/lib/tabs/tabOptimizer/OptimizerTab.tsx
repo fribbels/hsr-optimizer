@@ -15,8 +15,6 @@ import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedC
 import {
   DeferCreate,
   DeferCreateProvider,
-  DeferReveal,
-  useDeferReveal,
 } from 'lib/ui/DeferredRender'
 import {
   useContext,
@@ -28,7 +26,6 @@ export function OptimizerTab() {
   const expandedPanelPosition = useGlobalStore((s) => s.settings.ExpandedInfoPanelPosition)
   const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
   const [activated, setActivated] = useState(isActiveRef.current)
-  const containerRef = useDeferReveal()
 
   // First activation: enable DeferCreateProvider for progressive first mount
   useEffect(() => {
@@ -38,26 +35,22 @@ export function OptimizerTab() {
 
   return (
     <DeferCreateProvider resetKey={null} enabled={activated}>
-      <Flex ref={containerRef}>
+      <Flex>
         <Flex direction='column' gap={10} style={{ marginBottom: 100, width: 1302 }}>
           <OptimizerForm />
           <DPSScoreDisclaimer />
           <UnreleasedCharacterDisclaimer />
           <DeferCreate>
-            <DeferReveal>
-              <OptimizerGrid />
-            </DeferReveal>
+            <OptimizerGrid />
           </DeferCreate>
           <DeferCreate>
-            <DeferReveal>
-              <Flex
-                gap={10}
-                style={{ flexDirection: expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
-              >
-                <OptimizerBuildPreview />
-                <ExpandedDataPanel />
-              </Flex>
-            </DeferReveal>
+            <Flex
+              gap={10}
+              style={{ flexDirection: expandedPanelPosition === SettingOptions.ExpandedInfoPanelPosition.Below ? 'column' : 'column-reverse' }}
+            >
+              <OptimizerBuildPreview />
+              <ExpandedDataPanel />
+            </Flex>
           </DeferCreate>
         </Flex>
         <Sidebar />

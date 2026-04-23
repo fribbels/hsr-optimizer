@@ -32,10 +32,7 @@ import {
 } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import { updateCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
-import {
-  DeferCreate,
-  DeferReveal,
-} from 'lib/ui/DeferredRender'
+import { DeferCreate } from 'lib/ui/DeferredRender'
 import { mergeDefinedValues } from 'lib/utils/objectUtils'
 import {
   memo,
@@ -106,11 +103,9 @@ export function OptimizerForm() {
         </TeammateFormRow>
 
         <DeferCreate>
-          <DeferReveal>
-            <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
-              <StatSimulationDisplay />
-            </FormRow>
-          </DeferReveal>
+          <FormRow id={OptimizerMenuIds.characterStatsSimulation}>
+            <StatSimulationDisplay />
+          </FormRow>
         </DeferCreate>
       </FilterContainer>
     </div>

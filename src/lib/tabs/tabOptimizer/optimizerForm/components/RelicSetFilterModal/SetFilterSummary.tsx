@@ -4,15 +4,8 @@ import {
   type MantineSpacing,
   Stack,
 } from '@mantine/core'
-import type {
-  SetsOrnaments,
-  SetsRelics,
-} from 'lib/sets/setConfigRegistry'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import {
-  useCallback,
-  useMemo,
-} from 'react'
+import { useMemo } from 'react'
 import classes from './RelicSetFilterModal.module.css'
 import {
   FourPieceBadges,
@@ -25,26 +18,14 @@ const MAX_VISIBLE_ORNAMENTS = 3
 
 export function SetFilterSummary({ mt }: { mt?: MantineSpacing }) {
   const display = useOptimizerRequestStore((s) => s.setFilters)
+  const remove4p = useOptimizerRequestStore((s) => s.removeFourPieceFilter)
+  const removeCombo = useOptimizerRequestStore((s) => s.removeTwoPieceComboFilter)
+  const removeOrnament = useOptimizerRequestStore((s) => s.removeOrnamentFilter)
 
   const checked4p = useMemo(() => new Set(display.fourPiece), [display.fourPiece])
   const checkedOrnaments = useMemo(() => new Set(display.ornaments), [display.ornaments])
   const combos = display.twoPieceCombos
   const hasAnything = checked4p.size > 0 || combos.length > 0 || checkedOrnaments.size > 0
-
-  const remove4p = useCallback((name: SetsRelics) => {
-    const current = useOptimizerRequestStore.getState().setFilters
-    useOptimizerRequestStore.getState().setSetFilters({ ...current, fourPiece: current.fourPiece.filter((s) => s !== name) })
-  }, [])
-
-  const removeCombo = useCallback((index: number) => {
-    const current = useOptimizerRequestStore.getState().setFilters
-    useOptimizerRequestStore.getState().setSetFilters({ ...current, twoPieceCombos: current.twoPieceCombos.filter((_, i) => i !== index) })
-  }, [])
-
-  const removeOrnament = useCallback((name: SetsOrnaments) => {
-    const current = useOptimizerRequestStore.getState().setFilters
-    useOptimizerRequestStore.getState().setSetFilters({ ...current, ornaments: current.ornaments.filter((s) => s !== name) })
-  }, [])
 
   const relicTotal = checked4p.size + combos.length
   const relicOverflow = Math.max(0, relicTotal - MAX_VISIBLE_RELICS)

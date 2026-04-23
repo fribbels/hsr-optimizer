@@ -7,12 +7,15 @@ import {
   InputBase,
   useCombobox,
 } from '@mantine/core'
+import { ellipsisTextStyle } from 'lib/constants/constantsUi'
 import {
   type ReactNode,
   useMemo,
   useState,
 } from 'react'
 import iconClasses from 'style/icons.module.css'
+
+const inputEllipsisStyles = { input: ellipsisTextStyle }
 
 export type SearchableComboboxOption = {
   value: string,
@@ -95,7 +98,7 @@ export function SearchableCombobox(props: {
           rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
           onClick={() => combobox.toggleDropdown()}
           style={style}
-          styles={{ input: { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }}
+          styles={inputEllipsisStyles}
         >
           {selected?.label || <Input.Placeholder>{placeholder}</Input.Placeholder>}
         </InputBase>

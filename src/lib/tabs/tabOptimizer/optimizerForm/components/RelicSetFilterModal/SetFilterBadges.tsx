@@ -81,9 +81,16 @@ export function FourPieceBadges({ checked4p, onRemove }: {
   )
 }
 
-function SlotImage({ slot }: { slot: TwoPieceSlot }) {
+export function SlotImage({ slot, size, anyIcon }: {
+  slot: TwoPieceSlot,
+  size?: number,
+  anyIcon?: ReactNode,
+}) {
   if (slot.type === TwoPieceSlotType.Any) {
-    return <IconSquareAsteriskFilled size={22} opacity={0.5} />
+    return anyIcon ?? <IconSquareAsteriskFilled size={size ?? 22} opacity={0.5} />
+  }
+  if (size != null) {
+    return <img style={{ width: size, height: size }} src={slotIcon(slot)!} alt='' />
   }
   return <img className={classes.collectorImg} src={slotIcon(slot)!} alt='' />
 }

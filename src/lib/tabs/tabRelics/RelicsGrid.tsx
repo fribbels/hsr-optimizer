@@ -22,7 +22,7 @@ import {
   generateBaselineColDefs,
   generateOptionalColDefs,
 } from 'lib/tabs/tabRelics/columnDefs'
-import { TAB_WIDTH } from 'lib/tabs/tabRelics/RelicsTab'
+import { RELICS_TAB_WIDTH } from 'lib/constants/constantsUi'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import {
   useRelicsTabStore,
@@ -170,7 +170,7 @@ export function RelicsGrid() {
       id='relicGrid'
       className='ag-theme-balham-dark'
       style={{
-        width: TAB_WIDTH,
+        width: RELICS_TAB_WIDTH,
         height: 600,
         overflow: 'hidden',
         resize: 'vertical',

@@ -278,6 +278,18 @@ export const Optimizer = {
       useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
       useOptimizerDisplayStore.getState().setOptimizerRunningEngine(COMPUTE_ENGINE_CPU)
 
+      function finalize() {
+        useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
+        results = queueResults.toArray()
+        results.sort((a, b) => (b[gridSortColumn] as number) - (a[gridSortColumn] as number))
+        OptimizerTabController.setRows(results)
+        setSortColumn(gridSortColumn)
+        gridStore.optimizerGridApi()?.updateGridOptions({
+          datasource: OptimizerTabController.getDataSource({ colId: gridSortColumn, sort: 'desc' }),
+        })
+        resultsShown = true
+      }
+
       function dispatchNextRun() {
         if (CANCEL || nextRunIndex >= runs.length) return
         const run = runs[nextRunIndex++]
@@ -337,18 +349,8 @@ export const Optimizer = {
           releaseRetryBuffer(taskInput, result.buffer)
 
           if ((inProgress === 0 && nextRunIndex >= runs.length) || CANCEL) {
-            useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
-            results = queueResults.toArray()
-            results.sort((a, b) => (b[gridSortColumn] as number) - (a[gridSortColumn] as number))
-
-            OptimizerTabController.setRows(results)
-            setSortColumn(gridSortColumn)
-
-            gridStore.optimizerGridApi()?.updateGridOptions({
-              datasource: OptimizerTabController.getDataSource({ colId: gridSortColumn, sort: 'desc' }),
-            })
+            finalize()
             console.log('Done', results.length)
-            resultsShown = true
             if (!results.length && !inProgress) activateZeroResultSuggestionsModal(request)
             return
           }
@@ -364,15 +366,7 @@ export const Optimizer = {
           releaseBuffer(BufferPacker.createFloatBuffer(Constants.THREAD_BUFFER_LENGTH))
 
           if (inProgress === 0 && nextRunIndex >= runs.length) {
-            useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
-            results = queueResults.toArray()
-            results.sort((a, b) => (b[gridSortColumn] as number) - (a[gridSortColumn] as number))
-            OptimizerTabController.setRows(results)
-            setSortColumn(gridSortColumn)
-            gridStore.optimizerGridApi()?.updateGridOptions({
-              datasource: OptimizerTabController.getDataSource({ colId: gridSortColumn, sort: 'desc' }),
-            })
-            resultsShown = true
+            finalize()
             if (!results.length) activateZeroResultSuggestionsModal(request)
             return
           }

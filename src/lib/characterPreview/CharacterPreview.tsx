@@ -74,7 +74,6 @@ import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { DeferReveal } from 'lib/ui/DeferredRender'
 import {
   memo,
   useCallback,
@@ -654,14 +653,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           Hidden in forceDebug mode. */
         }
         {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
-          <DeferReveal>
-            <ShowcaseBuildAnalysis
-              showcaseMetadata={showcaseMetadata}
-              scoringType={state.storedScoringType}
-              displayRelics={displayRelics}
-              source={source}
-            />
-          </DeferReveal>
+          <ShowcaseBuildAnalysis
+            showcaseMetadata={showcaseMetadata}
+            scoringType={state.storedScoringType}
+            displayRelics={displayRelics}
+            source={source}
+          />
         )}
       </div>
     </SimScoringContextProvider>

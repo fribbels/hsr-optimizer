@@ -10,7 +10,6 @@ describe('DeferredRender conceptual', () => {
     const mod = await import('lib/ui/DeferredRender')
     expect(mod.DeferCreateProvider).toBeDefined()
     expect(mod.DeferCreate).toBeDefined()
-    expect(mod.DeferReveal).toBeDefined()
     expect(mod.useDeferredSlot).toBeDefined()
   })
 })

@@ -24,6 +24,9 @@ export const simScoreInnerW = 950
 // Separator styling
 export const separatorColor = 'rgba(255, 255, 255, 0.125)'
 
+// Single-line text clipping for inputs/pills
+export const ellipsisTextStyle: React.CSSProperties = { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }
+
 // Recharts tooltip styling
 export const RECHARTS_TOOLTIP_WRAPPER_STYLE: React.CSSProperties = {
   transition: 'opacity 0.15s ease-out',

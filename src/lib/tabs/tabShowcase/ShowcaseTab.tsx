@@ -38,7 +38,6 @@ import {
   getSelectedCharacter,
   useShowcaseTabStore,
 } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { useDeferReveal } from 'lib/ui/DeferredRender'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import {
   startTransition,
@@ -129,7 +128,6 @@ function ShowcaseLoading() {
 }
 
 function ShowcaseLoaded() {
-  const containerRef = useDeferReveal()
   const selectedCharacter = useShowcaseTabStore((s) => s.availableCharacters?.[s.selectedIndex] ?? null)
 
   const { availableCharacters, selectedIndex, loading, sidebarOpen } = useShowcaseTabStore(
@@ -223,7 +221,7 @@ function ShowcaseLoaded() {
   ]
 
   return (
-    <Flex ref={containerRef} className={styles.outerWrapper} justify='space-around'>
+    <Flex className={styles.outerWrapper} justify='space-around'>
       <Flex direction='column' align='center' gap={8} className={styles.loadedContainer}>
         {SHOWCASE_DOWNTIME && (
           <h3 className={styles.downtimeWarning}>

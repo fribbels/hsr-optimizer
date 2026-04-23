@@ -5,10 +5,8 @@ import {
   useCombobox,
 } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
-import {
-  useRef,
-  useState,
-} from 'react'
+import { useBlurCommittedNumberInput } from 'lib/hooks/useBlurCommittedNumberInput'
+import { useRef } from 'react'
 
 export interface ComboboxNumberOption {
   value: string
@@ -44,37 +42,19 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
     dropdownMaxHeight = 800,
   } = props
 
-  const [localValue, setLocalValue] = useState<number | string>(value ?? '')
-  const focusedRef = useRef(false)
+  const input = useBlurCommittedNumberInput(value, onChange)
   const wasOpenRef = useRef(false)
-
-  // Sync external value changes into local state, but not while the user is typing
-  if (!focusedRef.current) {
-    if (value != null && value !== localValue) {
-      setLocalValue(value)
-    } else if (value == null && localValue !== '') {
-      setLocalValue('')
-    }
-  }
 
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   })
-
-  function commitLocalValue() {
-    focusedRef.current = false
-    const committed = localValue === '' ? undefined : Number(localValue)
-    if (committed !== value) {
-      onChange(committed)
-    }
-  }
 
   return (
     <Combobox
       store={combobox}
       onOptionSubmit={(val) => {
         const num = Number(val)
-        setLocalValue(num)
+        input.setValue(num)
         onChange(num)
         combobox.closeDropdown()
       }}
@@ -83,10 +63,10 @@ export function ComboboxNumberInput(props: ComboboxNumberInputProps) {
         <NumberInput
           hideControls
           style={{ width: '100%', ...style }}
-          value={localValue}
-          onChange={setLocalValue}
-          onFocus={() => focusedRef.current = true}
-          onBlur={commitLocalValue}
+          value={input.value}
+          onChange={input.onChange}
+          onFocus={input.onFocus}
+          onBlur={input.onBlur}
           placeholder={placeholder}
           min={min}
           max={max}

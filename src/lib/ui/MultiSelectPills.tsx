@@ -10,6 +10,7 @@ import {
   type PillsInputProps,
   useCombobox,
 } from '@mantine/core'
+import { ellipsisTextStyle } from 'lib/constants/constantsUi'
 import {
   type CSSProperties,
   type ReactNode,
@@ -24,7 +25,6 @@ type DataItem = SimpleOption | GroupedOption
 
 const compactPillStyle = { '--pill-height': '20px' } as CSSProperties
 const ellipsisOptionStyle: CSSProperties = { overflow: 'hidden' }
-const ellipsisTextStyle: CSSProperties = { overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }
 
 function isGrouped(item: DataItem): item is GroupedOption {
   return 'group' in item

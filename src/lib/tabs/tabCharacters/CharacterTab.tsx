@@ -21,7 +21,6 @@ import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import { useDeferReveal } from 'lib/ui/DeferredRender'
 import {
   useCallback,
   useContext,
@@ -61,7 +60,6 @@ export function CharacterTab() {
 
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
-  const containerRef = useDeferReveal()
 
   const density = useGlobalStore((s) => s.savedSession.characterGridDensity)
   const preset = characterGridPresets[density]
@@ -92,7 +90,6 @@ export function CharacterTab() {
 
   return (
     <Flex
-      ref={containerRef}
       style={{
         height: '100%',
         marginBottom: 200,

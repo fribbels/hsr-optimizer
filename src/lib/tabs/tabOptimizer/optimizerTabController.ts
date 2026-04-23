@@ -49,7 +49,7 @@ type PermutationSizes = {
 
 type SortModel = {
   colId: string,
-  sort: string,
+  sort: 'asc' | 'desc' | null,
 }
 
 const controllerState: {
@@ -67,7 +67,7 @@ const controllerState: {
   rows: [],
   filteredIndices: [],
   filterModel: undefined,
-  sortModel: { colId: '', sort: '' },
+  sortModel: { colId: '', sort: null },
 }
 
 const columnsToAggregate = Object.keys(columnsToAggregateMap)

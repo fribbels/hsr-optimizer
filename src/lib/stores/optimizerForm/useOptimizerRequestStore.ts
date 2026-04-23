@@ -2,6 +2,10 @@ import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type { ComboType } from 'lib/optimization/rotation/comboType'
 import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { type SortOption } from 'lib/optimization/sortOptions'
+import type {
+  SetsOrnaments,
+  SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import {
@@ -70,6 +74,9 @@ type OptimizerRequestActions = {
   setRelicFilterField: <K extends keyof RelicFilterFields>(key: K, value: RelicFilterFields[K]) => void,
   setMainStats: (part: MainStatPart, stats: string[]) => void,
   setSetFilters: (display: SetFilters) => void,
+  removeFourPieceFilter: (name: SetsRelics) => void,
+  removeTwoPieceComboFilter: (index: number) => void,
+  removeOrnamentFilter: (name: SetsOrnaments) => void,
   setWeight: (stat: keyof OptimizerRequestState['weights'], value: number) => void,
   setEidolon: (eidolon: Eidolon) => void,
   setLightCone: (lcId: LightConeId | undefined) => void,
@@ -168,6 +175,21 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
   setMainStats: (part, stats) => set({ [part]: stats }),
 
   setSetFilters: (display) => set({ setFilters: display }),
+
+  removeFourPieceFilter: (name) =>
+    set((state) => ({
+      setFilters: { ...state.setFilters, fourPiece: state.setFilters.fourPiece.filter((s) => s !== name) },
+    })),
+
+  removeTwoPieceComboFilter: (index) =>
+    set((state) => ({
+      setFilters: { ...state.setFilters, twoPieceCombos: state.setFilters.twoPieceCombos.filter((_, i) => i !== index) },
+    })),
+
+  removeOrnamentFilter: (name) =>
+    set((state) => ({
+      setFilters: { ...state.setFilters, ornaments: state.setFilters.ornaments.filter((s) => s !== name) },
+    })),
 
   setWeight: (stat, value) =>
     set((state) => ({

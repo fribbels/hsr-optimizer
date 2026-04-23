@@ -68,7 +68,7 @@ export function pickBestSeed(palette: PaletteResponse): string {
     if (!Number.isNaN(h) && h >= 180 && h <= 310) score *= 1.5
 
     // Prefer mid-lightness; penalize very dark and very light colors
-    const lDist = Math.abs(l - 0.45)
+    const lDist = Math.abs(l - 0.35)
     score *= Math.max(0.2, 1 - lDist * 2)
 
     if (score > bestScore) {
@@ -165,7 +165,7 @@ export function modifyCustomColor(hex: string) {
   const color = chroma(hex)
 
   const currentV = color.get('hsv.v')
-  const newV = currentV + (1 - currentV) * 0.45
+  const newV = currentV + (1 - currentV) * 0.20
 
   const currentS = color.get('hsv.s')
   const newS = currentS - (currentS * 0.15)

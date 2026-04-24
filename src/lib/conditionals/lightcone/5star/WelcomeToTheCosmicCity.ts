@@ -20,7 +20,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.WelcomeToTheCosmicCity.Content')
   const { SOURCE_LC } = Source.lightCone(WelcomeToTheCosmicCity.id)
 
-  const sValuesDefPen = [0.18, 0.21, 0.24, 0.27, 0.30]
+  const sValuesDefPen = [0.20, 0.24, 0.28, 0.32, 0.36]
 
   const defaults = {
     elationDefPen: true,

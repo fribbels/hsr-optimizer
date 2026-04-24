@@ -246,6 +246,7 @@ const simulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
     [Sets.WastelanderOfBanditryDesert, Sets.WastelanderOfBanditryDesert],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],

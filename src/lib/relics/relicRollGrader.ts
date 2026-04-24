@@ -70,28 +70,41 @@ export const RelicRollGrader = {
 
     const maxAddedRolls = Math.floor(relic.enhance / 3)
     const numSubstats = relic.substats.length
-    
+
+    // Precompute best split per (substatIndex, totalRolls). distError is additive over
+    // substats and only totalRolls varies across distributions, so the same (i, totalRolls)
+    // pair gets computed many times otherwise.
+    const splitCache: { rolls: StatRolls, error: number }[][] = []
+    for (let i = 0; i < numSubstats; i++) {
+      const substat = relic.substats[i]
+      const incrementOptions = SubStatValues[substat.stat][relic.grade as 5 | 4 | 3 | 2]
+      splitCache[i] = []
+      for (let totalRolls = 1; totalRolls <= maxAddedRolls + 1; totalRolls++) {
+        splitCache[i][totalRolls] = findBestRollSplit(substat.value, totalRolls, incrementOptions)
+      }
+    }
+
     let bestDistError = Infinity
     let bestDistResults: { addedRolls: number, rolls: StatRolls }[] | null = null
 
-    for (let budget = 0; budget <= maxAddedRolls; budget++) {
+    // Descending so that on error ties the higher budget wins — matches the +15
+    // invariant that a well-formed relic has floor(enhance/3) added rolls total.
+    for (let budget = maxAddedRolls; budget >= 0; budget--) {
       const distributions = generateDistributions(budget, numSubstats)
-      
+
       for (const dist of distributions) {
         let distError = 0
         const distResults: { addedRolls: number, rolls: StatRolls }[] = []
-        
+
         for (let i = 0; i < numSubstats; i++) {
-          const substat = relic.substats[i]
-          const incrementOptions = SubStatValues[substat.stat][relic.grade as 5 | 4 | 3 | 2]
           const addedRolls = dist[i]
-          const totalRolls = addedRolls + 1
-          
-          const bestSplit = findBestRollSplit(substat.value, totalRolls, incrementOptions)
+          const bestSplit = splitCache[i][addedRolls + 1]
           distError += bestSplit.error
           distResults.push({ addedRolls, rolls: bestSplit.rolls })
         }
-        
+
+        // Round to neutralize fp noise so strict < produces deterministic ties.
+        distError = precisionRound(distError)
         if (distError < bestDistError) {
           bestDistError = distError
           bestDistResults = distResults

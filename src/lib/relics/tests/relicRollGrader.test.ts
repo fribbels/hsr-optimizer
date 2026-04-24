@@ -138,3 +138,84 @@ test('Test when the value is not an exact addition from constants', () => {
   RelicRollGrader.calculateRelicSubstatRolls(relic)
   expect(relic.substats[0].addedRolls).toEqual(2)
 })
+
+test('Regression: overcount bug — joint search respects enhance budget', () => {
+  // All four substat values independently best-fit a 3-roll (addedRolls=2) interpretation.
+  // Old per-substat greedy: ATK%=(0,1,2), HP%=(0,0,3), CD=(0,0,3), CR=(0,0,3) → sum=8
+  // addedRolls on a +15 relic whose budget is floor(15/3)=5. The old band-aid deducted 1
+  // from the highest-rolled substat → sum=7, still over budget by 2.
+  // New joint search must never exceed the budget.
+  const character = '1205'
+  const relic: Relic = {
+    enhance: 15,
+    grade: 5,
+    part: 'LinkRope',
+    set: 'Talia: Kingdom of Banditry',
+    main: {
+      stat: Constants.Stats.HP_P,
+      value: 100,
+    },
+    ageIndex: 0,
+    initialRolls: 0,
+    augmentedStats: {} as AugmentedStats,
+    substats: [
+      { stat: 'ATK%', value: 10.8, rolls: { high: 0, mid: 0, low: 0 } },
+      { stat: 'HP%', value: 10.368, rolls: { high: 0, mid: 0, low: 0 } },
+      { stat: 'CRIT DMG', value: 15.552, rolls: { high: 0, mid: 0, low: 0 } },
+      { stat: 'CRIT Rate', value: 7.776, rolls: { high: 0, mid: 0, low: 0 } },
+    ],
+    previewSubstats: [],
+    weightScore: 0,
+    id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
+    equippedBy: character,
+  }
+
+  RelicRollGrader.calculateRelicSubstatRolls(relic)
+
+  const sumAddedRolls = relic.substats.reduce((acc, s) => acc + (s.addedRolls ?? 0), 0)
+  expect(sumAddedRolls).toBeLessThanOrEqual(Math.floor(relic.enhance / 3))
+  expect(sumAddedRolls).toEqual(5)
+
+  expect(relic.substats[0].addedRolls).toEqual(1)
+  expect(relic.substats[1].addedRolls).toEqual(1)
+  expect(relic.substats[2].addedRolls).toEqual(2)
+  expect(relic.substats[3].addedRolls).toEqual(1)
+
+  expect(relic.substats[0].rolls).toEqual({ high: 2, mid: 0, low: 0 })
+  expect(relic.substats[1].rolls).toEqual({ high: 2, mid: 0, low: 0 })
+  expect(relic.substats[2].rolls).toEqual({ high: 0, mid: 0, low: 3 })
+  expect(relic.substats[3].rolls).toEqual({ high: 2, mid: 0, low: 0 })
+
+  expect(relic.initialRolls).toEqual(4)
+})
+
+test('Tiebreaker: equal-error budgets favor higher addedRolls', () => {
+  // HP% value 5.616 is equidistant between 1 roll (1*high=4.32, error 1.296) and
+  // 2 rolls (2*low=6.912, error 1.296). Descending budget + strict < in the outer
+  // loop means the higher-budget fit wins — aligns with the +15 invariant that a
+  // well-formed relic has floor(enhance/3) added rolls total.
+  const character = '1205'
+  const relic: Relic = {
+    enhance: 15,
+    grade: 5,
+    part: 'LinkRope',
+    set: 'Talia: Kingdom of Banditry',
+    main: {
+      stat: Constants.Stats.HP_P,
+      value: 100,
+    },
+    ageIndex: 0,
+    initialRolls: 0,
+    augmentedStats: {} as AugmentedStats,
+    substats: [
+      { stat: 'HP%', value: 5.616, rolls: { high: 0, mid: 0, low: 0 } },
+    ],
+    previewSubstats: [],
+    weightScore: 0,
+    id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
+    equippedBy: character,
+  }
+  RelicRollGrader.calculateRelicSubstatRolls(relic)
+  expect(relic.substats[0].addedRolls).toEqual(1)
+  expect(relic.substats[0].rolls).toEqual({ high: 0, mid: 0, low: 2 })
+})

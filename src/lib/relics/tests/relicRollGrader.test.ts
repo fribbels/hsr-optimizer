@@ -140,12 +140,8 @@ test('Test when the value is not an exact addition from constants', () => {
 })
 
 test('Regression: overcount bug — joint search respects enhance budget', () => {
-  // All four substat values independently best-fit a 3-roll (addedRolls=2) interpretation.
-  // Old per-substat greedy: ATK%=(0,1,2), HP%=(0,0,3), CD=(0,0,3), CR=(0,0,3) → sum=8
-  // addedRolls on a +15 relic whose budget is floor(15/3)=5. The old band-aid deducted 1
-  // from the highest-rolled substat → sum=7, still over budget by 2.
-  // New joint search must never exceed the budget.
-  const character = '1205'
+  // Each value isolates to addedRolls=2 (sum=8) on a +15 relic whose budget is 5;
+  // the old band-aid only shaved 1 off the top, leaving sum=7.
   const relic: Relic = {
     enhance: 15,
     grade: 5,
@@ -167,7 +163,7 @@ test('Regression: overcount bug — joint search respects enhance budget', () =>
     previewSubstats: [],
     weightScore: 0,
     id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
-    equippedBy: character,
+    equippedBy: '1205',
   }
 
   RelicRollGrader.calculateRelicSubstatRolls(relic)
@@ -190,11 +186,8 @@ test('Regression: overcount bug — joint search respects enhance budget', () =>
 })
 
 test('Tiebreaker: equal-error budgets favor higher addedRolls', () => {
-  // HP% value 5.616 is equidistant between 1 roll (1*high=4.32, error 1.296) and
-  // 2 rolls (2*low=6.912, error 1.296). Descending budget + strict < in the outer
-  // loop means the higher-budget fit wins — aligns with the +15 invariant that a
-  // well-formed relic has floor(enhance/3) added rolls total.
-  const character = '1205'
+  // 5.616 is equidistant from 1h=4.32 and 2l=6.912 (err 1.296 each);
+  // descending should pick the higher-budget fit.
   const relic: Relic = {
     enhance: 15,
     grade: 5,
@@ -213,7 +206,7 @@ test('Tiebreaker: equal-error budgets favor higher addedRolls', () => {
     previewSubstats: [],
     weightScore: 0,
     id: 'dc5ff7ac-f38b-4404-b261-9fdbb1db9173',
-    equippedBy: character,
+    equippedBy: '1205',
   }
   RelicRollGrader.calculateRelicSubstatRolls(relic)
   expect(relic.substats[0].addedRolls).toEqual(1)

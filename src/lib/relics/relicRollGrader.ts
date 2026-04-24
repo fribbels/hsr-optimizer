@@ -71,9 +71,7 @@ export const RelicRollGrader = {
     const maxAddedRolls = Math.floor(relic.enhance / 3)
     const numSubstats = relic.substats.length
 
-    // Precompute best split per (substatIndex, totalRolls). distError is additive over
-    // substats and only totalRolls varies across distributions, so the same (i, totalRolls)
-    // pair gets computed many times otherwise.
+    // Memoized; many distributions query the same (i, totalRolls).
     const splitCache: { rolls: StatRolls, error: number }[][] = []
     for (let i = 0; i < numSubstats; i++) {
       const substat = relic.substats[i]
@@ -87,8 +85,8 @@ export const RelicRollGrader = {
     let bestDistError = Infinity
     let bestDistResults: { addedRolls: number, rolls: StatRolls }[] | null = null
 
-    // Descending so that on error ties the higher budget wins — matches the +15
-    // invariant that a well-formed relic has floor(enhance/3) added rolls total.
+    // Descending so ties favor the higher budget — well-formed relics always have
+    // floor(enhance/3) added rolls.
     for (let budget = maxAddedRolls; budget >= 0; budget--) {
       const distributions = generateDistributions(budget, numSubstats)
 
@@ -103,7 +101,7 @@ export const RelicRollGrader = {
           distResults.push({ addedRolls, rolls: bestSplit.rolls })
         }
 
-        // Round to neutralize fp noise so strict < produces deterministic ties.
+        // Without rounding, fp noise breaks tie resolution under strict <.
         distError = precisionRound(distError)
         if (distError < bestDistError) {
           bestDistError = distError

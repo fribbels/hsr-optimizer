@@ -323,5 +323,3 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
     </Flex>
   )
 }
-
-// TeammatesSection and Teammate are imported from TeammateCards.tsx

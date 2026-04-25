@@ -1,14 +1,9 @@
 import { Flex } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import { useState } from 'react'
-import { formatParamCombo } from './setAuditorConstants'
+import { FLAG_COLORS, formatParamCombo } from './setAuditorConstants'
 import { SetAuditorDrillDown } from './SetAuditorDrillDown'
 import type { AuditorSetSummary, AuditorSetType } from './setAuditorTypes'
-
-const FLAG_COLORS: Record<string, string> = {
-  red: 'rgba(255, 60, 60, 0.15)',
-  yellow: 'rgba(255, 220, 50, 0.15)',
-}
 
 const MATCHED_COLOR = 'rgba(80, 200, 80, 0.1)'
 

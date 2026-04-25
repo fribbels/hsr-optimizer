@@ -22,7 +22,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import { useShallow } from 'zustand/react/shallow'
 import type { CharacterId } from 'types/character'
 import type { ReactElement } from 'types/components'
 import type { LightConeId } from 'types/lightCone'
@@ -65,6 +64,27 @@ function getCharacterSweepDefaults(characterId: CharacterId) {
   return { modes, errRope }
 }
 
+function CheckboxGroupField(props: {
+  label: string
+  options: { value: string, label: string }[]
+  value: string[]
+  onChange: (value: string[]) => void
+  disabled: boolean
+}) {
+  return (
+    <Flex direction='column' gap={4}>
+      <span style={{ fontSize: 13, opacity: 0.7 }}>{props.label}</span>
+      <Checkbox.Group value={props.value} onChange={props.onChange}>
+        <Flex gap={12}>
+          {props.options.map((opt) => (
+            <Checkbox key={opt.value} value={opt.value} label={opt.label} disabled={props.disabled} />
+          ))}
+        </Flex>
+      </Checkbox.Group>
+    </Flex>
+  )
+}
+
 function hasSimulation(characterId: CharacterId | null): boolean {
   if (!characterId) return false
   return !!getGameMetadata().characters[characterId]?.scoringMetadata?.simulation
@@ -82,12 +102,6 @@ const defaultFormValues: Partial<BenchmarkForm> = {
 
 export function SetBenchmarkAuditor(): ReactElement {
   const form = useForm<BenchmarkForm>({ initialValues: defaultFormValues as BenchmarkForm })
-
-  const { teammate0, teammate1, teammate2 } = useBenchmarksTabStore(useShallow((s) => ({
-    teammate0: s.teammate0,
-    teammate1: s.teammate1,
-    teammate2: s.teammate2,
-  })))
 
   const [status, setStatus] = useState<AuditorStatus>('idle')
   const [progress, setProgress] = useState(0)
@@ -125,10 +139,12 @@ export function SetBenchmarkAuditor(): ReactElement {
   }, [form])
 
   const handleRun = useCallback(async () => {
-    if (!characterId || !form.values.lightCone) return
+    const formValues = form.getValues()
+    if (!formValues.characterId || !formValues.lightCone) return
     if (selectedSpd.length === 0 || selectedSetTypes.length === 0 || selectedModes.length === 0) return
 
-    const teammates = [teammate0, teammate1, teammate2].map((tm) => ({
+    const storeState = useBenchmarksTabStore.getState()
+    const teammates = [storeState.teammate0, storeState.teammate1, storeState.teammate2].map((tm) => ({
       characterId: tm?.characterId!,
       lightCone: tm?.lightCone!,
       characterEidolon: tm?.characterEidolon ?? 0,
@@ -140,9 +156,9 @@ export function SetBenchmarkAuditor(): ReactElement {
       setTypes: selectedSetTypes as AuditorSetType[],
       modes: selectedModes as ('dps' | 'subDps')[],
       errRope: selectedErr as ('noErr' | 'err')[],
-      lightCone: form.values.lightCone,
-      characterEidolon: form.values.characterEidolon ?? 0,
-      lightConeSuperimposition: form.values.lightConeSuperimposition ?? 1,
+      lightCone: formValues.lightCone,
+      characterEidolon: formValues.characterEidolon ?? 0,
+      lightConeSuperimposition: formValues.lightConeSuperimposition ?? 1,
       teammates,
     }
 
@@ -154,7 +170,7 @@ export function SetBenchmarkAuditor(): ReactElement {
 
     try {
       const results = await runAudit(
-        characterId,
+        formValues.characterId,
         config,
         (completed, totalCount) => {
           setProgress(completed)
@@ -173,7 +189,7 @@ export function SetBenchmarkAuditor(): ReactElement {
       console.error('Audit failed:', e)
       setStatus('idle')
     }
-  }, [characterId, form.values, teammate0, teammate1, teammate2, selectedSpd, selectedSetTypes, selectedModes, selectedErr])
+  }, [form, selectedSpd, selectedSetTypes, selectedModes, selectedErr])
 
   const handleCancel = useCallback(() => {
     cancelRef.current = true
@@ -213,51 +229,11 @@ export function SetBenchmarkAuditor(): ReactElement {
           <TeammatesSection />
         </Flex>
 
-        {/* Sweep config */}
         <Flex direction='column' gap={12}>
-          <Flex direction='column' gap={4}>
-            <span style={{ fontSize: 13, opacity: 0.7 }}>Set Types</span>
-            <Checkbox.Group value={selectedSetTypes} onChange={setSelectedSetTypes}>
-              <Flex gap={12}>
-                {SET_TYPE_OPTIONS.map((opt) => (
-                  <Checkbox key={opt.value} value={opt.value} label={opt.label} disabled={isRunning} />
-                ))}
-              </Flex>
-            </Checkbox.Group>
-          </Flex>
-
-          <Flex direction='column' gap={4}>
-            <span style={{ fontSize: 13, opacity: 0.7 }}>SPD Breakpoints</span>
-            <Checkbox.Group value={selectedSpd} onChange={setSelectedSpd}>
-              <Flex gap={12}>
-                {SPD_OPTIONS.map((opt) => (
-                  <Checkbox key={opt.value} value={opt.value} label={opt.label} disabled={isRunning} />
-                ))}
-              </Flex>
-            </Checkbox.Group>
-          </Flex>
-
-          <Flex direction='column' gap={4}>
-            <span style={{ fontSize: 13, opacity: 0.7 }}>Mode</span>
-            <Checkbox.Group value={selectedModes} onChange={setSelectedModes}>
-              <Flex gap={12}>
-                {MODE_OPTIONS.map((opt) => (
-                  <Checkbox key={opt.value} value={opt.value} label={opt.label} disabled={isRunning} />
-                ))}
-              </Flex>
-            </Checkbox.Group>
-          </Flex>
-
-          <Flex direction='column' gap={4}>
-            <span style={{ fontSize: 13, opacity: 0.7 }}>ERR Rope</span>
-            <Checkbox.Group value={selectedErr} onChange={setSelectedErr}>
-              <Flex gap={12}>
-                {ERR_OPTIONS.map((opt) => (
-                  <Checkbox key={opt.value} value={opt.value} label={opt.label} disabled={isRunning} />
-                ))}
-              </Flex>
-            </Checkbox.Group>
-          </Flex>
+          <CheckboxGroupField label='Set Types' options={SET_TYPE_OPTIONS} value={selectedSetTypes} onChange={setSelectedSetTypes} disabled={isRunning} />
+          <CheckboxGroupField label='SPD Breakpoints' options={SPD_OPTIONS} value={selectedSpd} onChange={setSelectedSpd} disabled={isRunning} />
+          <CheckboxGroupField label='Mode' options={MODE_OPTIONS} value={selectedModes} onChange={setSelectedModes} disabled={isRunning} />
+          <CheckboxGroupField label='ERR Rope' options={ERR_OPTIONS} value={selectedErr} onChange={setSelectedErr} disabled={isRunning} />
 
           {noSim && (
             <span style={{ fontSize: 14, color: '#ff6b6b' }}>This character has no DPS score simulation metadata.</span>

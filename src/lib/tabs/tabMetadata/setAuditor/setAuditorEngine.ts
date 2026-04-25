@@ -60,20 +60,12 @@ export function generateRelicSetCombos(defaultOrnament: SetsOrnaments): AuditorS
     })
   }
 
-  // 2p+2p combos: tagged representatives + untagged sets
   const taggedReps: { tag: string, set: SetsRelics }[] = []
+  const taggedSetIds = new Set<string>()
   for (const tag of TwoPieceStatTags) {
     const sets = STAT_TAG_TO_SETS[tag]
     if (sets && sets.length > 0) {
       taggedReps.push({ tag, set: sets[0] })
-    }
-  }
-
-  // Collect untagged relic sets
-  const taggedSetIds = new Set<string>()
-  for (const tag of TwoPieceStatTags) {
-    const sets = STAT_TAG_TO_SETS[tag]
-    if (sets) {
       for (const s of sets) taggedSetIds.add(s)
     }
   }
@@ -224,54 +216,30 @@ export async function runAudit(
     allSetCombos.push(...generateOrnamentSetCombos(defaultRelic1, defaultRelic2))
   }
 
-  // Run reference first: default relic combo with default ornament, at all param combos
-  const refRelicCombo: AuditorSetCombo = {
+  const cancelledResult = (): AuditorResults => ({ summaries: [], relicReferenceLabel: relicRefLabel, ornamentReferenceLabel: ornamentRefLabel })
+
+  const refCombo: AuditorSetCombo = {
     type: 'relic4p',
     relicSet1: defaultRelic1,
     relicSet2: defaultRelic2,
     ornamentSet: defaultOrnament,
-    label: 'Reference (relic)',
-  }
-  const refOrnamentCombo: AuditorSetCombo = {
-    type: 'ornament',
-    relicSet1: defaultRelic1,
-    relicSet2: defaultRelic2,
-    ornamentSet: defaultOrnament,
-    label: 'Reference (ornament)',
+    label: 'Reference',
   }
 
-  const totalRefRuns = paramCombos.length * 2
-  const total = allSetCombos.length * paramCombos.length + totalRefRuns
+  const total = allSetCombos.length * paramCombos.length + paramCombos.length
   let completed = 0
 
-  const refRelicScores = new Map<string, number>()
-  const refOrnamentScores = new Map<string, number>()
+  const refScoresByParam = new Map<string, number>()
 
-  // Run relic reference
   for (const paramCombo of paramCombos) {
-    if (cancelRef.current) return { summaries: [], relicReferenceLabel: relicRefLabel, ornamentReferenceLabel: ornamentRefLabel }
+    if (cancelRef.current) return cancelledResult()
     try {
-      const form = buildBenchmarkForm(characterId, config, refRelicCombo, paramCombo)
+      const form = buildBenchmarkForm(characterId, config, refCombo, paramCombo)
       const orchestrator = await runCustomBenchmarkOrchestrator(form, { benchmarkOnly: true })
-      refRelicScores.set(paramKey(paramCombo), orchestrator.benchmarkSimResult?.simScore ?? 0)
+      refScoresByParam.set(paramKey(paramCombo), orchestrator.benchmarkSimResult?.simScore ?? 0)
     } catch (e) {
-      console.error('Auditor reference error (relic):', e)
-      refRelicScores.set(paramKey(paramCombo), 0)
-    }
-    completed++
-    onProgress(completed, total)
-  }
-
-  // Run ornament reference (same sets, just to have a baseline — will be same scores as relic ref)
-  for (const paramCombo of paramCombos) {
-    if (cancelRef.current) return { summaries: [], relicReferenceLabel: relicRefLabel, ornamentReferenceLabel: ornamentRefLabel }
-    try {
-      const form = buildBenchmarkForm(characterId, config, refOrnamentCombo, paramCombo)
-      const orchestrator = await runCustomBenchmarkOrchestrator(form, { benchmarkOnly: true })
-      refOrnamentScores.set(paramKey(paramCombo), orchestrator.benchmarkSimResult?.simScore ?? 0)
-    } catch (e) {
-      console.error('Auditor reference error (ornament):', e)
-      refOrnamentScores.set(paramKey(paramCombo), 0)
+      console.error('Auditor reference error:', e)
+      refScoresByParam.set(paramKey(paramCombo), 0)
     }
     completed++
     onProgress(completed, total)
@@ -306,7 +274,7 @@ export async function runAudit(
     scoresBySetAndParam.set(setKey, paramScores)
   }
 
-  if (cancelRef.current) return { summaries: [], relicReferenceLabel: relicRefLabel, ornamentReferenceLabel: ornamentRefLabel }
+  if (cancelRef.current) return cancelledResult()
 
   // Build summaries
   const summaries: AuditorSetSummary[] = []
@@ -316,8 +284,7 @@ export async function runAudit(
     const paramScores = scoresBySetAndParam.get(setKey)!
     const matched = isMatchedSet(setCombo, enrichedMetadata)
 
-    // Pick reference based on combo type
-    const refScores = setCombo.type === 'ornament' ? refOrnamentScores : refRelicScores
+    const refScores = refScoresByParam
 
     const results: AuditorRunResult[] = []
     let bestDelta = -Infinity

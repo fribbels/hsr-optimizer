@@ -1,10 +1,5 @@
-import { formatParamCombo } from './setAuditorConstants'
+import { FLAG_COLORS, formatParamCombo } from './setAuditorConstants'
 import type { AuditorRunResult } from './setAuditorTypes'
-
-const FLAG_COLORS: Record<string, string> = {
-  red: 'rgba(255, 60, 60, 0.2)',
-  yellow: 'rgba(255, 220, 50, 0.2)',
-}
 
 export function SetAuditorDrillDown(props: {
   results: AuditorRunResult[]

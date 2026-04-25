@@ -19,6 +19,11 @@ export function computeFlag(deltaPct: number): AuditorFlagLevel {
   return null
 }
 
+export const FLAG_COLORS: Record<string, string> = {
+  red: 'rgba(255, 60, 60, 0.18)',
+  yellow: 'rgba(255, 220, 50, 0.18)',
+}
+
 export function formatParamCombo(spd: number, subDps: boolean, errRope: boolean): string {
   const spdStr = spd === 0 ? 'No min' : `SPD ${spd}`
   const dpsStr = subDps ? 'Sub DPS' : 'DPS'

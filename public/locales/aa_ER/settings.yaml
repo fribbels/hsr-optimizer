@@ -20,3 +20,7 @@ ShowComboDmgWarning:
   Label: crwdns45988:0crwdne45988:0
   Show: 'crwdns45990:0crwdne45990:0'
   Hide: crwdns45992:0crwdne45992:0
+NewCharacterDefaultRank:
+  Label: crwdns47132:0crwdne47132:0
+  First: 'crwdns47134:0crwdne47134:0'
+  Last: crwdns47136:0crwdne47136:0

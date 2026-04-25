@@ -2,17 +2,32 @@ import { COMPUTE_ENGINE_GPU_EXPERIMENTAL } from 'lib/constants/constants'
 import { FixedSizeNumericMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import { generateWgsl } from 'lib/gpu/injection/generateWgsl'
 import {
+  buildWorkgroupAssignments,
+  computeTupleParams,
+  type FullSizes,
   generateParamsMatrix,
   mergeRelicsIntoArray,
+  serializeAssignments,
 } from 'lib/gpu/webgpuDataTransform'
 import { uniformCompatible } from 'lib/gpu/webgpuDevice'
 import {
   type GpuExecutionContext,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
-import { bitpackBooleanArray } from 'lib/optimization/relicSetSolver'
+import {
+  bitpackBooleanArray,
+  buildPerSlotSetRanges,
+  enumerateValidTriplesD3,
+} from 'lib/optimization/relicSetSolver'
+import {
+  OrnamentSetToIndex,
+  RelicSetToIndex,
+  type SetsOrnaments,
+  type SetsRelics,
+} from 'lib/sets/setConfigRegistry'
 import { type Form } from 'types/form'
 import { type OptimizerContext } from 'types/optimizer'
+import { type Relic } from 'types/relic'
 
 export async function initializeGpuPipeline(
   device: GPUDevice,
@@ -55,6 +70,11 @@ export async function initializeGpuPipeline(
   // Max compact entries per dispatch before overflow triggers revisit
   const COMPACT_LIMIT = RESULTS_LIMIT * COMPACT_OVERFLOW_FACTOR
 
+  const hasRelicFilter = (request.relicSets?.length ?? 0) > 0
+  const TUPLE_MODE = hasRelicFilter && !DEBUG
+
+  const t0 = performance.now()
+
   const wgsl = generateWgsl(context, request, relics, {
     WORKGROUP_SIZE,
     BLOCK_SIZE,
@@ -62,15 +82,17 @@ export async function initializeGpuPipeline(
     RESULTS_LIMIT,
     COMPACT_LIMIT,
     DEBUG,
+    TUPLE_MODE,
   })
 
-  if (window.location.hostname === 'localhost') {
-    console.log(wgsl)
-  }
+  const tWgsl = performance.now()
 
   const computePipeline = await generatePipeline(device, wgsl)
 
-  const paramsMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * 8
+  const tPipeline = performance.now()
+
+  // Params buffer: 16 bytes for tuple mode (threshold + batchOffset + padding), 32 bytes for naive (8 floats)
+  const paramsMatrixBufferSize = TUPLE_MODE ? 16 : Float32Array.BYTES_PER_ELEMENT * 8
   const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
   // Only DEBUG mode needs the full results buffer
   const resultBufferSize = DEBUG ? resultMatrixBufferSize : 4
@@ -83,8 +105,60 @@ export async function initializeGpuPipeline(
     usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST,
   })
 
-  const hasRelicFilter = (request.relicSets?.length ?? 0) > 0
   const hasOrnamentFilter = (request.ornamentSets?.length ?? 0) > 0
+
+  const byRelicSet = (a: Relic, b: Relic) =>
+    RelicSetToIndex[a.set as SetsRelics] - RelicSetToIndex[b.set as SetsRelics]
+  const byOrnamentSet = (a: Relic, b: Relic) =>
+    OrnamentSetToIndex[a.set as SetsOrnaments] - OrnamentSetToIndex[b.set as SetsOrnaments]
+
+  relics.Head.sort(byRelicSet)
+  relics.Hands.sort(byRelicSet)
+  relics.Body.sort(byRelicSet)
+  relics.Feet.sort(byRelicSet)
+  relics.PlanarSphere.sort(byOrnamentSet)
+  relics.LinkRope.sort(byOrnamentSet)
+
+  const tSort = performance.now()
+
+  // Build tuple assignments for set-filtered dispatch
+  let assignmentBuffer: GPUBuffer | null = null
+  let assignments: import('lib/gpu/webgpuDataTransform').WorkgroupEntry[] = []
+  let totalWorkgroups = 0
+
+  if (TUPLE_MODE) {
+    const ranges = buildPerSlotSetRanges(relics)
+    const triples = enumerateValidTriplesD3(relicSetSolutions, ranges)
+    const fullSizes: FullSizes = {
+      F: relics.Feet.length,
+      P: relics.PlanarSphere.length,
+      L: relics.LinkRope.length,
+    }
+    const wgCapacity = WORKGROUP_SIZE * CYCLES_PER_INVOCATION
+    const tupleParams = triples.map((t) => computeTupleParams(t, ranges))
+    assignments = buildWorkgroupAssignments(tupleParams, fullSizes, wgCapacity)
+    totalWorkgroups = assignments.length
+    const serialized = serializeAssignments(assignments)
+
+    const totalTupleIterations = assignments.reduce((sum, a) => sum + a.permLimit, 0)
+    const naiveIterations = relics.Head.length * relics.Hands.length * relics.Body.length
+      * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length
+    const wasteReduction = ((1 - totalTupleIterations / naiveIterations) * 100).toFixed(1)
+    const batchWgs = Math.min(4096, totalWorkgroups)
+    console.log(`[OPT] Tuple dispatch: ${triples.length} triples → ${totalWorkgroups} workgroups, ${Math.ceil(totalWorkgroups / batchWgs)} batches (${batchWgs} wgs/batch)`)
+    console.log(`[OPT] Iteration space: naive=${naiveIterations.toExponential(2)}, tuple=${totalTupleIterations.toExponential(2)}, reduction=${wasteReduction}%`)
+    console.log(`[OPT] Slot sizes: H=${relics.Head.length} G=${relics.Hands.length} B=${relics.Body.length} F=${relics.Feet.length} P=${relics.PlanarSphere.length} L=${relics.LinkRope.length}`)
+
+    assignmentBuffer = device.createBuffer({
+      mappedAtCreation: true,
+      size: serialized.byteLength,
+      usage: GPUBufferUsage.STORAGE,
+    })
+    new Uint32Array(assignmentBuffer.getMappedRange()).set(new Uint32Array(serialized))
+    assignmentBuffer.unmap()
+  }
+
+  const tTuples = performance.now()
 
   const mergedRelics = mergeRelicsIntoArray(relics)
 
@@ -97,11 +171,15 @@ export async function initializeGpuPipeline(
     : null
   const precomputedStatsBuffer = createGpuBuffer(device, context.precomputedStatsData!, uniformCompatible() ? GPUBufferUsage.UNIFORM : GPUBufferUsage.STORAGE)
 
+  const bindGroup0Entries: GPUBindGroupEntry[] = [
+    { binding: 0, resource: { buffer: paramsMatrixBuffer } },
+  ]
+  if (TUPLE_MODE && assignmentBuffer) {
+    bindGroup0Entries.push({ binding: 1, resource: { buffer: assignmentBuffer } })
+  }
   const bindGroup0 = device.createBindGroup({
     layout: computePipeline.getBindGroupLayout(0),
-    entries: [
-      { binding: 0, resource: { buffer: paramsMatrixBuffer } },
-    ],
+    entries: bindGroup0Entries,
   })
 
   const bindGroup1 = device.createBindGroup({
@@ -163,6 +241,10 @@ export async function initializeGpuPipeline(
   const iterations = Math.ceil(permutations / BLOCK_SIZE / CYCLES_PER_INVOCATION)
   const resultsQueue = new FixedSizeNumericMinQueue(RESULTS_LIMIT)
 
+  const tEnd = performance.now()
+  console.log(`[OPT] Pipeline setup: wgsl=${(tWgsl - t0).toFixed(1)}ms, compile=${(tPipeline - tWgsl).toFixed(1)}ms, sort=${(tSort - tPipeline).toFixed(1)}ms, tuples=${(tTuples - tSort).toFixed(1)}ms, buffers=${(tEnd - tTuples).toFixed(1)}ms, total=${(tEnd - t0).toFixed(1)}ms`)
+  console.log(`[OPT] Mode: ${TUPLE_MODE ? 'TUPLE' : 'NAIVE'}, permutations=${permutations}, iterations=${iterations}, WG=${NUM_WORKGROUPS}, WG_SIZE=${WORKGROUP_SIZE}, CPI=${CYCLES_PER_INVOCATION}`)
+
   return {
     WORKGROUP_SIZE,
     NUM_WORKGROUPS,
@@ -196,6 +278,11 @@ export async function initializeGpuPipeline(
     precomputedStatsBuffer,
 
     gpuReadBuffers,
+
+    TUPLE_MODE,
+    assignmentBuffer,
+    assignments,
+    totalWorkgroups,
 
     COMPACT_LIMIT,
     compactResultsBufferSize,
@@ -310,6 +397,7 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
   gpuContext.precomputedStatsBuffer.destroy()
   gpuContext.relicSetSolutionsMatrixBuffer?.destroy()
   gpuContext.ornamentSetSolutionsMatrixBuffer?.destroy()
+  gpuContext.assignmentBuffer?.destroy()
 
   gpuContext.compactCountBuffers.forEach((b) => b.destroy())
   gpuContext.compactResultsBuffers.forEach((b) => b.destroy())

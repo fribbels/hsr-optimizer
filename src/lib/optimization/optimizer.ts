@@ -26,6 +26,7 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  applySemiJoinReduction,
   bitpackBooleanArray,
   computeValidPermutationCount,
   generateOrnamentSetSolutions,
@@ -192,11 +193,18 @@ export const Optimizer = {
     }
     CANCEL = false
 
-    const [relics] = this.getFilteredRelics(request)
+    let [relics] = this.getFilteredRelics(request)
     RelicFilters.condenseRelicSubstatsForOptimizer(relics)
 
     const relicSetSolutions = generateRelicSetSolutions(request)
     const ornamentSetSolutions = generateOrnamentSetSolutions(request)
+
+    // Semi-join reduction: eliminate relics whose set can't participate in any valid tuple
+    const hasRelicFilter = (request.relicSets?.length ?? 0) > 0
+    const hasOrnamentFilter = (request.ornamentSets?.length ?? 0) > 0
+    if (hasRelicFilter || hasOrnamentFilter) {
+      relics = applySemiJoinReduction(relics, relicSetSolutions, ornamentSetSolutions)
+    }
 
     const sizes = {
       hSize: relics.Head.length,

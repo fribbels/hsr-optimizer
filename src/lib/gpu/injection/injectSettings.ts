@@ -43,6 +43,13 @@ const bodyOffset = hSize + gSize;
 const feetOffset = hSize + gSize + bSize;
 const planarOffset = hSize + gSize + bSize + fSize;
 const ropeOffset = hSize + gSize + bSize + fSize + pSize;
+
+const fullLSize = ${relics.LinkRope.length}u;
+const fullPSize = ${relics.PlanarSphere.length}u;
+const fullFSize = ${relics.Feet.length}u;
+const fullBSize = ${relics.Body.length}u;
+const fullGSize = ${relics.Hands.length}u;
+const fullHSize = ${relics.Head.length}u;
 `
 
   return wgsl

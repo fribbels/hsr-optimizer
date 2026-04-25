@@ -2,6 +2,10 @@ import {
   type GpuExecutionContext,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
+import {
+  type PerSlotSetRanges,
+  type ValidTriple,
+} from 'lib/optimization/relicSetSolver'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   OrnamentSetToIndex,
@@ -103,6 +107,84 @@ function relicsToArray(relics: Relic[]) {
   }
 
   return output
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Tuple dispatch: workgroup assignment builder
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type TupleParams = {
+  xh: number, hSize: number,
+  xg: number, gSize: number,
+  xb: number, bSize: number,
+}
+
+export type FullSizes = {
+  F: number, P: number, L: number,
+}
+
+export type WorkgroupEntry = {
+  xh: number, hSize: number,
+  xg: number, gSize: number,
+  xb: number, bSize: number,
+  fSize: number, pSize: number, lSize: number,
+  permLimit: number,
+  startOffset: number,
+}
+
+export function computeTupleParams(triple: ValidTriple, ranges: PerSlotSetRanges): TupleParams {
+  return {
+    xh: ranges.Head.setStart[triple.sH],
+    hSize: ranges.Head.setEnd[triple.sH] - ranges.Head.setStart[triple.sH],
+    xg: ranges.Hands.setStart[triple.sG],
+    gSize: ranges.Hands.setEnd[triple.sG] - ranges.Hands.setStart[triple.sG],
+    xb: ranges.Body.setStart[triple.sB],
+    bSize: ranges.Body.setEnd[triple.sB] - ranges.Body.setStart[triple.sB],
+  }
+}
+
+export function buildWorkgroupAssignments(
+  tuples: TupleParams[],
+  fullSizes: FullSizes,
+  wgCapacity: number,
+): WorkgroupEntry[] {
+  const assignments: WorkgroupEntry[] = []
+  for (const t of tuples) {
+    const weight = t.hSize * t.gSize * t.bSize * fullSizes.F * fullSizes.P * fullSizes.L
+    const numWGs = Math.ceil(weight / wgCapacity)
+    for (let wg = 0; wg < numWGs; wg++) {
+      const start = wg * wgCapacity
+      const limit = Math.min(wgCapacity, weight - start)
+      assignments.push({
+        xh: t.xh, hSize: t.hSize,
+        xg: t.xg, gSize: t.gSize,
+        xb: t.xb, bSize: t.bSize,
+        fSize: fullSizes.F, pSize: fullSizes.P, lSize: fullSizes.L,
+        permLimit: limit,
+        startOffset: start,
+      })
+    }
+  }
+  return assignments
+}
+
+const ASSIGNMENT_ENTRY_U32S = 16
+
+export function serializeAssignments(assignments: WorkgroupEntry[]): ArrayBuffer {
+  const buf = new ArrayBuffer(assignments.length * ASSIGNMENT_ENTRY_U32S * 4)
+  const u = new Uint32Array(buf)
+  for (let i = 0; i < assignments.length; i++) {
+    const a = assignments[i]
+    const off = i * ASSIGNMENT_ENTRY_U32S
+    u[off + 0] = a.xh;     u[off + 1] = a.hSize
+    u[off + 2] = a.xg;     u[off + 3] = a.gSize
+    u[off + 4] = a.xb;     u[off + 5] = a.bSize
+    u[off + 6] = a.fSize;  u[off + 7] = a.pSize;  u[off + 8] = a.lSize
+    u[off + 9] = a.permLimit
+    u[off + 10] = a.startOffset
+    // 11-15: padding (zero)
+  }
+  return buf
 }
 
 function relicSetToIndex(relic: Relic) {

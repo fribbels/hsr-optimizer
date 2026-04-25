@@ -15,6 +15,7 @@ export type GpuConstants = {
   RESULTS_LIMIT: number,
   COMPACT_LIMIT: number,
   DEBUG: boolean,
+  TUPLE_MODE: boolean,
 }
 
 export type GpuExecutionContext = {
@@ -54,6 +55,12 @@ export type GpuExecutionContext = {
   precomputedStatsBuffer: GPUBuffer,
 
   gpuReadBuffers: [GPUBuffer, GPUBuffer],
+
+  // Tuple dispatch
+  TUPLE_MODE: boolean,
+  assignmentBuffer: GPUBuffer | null,
+  assignments: import('lib/gpu/webgpuDataTransform').WorkgroupEntry[],
+  totalWorkgroups: number,
 
   // Atomic compaction buffers
   COMPACT_LIMIT: number,

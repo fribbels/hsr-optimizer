@@ -12,7 +12,11 @@
 
 
 
-@group(0) @binding(0) var<uniform> params : Params;
+// START BIND GROUP 0
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+/* INJECT BIND GROUP 0 */
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+// END BIND GROUP 0
 
 @group(1) @binding(0) var<storage> relics : array<Relic>;
 @group(1) @binding(1) var<storage> ornamentSetSolutionsMatrix : array<i32>;
@@ -43,42 +47,11 @@ fn main(
     workgroup_id.z * num_workgroups.x * num_workgroups.y;
   let indexGlobal = i32(workgroup_index * WORKGROUP_SIZE + local_invocation_index);
 
-  // Load offset params
-  let xl = i32(params.xl);
-  let xp = i32(params.xp);
-  let xf = i32(params.xf);
-  let xb = i32(params.xb);
-  let xg = i32(params.xg);
-  let xh = i32(params.xh);
-  let threshold = params.threshold;
-  let cycleIndex = indexGlobal * CYCLES_PER_INVOCATION;
-
-  // Decompose initial index into mixed-radix digits
-  let index = cycleIndex;
-
-  let l = (index % lSize);
-  let c1 = index / lSize;
-  let p = (c1 % pSize);
-  let c2 = c1 / pSize;
-  let f = (c2 % fSize);
-  let c3 = c2 / fSize;
-  let b = (c3 % bSize);
-  let c4 = c3 / bSize;
-  let g = (c4 % gSize);
-  let h = c4 / gSize;
-
-  // Apply carry-chain offsets for odometer starting position
-  let carryL = (l + xl) / lSize;
-  var curL = (l + xl) % lSize;
-  let carryP = (p + xp + carryL) / pSize;
-  var curP = (p + xp + carryL) % pSize;
-  let carryF = (f + xf + carryP) / fSize;
-  var curF = (f + xf + carryP) % fSize;
-  let carryB = (b + xb + carryF) / bSize;
-  var curB = (b + xb + carryF) % bSize;
-  let carryG = (g + xg + carryB) / gSize;
-  var curG = (g + xg + carryB) % gSize;
-  var curH = (h + xh + carryG) % hSize;
+  // START OFFSET DECODE
+  // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+  /* INJECT OFFSET DECODE */
+  // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+  // END OFFSET DECODE
 
   // Pre-load relics — outer 4 are loop-invariant most iterations
   var head         = relics[curH];
@@ -106,11 +79,11 @@ fn main(
   loop {
     if (i >= CYCLES_PER_INVOCATION) { break; }
 
-    let index = cycleIndex + i;
-
-    if (index >= i32(params.permLimit)) {
-      break;
-    }
+    // START PERM LIMIT CHECK
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    /* INJECT PERM LIMIT CHECK */
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    // END PERM LIMIT CHECK
 
     let linkRope = relics[curL + ropeOffset];
     let setL = u32(linkRope.v5.z);
@@ -223,47 +196,11 @@ fn main(
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END UNROLLED ACTIONS
 
-    continuing {
-      i++;
-
-      curL += 1;
-      if (curL >= lSize) {
-        curL = 0;
-        curP += 1;
-        if (curP >= pSize) {
-          curP = 0;
-          curF += 1;
-          if (curF >= fSize) {
-            curF = 0;
-            curB += 1;
-            if (curB >= bSize) {
-              curB = 0;
-              curG += 1;
-              if (curG >= gSize) {
-                curG = 0;
-                curH = (curH + 1) % hSize;
-                head = relics[curH];
-                setH = u32(head.v5.z);
-                maskH = 1u << setH;
-              }
-              hands = relics[curG + handsOffset];
-              setG = u32(hands.v5.z);
-              maskG = 1u << setG;
-            }
-            body = relics[curB + bodyOffset];
-            setB = u32(body.v5.z);
-            maskB = 1u << setB;
-          }
-          feet = relics[curF + feetOffset];
-          setF = u32(feet.v5.z);
-          maskF = 1u << setF;
-
-          outerStats = sumOuterRelics(head, hands, body, feet);
-        }
-        planarSphere = relics[curP + planarOffset];
-        setP = u32(planarSphere.v5.z);
-      }
-    }
+    // START CARRY CHAIN
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+    /* INJECT CARRY CHAIN */
+    // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+    // END CARRY CHAIN
   }
 
   if (localValidCount > 0u) {

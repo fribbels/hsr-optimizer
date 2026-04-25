@@ -55,6 +55,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectBasicFilters(wgsl, request)
   wgsl = injectSetFilters(wgsl, request)
   wgsl = injectComputedStats(wgsl)
+  wgsl = injectDispatchMode(wgsl, gpuParams)
 
   return wgsl
 }
@@ -246,6 +247,7 @@ ${format(basicFilters)}
 
 function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
+  const tupleMode = gpuParams.TUPLE_MODE ? 1 : 0
 
   wgsl = wgsl.replace(
     '/* INJECT GPU PARAMS */',
@@ -255,22 +257,217 @@ const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
 const COMPACT_LIMIT = ${gpuParams.COMPACT_LIMIT}u;
+const TUPLE_MODE = ${tupleMode};
   `,
   )
 
   const compactDeclarations = `
-struct CompactEntry { index: i32, value: f32 }
+struct CompactEntry { index: u32, value: f32 }
 
 @group(2) @binding(1) var<storage, read_write> compactCount : atomic<u32>;
 @group(2) @binding(2) var<storage, read_write> compactResults : array<CompactEntry>;
 @group(2) @binding(3) var<storage, read_write> validCount : atomic<u32>;`
 
-  wgsl = wgsl.replace(
-    '/* INJECT RESULTS BUFFER */',
-    gpuParams.DEBUG
-      ? `@group(2) @binding(0) var<storage, read_write> results : array<array<f32, ${context.maxContainerArrayLength}>>; // DEBUG${compactDeclarations}`
-      : compactDeclarations,
-  )
+  const resultsBufferWgsl = gpuParams.DEBUG
+    ? `@group(2) @binding(0) var<storage, read_write> results : array<array<f32, ${context.maxContainerArrayLength}>>; // DEBUG${compactDeclarations}`
+    : compactDeclarations
+
+  wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', resultsBufferWgsl)
+
+  if (tupleMode) {
+    wgsl = wgsl.replace(
+      '/* INJECT BIND GROUP 0 */',
+      `@group(0) @binding(0) var<uniform> params : Params;
+@group(0) @binding(1) var<storage, read> assignments : array<Assignment>;`,
+    )
+  } else {
+    wgsl = wgsl.replace(
+      '/* INJECT BIND GROUP 0 */',
+      `@group(0) @binding(0) var<uniform> params : NaiveParams;`,
+    )
+  }
+
+  return wgsl
+}
+
+function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
+  if (gpuParams.TUPLE_MODE) {
+    wgsl = wgsl.replace('/* INJECT OFFSET DECODE */', `
+  let a = assignments[params.batchOffset + workgroup_index];
+  let threshold = params.threshold;
+
+  let tHSize = i32(a.hSize);
+  let tGSize = i32(a.gSize);
+  let tBSize = i32(a.bSize);
+  let tFSize = i32(a.fSize);
+  let tPSize = i32(a.pSize);
+  let tLSize = i32(a.lSize);
+  let permLimit = i32(a.permLimit);
+
+  let tXb = i32(a.xb);
+  let tXg = i32(a.xg);
+  let tXh = i32(a.xh);
+
+  let threadOffset = i32(a.startOffset) + i32(local_invocation_index) * CYCLES_PER_INVOCATION;
+
+  let l0 = threadOffset % tLSize;
+  let c1 = threadOffset / tLSize;
+  let p0 = c1 % tPSize;
+  let c2 = c1 / tPSize;
+  let f0 = c2 % tFSize;
+  let c3 = c2 / tFSize;
+  let b0 = c3 % tBSize;
+  let c4 = c3 / tBSize;
+  let g0 = c4 % tGSize;
+  let h0 = c4 / tGSize;
+
+  var curL = l0;
+  var curP = p0;
+  var curF = f0;
+  var curB = tXb + b0;
+  var curG = tXg + g0;
+  var curH = tXh + h0;
+`)
+
+    wgsl = wgsl.replace('/* INJECT PERM LIMIT CHECK */', `
+    let localIndex = i32(local_invocation_index) * CYCLES_PER_INVOCATION + i;
+    if (localIndex >= permLimit) {
+      break;
+    }
+`)
+
+    wgsl = wgsl.replace('/* INJECT CARRY CHAIN */', `
+    continuing {
+      i++;
+
+      curL += 1;
+      if (curL >= tLSize) {
+        curL = 0;
+        curP += 1;
+        if (curP >= tPSize) {
+          curP = 0;
+          curF += 1;
+          if (curF >= tFSize) {
+            curF = 0;
+            curB += 1;
+            if (curB >= tXb + tBSize) {
+              curB = tXb;
+              curG += 1;
+              if (curG >= tXg + tGSize) {
+                curG = tXg;
+                curH += 1;
+                head = relics[curH];
+                setH = u32(head.v5.z);
+                maskH = 1u << setH;
+              }
+              hands = relics[curG + handsOffset];
+              setG = u32(hands.v5.z);
+              maskG = 1u << setG;
+            }
+            body = relics[curB + bodyOffset];
+            setB = u32(body.v5.z);
+            maskB = 1u << setB;
+          }
+          feet = relics[curF + feetOffset];
+          setF = u32(feet.v5.z);
+          maskF = 1u << setF;
+
+          outerStats = sumOuterRelics(head, hands, body, feet);
+        }
+        planarSphere = relics[curP + planarOffset];
+        setP = u32(planarSphere.v5.z);
+      }
+    }
+`)
+  } else {
+    wgsl = wgsl.replace('/* INJECT OFFSET DECODE */', `
+  let xl = i32(params.xl);
+  let xp = i32(params.xp);
+  let xf = i32(params.xf);
+  let xb = i32(params.xb);
+  let xg = i32(params.xg);
+  let xh = i32(params.xh);
+  let threshold = params.threshold;
+  let cycleIndex = indexGlobal * CYCLES_PER_INVOCATION;
+
+  let index = cycleIndex;
+
+  let l = (index % lSize);
+  let c1 = index / lSize;
+  let p = (c1 % pSize);
+  let c2 = c1 / pSize;
+  let f = (c2 % fSize);
+  let c3 = c2 / fSize;
+  let b = (c3 % bSize);
+  let c4 = c3 / bSize;
+  let g = (c4 % gSize);
+  let h = c4 / gSize;
+
+  let carryL = (l + xl) / lSize;
+  var curL = (l + xl) % lSize;
+  let carryP = (p + xp + carryL) / pSize;
+  var curP = (p + xp + carryL) % pSize;
+  let carryF = (f + xf + carryP) / fSize;
+  var curF = (f + xf + carryP) % fSize;
+  let carryB = (b + xb + carryF) / bSize;
+  var curB = (b + xb + carryF) % bSize;
+  let carryG = (g + xg + carryB) / gSize;
+  var curG = (g + xg + carryB) % gSize;
+  var curH = (h + xh + carryG) % hSize;
+`)
+
+    wgsl = wgsl.replace('/* INJECT PERM LIMIT CHECK */', `
+    let index = cycleIndex + i;
+
+    if (index >= i32(params.permLimit)) {
+      break;
+    }
+`)
+
+    wgsl = wgsl.replace('/* INJECT CARRY CHAIN */', `
+    continuing {
+      i++;
+
+      curL += 1;
+      if (curL >= lSize) {
+        curL = 0;
+        curP += 1;
+        if (curP >= pSize) {
+          curP = 0;
+          curF += 1;
+          if (curF >= fSize) {
+            curF = 0;
+            curB += 1;
+            if (curB >= bSize) {
+              curB = 0;
+              curG += 1;
+              if (curG >= gSize) {
+                curG = 0;
+                curH = (curH + 1) % hSize;
+                head = relics[curH];
+                setH = u32(head.v5.z);
+                maskH = 1u << setH;
+              }
+              hands = relics[curG + handsOffset];
+              setG = u32(hands.v5.z);
+              maskG = 1u << setG;
+            }
+            body = relics[curB + bodyOffset];
+            setB = u32(body.v5.z);
+            maskB = 1u << setB;
+          }
+          feet = relics[curF + feetOffset];
+          setF = u32(feet.v5.z);
+          maskF = 1u << setF;
+
+          outerStats = sumOuterRelics(head, hands, body, feet);
+        }
+        planarSphere = relics[curP + planarOffset];
+        setP = u32(planarSphere.v5.z);
+      }
+    }
+`)
+  }
 
   return wgsl
 }

@@ -102,7 +102,7 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
     const comboGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_DMG, context)
     calls += `    debugContainer[${comboGlobalRegIdx}] = comboDmg; // GlobalRegister[COMBO_DMG]\n`
     calls += `
-    results[index] = debugContainer;
+    results[indexGlobal * CYCLES_PER_INVOCATION + i] = debugContainer;
 `
   }
 
@@ -175,13 +175,21 @@ function generateRatingFilters(request: Form, context: OptimizerContext, gpuPara
 
 /**
  * Generates WGSL for atomic compaction: claims a slot and writes (index, value) to compact buffer.
+ * Tuple mode: packs (workgroup_index_in_batch << 16 | threadLocalOffset) into u32.
+ *   CPU decodes via assignment table to reconstruct absolute relic positions.
+ * Naive mode: dispatch-local index (CPU adds offset on readback).
  */
 function compactWrite(valueExpr: string): string {
   return indent(
     `
+let compactIndex: u32 = select(
+  u32(indexGlobal * CYCLES_PER_INVOCATION + i),
+  (workgroup_index << 16u) | u32(i32(local_invocation_index) * CYCLES_PER_INVOCATION + i),
+  TUPLE_MODE == 1,
+);
 let slot = atomicAdd(&compactCount, 1u);
 if (slot < COMPACT_LIMIT) {
-  compactResults[slot] = CompactEntry(index, ${valueExpr});
+  compactResults[slot] = CompactEntry(compactIndex, ${valueExpr});
 }
 `,
     3,

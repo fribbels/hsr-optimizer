@@ -392,6 +392,7 @@ CombatBuffs:
   VULNERABILITY: Vulnérabilité %
   BREAK_EFFICIENCY: Éfficacité de Rupture %
   Title: Buffs supplémentaires
+  Clear: Effacer
 Target_one: cible
 Target_other: cibles
 EnemyConfiguration:

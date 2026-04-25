@@ -51,6 +51,7 @@ export type OptimizerDisplayState = {
   optimizerEndTime: number | null,
   permutationsSearched: number,
   permutationsResults: number,
+  optimizerProgress: number,
   optimizerBuild: Build | null,
   optimizerSelectedRowData: OptimizerDisplayDataStatSim | null,
   statSimulationDisplay: StatSimTypes,

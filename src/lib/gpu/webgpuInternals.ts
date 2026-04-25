@@ -122,13 +122,17 @@ export async function initializeGpuPipeline(
     device.createBuffer({ size: 4, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST }),
     device.createBuffer({ size: 4, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST }),
   ]
+  const validCountBuffers: [GPUBuffer, GPUBuffer] = [
+    device.createBuffer({ size: 4, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST }),
+    device.createBuffer({ size: 4, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC | GPUBufferUsage.COPY_DST }),
+  ]
   const compactResultsBuffers: [GPUBuffer, GPUBuffer] = [
     device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
     device.createBuffer({ size: compactResultsBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
   ]
 
-  // Merged read buffer: [u32 count (4 bytes)][CompactEntry[] (compactResultsBufferSize bytes)]
-  const compactReadBufferSize = 4 + compactResultsBufferSize
+  // Merged read buffer: [compactCount(4B) | CompactEntry[](N*8B) | validCount(4B)]
+  const compactReadBufferSize = 4 + compactResultsBufferSize + 4
   const compactReadBuffers: [GPUBuffer, GPUBuffer] = [
     device.createBuffer({ size: compactReadBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
     device.createBuffer({ size: compactReadBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
@@ -145,6 +149,7 @@ export async function initializeGpuPipeline(
           : [
             { binding: 1, resource: { buffer: compactCountBuffers[i] } },
             { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
+            { binding: 3, resource: { buffer: validCountBuffers[i] } },
           ]
       ),
     })
@@ -198,6 +203,7 @@ export async function initializeGpuPipeline(
     compactCountBuffers,
     compactResultsBuffers,
     compactReadBuffers,
+    validCountBuffers,
   }
 }
 
@@ -221,14 +227,16 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   const compactCountBuffer = gpuContext.compactCountBuffers[bufferIndex]
   const compactResultsBuffer = gpuContext.compactResultsBuffers[bufferIndex]
   const compactReadBuffer = gpuContext.compactReadBuffers[bufferIndex]
+  const validCountBuffer = gpuContext.validCountBuffers[bufferIndex]
 
   device.queue.writeBuffer(gpuContext.paramsMatrixBuffer, 0, newParamsMatrix)
 
   const commandEncoder = device.createCommandEncoder()
 
   if (!gpuContext.DEBUG) {
-    // Clear the atomic counter to 0 before dispatch
+    // Clear atomic counters to 0 before dispatch
     commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
+    commandEncoder.clearBuffer(validCountBuffer, 0, 4)
   }
 
   const passEncoder = commandEncoder.beginComputePass()
@@ -240,9 +248,10 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
   passEncoder.end()
 
   if (!gpuContext.DEBUG) {
-    // Copy compact count + results into merged read buffer: [count(4B) | results(N*8B)]
+    // Copy into merged read buffer: [compactCount(4B) | results(N*8B) | validCount(4B)]
     commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactReadBuffer, 0, 4)
     commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactReadBuffer, 4, gpuContext.compactResultsBufferSize)
+    commandEncoder.copyBufferToBuffer(validCountBuffer, 0, compactReadBuffer, 4 + gpuContext.compactResultsBufferSize, 4)
   }
 
   if (gpuContext.DEBUG) {
@@ -305,4 +314,5 @@ export function destroyPipeline(gpuContext: GpuExecutionContext) {
   gpuContext.compactCountBuffers.forEach((b) => b.destroy())
   gpuContext.compactResultsBuffers.forEach((b) => b.destroy())
   gpuContext.compactReadBuffers.forEach((b) => b.destroy())
+  gpuContext.validCountBuffers.forEach((b) => b.destroy())
 }

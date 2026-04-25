@@ -100,6 +100,8 @@ fn main(
   var maskB = 1u << setB;
   var maskF = 1u << setF;
 
+  var localValidCount: u32 = 0u;
+
   var i: i32 = 0;
   loop {
     if (i >= CYCLES_PER_INVOCATION) { break; }
@@ -121,6 +123,8 @@ fn main(
     /* INJECT SET FILTERS */
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END SET FILTERS
+
+    localValidCount += 1u;
 
     var sets = Sets();
     sets.relicMatch2 = (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
@@ -260,6 +264,10 @@ fn main(
         setP = u32(planarSphere.v5.z);
       }
     }
+  }
+
+  if (localValidCount > 0u) {
+    atomicAdd(&validCount, localValidCount);
   }
 }
 

@@ -13,6 +13,7 @@ export function calculateProgressText(
   permutationsSearched: number,
   optimizationInProgress: boolean,
   optimizerRunningEngine: ComputeEngine,
+  optimizerProgress: number = 0,
 ) {
   if (!startTime) {
     return i18next.t('optimizerTab:Sidebar.ProgressText.Progress') // Progress
@@ -23,15 +24,16 @@ export function calculateProgressText(
     endTime = optimizerEndTime
   }
 
-  const searched = optimizerRunningEngine === COMPUTE_ENGINE_CPU ? permutationsSearched : Math.max(permutationsSearched, 65536 * 512)
-
   const msDiff = endTime - startTime
-  if (!optimizerEndTime && msDiff < 5_000 && permutationsSearched < 5_000_000 || !permutationsSearched) {
+  if (!optimizerEndTime && msDiff < 5_000 && optimizerProgress < 0.05 || !permutationsSearched) {
     return i18next.t('optimizerTab:Sidebar.ProgressText.CalculatingETA') // Progress  (calculating ETA..)
   }
 
-  const msRemaining = Math.max(0, msDiff / permutationsSearched * (permutations - permutationsSearched))
-  const perSecond = searched / (msDiff / 1000)
+  // ETA based on dispatch progress (wall-clock proportional) rather than valid-perm progress
+  const msRemaining = optimizerProgress > 0
+    ? Math.max(0, msDiff / optimizerProgress * (1 - optimizerProgress))
+    : 0
+  const perSecond = permutationsSearched / (msDiff / 1000)
   return optimizationInProgress
     ? i18next.t('optimizerTab:Sidebar.ProgressText.TimeRemaining', {
       // {{rate}} / sec — ${{timeRemaining}} left

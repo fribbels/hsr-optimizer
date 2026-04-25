@@ -8,7 +8,7 @@ import { useShallow } from 'zustand/react/shallow'
 const SEGMENT_COUNT = 20
 
 export const ProgressDisplay = React.memo(function ProgressDisplay() {
-  const { permutations, permutationsSearched, optimizerStartTime, optimizerEndTime, optimizerRunningEngine, optimizationInProgress } = useOptimizerDisplayStore(
+  const { permutations, permutationsSearched, optimizerStartTime, optimizerEndTime, optimizerRunningEngine, optimizationInProgress, optimizerProgress } = useOptimizerDisplayStore(
     useShallow((s) => ({
       permutations: s.permutations,
       permutationsSearched: s.permutationsSearched,
@@ -16,6 +16,7 @@ export const ProgressDisplay = React.memo(function ProgressDisplay() {
       optimizerEndTime: s.optimizerEndTime,
       optimizerRunningEngine: s.optimizerRunningEngine,
       optimizationInProgress: s.optimizationInProgress,
+      optimizerProgress: s.optimizerProgress,
     })),
   )
 
@@ -26,8 +27,9 @@ export const ProgressDisplay = React.memo(function ProgressDisplay() {
     permutationsSearched,
     optimizationInProgress,
     optimizerRunningEngine,
+    optimizerProgress,
   )
-  const progress = permutations ? permutationsSearched / permutations : 0
+  const progress = optimizerProgress
   const filledSegments = Math.round(progress * SEGMENT_COUNT)
 
   return (

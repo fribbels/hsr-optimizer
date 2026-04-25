@@ -62,6 +62,7 @@ export type GpuExecutionContext = {
   compactCountBuffers: [GPUBuffer, GPUBuffer],
   compactResultsBuffers: [GPUBuffer, GPUBuffer],
   compactReadBuffers: [GPUBuffer, GPUBuffer],
+  validCountBuffers: [GPUBuffer, GPUBuffer],
 }
 
 export type RelicsByPart = {

@@ -367,6 +367,7 @@ export const Optimizer = {
           useOptimizerDisplayStore.setState({
             permutationsResults: queueResults.size(),
             permutationsSearched: Math.min(validPermutations, Math.round(searched * progressScale)),
+            optimizerProgress: searched / permutations,
             optimizerEndTime: Date.now(),
           })
 

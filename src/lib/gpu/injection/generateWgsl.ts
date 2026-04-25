@@ -262,7 +262,8 @@ const COMPACT_LIMIT = ${gpuParams.COMPACT_LIMIT}u;
 struct CompactEntry { index: i32, value: f32 }
 
 @group(2) @binding(1) var<storage, read_write> compactCount : atomic<u32>;
-@group(2) @binding(2) var<storage, read_write> compactResults : array<CompactEntry>;`
+@group(2) @binding(2) var<storage, read_write> compactResults : array<CompactEntry>;
+@group(2) @binding(3) var<storage, read_write> validCount : atomic<u32>;`
 
   wgsl = wgsl.replace(
     '/* INJECT RESULTS BUFFER */',

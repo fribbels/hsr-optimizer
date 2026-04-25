@@ -44,9 +44,6 @@ export async function gpuOptimize(props: {
   ornamentSetSolutions: number[],
 }) {
   const { context, request, relics, permutations, validPermutations, computeEngine, relicSetSolutions, ornamentSetSolutions } = props
-  // searched counts in the naive index space; scale to valid-permutation space for display (#1482).
-  const progressScale = permutations > 0 ? validPermutations / permutations : 0
-  const scaleSearched = (naiveSearched: number): number => Math.min(validPermutations, Math.round(naiveSearched * progressScale))
 
   const device = props.device
   if (device == null) {
@@ -121,11 +118,13 @@ export async function gpuOptimize(props: {
       const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
       const isOverflow = rawCount > gpuContext.COMPACT_LIMIT
 
+      // Read GPU-side valid permutation count from the tail of the merged buffer
+      const gpuValidCount = new Uint32Array(mappedRange, 4 + gpuContext.compactResultsBufferSize, 1)[0]
+
       if (isOverflow) {
         overflowedOffsets.push(offset)
-      } else {
-        permutationsSearched += permStride
       }
+      permutationsSearched += gpuValidCount
 
       processCompactResults(offset, count, mappedRange, gpuContext, isOverflow ? seenIndices : undefined)
       passResult.compactReadBuffer.unmap()
@@ -142,11 +141,13 @@ export async function gpuOptimize(props: {
     }
 
     const searchedSnapshot = permutationsSearched
+    const progressSnapshot = (iteration + 1) / gpuContext.iterations
     setTimeout(() => {
       const uiState = useOptimizerDisplayStore.getState()
       uiState.setOptimizerEndTime(Date.now())
       uiState.setPermutationsResults(gpuContext.resultsQueue.size())
-      uiState.setPermutationsSearched(scaleSearched(searchedSnapshot))
+      uiState.setPermutationsSearched(searchedSnapshot)
+      uiState.setOptimizerProgress(progressSnapshot)
     }, 0)
 
     if (gpuContext.permutations <= maxPermNumber || !useOptimizerDisplayStore.getState().optimizationInProgress) {
@@ -156,10 +157,11 @@ export async function gpuOptimize(props: {
   }
 
   // Revisit overflowed dispatches now that the threshold is established.
-  await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices, permStride, permutationsSearched, scaleSearched)
+  await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices, permutationsSearched)
 
   if (useOptimizerDisplayStore.getState().optimizationInProgress) {
     useOptimizerDisplayStore.getState().setPermutationsSearched(validPermutations)
+    useOptimizerDisplayStore.getState().setOptimizerProgress(1)
   }
   useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
   useOptimizerDisplayStore.getState().setPermutationsResults(gpuContext.resultsQueue.size())
@@ -261,9 +263,7 @@ async function revisitOverflowedDispatches(
   overflowedOffsets: number[],
   gpuContext: GpuExecutionContext,
   seenIndices: Set<number>,
-  permStride: number,
   permutationsSearched: number,
-  scaleSearched: (n: number) => number,
 ) {
   if (overflowedOffsets.length > 0 && useOptimizerDisplayStore.getState().optimizationInProgress) {
     for (const overflowOffset of overflowedOffsets) {
@@ -282,14 +282,14 @@ async function revisitOverflowedDispatches(
         passResult.compactReadBuffer.unmap()
       } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
 
-      permutationsSearched += permStride
+      // validCount was already accumulated during the main loop for this offset's dispatch
       const searchedSnapshot = permutationsSearched
       await new Promise<void>((resolve) =>
         setTimeout(() => {
           const uiState = useOptimizerDisplayStore.getState()
           uiState.setOptimizerEndTime(Date.now())
           uiState.setPermutationsResults(gpuContext.resultsQueue.size())
-          uiState.setPermutationsSearched(scaleSearched(searchedSnapshot))
+          uiState.setPermutationsSearched(searchedSnapshot)
           resolve()
         }, 0)
       )

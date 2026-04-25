@@ -144,20 +144,19 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
     return [ZeroPermRootCause.IMPORT]
   }
 
-  // All slots have relics but no valid set combination exists — check relic vs ornament
-  const allSlotsNonEmpty = counts.Head > 0 && counts.Hands > 0
-    && counts.Body > 0 && counts.Feet > 0
-    && counts.PlanarSphere > 0 && counts.LinkRope > 0
+  // Relic and ornament feasibility are independent — check each when its slots are populated
+  const relicSlotsNonEmpty = counts.Head > 0 && counts.Hands > 0 && counts.Body > 0 && counts.Feet > 0
+  const ornamentSlotsNonEmpty = counts.PlanarSphere > 0 && counts.LinkRope > 0
   let relicSetInfeasible = false
   let ornamentSetInfeasible = false
-  if (allSlotsNonEmpty && (request.relicSets.length > 0 || request.ornamentSets.length > 0)) {
+  if ((relicSlotsNonEmpty && request.relicSets.length > 0) || (ornamentSlotsNonEmpty && request.ornamentSets.length > 0)) {
     const { relicValid, ornamentValid } = computeValidPermutationParts(
       countsBySet,
       generateRelicSetSolutions(request),
       generateOrnamentSetSolutions(request),
     )
-    relicSetInfeasible = request.relicSets.length > 0 && relicValid === 0
-    ornamentSetInfeasible = request.ornamentSets.length > 0 && ornamentValid === 0
+    relicSetInfeasible = relicSlotsNonEmpty && request.relicSets.length > 0 && relicValid === 0
+    ornamentSetInfeasible = ornamentSlotsNonEmpty && request.ornamentSets.length > 0 && ornamentValid === 0
   }
 
   // Main stats

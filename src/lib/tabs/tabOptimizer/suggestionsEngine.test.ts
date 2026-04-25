@@ -114,6 +114,33 @@ describe('detectZeroPermutationCauses — set-constraint infeasibility', () => {
     expect(causes).not.toContain(ZeroPermRootCause.IMPORT)
   })
 
+  it('reports ORNAMENT_SETS even when a relic slot is empty', () => {
+    for (const part of [Parts.Hands, Parts.Body, Parts.Feet] as const) {
+      relicStoreMock.relics.push(makeRelic({ id: `${part}-a`, part, set: SET_A }))
+    }
+    relicStoreMock.relics.push(makeRelic({ id: 'p', part: Parts.PlanarSphere, set: SetsOrnamentsNames[0] as Relic['set'] }))
+    relicStoreMock.relics.push(makeRelic({ id: 'l', part: Parts.LinkRope, set: SetsOrnamentsNames[1] as Relic['set'] }))
+
+    const causes = detectZeroPermutationCauses(baseRequest({
+      ornamentSets: [SetsOrnamentsNames[0], SetsOrnamentsNames[1]],
+    }))
+
+    expect(causes).toContain(ZeroPermRootCause.ORNAMENT_SETS)
+  })
+
+  it('reports RELIC_SETS even when an ornament slot is empty', () => {
+    for (const part of [Parts.Head, Parts.Hands, Parts.Body, Parts.Feet] as const) {
+      relicStoreMock.relics.push(makeRelic({ id: `${part}-b`, part, set: SET_B }))
+    }
+    relicStoreMock.relics.push(makeRelic({ id: 'p', part: Parts.PlanarSphere, set: SetsOrnamentsNames[0] as Relic['set'] }))
+
+    const causes = detectZeroPermutationCauses(baseRequest({
+      relicSets: [[RelicSetFilterOptions.relic2PlusAny, SET_A]],
+    }))
+
+    expect(causes).toContain(ZeroPermRootCause.RELIC_SETS)
+  })
+
   it('does not report RELIC_SETS when slot counts allow the filter', () => {
     // At least one set A relic in every slot — 2+Any setA is satisfiable.
     for (const part of [Parts.Head, Parts.Hands, Parts.Body, Parts.Feet] as const) {

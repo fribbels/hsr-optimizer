@@ -102,34 +102,34 @@ export async function initializeGpuPipeline(
 
   const hasOrnamentFilter = (request.ornamentSets?.length ?? 0) > 0
 
-  const byRelicSet = (a: Relic, b: Relic) =>
-    RelicSetToIndex[a.set as SetsRelics] - RelicSetToIndex[b.set as SetsRelics]
-  const byOrnamentSet = (a: Relic, b: Relic) =>
-    OrnamentSetToIndex[a.set as SetsOrnaments] - OrnamentSetToIndex[b.set as SetsOrnaments]
+  // Sorts relics in-place by set — required for contiguous set ranges in tuple dispatch.
+  // Mutates the caller's arrays; outputResults reads from the same sorted references.
+  if (TUPLE_MODE) {
+    const byRelicSet = (a: Relic, b: Relic) => RelicSetToIndex[a.set as SetsRelics] - RelicSetToIndex[b.set as SetsRelics]
+    const byOrnamentSet = (a: Relic, b: Relic) => OrnamentSetToIndex[a.set as SetsOrnaments] - OrnamentSetToIndex[b.set as SetsOrnaments]
 
-  relics.Head.sort(byRelicSet)
-  relics.Hands.sort(byRelicSet)
-  relics.Body.sort(byRelicSet)
-  relics.Feet.sort(byRelicSet)
-  relics.PlanarSphere.sort(byOrnamentSet)
-  relics.LinkRope.sort(byOrnamentSet)
+    relics.Head.sort(byRelicSet)
+    relics.Hands.sort(byRelicSet)
+    relics.Body.sort(byRelicSet)
+    relics.Feet.sort(byRelicSet)
+    relics.PlanarSphere.sort(byOrnamentSet)
+    relics.LinkRope.sort(byOrnamentSet)
+  }
 
   // Build tuple assignments for set-filtered dispatch
   let assignmentBuffer: GPUBuffer | null = null
   let assignments: WorkgroupEntry[] = []
-  let totalWorkgroups = 0
 
   if (TUPLE_MODE) {
     const ranges = buildPerSlotSetRanges(relics)
     const quads = enumerateValidQuadsD4(relicSetSolutions, ranges)
     const fullSizes: FullSizes = {
-      P: relics.PlanarSphere.length,
-      L: relics.LinkRope.length,
+      pSize: relics.PlanarSphere.length,
+      lSize: relics.LinkRope.length,
     }
     const wgCapacity = WORKGROUP_SIZE * CYCLES_PER_INVOCATION
     const tupleParams = quads.map((q) => computeTupleParams(q, ranges))
     assignments = buildWorkgroupAssignments(tupleParams, fullSizes, wgCapacity)
-    totalWorkgroups = assignments.length
     const serialized = serializeAssignments(assignments)
 
     assignmentBuffer = device.createBuffer({
@@ -259,7 +259,6 @@ export async function initializeGpuPipeline(
     TUPLE_MODE,
     assignmentBuffer,
     assignments,
-    totalWorkgroups,
 
     COMPACT_LIMIT,
     compactResultsBufferSize,
@@ -308,8 +307,10 @@ export function submitGpuDispatch(gpuContext: GpuExecutionContext, paramsData: A
 
   if (gpuContext.DEBUG) {
     commandEncoder.copyBufferToBuffer(
-      gpuContext.resultMatrixBuffers[bufferIndex], 0,
-      gpuContext.gpuReadBuffers[bufferIndex], 0,
+      gpuContext.resultMatrixBuffers[bufferIndex],
+      0,
+      gpuContext.gpuReadBuffers[bufferIndex],
+      0,
       gpuContext.resultMatrixBufferSize,
     )
   }

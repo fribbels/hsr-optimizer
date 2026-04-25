@@ -1,4 +1,5 @@
 import { type ComputeEngine } from 'lib/constants/constants'
+import { type WorkgroupEntry } from 'lib/gpu/webgpuDataTransform'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import {
   destroyPipeline,
@@ -7,7 +8,6 @@ import {
   initializeGpuPipeline,
   submitGpuDispatch,
 } from 'lib/gpu/webgpuInternals'
-import { type WorkgroupEntry } from 'lib/gpu/webgpuDataTransform'
 import {
   type GpuExecutionContext,
   type RelicsByPart,
@@ -177,30 +177,26 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
 
 /** Absolute relic counts per slot, used to convert tuple-relative indices to flat global indices. */
 export type RelicPartSizes = {
-  lSize: number
-  pSize: number
-  fSize: number
-  bSize: number
-  gSize: number
+  lSize: number,
+  pSize: number,
+  fSize: number,
+  bSize: number,
+  gSize: number,
 }
 
-/**
- * Decodes a packed GPU index (workgroup-in-batch << 16 | local-offset) into a flat global
- * relic permutation index. The assignment table maps each workgroup to its tuple parameters;
- * the local offset is decomposed into per-slot indices which are then converted from
- * tuple-relative to absolute positions before computing the global flat index.
- */
 export function decodeTupleGlobalIndex(
   packedIndex: number,
   batchStart: number,
   assignments: WorkgroupEntry[],
   sizes: RelicPartSizes,
+  localBits: number,
 ): number {
-  const wgInBatch = packedIndex >>> 16
-  const localOffset = packedIndex & 0xFFFF
+  const wgInBatch = packedIndex >>> localBits
+  const localOffset = packedIndex & ((1 << localBits) - 1)
   const assignmentIdx = batchStart + wgInBatch
   const a = assignments[assignmentIdx]
   const totalOffset = a.startOffset + localOffset
+
   const l = totalOffset % a.lSize
   const c1 = (totalOffset - l) / a.lSize
   const p = c1 % a.pSize
@@ -211,14 +207,20 @@ export function decodeTupleGlobalIndex(
   const c4 = (c3 - b) / a.bSize
   const g = c4 % a.gSize
   const h = (c4 - g) / a.gSize
+
   // D=4: F, B, G, H are tuple-relative, convert to absolute positions
   const absF = a.xf + f
   const absB = a.xb + b
   const absG = a.xg + g
   const absH = a.xh + h
+
   const { lSize, pSize, fSize, bSize, gSize } = sizes
-  return l + p * lSize + absF * lSize * pSize + absB * lSize * pSize * fSize
-    + absG * lSize * pSize * fSize * bSize + absH * lSize * pSize * fSize * bSize * gSize
+  return l
+    + p * lSize
+    + absF * lSize * pSize
+    + absB * lSize * pSize * fSize
+    + absG * lSize * pSize * fSize * bSize
+    + absH * lSize * pSize * fSize * bSize * gSize
 }
 
 function submitTupleBatch(gpuContext: GpuExecutionContext, batchStart: number, batchSize: number, bufferIndex: number): void {
@@ -237,28 +239,32 @@ function processTupleBatch(
   batchStart: number,
   assignments: WorkgroupEntry[],
   sizes: RelicPartSizes,
+  localBits: number,
   seenIndices?: Set<number>,
-): { rawCount: number; validCount: number } {
+): { rawCount: number, validCount: number } {
   const compactReadBuffer = gpuContext.compactReadBuffers[bufferIndex]
   const mappedRange = compactReadBuffer.getMappedRange()
   const rawCount = new Uint32Array(mappedRange, 0, 1)[0]
-  const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
   const validCount = new Uint32Array(mappedRange, 4 + gpuContext.compactResultsBufferSize, 1)[0]
+  const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
 
-  pushCompactResultsToQueue(mappedRange, count, gpuContext, (raw) => decodeTupleGlobalIndex(raw, batchStart, assignments, sizes), seenIndices)
+  pushCompactResultsToQueue(mappedRange, count, gpuContext, (raw) => decodeTupleGlobalIndex(raw, batchStart, assignments, sizes, localBits), seenIndices)
 
   compactReadBuffer.unmap()
   return { rawCount, validCount }
 }
 
 async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number> {
-  if (gpuContext.WORKGROUP_SIZE * gpuContext.CYCLES_PER_INVOCATION > 65536) {
-    throw new Error('Packed index overflow: WG_SIZE * CPI exceeds 16 bits')
-  }
-  if (gpuContext.totalWorkgroups === 0) return 0
+  if (gpuContext.assignments.length === 0) return 0
 
-  const BATCH_WGS = Math.min(2048, gpuContext.totalWorkgroups)
-  const totalBatches = Math.ceil(gpuContext.totalWorkgroups / BATCH_WGS)
+  const localBits = Math.ceil(Math.log2(gpuContext.WORKGROUP_SIZE * gpuContext.CYCLES_PER_INVOCATION))
+  const BATCH_WGS = Math.min(2048, gpuContext.assignments.length)
+
+  // Packed index = (workgroup_in_batch << localBits) | threadLocalOffset — must fit u32
+  if (localBits + Math.ceil(Math.log2(BATCH_WGS + 1)) > 32) {
+    throw new Error(`Packed index overflow: ${localBits} local bits + ${BATCH_WGS} max workgroups exceeds u32`)
+  }
+  const totalBatches = Math.ceil(gpuContext.assignments.length / BATCH_WGS)
   const assignments = gpuContext.assignments
   const relics = gpuContext.relics
   const sizes: RelicPartSizes = {
@@ -279,7 +285,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
   useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
 
   // Submit first batch
-  const firstBatchSize = Math.min(BATCH_WGS, gpuContext.totalWorkgroups)
+  const firstBatchSize = Math.min(BATCH_WGS, gpuContext.assignments.length)
   submitTupleBatch(gpuContext, 0, firstBatchSize, currentBuf)
 
   for (let batch = 0; batch < totalBatches; batch++) {
@@ -291,14 +297,14 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     if (hasNext) {
       const nextBuf = 1 - currentBuf
       const nextBatchStart = (batch + 1) * BATCH_WGS
-      const nextBatchSize = Math.min(BATCH_WGS, gpuContext.totalWorkgroups - nextBatchStart)
+      const nextBatchSize = Math.min(BATCH_WGS, gpuContext.assignments.length - nextBatchStart)
       submitTupleBatch(gpuContext, nextBatchStart, nextBatchSize, nextBuf)
       currentBuf = nextBuf
     }
 
     await gpuContext.compactReadBuffers[readBuf].mapAsync(GPUMapMode.READ)
 
-    const { rawCount, validCount } = processTupleBatch(gpuContext, readBuf, batchStart, assignments, sizes)
+    const { rawCount, validCount } = processTupleBatch(gpuContext, readBuf, batchStart, assignments, sizes, localBits)
     permutationsSearched += validCount
     if (rawCount > gpuContext.COMPACT_LIMIT) {
       overflowedBatches.push(batchStart)
@@ -325,13 +331,13 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     for (const batchStart of overflowedBatches) {
       if (!useOptimizerDisplayStore.getState().optimizationInProgress) break
 
-      const batchSize = Math.min(BATCH_WGS, gpuContext.totalWorkgroups - batchStart)
+      const batchSize = Math.min(BATCH_WGS, gpuContext.assignments.length - batchStart)
       let rawCount: number
       let retries = 0
       do {
         submitTupleBatch(gpuContext, batchStart, batchSize, 0)
         await gpuContext.compactReadBuffers[0].mapAsync(GPUMapMode.READ)
-        const result = processTupleBatch(gpuContext, 0, batchStart, assignments, sizes, seenIndices)
+        const result = processTupleBatch(gpuContext, 0, batchStart, assignments, sizes, localBits, seenIndices)
         rawCount = result.rawCount
       } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
     }

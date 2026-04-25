@@ -61,7 +61,6 @@ export type GpuExecutionContext = {
   TUPLE_MODE: boolean,
   assignmentBuffer: GPUBuffer | null,
   assignments: WorkgroupEntry[],
-  totalWorkgroups: number,
 
   // Atomic compaction buffers
   COMPACT_LIMIT: number,

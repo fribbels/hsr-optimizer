@@ -123,7 +123,7 @@ export type TupleParams = {
 }
 
 export type FullSizes = {
-  P: number, L: number,
+  pSize: number, lSize: number,
 }
 
 export type WorkgroupEntry = {
@@ -159,7 +159,7 @@ export function buildWorkgroupAssignments(
   const safeTuples = splitOversizedTuples(tuples, fullSizes)
   const assignments: WorkgroupEntry[] = []
   for (const t of safeTuples) {
-    const weight = t.hSize * t.gSize * t.bSize * t.fSize * fullSizes.P * fullSizes.L
+    const weight = t.hSize * t.gSize * t.bSize * t.fSize * fullSizes.pSize * fullSizes.lSize
     const numWGs = Math.ceil(weight / wgCapacity)
     for (let wg = 0; wg < numWGs; wg++) {
       const start = wg * wgCapacity
@@ -169,7 +169,7 @@ export function buildWorkgroupAssignments(
         xg: t.xg, gSize: t.gSize,
         xb: t.xb, bSize: t.bSize,
         xf: t.xf, fSize: t.fSize,
-        pSize: fullSizes.P, lSize: fullSizes.L,
+        pSize: fullSizes.pSize, lSize: fullSizes.lSize,
         permLimit: limit,
         startOffset: start,
       })
@@ -183,7 +183,7 @@ function splitOversizedTuples(tuples: TupleParams[], fullSizes: FullSizes): Tupl
   const queue = [...tuples]
   while (queue.length > 0) {
     const t = queue.pop()!
-    const weight = t.hSize * t.gSize * t.bSize * t.fSize * fullSizes.P * fullSizes.L
+    const weight = t.hSize * t.gSize * t.bSize * t.fSize * fullSizes.pSize * fullSizes.lSize
     if (weight <= MAX_TUPLE_WEIGHT) {
       result.push(t)
       continue

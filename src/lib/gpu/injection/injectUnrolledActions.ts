@@ -187,7 +187,7 @@ function compactWrite(valueExpr: string): string {
 // Naive mode: use dispatch-local index directly (CPU adds the batch offset on readback).
 let compactIndex: u32 = select(
   u32(indexGlobal * CYCLES_PER_INVOCATION + i),
-  (workgroup_index << 16u) | u32(i32(local_invocation_index) * CYCLES_PER_INVOCATION + i),
+  (workgroup_index << PACKED_INDEX_LOCAL_BITS) | u32(i32(local_invocation_index) * CYCLES_PER_INVOCATION + i),
   TUPLE_MODE == 1,
 );
 let slot = atomicAdd(&compactCount, 1u);

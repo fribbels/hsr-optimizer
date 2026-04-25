@@ -256,6 +256,7 @@ const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
 const COMPACT_LIMIT = ${gpuParams.COMPACT_LIMIT}u;
 const TUPLE_MODE = ${gpuParams.TUPLE_MODE ? 1 : 0};
+const PACKED_INDEX_LOCAL_BITS = ${Math.ceil(Math.log2(gpuParams.WORKGROUP_SIZE * gpuParams.CYCLES_PER_INVOCATION))}u;
   `,
   )
 

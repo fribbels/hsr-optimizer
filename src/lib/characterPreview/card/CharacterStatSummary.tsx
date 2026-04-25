@@ -65,7 +65,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   return (
     <StatText className={classes.statSummary}>
       <div
-        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 6 : 3 }}
+        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}
         className={zebra ? classes.zebra : undefined}
       >
         <StatRow finalStats={finalStats} stat={Stats.HP} edits={edits} />
@@ -119,7 +119,7 @@ export const AsyncCharacterStatSummary = memo(function({
   return (
     <StatText className={classes.statSummary}>
       <div
-        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 6 : 3 }}
+        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}
         className={zebra ? classes.zebra : undefined}
       >
         <AsyncStatRow

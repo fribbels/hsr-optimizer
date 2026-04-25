@@ -14,7 +14,7 @@ type CharacterStoreState = {
 type CharacterStoreActions = {
   setCharacters: (characters: Character[]) => void,
   setCharacter: (character: Character) => void,
-  addCharacter: (character: Character) => void,
+  addCharacter: (character: Character, prepend?: boolean) => void,
   removeCharacter: (characterId: CharacterId) => void,
   insertCharacter: (id: CharacterId, index: number) => void,
 }
@@ -43,9 +43,9 @@ export const useCharacterStore = createTabAwareStore<CharacterStore>((set, get) 
     })
   },
 
-  addCharacter: (character) => {
-    const characters = [...get().characters, character]
-    get().setCharacters(characters)
+  addCharacter: (character, prepend) => {
+    const current = get().characters
+    get().setCharacters(prepend ? [character, ...current] : [...current, character])
   },
 
   removeCharacter: (characterId) => {

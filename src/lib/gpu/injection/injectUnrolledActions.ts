@@ -182,6 +182,9 @@ function generateRatingFilters(request: Form, context: OptimizerContext, gpuPara
 function compactWrite(valueExpr: string): string {
   return indent(
     `
+// Tuple mode: pack (workgroup_in_batch, threadLocalOffset) into u32 so the CPU can
+// reconstruct absolute relic indices via the assignment table.
+// Naive mode: use dispatch-local index directly (CPU adds the batch offset on readback).
 let compactIndex: u32 = select(
   u32(indexGlobal * CYCLES_PER_INVOCATION + i),
   (workgroup_index << 16u) | u32(i32(local_invocation_index) * CYCLES_PER_INVOCATION + i),

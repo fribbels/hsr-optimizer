@@ -1,6 +1,5 @@
 import { type ComputeEngine } from 'lib/constants/constants'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
-import { GpuProfiler } from 'lib/gpu/gpuProfiler'
 import {
   destroyPipeline,
   type ExecutionPassResult,
@@ -62,7 +61,6 @@ export async function gpuOptimize(props: {
   useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
   useOptimizerDisplayStore.getState().setOptimizerRunningEngine(computeEngine as ComputeEngine)
 
-  const tGpuStart = performance.now()
   const gpuContext = await initializeGpuPipeline(
     device,
     relics,
@@ -87,23 +85,12 @@ export async function gpuOptimize(props: {
     permutationsSearched = await runNaiveDispatch(gpuContext)
   }
 
-  console.log(`[OPT] Total dispatch wall: ${(performance.now() - tGpuStart).toFixed(1)}ms, permutationsSearched=${permutationsSearched}`)
-
   if (useOptimizerDisplayStore.getState().optimizationInProgress) {
     useOptimizerDisplayStore.getState().setPermutationsSearched(validPermutations)
     useOptimizerDisplayStore.getState().setOptimizerProgress(1)
   }
   useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
   useOptimizerDisplayStore.getState().setPermutationsResults(gpuContext.resultsQueue.size())
-
-  {
-    const uiState = useOptimizerDisplayStore.getState()
-    const startTime = uiState.optimizerStartTime ?? 0
-    const endTime = uiState.optimizerEndTime ?? Date.now()
-    const elapsed = endTime - startTime
-    const rate = elapsed > 0 ? Math.floor(uiState.permutationsSearched / (elapsed / 1000)) : 0
-    console.log(`[OPT] Post-finalize store: searched=${uiState.permutationsSearched}, elapsed=${elapsed}ms, rate=${rate}/sec, startTime=${startTime}, endTime=${endTime}`)
-  }
 
   setTimeout(() => {
     outputResults(gpuContext)
@@ -167,20 +154,12 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
 
     const searchedSnapshot = permutationsSearched
     const progressSnapshot = (iteration + 1) / gpuContext.iterations
-    const iterationNum = iteration
     setTimeout(() => {
       const uiState = useOptimizerDisplayStore.getState()
-      const startTime = uiState.optimizerStartTime ?? 0
-      const endNow = Date.now()
-      uiState.setOptimizerEndTime(endNow)
+      uiState.setOptimizerEndTime(Date.now())
       uiState.setPermutationsResults(gpuContext.resultsQueue.size())
       uiState.setPermutationsSearched(searchedSnapshot)
       uiState.setOptimizerProgress(progressSnapshot)
-      if (iterationNum >= gpuContext.iterations - 20 || iterationNum < 20) {
-        const elapsed = endNow - startTime
-        const rate = elapsed > 0 ? Math.floor(searchedSnapshot / (elapsed / 1000)) : 0
-        console.log(`[OPT] UI update iter=${iterationNum}: searched=${searchedSnapshot}, elapsed=${elapsed}ms, rate=${rate}/sec, startTime=${startTime}, endNow=${endNow}`)
-      }
     }, 0)
 
     if (gpuContext.permutations <= maxPermNumber || !useOptimizerDisplayStore.getState().optimizationInProgress) {
@@ -191,20 +170,14 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
 
   await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices, permutationsSearched)
 
-  // Log the store state right before finalization
-  {
-    const uiState = useOptimizerDisplayStore.getState()
-    const startTime = uiState.optimizerStartTime ?? 0
-    const endTime = uiState.optimizerEndTime ?? Date.now()
-    const elapsed = endTime - startTime
-    const rate = elapsed > 0 ? Math.floor(uiState.permutationsSearched / (elapsed / 1000)) : 0
-    console.log(`[OPT] Pre-finalize store: searched=${uiState.permutationsSearched}, elapsed=${elapsed}ms, rate=${rate}/sec, startTime=${startTime}, endTime=${endTime}`)
-  }
-
   return permutationsSearched
 }
 
 async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number> {
+  if (gpuContext.WORKGROUP_SIZE * gpuContext.CYCLES_PER_INVOCATION > 65536) {
+    throw new Error('Packed index overflow: WG_SIZE * CPI exceeds 16 bits')
+  }
+
   const BATCH_WGS = Math.min(2048, gpuContext.totalWorkgroups)
   const totalBatches = Math.ceil(gpuContext.totalWorkgroups / BATCH_WGS)
   const device = gpuContext.device
@@ -218,16 +191,6 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
   const overflowedBatches: number[] = []
   const seenIndices = new Set<number>()
   let permutationsSearched = 0
-
-  const tDispatchStart = performance.now()
-  let tGpuTotal = 0
-  let tMapTotal = 0
-  let tProcessTotal = 0
-  let tEncodeTotal = 0
-  let totalCompactResults = 0
-  let totalValidCount = 0
-  let processBatchLastCount = 0
-  let processBatchLastValid = 0
 
   // Double-buffered: submit batch N+1 while reading batch N
   let currentBuf = 0
@@ -298,10 +261,6 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     const isOverflow = rawCount > gpuContext.COMPACT_LIMIT
     const gpuValidCount = new Uint32Array(mappedRange, 4 + gpuContext.compactResultsBufferSize, 1)[0]
 
-    totalCompactResults += count
-    totalValidCount += gpuValidCount
-    processBatchLastCount = count
-    processBatchLastValid = gpuValidCount
     if (!isOverflowRevisit) {
       permutationsSearched += gpuValidCount
     }
@@ -344,14 +303,11 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
   // Reset start time before first dispatch to exclude pipeline setup from perms/sec
   useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
 
-  const profiler = new GpuProfiler()
-
   // Submit first batch
   const firstBatchSize = Math.min(BATCH_WGS, gpuContext.totalWorkgroups)
   submitBatch(0, firstBatchSize, currentBuf)
 
   for (let batch = 0; batch < totalBatches; batch++) {
-    profiler.start()
     const batchStart = batch * BATCH_WGS
     const readBuf = currentBuf
 
@@ -364,13 +320,10 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
       submitBatch(nextBatchStart, nextBatchSize, nextBuf)
       currentBuf = nextBuf
     }
-    profiler.mark('submit')
 
     await gpuContext.compactReadBuffers[readBuf].mapAsync(GPUMapMode.READ)
-    profiler.mark('mapAsync')
 
     processBatch(readBuf, batchStart, false)
-    profiler.mark('process')
 
     const searchedSnapshot = permutationsSearched
     const progressSnapshot = (batch + 1) / totalBatches
@@ -381,7 +334,6 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
       uiState.setPermutationsSearched(searchedSnapshot)
       uiState.setOptimizerProgress(progressSnapshot)
     }, 0)
-    profiler.end('ui')
 
     if (!useOptimizerDisplayStore.getState().optimizationInProgress) {
       gpuContext.cancelled = true
@@ -389,16 +341,8 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     }
   }
 
-  const tDispatchEnd = performance.now()
-  profiler.summary(gpuContext)
-  console.log(`[OPT] Tuple dispatch done: ${totalBatches} batches (${BATCH_WGS} wgs/batch), ${gpuContext.totalWorkgroups} workgroups`)
-  console.log(`[OPT]   wall=${(tDispatchEnd - tDispatchStart).toFixed(1)}ms, encode=${tEncodeTotal.toFixed(1)}ms, mapAsync=${tMapTotal.toFixed(1)}ms, process=${tProcessTotal.toFixed(1)}ms`)
-  console.log(`[OPT]   totalCompactResults=${totalCompactResults}, totalValidCount=${totalValidCount}, overflows=${overflowedBatches.length}, queueSize=${gpuContext.resultsQueue.size()}`)
-
   // Revisit overflowed batches with tighter threshold
   if (overflowedBatches.length > 0) {
-    const tRevisitStart = performance.now()
-    let totalRevisits = 0
     for (const batchStart of overflowedBatches) {
       if (!useOptimizerDisplayStore.getState().optimizationInProgress) break
 
@@ -410,10 +354,8 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
         await gpuContext.compactReadBuffers[0].mapAsync(GPUMapMode.READ)
         const result = processBatch(0, batchStart, true)
         rawCount = result.rawCount
-        totalRevisits++
       } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
     }
-    console.log(`[OPT] Overflow revisit: ${overflowedBatches.length} batches, ${totalRevisits} dispatches, ${(performance.now() - tRevisitStart).toFixed(1)}ms`)
   }
 
   return permutationsSearched
@@ -543,7 +485,6 @@ async function revisitOverflowedDispatches(
 }
 
 function outputResults(gpuContext: GpuExecutionContext) {
-  const tStart = performance.now()
   const relics: RelicsByPart = gpuContext.relics
 
   const lSize = relics.LinkRope.length
@@ -602,5 +543,4 @@ function outputResults(gpuContext: GpuExecutionContext) {
   setSortColumn(gridSortColumn)
   OptimizerTabController.setRows(outputs)
   gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-  console.log(`[OPT] outputResults: ${outputs.length} results in ${(performance.now() - tStart).toFixed(1)}ms`)
 }

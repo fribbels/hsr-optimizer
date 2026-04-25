@@ -305,11 +305,6 @@ export function applySemiJoinReduction(
     LinkRope: relics.LinkRope.filter((r) => filterOrnament(r, validL)),
   }
 
-  const before = relics.Head.length + relics.Hands.length + relics.Body.length + relics.Feet.length + relics.PlanarSphere.length + relics.LinkRope.length
-  const after = filtered.Head.length + filtered.Hands.length + filtered.Body.length + filtered.Feet.length + filtered.PlanarSphere.length + filtered.LinkRope.length
-  console.log(`[OPT] Semi-join reduction: ${before} → ${after} relics (${((1 - after / before) * 100).toFixed(1)}% eliminated)`)
-  console.log(`[OPT]   H: ${relics.Head.length}→${filtered.Head.length}, G: ${relics.Hands.length}→${filtered.Hands.length}, B: ${relics.Body.length}→${filtered.Body.length}, F: ${relics.Feet.length}→${filtered.Feet.length}, P: ${relics.PlanarSphere.length}→${filtered.PlanarSphere.length}, L: ${relics.LinkRope.length}→${filtered.LinkRope.length}`)
-
   return filtered
 }
 

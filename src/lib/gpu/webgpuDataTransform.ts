@@ -12,7 +12,6 @@ import {
   RelicSetToIndex,
   type SetsOrnaments,
   type SetsRelics,
-  SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
 import { type StringToNumberMap } from 'types/common'
 import { type Relic } from 'types/relic'
@@ -194,7 +193,7 @@ export function serializeAssignments(assignments: WorkgroupEntry[]): ArrayBuffer
 }
 
 function relicSetToIndex(relic: Relic) {
-  if (SetsRelicsNames.some((name) => name === relic.set)) {
+  if (relic.set in RelicSetToIndex) {
     return RelicSetToIndex[relic.set as SetsRelics]
   }
   return OrnamentSetToIndex[relic.set as SetsOrnaments]

@@ -194,6 +194,10 @@ export async function createSpineInstance(
 
   const renderer = new SceneRenderer(canvas, context)
 
+  // Disable spine's per-frame polygon clipping (pure JS, very expensive on Firefox)
+  // @ts-expect-error accessing private clipper
+  renderer.skeletonRenderer.clipper.clipStart = () => 0
+
   renderer.camera.position.x = camX
   renderer.camera.position.y = camY
   renderer.camera.zoom = 1
@@ -206,8 +210,14 @@ export async function createSpineInstance(
   let lastTime = performance.now()
   let disposed = false
 
+  const FRAME_INTERVAL = 1000 / 60
+
   function loop(now: number) {
-    const delta = Math.min((now - lastTime) / 1000, 0.1) // clamp to 100ms to avoid animation jumps on tab-resume
+    rafId = requestAnimationFrame(loop)
+
+    if (now - lastTime < FRAME_INTERVAL) return
+
+    const delta = Math.min((now - lastTime) / 1000, 0.1)
     lastTime = now
 
     for (const entry of entries) {
@@ -225,8 +235,6 @@ export async function createSpineInstance(
       renderer.drawSkeleton(entry.skeleton, false)
     }
     renderer.end()
-
-    rafId = requestAnimationFrame(loop)
   }
 
   if (signal?.aborted) {

@@ -5,6 +5,7 @@ import {
   DEFAULT_STAT_DISPLAY,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { SettingOptions } from 'lib/constants/settingsConstants'
 import { Message } from 'lib/interactions/message'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -362,10 +363,15 @@ export function updateCharacter(characterId: CharacterId): void {
   useOptimizerRequestStore.getState().loadForm(form)
 
   // Sync rank to character's current position in the list (saved rank may be stale if characters were reordered).
-  // Characters not yet in the store get the bottom rank (characters.length = append position).
+  // Characters not yet in the store use the NewCharacterDefaultRank setting.
   const characters = useCharacterStore.getState().characters
   const currentRank = characters.findIndex((c) => c.id === characterId)
-  useOptimizerRequestStore.getState().setRelicFilterField('rank', currentRank >= 0 ? currentRank : characters.length)
+  if (currentRank >= 0) {
+    useOptimizerRequestStore.getState().setRelicFilterField('rank', currentRank)
+  } else {
+    const defaultRank = useGlobalStore.getState().settings.NewCharacterDefaultRank
+    useOptimizerRequestStore.getState().setRelicFilterField('rank', defaultRank === SettingOptions.NewCharacterDefaultRank.Last ? characters.length : 0)
+  }
 
   useOptimizerDisplayStore.getState().setFocusCharacterId(characterId)
   useOptimizerRequestStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)

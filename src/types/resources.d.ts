@@ -7698,6 +7698,11 @@ interface Resources {
       "No": "Default: Do not show the relic locator in the relic editor",
       "Yes": "Show the relic locator in the relic editor"
     },
+    "NewCharacterDefaultRank": {
+      "Label": "Default rank for new characters",
+      "First": "Default: Highest priority (Rank #1)",
+      "Last": "Lowest priority"
+    },
     "Title": "Settings"
   },
   "sidebar": {

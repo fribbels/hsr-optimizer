@@ -55,6 +55,7 @@ export type UserSettings = {
   ExpandedInfoPanelPosition: string,
   ShowLocatorInRelicsModal: string,
   ShowComboDmgWarning: string,
+  NewCharacterDefaultRank: string,
 }
 
 // The JSON format we save to localstorage / save file

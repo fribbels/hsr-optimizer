@@ -22,6 +22,10 @@ export const SettingOptions = {
     Show: 'Show',
     Hide: 'HideV2',
   },
+  NewCharacterDefaultRank: {
+    First: 'First',
+    Last: 'Last',
+  },
 } as const satisfies Record<keyof UserSettings, Record<string, string>>
 
 export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
@@ -30,4 +34,5 @@ export const DefaultSettingOptions: Record<keyof UserSettings, string> = {
   ExpandedInfoPanelPosition: SettingOptions.ExpandedInfoPanelPosition.Below,
   ShowLocatorInRelicsModal: SettingOptions.ShowLocatorInRelicsModal.No,
   ShowComboDmgWarning: SettingOptions.ShowComboDmgWarning.Show,
+  NewCharacterDefaultRank: SettingOptions.NewCharacterDefaultRank.First,
 }

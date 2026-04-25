@@ -20,3 +20,7 @@ ShowComboDmgWarning:
   Label: Show Combo DMG warning
   Show: 'Default: Show warning'
   Hide: Hide warning
+NewCharacterDefaultRank:
+  Label: Default rank for new characters
+  First: 'Default: Highest priority (Rank #1)'
+  Last: Lowest priority

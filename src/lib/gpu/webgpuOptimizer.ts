@@ -177,6 +177,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
   if (gpuContext.WORKGROUP_SIZE * gpuContext.CYCLES_PER_INVOCATION > 65536) {
     throw new Error('Packed index overflow: WG_SIZE * CPI exceeds 16 bits')
   }
+  if (gpuContext.totalWorkgroups === 0) return 0
 
   const BATCH_WGS = Math.min(2048, gpuContext.totalWorkgroups)
   const totalBatches = Math.ceil(gpuContext.totalWorkgroups / BATCH_WGS)

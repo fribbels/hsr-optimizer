@@ -146,13 +146,16 @@ export function computeTupleParams(quad: ValidQuad, ranges: PerSlotSetRanges): T
   }
 }
 
+const MAX_TUPLE_WEIGHT = 2 ** 31 - 1
+
 export function buildWorkgroupAssignments(
   tuples: TupleParams[],
   fullSizes: FullSizes,
   wgCapacity: number,
 ): WorkgroupEntry[] {
+  const safeTuples = splitOversizedTuples(tuples, fullSizes)
   const assignments: WorkgroupEntry[] = []
-  for (const t of tuples) {
+  for (const t of safeTuples) {
     const weight = t.hSize * t.gSize * t.bSize * t.fSize * fullSizes.P * fullSizes.L
     const numWGs = Math.ceil(weight / wgCapacity)
     for (let wg = 0; wg < numWGs; wg++) {
@@ -170,6 +173,35 @@ export function buildWorkgroupAssignments(
     }
   }
   return assignments
+}
+
+function splitOversizedTuples(tuples: TupleParams[], fullSizes: FullSizes): TupleParams[] {
+  const result: TupleParams[] = []
+  const queue = [...tuples]
+  while (queue.length > 0) {
+    const t = queue.pop()!
+    const weight = t.hSize * t.gSize * t.bSize * t.fSize * fullSizes.P * fullSizes.L
+    if (weight <= MAX_TUPLE_WEIGHT) {
+      result.push(t)
+      continue
+    }
+    const dims: { key: 'hSize' | 'gSize' | 'bSize' | 'fSize', xKey: 'xh' | 'xg' | 'xb' | 'xf' }[] = [
+      { key: 'hSize', xKey: 'xh' },
+      { key: 'gSize', xKey: 'xg' },
+      { key: 'bSize', xKey: 'xb' },
+      { key: 'fSize', xKey: 'xf' },
+    ]
+    const largest = dims.reduce((a, b) => t[a.key] >= t[b.key] ? a : b)
+    const size = t[largest.key]
+    if (size <= 1) {
+      result.push(t)
+      continue
+    }
+    const half = Math.floor(size / 2)
+    queue.push({ ...t, [largest.key]: half })
+    queue.push({ ...t, [largest.xKey]: t[largest.xKey] + half, [largest.key]: size - half })
+  }
+  return result
 }
 
 const ASSIGNMENT_ENTRY_U32S = 16

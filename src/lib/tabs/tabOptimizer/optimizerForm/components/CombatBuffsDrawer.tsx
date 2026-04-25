@@ -1,4 +1,5 @@
 import {
+  Button,
   Drawer,
   Flex,
 } from '@mantine/core'
@@ -8,6 +9,7 @@ import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
+import { createDefaultCombatBuffs } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
 import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
@@ -43,6 +45,13 @@ function CombatBuffsDrawerContent() {
       <Flex direction='column' gap={optimizerTabDefaultGap}>
         {combatBuffsList}
       </Flex>
+      <Button
+        fullWidth
+        variant='default'
+        onClick={() => useOptimizerRequestStore.setState({ combatBuffs: createDefaultCombatBuffs() })}
+      >
+        {t('Clear')}
+      </Button>
     </Flex>
   )
 }
@@ -57,8 +66,7 @@ function CombatBuff({ title, name }: { title: string, name: string }) {
       </div>
       <InputNumberStyled
         hideControls
-        value={value || undefined}
-        placeholder=""
+        value={value || ''}
         onChange={(val: number | string) => useOptimizerRequestStore.getState().setCombatBuff(name, typeof val === 'number' ? val : 0)}
       />
     </Flex>

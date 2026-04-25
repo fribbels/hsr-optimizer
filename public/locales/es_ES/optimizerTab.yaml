@@ -403,6 +403,7 @@ CombatBuffs:
   VULNERABILITY: Vulnerabilidad %
   BREAK_EFFICIENCY: Eficiencia de Ruptura %
   Title: Mejoras de combate extra
+  Clear: Restablecer
 Target_one: objetivo
 Target_other: objetivos
 EnemyConfiguration:

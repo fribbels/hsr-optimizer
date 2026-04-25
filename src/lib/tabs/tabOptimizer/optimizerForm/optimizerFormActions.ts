@@ -415,9 +415,9 @@ export function startOptimization(): void {
   OptimizerTabController.clearFilterModel()
 
   // Delay the DB save so it doesn't block the optimizer start with a characters tab re-render
-  requestIdleCallback(() => {
+  setTimeout(() => {
     persistenceService.upsertCharacterFromForm(form)
-  })
+  }, 0)
   SaveState.delayedSave()
 
   const optimizationId = uuid()

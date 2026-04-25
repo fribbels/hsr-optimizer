@@ -41,17 +41,20 @@ export function generateParamsMatrix(
 
   const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
   const permLimit = Math.min(permStride, gpuContext.permutations - offset)
+  const threshold = gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? gpuContext.resultsQueue.topPriority() : 0
 
-  return new Float32Array([
-    l,
-    p,
-    f,
-    b,
-    g,
-    h,
-    gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? gpuContext.resultsQueue.topPriority() : 0,
-    permLimit,
-  ])
+  const buf = new ArrayBuffer(32)
+  const f32 = new Float32Array(buf)
+  const u32 = new Uint32Array(buf)
+  f32[0] = l
+  f32[1] = p
+  f32[2] = f
+  f32[3] = b
+  f32[4] = g
+  f32[5] = h
+  f32[6] = threshold
+  u32[7] = permLimit
+  return buf
 }
 
 export function mergeRelicsIntoArray(relics: RelicsByPart) {

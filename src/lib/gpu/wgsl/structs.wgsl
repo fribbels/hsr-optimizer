@@ -89,7 +89,7 @@ struct NaiveParams {
   xg: f32,
   xh: f32,
   threshold: f32,
-  permLimit: f32,
+  permLimit: u32,
 }
 
 struct Assignment {

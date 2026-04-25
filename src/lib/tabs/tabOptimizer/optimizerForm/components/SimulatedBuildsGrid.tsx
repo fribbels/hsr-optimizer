@@ -2,7 +2,7 @@ import { Flex } from '@mantine/core'
 import { IconX } from '@tabler/icons-react'
 import { deleteStatSimulationBuild } from 'lib/simulations/statSimulationController'
 import { StatSimulationName } from 'lib/simulations/StatSimulationName'
-import type { Simulation } from 'lib/simulations/statSimulationTypes'
+import type { Simulation, SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { gridStore } from 'lib/stores/gridStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -43,13 +43,11 @@ export function SimulatedBuildsGrid() {
 
     const cloneRequest = clone(sim.request)
     zeroesToNull(cloneRequest.stats)
-    const currentStatSim = useOptimizerRequestStore.getState().statSim
-    if (currentStatSim) {
-      useOptimizerRequestStore.getState().setStatSim({
-        ...currentStatSim,
-        [sim.simType]: cloneRequest,
-      })
-    }
+    const currentStatSim = useOptimizerRequestStore.getState().statSim ?? { key: '', benchmarks: {} as SimulationRequest, substatRolls: {} as SimulationRequest }
+    useOptimizerRequestStore.getState().setStatSim({
+      ...currentStatSim,
+      [sim.simType]: cloneRequest,
+    })
     useOptimizerDisplayStore.getState().setStatSimulationDisplay(sim.simType)
 
     gridStore.optimizerGridApi()?.forEachNode((node) => {

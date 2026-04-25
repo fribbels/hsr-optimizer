@@ -276,56 +276,54 @@ export type ExecutionPassResult = {
   compactReadBuffer: GPUBuffer,
 }
 
-export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: number, bufferIndex: number = 0): ExecutionPassResult {
-  const newParamsMatrix = generateParamsMatrix(offset, gpuContext.relics, gpuContext)
-
+export function submitGpuDispatch(gpuContext: GpuExecutionContext, paramsData: ArrayBuffer, workgroupCount: number, bufferIndex: number): void {
   const device = gpuContext.device
-  const computePipeline = gpuContext.computePipeline
-  const bindGroup0 = gpuContext.bindGroup0
-  const bindGroup1 = gpuContext.bindGroup1
-  const bindGroup2 = gpuContext.bindGroups2[bufferIndex]
-  const resultMatrixBufferSize = gpuContext.resultMatrixBufferSize
-  const resultMatrixBuffer = gpuContext.resultMatrixBuffers[bufferIndex]
-  const gpuReadBuffer = gpuContext.gpuReadBuffers[bufferIndex]
+  device.queue.writeBuffer(gpuContext.paramsMatrixBuffer, 0, paramsData)
 
   const compactCountBuffer = gpuContext.compactCountBuffers[bufferIndex]
   const compactResultsBuffer = gpuContext.compactResultsBuffers[bufferIndex]
   const compactReadBuffer = gpuContext.compactReadBuffers[bufferIndex]
   const validCountBuffer = gpuContext.validCountBuffers[bufferIndex]
 
-  device.queue.writeBuffer(gpuContext.paramsMatrixBuffer, 0, newParamsMatrix)
-
   const commandEncoder = device.createCommandEncoder()
 
   if (!gpuContext.DEBUG) {
-    // Clear atomic counters to 0 before dispatch
     commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
     commandEncoder.clearBuffer(validCountBuffer, 0, 4)
   }
 
   const passEncoder = commandEncoder.beginComputePass()
-  passEncoder.setPipeline(computePipeline)
-  passEncoder.setBindGroup(0, bindGroup0)
-  passEncoder.setBindGroup(1, bindGroup1)
-  passEncoder.setBindGroup(2, bindGroup2)
-  passEncoder.dispatchWorkgroups(gpuContext.NUM_WORKGROUPS)
+  passEncoder.setPipeline(gpuContext.computePipeline)
+  passEncoder.setBindGroup(0, gpuContext.bindGroup0)
+  passEncoder.setBindGroup(1, gpuContext.bindGroup1)
+  passEncoder.setBindGroup(2, gpuContext.bindGroups2[bufferIndex])
+  passEncoder.dispatchWorkgroups(workgroupCount)
   passEncoder.end()
 
   if (!gpuContext.DEBUG) {
-    // Copy into merged read buffer: [compactCount(4B) | results(N*8B) | validCount(4B)]
     commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactReadBuffer, 0, 4)
     commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactReadBuffer, 4, gpuContext.compactResultsBufferSize)
     commandEncoder.copyBufferToBuffer(validCountBuffer, 0, compactReadBuffer, 4 + gpuContext.compactResultsBufferSize, 4)
   }
 
   if (gpuContext.DEBUG) {
-    // DEBUG mode: also copy the full results buffer
-    commandEncoder.copyBufferToBuffer(resultMatrixBuffer, 0, gpuReadBuffer, 0, resultMatrixBufferSize)
+    commandEncoder.copyBufferToBuffer(
+      gpuContext.resultMatrixBuffers[bufferIndex], 0,
+      gpuContext.gpuReadBuffers[bufferIndex], 0,
+      gpuContext.resultMatrixBufferSize,
+    )
   }
 
   device.queue.submit([commandEncoder.finish()])
+}
 
-  return { gpuReadBuffer, compactReadBuffer }
+export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: number, bufferIndex: number = 0): ExecutionPassResult {
+  const paramsData = generateParamsMatrix(offset, gpuContext.relics, gpuContext)
+  submitGpuDispatch(gpuContext, paramsData, gpuContext.NUM_WORKGROUPS, bufferIndex)
+  return {
+    gpuReadBuffer: gpuContext.gpuReadBuffers[bufferIndex],
+    compactReadBuffer: gpuContext.compactReadBuffers[bufferIndex],
+  }
 }
 
 async function generatePipeline(device: GPUDevice, wgsl: string) {

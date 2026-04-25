@@ -5,6 +5,7 @@ import {
   type ExecutionPassResult,
   generateExecutionPass,
   initializeGpuPipeline,
+  submitGpuDispatch,
 } from 'lib/gpu/webgpuInternals'
 import { type WorkgroupEntry } from 'lib/gpu/webgpuDataTransform'
 import {
@@ -220,56 +221,16 @@ export function decodeTupleGlobalIndex(
     + absG * lSize * pSize * fSize * bSize + absH * lSize * pSize * fSize * bSize * gSize
 }
 
-/**
- * Encodes the current threshold + batch offset into the params buffer, records a GPU compute
- * pass for the given workgroup batch, and copies compaction results into the read buffer.
- */
-function submitTupleBatch(
-  gpuContext: GpuExecutionContext,
-  batchStart: number,
-  batchSize: number,
-  bufferIndex: number,
-): void {
-  const device = gpuContext.device
+function submitTupleBatch(gpuContext: GpuExecutionContext, batchStart: number, batchSize: number, bufferIndex: number): void {
   const threshold = gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT
     ? gpuContext.resultsQueue.topPriority()
     : 0
   const paramsBuf = new ArrayBuffer(16)
   new Float32Array(paramsBuf)[0] = threshold
   new Uint32Array(paramsBuf, 4)[0] = batchStart
-  device.queue.writeBuffer(gpuContext.paramsMatrixBuffer, 0, paramsBuf)
-
-  const compactCountBuffer = gpuContext.compactCountBuffers[bufferIndex]
-  const compactResultsBuffer = gpuContext.compactResultsBuffers[bufferIndex]
-  const compactReadBuffer = gpuContext.compactReadBuffers[bufferIndex]
-  const validCountBuffer = gpuContext.validCountBuffers[bufferIndex]
-
-  const commandEncoder = device.createCommandEncoder()
-  commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
-  commandEncoder.clearBuffer(validCountBuffer, 0, 4)
-
-  const passEncoder = commandEncoder.beginComputePass()
-  passEncoder.setPipeline(gpuContext.computePipeline)
-  passEncoder.setBindGroup(0, gpuContext.bindGroup0)
-  passEncoder.setBindGroup(1, gpuContext.bindGroup1)
-  passEncoder.setBindGroup(2, gpuContext.bindGroups2[bufferIndex])
-  passEncoder.dispatchWorkgroups(batchSize)
-  passEncoder.end()
-
-  commandEncoder.copyBufferToBuffer(compactCountBuffer, 0, compactReadBuffer, 0, 4)
-  commandEncoder.copyBufferToBuffer(compactResultsBuffer, 0, compactReadBuffer, 4, gpuContext.compactResultsBufferSize)
-  commandEncoder.copyBufferToBuffer(validCountBuffer, 0, compactReadBuffer, 4 + gpuContext.compactResultsBufferSize, 4)
-
-  device.queue.submit([commandEncoder.finish()])
+  submitGpuDispatch(gpuContext, paramsBuf, batchSize, bufferIndex)
 }
 
-/**
- * Reads a mapped compact-read buffer, decodes packed indices into global permutation indices,
- * and pushes qualifying results into the results priority queue.
- *
- * Returns rawCount (for overflow detection) and validCount (the number of permutations the
- * GPU actually evaluated in this batch).
- */
 function processTupleBatch(
   gpuContext: GpuExecutionContext,
   bufferIndex: number,
@@ -282,35 +243,9 @@ function processTupleBatch(
   const mappedRange = compactReadBuffer.getMappedRange()
   const rawCount = new Uint32Array(mappedRange, 0, 1)[0]
   const count = Math.min(rawCount, gpuContext.COMPACT_LIMIT)
-  const isOverflow = rawCount > gpuContext.COMPACT_LIMIT
   const validCount = new Uint32Array(mappedRange, 4 + gpuContext.compactResultsBufferSize, 1)[0]
 
-  const u32View = new Uint32Array(mappedRange, 4)
-  const f32View = new Float32Array(mappedRange, 4)
-  const resultsQueue = gpuContext.resultsQueue
-  let top = resultsQueue.size() > 0 ? resultsQueue.topPriority() : 0
-  const useSeen = seenIndices
-
-  if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
-    for (let i = 0; i < count; i++) {
-      const value = f32View[i * 2 + 1]
-      if (value <= top) continue
-      const globalIndex = decodeTupleGlobalIndex(u32View[i * 2], batchStart, assignments, sizes)
-      if (useSeen?.has(globalIndex)) continue
-      top = resultsQueue.fixedSizePushOvercapped(globalIndex, value)
-      useSeen?.add(globalIndex)
-    }
-  } else {
-    for (let i = 0; i < count; i++) {
-      const value = f32View[i * 2 + 1]
-      if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) continue
-      const globalIndex = decodeTupleGlobalIndex(u32View[i * 2], batchStart, assignments, sizes)
-      if (useSeen?.has(globalIndex)) continue
-      resultsQueue.fixedSizePush(globalIndex, value)
-      top = resultsQueue.topPriority()
-      useSeen?.add(globalIndex)
-    }
-  }
+  pushCompactResultsToQueue(mappedRange, count, gpuContext, (raw) => decodeTupleGlobalIndex(raw, batchStart, assignments, sizes), seenIndices)
 
   compactReadBuffer.unmap()
   return { rawCount, validCount }
@@ -458,37 +393,44 @@ function processResults(offset: number, array: Float32Array, gpuContext: GpuExec
   }
 }
 
-// Reads compact results from merged mapped buffer: [count(4B) | CompactEntry[](N*8B)]
-function processCompactResults(offset: number, count: number, mappedRange: ArrayBuffer, gpuContext: GpuExecutionContext, seenIndices?: Set<number>) {
+function pushCompactResultsToQueue(
+  mappedRange: ArrayBuffer,
+  count: number,
+  gpuContext: GpuExecutionContext,
+  resolveIndex: (rawIndex: number) => number,
+  seenIndices?: Set<number>,
+): void {
   if (count === 0) return
 
-  // Results start at byte offset 4 (after the u32 count). CompactEntry.index is u32.
   const u32View = new Uint32Array(mappedRange, 4)
   const f32View = new Float32Array(mappedRange, 4)
-
   const resultsQueue = gpuContext.resultsQueue
   let top = resultsQueue.size() > 0 ? resultsQueue.topPriority() : 0
 
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let i = 0; i < count; i++) {
-      const globalIndex = offset + u32View[i * 2]
-      if (seenIndices?.has(globalIndex)) continue
       const value = f32View[i * 2 + 1]
       if (value <= top) continue
+      const globalIndex = resolveIndex(u32View[i * 2])
+      if (seenIndices?.has(globalIndex)) continue
       top = resultsQueue.fixedSizePushOvercapped(globalIndex, value)
       seenIndices?.add(globalIndex)
     }
   } else {
     for (let i = 0; i < count; i++) {
-      const globalIndex = offset + u32View[i * 2]
-      if (seenIndices?.has(globalIndex)) continue
       const value = f32View[i * 2 + 1]
       if (value <= top && resultsQueue.size() >= gpuContext.RESULTS_LIMIT) continue
+      const globalIndex = resolveIndex(u32View[i * 2])
+      if (seenIndices?.has(globalIndex)) continue
       resultsQueue.fixedSizePush(globalIndex, value)
       top = resultsQueue.topPriority()
       seenIndices?.add(globalIndex)
     }
   }
+}
+
+function processCompactResults(offset: number, count: number, mappedRange: ArrayBuffer, gpuContext: GpuExecutionContext, seenIndices?: Set<number>) {
+  pushCompactResultsToQueue(mappedRange, count, gpuContext, (raw) => offset + raw, seenIndices)
 }
 
 async function revisitOverflowedDispatches(

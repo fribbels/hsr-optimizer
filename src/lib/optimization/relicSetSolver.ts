@@ -195,15 +195,13 @@ export function computeValidPermutationParts(
     for (let g = 0; g < relicLen; g++) {
       const vG = cHands[g]
       if (!vG) continue
-      const hgBase = h + g * relicLen
       for (let b = 0; b < relicLen; b++) {
         const vB = cBody[b]
         if (!vB) continue
-        const hgbBase = hgBase + b * relicLen * relicLen
         for (let f = 0; f < relicLen; f++) {
           const vF = cFeet[f]
           if (!vF) continue
-          const key = hgbBase + f * relicLen * relicLen * relicLen
+          const key = encodeRelicSetKey(h, g, b, f)
           if (relicSetSolutions[key] !== 1) continue
           relicValid += vH * vG * vB * vF
         }
@@ -227,6 +225,13 @@ export function computeValidPermutationParts(
   return { relicValid, ornamentValid }
 }
 
+// Encodes a (Head, Hands, Body, Feet) set-index 4-tuple into a flat index for relicSetSolutions.
+// Safe regardless of dimension order because relicSetSolutions is permutation-invariant.
+function encodeRelicSetKey(sH: number, sG: number, sB: number, sF: number): number {
+  const R = SetsRelicsNames.length
+  return sH + sG * R + sB * R * R + sF * R * R * R
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // Semi-join reduction: eliminate relics whose set can't appear in any valid tuple
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -239,8 +244,7 @@ export function applySemiJoinReduction(
   const R = SetsRelicsNames.length
   const O = SetsOrnamentsNames.length
 
-  // Key encoding: sH + sB*R + sG*R² + sF*R³ (dimension order doesn't matter —
-  // relicSetSolutions is permutation-invariant, all orderings of a valid tuple are marked)
+  // Project valid relic set indices per slot
   const validH = new Uint8Array(R)
   const validG = new Uint8Array(R)
   const validB = new Uint8Array(R)
@@ -250,8 +254,7 @@ export function applySemiJoinReduction(
     for (let sG = 0; sG < R; sG++) {
       for (let sB = 0; sB < R; sB++) {
         for (let sF = 0; sF < R; sF++) {
-          const key = sH + sB * R + sG * R * R + sF * R * R * R
-          if (relicSetSolutions[key] === 1) {
+          if (relicSetSolutions[encodeRelicSetKey(sH, sG, sB, sF)] === 1) {
             validH[sH] = 1
             validG[sG] = 1
             validB[sB] = 1
@@ -354,8 +357,7 @@ export function enumerateValidQuadsD4(
         if (ranges.Body.setStart[sB] < 0) continue
         for (let sF = 0; sF < R; sF++) {
           if (ranges.Feet.setStart[sF] < 0) continue
-          const key = sH + sB * R + sG * R * R + sF * R * R * R
-          if (relicSetSolutions[key] === 1) {
+          if (relicSetSolutions[encodeRelicSetKey(sH, sG, sB, sF)] === 1) {
             out.push({ sH, sG, sB, sF })
           }
         }

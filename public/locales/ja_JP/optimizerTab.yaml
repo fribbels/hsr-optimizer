@@ -484,6 +484,7 @@ CombatBuffs:
   VULNERABILITY: ダメージ貫通
   BREAK_EFFICIENCY: 弱点撃破効率
   Title: 戦闘バフを追加
+  Clear: クリア
 Target_one: ターゲット
 Target_other: ターゲット
 EnemyConfiguration:

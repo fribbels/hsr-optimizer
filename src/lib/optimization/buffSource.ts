@@ -44,7 +44,14 @@ const setsSourceExpansion = Object.fromEntries(
   ]),
 ) as Record<SetKey, SetsBuffSource>
 
-export type BuffSource = CharacterBuffSource | SetsBuffSource | LightConeBuffSource | NoneBuffSource | CyreneSpecialBuffSource
+export type BuffSource = CharacterBuffSource | SetsBuffSource | LightConeBuffSource | NoneBuffSource | CyreneSpecialBuffSource | ExtraCombatBuffSource
+
+type ExtraCombatBuffSource = {
+  id: 'EXTRA_COMBAT_BUFFS',
+  label: 'EXTRA_COMBAT_BUFFS',
+  ability: BUFF_ABILITY.NONE,
+  buffType: BUFF_TYPE.COMBAT_STATS,
+}
 
 type CharacterBuffSource = {
   id: CharacterId,
@@ -127,5 +134,6 @@ export const Source = {
     }
   },
   NONE: { id: 'NONE', label: 'NONE', buffType: BUFF_TYPE.NONE, ability: BUFF_ABILITY.NONE } as NoneBuffSource,
+  EXTRA_COMBAT_BUFFS: { id: 'EXTRA_COMBAT_BUFFS', label: 'EXTRA_COMBAT_BUFFS', buffType: BUFF_TYPE.COMBAT_STATS, ability: BUFF_ABILITY.NONE } as ExtraCombatBuffSource,
   ...setsSourceExpansion,
 }

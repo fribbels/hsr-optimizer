@@ -42,10 +42,8 @@ export function AdvancedOptionsPanel() {
         {t('CustomTracesButtonText') /* Custom stat traces */}
       </Button>
 
-      {/* TODO: TEMPORARILY DISABLED - Extra combat buffs */}
       <Button
         variant='default'
-        disabled
         onClick={() => setOpen(OpenCloseIDs.COMBAT_BUFFS_DRAWER)}
         leftSection={<IconSettings size={16} />}
       >

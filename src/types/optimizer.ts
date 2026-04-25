@@ -135,7 +135,6 @@ export type OptimizerContext = CharacterMetadata & {
   // Optimizer environment
   resultSort: string,
   primaryAbilityKey: string, // Primary ability from scoringMetadata.sortOption.key (e.g., 'BASIC', 'SKILL')
-  combatBuffs: OptimizerCombatBuffs,
   deprioritizeBuffs: boolean,
 
   // Character data
@@ -161,24 +160,4 @@ export type OptimizerContext = CharacterMetadata & {
   enemyWeaknessBroken: boolean,
 
   lightConeController: LightConeConditionalsController,
-}
-
-export type OptimizerCombatBuffs = {
-  ATK: number,
-  ATK_P: number,
-  HP: number,
-  HP_P: number,
-  DEF: number,
-  DEF_P: number,
-  CR: number,
-  CD: number,
-  SPD: number,
-  SPD_P: number,
-  BE: number,
-  DMG_BOOST: number,
-  DEF_PEN: number,
-  RES_PEN: number,
-  EFFECT_RES_PEN: number,
-  VULNERABILITY: number,
-  BREAK_EFFICIENCY: number,
 }

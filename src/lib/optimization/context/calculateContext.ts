@@ -27,7 +27,6 @@ export function generateContext(request: Form): OptimizerContext {
   generateEnemyContext(request, context)
   generateBaseStatsContext(request, context)
   generateCharacterMetadataContext(request, context)
-  generateCombatBuffsContext(request, context)
   generateFiltersContext(request, context)
 
   // calculateEntities(request, context)
@@ -38,28 +37,6 @@ export function generateContext(request: Form): OptimizerContext {
   return context
 }
 
-function generateCombatBuffsContext(request: Form, context: OptimizerContext) {
-  // TODO: TEMPORARILY DISABLED - Extra combat buffs zeroed out
-  context.combatBuffs = {
-    ATK: 0, // request.combatBuffs.ATK,
-    ATK_P: 0, // request.combatBuffs.ATK_P,
-    HP: 0, // request.combatBuffs.HP,
-    HP_P: 0, // request.combatBuffs.HP_P,
-    DEF: 0, // request.combatBuffs.DEF,
-    DEF_P: 0, // request.combatBuffs.DEF_P,
-    CR: 0, // request.combatBuffs.CR,
-    CD: 0, // request.combatBuffs.CD,
-    SPD: 0, // request.combatBuffs.SPD,
-    SPD_P: 0, // request.combatBuffs.SPD_P,
-    BE: 0, // request.combatBuffs.BE,
-    DMG_BOOST: 0, // request.combatBuffs.DMG_BOOST,
-    DEF_PEN: 0, // request.combatBuffs.DEF_PEN,
-    RES_PEN: 0, // request.combatBuffs.RES_PEN,
-    EFFECT_RES_PEN: 0, // request.combatBuffs.EFFECT_RES_PEN,
-    VULNERABILITY: 0, // request.combatBuffs.VULNERABILITY,
-    BREAK_EFFICIENCY: 0, // request.combatBuffs.BREAK_EFFICIENCY,
-  }
-}
 
 function generateFiltersContext(request: Form, context: OptimizerContext) {
   context.resultSort = request.resultSort!

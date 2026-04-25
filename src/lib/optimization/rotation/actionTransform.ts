@@ -19,6 +19,7 @@ import {
   precomputeConditionals,
   transformConditionals,
 } from 'lib/optimization/rotation/comboStateTransform'
+import { precomputeExtraCombatBuffs } from 'lib/optimization/rotation/precomputeExtraCombatBuffs'
 import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import { clone } from 'lib/utils/objectUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -179,6 +180,7 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   for (const action of allActions) {
     precomputeConditionals(action, comboState, context)
+    precomputeExtraCombatBuffs(action.precomputedStats, request)
     calculateContextConditionalRegistry(action, context)
   }
 

@@ -150,7 +150,6 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 
   transferBaseStats(x, a, c, context)
   calculateMemospriteBaseStats(x, a, c, context)
-  applyCombatBuffs(x, context)
   executeNonDynamicCombatSets(x, context, setConditionals, sets, setsArray)
   applyPercentStats(x, a, context)
   evaluateDynamicSetConditionals(x, sets, setsArray, action, context)
@@ -161,18 +160,16 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
 }
 
 function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicStatsArray, context: OptimizerContext) {
-  const buffs = context.combatBuffs
   const ca = c.a
   const offsets = x.config.entityBaseOffsets[TargetTag.SelfAndPet]
 
-  // Precompute values once, then write to all matched entities
-  const vATK = ca[StatKey.ATK] + buffs.ATK + buffs.ATK_P * context.baseATK
-  const vDEF = ca[StatKey.DEF] + buffs.DEF + buffs.DEF_P * context.baseDEF
-  const vHP = ca[StatKey.HP] + buffs.HP + buffs.HP_P * context.baseHP
-  const vSPD = ca[StatKey.SPD] + buffs.SPD + buffs.SPD_P * context.baseSPD
-  const vCD = ca[StatKey.CD] + buffs.CD
-  const vCR = ca[StatKey.CR] + buffs.CR
-  const vBE = ca[StatKey.BE] + buffs.BE
+  const vATK = ca[StatKey.ATK]
+  const vDEF = ca[StatKey.DEF]
+  const vHP = ca[StatKey.HP]
+  const vSPD = ca[StatKey.SPD]
+  const vCD = ca[StatKey.CD]
+  const vCR = ca[StatKey.CR]
+  const vBE = ca[StatKey.BE]
 
   for (let i = 0; i < offsets.length; i++) {
     const o = offsets[i]
@@ -231,20 +228,6 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
     a[x.getActionIndex(entityIndex, StatKey.QUANTUM_DMG_BOOST)] += c.a[BasicKey.QUANTUM_DMG_BOOST]
     a[x.getActionIndex(entityIndex, StatKey.IMAGINARY_DMG_BOOST)] += c.a[BasicKey.IMAGINARY_DMG_BOOST]
     a[x.getActionIndex(entityIndex, StatKey.ELATION)] += c.a[BasicKey.ELATION]
-  }
-}
-
-function applyCombatBuffs(x: ComputedStatsContainer, context: OptimizerContext) {
-  const buffs = context.combatBuffs
-  const a = x.a
-  const offsets = x.config.entityBaseOffsets[TargetTag.FullTeam]
-
-  for (let i = 0; i < offsets.length; i++) {
-    const o = offsets[i]
-    a[o + StatKey.DMG_BOOST] += buffs.DMG_BOOST
-    a[o + StatKey.EFFECT_RES_PEN] += buffs.EFFECT_RES_PEN
-    a[o + StatKey.VULNERABILITY] += buffs.VULNERABILITY
-    a[o + StatKey.BREAK_EFFICIENCY_BOOST] += buffs.BREAK_EFFICIENCY
   }
 }
 

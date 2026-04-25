@@ -618,6 +618,16 @@ export const CombatBuffs = {
     key: 'BREAK_EFFICIENCY',
     percent: true,
   },
+  FINAL_DMG_BOOST: {
+    title: 'Final DMG %',
+    key: 'FINAL_DMG_BOOST',
+    percent: true,
+  },
+  EHR: {
+    title: 'Effect Hit Rate %',
+    key: 'EHR',
+    percent: true,
+  },
 } as const
 
 export const ABILITY_LIMIT = 12

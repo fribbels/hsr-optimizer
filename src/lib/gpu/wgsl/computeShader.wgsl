@@ -178,15 +178,15 @@ fn main(
     // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝
     // END BASIC STAT FILTERS
 
-    let diffATK = c.ATK + combatBuffsATK + combatBuffsATK_P * baseATK;
-    let diffDEF = c.DEF + combatBuffsDEF + combatBuffsDEF_P * baseDEF;
-    let diffHP = c.HP   + combatBuffsHP  + combatBuffsHP_P  * baseHP;
-    let diffSPD = c.SPD + combatBuffsSPD + combatBuffsSPD_P * baseSPD;
-    let diffCD = c.CD   + combatBuffsCD;
-    let diffCR = c.CR   + combatBuffsCR;
+    let diffATK = c.ATK;
+    let diffDEF = c.DEF;
+    let diffHP = c.HP;
+    let diffSPD = c.SPD;
+    let diffCD = c.CD;
+    let diffCR = c.CR;
     let diffEHR = c.EHR;
     let diffRES = c.RES;
-    let diffBE = c.BE   + combatBuffsBE;
+    let diffBE = c.BE;
     let diffERR = c.ERR;
     let diffOHB = c.OHB;
 

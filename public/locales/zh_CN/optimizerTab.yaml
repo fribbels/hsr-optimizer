@@ -506,6 +506,7 @@ CombatBuffs:
   VULNERABILITY: 易伤 %
   BREAK_EFFICIENCY: 击破效率 %
   Title: 额外战斗增益
+  Clear: 清除
 Target_one: 目标
 Target_other: 目标
 EnemyConfiguration:

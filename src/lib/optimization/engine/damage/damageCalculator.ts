@@ -161,8 +161,8 @@ export const CritDamageFunction: DamageFunction = {
 {
   // Common multipliers
   let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
-  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 -${getValue(StatKey.DEF_PEN)}) + 100.0);
-  let resMulti = 1.0 - (enemyDamageResistance -${getValue(StatKey.RES_PEN)});
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
@@ -262,8 +262,8 @@ export const DotDamageFunction: DamageFunction = {
 {
   // Common multipliers
   let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
-  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 -${getValue(StatKey.DEF_PEN)}) + 100.0);
-  let resMulti = 1.0 - (enemyDamageResistance -${getValue(StatKey.RES_PEN)});
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
@@ -355,8 +355,8 @@ export const BreakDamageFunction: DamageFunction = {
 {
   // Common multipliers
   let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
-  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 -${getValue(StatKey.DEF_PEN)}) + 100.0);
-  let resMulti = 1.0 - (enemyDamageResistance -${getValue(StatKey.RES_PEN)});
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
@@ -444,8 +444,8 @@ export const SuperBreakDamageFunction: DamageFunction = {
 {
   // Common multipliers
   let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
-  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 -${getValue(StatKey.DEF_PEN)}) + 100.0);
-  let resMulti = 1.0 - (enemyDamageResistance -${getValue(StatKey.RES_PEN)});
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
@@ -543,8 +543,8 @@ export const AdditionalDamageFunction: DamageFunction = {
 {
   // Common multipliers
   let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
-  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 -${getValue(StatKey.DEF_PEN)}) + 100.0);
-  let resMulti = 1.0 - (enemyDamageResistance -${getValue(StatKey.RES_PEN)});
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
@@ -765,8 +765,8 @@ export const HealTallyDamageFunction: DamageFunction = {
 {
   // Common multipliers
   let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
-  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 -${getValue(StatKey.DEF_PEN)}) + 100.0);
-  let resMulti = 1.0 - (enemyDamageResistance -${getValue(StatKey.RES_PEN)});
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
@@ -853,8 +853,8 @@ export const ElationDamageFunction: DamageFunction = {
 {
   // Common multipliers
   let baseUniversalMulti = ${action.config.enemyWeaknessBroken ? '1.0' : '0.9'};
-  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 -${getValue(StatKey.DEF_PEN)}) + 100.0);
-  let resMulti = 1.0 - (enemyDamageResistance -${getValue(StatKey.RES_PEN)});
+  let defMulti = 100.0 / ((f32(enemyLevel) + 20.0) * max(0.0, 1.0 - ${getValue(StatKey.DEF_PEN)}) + 100.0);
+  let resMulti = 1.0 - (enemyDamageResistance - ${getValue(StatKey.RES_PEN)});
   let vulnMulti = 1.0 + ${getValue(StatKey.VULNERABILITY)};
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 

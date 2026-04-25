@@ -588,6 +588,11 @@ export const CombatBuffs = {
     key: 'BE',
     percent: true,
   },
+  EHR: {
+    title: 'Effect Hit Rate %',
+    key: 'EHR',
+    percent: true,
+  },
   DMG_BOOST: {
     title: 'Dmg Boost %',
     key: 'DMG_BOOST',
@@ -616,16 +621,6 @@ export const CombatBuffs = {
   BREAK_EFFICIENCY: {
     title: 'Break Efficiency %',
     key: 'BREAK_EFFICIENCY',
-    percent: true,
-  },
-  FINAL_DMG_BOOST: {
-    title: 'Final DMG %',
-    key: 'FINAL_DMG_BOOST',
-    percent: true,
-  },
-  EHR: {
-    title: 'Effect Hit Rate %',
-    key: 'EHR',
     percent: true,
   },
 } as const

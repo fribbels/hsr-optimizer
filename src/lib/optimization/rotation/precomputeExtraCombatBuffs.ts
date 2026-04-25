@@ -23,11 +23,11 @@ const COMBAT_BUFF_KEY_TO_STAT_KEY: Record<string, AKeyValue> = {
   EFFECT_RES_PEN: StatKey.EFFECT_RES_PEN,
   VULNERABILITY: StatKey.VULNERABILITY,
   BREAK_EFFICIENCY: StatKey.BREAK_EFFICIENCY_BOOST,
-  FINAL_DMG_BOOST: StatKey.FINAL_DMG_BOOST,
   EHR: StatKey.EHR,
 }
 
 const EXTRA_COMBAT_BUFF_SOURCE = Source.EXTRA_COMBAT_BUFFS
+const COMBAT_BUFFS_ENTRIES = Object.values(CombatBuffs)
 
 export function precomputeExtraCombatBuffs(x: ComputedStatsContainer, request: Form): void {
   const buffs = request.combatBuffs
@@ -35,7 +35,7 @@ export function precomputeExtraCombatBuffs(x: ComputedStatsContainer, request: F
 
   const config = x.targets(TargetTag.FullTeam).source(EXTRA_COMBAT_BUFF_SOURCE)
 
-  for (const entry of Object.values(CombatBuffs)) {
+  for (const entry of COMBAT_BUFFS_ENTRIES) {
     const value = buffs[entry.key]
     if (!value) continue
 

@@ -509,7 +509,6 @@ CombatBuffs:
   EFFECT_RES_PEN: Effect RES PEN %
   VULNERABILITY: Vulnerability %
   BREAK_EFFICIENCY: Break Efficiency %
-  FINAL_DMG_BOOST: Final DMG %
   EHR: Effect Hit Rate %
   Title: Extra combat buffs
 Target_one: target

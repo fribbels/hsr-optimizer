@@ -218,10 +218,7 @@ export const Optimizer = {
     const permutations = sizes.hSize * sizes.gSize * sizes.bSize * sizes.fSize * sizes.pSize * sizes.lSize
     OptimizerTabController.setMetadata(sizes, relics)
 
-    // True count of permutations that satisfy multi-piece set constraints (issue #1482).
-    // `permutations` above is the naive slot-product used internally as the worker index
-    // space. Kept unchanged for dispatch/indexing. `validPermutations` is the user-facing
-    // total, matching what the workers will actually process after set-filter skips.
+    // Valid permutations accounting for set constraints (may be less than naive slot-product)
     const relicsBySet = countRelicsBySet(relics)
     const validPermutations = computeValidPermutationCount(relicsBySet, relicSetSolutions, ornamentSetSolutions)
     const progressScale = permutations > 0 ? validPermutations / permutations : 0
@@ -367,11 +364,7 @@ export const Optimizer = {
           const resultArr = new Float32Array(result.buffer)
           BufferPacker.extractArrayToResults(resultArr, run.runSize, queueResults, taskInput.skip, gridSortColumn)
 
-          // permutationsSearched is rescaled into the valid-permutation space so
-          // searched/permutations stays meaningful for the progress bar (issue #1482).
-          // Worker still iterates the naive index space; valid tuples are approximately
-          // uniformly distributed, so this is accurate at completion and monotonic
-          // during.
+          // Rescale searched count into valid-permutation space for progress display
           useOptimizerDisplayStore.setState({
             permutationsResults: queueResults.size(),
             permutationsSearched: Math.min(validPermutations, Math.round(searched * progressScale)),

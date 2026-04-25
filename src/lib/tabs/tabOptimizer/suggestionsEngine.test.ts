@@ -22,9 +22,7 @@ import {
   vi,
 } from 'vitest'
 
-// Covers the zero-perm root-cause detection branch added for issue #1482:
-// when every slot has relics but no set 4-tuple satisfies the filter, the
-// cause is RELIC_SETS (not the default IMPORT fallback).
+// Tests zero-perm root-cause detection when set constraints are infeasible.
 
 const relicStoreMock = vi.hoisted(() => ({ relics: [] as Relic[] }))
 
@@ -78,7 +76,7 @@ function baseRequest(overrides: Partial<Form> = {}): Form {
   } as Form
 }
 
-describe('detectZeroPermutationCauses — set-constraint infeasibility (issue #1482)', () => {
+describe('detectZeroPermutationCauses — set-constraint infeasibility', () => {
   beforeEach(() => {
     relicStoreMock.relics = []
   })
@@ -101,11 +99,7 @@ describe('detectZeroPermutationCauses — set-constraint infeasibility (issue #1
   })
 
   it('reports ORNAMENT_SETS when sphere/rope slots are nonempty but no pair matches the filter', () => {
-    // Sphere has only ornament A, rope has only ornament B; filter allows [A, B]
-    // as EITHER ornament. `generateOrnamentSetSolutions` requires a MATCHING pair
-    // (2pc same ornament), so (A-sphere, B-rope) is invalid and (A,A)/(B,B) have
-    // zero relics on one side. Valid ornament permutations = 0 while slot counts
-    // > 0 — the old detector would fall through to IMPORT.
+    // Sphere has ornament A, rope has ornament B — no matching 2pc pair exists
     for (const part of [Parts.Head, Parts.Hands, Parts.Body, Parts.Feet] as const) {
       relicStoreMock.relics.push(makeRelic({ id: `${part}-a`, part, set: SET_A }))
     }

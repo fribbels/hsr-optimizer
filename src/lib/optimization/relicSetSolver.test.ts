@@ -55,7 +55,7 @@ describe('isSetSolutionValid', () => {
   })
 })
 
-describe('computeValidPermutationCount (issue #1482)', () => {
+describe('computeValidPermutationCount', () => {
   function makeForm(overrides: Partial<Form> = {}): Form {
     return {
       relicSets: [],
@@ -86,9 +86,9 @@ describe('computeValidPermutationCount (issue #1482)', () => {
     expect(computeValidPermutationCount(c, relicSol, ornSol)).toBe(3 * 4 * 2 * 5 * 6 * 7)
   })
 
-  it('returns 0 when 2+Any of setA is required and no setA relics remain (issue #1482 scenario)', () => {
+  it('returns 0 when 2+Any of setA is required and no setA relics remain', () => {
     const c = zeroCountsBySet()
-    // Plenty of non-setA relics per slot, zero setA relics. Reproduces the bug scenario
+    // Non-setA relics present, zero setA relics
     // where min-enhance filter excluded all setA relics.
     c[Parts.Head][SET_B_IDX] = 10
     c[Parts.Hands][SET_B_IDX] = 10

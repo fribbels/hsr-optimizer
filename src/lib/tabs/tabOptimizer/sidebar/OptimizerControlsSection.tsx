@@ -62,8 +62,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
   }, [setOptimizationInProgress])
 
   const startClicked = useCallback(() => {
-    // Gate on the naive index-space size, not the valid count. Runtime scales
-    // with naive iterations even when set constraints reject most tuples (#1482).
+    // Gate on naive index-space size — runtime scales with total iterations, not valid count
     if (
       permutationsNaive < 1000000000
       || computeEngine === COMPUTE_ENGINE_GPU_EXPERIMENTAL

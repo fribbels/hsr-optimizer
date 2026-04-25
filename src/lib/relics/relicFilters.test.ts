@@ -15,10 +15,8 @@ import {
   vi,
 } from 'vitest'
 
-// Exercises getFilteredRelicCounts' new countsBySet return value, the building
-// block behind the permutation-count fix for issue #1482. Focus on cases where
-// the previous slot-product was wrong: set filters, min-enhance exclusion, and
-// keepCurrentRelics locking.
+// Tests getFilteredRelicCounts' countsBySet return value for set filters,
+// min-enhance exclusion, and keepCurrentRelics locking.
 
 const relicStoreMock = vi.hoisted(() => ({ relics: [] as Relic[] }))
 const characterStoreMock = vi.hoisted(() => ({ characters: [] as unknown[] }))
@@ -74,7 +72,7 @@ function baseRequest(overrides: Partial<Form> = {}): Form {
   } as Form
 }
 
-describe('getFilteredRelicCounts (countsBySet for issue #1482)', () => {
+describe('getFilteredRelicCounts (countsBySet)', () => {
   beforeEach(() => {
     relicStoreMock.relics = []
     characterStoreMock.characters = []
@@ -99,7 +97,7 @@ describe('getFilteredRelicCounts (countsBySet for issue #1482)', () => {
     expect(countsBySet[Parts.Hands][setBIdx]).toBe(1)
   })
 
-  it('excludes relics below min enhance (reproduces the #1482 scenario)', () => {
+  it('excludes relics below min enhance', () => {
     // All set-A relics are enhance 3; all set-B relics are enhance 15.
     // Min enhance = 9 eliminates every set-A relic from the counts.
     for (const part of [Parts.Head, Parts.Hands, Parts.Body, Parts.Feet] as const) {

@@ -158,21 +158,8 @@ function convertRelicSetIndicesTo1D(setIndices: number[][]) {
 }
 
 /**
- * Computes the true number of valid relic+ornament permutations after accounting for
- * multi-piece set constraints (2pc / 4pc / 2+2 filters). The naive slot-product
- * (`|Head| × |Hands| × |Body| × |Feet| × |Sphere| × |Rope|`) overestimates whenever
- * a 2+Any filter widens the per-slot allow-list but the set solver actually restricts
- * which 4-tuples of sets are valid. See issue #1482.
- *
- * This sums `countsBySet.Head[h] × Hands[g] × Body[b] × Feet[f]` over every (h,g,b,f)
- * 4-tuple marked valid by `generateRelicSetSolutions`, and similarly for ornaments.
- *
- * Expected size is SetsRelicsNames.length^4 ≈ 20^4 = 160k iterations per call, trivial.
- *
- * NOTE: the index encoding here (`h + g·len + b·len² + f·len³`) matches
- * `convertRelicSetIndicesTo1D`. The CPU/GPU search workers happen to decode with
- * body/hands swapped, which is harmless there because `permutator()` marks every
- * permutation of a set multiset as valid, but do not "fix" this to match the worker.
+ * Counts valid relic+ornament permutations accounting for set constraints.
+ * Sums `Head[h] × Hands[g] × Body[b] × Feet[f]` over valid (h,g,b,f) set-tuples.
  */
 export function computeValidPermutationCount(
   countsBySet: PartCountsBySet,
@@ -184,10 +171,7 @@ export function computeValidPermutationCount(
 }
 
 /**
- * Like `computeValidPermutationCount` but returns the relic (head/hands/body/feet)
- * and ornament (sphere/rope) sums separately. The zero-permutation diagnosis in
- * `suggestionsEngine` uses this to tell a user whether their relic filter or their
- * ornament filter is the infeasible one.
+ * Returns relic and ornament valid counts separately (used by zero-permutation diagnostics).
  */
 export function computeValidPermutationParts(
   countsBySet: PartCountsBySet,

@@ -174,7 +174,7 @@ export async function initializeGpuPipeline(
   })
 
   // Atomic compaction buffers
-  const COMPACT_ENTRY_BYTES = 8 // CompactEntry: i32 index (4B) + f32 value (4B)
+  const COMPACT_ENTRY_BYTES = 8 // CompactEntry: u32 index (4B) + f32 value (4B)
   const compactResultsBufferSize = COMPACT_LIMIT * COMPACT_ENTRY_BYTES
 
   const compactCountBuffers: [GPUBuffer, GPUBuffer] = [

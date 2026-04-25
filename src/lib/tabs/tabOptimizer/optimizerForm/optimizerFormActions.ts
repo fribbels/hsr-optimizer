@@ -181,9 +181,7 @@ export function recalculatePermutations(): void {
   }
   useOptimizerDisplayStore.getState().setPermutationDetails(permutationDetails)
 
-  // Count permutations that satisfy multi-piece set constraints (issue #1482).
-  // The naive slot-product overestimates when a 2+Any filter widens the per-slot
-  // allow-list but the actual 2pc-of-setA requirement can't be satisfied.
+  // Valid permutations accounting for set constraints
   const relicSetSolutions = generateRelicSetSolutions(request)
   const ornamentSetSolutions = generateOrnamentSetSolutions(request)
   const validPermutations = computeValidPermutationCount(countsBySet, relicSetSolutions, ornamentSetSolutions)

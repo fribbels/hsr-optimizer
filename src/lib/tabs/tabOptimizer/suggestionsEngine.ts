@@ -144,10 +144,7 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
     return [ZeroPermRootCause.IMPORT]
   }
 
-  // Set-constraint infeasibility: every slot has relics but no valid 4-tuple /
-  // ornament pair satisfies the filter (issue #1482). Per-slot counts can't see
-  // this, so consult the set solver directly. Split relic vs ornament so the
-  // right fix is suggested (clearing relic sets vs ornament sets).
+  // All slots have relics but no valid set combination exists — check relic vs ornament
   const allSlotsNonEmpty = counts.Head > 0 && counts.Hands > 0
     && counts.Body > 0 && counts.Feet > 0
     && counts.PlanarSphere > 0 && counts.LinkRope > 0
@@ -187,9 +184,7 @@ export function detectZeroPermutationCauses(request: Form): ZeroPermRootCause[] 
     causes.push(ZeroPermRootCause.ORNAMENT_SETS)
   }
 
-  // Relic sets: empty slot OR slot counts fine but the set-combination
-  // constraint can't be satisfied (e.g. 2+Any setA with every setA relic
-  // excluded by min-enhance, issue #1482).
+  // Relic sets: empty slot or set-combination constraint infeasible
   if (counts.Head === 0 || counts.Hands === 0 || counts.Body === 0 || counts.Feet === 0) {
     if (request.relicSets.length > 0) {
       causes.push(ZeroPermRootCause.RELIC_SETS)

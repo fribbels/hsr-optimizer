@@ -369,7 +369,7 @@ export function updateCharacter(characterId: CharacterId): void {
 
   useOptimizerDisplayStore.getState().setFocusCharacterId(characterId)
   useOptimizerRequestStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)
-  useOptimizerDisplayStore.getState().setStatSimulations(form.statSim?.simulations ?? [])
+  useOptimizerDisplayStore.getState().setStatSimulations((form.statSim?.simulations ?? []).filter((sim) => sim.request?.stats))
   useOptimizerDisplayStore.getState().setOptimizerSelectedRowData(null)
   gridStore.optimizerGridApi()?.deselectAll()
 

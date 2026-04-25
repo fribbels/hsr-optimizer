@@ -464,7 +464,9 @@ CombatBuffs:
   EFFECT_RES_PEN: crwdns43154:0crwdne43154:0
   VULNERABILITY: crwdns43156:0crwdne43156:0
   BREAK_EFFICIENCY: crwdns43158:0crwdne43158:0
+  EHR: crwdns47138:0crwdne47138:0
   Title: crwdns43160:0crwdne43160:0
+  Clear: crwdns47140:0crwdne47140:0
 Target_one: crwdns43162:0crwdne43162:0
 Target_other: crwdns43164:0crwdne43164:0
 EnemyConfiguration:

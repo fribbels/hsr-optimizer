@@ -70,9 +70,9 @@ export function generateRelicSetCombos(defaultOrnament: SetsOrnaments): AuditorS
     }
   }
   const untaggedSets: SetsRelics[] = []
-  for (const config of relicIndexToSetConfig) {
-    if (!taggedSetIds.has(config.id as string)) {
-      untaggedSets.push(config.id as SetsRelics)
+  for (const setEntry of relicIndexToSetConfig) {
+    if (!taggedSetIds.has(setEntry.id as string)) {
+      untaggedSets.push(setEntry.id as SetsRelics)
     }
   }
 
@@ -284,8 +284,6 @@ export async function runAudit(
     const paramScores = scoresBySetAndParam.get(setKey)!
     const matched = isMatchedSet(setCombo, enrichedMetadata)
 
-    const refScores = refScoresByParam
-
     const results: AuditorRunResult[] = []
     let bestDelta = -Infinity
     let bestDeltaParams = paramCombos[0]
@@ -293,7 +291,7 @@ export async function runAudit(
     for (const paramCombo of paramCombos) {
       const pk = paramKey(paramCombo)
       const score = paramScores.get(pk) ?? 0
-      const referenceScore = refScores.get(pk) ?? 0
+      const referenceScore = refScoresByParam.get(pk) ?? 0
 
       let deltaPct = 0
       if (referenceScore > 0 && score > 0) {

@@ -127,19 +127,17 @@ function SummaryRow(props: {
   backgroundColor: string
 }) {
   const { summary, isExpanded, onClick, backgroundColor } = props
-  const [hovered, setHovered] = useState(false)
 
   return (
     <>
       <tr
+        className='custom-grid'
         style={{
-          backgroundColor: hovered ? 'rgba(255,255,255,0.08)' : backgroundColor,
+          backgroundColor,
           cursor: 'pointer',
           borderBottom: '1px solid #464d6bc4',
         }}
         onClick={onClick}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
       >
         <td style={{ padding: '4px 8px' }}>
           {summary.flag === 'red' ? '🔴' : summary.flag === 'yellow' ? '🟡' : ''}

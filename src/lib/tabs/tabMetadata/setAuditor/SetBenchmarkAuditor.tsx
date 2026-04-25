@@ -25,7 +25,7 @@ import {
 import type { CharacterId } from 'types/character'
 import type { ReactElement } from 'types/components'
 import type { LightConeId } from 'types/lightCone'
-import { AUDITOR_SPD_BREAKPOINTS } from './setAuditorConstants'
+import { AUDITOR_SPD_BREAKPOINTS, getErrRopePermutations } from './setAuditorConstants'
 import { runAudit } from './setAuditorEngine'
 import { SetAuditorSummaryTable } from './SetAuditorSummaryTable'
 import type { AuditorConfig, AuditorResults, AuditorSetType, AuditorStatus } from './setAuditorTypes'
@@ -56,10 +56,7 @@ function getCharacterSweepDefaults(characterId: CharacterId) {
   const sim = charMeta?.scoringMetadata?.simulation
 
   const modes: string[] = sim?.deprioritizeBuffs ? ['subDps'] : ['dps']
-  const errRope: string[] = ['noErr']
-  if (sim?.errRopeEidolon != null && 0 >= sim.errRopeEidolon) {
-    errRope.push('err')
-  }
+  const errRope: string[] = sim ? (getErrRopePermutations(sim).length > 1 ? ['noErr', 'err'] : ['noErr']) : ['noErr']
 
   return { modes, errRope }
 }
@@ -127,7 +124,6 @@ export function SetBenchmarkAuditor(): ReactElement {
       setSelectedModes(defaults.modes)
       setSelectedErr(defaults.errRope)
 
-      // Strip teammate set selections — auditor tests sets independently
       const state = useBenchmarksTabStore.getState()
       for (const idx of [0, 1, 2] as const) {
         const tm = [state.teammate0, state.teammate1, state.teammate2][idx]

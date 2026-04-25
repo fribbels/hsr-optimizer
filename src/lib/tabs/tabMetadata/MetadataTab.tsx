@@ -51,7 +51,7 @@ export function MetadataTab(): ReactElement {
       </h1>
       <Accordion multiple>
         <Accordion.Item value='color-grid'>
-          <Accordion.Control>Character Color Grid</Accordion.Control>
+          <Accordion.Control>Character color grid</Accordion.Control>
           <Accordion.Panel>
             <CharacterColorGridDashboard />
           </Accordion.Panel>
@@ -63,7 +63,7 @@ export function MetadataTab(): ReactElement {
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='set-auditor'>
-          <Accordion.Control>Set Benchmark Auditor</Accordion.Control>
+          <Accordion.Control>Set benchmark auditor</Accordion.Control>
           <Accordion.Panel>
             <SetBenchmarkAuditor />
           </Accordion.Panel>
@@ -87,7 +87,7 @@ export function MetadataTab(): ReactElement {
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='4'>
-          <Accordion.Control>Conditional sets presets</Accordion.Control>
+          <Accordion.Control>Conditional set presets</Accordion.Control>
           <Accordion.Panel>
             <ConditionalSetsPresetsDashboard />
           </Accordion.Panel>

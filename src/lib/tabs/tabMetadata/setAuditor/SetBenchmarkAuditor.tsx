@@ -124,13 +124,15 @@ export function SetBenchmarkAuditor(): ReactElement {
       setSelectedModes(defaults.modes)
       setSelectedErr(defaults.errRope)
 
+      const gameSimMetadata = getGameMetadata().characters[id].scoringMetadata.simulation!
       const state = useBenchmarksTabStore.getState()
       for (const idx of [0, 1, 2] as const) {
-        const tm = [state.teammate0, state.teammate1, state.teammate2][idx]
-        if (tm) {
-          state.updateTeammate(idx, { ...tm, teamRelicSet: undefined, teamOrnamentSet: undefined })
-        }
+        const tm = gameSimMetadata.teammates[idx]
+        state.updateTeammate(idx, tm ? { ...tm, teamRelicSet: undefined, teamOrnamentSet: undefined } : undefined)
       }
+
+      form.setFieldValue('characterEidolon', 0)
+      form.setFieldValue('lightConeSuperimposition', 1)
     }
   }, [form])
 

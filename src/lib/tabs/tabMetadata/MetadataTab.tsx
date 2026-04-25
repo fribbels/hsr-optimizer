@@ -50,6 +50,12 @@ export function MetadataTab(): ReactElement {
         Metadata viewer
       </h1>
       <Accordion multiple>
+        <Accordion.Item value='set-auditor'>
+          <Accordion.Control>Set benchmark auditor</Accordion.Control>
+          <Accordion.Panel>
+            <SetBenchmarkAuditor />
+          </Accordion.Panel>
+        </Accordion.Item>
         <Accordion.Item value='color-grid'>
           <Accordion.Control>Character color grid</Accordion.Control>
           <Accordion.Panel>
@@ -60,12 +66,6 @@ export function MetadataTab(): ReactElement {
           <Accordion.Control>Image center editor</Accordion.Control>
           <Accordion.Panel>
             <ImageCenterEditorSection />
-          </Accordion.Panel>
-        </Accordion.Item>
-        <Accordion.Item value='set-auditor'>
-          <Accordion.Control>Set benchmark auditor</Accordion.Control>
-          <Accordion.Panel>
-            <SetBenchmarkAuditor />
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='1'>

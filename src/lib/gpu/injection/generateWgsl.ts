@@ -304,6 +304,7 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
   let tLSize = i32(a.lSize);
   let permLimit = i32(a.permLimit);
 
+  let tXf = i32(a.xf);
   let tXb = i32(a.xb);
   let tXg = i32(a.xg);
   let tXh = i32(a.xh);
@@ -323,7 +324,7 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
 
   var curL = l0;
   var curP = p0;
-  var curF = f0;
+  var curF = tXf + f0;
   var curB = tXb + b0;
   var curG = tXg + g0;
   var curH = tXh + h0;
@@ -347,8 +348,8 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
         if (curP >= tPSize) {
           curP = 0;
           curF += 1;
-          if (curF >= tFSize) {
-            curF = 0;
+          if (curF >= tXf + tFSize) {
+            curF = tXf;
             curB += 1;
             if (curB >= tXb + tBSize) {
               curB = tXb;

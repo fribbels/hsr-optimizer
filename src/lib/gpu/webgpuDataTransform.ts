@@ -4,7 +4,7 @@ import {
 } from 'lib/gpu/webgpuTypes'
 import {
   type PerSlotSetRanges,
-  type ValidTriple,
+  type ValidQuad,
 } from 'lib/optimization/relicSetSolver'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
@@ -117,29 +117,33 @@ export type TupleParams = {
   xh: number, hSize: number,
   xg: number, gSize: number,
   xb: number, bSize: number,
+  xf: number, fSize: number,
 }
 
 export type FullSizes = {
-  F: number, P: number, L: number,
+  P: number, L: number,
 }
 
 export type WorkgroupEntry = {
   xh: number, hSize: number,
   xg: number, gSize: number,
   xb: number, bSize: number,
-  fSize: number, pSize: number, lSize: number,
+  xf: number, fSize: number,
+  pSize: number, lSize: number,
   permLimit: number,
   startOffset: number,
 }
 
-export function computeTupleParams(triple: ValidTriple, ranges: PerSlotSetRanges): TupleParams {
+export function computeTupleParams(quad: ValidQuad, ranges: PerSlotSetRanges): TupleParams {
   return {
-    xh: ranges.Head.setStart[triple.sH],
-    hSize: ranges.Head.setEnd[triple.sH] - ranges.Head.setStart[triple.sH],
-    xg: ranges.Hands.setStart[triple.sG],
-    gSize: ranges.Hands.setEnd[triple.sG] - ranges.Hands.setStart[triple.sG],
-    xb: ranges.Body.setStart[triple.sB],
-    bSize: ranges.Body.setEnd[triple.sB] - ranges.Body.setStart[triple.sB],
+    xh: ranges.Head.setStart[quad.sH],
+    hSize: ranges.Head.setEnd[quad.sH] - ranges.Head.setStart[quad.sH],
+    xg: ranges.Hands.setStart[quad.sG],
+    gSize: ranges.Hands.setEnd[quad.sG] - ranges.Hands.setStart[quad.sG],
+    xb: ranges.Body.setStart[quad.sB],
+    bSize: ranges.Body.setEnd[quad.sB] - ranges.Body.setStart[quad.sB],
+    xf: ranges.Feet.setStart[quad.sF],
+    fSize: ranges.Feet.setEnd[quad.sF] - ranges.Feet.setStart[quad.sF],
   }
 }
 
@@ -150,7 +154,7 @@ export function buildWorkgroupAssignments(
 ): WorkgroupEntry[] {
   const assignments: WorkgroupEntry[] = []
   for (const t of tuples) {
-    const weight = t.hSize * t.gSize * t.bSize * fullSizes.F * fullSizes.P * fullSizes.L
+    const weight = t.hSize * t.gSize * t.bSize * t.fSize * fullSizes.P * fullSizes.L
     const numWGs = Math.ceil(weight / wgCapacity)
     for (let wg = 0; wg < numWGs; wg++) {
       const start = wg * wgCapacity
@@ -159,7 +163,8 @@ export function buildWorkgroupAssignments(
         xh: t.xh, hSize: t.hSize,
         xg: t.xg, gSize: t.gSize,
         xb: t.xb, bSize: t.bSize,
-        fSize: fullSizes.F, pSize: fullSizes.P, lSize: fullSizes.L,
+        xf: t.xf, fSize: t.fSize,
+        pSize: fullSizes.P, lSize: fullSizes.L,
         permLimit: limit,
         startOffset: start,
       })
@@ -179,10 +184,11 @@ export function serializeAssignments(assignments: WorkgroupEntry[]): ArrayBuffer
     u[off + 0] = a.xh;     u[off + 1] = a.hSize
     u[off + 2] = a.xg;     u[off + 3] = a.gSize
     u[off + 4] = a.xb;     u[off + 5] = a.bSize
-    u[off + 6] = a.fSize;  u[off + 7] = a.pSize;  u[off + 8] = a.lSize
-    u[off + 9] = a.permLimit
-    u[off + 10] = a.startOffset
-    // 11-15: padding (zero)
+    u[off + 6] = a.xf;     u[off + 7] = a.fSize
+    u[off + 8] = a.pSize;  u[off + 9] = a.lSize
+    u[off + 10] = a.permLimit
+    u[off + 11] = a.startOffset
+    // 12-15: padding (zero)
   }
   return buf
 }

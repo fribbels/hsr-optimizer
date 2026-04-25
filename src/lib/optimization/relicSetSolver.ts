@@ -359,14 +359,14 @@ export function buildPerSlotSetRanges(relics: RelicsByPart): PerSlotSetRanges {
   }
 }
 
-export type ValidTriple = { sH: number, sG: number, sB: number }
+export type ValidQuad = { sH: number, sG: number, sB: number, sF: number }
 
-export function enumerateValidTriplesD3(
+export function enumerateValidQuadsD4(
   relicSetSolutions: number[],
   ranges: PerSlotSetRanges,
-): ValidTriple[] {
+): ValidQuad[] {
   const R = SetsRelicsNames.length
-  const out: ValidTriple[] = []
+  const out: ValidQuad[] = []
   for (let sH = 0; sH < R; sH++) {
     if (ranges.Head.setStart[sH] < 0) continue
     for (let sG = 0; sG < R; sG++) {
@@ -377,8 +377,7 @@ export function enumerateValidTriplesD3(
           if (ranges.Feet.setStart[sF] < 0) continue
           const key = sH + sB * R + sG * R * R + sF * R * R * R
           if (relicSetSolutions[key] === 1) {
-            out.push({ sH, sG, sB })
-            break
+            out.push({ sH, sG, sB, sF })
           }
         }
       }

@@ -17,7 +17,7 @@ import {
 import {
   bitpackBooleanArray,
   buildPerSlotSetRanges,
-  enumerateValidTriplesD3,
+  enumerateValidQuadsD4,
 } from 'lib/optimization/relicSetSolver'
 import {
   OrnamentSetToIndex,
@@ -64,14 +64,14 @@ export async function initializeGpuPipeline(
   // Top-N results to keep
   const RESULTS_LIMIT = request.resultsLimit ?? 1024
 
-  // Compact buffer sizing multiplier over RESULTS_LIMIT
-  const COMPACT_OVERFLOW_FACTOR = 4
+  const hasRelicFilter = (request.relicSets?.length ?? 0) > 0
+  const TUPLE_MODE = hasRelicFilter && !DEBUG
+
+  // Tuple mode has near-100% pass rate — needs larger compact buffer to avoid overflow revisits
+  const COMPACT_OVERFLOW_FACTOR = TUPLE_MODE ? 64 : 4
 
   // Max compact entries per dispatch before overflow triggers revisit
   const COMPACT_LIMIT = RESULTS_LIMIT * COMPACT_OVERFLOW_FACTOR
-
-  const hasRelicFilter = (request.relicSets?.length ?? 0) > 0
-  const TUPLE_MODE = hasRelicFilter && !DEBUG
 
   const t0 = performance.now()
 
@@ -128,14 +128,13 @@ export async function initializeGpuPipeline(
 
   if (TUPLE_MODE) {
     const ranges = buildPerSlotSetRanges(relics)
-    const triples = enumerateValidTriplesD3(relicSetSolutions, ranges)
+    const quads = enumerateValidQuadsD4(relicSetSolutions, ranges)
     const fullSizes: FullSizes = {
-      F: relics.Feet.length,
       P: relics.PlanarSphere.length,
       L: relics.LinkRope.length,
     }
     const wgCapacity = WORKGROUP_SIZE * CYCLES_PER_INVOCATION
-    const tupleParams = triples.map((t) => computeTupleParams(t, ranges))
+    const tupleParams = quads.map((q) => computeTupleParams(q, ranges))
     assignments = buildWorkgroupAssignments(tupleParams, fullSizes, wgCapacity)
     totalWorkgroups = assignments.length
     const serialized = serializeAssignments(assignments)
@@ -145,7 +144,7 @@ export async function initializeGpuPipeline(
       * relics.Feet.length * relics.PlanarSphere.length * relics.LinkRope.length
     const wasteReduction = ((1 - totalTupleIterations / naiveIterations) * 100).toFixed(1)
     const batchWgs = Math.min(4096, totalWorkgroups)
-    console.log(`[OPT] Tuple dispatch: ${triples.length} triples → ${totalWorkgroups} workgroups, ${Math.ceil(totalWorkgroups / batchWgs)} batches (${batchWgs} wgs/batch)`)
+    console.log(`[OPT] Tuple dispatch (D=4): ${quads.length} quads → ${totalWorkgroups} workgroups, ${Math.ceil(totalWorkgroups / batchWgs)} batches (${batchWgs} wgs/batch)`)
     console.log(`[OPT] Iteration space: naive=${naiveIterations.toExponential(2)}, tuple=${totalTupleIterations.toExponential(2)}, reduction=${wasteReduction}%`)
     console.log(`[OPT] Slot sizes: H=${relics.Head.length} G=${relics.Hands.length} B=${relics.Body.length} F=${relics.Feet.length} P=${relics.PlanarSphere.length} L=${relics.LinkRope.length}`)
 
@@ -243,7 +242,7 @@ export async function initializeGpuPipeline(
 
   const tEnd = performance.now()
   console.log(`[OPT] Pipeline setup: wgsl=${(tWgsl - t0).toFixed(1)}ms, compile=${(tPipeline - tWgsl).toFixed(1)}ms, sort=${(tSort - tPipeline).toFixed(1)}ms, tuples=${(tTuples - tSort).toFixed(1)}ms, buffers=${(tEnd - tTuples).toFixed(1)}ms, total=${(tEnd - t0).toFixed(1)}ms`)
-  console.log(`[OPT] Mode: ${TUPLE_MODE ? 'TUPLE' : 'NAIVE'}, permutations=${permutations}, iterations=${iterations}, WG=${NUM_WORKGROUPS}, WG_SIZE=${WORKGROUP_SIZE}, CPI=${CYCLES_PER_INVOCATION}`)
+  console.log(`[OPT] Mode: ${TUPLE_MODE ? 'TUPLE' : 'NAIVE'}, permutations=${permutations}, iterations=${iterations}, WG=${NUM_WORKGROUPS}, WG_SIZE=${WORKGROUP_SIZE}, CPI=${CYCLES_PER_INVOCATION}, COMPACT_LIMIT=${COMPACT_LIMIT}`)
 
   return {
     WORKGROUP_SIZE,

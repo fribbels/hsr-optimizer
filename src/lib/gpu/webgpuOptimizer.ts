@@ -1,5 +1,6 @@
 import { type ComputeEngine } from 'lib/constants/constants'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
+import { GpuProfiler } from 'lib/gpu/gpuProfiler'
 import {
   destroyPipeline,
   type ExecutionPassResult,
@@ -176,7 +177,7 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
 }
 
 async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number> {
-  const BATCH_WGS = Math.min(4096, gpuContext.totalWorkgroups)
+  const BATCH_WGS = Math.min(2048, gpuContext.totalWorkgroups)
   const totalBatches = Math.ceil(gpuContext.totalWorkgroups / BATCH_WGS)
   const device = gpuContext.device
   const assignments = gpuContext.assignments
@@ -197,6 +198,8 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
   let tEncodeTotal = 0
   let totalCompactResults = 0
   let totalValidCount = 0
+  let processBatchLastCount = 0
+  let processBatchLastValid = 0
 
   // Double-buffered: submit batch N+1 while reading batch N
   let currentBuf = 0
@@ -239,7 +242,6 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     const localOffset = packedIndex & 0xFFFF
     const assignmentIdx = batchStart + wgInBatch
     const a = assignments[assignmentIdx]
-    // Mixed-radix decode of localOffset within tuple window, then absolute positions
     const totalOffset = a.startOffset + localOffset
     const l = totalOffset % a.lSize
     const c1 = (totalOffset - l) / a.lSize
@@ -251,12 +253,13 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     const c4 = (c3 - b) / a.bSize
     const g = c4 % a.gSize
     const h = (c4 - g) / a.gSize
-    // Convert to global naive index using absolute positions (JS f64 — no overflow)
-    const absH = a.xh + h
-    const absG = a.xg + g
+    // D=4: F is tuple-relative, convert to absolute
+    const absF = a.xf + f
     const absB = a.xb + b
-    return l + p * lSize + f * lSize * pSize + (absB) * lSize * pSize * fSize
-      + (absG) * lSize * pSize * fSize * bSize + (absH) * lSize * pSize * fSize * bSize * gSize
+    const absG = a.xg + g
+    const absH = a.xh + h
+    return l + p * lSize + absF * lSize * pSize + absB * lSize * pSize * fSize
+      + absG * lSize * pSize * fSize * bSize + absH * lSize * pSize * fSize * bSize * gSize
   }
 
   function processBatch(bufIdx: number, batchStart: number, isOverflowRevisit: boolean) {
@@ -269,6 +272,8 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
 
     totalCompactResults += count
     totalValidCount += gpuValidCount
+    processBatchLastCount = count
+    processBatchLastValid = gpuValidCount
     if (!isOverflowRevisit) {
       permutationsSearched += gpuValidCount
     }
@@ -308,6 +313,9 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     return { rawCount }
   }
 
+  // Reset start time before first dispatch to exclude pipeline setup from perms/sec
+  useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
+
   // Submit first batch
   const firstBatchSize = Math.min(BATCH_WGS, gpuContext.totalWorkgroups)
   submitBatch(0, firstBatchSize, currentBuf)
@@ -339,9 +347,10 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     processBatch(readBuf, batchStart, false)
     tProcessTotal += performance.now() - tPreProcess
 
-    if (batch === 0) {
-      useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
-      console.log(`[OPT] Batch 0: wgs=${firstBatchSize}, mapMs=${(tPostMap - tPreMap).toFixed(1)}`)
+    const batchMs = performance.now() - tBatchStart
+    if (batch < 15 || batchMs > 100) {
+      const tAbs = (performance.now() - tDispatchStart).toFixed(0)
+      console.log(`[OPT] Batch ${batch} @${tAbs}ms: encode=${(tPreMap - tBatchStart).toFixed(1)}ms, map=${(tPostMap - tPreMap).toFixed(1)}ms, process=${(performance.now() - tPreProcess).toFixed(1)}ms, total=${batchMs.toFixed(1)}ms, compact=${processBatchLastCount}, valid=${processBatchLastValid}`)
     }
 
     const searchedSnapshot = permutationsSearched

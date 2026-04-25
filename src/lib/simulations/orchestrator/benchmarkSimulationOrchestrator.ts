@@ -78,6 +78,58 @@ import type {
 import type { SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
+export function enrichSimulationMetadata(metadata: SimulationMetadata) {
+  const substats: string[] = metadata.substats
+  let addBreakEffect = false
+  let addEffectHitRate = false
+
+  if (metadata.comboTurnAbilities.filter((x) => toTurnAbility(x).kind == AbilityKind.BREAK).length > 0) {
+    addBreakEffect = true
+  }
+
+  if (
+    metadata.teammates.find((x) =>
+      x.characterId == TrailblazerHarmonyCaelus.id
+      || x.characterId == TrailblazerHarmonyStelle.id
+      || x.characterId == Fugue.id
+      || x.characterId == TheDahlia.id
+    )
+  ) {
+    addBreakEffect = true
+  }
+  if (addBreakEffect && !substats.includes(Stats.BE)) {
+    substats.push(Stats.BE)
+  }
+  if (addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
+    metadata.parts[Parts.LinkRope].push(Stats.BE)
+  }
+  if (addBreakEffect && !metadata.relicSets.find((sets) => sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
+    metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
+  }
+  if (addBreakEffect && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
+    metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
+  }
+  if (addBreakEffect && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
+    metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
+  }
+
+  if (
+    !metadata.ornamentSets.find((set) => set == Sets.TheWondrousBananAmusementPark) && metadata.teammates.find((x) => x.characterId == PermansorTerrae.id)
+  ) {
+    metadata.ornamentSets.push(Sets.TheWondrousBananAmusementPark)
+  }
+
+  if (metadata.teammates.find((x) => x.characterId == KafkaB1.id)) {
+    addEffectHitRate = true
+  }
+  if (addEffectHitRate && !substats.includes(Stats.EHR)) {
+    substats.push(Stats.EHR)
+  }
+  if (addEffectHitRate && !metadata.parts[Parts.Body].includes(Stats.EHR)) {
+    metadata.parts[Parts.Body].push(Stats.EHR)
+  }
+}
+
 export class BenchmarkSimulationOrchestrator {
   public metadata: SimulationMetadata
   public flags: SimulationFlags
@@ -123,60 +175,7 @@ export class BenchmarkSimulationOrchestrator {
   }
 
   public setMetadata() {
-    const metadata = this.metadata
-    const substats: string[] = metadata.substats
-    let addBreakEffect = false
-    let addEffectHitRate = false
-
-    if (metadata.comboTurnAbilities.filter((x) => toTurnAbility(x).kind == AbilityKind.BREAK).length > 0) {
-      // Add break if the combo uses it
-      addBreakEffect = true
-    }
-
-    // Add break if the harmony trailblazer | fugue is on the team
-    if (
-      metadata.teammates.find((x) =>
-        x.characterId == TrailblazerHarmonyCaelus.id
-        || x.characterId == TrailblazerHarmonyStelle.id
-        || x.characterId == Fugue.id
-        || x.characterId == TheDahlia.id
-      )
-    ) {
-      addBreakEffect = true
-    }
-    if (addBreakEffect && !substats.includes(Stats.BE)) {
-      substats.push(Stats.BE)
-    }
-    if (addBreakEffect && !metadata.parts[Parts.LinkRope].includes(Stats.BE)) {
-      metadata.parts[Parts.LinkRope].push(Stats.BE)
-    }
-    if (addBreakEffect && !metadata.relicSets.find((sets) => sets[0] == sets[1] && sets[1] == Sets.IronCavalryAgainstTheScourge)) {
-      metadata.relicSets.push([Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge])
-    }
-    if (addBreakEffect && !metadata.ornamentSets.find((set) => set == Sets.TaliaKingdomOfBanditry)) {
-      metadata.ornamentSets.push(Sets.TaliaKingdomOfBanditry)
-    }
-    if (addBreakEffect && !metadata.ornamentSets.find((set) => set == Sets.ForgeOfTheKalpagniLantern)) {
-      metadata.ornamentSets.push(Sets.ForgeOfTheKalpagniLantern)
-    }
-
-    // Add banana if DH PT is on the team
-    if (
-      !metadata.ornamentSets.find((set) => set == Sets.TheWondrousBananAmusementPark) && metadata.teammates.find((x) => x.characterId == PermansorTerrae.id)
-    ) {
-      metadata.ornamentSets.push(Sets.TheWondrousBananAmusementPark)
-    }
-
-    // Add ehr if kafka is on the team
-    if (metadata.teammates.find((x) => x.characterId == KafkaB1.id)) {
-      addEffectHitRate = true
-    }
-    if (addEffectHitRate && !substats.includes(Stats.EHR)) {
-      substats.push(Stats.EHR)
-    }
-    if (addEffectHitRate && !metadata.parts[Parts.Body].includes(Stats.EHR)) {
-      metadata.parts[Parts.Body].push(Stats.EHR)
-    }
+    enrichSimulationMetadata(this.metadata)
   }
 
   public setFlags() {

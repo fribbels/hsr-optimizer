@@ -37,3 +37,8 @@
   composes: setBadge;
   top: 27px;
 }
+
+.lcIcon {
+  height: 64px;
+  margin-top: -3px;
+}

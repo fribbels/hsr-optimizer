@@ -5,6 +5,7 @@ import {
   TextInput,
 } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   generateElementTags,
   generatePathTags,
@@ -46,6 +47,7 @@ export function CharacterSelect({
   onOpenChange,
   showIcon = true,
   clearable = true,
+  withSimulation = false,
 }: {
   value: CharacterId | null,
   onChange: (id: CharacterId | null) => void,
@@ -54,9 +56,16 @@ export function CharacterSelect({
   onOpenChange?: (open: boolean) => void,
   showIcon?: boolean,
   clearable?: boolean,
+  withSimulation?: boolean,
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
-  const characterOptions = useMemo(() => generateCharacterOptions(), [t])
+  const characterOptions = useMemo(() => {
+    const options = generateCharacterOptions()
+    if (withSimulation) {
+      return options.filter((opt) => getGameMetadata().characters[opt.id]?.scoringMetadata?.simulation)
+    }
+    return options
+  }, [t, withSimulation])
 
   const {
     isOpen,

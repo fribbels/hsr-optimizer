@@ -25,6 +25,7 @@ import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { ImageCenterEditorSection } from 'lib/tabs/tabMetadata/ImageCenterEditor'
+import { SetBenchmarkAuditor } from 'lib/tabs/tabMetadata/setAuditor/SetBenchmarkAuditor'
 import { toI18NVisual } from 'lib/utils/displayUtils'
 import {
   Fragment,
@@ -59,6 +60,12 @@ export function MetadataTab(): ReactElement {
           <Accordion.Control>Image center editor</Accordion.Control>
           <Accordion.Panel>
             <ImageCenterEditorSection />
+          </Accordion.Panel>
+        </Accordion.Item>
+        <Accordion.Item value='set-auditor'>
+          <Accordion.Control>Set Benchmark Auditor</Accordion.Control>
+          <Accordion.Panel>
+            <SetBenchmarkAuditor />
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='1'>

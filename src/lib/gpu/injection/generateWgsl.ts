@@ -174,7 +174,6 @@ function injectSetFilters(wgsl: string, request: Form) {
     conditions.push('((ornamentSetSolutionsMatrix[ornamentSetIndex >> 5u] >> (ornamentSetIndex & 31u)) & 1) == 0')
   }
 
-  // CTRL+ F: RESULTS ASSIGNMENT
   return wgsl.replace(
     '/* INJECT SET FILTERS */',
     indent(
@@ -247,7 +246,6 @@ ${format(basicFilters)}
 
 function injectGpuParams(wgsl: string, request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
   const cyclesPerInvocation = gpuParams.DEBUG ? 1 : gpuParams.CYCLES_PER_INVOCATION
-  const tupleMode = gpuParams.TUPLE_MODE ? 1 : 0
 
   wgsl = wgsl.replace(
     '/* INJECT GPU PARAMS */',
@@ -257,7 +255,7 @@ const BLOCK_SIZE = ${gpuParams.BLOCK_SIZE};
 const CYCLES_PER_INVOCATION = ${cyclesPerInvocation};
 const DEBUG = ${gpuParams.DEBUG ? 1 : 0};
 const COMPACT_LIMIT = ${gpuParams.COMPACT_LIMIT}u;
-const TUPLE_MODE = ${tupleMode};
+const TUPLE_MODE = ${gpuParams.TUPLE_MODE ? 1 : 0};
   `,
   )
 
@@ -274,7 +272,7 @@ struct CompactEntry { index: u32, value: f32 }
 
   wgsl = wgsl.replace('/* INJECT RESULTS BUFFER */', resultsBufferWgsl)
 
-  if (tupleMode) {
+  if (gpuParams.TUPLE_MODE) {
     wgsl = wgsl.replace(
       '/* INJECT BIND GROUP 0 */',
       `@group(0) @binding(0) var<uniform> params : Params;

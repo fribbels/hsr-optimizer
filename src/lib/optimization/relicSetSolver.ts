@@ -239,8 +239,8 @@ export function applySemiJoinReduction(
   const R = SetsRelicsNames.length
   const O = SetsOrnamentsNames.length
 
-  // Project valid relic set indices per slot (H, G, B, F)
-  // Key encoding: sH + sB*R + sG*R² + sF*R³
+  // Key encoding: sH + sB*R + sG*R² + sF*R³ (dimension order doesn't matter —
+  // relicSetSolutions is permutation-invariant, all orderings of a valid tuple are marked)
   const validH = new Uint8Array(R)
   const validG = new Uint8Array(R)
   const validB = new Uint8Array(R)
@@ -307,7 +307,7 @@ export type PerSlotSetRanges = {
   LinkRope: SetRanges,
 }
 
-export function buildSetRangesForSlot(
+function buildSetRangesForSlot(
   sortedRelics: Relic[],
   setIndexOf: (set: string) => number,
   setCount: number,

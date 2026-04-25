@@ -210,7 +210,7 @@ export function decodeTupleGlobalIndex(
   const c4 = (c3 - b) / a.bSize
   const g = c4 % a.gSize
   const h = (c4 - g) / a.gSize
-  // D=4: F is tuple-relative, convert to absolute
+  // D=4: F, B, G, H are tuple-relative, convert to absolute positions
   const absF = a.xf + f
   const absB = a.xb + b
   const absG = a.xg + g
@@ -274,11 +274,9 @@ function processTupleBatch(
   gpuContext: GpuExecutionContext,
   bufferIndex: number,
   batchStart: number,
-  isOverflowRevisit: boolean,
   assignments: WorkgroupEntry[],
   sizes: RelicPartSizes,
-  overflowedBatches: number[],
-  seenIndices: Set<number>,
+  seenIndices?: Set<number>,
 ): { rawCount: number; validCount: number } {
   const compactReadBuffer = gpuContext.compactReadBuffers[bufferIndex]
   const mappedRange = compactReadBuffer.getMappedRange()
@@ -287,15 +285,11 @@ function processTupleBatch(
   const isOverflow = rawCount > gpuContext.COMPACT_LIMIT
   const validCount = new Uint32Array(mappedRange, 4 + gpuContext.compactResultsBufferSize, 1)[0]
 
-  if (isOverflow && !isOverflowRevisit) {
-    overflowedBatches.push(batchStart)
-  }
-
   const u32View = new Uint32Array(mappedRange, 4)
   const f32View = new Float32Array(mappedRange, 4)
   const resultsQueue = gpuContext.resultsQueue
   let top = resultsQueue.size() > 0 ? resultsQueue.topPriority() : 0
-  const useSeen = isOverflow || isOverflowRevisit ? seenIndices : undefined
+  const useSeen = seenIndices
 
   if (resultsQueue.size() >= gpuContext.RESULTS_LIMIT) {
     for (let i = 0; i < count; i++) {
@@ -369,8 +363,11 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
 
     await gpuContext.compactReadBuffers[readBuf].mapAsync(GPUMapMode.READ)
 
-    const { validCount } = processTupleBatch(gpuContext, readBuf, batchStart, false, assignments, sizes, overflowedBatches, seenIndices)
+    const { rawCount, validCount } = processTupleBatch(gpuContext, readBuf, batchStart, assignments, sizes)
     permutationsSearched += validCount
+    if (rawCount > gpuContext.COMPACT_LIMIT) {
+      overflowedBatches.push(batchStart)
+    }
 
     const searchedSnapshot = permutationsSearched
     const progressSnapshot = (batch + 1) / totalBatches
@@ -399,7 +396,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
       do {
         submitTupleBatch(gpuContext, batchStart, batchSize, 0)
         await gpuContext.compactReadBuffers[0].mapAsync(GPUMapMode.READ)
-        const result = processTupleBatch(gpuContext, 0, batchStart, true, assignments, sizes, overflowedBatches, seenIndices)
+        const result = processTupleBatch(gpuContext, 0, batchStart, assignments, sizes, seenIndices)
         rawCount = result.rawCount
       } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
     }

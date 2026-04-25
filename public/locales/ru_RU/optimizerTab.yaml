@@ -505,6 +505,7 @@ CombatBuffs:
   VULNERABILITY: Уязвимость %
   BREAK_EFFICIENCY: Эффективность пробития %
   Title: Доп. баффы в бою
+  Clear: Очистить
 Target_one: цель
 Target_other: цели
 EnemyConfiguration:

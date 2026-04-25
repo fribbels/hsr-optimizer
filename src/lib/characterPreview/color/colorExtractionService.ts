@@ -3,6 +3,7 @@ import type {
   ColorWorkerResponse,
   ColorWorkerResult,
 } from './colorExtractionWorker'
+import ColorExtractionWorker from './colorExtractionWorker.ts?worker'
 
 export type PaletteResponse = {
   Vibrant: string,
@@ -26,9 +27,7 @@ const urlCache = new Map<string, PaletteResponse>()
 
 function getWorker(): Worker {
   if (!worker) {
-    worker = new Worker(
-      new URL('./colorExtractionWorker.ts', import.meta.url),
-    )
+    worker = new ColorExtractionWorker()
     worker.onmessage = (e: MessageEvent<ColorWorkerResponse>) => {
       const { id, result, error } = e.data
       const entry = pending.get(id)

@@ -4,6 +4,7 @@ import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { getRelicById } from 'lib/stores/relic/relicStore'
+import ScoreRelicsWorker from 'lib/worker/scoreRelicsWorker.ts?worker'
 import type { CharacterId } from 'types/character'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
@@ -29,7 +30,7 @@ let pendingResolve: ((result: ScoredRelic[]) => void) | null = null
 
 function getWorker(): Worker {
   if (!worker) {
-    worker = new Worker(new URL('./scoreRelicsWorker.ts', import.meta.url))
+    worker = new ScoreRelicsWorker()
     worker.onmessage = (e: MessageEvent<ScoreRelicsWorkerOutput>) => {
       if (e.data.generation !== generation) return
       pendingResolve?.(e.data.scoredRelics)

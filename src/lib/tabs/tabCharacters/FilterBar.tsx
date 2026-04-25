@@ -1,4 +1,5 @@
 import {
+  CloseButton,
   Flex,
   TextInput,
 } from '@mantine/core'
@@ -14,12 +15,13 @@ import { useShallow } from 'zustand/react/shallow'
 
 export const FilterBar = memo(function FilterBar() {
   const { t } = useTranslation('charactersTab')
-  const { pathFilter, setPathFilter, elementFilter, setElementFilter, setNameFilter } = useCharacterTabStore(
+  const { pathFilter, setPathFilter, elementFilter, setElementFilter, nameFilter, setNameFilter } = useCharacterTabStore(
     useShallow((s) => ({
       pathFilter: s.filters.path,
       setPathFilter: s.setPathFilter,
       elementFilter: s.filters.element,
       setElementFilter: s.setElementFilter,
+      nameFilter: s.filters.name,
       setNameFilter: s.setNameFilter,
     })),
   )
@@ -37,9 +39,12 @@ export const FilterBar = memo(function FilterBar() {
         styles={{ input: { height: 40, lineHeight: '40px', fontSize: 14, borderRadius: 4 } }}
         w={200}
         placeholder={t('SearchPlaceholder') /* Search */}
+        value={nameFilter}
         onChange={(e) => {
           setNameFilter(e.target.value.toLowerCase())
         }}
+        rightSection={nameFilter && <CloseButton size='sm' onClick={() => setNameFilter('')} />}
+        rightSectionPointerEvents='all'
       />
       <div style={{ flex: 1 }}>
         <SegmentedFilterRow

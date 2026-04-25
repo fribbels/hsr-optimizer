@@ -96,6 +96,15 @@ export async function gpuOptimize(props: {
   useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
   useOptimizerDisplayStore.getState().setPermutationsResults(gpuContext.resultsQueue.size())
 
+  {
+    const uiState = useOptimizerDisplayStore.getState()
+    const startTime = uiState.optimizerStartTime ?? 0
+    const endTime = uiState.optimizerEndTime ?? Date.now()
+    const elapsed = endTime - startTime
+    const rate = elapsed > 0 ? Math.floor(uiState.permutationsSearched / (elapsed / 1000)) : 0
+    console.log(`[OPT] Post-finalize store: searched=${uiState.permutationsSearched}, elapsed=${elapsed}ms, rate=${rate}/sec, startTime=${startTime}, endTime=${endTime}`)
+  }
+
   setTimeout(() => {
     outputResults(gpuContext)
     destroyPipeline(gpuContext)
@@ -158,12 +167,20 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
 
     const searchedSnapshot = permutationsSearched
     const progressSnapshot = (iteration + 1) / gpuContext.iterations
+    const iterationNum = iteration
     setTimeout(() => {
       const uiState = useOptimizerDisplayStore.getState()
-      uiState.setOptimizerEndTime(Date.now())
+      const startTime = uiState.optimizerStartTime ?? 0
+      const endNow = Date.now()
+      uiState.setOptimizerEndTime(endNow)
       uiState.setPermutationsResults(gpuContext.resultsQueue.size())
       uiState.setPermutationsSearched(searchedSnapshot)
       uiState.setOptimizerProgress(progressSnapshot)
+      if (iterationNum >= gpuContext.iterations - 20 || iterationNum < 20) {
+        const elapsed = endNow - startTime
+        const rate = elapsed > 0 ? Math.floor(searchedSnapshot / (elapsed / 1000)) : 0
+        console.log(`[OPT] UI update iter=${iterationNum}: searched=${searchedSnapshot}, elapsed=${elapsed}ms, rate=${rate}/sec, startTime=${startTime}, endNow=${endNow}`)
+      }
     }, 0)
 
     if (gpuContext.permutations <= maxPermNumber || !useOptimizerDisplayStore.getState().optimizationInProgress) {
@@ -173,6 +190,17 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
   }
 
   await revisitOverflowedDispatches(overflowedOffsets, gpuContext, seenIndices, permutationsSearched)
+
+  // Log the store state right before finalization
+  {
+    const uiState = useOptimizerDisplayStore.getState()
+    const startTime = uiState.optimizerStartTime ?? 0
+    const endTime = uiState.optimizerEndTime ?? Date.now()
+    const elapsed = endTime - startTime
+    const rate = elapsed > 0 ? Math.floor(uiState.permutationsSearched / (elapsed / 1000)) : 0
+    console.log(`[OPT] Pre-finalize store: searched=${uiState.permutationsSearched}, elapsed=${elapsed}ms, rate=${rate}/sec, startTime=${startTime}, endTime=${endTime}`)
+  }
+
   return permutationsSearched
 }
 
@@ -316,12 +344,14 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
   // Reset start time before first dispatch to exclude pipeline setup from perms/sec
   useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
 
+  const profiler = new GpuProfiler()
+
   // Submit first batch
   const firstBatchSize = Math.min(BATCH_WGS, gpuContext.totalWorkgroups)
   submitBatch(0, firstBatchSize, currentBuf)
 
   for (let batch = 0; batch < totalBatches; batch++) {
-    const tBatchStart = performance.now()
+    profiler.start()
     const batchStart = batch * BATCH_WGS
     const readBuf = currentBuf
 
@@ -334,24 +364,13 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
       submitBatch(nextBatchStart, nextBatchSize, nextBuf)
       currentBuf = nextBuf
     }
-
-    const tPreMap = performance.now()
-    tEncodeTotal += tPreMap - tBatchStart
+    profiler.mark('submit')
 
     await gpuContext.compactReadBuffers[readBuf].mapAsync(GPUMapMode.READ)
+    profiler.mark('mapAsync')
 
-    const tPostMap = performance.now()
-    tMapTotal += tPostMap - tPreMap
-
-    const tPreProcess = performance.now()
     processBatch(readBuf, batchStart, false)
-    tProcessTotal += performance.now() - tPreProcess
-
-    const batchMs = performance.now() - tBatchStart
-    if (batch < 15 || batchMs > 100) {
-      const tAbs = (performance.now() - tDispatchStart).toFixed(0)
-      console.log(`[OPT] Batch ${batch} @${tAbs}ms: encode=${(tPreMap - tBatchStart).toFixed(1)}ms, map=${(tPostMap - tPreMap).toFixed(1)}ms, process=${(performance.now() - tPreProcess).toFixed(1)}ms, total=${batchMs.toFixed(1)}ms, compact=${processBatchLastCount}, valid=${processBatchLastValid}`)
-    }
+    profiler.mark('process')
 
     const searchedSnapshot = permutationsSearched
     const progressSnapshot = (batch + 1) / totalBatches
@@ -362,6 +381,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
       uiState.setPermutationsSearched(searchedSnapshot)
       uiState.setOptimizerProgress(progressSnapshot)
     }, 0)
+    profiler.end('ui')
 
     if (!useOptimizerDisplayStore.getState().optimizationInProgress) {
       gpuContext.cancelled = true
@@ -370,6 +390,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
   }
 
   const tDispatchEnd = performance.now()
+  profiler.summary(gpuContext)
   console.log(`[OPT] Tuple dispatch done: ${totalBatches} batches (${BATCH_WGS} wgs/batch), ${gpuContext.totalWorkgroups} workgroups`)
   console.log(`[OPT]   wall=${(tDispatchEnd - tDispatchStart).toFixed(1)}ms, encode=${tEncodeTotal.toFixed(1)}ms, mapAsync=${tMapTotal.toFixed(1)}ms, process=${tProcessTotal.toFixed(1)}ms`)
   console.log(`[OPT]   totalCompactResults=${totalCompactResults}, totalValidCount=${totalValidCount}, overflows=${overflowedBatches.length}, queueSize=${gpuContext.resultsQueue.size()}`)
@@ -507,12 +528,11 @@ async function revisitOverflowedDispatches(
         passResult.compactReadBuffer.unmap()
       } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
 
-      // validCount was already accumulated during the main loop for this offset's dispatch
+      // Update results count but NOT endTime — the main loop's last endTime is the correct final value
       const searchedSnapshot = permutationsSearched
       await new Promise<void>((resolve) =>
         setTimeout(() => {
           const uiState = useOptimizerDisplayStore.getState()
-          uiState.setOptimizerEndTime(Date.now())
           uiState.setPermutationsResults(gpuContext.resultsQueue.size())
           uiState.setPermutationsSearched(searchedSnapshot)
           resolve()

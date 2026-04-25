@@ -149,7 +149,7 @@ function convertRelicSetIndicesTo1D(setIndices: number[][]) {
     const y = setIndices[i] // [5,5,2,3]
     const permutations = permutator(y)
     for (const x of permutations) {
-      const index1D = x[0] + x[1] * Math.pow(len, 1) + x[2] * Math.pow(len, 2) + x[3] * Math.pow(len, 3)
+      const index1D = encodeRelicSetKey(x[0], x[1], x[2], x[3])
       arr[index1D] = 1
     }
   }

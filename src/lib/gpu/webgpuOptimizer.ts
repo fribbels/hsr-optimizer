@@ -157,11 +157,12 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
     const searchedSnapshot = permutationsSearched
     const progressSnapshot = (iteration + 1) / gpuContext.iterations
     setTimeout(() => {
-      const uiState = useOptimizerDisplayStore.getState()
-      uiState.setOptimizerEndTime(Date.now())
-      uiState.setPermutationsResults(gpuContext.resultsQueue.size())
-      uiState.setPermutationsSearched(searchedSnapshot)
-      uiState.setOptimizerProgress(progressSnapshot)
+      useOptimizerDisplayStore.setState({
+        optimizerEndTime: Date.now(),
+        permutationsResults: gpuContext.resultsQueue.size(),
+        permutationsSearched: searchedSnapshot,
+        optimizerProgress: progressSnapshot,
+      })
     }, 0)
 
     if (gpuContext.permutations <= maxPermNumber || !useOptimizerDisplayStore.getState().optimizationInProgress) {
@@ -313,11 +314,12 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     const searchedSnapshot = permutationsSearched
     const progressSnapshot = (batch + 1) / totalBatches
     setTimeout(() => {
-      const uiState = useOptimizerDisplayStore.getState()
-      uiState.setOptimizerEndTime(Date.now())
-      uiState.setPermutationsResults(gpuContext.resultsQueue.size())
-      uiState.setPermutationsSearched(searchedSnapshot)
-      uiState.setOptimizerProgress(progressSnapshot)
+      useOptimizerDisplayStore.setState({
+        optimizerEndTime: Date.now(),
+        permutationsResults: gpuContext.resultsQueue.size(),
+        permutationsSearched: searchedSnapshot,
+        optimizerProgress: progressSnapshot,
+      })
     }, 0)
 
     if (!useOptimizerDisplayStore.getState().optimizationInProgress) {

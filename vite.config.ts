@@ -74,10 +74,10 @@ export default defineConfig({
     exclude: [],
   },
   worker: {
-    format: 'es',
+    format: 'iife',
     rolldownOptions: {
       output: {
-        format: 'es',
+        format: 'iife',
         codeSplitting: false,
       },
     },

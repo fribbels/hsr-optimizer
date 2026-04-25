@@ -28,7 +28,6 @@ function getWorker(): Worker {
   if (!worker) {
     worker = new Worker(
       new URL('./colorExtractionWorker.ts', import.meta.url),
-      { type: 'module' },
     )
     worker.onmessage = (e: MessageEvent<ColorWorkerResponse>) => {
       const { id, result, error } = e.data

@@ -69,7 +69,7 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       },
       Radio: { defaultProps: { size: 'xs' } },
       SegmentedControl: {
-        defaultProps: { size: 'xs', withItemsBorders: false },
+        defaultProps: { size: 'xs', withItemsBorders: false, radius: 'md' },
         styles: {
           root: { backgroundColor: 'rgba(0, 0, 0, 0.18)' },
           label: { display: 'flex', alignItems: 'center', justifyContent: 'center' },

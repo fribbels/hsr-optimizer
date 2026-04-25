@@ -207,6 +207,7 @@ let permutationRafId: number | null = null
 useOptimizerRequestStore.subscribe((state, prev) => {
   for (const key of PERMUTATION_KEYS) {
     if (state[key] !== prev[key]) {
+      if (useOptimizerDisplayStore.getState().optimizationInProgress) return
       if (permutationRafId != null) cancelAnimationFrame(permutationRafId)
       permutationRafId = requestAnimationFrame(() => {
         permutationRafId = null
@@ -360,12 +361,11 @@ export function updateCharacter(characterId: CharacterId): void {
   // Load form into store (replaces formToDisplay + setFieldsValue)
   useOptimizerRequestStore.getState().loadForm(form)
 
-  // Sync rank to character's current position in the list (saved rank may be stale if characters were reordered)
+  // Sync rank to character's current position in the list (saved rank may be stale if characters were reordered).
+  // Characters not yet in the store get the bottom rank (characters.length = append position).
   const characters = useCharacterStore.getState().characters
   const currentRank = characters.findIndex((c) => c.id === characterId)
-  if (currentRank >= 0) {
-    useOptimizerRequestStore.getState().setRelicFilterField('rank', currentRank)
-  }
+  useOptimizerRequestStore.getState().setRelicFilterField('rank', currentRank >= 0 ? currentRank : characters.length)
 
   useOptimizerDisplayStore.getState().setFocusCharacterId(characterId)
   useOptimizerRequestStore.getState().setStatDisplay(form.statDisplay ?? DEFAULT_STAT_DISPLAY)

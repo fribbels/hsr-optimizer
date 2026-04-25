@@ -79,6 +79,7 @@ export function getCharacterById(id: CharacterId | undefined): Character | undef
 // Optimizer rank sync: when characters change, update the optimizer's rank filter
 useCharacterStore.subscribe((state, prev) => {
   if (state.characters === prev.characters) return
+  if (useOptimizerDisplayStore.getState().optimizationInProgress) return
 
   const currentFocusId = useOptimizerDisplayStore.getState().focusCharacterId
   if (!currentFocusId) return

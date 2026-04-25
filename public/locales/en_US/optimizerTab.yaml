@@ -509,7 +509,9 @@ CombatBuffs:
   EFFECT_RES_PEN: Effect RES PEN %
   VULNERABILITY: Vulnerability %
   BREAK_EFFICIENCY: Break Efficiency %
+  EHR: Effect Hit Rate %
   Title: Extra combat buffs
+  Clear: Clear
 Target_one: target
 Target_other: targets
 EnemyConfiguration:

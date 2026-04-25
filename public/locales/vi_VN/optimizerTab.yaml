@@ -368,6 +368,7 @@ CombatBuffs:
   VULNERABILITY: Yếu điểm %
   BREAK_EFFICIENCY: Hiệu Suất Phá Vỡ Điểm Yếu %
   Title: Buff trong combat thêm
+  Clear: Xóa
 Target_one: mục tiêu
 Target_other: mục tiêu
 EnemyConfiguration:

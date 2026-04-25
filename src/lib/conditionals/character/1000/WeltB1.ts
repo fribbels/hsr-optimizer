@@ -324,7 +324,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // E6: Skill/Ult hitting Slow target → CR +30%, CD +60%
-      const e6DamageTags = DamageTag.SKILL | DamageTag.ULT | DamageTag.ADDITIONAL
+      // In-game E6 does not apply to additional damage
+      const e6DamageTags = DamageTag.SKILL | DamageTag.ULT
       x.buff(StatKey.CR, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.30 : 0, x.actionKind(AbilityKind.SKILL).damageType(e6DamageTags).source(SOURCE_E6))
       x.buff(StatKey.CR, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.30 : 0, x.actionKind(AbilityKind.ULT).damageType(e6DamageTags).source(SOURCE_E6))
       x.buff(StatKey.CD, (e >= 6 && r.e6SlowedCrCdBoost) ? 0.60 : 0, x.actionKind(AbilityKind.SKILL).damageType(e6DamageTags).source(SOURCE_E6))

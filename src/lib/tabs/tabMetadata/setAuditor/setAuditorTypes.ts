@@ -28,6 +28,7 @@ export type AuditorRunResult = {
   deltaPct: number
   flag: AuditorFlagLevel
   error?: boolean
+  modeLabel?: string
 }
 
 export type AuditorSetSummary = {
@@ -56,4 +57,5 @@ export type AuditorConfig = {
   characterEidolon: number
   lightConeSuperimposition: number
   teammates: SimpleCharacter[]
+  scoringModes: ('benchmark' | 'perfection')[]
 }

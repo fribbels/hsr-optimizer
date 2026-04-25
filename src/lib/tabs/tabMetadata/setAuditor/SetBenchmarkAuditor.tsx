@@ -111,6 +111,7 @@ export function SetBenchmarkAuditor(): ReactElement {
   const [selectedSetTypes, setSelectedSetTypes] = useState<string[]>(['relic4p', 'ornament'])
   const [selectedModes, setSelectedModes] = useState<string[]>(['dps'])
   const [selectedErr, setSelectedErr] = useState<string[]>(['noErr'])
+  const [selectedBenchmarkTargets, setSelectedBenchmarkTargets] = useState<string[]>(['perfection'])
 
   const characterId = form.values.characterId
   const noSim = characterId != null && !hasSimulation(characterId)
@@ -158,6 +159,7 @@ export function SetBenchmarkAuditor(): ReactElement {
       characterEidolon: formValues.characterEidolon ?? 0,
       lightConeSuperimposition: formValues.lightConeSuperimposition ?? 1,
       teammates,
+      scoringModes: selectedBenchmarkTargets as ('benchmark' | 'perfection')[],
     }
 
     cancelRef.current = false
@@ -187,7 +189,7 @@ export function SetBenchmarkAuditor(): ReactElement {
       console.error('Audit failed:', e)
       setStatus('idle')
     }
-  }, [form, selectedSpd, selectedSetTypes, selectedModes, selectedErr])
+  }, [form, selectedSpd, selectedSetTypes, selectedModes, selectedErr, selectedBenchmarkTargets])
 
   const handleCancel = useCallback(() => {
     cancelRef.current = true
@@ -232,6 +234,13 @@ export function SetBenchmarkAuditor(): ReactElement {
           <CheckboxGroupField label='SPD Breakpoints' options={SPD_OPTIONS} value={selectedSpd} onChange={setSelectedSpd} disabled={isRunning} />
           <CheckboxGroupField label='Mode' options={MODE_OPTIONS} value={selectedModes} onChange={setSelectedModes} disabled={isRunning} />
           <CheckboxGroupField label='ERR Rope' options={ERR_OPTIONS} value={selectedErr} onChange={setSelectedErr} disabled={isRunning} />
+          <CheckboxGroupField
+            label='Benchmark target'
+            options={[{ value: 'benchmark', label: '100%' }, { value: 'perfection', label: '200%' }]}
+            value={selectedBenchmarkTargets}
+            onChange={setSelectedBenchmarkTargets}
+            disabled={isRunning}
+          />
 
           {noSim && (
             <span style={{ fontSize: 14, color: '#ff6b6b' }}>This character has no DPS score simulation metadata.</span>
@@ -243,7 +252,7 @@ export function SetBenchmarkAuditor(): ReactElement {
               : (
                 <Button
                   onClick={handleRun}
-                  disabled={!characterId || !form.values.lightCone || noSim || selectedSetTypes.length === 0 || selectedSpd.length === 0 || selectedModes.length === 0}
+                  disabled={!characterId || !form.values.lightCone || noSim || selectedSetTypes.length === 0 || selectedSpd.length === 0 || selectedModes.length === 0 || selectedBenchmarkTargets.length === 0}
                 >
                   Run Audit
                 </Button>

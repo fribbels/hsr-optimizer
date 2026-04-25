@@ -6,7 +6,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { clone } from 'lib/utils/objectUtils'
 
-export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkForm, options?: { benchmarkOnly?: boolean }) {
+export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkForm, options?: { benchmarkOnly?: boolean, skipScoring?: boolean }) {
   const simulationMetadata = generateSimulationMetadata(benchmarkForm)
   const simulationRequest = generateSimulationRequest(benchmarkForm)
   const simulationSets = generateSimulationSets(benchmarkForm)
@@ -35,6 +35,9 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   if (options?.benchmarkOnly) return orchestrator
 
   await orchestrator.calculatePerfection(clonedContext)
+
+  if (options?.skipScoring) return orchestrator
+
   orchestrator.calculateScores()
   orchestrator.calculateUpgrades()
   orchestrator.calculateResults()

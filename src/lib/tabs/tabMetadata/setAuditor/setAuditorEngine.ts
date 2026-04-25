@@ -218,6 +218,22 @@ export async function runAudit(
 
   const cancelledResult = (): AuditorResults => ({ summaries: [], relicReferenceLabel: relicRefLabel, ornamentReferenceLabel: ornamentRefLabel })
 
+  const needsPerfection = config.scoringModes.includes('perfection')
+  const orchestratorOptions = needsPerfection
+    ? { skipScoring: true }
+    : { benchmarkOnly: true }
+
+  function extractScores(orchestrator: { benchmarkSimResult?: { simScore: number }, perfectionSimResult?: { simScore: number } }): number[] {
+    const scores: number[] = []
+    if (config.scoringModes.includes('benchmark')) {
+      scores.push(orchestrator.benchmarkSimResult?.simScore ?? 0)
+    }
+    if (config.scoringModes.includes('perfection')) {
+      scores.push(orchestrator.perfectionSimResult?.simScore ?? 0)
+    }
+    return scores
+  }
+
   const refCombo: AuditorSetCombo = {
     type: 'relic4p',
     relicSet1: defaultRelic1,
@@ -229,42 +245,40 @@ export async function runAudit(
   const total = allSetCombos.length * paramCombos.length + paramCombos.length
   let completed = 0
 
-  const refScoresByParam = new Map<string, number>()
+  const refScoresByParam = new Map<string, number[]>()
 
   for (const paramCombo of paramCombos) {
     if (cancelRef.current) return cancelledResult()
     try {
       const form = buildBenchmarkForm(characterId, config, refCombo, paramCombo)
-      const orchestrator = await runCustomBenchmarkOrchestrator(form, { benchmarkOnly: true })
-      refScoresByParam.set(paramKey(paramCombo), orchestrator.benchmarkSimResult?.simScore ?? 0)
+      const orchestrator = await runCustomBenchmarkOrchestrator(form, orchestratorOptions)
+      refScoresByParam.set(paramKey(paramCombo), extractScores(orchestrator))
     } catch (e) {
       console.error('Auditor reference error:', e)
-      refScoresByParam.set(paramKey(paramCombo), 0)
+      refScoresByParam.set(paramKey(paramCombo), config.scoringModes.map(() => 0))
     }
     completed++
     onProgress(completed, total)
   }
 
-  // Run all set combos and collect scores
-  const scoresBySetAndParam = new Map<string, Map<string, number>>()
+  const scoresBySetAndParam = new Map<string, Map<string, number[]>>()
 
   for (const setCombo of allSetCombos) {
     if (cancelRef.current) break
 
     const setKey = `${setCombo.type}|${setCombo.relicSet1}|${setCombo.relicSet2}|${setCombo.ornamentSet}`
-    const paramScores = new Map<string, number>()
+    const paramScores = new Map<string, number[]>()
 
     for (const paramCombo of paramCombos) {
       if (cancelRef.current) break
 
       try {
         const form = buildBenchmarkForm(characterId, config, setCombo, paramCombo)
-        const orchestrator = await runCustomBenchmarkOrchestrator(form, { benchmarkOnly: true })
-        const score = orchestrator.benchmarkSimResult?.simScore ?? 0
-        paramScores.set(paramKey(paramCombo), score)
+        const orchestrator = await runCustomBenchmarkOrchestrator(form, orchestratorOptions)
+        paramScores.set(paramKey(paramCombo), extractScores(orchestrator))
       } catch (e) {
         console.error(`Auditor error for ${setCombo.label} at ${paramKey(paramCombo)}:`, e)
-        paramScores.set(paramKey(paramCombo), -1)
+        paramScores.set(paramKey(paramCombo), [-1])
       }
 
       completed++
@@ -290,23 +304,29 @@ export async function runAudit(
 
     for (const paramCombo of paramCombos) {
       const pk = paramKey(paramCombo)
-      const score = paramScores.get(pk) ?? 0
-      const referenceScore = refScoresByParam.get(pk) ?? 0
+      const scores = paramScores.get(pk) ?? [-1]
+      const refScores = refScoresByParam.get(pk) ?? config.scoringModes.map(() => 0)
 
-      let deltaPct = 0
-      if (referenceScore > 0 && score > 0) {
-        deltaPct = ((score - referenceScore) / referenceScore) * 100
-      } else if (score < 0) {
-        deltaPct = -999
-      }
+      for (let m = 0; m < config.scoringModes.length; m++) {
+        const score = scores[m] ?? 0
+        const referenceScore = refScores[m] ?? 0
 
-      const flag: AuditorFlagLevel = matched ? null : computeFlag(deltaPct)
+        let deltaPct = 0
+        if (referenceScore > 0 && score > 0) {
+          deltaPct = ((score - referenceScore) / referenceScore) * 100
+        } else if (score < 0) {
+          deltaPct = -999
+        }
 
-      results.push({ setCombo, paramCombo, score, referenceScore, deltaPct, flag, error: score < 0 })
+        const flag: AuditorFlagLevel = matched ? null : computeFlag(deltaPct)
+        const modeLabel = config.scoringModes[m] === 'perfection' ? '200%' : '100%'
 
-      if (deltaPct > bestDelta) {
-        bestDelta = deltaPct
-        bestDeltaParams = paramCombo
+        results.push({ setCombo, paramCombo, score, referenceScore, deltaPct, flag, error: score < 0, modeLabel })
+
+        if (deltaPct > bestDelta) {
+          bestDelta = deltaPct
+          bestDeltaParams = paramCombo
+        }
       }
     }
 

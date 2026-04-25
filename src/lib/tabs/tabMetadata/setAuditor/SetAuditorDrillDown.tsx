@@ -12,6 +12,7 @@ export function SetAuditorDrillDown(props: {
         <tr>
           <th style={{ textAlign: 'left', padding: '4px 8px', width: 40 }}>Flag</th>
           <th style={{ textAlign: 'left', padding: '4px 8px', width: 100 }}>Delta</th>
+          <th style={{ textAlign: 'left', padding: '4px 8px' }}>Target</th>
           <th style={{ textAlign: 'left', padding: '4px 8px' }}>Parameters</th>
           <th style={{ textAlign: 'right', padding: '4px 8px' }}>Score</th>
           <th style={{ textAlign: 'right', padding: '4px 8px' }}>Reference</th>
@@ -27,6 +28,9 @@ export function SetAuditorDrillDown(props: {
               </td>
               <td style={{ padding: '3px 8px', fontFamily: 'monospace', fontWeight: 600 }}>
                 {result.error ? '—' : `${result.deltaPct >= 0 ? '+' : ''}${result.deltaPct.toFixed(2)}%`}
+              </td>
+              <td style={{ padding: '3px 8px', fontSize: 12, opacity: 0.7 }}>
+                {result.modeLabel ?? ''}
               </td>
               <td style={{ padding: '3px 8px' }}>
                 {formatParamCombo(result.paramCombo.spd, result.paramCombo.subDps, result.paramCombo.errRope)}

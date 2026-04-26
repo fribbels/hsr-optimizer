@@ -36,6 +36,7 @@ import { DebugSliderPanel } from 'lib/characterPreview/DebugSliderPanel'
 import {
   CARD_BG_ALPHA_DEFAULT,
   type DebugVisualConfig,
+  getShowcasePreset,
   INSET_BLUR,
   INSET_OPACITY,
   PORTRAIT_BLUR,
@@ -47,7 +48,6 @@ import {
   SHADOW_X,
   SHADOW_Y,
   TEXT_SHADOW_DEFAULT,
-  getShowcasePreset,
   useDebugVisualConfigStore,
 } from 'lib/characterPreview/debugVisualConfigStore'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
@@ -90,7 +90,10 @@ import type {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import type { ShowcaseDisplayDimensionsOverride, ShowcaseTemporaryOptions } from 'types/metadata'
+import type {
+  ShowcaseDisplayDimensionsOverride,
+  ShowcaseTemporaryOptions,
+} from 'types/metadata'
 import {
   ScoringSelector,
   SimScoringContextProvider,
@@ -294,7 +297,9 @@ export function CharacterPreview({
     return <CharacterPreviewWithDebug character={character} forceDebug={forceDebug} {...rest} />
   }
 
-  return <CharacterPreviewInner character={character} forceDebug={forceDebug} debugVisualConfig={debugVisualConfig} editorOverrides={editorOverrides} {...rest} />
+  return (
+    <CharacterPreviewInner character={character} forceDebug={forceDebug} debugVisualConfig={debugVisualConfig} editorOverrides={editorOverrides} {...rest} />
+  )
 }
 
 /** Wrapper that subscribes to debug store and renders panel - only used when CARD_DEBUG */
@@ -330,7 +335,16 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
   // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
   // handles the equipped field difference (Relic objects vs string IDs).
-  const character = rawCharacter as Character
+  const character = !savedBuildOverride
+    ? rawCharacter as Character
+    : {
+      ...rawCharacter,
+      form: {
+        ...rawCharacter.form,
+        lightCone: savedBuildOverride.lightCone,
+        lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
+      },
+    } as Character
 
   // Debug visual config with defaults — preset-aware (Satin/Gloss)
   const { t } = useTranslation('gameData')
@@ -374,7 +388,16 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       return baseLayout
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character, state.teamSelection, effectiveScoringType, savedBuildOverride, _scoringMetadataCacheBuster, t, forceDebug, editorOverrides?.forceSimScoreLayout],
+    [
+      character,
+      state.teamSelection,
+      effectiveScoringType,
+      savedBuildOverride,
+      _scoringMetadataCacheBuster,
+      t,
+      forceDebug,
+      editorOverrides?.forceSimScoreLayout,
+    ],
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====
@@ -451,10 +474,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // Apply editor overrides for live preview editing
   const displayDimensions = editorOverrides
     ? {
-        ...baseDisplayDimensions,
-        charCenter: editorOverrides.charCenter ?? baseDisplayDimensions.charCenter,
-        backgroundCenterOffset: editorOverrides.backgroundCenterOffset ?? baseDisplayDimensions.backgroundCenterOffset,
-      }
+      ...baseDisplayDimensions,
+      charCenter: editorOverrides.charCenter ?? baseDisplayDimensions.charCenter,
+      backgroundCenterOffset: editorOverrides.backgroundCenterOffset ?? baseDisplayDimensions.backgroundCenterOffset,
+    }
     : baseDisplayDimensions
 
   const scoredRelics = scoringResults.relics ?? EMPTY_SCORED

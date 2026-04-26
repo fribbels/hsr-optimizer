@@ -113,7 +113,7 @@ export function useCharacterPreviewState(
 
   const finalStats = useMemo(() => {
     if (!narrowedCharacter || !previewRelics) return undefined
-    return getShowcaseStats(narrowedCharacter, previewRelics.displayRelics)
+    return getShowcaseStats(narrowedCharacter, previewRelics.displayRelics, savedBuildOverride)
   }, [narrowedCharacter, previewRelics])
 
   return {

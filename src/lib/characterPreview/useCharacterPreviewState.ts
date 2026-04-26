@@ -103,18 +103,15 @@ export function useCharacterPreviewState(
   // Reference changes when scoring overrides change (SPD weight, deprioritize buffs) — busts the memos below
   const scoringMetadata = useScoringMetadata(character.id)
 
-  // ShowcaseTabCharacter is handled correctly downstream via the source param — cast is safe
-  const narrowedCharacter = character as Character
-
-  const previewRelics = useMemo(() => {
-    return getPreviewRelics(source, narrowedCharacter, relicsById, savedBuildOverride)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- scoringMetadata is an intentional cache-buster, not used inside the callback
-  }, [source, narrowedCharacter, relicsById, savedBuildOverride, scoringMetadata])
-
-  const finalStats = useMemo(() => {
-    if (!narrowedCharacter || !previewRelics) return undefined
-    return getShowcaseStats(narrowedCharacter, previewRelics.displayRelics, savedBuildOverride)
-  }, [narrowedCharacter, previewRelics])
+  const { previewRelics, finalStats } = useMemo(() => {
+    // ShowcaseTabCharacter is handled correctly downstream via the source param — casts are safe
+    const previewRelics = getPreviewRelics(source, character as Character, relicsById, savedBuildOverride)
+    const finalStats = (character && previewRelics)
+      ? getShowcaseStats(character as Character, previewRelics.displayRelics, savedBuildOverride)
+      : undefined
+    return { previewRelics, finalStats }
+    // scoringMetadata is an intentional cache-buster, not used inside the callback
+  }, [source, character, relicsById, savedBuildOverride, scoringMetadata])
 
   return {
     selectedRelic,

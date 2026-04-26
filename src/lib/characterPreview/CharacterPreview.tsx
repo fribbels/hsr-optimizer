@@ -335,16 +335,18 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
   // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
   // handles the equipped field difference (Relic objects vs string IDs).
-  const character = !savedBuildOverride
-    ? rawCharacter as Character
-    : {
-      ...rawCharacter,
-      form: {
-        ...rawCharacter.form,
-        lightCone: savedBuildOverride.lightCone,
-        lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
-      },
-    } as Character
+  const character = useMemo(() => {
+    return !savedBuildOverride
+      ? rawCharacter as Character
+      : {
+        ...rawCharacter,
+        form: {
+          ...rawCharacter.form,
+          lightCone: savedBuildOverride.lightCone,
+          lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
+        },
+      } as Character
+  }, [rawCharacter, savedBuildOverride])
 
   // Debug visual config with defaults — preset-aware (Satin/Gloss)
   const { t } = useTranslation('gameData')

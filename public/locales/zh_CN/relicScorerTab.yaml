@@ -5,6 +5,7 @@ Messages:
   SuccessMsg: 成功加载个人资料
   LookupError: 查找时出错，请稍后再试
   NoCharacterSelected: 未选择角色
+  NoSelectedLightCone: 无选定光锥
   CharacterAlreadyExists: 所选角色已经存在
   UnknownButtonClicked: 点击了未知按钮
 Header:

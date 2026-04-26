@@ -76,6 +76,7 @@ export const TheDahliaAbilities: AbilityKind[] = [
   AbilityKind.ULT,
   AbilityKind.FUA,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -105,6 +106,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultDefPenValue = ult(e, 0.18, 0.20)
 
   const superBreakScaling = talent(e, 0.60, 0.66)
+
+  const beConversionScaling = 0.24
+  const beConversionFlat = 0.50
 
   const defaults = {
     zoneActive: true,
@@ -309,6 +313,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
         },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.buff()
+              .buffStat(StatKey.BE)
+              .beScaling(beConversionScaling)
+              .flatBuff(beConversionFlat)
+              .build(),
+          ],
+        },
       }
     },
     actionModifiers() {
@@ -486,6 +499,29 @@ const simulation = (): SimulationMetadata => ({
   ],
 })
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.Feet]: [Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.ERR, Stats.BE],
+  },
+  substats: [Stats.BE, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  relicSets: [
+    [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+  ],
+  ornamentSets: [Sets.ForgeOfTheKalpagniLantern, Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.SprightlyVonwacq],
+  teammates: [
+    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+  ],
+  deprioritizeBuffs: false,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -520,6 +556,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

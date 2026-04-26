@@ -26,6 +26,7 @@ import type {
   DBMetadataCharacter,
   SimulationMetadata,
 } from 'types/metadata'
+import type { OptimizerContext } from 'types/optimizer'
 import type { Relic } from 'types/relic'
 
 // Stats string to StatKey mapping - defined here to avoid circular dependency with keys.ts
@@ -133,6 +134,7 @@ export type RelicBuild = {
 export type PartialSimulationWrapper = {
   simulation: Simulation,
   speedRollsDeduction: number,
+  resRollsDeduction: number,
   effectiveSubstats: string[],
 }
 
@@ -142,6 +144,7 @@ export type SimulationFlags = {
   characterPoetActive: boolean,
   forceErrRope: boolean,
   benchmarkBasicSpdTarget: number,
+  benchmarkBasicResTarget: number,
 }
 
 export const benchmarkScoringParams: ScoringParams = {
@@ -286,12 +289,26 @@ export function simSorter(a: Simulation, b: Simulation) {
   return bResult.simScore - aResult.simScore
 }
 
-export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true, user = false) {
+export function applyScoringFunction(
+  result: RunStatSimulationsResult,
+  metadata: SimulationMetadata,
+  penalty = true,
+  user = false,
+  scoringActionKey?: string,
+  context?: OptimizerContext,
+) {
   if (!result) return
 
-  const unpenalizedSimScore = result.x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
+  const unpenalizedSimScore = scoringActionKey && context
+    ? getActionRegisterByName(result, context, scoringActionKey)
+    : result.x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
+}
+
+function getActionRegisterByName(result: RunStatSimulationsResult, context: OptimizerContext, name: string): number {
+  const action = context.defaultActions.find((a) => a.actionName === name)
+  return action ? result.x.getActionRegisterValue(action.registerIndex) : 0
 }
 
 function calculatePenaltyMultiplier(

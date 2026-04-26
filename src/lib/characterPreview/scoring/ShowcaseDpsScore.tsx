@@ -241,6 +241,43 @@ function ShowcaseDpsScoreHeaderPending({ t }: { t: TFunction<'charactersTab', un
   )
 }
 
+export const ShowcaseSupportScoreHeader = memo(function ShowcaseSupportScoreHeader({ relics }: {
+  relics: PreviewRelics,
+}) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>
+      <StatText className={styles.scoreHeaderText}>
+        Support Sim
+      </StatText>
+      <ShowcaseSupportScoreHeaderReady relics={relics} />
+    </div>
+  )
+})
+
+function ShowcaseSupportScoreHeaderReady({ relics }: {
+  relics: PreviewRelics,
+}) {
+  const result = useSimScoringContext(ScoringSelector.SupportScore)
+
+  if (result === null) {
+    return (
+      <StatText className={styles.scoreHeaderText} style={{ filter: 'blur(2px)' }}>
+        Support Score Loading...
+      </StatText>
+    )
+  }
+
+  const verified = Object.values(relics).filter((x) => x?.verified).length === 6
+  const numRelics = Object.values(relics).filter((x) => !!x).length
+  const lightCone = !!result.simulationForm.lightCone
+
+  return (
+    <StatText className={styles.scoreHeaderText}>
+      {`Support Score ${localeNumber_0(truncate10ths(Math.max(0, result.percent * 100)))}% ${getSimScoreGrade(result.percent, verified, numRelics, lightCone)}`}
+    </StatText>
+  )
+}
+
 function formatSpd(n: number) {
   return truncate10ths(n).toFixed(1)
 }

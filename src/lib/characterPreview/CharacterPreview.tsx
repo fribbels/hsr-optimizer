@@ -55,6 +55,7 @@ import {
   ShowcaseCombatScoreDetailsFooter,
   ShowcaseDpsScoreHeader,
   ShowcaseDpsScorePanel,
+  ShowcaseSupportScoreHeader,
 } from 'lib/characterPreview/scoring/ShowcaseDpsScore'
 import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
@@ -463,6 +464,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     <SimScoringContextProvider
       character={character}
       simulationMetadata={layout.simulationMetadata}
+      supportSimulationMetadata={layout.supportSimulationMetadata}
       showcaseTemporaryOptions={tempOptions}
       singleRelicByPart={displayRelics}
     >
@@ -585,12 +587,16 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 finalStats={state.finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 scoringType={scoringType}
-                hasScoring={layout.simulationMetadata !== null}
+                hasScoring={layout.simulationMetadata !== null || layout.supportSimulationMetadata !== null}
               />
 
               {scoringType === ScoringType.COMBAT_SCORE && (
                 <>
                   <ShowcaseDpsScoreHeader relics={displayRelics} tempOptions={tempOptions} />
+
+                  {layout.supportSimulationMetadata && (
+                    <ShowcaseSupportScoreHeader relics={displayRelics} />
+                  )}
 
                   <ShowcaseDpsScorePanel
                     characterId={showcaseMetadata.characterId}

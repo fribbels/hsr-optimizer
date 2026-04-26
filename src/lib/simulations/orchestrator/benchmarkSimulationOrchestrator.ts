@@ -59,6 +59,8 @@ import type {
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationUtils'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
+import { StatCalculator } from 'lib/relics/statCalculator'
+import { applyBasicResTargetFlag } from 'lib/simulations/utils/benchmarkResTargets'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import type { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -162,6 +164,7 @@ export class BenchmarkSimulationOrchestrator {
 
   public percent?: number
   public simulationScore?: SimulationScore
+  public scoringActionKey?: string
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -171,6 +174,7 @@ export class BenchmarkSimulationOrchestrator {
       characterPoetActive: false,
       forceErrRope: false,
       benchmarkBasicSpdTarget: 0,
+      benchmarkBasicResTarget: 0,
     }
   }
 
@@ -325,7 +329,12 @@ export class BenchmarkSimulationOrchestrator {
     const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
     const originalSpd = precisionRound(originalSimResult.x.c.SPD.get(), 3)
 
-    applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
+    if (!this.metadata.skipSpdEqualization) {
+      applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
+    }
+    if (this.scoringActionKey) {
+      applyBasicResTargetFlag(flags, originalSimResult)
+    }
 
     // Run a second sim with basic SPD forced at benchmarkBasicSpdTarget
     // This will emulate the character's relics at the benchmark SPD
@@ -382,6 +391,17 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
+      // Find the RES deduction (if equalized)
+      if (flags.benchmarkBasicResTarget > 0) {
+        const baseRes = simulationResult.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
+        const resGap = flags.benchmarkBasicResTarget - baseRes
+        if (resGap > 0) {
+          const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, clonedBenchmarkScoringParams.quality)
+          const resRolls = resGap / resMaxedSubValue
+          partialSimulationWrapper.resRollsDeduction = Math.min(Math.max(0, resRolls), 10)
+        }
+      }
+
       // Define min/max limits
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
       const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, baselineSimResult, flags)
@@ -399,6 +419,7 @@ export class BenchmarkSimulationOrchestrator {
         metadata: metadata,
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
+        scoringActionKey: this.scoringActionKey,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -414,6 +435,10 @@ export class BenchmarkSimulationOrchestrator {
 
     candidates.sort(simSorter)
     const benchmarkSim = candidates[0]
+
+    if (!benchmarkSim) {
+      throw new Error(`Benchmark produced no valid candidates (${runnerResults.length} runners, ${candidates.length} candidates)`)
+    }
 
     this.benchmarkSimCandidates = candidates
     this.benchmarkSimResult = cloneWorkerResult(benchmarkSim.result!)
@@ -448,6 +473,17 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
+      // Find the RES deduction (if equalized)
+      if (flags.benchmarkBasicResTarget > 0) {
+        const baseRes = simulationResult.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
+        const resGap = flags.benchmarkBasicResTarget - baseRes
+        if (resGap > 0) {
+          const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, clonedPerfectionScoringParams.quality)
+          const resRolls = resGap / resMaxedSubValue
+          partialSimulationWrapper.resRollsDeduction = Math.min(Math.max(0, resRolls), 10)
+        }
+      }
+
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
       const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, baselineSimResult, flags)
 
@@ -463,6 +499,7 @@ export class BenchmarkSimulationOrchestrator {
         metadata: metadata,
         scoringParams: clone(maximumScoringParams),
         simulationFlags: flags,
+        scoringActionKey: this.scoringActionKey,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -478,6 +515,10 @@ export class BenchmarkSimulationOrchestrator {
     candidates.sort(simSorter)
     const perfectionSim = candidates[0]
 
+    if (!perfectionSim) {
+      throw new Error(`Perfection produced no valid candidates (${runnerResults.length} runners, ${candidates.length} candidates)`)
+    }
+
     this.perfectionSimCandidates = candidates
     this.perfectionSimResult = cloneWorkerResult(perfectionSim.result!)
     this.perfectionSimRequest = perfectionSim.request
@@ -490,8 +531,8 @@ export class BenchmarkSimulationOrchestrator {
     const benchmarkSimResult = this.benchmarkSimResult!
     const perfectionSimResult = this.perfectionSimResult!
 
-    applyScoringFunction(baselineSimResult, metadata)
-    applyScoringFunction(originalSimResult, metadata, true, true)
+    applyScoringFunction(baselineSimResult, metadata, true, false, this.scoringActionKey, this.context)
+    applyScoringFunction(originalSimResult, metadata, true, true, this.scoringActionKey, this.context)
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore
@@ -517,6 +558,7 @@ export class BenchmarkSimulationOrchestrator {
       this.baselineSimResult?.simScore!,
       this.benchmarkSimResult?.simScore!,
       this.perfectionSimResult?.simScore!,
+      this.scoringActionKey,
     )
 
     this.substatUpgradeResults = substatUpgradeResults

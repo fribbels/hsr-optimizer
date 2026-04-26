@@ -1,4 +1,7 @@
 import type {
+  AKeyValue,
+} from 'lib/optimization/engine/config/keys'
+import type {
   ElementTag,
   OutputTag,
 } from 'lib/optimization/engine/config/tag'
@@ -100,6 +103,38 @@ export interface ElationHitDefinition extends BaseHitDefinition {
   minElationOverride?: number // Minimum Elation value - uses max(attacker's Elation, this value) for this hit
 }
 
+export interface BuffHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.Buff
+  damageType: 0
+  outputTag: OutputTag.BUFF
+  buffStat: AKeyValue
+
+  // Linear formula params (Bronya, Robin, etc.)
+  cdScaling?: number
+  beScaling?: number
+  flatBuff?: number
+  // atkScaling, hpScaling, defScaling already on BaseHitDefinition
+
+  // Step function params (Ruan Mei)
+  stepParams?: {
+    statKey: AKeyValue
+    threshold: number
+    stepSize: number
+    stepValue: number
+    cap: number
+  }
+
+  // Piecewise linear params (Yaoguang)
+  piecewiseParams?: {
+    statKey: AKeyValue
+    threshold: number
+    slope: number
+    flat: number
+    slopeCap: number
+    shareScaling: number
+  }
+}
+
 // Union type for all hit definitions
 export type HitDefinition =
   | CritHitDefinition
@@ -111,6 +146,7 @@ export type HitDefinition =
   | ShieldHitDefinition
   | HealTallyHitDefinition
   | ElationHitDefinition
+  | BuffHitDefinition
 
 // Specialized Hit types (definition + runtime fields)
 export type CritHit = CritHitDefinition & HitRuntime
@@ -122,9 +158,10 @@ export type HealHit = HealHitDefinition & HitRuntime
 export type ShieldHit = ShieldHitDefinition & HitRuntime
 export type HealTallyHit = HealTallyHitDefinition & HitRuntime
 export type ElationHit = ElationHitDefinition & HitRuntime
+export type BuffHit = BuffHitDefinition & HitRuntime
 
 // Union type for all hits (definition + runtime fields)
-export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit | HealTallyHit | ElationHit
+export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit | HealTallyHit | ElationHit | BuffHit
 
 export interface EntityDefinition {
   primary: boolean

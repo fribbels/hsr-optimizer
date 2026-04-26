@@ -28,10 +28,6 @@ import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import {
-  type AbilityKind,
-  type TurnAbilityName,
-} from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   SetsOrnaments,
   SetsRelics,
@@ -52,6 +48,7 @@ import type {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
+import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   OptimizerAction,
   OptimizerContext,
@@ -240,7 +237,7 @@ export function simulateBuild(
 
     // Capture action damage for each default action
     for (const action of defaultActions) {
-      actionDamage[action.actionName as AbilityKind] = x.getActionRegisterValue(action.registerIndex)
+      actionDamage[action.actionType] = (actionDamage[action.actionType] ?? 0) + x.getActionRegisterValue(action.registerIndex)
     }
 
     // Capture per-step rotation damage

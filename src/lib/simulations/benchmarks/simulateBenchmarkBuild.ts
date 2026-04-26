@@ -49,6 +49,7 @@ export function generatePartialSimulations(
           const partialSimulationWrapper: PartialSimulationWrapper = {
             simulation: simulation,
             speedRollsDeduction: 0,
+            resRollsDeduction: 0,
             effectiveSubstats: metadata.substats,
           }
           results.push(partialSimulationWrapper)

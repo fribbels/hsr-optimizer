@@ -5,6 +5,7 @@ import {
   wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
   HKey,
   type HKeyValue,
@@ -16,6 +17,7 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   type AdditionalHit,
   type BreakHit,
+  type BuffHit,
   type CritHit,
   type DotHit,
   type ElationHit,
@@ -43,6 +45,7 @@ export enum DamageFunctionType {
   Shield,
   HealTally,
   Elation,
+  Buff,
 }
 
 interface DamageMultipliers {
@@ -892,6 +895,96 @@ export const ElationDamageFunction: DamageFunction = {
   },
 }
 
+// Buff hits compute a support character's buff value from their own stats.
+// DMG_BOOST on buff hits is an additive contribution channel for set team buffs routed via outputBuff().
+export const BuffDamageFunction: DamageFunction = {
+  apply: (x, action, hitIndex) => {
+    const hit = action.hits![hitIndex] as BuffHit
+    const scalingEntityIndex = hit.scalingEntityIndex ?? hit.sourceEntityIndex ?? 0
+
+    let baseBuffValue: number
+
+    if (hit.stepParams) {
+      const p = hit.stepParams
+      const stat = x.getValue(p.statKey, hitIndex, scalingEntityIndex)
+      const stepsOver = Math.floor(precisionRound((stat * 100 - p.threshold * 100) / (p.stepSize * 100)))
+      baseBuffValue = Math.min(p.cap, Math.max(0, stepsOver) * p.stepValue)
+    } else if (hit.piecewiseParams) {
+      const p = hit.piecewiseParams
+      const stat = x.getValue(p.statKey, hitIndex, scalingEntityIndex)
+      if (stat < p.threshold) {
+        baseBuffValue = 0
+      } else {
+        const over = Math.min(p.slopeCap, stat - p.threshold)
+        baseBuffValue = (p.flat + over * p.slope) * p.shareScaling
+      }
+    } else {
+      const atk = x.getValue(StatKey.ATK, hitIndex, scalingEntityIndex)
+      const hp = x.getValue(StatKey.HP, hitIndex, scalingEntityIndex)
+      const def = x.getValue(StatKey.DEF, hitIndex, scalingEntityIndex)
+      const cd = x.getValue(StatKey.CD, hitIndex, scalingEntityIndex)
+      const be = x.getValue(StatKey.BE, hitIndex, scalingEntityIndex)
+
+      baseBuffValue = (hit.atkScaling ?? 0) * atk
+        + (hit.hpScaling ?? 0) * hp
+        + (hit.defScaling ?? 0) * def
+        + (hit.cdScaling ?? 0) * cd
+        + (hit.beScaling ?? 0) * be
+        + (hit.flatBuff ?? 0)
+    }
+
+    const buffContribution = x.getHitValue(HKey.DMG_BOOST, hitIndex)
+    return baseBuffValue + buffContribution
+  },
+  wgsl: (action, hitIndex, context) => {
+    const hit = action.hits![hitIndex] as BuffHit
+    const config = action.config
+    const entityIndex = hit.sourceEntityIndex ?? 0
+    const scalingEntityIndex = hit.scalingEntityIndex ?? entityIndex
+
+    const getScalingValue = (stat: StatKeyValue) => containerGetValue(scalingEntityIndex, hitIndex, stat, config)
+    const getHitValue = (stat: HKeyValue) => containerHitVal(entityIndex, hitIndex, stat, config)
+    const shouldRecord = hit.recorded !== false
+
+    let formulaWgsl: string
+
+    if (hit.stepParams) {
+      const p = hit.stepParams
+      const stat = getScalingValue(p.statKey)
+      // WGSL f32 floor() is sufficient — precisionRound is only needed for CPU f64
+      formulaWgsl = `
+  let stat = ${stat};
+  let stepsOver = floor(max(0.0, (stat * 100.0 - ${p.threshold * 100}.0) / ${p.stepSize * 100}.0));
+  let baseBuffValue = min(${p.cap}, stepsOver * ${p.stepValue});`
+    } else if (hit.piecewiseParams) {
+      const p = hit.piecewiseParams
+      const stat = getScalingValue(p.statKey)
+      formulaWgsl = `
+  let stat = ${stat};
+  let over = max(0.0, stat - ${p.threshold});
+  let baseBuffValue = select(0.0, (${p.flat} + min(${p.slopeCap}, over) * ${p.slope}) * ${p.shareScaling}, stat >= ${p.threshold});`
+    } else {
+      formulaWgsl = `
+  let atk = ${getScalingValue(StatKey.ATK)};
+  let hp = ${getScalingValue(StatKey.HP)};
+  let def = ${getScalingValue(StatKey.DEF)};
+  let cd = ${getScalingValue(StatKey.CD)};
+  let be = ${getScalingValue(StatKey.BE)};
+  let baseBuffValue = ${hit.atkScaling ?? 0} * atk + ${hit.hpScaling ?? 0} * hp + ${hit.defScaling ?? 0} * def
+    + ${hit.cdScaling ?? 0} * cd + ${hit.beScaling ?? 0} * be + ${hit.flatBuff ?? 0};`
+    }
+
+    return wgsl`
+{${formulaWgsl}
+  let buffContribution = ${getHitValue(HKey.DMG_BOOST)};
+  let buffResult = baseBuffValue + buffContribution;
+  ${shouldRecord ? 'comboBuff += buffResult;' : ''}
+  ${wgslDebugHitRegister(hit, context, 'buffResult')}
+}
+`
+  },
+}
+
 const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> = {
   [DamageFunctionType.Default]: DefaultDamageFunction,
   [DamageFunctionType.Crit]: CritDamageFunction,
@@ -903,6 +996,7 @@ const DamageFunctionRegistry: Record<DamageFunctionType, DamageFunction> = {
   [DamageFunctionType.Shield]: ShieldDamageFunction,
   [DamageFunctionType.HealTally]: HealTallyDamageFunction,
   [DamageFunctionType.Elation]: ElationDamageFunction,
+  [DamageFunctionType.Buff]: BuffDamageFunction,
 }
 
 export function getDamageFunction(type: DamageFunctionType): DamageFunction {

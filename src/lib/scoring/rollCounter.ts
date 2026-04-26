@@ -32,7 +32,7 @@ export function calculateMinSubstatRollCounts(
     [Stats.CR]: scoringParams.freeRolls,
     [Stats.CD]: scoringParams.freeRolls,
     [Stats.EHR]: scoringParams.freeRolls,
-    [Stats.RES]: scoringParams.freeRolls,
+    [Stats.RES]: partialSimulationWrapper.resRollsDeduction || scoringParams.freeRolls,
     [Stats.BE]: scoringParams.freeRolls,
   }
 
@@ -76,7 +76,7 @@ export function calculateMaxSubstatRollCounts(
     // What does this do?
     maxCounts[stat] = Math.min(
       maxCounts[stat],
-      scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction),
+      scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0),
     )
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
   }
@@ -88,6 +88,11 @@ export function calculateMaxSubstatRollCounts(
 
   // Force speed
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
+
+  // Force RES when equalized
+  if (partialSimulationWrapper.resRollsDeduction > 0) {
+    maxCounts[Stats.RES] = partialSimulationWrapper.resRollsDeduction
+  }
 
   // The simplifications should not go below 6 rolls otherwise it interferes with possible build enforcement
   // These should only apply to the 200% benchmark as it doesn't have diminishing returns to account for
@@ -139,11 +144,12 @@ export function calculateMaxSubstatRollCounts(
       )
   }
 
-  // Forced speed rolls will take up slots from the 36 potential max rolls of other stats
-  const nonSpeedSubsCapDeduction = Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 6
+  // Forced speed/RES rolls will take up slots from the 36 potential max rolls of other stats
+  const totalDeductions = Math.ceil(partialSimulationWrapper.speedRollsDeduction) + Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0) - 6
   for (const stat of SubStats) {
     if (stat == Stats.SPD) continue
-    maxCounts[stat] = Math.max(scoringParams.baselineFreeRolls, Math.min(maxCounts[stat], 36 - nonSpeedSubsCapDeduction))
+    if (stat == Stats.RES && partialSimulationWrapper.resRollsDeduction > 0) continue
+    maxCounts[stat] = Math.max(scoringParams.baselineFreeRolls, Math.min(maxCounts[stat], 36 - totalDeductions))
   }
 
   return maxCounts

@@ -16,6 +16,7 @@ import {
   ConditionalActivation,
   ConditionalType,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -26,7 +27,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
@@ -34,7 +35,7 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -44,6 +45,7 @@ export const SparkleB1Entities = createEnum('SparkleB1')
 export const SparkleB1Abilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -67,6 +69,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillCdBuffBase = skill(e, 0.45, 0.486)
   const cipherTalentStackBoost = ult(e, 0.06, 0.0648)
   const talentBaseStackBoost = talent(e, 0.04, 0.044)
+
+  const effectiveCdScaling = skillCdBuffScaling + (e >= 6 ? 0.30 : 0)
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -185,6 +189,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
         ],
       },
+      [AbilityKind.BUFF]: {
+        hits: [
+          HitDefinitionBuilder.buff()
+            .buffStat(StatKey.CD)
+            .cdScaling(effectiveCdScaling)
+            .flatBuff(skillCdBuffBase)
+            .build(),
+        ],
+      },
     }),
     actionModifiers: () => [],
 
@@ -285,6 +298,29 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.CD],
+    [Parts.Feet]: [Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.ERR],
+  },
+  substats: [Stats.CD, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  relicSets: [
+    [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+  ],
+  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.PenaconyLandOfTheDreams],
+  teammates: [
+    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+  ],
+  deprioritizeBuffs: false,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -320,6 +356,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

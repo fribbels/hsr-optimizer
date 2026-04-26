@@ -13,6 +13,7 @@ import {
 import type {
   AdditionalHitDefinition,
   BreakHitDefinition,
+  BuffHitDefinition,
   CritHitDefinition,
   DotHitDefinition,
   ElationHitDefinition,
@@ -232,4 +233,14 @@ HitDefinitionBuilder.healTally = () =>
     damageFunctionType: DamageFunctionType.HealTally,
     outputTag: OutputTag.DAMAGE,
     directHit: true,
+  })
+
+HitDefinitionBuilder.buff = () =>
+  genericBuilder<BuffHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Buff,
+    damageType: 0,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.BUFF,
+    directHit: false,
   })

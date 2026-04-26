@@ -1,5 +1,4 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import {
@@ -7,6 +6,9 @@ import {
   executeUpgradeOrchestrator,
   prepareOrchestrator,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import {
+  prepareSupportOrchestrator,
+} from 'lib/simulations/orchestrator/runSupportScoreBenchmarkOrchestrator'
 import type {
   RunStatSimulationsResult,
   Simulation,
@@ -238,6 +240,110 @@ export function requestScoreUpgrades(
   })
 
   upgradePromiseCache.set(cacheKey, promise)
+  return promise
+}
+
+export function computeSupportScoringCacheKey(
+  character: Character,
+  simulationMetadata: SimulationMetadata | null,
+  singleRelicByPart: PreviewRelics,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+): string | null {
+  if (!simulationMetadata) return null
+
+  return objectHash({
+    scoringType: 'support',
+    form: character.form,
+    singleRelicByPart,
+    simulationMetadata,
+    showcaseTemporaryOptions,
+  })
+}
+
+export function getOrComputeSupportPreview(
+  cacheKey: string,
+  character: Character,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: PreviewRelics,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+): PreparedState | null {
+  if (cacheKey === null) return null
+  if (previewCache.has(cacheKey)) return previewCache.get(cacheKey)!
+
+  try {
+    const orchestrator = prepareSupportOrchestrator(
+      character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions,
+    )
+
+    const preview: PreparedState = {
+      originalSimResult: orchestrator.originalSimResult!,
+      baselineSimResult: orchestrator.baselineSimResult!,
+      originalSpd: orchestrator.originalSpd!,
+      characterMetadata: getGameMetadata().characters[character.id],
+      deprioritizeBuffs: false,
+      originalSim: orchestrator.originalSim!,
+      simForm: orchestrator.form!,
+    }
+
+    previewCache.set(cacheKey, preview)
+    if (!resultCache.has(cacheKey)) {
+      orchestratorCache.set(cacheKey, orchestrator)
+    }
+    return preview
+  } catch (error) {
+    console.error('Support preview preparation failed:', error)
+    return null
+  }
+}
+
+export function requestSupportScore(
+  cacheKey: string | null,
+  character: Character,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: PreviewRelics,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+): Promise<SimulationScore | null> {
+  if (cacheKey === null) return Promise.resolve(null)
+
+  if (resultCache.has(cacheKey)) {
+    return Promise.resolve(resultCache.get(cacheKey)!)
+  }
+
+  if (hasExceededRetries(cacheKey)) {
+    return Promise.resolve(null)
+  }
+
+  if (promiseCache.has(cacheKey)) {
+    return promiseCache.get(cacheKey)!
+  }
+
+  const promise = new Promise<SimulationScore | null>((resolve) => {
+    setTimeout(async () => {
+      try {
+        const orchestrator = orchestratorCache.get(cacheKey) ?? orchestratorCache
+          .set(cacheKey, prepareSupportOrchestrator(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions))
+          .get(cacheKey)!
+
+        orchestratorCache.delete(cacheKey)
+
+        await executeOrchestrator(orchestrator)
+
+        const score = orchestrator.simulationScore!
+        score.characterMetadata = getGameMetadata().characters[character.id]
+        resultCache.set(cacheKey, score)
+        previewCache.delete(cacheKey)
+        resolve(score)
+      } catch (error) {
+        console.error('Support scoring error:', error)
+        failedRetries.set(cacheKey, (failedRetries.get(cacheKey) ?? 0) + 1)
+        resolve(null)
+      } finally {
+        promiseCache.delete(cacheKey)
+      }
+    }, 0)
+  })
+
+  promiseCache.set(cacheKey, promise)
   return promise
 }
 

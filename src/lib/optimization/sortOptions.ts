@@ -87,6 +87,7 @@ export const SortOption: {
   ULT_SHIELD: SortOptionProperties,
   FUA_SHIELD: SortOptionProperties,
   TALENT_SHIELD: SortOptionProperties,
+  BUFF: SortOptionProperties,
 } = {
   // Base stats — each has basic/combat/memo-basic/memo-combat grid columns
   ATK: baseStat('ATK', true),
@@ -128,6 +129,9 @@ export const SortOption: {
   ULT_SHIELD: computed('ULT_SHIELD'),
   FUA_SHIELD: computed('FUA_SHIELD'),
   TALENT_SHIELD: computed('TALENT_SHIELD'),
+
+  // Computed buff rating
+  BUFF: computed('BUFF'),
 }
 
 export function getGridColumn(option: SortOptionProperties, statDisplay: string, memoDisplay: string): string {

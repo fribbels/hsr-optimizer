@@ -7,6 +7,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -23,7 +24,10 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
@@ -33,7 +37,10 @@ import {
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -43,6 +50,7 @@ export const RuanMeiEntities = createEnum('RuanMei')
 export const RuanMeiAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -172,6 +180,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
         ],
       },
+      [AbilityKind.BUFF]: {
+        hits: [
+          HitDefinitionBuilder.buff()
+            .buffStat(StatKey.DMG_BOOST)
+            .stepParams({
+              statKey: StatKey.BE,
+              threshold: 1.20,
+              stepSize: 0.10,
+              stepValue: 0.06,
+              cap: 0.36,
+            })
+            .build(),
+        ],
+      },
     }),
     actionModifiers: () => [],
 
@@ -234,6 +256,30 @@ ${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
   }
 }
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.Feet]: [Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.ERR, Stats.BE],
+  },
+  substats: [Stats.BE, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],
+  errRopeEidolon: 0,
+  breakpoints: { [Stats.BE]: 1.80 },
+  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  relicSets: [
+    [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+  ],
+  ornamentSets: [Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.SprightlyVonwacq],
+  teammates: [
+    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+  ],
+  deprioritizeBuffs: false,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -266,6 +312,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

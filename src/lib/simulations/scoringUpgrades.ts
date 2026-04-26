@@ -39,6 +39,7 @@ export function generateStatImprovements(
   baselineSimScore: number,
   benchmarkSimScore: number,
   maximumSimScore: number,
+  scoringActionKey?: string,
 ) {
   // Upgrade substats
   const substatUpgradeResults: SimulationStatUpgrade[] = []
@@ -52,7 +53,7 @@ export function generateStatImprovements(
       substatRollsModifier: (num: number) => num,
     })[0]
 
-    applyScoringFunction(statImprovementResult, metadata, true, true)
+    applyScoringFunction(statImprovementResult, metadata, true, true, scoringActionKey, context)
     substatUpgradeResults.push({
       stat: stat,
       simulation: originalSimClone,
@@ -72,7 +73,7 @@ export function generateStatImprovements(
     substatRollsModifier: (num: number) => num,
   })[0]
 
-  applyScoringFunction(setUpgradeResult, metadata, true, true)
+  applyScoringFunction(setUpgradeResult, metadata, true, true, scoringActionKey, context)
   setUpgradeResults.push({
     simulation: originalSimClone,
     simulationResult: setUpgradeResult,
@@ -97,7 +98,7 @@ export function generateStatImprovements(
         substatRollsModifier: (num: number) => num,
       })[0]
 
-      applyScoringFunction(mainUpgradeResult, metadata, true, true)
+      applyScoringFunction(mainUpgradeResult, metadata, true, true, scoringActionKey, context)
       const simulationStatUpgrade = {
         stat: upgradeMainStat,
         part: part,

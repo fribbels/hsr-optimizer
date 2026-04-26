@@ -13,6 +13,7 @@ import type {
 import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { resolveDpsScoreSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import { resolveSupportScoreSimulationMetadata } from 'lib/simulations/orchestrator/runSupportScoreBenchmarkOrchestrator'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import type {
   Character,
@@ -35,6 +36,7 @@ export interface ShowcaseLayout {
   showcaseMetadata: ShowcaseMetadata
   currentSelection: string
   simulationMetadata: SimulationMetadata | null
+  supportSimulationMetadata: SimulationMetadata | null
   hasSimulation: boolean
   scoringType: ScoringType
   portraitToUse: CustomImageConfig | undefined
@@ -49,7 +51,8 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const showcaseMetadata = getShowcaseMetadata(character, t)
   const currentSelection = handleTeamSelection(character, teamSelection)
   const simulationMetadata = resolveDpsScoreSimulationMetadata(character, currentSelection, savedBuildOverride)
-  const hasSimulation = simulationMetadata != null
+  const supportSimulationMetadata = resolveSupportScoreSimulationMetadata(character, currentSelection, savedBuildOverride)
+  const hasSimulation = simulationMetadata != null || supportSimulationMetadata != null
   const scoringType = resolveScoringType(storedScoringType, hasSimulation)
 
   const portraitToUse = getCharacterById(character.id)?.portrait
@@ -62,6 +65,7 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
     showcaseMetadata,
     currentSelection,
     simulationMetadata: scoringType === ScoringType.COMBAT_SCORE ? simulationMetadata : null,
+    supportSimulationMetadata: scoringType === ScoringType.COMBAT_SCORE ? supportSimulationMetadata : null,
     hasSimulation,
     scoringType,
     portraitToUse,

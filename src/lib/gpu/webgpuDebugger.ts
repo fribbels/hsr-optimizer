@@ -66,11 +66,12 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
     COMBO: 0,
     HEAL: 0,
     SHIELD: 0,
+    BUFF: 0,
   }
 
   // Map default actions to fields (includes damage, heal, and shield actions)
   for (const action of context.defaultActions) {
-    const field = action.actionName
+    const field = action.actionType
     if (field) {
       const value = x.getActionRegisterValue(action.registerIndex)
       fields[field] = (fields[field] ?? 0) + value
@@ -89,6 +90,8 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
           fields.HEAL += hitValue
         } else if (hit.outputTag === OutputTag.SHIELD) {
           fields.SHIELD += hitValue
+        } else if (hit.outputTag === OutputTag.BUFF) {
+          fields.BUFF += hitValue
         }
       }
     }

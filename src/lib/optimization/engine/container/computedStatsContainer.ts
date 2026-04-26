@@ -43,6 +43,7 @@ import {
 } from 'lib/optimization/engine/container/buffBuilder'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
+  type BuffHit,
   type EntityDefinition,
   type Hit,
 } from 'types/hitConditionalTypes'
@@ -431,6 +432,7 @@ export class ComputedStatsContainer {
       config._directnessTag,
       config._actionKind,
       config._deferrable,
+      config._buffStatFilter,
     )
   }
 
@@ -451,6 +453,7 @@ export class ComputedStatsContainer {
       config._directnessTag,
       config._actionKind,
       config._deferrable,
+      config._buffStatFilter,
     )
   }
 
@@ -471,6 +474,7 @@ export class ComputedStatsContainer {
       config._directnessTag,
       config._actionKind,
       config._deferrable,
+      config._buffStatFilter,
     )
   }
 
@@ -491,6 +495,7 @@ export class ComputedStatsContainer {
       config._directnessTag,
       config._actionKind,
       config._deferrable,
+      config._buffStatFilter,
     )
   }
 
@@ -511,6 +516,7 @@ export class ComputedStatsContainer {
       config._directnessTag,
       config._actionKind,
       config._deferrable,
+      config._buffStatFilter,
     )
   }
 
@@ -531,6 +537,7 @@ export class ComputedStatsContainer {
       config._directnessTag,
       config._actionKind,
       config._deferrable,
+      config._buffStatFilter,
     )
     this.internalBuffDynamic(
       key,
@@ -588,6 +595,7 @@ export class ComputedStatsContainer {
     directnessTag: number,
     actionKind: string | undefined,
     deferrable: boolean = false,
+    buffStatFilter: AKeyValue | null = null,
   ): void {
     if (value === 0 && operator === Operator.ADD) return
 
@@ -613,6 +621,7 @@ export class ComputedStatsContainer {
       || effectiveDamageTags !== ALL_DAMAGE_TAGS
       || outputTags !== OutputTag.DAMAGE
       || directnessTag !== ALL_DIRECTNESS_TAGS
+      || buffStatFilter !== null
 
     for (const entityIndex of targetEntities) {
       if (!needsHitFiltering) {
@@ -624,7 +633,7 @@ export class ComputedStatsContainer {
         if (hitKey === undefined) {
           throw new Error(`Cannot apply hit-level buff to action-only stat: ${getAKeyName(key)}`)
         }
-        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, effectiveDamageTags, outputTags, directnessTag)
+        this.applyToMatchingHits(entityIndex, hitKey, value, operator, elementTags, effectiveDamageTags, outputTags, directnessTag, buffStatFilter)
       }
     }
 
@@ -701,6 +710,7 @@ export class ComputedStatsContainer {
     damageTags: DamageTag,
     outputTags: OutputTag,
     directnessTag: number,
+    buffStatFilter: AKeyValue | null = null,
   ): void {
     // Skip if no hits defined (some actions like non-transformed Phainon ULT have no damage hits)
     if (this.config.hitsLength === 0) {
@@ -718,7 +728,8 @@ export class ComputedStatsContainer {
       // Shield/heal hits have ElementTag.None (0), so check for ALL_DAMAGE/ELEMENT_TAGS before bitwise AND
       const damageMatches = damageTags === ALL_DAMAGE_TAGS || (hit.damageType & damageTags)
       const elementMatches = elementTags === ALL_ELEMENT_TAGS || (hit.damageElement & elementTags)
-      if (directnessMatches && damageMatches && elementMatches && (hit.outputTag & outputTags)) {
+      if (directnessMatches && damageMatches && elementMatches && (hit.outputTag & outputTags)
+        && (!buffStatFilter || (hit as BuffHit).buffStat === buffStatFilter)) {
         operation(this.a, this.getHitIndex(entityIndex, hitIndex, hitKey), value)
       }
     }
@@ -839,6 +850,10 @@ export class ComputedStatsContainer {
 
   outputType(o: OutputTag): IncompleteHitBuff {
     return this.builder.reset().outputType(o)
+  }
+
+  outputBuff(stat: AKeyValue): IncompleteHitBuff {
+    return this.builder.reset().outputBuff(stat)
   }
 
   directness(d: DirectnessTag): IncompleteHitBuff {

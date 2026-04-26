@@ -27,7 +27,8 @@ export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
   metadata: SimulationMetadata
   scoringParams: ScoringParams
   simulationFlags: SimulationFlags
-  workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION
+  workerType: WorkerType
+  scoringActionKey?: string
 }
 
 export interface ComputeOptimalSimulationWorkerOutput extends BaseWorkerOutput {

@@ -72,6 +72,7 @@ export const YaoguangAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.ELATION_SKILL,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals: CharacterConditionalFunction = (e, withContent) => {
@@ -291,6 +292,21 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.buff()
+              .buffStat(StatKey.ELATION)
+              .piecewiseParams({
+                statKey: StatKey.SPD,
+                threshold: 120,
+                slope: 0.01,
+                flat: 0.30,
+                slopeCap: 200,
+                shareScaling: skillElationBuff,
+              })
+              .build(),
           ],
         },
       }
@@ -534,6 +550,29 @@ const simulation = (): SimulationMetadata => ({
   ],
 })
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.Feet]: [Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.ERR],
+  },
+  substats: [Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P, Stats.ATK_P],
+  errRopeEidolon: 0,
+  skipSpdEqualization: true,
+  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  relicSets: [
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+  ],
+  ornamentSets: [Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.SprightlyVonwacq],
+  teammates: [
+    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+  ],
+  deprioritizeBuffs: false,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -566,6 +605,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

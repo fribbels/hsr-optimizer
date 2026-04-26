@@ -29,7 +29,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type ScoringMetadata } from 'types/metadata'
+import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
 
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -37,11 +37,12 @@ import {
   type OptimizerContext,
 } from 'types/optimizer'
 
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 export const TingyunEntities = createEnum('Tingyun')
 export const TingyunAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
+  AbilityKind.BUFF,
   AbilityKind.BREAK,
 ]
 
@@ -174,6 +175,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.buff()
+              .buffStat(StatKey.ATK)
+              .atkScaling(skillAtkBoostScaling)
+              .build(),
+          ],
+        },
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
@@ -252,6 +261,28 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.ATK_P],
+    [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ERR],
+  },
+  substats: [Stats.ATK_P, Stats.ATK, Stats.SPD, Stats.HP_P, Stats.DEF_P],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  relicSets: [
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+  ],
+  ornamentSets: [Sets.FleetOfTheAgeless, Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.LushakaTheSunkenSeas],
+  teammates: [
+    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+  ],
+  deprioritizeBuffs: false,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
@@ -289,6 +320,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [],
   sortOption: SortOption.SPD,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

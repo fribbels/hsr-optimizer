@@ -9,10 +9,17 @@ import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/Estimate
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 
+import {
+  ScoringSelector,
+  useSimScoringContext,
+} from 'lib/characterPreview/SimScoringContext'
+import { getSimScoreGrade } from 'lib/scoring/dpsScore'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
+import { localeNumber_0 } from 'lib/utils/i18nUtils'
+import { truncate10ths } from 'lib/utils/mathUtils'
 import {
   memo,
   Suspense,
@@ -38,7 +45,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
 
   const { characterMetadata } = showcaseMetadata
 
-  const simulationNull = characterMetadata.scoringMetadata.simulation == null
+  const simulationNull = characterMetadata.scoringMetadata.simulation == null && characterMetadata.scoringMetadata.supportSimulation == null
   const segmentData = useMemo(() => [
     {
       label: simulationNull
@@ -93,11 +100,14 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
       {scoringType === ScoringType.COMBAT_SCORE
         && !simulationNull
         && (
-          <CharacterScoringSummary
-            displayRelics={displayRelics}
-            showcaseMetadata={showcaseMetadata}
-            source={source}
-          />
+          <>
+            <CharacterScoringSummary
+              displayRelics={displayRelics}
+              showcaseMetadata={showcaseMetadata}
+              source={source}
+            />
+            <SupportScoreSummary />
+          </>
         )}
       {(scoringType === ScoringType.SUBSTAT_SCORE || simulationNull)
         && (
@@ -125,6 +135,23 @@ function StatScoringSummary({ displayRelics, showcaseMetadata }: {
       <EstimatedTbpRelicsDisplay
         displayRelics={displayRelics}
         showcaseMetadata={showcaseMetadata}
+      />
+    </div>
+  )
+}
+
+function SupportScoreSummary() {
+  const result = useSimScoringContext(ScoringSelector.SupportScore)
+  if (!result) return null
+
+  const percent = Math.max(0, result.percent * 100)
+  const grade = getSimScoreGrade(result.percent, true, 6, true)
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 0' }}>
+      <ColorizedTitleWithInfo
+        text={`Support Score: ${localeNumber_0(truncate10ths(percent))}% ${grade}`}
+        url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
       />
     </div>
   )

@@ -50,6 +50,7 @@ const conditionals: SetConditionals = {
     x.buff(StatKey.DMG_BOOST, 0.12, x.outputType(OutputTag.SHIELD).source(Source.SelfEnshroudedRecluse))
     if (setConditionals.enabledSelfEnshroudedRecluse && !x.config.teammateSetEffects[Sets.SelfEnshroudedRecluse]) {
       x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
+      x.buff(StatKey.DMG_BOOST, 0.15, x.outputBuff(StatKey.CD).source(Source.SelfEnshroudedRecluse))
     }
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
@@ -59,6 +60,7 @@ const conditionals: SetConditionals = {
         ${buff.hit(HKey.DMG_BOOST, 0.12).outputType(OutputTag.SHIELD).wgsl(action, 3)}
         if (setConditionals.enabledSelfEnshroudedRecluse == true && ${wgslFalse(action.config.teammateSetEffects[Sets.SelfEnshroudedRecluse])}) {
           ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 4)}
+          ${buff.hit(HKey.DMG_BOOST, 0.15).outputBuff(StatKey.CD).wgsl(action, 5)}
         }
       }
     }

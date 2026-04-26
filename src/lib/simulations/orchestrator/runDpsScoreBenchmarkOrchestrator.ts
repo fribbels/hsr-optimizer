@@ -41,7 +41,7 @@ export function prepareOrchestrator(
   // Apply scoring function now so the preview simScore matches what calculateScores
   // will produce later. This is idempotent — applyScoringFunction reads from
   // result.x (ComputedStatsContainer), not from result.simScore.
-  applyScoringFunction(orchestrator.originalSimResult!, orchestrator.metadata, true, true)
+  applyScoringFunction(orchestrator.originalSimResult!, orchestrator.metadata, true, true, orchestrator.scoringActionKey, orchestrator.context)
 
   return orchestrator
 }

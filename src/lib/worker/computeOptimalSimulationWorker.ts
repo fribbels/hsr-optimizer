@@ -81,6 +81,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     metadata,
     scoringParams,
     simulationFlags,
+    scoringActionKey,
   } = input
 
   scoringParams.substatRollsModifier = scoringParams.quality === 0.8
@@ -113,10 +114,10 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
     mergedScoringParams.stabilize = stabilize
-    mergedScoringParams.skipDefaults = !stabilize
+    mergedScoringParams.skipDefaults = scoringActionKey ? false : !stabilize
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
-    applyScoringFunction(currentSimulation.result, metadata)
+    applyScoringFunction(currentSimulation.result, metadata, true, false, scoringActionKey, context)
     return currentSimulation.result.simScore
   }
 

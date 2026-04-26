@@ -21,6 +21,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -30,7 +31,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -38,7 +39,7 @@ import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type NumberToNumberMap } from 'types/common'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -50,6 +51,7 @@ export const PermansorTerraeAbilities: AbilityKind[] = [
   AbilityKind.ULT,
   AbilityKind.FUA,
   AbilityKind.SKILL_SHIELD,
+  AbilityKind.BUFF,
   AbilityKind.BREAK,
 ]
 
@@ -67,6 +69,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1414')
+
+  const traceAtkBuffScaling = 0.15
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -233,6 +237,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.buff()
+              .buffStat(StatKey.ATK)
+              .atkScaling(traceAtkBuffScaling)
+              .build(),
+          ],
+        },
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
@@ -292,6 +304,28 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.ATK_P],
+    [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ERR, Stats.ATK_P],
+  },
+  substats: [Stats.ATK_P, Stats.ATK, Stats.SPD, Stats.HP_P, Stats.DEF_P],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  relicSets: [
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+  ],
+  ornamentSets: [Sets.FleetOfTheAgeless, Sets.LushakaTheSunkenSeas, Sets.PenaconyLandOfTheDreams],
+  teammates: [
+    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+  ],
+  deprioritizeBuffs: false,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
@@ -332,6 +366,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ATK,
   addedColumns: [],
   hiddenColumns: [SortOption.DOT, SortOption.SKILL],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

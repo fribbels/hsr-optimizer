@@ -40,6 +40,7 @@ export type ScoringMetadata = {
   /*      optimizer       */ addedColumns?: SortOptionProperties[],
   /* optimizer/dps score  */ traces?: { deactivated: string[] },
   /*      dps score       */ simulation?: SimulationMetadata,
+  /*   support score     */ supportSimulation?: SimulationMetadata,
 }
 
 export type ScoringParts = Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>
@@ -77,6 +78,7 @@ export type SimulationMetadata = {
   breakpoints?: {
     [stat: string]: number,
   },
+  skipSpdEqualization?: boolean,
 }
 
 export type ElementalResPenType =

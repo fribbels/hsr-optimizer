@@ -266,7 +266,7 @@ ${compactWrite(`dmg${matchingIndex}`)}
 `
   }
 
-  throw new Error(`GPU sort: unsupported sort option '${sortKey}'`)
+  return ''
 }
 
 function generateRegisterCopy(actionIndex: number, action: OptimizerAction, context: OptimizerContext): string {
@@ -388,6 +388,7 @@ fn unrolledAction${index}(
   var comboDmg = 0.0;
   var comboHeal = 0.0;
   var comboShield = 0.0;
+  var comboBuff = 0.0;
 
   ${setCombatWgsl}
 
@@ -414,7 +415,7 @@ fn unrolledAction${index}(
   
   // Return value
   
-  return comboDmg + comboHeal + comboShield;
+  return comboDmg + comboHeal + comboShield + comboBuff;
 }
   `
 
@@ -432,7 +433,7 @@ function unrollDamageCalculations(action: OptimizerAction, context: OptimizerCon
 
   if (gpuParams.DEBUG) {
     // Set action register with total combo damage
-    code += wgslDebugActionRegister(action, context, 'comboDmg + comboHeal + comboShield') + '\n'
+    code += wgslDebugActionRegister(action, context, 'comboDmg + comboHeal + comboShield + comboBuff') + '\n'
   }
 
   return wgsl`

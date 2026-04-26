@@ -20,3 +20,7 @@ ShowComboDmgWarning:
   Label: 显示连招伤害警告
   Show: '默认：显示警告'
   Hide: 隐藏警告
+NewCharacterDefaultRank:
+  Label: 新角色默认排序
+  First: '默认：最高优先级（第1位）'
+  Last: 最低优先级

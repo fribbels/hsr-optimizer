@@ -160,6 +160,7 @@ CharacterPreview:
     Character:
       LoadingHeader: Character build
       Header: 'Character build ({{score}}%)'
+      Sets: Character sets
       BasicStats: Character <1>basic stats</1>
       CombatStats: Character <1>combat stats</1>
       Substats: Character subs (min rolls)
@@ -167,6 +168,7 @@ CharacterPreview:
       Abilities: Character ability damage
     Benchmark:
       Header: 'Benchmark build ({{score}}%)'
+      Sets: 100% benchmark sets
       BasicStats: 100% benchmark <1>basic stats</1>
       CombatStats: 100% benchmark <1>combat stats</1>
       Substats: 100% benchmark subs (min rolls)
@@ -174,6 +176,7 @@ CharacterPreview:
       Abilities: 100% benchmark ability damage
     Perfect:
       Header: 'Perfect build ({{score}}%)'
+      Sets: 200% perfect sets
       BasicStats: 200% perfect <1>basic stats</1>
       CombatStats: 200% perfect <1>combat stats</1>
       Substats: 200% perfect subs (max rolls)

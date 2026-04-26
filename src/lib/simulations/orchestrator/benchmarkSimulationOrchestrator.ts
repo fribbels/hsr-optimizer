@@ -31,6 +31,7 @@ import {
   calculateMinSubstatRollCounts,
 } from 'lib/scoring/rollCounter'
 import type {
+  PoolComboState,
   SimulationFlags,
   SimulationScore,
 } from 'lib/scoring/simScoringUtils'
@@ -38,6 +39,7 @@ import {
   applyScoringFunction,
   baselineScoringParams,
   benchmarkScoringParams,
+  buildCandidateSetPool,
   cloneSimResult,
   cloneWorkerResult,
   invertDiminishingReturnsSpdFormula,
@@ -140,6 +142,11 @@ export class BenchmarkSimulationOrchestrator {
   public benchmarkCombatSpdTarget?: number
   public originalSpd?: number
 
+  public candidateSetPool?: SimulationSets[]
+  public poolComboStates?: PoolComboState[]
+  public benchmarkWinnerPoolIndex?: number
+  public benchmarkBaselineScore?: number
+
   public baselineSim?: Simulation
   public baselineSimRequest?: SimulationRequest
   public baselineSimResult?: RunStatSimulationsResult
@@ -224,6 +231,10 @@ export class BenchmarkSimulationOrchestrator {
 
   public setSimSets(simSets: SimulationSets) {
     this.simSets = simSets
+  }
+
+  public setCandidateSetPool() {
+    this.candidateSetPool = buildCandidateSetPool(this.simSets!, this.originalSimRequest!)
   }
 
   public setSimForm(form: SimpleCharacter, simulationMetadata: SimulationMetadata) {
@@ -347,12 +358,82 @@ export class BenchmarkSimulationOrchestrator {
     this.originalSim.result = this.originalSimResult
   }
 
+  public precomputePoolState() {
+    const pool = this.candidateSetPool ?? [this.simSets!]
+    const form = this.form!
+    const context = this.context!
+
+    this.poolComboStates = pool.map((setCombo) => {
+      const isPoet = setCombo.relicSet1 === Sets.PoetOfMourningCollapse
+                  && setCombo.relicSet2 === Sets.PoetOfMourningCollapse
+
+      // Baseline (zero substats, mainStatMultiplier: 0)
+      const baselineRequest = {
+        ...this.originalSimRequest!,
+        stats: {},
+        simRelicSet1: setCombo.relicSet1,
+        simRelicSet2: setCombo.relicSet2,
+        simOrnamentSet: setCombo.ornamentSet,
+      } as SimulationRequest
+      const baselineSim: Simulation = {
+        simType: StatSimTypes.SubstatRolls,
+        request: baselineRequest,
+      } as Simulation
+      const baselineParams: RunSimulationsParams = {
+        ...baselineScoringParams,
+        mainStatMultiplier: 0,
+        simulationFlags: this.flags,
+      }
+      const baselineResult = cloneSimResult(
+        runStatSimulations([baselineSim], form, context, baselineParams)[0],
+      )
+      applyScoringFunction(baselineResult, this.metadata)
+
+      // SPD target
+      let combatSpdTarget: number
+      let basicSpdTarget: number
+      let comboFlags: SimulationFlags
+
+      if (isPoet) {
+        const scratchFlags: SimulationFlags = { ...this.flags, simPoetActive: true }
+        applyBasicSpeedTargetFlag(
+          scratchFlags,
+          baselineResult,
+          this.originalSpd!,
+          this.spdBenchmark,
+        )
+        basicSpdTarget = scratchFlags.benchmarkBasicSpdTarget
+
+        // Convert basic -> combat SPD via forced-SPD sim
+        const conversionParams: RunSimulationsParams = {
+          ...baselineScoringParams,
+          mainStatMultiplier: 0,
+          simulationFlags: scratchFlags,
+        }
+        const conversionResult = runStatSimulations([baselineSim], form, context, conversionParams)[0]
+        combatSpdTarget = conversionResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
+        comboFlags = scratchFlags
+      } else {
+        combatSpdTarget = this.benchmarkCombatSpdTarget!
+        basicSpdTarget = this.flags.benchmarkBasicSpdTarget
+        comboFlags = this.flags
+      }
+
+      return {
+        sets: setCombo,
+        baselineScore: baselineResult.simScore,
+        combatSpdTarget,
+        basicSpdTarget,
+        isPoet,
+        flags: comboFlags,
+      }
+    })
+  }
+
   public async calculateBenchmark(clonedContext: OptimizerContext) {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
-    const flags = this.flags
-    const targetSpd = this.benchmarkCombatSpdTarget!
     const baselineSimResult = this.baselineSimResult!
 
     const clonedBenchmarkScoringParams = clone(benchmarkScoringParams)
@@ -363,13 +444,13 @@ export class BenchmarkSimulationOrchestrator {
     console.time('===== Benchmark runner time ' + id)
 
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
+      const comboState = this.poolComboStates![partialSimulationWrapper.poolIndex]
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
-      // Find the speed deduction
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
       const rolls = precisionRound(
-        invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue),
+        invertDiminishingReturnsSpdFormula(mainsCount, comboState.combatSpdTarget - finalSpeed, clonedBenchmarkScoringParams.speedRollValue),
         3,
       )
 
@@ -382,11 +463,9 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
-      // Define min/max limits
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, baselineSimResult, flags)
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, comboState.flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, baselineSimResult, comboState.flags)
 
-      // Start the sim search at the max then iterate downwards
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
 
       const input: ComputeOptimalSimulationWorkerInput = {
@@ -398,7 +477,7 @@ export class BenchmarkSimulationOrchestrator {
         context: clonedContext,
         metadata: metadata,
         scoringParams: clonedBenchmarkScoringParams,
-        simulationFlags: flags,
+        simulationFlags: comboState.flags,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -410,23 +489,27 @@ export class BenchmarkSimulationOrchestrator {
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
     console.timeEnd('===== Benchmark runner time ' + id)
 
-    // console.log(candidates)
-
     candidates.sort(simSorter)
     const benchmarkSim = candidates[0]
 
     this.benchmarkSimCandidates = candidates
     this.benchmarkSimResult = cloneWorkerResult(benchmarkSim.result!)
     this.benchmarkSimRequest = benchmarkSim.request
+
+    // Find winner's pool index by matching the request's sets back to the pool
+    const pool = this.candidateSetPool ?? [this.simSets!]
+    this.benchmarkWinnerPoolIndex = Math.max(0, pool.findIndex((s) =>
+      s.relicSet1 === benchmarkSim.request.simRelicSet1
+      && s.relicSet2 === benchmarkSim.request.simRelicSet2
+      && s.ornamentSet === benchmarkSim.request.simOrnamentSet,
+    ))
   }
 
   public async calculatePerfection(clonedContext: OptimizerContext) {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
-    const targetSpd = this.benchmarkCombatSpdTarget!
     const baselineSimResult = this.baselineSimResult!
-    const flags = this.flags
 
     const clonedPerfectionScoringParams = clone(maximumScoringParams)
 
@@ -434,10 +517,11 @@ export class BenchmarkSimulationOrchestrator {
     const id = uuid()
     console.time('===== Perfection runner time ' + id)
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
+      const comboState = this.poolComboStates![partialSimulationWrapper.poolIndex]
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
-      const rolls = precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
+      const rolls = precisionRound((comboState.combatSpdTarget - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
 
       partialSimulationWrapper.speedRollsDeduction = Math.min(
         Math.max(0, rolls),
@@ -448,8 +532,8 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, baselineSimResult, flags)
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, comboState.flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, baselineSimResult, comboState.flags)
 
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
 
@@ -462,7 +546,7 @@ export class BenchmarkSimulationOrchestrator {
         context: clonedContext,
         metadata: metadata,
         scoringParams: clone(maximumScoringParams),
-        simulationFlags: flags,
+        simulationFlags: comboState.flags,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -474,7 +558,6 @@ export class BenchmarkSimulationOrchestrator {
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
     console.timeEnd('===== Perfection runner time ' + id)
 
-    // Find the highest scoring
     candidates.sort(simSorter)
     const perfectionSim = candidates[0]
 
@@ -495,12 +578,28 @@ export class BenchmarkSimulationOrchestrator {
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore
-    const baselineSimScore = baselineSimResult.simScore
-    const perfectionSimScore = perfectionSimResult.simScore
+    const perfectionSimScore = Math.max(perfectionSimResult.simScore, benchmarkSimScore)
 
-    const percent = originalSimScore >= benchmarkSimScore
-      ? 1 + (originalSimScore - benchmarkSimScore) / (perfectionSimScore - benchmarkSimScore)
-      : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+    // Look up benchmark winner's baseline from pre-computed pool state
+    const baselineSimScore = this.poolComboStates
+      ? this.poolComboStates[this.benchmarkWinnerPoolIndex!].baselineScore
+      : baselineSimResult.simScore
+
+    // Store for calculateUpgrades() and calculateResults()
+    this.benchmarkBaselineScore = baselineSimScore
+
+    let percent: number
+    if (originalSimScore >= benchmarkSimScore) {
+      const range = perfectionSimScore - benchmarkSimScore
+      percent = range > 0
+        ? 1 + (originalSimScore - benchmarkSimScore) / range
+        : 1
+    } else {
+      const range = benchmarkSimScore - baselineSimScore
+      percent = range > 0
+        ? (originalSimScore - baselineSimScore) / range
+        : 0
+    }
 
     this.percent = percent
   }
@@ -514,7 +613,7 @@ export class BenchmarkSimulationOrchestrator {
       this.metadata,
       this.flags,
       benchmarkScoringParams,
-      this.baselineSimResult?.simScore!,
+      this.benchmarkBaselineScore ?? this.baselineSimResult?.simScore!,
       this.benchmarkSimResult?.simScore!,
       this.perfectionSimResult?.simScore!,
     )
@@ -539,7 +638,7 @@ export class BenchmarkSimulationOrchestrator {
       maximumSimResult: this.perfectionSimResult!,
 
       originalSimScore: this.originalSimResult!.simScore,
-      baselineSimScore: this.baselineSimResult!.simScore,
+      baselineSimScore: this.benchmarkBaselineScore ?? this.baselineSimResult!.simScore,
       benchmarkSimScore: this.benchmarkSimResult!.simScore,
       maximumSimScore: this.perfectionSimResult!.simScore,
 

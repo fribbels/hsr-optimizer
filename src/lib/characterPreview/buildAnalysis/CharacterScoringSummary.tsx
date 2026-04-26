@@ -46,10 +46,6 @@ import {
 
 // ─── Primitives used by ScoringBenchmarksPanel ───────────────────────────────
 
-function ScoringSet(props: { set: string }) {
-  return <img src={Assets.getSetImage(props.set)} className={classes.setImage} />
-}
-
 function ScoringNumber(props: {
   label: string,
   number?: number,
@@ -134,48 +130,6 @@ function BenchmarkDefaultLayout() {
                 <ScoringTeammate form={preview.simForm} index={0} />
                 <ScoringTeammate form={preview.simForm} index={1} />
                 <ScoringTeammate form={preview.simForm} index={2} />
-              </div>
-            </div>
-          </DeferCreate>
-
-          <VerticalDivider />
-
-          <DeferCreate>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-              <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('SimulationSets')}
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
-                <div style={{ display: 'flex' }}>
-                  <SuspenseNode
-                    selector={(score: SimulationScore | null) =>
-                      score
-                        ? <ScoringSet set={score.maximumSim.request.simRelicSet1} />
-                        : null}
-                    promise={scoringPromise}
-                    circle
-                    className={classes.setImage}
-                  />
-                  <SuspenseNode
-                    selector={(score: SimulationScore | null) =>
-                      score
-                        ? <ScoringSet set={score.maximumSim.request.simRelicSet2} />
-                        : null}
-                    promise={scoringPromise}
-                    circle
-                    className={classes.setImage}
-                  />
-                </div>
-
-                <SuspenseNode
-                  selector={(score: SimulationScore | null) =>
-                    score
-                      ? <ScoringSet set={score.maximumSim.request.simOrnamentSet} />
-                      : null}
-                  promise={scoringPromise}
-                  circle
-                  className={classes.setImage}
-                />
               </div>
             </div>
           </DeferCreate>

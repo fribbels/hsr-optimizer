@@ -31,12 +31,14 @@ export function prepareOrchestrator(
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequestWithRelics(singleRelicByPart)
   orchestrator.setSimSetsWithSimRequest()
+  orchestrator.setCandidateSetPool()
   orchestrator.setSimForm(character.form, simulationMetadata)
   orchestrator.setSimContext()
   orchestrator.setFlags()
 
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
+  orchestrator.precomputePoolState()
 
   // Apply scoring function now so the preview simScore matches what calculateScores
   // will produce later. This is idempotent — applyScoringFunction reads from

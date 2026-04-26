@@ -34,6 +34,7 @@ Messages:
   RemoveSuccess: 成功移除角色
   UnequipSuccess: 成功卸下角色遗器
   NoSelectedCharacter: 未选择角色
+  NoSelectedLightCone: 无选定光锥
   SwitchSuccess: '成功与$t(gameData:Characters.{{charId}}.Name)互换装备'
   SortByScoreWarning: 你确定要对所有角色进行排序吗？ 你将失去你所设置的任何自定义排序。
   SaveSuccess: '成功保存配装: {{name}}'
@@ -86,6 +87,7 @@ CharacterPreview:
     SavedPortrait: 成功保存角色图像
     RevertedPortrait: 成功还原角色图像
     NoSelectedCharacter: 未选择角色
+    NoSelectedLightCone: 无选定光锥
   ScoreHeader:
     Title: 战斗模拟
     TitleBenchmark: '{{spd}}速度基准'

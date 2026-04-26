@@ -342,6 +342,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         ...rawCharacter,
         form: {
           ...rawCharacter.form,
+          characterEidolon: savedBuildOverride.characterEidolon,
           lightCone: savedBuildOverride.lightCone,
           lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
         },

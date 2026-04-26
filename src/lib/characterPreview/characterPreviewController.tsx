@@ -219,6 +219,7 @@ export function getShowcaseStats(
     ? character.form
     : {
       ...character.form,
+      characterEidolon: savedBuildOverride.characterEidolon,
       lightCone: savedBuildOverride.lightCone,
       lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
     }

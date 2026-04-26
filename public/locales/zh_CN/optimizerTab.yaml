@@ -505,6 +505,7 @@ CombatBuffs:
   EFFECT_RES_PEN: 效果抵抗穿透 %
   VULNERABILITY: 易伤 %
   BREAK_EFFICIENCY: 击破效率 %
+  EHR: 效果命中率 %
   Title: 额外战斗增益
   Clear: 清除
 Target_one: 目标

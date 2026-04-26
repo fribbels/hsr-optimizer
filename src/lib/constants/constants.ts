@@ -15,14 +15,14 @@ export const RELIQUARY_DOWNTIME = false
 export const DOWNTIME_VERSION: string = '4.2'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  '1506': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '1505': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '8010': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '8009': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '1004b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
-  '1102b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
-  '1217b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
-  '1310b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  // '1506': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  // '1505': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  // '8010': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  // '8009': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  // '1004b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  // '1102b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  // '1217b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  // '1310b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
 }
 
 export const Stats = {

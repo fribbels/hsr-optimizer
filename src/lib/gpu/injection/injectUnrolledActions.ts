@@ -484,6 +484,7 @@ function unrollEntityBaseStats(action: OptimizerAction, targetTag: TargetTag = T
 function generateCombatStatFilters(request: Form, context: OptimizerContext, gpuParams: GpuConstants): string {
   const action = context.defaultActions[0]
   const config = action.config
+  const isCombatMode = request.statDisplay === 'combat'
 
   const extractions: string[] = []
   const conditions: string[] = []
@@ -530,17 +531,18 @@ function generateCombatStatFilters(request: Form, context: OptimizerContext, gpu
     }
   }
 
-  // Add filters for each combat stat
-  addStatFilter('fSpd', AKey.SPD, 'minSpd', 'maxSpd')
-  addStatFilter('fHp', AKey.HP, 'minHp', 'maxHp')
-  addStatFilter('fAtk', AKey.ATK, 'minAtk', 'maxAtk')
-  addStatFilter('fDef', AKey.DEF, 'minDef', 'maxDef')
-  addBoostedStatFilter('fCr', AKey.CR, AKey.CR_BOOST, 'minCr', 'maxCr')
-  addBoostedStatFilter('fCd', AKey.CD, AKey.CD_BOOST, 'minCd', 'maxCd')
-  addStatFilter('fEhr', AKey.EHR, 'minEhr', 'maxEhr')
-  addStatFilter('fRes', AKey.RES, 'minRes', 'maxRes')
-  addStatFilter('fBe', AKey.BE, 'minBe', 'maxBe')
-  addStatFilter('fErr', AKey.ERR, 'minErr', 'maxErr')
+  if (isCombatMode) {
+    addStatFilter('fSpd', AKey.SPD, 'minSpd', 'maxSpd')
+    addStatFilter('fHp', AKey.HP, 'minHp', 'maxHp')
+    addStatFilter('fAtk', AKey.ATK, 'minAtk', 'maxAtk')
+    addStatFilter('fDef', AKey.DEF, 'minDef', 'maxDef')
+    addBoostedStatFilter('fCr', AKey.CR, AKey.CR_BOOST, 'minCr', 'maxCr')
+    addBoostedStatFilter('fCd', AKey.CD, AKey.CD_BOOST, 'minCd', 'maxCd')
+    addStatFilter('fEhr', AKey.EHR, 'minEhr', 'maxEhr')
+    addStatFilter('fRes', AKey.RES, 'minRes', 'maxRes')
+    addStatFilter('fBe', AKey.BE, 'minBe', 'maxBe')
+    addStatFilter('fErr', AKey.ERR, 'minErr', 'maxErr')
+  }
 
   // EHP calculation for all entities (needed for filtering or sorting)
   if (context.shaderVariables.needsEhp) {

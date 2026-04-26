@@ -459,7 +459,7 @@ const display = {
     z: 1.3,
   },
   disableSpine: true,
-  showcaseColor: '#62857b',
+  showcaseColor: '#68b456',
 }
 
 export const Firefly: CharacterConfig = {

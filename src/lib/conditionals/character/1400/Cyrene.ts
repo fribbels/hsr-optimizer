@@ -578,7 +578,7 @@ const display = {
     y: 384,
     z: -0.5,
   },
-  showcaseColor: '#b89fd4',
+  showcaseColor: '#301a66',
 }
 
 export function getCyreneAction(action: OptimizerAction) {

@@ -438,7 +438,7 @@ const display = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#9ad9cc',
+  showcaseColor: '#76aba1',
 }
 
 export const Aventurine: CharacterConfig = {

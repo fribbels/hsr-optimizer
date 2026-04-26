@@ -57,6 +57,7 @@ import {
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   ceilSafe,
+  floorSafe,
   precisionRound,
 } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -385,7 +386,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             SOURCE_TRACE,
             (convertibleValue) => {
               if (convertibleValue < 160) return 0
-              return 0.50 + Math.min(convertibleValue - 160, 100) * 0.02
+              return 0.50 + Math.min(floorSafe(convertibleValue - 160), 100) * 0.02
             },
           )
         },
@@ -398,7 +399,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             this,
             action,
             context,
-            `0.50 + min(convertibleValue - 160.0, 100.0) * 0.02`,
+            `0.50 + min(floorSafe(convertibleValue - 160.0), 100.0) * 0.02`,
             `${wgslTrue(r.spdToElation)}`,
             `convertibleValue >= 160.0`,
           )

@@ -18,6 +18,9 @@ export default defineConfig({
       'colorthief-mmcq': resolve(__dirname, 'node_modules/colorthief/src/quantizers/mmcq.ts'),
     },
   },
+  optimizeDeps: {
+    include: ['colorthief-pipeline', 'colorthief-swatches', 'colorthief-mmcq'],
+  },
   build: {
     target: 'esnext',
     modulePreload: { polyfill: false },

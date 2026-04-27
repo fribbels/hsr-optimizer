@@ -219,7 +219,7 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
       img.style.top = `${top}px`
       img.style.width = `${w}px`
       img.style.height = `${h}px`
-      img.style.zIndex = '10'
+      img.style.zIndex = '1'
 
       loadPromises.push(new Promise<void>((resolve) => {
         img.onload = async () => {

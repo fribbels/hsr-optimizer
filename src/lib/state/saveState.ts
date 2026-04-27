@@ -91,6 +91,7 @@ export const SaveState = {
         websocketUrl: scannerState.websocketUrl,
         customUrl: scannerState.websocketUrl !== DEFAULT_WEBSOCKET_URL,
       },
+      completedMigrations: globalState.completedMigrations,
     }
 
     const stateString = JSON.stringify(state)

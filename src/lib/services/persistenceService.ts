@@ -23,6 +23,7 @@ import {
 } from 'lib/relics/relicUtils'
 import { migrateBuild } from 'lib/services/buildMigration'
 import * as equipmentService from 'lib/services/equipmentService'
+import { migrateNovaflare } from 'lib/services/migrations/novaflare'
 import { migrateSilverWolfLv999EvanesciaMainStats } from 'lib/services/migrations/silverWolfLv999EvanesciaMainStats'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -84,6 +85,13 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
   // Remove invalid characters
   saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
+
+  try {
+    migrateNovaflare(saveData, dbCharacters)
+  } catch (e) {
+    console.error('[novaflare] Migration failed, continuing with unmigrated data', e)
+  }
+  useGlobalStore.getState().setCompletedMigrations(saveData.completedMigrations ?? {})
 
   const migratedOverrides = migrateSilverWolfLv999EvanesciaMainStats(
     saveData.scoringMetadataOverrides ?? {},

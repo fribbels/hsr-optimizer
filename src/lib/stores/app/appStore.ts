@@ -29,6 +29,7 @@ export const savedSessionDefaults: GlobalSavedSession = {
 
 export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
   version: CURRENT_OPTIMIZER_VERSION,
+  completedMigrations: {},
 
   scoringAlgorithmFocusCharacter: undefined,
   statTracesDrawerFocusCharacter: undefined,
@@ -46,6 +47,7 @@ export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
   setActiveKey: (x) => set(() => ({ activeKey: x })),
   setScoringAlgorithmFocusCharacter: (characterId) => set(() => ({ scoringAlgorithmFocusCharacter: characterId })),
   setStatTracesDrawerFocusCharacter: (characterId) => set(() => ({ statTracesDrawerFocusCharacter: characterId })),
+  setCompletedMigrations: (x) => set(() => ({ completedMigrations: x })),
   setSettings: (x) => set(() => ({ settings: x })),
   setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) =>

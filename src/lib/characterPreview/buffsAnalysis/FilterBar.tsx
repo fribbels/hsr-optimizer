@@ -55,7 +55,7 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
               label={t(entry.key)}
               color={entry.color}
               isActive={selectedFilter === entry.tag}
-              onClick={() => onFilterChange(entry.tag)}
+              onClick={() => onFilterChange(selectedFilter === entry.tag ? null : entry.tag)}
             />
           ),
         )}

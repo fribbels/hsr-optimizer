@@ -184,7 +184,7 @@ function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
       {pills.map((p) => {
         const tag = p.key === 'ALL' ? null : DAMAGE_TAG_BY_KEY.get(p.key)?.tag ?? null
         const active = p.key !== 'ALL' && tag != null && filter != null && (tag & filter) !== 0
-        return renderPill(p.key, p.color, t(p.key), { dimmed: !isPillActive(p.key, filter), onClick: () => onFilterChange?.(tag), active })
+        return renderPill(p.key, p.color, t(p.key), { dimmed: !isPillActive(p.key, filter), onClick: () => onFilterChange?.(active ? null : tag), active })
       })}
     </div>
   )

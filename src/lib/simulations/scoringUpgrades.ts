@@ -113,11 +113,17 @@ export function generateStatImprovements(
   upgradeMain(Parts.PlanarSphere)
   upgradeMain(Parts.LinkRope)
 
+  const clampedMaximumSimScore = Math.max(maximumSimScore, benchmarkSimScore)
   for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
     const upgradeSimScore = upgrade.simulationResult.simScore
-    const percent = upgradeSimScore >= benchmarkSimScore
-      ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-      : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+    let percent: number
+    if (upgradeSimScore >= benchmarkSimScore) {
+      const range = clampedMaximumSimScore - benchmarkSimScore
+      percent = range > 0 ? 1 + (upgradeSimScore - benchmarkSimScore) / range : 1
+    } else {
+      const range = benchmarkSimScore - baselineSimScore
+      percent = range > 0 ? (upgradeSimScore - baselineSimScore) / range : 0
+    }
     upgrade.percent = percent
   }
 

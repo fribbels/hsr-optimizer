@@ -413,6 +413,25 @@ export class BenchmarkSimulationOrchestrator {
         const conversionResult = runStatSimulations([baselineSim], form, context, conversionParams)[0]
         combatSpdTarget = conversionResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
         comboFlags = scratchFlags
+      } else if (this.flags.simPoetActive) {
+        // Default is Poet but this combo is non-Poet — recompute SPD targeting
+        const scratchFlags: SimulationFlags = { ...this.flags, simPoetActive: false }
+        applyBasicSpeedTargetFlag(
+          scratchFlags,
+          baselineResult,
+          this.originalSpd!,
+          this.spdBenchmark,
+        )
+        basicSpdTarget = scratchFlags.benchmarkBasicSpdTarget
+
+        const conversionParams: RunSimulationsParams = {
+          ...baselineScoringParams,
+          mainStatMultiplier: 0,
+          simulationFlags: scratchFlags,
+        }
+        const conversionResult = runStatSimulations([baselineSim], form, context, conversionParams)[0]
+        combatSpdTarget = conversionResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
+        comboFlags = scratchFlags
       } else {
         combatSpdTarget = this.benchmarkCombatSpdTarget!
         basicSpdTarget = this.flags.benchmarkBasicSpdTarget
@@ -443,14 +462,21 @@ export class BenchmarkSimulationOrchestrator {
     const id = uuid()
     console.time('===== Benchmark runner time ' + id)
 
+    const poolComboStates = this.poolComboStates
+    const defaultTargetSpd = this.benchmarkCombatSpdTarget!
+    const defaultFlags = this.flags
+
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
-      const comboState = this.poolComboStates![partialSimulationWrapper.poolIndex]
+      const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
+      const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
+      const flags = comboState?.flags ?? defaultFlags
+
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
       const rolls = precisionRound(
-        invertDiminishingReturnsSpdFormula(mainsCount, comboState.combatSpdTarget - finalSpeed, clonedBenchmarkScoringParams.speedRollValue),
+        invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue),
         3,
       )
 
@@ -463,8 +489,8 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, comboState.flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, baselineSimResult, comboState.flags)
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, baselineSimResult, flags)
 
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
 
@@ -477,7 +503,7 @@ export class BenchmarkSimulationOrchestrator {
         context: clonedContext,
         metadata: metadata,
         scoringParams: clonedBenchmarkScoringParams,
-        simulationFlags: comboState.flags,
+        simulationFlags: flags,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -496,13 +522,14 @@ export class BenchmarkSimulationOrchestrator {
     this.benchmarkSimResult = cloneWorkerResult(benchmarkSim.result!)
     this.benchmarkSimRequest = benchmarkSim.request
 
-    // Find winner's pool index by matching the request's sets back to the pool
-    const pool = this.candidateSetPool ?? [this.simSets!]
-    this.benchmarkWinnerPoolIndex = Math.max(0, pool.findIndex((s) =>
-      s.relicSet1 === benchmarkSim.request.simRelicSet1
-      && s.relicSet2 === benchmarkSim.request.simRelicSet2
-      && s.ornamentSet === benchmarkSim.request.simOrnamentSet,
-    ))
+    if (poolComboStates) {
+      const pool = this.candidateSetPool ?? [this.simSets!]
+      this.benchmarkWinnerPoolIndex = Math.max(0, pool.findIndex((s) =>
+        s.relicSet1 === benchmarkSim.request.simRelicSet1
+        && s.relicSet2 === benchmarkSim.request.simRelicSet2
+        && s.ornamentSet === benchmarkSim.request.simOrnamentSet,
+      ))
+    }
   }
 
   public async calculatePerfection(clonedContext: OptimizerContext) {
@@ -514,14 +541,21 @@ export class BenchmarkSimulationOrchestrator {
     const clonedPerfectionScoringParams = clone(maximumScoringParams)
 
     const partialSimulationWrappers = generatePartialSimulations(this)
+    const poolComboStates = this.poolComboStates
+    const defaultTargetSpd = this.benchmarkCombatSpdTarget!
+    const defaultFlags = this.flags
+
     const id = uuid()
     console.time('===== Perfection runner time ' + id)
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
-      const comboState = this.poolComboStates![partialSimulationWrapper.poolIndex]
+      const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
+      const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
+      const flags = comboState?.flags ?? defaultFlags
+
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
-      const rolls = precisionRound((comboState.combatSpdTarget - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
+      const rolls = precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
 
       partialSimulationWrapper.speedRollsDeduction = Math.min(
         Math.max(0, rolls),
@@ -532,8 +566,8 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, comboState.flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, baselineSimResult, comboState.flags)
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, baselineSimResult, flags)
 
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
 
@@ -545,8 +579,8 @@ export class BenchmarkSimulationOrchestrator {
         simulationForm: form,
         context: clonedContext,
         metadata: metadata,
-        scoringParams: clone(maximumScoringParams),
-        simulationFlags: comboState.flags,
+        scoringParams: clonedPerfectionScoringParams,
+        simulationFlags: flags,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -613,9 +647,9 @@ export class BenchmarkSimulationOrchestrator {
       this.metadata,
       this.flags,
       benchmarkScoringParams,
-      this.benchmarkBaselineScore ?? this.baselineSimResult?.simScore!,
-      this.benchmarkSimResult?.simScore!,
-      this.perfectionSimResult?.simScore!,
+      this.benchmarkBaselineScore ?? this.baselineSimResult!.simScore,
+      this.benchmarkSimResult!.simScore,
+      this.perfectionSimResult!.simScore,
     )
 
     this.substatUpgradeResults = substatUpgradeResults
@@ -640,7 +674,7 @@ export class BenchmarkSimulationOrchestrator {
       originalSimScore: this.originalSimResult!.simScore,
       baselineSimScore: this.benchmarkBaselineScore ?? this.baselineSimResult!.simScore,
       benchmarkSimScore: this.benchmarkSimResult!.simScore,
-      maximumSimScore: this.perfectionSimResult!.simScore,
+      maximumSimScore: Math.max(this.perfectionSimResult!.simScore, this.benchmarkSimResult!.simScore),
 
       substatUpgrades: this.substatUpgradeResults!,
       setUpgrades: this.setUpgradeResults!,

@@ -193,6 +193,7 @@ interface Resources {
           "CombatStats": "100% benchmark <1>combat stats</1>",
           "Header": "Benchmark build ({{score}}%)",
           "Mainstats": "100% benchmark main stats",
+          "Sets": "100% benchmark sets",
           "Substats": "100% benchmark subs (min rolls)"
         },
         "Character": {
@@ -202,6 +203,7 @@ interface Resources {
           "Header": "Character build ({{score}}%)",
           "LoadingHeader": "Character build",
           "Mainstats": "Character main stats",
+          "Sets": "Character sets",
           "Substats": "Character subs (min rolls)"
         },
         "Perfect": {
@@ -210,6 +212,7 @@ interface Resources {
           "CombatStats": "200% perfect <1>combat stats</1>",
           "Header": "Perfect build ({{score}}%)",
           "Mainstats": "200% perfect main stats",
+          "Sets": "200% perfect sets",
           "Substats": "200% perfect subs (max rolls)"
         }
       },

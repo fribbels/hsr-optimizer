@@ -108,7 +108,7 @@ function mergeConditionalDefaults(state: OptimizerRequestState, form: Form): voi
     }
 
     if (form.lightCone) {
-      const lcDefaults = resolveTeammateLcDefaults(form, dbMetadata, false)
+      const lcDefaults = resolveLcDefaults(form, dbMetadata, false)
       if (lcDefaults) {
         state.lightConeConditionals = { ...lcDefaults, ...state.lightConeConditionals }
       }
@@ -132,7 +132,7 @@ function mergeConditionalDefaults(state: OptimizerRequestState, form: Form): voi
     }
 
     if (teammate.lightCone) {
-      const lcDefaults = resolveTeammateLcDefaults(teammate, dbMetadata, true)
+      const lcDefaults = resolveLcDefaults(teammate, dbMetadata, true)
       if (lcDefaults) {
         tmState.lightConeConditionals = { ...lcDefaults, ...tmState.lightConeConditionals }
       }
@@ -140,11 +140,7 @@ function mergeConditionalDefaults(state: OptimizerRequestState, form: Form): voi
   }
 }
 
-/**
- * Resolves LC conditional defaults for a character/teammate configuration.
- * Shared by computeLoadForm and updateTeammate to avoid duplication.
- */
-export function resolveTeammateLcDefaults(
+export function resolveLcDefaults(
   config: { characterId: string, characterEidolon: number, lightCone: string, lightConeSuperimposition: number },
   dbMetadata: ReturnType<typeof getGameMetadata>,
   isTeammate: boolean,

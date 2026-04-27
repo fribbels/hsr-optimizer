@@ -6,7 +6,6 @@ import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   Constants,
   ElementNames,
@@ -17,7 +16,6 @@ import {
   defaultSetConditionals,
   getDefaultForm,
 } from 'lib/optimization/defaultForm'
-import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import {
   NULL_TURN_ABILITY_NAME,
   WHOLE_BASIC,
@@ -27,6 +25,7 @@ import type { PresetDefinition } from 'lib/scoring/presetEffects'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { setSortColumn } from 'lib/stores/gridStore'
 import { displayToInternal } from 'lib/stores/optimizerForm/optimizerFormConversions'
+import { resolveLcDefaults } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
@@ -58,10 +57,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
     characterEidolon: form.characterEidolon,
   })
   form.characterConditionals = charController.defaults ? { ...charController.defaults() } : {}
-
-  const lcRequest = generateConditionalResolverMetadata(form, dbMetadata)
-  const lcController = LightConeConditionalsResolver.get(lcRequest)
-  form.lightConeConditionals = lcController.defaults ? { ...lcController.defaults() } : {}
+  form.lightConeConditionals = resolveLcDefaults(form, dbMetadata, false) ?? {}
 
   // Reset teammate conditionals to defaults
   for (const prop of ['teammate0', 'teammate1', 'teammate2'] as const) {
@@ -73,10 +69,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
       characterEidolon: teammate.characterEidolon,
     })
     teammate.characterConditionals = tmCharController.teammateDefaults ? { ...tmCharController.teammateDefaults() } : {}
-
-    const tmLcRequest = generateConditionalResolverMetadata(teammate as any, dbMetadata)
-    const tmLcController = LightConeConditionalsResolver.get(tmLcRequest)
-    teammate.lightConeConditionals = tmLcController.teammateDefaults ? { ...tmLcController.teammateDefaults() } : {}
+    teammate.lightConeConditionals = resolveLcDefaults(teammate as any, dbMetadata, true) ?? {}
   }
 
   const overrides = useScoringStore.getState().scoringMetadataOverrides[characterId]

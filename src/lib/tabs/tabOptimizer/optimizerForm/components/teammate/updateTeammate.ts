@@ -2,7 +2,7 @@ import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/eva
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
-import { resolveTeammateLcDefaults } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
+import { resolveLcDefaults } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { calculateTeammateSets } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import type {
@@ -24,7 +24,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
     const store = useOptimizerRequestStore.getState()
     const teammate = store.teammates[teammateIndex]
 
-    const lcDefaults = resolveTeammateLcDefaults(teammate as any, getGameMetadata(), true)
+    const lcDefaults = resolveLcDefaults(teammate as any, getGameMetadata(), true)
     if (!lcDefaults) return
 
     const mergedConditionals = { ...lcDefaults, ...teammate.lightConeConditionals }
@@ -66,7 +66,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
 
     let lightConeConditionalsValues = currentTeammate.lightConeConditionals
     if (lightCone) {
-      const lcDefaults = resolveTeammateLcDefaults({
+      const lcDefaults = resolveLcDefaults({
         characterId: teammateCharacterId,
         characterEidolon,
         lightCone,

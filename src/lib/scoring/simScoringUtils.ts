@@ -144,7 +144,6 @@ export type PoolComboState = {
   baselineScore: number,
   combatSpdTarget: number,
   basicSpdTarget: number,
-  isPoet: boolean,
   flags: SimulationFlags,
 }
 
@@ -296,6 +295,21 @@ export function simSorter(a: Simulation, b: Simulation) {
   if (!bResult) return -1
 
   return bResult.simScore - aResult.simScore
+}
+
+export function calculateScorePercent(
+  score: number,
+  baseline: number,
+  benchmark: number,
+  perfection: number,
+): number {
+  const clampedPerfection = Math.max(perfection, benchmark)
+  if (score >= benchmark) {
+    const range = clampedPerfection - benchmark
+    return range > 0 ? 1 + (score - benchmark) / range : 1
+  }
+  const range = benchmark - baseline
+  return range > 0 ? (score - baseline) / range : 0
 }
 
 export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true, user = false) {

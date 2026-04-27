@@ -23,8 +23,7 @@ export function generatePartialSimulations(
   const pool = orchestrator.candidateSetPool ?? [orchestrator.simSets!]
   const results: PartialSimulationWrapper[] = []
 
-  for (let poolIndex = 0; poolIndex < pool.length; poolIndex++) {
-    const { relicSet1, relicSet2, ornamentSet } = pool[poolIndex]
+  for (const [poolIndex, { relicSet1, relicSet2, ornamentSet }] of pool.entries()) {
     for (const body of metadata.parts[Parts.Body]) {
       for (const feet of metadata.parts[Parts.Feet]) {
         for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {

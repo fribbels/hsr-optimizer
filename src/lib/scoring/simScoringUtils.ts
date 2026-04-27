@@ -385,6 +385,14 @@ export function cloneWorkerResult(result: RunStatSimulationsResult) {
   return result
 }
 
+export function requestToSets(request: SimulationRequest): SimulationSets {
+  return {
+    relicSet1: request.simRelicSet1,
+    relicSet2: request.simRelicSet2,
+    ornamentSet: request.simOrnamentSet,
+  }
+}
+
 export function isPoetSet(sets: SimulationSets): boolean {
   return sets.relicSet1 === Sets.PoetOfMourningCollapse
       && sets.relicSet2 === Sets.PoetOfMourningCollapse

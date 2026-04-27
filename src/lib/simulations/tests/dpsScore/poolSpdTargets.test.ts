@@ -112,13 +112,13 @@ describe('Pool SPD targeting', () => {
     expect(o.poolComboStates![0].basicSpdTarget).toBeLessThan(110)
   })
 
-  test('Default=Poet, User=Normal — Poet and non-Poet entries get different SPD targets', () => {
+  test('Default=Poet, User=Normal (same ornament) — pool=2, different SPD targets', () => {
     const o = buildOrchestrator(
       Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
       testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.BoneCollectionsSereneDemesne),
       castoriceDefaultMains, testStatSpread(),
     )
-    expect(o.poolComboStates!.length).toBeGreaterThanOrEqual(2)
+    expect(o.poolComboStates).toHaveLength(2)
 
     const poetEntry = o.poolComboStates!.find((s) => s.flags.simPoetActive)
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)
@@ -127,21 +127,18 @@ describe('Pool SPD targeting', () => {
     expect(poetEntry!.combatSpdTarget).not.toEqual(normalEntry!.combatSpdTarget)
   })
 
-  test('Default=Poet, User=Normal — cross-products include both Poet and non-Poet entries', () => {
-    // Castorice default is Poet. Give user Longevous + different ornament to force cross-products.
+  test('Default=Poet, User=Normal (different ornament) — pool=4 cross-products with both Poet and non-Poet', () => {
     const o = buildOrchestrator(
       Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
       testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.RutilantArena),
       castoriceDefaultMains, testStatSpread(),
     )
-    expect(o.poolComboStates!.length).toBeGreaterThanOrEqual(2)
+    expect(o.poolComboStates).toHaveLength(4)
 
-    const poetEntry = o.poolComboStates!.find((s) => s.flags.simPoetActive)
-    const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)
-    expect(poetEntry).toBeDefined()
-    expect(normalEntry).toBeDefined()
-    expect(poetEntry!.flags.simPoetActive).toBe(true)
-    expect(normalEntry!.flags.simPoetActive).toBe(false)
+    const poetEntries = o.poolComboStates!.filter((s) => s.flags.simPoetActive)
+    const normalEntries = o.poolComboStates!.filter((s) => !s.flags.simPoetActive)
+    expect(poetEntries.length).toBeGreaterThanOrEqual(1)
+    expect(normalEntries.length).toBeGreaterThanOrEqual(1)
   })
 
   test('Default=Normal, User=Normal (different sets) — each entry gets own baseline and SPD state', () => {
@@ -150,7 +147,7 @@ describe('Pool SPD targeting', () => {
       testSets(Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace, Sets.RutilantArena),
       anaxaDefaultMains, testStatSpread(),
     )
-    expect(o.poolComboStates!.length).toBeGreaterThanOrEqual(2)
+    expect(o.poolComboStates!.length).toBeGreaterThan(1)
 
     for (const state of o.poolComboStates!) {
       expect(state.flags.simPoetActive).toBe(false)
@@ -167,10 +164,22 @@ describe('Pool SPD targeting', () => {
     expect(scholarEntry).toBeDefined()
     expect(messengerEntry!.baselineScore).not.toEqual(scholarEntry!.baselineScore)
 
-    // Both get independently computed SPD targets (same value for non-Poet since
-    // basicSpdTarget = min(originalSpd, spdBenchmark ?? originalSpd) doesn't depend on set)
-    expect(messengerEntry!.combatSpdTarget).toBeGreaterThan(0)
-    expect(scholarEntry!.combatSpdTarget).toBeGreaterThan(0)
+    // Non-Poet targets equal originalSpd — same for both since basicSpdTarget doesn't depend on set
+    expect(messengerEntry!.basicSpdTarget).toBeCloseTo(o.originalSpd!, 1)
+    expect(scholarEntry!.basicSpdTarget).toBeCloseTo(o.originalSpd!, 1)
+  })
+
+  test('spdBenchmark override is respected by pool entries', () => {
+    const o = buildOrchestrator(
+      Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
+      testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.BoneCollectionsSereneDemesne),
+      castoriceDefaultMains, testStatSpread(),
+      90,
+    )
+    expect(o.poolComboStates).toHaveLength(2)
+
+    const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)!
+    expect(normalEntry.basicSpdTarget).toBeLessThanOrEqual(90)
   })
 
   test('Default=Normal, User=Normal (identical) — dedup to pool=1', () => {

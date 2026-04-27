@@ -47,6 +47,7 @@ import {
   isPoetSet,
   maximumScoringParams,
   originalScoringParams,
+  requestToSets,
   setsEqual,
   simSorter,
   spdRollsCap,
@@ -464,12 +465,7 @@ export class BenchmarkSimulationOrchestrator {
 
     if (poolComboStates) {
       const pool = this.candidateSetPool ?? [this.simSets!]
-      const winnerSets: SimulationSets = {
-        relicSet1: benchmarkSim.request.simRelicSet1,
-        relicSet2: benchmarkSim.request.simRelicSet2,
-        ornamentSet: benchmarkSim.request.simOrnamentSet,
-      }
-      this.benchmarkWinnerPoolIndex = Math.max(0, pool.findIndex((s) => setsEqual(s, winnerSets)))
+      this.benchmarkWinnerPoolIndex = Math.max(0, pool.findIndex((s) => setsEqual(s, requestToSets(benchmarkSim.request))))
     }
   }
 

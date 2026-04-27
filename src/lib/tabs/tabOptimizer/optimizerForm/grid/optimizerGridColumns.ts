@@ -45,7 +45,7 @@ export const optimizerGridOptions: GridOptions<OptimizerDisplayDataStatSim> = {
   getRowId: (params: GetRowIdParams<OptimizerDisplayDataStatSim>) => String(params.data.id ?? uuid()),
 }
 
-export const optimizerRowSelection = { mode: 'singleRow' as const, checkboxes: false, enableClickSelection: true }
+export const optimizerRowSelection = { mode: 'singleRow' as const, checkboxes: false, enableClickSelection: false }
 
 export const optimizerGridDefaultColDef: ColDef<OptimizerDisplayDataStatSim> = {
   sortable: true,

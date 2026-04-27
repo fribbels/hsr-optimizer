@@ -143,6 +143,7 @@ export const OptimizerTabController = {
               // The currently equipped top row shouldn't correspond to an optimizer row, deselect
               gridStore.optimizerGridApi()?.deselectAll()
             } else {
+              gridApi.deselectAll()
               rowNode.setSelected(true)
             }
           }
@@ -163,6 +164,8 @@ export const OptimizerTabController = {
       return
     }
 
+    gridApi.deselectAll()
+    node.setSelected(true)
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
 
     useOptimizerDisplayStore.getState().setOptimizerBuild(build)

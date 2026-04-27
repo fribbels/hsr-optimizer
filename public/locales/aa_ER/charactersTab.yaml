@@ -159,6 +159,7 @@ CharacterPreview:
     Character:
       LoadingHeader: crwdns46786:0crwdne46786:0
       Header: 'crwdns39758:0{{score}}crwdne39758:0'
+      Sets: crwdns47142:0crwdne47142:0
       BasicStats: crwdns46780:0crwdne46780:0
       CombatStats: crwdns39762:0crwdne39762:0
       Substats: crwdns39764:0crwdne39764:0
@@ -166,6 +167,7 @@ CharacterPreview:
       Abilities: crwdns39768:0crwdne39768:0
     Benchmark:
       Header: 'crwdns39770:0{{score}}crwdne39770:0'
+      Sets: crwdns47144:0crwdne47144:0
       BasicStats: crwdns46782:0crwdne46782:0
       CombatStats: crwdns39774:0crwdne39774:0
       Substats: crwdns39776:0crwdne39776:0
@@ -173,6 +175,7 @@ CharacterPreview:
       Abilities: crwdns39780:0crwdne39780:0
     Perfect:
       Header: 'crwdns39782:0{{score}}crwdne39782:0'
+      Sets: crwdns47146:0crwdne47146:0
       BasicStats: crwdns46784:0crwdne46784:0
       CombatStats: crwdns39786:0crwdne39786:0
       Substats: crwdns39788:0crwdne39788:0

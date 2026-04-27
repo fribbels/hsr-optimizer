@@ -44,8 +44,10 @@ import {
   cloneSimResult,
   cloneWorkerResult,
   invertDiminishingReturnsSpdFormula,
+  isPoetSet,
   maximumScoringParams,
   originalScoringParams,
+  setsEqual,
   simSorter,
   spdRollsCap,
 } from 'lib/scoring/simScoringUtils'
@@ -202,7 +204,7 @@ export class BenchmarkSimulationOrchestrator {
     if (originalSimRequest.simRelicSet1 == Sets.PoetOfMourningCollapse && originalSimRequest.simRelicSet2 == Sets.PoetOfMourningCollapse) {
       this.flags.characterPoetActive = true
     }
-    if (simSets.relicSet1 == Sets.PoetOfMourningCollapse && simSets.relicSet2 == Sets.PoetOfMourningCollapse) {
+    if (isPoetSet(simSets)) {
       this.flags.simPoetActive = true
     }
     if (originalSimRequest.simLinkRope == Stats.ERR && metadata.errRopeEidolon != null && form.characterEidolon >= metadata.errRopeEidolon) {
@@ -462,11 +464,12 @@ export class BenchmarkSimulationOrchestrator {
 
     if (poolComboStates) {
       const pool = this.candidateSetPool ?? [this.simSets!]
-      this.benchmarkWinnerPoolIndex = Math.max(0, pool.findIndex((s) =>
-        s.relicSet1 === benchmarkSim.request.simRelicSet1
-        && s.relicSet2 === benchmarkSim.request.simRelicSet2
-        && s.ornamentSet === benchmarkSim.request.simOrnamentSet,
-      ))
+      const winnerSets: SimulationSets = {
+        relicSet1: benchmarkSim.request.simRelicSet1,
+        relicSet2: benchmarkSim.request.simRelicSet2,
+        ornamentSet: benchmarkSim.request.simOrnamentSet,
+      }
+      this.benchmarkWinnerPoolIndex = Math.max(0, pool.findIndex((s) => setsEqual(s, winnerSets)))
     }
   }
 

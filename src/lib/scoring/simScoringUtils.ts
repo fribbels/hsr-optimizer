@@ -5,6 +5,7 @@ import type {
 } from 'lib/constants/constants'
 import {
   ElementToStatKeyDmgBoost,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
@@ -382,6 +383,11 @@ export function cloneWorkerResult(result: RunStatSimulationsResult) {
   result.ca = ca
 
   return result
+}
+
+export function isPoetSet(sets: SimulationSets): boolean {
+  return sets.relicSet1 === Sets.PoetOfMourningCollapse
+      && sets.relicSet2 === Sets.PoetOfMourningCollapse
 }
 
 export function setsEqual(a: SimulationSets, b: SimulationSets): boolean {

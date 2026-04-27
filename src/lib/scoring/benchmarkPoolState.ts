@@ -1,9 +1,9 @@
-import { Sets } from 'lib/constants/constants'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import {
   applyScoringFunction,
   baselineScoringParams,
   cloneSimResult,
+  isPoetSet,
   type SimulationFlags,
 } from 'lib/scoring/simScoringUtils'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -42,9 +42,7 @@ export function runPoolBaselineSim(
     request,
   } as Simulation
 
-  const isPoet = setCombination.relicSet1 === Sets.PoetOfMourningCollapse
-              && setCombination.relicSet2 === Sets.PoetOfMourningCollapse
-  const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoet }
+  const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoetSet(setCombination) }
 
   const params: RunSimulationsParams = {
     ...baselineScoringParams,
@@ -67,10 +65,7 @@ export function resolveComboSpdTarget(
   originalSpd: number,
   spdBenchmark: number | undefined,
 ): { combatSpdTarget: number; basicSpdTarget: number; flags: SimulationFlags } {
-  const isPoet = setCombination.relicSet1 === Sets.PoetOfMourningCollapse
-              && setCombination.relicSet2 === Sets.PoetOfMourningCollapse
-
-  const setCombinationFlags: SimulationFlags = { ...baseFlags, simPoetActive: isPoet }
+  const setCombinationFlags: SimulationFlags = { ...baseFlags, simPoetActive: isPoetSet(setCombination) }
   applyBasicSpeedTargetFlag(setCombinationFlags, baselineResult, originalSpd, spdBenchmark)
 
   const conversionParams: RunSimulationsParams = {

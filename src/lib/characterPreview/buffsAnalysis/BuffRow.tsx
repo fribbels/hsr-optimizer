@@ -128,7 +128,7 @@ function DamageTagPills({ damageTags }: { damageTags?: number }) {
   for (const entry of DAMAGE_TAG_ENTRIES) {
     if ((damageTags & entry.tag) !== 0) {
       const active = selectedFilter != null && (entry.tag & selectedFilter) !== 0
-      pills.push(renderPill(String(entry.tag), entry.color, t(entry.key), { onClick: () => onFilterChange?.(active ? null : entry.tag), active }))
+      pills.push(renderPill(String(entry.tag), entry.color, t(entry.key), { onClick: () => onFilterChange?.(entry.tag), active }))
     }
   }
 

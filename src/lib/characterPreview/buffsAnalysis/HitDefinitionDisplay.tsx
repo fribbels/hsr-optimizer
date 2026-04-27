@@ -155,7 +155,7 @@ function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
       .filter((e) => (hit.damageType & e.tag) !== 0)
       .map((e) => {
         const active = selectedFilter != null && (e.tag & selectedFilter) !== 0
-        return renderPill(String(e.tag), e.color, t(`DamageTags.${e.key}`), { onClick: () => onFilterChange?.(active ? null : e.tag), active })
+        return renderPill(String(e.tag), e.color, t(`DamageTags.${e.key}`), { onClick: () => onFilterChange?.(e.tag), active })
       })
     : []
 

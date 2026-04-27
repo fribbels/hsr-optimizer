@@ -55,7 +55,7 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
               label={t(entry.key)}
               color={entry.color}
               isActive={selectedFilter === entry.tag}
-              onClick={() => onFilterChange(selectedFilter === entry.tag ? null : entry.tag)}
+              onClick={() => onFilterChange(entry.tag)}
             />
           ),
         )}
@@ -81,6 +81,7 @@ function FilterButton({ label, color, isActive, onClick }: {
         border: `1px solid ${color}`,
         color: isActive ? '#141414' : color,
         backgroundColor: isActive ? color : 'transparent',
+        userSelect: 'none',
       }}
     >
       {label}

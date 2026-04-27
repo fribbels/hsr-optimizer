@@ -36,6 +36,7 @@ import { DeferCreate } from 'lib/ui/DeferredRender'
 import type { ReactElement } from 'react'
 import {
   memo,
+  useCallback,
   useMemo,
   useState,
 } from 'react'
@@ -72,6 +73,9 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   const context = contextProp ?? rerunResult?.context
   const [selectedAction, setSelectedAction] = useState<number | null>(null)
   const [selectedFilter, setSelectedFilter] = useState<DamageTag | null>(null)
+  const toggleFilter = useCallback((tag: DamageTag | null) => {
+    setSelectedFilter((prev) => prev === tag ? null : tag)
+  }, [])
 
   const options = useMemo(() => ({
     ...DEFAULT_OPTIONS,
@@ -145,12 +149,12 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   return (
     <DesignContext.Provider value={options}>
       <FilterContext.Provider value={selectedFilter}>
-        <FilterChangeContext.Provider value={setSelectedFilter}>
+        <FilterChangeContext.Provider value={toggleFilter}>
           {twoColumn
             ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING }}>
                 {actionSelector}
-                <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+                <FilterBar selectedFilter={selectedFilter} onFilterChange={toggleFilter} relevantTags={relevantTags} />
                 <div style={{ display: 'flex', gap: GROUP_SPACING, alignItems: 'start' }}>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
                     {statSummary}
@@ -165,10 +169,10 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
             : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: GROUP_SPACING, width: options.panelWidth }}>
                 {statSummary}
-                <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+                <FilterBar selectedFilter={selectedFilter} onFilterChange={toggleFilter} relevantTags={relevantTags} />
                 {actionSelector}
                 {buffsColumn}
-                <FilterBar selectedFilter={selectedFilter} onFilterChange={setSelectedFilter} relevantTags={relevantTags} />
+                <FilterBar selectedFilter={selectedFilter} onFilterChange={toggleFilter} relevantTags={relevantTags} />
                 {hitAndEnemy}
               </div>
             )}

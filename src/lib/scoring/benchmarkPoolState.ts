@@ -23,7 +23,7 @@ import type { OptimizerContext } from 'types/optimizer'
 
 export function runPoolBaselineSim(
   originalSimRequest: SimulationRequest,
-  setCombo: SimulationSets,
+  setCombination: SimulationSets,
   form: Form,
   context: OptimizerContext,
   flags: SimulationFlags,
@@ -32,9 +32,9 @@ export function runPoolBaselineSim(
   const request = {
     ...originalSimRequest,
     stats: {},
-    simRelicSet1: setCombo.relicSet1,
-    simRelicSet2: setCombo.relicSet2,
-    simOrnamentSet: setCombo.ornamentSet,
+    simRelicSet1: setCombination.relicSet1,
+    simRelicSet2: setCombination.relicSet2,
+    simOrnamentSet: setCombination.ornamentSet,
   } as SimulationRequest
 
   const sim: Simulation = {
@@ -42,8 +42,8 @@ export function runPoolBaselineSim(
     request,
   } as Simulation
 
-  const isPoet = setCombo.relicSet1 === Sets.PoetOfMourningCollapse
-              && setCombo.relicSet2 === Sets.PoetOfMourningCollapse
+  const isPoet = setCombination.relicSet1 === Sets.PoetOfMourningCollapse
+              && setCombination.relicSet2 === Sets.PoetOfMourningCollapse
   const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoet }
 
   const params: RunSimulationsParams = {
@@ -58,7 +58,7 @@ export function runPoolBaselineSim(
 }
 
 export function resolveComboSpdTarget(
-  setCombo: SimulationSets,
+  setCombination: SimulationSets,
   baselineSim: Simulation,
   baselineResult: RunStatSimulationsResult,
   form: Form,
@@ -67,23 +67,23 @@ export function resolveComboSpdTarget(
   originalSpd: number,
   spdBenchmark: number | undefined,
 ): { combatSpdTarget: number; basicSpdTarget: number; flags: SimulationFlags } {
-  const isPoet = setCombo.relicSet1 === Sets.PoetOfMourningCollapse
-              && setCombo.relicSet2 === Sets.PoetOfMourningCollapse
+  const isPoet = setCombination.relicSet1 === Sets.PoetOfMourningCollapse
+              && setCombination.relicSet2 === Sets.PoetOfMourningCollapse
 
-  const scratchFlags: SimulationFlags = { ...baseFlags, simPoetActive: isPoet }
-  applyBasicSpeedTargetFlag(scratchFlags, baselineResult, originalSpd, spdBenchmark)
+  const setCombinationFlags: SimulationFlags = { ...baseFlags, simPoetActive: isPoet }
+  applyBasicSpeedTargetFlag(setCombinationFlags, baselineResult, originalSpd, spdBenchmark)
 
   const conversionParams: RunSimulationsParams = {
     ...baselineScoringParams,
     mainStatMultiplier: 0,
-    simulationFlags: scratchFlags,
+    simulationFlags: setCombinationFlags,
   }
   const conversionResult = runStatSimulations([baselineSim], form, context, conversionParams)[0]
   const combatSpdTarget = conversionResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
 
   return {
     combatSpdTarget,
-    basicSpdTarget: scratchFlags.benchmarkBasicSpdTarget,
-    flags: scratchFlags,
+    basicSpdTarget: setCombinationFlags.benchmarkBasicSpdTarget,
+    flags: setCombinationFlags,
   }
 }

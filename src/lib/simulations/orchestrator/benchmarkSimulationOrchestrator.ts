@@ -366,16 +366,16 @@ export class BenchmarkSimulationOrchestrator {
   public precomputePoolState() {
     const pool = this.candidateSetPool ?? [this.simSets!]
 
-    this.poolComboStates = pool.map((setCombo) => {
+    this.poolComboStates = pool.map((setCombination) => {
       const { sim, result } = runPoolBaselineSim(
-        this.originalSimRequest!, setCombo, this.form!, this.context!, this.flags, this.metadata,
+        this.originalSimRequest!, setCombination, this.form!, this.context!, this.flags, this.metadata,
       )
       const spdTarget = resolveComboSpdTarget(
-        setCombo, sim, result, this.form!, this.context!, this.flags, this.originalSpd!, this.spdBenchmark,
+        setCombination, sim, result, this.form!, this.context!, this.flags, this.originalSpd!, this.spdBenchmark,
       )
 
       return {
-        sets: setCombo,
+        sets: setCombination,
         baselineScore: result.simScore,
         combatSpdTarget: spdTarget.combatSpdTarget,
         basicSpdTarget: spdTarget.basicSpdTarget,

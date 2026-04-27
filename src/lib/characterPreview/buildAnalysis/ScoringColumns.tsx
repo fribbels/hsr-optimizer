@@ -106,42 +106,21 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
         {t(`CharacterPreview.ScoringColumn.${props.type}.Sets`)}
       </div>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'center' }}>
-        <div style={{ display: 'flex' }}>
-          {isAsyncProps(props)
-            ? (
-              <>
-                <SuspenseNode
-                  promise={props.simulation}
-                  circle
-                  className={classes.setImage}
-                  selector={setSelector(props.type, 'simRelicSet1')}
-                />
-                <SuspenseNode
-                  promise={props.simulation}
-                  circle
-                  className={classes.setImage}
-                  selector={setSelector(props.type, 'simRelicSet2')}
-                />
-              </>
-            )
-            : (
-              <>
-                <img src={Assets.getSetImage(props.simulation.request.simRelicSet1)} className={classes.setImage} />
-                <img src={Assets.getSetImage(props.simulation.request.simRelicSet2)} className={classes.setImage} />
-              </>
-            )}
-        </div>
+      <div style={{ display: 'flex', height: 60, alignItems: 'center' }}>
         {isAsyncProps(props)
-          ? (
+          ? (['simRelicSet1', 'simRelicSet2', 'simOrnamentSet'] as SetField[]).map((field) => (
             <SuspenseNode
+              key={field}
               promise={props.simulation}
               circle
               className={classes.setImage}
-              selector={setSelector(props.type, 'simOrnamentSet')}
+              selector={setSelector(props.type, field)}
             />
-          )
-          : <img src={Assets.getSetImage(props.simulation.request.simOrnamentSet)} className={classes.setImage} />}
+          ))
+          : ([props.simulation.request.simRelicSet1, props.simulation.request.simRelicSet2, props.simulation.request.simOrnamentSet]
+            .filter(Boolean)
+            .map((set, i) => <img key={i} src={Assets.getSetImage(set)} className={classes.setImage} />)
+          )}
       </div>
     </div>
   )
@@ -351,7 +330,9 @@ function setSelector(type: 'Benchmark' | 'Perfect', field: SetField) {
   const key = type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'
   return (score: SimulationScore | null) => {
     if (!score) return null
-    return <img src={Assets.getSetImage(score[key].request[field])} className={classes.setImage} />
+    const set = score[key].request[field]
+    if (!set) return null
+    return <img src={Assets.getSetImage(set)} className={classes.setImage} />
   }
 }
 

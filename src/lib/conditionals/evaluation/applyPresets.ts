@@ -5,6 +5,8 @@ import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
   Constants,
   ElementNames,
@@ -15,6 +17,7 @@ import {
   defaultSetConditionals,
   getDefaultForm,
 } from 'lib/optimization/defaultForm'
+import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import {
   NULL_TURN_ABILITY_NAME,
   WHOLE_BASIC,
@@ -39,7 +42,8 @@ import type { ScoringMetadata } from 'types/metadata'
 export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
   if (!characterId) return
 
-  const character = getGameMetadata().characters[characterId]
+  const dbMetadata = getGameMetadata()
+  const character = dbMetadata.characters[characterId]
   const metadata = clone(character.scoringMetadata)
 
   // Get current form in internal format
@@ -47,6 +51,33 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   // Get defaults for setConditionals
   const defaultForm = getDefaultForm(character)
   form.setConditionals = defaultForm.setConditionals
+
+  // Reset character and light cone conditionals to defaults for the current eidolon/superimposition
+  const charController = CharacterConditionalsResolver.get({
+    characterId: form.characterId,
+    characterEidolon: form.characterEidolon,
+  })
+  form.characterConditionals = charController.defaults ? { ...charController.defaults() } : {}
+
+  const lcRequest = generateConditionalResolverMetadata(form, dbMetadata)
+  const lcController = LightConeConditionalsResolver.get(lcRequest)
+  form.lightConeConditionals = lcController.defaults ? { ...lcController.defaults() } : {}
+
+  // Reset teammate conditionals to defaults
+  for (const prop of ['teammate0', 'teammate1', 'teammate2'] as const) {
+    const teammate = form[prop]
+    if (!teammate?.characterId) continue
+
+    const tmCharController = CharacterConditionalsResolver.get({
+      characterId: teammate.characterId,
+      characterEidolon: teammate.characterEidolon,
+    })
+    teammate.characterConditionals = tmCharController.teammateDefaults ? { ...tmCharController.teammateDefaults() } : {}
+
+    const tmLcRequest = generateConditionalResolverMetadata(teammate as any, dbMetadata)
+    const tmLcController = LightConeConditionalsResolver.get(tmLcRequest)
+    teammate.lightConeConditionals = tmLcController.teammateDefaults ? { ...tmLcController.teammateDefaults() } : {}
+  }
 
   const overrides = useScoringStore.getState().scoringMetadataOverrides[characterId]
   if (overrides) {

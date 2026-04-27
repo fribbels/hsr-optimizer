@@ -160,7 +160,7 @@ describe('migrateNovaflare', () => {
     expect(saveData.completedMigrations!['novaflare1212']).toBe(1)
   })
 
-  it('Case 3: neither exists — no-op', () => {
+  it('neither exists — no-op', () => {
     const saveData = makeSaveData({
       characters: [],
     })
@@ -304,7 +304,7 @@ describe('migrateNovaflare', () => {
       throw new Error('boom')
     })
 
-    // Use a db with only one b1 pair so iteration order doesn't matter
+    // Assert one pair succeeds and one fails regardless of iteration order
     const dbTwo = makeDbCharacters('1212', '1212b1', '1004', '1004b1')
     const saveData = makeSaveData({
       characters: [

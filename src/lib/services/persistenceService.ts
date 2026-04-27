@@ -89,9 +89,11 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   try {
     migrateNovaflare(saveData, dbCharacters)
   } catch (e) {
-    console.error('[novaflare] Migration failed, continuing with unmigrated data', e)
+    console.error('Novaflare migration failed, continuing with unmigrated data', e)
   }
-  useGlobalStore.getState().setCompletedMigrations(saveData.completedMigrations ?? {})
+  if (saveData.completedMigrations) {
+    useGlobalStore.getState().setCompletedMigrations(saveData.completedMigrations)
+  }
 
   const migratedOverrides = migrateSilverWolfLv999EvanesciaMainStats(
     saveData.scoringMetadataOverrides ?? {},

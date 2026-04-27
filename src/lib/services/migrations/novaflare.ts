@@ -7,8 +7,11 @@ import type { HsrOptimizerSaveFormat } from 'types/store'
 // A released character whose ID ends in "b1" has an original version that should be migrated.
 function getNovaflaredPairs(dbCharacters: DBMetadata['characters']): [CharacterId, CharacterId][] {
   return Object.values(dbCharacters)
-    .filter((c) => !c.unreleased && c.id.endsWith('b1') && dbCharacters[c.id.replace('b1', '') as CharacterId])
-    .map((c) => [c.id.replace('b1', '') as CharacterId, c.id])
+    .filter((c) => !c.unreleased && c.id.endsWith('b1'))
+    .flatMap((c) => {
+      const oldId = c.id.replace('b1', '') as CharacterId
+      return dbCharacters[oldId] ? [[oldId, c.id] as [CharacterId, CharacterId]] : []
+    })
 }
 
 export function migrateNovaflare(
@@ -26,14 +29,22 @@ export function migrateNovaflare(
 
   console.log(`Novaflare migration: migrating ${pairs.length} characters`)
 
+  // Phase 1: per-pair character entry migration and relic transfer
+  const migratedPairs: [CharacterId, CharacterId][] = []
   for (const [oldId, newId] of pairs) {
     try {
       migrateCharacterEntry(saveData, oldId, newId)
-      sweepCharacterIdReferences(saveData, oldId, newId)
+      migratedPairs.push([oldId, newId])
       migrations[`novaflare${oldId}`] = 1
     } catch (e) {
       console.error(`Novaflare migration: ${oldId} → ${newId} failed, skipping`, e)
     }
+  }
+
+  // Phase 2: single-pass reference sweep across all migrated pairs
+  if (migratedPairs.length > 0) {
+    const idMap = new Map(migratedPairs)
+    sweepCharacterIdReferences(saveData, idMap)
   }
 }
 
@@ -73,18 +84,20 @@ function transferRelics(saveData: HsrOptimizerSaveFormat, oldId: CharacterId, ne
   }
 }
 
-// Replaces all teammate/session references from oldId to newId
-function sweepCharacterIdReferences(saveData: HsrOptimizerSaveFormat, oldId: CharacterId, newId: CharacterId): void {
+// Single-pass replacement of all teammate/session references for all migrated pairs
+function sweepCharacterIdReferences(saveData: HsrOptimizerSaveFormat, idMap: Map<CharacterId, CharacterId>): void {
+  const remap = (id: CharacterId) => idMap.get(id) ?? id
+
   for (const character of saveData.characters) {
     const form = character.form
-    if (form?.teammate0?.characterId === oldId) form.teammate0.characterId = newId
-    if (form?.teammate1?.characterId === oldId) form.teammate1.characterId = newId
-    if (form?.teammate2?.characterId === oldId) form.teammate2.characterId = newId
+    if (form?.teammate0?.characterId) form.teammate0.characterId = remap(form.teammate0.characterId)
+    if (form?.teammate1?.characterId) form.teammate1.characterId = remap(form.teammate1.characterId)
+    if (form?.teammate2?.characterId) form.teammate2.characterId = remap(form.teammate2.characterId)
 
     for (const build of character.builds ?? []) {
       if (!build.team) continue
       for (const teammate of build.team) {
-        if (teammate?.characterId === oldId) teammate.characterId = newId
+        if (teammate?.characterId) teammate.characterId = remap(teammate.characterId)
       }
     }
   }
@@ -93,12 +106,13 @@ function sweepCharacterIdReferences(saveData: HsrOptimizerSaveFormat, oldId: Cha
     for (const override of Object.values(saveData.scoringMetadataOverrides)) {
       if (!override?.simulation?.teammates) continue
       for (const teammate of override.simulation.teammates) {
-        if (teammate?.characterId === oldId) teammate.characterId = newId
+        if (teammate?.characterId) teammate.characterId = remap(teammate.characterId)
       }
     }
   }
 
-  if (saveData.savedSession?.global?.optimizerCharacterId === oldId) {
-    saveData.savedSession.global.optimizerCharacterId = newId
+  const sessionCharId = saveData.savedSession?.global?.optimizerCharacterId
+  if (sessionCharId) {
+    saveData.savedSession!.global.optimizerCharacterId = remap(sessionCharId)
   }
 }

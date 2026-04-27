@@ -79,6 +79,8 @@ import {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -368,11 +370,19 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   const { displayRelics, scoringResults } = state.previewRelics
 
+  // Resets to COMBAT_SCORE on character switch; resolveScoringType downgrades if no sim.
+  const [localScoringType, setLocalScoringType] = useState(ScoringType.COMBAT_SCORE)
+  const prevCharIdRef = useRef(character.id)
+  if (prevCharIdRef.current !== character.id) {
+    prevCharIdRef.current = character.id
+    setLocalScoringType(ScoringType.COMBAT_SCORE)
+  }
+
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
   // editorOverrides.forceSimScoreLayout overrides to COMBAT_SCORE layout for preview
   const effectiveScoringType = editorOverrides?.forceSimScoreLayout
     ? ScoringType.COMBAT_SCORE
-    : (forceDebug ? ScoringType.SUBSTAT_SCORE : state.storedScoringType)
+    : (forceDebug ? ScoringType.SUBSTAT_SCORE : localScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
   const layout = useMemo(
@@ -673,17 +683,13 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           simulationMetadata={layout.simulationMetadata}
         />
 
-        {
-          /* Showcase analysis footer — uses storedScoringType (user's preference) not resolved scoringType,
-          so the SegmentedControl reflects their selection even when combat score is unavailable.
-          Hidden in forceDebug mode. */
-        }
         {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
           <ShowcaseBuildAnalysis
             showcaseMetadata={showcaseMetadata}
-            scoringType={state.storedScoringType}
+            scoringType={scoringType}
             displayRelics={displayRelics}
             source={source}
+            onScoringTypeChange={setLocalScoringType}
           />
         )}
       </div>

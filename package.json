@@ -14,6 +14,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "start": "vite",
+    "start:mobile": "vite --host",
     "start:prod": "vite build && vite preview",
     "preview": "vite preview",
     "build": "vite build",

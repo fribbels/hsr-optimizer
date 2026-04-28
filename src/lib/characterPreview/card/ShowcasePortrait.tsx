@@ -204,7 +204,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         <span
           className={styles.overlayTag}
           style={{
-            display: showUid ? 'inline' : 'none',
+            display: showUid ? 'inline-block' : 'none',
             maxWidth: parentW - 150,
           }}
         >
@@ -213,7 +213,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         <span
           className={styles.overlayTag}
           style={{
-            display: artistName ? 'inline' : 'none',
+            display: artistName ? 'inline-block' : 'none',
             maxWidth: parentW - 150,
           }}
         >

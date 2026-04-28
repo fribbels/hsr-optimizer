@@ -35,54 +35,39 @@ export function SpinePortrait({
   onReadyRef.current = onReady
 
   const { isActiveRef, addActivationListener, addDeactivationListener } = useContext(TabVisibilityContext)
-  const windowVisibleRef = useRef(!document.hidden)
+  const windowVisibleRef = useRef(!document.hidden && document.hasFocus())
+
+  function syncPause() {
+    windowVisibleRef.current = !document.hidden && document.hasFocus()
+    if (windowVisibleRef.current && isActiveRef.current) {
+      instanceRef.current?.resume()
+    } else {
+      instanceRef.current?.pause()
+    }
+  }
 
   // Pause the rAF loop when the host tab hides, resume when it shows again.
   useEffect(() => {
-    const unsubActivate = addActivationListener(() => {
-      if (windowVisibleRef.current) instanceRef.current?.resume()
-    })
-    const unsubDeactivate = addDeactivationListener(() => {
-      instanceRef.current?.pause()
-    })
+    const unsubActivate = addActivationListener(() => syncPause())
+    const unsubDeactivate = addDeactivationListener(() => instanceRef.current?.pause())
     return () => {
       unsubActivate()
       unsubDeactivate()
     }
   }, [addActivationListener, addDeactivationListener])
 
-  // Pause when the browser tab is hidden or the window loses focus.
+  // Pause when the browser tab is hidden or the window loses focus (alt-tab).
   useEffect(() => {
-    function onVisibilityChange() {
-      windowVisibleRef.current = !document.hidden
-      if (!document.hidden && isActiveRef.current) {
-        instanceRef.current?.resume()
-      } else {
-        instanceRef.current?.pause()
-      }
-    }
-
-    function onFocus() {
-      windowVisibleRef.current = true
-      if (isActiveRef.current) instanceRef.current?.resume()
-    }
-
-    function onBlur() {
-      windowVisibleRef.current = false
-      instanceRef.current?.pause()
-    }
-
-    document.addEventListener('visibilitychange', onVisibilityChange)
-    window.addEventListener('focus', onFocus)
-    window.addEventListener('blur', onBlur)
+    document.addEventListener('visibilitychange', syncPause)
+    window.addEventListener('focus', syncPause)
+    window.addEventListener('blur', syncPause)
 
     return () => {
-      document.removeEventListener('visibilitychange', onVisibilityChange)
-      window.removeEventListener('focus', onFocus)
-      window.removeEventListener('blur', onBlur)
+      document.removeEventListener('visibilitychange', syncPause)
+      window.removeEventListener('focus', syncPause)
+      window.removeEventListener('blur', syncPause)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   useEffect(() => {
     const canvas = canvasRef.current!

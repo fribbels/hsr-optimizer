@@ -85,9 +85,10 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       },
       Radio: { defaultProps: { size: 'xs' } },
       SegmentedControl: {
-        defaultProps: { size: 'xs', withItemsBorders: false, radius: 'md' },
+        defaultProps: { size: 'xs', withItemsBorders: false, radius: 'sm' },
         styles: {
           root: { backgroundColor: 'rgba(0, 0, 0, 0.18)' },
+          indicator: { borderRadius: 3 },
           label: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
           innerLabel: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
         },

@@ -57,6 +57,7 @@ export function SpinePortrait({
   }, [addActivationListener, addDeactivationListener])
 
   // Pause when the browser tab is hidden or the window loses focus (alt-tab).
+  // syncPause reads from refs so it's stable — empty deps is correct.
   useEffect(() => {
     document.addEventListener('visibilitychange', syncPause)
     window.addEventListener('focus', syncPause)
@@ -67,7 +68,7 @@ export function SpinePortrait({
       window.removeEventListener('focus', syncPause)
       window.removeEventListener('blur', syncPause)
     }
-  })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const canvas = canvasRef.current!

@@ -1,15 +1,15 @@
 @font-face {
-  font-family: 'Assistant';
+  font-family: 'Maven Pro';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('../assets/fonts/Assistant-Regular.woff2') format('woff2');
+  src: url('../assets/fonts/MavenPro-Regular.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Assistant';
+  font-family: 'Maven Pro';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('../assets/fonts/Assistant-SemiBold.woff2') format('woff2');
+  src: url('../assets/fonts/MavenPro-SemiBold.woff2') format('woff2');
 }

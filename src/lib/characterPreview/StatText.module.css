@@ -1,5 +1,4 @@
 .statText {
-  font-family: var(--font-ui);
   font-size: 17px;
   font-weight: 400;
   white-space: nowrap;
@@ -7,7 +6,6 @@
 
 
 .statTextSm {
-  font-family: var(--font-ui);
   font-size: 16px;
   font-weight: 400;
   white-space: nowrap;

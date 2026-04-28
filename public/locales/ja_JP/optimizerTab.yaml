@@ -483,6 +483,7 @@ CombatBuffs:
   EFFECT_RES_PEN: 属性耐性貫通
   VULNERABILITY: ダメージ貫通
   BREAK_EFFICIENCY: 弱点撃破効率
+  EHR: 効果命中 %
   Title: 戦闘バフを追加
   Clear: クリア
 Target_one: ターゲット
@@ -542,8 +543,15 @@ ComboFilter:
     Simple: シンプル
     Advanced: 高度
   RowControls:
+    ResetTooltip: スキル回しをリセット
+    AddTooltip: アビリティを追加
+    RemoveTooltip: アビリティを削除
+    PresetsTooltip: 条件付きバフのプリセットを有効化・無効化
     ResetConfirm:
       Description: すべてのシンプル・高度なスキル回しの設定をデフォルトに戻しますか？
+  Presets:
+    Enabled: 条件付きバフのプリセットは有効です
+    Disabled: 条件付きバフのプリセットは無効です
   ComboOptions:
     None: 'なし'
     Basic: 通常
@@ -692,24 +700,35 @@ ExpandedDataPanel:
       SHIELD_VALUE: シールド量変化量
       SHIELD_VALUE_P: シールド量変化率
   DamageTags:
+    ALL: すべて
     BASIC: 通常攻撃
     SKILL: 戦闘スキル
     ULT: 必殺技
     FUA: 追加攻撃
     DOT: 持続
     BREAK: 撃破
+    SUPER_BREAK: '超撃破'
+    MEMO: 精霊
+    ADDITIONAL: 付加
+    ELATION: 愉悦
   DamageSplits:
     Title: スキル回しの内訳
+    PieTitle: スキル回し分布
     Mode:
       Default: デフォルト
+      Rotation: スキル回し
     Legend:
       Basic: 通常
       Skill: スキル
       Ult: 必殺
       Fua: 追加
+      DoT: 持続
       Break: 撃破
+      Super Break: 超撃破
       Memo: 精霊
+      Additional: 付加
       Elation: 愉悦
+      'True': '確定'
     YAxisLabel:
       BASIC_DMG: 通常
       SKILL_DMG: スキル
@@ -750,7 +769,11 @@ ExpandedDataPanel:
     DefaultAction: デフォルト
     SummaryLabel: 合計バフ数
     DamageFunctions:
+      Crit: 会心
+      DoT: 持続
       Break: 撃破
+      S.Break: 超撃破
+      Add: 付加
       Elation: 愉悦
     Stats:
       CompositeLabels:
@@ -845,3 +868,4 @@ ExpandedDataPanel:
         Additional: 付加ダメージの種類
         SuperBreak: 超撃破ダメージの種類
       Unconvertible: '変換不能な$t(common:Stats.{{stat}})'
+      ElementalDmgBoost: '$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'

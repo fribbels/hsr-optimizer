@@ -4,10 +4,14 @@ RelicFilterBar:
   Grade: レア度
   InitialRolls: 初期サブ数
   Verified: 確認済み
+  Unverified: 未確認
   Equipped: 装備済み
+  Unequipped: 未装備
   Clear: クリア
   ClearButton: すべてのフィルターをクリア
   Set: セット
+  RelicSets: 遺物セット
+  OrnamentSets: オーナメントセット
   Mainstat: メインステ
   Substat: サブステ
   ScoringButton: スコア計算方法を編集
@@ -161,6 +165,11 @@ Toolbar:
     Width: インベントリの幅
     Filter: 行のしきい値
     NoneSelected: 遺物を選択して場所を確認
+    Location: '行 {{rowIndex}} / 列 {{columnIndex}}'
+  InsightOptions:
+    Buckets: 'バケツ'
+    Top10: 'トップ10'
+    ESTBP: '推計開拓力'
   PlotOptions:
     PlotAll: 全てのキャラクターを表示
     PlotCustom: 指定対象のみ表示

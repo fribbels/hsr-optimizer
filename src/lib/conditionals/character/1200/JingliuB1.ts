@@ -354,7 +354,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#8d92f9',
+  showcaseColor: '#3e65f2',
 }
 
 export const JingliuB1: CharacterConfig = {

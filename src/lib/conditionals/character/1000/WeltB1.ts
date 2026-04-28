@@ -509,7 +509,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#948ff8',
+  showcaseColor: '#524dc9',
 }
 
 export const WeltB1: CharacterConfig = {

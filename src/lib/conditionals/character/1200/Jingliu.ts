@@ -321,7 +321,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#3e65f2',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const Jingliu: CharacterConfig = {

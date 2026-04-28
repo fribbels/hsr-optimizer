@@ -459,7 +459,7 @@ const display = {
     z: 1.3,
   },
   disableSpine: true,
-  showcaseColor: '#68b456',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const Firefly: CharacterConfig = {

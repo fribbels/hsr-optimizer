@@ -323,7 +323,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#5866bc',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const Sparkle: CharacterConfig = {

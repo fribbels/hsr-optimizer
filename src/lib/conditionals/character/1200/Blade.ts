@@ -349,7 +349,7 @@ const display = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#4d69be',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const Blade: CharacterConfig = {

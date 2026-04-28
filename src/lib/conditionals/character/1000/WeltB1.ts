@@ -105,7 +105,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     enemySlowed: true,
     enemyWeightless: true,
-    retributionDmgStacks: 15,
+    retributionDmgStacks: 10,
     ehrToAtkBoost: true,
     traceAdditionalDmg: true,
     skillExtraHits: skillExtraHitsMax,
@@ -116,7 +116,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateDefaults = {
     enemyWeightless: true,
-    retributionDmgStacks: 15,
+    retributionDmgStacks: 10,
     e4WeightlessResPen: true,
   }
 
@@ -335,7 +335,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Trace: Retribution - DMG boost 6% per stack when attacking Weightless, max 15 stacks
+      // Trace: Retribution - DMG boost 10% per stack when attacking Weightless, max 10 stacks
       x.buff(StatKey.DMG_BOOST, (m.enemyWeightless) ? 0.10 * m.retributionDmgStacks : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Talent: Weightless DEF shred 40%

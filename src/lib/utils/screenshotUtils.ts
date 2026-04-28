@@ -241,22 +241,6 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
   // Wait for images with timeout so we don't hang the capture
   await withTimeout(Promise.all(loadPromises), 4000).catch(() => {})
 
-  // Inline all loaded <img> as data URIs so snapdom skips its internal re-fetch
-  // (which can time out when the card has 70-80 images batched 4 at a time).
-  const scratch = document.createElement('canvas')
-  const scratchCtx = scratch.getContext('2d')!
-  for (const img of root.querySelectorAll<HTMLImageElement>('img')) {
-    if (!img.complete || !img.naturalWidth || img.src.startsWith('data:')) continue
-    try {
-      scratch.width = img.naturalWidth
-      scratch.height = img.naturalHeight
-      scratchCtx.drawImage(img, 0, 0)
-      const originalSrc = img.src
-      img.src = scratch.toDataURL()
-      restoreActions.push(() => { img.src = originalSrc })
-    } catch { /* tainted canvas — let snapdom handle it */ }
-  }
-
   // Return restore function - executes in reverse order for proper cleanup
   return () => {
     for (let i = restoreActions.length - 1; i >= 0; i--) {
@@ -265,12 +249,33 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
   }
 }
 
-/** No-op snapdom plugin - all DOM modifications happen before capture now */
-function buildNoOpPlugin() {
+/** Convert loaded images to data URIs so snapdom doesn't re-fetch them. */
+function buildImageDataUriCache(root: Element): Map<string, string> {
+  const cache = new Map<string, string>()
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')!
+  for (const img of root.querySelectorAll<HTMLImageElement>('img')) {
+    if (!img.complete || !img.naturalWidth || img.src.startsWith('data:') || cache.has(img.src)) continue
+    try {
+      canvas.width = img.naturalWidth
+      canvas.height = img.naturalHeight
+      ctx.drawImage(img, 0, 0)
+      cache.set(img.src, canvas.toDataURL())
+    } catch { /* tainted */ }
+  }
+  return cache
+}
+
+/** Snapdom plugin that replaces img srcs on the clone with pre-built data URIs. */
+function buildImageInliningPlugin(cache: Map<string, string>): import('@zumer/snapdom').SnapdomPlugin {
   return {
-    name: 'no-op',
-    afterClone() {
-      // All modifications now done in prepareLiveDomForCapture
+    name: 'image-inlining',
+    afterClone({ clone }) {
+      if (!clone) return
+      for (const img of clone.querySelectorAll<HTMLImageElement>('img')) {
+        const dataUrl = cache.get(img.src)
+        if (dataUrl) img.src = dataUrl
+      }
     },
   }
 }
@@ -317,12 +322,10 @@ export async function screenshotElementById(
     const maxAttempts = 3
     const attemptTimeoutMs = 8000
 
-    // Warm snapdom's resource cache
     try {
       await preCache(element)
-    } catch {
-      // Best-effort
-    }
+    } catch { /* best-effort */ }
+    const imageCache = buildImageDataUriCache(element)
 
     const restoreContext = patchCanvasForDisplayP3()
 
@@ -343,7 +346,7 @@ export async function screenshotElementById(
               outerShadows: true,
               embedFonts: true,
               fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-              plugins: [buildNoOpPlugin()],
+              plugins: [buildImageInliningPlugin(imageCache)],
             }),
             attemptTimeoutMs,
           )

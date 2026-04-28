@@ -241,6 +241,22 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
   // Wait for images with timeout so we don't hang the capture
   await withTimeout(Promise.all(loadPromises), 4000).catch(() => {})
 
+  // Inline all loaded <img> as data URIs so snapdom skips its internal re-fetch
+  // (which can time out when the card has 70-80 images batched 4 at a time).
+  const scratch = document.createElement('canvas')
+  const scratchCtx = scratch.getContext('2d')!
+  for (const img of root.querySelectorAll<HTMLImageElement>('img')) {
+    if (!img.complete || !img.naturalWidth || img.src.startsWith('data:')) continue
+    try {
+      scratch.width = img.naturalWidth
+      scratch.height = img.naturalHeight
+      scratchCtx.drawImage(img, 0, 0)
+      const originalSrc = img.src
+      img.src = scratch.toDataURL()
+      restoreActions.push(() => { img.src = originalSrc })
+    } catch { /* tainted canvas — let snapdom handle it */ }
+  }
+
   // Return restore function - executes in reverse order for proper cleanup
   return () => {
     for (let i = restoreActions.length - 1; i >= 0; i--) {
@@ -326,6 +342,7 @@ export async function screenshotElementById(
               backgroundColor: 'transparent',
               outerShadows: true,
               embedFonts: true,
+              fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
               plugins: [buildNoOpPlugin()],
             }),
             attemptTimeoutMs,

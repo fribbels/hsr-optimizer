@@ -35,11 +35,12 @@ export function SpinePortrait({
   onReadyRef.current = onReady
 
   const { isActiveRef, addActivationListener, addDeactivationListener } = useContext(TabVisibilityContext)
+  const windowVisibleRef = useRef(!document.hidden)
 
   // Pause the rAF loop when the host tab hides, resume when it shows again.
   useEffect(() => {
     const unsubActivate = addActivationListener(() => {
-      instanceRef.current?.resume()
+      if (windowVisibleRef.current) instanceRef.current?.resume()
     })
     const unsubDeactivate = addDeactivationListener(() => {
       instanceRef.current?.pause()
@@ -49,6 +50,39 @@ export function SpinePortrait({
       unsubDeactivate()
     }
   }, [addActivationListener, addDeactivationListener])
+
+  // Pause when the browser tab is hidden or the window loses focus.
+  useEffect(() => {
+    function onVisibilityChange() {
+      windowVisibleRef.current = !document.hidden
+      if (!document.hidden && isActiveRef.current) {
+        instanceRef.current?.resume()
+      } else {
+        instanceRef.current?.pause()
+      }
+    }
+
+    function onFocus() {
+      windowVisibleRef.current = true
+      if (isActiveRef.current) instanceRef.current?.resume()
+    }
+
+    function onBlur() {
+      windowVisibleRef.current = false
+      instanceRef.current?.pause()
+    }
+
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    window.addEventListener('focus', onFocus)
+    window.addEventListener('blur', onBlur)
+
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+      window.removeEventListener('focus', onFocus)
+      window.removeEventListener('blur', onBlur)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const canvas = canvasRef.current!
@@ -70,8 +104,8 @@ export function SpinePortrait({
             return
           }
           instanceRef.current = instance
-          // Start paused if the tab hid mid-load.
-          if (!isActiveRef.current) {
+          // Start paused if the tab hid mid-load or window lost focus.
+          if (!isActiveRef.current || !windowVisibleRef.current) {
             instance.pause()
           }
           onReadyRef.current?.()

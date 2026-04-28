@@ -331,7 +331,7 @@ export async function screenshotElementById(
             attemptTimeoutMs,
           )
           blob = await capture.toBlob({ type: 'png' })
-          if (blob && blob.size > 1_000_000) break
+          if (blob && blob.size > 1_500_000) break
         } catch (e) {
           lastError = e
         } finally {

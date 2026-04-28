@@ -29,10 +29,12 @@ CharacterMenu:
 SearchPlaceholder: 検索
 GridDensityOptions:
   default: デフォルト
+  compact: コンパクト表示
 Messages:
   RemoveSuccess: キャラクターを削除しました
   UnequipSuccess: キャラクターの遺物を外しました
   NoSelectedCharacter: キャラクターが未選択です
+  NoSelectedLightCone: 光円錐が選択されていません
   SwitchSuccess: '$t(gameData:Characters.{{charId}}.Name) と遺物を交換しました'
   SortByScoreWarning: 本当にすべてのキャラクターを並び替えますか？以前の設定内容はすべて失われます。
   SaveSuccess: 'ビルドを保存しました: {{name}}'
@@ -48,6 +50,7 @@ CharacterPreview:
     Stats:
       Header: ステータス
       ButtonText: 軌跡
+      WeightsButton: 重み
     SpdPrecision:
       Header: 速度の精度
       Low: '.0'
@@ -74,6 +77,7 @@ CharacterPreview:
       Standard: スタンダード
     PaletteLabel: カラーパレット
     ShowUID: UID を表示
+    ShowL2D: Live2D で表示
   ArtBy: '出典 {{artistName}}'
   EditCharacter: キャラクターを編集
   EditPortrait: 画像を変更
@@ -83,6 +87,7 @@ CharacterPreview:
     SavedPortrait: 画像を変更しました
     RevertedPortrait: 画像を復元しました
     NoSelectedCharacter: キャラクターが未選択です
+    NoSelectedLightCone: 光円錐が選択されていません
   ScoreHeader:
     Title: 戦闘シミュレーション
     TitleBenchmark: '{{spd}} 基準速度'
@@ -128,8 +133,13 @@ CharacterPreview:
       MEMO_TALENT: 精霊天賦
       BREAKS: '撃破 '
     CombatResults:
+      Header: ベンチマーク結果
+      Primary: 主に使うアビリティ
       Character: キャラクター
       Benchmark: 基準
+      Baseline: 最低
+      Maximum: 完璧
+      Score: DPS スコア
       Abilities:
         BASIC: 通常攻撃
         SKILL: 戦闘スキル
@@ -146,19 +156,26 @@ CharacterPreview:
       SubDpsHeader: 戦闘バフ（サブ DPS）
   ScoringColumn:
     Character:
+      LoadingHeader: キャラクタービルド
       Header: '選択キャラのビルド（{{score}}％）'
+      Sets: 選択キャラの装備
+      BasicStats: <1>非戦闘</1>ステータス（選択キャラ）
       CombatStats: <1>戦闘</1>ステータス（選択キャラ）
       Substats: サブステータス（最小数）（選択キャラ）
       Mainstats: メインステータス（選択キャラ）
       Abilities: 与ダメージ（選択キャラ）
     Benchmark:
       Header: '基準ビルド（{{score}}%）'
+      Sets: 基準ビルドの装備
+      BasicStats: <1>非戦闘</1>ステータス（基準ビルド）
       CombatStats: <1>戦闘</1>ステータス（基準ビルド）
       Substats: サブステータス（最小数）（基準ビルド）
       Mainstats: メインステータス（基準ビルド）
       Abilities: 与ダメージ（基準ビルド）
     Perfect:
       Header: '完璧ビルド（{{score}}%）'
+      Sets: 完璧ビルドの装備
+      BasicStats: <1>非戦闘</1>ステータス（完璧ビルド）
       CombatStats: <1>戦闘</1>ステータス（完璧ビルド）
       Substats: サブステータス（最大数）（完璧ビルド）
       Mainstats: メインステータス（完璧ビルド）

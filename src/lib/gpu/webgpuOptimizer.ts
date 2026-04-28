@@ -106,6 +106,10 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
   const seenIndices = new Set<number>()
   let permutationsSearched = 0
 
+  let displayOffset = 0
+  const WARMUP_ITERATIONS = 3
+  const RATE_DISPLAY_THRESHOLD_MS = 100
+
   let currentBufferIndex = 0
   let currentPassResult = generateExecutionPass(gpuContext, 0, currentBufferIndex)
 
@@ -145,8 +149,12 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
       passResult.compactReadBuffer.unmap()
     }
 
-    if (iteration === 0) {
-      useOptimizerDisplayStore.getState().setOptimizerStartTime(Date.now())
+    if (iteration === WARMUP_ITERATIONS - 1) {
+      useOptimizerDisplayStore.setState({
+        optimizerStartTime: Date.now(),
+        optimizerEndTime: null,
+      })
+      displayOffset = permutationsSearched
     }
 
     if (hasNext && nextPassResult) {
@@ -154,13 +162,24 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
       currentPassResult = nextPassResult
     }
 
-    const searchedSnapshot = permutationsSearched
+    const isWarmingUp = iteration < WARMUP_ITERATIONS
+    const displaySearched = permutationsSearched - displayOffset
     const progressSnapshot = (iteration + 1) / gpuContext.iterations
+    const storeStartTime = useOptimizerDisplayStore.getState().optimizerStartTime
     setTimeout(() => {
+      const endTimeToSet = Date.now()
+      const msDiff = endTimeToSet - (storeStartTime ?? 0)
+
+      // During warmup or before rate stabilizes, only advance progress bar
+      if (isWarmingUp || (msDiff < RATE_DISPLAY_THRESHOLD_MS && displaySearched > 0)) {
+        useOptimizerDisplayStore.setState({ optimizerProgress: progressSnapshot })
+        return
+      }
+
       useOptimizerDisplayStore.setState({
-        optimizerEndTime: Date.now(),
+        optimizerEndTime: endTimeToSet,
         permutationsResults: gpuContext.resultsQueue.size(),
-        permutationsSearched: searchedSnapshot,
+        permutationsSearched: displaySearched,
         optimizerProgress: progressSnapshot,
       })
     }, 0)

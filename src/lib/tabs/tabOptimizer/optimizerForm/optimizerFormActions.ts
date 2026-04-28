@@ -415,6 +415,7 @@ export function startOptimization(): void {
     permutationsResults: 0,
     optimizerStartTime: null,
     optimizerEndTime: null,
+    optimizerProgress: 0,
     optimizationInProgress: true,
   })
 

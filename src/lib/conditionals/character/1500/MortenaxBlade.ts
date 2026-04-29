@@ -29,7 +29,6 @@ import {
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
-  WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -76,7 +75,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1507') // TODO(HUMAN): verify character ID from game_data.json
+  } = Source.character('1507')
 
   // Basic ATK scaling (normal)
   const basicScaling = basic(e, 0.50, 0.55)
@@ -419,11 +418,12 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: { x: 1040, y: 1002, z: 1.15 },
-  showcaseColor: '#888888', // TODO(HUMAN): set imageCenter/showcaseColor post-generation
+  backgroundCenterOffset: { x: -66, y: 52, z: 0.17 },
+  showcaseColor: '#d4c5a1',
 }
 
 export const MortenaxBlade: CharacterConfig = {
-  id: '1507', // TODO(HUMAN): verify character ID from game_data.json
+  id: '1507',
   display,
   conditionals,
   get scoring() {

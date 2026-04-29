@@ -11,6 +11,7 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import {
   AKey,
+  HKey,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -58,7 +59,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_AsNavigatorIseeSeesIt) >= 1) {
-      ${buff.action(AKey.DMG_BOOST, `0.18 * f32(setConditionals.valueAsNavigatorIseeSeesIt)`).damageType(DamageTag.ULT).wgsl(action, 2)}
+      ${buff.hit(HKey.DMG_BOOST, `0.18 * f32(setConditionals.valueAsNavigatorIseeSeesIt)`).damageType(DamageTag.ULT).wgsl(action, 2)}
     }
   `,
 }

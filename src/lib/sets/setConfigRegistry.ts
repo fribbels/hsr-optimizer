@@ -220,7 +220,7 @@ for (const config of setConfigRegistry.values()) {
   }
 
   // Conditional fields
-  if (config.display.conditionalI18nKey && config.display.modifiable) {
+  if (config.display.modifiable) {
     const isBoolean = config.display.conditionalType === ConditionalDataType.BOOLEAN
     const field: SetConditionalFieldInfo = {
       fieldName: `${isBoolean ? 'enabled' : 'value'}${setKey}`,

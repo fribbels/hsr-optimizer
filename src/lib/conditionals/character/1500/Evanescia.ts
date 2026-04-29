@@ -441,7 +441,6 @@ const simulation = (): SimulationMetadata => ({
   ornamentSets: [
     Sets.PunklordeStageZero,
     Sets.TengokuLivestream,
-    Sets.RutilantArena,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
   teammates: [

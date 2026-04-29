@@ -538,13 +538,9 @@ const simulation = (): SimulationMetadata => ({
   comboDot: 0,
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
-    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
   ],
   ornamentSets: [
     Sets.PunklordeStageZero,
-    Sets.TengokuLivestream,
-    Sets.IzumoGenseiAndTakamaDivineRealm,
-    Sets.RutilantArena,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
   teammates: [

@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
@@ -18,8 +19,9 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { type ModifierContext } from 'lib/optimization/context/calculateActions'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
+import { type ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
@@ -43,8 +45,6 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
-import i18next from 'i18next'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -126,6 +126,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: true,
     e1ResPen: true,
     e2FuaDmgBoost: true,
+    e4DmgBoost: true,
     e6EnhancedUlt: true,
   }
 
@@ -133,6 +134,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: true,
     e1ResPen: true,
     e2FuaDmgBoost: true,
+    e4DmgBoost: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -145,27 +147,34 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: {
       id: 'ultZone',
       formItem: 'switch',
-      text: 'Zone / Balefire Bind active',
+      text: 'Zone active',
       content: betaContent,
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
-      text: 'E1 All-Type RES PEN',
+      text: 'E1 RES PEN',
       content: betaContent,
       disabled: e < 1,
     },
     e2FuaDmgBoost: {
       id: 'e2FuaDmgBoost',
       formItem: 'switch',
-      text: 'E2 FUA DMG boost / Ult as FUA',
+      text: 'E2 buffs',
       content: betaContent,
       disabled: e < 2,
+    },
+    e4DmgBoost: {
+      id: 'e4DmgBoost',
+      formItem: 'switch',
+      text: 'E4 DMG boost',
+      content: betaContent,
+      disabled: e < 4,
     },
     e6EnhancedUlt: {
       id: 'e6EnhancedUlt',
       formItem: 'switch',
-      text: 'E6 Enhanced Ult multiplier',
+      text: 'E6 Ult Final DMG',
       content: betaContent,
       disabled: e < 6,
     },
@@ -175,6 +184,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: content.ultZone,
     e1ResPen: content.e1ResPen,
     e2FuaDmgBoost: content.e2FuaDmgBoost,
+    e4DmgBoost: content.e4DmgBoost,
   }
 
   return {
@@ -196,7 +206,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Basic: normal vs enhanced based on Infinite Fury state
       const currentBasicScaling = r.infiniteFuryActive ? enhancedBasicScaling : basicScaling
 
       // Skill: AoE + 4 random bounces (hybrid pattern per averaging.md)
@@ -296,9 +305,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.VULNERABILITY, m.ultZone ? ultVulnerabilityValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
       // A3 trace "Heart, Refined ad Infinitum": While the Zone is active, DMG dealt by ally targets +50%
-      // E4 additionally increases by 50%
-      const totalAllyDmgBoost = traceAllyDmgBoostValue + e4AllyDmgBoost
-      x.buff(StatKey.DMG_BOOST, m.ultZone ? totalAllyDmgBoost : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, m.ultZone ? traceAllyDmgBoostValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+
+      // E4: additionally increases ally targets' DMG dealt by 50%
+      x.buff(StatKey.DMG_BOOST, (e >= 4 && m.ultZone && m.e4DmgBoost) ? e4AllyDmgBoost : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
 
       // A3 branching: if other Nihility characters present -> ULT DMG +50%, else -> FUA DMG +50%
       // countTeamPath includes self, so >= 2 means at least one other Nihility ally
@@ -358,7 +368,6 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     DEFAULT_FUA,
     END_SKILL,
-    DEFAULT_ULT,
   ],
   relicSets: [
     [Sets.LongevousDisciple, Sets.LongevousDisciple],

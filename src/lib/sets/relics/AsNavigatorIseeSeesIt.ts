@@ -10,7 +10,6 @@ import {
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import {
-  AKey,
   HKey,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
@@ -40,6 +39,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.NavigatorIsee',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 3,

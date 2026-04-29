@@ -11,7 +11,6 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import {
   AKey,
-  HKey,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
@@ -40,6 +39,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.MasterSmith',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 2,
@@ -64,7 +64,7 @@ const conditionals: SetConditionals = {
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_DivineQueryingMasterSmith) >= 1) {
       if (setConditionals.valueDivineQueryingMasterSmith >= 1) {
-        ${buff.hit(HKey.CD_BOOST, 0.28).wgsl(action, 2)}
+        ${buff.action(AKey.CD_BOOST, 0.28).wgsl(action, 2)}
       }
       if (setConditionals.valueDivineQueryingMasterSmith >= 2) {
         ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 3)}

@@ -1,3 +1,6 @@
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -6,6 +9,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import {
   Parts,
   PathNames,
@@ -349,11 +355,10 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     DEFAULT_SKILL,
-    DEFAULT_SKILL,
-    END_SKILL,
     DEFAULT_FUA,
+    DEFAULT_FUA,
+    END_SKILL,
     DEFAULT_ULT,
-    // TODO(HUMAN): verify rotation length vs ult cost (80 energy, 30 from skill, 20 from basic, 25 from talent)
   ],
   relicSets: [
     [Sets.LongevousDisciple, Sets.LongevousDisciple],
@@ -366,10 +371,24 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
   teammates: [
-    // TODO(HUMAN): swap to canonical meta teammates
-    { characterId: '1403', lightCone: '23039', characterEidolon: 0, lightConeSuperimposition: 1 }, // Tribbie placeholder
-    { characterId: '1303', lightCone: '23023', characterEidolon: 0, lightConeSuperimposition: 1 }, // Sunday placeholder
-    { characterId: '1409', lightCone: '23038', characterEidolon: 0, lightConeSuperimposition: 1 }, // Hyacine placeholder
+    {
+      characterId: Ashveil.id,
+      lightCone: TheFinaleOfALie.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
 })
 

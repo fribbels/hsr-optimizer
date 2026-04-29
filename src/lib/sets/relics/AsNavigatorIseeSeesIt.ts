@@ -25,7 +25,6 @@ import {
 import {
   type SelectOptionContent,
   type SetConditionals,
-  type SetConditionalTFunction,
   type SetConfig,
   type SetDisplay,
   type SetInfo,
@@ -41,7 +40,6 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.NavigatorIsee',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 3,
@@ -64,11 +62,11 @@ const conditionals: SetConditionals = {
   `,
 }
 
-function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
+function selectionOptions(): SelectOptionContent[] {
   return Array.from({ length: 4 }).map((_val, i) => ({
-    display: t('NavigatorIsee.Display', { stackCount: i }),
+    display: `${i}x`,
     value: i,
-    label: t('NavigatorIsee.Label', { stackCount: i, buffValue: 18 * i }),
+    label: `${i} stacks (+${18 * i}% ULT DMG)`,
   }))
 }
 

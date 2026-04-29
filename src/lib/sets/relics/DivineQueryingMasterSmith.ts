@@ -24,6 +24,7 @@ import {
   type SetConditional,
 } from 'types/optimizer'
 import {
+  type SelectOptionContent,
   type SetConditionals,
   type SetConfig,
   type SetDisplay,
@@ -39,10 +40,10 @@ const info = {
 } as const satisfies SetInfo
 
 const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.MasterSmith',
+  conditionalType: ConditionalDataType.SELECT,
+  selectionOptions: selectionOptions,
   modifiable: true,
-  defaultValue: true,
+  defaultValue: 2,
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
@@ -50,8 +51,11 @@ const conditionals: SetConditionals = {
     c.HP_P.buff(0.12, Source.DivineQueryingMasterSmith)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    if (setConditionals.enabledDivineQueryingMasterSmith) {
+    const value = setConditionals.valueDivineQueryingMasterSmith
+    if (value >= 1) {
       x.buff(StatKey.CD_BOOST, 0.28, x.source(Source.DivineQueryingMasterSmith))
+    }
+    if (value >= 2) {
       if (!x.config.teammateSetEffects[Sets.DivineQueryingMasterSmith]) {
         x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
       }
@@ -61,22 +65,34 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.HP_P, 0.12, DivineQueryingMasterSmith),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_DivineQueryingMasterSmith) >= 1 && setConditionals.enabledDivineQueryingMasterSmith == true) {
-      ${buff.hit(HKey.CD_BOOST, 0.28).wgsl(action, 2)}
-      if (${wgslFalse(action.config.teammateSetEffects[Sets.DivineQueryingMasterSmith])}) {
-        ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 3)}
+    if (relic4p(*p_sets, SET_DivineQueryingMasterSmith) >= 1) {
+      if (setConditionals.valueDivineQueryingMasterSmith >= 1) {
+        ${buff.hit(HKey.CD_BOOST, 0.28).wgsl(action, 2)}
+      }
+      if (setConditionals.valueDivineQueryingMasterSmith >= 2) {
+        if (${wgslFalse(action.config.teammateSetEffects[Sets.DivineQueryingMasterSmith])}) {
+          ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 3)}
+        }
       }
     }
   `,
   teammate: [{
     value: Sets.DivineQueryingMasterSmith,
-    label: (t) => t('TeammateSets.MasterSmith.Text'),
-    desc: (t) => t('TeammateSets.MasterSmith.Desc'),
+    label: () => '15% DMG',
+    desc: () => '4 Piece: Divine-Querying Master Smith (+15% DMG)',
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
     },
   }],
+}
+
+function selectionOptions(): SelectOptionContent[] {
+  return [
+    { display: 'Off', value: 0, label: 'Off' },
+    { display: '1', value: 1, label: 'DEF reduced: CD +28%' },
+    { display: '2', value: 2, label: 'DEF reduced: CD +28% + Comburent DMG +15%' },
+  ]
 }
 
 export const DivineQueryingMasterSmith = {

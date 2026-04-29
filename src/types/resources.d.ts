@@ -4897,6 +4897,10 @@ interface Resources {
         "LongName": "Silver Wolf LV.999",
         "Name": "Silver Wolf LV.999"
       },
+      "1507": {
+        "LongName": "Mortenax Blade",
+        "Name": "Mortenax Blade"
+      },
       "8001": {
         "LongName": "Caelus (Destruction)",
         "Name": "Caelus"
@@ -5410,6 +5414,9 @@ interface Resources {
       "23058": {
         "Name": "Until the Flowers Bloom Again"
       },
+      "23059": {
+        "Name": "Reforged in Hellfire"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -5593,6 +5600,16 @@ interface Resources {
         "Description2pc": "Increases SPD by 6%.",
         "Description4pc": "Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by 10%. This effect cannot stack.",
         "Name": "Diviner of Distant Reach"
+      },
+      "131": {
+        "Description2pc": "Increases ATK by 23%.",
+        "Description4pc": "When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).",
+        "Name": "As Navigator Isee Sees It"
+      },
+      "132": {
+        "Description2pc": "Increases Max HP by 23%.",
+        "Description4pc": "Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with \"Comburent\" increases by 30%. This effect can be triggered again after the wearer uses an attack.",
+        "Name": "Divine-Querying Master Smith"
       },
       "301": {
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%.",
@@ -6550,11 +6567,13 @@ interface Resources {
       "BREAK_EFFICIENCY": "Break Efficiency %",
       "CD": "Crit Dmg %",
       "CR": "Crit Rate %",
+      "Clear": "Clear",
       "DEF": "DEF",
       "DEF_P": "DEF %",
       "DEF_PEN": "Def Pen %",
       "DMG_BOOST": "Dmg Boost %",
       "EFFECT_RES_PEN": "Effect RES PEN %",
+      "EHR": "Effect Hit Rate %",
       "HP": "HP",
       "HP_P": "HP %",
       "RES_PEN": "Dmg RES PEN %",
@@ -7680,6 +7699,11 @@ interface Resources {
       "Below": "Default: Show expanded info below relics preview",
       "Label": "Optimizer Expanded info panel position"
     },
+    "NewCharacterDefaultRank": {
+      "First": "Default: Highest priority (Rank #1)",
+      "Label": "Default rank for new characters",
+      "Last": "Lowest priority"
+    },
     "PermutationsSidebarBehavior": {
       "Label": "Shrink optimizer sidebar on smaller screens",
       "NoShow": "Always keep the sidebar on the right",
@@ -7700,11 +7724,6 @@ interface Resources {
       "Label": "Relic locator in relic editor",
       "No": "Default: Do not show the relic locator in the relic editor",
       "Yes": "Show the relic locator in the relic editor"
-    },
-    "NewCharacterDefaultRank": {
-      "Label": "Default rank for new characters",
-      "First": "Default: Highest priority (Rank #1)",
-      "Last": "Lowest priority"
     },
     "Title": "Settings"
   },

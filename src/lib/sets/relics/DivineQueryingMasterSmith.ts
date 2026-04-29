@@ -4,7 +4,6 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import {
   type BasicStatsArray,
   WgslStatName,
@@ -56,9 +55,7 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.CD_BOOST, 0.28, x.source(Source.DivineQueryingMasterSmith))
     }
     if (value >= 2) {
-      if (!x.config.teammateSetEffects[Sets.DivineQueryingMasterSmith]) {
-        x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
-      }
+      x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
     }
   },
   gpuBasic: () => [
@@ -70,9 +67,7 @@ const conditionals: SetConditionals = {
         ${buff.hit(HKey.CD_BOOST, 0.28).wgsl(action, 2)}
       }
       if (setConditionals.valueDivineQueryingMasterSmith >= 2) {
-        if (${wgslFalse(action.config.teammateSetEffects[Sets.DivineQueryingMasterSmith])}) {
-          ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 3)}
-        }
+        ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 3)}
       }
     }
   `,

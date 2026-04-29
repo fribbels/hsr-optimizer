@@ -39,6 +39,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
+  conditionalI18nKey: 'Conditionals.NavigatorIsee',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 3,

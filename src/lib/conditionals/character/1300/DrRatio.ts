@@ -272,6 +272,7 @@ const simulation = (): SimulationMetadata => ({
     START_SKILL,
     END_FUA,
   ],
+  errRopeEidolon: 6,
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

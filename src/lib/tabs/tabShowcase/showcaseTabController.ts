@@ -1,23 +1,15 @@
 import i18next from 'i18next'
-import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
-import { SeeleB1 } from 'lib/conditionals/character/1100/SeeleB1'
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
-import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import {
   TrailblazerElationCaelus,
   TrailblazerElationStelle,
 } from 'lib/conditionals/character/8000/TrailblazerElation'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
-import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
-import { InTheNight } from 'lib/conditionals/lightcone/5star/InTheNight'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
-import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { UntilTheFlowersBloomAgain } from 'lib/conditionals/lightcone/5star/UntilTheFlowersBloomAgain'
 import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
-import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   AppPages,
   PageToRoute,
@@ -65,15 +57,11 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char(MortenaxBlade.id), lightConeId: lc(ReforgedInHellfire.id) },
     { characterId: char(SilverWolfLv999.id), lightConeId: lc(WelcomeToTheCosmicCity.id) },
     { characterId: char(Evanescia.id), lightConeId: lc(UntilTheFlowersBloomAgain.id) },
     { characterId: char(TrailblazerElationStelle.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
     { characterId: char(TrailblazerElationCaelus.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
-    { characterId: char(Ashveil.id), lightConeId: lc(TheFinaleOfALie.id) },
-    { characterId: char(WeltB1.id), lightConeId: lc(InTheNameOfTheWorld.id), rerun: true },
-    { characterId: char(SeeleB1.id), lightConeId: lc(InTheNight.id), rerun: true },
-    { characterId: char(HuohuoB1.id), lightConeId: lc(NightOfFright.id), rerun: true },
-    { characterId: char(FireflyB1.id), lightConeId: lc(WhereaboutsShouldDreamsRest.id), rerun: true },
 
     // { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
     // { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},

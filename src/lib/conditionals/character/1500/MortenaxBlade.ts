@@ -76,7 +76,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1601') // TODO(HUMAN): verify character ID from game_data.json
+  } = Source.character('1507') // TODO(HUMAN): verify character ID from game_data.json
 
   // Basic ATK scaling (normal)
   const basicScaling = basic(e, 0.50, 0.55)
@@ -418,12 +418,12 @@ const scoring = (): ScoringMetadata => ({
 })
 
 const display = {
-  imageCenter: { x: 0, y: 0, z: 1 }, // TODO(HUMAN): set imageCenter/showcaseColor post-generation
+  imageCenter: { x: 1040, y: 1002, z: 1.15 },
   showcaseColor: '#888888', // TODO(HUMAN): set imageCenter/showcaseColor post-generation
 }
 
 export const MortenaxBlade: CharacterConfig = {
-  id: '1601', // TODO(HUMAN): verify character ID from game_data.json
+  id: '1507', // TODO(HUMAN): verify character ID from game_data.json
   display,
   conditionals,
   get scoring() {

@@ -242,6 +242,9 @@ Characters:
   "1506":
     Name: 銀狼LV.999
     LongName: 銀狼LV.999
+  "1507":
+    Name: Mortenax Blade
+    LongName: Mortenax Blade
   "8001":
     Name: 穹
     LongName: 穹 (壊滅)
@@ -423,6 +426,14 @@ RelicSets:
     Name: 天命に従う旅の卜者
     Description2pc: 速度+6%。
     Description4pc: 戦闘に入る前、装備キャラの速度が120/160以上の場合、装備キャラの会心率+10%/18%。装備キャラが一度の戦闘で初めて愉悦スキルを発動する時、味方全体の愉悦度+10%。この効果は累積できない。
+  "131":
+    Name: As Navigator Isee Sees It
+    Description2pc: Increases ATK by 23%.
+    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+  "132":
+    Name: Divine-Querying Master Smith
+    Description2pc: Increases Max HP by 23%.
+    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
   "301":
     Name: 宇宙封印ステーション
     Description2pc: 装備キャラの攻撃力+12%。装備キャラの速度が120以上の場合、さらに攻撃力+12%。
@@ -810,6 +821,8 @@ Lightcones:
     Name: 銀河シティへようこそ
   "23058":
     Name: 再び花が咲く季節に
+  "23059":
+    Name: Reforged in Hellfire
   "24000":
     Name: とある星神の殞落を記す
   "24001":

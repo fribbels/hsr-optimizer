@@ -242,6 +242,9 @@ Characters:
   "1506":
     Name: Silver Wolf Niv. 999
     LongName: Silver Wolf Niv. 999
+  "1507":
+    Name: Mortenax Blade
+    LongName: Mortenax Blade
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -423,6 +426,14 @@ RelicSets:
     Name: Adivino de alcance remoto
     Description2pc: VEL +6%.
     Description4pc: Antes de entrar en combate, si la VEL del portador es igual o superior a 120/160, la Prob. CRIT del portador aumenta en un 10%/18%. La primera vez que el portador lance una habilidad de Exultación en cada combate, la Exultación de todos los aliados aumenta en un 10%. Este efecto no se puede acumular.
+  "131":
+    Name: As Navigator Isee Sees It
+    Description2pc: Increases ATK by 23%.
+    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+  "132":
+    Name: Divine-Querying Master Smith
+    Description2pc: Increases Max HP by 23%.
+    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -810,6 +821,8 @@ Lightcones:
     Name: Bienvenidos a la ciudad cósmica
   "23058":
     Name: Encuentro en la próxima primavera
+  "23059":
+    Name: Reforged in Hellfire
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

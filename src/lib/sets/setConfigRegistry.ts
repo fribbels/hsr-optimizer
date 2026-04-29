@@ -73,6 +73,8 @@ import { WastelanderOfBanditryDesert } from './relics/WastelanderOfBanditryDeser
 import { WatchmakerMasterOfDreamMachinations } from './relics/WatchmakerMasterOfDreamMachinations'
 import { WavestriderCaptain } from './relics/WavestriderCaptain'
 import { WorldRemakingDeliverer } from './relics/WorldRemakingDeliverer'
+import { AsNavigatorIseeSeesIt } from './relics/AsNavigatorIseeSeesIt'
+import { DivineQueryingMasterSmith } from './relics/DivineQueryingMasterSmith'
 
 const ALL_RELIC_CONFIGS = [
   PasserbyOfWanderingCloud,
@@ -105,6 +107,8 @@ const ALL_RELIC_CONFIGS = [
   SelfEnshroudedRecluse,
   EverGloriousMagicalGirl,
   DivinerOfDistantReach,
+  AsNavigatorIseeSeesIt,
+  DivineQueryingMasterSmith,
 ] as const
 
 const ALL_ORNAMENT_CONFIGS = [

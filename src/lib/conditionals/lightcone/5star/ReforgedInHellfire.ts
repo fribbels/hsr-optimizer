@@ -66,6 +66,6 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
 }
 
 export const ReforgedInHellfire: LightConeConfig = {
-  id: '23040', // TODO(HUMAN): verify light cone ID from game_data.json
+  id: '23059',
   conditionals,
 }

@@ -242,6 +242,9 @@ Characters:
   "1506":
     Name: 银狼LV.999
     LongName: 银狼LV.999
+  "1507":
+    Name: Mortenax Blade
+    LongName: Mortenax Blade
   "8001":
     Name: 穹
     LongName: 穹 (毁灭)
@@ -423,6 +426,14 @@ RelicSets:
     Name: 应天涉远的卜者
     Description2pc: 速度提高6%。
     Description4pc: 进入战斗前，若装备者的速度大于等于120/160，使装备者的暴击率提高10%/18%。装备者每场战斗首次施放欢愉技时，使我方全体欢愉度提高10%，该效果无法叠加。
+  "131":
+    Name: As Navigator Isee Sees It
+    Description2pc: Increases ATK by 23%.
+    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+  "132":
+    Name: Divine-Querying Master Smith
+    Description2pc: Increases Max HP by 23%.
+    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
   "301":
     Name: 太空封印站
     Description2pc: 使装备者的攻击力提高12%。当装备者的速度大于等于120时，攻击力额外提高12%。
@@ -810,6 +821,8 @@ Lightcones:
     Name: 欢迎来到银河城
   "23058":
     Name: 邂逅于下一个花季
+  "23059":
+    Name: Reforged in Hellfire
   "24000":
     Name: 记一位星神的陨落
   "24001":

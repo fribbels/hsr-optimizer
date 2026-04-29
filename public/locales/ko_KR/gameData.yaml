@@ -242,6 +242,9 @@ Characters:
   "1506":
     Name: "은랑\_LV.999"
     LongName: "은랑\_LV.999"
+  "1507":
+    Name: Mortenax Blade
+    LongName: Mortenax Blade
   "8001":
     Name: 카일루스
     LongName: 카일루스 (파멸)
@@ -423,6 +426,14 @@ RelicSets:
     Name: "천명에\_응해\_먼\_길을\_떠난\_점술가"
     Description2pc: "속도\_6%\_증가"
     Description4pc: "전투\_진입\_전,\_장착한\_캐릭터의\_속도가\_120/160\_이상일\_시\_장착한\_캐릭터의\_치명타\_확률이\_10%/18%\_증가한다.\_장착한\_캐릭터가\_각\_전투에서\_처음으로\_환락\_스킬\_발동\_시\_모든\_아군의\_환락도가\_10%\_증가하며,\_해당\_효과는\_중첩되지\_않는다"
+  "131":
+    Name: As Navigator Isee Sees It
+    Description2pc: Increases ATK by 23%.
+    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+  "132":
+    Name: Divine-Querying Master Smith
+    Description2pc: Increases Max HP by 23%.
+    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
   "301":
     Name: "우주\_봉인\_정거장"
     Description2pc: "장착한\_캐릭터의\_공격력이\_12%\_증가한다.\_장착한\_캐릭터의\_속도가\_120\_이상일\_경우\_공격력이\_추가로\_12%\_증가한다"
@@ -810,6 +821,8 @@ Lightcones:
     Name: "갤럭시\_시티에\_오신\_것을\_환영합니다"
   "23058":
     Name: "다음\_꽃피는\_계절의\_만남"
+  "23059":
+    Name: Reforged in Hellfire
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":

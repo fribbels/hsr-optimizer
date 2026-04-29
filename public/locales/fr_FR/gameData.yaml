@@ -242,6 +242,9 @@ Characters:
   "1506":
     Name: "Louve d'argent Niv.\_999"
     LongName: "Louve d'argent Niv.\_999"
+  "1507":
+    Name: Mortenax Blade
+    LongName: Mortenax Blade
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -423,6 +426,14 @@ RelicSets:
     Name: Oracle des horizons lointains
     Description2pc: Augmente la VIT de 6%.
     Description4pc: Avant le combat, si la VIT du porteur est supérieure ou égale à 120/160, augmente ses chances de coup critique de 10%/18%. Lorsque le porteur utilise sa comicompétence pour la première fois dans chaque combat, renforce l'Allégresse de tous les alliés de 10%. Cet effet n'est pas cumulable.
+  "131":
+    Name: As Navigator Isee Sees It
+    Description2pc: Increases ATK by 23%.
+    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+  "132":
+    Name: Divine-Querying Master Smith
+    Description2pc: Increases Max HP by 23%.
+    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
   "301":
     Name: Station de scellement spatial
     Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque sa VIT est supérieure ou égale à 120, son ATQ augmente encore de 12%.
@@ -810,6 +821,8 @@ Lightcones:
     Name: Terrain de jeu universel
   "23058":
     Name: Printemps des retrouvailles
+  "23059":
+    Name: Reforged in Hellfire
   "24000":
     Name: La chute d'un Aiôn
   "24001":

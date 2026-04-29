@@ -297,7 +297,6 @@ export function validateForm(form: Form): boolean {
  * Equip the currently selected optimizer result to the character.
  */
 export function equipClicked(): void {
-  console.log('Equip clicked')
   const form = getForm()
   const characterId = form.characterId
 
@@ -310,7 +309,6 @@ export function equipClicked(): void {
 
   const selectedNodes = gridStore.optimizerGridApi()?.getSelectedNodes()
   if (!selectedNodes || selectedNodes.length === 0 || (selectedNodes[0]?.data?.statSim)) {
-    // Cannot equip a stat sim or empty row
     return
   }
 

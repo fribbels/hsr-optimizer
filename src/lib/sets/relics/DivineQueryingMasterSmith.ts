@@ -85,8 +85,8 @@ const conditionals: SetConditionals = {
 function selectionOptions(): SelectOptionContent[] {
   return [
     { display: 'Off', value: 0, label: 'Off' },
-    { display: '1', value: 1, label: 'DEF reduced: CD +28%' },
-    { display: '2', value: 2, label: 'DEF reduced: CD +28% + Comburent DMG +15%' },
+    { display: '1x', value: 1, label: 'DEF reduced: CD +28%' },
+    { display: '2x', value: 2, label: 'DEF reduced: CD +28% + Comburent DMG +15%' },
   ]
 }
 

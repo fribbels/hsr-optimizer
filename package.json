@@ -83,7 +83,7 @@
     "jsdom": "^29.0.2",
     "oxlint": "^1.60.0",
     "patch-package": "^8.0.1",
-    "postcss": "^8.5.9",
+    "postcss": "^8.5.12",
     "postcss-preset-mantine": "^1.18.0",
     "postcss-simple-vars": "^7.0.1",
     "typescript": "^6.0.2",

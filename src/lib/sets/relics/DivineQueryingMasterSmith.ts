@@ -39,7 +39,6 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.MasterSmith',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 2,

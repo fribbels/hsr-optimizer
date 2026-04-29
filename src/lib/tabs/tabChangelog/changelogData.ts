@@ -16,7 +16,15 @@ export function getChangelogContent() {
       date: '',
       content: [],
     },
-    // `Balance: Sparxie and Yaoguang now benchmark against Punklorde Stage Zero`, // TODO
+    {
+      title: '',
+      date: '2026-04-28',
+      content: [
+        `Updated content to 4.3v1`,
+        `Added Mortenax Blade showcase`,
+        `blade.webp`,
+      ],
+    },
     {
       title: '',
       date: '2026-04-19',

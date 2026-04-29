@@ -334,6 +334,7 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     WHOLE_SKILL,
   ],
+  deprioritizeBuffs: true,
   relicSets: [
     [Sets.DivineQueryingMasterSmith, Sets.DivineQueryingMasterSmith],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

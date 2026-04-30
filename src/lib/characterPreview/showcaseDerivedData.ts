@@ -39,6 +39,7 @@ export interface ShowcaseLayout {
   scoringType: ScoringType
   portraitToUse: CustomImageConfig | undefined
   portraitUrl: string
+  defaultPortraitUrl: string
   displayDimensions: ShowcaseDisplayDimensions
   artistName: string | undefined
 }
@@ -53,7 +54,8 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const scoringType = resolveScoringType(storedScoringType, hasSimulation)
 
   const portraitToUse = getCharacterById(character.id)?.portrait
-  const portraitUrl = portraitToUse?.imageUrl ?? Assets.getCharacterPortraitById(character.id)
+  const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
+  const portraitUrl = portraitToUse?.imageUrl ?? defaultPortraitUrl
 
   const displayDimensions = getShowcaseDisplayDimensions(character, scoringType === ScoringType.COMBAT_SCORE)
   const artistName = getArtistName(character)
@@ -66,6 +68,7 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
     scoringType,
     portraitToUse,
     portraitUrl,
+    defaultPortraitUrl,
     displayDimensions,
     artistName,
   }

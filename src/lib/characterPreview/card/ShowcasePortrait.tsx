@@ -39,6 +39,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   scoringType,
   displayDimensions,
   customPortrait,
+  defaultPortraitUrl,
   editPortraitModalOpen,
   setEditPortraitModalOpen,
   onEditPortraitOk,
@@ -51,6 +52,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   scoringType: ScoringType,
   displayDimensions: ShowcaseDisplayDimensions,
   customPortrait: CustomImageConfig | undefined,
+  defaultPortraitUrl: string,
   editPortraitModalOpen: boolean,
   setEditPortraitModalOpen: (b: boolean) => void,
   onEditPortraitOk: (p: CustomImagePayload) => void,
@@ -113,15 +115,13 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
     const n = typeof v === 'number' ? v : parseFloat(String(v))
     return String(Number.isFinite(n) ? n : 0)
   }
-  const portraitDataAttrs = hasCustomPortrait
-    ? {}
-    : {
-      'data-portrait-inject': '',
-      'data-portrait-url': Assets.getCharacterPortraitById(character.id),
-      'data-portrait-left': safeNum(portraitStyle.left),
-      'data-portrait-top': safeNum(portraitStyle.top),
-      'data-portrait-width': safeNum(portraitStyle.width),
-    }
+  const portraitDataAttrs = {
+    'data-portrait-inject': '',
+    'data-portrait-url': Assets.getCharacterPortraitById(character.id),
+    'data-portrait-left': safeNum(portraitStyle.left),
+    'data-portrait-top': safeNum(portraitStyle.top),
+    'data-portrait-width': safeNum(portraitStyle.width),
+  }
 
   return (
     <div
@@ -149,6 +149,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
             customPortrait={customPortrait ?? character.portrait!}
             parentW={parentW}
             scoringType={scoringType}
+            defaultPortraitUrl={defaultPortraitUrl}
           />
         )
         : (

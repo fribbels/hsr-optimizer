@@ -168,30 +168,55 @@ function patchCanvasForDisplayP3(): () => void {
  */
 async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> {
   const restoreActions: Array<() => void> = []
-
-  const containers = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-inject]'))
   const loadPromises: Promise<void>[] = []
 
-  for (const container of containers) {
-    const spineWrapper = container.querySelector<HTMLElement>('[data-portrait-spine]')
-    if (!spineWrapper) continue // L2D-off: LoadingBlurredImage renders natively, skip
+  const containers = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-inject]'))
 
+  for (const container of containers) {
     const url = container.dataset.portraitUrl
     const left = container.dataset.portraitLeft
     const top = container.dataset.portraitTop
     const width = container.dataset.portraitWidth
     if (!url || !left || !top || !width) continue
 
-    // Hide spine wrapper
-    const originalDisplay = spineWrapper.style.display
-    spineWrapper.style.display = 'none'
+    const spineWrapper = container.querySelector<HTMLElement>('[data-portrait-spine]')
+    const customPortraitWrapper = container.querySelector<HTMLElement>('[data-fallback-src]')
+
+    // Default portrait without L2D — renders natively via LoadingBlurredImage, skip
+    if (!spineWrapper && !customPortraitWrapper) continue
+
+    // Determine which element to hide and what image URL to capture
+    let elementToHide: HTMLElement
+    let imageUrlToCapture: string
+
+    if (spineWrapper) {
+      // L2D/spine: hide the canvas, inject the default static portrait
+      elementToHide = spineWrapper
+      imageUrlToCapture = url
+    } else {
+      // Custom portrait: try to fetch the custom image first
+      const customImgUrl = customPortraitWrapper!.querySelector<HTMLImageElement>('img')?.src
+      if (customImgUrl) {
+        try {
+          // If fetchable (CORS OK, e.g. imgur), use the custom image
+          const resp = await withTimeout(fetch(customImgUrl, { method: 'HEAD' }), 3000)
+          if (resp.ok) continue // Custom image is CORS-friendly, let snapdom handle it natively
+        } catch { /* CORS blocked — fall through to inject default portrait */ }
+      }
+      elementToHide = customPortraitWrapper!
+      imageUrlToCapture = url // default portrait URL from data attributes
+    }
+
+    // Hide the element that can't be captured
+    const originalDisplay = elementToHide.style.display
+    elementToHide.style.display = 'none'
     restoreActions.push(() => {
-      if (spineWrapper.isConnected) spineWrapper.style.display = originalDisplay
+      if (elementToHide.isConnected) elementToHide.style.display = originalDisplay
     })
 
     // Fetch portrait as data URL to avoid iOS decode race conditions
     try {
-      const response = await withTimeout(fetch(url), 4000)
+      const response = await withTimeout(fetch(imageUrlToCapture), 4000)
       const blob = await response.blob()
       const dataUrl = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader()
@@ -211,7 +236,7 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
       const w = parseFloat(width)
       const h = w * (dims.h / dims.w)
 
-      // Inject visible portrait img
+      // Inject visible portrait img with correct charCenter-based positioning
       const img = new Image()
       img.src = dataUrl
       img.style.position = 'absolute'
@@ -234,7 +259,7 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
         if (img.isConnected) img.remove()
       })
     } catch {
-      // Fetch failed - spine wrapper restore already registered, UI will recover
+      // Fetch failed - element hide restore already registered, UI will recover
     }
   }
 
@@ -249,8 +274,12 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
   }
 }
 
-/** Convert loaded images to data URIs so snapdom doesn't re-fetch them. */
-function buildImageDataUriCache(root: Element): Map<string, string> {
+/** Convert loaded images to data URIs so snapdom doesn't re-fetch them.
+ *  For cross-origin images that taint the canvas, tries fetch() first (works
+ *  if the server sends CORS headers, e.g. imgur). If fetch also fails, falls
+ *  back to the same-origin default portrait URL from data-fallback-src so
+ *  screenshots show the character's default art instead of a blank area. */
+async function buildImageDataUriCache(root: Element): Promise<Map<string, string>> {
   const cache = new Map<string, string>()
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')!
@@ -261,7 +290,40 @@ function buildImageDataUriCache(root: Element): Map<string, string> {
       canvas.height = img.naturalHeight
       ctx.drawImage(img, 0, 0)
       cache.set(img.src, canvas.toDataURL())
-    } catch { /* tainted */ }
+    } catch {
+      // Tainted canvas — cross-origin image. Try fetch (works if server has CORS headers).
+      try {
+        const resp = await fetch(img.src)
+        const blob = await resp.blob()
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader()
+          reader.onload = () => resolve(reader.result as string)
+          reader.onerror = reject
+          reader.readAsDataURL(blob)
+        })
+        cache.set(img.src, dataUrl)
+      } catch {
+        // CORS blocked — use default character portrait from data-fallback-src
+        const fallbackUrl = img.dataset.fallbackSrc
+          ?? img.closest<HTMLElement>('[data-fallback-src]')?.dataset.fallbackSrc
+        if (fallbackUrl) {
+          try {
+            const fallbackImg = new Image()
+            await new Promise<void>((resolve) => {
+              fallbackImg.onload = () => resolve()
+              fallbackImg.onerror = () => resolve()
+              fallbackImg.src = fallbackUrl
+            })
+            if (fallbackImg.naturalWidth) {
+              canvas.width = fallbackImg.naturalWidth
+              canvas.height = fallbackImg.naturalHeight
+              ctx.drawImage(fallbackImg, 0, 0)
+              cache.set(img.src, canvas.toDataURL())
+            }
+          } catch { /* best-effort */ }
+        }
+      }
+    }
   }
   return cache
 }
@@ -325,7 +387,7 @@ export async function screenshotElementById(
     try {
       await preCache(element)
     } catch { /* best-effort */ }
-    const imageCache = buildImageDataUriCache(element)
+    const imageCache = await buildImageDataUriCache(element)
 
     const restoreContext = patchCanvasForDisplayP3()
 

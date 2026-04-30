@@ -194,7 +194,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
           open={editPortraitModalOpen}
           setOpen={setEditPortraitModalOpen}
           onOk={onEditPortraitOk}
-          defaultImageUrl={Assets.getCharacterPortraitById(character.id)}
+          defaultImageUrl={defaultPortraitUrl}
           width={500}
         />
       )}

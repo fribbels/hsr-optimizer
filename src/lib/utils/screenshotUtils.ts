@@ -199,17 +199,14 @@ async function prepareLiveDomForCapture(root: HTMLElement, corsFailed: Set<strin
     if (!spineWrapper && !customPortraitWrapper) continue
 
     let elementToHide: HTMLElement
-    let imageUrlToCapture: string
 
     if (spineWrapper) {
       elementToHide = spineWrapper
-      imageUrlToCapture = url
     } else {
       // Custom portrait: skip injection if buildImageDataUriCache already fetched it successfully
       const customImgUrl = customPortraitWrapper!.querySelector<HTMLImageElement>('img')?.src
       if (customImgUrl && !corsFailed.has(customImgUrl)) continue
       elementToHide = customPortraitWrapper!
-      imageUrlToCapture = url
     }
 
     const originalDisplay = elementToHide.style.display
@@ -219,7 +216,7 @@ async function prepareLiveDomForCapture(root: HTMLElement, corsFailed: Set<strin
     })
 
     try {
-      const response = await withTimeout(fetch(imageUrlToCapture), FETCH_TIMEOUT_MS)
+      const response = await withTimeout(fetch(url), FETCH_TIMEOUT_MS)
       const blob = await response.blob()
       const dataUrl = await blobToDataUrl(blob)
 
@@ -272,10 +269,53 @@ async function prepareLiveDomForCapture(root: HTMLElement, corsFailed: Set<strin
   }
 }
 
+/**
+ * Resolves a data URI for a cross-origin image that tainted the canvas.
+ * Tries fetch (works when the server sends CORS headers), then falls back
+ * to the same-origin URL from data-fallback-src.
+ */
+async function resolveTaintedImage(
+  img: HTMLImageElement,
+  cache: Map<string, string>,
+): Promise<{ dataUrl: string } | { corsFailed: true }> {
+  try {
+    const blob = await withTimeout(fetch(img.src), FETCH_TIMEOUT_MS).then((r) => r.blob())
+    return { dataUrl: await blobToDataUrl(blob) }
+  } catch { /* CORS fetch failed */ }
+
+  const fallbackUrl = img.dataset.fallbackSrc
+    ?? img.closest<HTMLElement>('[data-fallback-src]')?.dataset.fallbackSrc
+
+  if (fallbackUrl && cache.has(fallbackUrl)) {
+    return { dataUrl: cache.get(fallbackUrl)! }
+  }
+
+  if (fallbackUrl) {
+    try {
+      const fallbackImg = new Image()
+      await withTimeout(new Promise<void>((resolve) => {
+        fallbackImg.onload = () => resolve()
+        fallbackImg.onerror = () => resolve()
+        fallbackImg.src = fallbackUrl
+      }), FETCH_TIMEOUT_MS)
+      if (fallbackImg.naturalWidth) {
+        const c = document.createElement('canvas')
+        const cx = c.getContext('2d')!
+        c.width = fallbackImg.naturalWidth
+        c.height = fallbackImg.naturalHeight
+        cx.drawImage(fallbackImg, 0, 0)
+        return { dataUrl: c.toDataURL() }
+      }
+    } catch { /* best-effort */ }
+  }
+
+  return { corsFailed: true }
+}
+
 /** Convert loaded images to data URIs so snapdom doesn't re-fetch them.
- *  For cross-origin images that taint the canvas, tries fetch() (works if the
- *  server sends CORS headers, e.g. imgur). If fetch also fails, falls back to
- *  the same-origin URL from data-fallback-src (handles the background blur layer).
+ *  For cross-origin images that taint the canvas, tries fetch() then a
+ *  same-origin fallback from data-fallback-src. Tainted images are resolved
+ *  in parallel to avoid sequential timeout delays.
  *  Returns the cache and a set of URLs that failed CORS — used by
  *  prepareLiveDomForCapture to decide whether to inject the default portrait. */
 async function buildImageDataUriCache(root: Element): Promise<{ cache: Map<string, string>; corsFailed: Set<string> }> {
@@ -284,6 +324,9 @@ async function buildImageDataUriCache(root: Element): Promise<{ cache: Map<strin
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
   if (!ctx) return { cache, corsFailed }
+
+  const taintedWork: Array<{ src: string; promise: Promise<{ dataUrl: string } | { corsFailed: true }> }> = []
+
   for (const img of root.querySelectorAll<HTMLImageElement>('img')) {
     if (!img.complete || !img.naturalWidth || img.src.startsWith('data:') || cache.has(img.src)) continue
     try {
@@ -292,32 +335,22 @@ async function buildImageDataUriCache(root: Element): Promise<{ cache: Map<strin
       ctx.drawImage(img, 0, 0)
       cache.set(img.src, canvas.toDataURL())
     } catch {
-      try {
-        const blob = await withTimeout(fetch(img.src), FETCH_TIMEOUT_MS).then((r) => r.blob())
-        cache.set(img.src, await blobToDataUrl(blob))
-      } catch {
-        corsFailed.add(img.src)
-        const fallbackUrl = img.dataset.fallbackSrc
-          ?? img.closest<HTMLElement>('[data-fallback-src]')?.dataset.fallbackSrc
-        if (fallbackUrl) {
-          try {
-            const fallbackImg = new Image()
-            await new Promise<void>((resolve) => {
-              fallbackImg.onload = () => resolve()
-              fallbackImg.onerror = () => resolve()
-              fallbackImg.src = fallbackUrl
-            })
-            if (fallbackImg.naturalWidth) {
-              canvas.width = fallbackImg.naturalWidth
-              canvas.height = fallbackImg.naturalHeight
-              ctx.drawImage(fallbackImg, 0, 0)
-              cache.set(img.src, canvas.toDataURL())
-            }
-          } catch { /* best-effort */ }
-        }
-      }
+      taintedWork.push({ src: img.src, promise: resolveTaintedImage(img, cache) })
     }
   }
+
+  const results = await Promise.allSettled(taintedWork.map((w) => w.promise))
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i]
+    if (result.status !== 'fulfilled') continue
+    const value = result.value
+    if ('dataUrl' in value) {
+      cache.set(taintedWork[i].src, value.dataUrl)
+    } else {
+      corsFailed.add(taintedWork[i].src)
+    }
+  }
+
   return { cache, corsFailed }
 }
 

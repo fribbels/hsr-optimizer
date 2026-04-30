@@ -33,13 +33,17 @@ import {
   type CustomImagePayload,
 } from 'types/customImage'
 
+const safeNum = (v: string | number | undefined): string => {
+  const n = typeof v === 'number' ? v : parseFloat(String(v))
+  return String(Number.isFinite(n) ? n : 0)
+}
+
 export const ShowcasePortrait = memo(function ShowcasePortrait({
   source,
   character,
   scoringType,
   displayDimensions,
   customPortrait,
-  defaultPortraitUrl,
   editPortraitModalOpen,
   setEditPortraitModalOpen,
   onEditPortraitOk,
@@ -52,7 +56,6 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   scoringType: ScoringType,
   displayDimensions: ShowcaseDisplayDimensions,
   customPortrait: CustomImageConfig | undefined,
-  defaultPortraitUrl: string,
   editPortraitModalOpen: boolean,
   setEditPortraitModalOpen: (b: boolean) => void,
   onEditPortraitOk: (p: CustomImagePayload) => void,
@@ -107,17 +110,14 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
   const hasSpineData = getSkeletonCount(character.id) != null
   const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D
 
-  // Expose portrait positioning as data attributes for screenshot injection.
-  // The screenshot util injects a hidden <img> at capture time (like bg injection),
-  // which is more reliable than React-rendered hidden imgs on iOS Safari.
-  // Guard against NaN: CSSProperties types allow undefined, ensure valid numbers.
-  const safeNum = (v: string | number | undefined): string => {
-    const n = typeof v === 'number' ? v : parseFloat(String(v))
-    return String(Number.isFinite(n) ? n : 0)
-  }
+  const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
+
+  // Default portrait positioning for screenshot injection — prepareLiveDomForCapture
+  // uses these to inject a static portrait when L2D or cross-origin custom images
+  // can't be captured by snapdom.
   const portraitDataAttrs = {
     'data-portrait-inject': '',
-    'data-portrait-url': Assets.getCharacterPortraitById(character.id),
+    'data-portrait-url': defaultPortraitUrl,
     'data-portrait-left': safeNum(portraitStyle.left),
     'data-portrait-top': safeNum(portraitStyle.top),
     'data-portrait-width': safeNum(portraitStyle.width),
@@ -155,7 +155,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         : (
           <div data-portrait-foreground>
             <LoadingBlurredImage
-              src={Assets.getCharacterPortraitById(character.id)}
+              src={defaultPortraitUrl}
               style={portraitStyle}
             />
           </div>

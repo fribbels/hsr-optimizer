@@ -61,12 +61,16 @@
  * - `data-portrait-inject`: The portrait container (has positioning data attributes)
  * - `data-portrait-spine`: Wrapper around spine canvas (L2D-on only) - hidden during capture
  * - `data-portrait-foreground`: Wrapper around LoadingBlurredImage (L2D-off only)
- * - `data-portrait-url/left/top/width`: Portrait positioning data on container
+ * - `data-portrait-url/left/top/width`: Default portrait positioning data on container
+ * - `data-fallback-src`: Same-origin fallback URL on cross-origin custom portrait images.
+ *   Set on the background blur `<img>` and the custom portrait wrapper `<div>`.
+ *   Used by buildImageDataUriCache for the blur layer and by prepareLiveDomForCapture
+ *   to detect custom portrait containers that need injection.
  *
  * ## Capture Flow
  *
  * 1. Patch canvas.getContext for Display P3 color space (better mobile colors)
- * 2. For L2D containers: hide spine wrapper, inject static portrait as data URL
+ * 2. For L2D/cross-origin containers: hide un-capturable element, inject static portrait as data URL
  * 3. snapdom() capture with retry loop (up to 3x, break when blob > 1MB)
  * 4. Restore live DOM (unhide spine, remove injected img)
  * 5. Hand blob to download / Web Share / clipboard
@@ -112,6 +116,17 @@ import {
 } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message.js'
 
+const FETCH_TIMEOUT_MS = 8000
+
+function blobToDataUrl(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  })
+}
+
 function isMobileOrSafari(): boolean {
   const userAgent = navigator.userAgent
   const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop|BlackBerry/i.test(userAgent)
@@ -152,21 +167,19 @@ function patchCanvasForDisplayP3(): () => void {
 }
 
 /**
- * Prepares the live DOM for screenshot capture by handling L2D spine canvases.
+ * Prepares the live DOM for screenshot capture by replacing un-capturable portrait
+ * elements with static images that snapdom can serialize.
  *
- * ## Why this exists
- * Spine canvases use `preserveDrawingBuffer: false` for performance, which means
- * their pixels can't be read after presentation. Snapdom would capture a blank canvas.
- *
- * ## What it does
- * For each L2D-on container (has `data-portrait-spine`):
- * 1. Hide the spine canvas wrapper
- * 2. Fetch the static portrait as a data URL (external URLs have decode races on iOS)
- * 3. Inject a visible <img> with explicit pixel dimensions (height:auto doesn't work in clones)
+ * Handles two cases for `[data-portrait-inject]` containers:
+ * - **Spine/L2D** (`[data-portrait-spine]`): canvas uses preserveDrawingBuffer:false,
+ *   so snapdom captures a blank frame. Hides spine, injects static portrait.
+ * - **Cross-origin custom portrait** (`[data-fallback-src]`): external images from
+ *   servers without CORS headers can't be fetched/inlined by snapdom. Hides the custom
+ *   portrait and injects the default character portrait with charCenter positioning.
  *
  * Returns a restore function that undoes all changes in reverse order.
  */
-async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> {
+async function prepareLiveDomForCapture(root: HTMLElement, corsFailed: Set<string>): Promise<() => void> {
   const restoreActions: Array<() => void> = []
   const loadPromises: Promise<void>[] = []
 
@@ -185,45 +198,30 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
     // Default portrait without L2D — renders natively via LoadingBlurredImage, skip
     if (!spineWrapper && !customPortraitWrapper) continue
 
-    // Determine which element to hide and what image URL to capture
     let elementToHide: HTMLElement
     let imageUrlToCapture: string
 
     if (spineWrapper) {
-      // L2D/spine: hide the canvas, inject the default static portrait
       elementToHide = spineWrapper
       imageUrlToCapture = url
     } else {
-      // Custom portrait: try to fetch the custom image first
+      // Custom portrait: skip injection if buildImageDataUriCache already fetched it successfully
       const customImgUrl = customPortraitWrapper!.querySelector<HTMLImageElement>('img')?.src
-      if (customImgUrl) {
-        try {
-          // If fetchable (CORS OK, e.g. imgur), use the custom image
-          const resp = await withTimeout(fetch(customImgUrl, { method: 'HEAD' }), 3000)
-          if (resp.ok) continue // Custom image is CORS-friendly, let snapdom handle it natively
-        } catch { /* CORS blocked — fall through to inject default portrait */ }
-      }
+      if (customImgUrl && !corsFailed.has(customImgUrl)) continue
       elementToHide = customPortraitWrapper!
-      imageUrlToCapture = url // default portrait URL from data attributes
+      imageUrlToCapture = url
     }
 
-    // Hide the element that can't be captured
     const originalDisplay = elementToHide.style.display
     elementToHide.style.display = 'none'
     restoreActions.push(() => {
       if (elementToHide.isConnected) elementToHide.style.display = originalDisplay
     })
 
-    // Fetch portrait as data URL to avoid iOS decode race conditions
     try {
-      const response = await withTimeout(fetch(imageUrlToCapture), 4000)
+      const response = await withTimeout(fetch(imageUrlToCapture), FETCH_TIMEOUT_MS)
       const blob = await response.blob()
-      const dataUrl = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onload = () => resolve(reader.result as string)
-        reader.onerror = reject
-        reader.readAsDataURL(blob)
-      })
+      const dataUrl = await blobToDataUrl(blob)
 
       // Probe natural dimensions - explicit height required (height:auto = 0 in clones)
       const probe = new Image()
@@ -275,14 +273,17 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
 }
 
 /** Convert loaded images to data URIs so snapdom doesn't re-fetch them.
- *  For cross-origin images that taint the canvas, tries fetch() first (works
- *  if the server sends CORS headers, e.g. imgur). If fetch also fails, falls
- *  back to the same-origin default portrait URL from data-fallback-src so
- *  screenshots show the character's default art instead of a blank area. */
-async function buildImageDataUriCache(root: Element): Promise<Map<string, string>> {
+ *  For cross-origin images that taint the canvas, tries fetch() (works if the
+ *  server sends CORS headers, e.g. imgur). If fetch also fails, falls back to
+ *  the same-origin URL from data-fallback-src (handles the background blur layer).
+ *  Returns the cache and a set of URLs that failed CORS — used by
+ *  prepareLiveDomForCapture to decide whether to inject the default portrait. */
+async function buildImageDataUriCache(root: Element): Promise<{ cache: Map<string, string>; corsFailed: Set<string> }> {
   const cache = new Map<string, string>()
+  const corsFailed = new Set<string>()
   const canvas = document.createElement('canvas')
-  const ctx = canvas.getContext('2d')!
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return { cache, corsFailed }
   for (const img of root.querySelectorAll<HTMLImageElement>('img')) {
     if (!img.complete || !img.naturalWidth || img.src.startsWith('data:') || cache.has(img.src)) continue
     try {
@@ -291,19 +292,11 @@ async function buildImageDataUriCache(root: Element): Promise<Map<string, string
       ctx.drawImage(img, 0, 0)
       cache.set(img.src, canvas.toDataURL())
     } catch {
-      // Tainted canvas — cross-origin image. Try fetch (works if server has CORS headers).
       try {
-        const resp = await fetch(img.src)
-        const blob = await resp.blob()
-        const dataUrl = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader()
-          reader.onload = () => resolve(reader.result as string)
-          reader.onerror = reject
-          reader.readAsDataURL(blob)
-        })
-        cache.set(img.src, dataUrl)
+        const blob = await withTimeout(fetch(img.src), FETCH_TIMEOUT_MS).then((r) => r.blob())
+        cache.set(img.src, await blobToDataUrl(blob))
       } catch {
-        // CORS blocked — use default character portrait from data-fallback-src
+        corsFailed.add(img.src)
         const fallbackUrl = img.dataset.fallbackSrc
           ?? img.closest<HTMLElement>('[data-fallback-src]')?.dataset.fallbackSrc
         if (fallbackUrl) {
@@ -325,7 +318,7 @@ async function buildImageDataUriCache(root: Element): Promise<Map<string, string
       }
     }
   }
-  return cache
+  return { cache, corsFailed }
 }
 
 /** Snapdom plugin that replaces img srcs on the clone with pre-built data URIs. */
@@ -387,7 +380,7 @@ export async function screenshotElementById(
     try {
       await preCache(element)
     } catch { /* best-effort */ }
-    const imageCache = await buildImageDataUriCache(element)
+    const { cache: imageCache, corsFailed } = await buildImageDataUriCache(element)
 
     const restoreContext = patchCanvasForDisplayP3()
 
@@ -397,7 +390,7 @@ export async function screenshotElementById(
       for (let i = 0; i < maxAttempts; i++) {
         let restoreLiveDom: (() => void) | null = null
         try {
-          restoreLiveDom = await prepareLiveDomForCapture(element)
+          restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
           const capture = await withTimeout(
             snapdom(element, {
               scale: 1.5,

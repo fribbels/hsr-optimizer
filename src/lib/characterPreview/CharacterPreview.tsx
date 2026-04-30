@@ -576,7 +576,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               scoringType={scoringType}
               displayDimensions={displayDimensions}
               customPortrait={portraitToUse}
-              defaultPortraitUrl={layout.defaultPortraitUrl}
               editPortraitModalOpen={state.editPortraitModalOpen}
               setEditPortraitModalOpen={state.setEditPortraitModalOpen}
               onEditPortraitOk={handleEditPortraitOk}

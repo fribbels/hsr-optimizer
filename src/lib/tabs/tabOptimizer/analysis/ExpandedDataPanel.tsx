@@ -79,11 +79,11 @@ function AnalysisRender({ analysis }: { analysis: OptimizerResultAnalysis }) {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <DamageTagPieChart analysis={analysis} />
               </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <DamageUpgrades analysis={analysis} />
+                <TeammateUpgrades analysis={analysis} />
               </div>
             </div>
-            <TeammateUpgrades analysis={analysis} />
           </div>
 
           <BuffsAnalysisDisplay perActionBuffGroups={analysis.perActionBuffGroups} context={analysis.context} />

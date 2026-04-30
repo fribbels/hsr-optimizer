@@ -717,7 +717,7 @@ StatSimulation:
 ExpandedDataPanel:
   TeammateUpgrades:
     ColumnHeaders:
-      Ornaments: Teammate Ornament set upgrade
+      Ornaments: Teammate Set
       COMBO_DMG: Δ Combo DMG
       COMBO_DMG_P: Δ% Combo DMG
   SubstatUpgrades:

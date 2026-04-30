@@ -1,36 +1,12 @@
-.upgradeTable {
-  width: 80%;
-  box-shadow: var(--shadow-card);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-
-.upgradeTable thead {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.upgradeTable tbody td:first-child {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-.columnHeader {
-  text-align: center !important;
-  width: 25%;
-}
-
-.setsHeader {
-  text-align: center !important;
-  background-color: rgba(0, 0, 0, 0.2);
+.expandRow {
   cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.overlappingAvatars {
   display: flex;
-  gap: 16px;
 }
 
-.centeredCell {
-  text-align: center !important;
-}
-
-.iconRow {
-  margin-left: 8px;
-  align-content: center;
+.overlappingAvatars img:not(:first-child) {
+  margin-left: -4px;
 }

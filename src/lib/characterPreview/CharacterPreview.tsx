@@ -159,12 +159,14 @@ function buildInsetShadow(blur: number, opacity: number) {
  */
 function ShowcaseBackgroundBlur({
   portraitUrl,
+  defaultPortraitUrl,
   portraitToUse,
   displayDimensions,
   portraitFilter,
   blendMode,
 }: {
   portraitUrl: string,
+  defaultPortraitUrl: string,
   portraitToUse: CustomImageConfig | undefined,
   displayDimensions: { charCenter: { x: number, y: number, z: number }, backgroundCenterOffset: { x: number, y: number, z: number } },
   portraitFilter: string,
@@ -229,6 +231,7 @@ function ShowcaseBackgroundBlur({
     >
       <img
         src={portraitUrl}
+        data-fallback-src={portraitToUse ? defaultPortraitUrl : undefined}
         style={{
           ...imgStyle,
           display: 'block',
@@ -558,6 +561,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         >
           <ShowcaseBackgroundBlur
             portraitUrl={portraitUrl}
+            defaultPortraitUrl={layout.defaultPortraitUrl}
             portraitToUse={portraitToUse}
             displayDimensions={displayDimensions}
             portraitFilter={portraitFilter}

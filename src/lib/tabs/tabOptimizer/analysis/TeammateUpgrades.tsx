@@ -59,7 +59,7 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ analysis }: { a
   const swapRows = groupedUpgrades.filter((g) => g.simScore - baseSimScore > 0)
 
   return (
-    <Table className={classes.upgradeTable}>
+    <Table className={classes.upgradeTable} layout="fixed">
       <Table.Thead>
         <Table.Tr>
           <Table.Th className={classes.substatHeader}>{t('Ornaments')}</Table.Th>
@@ -88,7 +88,7 @@ function SetRow({ row }: { row: SetCentricRow }) {
   return (
     <Table.Tr>
       <Table.Td>
-        <Flex align="center">
+        <Flex align="center" ml={3}>
           <TeammateSetImageWithTooltip value={row.setValue} />
         </Flex>
       </Table.Td>
@@ -109,13 +109,16 @@ function SwapRow({ group, baseSimScore }: { group: TeammateSetUpgrade, baseSimSc
   return (
     <Table.Tr>
       <Table.Td>
-        <Flex gap={4} align="center">
+        <Flex gap={2} align="center" ml={3}>
+          {getTeammateOption(group.oldSet) && (
+            <TeammateSetImageWithTooltip value={group.oldSet} removed />
+          )}
           {Array.from(group.set).map((set) => (
             <TeammateSetImageWithTooltip value={set} key={set} />
           ))}
           <span className={styles.overlappingAvatars} style={{ marginLeft: 4 }}>
             {Array.from(group.ids).map((id) => (
-              <img src={Assets.getCharacterAvatarById(id)} key={id} height={avatarSize} />
+              <img src={Assets.getCharacterAvatarById(id)} key={id} width={avatarSize} height={avatarSize} />
             ))}
           </span>
         </Flex>

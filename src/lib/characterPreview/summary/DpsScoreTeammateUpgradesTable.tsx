@@ -218,7 +218,7 @@ export function TeammateSetImageWithTooltip({ value, removed }: { value: string,
   const desc = option.desc(t)
   return (
     <Tooltip label={desc}>
-      <div style={{ display: 'flex', gap: 3, opacity: removed ? 0.4 : undefined }}>
+      <div style={{ display: 'flex', gap: 3, opacity: removed ? 0.5 : undefined }}>
         <img src={Assets.getSetImage(value)} style={{ width, height }} />
         {isRelicOption(value) && <img src={Assets.getSetImage(value)} style={{ width, height }} />}
       </div>

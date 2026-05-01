@@ -8,5 +8,5 @@
 }
 
 .overlappingAvatars img:not(:first-child) {
-  margin-left: -4px;
+  margin-left: -10px;
 }

@@ -65,7 +65,7 @@ export type TeammateEffectParams = {
   teammateActorId: string,
 }
 
-export type TeammateOptionValue = Sets
+export type TeammateOptionValue = string
 
 export type TeammateOption = {
   value: TeammateOptionValue,

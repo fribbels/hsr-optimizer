@@ -135,7 +135,7 @@ function SwapRow({ group, baseSimScore, showArrow }: { group: TeammateSetUpgrade
     <Table.Tr>
       <Table.Td>
         <Flex gap={2} align="center" ml={3}>
-          {group.oldSet && getTeammateOption(group.oldSet) && (
+          {showArrow && group.oldSet && getTeammateOption(group.oldSet) && (
             <>
               <TeammateSetImageWithTooltip value={group.oldSet} removed />
               ➔

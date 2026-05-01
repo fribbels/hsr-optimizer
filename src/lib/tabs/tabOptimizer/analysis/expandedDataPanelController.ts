@@ -12,11 +12,9 @@ import { generateContext } from 'lib/optimization/context/calculateContext'
 import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { RelicFilters } from 'lib/relics/relicFilters'
-import { teammateOrnamentOptions } from 'lib/sets/setConfigRegistry'
 import { aggregatePerActionBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import type { PerActionBuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
-import { precisionRound } from 'lib/utils/mathUtils'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import type {
@@ -33,7 +31,7 @@ import { gridStore } from 'lib/stores/gridStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { groupTeammateSetUpgrades, TEAMMATE_UPGRADE_PRECISION, teammateKeys, type PreTeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
+import { computeTeammateOrnamentUpgrades } from 'lib/simulations/teammateUpgradeGrouping'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { OptimizerForm } from 'types/form'
@@ -61,28 +59,12 @@ type StatUpgrade = {
 
 
 export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
-  const baseRequest = analysis.request
   const relics = analysis.newRelics as SimulationRelicByPart
-
-  const results: Array<PreTeammateSetUpgrade> = []
-
-  teammateKeys.forEach((key) => {
-    if (!baseRequest[key].characterId) return
-    teammateOrnamentOptions.forEach((option) => {
-      if (option.value === baseRequest[key].teamOrnamentSet) return
-      const request = { ...baseRequest, [key]: { ...baseRequest[key], teamOrnamentSet: option.value } }
-      const context = generateContext(request)
-      const { x } = simulateBuild(relics, context, new BasicStatsArrayCore(true), null, true)
-      results.push({
-        id: baseRequest[key].characterId,
-        set: option.value,
-        oldSet: baseRequest[key].teamOrnamentSet,
-        simScore: precisionRound(x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG), TEAMMATE_UPGRADE_PRECISION),
-      })
-    })
+  return computeTeammateOrnamentUpgrades(analysis.request, (modifiedForm) => {
+    const context = generateContext(modifiedForm)
+    const { x } = simulateBuild(relics, context, new BasicStatsArrayCore(true), null, true)
+    return x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
   })
-
-  return groupTeammateSetUpgrades(results)
 }
 
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {

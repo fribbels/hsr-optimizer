@@ -30,16 +30,17 @@ describe('groupTeammateSetUpgrades', () => {
     expectGroup(results[0], ['char1'], ['SetA'], 100)
   })
 
-  test('pass 1: merges sets for same character at same score', () => {
+  test('does not merge different sets for same character at same score', () => {
     const results = groupTeammateSetUpgrades([
       input('char1', 'SetA', 100, 'OldSet'),
       input('char1', 'SetB', 100, 'OldSet'),
     ])
-    expect(results).toHaveLength(1)
-    expectGroup(results[0], ['char1'], ['SetA', 'SetB'], 100, 'OldSet')
+    expect(results).toHaveLength(2)
+    expect(results.some((r) => r.set.has('SetA'))).toBe(true)
+    expect(results.some((r) => r.set.has('SetB'))).toBe(true)
   })
 
-  test('pass 1: does not merge sets at different scores', () => {
+  test('does not merge sets at different scores', () => {
     const results = groupTeammateSetUpgrades([
       input('char1', 'SetA', 100, 'OldSet'),
       input('char1', 'SetB', 200, 'OldSet'),
@@ -49,7 +50,7 @@ describe('groupTeammateSetUpgrades', () => {
     expect(results[1].simScore).toBe(100)
   })
 
-  test('pass 2: merges characters with same set-group and score', () => {
+  test('merges characters with same set and score', () => {
     const results = groupTeammateSetUpgrades([
       input('char1', 'SetA', 100, 'OldSet'),
       input('char2', 'SetA', 100, 'OldSet'),
@@ -58,7 +59,7 @@ describe('groupTeammateSetUpgrades', () => {
     expectGroup(results[0], ['char1', 'char2'], ['SetA'], 100, 'OldSet')
   })
 
-  test('pass 2: does not merge characters with different oldSet', () => {
+  test('does not merge characters with different oldSet', () => {
     const results = groupTeammateSetUpgrades([
       input('char1', 'SetA', 100, 'OldX'),
       input('char2', 'SetA', 100, 'OldY'),
@@ -66,7 +67,7 @@ describe('groupTeammateSetUpgrades', () => {
     expect(results).toHaveLength(2)
   })
 
-  test('pass 2: does not merge characters with different set-groups', () => {
+  test('does not merge characters with different sets', () => {
     const results = groupTeammateSetUpgrades([
       input('char1', 'SetA', 100, 'OldSet'),
       input('char2', 'SetB', 100, 'OldSet'),
@@ -107,20 +108,20 @@ describe('groupTeammateSetUpgrades', () => {
       input('char3', 'SetC', 95, 'OldSet'),
     ])
 
-    // char1 and char2 both have {SetA, SetB} at 100 with same oldSet → merged
-    // char3 has {SetA} at 100 → different set-group, separate
-    const group100AB = results.find((r) => r.simScore === 100 && r.set.has('SetB'))!
-    expect(group100AB).toBeDefined()
-    expectGroup(group100AB, ['char1', 'char2'], ['SetA', 'SetB'], 100, 'OldSet')
+    // SetA at 100: char1, char2, char3 all merged
+    const groupSetA100 = results.find((r) => r.simScore === 100 && r.set.has('SetA'))!
+    expect(groupSetA100).toBeDefined()
+    expectGroup(groupSetA100, ['char1', 'char2', 'char3'], ['SetA'], 100, 'OldSet')
 
-    const group100A = results.find((r) => r.simScore === 100 && !r.set.has('SetB'))!
-    expect(group100A).toBeDefined()
-    expectGroup(group100A, ['char3'], ['SetA'], 100, 'OldSet')
+    // SetB at 100: char1, char2 merged (separate from SetA)
+    const groupSetB100 = results.find((r) => r.simScore === 100 && r.set.has('SetB'))!
+    expect(groupSetB100).toBeDefined()
+    expectGroup(groupSetB100, ['char1', 'char2'], ['SetB'], 100, 'OldSet')
 
     expect(results[0].simScore).toBeGreaterThanOrEqual(results[results.length - 1].simScore)
   })
 
-  test('handles duplicate set values in same character gracefully', () => {
+  test('handles duplicate entries gracefully', () => {
     const results = groupTeammateSetUpgrades([
       input('char1', 'SetA', 100),
       input('char1', 'SetA', 100),

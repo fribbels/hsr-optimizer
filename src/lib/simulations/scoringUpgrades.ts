@@ -3,8 +3,6 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { teammateKeys } from 'lib/simulations/teammateUpgradeGrouping'
-import { generateContext } from 'lib/optimization/context/calculateContext'
 import {
   applyScoringFunction,
   calculateScorePercent,
@@ -13,7 +11,6 @@ import type {
   ScoringParams,
   SimulationFlags,
 } from 'lib/scoring/simScoringUtils'
-import { teammateOrnamentOptions } from 'lib/sets/setConfigRegistry'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import type {
   RunStatSimulationsResult,
@@ -32,9 +29,8 @@ export type SimulationStatUpgrade = {
   // part and stat used for mainstatUpgrades
   part?: MainStatParts,
   stat?: string,
-  // set and teammate used for teammateOrnamentUpgrades
   set?: string,
-  teammate?: typeof teammateKeys[number],
+  teammate?: string,
   // not present for teammateOrnamentUpgrades
   percent?: number,
 }
@@ -136,42 +132,4 @@ export function generateStatImprovements(
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }
 
-export function generateTeammateImprovements(
-  originalSim: Simulation,
-  simulationForm: Form,
-  metadata: SimulationMetadata,
-  scoringParams: ScoringParams,
-): SimulationStatUpgrade[] {
-  const teamOrnamentUpgradeResults: SimulationStatUpgrade[] = []
-
-  teammateKeys.forEach((teammateKey) => {
-    if (!simulationForm[teammateKey].characterId) return
-    teammateOrnamentOptions.forEach((ornament) => {
-      if (simulationForm[teammateKey].teamOrnamentSet === ornament.value) return
-      const originalSimClone = clone(originalSim)
-      const form = {
-        ...simulationForm,
-        [teammateKey]: {
-          ...simulationForm[teammateKey],
-          teamOrnamentSet: ornament.value,
-        },
-        trace: true,
-      }
-      const context = generateContext(form)
-      const upgradeResult = runStatSimulations([originalSimClone], form, context, {
-        ...scoringParams,
-        substatRollsModifier: (num: number) => num,
-      })[0]
-      applyScoringFunction(upgradeResult, metadata, true, true)
-      const teammateOrnamentUpgrade = {
-        set: ornament.value,
-        teammate: teammateKey,
-        simulation: originalSimClone,
-        simulationResult: upgradeResult,
-      }
-      teamOrnamentUpgradeResults.push(teammateOrnamentUpgrade)
-    })
-  })
-  return teamOrnamentUpgradeResults
-}
 

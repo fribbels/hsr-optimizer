@@ -18,6 +18,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { StatCalculator } from 'lib/relics/statCalculator'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import type {
   RunStatSimulationsResult,
   Simulation,
@@ -119,7 +120,7 @@ export type SimulationScore = {
   substatUpgrades: SimulationStatUpgrade[],
   setUpgrades: SimulationStatUpgrade[],
   mainUpgrades: SimulationStatUpgrade[],
-  teammateOrnamentUpgradeResults: SimulationStatUpgrade[],
+  teammateOrnamentUpgradeResults: TeammateSetUpgrade[],
 
   simulationForm: Form,
   simulationMetadata: SimulationMetadata,

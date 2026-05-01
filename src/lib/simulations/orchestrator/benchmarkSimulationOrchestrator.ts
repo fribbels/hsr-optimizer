@@ -57,11 +57,9 @@ import {
   runPoolBaselineSim,
 } from 'lib/scoring/benchmarkPoolState'
 import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateBenchmarkBuild'
-import {
-  generateStatImprovements,
-  generateTeammateImprovements,
-} from 'lib/simulations/scoringUpgrades'
+import { generateStatImprovements } from 'lib/simulations/scoringUpgrades'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import { computeTeammateOrnamentUpgrades, type TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import type {
   RunSimulationsParams,
@@ -177,7 +175,7 @@ export class BenchmarkSimulationOrchestrator {
   public substatUpgradeResults?: SimulationStatUpgrade[]
   public setUpgradeResults?: SimulationStatUpgrade[]
   public mainUpgradeResults?: SimulationStatUpgrade[]
-  public teammateOrnamentUpgradeResults?: SimulationStatUpgrade[]
+  public teammateOrnamentUpgradeResults?: TeammateSetUpgrade[]
 
   public percent?: number
   public simulationScore?: SimulationScore
@@ -589,14 +587,18 @@ export class BenchmarkSimulationOrchestrator {
   }
 
   public calculateTeammateUpgrades() {
-    const teamOrnamentUpgradeResults = generateTeammateImprovements(
-      this.originalSim!,
-      this.form!,
-      this.metadata,
-      benchmarkScoringParams,
-    )
-
-    this.teammateOrnamentUpgradeResults = teamOrnamentUpgradeResults
+    const originalSim = this.originalSim!
+    const metadata = this.metadata
+    this.teammateOrnamentUpgradeResults = computeTeammateOrnamentUpgrades(this.form!, (modifiedForm) => {
+      const simClone = clone(originalSim)
+      const context = generateContext(modifiedForm)
+      const result = runStatSimulations([simClone], modifiedForm, context, {
+        ...benchmarkScoringParams,
+        substatRollsModifier: (num: number) => num,
+      })[0]
+      applyScoringFunction(result, metadata, true, true)
+      return result.simScore
+    })
   }
 
   public calculateResults() {

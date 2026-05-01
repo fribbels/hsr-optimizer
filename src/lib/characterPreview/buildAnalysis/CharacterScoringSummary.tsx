@@ -1,4 +1,3 @@
-import { Skeleton } from '@mantine/core'
 import type { TFunction } from 'i18next'
 import {
   BuffDisplaySize,
@@ -22,7 +21,6 @@ import { DpsScoreTeammateUpgradesTable } from 'lib/characterPreview/summary/DpsS
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { ElementToDamage } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
@@ -35,7 +33,6 @@ import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import {
   memo,
-  Suspense,
   useContext,
 } from 'react'
 import { useTranslation } from 'react-i18next'

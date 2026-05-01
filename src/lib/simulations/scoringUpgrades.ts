@@ -3,6 +3,7 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
+import { teammateKeys } from 'lib/simulations/teammateUpgradeGrouping'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import {
   applyScoringFunction,
@@ -144,6 +145,7 @@ export function generateTeammateImprovements(
   const teamOrnamentUpgradeResults: SimulationStatUpgrade[] = []
 
   teammateKeys.forEach((teammateKey) => {
+    if (!simulationForm[teammateKey].characterId) return
     teammateOrnamentOptions.forEach((ornament) => {
       if (simulationForm[teammateKey].teamOrnamentSet === ornament.value) return
       const originalSimClone = clone(originalSim)
@@ -173,4 +175,3 @@ export function generateTeammateImprovements(
   return teamOrnamentUpgradeResults
 }
 
-const teammateKeys = ['teammate0', 'teammate1', 'teammate2'] as const

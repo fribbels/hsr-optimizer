@@ -1,0 +1,29 @@
+.upgradeTable {
+  width: 100%;
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.upgradeTable thead {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.upgradeTable tbody td:first-child {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.columnHeader {
+  text-align: center !important;
+  width: 110px;
+}
+
+.substatHeader {
+  text-align: center !important;
+  width: 100px;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.centeredCell {
+  text-align: center !important;
+}

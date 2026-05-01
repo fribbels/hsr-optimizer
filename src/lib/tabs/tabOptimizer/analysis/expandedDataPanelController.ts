@@ -3,8 +3,8 @@ import {
   PathNames,
   Stats,
   SubStats,
+  type StatsValues,
 } from 'lib/constants/constants'
-import type { StatsValues } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
@@ -33,11 +33,11 @@ import { gridStore } from 'lib/stores/gridStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { groupTeammateSetUpgrades, teammateKeys, type PreTeammateSetUpgrade, type TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { OptimizerForm } from 'types/form'
 import type { OptimizerContext } from 'types/optimizer'
-import { type TeammateOption } from 'types/setConfig'
 
 export type OptimizerResultAnalysis = {
   oldRowData: OptimizerDisplayData,
@@ -59,26 +59,6 @@ type StatUpgrade = {
   x: ComputedStatsContainer,
 }
 
-export interface TeammateSetUpgrade {
-  ids: Set<CharacterId>
-  set: Set<TeammateOption['value']>
-  oldSet?: TeammateOption['value']
-  simScore: number
-}
-export interface PreTeammateSetUpgrade {
-  id: CharacterId
-  set: TeammateOption['value']
-  oldSet?: TeammateOption['value']
-  simScore: number
-}
-interface PreGroupedTeammateSetUpgrade {
-  id: CharacterId
-  set: Set<TeammateOption['value']>
-  oldSet?: TeammateOption['value']
-  simScore: number
-}
-
-const teammateKeys = ['teammate0', 'teammate1', 'teammate2'] as const
 
 export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
   const baseRequest = analysis.request
@@ -87,6 +67,7 @@ export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
   const results: Array<PreTeammateSetUpgrade> = []
 
   teammateKeys.forEach((key) => {
+    if (!baseRequest[key].characterId) return
     teammateOrnamentOptions.forEach((option) => {
       if (option.value === baseRequest[key].teamOrnamentSet) return
       const request = { ...baseRequest, [key]: { ...baseRequest[key], teamOrnamentSet: option.value } }
@@ -102,72 +83,6 @@ export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
   })
 
   return groupTeammateSetUpgrades(results)
-}
-
-export function groupTeammateSetUpgrades(results: PreTeammateSetUpgrade[]): TeammateSetUpgrade[] {
-  results.sort((a, b) => {
-    const idDiff = a.id.localeCompare(b.id)
-    if (idDiff) return idDiff
-    return b.simScore - a.simScore
-  })
-
-  const preGroupedResults: Array<PreGroupedTeammateSetUpgrade> = []
-  results.forEach((result) => {
-    let latestGroup = preGroupedResults.at(-1)
-    if (
-      latestGroup
-      && latestGroup.id === result.id
-      && latestGroup.simScore === result.simScore
-    ) {
-      latestGroup.set.add(result.set)
-      return
-    }
-    latestGroup = preGroupedResults.at(-2)
-    if (
-      latestGroup
-      && latestGroup.id === result.id
-      && latestGroup.simScore === result.simScore
-    ) {
-      latestGroup.set.add(result.set)
-    } else {
-      preGroupedResults.push({
-        ...result,
-        set: new Set([result.set]),
-      })
-    }
-  })
-
-  preGroupedResults.sort((a, b) => b.simScore - a.simScore)
-
-  const groupedResults: Array<TeammateSetUpgrade> = []
-  preGroupedResults.forEach((group) => {
-    let latestGroup = groupedResults.at(-1)
-    if (
-      latestGroup
-      && latestGroup.oldSet === group.oldSet
-      && latestGroup.set.symmetricDifference(group.set).size === 0
-      && latestGroup.simScore === group.simScore
-    ) {
-      latestGroup.ids.add(group.id)
-      return
-    }
-    latestGroup = groupedResults.at(-2)
-    if (
-      latestGroup
-      && latestGroup.oldSet === group.oldSet
-      && latestGroup.set.symmetricDifference(group.set).size === 0
-      && latestGroup.simScore === group.simScore
-    ) {
-      latestGroup.ids.add(group.id)
-    } else {
-      groupedResults.push({
-        ...group,
-        ids: new Set([group.id]),
-      })
-    }
-  })
-
-  return groupedResults
 }
 
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {

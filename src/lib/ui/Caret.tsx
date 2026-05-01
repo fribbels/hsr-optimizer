@@ -23,7 +23,7 @@ export const Caret = ({ activeAngle = 90, inactiveAngle = 0, duration = 0.2, sty
         style={{
           width: 'calc(1rem * var(--mantine-scale))',
           height: 'calc(1rem * var(--mantine-scale))',
-          display: ' block',
+          display: 'block',
           ...styleProp,
           rotate: `${active ? (activeAngle - (reverse ? 360 : 0) - 90) : inactiveAngle - 90}deg`,
           transition: `rotate ease ${duration}s`,

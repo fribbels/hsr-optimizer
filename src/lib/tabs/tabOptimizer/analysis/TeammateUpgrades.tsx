@@ -1,19 +1,17 @@
 import { Flex, Table } from '@mantine/core'
-import { TeammateSetImageWithTooltip } from 'lib/characterPreview/summary/DpsScoreTeammateUpgradesTable'
+import { TeammateSetImageWithTooltip } from 'lib/ui/TeammateSetImage'
 import { iconSize } from 'lib/constants/constantsUi'
-import { useToggle } from 'lib/hooks/useToggle'
+import { useToggle } from '@mantine/hooks'
 import { Assets } from 'lib/rendering/assets'
 import { getTeammateOption, setToId } from 'lib/sets/setConfigRegistry'
-import type { TeammateSetUpgrade } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { Caret } from 'lib/ui/Caret'
 import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
 import { truncate100ths } from 'lib/utils/mathUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './SubstatUpgrades.module.css'
+import classes from './UpgradeTable.module.css'
 import styles from './TeammateUpgrades.module.css'
-
-const avatarSize = iconSize
 
 type SetCentricRow = {
   setValue: string
@@ -78,7 +76,7 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
       <Table.Tbody>
         {setRows.map((row) => <SetRow key={row.setValue} row={row} showName={isCharactersTab} />)}
         {swapRows.length > 0 && (
-          <Table.Tr className={styles.expandRow} onClick={toggleSwaps}>
+          <Table.Tr className={styles.expandRow} onClick={() => toggleSwaps()}>
             <Table.Td colSpan={3}>
               <Flex align="center" justify="center" gap={8}>
                 <Caret active={showSwaps} inactiveAngle={90} activeAngle={270} />
@@ -138,7 +136,7 @@ function SwapRow({ group, baseSimScore }: { group: TeammateSetUpgrade, baseSimSc
           ))}
           <span className={styles.overlappingAvatars} style={{ marginLeft: 4 }}>
             {Array.from(group.ids).map((id) => (
-              <img src={Assets.getCharacterAvatarById(id)} key={id} width={avatarSize} height={avatarSize} />
+              <img src={Assets.getCharacterAvatarById(id)} key={id} width={iconSize} height={iconSize} />
             ))}
           </span>
         </Flex>

@@ -70,6 +70,7 @@ export async function executeOrchestrator(
   orchestrator.substatUpgradeResults ??= []
   orchestrator.setUpgradeResults ??= []
   orchestrator.mainUpgradeResults ??= []
+  orchestrator.teammateOrnamentUpgradeResults ??= []
   orchestrator.calculateResults()
 
   return orchestrator

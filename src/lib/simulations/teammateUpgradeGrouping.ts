@@ -43,8 +43,6 @@ export interface PreTeammateSetUpgrade {
 }
 
 export function groupTeammateSetUpgrades(results: PreTeammateSetUpgrade[]): TeammateSetUpgrade[] {
-  results.sort((a, b) => b.simScore - a.simScore)
-
   const groupMap = new Map<string, TeammateSetUpgrade>()
   for (const result of results) {
     const key = `${result.oldSet ?? ''}|${result.set}|${result.simScore}`

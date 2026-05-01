@@ -26,12 +26,8 @@ import type { OptimizerContext } from 'types/optimizer'
 export type SimulationStatUpgrade = {
   simulation: Simulation,
   simulationResult: RunStatSimulationsResult,
-  // part and stat used for mainstatUpgrades
   part?: MainStatParts,
   stat?: string,
-  set?: string,
-  teammate?: string,
-  // not present for teammateOrnamentUpgrades
   percent?: number,
 }
 
@@ -131,5 +127,3 @@ export function generateStatImprovements(
 
   return { substatUpgradeResults, setUpgradeResults, mainUpgradeResults }
 }
-
-

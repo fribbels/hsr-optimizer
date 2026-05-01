@@ -14,6 +14,17 @@ import { useTranslation } from 'react-i18next'
 import classes from './UpgradeTable.module.css'
 import styles from './TeammateUpgrades.module.css'
 
+function PercentCell({ percent, showArrow }: { percent: number, showArrow?: boolean }) {
+  const text = `${localeNumber_00(truncate100ths(percent))}%`
+  if (!showArrow) return <>{text}</>
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+      <span style={{ color: arrowColor(percent >= 0), fontSize: 10 }}>{arrowDirection(percent >= 0)}</span>
+      {` ${text}`}
+    </div>
+  )
+}
+
 type SetCentricRow = {
   setValue: string
   percent: number
@@ -111,14 +122,7 @@ function SetRow({ row, showName, showArrow }: { row: SetCentricRow, showName?: b
         </Flex>
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
-        {showArrow
-          ? (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-              <span style={{ color: arrowColor(row.percent >= 0), fontSize: 10 }}>{arrowDirection(row.percent >= 0)}</span>
-              {` ${localeNumber_00(truncate100ths(row.percent))}%`}
-            </div>
-          )
-          : `${localeNumber_00(truncate100ths(row.percent))}%`}
+        <PercentCell percent={row.percent} showArrow={showArrow} />
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
         {localeNumber_0(row.delta)}
@@ -152,14 +156,7 @@ function SwapRow({ group, baseSimScore, showArrow }: { group: TeammateSetUpgrade
         </Flex>
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
-        {showArrow
-          ? (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-              <span style={{ color: arrowColor(percent >= 0), fontSize: 10 }}>{arrowDirection(percent >= 0)}</span>
-              {` ${localeNumber_00(truncate100ths(percent))}%`}
-            </div>
-          )
-          : `${localeNumber_00(truncate100ths(percent))}%`}
+        <PercentCell percent={percent} showArrow={showArrow} />
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
         {localeNumber_0(delta)}

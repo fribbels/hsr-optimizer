@@ -25,11 +25,13 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
   baseSimScore: number
   variant?: 'optimizer' | 'characters'
 }) {
-  const [showSwaps, toggleSwaps] = useToggle()
+  const allSlotsFilled = groupedUpgrades.length > 0 && groupedUpgrades.every((g) => !!g.oldSet)
+  const [showSwaps, toggleSwaps] = useToggle([allSlotsFilled, !allSlotsFilled])
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.TeammateUpgrades.ColumnHeaders' })
 
   const setMap = new Map<string, number>()
   for (const group of groupedUpgrades) {
+    if (group.oldSet) continue
     for (const setValue of group.set) {
       const existing = setMap.get(setValue)
       if (existing === undefined || group.simScore > existing) {
@@ -49,9 +51,9 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
 
   setRows.sort((a, b) => b.percent - a.percent)
 
-  if (setRows.length === 0) return null
-
   const swapRows = groupedUpgrades.filter((g) => precisionRound(g.simScore - baseSimScore, TEAMMATE_UPGRADE_PRECISION) !== 0)
+
+  if (setRows.length === 0 && swapRows.length === 0) return null
 
   const isCharactersTab = variant === 'characters'
 

@@ -433,7 +433,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
     ornamentSetIndex: c.ornamentSetIndex,
     id: c.id,
     WEIGHT: c.weight,
-    xa: new Float32Array(x.a),
+    xa: new Float64Array(x.a),
     ca: new Float32Array(c.a),
     tracedX: x,
   }

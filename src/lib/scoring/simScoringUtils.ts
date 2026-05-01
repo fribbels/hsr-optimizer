@@ -94,7 +94,7 @@ export type SimulationResult = OptimizerDisplayData & {
   unpenalizedSimScore: number,
   penaltyMultiplier: number,
   simScore: number,
-  xa: Float32Array,
+  xa: Float64Array,
   ca: Float32Array,
 }
 
@@ -376,7 +376,7 @@ export function cloneSimResult(result: RunStatSimulationsResult) {
 
 // Reconstructs container from worker result arrays (no config available)
 export function cloneWorkerResult(result: RunStatSimulationsResult) {
-  const xa = new Float32Array(result.xa)
+  const xa = new Float64Array(result.xa)
   const ca = new Float32Array(result.ca)
 
   result.x = ComputedStatsContainer.fromArrays(xa, ca)

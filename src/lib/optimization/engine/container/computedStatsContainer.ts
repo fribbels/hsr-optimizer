@@ -59,7 +59,7 @@ export enum Operator {
   MULTIPLICATIVE_BOOST,
 }
 
-type Operation = (a: Float32Array, index: number, value: number) => void
+type Operation = (a: Float64Array, index: number, value: number) => void
 
 const OPERATOR_MAP: Record<Operator, Operation> = {
   [Operator.ADD]: (a, i, v) => {
@@ -291,12 +291,12 @@ export function rebuildEntityRegistry(config: ComputedStatsContainerConfig): voi
  * - Hit blocks contain only hit-specific stats (DMG_BOOST, DEF_PEN, etc.)
  */
 export class ComputedStatsContainer {
-  public a!: Float32Array
+  public a!: Float64Array
   public c!: BasicStatsArray
   public config!: ComputedStatsContainerConfig
   private readonly builder: BuffBuilder
 
-  private emptyRegisters!: Float32Array
+  private emptyRegisters!: Float64Array
   private registersOffset!: number
 
   // Buff tracing properties
@@ -331,11 +331,11 @@ export class ComputedStatsContainer {
   // ============== Array Initialization ==============
 
   public initializeArrays(maxArrayLength: number, context: OptimizerContext) {
-    this.a = new Float32Array(maxArrayLength)
+    this.a = new Float64Array(maxArrayLength)
 
     // Create empty registers array for efficient clearing
     const totalRegistersLength = context.allActions.length + GLOBAL_REGISTERS_LENGTH + context.outputRegistersLength
-    this.emptyRegisters = new Float32Array(totalRegistersLength)
+    this.emptyRegisters = new Float64Array(totalRegistersLength)
     this.registersOffset = maxArrayLength - totalRegistersLength
   }
 
@@ -349,7 +349,7 @@ export class ComputedStatsContainer {
     const clone = new ComputedStatsContainer()
 
     // Clone the stats array
-    clone.a = new Float32Array(this.a)
+    clone.a = new Float64Array(this.a)
 
     // Clone basic stats with metadata
     const clonedBasic = new BasicStatsArrayCore(false)
@@ -386,7 +386,7 @@ export class ComputedStatsContainer {
    * Creates a minimal container from raw arrays (for worker result reconstruction).
    * Does not include config - only suitable for array access.
    */
-  public static fromArrays(xa: Float32Array, ca: Float32Array): ComputedStatsContainer {
+  public static fromArrays(xa: Float64Array, ca: Float32Array): ComputedStatsContainer {
     const container = new ComputedStatsContainer()
     container.a = xa
 
@@ -404,7 +404,7 @@ export class ComputedStatsContainer {
     this.builder.setConfig(config)
   }
 
-  public setPrecompute(array: Float32Array) {
+  public setPrecompute(array: Float64Array) {
     this.a.set(array)
   }
 

@@ -51,7 +51,7 @@
     "ag-grid-react": "^35.2.1",
     "chroma-js": "^3.2.0",
     "colorthief": "^3.3.1",
-    "i18next": "^26.0.4",
+    "i18next": "^26.0.8",
     "i18next-browser-languagedetector": "^8.2.1",
     "i18next-http-backend": "^3.0.5",
     "js-yaml": "^4.1.1",

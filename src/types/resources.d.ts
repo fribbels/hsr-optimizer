@@ -6860,7 +6860,7 @@ interface Resources {
         "ColumnHeaders": {
           "COMBO_DMG": "Δ Combo DMG",
           "COMBO_DMG_P": "Δ% Combo DMG",
-          "Ornaments": "Teammate Ornament set upgrade"
+          "Ornaments": "Teammate Set"
         }
       }
     },

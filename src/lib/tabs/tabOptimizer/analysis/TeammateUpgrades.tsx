@@ -5,7 +5,7 @@ import { useToggle } from '@mantine/hooks'
 import { Assets } from 'lib/rendering/assets'
 import { getTeammateOption, setToId } from 'lib/sets/setConfigRegistry'
 import { TEAMMATE_UPGRADE_PRECISION, type TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
-import { Caret } from 'lib/ui/Caret'
+import { IconChevronRight } from '@tabler/icons-react'
 import { arrowColor, arrowDirection } from 'lib/utils/displayUtils'
 import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
 import { precisionRound, truncate100ths } from 'lib/utils/mathUtils'
@@ -93,7 +93,7 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
           <Table.Tr className={styles.expandRow} onClick={() => toggleSwaps()}>
             <Table.Td colSpan={3}>
               <Flex align="center" justify="center" gap={8}>
-                <Caret active={showSwaps} inactiveAngle={90} activeAngle={270} />
+                <IconChevronRight size={16} style={{ rotate: showSwaps ? '270deg' : '90deg', transition: 'rotate 0.2s ease' }} />
               </Flex>
             </Table.Td>
           </Table.Tr>

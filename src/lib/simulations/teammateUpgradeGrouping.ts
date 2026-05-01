@@ -2,7 +2,7 @@ import { teammateOrnamentOptions } from 'lib/sets/setConfigRegistry'
 import { precisionRound } from 'lib/utils/mathUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
-import type { TeammateOption } from 'types/setConfig'
+import type { TeammateOptionValue } from 'types/setConfig'
 
 export const teammateKeys = ['teammate0', 'teammate1', 'teammate2'] as const
 export const TEAMMATE_UPGRADE_PRECISION = 2
@@ -30,15 +30,15 @@ export function computeTeammateOrnamentUpgrades(
 
 export interface TeammateSetUpgrade {
   ids: Set<CharacterId>
-  set: Set<TeammateOption['value']>
-  oldSet?: TeammateOption['value']
+  set: Set<TeammateOptionValue>
+  oldSet?: TeammateOptionValue
   simScore: number
 }
 
 export interface PreTeammateSetUpgrade {
   id: CharacterId
-  set: TeammateOption['value']
-  oldSet?: TeammateOption['value']
+  set: TeammateOptionValue
+  oldSet?: TeammateOptionValue
   simScore: number
 }
 

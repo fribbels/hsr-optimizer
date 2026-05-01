@@ -326,6 +326,7 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.LinkRope]: [Stats.ERR],
   },
   substats: [Stats.ATK_P, Stats.ATK, Stats.SPD, Stats.RES, Stats.HP_P],
+  buffStat: StatKey.ATK,
   errRopeEidolon: 0,
   comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
   relicSets: [

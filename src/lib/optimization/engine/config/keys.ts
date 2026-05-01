@@ -83,3 +83,8 @@ export const GLOBAL_REGISTERS_LENGTH = 1
 
 export const StatKey = AKey
 export type StatKeyValue = AKeyValue
+
+const FLAT_STATS: ReadonlySet<AKeyValue> = new Set([AKey.ATK, AKey.HP, AKey.DEF, AKey.SPD])
+export function isFlatStat(stat: AKeyValue): boolean {
+  return FLAT_STATS.has(stat)
+}

@@ -10,6 +10,7 @@ import {
 } from 'lib/hooks/useGridLocale'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { getAKeyName, isFlatStat } from 'lib/optimization/engine/config/keys'
 import {
   AbilityKind,
   AbilityMeta,
@@ -109,13 +110,18 @@ export function OptimizerGrid() {
       for (const action of context.defaultActions) {
         const meta = AbilityMeta[action.actionType]
         if (meta && action.actionType !== AbilityKind.NULL) {
+          const formatter = (action.buffStat != null && !isFlatStat(action.buffStat))
+            ? Renderer.x100Tenths
+            : Renderer.floor
           columnDefinitions.push({
             field: action.actionName as any,
-            valueFormatter: Renderer.floor,
+            valueFormatter: formatter,
             cellStyle: Gradient.getOptimizerColumnGradient,
             minWidth: DIGITS_5,
             flex: 12,
-            headerName: t(`Headers.Basic.${action.actionType}` as any) as string,
+            headerName: action.buffStat != null
+              ? `${getAKeyName(action.buffStat)} Buff`
+              : t(`Headers.Basic.${action.actionType}` as any) as string,
           })
         }
       }

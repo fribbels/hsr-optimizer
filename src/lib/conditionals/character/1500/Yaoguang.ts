@@ -558,6 +558,7 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.LinkRope]: [Stats.ERR],
   },
   substats: [Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P, Stats.ATK_P],
+  buffStat: StatKey.ELATION,
   errRopeEidolon: 0,
   skipSpdEqualization: true,
   comboTurnAbilities: [NULL_TURN_ABILITY_NAME],

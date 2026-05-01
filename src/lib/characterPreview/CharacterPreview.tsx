@@ -592,18 +592,22 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
               {scoringType === ScoringType.COMBAT_SCORE && (
                 <>
-                  <ShowcaseDpsScoreHeader relics={displayRelics} tempOptions={tempOptions} />
+                  {layout.simulationMetadata && (
+                    <ShowcaseDpsScoreHeader relics={displayRelics} tempOptions={tempOptions} />
+                  )}
 
                   {layout.supportSimulationMetadata && (
                     <ShowcaseSupportScoreHeader relics={displayRelics} />
                   )}
 
-                  <ShowcaseDpsScorePanel
-                    characterId={showcaseMetadata.characterId}
-                    simulationMetadata={layout.simulationMetadata!}
-                    teamSelection={layout.currentSelection}
-                    source={source}
-                  />
+                  {layout.simulationMetadata && (
+                    <ShowcaseDpsScorePanel
+                      characterId={showcaseMetadata.characterId}
+                      simulationMetadata={layout.simulationMetadata}
+                      teamSelection={layout.currentSelection}
+                      source={source}
+                    />
+                  )}
 
                   <ShowcaseCombatScoreDetailsFooter />
                 </>

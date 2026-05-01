@@ -291,12 +291,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         </DeferCreate>
 
         <DeferCreate>
-          <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-            <div className={classes.sectionTitle}>
-              {t('CharacterPreview.SubstatUpgradeComparisons.TeammatesHeader')}
-            </div>
-            <DpsScoreTeammateUpgradesTable />
-          </div>
+          <DpsScoreTeammateUpgradesTable />
         </DeferCreate>
 
         {/* Relic rarity */}

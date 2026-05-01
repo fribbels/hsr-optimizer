@@ -16,6 +16,7 @@ import { teammateOrnamentOptions } from 'lib/sets/setConfigRegistry'
 import { aggregatePerActionBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import type { PerActionBuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import type {
@@ -95,7 +96,7 @@ export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
         id: baseRequest[key].characterId,
         set: option.value,
         oldSet: baseRequest[key].teamOrnamentSet,
-        simScore: x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG),
+        simScore: precisionRound(x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG), 2),
       })
     })
   })

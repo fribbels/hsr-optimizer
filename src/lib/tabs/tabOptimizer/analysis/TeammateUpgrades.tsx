@@ -56,9 +56,6 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ analysis }: { a
 
   if (setRows.length === 0) return null
 
-  const alwaysRows = setRows.slice(0, 4)
-  const moreRows = setRows.slice(4)
-
   const swapRows = groupedUpgrades.filter((g) => g.simScore - baseSimScore > 0)
 
   return (
@@ -71,8 +68,8 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ analysis }: { a
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {alwaysRows.map((row) => <SetRow key={row.setValue} row={row} />)}
-        {(moreRows.length > 0 || swapRows.length > 0) && (
+        {setRows.map((row) => <SetRow key={row.setValue} row={row} />)}
+        {swapRows.length > 0 && (
           <Table.Tr className={styles.expandRow} onClick={toggleSwaps}>
             <Table.Td colSpan={3}>
               <Flex align="center" justify="center" gap={8}>
@@ -81,12 +78,7 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ analysis }: { a
             </Table.Td>
           </Table.Tr>
         )}
-        {showSwaps && (
-          <>
-            {moreRows.map((row) => <SetRow key={row.setValue} row={row} />)}
-            {swapRows.map((group, idx) => <SwapRow key={idx} group={group} baseSimScore={baseSimScore} />)}
-          </>
-        )}
+        {showSwaps && swapRows.map((group, idx) => <SwapRow key={idx} group={group} baseSimScore={baseSimScore} />)}
       </Table.Tbody>
     </Table>
   )

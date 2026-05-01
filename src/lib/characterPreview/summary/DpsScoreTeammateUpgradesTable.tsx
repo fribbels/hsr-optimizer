@@ -4,6 +4,7 @@ import {
 } from 'lib/characterPreview/SimScoringContext'
 import {
   groupTeammateSetUpgrades,
+  TEAMMATE_UPGRADE_PRECISION,
   type PreTeammateSetUpgrade,
 } from 'lib/simulations/teammateUpgradeGrouping'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -21,7 +22,7 @@ export const DpsScoreTeammateUpgradesTable = memo(function DpsScoreTeammateUpgra
     id: form[upgrade.teammate!].characterId,
     set: upgrade.set!,
     oldSet: form[upgrade.teammate!].teamOrnamentSet,
-    simScore: precisionRound(upgrade.simulationResult.simScore, 2),
+    simScore: precisionRound(upgrade.simulationResult.simScore, TEAMMATE_UPGRADE_PRECISION),
   }))
 
   const groupedUpgrades = groupTeammateSetUpgrades(inputs)

@@ -33,7 +33,7 @@ import { gridStore } from 'lib/stores/gridStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { groupTeammateSetUpgrades, teammateKeys, type PreTeammateSetUpgrade, type TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
+import { groupTeammateSetUpgrades, TEAMMATE_UPGRADE_PRECISION, teammateKeys, type PreTeammateSetUpgrade, type TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { OptimizerForm } from 'types/form'
@@ -77,7 +77,7 @@ export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
         id: baseRequest[key].characterId,
         set: option.value,
         oldSet: baseRequest[key].teamOrnamentSet,
-        simScore: precisionRound(x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG), 2),
+        simScore: precisionRound(x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG), TEAMMATE_UPGRADE_PRECISION),
       })
     })
   })

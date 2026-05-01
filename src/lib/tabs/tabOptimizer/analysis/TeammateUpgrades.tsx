@@ -4,10 +4,11 @@ import { iconSize } from 'lib/constants/constantsUi'
 import { useToggle } from '@mantine/hooks'
 import { Assets } from 'lib/rendering/assets'
 import { getTeammateOption, setToId } from 'lib/sets/setConfigRegistry'
-import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
+import { TEAMMATE_UPGRADE_PRECISION, type TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { Caret } from 'lib/ui/Caret'
+import { arrowColor, arrowDirection } from 'lib/utils/displayUtils'
 import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
-import { truncate100ths } from 'lib/utils/mathUtils'
+import { precisionRound, truncate100ths } from 'lib/utils/mathUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './UpgradeTable.module.css'
@@ -39,8 +40,8 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
 
   const setRows: SetCentricRow[] = []
   for (const [setValue, simScore] of setMap) {
-    const delta = simScore - baseSimScore
-    if (delta <= 0) continue
+    const delta = precisionRound(simScore - baseSimScore, TEAMMATE_UPGRADE_PRECISION)
+    if (delta === 0) continue
     if (!getTeammateOption(setValue)) continue
     const percent = (delta / baseSimScore) * 100
     setRows.push({ setValue, percent, delta })
@@ -50,7 +51,7 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
 
   if (setRows.length === 0) return null
 
-  const swapRows = groupedUpgrades.filter((g) => g.simScore - baseSimScore > 0)
+  const swapRows = groupedUpgrades.filter((g) => precisionRound(g.simScore - baseSimScore, TEAMMATE_UPGRADE_PRECISION) !== 0)
 
   const isCharactersTab = variant === 'characters'
 
@@ -74,7 +75,7 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {setRows.map((row) => <SetRow key={row.setValue} row={row} showName={isCharactersTab} />)}
+        {setRows.map((row) => <SetRow key={row.setValue} row={row} showName={isCharactersTab} showArrow={isCharactersTab} />)}
         {swapRows.length > 0 && (
           <Table.Tr className={styles.expandRow} onClick={() => toggleSwaps()}>
             <Table.Td colSpan={3}>
@@ -84,13 +85,13 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
             </Table.Td>
           </Table.Tr>
         )}
-        {showSwaps && swapRows.map((group, idx) => <SwapRow key={idx} group={group} baseSimScore={baseSimScore} />)}
+        {showSwaps && swapRows.map((group, idx) => <SwapRow key={idx} group={group} baseSimScore={baseSimScore} showArrow={isCharactersTab} />)}
       </Table.Tbody>
     </Table>
   )
 })
 
-function SetRow({ row, showName }: { row: SetCentricRow, showName?: boolean }) {
+function SetRow({ row, showName, showArrow }: { row: SetCentricRow, showName?: boolean, showArrow?: boolean }) {
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   const setId = setToId[row.setValue as keyof typeof setToId]
   const setName = setId ? t(`${setId}.Name`) : ''
@@ -108,7 +109,14 @@ function SetRow({ row, showName }: { row: SetCentricRow, showName?: boolean }) {
         </Flex>
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
-        {`${localeNumber_00(truncate100ths(row.percent))}%`}
+        {showArrow
+          ? (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+              <span style={{ color: arrowColor(row.percent >= 0), fontSize: 10 }}>{arrowDirection(row.percent >= 0)}</span>
+              {` ${localeNumber_00(truncate100ths(row.percent))}%`}
+            </div>
+          )
+          : `${localeNumber_00(truncate100ths(row.percent))}%`}
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
         {localeNumber_0(row.delta)}
@@ -117,8 +125,8 @@ function SetRow({ row, showName }: { row: SetCentricRow, showName?: boolean }) {
   )
 }
 
-function SwapRow({ group, baseSimScore }: { group: TeammateSetUpgrade, baseSimScore: number }) {
-  const delta = group.simScore - baseSimScore
+function SwapRow({ group, baseSimScore, showArrow }: { group: TeammateSetUpgrade, baseSimScore: number, showArrow?: boolean }) {
+  const delta = precisionRound(group.simScore - baseSimScore, TEAMMATE_UPGRADE_PRECISION)
   const percent = (delta / baseSimScore) * 100
 
   return (
@@ -142,7 +150,14 @@ function SwapRow({ group, baseSimScore }: { group: TeammateSetUpgrade, baseSimSc
         </Flex>
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
-        {`${localeNumber_00(truncate100ths(percent))}%`}
+        {showArrow
+          ? (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+              <span style={{ color: arrowColor(percent >= 0), fontSize: 10 }}>{arrowDirection(percent >= 0)}</span>
+              {` ${localeNumber_00(truncate100ths(percent))}%`}
+            </div>
+          )
+          : `${localeNumber_00(truncate100ths(percent))}%`}
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
         {localeNumber_0(delta)}

@@ -2,6 +2,7 @@ import type { CharacterId } from 'types/character'
 import type { TeammateOption } from 'types/setConfig'
 
 export const teammateKeys = ['teammate0', 'teammate1', 'teammate2'] as const
+export const TEAMMATE_UPGRADE_PRECISION = 2
 
 export interface TeammateSetUpgrade {
   ids: Set<CharacterId>

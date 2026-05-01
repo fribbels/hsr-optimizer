@@ -2,14 +2,9 @@ import { Flex, Table } from '@mantine/core'
 import { TeammateSetImageWithTooltip } from 'lib/characterPreview/summary/DpsScoreTeammateUpgradesTable'
 import { iconSize } from 'lib/constants/constantsUi'
 import { useToggle } from 'lib/hooks/useToggle'
-import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import { Assets } from 'lib/rendering/assets'
-import { getTeammateOption } from 'lib/sets/setConfigRegistry'
-import {
-  calculateTeammateUpgrades,
-  type OptimizerResultAnalysis,
-  type TeammateSetUpgrade,
-} from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import { getTeammateOption, setToId } from 'lib/sets/setConfigRegistry'
+import type { TeammateSetUpgrade } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { Caret } from 'lib/ui/Caret'
 import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
 import { truncate100ths } from 'lib/utils/mathUtils'
@@ -26,12 +21,13 @@ type SetCentricRow = {
   delta: number
 }
 
-export const TeammateUpgrades = memo(function TeammateUpgrades({ analysis }: { analysis: OptimizerResultAnalysis }) {
-  const groupedUpgrades = calculateTeammateUpgrades(analysis)
+export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades, baseSimScore, variant = 'optimizer' }: {
+  groupedUpgrades: TeammateSetUpgrade[]
+  baseSimScore: number
+  variant?: 'optimizer' | 'characters'
+}) {
   const [showSwaps, toggleSwaps] = useToggle()
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.TeammateUpgrades.ColumnHeaders' })
-
-  const baseSimScore = analysis.newX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
 
   const setMap = new Map<string, number>()
   for (const group of groupedUpgrades) {
@@ -58,8 +54,20 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ analysis }: { a
 
   const swapRows = groupedUpgrades.filter((g) => g.simScore - baseSimScore > 0)
 
+  const isCharactersTab = variant === 'characters'
+
   return (
-    <Table className={classes.upgradeTable} layout="fixed">
+    <Table
+      className={classes.upgradeTable}
+      style={isCharactersTab ? { tableLayout: 'fixed' } : undefined}
+    >
+      {isCharactersTab && (
+        <colgroup>
+          <col style={{ width: 200 }} />
+          <col style={{ width: 450 }} />
+          <col style={{ width: 450 }} />
+        </colgroup>
+      )}
       <Table.Thead>
         <Table.Tr>
           <Table.Th className={classes.substatHeader}>{t('Ornaments')}</Table.Th>
@@ -68,7 +76,7 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ analysis }: { a
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {setRows.map((row) => <SetRow key={row.setValue} row={row} />)}
+        {setRows.map((row) => <SetRow key={row.setValue} row={row} showName={isCharactersTab} />)}
         {swapRows.length > 0 && (
           <Table.Tr className={styles.expandRow} onClick={toggleSwaps}>
             <Table.Td colSpan={3}>
@@ -84,12 +92,21 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ analysis }: { a
   )
 })
 
-function SetRow({ row }: { row: SetCentricRow }) {
+function SetRow({ row, showName }: { row: SetCentricRow, showName?: boolean }) {
+  const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
+  const setId = setToId[row.setValue as keyof typeof setToId]
+  const setName = setId ? t(`${setId}.Name`) : ''
+
   return (
     <Table.Tr>
       <Table.Td>
-        <Flex align="center" ml={3}>
+        <Flex align="center" ml={3} gap={6} style={{ overflow: 'hidden' }}>
           <TeammateSetImageWithTooltip value={row.setValue} />
+          {showName && (
+            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginLeft: 4, marginRight: 4 }}>
+              {setName}
+            </span>
+          )}
         </Flex>
       </Table.Td>
       <Table.Td className={classes.centeredCell}>
@@ -110,8 +127,11 @@ function SwapRow({ group, baseSimScore }: { group: TeammateSetUpgrade, baseSimSc
     <Table.Tr>
       <Table.Td>
         <Flex gap={2} align="center" ml={3}>
-          {getTeammateOption(group.oldSet) && (
-            <TeammateSetImageWithTooltip value={group.oldSet} removed />
+          {group.oldSet && getTeammateOption(group.oldSet) && (
+            <>
+              <TeammateSetImageWithTooltip value={group.oldSet} removed />
+              ➔
+            </>
           )}
           {Array.from(group.set).map((set) => (
             <TeammateSetImageWithTooltip value={set} key={set} />

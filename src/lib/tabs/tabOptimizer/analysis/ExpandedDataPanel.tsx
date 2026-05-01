@@ -6,7 +6,9 @@ import { getCharacterById } from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
+import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import {
+  calculateTeammateUpgrades,
   generateAnalysisData,
   getCachedForm,
   getPinnedRowData,
@@ -81,7 +83,10 @@ function AnalysisRender({ analysis }: { analysis: OptimizerResultAnalysis }) {
               </div>
               <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <DamageUpgrades analysis={analysis} />
-                <TeammateUpgrades analysis={analysis} />
+                <TeammateUpgrades
+                  groupedUpgrades={calculateTeammateUpgrades(analysis)}
+                  baseSimScore={analysis.newX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)}
+                />
               </div>
             </div>
           </div>

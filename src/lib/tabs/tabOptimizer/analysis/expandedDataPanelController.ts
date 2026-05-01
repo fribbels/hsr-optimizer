@@ -65,7 +65,7 @@ export interface TeammateSetUpgrade {
   oldSet?: TeammateOption['value']
   simScore: number
 }
-interface PreTeammateSetUpgrade {
+export interface PreTeammateSetUpgrade {
   id: CharacterId
   set: TeammateOption['value']
   oldSet?: TeammateOption['value']
@@ -101,14 +101,16 @@ export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
     })
   })
 
+  return groupTeammateSetUpgrades(results)
+}
+
+export function groupTeammateSetUpgrades(results: PreTeammateSetUpgrade[]): TeammateSetUpgrade[] {
   results.sort((a, b) => {
-    // ensure results stay grouped by character
     const idDiff = a.id.localeCompare(b.id)
     if (idDiff) return idDiff
     return b.simScore - a.simScore
   })
 
-  // group with same character, the results are already grouped by character so no need to search the array
   const preGroupedResults: Array<PreGroupedTeammateSetUpgrade> = []
   results.forEach((result) => {
     let latestGroup = preGroupedResults.at(-1)
@@ -120,7 +122,6 @@ export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
       latestGroup.set.add(result.set)
       return
     }
-    // special case needed for the "no-op" set changes
     latestGroup = preGroupedResults.at(-2)
     if (
       latestGroup
@@ -140,7 +141,17 @@ export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
 
   const groupedResults: Array<TeammateSetUpgrade> = []
   preGroupedResults.forEach((group) => {
-    const latestGroup = groupedResults.at(-1)
+    let latestGroup = groupedResults.at(-1)
+    if (
+      latestGroup
+      && latestGroup.oldSet === group.oldSet
+      && latestGroup.set.symmetricDifference(group.set).size === 0
+      && latestGroup.simScore === group.simScore
+    ) {
+      latestGroup.ids.add(group.id)
+      return
+    }
+    latestGroup = groupedResults.at(-2)
     if (
       latestGroup
       && latestGroup.oldSet === group.oldSet

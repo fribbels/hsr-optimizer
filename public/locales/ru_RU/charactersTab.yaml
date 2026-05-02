@@ -102,8 +102,8 @@ CharacterPreview:
     Header: Сравнение статов для повышения урона
     MainStatHeader: Сравнение главных статов реликвий
     AddedRoll: '+1x прок {{stat}}'
-    MainStatUpgrade: Смена главного стата
     SubStatUpgrade: Стат для улучшения
+    MainStatUpgrade: Смена главного стата
     DpsScorePercentUpgrade: Δ оценки урона %
     UpgradedDpsScore: Оценка урона
     ComboDmgPercentUpgrade: Δ Урона Комбо %

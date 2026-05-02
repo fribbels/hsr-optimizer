@@ -688,6 +688,10 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      COMBO_DMG: コンボダメ変化量
+      COMBO_DMG_P: コンボダメ変化率
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x サブステ'

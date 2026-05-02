@@ -426,8 +426,8 @@ export async function screenshotElementById(
           restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
           const capture = await withTimeout(
             snapdom(element, {
-              scale: 1.5,
-              dpr: 1,
+              scale: 1,
+              dpr: 2,
               width: cardTotalW,
               height: parentH,
               backgroundColor: 'transparent',
@@ -438,7 +438,7 @@ export async function screenshotElementById(
             }),
             attemptTimeoutMs,
           )
-          blob = await capture.toBlob({ type: 'png' })
+          blob = await capture.toBlob({ type: 'webp', quality: 1.0 })
           if (blob && blob.size > 1_500_000) break
         } catch (e) {
           lastError = e
@@ -463,11 +463,12 @@ export async function screenshotElementById(
     const pad = (n: number) => n.toString().padStart(2, '0')
     const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
     const time = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`
-    const filename = `${prefix}-${date}-${time}.png`
+    const ext = blob.type === 'image/webp' ? 'webp' : 'png'
+    const filename = `${prefix}-${date}-${time}.${ext}`
 
     if (action === 'clipboard') {
       if (mobile) {
-        const file = new File([blob], filename, { type: 'image/png' })
+        const file = new File([blob], filename, { type: blob.type })
         const canShareFiles = typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })
         if (canShareFiles) {
           navigator.share({ files: [file], title: '', text: '' }).catch((e: unknown) => {

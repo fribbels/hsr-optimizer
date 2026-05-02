@@ -670,6 +670,11 @@ StatSimulation:
     ShortStat: 'crwdns43414:0$t(common:ShortReadableStats.{{stat}})crwdne43414:0'
     LabelStat: 'crwdns43416:0$t(common:ReadableStats.{{stat}})crwdne43416:0'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      Ornaments: crwdns47152:0crwdne47152:0
+      COMBO_DMG: crwdns47154:0crwdne47154:0
+      COMBO_DMG_P: crwdns47156:0crwdne47156:0
   SubstatUpgrades:
     ColumnHeaders:
       Substat: 'crwdns44680:0crwdne44680:0'

@@ -107,8 +107,8 @@ CharacterPreview:
     Header: 副词条升级比较
     MainStatHeader: 主词条升级比较
     AddedRoll: '+1x {{stat}}副词条'
-    MainStatUpgrade: 主词条升级
     SubStatUpgrade: 副词条升级
+    MainStatUpgrade: 主词条升级
     DpsScorePercentUpgrade: DPS评分Δ%
     UpgradedDpsScore: 升级后DPS评分
     ComboDmgPercentUpgrade: 连招伤害Δ%

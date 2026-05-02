@@ -100,8 +100,8 @@ CharacterPreview:
     Header: Comparación de mejoras de atributos secundarios
     MainStatHeader: Comparación de mejoras de atributos principales
     AddedRoll: '+1x mejora {{stat}}'
-    MainStatUpgrade: Mejora de atr. principal
     SubStatUpgrade: Mejora de atr. secundario
+    MainStatUpgrade: Mejora de atr. principal
     DpsScorePercentUpgrade: Δ % Puntaje DPS
     UpgradedDpsScore: Puntaje DPS mejorado
     ComboDmgPercentUpgrade: Δ % Daño de combo

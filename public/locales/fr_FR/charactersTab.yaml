@@ -100,8 +100,8 @@ CharacterPreview:
     Header: Comparaisons d'améliorations de substats
     MainStatHeader: Comparaisons d'améliorations de mainstat
     AddedRoll: '+1x roll {{stat}}'
-    MainStatUpgrade: Améliorations de mainstat
     SubStatUpgrade: Améliorations de substats
+    MainStatUpgrade: Améliorations de mainstat
     DpsScorePercentUpgrade: Note DPS ∆ %
     UpgradedDpsScore: Note DPS amélioré
     ComboDmgPercentUpgrade: DGT Combo ∆ %

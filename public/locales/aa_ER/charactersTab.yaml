@@ -106,9 +106,11 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0
     MainStatHeader: crwdns44824:0crwdne44824:0
+    TeammatesHeader: crwdns47148:0crwdne47148:0
     AddedRoll: 'crwdns44889:0{{stat}}crwdne44889:0'
-    MainStatUpgrade: crwdns44826:0crwdne44826:0
     SubStatUpgrade: crwdns44828:0crwdne44828:0
+    MainStatUpgrade: crwdns44826:0crwdne44826:0
+    TeammateUpgrade: crwdns47150:0crwdne47150:0
     DpsScorePercentUpgrade: crwdns44830:0crwdne44830:0
     UpgradedDpsScore: crwdns44832:0crwdne44832:0
     ComboDmgPercentUpgrade: crwdns44834:0crwdne44834:0

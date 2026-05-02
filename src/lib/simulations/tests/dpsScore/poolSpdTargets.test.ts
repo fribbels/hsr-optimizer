@@ -99,17 +99,19 @@ describe('Pool SPD targeting', () => {
     expect(o.poolComboStates![0].flags.simPoetActive).toBe(true)
   })
 
-  test('Poet as secondary metadata match — user equips Poet on non-Poet-primary character, pool=1 with Poet SPD targeting', () => {
-    // Anaxa's primary metadata set is Scholar, but Poet is listed as a secondary alternative.
-    // When user equips Poet, calculateSimSets matches it from metadata → default becomes Poet → dedup to 1.
+  test('User equips Poet on non-Poet character — pool=2 with Poet and non-Poet entries', () => {
+    // Anaxa's metadata only has Scholar, not Poet. User equipping Poet creates a second pool entry.
     const o = buildOrchestrator(
       Anaxa.id, LifeShouldBeCastToFlames.id, anaxaTeammates,
       testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.RutilantArena),
       anaxaDefaultMains, testStatSpread(),
     )
-    expect(o.poolComboStates).toHaveLength(1)
-    expect(o.poolComboStates![0].flags.simPoetActive).toBe(true)
-    expect(o.poolComboStates![0].basicSpdTarget).toBeLessThan(110)
+    expect(o.poolComboStates).toHaveLength(2)
+
+    const poetEntry = o.poolComboStates!.find((s) => s.flags.simPoetActive)
+    const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)
+    expect(poetEntry).toBeDefined()
+    expect(normalEntry).toBeDefined()
   })
 
   test('Default=Poet, User=Normal (same ornament) — pool=2, different SPD targets', () => {

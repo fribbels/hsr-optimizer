@@ -24,7 +24,9 @@ type ScoringStoreActions = {
   setScoringMetadataOverrides: (overrides: Partial<Record<CharacterId, ScoringMetadataOverride>>) => void,
   updateCharacterOverrides: (id: CharacterId, updated: Partial<ScoringMetadataOverride>) => void,
   updateSimulationOverrides: (id: CharacterId, simulation: Partial<SimulationMetadata>) => void,
+  updateSupportSimulationOverrides: (id: CharacterId, simulation: Partial<SimulationMetadata>) => void,
   clearSimulationOverrides: (id: CharacterId) => void,
+  clearSupportSimulationOverrides: (id: CharacterId) => void,
   clearCharacterOverrides: (id: CharacterId) => void,
 }
 
@@ -56,10 +58,24 @@ export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => (
     set({ scoringMetadataOverrides: overrides, scoringVersion: get().scoringVersion + 1 })
   },
 
+  updateSupportSimulationOverrides: (id, updatedSimulation) => {
+    if (!updatedSimulation) return
+    const prev = get().scoringMetadataOverrides
+    const overrides = { ...prev, [id]: { ...prev[id], supportSimulation: { ...prev[id]?.supportSimulation, ...updatedSimulation } } }
+    set({ scoringMetadataOverrides: overrides, scoringVersion: get().scoringVersion + 1 })
+  },
+
   clearSimulationOverrides: (id) => {
     const prev = get().scoringMetadataOverrides
     const { simulation, ...rest } = prev[id] ?? {}
-    const hasContent = rest.stats || rest.parts || rest.traces
+    const hasContent = rest.stats || rest.parts || rest.traces || rest.supportSimulation
+    set({ scoringMetadataOverrides: setOrOmit(prev, id, hasContent ? rest : undefined), scoringVersion: get().scoringVersion + 1 })
+  },
+
+  clearSupportSimulationOverrides: (id) => {
+    const prev = get().scoringMetadataOverrides
+    const { supportSimulation, ...rest } = prev[id] ?? {}
+    const hasContent = rest.stats || rest.parts || rest.traces || rest.simulation
     set({ scoringMetadataOverrides: setOrOmit(prev, id, hasContent ? rest : undefined), scoringVersion: get().scoringVersion + 1 })
   },
 

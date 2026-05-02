@@ -64,11 +64,13 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   simulationMetadata,
   teamSelection: teamSelectionProp,
   source,
+  simulationKey = 'simulation',
 }: {
   characterId: CharacterId,
   simulationMetadata: SimulationMetadata,
   teamSelection: string,
   source: ShowcaseSource,
+  simulationKey?: 'simulation' | 'supportSimulation',
 }) {
   const readonly = source === ShowcaseSource.BUILDS_MODAL
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
@@ -83,6 +85,7 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
             simulationMetadata={simulationMetadata}
             characterId={characterId}
             readonly={readonly}
+            simulationKey={simulationKey}
           />
         ))}
       </div>
@@ -91,13 +94,52 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
         characterId={characterId}
         teamSelection={teamSelection}
         readonly={readonly}
+        onClear={() => {
+          if (simulationKey === 'simulation') {
+            useScoringStore.getState().clearSimulationOverrides(characterId)
+          } else {
+            useScoringStore.getState().clearSupportSimulationOverrides(characterId)
+          }
+        }}
+        onSync={() => {
+          const characterMetadata = getScoringMetadata(characterId)
+          const sim = characterMetadata[simulationKey]
+          const update = {
+            teammates: sim?.teammates.map((t) => {
+              const form = getCharacterById(t.characterId)?.form
+              if (!form) return t
+              return {
+                ...t,
+                characterEidolon: form.characterEidolon,
+                lightCone: form.lightCone ?? t.lightCone,
+                lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
+              }
+            }),
+          }
+          if (simulationKey === 'simulation') {
+            useScoringStore.getState().updateSimulationOverrides(characterId, update)
+          } else {
+            useScoringStore.getState().updateSupportSimulationOverrides(characterId, update)
+          }
+        }}
+        onTeamChange={(team) => {
+          if (simulationKey === 'simulation') {
+            useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, team as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
+          } else {
+            useShowcaseTabStore.getState().setShowcaseSupportTeamPreference(characterId, team as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
+          }
+        }}
       />
     </div>
   )
 })
 
-export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScoreDetailsFooter() {
-  const preview = useSimScoringContext(ScoringSelector.Preview)
+export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScoreDetailsFooter({
+  selector = ScoringSelector.Preview,
+}: {
+  selector?: ScoringSelector.Preview | ScoringSelector.SupportPreview,
+}) {
+  const preview = useSimScoringContext(selector)
   if (!preview) {
     return (
       <span className={styles.loadingBlurSmall}>
@@ -105,12 +147,17 @@ export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScor
     )
   }
 
+  const simMetadata = selector === ScoringSelector.SupportPreview
+    ? preview.characterMetadata.scoringMetadata.supportSimulation
+    : preview.characterMetadata.scoringMetadata.simulation
+
   return (
     <div>
       <CharacterCardCombatStats
         characterMetadata={preview.characterMetadata}
         originalSimResult={preview.originalSimResult}
         deprioritizeBuffs={preview.deprioritizeBuffs}
+        simulationMetadata={simMetadata ?? undefined}
       />
     </div>
   )
@@ -121,11 +168,13 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
   simulationMetadata,
   characterId,
   readonly,
+  simulationKey = 'simulation',
 }: {
   index: number,
   simulationMetadata: SimulationMetadata,
   characterId: CharacterId,
   readonly?: boolean,
+  simulationKey?: 'simulation' | 'supportSimulation',
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -139,7 +188,7 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
         if (readonly) return
         useCharacterModalStore.getState().openOverlay({
           initialCharacter: teammate ? { form: teammate } : null,
-          onOk: createOnCharacterModalOk(characterId, index),
+          onOk: createOnCharacterModalOk(characterId, index, simulationKey),
           showSetSelection: true,
         })
       }}
@@ -285,6 +334,7 @@ function formatSpd(n: number) {
 function createOnCharacterModalOk(
   characterId: CharacterId,
   selectedTeammateIndex: number,
+  simulationKey: 'simulation' | 'supportSimulation' = 'simulation',
 ) {
   return (form: CharacterModalForm): boolean => {
     const t = i18next.getFixedT(null, 'charactersTab', 'CharacterPreview.Messages')
@@ -297,15 +347,23 @@ function createOnCharacterModalOk(
       return false
     }
 
-    const simulation = getScoringMetadata(characterId).simulation
+    const simulation = getScoringMetadata(characterId)[simulationKey]
 
     // Safe cast: after guards above, characterId and lightCone are known non-null, matching the teammate shape
     const update = { teammates: simulation?.teammates.map((tm, idx) => idx === selectedTeammateIndex ? form as typeof tm : tm) }
 
-    const setTeamSelectionByCharacter = useShowcaseTabStore.getState().setShowcaseTeamPreference
-    useScoringStore.getState().updateSimulationOverrides(characterId, update)
+    if (simulationKey === 'simulation') {
+      useScoringStore.getState().updateSimulationOverrides(characterId, update)
+    } else {
+      useScoringStore.getState().updateSupportSimulationOverrides(characterId, update)
+    }
     SaveState.delayedSave()
-    setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
+
+    if (simulationKey === 'simulation') {
+      useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, CUSTOM_TEAM)
+    } else {
+      useShowcaseTabStore.getState().setShowcaseSupportTeamPreference(characterId, CUSTOM_TEAM)
+    }
     return true
   }
 }
@@ -314,14 +372,18 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
   characterId,
   teamSelection,
   readonly,
+  onClear,
+  onSync,
+  onTeamChange,
 }: {
   characterId: CharacterId,
   teamSelection: string,
   readonly?: boolean,
+  onClear: () => void,
+  onSync: () => void,
+  onTeamChange: (team: string) => void,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
-
-  const setTeamSelectionByCharacter = useShowcaseTabStore((s) => s.setShowcaseTeamPreference)
 
   const tabsDisplay = (
     <SegmentedControl
@@ -340,9 +402,9 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
                   <Button
                     leftSection={<IconRefresh size={16} />}
                     onClick={() => {
-                      useScoringStore.getState().clearSimulationOverrides(characterId)
+                      onClear()
                       SaveState.delayedSave()
-                      if (teamSelection !== DEFAULT_TEAM) setTeamSelectionByCharacter(characterId, DEFAULT_TEAM)
+                      if (teamSelection !== DEFAULT_TEAM) onTeamChange(DEFAULT_TEAM)
 
                       Message.success(t('modals:ScoreFooter.ResetSuccessMsg') /* Reset to default teams */)
                     }}
@@ -352,24 +414,9 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
                   <Button
                     leftSection={<IconArrowsExchange size={16} />}
                     onClick={() => {
-                      const characterMetadata = getScoringMetadata(characterId)
-
-                      const update = {
-                        teammates: characterMetadata.simulation?.teammates.map((t) => {
-                          const form = getCharacterById(t.characterId)?.form
-                          if (!form) return t
-                          return {
-                            ...t,
-                            characterEidolon: form.characterEidolon,
-                            lightCone: form.lightCone ?? t.lightCone,
-                            lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
-                          }
-                        }),
-                      }
-
-                      useScoringStore.getState().updateSimulationOverrides(characterId, update)
+                      onSync()
                       SaveState.delayedSave()
-                      if (teamSelection !== CUSTOM_TEAM) setTeamSelectionByCharacter(characterId, CUSTOM_TEAM)
+                      if (teamSelection !== CUSTOM_TEAM) onTeamChange(CUSTOM_TEAM)
 
                       Message.success(t('modals:ScoreFooter.SyncSuccessMsg') /* Synced teammates */)
                     }}
@@ -381,7 +428,7 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
             ),
           })
         } else {
-          setTeamSelectionByCharacter(characterId, selection as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
+          onTeamChange(selection as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
         }
       }}
       value={teamSelection}

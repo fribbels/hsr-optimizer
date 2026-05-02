@@ -49,6 +49,7 @@ export type ScoringMetadataOverride = {
   stats?: Partial<Record<SubStats, number>>,
   parts?: Partial<Record<ScoringParts, MainStats[]>>,
   simulation?: Partial<SimulationMetadata>,
+  supportSimulation?: Partial<SimulationMetadata>,
   traces?: { deactivated: string[] },
 }
 

@@ -44,12 +44,16 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
-import { type DBMetadataCharacter } from 'types/metadata'
+import {
+  type DBMetadataCharacter,
+  type SimulationMetadata,
+} from 'types/metadata'
 
-export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs }: {
+export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs, simulationMetadata }: {
   characterMetadata: DBMetadataCharacter,
   originalSimResult: RunStatSimulationsResult,
   deprioritizeBuffs: boolean,
+  simulationMetadata?: SimulationMetadata,
 }) {
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
@@ -59,7 +63,8 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
   const x = originalSimResult.x
   const primaryActionStats = originalSimResult.primaryActionStats
 
-  const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata)
+  const simMetadata = simulationMetadata ?? characterMetadata.scoringMetadata.simulation!
+  const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata, simMetadata)
   const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
 
   const rows: ReactElement[] = []
@@ -145,8 +150,7 @@ function aggregateCombatStats(
   return displayWrappers
 }
 
-function pickCombatStats(characterMetadata: DBMetadataCharacter) {
-  const simulationMetadata = characterMetadata.scoringMetadata.simulation!
+function pickCombatStats(characterMetadata: DBMetadataCharacter, simulationMetadata: SimulationMetadata) {
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
 
   let substats: StatsValues[] = [...simulationMetadata.substats as SubStats[]]

@@ -69,6 +69,11 @@ export enum ScoringType {
   COMBAT_SCORE,
   SUBSTAT_SCORE,
   NONE,
+  SUPPORT_SCORE,
+}
+
+export function isSimScoreMode(scoringType: ScoringType): boolean {
+  return scoringType === ScoringType.COMBAT_SCORE || scoringType === ScoringType.SUPPORT_SCORE
 }
 
 export type ScoringParams = {

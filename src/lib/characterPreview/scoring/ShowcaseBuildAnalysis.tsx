@@ -48,14 +48,23 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
 
   const { characterMetadata } = showcaseMetadata
 
-  const simulationNull = characterMetadata.scoringMetadata.simulation == null && characterMetadata.scoringMetadata.supportSimulation == null
+  const dpsSimulationNull = characterMetadata.scoringMetadata.simulation == null
+  const supportSimulationNull = characterMetadata.scoringMetadata.supportSimulation == null
+  const simulationNull = dpsSimulationNull && supportSimulationNull
   const segmentData = useMemo(() => [
     {
-      label: simulationNull
+      label: dpsSimulationNull
         ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD') /* Combat Score (TBD) */
         : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
       value: String(ScoringType.COMBAT_SCORE),
-      disabled: simulationNull,
+      disabled: dpsSimulationNull,
+    },
+    {
+      label: supportSimulationNull
+        ? 'Support Score (TBD)'
+        : 'Support Score',
+      value: String(ScoringType.SUPPORT_SCORE),
+      disabled: supportSimulationNull,
     },
     {
       label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
@@ -67,7 +76,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
       value: String(ScoringType.NONE),
       disabled: false,
     },
-  ], [simulationNull, t])
+  ], [dpsSimulationNull, supportSimulationNull, t])
 
   const handleScoringTypeChange = useCallback((selection: string) => {
     const value = Number(selection) as ScoringType
@@ -100,20 +109,16 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           />
         </div>
       </div>
-      {scoringType === ScoringType.COMBAT_SCORE
-        && !simulationNull
-        && (
-          <>
-            {characterMetadata.scoringMetadata.simulation != null && (
-              <CharacterScoringSummary
-                displayRelics={displayRelics}
-                showcaseMetadata={showcaseMetadata}
-                source={source}
-              />
-            )}
-            <SupportScoreSummary />
-          </>
-        )}
+      {scoringType === ScoringType.COMBAT_SCORE && !dpsSimulationNull && (
+        <CharacterScoringSummary
+          displayRelics={displayRelics}
+          showcaseMetadata={showcaseMetadata}
+          source={source}
+        />
+      )}
+      {scoringType === ScoringType.SUPPORT_SCORE && !supportSimulationNull && (
+        <SupportScoreSummary />
+      )}
       {(scoringType === ScoringType.SUBSTAT_SCORE || simulationNull)
         && (
           <StatScoringSummary

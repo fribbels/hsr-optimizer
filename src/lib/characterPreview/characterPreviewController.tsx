@@ -145,13 +145,18 @@ function getRelic(relicsById: Partial<Record<string, Relic>>, character: Charact
   return null
 }
 
-export function resolveScoringType(storedScoringType: ScoringType, hasSimulation: boolean) {
+export function resolveScoringType(
+  storedScoringType: ScoringType,
+  hasDpsSimulation: boolean,
+  hasSupportSimulation: boolean,
+) {
   if (storedScoringType === ScoringType.NONE || storedScoringType === ScoringType.SUBSTAT_SCORE) {
     return storedScoringType
   }
-  if (storedScoringType === ScoringType.COMBAT_SCORE && hasSimulation) {
-    return storedScoringType
-  }
+  if (storedScoringType === ScoringType.COMBAT_SCORE && hasDpsSimulation) return ScoringType.COMBAT_SCORE
+  if (storedScoringType === ScoringType.SUPPORT_SCORE && hasSupportSimulation) return ScoringType.SUPPORT_SCORE
+  if (hasDpsSimulation) return ScoringType.COMBAT_SCORE
+  if (hasSupportSimulation) return ScoringType.SUPPORT_SCORE
   return ScoringType.SUBSTAT_SCORE
 }
 
@@ -286,15 +291,16 @@ export function showcaseOnEditPortraitOk(
 export function handleTeamSelection(
   character: Character,
   teamSelection: string | undefined,
+  simulationKey: 'simulation' | 'supportSimulation' = 'simulation',
 ) {
   let currentSelection: string | undefined = teamSelection
 
   const defaultScoringMetadata = getGameMetadata().characters[character.id].scoringMetadata
-  if (defaultScoringMetadata?.simulation) {
+  if (defaultScoringMetadata?.[simulationKey]) {
     const scoringMetadata = getScoringMetadata(character.id)
 
-    const hasCustom = scoringMetadata.simulation?.teammates
-      && objectHash(scoringMetadata.simulation.teammates) !== objectHash(defaultScoringMetadata.simulation.teammates)
+    const hasCustom = scoringMetadata[simulationKey]?.teammates
+      && objectHash(scoringMetadata[simulationKey]!.teammates) !== objectHash(defaultScoringMetadata[simulationKey]!.teammates)
 
     if (hasCustom && currentSelection !== DEFAULT_TEAM) {
       currentSelection = CUSTOM_TEAM

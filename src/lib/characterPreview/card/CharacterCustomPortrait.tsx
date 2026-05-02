@@ -3,7 +3,7 @@ import {
   newLcMargin,
   parentH,
 } from 'lib/constants/constantsUi'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { isSimScoreMode, ScoringType } from 'lib/scoring/simScoringUtils'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { type CustomImageConfig } from 'types/customImage'
 
@@ -20,14 +20,14 @@ export function CharacterCustomPortrait({
   const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width
   const totalLcHeight = newLcHeight + newLcMargin
   const heightScaleLimit = customPortrait.customImageParams.croppedAreaPixels.width / customPortrait.originalDimensions.width
-  const scaleHeight = scoringType === ScoringType.COMBAT_SCORE
+  const scaleHeight = isSimScoreMode(scoringType)
     ? Math.max((parentH - totalLcHeight) / parentH, heightScaleLimit)
     : 1
 
   // When we shrink the scale by height, this is aligned left so the right side shrinks left.
   // To balance that, we horizontally offset back towards the center, proportionally to the light cone height
   // That also means we have to set left limits so that this doesnt cause the image to underflow on the left & right
-  const horizontalOffset = scoringType === ScoringType.COMBAT_SCORE
+  const horizontalOffset = isSimScoreMode(scoringType)
     ? totalLcHeight / parentH * parentW / 2
     : 0
 

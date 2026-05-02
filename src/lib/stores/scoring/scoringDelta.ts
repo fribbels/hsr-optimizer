@@ -105,6 +105,13 @@ export function mergeDeltaWithDefaults(
     result.simulation = clone(override.simulation) as SimulationMetadata // Clone to avoid shared reference
   }
 
+  // Deep-merge supportSimulation
+  if (override?.supportSimulation && defaults.supportSimulation) {
+    result.supportSimulation = { ...clone(defaults.supportSimulation), ...override.supportSimulation } as SimulationMetadata
+  } else if (override?.supportSimulation) {
+    result.supportSimulation = clone(override.supportSimulation) as SimulationMetadata
+  }
+
   // Traces: full replacement
   if (override?.traces) {
     result.traces = override.traces
@@ -152,6 +159,11 @@ export function mergeAndPruneOverride(
   } else if (existing?.simulation) {
     result.simulation = existing.simulation
   }
+  if (update.supportSimulation !== undefined) {
+    result.supportSimulation = update.supportSimulation
+  } else if (existing?.supportSimulation) {
+    result.supportSimulation = existing.supportSimulation
+  }
   if (update.traces !== undefined) {
     result.traces = update.traces
   } else if (existing?.traces) {
@@ -159,7 +171,7 @@ export function mergeAndPruneOverride(
   }
 
   // Check if result has any content
-  const hasContent = result.stats || result.parts || result.simulation || result.traces
+  const hasContent = result.stats || result.parts || result.simulation || result.supportSimulation || result.traces
   return hasContent ? result : undefined
 }
 
@@ -201,10 +213,11 @@ export function pruneOverridesOnLoad(
       if (prunedStats) pruned.stats = prunedStats
       if (prunedParts) pruned.parts = prunedParts
       if (override.simulation) pruned.simulation = override.simulation
+      if (override.supportSimulation) pruned.supportSimulation = override.supportSimulation
       if (override.traces) pruned.traces = override.traces
 
       // Only store if has content
-      const hasContent = pruned.stats || pruned.parts || pruned.simulation || pruned.traces
+      const hasContent = pruned.stats || pruned.parts || pruned.simulation || pruned.supportSimulation || pruned.traces
       if (hasContent) {
         result[id] = pruned
       } else {

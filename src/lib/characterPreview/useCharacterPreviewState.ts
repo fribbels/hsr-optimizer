@@ -66,6 +66,7 @@ export function useCharacterPreviewState(
   const charId = character.id
   const {
     teamSelection,
+    supportTeamSelection,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,
@@ -73,6 +74,7 @@ export function useCharacterPreviewState(
   } = useShowcaseTabStore(
     useShallow((s) => ({
       teamSelection: s.showcaseTeamPreferenceById[charId],
+      supportTeamSelection: s.showcaseSupportTeamPreferenceById[charId],
       showcasePreferences: s.showcasePreferences[charId],
       showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
       portraitColor: s.portraitColorByCharacterId[charId],
@@ -125,6 +127,7 @@ export function useCharacterPreviewState(
     setEditPortraitModalOpen,
     setCustomPortrait,
     teamSelection,
+    supportTeamSelection,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,

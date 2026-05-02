@@ -42,6 +42,7 @@ import {
 export const RobinEntities = createEnum('Robin')
 export const RobinAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -198,20 +199,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .atkScaling(basicScaling)
               .toughnessDmg(10)
               .build(),
-            // Additional damage hit when concerto active (guaranteed crit with custom CD)
-            ...(
-              (r.concertoActive)
-                ? [
-                  HitDefinitionBuilder.standardAdditional()
-                    .damageElement(ElementTag.Physical)
-                    .atkScaling(ultScaling)
-                    .crOverride(1.00)
-                    .cdOverride(ultAdditionalCdOverride)
-                    .build(),
-                ]
-                : []
-            ),
           ],
+        },
+        [AbilityKind.UNIQUE]: {
+          hits: r.concertoActive
+            ? [
+              HitDefinitionBuilder.standardAdditional()
+                .damageElement(ElementTag.Physical)
+                .atkScaling(ultScaling)
+                .crOverride(1.00)
+                .cdOverride(ultAdditionalCdOverride)
+                .build(),
+            ]
+            : [],
         },
         [AbilityKind.BREAK]: {
           hits: [

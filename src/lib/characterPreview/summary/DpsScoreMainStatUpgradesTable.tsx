@@ -23,7 +23,6 @@ import {
 } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
-import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { setToId } from 'lib/sets/setConfigRegistry'
@@ -40,7 +39,6 @@ import {
 import {
   memo,
   type ReactNode,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -270,12 +268,13 @@ export function sharedSimResultComparator(simScore: SimulationScore, upgrade: Si
   }
 }
 
+export type DataIndex = 'scorePercentUpgrade' | 'damagePercentUpgrade' | 'scoreValueUpgrade' | 'damageValueUpgrade'
 export type SharedScoreColumn = {
-  key: string,
+  key: DataIndex,
   title: string,
-  dataIndex: string,
+  dataIndex: DataIndex,
   type: 'scoreUpgrade' | 'damageUpgrade',
-  render: (value: number, stat?: StatsValues) => ReactNode,
+  render: (value: number | null, stat?: StatsValues) => ReactNode,
 }
 
 export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): SharedScoreColumn[] {
@@ -285,50 +284,58 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
       dataIndex: 'scorePercentUpgrade',
       type: 'scoreUpgrade',
-      render: (n: number, stat?: StatsValues) => (
-        isStatWithoutScoreUpgrade(stat) ? <>-</> : (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-            <Arrow up={n >= 0} />
-            {` ${localeNumber_00(n)}%`}
-          </div>
-        )
-      ),
+      render: (n: number | null, stat?: StatsValues) =>
+        n === null || isStatWithoutScoreUpgrade(stat)
+          ? <>-</>
+          : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+              <Arrow up={n >= 0} />
+              {` ${localeNumber_00(n)}%`}
+            </div>
+          ),
     },
     {
       key: 'damagePercentUpgrade',
       title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
       dataIndex: 'damagePercentUpgrade',
       type: 'damageUpgrade',
-      render: (n: number) => (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-          <Arrow up={n >= 0} />
-          {` ${localeNumber_00(n)}%`}
-        </div>
-      ),
+      render: (n: number | null) =>
+        n === null
+          ? <>-</>
+          : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+              <Arrow up={n >= 0} />
+              {` ${localeNumber_00(n)}%`}
+            </div>
+          ),
     },
     {
       key: 'scoreValueUpgrade',
       title: t('UpgradedDpsScore'), // Upgraded DPS Score
       dataIndex: 'scoreValueUpgrade',
       type: 'scoreUpgrade',
-      render: (n: number, stat?: StatsValues) => (
-        isStatWithoutScoreUpgrade(stat) ? <>-</> : (
-          <>
-            {`${localeNumber_0(Math.max(0, n))}%`}
-          </>
-        )
-      ),
+      render: (n: number | null, stat?: StatsValues) =>
+        n === null || isStatWithoutScoreUpgrade(stat)
+          ? <>-</>
+          : (
+            <>
+              {`${localeNumber_0(Math.max(0, n))}%`}
+            </>
+          ),
     },
     {
       key: 'damageValueUpgrade',
       title: t('ComboDmgUpgrade'), // Combo DMG Δ
       dataIndex: 'damageValueUpgrade',
       type: 'damageUpgrade',
-      render: (n: number) => (
-        <>
-          {localeNumber_0(n)}
-        </>
-      ),
+      render: (n: number | null) =>
+        n === null
+          ? <>-</>
+          : (
+            <>
+              {localeNumber_0(n)}
+            </>
+          ),
     },
   ]
 }

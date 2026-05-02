@@ -257,6 +257,8 @@ interface Resources {
         "MainStatHeader": "Main stat upgrade comparisons",
         "MainStatUpgrade": "Main Stat Upgrade",
         "SubStatUpgrade": "Substat Upgrade",
+        "TeammateUpgrade": "Teammate Upgrade",
+        "TeammatesHeader": "Teammate relic upgrade comparisons",
         "UpgradedDpsScore": "Upgraded DPS Score"
       }
     },
@@ -6852,6 +6854,13 @@ interface Resources {
           "SHIELD_VALUE": "Δ Shield",
           "SHIELD_VALUE_P": "Δ% Shield",
           "Substat": "+1x Substat"
+        }
+      },
+      "TeammateUpgrades": {
+        "ColumnHeaders": {
+          "COMBO_DMG": "Δ Combo DMG",
+          "COMBO_DMG_P": "Δ% Combo DMG",
+          "Ornaments": "Teammate Set"
         }
       }
     },

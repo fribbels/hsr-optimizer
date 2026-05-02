@@ -18,6 +18,7 @@ import { ComputedStatsContainer } from 'lib/optimization/engine/container/comput
 import { StatCalculator } from 'lib/relics/statCalculator'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import type {
   RunStatSimulationsResult,
   Simulation,
@@ -94,7 +95,7 @@ export type SimulationResult = OptimizerDisplayData & {
   unpenalizedSimScore: number,
   penaltyMultiplier: number,
   simScore: number,
-  xa: Float32Array,
+  xa: Float64Array,
   ca: Float32Array,
 }
 
@@ -119,6 +120,7 @@ export type SimulationScore = {
   substatUpgrades: SimulationStatUpgrade[],
   setUpgrades: SimulationStatUpgrade[],
   mainUpgrades: SimulationStatUpgrade[],
+  teammateOrnamentUpgradeResults: TeammateSetUpgrade[],
 
   simulationForm: Form,
   simulationMetadata: SimulationMetadata,
@@ -375,7 +377,7 @@ export function cloneSimResult(result: RunStatSimulationsResult) {
 
 // Reconstructs container from worker result arrays (no config available)
 export function cloneWorkerResult(result: RunStatSimulationsResult) {
-  const xa = new Float32Array(result.xa)
+  const xa = new Float64Array(result.xa)
   const ca = new Float32Array(result.ca)
 
   result.x = ComputedStatsContainer.fromArrays(xa, ca)

@@ -1,13 +1,12 @@
 import { SegmentedControl } from '@mantine/core'
 import { CharacterScoringSummary } from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
@@ -15,7 +14,6 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import {
   memo,
-  Suspense,
   useCallback,
   useMemo,
 } from 'react'

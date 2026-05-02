@@ -1,5 +1,4 @@
-import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import {

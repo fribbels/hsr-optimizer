@@ -69,7 +69,7 @@ const conditionals: SetConditionals = {
     nonstackable: false,
     effect: ({ x, characterElement, teammateElement }) => {
       if (characterElement != teammateElement) return
-      x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.PenaconyLandOfTheDreams))
+      x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).source(Source.PenaconyLandOfTheDreams))
     },
   }],
 }

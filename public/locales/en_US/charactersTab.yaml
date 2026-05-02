@@ -106,9 +106,11 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons
     MainStatHeader: Main stat upgrade comparisons
+    TeammatesHeader: Teammate relic upgrade comparisons
     AddedRoll: '+1x roll {{stat}}'
-    MainStatUpgrade: Main Stat Upgrade
     SubStatUpgrade: Substat Upgrade
+    MainStatUpgrade: Main Stat Upgrade
+    TeammateUpgrade: Teammate Upgrade
     DpsScorePercentUpgrade: DPS Score Δ %
     UpgradedDpsScore: Upgraded DPS Score
     ComboDmgPercentUpgrade: Combo DMG Δ %

@@ -159,7 +159,7 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   return x
 }
 
-function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicStatsArray, context: OptimizerContext) {
+function transferBaseStats(x: ComputedStatsContainer, a: Float64Array, c: BasicStatsArray, context: OptimizerContext) {
   const ca = c.a
   const offsets = x.config.entityBaseOffsets[TargetTag.SelfAndPet]
 
@@ -199,7 +199,7 @@ function transferBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicS
   }
 }
 
-function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array, c: BasicStatsArray, context: OptimizerContext) {
+function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float64Array, c: BasicStatsArray, context: OptimizerContext) {
   for (let entityIndex = 1; entityIndex < x.config.entitiesLength; entityIndex++) {
     const entity = x.config.entitiesArray[entityIndex]
 
@@ -231,7 +231,7 @@ function calculateMemospriteBaseStats(x: ComputedStatsContainer, a: Float32Array
   }
 }
 
-function applyPercentStats(x: ComputedStatsContainer, a: Float32Array, context: OptimizerContext) {
+function applyPercentStats(x: ComputedStatsContainer, a: Float64Array, context: OptimizerContext) {
   const offsets = x.config.entityBaseOffsets[TargetTag.SelfAndPet]
 
   // Use entity 0's percent stats for all SelfAndPet entities
@@ -300,7 +300,7 @@ function evaluateDynamicConditionals(x: ComputedStatsContainer, action: Optimize
 
 function evaluateTerminalSetConditionals(
   x: ComputedStatsContainer,
-  a: Float32Array,
+  a: Float64Array,
   sets: SetCounts,
   setsArray: number[],
   action: OptimizerAction,
@@ -363,22 +363,22 @@ export function calculateRelicStats(
   linkRope: SimulationRelic,
 ) {
   const a = c.a
-  for (const condensedStat of head.condensedStats) {
+  for (const condensedStat of head.condensedStats ?? []) {
     a[condensedStat[0]] += condensedStat[1]
   }
-  for (const condensedStat of hands.condensedStats) {
+  for (const condensedStat of hands.condensedStats ?? []) {
     a[condensedStat[0]] += condensedStat[1]
   }
-  for (const condensedStat of body.condensedStats) {
+  for (const condensedStat of body.condensedStats ?? []) {
     a[condensedStat[0]] += condensedStat[1]
   }
-  for (const condensedStat of feet.condensedStats) {
+  for (const condensedStat of feet.condensedStats ?? []) {
     a[condensedStat[0]] += condensedStat[1]
   }
-  for (const condensedStat of planarSphere.condensedStats) {
+  for (const condensedStat of planarSphere.condensedStats ?? []) {
     a[condensedStat[0]] += condensedStat[1]
   }
-  for (const condensedStat of linkRope.condensedStats) {
+  for (const condensedStat of linkRope.condensedStats ?? []) {
     a[condensedStat[0]] += condensedStat[1]
   }
 }

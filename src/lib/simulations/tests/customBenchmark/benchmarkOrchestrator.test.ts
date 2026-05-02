@@ -56,8 +56,8 @@ test('Anaxa benchmark 0', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    6395631.5,
-    7783189.5,
+    6395630.358524125,
+    7783188.676416169,
   )
 }, TIMEOUT)
 
@@ -73,8 +73,8 @@ test('Anaxa benchmark 133.333', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    5640659,
-    7213742.5,
+    5640657.933176761,
+    7213741.904957543,
   )
 }, TIMEOUT)
 
@@ -90,8 +90,8 @@ test('Anaxa benchmark 200 captain', async () => {
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    4676874,
-    5581103.5,
+    4676873.635827769,
+    5581102.829792544,
   )
 }, TIMEOUT)
 
@@ -107,8 +107,8 @@ test('Black Swan benchmark 0 captain', async () => {
       mains: testMains(Stats.ATK_P, Stats.ATK_P, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1498006.1736582317,
-    1704332.625,
+    1498006.2735128691,
+    1704332.6283416362,
   )
 }, TIMEOUT)
 
@@ -126,8 +126,8 @@ test('Firefly benchmark 160', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    4879910,
-    5954549.5,
+    4879910.029681528,
+    5954549.011243393,
   )
 }, TIMEOUT)
 
@@ -145,8 +145,8 @@ test('The herta benchmark 100', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    4654556,
-    5781975.5,
+    4654555.668470154,
+    5781975.2953639515,
   )
 }, TIMEOUT)
 
@@ -162,8 +162,8 @@ test('The herta benchmark 100 err', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ERR),
       stats: testStatSpread(),
     }),
-    4252174.5,
-    5328960,
+    4252173.965280909,
+    5328959.812135281,
   )
 }, TIMEOUT)
 
@@ -179,7 +179,7 @@ test('Boothill benchmark 0', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    6526830.5,
-    7711471.5,
+    6526830.170034691,
+    7711471.062084203,
   )
 }, TIMEOUT)

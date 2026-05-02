@@ -136,7 +136,7 @@ function addSubstats(relics: SimulationRelicByPart, sim: Simulation, params: Run
       : request.stats[substat]
 
     if (!value) continue
-    relics.Head.condensedStats.push([statToKey[substat], value])
+    relics.Head.condensedStats!.push([statToKey[substat], value])
   }
 }
 

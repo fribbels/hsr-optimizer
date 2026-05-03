@@ -7,6 +7,7 @@ import type {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import { blankSimRequest } from 'lib/simulations/utils/requestUtils'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import {
   createDefaultFormState,
@@ -141,7 +142,7 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
 
   updateStatSimField: (simType, field, value) =>
     set((state) => {
-      const current = state.statSim ?? { key: '', benchmarks: {} as SimulationRequest, substatRolls: {} as SimulationRequest }
+      const current = state.statSim ?? { key: '', benchmarks: blankSimRequest(), substatRolls: blankSimRequest() }
       const simSection = current[simType] ?? {}
       return {
         statSim: {

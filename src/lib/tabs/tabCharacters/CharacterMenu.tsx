@@ -22,7 +22,6 @@ import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabContr
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   Fragment,
-  type ReactNode,
   useMemo,
 } from 'react'
 import {
@@ -70,7 +69,7 @@ export function CharacterMenu() {
   )
 }
 
-function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean>, t: TFunction<'charactersTab'>) {
+function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t: TFunction<'charactersTab'>) {
   async function onClick(e: { key: string }) {
     const key = e.key as ReturnType<typeof generateItems>[number]['children'][number]['key']
     const { focusCharacter } = useCharacterTabStore.getState()
@@ -103,7 +102,12 @@ function generateOnClickHandler(confirm: (content: ReactNode) => Promise<boolean
         break
 
       case 'delete':
-        if (!await confirm(t('Messages.DeleteWarning', { charId: focusCharacter ?? '' }))) return
+        if (
+          !await confirm(
+            t('Messages.DeleteWarning', { charId: focusCharacter ?? '' }),
+            { confirmProps: { 'data-autofocus': true } },
+          )
+        ) return
         CharacterTabController.removeFocusCharacter()
         break
 

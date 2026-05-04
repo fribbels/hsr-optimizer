@@ -210,6 +210,7 @@ export function CharacterGrid() {
       children: t('Messages.DeleteWarning', { charId: characterId }),
       labels: { confirm: i18next.t('common:Confirm'), cancel: i18next.t('common:Cancel') },
       centered: true,
+      confirmProps: { 'data-autofocus': true },
       onConfirm: () => CharacterTabController.removeCharacter(characterId),
     })
   }, [])
@@ -326,6 +327,7 @@ const SortableCharacterRow = memo(
       <div
         ref={mergedRef}
         className={classes.root}
+        data-character-id={character.id}
         data-selected={isFocused}
         data-scrim-mode='frosted'
         style={rootStyle}
@@ -393,9 +395,12 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
   onRemove: (id: CharacterId) => void,
 }) {
   const { t } = useTranslation('common')
+  const { t: tCharactersTab } = useTranslation('charactersTab')
   const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const longName = tGameData(`${character.id}.LongName`) as string
   const characterName = longName.includes('(') ? longName : tGameData(`${character.id}.Name`)
+  const editLabel = tCharactersTab('CharacterMenu.Character.Options.Edit')
+  const deleteLabel = tCharactersTab('CharacterMenu.Character.Options.Delete')
 
   // Form data for eidolon/LC
   const eidolon = character.form?.characterEidolon ?? 0
@@ -465,8 +470,9 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
 
       {/* Hover action buttons — overlay on the left */}
       <div className={classes.actions}>
-        <Tooltip label='Edit' position='top' withArrow>
+        <Tooltip label={editLabel} position='top' withArrow>
           <ActionIcon
+            aria-label={`${editLabel}: ${characterName}`}
             size={24}
             variant='subtle'
             className={classes.actionBtn}
@@ -478,8 +484,9 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
             <IconPencil size={12} />
           </ActionIcon>
         </Tooltip>
-        <Tooltip label='Remove' position='top' withArrow>
+        <Tooltip label={deleteLabel} position='top' withArrow>
           <ActionIcon
+            aria-label={`${deleteLabel}: ${characterName}`}
             size={24}
             variant='subtle'
             className={classes.actionBtn}

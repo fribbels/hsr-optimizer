@@ -70,6 +70,20 @@ function toPercent(value: number, minimum: number, maximum: number): string {
   return `${(value - minimum) / range * 100}%`
 }
 
+const RULER_LABELS: Record<ScoringConfigType, string> = {
+  dps: 'Damage',
+  buffer: 'Buff',
+  heal: 'Healing',
+  shield: 'Shield',
+}
+
+function formatRulerValue(value: number, configType: ScoringConfigType): string {
+  if (configType === 'dps') {
+    return renderThousandsK(value)
+  }
+  return Math.floor(value).toLocaleString()
+}
+
 // --- Component ---
 
 function computeGradientVars(minimum: number, benchmark: number, maximum: number): CSSProperties {
@@ -172,7 +186,9 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
 
   const { transition, minimum, benchmark, maximum, barPercent, scorePercent, minPercent, benchPercent, maxPercent, gradientVars } = state
 
-  const dmgLabel = t('Damage')
+  const dmgLabel = configType === 'dps'
+    ? t('Damage')
+    : RULER_LABELS[configType]
   const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]
   const numberOffset = reversedLabels ? LOW : HIGH
   const dmgOffset = reversedLabels ? HIGH : LOW
@@ -193,6 +209,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
+          configType={configType}
         />
 
         <BenchmarkTick
@@ -202,6 +219,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
+          configType={configType}
         />
 
         <MaximumTick
@@ -211,6 +229,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
+          configType={configType}
         />
 
         <GradeTicks minimum={minimum} benchmark={benchmark} maximum={maximum} transition={transition} />
@@ -260,17 +279,18 @@ interface ReferenceTickProps {
   numberOffset: number
   dmgLabel: string
   value: number
+  configType: ScoringConfigType
   bottomLabel?: string
   transition: string | undefined
 }
 
-function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, bottomLabel, transition }: ReferenceTickProps) {
+function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, configType, bottomLabel, transition }: ReferenceTickProps) {
   return (
     <div className={styles.tick} style={{ left: percent, transition }}>
       <div className={styles.tickLine} style={{ top: MARGIN_TOP, height: BAR_HEIGHT }} />
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - dmgOffset, fontSize: 12 }}>{dmgLabel}</span>
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - numberOffset, fontSize: 12 }}>
-        {renderThousandsK(value)}
+        {formatRulerValue(value, configType)}
       </span>
       {bottomLabel && (
         <span className={styles.bottomLabel} style={{ top: BOTTOM_Y + LOW, fontSize: 12 }}>

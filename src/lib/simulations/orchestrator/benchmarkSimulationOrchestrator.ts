@@ -12,6 +12,7 @@ import {
   Parts,
   Sets,
   Stats,
+  SubStats,
 } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
@@ -289,9 +290,16 @@ export class BenchmarkSimulationOrchestrator {
     const context = this.context!
     const originalSimRequest = this.originalSimRequest!
 
+    const baselineStats: Record<string, number> = {}
+    if (this.configType && this.configType !== 'dps') {
+      for (const sub of SubStats) {
+        baselineStats[sub] = 2
+      }
+    }
+
     const baselineSimRequest = {
       ...originalSimRequest,
-      stats: {},
+      stats: baselineStats,
       simRelicSet1: simSets.relicSet1,
       simRelicSet2: simSets.relicSet2,
       simOrnamentSet: simSets.ornamentSet,

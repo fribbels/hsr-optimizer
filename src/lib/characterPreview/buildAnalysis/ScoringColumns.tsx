@@ -12,6 +12,7 @@ import {
   AbilityDamageSummary,
   AsyncAbilityDamageSummary,
 } from 'lib/characterPreview/summary/AbilityDamageSummary'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
 import {
@@ -217,20 +218,34 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
     </div>
   )
 
-  const abilityBlock = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
-      <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
-        {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
-      </div>
-      {isAsyncProps(props)
-        ? (
-          <Suspense>
-            <AsyncAbilityDamageSummary promise={props.simulation} mode={props.type} />
-          </Suspense>
-        )
-        : <AbilityDamageSummary rotationDamage={props.simulation.result?.rotationDamage ?? []} />}
+  const abilityHeader = (
+    <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
+      {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
     </div>
   )
+
+  const syncRotationDamage = !isAsyncProps(props) ? (props.simulation.result?.rotationDamage ?? []) : null
+  const hasSyncAbilityData = syncRotationDamage != null && syncRotationDamage.some((step) => step.actionType !== AbilityKind.NULL)
+
+  const abilityBlock = isAsyncProps(props)
+    ? (
+      <Suspense>
+        <AsyncAbilityDamageSummary
+          promise={props.simulation}
+          mode={props.type}
+          header={abilityHeader}
+          wrapperClassName={classes.abilityDamageSection}
+        />
+      </Suspense>
+    )
+    : hasSyncAbilityData
+      ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
+          {abilityHeader}
+          <AbilityDamageSummary rotationDamage={syncRotationDamage!} />
+        </div>
+      )
+      : null
 
   return (
     <div className={props.columnClassName}>

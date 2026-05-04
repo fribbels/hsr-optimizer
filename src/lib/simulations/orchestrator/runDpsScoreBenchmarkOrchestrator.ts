@@ -2,6 +2,8 @@ import { type PreviewRelics } from 'lib/characterPreview/characterPreviewControl
 import { CUSTOM_TEAM, Sets } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import type { SortOptionKey } from 'lib/optimization/sortOptions'
+import { ComboType } from 'lib/optimization/rotation/comboType'
+import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
@@ -53,10 +55,15 @@ export function prepareOrchestrator(
   }
   // DPS: resultSort defaults to 'COMBO' from generateFullDefaultForm
 
-  // Override comboTurnAbilities from the active config's simulation
-  // (generateFullDefaultForm reads from global .simulation which is always DPS)
+  // Override comboTurnAbilities from the active config's simulation.
+  // generateFullDefaultForm sets comboType=SIMPLE, which causes getComboTypeAbilities
+  // to read from scoringMetadata.simulation (always DPS). Switch to ADVANCED so
+  // the form's comboTurnAbilities are used instead.
+  // Prepend NULL_TURN_ABILITY_NAME because the rotation builder (newTransformStateActions)
+  // applies slice(1) — index 0 is reserved for the default action declaration.
   if (config.simulation.comboTurnAbilities) {
-    orchestrator.form!.comboTurnAbilities = [...config.simulation.comboTurnAbilities]
+    orchestrator.form!.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, ...config.simulation.comboTurnAbilities]
+    orchestrator.form!.comboType = ComboType.ADVANCED
   }
 
   // Buffer-specific: force Sacerdos 4p

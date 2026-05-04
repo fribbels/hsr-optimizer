@@ -246,6 +246,8 @@ export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, t
     titleRender = t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(tempOptions.spdBenchmark) })
   } else if (configType === 'dps') {
     titleRender = t('CharacterPreview.ScoreHeader.Title')
+  } else if (tempOptions?.spdBenchmark != null) {
+    titleRender = `${SCORE_HEADER_TITLES[configType]} (SPD ${formatSpd(tempOptions.spdBenchmark)})`
   } else {
     titleRender = SCORE_HEADER_TITLES[configType]
   }

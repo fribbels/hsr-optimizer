@@ -17,6 +17,8 @@ interface SynchronousAbilityDamageSummaryProps {
 interface AsynchronousAbilityDamageSummaryProps {
   promise: Promise<SimulationScore | null>
   mode: 'Benchmark' | 'Perfect'
+  header?: React.ReactNode
+  wrapperClassName?: string
 }
 
 export const AbilityDamageSummary = memo(function AbilityDamageSummary({
@@ -24,10 +26,12 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
 }: SynchronousAbilityDamageSummaryProps) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
 
+  const displayableSteps = rotationDamage.filter((step) => step.actionType !== AbilityKind.NULL)
+  if (displayableSteps.length === 0) return null
+
   return (
     <div className={classes.zebraContainer}>
-      {rotationDamage.map((step, idx) => {
-        if (step.actionType === AbilityKind.NULL) return null
+      {displayableSteps.map((step, idx) => {
         const label = toI18NVisual(toTurnAbility(step.actionName), t)
         return (
           <div key={idx} className={classes.row}>
@@ -42,9 +46,19 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
   )
 })
 
-export const AsyncAbilityDamageSummary = memo(function AsyncAbilityDamageSummary({ promise, mode }: AsynchronousAbilityDamageSummaryProps) {
+export const AsyncAbilityDamageSummary = memo(function AsyncAbilityDamageSummary({ promise, mode, header, wrapperClassName }: AsynchronousAbilityDamageSummaryProps) {
   const output = usePromise(promise)
   const rotationDamage = output?.[mode === 'Benchmark' ? 'benchmarkSim' : 'maximumSim']?.result?.rotationDamage
-  if (!rotationDamage) return null
+  if (!rotationDamage?.some((step) => step.actionType !== AbilityKind.NULL)) return null
+
+  if (header) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={wrapperClassName}>
+        {header}
+        <AbilityDamageSummary rotationDamage={rotationDamage} />
+      </div>
+    )
+  }
+
   return <AbilityDamageSummary rotationDamage={rotationDamage} />
 })

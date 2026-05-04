@@ -284,7 +284,10 @@ interface Resources {
     },
     "ScreenshotMessages": {
       "DownloadSuccess": "Downloaded screenshot",
-      "ScreenshotFailed": "Unable to save screenshot to clipboard, try the download button to the right",
+      "ScreenshotFailed": {
+        "Default": "Unable to save screenshot to clipboard, try the download button to the right",
+        "NotAllowed": "Browser denied screenshot, please keep the webpage focused while taking the screenshot."
+      },
       "ScreenshotSuccess": "Copied screenshot to clipboard"
     },
     "SearchPlaceholder": "Search"

@@ -2,7 +2,7 @@ ScreenshotMessages:
   ScreenshotSuccess: Copied screenshot to clipboard
   ScreenshotFailed:
     Default: Unable to save screenshot to clipboard, try the download button to the right
-    NotAllowed: Browser denied screenshot, please keep the webpage focused while taking the screenshot.
+    NotAllowed: Browser denied clipboard access, please keep the webpage focused while taking the screenshot.
   DownloadSuccess: Downloaded screenshot
 CharacterMenu:
   ButtonText: Character menu

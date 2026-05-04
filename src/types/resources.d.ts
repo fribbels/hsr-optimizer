@@ -286,7 +286,7 @@ interface Resources {
       "DownloadSuccess": "Downloaded screenshot",
       "ScreenshotFailed": {
         "Default": "Unable to save screenshot to clipboard, try the download button to the right",
-        "NotAllowed": "Browser denied screenshot, please keep the webpage focused while taking the screenshot."
+        "NotAllowed": "Browser denied clipboard access, please keep the webpage focused while taking the screenshot."
       },
       "ScreenshotSuccess": "Copied screenshot to clipboard"
     },

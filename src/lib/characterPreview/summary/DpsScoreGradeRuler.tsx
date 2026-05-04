@@ -1,6 +1,5 @@
 import {
-  ScoringSelector,
-  useSimScoringContext,
+  useSimScore,
 } from 'lib/characterPreview/SimScoringContext'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import type { Languages } from 'lib/utils/i18nUtils'
@@ -65,13 +64,16 @@ function calculateScaledPosition(gradeValue: number, minimum: number, benchmark:
 }
 
 function toPercent(value: number, minimum: number, maximum: number): string {
-  return `${(value - minimum) / (maximum - minimum) * 100}%`
+  const range = maximum - minimum
+  if (range <= 0) return '0%'
+  return `${(value - minimum) / range * 100}%`
 }
 
 // --- Component ---
 
 function computeGradientVars(minimum: number, benchmark: number, maximum: number): CSSProperties {
   const range = maximum - minimum
+  if (range <= 0) return defaultGradientVars
   const benchRatio = (benchmark - minimum) / range
   const maxRatio = (maximum - benchmark) / range
   return {
@@ -131,7 +133,7 @@ const emptyState: RulerState = {
 export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
   const { t, i18n } = useTranslation('common')
 
-  const scoringResult = useSimScoringContext(ScoringSelector.Score)
+  const scoringResult = useSimScore('dps')
 
   const [state, setState] = useState<RulerState>(initialState)
 
@@ -145,7 +147,8 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
     const maximum = scoringResult.maximumSimScore
     const score = Math.min(maximum, Math.max(scoringResult.originalSimScore, minimum))
 
-    const scoreRatio = (score - minimum) / (maximum - minimum)
+    const range = maximum - minimum
+    const scoreRatio = range > 0 ? (score - minimum) / range : 0
     const minBarRatio = 5 / CHART_AREA_WIDTH
 
     return {

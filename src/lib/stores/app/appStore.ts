@@ -15,7 +15,7 @@ import { create } from 'zustand'
 
 export const savedSessionDefaults: GlobalSavedSession = {
   [SavedSessionKeys.optimizerCharacterId]: null,
-  [SavedSessionKeys.scoringType]: ScoringType.COMBAT_SCORE,
+  [SavedSessionKeys.scoringType]: ScoringType.DPS_SCORE,
   [SavedSessionKeys.computeEngine]: COMPUTE_ENGINE_GPU_STABLE,
   [SavedSessionKeys.showcaseStandardMode]: false,
   [SavedSessionKeys.showcaseDarkMode]: false,

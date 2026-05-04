@@ -5,9 +5,8 @@ import {
   CharacterStatSummary,
 } from 'lib/characterPreview/card/CharacterStatSummary'
 import {
-  ScoringSelector,
-  SimScoringContext,
-  useSimScoringContext,
+  usePipelineSlot,
+  useSimPreview,
 } from 'lib/characterPreview/SimScoringContext'
 import {
   AbilityDamageSummary,
@@ -41,7 +40,6 @@ import {
 import {
   memo,
   Suspense,
-  useContext,
 } from 'react'
 import {
   Trans,
@@ -50,6 +48,7 @@ import {
 import type { CharacterId } from 'types/character'
 import classes from './CharacterScoringSummary.module.css'
 
+const nullPromise = Promise.resolve(null)
 const highlightColor = 'rgb(225, 165, 100)'
 
 interface ExternalScoringColumnProps {
@@ -266,7 +265,8 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
 const SuspendedHeader = memo(function SuspendedHeader({ t }: {
   t: TFunction<readonly ['charactersTab', 'common'], undefined>,
 }) {
-  const promise = useContext(SimScoringContext).scoringPromise
+  const pipelineSlot = usePipelineSlot('dps')
+  const promise = pipelineSlot?.scoringPromise ?? nullPromise
   return (
     <div className={classes.columnFilledHeader}>
       <div className={classes.scoringColumnHeader} style={{ color: highlightColor, display: 'flex' }}>
@@ -299,7 +299,7 @@ function Fallback({ t }: {
 
 const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
 export const CharacterScoringColumn = memo(function(props: ExternalScoringColumnProps) {
-  const preview = useSimScoringContext(ScoringSelector.Preview)
+  const preview = useSimPreview('dps')
   if (preview === null) return null
   return (
     <ScoringColumn
@@ -319,11 +319,11 @@ export const CharacterScoringColumn = memo(function(props: ExternalScoringColumn
 
 const defaultClass = classes.columnCardFilled
 export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps) {
-  const ctx = useContext(SimScoringContext)
+  const pipelineSlot = usePipelineSlot('dps')
   const isBenchmark = props.type === 'Benchmark'
   return (
     <ScoringColumn
-      simulation={ctx.scoringPromise}
+      simulation={pipelineSlot?.scoringPromise ?? nullPromise}
       percent={isBenchmark ? 1.00 : 2.00}
       precision={0}
       type={props.type}

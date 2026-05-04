@@ -77,7 +77,7 @@ import type {
   Form,
   OptimizerForm,
 } from 'types/form'
-import type { SimulationMetadata } from 'types/metadata'
+import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
 export function enrichSimulationMetadata(metadata: SimulationMetadata) {
@@ -165,6 +165,7 @@ export class BenchmarkSimulationOrchestrator {
   public percent?: number
   public simulationScore?: SimulationScore
   public scoringActionKey?: string
+  public configType?: ScoringConfigType
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -180,6 +181,17 @@ export class BenchmarkSimulationOrchestrator {
 
   public setMetadata() {
     enrichSimulationMetadata(this.metadata)
+  }
+
+  /**
+   * Apply RES equalization flag based on the original sim result.
+   * Call after setOriginalBuild() for non-DPS types that need RES equalization
+   * but don't have scoringActionKey set (heal, shield).
+   */
+  public applyBasicResTargetFlag() {
+    if (this.originalSimResult) {
+      applyBasicResTargetFlag(this.flags, this.originalSimResult)
+    }
   }
 
   public setFlags() {
@@ -420,6 +432,7 @@ export class BenchmarkSimulationOrchestrator {
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
         scoringActionKey: this.scoringActionKey,
+        configType: this.configType,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -500,6 +513,7 @@ export class BenchmarkSimulationOrchestrator {
         scoringParams: clone(maximumScoringParams),
         simulationFlags: flags,
         scoringActionKey: this.scoringActionKey,
+        configType: this.configType,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -531,19 +545,27 @@ export class BenchmarkSimulationOrchestrator {
     const benchmarkSimResult = this.benchmarkSimResult!
     const perfectionSimResult = this.perfectionSimResult!
 
-    applyScoringFunction(baselineSimResult, metadata, true, false, this.scoringActionKey, this.context)
-    applyScoringFunction(originalSimResult, metadata, true, true, this.scoringActionKey, this.context)
+    applyScoringFunction(baselineSimResult, metadata, true, false, this.scoringActionKey, this.context, this.configType)
+    applyScoringFunction(originalSimResult, metadata, true, true, this.scoringActionKey, this.context, this.configType)
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore
     const baselineSimScore = baselineSimResult.simScore
     const perfectionSimScore = perfectionSimResult.simScore
 
-    const percent = originalSimScore >= benchmarkSimScore
-      ? 1 + (originalSimScore - benchmarkSimScore) / (perfectionSimScore - benchmarkSimScore)
-      : (originalSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
+    // Guard against division-by-zero when all builds produce the same score
+    const aboveBenchDenom = perfectionSimScore - benchmarkSimScore
+    const belowBenchDenom = benchmarkSimScore - baselineSimScore
 
-    this.percent = percent
+    if (originalSimScore >= benchmarkSimScore) {
+      this.percent = aboveBenchDenom > 0
+        ? 1 + (originalSimScore - benchmarkSimScore) / aboveBenchDenom
+        : 1
+    } else {
+      this.percent = belowBenchDenom > 0
+        ? (originalSimScore - baselineSimScore) / belowBenchDenom
+        : 0
+    }
   }
 
   public calculateUpgrades() {
@@ -559,6 +581,7 @@ export class BenchmarkSimulationOrchestrator {
       this.benchmarkSimResult?.simScore!,
       this.perfectionSimResult?.simScore!,
       this.scoringActionKey,
+      this.configType,
     )
 
     this.substatUpgradeResults = substatUpgradeResults

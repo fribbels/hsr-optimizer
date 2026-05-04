@@ -1,6 +1,8 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import { CUSTOM_TEAM } from 'lib/constants/constants'
+import { CUSTOM_TEAM, Sets } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
+import type { SortOptionKey } from 'lib/optimization/sortOptions'
+import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -8,6 +10,8 @@ import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { Character } from 'types/character'
 import type {
+  ScoringConfig,
+  ScoringConfigType,
   ScoringMetadata,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
@@ -18,30 +22,71 @@ import type { SavedBuild } from 'types/savedBuild'
  * Prepare phase (steps 1-8): synchronous, ~5ms.
  * Creates an orchestrator, runs setup + baseline + original sim.
  * The orchestrator can then be passed to executeOrchestrator for the expensive async work.
+ *
+ * Unified for all scoring config types (DPS, buffer, heal, shield).
  */
 export function prepareOrchestrator(
   character: Character,
-  simulationMetadata: SimulationMetadata,
+  config: ScoringConfig,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): BenchmarkSimulationOrchestrator {
   // Clone metadata because setMetadata() mutates substats, parts, relicSets, ornamentSets in-place.
-  const orchestrator = new BenchmarkSimulationOrchestrator(clone(simulationMetadata))
+  const orchestrator = new BenchmarkSimulationOrchestrator(clone(config.simulation))
+
+  // Set scoring action key (buffer only — DPS/heal/shield use COMBO registers)
+  orchestrator.scoringActionKey = config.scoringActionKey
+  orchestrator.configType = config.configType
 
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequestWithRelics(singleRelicByPart)
   orchestrator.setSimSetsWithSimRequest()
-  orchestrator.setSimForm(character.form, simulationMetadata)
+  orchestrator.setSimForm(character.form, config.simulation)
+
+  // Override resultSort based on config type
+  if (config.scoringActionKey) {
+    orchestrator.form!.resultSort = config.scoringActionKey as SortOptionKey // 'BUFF' for buffer
+  } else if (config.configType === 'heal') {
+    orchestrator.form!.resultSort = 'COMBO_HEAL'
+  } else if (config.configType === 'shield') {
+    orchestrator.form!.resultSort = 'COMBO_SHIELD'
+  }
+  // DPS: resultSort defaults to 'COMBO' from generateFullDefaultForm
+
+  // Override comboTurnAbilities from the active config's simulation
+  // (generateFullDefaultForm reads from global .simulation which is always DPS)
+  if (config.simulation.comboTurnAbilities) {
+    orchestrator.form!.comboTurnAbilities = [...config.simulation.comboTurnAbilities]
+  }
+
+  // Buffer-specific: force Sacerdos 4p
+  if (config.configType === 'buffer') {
+    orchestrator.form!.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 4
+  }
+
   orchestrator.setSimContext()
   orchestrator.setFlags()
 
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
 
+  // RES equalization for all non-DPS types (healers/shielders often invest in RES)
+  if (config.configType !== 'dps') {
+    orchestrator.applyBasicResTargetFlag()
+  }
+
   // Apply scoring function now so the preview simScore matches what calculateScores
   // will produce later. This is idempotent — applyScoringFunction reads from
   // result.x (ComputedStatsContainer), not from result.simScore.
-  applyScoringFunction(orchestrator.originalSimResult!, orchestrator.metadata, true, true, orchestrator.scoringActionKey, orchestrator.context)
+  applyScoringFunction(
+    orchestrator.originalSimResult!,
+    orchestrator.metadata,
+    true,
+    true,
+    orchestrator.scoringActionKey,
+    orchestrator.context,
+    config.configType,
+  )
 
   return orchestrator
 }
@@ -86,43 +131,47 @@ export async function runDpsScoreBenchmarkOrchestrator(
   singleRelicByPart: SingleRelicByPart,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ) {
-  const orchestrator = prepareOrchestrator(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+  const config: ScoringConfig = { configType: 'dps', simulation: simulationMetadata }
+  const orchestrator = prepareOrchestrator(character, config, singleRelicByPart, showcaseTemporaryOptions)
   return executeOrchestrator(orchestrator)
 }
 
-export function resolveDpsScoreSimulationMetadata(
+export function resolveSimulationMetadata(
   character: Character,
+  configType: ScoringConfigType,
   teamSelection: string,
   buildOverride?: SavedBuild | null,
-) {
+): SimulationMetadata | null {
   const characterId = character.id
-  const form = character.form
-
-  if (!character?.id || !form) {
+  if (!character?.id || !character.form) {
     console.warn('Invalid character sim setup')
     return null
   }
 
-  const customSimulation = getScoringMetadata(characterId).simulation
-  const defaultSimulation = getGameMetadata().characters[characterId].scoringMetadata.simulation
+  const field = CONFIG_FIELD_MAP[configType]
+  const customSimulation = getScoringMetadata(characterId)[field]
+  const defaultSimulation = getGameMetadata().characters[characterId]?.scoringMetadata[field]
 
   if (!defaultSimulation || !customSimulation) {
-    console.log('No scoring sim defined for this character')
     return null
   }
 
-  // Shallow copy — only .teammates and .deprioritizeBuffs are reassigned
   const simulation = { ...defaultSimulation }
-
   simulation.teammates = getTeammates(teamSelection, customSimulation, defaultSimulation, buildOverride)
-  simulation.deprioritizeBuffs = buildOverride != undefined && 'deprioritizeBuffs' in buildOverride
-    ? buildOverride.deprioritizeBuffs
-    : customSimulation.deprioritizeBuffs ?? false
+
+  // deprioritizeBuffs is DPS-only — always false for non-DPS
+  if (configType === 'dps') {
+    simulation.deprioritizeBuffs = buildOverride != undefined && 'deprioritizeBuffs' in buildOverride
+      ? buildOverride.deprioritizeBuffs
+      : customSimulation.deprioritizeBuffs ?? false
+  } else {
+    simulation.deprioritizeBuffs = false
+  }
 
   return simulation
 }
 
-function getTeammates(
+export function getTeammates(
   teamSelection: string,
   customSimulation: NonNullable<ScoringMetadata['simulation']>,
   defaultSimulation: NonNullable<ScoringMetadata['simulation']>,

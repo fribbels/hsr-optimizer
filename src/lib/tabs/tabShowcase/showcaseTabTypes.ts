@@ -9,6 +9,7 @@ import type {
 } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type {
+  ScoringConfigType,
   ShowcasePreferences,
   ShowcaseTemporaryOptions,
 } from 'types/metadata'
@@ -61,8 +62,7 @@ export type ShowcaseTabState = {
 
   // Per-character preferences (showcasePreferences persisted via SaveState)
   showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
-  showcaseTeamPreferenceById: Partial<Record<CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>,
-  showcaseSupportTeamPreferenceById: Partial<Record<CharacterId, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>,
+  showcaseTeamPreferenceByConfig: Partial<Record<CharacterId, Partial<Record<ScoringConfigType, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>>>,
   showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
 
   // Portrait rendering (runtime only, not persisted)
@@ -89,8 +89,7 @@ export type ShowcaseTabActions = {
 
   // Per-character preferences
   setShowcasePreferences: (prefs: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
-  setShowcaseTeamPreference: (id: CharacterId, team: typeof CUSTOM_TEAM | typeof DEFAULT_TEAM) => void,
-  setShowcaseSupportTeamPreference: (id: CharacterId, team: typeof CUSTOM_TEAM | typeof DEFAULT_TEAM) => void,
+  setShowcaseTeamPreference: (id: CharacterId, configType: ScoringConfigType, team: typeof CUSTOM_TEAM | typeof DEFAULT_TEAM) => void,
   setSpdBenchmark: (id: CharacterId, spdBenchmark: number | undefined) => void,
 
   // Portrait

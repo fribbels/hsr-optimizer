@@ -29,8 +29,7 @@ import {
 } from 'lib/characterPreview/color/showcaseColorService'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
 import {
-  ScoringSelector,
-  useSimScoringContext,
+  useSimPreview,
 } from 'lib/characterPreview/SimScoringContext'
 import { AppPages } from 'lib/constants/appPages'
 import {
@@ -180,7 +179,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
   function onDeprioritizeBuffsChange(value: boolean) {
     const meta = getScoringMetadata(characterId)
     if (meta?.simulation) {
-      useScoringStore.getState().updateSimulationOverrides(characterId, { deprioritizeBuffs: value })
+      useScoringStore.getState().updateScoringConfigOverride(characterId, 'dps', { deprioritizeBuffs: value })
       SaveState.delayedSave()
     }
   }
@@ -224,7 +223,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
 
       <HorizontalDivider />
 
-      {scoringType === ScoringType.COMBAT_SCORE && (
+      {scoringType === ScoringType.DPS_SCORE && (
         <>
           <HeaderText className={classes.headerCenteredMb}>
             {tScoring('BuffPriority.Header') /* DPS mode */}
@@ -262,7 +261,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
         onChange={(value) => onSpdPrecisionChange(value === 'true')}
       />
 
-      {scoringType === ScoringType.COMBAT_SCORE && (
+      {scoringType === ScoringType.DPS_SCORE && (
         <>
           <HorizontalDivider />
           <HeaderText className={classes.headerCenteredMb}>
@@ -477,7 +476,7 @@ function SpdBenchmarkCombobox(props: {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
-  const spdFilter = useSimScoringContext(ScoringSelector.Preview)?.originalSpd
+  const spdFilter = useSimPreview('dps')?.originalSpd
 
   const options = useMemo(() =>
     buildSpdPresetOptions(t, {

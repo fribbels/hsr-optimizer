@@ -35,6 +35,7 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   DEFAULT_FUA,
+  DEFAULT_SKILL_SHIELD,
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
@@ -384,6 +385,43 @@ const simulation = (): SimulationMetadata => ({
   ],
 })
 
+const shieldSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.DEF_P],
+    [Parts.Feet]: [Stats.DEF_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.DEF_P, Stats.ERR],
+  },
+  substats: [Stats.DEF_P, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [DEFAULT_SKILL_SHIELD, DEFAULT_SKILL_SHIELD],
+  relicSets: [
+    [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+  ],
+  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  teammates: [
+    {
+      characterId: Topaz.id,
+      lightCone: WorrisomeBlissful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -429,6 +467,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  shieldSimulation: shieldSimulation(),
 })
 
 const display = {

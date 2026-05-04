@@ -44,6 +44,8 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   DEFAULT_MEMO_SKILL,
+  DEFAULT_SKILL_HEAL,
+  DEFAULT_ULT_HEAL,
   END_MEMO_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
@@ -591,6 +593,44 @@ const simulation = (): SimulationMetadata => ({
   ],
 })
 
+const healSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.OHB],
+    [Parts.Feet]: [Stats.SPD, Stats.HP_P],
+    [Parts.PlanarSphere]: [Stats.HP_P],
+    [Parts.LinkRope]: [Stats.ERR],
+  },
+  substats: [Stats.HP_P, Stats.SPD, Stats.RES, Stats.DEF_P, Stats.HP],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [DEFAULT_SKILL_HEAL, DEFAULT_ULT_HEAL, DEFAULT_SKILL_HEAL],
+  relicSets: [
+    [Sets.PasserbyOfWanderingCloud, Sets.PasserbyOfWanderingCloud],
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    [Sets.LongevousDisciple, Sets.LongevousDisciple],
+  ],
+  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  teammates: [
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Evernight.id,
+      lightCone: ToEvernightsStars.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -633,6 +673,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [SortOption.MEMO_SKILL, SortOption.SKILL_HEAL, SortOption.OHB],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
   simulation: simulation(),
+  healSimulation: healSimulation(),
 })
 
 const display = {

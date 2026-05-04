@@ -76,8 +76,8 @@ export const HIT_STATS_LENGTH = hitStatEntries.length
 
 // ============== Global Registers ==============
 
-export const GlobalRegister = { COMBO_DMG: 0 } as const
-export const GLOBAL_REGISTERS_LENGTH = 1
+export const GlobalRegister = { COMBO_DMG: 0, COMBO_HEAL: 1, COMBO_SHIELD: 2 } as const
+export const GLOBAL_REGISTERS_LENGTH = 3
 
 // ============== Legacy aliases ==============
 

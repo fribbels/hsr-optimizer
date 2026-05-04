@@ -112,7 +112,7 @@ describe('useScoringStore', () => {
     })
 
     it('mutating getScoringMetadata simulation does not corrupt game metadata when a partial simulation override exists', () => {
-      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+      state().updateScoringConfigOverride(Kafka.id, 'dps', { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
 
       const defaults = kafkaDefaults()
       expect(defaults.simulation).toBeDefined()
@@ -174,38 +174,38 @@ describe('useScoringStore', () => {
   })
 
   describe('simulation overrides', () => {
-    it('updateSimulationOverrides merges new fields into an existing simulation override', () => {
-      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
-      state().updateSimulationOverrides(Kafka.id, { substats: [Stats.ATK_P] } as Partial<SimulationMetadata>)
+    it('updateScoringConfigOverride merges new fields into an existing simulation override', () => {
+      state().updateScoringConfigOverride(Kafka.id, 'dps', { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+      state().updateScoringConfigOverride(Kafka.id, 'dps', { substats: [Stats.ATK_P] } as Partial<SimulationMetadata>)
 
       const sim = state().scoringMetadataOverrides[Kafka.id]?.simulation
       expect(sim?.deprioritizeBuffs).toBe(true)
       expect(sim?.substats).toEqual([Stats.ATK_P])
     })
 
-    it('updateSimulationOverrides increments scoringVersion', () => {
-      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: false } as Partial<SimulationMetadata>)
+    it('updateScoringConfigOverride increments scoringVersion', () => {
+      state().updateScoringConfigOverride(Kafka.id, 'dps', { deprioritizeBuffs: false } as Partial<SimulationMetadata>)
       expect(state().scoringVersion).toBe(1)
     })
 
-    it('clearSimulationOverrides removes simulation while preserving stat overrides', () => {
+    it('clearScoringConfigOverride removes simulation while preserving stat overrides', () => {
       state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.ATK_P]: 0.5 }))
-      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+      state().updateScoringConfigOverride(Kafka.id, 'dps', { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
 
       expect(state().scoringMetadataOverrides[Kafka.id]?.simulation).toBeDefined()
 
-      state().clearSimulationOverrides(Kafka.id)
+      state().clearScoringConfigOverride(Kafka.id, 'dps')
 
       expect(state().scoringMetadataOverrides[Kafka.id]?.simulation).toBeUndefined()
       expect(state().scoringMetadataOverrides[Kafka.id]?.stats?.[Stats.ATK_P]).toBe(0.5)
     })
 
-    it('clearSimulationOverrides removes entire override when only simulation existed', () => {
-      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+    it('clearScoringConfigOverride removes entire override when only simulation existed', () => {
+      state().updateScoringConfigOverride(Kafka.id, 'dps', { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
 
       expect(state().scoringMetadataOverrides[Kafka.id]?.simulation).toBeDefined()
 
-      state().clearSimulationOverrides(Kafka.id)
+      state().clearScoringConfigOverride(Kafka.id, 'dps')
 
       expect(state().scoringMetadataOverrides[Kafka.id]).toBeUndefined()
     })
@@ -214,7 +214,7 @@ describe('useScoringStore', () => {
   describe('clearCharacterOverrides', () => {
     it('removes all overrides for a character', () => {
       state().updateCharacterOverrides(Kafka.id, statsOverride({ [Stats.ATK_P]: 0.5 }))
-      state().updateSimulationOverrides(Kafka.id, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+      state().updateScoringConfigOverride(Kafka.id, 'dps', { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
 
       expect(state().scoringMetadataOverrides[Kafka.id]).toBeDefined()
 

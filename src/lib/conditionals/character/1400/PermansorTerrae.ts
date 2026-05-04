@@ -31,7 +31,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, DEFAULT_SKILL_SHIELD, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -304,6 +304,29 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const shieldSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.ATK_P],
+    [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ERR, Stats.ATK_P],
+  },
+  substats: [Stats.ATK_P, Stats.SPD, Stats.RES, Stats.HP_P, Stats.ATK],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [DEFAULT_SKILL_SHIELD, DEFAULT_SKILL_SHIELD],
+  relicSets: [
+    [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+  ],
+  ornamentSets: [Sets.FleetOfTheAgeless, Sets.BrokenKeel, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  teammates: [
+    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+  ],
+})
+
 const supportSimulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [Stats.ATK_P],
@@ -368,6 +391,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [],
   hiddenColumns: [SortOption.DOT, SortOption.SKILL],
   supportSimulation: supportSimulation(),
+  shieldSimulation: shieldSimulation(),
 })
 
 const display = {

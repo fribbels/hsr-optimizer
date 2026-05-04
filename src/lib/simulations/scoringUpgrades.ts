@@ -17,7 +17,7 @@ import type {
 import { partsToFilterMapping } from 'lib/simulations/utils/benchmarkUtils'
 import { clone } from 'lib/utils/objectUtils'
 import type { Form } from 'types/form'
-import type { SimulationMetadata } from 'types/metadata'
+import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
 export type SimulationStatUpgrade = {
@@ -40,6 +40,7 @@ export function generateStatImprovements(
   benchmarkSimScore: number,
   maximumSimScore: number,
   scoringActionKey?: string,
+  configType?: ScoringConfigType,
 ) {
   // Upgrade substats
   const substatUpgradeResults: SimulationStatUpgrade[] = []
@@ -53,7 +54,7 @@ export function generateStatImprovements(
       substatRollsModifier: (num: number) => num,
     })[0]
 
-    applyScoringFunction(statImprovementResult, metadata, true, true, scoringActionKey, context)
+    applyScoringFunction(statImprovementResult, metadata, true, true, scoringActionKey, context, configType)
     substatUpgradeResults.push({
       stat: stat,
       simulation: originalSimClone,
@@ -73,7 +74,7 @@ export function generateStatImprovements(
     substatRollsModifier: (num: number) => num,
   })[0]
 
-  applyScoringFunction(setUpgradeResult, metadata, true, true, scoringActionKey, context)
+  applyScoringFunction(setUpgradeResult, metadata, true, true, scoringActionKey, context, configType)
   setUpgradeResults.push({
     simulation: originalSimClone,
     simulationResult: setUpgradeResult,
@@ -98,7 +99,7 @@ export function generateStatImprovements(
         substatRollsModifier: (num: number) => num,
       })[0]
 
-      applyScoringFunction(mainUpgradeResult, metadata, true, true, scoringActionKey, context)
+      applyScoringFunction(mainUpgradeResult, metadata, true, true, scoringActionKey, context, configType)
       const simulationStatUpgrade = {
         stat: upgradeMainStat,
         part: part,
@@ -114,12 +115,21 @@ export function generateStatImprovements(
   upgradeMain(Parts.PlanarSphere)
   upgradeMain(Parts.LinkRope)
 
+  // Guard against division-by-zero when all builds produce the same score
+  const aboveBenchDenom = maximumSimScore - benchmarkSimScore
+  const belowBenchDenom = benchmarkSimScore - baselineSimScore
+
   for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
     const upgradeSimScore = upgrade.simulationResult.simScore
-    const percent = upgradeSimScore >= benchmarkSimScore
-      ? 1 + (upgradeSimScore - benchmarkSimScore) / (maximumSimScore - benchmarkSimScore)
-      : (upgradeSimScore - baselineSimScore) / (benchmarkSimScore - baselineSimScore)
-    upgrade.percent = percent
+    if (upgradeSimScore >= benchmarkSimScore) {
+      upgrade.percent = aboveBenchDenom > 0
+        ? 1 + (upgradeSimScore - benchmarkSimScore) / aboveBenchDenom
+        : 1
+    } else {
+      upgrade.percent = belowBenchDenom > 0
+        ? (upgradeSimScore - baselineSimScore) / belowBenchDenom
+        : 0
+    }
   }
 
   // Sort upgrades descending by combo damage

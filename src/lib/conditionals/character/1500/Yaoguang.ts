@@ -550,30 +550,6 @@ const simulation = (): SimulationMetadata => ({
   ],
 })
 
-const supportSimulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
-    [Parts.Feet]: [Stats.SPD],
-    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
-    [Parts.LinkRope]: [Stats.ERR],
-  },
-  substats: [Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P, Stats.ATK_P],
-  buffStat: StatKey.ELATION,
-  errRopeEidolon: 0,
-  skipSpdEqualization: true,
-  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
-  relicSets: [
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
-  ],
-  ornamentSets: [Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.SprightlyVonwacq],
-  teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
-  ],
-  deprioritizeBuffs: false,
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -606,7 +582,6 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
-  supportSimulation: supportSimulation(),
 })
 
 const display = {

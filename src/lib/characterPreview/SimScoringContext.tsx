@@ -1,13 +1,10 @@
 import { usePromise } from 'hooks/usePromise'
 import {
   computeScoringCacheKey,
-  computeSupportScoringCacheKey,
   getOrComputePreview,
-  getOrComputeSupportPreview,
   type PreparedState,
   requestScore,
   requestScoreUpgrades,
-  requestSupportScore,
   resultCache,
   upgradeResultCache,
 } from 'lib/scoring/scoringService'
@@ -16,46 +13,101 @@ import {
   createContext,
   memo,
   type PropsWithChildren,
-  use,
+  useContext,
   useMemo,
 } from 'react'
 import type { Character } from 'types/character'
 import type {
+  ScoringConfig,
+  ScoringConfigType,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
 import { type PreviewRelics } from './characterPreviewController'
 
-interface SimScoringContext {
+export type PipelineSlot = {
   preview: PreparedState | null
   scoringPromise: Promise<SimulationScore | null>
   upgradePromise: Promise<SimulationScore | null>
   cachedScore: SimulationScore | null
   cachedUpgrades: SimulationScore | null
-  // Support scoring
-  supportPreview: PreparedState | null
-  supportScoringPromise: Promise<SimulationScore | null>
-  cachedSupportScore: SimulationScore | null
+}
+
+type SimScoringContextValue = {
+  pipelines: Partial<Record<ScoringConfigType, PipelineSlot>>
 }
 
 // Stable reference to avoid re-renders when no promise exists
 const nullPromise = Promise.resolve(null)
 
-// Promise caches for deduplication
+const EMPTY_PIPELINES: SimScoringContextValue = { pipelines: {} }
+
+// Promise caches for deduplication — keyed by cacheKey string
 const scorePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 const scoreUpgradePromiseCache = new Map<string, Promise<SimulationScore | null>>()
-const supportScorePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 
-export const SimScoringContext = createContext<SimScoringContext>({
-  preview: null,
-  scoringPromise: nullPromise,
-  upgradePromise: nullPromise,
-  cachedScore: null,
-  cachedUpgrades: null,
-  supportPreview: null,
-  supportScoringPromise: nullPromise,
-  cachedSupportScore: null,
-})
+export const SimScoringCtx = createContext<SimScoringContextValue>(EMPTY_PIPELINES)
+
+// Config type to scoring action key mapping
+const SCORING_ACTION_KEYS: Partial<Record<ScoringConfigType, string>> = {
+  buffer: 'BUFF',
+}
+
+function buildPipelineSlot(
+  character: Character,
+  configType: ScoringConfigType,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: PreviewRelics,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+): { cacheKey: string | null, slot: PipelineSlot } {
+  const config: ScoringConfig = {
+    configType,
+    simulation: simulationMetadata,
+    scoringActionKey: SCORING_ACTION_KEYS[configType],
+  }
+  const cacheKey = computeScoringCacheKey(character, configType, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+
+  if (cacheKey === null) {
+    return {
+      cacheKey: null,
+      slot: {
+        preview: null,
+        scoringPromise: nullPromise,
+        upgradePromise: nullPromise,
+        cachedScore: null,
+        cachedUpgrades: null,
+      },
+    }
+  }
+
+  const preview = getOrComputePreview(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions)
+
+  const scoringPromise = scorePromiseCache.get(cacheKey) ?? scorePromiseCache
+    .set(cacheKey, requestScore(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions))
+    .get(cacheKey)!
+
+  const upgradePromise = scoreUpgradePromiseCache.get(cacheKey) ?? scoreUpgradePromiseCache
+    .set(cacheKey, requestScoreUpgrades(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions))
+    .get(cacheKey)!
+
+  const cachedScore = resultCache.get(cacheKey) ?? null
+  const cachedUpgrades = upgradeResultCache.get(cacheKey) ?? null
+
+  // Clean up promise caches once the pipeline is fully complete for this key.
+  // For DPS: both score and upgrades must be cached. For non-DPS: score only (upgrades are skipped).
+  const pipelineComplete = configType === 'dps'
+    ? cachedScore != null && cachedUpgrades != null
+    : cachedScore != null
+  if (pipelineComplete) {
+    scorePromiseCache.delete(cacheKey)
+    scoreUpgradePromiseCache.delete(cacheKey)
+  }
+
+  return {
+    cacheKey,
+    slot: { preview, scoringPromise, upgradePromise, cachedScore, cachedUpgrades },
+  }
+}
 
 interface SimScoringContextProps extends PropsWithChildren {
   character: Character
@@ -67,87 +119,63 @@ interface SimScoringContextProps extends PropsWithChildren {
 
 export const SimScoringContextProvider = memo(function SimScoringContextProvider(props: SimScoringContextProps) {
   const { character, simulationMetadata, supportSimulationMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
-  const cacheKey = computeScoringCacheKey(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
-  const supportCacheKey = computeSupportScoringCacheKey(character, supportSimulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+
+  const dpsCacheKey = computeScoringCacheKey(character, 'dps', simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+  const bufferCacheKey = computeScoringCacheKey(character, 'buffer', supportSimulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
 
   const context = useMemo(() => {
-    // DPS scoring
-    let preview: PreparedState | null = null
-    let scoringPromise: Promise<SimulationScore | null> = nullPromise
-    let upgradePromise: Promise<SimulationScore | null> = nullPromise
-    let cachedScore: SimulationScore | null = null
-    let cachedUpgrades: SimulationScore | null = null
+    const pipelines: Partial<Record<ScoringConfigType, PipelineSlot>> = {}
 
-    if (cacheKey !== null) {
-      preview = getOrComputePreview(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
-      scoringPromise = scorePromiseCache.get(cacheKey) ?? scorePromiseCache
-        .set(cacheKey, requestScore(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions))
-        .get(cacheKey)!
-      upgradePromise = scoreUpgradePromiseCache.get(cacheKey) ?? scoreUpgradePromiseCache
-        .set(cacheKey, requestScoreUpgrades(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions))
-        .get(cacheKey)!
-      cachedScore = resultCache.get(cacheKey) ?? null
-      cachedUpgrades = upgradeResultCache.get(cacheKey) ?? null
+    if (simulationMetadata) {
+      pipelines.dps = buildPipelineSlot(character, 'dps', simulationMetadata, singleRelicByPart, showcaseTemporaryOptions).slot
     }
 
-    // Support scoring
-    let supportPreview: PreparedState | null = null
-    let supportScoringPromise: Promise<SimulationScore | null> = nullPromise
-    let cachedSupportScore: SimulationScore | null = null
-
-    if (supportCacheKey !== null) {
-      supportPreview = getOrComputeSupportPreview(supportCacheKey, character, supportSimulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
-      supportScoringPromise = supportScorePromiseCache.get(supportCacheKey) ?? supportScorePromiseCache
-        .set(supportCacheKey, requestSupportScore(supportCacheKey, character, supportSimulationMetadata!, singleRelicByPart, showcaseTemporaryOptions))
-        .get(supportCacheKey)!
-      cachedSupportScore = resultCache.get(supportCacheKey) ?? null
+    if (supportSimulationMetadata) {
+      pipelines.buffer = buildPipelineSlot(character, 'buffer', supportSimulationMetadata, singleRelicByPart, showcaseTemporaryOptions).slot
     }
 
-    return { preview, scoringPromise, upgradePromise, cachedScore, cachedUpgrades, supportPreview, supportScoringPromise, cachedSupportScore }
+    return { pipelines }
     // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [cacheKey, supportCacheKey])
+  }, [dpsCacheKey, bufferCacheKey])
 
   return (
-    <SimScoringContext value={context}>
+    <SimScoringCtx value={context}>
       {props.children}
-    </SimScoringContext>
+    </SimScoringCtx>
   )
 })
 
-export enum ScoringSelector {
-  Preview,
-  Score,
-  Upgrades,
-  SupportPreview,
-  SupportScore,
+// --- Hooks ---
+
+export function useSimPreview(configType: ScoringConfigType): PreparedState | null {
+  const ctx = useContext(SimScoringCtx)
+  return ctx.pipelines[configType]?.preview ?? null
 }
 
-// Uses usePromise instead of use() to avoid Suspense and React profiler crashes
-// Returns cached result immediately if available, avoiding flash during transitions
-export function useSimScoringContext(selector: ScoringSelector.Preview | ScoringSelector.SupportPreview): PreparedState | null
-export function useSimScoringContext(selector: ScoringSelector.Score | ScoringSelector.Upgrades | ScoringSelector.SupportScore): SimulationScore | null
-export function useSimScoringContext(selector: ScoringSelector) {
-  const ctx = use(SimScoringContext)
+export function useSimScore(configType: ScoringConfigType): SimulationScore | null {
+  const ctx = useContext(SimScoringCtx)
+  const slot = ctx.pipelines[configType]
 
-  const promise = selector === ScoringSelector.Score
-    ? ctx.scoringPromise
-    : selector === ScoringSelector.Upgrades
-      ? ctx.upgradePromise
-      : selector === ScoringSelector.SupportScore
-        ? ctx.supportScoringPromise
-        : null
-
-  const cached = selector === ScoringSelector.Score
-    ? ctx.cachedScore
-    : selector === ScoringSelector.Upgrades
-      ? ctx.cachedUpgrades
-      : selector === ScoringSelector.SupportScore
-        ? ctx.cachedSupportScore
-        : null
-
+  const promise = slot?.scoringPromise ?? null
+  const cached = slot?.cachedScore ?? null
   const promised = usePromise(promise)
 
-  if (selector === ScoringSelector.Preview) return ctx.preview
-  if (selector === ScoringSelector.SupportPreview) return ctx.supportPreview
   return cached ?? promised
+}
+
+export function useSimUpgrades(configType: ScoringConfigType): SimulationScore | null {
+  const ctx = useContext(SimScoringCtx)
+  const slot = ctx.pipelines[configType]
+
+  const promise = slot?.upgradePromise ?? null
+  const cached = slot?.cachedUpgrades ?? null
+  const promised = usePromise(promise)
+
+  return cached ?? promised
+}
+
+// Access the raw pipeline slot (for promise-based components like SuspenseNode)
+export function usePipelineSlot(configType: ScoringConfigType): PipelineSlot | undefined {
+  const ctx = useContext(SimScoringCtx)
+  return ctx.pipelines[configType]
 }

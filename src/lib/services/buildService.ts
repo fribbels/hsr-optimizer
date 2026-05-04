@@ -48,7 +48,7 @@ export function saveBuild(
     const equipped = useOptimizerDisplayStore.getState().optimizerBuild ?? {}
     build = serializeFromOptimizer(name, characterId, state as typeof state & { lightCone: LightConeId }, equipped)
   } else {
-    const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceById[characterId]
+    const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceByConfig[characterId]?.dps
     const teamSelection = handleTeamSelection(character, rawTeamSelection)
     const simulation = getScoringMetadata(character.id)?.simulation
     const useCustom = simulation && teamSelection !== DEFAULT_TEAM

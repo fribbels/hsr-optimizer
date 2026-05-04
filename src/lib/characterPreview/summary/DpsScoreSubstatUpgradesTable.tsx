@@ -1,5 +1,5 @@
 import { Table } from '@mantine/core'
-import { SimScoringContext } from 'lib/characterPreview/SimScoringContext'
+import { usePipelineSlot } from 'lib/characterPreview/SimScoringContext'
 import {
   isStatWithoutScoreUpgrade,
   type SharedScoreColumn,
@@ -14,13 +14,14 @@ import { Assets } from 'lib/rendering/assets'
 import { type SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
   memo,
-  useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SimulationMetadata } from 'types/metadata'
+
+const nullPromise = Promise.resolve(null)
 
 export type SubstatUpgradeItem = {
   key: SubStats,
@@ -34,7 +35,8 @@ export type SubstatUpgradeItem = {
 export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
   meta: SimulationMetadata,
 }) {
-  const upgradePromise = useContext(SimScoringContext).upgradePromise
+  const pipelineSlot = usePipelineSlot('dps')
+  const upgradePromise = pipelineSlot?.upgradePromise ?? nullPromise
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })

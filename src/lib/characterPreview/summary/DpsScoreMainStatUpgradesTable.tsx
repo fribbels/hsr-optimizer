@@ -8,9 +8,8 @@ import type {
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import {
-  ScoringSelector,
-  SimScoringContext,
-  useSimScoringContext,
+  usePipelineSlot,
+  useSimUpgrades,
 } from 'lib/characterPreview/SimScoringContext'
 import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import {
@@ -41,12 +40,13 @@ import {
   memo,
   type ReactNode,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+
+const nullPromise = Promise.resolve(null)
 
 type MainStatUpgradeItem = {
   key: string,
@@ -65,7 +65,8 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
 }) {
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
-  const upgradesPromise = useContext(SimScoringContext).upgradePromise
+  const pipelineSlot = usePipelineSlot('dps')
+  const upgradesPromise = pipelineSlot?.upgradePromise ?? nullPromise
 
   const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])
 
@@ -191,7 +192,7 @@ const SuspendedValues = memo(function({ sharedCols, part, stat, resolvedScore }:
 })
 
 const SetUpgradeRow = memo(function({ sharedCols }: { sharedCols: SharedScoreColumn[] }) {
-  const result = useSimScoringContext(ScoringSelector.Upgrades)
+  const result = useSimUpgrades('dps')
 
   const setUpgrade = result?.setUpgrades[0]
 

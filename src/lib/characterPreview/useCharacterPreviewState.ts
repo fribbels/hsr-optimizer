@@ -73,8 +73,8 @@ export function useCharacterPreviewState(
     portraitSwatches,
   } = useShowcaseTabStore(
     useShallow((s) => ({
-      teamSelection: s.showcaseTeamPreferenceById[charId],
-      supportTeamSelection: s.showcaseSupportTeamPreferenceById[charId],
+      teamSelection: s.showcaseTeamPreferenceByConfig[charId]?.dps,
+      supportTeamSelection: s.showcaseTeamPreferenceByConfig[charId]?.buffer,
       showcasePreferences: s.showcasePreferences[charId],
       showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
       portraitColor: s.portraitColorByCharacterId[charId],

@@ -7,6 +7,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -22,13 +23,13 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
 
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind, DEFAULT_SKILL_HEAL, DEFAULT_TALENT_HEAL } from 'lib/optimization/rotation/turnAbilityConfig'
 export const LuochaEntities = createEnum('Luocha')
 export const LuochaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -173,6 +174,29 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const healSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.OHB],
+    [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ERR],
+  },
+  substats: [Stats.ATK_P, Stats.SPD, Stats.RES, Stats.DEF_P, Stats.ATK],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [DEFAULT_SKILL_HEAL, DEFAULT_TALENT_HEAL],
+  relicSets: [
+    [Sets.PasserbyOfWanderingCloud, Sets.PasserbyOfWanderingCloud],
+    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+  ],
+  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  teammates: [
+    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
+    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+  ],
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
@@ -215,6 +239,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.SPD,
   addedColumns: [SortOption.OHB],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  healSimulation: healSimulation(),
 })
 
 const display = {

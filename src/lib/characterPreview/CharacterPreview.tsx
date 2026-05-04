@@ -93,9 +93,8 @@ import type {
 } from 'types/customImage'
 import type { ShowcaseDisplayDimensionsOverride, ShowcaseTemporaryOptions } from 'types/metadata'
 import {
-  ScoringSelector,
   SimScoringContextProvider,
-  useSimScoringContext,
+  useSimPreview,
 } from './SimScoringContext'
 
 const EMPTY_SWATCHES: string[] = []
@@ -353,9 +352,9 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const { displayRelics, scoringResults } = state.previewRelics
 
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
-  // editorOverrides.forceSimScoreLayout overrides to COMBAT_SCORE layout for preview
+  // editorOverrides.forceSimScoreLayout overrides to DPS_SCORE layout for preview
   const effectiveScoringType = editorOverrides?.forceSimScoreLayout
-    ? ScoringType.COMBAT_SCORE // forceSimScoreLayout triggers compact layout; resolveScoringType handles DPS vs support fallback
+    ? ScoringType.DPS_SCORE // forceSimScoreLayout triggers compact layout; resolveScoringType handles DPS vs support fallback
     : (forceDebug ? ScoringType.SUBSTAT_SCORE : state.storedScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
@@ -591,7 +590,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 hasScoring={layout.simulationMetadata !== null || layout.supportSimulationMetadata !== null}
               />
 
-              {scoringType === ScoringType.COMBAT_SCORE && layout.simulationMetadata && (
+              {scoringType === ScoringType.DPS_SCORE && layout.simulationMetadata && (
                 <>
                   <ShowcaseDpsScoreHeader relics={displayRelics} tempOptions={tempOptions} />
 
@@ -603,11 +602,11 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                     simulationKey="simulation"
                   />
 
-                  <ShowcaseCombatScoreDetailsFooter selector={ScoringSelector.Preview} />
+                  <ShowcaseCombatScoreDetailsFooter configType="dps" />
                 </>
               )}
 
-              {scoringType === ScoringType.SUPPORT_SCORE && layout.supportSimulationMetadata && (
+              {scoringType === ScoringType.BUFFER_SCORE && layout.supportSimulationMetadata && (
                 <>
                   <ShowcaseSupportScoreHeader relics={displayRelics} />
 
@@ -619,7 +618,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                     simulationKey="supportSimulation"
                   />
 
-                  <ShowcaseCombatScoreDetailsFooter selector={ScoringSelector.SupportPreview} />
+                  <ShowcaseCombatScoreDetailsFooter configType="buffer" />
                 </>
               )}
 
@@ -692,9 +691,9 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
   scoringType: ScoringType,
   hasScoring: boolean,
 }) {
-  const dpsPreview = useSimScoringContext(ScoringSelector.Preview)
-  const supportPreview = useSimScoringContext(ScoringSelector.SupportPreview)
-  const preview = scoringType === ScoringType.SUPPORT_SCORE ? supportPreview : dpsPreview
+  const dpsPreview = useSimPreview('dps')
+  const supportPreview = useSimPreview('buffer')
+  const preview = scoringType === ScoringType.BUFFER_SCORE ? supportPreview : dpsPreview
   const simScore = preview?.originalSimResult.simScore ?? 0
   return (
     <CharacterStatSummary

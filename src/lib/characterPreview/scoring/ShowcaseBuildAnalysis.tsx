@@ -10,9 +10,9 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 
 import {
-  ScoringSelector,
-  useSimScoringContext,
+  useSimScore,
 } from 'lib/characterPreview/SimScoringContext'
+import { CONFIG_DISPLAY_ORDER, hasConfig } from 'lib/scoring/scoringConfig'
 import { type AKeyValue, StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -31,6 +31,22 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import type { ScoringConfigType } from 'types/metadata'
+
+const SCORING_CONFIG_LABELS: Record<ScoringConfigType, string> = {
+  dps: 'DPS Score',
+  buffer: 'Support Score',
+  heal: 'Heal Score',
+  shield: 'Shield Score',
+}
+
+const SCORING_TYPE_FOR_CONFIG: Record<ScoringConfigType, ScoringType> = {
+  dps: ScoringType.DPS_SCORE,
+  buffer: ScoringType.BUFFER_SCORE,
+  heal: ScoringType.HEAL_SCORE,
+  shield: ScoringType.SHIELD_SCORE,
+}
+
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType
   showcaseMetadata: ShowcaseMetadata
@@ -47,36 +63,34 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const { characterMetadata } = showcaseMetadata
+  const scoringMeta = characterMetadata.scoringMetadata
 
-  const dpsSimulationNull = characterMetadata.scoringMetadata.simulation == null
-  const supportSimulationNull = characterMetadata.scoringMetadata.supportSimulation == null
-  const simulationNull = dpsSimulationNull && supportSimulationNull
-  const segmentData = useMemo(() => [
-    {
-      label: dpsSimulationNull
-        ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD') /* Combat Score (TBD) */
-        : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
-      value: String(ScoringType.COMBAT_SCORE),
-      disabled: dpsSimulationNull,
-    },
-    {
-      label: supportSimulationNull
-        ? 'Support Score (TBD)'
-        : 'Support Score',
-      value: String(ScoringType.SUPPORT_SCORE),
-      disabled: supportSimulationNull,
-    },
-    {
+  const hasAnySimulation = CONFIG_DISPLAY_ORDER.some((ct) => hasConfig(scoringMeta, ct))
+
+  const segmentData = useMemo(() => {
+    const segments: { label: string, value: string, disabled: boolean }[] = []
+    for (const configType of CONFIG_DISPLAY_ORDER) {
+      const available = hasConfig(scoringMeta, configType)
+      segments.push({
+        label: available
+          ? SCORING_CONFIG_LABELS[configType]
+          : `${SCORING_CONFIG_LABELS[configType]} (TBD)`,
+        value: String(SCORING_TYPE_FOR_CONFIG[configType]),
+        disabled: !available,
+      })
+    }
+    segments.push({
       label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
       value: String(ScoringType.SUBSTAT_SCORE),
       disabled: false,
-    },
-    {
+    })
+    segments.push({
       label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), /* None Score */
       value: String(ScoringType.NONE),
       disabled: false,
-    },
-  ], [dpsSimulationNull, supportSimulationNull, t])
+    })
+    return segments
+  }, [scoringMeta, t])
 
   const handleScoringTypeChange = useCallback((selection: string) => {
     const value = Number(selection) as ScoringType
@@ -109,17 +123,17 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           />
         </div>
       </div>
-      {scoringType === ScoringType.COMBAT_SCORE && !dpsSimulationNull && (
+      {scoringType === ScoringType.DPS_SCORE && hasConfig(scoringMeta, 'dps') && (
         <CharacterScoringSummary
           displayRelics={displayRelics}
           showcaseMetadata={showcaseMetadata}
           source={source}
         />
       )}
-      {scoringType === ScoringType.SUPPORT_SCORE && !supportSimulationNull && (
+      {scoringType === ScoringType.BUFFER_SCORE && hasConfig(scoringMeta, 'buffer') && (
         <SupportScoreSummary />
       )}
-      {(scoringType === ScoringType.SUBSTAT_SCORE || simulationNull)
+      {(scoringType === ScoringType.SUBSTAT_SCORE || !hasAnySimulation)
         && (
           <StatScoringSummary
             displayRelics={displayRelics}
@@ -151,7 +165,7 @@ function StatScoringSummary({ displayRelics, showcaseMetadata }: {
 }
 
 function SupportScoreSummary() {
-  const result = useSimScoringContext(ScoringSelector.SupportScore)
+  const result = useSimScore('buffer')
   if (!result) return null
 
   const percent = Math.max(0, result.percent * 100)

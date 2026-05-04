@@ -82,7 +82,7 @@ describe('useGlobalStore', () => {
     it('setSavedSessionKey updates a single key without affecting other session keys', () => {
       state().setSavedSessionKey(SavedSessionKeys.computeEngine, COMPUTE_ENGINE_CPU)
       expect(state().savedSession.computeEngine).toBe(COMPUTE_ENGINE_CPU)
-      expect(state().savedSession.scoringType).toBe(ScoringType.COMBAT_SCORE)
+      expect(state().savedSession.scoringType).toBe(ScoringType.DPS_SCORE)
       expect(state().savedSession.optimizerCharacterId).toBeNull()
     })
 

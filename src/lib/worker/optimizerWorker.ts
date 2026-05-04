@@ -262,6 +262,8 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     x.clearRegisters()
 
     let comboDmg = 0
+    let comboHeal = 0
+    let comboShield = 0
 
     // Calculate rotation actions for combo damage
     for (let i = 0; i < context.rotationActions.length; i++) {
@@ -280,10 +282,16 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
         const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
         x.setHitRegisterValue(hit.registerIndex, dmg)
 
-        // Only accumulate recorded damage hits to sum and comboDmg (not heals/shields)
-        if (hit.outputTag == OutputTag.DAMAGE && hit.recorded !== false) {
+        // Accumulate recorded hits by output tag
+        if (hit.recorded !== false) {
           sum += dmg
-          comboDmg += dmg
+          if (hit.outputTag == OutputTag.DAMAGE) {
+            comboDmg += dmg
+          } else if (hit.outputTag == OutputTag.HEAL) {
+            comboHeal += dmg
+          } else if (hit.outputTag == OutputTag.SHIELD) {
+            comboShield += dmg
+          }
         }
       }
       x.setActionRegisterValue(action.registerIndex, sum)
@@ -317,6 +325,8 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     calculateEhp(x, context)
 
     x.setGlobalRegisterValue(GlobalRegister.COMBO_DMG, comboDmg)
+    x.setGlobalRegisterValue(GlobalRegister.COMBO_HEAL, comboHeal)
+    x.setGlobalRegisterValue(GlobalRegister.COMBO_SHIELD, comboShield)
 
     // Display mode filtering using entity-aware filters
     const displayEntityIndex = (memoDisplay && memospriteEntityIndex >= 0) ? memospriteEntityIndex : 0

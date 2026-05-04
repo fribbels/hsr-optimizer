@@ -24,6 +24,7 @@ import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
+  ScoringConfigType,
   SimulationMetadata,
 } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
@@ -66,14 +67,19 @@ export function getElementalDmgFromContainer(x: ComputedStatsContainer, element:
 }
 
 export enum ScoringType {
-  COMBAT_SCORE,
-  SUBSTAT_SCORE,
-  NONE,
-  SUPPORT_SCORE,
+  DPS_SCORE = 0,
+  SUBSTAT_SCORE = 1,
+  NONE = 2,
+  BUFFER_SCORE = 3,
+  HEAL_SCORE = 4,
+  SHIELD_SCORE = 5,
 }
 
 export function isSimScoreMode(scoringType: ScoringType): boolean {
-  return scoringType === ScoringType.COMBAT_SCORE || scoringType === ScoringType.SUPPORT_SCORE
+  return scoringType === ScoringType.DPS_SCORE
+    || scoringType === ScoringType.BUFFER_SCORE
+    || scoringType === ScoringType.HEAL_SCORE
+    || scoringType === ScoringType.SHIELD_SCORE
 }
 
 export type ScoringParams = {
@@ -294,6 +300,13 @@ export function simSorter(a: Simulation, b: Simulation) {
   return bResult.simScore - aResult.simScore
 }
 
+const COMBO_REGISTER_MAP: Record<ScoringConfigType, number> = {
+  dps: GlobalRegister.COMBO_DMG,
+  buffer: GlobalRegister.COMBO_DMG, // buffer uses scoringActionKey, this is fallback
+  heal: GlobalRegister.COMBO_HEAL,
+  shield: GlobalRegister.COMBO_SHIELD,
+}
+
 export function applyScoringFunction(
   result: RunStatSimulationsResult,
   metadata: SimulationMetadata,
@@ -301,12 +314,17 @@ export function applyScoringFunction(
   user = false,
   scoringActionKey?: string,
   context?: OptimizerContext,
+  configType?: ScoringConfigType,
 ) {
   if (!result) return
 
-  const unpenalizedSimScore = scoringActionKey && context
-    ? getActionRegisterByName(result, context, scoringActionKey)
-    : result.x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
+  let unpenalizedSimScore: number
+  if (scoringActionKey && context) {
+    unpenalizedSimScore = getActionRegisterByName(result, context, scoringActionKey)
+  } else {
+    const register = COMBO_REGISTER_MAP[configType ?? 'dps']
+    unpenalizedSimScore = result.x.getGlobalRegisterValue(register)
+  }
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }

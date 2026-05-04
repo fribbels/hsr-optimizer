@@ -1,6 +1,7 @@
 import i18next, { type TFunction } from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { CONFIG_DISPLAY_ORDER, hasConfig } from 'lib/scoring/scoringConfig'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
@@ -62,6 +63,7 @@ import type {
   DBMetadataLightCone,
   ElementalDamageType,
   ImageCenter,
+  ScoringMetadata,
 } from 'types/metadata'
 import type { Relic } from 'types/relic'
 
@@ -145,18 +147,32 @@ function getRelic(relicsById: Partial<Record<string, Relic>>, character: Charact
   return null
 }
 
+const SCORING_TYPE_BY_CONFIG = {
+  dps: ScoringType.DPS_SCORE,
+  buffer: ScoringType.BUFFER_SCORE,
+  heal: ScoringType.HEAL_SCORE,
+  shield: ScoringType.SHIELD_SCORE,
+} as const
+
 export function resolveScoringType(
   storedScoringType: ScoringType,
-  hasDpsSimulation: boolean,
-  hasSupportSimulation: boolean,
+  scoringMetadata: ScoringMetadata,
 ) {
   if (storedScoringType === ScoringType.NONE || storedScoringType === ScoringType.SUBSTAT_SCORE) {
     return storedScoringType
   }
-  if (storedScoringType === ScoringType.COMBAT_SCORE && hasDpsSimulation) return ScoringType.COMBAT_SCORE
-  if (storedScoringType === ScoringType.SUPPORT_SCORE && hasSupportSimulation) return ScoringType.SUPPORT_SCORE
-  if (hasDpsSimulation) return ScoringType.COMBAT_SCORE
-  if (hasSupportSimulation) return ScoringType.SUPPORT_SCORE
+  // If the stored type maps to an available config, use it
+  for (const configType of CONFIG_DISPLAY_ORDER) {
+    if (SCORING_TYPE_BY_CONFIG[configType] === storedScoringType && hasConfig(scoringMetadata, configType)) {
+      return storedScoringType
+    }
+  }
+  // Fallback: pick first available config
+  for (const configType of CONFIG_DISPLAY_ORDER) {
+    if (hasConfig(scoringMetadata, configType)) {
+      return SCORING_TYPE_BY_CONFIG[configType]
+    }
+  }
   return ScoringType.SUBSTAT_SCORE
 }
 

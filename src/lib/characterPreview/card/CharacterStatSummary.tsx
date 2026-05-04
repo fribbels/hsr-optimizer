@@ -21,11 +21,9 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
   memo,
-  use,
   useMemo,
 } from 'react'
 import type { CharacterId } from 'types/character'
-import { SimScoringContext } from '../SimScoringContext'
 
 const epsilon = 0.001
 
@@ -89,7 +87,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
         {showAll && getGameMetadata().characters[characterId]?.path === PathNames.Elation
           && <StatRow finalStats={finalStats} stat={Stats.Elation} edits={edits} />}
 
-        {scoringType === ScoringType.COMBAT_SCORE
+        {scoringType === ScoringType.DPS_SCORE
           && (
             <StatRow
               finalStats={finalStats}

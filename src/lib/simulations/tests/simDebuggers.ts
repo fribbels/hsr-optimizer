@@ -44,7 +44,7 @@ function equipTestCharacter() {
 
   const simulationMetadata = getGameMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 
-  useScoringStore.getState().updateSimulationOverrides(testInput.character.characterId, {
+  useScoringStore.getState().updateScoringConfigOverride(testInput.character.characterId, 'dps', {
     ...simulationMetadata,
     teammates: [
       testInput.teammate0,

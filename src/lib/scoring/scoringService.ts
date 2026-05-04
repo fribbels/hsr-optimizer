@@ -6,9 +6,6 @@ import {
   executeUpgradeOrchestrator,
   prepareOrchestrator,
 } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import {
-  prepareSupportOrchestrator,
-} from 'lib/simulations/orchestrator/runSupportScoreBenchmarkOrchestrator'
 import type {
   RunStatSimulationsResult,
   Simulation,
@@ -21,6 +18,8 @@ import type {
 import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
+  ScoringConfig,
+  ScoringConfigType,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
@@ -58,6 +57,7 @@ const previewCache = new Map<string, PreparedState>()
 // --- Public API ---
 export function computeScoringCacheKey(
   character: Character,
+  configType: ScoringConfigType,
   simulationMetadata: SimulationMetadata | null,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
@@ -65,6 +65,7 @@ export function computeScoringCacheKey(
   if (!simulationMetadata) return null
 
   return objectHash({
+    configType,
     form: character.form,
     singleRelicByPart,
     simulationMetadata,
@@ -96,7 +97,7 @@ export function hasExceededUpgradeRetries(cacheKey: string): boolean {
 export function getOrComputePreview(
   cacheKey: string,
   character: Character,
-  simulationMetadata: SimulationMetadata,
+  config: ScoringConfig,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): PreparedState | null {
@@ -106,7 +107,7 @@ export function getOrComputePreview(
   try {
     const orchestrator = prepareOrchestrator(
       character,
-      simulationMetadata,
+      config,
       singleRelicByPart,
       showcaseTemporaryOptions,
     )
@@ -124,12 +125,12 @@ export function getOrComputePreview(
     previewCache.set(cacheKey, preview)
     // Only cache the orchestrator if the full pipeline hasn't already completed.
     // This prevents orphaned orchestrator entries when revisiting already-scored characters.
-    if (!upgradeResultCache.has(cacheKey)) {
+    if (!resultCache.has(cacheKey) && !upgradeResultCache.has(cacheKey)) {
       orchestratorCache.set(cacheKey, orchestrator)
     }
     return preview
   } catch (error) {
-    console.error('Preview preparation failed:', error)
+    console.error(`Preview preparation failed for ${config.configType}:`, error)
     return null
   }
 }
@@ -137,7 +138,7 @@ export function getOrComputePreview(
 export function requestScore(
   cacheKey: string | null,
   character: Character,
-  simulationMetadata: SimulationMetadata,
+  config: ScoringConfig,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
@@ -167,7 +168,7 @@ export function requestScore(
         const orchestrator = orchestratorCache.get(cacheKey) ?? orchestratorCache
           .set(
             cacheKey,
-            prepareOrchestrator(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions),
+            prepareOrchestrator(character, config, singleRelicByPart, showcaseTemporaryOptions),
           )
           .get(cacheKey)!
 
@@ -177,9 +178,15 @@ export function requestScore(
         score.characterMetadata = getGameMetadata().characters[character.id]
         resultCache.set(cacheKey, score)
         previewCache.delete(cacheKey)
+
+        // Non-DPS types don't need upgrades yet, so release the orchestrator immediately
+        if (config.configType !== 'dps') {
+          orchestratorCache.delete(cacheKey)
+        }
+
         resolve(score)
       } catch (error) {
-        console.error('Scoring error:', error)
+        console.error(`Scoring error (${config.configType}):`, error)
         failedRetries.set(cacheKey, (failedRetries.get(cacheKey) ?? 0) + 1)
         resolve(null)
       } finally {
@@ -192,14 +199,17 @@ export function requestScore(
   return promise
 }
 
+// Upgrades are DPS-only in the initial implementation
 export function requestScoreUpgrades(
   cacheKey: string | null,
   character: Character,
-  simulationMetadata: SimulationMetadata,
+  config: ScoringConfig,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
   if (cacheKey === null) return Promise.resolve(null)
+  // Upgrades are DPS-only — non-DPS orchestrators are released immediately after scoring
+  if (config.configType !== 'dps') return Promise.resolve(null)
   // Return cached result as resolved promise
   if (upgradeResultCache.has(cacheKey)) {
     return Promise.resolve(upgradeResultCache.get(cacheKey)!)
@@ -216,7 +226,7 @@ export function requestScoreUpgrades(
   }
 
   const promise = new Promise<SimulationScore | null>((resolve) => {
-    requestScore(cacheKey, character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+    requestScore(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions)
       .then(async () => {
         try {
           // requestScore ensures an orchestrator is always available in the cache by this point
@@ -240,110 +250,6 @@ export function requestScoreUpgrades(
   })
 
   upgradePromiseCache.set(cacheKey, promise)
-  return promise
-}
-
-export function computeSupportScoringCacheKey(
-  character: Character,
-  simulationMetadata: SimulationMetadata | null,
-  singleRelicByPart: PreviewRelics,
-  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
-): string | null {
-  if (!simulationMetadata) return null
-
-  return objectHash({
-    scoringType: 'support',
-    form: character.form,
-    singleRelicByPart,
-    simulationMetadata,
-    showcaseTemporaryOptions,
-  })
-}
-
-export function getOrComputeSupportPreview(
-  cacheKey: string,
-  character: Character,
-  simulationMetadata: SimulationMetadata,
-  singleRelicByPart: PreviewRelics,
-  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
-): PreparedState | null {
-  if (cacheKey === null) return null
-  if (previewCache.has(cacheKey)) return previewCache.get(cacheKey)!
-
-  try {
-    const orchestrator = prepareSupportOrchestrator(
-      character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions,
-    )
-
-    const preview: PreparedState = {
-      originalSimResult: orchestrator.originalSimResult!,
-      baselineSimResult: orchestrator.baselineSimResult!,
-      originalSpd: orchestrator.originalSpd!,
-      characterMetadata: getGameMetadata().characters[character.id],
-      deprioritizeBuffs: false,
-      originalSim: orchestrator.originalSim!,
-      simForm: orchestrator.form!,
-    }
-
-    previewCache.set(cacheKey, preview)
-    if (!resultCache.has(cacheKey)) {
-      orchestratorCache.set(cacheKey, orchestrator)
-    }
-    return preview
-  } catch (error) {
-    console.error('Support preview preparation failed:', error)
-    return null
-  }
-}
-
-export function requestSupportScore(
-  cacheKey: string | null,
-  character: Character,
-  simulationMetadata: SimulationMetadata,
-  singleRelicByPart: PreviewRelics,
-  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
-): Promise<SimulationScore | null> {
-  if (cacheKey === null) return Promise.resolve(null)
-
-  if (resultCache.has(cacheKey)) {
-    return Promise.resolve(resultCache.get(cacheKey)!)
-  }
-
-  if (hasExceededRetries(cacheKey)) {
-    return Promise.resolve(null)
-  }
-
-  if (promiseCache.has(cacheKey)) {
-    return promiseCache.get(cacheKey)!
-  }
-
-  const promise = new Promise<SimulationScore | null>((resolve) => {
-    setTimeout(async () => {
-      try {
-        const orchestrator = orchestratorCache.get(cacheKey) ?? orchestratorCache
-          .set(cacheKey, prepareSupportOrchestrator(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions))
-          .get(cacheKey)!
-
-        orchestratorCache.delete(cacheKey)
-
-        await executeOrchestrator(orchestrator)
-
-        const score = orchestrator.simulationScore!
-        score.characterMetadata = getGameMetadata().characters[character.id]
-        resultCache.set(cacheKey, score)
-        previewCache.delete(cacheKey)
-        resolve(score)
-      } catch (error) {
-        console.error('Support scoring error:', error)
-        failedRetries.set(cacheKey, (failedRetries.get(cacheKey) ?? 0) + 1)
-        resolve(null)
-      } finally {
-        promiseCache.delete(cacheKey)
-      }
-    }, 0)
-  })
-
-  promiseCache.set(cacheKey, promise)
   return promise
 }
 

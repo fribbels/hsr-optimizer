@@ -11,9 +11,9 @@ import type {
 } from 'lib/characterPreview/characterPreviewController'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import {
-  ScoringSelector,
-  SimScoringContext,
-  useSimScoringContext,
+  SimScoringCtx,
+  usePipelineSlot,
+  useSimPreview,
 } from 'lib/characterPreview/SimScoringContext'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
@@ -34,7 +34,6 @@ import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import {
   memo,
-  useContext,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Form } from 'types/form'
@@ -43,6 +42,8 @@ import {
   CharacterScoringColumn,
   SimulationScoringColumn,
 } from './ScoringColumns'
+
+const nullPromise = Promise.resolve(null)
 
 // ─── Primitives used by ScoringBenchmarksPanel ───────────────────────────────
 
@@ -118,8 +119,9 @@ function ScoringBenchmarksPanel() {
 
 function BenchmarkDefaultLayout() {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.BuildAnalysis' })
-  const preview = useSimScoringContext(ScoringSelector.Preview)
-  const scoringPromise = useContext(SimScoringContext).scoringPromise
+  const preview = useSimPreview('dps')
+  const pipelineSlot = usePipelineSlot('dps')
+  const scoringPromise = pipelineSlot?.scoringPromise ?? nullPromise
   if (preview === null) return null
   return (
     <div className={classes.columnCardFilled} style={{ width: '100%' }}>
@@ -249,7 +251,7 @@ function BenchmarkDefaultLayout() {
 // ─── ScoringColumnsSection ────────────────────────────────────────────────────
 
 function ScoringColumnsSection() {
-  const preview = useSimScoringContext(ScoringSelector.Preview)
+  const preview = useSimPreview('dps')
   if (preview === null) return null
   const characterId = preview.characterMetadata.id
   const characterMetadata = preview.characterMetadata
@@ -372,7 +374,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 })
 
 const WrappedBuffAnalysisDisplay = memo(function({ t }: { t: TFunction<'charactersTab', undefined> }) {
-  const preview = useSimScoringContext(ScoringSelector.Preview)
+  const preview = useSimPreview('dps')
   if (preview === null) return null
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>

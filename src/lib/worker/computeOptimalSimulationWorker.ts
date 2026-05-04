@@ -82,6 +82,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     scoringParams,
     simulationFlags,
     scoringActionKey,
+    configType,
   } = input
 
   scoringParams.substatRollsModifier = scoringParams.quality === 0.8
@@ -117,7 +118,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     mergedScoringParams.skipDefaults = scoringActionKey ? false : !stabilize
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
-    applyScoringFunction(currentSimulation.result, metadata, true, false, scoringActionKey, context)
+    applyScoringFunction(currentSimulation.result, metadata, true, false, scoringActionKey, context, configType)
     return currentSimulation.result.simScore
   }
 

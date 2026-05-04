@@ -14,8 +14,8 @@ import {
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/CharacterCardCombatStats'
 import {
-  ScoringSelector,
-  useSimScoringContext,
+  useSimPreview,
+  useSimScore,
 } from 'lib/characterPreview/SimScoringContext'
 import { StatText } from 'lib/characterPreview/StatText'
 import {
@@ -23,6 +23,7 @@ import {
   DEFAULT_TEAM,
   SETTINGS_TEAM,
 } from 'lib/constants/constants'
+import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
@@ -53,6 +54,7 @@ import {
   type CharacterId,
 } from 'types/character'
 import {
+  type ScoringConfigType,
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
@@ -95,11 +97,7 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
         teamSelection={teamSelection}
         readonly={readonly}
         onClear={() => {
-          if (simulationKey === 'simulation') {
-            useScoringStore.getState().clearSimulationOverrides(characterId)
-          } else {
-            useScoringStore.getState().clearSupportSimulationOverrides(characterId)
-          }
+          useScoringStore.getState().clearScoringConfigOverride(characterId, simulationKey === 'simulation' ? 'dps' : 'buffer')
         }}
         onSync={() => {
           const characterMetadata = getScoringMetadata(characterId)
@@ -116,18 +114,11 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
               }
             }),
           }
-          if (simulationKey === 'simulation') {
-            useScoringStore.getState().updateSimulationOverrides(characterId, update)
-          } else {
-            useScoringStore.getState().updateSupportSimulationOverrides(characterId, update)
-          }
+          useScoringStore.getState().updateScoringConfigOverride(characterId, simulationKey === 'simulation' ? 'dps' : 'buffer', update)
         }}
         onTeamChange={(team) => {
-          if (simulationKey === 'simulation') {
-            useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, team as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
-          } else {
-            useShowcaseTabStore.getState().setShowcaseSupportTeamPreference(characterId, team as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
-          }
+          const configType = simulationKey === 'simulation' ? 'dps' as const : 'buffer' as const
+          useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
         }}
       />
     </div>
@@ -135,11 +126,11 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
 })
 
 export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScoreDetailsFooter({
-  selector = ScoringSelector.Preview,
+  configType,
 }: {
-  selector?: ScoringSelector.Preview | ScoringSelector.SupportPreview,
+  configType: ScoringConfigType,
 }) {
-  const preview = useSimScoringContext(selector)
+  const preview = useSimPreview(configType)
   if (!preview) {
     return (
       <span className={styles.loadingBlurSmall}>
@@ -147,9 +138,8 @@ export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScor
     )
   }
 
-  const simMetadata = selector === ScoringSelector.SupportPreview
-    ? preview.characterMetadata.scoringMetadata.supportSimulation
-    : preview.characterMetadata.scoringMetadata.simulation
+  const field = CONFIG_FIELD_MAP[configType]
+  const simMetadata = preview.characterMetadata.scoringMetadata[field]
 
   return (
     <div>
@@ -255,7 +245,7 @@ function ShowcaseDpsScoreHeaderReady({ relics, t }: {
   relics: PreviewRelics,
   t: TFunction<'charactersTab', undefined>,
 }) {
-  const result = useSimScoringContext(ScoringSelector.Score)
+  const result = useSimScore('dps')
 
   // Return loading state while result is null
   if (result === null) {
@@ -306,7 +296,7 @@ export const ShowcaseSupportScoreHeader = memo(function ShowcaseSupportScoreHead
 function ShowcaseSupportScoreHeaderReady({ relics }: {
   relics: PreviewRelics,
 }) {
-  const result = useSimScoringContext(ScoringSelector.SupportScore)
+  const result = useSimScore('buffer')
 
   if (result === null) {
     return (
@@ -352,18 +342,11 @@ function createOnCharacterModalOk(
     // Safe cast: after guards above, characterId and lightCone are known non-null, matching the teammate shape
     const update = { teammates: simulation?.teammates.map((tm, idx) => idx === selectedTeammateIndex ? form as typeof tm : tm) }
 
-    if (simulationKey === 'simulation') {
-      useScoringStore.getState().updateSimulationOverrides(characterId, update)
-    } else {
-      useScoringStore.getState().updateSupportSimulationOverrides(characterId, update)
-    }
+    const configType = simulationKey === 'simulation' ? 'dps' : 'buffer' as const
+    useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
     SaveState.delayedSave()
 
-    if (simulationKey === 'simulation') {
-      useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, CUSTOM_TEAM)
-    } else {
-      useShowcaseTabStore.getState().setShowcaseSupportTeamPreference(characterId, CUSTOM_TEAM)
-    }
+    useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, CUSTOM_TEAM)
     return true
   }
 }

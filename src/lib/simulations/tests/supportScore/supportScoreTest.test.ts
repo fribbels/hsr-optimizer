@@ -4,10 +4,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import {
-  prepareSupportOrchestrator,
-} from 'lib/simulations/orchestrator/runSupportScoreBenchmarkOrchestrator'
-import { executeOrchestrator } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import { executeOrchestrator, prepareOrchestrator } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import {
   generateTestSingleRelicsByPart,
   testMains,
@@ -15,7 +12,7 @@ import {
   testStatSpread,
 } from 'lib/simulations/tests/simTestUtils'
 import { clone } from 'lib/utils/objectUtils'
-import type { SimulationMetadata } from 'types/metadata'
+import type { ScoringConfig, SimulationMetadata } from 'types/metadata'
 import type { Character } from 'types/character'
 import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
@@ -33,6 +30,10 @@ void RuanMei
 void Yaoguang
 
 Metadata.initialize()
+
+function bufferConfig(simulation: SimulationMetadata): ScoringConfig {
+  return { configType: 'buffer', simulation, scoringActionKey: 'BUFF' }
+}
 
 const supportSimulation: SimulationMetadata = {
   parts: {
@@ -78,9 +79,9 @@ test('Bronya support score prepare', () => {
     testStatSpread(),
   )
 
-  const orchestrator = prepareSupportOrchestrator(
+  const orchestrator = prepareOrchestrator(
     character,
-    clone(supportSimulation),
+    bufferConfig(clone(supportSimulation)),
     singleRelicByPart,
     {},
   )
@@ -109,9 +110,9 @@ test('Bronya support score full benchmark', async () => {
     testStatSpread(),
   )
 
-  const orchestrator = prepareSupportOrchestrator(
+  const orchestrator = prepareOrchestrator(
     character,
-    clone(supportSimulation),
+    bufferConfig(clone(supportSimulation)),
     singleRelicByPart,
     {},
   )
@@ -145,7 +146,7 @@ test('Sparkle support score prepare', () => {
     testMains(Stats.CD, Stats.SPD, Stats.HP_P, Stats.ERR),
     testStatSpread(),
   )
-  const orchestrator = prepareSupportOrchestrator(character, clone(sparkleSimulation), singleRelicByPart, {})
+  const orchestrator = prepareOrchestrator(character, bufferConfig(clone(sparkleSimulation)), singleRelicByPart, {})
   expect(orchestrator.originalSimResult).toBeDefined()
   expect(orchestrator.originalSimResult!.simScore).toBeGreaterThan(0)
 })
@@ -172,7 +173,7 @@ test('Robin support score prepare', () => {
     testMains(Stats.ATK_P, Stats.ATK_P, Stats.ATK_P, Stats.ERR),
     testStatSpread(),
   )
-  const orchestrator = prepareSupportOrchestrator(character, clone(robinSimulation), singleRelicByPart, {})
+  const orchestrator = prepareOrchestrator(character, bufferConfig(clone(robinSimulation)), singleRelicByPart, {})
   expect(orchestrator.originalSimResult).toBeDefined()
   expect(orchestrator.originalSimResult!.simScore).toBeGreaterThan(0)
 })
@@ -200,7 +201,7 @@ test('RuanMei support score prepare', () => {
     testMains(Stats.HP_P, Stats.SPD, Stats.HP_P, Stats.ERR),
     testStatSpread(),
   )
-  const orchestrator = prepareSupportOrchestrator(character, clone(ruanMeiSimulation), singleRelicByPart, {})
+  const orchestrator = prepareOrchestrator(character, bufferConfig(clone(ruanMeiSimulation)), singleRelicByPart, {})
   expect(orchestrator.originalSimResult).toBeDefined()
   expect(orchestrator.originalSimResult!.simScore).toBeGreaterThan(0)
 })
@@ -228,7 +229,7 @@ test('Yaoguang support score prepare', () => {
     testMains(Stats.HP_P, Stats.SPD, Stats.HP_P, Stats.ERR),
     testStatSpread(),
   )
-  const orchestrator = prepareSupportOrchestrator(character, clone(yaoguangSimulation), singleRelicByPart, {})
+  const orchestrator = prepareOrchestrator(character, bufferConfig(clone(yaoguangSimulation)), singleRelicByPart, {})
   expect(orchestrator.originalSimResult).toBeDefined()
   expect(orchestrator.originalSimResult!.simScore).toBeGreaterThan(0)
 })

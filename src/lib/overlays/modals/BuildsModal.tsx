@@ -138,8 +138,8 @@ function BuildsModalContent() {
 
       if (build.team.filter((x) => x !== null).length === 3) {
         const update = { teammates: build.team as SavedTeammate[] }
-        useScoringStore.getState().updateSimulationOverrides(build.characterId, update)
-        useShowcaseTabStore.getState().setShowcaseTeamPreference(build.characterId, CUSTOM_TEAM)
+        useScoringStore.getState().updateScoringConfigOverride(build.characterId, 'dps', update)
+        useShowcaseTabStore.getState().setShowcaseTeamPreference(build.characterId, 'dps', CUSTOM_TEAM)
       }
 
       handleCancel()

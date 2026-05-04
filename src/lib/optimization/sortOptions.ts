@@ -77,6 +77,8 @@ export const SortOption: {
   DOT: SortOptionProperties,
   BREAK: SortOptionProperties,
   COMBO: SortOptionProperties,
+  COMBO_HEAL: SortOptionProperties,
+  COMBO_SHIELD: SortOptionProperties,
   BASIC_HEAL: SortOptionProperties,
   SKILL_HEAL: SortOptionProperties,
   ULT_HEAL: SortOptionProperties,
@@ -117,6 +119,8 @@ export const SortOption: {
   DOT: computed('DOT', true),
   BREAK: computed('BREAK', true),
   COMBO: { ...computed('COMBO'), globalRegisterIndex: GlobalRegister.COMBO_DMG },
+  COMBO_HEAL: { ...computed('COMBO_HEAL'), globalRegisterIndex: GlobalRegister.COMBO_HEAL },
+  COMBO_SHIELD: { ...computed('COMBO_SHIELD'), globalRegisterIndex: GlobalRegister.COMBO_SHIELD },
 
   // Computed heal/shield ratings
   BASIC_HEAL: computed('BASIC_HEAL'),

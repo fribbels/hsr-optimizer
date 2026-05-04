@@ -21,6 +21,14 @@ import type {
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
+export type ScoringConfigType = 'dps' | 'buffer' | 'heal' | 'shield'
+
+export type ScoringConfig = {
+  configType: ScoringConfigType
+  simulation: SimulationMetadata
+  scoringActionKey?: string
+}
+
 export type ShowcasePreferences = {
   color?: string,
   colorMode?: ShowcaseColorMode,
@@ -42,6 +50,8 @@ export type ScoringMetadata = {
   /* optimizer/dps score  */ traces?: { deactivated: string[] },
   /*      dps score       */ simulation?: SimulationMetadata,
   /*   support score     */ supportSimulation?: SimulationMetadata,
+  /*     heal score      */ healSimulation?: SimulationMetadata,
+  /*    shield score     */ shieldSimulation?: SimulationMetadata,
 }
 
 export type ScoringParts = Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>
@@ -50,6 +60,8 @@ export type ScoringMetadataOverride = {
   parts?: Partial<Record<ScoringParts, MainStats[]>>,
   simulation?: Partial<SimulationMetadata>,
   supportSimulation?: Partial<SimulationMetadata>,
+  healSimulation?: Partial<SimulationMetadata>,
+  shieldSimulation?: Partial<SimulationMetadata>,
   traces?: { deactivated: string[] },
 }
 

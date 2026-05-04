@@ -15,7 +15,7 @@ import {
 } from 'lib/worker/workerPool'
 import { WorkerType } from 'lib/worker/workerUtils'
 import { type Form } from 'types/form'
-import { type SimulationMetadata } from 'types/metadata'
+import { type ScoringConfigType, type SimulationMetadata } from 'types/metadata'
 import { type OptimizerContext } from 'types/optimizer'
 
 export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
@@ -29,6 +29,7 @@ export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
   simulationFlags: SimulationFlags
   workerType: WorkerType
   scoringActionKey?: string
+  configType?: ScoringConfigType
 }
 
 export interface ComputeOptimalSimulationWorkerOutput extends BaseWorkerOutput {

@@ -8,6 +8,7 @@ import {
   resultCache,
   upgradeResultCache,
 } from 'lib/scoring/scoringService'
+import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
   createContext,
@@ -111,32 +112,32 @@ function buildPipelineSlot(
 
 interface SimScoringContextProps extends PropsWithChildren {
   character: Character
-  simulationMetadata: SimulationMetadata | null
-  supportSimulationMetadata: SimulationMetadata | null
+  configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>>
   singleRelicByPart: PreviewRelics
   showcaseTemporaryOptions: ShowcaseTemporaryOptions
 }
 
 export const SimScoringContextProvider = memo(function SimScoringContextProvider(props: SimScoringContextProps) {
-  const { character, simulationMetadata, supportSimulationMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
+  const { character, configMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
 
-  const dpsCacheKey = computeScoringCacheKey(character, 'dps', simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
-  const bufferCacheKey = computeScoringCacheKey(character, 'buffer', supportSimulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+  const dpsCacheKey = computeScoringCacheKey(character, 'dps', configMetadata.dps ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const bufferCacheKey = computeScoringCacheKey(character, 'buffer', configMetadata.buffer ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const healCacheKey = computeScoringCacheKey(character, 'heal', configMetadata.heal ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const shieldCacheKey = computeScoringCacheKey(character, 'shield', configMetadata.shield ?? null, singleRelicByPart, showcaseTemporaryOptions)
 
   const context = useMemo(() => {
     const pipelines: Partial<Record<ScoringConfigType, PipelineSlot>> = {}
 
-    if (simulationMetadata) {
-      pipelines.dps = buildPipelineSlot(character, 'dps', simulationMetadata, singleRelicByPart, showcaseTemporaryOptions).slot
-    }
-
-    if (supportSimulationMetadata) {
-      pipelines.buffer = buildPipelineSlot(character, 'buffer', supportSimulationMetadata, singleRelicByPart, showcaseTemporaryOptions).slot
+    for (const ct of CONFIG_DISPLAY_ORDER) {
+      const meta = configMetadata[ct]
+      if (meta) {
+        pipelines[ct] = buildPipelineSlot(character, ct, meta, singleRelicByPart, showcaseTemporaryOptions).slot
+      }
     }
 
     return { pipelines }
     // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [dpsCacheKey, bufferCacheKey])
+  }, [dpsCacheKey, bufferCacheKey, healCacheKey, shieldCacheKey])
 
   return (
     <SimScoringCtx value={context}>

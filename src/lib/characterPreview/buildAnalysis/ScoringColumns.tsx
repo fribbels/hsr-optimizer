@@ -46,6 +46,7 @@ import {
   useTranslation,
 } from 'react-i18next'
 import type { CharacterId } from 'types/character'
+import type { ScoringConfigType } from 'types/metadata'
 import classes from './CharacterScoringSummary.module.css'
 
 const nullPromise = Promise.resolve(null)
@@ -66,6 +67,7 @@ interface SharedScoringColumnProps extends ExternalScoringColumnProps {
   percent: number | null
   precision: number
   columnClassName: string
+  configType: ScoringConfigType
 }
 
 interface SynchronousScoringColumnProps extends SharedScoringColumnProps {
@@ -240,7 +242,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             </div>
           </div>
         )
-        : <SuspendedHeader t={t} />}
+        : <SuspendedHeader t={t} configType={props.configType} />}
       <div className={classes.columnFilledBody}>
         <DeferCreate>
           <div className={classes.columnFilledSection}>{basicStatsBlock}</div>
@@ -262,10 +264,11 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   )
 })
 
-const SuspendedHeader = memo(function SuspendedHeader({ t }: {
+const SuspendedHeader = memo(function SuspendedHeader({ t, configType }: {
   t: TFunction<readonly ['charactersTab', 'common'], undefined>,
+  configType: ScoringConfigType,
 }) {
-  const pipelineSlot = usePipelineSlot('dps')
+  const pipelineSlot = usePipelineSlot(configType)
   const promise = pipelineSlot?.scoringPromise ?? nullPromise
   return (
     <div className={classes.columnFilledHeader}>
@@ -298,8 +301,8 @@ function Fallback({ t }: {
 }
 
 const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
-export const CharacterScoringColumn = memo(function(props: ExternalScoringColumnProps) {
-  const preview = useSimPreview('dps')
+export const CharacterScoringColumn = memo(function(props: ExternalScoringColumnProps & { configType: ScoringConfigType }) {
+  const preview = useSimPreview(props.configType)
   if (preview === null) return null
   return (
     <ScoringColumn
@@ -313,13 +316,14 @@ export const CharacterScoringColumn = memo(function(props: ExternalScoringColumn
       element={props.element}
       characterMetadata={props.characterMetadata}
       columnClassName={highlightClass}
+      configType={props.configType}
     />
   )
 })
 
 const defaultClass = classes.columnCardFilled
-export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps) {
-  const pipelineSlot = usePipelineSlot('dps')
+export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps & { configType: ScoringConfigType }) {
+  const pipelineSlot = usePipelineSlot(props.configType)
   const isBenchmark = props.type === 'Benchmark'
   return (
     <ScoringColumn
@@ -332,6 +336,7 @@ export const SimulationScoringColumn = memo(function(props: ExternalSimulationSc
       element={props.element}
       characterMetadata={props.characterMetadata}
       columnClassName={defaultClass}
+      configType={props.configType}
     />
   )
 })

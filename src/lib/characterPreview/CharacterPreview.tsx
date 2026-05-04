@@ -53,9 +53,8 @@ import {
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
 import {
   ShowcaseCombatScoreDetailsFooter,
-  ShowcaseDpsScoreHeader,
   ShowcaseDpsScorePanel,
-  ShowcaseSupportScoreHeader,
+  ShowcaseScoreHeader,
 } from 'lib/characterPreview/scoring/ShowcaseDpsScore'
 import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
@@ -91,7 +90,7 @@ import type {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import type { ShowcaseDisplayDimensionsOverride, ShowcaseTemporaryOptions } from 'types/metadata'
+import type { ScoringConfigType, ShowcaseDisplayDimensionsOverride, ShowcaseTemporaryOptions } from 'types/metadata'
 import {
   SimScoringContextProvider,
   useSimPreview,
@@ -365,6 +364,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         character,
         teamSelection: state.teamSelection,
         supportTeamSelection: state.supportTeamSelection,
+        healTeamSelection: state.healTeamSelection,
+        shieldTeamSelection: state.shieldTeamSelection,
         storedScoringType: effectiveScoringType,
         savedBuildOverride,
         t,
@@ -375,7 +376,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       return baseLayout
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character, state.teamSelection, state.supportTeamSelection, effectiveScoringType, savedBuildOverride, _scoringMetadataCacheBuster, t, forceDebug, editorOverrides?.forceSimScoreLayout],
+    [character, state.teamSelection, state.supportTeamSelection, state.healTeamSelection, state.shieldTeamSelection, effectiveScoringType, savedBuildOverride, _scoringMetadataCacheBuster, t, forceDebug, editorOverrides?.forceSimScoreLayout],
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====
@@ -463,8 +464,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   return (
     <SimScoringContextProvider
       character={character}
-      simulationMetadata={layout.simulationMetadata}
-      supportSimulationMetadata={layout.supportSimulationMetadata}
+      configMetadata={layout.configMetadata}
       showcaseTemporaryOptions={tempOptions}
       singleRelicByPart={displayRelics}
     >
@@ -587,38 +587,23 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 finalStats={state.finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 scoringType={scoringType}
-                hasScoring={layout.simulationMetadata !== null || layout.supportSimulationMetadata !== null}
+                hasScoring={layout.activeConfigType != null}
+                configType={layout.activeConfigType}
               />
 
-              {scoringType === ScoringType.DPS_SCORE && layout.simulationMetadata && (
+              {layout.activeConfigType && layout.activeSimulationMetadata && (
                 <>
-                  <ShowcaseDpsScoreHeader relics={displayRelics} tempOptions={tempOptions} />
+                  <ShowcaseScoreHeader relics={displayRelics} tempOptions={tempOptions} configType={layout.activeConfigType} />
 
                   <ShowcaseDpsScorePanel
                     characterId={showcaseMetadata.characterId}
-                    simulationMetadata={layout.simulationMetadata}
-                    teamSelection={layout.currentSelection}
+                    simulationMetadata={layout.activeSimulationMetadata}
+                    teamSelection={layout.activeTeamSelection}
                     source={source}
-                    simulationKey="simulation"
+                    configType={layout.activeConfigType}
                   />
 
-                  <ShowcaseCombatScoreDetailsFooter configType="dps" />
-                </>
-              )}
-
-              {scoringType === ScoringType.BUFFER_SCORE && layout.supportSimulationMetadata && (
-                <>
-                  <ShowcaseSupportScoreHeader relics={displayRelics} />
-
-                  <ShowcaseDpsScorePanel
-                    characterId={showcaseMetadata.characterId}
-                    simulationMetadata={layout.supportSimulationMetadata}
-                    teamSelection={layout.supportCurrentSelection}
-                    source={source}
-                    simulationKey="supportSimulation"
-                  />
-
-                  <ShowcaseCombatScoreDetailsFooter configType="buffer" />
+                  <ShowcaseCombatScoreDetailsFooter configType={layout.activeConfigType} />
                 </>
               )}
 
@@ -663,7 +648,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
         <CharacterAnnouncement
           characterId={showcaseMetadata.characterId}
-          simulationMetadata={layout.simulationMetadata}
+          simulationMetadata={layout.activeSimulationMetadata}
         />
 
         {
@@ -677,6 +662,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             scoringType={state.storedScoringType}
             displayRelics={displayRelics}
             source={source}
+            activeConfigType={layout.activeConfigType}
           />
         )}
       </div>
@@ -684,16 +670,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 })
 
-const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, elementalDmgValue, scoringType, hasScoring }: {
+const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, elementalDmgValue, scoringType, hasScoring, configType }: {
   characterId: CharacterId,
   finalStats: BasicStatsObject,
   elementalDmgValue: string,
   scoringType: ScoringType,
   hasScoring: boolean,
+  configType: ScoringConfigType | undefined,
 }) {
-  const dpsPreview = useSimPreview('dps')
-  const supportPreview = useSimPreview('buffer')
-  const preview = scoringType === ScoringType.BUFFER_SCORE ? supportPreview : dpsPreview
+  const preview = useSimPreview(configType ?? 'dps')
   const simScore = preview?.originalSimResult.simScore ?? 0
   return (
     <CharacterStatSummary

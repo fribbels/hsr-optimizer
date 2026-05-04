@@ -67,6 +67,8 @@ export function useCharacterPreviewState(
   const {
     teamSelection,
     supportTeamSelection,
+    healTeamSelection,
+    shieldTeamSelection,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,
@@ -75,6 +77,8 @@ export function useCharacterPreviewState(
     useShallow((s) => ({
       teamSelection: s.showcaseTeamPreferenceByConfig[charId]?.dps,
       supportTeamSelection: s.showcaseTeamPreferenceByConfig[charId]?.buffer,
+      healTeamSelection: s.showcaseTeamPreferenceByConfig[charId]?.heal,
+      shieldTeamSelection: s.showcaseTeamPreferenceByConfig[charId]?.shield,
       showcasePreferences: s.showcasePreferences[charId],
       showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
       portraitColor: s.portraitColorByCharacterId[charId],
@@ -128,6 +132,8 @@ export function useCharacterPreviewState(
     setCustomPortrait,
     teamSelection,
     supportTeamSelection,
+    healTeamSelection,
+    shieldTeamSelection,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,

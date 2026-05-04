@@ -13,6 +13,7 @@ import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  isSimScoreMode,
   ScoringType,
   type SimulationScore,
 } from 'lib/scoring/simScoringUtils'
@@ -87,7 +88,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
         {showAll && getGameMetadata().characters[characterId]?.path === PathNames.Elation
           && <StatRow finalStats={finalStats} stat={Stats.Elation} edits={edits} />}
 
-        {scoringType === ScoringType.DPS_SCORE
+        {scoringType != null && isSimScoreMode(scoringType)
           && (
             <StatRow
               finalStats={finalStats}

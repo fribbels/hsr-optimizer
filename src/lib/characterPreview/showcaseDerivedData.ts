@@ -10,6 +10,7 @@ import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { CONFIG_DISPLAY_ORDER, CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { isSimScoreMode, ScoringType } from 'lib/scoring/simScoringUtils'
@@ -29,6 +30,8 @@ interface ShowcaseLayoutParams {
   character: Character
   teamSelection: string | undefined
   supportTeamSelection: string | undefined
+  healTeamSelection: string | undefined
+  shieldTeamSelection: string | undefined
   storedScoringType: ScoringType
   savedBuildOverride?: SavedBuild | null
   t: TFunction<'gameData'>
@@ -36,10 +39,10 @@ interface ShowcaseLayoutParams {
 
 export interface ShowcaseLayout {
   showcaseMetadata: ShowcaseMetadata
-  currentSelection: string
-  supportCurrentSelection: string
-  simulationMetadata: SimulationMetadata | null
-  supportSimulationMetadata: SimulationMetadata | null
+  activeConfigType: ScoringConfigType | undefined
+  activeSimulationMetadata: SimulationMetadata | null
+  activeTeamSelection: string
+  configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>>
   hasSimulation: boolean
   scoringType: ScoringType
   portraitToUse: CustomImageConfig | undefined
@@ -57,18 +60,25 @@ const SCORING_TYPE_TO_CONFIG: Partial<Record<ScoringType, ScoringConfigType>> = 
 }
 
 export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLayout {
-  const { character, teamSelection, supportTeamSelection, storedScoringType, savedBuildOverride, t } = params
+  const { character, teamSelection, supportTeamSelection, healTeamSelection, shieldTeamSelection, storedScoringType, savedBuildOverride, t } = params
 
   const showcaseMetadata = getShowcaseMetadata(character, t)
   const scoringMetadata = getScoringMetadata(character.id)
 
-  // Resolve team selections for DPS and buffer (existing behavior)
-  const currentSelection = handleTeamSelection(character, teamSelection)
-  const supportCurrentSelection = handleTeamSelection(character, supportTeamSelection, 'supportSimulation')
+  // Resolve team selections for all config types
+  const teamSelections: Record<ScoringConfigType, string> = {
+    dps: handleTeamSelection(character, teamSelection),
+    buffer: handleTeamSelection(character, supportTeamSelection, 'supportSimulation'),
+    heal: handleTeamSelection(character, healTeamSelection, 'healSimulation'),
+    shield: handleTeamSelection(character, shieldTeamSelection, 'shieldSimulation'),
+  }
 
-  // Resolve simulation metadata for DPS and buffer using their team selections
-  const dpsSimMetadata = resolveSimulationMetadata(character, 'dps', currentSelection, savedBuildOverride)
-  const bufferSimMetadata = resolveSimulationMetadata(character, 'buffer', supportCurrentSelection, savedBuildOverride)
+  // Resolve simulation metadata for all config types that exist
+  const configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>> = {}
+  for (const ct of CONFIG_DISPLAY_ORDER) {
+    const meta = resolveSimulationMetadata(character, ct, teamSelections[ct], savedBuildOverride)
+    if (meta) configMetadata[ct] = meta
+  }
 
   const hasSimulation = CONFIG_DISPLAY_ORDER.some((ct) => {
     const field = CONFIG_FIELD_MAP[ct]
@@ -83,15 +93,16 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const displayDimensions = getShowcaseDisplayDimensions(character, isSimScoreMode(scoringType))
   const artistName = getArtistName(character)
 
-  // Determine active config type from scoring type
   const activeConfigType = SCORING_TYPE_TO_CONFIG[scoringType]
+  const activeSimulationMetadata = activeConfigType ? configMetadata[activeConfigType] ?? null : null
+  const activeTeamSelection = activeConfigType ? teamSelections[activeConfigType] : DEFAULT_TEAM
 
   return {
     showcaseMetadata,
-    currentSelection,
-    supportCurrentSelection,
-    simulationMetadata: activeConfigType === 'dps' ? dpsSimMetadata : null,
-    supportSimulationMetadata: activeConfigType === 'buffer' ? bufferSimMetadata : null,
+    activeConfigType,
+    activeSimulationMetadata,
+    activeTeamSelection,
+    configMetadata,
     hasSimulation,
     scoringType,
     portraitToUse,

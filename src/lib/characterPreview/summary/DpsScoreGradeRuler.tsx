@@ -12,6 +12,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { ScoringConfigType } from 'types/metadata'
 import styles from './DpsScoreGradeRuler.module.css'
 
 // --- Static data ---
@@ -130,10 +131,10 @@ const emptyState: RulerState = {
   gradientVars: defaultGradientVars,
 }
 
-export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
+export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType }: { configType: ScoringConfigType }) {
   const { t, i18n } = useTranslation('common')
 
-  const scoringResult = useSimScore('dps')
+  const scoringResult = useSimScore(configType)
 
   const [state, setState] = useState<RulerState>(initialState)
 

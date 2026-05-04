@@ -45,6 +45,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { ScoringConfigType } from 'types/metadata'
 
 const nullPromise = Promise.resolve(null)
 
@@ -59,13 +60,14 @@ type MainStatUpgradeItem = {
   damageValueUpgrade: number,
 }
 
-export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgradesTable({ meta, relics }: {
+export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgradesTable({ meta, relics, configType }: {
   meta: ShowcaseMetadata,
   relics: PreviewRelics,
+  configType: ScoringConfigType,
 }) {
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
-  const pipelineSlot = usePipelineSlot('dps')
+  const pipelineSlot = usePipelineSlot(configType)
   const upgradesPromise = pipelineSlot?.upgradePromise ?? nullPromise
 
   const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])
@@ -145,7 +147,7 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        <SetUpgradeRow sharedCols={sharedCols} />
+        <SetUpgradeRow sharedCols={sharedCols} configType={configType} />
         {iterator.map(([part, stat]) => {
           return (
             <Table.Tr
@@ -191,8 +193,8 @@ const SuspendedValues = memo(function({ sharedCols, part, stat, resolvedScore }:
   ))
 })
 
-const SetUpgradeRow = memo(function({ sharedCols }: { sharedCols: SharedScoreColumn[] }) {
-  const result = useSimUpgrades('dps')
+const SetUpgradeRow = memo(function({ sharedCols, configType }: { sharedCols: SharedScoreColumn[], configType: ScoringConfigType }) {
+  const result = useSimUpgrades(configType)
 
   const setUpgrade = result?.setUpgrades[0]
 

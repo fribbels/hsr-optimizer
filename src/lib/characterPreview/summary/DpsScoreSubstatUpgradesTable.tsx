@@ -19,7 +19,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { SimulationMetadata } from 'types/metadata'
+import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
 
 const nullPromise = Promise.resolve(null)
 
@@ -32,10 +32,11 @@ export type SubstatUpgradeItem = {
   damageValueUpgrade: number,
 }
 
-export const DpsScoreSubstatUpgradesTable = memo(function({ meta }: {
+export const DpsScoreSubstatUpgradesTable = memo(function({ meta, configType }: {
   meta: SimulationMetadata,
+  configType: ScoringConfigType,
 }) {
-  const pipelineSlot = usePipelineSlot('dps')
+  const pipelineSlot = usePipelineSlot(configType)
   const upgradePromise = pipelineSlot?.upgradePromise ?? nullPromise
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])

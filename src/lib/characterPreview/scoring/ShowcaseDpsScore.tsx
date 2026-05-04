@@ -66,13 +66,13 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
   simulationMetadata,
   teamSelection: teamSelectionProp,
   source,
-  simulationKey = 'simulation',
+  configType = 'dps',
 }: {
   characterId: CharacterId,
   simulationMetadata: SimulationMetadata,
   teamSelection: string,
   source: ShowcaseSource,
-  simulationKey?: 'simulation' | 'supportSimulation',
+  configType?: ScoringConfigType,
 }) {
   const readonly = source === ShowcaseSource.BUILDS_MODAL
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
@@ -87,7 +87,7 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
             simulationMetadata={simulationMetadata}
             characterId={characterId}
             readonly={readonly}
-            simulationKey={simulationKey}
+            configType={configType}
           />
         ))}
       </div>
@@ -97,11 +97,11 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
         teamSelection={teamSelection}
         readonly={readonly}
         onClear={() => {
-          useScoringStore.getState().clearScoringConfigOverride(characterId, simulationKey === 'simulation' ? 'dps' : 'buffer')
+          useScoringStore.getState().clearScoringConfigOverride(characterId, configType)
         }}
         onSync={() => {
           const characterMetadata = getScoringMetadata(characterId)
-          const sim = characterMetadata[simulationKey]
+          const sim = characterMetadata[CONFIG_FIELD_MAP[configType]]
           const update = {
             teammates: sim?.teammates.map((t) => {
               const form = getCharacterById(t.characterId)?.form
@@ -114,10 +114,9 @@ export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
               }
             }),
           }
-          useScoringStore.getState().updateScoringConfigOverride(characterId, simulationKey === 'simulation' ? 'dps' : 'buffer', update)
+          useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
         }}
         onTeamChange={(team) => {
-          const configType = simulationKey === 'simulation' ? 'dps' as const : 'buffer' as const
           useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as typeof DEFAULT_TEAM | typeof CUSTOM_TEAM)
         }}
       />
@@ -158,13 +157,13 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
   simulationMetadata,
   characterId,
   readonly,
-  simulationKey = 'simulation',
+  configType = 'dps',
 }: {
   index: number,
   simulationMetadata: SimulationMetadata,
   characterId: CharacterId,
   readonly?: boolean,
-  simulationKey?: 'simulation' | 'supportSimulation',
+  configType?: ScoringConfigType,
 }) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
@@ -178,7 +177,7 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
         if (readonly) return
         useCharacterModalStore.getState().openOverlay({
           initialCharacter: teammate ? { form: teammate } : null,
-          onOk: createOnCharacterModalOk(characterId, index, simulationKey),
+          onOk: createOnCharacterModalOk(characterId, index, configType),
           showSetSelection: true,
         })
       }}
@@ -221,87 +220,60 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
   )
 })
 
-export const ShowcaseDpsScoreHeader = memo(function ShowcaseDpsScoreHeader(props: {
+const SCORE_HEADER_TITLES: Record<ScoringConfigType, string> = {
+  dps: '',
+  buffer: 'Support Sim',
+  heal: 'Heal Sim',
+  shield: 'Shield Sim',
+}
+
+const SCORE_HEADER_SCORE_LABELS: Record<ScoringConfigType, string> = {
+  dps: '',
+  buffer: 'Support Score',
+  heal: 'Heal Score',
+  shield: 'Shield Score',
+}
+
+export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, tempOptions, configType }: {
   relics: PreviewRelics,
-  tempOptions: ShowcaseTemporaryOptions,
+  tempOptions?: ShowcaseTemporaryOptions,
+  configType: ScoringConfigType,
 }) {
   const { t } = useTranslation(['charactersTab'])
 
-  const titleRender = props?.tempOptions?.spdBenchmark == null
-    ? t('CharacterPreview.ScoreHeader.Title') // Combat Sim
-    : t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(props?.tempOptions?.spdBenchmark ?? 0) }) // Benchmark vs {{spd}} SPD
+  let titleRender: string
+  if (configType === 'dps' && tempOptions?.spdBenchmark != null) {
+    titleRender = t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(tempOptions.spdBenchmark) })
+  } else if (configType === 'dps') {
+    titleRender = t('CharacterPreview.ScoreHeader.Title')
+  } else {
+    titleRender = SCORE_HEADER_TITLES[configType]
+  }
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>
       <StatText className={styles.scoreHeaderText}>
         {titleRender}
       </StatText>
-      <ShowcaseDpsScoreHeaderReady {...props} t={t} />
+      <ShowcaseScoreHeaderReady relics={relics} configType={configType} t={t} />
     </div>
   )
 })
 
-function ShowcaseDpsScoreHeaderReady({ relics, t }: {
+function ShowcaseScoreHeaderReady({ relics, configType, t }: {
   relics: PreviewRelics,
+  configType: ScoringConfigType,
   t: TFunction<'charactersTab', undefined>,
 }) {
-  const result = useSimScore('dps')
-
-  // Return loading state while result is null
-  if (result === null) {
-    return <ShowcaseDpsScoreHeaderPending t={t} />
-  }
-
-  const verified = Object.values(relics).filter((x) => x?.verified).length === 6
-  const numRelics = Object.values(relics).filter((x) => !!x).length
-  const lightCone = !!result.simulationForm.lightCone
-
-  return (
-    <StatText className={styles.scoreHeaderText}>
-      {
-        t(
-          'CharacterPreview.ScoreHeader.Score',
-          {
-            score: localeNumber_0(truncate10ths(Math.max(0, result.percent * 100))),
-            grade: getSimScoreGrade(result.percent, verified, numRelics, lightCone),
-          },
-        )
-        /* DPS Score {{score}}% {{grade}} */
-      }
-    </StatText>
-  )
-}
-
-function ShowcaseDpsScoreHeaderPending({ t }: { t: TFunction<'charactersTab', undefined> }) {
-  return (
-    <StatText className={styles.scoreHeaderText} style={{ filter: 'blur(2px)' }}>
-      {/* t('DpsScoreLoading') */} DPS Score Loading...
-    </StatText>
-  )
-}
-
-export const ShowcaseSupportScoreHeader = memo(function ShowcaseSupportScoreHeader({ relics }: {
-  relics: PreviewRelics,
-}) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>
-      <StatText className={styles.scoreHeaderText}>
-        Support Sim
-      </StatText>
-      <ShowcaseSupportScoreHeaderReady relics={relics} />
-    </div>
-  )
-})
-
-function ShowcaseSupportScoreHeaderReady({ relics }: {
-  relics: PreviewRelics,
-}) {
-  const result = useSimScore('buffer')
+  const result = useSimScore(configType)
 
   if (result === null) {
+    const loadingLabel = configType === 'dps'
+      ? 'DPS Score Loading...'
+      : `${SCORE_HEADER_SCORE_LABELS[configType]} Loading...`
     return (
       <StatText className={styles.scoreHeaderText} style={{ filter: 'blur(2px)' }}>
-        Support Score Loading...
+        {loadingLabel}
       </StatText>
     )
   }
@@ -309,10 +281,16 @@ function ShowcaseSupportScoreHeaderReady({ relics }: {
   const verified = Object.values(relics).filter((x) => x?.verified).length === 6
   const numRelics = Object.values(relics).filter((x) => !!x).length
   const lightCone = !!result.simulationForm.lightCone
+  const score = localeNumber_0(truncate10ths(Math.max(0, result.percent * 100)))
+  const grade = getSimScoreGrade(result.percent, verified, numRelics, lightCone)
+
+  const scoreText = configType === 'dps'
+    ? t('CharacterPreview.ScoreHeader.Score', { score, grade })
+    : `${SCORE_HEADER_SCORE_LABELS[configType]} ${score}% ${grade}`
 
   return (
     <StatText className={styles.scoreHeaderText}>
-      {`Support Score ${localeNumber_0(truncate10ths(Math.max(0, result.percent * 100)))}% ${getSimScoreGrade(result.percent, verified, numRelics, lightCone)}`}
+      {scoreText}
     </StatText>
   )
 }
@@ -324,7 +302,7 @@ function formatSpd(n: number) {
 function createOnCharacterModalOk(
   characterId: CharacterId,
   selectedTeammateIndex: number,
-  simulationKey: 'simulation' | 'supportSimulation' = 'simulation',
+  configType: ScoringConfigType = 'dps',
 ) {
   return (form: CharacterModalForm): boolean => {
     const t = i18next.getFixedT(null, 'charactersTab', 'CharacterPreview.Messages')
@@ -337,12 +315,11 @@ function createOnCharacterModalOk(
       return false
     }
 
-    const simulation = getScoringMetadata(characterId)[simulationKey]
+    const simulation = getScoringMetadata(characterId)[CONFIG_FIELD_MAP[configType]]
 
     // Safe cast: after guards above, characterId and lightCone are known non-null, matching the teammate shape
     const update = { teammates: simulation?.teammates.map((tm, idx) => idx === selectedTeammateIndex ? form as typeof tm : tm) }
 
-    const configType = simulationKey === 'simulation' ? 'dps' : 'buffer' as const
     useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
     SaveState.delayedSave()
 

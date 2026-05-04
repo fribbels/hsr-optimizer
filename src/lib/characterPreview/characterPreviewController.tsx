@@ -307,7 +307,7 @@ export function showcaseOnEditPortraitOk(
 export function handleTeamSelection(
   character: Character,
   teamSelection: string | undefined,
-  simulationKey: 'simulation' | 'supportSimulation' = 'simulation',
+  simulationKey: 'simulation' | 'supportSimulation' | 'healSimulation' | 'shieldSimulation' = 'simulation',
 ) {
   let currentSelection: string | undefined = teamSelection
 

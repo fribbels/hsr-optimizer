@@ -290,16 +290,14 @@ export class BenchmarkSimulationOrchestrator {
     const context = this.context!
     const originalSimRequest = this.originalSimRequest!
 
-    const baselineStats: Record<string, number> = {}
     if (this.configType && this.configType !== 'dps') {
-      for (const sub of SubStats) {
-        baselineStats[sub] = 2
-      }
+      this.setNonDpsBaselineBuild(form, simSets, context)
+      return
     }
 
     const baselineSimRequest = {
       ...originalSimRequest,
-      stats: baselineStats,
+      stats: {},
       simRelicSet1: simSets.relicSet1,
       simRelicSet2: simSets.relicSet2,
       simOrnamentSet: simSets.ornamentSet,
@@ -321,6 +319,64 @@ export class BenchmarkSimulationOrchestrator {
     this.baselineSim = baselineSim
     this.baselineSimRequest = baselineSimRequest
     this.baselineSimResult = baselineSimResult
+  }
+
+  private setNonDpsBaselineBuild(form: OptimizerForm, simSets: SimulationSets, context: OptimizerContext) {
+    const metadata = this.metadata
+    const baselineStats: Record<string, number> = {}
+    for (const sub of SubStats) {
+      baselineStats[sub] = 2
+    }
+
+    const simParams: RunSimulationsParams = {
+      ...baselineScoringParams,
+      mainStatMultiplier: 1,
+      simulationFlags: this.flags,
+    }
+
+    const forceErrRope = this.flags.forceErrRope
+    const ropeParts = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
+
+    let bestSim: Simulation | undefined
+    let bestResult: RunStatSimulationsResult | undefined
+    let bestScore = -Infinity
+
+    for (const body of metadata.parts[Parts.Body]) {
+      for (const feet of metadata.parts[Parts.Feet]) {
+        for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {
+          for (const linkRope of ropeParts) {
+            const request: SimulationRequest = {
+              simRelicSet1: simSets.relicSet1,
+              simRelicSet2: simSets.relicSet2,
+              simOrnamentSet: simSets.ornamentSet,
+              simBody: body,
+              simFeet: feet,
+              simPlanarSphere: planarSphere,
+              simLinkRope: linkRope,
+              stats: baselineStats,
+            }
+
+            const sim: Simulation = {
+              simType: StatSimTypes.SubstatRolls,
+              request: request,
+            } as Simulation
+
+            const result = cloneSimResult(runStatSimulations([sim], form, context, simParams)[0])
+            applyScoringFunction(result, metadata, false, false, this.scoringActionKey, context, this.configType)
+
+            if (result.simScore > bestScore) {
+              bestScore = result.simScore
+              bestSim = sim
+              bestResult = result
+            }
+          }
+        }
+      }
+    }
+
+    this.baselineSim = bestSim!
+    this.baselineSimRequest = bestSim!.request
+    this.baselineSimResult = bestResult!
   }
 
   public setOriginalBuild(inputSpdBenchmark?: number, force?: boolean) {

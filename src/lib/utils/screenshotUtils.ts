@@ -523,6 +523,13 @@ export async function screenshotElementById(
     }
   }
 
-  const blob = await repeatLoadBlob()
+  let blob
+  try {
+    blob = await repeatLoadBlob()
+  } catch (e) {
+    Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+    console.log(e)
+    return
+  }
   handleBlob(blob)
 }

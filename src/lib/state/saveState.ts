@@ -87,6 +87,7 @@ export const SaveState = {
       scannerSettings: {
         ingest: scannerState.ingest,
         ingestCharacters: scannerState.ingestCharacters,
+        ingestOnlyExistingCharacters: scannerState.ingestOnlyExistingCharacters,
         ingestWarpResources: scannerState.ingestWarpResources,
         websocketUrl: scannerState.websocketUrl,
         customUrl: scannerState.websocketUrl !== DEFAULT_WEBSOCKET_URL,

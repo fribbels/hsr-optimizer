@@ -5949,6 +5949,8 @@ interface Resources {
         "Disconnected": "Disconnected",
         "DisconnectedHint": "Unable to connect to the scanner. Please check that it is running.",
         "Enable": "Enable Live Import (Recommended)",
+        "OnlyExistingCharacters": "Only update existing characters",
+        "OnlyExistingCharactersTooltip": "Prevents live import from adding characters that are not already in the Characters tab.",
         "Title": "Live Import Controls",
         "UpdateCharacters": "Enable updating characters' equipped relics and lightcones",
         "UpdateWarpResources": "Enable importing Warp resources (jades, passes, pity)"

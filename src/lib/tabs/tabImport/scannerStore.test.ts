@@ -9,6 +9,7 @@ import type * as KelzFormatParser from 'lib/importer/kelzFormatParser'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
+import { getCharacterById } from 'lib/stores/character/characterStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
 import type { CharacterId } from 'types/character'
 import {
@@ -22,6 +23,8 @@ import {
   DEFAULT_WEBSOCKET_URL,
   handleDeleteRelic,
   handleUpdateCharacter,
+  handleUpdateRelic,
+  initialScan,
   usePrivateScannerState,
   useScannerState,
 } from './scannerStore'
@@ -41,6 +44,10 @@ vi.mock('lib/services/equipmentService', () => ({
   upsertRelicWithEquipment: vi.fn(),
   removeRelic: vi.fn(),
   equipRelic: vi.fn(),
+}))
+
+vi.mock('lib/stores/character/characterStore', () => ({
+  getCharacterById: vi.fn(),
 }))
 
 vi.mock('lib/stores/relic/relicStore', () => ({
@@ -114,6 +121,22 @@ function makeScanData(overrides: Partial<ScannerParserJson> = {}): ScannerParser
   } as ScannerParserJson
 }
 
+function makeParsedCharacter(characterId = CHAR_ID_1) {
+  return {
+    characterId,
+    characterLevel: 80,
+    lightConeLevel: 80,
+  } as any
+}
+
+function makeStoredCharacter(characterId = CHAR_ID_1) {
+  return {
+    id: characterId,
+    equipped: {},
+    form: makeParsedCharacter(characterId),
+  } as any
+}
+
 // ---- Reset ----
 
 beforeEach(() => {
@@ -130,6 +153,7 @@ describe('scannerStore', () => {
       expect(state().connected).toBe(false)
       expect(state().ingest).toBe(false)
       expect(state().ingestCharacters).toBe(false)
+      expect(state().ingestOnlyExistingCharacters).toBe(false)
       expect(state().ingestWarpResources).toBe(false)
       expect(state().lastScanData).toBeNull()
       expect(state().gachaFunds).toBeNull()
@@ -216,6 +240,53 @@ describe('scannerStore', () => {
       // Last 6 relics reversed: 7,6,5,4,3,2
       expect(state().recentRelics[0]).toBe('r-uid-007')
       expect(state().recentRelics[5]).toBe('r-uid-002')
+    })
+
+    it('initialScan only passes existing characters to mergeRelics when restricted', () => {
+      usePrivateScannerState.setState({
+        ingest: true,
+        ingestCharacters: true,
+        ingestOnlyExistingCharacters: true,
+      })
+      vi.mocked(getCharacterById).mockImplementation((id) => (id === CHAR_ID_1 ? makeStoredCharacter(CHAR_ID_1) : undefined))
+      vi.mocked(ReliquaryArchiverParser.parse).mockReturnValueOnce({
+        relics: [],
+        characters: [
+          makeParsedCharacter(CHAR_ID_1),
+          makeParsedCharacter(CHAR_ID_2),
+        ],
+      } as any)
+
+      initialScan(state(), makeScanData({
+        characters: [{ id: CHAR_ID_1 } as any, { id: CHAR_ID_2 } as any],
+      }))
+
+      expect(state().characters[CHAR_ID_1]).toBeDefined()
+      expect(state().characters[CHAR_ID_2]).toBeDefined()
+      expect(persistenceService.mergeRelics).toHaveBeenCalledWith([], [
+        expect.objectContaining({ characterId: CHAR_ID_1 }),
+      ])
+    })
+
+    it('initialScan keeps current character import behavior when restriction is off', () => {
+      usePrivateScannerState.setState({
+        ingest: true,
+        ingestCharacters: true,
+        ingestOnlyExistingCharacters: false,
+      })
+      vi.mocked(getCharacterById).mockReturnValue(undefined)
+      vi.mocked(ReliquaryArchiverParser.parse).mockReturnValueOnce({
+        relics: [],
+        characters: [makeParsedCharacter(CHAR_ID_2)],
+      } as any)
+
+      initialScan(state(), makeScanData({
+        characters: [{ id: CHAR_ID_2 } as any],
+      }))
+
+      expect(persistenceService.mergeRelics).toHaveBeenCalledWith([], [
+        expect.objectContaining({ characterId: CHAR_ID_2 }),
+      ])
     })
   })
 
@@ -375,6 +446,13 @@ describe('scannerStore', () => {
       expect(SaveState.delayedSave).toHaveBeenCalled()
     })
 
+    it('setIngestOnlyExistingCharacters updates the flag and triggers save', () => {
+      state().setIngestOnlyExistingCharacters(true)
+
+      expect(state().ingestOnlyExistingCharacters).toBe(true)
+      expect(SaveState.delayedSave).toHaveBeenCalled()
+    })
+
     it('setIngestWarpResources updates the flag and triggers save', () => {
       state().setIngestWarpResources(true)
 
@@ -416,6 +494,95 @@ describe('scannerStore', () => {
       })
 
       expect(callOrder).toEqual(['upsertCharacter', 'equipRelic'])
+    })
+  })
+
+  describe('only existing characters live ingestion', () => {
+    it('handleUpdateCharacter does not add missing characters when restricted', () => {
+      usePrivateScannerState.setState({
+        ingest: true,
+        ingestCharacters: true,
+        ingestOnlyExistingCharacters: true,
+      })
+      vi.mocked(getCharacterById).mockReturnValue(undefined)
+      vi.mocked(ReliquaryArchiverParser.parseCharacter).mockReturnValueOnce(makeParsedCharacter(CHAR_ID_2))
+
+      handleUpdateCharacter(state(), { id: CHAR_ID_2 } as V4ParserCharacter)
+
+      expect(state().characters[CHAR_ID_2]).toBeDefined()
+      expect(persistenceService.upsertCharacterFromForm).not.toHaveBeenCalled()
+    })
+
+    it('handleUpdateCharacter updates existing characters when restricted', () => {
+      usePrivateScannerState.setState({
+        ingest: true,
+        ingestCharacters: true,
+        ingestOnlyExistingCharacters: true,
+      })
+      vi.mocked(getCharacterById).mockReturnValue(makeStoredCharacter(CHAR_ID_1))
+      vi.mocked(ReliquaryArchiverParser.parseCharacter).mockReturnValueOnce(makeParsedCharacter(CHAR_ID_1))
+
+      handleUpdateCharacter(state(), { id: CHAR_ID_1 } as V4ParserCharacter)
+
+      expect(persistenceService.upsertCharacterFromForm).toHaveBeenCalledWith(
+        expect.objectContaining({ characterId: CHAR_ID_1 }),
+      )
+    })
+
+    it('handleUpdateCharacter keeps adding new characters when restriction is off', () => {
+      usePrivateScannerState.setState({
+        ingest: true,
+        ingestCharacters: true,
+        ingestOnlyExistingCharacters: false,
+      })
+      vi.mocked(getCharacterById).mockReturnValue(undefined)
+      vi.mocked(ReliquaryArchiverParser.parseCharacter).mockReturnValueOnce(makeParsedCharacter(CHAR_ID_2))
+
+      handleUpdateCharacter(state(), { id: CHAR_ID_2 } as V4ParserCharacter)
+
+      expect(persistenceService.upsertCharacterFromForm).toHaveBeenCalledWith(
+        expect.objectContaining({ characterId: CHAR_ID_2 }),
+      )
+    })
+
+    it('handleUpdateRelic clears owners for missing characters when restricted', () => {
+      usePrivateScannerState.setState({
+        ingest: true,
+        ingestCharacters: false,
+        ingestOnlyExistingCharacters: true,
+      })
+      vi.mocked(getCharacterById).mockReturnValue(undefined)
+      vi.mocked(ReliquaryArchiverParser.parseRelic).mockReturnValueOnce({
+        id: RELIC_UID_1,
+        grade: 5,
+        equippedBy: CHAR_ID_2,
+      } as any)
+
+      handleUpdateRelic(state(), makeRelic({ _uid: RELIC_UID_1 }))
+
+      expect(equipmentService.upsertRelicWithEquipment).toHaveBeenCalledWith(
+        expect.objectContaining({ equippedBy: undefined }),
+      )
+    })
+
+    it('handleUpdateRelic preserves owners for existing characters when restricted', () => {
+      usePrivateScannerState.setState({
+        ingest: true,
+        ingestCharacters: true,
+        ingestOnlyExistingCharacters: true,
+      })
+      vi.mocked(getCharacterById).mockReturnValue(makeStoredCharacter(CHAR_ID_1))
+      vi.mocked(ReliquaryArchiverParser.parseRelic).mockReturnValueOnce({
+        id: RELIC_UID_1,
+        grade: 5,
+        equippedBy: CHAR_ID_1,
+      } as any)
+
+      handleUpdateRelic(state(), makeRelic({ _uid: RELIC_UID_1 }))
+
+      expect(equipmentService.upsertRelicWithEquipment).toHaveBeenCalledWith(
+        expect.objectContaining({ equippedBy: CHAR_ID_1 }),
+      )
     })
   })
 })

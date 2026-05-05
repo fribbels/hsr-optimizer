@@ -3,11 +3,12 @@ import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
 import { SubStats } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
 import {
-  diminishingReturnsFormula,
+  createDiminishingReturnsFormula,
   type SimulationScore,
   spdDiminishingReturnsFormula,
 } from 'lib/scoring/simScoringUtils'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import type { ScoringConfigType } from 'types/metadata'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
@@ -21,6 +22,7 @@ interface SubstatRollsSummaryCommonProps {
   precision: number
   diminish: boolean
   columns?: 1 | 2
+  configType?: ScoringConfigType
 }
 
 interface SyncProps extends SubstatRollsSummaryCommonProps {
@@ -51,10 +53,12 @@ export const SubstatRollsSummary = memo(function SubstatRollsSummary(props: Subs
   return props.promise ? <AsyncStatRollSummary {...props} /> : <SyncSubstatRollsSummary {...props} />
 })
 
-function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns }: SyncProps) {
+function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns, configType }: SyncProps) {
   const stats = simRequest.stats
   const diminishingReturns: Record<string, number> = {}
   if (diminish) {
+    const mainsFreeCount = (configType && configType !== 'dps') ? 2 : 0
+    const drFormula = createDiminishingReturnsFormula(12, 2, mainsFreeCount)
     for (const [stat, rolls] of Object.entries(stats)) {
       const mainsCount = [
         simRequest.simBody,
@@ -67,7 +71,7 @@ function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns }: S
       if (stat === Stats.SPD) {
         diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
       } else {
-        diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+        diminishingReturns[stat] = rolls - drFormula(mainsCount, rolls)
       }
     }
   }
@@ -112,7 +116,7 @@ function ScoringNumberParens({ label, number, parens: parensValue, precision = 1
   )
 }
 
-function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: AsyncProps) {
+function AsyncStatRollSummary({ promise, type, precision, diminish, columns, configType }: AsyncProps) {
   const [stats, setStats] = useState<Record<string, number>>({})
   const [diminishingReturns, setDiminishingReturns] = useState<Record<string, number>>({})
   const [suspended, setSuspended] = useState(true)
@@ -133,6 +137,8 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: A
       const diminishingReturns: Record<string, number> = {}
 
       if (diminish) {
+        const mainsFreeCount = (configType && configType !== 'dps') ? 2 : 0
+        const drFormula = createDiminishingReturnsFormula(12, 2, mainsFreeCount)
         for (const [stat, rolls] of Object.entries(stats)) {
           const mainsCount = [
             request.simBody,
@@ -145,7 +151,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: A
           if (stat === Stats.SPD) {
             diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
           } else {
-            diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+            diminishingReturns[stat] = rolls - drFormula(mainsCount, rolls)
           }
         }
       }
@@ -159,7 +165,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: A
     return () => {
       stale = true
     }
-  }, [promise, type, diminish])
+  }, [promise, type, diminish, configType])
   return (
     <RenderStats
       stats={stats}

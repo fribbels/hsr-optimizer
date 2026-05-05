@@ -6,6 +6,7 @@ import {
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   applyScoringFunction,
+  createDiminishingReturnsFormula,
   substatRollsModifier,
 } from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
@@ -53,19 +54,17 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   if (input.context.characterId === Hysilens.id) {
     const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
     if (!ehrLightCone) {
+      const hysilensDiminishingReturns = createDiminishingReturnsFormula(24, 2, 0)
       return (rolls: number, stat: string, sim: Simulation) =>
-        substatRollsModifier(rolls, stat, sim, (mainsCount, rolls) => {
-          const lowerLimit = 24 - 2 * mainsCount
-          if (rolls <= lowerLimit) {
-            return rolls
-          }
-
-          const excess = Math.max(0, rolls - lowerLimit)
-          const diminishedExcess = excess / (Math.pow(excess, 0.25))
-
-          return lowerLimit + diminishedExcess
-        })
+        substatRollsModifier(rolls, stat, sim, hysilensDiminishingReturns)
     }
+  }
+
+  // Non-DPS scoring: relax DR so it only triggers at 3+ mains of the same stat
+  if (input.configType && input.configType !== 'dps') {
+    const nonDpsDiminishingReturns = createDiminishingReturnsFormula(12, 2, 2)
+    return (rolls: number, stat: string, sim: Simulation) =>
+      substatRollsModifier(rolls, stat, sim, nonDpsDiminishingReturns)
   }
 
   return substatRollsModifier

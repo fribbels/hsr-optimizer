@@ -58,26 +58,21 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   const hasAnySimulation = CONFIG_DISPLAY_ORDER.some((ct) => hasConfig(scoringMeta, ct))
 
   const segmentData = useMemo(() => {
-    const segments: { label: string, value: string, disabled: boolean }[] = []
+    const segments: { label: string, value: string }[] = []
     for (const configType of CONFIG_DISPLAY_ORDER) {
-      const available = hasConfig(scoringMeta, configType)
+      if (!hasConfig(scoringMeta, configType)) continue
       segments.push({
-        label: available
-          ? SCORING_CONFIG_LABELS[configType]
-          : `${SCORING_CONFIG_LABELS[configType]} (TBD)`,
+        label: SCORING_CONFIG_LABELS[configType],
         value: String(SCORING_TYPE_FOR_CONFIG[configType]),
-        disabled: !available,
       })
     }
     segments.push({
-      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
+      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'),
       value: String(ScoringType.SUBSTAT_SCORE),
-      disabled: false,
     })
     segments.push({
-      label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), /* None Score */
+      label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'),
       value: String(ScoringType.NONE),
-      disabled: false,
     })
     return segments
   }, [scoringMeta, t])
@@ -105,10 +100,9 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
         >
           <SegmentedControl
             size='sm'
-            style={{ width: 400 }}
+            styles={{ control: { width: 140 } }}
             onChange={handleScoringTypeChange}
             value={String(scoringType)}
-            fullWidth
             data={segmentData}
           />
         </div>

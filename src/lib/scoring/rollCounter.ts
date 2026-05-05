@@ -14,6 +14,7 @@ import type {
   RunStatSimulationsResult,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
+import type { ScoringConfigType } from 'types/metadata'
 import { isSubstat } from 'lib/utils/statUtils'
 
 export function calculateMinSubstatRollCounts(
@@ -44,6 +45,7 @@ export function calculateMaxSubstatRollCounts(
   scoringParams: ScoringParams,
   baselineSimResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
+  configType?: ScoringConfigType,
 ): SubstatCounts {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts: Record<string, number> = {
@@ -81,10 +83,13 @@ export function calculateMaxSubstatRollCounts(
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
   }
 
-  // Naively assume flat stats won't be chosen more than 10 times. Are there real scenarios for flat atk?
-  maxCounts[Stats.ATK] = Math.min(10, maxCounts[Stats.ATK])
-  maxCounts[Stats.HP] = Math.min(10, maxCounts[Stats.HP])
-  maxCounts[Stats.DEF] = Math.min(10, maxCounts[Stats.DEF])
+  // For DPS, flat stats are always outcompeted by multiplicative stats — cap at 10 to reduce search space.
+  // For non-DPS (buffer/heal/shield), flat stats can be the primary scaling stat, so don't cap.
+  if (!configType || configType === 'dps') {
+    maxCounts[Stats.ATK] = Math.min(10, maxCounts[Stats.ATK])
+    maxCounts[Stats.HP] = Math.min(10, maxCounts[Stats.HP])
+    maxCounts[Stats.DEF] = Math.min(10, maxCounts[Stats.DEF])
+  }
 
   // Force speed
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction

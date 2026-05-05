@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Screenshot copiato negli appunti
-  ScreenshotFailed: Impossibile salvare lo screenshot negli appunti, prova il pulsante di download a destra
   DownloadSuccess: Screenshot scaricato
 CharacterMenu:
   ButtonText: Menu personaggi

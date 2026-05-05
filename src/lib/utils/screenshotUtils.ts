@@ -106,8 +106,10 @@
  */
 
 import {
+  type BlobType,
   preCache,
   snapdom,
+  type SnapdomPlugin,
 } from '@zumer/snapdom'
 import i18next from 'i18next'
 import {
@@ -154,7 +156,7 @@ function patchCanvasForDisplayP3(): () => void {
   const originalGetContext = HTMLCanvasElement.prototype.getContext
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, contextId: string, options?: any): any {
+  HTMLCanvasElement.prototype.getContext = function(this: HTMLCanvasElement, contextId: string, options?: any): any {
     if (contextId === '2d') {
       return Reflect.apply(originalGetContext, this, [contextId, { colorSpace: 'display-p3', ...options }])
     }
@@ -222,7 +224,7 @@ async function prepareLiveDomForCapture(root: HTMLElement, corsFailed: Set<strin
 
       // Probe natural dimensions - explicit height required (height:auto = 0 in clones)
       const probe = new Image()
-      const dims = await new Promise<{ w: number; h: number }>((resolve) => {
+      const dims = await new Promise<{ w: number, h: number }>((resolve) => {
         probe.onload = () => resolve({ w: probe.naturalWidth, h: probe.naturalHeight })
         probe.onerror = () => resolve({ w: 1, h: 1 })
         probe.src = dataUrl
@@ -241,13 +243,15 @@ async function prepareLiveDomForCapture(root: HTMLElement, corsFailed: Set<strin
       img.style.height = `${h}px`
       img.style.zIndex = '1'
 
-      loadPromises.push(new Promise<void>((resolve) => {
-        img.onload = async () => {
-          if (typeof img.decode === 'function') await img.decode().catch(() => {})
-          resolve()
-        }
-        img.onerror = () => resolve()
-      }))
+      loadPromises.push(
+        new Promise<void>((resolve) => {
+          img.onload = async () => {
+            if (typeof img.decode === 'function') await img.decode().catch(() => {})
+            resolve()
+          }
+          img.onerror = () => resolve()
+        }),
+      )
 
       container.appendChild(img)
       restoreActions.push(() => {
@@ -264,7 +268,9 @@ async function prepareLiveDomForCapture(root: HTMLElement, corsFailed: Set<strin
   // Return restore function - executes in reverse order for proper cleanup
   return () => {
     for (let i = restoreActions.length - 1; i >= 0; i--) {
-      try { restoreActions[i]() } catch { /* best-effort */ }
+      try {
+        restoreActions[i]()
+      } catch { /* best-effort */ }
     }
   }
 }
@@ -293,11 +299,14 @@ async function resolveTaintedImage(
   if (fallbackUrl) {
     try {
       const fallbackImg = new Image()
-      await withTimeout(new Promise<void>((resolve) => {
-        fallbackImg.onload = () => resolve()
-        fallbackImg.onerror = () => resolve()
-        fallbackImg.src = fallbackUrl
-      }), FETCH_TIMEOUT_MS)
+      await withTimeout(
+        new Promise<void>((resolve) => {
+          fallbackImg.onload = () => resolve()
+          fallbackImg.onerror = () => resolve()
+          fallbackImg.src = fallbackUrl
+        }),
+        FETCH_TIMEOUT_MS,
+      )
       if (fallbackImg.naturalWidth) {
         const c = document.createElement('canvas')
         const cx = c.getContext('2d')!
@@ -318,14 +327,14 @@ async function resolveTaintedImage(
  *  in parallel to avoid sequential timeout delays.
  *  Returns the cache and a set of URLs that failed CORS — used by
  *  prepareLiveDomForCapture to decide whether to inject the default portrait. */
-async function buildImageDataUriCache(root: Element): Promise<{ cache: Map<string, string>; corsFailed: Set<string> }> {
+async function buildImageDataUriCache(root: Element): Promise<{ cache: Map<string, string>, corsFailed: Set<string> }> {
   const cache = new Map<string, string>()
   const corsFailed = new Set<string>()
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d')
   if (!ctx) return { cache, corsFailed }
 
-  const taintedWork: Array<{ src: string; promise: Promise<{ dataUrl: string } | { corsFailed: true }> }> = []
+  const taintedWork: Array<{ src: string, promise: Promise<{ dataUrl: string } | { corsFailed: true }> }> = []
 
   for (const img of root.querySelectorAll<HTMLImageElement>('img')) {
     if (!img.complete || !img.naturalWidth || img.src.startsWith('data:') || cache.has(img.src)) continue
@@ -355,7 +364,7 @@ async function buildImageDataUriCache(root: Element): Promise<{ cache: Map<strin
 }
 
 /** Snapdom plugin that replaces img srcs on the clone with pre-built data URIs. */
-function buildImageInliningPlugin(cache: Map<string, string>): import('@zumer/snapdom').SnapdomPlugin {
+function buildImageInliningPlugin(cache: Map<string, string>): SnapdomPlugin {
   return {
     name: 'image-inlining',
     afterClone({ clone }) {
@@ -438,7 +447,12 @@ export async function screenshotElementById(
             }),
             attemptTimeoutMs,
           )
-          blob = await capture.toBlob({ type: 'webp', quality: 1.0 })
+          // ClipboardItem.supports may be unavailable in older browsers or non-secure contexts
+          const supportsWebp = typeof ClipboardItem !== 'undefined'
+            && typeof ClipboardItem.supports === 'function'
+            && ClipboardItem.supports('image/webp')
+          const type: BlobType = (action === 'download' || supportsWebp) ? 'webp' : 'png'
+          blob = await capture.toBlob({ type, quality: 1.0 })
           if (blob && blob.size > 1_500_000) break
         } catch (e) {
           lastError = e
@@ -474,21 +488,23 @@ export async function screenshotElementById(
           navigator.share({ files: [file], title: '', text: '' }).catch((e: unknown) => {
             // Don't show error toast when user cancels the share dialog
             if (e instanceof Error && e.name === 'AbortError') return
-            Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
+            Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
           })
         } else {
-          Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
+          Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
         }
       } else {
-        try {
-          const data = [new ClipboardItem({ [blob.type]: blob })]
-          void navigator.clipboard.write(data).then(() => {
-            Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess'))
+        const data = [new ClipboardItem({ [blob.type]: blob })]
+        void navigator.clipboard.write(data)
+          .then(() => Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess')))
+          .catch((e) => {
+            if (e instanceof DOMException && e.name === 'NotAllowedError') {
+              Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.NotAllowed'))
+            } else {
+              Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+            }
+            console.error(e)
           })
-        } catch (e) {
-          console.error(e)
-          Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
-        }
       }
     }
 
@@ -506,6 +522,13 @@ export async function screenshotElementById(
     }
   }
 
-  const blob = await repeatLoadBlob()
+  let blob
+  try {
+    blob = await repeatLoadBlob()
+  } catch (e) {
+    Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+    console.error(e)
+    return
+  }
   handleBlob(blob)
 }

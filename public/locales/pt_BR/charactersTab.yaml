@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Captura de tela copiada para a área de transferência
-  ScreenshotFailed: Não é possível salvar a captura de tela na área de transferência, tente o botão de baixar à direita
   DownloadSuccess: Baixar captura de tela
 CharacterMenu:
   ButtonText: Menu de personagens

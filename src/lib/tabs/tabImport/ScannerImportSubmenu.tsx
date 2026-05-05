@@ -392,17 +392,18 @@ export function ScannerImportSubmenu() {
                 <div>{t('Import.LiveImport.UpdateCharacters') /* Enable updating characters' equipped relics and lightcones */}</div>
               </Flex>
 
-              <Flex gap={10} align='center'>
-                <Switch
-                  checked={ingestOnlyExistingCharacters}
-                  disabled={!ingestCharacters}
-                  onChange={(event) => setIngestOnlyExistingCharacters(event.currentTarget.checked)}
-                />
+              {ingestCharacters && (
+                <Flex gap={10} align='center'>
+                  <Switch
+                    checked={ingestOnlyExistingCharacters}
+                    onChange={(event) => setIngestOnlyExistingCharacters(event.currentTarget.checked)}
+                  />
 
-                <Tooltip label={t('Import.LiveImport.OnlyExistingCharactersTooltip') /* Prevents live import from adding characters that are not already in the Characters tab. */}>
-                  <div>{t('Import.LiveImport.OnlyExistingCharacters') /* Only update existing characters */}</div>
-                </Tooltip>
-              </Flex>
+                  <Tooltip label={t('Import.LiveImport.OnlyExistingCharactersTooltip') /* Prevents live import from adding characters that are not already in the Characters tab. */}>
+                    <div>{t('Import.LiveImport.OnlyExistingCharacters') /* Only update existing characters */}</div>
+                  </Tooltip>
+                </Flex>
+              )}
 
               <Flex gap={10} align='center'>
                 <Switch

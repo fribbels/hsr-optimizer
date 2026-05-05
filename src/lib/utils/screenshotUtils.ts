@@ -498,15 +498,10 @@ export async function screenshotElementById(
         void navigator.clipboard.write(data)
           .then(() => Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess')))
           .catch((e) => {
-            if (e instanceof DOMException) {
-              switch (e.name) {
-                case 'NotAllowedError':
-                  Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.NotAllowed'))
-                  break
-                default:
-                  Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
-                  break
-              }
+            if (e instanceof DOMException && e.name === 'NotAllowedError') {
+              Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.NotAllowed'))
+            } else {
+              Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
             }
             console.error(e)
           })
@@ -532,7 +527,7 @@ export async function screenshotElementById(
     blob = await repeatLoadBlob()
   } catch (e) {
     Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
-    console.log(e)
+    console.error(e)
     return
   }
   handleBlob(blob)

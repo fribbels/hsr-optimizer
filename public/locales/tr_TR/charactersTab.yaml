@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Ekran görüntüsü panoya kopyalandı
-  ScreenshotFailed: Ekran görüntüsü panoya kaydedilemedi, sağdaki indirme tuşunu deneyin
   DownloadSuccess: Ekran görüntüsü indirildi
 Messages:
   RemoveSuccess: Karakter başarıyla kaldırıldı

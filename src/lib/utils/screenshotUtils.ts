@@ -447,7 +447,11 @@ export async function screenshotElementById(
             }),
             attemptTimeoutMs,
           )
-          const type: BlobType = ClipboardItem.supports('image/webp') ? 'webp' : 'png'
+          // ClipboardItem.supports may be unavailable in older browsers or non-secure contexts
+          const supportsWebp = typeof ClipboardItem !== 'undefined'
+            && typeof ClipboardItem.supports === 'function'
+            && ClipboardItem.supports('image/webp')
+          const type: BlobType = (action === 'download' || supportsWebp) ? 'webp' : 'png'
           blob = await capture.toBlob({ type, quality: 1.0 })
           if (blob && blob.size > 1_500_000) break
         } catch (e) {

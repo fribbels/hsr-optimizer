@@ -202,6 +202,8 @@ export function substatRollsModifier(
     sim.request.simFeet,
     sim.request.simPlanarSphere,
     sim.request.simLinkRope,
+    Stats.ATK,
+    Stats.HP,
   ].filter((x) => x == stat).length
 
   return stat == Stats.SPD

@@ -29,6 +29,7 @@ import {
   useRelicStore,
 } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { useScannerState } from 'lib/tabs/tabImport/scannerStore'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import type {
   Character,
@@ -127,6 +128,7 @@ beforeEach(() => {
   useRelicStore.setState(useRelicStore.getInitialState())
   useCharacterStore.setState(useCharacterStore.getInitialState())
   useScoringStore.setState(useScoringStore.getInitialState())
+  useScannerState.setState(useScannerState.getInitialState())
   useOptimizerDisplayStore.setState(useOptimizerDisplayStore.getInitialState())
   useGlobalStore.setState({
     settings: DefaultSettingOptions,
@@ -340,6 +342,40 @@ describe('loadSaveData', () => {
   it('loadSaveData does not crash when relics field is not an array', () => {
     const saveData = { characters: [], relics: 'bad' } as unknown as HsrOptimizerSaveFormat
     expect(() => loadSaveData(saveData, false, false)).not.toThrow()
+  })
+
+  it('loadSaveData restores scanner only-existing-characters setting', () => {
+    const saveData = emptySaveData({
+      scannerSettings: {
+        ingest: true,
+        ingestCharacters: true,
+        ingestOnlyExistingCharacters: true,
+        ingestWarpResources: false,
+        websocketUrl: 'ws://custom:9999/ws',
+        customUrl: true,
+      },
+    })
+
+    loadSaveData(saveData, false, false)
+
+    expect(useScannerState.getState().ingestOnlyExistingCharacters).toBe(true)
+  })
+
+  it('loadSaveData defaults scanner only-existing-characters setting to false for legacy saves', () => {
+    useScannerState.setState({ ingestOnlyExistingCharacters: true })
+    const saveData = emptySaveData({
+      scannerSettings: {
+        ingest: false,
+        ingestCharacters: true,
+        ingestWarpResources: false,
+        websocketUrl: 'ws://custom:9999/ws',
+        customUrl: true,
+      },
+    })
+
+    loadSaveData(saveData, false, false)
+
+    expect(useScannerState.getState().ingestOnlyExistingCharacters).toBe(false)
   })
 })
 

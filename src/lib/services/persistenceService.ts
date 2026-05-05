@@ -192,6 +192,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     const scannerState = useScannerState.getState()
     scannerState.setIngest(saveData.scannerSettings.ingest)
     scannerState.setIngestCharacters(saveData.scannerSettings.ingestCharacters)
+    scannerState.setIngestOnlyExistingCharacters(saveData.scannerSettings.ingestOnlyExistingCharacters ?? false)
     scannerState.setIngestWarpResources(saveData.scannerSettings.ingestWarpResources)
 
     // For security, don't restore the websocket url if we're sanitizing (manual load)

@@ -187,6 +187,15 @@ interface Resources {
         "TitleBenchmark": "{{spd}} SPD Benchmark"
       },
       "ScoringColumn": {
+        "Baseline": {
+          "Abilities": "0% baseline ability damage",
+          "BasicStats": "0% baseline <1>basic stats</1>",
+          "CombatStats": "0% baseline <1>combat stats</1>",
+          "Header": "Baseline build ({{score}}%)",
+          "Mainstats": "0% baseline main stats",
+          "Sets": "0% baseline sets",
+          "Substats": "0% baseline subs"
+        },
         "Benchmark": {
           "Abilities": "100% benchmark ability damage",
           "BasicStats": "100% benchmark <1>basic stats</1>",

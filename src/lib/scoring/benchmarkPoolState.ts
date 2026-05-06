@@ -35,12 +35,13 @@ export function runPoolBaselineSim(
   metadata: SimulationMetadata,
   scoringActionKey?: string,
   configType?: ScoringConfigType,
+  targetCombatSpd?: number,
 ): { sim: Simulation; result: RunStatSimulationsResult } {
   const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoetSet(setCombination) }
   const isNonDps = configType && configType !== 'dps'
 
   if (isNonDps) {
-    return runNonDpsPoolBaselineSim(originalSimRequest, setCombination, form, context, correctedFlags, metadata, scoringActionKey, configType)
+    return runNonDpsPoolBaselineSim(originalSimRequest, setCombination, form, context, correctedFlags, metadata, scoringActionKey, configType, targetCombatSpd)
   }
 
   const request = {
@@ -76,12 +77,8 @@ function runNonDpsPoolBaselineSim(
   metadata: SimulationMetadata,
   scoringActionKey?: string,
   configType?: ScoringConfigType,
+  targetCombatSpd?: number,
 ): { sim: Simulation; result: RunStatSimulationsResult } {
-  const baselineStats: Record<string, number> = {}
-  for (const sub of SubStats) {
-    baselineStats[sub] = 2
-  }
-
   const params: RunSimulationsParams = {
     ...baselineScoringParams,
     mainStatMultiplier: 1,
@@ -91,14 +88,19 @@ function runNonDpsPoolBaselineSim(
   const forceErrRope = correctedFlags.forceErrRope
   const ropeParts = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
 
-  let bestSim: Simulation | undefined
-  let bestResult: RunStatSimulationsResult | undefined
-  let bestScore = -Infinity
+  type Candidate = { sim: Simulation; result: RunStatSimulationsResult; combatSpd: number }
+  const qualifying: Candidate[] = []
+  let bestFallback: Candidate | undefined
 
   for (const body of metadata.parts[Parts.Body]) {
     for (const feet of metadata.parts[Parts.Feet]) {
       for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {
         for (const linkRope of ropeParts) {
+          const baselineStats: Record<string, number> = {}
+          for (const sub of SubStats) {
+            baselineStats[sub] = 2
+          }
+
           const request: SimulationRequest = {
             simRelicSet1: setCombination.relicSet1,
             simRelicSet2: setCombination.relicSet2,
@@ -117,18 +119,30 @@ function runNonDpsPoolBaselineSim(
 
           const result = cloneSimResult(runStatSimulations([sim], form, context, params)[0])
           applyScoringFunction(result, metadata, false, false, scoringActionKey, context, configType)
+          const combatSpd = result.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
 
-          if (result.simScore > bestScore) {
-            bestScore = result.simScore
-            bestSim = sim
-            bestResult = result
+          const candidate: Candidate = { sim, result, combatSpd }
+
+          if (targetCombatSpd && combatSpd < targetCombatSpd) {
+            if (!bestFallback || combatSpd > bestFallback.combatSpd) {
+              bestFallback = candidate
+            }
+          } else {
+            qualifying.push(candidate)
           }
         }
       }
     }
   }
 
-  return { sim: bestSim!, result: bestResult! }
+  let best: Candidate | undefined
+  if (qualifying.length > 0) {
+    best = qualifying.reduce((a, b) => b.result.simScore > a.result.simScore ? b : a)
+  } else {
+    best = bestFallback
+  }
+
+  return { sim: best!.sim, result: best!.result }
 }
 
 export function resolveComboSpdTarget(

@@ -33,6 +33,7 @@ export type PreparedState = {
   characterMetadata: DBMetadataCharacter,
   deprioritizeBuffs: boolean,
   originalSim: Simulation,
+  baselineSim: Simulation,
   simForm: Form,
 }
 
@@ -119,6 +120,7 @@ export function getOrComputePreview(
       characterMetadata: getGameMetadata().characters[character.id],
       deprioritizeBuffs: orchestrator.metadata.deprioritizeBuffs ?? false,
       originalSim: orchestrator.originalSim!,
+      baselineSim: orchestrator.baselineSim!,
       simForm: orchestrator.form!,
     }
 

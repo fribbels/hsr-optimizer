@@ -73,7 +73,7 @@ interface SharedScoringColumnProps extends ExternalScoringColumnProps {
 }
 
 interface SynchronousScoringColumnProps extends SharedScoringColumnProps {
-  type: 'Character'
+  type: 'Character' | 'Baseline'
   simulation: Simulation
   originalSimResult: RunStatSimulationsResult
 }
@@ -86,7 +86,7 @@ interface AsynchronousScoringColumnProps extends SharedScoringColumnProps {
 type ScoringColumnProps = SynchronousScoringColumnProps | AsynchronousScoringColumnProps
 
 function isAsyncProps(props: ScoringColumnProps): props is AsynchronousScoringColumnProps {
-  return props.type !== 'Character'
+  return props.type === 'Benchmark' || props.type === 'Perfect'
 }
 
 const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
@@ -372,6 +372,26 @@ export const CharacterScoringColumn = memo(function(props: ExternalScoringColumn
       element={props.element}
       characterMetadata={props.characterMetadata}
       columnClassName={highlightClass}
+      configType={props.configType}
+    />
+  )
+})
+
+export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnProps & { configType: ScoringConfigType }) {
+  const preview = useSimPreview(props.configType)
+  if (preview === null) return null
+  return (
+    <ScoringColumn
+      simulation={preview.baselineSim}
+      originalSimResult={preview.baselineSimResult}
+      percent={0}
+      precision={0}
+      type='Baseline'
+      characterId={props.characterId}
+      elementalDmgValue={props.elementalDmgValue}
+      element={props.element}
+      characterMetadata={props.characterMetadata}
+      columnClassName={classes.columnCardFilled}
       configType={props.configType}
     />
   )

@@ -39,6 +39,7 @@ import type { Form } from 'types/form'
 import type { ScoringConfigType } from 'types/metadata'
 import classes from './CharacterScoringSummary.module.css'
 import {
+  BaselineScoringColumn,
   CharacterScoringColumn,
   SimulationScoringColumn,
 } from './ScoringColumns'
@@ -214,6 +215,14 @@ function ScoringColumnsSection({ configType }: { configType: ScoringConfigType }
 
   return (
     <div style={{ display: 'flex', gap: 12 }}>
+      <BaselineScoringColumn
+        characterId={characterId}
+        elementalDmgValue={elementalDmgValue}
+        element={element}
+        characterMetadata={characterMetadata}
+        configType={configType}
+      />
+
       <CharacterScoringColumn
         characterId={characterId}
         elementalDmgValue={elementalDmgValue}

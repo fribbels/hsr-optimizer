@@ -337,17 +337,31 @@ export class BenchmarkSimulationOrchestrator {
     const baselineSimResult = cloneSimResult(runStatSimulations([baselineSim], form, context, simParams)[0])
 
     this.baselineSim = baselineSim
+    this.baselineSim.result = baselineSimResult
     this.baselineSimRequest = baselineSimRequest
     this.baselineSimResult = baselineSimResult
   }
 
   private setNonDpsBaselineBuild(form: OptimizerForm, simSets: SimulationSets, context: OptimizerContext) {
+    // Compute the character's actual combat SPD so the baseline can match it
+    const originalSim: Simulation = {
+      simType: StatSimTypes.SubstatRolls,
+      request: this.originalSimRequest!,
+    } as Simulation
+    const originalResult = runStatSimulations([originalSim], form, context, {
+      ...originalScoringParams,
+      mainStatMultiplier: 1,
+      simulationFlags: this.flags,
+    })[0]
+    const targetCombatSpd = originalResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
+
     const { sim, result } = runPoolBaselineSim(
       this.originalSimRequest!, simSets, form, context, this.flags, this.metadata,
-      this.scoringActionKey, this.configType,
+      this.scoringActionKey, this.configType, targetCombatSpd,
     )
 
     this.baselineSim = sim
+    this.baselineSim.result = result
     this.baselineSimRequest = sim.request
     this.baselineSimResult = result
   }
@@ -411,7 +425,7 @@ export class BenchmarkSimulationOrchestrator {
     this.poolComboStates = pool.map((setCombination) => {
       const { sim, result } = runPoolBaselineSim(
         this.originalSimRequest!, setCombination, this.form!, this.context!, this.flags, this.metadata,
-        this.scoringActionKey, this.configType,
+        this.scoringActionKey, this.configType, this.benchmarkCombatSpdTarget,
       )
       const spdTarget = resolveComboSpdTarget(
         setCombination, sim, result, this.form!, this.context!, this.flags, this.originalSpd!, this.spdBenchmark,
@@ -628,8 +642,11 @@ export class BenchmarkSimulationOrchestrator {
     const originalSimScore = originalSimResult.simScore
     const perfectionSimScore = perfectionSimResult.simScore
 
-    // Look up benchmark winner's baseline from pre-computed pool state
-    const baselineSimScore = this.poolComboStates
+    // For non-DPS, use the character's own baseline. Pool baselines vary per set combo
+    // (mains are included), so the benchmark winner's baseline can exceed the character's
+    // actual score, producing nonsensical negative scores.
+    const isNonDps = this.configType && this.configType !== 'dps'
+    const baselineSimScore = (this.poolComboStates && !isNonDps)
       ? this.poolComboStates[this.benchmarkWinnerPoolIndex!].baselineScore
       : baselineSimResult.simScore
 

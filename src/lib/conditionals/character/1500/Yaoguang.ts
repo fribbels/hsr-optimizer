@@ -402,6 +402,8 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
               if (convertibleValue < 120) return 0
               return 0.30 + Math.min(200, convertibleValue - 120) * 0.01
             },
+            TargetTag.SelfAndPet,
+            true,
           )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -416,6 +418,8 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
             `0.30 + min(200.0, convertibleValue - 120.0) * 0.01`,
             `${wgslTrue(r.traceSpdElation)}`,
             `convertibleValue >= 120.0`,
+            TargetTag.SelfAndPet,
+            true,
           )
         },
       },

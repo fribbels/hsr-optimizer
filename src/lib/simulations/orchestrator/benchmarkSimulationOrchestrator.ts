@@ -12,7 +12,6 @@ import {
   Parts,
   Sets,
   Stats,
-  SubStats,
 } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
@@ -343,61 +342,14 @@ export class BenchmarkSimulationOrchestrator {
   }
 
   private setNonDpsBaselineBuild(form: OptimizerForm, simSets: SimulationSets, context: OptimizerContext) {
-    const metadata = this.metadata
-    const baselineStats: Record<string, number> = {}
-    for (const sub of SubStats) {
-      baselineStats[sub] = 2
-    }
+    const { sim, result } = runPoolBaselineSim(
+      this.originalSimRequest!, simSets, form, context, this.flags, this.metadata,
+      this.scoringActionKey, this.configType,
+    )
 
-    const simParams: RunSimulationsParams = {
-      ...baselineScoringParams,
-      mainStatMultiplier: 1,
-      simulationFlags: this.flags,
-    }
-
-    const forceErrRope = this.flags.forceErrRope
-    const ropeParts = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
-
-    let bestSim: Simulation | undefined
-    let bestResult: RunStatSimulationsResult | undefined
-    let bestScore = -Infinity
-
-    for (const body of metadata.parts[Parts.Body]) {
-      for (const feet of metadata.parts[Parts.Feet]) {
-        for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {
-          for (const linkRope of ropeParts) {
-            const request: SimulationRequest = {
-              simRelicSet1: simSets.relicSet1,
-              simRelicSet2: simSets.relicSet2,
-              simOrnamentSet: simSets.ornamentSet,
-              simBody: body,
-              simFeet: feet,
-              simPlanarSphere: planarSphere,
-              simLinkRope: linkRope,
-              stats: baselineStats,
-            }
-
-            const sim: Simulation = {
-              simType: StatSimTypes.SubstatRolls,
-              request: request,
-            } as Simulation
-
-            const result = cloneSimResult(runStatSimulations([sim], form, context, simParams)[0])
-            applyScoringFunction(result, metadata, false, false, this.scoringActionKey, context, this.configType)
-
-            if (result.simScore > bestScore) {
-              bestScore = result.simScore
-              bestSim = sim
-              bestResult = result
-            }
-          }
-        }
-      }
-    }
-
-    this.baselineSim = bestSim!
-    this.baselineSimRequest = bestSim!.request
-    this.baselineSimResult = bestResult!
+    this.baselineSim = sim
+    this.baselineSimRequest = sim.request
+    this.baselineSimResult = result
   }
 
   public setOriginalBuild(inputSpdBenchmark?: number, force?: boolean) {
@@ -459,6 +411,7 @@ export class BenchmarkSimulationOrchestrator {
     this.poolComboStates = pool.map((setCombination) => {
       const { sim, result } = runPoolBaselineSim(
         this.originalSimRequest!, setCombination, this.form!, this.context!, this.flags, this.metadata,
+        this.scoringActionKey, this.configType,
       )
       const spdTarget = resolveComboSpdTarget(
         setCombination, sim, result, this.form!, this.context!, this.flags, this.originalSpd!, this.spdBenchmark,

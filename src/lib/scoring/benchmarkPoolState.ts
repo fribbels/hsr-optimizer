@@ -17,8 +17,13 @@ import type {
 } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
+import {
+  Parts,
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import type { Form } from 'types/form'
-import type { SimulationMetadata } from 'types/metadata'
+import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
 export function runPoolBaselineSim(
@@ -28,7 +33,16 @@ export function runPoolBaselineSim(
   context: OptimizerContext,
   flags: SimulationFlags,
   metadata: SimulationMetadata,
+  scoringActionKey?: string,
+  configType?: ScoringConfigType,
 ): { sim: Simulation; result: RunStatSimulationsResult } {
+  const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoetSet(setCombination) }
+  const isNonDps = configType && configType !== 'dps'
+
+  if (isNonDps) {
+    return runNonDpsPoolBaselineSim(originalSimRequest, setCombination, form, context, correctedFlags, metadata, scoringActionKey, configType)
+  }
+
   const request = {
     ...originalSimRequest,
     stats: {},
@@ -42,8 +56,6 @@ export function runPoolBaselineSim(
     request,
   } as Simulation
 
-  const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoetSet(setCombination) }
-
   const params: RunSimulationsParams = {
     ...baselineScoringParams,
     mainStatMultiplier: 0,
@@ -51,8 +63,72 @@ export function runPoolBaselineSim(
   }
 
   const result = cloneSimResult(runStatSimulations([sim], form, context, params)[0])
-  applyScoringFunction(result, metadata)
+  applyScoringFunction(result, metadata, false, false, scoringActionKey, context, configType)
   return { sim, result }
+}
+
+function runNonDpsPoolBaselineSim(
+  originalSimRequest: SimulationRequest,
+  setCombination: SimulationSets,
+  form: Form,
+  context: OptimizerContext,
+  correctedFlags: SimulationFlags,
+  metadata: SimulationMetadata,
+  scoringActionKey?: string,
+  configType?: ScoringConfigType,
+): { sim: Simulation; result: RunStatSimulationsResult } {
+  const baselineStats: Record<string, number> = {}
+  for (const sub of SubStats) {
+    baselineStats[sub] = 2
+  }
+
+  const params: RunSimulationsParams = {
+    ...baselineScoringParams,
+    mainStatMultiplier: 1,
+    simulationFlags: correctedFlags,
+  }
+
+  const forceErrRope = correctedFlags.forceErrRope
+  const ropeParts = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
+
+  let bestSim: Simulation | undefined
+  let bestResult: RunStatSimulationsResult | undefined
+  let bestScore = -Infinity
+
+  for (const body of metadata.parts[Parts.Body]) {
+    for (const feet of metadata.parts[Parts.Feet]) {
+      for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {
+        for (const linkRope of ropeParts) {
+          const request: SimulationRequest = {
+            simRelicSet1: setCombination.relicSet1,
+            simRelicSet2: setCombination.relicSet2,
+            simOrnamentSet: setCombination.ornamentSet,
+            simBody: body,
+            simFeet: feet,
+            simPlanarSphere: planarSphere,
+            simLinkRope: linkRope,
+            stats: baselineStats,
+          }
+
+          const sim: Simulation = {
+            simType: StatSimTypes.SubstatRolls,
+            request: request,
+          } as Simulation
+
+          const result = cloneSimResult(runStatSimulations([sim], form, context, params)[0])
+          applyScoringFunction(result, metadata, false, false, scoringActionKey, context, configType)
+
+          if (result.simScore > bestScore) {
+            bestScore = result.simScore
+            bestSim = sim
+            bestResult = result
+          }
+        }
+      }
+    }
+  }
+
+  return { sim: bestSim!, result: bestResult! }
 }
 
 export function resolveComboSpdTarget(

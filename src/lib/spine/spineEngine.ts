@@ -3,6 +3,7 @@ import {
   AnimationStateData,
   AssetManager,
   AtlasAttachmentLoader,
+  ClippingAttachment,
   ManagedWebGLRenderingContext,
   SceneRenderer,
   Skeleton,
@@ -194,9 +195,18 @@ export async function createSpineInstance(
 
   const renderer = new SceneRenderer(canvas, context)
 
-  // Disable spine's per-frame polygon clipping (pure JS, very expensive on Firefox)
-  // @ts-expect-error accessing private clipper
-  renderer.skeletonRenderer.clipper.clipStart = () => 0
+  const hasClipping = entries.some(({ skeleton }) =>
+    skeleton.data.skins.some((skin) => {
+      const maps = (skin as unknown as { attachments: Record<string, unknown>[] }).attachments
+      return maps.some((slotMap) =>
+        slotMap && Object.values(slotMap).some((att) => att instanceof ClippingAttachment),
+      )
+    }),
+  )
+  if (!hasClipping) {
+    // @ts-expect-error accessing private clipper — safe, just noops the JS-side polygon clipper
+    renderer.skeletonRenderer.clipper.clipStart = () => 0
+  }
 
   renderer.camera.position.x = camX
   renderer.camera.position.y = camY

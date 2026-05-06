@@ -316,10 +316,12 @@ function RollLine({ substat, weights }: { substat: RelicSubstatMetadata | null, 
   const rolls = substat.rolls ?? { high: 0, mid: 0, low: 0 }
   const display: ReactElement[] = []
 
+  const maxDots = 6
   let key = 0
-  for (let i = 0; i < rolls.high; i++) display.push(<HighRoll key={key++} />)
-  for (let i = 0; i < rolls.mid; i++) display.push(<MidRoll key={key++} />)
-  for (let i = 0; i < rolls.low; i++) display.push(<LowRoll key={key++} />)
+  let remaining = maxDots
+  for (let i = 0; i < rolls.high && remaining > 0; i++, remaining--) display.push(<HighRoll key={key++} />)
+  for (let i = 0; i < rolls.mid && remaining > 0; i++, remaining--) display.push(<MidRoll key={key++} />)
+  for (let i = 0; i < rolls.low && remaining > 0; i++, remaining--) display.push(<LowRoll key={key++} />)
 
   return (
     <div className={styles.rollLine} style={(weight || weights === null) ? undefined : { opacity: 0.05 }}>

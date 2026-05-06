@@ -43,6 +43,25 @@ function findBestRollSplit(targetValue: number, totalRolls: number, incrementOpt
   return { rolls: bestRolls, error: minError }
 }
 
+function findMinimumRolls(targetValue: number, incrementOptions: IncrementOptions): { totalRolls: number, rolls: StatRolls } {
+  const maxRolls = 20
+  const acceptableError = 0.01
+
+  let bestTotalRolls = 1
+  let bestResult = findBestRollSplit(targetValue, 1, incrementOptions)
+
+  for (let totalRolls = 2; totalRolls <= maxRolls; totalRolls++) {
+    const result = findBestRollSplit(targetValue, totalRolls, incrementOptions)
+    if (result.error < bestResult.error) {
+      bestResult = result
+      bestTotalRolls = totalRolls
+    }
+    if (bestResult.error <= acceptableError) break
+  }
+
+  return { totalRolls: bestTotalRolls, rolls: bestResult.rolls }
+}
+
 export const RelicRollGrader = {
   calculateRelicSubstatRolls(relic: UnaugmentedRelic) {
     // Skip non 5 star relics for simplicity
@@ -114,6 +133,17 @@ export const RelicRollGrader = {
       for (let i = 0; i < numSubstats; i++) {
         relic.substats[i].addedRolls = bestDistResults[i].addedRolls
         relic.substats[i].rolls = bestDistResults[i].rolls
+      }
+    }
+
+    for (let i = 0; i < numSubstats; i++) {
+      const substat = relic.substats[i]
+      const incrementOptions = SubStatValues[substat.stat][relic.grade as 5 | 4 | 3 | 2]
+      const totalRolls = (substat.addedRolls ?? 0) + 1
+      if (substat.value > totalRolls * incrementOptions.high) {
+        const result = findMinimumRolls(substat.value, incrementOptions)
+        substat.addedRolls = result.totalRolls - 1
+        substat.rolls = result.rolls
       }
     }
 

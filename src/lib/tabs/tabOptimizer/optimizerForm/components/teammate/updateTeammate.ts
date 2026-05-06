@@ -1,9 +1,8 @@
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
-import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
+import { resolveLcDefaults } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { calculateTeammateSets } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import type {
@@ -24,12 +23,11 @@ export function updateTeammate(changedValues: Partial<Form>) {
   if (updatedTeammate.lightCone) {
     const store = useOptimizerRequestStore.getState()
     const teammate = store.teammates[teammateIndex]
-    const conditionalResolverMetadata = generateConditionalResolverMetadata(teammate as any, getGameMetadata())
-    const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
 
-    if (!controller.teammateDefaults) return
+    const lcDefaults = resolveLcDefaults(teammate as any, getGameMetadata(), true)
+    if (!lcDefaults) return
 
-    const mergedConditionals = Object.assign({}, controller.teammateDefaults(), teammate.lightConeConditionals)
+    const mergedConditionals = { ...lcDefaults, ...teammate.lightConeConditionals }
     useOptimizerRequestStore.getState().setTeammateField(teammateIndex, 'lightConeConditionals', mergedConditionals)
   } else if (updatedTeammate.characterId) {
     const teammateCharacterId = updatedTeammate.characterId
@@ -45,7 +43,6 @@ export function updateTeammate(changedValues: Partial<Form>) {
     let teamOrnamentSet = currentTeammate.teamOrnamentSet
 
     if (teammateCharacter) {
-      // Fill out fields based on the teammate's form
       lightCone = teammateCharacter.form.lightCone
       lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
       characterEidolon = teammateCharacter.form.characterEidolon
@@ -57,14 +54,27 @@ export function updateTeammate(changedValues: Partial<Form>) {
       characterEidolon = 0
     }
 
-    const characterConditionals = CharacterConditionalsResolver.get({
+    const charController = CharacterConditionalsResolver.get({
       characterId: teammateCharacterId,
       characterEidolon: characterEidolon,
     })
 
     let characterConditionalsValues = currentTeammate.characterConditionals
-    if (characterConditionals.teammateDefaults) {
-      characterConditionalsValues = Object.assign({}, characterConditionals.teammateDefaults(), characterConditionalsValues)
+    if (charController.teammateDefaults) {
+      characterConditionalsValues = { ...charController.teammateDefaults(), ...characterConditionalsValues }
+    }
+
+    let lightConeConditionalsValues = currentTeammate.lightConeConditionals
+    if (lightCone) {
+      const lcDefaults = resolveLcDefaults({
+        characterId: teammateCharacterId,
+        characterEidolon,
+        lightCone,
+        lightConeSuperimposition,
+      }, getGameMetadata(), true)
+      if (lcDefaults) {
+        lightConeConditionalsValues = { ...lcDefaults, ...lightConeConditionalsValues }
+      }
     }
 
     useOptimizerRequestStore.getState().setTeammate(teammateIndex, {
@@ -75,6 +85,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
       teamRelicSet,
       teamOrnamentSet,
       characterConditionals: characterConditionalsValues,
+      lightConeConditionals: lightConeConditionalsValues,
     })
 
     applyTeamAwareSetConditionalPresetsToStore()

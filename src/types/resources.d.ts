@@ -193,6 +193,7 @@ interface Resources {
           "CombatStats": "100% benchmark <1>combat stats</1>",
           "Header": "Benchmark build ({{score}}%)",
           "Mainstats": "100% benchmark main stats",
+          "Sets": "100% benchmark sets",
           "Substats": "100% benchmark subs (min rolls)"
         },
         "Character": {
@@ -202,6 +203,7 @@ interface Resources {
           "Header": "Character build ({{score}}%)",
           "LoadingHeader": "Character build",
           "Mainstats": "Character main stats",
+          "Sets": "Character sets",
           "Substats": "Character subs (min rolls)"
         },
         "Perfect": {
@@ -210,6 +212,7 @@ interface Resources {
           "CombatStats": "200% perfect <1>combat stats</1>",
           "Header": "Perfect build ({{score}}%)",
           "Mainstats": "200% perfect main stats",
+          "Sets": "200% perfect sets",
           "Substats": "200% perfect subs (max rolls)"
         }
       },
@@ -254,6 +257,8 @@ interface Resources {
         "MainStatHeader": "Main stat upgrade comparisons",
         "MainStatUpgrade": "Main Stat Upgrade",
         "SubStatUpgrade": "Substat Upgrade",
+        "TeammateUpgrade": "Teammate Upgrade",
+        "TeammatesHeader": "Teammate relic upgrade comparisons",
         "UpgradedDpsScore": "Upgraded DPS Score"
       }
     },
@@ -279,7 +284,10 @@ interface Resources {
     },
     "ScreenshotMessages": {
       "DownloadSuccess": "Downloaded screenshot",
-      "ScreenshotFailed": "Unable to save screenshot to clipboard, try the download button to the right",
+      "ScreenshotFailed": {
+        "Default": "Unable to save screenshot to clipboard, try the download button to the right",
+        "NotAllowed": "Browser denied clipboard access, please keep the webpage focused while taking the screenshot."
+      },
       "ScreenshotSuccess": "Copied screenshot to clipboard"
     },
     "SearchPlaceholder": "Search"
@@ -4894,6 +4902,10 @@ interface Resources {
         "LongName": "Silver Wolf LV.999",
         "Name": "Silver Wolf LV.999"
       },
+      "1507": {
+        "LongName": "Mortenax Blade",
+        "Name": "Mortenax Blade"
+      },
       "8001": {
         "LongName": "Caelus (Destruction)",
         "Name": "Caelus"
@@ -5407,6 +5419,9 @@ interface Resources {
       "23058": {
         "Name": "Until the Flowers Bloom Again"
       },
+      "23059": {
+        "Name": "Reforged in Hellfire"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -5590,6 +5605,16 @@ interface Resources {
         "Description2pc": "Increases SPD by 6%.",
         "Description4pc": "Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by 10%. This effect cannot stack.",
         "Name": "Diviner of Distant Reach"
+      },
+      "131": {
+        "Description2pc": "Increases ATK by 23%.",
+        "Description4pc": "When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).",
+        "Name": "As Navigator Isee Sees It"
+      },
+      "132": {
+        "Description2pc": "Increases Max HP by 23%.",
+        "Description4pc": "Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with \"Comburent\" increases by 30%. This effect can be triggered again after the wearer uses an attack.",
+        "Name": "Divine-Querying Master Smith"
       },
       "301": {
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%.",
@@ -5927,6 +5952,8 @@ interface Resources {
         "Disconnected": "Disconnected",
         "DisconnectedHint": "Unable to connect to the scanner. Please check that it is running.",
         "Enable": "Enable Live Import (Recommended)",
+        "OnlyExistingCharacters": "Only update existing characters",
+        "OnlyExistingCharactersTooltip": "Prevents live import from adding characters that are not already in the Characters tab.",
         "Title": "Live Import Controls",
         "UpdateCharacters": "Enable updating characters' equipped relics and lightcones",
         "UpdateWarpResources": "Enable importing Warp resources (jades, passes, pity)"
@@ -6547,11 +6574,13 @@ interface Resources {
       "BREAK_EFFICIENCY": "Break Efficiency %",
       "CD": "Crit Dmg %",
       "CR": "Crit Rate %",
+      "Clear": "Clear",
       "DEF": "DEF",
       "DEF_P": "DEF %",
       "DEF_PEN": "Def Pen %",
       "DMG_BOOST": "Dmg Boost %",
       "EFFECT_RES_PEN": "Effect RES PEN %",
+      "EHR": "Effect Hit Rate %",
       "HP": "HP",
       "HP_P": "HP %",
       "RES_PEN": "Dmg RES PEN %",
@@ -6830,6 +6859,13 @@ interface Resources {
           "SHIELD_VALUE": "Δ Shield",
           "SHIELD_VALUE_P": "Δ% Shield",
           "Substat": "+1x Substat"
+        }
+      },
+      "TeammateUpgrades": {
+        "ColumnHeaders": {
+          "COMBO_DMG": "Δ Combo DMG",
+          "COMBO_DMG_P": "Δ% Combo DMG",
+          "Ornaments": "Teammate Set"
         }
       }
     },
@@ -7677,6 +7713,11 @@ interface Resources {
       "Below": "Default: Show expanded info below relics preview",
       "Label": "Optimizer Expanded info panel position"
     },
+    "NewCharacterDefaultRank": {
+      "First": "Default: Highest priority (Rank #1)",
+      "Label": "Default rank for new characters",
+      "Last": "Lowest priority"
+    },
     "PermutationsSidebarBehavior": {
       "Label": "Shrink optimizer sidebar on smaller screens",
       "NoShow": "Always keep the sidebar on the right",
@@ -7697,11 +7738,6 @@ interface Resources {
       "Label": "Relic locator in relic editor",
       "No": "Default: Do not show the relic locator in the relic editor",
       "Yes": "Show the relic locator in the relic editor"
-    },
-    "NewCharacterDefaultRank": {
-      "Label": "Default rank for new characters",
-      "First": "Default: Highest priority (Rank #1)",
-      "Last": "Lowest priority"
     },
     "Title": "Settings"
   },

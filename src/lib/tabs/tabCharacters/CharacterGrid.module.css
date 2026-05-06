@@ -151,8 +151,12 @@
   transition: background 0.15s;
 }
 
-/* Frosted glass — mask fades out the blur toward the portrait face */
+/* Frosted glass — width caps the blur to the left portion as a safety net
+   for browsers where mask-image + backdrop-filter don't compose correctly.
+   mask-image still provides the smooth fade when it works. */
 .scrim[data-scrim-mode='frosted'] {
+  right: auto;
+  width: calc(var(--cr-frost-fade-end, 35%) + 2px);
   backdrop-filter:
     blur(var(--cr-frost-blur, 16px))
     brightness(var(--cr-frost-brightness, 0.8))
@@ -166,14 +170,14 @@
   -webkit-mask-image: linear-gradient(
     90deg,
     black 0%,
-    black var(--cr-frost-fade-start, 27%),
-    transparent var(--cr-frost-fade-end, 42%)
+    black var(--cr-frost-mask-solid, 77%),
+    transparent 100%
   );
   mask-image: linear-gradient(
     90deg,
     black 0%,
-    black var(--cr-frost-fade-start, 27%),
-    transparent var(--cr-frost-fade-end, 42%)
+    black var(--cr-frost-mask-solid, 77%),
+    transparent 100%
   );
 }
 
@@ -394,18 +398,6 @@
     rgba(0, 0, 0, var(--cr-frost-tint, 0.2)) 30%,
     rgba(0, 0, 0, calc(var(--cr-frost-tint, 0.2) * 0.4)) 60%,
     transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    black 0%,
-    black var(--cr-frost-fade-start, 27%),
-    transparent var(--cr-frost-fade-end, 42%)
-  );
-  mask-image: linear-gradient(
-    90deg,
-    black 0%,
-    black var(--cr-frost-fade-start, 27%),
-    transparent var(--cr-frost-fade-end, 42%)
   );
 }
 

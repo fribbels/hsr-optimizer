@@ -20,3 +20,7 @@ ShowComboDmgWarning:
   Label: コンボダメージの警告
   Show: '警告を表示する（デフォルト）'
   Hide: 警告を隠す
+NewCharacterDefaultRank:
+  Label: 新規キャラクターの初期優先順位
+  First: ' 最優先（1位）（デフォルト）'
+  Last: 最下位

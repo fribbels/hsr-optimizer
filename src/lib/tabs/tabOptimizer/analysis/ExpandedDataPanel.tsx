@@ -6,7 +6,9 @@ import { getCharacterById } from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
+import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import {
+  calculateTeammateUpgrades,
   generateAnalysisData,
   getCachedForm,
   getPinnedRowData,
@@ -15,6 +17,7 @@ import {
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { StatsDiffCard } from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard'
 import { DamageUpgrades } from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades'
+import { TeammateUpgrades } from 'lib/tabs/tabOptimizer/analysis/TeammateUpgrades'
 import { FilterContainer } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer'
 import { FormRow } from 'lib/tabs/tabOptimizer/optimizerForm/layout/FormRow'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
@@ -78,8 +81,12 @@ function AnalysisRender({ analysis }: { analysis: OptimizerResultAnalysis }) {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <DamageTagPieChart analysis={analysis} />
               </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <DamageUpgrades analysis={analysis} />
+                <TeammateUpgrades
+                  groupedUpgrades={calculateTeammateUpgrades(analysis)}
+                  baseSimScore={analysis.newX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)}
+                />
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 :root {
   /* Font families */
   --font-ui: Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif;
+  --font-showcase: 'Maven Pro', sans-serif;
   --font-mono: "Consolas", "Courier New", "Menlo", "Monaco", monospace;
 
   /* Layers — elevation stack */

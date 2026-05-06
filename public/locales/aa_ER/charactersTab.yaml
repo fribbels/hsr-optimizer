@@ -106,9 +106,11 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0
     MainStatHeader: crwdns44824:0crwdne44824:0
+    TeammatesHeader: crwdns47148:0crwdne47148:0
     AddedRoll: 'crwdns44889:0{{stat}}crwdne44889:0'
-    MainStatUpgrade: crwdns44826:0crwdne44826:0
     SubStatUpgrade: crwdns44828:0crwdne44828:0
+    MainStatUpgrade: crwdns44826:0crwdne44826:0
+    TeammateUpgrade: crwdns47150:0crwdne47150:0
     DpsScorePercentUpgrade: crwdns44830:0crwdne44830:0
     UpgradedDpsScore: crwdns44832:0crwdne44832:0
     ComboDmgPercentUpgrade: crwdns44834:0crwdne44834:0
@@ -159,6 +161,7 @@ CharacterPreview:
     Character:
       LoadingHeader: crwdns46786:0crwdne46786:0
       Header: 'crwdns39758:0{{score}}crwdne39758:0'
+      Sets: crwdns47142:0crwdne47142:0
       BasicStats: crwdns46780:0crwdne46780:0
       CombatStats: crwdns39762:0crwdne39762:0
       Substats: crwdns39764:0crwdne39764:0
@@ -166,6 +169,7 @@ CharacterPreview:
       Abilities: crwdns39768:0crwdne39768:0
     Benchmark:
       Header: 'crwdns39770:0{{score}}crwdne39770:0'
+      Sets: crwdns47144:0crwdne47144:0
       BasicStats: crwdns46782:0crwdne46782:0
       CombatStats: crwdns39774:0crwdne39774:0
       Substats: crwdns39776:0crwdne39776:0
@@ -173,6 +177,7 @@ CharacterPreview:
       Abilities: crwdns39780:0crwdne39780:0
     Perfect:
       Header: 'crwdns39782:0{{score}}crwdne39782:0'
+      Sets: crwdns47146:0crwdne47146:0
       BasicStats: crwdns46784:0crwdne46784:0
       CombatStats: crwdns39786:0crwdne39786:0
       Substats: crwdns39788:0crwdne39788:0

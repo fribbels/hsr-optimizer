@@ -390,6 +390,7 @@ CombatBuffs:
   VULNERABILITY: Vulnerabilidade %
   BREAK_EFFICIENCY: Eficiência de Quebra %
   Title: Buffs extras de combate
+  Clear: Limpar
 Target_one: alvo
 Target_other: alvos
 EnemyConfiguration:
@@ -555,6 +556,10 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      COMBO_DMG: Δ Dano Combo
+      COMBO_DMG_P: Δ% Dano Combo
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Subatributo'

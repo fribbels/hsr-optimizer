@@ -404,6 +404,7 @@ CombatBuffs:
   VULNERABILITY: 취약 %
   BREAK_EFFICIENCY: 약점 격파 효율 %
   Title: 추가 전투 버프
+  Clear: 삭제
 Target_one: 목표
 Target_other: 목표
 EnemyConfiguration:
@@ -580,6 +581,10 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      COMBO_DMG: Δ사이클 총 피해량
+      COMBO_DMG_P: Δ%사이클 총 피해량
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x 부 옵션'

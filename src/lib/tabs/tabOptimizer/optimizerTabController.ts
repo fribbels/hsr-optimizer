@@ -87,14 +87,24 @@ export const OptimizerTabController = {
   },
 
   setTopRow: (row: OptimizerDisplayData, overwrite = false) => {
+    const gridApi = gridStore.optimizerGridApi()
+    if (!gridApi) return
+
     if (overwrite) {
-      gridStore.optimizerGridApi()?.updateGridOptions({ pinnedTopRowData: [row] })
+      gridApi.updateGridOptions({ pinnedTopRowData: [row] })
       return
     }
 
-    const currentPinned = gridStore.optimizerGridApi()?.getGridOption('pinnedTopRowData') ?? []
-    currentPinned[0] = row
-    gridStore.optimizerGridApi()?.updateGridOptions({ pinnedTopRowData: currentPinned })
+    // Update existing pinned row node's data directly instead of replacing the
+    // pinnedTopRowData array via updateGridOptions. The updateGridOptions path
+    // triggers AG Grid's deferred rendering cycle which creates duplicate row
+    // DOM elements when batched Zustand store updates are pending.
+    const pinnedNode = gridApi.getPinnedTopRow(0)
+    if (pinnedNode) {
+      pinnedNode.setData(row)
+    } else {
+      gridApi.updateGridOptions({ pinnedTopRowData: [row] })
+    }
   },
 
   getRows: () => {
@@ -143,6 +153,7 @@ export const OptimizerTabController = {
               // The currently equipped top row shouldn't correspond to an optimizer row, deselect
               gridStore.optimizerGridApi()?.deselectAll()
             } else {
+              gridApi.deselectAll()
               rowNode.setSelected(true)
             }
           }
@@ -163,6 +174,8 @@ export const OptimizerTabController = {
       return
     }
 
+    gridApi.deselectAll()
+    node.setSelected(true)
     const build = OptimizerTabController.calculateRelicIdsFromId(data.id)
 
     useOptimizerDisplayStore.getState().setOptimizerBuild(build)

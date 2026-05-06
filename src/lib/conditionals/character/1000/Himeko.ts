@@ -185,7 +185,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           hits: [
             HitDefinitionBuilder.standardUlt()
               .damageElement(ElementTag.Fire)
-              .atkScaling(ultScaling + e6UltScaling)
+              .atkScaling(ultScaling + e6UltScaling / context.enemyCount)
               .toughnessDmg(20)
               .build(),
           ],

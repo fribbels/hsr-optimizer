@@ -89,7 +89,7 @@ export type SimulateBuildResult = {
 
 export type RunStatSimulationsResult = {
   x: ComputedStatsContainer,
-  xa: Float32Array,
+  xa: Float64Array,
   ca: Float32Array,
   simScore: number,
   key?: string,
@@ -102,7 +102,7 @@ export type RunStatSimulationsResult = {
 
 export type SimulationRelic = {
   set: string,
-  condensedStats: [number, number][],
+  condensedStats?: [number, number][],
 }
 
 export type SimulationRelicByPart = {

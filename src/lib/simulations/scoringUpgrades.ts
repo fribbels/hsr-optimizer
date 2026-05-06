@@ -3,7 +3,10 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
+import {
+  applyScoringFunction,
+  calculateScorePercent,
+} from 'lib/scoring/simScoringUtils'
 import type {
   ScoringParams,
   SimulationFlags,
@@ -115,21 +118,8 @@ export function generateStatImprovements(
   upgradeMain(Parts.PlanarSphere)
   upgradeMain(Parts.LinkRope)
 
-  // Guard against division-by-zero when all builds produce the same score
-  const aboveBenchDenom = maximumSimScore - benchmarkSimScore
-  const belowBenchDenom = benchmarkSimScore - baselineSimScore
-
   for (const upgrade of [...substatUpgradeResults, ...setUpgradeResults, ...mainUpgradeResults]) {
-    const upgradeSimScore = upgrade.simulationResult.simScore
-    if (upgradeSimScore >= benchmarkSimScore) {
-      upgrade.percent = aboveBenchDenom > 0
-        ? 1 + (upgradeSimScore - benchmarkSimScore) / aboveBenchDenom
-        : 1
-    } else {
-      upgrade.percent = belowBenchDenom > 0
-        ? (upgradeSimScore - baselineSimScore) / belowBenchDenom
-        : 0
-    }
+    upgrade.percent = calculateScorePercent(upgrade.simulationResult.simScore, baselineSimScore, benchmarkSimScore, maximumSimScore)
   }
 
   // Sort upgrades descending by combo damage

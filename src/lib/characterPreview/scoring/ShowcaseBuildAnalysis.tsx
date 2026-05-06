@@ -1,6 +1,6 @@
 import { SegmentedControl } from '@mantine/core'
 import { CharacterScoringSummary } from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type {
   PreviewRelics,
   ShowcaseMetadata,

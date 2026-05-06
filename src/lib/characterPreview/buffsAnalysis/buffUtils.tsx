@@ -83,6 +83,7 @@ export function renderPill(key: string, color: string, label: string, opts?: Pil
         whiteSpace: 'nowrap',
         border: `1px solid ${displayColor}`,
         cursor: opts?.onClick ? 'pointer' : undefined,
+        userSelect: 'none',
       }}
     >
       {label}

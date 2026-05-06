@@ -359,7 +359,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#524dc9',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const Welt: CharacterConfig = {

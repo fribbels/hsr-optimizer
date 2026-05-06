@@ -176,7 +176,7 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
   // Initialize precomputed arrays for all actions before Phase 4
   // Use stats-only length so setPrecompute doesn't overwrite registers
   for (const action of allActions) {
-    action.precomputedStats.a = new Float32Array(maxStatsArrayLength)
+    action.precomputedStats.a = new Float64Array(maxStatsArrayLength)
   }
 
   // ========== PHASE 4: PRECOMPUTATION ==========

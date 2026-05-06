@@ -5,12 +5,43 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "CRIT Rate", "value": 11.016, "scoreMeta": { "multiplier": 1, "score": 22 } },
-        { "stat": "CRIT DMG", "value": 10.367999999999999, "scoreMeta": { "multiplier": 1, "score": 10.3 } },
-        { "stat": "Effect RES", "value": 3.456, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "Break Effect", "value": 5.183999999999999, "scoreMeta": { "multiplier": 0, "score": 0 } }
+        {
+          "stat": "CRIT Rate",
+          "value": 11.016,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 22
+          }
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 10.367999999999999,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 10.3
+          }
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.456,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.183999999999999,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        }
       ],
       "id": "cd85c14c-a662-4413-a149-a379e6d538d3",
       "augmentedStats": {
@@ -51,12 +82,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "DEF", "value": 19.0518957 },
-        { "stat": "HP%", "value": 12.096 },
-        { "stat": "DEF%", "value": 14.580000000000002 },
-        { "stat": "Effect RES", "value": 7.344 }
+        {
+          "stat": "DEF",
+          "value": 19.0518957
+        },
+        {
+          "stat": "HP%",
+          "value": 12.096
+        },
+        {
+          "stat": "DEF%",
+          "value": 14.580000000000002
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.344
+        }
       ],
       "id": "0bd7404f-3420-4bf5-9e45-f79343728685",
       "augmentedStats": {
@@ -96,12 +142,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "ATK", "value": 35.9869141 },
-        { "stat": "SPD", "value": 8 },
-        { "stat": "CRIT Rate", "value": 2.916 },
-        { "stat": "Effect RES", "value": 7.344 }
+        {
+          "stat": "ATK",
+          "value": 35.9869141
+        },
+        {
+          "stat": "SPD",
+          "value": 8
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.916
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.344
+        }
       ],
       "id": "77ac4c85-21a7-4526-999a-6e54646dda6d",
       "augmentedStats": {
@@ -141,12 +202,27 @@
       "set": "Longevous Disciple",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "ATK%", "value": 4.32 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT Rate", "value": 10.367999999999999 },
-        { "stat": "Effect RES", "value": 4.32 }
+        {
+          "stat": "ATK%",
+          "value": 4.32
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 10.367999999999999
+        },
+        {
+          "stat": "Effect RES",
+          "value": 4.32
+        }
       ],
       "id": "e898e418-bc4e-404d-be3f-2477dec9839a",
       "augmentedStats": {
@@ -186,12 +262,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "DEF", "value": 19.0518957 },
-        { "stat": "CRIT Rate", "value": 8.424 },
-        { "stat": "CRIT DMG", "value": 18.144 },
-        { "stat": "Effect RES", "value": 8.208 }
+        {
+          "stat": "DEF",
+          "value": 19.0518957
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 8.424
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 18.144
+        },
+        {
+          "stat": "Effect RES",
+          "value": 8.208
+        }
       ],
       "id": "eda5ede8-dfaa-4fa9-b2c2-17011ed0abe6",
       "augmentedStats": {
@@ -231,12 +322,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "DEF", "value": 38.1037914 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "CRIT Rate", "value": 2.916 },
-        { "stat": "CRIT DMG", "value": 23.976 }
+        {
+          "stat": "DEF",
+          "value": 38.1037914
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.916
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 23.976
+        }
       ],
       "id": "8de51c73-36b5-40ea-91a2-e566d97da2a9",
       "augmentedStats": {
@@ -277,12 +383,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "ATK%", "value": 10.8 },
-        { "stat": "DEF%", "value": 9.719999999999999 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "Break Effect", "value": 12.312 }
+        {
+          "stat": "ATK%",
+          "value": 10.8
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.719999999999999
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.312
+        }
       ],
       "id": "354bde06-a10b-4449-8365-16f0dcac7b88",
       "augmentedStats": {
@@ -322,12 +443,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.456 },
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "DEF%", "value": 10.26 },
-        { "stat": "CRIT DMG", "value": 17.496000000000002 }
+        {
+          "stat": "HP%",
+          "value": 3.456
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "DEF%",
+          "value": 10.26
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 17.496000000000002
+        }
       ],
       "id": "1e0de4ea-c1bf-4990-a0bd-739b1eea2e1d",
       "augmentedStats": {
@@ -366,12 +502,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "ATK", "value": 40.2206687 },
-        { "stat": "DEF", "value": 21.168773 },
-        { "stat": "ATK%", "value": 12.096 },
-        { "stat": "CRIT Rate", "value": 9.072 }
+        {
+          "stat": "ATK",
+          "value": 40.2206687
+        },
+        {
+          "stat": "DEF",
+          "value": 21.168773
+        },
+        {
+          "stat": "ATK%",
+          "value": 12.096
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 9.072
+        }
       ],
       "id": "be226101-f443-4ea0-93e8-81813e48f692",
       "augmentedStats": {
@@ -411,15 +562,42 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "HP%", "value": 12.528, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "DEF%", "value": 9.719999999999999, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "CRIT Rate", "value": 5.832, "scoreMeta": { "multiplier": 1, "score": 11.664 } },
+        {
+          "stat": "HP%",
+          "value": 12.528,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.719999999999999,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.832,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 11.664
+          }
+        },
         {
           "stat": "CRIT DMG",
           "value": 12.959999999999999,
-          "scoreMeta": { "multiplier": 1, "score": 12.959999999999999 }
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 12.959999999999999
+          }
         }
       ],
       "id": "e30bce86-38ef-42db-9cea-58b18a94d4bc",
@@ -460,12 +638,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "ATK%", "value": 15.552 },
-        { "stat": "DEF%", "value": 9.719999999999999 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "CRIT DMG", "value": 6.4799999999999995 }
+        {
+          "stat": "ATK%",
+          "value": 15.552
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.719999999999999
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4799999999999995
+        }
       ],
       "id": "01287db9-7fe8-49c9-b30e-907db3b6d0d0",
       "augmentedStats": {
@@ -505,12 +698,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "ATK", "value": 19.0518957 },
-        { "stat": "HP%", "value": 3.456 },
-        { "stat": "SPD", "value": 6 },
-        { "stat": "CRIT DMG", "value": 18.792 }
+        {
+          "stat": "ATK",
+          "value": 19.0518957
+        },
+        {
+          "stat": "HP%",
+          "value": 3.456
+        },
+        {
+          "stat": "SPD",
+          "value": 6
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 18.792
+        }
       ],
       "id": "85c1d15d-a89e-4e08-ab91-29c09449eaf7",
       "augmentedStats": {
@@ -550,12 +758,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "HP%", "value": 4.32 },
-        { "stat": "DEF%", "value": 13.5 },
-        { "stat": "CRIT Rate", "value": 8.748000000000001 },
-        { "stat": "CRIT DMG", "value": 5.832 }
+        {
+          "stat": "HP%",
+          "value": 4.32
+        },
+        {
+          "stat": "DEF%",
+          "value": 13.5
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 8.748000000000001
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.832
+        }
       ],
       "id": "15153c3a-7c55-4f18-8b0f-5938ea3165a9",
       "augmentedStats": {
@@ -595,12 +818,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "DEF", "value": 38.1037914 },
-        { "stat": "HP%", "value": 11.664 },
-        { "stat": "CRIT Rate", "value": 6.156 },
-        { "stat": "CRIT DMG", "value": 12.312 }
+        {
+          "stat": "DEF",
+          "value": 38.1037914
+        },
+        {
+          "stat": "HP%",
+          "value": 11.664
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.156
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312
+        }
       ],
       "id": "406b32a8-1a17-4a85-a9b2-f707bbb7d789",
       "augmentedStats": {
@@ -640,12 +878,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT DMG", "value": 23.976 },
-        { "stat": "Effect Hit Rate", "value": 7.776 },
-        { "stat": "Effect RES", "value": 3.888 }
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 23.976
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.776
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.888
+        }
       ],
       "id": "32478990-1729-40f5-a85a-c6c448abf4e3",
       "augmentedStats": {
@@ -685,12 +938,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "DEF", "value": 16.9350184 },
-        { "stat": "HP%", "value": 11.664 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT Rate", "value": 6.156 }
+        {
+          "stat": "DEF",
+          "value": 16.9350184
+        },
+        {
+          "stat": "HP%",
+          "value": 11.664
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.156
+        }
       ],
       "id": "631dc239-48a5-4109-b4ad-57db6387e61a",
       "augmentedStats": {
@@ -730,12 +998,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP", "value": 705.6000000101048 },
+      "main": {
+        "stat": "HP",
+        "value": 705.6000000101048
+      },
       "substats": [
-        { "stat": "ATK", "value": 38.1037914 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT DMG", "value": 11.016 },
-        { "stat": "Effect RES", "value": 8.208 }
+        {
+          "stat": "ATK",
+          "value": 38.1037914
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.016
+        },
+        {
+          "stat": "Effect RES",
+          "value": 8.208
+        }
       ],
       "id": "f02e66d8-7de8-4d81-97d1-3ea73fce4056",
       "augmentedStats": {
@@ -775,12 +1058,27 @@
       "set": "Musketeer of Wild Wheat",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "DEF", "value": 33.8700368 },
-        { "stat": "HP%", "value": 8.208 },
-        { "stat": "CRIT Rate", "value": 5.832 },
-        { "stat": "Effect Hit Rate", "value": 8.208 }
+        {
+          "stat": "DEF",
+          "value": 33.8700368
+        },
+        {
+          "stat": "HP%",
+          "value": 8.208
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.832
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 8.208
+        }
       ],
       "id": "e3169778-e239-4cc6-b673-f02137df9378",
       "augmentedStats": {
@@ -819,12 +1117,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "HP%", "value": 6.912 },
-        { "stat": "ATK%", "value": 8.208 },
-        { "stat": "CRIT Rate", "value": 5.183999999999999 },
-        { "stat": "CRIT DMG", "value": 5.832 }
+        {
+          "stat": "HP%",
+          "value": 6.912
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.208
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.183999999999999
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.832
+        }
       ],
       "id": "f5ca028c-ebfc-4a3f-86b9-92e8c191ca0f",
       "augmentedStats": {
@@ -863,12 +1176,27 @@
       "set": "Longevous Disciple",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "HP%", "value": 7.776 },
-        { "stat": "DEF%", "value": 9.180000000000001 },
-        { "stat": "CRIT DMG", "value": 6.4799999999999995 },
-        { "stat": "Effect RES", "value": 7.776 }
+        {
+          "stat": "HP%",
+          "value": 7.776
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.180000000000001
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4799999999999995
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        }
       ],
       "id": "712b4702-b22a-4e75-8921-1fe6dcca2f50",
       "augmentedStats": {
@@ -907,12 +1235,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "HP%", "value": 6.912 },
-        { "stat": "ATK%", "value": 7.344 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "Break Effect", "value": 11.664 }
+        {
+          "stat": "HP%",
+          "value": 6.912
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.344
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "Break Effect",
+          "value": 11.664
+        }
       ],
       "id": "0ad72590-0a68-46b5-b2ba-1d7a45d77fd7",
       "augmentedStats": {
@@ -951,12 +1294,27 @@
       "set": "Longevous Disciple",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "CRIT Rate", "value": 6.156 },
-        { "stat": "CRIT DMG", "value": 16.848 },
-        { "stat": "Effect RES", "value": 4.32 },
-        { "stat": "Break Effect", "value": 6.4799999999999995 }
+        {
+          "stat": "CRIT Rate",
+          "value": 6.156
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 16.848
+        },
+        {
+          "stat": "Effect RES",
+          "value": 4.32
+        },
+        {
+          "stat": "Break Effect",
+          "value": 6.4799999999999995
+        }
       ],
       "id": "5e6a0316-5618-4e9e-8c7f-ae788edea454",
       "augmentedStats": {
@@ -995,12 +1353,27 @@
       "set": "Longevous Disciple",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "ATK", "value": 40.2206687 },
-        { "stat": "HP%", "value": 4.32 },
-        { "stat": "CRIT DMG", "value": 12.312 },
-        { "stat": "Effect Hit Rate", "value": 6.912 }
+        {
+          "stat": "ATK",
+          "value": 40.2206687
+        },
+        {
+          "stat": "HP%",
+          "value": 4.32
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 6.912
+        }
       ],
       "id": "f8667a7d-7ba6-4e2f-931e-cbe2230b51bc",
       "augmentedStats": {
@@ -1039,12 +1412,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "HP%", "value": 4.32 },
-        { "stat": "ATK%", "value": 3.456 },
-        { "stat": "CRIT Rate", "value": 6.4799999999999995 },
-        { "stat": "Effect Hit Rate", "value": 10.367999999999999 }
+        {
+          "stat": "HP%",
+          "value": 4.32
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.456
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.4799999999999995
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 10.367999999999999
+        }
       ],
       "id": "3a3dcda5-a6b0-4514-9aa3-5930e832aca5",
       "augmentedStats": {
@@ -1083,12 +1471,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "ATK", "value": 40.2206687 },
-        { "stat": "HP%", "value": 3.888 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT Rate", "value": 9.072 }
+        {
+          "stat": "ATK",
+          "value": 40.2206687
+        },
+        {
+          "stat": "HP%",
+          "value": 3.888
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 9.072
+        }
       ],
       "id": "75756842-66be-4ac6-bb65-70b51f222b0a",
       "augmentedStats": {
@@ -1127,12 +1530,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP", "value": 587.059200008167 },
+      "main": {
+        "stat": "HP",
+        "value": 587.059200008167
+      },
       "substats": [
-        { "stat": "CRIT Rate", "value": 5.832 },
-        { "stat": "CRIT DMG", "value": 12.959999999999999 },
-        { "stat": "Effect RES", "value": 7.344 },
-        { "stat": "Break Effect", "value": 11.664 }
+        {
+          "stat": "CRIT Rate",
+          "value": 5.832
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.959999999999999
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.344
+        },
+        {
+          "stat": "Break Effect",
+          "value": 11.664
+        }
       ],
       "id": "c4adf66e-d769-47be-bf6d-d22f94786308",
       "augmentedStats": {
@@ -1171,12 +1589,43 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.456, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "SPD", "value": 4, "scoreMeta": { "multiplier": 1, "score": 10.368 } },
-        { "stat": "CRIT DMG", "value": 22.68, "scoreMeta": { "multiplier": 1, "score": 22.6 } },
-        { "stat": "Effect Hit Rate", "value": 3.456, "scoreMeta": { "multiplier": 0, "score": 0 } }
+        {
+          "stat": "HP%",
+          "value": 3.456,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "SPD",
+          "value": 4,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 10.368
+          }
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 22.68,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 22.6
+          }
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.456,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        }
       ],
       "id": "798657c8-5c5c-4b44-9c5f-f5f094414289",
       "augmentedStats": {
@@ -1217,12 +1666,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 8.208 },
-        { "stat": "ATK%", "value": 4.32 },
-        { "stat": "CRIT DMG", "value": 17.496000000000002 },
-        { "stat": "Effect RES", "value": 7.776 }
+        {
+          "stat": "HP%",
+          "value": 8.208
+        },
+        {
+          "stat": "ATK%",
+          "value": 4.32
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 17.496000000000002
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        }
       ],
       "id": "9b3f7f9b-b394-4c87-af67-0f4f7e41a6a8",
       "augmentedStats": {
@@ -1262,12 +1726,27 @@
       "set": "Longevous Disciple",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "SPD", "value": 7 },
-        { "stat": "CRIT Rate", "value": 5.508 },
-        { "stat": "CRIT DMG", "value": 11.664 },
-        { "stat": "Effect Hit Rate", "value": 4.32 }
+        {
+          "stat": "SPD",
+          "value": 7
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.508
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.664
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 4.32
+        }
       ],
       "id": "71b088e8-e254-4219-96d5-f56cde1702d3",
       "augmentedStats": {
@@ -1307,12 +1786,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "CRIT Rate", "value": 8.748000000000001 },
-        { "stat": "CRIT DMG", "value": 12.312 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 8.748000000000001
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312
+        }
       ],
       "id": "d0b2b781-33dc-4029-b875-81ecbc659466",
       "augmentedStats": {
@@ -1352,12 +1846,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.456 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT DMG", "value": 17.496000000000002 },
-        { "stat": "Effect RES", "value": 10.8 }
+        {
+          "stat": "HP%",
+          "value": 3.456
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 17.496000000000002
+        },
+        {
+          "stat": "Effect RES",
+          "value": 10.8
+        }
       ],
       "id": "1c3f175d-c9db-4b42-aa7d-0ffb5f9f3cf4",
       "augmentedStats": {
@@ -1397,12 +1906,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "CRIT Rate", "value": 5.832 },
-        { "stat": "CRIT DMG", "value": 16.2 },
-        { "stat": "Effect Hit Rate", "value": 8.208 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.832
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 16.2
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 8.208
+        }
       ],
       "id": "9f2ab764-badb-4240-9b57-484fdab84ff7",
       "augmentedStats": {
@@ -1441,12 +1965,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP", "value": 42.337549 },
-        { "stat": "DEF", "value": 69.8569509 },
-        { "stat": "ATK%", "value": 10.367999999999999 },
-        { "stat": "CRIT Rate", "value": 2.5919999999999996 }
+        {
+          "stat": "HP",
+          "value": 42.337549
+        },
+        {
+          "stat": "DEF",
+          "value": 69.8569509
+        },
+        {
+          "stat": "ATK%",
+          "value": 10.367999999999999
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.5919999999999996
+        }
       ],
       "id": "25966262-0749-4675-a5c3-7e701163e083",
       "augmentedStats": {
@@ -1485,12 +2024,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP", "value": 42.337549 },
-        { "stat": "ATK%", "value": 15.120000000000001 },
-        { "stat": "CRIT DMG", "value": 11.664 },
-        { "stat": "Break Effect", "value": 5.832 }
+        {
+          "stat": "HP",
+          "value": 42.337549
+        },
+        {
+          "stat": "ATK%",
+          "value": 15.120000000000001
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.664
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.832
+        }
       ],
       "id": "81a06240-1434-4b48-b7c4-cedbca15ff50",
       "augmentedStats": {
@@ -1530,12 +2084,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "DEF%", "value": 4.32 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "Effect Hit Rate", "value": 12.096 },
-        { "stat": "Effect RES", "value": 7.776 }
+        {
+          "stat": "DEF%",
+          "value": 4.32
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 12.096
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        }
       ],
       "id": "24a8bb7d-4924-446c-8d8d-56b7d782ab70",
       "augmentedStats": {
@@ -1574,12 +2143,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.888 },
-        { "stat": "ATK%", "value": 8.208 },
-        { "stat": "DEF%", "value": 4.859999999999999 },
-        { "stat": "SPD", "value": 9 }
+        {
+          "stat": "HP%",
+          "value": 3.888
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.208
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.859999999999999
+        },
+        {
+          "stat": "SPD",
+          "value": 9
+        }
       ],
       "id": "039ac008-c1a4-453a-92d2-0aaece2fb9ca",
       "augmentedStats": {
@@ -1618,12 +2202,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "DEF", "value": 42.337546 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "Effect Hit Rate", "value": 8.64 },
-        { "stat": "Break Effect", "value": 12.959999999999999 }
+        {
+          "stat": "DEF",
+          "value": 42.337546
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 8.64
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.959999999999999
+        }
       ],
       "id": "0d95b359-89d2-4809-9f84-e0dc5794a367",
       "augmentedStats": {
@@ -1662,12 +2261,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 7.776 },
-        { "stat": "ATK%", "value": 15.984000000000002 },
-        { "stat": "CRIT Rate", "value": 5.832 },
-        { "stat": "CRIT DMG", "value": 5.183999999999999 }
+        {
+          "stat": "HP%",
+          "value": 7.776
+        },
+        {
+          "stat": "ATK%",
+          "value": 15.984000000000002
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.832
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.183999999999999
+        }
       ],
       "id": "19cb32c1-62e9-4a24-8b09-2e4d48056681",
       "augmentedStats": {
@@ -1706,12 +2320,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "DEF", "value": 38.1037914 },
-        { "stat": "ATK%", "value": 3.888 },
-        { "stat": "SPD", "value": 6 },
-        { "stat": "CRIT Rate", "value": 5.508 }
+        {
+          "stat": "DEF",
+          "value": 38.1037914
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.888
+        },
+        {
+          "stat": "SPD",
+          "value": 6
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.508
+        }
       ],
       "id": "58fd5666-2e8a-4a56-a675-5098c886ff87",
       "augmentedStats": {
@@ -1750,12 +2379,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "DEF", "value": 55.0388098 },
-        { "stat": "CRIT Rate", "value": 2.5919999999999996 },
-        { "stat": "CRIT DMG", "value": 11.016 },
-        { "stat": "Effect RES", "value": 10.8 }
+        {
+          "stat": "DEF",
+          "value": 55.0388098
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.5919999999999996
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.016
+        },
+        {
+          "stat": "Effect RES",
+          "value": 10.8
+        }
       ],
       "id": "92158d7b-fd3a-462c-b4fd-2091b81286b2",
       "augmentedStats": {
@@ -1794,12 +2438,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 7.776 },
-        { "stat": "CRIT Rate", "value": 5.183999999999999 },
-        { "stat": "CRIT DMG", "value": 16.2 },
-        { "stat": "Break Effect", "value": 10.367999999999999 }
+        {
+          "stat": "HP%",
+          "value": 7.776
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.183999999999999
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 16.2
+        },
+        {
+          "stat": "Break Effect",
+          "value": 10.367999999999999
+        }
       ],
       "id": "26d1567a-3fe8-4c02-9874-80612a6fa4a7",
       "augmentedStats": {
@@ -1839,12 +2498,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "DEF", "value": 40.2206687 },
-        { "stat": "CRIT Rate", "value": 9.072 },
-        { "stat": "CRIT DMG", "value": 5.832 },
-        { "stat": "Break Effect", "value": 18.144 }
+        {
+          "stat": "DEF",
+          "value": 40.2206687
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 9.072
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.832
+        },
+        {
+          "stat": "Break Effect",
+          "value": 18.144
+        }
       ],
       "id": "130a284c-8e10-40bf-9ba9-b3e56ac894b9",
       "augmentedStats": {
@@ -1884,12 +2558,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 7.344 },
-        { "stat": "DEF%", "value": 9.719999999999999 },
-        { "stat": "CRIT Rate", "value": 5.832 },
-        { "stat": "CRIT DMG", "value": 11.016 }
+        {
+          "stat": "HP%",
+          "value": 7.344
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.719999999999999
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.832
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.016
+        }
       ],
       "id": "0bb9bf7e-5f26-496b-91ff-fa0087f1407b",
       "augmentedStats": {
@@ -1929,16 +2618,43 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 7.776, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "SPD", "value": 8, "scoreMeta": { "multiplier": 1, "score": 20.736 } },
+        {
+          "stat": "HP%",
+          "value": 7.776,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "SPD",
+          "value": 8,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 20.736
+          }
+        },
         {
           "stat": "CRIT DMG",
           "value": 6.4799999999999995,
-          "scoreMeta": { "multiplier": 1, "score": 6.4799999999999995 }
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 6.4799999999999995
+          }
         },
-        { "stat": "Effect Hit Rate", "value": 7.344, "scoreMeta": { "multiplier": 0, "score": 0 } }
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.344,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        }
       ],
       "id": "5b198c90-85fd-4baa-b44a-556f6e9d4d18",
       "augmentedStats": {
@@ -1978,12 +2694,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "DEF", "value": 19.0518957 },
-        { "stat": "CRIT Rate", "value": 5.183999999999999 },
-        { "stat": "CRIT DMG", "value": 12.312 },
-        { "stat": "Effect RES", "value": 10.8 }
+        {
+          "stat": "DEF",
+          "value": 19.0518957
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.183999999999999
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312
+        },
+        {
+          "stat": "Effect RES",
+          "value": 10.8
+        }
       ],
       "id": "85589ec4-df10-4cbc-b190-8a3fca0030b0",
       "augmentedStats": {
@@ -2023,12 +2754,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.456 },
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "CRIT Rate", "value": 11.988 },
-        { "stat": "Effect RES", "value": 3.888 }
+        {
+          "stat": "HP%",
+          "value": 3.456
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 11.988
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.888
+        }
       ],
       "id": "467aa841-1d6b-4d13-8b7b-3f6d4c288367",
       "augmentedStats": {
@@ -2068,12 +2814,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 352.8000000116881 },
+      "main": {
+        "stat": "ATK",
+        "value": 352.8000000116881
+      },
       "substats": [
-        { "stat": "ATK%", "value": 8.64 },
-        { "stat": "DEF%", "value": 9.180000000000001 },
-        { "stat": "CRIT DMG", "value": 12.312 },
-        { "stat": "Break Effect", "value": 12.959999999999999 }
+        {
+          "stat": "ATK%",
+          "value": 8.64
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.180000000000001
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.959999999999999
+        }
       ],
       "id": "df9b4eda-ad97-4940-935e-a2094414414c",
       "augmentedStats": {
@@ -2113,12 +2874,27 @@
       "set": "Guard of Wuthering Snow",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 293.52960000932217 },
+      "main": {
+        "stat": "ATK",
+        "value": 293.52960000932217
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.888 },
-        { "stat": "DEF%", "value": 4.32 },
-        { "stat": "Effect Hit Rate", "value": 6.912 },
-        { "stat": "Effect RES", "value": 10.8 }
+        {
+          "stat": "HP%",
+          "value": 3.888
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.32
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 6.912
+        },
+        {
+          "stat": "Effect RES",
+          "value": 10.8
+        }
       ],
       "id": "605af0bc-ad64-46da-9681-e8889fa8d66d",
       "augmentedStats": {
@@ -2157,12 +2933,27 @@
       "set": "Musketeer of Wild Wheat",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 293.52960000932217 },
+      "main": {
+        "stat": "ATK",
+        "value": 293.52960000932217
+      },
       "substats": [
-        { "stat": "HP", "value": 71.9738333 },
-        { "stat": "DEF", "value": 33.8700368 },
-        { "stat": "HP%", "value": 12.959999999999999 },
-        { "stat": "DEF%", "value": 4.32 }
+        {
+          "stat": "HP",
+          "value": 71.9738333
+        },
+        {
+          "stat": "DEF",
+          "value": 33.8700368
+        },
+        {
+          "stat": "HP%",
+          "value": 12.959999999999999
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.32
+        }
       ],
       "id": "67999399-0a5f-4a94-9267-32c42a7fbbe5",
       "augmentedStats": {
@@ -2202,12 +2993,27 @@
       "set": "Longevous Disciple",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 293.52960000932217 },
+      "main": {
+        "stat": "ATK",
+        "value": 293.52960000932217
+      },
       "substats": [
-        { "stat": "HP%", "value": 16.416 },
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "CRIT DMG", "value": 5.832 },
-        { "stat": "Effect Hit Rate", "value": 3.456 }
+        {
+          "stat": "HP%",
+          "value": 16.416
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.832
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.456
+        }
       ],
       "id": "2fa02060-e9c7-4910-bd20-c89864379aff",
       "augmentedStats": {
@@ -2246,12 +3052,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 293.52960000932217 },
+      "main": {
+        "stat": "ATK",
+        "value": 293.52960000932217
+      },
       "substats": [
-        { "stat": "DEF", "value": 57.1556871 },
-        { "stat": "ATK%", "value": 8.64 },
-        { "stat": "CRIT Rate", "value": 3.2399999999999998 },
-        { "stat": "CRIT DMG", "value": 5.183999999999999 }
+        {
+          "stat": "DEF",
+          "value": 57.1556871
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.64
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 3.2399999999999998
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.183999999999999
+        }
       ],
       "id": "5e67a642-be84-4d5d-b887-cc323b84e8c6",
       "augmentedStats": {
@@ -2290,12 +3111,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 293.52960000932217 },
+      "main": {
+        "stat": "ATK",
+        "value": 293.52960000932217
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "SPD", "value": 6 },
-        { "stat": "CRIT DMG", "value": 6.4799999999999995 },
-        { "stat": "Effect RES", "value": 10.8 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "SPD",
+          "value": 6
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4799999999999995
+        },
+        {
+          "stat": "Effect RES",
+          "value": 10.8
+        }
       ],
       "id": "6f1373fd-b42f-4dc3-a562-9c44fbe8e1fb",
       "augmentedStats": {
@@ -2334,12 +3170,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK", "value": 293.52960000932217 },
+      "main": {
+        "stat": "ATK",
+        "value": 293.52960000932217
+      },
       "substats": [
-        { "stat": "HP", "value": 42.337549 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "CRIT DMG", "value": 11.664 },
-        { "stat": "Effect RES", "value": 12.096 }
+        {
+          "stat": "HP",
+          "value": 42.337549
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.664
+        },
+        {
+          "stat": "Effect RES",
+          "value": 12.096
+        }
       ],
       "id": "63457d83-ec25-40dd-a1d1-04dda49a3740",
       "augmentedStats": {
@@ -2378,12 +3229,27 @@
       "set": "Guard of Wuthering Snow",
       "enhance": 10,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 152.40960001200438 },
+      "main": {
+        "stat": "ATK",
+        "value": 152.40960001200438
+      },
       "substats": [
-        { "stat": "HP", "value": 71 },
-        { "stat": "HP%", "value": 8.2 },
-        { "stat": "Effect Hit Rate", "value": 8.2 },
-        { "stat": "Effect RES", "value": 3.8 }
+        {
+          "stat": "HP",
+          "value": 71
+        },
+        {
+          "stat": "HP%",
+          "value": 8.2
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 8.2
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.8
+        }
       ],
       "id": "d6aaf5a8-2351-4880-bcd6-0f7ceb011956",
       "augmentedStats": {
@@ -2421,12 +3287,27 @@
       "set": "Musketeer of Wild Wheat",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.4 },
-        { "stat": "DEF%", "value": 10.2 },
-        { "stat": "Effect RES", "value": 7.3 },
-        { "stat": "Break Effect", "value": 5.1 }
+        {
+          "stat": "HP%",
+          "value": 3.4
+        },
+        {
+          "stat": "DEF%",
+          "value": 10.2
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.3
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.1
+        }
       ],
       "id": "d61a533d-e721-4edb-99f4-787708a08132",
       "augmentedStats": {
@@ -2464,12 +3345,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "HP", "value": 42 },
-        { "stat": "HP%", "value": 7.7 },
-        { "stat": "CRIT Rate", "value": 5.5 },
-        { "stat": "Effect Hit Rate", "value": 3.4 }
+        {
+          "stat": "HP",
+          "value": 42
+        },
+        {
+          "stat": "HP%",
+          "value": 7.7
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.5
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.4
+        }
       ],
       "id": "a75828e1-5e27-49ab-8bca-67e2e1fdd3ec",
       "augmentedStats": {
@@ -2507,12 +3403,27 @@
       "set": "Guard of Wuthering Snow",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "DEF", "value": 38 },
-        { "stat": "DEF%", "value": 15.6 },
-        { "stat": "CRIT Rate", "value": 2.9 },
-        { "stat": "Effect Hit Rate", "value": 3.4 }
+        {
+          "stat": "DEF",
+          "value": 38
+        },
+        {
+          "stat": "DEF%",
+          "value": 15.6
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.9
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.4
+        }
       ],
       "id": "1c2a19ba-fb58-4ff6-9f4d-582c3db368ae",
       "augmentedStats": {
@@ -2550,12 +3461,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "HP%", "value": 8.6 },
-        { "stat": "DEF%", "value": 4.3 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "Break Effect", "value": 11 }
+        {
+          "stat": "HP%",
+          "value": 8.6
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.3
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "Break Effect",
+          "value": 11
+        }
       ],
       "id": "30362d67-7152-4dd2-a57c-4408c0287b8e",
       "augmentedStats": {
@@ -2593,12 +3519,27 @@
       "set": "Longevous Disciple",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.4 },
-        { "stat": "DEF%", "value": 14.5 },
-        { "stat": "CRIT DMG", "value": 6.4 },
-        { "stat": "Effect Hit Rate", "value": 3.8 }
+        {
+          "stat": "HP%",
+          "value": 3.4
+        },
+        {
+          "stat": "DEF%",
+          "value": 14.5
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.8
+        }
       ],
       "id": "0a4f8d97-9ca4-452c-b872-3d19a9576b4c",
       "augmentedStats": {
@@ -2636,12 +3577,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.8 },
-        { "stat": "ATK%", "value": 3.4 },
-        { "stat": "Effect Hit Rate", "value": 12 },
-        { "stat": "Break Effect", "value": 5.8 }
+        {
+          "stat": "HP%",
+          "value": 3.8
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 12
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.8
+        }
       ],
       "id": "4e512372-e8b0-456e-a37e-8080445edfed",
       "augmentedStats": {
@@ -2679,12 +3635,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "DEF", "value": 21.5921488 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "CRIT Rate", "value": 5.8 },
-        { "stat": "Effect RES", "value": 7.3 }
+        {
+          "stat": "DEF",
+          "value": 21.5921488
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.8
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.3
+        }
       ],
       "id": "c128854c-b34e-4a05-acdc-5179534bf55f",
       "augmentedStats": {
@@ -2722,12 +3693,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "HP", "value": 71 },
-        { "stat": "ATK%", "value": 3.8 },
-        { "stat": "DEF%", "value": 4.8 },
-        { "stat": "CRIT Rate", "value": 5.5 }
+        {
+          "stat": "HP",
+          "value": 71
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.8
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.8
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.5
+        }
       ],
       "id": "9e27d180-01ec-4b06-86fc-cd7cb7868724",
       "augmentedStats": {
@@ -2765,12 +3751,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT DMG", "value": 5.8 },
-        { "stat": "Effect RES", "value": 8.2 }
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.8
+        },
+        {
+          "stat": "Effect RES",
+          "value": 8.2
+        }
       ],
       "id": "8ed0420b-66e4-4b5e-83d0-6aa75db77e5d",
       "augmentedStats": {
@@ -2808,12 +3809,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.4 },
-        { "stat": "ATK%", "value": 3.8 },
-        { "stat": "DEF%", "value": 9.7 },
-        { "stat": "CRIT Rate", "value": 5.8 }
+        {
+          "stat": "HP%",
+          "value": 3.4
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.8
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.7
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.8
+        }
       ],
       "id": "0d3e87b1-c8de-4a05-a817-4e1e59f0281f",
       "augmentedStats": {
@@ -2851,12 +3867,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK", "value": 140.55552001087926 },
+      "main": {
+        "stat": "ATK",
+        "value": 140.55552001087926
+      },
       "substats": [
-        { "stat": "DEF", "value": 16 },
-        { "stat": "HP%", "value": 4.3 },
-        { "stat": "DEF%", "value": 15.1 },
-        { "stat": "Break Effect", "value": 6.4 }
+        {
+          "stat": "DEF",
+          "value": 16
+        },
+        {
+          "stat": "HP%",
+          "value": 4.3
+        },
+        {
+          "stat": "DEF%",
+          "value": 15.1
+        },
+        {
+          "stat": "Break Effect",
+          "value": 6.4
+        }
       ],
       "id": "98fdd38c-9f98-41b4-ba20-9b9333a4ed22",
       "augmentedStats": {
@@ -2894,12 +3925,43 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "HP", "value": 114.3113823, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "ATK%", "value": 7.344, "scoreMeta": { "multiplier": 0.75, "score": 8.212499999999999 } },
-        { "stat": "DEF%", "value": 4.32, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "CRIT Rate", "value": 8.1, "scoreMeta": { "multiplier": 1, "score": 16.2 } }
+        {
+          "stat": "HP",
+          "value": 114.3113823,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.344,
+          "scoreMeta": {
+            "multiplier": 0.75,
+            "score": 8.212499999999999
+          }
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.32,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 8.1,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 16.2
+          }
+        }
       ],
       "id": "b3376a19-62f9-489e-80e6-8f98335af158",
       "augmentedStats": {
@@ -2940,12 +4002,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Outgoing Healing Boost", "value": 34.5606000395488 },
+      "main": {
+        "stat": "Outgoing Healing Boost",
+        "value": 34.5606000395488
+      },
       "substats": [
-        { "stat": "DEF", "value": 21.5921488 },
-        { "stat": "DEF%", "value": 14.04 },
-        { "stat": "Effect RES", "value": 7.776 },
-        { "stat": "Break Effect", "value": 11.664 }
+        {
+          "stat": "DEF",
+          "value": 21.5921488
+        },
+        {
+          "stat": "DEF%",
+          "value": 14.04
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        },
+        {
+          "stat": "Break Effect",
+          "value": 11.664
+        }
       ],
       "id": "0241587d-bbff-4ffb-b93c-d201728d1c0b",
       "augmentedStats": {
@@ -2983,12 +4060,27 @@
       "set": "Longevous Disciple",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "HP", "value": 139.7139117 },
-        { "stat": "DEF%", "value": 4.32 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "Break Effect", "value": 5.832 }
+        {
+          "stat": "HP",
+          "value": 139.7139117
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.32
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.832
+        }
       ],
       "id": "7cdd90c6-73fc-4a5f-9cea-6458d5e6f456",
       "augmentedStats": {
@@ -3028,12 +4120,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT Rate", "value": 32.399999862536205 },
+      "main": {
+        "stat": "CRIT Rate",
+        "value": 32.399999862536205
+      },
       "substats": [
-        { "stat": "ATK%", "value": 12.096 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "Effect Hit Rate", "value": 6.912 },
-        { "stat": "Break Effect", "value": 5.183999999999999 }
+        {
+          "stat": "ATK%",
+          "value": 12.096
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 6.912
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.183999999999999
+        }
       ],
       "id": "4b8dafeb-6f5a-410c-bcbc-4caaef116af2",
       "augmentedStats": {
@@ -3073,12 +4180,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "HP", "value": 71.9738333 },
-        { "stat": "DEF", "value": 21.5921488 },
-        { "stat": "SPD", "value": 5 },
-        { "stat": "Break Effect", "value": 17.496000000000002 }
+        {
+          "stat": "HP",
+          "value": 71.9738333
+        },
+        {
+          "stat": "DEF",
+          "value": 21.5921488
+        },
+        {
+          "stat": "SPD",
+          "value": 5
+        },
+        {
+          "stat": "Break Effect",
+          "value": 17.496000000000002
+        }
       ],
       "id": "1717f468-9cb4-495a-b20d-57f69205b5f6",
       "augmentedStats": {
@@ -3117,12 +4239,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "HP", "value": 110.0776274 },
-        { "stat": "ATK%", "value": 8.64 },
-        { "stat": "CRIT Rate", "value": 6.156 },
-        { "stat": "Break Effect", "value": 5.832 }
+        {
+          "stat": "HP",
+          "value": 110.0776274
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.64
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.156
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.832
+        }
       ],
       "id": "3e94d21f-f47c-4dba-8470-8eaf4b8624e9",
       "augmentedStats": {
@@ -3161,12 +4298,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "HP", "value": 71.9738333 },
-        { "stat": "DEF%", "value": 9.180000000000001 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "Break Effect", "value": 12.312 }
+        {
+          "stat": "HP",
+          "value": 71.9738333
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.180000000000001
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.312
+        }
       ],
       "id": "dd7d21eb-5a85-466e-a7a3-98fc6f63e546",
       "augmentedStats": {
@@ -3206,12 +4358,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "HP%", "value": 8.64 },
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "DEF%", "value": 10.26 },
-        { "stat": "Effect Hit Rate", "value": 12.528 }
+        {
+          "stat": "HP%",
+          "value": 8.64
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "DEF%",
+          "value": 10.26
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 12.528
+        }
       ],
       "id": "29f91de6-5c70-4e10-90e1-cf79888932d6",
       "augmentedStats": {
@@ -3250,12 +4417,27 @@
       "set": "Eagle of Twilight Line",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "HP%", "value": 11.232000000000001 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "CRIT Rate", "value": 6.4799999999999995 },
-        { "stat": "Effect RES", "value": 7.344 }
+        {
+          "stat": "HP%",
+          "value": 11.232000000000001
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.4799999999999995
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.344
+        }
       ],
       "id": "b41c1519-2f34-4701-9d04-2c54cbfa8a3f",
       "augmentedStats": {
@@ -3293,12 +4475,27 @@
       "set": "Eagle of Twilight Line",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "HP%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "HP", "value": 76.2075882 },
-        { "stat": "DEF%", "value": 4.32 },
-        { "stat": "SPD", "value": 6 },
-        { "stat": "CRIT DMG", "value": 12.312 }
+        {
+          "stat": "HP",
+          "value": 76.2075882
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.32
+        },
+        {
+          "stat": "SPD",
+          "value": 6
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312
+        }
       ],
       "id": "834292d9-899b-42a7-84b1-82f663bc007d",
       "augmentedStats": {
@@ -3337,12 +4534,27 @@
       "set": "Guard of Wuthering Snow",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Outgoing Healing Boost", "value": 34.5606000395488 },
+      "main": {
+        "stat": "Outgoing Healing Boost",
+        "value": 34.5606000395488
+      },
       "substats": [
-        { "stat": "HP%", "value": 7.344 },
-        { "stat": "DEF%", "value": 10.26 },
-        { "stat": "Effect Hit Rate", "value": 3.456 },
-        { "stat": "Effect RES", "value": 12.096 }
+        {
+          "stat": "HP%",
+          "value": 7.344
+        },
+        {
+          "stat": "DEF%",
+          "value": 10.26
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.456
+        },
+        {
+          "stat": "Effect RES",
+          "value": 12.096
+        }
       ],
       "id": "9a5915a8-e547-47aa-9ff1-fd907341a6c3",
       "augmentedStats": {
@@ -3381,12 +4593,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "HP", "value": 67.7400784 },
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "CRIT Rate", "value": 5.832 },
-        { "stat": "Break Effect", "value": 16.848 }
+        {
+          "stat": "HP",
+          "value": 67.7400784
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.832
+        },
+        {
+          "stat": "Break Effect",
+          "value": 16.848
+        }
       ],
       "id": "b1006c27-f93f-4965-911b-4a934cd41021",
       "augmentedStats": {
@@ -3426,12 +4653,43 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "ATK%", "value": 7.776, "scoreMeta": { "multiplier": 0.75, "score": 8.748 } },
-        { "stat": "CRIT Rate", "value": 6.156, "scoreMeta": { "multiplier": 1, "score": 12.312 } },
-        { "stat": "Effect RES", "value": 7.344, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "Break Effect", "value": 12.312, "scoreMeta": { "multiplier": 0, "score": 0 } }
+        {
+          "stat": "ATK%",
+          "value": 7.776,
+          "scoreMeta": {
+            "multiplier": 0.75,
+            "score": 8.748
+          }
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.156,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 12.312
+          }
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.344,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.312,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        }
       ],
       "id": "a8d2e198-7d41-4251-91ef-f7259ff39df4",
       "augmentedStats": {
@@ -3471,12 +4729,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 64.8000007029628 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 64.8000007029628
+      },
       "substats": [
-        { "stat": "ATK", "value": 19.0518957 },
-        { "stat": "DEF", "value": 40.2206687 },
-        { "stat": "HP%", "value": 15.984000000000002 },
-        { "stat": "CRIT Rate", "value": 2.916 }
+        {
+          "stat": "ATK",
+          "value": 19.0518957
+        },
+        {
+          "stat": "DEF",
+          "value": 40.2206687
+        },
+        {
+          "stat": "HP%",
+          "value": 15.984000000000002
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.916
+        }
       ],
       "id": "f3177930-819d-4e84-8818-adc97455f734",
       "augmentedStats": {
@@ -3516,12 +4789,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Outgoing Healing Boost", "value": 34.5606000395488 },
+      "main": {
+        "stat": "Outgoing Healing Boost",
+        "value": 34.5606000395488
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "SPD", "value": 9 },
-        { "stat": "CRIT DMG", "value": 12.312 },
-        { "stat": "Effect RES", "value": 3.456 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "SPD",
+          "value": 9
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.456
+        }
       ],
       "id": "725e6ee5-9465-45a2-8172-ed69241c1e54",
       "augmentedStats": {
@@ -3561,12 +4849,27 @@
       "set": "Guard of Wuthering Snow",
       "enhance": 14,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 61.1712006619205 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 61.1712006619205
+      },
       "substats": [
-        { "stat": "DEF%", "value": 4.859999999999999 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "Effect RES", "value": 11.232000000000001 },
-        { "stat": "Break Effect", "value": 5.832 }
+        {
+          "stat": "DEF%",
+          "value": 4.859999999999999
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "Effect RES",
+          "value": 11.232000000000001
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.832
+        }
       ],
       "id": "79f1d0f3-741b-4430-9685-87e29267e01d",
       "augmentedStats": {
@@ -3604,12 +4907,27 @@
       "set": "Musketeer of Wild Wheat",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "Outgoing Healing Boost", "value": 28.7544000428167 },
+      "main": {
+        "stat": "Outgoing Healing Boost",
+        "value": 28.7544000428167
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "ATK", "value": 35.9869141 },
-        { "stat": "ATK%", "value": 8.64 },
-        { "stat": "SPD", "value": 4 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "ATK",
+          "value": 35.9869141
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.64
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        }
       ],
       "id": "0b4bdbc7-dac3-4648-bd6f-631d6750a5b5",
       "augmentedStats": {
@@ -3648,12 +4966,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "HP%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT Rate", "value": 5.508 },
-        { "stat": "CRIT DMG", "value": 11.664 },
-        { "stat": "Break Effect", "value": 6.4799999999999995 }
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.508
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.664
+        },
+        {
+          "stat": "Break Effect",
+          "value": 6.4799999999999995
+        }
       ],
       "id": "fb53d114-66ea-4014-9ef6-7dc4519cc4e1",
       "augmentedStats": {
@@ -3692,12 +5025,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "HP%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "HP", "value": 105.8438725 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT DMG", "value": 6.4799999999999995 },
-        { "stat": "Effect Hit Rate", "value": 4.32 }
+        {
+          "stat": "HP",
+          "value": 105.8438725
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4799999999999995
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 4.32
+        }
       ],
       "id": "45ad26f9-f51b-4ca6-960b-b0db7edb5087",
       "augmentedStats": {
@@ -3736,12 +5084,27 @@
       "set": "Champion of Streetwise Boxing",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 53.913600579835894 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 53.913600579835894
+      },
       "substats": [
-        { "stat": "HP%", "value": 4.32 },
-        { "stat": "ATK%", "value": 8.208 },
-        { "stat": "CRIT Rate", "value": 5.508 },
-        { "stat": "Break Effect", "value": 10.367999999999999 }
+        {
+          "stat": "HP%",
+          "value": 4.32
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.208
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.508
+        },
+        {
+          "stat": "Break Effect",
+          "value": 10.367999999999999
+        }
       ],
       "id": "3f8b30aa-4c91-4677-af83-8906d7d968d9",
       "augmentedStats": {
@@ -3780,12 +5143,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "CRIT DMG", "value": 53.913600579835894 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 53.913600579835894
+      },
       "substats": [
-        { "stat": "HP", "value": 110.0776274 },
-        { "stat": "DEF", "value": 38.1037914 },
-        { "stat": "ATK%", "value": 3.456 },
-        { "stat": "CRIT Rate", "value": 3.2399999999999998 }
+        {
+          "stat": "HP",
+          "value": 110.0776274
+        },
+        {
+          "stat": "DEF",
+          "value": 38.1037914
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.456
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 3.2399999999999998
+        }
       ],
       "id": "c23bb26b-ccb0-4318-ae7b-a8aec9ef0db1",
       "augmentedStats": {
@@ -3824,12 +5202,27 @@
       "set": "Musketeer of Wild Wheat",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "DEF%", "value": 44.9280005414036 },
+      "main": {
+        "stat": "DEF%",
+        "value": 44.9280005414036
+      },
       "substats": [
-        { "stat": "ATK%", "value": 3.888 },
-        { "stat": "SPD", "value": 6 },
-        { "stat": "Effect Hit Rate", "value": 7.344 },
-        { "stat": "Break Effect", "value": 12.959999999999999 }
+        {
+          "stat": "ATK%",
+          "value": 3.888
+        },
+        {
+          "stat": "SPD",
+          "value": 6
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.344
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.959999999999999
+        }
       ],
       "id": "3147142d-dd65-4524-85ff-2535a61bd342",
       "augmentedStats": {
@@ -3868,12 +5261,27 @@
       "set": "Knight of Purity Palace",
       "enhance": 12,
       "grade": 4,
-      "main": { "stat": "DEF%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "DEF%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "DEF", "value": 28.789534 },
-        { "stat": "ATK%", "value": 6.5664 },
-        { "stat": "SPD", "value": 1 },
-        { "stat": "Effect Hit Rate", "value": 6.912 }
+        {
+          "stat": "DEF",
+          "value": 28.789534
+        },
+        {
+          "stat": "ATK%",
+          "value": 6.5664
+        },
+        {
+          "stat": "SPD",
+          "value": 1
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 6.912
+        }
       ],
       "id": "c85f95b4-28af-4519-8992-bd274ed268f1",
       "augmentedStats": {
@@ -3912,12 +5320,27 @@
       "set": "Musketeer of Wild Wheat",
       "enhance": 12,
       "grade": 4,
-      "main": { "stat": "HP%", "value": 28.7544000428167 },
+      "main": {
+        "stat": "HP%",
+        "value": 28.7544000428167
+      },
       "substats": [
-        { "stat": "HP", "value": 30.4830351 },
-        { "stat": "DEF%", "value": 12.096 },
-        { "stat": "SPD", "value": 3 },
-        { "stat": "Break Effect", "value": 4.1472 }
+        {
+          "stat": "HP",
+          "value": 30.4830351
+        },
+        {
+          "stat": "DEF%",
+          "value": 12.096
+        },
+        {
+          "stat": "SPD",
+          "value": 3
+        },
+        {
+          "stat": "Break Effect",
+          "value": 4.1472
+        }
       ],
       "id": "cd8b362d-24e4-4427-b09e-2666c1fb97b4",
       "augmentedStats": {
@@ -3957,12 +5380,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 12,
       "grade": 4,
-      "main": { "stat": "Outgoing Healing Boost", "value": 23.003300675190395 },
+      "main": {
+        "stat": "Outgoing Healing Boost",
+        "value": 23.003300675190395
+      },
       "substats": [
-        { "stat": "HP%", "value": 2.7647999999999997 },
-        { "stat": "ATK%", "value": 3.1104 },
-        { "stat": "SPD", "value": 3 },
-        { "stat": "CRIT DMG", "value": 14.5152 }
+        {
+          "stat": "HP%",
+          "value": 2.7647999999999997
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.1104
+        },
+        {
+          "stat": "SPD",
+          "value": 3
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 14.5152
+        }
       ],
       "id": "05045a76-0f4c-4ad8-8997-878b60b2d226",
       "augmentedStats": {
@@ -4001,12 +5439,27 @@
       "set": "Guard of Wuthering Snow",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "DEF%", "value": 21.5135999489572 },
+      "main": {
+        "stat": "DEF%",
+        "value": 21.5135999489572
+      },
       "substats": [
-        { "stat": "DEF", "value": 40 },
-        { "stat": "HP%", "value": 3.4 },
-        { "stat": "ATK%", "value": 4.3 },
-        { "stat": "CRIT Rate", "value": 5.8 }
+        {
+          "stat": "DEF",
+          "value": 40
+        },
+        {
+          "stat": "HP%",
+          "value": 3.4
+        },
+        {
+          "stat": "ATK%",
+          "value": 4.3
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.8
+        }
       ],
       "id": "6be4a25d-b557-44a5-9176-12499975ba72",
       "augmentedStats": {
@@ -4044,12 +5497,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK%", "value": 17.210700223222197 },
+      "main": {
+        "stat": "ATK%",
+        "value": 17.210700223222197
+      },
       "substats": [
-        { "stat": "ATK", "value": 35 },
-        { "stat": "HP%", "value": 7.7 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "Effect Hit Rate", "value": 3.4 }
+        {
+          "stat": "ATK",
+          "value": 35
+        },
+        {
+          "stat": "HP%",
+          "value": 7.7
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.4
+        }
       ],
       "id": "c1257f42-d466-4cc6-ac37-a164be4efd1b",
       "augmentedStats": {
@@ -4087,12 +5555,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "HP%", "value": 17.210700223222197 },
+      "main": {
+        "stat": "HP%",
+        "value": 17.210700223222197
+      },
       "substats": [
-        { "stat": "ATK", "value": 38 },
-        { "stat": "DEF", "value": 21.5921488 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "SPD", "value": 6 }
+        {
+          "stat": "ATK",
+          "value": 38
+        },
+        {
+          "stat": "DEF",
+          "value": 21.5921488
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "SPD",
+          "value": 6
+        }
       ],
       "id": "5629890a-6aec-4990-851c-74532f2f37af",
       "augmentedStats": {
@@ -4130,12 +5613,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "CRIT DMG", "value": 25.8165008621286 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 25.8165008621286
+      },
       "substats": [
-        { "stat": "HP%", "value": 3.8 },
-        { "stat": "DEF%", "value": 9.1 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT Rate", "value": 2.9 }
+        {
+          "stat": "HP%",
+          "value": 3.8
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.1
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.9
+        }
       ],
       "id": "8b8127ed-1513-4b8e-bfc5-e2f6ae07f501",
       "augmentedStats": {
@@ -4173,12 +5671,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "CRIT Rate", "value": 12.9078010562808 },
+      "main": {
+        "stat": "CRIT Rate",
+        "value": 12.9078010562808
+      },
       "substats": [
-        { "stat": "ATK", "value": 35 },
-        { "stat": "DEF", "value": 42 },
-        { "stat": "CRIT DMG", "value": 6.4 },
-        { "stat": "Break Effect", "value": 6.4 }
+        {
+          "stat": "ATK",
+          "value": 35
+        },
+        {
+          "stat": "DEF",
+          "value": 42
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4
+        },
+        {
+          "stat": "Break Effect",
+          "value": 6.4
+        }
       ],
       "id": "ca9148ab-988c-4e5f-b24d-36336521b584",
       "augmentedStats": {
@@ -4216,12 +5729,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "CRIT DMG", "value": 25.8165008621286 },
+      "main": {
+        "stat": "CRIT DMG",
+        "value": 25.8165008621286
+      },
       "substats": [
-        { "stat": "HP", "value": 33 },
-        { "stat": "ATK", "value": 33 },
-        { "stat": "ATK%", "value": 3.4 },
-        { "stat": "Break Effect", "value": 12.3 }
+        {
+          "stat": "HP",
+          "value": 33
+        },
+        {
+          "stat": "ATK",
+          "value": 33
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.4
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.3
+        }
       ],
       "id": "9bc3914c-ef10-492c-b9dc-20b9bbb53678",
       "augmentedStats": {
@@ -4259,15 +5787,42 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "ATK", "value": 21.168773, "scoreMeta": { "multiplier": 0.75, "score": 1.7533107772329706 } },
-        { "stat": "ATK%", "value": 11.664, "scoreMeta": { "multiplier": 0.75, "score": 13.121999999999996 } },
-        { "stat": "DEF%", "value": 4.859999999999999, "scoreMeta": { "multiplier": 0, "score": 0 } },
+        {
+          "stat": "ATK",
+          "value": 21.168773,
+          "scoreMeta": {
+            "multiplier": 0.75,
+            "score": 1.7533107772329706
+          }
+        },
+        {
+          "stat": "ATK%",
+          "value": 11.664,
+          "scoreMeta": {
+            "multiplier": 0.75,
+            "score": 13.121999999999996
+          }
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.859999999999999,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
         {
           "stat": "CRIT DMG",
           "value": 17.496000000000002,
-          "scoreMeta": { "multiplier": 1, "score": 17.496000000000002 }
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 17.496000000000002
+          }
         }
       ],
       "id": "92c53d06-80d0-43a8-b896-2feeda419674",
@@ -4309,12 +5864,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "HP", "value": 148.1814215 },
-        { "stat": "ATK%", "value": 6.912 },
-        { "stat": "Effect Hit Rate", "value": 3.888 },
-        { "stat": "Break Effect", "value": 5.183999999999999 }
+        {
+          "stat": "HP",
+          "value": 148.1814215
+        },
+        {
+          "stat": "ATK%",
+          "value": 6.912
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.888
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.183999999999999
+        }
       ],
       "id": "f8d42acd-c848-484a-9eee-d03a7b88f030",
       "augmentedStats": {
@@ -4354,12 +5924,27 @@
       "set": "Longevous Disciple",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "ATK", "value": 38.1037914 },
-        { "stat": "DEF", "value": 21.168773 },
-        { "stat": "HP%", "value": 16.848 },
-        { "stat": "CRIT DMG", "value": 5.183999999999999 }
+        {
+          "stat": "ATK",
+          "value": 38.1037914
+        },
+        {
+          "stat": "DEF",
+          "value": 21.168773
+        },
+        {
+          "stat": "HP%",
+          "value": 16.848
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.183999999999999
+        }
       ],
       "id": "726e7b1f-f630-4182-ac11-1e8523a33fc1",
       "augmentedStats": {
@@ -4399,12 +5984,27 @@
       "set": "Musketeer of Wild Wheat",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "HP%", "value": 8.208 },
-        { "stat": "ATK%", "value": 11.664 },
-        { "stat": "Effect Hit Rate", "value": 11.232000000000001 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "HP%",
+          "value": 8.208
+        },
+        {
+          "stat": "ATK%",
+          "value": 11.664
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 11.232000000000001
+        }
       ],
       "id": "ac206198-c5b1-4be7-8dda-0d7b85e1aabf",
       "augmentedStats": {
@@ -4444,12 +6044,27 @@
       "set": "Musketeer of Wild Wheat",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "HP", "value": 76.2075882 },
-        { "stat": "ATK", "value": 38.1037914 },
-        { "stat": "Effect RES", "value": 7.776 },
-        { "stat": "Break Effect", "value": 12.312 }
+        {
+          "stat": "HP",
+          "value": 76.2075882
+        },
+        {
+          "stat": "ATK",
+          "value": 38.1037914
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.312
+        }
       ],
       "id": "ad67f0ac-1c0e-4869-8855-3718b601447b",
       "augmentedStats": {
@@ -4488,12 +6103,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "DEF", "value": 38.1037914 },
-        { "stat": "DEF%", "value": 4.859999999999999 },
-        { "stat": "SPD", "value": 9 },
-        { "stat": "CRIT DMG", "value": 11.664 }
+        {
+          "stat": "DEF",
+          "value": 38.1037914
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.859999999999999
+        },
+        {
+          "stat": "SPD",
+          "value": 9
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.664
+        }
       ],
       "id": "9d68a932-b623-4ac7-bd0a-7c54779b64fb",
       "augmentedStats": {
@@ -4533,12 +6163,27 @@
       "set": "Eagle of Twilight Line",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "HP", "value": 84.675098 },
-        { "stat": "HP%", "value": 4.32 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "Effect RES", "value": 16.416 }
+        {
+          "stat": "HP",
+          "value": 84.675098
+        },
+        {
+          "stat": "HP%",
+          "value": 4.32
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "Effect RES",
+          "value": 16.416
+        }
       ],
       "id": "dd1bb72d-80f3-432c-b8d9-0b62c7790b9a",
       "augmentedStats": {
@@ -4578,12 +6223,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "DEF%", "value": 9.180000000000001 },
-        { "stat": "SPD", "value": 2 },
-        { "stat": "CRIT Rate", "value": 11.016 },
-        { "stat": "CRIT DMG", "value": 12.312 }
+        {
+          "stat": "DEF%",
+          "value": 9.180000000000001
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 11.016
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312
+        }
       ],
       "id": "a615dc2f-c26d-4f13-8c92-0b2c746e0f3f",
       "augmentedStats": {
@@ -4622,12 +6282,27 @@
       "set": "Band of Sizzling Thunder",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "DEF", "value": 16.9350184 },
-        { "stat": "ATK%", "value": 4.32 },
-        { "stat": "CRIT Rate", "value": 2.5919999999999996 },
-        { "stat": "Effect RES", "value": 19.872 }
+        {
+          "stat": "DEF",
+          "value": 16.9350184
+        },
+        {
+          "stat": "ATK%",
+          "value": 4.32
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.5919999999999996
+        },
+        {
+          "stat": "Effect RES",
+          "value": 19.872
+        }
       ],
       "id": "53a00fa5-22a9-40bc-948b-8469d6e248ec",
       "augmentedStats": {
@@ -4667,12 +6342,27 @@
       "set": "Messenger Traversing Hackerspace",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "ATK", "value": 33.8700368 },
-        { "stat": "ATK%", "value": 7.344 },
-        { "stat": "DEF%", "value": 19.439999999999998 },
-        { "stat": "CRIT Rate", "value": 2.916 }
+        {
+          "stat": "ATK",
+          "value": 33.8700368
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.344
+        },
+        {
+          "stat": "DEF%",
+          "value": 19.439999999999998
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.916
+        }
       ],
       "id": "76603793-39c6-477f-9874-194d66f8ae88",
       "augmentedStats": {
@@ -4711,12 +6401,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "HP", "value": 156.6489313 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "SPD", "value": 7 },
-        { "stat": "Break Effect", "value": 5.832 }
+        {
+          "stat": "HP",
+          "value": 156.6489313
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "SPD",
+          "value": 7
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.832
+        }
       ],
       "id": "5ba46dc3-191b-4a37-9781-bcaa1adf7f0d",
       "augmentedStats": {
@@ -4755,12 +6460,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "ATK", "value": 16.9350184 },
-        { "stat": "DEF", "value": 19.0518957 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT DMG", "value": 22.68 }
+        {
+          "stat": "ATK",
+          "value": 16.9350184
+        },
+        {
+          "stat": "DEF",
+          "value": 19.0518957
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 22.68
+        }
       ],
       "id": "af5b9fae-fdcc-4b11-bf4a-0ce3bd832648",
       "augmentedStats": {
@@ -4799,12 +6519,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 25.03200000547804 },
+      "main": {
+        "stat": "SPD",
+        "value": 25.03200000547804
+      },
       "substats": [
-        { "stat": "ATK", "value": 40.2206687 },
-        { "stat": "ATK%", "value": 3.888 },
-        { "stat": "CRIT Rate", "value": 8.424 },
-        { "stat": "Break Effect", "value": 11.016 }
+        {
+          "stat": "ATK",
+          "value": 40.2206687
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.888
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 8.424
+        },
+        {
+          "stat": "Break Effect",
+          "value": 11.016
+        }
       ],
       "id": "01eca278-3dec-4b6a-bb39-e199603423f3",
       "augmentedStats": {
@@ -4844,12 +6579,27 @@
       "set": "Genius of Brilliant Stars",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "SPD", "value": 20.832000004360452 },
+      "main": {
+        "stat": "SPD",
+        "value": 20.832000004360452
+      },
       "substats": [
-        { "stat": "ATK%", "value": 3.456 },
-        { "stat": "DEF%", "value": 10.8 },
-        { "stat": "Effect Hit Rate", "value": 7.776 },
-        { "stat": "Break Effect", "value": 11.664 }
+        {
+          "stat": "ATK%",
+          "value": 3.456
+        },
+        {
+          "stat": "DEF%",
+          "value": 10.8
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.776
+        },
+        {
+          "stat": "Break Effect",
+          "value": 11.664
+        }
       ],
       "id": "d348e2e3-87f5-4782-81db-1478c1ab2901",
       "augmentedStats": {
@@ -4888,12 +6638,27 @@
       "set": "Guard of Wuthering Snow",
       "enhance": 12,
       "grade": 4,
-      "main": { "stat": "SPD", "value": 16.42560000135563 },
+      "main": {
+        "stat": "SPD",
+        "value": 16.42560000135563
+      },
       "substats": [
-        { "stat": "ATK", "value": 28.789534 },
-        { "stat": "DEF%", "value": 7.344 },
-        { "stat": "Effect Hit Rate", "value": 3.456 },
-        { "stat": "Effect RES", "value": 2.7647999999999997 }
+        {
+          "stat": "ATK",
+          "value": 28.789534
+        },
+        {
+          "stat": "DEF%",
+          "value": 7.344
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.456
+        },
+        {
+          "stat": "Effect RES",
+          "value": 2.7647999999999997
+        }
       ],
       "id": "4fa7cb12-80ac-43af-ae67-cec01b31208d",
       "augmentedStats": {
@@ -4932,12 +6697,27 @@
       "set": "Passerby of Wandering Cloud",
       "enhance": 12,
       "grade": 4,
-      "main": { "stat": "SPD", "value": 16.42560000135563 },
+      "main": {
+        "stat": "SPD",
+        "value": 16.42560000135563
+      },
       "substats": [
-        { "stat": "ATK%", "value": 9.6768 },
-        { "stat": "Effect Hit Rate", "value": 2.7647999999999997 },
-        { "stat": "Effect RES", "value": 3.456 },
-        { "stat": "Break Effect", "value": 5.183999999999999 }
+        {
+          "stat": "ATK%",
+          "value": 9.6768
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 2.7647999999999997
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.456
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.183999999999999
+        }
       ],
       "id": "120c957e-4880-4fd7-a1a9-33fd9e5b5b74",
       "augmentedStats": {
@@ -4976,12 +6756,27 @@
       "set": "Guard of Wuthering Snow",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "DEF%", "value": 21.5135999489572 },
+      "main": {
+        "stat": "DEF%",
+        "value": 21.5135999489572
+      },
       "substats": [
-        { "stat": "HP", "value": 38 },
-        { "stat": "DEF", "value": 57 },
-        { "stat": "HP%", "value": 4.3 },
-        { "stat": "CRIT Rate", "value": 3.2 }
+        {
+          "stat": "HP",
+          "value": 38
+        },
+        {
+          "stat": "DEF",
+          "value": 57
+        },
+        {
+          "stat": "HP%",
+          "value": 4.3
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 3.2
+        }
       ],
       "id": "685b8eec-9f29-4213-b26e-7fc46ce17f43",
       "augmentedStats": {
@@ -5019,12 +6814,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "SPD", "value": 11.419199999887496 },
+      "main": {
+        "stat": "SPD",
+        "value": 11.419199999887496
+      },
       "substats": [
-        { "stat": "HP%", "value": 8.6 },
-        { "stat": "ATK%", "value": 3.4 },
-        { "stat": "CRIT Rate", "value": 6.1 },
-        { "stat": "Effect Hit Rate", "value": 7.7 }
+        {
+          "stat": "HP%",
+          "value": 8.6
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.4
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.1
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.7
+        }
       ],
       "id": "a616f8ad-8b70-43f9-a877-ec33ba60d6e8",
       "augmentedStats": {
@@ -5062,12 +6872,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK%", "value": 17.210700223222197 },
+      "main": {
+        "stat": "ATK%",
+        "value": 17.210700223222197
+      },
       "substats": [
-        { "stat": "DEF%", "value": 4.8 },
-        { "stat": "CRIT Rate", "value": 5.5 },
-        { "stat": "Effect Hit Rate", "value": 3.4 },
-        { "stat": "Effect RES", "value": 7.3 }
+        {
+          "stat": "DEF%",
+          "value": 4.8
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.5
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.4
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.3
+        }
       ],
       "id": "578c0fdb-8976-4408-9271-fe43ce0afc5d",
       "augmentedStats": {
@@ -5105,12 +6930,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "SPD", "value": 11.419199999887496 },
+      "main": {
+        "stat": "SPD",
+        "value": 11.419199999887496
+      },
       "substats": [
-        { "stat": "HP", "value": 33 },
-        { "stat": "ATK", "value": 21.5921488 },
-        { "stat": "CRIT Rate", "value": 6.1 },
-        { "stat": "Effect RES", "value": 8.2 }
+        {
+          "stat": "HP",
+          "value": 33
+        },
+        {
+          "stat": "ATK",
+          "value": 21.5921488
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.1
+        },
+        {
+          "stat": "Effect RES",
+          "value": 8.2
+        }
       ],
       "id": "620a1f8e-ba95-47d9-99c1-8fd7713c7b10",
       "augmentedStats": {
@@ -5148,12 +6988,27 @@
       "set": "Hunter of Glacial Forest",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK%", "value": 17.210700223222197 },
+      "main": {
+        "stat": "ATK%",
+        "value": 17.210700223222197
+      },
       "substats": [
-        { "stat": "HP", "value": 38 },
-        { "stat": "HP%", "value": 12.5 },
-        { "stat": "SPD", "value": 5 },
-        { "stat": "CRIT Rate", "value": 3.2 }
+        {
+          "stat": "HP",
+          "value": 38
+        },
+        {
+          "stat": "HP%",
+          "value": 12.5
+        },
+        {
+          "stat": "SPD",
+          "value": 5
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 3.2
+        }
       ],
       "id": "fe8aca62-7935-4897-ad02-fae126b720b1",
       "augmentedStats": {
@@ -5191,12 +7046,43 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Ice DMG Boost", "value": 38.8803014298894 },
+      "main": {
+        "stat": "Ice DMG Boost",
+        "value": 38.8803014298894
+      },
       "substats": [
-        { "stat": "DEF", "value": 74.0907055, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "CRIT Rate", "value": 5.508, "scoreMeta": { "multiplier": 1, "score": 11.016 } },
-        { "stat": "CRIT DMG", "value": 12.312, "scoreMeta": { "multiplier": 1, "score": 12.312 } },
-        { "stat": "Effect Hit Rate", "value": 4.32, "scoreMeta": { "multiplier": 0, "score": 0 } }
+        {
+          "stat": "DEF",
+          "value": 74.0907055,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.508,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 11.016
+          }
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 12.312,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 12.312
+          }
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 4.32,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        }
       ],
       "id": "80abbd56-b1a0-4587-a349-754c33627217",
       "augmentedStats": {
@@ -5237,12 +7123,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "HP%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "ATK%", "value": 12.096 },
-        { "stat": "DEF%", "value": 4.32 },
-        { "stat": "Effect Hit Rate", "value": 4.32 },
-        { "stat": "Break Effect", "value": 17.496000000000002 }
+        {
+          "stat": "ATK%",
+          "value": 12.096
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.32
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 4.32
+        },
+        {
+          "stat": "Break Effect",
+          "value": 17.496000000000002
+        }
       ],
       "id": "f89266f4-241e-43bc-b04a-a864eea60e49",
       "augmentedStats": {
@@ -5282,12 +7183,27 @@
       "set": "Broken Keel",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "DEF%", "value": 54.0000006789338 },
+      "main": {
+        "stat": "DEF%",
+        "value": 54.0000006789338
+      },
       "substats": [
-        { "stat": "HP%", "value": 8.208 },
-        { "stat": "ATK%", "value": 3.888 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "Effect RES", "value": 11.664 }
+        {
+          "stat": "HP%",
+          "value": 8.208
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.888
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "Effect RES",
+          "value": 11.664
+        }
       ],
       "id": "16f7f4d9-5734-401f-b14f-2a74eaec9dcc",
       "augmentedStats": {
@@ -5326,12 +7242,27 @@
       "set": "Inert Salsotto",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "HP%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "ATK", "value": 19.0518957 },
-        { "stat": "CRIT Rate", "value": 6.4799999999999995 },
-        { "stat": "CRIT DMG", "value": 17.496000000000002 },
-        { "stat": "Effect RES", "value": 7.776 }
+        {
+          "stat": "ATK",
+          "value": 19.0518957
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.4799999999999995
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 17.496000000000002
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        }
       ],
       "id": "9714ef68-45e7-4f62-81f2-b437649d3a49",
       "augmentedStats": {
@@ -5371,12 +7302,27 @@
       "set": "Space Sealing Station",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Physical DMG Boost", "value": 38.8803014298894 },
+      "main": {
+        "stat": "Physical DMG Boost",
+        "value": 38.8803014298894
+      },
       "substats": [
-        { "stat": "SPD", "value": 2 },
-        { "stat": "CRIT Rate", "value": 2.5919999999999996 },
-        { "stat": "CRIT DMG", "value": 23.328 },
-        { "stat": "Effect RES", "value": 7.776 }
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.5919999999999996
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 23.328
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        }
       ],
       "id": "2340f351-b46e-4e11-87a2-732c5c887941",
       "augmentedStats": {
@@ -5415,12 +7361,27 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Quantum DMG Boost", "value": 38.8803014298894 },
+      "main": {
+        "stat": "Quantum DMG Boost",
+        "value": 38.8803014298894
+      },
       "substats": [
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "DEF%", "value": 4.859999999999999 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT DMG", "value": 18.144 }
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "DEF%",
+          "value": 4.859999999999999
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 18.144
+        }
       ],
       "id": "4806d951-5a01-48bb-876f-5368059a674d",
       "augmentedStats": {
@@ -5460,12 +7421,27 @@
       "set": "Broken Keel",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "HP%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "DEF", "value": 59.2725644 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "CRIT DMG", "value": 5.183999999999999 },
-        { "stat": "Effect Hit Rate", "value": 11.232000000000001 }
+        {
+          "stat": "DEF",
+          "value": 59.2725644
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.183999999999999
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 11.232000000000001
+        }
       ],
       "id": "1735bd09-55f7-4023-866f-509dc716badf",
       "augmentedStats": {
@@ -5503,12 +7479,27 @@
       "set": "Space Sealing Station",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Lightning DMG Boost", "value": 38.8803014298894 },
+      "main": {
+        "stat": "Lightning DMG Boost",
+        "value": 38.8803014298894
+      },
       "substats": [
-        { "stat": "ATK", "value": 59.2725644 },
-        { "stat": "ATK%", "value": 8.208 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "Effect Hit Rate", "value": 6.912 }
+        {
+          "stat": "ATK",
+          "value": 59.2725644
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.208
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 6.912
+        }
       ],
       "id": "15d53aff-64cc-421f-837f-5ccfd55240b6",
       "augmentedStats": {
@@ -5548,12 +7539,27 @@
       "set": "Broken Keel",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "HP%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "HP", "value": 67.7400784 },
-        { "stat": "ATK", "value": 38.1037914 },
-        { "stat": "DEF%", "value": 9.719999999999999 },
-        { "stat": "Effect Hit Rate", "value": 6.912 }
+        {
+          "stat": "HP",
+          "value": 67.7400784
+        },
+        {
+          "stat": "ATK",
+          "value": 38.1037914
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.719999999999999
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 6.912
+        }
       ],
       "id": "86816eed-af3c-441e-9379-22aca07bc15f",
       "augmentedStats": {
@@ -5593,12 +7599,27 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Ice DMG Boost", "value": 38.8803014298894 },
+      "main": {
+        "stat": "Ice DMG Boost",
+        "value": 38.8803014298894
+      },
       "substats": [
-        { "stat": "DEF", "value": 40.2206687 },
-        { "stat": "SPD", "value": 9 },
-        { "stat": "CRIT Rate", "value": 2.5919999999999996 },
-        { "stat": "Effect Hit Rate", "value": 3.456 }
+        {
+          "stat": "DEF",
+          "value": 40.2206687
+        },
+        {
+          "stat": "SPD",
+          "value": 9
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.5919999999999996
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.456
+        }
       ],
       "id": "1e00ea87-98be-4601-a1b6-90eed8929758",
       "augmentedStats": {
@@ -5638,12 +7659,27 @@
       "set": "Space Sealing Station",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Quantum DMG Boost", "value": 38.8803014298894 },
+      "main": {
+        "stat": "Quantum DMG Boost",
+        "value": 38.8803014298894
+      },
       "substats": [
-        { "stat": "HP%", "value": 7.344 },
-        { "stat": "ATK%", "value": 6.912 },
-        { "stat": "CRIT Rate", "value": 9.072 },
-        { "stat": "CRIT DMG", "value": 5.832 }
+        {
+          "stat": "HP%",
+          "value": 7.344
+        },
+        {
+          "stat": "ATK%",
+          "value": 6.912
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 9.072
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.832
+        }
       ],
       "id": "030acc28-213c-4913-b527-fd5e4242ade5",
       "augmentedStats": {
@@ -5682,12 +7718,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "DEF%", "value": 44.9280005414036 },
+      "main": {
+        "stat": "DEF%",
+        "value": 44.9280005414036
+      },
       "substats": [
-        { "stat": "DEF", "value": 61.3894417 },
-        { "stat": "HP%", "value": 3.888 },
-        { "stat": "ATK%", "value": 8.64 },
-        { "stat": "SPD", "value": 2 }
+        {
+          "stat": "DEF",
+          "value": 61.3894417
+        },
+        {
+          "stat": "HP%",
+          "value": 3.888
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.64
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        }
       ],
       "id": "687f3295-1bfa-4349-b529-68145a681f3d",
       "augmentedStats": {
@@ -5726,12 +7777,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "ATK%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "HP", "value": 33.8700392 },
-        { "stat": "HP%", "value": 7.344 },
-        { "stat": "Effect Hit Rate", "value": 8.208 },
-        { "stat": "Break Effect", "value": 12.959999999999999 }
+        {
+          "stat": "HP",
+          "value": 33.8700392
+        },
+        {
+          "stat": "HP%",
+          "value": 7.344
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 8.208
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.959999999999999
+        }
       ],
       "id": "f838c821-addf-477a-97e7-605a00417a80",
       "augmentedStats": {
@@ -5770,12 +7836,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "ATK%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "HP", "value": 122.7788921 },
-        { "stat": "ATK", "value": 38.1037914 },
-        { "stat": "HP%", "value": 4.32 },
-        { "stat": "CRIT DMG", "value": 6.4799999999999995 }
+        {
+          "stat": "HP",
+          "value": 122.7788921
+        },
+        {
+          "stat": "ATK",
+          "value": 38.1037914
+        },
+        {
+          "stat": "HP%",
+          "value": 4.32
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4799999999999995
+        }
       ],
       "id": "2576e256-b473-481b-9e69-5e5ce2641f1a",
       "augmentedStats": {
@@ -5815,12 +7896,27 @@
       "set": "Sprightly Vonwacq",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "HP%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "DEF", "value": 21.168773 },
-        { "stat": "ATK%", "value": 8.64 },
-        { "stat": "CRIT Rate", "value": 5.832 },
-        { "stat": "Effect RES", "value": 8.208 }
+        {
+          "stat": "DEF",
+          "value": 21.168773
+        },
+        {
+          "stat": "ATK%",
+          "value": 8.64
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.832
+        },
+        {
+          "stat": "Effect RES",
+          "value": 8.208
+        }
       ],
       "id": "29ec4a4e-a2d1-470b-8898-4271e5d58801",
       "augmentedStats": {
@@ -5859,12 +7955,27 @@
       "set": "Rutilant Arena",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "Ice DMG Boost", "value": 32.348401146008996 },
+      "main": {
+        "stat": "Ice DMG Boost",
+        "value": 32.348401146008996
+      },
       "substats": [
-        { "stat": "ATK", "value": 38.1037914 },
-        { "stat": "DEF%", "value": 9.180000000000001 },
-        { "stat": "CRIT Rate", "value": 6.156 },
-        { "stat": "Break Effect", "value": 5.832 }
+        {
+          "stat": "ATK",
+          "value": 38.1037914
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.180000000000001
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.156
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.832
+        }
       ],
       "id": "6ea90a16-c508-400a-84e5-956be061dd81",
       "augmentedStats": {
@@ -5903,12 +8014,27 @@
       "set": "Rutilant Arena",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "Quantum DMG Boost", "value": 32.348401146008996 },
+      "main": {
+        "stat": "Quantum DMG Boost",
+        "value": 32.348401146008996
+      },
       "substats": [
-        { "stat": "ATK", "value": 21.168773 },
-        { "stat": "ATK%", "value": 7.344 },
-        { "stat": "DEF%", "value": 10.26 },
-        { "stat": "CRIT Rate", "value": 6.156 }
+        {
+          "stat": "ATK",
+          "value": 21.168773
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.344
+        },
+        {
+          "stat": "DEF%",
+          "value": 10.26
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 6.156
+        }
       ],
       "id": "f6f59c42-c75d-4b13-8630-cf4030317fb6",
       "augmentedStats": {
@@ -5947,12 +8073,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "HP%", "value": 17.210700223222197 },
+      "main": {
+        "stat": "HP%",
+        "value": 17.210700223222197
+      },
       "substats": [
-        { "stat": "HP", "value": 42 },
-        { "stat": "ATK%", "value": 11.2 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "Effect Hit Rate", "value": 3.4 }
+        {
+          "stat": "HP",
+          "value": 42
+        },
+        {
+          "stat": "ATK%",
+          "value": 11.2
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.4
+        }
       ],
       "id": "bc8d6ec2-f7ce-46b5-99bd-f9abcb5cd7d3",
       "augmentedStats": {
@@ -5990,12 +8131,27 @@
       "set": "Belobog of the Architects",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "DEF%", "value": 21.5135999489572 },
+      "main": {
+        "stat": "DEF%",
+        "value": 21.5135999489572
+      },
       "substats": [
-        { "stat": "DEF", "value": 52 },
-        { "stat": "HP%", "value": 7.7 },
-        { "stat": "Effect RES", "value": 3.4 },
-        { "stat": "Break Effect", "value": 6.4 }
+        {
+          "stat": "DEF",
+          "value": 52
+        },
+        {
+          "stat": "HP%",
+          "value": 7.7
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.4
+        },
+        {
+          "stat": "Break Effect",
+          "value": 6.4
+        }
       ],
       "id": "1d4bfa56-f16b-4380-8124-481ef3c284f2",
       "augmentedStats": {
@@ -6033,12 +8189,27 @@
       "set": "Broken Keel",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "HP%", "value": 17.210700223222197 },
+      "main": {
+        "stat": "HP%",
+        "value": 17.210700223222197
+      },
       "substats": [
-        { "stat": "HP", "value": 33 },
-        { "stat": "ATK", "value": 19 },
-        { "stat": "Effect Hit Rate", "value": 7.3 },
-        { "stat": "Effect RES", "value": 6.9 }
+        {
+          "stat": "HP",
+          "value": 33
+        },
+        {
+          "stat": "ATK",
+          "value": 19
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.3
+        },
+        {
+          "stat": "Effect RES",
+          "value": 6.9
+        }
       ],
       "id": "5968a21b-6035-45f7-8347-3445cb23dd48",
       "augmentedStats": {
@@ -6076,12 +8247,43 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "HP", "value": 80.4413431, "scoreMeta": { "multiplier": 0, "score": 0 } },
-        { "stat": "CRIT Rate", "value": 8.424, "scoreMeta": { "multiplier": 1, "score": 16.8 } },
-        { "stat": "CRIT DMG", "value": 10.367999999999999, "scoreMeta": { "multiplier": 1, "score": 10.3 } },
-        { "stat": "Break Effect", "value": 5.832, "scoreMeta": { "multiplier": 0, "score": 0 } }
+        {
+          "stat": "HP",
+          "value": 80.4413431,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 8.424,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 16.8
+          }
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 10.367999999999999,
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 10.3
+          }
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.832,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        }
       ],
       "id": "c521dc03-6c6e-45ef-9933-811367312441",
       "augmentedStats": {
@@ -6122,12 +8324,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Energy Regeneration Rate", "value": 19.4394017569722 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 19.4394017569722
+      },
       "substats": [
-        { "stat": "ATK", "value": 38.1037914 },
-        { "stat": "DEF", "value": 21.168773 },
-        { "stat": "DEF%", "value": 15.659999999999998 },
-        { "stat": "Break Effect", "value": 12.312 }
+        {
+          "stat": "ATK",
+          "value": 38.1037914
+        },
+        {
+          "stat": "DEF",
+          "value": 21.168773
+        },
+        {
+          "stat": "DEF%",
+          "value": 15.659999999999998
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.312
+        }
       ],
       "id": "e1650ead-9ec8-4e2a-9ab9-c4199e1b609c",
       "augmentedStats": {
@@ -6167,12 +8384,27 @@
       "set": "Inert Salsotto",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "HP%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "HP%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "CRIT Rate", "value": 6.156 },
-        { "stat": "Effect Hit Rate", "value": 7.344 },
-        { "stat": "Effect RES", "value": 8.208 },
-        { "stat": "Break Effect", "value": 12.312 }
+        {
+          "stat": "CRIT Rate",
+          "value": 6.156
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.344
+        },
+        {
+          "stat": "Effect RES",
+          "value": 8.208
+        },
+        {
+          "stat": "Break Effect",
+          "value": 12.312
+        }
       ],
       "id": "426a1d2d-c361-42d0-a7d6-5001755c220d",
       "augmentedStats": {
@@ -6212,12 +8444,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Energy Regeneration Rate", "value": 19.4394017569722 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 19.4394017569722
+      },
       "substats": [
-        { "stat": "DEF", "value": 35.9869141 },
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "DEF%", "value": 14.04 },
-        { "stat": "SPD", "value": 2 }
+        {
+          "stat": "DEF",
+          "value": 35.9869141
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "DEF%",
+          "value": 14.04
+        },
+        {
+          "stat": "SPD",
+          "value": 2
+        }
       ],
       "id": "9c66993a-07b4-4994-8bb5-86507e6ba49b",
       "augmentedStats": {
@@ -6257,12 +8504,27 @@
       "set": "Belobog of the Architects",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Energy Regeneration Rate", "value": 19.4394017569722 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 19.4394017569722
+      },
       "substats": [
-        { "stat": "ATK%", "value": 14.688 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "Effect Hit Rate", "value": 7.776 },
-        { "stat": "Break Effect", "value": 5.183999999999999 }
+        {
+          "stat": "ATK%",
+          "value": 14.688
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.776
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.183999999999999
+        }
       ],
       "id": "f751b41e-8099-4b80-94c1-a86d264ca8bd",
       "augmentedStats": {
@@ -6301,12 +8563,27 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "SPD", "value": 2 },
-        { "stat": "CRIT DMG", "value": 18.144 },
-        { "stat": "Effect Hit Rate", "value": 7.344 },
-        { "stat": "Effect RES", "value": 7.776 }
+        {
+          "stat": "SPD",
+          "value": 2
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 18.144
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.344
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        }
       ],
       "id": "c32194b9-dddc-47de-853e-17ac8b8f61a4",
       "augmentedStats": {
@@ -6347,12 +8624,27 @@
       "set": "Broken Keel",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Energy Regeneration Rate", "value": 19.4394017569722 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 19.4394017569722
+      },
       "substats": [
-        { "stat": "HP%", "value": 15.984000000000002 },
-        { "stat": "ATK%", "value": 3.888 },
-        { "stat": "CRIT Rate", "value": 3.2399999999999998 },
-        { "stat": "CRIT DMG", "value": 17.496000000000002 }
+        {
+          "stat": "HP%",
+          "value": 15.984000000000002
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.888
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 3.2399999999999998
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 17.496000000000002
+        }
       ],
       "id": "5788b45d-6d75-4189-9689-872fd84280f7",
       "augmentedStats": {
@@ -6392,12 +8684,27 @@
       "set": "Space Sealing Station",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "ATK", "value": 63.506319 },
-        { "stat": "SPD", "value": 5 },
-        { "stat": "Effect Hit Rate", "value": 8.208 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "ATK",
+          "value": 63.506319
+        },
+        {
+          "stat": "SPD",
+          "value": 5
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 8.208
+        }
       ],
       "id": "c46c97d3-0cc6-4ac9-8b0d-2d5ad0f0a0e7",
       "augmentedStats": {
@@ -6437,12 +8744,27 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "DEF%", "value": 10.8 },
-        { "stat": "CRIT Rate", "value": 9.072 },
-        { "stat": "Effect Hit Rate", "value": 6.912 },
-        { "stat": "Break Effect", "value": 6.4799999999999995 }
+        {
+          "stat": "DEF%",
+          "value": 10.8
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 9.072
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 6.912
+        },
+        {
+          "stat": "Break Effect",
+          "value": 6.4799999999999995
+        }
       ],
       "id": "9dc0a37b-9c62-4c1a-80f9-3edd769b0e68",
       "augmentedStats": {
@@ -6482,12 +8804,27 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "DEF%", "value": 10.8 },
-        { "stat": "CRIT DMG", "value": 18.792 },
-        { "stat": "Effect RES", "value": 7.776 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "DEF%",
+          "value": 10.8
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 18.792
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.776
+        }
       ],
       "id": "b63d8cc1-3b84-476f-b8f7-ea31e0a83dbc",
       "augmentedStats": {
@@ -6527,16 +8864,43 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "ATK", "value": 35.9869141, "scoreMeta": { "multiplier": 0.75, "score": 2.9806283212960496 } },
-        { "stat": "HP%", "value": 3.456, "scoreMeta": { "multiplier": 0, "score": 0 } },
+        {
+          "stat": "ATK",
+          "value": 35.9869141,
+          "scoreMeta": {
+            "multiplier": 0.75,
+            "score": 2.9806283212960496
+          }
+        },
+        {
+          "stat": "HP%",
+          "value": 3.456,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        },
         {
           "stat": "CRIT DMG",
           "value": 5.183999999999999,
-          "scoreMeta": { "multiplier": 1, "score": 5.183999999999999 }
+          "scoreMeta": {
+            "multiplier": 1,
+            "score": 5.183999999999999
+          }
         },
-        { "stat": "Effect RES", "value": 15.984000000000002, "scoreMeta": { "multiplier": 0, "score": 0 } }
+        {
+          "stat": "Effect RES",
+          "value": 15.984000000000002,
+          "scoreMeta": {
+            "multiplier": 0,
+            "score": 0
+          }
+        }
       ],
       "id": "7d1bb971-e351-47ee-9ab9-3c605386b6f8",
       "augmentedStats": {
@@ -6576,12 +8940,27 @@
       "set": "Rutilant Arena",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Energy Regeneration Rate", "value": 19.4394017569722 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 19.4394017569722
+      },
       "substats": [
-        { "stat": "HP", "value": 38.1037941 },
-        { "stat": "ATK", "value": 78.3244601 },
-        { "stat": "ATK%", "value": 7.776 },
-        { "stat": "CRIT DMG", "value": 11.664 }
+        {
+          "stat": "HP",
+          "value": 38.1037941
+        },
+        {
+          "stat": "ATK",
+          "value": 78.3244601
+        },
+        {
+          "stat": "ATK%",
+          "value": 7.776
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.664
+        }
       ],
       "id": "fce0a251-7922-469e-a3e6-b63783177cbf",
       "augmentedStats": {
@@ -6620,12 +8999,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "Energy Regeneration Rate", "value": 19.4394017569722 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 19.4394017569722
+      },
       "substats": [
-        { "stat": "HP", "value": 33.8700392 },
-        { "stat": "ATK", "value": 57.1556871 },
-        { "stat": "DEF%", "value": 5.4 },
-        { "stat": "CRIT DMG", "value": 17.496000000000002 }
+        {
+          "stat": "HP",
+          "value": 33.8700392
+        },
+        {
+          "stat": "ATK",
+          "value": 57.1556871
+        },
+        {
+          "stat": "DEF%",
+          "value": 5.4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 17.496000000000002
+        }
       ],
       "id": "4de09d13-9ab5-48c0-8552-c99e0961c6d7",
       "augmentedStats": {
@@ -6664,12 +9058,27 @@
       "set": "Space Sealing Station",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "SPD", "value": 4 },
-        { "stat": "CRIT DMG", "value": 6.4799999999999995 },
-        { "stat": "Effect RES", "value": 7.344 },
-        { "stat": "Break Effect", "value": 18.144 }
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4799999999999995
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.344
+        },
+        {
+          "stat": "Break Effect",
+          "value": 18.144
+        }
       ],
       "id": "5336ce8e-c6be-426f-9e6b-cbdf058d7eb8",
       "augmentedStats": {
@@ -6708,12 +9117,27 @@
       "set": "Space Sealing Station",
       "enhance": 15,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 43.200000724755604 },
+      "main": {
+        "stat": "ATK%",
+        "value": 43.200000724755604
+      },
       "substats": [
-        { "stat": "DEF", "value": 38.1037914 },
-        { "stat": "DEF%", "value": 17.82 },
-        { "stat": "CRIT Rate", "value": 2.5919999999999996 },
-        { "stat": "Effect RES", "value": 3.456 }
+        {
+          "stat": "DEF",
+          "value": 38.1037914
+        },
+        {
+          "stat": "DEF%",
+          "value": 17.82
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 2.5919999999999996
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.456
+        }
       ],
       "id": "507b39d1-d464-4b88-a968-074059a16326",
       "augmentedStats": {
@@ -6752,12 +9176,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "DEF%", "value": 44.9280005414036 },
+      "main": {
+        "stat": "DEF%",
+        "value": 44.9280005414036
+      },
       "substats": [
-        { "stat": "DEF", "value": 38.1037914 },
-        { "stat": "HP%", "value": 4.32 },
-        { "stat": "ATK%", "value": 3.888 },
-        { "stat": "Effect Hit Rate", "value": 15.552 }
+        {
+          "stat": "DEF",
+          "value": 38.1037914
+        },
+        {
+          "stat": "HP%",
+          "value": 4.32
+        },
+        {
+          "stat": "ATK%",
+          "value": 3.888
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 15.552
+        }
       ],
       "id": "13562a04-2e82-44a6-acee-42500b505634",
       "augmentedStats": {
@@ -6796,12 +9235,27 @@
       "set": "Fleet of the Ageless",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "Energy Regeneration Rate", "value": 16.1736014066265 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 16.1736014066265
+      },
       "substats": [
-        { "stat": "DEF", "value": 16.9350184 },
-        { "stat": "DEF%", "value": 9.719999999999999 },
-        { "stat": "CRIT Rate", "value": 3.2399999999999998 },
-        { "stat": "Effect RES", "value": 12.096 }
+        {
+          "stat": "DEF",
+          "value": 16.9350184
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.719999999999999
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 3.2399999999999998
+        },
+        {
+          "stat": "Effect RES",
+          "value": 12.096
+        }
       ],
       "id": "1364b4d9-1dc2-4ea9-973c-5508c5676a78",
       "augmentedStats": {
@@ -6840,12 +9294,27 @@
       "set": "Space Sealing Station",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "ATK%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "HP%", "value": 15.552 },
-        { "stat": "DEF%", "value": 9.180000000000001 },
-        { "stat": "CRIT DMG", "value": 5.183999999999999 },
-        { "stat": "Break Effect", "value": 6.4799999999999995 }
+        {
+          "stat": "HP%",
+          "value": 15.552
+        },
+        {
+          "stat": "DEF%",
+          "value": 9.180000000000001
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 5.183999999999999
+        },
+        {
+          "stat": "Break Effect",
+          "value": 6.4799999999999995
+        }
       ],
       "id": "439c6e66-9371-4872-a5dc-916756a46a99",
       "augmentedStats": {
@@ -6884,12 +9353,27 @@
       "set": "Space Sealing Station",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "ATK%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "ATK", "value": 19.0518957 },
-        { "stat": "HP%", "value": 7.776 },
-        { "stat": "Effect Hit Rate", "value": 11.664 },
-        { "stat": "Break Effect", "value": 5.183999999999999 }
+        {
+          "stat": "ATK",
+          "value": 19.0518957
+        },
+        {
+          "stat": "HP%",
+          "value": 7.776
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 11.664
+        },
+        {
+          "stat": "Break Effect",
+          "value": 5.183999999999999
+        }
       ],
       "id": "24e5659e-51f5-428d-83b7-0daa994ecf97",
       "augmentedStats": {
@@ -6928,12 +9412,27 @@
       "set": "Rutilant Arena",
       "enhance": 12,
       "grade": 5,
-      "main": { "stat": "ATK%", "value": 35.9424005728218 },
+      "main": {
+        "stat": "ATK%",
+        "value": 35.9424005728218
+      },
       "substats": [
-        { "stat": "ATK", "value": 40.2206687 },
-        { "stat": "DEF", "value": 40.2206687 },
-        { "stat": "CRIT DMG", "value": 11.664 },
-        { "stat": "Effect Hit Rate", "value": 3.888 }
+        {
+          "stat": "ATK",
+          "value": 40.2206687
+        },
+        {
+          "stat": "DEF",
+          "value": 40.2206687
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 11.664
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.888
+        }
       ],
       "id": "3aac125b-f436-4a66-bc76-124bccee2190",
       "augmentedStats": {
@@ -6972,12 +9471,27 @@
       "set": "Broken Keel",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "Energy Regeneration Rate", "value": 7.7450001612309 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 7.7450001612309
+      },
       "substats": [
-        { "stat": "DEF", "value": 19 },
-        { "stat": "SPD", "value": 4 },
-        { "stat": "Effect Hit Rate", "value": 7.7 },
-        { "stat": "Effect RES", "value": 4.3 }
+        {
+          "stat": "DEF",
+          "value": 19
+        },
+        {
+          "stat": "SPD",
+          "value": 4
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 7.7
+        },
+        {
+          "stat": "Effect RES",
+          "value": 4.3
+        }
       ],
       "id": "563780c9-ac0a-4c54-98fa-2c24883f633b",
       "augmentedStats": {
@@ -7015,12 +9529,27 @@
       "set": "Broken Keel",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "Energy Regeneration Rate", "value": 7.7450001612309 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 7.7450001612309
+      },
       "substats": [
-        { "stat": "HP", "value": 38 },
-        { "stat": "ATK%", "value": 12.5 },
-        { "stat": "CRIT DMG", "value": 10.3 },
-        { "stat": "Effect RES", "value": 4.3 }
+        {
+          "stat": "HP",
+          "value": 38
+        },
+        {
+          "stat": "ATK%",
+          "value": 12.5
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 10.3
+        },
+        {
+          "stat": "Effect RES",
+          "value": 4.3
+        }
       ],
       "id": "bc344db6-5740-44ed-9858-46f15000d4a8",
       "augmentedStats": {
@@ -7058,12 +9587,27 @@
       "set": "Rutilant Arena",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "ATK%", "value": 17.210700223222197 },
+      "main": {
+        "stat": "ATK%",
+        "value": 17.210700223222197
+      },
       "substats": [
-        { "stat": "DEF", "value": 40 },
-        { "stat": "CRIT Rate", "value": 5.5 },
-        { "stat": "Effect Hit Rate", "value": 3.8 },
-        { "stat": "Effect RES", "value": 3.4 }
+        {
+          "stat": "DEF",
+          "value": 40
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.5
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 3.8
+        },
+        {
+          "stat": "Effect RES",
+          "value": 3.4
+        }
       ],
       "id": "802a690c-b6be-4c91-8551-c79c4fe019d1",
       "augmentedStats": {
@@ -7101,12 +9645,27 @@
       "set": "Rutilant Arena",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "HP%", "value": 17.210700223222197 },
+      "main": {
+        "stat": "HP%",
+        "value": 17.210700223222197
+      },
       "substats": [
-        { "stat": "ATK%", "value": 7.7 },
-        { "stat": "CRIT Rate", "value": 5.8 },
-        { "stat": "CRIT DMG", "value": 6.4 },
-        { "stat": "Break Effect", "value": 11 }
+        {
+          "stat": "ATK%",
+          "value": 7.7
+        },
+        {
+          "stat": "CRIT Rate",
+          "value": 5.8
+        },
+        {
+          "stat": "CRIT DMG",
+          "value": 6.4
+        },
+        {
+          "stat": "Break Effect",
+          "value": 11
+        }
       ],
       "id": "13ec2e5b-6f28-40b2-b85a-72a862499671",
       "augmentedStats": {
@@ -7144,12 +9703,27 @@
       "set": "Inert Salsotto",
       "enhance": 9,
       "grade": 3,
-      "main": { "stat": "Energy Regeneration Rate", "value": 7.7450001612309 },
+      "main": {
+        "stat": "Energy Regeneration Rate",
+        "value": 7.7450001612309
+      },
       "substats": [
-        { "stat": "DEF", "value": 16 },
-        { "stat": "DEF%", "value": 10.2 },
-        { "stat": "Effect Hit Rate", "value": 8.6 },
-        { "stat": "Effect RES", "value": 7.7 }
+        {
+          "stat": "DEF",
+          "value": 16
+        },
+        {
+          "stat": "DEF%",
+          "value": 10.2
+        },
+        {
+          "stat": "Effect Hit Rate",
+          "value": 8.6
+        },
+        {
+          "stat": "Effect RES",
+          "value": 7.7
+        }
       ],
       "id": "6a81c65c-861d-4568-8373-d0a4ffe52989",
       "augmentedStats": {
@@ -7193,12 +9767,27 @@
         "lightCone": "23014",
         "lightConeLevel": 80,
         "lightConeSuperimposition": 1,
-        "mainBody": ["CRIT DMG"],
-        "mainFeet": ["SPD"],
-        "mainPlanarSphere": ["Ice DMG Boost"],
-        "mainLinkRope": ["ATK%"],
-        "ornamentSets": ["Rutilant Arena"],
-        "relicSets": [["4 Piece", "Hunter of Glacial Forest"]],
+        "mainBody": [
+          "CRIT DMG"
+        ],
+        "mainFeet": [
+          "SPD"
+        ],
+        "mainPlanarSphere": [
+          "Ice DMG Boost"
+        ],
+        "mainLinkRope": [
+          "ATK%"
+        ],
+        "ornamentSets": [
+          "Rutilant Arena"
+        ],
+        "relicSets": [
+          [
+            "4 Piece",
+            "Hunter of Glacial Forest"
+          ]
+        ],
         "minAtk": 0,
         "maxAtk": 2147483647,
         "minHp": 0,
@@ -7238,34 +9827,118 @@
         "mainHead": [],
         "mainHands": [],
         "setConditionals": {
-          "Passerby of Wandering Cloud": [null, true],
-          "Musketeer of Wild Wheat": [null, true],
-          "Knight of Purity Palace": [null, true],
-          "Hunter of Glacial Forest": [null, true],
-          "Champion of Streetwise Boxing": [null, 5],
-          "Guard of Wuthering Snow": [null, true],
-          "Firesmith of Lava-Forging": [null, true],
-          "Genius of Brilliant Stars": [null, true],
-          "Band of Sizzling Thunder": [null, true],
-          "Eagle of Twilight Line": [null, true],
-          "Thief of Shooting Meteor": [null, true],
-          "Wastelander of Banditry Desert": [null, 0],
-          "Longevous Disciple": [null, 2],
-          "Messenger Traversing Hackerspace": [null, true],
-          "The Ashblazing Grand Duke": [null, 0],
-          "Prisoner in Deep Confinement": [null, 0],
-          "Space Sealing Station": [null, true],
-          "Fleet of the Ageless": [null, true],
-          "Pan-Cosmic Commercial Enterprise": [null, true],
-          "Belobog of the Architects": [null, true],
-          "Celestial Differentiator": [null, false],
-          "Inert Salsotto": [null, true],
-          "Talia: Kingdom of Banditry": [null, true],
-          "Sprightly Vonwacq": [null, true],
-          "Rutilant Arena": [null, true],
-          "Broken Keel": [null, true],
-          "Firmament Frontline: Glamoth": [null, true],
-          "Penacony, Land of the Dreams": [null, true]
+          "Passerby of Wandering Cloud": [
+            null,
+            true
+          ],
+          "Musketeer of Wild Wheat": [
+            null,
+            true
+          ],
+          "Knight of Purity Palace": [
+            null,
+            true
+          ],
+          "Hunter of Glacial Forest": [
+            null,
+            true
+          ],
+          "Champion of Streetwise Boxing": [
+            null,
+            5
+          ],
+          "Guard of Wuthering Snow": [
+            null,
+            true
+          ],
+          "Firesmith of Lava-Forging": [
+            null,
+            true
+          ],
+          "Genius of Brilliant Stars": [
+            null,
+            true
+          ],
+          "Band of Sizzling Thunder": [
+            null,
+            true
+          ],
+          "Eagle of Twilight Line": [
+            null,
+            true
+          ],
+          "Thief of Shooting Meteor": [
+            null,
+            true
+          ],
+          "Wastelander of Banditry Desert": [
+            null,
+            0
+          ],
+          "Longevous Disciple": [
+            null,
+            2
+          ],
+          "Messenger Traversing Hackerspace": [
+            null,
+            true
+          ],
+          "The Ashblazing Grand Duke": [
+            null,
+            0
+          ],
+          "Prisoner in Deep Confinement": [
+            null,
+            0
+          ],
+          "Space Sealing Station": [
+            null,
+            true
+          ],
+          "Fleet of the Ageless": [
+            null,
+            true
+          ],
+          "Pan-Cosmic Commercial Enterprise": [
+            null,
+            true
+          ],
+          "Belobog of the Architects": [
+            null,
+            true
+          ],
+          "Celestial Differentiator": [
+            null,
+            false
+          ],
+          "Inert Salsotto": [
+            null,
+            true
+          ],
+          "Talia: Kingdom of Banditry": [
+            null,
+            true
+          ],
+          "Sprightly Vonwacq": [
+            null,
+            true
+          ],
+          "Rutilant Arena": [
+            null,
+            true
+          ],
+          "Broken Keel": [
+            null,
+            true
+          ],
+          "Firmament Frontline: Glamoth": [
+            null,
+            true
+          ],
+          "Penacony, Land of the Dreams": [
+            null,
+            true
+          ]
         },
         "characterConditionals": {
           "talentEnhancedState": true,
@@ -7273,7 +9946,10 @@
           "e1CdBuff": true,
           "e2SkillDmgBuff": true
         },
-        "lightConeConditionals": { "eclipseStacks": 3, "maxStackDefPen": true },
+        "lightConeConditionals": {
+          "eclipseStacks": 3,
+          "maxStackDefPen": true
+        },
         "enemyLevel": 95,
         "enemyCount": 1,
         "enemyResistance": 0.2,
@@ -7334,12 +10010,27 @@
         "lightCone": "21022",
         "lightConeLevel": 80,
         "lightConeSuperimposition": 5,
-        "mainBody": ["ATK%"],
-        "mainFeet": ["SPD"],
-        "mainPlanarSphere": ["Lightning DMG Boost"],
-        "mainLinkRope": ["ATK%"],
-        "relicSets": [["4 Piece", "Band of Sizzling Thunder"]],
-        "ornamentSets": ["Space Sealing Station"],
+        "mainBody": [
+          "ATK%"
+        ],
+        "mainFeet": [
+          "SPD"
+        ],
+        "mainPlanarSphere": [
+          "Lightning DMG Boost"
+        ],
+        "mainLinkRope": [
+          "ATK%"
+        ],
+        "relicSets": [
+          [
+            "4 Piece",
+            "Band of Sizzling Thunder"
+          ]
+        ],
+        "ornamentSets": [
+          "Space Sealing Station"
+        ],
         "minAtk": 0,
         "maxAtk": 2147483647,
         "minHp": 0,
@@ -7395,12 +10086,28 @@
         "lightCone": "24001",
         "lightConeLevel": 80,
         "lightConeSuperimposition": 5,
-        "mainBody": ["CRIT DMG", "CRIT Rate"],
-        "mainFeet": ["ATK%"],
-        "mainPlanarSphere": ["Quantum DMG Boost"],
-        "mainLinkRope": ["ATK%"],
-        "relicSets": [["4 Piece", "Genius of Brilliant Stars"]],
-        "ornamentSets": ["Rutilant Arena"],
+        "mainBody": [
+          "CRIT DMG",
+          "CRIT Rate"
+        ],
+        "mainFeet": [
+          "ATK%"
+        ],
+        "mainPlanarSphere": [
+          "Quantum DMG Boost"
+        ],
+        "mainLinkRope": [
+          "ATK%"
+        ],
+        "relicSets": [
+          [
+            "4 Piece",
+            "Genius of Brilliant Stars"
+          ]
+        ],
+        "ornamentSets": [
+          "Rutilant Arena"
+        ],
         "minAtk": 0,
         "maxAtk": 2147483647,
         "minHp": 0,
@@ -7456,12 +10163,27 @@
         "lightCone": "21000",
         "lightConeLevel": 80,
         "lightConeSuperimposition": 4,
-        "mainBody": ["Outgoing Healing Boost"],
-        "mainFeet": ["SPD"],
-        "mainPlanarSphere": ["HP%"],
-        "mainLinkRope": ["Energy Regeneration Rate"],
-        "relicSets": [["4 Piece", "Passerby of Wandering Cloud"]],
-        "ornamentSets": ["Fleet of the Ageless"],
+        "mainBody": [
+          "Outgoing Healing Boost"
+        ],
+        "mainFeet": [
+          "SPD"
+        ],
+        "mainPlanarSphere": [
+          "HP%"
+        ],
+        "mainLinkRope": [
+          "Energy Regeneration Rate"
+        ],
+        "relicSets": [
+          [
+            "4 Piece",
+            "Passerby of Wandering Cloud"
+          ]
+        ],
+        "ornamentSets": [
+          "Fleet of the Ageless"
+        ],
         "minAtk": 0,
         "maxAtk": 2147483647,
         "minHp": 0,
@@ -7517,12 +10239,29 @@
         "lightCone": "21012",
         "lightConeLevel": 80,
         "lightConeSuperimposition": 1,
-        "mainBody": ["CRIT Rate", "CRIT DMG"],
-        "mainFeet": ["SPD"],
-        "mainPlanarSphere": ["Wind DMG Boost", "HP%"],
-        "mainLinkRope": ["HP%"],
-        "relicSets": [["4 Piece", "Longevous Disciple"]],
-        "ornamentSets": ["Inert Salsotto"],
+        "mainBody": [
+          "CRIT Rate",
+          "CRIT DMG"
+        ],
+        "mainFeet": [
+          "SPD"
+        ],
+        "mainPlanarSphere": [
+          "Wind DMG Boost",
+          "HP%"
+        ],
+        "mainLinkRope": [
+          "HP%"
+        ],
+        "relicSets": [
+          [
+            "4 Piece",
+            "Longevous Disciple"
+          ]
+        ],
+        "ornamentSets": [
+          "Inert Salsotto"
+        ],
         "minAtk": 0,
         "maxAtk": 2147483647,
         "minHp": 0,
@@ -7578,12 +10317,29 @@
         "lightCone": "21032",
         "lightConeLevel": 80,
         "lightConeSuperimposition": 4,
-        "mainBody": ["HP%", "ATK%"],
-        "mainFeet": ["SPD"],
-        "mainPlanarSphere": ["HP%", "ATK%"],
-        "mainLinkRope": ["Energy Regeneration Rate"],
-        "relicSets": [["4 Piece", "Musketeer of Wild Wheat"]],
-        "ornamentSets": ["Fleet of the Ageless"],
+        "mainBody": [
+          "HP%",
+          "ATK%"
+        ],
+        "mainFeet": [
+          "SPD"
+        ],
+        "mainPlanarSphere": [
+          "HP%",
+          "ATK%"
+        ],
+        "mainLinkRope": [
+          "Energy Regeneration Rate"
+        ],
+        "relicSets": [
+          [
+            "4 Piece",
+            "Musketeer of Wild Wheat"
+          ]
+        ],
+        "ornamentSets": [
+          "Fleet of the Ageless"
+        ],
         "minAtk": 0,
         "maxAtk": 2147483647,
         "minHp": 0,
@@ -7638,12 +10394,30 @@
         "lightCone": "23003",
         "lightConeLevel": 80,
         "lightConeSuperimposition": 1,
-        "mainBody": ["CRIT DMG", "HP%"],
-        "mainFeet": ["SPD"],
-        "mainPlanarSphere": ["HP%", "DEF%"],
-        "mainLinkRope": ["Energy Regeneration Rate"],
-        "relicSets": [["2 Piece", "Eagle of Twilight Line"]],
-        "ornamentSets": ["Fleet of the Ageless", "Broken Keel"],
+        "mainBody": [
+          "CRIT DMG",
+          "HP%"
+        ],
+        "mainFeet": [
+          "SPD"
+        ],
+        "mainPlanarSphere": [
+          "HP%",
+          "DEF%"
+        ],
+        "mainLinkRope": [
+          "Energy Regeneration Rate"
+        ],
+        "relicSets": [
+          [
+            "2 Piece",
+            "Eagle of Twilight Line"
+          ]
+        ],
+        "ornamentSets": [
+          "Fleet of the Ageless",
+          "Broken Keel"
+        ],
         "minAtk": 0,
         "maxAtk": 2147483647,
         "minHp": 0,
@@ -7697,10 +10471,18 @@
         "lightCone": "21007",
         "lightConeLevel": 80,
         "lightConeSuperimposition": 1,
-        "mainBody": ["Outgoing Healing Boost"],
-        "mainFeet": ["SPD"],
-        "mainPlanarSphere": ["HP%"],
-        "mainLinkRope": ["Energy Regeneration Rate"],
+        "mainBody": [
+          "Outgoing Healing Boost"
+        ],
+        "mainFeet": [
+          "SPD"
+        ],
+        "mainPlanarSphere": [
+          "HP%"
+        ],
+        "mainLinkRope": [
+          "Energy Regeneration Rate"
+        ],
         "relicSets": [],
         "ornamentSets": [],
         "minAtk": 0,
@@ -7742,5 +10524,17 @@
       "equipped": {},
       "rank": 7
     }
-  ]
+  ],
+  "completedMigrations": {
+    "novaflare1004": 1,
+    "novaflare1005": 1,
+    "novaflare1006": 1,
+    "novaflare1102": 1,
+    "novaflare1205": 1,
+    "novaflare1212": 1,
+    "novaflare1217": 1,
+    "novaflare1306": 1,
+    "novaflare1307": 1,
+    "novaflare1310": 1
+  }
 }

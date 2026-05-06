@@ -356,7 +356,7 @@ function ContributorsSection() {
         <h3 className={classes.contributorsTitle}>{t('Contributors.Title')}</h3>
         <p className={classes.contributorsSubtitle}>{t('CommunityCollapse')}</p>
       </div>
-      <a href='https://github.com/fribbels/hsr-optimizer/graphs/contributors' target='_blank' rel='noreferrer'>
+      <a href='https://github.com/fribbels/hsr-optimizer/graphs/contributors' target='_blank' rel='noreferrer' className={classes.contributorsLink}>
         <img
           src='https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1'
           alt={t('Contributors.Title')}

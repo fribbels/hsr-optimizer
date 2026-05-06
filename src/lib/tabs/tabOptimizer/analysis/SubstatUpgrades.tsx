@@ -16,6 +16,7 @@ import {
 import { truncate100ths } from 'lib/utils/mathUtils'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
+import tableClasses from './UpgradeTable.module.css'
 import classes from './SubstatUpgrades.module.css'
 
 type Metrics = 'COMBO_DMG' | 'EHP'
@@ -85,28 +86,28 @@ export function DamageUpgrades({ analysis }: {
     displays.push(
       <Table
         key={group.key}
-        className={classes.upgradeTable}
+        className={tableClasses.upgradeTable}
       >
         <Table.Thead>
           <Table.Tr>
-            <Table.Th className={classes.substatHeader}>{t('ColumnHeaders.Substat')}</Table.Th>
-            <Table.Th className={classes.columnHeader}>{t(`ColumnHeaders.${group.key}_P`)}</Table.Th>
-            <Table.Th className={classes.columnHeader}>{t(`ColumnHeaders.${group.key}`)}</Table.Th>
+            <Table.Th className={tableClasses.substatHeader}>{t('ColumnHeaders.Substat')}</Table.Th>
+            <Table.Th className={tableClasses.columnHeader}>{t(`ColumnHeaders.${group.key}_P`)}</Table.Th>
+            <Table.Th className={tableClasses.columnHeader}>{t(`ColumnHeaders.${group.key}`)}</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
           {group.upgrades.map((item) => (
             <Table.Tr key={item.key}>
-              <Table.Td className={classes.centeredCell}>
+              <Table.Td className={tableClasses.centeredCell}>
                 <div style={{ display: 'flex' }}>
                   <img src={Assets.getStatIcon(item.key)} className={classes.statIcon} />
                   {tCommon(item.key)}
                 </div>
               </Table.Td>
-              <Table.Td className={classes.centeredCell}>
+              <Table.Td className={tableClasses.centeredCell}>
                 {item.percent === 0 ? '' : `${localeNumber_00(truncate100ths(item.percent * 100))}%`}
               </Table.Td>
-              <Table.Td className={classes.centeredCell}>
+              <Table.Td className={tableClasses.centeredCell}>
                 {item.value === 0 ? '' : `${localeNumber_0(item.value)}`}
               </Table.Td>
             </Table.Tr>

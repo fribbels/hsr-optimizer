@@ -1,4 +1,8 @@
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { internalFormToState } from 'lib/stores/optimizerForm/optimizerFormConversions'
 import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import {
@@ -74,11 +78,76 @@ export function computeLoadForm(form: Form): OptimizerRequestState {
   const defaults = createDefaultFormState()
   const converted = internalFormToState(form)
   const merged = mergeDefinedValues({ ...defaults }, converted)
-  // Merge setConditionals: fill in missing keys from defaults (handles old saves missing newer sets)
   if (converted.setConditionals && defaults.setConditionals) {
     merged.setConditionals = { ...defaults.setConditionals, ...converted.setConditionals }
   }
+
+  mergeConditionalDefaults(merged, form)
+
   return merged
+}
+
+/**
+ * Fills in missing conditional values from controller defaults.
+ * Saved values take priority — defaults only fill gaps from newly added conditionals.
+ * Covers: main character (char + LC), all teammates (char + LC).
+ */
+function mergeConditionalDefaults(state: OptimizerRequestState, form: Form): void {
+  const dbMetadata = getGameMetadata()
+  if (!dbMetadata?.characters) return
+
+  // Main character conditionals
+  if (form.characterId) {
+    const charController = CharacterConditionalsResolver.get({
+      characterId: form.characterId,
+      characterEidolon: form.characterEidolon,
+    })
+    const charDefaults = charController.defaults?.()
+    if (charDefaults) {
+      state.characterConditionals = { ...charDefaults, ...state.characterConditionals }
+    }
+
+    if (form.lightCone) {
+      const lcDefaults = resolveLcDefaults(form, dbMetadata, false)
+      if (lcDefaults) {
+        state.lightConeConditionals = { ...lcDefaults, ...state.lightConeConditionals }
+      }
+    }
+  }
+
+  // Teammate conditionals
+  const teammates = [form.teammate0, form.teammate1, form.teammate2] as const
+  for (let i = 0; i < 3; i++) {
+    const teammate = teammates[i]
+    if (!teammate?.characterId) continue
+    const tmState = state.teammates[i]
+
+    const charController = CharacterConditionalsResolver.get({
+      characterId: teammate.characterId,
+      characterEidolon: teammate.characterEidolon,
+    })
+    const charDefaults = charController.teammateDefaults?.()
+    if (charDefaults) {
+      tmState.characterConditionals = { ...charDefaults, ...tmState.characterConditionals }
+    }
+
+    if (teammate.lightCone) {
+      const lcDefaults = resolveLcDefaults(teammate, dbMetadata, true)
+      if (lcDefaults) {
+        tmState.lightConeConditionals = { ...lcDefaults, ...tmState.lightConeConditionals }
+      }
+    }
+  }
+}
+
+export function resolveLcDefaults(
+  config: { characterId: string, characterEidolon: number, lightCone: string, lightConeSuperimposition: number },
+  dbMetadata: ReturnType<typeof getGameMetadata>,
+  isTeammate: boolean,
+): Record<string, boolean | number> | undefined {
+  const lcRequest = generateConditionalResolverMetadata(config as any, dbMetadata)
+  const lcController = LightConeConditionalsResolver.get(lcRequest)
+  return isTeammate ? lcController.teammateDefaults?.() : lcController.defaults?.()
 }
 
 /**

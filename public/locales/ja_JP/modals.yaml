@@ -311,6 +311,7 @@ EditImage:
       Default: デフォルトを使用
     Upload:
       Method: ここをクリックしてアップロードするか、画像ファイルをここにドラッグしてください
+      Limit: '対応フォーマット：.jpg .jpeg .png .gif .webp(20 MB まで)'
     Url:
       Label: 画像
       Rule: 有効な画像のURLを入力してください
@@ -339,6 +340,7 @@ SaveBuild:
     OverwriteDisabled: その名前のビルドは存在しません。上書きするには、既存のビルドをクリックするか、そのビルドの名前を入力してください。
 SwitchRelics:
   Title: キャラクターと遺物を交換
+  Placeholder: キャラを検索
 Builds:
   DeleteAll: すべて削除
   Equip: 装備

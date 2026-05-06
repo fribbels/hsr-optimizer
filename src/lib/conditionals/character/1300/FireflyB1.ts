@@ -459,7 +459,7 @@ const display = {
     y: 1075,
     z: 1.25,
   },
-  showcaseColor: '#00bbab',
+  showcaseColor: '#68b456',
 }
 
 export const FireflyB1: CharacterConfig = {

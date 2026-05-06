@@ -53,6 +53,7 @@ import type {
   CharacterId,
   SavedBuild,
 } from 'types/character'
+import type { Nullable } from 'types/common'
 import type {
   CustomImageConfig,
   CustomImagePayload,
@@ -231,10 +232,19 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
 export function getShowcaseStats(
   character: Character,
   displayRelics: PreviewRelics,
+  savedBuildOverride: Nullable<SavedBuild>,
 ) {
   const statCalculationRelics = clone(displayRelics)
   RelicFilters.condenseRelicSubstatsForOptimizerSingle(Object.values(statCalculationRelics).filter((relic) => !!relic))
-  const form = normalizeForm(character.form)
+  const preForm: Form = !savedBuildOverride
+    ? character.form
+    : {
+      ...character.form,
+      characterEidolon: savedBuildOverride.characterEidolon,
+      lightCone: savedBuildOverride.lightCone,
+      lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
+    }
+  const form = normalizeForm(preForm)
   const context = generateContext(form)
   const { x } = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null)
   const basicStats = x.c.toBasicStatsObject()

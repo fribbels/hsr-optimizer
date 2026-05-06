@@ -105,7 +105,7 @@ export type OptimizerDisplayData = {
   'FUA_SHIELD'?: number,
   'TALENT_SHIELD'?: number,
 
-  xa: Float32Array,
+  xa: Float64Array,
   ca: Float32Array,
 
   // Not safe to use unless trace is activated with a new instance

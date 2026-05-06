@@ -12,6 +12,7 @@ import {
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
+import { getCharacterById } from 'lib/stores/character/characterStore'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import {
   getRelicById,
@@ -20,6 +21,7 @@ import {
 import { EventEmitter } from 'lib/utils/frontendUtils'
 import { objectHash } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
+import type { Form } from 'types/form'
 
 type ScannerState = {
   // The websocket url to connect to
@@ -33,6 +35,9 @@ type ScannerState = {
 
   // Whether to ingest character data from the scanner websocket
   ingestCharacters: boolean,
+
+  // Whether to restrict live character ingestion to characters that already exist in the optimizer
+  ingestOnlyExistingCharacters: boolean,
 
   // Whether to auto-import warp resources (jades, passes, pity)
   ingestWarpResources: boolean,
@@ -72,6 +77,9 @@ type ScannerActions = {
 
   // Turn on/off ingestion of character data from the scanner websocket
   setIngestCharacters: (ingest: boolean) => void,
+
+  // Turn on/off restricting live character ingestion to existing optimizer characters
+  setIngestOnlyExistingCharacters: (ingestOnlyExistingCharacters: boolean) => void,
 
   // Turn on/off auto-import of warp resources
   setIngestWarpResources: (ingest: boolean) => void,
@@ -131,6 +139,7 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
   connected: false,
   ingest: false,
   ingestCharacters: false,
+  ingestOnlyExistingCharacters: false,
   ingestWarpResources: false,
 
   lastScanData: null,
@@ -159,7 +168,10 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
     if (state.connected && ingest) {
       const fullScanData = state.buildFullScanData()
       if (fullScanData) {
-        ingestFullScan(fullScanData, state.ingestCharacters)
+        ingestFullScan(fullScanData, {
+          updateCharacters: state.ingestCharacters,
+          onlyExistingCharacters: state.ingestOnlyExistingCharacters,
+        })
       }
     }
 
@@ -173,7 +185,27 @@ export const usePrivateScannerState = createTabAwareStore<ScannerStore>((set, ge
     if (state.connected && state.ingest && ingestCharacters) {
       const fullScanData = state.buildFullScanData()
       if (fullScanData) {
-        ingestFullScan(fullScanData, ingestCharacters)
+        ingestFullScan(fullScanData, {
+          updateCharacters: ingestCharacters,
+          onlyExistingCharacters: state.ingestOnlyExistingCharacters,
+        })
+      }
+    }
+
+    SaveState.delayedSave()
+  },
+
+  setIngestOnlyExistingCharacters: (ingestOnlyExistingCharacters: boolean) => {
+    set({ ingestOnlyExistingCharacters })
+
+    const state = get()
+    if (state.connected && state.ingest && state.ingestCharacters) {
+      const fullScanData = state.buildFullScanData()
+      if (fullScanData) {
+        ingestFullScan(fullScanData, {
+          updateCharacters: state.ingestCharacters,
+          onlyExistingCharacters: ingestOnlyExistingCharacters,
+        })
       }
     }
 
@@ -389,13 +421,22 @@ export type ScannerEvent =
   | { event: 'DeleteRelics', data: string[] } // data: unique ids
   | { event: 'DeleteLightCones', data: string[] } // data: unique ids
 
-function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
+type IngestFullScanOptions = {
+  updateCharacters: boolean,
+  onlyExistingCharacters: boolean,
+}
+
+function existingCharactersOnly(characters: Form[]) {
+  return characters.filter((character) => getCharacterById(character.characterId))
+}
+
+function ingestFullScan(data: ScannerParserJson, options: IngestFullScanOptions) {
   const activatedBuffs = getActivatedBuffs(data.characters)
   usePrivateScannerState.getState().updateActivatedBuffs(activatedBuffs)
 
   const newScan = ReliquaryArchiverParser.parse(data)
   if (newScan) {
-    if (updateCharacters) {
+    if (options.updateCharacters) {
       // TODO: Merge with input form
       // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
       newScan.characters = newScan.characters.sort(
@@ -405,11 +446,15 @@ function ingestFullScan(data: ScannerParserJson, updateCharacters: boolean) {
         c.characterLevel = 80
         c.lightConeLevel = 80
       })
+
+      if (options.onlyExistingCharacters) {
+        newScan.characters = existingCharactersOnly(newScan.characters)
+      }
     }
 
     persistenceService.mergeRelics(
       newScan.relics,
-      updateCharacters ? newScan.characters : [],
+      options.updateCharacters ? newScan.characters : [],
     )
     console.info('Ingested initial scan')
 
@@ -449,7 +494,10 @@ export function initialScan(state: Readonly<ScannerStore>, data: ScannerParserJs
   state.updateInitialScan(data)
 
   if (state.ingest) {
-    ingestFullScan(data, state.ingestCharacters)
+    ingestFullScan(data, {
+      updateCharacters: state.ingestCharacters,
+      onlyExistingCharacters: state.ingestOnlyExistingCharacters,
+    })
   }
 }
 
@@ -468,6 +516,10 @@ export function handleUpdateRelic(state: Readonly<ScannerStore>, relic: V4Parser
       if (oldRelic != null && !state.ingestCharacters) {
         // Keep the owner of relic as the existing owner when character ingestion is disabled
         newRelic.equippedBy = oldRelic.equippedBy
+      }
+
+      if (state.ingestOnlyExistingCharacters && !getCharacterById(newRelic.equippedBy)) {
+        newRelic.equippedBy = undefined
       }
 
       equipmentService.upsertRelicWithEquipment(newRelic)
@@ -520,6 +572,10 @@ export function handleUpdateCharacter(
       activatedBuffs,
       Object.values(freshState.lightCones),
     )
+    if (parsed && freshState.ingestOnlyExistingCharacters && !getCharacterById(parsed.characterId)) {
+      return
+    }
+
     if (parsed) {
       persistenceService.upsertCharacterFromForm(parsed)
     }

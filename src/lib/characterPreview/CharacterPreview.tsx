@@ -36,6 +36,7 @@ import { DebugSliderPanel } from 'lib/characterPreview/DebugSliderPanel'
 import {
   CARD_BG_ALPHA_DEFAULT,
   type DebugVisualConfig,
+  getShowcasePreset,
   INSET_BLUR,
   INSET_OPACITY,
   PORTRAIT_BLUR,
@@ -47,7 +48,6 @@ import {
   SHADOW_X,
   SHADOW_Y,
   TEXT_SHADOW_DEFAULT,
-  getShowcasePreset,
   useDebugVisualConfigStore,
 } from 'lib/characterPreview/debugVisualConfigStore'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
@@ -90,7 +90,11 @@ import type {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import type { ScoringConfigType, ShowcaseDisplayDimensionsOverride, ShowcaseTemporaryOptions } from 'types/metadata'
+import type {
+  ScoringConfigType,
+  ShowcaseDisplayDimensionsOverride,
+  ShowcaseTemporaryOptions,
+} from 'types/metadata'
 import {
   SimScoringContextProvider,
   useSimPreview,
@@ -153,12 +157,14 @@ function buildInsetShadow(blur: number, opacity: number) {
  */
 function ShowcaseBackgroundBlur({
   portraitUrl,
+  defaultPortraitUrl,
   portraitToUse,
   displayDimensions,
   portraitFilter,
   blendMode,
 }: {
   portraitUrl: string,
+  defaultPortraitUrl: string,
   portraitToUse: CustomImageConfig | undefined,
   displayDimensions: { charCenter: { x: number, y: number, z: number }, backgroundCenterOffset: { x: number, y: number, z: number } },
   portraitFilter: string,
@@ -223,6 +229,7 @@ function ShowcaseBackgroundBlur({
     >
       <img
         src={portraitUrl}
+        data-fallback-src={portraitToUse ? defaultPortraitUrl : undefined}
         style={{
           ...imgStyle,
           display: 'block',
@@ -293,7 +300,9 @@ export function CharacterPreview({
     return <CharacterPreviewWithDebug character={character} forceDebug={forceDebug} {...rest} />
   }
 
-  return <CharacterPreviewInner character={character} forceDebug={forceDebug} debugVisualConfig={debugVisualConfig} editorOverrides={editorOverrides} {...rest} />
+  return (
+    <CharacterPreviewInner character={character} forceDebug={forceDebug} debugVisualConfig={debugVisualConfig} editorOverrides={editorOverrides} {...rest} />
+  )
 }
 
 /** Wrapper that subscribes to debug store and renders panel - only used when CARD_DEBUG */
@@ -329,7 +338,19 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
   // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
   // handles the equipped field difference (Relic objects vs string IDs).
-  const character = rawCharacter as Character
+  const character = useMemo(() => {
+    return !savedBuildOverride
+      ? rawCharacter as Character
+      : {
+        ...rawCharacter,
+        form: {
+          ...rawCharacter.form,
+          characterEidolon: savedBuildOverride.characterEidolon,
+          lightCone: savedBuildOverride.lightCone,
+          lightConeSuperimposition: savedBuildOverride.lightConeSuperimposition,
+        },
+      } as Character
+  }, [rawCharacter, savedBuildOverride])
 
   // Debug visual config with defaults — preset-aware (Satin/Gloss)
   const { t } = useTranslation('gameData')
@@ -353,7 +374,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
   // editorOverrides.forceSimScoreLayout overrides to DPS_SCORE layout for preview
   const effectiveScoringType = editorOverrides?.forceSimScoreLayout
-    ? ScoringType.DPS_SCORE // forceSimScoreLayout triggers compact layout; resolveScoringType handles DPS vs support fallback
+    ? ScoringType.DPS_SCORE
     : (forceDebug ? ScoringType.SUBSTAT_SCORE : state.storedScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
@@ -376,7 +397,19 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       return baseLayout
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [character, state.teamSelection, state.supportTeamSelection, state.healTeamSelection, state.shieldTeamSelection, effectiveScoringType, savedBuildOverride, _scoringMetadataCacheBuster, t, forceDebug, editorOverrides?.forceSimScoreLayout],
+    [
+      character,
+      state.teamSelection,
+      state.supportTeamSelection,
+      state.healTeamSelection,
+      state.shieldTeamSelection,
+      effectiveScoringType,
+      savedBuildOverride,
+      _scoringMetadataCacheBuster,
+      t,
+      forceDebug,
+      editorOverrides?.forceSimScoreLayout,
+    ],
   )
 
   // ===== Color + Theme (color-dependent, cheap) =====
@@ -453,10 +486,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   // Apply editor overrides for live preview editing
   const displayDimensions = editorOverrides
     ? {
-        ...baseDisplayDimensions,
-        charCenter: editorOverrides.charCenter ?? baseDisplayDimensions.charCenter,
-        backgroundCenterOffset: editorOverrides.backgroundCenterOffset ?? baseDisplayDimensions.backgroundCenterOffset,
-      }
+      ...baseDisplayDimensions,
+      charCenter: editorOverrides.charCenter ?? baseDisplayDimensions.charCenter,
+      backgroundCenterOffset: editorOverrides.backgroundCenterOffset ?? baseDisplayDimensions.backgroundCenterOffset,
+    }
     : baseDisplayDimensions
 
   const scoredRelics = scoringResults.relics ?? EMPTY_SCORED
@@ -508,6 +541,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
             '--showcase-shadow': buildShadow(visual.shadowX, visual.shadowY, visual.shadowBlur, visual.shadowOpacity),
             '--showcase-shadow-inset': buildInsetShadow(visual.insetBlur, visual.insetOpacity),
+            'fontFamily': 'var(--font-showcase)',
             'color': 'rgba(225, 225, 225, 1)',
             'textShadow': visual.textShadow,
             'position': 'relative',
@@ -523,6 +557,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         >
           <ShowcaseBackgroundBlur
             portraitUrl={portraitUrl}
+            defaultPortraitUrl={layout.defaultPortraitUrl}
             portraitToUse={portraitToUse}
             displayDimensions={displayDimensions}
             portraitFilter={portraitFilter}

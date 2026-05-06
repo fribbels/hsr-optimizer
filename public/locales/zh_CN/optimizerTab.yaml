@@ -505,7 +505,9 @@ CombatBuffs:
   EFFECT_RES_PEN: 效果抵抗穿透 %
   VULNERABILITY: 易伤 %
   BREAK_EFFICIENCY: 击破效率 %
+  EHR: 效果命中率 %
   Title: 额外战斗增益
+  Clear: 清除
 Target_one: 目标
 Target_other: 目标
 EnemyConfiguration:
@@ -709,6 +711,10 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      COMBO_DMG: Δ连招伤害
+      COMBO_DMG_P: Δ%连招伤害
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x 副词条'

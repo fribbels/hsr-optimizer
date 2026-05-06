@@ -349,7 +349,7 @@ const display = {
     z: 1.25,
   },
   disableSpine: true,
-  showcaseColor: '#cf99a9',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const Kafka: CharacterConfig = {

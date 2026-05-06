@@ -147,7 +147,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
 
     // Reconstruct arrays after transfer
-    action.precomputedStats.a = new Float32Array(Object.values(action.precomputedStats.a))
+    action.precomputedStats.a = new Float64Array(Object.values(action.precomputedStats.a))
 
     // Rebuild entityRegistry from entitiesArray after serialization
     if (action.config) {
@@ -161,7 +161,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
 
     // Reconstruct arrays after transfer
-    action.precomputedStats.a = new Float32Array(Object.values(action.precomputedStats.a))
+    action.precomputedStats.a = new Float64Array(Object.values(action.precomputedStats.a))
 
     // Rebuild entityRegistry from entitiesArray after serialization
     if (action.config) {

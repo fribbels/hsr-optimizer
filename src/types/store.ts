@@ -19,10 +19,12 @@ import type { Relic } from 'types/relic'
 
 export type HsrOptimizerStore = {
   version: string,
+  completedMigrations: Record<string, number>,
   scoringAlgorithmFocusCharacter?: CharacterId | null,
   statTracesDrawerFocusCharacter?: CharacterId | null,
   activeKey: AppPages,
   settings: UserSettings,
+  setCompletedMigrations: (x: Record<string, number>) => void,
   setSettings: (settings: UserSettings) => void,
   setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
   setActiveKey: (key: AppPages) => void,
@@ -80,10 +82,12 @@ export type HsrOptimizerSaveFormat = {
   scannerSettings?: {
     ingest: boolean,
     ingestCharacters: boolean,
+    ingestOnlyExistingCharacters?: boolean,
     ingestWarpResources: boolean,
     websocketUrl: string,
     customUrl: boolean,
   },
+  completedMigrations?: Record<string, number>,
 }
 
 export type StatDisplay = 'combat' | 'base'

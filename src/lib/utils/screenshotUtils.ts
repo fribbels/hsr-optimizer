@@ -61,12 +61,16 @@
  * - `data-portrait-inject`: The portrait container (has positioning data attributes)
  * - `data-portrait-spine`: Wrapper around spine canvas (L2D-on only) - hidden during capture
  * - `data-portrait-foreground`: Wrapper around LoadingBlurredImage (L2D-off only)
- * - `data-portrait-url/left/top/width`: Portrait positioning data on container
+ * - `data-portrait-url/left/top/width`: Default portrait positioning data on container
+ * - `data-fallback-src`: Same-origin fallback URL on cross-origin custom portrait images.
+ *   Set on the background blur `<img>` and the custom portrait wrapper `<div>`.
+ *   Used by buildImageDataUriCache for the blur layer and by prepareLiveDomForCapture
+ *   to detect custom portrait containers that need injection.
  *
  * ## Capture Flow
  *
  * 1. Patch canvas.getContext for Display P3 color space (better mobile colors)
- * 2. For L2D containers: hide spine wrapper, inject static portrait as data URL
+ * 2. For L2D/cross-origin containers: hide un-capturable element, inject static portrait as data URL
  * 3. snapdom() capture with retry loop (up to 3x, break when blob > 1MB)
  * 4. Restore live DOM (unhide spine, remove injected img)
  * 5. Hand blob to download / Web Share / clipboard
@@ -102,8 +106,10 @@
  */
 
 import {
+  type BlobType,
   preCache,
   snapdom,
+  type SnapdomPlugin,
 } from '@zumer/snapdom'
 import i18next from 'i18next'
 import {
@@ -111,6 +117,17 @@ import {
   parentH,
 } from 'lib/constants/constantsUi'
 import { Message } from 'lib/interactions/message.js'
+
+const FETCH_TIMEOUT_MS = 8000
+
+function blobToDataUrl(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = reject
+    reader.readAsDataURL(blob)
+  })
+}
 
 function isMobileOrSafari(): boolean {
   const userAgent = navigator.userAgent
@@ -139,7 +156,7 @@ function patchCanvasForDisplayP3(): () => void {
   const originalGetContext = HTMLCanvasElement.prototype.getContext
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, contextId: string, options?: any): any {
+  HTMLCanvasElement.prototype.getContext = function(this: HTMLCanvasElement, contextId: string, options?: any): any {
     if (contextId === '2d') {
       return Reflect.apply(originalGetContext, this, [contextId, { colorSpace: 'display-p3', ...options }])
     }
@@ -152,57 +169,62 @@ function patchCanvasForDisplayP3(): () => void {
 }
 
 /**
- * Prepares the live DOM for screenshot capture by handling L2D spine canvases.
+ * Prepares the live DOM for screenshot capture by replacing un-capturable portrait
+ * elements with static images that snapdom can serialize.
  *
- * ## Why this exists
- * Spine canvases use `preserveDrawingBuffer: false` for performance, which means
- * their pixels can't be read after presentation. Snapdom would capture a blank canvas.
- *
- * ## What it does
- * For each L2D-on container (has `data-portrait-spine`):
- * 1. Hide the spine canvas wrapper
- * 2. Fetch the static portrait as a data URL (external URLs have decode races on iOS)
- * 3. Inject a visible <img> with explicit pixel dimensions (height:auto doesn't work in clones)
+ * Handles two cases for `[data-portrait-inject]` containers:
+ * - **Spine/L2D** (`[data-portrait-spine]`): canvas uses preserveDrawingBuffer:false,
+ *   so snapdom captures a blank frame. Hides spine, injects static portrait.
+ * - **Cross-origin custom portrait** (`[data-fallback-src]`): external images from
+ *   servers without CORS headers can't be fetched/inlined by snapdom. Hides the custom
+ *   portrait and injects the default character portrait with charCenter positioning.
  *
  * Returns a restore function that undoes all changes in reverse order.
  */
-async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> {
+async function prepareLiveDomForCapture(root: HTMLElement, corsFailed: Set<string>): Promise<() => void> {
   const restoreActions: Array<() => void> = []
-
-  const containers = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-inject]'))
   const loadPromises: Promise<void>[] = []
 
-  for (const container of containers) {
-    const spineWrapper = container.querySelector<HTMLElement>('[data-portrait-spine]')
-    if (!spineWrapper) continue // L2D-off: LoadingBlurredImage renders natively, skip
+  const containers = Array.from(root.querySelectorAll<HTMLElement>('[data-portrait-inject]'))
 
+  for (const container of containers) {
     const url = container.dataset.portraitUrl
     const left = container.dataset.portraitLeft
     const top = container.dataset.portraitTop
     const width = container.dataset.portraitWidth
     if (!url || !left || !top || !width) continue
 
-    // Hide spine wrapper
-    const originalDisplay = spineWrapper.style.display
-    spineWrapper.style.display = 'none'
+    const spineWrapper = container.querySelector<HTMLElement>('[data-portrait-spine]')
+    const customPortraitWrapper = container.querySelector<HTMLElement>('[data-fallback-src]')
+
+    // Default portrait without L2D — renders natively via LoadingBlurredImage, skip
+    if (!spineWrapper && !customPortraitWrapper) continue
+
+    let elementToHide: HTMLElement
+
+    if (spineWrapper) {
+      elementToHide = spineWrapper
+    } else {
+      // Custom portrait: skip injection if buildImageDataUriCache already fetched it successfully
+      const customImgUrl = customPortraitWrapper!.querySelector<HTMLImageElement>('img')?.src
+      if (customImgUrl && !corsFailed.has(customImgUrl)) continue
+      elementToHide = customPortraitWrapper!
+    }
+
+    const originalDisplay = elementToHide.style.display
+    elementToHide.style.display = 'none'
     restoreActions.push(() => {
-      if (spineWrapper.isConnected) spineWrapper.style.display = originalDisplay
+      if (elementToHide.isConnected) elementToHide.style.display = originalDisplay
     })
 
-    // Fetch portrait as data URL to avoid iOS decode race conditions
     try {
-      const response = await withTimeout(fetch(url), 4000)
+      const response = await withTimeout(fetch(url), FETCH_TIMEOUT_MS)
       const blob = await response.blob()
-      const dataUrl = await new Promise<string>((resolve, reject) => {
-        const reader = new FileReader()
-        reader.onload = () => resolve(reader.result as string)
-        reader.onerror = reject
-        reader.readAsDataURL(blob)
-      })
+      const dataUrl = await blobToDataUrl(blob)
 
       // Probe natural dimensions - explicit height required (height:auto = 0 in clones)
       const probe = new Image()
-      const dims = await new Promise<{ w: number; h: number }>((resolve) => {
+      const dims = await new Promise<{ w: number, h: number }>((resolve) => {
         probe.onload = () => resolve({ w: probe.naturalWidth, h: probe.naturalHeight })
         probe.onerror = () => resolve({ w: 1, h: 1 })
         probe.src = dataUrl
@@ -211,7 +233,7 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
       const w = parseFloat(width)
       const h = w * (dims.h / dims.w)
 
-      // Inject visible portrait img
+      // Inject visible portrait img with correct charCenter-based positioning
       const img = new Image()
       img.src = dataUrl
       img.style.position = 'absolute'
@@ -219,22 +241,24 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
       img.style.top = `${top}px`
       img.style.width = `${w}px`
       img.style.height = `${h}px`
-      img.style.zIndex = '10'
+      img.style.zIndex = '1'
 
-      loadPromises.push(new Promise<void>((resolve) => {
-        img.onload = async () => {
-          if (typeof img.decode === 'function') await img.decode().catch(() => {})
-          resolve()
-        }
-        img.onerror = () => resolve()
-      }))
+      loadPromises.push(
+        new Promise<void>((resolve) => {
+          img.onload = async () => {
+            if (typeof img.decode === 'function') await img.decode().catch(() => {})
+            resolve()
+          }
+          img.onerror = () => resolve()
+        }),
+      )
 
       container.appendChild(img)
       restoreActions.push(() => {
         if (img.isConnected) img.remove()
       })
     } catch {
-      // Fetch failed - spine wrapper restore already registered, UI will recover
+      // Fetch failed - element hide restore already registered, UI will recover
     }
   }
 
@@ -244,17 +268,111 @@ async function prepareLiveDomForCapture(root: HTMLElement): Promise<() => void> 
   // Return restore function - executes in reverse order for proper cleanup
   return () => {
     for (let i = restoreActions.length - 1; i >= 0; i--) {
-      try { restoreActions[i]() } catch { /* best-effort */ }
+      try {
+        restoreActions[i]()
+      } catch { /* best-effort */ }
     }
   }
 }
 
-/** No-op snapdom plugin - all DOM modifications happen before capture now */
-function buildNoOpPlugin() {
+/**
+ * Resolves a data URI for a cross-origin image that tainted the canvas.
+ * Tries fetch (works when the server sends CORS headers), then falls back
+ * to the same-origin URL from data-fallback-src.
+ */
+async function resolveTaintedImage(
+  img: HTMLImageElement,
+  cache: Map<string, string>,
+): Promise<{ dataUrl: string } | { corsFailed: true }> {
+  try {
+    const blob = await withTimeout(fetch(img.src), FETCH_TIMEOUT_MS).then((r) => r.blob())
+    return { dataUrl: await blobToDataUrl(blob) }
+  } catch { /* CORS fetch failed */ }
+
+  const fallbackUrl = img.dataset.fallbackSrc
+    ?? img.closest<HTMLElement>('[data-fallback-src]')?.dataset.fallbackSrc
+
+  if (fallbackUrl && cache.has(fallbackUrl)) {
+    return { dataUrl: cache.get(fallbackUrl)! }
+  }
+
+  if (fallbackUrl) {
+    try {
+      const fallbackImg = new Image()
+      await withTimeout(
+        new Promise<void>((resolve) => {
+          fallbackImg.onload = () => resolve()
+          fallbackImg.onerror = () => resolve()
+          fallbackImg.src = fallbackUrl
+        }),
+        FETCH_TIMEOUT_MS,
+      )
+      if (fallbackImg.naturalWidth) {
+        const c = document.createElement('canvas')
+        const cx = c.getContext('2d')!
+        c.width = fallbackImg.naturalWidth
+        c.height = fallbackImg.naturalHeight
+        cx.drawImage(fallbackImg, 0, 0)
+        return { dataUrl: c.toDataURL() }
+      }
+    } catch { /* best-effort */ }
+  }
+
+  return { corsFailed: true }
+}
+
+/** Convert loaded images to data URIs so snapdom doesn't re-fetch them.
+ *  For cross-origin images that taint the canvas, tries fetch() then a
+ *  same-origin fallback from data-fallback-src. Tainted images are resolved
+ *  in parallel to avoid sequential timeout delays.
+ *  Returns the cache and a set of URLs that failed CORS — used by
+ *  prepareLiveDomForCapture to decide whether to inject the default portrait. */
+async function buildImageDataUriCache(root: Element): Promise<{ cache: Map<string, string>, corsFailed: Set<string> }> {
+  const cache = new Map<string, string>()
+  const corsFailed = new Set<string>()
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  if (!ctx) return { cache, corsFailed }
+
+  const taintedWork: Array<{ src: string, promise: Promise<{ dataUrl: string } | { corsFailed: true }> }> = []
+
+  for (const img of root.querySelectorAll<HTMLImageElement>('img')) {
+    if (!img.complete || !img.naturalWidth || img.src.startsWith('data:') || cache.has(img.src)) continue
+    try {
+      canvas.width = img.naturalWidth
+      canvas.height = img.naturalHeight
+      ctx.drawImage(img, 0, 0)
+      cache.set(img.src, canvas.toDataURL())
+    } catch {
+      taintedWork.push({ src: img.src, promise: resolveTaintedImage(img, cache) })
+    }
+  }
+
+  const results = await Promise.allSettled(taintedWork.map((w) => w.promise))
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i]
+    if (result.status !== 'fulfilled') continue
+    const value = result.value
+    if ('dataUrl' in value) {
+      cache.set(taintedWork[i].src, value.dataUrl)
+    } else {
+      corsFailed.add(taintedWork[i].src)
+    }
+  }
+
+  return { cache, corsFailed }
+}
+
+/** Snapdom plugin that replaces img srcs on the clone with pre-built data URIs. */
+function buildImageInliningPlugin(cache: Map<string, string>): SnapdomPlugin {
   return {
-    name: 'no-op',
-    afterClone() {
-      // All modifications now done in prepareLiveDomForCapture
+    name: 'image-inlining',
+    afterClone({ clone }) {
+      if (!clone) return
+      for (const img of clone.querySelectorAll<HTMLImageElement>('img')) {
+        const dataUrl = cache.get(img.src)
+        if (dataUrl) img.src = dataUrl
+      }
     },
   }
 }
@@ -301,12 +419,10 @@ export async function screenshotElementById(
     const maxAttempts = 3
     const attemptTimeoutMs = 8000
 
-    // Warm snapdom's resource cache
     try {
       await preCache(element)
-    } catch {
-      // Best-effort
-    }
+    } catch { /* best-effort */ }
+    const { cache: imageCache, corsFailed } = await buildImageDataUriCache(element)
 
     const restoreContext = patchCanvasForDisplayP3()
 
@@ -316,22 +432,28 @@ export async function screenshotElementById(
       for (let i = 0; i < maxAttempts; i++) {
         let restoreLiveDom: (() => void) | null = null
         try {
-          restoreLiveDom = await prepareLiveDomForCapture(element)
+          restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
           const capture = await withTimeout(
             snapdom(element, {
-              scale: 1.5,
-              dpr: 1,
+              scale: 1,
+              dpr: 2,
               width: cardTotalW,
               height: parentH,
               backgroundColor: 'transparent',
               outerShadows: true,
               embedFonts: true,
-              plugins: [buildNoOpPlugin()],
+              fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+              plugins: [buildImageInliningPlugin(imageCache)],
             }),
             attemptTimeoutMs,
           )
-          blob = await capture.toBlob({ type: 'png' })
-          if (blob && blob.size > 1_000_000) break
+          // ClipboardItem.supports may be unavailable in older browsers or non-secure contexts
+          const supportsWebp = typeof ClipboardItem !== 'undefined'
+            && typeof ClipboardItem.supports === 'function'
+            && ClipboardItem.supports('image/webp')
+          const type: BlobType = (action === 'download' || supportsWebp) ? 'webp' : 'png'
+          blob = await capture.toBlob({ type, quality: 1.0 })
+          if (blob && blob.size > 1_500_000) break
         } catch (e) {
           lastError = e
         } finally {
@@ -355,31 +477,34 @@ export async function screenshotElementById(
     const pad = (n: number) => n.toString().padStart(2, '0')
     const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
     const time = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`
-    const filename = `${prefix}-${date}-${time}.png`
+    const ext = blob.type === 'image/webp' ? 'webp' : 'png'
+    const filename = `${prefix}-${date}-${time}.${ext}`
 
     if (action === 'clipboard') {
       if (mobile) {
-        const file = new File([blob], filename, { type: 'image/png' })
+        const file = new File([blob], filename, { type: blob.type })
         const canShareFiles = typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })
         if (canShareFiles) {
           navigator.share({ files: [file], title: '', text: '' }).catch((e: unknown) => {
             // Don't show error toast when user cancels the share dialog
             if (e instanceof Error && e.name === 'AbortError') return
-            Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
+            Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
           })
         } else {
-          Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
+          Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
         }
       } else {
-        try {
-          const data = [new ClipboardItem({ [blob.type]: blob })]
-          void navigator.clipboard.write(data).then(() => {
-            Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess'))
+        const data = [new ClipboardItem({ [blob.type]: blob })]
+        void navigator.clipboard.write(data)
+          .then(() => Message.success(i18next.t('charactersTab:ScreenshotMessages.ScreenshotSuccess')))
+          .catch((e) => {
+            if (e instanceof DOMException && e.name === 'NotAllowedError') {
+              Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.NotAllowed'))
+            } else {
+              Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+            }
+            console.error(e)
           })
-        } catch (e) {
-          console.error(e)
-          Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
-        }
       }
     }
 
@@ -397,6 +522,13 @@ export async function screenshotElementById(
     }
   }
 
-  const blob = await repeatLoadBlob()
+  let blob
+  try {
+    blob = await repeatLoadBlob()
+  } catch (e) {
+    Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
+    console.error(e)
+    return
+  }
   handleBlob(blob)
 }

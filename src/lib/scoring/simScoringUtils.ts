@@ -5,6 +5,7 @@ import type {
 } from 'lib/constants/constants'
 import {
   ElementToStatKeyDmgBoost,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
@@ -15,10 +16,13 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import type { SimulationSets } from 'lib/scoring/dpsScore'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
+import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import type {
   RunStatSimulationsResult,
   Simulation,
+  SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
@@ -103,7 +107,7 @@ export type SimulationResult = OptimizerDisplayData & {
   unpenalizedSimScore: number,
   penaltyMultiplier: number,
   simScore: number,
-  xa: Float32Array,
+  xa: Float64Array,
   ca: Float32Array,
 }
 
@@ -128,6 +132,7 @@ export type SimulationScore = {
   substatUpgrades: SimulationStatUpgrade[],
   setUpgrades: SimulationStatUpgrade[],
   mainUpgrades: SimulationStatUpgrade[],
+  teammateOrnamentUpgradeResults: TeammateSetUpgrade[],
 
   simulationForm: Form,
   simulationMetadata: SimulationMetadata,
@@ -147,6 +152,15 @@ export type PartialSimulationWrapper = {
   speedRollsDeduction: number,
   resRollsDeduction: number,
   effectiveSubstats: string[],
+  poolIndex: number,
+}
+
+export type PoolComboState = {
+  sets: SimulationSets,
+  baselineScore: number,
+  combatSpdTarget: number,
+  basicSpdTarget: number,
+  flags: SimulationFlags,
 }
 
 export type SimulationFlags = {
@@ -317,9 +331,24 @@ export function simSorter(a: Simulation, b: Simulation) {
   return bResult.simScore - aResult.simScore
 }
 
+export function calculateScorePercent(
+  score: number,
+  baseline: number,
+  benchmark: number,
+  perfection: number,
+): number {
+  const clampedPerfection = Math.max(perfection, benchmark)
+  if (score >= benchmark) {
+    const range = clampedPerfection - benchmark
+    return range > 0 ? 1 + (score - benchmark) / range : 1
+  }
+  const range = benchmark - baseline
+  return range > 0 ? (score - baseline) / range : 0
+}
+
 const COMBO_REGISTER_MAP: Record<ScoringConfigType, number> = {
   dps: GlobalRegister.COMBO_DMG,
-  buffer: GlobalRegister.COMBO_DMG, // buffer uses scoringActionKey, this is fallback
+  buffer: GlobalRegister.COMBO_DMG,
   heal: GlobalRegister.COMBO_HEAL,
   shield: GlobalRegister.COMBO_SHIELD,
 }
@@ -405,7 +434,7 @@ export function cloneSimResult(result: RunStatSimulationsResult) {
 
 // Reconstructs container from worker result arrays (no config available)
 export function cloneWorkerResult(result: RunStatSimulationsResult) {
-  const xa = new Float32Array(result.xa)
+  const xa = new Float64Array(result.xa)
   const ca = new Float32Array(result.ca)
 
   result.x = ComputedStatsContainer.fromArrays(xa, ca)
@@ -413,4 +442,59 @@ export function cloneWorkerResult(result: RunStatSimulationsResult) {
   result.ca = ca
 
   return result
+}
+
+export function requestToSets(request: SimulationRequest): SimulationSets {
+  return {
+    relicSet1: request.simRelicSet1,
+    relicSet2: request.simRelicSet2,
+    ornamentSet: request.simOrnamentSet,
+  }
+}
+
+export function isPoetSet(sets: SimulationSets): boolean {
+  return sets.relicSet1 === Sets.PoetOfMourningCollapse
+      && sets.relicSet2 === Sets.PoetOfMourningCollapse
+}
+
+export function setsEqual(a: SimulationSets, b: SimulationSets): boolean {
+  const [ar1, ar2] = [a.relicSet1, a.relicSet2].sort()
+  const [br1, br2] = [b.relicSet1, b.relicSet2].sort()
+  return ar1 === br1 && ar2 === br2 && a.ornamentSet === b.ornamentSet
+}
+
+function deduplicateSets(pool: SimulationSets[]): SimulationSets[] {
+  return pool.filter((s, i) => pool.findIndex((other) => setsEqual(s, other)) === i)
+}
+
+export function buildCandidateSetPool(
+  defaultSets: SimulationSets,
+  originalSimRequest: SimulationRequest,
+): SimulationSets[] {
+  const pool: SimulationSets[] = [defaultSets]
+
+  const userR1 = originalSimRequest.simRelicSet1
+  const userR2 = originalSimRequest.simRelicSet2
+  const userO = originalSimRequest.simOrnamentSet
+  const userRelicValid = userR1 != null && userR2 != null
+  const userOrnamentValid = userO != null
+
+  // User's actual equipped combo
+  if (userRelicValid && userOrnamentValid) {
+    pool.push({ relicSet1: userR1, relicSet2: userR2, ornamentSet: userO })
+  } else if (userRelicValid) {
+    pool.push({ relicSet1: userR1, relicSet2: userR2, ornamentSet: defaultSets.ornamentSet })
+  } else if (userOrnamentValid) {
+    pool.push({ relicSet1: defaultSets.relicSet1, relicSet2: defaultSets.relicSet2, ornamentSet: userO })
+  }
+
+  // Cross-products (remove this block to disable)
+  if (userRelicValid && userOrnamentValid) {
+    pool.push(
+      { relicSet1: defaultSets.relicSet1, relicSet2: defaultSets.relicSet2, ornamentSet: userO },
+      { relicSet1: userR1, relicSet2: userR2, ornamentSet: defaultSets.ornamentSet },
+    )
+  }
+
+  return deduplicateSets(pool)
 }

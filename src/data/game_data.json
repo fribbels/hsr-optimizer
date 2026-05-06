@@ -7923,6 +7923,105 @@
       },
       "unreleased": false
     },
+    "1507": {
+      "id": "1507",
+      "name": "Mortenax Blade",
+      "rarity": 5,
+      "path": "Nihility",
+      "element": "Fire",
+      "traces": {
+        "CRIT Rate": 0.12,
+        "HP%": 0.1,
+        "Fire DMG Boost": 0.224
+      },
+      "traceTree": [
+        {
+          "id": "1507201_4.3v1",
+          "stat": "Fire DMG Boost",
+          "value": 0.032,
+          "pre": null,
+          "children": [
+            {
+              "id": "1507210_4.3v1",
+              "stat": "Fire DMG Boost",
+              "value": 0.064,
+              "pre": "1507201_4.3v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1507202_4.3v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1507203_4.3v1",
+              "stat": "Fire DMG Boost",
+              "value": 0.032,
+              "pre": "1507202_4.3v1",
+              "children": [
+                {
+                  "id": "1507204_4.3v1",
+                  "stat": "HP%",
+                  "value": 0.04,
+                  "pre": "1507203_4.3v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1507205_4.3v1",
+          "stat": "Fire DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1507206_4.3v1",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1507205_4.3v1",
+              "children": [
+                {
+                  "id": "1507207_4.3v1",
+                  "stat": "Fire DMG Boost",
+                  "value": 0.048,
+                  "pre": "1507206_4.3v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1507208_4.3v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1507209_4.3v1",
+          "stat": "CRIT Rate",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 80,
+      "stats": {
+        "HP": 1358.28,
+        "ATK": 543.312,
+        "DEF": 485.1,
+        "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "8001": {
       "id": "8001",
       "name": "Trailblazer",
@@ -14334,6 +14433,40 @@
       },
       "unreleased": false
     },
+    "23059": {
+      "id": "23059",
+      "name": "Reforged in Hellfire",
+      "rarity": 5,
+      "path": "Nihility",
+      "stats": {
+        "HP": 1270.08,
+        "ATK": 476.28,
+        "DEF": 463.05
+      },
+      "imageOffset": {
+        "x": 4,
+        "y": -123,
+        "s": 1.12
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.24
+        },
+        "2": {
+          "HPAddedRatio": 0.3
+        },
+        "3": {
+          "HPAddedRatio": 0.36
+        },
+        "4": {
+          "HPAddedRatio": 0.42
+        },
+        "5": {
+          "HPAddedRatio": 0.48
+        }
+      },
+      "unreleased": true
+    },
     "24000": {
       "id": "24000",
       "name": "On the Fall of an Aeon",
@@ -14707,6 +14840,16 @@
       "id": "130",
       "name": "Diviner of Distant Reach",
       "skills": "Increases SPD by 6%. Before entering combat, if the wearer's SPD is greater than or equal to 120/160, increases the wearer's CRIT Rate by 10%/18%. When the wearer uses Elation Skill for the first time in each battle, increases all allies' Elation by 10%. This effect cannot stack."
+    },
+    {
+      "id": "131",
+      "name": "As Navigator Isee Sees It",
+      "skills": "Increases ATK by 12%. When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 18%, lasting for 2 turns. This effect can stack up to 3 times."
+    },
+    {
+      "id": "132",
+      "name": "Divine-Querying Master Smith",
+      "skills": "Increases Max HP by 12%. Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 2 turns. This effect cannot be stacked. DMG dealt by ally targets with \"Comburent\" increases by 15%. This effect can be triggered again after the wearer uses an attack."
     },
     {
       "id": "301",

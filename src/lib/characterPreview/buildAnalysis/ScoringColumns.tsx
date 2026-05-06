@@ -22,6 +22,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
+import { Assets } from 'lib/rendering/assets'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import {
   getElementalDmgFromContainer,
@@ -101,6 +102,30 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
     : null
 
   if (!isAsyncProps(props) && !props.simulation.result) return null
+
+  const setsBlock = (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap, alignItems: 'center' }}>
+      <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
+        {t(`CharacterPreview.ScoringColumn.${props.type}.Sets`)}
+      </div>
+      <div style={{ display: 'flex', height: 60, alignItems: 'center' }}>
+        {isAsyncProps(props)
+          ? (['simRelicSet1', 'simRelicSet2', 'simOrnamentSet'] as SetField[]).map((field) => (
+            <SuspenseNode
+              key={field}
+              promise={props.simulation}
+              circle
+              className={classes.setImage}
+              selector={setSelector(props.type, field)}
+            />
+          ))
+          : ([props.simulation.request.simRelicSet1, props.simulation.request.simRelicSet2, props.simulation.request.simOrnamentSet]
+            .filter(Boolean)
+            .map((set, i) => <img key={i} src={Assets.getSetImage(set)} className={classes.setImage} />)
+          )}
+      </div>
+    </div>
+  )
 
   const basicStatsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
@@ -262,6 +287,9 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
         : <SuspendedHeader t={t} configType={props.configType} />}
       <div className={classes.columnFilledBody}>
         <DeferCreate>
+          <div className={classes.columnFilledSection}>{setsBlock}</div>
+        </DeferCreate>
+        <DeferCreate>
           <div className={classes.columnFilledSection}>{basicStatsBlock}</div>
         </DeferCreate>
         <DeferCreate>
@@ -315,6 +343,17 @@ function Fallback({ t }: {
       <Skeleton height='100%' width={50}>foo</Skeleton>
     </>
   )
+}
+
+type SetField = 'simRelicSet1' | 'simRelicSet2' | 'simOrnamentSet'
+function setSelector(type: 'Benchmark' | 'Perfect', field: SetField) {
+  const key = type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'
+  return (score: SimulationScore | null) => {
+    if (!score) return null
+    const set = score[key].request[field]
+    if (!set) return null
+    return <img src={Assets.getSetImage(set)} className={classes.setImage} />
+  }
 }
 
 const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`

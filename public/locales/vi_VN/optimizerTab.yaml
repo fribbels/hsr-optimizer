@@ -368,6 +368,7 @@ CombatBuffs:
   VULNERABILITY: Yếu điểm %
   BREAK_EFFICIENCY: Hiệu Suất Phá Vỡ Điểm Yếu %
   Title: Buff trong combat thêm
+  Clear: Xóa
 Target_one: mục tiêu
 Target_other: mục tiêu
 EnemyConfiguration:
@@ -528,6 +529,10 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      COMBO_DMG: Δ ST Combo
+      COMBO_DMG_P: Δ% ST Combo
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Thuộc tính phụ'

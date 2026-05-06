@@ -16,6 +16,7 @@
   padding-left: 3px;
   position: absolute;
   bottom: 0;
+  z-index: 2;
 }
 
 .overlayTag {

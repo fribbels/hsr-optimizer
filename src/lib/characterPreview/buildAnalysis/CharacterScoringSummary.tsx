@@ -1,4 +1,3 @@
-import { Skeleton } from '@mantine/core'
 import type { TFunction } from 'i18next'
 import {
   BuffDisplaySize,
@@ -18,10 +17,10 @@ import {
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
+import { DpsScoreTeammateUpgradesTable } from 'lib/characterPreview/summary/DpsScoreTeammateUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { ElementToDamage } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Assets } from 'lib/rendering/assets'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
@@ -47,10 +46,6 @@ import {
 const nullPromise = Promise.resolve(null)
 
 // ─── Primitives used by ScoringBenchmarksPanel ───────────────────────────────
-
-function ScoringSet(props: { set: string }) {
-  return <img src={Assets.getSetImage(props.set)} className={classes.setImage} />
-}
 
 function ScoringNumber(props: {
   label: string,
@@ -137,48 +132,6 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                 <ScoringTeammate form={preview.simForm} index={0} />
                 <ScoringTeammate form={preview.simForm} index={1} />
                 <ScoringTeammate form={preview.simForm} index={2} />
-              </div>
-            </div>
-          </DeferCreate>
-
-          <VerticalDivider />
-
-          <DeferCreate>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
-              <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('SimulationSets')}
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
-                <div style={{ display: 'flex' }}>
-                  <SuspenseNode
-                    selector={(score: SimulationScore | null) =>
-                      score
-                        ? <ScoringSet set={score.maximumSim.request.simRelicSet1} />
-                        : null}
-                    promise={scoringPromise}
-                    circle
-                    className={classes.setImage}
-                  />
-                  <SuspenseNode
-                    selector={(score: SimulationScore | null) =>
-                      score
-                        ? <ScoringSet set={score.maximumSim.request.simRelicSet2} />
-                        : null}
-                    promise={scoringPromise}
-                    circle
-                    className={classes.setImage}
-                  />
-                </div>
-
-                <SuspenseNode
-                  selector={(score: SimulationScore | null) =>
-                    score
-                      ? <ScoringSet set={score.maximumSim.request.simOrnamentSet} />
-                      : null}
-                  promise={scoringPromise}
-                  circle
-                  className={classes.setImage}
-                />
               </div>
             </div>
           </DeferCreate>
@@ -350,6 +303,10 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             </div>
           </DeferCreate>
         )}
+
+        <DeferCreate>
+          <DpsScoreTeammateUpgradesTable configType={configType} />
+        </DeferCreate>
 
         {/* Relic rarity */}
         <DeferCreate>

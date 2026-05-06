@@ -4,10 +4,10 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.2.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.3.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.2v5'
+export const CURRENT_DATA_VERSION = '4.3v1'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
@@ -15,14 +15,7 @@ export const RELIQUARY_DOWNTIME = false
 export const DOWNTIME_VERSION: string = '4.2'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  '1506': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '1505': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '8010': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '8009': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '1004b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
-  '1102b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
-  '1217b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
-  '1310b1': `${CURRENT_DATA_VERSION} buffs - Numbers may change.`,
+  '1507': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
 }
 
 export const Stats = {
@@ -402,6 +395,8 @@ export const Sets = {
   SelfEnshroudedRecluse: 'Self-Enshrouded Recluse',
   EverGloriousMagicalGirl: 'Ever-Glorious Magical Girl',
   DivinerOfDistantReach: 'Diviner of Distant Reach',
+  AsNavigatorIseeSeesIt: 'As Navigator Isee Sees It',
+  DivineQueryingMasterSmith: 'Divine-Querying Master Smith',
 
   // Ornaments
   SpaceSealingStation: 'Space Sealing Station',

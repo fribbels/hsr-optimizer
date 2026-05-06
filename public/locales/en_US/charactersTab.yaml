@@ -1,6 +1,8 @@
 ScreenshotMessages:
   ScreenshotSuccess: Copied screenshot to clipboard
-  ScreenshotFailed: Unable to save screenshot to clipboard, try the download button to the right
+  ScreenshotFailed:
+    Default: Unable to save screenshot to clipboard, try the download button to the right
+    NotAllowed: Browser denied clipboard access, please keep the webpage focused while taking the screenshot.
   DownloadSuccess: Downloaded screenshot
 CharacterMenu:
   ButtonText: Character menu
@@ -106,9 +108,11 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons
     MainStatHeader: Main stat upgrade comparisons
+    TeammatesHeader: Teammate relic upgrade comparisons
     AddedRoll: '+1x roll {{stat}}'
-    MainStatUpgrade: Main Stat Upgrade
     SubStatUpgrade: Substat Upgrade
+    MainStatUpgrade: Main Stat Upgrade
+    TeammateUpgrade: Teammate Upgrade
     DpsScorePercentUpgrade: DPS Score Δ %
     UpgradedDpsScore: Upgraded DPS Score
     ComboDmgPercentUpgrade: Combo DMG Δ %
@@ -160,6 +164,7 @@ CharacterPreview:
     Character:
       LoadingHeader: Character build
       Header: 'Character build ({{score}}%)'
+      Sets: Character sets
       BasicStats: Character <1>basic stats</1>
       CombatStats: Character <1>combat stats</1>
       Substats: Character subs (min rolls)
@@ -167,6 +172,7 @@ CharacterPreview:
       Abilities: Character ability damage
     Benchmark:
       Header: 'Benchmark build ({{score}}%)'
+      Sets: 100% benchmark sets
       BasicStats: 100% benchmark <1>basic stats</1>
       CombatStats: 100% benchmark <1>combat stats</1>
       Substats: 100% benchmark subs (min rolls)
@@ -174,6 +180,7 @@ CharacterPreview:
       Abilities: 100% benchmark ability damage
     Perfect:
       Header: 'Perfect build ({{score}}%)'
+      Sets: 200% perfect sets
       BasicStats: 200% perfect <1>basic stats</1>
       CombatStats: 200% perfect <1>combat stats</1>
       Substats: 200% perfect subs (max rolls)

@@ -168,7 +168,7 @@ function RollsCard({ relic, potential, weights }: {
   const percentDisplay = potential !== null ? localeNumber_0(percent) : '-'
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }} className={styles.fullWidth}>
+    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }} className={styles.fullWidth}>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {relic.substats.concat(relic.previewSubstats).map((s, idx) => <RollLine key={idx} substat={s} weights={weights} />)}
       </div>

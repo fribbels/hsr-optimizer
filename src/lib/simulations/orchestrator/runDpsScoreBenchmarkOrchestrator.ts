@@ -43,24 +43,19 @@ export function prepareOrchestrator(
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequestWithRelics(singleRelicByPart)
   orchestrator.setSimSetsWithSimRequest()
+  orchestrator.setCandidateSetPool()
   orchestrator.setSimForm(character.form, config.simulation)
 
   // Override resultSort based on config type
   if (config.scoringActionKey) {
-    orchestrator.form!.resultSort = config.scoringActionKey as SortOptionKey // 'BUFF' for buffer
+    orchestrator.form!.resultSort = config.scoringActionKey as SortOptionKey
   } else if (config.configType === 'heal') {
     orchestrator.form!.resultSort = 'COMBO_HEAL'
   } else if (config.configType === 'shield') {
     orchestrator.form!.resultSort = 'COMBO_SHIELD'
   }
-  // DPS: resultSort defaults to 'COMBO' from generateFullDefaultForm
 
   // Override comboTurnAbilities from the active config's simulation.
-  // generateFullDefaultForm sets comboType=SIMPLE, which causes getComboTypeAbilities
-  // to read from scoringMetadata.simulation (always DPS). Switch to ADVANCED so
-  // the form's comboTurnAbilities are used instead.
-  // Prepend NULL_TURN_ABILITY_NAME because the rotation builder (newTransformStateActions)
-  // applies slice(1) — index 0 is reserved for the default action declaration.
   if (config.simulation.comboTurnAbilities) {
     orchestrator.form!.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, ...config.simulation.comboTurnAbilities]
     orchestrator.form!.comboType = ComboType.ADVANCED
@@ -76,6 +71,7 @@ export function prepareOrchestrator(
 
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
+  orchestrator.precomputePoolState()
 
   // RES equalization for all non-DPS types (healers/shielders often invest in RES)
   if (config.configType !== 'dps') {
@@ -120,6 +116,7 @@ export async function executeOrchestrator(
   orchestrator.substatUpgradeResults ??= []
   orchestrator.setUpgradeResults ??= []
   orchestrator.mainUpgradeResults ??= []
+  orchestrator.teammateOrnamentUpgradeResults ??= []
   orchestrator.calculateResults()
 
   return orchestrator
@@ -127,6 +124,7 @@ export async function executeOrchestrator(
 
 export async function executeUpgradeOrchestrator(orchestrator: BenchmarkSimulationOrchestrator) {
   orchestrator.calculateUpgrades()
+  orchestrator.calculateTeammateUpgrades()
   orchestrator.calculateResults()
 
   return orchestrator

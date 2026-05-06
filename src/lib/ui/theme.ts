@@ -12,6 +12,22 @@ import {
 
 const DEFAULT_SEED = '#1668DC'
 
+// Caps dropdown scroll containers to available viewport space to prevent overflow off-screen
+const comboboxMiddlewares = {
+  flip: true,
+  shift: true,
+  size: {
+    apply({ availableHeight, elements }: { availableHeight: number; elements: { floating: HTMLElement } }) {
+      const floating = elements.floating
+      const scrollEl = floating.querySelector('.mantine-ScrollArea-viewport, [role="listbox"]') as HTMLElement | null
+      if (!scrollEl) return
+      const top = scrollEl.getBoundingClientRect().top - floating.getBoundingClientRect().top
+      const currentMax = parseFloat(getComputedStyle(scrollEl).maxHeight) || Infinity
+      scrollEl.style.maxHeight = `${Math.min(currentMax, Math.max(120, availableHeight - top - 8))}px`
+    },
+  },
+}
+
 export function createMantineTheme(seed: string): MantineThemeOverride {
   let safeSeed = seed
   try {
@@ -44,19 +60,19 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       },
       InputBase: { defaultProps: { size: 'xs' } },
       InputWrapper: { defaultProps: { size: 'xs' } },
-      Combobox: { defaultProps: { width: 'target', size: 'xs', middlewares: { flip: true, shift: true } } },
+      Combobox: { defaultProps: { width: 'target', size: 'xs', middlewares: comboboxMiddlewares } },
       Select: {
         defaultProps: {
           size: 'xs',
           checkIconPosition: 'right',
-          comboboxProps: { keepMounted: false, width: 'target' },
+          comboboxProps: { keepMounted: false, width: 'target', middlewares: comboboxMiddlewares },
         },
       },
       MultiSelect: {
         defaultProps: {
           size: 'xs',
           checkIconPosition: 'right',
-          comboboxProps: { keepMounted: false },
+          comboboxProps: { keepMounted: false, middlewares: comboboxMiddlewares },
         },
       },
       TextInput: { defaultProps: { size: 'xs' } },
@@ -69,9 +85,10 @@ export function createMantineTheme(seed: string): MantineThemeOverride {
       },
       Radio: { defaultProps: { size: 'xs' } },
       SegmentedControl: {
-        defaultProps: { size: 'xs', withItemsBorders: false, radius: 'md' },
+        defaultProps: { size: 'xs', withItemsBorders: false, radius: 'sm' },
         styles: {
           root: { backgroundColor: 'rgba(0, 0, 0, 0.18)' },
+          indicator: { borderRadius: 3 },
           label: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
           innerLabel: { display: 'flex', alignItems: 'center', justifyContent: 'center' },
         },

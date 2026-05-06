@@ -407,7 +407,7 @@ const display = {
     z: 1.3,
   },
   disableSpine: true,
-  showcaseColor: '#a37df4',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const BlackSwan: CharacterConfig = {

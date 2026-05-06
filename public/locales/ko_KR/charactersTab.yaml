@@ -100,8 +100,8 @@ CharacterPreview:
     Header: 부옵 강화 비교
     MainStatHeader: 주옵 강화 비교
     AddedRoll: '+1x 부옵'
-    MainStatUpgrade: 주옵 강화
     SubStatUpgrade: 부옵 강화
+    MainStatUpgrade: 주옵 강화
     DpsScorePercentUpgrade: DPS 점수 Δ %
     UpgradedDpsScore: 강화 시 DPS 점수
     ComboDmgPercentUpgrade: 콤보 DMG Δ %

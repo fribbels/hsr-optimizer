@@ -403,6 +403,7 @@ CombatBuffs:
   VULNERABILITY: Vulnerabilidad %
   BREAK_EFFICIENCY: Eficiencia de Ruptura %
   Title: Mejoras de combate extra
+  Clear: Restablecer
 Target_one: objetivo
 Target_other: objetivos
 EnemyConfiguration:
@@ -579,6 +580,10 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      COMBO_DMG: Δ Daño Combo
+      COMBO_DMG_P: Δ% Daño Combo
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Atr. sec.'

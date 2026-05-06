@@ -19,8 +19,8 @@ export type CharacterGridPreset = {
   subtitleFontFamily: string,
   subtitleFontSize: number,
   subtitleLineHeight: number,
-  frostFadeStart: number,
   frostFadeEnd: number,
+  frostMaskSolid: number,
 }
 
 export const characterGridPresets: Record<CharacterGridDensity, CharacterGridPreset> = {
@@ -41,8 +41,8 @@ export const characterGridPresets: Record<CharacterGridDensity, CharacterGridPre
     subtitleFontFamily: 'Consolas, Menlo, Monaco, monospace',
     subtitleFontSize: 12,
     subtitleLineHeight: 1.4,
-    frostFadeStart: 27,
-    frostFadeEnd: 42,
+    frostFadeEnd: 35,
+    frostMaskSolid: 77,
   },
   compact: {
     listWidth: 300,
@@ -61,8 +61,8 @@ export const characterGridPresets: Record<CharacterGridDensity, CharacterGridPre
     subtitleFontFamily: 'Consolas, Menlo, Monaco, monospace',
     subtitleFontSize: 11,
     subtitleLineHeight: 1.2,
-    frostFadeStart: 30,
-    frostFadeEnd: 54,
+    frostFadeEnd: 45,
+    frostMaskSolid: 67,
   },
 }
 
@@ -84,8 +84,8 @@ function presetToCssVars(preset: CharacterGridPreset): CSSProperties {
     '--cr-subtitle-font-family': preset.subtitleFontFamily,
     '--cr-subtitle-font-size': `${preset.subtitleFontSize}px`,
     '--cr-subtitle-line-height': `${preset.subtitleLineHeight}`,
-    '--cr-frost-fade-start': `${preset.frostFadeStart}%`,
     '--cr-frost-fade-end': `${preset.frostFadeEnd}%`,
+    '--cr-frost-mask-solid': `${preset.frostMaskSolid}%`,
   } as CSSProperties
 }
 

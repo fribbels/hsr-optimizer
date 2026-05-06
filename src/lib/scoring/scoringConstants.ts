@@ -1,9 +1,6 @@
 import { Sets } from 'lib/constants/constants'
 
 export const SPREAD_RELICS_4P_GENERAL_CONDITIONALS = [
-  [Sets.WavestriderCaptain, Sets.WavestriderCaptain],
-  [Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse],
-  [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
   [Sets.EagleOfTwilightLine, Sets.EagleOfTwilightLine],
 ]
 

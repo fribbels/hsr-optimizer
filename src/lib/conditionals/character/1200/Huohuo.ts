@@ -251,7 +251,7 @@ const display = {
     z: 1.075,
   },
   disableSpine: true,
-  showcaseColor: '#8ebdaf',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const Huohuo: CharacterConfig = {

@@ -82,6 +82,8 @@ export function ScannerImportSubmenu() {
     setIngest,
     ingestCharacters,
     setIngestCharacters,
+    ingestOnlyExistingCharacters,
+    setIngestOnlyExistingCharacters,
     ingestWarpResources,
     setIngestWarpResources,
     websocketUrl,
@@ -92,6 +94,8 @@ export function ScannerImportSubmenu() {
     setIngest: s.setIngest,
     ingestCharacters: s.ingestCharacters,
     setIngestCharacters: s.setIngestCharacters,
+    ingestOnlyExistingCharacters: s.ingestOnlyExistingCharacters,
+    setIngestOnlyExistingCharacters: s.setIngestOnlyExistingCharacters,
     ingestWarpResources: s.ingestWarpResources,
     setIngestWarpResources: s.setIngestWarpResources,
     websocketUrl: s.websocketUrl,
@@ -387,6 +391,19 @@ export function ScannerImportSubmenu() {
 
                 <div>{t('Import.LiveImport.UpdateCharacters') /* Enable updating characters' equipped relics and lightcones */}</div>
               </Flex>
+
+              {ingestCharacters && (
+                <Flex gap={10} align='center'>
+                  <Switch
+                    checked={ingestOnlyExistingCharacters}
+                    onChange={(event) => setIngestOnlyExistingCharacters(event.currentTarget.checked)}
+                  />
+
+                  <Tooltip label={t('Import.LiveImport.OnlyExistingCharactersTooltip') /* Prevents live import from adding characters that are not already in the Characters tab. */}>
+                    <div>{t('Import.LiveImport.OnlyExistingCharacters') /* Only update existing characters */}</div>
+                  </Tooltip>
+                </Flex>
+              )}
 
               <Flex gap={10} align='center'>
                 <Switch

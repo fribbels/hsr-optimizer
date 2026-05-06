@@ -11,10 +11,12 @@ export function CharacterCustomPortrait({
   customPortrait,
   parentW,
   scoringType,
+  defaultPortraitUrl,
 }: {
   customPortrait: CustomImageConfig,
   parentW: number,
   scoringType: ScoringType,
+  defaultPortraitUrl: string,
 }) {
   // Scale by height so that the light cone in combat scoring doesn't cut off part of the image
   const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width
@@ -47,6 +49,7 @@ export function CharacterCustomPortrait({
       style={{
         position: 'absolute',
       }}
+      data-fallback-src={defaultPortraitUrl}
     >
       <LoadingBlurredImage
         src={customPortrait.imageUrl}

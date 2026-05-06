@@ -35,20 +35,40 @@ export function SpinePortrait({
   onReadyRef.current = onReady
 
   const { isActiveRef, addActivationListener, addDeactivationListener } = useContext(TabVisibilityContext)
+  const windowVisibleRef = useRef(!document.hidden && document.hasFocus())
+
+  function syncPause() {
+    windowVisibleRef.current = !document.hidden && document.hasFocus()
+    if (windowVisibleRef.current && isActiveRef.current) {
+      instanceRef.current?.resume()
+    } else {
+      instanceRef.current?.pause()
+    }
+  }
 
   // Pause the rAF loop when the host tab hides, resume when it shows again.
   useEffect(() => {
-    const unsubActivate = addActivationListener(() => {
-      instanceRef.current?.resume()
-    })
-    const unsubDeactivate = addDeactivationListener(() => {
-      instanceRef.current?.pause()
-    })
+    const unsubActivate = addActivationListener(() => syncPause())
+    const unsubDeactivate = addDeactivationListener(() => instanceRef.current?.pause())
     return () => {
       unsubActivate()
       unsubDeactivate()
     }
   }, [addActivationListener, addDeactivationListener])
+
+  // Pause when the browser tab is hidden or the window loses focus (alt-tab).
+  // syncPause reads from refs so it's stable — empty deps is correct.
+  useEffect(() => {
+    document.addEventListener('visibilitychange', syncPause)
+    window.addEventListener('focus', syncPause)
+    window.addEventListener('blur', syncPause)
+
+    return () => {
+      document.removeEventListener('visibilitychange', syncPause)
+      window.removeEventListener('focus', syncPause)
+      window.removeEventListener('blur', syncPause)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const canvas = canvasRef.current!
@@ -70,8 +90,8 @@ export function SpinePortrait({
             return
           }
           instanceRef.current = instance
-          // Start paused if the tab hid mid-load.
-          if (!isActiveRef.current) {
+          // Start paused if the tab hid mid-load or window lost focus.
+          if (!isActiveRef.current || !windowVisibleRef.current) {
             instance.pause()
           }
           onReadyRef.current?.()

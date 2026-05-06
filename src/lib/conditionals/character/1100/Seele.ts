@@ -329,7 +329,7 @@ const display = {
     z: 1.25,
   },
   disableSpine: true,
-  showcaseColor: '#7054c5',
+  showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
 export const Seele: CharacterConfig = {

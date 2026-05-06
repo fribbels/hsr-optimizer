@@ -14,6 +14,7 @@ import {
   type SetConfig,
   SetType,
   type TeammateOption,
+  type TeammateOptionValue,
 } from 'types/setConfig'
 
 // ── Typed config imports for type derivation ──
@@ -73,6 +74,8 @@ import { WastelanderOfBanditryDesert } from './relics/WastelanderOfBanditryDeser
 import { WatchmakerMasterOfDreamMachinations } from './relics/WatchmakerMasterOfDreamMachinations'
 import { WavestriderCaptain } from './relics/WavestriderCaptain'
 import { WorldRemakingDeliverer } from './relics/WorldRemakingDeliverer'
+import { AsNavigatorIseeSeesIt } from './relics/AsNavigatorIseeSeesIt'
+import { DivineQueryingMasterSmith } from './relics/DivineQueryingMasterSmith'
 
 const ALL_RELIC_CONFIGS = [
   PasserbyOfWanderingCloud,
@@ -105,6 +108,8 @@ const ALL_RELIC_CONFIGS = [
   SelfEnshroudedRecluse,
   EverGloriousMagicalGirl,
   DivinerOfDistantReach,
+  AsNavigatorIseeSeesIt,
+  DivineQueryingMasterSmith,
 ] as const
 
 const ALL_ORNAMENT_CONFIGS = [
@@ -181,6 +186,7 @@ const teammateOptionsMap = new Map<string, TeammateOption>()
 const boolFields: IndexedField[] = []
 const intFields: IndexedField[] = []
 export const teammateRelicOptions: TeammateOption[] = []
+const teammateRelicOptionsSet = new Set<TeammateOptionValue>()
 export const teammateOrnamentOptions: TeammateOption[] = []
 export const setToId = Object.fromEntries(
   ALL_CONFIGS.map((c) => [c.id, c.info.ingameId]),
@@ -209,6 +215,7 @@ for (const config of setConfigRegistry.values()) {
       teammateOptionsMap.set(option.value, option)
       if (isRelic) {
         teammateRelicOptions.push(option)
+        teammateRelicOptionsSet.add(option.value)
       } else {
         teammateOrnamentOptions.push(option)
       }
@@ -216,7 +223,7 @@ for (const config of setConfigRegistry.values()) {
   }
 
   // Conditional fields
-  if (config.display.conditionalI18nKey && config.display.modifiable) {
+  if (config.display.modifiable) {
     const isBoolean = config.display.conditionalType === ConditionalDataType.BOOLEAN
     const field: SetConditionalFieldInfo = {
       fieldName: `${isBoolean ? 'enabled' : 'value'}${setKey}`,
@@ -291,6 +298,10 @@ export function setToConditionalKey(set: Sets): SetConditionalI18nKey {
 
 export function getTeammateOption(key: string): TeammateOption | undefined {
   return teammateOptionsMap.get(key)
+}
+
+export function isRelicOption(value: TeammateOptionValue): boolean {
+  return teammateRelicOptionsSet.has(value)
 }
 
 export function generateSetCombatWgsl(action: OptimizerAction, context: OptimizerContext): string {

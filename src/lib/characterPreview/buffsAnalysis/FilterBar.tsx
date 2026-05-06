@@ -81,6 +81,7 @@ function FilterButton({ label, color, isActive, onClick }: {
         border: `1px solid ${color}`,
         color: isActive ? '#141414' : color,
         backgroundColor: isActive ? color : 'transparent',
+        userSelect: 'none',
       }}
     >
       {label}

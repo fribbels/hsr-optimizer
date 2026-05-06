@@ -3,12 +3,13 @@ import {
   PathNames,
   Stats,
   SubStats,
+  type StatsValues,
 } from 'lib/constants/constants'
-import type { StatsValues } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
 import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { RelicFilters } from 'lib/relics/relicFilters'
 import { aggregatePerActionBuffs } from 'lib/simulations/combatBuffsAnalysis'
@@ -17,7 +18,6 @@ import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import type {
-  Simulation,
   SimulationRelicByPart,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
@@ -31,6 +31,7 @@ import { gridStore } from 'lib/stores/gridStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
+import { computeTeammateOrnamentUpgrades } from 'lib/simulations/teammateUpgradeGrouping'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { OptimizerForm } from 'types/form'
@@ -56,6 +57,16 @@ type StatUpgrade = {
   x: ComputedStatsContainer,
 }
 
+
+export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
+  const relics = analysis.newRelics as SimulationRelicByPart
+  return computeTeammateOrnamentUpgrades(analysis.request, (modifiedForm) => {
+    const context = generateContext(modifiedForm)
+    const { x } = simulateBuild(relics, context, new BasicStatsArrayCore(true), null, true)
+    return x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
+  })
+}
+
 export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
   const { relicSetIndex, ornamentSetIndex } = analysis.newRowData
 
@@ -71,7 +82,7 @@ export function calculateStatUpgrades(analysis: OptimizerResultAnalysis) {
     const upgradeSim = clone(simulationRequest)
     upgradeSim.stats[substat] = (upgradeSim.stats[substat] ?? 0) + 1.0
 
-    const simResult = runStatSimulations([{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat } as Simulation], request, context)[0]
+    const simResult = runStatSimulations([{ request: upgradeSim, simType: StatSimTypes.SubstatRolls, key: substat }], request, context)[0]
     statUpgrades.push({
       stat: substat,
       simRequest: upgradeSim,
@@ -103,9 +114,9 @@ export function generateAnalysisData(
     return null
   }
 
-  const { x: oldX } = simulateBuild(oldRelics as unknown as SimulationRelicByPart, contextOld, null)
+  const { x: oldX } = simulateBuild(oldRelics as SimulationRelicByPart, contextOld, null)
   const { x: newX, actionBuffSnapshots, rotationBuffSteps } = simulateBuild(
-    newRelics as unknown as SimulationRelicByPart,
+    newRelics as SimulationRelicByPart,
     contextNew,
     new BasicStatsArrayCore(true),
     null,

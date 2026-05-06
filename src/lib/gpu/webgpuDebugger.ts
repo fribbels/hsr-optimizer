@@ -168,7 +168,7 @@ export function debugPinOptimizerWebgpuArray(array: Float32Array) {
 }
 
 export function debugWebgpuComputedStats(array: Float32Array): ComputedStatsObjectExternal {
-  return ComputedStatsContainer.fromArrays(array, new Float32Array(0)).toComputedStatsObject()
+  return ComputedStatsContainer.fromArrays(new Float64Array(array), new Float32Array(0)).toComputedStatsObject()
 }
 
 export function debugPrintWebgpuArray(array: Float32Array) {

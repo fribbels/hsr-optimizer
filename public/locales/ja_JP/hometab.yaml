@@ -1,6 +1,8 @@
 CollapseLabels:
   Explore: 機能を詳しく見る
   Join: コミュニティに参加
+CommunityCollapse: >-
+  本プロジェクトへの支援、ならびに開発への協力に対し、すべての貢献者、翻訳者、ユーザーの皆様、およびフィードバックをお寄せいただいた皆様に深く感謝いたします。
 FeatureCards:
   LearnMore: 詳しく見る
   Showcase:
@@ -22,10 +24,18 @@ FeatureCards:
     Title: 跳躍計画
   BenchmarkGenerator:
     Title: ベンチマーク生成
+  RarityAnalysis:
+    Title: レア度分析
 Welcome: "Fribbels Star Rail Optimizer へ<1/>\nようこそ"
+Hero:
+  Welcome: ようこそ、
+  Title: Fribbels Star Rail Optimizer
 SearchBar:
   Placeholder: UID
   Label: 'UID を入力してキャラクターのショーケースを見ましょう'
   Api: 'Enka.Network を使用'
   Message: 無効な入力 - 9桁のゲーム内 UUID を入力する必要があります
   Search: 検索
+ScrollToExplore: スクロールして続きを見る
+Contributors:
+  Title: 貢献者

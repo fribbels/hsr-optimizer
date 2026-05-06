@@ -1,0 +1,12 @@
+.expandRow {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.overlappingAvatars {
+  display: flex;
+}
+
+.overlappingAvatars img:not(:first-child) {
+  margin-left: -10px;
+}

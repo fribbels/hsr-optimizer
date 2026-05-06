@@ -1,5 +1,4 @@
 import i18next from 'i18next'
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import {
   Constants,
   DEFAULT_STAT_DISPLAY,
@@ -298,7 +297,6 @@ export function validateForm(form: Form): boolean {
  * Equip the currently selected optimizer result to the character.
  */
 export function equipClicked(): void {
-  console.log('Equip clicked')
   const form = getForm()
   const characterId = form.characterId
 
@@ -311,7 +309,6 @@ export function equipClicked(): void {
 
   const selectedNodes = gridStore.optimizerGridApi()?.getSelectedNodes()
   if (!selectedNodes || selectedNodes.length === 0 || (selectedNodes[0]?.data?.statSim)) {
-    // Cannot equip a stat sim or empty row
     return
   }
 
@@ -359,18 +356,9 @@ export function updateCharacter(characterId: CharacterId): void {
   OptimizerTabController.setRows([])
   OptimizerTabController.resetDataSource()
   const character = getCharacterById(characterId)
-  const baseForm = character ? character.form : getDefaultForm({ id: characterId })
-  // Spread defaults first, then saved values overwrite — fills gaps from newly added conditionals
-  const controller = CharacterConditionalsResolver.get({ characterId, characterEidolon: baseForm.characterEidolon })
-  const form = {
-    ...baseForm,
-    characterConditionals: {
-      ...controller.defaults?.(),
-      ...baseForm.characterConditionals,
-    },
-  }
+  const form = character ? character.form : getDefaultForm({ id: characterId })
 
-  // Load form into store (replaces formToDisplay + setFieldsValue)
+  // computeLoadForm merges conditional defaults (character, LC, teammates) underneath saved values
   useOptimizerRequestStore.getState().loadForm(form)
 
   // Sync rank to character's current position in the list (saved rank may be stale if characters were reordered).
@@ -425,6 +413,7 @@ export function startOptimization(): void {
     permutationsResults: 0,
     optimizerStartTime: null,
     optimizerEndTime: null,
+    optimizerProgress: 0,
     optimizationInProgress: true,
   })
 

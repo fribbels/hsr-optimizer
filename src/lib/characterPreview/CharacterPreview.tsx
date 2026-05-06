@@ -651,15 +651,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           simulationMetadata={layout.activeSimulationMetadata}
         />
 
-        {
-          /* Showcase analysis footer — uses storedScoringType (user's preference) not resolved scoringType,
-          so the SegmentedControl reflects their selection even when combat score is unavailable.
-          Hidden in forceDebug mode. */
-        }
         {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
           <ShowcaseBuildAnalysis
             showcaseMetadata={showcaseMetadata}
-            scoringType={state.storedScoringType}
+            scoringType={scoringType}
             displayRelics={displayRelics}
             source={source}
             activeConfigType={layout.activeConfigType}

@@ -26,6 +26,8 @@ Import:
     DisconnectedHint: crwdns45770:0crwdne45770:0
     Enable: crwdns45728:0crwdne45728:0
     UpdateCharacters: crwdns45730:0crwdne45730:0
+    OnlyExistingCharacters: crwdns47162:0crwdne47162:0
+    OnlyExistingCharactersTooltip: crwdns47164:0crwdne47164:0
     UpdateWarpResources: crwdns45732:0crwdne45732:0
     AdvancedSettings:
       Title: crwdns45734:0crwdne45734:0

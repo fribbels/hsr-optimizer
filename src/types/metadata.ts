@@ -77,6 +77,10 @@ export type SimulationMetadata = {
   breakpoints?: {
     [stat: string]: number,
   },
+  combatStatsConfig?: Array<{
+    add?: StatsValues,
+    remove?: StatsValues | 'ELEMENTAL_DMG',
+  }>,
 }
 
 export type ElementalResPenType =

@@ -434,6 +434,9 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboDot: 0,
   errRopeEidolon: 0,
+  combatStatsConfig: [
+    { add: Stats.ERR, remove: 'ELEMENTAL_DMG' },
+  ],
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

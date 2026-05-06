@@ -156,7 +156,25 @@ function pickCombatStats(characterMetadata: DBMetadataCharacter) {
   // Dedupe, remove flats, standardize order
   substats = filterUnique(substats).filter((x) => !percentFlatStats[x])
   substats.sort((a, b) => getIndexOf(SubStats, a) - getIndexOf(SubStats, b))
-  substats.push(elementalDmgValue)
+
+  let includeElementalDmg = true
+  const config = simulationMetadata.combatStatsConfig
+  if (config) {
+    for (const entry of config) {
+      if (entry.remove === 'ELEMENTAL_DMG') {
+        includeElementalDmg = false
+      } else if (entry.remove) {
+        substats = substats.filter((s) => s !== entry.remove)
+      }
+      if (entry.add) {
+        substats.push(entry.add)
+      }
+    }
+  }
+
+  if (includeElementalDmg) {
+    substats.push(elementalDmgValue)
+  }
 
   if (characterMetadata.path === PathNames.Elation) {
     substats.push(Stats.Elation)

@@ -281,6 +281,18 @@ export type SharedScoreColumn = {
 export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): SharedScoreColumn[] {
   return [
     {
+      key: 'damagePercentUpgrade',
+      title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
+      dataIndex: 'damagePercentUpgrade',
+      type: 'damageUpgrade',
+      render: (n: number) => (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+          <Arrow up={n >= 0} />
+          {` ${localeNumber_00(n)}%`}
+        </div>
+      ),
+    },
+    {
       key: 'scorePercentUpgrade',
       title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
       dataIndex: 'scorePercentUpgrade',
@@ -295,15 +307,14 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
       ),
     },
     {
-      key: 'damagePercentUpgrade',
-      title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
-      dataIndex: 'damagePercentUpgrade',
+      key: 'damageValueUpgrade',
+      title: t('ComboDmgUpgrade'), // Combo DMG Δ
+      dataIndex: 'damageValueUpgrade',
       type: 'damageUpgrade',
       render: (n: number) => (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-          <Arrow up={n >= 0} />
-          {` ${localeNumber_00(n)}%`}
-        </div>
+        <>
+          {localeNumber_0(n)}
+        </>
       ),
     },
     {
@@ -317,17 +328,6 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
             {`${localeNumber_0(Math.max(0, n))}%`}
           </>
         )
-      ),
-    },
-    {
-      key: 'damageValueUpgrade',
-      title: t('ComboDmgUpgrade'), // Combo DMG Δ
-      dataIndex: 'damageValueUpgrade',
-      type: 'damageUpgrade',
-      render: (n: number) => (
-        <>
-          {localeNumber_0(n)}
-        </>
       ),
     },
   ]

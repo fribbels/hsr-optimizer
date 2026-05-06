@@ -45,7 +45,6 @@ function findBestRollSplit(targetValue: number, totalRolls: number, incrementOpt
 
 function findMinimumRolls(targetValue: number, incrementOptions: IncrementOptions): { totalRolls: number, rolls: StatRolls } {
   const maxRolls = 20
-  const acceptableError = 0.01
 
   let bestTotalRolls = 1
   let bestResult = findBestRollSplit(targetValue, 1, incrementOptions)
@@ -56,7 +55,7 @@ function findMinimumRolls(targetValue: number, incrementOptions: IncrementOption
       bestResult = result
       bestTotalRolls = totalRolls
     }
-    if (bestResult.error <= acceptableError) break
+    if (bestResult.error <= 0.01) break
   }
 
   return { totalRolls: bestTotalRolls, rolls: bestResult.rolls }

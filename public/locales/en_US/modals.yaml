@@ -384,3 +384,11 @@ RelicReroll:
   Title: Relic Reroll Detected
   OriginalSubstats: Original Substats
   RerolledSubstats: Rerolled Substats
+QuickUtils:
+  Title: 'Utilities ― {{activeSectionTitle}}'
+  Aha:
+    Label: Aha
+    Title: Aha speed tuner
+  EHR: 
+    Label: EHR
+    Title: Effect Hit Rate Calculator

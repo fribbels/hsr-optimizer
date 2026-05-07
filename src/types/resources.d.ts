@@ -6434,6 +6434,17 @@ interface Resources {
       "Text": "This optimization search will take a substantial amount of time to finish. You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats, or use the Substat weight filter to reduce the number of permutations.",
       "Title": "Very large search requested"
     },
+    "QuickUtils": {
+      "Aha": {
+        "Label": "Aha",
+        "Title": "Aha speed tuner"
+      },
+      "EHR": {
+        "Label": "EHR",
+        "Title": "Effect Hit Rate Calculator"
+      },
+      "Title": "Utilities ― {{activeSectionTitle}}"
+    },
     "Relic": {
       "Enhance": "Enhance / Grade",
       "LiveImportWarning": "Live import mode is enabled, your changes might be overwritten.",

@@ -1,5 +1,7 @@
 ScreenshotMessages:
   ScreenshotSuccess: スクリーンショットをクリップボードにコピーしました
+  ScreenshotFailed:
+    Default: スクリーンショットをクリップボードにコピーできませんでした。右側のダウンロードボタンをお試しください。
   DownloadSuccess: スクリーンショットをダウンロードしました
 CharacterMenu:
   ButtonText: キャラクターメニュー

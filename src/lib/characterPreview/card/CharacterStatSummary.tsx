@@ -42,6 +42,7 @@ interface SyncStatSumaryProps extends CommonStatSummaryProps {
   finalStats: BasicStatsObject | ComputedStatsObjectExternal
   hasScoring?: boolean
   buffStat?: AKeyValue
+  thousands?: boolean
 }
 
 interface AsyncStatSummaryProps extends CommonStatSummaryProps {
@@ -60,6 +61,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   simScore,
   zebra,
   buffStat,
+  thousands,
 }: SyncStatSumaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
@@ -98,6 +100,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
               stat='simScore'
               value={simScore}
               buffStat={buffStat}
+              thousands={thousands}
             />
           )}
       </div>

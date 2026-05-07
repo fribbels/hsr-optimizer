@@ -72,14 +72,14 @@ export function getElementalDmgFromContainer(x: ComputedStatsContainer, element:
   return dmgBoost + elementBoost
 }
 
-export function formatSimScore(value: number, buffStat?: AKeyValue, precision: number = 1): string {
+export function formatSimScore(value: number, buffStat?: AKeyValue, precision: number = 1, thousands: boolean = false): string {
   if (buffStat != null && !isFlatStat(buffStat)) {
     return `${(value * 100).toFixed(precision)}%`
   }
-  if (buffStat != null) {
-    return Math.floor(value).toLocaleString()
+  if (thousands) {
+    return renderThousandsK(value)
   }
-  return renderThousandsK(value)
+  return Math.floor(value).toLocaleString()
 }
 
 export enum ScoringType {

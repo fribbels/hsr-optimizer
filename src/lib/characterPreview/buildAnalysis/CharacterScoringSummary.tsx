@@ -127,6 +127,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
   if (preview === null) return null
 
   const buffStat = preview.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[configType]]?.buffStat
+  const thousands = configType === 'dps'
   return (
     <div className={classes.columnCardFilled} style={{ width: '100%' }}>
       <div className={classes.columnFilledBody}>
@@ -157,8 +158,8 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                   // @ts-ignore - not all sortOption keys have translations yet
                   text={t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)}
                 />
-                <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat)} />
-                <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat)} />
+                <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat, 1, thousands)} />
+                <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat, 1, thousands)} />
                 <SuspenseNode
                   promise={scoringPromise}
                   fallback={<ScoringNumber label={t('CombatResults.Benchmark')} />}
@@ -168,7 +169,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                       <ScoringNumber
                         label={t('CombatResults.Benchmark')}
                         number={result.benchmarkSimScore}
-                        formattedValue={formatSimScore(result.benchmarkSimScore, buffStat)}
+                        formattedValue={formatSimScore(result.benchmarkSimScore, buffStat, 1, thousands)}
                       />
                     )
                   }}
@@ -182,7 +183,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                       <ScoringNumber
                         label={t('CombatResults.Maximum')}
                         number={result.maximumSimScore}
-                        formattedValue={formatSimScore(result.maximumSimScore, buffStat)}
+                        formattedValue={formatSimScore(result.maximumSimScore, buffStat, 1, thousands)}
                       />
                     )
                   }}

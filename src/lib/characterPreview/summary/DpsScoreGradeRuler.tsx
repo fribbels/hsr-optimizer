@@ -181,6 +181,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
   const { transition, minimum, benchmark, maximum, barPercent, scorePercent, minPercent, benchPercent, maxPercent, gradientVars } = state
 
   const buffStat = scoringResult?.simulationMetadata.buffStat
+  const thousands = configType === 'dps'
   const dmgLabel = configType === 'dps'
     ? t('Damage')
     : RULER_LABELS[configType]
@@ -205,6 +206,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           dmgOffset={dmgOffset}
           transition={transition}
           buffStat={buffStat}
+          thousands={thousands}
         />
 
         <BenchmarkTick
@@ -215,6 +217,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           dmgOffset={dmgOffset}
           transition={transition}
           buffStat={buffStat}
+          thousands={thousands}
         />
 
         <MaximumTick
@@ -225,6 +228,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           dmgOffset={dmgOffset}
           transition={transition}
           buffStat={buffStat}
+          thousands={thousands}
         />
 
         <GradeTicks minimum={minimum} benchmark={benchmark} maximum={maximum} transition={transition} />
@@ -275,17 +279,18 @@ interface ReferenceTickProps {
   dmgLabel: string
   value: number
   buffStat?: AKeyValue
+  thousands: boolean
   bottomLabel?: string
   transition: string | undefined
 }
 
-function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, buffStat, bottomLabel, transition }: ReferenceTickProps) {
+function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, buffStat, thousands, bottomLabel, transition }: ReferenceTickProps) {
   return (
     <div className={styles.tick} style={{ left: percent, transition }}>
       <div className={styles.tickLine} style={{ top: MARGIN_TOP, height: BAR_HEIGHT }} />
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - dmgOffset, fontSize: 12 }}>{dmgLabel}</span>
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - numberOffset, fontSize: 12 }}>
-        {formatSimScore(value, buffStat)}
+        {formatSimScore(value, buffStat, 1, thousands)}
       </span>
       {bottomLabel && (
         <span className={styles.bottomLabel} style={{ top: BOTTOM_Y + LOW, fontSize: 12 }}>

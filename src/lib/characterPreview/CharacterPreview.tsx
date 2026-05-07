@@ -723,6 +723,7 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
       hasScoring={hasScoring}
       simScore={simScore}
       buffStat={buffStat}
+      thousands={configType === 'dps'}
     />
   )
 })

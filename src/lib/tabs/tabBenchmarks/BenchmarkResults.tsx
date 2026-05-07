@@ -314,7 +314,7 @@ function ComboDmgCell({ comboDmg, row }: { comboDmg: number, row: BenchmarkRow }
       <Flex className={styles.comboDmgContent} justify='center' align='center'>
         <Badge color='#000000aa' className={styles.comboDmgBadge}>
           <div className={styles.comboDmgText}>
-            {formatSimScore(comboDmg, row.orchestrator.metadata.buffStat)}
+            {formatSimScore(comboDmg, row.orchestrator.metadata.buffStat, 1, row.orchestrator.configType === 'dps')}
           </div>
         </Badge>
       </Flex>

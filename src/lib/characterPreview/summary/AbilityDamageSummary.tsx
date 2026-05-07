@@ -38,7 +38,7 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
           <div key={idx} className={classes.row}>
             <span className={classes.label}>{idx + 1}. {label}</span>
             <span className={classes.label}>
-              {step.damage && formatSimScore(step.damage, step.buffStat)}
+              {step.damage && formatSimScore(step.damage, step.buffStat, 1, step.buffStat == null)}
             </span>
           </div>
         )

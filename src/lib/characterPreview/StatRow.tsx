@@ -101,6 +101,7 @@ export const StatRow = memo(function StatRow({
   edits,
   preciseSpd,
   buffStat,
+  thousands,
 }: {
   stat: string,
   finalStats: BasicStatsObject | ComputedStatsObjectExternal,
@@ -108,6 +109,7 @@ export const StatRow = memo(function StatRow({
   edits?: Record<string, boolean>,
   preciseSpd?: boolean,
   buffStat?: AKeyValue,
+  thousands?: boolean,
 }): ReactNode {
   const value = precisionRound(finalStats[stat as keyof typeof finalStats])
 
@@ -123,8 +125,8 @@ export const StatRow = memo(function StatRow({
   let titleText: string
 
   if (stat === 'simScore' && buffStat != null) {
-    valueText = formatSimScore(customValue ?? 0, buffStat)
-    titleText = formatSimScore(customValue ?? 0, buffStat, 3)
+    valueText = formatSimScore(customValue ?? 0, buffStat, 1, thousands ?? false)
+    titleText = formatSimScore(customValue ?? 0, buffStat, 3, thousands ?? false)
   } else {
     const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, customValue ?? 0, stat, preciseSpd)
     valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`

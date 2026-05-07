@@ -21,7 +21,10 @@ import {
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
-import { getElementalDmgFromContainer } from 'lib/scoring/simScoringUtils'
+import {
+  formatSimScore,
+  getElementalDmgFromContainer,
+} from 'lib/scoring/simScoringUtils'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -311,7 +314,7 @@ function ComboDmgCell({ comboDmg, row }: { comboDmg: number, row: BenchmarkRow }
       <Flex className={styles.comboDmgContent} justify='center' align='center'>
         <Badge color='#000000aa' className={styles.comboDmgBadge}>
           <div className={styles.comboDmgText}>
-            {`${localeNumber_0(comboDmg / 1000)}K`}
+            {formatSimScore(comboDmg, row.orchestrator.metadata.buffStat)}
           </div>
         </Badge>
       </Flex>

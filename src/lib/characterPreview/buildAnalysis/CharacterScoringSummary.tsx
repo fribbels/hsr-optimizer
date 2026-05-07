@@ -22,6 +22,8 @@ import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/Estimate
 import { ElementToDamage } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
+import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
+import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import {
@@ -54,14 +56,17 @@ function ScoringNumber(props: {
   precision?: number,
   useGrouping?: boolean,
   suffix?: string,
+  formattedValue?: string,
 }) {
   const precision = props.precision ?? 1
   const value = props.number ?? 0
   const show = value !== 0
+  const formatted = props.formattedValue
+    ?? `${numberToLocaleString(value, precision, props.useGrouping)}${props.suffix ?? ''}`
   return (
     <div style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
       <span className={classes.dataLabel}>{props.label}</span>
-      <span className={classes.dataValue}>{show && `${numberToLocaleString(value, precision, props.useGrouping)}${props.suffix ?? ''}`}</span>
+      <span className={classes.dataValue}>{show && formatted}</span>
     </div>
   )
 }
@@ -120,6 +125,8 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
   const pipelineSlot = usePipelineSlot(configType)
   const scoringPromise = pipelineSlot?.scoringPromise ?? nullPromise
   if (preview === null) return null
+
+  const buffStat = preview.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[configType]]?.buffStat
   return (
     <div className={classes.columnCardFilled} style={{ width: '100%' }}>
       <div className={classes.columnFilledBody}>
@@ -150,8 +157,8 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                   // @ts-ignore - not all sortOption keys have translations yet
                   text={t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)}
                 />
-                <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} precision={1} />
-                <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} precision={1} />
+                <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat)} />
+                <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat)} />
                 <SuspenseNode
                   promise={scoringPromise}
                   fallback={<ScoringNumber label={t('CombatResults.Benchmark')} />}
@@ -161,7 +168,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                       <ScoringNumber
                         label={t('CombatResults.Benchmark')}
                         number={result.benchmarkSimScore}
-                        precision={1}
+                        formattedValue={formatSimScore(result.benchmarkSimScore, buffStat)}
                       />
                     )
                   }}
@@ -175,7 +182,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                       <ScoringNumber
                         label={t('CombatResults.Maximum')}
                         number={result.maximumSimScore}
-                        precision={1}
+                        formattedValue={formatSimScore(result.maximumSimScore, buffStat)}
                       />
                     )
                   }}

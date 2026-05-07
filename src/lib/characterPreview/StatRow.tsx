@@ -19,7 +19,9 @@ import {
 } from 'i18next'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
+  formatSimScore,
   getElementalDmgFromContainer,
   type SimulationScore,
   StatsToStatKey,
@@ -98,12 +100,14 @@ export const StatRow = memo(function StatRow({
   value: customValue,
   edits,
   preciseSpd,
+  buffStat,
 }: {
   stat: string,
   finalStats: BasicStatsObject | ComputedStatsObjectExternal,
   value?: number,
   edits?: Record<string, boolean>,
   preciseSpd?: boolean,
+  buffStat?: AKeyValue,
 }): ReactNode {
   const value = precisionRound(finalStats[stat as keyof typeof finalStats])
 
@@ -111,17 +115,25 @@ export const StatRow = memo(function StatRow({
 
   const readableStat: string = statToLabel(stat, t, i18n)
 
-  const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, customValue ?? 0, stat, preciseSpd)
-
   if (!finalStats) {
     return null
   }
 
-  const valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
+  let valueText: string
+  let titleText: string
+
+  if (stat === 'simScore' && buffStat != null) {
+    valueText = formatSimScore(customValue ?? 0, buffStat)
+    titleText = formatSimScore(customValue ?? 0, buffStat, 3)
+  } else {
+    const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, customValue ?? 0, stat, preciseSpd)
+    valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
+    titleText = value1000thsPrecision
+  }
 
   return (
     <div
-      title={value1000thsPrecision}
+      title={titleText}
       style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16 }}
     >
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />

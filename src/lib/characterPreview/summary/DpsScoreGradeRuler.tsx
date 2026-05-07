@@ -1,9 +1,10 @@
 import {
   useSimScore,
 } from 'lib/characterPreview/SimScoringContext'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
+import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { Languages } from 'lib/utils/i18nUtils'
-import { renderThousandsK } from 'lib/utils/i18nUtils'
 import {
   type CSSProperties,
   memo,
@@ -75,13 +76,6 @@ const RULER_LABELS: Record<ScoringConfigType, string> = {
   buffer: 'Buff',
   heal: 'Healing',
   shield: 'Shield',
-}
-
-function formatRulerValue(value: number, configType: ScoringConfigType): string {
-  if (configType === 'dps') {
-    return renderThousandsK(value)
-  }
-  return Math.floor(value).toLocaleString()
 }
 
 // --- Component ---
@@ -186,6 +180,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
 
   const { transition, minimum, benchmark, maximum, barPercent, scorePercent, minPercent, benchPercent, maxPercent, gradientVars } = state
 
+  const buffStat = scoringResult?.simulationMetadata.buffStat
   const dmgLabel = configType === 'dps'
     ? t('Damage')
     : RULER_LABELS[configType]
@@ -209,7 +204,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
-          configType={configType}
+          buffStat={buffStat}
         />
 
         <BenchmarkTick
@@ -219,7 +214,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
-          configType={configType}
+          buffStat={buffStat}
         />
 
         <MaximumTick
@@ -229,7 +224,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
-          configType={configType}
+          buffStat={buffStat}
         />
 
         <GradeTicks minimum={minimum} benchmark={benchmark} maximum={maximum} transition={transition} />
@@ -279,18 +274,18 @@ interface ReferenceTickProps {
   numberOffset: number
   dmgLabel: string
   value: number
-  configType: ScoringConfigType
+  buffStat?: AKeyValue
   bottomLabel?: string
   transition: string | undefined
 }
 
-function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, configType, bottomLabel, transition }: ReferenceTickProps) {
+function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, buffStat, bottomLabel, transition }: ReferenceTickProps) {
   return (
     <div className={styles.tick} style={{ left: percent, transition }}>
       <div className={styles.tickLine} style={{ top: MARGIN_TOP, height: BAR_HEIGHT }} />
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - dmgOffset, fontSize: 12 }}>{dmgLabel}</span>
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - numberOffset, fontSize: 12 }}>
-        {formatRulerValue(value, configType)}
+        {formatSimScore(value, buffStat)}
       </span>
       {bottomLabel && (
         <span className={styles.bottomLabel} style={{ top: BOTTOM_Y + LOW, fontSize: 12 }}>

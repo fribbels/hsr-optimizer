@@ -4,6 +4,7 @@ import type {
   AbilityKind,
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import type {
   SetsOrnaments,
@@ -66,6 +67,7 @@ export type RotationDamageStep = {
   actionType: AbilityKind,
   actionName: TurnAbilityName,
   damage: number,
+  buffStat?: AKeyValue,
 }
 
 export type ActionBuffSnapshot = {

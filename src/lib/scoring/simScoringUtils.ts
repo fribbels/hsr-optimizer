@@ -12,6 +12,7 @@ import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   GlobalRegister,
+  isFlatStat,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -24,6 +25,7 @@ import type {
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
+import { renderThousandsK } from 'lib/utils/i18nUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type {
@@ -68,6 +70,16 @@ export function getElementalDmgFromContainer(x: ComputedStatsContainer, element:
   const dmgBoost = x.getSelfValue(StatKey.DMG_BOOST)
   const elementBoost = x.getSelfValue(ElementToStatKeyDmgBoost[element])
   return dmgBoost + elementBoost
+}
+
+export function formatSimScore(value: number, buffStat?: AKeyValue, precision: number = 1): string {
+  if (buffStat != null && !isFlatStat(buffStat)) {
+    return `${(value * 100).toFixed(precision)}%`
+  }
+  if (buffStat != null) {
+    return Math.floor(value).toLocaleString()
+  }
+  return renderThousandsK(value)
 }
 
 export enum ScoringType {

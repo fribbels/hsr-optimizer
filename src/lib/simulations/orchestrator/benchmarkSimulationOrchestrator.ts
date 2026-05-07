@@ -306,41 +306,42 @@ export class BenchmarkSimulationOrchestrator {
 
   public setBaselineBuild() {
     const form = this.form!
+    const simSets = this.simSets!
     const context = this.context!
 
-    const request: SimulationRequest = {
-      ...this.originalSimRequest!,
-      stats: {
-        [Stats.ATK_P]: 2,
-        [Stats.ATK]: 2,
-        [Stats.HP_P]: 2,
-        [Stats.HP]: 2,
-        [Stats.DEF_P]: 2,
-        [Stats.DEF]: 2,
-        [Stats.CR]: 2,
-        [Stats.CD]: 2,
-        [Stats.EHR]: 2,
-        [Stats.RES]: 2,
-        [Stats.BE]: 2,
+    // Get the character's basic SPD so the baseline operates at the same speed
+    const originalSim: Simulation = {
+      simType: StatSimTypes.SubstatRolls,
+      request: this.originalSimRequest!,
+    } as Simulation
+    const originalResult = runStatSimulations([originalSim], form, context, {
+      ...originalScoringParams,
+      mainStatMultiplier: 1,
+      simulationFlags: this.flags,
+    })[0]
+    const characterBasicSpd = precisionRound(originalResult.x.c.SPD.get(), 3)
+
+    // Baseline: optimal mains with forced SPD boots, 0 subs, SPD equalized to character
+    const baselineFlags: SimulationFlags = {
+      ...this.flags,
+      benchmarkBasicSpdTarget: characterBasicSpd,
+    }
+    const baselineMetadata = {
+      ...this.metadata,
+      parts: {
+        ...this.metadata.parts,
+        [Parts.Feet]: [Stats.SPD],
       },
     }
 
-    const correctedFlags: SimulationFlags = { ...this.flags, simPoetActive: isPoetSet(this.simSets!) }
-
-    const sim: Simulation = {
-      simType: StatSimTypes.SubstatRolls,
-      request: request,
-    } as Simulation
-
-    const result = cloneSimResult(runStatSimulations([sim], form, context, {
-      ...baselineScoringParams,
-      mainStatMultiplier: 0,
-      simulationFlags: correctedFlags,
-    })[0])
+    const { sim, result } = runPoolBaselineSim(
+      this.originalSimRequest!, simSets, form, context, baselineFlags, baselineMetadata,
+      this.scoringActionKey, this.configType,
+    )
 
     this.baselineSim = sim
     this.baselineSim.result = result
-    this.baselineSimRequest = request
+    this.baselineSimRequest = sim.request
     this.baselineSimResult = result
   }
 

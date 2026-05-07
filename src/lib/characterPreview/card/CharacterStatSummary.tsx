@@ -12,6 +12,7 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   isSimScoreMode,
   ScoringType,
@@ -40,6 +41,7 @@ interface SyncStatSumaryProps extends CommonStatSummaryProps {
   simScore: number
   finalStats: BasicStatsObject | ComputedStatsObjectExternal
   hasScoring?: boolean
+  buffStat?: AKeyValue
 }
 
 interface AsyncStatSummaryProps extends CommonStatSummaryProps {
@@ -57,6 +59,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   showAll,
   simScore,
   zebra,
+  buffStat,
 }: SyncStatSumaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
@@ -94,6 +97,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
               finalStats={finalStats}
               stat='simScore'
               value={simScore}
+              buffStat={buffStat}
             />
           )}
       </div>

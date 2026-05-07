@@ -313,7 +313,7 @@ const supportSimulation = (): SimulationMetadata => ({
     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
     [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
   ],
-  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.PenaconyLandOfTheDreams],
+  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.PenaconyLandOfTheDreams, Sets.LushakaTheSunkenSeas],
   teammates: [
     { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },

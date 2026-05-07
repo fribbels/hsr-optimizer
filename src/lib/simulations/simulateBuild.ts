@@ -252,6 +252,7 @@ export function simulateBuild(
         actionType: action.actionType,
         actionName: action.actionName as TurnAbilityName,
         damage: x.getActionRegisterValue(action.registerIndex),
+        buffStat: action.buffStat,
       })
     }
   }

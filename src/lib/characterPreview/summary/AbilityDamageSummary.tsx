@@ -3,10 +3,10 @@ import {
   AbilityKind,
   toTurnAbility,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { RotationDamageStep } from 'lib/simulations/statSimulationTypes'
 import { toI18NVisual } from 'lib/utils/displayUtils'
-import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './AbilityDamageSummary.module.css'
@@ -20,6 +20,7 @@ interface AsynchronousAbilityDamageSummaryProps {
   header?: React.ReactNode
   wrapperClassName?: string
 }
+
 
 export const AbilityDamageSummary = memo(function AbilityDamageSummary({
   rotationDamage,
@@ -37,7 +38,7 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
           <div key={idx} className={classes.row}>
             <span className={classes.label}>{idx + 1}. {label}</span>
             <span className={classes.label}>
-              {step.damage && numberToLocaleString(step.damage, 1)}
+              {step.damage && formatSimScore(step.damage, step.buffStat)}
             </span>
           </div>
         )

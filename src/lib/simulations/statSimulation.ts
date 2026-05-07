@@ -38,7 +38,7 @@ const defaultSimulationParams: RunSimulationsParams = {
 function simulationRelic(set: string, mainStat: string, mainValue: number): SimulationRelic {
   return {
     set: set,
-    condensedStats: [[statToKey[mainStat], mainValue]],
+    condensedStats: mainStat ? [[statToKey[mainStat], mainValue]] : [],
   }
 }
 

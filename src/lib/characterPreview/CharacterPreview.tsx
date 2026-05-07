@@ -69,6 +69,7 @@ import {
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import type { RelicScoringResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
+import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { ScoringType, isSimScoreMode } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -710,6 +711,9 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
 }) {
   const preview = useSimPreview(configType ?? 'dps')
   const simScore = preview?.originalSimResult.simScore ?? 0
+  const buffStat = configType
+    ? preview?.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[configType]]?.buffStat
+    : undefined
   return (
     <CharacterStatSummary
       characterId={characterId}
@@ -718,6 +722,7 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
       scoringType={scoringType}
       hasScoring={hasScoring}
       simScore={simScore}
+      buffStat={buffStat}
     />
   )
 })

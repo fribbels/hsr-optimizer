@@ -306,70 +306,47 @@ export class BenchmarkSimulationOrchestrator {
 
   public setBaselineBuild() {
     const form = this.form!
-    const simSets = this.simSets!
     const context = this.context!
-    const originalSimRequest = this.originalSimRequest!
 
-    if (this.configType && this.configType !== 'dps') {
-      this.setNonDpsBaselineBuild(form, simSets, context)
-      return
+    const request: SimulationRequest = {
+      ...this.originalSimRequest!,
+      stats: {
+        [Stats.ATK_P]: 2,
+        [Stats.ATK]: 2,
+        [Stats.HP_P]: 2,
+        [Stats.HP]: 2,
+        [Stats.DEF_P]: 2,
+        [Stats.DEF]: 2,
+        [Stats.CR]: 2,
+        [Stats.CD]: 2,
+        [Stats.EHR]: 2,
+        [Stats.RES]: 2,
+        [Stats.BE]: 2,
+      },
     }
 
-    const baselineSimRequest = {
-      ...originalSimRequest,
-      stats: {},
-      simRelicSet1: simSets.relicSet1,
-      simRelicSet2: simSets.relicSet2,
-      simOrnamentSet: simSets.ornamentSet,
-    } as SimulationRequest
+    const correctedFlags: SimulationFlags = { ...this.flags, simPoetActive: isPoetSet(this.simSets!) }
 
-    const baselineSim: Simulation = {
+    const sim: Simulation = {
       simType: StatSimTypes.SubstatRolls,
-      request: baselineSimRequest,
+      request: request,
     } as Simulation
 
-    const simParams: RunSimulationsParams = {
+    const result = cloneSimResult(runStatSimulations([sim], form, context, {
       ...baselineScoringParams,
       mainStatMultiplier: 0,
-      simulationFlags: this.flags,
-    }
-
-    const baselineSimResult = cloneSimResult(runStatSimulations([baselineSim], form, context, simParams)[0])
-
-    this.baselineSim = baselineSim
-    this.baselineSim.result = baselineSimResult
-    this.baselineSimRequest = baselineSimRequest
-    this.baselineSimResult = baselineSimResult
-  }
-
-  private setNonDpsBaselineBuild(form: OptimizerForm, simSets: SimulationSets, context: OptimizerContext) {
-    // Compute the character's actual combat SPD so the baseline can match it
-    const originalSim: Simulation = {
-      simType: StatSimTypes.SubstatRolls,
-      request: this.originalSimRequest!,
-    } as Simulation
-    const originalResult = runStatSimulations([originalSim], form, context, {
-      ...originalScoringParams,
-      mainStatMultiplier: 1,
-      simulationFlags: this.flags,
-    })[0]
-    const targetCombatSpd = originalResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
-
-    const { sim, result } = runPoolBaselineSim(
-      this.originalSimRequest!, simSets, form, context, this.flags, this.metadata,
-      this.scoringActionKey, this.configType, targetCombatSpd,
-    )
+      simulationFlags: correctedFlags,
+    })[0])
 
     this.baselineSim = sim
     this.baselineSim.result = result
-    this.baselineSimRequest = sim.request
+    this.baselineSimRequest = request
     this.baselineSimResult = result
   }
 
   public setOriginalBuild(inputSpdBenchmark?: number, force?: boolean) {
     const form = this.form!
     const context = this.context!
-    const baselineSimResult = this.baselineSimResult!
     const flags = this.flags
 
     const originalSim: Simulation = {
@@ -382,6 +359,8 @@ export class BenchmarkSimulationOrchestrator {
       mainStatMultiplier: 1,
       simulationFlags: this.flags,
     }
+
+    const baselineSimResult = this.baselineSimResult!
 
     this.spdBenchmark = inputSpdBenchmark != null
       ? Math.max(baselineSimResult.x.c.SPD.get(), inputSpdBenchmark)
@@ -642,13 +621,7 @@ export class BenchmarkSimulationOrchestrator {
     const originalSimScore = originalSimResult.simScore
     const perfectionSimScore = perfectionSimResult.simScore
 
-    // For non-DPS, use the character's own baseline. Pool baselines vary per set combo
-    // (mains are included), so the benchmark winner's baseline can exceed the character's
-    // actual score, producing nonsensical negative scores.
-    const isNonDps = this.configType && this.configType !== 'dps'
-    const baselineSimScore = (this.poolComboStates && !isNonDps)
-      ? this.poolComboStates[this.benchmarkWinnerPoolIndex!].baselineScore
-      : baselineSimResult.simScore
+    const baselineSimScore = baselineSimResult.simScore
 
     // Store for calculateUpgrades() and calculateResults()
     this.benchmarkBaselineScore = baselineSimScore

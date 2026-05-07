@@ -20,7 +20,6 @@ import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedT
 import {
   Parts,
   Stats,
-  SubStats,
 } from 'lib/constants/constants'
 import type { Form } from 'types/form'
 import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
@@ -38,47 +37,7 @@ export function runPoolBaselineSim(
   targetCombatSpd?: number,
 ): { sim: Simulation; result: RunStatSimulationsResult } {
   const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoetSet(setCombination) }
-  const isNonDps = configType && configType !== 'dps'
 
-  if (isNonDps) {
-    return runNonDpsPoolBaselineSim(originalSimRequest, setCombination, form, context, correctedFlags, metadata, scoringActionKey, configType, targetCombatSpd)
-  }
-
-  const request = {
-    ...originalSimRequest,
-    stats: {},
-    simRelicSet1: setCombination.relicSet1,
-    simRelicSet2: setCombination.relicSet2,
-    simOrnamentSet: setCombination.ornamentSet,
-  } as SimulationRequest
-
-  const sim: Simulation = {
-    simType: StatSimTypes.SubstatRolls,
-    request,
-  } as Simulation
-
-  const params: RunSimulationsParams = {
-    ...baselineScoringParams,
-    mainStatMultiplier: 0,
-    simulationFlags: correctedFlags,
-  }
-
-  const result = cloneSimResult(runStatSimulations([sim], form, context, params)[0])
-  applyScoringFunction(result, metadata, false, false, scoringActionKey, context, configType)
-  return { sim, result }
-}
-
-function runNonDpsPoolBaselineSim(
-  originalSimRequest: SimulationRequest,
-  setCombination: SimulationSets,
-  form: Form,
-  context: OptimizerContext,
-  correctedFlags: SimulationFlags,
-  metadata: SimulationMetadata,
-  scoringActionKey?: string,
-  configType?: ScoringConfigType,
-  targetCombatSpd?: number,
-): { sim: Simulation; result: RunStatSimulationsResult } {
   const params: RunSimulationsParams = {
     ...baselineScoringParams,
     mainStatMultiplier: 1,
@@ -96,11 +55,6 @@ function runNonDpsPoolBaselineSim(
     for (const feet of metadata.parts[Parts.Feet]) {
       for (const planarSphere of metadata.parts[Parts.PlanarSphere]) {
         for (const linkRope of ropeParts) {
-          const baselineStats: Record<string, number> = {}
-          for (const sub of SubStats) {
-            baselineStats[sub] = 2
-          }
-
           const request: SimulationRequest = {
             simRelicSet1: setCombination.relicSet1,
             simRelicSet2: setCombination.relicSet2,
@@ -109,7 +63,7 @@ function runNonDpsPoolBaselineSim(
             simFeet: feet,
             simPlanarSphere: planarSphere,
             simLinkRope: linkRope,
-            stats: baselineStats,
+            stats: {},
           }
 
           const sim: Simulation = {

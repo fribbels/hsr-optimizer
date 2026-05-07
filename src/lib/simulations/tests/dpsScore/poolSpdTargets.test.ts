@@ -114,7 +114,7 @@ describe('Pool SPD targeting', () => {
     expect(normalEntry).toBeDefined()
   })
 
-  test('Default=Poet, User=Normal (same ornament) — pool=2, different SPD targets', () => {
+  test('Default=Poet, User=Normal (same ornament) — pool=2, Poet flag differs', () => {
     const o = buildOrchestrator(
       Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
       testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.BoneCollectionsSereneDemesne),
@@ -126,7 +126,6 @@ describe('Pool SPD targeting', () => {
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)
     expect(poetEntry).toBeDefined()
     expect(normalEntry).toBeDefined()
-    expect(poetEntry!.combatSpdTarget).not.toEqual(normalEntry!.combatSpdTarget)
   })
 
   test('Default=Poet, User=Normal (different ornament) — pool=4 cross-products with both Poet and non-Poet', () => {
@@ -181,7 +180,9 @@ describe('Pool SPD targeting', () => {
     expect(o.poolComboStates).toHaveLength(2)
 
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)!
-    expect(normalEntry.basicSpdTarget).toBeLessThanOrEqual(90)
+    // With the unified baseline (mains included), the baseline SPD floor is higher
+    // than the requested 90, so basicSpdTarget is capped at originalSpd
+    expect(normalEntry.basicSpdTarget).toBeLessThanOrEqual(o.originalSpd!)
   })
 
   test('Default=Normal, User=Normal (identical) — dedup to pool=1', () => {

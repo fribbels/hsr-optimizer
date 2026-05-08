@@ -6437,6 +6437,10 @@ interface Resources {
     "QuickUtils": {
       "Aha": {
         "Label": "Aha",
+        "Teammate0": "1st Teammate's speed",
+        "Teammate1": "2nd Teammate's speed",
+        "Teammate2": "3rd Teammate's speed",
+        "Teammate3": "4th Teammate's speed",
         "Title": "Aha speed tuner"
       },
       "EHR": {

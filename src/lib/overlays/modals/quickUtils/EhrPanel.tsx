@@ -35,11 +35,8 @@ const sharedInputProps: NumberInput.Props = {
 }
 
 export function EhrPanel({ t }: SharedProps) {
-  const form = useForm<EhrCalcForm>({
-    initialValues,
-  })
-  const values = form.getValues()
-  const { effectHitRate, effectRes, debuffRes, baseChance, attempts, desiredHitRate } = values
+  const form = useForm<EhrCalcForm>({ initialValues })
+  const { effectHitRate, effectRes, debuffRes, baseChance, attempts, desiredHitRate } = form.getValues()
 
   const hitRate = (baseChance / 100)
     * (1 + effectHitRate / 100)

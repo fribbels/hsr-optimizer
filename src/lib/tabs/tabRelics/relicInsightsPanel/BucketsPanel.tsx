@@ -130,7 +130,7 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
           data={data}
           onClick={onScatterClick}
           shape={<ShapeFunction />}
-          isAnimationActive={true}
+          isAnimationActive={false}
         />
       </ScatterChart>
     </div>
@@ -138,14 +138,14 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
 })
 
 function ShapeFunction(untypedProps: unknown) {
-  const props = untypedProps as DataPoint & { x: number, y: number }
+  const props = untypedProps as DataPoint & { cx: number, cy: number }
   const w = props.imgWidth
   const h = props.imgHeight
   return (
     <image
       href={Assets.getCharacterAvatarById(props.id)}
-      x={props.x - w / 2}
-      y={props.y - h / 2}
+      x={props.cx - w / 2}
+      y={props.cy - h / 2}
       width={w}
       height={h}
       style={{ cursor: 'pointer' }}

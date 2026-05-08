@@ -216,6 +216,8 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
           style={{
             display: artistName ? 'inline-block' : 'none',
             maxWidth: parentW - 150,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
           }}
         >
           {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' }) /* Art by {{artistName}} */}

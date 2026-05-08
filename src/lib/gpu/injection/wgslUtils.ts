@@ -23,7 +23,10 @@ export function wgslFloat(v: number): string {
 /**
  * Tagged template for WGSL code generation.
  * Accepts strings and numbers as interpolated values.
+ * Whole-number JS values are emitted with .0 suffix so WGSL sees abstract-float, not abstract-int.
  */
 export function wgsl(strings: TemplateStringsArray, ...values: (string | number)[]): string {
-  return String.raw(strings, ...values.map(String))
+  return String.raw(strings, ...values.map((v) =>
+    typeof v === 'number' && Number.isInteger(v) ? `${v}.0` : String(v),
+  ))
 }

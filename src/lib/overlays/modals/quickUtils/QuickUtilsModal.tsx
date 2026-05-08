@@ -42,7 +42,8 @@ export function QuickUtilsModal() {
           value={activePanel}
           onChange={setActivePanel}
         />
-        <PanelRenderer t={t} activePanel={activePanel} />
+        {activePanel === 'Aha' && <AhaPanel t={t} />}
+        {activePanel === 'EHR' && <EhrPanel t={t} />}
       </Flex>
     </Modal>
   )
@@ -67,17 +68,5 @@ function SegmentLabel({ t, value }: SegmentLabelProps) {
           {t('EHR.Label')}
         </Flex>
       )
-  }
-}
-
-interface PanelRendererProps extends SharedProps {
-  activePanel: UtilOptions
-}
-function PanelRenderer({ activePanel, ...sharedProps }: PanelRendererProps) {
-  switch (activePanel) {
-    case 'Aha':
-      return <AhaPanel {...sharedProps} />
-    case 'EHR':
-      return <EhrPanel {...sharedProps} />
   }
 }

@@ -14,8 +14,9 @@ import {
   type CSSProperties,
   memo,
 } from 'react'
+import { create } from 'zustand'
 
-interface AhaForm {
+export interface AhaForm {
   teammate0: number | ''
   teammate1: number | ''
   teammate2: number | ''
@@ -23,13 +24,13 @@ interface AhaForm {
   desiredAha: number | ''
 }
 
-const initialValues: AhaForm = {
+export const useAhaTuningStore = create<AhaForm>()(() => ({
   teammate0: 180,
   teammate1: 135,
   teammate2: '',
   teammate3: '',
   desiredAha: 135,
-}
+}))
 
 const textColours = {
   normal: undefined,
@@ -44,7 +45,12 @@ const sharedInputProps: NumberInput.Props = {
 }
 
 export function AhaPanel({ t }: SharedProps) {
-  const form = useForm<AhaForm>({ initialValues })
+  const form = useForm<AhaForm>({
+    initialValues: useAhaTuningStore.getState(),
+    onValuesChange(updated) {
+      useAhaTuningStore.setState(updated)
+    },
+  })
   const { teammate0, teammate1, teammate2, teammate3, desiredAha } = form.getValues()
   const speeds = [teammate0, teammate1, teammate2, teammate3].filter((x) => x !== '')
   const ahaSpeed = calculateAhaSpeed(speeds)

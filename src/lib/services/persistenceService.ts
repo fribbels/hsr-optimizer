@@ -15,6 +15,7 @@ import {
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { useAhaTuningStore } from 'lib/overlays/modals/quickUtils/AhaPanel'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import {
   findRelicMatch,
@@ -186,6 +187,8 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
   useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
   useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
+
+  if (saveData.ahaSpeedTuner) useAhaTuningStore.setState(saveData.ahaSpeedTuner)
 
   // Restore scanner settings if they exist
   if (saveData.scannerSettings) {

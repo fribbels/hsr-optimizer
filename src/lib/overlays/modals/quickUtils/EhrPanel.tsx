@@ -53,78 +53,76 @@ export function EhrPanel({ t }: SharedProps) {
   )
 
   return (
-    <Flex style={{ marginTop: 16, alignSelf: 'center' }}>
-      <form>
-        <Flex gap={24}>
-          <Flex gap={8} direction='column'>
-            <div>
-              <HeaderText>Enemy effect resistance</HeaderText>
-              <NumberInput
-                key={form.key('effectRes')}
-                {...form.getInputProps('effectRes')}
-                {...sharedInputProps}
-              />
-            </div>
-            <div>
-              <HeaderText>Enemy debuff resistance</HeaderText>
-              <NumberInput
-                key={form.key('debuffRes')}
-                {...form.getInputProps('debuffRes')}
-                {...sharedInputProps}
-              />
-            </div>
-            <div>
-              <HeaderText>Debuff base chance</HeaderText>
-              <NumberInput
-                key={form.key('baseChance')}
-                {...form.getInputProps('baseChance')}
-                {...sharedInputProps}
-              />
-            </div>
-            <div>
-              <HeaderText>Application attempts</HeaderText>
-              <NumberInput
-                allowNegative={false}
-                min={1}
-                key={form.key('attempts')}
-                {...form.getInputProps('attempts')}
-              />
-            </div>
-          </Flex>
-          <Divider orientation='vertical' />
-          <Flex gap={8} direction='column'>
-            <div>
-              <HeaderText>Effect Hit Rate</HeaderText>
-              <NumberInput
-                allowNegative={false}
-                min={1}
-                key={form.key('effectHitRate')}
-                {...form.getInputProps('effectHitRate')}
-                {...sharedInputProps}
-              />
-            </div>
-            <div>
-              <HeaderText>Chance to apply</HeaderText>
-              <span>{localeNumber_00(trueHitRate)}%</span>
-            </div>
-            <Divider />
-            <div>
-              <HeaderText>Desired Hit Rate</HeaderText>
-              <NumberInput
-                allowNegative={false}
-                min={0}
-                key={form.key('desiredHitRate')}
-                {...form.getInputProps('desiredHitRate')}
-                {...sharedInputProps}
-              />
-            </div>
-            <div>
-              <HeaderText>Required EHR</HeaderText>
-              <span>{localeNumber_00(requiredHitRate)}%</span>
-            </div>
-          </Flex>
+    <form style={{ marginTop: 16, alignSelf: 'center' }}>
+      <Flex gap={24}>
+        <Flex gap={8} direction='column'>
+          <div>
+            <HeaderText>Enemy effect resistance</HeaderText>
+            <NumberInput
+              key={form.key('effectRes')}
+              {...form.getInputProps('effectRes')}
+              {...sharedInputProps}
+            />
+          </div>
+          <div>
+            <HeaderText>Enemy debuff resistance</HeaderText>
+            <NumberInput
+              key={form.key('debuffRes')}
+              {...form.getInputProps('debuffRes')}
+              {...sharedInputProps}
+            />
+          </div>
+          <div>
+            <HeaderText>Debuff base chance</HeaderText>
+            <NumberInput
+              key={form.key('baseChance')}
+              {...form.getInputProps('baseChance')}
+              {...sharedInputProps}
+            />
+          </div>
+          <div>
+            <HeaderText>Application attempts</HeaderText>
+            <NumberInput
+              allowNegative={false}
+              min={1}
+              key={form.key('attempts')}
+              {...form.getInputProps('attempts')}
+            />
+          </div>
         </Flex>
-      </form>
-    </Flex>
+        <Divider orientation='vertical' />
+        <Flex gap={8} direction='column'>
+          <div>
+            <HeaderText>Effect Hit Rate</HeaderText>
+            <NumberInput
+              allowNegative={false}
+              min={1}
+              key={form.key('effectHitRate')}
+              {...form.getInputProps('effectHitRate')}
+              {...sharedInputProps}
+            />
+          </div>
+          <div>
+            <HeaderText>Chance to apply</HeaderText>
+            <span>{localeNumber_00(trueHitRate)}%</span>
+          </div>
+          <Divider />
+          <div>
+            <HeaderText>Desired Hit Rate</HeaderText>
+            <NumberInput
+              allowNegative={false}
+              min={0}
+              key={form.key('desiredHitRate')}
+              {...form.getInputProps('desiredHitRate')}
+              {...sharedInputProps}
+            />
+          </div>
+          <div>
+            <HeaderText>Required EHR</HeaderText>
+            <span>{localeNumber_00(requiredHitRate)}%</span>
+          </div>
+        </Flex>
+      </Flex>
+    </form>
   )
 }

@@ -1,4 +1,5 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
+import { useAhaTuningStore } from 'lib/overlays/modals/quickUtils/AhaPanel'
 import * as persistenceService from 'lib/services/persistenceService'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacters } from 'lib/stores/character/characterStore'
@@ -62,6 +63,7 @@ export const SaveState = {
     const showcaseTabSession = useShowcaseTabStore.getState().savedSession
     const globalSession = globalState.savedSession
     const relicLocatorSession = useRelicLocatorStore.getState()
+    const ahaSpeedTunerSession = useAhaTuningStore.getState()
 
     const warpCalculatorTabState = useWarpCalculatorStore.getState()
     const scannerState = useScannerState.getState()
@@ -83,6 +85,13 @@ export const SaveState = {
       relicLocator: {
         inventoryWidth: relicLocatorSession.inventoryWidth,
         rowLimit: relicLocatorSession.rowLimit,
+      },
+      ahaSpeedTuner: {
+        teammate0: ahaSpeedTunerSession.teammate0,
+        teammate1: ahaSpeedTunerSession.teammate1,
+        teammate2: ahaSpeedTunerSession.teammate2,
+        teammate3: ahaSpeedTunerSession.teammate3,
+        desiredAha: ahaSpeedTunerSession.desiredAha,
       },
       scannerSettings: {
         ingest: scannerState.ingest,

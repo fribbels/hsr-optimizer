@@ -57,7 +57,7 @@ export function EhrPanel({ t }: SharedProps) {
       <Flex gap={24}>
         <Flex gap={8} direction='column'>
           <div>
-            <HeaderText>Enemy effect resistance</HeaderText>
+            <HeaderText>{t('EHR.Input.EffectRes')}</HeaderText>
             <NumberInput
               key={form.key('effectRes')}
               {...form.getInputProps('effectRes')}
@@ -65,7 +65,7 @@ export function EhrPanel({ t }: SharedProps) {
             />
           </div>
           <div>
-            <HeaderText>Enemy debuff resistance</HeaderText>
+            <HeaderText>{t('EHR.Input.DebuffRes')}</HeaderText>
             <NumberInput
               key={form.key('debuffRes')}
               {...form.getInputProps('debuffRes')}
@@ -73,7 +73,7 @@ export function EhrPanel({ t }: SharedProps) {
             />
           </div>
           <div>
-            <HeaderText>Debuff base chance</HeaderText>
+            <HeaderText>{t('EHR.Input.BaseChance')}</HeaderText>
             <NumberInput
               key={form.key('baseChance')}
               {...form.getInputProps('baseChance')}
@@ -81,7 +81,7 @@ export function EhrPanel({ t }: SharedProps) {
             />
           </div>
           <div>
-            <HeaderText>Application attempts</HeaderText>
+            <HeaderText>{t('EHR.Input.Attempts')}</HeaderText>
             <NumberInput
               allowNegative={false}
               min={1}
@@ -93,7 +93,7 @@ export function EhrPanel({ t }: SharedProps) {
         <Divider orientation='vertical' />
         <Flex gap={8} direction='column'>
           <div>
-            <HeaderText>Effect Hit Rate</HeaderText>
+            <HeaderText>{t('EHR.Input.HitRate')}</HeaderText>
             <NumberInput
               allowNegative={false}
               min={1}
@@ -103,12 +103,12 @@ export function EhrPanel({ t }: SharedProps) {
             />
           </div>
           <div>
-            <HeaderText>Chance to apply</HeaderText>
+            <HeaderText>{t('EHR.Output.ApplicationRate')}</HeaderText>
             <span>{localeNumber_00(trueHitRate)}%</span>
           </div>
           <Divider />
           <div>
-            <HeaderText>Desired Hit Rate</HeaderText>
+            <HeaderText>{t('EHR.Input.DesiredHitRate')}</HeaderText>
             <NumberInput
               allowNegative={false}
               min={0}
@@ -118,7 +118,7 @@ export function EhrPanel({ t }: SharedProps) {
             />
           </div>
           <div>
-            <HeaderText>Required EHR</HeaderText>
+            <HeaderText>{t('EHR.Output.RequiredHitRate')}</HeaderText>
             <span>{localeNumber_00(requiredHitRate)}%</span>
           </div>
         </Flex>

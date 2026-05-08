@@ -67,7 +67,7 @@ export function AhaPanel({ t }: SharedProps) {
       <form>
         <Flex gap={24}>
           <Flex gap={8} direction='column'>
-            <HeaderText>Elation teammate speeds</HeaderText>
+            <HeaderText>{t('Aha.Input.TeammateSpeeds')}</HeaderText>
             <NumberInput
               key={form.key('teammate0')}
               {...form.getInputProps('teammate0')}
@@ -92,7 +92,7 @@ export function AhaPanel({ t }: SharedProps) {
           <Divider orientation='vertical' />
           <Flex gap={8} direction='column'>
             <div>
-              <HeaderText>Desired Aha Speed</HeaderText>
+              <HeaderText>{t('Aha.Input.DesiredAha')}</HeaderText>
               <NumberInput
                 key={form.key('desiredAha')}
                 {...form.getInputProps('desiredAha')}
@@ -100,13 +100,13 @@ export function AhaPanel({ t }: SharedProps) {
               />
             </div>
             <div style={{ opacity: teammateSpeed !== null ? undefined : 0.3 }}>
-              <HeaderText>{teammateSpeed !== null ? t(`Aha.Teammate${speeds.length as 0 | 1 | 2 | 3}`) : '-'}</HeaderText>
+              <HeaderText>{teammateSpeed !== null ? t(`Aha.Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`) : '-'}</HeaderText>
               <span style={{ color: teammateSpeedColour }}>
                 {teammateSpeed !== null ? localeNumber_000(teammateSpeed) : '-'}
               </span>
             </div>
             <Divider />
-            <HeaderText>Aha's speed</HeaderText>
+            <HeaderText>{t('Aha.Output.AhaSpeed')}</HeaderText>
             <span>{localeNumber_000(ahaSpeed)}</span>
           </Flex>
         </Flex>

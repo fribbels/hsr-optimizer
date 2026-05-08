@@ -245,8 +245,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
         { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
         {
           key: 'link quickutils',
-          // TODO: i18n
-          label: 'buh',
+          label: t('Tools.QuickUtils'),
           icon: <IconTools size={16} />,
           onClick: () => setOpen(OpenCloseIDs.QUICK_UTILS_MODAL),
         },

@@ -6436,15 +6436,34 @@ interface Resources {
     },
     "QuickUtils": {
       "Aha": {
+        "Input": {
+          "DesiredAha": "Desired Aha Speed",
+          "TeammateSpeeds": "Elation teammate speeds"
+        },
         "Label": "Aha",
-        "Teammate0": "1st Teammate's speed",
-        "Teammate1": "2nd Teammate's speed",
-        "Teammate2": "3rd Teammate's speed",
-        "Teammate3": "4th Teammate's speed",
+        "Output": {
+          "AhaSpeed": "Aha's Speed",
+          "Teammate0": "1st Teammate's speed",
+          "Teammate1": "2nd Teammate's speed",
+          "Teammate2": "3rd Teammate's speed",
+          "Teammate3": "4th Teammate's speed"
+        },
         "Title": "Aha speed tuner"
       },
       "EHR": {
+        "Input": {
+          "Attempts": "Application attempts",
+          "BaseChance": "Debuff base chance",
+          "DebuffRes": "Enemy debuff resistance",
+          "DesiredHitRate": "Desired Hit Rate",
+          "EffectRes": "Enemy effect resistance",
+          "HitRate": "Effect Hit Rate"
+        },
         "Label": "EHR",
+        "Output": {
+          "ApplicationRate": "Chance to apply",
+          "RequiredHitRate": "Required EHR"
+        },
         "Title": "Effect Hit Rate Calculator"
       },
       "Title": "Utilities ― {{activeSectionTitle}}"
@@ -7778,6 +7797,7 @@ interface Resources {
     },
     "Tools": {
       "Benchmarks": "Benchmarks",
+      "QuickUtils": "Utilities",
       "Showcase": "Showcase",
       "Title": "Tools",
       "WarpPlanner": "Warp Planner"

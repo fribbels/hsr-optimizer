@@ -625,6 +625,7 @@ export const ABILITY_LIMIT = 12
 export const DEFAULT_TEAM = 'Default'
 export const CUSTOM_TEAM = 'Custom'
 export const SETTINGS_TEAM = 'Settings'
+export type TeamSelection = typeof DEFAULT_TEAM | typeof CUSTOM_TEAM
 
 export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'

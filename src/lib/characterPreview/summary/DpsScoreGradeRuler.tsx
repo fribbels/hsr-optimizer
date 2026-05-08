@@ -3,6 +3,7 @@ import {
 } from 'lib/characterPreview/SimScoringContext'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { Languages } from 'lib/utils/i18nUtils'
 import {
@@ -71,12 +72,6 @@ function toPercent(value: number, minimum: number, maximum: number): string {
   return `${(value - minimum) / range * 100}%`
 }
 
-const RULER_LABELS: Record<ScoringConfigType, string> = {
-  dps: 'Damage',
-  buffer: 'Buff',
-  heal: 'Healing',
-  shield: 'Shield',
-}
 
 // --- Component ---
 
@@ -180,11 +175,12 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
 
   const { transition, minimum, benchmark, maximum, barPercent, scorePercent, minPercent, benchPercent, maxPercent, gradientVars } = state
 
+  const entry = SCORING_CONFIG_REGISTRY[configType]
   const buffStat = scoringResult?.simulationMetadata.buffStat
-  const thousands = configType === 'dps'
-  const dmgLabel = configType === 'dps'
+  const thousands = entry.thousands
+  const dmgLabel = entry.thousands
     ? t('Damage')
-    : RULER_LABELS[configType]
+    : entry.rulerLabel
   const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]
   const numberOffset = reversedLabels ? LOW : HIGH
   const dmgOffset = reversedLabels ? HIGH : LOW
@@ -196,7 +192,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
 
         <ScoreFillBar barPercent={barPercent} transition={transition} />
 
-        <ScoreInidcator scorePercent={scorePercent} transition={transition} />
+        <ScoreIndicator scorePercent={scorePercent} transition={transition} />
 
         <MinimumTick
           percent={minPercent}
@@ -257,7 +253,7 @@ const ScoreFillBar = memo(function({ barPercent, transition }: { barPercent: str
   )
 })
 
-const ScoreInidcator = memo(function({ scorePercent, transition }: { scorePercent: string, transition: string | undefined }) {
+const ScoreIndicator = memo(function({ scorePercent, transition }: { scorePercent: string, transition: string | undefined }) {
   return (
     <div
       className={styles.scoreMarker}

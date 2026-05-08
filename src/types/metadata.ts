@@ -21,7 +21,12 @@ import type {
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
-export type ScoringConfigType = 'dps' | 'buffer' | 'heal' | 'shield'
+export enum ScoringConfigType {
+  DPS = 'dps',
+  BUFFER = 'buffer',
+  HEAL = 'heal',
+  SHIELD = 'shield',
+}
 
 export type ScoringConfig = {
   configType: ScoringConfigType

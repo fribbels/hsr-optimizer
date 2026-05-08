@@ -1,12 +1,13 @@
 import i18next, { type TFunction } from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CONFIG_DISPLAY_ORDER, hasConfig } from 'lib/scoring/scoringConfig'
+import { CONFIG_DISPLAY_ORDER, hasConfig, type MetadataFieldKey, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
   ElementToDamage,
   Parts,
+  type TeamSelection,
 } from 'lib/constants/constants'
 import {
   innerW,
@@ -148,13 +149,6 @@ function getRelic(relicsById: Partial<Record<string, Relic>>, character: Charact
   return null
 }
 
-const SCORING_TYPE_BY_CONFIG = {
-  dps: ScoringType.DPS_SCORE,
-  buffer: ScoringType.BUFFER_SCORE,
-  heal: ScoringType.HEAL_SCORE,
-  shield: ScoringType.SHIELD_SCORE,
-} as const
-
 export function resolveScoringType(
   storedScoringType: ScoringType,
   scoringMetadata: ScoringMetadata,
@@ -162,16 +156,14 @@ export function resolveScoringType(
   if (storedScoringType === ScoringType.NONE || storedScoringType === ScoringType.SUBSTAT_SCORE) {
     return storedScoringType
   }
-  // If the stored type maps to an available config, use it
   for (const configType of CONFIG_DISPLAY_ORDER) {
-    if (SCORING_TYPE_BY_CONFIG[configType] === storedScoringType && hasConfig(scoringMetadata, configType)) {
+    if (SCORING_CONFIG_REGISTRY[configType].scoringType === storedScoringType && hasConfig(scoringMetadata, configType)) {
       return storedScoringType
     }
   }
-  // Fallback: pick first available config
   for (const configType of CONFIG_DISPLAY_ORDER) {
     if (hasConfig(scoringMetadata, configType)) {
-      return SCORING_TYPE_BY_CONFIG[configType]
+      return SCORING_CONFIG_REGISTRY[configType].scoringType
     }
   }
   return ScoringType.SUBSTAT_SCORE
@@ -316,10 +308,10 @@ export function showcaseOnEditPortraitOk(
 
 export function handleTeamSelection(
   character: Character,
-  teamSelection: string | undefined,
-  simulationKey: 'simulation' | 'supportSimulation' | 'healSimulation' | 'shieldSimulation' = 'simulation',
-) {
-  let currentSelection: string | undefined = teamSelection
+  teamSelection: TeamSelection | undefined,
+  simulationKey: MetadataFieldKey = 'simulation',
+): TeamSelection {
+  let currentSelection: TeamSelection | undefined = teamSelection
 
   const defaultScoringMetadata = getGameMetadata().characters[character.id].scoringMetadata
   if (defaultScoringMetadata?.[simulationKey]) {

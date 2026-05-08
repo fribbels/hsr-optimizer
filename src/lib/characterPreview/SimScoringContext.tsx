@@ -8,7 +8,7 @@ import {
   resultCache,
   upgradeResultCache,
 } from 'lib/scoring/scoringService'
-import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
+import { CONFIG_DISPLAY_ORDER, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
   createContext,
@@ -18,11 +18,11 @@ import {
   useMemo,
 } from 'react'
 import type { Character } from 'types/character'
-import type {
-  ScoringConfig,
+import {
   ScoringConfigType,
-  ShowcaseTemporaryOptions,
-  SimulationMetadata,
+  type ScoringConfig,
+  type ShowcaseTemporaryOptions,
+  type SimulationMetadata,
 } from 'types/metadata'
 import { type PreviewRelics } from './characterPreviewController'
 
@@ -47,12 +47,7 @@ const EMPTY_PIPELINES: SimScoringContextValue = { pipelines: {} }
 const scorePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 const scoreUpgradePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 
-export const SimScoringCtx = createContext<SimScoringContextValue>(EMPTY_PIPELINES)
-
-// Config type to scoring action key mapping
-const SCORING_ACTION_KEYS: Partial<Record<ScoringConfigType, string>> = {
-  buffer: 'BUFF',
-}
+export const SimScoringContext = createContext<SimScoringContextValue>(EMPTY_PIPELINES)
 
 function buildPipelineSlot(
   character: Character,
@@ -64,7 +59,7 @@ function buildPipelineSlot(
   const config: ScoringConfig = {
     configType,
     simulation: simulationMetadata,
-    scoringActionKey: SCORING_ACTION_KEYS[configType],
+    scoringActionKey: SCORING_CONFIG_REGISTRY[configType].scoringActionKey,
   }
   const cacheKey = computeScoringCacheKey(character, configType, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
 
@@ -94,11 +89,7 @@ function buildPipelineSlot(
   const cachedScore = resultCache.get(cacheKey) ?? null
   const cachedUpgrades = upgradeResultCache.get(cacheKey) ?? null
 
-  // Clean up promise caches once the pipeline is fully complete for this key.
-  // For DPS: both score and upgrades must be cached. For non-DPS: score only (upgrades are skipped).
-  const pipelineComplete = configType === 'dps'
-    ? cachedScore != null && cachedUpgrades != null
-    : cachedScore != null
+  const pipelineComplete = cachedScore != null && cachedUpgrades != null
   if (pipelineComplete) {
     scorePromiseCache.delete(cacheKey)
     scoreUpgradePromiseCache.delete(cacheKey)
@@ -120,18 +111,18 @@ interface SimScoringContextProps extends PropsWithChildren {
 export const SimScoringContextProvider = memo(function SimScoringContextProvider(props: SimScoringContextProps) {
   const { character, configMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
 
-  const dpsCacheKey = computeScoringCacheKey(character, 'dps', configMetadata.dps ?? null, singleRelicByPart, showcaseTemporaryOptions)
-  const bufferCacheKey = computeScoringCacheKey(character, 'buffer', configMetadata.buffer ?? null, singleRelicByPart, showcaseTemporaryOptions)
-  const healCacheKey = computeScoringCacheKey(character, 'heal', configMetadata.heal ?? null, singleRelicByPart, showcaseTemporaryOptions)
-  const shieldCacheKey = computeScoringCacheKey(character, 'shield', configMetadata.shield ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const dpsCacheKey = computeScoringCacheKey(character, ScoringConfigType.DPS, configMetadata[ScoringConfigType.DPS] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const bufferCacheKey = computeScoringCacheKey(character, ScoringConfigType.BUFFER, configMetadata[ScoringConfigType.BUFFER] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const healCacheKey = computeScoringCacheKey(character, ScoringConfigType.HEAL, configMetadata[ScoringConfigType.HEAL] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const shieldCacheKey = computeScoringCacheKey(character, ScoringConfigType.SHIELD, configMetadata[ScoringConfigType.SHIELD] ?? null, singleRelicByPart, showcaseTemporaryOptions)
 
   const context = useMemo(() => {
     const pipelines: Partial<Record<ScoringConfigType, PipelineSlot>> = {}
 
-    for (const ct of CONFIG_DISPLAY_ORDER) {
-      const meta = configMetadata[ct]
+    for (const configType of CONFIG_DISPLAY_ORDER) {
+      const meta = configMetadata[configType]
       if (meta) {
-        pipelines[ct] = buildPipelineSlot(character, ct, meta, singleRelicByPart, showcaseTemporaryOptions).slot
+        pipelines[configType] = buildPipelineSlot(character, configType, meta, singleRelicByPart, showcaseTemporaryOptions).slot
       }
     }
 
@@ -140,21 +131,21 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
   }, [dpsCacheKey, bufferCacheKey, healCacheKey, shieldCacheKey])
 
   return (
-    <SimScoringCtx value={context}>
+    <SimScoringContext value={context}>
       {props.children}
-    </SimScoringCtx>
+    </SimScoringContext>
   )
 })
 
 // --- Hooks ---
 
 export function useSimPreview(configType: ScoringConfigType): PreparedState | null {
-  const ctx = useContext(SimScoringCtx)
+  const ctx = useContext(SimScoringContext)
   return ctx.pipelines[configType]?.preview ?? null
 }
 
 export function useSimScore(configType: ScoringConfigType): SimulationScore | null {
-  const ctx = useContext(SimScoringCtx)
+  const ctx = useContext(SimScoringContext)
   const slot = ctx.pipelines[configType]
 
   const promise = slot?.scoringPromise ?? null
@@ -165,7 +156,7 @@ export function useSimScore(configType: ScoringConfigType): SimulationScore | nu
 }
 
 export function useSimUpgrades(configType: ScoringConfigType): SimulationScore | null {
-  const ctx = useContext(SimScoringCtx)
+  const ctx = useContext(SimScoringContext)
   const slot = ctx.pipelines[configType]
 
   const promise = slot?.upgradePromise ?? null
@@ -177,6 +168,6 @@ export function useSimUpgrades(configType: ScoringConfigType): SimulationScore |
 
 // Access the raw pipeline slot (for promise-based components like SuspenseNode)
 export function usePipelineSlot(configType: ScoringConfigType): PipelineSlot | undefined {
-  const ctx = useContext(SimScoringCtx)
+  const ctx = useContext(SimScoringContext)
   return ctx.pipelines[configType]
 }

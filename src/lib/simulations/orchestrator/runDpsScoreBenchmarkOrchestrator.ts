@@ -1,22 +1,22 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import { CUSTOM_TEAM, Sets } from 'lib/constants/constants'
+import { CUSTOM_TEAM, Sets, type TeamSelection } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import type { SortOptionKey } from 'lib/optimization/sortOptions'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
-import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
+import { CONFIG_FIELD_MAP, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { Character } from 'types/character'
-import type {
-  ScoringConfig,
+import {
   ScoringConfigType,
-  ScoringMetadata,
-  ShowcaseTemporaryOptions,
-  SimulationMetadata,
+  type ScoringConfig,
+  type ScoringMetadata,
+  type ShowcaseTemporaryOptions,
+  type SimulationMetadata,
 } from 'types/metadata'
 import type { SavedBuild } from 'types/savedBuild'
 
@@ -47,12 +47,11 @@ export function prepareOrchestrator(
   orchestrator.setSimForm(character.form, config.simulation)
 
   // Override resultSort based on config type
+  const entry = SCORING_CONFIG_REGISTRY[config.configType]
   if (config.scoringActionKey) {
     orchestrator.form!.resultSort = config.scoringActionKey as SortOptionKey
-  } else if (config.configType === 'heal') {
-    orchestrator.form!.resultSort = 'COMBO_HEAL'
-  } else if (config.configType === 'shield') {
-    orchestrator.form!.resultSort = 'COMBO_SHIELD'
+  } else if (entry.resultSortKey) {
+    orchestrator.form!.resultSort = entry.resultSortKey
   }
 
   // Override comboTurnAbilities from the active config's simulation.
@@ -62,7 +61,7 @@ export function prepareOrchestrator(
   }
 
   // Buffer-specific: force Sacerdos 4p
-  if (config.configType === 'buffer') {
+  if (config.configType === ScoringConfigType.BUFFER) {
     orchestrator.form!.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 4
   }
 
@@ -73,8 +72,8 @@ export function prepareOrchestrator(
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
   orchestrator.precomputePoolState()
 
-  // RES equalization for all non-DPS types (healers/shielders often invest in RES)
-  if (config.configType !== 'dps') {
+  // RES equalization for non-DPS types (healers/shielders often invest in RES)
+  if (entry.applyResEqualization) {
     orchestrator.applyBasicResTargetFlag()
   }
 
@@ -136,7 +135,7 @@ export async function runDpsScoreBenchmarkOrchestrator(
   singleRelicByPart: SingleRelicByPart,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ) {
-  const config: ScoringConfig = { configType: 'dps', simulation: simulationMetadata }
+  const config: ScoringConfig = { configType: ScoringConfigType.DPS, simulation: simulationMetadata }
   const orchestrator = prepareOrchestrator(character, config, singleRelicByPart, showcaseTemporaryOptions)
   return executeOrchestrator(orchestrator)
 }
@@ -144,7 +143,7 @@ export async function runDpsScoreBenchmarkOrchestrator(
 export function resolveSimulationMetadata(
   character: Character,
   configType: ScoringConfigType,
-  teamSelection: string,
+  teamSelection: TeamSelection,
   buildOverride?: SavedBuild | null,
 ): SimulationMetadata | null {
   const characterId = character.id
@@ -165,7 +164,7 @@ export function resolveSimulationMetadata(
   simulation.teammates = getTeammates(teamSelection, customSimulation, defaultSimulation, buildOverride)
 
   // deprioritizeBuffs is DPS-only — always false for non-DPS
-  if (configType === 'dps') {
+  if (SCORING_CONFIG_REGISTRY[configType].supportsDeprioritizeBuffs) {
     simulation.deprioritizeBuffs = buildOverride != undefined && 'deprioritizeBuffs' in buildOverride
       ? buildOverride.deprioritizeBuffs
       : customSimulation.deprioritizeBuffs ?? false
@@ -177,7 +176,7 @@ export function resolveSimulationMetadata(
 }
 
 export function getTeammates(
-  teamSelection: string,
+  teamSelection: TeamSelection,
   customSimulation: NonNullable<ScoringMetadata['simulation']>,
   defaultSimulation: NonNullable<ScoringMetadata['simulation']>,
   buildOverride?: SavedBuild | null,

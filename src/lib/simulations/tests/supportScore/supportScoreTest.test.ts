@@ -12,7 +12,7 @@ import {
   testStatSpread,
 } from 'lib/simulations/tests/simTestUtils'
 import { clone } from 'lib/utils/objectUtils'
-import type { ScoringConfig, SimulationMetadata } from 'types/metadata'
+import { ScoringConfigType, type ScoringConfig, type SimulationMetadata } from 'types/metadata'
 import type { Character } from 'types/character'
 import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
@@ -32,7 +32,7 @@ void Yaoguang
 Metadata.initialize()
 
 function bufferConfig(simulation: SimulationMetadata): ScoringConfig {
-  return { configType: 'buffer', simulation, scoringActionKey: 'BUFF' }
+  return { configType: ScoringConfigType.BUFFER, simulation, scoringActionKey: 'BUFF' }
 }
 
 const supportSimulation: SimulationMetadata = {

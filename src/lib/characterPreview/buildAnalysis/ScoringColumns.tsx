@@ -54,45 +54,52 @@ import classes from './CharacterScoringSummary.module.css'
 const nullPromise = Promise.resolve(null)
 const highlightColor = 'rgb(225, 165, 100)'
 
+export enum ScoringColumnKind {
+  CHARACTER = 'Character',
+  BASELINE = 'Baseline',
+  BENCHMARK = 'Benchmark',
+  PERFECT = 'Perfect',
+}
+
 interface ExternalScoringColumnProps {
   characterId: CharacterId
   elementalDmgValue: string
   element: ElementName
   characterMetadata: { path: PathName }
+  configType: ScoringConfigType
 }
 
 interface ExternalSimulationScoringColumnProps extends ExternalScoringColumnProps {
-  type: 'Benchmark' | 'Perfect'
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
 }
 
 interface SharedScoringColumnProps extends ExternalScoringColumnProps {
   percent: number | null
   precision: number
   columnClassName: string
-  configType: ScoringConfigType
 }
 
 interface SynchronousScoringColumnProps extends SharedScoringColumnProps {
-  type: 'Character' | 'Baseline'
+  type: ScoringColumnKind.CHARACTER | ScoringColumnKind.BASELINE
   simulation: Simulation
   originalSimResult: RunStatSimulationsResult
 }
 
 interface AsynchronousScoringColumnProps extends SharedScoringColumnProps {
-  type: 'Benchmark' | 'Perfect'
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
   simulation: Promise<SimulationScore | null>
 }
 
 type ScoringColumnProps = SynchronousScoringColumnProps | AsynchronousScoringColumnProps
 
 function isAsyncProps(props: ScoringColumnProps): props is AsynchronousScoringColumnProps {
-  return props.type === 'Benchmark' || props.type === 'Perfect'
+  return props.type === ScoringColumnKind.BENCHMARK || props.type === ScoringColumnKind.PERFECT
 }
 
 const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
-  const highlight = props.type === 'Character'
+  const highlight = props.type === ScoringColumnKind.CHARACTER
 
   // only the character scoring column will pass as null as all other info is available synchronously
   const headerText = props.percent !== null
@@ -207,7 +214,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
           <SubstatRollsSummary
             promise={props.simulation}
             precision={props.precision}
-            diminish={props.type === 'Benchmark'}
+            diminish={props.type === ScoringColumnKind.BENCHMARK}
             type={props.type}
             columns={2}
             configType={props.configType}
@@ -346,8 +353,8 @@ function Fallback({ t }: {
 }
 
 type SetField = 'simRelicSet1' | 'simRelicSet2' | 'simOrnamentSet'
-function setSelector(type: 'Benchmark' | 'Perfect', field: SetField) {
-  const key = type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'
+function setSelector(type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT, field: SetField) {
+  const key = type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim'
   return (score: SimulationScore | null) => {
     if (!score) return null
     const set = score[key].request[field]
@@ -357,7 +364,7 @@ function setSelector(type: 'Benchmark' | 'Perfect', field: SetField) {
 }
 
 const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
-export const CharacterScoringColumn = memo(function(props: ExternalScoringColumnProps & { configType: ScoringConfigType }) {
+export const CharacterScoringColumn = memo(function(props: ExternalScoringColumnProps) {
   const preview = useSimPreview(props.configType)
   if (preview === null) return null
   return (
@@ -366,7 +373,7 @@ export const CharacterScoringColumn = memo(function(props: ExternalScoringColumn
       originalSimResult={preview.originalSimResult}
       percent={null}
       precision={2}
-      type='Character'
+      type={ScoringColumnKind.CHARACTER}
       characterId={props.characterId}
       elementalDmgValue={props.elementalDmgValue}
       element={props.element}
@@ -377,7 +384,7 @@ export const CharacterScoringColumn = memo(function(props: ExternalScoringColumn
   )
 })
 
-export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnProps & { configType: ScoringConfigType }) {
+export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnProps) {
   const preview = useSimPreview(props.configType)
   if (preview === null) return null
   return (
@@ -386,7 +393,7 @@ export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnP
       originalSimResult={preview.baselineSimResult}
       percent={0}
       precision={0}
-      type='Baseline'
+      type={ScoringColumnKind.BASELINE}
       characterId={props.characterId}
       elementalDmgValue={props.elementalDmgValue}
       element={props.element}
@@ -398,9 +405,9 @@ export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnP
 })
 
 const defaultClass = classes.columnCardFilled
-export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps & { configType: ScoringConfigType }) {
+export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps) {
   const pipelineSlot = usePipelineSlot(props.configType)
-  const isBenchmark = props.type === 'Benchmark'
+  const isBenchmark = props.type === ScoringColumnKind.BENCHMARK
   return (
     <ScoringColumn
       simulation={pipelineSlot?.scoringPromise ?? nullPromise}

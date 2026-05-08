@@ -19,6 +19,7 @@ import {
 } from 'i18next'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   formatSimScore,
@@ -148,7 +149,7 @@ export const StatRow = memo(function StatRow({
 
 export const AsyncStatRow = memo(function({ promise, type, subType, stat, element, path, elementalDmgValue, edits, preciseSpd }: {
   promise: Promise<SimulationScore | null>,
-  type: 'Character' | 'Benchmark' | 'Perfect',
+  type: ScoringColumnKind.CHARACTER | ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
   subType: 'Basic' | 'Combat',
   stat: string,
   element: ElementName,
@@ -169,7 +170,7 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
 
   const transformed = useMemo(() => {
     if (!output) return null
-    const simResult = output[type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'].result
+    const simResult = output[type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim'].result
     if (!simResult) return null
     const stats = subType === 'Basic'
       ? toBasicStatsObject(simResult.ca)

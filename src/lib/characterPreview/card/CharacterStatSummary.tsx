@@ -10,6 +10,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
@@ -37,7 +38,7 @@ interface CommonStatSummaryProps {
   zebra?: boolean
 }
 
-interface SyncStatSumaryProps extends CommonStatSummaryProps {
+interface SyncStatSummaryProps extends CommonStatSummaryProps {
   simScore: number
   finalStats: BasicStatsObject | ComputedStatsObjectExternal
   hasScoring?: boolean
@@ -47,7 +48,7 @@ interface SyncStatSumaryProps extends CommonStatSummaryProps {
 
 interface AsyncStatSummaryProps extends CommonStatSummaryProps {
   promise: Promise<SimulationScore | null>
-  type: 'Benchmark' | 'Perfect'
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
   subType: 'Combat' | 'Basic'
 }
 
@@ -62,7 +63,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   zebra,
   buffStat,
   thousands,
-}: SyncStatSumaryProps) {
+}: SyncStatSummaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
@@ -93,7 +94,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
         {showAll && getGameMetadata().characters[characterId]?.path === PathNames.Elation
           && <StatRow finalStats={finalStats} stat={Stats.Elation} edits={edits} />}
 
-        {scoringType != null && isSimScoreMode(scoringType)
+        {isSimScoreMode(scoringType)
           && (
             <StatRow
               finalStats={finalStats}

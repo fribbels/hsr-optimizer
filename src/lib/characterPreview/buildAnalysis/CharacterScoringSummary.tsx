@@ -10,7 +10,7 @@ import type {
 } from 'lib/characterPreview/characterPreviewController'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import {
-  SimScoringCtx,
+  SimScoringContext,
   usePipelineSlot,
   useSimPreview,
 } from 'lib/characterPreview/SimScoringContext'
@@ -22,7 +22,7 @@ import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/Estimate
 import { ElementToDamage } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
-import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
+import { CONFIG_FIELD_MAP, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
@@ -38,11 +38,12 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Form } from 'types/form'
-import type { ScoringConfigType } from 'types/metadata'
+import { ScoringConfigType } from 'types/metadata'
 import classes from './CharacterScoringSummary.module.css'
 import {
   BaselineScoringColumn,
   CharacterScoringColumn,
+  ScoringColumnKind,
   SimulationScoringColumn,
 } from './ScoringColumns'
 
@@ -127,7 +128,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
   if (preview === null) return null
 
   const buffStat = preview.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[configType]]?.buffStat
-  const thousands = configType === 'dps'
+  const thousands = SCORING_CONFIG_REGISTRY[configType].thousands
   return (
     <div className={classes.columnCardFilled} style={{ width: '100%' }}>
       <div className={classes.columnFilledBody}>
@@ -244,7 +245,7 @@ function ScoringColumnsSection({ configType }: { configType: ScoringConfigType }
         elementalDmgValue={elementalDmgValue}
         element={element}
         characterMetadata={characterMetadata}
-        type='Benchmark'
+        type={ScoringColumnKind.BENCHMARK}
         configType={configType}
       />
 
@@ -253,7 +254,7 @@ function ScoringColumnsSection({ configType }: { configType: ScoringConfigType }
         elementalDmgValue={elementalDmgValue}
         element={element}
         characterMetadata={characterMetadata}
-        type='Perfect'
+        type={ScoringColumnKind.PERFECT}
         configType={configType}
       />
     </div>
@@ -266,7 +267,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   displayRelics,
   showcaseMetadata,
   source,
-  configType = 'dps',
+  configType = ScoringConfigType.DPS,
 }: {
   displayRelics: PreviewRelics,
   showcaseMetadata: ShowcaseMetadata,
@@ -274,7 +275,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   configType?: ScoringConfigType,
 }) {
   const { t } = useTranslation('charactersTab')
-  const isDps = configType === 'dps'
+  const isDps = configType === ScoringConfigType.DPS
 
   return (
     <DeferCreateProvider resetKey={showcaseMetadata.characterId}>

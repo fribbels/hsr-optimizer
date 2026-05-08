@@ -16,13 +16,14 @@ import type {
   Character,
 } from 'types/character'
 import type { Form } from 'types/form'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type {
   DBMetadataCharacter,
   ScoringConfig,
-  ScoringConfigType,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
+import { ScoringConfigType } from 'types/metadata'
 
 // --- Types ---
 
@@ -182,7 +183,7 @@ export function requestScore(
         previewCache.delete(cacheKey)
 
         // Non-DPS types don't need upgrades yet, so release the orchestrator immediately
-        if (config.configType !== 'dps') {
+        if (!SCORING_CONFIG_REGISTRY[config.configType].supportsUpgrades) {
           orchestratorCache.delete(cacheKey)
         }
 
@@ -211,7 +212,7 @@ export function requestScoreUpgrades(
 ): Promise<SimulationScore | null> {
   if (cacheKey === null) return Promise.resolve(null)
   // Upgrades are DPS-only — non-DPS orchestrators are released immediately after scoring
-  if (config.configType !== 'dps') return Promise.resolve(null)
+  if (!SCORING_CONFIG_REGISTRY[config.configType].supportsUpgrades) return Promise.resolve(null)
   // Return cached result as resolved promise
   if (upgradeResultCache.has(cacheKey)) {
     return Promise.resolve(upgradeResultCache.get(cacheKey)!)

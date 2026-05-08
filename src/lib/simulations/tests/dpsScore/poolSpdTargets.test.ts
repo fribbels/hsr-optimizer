@@ -33,6 +33,7 @@ import { Metadata } from 'lib/state/metadataInitializer'
 import { clone } from 'lib/utils/objectUtils'
 import { type Character } from 'types/character'
 import type { CharacterId } from 'types/character'
+import { ScoringConfigType } from 'types/metadata'
 import {
   describe,
   expect,
@@ -67,7 +68,7 @@ function buildOrchestrator(
   simulationMetadata.teammates[2] = input.teammate2
 
   const singleRelicByPart = generateTestSingleRelicsByPart(input.sets, input.mains, input.stats)
-  return prepareOrchestrator(character, { configType: 'dps', simulation: simulationMetadata }, singleRelicByPart, { spdBenchmark })
+  return prepareOrchestrator(character, { configType: ScoringConfigType.DPS, simulation: simulationMetadata }, singleRelicByPart, { spdBenchmark })
 }
 
 // Castorice default metadata: Poet + BoneCollection

@@ -14,7 +14,8 @@ import type {
   RunStatSimulationsResult,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
-import type { ScoringConfigType } from 'types/metadata'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { ScoringConfigType } from 'types/metadata'
 import { isSubstat } from 'lib/utils/statUtils'
 
 export function calculateMinSubstatRollCounts(
@@ -85,7 +86,7 @@ export function calculateMaxSubstatRollCounts(
 
   // For DPS, flat stats are always outcompeted by multiplicative stats — cap at 10 to reduce search space.
   // For non-DPS (buffer/heal/shield), flat stats can be the primary scaling stat, so don't cap.
-  if (!configType || configType === 'dps') {
+  if (!configType || SCORING_CONFIG_REGISTRY[configType].capFlatSubstats) {
     maxCounts[Stats.ATK] = Math.min(10, maxCounts[Stats.ATK])
     maxCounts[Stats.HP] = Math.min(10, maxCounts[Stats.HP])
     maxCounts[Stats.DEF] = Math.min(10, maxCounts[Stats.DEF])

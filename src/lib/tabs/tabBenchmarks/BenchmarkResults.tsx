@@ -21,6 +21,7 @@ import {
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   formatSimScore,
   getElementalDmgFromContainer,
@@ -45,6 +46,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ScoringConfigType } from 'types/metadata'
 import styles from './BenchmarkResults.module.css'
 
 type BenchmarkRow = {
@@ -314,7 +316,7 @@ function ComboDmgCell({ comboDmg, row }: { comboDmg: number, row: BenchmarkRow }
       <Flex className={styles.comboDmgContent} justify='center' align='center'>
         <Badge color='#000000aa' className={styles.comboDmgBadge}>
           <div className={styles.comboDmgText}>
-            {formatSimScore(comboDmg, row.orchestrator.metadata.buffStat, 1, row.orchestrator.configType === 'dps')}
+            {formatSimScore(comboDmg, row.orchestrator.metadata.buffStat, 1, SCORING_CONFIG_REGISTRY[row.orchestrator.configType ?? ScoringConfigType.DPS].thousands)}
           </div>
         </Badge>
       </Flex>

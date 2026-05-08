@@ -1,7 +1,6 @@
 import type {
-  CUSTOM_TEAM,
-  DEFAULT_TEAM,
   Parts,
+  TeamSelection,
 } from 'lib/constants/constants'
 import type {
   Character,
@@ -62,7 +61,7 @@ export type ShowcaseTabState = {
 
   // Per-character preferences (showcasePreferences persisted via SaveState)
   showcasePreferences: Partial<Record<CharacterId, ShowcasePreferences>>,
-  showcaseTeamPreferenceByConfig: Partial<Record<CharacterId, Partial<Record<ScoringConfigType, typeof CUSTOM_TEAM | typeof DEFAULT_TEAM>>>>,
+  showcaseTeamPreferenceByConfig: Partial<Record<CharacterId, Partial<Record<ScoringConfigType, TeamSelection>>>>,
   showcaseTemporaryOptionsByCharacter: Partial<Record<CharacterId, ShowcaseTemporaryOptions>>,
 
   // Portrait rendering (runtime only, not persisted)
@@ -89,7 +88,7 @@ export type ShowcaseTabActions = {
 
   // Per-character preferences
   setShowcasePreferences: (prefs: Partial<Record<CharacterId, ShowcasePreferences>>) => void,
-  setShowcaseTeamPreference: (id: CharacterId, configType: ScoringConfigType, team: typeof CUSTOM_TEAM | typeof DEFAULT_TEAM) => void,
+  setShowcaseTeamPreference: (id: CharacterId, configType: ScoringConfigType, team: TeamSelection) => void,
   setSpdBenchmark: (id: CharacterId, spdBenchmark: number | undefined) => void,
 
   // Portrait

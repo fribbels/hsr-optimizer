@@ -69,7 +69,7 @@ import {
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import type { RelicScoringResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
-import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
+import { CONFIG_FIELD_MAP, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { ScoringType, isSimScoreMode } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -91,10 +91,10 @@ import type {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import type {
+import {
   ScoringConfigType,
-  ShowcaseDisplayDimensionsOverride,
-  ShowcaseTemporaryOptions,
+  type ShowcaseDisplayDimensionsOverride,
+  type ShowcaseTemporaryOptions,
 } from 'types/metadata'
 import {
   SimScoringContextProvider,
@@ -384,10 +384,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       void _scoringMetadataCacheBuster // explicit cache invalidation dependency
       const baseLayout = resolveShowcaseLayout({
         character,
-        teamSelection: state.teamSelection,
-        supportTeamSelection: state.supportTeamSelection,
-        healTeamSelection: state.healTeamSelection,
-        shieldTeamSelection: state.shieldTeamSelection,
+        teamSelections: state.teamSelections,
         storedScoringType: effectiveScoringType,
         savedBuildOverride,
         t,
@@ -400,10 +397,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       character,
-      state.teamSelection,
-      state.supportTeamSelection,
-      state.healTeamSelection,
-      state.shieldTeamSelection,
+      state.teamSelections,
       effectiveScoringType,
       savedBuildOverride,
       _scoringMetadataCacheBuster,
@@ -709,7 +703,8 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
   hasScoring: boolean,
   configType: ScoringConfigType | undefined,
 }) {
-  const preview = useSimPreview(configType ?? 'dps')
+  const activeConfigType = configType ?? ScoringConfigType.DPS
+  const preview = useSimPreview(activeConfigType)
   const simScore = preview?.originalSimResult.simScore ?? 0
   const buffStat = configType
     ? preview?.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[configType]]?.buffStat
@@ -723,7 +718,7 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
       hasScoring={hasScoring}
       simScore={simScore}
       buffStat={buffStat}
-      thousands={configType === 'dps'}
+      thousands={SCORING_CONFIG_REGISTRY[activeConfigType].thousands}
     />
   )
 })

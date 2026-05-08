@@ -45,6 +45,7 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
+import { ScoringConfigType } from 'types/metadata'
 import type {
   SavedBuild,
   SavedTeammate,
@@ -138,8 +139,8 @@ function BuildsModalContent() {
 
       if (build.team.filter((x) => x !== null).length === 3) {
         const update = { teammates: build.team as SavedTeammate[] }
-        useScoringStore.getState().updateScoringConfigOverride(build.characterId, 'dps', update)
-        useShowcaseTabStore.getState().setShowcaseTeamPreference(build.characterId, 'dps', CUSTOM_TEAM)
+        useScoringStore.getState().updateScoringConfigOverride(build.characterId, ScoringConfigType.DPS, update)
+        useShowcaseTabStore.getState().setShowcaseTeamPreference(build.characterId, ScoringConfigType.DPS, CUSTOM_TEAM)
       }
 
       handleCancel()

@@ -1,27 +1,132 @@
-import type { ScoringConfig, ScoringConfigType, ScoringMetadata, ScoringMetadataOverride } from 'types/metadata'
+import { GlobalRegister } from 'lib/optimization/engine/config/keys'
+import { ScoringType } from 'lib/scoring/simScoringUtils'
+import type { SortOptionKey } from 'lib/optimization/sortOptions'
+import {
+  ScoringConfigType,
+  type ScoringConfig,
+  type ScoringMetadata,
+  type ScoringMetadataOverride,
+} from 'types/metadata'
 
-export const CONFIG_FIELD_MAP: Record<ScoringConfigType, 'simulation' | 'supportSimulation' | 'healSimulation' | 'shieldSimulation'> = {
-  dps: 'simulation',
-  buffer: 'supportSimulation',
-  heal: 'healSimulation',
-  shield: 'shieldSimulation',
+export type MetadataFieldKey = 'simulation' | 'supportSimulation' | 'healSimulation' | 'shieldSimulation'
+
+export interface ScoringConfigEntry {
+  configType: ScoringConfigType
+  scoringType: ScoringType
+  metadataField: MetadataFieldKey
+  scoringActionKey?: string
+  thousands: boolean
+  label: string
+  headerTitle: string
+  headerScoreLabel: string
+  rulerLabel: string
+  mainsFreeCount: number
+  comboRegister: number
+  capFlatSubstats: boolean
+  applyResEqualization: boolean
+  supportsUpgrades: boolean
+  supportsDeprioritizeBuffs: boolean
+  resultSortKey?: SortOptionKey
 }
 
-export const CONFIG_DISPLAY_ORDER: ScoringConfigType[] = ['dps', 'buffer', 'heal', 'shield']
+export const CONFIG_DISPLAY_ORDER: ScoringConfigType[] = [
+  ScoringConfigType.DPS,
+  ScoringConfigType.BUFFER,
+  ScoringConfigType.HEAL,
+  ScoringConfigType.SHIELD,
+]
+
+export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEntry> = {
+  [ScoringConfigType.DPS]: {
+    configType: ScoringConfigType.DPS,
+    scoringType: ScoringType.DPS_SCORE,
+    metadataField: 'simulation',
+    thousands: true,
+    label: 'DPS Score',
+    headerTitle: '',
+    headerScoreLabel: '',
+    rulerLabel: 'Damage',
+    mainsFreeCount: 0,
+    comboRegister: GlobalRegister.COMBO_DMG,
+    capFlatSubstats: true,
+    applyResEqualization: false,
+    supportsUpgrades: true,
+    supportsDeprioritizeBuffs: true,
+  },
+  [ScoringConfigType.BUFFER]: {
+    configType: ScoringConfigType.BUFFER,
+    scoringType: ScoringType.BUFFER_SCORE,
+    metadataField: 'supportSimulation',
+    scoringActionKey: 'BUFF',
+    thousands: false,
+    label: 'Support Score',
+    headerTitle: 'Support Sim',
+    headerScoreLabel: 'Support Score',
+    rulerLabel: 'Buff',
+    mainsFreeCount: 2,
+    comboRegister: GlobalRegister.COMBO_DMG,
+    capFlatSubstats: false,
+    applyResEqualization: true,
+    supportsUpgrades: false,
+    supportsDeprioritizeBuffs: false,
+  },
+  [ScoringConfigType.HEAL]: {
+    configType: ScoringConfigType.HEAL,
+    scoringType: ScoringType.HEAL_SCORE,
+    metadataField: 'healSimulation',
+    thousands: false,
+    label: 'Heal Score',
+    headerTitle: 'Heal Sim',
+    headerScoreLabel: 'Heal Score',
+    rulerLabel: 'Healing',
+    mainsFreeCount: 2,
+    comboRegister: GlobalRegister.COMBO_HEAL,
+    capFlatSubstats: false,
+    applyResEqualization: true,
+    supportsUpgrades: false,
+    supportsDeprioritizeBuffs: false,
+    resultSortKey: 'COMBO_HEAL',
+  },
+  [ScoringConfigType.SHIELD]: {
+    configType: ScoringConfigType.SHIELD,
+    scoringType: ScoringType.SHIELD_SCORE,
+    metadataField: 'shieldSimulation',
+    thousands: false,
+    label: 'Shield Score',
+    headerTitle: 'Shield Sim',
+    headerScoreLabel: 'Shield Score',
+    rulerLabel: 'Shield',
+    mainsFreeCount: 2,
+    comboRegister: GlobalRegister.COMBO_SHIELD,
+    capFlatSubstats: false,
+    applyResEqualization: true,
+    supportsUpgrades: false,
+    supportsDeprioritizeBuffs: false,
+    resultSortKey: 'COMBO_SHIELD',
+  },
+}
+
+export const CONFIG_FIELD_MAP: Record<ScoringConfigType, MetadataFieldKey> = Object.fromEntries(
+  CONFIG_DISPLAY_ORDER.map((ct) => [ct, SCORING_CONFIG_REGISTRY[ct].metadataField]),
+) as Record<ScoringConfigType, MetadataFieldKey>
+
+export function configTypeForScoringType(scoringType: ScoringType): ScoringConfigType | undefined {
+  return CONFIG_DISPLAY_ORDER.find((ct) => SCORING_CONFIG_REGISTRY[ct].scoringType === scoringType)
+}
 
 export function getConfig(metadata: ScoringMetadata, type: ScoringConfigType): ScoringConfig | undefined {
-  const field = CONFIG_FIELD_MAP[type]
-  const sim = metadata[field]
+  const entry = SCORING_CONFIG_REGISTRY[type]
+  const sim = metadata[entry.metadataField]
   if (!sim) return undefined
   return {
     configType: type,
     simulation: sim,
-    scoringActionKey: type === 'buffer' ? 'BUFF' : undefined,
+    scoringActionKey: entry.scoringActionKey,
   }
 }
 
 export function hasConfig(metadata: ScoringMetadata, type: ScoringConfigType): boolean {
-  return !!metadata[CONFIG_FIELD_MAP[type]]
+  return !!metadata[SCORING_CONFIG_REGISTRY[type].metadataField]
 }
 
 export function listConfigs(metadata: ScoringMetadata): ScoringConfig[] {

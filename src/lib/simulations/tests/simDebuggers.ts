@@ -24,6 +24,7 @@ import {
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { ScoringConfigType } from 'types/metadata'
 import { uuid } from 'lib/utils/miscUtils'
 
 export function injectBenchmarkDebuggers() {
@@ -44,7 +45,7 @@ function equipTestCharacter() {
 
   const simulationMetadata = getGameMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 
-  useScoringStore.getState().updateScoringConfigOverride(testInput.character.characterId, 'dps', {
+  useScoringStore.getState().updateScoringConfigOverride(testInput.character.characterId, ScoringConfigType.DPS, {
     ...simulationMetadata,
     teammates: [
       testInput.teammate0,

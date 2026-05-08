@@ -3,6 +3,7 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   applyScoringFunction,
@@ -61,7 +62,7 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   }
 
   // Non-DPS scoring: relax DR so it only triggers at 3+ mains of the same stat
-  if (input.configType && input.configType !== 'dps') {
+  if (input.configType && !SCORING_CONFIG_REGISTRY[input.configType].capFlatSubstats) {
     const nonDpsDiminishingReturns = createDiminishingReturnsFormula(12, 2, 2)
     return (rolls: number, stat: string, sim: Simulation) =>
       substatRollsModifier(rolls, stat, sim, nonDpsDiminishingReturns)

@@ -50,6 +50,7 @@ import {
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { Assets } from 'lib/rendering/assets'
+import { configTypeForScoringType } from 'lib/scoring/scoringConfig'
 import { isSimScoreMode, ScoringType } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
@@ -73,7 +74,7 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type CharacterId } from 'types/character'
-import type { ScoringConfigType } from 'types/metadata'
+import { ScoringConfigType } from 'types/metadata'
 import classes from './ShowcaseCustomizationSidebar.module.css'
 
 interface ShowcaseCustomizationSidebarProps {
@@ -180,7 +181,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
   function onDeprioritizeBuffsChange(value: boolean) {
     const meta = getScoringMetadata(characterId)
     if (meta?.simulation) {
-      useScoringStore.getState().updateScoringConfigOverride(characterId, 'dps', { deprioritizeBuffs: value })
+      useScoringStore.getState().updateScoringConfigOverride(characterId, ScoringConfigType.DPS, { deprioritizeBuffs: value })
       SaveState.delayedSave()
     }
   }
@@ -471,13 +472,6 @@ const CustomizationPanel = memo(function CustomizationPanel({
 
 // =============================================================================
 
-const SCORING_TYPE_TO_CONFIG: Partial<Record<ScoringType, ScoringConfigType>> = {
-  [ScoringType.DPS_SCORE]: 'dps',
-  [ScoringType.BUFFER_SCORE]: 'buffer',
-  [ScoringType.HEAL_SCORE]: 'heal',
-  [ScoringType.SHIELD_SCORE]: 'shield',
-}
-
 function SpdBenchmarkCombobox(props: {
   spdBenchmark: number | undefined,
   onSpdBenchmarkChange: (n: number | undefined) => void,
@@ -486,7 +480,7 @@ function SpdBenchmarkCombobox(props: {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
-  const configType = SCORING_TYPE_TO_CONFIG[props.scoringType] ?? 'dps'
+  const configType = configTypeForScoringType(props.scoringType) ?? ScoringConfigType.DPS
   const spdFilter = useSimPreview(configType)?.originalSpd
 
   const options = useMemo(() =>

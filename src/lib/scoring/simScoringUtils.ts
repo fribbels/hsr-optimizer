@@ -30,9 +30,9 @@ import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
-  ScoringConfigType,
   SimulationMetadata,
 } from 'types/metadata'
+import { ScoringConfigType } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 import type { Relic } from 'types/relic'
 
@@ -91,7 +91,7 @@ export enum ScoringType {
   SHIELD_SCORE = 5,
 }
 
-export function isSimScoreMode(scoringType: ScoringType): boolean {
+export function isSimScoreMode(scoringType: ScoringType | null | undefined): boolean {
   return scoringType === ScoringType.DPS_SCORE
     || scoringType === ScoringType.BUFFER_SCORE
     || scoringType === ScoringType.HEAL_SCORE
@@ -359,10 +359,10 @@ export function calculateScorePercent(
 }
 
 const COMBO_REGISTER_MAP: Record<ScoringConfigType, number> = {
-  dps: GlobalRegister.COMBO_DMG,
-  buffer: GlobalRegister.COMBO_DMG,
-  heal: GlobalRegister.COMBO_HEAL,
-  shield: GlobalRegister.COMBO_SHIELD,
+  [ScoringConfigType.DPS]: GlobalRegister.COMBO_DMG,
+  [ScoringConfigType.BUFFER]: GlobalRegister.COMBO_DMG,
+  [ScoringConfigType.HEAL]: GlobalRegister.COMBO_HEAL,
+  [ScoringConfigType.SHIELD]: GlobalRegister.COMBO_SHIELD,
 }
 
 export function applyScoringFunction(
@@ -380,7 +380,7 @@ export function applyScoringFunction(
   if (scoringActionKey && context) {
     unpenalizedSimScore = getActionRegisterByName(result, context, scoringActionKey)
   } else {
-    const register = COMBO_REGISTER_MAP[configType ?? 'dps']
+    const register = COMBO_REGISTER_MAP[configType ?? ScoringConfigType.DPS]
     unpenalizedSimScore = result.x.getGlobalRegisterValue(register)
   }
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)

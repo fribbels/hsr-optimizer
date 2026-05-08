@@ -7,7 +7,7 @@ import type {
 } from 'lib/characterPreview/characterPreviewController'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { CONFIG_DISPLAY_ORDER, hasConfig } from 'lib/scoring/scoringConfig'
+import { CONFIG_DISPLAY_ORDER, configTypeForScoringType, hasConfig, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { isSimScoreMode, ScoringType } from 'lib/scoring/simScoringUtils'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -20,20 +20,6 @@ import {
 import { useTranslation } from 'react-i18next'
 
 import type { ScoringConfigType } from 'types/metadata'
-
-const SCORING_CONFIG_LABELS: Record<ScoringConfigType, string> = {
-  dps: 'DPS Score',
-  buffer: 'Support Score',
-  heal: 'Heal Score',
-  shield: 'Shield Score',
-}
-
-const SCORING_TYPE_FOR_CONFIG: Record<ScoringConfigType, ScoringType> = {
-  dps: ScoringType.DPS_SCORE,
-  buffer: ScoringType.BUFFER_SCORE,
-  heal: ScoringType.HEAL_SCORE,
-  shield: ScoringType.SHIELD_SCORE,
-}
 
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType
@@ -55,15 +41,16 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   const { characterMetadata } = showcaseMetadata
   const scoringMeta = characterMetadata.scoringMetadata
 
-  const hasAnySimulation = CONFIG_DISPLAY_ORDER.some((ct) => hasConfig(scoringMeta, ct))
+  const hasAnySimulation = CONFIG_DISPLAY_ORDER.some((configType) => hasConfig(scoringMeta, configType))
 
   const segmentData = useMemo(() => {
     const segments: { label: string, value: string }[] = []
     for (const configType of CONFIG_DISPLAY_ORDER) {
       if (!hasConfig(scoringMeta, configType)) continue
+      const entry = SCORING_CONFIG_REGISTRY[configType]
       segments.push({
-        label: SCORING_CONFIG_LABELS[configType],
-        value: String(SCORING_TYPE_FOR_CONFIG[configType]),
+        label: entry.label,
+        value: String(entry.scoringType),
       })
     }
     segments.push({

@@ -3,6 +3,7 @@ import {
   AbilityKind,
   toTurnAbility,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { RotationDamageStep } from 'lib/simulations/statSimulationTypes'
@@ -16,7 +17,7 @@ interface SynchronousAbilityDamageSummaryProps {
 }
 interface AsynchronousAbilityDamageSummaryProps {
   promise: Promise<SimulationScore | null>
-  mode: 'Benchmark' | 'Perfect'
+  mode: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
   header?: React.ReactNode
   wrapperClassName?: string
 }
@@ -49,7 +50,7 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
 
 export const AsyncAbilityDamageSummary = memo(function AsyncAbilityDamageSummary({ promise, mode, header, wrapperClassName }: AsynchronousAbilityDamageSummaryProps) {
   const output = usePromise(promise)
-  const rotationDamage = output?.[mode === 'Benchmark' ? 'benchmarkSim' : 'maximumSim']?.result?.rotationDamage
+  const rotationDamage = output?.[mode === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']?.result?.rotationDamage
   if (!rotationDamage?.some((step) => step.actionType !== AbilityKind.NULL)) return null
 
   if (header) {

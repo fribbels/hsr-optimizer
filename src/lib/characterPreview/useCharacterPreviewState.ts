@@ -6,7 +6,7 @@ import {
   showcaseOnEditOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { ShowcaseColorMode } from 'lib/constants/constants'
-import type { Parts } from 'lib/constants/constants'
+import type { Parts, TeamSelection } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
@@ -25,6 +25,7 @@ import type {
   SavedBuild,
 } from 'types/character'
 import type { CustomImageConfig } from 'types/customImage'
+import type { ScoringConfigType } from 'types/metadata'
 import type { Relic } from 'types/relic'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -37,7 +38,6 @@ export function useCharacterPreviewState(
 ) {
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
 
-  // Ref so callbacks always see the current character ID without stale closure issues
   const charIdRef = useRef(character.id)
   charIdRef.current = character.id
 
@@ -65,20 +65,14 @@ export function useCharacterPreviewState(
 
   const charId = character.id
   const {
-    teamSelection,
-    supportTeamSelection,
-    healTeamSelection,
-    shieldTeamSelection,
+    teamSelections,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,
     portraitSwatches,
   } = useShowcaseTabStore(
     useShallow((s) => ({
-      teamSelection: s.showcaseTeamPreferenceByConfig[charId]?.dps,
-      supportTeamSelection: s.showcaseTeamPreferenceByConfig[charId]?.buffer,
-      healTeamSelection: s.showcaseTeamPreferenceByConfig[charId]?.heal,
-      shieldTeamSelection: s.showcaseTeamPreferenceByConfig[charId]?.shield,
+      teamSelections: (s.showcaseTeamPreferenceByConfig[charId] ?? {}) as Partial<Record<ScoringConfigType, TeamSelection>>,
       showcasePreferences: s.showcasePreferences[charId],
       showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
       portraitColor: s.portraitColorByCharacterId[charId],
@@ -88,7 +82,6 @@ export function useCharacterPreviewState(
 
   const { globalColorMode, storedScoringType, darkMode } = useGlobalStore(
     useShallow((s) => ({
-      // STANDARD mode overrides per-character color preferences when active
       globalColorMode: s.savedSession[SavedSessionKeys.showcaseStandardMode]
         ? ShowcaseColorMode.STANDARD
         : ShowcaseColorMode.AUTO,
@@ -97,7 +90,6 @@ export function useCharacterPreviewState(
     })),
   )
 
-  // Source-aware relicsById: showcase characters have relics embedded, not in the store
   const relicsById = useRelicStore(useShallow((s) => {
     if (source === ShowcaseSource.SHOWCASE_TAB) return EMPTY_RELICS
     const equipped = savedBuildOverride?.equipped ?? character.equipped
@@ -106,11 +98,9 @@ export function useCharacterPreviewState(
     return Object.fromEntries(ids.map((id) => [id, s.relicsById[id]])) as Partial<Record<string, Relic>>
   }))
 
-  // Reference changes when scoring overrides change (SPD weight, deprioritize buffs) — busts the memos below
   const scoringMetadata = useScoringMetadata(character.id)
 
   const { previewRelics, finalStats } = useMemo(() => {
-    // ShowcaseTabCharacter is handled correctly downstream via the source param — casts are safe
     const previewRelics = getPreviewRelics(source, character as Character, relicsById, savedBuildOverride)
     const finalStats = (character && previewRelics)
       ? getShowcaseStats(character as Character, previewRelics.displayRelics, savedBuildOverride)
@@ -127,10 +117,7 @@ export function useCharacterPreviewState(
     editPortraitModalOpen,
     setEditPortraitModalOpen,
     setCustomPortrait,
-    teamSelection,
-    supportTeamSelection,
-    healTeamSelection,
-    shieldTeamSelection,
+    teamSelections,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,

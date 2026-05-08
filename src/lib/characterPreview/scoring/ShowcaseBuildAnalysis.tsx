@@ -86,6 +86,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           }}
         >
           <SegmentedControl
+            key={segmentData.map((d) => d.value).join(',')}
             size='sm'
             styles={{ control: { width: 140 } }}
             onChange={handleScoringTypeChange}

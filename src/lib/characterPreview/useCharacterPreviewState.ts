@@ -30,6 +30,7 @@ import type { Relic } from 'types/relic'
 import { useShallow } from 'zustand/react/shallow'
 
 const EMPTY_RELICS: Partial<Record<string, Relic>> = {}
+const EMPTY_TEAM_SELECTIONS: Partial<Record<ScoringConfigType, TeamSelection>> = {}
 
 export function useCharacterPreviewState(
   source: ShowcaseSource,
@@ -72,7 +73,7 @@ export function useCharacterPreviewState(
     portraitSwatches,
   } = useShowcaseTabStore(
     useShallow((s) => ({
-      teamSelections: (s.showcaseTeamPreferenceByConfig[charId] ?? {}) as Partial<Record<ScoringConfigType, TeamSelection>>,
+      teamSelections: s.showcaseTeamPreferenceByConfig[charId],
       showcasePreferences: s.showcasePreferences[charId],
       showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
       portraitColor: s.portraitColorByCharacterId[charId],
@@ -117,7 +118,7 @@ export function useCharacterPreviewState(
     editPortraitModalOpen,
     setEditPortraitModalOpen,
     setCustomPortrait,
-    teamSelections,
+    teamSelections: teamSelections ?? EMPTY_TEAM_SELECTIONS,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,

@@ -28,8 +28,6 @@
   backdrop-filter: var(--backdrop-blur);
   font-size: 14px;
   width: fit-content;
-  text-overflow: ellipsis;
-  overflow: hidden;
   white-space: nowrap;
   z-index: 2;
   text-shadow: var(--text-shadow-showcase);

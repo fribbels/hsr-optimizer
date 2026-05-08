@@ -7,6 +7,7 @@ import { useForm } from '@mantine/form'
 import { Stats } from 'lib/constants/constants'
 import type { SharedProps } from 'lib/overlays/modals/quickUtils/common'
 import { Assets } from 'lib/rendering/assets'
+import { SaveState } from 'lib/state/saveState'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { Katex } from 'lib/ui/Katex'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
@@ -49,6 +50,7 @@ export function AhaPanel({ t }: SharedProps) {
     initialValues: useAhaTuningStore.getState(),
     onValuesChange(updated) {
       useAhaTuningStore.setState(updated)
+      SaveState.delayedSave()
     },
   })
   const { teammate0, teammate1, teammate2, teammate3, desiredAha } = form.getValues()

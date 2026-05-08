@@ -304,7 +304,7 @@ export function RelicModalContent() {
         </Flex>
 
         <Flex gap={10} style={{ width: 180 }}>
-          <Button onClick={handleCancel} style={{ flex: 1 }}>
+          <Button variant='default' onClick={handleCancel} style={{ flex: 1 }}>
             {t('common:Cancel')}
           </Button>
           <Button onClick={handleOk} style={{ flex: 1 }}>

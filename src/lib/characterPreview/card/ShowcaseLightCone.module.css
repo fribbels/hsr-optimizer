@@ -6,8 +6,6 @@
   border-radius: var(--radius-md);
   font-size: 14px;
   width: fit-content;
-  text-overflow: ellipsis;
-  overflow: hidden;
   white-space: nowrap;
   z-index: 21;
   text-shadow: var(--text-shadow-showcase);

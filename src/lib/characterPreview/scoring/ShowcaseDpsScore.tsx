@@ -16,7 +16,7 @@ import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/Character
 import {
   useSimPreview,
   useSimScore,
-} from 'lib/characterPreview/SimScoringContext'
+} from 'lib/characterPreview/useSimScoringHooks'
 import { StatText } from 'lib/characterPreview/StatText'
 import {
   CUSTOM_TEAM,

@@ -1,5 +1,5 @@
 import { Table } from '@mantine/core'
-import { usePipelineSlot } from 'lib/characterPreview/SimScoringContext'
+import { usePipelineSlot } from 'lib/characterPreview/useSimScoringHooks'
 import {
   isStatWithoutScoreUpgrade,
   type SharedScoreColumn,

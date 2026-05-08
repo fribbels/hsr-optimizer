@@ -9,11 +9,11 @@ import type {
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
+import { SimScoringContext } from 'lib/characterPreview/SimScoringContext'
 import {
-  SimScoringContext,
   usePipelineSlot,
   useSimPreview,
-} from 'lib/characterPreview/SimScoringContext'
+} from 'lib/characterPreview/useSimScoringHooks'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'

@@ -69,7 +69,7 @@ import {
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import type { RelicScoringResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
-import { CONFIG_FIELD_MAP, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { ScoringType, isSimScoreMode } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -96,10 +96,8 @@ import {
   type ShowcaseDisplayDimensionsOverride,
   type ShowcaseTemporaryOptions,
 } from 'types/metadata'
-import {
-  SimScoringContextProvider,
-  useSimPreview,
-} from './SimScoringContext'
+import { SimScoringContextProvider } from './SimScoringContext'
+import { useSimPreview } from './useSimScoringHooks'
 
 const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
@@ -718,7 +716,7 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
       hasScoring={hasScoring}
       simScore={simScore}
       buffStat={buffStat}
-      thousands={SCORING_CONFIG_REGISTRY[activeConfigType].thousands}
+      configType={activeConfigType}
     />
   )
 })

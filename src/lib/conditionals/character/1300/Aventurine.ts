@@ -399,7 +399,9 @@ const shieldSimulation = (): SimulationMetadata => ({
     [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
     [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
   ],
-  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  ornamentSets: [
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
   teammates: [
     {
       characterId: Topaz.id,
@@ -420,6 +422,7 @@ const shieldSimulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  deprioritizeBuffs: true,
 })
 
 const scoring = (): ScoringMetadata => ({

@@ -1,4 +1,4 @@
-import { useSimUpgrades } from 'lib/characterPreview/SimScoringContext'
+import { useSimUpgrades } from 'lib/characterPreview/useSimScoringHooks'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { TeammateUpgrades } from 'lib/tabs/tabOptimizer/analysis/TeammateUpgrades'
 import { memo } from 'react'

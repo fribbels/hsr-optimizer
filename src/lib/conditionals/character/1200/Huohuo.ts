@@ -19,6 +19,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -190,12 +191,15 @@ const healSimulation = (): SimulationMetadata => ({
     [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
     [Sets.LongevousDisciple, Sets.LongevousDisciple],
   ],
-  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  ornamentSets: [
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
   teammates: [
     { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
   ],
+  deprioritizeBuffs: true,
 })
 
 const scoring = (): ScoringMetadata => ({

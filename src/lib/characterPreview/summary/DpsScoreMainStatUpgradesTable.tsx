@@ -10,7 +10,7 @@ import type {
 import {
   usePipelineSlot,
   useSimUpgrades,
-} from 'lib/characterPreview/SimScoringContext'
+} from 'lib/characterPreview/useSimScoringHooks'
 import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import {
   type MainStatParts,

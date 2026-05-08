@@ -25,6 +25,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind, DEFAULT_ULT_SHIELD } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -187,12 +188,15 @@ const shieldSimulation = (): SimulationMetadata => ({
     [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
     [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
   ],
-  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  ornamentSets: [
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
   teammates: [
     { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
   ],
+  deprioritizeBuffs: true,
 })
 
 const scoring = (): ScoringMetadata => ({

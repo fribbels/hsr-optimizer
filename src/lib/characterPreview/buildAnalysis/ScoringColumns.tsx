@@ -7,7 +7,7 @@ import {
 import {
   usePipelineSlot,
   useSimPreview,
-} from 'lib/characterPreview/SimScoringContext'
+} from 'lib/characterPreview/useSimScoringHooks'
 import {
   AbilityDamageSummary,
   AsyncAbilityDamageSummary,
@@ -158,6 +158,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             finalStats={toBasicStatsObject(props.simulation.result!.ca)}
             elementalDmgValue={props.elementalDmgValue}
             simScore={props.simulation.result!.simScore}
+            configType={props.configType}
             showAll={true}
             zebra
           />
@@ -197,6 +198,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             finalStats={combatStats!}
             elementalDmgValue={props.elementalDmgValue}
             simScore={props.simulation.result!.simScore}
+            configType={props.configType}
             showAll={true}
             zebra
           />
@@ -267,6 +269,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
         <AsyncAbilityDamageSummary
           promise={props.simulation}
           mode={props.type}
+          configType={props.configType}
           header={abilityHeader}
           wrapperClassName={classes.abilityDamageSection}
         />
@@ -276,7 +279,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
       ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
           {abilityHeader}
-          <AbilityDamageSummary rotationDamage={syncRotationDamage!} />
+          <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} />
         </div>
       )
       : null

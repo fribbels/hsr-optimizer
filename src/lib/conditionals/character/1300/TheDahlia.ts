@@ -511,16 +511,18 @@ const supportSimulation = (): SimulationMetadata => ({
   errRopeEidolon: 0,
   comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
   relicSets: [
-    [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
   ],
-  ornamentSets: [Sets.ForgeOfTheKalpagniLantern, Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.SprightlyVonwacq],
+  ornamentSets: [
+    Sets.ForgeOfTheKalpagniLantern,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
   teammates: [
     { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
   ],
-  deprioritizeBuffs: false,
+  deprioritizeBuffs: true,
 })
 
 const scoring = (): ScoringMetadata => ({

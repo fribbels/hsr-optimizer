@@ -34,6 +34,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -297,16 +298,14 @@ const supportSimulation = (): SimulationMetadata => ({
     [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
   ],
   ornamentSets: [
-    Sets.BrokenKeel,
-    Sets.FleetOfTheAgeless,
-    Sets.PenaconyLandOfTheDreams,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
     { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
   ],
-  deprioritizeBuffs: false,
+  deprioritizeBuffs: true,
 })
 
 const scoring = (): ScoringMetadata => ({

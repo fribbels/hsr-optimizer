@@ -608,7 +608,9 @@ const healSimulation = (): SimulationMetadata => ({
     [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
     [Sets.LongevousDisciple, Sets.LongevousDisciple],
   ],
-  ornamentSets: [Sets.BrokenKeel, Sets.FleetOfTheAgeless, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  ornamentSets: [
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
   teammates: [
     {
       characterId: Castorice.id,
@@ -629,6 +631,7 @@ const healSimulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  deprioritizeBuffs: true,
 })
 
 const scoring = (): ScoringMetadata => ({

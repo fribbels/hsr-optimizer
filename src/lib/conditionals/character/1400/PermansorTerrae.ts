@@ -31,15 +31,23 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind, DEFAULT_SKILL_SHIELD, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_SKILL_SHIELD,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type NumberToNumberMap } from 'types/common'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -315,16 +323,18 @@ const shieldSimulation = (): SimulationMetadata => ({
   errRopeEidolon: 0,
   comboTurnAbilities: [DEFAULT_SKILL_SHIELD, DEFAULT_SKILL_SHIELD],
   relicSets: [
-    [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
-    [Sets.MusketeerOfWildWheat, Sets.MusketeerOfWildWheat],
+    [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
   ],
-  ornamentSets: [Sets.FleetOfTheAgeless, Sets.BrokenKeel, Sets.SprightlyVonwacq, Sets.PenaconyLandOfTheDreams],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
   teammates: [
     { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
   ],
+  deprioritizeBuffs: true,
 })
 
 const supportSimulation = (): SimulationMetadata => ({
@@ -339,15 +349,18 @@ const supportSimulation = (): SimulationMetadata => ({
   errRopeEidolon: 0,
   comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
   relicSets: [
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
   ],
-  ornamentSets: [Sets.FleetOfTheAgeless, Sets.LushakaTheSunkenSeas, Sets.PenaconyLandOfTheDreams],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
   teammates: [
     { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
     { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
   ],
-  deprioritizeBuffs: false,
+  deprioritizeBuffs: true,
 })
 
 const scoring = (): ScoringMetadata => ({

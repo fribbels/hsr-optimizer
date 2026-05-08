@@ -28,9 +28,7 @@ import {
   resolveShowcaseTheme,
 } from 'lib/characterPreview/color/showcaseColorService'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
-import {
-  useSimPreview,
-} from 'lib/characterPreview/SimScoringContext'
+import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
 import { AppPages } from 'lib/constants/appPages'
 import {
   ShowcaseColorMode,

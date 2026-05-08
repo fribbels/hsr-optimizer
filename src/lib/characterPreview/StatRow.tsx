@@ -128,9 +128,12 @@ export const StatRow = memo(function StatRow({
   if (stat === 'simScore' && buffStat != null) {
     valueText = formatSimScore(customValue ?? 0, buffStat, 1, thousands ?? false)
     titleText = formatSimScore(customValue ?? 0, buffStat, 3, thousands ?? false)
+  } else if (stat === 'simScore') {
+    valueText = formatSimScore(customValue ?? 0, undefined, 1, thousands ?? false)
+    titleText = formatSimScore(customValue ?? 0, undefined, 3, thousands ?? false)
   } else {
     const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, customValue ?? 0, stat, preciseSpd)
-    valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
+    valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' ? '' : '%'}`
     titleText = value1000thsPrecision
   }
 

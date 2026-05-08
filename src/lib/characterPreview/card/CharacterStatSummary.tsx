@@ -14,6 +14,7 @@ import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringCol
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   isSimScoreMode,
   ScoringType,
@@ -27,6 +28,7 @@ import {
   useMemo,
 } from 'react'
 import type { CharacterId } from 'types/character'
+import { ScoringConfigType } from 'types/metadata'
 
 const epsilon = 0.001
 
@@ -43,7 +45,7 @@ interface SyncStatSummaryProps extends CommonStatSummaryProps {
   finalStats: BasicStatsObject | ComputedStatsObjectExternal
   hasScoring?: boolean
   buffStat?: AKeyValue
-  thousands?: boolean
+  configType?: ScoringConfigType
 }
 
 interface AsyncStatSummaryProps extends CommonStatSummaryProps {
@@ -62,7 +64,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   simScore,
   zebra,
   buffStat,
-  thousands,
+  configType,
 }: SyncStatSummaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
@@ -101,7 +103,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
               stat='simScore'
               value={simScore}
               buffStat={buffStat}
-              thousands={thousands}
+              thousands={configType != null ? SCORING_CONFIG_REGISTRY[configType].thousands : false}
             />
           )}
       </div>

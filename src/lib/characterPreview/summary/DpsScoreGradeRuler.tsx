@@ -1,6 +1,4 @@
-import {
-  useSimScore,
-} from 'lib/characterPreview/SimScoringContext'
+import { useSimScore } from 'lib/characterPreview/useSimScoringHooks'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'

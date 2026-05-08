@@ -1,4 +1,3 @@
-import { usePromise } from 'hooks/usePromise'
 import {
   computeScoringCacheKey,
   getOrComputePreview,
@@ -14,7 +13,6 @@ import {
   createContext,
   memo,
   type PropsWithChildren,
-  useContext,
   useMemo,
 } from 'react'
 import type { Character } from 'types/character'
@@ -137,37 +135,3 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
   )
 })
 
-// --- Hooks ---
-
-export function useSimPreview(configType: ScoringConfigType): PreparedState | null {
-  const ctx = useContext(SimScoringContext)
-  return ctx.pipelines[configType]?.preview ?? null
-}
-
-export function useSimScore(configType: ScoringConfigType): SimulationScore | null {
-  const ctx = useContext(SimScoringContext)
-  const slot = ctx.pipelines[configType]
-
-  const promise = slot?.scoringPromise ?? null
-  const cached = slot?.cachedScore ?? null
-  const promised = usePromise(promise)
-
-  return cached ?? promised
-}
-
-export function useSimUpgrades(configType: ScoringConfigType): SimulationScore | null {
-  const ctx = useContext(SimScoringContext)
-  const slot = ctx.pipelines[configType]
-
-  const promise = slot?.upgradePromise ?? null
-  const cached = slot?.cachedUpgrades ?? null
-  const promised = usePromise(promise)
-
-  return cached ?? promised
-}
-
-// Access the raw pipeline slot (for promise-based components like SuspenseNode)
-export function usePipelineSlot(configType: ScoringConfigType): PipelineSlot | undefined {
-  const ctx = useContext(SimScoringContext)
-  return ctx.pipelines[configType]
-}

@@ -410,6 +410,11 @@ export async function screenshotElementById(
     const maxAttempts = 3
     const attemptTimeoutMs = 8000
 
+    await Promise.all([
+      document.fonts.load('400 1em "Maven Pro"'),
+      document.fonts.load('500 1em "Maven Pro"'),
+    ]).catch(() => { /* best-effort */ })
+
     try {
       await preCache(element)
     } catch { /* best-effort */ }

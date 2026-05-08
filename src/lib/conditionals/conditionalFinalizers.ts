@@ -1,4 +1,4 @@
-import { wgsl } from 'lib/gpu/injection/wgslUtils'
+import { wgsl, wgslFloat } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   HKey,
@@ -27,7 +27,7 @@ export function gpuBoostAshblazingAtkContainer(hitMulti: number, action: Optimiz
   return wgsl`
 if (relic4p(*p_sets, SET_TheAshblazingGrandDuke) >= 1) {
   let ashblazingDelta = ${hitMulti} - 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
-  let ashblazingBaseATK = ${config.selfEntity.baseAtk};
+  let ashblazingBaseATK = ${wgslFloat(config.selfEntity.baseAtk!)};
   ${buff.hit(HKey.ATK, 'ashblazingDelta * ashblazingBaseATK').damageType(DamageTag.FUA).wgsl(action)}
 }
 `

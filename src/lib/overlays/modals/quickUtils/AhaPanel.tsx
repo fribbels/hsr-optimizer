@@ -43,6 +43,8 @@ const sharedInputProps: NumberInput.Props = {
   allowNegative: false,
   min: 0,
   leftSection: <img src={Assets.getStatIcon(Stats.SPD)} style={{ height: 24 }} />,
+  stepHoldDelay: 300,
+  stepHoldInterval: 50,
 }
 
 export function AhaPanel({ t }: SharedProps) {

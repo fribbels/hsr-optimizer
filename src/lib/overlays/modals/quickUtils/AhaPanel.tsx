@@ -54,7 +54,7 @@ export function AhaPanel({ t }: SharedProps) {
   const { teammate0, teammate1, teammate2, teammate3, desiredAha } = form.getValues()
   const speeds = [teammate0, teammate1, teammate2, teammate3].filter((x) => x !== '')
   const ahaSpeed = calculateAhaSpeed(speeds)
-  const teammateSpeed = speeds[3] ? null : calculateNextTeammateSpeed(desiredAha, speeds)
+  const teammateSpeed = typeof speeds[3] === 'number' ? null : calculateNextTeammateSpeed(desiredAha, speeds)
   const teammateSpeedColour = teammateSpeed == null
     ? textColours.normal
     : (teammateSpeed < 0

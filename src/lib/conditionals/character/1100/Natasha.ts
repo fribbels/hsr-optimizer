@@ -130,11 +130,10 @@ const healSimulation = (): SimulationMetadata => ({
   errRopeEidolon: 0,
   comboTurnAbilities: [DEFAULT_SKILL_HEAL, DEFAULT_ULT_HEAL],
   relicSets: [
-    [Sets.PasserbyOfWanderingCloud, Sets.PasserbyOfWanderingCloud],
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
-    [Sets.LongevousDisciple, Sets.LongevousDisciple],
+    [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
   ],
   ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [

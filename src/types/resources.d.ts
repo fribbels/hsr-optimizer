@@ -113,7 +113,10 @@ interface Resources {
             "MEMO_TALENT": "TALENTᴹ DMG",
             "SKILL": "SKILL DMG",
             "ULT": "ULT DMG",
-            "UNIQUE": "UNIQUE DMG"
+            "UNIQUE": "UNIQUE DMG",
+            "BUFF": "BUFF",
+            "COMBO_HEAL": "COMBO HEAL",
+            "COMBO_SHIELD": "COMBO SHIELD"
           },
           "Baseline": "Baseline",
           "Benchmark": "Benchmark",
@@ -6966,7 +6969,7 @@ interface Resources {
           "UNIQUE": "UNIQUE\nDMG"
         }
       },
-      "Loading": "Loading...",
+      "Loading": "Loading",
       "Of": "of",
       "Page": "Page",
       "PageSelectorLabel": "Page Size:",

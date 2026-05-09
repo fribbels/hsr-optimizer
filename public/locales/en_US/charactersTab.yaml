@@ -157,6 +157,9 @@ CharacterPreview:
         ELATION_SKILL: ELATION SKILL DMG
         UNIQUE: UNIQUE DMG
         COMBO: COMBO DMG
+        BUFF: BUFF
+        COMBO_HEAL: COMBO HEAL
+        COMBO_SHIELD: COMBO SHIELD
     CombatBuffs:
       Header: Combat buffs
       SubDpsHeader: Combat buffs (Sub DPS)

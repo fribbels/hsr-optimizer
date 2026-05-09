@@ -104,6 +104,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
               value={simScore}
               buffStat={buffStat}
               thousands={configType != null ? SCORING_CONFIG_REGISTRY[configType].thousands : false}
+              configType={configType}
             />
           )}
       </div>

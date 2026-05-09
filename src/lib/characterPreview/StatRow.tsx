@@ -21,12 +21,14 @@ import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
+import { resolveComboLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   formatSimScore,
   getElementalDmgFromContainer,
   type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
+import type { ScoringConfigType } from 'types/metadata'
 import {
   localeNumber,
   localeNumber_0,
@@ -103,6 +105,7 @@ export const StatRow = memo(function StatRow({
   preciseSpd,
   buffStat,
   thousands,
+  configType,
 }: {
   stat: string,
   finalStats: BasicStatsObject | ComputedStatsObjectExternal,
@@ -111,12 +114,15 @@ export const StatRow = memo(function StatRow({
   preciseSpd?: boolean,
   buffStat?: AKeyValue,
   thousands?: boolean,
+  configType?: ScoringConfigType,
 }): ReactNode {
   const value = precisionRound(finalStats[stat as keyof typeof finalStats])
 
   const { t, i18n } = useTranslation('common')
 
-  const readableStat: string = statToLabel(stat, t, i18n)
+  const readableStat: string = stat === 'simScore' && configType != null
+    ? resolveComboLabel(SCORING_CONFIG_REGISTRY[configType], buffStat)
+    : statToLabel(stat, t, i18n)
 
   if (!finalStats) {
     return null

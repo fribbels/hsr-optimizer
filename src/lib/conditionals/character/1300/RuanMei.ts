@@ -270,10 +270,10 @@ const supportSimulation = (): SimulationMetadata => ({
   breakpoints: { [Stats.BE]: 1.80 },
   comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
   relicSets: [
-    [Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor],
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    [Sets.WatchmakerMasterOfDreamMachinations, Sets.WatchmakerMasterOfDreamMachinations],
   ],
   ornamentSets: [
+    Sets.SprightlyVonwacq,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [

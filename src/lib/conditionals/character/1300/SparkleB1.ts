@@ -312,9 +312,9 @@ const supportSimulation = (): SimulationMetadata => ({
   comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
   relicSets: [
     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
   ],
   ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [

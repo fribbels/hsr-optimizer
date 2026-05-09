@@ -25,6 +25,12 @@ import type { Form } from 'types/form'
 import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
+type PoolCandidate = {
+  sim: Simulation
+  result: RunStatSimulationsResult
+  combatSpd: number
+}
+
 export function runPoolBaselineSim(
   originalSimRequest: SimulationRequest,
   setCombination: SimulationSets,
@@ -47,9 +53,8 @@ export function runPoolBaselineSim(
   const forceErrRope = correctedFlags.forceErrRope
   const ropeParts = forceErrRope ? [Stats.ERR] : metadata.parts[Parts.LinkRope]
 
-  type Candidate = { sim: Simulation; result: RunStatSimulationsResult; combatSpd: number }
-  const qualifying: Candidate[] = []
-  let bestFallback: Candidate | undefined
+  const qualifying: PoolCandidate[] = []
+  let bestFallback: PoolCandidate | undefined
 
   for (const body of metadata.parts[Parts.Body]) {
     for (const feet of metadata.parts[Parts.Feet]) {
@@ -75,7 +80,7 @@ export function runPoolBaselineSim(
           applyScoringFunction(result, metadata, false, false, scoringActionKey, context, configType)
           const combatSpd = result.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
 
-          const candidate: Candidate = { sim, result, combatSpd }
+          const candidate: PoolCandidate = { sim, result, combatSpd }
 
           if (targetCombatSpd && combatSpd < targetCombatSpd) {
             if (!bestFallback || combatSpd > bestFallback.combatSpd) {
@@ -89,7 +94,7 @@ export function runPoolBaselineSim(
     }
   }
 
-  let best: Candidate | undefined
+  let best: PoolCandidate | undefined
   if (qualifying.length > 0) {
     best = qualifying.reduce((a, b) => b.result.simScore > a.result.simScore ? b : a)
   } else {

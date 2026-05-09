@@ -185,10 +185,10 @@ const shieldSimulation = (): SimulationMetadata => ({
   errRopeEidolon: 0,
   comboTurnAbilities: [DEFAULT_ULT_SHIELD],
   relicSets: [
-    [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
   ],
   ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [

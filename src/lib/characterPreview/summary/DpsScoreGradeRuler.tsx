@@ -1,7 +1,7 @@
 import { useSimScore } from 'lib/characterPreview/useSimScoringHooks'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { resolveRulerLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { Languages } from 'lib/utils/i18nUtils'
 import {
@@ -176,9 +176,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType 
   const entry = SCORING_CONFIG_REGISTRY[configType]
   const buffStat = scoringResult?.simulationMetadata.buffStat
   const thousands = entry.thousands
-  const dmgLabel = entry.thousands
-    ? t('Damage')
-    : entry.rulerLabel
+  const dmgLabel = resolveRulerLabel(entry, buffStat)
   const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]
   const numberOffset = reversedLabels ? LOW : HIGH
   const dmgOffset = reversedLabels ? HIGH : LOW

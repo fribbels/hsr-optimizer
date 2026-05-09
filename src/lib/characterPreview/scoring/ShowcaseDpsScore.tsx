@@ -262,7 +262,7 @@ function ShowcaseScoreHeaderReady({ relics, configType, t }: {
   if (result === null) {
     return (
       <StatText className={styles.scoreHeaderText} style={{ filter: 'blur(2px)' }}>
-        Loading...
+        Loading
       </StatText>
     )
   }

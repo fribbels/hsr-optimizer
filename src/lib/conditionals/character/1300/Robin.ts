@@ -331,9 +331,10 @@ const supportSimulation = (): SimulationMetadata => ({
   errRopeEidolon: 0,
   comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
   relicSets: [
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
+    [Sets.PrisonerInDeepConfinement, Sets.TheWindSoaringValorous],
   ],
   ornamentSets: [
+    Sets.SprightlyVonwacq,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [

@@ -22,7 +22,7 @@ import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/Estimate
 import { ElementToDamage } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
-import { CONFIG_FIELD_MAP, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { CONFIG_FIELD_MAP, resolveComboLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
@@ -127,8 +127,9 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
   const scoringPromise = pipelineSlot?.scoringPromise ?? nullPromise
   if (preview === null) return null
 
+  const entry = SCORING_CONFIG_REGISTRY[configType]
   const buffStat = preview.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[configType]]?.buffStat
-  const thousands = SCORING_CONFIG_REGISTRY[configType].thousands
+  const thousands = entry.thousands
   return (
     <div className={classes.columnCardFilled} style={{ width: '100%' }}>
       <div className={classes.columnFilledBody}>
@@ -156,8 +157,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
                   label={t('CombatResults.Primary')}
-                  // @ts-ignore - not all sortOption keys have translations yet
-                  text={t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)}
+                  text={resolveComboLabel(entry, buffStat)}
                 />
                 <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat, 1, thousands)} />
                 <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat, 1, thousands)} />
@@ -191,12 +191,12 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                 />
                 <SuspenseNode
                   promise={scoringPromise}
-                  fallback={<ScoringNumber label={t('CombatResults.Score')} />}
+                  fallback={<ScoringNumber label={entry.label} />}
                   selector={(result: SimulationScore | null) => {
                     if (result === null) return null
                     return (
                       <ScoringNumber
-                        label={t('CombatResults.Score')}
+                        label={entry.label}
                         number={result.percent * 100}
                         precision={2}
                         suffix=' %'
@@ -286,7 +286,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             {isDps && <DPSScoreDisclaimer />}
             <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
-                text={t('CharacterPreview.BuildAnalysis.Header')}
+                text={`${SCORING_CONFIG_REGISTRY[configType].label} Calculations`}
                 url={isDps ? 'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md' : undefined}
               />
             </div>

@@ -1,6 +1,8 @@
-import { GlobalRegister } from 'lib/optimization/engine/config/keys'
+import { type AKeyValue, getAKeyName, GlobalRegister } from 'lib/optimization/engine/config/keys'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import type { SortOptionKey } from 'lib/optimization/sortOptions'
+import { getSimScoreGrade } from 'lib/scoring/dpsScore'
+import { calculateScorePercent } from 'lib/scoring/simScoringUtils'
 import {
   ScoringConfigType,
   type ScoringConfig,
@@ -20,6 +22,7 @@ export interface ScoringConfigEntry {
   headerTitle: string
   headerScoreLabel: string
   rulerLabel: string
+  comboLabel: string
   mainsFreeCount: number
   comboRegister: number
   capFlatSubstats: boolean
@@ -46,6 +49,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     headerTitle: '',
     headerScoreLabel: '',
     rulerLabel: 'Damage',
+    comboLabel: 'Combo DMG',
     mainsFreeCount: 0,
     comboRegister: GlobalRegister.COMBO_DMG,
     capFlatSubstats: true,
@@ -63,6 +67,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     headerTitle: 'Support Sim',
     headerScoreLabel: 'Support Score',
     rulerLabel: 'Buff',
+    comboLabel: 'Buff',
     mainsFreeCount: 2,
     comboRegister: GlobalRegister.COMBO_DMG,
     capFlatSubstats: false,
@@ -78,7 +83,8 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     label: 'Heal Score',
     headerTitle: 'Heal Sim',
     headerScoreLabel: 'Heal Score',
-    rulerLabel: 'Healing',
+    rulerLabel: 'Heal',
+    comboLabel: 'Combo Heal',
     mainsFreeCount: 2,
     comboRegister: GlobalRegister.COMBO_HEAL,
     capFlatSubstats: false,
@@ -96,6 +102,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     headerTitle: 'Shield Sim',
     headerScoreLabel: 'Shield Score',
     rulerLabel: 'Shield',
+    comboLabel: 'Combo Shield',
     mainsFreeCount: 2,
     comboRegister: GlobalRegister.COMBO_SHIELD,
     capFlatSubstats: false,
@@ -104,6 +111,25 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     supportsDeprioritizeBuffs: false,
     resultSortKey: 'COMBO_SHIELD',
   },
+}
+
+const BUFF_STAT_SHORT_LABELS: Partial<Record<string, string>> = {
+  DMG_BOOST: 'DMG%',
+}
+
+export function getBuffStatShortLabel(buffStat: AKeyValue): string {
+  const name = getAKeyName(buffStat)
+  return BUFF_STAT_SHORT_LABELS[name] ?? name
+}
+
+export function resolveRulerLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {
+  if (buffStat != null) return `${getBuffStatShortLabel(buffStat)} ${entry.rulerLabel}`
+  return entry.rulerLabel
+}
+
+export function resolveComboLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {
+  if (buffStat != null) return `${getBuffStatShortLabel(buffStat)} ${entry.comboLabel}`
+  return entry.comboLabel
 }
 
 export const CONFIG_FIELD_MAP: Record<ScoringConfigType, MetadataFieldKey> = Object.fromEntries(
@@ -148,22 +174,10 @@ export function hasOverrideContent(override: ScoringMetadataOverride | undefined
 
 export type NormalizedScore = { score: number, grade: string } | { score: null, grade: 'N/A', reason: 'not-scoreable' }
 
-export function normalizeScore(value: number, baseline: number, perfection: number): NormalizedScore {
-  const denominator = perfection - baseline
-  if (denominator <= 0) {
+export function normalizeScore(value: number, baseline: number, benchmark: number, perfection: number): NormalizedScore {
+  if (benchmark <= baseline) {
     return { score: null, grade: 'N/A', reason: 'not-scoreable' }
   }
-  const raw = (value - baseline) / denominator
-  return { score: Math.max(0, Math.min(raw, 1)), grade: gradeFromRawScore(raw) }
-}
-
-function gradeFromRawScore(raw: number): string {
-  if (raw >= 0.95) return 'SSS'
-  if (raw >= 0.9) return 'SS'
-  if (raw >= 0.8) return 'S'
-  if (raw >= 0.7) return 'A'
-  if (raw >= 0.6) return 'B'
-  if (raw >= 0.5) return 'C'
-  if (raw >= 0.4) return 'D'
-  return 'F'
+  const percent = calculateScorePercent(value, baseline, benchmark, perfection)
+  return { score: percent, grade: getSimScoreGrade(percent, false, 6) }
 }

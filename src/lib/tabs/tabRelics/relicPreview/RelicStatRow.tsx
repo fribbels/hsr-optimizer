@@ -135,5 +135,6 @@ const CHEVRON_SVGS: Record<number, React.JSX.Element> = {
 }
 
 function generateRolls(stat: SubstatDetails) {
-  return stat.addedRolls ? CHEVRON_SVGS[stat.addedRolls] : null
+  if (!stat.addedRolls) return null
+  return CHEVRON_SVGS[Math.min(stat.addedRolls, 5)]
 }

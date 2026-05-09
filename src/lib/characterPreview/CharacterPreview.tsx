@@ -73,6 +73,7 @@ import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { ScoringType, isSimScoreMode } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import {
@@ -377,9 +378,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     : (forceDebug ? ScoringType.SUBSTAT_SCORE : state.storedScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
+  // Cache-buster: portrait edits on the showcase tab wouldn't re-run the layout memo otherwise
+  const _storePortrait = useCharacterStore((s) => s.charactersById[character.id]?.portrait)
   const layout = useMemo(
     () => {
       void _scoringMetadataCacheBuster // explicit cache invalidation dependency
+      void _storePortrait
       const baseLayout = resolveShowcaseLayout({
         character,
         teamSelections: state.teamSelections,
@@ -399,6 +403,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       effectiveScoringType,
       savedBuildOverride,
       _scoringMetadataCacheBuster,
+      _storePortrait,
       t,
       forceDebug,
       editorOverrides?.forceSimScoreLayout,
@@ -535,7 +540,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             '--showcase-shadow': buildShadow(visual.shadowX, visual.shadowY, visual.shadowBlur, visual.shadowOpacity),
             '--showcase-shadow-inset': buildInsetShadow(visual.insetBlur, visual.insetOpacity),
             'fontFamily': 'var(--font-showcase)',
-            'color': 'rgba(225, 225, 225, 1)',
+            'color': 'rgba(240, 240, 240, 1)',
             'textShadow': visual.textShadow,
             'position': 'relative',
             'display': 'flex',

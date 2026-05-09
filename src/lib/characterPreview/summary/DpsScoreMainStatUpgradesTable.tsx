@@ -283,21 +283,6 @@ export type SharedScoreColumn = {
 export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'CharacterPreview.SubstatUpgradeComparisons'>): SharedScoreColumn[] {
   return [
     {
-      key: 'scorePercentUpgrade',
-      title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
-      dataIndex: 'scorePercentUpgrade',
-      type: 'scoreUpgrade',
-      render: (n: number | null, stat?: StatsValues) =>
-        n === null || isStatWithoutScoreUpgrade(stat)
-          ? <>-</>
-          : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
-              <Arrow up={n >= 0} />
-              {` ${localeNumber_00(n)}%`}
-            </div>
-          ),
-    },
-    {
       key: 'damagePercentUpgrade',
       title: t('ComboDmgPercentUpgrade'), // Combo DMG Δ %
       dataIndex: 'damagePercentUpgrade',
@@ -313,17 +298,18 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
           ),
     },
     {
-      key: 'scoreValueUpgrade',
-      title: t('UpgradedDpsScore'), // Upgraded DPS Score
-      dataIndex: 'scoreValueUpgrade',
+      key: 'scorePercentUpgrade',
+      title: t('DpsScorePercentUpgrade'), // DPS Score Δ %
+      dataIndex: 'scorePercentUpgrade',
       type: 'scoreUpgrade',
       render: (n: number | null, stat?: StatsValues) =>
         n === null || isStatWithoutScoreUpgrade(stat)
           ? <>-</>
           : (
-            <>
-              {`${localeNumber_0(Math.max(0, n))}%`}
-            </>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+              <Arrow up={n >= 0} />
+              {` ${localeNumber_00(n)}%`}
+            </div>
           ),
     },
     {
@@ -337,6 +323,20 @@ export function sharedScoreUpgradeColumns(t: TFunction<'charactersTab', 'Charact
           : (
             <>
               {localeNumber_0(n)}
+            </>
+          ),
+    },
+    {
+      key: 'scoreValueUpgrade',
+      title: t('UpgradedDpsScore'), // Upgraded DPS Score
+      dataIndex: 'scoreValueUpgrade',
+      type: 'scoreUpgrade',
+      render: (n: number | null, stat?: StatsValues) =>
+        n === null || isStatWithoutScoreUpgrade(stat)
+          ? <>-</>
+          : (
+            <>
+              {`${localeNumber_0(Math.max(0, n))}%`}
             </>
           ),
     },

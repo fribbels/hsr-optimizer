@@ -1,6 +1,8 @@
 ScreenshotMessages:
   ScreenshotSuccess: crwdns39596:0crwdne39596:0
-  ScreenshotFailed: crwdns39598:0crwdne39598:0
+  ScreenshotFailed:
+    Default: crwdns47158:0crwdne47158:0
+    NotAllowed: crwdns47160:0crwdne47160:0
   DownloadSuccess: crwdns39600:0crwdne39600:0
 CharacterMenu:
   ButtonText: crwdns39602:0crwdne39602:0

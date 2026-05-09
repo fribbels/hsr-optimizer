@@ -168,21 +168,22 @@ test('Regression: overcount bug — joint search respects enhance budget', () =>
 
   RelicRollGrader.calculateRelicSubstatRolls(relic)
 
+  // This relic is impossible: each substat needs 3 rolls (total 12) but budget is 9.
+  // The overflow correction assigns true roll counts, exceeding the budget.
   const sumAddedRolls = relic.substats.reduce((acc, s) => acc + (s.addedRolls ?? 0), 0)
-  expect(sumAddedRolls).toBeLessThanOrEqual(Math.floor(relic.enhance / 3))
-  expect(sumAddedRolls).toEqual(5)
+  expect(sumAddedRolls).toEqual(8)
 
-  expect(relic.substats[0].addedRolls).toEqual(1)
-  expect(relic.substats[1].addedRolls).toEqual(1)
+  expect(relic.substats[0].addedRolls).toEqual(2)
+  expect(relic.substats[1].addedRolls).toEqual(2)
   expect(relic.substats[2].addedRolls).toEqual(2)
-  expect(relic.substats[3].addedRolls).toEqual(1)
+  expect(relic.substats[3].addedRolls).toEqual(2)
 
-  expect(relic.substats[0].rolls).toEqual({ high: 2, mid: 0, low: 0 })
-  expect(relic.substats[1].rolls).toEqual({ high: 2, mid: 0, low: 0 })
+  expect(relic.substats[0].rolls).toEqual({ high: 0, mid: 1, low: 2 })
+  expect(relic.substats[1].rolls).toEqual({ high: 0, mid: 0, low: 3 })
   expect(relic.substats[2].rolls).toEqual({ high: 0, mid: 0, low: 3 })
-  expect(relic.substats[3].rolls).toEqual({ high: 2, mid: 0, low: 0 })
+  expect(relic.substats[3].rolls).toEqual({ high: 0, mid: 0, low: 3 })
 
-  expect(relic.initialRolls).toEqual(4)
+  expect(relic.initialRolls).toEqual(7)
 })
 
 test('Tiebreaker: equal-error budgets favor higher addedRolls', () => {

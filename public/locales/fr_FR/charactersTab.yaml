@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Capture d'écran copiée dans le presse-papiers
-  ScreenshotFailed: Impossible d'enregistrer la capture d'écran dans le presse-papiers, essayez le bouton de téléchargement à droite
   DownloadSuccess: Capture d'écran téléchargée
 CharacterMenu:
   ButtonText: Menu de personnage

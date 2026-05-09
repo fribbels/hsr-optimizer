@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Скриншот скопирован в буфер обмена
-  ScreenshotFailed: Не удается сохранить скриншот в буфер обмена, попробуйте нажать кнопку загрузки справа
   DownloadSuccess: Загружен скриншот
 CharacterMenu:
   ButtonText: Меню персонажей

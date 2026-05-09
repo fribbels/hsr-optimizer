@@ -195,7 +195,7 @@ function BuildsModalContent() {
         <Button key='delete' color='red' onClick={() => handleDeleteAllBuilds()}>
           {t('Builds.DeleteAll')}
         </Button>
-        <Button key='back' onClick={handleCancel}>
+        <Button key='back' variant='default' onClick={handleCancel}>
           {t('common:Cancel')}
         </Button>
       </Flex>

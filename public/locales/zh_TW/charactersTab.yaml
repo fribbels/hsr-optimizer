@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: 截圖已複製至剪貼簿
-  ScreenshotFailed: 無法將截圖保存到剪貼簿，請嘗試右側的下載按鈕
   DownloadSuccess: 已下載截圖
 CharacterMenu:
   ButtonText: 角色選單

@@ -33,6 +33,7 @@ export function dynamicStatConversionContainer(
   source: BuffSource,
   buffFn: (convertibleValue: number) => number,
   targetTag: TargetTag = TargetTag.SelfAndPet,
+  convertibleOutput: boolean = false,
 ) {
   const statConfig = statConversionConfig[sourceStat]
   const destConfig = statConversionConfig[destinationStat]
@@ -52,7 +53,9 @@ export function dynamicStatConversionContainer(
 
   if (Math.abs(buffDelta) < 0.0001) return
 
-  x.buffDynamic(destConfig.unconvertibleKey, buffDelta, action, context, x.targets(targetTag).source(source))
+  if (!convertibleOutput) {
+    x.buffDynamic(destConfig.unconvertibleKey, buffDelta, action, context, x.targets(targetTag).source(source))
+  }
   x.buffDynamic(destConfig.key, buffDelta, action, context, x.targets(targetTag).source(source))
 }
 
@@ -87,6 +90,7 @@ export function gpuDynamicStatConversion(
   activeConditionWgsl: string,
   thresholdConditionWgsl: string = 'true',
   targetTag: TargetTag = TargetTag.SelfAndPet,
+  convertibleOutput: boolean = false,
 ) {
   const statConfig = statConversionConfig[sourceStat]
   const destConfig = statConversionConfig[destinationStat]
@@ -96,7 +100,7 @@ export function gpuDynamicStatConversion(
   const sourceUnconvertibleVal = containerActionVal(SELF_ENTITY_INDEX, statConfig.unconvertibleKey, config)
 
   // Generate buff lines for all entities matching the target tag
-  const destUnconvertibleBuffLines = generateMultiEntityBuffWgsl(destConfig.unconvertibleKey, 'buffDelta', action, targetTag)
+  const destUnconvertibleBuffLines = convertibleOutput ? '' : generateMultiEntityBuffWgsl(destConfig.unconvertibleKey, 'buffDelta', action, targetTag)
   const destBuffLines = generateMultiEntityBuffWgsl(destConfig.key, 'buffDelta', action, targetTag)
 
   return newConditionalWgslWrapper(

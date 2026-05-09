@@ -99,6 +99,10 @@ export type SimulationMetadata = {
   },
   skipSpdEqualization?: boolean,
   buffStat?: AKeyValue,
+  combatStatsConfig?: Array<{
+    add?: StatsValues,
+    remove?: StatsValues | 'ELEMENTAL_DMG',
+  }>,
 }
 
 export type ElementalResPenType =

@@ -864,7 +864,7 @@ export const ElationDamageFunction: DamageFunction = {
   // Elation-specific
   let elationMulti = 1.0 + max(${getValue(StatKey.ELATION)}, ${hit.minElationOverride ?? 0});
   let merrymakingMulti = 1.0 + ${getValue(StatKey.MERRYMAKING)};
-  let punchlineMulti = 1.0 + (5.0 * ${punchline}.0) / (${punchline}.0 + 240.0);
+  let punchlineMulti = 1.0 + (5.0 * ${punchline}) / (${punchline} + 240.0);
 
   // Crit multiplier
   let cr = min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)});

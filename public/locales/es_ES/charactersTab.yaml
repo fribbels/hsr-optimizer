@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Captura de pantalla copiada al portapapeles
-  ScreenshotFailed: No se pudo guardar la captura en el portapapeles, intenta el botón de descarga a la derecha
   DownloadSuccess: Captura de pantalla descargada
 CharacterMenu:
   ButtonText: Menú de personaje

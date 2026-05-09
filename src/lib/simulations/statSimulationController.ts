@@ -177,14 +177,17 @@ export function startOptimizerStatSimulation() {
     optimizerDisplayData.push(transformedData[0])
   }
 
+  const sortOption = SortOption[form.resultSort!]
+  const gridSortColumn = (form.statDisplay === 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn) as keyof OptimizerDisplayData
+
+  optimizerDisplayData.sort((a, b) => (b[gridSortColumn] as number) - (a[gridSortColumn] as number))
   OptimizerTabController.setRows(optimizerDisplayData)
 
   calculateCurrentlyEquippedRow(form)
-  gridStore.optimizerGridApi()?.updateGridOptions({ datasource: OptimizerTabController.getDataSource() })
-
-  const sortOption = SortOption[form.resultSort!]
-  const gridSortColumn = form.statDisplay === 'combat' ? sortOption.combatGridColumn : sortOption.basicGridColumn
   setSortColumn(gridSortColumn)
+  gridStore.optimizerGridApi()?.updateGridOptions({
+    datasource: OptimizerTabController.getDataSource({ colId: gridSortColumn, sort: 'desc' }),
+  })
 
   autosave()
 }

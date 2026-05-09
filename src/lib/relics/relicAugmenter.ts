@@ -34,8 +34,6 @@ export const RelicAugmenter = {
     augmentedStats.mainStat = mainStat
     augmentedStats.mainValue = mainMaxValue
 
-    sortSubstats(relic)
-
     for (const substat of relic.substats) {
       const stat = substat.stat
       substat.value = precisionRound(substat.value)
@@ -56,26 +54,6 @@ export const RelicAugmenter = {
     RelicRollGrader.calculateRelicSubstatRolls(relic)
     return relic as Relic
   },
-}
-
-const substatToOrder: Record<string, number> = {
-  [Stats.HP]: 0,
-  [Stats.ATK]: 1,
-  [Stats.DEF]: 2,
-  [Stats.HP_P]: 3,
-  [Stats.ATK_P]: 4,
-  [Stats.DEF_P]: 5,
-  [Stats.SPD]: 6,
-  [Stats.CR]: 7,
-  [Stats.CD]: 8,
-  [Stats.EHR]: 9,
-  [Stats.RES]: 10,
-  [Stats.BE]: 11,
-}
-
-// Relic substats are always sorted in the predefined order above when the user logs out.
-function sortSubstats(relic: UnaugmentedRelic) {
-  relic.substats = relic.substats.sort((a, b) => substatToOrder[a.stat] - substatToOrder[b.stat])
 }
 
 // Changes the augmented stats percents to decimals

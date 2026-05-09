@@ -314,12 +314,16 @@ function RollLine({ substat, weights }: { substat: RelicSubstatMetadata | null, 
   const weight = weights?.[substat.stat] ?? 0
   const weightDisplay = `⨯ ${localeNumber_00(weight * flatReduction(substat.stat))}`
   const rolls = substat.rolls ?? { high: 0, mid: 0, low: 0 }
-  const display: ReactElement[] = []
 
+  const totalRolls = Math.min(rolls.high + rolls.mid + rolls.low, 6)
+  const high = Math.min(rolls.high, totalRolls)
+  const mid = Math.min(rolls.mid, totalRolls - high)
+  const low = totalRolls - high - mid
+  const display: ReactElement[] = []
   let key = 0
-  for (let i = 0; i < rolls.high; i++) display.push(<HighRoll key={key++} />)
-  for (let i = 0; i < rolls.mid; i++) display.push(<MidRoll key={key++} />)
-  for (let i = 0; i < rolls.low; i++) display.push(<LowRoll key={key++} />)
+  for (let i = 0; i < high; i++) display.push(<HighRoll key={key++} />)
+  for (let i = 0; i < mid; i++) display.push(<MidRoll key={key++} />)
+  for (let i = 0; i < low; i++) display.push(<LowRoll key={key++} />)
 
   return (
     <div className={styles.rollLine} style={(weight || weights === null) ? undefined : { opacity: 0.05 }}>

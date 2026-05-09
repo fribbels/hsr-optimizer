@@ -32,7 +32,7 @@ void Yaoguang
 Metadata.initialize()
 
 function bufferConfig(simulation: SimulationMetadata): ScoringConfig {
-  return { configType: ScoringConfigType.BUFFER, simulation, scoringActionKey: 'BUFF' }
+  return { configType: ScoringConfigType.BUFFER, simulation }
 }
 
 const supportSimulation: SimulationMetadata = {
@@ -213,7 +213,6 @@ test('Yaoguang support score prepare', () => {
     parts: { [Parts.Body]: [Stats.HP_P, Stats.DEF_P], [Parts.Feet]: [Stats.SPD], [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P], [Parts.LinkRope]: [Stats.ERR] },
     substats: [Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P, Stats.ATK_P],
     errRopeEidolon: 0,
-    skipSpdEqualization: true,
     comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
     relicSets: [[Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace]],
     ornamentSets: [Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.SprightlyVonwacq],

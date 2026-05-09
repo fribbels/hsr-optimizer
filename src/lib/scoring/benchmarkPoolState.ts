@@ -38,8 +38,7 @@ export function runPoolBaselineSim(
   context: OptimizerContext,
   flags: SimulationFlags,
   metadata: SimulationMetadata,
-  scoringActionKey?: string,
-  configType?: ScoringConfigType,
+  configType: ScoringConfigType,
   targetCombatSpd?: number,
 ): { sim: Simulation; result: RunStatSimulationsResult } {
   const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoetSet(setCombination) }
@@ -77,7 +76,7 @@ export function runPoolBaselineSim(
           } as Simulation
 
           const result = cloneSimResult(runStatSimulations([sim], form, context, params)[0])
-          applyScoringFunction(result, metadata, false, false, scoringActionKey, context, configType)
+          applyScoringFunction(result, metadata, false, false, context, configType)
           const combatSpd = result.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
 
           const candidate: PoolCandidate = { sim, result, combatSpd }

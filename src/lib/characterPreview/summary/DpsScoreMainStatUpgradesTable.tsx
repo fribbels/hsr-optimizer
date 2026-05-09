@@ -8,7 +8,7 @@ import type {
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import {
-  usePipelineSlot,
+  useScoringPipeline,
   useSimUpgrades,
 } from 'lib/characterPreview/useSimScoringHooks'
 import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
@@ -65,8 +65,8 @@ export const DpsScoreMainStatUpgradesTable = memo(function DpsScoreMainStatUpgra
 }) {
   const { t: tCommon } = useTranslation(['common', 'charactersTab'])
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
-  const pipelineSlot = usePipelineSlot(configType)
-  const upgradesPromise = pipelineSlot?.upgradePromise ?? nullPromise
+  const scoringPipeline = useScoringPipeline(configType)
+  const upgradesPromise = scoringPipeline?.upgradePromise ?? nullPromise
 
   const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])
 

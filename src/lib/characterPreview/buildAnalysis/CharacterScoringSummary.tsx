@@ -11,7 +11,7 @@ import type {
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { SimScoringContext } from 'lib/characterPreview/SimScoringContext'
 import {
-  usePipelineSlot,
+  useScoringPipeline,
   useSimPreview,
 } from 'lib/characterPreview/useSimScoringHooks'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
@@ -123,8 +123,8 @@ function ScoringBenchmarksPanel({ configType }: { configType: ScoringConfigType 
 function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.BuildAnalysis' })
   const preview = useSimPreview(configType)
-  const pipelineSlot = usePipelineSlot(configType)
-  const scoringPromise = pipelineSlot?.scoringPromise ?? nullPromise
+  const scoringPipeline = useScoringPipeline(configType)
+  const scoringPromise = scoringPipeline?.scoringPromise ?? nullPromise
   if (preview === null) return null
 
   const entry = SCORING_CONFIG_REGISTRY[configType]

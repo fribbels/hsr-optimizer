@@ -148,6 +148,7 @@ export const ShowcaseCombatScoreDetailsFooter = memo(function ShowcaseCombatScor
         originalSimResult={preview.originalSimResult}
         deprioritizeBuffs={preview.deprioritizeBuffs}
         simulationMetadata={simMetadata ?? undefined}
+        configType={configType}
       />
     </div>
   )

@@ -25,6 +25,7 @@ import {
   calculateSetNames,
   calculateSimSets,
 } from 'lib/scoring/dpsScore'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import {
   calculateMaxSubstatRollCounts,
@@ -181,8 +182,7 @@ export class BenchmarkSimulationOrchestrator {
 
   public percent?: number
   public simulationScore?: SimulationScore
-  public scoringActionKey?: string
-  public configType?: ScoringConfigType
+  public configType!: ScoringConfigType
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -202,8 +202,7 @@ export class BenchmarkSimulationOrchestrator {
 
   /**
    * Apply RES equalization flag based on the original sim result.
-   * Call after setOriginalBuild() for non-DPS types that need RES equalization
-   * but don't have scoringActionKey set (heal, shield).
+   * Called by prepareOrchestrator() after setOriginalBuild() for non-DPS types.
    */
   public applyBasicResTargetFlag() {
     if (this.originalSimResult) {
@@ -336,7 +335,7 @@ export class BenchmarkSimulationOrchestrator {
 
     const { sim, result } = runPoolBaselineSim(
       this.originalSimRequest!, simSets, form, context, baselineFlags, baselineMetadata,
-      this.scoringActionKey, this.configType,
+      this.configType,
     )
 
     this.baselineSim = sim
@@ -372,12 +371,7 @@ export class BenchmarkSimulationOrchestrator {
     const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
     const originalSpd = precisionRound(originalSimResult.x.c.SPD.get(), 3)
 
-    if (!this.metadata.skipSpdEqualization) {
-      applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
-    }
-    if (this.scoringActionKey) {
-      applyBasicResTargetFlag(flags, originalSimResult)
-    }
+    applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
 
     // Run a second sim with basic SPD forced at benchmarkBasicSpdTarget
     // This will emulate the character's relics at the benchmark SPD
@@ -405,7 +399,7 @@ export class BenchmarkSimulationOrchestrator {
     this.poolComboStates = pool.map((setCombination) => {
       const { sim, result } = runPoolBaselineSim(
         this.originalSimRequest!, setCombination, this.form!, this.context!, this.flags, this.metadata,
-        this.scoringActionKey, this.configType, this.benchmarkCombatSpdTarget,
+        this.configType, this.benchmarkCombatSpdTarget,
       )
       const spdTarget = resolveComboSpdTarget(
         setCombination, sim, result, this.form!, this.context!, this.flags, this.originalSpd!, this.spdBenchmark,
@@ -490,7 +484,6 @@ export class BenchmarkSimulationOrchestrator {
         metadata: metadata,
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
-        scoringActionKey: this.scoringActionKey,
         configType: this.configType,
       }
 
@@ -583,7 +576,6 @@ export class BenchmarkSimulationOrchestrator {
         metadata: metadata,
         scoringParams: clonedPerfectionScoringParams,
         simulationFlags: flags,
-        scoringActionKey: this.scoringActionKey,
         configType: this.configType,
       }
 
@@ -615,8 +607,8 @@ export class BenchmarkSimulationOrchestrator {
     const benchmarkSimResult = this.benchmarkSimResult!
     const perfectionSimResult = this.perfectionSimResult!
 
-    applyScoringFunction(baselineSimResult, metadata, true, false, this.scoringActionKey, this.context, this.configType)
-    applyScoringFunction(originalSimResult, metadata, true, true, this.scoringActionKey, this.context, this.configType)
+    applyScoringFunction(baselineSimResult, metadata, true, false, this.context!, this.configType)
+    applyScoringFunction(originalSimResult, metadata, true, true, this.context!, this.configType)
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore
@@ -642,7 +634,6 @@ export class BenchmarkSimulationOrchestrator {
       this.benchmarkBaselineScore ?? this.baselineSimResult!.simScore,
       this.benchmarkSimResult!.simScore,
       this.perfectionSimResult!.simScore,
-      this.scoringActionKey,
       this.configType,
     )
 
@@ -661,7 +652,7 @@ export class BenchmarkSimulationOrchestrator {
         ...benchmarkScoringParams,
         substatRollsModifier: (num: number) => num,
       })[0]
-      applyScoringFunction(result, metadata, true, true)
+      applyScoringFunction(result, metadata, true, true, context, this.configType)
       return result.simScore
     })
   }

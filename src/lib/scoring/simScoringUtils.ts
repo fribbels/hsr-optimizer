@@ -17,6 +17,7 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
@@ -358,30 +359,22 @@ export function calculateScorePercent(
   return range > 0 ? (score - baseline) / range : 0
 }
 
-const COMBO_REGISTER_MAP: Record<ScoringConfigType, number> = {
-  [ScoringConfigType.DPS]: GlobalRegister.COMBO_DMG,
-  [ScoringConfigType.BUFFER]: GlobalRegister.COMBO_DMG,
-  [ScoringConfigType.HEAL]: GlobalRegister.COMBO_HEAL,
-  [ScoringConfigType.SHIELD]: GlobalRegister.COMBO_SHIELD,
-}
-
 export function applyScoringFunction(
   result: RunStatSimulationsResult,
   metadata: SimulationMetadata,
   penalty = true,
   user = false,
-  scoringActionKey?: string,
-  context?: OptimizerContext,
-  configType?: ScoringConfigType,
+  context: OptimizerContext,
+  configType: ScoringConfigType,
 ) {
   if (!result) return
 
+  const entry = SCORING_CONFIG_REGISTRY[configType]
   let unpenalizedSimScore: number
-  if (scoringActionKey && context) {
-    unpenalizedSimScore = getActionRegisterByName(result, context, scoringActionKey)
+  if (entry.scoringActionKey) {
+    unpenalizedSimScore = getActionRegisterByName(result, context, entry.scoringActionKey)
   } else {
-    const register = COMBO_REGISTER_MAP[configType ?? ScoringConfigType.DPS]
-    unpenalizedSimScore = result.x.getGlobalRegisterValue(register)
+    unpenalizedSimScore = result.x.getGlobalRegisterValue(entry.comboRegister)
   }
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)

@@ -5,7 +5,7 @@ import {
   CharacterStatSummary,
 } from 'lib/characterPreview/card/CharacterStatSummary'
 import {
-  usePipelineSlot,
+  useScoringPipeline,
   useSimPreview,
 } from 'lib/characterPreview/useSimScoringHooks'
 import {
@@ -323,8 +323,8 @@ const SuspendedHeader = memo(function SuspendedHeader({ t, configType }: {
   t: TFunction<readonly ['charactersTab', 'common'], undefined>,
   configType: ScoringConfigType,
 }) {
-  const pipelineSlot = usePipelineSlot(configType)
-  const promise = pipelineSlot?.scoringPromise ?? nullPromise
+  const scoringPipeline = useScoringPipeline(configType)
+  const promise = scoringPipeline?.scoringPromise ?? nullPromise
   return (
     <div className={classes.columnFilledHeader}>
       <div className={classes.scoringColumnHeader} style={{ color: highlightColor, display: 'flex' }}>
@@ -409,11 +409,11 @@ export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnP
 
 const defaultClass = classes.columnCardFilled
 export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps) {
-  const pipelineSlot = usePipelineSlot(props.configType)
+  const scoringPipeline = useScoringPipeline(props.configType)
   const isBenchmark = props.type === ScoringColumnKind.BENCHMARK
   return (
     <ScoringColumn
-      simulation={pipelineSlot?.scoringPromise ?? nullPromise}
+      simulation={scoringPipeline?.scoringPromise ?? nullPromise}
       percent={isBenchmark ? 1.00 : 2.00}
       precision={0}
       type={props.type}

@@ -1,5 +1,5 @@
 import { Table } from '@mantine/core'
-import { usePipelineSlot } from 'lib/characterPreview/useSimScoringHooks'
+import { useScoringPipeline } from 'lib/characterPreview/useSimScoringHooks'
 import {
   isStatWithoutScoreUpgrade,
   type SharedScoreColumn,
@@ -36,8 +36,8 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta, configType }: 
   meta: SimulationMetadata,
   configType: ScoringConfigType,
 }) {
-  const pipelineSlot = usePipelineSlot(configType)
-  const upgradePromise = pipelineSlot?.upgradePromise ?? nullPromise
+  const scoringPipeline = useScoringPipeline(configType)
+  const upgradePromise = scoringPipeline?.upgradePromise ?? nullPromise
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.SubstatUpgradeComparisons' })
   const sharedCols = useMemo(() => sharedScoreUpgradeColumns(t), [t])
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'ShortSpacedStats' })

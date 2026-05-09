@@ -36,8 +36,6 @@ export function prepareOrchestrator(
   // Clone metadata because setMetadata() mutates substats, parts, relicSets, ornamentSets in-place.
   const orchestrator = new BenchmarkSimulationOrchestrator(clone(config.simulation))
 
-  // Set scoring action key (buffer only — DPS/heal/shield use COMBO registers)
-  orchestrator.scoringActionKey = config.scoringActionKey
   orchestrator.configType = config.configType
 
   orchestrator.setMetadata()
@@ -48,8 +46,8 @@ export function prepareOrchestrator(
 
   // Override resultSort based on config type
   const entry = SCORING_CONFIG_REGISTRY[config.configType]
-  if (config.scoringActionKey) {
-    orchestrator.form!.resultSort = config.scoringActionKey as SortOptionKey
+  if (entry.scoringActionKey) {
+    orchestrator.form!.resultSort = entry.scoringActionKey as SortOptionKey
   } else if (entry.resultSortKey) {
     orchestrator.form!.resultSort = entry.resultSortKey
   }
@@ -85,8 +83,7 @@ export function prepareOrchestrator(
     orchestrator.metadata,
     true,
     true,
-    orchestrator.scoringActionKey,
-    orchestrator.context,
+    orchestrator.context!,
     config.configType,
   )
 

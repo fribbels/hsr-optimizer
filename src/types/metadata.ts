@@ -31,7 +31,6 @@ export enum ScoringConfigType {
 export type ScoringConfig = {
   configType: ScoringConfigType
   simulation: SimulationMetadata
-  scoringActionKey?: string
 }
 
 export type ShowcasePreferences = {
@@ -97,7 +96,6 @@ export type SimulationMetadata = {
   breakpoints?: {
     [stat: string]: number,
   },
-  skipSpdEqualization?: boolean,
   buffStat?: AKeyValue,
   combatStatsConfig?: Array<{
     add?: StatsValues,

@@ -28,8 +28,7 @@ export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
   scoringParams: ScoringParams
   simulationFlags: SimulationFlags
   workerType: WorkerType
-  scoringActionKey?: string
-  configType?: ScoringConfigType
+  configType: ScoringConfigType
 }
 
 export interface ComputeOptimalSimulationWorkerOutput extends BaseWorkerOutput {

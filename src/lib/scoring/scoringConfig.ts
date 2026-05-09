@@ -29,6 +29,7 @@ export interface ScoringConfigEntry {
   applyResEqualization: boolean
   supportsUpgrades: boolean
   supportsDeprioritizeBuffs: boolean
+  combatStatsSuffix?: string
   resultSortKey?: SortOptionKey
 }
 
@@ -48,7 +49,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     label: 'DPS Score',
     headerTitle: '',
     headerScoreLabel: '',
-    rulerLabel: 'Damage',
+    rulerLabel: 'DMG',
     comboLabel: 'Combo DMG',
     mainsFreeCount: 0,
     comboRegister: GlobalRegister.COMBO_DMG,
@@ -65,7 +66,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     thousands: false,
     label: 'Support Score',
     headerTitle: 'Support Sim',
-    headerScoreLabel: 'Support Score',
+    headerScoreLabel: 'Score',
     rulerLabel: 'Buff',
     comboLabel: 'Buff',
     mainsFreeCount: 2,
@@ -74,6 +75,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     applyResEqualization: true,
     supportsUpgrades: false,
     supportsDeprioritizeBuffs: false,
+    combatStatsSuffix: 'Support',
   },
   [ScoringConfigType.HEAL]: {
     configType: ScoringConfigType.HEAL,
@@ -82,7 +84,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     thousands: false,
     label: 'Heal Score',
     headerTitle: 'Heal Sim',
-    headerScoreLabel: 'Heal Score',
+    headerScoreLabel: 'Score',
     rulerLabel: 'Heal',
     comboLabel: 'Combo Heal',
     mainsFreeCount: 2,
@@ -91,6 +93,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     applyResEqualization: true,
     supportsUpgrades: false,
     supportsDeprioritizeBuffs: false,
+    combatStatsSuffix: 'Heal',
     resultSortKey: 'COMBO_HEAL',
   },
   [ScoringConfigType.SHIELD]: {
@@ -100,7 +103,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     thousands: false,
     label: 'Shield Score',
     headerTitle: 'Shield Sim',
-    headerScoreLabel: 'Shield Score',
+    headerScoreLabel: 'Score',
     rulerLabel: 'Shield',
     comboLabel: 'Combo Shield',
     mainsFreeCount: 2,
@@ -109,6 +112,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     applyResEqualization: true,
     supportsUpgrades: false,
     supportsDeprioritizeBuffs: false,
+    combatStatsSuffix: 'Shield',
     resultSortKey: 'COMBO_SHIELD',
   },
 }
@@ -147,7 +151,6 @@ export function getConfig(metadata: ScoringMetadata, type: ScoringConfigType): S
   return {
     configType: type,
     simulation: sim,
-    scoringActionKey: entry.scoringActionKey,
   }
 }
 

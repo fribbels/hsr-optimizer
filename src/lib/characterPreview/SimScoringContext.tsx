@@ -7,7 +7,7 @@ import {
   resultCache,
   upgradeResultCache,
 } from 'lib/scoring/scoringService'
-import { CONFIG_DISPLAY_ORDER, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
   createContext,
@@ -24,7 +24,7 @@ import {
 } from 'types/metadata'
 import { type PreviewRelics } from './characterPreviewController'
 
-export type PipelineSlot = {
+export type ScoringPipeline = {
   preview: PreparedState | null
   scoringPromise: Promise<SimulationScore | null>
   upgradePromise: Promise<SimulationScore | null>
@@ -33,7 +33,7 @@ export type PipelineSlot = {
 }
 
 type SimScoringContextValue = {
-  pipelines: Partial<Record<ScoringConfigType, PipelineSlot>>
+  pipelines: Partial<Record<ScoringConfigType, ScoringPipeline>>
 }
 
 // Stable reference to avoid re-renders when no promise exists
@@ -47,31 +47,27 @@ const scoreUpgradePromiseCache = new Map<string, Promise<SimulationScore | null>
 
 export const SimScoringContext = createContext<SimScoringContextValue>(EMPTY_PIPELINES)
 
-function buildPipelineSlot(
+function buildScoringPipeline(
+  cacheKey: string | null,
   character: Character,
   configType: ScoringConfigType,
   simulationMetadata: SimulationMetadata,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
-): { cacheKey: string | null, slot: PipelineSlot } {
+): ScoringPipeline {
+  if (cacheKey === null) {
+    return {
+      preview: null,
+      scoringPromise: nullPromise,
+      upgradePromise: nullPromise,
+      cachedScore: null,
+      cachedUpgrades: null,
+    }
+  }
+
   const config: ScoringConfig = {
     configType,
     simulation: simulationMetadata,
-    scoringActionKey: SCORING_CONFIG_REGISTRY[configType].scoringActionKey,
-  }
-  const cacheKey = computeScoringCacheKey(character, configType, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
-
-  if (cacheKey === null) {
-    return {
-      cacheKey: null,
-      slot: {
-        preview: null,
-        scoringPromise: nullPromise,
-        upgradePromise: nullPromise,
-        cachedScore: null,
-        cachedUpgrades: null,
-      },
-    }
   }
 
   const preview = getOrComputePreview(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions)
@@ -93,10 +89,7 @@ function buildPipelineSlot(
     scoreUpgradePromiseCache.delete(cacheKey)
   }
 
-  return {
-    cacheKey,
-    slot: { preview, scoringPromise, upgradePromise, cachedScore, cachedUpgrades },
-  }
+  return { preview, scoringPromise, upgradePromise, cachedScore, cachedUpgrades }
 }
 
 interface SimScoringContextProps extends PropsWithChildren {
@@ -114,13 +107,20 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
   const healCacheKey = computeScoringCacheKey(character, ScoringConfigType.HEAL, configMetadata[ScoringConfigType.HEAL] ?? null, singleRelicByPart, showcaseTemporaryOptions)
   const shieldCacheKey = computeScoringCacheKey(character, ScoringConfigType.SHIELD, configMetadata[ScoringConfigType.SHIELD] ?? null, singleRelicByPart, showcaseTemporaryOptions)
 
+  const cacheKeys: Record<ScoringConfigType, string | null> = {
+    [ScoringConfigType.DPS]: dpsCacheKey,
+    [ScoringConfigType.BUFFER]: bufferCacheKey,
+    [ScoringConfigType.HEAL]: healCacheKey,
+    [ScoringConfigType.SHIELD]: shieldCacheKey,
+  }
+
   const context = useMemo(() => {
-    const pipelines: Partial<Record<ScoringConfigType, PipelineSlot>> = {}
+    const pipelines: Partial<Record<ScoringConfigType, ScoringPipeline>> = {}
 
     for (const configType of CONFIG_DISPLAY_ORDER) {
       const meta = configMetadata[configType]
       if (meta) {
-        pipelines[configType] = buildPipelineSlot(character, configType, meta, singleRelicByPart, showcaseTemporaryOptions).slot
+        pipelines[configType] = buildScoringPipeline(cacheKeys[configType], character, configType, meta, singleRelicByPart, showcaseTemporaryOptions)
       }
     }
 

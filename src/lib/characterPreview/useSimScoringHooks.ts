@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { usePromise } from 'hooks/usePromise'
-import { type PipelineSlot, SimScoringContext } from 'lib/characterPreview/SimScoringContext'
+import { type ScoringPipeline, SimScoringContext } from 'lib/characterPreview/SimScoringContext'
 import type { PreparedState } from 'lib/scoring/scoringService'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { ScoringConfigType } from 'types/metadata'
@@ -32,7 +32,7 @@ export function useSimUpgrades(configType: ScoringConfigType): SimulationScore |
   return cached ?? promised
 }
 
-export function usePipelineSlot(configType: ScoringConfigType): PipelineSlot | undefined {
+export function useScoringPipeline(configType: ScoringConfigType): ScoringPipeline | undefined {
   const simScoringContext = useContext(SimScoringContext)
   return simScoringContext.pipelines[configType]
 }

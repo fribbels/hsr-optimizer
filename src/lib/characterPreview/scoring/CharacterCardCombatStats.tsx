@@ -46,14 +46,17 @@ import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import {
   type DBMetadataCharacter,
+  type ScoringConfigType,
   type SimulationMetadata,
 } from 'types/metadata'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 
-export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs, simulationMetadata }: {
+export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs, simulationMetadata, configType }: {
   characterMetadata: DBMetadataCharacter,
   originalSimResult: RunStatSimulationsResult,
   deprioritizeBuffs: boolean,
   simulationMetadata?: SimulationMetadata,
+  configType: ScoringConfigType,
 }) {
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
@@ -92,9 +95,13 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
     )
   }
 
-  const titleRender = deprioritizeBuffs
-    ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
-    : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+  const suffix = SCORING_CONFIG_REGISTRY[configType].combatStatsSuffix
+  const combatStatsLabel = tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+  const titleRender = suffix
+    ? `${combatStatsLabel} (${suffix})`
+    : deprioritizeBuffs
+      ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
+      : combatStatsLabel
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>

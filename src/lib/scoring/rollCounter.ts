@@ -46,7 +46,7 @@ export function calculateMaxSubstatRollCounts(
   scoringParams: ScoringParams,
   baselineSimResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
-  configType?: ScoringConfigType,
+  configType: ScoringConfigType,
 ): SubstatCounts {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts: Record<string, number> = {
@@ -86,7 +86,7 @@ export function calculateMaxSubstatRollCounts(
 
   // For DPS, flat stats are always outcompeted by multiplicative stats — cap at 10 to reduce search space.
   // For non-DPS (buffer/heal/shield), flat stats can be the primary scaling stat, so don't cap.
-  if (!configType || SCORING_CONFIG_REGISTRY[configType].capFlatSubstats) {
+  if (SCORING_CONFIG_REGISTRY[configType].capFlatSubstats) {
     maxCounts[Stats.ATK] = Math.min(10, maxCounts[Stats.ATK])
     maxCounts[Stats.HP] = Math.min(10, maxCounts[Stats.HP])
     maxCounts[Stats.DEF] = Math.min(10, maxCounts[Stats.DEF])

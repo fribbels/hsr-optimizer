@@ -62,7 +62,7 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   }
 
   // Non-DPS scoring: relax DR so it only triggers at 3+ mains of the same stat
-  if (input.configType && !SCORING_CONFIG_REGISTRY[input.configType].capFlatSubstats) {
+  if (!SCORING_CONFIG_REGISTRY[input.configType].capFlatSubstats) {
     const nonDpsDiminishingReturns = createDiminishingReturnsFormula(12, 2, 2)
     return (rolls: number, stat: string, sim: Simulation) =>
       substatRollsModifier(rolls, stat, sim, nonDpsDiminishingReturns)
@@ -81,7 +81,6 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     metadata,
     scoringParams,
     simulationFlags,
-    scoringActionKey,
     configType,
   } = input
 
@@ -115,10 +114,10 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
     mergedScoringParams.stabilize = stabilize
-    mergedScoringParams.skipDefaults = scoringActionKey ? false : !stabilize
+    mergedScoringParams.skipDefaults = SCORING_CONFIG_REGISTRY[configType].scoringActionKey ? false : !stabilize
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
-    applyScoringFunction(currentSimulation.result, metadata, true, false, scoringActionKey, context, configType)
+    applyScoringFunction(currentSimulation.result, metadata, true, false, context, configType)
     return currentSimulation.result.simScore
   }
 

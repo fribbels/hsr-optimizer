@@ -218,7 +218,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             precision={props.precision}
             diminish={props.type === ScoringColumnKind.BENCHMARK}
             type={props.type}
-            columns={1}
+            columns={2}
             configType={props.configType}
           />
         )
@@ -227,7 +227,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             simRequest={props.simulation.request}
             precision={props.precision}
             diminish={false}
-            columns={1}
+            columns={2}
             configType={props.configType}
           />
         )}

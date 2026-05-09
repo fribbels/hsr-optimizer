@@ -179,7 +179,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
   )
 }
 
-const RenderStats = memo(function({ stats, diminishingReturns, precision, columns = 1, suspended = false }: {
+const RenderStats = memo(function({ stats, diminishingReturns, precision, columns = 2, suspended = false }: {
   stats: Record<string, number>,
   diminishingReturns: Record<string, number>,
   precision: number,

@@ -51,6 +51,8 @@ export function dynamicStatConversionContainer(
 
   action.conditionalState[conditional.id] = buffFull
 
+  if (Math.abs(buffDelta) < 0.0001) return
+
   if (!convertibleOutput) {
     x.buffDynamic(destConfig.unconvertibleKey, buffDelta, action, context, x.targets(targetTag).source(source))
   }

@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Capture d'écran copiée dans le presse-papiers
-  ScreenshotFailed: Impossible d'enregistrer la capture d'écran dans le presse-papiers, essayez le bouton de téléchargement à droite
   DownloadSuccess: Capture d'écran téléchargée
 CharacterMenu:
   ButtonText: Menu de personnage
@@ -100,8 +99,8 @@ CharacterPreview:
     Header: Comparaisons d'améliorations de substats
     MainStatHeader: Comparaisons d'améliorations de mainstat
     AddedRoll: '+1x roll {{stat}}'
-    MainStatUpgrade: Améliorations de mainstat
     SubStatUpgrade: Améliorations de substats
+    MainStatUpgrade: Améliorations de mainstat
     DpsScorePercentUpgrade: Note DPS ∆ %
     UpgradedDpsScore: Note DPS amélioré
     ComboDmgPercentUpgrade: DGT Combo ∆ %

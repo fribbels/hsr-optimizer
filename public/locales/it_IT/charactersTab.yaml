@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Screenshot copiato negli appunti
-  ScreenshotFailed: Impossibile salvare lo screenshot negli appunti, prova il pulsante di download a destra
   DownloadSuccess: Screenshot scaricato
 CharacterMenu:
   ButtonText: Menu personaggi
@@ -100,8 +99,8 @@ CharacterPreview:
     Header: Confronto miglioramento statistiche secondarie
     MainStatHeader: Confronto miglioramento statistiche principali
     AddedRoll: '+1x roll {{stat}}'
-    MainStatUpgrade: Miglioramento Stat. Principale
     SubStatUpgrade: Miglioramento Stat. Secondaria
+    MainStatUpgrade: Miglioramento Stat. Principale
     DpsScorePercentUpgrade: Punteggio DPS Δ %
     UpgradedDpsScore: Punteggio DPS migliorato
     ComboDmgPercentUpgrade: DAN da Combo Δ %

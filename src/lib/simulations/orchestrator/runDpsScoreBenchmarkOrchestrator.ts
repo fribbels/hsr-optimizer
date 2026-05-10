@@ -70,6 +70,7 @@ export async function executeOrchestrator(
   orchestrator.substatUpgradeResults ??= []
   orchestrator.setUpgradeResults ??= []
   orchestrator.mainUpgradeResults ??= []
+  orchestrator.teammateOrnamentUpgradeResults ??= []
   orchestrator.calculateResults()
 
   return orchestrator
@@ -77,6 +78,7 @@ export async function executeOrchestrator(
 
 export async function executeUpgradeOrchestrator(orchestrator: BenchmarkSimulationOrchestrator) {
   orchestrator.calculateUpgrades()
+  orchestrator.calculateTeammateUpgrades()
   orchestrator.calculateResults()
 
   return orchestrator

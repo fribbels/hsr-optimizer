@@ -14,10 +14,6 @@ export function useScreenshotAction(elementId: string) {
     // Delay lets the browser paint the loading spinner before capture blocks the thread
     setTimeout(() => {
       void screenshotElementById(elementId, action, name)
-        .catch((e: unknown) => {
-          console.error(e)
-          Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed'))
-        })
         .finally(() => setLoading(false))
     }, 50)
   }, [elementId])

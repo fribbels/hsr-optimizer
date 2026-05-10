@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: Captura de pantalla copiada al portapapeles
-  ScreenshotFailed: No se pudo guardar la captura en el portapapeles, intenta el botón de descarga a la derecha
   DownloadSuccess: Captura de pantalla descargada
 CharacterMenu:
   ButtonText: Menú de personaje
@@ -100,8 +99,8 @@ CharacterPreview:
     Header: Comparación de mejoras de atributos secundarios
     MainStatHeader: Comparación de mejoras de atributos principales
     AddedRoll: '+1x mejora {{stat}}'
-    MainStatUpgrade: Mejora de atr. principal
     SubStatUpgrade: Mejora de atr. secundario
+    MainStatUpgrade: Mejora de atr. principal
     DpsScorePercentUpgrade: Δ % Puntaje DPS
     UpgradedDpsScore: Puntaje DPS mejorado
     ComboDmgPercentUpgrade: Δ % Daño de combo

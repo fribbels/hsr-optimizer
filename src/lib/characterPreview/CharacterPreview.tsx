@@ -72,6 +72,7 @@ import { Assets } from 'lib/rendering/assets'
 import { ScoringType } from 'lib/scoring/simScoringUtils'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import {
@@ -388,9 +389,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     : (forceDebug ? ScoringType.SUBSTAT_SCORE : localScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
+  // Cache-buster: portrait edits on the showcase tab wouldn't re-run the layout memo otherwise
+  const _storePortrait = useCharacterStore((s) => s.charactersById[character.id]?.portrait)
   const layout = useMemo(
     () => {
       void _scoringMetadataCacheBuster // explicit cache invalidation dependency
+      void _storePortrait
       const baseLayout = resolveShowcaseLayout({
         character,
         teamSelection: state.teamSelection,
@@ -410,6 +414,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       effectiveScoringType,
       savedBuildOverride,
       _scoringMetadataCacheBuster,
+      _storePortrait,
       t,
       forceDebug,
       editorOverrides?.forceSimScoreLayout,

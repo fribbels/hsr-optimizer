@@ -536,7 +536,7 @@ function outputResults(gpuContext: GpuExecutionContext) {
       LinkRope: relics.LinkRope[l],
     }
 
-    const { x } = simulateBuild(relicsByPart as unknown as SimulationRelicByPart, optimizerContext, basicStatsArrayCore)
+    const { x } = simulateBuild(relicsByPart as SimulationRelicByPart, optimizerContext, basicStatsArrayCore)
 
     const optimizerDisplayData = formatOptimizerDisplayData(x)
     optimizerDisplayData.id = index

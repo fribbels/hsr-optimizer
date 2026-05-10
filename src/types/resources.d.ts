@@ -257,6 +257,8 @@ interface Resources {
         "MainStatHeader": "Main stat upgrade comparisons",
         "MainStatUpgrade": "Main Stat Upgrade",
         "SubStatUpgrade": "Substat Upgrade",
+        "TeammateUpgrade": "Teammate Upgrade",
+        "TeammatesHeader": "Teammate relic upgrade comparisons",
         "UpgradedDpsScore": "Upgraded DPS Score"
       }
     },
@@ -282,7 +284,10 @@ interface Resources {
     },
     "ScreenshotMessages": {
       "DownloadSuccess": "Downloaded screenshot",
-      "ScreenshotFailed": "Unable to save screenshot to clipboard, try the download button to the right",
+      "ScreenshotFailed": {
+        "Default": "Unable to save screenshot to clipboard, try the download button to the right",
+        "NotAllowed": "Browser denied clipboard access, please keep the webpage focused while taking the screenshot."
+      },
       "ScreenshotSuccess": "Copied screenshot to clipboard"
     },
     "SearchPlaceholder": "Search"
@@ -5947,6 +5952,8 @@ interface Resources {
         "Disconnected": "Disconnected",
         "DisconnectedHint": "Unable to connect to the scanner. Please check that it is running.",
         "Enable": "Enable Live Import (Recommended)",
+        "OnlyExistingCharacters": "Only update existing characters",
+        "OnlyExistingCharactersTooltip": "Prevents live import from adding characters that are not already in the Characters tab.",
         "Title": "Live Import Controls",
         "UpdateCharacters": "Enable updating characters' equipped relics and lightcones",
         "UpdateWarpResources": "Enable importing Warp resources (jades, passes, pity)"
@@ -6852,6 +6859,13 @@ interface Resources {
           "SHIELD_VALUE": "Δ Shield",
           "SHIELD_VALUE_P": "Δ% Shield",
           "Substat": "+1x Substat"
+        }
+      },
+      "TeammateUpgrades": {
+        "ColumnHeaders": {
+          "COMBO_DMG": "Δ Combo DMG",
+          "COMBO_DMG_P": "Δ% Combo DMG",
+          "Ornaments": "Teammate Set"
         }
       }
     },

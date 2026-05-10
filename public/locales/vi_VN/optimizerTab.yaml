@@ -529,6 +529,10 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      COMBO_DMG: Δ ST Combo
+      COMBO_DMG_P: Δ% ST Combo
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Thuộc tính phụ'

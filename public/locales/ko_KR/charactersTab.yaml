@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: 스크린샷을 클립보드에 저장하였습니다.
-  ScreenshotFailed: 스크린샷을 저장하지 못했습니다. 우측의 다운로드 버튼을 사용해 보세요.
   DownloadSuccess: 스크린샷을 저장했습니다.
 CharacterMenu:
   ButtonText: 캐릭터 메뉴
@@ -100,8 +99,8 @@ CharacterPreview:
     Header: 부옵 강화 비교
     MainStatHeader: 주옵 강화 비교
     AddedRoll: '+1x 부옵'
-    MainStatUpgrade: 주옵 강화
     SubStatUpgrade: 부옵 강화
+    MainStatUpgrade: 주옵 강화
     DpsScorePercentUpgrade: DPS 점수 Δ %
     UpgradedDpsScore: 강화 시 DPS 점수
     ComboDmgPercentUpgrade: 콤보 DMG Δ %

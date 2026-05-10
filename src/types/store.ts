@@ -82,6 +82,7 @@ export type HsrOptimizerSaveFormat = {
   scannerSettings?: {
     ingest: boolean,
     ingestCharacters: boolean,
+    ingestOnlyExistingCharacters?: boolean,
     ingestWarpResources: boolean,
     websocketUrl: string,
     customUrl: boolean,

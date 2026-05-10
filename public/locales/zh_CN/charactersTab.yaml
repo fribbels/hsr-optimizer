@@ -1,6 +1,5 @@
 ScreenshotMessages:
   ScreenshotSuccess: 截图已复制至剪贴板
-  ScreenshotFailed: 无法将截图保存到剪贴板，请尝试右侧的下载按钮
   DownloadSuccess: 已下载截图
 CharacterMenu:
   ButtonText: 角色菜单
@@ -107,8 +106,8 @@ CharacterPreview:
     Header: 副词条升级比较
     MainStatHeader: 主词条升级比较
     AddedRoll: '+1x {{stat}}副词条'
-    MainStatUpgrade: 主词条升级
     SubStatUpgrade: 副词条升级
+    MainStatUpgrade: 主词条升级
     DpsScorePercentUpgrade: DPS评分Δ%
     UpgradedDpsScore: 升级后DPS评分
     ComboDmgPercentUpgrade: 连招伤害Δ%

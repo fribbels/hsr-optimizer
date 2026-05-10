@@ -715,6 +715,11 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      Ornaments: Teammate Set
+      COMBO_DMG: Δ Combo DMG
+      COMBO_DMG_P: Δ% Combo DMG
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x Substat'

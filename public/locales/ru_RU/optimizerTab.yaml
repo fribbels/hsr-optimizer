@@ -702,6 +702,10 @@ StatSimulation:
     ShortStat: '$t(common:ShortReadableStats.{{stat}})'
     LabelStat: '$t(common:ReadableStats.{{stat}})'
 ExpandedDataPanel:
+  TeammateUpgrades:
+    ColumnHeaders:
+      COMBO_DMG: Δ Урона Комбо
+      COMBO_DMG_P: Δ% Урона Комбо
   SubstatUpgrades:
     ColumnHeaders:
       Substat: '+1x прок'

@@ -65,8 +65,10 @@ export type TeammateEffectParams = {
   teammateActorId: string,
 }
 
+export type TeammateOptionValue = string
+
 export type TeammateOption = {
-  value: string,
+  value: TeammateOptionValue,
   label: (t: TFunction<'optimizerTab', 'TeammateCard'>) => string,
   desc: (t: TFunction<'optimizerTab', 'TeammateCard'>) => string,
   nonstackable: boolean,

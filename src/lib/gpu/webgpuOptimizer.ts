@@ -324,7 +324,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
 
     await gpuContext.compactReadBuffers[readBuf].mapAsync(GPUMapMode.READ)
 
-    const { rawCount, validCount } = processTupleBatch(gpuContext, readBuf, batchStart, assignments, sizes, localBits)
+    const { rawCount, validCount } = processTupleBatch(gpuContext, readBuf, batchStart, assignments, sizes, localBits, seenIndices)
     permutationsSearched += validCount
     if (rawCount > gpuContext.COMPACT_LIMIT) {
       overflowedBatches.push(batchStart)

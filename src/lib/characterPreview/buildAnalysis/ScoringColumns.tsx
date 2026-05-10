@@ -20,6 +20,7 @@ import {
   type PathName,
   PathNames,
   Stats,
+  type StatsValues,
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
@@ -63,7 +64,7 @@ export enum ScoringColumnKind {
 
 interface ExternalScoringColumnProps {
   characterId: CharacterId
-  elementalDmgValue: string
+  elementalDmgValue: StatsValues
   element: ElementName
   characterMetadata: { path: PathName }
   configType: ScoringConfigType

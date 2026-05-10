@@ -1,4 +1,5 @@
 import type {
+  ELEMENTAL_DMG_KEY,
   ElementName,
   MainStats,
   Parts,
@@ -99,7 +100,7 @@ export type SimulationMetadata = {
   buffStat?: AKeyValue,
   combatStatsConfig?: Array<{
     add?: StatsValues,
-    remove?: StatsValues | 'ELEMENTAL_DMG',
+    remove?: StatsValues | typeof ELEMENTAL_DMG_KEY,
   }>,
 }
 

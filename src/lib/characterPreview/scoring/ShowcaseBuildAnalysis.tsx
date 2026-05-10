@@ -8,7 +8,7 @@ import type {
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { CONFIG_DISPLAY_ORDER, configTypeForScoringType, hasConfig, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
-import { isSimScoreMode, ScoringType } from 'lib/scoring/simScoringUtils'
+import { isSimScoreMode, ScoringType } from 'lib/scoring/scoringConfig'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'

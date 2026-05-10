@@ -3,7 +3,7 @@ import {
   newLcMargin,
   parentH,
 } from 'lib/constants/constantsUi'
-import { isSimScoreMode, ScoringType } from 'lib/scoring/simScoringUtils'
+import { isSimScoreMode, ScoringType } from 'lib/scoring/scoringConfig'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { type CustomImageConfig } from 'types/customImage'
 

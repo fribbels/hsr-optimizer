@@ -3,10 +3,8 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import {
-  applyScoringFunction,
-  calculateScorePercent,
-} from 'lib/scoring/simScoringUtils'
+import { calculateScorePercent } from 'lib/scoring/scoringConfig'
+import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import type {
   ScoringParams,
   SimulationFlags,

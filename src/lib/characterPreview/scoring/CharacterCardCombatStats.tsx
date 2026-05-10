@@ -2,6 +2,7 @@ import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import {
+  ELEMENTAL_DMG_KEY,
   type ElementName,
   ElementToDamage,
   PathNames,
@@ -76,7 +77,7 @@ export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({
     const { stat, display, flat, upgraded } = wrapper
 
     const isElationDmg = stat === Stats.Elation
-    const isElementalDmg = !isElationDmg && stat.includes('DMG Boost')
+    const isElementalDmg = !isElationDmg && damageStats[stat] != null
     const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
 
     // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
@@ -172,7 +173,7 @@ function pickCombatStats(characterMetadata: DBMetadataCharacter, simulationMetad
   const config = simulationMetadata.combatStatsConfig
   if (config) {
     for (const entry of config) {
-      if (entry.remove === 'ELEMENTAL_DMG') {
+      if (entry.remove === ELEMENTAL_DMG_KEY) {
         includeElementalDmg = false
       } else if (entry.remove) {
         substats = substats.filter((s) => s !== entry.remove)

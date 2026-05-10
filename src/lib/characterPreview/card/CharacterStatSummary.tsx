@@ -1,4 +1,5 @@
 import classes from 'lib/characterPreview/card/CharacterStatSummary.module.css'
+import { SimScoreRow } from 'lib/characterPreview/SimScoreRow'
 import {
   AsyncStatRow,
   StatRow,
@@ -8,18 +9,15 @@ import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   PathNames,
   Stats,
+  type StatsValues,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
-import {
-  isSimScoreMode,
-  ScoringType,
-  type SimulationScore,
-} from 'lib/scoring/simScoringUtils'
+import { isSimScoreMode, ScoringType } from 'lib/scoring/scoringConfig'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -34,7 +32,7 @@ const epsilon = 0.001
 
 interface CommonStatSummaryProps {
   characterId: CharacterId
-  elementalDmgValue: string
+  elementalDmgValue: StatsValues
   scoringType?: ScoringType
   showAll?: boolean
   zebra?: boolean
@@ -96,15 +94,12 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
         {showAll && getGameMetadata().characters[characterId]?.path === PathNames.Elation
           && <StatRow finalStats={finalStats} stat={Stats.Elation} edits={edits} />}
 
-        {isSimScoreMode(scoringType)
+        {isSimScoreMode(scoringType) && configType != null
           && (
-            <StatRow
-              finalStats={finalStats}
-              stat='simScore'
+            <SimScoreRow
               value={simScore}
-              buffStat={buffStat}
-              thousands={configType != null ? SCORING_CONFIG_REGISTRY[configType].thousands : false}
               configType={configType}
+              buffStat={buffStat}
             />
           )}
       </div>

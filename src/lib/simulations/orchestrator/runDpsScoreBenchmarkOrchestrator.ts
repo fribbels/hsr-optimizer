@@ -47,7 +47,7 @@ export function prepareOrchestrator(
   // Override resultSort based on config type
   const entry = SCORING_CONFIG_REGISTRY[config.configType]
   if (entry.scoringActionKey) {
-    orchestrator.form!.resultSort = entry.scoringActionKey as SortOptionKey
+    orchestrator.form!.resultSort = entry.scoringActionKey
   } else if (entry.resultSortKey) {
     orchestrator.form!.resultSort = entry.resultSortKey
   }

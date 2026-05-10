@@ -13,7 +13,7 @@ import type {
 import { DEFAULT_TEAM, type TeamSelection } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { CONFIG_DISPLAY_ORDER, configTypeForScoringType, hasConfig, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
-import { isSimScoreMode, ScoringType } from 'lib/scoring/simScoringUtils'
+import { isSimScoreMode, ScoringType } from 'lib/scoring/scoringConfig'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'

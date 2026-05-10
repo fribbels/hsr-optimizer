@@ -32,7 +32,7 @@ import {
 } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { ScoringType } from 'lib/scoring/scoringConfig'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { simulateBuild } from 'lib/simulations/simulateBuild'

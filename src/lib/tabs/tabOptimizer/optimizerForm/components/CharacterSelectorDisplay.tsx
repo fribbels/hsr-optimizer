@@ -110,7 +110,7 @@ export function CharacterSelectorDisplay() {
       const sortKey = AbilityToSortOption[action as AbilityKind]
       if (sortKey) {
         const sortOption = SortOption[sortKey]
-        const label = sortKey === 'BUFF' && buffStat != null
+        const label = sortKey === SortOption.BUFF.key && buffStat != null
           ? `Sorted by ${getAKeyName(buffStat)} Buff`
           : t(`SortOptions.${sortOption.key}` as const)
         damageOptions.push({ value: sortOption.key, label: label as string })

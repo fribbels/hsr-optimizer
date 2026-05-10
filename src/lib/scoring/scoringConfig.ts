@@ -1,8 +1,7 @@
 import { type AKeyValue, getAKeyName, GlobalRegister } from 'lib/optimization/engine/config/keys'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
-import type { SortOptionKey } from 'lib/optimization/sortOptions'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption, type SortOptionKey } from 'lib/optimization/sortOptions'
 import { getSimScoreGrade } from 'lib/scoring/dpsScore'
-import { calculateScorePercent } from 'lib/scoring/simScoringUtils'
 import {
   ScoringConfigType,
   type ScoringConfig,
@@ -16,7 +15,7 @@ export interface ScoringConfigEntry {
   configType: ScoringConfigType
   scoringType: ScoringType
   metadataField: MetadataFieldKey
-  scoringActionKey?: string
+  scoringActionKey?: SortOptionKey
   thousands: boolean
   label: string
   headerTitle: string
@@ -31,6 +30,37 @@ export interface ScoringConfigEntry {
   supportsDeprioritizeBuffs: boolean
   combatStatsSuffix?: string
   resultSortKey?: SortOptionKey
+}
+
+export enum ScoringType {
+  DPS_SCORE = 0,
+  SUBSTAT_SCORE = 1,
+  NONE = 2,
+  BUFFER_SCORE = 3,
+  HEAL_SCORE = 4,
+  SHIELD_SCORE = 5,
+}
+
+export function isSimScoreMode(scoringType: ScoringType | null | undefined): boolean {
+  return scoringType === ScoringType.DPS_SCORE
+    || scoringType === ScoringType.BUFFER_SCORE
+    || scoringType === ScoringType.HEAL_SCORE
+    || scoringType === ScoringType.SHIELD_SCORE
+}
+
+export function calculateScorePercent(
+  score: number,
+  baseline: number,
+  benchmark: number,
+  perfection: number,
+): number {
+  const clampedPerfection = Math.max(perfection, benchmark)
+  if (score >= benchmark) {
+    const range = clampedPerfection - benchmark
+    return range > 0 ? 1 + (score - benchmark) / range : 1
+  }
+  const range = benchmark - baseline
+  return range > 0 ? (score - baseline) / range : 0
 }
 
 export const CONFIG_DISPLAY_ORDER: ScoringConfigType[] = [
@@ -62,7 +92,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     configType: ScoringConfigType.BUFFER,
     scoringType: ScoringType.BUFFER_SCORE,
     metadataField: 'supportSimulation',
-    scoringActionKey: 'BUFF',
+    scoringActionKey: AbilityKind.BUFF,
     thousands: false,
     label: 'Support Score',
     headerTitle: 'Support Sim',
@@ -94,7 +124,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     supportsUpgrades: false,
     supportsDeprioritizeBuffs: false,
     combatStatsSuffix: 'Heal',
-    resultSortKey: 'COMBO_HEAL',
+    resultSortKey: SortOption.COMBO_HEAL.key,
   },
   [ScoringConfigType.SHIELD]: {
     configType: ScoringConfigType.SHIELD,
@@ -113,7 +143,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     supportsUpgrades: false,
     supportsDeprioritizeBuffs: false,
     combatStatsSuffix: 'Shield',
-    resultSortKey: 'COMBO_SHIELD',
+    resultSortKey: SortOption.COMBO_SHIELD.key,
   },
 }
 
@@ -164,15 +194,8 @@ export function listConfigs(metadata: ScoringMetadata): ScoringConfig[] {
 
 export function hasOverrideContent(override: ScoringMetadataOverride | undefined): boolean {
   if (!override) return false
-  return !!(
-    override.stats
-    || override.parts
-    || override.traces
-    || override.simulation
-    || override.supportSimulation
-    || override.healSimulation
-    || override.shieldSimulation
-  )
+  if (override.stats || override.parts || override.traces) return true
+  return CONFIG_DISPLAY_ORDER.some((ct) => override[SCORING_CONFIG_REGISTRY[ct].metadataField])
 }
 
 export type NormalizedScore = { score: number, grade: string } | { score: null, grade: 'N/A', reason: 'not-scoreable' }

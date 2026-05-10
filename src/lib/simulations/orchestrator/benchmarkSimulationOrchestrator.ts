@@ -25,7 +25,7 @@ import {
   calculateSetNames,
   calculateSimSets,
 } from 'lib/scoring/dpsScore'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { calculateScorePercent, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import {
   calculateMaxSubstatRollCounts,
@@ -41,7 +41,6 @@ import {
   baselineScoringParams,
   benchmarkScoringParams,
   buildCandidateSetPool,
-  calculateScorePercent,
   cloneSimResult,
   cloneWorkerResult,
   invertDiminishingReturnsSpdFormula,

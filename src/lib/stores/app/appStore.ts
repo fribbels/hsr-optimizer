@@ -6,7 +6,7 @@ import {
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { DefaultSettingOptions } from 'lib/constants/settingsConstants'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { ScoringType } from 'lib/scoring/scoringConfig'
 import type {
   GlobalSavedSession,
   HsrOptimizerStore,

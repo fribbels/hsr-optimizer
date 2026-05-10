@@ -83,21 +83,6 @@ export function formatSimScore(value: number, buffStat?: AKeyValue, precision: n
   return Math.floor(value).toLocaleString()
 }
 
-export enum ScoringType {
-  DPS_SCORE = 0,
-  SUBSTAT_SCORE = 1,
-  NONE = 2,
-  BUFFER_SCORE = 3,
-  HEAL_SCORE = 4,
-  SHIELD_SCORE = 5,
-}
-
-export function isSimScoreMode(scoringType: ScoringType | null | undefined): boolean {
-  return scoringType === ScoringType.DPS_SCORE
-    || scoringType === ScoringType.BUFFER_SCORE
-    || scoringType === ScoringType.HEAL_SCORE
-    || scoringType === ScoringType.SHIELD_SCORE
-}
 
 export type ScoringParams = {
   quality: number,
@@ -342,21 +327,6 @@ export function simSorter(a: Simulation, b: Simulation) {
   if (!bResult) return -1
 
   return bResult.simScore - aResult.simScore
-}
-
-export function calculateScorePercent(
-  score: number,
-  baseline: number,
-  benchmark: number,
-  perfection: number,
-): number {
-  const clampedPerfection = Math.max(perfection, benchmark)
-  if (score >= benchmark) {
-    const range = clampedPerfection - benchmark
-    return range > 0 ? 1 + (score - benchmark) / range : 1
-  }
-  const range = benchmark - baseline
-  return range > 0 ? (score - baseline) / range : 0
 }
 
 export function applyScoringFunction(

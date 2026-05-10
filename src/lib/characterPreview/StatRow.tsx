@@ -20,15 +20,11 @@ import {
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
 import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
-import type { AKeyValue } from 'lib/optimization/engine/config/keys'
-import { resolveComboLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
-  formatSimScore,
   getElementalDmgFromContainer,
   type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import type { ScoringConfigType } from 'types/metadata'
 import {
   localeNumber,
   localeNumber_0,
@@ -74,78 +70,44 @@ export const damageStats: Record<string, string> = {
   'Elation': 'Elation',
 }
 
-const displayTextMap: Record<string, string> = {
-  'simScore': 'Combo DMG',
-  'Fire DMG Boost': 'Fire DMG',
-  'Ice DMG Boost': 'Ice DMG',
-  'Imaginary DMG Boost': 'Imaginary DMG',
-  'Lightning DMG Boost': 'Lightning DMG',
-  'Physical DMG Boost': 'Physical DMG',
-  'Quantum DMG Boost': 'Quantum DMG',
-  'Wind DMG Boost': 'Wind DMG',
-  'Elation': 'Elation',
-  'Outgoing Healing Boost': 'Healing Boost',
-  'Energy Regeneration Rate': 'Energy Regen',
-  'BASIC': 'Basic Damage',
-  'ULT': 'Ult Damage',
-  'SKILL': 'Skill Damage',
-  'FUA': 'FUA Damage',
-  'DOT': 'DoT Damage',
-}
+const READABLE_STAT_KEYS: ReadonlySet<string> = new Set([
+  ...Object.keys(damageStats),
+  Stats.OHB,
+  Stats.ERR,
+  'BASIC', 'SKILL', 'ULT', 'FUA', 'DOT',
+])
 
-function StatRowDivider() {
+export function StatRowDivider() {
   return <span role='separator' style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: `1px dashed ${separatorColor}` }} />
 }
 
 export const StatRow = memo(function StatRow({
   stat,
   finalStats,
-  value: customValue,
   edits,
   preciseSpd,
-  buffStat,
-  thousands,
-  configType,
 }: {
-  stat: string,
-  finalStats: BasicStatsObject | ComputedStatsObjectExternal,
-  value?: number,
-  edits?: Record<string, boolean>,
-  preciseSpd?: boolean,
-  buffStat?: AKeyValue,
-  thousands?: boolean,
-  configType?: ScoringConfigType,
+  stat: StatsValues
+  finalStats: BasicStatsObject | ComputedStatsObjectExternal
+  edits?: Record<string, boolean>
+  preciseSpd?: boolean
 }): ReactNode {
   const value = precisionRound(finalStats[stat as keyof typeof finalStats])
 
   const { t, i18n } = useTranslation('common')
 
-  const readableStat: string = stat === 'simScore' && configType != null
-    ? resolveComboLabel(SCORING_CONFIG_REGISTRY[configType], buffStat)
-    : statToLabel(stat, t, i18n)
+  const readableStat = statToLabel(stat, t, i18n)
 
   if (!finalStats) {
     return null
   }
 
-  let valueText: string
-  let titleText: string
-
-  if (stat === 'simScore' && buffStat != null) {
-    valueText = formatSimScore(customValue ?? 0, buffStat, 1, thousands ?? false)
-    titleText = formatSimScore(customValue ?? 0, buffStat, 3, thousands ?? false)
-  } else if (stat === 'simScore') {
-    valueText = formatSimScore(customValue ?? 0, undefined, 1, thousands ?? false)
-    titleText = formatSimScore(customValue ?? 0, undefined, 3, thousands ?? false)
-  } else {
-    const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, customValue ?? 0, stat, preciseSpd)
-    valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' ? '' : '%'}`
-    titleText = value1000thsPrecision
-  }
+  const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, 0, stat, preciseSpd)
+  const valueText = `${valueDisplay}${isFlat(stat) ? '' : '%'}`
 
   return (
     <div
-      title={titleText}
+      title={value1000thsPrecision}
       style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16 }}
     >
       <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
@@ -157,23 +119,19 @@ export const StatRow = memo(function StatRow({
 })
 
 export const AsyncStatRow = memo(function({ promise, type, subType, stat, element, path, elementalDmgValue, edits, preciseSpd }: {
-  promise: Promise<SimulationScore | null>,
-  type: ScoringColumnKind.CHARACTER | ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
-  subType: 'Basic' | 'Combat',
-  stat: string,
-  element: ElementName,
-  path: PathName,
-  elementalDmgValue: string,
-  edits?: Record<string, boolean>,
-  preciseSpd?: boolean,
+  promise: Promise<SimulationScore | null>
+  type: ScoringColumnKind.CHARACTER | ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
+  subType: 'Basic' | 'Combat'
+  stat: StatsValues
+  element: ElementName
+  path: PathName
+  elementalDmgValue: StatsValues
+  edits?: Record<string, boolean>
+  preciseSpd?: boolean
 }) {
   const { t, i18n } = useTranslation('common')
 
-  const readableStat: string = (displayTextMap[stat] || stat === 'CV')
-    ? (i18n.exists(`ReadableStats.${stat}`)
-      ? t(`ReadableStats.${stat as StatsValues}`)
-      : t(`DMGTypes.${stat}` as never))
-    : t(`Stats.${stat as StatsValues}`)
+  const readableStat = statToLabel(stat, t, i18n)
 
   const output = usePromise(promise)
 
@@ -199,7 +157,7 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
   const valueNode = transformed
     ? (
       <span>
-        {`${transformed.valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
+        {`${transformed.valueDisplay}${isFlat(stat) ? '' : '%'}`}
       </span>
     )
     : <Skeleton width={70} />
@@ -217,11 +175,11 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
   )
 })
 
-export function getStatRenderValues(statValue: number, customValue: number, stat: string, preciseSpd?: boolean) {
+export function getStatRenderValues(statValue: number, customValue: number, stat: StatsValues | 'COMBO_DMG', preciseSpd?: boolean) {
   let valueDisplay: string
   let value1000thsPrecision: string
 
-  if (stat === 'simScore' || stat === 'COMBO_DMG') {
+  if (stat === 'COMBO_DMG') {
     valueDisplay = localeNumber_0(truncate10ths(precisionRound((customValue ?? 0) / 1000)))
     value1000thsPrecision = localeNumber_000(precisionRound(customValue))
   } else if (stat === Constants.Stats.SPD) {
@@ -241,8 +199,8 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
   return { valueDisplay, value1000thsPrecision }
 }
 
-function statToLabel(stat: string, t: TFunction<'common'>, i18n: i18n) {
-  return (displayTextMap[stat] || stat === 'CV')
+export function statToLabel(stat: StatsValues, t: TFunction<'common'>, i18n: i18n) {
+  return READABLE_STAT_KEYS.has(stat)
     ? (i18n.exists(`ReadableStats.${stat}`)
       ? t(`ReadableStats.${stat as StatsValues}`)
       : t(`DMGTypes.${stat}` as never))

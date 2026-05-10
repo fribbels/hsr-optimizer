@@ -495,7 +495,7 @@ function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['ch
   // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
   // @ts-expect-error - Migration: legacy save format field not in current types
   if (character.form.resultSort === 'WEIGHT') {
-    character.form.resultSort = 'SPD'
+    character.form.resultSort = SortOption.SPD.key
   }
 
   // Validate that the saved resultSort is a valid sort option, otherwise reset to default

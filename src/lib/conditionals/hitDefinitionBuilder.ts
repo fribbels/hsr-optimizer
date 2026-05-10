@@ -13,15 +13,14 @@ import {
 import type {
   AdditionalHitDefinition,
   BreakHitDefinition,
-  BuffHitDefinition,
   CritHitDefinition,
-  DiscreteConversion,
+  DiscreteBuffHitDefinition,
   DotHitDefinition,
   ElationHitDefinition,
   HealHitDefinition,
   HealTallyHitDefinition,
   HitDefinition,
-  LinearConversion,
+  LinearBuffHitDefinition,
   ShieldHitDefinition,
   SuperBreakHitDefinition,
 } from 'types/hitConditionalTypes'
@@ -237,24 +236,17 @@ HitDefinitionBuilder.healTally = () =>
     directHit: true,
   })
 
-HitDefinitionBuilder.linearBuff = (conversion: Omit<LinearConversion, 'type'>) =>
-  genericBuilder<BuffHitDefinition>({
-    ...BASE_HIT_DEFAULTS,
-    damageFunctionType: DamageFunctionType.Buff,
-    damageType: DamageTag.None,
-    damageElement: ElementTag.None,
-    outputTag: OutputTag.BUFF,
-    directHit: false,
-    conversion: { type: 'linear', ...conversion },
-  })
+const BUFF_DEFAULTS = {
+  ...BASE_HIT_DEFAULTS,
+  damageFunctionType: DamageFunctionType.Buff,
+  damageType: DamageTag.None,
+  damageElement: ElementTag.None,
+  outputTag: OutputTag.BUFF,
+  directHit: false,
+}
 
-HitDefinitionBuilder.discreteBuff = (conversion: Omit<DiscreteConversion, 'type'>) =>
-  genericBuilder<BuffHitDefinition>({
-    ...BASE_HIT_DEFAULTS,
-    damageFunctionType: DamageFunctionType.Buff,
-    damageType: DamageTag.None,
-    damageElement: ElementTag.None,
-    outputTag: OutputTag.BUFF,
-    directHit: false,
-    conversion: { type: 'discrete', ...conversion },
-  })
+HitDefinitionBuilder.linearBuff = () =>
+  genericBuilder<LinearBuffHitDefinition>({ ...BUFF_DEFAULTS, conversionType: 'linear' } as Partial<LinearBuffHitDefinition>)
+
+HitDefinitionBuilder.discreteBuff = () =>
+  genericBuilder<DiscreteBuffHitDefinition>({ ...BUFF_DEFAULTS, conversionType: 'discrete' } as Partial<DiscreteBuffHitDefinition>)

@@ -296,7 +296,10 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
         },
         [AbilityKind.BUFF]: {
           hits: [
-            HitDefinitionBuilder.linearBuff({ buffStat: StatKey.ELATION, sourceStat: StatKey.ELATION, scaling: skillElationBuff })
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ELATION)
+              .sourceStat(StatKey.ELATION)
+              .scaling(skillElationBuff)
               .build(),
           ],
         },

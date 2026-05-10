@@ -81,6 +81,8 @@ export function useCharacterPreviewState(
     })),
   )
 
+  const resolvedTeamSelections = teamSelections ?? EMPTY_TEAM_SELECTIONS
+
   const { globalColorMode, storedScoringType, darkMode } = useGlobalStore(
     useShallow((s) => ({
       globalColorMode: s.savedSession[SavedSessionKeys.showcaseStandardMode]
@@ -118,7 +120,7 @@ export function useCharacterPreviewState(
     editPortraitModalOpen,
     setEditPortraitModalOpen,
     setCustomPortrait,
-    teamSelections: teamSelections ?? EMPTY_TEAM_SELECTIONS,
+    teamSelections: resolvedTeamSelections,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,

@@ -9,8 +9,6 @@ export const CURRENT_OPTIMIZER_VERSION = 'v4.3.1'
 // Represents the beta data content version, used for display but not for update notifications
 export const CURRENT_DATA_VERSION = '4.3v1'
 
-export const ELEMENTAL_DMG_KEY = 'ELEMENTAL_DMG' as const
-
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
 export const RELIQUARY_DOWNTIME = false
@@ -48,6 +46,7 @@ export const Stats = {
 
 type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
+export const ELEMENTAL_DMG_KEY = 'ELEMENTAL_DMG' as const
 
 export const TwoPieceStatTags = [
   Stats.ATK_P,

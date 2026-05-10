@@ -247,7 +247,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         [AbilityKind.BUFF]: {
           hits: [
-            HitDefinitionBuilder.linearBuff({ buffStat: StatKey.ATK, sourceStat: StatKey.ATK, scaling: traceAtkBuffScaling })
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ATK)
+              .sourceStat(StatKey.ATK)
+              .scaling(traceAtkBuffScaling)
               .build(),
           ],
         },

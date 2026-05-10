@@ -1,5 +1,6 @@
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
+  COMBO_DMG_STAT,
   getStatRenderValues,
   StatRow,
   StatRowDivider,
@@ -7,8 +8,6 @@ import {
 import { StatText } from 'lib/characterPreview/StatText'
 import type { StatsValues } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
-
-const COMBO_DMG_STAT = 'COMBO_DMG'
 import {
   GlobalRegister,
   StatKey,

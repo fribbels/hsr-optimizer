@@ -17,8 +17,10 @@ import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import {
   AbilityKind,
+  NULL_TURN_ABILITY_NAME,
   toTurnAbility,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
@@ -87,7 +89,11 @@ import type {
   Form,
   OptimizerForm,
 } from 'types/form'
-import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
+import {
+  ScoringConfigType,
+  type ScoringConfig,
+  type SimulationMetadata,
+} from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
 export function enrichSimulationMetadata(metadata: SimulationMetadata) {
@@ -140,6 +146,19 @@ export function enrichSimulationMetadata(metadata: SimulationMetadata) {
   if (addEffectHitRate && !metadata.parts[Parts.Body].includes(Stats.EHR)) {
     metadata.parts[Parts.Body].push(Stats.EHR)
   }
+}
+
+function calculateResRollsDeduction(
+  simulationResult: RunStatSimulationsResult,
+  flags: SimulationFlags,
+  quality: number,
+): number {
+  if (flags.benchmarkBasicResTarget <= 0) return 0
+  const baseRes = simulationResult.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
+  const resGap = flags.benchmarkBasicResTarget - baseRes
+  if (resGap <= 0) return 0
+  const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, quality)
+  return Math.min(Math.max(0, resGap / resMaxedSubValue), 10)
 }
 
 export class BenchmarkSimulationOrchestrator {
@@ -198,11 +217,26 @@ export class BenchmarkSimulationOrchestrator {
     enrichSimulationMetadata(this.metadata)
   }
 
-  /**
-   * Apply RES equalization flag based on the original sim result.
-   * Called by prepareOrchestrator() after setOriginalBuild() for non-DPS types.
-   */
-  public applyBasicResTargetFlag() {
+  public applyConfigOverrides(config: ScoringConfig) {
+    const entry = SCORING_CONFIG_REGISTRY[config.configType]
+    if (entry.resultSortKey) {
+      this.form!.resultSort = entry.resultSortKey
+    }
+
+    if (config.simulation.comboTurnAbilities) {
+      this.form!.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, ...config.simulation.comboTurnAbilities]
+      this.form!.comboType = ComboType.ADVANCED
+    }
+
+    if (config.configType === ScoringConfigType.BUFFER) {
+      this.form!.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 4
+    }
+  }
+
+  public applyResEqualization() {
+    const entry = SCORING_CONFIG_REGISTRY[this.configType]
+    if (!entry.applyResEqualization) return
+
     const combatRes = this.originalSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
     if (combatRes >= 0.50) {
       this.flags.benchmarkBasicResTarget = combatRes
@@ -347,6 +381,7 @@ export class BenchmarkSimulationOrchestrator {
     const form = this.form!
     const context = this.context!
     const flags = this.flags
+    const baselineSimResult = this.baselineSimResult!
 
     const originalSim: Simulation = {
       simType: StatSimTypes.SubstatRolls,
@@ -358,8 +393,6 @@ export class BenchmarkSimulationOrchestrator {
       mainStatMultiplier: 1,
       simulationFlags: this.flags,
     }
-
-    const baselineSimResult = this.baselineSimResult!
 
     this.spdBenchmark = inputSpdBenchmark != null
       ? Math.max(baselineSimResult.x.c.SPD.get(), inputSpdBenchmark)
@@ -455,16 +488,7 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
-      // Find the RES deduction (if equalized)
-      if (flags.benchmarkBasicResTarget > 0) {
-        const baseRes = simulationResult.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
-        const resGap = flags.benchmarkBasicResTarget - baseRes
-        if (resGap > 0) {
-          const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, clonedBenchmarkScoringParams.quality)
-          const resRolls = resGap / resMaxedSubValue
-          partialSimulationWrapper.resRollsDeduction = Math.min(Math.max(0, resRolls), 10)
-        }
-      }
+      partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedBenchmarkScoringParams.quality)
 
       // Define min/max limits
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
@@ -547,16 +571,7 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
-      // Find the RES deduction (if equalized)
-      if (flags.benchmarkBasicResTarget > 0) {
-        const baseRes = simulationResult.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
-        const resGap = flags.benchmarkBasicResTarget - baseRes
-        if (resGap > 0) {
-          const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, clonedPerfectionScoringParams.quality)
-          const resRolls = resGap / resMaxedSubValue
-          partialSimulationWrapper.resRollsDeduction = Math.min(Math.max(0, resRolls), 10)
-        }
-      }
+      partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedPerfectionScoringParams.quality)
 
       // Define min/max limits
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)

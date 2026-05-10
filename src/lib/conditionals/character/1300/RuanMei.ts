@@ -183,7 +183,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
       [AbilityKind.BUFF]: {
         hits: [
-          HitDefinitionBuilder.discreteBuff({ buffStat: StatKey.DMG_BOOST, sourceStat: StatKey.BE, whenAbove: 1.20, forEvery: 0.10, increaseBy: 0.06, cappedAt: 0.36 })
+          HitDefinitionBuilder.discreteBuff()
+            .buffStat(StatKey.DMG_BOOST)
+            .sourceStat(StatKey.BE)
+            .whenAbove(1.20)
+            .forEvery(0.10)
+            .increaseBy(0.06)
+            .cappedAt(0.36)
             .build(),
         ],
       },

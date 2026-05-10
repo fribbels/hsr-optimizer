@@ -137,7 +137,8 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
 
   const transformed = useMemo(() => {
     if (!output) return null
-    const simResult = output[type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim'].result
+    const sim = type === ScoringColumnKind.BENCHMARK ? output.benchmarkSim : output.maximumSim
+    const simResult = sim.result
     if (!simResult) return null
     const stats = subType === 'Basic'
       ? toBasicStatsObject(simResult.ca)
@@ -175,11 +176,13 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
   )
 })
 
-export function getStatRenderValues(statValue: number, customValue: number, stat: StatsValues | 'COMBO_DMG', preciseSpd?: boolean) {
+export const COMBO_DMG_STAT = 'COMBO_DMG' as const
+
+export function getStatRenderValues(statValue: number, customValue: number, stat: StatsValues | typeof COMBO_DMG_STAT, preciseSpd?: boolean) {
   let valueDisplay: string
   let value1000thsPrecision: string
 
-  if (stat === 'COMBO_DMG') {
+  if (stat === COMBO_DMG_STAT) {
     valueDisplay = localeNumber_0(truncate10ths(precisionRound((customValue ?? 0) / 1000)))
     value1000thsPrecision = localeNumber_000(precisionRound(customValue))
   } else if (stat === Constants.Stats.SPD) {

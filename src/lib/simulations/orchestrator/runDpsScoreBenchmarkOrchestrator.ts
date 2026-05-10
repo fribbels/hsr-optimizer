@@ -1,9 +1,7 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import { CUSTOM_TEAM, Sets, type TeamSelection } from 'lib/constants/constants'
+import { CUSTOM_TEAM, type TeamSelection } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import type { SortOptionKey } from 'lib/optimization/sortOptions'
-import { ComboType } from 'lib/optimization/rotation/comboType'
-import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import { CONFIG_FIELD_MAP, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
@@ -43,23 +41,7 @@ export function prepareOrchestrator(
   orchestrator.setSimSetsWithSimRequest()
   orchestrator.setCandidateSetPool()
   orchestrator.setSimForm(character.form, config.simulation)
-
-  // Override resultSort based on config type
-  const entry = SCORING_CONFIG_REGISTRY[config.configType]
-  if (entry.resultSortKey) {
-    orchestrator.form!.resultSort = entry.resultSortKey
-  }
-
-  // Override comboTurnAbilities from the active config's simulation.
-  if (config.simulation.comboTurnAbilities) {
-    orchestrator.form!.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, ...config.simulation.comboTurnAbilities]
-    orchestrator.form!.comboType = ComboType.ADVANCED
-  }
-
-  // Buffer-specific: force Sacerdos 4p
-  if (config.configType === ScoringConfigType.BUFFER) {
-    orchestrator.form!.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 4
-  }
+  orchestrator.applyConfigOverrides(config)
 
   orchestrator.setSimContext()
   orchestrator.setFlags()
@@ -67,11 +49,7 @@ export function prepareOrchestrator(
   orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
   orchestrator.precomputePoolState()
-
-  // RES equalization for non-DPS types (healers/shielders often invest in RES)
-  if (entry.applyResEqualization) {
-    orchestrator.applyBasicResTargetFlag()
-  }
+  orchestrator.applyResEqualization()
 
   // Apply scoring function now so the preview simScore matches what calculateScores
   // will produce later. This is idempotent — applyScoringFunction reads from

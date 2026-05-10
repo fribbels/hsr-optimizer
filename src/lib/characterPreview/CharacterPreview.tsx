@@ -710,9 +710,7 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
   const activeConfigType = configType ?? ScoringConfigType.DPS
   const preview = useSimPreview(activeConfigType)
   const simScore = preview?.originalSimResult.simScore ?? 0
-  const buffStat = configType
-    ? preview?.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[configType]]?.buffStat
-    : undefined
+  const buffStat = preview?.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[activeConfigType]]?.buffStat
   return (
     <CharacterStatSummary
       characterId={characterId}

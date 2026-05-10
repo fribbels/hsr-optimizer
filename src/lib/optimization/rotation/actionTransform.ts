@@ -50,8 +50,8 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     actionDef.actionKind = actionDeclaration
     action.actionType = actionDeclaration
     action.hits = actionDef.hits as Hit[]
-    if (action.hits?.[0] && 'conversion' in action.hits[0]) {
-      action.buffStat = action.hits[0].conversion.buffStat
+    if (action.hits?.[0] && 'buffStat' in action.hits[0]) {
+      action.buffStat = action.hits[0].buffStat
     }
 
     for (const modifier of context.actionModifiers) {

@@ -898,21 +898,20 @@ export const ElationDamageFunction: DamageFunction = {
 export const BuffDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex) => {
     const hit = action.hits![hitIndex] as BuffHit
-    const c = hit.conversion
     const scalingEntityIndex = hit.scalingEntityIndex ?? hit.sourceEntityIndex ?? 0
-    const stat = x.getValue(c.sourceStat, hitIndex, scalingEntityIndex)
+    const stat = x.getValue(hit.sourceStat, hitIndex, scalingEntityIndex)
 
     let baseBuffValue: number
 
-    switch (c.type) {
+    switch (hit.conversionType) {
       case 'discrete': {
-        const excess = Math.max(0, stat - c.whenAbove)
-        const steps = Math.floor(precisionRound(excess / c.forEvery))
-        baseBuffValue = Math.min(c.cappedAt, steps * c.increaseBy)
+        const excess = Math.max(0, stat - hit.whenAbove)
+        const steps = Math.floor(precisionRound(excess / hit.forEvery))
+        baseBuffValue = Math.min(hit.cappedAt, steps * hit.increaseBy)
         break
       }
       case 'linear': {
-        baseBuffValue = c.scaling * stat + (c.flat ?? 0)
+        baseBuffValue = hit.scaling * stat + (hit.flat ?? 0)
         break
       }
     }
@@ -922,7 +921,6 @@ export const BuffDamageFunction: DamageFunction = {
   },
   wgsl: (action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as BuffHit
-    const c = hit.conversion
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
     const scalingEntityIndex = hit.scalingEntityIndex ?? entityIndex
@@ -933,21 +931,21 @@ export const BuffDamageFunction: DamageFunction = {
 
     let formulaWgsl: string
 
-    switch (c.type) {
+    switch (hit.conversionType) {
       case 'discrete': {
-        const stat = getScalingValue(c.sourceStat)
+        const stat = getScalingValue(hit.sourceStat)
         formulaWgsl = `
   let stat = ${stat};
-  let excess = max(0.0, stat - ${c.whenAbove});
-  let steps = floor(excess / ${c.forEvery});
-  let baseBuffValue = min(${c.cappedAt}, steps * ${c.increaseBy});`
+  let excess = max(0.0, stat - ${hit.whenAbove});
+  let steps = floor(excess / ${hit.forEvery});
+  let baseBuffValue = min(${hit.cappedAt}, steps * ${hit.increaseBy});`
         break
       }
       case 'linear': {
-        const stat = getScalingValue(c.sourceStat)
+        const stat = getScalingValue(hit.sourceStat)
         formulaWgsl = `
   let stat = ${stat};
-  let baseBuffValue = ${c.scaling} * stat + ${c.flat ?? 0};`
+  let baseBuffValue = ${hit.scaling} * stat + ${hit.flat ?? 0};`
         break
       }
     }

@@ -222,7 +222,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         [AbilityKind.BUFF]: {
           hits: [
-            HitDefinitionBuilder.linearBuff({ buffStat: StatKey.ATK, sourceStat: StatKey.ATK, scaling: ultAtkBuffScalingValue, flat: ultAtkBuffFlatValue })
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ATK)
+              .sourceStat(StatKey.ATK)
+              .scaling(ultAtkBuffScalingValue)
+              .flat(ultAtkBuffFlatValue)
               .build(),
           ],
         },

@@ -40,22 +40,28 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   const { characterMetadata } = showcaseMetadata
   const scoringMeta = characterMetadata.scoringMetadata
 
+  const hasAnySimulation = CONFIG_DISPLAY_ORDER.some((configType) => hasConfig(scoringMeta, configType))
+
   const segmentData = useMemo(() => {
-    const simSegments = CONFIG_DISPLAY_ORDER
-      .filter((configType) => hasConfig(scoringMeta, configType))
-      .map((configType) => {
-        const entry = SCORING_CONFIG_REGISTRY[configType]
-        return { label: entry.label, value: String(entry.scoringType) }
+    const segments: { label: string, value: string }[] = []
+    for (const configType of CONFIG_DISPLAY_ORDER) {
+      if (!hasConfig(scoringMeta, configType)) continue
+      const entry = SCORING_CONFIG_REGISTRY[configType]
+      segments.push({
+        label: entry.label,
+        value: String(entry.scoringType),
       })
-
-    return [
-      ...simSegments,
-      { label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), value: String(ScoringType.SUBSTAT_SCORE) },
-      { label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), value: String(ScoringType.NONE) },
-    ]
+    }
+    segments.push({
+      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'),
+      value: String(ScoringType.SUBSTAT_SCORE),
+    })
+    segments.push({
+      label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'),
+      value: String(ScoringType.NONE),
+    })
+    return segments
   }, [scoringMeta, t])
-
-  const hasAnySimulation = segmentData.length > 2
 
   const handleScoringTypeChange = useCallback((selection: string) => {
     const value = Number(selection) as ScoringType

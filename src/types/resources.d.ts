@@ -381,7 +381,8 @@ interface Resources {
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
       "SPD": "SPD",
       "SPD%": "SPD %",
-      "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG"
+      "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
+      "simScore": "Sim Score"
     },
     "RelicWithCount_one": "{{count}} relic",
     "RelicWithCount_other": "{{count}} relics",
@@ -7305,6 +7306,7 @@ interface Resources {
       "BUFF": "Sorted by Buff",
       "CD": "Sorted by $t(common:ReadableStats.CRIT DMG)",
       "COMBO": "Sorted by Combo DMG",
+      "COMBO_BUFF": "Sorted by Combo Buff",
       "COMBO_HEAL": "Sorted by Combo Heal",
       "COMBO_SHIELD": "Sorted by Combo Shield",
       "CR": "Sorted by $t(common:ReadableStats.CRIT Rate)",

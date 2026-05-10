@@ -39,6 +39,7 @@ SortOptions:
   StatLabel: Stats
   BUFF: Sorted by Buff
   COMBO: Sorted by Combo DMG
+  COMBO_BUFF: Sorted by Combo Buff
   COMBO_HEAL: Sorted by Combo Heal
   COMBO_SHIELD: Sorted by Combo Shield
   BASIC: Sorted by Basic DMG

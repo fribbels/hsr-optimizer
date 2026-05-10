@@ -18,11 +18,16 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import {
+  containerActionVal,
+  getGlobalRegisterIndexWgsl,
+} from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -181,8 +186,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         hits: [
           HitDefinitionBuilder.buff()
             .buffStat(StatKey.CD)
-            .cdScaling(effectiveCdScaling)
-            .flatBuff(skillCdBuffBase)
             .build(),
         ],
       },
@@ -249,8 +252,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const cd = x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX)
+      x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, cd * effectiveCdScaling + skillCdBuffBase)
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return wgsl`(*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)} * ${effectiveCdScaling} + ${skillCdBuffBase};`
+    },
 
     dynamicConditionals: [
       {

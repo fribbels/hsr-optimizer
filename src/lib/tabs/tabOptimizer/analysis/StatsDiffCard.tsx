@@ -7,6 +7,8 @@ import {
 import { StatText } from 'lib/characterPreview/StatText'
 import type { StatsValues } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
+
+const COMBO_DMG_STAT = 'COMBO_DMG'
 import {
   GlobalRegister,
   StatKey,
@@ -101,7 +103,7 @@ function ComboDiffRow({ oldValue, newValue }: {
 }) {
   const { t } = useTranslation('common')
   const oldDisplay = formatSimScore(oldValue, undefined, 1, false)
-  const { valueDisplay: newDisplay } = getStatRenderValues(newValue, newValue, 'COMBO_DMG', false)
+  const { valueDisplay: newDisplay } = getStatRenderValues(newValue, newValue, COMBO_DMG_STAT, false)
 
   return (
     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
@@ -119,10 +121,10 @@ function ComboDiffRow({ oldValue, newValue }: {
       </span>
 
       <div className={classes.newValueColumn} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <RenderValue value={newDisplay} stat='COMBO_DMG' />
+        <RenderValue value={newDisplay} stat={COMBO_DMG_STAT} />
       </div>
 
-      <DiffRender oldValue={oldValue} newValue={newValue} stat='COMBO_DMG' />
+      <DiffRender oldValue={oldValue} newValue={newValue} stat={COMBO_DMG_STAT} />
     </div>
   )
 }
@@ -161,9 +163,9 @@ function DiffRow({ oldStats, newStats, stat }: {
   )
 }
 
-function RenderValue({ value, stat, comboDiff }: { value: string | number, stat: StatsValues | 'COMBO_DMG', comboDiff?: boolean }) {
+function RenderValue({ value, stat, comboDiff }: { value: string | number, stat: StatsValues | typeof COMBO_DMG_STAT, comboDiff?: boolean }) {
   const { t } = useTranslation('common')
-  if (stat === 'COMBO_DMG') {
+  if (stat === COMBO_DMG_STAT) {
     return value + (comboDiff ? '%' : t('ThousandsSuffix'))
   } else if (isFlat(stat)) {
     return value
@@ -171,7 +173,7 @@ function RenderValue({ value, stat, comboDiff }: { value: string | number, stat:
   return value + '%'
 }
 
-function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: number, stat: StatsValues | 'COMBO_DMG' }) {
+function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: number, stat: StatsValues | typeof COMBO_DMG_STAT }) {
   if (visualDiff(newValue, oldValue, stat) === 0) return null
 
   const increase = newValue > oldValue
@@ -190,8 +192,8 @@ function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: 
   )
 }
 
-function getStatDiffRenderValues(statValue: number, customValue: number, stat: StatsValues | 'COMBO_DMG') {
-  if (stat === 'COMBO_DMG') {
+function getStatDiffRenderValues(statValue: number, customValue: number, stat: StatsValues | typeof COMBO_DMG_STAT) {
+  if (stat === COMBO_DMG_STAT) {
     const valueDisplay = `${truncate10ths(precisionRound(customValue ?? 0)).toFixed(1)}`
     const value1000thsPrecision = precisionRound(customValue).toFixed(3)
     return {
@@ -202,12 +204,12 @@ function getStatDiffRenderValues(statValue: number, customValue: number, stat: S
   return getStatRenderValues(statValue, customValue, stat)
 }
 
-function visualDiff(n1: number, n2: number, stat: StatsValues | 'COMBO_DMG') {
+function visualDiff(n1: number, n2: number, stat: StatsValues | typeof COMBO_DMG_STAT) {
   if (stat === Stats.SPD) {
     return precisionRound(truncate10ths(n1) - truncate10ths(n2))
   } else if (isFlat(stat)) {
     return precisionRound(Math.floor(n1) - Math.floor(n2))
-  } else if (stat === 'COMBO_DMG') {
+  } else if (stat === COMBO_DMG_STAT) {
     return precisionRound((n1 / n2 - 1) * 100)
   } else {
     return precisionRound(truncate1000ths(n1) - truncate1000ths(n2))

@@ -111,6 +111,7 @@ export function simulateBuild(
   let comboDmg = 0
   let comboHeal = 0
   let comboShield = 0
+  let comboBuff = 0
 
   const defaultActions = context.defaultActions
 
@@ -165,6 +166,8 @@ export function simulateBuild(
           comboHeal += dmg
         } else if (hit.outputTag === OutputTag.SHIELD) {
           comboShield += dmg
+        } else if (hit.outputTag === OutputTag.BUFF) {
+          comboBuff = dmg
         }
       }
     }
@@ -233,6 +236,9 @@ export function simulateBuild(
 
         if (hit.recorded !== false) {
           sum += dmg
+          if (hit.outputTag === OutputTag.BUFF) {
+            comboBuff = dmg
+          }
         }
       }
 
@@ -260,6 +266,7 @@ export function simulateBuild(
   x.setGlobalRegisterValue(GlobalRegister.COMBO_DMG, comboDmg)
   x.setGlobalRegisterValue(GlobalRegister.COMBO_HEAL, comboHeal)
   x.setGlobalRegisterValue(GlobalRegister.COMBO_SHIELD, comboShield)
+  x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, comboBuff)
 
   return {
     x,

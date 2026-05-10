@@ -340,19 +340,9 @@ export function applyScoringFunction(
   if (!result) return
 
   const entry = SCORING_CONFIG_REGISTRY[configType]
-  let unpenalizedSimScore: number
-  if (entry.scoringActionKey) {
-    unpenalizedSimScore = getActionRegisterByName(result, context, entry.scoringActionKey)
-  } else {
-    unpenalizedSimScore = result.x.getGlobalRegisterValue(entry.comboRegister)
-  }
+  const unpenalizedSimScore = result.x.getGlobalRegisterValue(entry.comboRegister)
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
-}
-
-function getActionRegisterByName(result: RunStatSimulationsResult, context: OptimizerContext, name: string): number {
-  const action = context.defaultActions.find((a) => a.actionName === name)
-  return action ? result.x.getActionRegisterValue(action.registerIndex) : 0
 }
 
 function calculatePenaltyMultiplier(

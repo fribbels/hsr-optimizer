@@ -10,11 +10,12 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { containerActionVal } from 'lib/gpu/injection/injectUtils'
+import { containerActionVal, getGlobalRegisterIndexWgsl } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   AKey,
+  GlobalRegister,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import {
@@ -185,13 +186,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         hits: [
           HitDefinitionBuilder.buff()
             .buffStat(StatKey.DMG_BOOST)
-            .stepParams({
-              statKey: StatKey.BE,
-              threshold: 1.20,
-              stepSize: 0.10,
-              stepValue: 0.06,
-              cap: 0.36,
-            })
             .build(),
         ],
       },
@@ -241,17 +235,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // Trace: DMG boost based on BE over 120%
       const be = x.getActionValue(StatKey.BE, RuanMeiEntities.RuanMei)
       const beOver = floorSafe((be * 100 - 120) / 10)
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
       x.buff(StatKey.DMG_BOOST, buffValue, x.source(SOURCE_TRACE))
+      x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, buffValue)
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return wgsl`
 let beOver = floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} * 100.0 - 120.0) / 10.0);
 let beDmgBuff = min(0.36, max(0.0, beOver) * 0.06);
 ${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
+(*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = beDmgBuff;
       `
     },
   }

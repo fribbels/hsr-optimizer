@@ -24,13 +24,15 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { containerActionVal, getGlobalRegisterIndexWgsl } from 'lib/gpu/injection/injectUtils'
+import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { type ModifierContext } from 'lib/optimization/context/calculateActions'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -298,14 +300,6 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
           hits: [
             HitDefinitionBuilder.buff()
               .buffStat(StatKey.ELATION)
-              .piecewiseParams({
-                statKey: StatKey.SPD,
-                threshold: 120,
-                slope: 0.01,
-                flat: 0.30,
-                slopeCap: 200,
-                shareScaling: skillElationBuff,
-              })
               .build(),
           ],
         },
@@ -392,8 +386,20 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       x.buff(StatKey.UNCONVERTIBLE_ELATION_BUFF, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
       x.buff(StatKey.ELATION, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
     },
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
+      if (spd >= 120) {
+        const over = Math.min(200, spd - 120)
+        x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, (0.30 + over * 0.01) * skillElationBuff)
+      }
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => wgsl`
+{
+  let spd = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)};
+  let over = max(0.0, spd - 120.0);
+  (*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = select(0.0, (0.30 + min(200.0, over) * 0.01) * ${skillElationBuff}, spd >= 120.0);
+}
+`,
     dynamicConditionals: [
       {
         id: 'YaoguangSpdElationConditional',

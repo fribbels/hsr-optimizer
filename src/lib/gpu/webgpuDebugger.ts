@@ -91,7 +91,7 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
         } else if (hit.outputTag === OutputTag.SHIELD) {
           fields.SHIELD += hitValue
         } else if (hit.outputTag === OutputTag.BUFF) {
-          fields.BUFF += hitValue
+          fields.BUFF = hitValue
         }
       }
     }

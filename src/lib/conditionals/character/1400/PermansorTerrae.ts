@@ -24,10 +24,16 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
+import {
+  containerActionVal,
+  getGlobalRegisterIndexWgsl,
+} from 'lib/gpu/injection/injectUtils'
+import { wgsl } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -249,7 +255,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           hits: [
             HitDefinitionBuilder.buff()
               .buffStat(StatKey.ATK)
-              .atkScaling(traceAtkBuffScaling)
               .build(),
           ],
         },
@@ -305,9 +310,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
+      const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
+      x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, atk * traceAtkBuffScaling)
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+        + wgsl`(*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} * ${traceAtkBuffScaling};`
     },
   }
 }

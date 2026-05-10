@@ -239,7 +239,7 @@ HitDefinitionBuilder.buff = () =>
   genericBuilder<BuffHitDefinition>({
     ...BASE_HIT_DEFAULTS,
     damageFunctionType: DamageFunctionType.Buff,
-    damageType: 0,
+    damageType: DamageTag.None,
     damageElement: ElementTag.None,
     outputTag: OutputTag.BUFF,
     directHit: false,

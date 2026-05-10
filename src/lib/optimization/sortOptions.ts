@@ -79,6 +79,7 @@ export const SortOption: {
   COMBO: SortOptionProperties,
   COMBO_HEAL: SortOptionProperties,
   COMBO_SHIELD: SortOptionProperties,
+  COMBO_BUFF: SortOptionProperties,
   BASIC_HEAL: SortOptionProperties,
   SKILL_HEAL: SortOptionProperties,
   ULT_HEAL: SortOptionProperties,
@@ -134,7 +135,8 @@ export const SortOption: {
   FUA_SHIELD: computed('FUA_SHIELD'),
   TALENT_SHIELD: computed('TALENT_SHIELD'),
 
-  // Computed buff rating
+  // Computed buff ratings
+  COMBO_BUFF: { ...computed('COMBO_BUFF'), globalRegisterIndex: GlobalRegister.COMBO_BUFF },
   BUFF: computed('BUFF'),
 }
 

@@ -1,5 +1,4 @@
 import { type AKeyValue, getAKeyName, GlobalRegister } from 'lib/optimization/engine/config/keys'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption, type SortOptionKey } from 'lib/optimization/sortOptions'
 import { getSimScoreGrade } from 'lib/scoring/dpsScore'
 import {
@@ -15,7 +14,6 @@ export interface ScoringConfigEntry {
   configType: ScoringConfigType
   scoringType: ScoringType
   metadataField: MetadataFieldKey
-  scoringActionKey?: SortOptionKey
   thousands: boolean
   label: string
   headerTitle: string
@@ -24,6 +22,7 @@ export interface ScoringConfigEntry {
   comboLabel: string
   mainsFreeCount: number
   comboRegister: number
+  requiresDefaultActions: boolean
   capFlatSubstats: boolean
   applyResEqualization: boolean
   supportsUpgrades: boolean
@@ -83,6 +82,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     comboLabel: 'Combo DMG',
     mainsFreeCount: 0,
     comboRegister: GlobalRegister.COMBO_DMG,
+    requiresDefaultActions: false,
     capFlatSubstats: true,
     applyResEqualization: false,
     supportsUpgrades: true,
@@ -92,7 +92,6 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     configType: ScoringConfigType.BUFFER,
     scoringType: ScoringType.BUFFER_SCORE,
     metadataField: 'supportSimulation',
-    scoringActionKey: AbilityKind.BUFF,
     thousands: false,
     label: 'Support Score',
     headerTitle: 'Support Sim',
@@ -100,12 +99,14 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     rulerLabel: 'Buff',
     comboLabel: 'Buff',
     mainsFreeCount: 2,
-    comboRegister: GlobalRegister.COMBO_DMG,
+    comboRegister: GlobalRegister.COMBO_BUFF,
+    requiresDefaultActions: true,
     capFlatSubstats: false,
     applyResEqualization: true,
     supportsUpgrades: false,
     supportsDeprioritizeBuffs: false,
     combatStatsSuffix: 'Support',
+    resultSortKey: SortOption.COMBO_BUFF.key,
   },
   [ScoringConfigType.HEAL]: {
     configType: ScoringConfigType.HEAL,
@@ -119,6 +120,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     comboLabel: 'Combo Heal',
     mainsFreeCount: 2,
     comboRegister: GlobalRegister.COMBO_HEAL,
+    requiresDefaultActions: false,
     capFlatSubstats: false,
     applyResEqualization: true,
     supportsUpgrades: false,
@@ -138,6 +140,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     comboLabel: 'Combo Shield',
     mainsFreeCount: 2,
     comboRegister: GlobalRegister.COMBO_SHIELD,
+    requiresDefaultActions: false,
     capFlatSubstats: false,
     applyResEqualization: true,
     supportsUpgrades: false,

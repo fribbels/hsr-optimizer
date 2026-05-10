@@ -2,6 +2,7 @@ import type {
   AKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import type {
+  DamageTag,
   ElementTag,
   OutputTag,
 } from 'lib/optimization/engine/config/tag'
@@ -105,34 +106,9 @@ export interface ElationHitDefinition extends BaseHitDefinition {
 
 export interface BuffHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Buff
-  damageType: 0
+  damageType: DamageTag.None
   outputTag: OutputTag.BUFF
   buffStat: AKeyValue
-
-  // Linear formula params (Bronya, Robin, etc.)
-  cdScaling?: number
-  beScaling?: number
-  flatBuff?: number
-  // atkScaling, hpScaling, defScaling already on BaseHitDefinition
-
-  // Step function params (Ruan Mei)
-  stepParams?: {
-    statKey: AKeyValue
-    threshold: number
-    stepSize: number
-    stepValue: number
-    cap: number
-  }
-
-  // Piecewise linear params (Yaoguang)
-  piecewiseParams?: {
-    statKey: AKeyValue
-    threshold: number
-    slope: number
-    flat: number
-    slopeCap: number
-    shareScaling: number
-  }
 }
 
 // Union type for all hit definitions

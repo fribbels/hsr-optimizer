@@ -206,12 +206,13 @@ function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: Computed
   let gpuHeal = 0
   let cpuShield = 0
   let gpuShield = 0
+  let cpuBuff = 0
+  let gpuBuff = 0
 
   for (const action of context.rotationActions) {
     cpuCombo += cpuContainer.getActionRegisterValue(action.registerIndex)
     gpuCombo += gpuContainer.getActionRegisterValue(action.registerIndex)
 
-    // Extract heal/shield values from hit registers
     if (action.hits) {
       for (const hit of action.hits) {
         const cpuHitValue = cpuContainer.getHitRegisterValue(hit.registerIndex)
@@ -226,9 +227,22 @@ function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: Computed
       }
     }
   }
+
+  for (const action of context.defaultActions) {
+    if (action.hits) {
+      for (const hit of action.hits) {
+        if (hit.outputTag === OutputTag.BUFF) {
+          cpuBuff = cpuContainer.getHitRegisterValue(hit.registerIndex)
+          gpuBuff = gpuContainer.getHitRegisterValue(hit.registerIndex)
+        }
+      }
+    }
+  }
+
   analyze('COMBO_REGISTER', cpuCombo, gpuCombo, getDynamicComboPrecision(Math.max(cpuCombo, gpuCombo)))
   analyze('HEAL_REGISTER', cpuHeal, gpuHeal, P_2)
   analyze('SHIELD_REGISTER', cpuShield, gpuShield, P_2)
+  analyze('BUFF_REGISTER', cpuBuff, gpuBuff, P_2)
 
   // Compare individual action register values
   for (const action of context.defaultActions) {

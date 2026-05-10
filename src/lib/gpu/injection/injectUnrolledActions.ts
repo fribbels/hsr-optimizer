@@ -51,7 +51,7 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 }
 
 function generateUnrolledActions(request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  let calls = '\n    var comboDmg: f32 = 0;\n    var comboHeal: f32 = 0;\n    var comboShield: f32 = 0;\n'
+  let calls = '\n    var comboDmg: f32 = 0;\n    var comboHeal: f32 = 0;\n    var comboShield: f32 = 0;\n    var comboBuff: f32 = 0;\n'
   let functions = ''
 
   for (let i = 0; i < context.defaultActions.length; i++) {
@@ -102,9 +102,11 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
     const comboGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_DMG, context)
     const healGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_HEAL, context)
     const shieldGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_SHIELD, context)
+    const buffGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)
     calls += `    debugContainer[${comboGlobalRegIdx}] = comboDmg; // GlobalRegister[COMBO_DMG]\n`
     calls += `    debugContainer[${healGlobalRegIdx}] = comboHeal; // GlobalRegister[COMBO_HEAL]\n`
     calls += `    debugContainer[${shieldGlobalRegIdx}] = comboShield; // GlobalRegister[COMBO_SHIELD]\n`
+    calls += `    debugContainer[${buffGlobalRegIdx}] = comboBuff; // GlobalRegister[COMBO_BUFF]\n`
     calls += `
     results[indexGlobal * CYCLES_PER_INVOCATION + i] = debugContainer;
 `
@@ -119,6 +121,7 @@ function isAbilitySortAction(request: Form, action: OptimizerAction): boolean {
     && sortOption.key !== SortOption.COMBO.key
     && sortOption.key !== SortOption.COMBO_HEAL.key
     && sortOption.key !== SortOption.COMBO_SHIELD.key
+    && sortOption.key !== SortOption.COMBO_BUFF.key
     && sortOption.key !== SortOption.EHP.key
     && action.actionName === sortOption.key
 }
@@ -267,6 +270,14 @@ ${compactWrite('comboShield')}
 `
   }
 
+  if (sortKey === SortOption.COMBO_BUFF.key) {
+    return `
+    if (comboBuff > threshold) {
+${compactWrite('comboBuff')}
+    }
+`
+  }
+
   if (sortKey === SortOption.EHP.key) {
     return `
     if (ehp0 > threshold) {
@@ -378,6 +389,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       &comboDmg,
       &comboHeal,
       &comboShield,
+      &comboBuff,
       &container${index},
       &sets,
       &c,
@@ -400,6 +412,7 @@ fn unrolledAction${index}(
   p_comboDmg: ptr<function, f32>,
   p_comboHeal: ptr<function, f32>,
   p_comboShield: ptr<function, f32>,
+  p_comboBuff: ptr<function, f32>,
   p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>,
   p_sets: ptr<function, Sets>,
   p_c: ptr<function, BasicStats>,
@@ -446,6 +459,7 @@ fn unrolledAction${index}(
   *p_comboDmg += comboDmg;
   *p_comboHeal += comboHeal;
   *p_comboShield += comboShield;
+  *p_comboBuff += comboBuff;
 
   // Return total for debug register copy
   return comboDmg + comboHeal + comboShield + comboBuff;
@@ -455,6 +469,7 @@ fn unrolledAction${index}(
     actionCall = `
     var container${index}: array<f32, ${context.maxContainerArrayLength}> = precomputedStats[${index}];
     let dmg${index} = unrolledAction${index}(
+      &comboBuff,
       &container${index},
       &sets,
       &c,
@@ -474,6 +489,7 @@ fn unrolledAction${index}(
 
     actionFunction = `
 fn unrolledAction${index}(
+  p_comboBuff: ptr<function, f32>,
   p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>,
   p_sets: ptr<function, Sets>,
   p_c: ptr<function, BasicStats>,
@@ -515,6 +531,9 @@ fn unrolledAction${index}(
   ${setTerminalWgsl}
 
   ${damageCalculationWgsl}
+
+  // Accumulate BUFF into outer scope
+  *p_comboBuff += comboBuff;
 
   // Combat stat filters
 

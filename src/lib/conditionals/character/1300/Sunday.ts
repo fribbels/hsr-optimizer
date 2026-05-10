@@ -16,14 +16,16 @@ import {
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
+  getGlobalRegisterIndexWgsl,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
 import {
+  wgsl,
   wgslFalse,
   wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
   SELF_ENTITY_INDEX,
@@ -219,8 +221,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         hits: [
           HitDefinitionBuilder.buff()
             .buffStat(StatKey.CD)
-            .cdScaling(ultCdBoostValue)
-            .flatBuff(ultCdBoostBaseValue)
             .build(),
         ],
       },
@@ -270,8 +270,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_ULT))
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const cd = x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX)
+      x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, cd * ultCdBoostValue + ultCdBoostBaseValue)
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return wgsl`(*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)} * ${ultCdBoostValue} + ${ultCdBoostBaseValue};`
+    },
     teammateDynamicConditionals: [
       {
         id: 'SundayMemoCrConditional',

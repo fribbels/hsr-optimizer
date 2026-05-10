@@ -114,7 +114,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
     mergedScoringParams.stabilize = stabilize
-    mergedScoringParams.skipDefaults = SCORING_CONFIG_REGISTRY[configType].scoringActionKey ? false : !stabilize
+    mergedScoringParams.skipDefaults = SCORING_CONFIG_REGISTRY[configType].requiresDefaultActions ? false : !stabilize
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
     applyScoringFunction(currentSimulation.result, metadata, true, false, context, configType)

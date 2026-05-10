@@ -71,7 +71,6 @@ import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationUtils'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { applyBasicResTargetFlag } from 'lib/simulations/utils/benchmarkResTargets'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import type { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -204,8 +203,9 @@ export class BenchmarkSimulationOrchestrator {
    * Called by prepareOrchestrator() after setOriginalBuild() for non-DPS types.
    */
   public applyBasicResTargetFlag() {
-    if (this.originalSimResult) {
-      applyBasicResTargetFlag(this.flags, this.originalSimResult)
+    const combatRes = this.originalSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
+    if (combatRes >= 0.50) {
+      this.flags.benchmarkBasicResTarget = combatRes
     }
   }
 

@@ -46,7 +46,6 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScoringConfigType } from 'types/metadata'
 import styles from './BenchmarkResults.module.css'
 
 type BenchmarkRow = {
@@ -276,7 +275,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <Flex direction='column' align='center' gap={5}>
         <HeaderText className={styles.sectionHeader}>{t('Damage') /* Ability Damage */}</HeaderText>
-        <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} configType={row.orchestrator.configType ?? ScoringConfigType.DPS} />
+        <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} configType={row.orchestrator.configType} />
       </Flex>
     </Flex>
   )
@@ -316,7 +315,7 @@ function ComboDmgCell({ comboDmg, row }: { comboDmg: number, row: BenchmarkRow }
       <Flex className={styles.comboDmgContent} justify='center' align='center'>
         <Badge color='#000000aa' className={styles.comboDmgBadge}>
           <div className={styles.comboDmgText}>
-            {formatSimScore(comboDmg, row.orchestrator.metadata.buffStat, 1, SCORING_CONFIG_REGISTRY[row.orchestrator.configType ?? ScoringConfigType.DPS].thousands)}
+            {formatSimScore(comboDmg, row.orchestrator.metadata.buffStat, 1, SCORING_CONFIG_REGISTRY[row.orchestrator.configType].thousands)}
           </div>
         </Badge>
       </Flex>

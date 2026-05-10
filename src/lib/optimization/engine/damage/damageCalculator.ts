@@ -2,12 +2,11 @@ import {
   containerGetValue,
   containerHitRegister,
   containerHitVal,
-  getGlobalRegisterIndexWgsl,
   wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
-  GlobalRegister,
   HKey,
   type HKeyValue,
   StatKey,
@@ -898,21 +897,63 @@ export const ElationDamageFunction: DamageFunction = {
 
 export const BuffDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex) => {
-    const baseBuffValue = x.getGlobalRegisterValue(GlobalRegister.COMBO_BUFF)
+    const hit = action.hits![hitIndex] as BuffHit
+    const c = hit.conversion
+    const scalingEntityIndex = hit.scalingEntityIndex ?? hit.sourceEntityIndex ?? 0
+    const stat = x.getValue(c.sourceStat, hitIndex, scalingEntityIndex)
+
+    let baseBuffValue: number
+
+    switch (c.type) {
+      case 'discrete': {
+        const excess = Math.max(0, stat - c.whenAbove)
+        const steps = Math.floor(precisionRound(excess / c.forEvery))
+        baseBuffValue = Math.min(c.cappedAt, steps * c.increaseBy)
+        break
+      }
+      case 'linear': {
+        baseBuffValue = c.scaling * stat + (c.flat ?? 0)
+        break
+      }
+    }
+
     const buffContribution = x.getHitValue(HKey.DMG_BOOST, hitIndex)
     return baseBuffValue + buffContribution
   },
   wgsl: (action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as BuffHit
+    const c = hit.conversion
     const config = action.config
     const entityIndex = hit.sourceEntityIndex ?? 0
+    const scalingEntityIndex = hit.scalingEntityIndex ?? entityIndex
+
+    const getScalingValue = (stat: StatKeyValue) => containerGetValue(scalingEntityIndex, hitIndex, stat, config)
     const getHitValue = (stat: HKeyValue) => containerHitVal(entityIndex, hitIndex, stat, config)
     const shouldRecord = hit.recorded !== false
-    const buffRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)
+
+    let formulaWgsl: string
+
+    switch (c.type) {
+      case 'discrete': {
+        const stat = getScalingValue(c.sourceStat)
+        formulaWgsl = `
+  let stat = ${stat};
+  let excess = max(0.0, stat - ${c.whenAbove});
+  let steps = floor(excess / ${c.forEvery});
+  let baseBuffValue = min(${c.cappedAt}, steps * ${c.increaseBy});`
+        break
+      }
+      case 'linear': {
+        const stat = getScalingValue(c.sourceStat)
+        formulaWgsl = `
+  let stat = ${stat};
+  let baseBuffValue = ${c.scaling} * stat + ${c.flat ?? 0};`
+        break
+      }
+    }
 
     return wgsl`
-{
-  let baseBuffValue = (*p_container)[${buffRegIdx}];
+{${formulaWgsl}
   let buffContribution = ${getHitValue(HKey.DMG_BOOST)};
   let buffResult = baseBuffValue + buffContribution;
   ${shouldRecord ? 'comboBuff = buffResult;' : ''}

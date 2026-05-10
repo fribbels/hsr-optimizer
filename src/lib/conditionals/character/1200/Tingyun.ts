@@ -15,17 +15,12 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import {
-  containerActionVal,
-  getGlobalRegisterIndexWgsl,
-} from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
-  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -181,8 +176,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         [AbilityKind.BUFF]: {
           hits: [
-            HitDefinitionBuilder.buff()
-              .buffStat(StatKey.ATK)
+            HitDefinitionBuilder.linearBuff({ buffStat: StatKey.ATK, sourceStat: StatKey.ATK, scaling: skillAtkBoostScaling })
               .build(),
           ],
         },
@@ -218,13 +212,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, (t.benedictionBuff) ? t.teammateAtkBuffValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
-      x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, atk * skillAtkBoostScaling)
-    },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return wgsl`(*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} * ${skillAtkBoostScaling};`
-    },
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
     dynamicConditionals: [
       {

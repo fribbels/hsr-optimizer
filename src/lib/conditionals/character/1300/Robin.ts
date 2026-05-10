@@ -16,14 +16,12 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { containerActionVal, getGlobalRegisterIndexWgsl } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
-  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -224,8 +222,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         [AbilityKind.BUFF]: {
           hits: [
-            HitDefinitionBuilder.buff()
-              .buffStat(StatKey.ATK)
+            HitDefinitionBuilder.linearBuff({ buffStat: StatKey.ATK, sourceStat: StatKey.ATK, scaling: ultAtkBuffScalingValue, flat: ultAtkBuffFlatValue })
               .build(),
           ],
         },
@@ -275,18 +272,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      if (r.concertoActive) {
-        const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
-        x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, atk * ultAtkBuffScalingValue + ultAtkBuffFlatValue)
-      }
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      return wgsl`
-(*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = select(0.0, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} * ${ultAtkBuffScalingValue} + ${ultAtkBuffFlatValue}, ${wgslTrue(r.concertoActive)});
-`
-    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
     dynamicConditionals: [
       {

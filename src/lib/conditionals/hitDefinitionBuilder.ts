@@ -15,11 +15,13 @@ import type {
   BreakHitDefinition,
   BuffHitDefinition,
   CritHitDefinition,
+  DiscreteConversion,
   DotHitDefinition,
   ElationHitDefinition,
   HealHitDefinition,
   HealTallyHitDefinition,
   HitDefinition,
+  LinearConversion,
   ShieldHitDefinition,
   SuperBreakHitDefinition,
 } from 'types/hitConditionalTypes'
@@ -235,7 +237,7 @@ HitDefinitionBuilder.healTally = () =>
     directHit: true,
   })
 
-HitDefinitionBuilder.buff = () =>
+HitDefinitionBuilder.linearBuff = (conversion: Omit<LinearConversion, 'type'>) =>
   genericBuilder<BuffHitDefinition>({
     ...BASE_HIT_DEFAULTS,
     damageFunctionType: DamageFunctionType.Buff,
@@ -243,4 +245,16 @@ HitDefinitionBuilder.buff = () =>
     damageElement: ElementTag.None,
     outputTag: OutputTag.BUFF,
     directHit: false,
+    conversion: { type: 'linear', ...conversion },
+  })
+
+HitDefinitionBuilder.discreteBuff = (conversion: Omit<DiscreteConversion, 'type'>) =>
+  genericBuilder<BuffHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Buff,
+    damageType: DamageTag.None,
+    damageElement: ElementTag.None,
+    outputTag: OutputTag.BUFF,
+    directHit: false,
+    conversion: { type: 'discrete', ...conversion },
   })

@@ -23,14 +23,12 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { containerActionVal, getGlobalRegisterIndexWgsl } from 'lib/gpu/injection/injectUtils'
-import { wgsl, wgslTrue } from 'lib/gpu/injection/wgslUtils'
+import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
-  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -210,8 +208,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
       [AbilityKind.BUFF]: {
         hits: [
-          HitDefinitionBuilder.buff()
-            .buffStat(StatKey.CD)
+          HitDefinitionBuilder.linearBuff({ buffStat: StatKey.CD, sourceStat: StatKey.CD, scaling: ultCdBoostValue, flat: ultCdBoostBaseValue })
             .build(),
         ],
       },
@@ -255,13 +252,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       boostAshblazingAtkContainer(x, action, hitMulti)
-      const cd = x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX)
-      x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, cd * ultCdBoostValue + ultCdBoostBaseValue)
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMulti, action) + wgsl`
-(*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)} * ${ultCdBoostValue} + ${ultCdBoostBaseValue};
-`
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
     dynamicConditionals: [
       {

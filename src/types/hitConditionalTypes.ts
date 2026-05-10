@@ -104,11 +104,31 @@ export interface ElationHitDefinition extends BaseHitDefinition {
   minElationOverride?: number // Minimum Elation value - uses max(attacker's Elation, this value) for this hit
 }
 
+export interface LinearConversion {
+  type: 'linear'
+  buffStat: AKeyValue
+  sourceStat: AKeyValue
+  scaling: number
+  flat?: number
+}
+
+export interface DiscreteConversion {
+  type: 'discrete'
+  buffStat: AKeyValue
+  sourceStat: AKeyValue
+  whenAbove: number
+  forEvery: number
+  increaseBy: number
+  cappedAt: number
+}
+
+export type BuffConversion = LinearConversion | DiscreteConversion
+
 export interface BuffHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Buff
   damageType: DamageTag.None
   outputTag: OutputTag.BUFF
-  buffStat: AKeyValue
+  conversion: BuffConversion
 }
 
 // Union type for all hit definitions

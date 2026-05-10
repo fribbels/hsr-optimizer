@@ -229,7 +229,7 @@ class HitBuffBuilder {
         const damageMatches = effectiveDamageTags === ALL_DAMAGE_TAGS || (hit.damageType & effectiveDamageTags)
         const elementMatches = this._elementTags === ALL_ELEMENT_TAGS || (hit.damageElement & this._elementTags)
         const outputMatches = hit.outputTag & this._outputTags
-        const buffStatMatches = !this._buffStatFilter || (hit as BuffHit).buffStat === this._buffStatFilter
+        const buffStatMatches = !this._buffStatFilter || (hit as BuffHit).conversion.buffStat === this._buffStatFilter
 
         if (directnessMatches && entityMatches && damageMatches && elementMatches && outputMatches && buffStatMatches) {
           lines.push(code)

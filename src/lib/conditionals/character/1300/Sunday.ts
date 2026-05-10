@@ -16,16 +16,14 @@ import {
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   containerActionVal,
-  getGlobalRegisterIndexWgsl,
   p_containerActionVal,
 } from 'lib/gpu/injection/injectUtils'
 import {
-  wgsl,
   wgslFalse,
   wgslTrue,
 } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
-import { GlobalRegister, StatKey } from 'lib/optimization/engine/config/keys'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   ElementTag,
   SELF_ENTITY_INDEX,
@@ -219,8 +217,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
       [AbilityKind.BUFF]: {
         hits: [
-          HitDefinitionBuilder.buff()
-            .buffStat(StatKey.CD)
+          HitDefinitionBuilder.linearBuff({ buffStat: StatKey.CD, sourceStat: StatKey.CD, scaling: ultCdBoostValue, flat: ultCdBoostBaseValue })
             .build(),
         ],
       },
@@ -270,13 +267,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_ULT))
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const cd = x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX)
-      x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, cd * ultCdBoostValue + ultCdBoostBaseValue)
-    },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return wgsl`(*p_container)[${getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)}] = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)} * ${ultCdBoostValue} + ${ultCdBoostBaseValue};`
-    },
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
     teammateDynamicConditionals: [
       {
         id: 'SundayMemoCrConditional',

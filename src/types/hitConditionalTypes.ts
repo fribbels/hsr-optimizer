@@ -10,6 +10,11 @@ import type {
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
 
+export enum ConversionType {
+  Linear,
+  Discrete,
+}
+
 export interface AbilityDefinition {
   actionKind?: string
   hits: HitDefinition[]
@@ -108,7 +113,7 @@ export interface LinearBuffHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Buff
   damageType: DamageTag.None
   outputTag: OutputTag.BUFF
-  conversionType: 'linear'
+  conversionType: ConversionType.Linear
   buffStat: AKeyValue
   sourceStat: AKeyValue
   scaling: number
@@ -119,7 +124,7 @@ export interface DiscreteBuffHitDefinition extends BaseHitDefinition {
   damageFunctionType: DamageFunctionType.Buff
   damageType: DamageTag.None
   outputTag: OutputTag.BUFF
-  conversionType: 'discrete'
+  conversionType: ConversionType.Discrete
   buffStat: AKeyValue
   sourceStat: AKeyValue
   whenAbove: number

@@ -53,9 +53,9 @@ import {
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
 import {
   ShowcaseCombatScoreDetailsFooter,
-  ShowcaseDpsScorePanel,
+  ShowcaseSimScorePanel,
   ShowcaseScoreHeader,
-} from 'lib/characterPreview/scoring/ShowcaseDpsScore'
+} from 'lib/characterPreview/scoring/ShowcaseSimScore'
 import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
@@ -629,7 +629,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 <>
                   <ShowcaseScoreHeader relics={displayRelics} tempOptions={tempOptions} configType={layout.activeConfigType} />
 
-                  <ShowcaseDpsScorePanel
+                  <ShowcaseSimScorePanel
                     characterId={showcaseMetadata.characterId}
                     simulationMetadata={layout.activeSimulationMetadata}
                     teamSelection={layout.activeTeamSelection}

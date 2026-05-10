@@ -10,6 +10,9 @@ import {
 import {
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
+import {
+  ConversionType,
+} from 'types/hitConditionalTypes'
 import type {
   AdditionalHitDefinition,
   BreakHitDefinition,
@@ -246,7 +249,7 @@ const BUFF_DEFAULTS = {
 }
 
 HitDefinitionBuilder.linearBuff = () =>
-  genericBuilder<LinearBuffHitDefinition>({ ...BUFF_DEFAULTS, conversionType: 'linear' } as Partial<LinearBuffHitDefinition>)
+  genericBuilder<LinearBuffHitDefinition>({ ...BUFF_DEFAULTS, conversionType: ConversionType.Linear } as Partial<LinearBuffHitDefinition>)
 
 HitDefinitionBuilder.discreteBuff = () =>
-  genericBuilder<DiscreteBuffHitDefinition>({ ...BUFF_DEFAULTS, conversionType: 'discrete' } as Partial<DiscreteBuffHitDefinition>)
+  genericBuilder<DiscreteBuffHitDefinition>({ ...BUFF_DEFAULTS, conversionType: ConversionType.Discrete } as Partial<DiscreteBuffHitDefinition>)

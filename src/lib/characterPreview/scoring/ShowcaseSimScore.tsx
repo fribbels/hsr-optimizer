@@ -60,9 +60,9 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 import { type PreviewRelics } from '../characterPreviewController'
-import styles from './ShowcaseDpsScore.module.css'
+import styles from './ShowcaseSimScore.module.css'
 
-export const ShowcaseDpsScorePanel = memo(function ShowcaseDpsScorePanel({
+export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
   characterId,
   simulationMetadata,
   teamSelection: teamSelectionProp,

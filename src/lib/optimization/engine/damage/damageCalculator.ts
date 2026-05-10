@@ -15,6 +15,7 @@ import {
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  ConversionType,
   type AdditionalHit,
   type BreakHit,
   type BuffHit,
@@ -904,13 +905,13 @@ export const BuffDamageFunction: DamageFunction = {
     let baseBuffValue: number
 
     switch (hit.conversionType) {
-      case 'discrete': {
+      case ConversionType.Discrete: {
         const excess = Math.max(0, stat - hit.whenAbove)
         const steps = Math.floor(precisionRound(excess / hit.forEvery))
         baseBuffValue = Math.min(hit.cappedAt, steps * hit.increaseBy)
         break
       }
-      case 'linear': {
+      case ConversionType.Linear: {
         baseBuffValue = hit.scaling * stat + (hit.flat ?? 0)
         break
       }
@@ -932,7 +933,7 @@ export const BuffDamageFunction: DamageFunction = {
     let formulaWgsl: string
 
     switch (hit.conversionType) {
-      case 'discrete': {
+      case ConversionType.Discrete: {
         const stat = getScalingValue(hit.sourceStat)
         formulaWgsl = `
   let stat = ${stat};
@@ -941,7 +942,7 @@ export const BuffDamageFunction: DamageFunction = {
   let baseBuffValue = min(${hit.cappedAt}, steps * ${hit.increaseBy});`
         break
       }
-      case 'linear': {
+      case ConversionType.Linear: {
         const stat = getScalingValue(hit.sourceStat)
         formulaWgsl = `
   let stat = ${stat};

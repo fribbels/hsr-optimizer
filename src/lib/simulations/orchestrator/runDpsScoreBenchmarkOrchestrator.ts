@@ -16,7 +16,7 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import type { SavedBuild } from 'types/savedBuild'
+import { BuildSource, type SavedBuild } from 'types/savedBuild'
 
 /**
  * Prepare phase (steps 1-8): synchronous, ~5ms.
@@ -138,7 +138,7 @@ export function resolveSimulationMetadata(
 
   // deprioritizeBuffs is DPS-only — always false for non-DPS
   if (SCORING_CONFIG_REGISTRY[configType].supportsDeprioritizeBuffs) {
-    simulation.deprioritizeBuffs = buildOverride != undefined && 'deprioritizeBuffs' in buildOverride
+    simulation.deprioritizeBuffs = buildOverride?.source === BuildSource.Optimizer
       ? buildOverride.deprioritizeBuffs
       : customSimulation.deprioritizeBuffs ?? false
   } else {

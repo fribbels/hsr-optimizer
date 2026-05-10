@@ -73,15 +73,13 @@ export function useCharacterPreviewState(
     portraitSwatches,
   } = useShowcaseTabStore(
     useShallow((s) => ({
-      teamSelections: s.showcaseTeamPreferenceByConfig[charId],
+      teamSelections: s.showcaseTeamPreferenceByConfig[charId] ?? EMPTY_TEAM_SELECTIONS,
       showcasePreferences: s.showcasePreferences[charId],
       showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
       portraitColor: s.portraitColorByCharacterId[charId],
       portraitSwatches: s.portraitSwatchesByCharacterId[charId],
     })),
   )
-
-  const resolvedTeamSelections = teamSelections ?? EMPTY_TEAM_SELECTIONS
 
   const { globalColorMode, storedScoringType, darkMode } = useGlobalStore(
     useShallow((s) => ({
@@ -120,7 +118,7 @@ export function useCharacterPreviewState(
     editPortraitModalOpen,
     setEditPortraitModalOpen,
     setCustomPortrait,
-    teamSelections: resolvedTeamSelections,
+    teamSelections,
     showcasePreferences,
     showcaseTemporaryOptions,
     portraitColor,

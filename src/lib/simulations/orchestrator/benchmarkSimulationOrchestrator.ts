@@ -177,7 +177,6 @@ export class BenchmarkSimulationOrchestrator {
   public benchmarkBaselineScore?: number
 
   public baselineSim?: Simulation
-  public baselineSimRequest?: SimulationRequest
   public baselineSimResult?: RunStatSimulationsResult
   public zeroMainsSimResult?: RunStatSimulationsResult
 
@@ -337,45 +336,30 @@ export class BenchmarkSimulationOrchestrator {
     this.context = context
   }
 
-  public setBaselineBuild() {
-    const form = this.form!
-    const simSets = this.simSets!
-    const context = this.context!
-
-    // Get the character's basic SPD so the baseline operates at the same speed
-    const originalSim: Simulation = {
+  public computeDisplayBaseline() {
+    const sim: Simulation = {
       simType: StatSimTypes.SubstatRolls,
-      request: this.originalSimRequest!,
-    } as Simulation
-    const originalResult = runStatSimulations([originalSim], form, context, {
-      ...originalScoringParams,
-      mainStatMultiplier: 1,
-      simulationFlags: this.flags,
-    })[0]
-    const characterBasicSpd = precisionRound(originalResult.x.c.SPD.get(), 3)
-
-    // Baseline: optimal mains with forced SPD boots, 0 subs, SPD equalized to character
-    const baselineFlags: SimulationFlags = {
-      ...this.flags,
-      benchmarkBasicSpdTarget: characterBasicSpd,
-    }
-    const baselineMetadata = {
-      ...this.metadata,
-      parts: {
-        ...this.metadata.parts,
-        [Parts.Feet]: [Stats.SPD],
+      request: {
+        ...this.originalSimRequest!,
+        stats: {},
+        simRelicSet1: this.simSets!.relicSet1,
+        simRelicSet2: this.simSets!.relicSet2,
+        simOrnamentSet: this.simSets!.ornamentSet,
       },
-    }
+    } as Simulation
 
-    const { sim, result } = runPoolBaselineSim(
-      this.originalSimRequest!, simSets, form, context, baselineFlags, baselineMetadata,
-      this.configType,
-    )
+    const result = cloneSimResult(runStatSimulations([sim], this.form!, this.context!, {
+      ...baselineScoringParams,
+      mainStatMultiplier: 0,
+      simulationFlags: { ...this.flags, benchmarkBasicSpdTarget: 0 },
+    })[0])
+
+    applyScoringFunction(result, this.metadata, true, false, this.context!, this.configType)
 
     this.baselineSim = sim
     this.baselineSim.result = result
-    this.baselineSimRequest = sim.request
     this.baselineSimResult = result
+    this.zeroMainsSimResult = cloneSimResult(result)
   }
 
   public setOriginalBuild(inputSpdBenchmark?: number, force?: boolean) {
@@ -395,37 +379,14 @@ export class BenchmarkSimulationOrchestrator {
       simulationFlags: this.flags,
     }
 
-    // Run the original character's sim to find the original basic SPD value
-    // This value is used to determine the benchmark's corresponding basic SPD in special set cases (poet)
     const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
     const originalSpd = precisionRound(originalSimResult.x.c.SPD.get(), 3)
 
-    // Zero-mains, zero-subs sim to determine the natural basic SPD.
-    // The main baseline forces SPD boots, which inflates SPD past the Poet breakpoints
-    // and distorts the spdBenchmark floor clamp.
-    const zeroSpdFlags: SimulationFlags = { ...flags, benchmarkBasicSpdTarget: 0 }
-    const zeroSpdSim: Simulation = {
-      simType: StatSimTypes.SubstatRolls,
-      request: {
-        ...this.originalSimRequest!,
-        stats: {},
-        simRelicSet1: this.simSets!.relicSet1,
-        simRelicSet2: this.simSets!.relicSet2,
-        simOrnamentSet: this.simSets!.ornamentSet,
-      },
-    } as Simulation
-    const zeroSpdResult = cloneSimResult(runStatSimulations([zeroSpdSim], form, context, {
-      ...baselineScoringParams,
-      mainStatMultiplier: 0,
-      simulationFlags: zeroSpdFlags,
-    })[0])
-    this.zeroMainsSimResult = zeroSpdResult
-
     this.spdBenchmark = inputSpdBenchmark != null
-      ? Math.max(zeroSpdResult.x.c.SPD.get(), inputSpdBenchmark)
+      ? Math.max(baselineSimResult.x.c.SPD.get(), inputSpdBenchmark)
       : undefined
 
-    applyBasicSpeedTargetFlag(flags, zeroSpdResult, originalSpd, this.spdBenchmark, force)
+    applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
 
     // Run a second sim with basic SPD forced at benchmarkBasicSpdTarget
     // This will emulate the character's relics at the benchmark SPD

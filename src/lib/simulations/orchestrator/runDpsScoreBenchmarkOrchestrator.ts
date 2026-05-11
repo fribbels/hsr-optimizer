@@ -46,7 +46,7 @@ export function prepareOrchestrator(
   orchestrator.setSimContext()
   orchestrator.setFlags()
 
-  orchestrator.setBaselineBuild()
+  orchestrator.computeDisplayBaseline()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
   orchestrator.precomputePoolState()
   orchestrator.applyResEqualization()

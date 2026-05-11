@@ -6,6 +6,7 @@ import type {
   TFunction,
 } from 'i18next'
 import type { StatsValues } from 'lib/constants/constants'
+import { truncate10ths } from 'lib/utils/mathUtils'
 
 export const languages = {
   de_DE: {
@@ -134,8 +135,10 @@ export function isStatsValues(key: string): key is StatsValues {
 
 // Formats a number as compact thousands, e.g. 12345 → "12K".
 // Lives here instead of DamageSplitsChart to avoid pulling recharts into components that only need this formatter.
-export function renderThousandsK(n: number) {
-  return `${Math.floor(Number(n) / 1000)}${i18next.t('common:ThousandsSuffix')}`
+export function renderThousandsK(n: number, precision: number = 0) {
+  const scaled = Number(n) / 1000
+  const truncated = precision === 0 ? Math.floor(scaled) : truncate10ths(scaled)
+  return `${truncated.toFixed(precision)}${i18next.t('common:ThousandsSuffix')}`
 }
 
 const getEmptyT = <

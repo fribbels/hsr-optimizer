@@ -4,16 +4,16 @@ import {
   NumberInput,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
+import {
+  calculateApplicationRate,
+  calculateRequiredEhr,
+  type EhrCalcInputs,
+} from 'lib/tabs/tabUtilities/ehrCalculations'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_00 } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
 
-interface EhrCalcForm {
-  effectRes: number
-  debuffRes: number
-  effectHitRate: number
-  baseChance: number
-  attempts: number
+interface EhrCalcForm extends EhrCalcInputs {
   desiredHitRate: number
 }
 
@@ -35,24 +35,10 @@ const sharedInputProps: NumberInput.Props = {
 export function EhrPanel() {
   const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils.EHR' })
   const form = useForm<EhrCalcForm>({ initialValues })
-  const { effectHitRate, effectRes, debuffRes, baseChance, attempts, desiredHitRate } = form.getValues()
+  const values = form.getValues()
 
-  const hitRate = (baseChance / 100)
-    * (1 + effectHitRate / 100)
-    * (1 - effectRes / 100)
-    * (1 - debuffRes / 100)
-  const trueHitRate = 100 * (1 - Math.pow(Math.max(0, 1 - hitRate), attempts))
-
-  const canComputeRequired = baseChance > 0 && effectRes < 100 && debuffRes < 100
-  const requiredHitRate = canComputeRequired
-    ? 100 * (
-      (1 - Math.pow(1 - desiredHitRate / 100, 1 / attempts))
-        / (1 - debuffRes / 100)
-        / (1 - effectRes / 100)
-        / (baseChance / 100)
-      - 1
-    )
-    : NaN
+  const trueHitRate = calculateApplicationRate(values)
+  const requiredHitRate = calculateRequiredEhr(values)
 
   return (
     <form style={{ marginTop: 16, alignSelf: 'center' }}>

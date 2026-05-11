@@ -8,12 +8,16 @@ import { Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
+import {
+  AHA_BASE_SPEED,
+  calculateAhaSpeed,
+  calculateNextTeammateSpeed,
+} from 'lib/tabs/tabUtilities/ahaCalculations'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
 import { type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const AHA_BASE_SPEED = 80
 const LOW_SPEED_THRESHOLD = 90
 
 const sharedInputProps: NumberInput.Props = {
@@ -126,32 +130,3 @@ function Fraction({ numerator, denominator }: { numerator: React.ReactNode; deno
   )
 }
 
-function calculateNextTeammateSpeed(target: number | '', speeds: Array<number>): number | null {
-  if (target === '') return null
-  if (!speeds.length) return (target - AHA_BASE_SPEED) / speedToContributionMultiplier(0)
-  const sorted = [...speeds].sort((a, b) => b - a)
-
-  for (let pivotIndex = sorted.length - 1; pivotIndex >= 0; pivotIndex--) {
-    if (calculateAhaSpeed([...sorted, sorted[pivotIndex]]) >= target) {
-      const remaining = sorted.reduce((acc, cur, idx) => {
-        const newIdx = idx > pivotIndex ? idx + 1 : idx
-        return acc - cur * speedToContributionMultiplier(newIdx)
-      }, target - AHA_BASE_SPEED)
-      return remaining / speedToContributionMultiplier(pivotIndex + 1)
-    }
-  }
-
-  const remaining = sorted.reduce((acc, cur, idx) => {
-    return acc - cur * speedToContributionMultiplier(idx + 1)
-  }, target - AHA_BASE_SPEED)
-  return remaining / speedToContributionMultiplier(0)
-}
-
-function calculateAhaSpeed(speeds: Array<number>) {
-  const sorted = [...speeds].sort((a, b) => b - a)
-  return sorted.reduce((acc, cur, idx) => acc + cur * speedToContributionMultiplier(idx), AHA_BASE_SPEED)
-}
-
-function speedToContributionMultiplier(rank: number) {
-  return 1 / (5 * Math.pow(2, Math.min(rank, 3)))
-}

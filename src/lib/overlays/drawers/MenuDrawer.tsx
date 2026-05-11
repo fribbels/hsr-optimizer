@@ -243,12 +243,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
         { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
         { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
-        {
-          key: 'link quickutils',
-          label: t('Tools.QuickUtils'),
-          icon: <IconTools size={16} />,
-          onClick: () => setOpen(OpenCloseIDs.QUICK_UTILS_MODAL),
-        },
+        { key: AppPages.UTILITIES, label: t('Tools.QuickUtils'), icon: <IconTools size={16} /> },
       ],
     },
     {

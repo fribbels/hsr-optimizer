@@ -6435,7 +6435,7 @@ interface Resources {
       "Title": "Very large search requested"
     },
     "QuickUtils": {
-      "Aha": {
+      "AHA": {
         "Input": {
           "DesiredAha": "Desired Aha Speed",
           "TeammateSpeeds": "Elation teammate speeds"
@@ -6465,8 +6465,7 @@ interface Resources {
           "RequiredHitRate": "Required EHR"
         },
         "Title": "Effect Hit Rate Calculator"
-      },
-      "Title": "Utilities ― {{activeSectionTitle}}"
+      }
     },
     "Relic": {
       "Enhance": "Enhance / Grade",

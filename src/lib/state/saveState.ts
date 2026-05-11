@@ -1,5 +1,5 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import { useAhaTuningStore } from 'lib/overlays/modals/quickUtils/AhaPanel'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import * as persistenceService from 'lib/services/persistenceService'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacters } from 'lib/stores/character/characterStore'

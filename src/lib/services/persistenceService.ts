@@ -15,7 +15,7 @@ import {
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { useAhaTuningStore } from 'lib/overlays/modals/quickUtils/AhaPanel'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import {
   findRelicMatch,

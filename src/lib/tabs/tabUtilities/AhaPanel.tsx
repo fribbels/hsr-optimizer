@@ -5,33 +5,13 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { Stats } from 'lib/constants/constants'
-import type { SharedProps } from 'lib/overlays/modals/quickUtils/common'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { Katex } from 'lib/ui/Katex'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
-import {
-  type CSSProperties,
-  memo,
-} from 'react'
-import { create } from 'zustand'
-
-export interface AhaForm {
-  teammate0: number | ''
-  teammate1: number | ''
-  teammate2: number | ''
-  teammate3: number | ''
-  desiredAha: number | ''
-}
-
-export const useAhaTuningStore = create<AhaForm>()(() => ({
-  teammate0: 180,
-  teammate1: 135,
-  teammate2: '',
-  teammate3: '',
-  desiredAha: 135,
-}))
+import { type CSSProperties } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const textColours = {
   normal: undefined,
@@ -47,8 +27,9 @@ const sharedInputProps: NumberInput.Props = {
   stepHoldInterval: 50,
 }
 
-export function AhaPanel({ t }: SharedProps) {
-  const form = useForm<AhaForm>({
+export function AhaPanel() {
+  const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils.AHA' })
+  const form = useForm({
     initialValues: useAhaTuningStore.getState(),
     onValuesChange(updated) {
       useAhaTuningStore.setState(updated)
@@ -62,16 +43,16 @@ export function AhaPanel({ t }: SharedProps) {
   const teammateSpeedColour = teammateSpeed == null
     ? textColours.normal
     : (teammateSpeed < 0
-      ? textColours.negative
-      : (teammateSpeed < 90
-        ? textColours.low
-        : textColours.normal))
+        ? textColours.negative
+        : (teammateSpeed < 90
+            ? textColours.low
+            : textColours.normal))
   return (
     <Flex style={{ marginTop: 16, alignSelf: 'center' }} direction='column' gap={16}>
       <form>
         <Flex gap={24}>
           <Flex gap={8} direction='column'>
-            <HeaderText>{t('Aha.Input.TeammateSpeeds')}</HeaderText>
+            <HeaderText>{t('Input.TeammateSpeeds')}</HeaderText>
             <NumberInput
               key={form.key('teammate0')}
               {...form.getInputProps('teammate0')}
@@ -96,7 +77,7 @@ export function AhaPanel({ t }: SharedProps) {
           <Divider orientation='vertical' />
           <Flex gap={8} direction='column'>
             <div>
-              <HeaderText>{t('Aha.Input.DesiredAha')}</HeaderText>
+              <HeaderText>{t('Input.DesiredAha')}</HeaderText>
               <NumberInput
                 key={form.key('desiredAha')}
                 {...form.getInputProps('desiredAha')}
@@ -104,13 +85,13 @@ export function AhaPanel({ t }: SharedProps) {
               />
             </div>
             <div style={{ opacity: teammateSpeed !== null ? undefined : 0.3 }}>
-              <HeaderText>{teammateSpeed !== null ? t(`Aha.Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`) : '-'}</HeaderText>
+              <HeaderText>{teammateSpeed !== null ? t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`) : '-'}</HeaderText>
               <span style={{ color: teammateSpeedColour }}>
                 {teammateSpeed !== null ? localeNumber_000(teammateSpeed) : '-'}
               </span>
             </div>
             <Divider />
-            <HeaderText>{t('Aha.Output.AhaSpeed')}</HeaderText>
+            <HeaderText>{t('Output.AhaSpeed')}</HeaderText>
             <span>{localeNumber_000(ahaSpeed)}</span>
           </Flex>
         </Flex>
@@ -120,11 +101,32 @@ export function AhaPanel({ t }: SharedProps) {
   )
 }
 
-const AhaEquation = memo(function AhaEquation() {
-  const tex = String
-    .raw`{\text{Aha} \atop \text{Speed}} = \sum_{i = 1}^{4} \frac{v_i}{5^{\min(4, i) - 1}} \iff\frac{v_1}{5}+\frac{v_2}{10}+\frac{v_3}{20}+\frac{v_4}{40}`
-  return <Katex tex={tex} style={{ fontSize: '1.4em' }} />
-})
+function AhaEquation() {
+  return (
+    <Flex align='center' justify='center' gap={4} style={{ fontSize: '1.1em' }}>
+      <Fraction numerator='Aha' denominator='Speed' />
+      <span>=</span>
+      <Fraction numerator={<>v<sub>1</sub></>} denominator='5' />
+      <span>+</span>
+      <Fraction numerator={<>v<sub>2</sub></>} denominator='10' />
+      <span>+</span>
+      <Fraction numerator={<>v<sub>3</sub></>} denominator='20' />
+      <span>+</span>
+      <Fraction numerator={<>v<sub>4</sub></>} denominator='40' />
+      <span>+ 80</span>
+    </Flex>
+  )
+}
+
+function Fraction({ numerator, denominator }: { numerator: React.ReactNode; denominator: React.ReactNode }) {
+  return (
+    <Flex direction='column' align='center' style={{ lineHeight: 1.2 }}>
+      <span>{numerator}</span>
+      <hr style={{ width: '100%', margin: 0, border: 'none', borderTop: '1px solid currentColor' }} />
+      <span>{denominator}</span>
+    </Flex>
+  )
+}
 
 function calculateNextTeammateSpeed(target: number | '', speeds: Array<number>): number | null {
   if (target === '') return null
@@ -133,22 +135,16 @@ function calculateNextTeammateSpeed(target: number | '', speeds: Array<number>):
 
   for (let pivotIndex = speeds.length - 1; pivotIndex >= 0; pivotIndex--) {
     if (calculateAhaSpeed([...speeds, speeds[pivotIndex]]) >= target) {
-      // speed must be lower than the speed at speeds[pivotIndex] but greater than that at speeds[pivotIndex + 1]
-      // so the new speeds array must be
-      // [speeds[0], ..., speeds[pivotIndex], ?, speeds[pivotIndex + 1], ..., speeds[speeds.length - 1]]
       const contribution = speeds.reduce((acc, cur, idx) => {
         const newIdx = idx > pivotIndex ? idx + 1 : idx
-        const contribution = cur * speedToContributionMultiplier(newIdx)
-        return acc - contribution
+        return acc - cur * speedToContributionMultiplier(newIdx)
       }, target - 80)
       return contribution / speedToContributionMultiplier(pivotIndex + 1)
     }
   }
 
-  // the new speed must be the highest speed in the team
   const contribution = speeds.reduce((acc, cur, idx) => {
-    const contribution = cur * speedToContributionMultiplier(idx + 1)
-    return acc - contribution
+    return acc - cur * speedToContributionMultiplier(idx + 1)
   }, target - 80)
   return contribution / speedToContributionMultiplier(0)
 }

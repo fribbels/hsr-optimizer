@@ -5,7 +5,6 @@ import { StatTracesDrawer } from 'lib/overlays/drawers/StatTracesDrawer'
 import { BuildsModal } from 'lib/overlays/modals/BuildsModal'
 import { ChangelogModal } from 'lib/overlays/modals/ChangelogModal'
 import { CharacterModal } from 'lib/overlays/modals/CharacterModal'
-import { QuickUtilsModal } from 'lib/overlays/modals/quickUtils/QuickUtilsModal'
 import { RelicModal } from 'lib/overlays/modals/relicModal/RelicModal'
 import { SaveBuildModal } from 'lib/overlays/modals/SaveBuildModal'
 import { ScoringModal } from 'lib/overlays/modals/ScoringModal'
@@ -49,7 +48,6 @@ export function GlobalModals() {
       <ChangelogModal />
       <SaveBuildModal />
       <CharacterModal />
-      <QuickUtilsModal />
     </>
   )
 }

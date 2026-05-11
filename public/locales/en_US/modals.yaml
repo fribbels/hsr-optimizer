@@ -385,8 +385,7 @@ RelicReroll:
   OriginalSubstats: Original Substats
   RerolledSubstats: Rerolled Substats
 QuickUtils:
-  Title: 'Utilities ― {{activeSectionTitle}}'
-  Aha:
+  AHA:
     Label: Aha
     Title: Aha speed tuner
     Output:
@@ -398,7 +397,7 @@ QuickUtils:
     Input:
       DesiredAha: Desired Aha Speed
       TeammateSpeeds: Elation teammate speeds
-  EHR: 
+  EHR:
     Label: EHR
     Title: Effect Hit Rate Calculator
     Input:

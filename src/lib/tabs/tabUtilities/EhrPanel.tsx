@@ -4,9 +4,9 @@ import {
   NumberInput,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import type { SharedProps } from 'lib/overlays/modals/quickUtils/common'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_00 } from 'lib/utils/i18nUtils'
+import { useTranslation } from 'react-i18next'
 
 interface EhrCalcForm {
   effectRes: number
@@ -17,14 +17,12 @@ interface EhrCalcForm {
   desiredHitRate: number
 }
 
-const initialValues = {
+const initialValues: EhrCalcForm = {
   effectRes: 40,
   debuffRes: 0,
   baseChance: 100,
   attempts: 1,
-
   effectHitRate: 100,
-
   desiredHitRate: 100,
 }
 
@@ -34,7 +32,8 @@ const sharedInputProps: NumberInput.Props = {
   suffix: '%',
 }
 
-export function EhrPanel({ t }: SharedProps) {
+export function EhrPanel() {
+  const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils.EHR' })
   const form = useForm<EhrCalcForm>({ initialValues })
   const { effectHitRate, effectRes, debuffRes, baseChance, attempts, desiredHitRate } = form.getValues()
 
@@ -44,20 +43,23 @@ export function EhrPanel({ t }: SharedProps) {
     * (1 - debuffRes / 100)
   const trueHitRate = 100 * (1 - Math.pow(Math.max(0, 1 - hitRate), attempts))
 
-  const requiredHitRate = 100 * (
-    (1 - Math.pow(1 - desiredHitRate / 100, 1 / attempts))
-      / (1 - debuffRes / 100)
-      / (1 - effectRes / 100)
-      / (baseChance / 100)
-    - 1
-  )
+  const canComputeRequired = baseChance > 0 && effectRes < 100 && debuffRes < 100
+  const requiredHitRate = canComputeRequired
+    ? 100 * (
+      (1 - Math.pow(1 - desiredHitRate / 100, 1 / attempts))
+        / (1 - debuffRes / 100)
+        / (1 - effectRes / 100)
+        / (baseChance / 100)
+      - 1
+    )
+    : NaN
 
   return (
     <form style={{ marginTop: 16, alignSelf: 'center' }}>
       <Flex gap={24}>
         <Flex gap={8} direction='column'>
           <div>
-            <HeaderText>{t('EHR.Input.EffectRes')}</HeaderText>
+            <HeaderText>{t('Input.EffectRes')}</HeaderText>
             <NumberInput
               key={form.key('effectRes')}
               {...form.getInputProps('effectRes')}
@@ -65,7 +67,7 @@ export function EhrPanel({ t }: SharedProps) {
             />
           </div>
           <div>
-            <HeaderText>{t('EHR.Input.DebuffRes')}</HeaderText>
+            <HeaderText>{t('Input.DebuffRes')}</HeaderText>
             <NumberInput
               key={form.key('debuffRes')}
               {...form.getInputProps('debuffRes')}
@@ -73,15 +75,16 @@ export function EhrPanel({ t }: SharedProps) {
             />
           </div>
           <div>
-            <HeaderText>{t('EHR.Input.BaseChance')}</HeaderText>
+            <HeaderText>{t('Input.BaseChance')}</HeaderText>
             <NumberInput
               key={form.key('baseChance')}
               {...form.getInputProps('baseChance')}
               {...sharedInputProps}
+              min={0}
             />
           </div>
           <div>
-            <HeaderText>{t('EHR.Input.Attempts')}</HeaderText>
+            <HeaderText>{t('Input.Attempts')}</HeaderText>
             <NumberInput
               allowNegative={false}
               min={1}
@@ -93,33 +96,34 @@ export function EhrPanel({ t }: SharedProps) {
         <Divider orientation='vertical' />
         <Flex gap={8} direction='column'>
           <div>
-            <HeaderText>{t('EHR.Input.HitRate')}</HeaderText>
+            <HeaderText>{t('Input.HitRate')}</HeaderText>
             <NumberInput
               allowNegative={false}
-              min={1}
+              min={0}
               key={form.key('effectHitRate')}
               {...form.getInputProps('effectHitRate')}
               {...sharedInputProps}
             />
           </div>
           <div>
-            <HeaderText>{t('EHR.Output.ApplicationRate')}</HeaderText>
+            <HeaderText>{t('Output.ApplicationRate')}</HeaderText>
             <span>{localeNumber_00(trueHitRate)}%</span>
           </div>
           <Divider />
           <div>
-            <HeaderText>{t('EHR.Input.DesiredHitRate')}</HeaderText>
+            <HeaderText>{t('Input.DesiredHitRate')}</HeaderText>
             <NumberInput
               allowNegative={false}
               min={0}
+              max={100}
               key={form.key('desiredHitRate')}
               {...form.getInputProps('desiredHitRate')}
               {...sharedInputProps}
             />
           </div>
           <div>
-            <HeaderText>{t('EHR.Output.RequiredHitRate')}</HeaderText>
-            <span>{localeNumber_00(requiredHitRate)}%</span>
+            <HeaderText>{t('Output.RequiredHitRate')}</HeaderText>
+            <span>{Number.isFinite(requiredHitRate) ? `${localeNumber_00(requiredHitRate)}%` : '-'}</span>
           </div>
         </Flex>
       </Flex>

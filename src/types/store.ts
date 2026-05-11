@@ -3,7 +3,7 @@ import type { AppPages } from 'lib/constants/appPages'
 import type {
   ComputeEngine,
 } from 'lib/constants/constants'
-import { type AhaForm } from 'lib/overlays/modals/quickUtils/AhaPanel'
+import type { AhaForm } from 'lib/stores/ahaTuningStore'
 import type { ScoringType } from 'lib/scoring/simScoringUtils'
 import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'

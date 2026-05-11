@@ -441,7 +441,7 @@ const display = {
     y: 1228,
     z: 1.95,
   },
-  showcaseColor: '#9190f8',
+  showcaseColor: '#373699',
 }
 
 export const Rappa: CharacterConfig = {

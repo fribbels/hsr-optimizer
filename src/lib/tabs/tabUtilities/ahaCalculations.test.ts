@@ -1,6 +1,7 @@
 import {
   AHA_BASE_SPEED,
   calculateAhaSpeed,
+  calculateContributions,
   calculateNextTeammateSpeed,
   speedToContributionMultiplier,
 } from 'lib/tabs/tabUtilities/ahaCalculations'
@@ -78,6 +79,46 @@ describe('calculateAhaSpeed', () => {
     // 80 + 180/5 + 135/10 + 100/20
     // = 80 + 36 + 13.5 + 5 = 134.5
     expect(calculateAhaSpeed([180, 135, 100])).toBeCloseTo(134.5)
+  })
+})
+
+describe('calculateContributions', () => {
+  it('returns empty array for no speeds', () => {
+    expect(calculateContributions([])).toEqual([])
+  })
+
+  it('returns single contribution for one teammate', () => {
+    const result = calculateContributions([160])
+    expect(result).toHaveLength(1)
+    expect(result[0].rank).toBe(0)
+    expect(result[0].speed).toBe(160)
+    expect(result[0].multiplier).toBeCloseTo(1 / 5)
+    expect(result[0].contribution).toBeCloseTo(32)
+  })
+
+  it('sorts by speed descending and assigns ranks', () => {
+    const result = calculateContributions([100, 200, 150])
+    expect(result).toHaveLength(3)
+    expect(result[0].speed).toBe(200)
+    expect(result[0].rank).toBe(0)
+    expect(result[1].speed).toBe(150)
+    expect(result[1].rank).toBe(1)
+    expect(result[2].speed).toBe(100)
+    expect(result[2].rank).toBe(2)
+  })
+
+  it('contributions sum to the non-base portion of Aha speed', () => {
+    const speeds = [180, 135, 120, 100]
+    const contributions = calculateContributions(speeds)
+    const totalContribution = contributions.reduce((sum, c) => sum + c.contribution, 0)
+    expect(totalContribution).toBeCloseTo(calculateAhaSpeed(speeds) - AHA_BASE_SPEED)
+  })
+
+  it('does not mutate input array', () => {
+    const speeds = [100, 200]
+    const copy = [...speeds]
+    calculateContributions(speeds)
+    expect(speeds).toEqual(copy)
   })
 })
 

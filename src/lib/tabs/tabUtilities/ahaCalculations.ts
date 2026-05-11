@@ -1,5 +1,25 @@
 export const AHA_BASE_SPEED = 80
 
+export interface AhaContribution {
+  rank: number
+  speed: number
+  multiplier: number
+  contribution: number
+}
+
+export function calculateContributions(speeds: Array<number>): AhaContribution[] {
+  const sorted = [...speeds].sort((a, b) => b - a)
+  return sorted.map((speed, idx) => {
+    const multiplier = speedToContributionMultiplier(idx)
+    return {
+      rank: idx,
+      speed,
+      multiplier,
+      contribution: speed * multiplier,
+    }
+  })
+}
+
 export function speedToContributionMultiplier(rank: number) {
   return 1 / (5 * Math.pow(2, Math.min(rank, 3)))
 }

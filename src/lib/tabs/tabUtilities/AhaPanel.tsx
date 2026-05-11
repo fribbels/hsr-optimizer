@@ -1,42 +1,25 @@
 import {
-  Divider,
   Flex,
-  NumberInput,
+  Paper,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { Stats } from 'lib/constants/constants'
-import { Assets } from 'lib/rendering/assets'
+import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
 import { SaveState } from 'lib/state/saveState'
 import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import {
-  AHA_BASE_SPEED,
   calculateAhaSpeed,
   calculateNextTeammateSpeed,
 } from 'lib/tabs/tabUtilities/ahaCalculations'
-import { HeaderText } from 'lib/ui/HeaderText'
-import { localeNumber_000 } from 'lib/utils/i18nUtils'
-import { type CSSProperties } from 'react'
+import {
+  AhaPanelContent,
+} from 'lib/tabs/tabUtilities/AhaPanelContent'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-
-const LOW_SPEED_THRESHOLD = 90
-
-const sharedInputProps: NumberInput.Props = {
-  allowNegative: false,
-  min: 0,
-  leftSection: <img src={Assets.getStatIcon(Stats.SPD)} alt='' style={{ height: 24 }} />,
-  stepHoldDelay: 300,
-  stepHoldInterval: 50,
-}
-
-function getSpeedColour(speed: number | null): CSSProperties['color'] {
-  if (speed == null) return undefined
-  if (speed < 0) return 'red'
-  if (speed < LOW_SPEED_THRESHOLD) return 'orange'
-  return undefined
-}
 
 export function AhaPanel() {
   const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils.AHA' })
+  const { t: tPresets } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
+
   const form = useForm({
     initialValues: useAhaTuningStore.getState(),
     onValuesChange(updated) {
@@ -44,89 +27,36 @@ export function AhaPanel() {
       SaveState.delayedSave()
     },
   })
+
   const { teammate0, teammate1, teammate2, teammate3, desiredAha } = form.getValues()
-  const speeds = [teammate0, teammate1, teammate2, teammate3].filter((x) => x !== '')
+  const speeds = [teammate0, teammate1, teammate2, teammate3].filter((x): x is number => x !== '')
   const ahaSpeed = calculateAhaSpeed(speeds)
   const teammateSpeed = typeof speeds[3] === 'number' ? null : calculateNextTeammateSpeed(desiredAha, speeds)
+  const spdOptions = useMemo(() => buildSpdPresetOptions(tPresets, { skipNoMinimum: true }), [tPresets])
+  const desiredValue = desiredAha === '' ? undefined : desiredAha
+
+  function handleDesiredChange(value: number | undefined) {
+    form.setFieldValue('desiredAha', value ?? '')
+  }
 
   return (
-    <Flex style={{ marginTop: 16, alignSelf: 'center' }} direction='column' gap={16}>
-      <form>
-        <Flex gap={24}>
-          <Flex gap={8} direction='column'>
-            <HeaderText>{t('Input.TeammateSpeeds')}</HeaderText>
-            <NumberInput
-              key={form.key('teammate0')}
-              {...form.getInputProps('teammate0')}
-              {...sharedInputProps}
-            />
-            <NumberInput
-              key={form.key('teammate1')}
-              {...form.getInputProps('teammate1')}
-              {...sharedInputProps}
-            />
-            <NumberInput
-              key={form.key('teammate2')}
-              {...form.getInputProps('teammate2')}
-              {...sharedInputProps}
-            />
-            <NumberInput
-              key={form.key('teammate3')}
-              {...form.getInputProps('teammate3')}
-              {...sharedInputProps}
+    <Flex direction='column' gap={16} style={{ alignSelf: 'center' }}>
+      <Paper withBorder p='xl'>
+        <form>
+          <Flex direction='column' gap={18}>
+            <AhaPanelContent
+              form={form}
+              ahaSpeed={ahaSpeed}
+              speeds={speeds}
+              teammateSpeed={teammateSpeed}
+              desiredValue={desiredValue}
+              spdOptions={spdOptions}
+              onDesiredChange={handleDesiredChange}
+              t={t}
             />
           </Flex>
-          <Divider orientation='vertical' />
-          <Flex gap={8} direction='column'>
-            <div>
-              <HeaderText>{t('Input.DesiredAha')}</HeaderText>
-              <NumberInput
-                key={form.key('desiredAha')}
-                {...form.getInputProps('desiredAha')}
-                {...sharedInputProps}
-              />
-            </div>
-            <div style={{ opacity: teammateSpeed !== null ? undefined : 0.3 }}>
-              <HeaderText>{teammateSpeed !== null ? t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`) : '-'}</HeaderText>
-              <span style={{ color: getSpeedColour(teammateSpeed) }}>
-                {teammateSpeed !== null ? localeNumber_000(teammateSpeed) : '-'}
-              </span>
-            </div>
-            <Divider />
-            <HeaderText>{t('Output.AhaSpeed')}</HeaderText>
-            <span>{localeNumber_000(ahaSpeed)}</span>
-          </Flex>
-        </Flex>
-      </form>
-      <AhaEquation />
+        </form>
+      </Paper>
     </Flex>
   )
 }
-
-function AhaEquation() {
-  return (
-    <Flex align='center' justify='center' gap={4} style={{ fontSize: '1.1em' }}>
-      <Fraction numerator='Aha' denominator='Speed' />
-      <span>=</span>
-      <Fraction numerator={<>v<sub>1</sub></>} denominator='5' />
-      <span>+</span>
-      <Fraction numerator={<>v<sub>2</sub></>} denominator='10' />
-      <span>+</span>
-      <Fraction numerator={<>v<sub>3</sub></>} denominator='20' />
-      <span>+</span>
-      <Fraction numerator={<>v<sub>4</sub></>} denominator='40' />
-      <span>+ {AHA_BASE_SPEED}</span>
-    </Flex>
-  )
-}
-
-function Fraction({ numerator, denominator }: { numerator: React.ReactNode; denominator: React.ReactNode }) {
-  return (
-    <Flex direction='column' align='center' style={{ lineHeight: 1.2 }}>
-      <span>{numerator}</span>
-      <hr style={{ width: '100%', margin: 0, border: 'none', borderTop: '1px solid currentColor' }} />
-      <span>{denominator}</span>
-    </Flex>
-  )
-}
-

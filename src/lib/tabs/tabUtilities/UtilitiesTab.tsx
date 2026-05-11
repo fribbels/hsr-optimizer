@@ -26,6 +26,11 @@ const PANEL_ICONS: Record<UtilityPanel, string> = {
   [UtilityPanel.EHR]: Stats.EHR,
 }
 
+const PANEL_I18N_LABEL: Record<UtilityPanel, 'AHA.Label' | 'EHR.Label'> = {
+  [UtilityPanel.AHA]: 'AHA.Label',
+  [UtilityPanel.EHR]: 'EHR.Label',
+}
+
 export function UtilitiesTab() {
   const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils' })
   const [activePanel, setActivePanel] = useState<UtilityPanel>(resolveUtilityPanel)
@@ -45,7 +50,7 @@ export function UtilitiesTab() {
   }
 
   return (
-    <Flex direction='column' gap={5} ml={20} w={950} style={{ margin: '0 auto' }}>
+    <Flex direction='column' gap={5} w={950} style={{ margin: '0 auto' }}>
       <Tabs
         value={activePanel}
         onChange={handleTabChange}
@@ -57,8 +62,8 @@ export function UtilitiesTab() {
           {UTILITY_PANELS.map((panel) => (
             <Tabs.Tab key={panel} value={panel}>
               <Flex align='center' gap={8}>
-                <img src={Assets.getStatIcon(PANEL_ICONS[panel])} style={{ height: 20 }} />
-                {t(`${panel}.Label` as 'AHA.Label')}
+                <img src={Assets.getStatIcon(PANEL_ICONS[panel])} alt='' style={{ height: 20 }} />
+                {t(PANEL_I18N_LABEL[panel])}
               </Flex>
             </Tabs.Tab>
           ))}

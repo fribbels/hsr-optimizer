@@ -12,10 +12,9 @@ export const UtilityPanelHash: Record<UtilityPanel, string> = {
   [UtilityPanel.EHR]: '#ehr',
 }
 
-const hashToPanel: Record<string, UtilityPanel> = {
-  '#aha': UtilityPanel.AHA,
-  '#ehr': UtilityPanel.EHR,
-}
+const hashToPanel = Object.fromEntries(
+  Object.entries(UtilityPanelHash).map(([panel, hash]) => [hash, panel as UtilityPanel]),
+) as Record<string, UtilityPanel>
 
 export function resolveUtilityPanel(): UtilityPanel {
   const hash = window.location.hash.split('?')[0]

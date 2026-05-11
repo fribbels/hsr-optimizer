@@ -13,18 +13,22 @@ import { localeNumber_000 } from 'lib/utils/i18nUtils'
 import { type CSSProperties } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const textColours = {
-  normal: undefined,
-  low: 'orange',
-  negative: 'red',
-} as const satisfies Record<string, CSSProperties['color']>
+const AHA_BASE_SPEED = 80
+const LOW_SPEED_THRESHOLD = 90
 
 const sharedInputProps: NumberInput.Props = {
   allowNegative: false,
   min: 0,
-  leftSection: <img src={Assets.getStatIcon(Stats.SPD)} style={{ height: 24 }} />,
+  leftSection: <img src={Assets.getStatIcon(Stats.SPD)} alt='' style={{ height: 24 }} />,
   stepHoldDelay: 300,
   stepHoldInterval: 50,
+}
+
+function getSpeedColour(speed: number | null): CSSProperties['color'] {
+  if (speed == null) return undefined
+  if (speed < 0) return 'red'
+  if (speed < LOW_SPEED_THRESHOLD) return 'orange'
+  return undefined
 }
 
 export function AhaPanel() {
@@ -40,13 +44,7 @@ export function AhaPanel() {
   const speeds = [teammate0, teammate1, teammate2, teammate3].filter((x) => x !== '')
   const ahaSpeed = calculateAhaSpeed(speeds)
   const teammateSpeed = typeof speeds[3] === 'number' ? null : calculateNextTeammateSpeed(desiredAha, speeds)
-  const teammateSpeedColour = teammateSpeed == null
-    ? textColours.normal
-    : (teammateSpeed < 0
-        ? textColours.negative
-        : (teammateSpeed < 90
-            ? textColours.low
-            : textColours.normal))
+
   return (
     <Flex style={{ marginTop: 16, alignSelf: 'center' }} direction='column' gap={16}>
       <form>
@@ -86,7 +84,7 @@ export function AhaPanel() {
             </div>
             <div style={{ opacity: teammateSpeed !== null ? undefined : 0.3 }}>
               <HeaderText>{teammateSpeed !== null ? t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`) : '-'}</HeaderText>
-              <span style={{ color: teammateSpeedColour }}>
+              <span style={{ color: getSpeedColour(teammateSpeed) }}>
                 {teammateSpeed !== null ? localeNumber_000(teammateSpeed) : '-'}
               </span>
             </div>
@@ -113,7 +111,7 @@ function AhaEquation() {
       <Fraction numerator={<>v<sub>3</sub></>} denominator='20' />
       <span>+</span>
       <Fraction numerator={<>v<sub>4</sub></>} denominator='40' />
-      <span>+ 80</span>
+      <span>+ {AHA_BASE_SPEED}</span>
     </Flex>
   )
 }
@@ -130,28 +128,28 @@ function Fraction({ numerator, denominator }: { numerator: React.ReactNode; deno
 
 function calculateNextTeammateSpeed(target: number | '', speeds: Array<number>): number | null {
   if (target === '') return null
-  if (!speeds.length) return (target - 80) / speedToContributionMultiplier(0)
-  speeds.sort((a, b) => b - a)
+  if (!speeds.length) return (target - AHA_BASE_SPEED) / speedToContributionMultiplier(0)
+  const sorted = [...speeds].sort((a, b) => b - a)
 
-  for (let pivotIndex = speeds.length - 1; pivotIndex >= 0; pivotIndex--) {
-    if (calculateAhaSpeed([...speeds, speeds[pivotIndex]]) >= target) {
-      const contribution = speeds.reduce((acc, cur, idx) => {
+  for (let pivotIndex = sorted.length - 1; pivotIndex >= 0; pivotIndex--) {
+    if (calculateAhaSpeed([...sorted, sorted[pivotIndex]]) >= target) {
+      const remaining = sorted.reduce((acc, cur, idx) => {
         const newIdx = idx > pivotIndex ? idx + 1 : idx
         return acc - cur * speedToContributionMultiplier(newIdx)
-      }, target - 80)
-      return contribution / speedToContributionMultiplier(pivotIndex + 1)
+      }, target - AHA_BASE_SPEED)
+      return remaining / speedToContributionMultiplier(pivotIndex + 1)
     }
   }
 
-  const contribution = speeds.reduce((acc, cur, idx) => {
+  const remaining = sorted.reduce((acc, cur, idx) => {
     return acc - cur * speedToContributionMultiplier(idx + 1)
-  }, target - 80)
-  return contribution / speedToContributionMultiplier(0)
+  }, target - AHA_BASE_SPEED)
+  return remaining / speedToContributionMultiplier(0)
 }
 
 function calculateAhaSpeed(speeds: Array<number>) {
-  speeds.sort((a, b) => b - a)
-  return speeds.reduce((acc, cur, idx) => acc + cur * speedToContributionMultiplier(idx), 80)
+  const sorted = [...speeds].sort((a, b) => b - a)
+  return sorted.reduce((acc, cur, idx) => acc + cur * speedToContributionMultiplier(idx), AHA_BASE_SPEED)
 }
 
 function speedToContributionMultiplier(rank: number) {

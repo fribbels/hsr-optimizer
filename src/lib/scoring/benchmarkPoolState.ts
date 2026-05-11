@@ -45,7 +45,7 @@ export function runPoolBaselineSim(
 
   const params: RunSimulationsParams = {
     ...baselineScoringParams,
-    mainStatMultiplier: 1,
+    mainStatMultiplier: 0,
     simulationFlags: correctedFlags,
   }
 
@@ -76,7 +76,7 @@ export function runPoolBaselineSim(
           } as Simulation
 
           const result = cloneSimResult(runStatSimulations([sim], form, context, params)[0])
-          applyScoringFunction(result, metadata, false, false, context, configType)
+          applyScoringFunction(result, metadata, true, false, context, configType)
           const combatSpd = result.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
 
           const candidate: PoolCandidate = { sim, result, combatSpd }
@@ -106,7 +106,6 @@ export function runPoolBaselineSim(
 export function resolveComboSpdTarget(
   setCombination: SimulationSets,
   baselineSim: Simulation,
-  baselineResult: RunStatSimulationsResult,
   form: Form,
   context: OptimizerContext,
   baseFlags: SimulationFlags,
@@ -114,7 +113,17 @@ export function resolveComboSpdTarget(
   spdBenchmark: number | undefined,
 ): { combatSpdTarget: number; basicSpdTarget: number; flags: SimulationFlags } {
   const setCombinationFlags: SimulationFlags = { ...baseFlags, simPoetActive: isPoetSet(setCombination) }
-  applyBasicSpeedTargetFlag(setCombinationFlags, baselineResult, originalSpd, spdBenchmark)
+
+  // Zero-mains sim to determine the natural basic SPD for Poet breakpoint detection.
+  // Sets like Poet give negative SPD, so each combo needs its own check.
+  const zeroSpdFlags: SimulationFlags = { ...setCombinationFlags, benchmarkBasicSpdTarget: 0 }
+  const zeroSpdResult = runStatSimulations([baselineSim], form, context, {
+    ...baselineScoringParams,
+    mainStatMultiplier: 0,
+    simulationFlags: zeroSpdFlags,
+  })[0]
+
+  applyBasicSpeedTargetFlag(setCombinationFlags, zeroSpdResult, originalSpd, spdBenchmark)
 
   const conversionParams: RunSimulationsParams = {
     ...baselineScoringParams,

@@ -1,10 +1,10 @@
 import { useForm } from '@mantine/form'
 import { useEhrTuningStore } from 'lib/stores/ehrTuningStore'
+import { CalculatorPanel } from 'lib/tabs/tabUtilities/CalculatorPanel'
 import {
   calculateApplicationRate,
   calculateRequiredEhr,
 } from 'lib/tabs/tabUtilities/ehrCalculations'
-import { CalculatorPanel } from 'lib/tabs/tabUtilities/CalculatorPanel'
 import { EhrPanelContent } from 'lib/tabs/tabUtilities/EhrPanelContent'
 import { useTranslation } from 'react-i18next'
 

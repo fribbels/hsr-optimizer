@@ -1,6 +1,6 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import * as persistenceService from 'lib/services/persistenceService'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacters } from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'

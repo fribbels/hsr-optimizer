@@ -1,20 +1,26 @@
-import { Divider, NumberInput } from '@mantine/core'
+import {
+  Divider,
+  NumberInput,
+} from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
 import type { TFunction } from 'i18next'
-import type { AhaForm as AhaFormValues } from 'lib/stores/ahaTuningStore'
 import { Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import type { AhaForm as AhaFormValues } from 'lib/stores/ahaTuningStore'
 import {
   AHA_BASE_SPEED,
   speedToContributionMultiplier,
 } from 'lib/tabs/tabUtilities/ahaCalculations'
-import { ComboboxNumberInput, type ComboboxNumberGroup } from 'lib/ui/ComboboxNumberInput'
+import {
+  type ComboboxNumberGroup,
+  ComboboxNumberInput,
+} from 'lib/ui/ComboboxNumberInput'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
-import sharedClasses from './CalculatorPanel.module.css'
 import localClasses from './AhaPanelContent.module.css'
+import sharedClasses from './CalculatorPanel.module.css'
 
 const classes = { ...sharedClasses, ...localClasses }
 
@@ -80,9 +86,9 @@ const ROW_GAP = 3
 const ROW_STEP = ROW_HEIGHT + ROW_GAP
 
 function IntegratedRows({ form, rows, ahaSpeed }: {
-  form: AhaFormType
-  rows: TeammateRow[]
-  ahaSpeed: number
+  form: AhaFormType,
+  rows: TeammateRow[],
+  ahaSpeed: number,
 }) {
   const visualPositions = getVisualPositions(rows)
 
@@ -137,11 +143,11 @@ function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
 }
 
 function IntegratedRow({ form, row, ahaSpeed, label, style }: {
-  form: AhaFormType
-  row: TeammateRow
-  ahaSpeed: number
-  label: string
-  style?: React.CSSProperties
+  form: AhaFormType,
+  row: TeammateRow,
+  ahaSpeed: number,
+  label: string,
+  style?: React.CSSProperties,
 }) {
   const hasContribution = row.contribution != null && row.startOffset != null
   const startOffset = row.startOffset ?? 0
@@ -183,8 +189,8 @@ function IntegratedRow({ form, row, ahaSpeed, label, style }: {
 const RANK_COUNT = 4
 
 function FormulaSummary({ rows, ahaSpeed }: {
-  rows: TeammateRow[]
-  ahaSpeed: number
+  rows: TeammateRow[],
+  ahaSpeed: number,
 }) {
   const byRank: (TeammateRow | null)[] = Array.from({ length: RANK_COUNT }, () => null)
   for (const row of rows) {
@@ -206,7 +212,12 @@ function FormulaSummary({ rows, ahaSpeed }: {
               <mfrac>
                 {row != null && typeof row.speed === 'number'
                   ? <mn style={{ color: row.color }}>{localeNumber_000(row.speed)}</mn>
-                  : <msub style={{ color: '#8b8b8b' }}><mi>T</mi><mn>{rank + 1}</mn></msub>}
+                  : (
+                    <msub style={{ color: '#8b8b8b' }}>
+                      <mi>T</mi>
+                      <mn>{rank + 1}</mn>
+                    </msub>
+                  )}
                 <mn>{denom}</mn>
               </mfrac>
               <mo>)</mo>
@@ -263,7 +274,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
 function buildTeammateRows(values: AhaFormValues): TeammateRow[] {
   const speedRows = TEAMMATE_KEYS
     .map((key, slot) => ({ key, slot, speed: values[key] }))
-    .filter((row): row is { key: TeammateKey; slot: number; speed: number } => row.speed !== '')
+    .filter((row): row is { key: TeammateKey, slot: number, speed: number } => row.speed !== '')
     .sort((a, b) => {
       if (b.speed !== a.speed) return b.speed - a.speed
       return a.slot - b.slot

@@ -15,7 +15,6 @@ import {
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import {
   findRelicMatch,
@@ -29,6 +28,7 @@ import { migrateSilverWolfLv999EvanesciaMainStats } from 'lib/services/migration
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import {
   savedSessionDefaults,
   useGlobalStore,

@@ -1,13 +1,23 @@
-import { Divider, NumberInput, Select } from '@mantine/core'
+import {
+  Divider,
+  NumberInput,
+  Select,
+} from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
 import type { TFunction } from 'i18next'
-import { EHR_TUNING_DEFAULTS, type EhrTuningForm } from 'lib/stores/ehrTuningStore'
+import {
+  EHR_TUNING_DEFAULTS,
+  type EhrTuningForm,
+} from 'lib/stores/ehrTuningStore'
 import { calculatePerAttemptRate } from 'lib/tabs/tabUtilities/ehrCalculations'
 import { EhrGrid } from 'lib/tabs/tabUtilities/ehrViz/EhrGrid'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_00 } from 'lib/utils/i18nUtils'
-import { useMemo, useState } from 'react'
+import {
+  useMemo,
+  useState,
+} from 'react'
 import sharedClasses from './CalculatorPanel.module.css'
 import localClasses from './EhrPanelContent.module.css'
 
@@ -30,7 +40,6 @@ export interface EhrPanelContentProps {
 }
 
 type EhrForm = UseFormReturnType<EhrTuningForm>
-
 
 const inputProps: NumberInput.Props = {
   stepHoldDelay: 300,
@@ -81,12 +90,12 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
 
   return (
     <div className={classes.panelCompact}>
-      <PanelSection title="Debuff Application Calculator">
+      <PanelSection title='Debuff Application Calculator'>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center' }}>
-            <InputField label={t('Input.HitRate')} field="effectHitRate" form={form} />
-            <InputField label={t('Input.BaseChance')} field="baseChance" form={form} />
-            <InputField label={t('Input.Attempts')} field="attempts" form={form} noSuffix />
+            <InputField label={t('Input.HitRate')} field='effectHitRate' form={form} />
+            <InputField label={t('Input.BaseChance')} field='baseChance' form={form} />
+            <InputField label={t('Input.Attempts')} field='attempts' form={form} noSuffix />
           </div>
 
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center' }}>
@@ -103,7 +112,7 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
               onChange={(v) => form.setFieldValue('debuffRes', Number(v))}
             />
             <SelectField
-              label="Chart range"
+              label='Chart range'
               data={RANGE_OPTIONS}
               value={String(windowHalf)}
               onChange={(v) => setWindowHalf(Number(v))}
@@ -119,7 +128,7 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
         <EhrGrid {...vizProps} />
       </PanelSection>
       <Divider />
-      <PanelSection title="Target EHR Solver">
+      <PanelSection title='Target EHR Solver'>
         <ReverseSolve form={form} requiredEhr={requiredEhr} t={t} />
       </PanelSection>
     </div>
@@ -134,10 +143,10 @@ function resetIfEmpty(form: EhrForm, field: keyof EhrTuningForm) {
 }
 
 function InputField({ label, field, form, noSuffix }: {
-  label: string
-  field: keyof EhrTuningForm
-  form: EhrForm
-  noSuffix?: boolean
+  label: string,
+  field: keyof EhrTuningForm,
+  form: EhrForm,
+  noSuffix?: boolean,
 }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: 150 }}>
@@ -156,10 +165,10 @@ function InputField({ label, field, form, noSuffix }: {
 }
 
 function SelectField({ label, data, value, onChange }: {
-  label: string
-  data: { value: string; label: string }[]
-  value: string
-  onChange: (value: string) => void
+  label: string,
+  data: { value: string, label: string }[],
+  value: string,
+  onChange: (value: string) => void,
 }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 4, width: 150 }}>
@@ -167,9 +176,11 @@ function SelectField({ label, data, value, onChange }: {
       <Select
         data={data}
         value={value}
-        onChange={(v) => { if (v) onChange(v) }}
-        w="100%"
-        size="xs"
+        onChange={(v) => {
+          if (v) onChange(v)
+        }}
+        w='100%'
+        size='xs'
         allowDeselect={false}
         maxDropdownHeight={400}
       />
@@ -180,15 +191,15 @@ function SelectField({ label, data, value, onChange }: {
 const LABEL_STYLE: React.CSSProperties = { fontSize: 12, fontFamily: 'var(--font-ui)', color: 'rgba(255,255,255,0.4)' }
 
 function FormulaDisplay({ values, clampedRate }: {
-  values: EhrTuningForm
-  clampedRate: number
+  values: EhrTuningForm,
+  clampedRate: number,
 }) {
   const { baseChance, effectHitRate, effectRes, debuffRes, attempts } = values
   const perAttemptPct = Math.min(100, Math.max(0, calculatePerAttemptRate(values) * 100))
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30, padding: '4px 0' }}>
-      <math display="block" className={classes.formula}>
+      <math display='block' className={classes.formula}>
         <munder>
           <mrow>
             <mo>(</mo>
@@ -245,7 +256,7 @@ function FormulaDisplay({ values, clampedRate }: {
         <mo style={{ padding: '0 5px' }}>=</mo>
       </math>
 
-      <math display="block" className={classes.formula}>
+      <math display='block' className={classes.formula}>
         {attempts > 1 && (
           <>
             <munder>
@@ -253,7 +264,11 @@ function FormulaDisplay({ values, clampedRate }: {
                 <mn style={{ fontSize: 22, fontWeight: 750, color: 'rgba(255, 255, 255, 0.92)' }}>
                   {localeNumber_00(perAttemptPct)}%
                 </mn>
-                <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}>chance</mtext>
+                <mtext
+                  style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}
+                >
+                  chance
+                </mtext>
               </mrow>
               <mtext style={LABEL_STYLE}>Per attempt</mtext>
             </munder>
@@ -262,15 +277,19 @@ function FormulaDisplay({ values, clampedRate }: {
         )}
         <munder>
           <mrow>
-            <mn style={{
-              fontSize: 26,
-              fontWeight: 750,
-              fontVariantNumeric: 'tabular-nums',
-              color: clampedRate >= 80 ? '#58cca0' : clampedRate >= 50 ? '#dba96a' : '#dc6868',
-            }}>
+            <mn
+              style={{
+                fontSize: 26,
+                fontWeight: 750,
+                fontVariantNumeric: 'tabular-nums',
+                color: clampedRate >= 80 ? '#58cca0' : clampedRate >= 50 ? '#dba96a' : '#dc6868',
+              }}
+            >
               {localeNumber_00(clampedRate)}%
             </mn>
-            <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}>chance</mtext>
+            <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}>
+              chance
+            </mtext>
           </mrow>
           <mtext style={LABEL_STYLE}>{attempts > 1 ? `Over ${attempts} attempts` : 'Per attempt'}</mtext>
         </munder>
@@ -280,9 +299,9 @@ function FormulaDisplay({ values, clampedRate }: {
 }
 
 function ReverseSolve({ form, requiredEhr, t }: {
-  form: EhrForm
-  requiredEhr: number
-  t: TFunction<'modals', 'QuickUtils.EHR'>
+  form: EhrForm,
+  requiredEhr: number,
+  t: TFunction<'modals', 'QuickUtils.EHR'>,
 }) {
   const isComputable = Number.isFinite(requiredEhr)
 

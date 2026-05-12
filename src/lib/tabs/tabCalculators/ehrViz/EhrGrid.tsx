@@ -8,9 +8,21 @@ const EHR_STEP = 5
 const RES_STEPS = [0, 10, 20, 30, 40, 50, 60, 70, 80]
 const CELL_W = 65
 const CELL_H = 24
-const EHR_LABEL_W = 24
-const NUM_LABEL_W = 40
+const LABEL_W = 36
 const RES_LABEL_H = 16
+const GUIDE_COLOR = 'rgba(255,255,255,0.35)'
+const COL_GUIDE = {
+  backgroundImage: `linear-gradient(${GUIDE_COLOR},${GUIDE_COLOR}),linear-gradient(${GUIDE_COLOR},${GUIDE_COLOR})`,
+  backgroundSize: '1px 100%',
+  backgroundPosition: 'left,right',
+  backgroundRepeat: 'no-repeat',
+} as const
+const ROW_GUIDE = {
+  backgroundImage: `linear-gradient(${GUIDE_COLOR},${GUIDE_COLOR}),linear-gradient(${GUIDE_COLOR},${GUIDE_COLOR})`,
+  backgroundSize: '100% 1px',
+  backgroundPosition: 'top,bottom',
+  backgroundRepeat: 'no-repeat',
+} as const
 
 const BRIGHTEN = 0.75
 
@@ -44,8 +56,8 @@ function GridCell({ rate, isSelectedCol }: { rate: number, isSelectedCol: boolea
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: band.bg,
-        boxShadow: isSelectedCol ? 'inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35)' : undefined,
+        backgroundColor: band.bg,
+        ...(isSelectedCol ? COL_GUIDE : undefined),
       }}
     >
       <span
@@ -77,105 +89,109 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
   const isMajor = ehr % 10 === 0
 
   return (
-    <div style={{ display: 'flex', gap: 0, position: 'relative', zIndex: isCurrentRow ? 1 : 0 }}>
+    <div
+      style={{
+        display: 'flex',
+        gap: 0,
+        position: 'relative',
+        zIndex: isCurrentRow ? 1 : 0,
+        ...(isCurrentRow ? ROW_GUIDE : undefined),
+      }}
+    >
       {isCurrentRow && (
-        <div
+        <span
           style={{
-            width: EHR_LABEL_W,
-            height: CELL_H,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
+            position: 'absolute',
+            right: '100%',
+            top: '50%',
+            transform: 'translateY(-50%)',
             paddingRight: 4,
+            fontSize: 11,
+            fontFamily: 'var(--font-showcase)',
+            color: 'rgba(255,255,255,0.5)',
+            whiteSpace: 'nowrap',
           }}
         >
-          <span style={{ fontSize: 11, fontFamily: 'var(--font-showcase)', color: 'rgba(255,255,255,0.5)' }}>
-            EHR
-          </span>
-        </div>
+          EHR
+        </span>
       )}
       <div
         style={{
+          width: LABEL_W,
+          height: CELL_H,
           display: 'flex',
-          gap: 0,
-          boxShadow: isCurrentRow ? 'inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(255,255,255,0.35)' : undefined,
-          marginLeft: isCurrentRow ? 0 : EHR_LABEL_W,
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          paddingRight: 6,
         }}
       >
-        <div
+        <span
           style={{
-            width: NUM_LABEL_W,
-            height: CELL_H,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            paddingRight: 6,
+            fontSize: 12,
+            fontFamily: 'var(--font-showcase)',
+            fontVariantNumeric: 'tabular-nums',
+            color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.40)',
+            fontWeight: 400,
           }}
         >
-          <span
-            style={{
-              fontSize: 12,
-              fontFamily: 'var(--font-showcase)',
-              fontVariantNumeric: 'tabular-nums',
-              color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.40)',
-              fontWeight: 400,
-            }}
-          >
-            {ehr}%
-          </span>
-        </div>
-        {RES_STEPS.map((res) => {
-          const rawRate = Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: ehr, effectRes: res, debuffRes, attempts })))
-          const rate = Math.round(precisionRound(rawRate))
-
-          return <GridCell key={res} rate={rate} isSelectedCol={res === nearestRes} />
-        })}
+          {ehr}%
+        </span>
       </div>
+      {RES_STEPS.map((res) => {
+        const rawRate = Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: ehr, effectRes: res, debuffRes, attempts })))
+        const rate = Math.round(precisionRound(rawRate))
+
+        return <GridCell key={res} rate={rate} isSelectedCol={res === nearestRes} />
+      })}
     </div>
   )
 }
 
 function GridHeaderRow({ nearestRes, currentColor }: { nearestRes: number, currentColor: string }) {
   return (
-    <>
-      <div style={{ display: 'flex', gap: 0 }}>
-        <div style={{ width: EHR_LABEL_W + NUM_LABEL_W }} />
-        {RES_STEPS.map((res) => (
-          <div key={res} style={{ width: CELL_W, height: RES_LABEL_H, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {res === nearestRes && (
-              <span style={{ fontSize: 11, fontFamily: 'var(--font-showcase)', color: 'rgba(255,255,255,0.5)' }}>
+    <div style={{ display: 'flex', gap: 0 }}>
+      <div style={{ width: LABEL_W }} />
+      {RES_STEPS.map((res) => {
+        const isSelected = res === nearestRes
+        return (
+          <div
+            key={res}
+            style={{
+              width: CELL_W,
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              paddingBottom: 4,
+              position: 'relative',
+              ...(isSelected ? COL_GUIDE : undefined),
+            }}
+          >
+            {isSelected && (
+              <span
+                style={{
+                  position: 'absolute',
+                  bottom: '100%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  paddingBottom: 2,
+                  fontSize: 11,
+                  fontFamily: 'var(--font-showcase)',
+                  color: 'rgba(255,255,255,0.5)',
+                  whiteSpace: 'nowrap',
+                }}
+              >
                 RES
               </span>
             )}
-          </div>
-        ))}
-      </div>
-      <div style={{ display: 'flex', gap: 0 }}>
-        <div style={{ width: EHR_LABEL_W + NUM_LABEL_W }} />
-        {RES_STEPS.map((res) => {
-          const isSelected = res === nearestRes
-          return (
-            <div
-              key={res}
-              style={{
-                width: CELL_W,
-                display: 'flex',
-                alignItems: 'flex-end',
-                justifyContent: 'center',
-                paddingBottom: 4,
-                boxShadow: isSelected ? 'inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35)' : undefined,
-              }}
+            <span
+              style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: isSelected ? currentColor : 'rgba(255,255,255,0.65)' }}
             >
-              <span
-                style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: isSelected ? currentColor : 'rgba(255,255,255,0.65)' }}
-              >
-                {res}%
-              </span>
-            </div>
-          )
-        })}
-      </div>
-    </>
+              {res}%
+            </span>
+          </div>
+        )
+      })}
+    </div>
   )
 }
 
@@ -197,7 +213,7 @@ export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effect
   const currentColor = getBand(currentRate).text
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: 'translateX(-24px)' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: `translateX(-${LABEL_W / 2}px)`, paddingTop: RES_LABEL_H }}>
       <GridHeaderRow nearestRes={nearestRes} currentColor={currentColor} />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>

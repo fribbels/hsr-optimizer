@@ -122,6 +122,8 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
           clampedRate={clampedRate}
         />
 
+        <Divider />
+
         <EhrGrid {...vizProps} />
       </PanelSection>
       <Divider />

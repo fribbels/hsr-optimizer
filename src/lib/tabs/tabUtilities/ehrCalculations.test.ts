@@ -108,9 +108,10 @@ describe('calculateRequiredEhr', () => {
 
   it('round-trips with multiple attempts', () => {
     const inputs = { ...DEFAULT_INPUTS, attempts: 3, effectRes: 30 }
-    const desiredHitRate = 95
+    const desiredHitRate = 99
     const requiredEhr = calculateRequiredEhr({ ...inputs, desiredHitRate })
     expect(Number.isFinite(requiredEhr)).toBe(true)
+    expect(requiredEhr).toBeGreaterThan(0)
 
     const achieved = calculateApplicationRate({ ...inputs, effectHitRate: requiredEhr })
     expect(achieved).toBeCloseTo(desiredHitRate)

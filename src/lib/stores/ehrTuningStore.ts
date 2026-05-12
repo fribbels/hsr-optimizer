@@ -9,11 +9,13 @@ export interface EhrTuningForm {
   desiredHitRate: number
 }
 
-export const useEhrTuningStore = create<EhrTuningForm>()(() => ({
+export const EHR_TUNING_DEFAULTS: EhrTuningForm = {
   effectRes: 40,
   debuffRes: 0,
   baseChance: 100,
   attempts: 1,
   effectHitRate: 50,
   desiredHitRate: 100,
-}))
+}
+
+export const useEhrTuningStore = create<EhrTuningForm>()(() => ({ ...EHR_TUNING_DEFAULTS }))

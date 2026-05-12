@@ -1,7 +1,4 @@
-import {
-  Flex,
-  Paper,
-} from '@mantine/core'
+import { Flex } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
 import { SaveState } from 'lib/state/saveState'
@@ -10,9 +7,8 @@ import {
   calculateAhaSpeed,
   calculateNextTeammateSpeed,
 } from 'lib/tabs/tabUtilities/ahaCalculations'
-import {
-  AhaPanelContent,
-} from 'lib/tabs/tabUtilities/AhaPanelContent'
+import { AhaPanelContent } from 'lib/tabs/tabUtilities/AhaPanelContent'
+import { CalculatorPanel } from 'lib/tabs/tabUtilities/CalculatorPanel'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -40,23 +36,19 @@ export function AhaPanel() {
   }
 
   return (
-    <Flex direction='column' gap={16} style={{ alignSelf: 'center' }}>
-      <Paper withBorder p={20}>
-        <form>
-          <Flex direction='column' gap={18}>
-            <AhaPanelContent
-              form={form}
-              ahaSpeed={ahaSpeed}
-              speeds={speeds}
-              teammateSpeed={teammateSpeed}
-              desiredValue={desiredValue}
-              spdOptions={spdOptions}
-              onDesiredChange={handleDesiredChange}
-              t={t}
-            />
-          </Flex>
-        </form>
-      </Paper>
-    </Flex>
+    <CalculatorPanel>
+      <Flex direction='column' gap={18}>
+        <AhaPanelContent
+          form={form}
+          ahaSpeed={ahaSpeed}
+          speeds={speeds}
+          teammateSpeed={teammateSpeed}
+          desiredValue={desiredValue}
+          spdOptions={spdOptions}
+          onDesiredChange={handleDesiredChange}
+          t={t}
+        />
+      </Flex>
+    </CalculatorPanel>
   )
 }

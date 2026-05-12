@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import chroma from 'chroma-js'
 import { calculateApplicationRate } from 'lib/tabs/tabUtilities/ehrCalculations'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -29,7 +30,7 @@ function getBand(r: number) {
   return BAND_0
 }
 
-export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, debuffRes, attempts, windowHalf }: EhrVizProps) {
+export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effectRes, debuffRes, attempts, windowHalf }: EhrVizProps) {
   const snappedEhr = Math.floor(effectHitRate / EHR_STEP) * EHR_STEP
   const windowMin = Math.max(0, snappedEhr - windowHalf)
   const windowMax = windowMin + windowHalf * 2
@@ -37,21 +38,20 @@ export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, de
   const ehrSteps: number[] = []
   for (let e = windowMax; e >= windowMin; e -= EHR_STEP) ehrSteps.push(e)
 
-  const nearestEhr = snappedEhr
   const nearestRes = RES_STEPS.reduce((p, c) => Math.abs(c - effectRes) < Math.abs(p - effectRes) ? c : p)
 
-  const currentRate = Math.round(precisionRound(Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: nearestEhr, effectRes: nearestRes, debuffRes, attempts })))))
+  const currentRate = Math.round(precisionRound(Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: snappedEhr, effectRes: nearestRes, debuffRes, attempts })))))
   const currentColor = getBand(currentRate).text
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: 'translateX(-24px)' }}>
       <div style={{ display: 'flex', gap: 0, paddingBottom: 3 }}>
         <div style={{ width: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
-          <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', fontFamily: "'Maven Pro', sans-serif" }}>EHR \ RES</span>
+          <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-showcase)' }}>EHR \ RES</span>
         </div>
         {RES_STEPS.map((res) => (
           <div key={res} style={{ width: CELL_W, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
-            <span style={{ fontSize: 12, fontFamily: "'Maven Pro', sans-serif", fontWeight: 400, color: res === nearestRes ? currentColor : 'rgba(255,255,255,0.65)' }}>
+            <span style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: res === nearestRes ? currentColor : 'rgba(255,255,255,0.65)' }}>
               {res}%
             </span>
           </div>
@@ -60,7 +60,7 @@ export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, de
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
         {ehrSteps.map((ehr) => {
-          const isCurrentRow = ehr === nearestEhr
+          const isCurrentRow = ehr === snappedEhr
           const isMajor = ehr % 10 === 0
 
           return (
@@ -75,7 +75,7 @@ export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, de
                 display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 6,
               }}>
                 <span style={{
-                  fontSize: 12, fontFamily: "'Maven Pro', sans-serif", fontVariantNumeric: 'tabular-nums',
+                  fontSize: 12, fontFamily: 'var(--font-showcase)', fontVariantNumeric: 'tabular-nums',
                   color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.40)',
                   fontWeight: 400,
                 }}>
@@ -96,7 +96,7 @@ export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, de
                     boxShadow: isSelectedCol ? 'inset 1px 0 0 rgba(255,255,255,0.20), inset -1px 0 0 rgba(255,255,255,0.20)' : undefined,
                   }}>
                     <span style={{
-                      fontSize: 12, fontFamily: "'Maven Pro', sans-serif", fontVariantNumeric: 'tabular-nums',
+                      fontSize: 12, fontFamily: 'var(--font-showcase)', fontVariantNumeric: 'tabular-nums',
                       color: band.text, fontWeight: 400,
                     }}>
                       {rate}%
@@ -110,4 +110,4 @@ export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, de
       </div>
     </div>
   )
-}
+})

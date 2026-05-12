@@ -1,11 +1,12 @@
 import { Divider, NumberInput, Select } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
-import type { EhrTuningForm } from 'lib/stores/ehrTuningStore'
-import { EhrGridWarmCoolSpaced } from 'lib/tabs/tabUtilities/ehrViz/EhrGridWarmCoolSpaced'
+import { EHR_TUNING_DEFAULTS, type EhrTuningForm } from 'lib/stores/ehrTuningStore'
+import { calculatePerAttemptRate } from 'lib/tabs/tabUtilities/ehrCalculations'
+import { EhrGrid } from 'lib/tabs/tabUtilities/ehrViz/EhrGrid'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_00 } from 'lib/utils/i18nUtils'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import classes from './EhrPanelContent.module.css'
 
 export interface EhrVizProps {
@@ -26,7 +27,6 @@ export interface EhrPanelContentProps {
 
 type EhrForm = UseFormReturnType<EhrTuningForm>
 
-const EhrGrid = EhrGridWarmCoolSpaced
 
 const inputProps: NumberInput.Props = {
   stepHoldDelay: 300,
@@ -66,14 +66,14 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
   const values = form.getValues()
   const clampedRate = Math.min(100, Math.max(0, applicationRate))
 
-  const vizProps: EhrVizProps = {
+  const vizProps: EhrVizProps = useMemo(() => ({
     baseChance: values.baseChance,
     effectHitRate: values.effectHitRate,
     effectRes: values.effectRes,
     debuffRes: values.debuffRes,
     attempts: values.attempts,
     windowHalf,
-  }
+  }), [values.baseChance, values.effectHitRate, values.effectRes, values.debuffRes, values.attempts, windowHalf])
 
   return (
     <div className={classes.panelCompact}>
@@ -123,6 +123,13 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
   )
 }
 
+function resetIfEmpty(form: EhrForm, field: keyof EhrTuningForm) {
+  const v = form.getValues()[field] as number | ''
+  if (v === '' || v == null) {
+    form.setFieldValue(field, EHR_TUNING_DEFAULTS[field])
+  }
+}
+
 function InputField({ label, field, form, noSuffix }: {
   label: string
   field: keyof EhrTuningForm
@@ -139,6 +146,7 @@ function InputField({ label, field, form, noSuffix }: {
         suffix={noSuffix ? undefined : '%'}
         allowNegative={noSuffix ? false : undefined}
         min={noSuffix ? 1 : 0}
+        onBlur={() => resetIfEmpty(form, field)}
       />
     </div>
   )
@@ -174,8 +182,7 @@ function FormulaDisplay({ values, applicationRate, clampedRate }: {
   clampedRate: number
 }) {
   const { baseChance, effectHitRate, effectRes, debuffRes, attempts } = values
-  const perAttempt = (baseChance / 100) * (1 + effectHitRate / 100) * (1 - effectRes / 100) * (1 - debuffRes / 100)
-  const perAttemptPct = Math.min(100, Math.max(0, perAttempt * 100))
+  const perAttemptPct = Math.min(100, Math.max(0, calculatePerAttemptRate(values) * 100))
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30, padding: '4px 0' }}>
@@ -291,6 +298,7 @@ function ReverseSolve({ form, requiredEhr, t }: {
           hideControls
           min={0}
           max={100}
+          onBlur={() => resetIfEmpty(form, 'desiredHitRate')}
         />
       </div>
       <div className={classes.reverseOutput} style={{ opacity: isComputable ? undefined : 0.3 }}>

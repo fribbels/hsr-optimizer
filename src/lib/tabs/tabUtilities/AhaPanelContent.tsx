@@ -1,5 +1,6 @@
 import { Divider, NumberInput } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
+import type { AhaForm as AhaFormValues } from 'lib/stores/ahaTuningStore'
 import { Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -18,15 +19,7 @@ const RANK_COLORS = ['#dba96a', '#b96ccc', '#58b0dc', '#58cca0']
 const BASE_COLOR = '#667181'
 const LOW_SPEED_THRESHOLD = 90
 
-type AhaFormValues = {
-  teammate0: number | ''
-  teammate1: number | ''
-  teammate2: number | ''
-  teammate3: number | ''
-  desiredAha: number | ''
-}
-
-type AhaForm = UseFormReturnType<AhaFormValues>
+type AhaFormType = UseFormReturnType<AhaFormValues>
 type TeammateKey = (typeof TEAMMATE_KEYS)[number]
 
 interface TeammateRow {
@@ -40,7 +33,7 @@ interface TeammateRow {
 }
 
 export interface AhaPanelContentProps {
-  form: AhaForm
+  form: AhaFormType
   ahaSpeed: number
   speeds: number[]
   teammateSpeed: number | null
@@ -83,7 +76,7 @@ const ROW_GAP = 3
 const ROW_STEP = ROW_HEIGHT + ROW_GAP
 
 function IntegratedRows({ form, rows, ahaSpeed }: {
-  form: AhaForm
+  form: AhaFormType
   rows: TeammateRow[]
   ahaSpeed: number
 }) {
@@ -140,7 +133,7 @@ function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
 }
 
 function IntegratedRow({ form, row, ahaSpeed, label, style }: {
-  form: AhaForm
+  form: AhaFormType
   row: TeammateRow
   ahaSpeed: number
   label: string
@@ -255,7 +248,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
         <HeaderText>
           {allSlotsFilled ? 'No slots open' : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>
-        <span style={{ color: getSpeedColour(displaySpeed) }}>
+        <span style={{ color: getSpeedColor(displaySpeed) }}>
           {displaySpeed !== null ? localeNumber_000(displaySpeed) : ''}
         </span>
       </div>
@@ -304,7 +297,7 @@ function getDenominator(rank: number) {
   return Math.round(1 / speedToContributionMultiplier(rank))
 }
 
-function getSpeedColour(speed: number | null) {
+function getSpeedColor(speed: number | null) {
   if (speed == null) return undefined
   const rounded = precisionRound(speed)
   if (rounded < 0) return 'red'

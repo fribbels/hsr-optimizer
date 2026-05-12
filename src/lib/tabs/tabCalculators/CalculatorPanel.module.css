@@ -11,7 +11,11 @@
 }
 
 .formula mfrac > *:last-child {
-  padding-top: 7px;
+  padding-top: 6px;
+}
+
+.formula munder > *:last-child {
+  padding-top: 6px;
 }
 
 .reverse {

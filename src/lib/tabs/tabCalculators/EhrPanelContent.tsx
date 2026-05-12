@@ -18,10 +18,7 @@ import {
   useMemo,
   useState,
 } from 'react'
-import sharedClasses from './CalculatorPanel.module.css'
-import localClasses from './EhrPanelContent.module.css'
-
-const classes = { ...sharedClasses, ...localClasses }
+import classes from './CalculatorPanel.module.css'
 
 export interface EhrVizProps {
   baseChance: number
@@ -71,7 +68,7 @@ const DEBUFF_RES_OPTIONS = [
 
 const RANGE_OPTIONS = Array.from({ length: 10 }, (_, i) => {
   const v = (i + 1) * 10
-  return { value: String(v), label: `± ${v}%` }
+  return { value: String(v), label: `± ${v}% EHR` }
 })
 
 export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPanelContentProps) {
@@ -112,7 +109,7 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
               onChange={(v) => form.setFieldValue('debuffRes', Number(v))}
             />
             <SelectField
-              label='Chart range'
+              label='Grid range'
               data={RANGE_OPTIONS}
               value={String(windowHalf)}
               onChange={(v) => setWindowHalf(Number(v))}

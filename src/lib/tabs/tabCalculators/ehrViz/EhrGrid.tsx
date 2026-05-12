@@ -48,6 +48,7 @@ function GridCell({ rate, isSelectedCol }: { rate: number, isSelectedCol: boolea
       <span
         style={{
           fontSize: 12,
+          lineHeight: 1,
           fontFamily: 'var(--font-showcase)',
           fontVariantNumeric: 'tabular-nums',
           color: band.text,
@@ -136,7 +137,7 @@ function GridHeaderRow({ nearestRes, currentColor }: { nearestRes: number, curre
 export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effectRes, debuffRes, attempts, windowHalf }: EhrVizProps) {
   const snappedEhr = Math.floor(effectHitRate / EHR_STEP) * EHR_STEP
   const windowMin = Math.max(0, snappedEhr - windowHalf)
-  const windowMax = windowMin + windowHalf * 2
+  const windowMax = snappedEhr + windowHalf
 
   const ehrSteps: number[] = []
   for (let e = windowMax; e >= windowMin; e -= EHR_STEP) {

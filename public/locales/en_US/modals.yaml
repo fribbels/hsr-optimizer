@@ -387,7 +387,6 @@ RelicReroll:
 QuickUtils:
   AHA:
     Label: Aha Speed
-    Title: Aha speed tuner
     Output:
       Teammate0: 1st Teammate's SPD
       Teammate1: 2nd Teammate's SPD

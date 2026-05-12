@@ -1,5 +1,6 @@
 import { Divider, NumberInput, Select } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
+import type { TFunction } from 'i18next'
 import { EHR_TUNING_DEFAULTS, type EhrTuningForm } from 'lib/stores/ehrTuningStore'
 import { calculatePerAttemptRate } from 'lib/tabs/tabUtilities/ehrCalculations'
 import { EhrGrid } from 'lib/tabs/tabUtilities/ehrViz/EhrGrid'
@@ -7,7 +8,10 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_00 } from 'lib/utils/i18nUtils'
 import { useMemo, useState } from 'react'
-import classes from './EhrPanelContent.module.css'
+import sharedClasses from './CalculatorPanel.module.css'
+import localClasses from './EhrPanelContent.module.css'
+
+const classes = { ...sharedClasses, ...localClasses }
 
 export interface EhrVizProps {
   baseChance: number
@@ -22,7 +26,7 @@ export interface EhrPanelContentProps {
   form: UseFormReturnType<EhrTuningForm>
   applicationRate: number
   requiredEhr: number
-  t: (key: string) => string
+  t: TFunction<'modals', 'QuickUtils.EHR'>
 }
 
 type EhrForm = UseFormReturnType<EhrTuningForm>
@@ -109,7 +113,6 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
 
         <FormulaDisplay
           values={values}
-          applicationRate={applicationRate}
           clampedRate={clampedRate}
         />
 
@@ -176,9 +179,8 @@ function SelectField({ label, data, value, onChange }: {
 
 const LABEL_STYLE: React.CSSProperties = { fontSize: 12, fontFamily: 'var(--font-ui)', color: 'rgba(255,255,255,0.4)' }
 
-function FormulaDisplay({ values, applicationRate, clampedRate }: {
+function FormulaDisplay({ values, clampedRate }: {
   values: EhrTuningForm
-  applicationRate: number
   clampedRate: number
 }) {
   const { baseChance, effectHitRate, effectRes, debuffRes, attempts } = values
@@ -186,7 +188,7 @@ function FormulaDisplay({ values, applicationRate, clampedRate }: {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30, padding: '4px 0' }}>
-      <math display="block" className={classes.formula} style={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.72)' }}>
+      <math display="block" className={classes.formula}>
         <munder>
           <mrow>
             <mo>(</mo>
@@ -243,7 +245,7 @@ function FormulaDisplay({ values, applicationRate, clampedRate }: {
         <mo style={{ padding: '0 5px' }}>=</mo>
       </math>
 
-      <math display="block" className={classes.formula} style={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.72)' }}>
+      <math display="block" className={classes.formula}>
         {attempts > 1 && (
           <>
             <munder>
@@ -280,7 +282,7 @@ function FormulaDisplay({ values, applicationRate, clampedRate }: {
 function ReverseSolve({ form, requiredEhr, t }: {
   form: EhrForm
   requiredEhr: number
-  t: (key: string) => string
+  t: TFunction<'modals', 'QuickUtils.EHR'>
 }) {
   const isComputable = Number.isFinite(requiredEhr)
 
@@ -291,11 +293,8 @@ function ReverseSolve({ form, requiredEhr, t }: {
         <NumberInput
           key={form.key('desiredHitRate')}
           {...form.getInputProps('desiredHitRate')}
-          stepHoldDelay={300}
-          stepHoldInterval={50}
-          suffix="%"
+          {...inputProps}
           allowNegative={false}
-          hideControls
           min={0}
           max={100}
           onBlur={() => resetIfEmpty(form, 'desiredHitRate')}

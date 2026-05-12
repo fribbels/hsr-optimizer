@@ -1,4 +1,3 @@
-import { Flex } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
 import { SaveState } from 'lib/state/saveState'
@@ -27,7 +26,7 @@ export function AhaPanel() {
   const { teammate0, teammate1, teammate2, teammate3, desiredAha } = form.getValues()
   const speeds = [teammate0, teammate1, teammate2, teammate3].filter((x): x is number => x !== '')
   const ahaSpeed = calculateAhaSpeed(speeds)
-  const teammateSpeed = typeof speeds[3] === 'number' ? null : calculateNextTeammateSpeed(desiredAha, speeds)
+  const teammateSpeed = speeds.length >= 4 ? null : calculateNextTeammateSpeed(desiredAha, speeds)
   const spdOptions = useMemo(() => buildSpdPresetOptions(tPresets, { skipNoMinimum: true }), [tPresets])
   const desiredValue = desiredAha === '' ? undefined : desiredAha
 
@@ -37,18 +36,16 @@ export function AhaPanel() {
 
   return (
     <CalculatorPanel>
-      <Flex direction='column' gap={18}>
-        <AhaPanelContent
-          form={form}
-          ahaSpeed={ahaSpeed}
-          speeds={speeds}
-          teammateSpeed={teammateSpeed}
-          desiredValue={desiredValue}
-          spdOptions={spdOptions}
-          onDesiredChange={handleDesiredChange}
-          t={t}
-        />
-      </Flex>
+      <AhaPanelContent
+        form={form}
+        ahaSpeed={ahaSpeed}
+        speeds={speeds}
+        teammateSpeed={teammateSpeed}
+        desiredValue={desiredValue}
+        spdOptions={spdOptions}
+        onDesiredChange={handleDesiredChange}
+        t={t}
+      />
     </CalculatorPanel>
   )
 }

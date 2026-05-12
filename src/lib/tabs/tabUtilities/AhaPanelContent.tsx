@@ -1,5 +1,6 @@
 import { Divider, NumberInput } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
+import type { TFunction } from 'i18next'
 import type { AhaForm as AhaFormValues } from 'lib/stores/ahaTuningStore'
 import { Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
@@ -12,7 +13,10 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
-import classes from './AhaPanelContent.module.css'
+import sharedClasses from './CalculatorPanel.module.css'
+import localClasses from './AhaPanelContent.module.css'
+
+const classes = { ...sharedClasses, ...localClasses }
 
 const TEAMMATE_KEYS = ['teammate0', 'teammate1', 'teammate2', 'teammate3'] as const
 const RANK_COLORS = ['#dba96a', '#b96ccc', '#58b0dc', '#58cca0']
@@ -40,7 +44,7 @@ export interface AhaPanelContentProps {
   desiredValue: number | undefined
   spdOptions: ComboboxNumberGroup[]
   onDesiredChange: (value: number | undefined) => void
-  t: (key: string) => string
+  t: TFunction<'modals', 'QuickUtils.AHA'>
 }
 
 const spdIconSection = <img src={Assets.getStatIcon(Stats.SPD)} alt='' style={{ height: 24 }} />
@@ -189,7 +193,7 @@ function FormulaSummary({ rows, ahaSpeed }: {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0' }}>
-      <math display='block' className={classes.formula} style={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.72)' }}>
+      <math display='block' className={classes.formula}>
         <mtext style={{ fontFamily: 'var(--font-ui)' }}>Aha Speed</mtext>
         <mo style={{ padding: '0 5px' }}>=</mo>
         <mn>{AHA_BASE_SPEED}</mn>
@@ -244,7 +248,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
           min={0}
         />
       </div>
-      <div className={classes.reverseOutput} style={{ opacity: allSlotsFilled ? undefined : teammateSpeed !== null ? undefined : 0.3 }}>
+      <div className={classes.reverseOutput} style={{ opacity: !allSlotsFilled && teammateSpeed === null ? 0.3 : undefined }}>
         <HeaderText>
           {allSlotsFilled ? 'No slots open' : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>

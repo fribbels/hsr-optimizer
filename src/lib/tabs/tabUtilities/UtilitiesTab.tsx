@@ -26,10 +26,10 @@ const PANEL_ICONS: Record<UtilityPanel, string> = {
   [UtilityPanel.EHR]: Stats.EHR,
 }
 
-const PANEL_I18N_LABEL: Record<UtilityPanel, string> = {
+const PANEL_I18N_LABEL = {
   [UtilityPanel.AHA]: 'AHA.Label',
   [UtilityPanel.EHR]: 'EHR.Label',
-}
+} as const
 
 export function UtilitiesTab() {
   const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils' })
@@ -43,10 +43,9 @@ export function UtilitiesTab() {
   }, [addActivationListener, activePanel])
 
   function handleTabChange(value: string | null) {
-    if (!value || !(Object.values(UtilityPanel) as string[]).includes(value)) return
-    const panel = value as UtilityPanel
-    setActivePanel(panel)
-    pushUtilityHash(panel)
+    if (!value || !UTILITY_PANELS.includes(value as UtilityPanel)) return
+    setActivePanel(value as UtilityPanel)
+    pushUtilityHash(value as UtilityPanel)
   }
 
   return (

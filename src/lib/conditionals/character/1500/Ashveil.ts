@@ -335,9 +335,7 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     END_SKILL,
     DEFAULT_FUA,
-    WHOLE_SKILL,
     DEFAULT_FUA,
-    WHOLE_SKILL,
     DEFAULT_FUA,
   ],
   relicSets: [

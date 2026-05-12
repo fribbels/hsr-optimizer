@@ -29,9 +29,12 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   END_SKILL,
+  END_ULT,
   NULL_TURN_ABILITY_NAME,
+  START_SKILL,
   START_ULT,
   WHOLE_SKILL,
+  WHOLE_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -295,9 +298,10 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    END_SKILL,
-    WHOLE_SKILL,
+    WHOLE_ULT,
+    WHOLE_ULT,
+    START_SKILL,
+    END_ULT,
   ],
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],

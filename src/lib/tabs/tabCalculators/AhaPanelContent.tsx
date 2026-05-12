@@ -18,7 +18,6 @@ import {
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 import localClasses from './AhaPanelContent.module.css'
 import sharedClasses from './CalculatorPanel.module.css'
 
@@ -27,7 +26,6 @@ const classes = { ...sharedClasses, ...localClasses }
 const TEAMMATE_KEYS = ['teammate0', 'teammate1', 'teammate2', 'teammate3'] as const
 const RANK_COLORS = ['#dba96a', '#b96ccc', '#58b0dc', '#58cca0']
 const BASE_COLOR = '#667181'
-const LOW_SPEED_THRESHOLD = 90
 
 type AhaFormType = UseFormReturnType<AhaFormValues>
 type TeammateKey = (typeof TEAMMATE_KEYS)[number]
@@ -263,7 +261,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
         <HeaderText>
           {allSlotsFilled ? 'No slots open' : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>
-        <span style={{ color: getSpeedColor(displaySpeed) }}>
+        <span>
           {displaySpeed !== null ? localeNumber_000(displaySpeed) : ''}
         </span>
       </div>
@@ -312,10 +310,3 @@ function getDenominator(rank: number) {
   return Math.round(1 / speedToContributionMultiplier(rank))
 }
 
-function getSpeedColor(speed: number | null) {
-  if (speed == null) return undefined
-  const rounded = precisionRound(speed)
-  if (rounded < 0) return 'red'
-  if (rounded > 0 && rounded < LOW_SPEED_THRESHOLD) return 'orange'
-  return undefined
-}

@@ -201,7 +201,7 @@ function FormulaDisplay({ values, clampedRate }: {
           <mrow>
             <mo>(</mo>
             <mfrac>
-              <mn style={{ color: '#667181' }}>{localeNumber_00(baseChance)}</mn>
+              <mn style={{ color: '#dba96a' }}>{localeNumber_00(baseChance)}</mn>
               <mn>100</mn>
             </mfrac>
             <mo>)</mo>
@@ -215,7 +215,7 @@ function FormulaDisplay({ values, clampedRate }: {
             <mn>1</mn>
             <mo>+</mo>
             <mfrac>
-              <mn style={{ color: '#58cca0' }}>{localeNumber_00(effectHitRate)}</mn>
+              <mn style={{ color: '#b96ccc' }}>{localeNumber_00(effectHitRate)}</mn>
               <mn>100</mn>
             </mfrac>
             <mo>)</mo>
@@ -229,7 +229,7 @@ function FormulaDisplay({ values, clampedRate }: {
             <mn>1</mn>
             <mo>−</mo>
             <mfrac>
-              <mn style={{ color: '#dc6868' }}>{localeNumber_00(effectRes)}</mn>
+              <mn style={{ color: '#58b0dc' }}>{localeNumber_00(effectRes)}</mn>
               <mn>100</mn>
             </mfrac>
             <mo>)</mo>
@@ -243,7 +243,7 @@ function FormulaDisplay({ values, clampedRate }: {
             <mn>1</mn>
             <mo>−</mo>
             <mfrac>
-              <mn style={{ color: '#dba96a' }}>{localeNumber_00(debuffRes)}</mn>
+              <mn style={{ color: '#58cca0' }}>{localeNumber_00(debuffRes)}</mn>
               <mn>100</mn>
             </mfrac>
             <mo>)</mo>

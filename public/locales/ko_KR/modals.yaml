@@ -372,3 +372,8 @@ RelicReroll:
   Title: 유물 리롤 감지
   OriginalSubstats: 리롤 전 부옵
   RerolledSubstats: 리롤 후 부옵
+Calculators:
+  EHR:
+    Label: 효과 명중
+    Input:
+      HitRate: 효과 명중

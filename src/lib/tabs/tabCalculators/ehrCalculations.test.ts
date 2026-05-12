@@ -2,7 +2,7 @@ import {
   calculateApplicationRate,
   calculateRequiredEhr,
   type EhrCalcInputs,
-} from 'lib/tabs/tabUtilities/ehrCalculations'
+} from 'lib/tabs/tabCalculators/ehrCalculations'
 import {
   describe,
   expect,

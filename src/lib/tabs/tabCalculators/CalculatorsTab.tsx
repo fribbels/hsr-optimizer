@@ -5,15 +5,15 @@ import {
 import { Stats } from 'lib/constants/constants'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { Assets } from 'lib/rendering/assets'
-import { AhaPanel } from 'lib/tabs/tabUtilities/AhaPanel'
-import { EhrPanel } from 'lib/tabs/tabUtilities/EhrPanel'
+import { AhaPanel } from 'lib/tabs/tabCalculators/AhaPanel'
+import { EhrPanel } from 'lib/tabs/tabCalculators/EhrPanel'
 import {
   CALCULATOR_PANELS,
   CalculatorPanel,
   pushCalculatorHash,
   replaceCalculatorHash,
   resolveCalculatorPanel,
-} from 'lib/tabs/tabUtilities/utilityPanels'
+} from 'lib/tabs/tabCalculators/calculatorPanels'
 import {
   useContext,
   useEffect,
@@ -31,7 +31,7 @@ const PANEL_I18N_LABEL = {
   [CalculatorPanel.EHR]: 'EHR.Label',
 } as const
 
-export function UtilitiesTab() {
+export function CalculatorsTab() {
   const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils' })
   const [activePanel, setActivePanel] = useState<CalculatorPanel>(resolveCalculatorPanel)
   const { addActivationListener } = useContext(TabVisibilityContext)

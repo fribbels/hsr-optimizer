@@ -9,8 +9,8 @@ import {
   EHR_TUNING_DEFAULTS,
   type EhrTuningForm,
 } from 'lib/stores/ehrTuningStore'
-import { calculatePerAttemptRate } from 'lib/tabs/tabUtilities/ehrCalculations'
-import { EhrGrid } from 'lib/tabs/tabUtilities/ehrViz/EhrGrid'
+import { calculatePerAttemptRate } from 'lib/tabs/tabCalculators/ehrCalculations'
+import { EhrGrid } from 'lib/tabs/tabCalculators/ehrViz/EhrGrid'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_00 } from 'lib/utils/i18nUtils'

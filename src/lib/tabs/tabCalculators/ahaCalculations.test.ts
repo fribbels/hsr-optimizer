@@ -3,7 +3,7 @@ import {
   calculateAhaSpeed,
   calculateNextTeammateSpeed,
   speedToContributionMultiplier,
-} from 'lib/tabs/tabUtilities/ahaCalculations'
+} from 'lib/tabs/tabCalculators/ahaCalculations'
 import {
   describe,
   expect,

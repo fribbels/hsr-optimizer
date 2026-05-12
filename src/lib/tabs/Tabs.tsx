@@ -12,7 +12,7 @@ import { ImportTab } from 'lib/tabs/tabImport/ImportTab'
 import { OptimizerTab } from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
-import { UtilitiesTab } from 'lib/tabs/tabUtilities/UtilitiesTab'
+import { CalculatorsTab } from 'lib/tabs/tabCalculators/CalculatorsTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 
 import {
@@ -48,7 +48,7 @@ const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.SHOWCASE, ShowcaseTab],
   [AppPages.WARP, WarpCalculatorTab],
   [AppPages.BENCHMARKS, BenchmarksTab],
-  [AppPages.CALCULATORS, UtilitiesTab],
+  [AppPages.CALCULATORS, CalculatorsTab],
   [AppPages.CHANGELOG, ChangelogTab],
   [AppPages.WEBGPU_TEST, WebgpuTab],
   [AppPages.METADATA_TEST, MetadataTab],

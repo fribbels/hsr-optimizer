@@ -1,6 +1,6 @@
 import chroma from 'chroma-js'
-import { calculateApplicationRate } from 'lib/tabs/tabUtilities/ehrCalculations'
-import type { EhrVizProps } from 'lib/tabs/tabUtilities/EhrPanelContent'
+import { calculateApplicationRate } from 'lib/tabs/tabCalculators/ehrCalculations'
+import type { EhrVizProps } from 'lib/tabs/tabCalculators/EhrPanelContent'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { memo } from 'react'
 

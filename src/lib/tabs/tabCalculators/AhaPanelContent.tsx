@@ -10,7 +10,7 @@ import type { AhaForm as AhaFormValues } from 'lib/stores/ahaTuningStore'
 import {
   AHA_BASE_SPEED,
   speedToContributionMultiplier,
-} from 'lib/tabs/tabUtilities/ahaCalculations'
+} from 'lib/tabs/tabCalculators/ahaCalculations'
 import {
   type ComboboxNumberGroup,
   ComboboxNumberInput,

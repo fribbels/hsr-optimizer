@@ -5,9 +5,9 @@ import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import {
   calculateAhaSpeed,
   calculateNextTeammateSpeed,
-} from 'lib/tabs/tabUtilities/ahaCalculations'
-import { AhaPanelContent } from 'lib/tabs/tabUtilities/AhaPanelContent'
-import { CalculatorPanel } from 'lib/tabs/tabUtilities/CalculatorPanel'
+} from 'lib/tabs/tabCalculators/ahaCalculations'
+import { AhaPanelContent } from 'lib/tabs/tabCalculators/AhaPanelContent'
+import { CalculatorPanel } from 'lib/tabs/tabCalculators/CalculatorPanel'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 

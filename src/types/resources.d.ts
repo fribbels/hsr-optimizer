@@ -6437,16 +6437,16 @@ interface Resources {
     "QuickUtils": {
       "AHA": {
         "Input": {
-          "DesiredAha": "Desired Aha Speed",
+          "DesiredAha": "Desired Aha SPD",
           "TeammateSpeeds": "Elation teammate speeds"
         },
-        "Label": "Aha",
+        "Label": "Aha Speed",
         "Output": {
           "AhaSpeed": "Aha's Speed",
-          "Teammate0": "1st Teammate's speed",
-          "Teammate1": "2nd Teammate's speed",
-          "Teammate2": "3rd Teammate's speed",
-          "Teammate3": "4th Teammate's speed"
+          "Teammate0": "1st Teammate's SPD",
+          "Teammate1": "2nd Teammate's SPD",
+          "Teammate2": "3rd Teammate's SPD",
+          "Teammate3": "4th Teammate's SPD"
         },
         "Title": "Aha speed tuner"
       },
@@ -6454,12 +6454,12 @@ interface Resources {
         "Input": {
           "Attempts": "Application attempts",
           "BaseChance": "Debuff base chance",
-          "DebuffRes": "Enemy debuff resistance",
-          "DesiredHitRate": "Desired Hit Rate",
-          "EffectRes": "Enemy effect resistance",
+          "DebuffRes": "Enemy debuff RES",
+          "DesiredHitRate": "Target debuff chance",
+          "EffectRes": "Enemy effect RES",
           "HitRate": "Effect Hit Rate"
         },
-        "Label": "EHR",
+        "Label": "Effect Hit Rate",
         "Output": {
           "ApplicationRate": "Chance to apply",
           "RequiredHitRate": "Required EHR"
@@ -7796,7 +7796,7 @@ interface Resources {
     },
     "Tools": {
       "Benchmarks": "Benchmarks",
-      "QuickUtils": "Utilities",
+      "QuickUtils": "Calculators",
       "Showcase": "Showcase",
       "Title": "Tools",
       "WarpPlanner": "Warp Planner"

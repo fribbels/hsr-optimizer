@@ -133,7 +133,7 @@ function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
           }}
         />
       </div>
-      <div className={classes.rowMeta}>+{localeNumber_000(AHA_BASE_SPEED)}</div>
+      <div className={classes.rowMeta}>+ {localeNumber_000(AHA_BASE_SPEED)}</div>
     </div>
   )
 }
@@ -150,7 +150,7 @@ function IntegratedRow({ form, row, ahaSpeed, label, style }: {
   const contribution = row.contribution ?? 0
   const leftPct = hasContribution ? (startOffset / ahaSpeed) * 100 : 0
   const widthPct = hasContribution ? (contribution / ahaSpeed) * 100 : 0
-  const contributionLabel = row.contribution == null ? '' : `+${localeNumber_000(row.contribution)}`
+  const contributionLabel = row.contribution == null ? '' : `+ ${localeNumber_000(row.contribution)}`
 
   return (
     <div className={`${classes.integratedRow} ${row.rank == null ? classes.emptyRow : ''}`} style={style}>

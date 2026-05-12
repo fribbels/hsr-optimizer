@@ -15,6 +15,7 @@ declare module 'react' {
       msub: MathMLProps
       msup: MathMLProps
       mtext: MathMLProps
+      munder: MathMLProps
     }
   }
 }

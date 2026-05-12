@@ -14,6 +14,6 @@ export const useEhrTuningStore = create<EhrTuningForm>()(() => ({
   debuffRes: 0,
   baseChance: 100,
   attempts: 1,
-  effectHitRate: 100,
+  effectHitRate: 50,
   desiredHitRate: 100,
 }))

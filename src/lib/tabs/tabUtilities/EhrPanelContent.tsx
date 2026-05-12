@@ -44,6 +44,8 @@ const EFFECT_RES_OPTIONS = [
   { value: '40', label: '40%' },
   { value: '50', label: '50%' },
   { value: '60', label: '60%' },
+  { value: '70', label: '70%' },
+  { value: '80', label: '80%' },
 ]
 
 const DEBUFF_RES_OPTIONS = [
@@ -63,7 +65,6 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
   const [windowHalf, setWindowHalf] = useState(50)
   const values = form.getValues()
   const clampedRate = Math.min(100, Math.max(0, applicationRate))
-  const perAttempt = (values.baseChance / 100) * (1 + values.effectHitRate / 100) * (1 - values.effectRes / 100) * (1 - values.debuffRes / 100)
 
   const vizProps: EhrVizProps = {
     baseChance: values.baseChance,
@@ -109,7 +110,6 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
 
         <FormulaDisplay
           values={values}
-          perAttempt={perAttempt}
           applicationRate={applicationRate}
           clampedRate={clampedRate}
         />
@@ -117,7 +117,7 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
         <EhrGrid {...vizProps} />
       </PanelSection>
       <Divider />
-      <PanelSection title="Required EHR Solver">
+      <PanelSection title="Target EHR Solver">
         <ReverseSolve form={form} requiredEhr={requiredEhr} t={t} />
       </PanelSection>
     </div>
@@ -170,78 +170,116 @@ function SelectField({ label, data, value, onChange }: {
         w="100%"
         size="xs"
         allowDeselect={false}
+        maxDropdownHeight={400}
       />
     </div>
   )
 }
 
-function FormulaDisplay({ values, perAttempt, applicationRate, clampedRate }: {
+const LABEL_STYLE: React.CSSProperties = { fontSize: 12, fontFamily: 'var(--font-ui)', color: 'rgba(255,255,255,0.4)' }
+
+function FormulaDisplay({ values, applicationRate, clampedRate }: {
   values: EhrTuningForm
-  perAttempt: number
   applicationRate: number
   clampedRate: number
 }) {
   const { baseChance, effectHitRate, effectRes, debuffRes, attempts } = values
+  const perAttempt = (baseChance / 100) * (1 + effectHitRate / 100) * (1 - effectRes / 100) * (1 - debuffRes / 100)
+  const perAttemptPct = Math.min(100, Math.max(0, perAttempt * 100))
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'center', flexWrap: 'wrap', padding: '4px 0' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 30, padding: '4px 0' }}>
       <math display="block" className={classes.formula} style={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.72)' }}>
-        <mfrac>
-          <mn style={{ color: '#667181' }}>{localeNumber_00(baseChance)}</mn>
-          <mn>100</mn>
-        </mfrac>
+        <munder>
+          <mrow>
+            <mo>(</mo>
+            <mfrac>
+              <mn style={{ color: '#667181' }}>{localeNumber_00(baseChance)}</mn>
+              <mn>100</mn>
+            </mfrac>
+            <mo>)</mo>
+          </mrow>
+          <mtext style={LABEL_STYLE}>Base chance</mtext>
+        </munder>
         <mo style={{ padding: '0 5px' }}>×</mo>
-        <mrow>
-          <mo>(</mo>
-          <mn>1</mn>
-          <mo>+</mo>
-          <mfrac>
-            <mn style={{ color: '#58cca0' }}>{localeNumber_00(effectHitRate)}</mn>
-            <mn>100</mn>
-          </mfrac>
-          <mo>)</mo>
-        </mrow>
+        <munder>
+          <mrow>
+            <mo>(</mo>
+            <mn>1</mn>
+            <mo>+</mo>
+            <mfrac>
+              <mn style={{ color: '#58cca0' }}>{localeNumber_00(effectHitRate)}</mn>
+              <mn>100</mn>
+            </mfrac>
+            <mo>)</mo>
+          </mrow>
+          <mtext style={LABEL_STYLE}>EHR multi</mtext>
+        </munder>
         <mo style={{ padding: '0 5px' }}>×</mo>
-        <mrow>
-          <mo>(</mo>
-          <mn>1</mn>
-          <mo>−</mo>
-          <mfrac>
-            <mn style={{ color: '#dc6868' }}>{localeNumber_00(effectRes)}</mn>
-            <mn>100</mn>
-          </mfrac>
-          <mo>)</mo>
-        </mrow>
-        <mo style={{ padding: '0 5px' }}>×</mo>
-        <mrow>
-          <mo>(</mo>
-          <mn>1</mn>
-          <mo>−</mo>
-          <mfrac>
-            <mn style={{ color: '#dba96a' }}>{localeNumber_00(debuffRes)}</mn>
-            <mn>100</mn>
-          </mfrac>
-          <mo>)</mo>
-        </mrow>
+        <munder>
+          <mrow>
+            <mo>(</mo>
+            <mn>1</mn>
+            <mo>−</mo>
+            <mfrac>
+              <mn style={{ color: '#dc6868' }}>{localeNumber_00(effectRes)}</mn>
+              <mn>100</mn>
+            </mfrac>
+            <mo>)</mo>
+          </mrow>
+          <mtext style={LABEL_STYLE}>Eff RES multi</mtext>
+        </munder>
+        {debuffRes > 0 && (
+          <>
+            <mo style={{ padding: '0 5px' }}>×</mo>
+            <munder>
+              <mrow>
+                <mo>(</mo>
+                <mn>1</mn>
+                <mo>−</mo>
+                <mfrac>
+                  <mn style={{ color: '#dba96a' }}>{localeNumber_00(debuffRes)}</mn>
+                  <mn>100</mn>
+                </mfrac>
+                <mo>)</mo>
+              </mrow>
+              <mtext style={LABEL_STYLE}>Debuff RES multi</mtext>
+            </munder>
+          </>
+        )}
+        <mo style={{ padding: '0 5px' }}>=</mo>
       </math>
 
-      <span style={{ fontSize: 18, color: 'rgba(255,255,255,0.3)' }}>=</span>
-
-      <span style={{
-        fontSize: 26,
-        fontWeight: 750,
-        fontFamily: 'var(--font-mono)',
-        fontVariantNumeric: 'tabular-nums',
-        color: clampedRate >= 80 ? '#58cca0' : clampedRate >= 50 ? '#dba96a' : '#dc6868',
-      }}>
-        {localeNumber_00(clampedRate)}% Application Rate
-      </span>
-
-      {attempts > 1 && (
-        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', fontFamily: 'var(--font-ui)' }}>
-          ({localeNumber_00(perAttempt * 100)}% per attempt × {attempts})
-        </span>
-      )}
+      <math display="block" className={classes.formula} style={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.72)' }}>
+        {attempts > 1 && (
+          <>
+            <munder>
+              <mrow>
+                <mn style={{ fontSize: 22, fontWeight: 750, color: 'rgba(255, 255, 255, 0.92)' }}>
+                  {localeNumber_00(perAttemptPct)}%
+                </mn>
+                <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}>chance</mtext>
+              </mrow>
+              <mtext style={LABEL_STYLE}>Per attempt</mtext>
+            </munder>
+            <mo style={{ padding: '0 10px' }}>=</mo>
+          </>
+        )}
+        <munder>
+          <mrow>
+            <mn style={{
+              fontSize: 26,
+              fontWeight: 750,
+              fontVariantNumeric: 'tabular-nums',
+              color: clampedRate >= 80 ? '#58cca0' : clampedRate >= 50 ? '#dba96a' : '#dc6868',
+            }}>
+              {localeNumber_00(clampedRate)}%
+            </mn>
+            <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}>chance</mtext>
+          </mrow>
+          <mtext style={LABEL_STYLE}>{attempts > 1 ? `Over ${attempts} attempts` : 'Per attempt'}</mtext>
+        </munder>
+      </math>
     </div>
   )
 }
@@ -264,6 +302,7 @@ function ReverseSolve({ form, requiredEhr, t }: {
           stepHoldInterval={50}
           suffix="%"
           allowNegative={false}
+          hideControls
           min={0}
           max={100}
         />

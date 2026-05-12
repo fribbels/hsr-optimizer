@@ -386,27 +386,27 @@ RelicReroll:
   RerolledSubstats: Rerolled Substats
 QuickUtils:
   AHA:
-    Label: Aha
+    Label: Aha Speed
     Title: Aha speed tuner
     Output:
-      Teammate0: 1st Teammate's speed
-      Teammate1: 2nd Teammate's speed
-      Teammate2: 3rd Teammate's speed
-      Teammate3: 4th Teammate's speed
+      Teammate0: 1st Teammate's SPD
+      Teammate1: 2nd Teammate's SPD
+      Teammate2: 3rd Teammate's SPD
+      Teammate3: 4th Teammate's SPD
       AhaSpeed: Aha's Speed
     Input:
-      DesiredAha: Desired Aha Speed
+      DesiredAha: Desired Aha SPD
       TeammateSpeeds: Elation teammate speeds
   EHR:
-    Label: EHR
+    Label: Effect Hit Rate
     Title: Effect Hit Rate Calculator
     Input:
-      EffectRes: Enemy effect resistance
-      DebuffRes: Enemy debuff resistance
+      EffectRes: Enemy effect RES
+      DebuffRes: Enemy debuff RES
       BaseChance: Debuff base chance
       Attempts: Application attempts
       HitRate: Effect hit rate
-      DesiredHitRate: Desired Hit Rate
+      DesiredHitRate: Target debuff chance
     Output:
       ApplicationRate: Chance to apply
       RequiredHitRate: Required EHR

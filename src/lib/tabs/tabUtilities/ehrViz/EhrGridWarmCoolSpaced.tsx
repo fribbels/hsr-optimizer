@@ -1,9 +1,10 @@
 import chroma from 'chroma-js'
 import { calculateApplicationRate } from 'lib/tabs/tabUtilities/ehrCalculations'
+import { precisionRound } from 'lib/utils/mathUtils'
 import type { EhrVizProps } from 'lib/tabs/tabUtilities/EhrPanelContent'
 
 const EHR_STEP = 5
-const RES_STEPS = [0, 10, 20, 30, 40, 50, 60]
+const RES_STEPS = [0, 10, 20, 30, 40, 50, 60, 70, 80]
 const CELL_W = 65
 const CELL_H = 24
 
@@ -29,28 +30,28 @@ function getBand(r: number) {
 }
 
 export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, debuffRes, attempts, windowHalf }: EhrVizProps) {
-  const snappedEhr = Math.round(effectHitRate / EHR_STEP) * EHR_STEP
+  const snappedEhr = Math.floor(effectHitRate / EHR_STEP) * EHR_STEP
   const windowMin = Math.max(0, snappedEhr - windowHalf)
   const windowMax = windowMin + windowHalf * 2
 
   const ehrSteps: number[] = []
   for (let e = windowMax; e >= windowMin; e -= EHR_STEP) ehrSteps.push(e)
 
-  const nearestEhr = ehrSteps.reduce((p, c) => Math.abs(c - effectHitRate) < Math.abs(p - effectHitRate) ? c : p)
+  const nearestEhr = snappedEhr
   const nearestRes = RES_STEPS.reduce((p, c) => Math.abs(c - effectRes) < Math.abs(p - effectRes) ? c : p)
 
-  const currentRate = Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: nearestEhr, effectRes: nearestRes, debuffRes, attempts })))
+  const currentRate = Math.round(precisionRound(Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: nearestEhr, effectRes: nearestRes, debuffRes, attempts })))))
   const currentColor = getBand(currentRate).text
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: 'translateX(-24px)' }}>
       <div style={{ display: 'flex', gap: 0, paddingBottom: 3 }}>
         <div style={{ width: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
-          <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', fontFamily: "'Maven Pro', sans-serif" }}>EHR \ RES</span>
+          <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', fontFamily: "'Maven Pro', sans-serif" }}>EHR \ RES</span>
         </div>
         {RES_STEPS.map((res) => (
           <div key={res} style={{ width: CELL_W, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
-            <span style={{ fontSize: 12, fontFamily: "'Maven Pro', sans-serif", fontWeight: 400, color: res === nearestRes ? currentColor : 'rgba(255,255,255,0.4)' }}>
+            <span style={{ fontSize: 12, fontFamily: "'Maven Pro', sans-serif", fontWeight: 400, color: res === nearestRes ? currentColor : 'rgba(255,255,255,0.65)' }}>
               {res}%
             </span>
           </div>
@@ -75,14 +76,15 @@ export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, de
               }}>
                 <span style={{
                   fontSize: 12, fontFamily: "'Maven Pro', sans-serif", fontVariantNumeric: 'tabular-nums',
-                  color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.20)',
+                  color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.40)',
                   fontWeight: 400,
                 }}>
                   {ehr}%
                 </span>
               </div>
               {RES_STEPS.map((res) => {
-                const rate = Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: ehr, effectRes: res, debuffRes, attempts })))
+                const rawRate = Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: ehr, effectRes: res, debuffRes, attempts })))
+                const rate = Math.round(precisionRound(rawRate))
                 const isSelectedCol = res === nearestRes
                 const band = getBand(rate)
 
@@ -97,7 +99,7 @@ export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, de
                       fontSize: 12, fontFamily: "'Maven Pro', sans-serif", fontVariantNumeric: 'tabular-nums',
                       color: band.text, fontWeight: 400,
                     }}>
-                      {Math.round(rate)}%
+                      {rate}%
                     </span>
                   </div>
                 )

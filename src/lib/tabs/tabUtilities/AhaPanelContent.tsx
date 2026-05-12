@@ -215,12 +215,14 @@ function FormulaSummary({ rows, ahaSpeed }: {
           return (
             <mrow key={rank}>
               <mo style={{ padding: '0 10px' }}>+</mo>
+              <mo>(</mo>
               <mfrac>
                 {row != null && typeof row.speed === 'number'
                   ? <mn style={{ color: row.color }}>{localeNumber_000(row.speed)}</mn>
                   : <msub style={{ color: '#8b8b8b' }}><mi>T</mi><mn>{rank + 1}</mn></msub>}
                 <mn>{denom}</mn>
               </mfrac>
+              <mo>)</mo>
             </mrow>
           )
         })}

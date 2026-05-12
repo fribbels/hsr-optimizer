@@ -26,7 +26,7 @@ const PANEL_ICONS: Record<UtilityPanel, string> = {
   [UtilityPanel.EHR]: Stats.EHR,
 }
 
-const PANEL_I18N_LABEL: Record<UtilityPanel, 'AHA.Label' | 'EHR.Label'> = {
+const PANEL_I18N_LABEL: Record<UtilityPanel, string> = {
   [UtilityPanel.AHA]: 'AHA.Label',
   [UtilityPanel.EHR]: 'EHR.Label',
 }
@@ -43,7 +43,7 @@ export function UtilitiesTab() {
   }, [addActivationListener, activePanel])
 
   function handleTabChange(value: string | null) {
-    if (!value) return
+    if (!value || !(Object.values(UtilityPanel) as string[]).includes(value)) return
     const panel = value as UtilityPanel
     setActivePanel(panel)
     pushUtilityHash(panel)
@@ -56,7 +56,7 @@ export function UtilitiesTab() {
         onChange={handleTabChange}
         variant='outline'
         mb={32}
-        styles={{ tab: { height: 42, paddingInline: 32 }, panel: { paddingTop: 'var(--mantine-spacing-xl)' } }}
+        styles={{ tab: { height: 42, paddingInline: 32 }, panel: { paddingTop: 10 } }}
       >
         <Tabs.List>
           {UTILITY_PANELS.map((panel) => (

@@ -7,7 +7,8 @@ export interface EhrCalcInputs {
 }
 
 export function calculateApplicationRate(inputs: EhrCalcInputs): number {
-  const { baseChance, effectHitRate, effectRes, debuffRes, attempts } = inputs
+  const { baseChance, effectHitRate, effectRes, debuffRes } = inputs
+  const attempts = Math.max(1, Math.round(inputs.attempts))
   const hitRate = (baseChance / 100)
     * (1 + effectHitRate / 100)
     * (1 - effectRes / 100)
@@ -16,7 +17,8 @@ export function calculateApplicationRate(inputs: EhrCalcInputs): number {
 }
 
 export function calculateRequiredEhr(inputs: EhrCalcInputs & { desiredHitRate: number }): number {
-  const { baseChance, effectRes, debuffRes, attempts, desiredHitRate } = inputs
+  const { baseChance, effectRes, debuffRes, desiredHitRate } = inputs
+  const attempts = Math.max(1, Math.round(inputs.attempts))
   const canCompute = baseChance > 0 && effectRes < 100 && debuffRes < 100
   if (!canCompute) return NaN
 

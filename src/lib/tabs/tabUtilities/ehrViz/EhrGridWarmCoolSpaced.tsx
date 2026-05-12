@@ -8,7 +8,7 @@ const RES_STEPS = [0, 10, 20, 30, 40, 50, 60, 70, 80]
 const CELL_W = 65
 const CELL_H = 24
 
-const BRIGHTEN = 0.5
+const BRIGHTEN = 0.75
 
 const BAND_100 = { bg: 'rgba(50,205,165,0.32)',  text: chroma('#58cca0').brighten(BRIGHTEN).hex() }
 const BAND_80  = { bg: 'rgba(65,195,160,0.24)',  text: chroma('#5bbf9a').brighten(BRIGHTEN).hex() }
@@ -20,7 +20,7 @@ const BAND_0   = { bg: 'rgba(195,85,80,0.07)',   text: chroma('#a85850').brighte
 
 function getBand(r: number) {
   const v = Math.min(100, Math.max(0, r))
-  if (v >= 99.9) return BAND_100
+  if (v >= 100) return BAND_100
   if (v >= 80) return BAND_80
   if (v >= 60) return BAND_60
   if (v >= 40) return BAND_40

@@ -3,7 +3,6 @@ import {
   Paper,
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
-import { SaveState } from 'lib/state/saveState'
 import { useEhrTuningStore } from 'lib/stores/ehrTuningStore'
 import {
   calculateApplicationRate,
@@ -19,7 +18,6 @@ export function EhrPanel() {
     initialValues: useEhrTuningStore.getState(),
     onValuesChange(updated) {
       useEhrTuningStore.setState(updated)
-      SaveState.delayedSave()
     },
   })
 
@@ -29,7 +27,7 @@ export function EhrPanel() {
 
   return (
     <Flex direction="column" gap={16} style={{ alignSelf: 'center' }}>
-      <Paper withBorder p="xl">
+      <Paper withBorder p={20}>
         <form>
           <EhrPanelContent
             form={form}

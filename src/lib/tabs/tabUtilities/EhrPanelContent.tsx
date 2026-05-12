@@ -3,6 +3,7 @@ import type { UseFormReturnType } from '@mantine/form'
 import type { EhrTuningForm } from 'lib/stores/ehrTuningStore'
 import { EhrGridWarmCoolSpaced } from 'lib/tabs/tabUtilities/ehrViz/EhrGridWarmCoolSpaced'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_00 } from 'lib/utils/i18nUtils'
 import { useState } from 'react'
 import classes from './EhrPanelContent.module.css'
@@ -13,7 +14,6 @@ export interface EhrVizProps {
   effectRes: number
   debuffRes: number
   attempts: number
-  applicationRate: number
   windowHalf: number
 }
 
@@ -72,7 +72,6 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
     effectRes: values.effectRes,
     debuffRes: values.debuffRes,
     attempts: values.attempts,
-    applicationRate,
     windowHalf,
   }
 
@@ -121,15 +120,6 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
         <ReverseSolve form={form} requiredEhr={requiredEhr} t={t} />
       </PanelSection>
     </div>
-  )
-}
-
-function PanelSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <section className={classes.section}>
-      <div className={classes.sectionTitle}>{title}</div>
-      {children}
-    </section>
   )
 }
 
@@ -229,24 +219,20 @@ function FormulaDisplay({ values, applicationRate, clampedRate }: {
           </mrow>
           <mtext style={LABEL_STYLE}>Eff RES multi</mtext>
         </munder>
-        {debuffRes > 0 && (
-          <>
-            <mo style={{ padding: '0 5px' }}>×</mo>
-            <munder>
-              <mrow>
-                <mo>(</mo>
-                <mn>1</mn>
-                <mo>−</mo>
-                <mfrac>
-                  <mn style={{ color: '#dba96a' }}>{localeNumber_00(debuffRes)}</mn>
-                  <mn>100</mn>
-                </mfrac>
-                <mo>)</mo>
-              </mrow>
-              <mtext style={LABEL_STYLE}>Debuff RES multi</mtext>
-            </munder>
-          </>
-        )}
+        <mo style={{ padding: '0 5px' }}>×</mo>
+        <munder>
+          <mrow>
+            <mo>(</mo>
+            <mn>1</mn>
+            <mo>−</mo>
+            <mfrac>
+              <mn style={{ color: '#dba96a' }}>{localeNumber_00(debuffRes)}</mn>
+              <mn>100</mn>
+            </mfrac>
+            <mo>)</mo>
+          </mrow>
+          <mtext style={LABEL_STYLE}>Debuff RES multi</mtext>
+        </munder>
         <mo style={{ padding: '0 5px' }}>=</mo>
       </math>
 

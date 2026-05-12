@@ -41,7 +41,7 @@ export function AhaPanel() {
 
   return (
     <Flex direction='column' gap={16} style={{ alignSelf: 'center' }}>
-      <Paper withBorder p='xl'>
+      <Paper withBorder p={20}>
         <form>
           <Flex direction='column' gap={18}>
             <AhaPanelContent

@@ -8,6 +8,7 @@ import {
 } from 'lib/tabs/tabUtilities/ahaCalculations'
 import { ComboboxNumberInput, type ComboboxNumberGroup } from 'lib/ui/ComboboxNumberInput'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import classes from './AhaPanelContent.module.css'
@@ -179,18 +180,6 @@ function IntegratedRow({ form, row, ahaSpeed, label, style }: {
         <span>{contributionLabel}</span>
       </div>
     </div>
-  )
-}
-
-function PanelSection({ title, children }: {
-  title: string
-  children: React.ReactNode
-}) {
-  return (
-    <section className={classes.section}>
-      <div className={classes.sectionTitle}>{title}</div>
-      {children}
-    </section>
   )
 }
 

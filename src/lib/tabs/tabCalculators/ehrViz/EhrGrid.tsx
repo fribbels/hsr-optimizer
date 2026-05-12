@@ -42,7 +42,7 @@ function GridCell({ rate, isSelectedCol }: { rate: number, isSelectedCol: boolea
         alignItems: 'center',
         justifyContent: 'center',
         background: band.bg,
-        boxShadow: isSelectedCol ? 'inset 1px 0 0 rgba(255,255,255,0.20), inset -1px 0 0 rgba(255,255,255,0.20)' : undefined,
+        boxShadow: isSelectedCol ? 'inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35)' : undefined,
       }}
     >
       <span
@@ -78,7 +78,7 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
       style={{
         display: 'flex',
         gap: 0,
-        boxShadow: isCurrentRow ? 'inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(255,255,255,0.20)' : undefined,
+        boxShadow: isCurrentRow ? 'inset 0 1px 0 rgba(255,255,255,0.35), inset 0 -1px 0 rgba(255,255,255,0.35)' : undefined,
         position: 'relative',
         zIndex: isCurrentRow ? 1 : 0,
       }}
@@ -117,19 +117,32 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
 
 function GridHeaderRow({ nearestRes, currentColor }: { nearestRes: number, currentColor: string }) {
   return (
-    <div style={{ display: 'flex', gap: 0, paddingBottom: 3 }}>
-      <div style={{ width: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
+    <div style={{ display: 'flex', gap: 0 }}>
+      <div style={{ width: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 4 }}>
         <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-showcase)' }}>EHR \ RES</span>
       </div>
-      {RES_STEPS.map((res) => (
-        <div key={res} style={{ width: CELL_W, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
-          <span
-            style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: res === nearestRes ? currentColor : 'rgba(255,255,255,0.65)' }}
+      {RES_STEPS.map((res) => {
+        const isSelected = res === nearestRes
+        return (
+          <div
+            key={res}
+            style={{
+              width: CELL_W,
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+              paddingBottom: 4,
+              boxShadow: isSelected ? 'inset 1px 0 0 rgba(255,255,255,0.35), inset -1px 0 0 rgba(255,255,255,0.35)' : undefined,
+            }}
           >
-            {res}%
-          </span>
-        </div>
-      ))}
+            <span
+              style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: isSelected ? currentColor : 'rgba(255,255,255,0.65)' }}
+            >
+              {res}%
+            </span>
+          </div>
+        )
+      })}
     </div>
   )
 }

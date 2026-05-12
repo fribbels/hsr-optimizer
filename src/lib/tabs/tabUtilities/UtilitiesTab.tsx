@@ -8,11 +8,11 @@ import { Assets } from 'lib/rendering/assets'
 import { AhaPanel } from 'lib/tabs/tabUtilities/AhaPanel'
 import { EhrPanel } from 'lib/tabs/tabUtilities/EhrPanel'
 import {
-  pushUtilityHash,
-  replaceUtilityHash,
-  resolveUtilityPanel,
-  UtilityPanel,
-  UTILITY_PANELS,
+  CALCULATOR_PANELS,
+  CalculatorPanel,
+  pushCalculatorHash,
+  replaceCalculatorHash,
+  resolveCalculatorPanel,
 } from 'lib/tabs/tabUtilities/utilityPanels'
 import {
   useContext,
@@ -21,31 +21,32 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const PANEL_ICONS: Record<UtilityPanel, string> = {
-  [UtilityPanel.AHA]: Stats.Elation,
-  [UtilityPanel.EHR]: Stats.EHR,
+const PANEL_ICONS: Record<CalculatorPanel, string> = {
+  [CalculatorPanel.AHA]: Stats.Elation,
+  [CalculatorPanel.EHR]: Stats.EHR,
 }
 
 const PANEL_I18N_LABEL = {
-  [UtilityPanel.AHA]: 'AHA.Label',
-  [UtilityPanel.EHR]: 'EHR.Label',
+  [CalculatorPanel.AHA]: 'AHA.Label',
+  [CalculatorPanel.EHR]: 'EHR.Label',
 } as const
 
 export function UtilitiesTab() {
   const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils' })
-  const [activePanel, setActivePanel] = useState<UtilityPanel>(resolveUtilityPanel)
+  const [activePanel, setActivePanel] = useState<CalculatorPanel>(resolveCalculatorPanel)
   const { addActivationListener } = useContext(TabVisibilityContext)
 
   useEffect(() => {
     return addActivationListener(() => {
-      replaceUtilityHash(activePanel)
+      replaceCalculatorHash(activePanel)
     })
   }, [addActivationListener, activePanel])
 
   function handleTabChange(value: string | null) {
-    if (!value || !UTILITY_PANELS.includes(value as UtilityPanel)) return
-    setActivePanel(value as UtilityPanel)
-    pushUtilityHash(value as UtilityPanel)
+    if (!value || !(Object.values(CalculatorPanel) as string[]).includes(value)) return
+    const panel = value as CalculatorPanel
+    setActivePanel(panel)
+    pushCalculatorHash(panel)
   }
 
   return (
@@ -58,7 +59,7 @@ export function UtilitiesTab() {
         styles={{ tab: { height: 42, paddingInline: 32 }, panel: { paddingTop: 10 } }}
       >
         <Tabs.List>
-          {UTILITY_PANELS.map((panel) => (
+          {CALCULATOR_PANELS.map((panel) => (
             <Tabs.Tab key={panel} value={panel}>
               <Flex align='center' gap={8}>
                 <img src={Assets.getStatIcon(PANEL_ICONS[panel])} alt='' style={{ height: 20 }} />
@@ -68,10 +69,10 @@ export function UtilitiesTab() {
           ))}
         </Tabs.List>
 
-        <Tabs.Panel value={UtilityPanel.AHA}>
+        <Tabs.Panel value={CalculatorPanel.AHA}>
           <AhaPanel />
         </Tabs.Panel>
-        <Tabs.Panel value={UtilityPanel.EHR}>
+        <Tabs.Panel value={CalculatorPanel.EHR}>
           <EhrPanel />
         </Tabs.Panel>
       </Tabs>

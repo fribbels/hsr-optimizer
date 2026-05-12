@@ -394,11 +394,10 @@ QuickUtils:
       Teammate3: 4th Teammate's SPD
       AhaSpeed: Aha's Speed
     Input:
-      DesiredAha: Desired Aha SPD
+      DesiredAha: Target Aha SPD
       TeammateSpeeds: Elation teammate speeds
   EHR:
     Label: Effect Hit Rate
-    Title: Effect Hit Rate Calculator
     Input:
       EffectRes: Enemy effect RES
       DebuffRes: Enemy debuff RES

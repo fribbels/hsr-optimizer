@@ -6437,7 +6437,7 @@ interface Resources {
     "QuickUtils": {
       "AHA": {
         "Input": {
-          "DesiredAha": "Desired Aha SPD",
+          "DesiredAha": "Target Aha SPD",
           "TeammateSpeeds": "Elation teammate speeds"
         },
         "Label": "Aha Speed",
@@ -6447,8 +6447,7 @@ interface Resources {
           "Teammate1": "2nd Teammate's SPD",
           "Teammate2": "3rd Teammate's SPD",
           "Teammate3": "4th Teammate's SPD"
-        },
-        "Title": "Aha speed tuner"
+        }
       },
       "EHR": {
         "Input": {
@@ -6463,8 +6462,7 @@ interface Resources {
         "Output": {
           "ApplicationRate": "Chance to apply",
           "RequiredHitRate": "Required EHR"
-        },
-        "Title": "Effect Hit Rate Calculator"
+        }
       }
     },
     "Relic": {

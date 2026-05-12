@@ -48,7 +48,7 @@ const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.SHOWCASE, ShowcaseTab],
   [AppPages.WARP, WarpCalculatorTab],
   [AppPages.BENCHMARKS, BenchmarksTab],
-  [AppPages.UTILITIES, UtilitiesTab],
+  [AppPages.CALCULATORS, UtilitiesTab],
   [AppPages.CHANGELOG, ChangelogTab],
   [AppPages.WEBGPU_TEST, WebgpuTab],
   [AppPages.METADATA_TEST, MetadataTab],
@@ -62,7 +62,7 @@ const MOUNT_PRIORITY: AppPages[] = [
   AppPages.HOME,
   AppPages.WARP,
   AppPages.BENCHMARKS,
-  AppPages.UTILITIES,
+  AppPages.CALCULATORS,
   AppPages.CHANGELOG,
   AppPages.CHARACTERS,
   AppPages.RELICS,
@@ -139,6 +139,9 @@ const Tabs = () => {
       if (id) {
         route += `?id=${id}`
       }
+    }
+    if (activeKey === AppPages.CALCULATORS) {
+      return
     }
     console.log('Navigating activekey to route', activeKey, route)
     window.history.pushState({}, document.title, route)

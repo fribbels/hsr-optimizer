@@ -20,7 +20,7 @@ export enum AppPages {
   SHOWCASE = 'SHOWCASE',
   WARP = 'WARP',
   BENCHMARKS = 'BENCHMARKS',
-  UTILITIES = 'UTILITIES',
+  CALCULATORS = 'CALCULATORS',
 
   WEBGPU_TEST = 'WEBGPU_TEST',
   METADATA_TEST = 'METADATA_TEST',
@@ -28,7 +28,7 @@ export enum AppPages {
 
 type Route = `${typeof BASE_PATH}${RouteSuffix}`
 
-type RouteSuffix = '' | '#main' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#utilities' | '#aha' | '#ehr' | '#webgpu' | '#metadata'
+type RouteSuffix = '' | '#main' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#aha' | '#ehr' | '#webgpu' | '#metadata'
 
 export const PageToRoute = {
   [AppPages.HOME]: BASE_PATH,
@@ -42,7 +42,7 @@ export const PageToRoute = {
   [AppPages.CHANGELOG]: `${BASE_PATH}#changelog`,
   [AppPages.WARP]: `${BASE_PATH}#warp`,
   [AppPages.BENCHMARKS]: `${BASE_PATH}#benchmarks`,
-  [AppPages.UTILITIES]: `${BASE_PATH}#utilities`,
+  [AppPages.CALCULATORS]: `${BASE_PATH}#aha`,
 
   [AppPages.WEBGPU_TEST]: `${BASE_PATH}#webgpu`,
   [AppPages.METADATA_TEST]: `${BASE_PATH}#metadata`,
@@ -51,8 +51,8 @@ export const PageToRoute = {
 const RouteToPage: Record<string, AppPages> = {
   ...(Object.fromEntries(Object.entries(PageToRoute).map(([page, route]) => [route, page])) as Record<string, AppPages>),
   [`${BASE_PATH}#main`]: AppPages.OPTIMIZER, // #main is shared by 4 tabs; OPTIMIZER is the default
-  [`${BASE_PATH}#aha`]: AppPages.UTILITIES,
-  [`${BASE_PATH}#ehr`]: AppPages.UTILITIES,
+  [`${BASE_PATH}#aha`]: AppPages.CALCULATORS,
+  [`${BASE_PATH}#ehr`]: AppPages.CALCULATORS,
 }
 
 export function getDefaultActiveKey() {

@@ -26,8 +26,88 @@ function getBand(r: number) {
   if (v >= 60) return BAND_60
   if (v >= 40) return BAND_40
   if (v >= 20) return BAND_20
-  if (v > 0.1) return BAND_1
+  if (v > 0) return BAND_1
   return BAND_0
+}
+
+function GridCell({ rate, isSelectedCol }: { rate: number; isSelectedCol: boolean }) {
+  const band = getBand(rate)
+
+  return (
+    <div style={{
+      width: CELL_W, height: CELL_H,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: band.bg,
+      boxShadow: isSelectedCol ? 'inset 1px 0 0 rgba(255,255,255,0.20), inset -1px 0 0 rgba(255,255,255,0.20)' : undefined,
+    }}>
+      <span style={{
+        fontSize: 12, fontFamily: 'var(--font-showcase)', fontVariantNumeric: 'tabular-nums',
+        color: band.text, fontWeight: 400,
+      }}>
+        {rate}%
+      </span>
+    </div>
+  )
+}
+
+function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuffRes, attempts }: {
+  ehr: number
+  snappedEhr: number
+  nearestRes: number
+  currentColor: string
+  baseChance: number
+  debuffRes: number
+  attempts: number
+}) {
+  const isCurrentRow = ehr === snappedEhr
+  const isMajor = ehr % 10 === 0
+
+  return (
+    <div style={{
+      display: 'flex', gap: 0,
+      boxShadow: isCurrentRow ? 'inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(255,255,255,0.20)' : undefined,
+      position: 'relative',
+      zIndex: isCurrentRow ? 1 : 0,
+    }}>
+      <div style={{
+        width: 48, height: CELL_H,
+        display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 6,
+      }}>
+        <span style={{
+          fontSize: 12, fontFamily: 'var(--font-showcase)', fontVariantNumeric: 'tabular-nums',
+          color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.40)',
+          fontWeight: 400,
+        }}>
+          {ehr}%
+        </span>
+      </div>
+      {RES_STEPS.map((res) => {
+        const rawRate = Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: ehr, effectRes: res, debuffRes, attempts })))
+        const rate = Math.round(precisionRound(rawRate))
+
+        return (
+          <GridCell key={res} rate={rate} isSelectedCol={res === nearestRes} />
+        )
+      })}
+    </div>
+  )
+}
+
+function GridHeaderRow({ nearestRes, currentColor }: { nearestRes: number; currentColor: string }) {
+  return (
+    <div style={{ display: 'flex', gap: 0, paddingBottom: 3 }}>
+      <div style={{ width: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
+        <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-showcase)' }}>EHR \ RES</span>
+      </div>
+      {RES_STEPS.map((res) => (
+        <div key={res} style={{ width: CELL_W, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
+          <span style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: res === nearestRes ? currentColor : 'rgba(255,255,255,0.65)' }}>
+            {res}%
+          </span>
+        </div>
+      ))}
+    </div>
+  )
 }
 
 export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effectRes, debuffRes, attempts, windowHalf }: EhrVizProps) {
@@ -36,7 +116,9 @@ export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effect
   const windowMax = windowMin + windowHalf * 2
 
   const ehrSteps: number[] = []
-  for (let e = windowMax; e >= windowMin; e -= EHR_STEP) ehrSteps.push(e)
+  for (let e = windowMax; e >= windowMin; e -= EHR_STEP) {
+    ehrSteps.push(e)
+  }
 
   const nearestRes = RES_STEPS.reduce((p, c) => Math.abs(c - effectRes) < Math.abs(p - effectRes) ? c : p)
 
@@ -45,68 +127,21 @@ export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effect
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: 'translateX(-24px)' }}>
-      <div style={{ display: 'flex', gap: 0, paddingBottom: 3 }}>
-        <div style={{ width: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
-          <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', fontFamily: 'var(--font-showcase)' }}>EHR \ RES</span>
-        </div>
-        {RES_STEPS.map((res) => (
-          <div key={res} style={{ width: CELL_W, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
-            <span style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: res === nearestRes ? currentColor : 'rgba(255,255,255,0.65)' }}>
-              {res}%
-            </span>
-          </div>
-        ))}
-      </div>
+      <GridHeaderRow nearestRes={nearestRes} currentColor={currentColor} />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-        {ehrSteps.map((ehr) => {
-          const isCurrentRow = ehr === snappedEhr
-          const isMajor = ehr % 10 === 0
-
-          return (
-            <div key={ehr} style={{
-              display: 'flex', gap: 0,
-              boxShadow: isCurrentRow ? 'inset 0 1px 0 rgba(255,255,255,0.20), inset 0 -1px 0 rgba(255,255,255,0.20)' : undefined,
-              position: 'relative',
-              zIndex: isCurrentRow ? 1 : 0,
-            }}>
-              <div style={{
-                width: 48, height: CELL_H,
-                display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 6,
-              }}>
-                <span style={{
-                  fontSize: 12, fontFamily: 'var(--font-showcase)', fontVariantNumeric: 'tabular-nums',
-                  color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.40)',
-                  fontWeight: 400,
-                }}>
-                  {ehr}%
-                </span>
-              </div>
-              {RES_STEPS.map((res) => {
-                const rawRate = Math.min(100, Math.max(0, calculateApplicationRate({ baseChance, effectHitRate: ehr, effectRes: res, debuffRes, attempts })))
-                const rate = Math.round(precisionRound(rawRate))
-                const isSelectedCol = res === nearestRes
-                const band = getBand(rate)
-
-                return (
-                  <div key={res} style={{
-                    width: CELL_W, height: CELL_H,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: band.bg,
-                    boxShadow: isSelectedCol ? 'inset 1px 0 0 rgba(255,255,255,0.20), inset -1px 0 0 rgba(255,255,255,0.20)' : undefined,
-                  }}>
-                    <span style={{
-                      fontSize: 12, fontFamily: 'var(--font-showcase)', fontVariantNumeric: 'tabular-nums',
-                      color: band.text, fontWeight: 400,
-                    }}>
-                      {rate}%
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          )
-        })}
+        {ehrSteps.map((ehr) => (
+          <GridRow
+            key={ehr}
+            ehr={ehr}
+            snappedEhr={snappedEhr}
+            nearestRes={nearestRes}
+            currentColor={currentColor}
+            baseChance={baseChance}
+            debuffRes={debuffRes}
+            attempts={attempts}
+          />
+        ))}
       </div>
     </div>
   )

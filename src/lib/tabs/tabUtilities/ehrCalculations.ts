@@ -26,11 +26,9 @@ export function calculateRequiredEhr(inputs: EhrCalcInputs & { desiredHitRate: n
   const canCompute = baseChance > 0 && effectRes < 100 && debuffRes < 100
   if (!canCompute) return NaN
 
-  return Math.max(0, 100 * (
-    (1 - Math.pow(1 - desiredHitRate / 100, 1 / attempts))
-      / (1 - debuffRes / 100)
-      / (1 - effectRes / 100)
-      / (baseChance / 100)
-    - 1
-  ))
+  const targetPerAttempt = 1 - Math.pow(1 - desiredHitRate / 100, 1 / attempts)
+  const baseMultiplier = (baseChance / 100) * (1 - effectRes / 100) * (1 - debuffRes / 100)
+  const requiredEhr = 100 * (targetPerAttempt / baseMultiplier - 1)
+
+  return Math.max(0, requiredEhr)
 }

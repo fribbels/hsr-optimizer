@@ -713,6 +713,7 @@ StatSimulation:
 ExpandedDataPanel:
   TeammateUpgrades:
     ColumnHeaders:
+      Ornaments: 队友套装
       COMBO_DMG: Δ连招伤害
       COMBO_DMG_P: Δ%连招伤害
   SubstatUpgrades:

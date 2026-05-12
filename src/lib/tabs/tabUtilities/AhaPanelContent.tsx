@@ -14,7 +14,6 @@ import classes from './AhaPanelContent.module.css'
 const TEAMMATE_KEYS = ['teammate0', 'teammate1', 'teammate2', 'teammate3'] as const
 const RANK_COLORS = ['#dba96a', '#b96ccc', '#58b0dc', '#58cca0']
 const BASE_COLOR = '#667181'
-const EMPTY_LABEL = '-'
 const LOW_SPEED_THRESHOLD = 90
 
 type AhaFormValues = {
@@ -30,7 +29,6 @@ type TeammateKey = (typeof TEAMMATE_KEYS)[number]
 
 interface TeammateRow {
   key: TeammateKey
-  label: string
   slot: number
   speed: number | ''
   rank: number | null
@@ -218,8 +216,8 @@ function FormulaSummary({ rows, ahaSpeed }: {
             <mrow key={rank}>
               <mo style={{ padding: '0 10px' }}>+</mo>
               <mfrac>
-                {row != null
-                  ? <mn style={{ color: row.color }}>{localeNumber_000(row.speed as number)}</mn>
+                {row != null && typeof row.speed === 'number'
+                  ? <mn style={{ color: row.color }}>{localeNumber_000(row.speed)}</mn>
                   : <msub style={{ color: '#8b8b8b' }}><mi>T</mi><mn>{rank + 1}</mn></msub>}
                 <mn>{denom}</mn>
               </mfrac>
@@ -227,9 +225,12 @@ function FormulaSummary({ rows, ahaSpeed }: {
           )
         })}
         <mo style={{ padding: '0 5px' }}>=</mo>
-        <mn style={{ fontSize: 26, fontWeight: 750, color: 'rgba(255, 255, 255, 0.92)' }}>
-          {localeNumber_000(ahaSpeed)}
-        </mn>
+        <mrow>
+          <mn style={{ fontSize: 26, fontWeight: 750, color: 'rgba(255, 255, 255, 0.92)' }}>
+            {localeNumber_000(ahaSpeed)}
+          </mn>
+          <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12 }}>SPD</mtext>
+        </mrow>
       </math>
     </div>
   )
@@ -296,7 +297,6 @@ function buildTeammateRows(values: AhaFormValues): TeammateRow[] {
     const ranked = rankedRows.get(key)
     return {
       key,
-      label: `Teammate ${slot + 1}`,
       slot,
       speed: values[key],
       rank: ranked?.rank ?? null,

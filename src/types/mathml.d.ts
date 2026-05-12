@@ -1,11 +1,12 @@
 import type React from 'react'
 
 type MathMLProps = React.DetailedHTMLProps<React.HTMLAttributes<MathMLElement>, MathMLElement>
+type MathElementProps = MathMLProps & { display?: 'block' | 'inline' }
 
 declare module 'react' {
   namespace JSX {
     interface IntrinsicElements {
-      math: MathMLProps
+      math: MathElementProps
       mfrac: MathMLProps
       mi: MathMLProps
       mn: MathMLProps

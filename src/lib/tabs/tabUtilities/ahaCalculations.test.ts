@@ -1,7 +1,6 @@
 import {
   AHA_BASE_SPEED,
   calculateAhaSpeed,
-  calculateContributions,
   calculateNextTeammateSpeed,
   speedToContributionMultiplier,
 } from 'lib/tabs/tabUtilities/ahaCalculations'
@@ -10,6 +9,26 @@ import {
   expect,
   it,
 } from 'vitest'
+
+interface AhaContribution {
+  rank: number
+  speed: number
+  multiplier: number
+  contribution: number
+}
+
+function calculateContributions(speeds: Array<number>): AhaContribution[] {
+  const sorted = [...speeds].sort((a, b) => b - a)
+  return sorted.map((speed, idx) => {
+    const multiplier = speedToContributionMultiplier(idx)
+    return {
+      rank: idx,
+      speed,
+      multiplier,
+      contribution: speed * multiplier,
+    }
+  })
+}
 
 describe('speedToContributionMultiplier', () => {
   it('returns correct weights for ranks 0-3', () => {

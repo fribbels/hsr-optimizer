@@ -1,0 +1,50 @@
+.panelCompact {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 20px;
+}
+
+.formula {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.formula mfrac > *:last-child {
+  padding-top: 6px;
+}
+
+.formula munder > *:last-child {
+  padding-top: 6px;
+}
+
+.reverse {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.reverseInput {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 200px;
+  gap: 4px;
+}
+
+.reverseOutput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  gap: 4px;
+}
+
+.reverseOutput span {
+  color: rgba(255, 255, 255, 0.86);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}

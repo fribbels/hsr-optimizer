@@ -28,6 +28,7 @@ import { migrateSilverWolfLv999EvanesciaMainStats } from 'lib/services/migration
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import {
   savedSessionDefaults,
   useGlobalStore,
@@ -186,6 +187,8 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
   useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
   useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
+
+  if (saveData.ahaSpeedTuner) useAhaTuningStore.setState(saveData.ahaSpeedTuner)
 
   // Restore scanner settings if they exist
   if (saveData.scannerSettings) {

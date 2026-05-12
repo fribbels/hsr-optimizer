@@ -13,6 +13,7 @@ declare module 'react' {
       mo: MathMLProps
       mrow: MathMLProps
       msub: MathMLProps
+      msup: MathMLProps
       mtext: MathMLProps
     }
   }

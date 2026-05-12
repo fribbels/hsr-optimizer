@@ -9,6 +9,7 @@ import {
 import { ComboboxNumberInput, type ComboboxNumberGroup } from 'lib/ui/ComboboxNumberInput'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import classes from './AhaPanelContent.module.css'
 
 const TEAMMATE_KEYS = ['teammate0', 'teammate1', 'teammate2', 'teammate3'] as const
@@ -248,6 +249,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
     t,
   } = props
   const allSlotsFilled = speeds.length >= 4
+  const displaySpeed = teammateSpeed !== null && Math.abs(teammateSpeed) < 0.0005 ? 0 : teammateSpeed
 
   return (
     <div className={classes.reverse}>
@@ -264,8 +266,8 @@ function ReverseSolve(props: AhaPanelContentProps) {
         <HeaderText>
           {allSlotsFilled ? 'No slots open' : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>
-        <span style={{ color: getSpeedColour(teammateSpeed) }}>
-          {teammateSpeed !== null ? localeNumber_000(teammateSpeed) : ''}
+        <span style={{ color: getSpeedColour(displaySpeed) }}>
+          {displaySpeed !== null ? localeNumber_000(displaySpeed) : ''}
         </span>
       </div>
     </div>
@@ -315,7 +317,8 @@ function getDenominator(rank: number) {
 
 function getSpeedColour(speed: number | null) {
   if (speed == null) return undefined
-  if (speed < 0) return 'red'
-  if (speed < LOW_SPEED_THRESHOLD) return 'orange'
+  const rounded = precisionRound(speed)
+  if (rounded < 0) return 'red'
+  if (rounded > 0 && rounded < LOW_SPEED_THRESHOLD) return 'orange'
   return undefined
 }

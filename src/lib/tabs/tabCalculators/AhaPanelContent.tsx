@@ -50,7 +50,7 @@ export interface AhaPanelContentProps {
   desiredValue: number | undefined
   spdOptions: ComboboxNumberGroup[]
   onDesiredChange: (value: number | undefined) => void
-  t: TFunction<'modals', 'QuickUtils.AHA'>
+  t: TFunction<'modals', 'Calculators.AHA'>
 }
 
 const spdIconSection = <img src={Assets.getStatIcon(Stats.SPD)} alt='' style={{ height: 24 }} />

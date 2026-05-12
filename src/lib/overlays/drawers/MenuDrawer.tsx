@@ -5,6 +5,7 @@ import {
 } from '@mantine/core'
 import {
   IconBook,
+  IconCalculator,
   IconChartRadar,
   IconDiamond,
   IconHome,
@@ -13,7 +14,6 @@ import {
   IconList,
   IconSettings,
   IconStarFilled,
-  IconCalculator,
   IconTrendingUp,
   IconUpload,
   IconUser,
@@ -242,7 +242,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
       items: [
         { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
-        { key: AppPages.CALCULATORS, label: t('Tools.QuickUtils'), icon: <IconCalculator size={16} /> },
+        { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
         { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
       ],
     },

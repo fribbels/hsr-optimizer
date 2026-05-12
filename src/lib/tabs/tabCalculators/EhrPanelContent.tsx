@@ -33,7 +33,7 @@ export interface EhrPanelContentProps {
   form: UseFormReturnType<EhrTuningForm>
   applicationRate: number
   requiredEhr: number
-  t: TFunction<'modals', 'QuickUtils.EHR'>
+  t: TFunction<'modals', 'Calculators.EHR'>
 }
 
 type EhrForm = UseFormReturnType<EhrTuningForm>
@@ -298,7 +298,7 @@ function FormulaDisplay({ values, clampedRate }: {
 function ReverseSolve({ form, requiredEhr, t }: {
   form: EhrForm,
   requiredEhr: number,
-  t: TFunction<'modals', 'QuickUtils.EHR'>,
+  t: TFunction<'modals', 'Calculators.EHR'>,
 }) {
   const isComputable = Number.isFinite(requiredEhr)
 

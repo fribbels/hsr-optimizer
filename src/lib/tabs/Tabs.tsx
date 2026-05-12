@@ -5,6 +5,7 @@ import {
 } from 'lib/constants/appPages'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
+import { CalculatorsTab } from 'lib/tabs/tabCalculators/CalculatorsTab'
 import { ChangelogTab } from 'lib/tabs/tabChangelog/ChangelogTab'
 import { CharacterTab } from 'lib/tabs/tabCharacters/CharacterTab'
 import { HomeTab } from 'lib/tabs/tabHome/HomeTab'
@@ -12,7 +13,6 @@ import { ImportTab } from 'lib/tabs/tabImport/ImportTab'
 import { OptimizerTab } from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
-import { CalculatorsTab } from 'lib/tabs/tabCalculators/CalculatorsTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 
 import {

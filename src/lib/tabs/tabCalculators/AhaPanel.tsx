@@ -12,7 +12,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export function AhaPanel() {
-  const { t } = useTranslation('modals', { keyPrefix: 'QuickUtils.AHA' })
+  const { t } = useTranslation('modals', { keyPrefix: 'Calculators.AHA' })
   const { t: tPresets } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
 
   const form = useForm({

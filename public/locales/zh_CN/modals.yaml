@@ -384,3 +384,8 @@ RelicReroll:
   Title: 检测到遗器重掷
   OriginalSubstats: 原始副词条
   RerolledSubstats: 重掷副词条
+Calculators:
+  EHR:
+    Label: 效果命中
+    Input:
+      HitRate: 效果命中

@@ -108,6 +108,10 @@
   white-space: nowrap;
 }
 
+.formula mfrac > *:last-child {
+  padding-top: 7px;
+}
+
 .reverse {
   display: flex;
   justify-content: center;

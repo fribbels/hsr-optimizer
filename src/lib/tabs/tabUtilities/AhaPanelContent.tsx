@@ -207,7 +207,7 @@ function FormulaSummary({ rows, ahaSpeed }: {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0' }}>
-      <math display='block' style={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.72)' }}>
+      <math display='block' className={classes.formula} style={{ fontSize: 18, color: 'rgba(255, 255, 255, 0.72)' }}>
         <mtext style={{ fontFamily: 'var(--font-ui)' }}>Aha Speed</mtext>
         <mo style={{ padding: '0 5px' }}>=</mo>
         <mn>{AHA_BASE_SPEED}</mn>

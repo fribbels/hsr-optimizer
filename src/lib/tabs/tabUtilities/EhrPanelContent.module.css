@@ -1,13 +1,13 @@
 .panelCompact {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 24px;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .sectionTitle {
@@ -44,6 +44,10 @@
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   color: rgba(255, 255, 255, 0.92);
+}
+
+.formula mfrac > *:last-child {
+  padding-top: 7px;
 }
 
 .reverse {

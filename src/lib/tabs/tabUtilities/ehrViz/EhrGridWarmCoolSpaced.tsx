@@ -3,7 +3,6 @@ import { calculateApplicationRate } from 'lib/tabs/tabUtilities/ehrCalculations'
 import type { EhrVizProps } from 'lib/tabs/tabUtilities/EhrPanelContent'
 
 const EHR_STEP = 5
-const EHR_MAX = 160
 const RES_STEPS = [0, 10, 20, 30, 40, 50, 60]
 const CELL_W = 65
 const CELL_H = 24
@@ -29,9 +28,13 @@ function getBand(r: number) {
   return BAND_0
 }
 
-export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, debuffRes, attempts }: EhrVizProps) {
+export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, debuffRes, attempts, windowHalf }: EhrVizProps) {
+  const snappedEhr = Math.round(effectHitRate / EHR_STEP) * EHR_STEP
+  const windowMin = Math.max(0, snappedEhr - windowHalf)
+  const windowMax = windowMin + windowHalf * 2
+
   const ehrSteps: number[] = []
-  for (let e = EHR_MAX; e >= 0; e -= EHR_STEP) ehrSteps.push(e)
+  for (let e = windowMax; e >= windowMin; e -= EHR_STEP) ehrSteps.push(e)
 
   const nearestEhr = ehrSteps.reduce((p, c) => Math.abs(c - effectHitRate) < Math.abs(p - effectHitRate) ? c : p)
   const nearestRes = RES_STEPS.reduce((p, c) => Math.abs(c - effectRes) < Math.abs(p - effectRes) ? c : p)
@@ -40,7 +43,7 @@ export function EhrGridWarmCoolSpaced({ baseChance, effectHitRate, effectRes, de
   const currentColor = getBand(currentRate).text
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: 'translateX(-24px)' }}>
       <div style={{ display: 'flex', gap: 0, paddingBottom: 3 }}>
         <div style={{ width: 48, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', paddingBottom: 1 }}>
           <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', fontFamily: "'Maven Pro', sans-serif" }}>EHR \ RES</span>

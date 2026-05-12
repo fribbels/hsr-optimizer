@@ -405,7 +405,7 @@ QuickUtils:
       DebuffRes: Enemy debuff resistance
       BaseChance: Debuff base chance
       Attempts: Application attempts
-      HitRate: Effect Hit Rate
+      HitRate: Effect hit rate
       DesiredHitRate: Desired Hit Rate
     Output:
       ApplicationRate: Chance to apply

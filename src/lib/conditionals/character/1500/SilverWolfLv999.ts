@@ -536,6 +536,9 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_ELATION_SKILL,
   ],
   comboDot: 0,
+  combatStatsConfig: [
+    { remove: 'ELEMENTAL_DMG' },
+  ],
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
   ],

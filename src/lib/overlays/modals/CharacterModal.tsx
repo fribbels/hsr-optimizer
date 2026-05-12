@@ -181,7 +181,7 @@ function CharacterModalContent() {
         </Flex>
       </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
-        <Button key='back' onClick={closeOverlay}>
+        <Button key='back' variant='default' onClick={closeOverlay}>
           {tCommon('Cancel')}
         </Button>
         <Button key='submit' onClick={onModalOk}>

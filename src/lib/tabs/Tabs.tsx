@@ -3,6 +3,8 @@ import {
   AppPages,
   PageToRoute,
 } from 'lib/constants/appPages'
+import { PAGE_FEATURE_KEYS } from 'lib/constants/newFeatures'
+import { markFeatureSeen } from 'lib/stores/newFeatureStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import { CalculatorsTab } from 'lib/tabs/tabCalculators/CalculatorsTab'
@@ -133,6 +135,11 @@ const Tabs = () => {
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    const featureKey = PAGE_FEATURE_KEYS[activeKey]
+    if (featureKey) {
+      markFeatureSeen(featureKey)
+    }
+
     let route = PageToRoute[activeKey]
     if (activeKey === AppPages.SHOWCASE) {
       const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]

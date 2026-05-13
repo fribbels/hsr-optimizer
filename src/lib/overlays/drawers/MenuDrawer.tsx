@@ -1,5 +1,7 @@
 import {
+  Badge,
   Box,
+  Indicator,
   Tooltip,
   UnstyledButton,
 } from '@mantine/core'
@@ -48,6 +50,7 @@ type NavItem = {
   icon: React.ReactNode,
   href?: string,
   onClick?: () => void,
+  isNew?: boolean,
 }
 
 type NavGroup = {
@@ -149,6 +152,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
                 <>
                   <div className={classes.itemIcon}>{item.icon}</div>
                   <span className={classes.itemLabel}>{item.label}</span>
+                  {item.isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>New</Badge>}
                 </>
               )
               return item.href
@@ -191,9 +195,13 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
           <div className={classes.groupItems}>
             {group.items.map((item) => {
               const isActive = item.key === activeKey
-              const iconContent = <Box className={classes.itemIcon}>{item.icon}</Box>
+              const iconBox = <Box className={classes.itemIcon}>{item.icon}</Box>
+              const iconContent = item.isNew
+                ? <Indicator size={8} color='blue' position='top-end' offset={1}>{iconBox}</Indicator>
+                : iconBox
+              const tooltipLabel = item.isNew ? `${item.label} — New` : item.label
               return (
-                <Tooltip key={item.key} label={item.label} position='right' withArrow openDelay={300}>
+                <Tooltip key={item.key} label={tooltipLabel} position='right' withArrow openDelay={300}>
                   {item.href
                     ? (
                       <a
@@ -242,7 +250,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
       items: [
         { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
-        { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
+        { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} />, isNew: true },
         { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
       ],
     },

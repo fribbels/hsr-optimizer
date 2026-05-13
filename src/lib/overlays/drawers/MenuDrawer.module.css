@@ -210,3 +210,11 @@ a.itemCollapsed {
 .itemCollapsed[data-active] .itemIcon {
   color: var(--primary-light);
 }
+
+/* ---- New item badge ---- */
+
+.newBadgeFloat {
+  position: absolute;
+  top: -4px;
+  right: 6px;
+}

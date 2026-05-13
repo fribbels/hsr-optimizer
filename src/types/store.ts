@@ -90,6 +90,7 @@ export type HsrOptimizerSaveFormat = {
     customUrl: boolean,
   },
   completedMigrations?: Record<string, number>,
+  seenFeatures?: string[],
 }
 
 export type StatDisplay = 'combat' | 'base'

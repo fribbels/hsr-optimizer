@@ -18,7 +18,6 @@ import {
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 import localClasses from './AhaPanelContent.module.css'
 import sharedClasses from './CalculatorPanel.module.css'
 
@@ -27,7 +26,6 @@ const classes = { ...sharedClasses, ...localClasses }
 const TEAMMATE_KEYS = ['teammate0', 'teammate1', 'teammate2', 'teammate3'] as const
 const RANK_COLORS = ['#dba96a', '#b96ccc', '#58b0dc', '#58cca0']
 const BASE_COLOR = '#667181'
-const LOW_SPEED_THRESHOLD = 90
 
 type AhaFormType = UseFormReturnType<AhaFormValues>
 type TeammateKey = (typeof TEAMMATE_KEYS)[number]
@@ -91,6 +89,7 @@ function IntegratedRows({ form, rows, ahaSpeed }: {
   ahaSpeed: number,
 }) {
   const visualPositions = getVisualPositions(rows)
+  const filledCount = rows.filter((r) => r.rank != null).length
 
   return (
     <div className={classes.integratedRows}>
@@ -98,6 +97,7 @@ function IntegratedRows({ form, rows, ahaSpeed }: {
       {rows.map((row, domIndex) => {
         const visualPos = visualPositions[domIndex]
         const offset = (visualPos - domIndex) * ROW_STEP
+        const isNextSlot = row.rank == null && visualPos === filledCount
         return (
           <IntegratedRow
             key={row.key}
@@ -106,6 +106,7 @@ function IntegratedRows({ form, rows, ahaSpeed }: {
             ahaSpeed={ahaSpeed}
             label={`Teammate ${visualPos + 1}`}
             style={{ transform: offset ? `translateY(${offset}px)` : undefined }}
+            isNextSlot={isNextSlot}
           />
         )
       })}
@@ -125,7 +126,7 @@ function getVisualPositions(rows: TeammateRow[]): number[] {
 function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
   return (
     <div className={`${classes.integratedRow} ${classes.baseRow}`}>
-      <div className={classes.rowSource}>Base</div>
+      <div className={classes.rowSource}>Aha Base</div>
       <div className={classes.rowInputPlaceholder} />
       <div className={classes.rowTrack}>
         <div
@@ -142,12 +143,13 @@ function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
   )
 }
 
-function IntegratedRow({ form, row, ahaSpeed, label, style }: {
+function IntegratedRow({ form, row, ahaSpeed, label, style, isNextSlot }: {
   form: AhaFormType,
   row: TeammateRow,
   ahaSpeed: number,
   label: string,
   style?: React.CSSProperties,
+  isNextSlot?: boolean,
 }) {
   const hasContribution = row.contribution != null && row.startOffset != null
   const startOffset = row.startOffset ?? 0
@@ -157,7 +159,7 @@ function IntegratedRow({ form, row, ahaSpeed, label, style }: {
   const contributionLabel = row.contribution == null ? '' : `+ ${localeNumber_000(row.contribution)}`
 
   return (
-    <div className={`${classes.integratedRow} ${row.rank == null ? classes.emptyRow : ''}`} style={style}>
+    <div className={`${classes.integratedRow} ${row.rank == null && !isNextSlot ? classes.emptyRow : ''}`} style={style}>
       <div className={classes.rowSource}>
         <span>{label}</span>
       </div>
@@ -263,7 +265,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
         <HeaderText>
           {allSlotsFilled ? 'No slots open' : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>
-        <span style={{ color: getSpeedColor(displaySpeed) }}>
+        <span>
           {displaySpeed !== null ? localeNumber_000(displaySpeed) : ''}
         </span>
       </div>
@@ -312,10 +314,3 @@ function getDenominator(rank: number) {
   return Math.round(1 / speedToContributionMultiplier(rank))
 }
 
-function getSpeedColor(speed: number | null) {
-  if (speed == null) return undefined
-  const rounded = precisionRound(speed)
-  if (rounded < 0) return 'red'
-  if (rounded > 0 && rounded < LOW_SPEED_THRESHOLD) return 'orange'
-  return undefined
-}

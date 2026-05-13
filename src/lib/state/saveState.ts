@@ -1,6 +1,7 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import * as persistenceService from 'lib/services/persistenceService'
 import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
+import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacters } from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -102,6 +103,7 @@ export const SaveState = {
         customUrl: scannerState.websocketUrl !== DEFAULT_WEBSOCKET_URL,
       },
       completedMigrations: globalState.completedMigrations,
+      seenFeatures: Array.from(useNewFeatureStore.getState().seenFeatures),
     }
 
     const stateString = JSON.stringify(state)

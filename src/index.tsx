@@ -26,6 +26,7 @@ import { Gradient } from 'lib/rendering/gradient'
 import { Renderer } from 'lib/rendering/renderer'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { SaveState } from 'lib/state/saveState'
+import { resetSeenFeatures } from 'lib/stores/newFeatureStore'
 
 import { workerPool } from 'lib/worker/workerPool'
 import { OverlayScrollbars } from 'overlayscrollbars'
@@ -95,6 +96,7 @@ window.__HSR_DEBUG = {
   populateAllCharacters,
   resetShowcaseColors,
   exportShowcaseColors,
+  resetSeenFeatures,
 }
 
 Metadata.initialize()

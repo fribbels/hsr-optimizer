@@ -35,7 +35,6 @@ declare global {
 
     title: string
     WEBGPU_DEBUG: boolean
-    resetSeenFeatures: () => void
   }
 
   var WEBGPU_DEBUG: boolean

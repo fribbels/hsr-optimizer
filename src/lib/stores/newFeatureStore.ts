@@ -30,8 +30,7 @@ export function markFeatureSeen(key: string): void {
   SaveState.delayedSave()
 }
 
-window.resetSeenFeatures = () => {
+export function resetSeenFeatures(): void {
   useNewFeatureStore.getState().setSeenFeatures(new Set())
   SaveState.delayedSave()
-  console.log('Cleared seenFeatures — all active NEW indicators restored')
 }

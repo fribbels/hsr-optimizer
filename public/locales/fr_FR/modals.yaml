@@ -372,3 +372,8 @@ RelicReroll:
   Title: Re-lancé de relique détecté
   OriginalSubstats: Substats originelles
   RerolledSubstats: Substats re-roulées
+Calculators:
+  EHR:
+    Label: Taux d'app. d'eff.
+    Input:
+      HitRate: Taux d'app. d'eff.

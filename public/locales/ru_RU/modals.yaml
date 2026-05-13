@@ -382,3 +382,8 @@ RelicReroll:
   Title: Обнаружен Переброс Реликвии
   OriginalSubstats: Изначальные Сабстаты
   RerolledSubstats: Новые Сабстаты
+Calculators:
+  EHR:
+    Label: Шанс эффектов
+    Input:
+      HitRate: Шанс эффектов

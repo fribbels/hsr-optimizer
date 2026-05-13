@@ -384,3 +384,8 @@ RelicReroll:
   Title: 遺物の振り直しを検出しました
   OriginalSubstats: 元のサブステ
   RerolledSubstats: 振り直し後のサブステ
+Calculators:
+  EHR:
+    Label: 効果命中
+    Input:
+      HitRate: 効果命中

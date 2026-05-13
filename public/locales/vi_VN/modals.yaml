@@ -362,3 +362,8 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: Nón Ánh Sáng
   Title: Chọn nón ánh sáng
+Calculators:
+  EHR:
+    Label: CX Hiệu Ứng
+    Input:
+      HitRate: CX Hiệu Ứng

@@ -201,17 +201,16 @@ function prepareMobileExportSkinForCapture(root: HTMLElement): () => void {
   }
 
   const candidates = [root, ...Array.from(root.querySelectorAll<HTMLElement>('*'))]
+  const elsWithShadow: Array<{ el: HTMLElement; original: string }> = []
   for (const el of candidates) {
-    const style = getComputedStyle(el)
-    if (style.boxShadow === 'none') continue
-
-    const originalBoxShadow = el.style.boxShadow
-
+    if (getComputedStyle(el).boxShadow === 'none') continue
+    elsWithShadow.push({ el, original: el.style.boxShadow })
+  }
+  for (const { el, original } of elsWithShadow) {
     el.style.boxShadow = 'none'
-
     restoreActions.push(() => {
       if (!el.isConnected) return
-      el.style.boxShadow = originalBoxShadow
+      el.style.boxShadow = original
     })
   }
 

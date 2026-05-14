@@ -108,7 +108,6 @@
  */
 
 import {
-  type BlobType,
   preCache,
   snapdom,
   type SnapdomPlugin,
@@ -122,6 +121,7 @@ import { Message } from 'lib/interactions/message.js'
 
 const FETCH_TIMEOUT_MS = 8000
 const MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER = 2.0
+const SCREENSHOT_IMAGE_TYPE = 'png'
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -512,15 +512,7 @@ export async function screenshotElementById(
             }),
             attemptTimeoutMs,
           )
-          // ClipboardItem.supports may be unavailable in older browsers or non-secure contexts.
-          // Mobile/Safari exports use PNG because WebP rasterization was less reliable on iOS.
-          const supportsWebp = typeof ClipboardItem !== 'undefined'
-            && typeof ClipboardItem.supports === 'function'
-            && ClipboardItem.supports('image/webp')
-          const type: BlobType = mobile
-            ? 'png'
-            : (action === 'download' || supportsWebp) ? 'webp' : 'png'
-          blob = await capture.toBlob({ type, quality: 1.0 })
+          blob = await capture.toBlob({ type: SCREENSHOT_IMAGE_TYPE, quality: 1.0 })
           if (blob && blob.size > 1_500_000) break
         } catch (e) {
           lastError = e
@@ -546,8 +538,7 @@ export async function screenshotElementById(
     const pad = (n: number) => n.toString().padStart(2, '0')
     const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`
     const time = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`
-    const ext = blob.type === 'image/webp' ? 'webp' : 'png'
-    const filename = `${prefix}-${date}-${time}.${ext}`
+    const filename = `${prefix}-${date}-${time}.png`
 
     if (action === 'clipboard') {
       if (mobile) {

@@ -78,6 +78,8 @@
  * ## Mobile-specific Handling
  *
  * - Display P3 color space patch for iOS/Android Chrome (better color accuracy)
+ * - Mobile export skin removes fragile CSS shadows and compensates with a
+ *   backdrop overlay plus boosted translucent panel color.
  * - Web Share API for clipboard action on mobile (clipboard.write not supported)
  *
  * ## Historical Notes (things we tried)
@@ -111,6 +113,7 @@ import {
   snapdom,
   type SnapdomPlugin,
 } from '@zumer/snapdom'
+import chroma from 'chroma-js'
 import i18next from 'i18next'
 import {
   cardTotalW,
@@ -119,6 +122,9 @@ import {
 import { Message } from 'lib/interactions/message.js'
 
 const FETCH_TIMEOUT_MS = 8000
+const MOBILE_EXPORT_BACKGROUND_OVERLAY_OPACITY = 0.15
+const MOBILE_EXPORT_PANEL_ALPHA_BOOST = 0.10
+const MOBILE_EXPORT_PANEL_SATURATION_BOOST = 0.50
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -165,6 +171,71 @@ function patchCanvasForDisplayP3(): () => void {
 
   return () => {
     HTMLCanvasElement.prototype.getContext = originalGetContext
+  }
+}
+
+function buildMobileExportPanelColor(style: CSSStyleDeclaration): string | null {
+  const color = chroma(style.backgroundColor)
+  const alpha = color.alpha()
+  if (!(alpha > 0 && alpha < 1)) return null
+
+  const [h, s, l] = color.hsl()
+  return chroma.hsl(
+    Number.isFinite(h) ? h : 0,
+    Math.min(1, s * (1 + MOBILE_EXPORT_PANEL_SATURATION_BOOST)),
+    Math.min(1, l + MOBILE_EXPORT_PANEL_SATURATION_BOOST * 0.08),
+  ).alpha(Math.min(0.95, alpha + MOBILE_EXPORT_PANEL_ALPHA_BOOST)).css()
+}
+
+function prepareMobileExportSkinForCapture(root: HTMLElement): () => void {
+  const restoreActions: Array<() => void> = []
+
+  // Mobile WebKit/Chromium can corrupt CSS shadows during SVG foreignObject -> canvas export.
+  // This export skin removes those shadows and restores perceived depth by
+  // darkening only the blurred backdrop layer behind the translucent panels.
+  const backdrop = root.querySelector<HTMLElement>('[data-portrait-bg]')
+  if (backdrop) {
+    const overlay = document.createElement('div')
+    overlay.style.cssText = [
+      'position:absolute',
+      'inset:0',
+      `background:rgba(0, 0, 0, ${MOBILE_EXPORT_BACKGROUND_OVERLAY_OPACITY})`,
+      'pointer-events:none',
+      'z-index:0',
+    ].join(';')
+    backdrop.insertAdjacentElement('afterend', overlay)
+    restoreActions.push(() => {
+      if (overlay.isConnected) overlay.remove()
+    })
+  }
+
+  const candidates = [root, ...Array.from(root.querySelectorAll<HTMLElement>('*'))]
+  for (const el of candidates) {
+    const style = getComputedStyle(el)
+    if (style.boxShadow === 'none') continue
+
+    const originalBoxShadow = el.style.boxShadow
+    const originalBackgroundColor = el.style.backgroundColor
+    const exportPanelColor = buildMobileExportPanelColor(style)
+
+    el.style.boxShadow = 'none'
+    if (exportPanelColor) {
+      el.style.backgroundColor = exportPanelColor
+    }
+
+    restoreActions.push(() => {
+      if (!el.isConnected) return
+      el.style.boxShadow = originalBoxShadow
+      el.style.backgroundColor = originalBackgroundColor
+    })
+  }
+
+  return () => {
+    for (let i = restoreActions.length - 1; i >= 0; i--) {
+      try {
+        restoreActions[i]()
+      } catch { /* best-effort */ }
+    }
   }
 }
 
@@ -436,8 +507,12 @@ export async function screenshotElementById(
     try {
       for (let i = 0; i < maxAttempts; i++) {
         let restoreLiveDom: (() => void) | null = null
+        let restoreMobileExportSkin: (() => void) | null = null
         try {
           restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
+          if (mobile) {
+            restoreMobileExportSkin = prepareMobileExportSkinForCapture(element)
+          }
           const capture = await withTimeout(
             snapdom(element, {
               scale: 1,
@@ -462,6 +537,7 @@ export async function screenshotElementById(
         } catch (e) {
           lastError = e
         } finally {
+          restoreMobileExportSkin?.()
           restoreLiveDom?.()
         }
       }

@@ -78,8 +78,8 @@
  * ## Mobile-specific Handling
  *
  * - Display P3 color space patch for iOS/Android Chrome (better color accuracy)
- * - Mobile export skin removes fragile CSS shadows and compensates with a
- *   backdrop overlay plus boosted translucent panel color.
+ * - Mobile export skin removes fragile CSS shadows and increases the portrait
+ *   backdrop blur without changing panel colors.
  * - Web Share API for clipboard action on mobile (clipboard.write not supported)
  *
  * ## Historical Notes (things we tried)
@@ -113,7 +113,6 @@ import {
   snapdom,
   type SnapdomPlugin,
 } from '@zumer/snapdom'
-import chroma from 'chroma-js'
 import i18next from 'i18next'
 import {
   cardTotalW,
@@ -122,9 +121,7 @@ import {
 import { Message } from 'lib/interactions/message.js'
 
 const FETCH_TIMEOUT_MS = 8000
-const MOBILE_EXPORT_BACKGROUND_OVERLAY_OPACITY = 0.15
-const MOBILE_EXPORT_PANEL_ALPHA_BOOST = 0.10
-const MOBILE_EXPORT_PANEL_SATURATION_BOOST = 0.50
+const MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER = 2.0
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -174,38 +171,32 @@ function patchCanvasForDisplayP3(): () => void {
   }
 }
 
-function buildMobileExportPanelColor(style: CSSStyleDeclaration): string | null {
-  const color = chroma(style.backgroundColor)
-  const alpha = color.alpha()
-  if (!(alpha > 0 && alpha < 1)) return null
-
-  const [h, s, l] = color.hsl()
-  return chroma.hsl(
-    Number.isFinite(h) ? h : 0,
-    Math.min(1, s * (1 + MOBILE_EXPORT_PANEL_SATURATION_BOOST)),
-    Math.min(1, l + MOBILE_EXPORT_PANEL_SATURATION_BOOST * 0.08),
-  ).alpha(Math.min(0.95, alpha + MOBILE_EXPORT_PANEL_ALPHA_BOOST)).css()
+function multiplyCssBlur(filter: string, multiplier: number): string {
+  if (!Number.isFinite(multiplier) || multiplier === 1) return filter
+  return filter.replace(/blur\(\s*([0-9.]+)px\s*\)/i, (_match, value: string) => {
+    const next = Math.max(0, Number(value) * multiplier)
+    return `blur(${next.toFixed(2)}px)`
+  })
 }
 
 function prepareMobileExportSkinForCapture(root: HTMLElement): () => void {
   const restoreActions: Array<() => void> = []
 
   // Mobile WebKit/Chromium can corrupt CSS shadows during SVG foreignObject -> canvas export.
-  // This export skin removes those shadows and restores perceived depth by
-  // darkening only the blurred backdrop layer behind the translucent panels.
-  const backdrop = root.querySelector<HTMLElement>('[data-portrait-bg]')
-  if (backdrop) {
-    const overlay = document.createElement('div')
-    overlay.style.cssText = [
-      'position:absolute',
-      'inset:0',
-      `background:rgba(0, 0, 0, ${MOBILE_EXPORT_BACKGROUND_OVERLAY_OPACITY})`,
-      'pointer-events:none',
-      'z-index:0',
-    ].join(';')
-    backdrop.insertAdjacentElement('afterend', overlay)
+  // The most stable export skin removes those shadows without recoloring panels,
+  // then increases the portrait backdrop blur to hide the missing depth.
+  for (const img of root.querySelectorAll<HTMLElement>('[data-portrait-bg] img')) {
+    const style = getComputedStyle(img)
+    const originalFilter = img.style.filter
+    const originalWebkitFilter = img.style.webkitFilter
+    const nextFilter = multiplyCssBlur(style.filter === 'none' ? '' : style.filter, MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER)
+    const nextWebkitFilter = multiplyCssBlur(style.webkitFilter === 'none' ? '' : style.webkitFilter, MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER)
+    if (nextFilter) img.style.filter = nextFilter
+    if (nextWebkitFilter) img.style.webkitFilter = nextWebkitFilter
     restoreActions.push(() => {
-      if (overlay.isConnected) overlay.remove()
+      if (!img.isConnected) return
+      img.style.filter = originalFilter
+      img.style.webkitFilter = originalWebkitFilter
     })
   }
 
@@ -215,18 +206,12 @@ function prepareMobileExportSkinForCapture(root: HTMLElement): () => void {
     if (style.boxShadow === 'none') continue
 
     const originalBoxShadow = el.style.boxShadow
-    const originalBackgroundColor = el.style.backgroundColor
-    const exportPanelColor = buildMobileExportPanelColor(style)
 
     el.style.boxShadow = 'none'
-    if (exportPanelColor) {
-      el.style.backgroundColor = exportPanelColor
-    }
 
     restoreActions.push(() => {
       if (!el.isConnected) return
       el.style.boxShadow = originalBoxShadow
-      el.style.backgroundColor = originalBackgroundColor
     })
   }
 
@@ -527,11 +512,14 @@ export async function screenshotElementById(
             }),
             attemptTimeoutMs,
           )
-          // ClipboardItem.supports may be unavailable in older browsers or non-secure contexts
+          // ClipboardItem.supports may be unavailable in older browsers or non-secure contexts.
+          // Mobile/Safari exports use PNG because WebP rasterization was less reliable on iOS.
           const supportsWebp = typeof ClipboardItem !== 'undefined'
             && typeof ClipboardItem.supports === 'function'
             && ClipboardItem.supports('image/webp')
-          const type: BlobType = (action === 'download' || supportsWebp) ? 'webp' : 'png'
+          const type: BlobType = mobile
+            ? 'png'
+            : (action === 'download' || supportsWebp) ? 'webp' : 'png'
           blob = await capture.toBlob({ type, quality: 1.0 })
           if (blob && blob.size > 1_500_000) break
         } catch (e) {

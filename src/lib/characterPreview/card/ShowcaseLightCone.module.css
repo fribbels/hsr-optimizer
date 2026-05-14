@@ -10,6 +10,8 @@
   z-index: 21;
   text-shadow: var(--text-shadow-showcase);
   border: var(--showcase-outline);
+  overflow: hidden;
+  clip-path: inset(0 round var(--radius-md));
   backdrop-filter: var(--backdrop-blur);
 }
 

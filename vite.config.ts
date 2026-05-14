@@ -75,6 +75,7 @@ export default defineConfig({
     environment: 'node',
     slowTestThreshold: 500,
     exclude: [],
+    execArgv: ['--no-webstorage'],
   },
   worker: {
     format: 'iife',

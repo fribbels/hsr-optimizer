@@ -51,7 +51,7 @@ const panelWidth = 220
 const statRenderOption: React.ComponentProps<typeof MultiSelect>['renderOption'] = ({ option, checked }) => (
   <Flex align='center' gap={10} justify='space-between' w='100%'>
     <Flex align='center' gap={10}>
-      <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+      <img src={Assets.getStatIcon(String(option.value), true)} className={iconClasses.icon22} />
       {option.label}
     </Flex>
     {checked && <CheckIcon size={12} />}

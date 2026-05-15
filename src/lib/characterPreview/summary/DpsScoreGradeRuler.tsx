@@ -282,7 +282,7 @@ function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, buff
       <div className={styles.tickLine} style={{ top: MARGIN_TOP, height: BAR_HEIGHT }} />
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - dmgOffset, fontSize: 12 }}>{dmgLabel}</span>
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - numberOffset, fontSize: 12 }}>
-        {formatSimScore(value, buffStat, 1, thousands)}
+        {formatSimScore(value, buffStat, thousands ? 0 : 1, thousands)}
       </span>
       {bottomLabel && (
         <span className={styles.bottomLabel} style={{ top: BOTTOM_Y + LOW, fontSize: 12 }}>

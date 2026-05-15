@@ -74,13 +74,13 @@ export function getElementalDmgFromContainer(x: ComputedStatsContainer, element:
 }
 
 export function formatSimScore(value: number, buffStat?: AKeyValue, precision: number = 1, thousands: boolean = false): string {
-  if (buffStat != null && !isFlatStat(buffStat)) {
-    return `${(value * 100).toFixed(precision)}%`
+  if (buffStat == null || isFlatStat(buffStat)) {
+    if (thousands) {
+      return renderThousandsK(value, precision)
+    }
+    return Math.floor(value).toLocaleString()
   }
-  if (thousands) {
-    return renderThousandsK(value, precision)
-  }
-  return Math.floor(value).toLocaleString()
+  return `${(value * 100).toFixed(precision)}%`
 }
 
 

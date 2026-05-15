@@ -1,11 +1,11 @@
 import i18next from 'i18next'
 import {
+  ShadowRings,
   showcaseShadow,
   showcaseShadowInsetAddition,
   ShowcaseSource,
   showcaseTransition,
 } from 'lib/characterPreview/CharacterPreviewComponents'
-import componentClasses from 'lib/characterPreview/CharacterPreviewComponents.module.css'
 import { Parts } from 'lib/constants/constants'
 import {
   relicCardH,
@@ -120,7 +120,6 @@ export const RelicPreview = memo(function RelicPreview(props: {
   return (
     <div
       data-testid='relic-preview'
-      className={useShowcaseColors ? componentClasses.shadowRings : undefined}
       onClick={cardClicked}
       style={{
         position: useShowcaseColors ? 'relative' as const : undefined,
@@ -139,6 +138,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
         outline: useShowcaseColors ? 'var(--showcase-outline-shadow)' : '0',
       }}
     >
+      {useShowcaseColors && <ShadowRings />}
       <RelicStatText language={i18next.resolvedLanguage as Languages} style={FULL_HEIGHT_STYLE}>
         <div
           style={{

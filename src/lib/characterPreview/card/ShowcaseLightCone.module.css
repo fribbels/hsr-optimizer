@@ -16,7 +16,6 @@
 }
 
 .lcCard {
-  composes: shadowRings from '../CharacterPreviewComponents.module.css';
   overflow: hidden;
   z-index: 20;
   border-radius: var(--radius-md);

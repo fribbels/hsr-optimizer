@@ -1,5 +1,4 @@
 .portraitContainer {
-  composes: shadowRings from '../CharacterPreviewComponents.module.css';
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-md);

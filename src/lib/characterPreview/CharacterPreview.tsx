@@ -8,12 +8,12 @@ import {
 import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/card/ShowcaseRelicsPanel'
 import {
+  ShadowRings,
   showcaseShadow,
   showcaseShadowInsetAddition,
   ShowcaseSource,
   showcaseTransition,
 } from 'lib/characterPreview/CharacterPreviewComponents'
-import componentClasses from 'lib/characterPreview/CharacterPreviewComponents.module.css'
 import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
@@ -604,7 +604,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           {/* Character details middle panel */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 8 }}>
             <div
-              className={componentClasses.shadowRings}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -625,6 +624,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 position: 'relative',
               }}
             >
+              <ShadowRings />
               <ShowcaseCharacterHeader
                 showcaseMetadata={showcaseMetadata}
                 scoringType={scoringType}

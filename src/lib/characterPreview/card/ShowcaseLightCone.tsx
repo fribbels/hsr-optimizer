@@ -1,5 +1,6 @@
 import styles from 'lib/characterPreview/card/ShowcaseLightCone.module.css'
 import {
+  ShadowRings,
   showcaseShadow,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
@@ -84,6 +85,7 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
           setOriginalCharacterModalOpen?.(true)
         }}
       >
+        <ShadowRings />
         <LoadingBlurredImage
           src={lightConeSrc}
           style={{
@@ -128,6 +130,7 @@ export const ShowcaseLightConeLarge = memo(function ShowcaseLightConeLarge({
         setOriginalCharacterModalOpen?.(true)
       }}
     >
+      <ShadowRings />
       <LoadingBlurredImage
         src={lightConeSrc}
         style={{

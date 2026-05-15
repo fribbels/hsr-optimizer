@@ -3,6 +3,7 @@ import { IconEdit } from '@tabler/icons-react'
 import { CharacterCustomPortrait } from 'lib/characterPreview/card/CharacterCustomPortrait'
 import styles from 'lib/characterPreview/card/ShowcasePortrait.module.css'
 import {
+  ShadowRings,
   showcaseButtonStyle,
   showcaseShadow,
   ShowcaseSource,
@@ -133,6 +134,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
       }}
       {...portraitDataAttrs}
     >
+      <ShadowRings />
       {useSpine
         ? (
           <div data-portrait-spine>

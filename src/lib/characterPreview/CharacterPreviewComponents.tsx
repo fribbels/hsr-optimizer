@@ -22,21 +22,28 @@ export const showcaseButtonStyle: CSSProperties = {
   visibility: 'hidden',
 }
 
-export function ShadowRingWrapper({ children, borderRadius = 6 }: {
-  children: React.ReactNode
-  borderRadius?: number
-}) {
-  return (
+const TRANSPARENT_PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII='
+
+const SHADOW_RING_CONFIG = [
+  { inset: 2, borderRadius: 7, opacity: 0.25 },
+  { inset: 3, borderRadius: 8, opacity: 0.05 },
+]
+
+export function ShadowRings() {
+  return SHADOW_RING_CONFIG.map((ring, i) => (
     <div
+      key={i}
       style={{
-        position: 'relative',
-        borderRadius: borderRadius + 2,
-        outline: 'var(--showcase-outline-shadow-outer)',
+        position: 'absolute',
+        inset: -ring.inset,
+        borderRadius: ring.borderRadius,
+        outline: `1px solid rgba(0, 0, 0, ${ring.opacity})`,
+        backgroundImage: `url('${TRANSPARENT_PNG}')`,
+        backgroundSize: '100% 100%',
+        pointerEvents: 'none',
       }}
-    >
-      {children}
-    </div>
-  )
+    />
+  ))
 }
 
 export function OverlayText({ text, top }: {

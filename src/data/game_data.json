@@ -7936,37 +7936,37 @@
       },
       "traceTree": [
         {
-          "id": "1507201_4.3v1",
+          "id": "1507201_4.3v3",
           "stat": "Fire DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1507210_4.3v1",
+              "id": "1507210_4.3v3",
               "stat": "Fire DMG Boost",
               "value": 0.064,
-              "pre": "1507201_4.3v1",
+              "pre": "1507201_4.3v3",
               "children": []
             }
           ]
         },
         {
-          "id": "1507202_4.3v1",
+          "id": "1507202_4.3v3",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1507203_4.3v1",
+              "id": "1507203_4.3v3",
               "stat": "Fire DMG Boost",
               "value": 0.032,
-              "pre": "1507202_4.3v1",
+              "pre": "1507202_4.3v3",
               "children": [
                 {
-                  "id": "1507204_4.3v1",
+                  "id": "1507204_4.3v3",
                   "stat": "HP%",
                   "value": 0.04,
-                  "pre": "1507203_4.3v1",
+                  "pre": "1507203_4.3v3",
                   "children": []
                 }
               ]
@@ -7974,22 +7974,22 @@
           ]
         },
         {
-          "id": "1507205_4.3v1",
+          "id": "1507205_4.3v3",
           "stat": "Fire DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1507206_4.3v1",
+              "id": "1507206_4.3v3",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1507205_4.3v1",
+              "pre": "1507205_4.3v3",
               "children": [
                 {
-                  "id": "1507207_4.3v1",
+                  "id": "1507207_4.3v3",
                   "stat": "Fire DMG Boost",
                   "value": 0.048,
-                  "pre": "1507206_4.3v1",
+                  "pre": "1507206_4.3v3",
                   "children": []
                 }
               ]
@@ -7997,14 +7997,14 @@
           ]
         },
         {
-          "id": "1507208_4.3v1",
+          "id": "1507208_4.3v3",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1507209_4.3v1",
+          "id": "1507209_4.3v3",
           "stat": "CRIT Rate",
           "value": 0.053,
           "pre": null,
@@ -14439,8 +14439,8 @@
       "rarity": 5,
       "path": "Nihility",
       "stats": {
-        "HP": 1270.08,
-        "ATK": 476.28,
+        "HP": 1375.92,
+        "ATK": 423.36,
         "DEF": 463.05
       },
       "imageOffset": {
@@ -14450,19 +14450,19 @@
       },
       "superimpositions": {
         "1": {
-          "HPAddedRatio": 0.24
-        },
-        "2": {
           "HPAddedRatio": 0.3
         },
+        "2": {
+          "HPAddedRatio": 0.375
+        },
         "3": {
-          "HPAddedRatio": 0.36
+          "HPAddedRatio": 0.45
         },
         "4": {
-          "HPAddedRatio": 0.42
+          "HPAddedRatio": 0.525
         },
         "5": {
-          "HPAddedRatio": 0.48
+          "HPAddedRatio": 0.6
         }
       },
       "unreleased": true
@@ -14844,7 +14844,7 @@
     {
       "id": "131",
       "name": "As Navigator Isee Sees It",
-      "skills": "Increases ATK by 12%. When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 18%, lasting for 2 turns. This effect can stack up to 3 times."
+      "skills": "Increases ATK by 12%. When the wearer enters combat or uses Skill, their Skill and Ultimate DMG dealt increases by 18%, stacking up to 3 times. At the start of the wearer's turn or after using their Ultimate, removes 1 stack of this effect."
     },
     {
       "id": "132",

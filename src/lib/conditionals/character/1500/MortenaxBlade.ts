@@ -91,18 +91,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillBounceScaling = skill(e, 0.24, 0.264)
   const skillBounceCount = 4
 
-  const enhancedUltScaling = ult(e, 3.00, 3.24)
+  const enhancedUltScaling = ult(e, 3.50, 3.78)
   const ultDefReductionValue = ult(e, 0.30, 0.32)
   const ultVulnerabilityValue = ult(e, 0.50, 0.54)
-  const ultCrBuffValue = 0.20
   const ultCdBuffValue = ult(e, 0.60, 0.66)
-
-  const traceAllyDmgBoostValue = 0.50
-  const traceNihilityUltDmgBoostValue = 0.50
-  const traceNonNihilityFuaDmgBoostValue = 0.50
-
-  const e2FuaDmgBoost = (e >= 2) ? 0.50 : 0
-  const e4AllyDmgBoost = (e >= 4) ? 0.50 : 0
 
   const defaults = {
     infiniteFuryActive: true,
@@ -212,6 +204,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         [AbilityKind.SKILL]: {
           hits: [
             HitDefinitionBuilder.standardSkill()
+              .skillPointsUsed(0)
               .damageElement(ElementTag.Fire)
               .hpScaling(skillTotalHpScaling)
               .toughnessDmg(skillToughness)
@@ -253,7 +246,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
           if (action.actionType !== AbilityKind.ULT) return
           const m = self.ownConditionals as Conditionals<typeof teammateContent>
-          if (!m.ultZone || !m.e2FuaDmgBoost) return
+          if (!m.e2FuaDmgBoost) return
           for (const hit of action.hits!) {
             hit.damageType |= DamageTag.FUA
           }
@@ -264,9 +257,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.CR, r.infiniteFuryActive ? ultCrBuffValue : 0, x.source(SOURCE_ULT))
+      x.buff(StatKey.CR, r.infiniteFuryActive ? 0.20 : 0, x.source(SOURCE_ULT))
       x.buff(StatKey.CD, r.infiniteFuryActive ? ultCdBuffValue : 0, x.source(SOURCE_ULT))
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.e2FuaDmgBoost) ? e2FuaDmgBoost : 0, x.damageType(DamageTag.FUA).source(SOURCE_E2))
+      x.multiplicativeComplement(StatKey.DMG_RED, r.ultZone ? 0.50 : 0, x.source(SOURCE_TRACE))
+
+      const nihilityCount = countTeamPath(context, PathNames.Nihility)
+      const hasOtherNihility = nihilityCount >= 2
+      if (r.ultZone && !hasOtherNihility) {
+        x.buff(StatKey.DMG_BOOST, 0.75, x.source(SOURCE_TRACE))
+      }
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -275,20 +274,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, m.ultZone ? ultDefReductionValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.VULNERABILITY, m.ultZone ? ultVulnerabilityValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      x.buff(StatKey.DMG_BOOST, m.ultZone ? traceAllyDmgBoostValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (e >= 4 && m.ultZone && m.e4DmgBoost) ? e4AllyDmgBoost : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.DMG_BOOST, m.ultZone ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.DMG_BOOST, (e >= 4 && m.ultZone && m.e4DmgBoost) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
 
-      // A3 branch: Nihility teammates present → ULT DMG +50%, otherwise → FUA DMG +50%
       const nihilityCount = countTeamPath(context, PathNames.Nihility)
       const hasOtherNihility = nihilityCount >= 2
       if (m.ultZone && hasOtherNihility) {
-        x.buff(StatKey.DMG_BOOST, traceNihilityUltDmgBoostValue, x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      }
-      if (m.ultZone && !hasOtherNihility) {
-        x.buff(StatKey.DMG_BOOST, traceNonNihilityFuaDmgBoostValue, x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+        x.buff(StatKey.DMG_BOOST, 0.75, x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       }
 
       x.buff(StatKey.RES_PEN, (e >= 1 && m.ultZone && m.e1ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.DMG_BOOST, (e >= 2 && m.e2FuaDmgBoost) ? 0.75 : 0, x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

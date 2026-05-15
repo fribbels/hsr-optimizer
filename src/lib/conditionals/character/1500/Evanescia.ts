@@ -477,7 +477,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.DEF_P]: 0,
     [Stats.HP]: 0,
     [Stats.HP_P]: 0,
-    [Stats.SPD]: 1,
+    [Stats.SPD]: 0,
     [Stats.CR]: 1,
     [Stats.CD]: 1,
     [Stats.EHR]: 0,

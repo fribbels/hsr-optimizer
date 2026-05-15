@@ -4,10 +4,10 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.3.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.3.3'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.3v1'
+export const CURRENT_DATA_VERSION = '4.3v3'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false

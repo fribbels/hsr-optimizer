@@ -156,6 +156,7 @@ export type PartialSimulationWrapper = {
 export type PoolComboState = {
   sets: SimulationSets,
   baselineScore: number,
+  baselineResult: RunStatSimulationsResult,
   combatSpdTarget: number,
   basicSpdTarget: number,
   flags: SimulationFlags,

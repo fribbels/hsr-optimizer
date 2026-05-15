@@ -1,5 +1,8 @@
 ScreenshotMessages:
   ScreenshotSuccess: 截图已复制至剪贴板
+  ScreenshotFailed:
+    Default: 无法将截图保存到剪贴板，请尝试右侧的下载按钮
+    NotAllowed: 浏览器拒绝了剪贴板访问权限，请在截图时保持网页处于当前窗口。
   DownloadSuccess: 已下载截图
 CharacterMenu:
   ButtonText: 角色菜单
@@ -105,9 +108,11 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: 副词条升级比较
     MainStatHeader: 主词条升级比较
+    TeammatesHeader: 队友遗器强化对比
     AddedRoll: '+1x {{stat}}副词条'
     SubStatUpgrade: 副词条升级
     MainStatUpgrade: 主词条升级
+    TeammateUpgrade: 队友升级
     DpsScorePercentUpgrade: DPS评分Δ%
     UpgradedDpsScore: 升级后DPS评分
     ComboDmgPercentUpgrade: 连招伤害Δ%

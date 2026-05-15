@@ -1,0 +1,90 @@
+.integratedRows {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.integratedRow {
+  display: grid;
+  grid-template-columns: 92px 112px 1fr 60px;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  transition: transform 250ms ease;
+}
+
+.baseRow {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.emptyRow {
+  opacity: 0.58;
+}
+
+.rowSource {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.15;
+}
+
+.rowSource span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowInput {
+  min-width: 0;
+}
+
+.rowInputPlaceholder {
+  color: #8b8b8b;
+  font-size: 12px;
+  text-align: center;
+}
+
+.rowTrack {
+  position: relative;
+  height: 28px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent 18%),
+    rgba(255, 255, 255, 0.025);
+  border-radius: 2px;
+}
+
+.rowTrack::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.rowSegment {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-width: 3px;
+  border-radius: 1px;
+  opacity: 0.92;
+  transition: left 180ms ease, width 180ms ease;
+}
+
+.rowMeta {
+  display: flex;
+  flex-direction: column;
+  color: rgba(255, 255, 255, 0.77);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  text-align: right;
+  white-space: nowrap;
+}
+

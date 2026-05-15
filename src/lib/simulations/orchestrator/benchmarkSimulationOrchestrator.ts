@@ -435,7 +435,6 @@ export class BenchmarkSimulationOrchestrator {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
-    const zeroMainsSimResult = this.zeroMainsSimResult!
 
     const clonedBenchmarkScoringParams = clone(benchmarkScoringParams)
 
@@ -452,7 +451,7 @@ export class BenchmarkSimulationOrchestrator {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
       const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
       const flags = comboState?.flags ?? defaultFlags
-      const candidateBaseline = comboState?.baselineResult ?? baselineSimResult
+      const candidateBaseline = comboState!.baselineResult
 
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
@@ -477,11 +476,7 @@ export class BenchmarkSimulationOrchestrator {
 
       // Define min/max limits
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
-<<<<<<< HEAD
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, zeroMainsSimResult, flags, this.configType)
-=======
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, candidateBaseline, flags)
->>>>>>> beta
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, candidateBaseline, flags, this.configType)
 
       // Start the sim search at the max then iterate downwards
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
@@ -529,7 +524,6 @@ export class BenchmarkSimulationOrchestrator {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
-    const zeroMainsSimResult = this.zeroMainsSimResult!
 
     const clonedPerfectionScoringParams = clone(maximumScoringParams)
 
@@ -544,7 +538,7 @@ export class BenchmarkSimulationOrchestrator {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
       const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
       const flags = comboState?.flags ?? defaultFlags
-      const candidateBaseline = comboState?.baselineResult ?? baselineSimResult
+      const candidateBaseline = comboState!.baselineResult
 
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
@@ -565,11 +559,7 @@ export class BenchmarkSimulationOrchestrator {
 
       // Define min/max limits
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
-<<<<<<< HEAD
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, zeroMainsSimResult, flags, this.configType)
-=======
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, candidateBaseline, flags)
->>>>>>> beta
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, candidateBaseline, flags, this.configType)
 
       // Start the sim search at the max then iterate downwards
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts

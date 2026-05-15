@@ -1,3 +1,4 @@
+import { aKeyToUnconvertibleKey } from 'lib/conditionals/evaluation/statConversionConfig'
 import {
   containerGetValue,
   containerHitRegister,
@@ -900,7 +901,14 @@ export const BuffDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex) => {
     const hit = action.hits![hitIndex] as BuffHit
     const scalingEntityIndex = hit.scalingEntityIndex ?? hit.sourceEntityIndex ?? 0
-    const stat = x.getValue(hit.sourceStat, hitIndex, scalingEntityIndex)
+    let stat = x.getValue(hit.sourceStat, hitIndex, scalingEntityIndex)
+
+    if (!hit.includeUnconvertible) {
+      const unconvertibleKey = aKeyToUnconvertibleKey[hit.sourceStat]
+      if (unconvertibleKey != null) {
+        stat -= x.getValue(unconvertibleKey, hitIndex, scalingEntityIndex)
+      }
+    }
 
     let baseBuffValue: number
 
@@ -932,11 +940,16 @@ export const BuffDamageFunction: DamageFunction = {
 
     let formulaWgsl: string
 
+    const unconvertibleKey = aKeyToUnconvertibleKey[hit.sourceStat]
+    const unconvertibleSubtraction = (!hit.includeUnconvertible && unconvertibleKey != null)
+      ? ` - ${getScalingValue(unconvertibleKey)}`
+      : ''
+
     switch (hit.conversionType) {
       case ConversionType.Discrete: {
         const stat = getScalingValue(hit.sourceStat)
         formulaWgsl = `
-  let stat = ${stat};
+  let stat = ${stat}${unconvertibleSubtraction};
   let excess = max(0.0, stat - ${hit.whenAbove});
   let steps = floor(excess / ${hit.forEvery});
   let baseBuffValue = min(${hit.cappedAt}, steps * ${hit.increaseBy});`
@@ -945,7 +958,7 @@ export const BuffDamageFunction: DamageFunction = {
       case ConversionType.Linear: {
         const stat = getScalingValue(hit.sourceStat)
         formulaWgsl = `
-  let stat = ${stat};
+  let stat = ${stat}${unconvertibleSubtraction};
   let baseBuffValue = ${hit.scaling} * stat + ${hit.flat ?? 0};`
         break
       }

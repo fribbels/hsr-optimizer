@@ -116,6 +116,7 @@ export interface LinearBuffHitDefinition extends BaseHitDefinition {
   conversionType: ConversionType.Linear
   buffStat: AKeyValue
   sourceStat: AKeyValue
+  includeUnconvertible: boolean
   scaling: number
   flat?: number
 }
@@ -127,6 +128,7 @@ export interface DiscreteBuffHitDefinition extends BaseHitDefinition {
   conversionType: ConversionType.Discrete
   buffStat: AKeyValue
   sourceStat: AKeyValue
+  includeUnconvertible: boolean
   whenAbove: number
   forEvery: number
   increaseBy: number

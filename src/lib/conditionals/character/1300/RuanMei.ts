@@ -1,6 +1,3 @@
-import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { Firefly } from 'lib/conditionals/character/1300/Firefly'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,9 +5,6 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
-import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
-import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   Parts,
   Sets,
@@ -32,10 +26,8 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   AbilityKind,
-  NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   floorSafe,
@@ -260,58 +252,6 @@ ${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
   }
 }
 
-const supportSimulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
-    [Parts.Feet]: [Stats.SPD],
-    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
-    [Parts.LinkRope]: [Stats.ERR, Stats.BE],
-  },
-  substats: [
-    Stats.BE,
-    Stats.SPD,
-    Stats.RES,
-    Stats.HP_P,
-    Stats.DEF_P,
-  ],
-  buffStat: StatKey.DMG_BOOST,
-  errRopeEidolon: 0,
-  breakpoints: {
-    [Stats.BE]: 1.80,
-  },
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-  ],
-  relicSets: [
-    [Sets.WatchmakerMasterOfDreamMachinations, Sets.WatchmakerMasterOfDreamMachinations],
-  ],
-  ornamentSets: [
-    Sets.SprightlyVonwacq,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
-  ],
-  teammates: [
-    {
-      characterId: Firefly.id,
-      lightCone: WhereaboutsShouldDreamsRest.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Fugue.id,
-      lightCone: LongRoadLeadsHome.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Lingsha.id,
-      lightCone: ScentAloneStaysTrue.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-  deprioritizeBuffs: true,
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -344,7 +284,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
-  supportSimulation: supportSimulation(),
 })
 
 const display = {

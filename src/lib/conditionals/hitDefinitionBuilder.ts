@@ -246,6 +246,7 @@ const BUFF_DEFAULTS = {
   damageElement: ElementTag.None,
   outputTag: OutputTag.BUFF,
   directHit: false,
+  includeUnconvertible: false,
 }
 
 HitDefinitionBuilder.linearBuff = () =>

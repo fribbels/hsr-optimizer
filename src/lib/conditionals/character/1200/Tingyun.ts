@@ -41,7 +41,6 @@ import { precisionRound } from 'lib/utils/mathUtils'
 export const TingyunEntities = createEnum('Tingyun')
 export const TingyunAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
-  AbilityKind.BUFF,
   AbilityKind.BREAK,
 ]
 
@@ -172,15 +171,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
                 ]
                 : []
             ),
-          ],
-        },
-        [AbilityKind.BUFF]: {
-          hits: [
-            HitDefinitionBuilder.linearBuff()
-              .buffStat(StatKey.ATK)
-              .sourceStat(StatKey.ATK)
-              .scaling(skillAtkBoostScaling)
-              .build(),
           ],
         },
         [AbilityKind.BREAK]: {

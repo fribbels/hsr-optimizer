@@ -32,7 +32,7 @@ export interface DebugVisualConfig {
 // ============================================================
 
 // Portrait background filter defaults (Matte preset)
-export const PORTRAIT_BLUR = 25
+export const PORTRAIT_BLUR = 50
 export const PORTRAIT_BRIGHTNESS = 0.40
 export const PORTRAIT_SATURATE = 1.75
 export const PORTRAIT_CONTRAST = 1.00
@@ -42,12 +42,12 @@ export const CARD_BG_ALPHA_DEFAULT = 0.40
 export const BLEND_MODE_DEFAULT: BlendMode = 'normal'
 
 // Shadow/glow defaults
-export const SHADOW_X = 1
-export const SHADOW_Y = 1
-export const SHADOW_BLUR = 5
-export const SHADOW_OPACITY = 0.75
-export const INSET_BLUR = 2
-export const INSET_OPACITY = 0.30
+export const SHADOW_X = 0
+export const SHADOW_Y = 0
+export const SHADOW_BLUR = 0
+export const SHADOW_OPACITY = 0
+export const INSET_BLUR = 0
+export const INSET_OPACITY = 0
 
 // Text shadow default — Faint 0.20
 export const TEXT_SHADOW_DEFAULT = '1px 1px 0 rgba(0,0,0,0.2), -1px -1px 0 rgba(0,0,0,0.2), 1px -1px 0 rgba(0,0,0,0.2), -1px 1px 0 rgba(0,0,0,0.2)'
@@ -90,7 +90,7 @@ export enum ShowcasePreset {
 }
 
 export const SHINE_PRESET: DebugVisualConfig = {
-  portraitBlur: 40,
+  portraitBlur: 80,
   portraitBrightness: 0.40,
   portraitSaturate: 1.50,
   portraitContrast: 1.25,
@@ -102,17 +102,17 @@ export const SHINE_PRESET: DebugVisualConfig = {
   debugMinL: 0.00,
   debugMaxL: 0.50,
   blendMode: 'screen',
-  shadowX: 1.00,
-  shadowY: 1.00,
-  shadowBlur: 5.00,
-  shadowOpacity: 0.75,
-  insetBlur: 2.00,
-  insetOpacity: 0.30,
+  shadowX: 0,
+  shadowY: 0,
+  shadowBlur: 0,
+  shadowOpacity: 0,
+  insetBlur: 0,
+  insetOpacity: 0,
   textShadow: TEXT_SHADOW_DEFAULT,
 }
 
 export const NATURAL_PRESET: DebugVisualConfig = {
-  portraitBlur: 46,
+  portraitBlur: 92,
   portraitBrightness: 0.50,
   portraitSaturate: 1.75,
   portraitContrast: 0.85,
@@ -124,12 +124,12 @@ export const NATURAL_PRESET: DebugVisualConfig = {
   debugMinL: 0.08,
   debugMaxL: 0.63,
   blendMode: 'normal',
-  shadowX: 1.00,
-  shadowY: 1.00,
-  shadowBlur: 5.00,
-  shadowOpacity: 0.75,
-  insetBlur: 2.00,
-  insetOpacity: 0.30,
+  shadowX: 0,
+  shadowY: 0,
+  shadowBlur: 0,
+  shadowOpacity: 0,
+  insetBlur: 0,
+  insetOpacity: 0,
   textShadow: TEXT_SHADOW_DEFAULT,
 }
 

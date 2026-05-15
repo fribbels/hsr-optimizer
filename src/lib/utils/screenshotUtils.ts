@@ -78,8 +78,6 @@
  * ## Mobile-specific Handling
  *
  * - Display P3 color space patch for iOS/Android Chrome (better color accuracy)
- * - Mobile export skin removes fragile CSS shadows and increases the portrait
- *   backdrop blur without changing panel colors.
  * - Web Share API for clipboard action on mobile (clipboard.write not supported)
  *
  * ## Historical Notes (things we tried)
@@ -120,7 +118,6 @@ import {
 import { Message } from 'lib/interactions/message.js'
 
 const FETCH_TIMEOUT_MS = 8000
-const MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER = 2.0
 const SCREENSHOT_IMAGE_TYPE = 'png'
 
 function blobToDataUrl(blob: Blob): Promise<string> {
@@ -168,58 +165,6 @@ function patchCanvasForDisplayP3(): () => void {
 
   return () => {
     HTMLCanvasElement.prototype.getContext = originalGetContext
-  }
-}
-
-function multiplyCssBlur(filter: string, multiplier: number): string {
-  if (!Number.isFinite(multiplier) || multiplier === 1) return filter
-  return filter.replace(/blur\(\s*([0-9.]+)px\s*\)/i, (_match, value: string) => {
-    const next = Math.max(0, Number(value) * multiplier)
-    return `blur(${next.toFixed(2)}px)`
-  })
-}
-
-function prepareMobileExportSkinForCapture(root: HTMLElement): () => void {
-  const restoreActions: Array<() => void> = []
-
-  // Mobile WebKit/Chromium can corrupt CSS shadows during SVG foreignObject -> canvas export.
-  // The most stable export skin removes those shadows without recoloring panels,
-  // then increases the portrait backdrop blur to hide the missing depth.
-  for (const img of root.querySelectorAll<HTMLElement>('[data-portrait-bg] img')) {
-    const style = getComputedStyle(img)
-    const originalFilter = img.style.filter
-    const originalWebkitFilter = img.style.webkitFilter
-    const nextFilter = multiplyCssBlur(style.filter === 'none' ? '' : style.filter, MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER)
-    const nextWebkitFilter = multiplyCssBlur(style.webkitFilter === 'none' ? '' : style.webkitFilter, MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER)
-    if (nextFilter) img.style.filter = nextFilter
-    if (nextWebkitFilter) img.style.webkitFilter = nextWebkitFilter
-    restoreActions.push(() => {
-      if (!img.isConnected) return
-      img.style.filter = originalFilter
-      img.style.webkitFilter = originalWebkitFilter
-    })
-  }
-
-  const candidates = [root, ...Array.from(root.querySelectorAll<HTMLElement>('*'))]
-  const elsWithShadow: Array<{ el: HTMLElement; original: string }> = []
-  for (const el of candidates) {
-    if (getComputedStyle(el).boxShadow === 'none') continue
-    elsWithShadow.push({ el, original: el.style.boxShadow })
-  }
-  for (const { el, original } of elsWithShadow) {
-    el.style.boxShadow = 'none'
-    restoreActions.push(() => {
-      if (!el.isConnected) return
-      el.style.boxShadow = original
-    })
-  }
-
-  return () => {
-    for (let i = restoreActions.length - 1; i >= 0; i--) {
-      try {
-        restoreActions[i]()
-      } catch { /* best-effort */ }
-    }
   }
 }
 
@@ -491,12 +436,8 @@ export async function screenshotElementById(
     try {
       for (let i = 0; i < maxAttempts; i++) {
         let restoreLiveDom: (() => void) | null = null
-        let restoreMobileExportSkin: (() => void) | null = null
         try {
           restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
-          if (mobile) {
-            restoreMobileExportSkin = prepareMobileExportSkinForCapture(element)
-          }
           const capture = await withTimeout(
             snapdom(element, {
               scale: 1,
@@ -516,7 +457,6 @@ export async function screenshotElementById(
         } catch (e) {
           lastError = e
         } finally {
-          restoreMobileExportSkin?.()
           restoreLiveDom?.()
         }
       }

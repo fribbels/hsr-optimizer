@@ -51,7 +51,12 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 }
 
 function generateUnrolledActions(request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  let calls = '\n    var comboDmg: f32 = 0;\n    var comboHeal: f32 = 0;\n    var comboShield: f32 = 0;\n    var comboBuff: f32 = 0;\n'
+  let calls = `
+    var comboDmg: f32 = 0;
+    var comboHeal: f32 = 0;
+    var comboShield: f32 = 0;
+    var comboBuff: f32 = 0;
+`
   let functions = ''
 
   for (let i = 0; i < context.defaultActions.length; i++) {
@@ -188,7 +193,7 @@ function generateRatingFilters(request: Form, context: OptimizerContext, gpuPara
  *   CPU decodes via assignment table to reconstruct absolute relic positions.
  * Naive mode: dispatch-local index (CPU adds offset on readback).
  */
-function compactWrite(valueExpr: string): string {
+function writeCompactResult(valueExpr: string): string {
   return indent(
     `
 // Tuple mode: pack (workgroup_in_batch, threadLocalOffset) into u32 so the CPU can
@@ -235,12 +240,12 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
     return `
     if (statDisplay == 1) {
       if (c.${sortKey} > threshold) {
-${compactWrite(`c.${sortKey}`)}
+${writeCompactResult(`c.${sortKey}`)}
       }
     } else {
       let sortValue = container0[${statIndex}]${boostExpr};
       if (sortValue > threshold) {
-${compactWrite('sortValue')}
+${writeCompactResult('sortValue')}
       }
     }
 `
@@ -249,7 +254,7 @@ ${compactWrite('sortValue')}
   if (sortKey === SortOption.COMBO.key) {
     return `
     if (comboDmg > threshold) {
-${compactWrite('comboDmg')}
+${writeCompactResult('comboDmg')}
     }
 `
   }
@@ -257,7 +262,7 @@ ${compactWrite('comboDmg')}
   if (sortKey === SortOption.COMBO_HEAL.key) {
     return `
     if (comboHeal > threshold) {
-${compactWrite('comboHeal')}
+${writeCompactResult('comboHeal')}
     }
 `
   }
@@ -265,7 +270,7 @@ ${compactWrite('comboHeal')}
   if (sortKey === SortOption.COMBO_SHIELD.key) {
     return `
     if (comboShield > threshold) {
-${compactWrite('comboShield')}
+${writeCompactResult('comboShield')}
     }
 `
   }
@@ -273,7 +278,7 @@ ${compactWrite('comboShield')}
   if (sortKey === SortOption.COMBO_BUFF.key) {
     return `
     if (comboBuff > threshold) {
-${compactWrite('comboBuff')}
+${writeCompactResult('comboBuff')}
     }
 `
   }
@@ -281,7 +286,7 @@ ${compactWrite('comboBuff')}
   if (sortKey === SortOption.EHP.key) {
     return `
     if (ehp0 > threshold) {
-${compactWrite('ehp0')}
+${writeCompactResult('ehp0')}
     }
 `
   }
@@ -294,12 +299,12 @@ ${compactWrite('ehp0')}
   if (matchingIndex >= 0) {
     return `
     if (dmg${matchingIndex} > threshold) {
-${compactWrite(`dmg${matchingIndex}`)}
+${writeCompactResult(`dmg${matchingIndex}`)}
     }
 `
   }
 
-  return ''
+  throw new Error(`Unhandled sort option: ${sortKey}`)
 }
 
 function generateRegisterCopy(actionIndex: number, action: OptimizerAction, context: OptimizerContext): string {
@@ -376,9 +381,6 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   //////////
 
-  // Rotation actions pass pointers to the outer comboDmg/comboHeal/comboShield accumulators
-  // so each output type is accumulated separately, fixing the GPU parity bug where
-  // the full return sum (dmg+heal+shield+buff) was incorrectly added to comboDmg.
   let actionCall: string
   let actionFunction: string
 
@@ -532,16 +534,7 @@ fn unrolledAction${index}(
 
   ${damageCalculationWgsl}
 
-  // Accumulate BUFF into outer scope
   *p_comboBuff += comboBuff;
-
-  // Combat stat filters
-
-  // Basic stat filters
-
-  // Rating stat filters
-
-  // Return value
 
   return comboDmg + comboHeal + comboShield + comboBuff;
 }

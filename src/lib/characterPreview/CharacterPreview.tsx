@@ -13,6 +13,7 @@ import {
   ShowcaseSource,
   showcaseTransition,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import componentClasses from 'lib/characterPreview/CharacterPreviewComponents.module.css'
 import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
@@ -603,6 +604,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           {/* Character details middle panel */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 8 }}>
             <div
+              className={componentClasses.shadowRings}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -619,6 +621,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 paddingBottom: 3,
                 boxShadow: showcaseShadow + showcaseShadowInsetAddition,
                 border: '1px solid var(--showcase-card-border)',
+                outline: 'var(--showcase-outline-shadow)',
+                position: 'relative',
               }}
             >
               <ShowcaseCharacterHeader

@@ -22,6 +22,23 @@ export const showcaseButtonStyle: CSSProperties = {
   visibility: 'hidden',
 }
 
+export function ShadowRingWrapper({ children, borderRadius = 6 }: {
+  children: React.ReactNode
+  borderRadius?: number
+}) {
+  return (
+    <div
+      style={{
+        position: 'relative',
+        borderRadius: borderRadius + 2,
+        outline: 'var(--showcase-outline-shadow-outer)',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
 export function OverlayText({ text, top }: {
   text: string,
   top: number,

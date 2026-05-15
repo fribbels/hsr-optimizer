@@ -1,3 +1,25 @@
+.shadowRings::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 7px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=');
+  background-size: 100% 100%;
+  outline: 1px solid rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.shadowRings::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 8px;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=');
+  background-size: 100% 100%;
+  outline: 1px solid rgba(0, 0, 0, 0.05);
+  pointer-events: none;
+}
+
 .overlayOuter {
   position: relative;
   height: 0;

@@ -5,6 +5,7 @@ import {
   ShowcaseSource,
   showcaseTransition,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import componentClasses from 'lib/characterPreview/CharacterPreviewComponents.module.css'
 import { Parts } from 'lib/constants/constants'
 import {
   relicCardH,
@@ -119,8 +120,10 @@ export const RelicPreview = memo(function RelicPreview(props: {
   return (
     <div
       data-testid='relic-preview'
+      className={useShowcaseColors ? componentClasses.shadowRings : undefined}
       onClick={cardClicked}
       style={{
+        position: useShowcaseColors ? 'relative' as const : undefined,
         flex: fill ? 1 : undefined,
         width: fill ? undefined : relicCardW,
         minWidth: fill ? 0 : relicCardW,
@@ -133,7 +136,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
         borderRadius: 6,
         boxShadow: source == null ? 'inset 0 0 0 1px var(--border-default)' : showcaseShadow + showcaseShadowInsetAddition,
         cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
-        outline: 0,
+        outline: useShowcaseColors ? 'var(--showcase-outline-shadow)' : '0',
       }}
     >
       <RelicStatText language={i18next.resolvedLanguage as Languages} style={FULL_HEIGHT_STYLE}>

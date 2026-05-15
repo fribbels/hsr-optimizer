@@ -1,3 +1,6 @@
+import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -9,6 +12,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -25,7 +31,10 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -34,7 +43,10 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -327,10 +339,18 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.ATK_P],
     [Parts.LinkRope]: [Stats.ERR],
   },
-  substats: [Stats.ATK_P, Stats.ATK, Stats.SPD, Stats.RES, Stats.HP_P],
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
   buffStat: StatKey.ATK,
   errRopeEidolon: 0,
-  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
   relicSets: [
     [Sets.PrisonerInDeepConfinement, Sets.TheWindSoaringValorous],
   ],
@@ -339,9 +359,24 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Aventurine.id,
+      lightCone: InherentlyUnjustDestiny.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

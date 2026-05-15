@@ -1,3 +1,6 @@
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -9,6 +12,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -31,7 +37,10 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -39,7 +48,11 @@ import {
   type OptimizerContext,
 } from 'types/optimizer'
 
-import { AbilityKind, DEFAULT_TALENT_HEAL } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_TALENT_HEAL,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 export const FuXuanEntities = createEnum('FuXuan')
 export const FuXuanAbilities: AbilityKind[] = [
@@ -267,9 +280,20 @@ const healSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.HP_P],
     [Parts.LinkRope]: [Stats.HP_P, Stats.ERR],
   },
-  substats: [Stats.HP_P, Stats.SPD, Stats.RES, Stats.DEF_P, Stats.HP],
+  substats: [
+    Stats.HP_P,
+    Stats.DEF_P,
+    Stats.HP,
+    Stats.DEF,
+    Stats.SPD,
+    Stats.RES,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_TALENT_HEAL, DEFAULT_TALENT_HEAL],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_TALENT_HEAL,
+    DEFAULT_TALENT_HEAL,
+  ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
   ],
@@ -278,9 +302,24 @@ const healSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Phainon.id,
+      lightCone: ThusBurnsTheDawn.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cerydra.id,
+      lightCone: EpochEtchedInGoldenBlood.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

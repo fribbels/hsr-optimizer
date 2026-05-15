@@ -1,7 +1,10 @@
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   ASHBLAZING_ATK_STACK,
   NONE_TYPE,
@@ -19,6 +22,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   Parts,
   Sets,
@@ -320,9 +326,19 @@ const shieldSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.ATK_P],
     [Parts.LinkRope]: [Stats.ERR, Stats.ATK_P],
   },
-  substats: [Stats.ATK_P, Stats.SPD, Stats.RES, Stats.HP_P, Stats.ATK],
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_SKILL_SHIELD, DEFAULT_SKILL_SHIELD],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_SHIELD,
+    DEFAULT_SKILL_SHIELD,
+  ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
   ],
@@ -331,9 +347,24 @@ const shieldSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Phainon.id,
+      lightCone: ThusBurnsTheDawn.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })
@@ -345,10 +376,18 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.ATK_P],
     [Parts.LinkRope]: [Stats.ERR, Stats.ATK_P],
   },
-  substats: [Stats.ATK_P, Stats.ATK, Stats.SPD, Stats.HP_P, Stats.DEF_P],
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.HP_P,
+    Stats.DEF_P,
+  ],
   buffStat: StatKey.ATK,
   errRopeEidolon: 0,
-  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
   ],
@@ -357,9 +396,24 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Phainon.id,
+      lightCone: ThusBurnsTheDawn.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

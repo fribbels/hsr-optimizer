@@ -2,6 +2,7 @@ import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Boothill } from 'lib/conditionals/character/1300/Boothill'
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
@@ -507,10 +508,18 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
     [Parts.LinkRope]: [Stats.ERR, Stats.BE],
   },
-  substats: [Stats.BE, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],
+  substats: [
+    Stats.BE,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+    Stats.DEF_P,
+  ],
   buffStat: StatKey.BE,
   errRopeEidolon: 0,
-  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
   relicSets: [
     [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
   ],
@@ -519,9 +528,24 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Firefly.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

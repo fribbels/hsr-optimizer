@@ -1,3 +1,6 @@
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -5,6 +8,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import {
   Parts,
   Sets,
@@ -24,13 +30,21 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
 
-import { AbilityKind, DEFAULT_SKILL_HEAL, DEFAULT_TALENT_HEAL } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_SKILL_HEAL,
+  DEFAULT_TALENT_HEAL,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 export const LuochaEntities = createEnum('Luocha')
 export const LuochaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -182,9 +196,19 @@ const healSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.ATK_P],
     [Parts.LinkRope]: [Stats.ERR],
   },
-  substats: [Stats.ATK_P, Stats.SPD, Stats.RES, Stats.DEF_P, Stats.ATK],
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.RES,
+    Stats.DEF_P,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_SKILL_HEAL, DEFAULT_TALENT_HEAL],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_HEAL,
+    DEFAULT_TALENT_HEAL,
+  ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
   ],
@@ -193,9 +217,24 @@ const healSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

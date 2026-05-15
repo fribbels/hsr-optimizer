@@ -1,3 +1,6 @@
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
@@ -16,6 +19,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -32,7 +38,10 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind, NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -42,7 +51,10 @@ import { type CharacterConfig } from 'types/characterConfig'
 
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -290,10 +302,18 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
     [Parts.LinkRope]: [Stats.ERR],
   },
-  substats: [Stats.CD, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],
+  substats: [
+    Stats.CD,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+    Stats.DEF_P,
+  ],
   buffStat: StatKey.CD,
   errRopeEidolon: 0,
-  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
   relicSets: [
     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
   ],
@@ -302,9 +322,24 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Phainon.id,
+      lightCone: ThusBurnsTheDawn.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cerydra.id,
+      lightCone: EpochEtchedInGoldenBlood.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

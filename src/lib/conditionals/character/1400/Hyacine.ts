@@ -1,6 +1,8 @@
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   BuffPriority,
   SKILL_DMG_TYPE,
@@ -13,6 +15,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
@@ -600,9 +604,20 @@ const healSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.HP_P],
     [Parts.LinkRope]: [Stats.ERR],
   },
-  substats: [Stats.HP_P, Stats.SPD, Stats.RES, Stats.DEF_P, Stats.HP],
+  substats: [
+    Stats.HP_P,
+    Stats.HP,
+    Stats.SPD,
+    Stats.RES,
+    Stats.DEF_P,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_SKILL_HEAL, DEFAULT_ULT_HEAL, DEFAULT_SKILL_HEAL],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_HEAL,
+    DEFAULT_ULT_HEAL,
+    DEFAULT_SKILL_HEAL,
+  ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
   ],
@@ -618,14 +633,14 @@ const healSimulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Evernight.id,
-      lightCone: ToEvernightsStars.id,
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Cyrene.id,
-      lightCone: ThisLoveForever.id,
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

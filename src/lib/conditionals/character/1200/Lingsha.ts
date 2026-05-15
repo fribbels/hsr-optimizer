@@ -1,3 +1,6 @@
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -14,6 +17,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
+import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -39,13 +45,22 @@ import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type NumberToNumberMap } from 'types/common'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
 
-import { AbilityKind, DEFAULT_FUA_HEAL, DEFAULT_SKILL_HEAL, DEFAULT_ULT_HEAL } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_FUA_HEAL,
+  DEFAULT_SKILL_HEAL,
+  DEFAULT_ULT_HEAL,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 export const LingshaEntities = createEnum('Lingsha', 'Fuyuan')
 export const LingshaAbilities: AbilityKind[] = [
@@ -364,9 +379,21 @@ const healSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.ATK_P, Stats.HP_P],
     [Parts.LinkRope]: [Stats.ERR, Stats.BE],
   },
-  substats: [Stats.ATK_P, Stats.BE, Stats.SPD, Stats.RES, Stats.ATK],
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.BE,
+    Stats.SPD,
+    Stats.RES,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_SKILL_HEAL, DEFAULT_FUA_HEAL, DEFAULT_FUA_HEAL, DEFAULT_ULT_HEAL],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_HEAL,
+    DEFAULT_FUA_HEAL,
+    DEFAULT_FUA_HEAL,
+    DEFAULT_ULT_HEAL,
+  ],
   relicSets: [
     [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
   ],
@@ -375,9 +402,24 @@ const healSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Firefly.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: TheDahlia.id,
+      lightCone: NeverForgetHerFlame.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: RuanMei.id,
+      lightCone: PastSelfInTheMirror.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

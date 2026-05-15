@@ -1,3 +1,6 @@
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -5,6 +8,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   Parts,
   Sets,
@@ -261,11 +267,21 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
     [Parts.LinkRope]: [Stats.ERR, Stats.BE],
   },
-  substats: [Stats.BE, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],
+  substats: [
+    Stats.BE,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+    Stats.DEF_P,
+  ],
   buffStat: StatKey.DMG_BOOST,
   errRopeEidolon: 0,
-  breakpoints: { [Stats.BE]: 1.80 },
-  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
+  breakpoints: {
+    [Stats.BE]: 1.80,
+  },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
   relicSets: [
     [Sets.WatchmakerMasterOfDreamMachinations, Sets.WatchmakerMasterOfDreamMachinations],
   ],
@@ -274,9 +290,24 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Firefly.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

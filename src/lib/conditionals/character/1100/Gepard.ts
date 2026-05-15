@@ -1,3 +1,6 @@
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -9,6 +12,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -23,7 +29,11 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind, DEFAULT_ULT_SHIELD } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_ULT_SHIELD,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -31,7 +41,10 @@ import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -181,9 +194,18 @@ const shieldSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.DEF_P],
     [Parts.LinkRope]: [Stats.DEF_P, Stats.ERR],
   },
-  substats: [Stats.DEF_P, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF],
+  substats: [
+    Stats.DEF_P,
+    Stats.DEF,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_ULT_SHIELD],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_ULT_SHIELD,
+  ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
   ],
@@ -192,9 +214,24 @@ const shieldSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Phainon.id,
+      lightCone: ThusBurnsTheDawn.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cerydra.id,
+      lightCone: EpochEtchedInGoldenBlood.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

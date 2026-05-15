@@ -1,3 +1,6 @@
+import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -5,6 +8,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import {
   Parts,
   Sets,
@@ -22,9 +28,16 @@ import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 
-import { AbilityKind, DEFAULT_TALENT_SHIELD } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_TALENT_SHIELD,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -208,9 +221,19 @@ const shieldSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.DEF_P],
     [Parts.LinkRope]: [Stats.DEF_P, Stats.ERR],
   },
-  substats: [Stats.DEF_P, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF],
+  substats: [
+    Stats.DEF_P,
+    Stats.DEF,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_TALENT_SHIELD, DEFAULT_TALENT_SHIELD],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_TALENT_SHIELD,
+    DEFAULT_TALENT_SHIELD,
+  ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
   ],
@@ -219,9 +242,24 @@ const shieldSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Acheron.id,
+      lightCone: AlongThePassingShore.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Jiaoqiu.id,
+      lightCone: ThoseManySprings.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

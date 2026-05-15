@@ -1,6 +1,7 @@
 import { Topaz } from 'lib/conditionals/character/1100/Topaz'
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -13,6 +14,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import {
@@ -392,9 +394,19 @@ const shieldSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.DEF_P],
     [Parts.LinkRope]: [Stats.DEF_P, Stats.ERR],
   },
-  substats: [Stats.DEF_P, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF],
+  substats: [
+    Stats.DEF_P,
+    Stats.DEF,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_SKILL_SHIELD, DEFAULT_SKILL_SHIELD],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_SHIELD,
+    DEFAULT_SKILL_SHIELD,
+  ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
   ],
@@ -404,20 +416,20 @@ const shieldSimulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
       characterId: Topaz.id,
       lightCone: WorrisomeBlissful.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Feixiao.id,
-      lightCone: IVentureForthToHunt.id,
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

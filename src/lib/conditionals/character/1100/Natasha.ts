@@ -1,9 +1,15 @@
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
   type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import {
   Parts,
   Sets,
@@ -13,7 +19,12 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind, DEFAULT_SKILL_HEAL, DEFAULT_ULT_HEAL } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_SKILL_HEAL,
+  DEFAULT_ULT_HEAL,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
@@ -22,7 +33,10 @@ import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata, type SimulationMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -126,9 +140,19 @@ const healSimulation = (): SimulationMetadata => ({
     [Parts.PlanarSphere]: [Stats.HP_P],
     [Parts.LinkRope]: [Stats.ERR],
   },
-  substats: [Stats.HP_P, Stats.SPD, Stats.RES, Stats.DEF_P, Stats.HP],
+  substats: [
+    Stats.HP_P,
+    Stats.HP,
+    Stats.SPD,
+    Stats.RES,
+    Stats.DEF_P,
+  ],
   errRopeEidolon: 0,
-  comboTurnAbilities: [DEFAULT_SKILL_HEAL, DEFAULT_ULT_HEAL],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_HEAL,
+    DEFAULT_ULT_HEAL,
+  ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
   ],
@@ -137,9 +161,24 @@ const healSimulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
-    { characterId: '1308', lightCone: '23028', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1112', lightCone: '23016', characterEidolon: 0, lightConeSuperimposition: 1 },
-    { characterId: '1225', lightCone: '23036', characterEidolon: 0, lightConeSuperimposition: 1 },
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
   ],
   deprioritizeBuffs: true,
 })

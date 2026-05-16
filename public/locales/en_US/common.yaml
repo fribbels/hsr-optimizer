@@ -137,7 +137,6 @@ ReadableStats:
   Quantum DMG Boost: '$t(gameData:Elements.Quantum) DMG'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary) DMG'
   Elation: Elation
-  simScore: Sim Score
 ShortReadableStats:
   HP%: HP %
   HP: HP

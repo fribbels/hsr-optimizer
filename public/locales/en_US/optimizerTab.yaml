@@ -37,7 +37,6 @@ SortOptions:
   HealLabel: Heal calculations
   ShieldLabel: Shield calculations
   StatLabel: Stats
-  BUFF: Sorted by Buff
   COMBO: Sorted by Combo DMG
   COMBO_BUFF: Sorted by Combo Buff
   COMBO_HEAL: Sorted by Combo Heal

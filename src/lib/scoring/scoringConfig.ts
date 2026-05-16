@@ -160,8 +160,8 @@ export function getBuffStatShortLabel(buffStat: AKeyValue): string {
 }
 
 export function resolveRulerLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {
-  if (buffStat != null) return `${getBuffStatShortLabel(buffStat)} ${entry.rulerLabel}`
-  return entry.rulerLabel
+  const label = buffStat != null ? `${getBuffStatShortLabel(buffStat)} ${entry.rulerLabel}` : entry.rulerLabel
+  return label.toUpperCase()
 }
 
 export function resolveComboLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {

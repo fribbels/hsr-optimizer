@@ -227,7 +227,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
   return (
     <Flex className={styles.expandedRow} gap={10} justify='space-around'>
-      <Flex direction='column' className={styles.statsColumn} align='center' gap={5}>
+      <Flex direction='column' className={styles.statsColumn} align='center' gap={5} flex={1}>
         <HeaderText className={styles.sectionHeader}>{t('BasicStats') /* Basic Stats */}</HeaderText>
 
         <CharacterStatSummary
@@ -243,7 +243,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex direction='column' className={styles.statsColumn} align='center' gap={5}>
+      <Flex direction='column' className={styles.statsColumn} align='center' gap={5} flex={1}>
         <HeaderText className={styles.sectionHeader}>{t('CombatStats') /* Combat Stats */}</HeaderText>
 
         <CharacterStatSummary
@@ -259,7 +259,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex direction='column' align='center' gap={5}>
+      <Flex direction='column' align='center' gap={5} flex={1}>
         <HeaderText className={styles.sectionHeader}>{t('Rolls') /* Substat Rolls */}</HeaderText>
 
         <SubstatRollsSummary
@@ -273,7 +273,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex direction='column' align='center' gap={5}>
+      <Flex direction='column' align='center' gap={5} flex={1}>
         <HeaderText className={styles.sectionHeader}>{t('Damage') /* Ability Damage */}</HeaderText>
         <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} configType={row.orchestrator.configType} />
       </Flex>

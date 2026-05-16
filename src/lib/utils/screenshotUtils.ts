@@ -503,15 +503,12 @@ export async function screenshotElementById(
     } catch { /* best-effort */ }
     const { cache: imageCache, corsFailed } = await buildImageDataUriCache(element)
 
-    const blurCache = mobile
-      ? await buildPreBakedBlurCache(element, imageCache).catch(() => new Map<string, string>())
-      : new Map<string, string>()
+    const blurCache = await buildPreBakedBlurCache(element, imageCache).catch(() => new Map<string, string>())
+    console.log('[screenshot] blur prebake:', blurCache.size ? 'active' : 'fallback (multiplier)')
 
     const blurPlugin = blurCache.size
       ? buildPreBakedBlurPlugin(blurCache)
-      : mobile
-        ? buildBlurMultiplierPlugin(SCREENSHOT_EXPORT_DPR)
-        : null
+      : buildBlurMultiplierPlugin(SCREENSHOT_EXPORT_DPR)
 
     let blob: Blob | null = null
     let lastError: unknown = null
@@ -531,7 +528,7 @@ export async function screenshotElementById(
             fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
             plugins: [
               buildImageInliningPlugin(imageCache),
-              ...blurPlugin ? [blurPlugin] : [],
+              blurPlugin,
             ],
           }),
           attemptTimeoutMs,

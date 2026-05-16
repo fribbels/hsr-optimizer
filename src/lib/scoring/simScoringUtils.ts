@@ -78,7 +78,7 @@ export function formatSimScore(value: number, buffStat?: AKeyValue, precision: n
     if (thousands) {
       return renderThousandsK(value, 0)
     }
-    return Math.floor(value).toLocaleString()
+    return String(Math.floor(value))
   }
   return `${(value * 100).toFixed(precision)}%`
 }

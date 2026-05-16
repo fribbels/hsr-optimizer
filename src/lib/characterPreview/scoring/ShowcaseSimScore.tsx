@@ -239,8 +239,15 @@ export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, t
     titleRender = entry.headerTitle
   }
 
+  const isDps = configType === ScoringConfigType.DPS
+
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>
+      {!isDps && (
+        <StatText className={styles.scoreHeaderText}>
+          [ BETA ]
+        </StatText>
+      )}
       <ShowcaseScoreHeaderReady relics={relics} configType={configType} t={t} />
       <StatText className={styles.scoreHeaderText}>
         {titleRender}

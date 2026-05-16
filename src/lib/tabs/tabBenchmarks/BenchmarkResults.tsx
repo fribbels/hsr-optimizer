@@ -375,7 +375,7 @@ function generateBenchmarkRows(orchestrators: BenchmarkSimulationOrchestrator[])
   for (const orchestrator of orchestrators) {
     const benchmarkScore = orchestrator.benchmarkSimResult!.simScore
     const perfectionScore = orchestrator.perfectionSimResult!.simScore
-    const baselineScore = orchestrator.baselineSimResult!.simScore
+    const baselineScore = orchestrator.zeroMainsStatResult!.simScore
 
     topBenchmarkSimScore = Math.max(topBenchmarkSimScore, benchmarkScore)
     topPerfectionSimScore = Math.max(topPerfectionSimScore, perfectionScore)

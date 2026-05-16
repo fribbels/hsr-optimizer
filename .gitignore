@@ -136,6 +136,7 @@ dist
 /test-results/
 /playwright-report/
 /blob-report/
+AGENTS.md
 .claude/*
 /playwright/.cache/
 

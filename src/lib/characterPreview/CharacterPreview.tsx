@@ -8,6 +8,8 @@ import {
 import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/card/ShowcaseRelicsPanel'
 import {
+  OuterShadowRingWrapper,
+  ShadowRings,
   showcaseShadow,
   showcaseShadowInsetAddition,
   ShowcaseSource,
@@ -575,28 +577,32 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
           {/* Portrait left panel */}
           <div className='character-build-portrait' style={{ display: 'flex', flexDirection: 'column', gap: 8, zIndex: 1 }}>
-            <ShowcasePortrait
-              source={source}
-              character={character}
-              scoringType={scoringType}
-              displayDimensions={displayDimensions}
-              customPortrait={portraitToUse}
-              editPortraitModalOpen={state.editPortraitModalOpen}
-              setEditPortraitModalOpen={state.setEditPortraitModalOpen}
-              onEditPortraitOk={handleEditPortraitOk}
-              artistName={artistName}
-              setOriginalCharacterModalInitialCharacter={handleSetOriginalCharacterModalInitialCharacter}
-              setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
-            />
+            <OuterShadowRingWrapper>
+              <ShowcasePortrait
+                source={source}
+                character={character}
+                scoringType={scoringType}
+                displayDimensions={displayDimensions}
+                customPortrait={portraitToUse}
+                editPortraitModalOpen={state.editPortraitModalOpen}
+                setEditPortraitModalOpen={state.setEditPortraitModalOpen}
+                onEditPortraitOk={handleEditPortraitOk}
+                artistName={artistName}
+                setOriginalCharacterModalInitialCharacter={handleSetOriginalCharacterModalInitialCharacter}
+                setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
+              />
+            </OuterShadowRingWrapper>
 
             {scoringType === ScoringType.COMBAT_SCORE && (
-              <ShowcaseLightConeSmall
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-              />
+              <OuterShadowRingWrapper>
+                <ShowcaseLightConeSmall
+                  character={character}
+                  showcaseMetadata={showcaseMetadata}
+                  displayDimensions={displayDimensions}
+                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                />
+              </OuterShadowRingWrapper>
             )}
           </div>
 
@@ -619,8 +625,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 paddingBottom: 3,
                 boxShadow: showcaseShadow + showcaseShadowInsetAddition,
                 border: '1px solid var(--showcase-card-border)',
+                position: 'relative',
               }}
             >
+              <ShadowRings />
               <ShowcaseCharacterHeader
                 showcaseMetadata={showcaseMetadata}
                 scoringType={scoringType}
@@ -665,13 +673,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             </div>
 
             {scoringType !== ScoringType.COMBAT_SCORE && (
-              <ShowcaseLightConeLarge
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-              />
+              <OuterShadowRingWrapper>
+                <ShowcaseLightConeLarge
+                  character={character}
+                  showcaseMetadata={showcaseMetadata}
+                  displayDimensions={displayDimensions}
+                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+                />
+              </OuterShadowRingWrapper>
             )}
           </div>
 

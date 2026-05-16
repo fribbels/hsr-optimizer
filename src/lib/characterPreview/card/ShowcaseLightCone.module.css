@@ -16,6 +16,7 @@
 }
 
 .lcCard {
+  position: relative;
   overflow: hidden;
   z-index: 20;
   border-radius: var(--radius-md);

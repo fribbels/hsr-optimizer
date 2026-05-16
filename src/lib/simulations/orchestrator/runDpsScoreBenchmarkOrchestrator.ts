@@ -48,8 +48,8 @@ export function prepareOrchestrator(
 
   orchestrator.computeDisplayBaseline()
   orchestrator.setOriginalBuild(showcaseTemporaryOptions.spdBenchmark)
-  orchestrator.precomputePoolState()
   orchestrator.applyResEqualization()
+  orchestrator.precomputePoolState()
 
   // Apply scoring function now so the preview simScore matches what calculateScores
   // will produce later. This is idempotent — applyScoringFunction reads from

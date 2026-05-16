@@ -1,3 +1,4 @@
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   ConditionalDataType,
   SACERDOS_RELIVED_ORDEAL_1_STACK,
@@ -79,8 +80,7 @@ const conditionals: SetConditionals = {
       desc: (t) => t('TeammateSets.Sacerdos1Stack.Desc'),
       nonstackable: false,
       effect: ({ x, teammateActorId }) => {
-        const SUNDAY_ID = '1313'
-        if (teammateActorId == SUNDAY_ID) {
+        if (teammateActorId == Sunday.id) {
           x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
         } else {
           x.buff(StatKey.CD, 0.18, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))
@@ -93,8 +93,7 @@ const conditionals: SetConditionals = {
       desc: (t) => t('TeammateSets.Sacerdos2Stack.Desc'),
       nonstackable: false,
       effect: ({ x, teammateActorId }) => {
-        const SUNDAY_ID = '1313'
-        if (teammateActorId == SUNDAY_ID) {
+        if (teammateActorId == Sunday.id) {
           x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SelfAndMemosprite).deferrable().source(Source.SacerdosRelivedOrdeal))
         } else {
           x.buff(StatKey.CD, 0.36, x.targets(TargetTag.SingleTarget).deferrable().source(Source.SacerdosRelivedOrdeal))

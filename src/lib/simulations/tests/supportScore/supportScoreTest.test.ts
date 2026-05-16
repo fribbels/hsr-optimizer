@@ -92,6 +92,39 @@ test('Bronya support score prepare', () => {
   expect(orchestrator.originalSimResult!.simScore).toBeGreaterThan(0)
 })
 
+test('support score copies RES equalization target into pool flags', () => {
+  globalThis.SEQUENTIAL_BENCHMARKS = true
+
+  const character = {
+    form: {
+      characterId: '1101',
+      characterEidolon: 6,
+      lightCone: '21003',
+      lightConeSuperimposition: 5,
+    },
+  } as Character
+
+  const singleRelicByPart = generateTestSingleRelicsByPart(
+    testSets(Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal, Sets.BrokenKeel),
+    testMains(Stats.CD, Stats.SPD, Stats.HP_P, Stats.ERR),
+    testStatSpread(12),
+  )
+
+  const orchestrator = prepareOrchestrator(
+    character,
+    bufferConfig(clone(supportSimulation)),
+    singleRelicByPart,
+    {},
+  )
+
+  expect(orchestrator.flags.benchmarkBasicResTarget).toBeGreaterThanOrEqual(0.50)
+  expect(orchestrator.poolComboStates!.length).toBeGreaterThan(0)
+
+  for (const state of orchestrator.poolComboStates!) {
+    expect(state.flags.benchmarkBasicResTarget).toBe(orchestrator.flags.benchmarkBasicResTarget)
+  }
+})
+
 test('Bronya support score full benchmark', async () => {
   globalThis.SEQUENTIAL_BENCHMARKS = true
 

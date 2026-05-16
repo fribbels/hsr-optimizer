@@ -451,7 +451,8 @@ export class BenchmarkSimulationOrchestrator {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
       const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
       const flags = comboState?.flags ?? defaultFlags
-      const candidateBaseline = comboState!.baselineResult
+      // Custom benchmarks do not precompute pool state; pooled scoring uses per-combo baselines.
+      const candidateBaseline = poolComboStates ? comboState!.baselineResult : this.baselineSimResult!
 
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
@@ -538,7 +539,8 @@ export class BenchmarkSimulationOrchestrator {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
       const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
       const flags = comboState?.flags ?? defaultFlags
-      const candidateBaseline = comboState!.baselineResult
+      // Custom benchmarks do not precompute pool state; pooled scoring uses per-combo baselines.
+      const candidateBaseline = poolComboStates ? comboState!.baselineResult : this.baselineSimResult!
 
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 

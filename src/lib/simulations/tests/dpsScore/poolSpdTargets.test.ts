@@ -155,7 +155,7 @@ describe('Pool SPD targeting', () => {
       expect(state.flags.simPoetActive).toBe(false)
     }
 
-    // Messenger and Scholar entries have different set bonuses → different baseline scores
+    // Messenger and Scholar entries have different set bonuses → different zero-mains scores
     const messengerEntry = o.poolComboStates!.find((s) =>
       s.sets.relicSet1 === Sets.MessengerTraversingHackerspace,
     )
@@ -164,7 +164,7 @@ describe('Pool SPD targeting', () => {
     )
     expect(messengerEntry).toBeDefined()
     expect(scholarEntry).toBeDefined()
-    expect(messengerEntry!.baselineScore).not.toEqual(scholarEntry!.baselineScore)
+    expect(messengerEntry!.zeroMainsScore).not.toEqual(scholarEntry!.zeroMainsScore)
 
     // Non-Poet targets equal originalSpd — same for both since basicSpdTarget doesn't depend on set
     expect(messengerEntry!.basicSpdTarget).toBeCloseTo(o.originalSpd!, 1)
@@ -181,9 +181,7 @@ describe('Pool SPD targeting', () => {
     expect(o.poolComboStates).toHaveLength(2)
 
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)!
-    // With the unified baseline (mains included), the baseline SPD floor is higher
-    // than the requested 90, so basicSpdTarget is capped at originalSpd
-    expect(normalEntry.basicSpdTarget).toBeLessThanOrEqual(o.originalSpd!)
+    expect(normalEntry.basicSpdTarget).toBeCloseTo(90, 3)
   })
 
   test('Default=Normal, User=Normal (identical) — dedup to pool=1', () => {

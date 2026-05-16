@@ -44,7 +44,7 @@ export function calculateMinSubstatRollCounts(
 export function calculateMaxSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,
   scoringParams: ScoringParams,
-  baselineSimResult: RunStatSimulationsResult,
+  zeroMainsStatResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
   configType: ScoringConfigType,
 ): SubstatCounts {
@@ -109,7 +109,7 @@ export function calculateMaxSubstatRollCounts(
   // Assumes maximum 100 CR is needed ever
   if (!simulationFlags.overcapCritRate && scoringParams.quality == 1.0) {
     const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-    const missingCrit = Math.max(0, 100 - baselineSimResult.x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) * 100)
+    const missingCrit = Math.max(0, 100 - zeroMainsStatResult.x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) * 100)
     maxCounts[Stats.CR] = Math.max(
       scoringParams.baselineFreeRolls,
       Math.max(
@@ -131,7 +131,7 @@ export function calculateMaxSubstatRollCounts(
   // Assumes maximum 120 EHR is needed ever
   if (scoringParams.quality == 1.0) {
     const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
-    const missingEhr = Math.max(0, 120 - baselineSimResult.x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) * 100)
+    const missingEhr = Math.max(0, 120 - zeroMainsStatResult.x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) * 100)
     maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0
       ? 0
       : Math.max(

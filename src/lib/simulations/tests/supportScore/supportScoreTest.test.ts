@@ -155,6 +155,7 @@ test('Bronya support score full benchmark', async () => {
   console.log('Bronya support score percent:', orchestrator.percent)
   expect(orchestrator.percent).toBeDefined()
   expect(orchestrator.percent).toBeGreaterThan(0)
+  expect(orchestrator.simulationScore!.baselineSimScore).toBe(orchestrator.baselineSimResult!.simScore)
 }, 60000)
 
 test('Sparkle support score prepare', () => {
@@ -209,6 +210,9 @@ test('Robin support score prepare', () => {
   const orchestrator = prepareOrchestrator(character, bufferConfig(clone(robinSimulation)), singleRelicByPart, {})
   expect(orchestrator.originalSimResult).toBeDefined()
   expect(orchestrator.originalSimResult!.simScore).toBeGreaterThan(0)
+  expect(orchestrator.originalSim!.request.simFeet).toBe(Stats.ATK_P)
+  expect(orchestrator.baselineSim!.request.simFeet).toBe(Stats.SPD)
+  expect(orchestrator.zeroMainsStatResult).toBeDefined()
 })
 
 test('RuanMei support score prepare', () => {

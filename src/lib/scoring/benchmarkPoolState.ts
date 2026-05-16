@@ -31,8 +31,26 @@ type PoolCandidate = {
   combatSpd: number
 }
 
-export function runPoolBaselineSim(
-  originalSimRequest: SimulationRequest,
+type PoolStatSimOptions = {
+  mainStatMultiplier: number,
+  targetCombatSpd?: number,
+}
+
+export function runScoringBaselineSim(
+  setCombination: SimulationSets,
+  form: Form,
+  context: OptimizerContext,
+  flags: SimulationFlags,
+  metadata: SimulationMetadata,
+  configType: ScoringConfigType,
+): { sim: Simulation; result: RunStatSimulationsResult } {
+  return runBestPoolStatSim(setCombination, form, context, flags, metadata, configType, {
+    mainStatMultiplier: 1,
+  })
+}
+
+// Per-set zero-mains stat probe. This is not the score/UI baseline.
+export function runPoolZeroMainsStatSim(
   setCombination: SimulationSets,
   form: Form,
   context: OptimizerContext,
@@ -41,11 +59,26 @@ export function runPoolBaselineSim(
   configType: ScoringConfigType,
   targetCombatSpd?: number,
 ): { sim: Simulation; result: RunStatSimulationsResult } {
+  return runBestPoolStatSim(setCombination, form, context, flags, metadata, configType, {
+    mainStatMultiplier: 0,
+    targetCombatSpd,
+  })
+}
+
+function runBestPoolStatSim(
+  setCombination: SimulationSets,
+  form: Form,
+  context: OptimizerContext,
+  flags: SimulationFlags,
+  metadata: SimulationMetadata,
+  configType: ScoringConfigType,
+  options: PoolStatSimOptions,
+): { sim: Simulation; result: RunStatSimulationsResult } {
   const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoetSet(setCombination) }
 
   const params: RunSimulationsParams = {
     ...baselineScoringParams,
-    mainStatMultiplier: 0,
+    mainStatMultiplier: options.mainStatMultiplier,
     simulationFlags: correctedFlags,
   }
 
@@ -81,7 +114,7 @@ export function runPoolBaselineSim(
 
           const candidate: PoolCandidate = { sim, result, combatSpd }
 
-          if (targetCombatSpd && combatSpd < targetCombatSpd) {
+          if (options.targetCombatSpd && combatSpd < options.targetCombatSpd) {
             if (!bestFallback || combatSpd > bestFallback.combatSpd) {
               bestFallback = candidate
             }

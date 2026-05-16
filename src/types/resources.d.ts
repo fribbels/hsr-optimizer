@@ -24,7 +24,7 @@ interface Resources {
       "BasicStats": "Basic Stats",
       "CombatStats": "Combat Stats",
       "Combo": "Combo Rotation",
-      "Damage": "Ability Damage",
+      "Damage": "Ability Breakdown",
       "Rolls": "Substat Rolls"
     },
     "ResultsTabs": {
@@ -191,7 +191,7 @@ interface Resources {
       },
       "ScoringColumn": {
         "Baseline": {
-          "Abilities": "0% baseline ability damage",
+          "Abilities": "0% baseline ability breakdown",
           "BasicStats": "0% baseline <1>basic stats</1>",
           "CombatStats": "0% baseline <1>combat stats</1>",
           "Header": "Baseline build ({{score}}%)",
@@ -200,7 +200,7 @@ interface Resources {
           "Substats": "0% baseline subs"
         },
         "Benchmark": {
-          "Abilities": "100% benchmark ability damage",
+          "Abilities": "100% benchmark ability breakdown",
           "BasicStats": "100% benchmark <1>basic stats</1>",
           "CombatStats": "100% benchmark <1>combat stats</1>",
           "Header": "Benchmark build ({{score}}%)",
@@ -209,7 +209,7 @@ interface Resources {
           "Substats": "100% benchmark subs (min rolls)"
         },
         "Character": {
-          "Abilities": "Character ability damage",
+          "Abilities": "Character ability breakdown",
           "BasicStats": "Character <1>basic stats</1>",
           "CombatStats": "Character <1>combat stats</1>",
           "Header": "Character build ({{score}}%)",
@@ -219,7 +219,7 @@ interface Resources {
           "Substats": "Character subs (min rolls)"
         },
         "Perfect": {
-          "Abilities": "200% perfect ability damage",
+          "Abilities": "200% perfect ability breakdown",
           "BasicStats": "200% perfect <1>basic stats</1>",
           "CombatStats": "200% perfect <1>combat stats</1>",
           "Header": "Perfect build ({{score}}%)",
@@ -382,7 +382,7 @@ interface Resources {
       "SPD": "SPD",
       "SPD%": "SPD %",
       "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
-      "simScore": "Sim Score"
+      "simScore": "Combo DMG"
     },
     "RelicWithCount_one": "{{count}} relic",
     "RelicWithCount_other": "{{count}} relics",
@@ -6615,6 +6615,7 @@ interface Resources {
       "ATK": "ATK",
       "ATK_P": "ATK %",
       "BE": "BE %",
+      "BOOST": "Dmg Boost %",
       "BREAK_EFFICIENCY": "Break Efficiency %",
       "CD": "Crit Dmg %",
       "CR": "Crit Rate %",
@@ -6622,7 +6623,6 @@ interface Resources {
       "DEF": "DEF",
       "DEF_P": "DEF %",
       "DEF_PEN": "Def Pen %",
-      "BOOST": "Dmg Boost %",
       "EFFECT_RES_PEN": "Effect RES PEN %",
       "EHR": "Effect Hit Rate %",
       "HP": "HP",
@@ -7334,7 +7334,6 @@ interface Resources {
       "BASIC_SHIELD": "Sorted by Basic SHIELD",
       "BE": "Sorted by $t(common:ReadableStats.Break Effect)",
       "BREAK": "Sorted by Break DMG",
-      "BUFF": "Sorted by Buff",
       "CD": "Sorted by $t(common:ReadableStats.CRIT DMG)",
       "COMBO": "Sorted by Combo DMG",
       "COMBO_BUFF": "Sorted by Combo Buff",

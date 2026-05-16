@@ -44,8 +44,10 @@ import { SprightlyVonwacq } from './ornaments/SprightlyVonwacq'
 import { TaliaKingdomOfBanditry } from './ornaments/TaliaKingdomOfBanditry'
 import { TengokuLivestream } from './ornaments/TengokuLivestream'
 import { TheWondrousBananAmusementPark } from './ornaments/TheWondrousBananAmusementPark'
+import { AsNavigatorIseeSeesIt } from './relics/AsNavigatorIseeSeesIt'
 import { BandOfSizzlingThunder } from './relics/BandOfSizzlingThunder'
 import { ChampionOfStreetwiseBoxing } from './relics/ChampionOfStreetwiseBoxing'
+import { DivineQueryingMasterSmith } from './relics/DivineQueryingMasterSmith'
 import { DivinerOfDistantReach } from './relics/DivinerOfDistantReach'
 import { EagleOfTwilightLine } from './relics/EagleOfTwilightLine'
 import { EverGloriousMagicalGirl } from './relics/EverGloriousMagicalGirl'
@@ -74,8 +76,6 @@ import { WastelanderOfBanditryDesert } from './relics/WastelanderOfBanditryDeser
 import { WatchmakerMasterOfDreamMachinations } from './relics/WatchmakerMasterOfDreamMachinations'
 import { WavestriderCaptain } from './relics/WavestriderCaptain'
 import { WorldRemakingDeliverer } from './relics/WorldRemakingDeliverer'
-import { AsNavigatorIseeSeesIt } from './relics/AsNavigatorIseeSeesIt'
-import { DivineQueryingMasterSmith } from './relics/DivineQueryingMasterSmith'
 
 const ALL_RELIC_CONFIGS = [
   PasserbyOfWanderingCloud,
@@ -183,6 +183,7 @@ const relicConfigs: IndexedConfig[] = []
 const ornamentConfigs: IndexedConfig[] = []
 const setToConditionalKeyMap = new Map<Sets, SetConditionalI18nKey>()
 const teammateOptionsMap = new Map<string, TeammateOption>()
+export const teammateOptionValueToSetId = {} as Record<TeammateOptionValue, RelicSetIngameId>
 const boolFields: IndexedField[] = []
 const intFields: IndexedField[] = []
 export const teammateRelicOptions: TeammateOption[] = []
@@ -212,6 +213,7 @@ for (const config of setConfigRegistry.values()) {
   // Teammates
   if (config.conditionals.teammate) {
     for (const option of config.conditionals.teammate) {
+      teammateOptionValueToSetId[option.value] = config.info.ingameId as RelicSetIngameId
       teammateOptionsMap.set(option.value, option)
       if (isRelic) {
         teammateRelicOptions.push(option)

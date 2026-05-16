@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -51,6 +51,63 @@ interface Resources {
       }
     },
     "Title": "Benchmark Generator"
+  },
+  "calculatorsTab": {
+    "AHA": {
+      "Calculator": {
+        "AhaBase": "Aha Base",
+        "Formula": {
+          "Aha": "Aha Speed",
+          "TeammateSymbol": "T"
+        },
+        "TeammateN": "Teammate {{position}}",
+        "Title": "Aha Speed Calculator"
+      },
+      "Label": "Aha Speed",
+      "Solver": {
+        "Input": {
+          "DesiredAha": "Target Aha SPD"
+        },
+        "Output": {
+          "AllFilled": "No slots open",
+          "Teammate0": "1st Teammate's SPD",
+          "Teammate1": "2nd Teammate's SPD",
+          "Teammate2": "3rd Teammate's SPD",
+          "Teammate3": "4th Teammate's SPD"
+        },
+        "Title": "Target Speed Solver"
+      }
+    },
+    "EHR": {
+      "Calculator": {
+        "EHRLabel": "± {{value}}% $t(common:ShortStats.EHR)",
+        "EquationLabel": {
+          "BaseChance": "Base chance",
+          "DebuffRes": "Debuff RES multi",
+          "EffectRes": "Eff RES multi",
+          "HitRate": "EHR multi"
+        },
+        "Input": {
+          "Attempts": "Application attempts",
+          "BaseChance": "Debuff base chance",
+          "DebuffRes": "Enemy debuff RES",
+          "EffectRes": "Enemy effect RES",
+          "HitRate": "Effect Hit Rate",
+          "Range": "Grid range"
+        },
+        "Output": {
+          "Change": "chance",
+          "PerAttempt": "Per attempts"
+        },
+        "Title": "Debuff Application Calculator"
+      },
+      "Label": "Effect Hit Rate",
+      "Solver": {
+        "Input": "Target debuff chance",
+        "Output": "Required EHR",
+        "Title": "Target EHR Solver"
+      }
+    }
   },
   "charactersTab": {
     "CharacterMenu": {
@@ -6370,37 +6427,6 @@ interface Resources {
         "NoneSaved": "No saved builds"
       }
     },
-    "Calculators": {
-      "AHA": {
-        "Input": {
-          "DesiredAha": "Target Aha SPD",
-          "TeammateSpeeds": "Elation teammate speeds"
-        },
-        "Label": "Aha Speed",
-        "Output": {
-          "AhaSpeed": "Aha's Speed",
-          "Teammate0": "1st Teammate's SPD",
-          "Teammate1": "2nd Teammate's SPD",
-          "Teammate2": "3rd Teammate's SPD",
-          "Teammate3": "4th Teammate's SPD"
-        }
-      },
-      "EHR": {
-        "Input": {
-          "Attempts": "Application attempts",
-          "BaseChance": "Debuff base chance",
-          "DebuffRes": "Enemy debuff RES",
-          "DesiredHitRate": "Target debuff chance",
-          "EffectRes": "Enemy effect RES",
-          "HitRate": "Effect Hit Rate"
-        },
-        "Label": "Effect Hit Rate",
-        "Output": {
-          "ApplicationRate": "Chance to apply",
-          "RequiredHitRate": "Required EHR"
-        }
-      }
-    },
     "CharacterSelect": {
       "ClearButton": "Clear",
       "ExcludeButton": "Exclude all",
@@ -6649,6 +6675,7 @@ interface Resources {
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
         "None": "None",
+        "Placeholder": "Ability",
         "Skill": "Skill",
         "SkillHeal": "Skill HEAL",
         "SkillShield": "Skill SHIELD",
@@ -7408,72 +7435,58 @@ interface Resources {
       "TeammateSets": {
         "Ageless": {
           "Desc": "$t(gameData:RelicSets.302.Name) (+8% ATK)",
-          "Set": "$t(gameData:RelicSets.302.Name)",
           "Text": "8% ATK"
         },
         "Amphoreus": {
           "Desc": "$t(gameData:RelicSets.323.Name) (+8% SPD)",
-          "Set": "$t(gameData:RelicSets.323.Name)",
           "Text": "8% SPD"
         },
         "CityOfConvergingStars": {
           "Desc": "$t(gameData:RelicSets.326.Name) (+12% CD)",
-          "Set": "$t(gameData:RelicSets.326.Name)",
           "Text": "12% CD"
         },
         "Diviner": {
           "Desc": "4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)",
-          "Set": "$t(gameData:RelicSets.130.Name)",
           "Text": "10% Elation"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
-          "Set": "$t(gameData:RelicSets.310.Name)",
           "Text": "10% CD"
         },
         "Lushaka": {
           "Desc": "$t(gameData:RelicSets.317.Name) (+12% ATK)",
-          "Set": "$t(gameData:RelicSets.317.Name)",
           "Text": "12% ATK"
         },
         "Messenger": {
           "Desc": "4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)",
-          "Set": "$t(gameData:RelicSets.114.Name)",
           "Text": "12% SPD"
         },
         "Penacony": {
           "Desc": "$t(gameData:RelicSets.312.Name) (+10% DMG for same element)",
-          "Set": "$t(gameData:RelicSets.312.Name)",
           "Text": "10% DMG"
         },
         "Sacerdos1Stack": {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)",
-          "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "18% CD"
         },
         "Sacerdos2Stack": {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)",
-          "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "36% CD"
         },
         "SelfEnshrouded": {
           "Desc": "4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)",
-          "Set": "$t(gameData:RelicSets.128.Name)",
           "Text": "15% CD"
         },
         "Warrior": {
           "Desc": "4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)",
-          "Set": "$t(gameData:RelicSets.125.Name)",
           "Text": "15% CD"
         },
         "Watchmaker": {
           "Desc": "4 Piece: $t(gameData:RelicSets.118.Name) (+30% BE)",
-          "Set": "$t(gameData:RelicSets.118.Name)",
           "Text": "30% BE"
         },
         "WorldRemaking": {
           "Desc": "4 Piece: $t(gameData:RelicSets.127.Name) (+15% DMG)",
-          "Set": "$t(gameData:RelicSets.127.Name)",
           "Text": "15% DMG"
         }
       },
@@ -7878,5 +7891,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

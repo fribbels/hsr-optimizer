@@ -17,10 +17,12 @@ import {
 } from 'lib/optimization/rotation/setConditionalContent'
 import { Assets } from 'lib/rendering/assets'
 import {
+  getTeammateOption,
   type SetsOrnaments,
   type SetsRelics,
   setToConditionalKey,
   setToId,
+  teammateOptionValueToSetId,
 } from 'lib/sets/setConfigRegistry'
 import { resolveSourceKeyRoute } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
 import {
@@ -139,6 +141,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
   const { t, i18n } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   const { t: setSelectOptionTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals.SelectOptions' })
   const { t: setConditionalsTFunction } = useTranslation('optimizerTab', { keyPrefix: 'SetConditionals' })
+  const { t: teammateSetsTFunction } = useTranslation('optimizerTab', { keyPrefix: 'TeammateCard' })
 
   const metadata = useComboDrawerStore((s) => resolveMetadata(s, originKey))
   const comboConditionals = useComboDrawerStore((s) => resolveConditionals(s, originKey))
@@ -207,12 +210,13 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
       const keys = comboConditionals ? Object.keys(comboConditionals) as SetsRelics[] : []
       if (keys.length) {
         const setName = keys[0]
+        const setId = teammateOptionValueToSetId[setName]
         content = [
           {
             formItem: 'switch',
             id: setName,
-            text: t(`${setToId[setName]}.Name`),
-            content: setConditionalsTFunction(setToConditionalKey(setName)),
+            text: t(`${setId}.Name`),
+            content: getTeammateOption(setName)!.desc(teammateSetsTFunction),
           },
         ]
         src = Assets.getSetImage(setName, undefined, true)
@@ -223,12 +227,13 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
       const keys = comboConditionals ? Object.keys(comboConditionals) as SetsOrnaments[] : []
       if (keys.length) {
         const setName = keys[0]
+        const setId = teammateOptionValueToSetId[setName]
         content = [
           {
             formItem: 'switch',
             id: setName,
-            text: t(`${setToId[setName]}.Name`),
-            content: setConditionalsTFunction(setToConditionalKey(setName)),
+            text: t(`${setId}.Name`),
+            content: getTeammateOption(setName)!.desc(teammateSetsTFunction),
           },
         ]
         src = Assets.getSetImage(setName, undefined, true)

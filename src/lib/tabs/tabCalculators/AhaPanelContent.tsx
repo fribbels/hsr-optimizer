@@ -18,6 +18,7 @@ import {
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
+import { useTranslation } from 'react-i18next'
 import localClasses from './AhaPanelContent.module.css'
 import sharedClasses from './CalculatorPanel.module.css'
 
@@ -48,7 +49,7 @@ export interface AhaPanelContentProps {
   desiredValue: number | undefined
   spdOptions: ComboboxNumberGroup[]
   onDesiredChange: (value: number | undefined) => void
-  t: TFunction<'modals', 'Calculators.AHA'>
+  t: TFunction<'calculatorsTab', 'AHA'>
 }
 
 const spdIconSection = <img src={Assets.getStatIcon(Stats.SPD)} alt='' style={{ height: 24 }} />
@@ -67,12 +68,12 @@ export function AhaPanelContent(props: AhaPanelContentProps) {
 
   return (
     <div className={classes.panelCompact}>
-      <PanelSection title='Aha Speed Calculator'>
-        <IntegratedRows form={props.form} rows={rows} ahaSpeed={props.ahaSpeed} />
-        <FormulaSummary rows={rows} ahaSpeed={props.ahaSpeed} />
+      <PanelSection title={props.t('Calculator.Title')}>
+        <IntegratedRows form={props.form} rows={rows} ahaSpeed={props.ahaSpeed} t={props.t} />
+        <FormulaSummary rows={rows} ahaSpeed={props.ahaSpeed} t={props.t} />
       </PanelSection>
       <Divider />
-      <PanelSection title='Target Speed Solver'>
+      <PanelSection title={props.t('Solver.Title')}>
         <ReverseSolve {...props} />
       </PanelSection>
     </div>
@@ -83,17 +84,18 @@ const ROW_HEIGHT = 36
 const ROW_GAP = 3
 const ROW_STEP = ROW_HEIGHT + ROW_GAP
 
-function IntegratedRows({ form, rows, ahaSpeed }: {
+function IntegratedRows({ form, rows, ahaSpeed, t }: {
   form: AhaFormType,
   rows: TeammateRow[],
   ahaSpeed: number,
+  t: TFunction<'calculatorsTab', 'AHA'>,
 }) {
   const visualPositions = getVisualPositions(rows)
   const filledCount = rows.filter((r) => r.rank != null).length
 
   return (
     <div className={classes.integratedRows}>
-      <BaseIntegratedRow ahaSpeed={ahaSpeed} />
+      <BaseIntegratedRow ahaSpeed={ahaSpeed} t={t} />
       {rows.map((row, domIndex) => {
         const visualPos = visualPositions[domIndex]
         const offset = (visualPos - domIndex) * ROW_STEP
@@ -104,7 +106,7 @@ function IntegratedRows({ form, rows, ahaSpeed }: {
             form={form}
             row={row}
             ahaSpeed={ahaSpeed}
-            label={`Teammate ${visualPos + 1}`}
+            label={t('Calculator.TeammateN', { position: visualPos + 1 })}
             style={{ transform: offset ? `translateY(${offset}px)` : undefined }}
             isNextSlot={isNextSlot}
           />
@@ -123,10 +125,10 @@ function getVisualPositions(rows: TeammateRow[]): number[] {
   })
 }
 
-function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
+function BaseIntegratedRow({ ahaSpeed, t }: { ahaSpeed: number, t: TFunction<'calculatorsTab', 'AHA'> }) {
   return (
     <div className={`${classes.integratedRow} ${classes.baseRow}`}>
-      <div className={classes.rowSource}>Aha Base</div>
+      <div className={classes.rowSource}>{t('Calculator.AhaBase')}</div>
       <div className={classes.rowInputPlaceholder} />
       <div className={classes.rowTrack}>
         <div
@@ -190,19 +192,22 @@ function IntegratedRow({ form, row, ahaSpeed, label, style, isNextSlot }: {
 
 const RANK_COUNT = 4
 
-function FormulaSummary({ rows, ahaSpeed }: {
+function FormulaSummary({ rows, ahaSpeed, t }: {
   rows: TeammateRow[],
   ahaSpeed: number,
+  t: TFunction<'calculatorsTab', 'AHA'>,
 }) {
   const byRank: (TeammateRow | null)[] = Array.from({ length: RANK_COUNT }, () => null)
   for (const row of rows) {
     if (row.rank != null) byRank[row.rank] = row
   }
 
+  const { t: tStats } = useTranslation('common', { keyPrefix: 'ShortStats' })
+
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0' }}>
       <math display='block' className={classes.formula}>
-        <mtext style={{ fontFamily: 'var(--font-ui)' }}>Aha Speed</mtext>
+        <mtext style={{ fontFamily: 'var(--font-ui)' }}>{t('Calculator.Formula.Aha')}</mtext>
         <mo style={{ padding: '0 5px' }}>=</mo>
         <mn>{AHA_BASE_SPEED}</mn>
         {byRank.map((row, rank) => {
@@ -216,7 +221,7 @@ function FormulaSummary({ rows, ahaSpeed }: {
                   ? <mn style={{ color: row.color }}>{localeNumber_000(row.speed)}</mn>
                   : (
                     <msub style={{ color: '#8b8b8b' }}>
-                      <mi>T</mi>
+                      <mi>{t('Calculator.Formula.TeammateSymbol')}</mi>
                       <mn>{rank + 1}</mn>
                     </msub>
                   )}
@@ -231,7 +236,9 @@ function FormulaSummary({ rows, ahaSpeed }: {
           <mn style={{ fontSize: 26, fontWeight: 750, color: 'rgba(255, 255, 255, 0.92)' }}>
             {localeNumber_000(ahaSpeed)}
           </mn>
-          <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12 }}>SPD</mtext>
+          <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12 }}>
+            {tStats(Stats.SPD)}
+          </mtext>
         </mrow>
       </math>
     </div>
@@ -253,7 +260,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
   return (
     <div className={classes.reverse}>
       <div className={classes.reverseInput}>
-        <HeaderText>{t('Input.DesiredAha')}</HeaderText>
+        <HeaderText>{t('Solver.Input.DesiredAha')}</HeaderText>
         <ComboboxNumberInput
           value={desiredValue}
           onChange={onDesiredChange}
@@ -263,7 +270,9 @@ function ReverseSolve(props: AhaPanelContentProps) {
       </div>
       <div className={classes.reverseOutput} style={{ opacity: !allSlotsFilled && teammateSpeed === null ? 0.3 : undefined }}>
         <HeaderText>
-          {allSlotsFilled ? 'No slots open' : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
+          {allSlotsFilled
+            ? t('Solver.Output.AllFilled')
+            : t(`Solver.Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>
         <span>
           {displaySpeed !== null ? localeNumber_000(displaySpeed) : ''}
@@ -313,4 +322,3 @@ function buildTeammateRows(values: AhaFormValues): TeammateRow[] {
 function getDenominator(rank: number) {
   return Math.round(1 / speedToContributionMultiplier(rank))
 }
-

@@ -221,7 +221,7 @@ function WarpPlanner() {
                 <Flex direction="column" gap={HEADER_LABEL_GAP} style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <MultiSelectPills
-                    placeholder='None'
+                    placeholder={i18next.t('warpCalculatorTab:IncomeOptions.Type.0')}
                     clearable
                     size='xs'
                     maxDisplayedValues={0}

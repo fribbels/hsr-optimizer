@@ -32,7 +32,7 @@ const PANEL_I18N_LABEL = {
 } as const
 
 export function CalculatorsTab() {
-  const { t } = useTranslation('modals', { keyPrefix: 'Calculators' })
+  const { t } = useTranslation('calculatorsTab')
   const [activePanel, setActivePanel] = useState<CalculatorPanel>(resolveCalculatorPanel)
   const { addActivationListener } = useContext(TabVisibilityContext)
 

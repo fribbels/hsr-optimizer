@@ -69,17 +69,13 @@
  *
  * ## Capture Flow
  *
- * 1. Patch canvas.getContext for Display P3 color space (better mobile colors)
- * 2. For L2D/cross-origin containers: hide un-capturable element, inject static portrait as data URL
- * 3. snapdom() capture with retry loop (up to 3x, break when blob > 1MB)
- * 4. Restore live DOM (unhide spine, remove injected img)
- * 5. Hand blob to download / Web Share / clipboard
+ * 1. For L2D/cross-origin containers: hide un-capturable element, inject static portrait as data URL
+ * 2. snapdom() capture with retry loop (up to 3x, break when blob > 1MB)
+ * 3. Restore live DOM (unhide spine, remove injected img)
+ * 4. Hand blob to download / Web Share / clipboard
  *
  * ## Mobile-specific Handling
  *
- * - Display P3 color space patch for iOS/Android Chrome (better color accuracy)
- * - Mobile export skin removes fragile CSS shadows and increases the portrait
- *   backdrop blur without changing panel colors.
  * - Web Share API for clipboard action on mobile (clipboard.write not supported)
  *
  * ## Historical Notes (things we tried)
@@ -120,8 +116,9 @@ import {
 import { Message } from 'lib/interactions/message.js'
 
 const FETCH_TIMEOUT_MS = 8000
-const MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER = 2.0
 const SCREENSHOT_IMAGE_TYPE = 'png'
+const SCREENSHOT_EXPORT_DPR = 2
+const PREBAKE_MAX_DIMENSION = Math.max(cardTotalW, parentH) * SCREENSHOT_EXPORT_DPR
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -137,90 +134,6 @@ function isMobileOrSafari(): boolean {
   const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop|BlackBerry/i.test(userAgent)
   const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent)
   return isMobile || isSafari
-}
-
-function shouldUseDisplayP3(): boolean {
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
-  const isMobileChrome = /Android/.test(navigator.userAgent) && /Chrome/.test(navigator.userAgent)
-  return isIOS || isMobileChrome
-}
-
-/**
- * Patches canvas.getContext to use Display P3 color space on mobile devices.
- * iOS and Android Chrome have wider color gamut displays - using Display P3
- * produces more accurate colors in the captured screenshot.
- * Returns a cleanup function to restore the original getContext.
- */
-function patchCanvasForDisplayP3(): () => void {
-  if (!shouldUseDisplayP3()) {
-    return () => {}
-  }
-
-  const originalGetContext = HTMLCanvasElement.prototype.getContext
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  HTMLCanvasElement.prototype.getContext = function(this: HTMLCanvasElement, contextId: string, options?: any): any {
-    if (contextId === '2d') {
-      return Reflect.apply(originalGetContext, this, [contextId, { colorSpace: 'display-p3', ...options }])
-    }
-    return Reflect.apply(originalGetContext, this, [contextId, options])
-  }
-
-  return () => {
-    HTMLCanvasElement.prototype.getContext = originalGetContext
-  }
-}
-
-function multiplyCssBlur(filter: string, multiplier: number): string {
-  if (!Number.isFinite(multiplier) || multiplier === 1) return filter
-  return filter.replace(/blur\(\s*([0-9.]+)px\s*\)/i, (_match, value: string) => {
-    const next = Math.max(0, Number(value) * multiplier)
-    return `blur(${next.toFixed(2)}px)`
-  })
-}
-
-function prepareMobileExportSkinForCapture(root: HTMLElement): () => void {
-  const restoreActions: Array<() => void> = []
-
-  // Mobile WebKit/Chromium can corrupt CSS shadows during SVG foreignObject -> canvas export.
-  // The most stable export skin removes those shadows without recoloring panels,
-  // then increases the portrait backdrop blur to hide the missing depth.
-  for (const img of root.querySelectorAll<HTMLElement>('[data-portrait-bg] img')) {
-    const style = getComputedStyle(img)
-    const originalFilter = img.style.filter
-    const originalWebkitFilter = img.style.webkitFilter
-    const nextFilter = multiplyCssBlur(style.filter === 'none' ? '' : style.filter, MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER)
-    const nextWebkitFilter = multiplyCssBlur(style.webkitFilter === 'none' ? '' : style.webkitFilter, MOBILE_EXPORT_BACKGROUND_BLUR_MULTIPLIER)
-    if (nextFilter) img.style.filter = nextFilter
-    if (nextWebkitFilter) img.style.webkitFilter = nextWebkitFilter
-    restoreActions.push(() => {
-      if (!img.isConnected) return
-      img.style.filter = originalFilter
-      img.style.webkitFilter = originalWebkitFilter
-    })
-  }
-
-  const candidates = [root, ...Array.from(root.querySelectorAll<HTMLElement>('*'))]
-  const elsWithShadow: Array<{ el: HTMLElement; original: string }> = []
-  for (const el of candidates) {
-    if (getComputedStyle(el).boxShadow === 'none') continue
-    elsWithShadow.push({ el, original: el.style.boxShadow })
-  }
-  for (const { el, original } of elsWithShadow) {
-    el.style.boxShadow = 'none'
-    restoreActions.push(() => {
-      if (!el.isConnected) return
-      el.style.boxShadow = original
-    })
-  }
-
-  return () => {
-    for (let i = restoreActions.length - 1; i >= 0; i--) {
-      try {
-        restoreActions[i]()
-      } catch { /* best-effort */ }
-    }
-  }
 }
 
 /**
@@ -432,6 +345,179 @@ function buildImageInliningPlugin(cache: Map<string, string>): SnapdomPlugin {
   }
 }
 
+function supportsCanvasFilter(ctx: CanvasRenderingContext2D): boolean {
+  if (!('filter' in ctx)) return false
+  ctx.filter = 'none'
+  ctx.filter = 'blur(1px)'
+  return ctx.filter === 'blur(1px)'
+}
+
+function calculatePreBakedBlurGeometry({
+  naturalWidth,
+  naturalHeight,
+  renderedWidth,
+  renderedHeight,
+  cssBlur,
+  objectFit,
+}: {
+  naturalWidth: number,
+  naturalHeight: number,
+  renderedWidth: number,
+  renderedHeight: number,
+  cssBlur: number,
+  objectFit: string,
+}): { width: number, height: number, blur: number } | null {
+  if (
+    naturalWidth <= 0
+    || naturalHeight <= 0
+    || renderedWidth <= 0
+    || renderedHeight <= 0
+    || cssBlur <= 0
+  ) {
+    return null
+  }
+
+  const coverScale = objectFit === 'cover'
+    ? Math.max(renderedWidth / naturalWidth, renderedHeight / naturalHeight)
+    : renderedWidth / naturalWidth
+  const renderedImageWidth = naturalWidth * coverScale
+  const targetScale = Math.min(
+    1,
+    (renderedImageWidth * SCREENSHOT_EXPORT_DPR) / naturalWidth,
+    PREBAKE_MAX_DIMENSION / naturalWidth,
+    PREBAKE_MAX_DIMENSION / naturalHeight,
+  )
+  const width = Math.max(1, Math.round(naturalWidth * targetScale))
+  const height = Math.max(1, Math.round(naturalHeight * targetScale))
+  const displayScale = objectFit === 'cover'
+    ? Math.max(renderedWidth / width, renderedHeight / height)
+    : renderedWidth / width
+
+  if (!Number.isFinite(displayScale) || displayScale <= 0) return null
+
+  return {
+    width,
+    height,
+    blur: cssBlur / displayScale,
+  }
+}
+
+async function loadCanvasImage(src: string): Promise<HTMLImageElement | null> {
+  const img = new Image()
+  img.decoding = 'async'
+
+  await withTimeout(
+    new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve()
+      img.onerror = () => reject(new Error('Failed to load image for blur prebake'))
+      img.src = src
+    }),
+    FETCH_TIMEOUT_MS,
+  ).catch(() => {})
+
+  if (!img.complete || !img.naturalWidth || !img.naturalHeight) return null
+  if (typeof img.decode === 'function') {
+    await img.decode().catch(() => {})
+  }
+  return img
+}
+
+/**
+ * Pre-renders portrait background images with blur baked into the pixels.
+ * Keeps the bitmap in source-image coordinates so the clone can preserve the
+ * live image's positioning/cropping styles.
+ */
+async function buildPreBakedBlurCache(
+  root: HTMLElement,
+  imageCache: Map<string, string>,
+): Promise<Map<string, string>> {
+  const blurCache = new Map<string, string>()
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  if (!ctx || !supportsCanvasFilter(ctx)) return blurCache
+
+  for (const img of root.querySelectorAll<HTMLImageElement>('[data-portrait-bg] img')) {
+    const filterStyle = img.style.filter || ''
+    const blurMatch = filterStyle.match(/blur\(\s*([\d.]+)px\s*\)/)
+    if (!blurMatch) continue
+    const cssBlur = parseFloat(blurMatch[1])
+    if (!cssBlur || !Number.isFinite(cssBlur)) continue
+
+    const src = imageCache.get(img.src) || img.src
+    const rect = img.getBoundingClientRect()
+    if (!rect.width || !rect.height) continue
+
+    const canvasImage = await loadCanvasImage(src)
+    if (!canvasImage) continue
+
+    const geometry = calculatePreBakedBlurGeometry({
+      naturalWidth: canvasImage.naturalWidth,
+      naturalHeight: canvasImage.naturalHeight,
+      renderedWidth: rect.width,
+      renderedHeight: rect.height,
+      cssBlur,
+      objectFit: img.style.objectFit,
+    })
+    if (!geometry) continue
+
+    canvas.width = geometry.width
+    canvas.height = geometry.height
+
+    ctx.save()
+    ctx.clearRect(0, 0, geometry.width, geometry.height)
+    ctx.filter = `blur(${geometry.blur.toFixed(1)}px)`
+    ctx.drawImage(canvasImage, 0, 0, geometry.width, geometry.height)
+    ctx.restore()
+    try {
+      const blurredDataUri = canvas.toDataURL('image/jpeg', 0.85)
+      blurCache.set(img.src, blurredDataUri)
+      const cachedDataUri = imageCache.get(img.src)
+      if (cachedDataUri) blurCache.set(cachedDataUri, blurredDataUri)
+    } catch { /* tainted canvas — skip */ }
+  }
+
+  return blurCache
+}
+
+function buildPreBakedBlurPlugin(blurCache: Map<string, string>): SnapdomPlugin {
+  return {
+    name: 'prebaked-blur',
+    afterClone({ clone }) {
+      if (!blurCache.size || !clone) return
+      for (const img of clone.querySelectorAll<HTMLImageElement>('[data-portrait-bg] img')) {
+        const preblurred = blurCache.get(img.src) || blurCache.get(img.getAttribute('src') || '')
+        if (!preblurred) continue
+
+        img.setAttribute('src', preblurred)
+        img.src = preblurred
+
+        const styleAttr = img.getAttribute('style') || ''
+        img.setAttribute('style', styleAttr.replace(/blur\(\s*[\d.]+px\s*\)/g, 'blur(0px)'))
+      }
+    },
+  }
+}
+
+/** Fallback: boost blur in the clone when pre-bake is unavailable. */
+function buildBlurMultiplierPlugin(blurMultiplier: number): SnapdomPlugin {
+  return {
+    name: 'screenshot-blur-scale',
+    afterClone({ clone }) {
+      if (blurMultiplier <= 1 || !clone) return
+      for (const img of clone.querySelectorAll<HTMLElement>('[data-portrait-bg] img')) {
+        const styleAttr = img.getAttribute('style') || ''
+        const newStyle = styleAttr.replace(
+          /blur\(\s*([\d.]+)px\s*\)/g,
+          (_, blurVal) => `blur(${(parseFloat(blurVal) * blurMultiplier).toFixed(1)}px)`,
+        )
+        if (newStyle !== styleAttr) {
+          img.setAttribute('style', newStyle)
+        }
+      }
+    },
+  }
+}
+
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(`Screenshot attempt timed out after ${ms}ms`)), ms)
@@ -484,44 +570,42 @@ export async function screenshotElementById(
     } catch { /* best-effort */ }
     const { cache: imageCache, corsFailed } = await buildImageDataUriCache(element)
 
-    const restoreContext = patchCanvasForDisplayP3()
+    const blurCache = await buildPreBakedBlurCache(element, imageCache).catch(() => new Map<string, string>())
+
+    const blurPlugin = blurCache.size
+      ? buildPreBakedBlurPlugin(blurCache)
+      : buildBlurMultiplierPlugin(SCREENSHOT_EXPORT_DPR)
 
     let blob: Blob | null = null
     let lastError: unknown = null
-    try {
-      for (let i = 0; i < maxAttempts; i++) {
-        let restoreLiveDom: (() => void) | null = null
-        let restoreMobileExportSkin: (() => void) | null = null
-        try {
-          restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
-          if (mobile) {
-            restoreMobileExportSkin = prepareMobileExportSkinForCapture(element)
-          }
-          const capture = await withTimeout(
-            snapdom(element, {
-              scale: 1,
-              dpr: 2,
-              width: cardTotalW,
-              height: parentH,
-              backgroundColor: 'transparent',
-              outerShadows: true,
-              embedFonts: true,
-              fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-              plugins: [buildImageInliningPlugin(imageCache)],
-            }),
-            attemptTimeoutMs,
-          )
-          blob = await capture.toBlob({ type: SCREENSHOT_IMAGE_TYPE, quality: 1.0 })
-          if (blob && blob.size > 1_500_000) break
-        } catch (e) {
-          lastError = e
-        } finally {
-          restoreMobileExportSkin?.()
-          restoreLiveDom?.()
-        }
+    for (let i = 0; i < maxAttempts; i++) {
+      let restoreLiveDom: (() => void) | null = null
+      try {
+        restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
+        const capture = await withTimeout(
+          snapdom(element, {
+            scale: 1,
+            dpr: SCREENSHOT_EXPORT_DPR,
+            width: cardTotalW,
+            height: parentH,
+            backgroundColor: 'transparent',
+            outerShadows: true,
+            embedFonts: true,
+            fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            plugins: [
+              buildImageInliningPlugin(imageCache),
+              blurPlugin,
+            ],
+          }),
+          attemptTimeoutMs,
+        )
+        blob = await capture.toBlob({ type: SCREENSHOT_IMAGE_TYPE, quality: 1.0 })
+        if (blob && blob.size > 1_500_000) break
+      } catch (e) {
+        lastError = e
+      } finally {
+        restoreLiveDom?.()
       }
-    } finally {
-      restoreContext()
     }
 
     if (!blob) {

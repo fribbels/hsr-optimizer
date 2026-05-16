@@ -53,7 +53,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
       })
     }
     segments.push({
-      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'),
+      label: 'Substat Score', // Hardcoded — label still in flux, skip i18n for now
       value: String(ScoringType.SUBSTAT_SCORE),
     })
     segments.push({
@@ -87,7 +87,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           <SegmentedControl
             key={segmentData.map((d) => d.value).join(',')}
             size='sm'
-            styles={{ control: { width: 140 } }}
+            styles={{ control: { width: 165 } }}
             onChange={handleScoringTypeChange}
             value={String(scoringType)}
             data={segmentData}
@@ -122,7 +122,7 @@ function StatScoringSummary({ displayRelics, showcaseMetadata }: {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <ColorizedTitleWithInfo
-        text={t('Header') /* Stat Score Analysis */}
+        text={'Substat Score Analysis' /* Hardcoded — label still in flux, skip i18n for now */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
       />
       <EstimatedTbpRelicsDisplay

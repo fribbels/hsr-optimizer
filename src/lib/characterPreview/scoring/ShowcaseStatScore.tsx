@@ -12,10 +12,8 @@ export const ShowcaseStatScore = memo(function ShowcaseStatScore({ scoringResult
   return (
     <div>
       <StatText className={classes.scoreText}>
-        {t('CharacterPreview.CharacterScore', {
-          score: scoringResults.totalScore.toFixed(0),
-          grade: scoringResults.totalScore === 0 ? '' : scoringResults.totalRating,
-        })}
+        {/* Hardcoded — label still in flux, skip i18n for now */}
+        {`Substat Score: ${scoringResults.totalScore.toFixed(0)} ${scoringResults.totalScore === 0 ? '' : scoringResults.totalRating}`}
       </StatText>
     </div>
   )

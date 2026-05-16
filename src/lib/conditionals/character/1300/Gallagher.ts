@@ -383,7 +383,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
-  healSimulation: healSimulation(),
+  // healSimulation omitted — Gallagher's heals are flat-only, scoring doesn't vary with substats
 })
 
 const display = {

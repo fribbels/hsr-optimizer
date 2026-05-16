@@ -1,3 +1,4 @@
+import { usePromise } from 'hooks/usePromise'
 import classes from 'lib/characterPreview/card/CharacterStatSummary.module.css'
 import { SimScoreRow } from 'lib/characterPreview/SimScoreRow'
 import {
@@ -50,6 +51,8 @@ interface AsyncStatSummaryProps extends CommonStatSummaryProps {
   promise: Promise<SimulationScore | null>
   type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
   subType: 'Combat' | 'Basic'
+  configType?: ScoringConfigType
+  buffStat?: AKeyValue
 }
 
 export const CharacterStatSummary = memo(function CharacterStatSummary({
@@ -115,6 +118,8 @@ export const AsyncCharacterStatSummary = memo(function({
   promise,
   type,
   subType,
+  configType,
+  buffStat,
 }: AsyncStatSummaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
@@ -265,10 +270,28 @@ export const AsyncCharacterStatSummary = memo(function({
               edits={edits}
             />
           )}
+
+        {configType != null && (
+          <AsyncSimScoreRow promise={promise} type={type} configType={configType} buffStat={buffStat} />
+        )}
       </div>
     </StatText>
   )
 })
+
+function AsyncSimScoreRow({ promise, type, configType, buffStat }: {
+  promise: Promise<SimulationScore | null>
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
+  configType: ScoringConfigType
+  buffStat?: AKeyValue
+}) {
+  const output = usePromise(promise)
+  const sim = output?.[type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']
+  const simScore = sim?.result?.simScore ?? 0
+  if (!simScore) return null
+
+  return <SimScoreRow value={simScore} configType={configType} buffStat={buffStat} />
+}
 
 function calculateStatCustomizations(characterId: CharacterId) {
   if (!characterId) return {}

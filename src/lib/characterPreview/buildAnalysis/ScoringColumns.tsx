@@ -32,7 +32,7 @@ import {
   type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { CONFIG_FIELD_MAP, resolveComboLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { CONFIG_FIELD_MAP, resolveComboLabel, SCORING_CONFIG_REGISTRY, ScoringType } from 'lib/scoring/scoringConfig'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import type {
   RunStatSimulationsResult,
@@ -115,6 +115,9 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
 
   if (!isAsyncProps(props) && !props.simulation.result) return null
 
+  const scoringEntry = SCORING_CONFIG_REGISTRY[props.configType]
+  const scoringBuffStat = getScoringMetadata(props.characterId)[CONFIG_FIELD_MAP[props.configType]]?.buffStat
+
   const setsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap, alignItems: 'center' }}>
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
@@ -155,6 +158,8 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             promise={props.simulation}
             type={props.type}
             subType='Basic'
+            configType={props.configType}
+            buffStat={scoringBuffStat}
           />
         )
         : (
@@ -164,6 +169,8 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             elementalDmgValue={props.elementalDmgValue}
             simScore={props.simulation.result!.simScore}
             configType={props.configType}
+            scoringType={scoringEntry.scoringType}
+            buffStat={scoringBuffStat}
             showAll={true}
             zebra
           />
@@ -195,6 +202,8 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             promise={props.simulation}
             type={props.type}
             subType='Combat'
+            configType={props.configType}
+            buffStat={scoringBuffStat}
           />
         )
         : (
@@ -204,6 +213,8 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             elementalDmgValue={props.elementalDmgValue}
             simScore={props.simulation.result!.simScore}
             configType={props.configType}
+            scoringType={scoringEntry.scoringType}
+            buffStat={scoringBuffStat}
             showAll={true}
             zebra
           />

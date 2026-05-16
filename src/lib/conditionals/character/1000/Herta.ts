@@ -280,9 +280,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, (e >= 2) ? r.e2TalentCritStacks * 0.03 : 0, x.source(SOURCE_E2))
       x.buff(StatKey.ATK_P, (e >= 6 && r.e6UltAtkBuff) ? 0.25 : 0, x.source(SOURCE_E6))
 
-      x.buff(StatKey.DMG_BOOST, (r.enemyHpGte50) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
-      x.buff(StatKey.DMG_BOOST, (r.targetFrozen) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
-      x.buff(StatKey.DMG_BOOST, (e >= 4) ? 0.10 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E4))
+      x.buff(StatKey.BOOST, (r.enemyHpGte50) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (r.targetFrozen) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
+      x.buff(StatKey.BOOST, (e >= 4) ? 0.10 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E4))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

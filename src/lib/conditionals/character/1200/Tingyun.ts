@@ -189,14 +189,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (r.skillSpdBuff) ? 0.20 : 0, x.source(SOURCE_TRACE))
 
       // Boost
-      x.buff(StatKey.DMG_BOOST, 0.40, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, 0.40, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.SPD_P, (e >= 1 && m.ultSpdBuff) ? 0.20 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E1))
-      x.buff(StatKey.DMG_BOOST, (m.ultDmgBuff) ? ultDmgBoost : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_ULT))
+      x.buff(StatKey.BOOST, (m.ultDmgBuff) ? ultDmgBoost : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_ULT))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

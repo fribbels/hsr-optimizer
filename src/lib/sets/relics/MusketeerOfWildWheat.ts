@@ -52,7 +52,7 @@ const conditionals: SetConditionals = {
     c.SPD_P.buff(0.06, Source.MusketeerOfWildWheat)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.10, x.damageType(DamageTag.BASIC).source(Source.MusketeerOfWildWheat))
+    x.buff(StatKey.BOOST, 0.10, x.damageType(DamageTag.BASIC).source(Source.MusketeerOfWildWheat))
   },
   gpuBasic: () => [
     basicP2(WgslStatName.ATK_P, 0.12, MusketeerOfWildWheat),
@@ -60,7 +60,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_MusketeerOfWildWheat) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, 0.10).damageType(DamageTag.BASIC).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, 0.10).damageType(DamageTag.BASIC).wgsl(action, 2)}
     }
   `,
 }

@@ -19,7 +19,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     content: () => [],
     defaults: () => ({}),
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      x.buff(StatKey.DMG_BOOST, sValues[s], x.damageType(DamageTag.DOT).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, sValues[s], x.damageType(DamageTag.DOT).source(SOURCE_LC))
     },
   }
 }

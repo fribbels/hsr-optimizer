@@ -93,7 +93,7 @@ function getTotalDmgBoost(
   hit: Hit,
   hitIndex: number,
 ): number {
-  const genericDmgBoost = x.getValue(StatKey.DMG_BOOST, hitIndex)
+  const genericDmgBoost = x.getValue(StatKey.BOOST, hitIndex)
   const elementalDmgBoost = hit.damageElement === ElementTag.None
     ? 0
     : x.getValue(elementTagToStatKeyBoost[hit.damageElement], hitIndex)
@@ -172,7 +172,7 @@ export const CritDamageFunction: DamageFunction = {
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
   // Crit-specific
-  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.BOOST)} + ${elementalDmgBoost};
 
   // Initial damage (uses scalingEntityIndex for ATK/HP/DEF)
   let atk = ${getScalingValue(StatKey.ATK)};
@@ -273,7 +273,7 @@ export const DotDamageFunction: DamageFunction = {
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
   // DOT-specific
-  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.BOOST)} + ${elementalDmgBoost};
 
   // Initial damage (uses scalingEntityIndex for ATK/HP/DEF)
   let atk = ${getScalingValue(StatKey.ATK)};
@@ -322,7 +322,7 @@ export const BreakDamageFunction: DamageFunction = {
     const hit = action.hits![hitIndex] as BreakHit
     computeCommonMultipliers(x, hitIndex, context)
 
-    const dmgBoostMulti = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
+    const dmgBoostMulti = 1 + x.getHitValue(HKey.BOOST, hitIndex)
     const breakBaseMulti = 3767.5533 * context.elementalBreakScaling
       * (0.5 + context.enemyMaxToughness / 120)
       * (hit.specialScaling ?? 1)
@@ -366,7 +366,7 @@ export const BreakDamageFunction: DamageFunction = {
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
   // Break-specific: dmgBoost is hit-level only (no action-level, no elemental boost)
-  let dmgBoostMulti = 1.0 + ${getHitValue(HKey.DMG_BOOST)};
+  let dmgBoostMulti = 1.0 + ${getHitValue(HKey.BOOST)};
 
   // Break base damage calculation
   let breakBaseMulti = 3767.5533 * ${elementalBreakScaling}
@@ -405,7 +405,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
     const superBreakModMulti = x.getValue(StatKey.SUPER_BREAK_MODIFIER, hitIndex) + (hit.extraSuperBreakModifier ?? 0)
     if (superBreakModMulti === 0) return 0
 
-    const dmgBoostMulti = 1 + x.getHitValue(HKey.DMG_BOOST, hitIndex)
+    const dmgBoostMulti = 1 + x.getHitValue(HKey.BOOST, hitIndex)
     const beMulti = 1 + x.getValue(StatKey.BE, hitIndex)
     const breakEfficiencyMulti = 1 + x.getValue(StatKey.BREAK_EFFICIENCY_BOOST, hit.referenceHit?.localHitIndex ?? hitIndex)
     const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
@@ -455,7 +455,7 @@ export const SuperBreakDamageFunction: DamageFunction = {
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
   // SuperBreak-specific: dmgBoost is hit-level only (no action-level, no elemental boost)
-  let dmgBoostMulti = 1.0 + ${getHitValue(HKey.DMG_BOOST)};
+  let dmgBoostMulti = 1.0 + ${getHitValue(HKey.BOOST)};
 
   // Break efficiency multiplier from reference hit
   let breakEfficiencyMulti = 1.0 + ${containerGetValue(entityIndex, referenceHitIndex, StatKey.BREAK_EFFICIENCY_BOOST, config)};
@@ -554,7 +554,7 @@ export const AdditionalDamageFunction: DamageFunction = {
   let finalDmgMulti = 1.0 + ${getValue(StatKey.FINAL_DMG_BOOST)};
 
   // Additional-specific: uses generic + elemental dmg boost (same as Crit)
-  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.BOOST)} + ${elementalDmgBoost};
 
   // Initial damage (uses scalingEntityIndex for ATK/HP/DEF)
   let atk = ${getScalingValue(StatKey.ATK)};
@@ -609,7 +609,7 @@ export const HealDamageFunction: DamageFunction = {
     const ohbMulti = 1 + ohb
 
     // Heal boost (reuses DMG_BOOST slot, filtered by OutputTag at buff application)
-    const healBoost = x.getHitValue(HKey.DMG_BOOST, hitIndex)
+    const healBoost = x.getHitValue(HKey.BOOST, hitIndex)
     const healBoostMulti = 1 + healBoost
 
     return baseHeal * ohbMulti * healBoostMulti
@@ -643,7 +643,7 @@ export const HealDamageFunction: DamageFunction = {
   let ohbMulti = 1.0 + ohb;
 
   // Heal boost multiplier (from DMG_BOOST slot, filtered by outputType at buff time)
-  let healBoost = ${getHitValue(HKey.DMG_BOOST)};
+  let healBoost = ${getHitValue(HKey.BOOST)};
   let healBoostMulti = 1.0 + healBoost;
 
   let heal = baseHeal * ohbMulti * healBoostMulti;
@@ -672,7 +672,7 @@ export const ShieldDamageFunction: DamageFunction = {
       + (hit.flatShield ?? 0)
 
     // Shield boost (from DMG_BOOST slot, filtered by OutputTag at buff application)
-    const shieldBoost = x.getHitValue(HKey.DMG_BOOST, hitIndex)
+    const shieldBoost = x.getHitValue(HKey.BOOST, hitIndex)
     const shieldBoostMulti = 1 + shieldBoost
 
     return baseShield * shieldBoostMulti
@@ -702,7 +702,7 @@ export const ShieldDamageFunction: DamageFunction = {
   let baseShield = ${defScaling} * def + ${hpScaling} * hp + ${atkScaling} * atk + ${flatShield};
 
   // Shield boost multiplier (from DMG_BOOST slot, filtered by outputType at buff time)
-  let shieldBoost = ${getHitValue(HKey.DMG_BOOST)};
+  let shieldBoost = ${getHitValue(HKey.BOOST)};
   let shieldBoostMulti = 1.0 + shieldBoost;
 
   let shield = baseShield * shieldBoostMulti;
@@ -780,7 +780,7 @@ export const HealTallyDamageFunction: DamageFunction = {
   let baseDmg = healValue * ${healTallyScaling};
 
   // Damage boost multiplier
-  let dmgBoostMulti = 1.0 + ${getValue(StatKey.DMG_BOOST)} + ${elementalDmgBoost};
+  let dmgBoostMulti = 1.0 + ${getValue(StatKey.BOOST)} + ${elementalDmgBoost};
 
   // Crit multiplier
   let cr = min(1.0, ${getValue(StatKey.CR)} + ${getValue(StatKey.CR_BOOST)});
@@ -925,7 +925,7 @@ export const BuffDamageFunction: DamageFunction = {
       }
     }
 
-    const buffContribution = x.getHitValue(HKey.DMG_BOOST, hitIndex)
+    const buffContribution = x.getHitValue(HKey.BOOST, hitIndex)
     return baseBuffValue + buffContribution
   },
   wgsl: (action, hitIndex, context) => {
@@ -966,7 +966,7 @@ export const BuffDamageFunction: DamageFunction = {
 
     return wgsl`
 {${formulaWgsl}
-  let buffContribution = ${getHitValue(HKey.DMG_BOOST)};
+  let buffContribution = ${getHitValue(HKey.BOOST)};
   let buffResult = baseBuffValue + buffContribution;
   ${shouldRecord ? 'comboBuff = buffResult;' : ''}
   ${wgslDebugHitRegister(hit, context, 'buffResult')}

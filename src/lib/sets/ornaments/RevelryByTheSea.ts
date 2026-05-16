@@ -52,9 +52,9 @@ const conditionals: SetConditionals = {
   p2t: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     const atk = x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX)
     if (atk >= 3600) {
-      x.buff(StatKey.DMG_BOOST, 0.24, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
+      x.buff(StatKey.BOOST, 0.24, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
     } else if (atk >= 2400) {
-      x.buff(StatKey.DMG_BOOST, 0.12, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
+      x.buff(StatKey.BOOST, 0.12, x.damageType(DamageTag.DOT).source(Source.RevelryByTheSea))
     }
   },
   gpuBasic: () => [
@@ -63,9 +63,9 @@ const conditionals: SetConditionals = {
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (ornament2p(*p_sets, SET_RevelryByTheSea) >= 1) {
     if (${containerActionVal(SELF_ENTITY_INDEX, AKey.ATK, action.config)} >= 3600.0) {
-      ${buff.hit(HKey.DMG_BOOST, 0.24).damageType(DamageTag.DOT).wgsl(action, 3)}
+      ${buff.hit(HKey.BOOST, 0.24).damageType(DamageTag.DOT).wgsl(action, 3)}
     } else if (${containerActionVal(SELF_ENTITY_INDEX, AKey.ATK, action.config)} >= 2400.0) {
-      ${buff.hit(HKey.DMG_BOOST, 0.12).damageType(DamageTag.DOT).wgsl(action, 3)}
+      ${buff.hit(HKey.BOOST, 0.12).damageType(DamageTag.DOT).wgsl(action, 3)}
     }
   }
 `,

@@ -371,7 +371,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES, (r.resBuff) ? 0.50 : 0, x.source(SOURCE_TRACE))
 
       // Talent: Memosprite elemental DMG buff from healing stacks
-      x.buff(StatKey.DMG_BOOST, r.healingDmgStacks * talentHealingDmgStackValue, x.target(HyacineEntities.Ica).source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, r.healingDmgStacks * talentHealingDmgStackValue, x.target(HyacineEntities.Ica).source(SOURCE_TALENT))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

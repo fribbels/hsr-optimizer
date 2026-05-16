@@ -295,10 +295,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Elemental DMG boost from talent stacks
-      x.buff(StatKey.DMG_BOOST, r.talentFuaStacks * 0.72, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, r.talentFuaStacks * 0.72, x.source(SOURCE_TRACE))
 
       // E6 FUA DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.e6FuaScaling) ? 7.29 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.e6FuaScaling) ? 7.29 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
 
       // HP buff from ultZone based on allies' max HP
       x.buff(StatKey.HP, (r.ultZone) ? 0.09 * r.alliesMaxHp : 0, x.source(SOURCE_TRACE))

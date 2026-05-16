@@ -251,7 +251,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Skill DMG boost when stacks >= threshold
       const stackThreshold = (e >= 1 && r.e1BonusStacks) ? 28 : 42
-      x.buff(StatKey.DMG_BOOST, (r.enhancedSkill && r.interpretationStacks >= stackThreshold) ? 0.50 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enhancedSkill && r.interpretationStacks >= stackThreshold) ? 0.50 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
 
       // E6 Ice RES PEN
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.elements(ElementTag.Ice).source(SOURCE_E6))

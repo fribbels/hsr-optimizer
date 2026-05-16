@@ -177,7 +177,7 @@ export function simulateBuild(
 
   // Track primary action stats for the scoring action (for combat stats display)
   let primaryActionStats: PrimaryActionStats = {
-    DMG_BOOST: 0,
+    BOOST: 0,
     sourceEntityCR: 0,
     sourceEntityCD: 0,
     sourceEntityElementDmgBoost: 0,
@@ -216,7 +216,7 @@ export function simulateBuild(
         // Capture fully resolved stats matching the damage formula:
         const hasHits = action.hits?.length ?? 0
         primaryActionStats = {
-          DMG_BOOST: hasHits ? x.getValue(StatKey.DMG_BOOST, 0) : 0,
+          BOOST: hasHits ? x.getValue(StatKey.BOOST, 0) : 0,
           sourceEntityCR: (hasHits ? x.getValue(StatKey.CR, 0) : 0) + x.getActionValueByIndex(StatKey.CR_BOOST, sourceEntityIndex),
           sourceEntityCD: (hasHits ? x.getValue(StatKey.CD, 0) : 0) + x.getActionValueByIndex(StatKey.CD_BOOST, sourceEntityIndex),
           sourceEntityElementDmgBoost: x.getActionValueByIndex(elementDmgBoostKey, sourceEntityIndex),

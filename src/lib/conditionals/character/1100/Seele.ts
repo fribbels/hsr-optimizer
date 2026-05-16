@@ -201,7 +201,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0, x.source(SOURCE_E1))
       x.buff(StatKey.SPD_P, 0.25 * r.speedBoostStacks, x.source(SOURCE_SKILL))
 
-      x.buff(StatKey.DMG_BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.20 : 0, x.source(SOURCE_TRACE))
     },
 

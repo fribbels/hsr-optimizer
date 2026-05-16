@@ -67,8 +67,8 @@ function StatDiffSummary({ analysis }: { analysis: OptimizerResultAnalysis }) {
   const newStats = analysis.newX.toComputedStatsObject()
 
   // Elemental DMG = element-specific boost (already mapped) + generic DMG_BOOST
-  oldStats[analysis.elementalDmgValue] += analysis.oldX.getSelfValue(StatKey.DMG_BOOST)
-  newStats[analysis.elementalDmgValue] += analysis.newX.getSelfValue(StatKey.DMG_BOOST)
+  oldStats[analysis.elementalDmgValue] += analysis.oldX.getSelfValue(StatKey.BOOST)
+  newStats[analysis.elementalDmgValue] += analysis.newX.getSelfValue(StatKey.BOOST)
 
   // COMBO_DMG is stored in global registers, inject for display
   const oldCombo = analysis.oldX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)

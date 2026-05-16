@@ -241,7 +241,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD, r.spdBuff ? 20 : 0, x.source(SOURCE_TRACE))
 
       // E2: DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.e2DmgBoost) ? 1.60 : 0, x.source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && r.e2DmgBoost) ? 1.60 : 0, x.source(SOURCE_E2))
 
       // E6: RES PEN
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.source(SOURCE_E6))
@@ -287,7 +287,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, (e >= 1 && t.e1DefPen && t.peerage) ? 0.20 : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.SingleTarget).source(SOURCE_E1))
 
       // E2: DMG boost (requires militaryMerit)
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && t.e2DmgBoost && t.militaryMerit) ? 0.40 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && t.e2DmgBoost && t.militaryMerit) ? 0.40 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
 
       // E6: RES PEN (requires militaryMerit)
       x.buff(StatKey.RES_PEN, (e >= 6 && t.e6Buffs && t.militaryMerit) ? 0.20 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E6))

@@ -331,13 +331,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
         : 0
-      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.source(Source.odeTo(Hysilens.id)))
+      x.buff(StatKey.BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.source(Source.odeTo(Hysilens.id)))
     },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (e >= 2)
           ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
           : 0,
@@ -362,7 +362,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ehrValue = x.getActionValue(StatKey.EHR, HysilensEntities.Hysilens)
       const ehrBoost = (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * floorSafe((ehrValue - 0.60) / 0.10))) : 0
 
-      x.buff(StatKey.DMG_BOOST, ehrBoost, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, ehrBoost, x.source(SOURCE_TRACE))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -370,7 +370,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       return `
 if (${wgslTrue(r.ehrToDmg)}) {
   let dmgBuff = min(0.90, 0.15 * floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} - 0.60) / 0.10));
-  ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
+  ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
 `
     },

@@ -251,11 +251,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_P, (m.battleStartDefBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.ATK_P, (m.techniqueBuff) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TECHNIQUE))
       x.buff(StatKey.ATK_P, (m.ultBuff) ? ultAtkBoostValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
-      x.buff(StatKey.DMG_BOOST, (m.teamDmgBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (m.teamDmgBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Single target buffs
       x.buff(StatKey.SPD_P, (e >= 2 && m.e2SkillSpdBuff) ? 0.30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
-      x.buff(StatKey.DMG_BOOST, (m.skillBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (m.skillBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

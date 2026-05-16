@@ -68,7 +68,7 @@ export const StatsToStatKey: Record<StatsValues, AKeyValue> = {
 // DMG_BOOST (generic) + element-specific boost (e.g., ICE_DMG_BOOST)
 // Uses getSelfValue() to work with containers from fromArrays() that lack config
 export function getElementalDmgFromContainer(x: ComputedStatsContainer, element: ElementName): number {
-  const dmgBoost = x.getSelfValue(StatKey.DMG_BOOST)
+  const dmgBoost = x.getSelfValue(StatKey.BOOST)
   const elementBoost = x.getSelfValue(ElementToStatKeyDmgBoost[element])
   return dmgBoost + elementBoost
 }

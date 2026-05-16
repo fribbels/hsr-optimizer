@@ -269,7 +269,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (e >= 2 && m.concertoActive && m.e2UltSpdBuff) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
 
       // Skill DMG buff to team
-      x.buff(StatKey.DMG_BOOST, m.skillDmgBuff ? skillDmgBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, m.skillDmgBuff ? skillDmgBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
       // E1: RES PEN to team when concerto active
       x.buff(StatKey.RES_PEN, (e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))

@@ -207,7 +207,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.HP_P, (m.healingMaxHpBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.BOOST, (e >= 4) ? m.e4SkillHealingDmgBuffStacks * 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
       x.multiplicativeComplement(StatKey.DMG_RED, (m.talentDmgReductionBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 

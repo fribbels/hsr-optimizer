@@ -54,8 +54,8 @@ export type PrimaryActionStats = {
   // Full resolved stats for the primary hit's source entity, matching the damage formula:
   //   cr = CR (action+hit) + CR_BOOST (action)
   //   cd = CD (action+hit) + CD_BOOST (action)
-  //   dmg = DMG_BOOST (action+hit) + elementDmgBoost (action)
-  DMG_BOOST: number,
+  //   dmg = BOOST (action+hit) + elementDmgBoost (action)
+  BOOST: number,
   sourceEntityCR: number,
   sourceEntityCD: number,
   sourceEntityElementDmgBoost: number,

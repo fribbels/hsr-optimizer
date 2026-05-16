@@ -6622,7 +6622,7 @@ interface Resources {
       "DEF": "DEF",
       "DEF_P": "DEF %",
       "DEF_PEN": "Def Pen %",
-      "DMG_BOOST": "Dmg Boost %",
+      "BOOST": "Dmg Boost %",
       "EFFECT_RES_PEN": "Effect RES PEN %",
       "EHR": "Effect Hit Rate %",
       "HP": "HP",

@@ -57,9 +57,9 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, { character
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       if (characterId === Sunday.id) {
-        x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_LC))
+        x.buff(StatKey.BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SelfAndMemosprite).deferrable().source(SOURCE_LC))
       } else {
-        x.buff(StatKey.DMG_BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SingleTarget).source(SOURCE_LC))
+        x.buff(StatKey.BOOST, m.dmgBuffStacks * sValuesDmg[s], x.targets(TargetTag.SingleTarget).source(SOURCE_LC))
       }
     },
   }

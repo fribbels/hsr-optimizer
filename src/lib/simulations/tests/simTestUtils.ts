@@ -210,8 +210,8 @@ export function collectResults(input: TestInput) {
 
   // Total DMG% = generic DMG_BOOST (action+hit) + element-specific boost (action)
   if (primaryActionStats) {
-    nameCombatResults['DMG_BOOST'] = precisionRound(
-      primaryActionStats.DMG_BOOST + primaryActionStats.sourceEntityElementDmgBoost,
+    nameCombatResults['BOOST'] = precisionRound(
+      primaryActionStats.BOOST + primaryActionStats.sourceEntityElementDmgBoost,
       7,
     )
   }

@@ -200,7 +200,7 @@ export const BufferPacker = {
     arr[offset + 36] = x.getActionValue(StatKey.OHB, primaryEntity)
     // xELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
     const elementalBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
-    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST, primaryEntity)
+    arr[offset + 37] = x.getActionValue(StatKey.BOOST, primaryEntity)
       + x.getActionValue(elementalBoostKey, primaryEntity)
 
     // [38-39] Set indices
@@ -239,7 +239,7 @@ export const BufferPacker = {
       arr[offset + 61] = x.getActionValue(StatKey.ERR, memoEntity)
       arr[offset + 62] = x.getActionValue(StatKey.OHB, memoEntity)
       // mxELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
-      arr[offset + 63] = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
+      arr[offset + 63] = x.getActionValue(StatKey.BOOST, memoEntity)
         + x.getActionValue(elementalBoostKey, memoEntity)
 
       // [64] mxEHP

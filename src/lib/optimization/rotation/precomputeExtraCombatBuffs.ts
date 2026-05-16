@@ -17,7 +17,7 @@ const COMBAT_BUFF_KEY_TO_STAT_KEY: Record<string, AKeyValue> = {
   SPD: StatKey.SPD,
   SPD_P: StatKey.SPD_P,
   BE: StatKey.BE,
-  DMG_BOOST: StatKey.DMG_BOOST,
+  BOOST: StatKey.BOOST,
   DEF_PEN: StatKey.DEF_PEN,
   RES_PEN: StatKey.RES_PEN,
   EFFECT_RES_PEN: StatKey.EFFECT_RES_PEN,

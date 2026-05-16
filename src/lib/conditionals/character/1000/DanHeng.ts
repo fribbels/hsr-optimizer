@@ -181,7 +181,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (r.spdBuff) ? 0.20 : 0, x.source(SOURCE_TRACE))
 
       x.buff(StatKey.RES_PEN, (r.talentPenBuff) ? extraPenValue : 0, x.elements(ElementTag.Wind).source(SOURCE_TALENT))
-      x.buff(StatKey.DMG_BOOST, (r.enemySlowed) ? 0.40 : 0, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemySlowed) ? 0.40 : 0, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

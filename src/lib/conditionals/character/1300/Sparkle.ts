@@ -232,7 +232,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Talent: DMG boost based on stacks (with cipher bonus if active)
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (m.cipherBuff)
           ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost)
           : m.talentStacks * talentBaseStackBoost,

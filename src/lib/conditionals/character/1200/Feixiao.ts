@@ -256,7 +256,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, (r.skillAtkBuff) ? 0.48 : 0, x.source(SOURCE_TRACE))
 
       // Talent: DMG boost
-      x.buff(StatKey.DMG_BOOST, (r.talentDmgBuff) ? talentDmgBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, (r.talentDmgBuff) ? talentDmgBuff : 0, x.source(SOURCE_TALENT))
 
       // E1: ULT Final DMG boost
       x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 1 && r.e1OriginalDmgBoost) ? 0.3071 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E1))

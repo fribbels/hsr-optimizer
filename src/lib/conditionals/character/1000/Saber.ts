@@ -257,10 +257,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, r.coreResonanceCdBuff ? 0.04 * 8 : 0, x.source(SOURCE_TRACE))
 
       // Talent DMG buff
-      x.buff(StatKey.DMG_BOOST, r.talentDmgBuff ? talentDmgBuffScaling : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, r.talentDmgBuff ? talentDmgBuffScaling : 0, x.source(SOURCE_TALENT))
 
       // E1: DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1DmgBuff) ? 0.60 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1 && r.e1DmgBuff) ? 0.60 : 0, x.source(SOURCE_E1))
 
       // E2: DEF PEN (skill scaling handled in actionDefinition)
       x.buff(StatKey.DEF_PEN, (e >= 2 && r.e2Buffs) ? 0.01 * 15 : 0, x.source(SOURCE_E2))

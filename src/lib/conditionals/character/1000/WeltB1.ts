@@ -336,7 +336,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace: Retribution - DMG boost 10% per stack when attacking Weightless, max 10 stacks
-      x.buff(StatKey.DMG_BOOST, (m.enemyWeightless) ? 0.10 * m.retributionDmgStacks : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (m.enemyWeightless) ? 0.10 * m.retributionDmgStacks : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Talent: Weightless DEF shred 40%
       x.buff(StatKey.DEF_PEN, (m.enemyWeightless) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))

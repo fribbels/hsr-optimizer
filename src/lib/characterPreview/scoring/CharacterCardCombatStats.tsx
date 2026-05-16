@@ -219,7 +219,7 @@ function getStatValue(
 
   // Handle elemental DMG stats: source entity's element boost + generic DMG_BOOST (action+hit)
   if (damageStats[stat]) {
-    return primaryActionStats.sourceEntityElementDmgBoost + primaryActionStats.DMG_BOOST
+    return primaryActionStats.sourceEntityElementDmgBoost + primaryActionStats.BOOST
   }
 
   // For CR and CD, use the fully resolved source entity values (already includes CR_BOOST/CD_BOOST)

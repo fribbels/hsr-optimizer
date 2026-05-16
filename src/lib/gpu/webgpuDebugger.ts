@@ -128,7 +128,7 @@ export function debugExportWebgpuResult(array: Float32Array) {
   const actionDamages = extractActionDamageFields(x, context)
 
   return {
-    ED: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX),
+    ED: x.getActionValueByIndex(StatKey.BOOST, SELF_ENTITY_INDEX),
     ...actionDamages,
     EHP: x.getActionValueByIndex(StatKey.EHP, SELF_ENTITY_INDEX),
     xHP: x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX),
@@ -142,7 +142,7 @@ export function debugExportWebgpuResult(array: Float32Array) {
     xBE: x.getActionValueByIndex(StatKey.BE, SELF_ENTITY_INDEX),
     xERR: x.getActionValueByIndex(StatKey.ERR, SELF_ENTITY_INDEX),
     xOHB: x.getActionValueByIndex(StatKey.OHB, SELF_ENTITY_INDEX),
-    xELEMENTAL_DMG: x.getActionValueByIndex(StatKey.DMG_BOOST, SELF_ENTITY_INDEX)
+    xELEMENTAL_DMG: x.getActionValueByIndex(StatKey.BOOST, SELF_ENTITY_INDEX)
       + x.getActionValueByIndex(elementToStatKeyBoost[context.element], SELF_ENTITY_INDEX),
     mxHP: x.getActionValueByIndex(StatKey.HP, 1),
     mxATK: x.getActionValueByIndex(StatKey.ATK, 1),

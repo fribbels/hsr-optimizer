@@ -225,13 +225,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.BE, (e >= 4 && r.e4BeBuff) ? 0.40 : 0, x.source(SOURCE_E4))
 
       // ULT: Toughness reduction DMG boost
-      x.buff(StatKey.DMG_BOOST, r.toughnessReductionDmgBoost, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
+      x.buff(StatKey.BOOST, r.toughnessReductionDmgBoost, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
 
       // Trace: ULT DMG boost when enemy toughness < 50%
-      x.buff(StatKey.DMG_BOOST, (r.enemyToughness50) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemyToughness50) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
 
       // E1: FUA DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 1) ? 0.40 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1) ? 0.40 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -239,7 +239,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Trace: BE to DMG boost (max 240%)
       const be = x.getActionValue(StatKey.BE, XueyiEntities.Xueyi)
-      x.buff(StatKey.DMG_BOOST, (r.beToDmgBoost) ? Math.min(2.40, be) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.beToDmgBoost) ? Math.min(2.40, be) : 0, x.source(SOURCE_TRACE))
 
       boostAshblazingAtkContainer(x, action, hitMultiByFuaHits[r.fuaHits])
     },
@@ -250,7 +250,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       return `
 if (${wgslTrue(r.beToDmgBoost)}) {
   let dmgBuff = min(2.40, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)});
-  ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
+  ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
       ` + gpuBoostAshblazingAtkContainer(hitMultiByFuaHits[r.fuaHits], action)
     },

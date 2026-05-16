@@ -62,7 +62,7 @@ const BrokenKeelConditional: DynamicConditional = {
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.10, action, context, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
-    x.buff(StatKey.DMG_BOOST, 0.10, x.outputBuff(StatKey.CD).source(Source.BrokenKeel))
+    x.buff(StatKey.BOOST, 0.10, x.outputBuff(StatKey.CD).source(Source.BrokenKeel))
   },
   gpu: function(action: OptimizerAction, context: OptimizerContext) {
     const config = action.config
@@ -79,7 +79,7 @@ if (
 ) {
   (*p_state).BrokenKeelConditional${action.actionIdentifier} = 1.0;
   ${buff.action(StatKey.CD, 0.10).targets(TargetTag.FullTeam).wgsl(action)}
-  ${buff.hit(HKey.DMG_BOOST, 0.10).outputBuff(StatKey.CD).wgsl(action)}
+  ${buff.hit(HKey.BOOST, 0.10).outputBuff(StatKey.CD).wgsl(action)}
 }
     `,
     )

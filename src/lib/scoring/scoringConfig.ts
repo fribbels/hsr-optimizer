@@ -151,7 +151,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
 }
 
 const BUFF_STAT_SHORT_LABELS: Partial<Record<string, string>> = {
-  DMG_BOOST: 'DMG%',
+  BOOST: 'DMG%',
 }
 
 export function getBuffStatShortLabel(buffStat: AKeyValue): string {

@@ -258,7 +258,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, (e >= 4 && r.e4DmgBuff) ? 0.30 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.BOOST, (e >= 4 && r.e4DmgBuff) ? 0.30 : 0, x.source(SOURCE_E4))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

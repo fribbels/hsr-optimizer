@@ -181,7 +181,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.ATK_P, (m.ultBuff) ? ultBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.SPD_P, (e >= 1 && m.skillBuff) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && m.e6DmgBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && m.e6DmgBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

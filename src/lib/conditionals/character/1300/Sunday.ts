@@ -252,15 +252,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, m.talentCrBuffStacks * talentCrBuffValue, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TALENT))
 
       // Skill DMG buffs
-      x.buff(StatKey.DMG_BOOST, (m.skillDmgBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (m.skillDmgBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_SKILL))
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (m.skillDmgBuff && hasSummons) ? skillDmgBoostSummonValue : 0,
         x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_SKILL),
       )
 
       // Technique DMG buff
-      x.buff(StatKey.DMG_BOOST, (m.techniqueDmgBuff) ? 0.50 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TECHNIQUE))
+      x.buff(StatKey.BOOST, (m.techniqueDmgBuff) ? 0.50 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_TECHNIQUE))
 
       // E1 DEF PEN - base 16% to self and summon
       x.buff(StatKey.DEF_PEN, (e >= 1 && m.e1DefPen && m.skillDmgBuff) ? 0.16 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_E1))
@@ -272,7 +272,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       )
 
       // E2 DMG buff
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && m.e2DmgBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && m.e2DmgBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndSummon).deferrable().source(SOURCE_E2))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

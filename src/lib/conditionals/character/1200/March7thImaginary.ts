@@ -268,7 +268,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (e >= 1 && r.selfSpdBuff) ? 0.10 : 0, x.source(SOURCE_E1))
 
       // Talent DMG buff applies to Basic and Additional damage
-      x.buff(StatKey.DMG_BOOST, (r.talentDmgBuff) ? talentDmgBuff : 0, x.damageType(DamageTag.BASIC | DamageTag.ADDITIONAL).source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, (r.talentDmgBuff) ? talentDmgBuff : 0, x.damageType(DamageTag.BASIC | DamageTag.ADDITIONAL).source(SOURCE_TALENT))
 
       // E6 CD buff applies to Basic when enhanced
       x.buff(StatKey.CD, (e >= 6 && r.e6CdBuff && r.enhancedBasic) ? 0.50 : 0, x.damageType(DamageTag.BASIC).source(SOURCE_E6))

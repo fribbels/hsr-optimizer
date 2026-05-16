@@ -216,7 +216,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, r.talentSpdBuffStacks * talentSpdBuffValue, x.source(SOURCE_TALENT))
 
       // Trace: Additional DMG boost based on skill trigger stacks
-      x.buff(StatKey.DMG_BOOST, r.skillTriggerStacks * 0.025, x.damageType(DamageTag.ADDITIONAL).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, r.skillTriggerStacks * 0.025, x.damageType(DamageTag.ADDITIONAL).source(SOURCE_SKILL))
 
       // E2: DMG reduction
       x.multiplicativeComplement(StatKey.DMG_RED, (e >= 2 && r.e2DmgReductionBuff) ? 0.20 : 0, x.source(SOURCE_E2))

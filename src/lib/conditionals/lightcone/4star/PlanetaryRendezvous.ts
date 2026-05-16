@@ -54,7 +54,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta:
       const m = action.lightConeConditionals as Conditionals<typeof content>
 
       if (wearerMeta.element == context.element) {
-        x.buff(StatKey.DMG_BOOST, (m.alliesSameElement) ? sValues[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+        x.buff(StatKey.BOOST, (m.alliesSameElement) ? sValues[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
       }
     },
   }

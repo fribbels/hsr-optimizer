@@ -226,7 +226,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       // Trace: +20% Elemental DMG when enemy weakness broken
       const isWeaknessBroken = action.config.enemyWeaknessBroken
-      x.buff(StatKey.DMG_BOOST, isWeaknessBroken ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, isWeaknessBroken ? 0.20 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

@@ -165,7 +165,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // E4: Elemental DMG boost when roaring bowstrings active
-      x.buff(StatKey.DMG_BOOST, (e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.BOOST, (e >= 4 && r.roaringBowstringsActive) ? 0.30 : 0, x.source(SOURCE_E4))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

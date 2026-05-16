@@ -255,7 +255,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.DEF_P, (e >= 4 && r.e4DefBuff) ? 0.40 : 0, x.source(SOURCE_E4))
-      x.buff(StatKey.DMG_BOOST, (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

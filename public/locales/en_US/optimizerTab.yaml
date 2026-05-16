@@ -507,7 +507,7 @@ CombatBuffs:
   SPD: SPD
   SPD_P: SPD %
   BE: BE %
-  DMG_BOOST: Dmg Boost %
+  BOOST: Dmg Boost %
   DEF_PEN: Def Pen %
   RES_PEN: Dmg RES PEN %
   EFFECT_RES_PEN: Effect RES PEN %

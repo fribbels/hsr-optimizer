@@ -205,7 +205,7 @@ class HitBuffBuilder {
 
     // Elemental damage boosts (e.g. +Ice DMG) don't affect break damage.
     // When buffing DMG_BOOST with element filtering, exclude break hits.
-    const isElementalDmgBoost = this.hitKey === HKey.DMG_BOOST && this._elementTags !== ALL_ELEMENT_TAGS
+    const isElementalDmgBoost = this.hitKey === HKey.BOOST && this._elementTags !== ALL_ELEMENT_TAGS
     const excludeBreakDamage = DamageTag.BREAK | DamageTag.SUPER_BREAK
     const effectiveDamageTags = isElementalDmgBoost
       ? this._damageTags & ~excludeBreakDamage

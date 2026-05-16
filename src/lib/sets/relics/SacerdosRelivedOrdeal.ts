@@ -56,7 +56,7 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.CD, 0.18 * value, x.source(Source.SacerdosRelivedOrdeal))
     } else if (value === 3 || value === 4) {
       const stacks = value - 2
-      x.buff(StatKey.DMG_BOOST, 0.18 * stacks, x.outputBuff(StatKey.CD).source(Source.SacerdosRelivedOrdeal))
+      x.buff(StatKey.BOOST, 0.18 * stacks, x.outputBuff(StatKey.CD).source(Source.SacerdosRelivedOrdeal))
     }
   },
   gpuBasic: () => [
@@ -69,7 +69,7 @@ const conditionals: SetConditionals = {
         ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}
       } else if (sacValue == 3 || sacValue == 4) {
         let sacStacks = f32(sacValue - 2);
-        ${buff.hit(HKey.DMG_BOOST, `0.18 * sacStacks`).outputBuff(StatKey.CD).wgsl(action, 2)}
+        ${buff.hit(HKey.BOOST, `0.18 * sacStacks`).outputBuff(StatKey.CD).wgsl(action, 2)}
       }
     }
   `,

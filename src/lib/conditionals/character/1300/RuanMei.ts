@@ -182,7 +182,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       [AbilityKind.BUFF]: {
         hits: [
           HitDefinitionBuilder.discreteBuff()
-            .buffStat(StatKey.DMG_BOOST)
+            .buffStat(StatKey.BOOST)
             .sourceStat(StatKey.BE)
             .whenAbove(1.20)
             .forEvery(0.10)
@@ -211,7 +211,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.BE, (m.teamBEBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Skill: Team DMG boost when overtone active
-      x.buff(StatKey.DMG_BOOST, (m.skillOvertoneBuff) ? skillScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (m.skillOvertoneBuff) ? skillScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
       // Skill: Team Break Efficiency +50% when overtone active
       x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (m.skillOvertoneBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
@@ -230,7 +230,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (t.teamSpdBuff) ? talentSpdScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
       // Trace: Team DMG boost (from BE scaling)
-      x.buff(StatKey.DMG_BOOST, t.teamDmgBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, t.teamDmgBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E2: Team ATK% buff
       x.buff(StatKey.ATK_P, (e >= 2 && t.e2AtkBoost) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
@@ -240,13 +240,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const be = x.getActionValue(StatKey.BE, RuanMeiEntities.RuanMei)
       const beOver = floorSafe((be * 100 - 120) / 10)
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
-      x.buff(StatKey.DMG_BOOST, buffValue, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, buffValue, x.source(SOURCE_TRACE))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return wgsl`
 let beOver = floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} * 100.0 - 120.0) / 10.0);
 let beDmgBuff = min(0.36, max(0.0, beOver) * 0.06);
-${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
+${buff.action(AKey.BOOST, 'beDmgBuff').wgsl(action)}
       `
     },
   }

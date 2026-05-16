@@ -589,9 +589,9 @@ export const CombatBuffs = {
     key: 'EHR',
     percent: true,
   },
-  DMG_BOOST: {
+  BOOST: {
     title: 'Dmg Boost %',
-    key: 'DMG_BOOST',
+    key: 'BOOST',
     percent: true,
   },
   DEF_PEN: {

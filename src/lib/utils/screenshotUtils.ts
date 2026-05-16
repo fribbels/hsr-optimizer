@@ -117,6 +117,8 @@ import { Message } from 'lib/interactions/message.js'
 
 const FETCH_TIMEOUT_MS = 8000
 const SCREENSHOT_IMAGE_TYPE = 'png'
+const SCREENSHOT_EXPORT_DPR = 2
+const SCREENSHOT_BLUR_MULTIPLIER = 2
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -133,7 +135,6 @@ function isMobileOrSafari(): boolean {
   const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent)
   return isMobile || isSafari
 }
-
 
 /**
  * Prepares the live DOM for screenshot capture by replacing un-capturable portrait
@@ -344,6 +345,33 @@ function buildImageInliningPlugin(cache: Map<string, string>): SnapdomPlugin {
   }
 }
 
+/**
+ * Snapdom plugin that boosts blur on the portrait background in the clone.
+ * Uses afterClone (same phase as image inlining) and modifies the style attribute
+ * directly to ensure it survives SVG serialization.
+ */
+function buildScreenshotBlurPlugin(blurMultiplier: number): SnapdomPlugin {
+  return {
+    name: 'screenshot-blur-scale',
+    afterClone({ clone }) {
+      if (blurMultiplier <= 1 || !clone) return
+      for (const img of clone.querySelectorAll<HTMLElement>('[data-portrait-bg] img')) {
+        const styleAttr = img.getAttribute('style') || ''
+        const newStyle = styleAttr.replace(
+          /filter:\s*([^;]*)\bblur\(\s*([\d.]+)px\s*\)/,
+          (match, prefix, blurVal) => {
+            const boosted = parseFloat(blurVal) * blurMultiplier
+            return match.replace(/blur\(\s*[\d.]+px\s*\)/, `blur(${boosted.toFixed(1)}px)`)
+          },
+        )
+        if (newStyle !== styleAttr) {
+          img.setAttribute('style', newStyle)
+        }
+      }
+    },
+  }
+}
+
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(`Screenshot attempt timed out after ${ms}ms`)), ms)
@@ -405,14 +433,17 @@ export async function screenshotElementById(
         const capture = await withTimeout(
           snapdom(element, {
             scale: 1,
-            dpr: 2,
+            dpr: SCREENSHOT_EXPORT_DPR,
             width: cardTotalW,
             height: parentH,
             backgroundColor: 'transparent',
             outerShadows: true,
             embedFonts: true,
             fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-            plugins: [buildImageInliningPlugin(imageCache)],
+            plugins: [
+              buildImageInliningPlugin(imageCache),
+              buildScreenshotBlurPlugin(mobile ? SCREENSHOT_BLUR_MULTIPLIER : 1),
+            ],
           }),
           attemptTimeoutMs,
         )

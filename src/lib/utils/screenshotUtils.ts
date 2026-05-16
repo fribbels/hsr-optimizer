@@ -69,15 +69,13 @@
  *
  * ## Capture Flow
  *
- * 1. Patch canvas.getContext for Display P3 color space (better mobile colors)
- * 2. For L2D/cross-origin containers: hide un-capturable element, inject static portrait as data URL
- * 3. snapdom() capture with retry loop (up to 3x, break when blob > 1MB)
- * 4. Restore live DOM (unhide spine, remove injected img)
- * 5. Hand blob to download / Web Share / clipboard
+ * 1. For L2D/cross-origin containers: hide un-capturable element, inject static portrait as data URL
+ * 2. snapdom() capture with retry loop (up to 3x, break when blob > 1MB)
+ * 3. Restore live DOM (unhide spine, remove injected img)
+ * 4. Hand blob to download / Web Share / clipboard
  *
  * ## Mobile-specific Handling
  *
- * - Display P3 color space patch for iOS/Android Chrome (better color accuracy)
  * - Web Share API for clipboard action on mobile (clipboard.write not supported)
  *
  * ## Historical Notes (things we tried)
@@ -136,37 +134,6 @@ function isMobileOrSafari(): boolean {
   return isMobile || isSafari
 }
 
-function shouldUseDisplayP3(): boolean {
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
-  const isMobileChrome = /Android/.test(navigator.userAgent) && /Chrome/.test(navigator.userAgent)
-  return isIOS || isMobileChrome
-}
-
-/**
- * Patches canvas.getContext to use Display P3 color space on mobile devices.
- * iOS and Android Chrome have wider color gamut displays - using Display P3
- * produces more accurate colors in the captured screenshot.
- * Returns a cleanup function to restore the original getContext.
- */
-function patchCanvasForDisplayP3(): () => void {
-  if (!shouldUseDisplayP3()) {
-    return () => {}
-  }
-
-  const originalGetContext = HTMLCanvasElement.prototype.getContext
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  HTMLCanvasElement.prototype.getContext = function(this: HTMLCanvasElement, contextId: string, options?: any): any {
-    if (contextId === '2d') {
-      return Reflect.apply(originalGetContext, this, [contextId, { colorSpace: 'display-p3', ...options }])
-    }
-    return Reflect.apply(originalGetContext, this, [contextId, options])
-  }
-
-  return () => {
-    HTMLCanvasElement.prototype.getContext = originalGetContext
-  }
-}
 
 /**
  * Prepares the live DOM for screenshot capture by replacing un-capturable portrait
@@ -429,39 +396,33 @@ export async function screenshotElementById(
     } catch { /* best-effort */ }
     const { cache: imageCache, corsFailed } = await buildImageDataUriCache(element)
 
-    const restoreContext = patchCanvasForDisplayP3()
-
     let blob: Blob | null = null
     let lastError: unknown = null
-    try {
-      for (let i = 0; i < maxAttempts; i++) {
-        let restoreLiveDom: (() => void) | null = null
-        try {
-          restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
-          const capture = await withTimeout(
-            snapdom(element, {
-              scale: 1,
-              dpr: 2,
-              width: cardTotalW,
-              height: parentH,
-              backgroundColor: 'transparent',
-              outerShadows: true,
-              embedFonts: true,
-              fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
-              plugins: [buildImageInliningPlugin(imageCache)],
-            }),
-            attemptTimeoutMs,
-          )
-          blob = await capture.toBlob({ type: SCREENSHOT_IMAGE_TYPE, quality: 1.0 })
-          if (blob && blob.size > 1_500_000) break
-        } catch (e) {
-          lastError = e
-        } finally {
-          restoreLiveDom?.()
-        }
+    for (let i = 0; i < maxAttempts; i++) {
+      let restoreLiveDom: (() => void) | null = null
+      try {
+        restoreLiveDom = await prepareLiveDomForCapture(element, corsFailed)
+        const capture = await withTimeout(
+          snapdom(element, {
+            scale: 1,
+            dpr: 2,
+            width: cardTotalW,
+            height: parentH,
+            backgroundColor: 'transparent',
+            outerShadows: true,
+            embedFonts: true,
+            fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
+            plugins: [buildImageInliningPlugin(imageCache)],
+          }),
+          attemptTimeoutMs,
+        )
+        blob = await capture.toBlob({ type: SCREENSHOT_IMAGE_TYPE, quality: 1.0 })
+        if (blob && blob.size > 1_500_000) break
+      } catch (e) {
+        lastError = e
+      } finally {
+        restoreLiveDom?.()
       }
-    } finally {
-      restoreContext()
     }
 
     if (!blob) {

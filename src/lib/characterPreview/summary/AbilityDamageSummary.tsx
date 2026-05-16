@@ -27,6 +27,19 @@ interface AsynchronousAbilityDamageSummaryProps {
 }
 
 
+export function SummaryRows({ entries }: { entries: [string, string][] }) {
+  return (
+    <div className={classes.zebraContainer}>
+      {entries.map(([label, value], idx) => (
+        <div key={idx} className={classes.row}>
+          <span className={classes.label}>{label}</span>
+          <span className={classes.label}>{value}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export const AbilityDamageSummary = memo(function AbilityDamageSummary({
   rotationDamage,
   configType,
@@ -37,21 +50,12 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
   const displayableSteps = rotationDamage.filter((step) => step.actionType !== AbilityKind.NULL)
   if (displayableSteps.length === 0) return null
 
-  return (
-    <div className={classes.zebraContainer}>
-      {displayableSteps.map((step, idx) => {
-        const label = toI18NVisual(toTurnAbility(step.actionName), t)
-        return (
-          <div key={idx} className={classes.row}>
-            <span className={classes.label}>{idx + 1}. {label}</span>
-            <span className={classes.label}>
-              {step.damage && formatSimScore(step.damage, step.buffStat, 1, thousands)}
-            </span>
-          </div>
-        )
-      })}
-    </div>
-  )
+  const entries: [string, string][] = displayableSteps.map((step, idx) => [
+    `${idx + 1}. ${toI18NVisual(toTurnAbility(step.actionName), t)}`,
+    step.damage ? formatSimScore(step.damage, step.buffStat, 1, thousands) : '',
+  ])
+
+  return <SummaryRows entries={entries} />
 })
 
 export const AsyncAbilityDamageSummary = memo(function AsyncAbilityDamageSummary({ promise, mode, configType, header, wrapperClassName }: AsynchronousAbilityDamageSummaryProps) {

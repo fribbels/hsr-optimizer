@@ -199,7 +199,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                         label={entry.label}
                         number={result.percent * 100}
                         precision={2}
-                        suffix=' %'
+                        suffix='%'
                       />
                     )
                   }}

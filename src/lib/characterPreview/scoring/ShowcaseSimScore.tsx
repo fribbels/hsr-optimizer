@@ -233,8 +233,6 @@ export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, t
   let titleRender: string
   if (configType === ScoringConfigType.DPS && tempOptions?.spdBenchmark != null) {
     titleRender = t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(tempOptions.spdBenchmark) })
-  } else if (configType === ScoringConfigType.DPS) {
-    titleRender = t('CharacterPreview.ScoreHeader.Title')
   } else if (tempOptions?.spdBenchmark != null) {
     titleRender = `${entry.headerTitle} (SPD ${formatSpd(tempOptions.spdBenchmark)})`
   } else {
@@ -243,10 +241,10 @@ export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, t
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>
+      <ShowcaseScoreHeaderReady relics={relics} configType={configType} t={t} />
       <StatText className={styles.scoreHeaderText}>
         {titleRender}
       </StatText>
-      <ShowcaseScoreHeaderReady relics={relics} configType={configType} t={t} />
     </div>
   )
 })
@@ -257,8 +255,6 @@ function ShowcaseScoreHeaderReady({ relics, configType, t }: {
   t: TFunction<'charactersTab', undefined>,
 }) {
   const result = useSimScore(configType)
-
-  const entry = SCORING_CONFIG_REGISTRY[configType]
 
   if (result === null) {
     return (
@@ -274,9 +270,7 @@ function ShowcaseScoreHeaderReady({ relics, configType, t }: {
   const score = localeNumber_0(truncate10ths(Math.max(0, result.percent * 100)))
   const grade = getSimScoreGrade(result.percent, verified, numRelics, lightCone)
 
-  const scoreText = configType === ScoringConfigType.DPS
-    ? t('CharacterPreview.ScoreHeader.Score', { score, grade })
-    : `${entry.headerScoreLabel} ${score}% ${grade}`
+  const scoreText = `${score}% · ${grade}`
 
   return (
     <StatText className={styles.scoreHeaderText}>

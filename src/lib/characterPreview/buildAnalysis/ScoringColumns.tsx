@@ -11,6 +11,7 @@ import {
 import {
   AbilityDamageSummary,
   AsyncAbilityDamageSummary,
+  SummaryRows,
 } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
@@ -26,10 +27,13 @@ import { defaultGap } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import {
+  formatSimScore,
   getElementalDmgFromContainer,
   type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
+import { CONFIG_FIELD_MAP, resolveComboLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import type {
   RunStatSimulationsResult,
   Simulation,
@@ -49,7 +53,7 @@ import {
   useTranslation,
 } from 'react-i18next'
 import type { CharacterId } from 'types/character'
-import type { ScoringConfigType } from 'types/metadata'
+import { ScoringConfigType } from 'types/metadata'
 import classes from './CharacterScoringSummary.module.css'
 
 const nullPromise = Promise.resolve(null)
@@ -261,29 +265,64 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
     </div>
   )
 
-  const syncRotationDamage = !isAsyncProps(props) ? (props.simulation.result?.rotationDamage ?? []) : null
-  const hasSyncAbilityData = syncRotationDamage != null && syncRotationDamage.some((step) => step.actionType !== AbilityKind.NULL)
+  const isDps = props.configType === ScoringConfigType.DPS
 
-  const abilityBlock = isAsyncProps(props)
-    ? (
-      <Suspense>
-        <AsyncAbilityDamageSummary
-          promise={props.simulation}
-          mode={props.type}
-          configType={props.configType}
-          header={abilityHeader}
-          wrapperClassName={classes.abilityDamageSection}
-        />
-      </Suspense>
-    )
-    : hasSyncAbilityData
+  let abilityBlock: React.ReactNode
+  if (isDps) {
+    const syncRotationDamage = !isAsyncProps(props) ? (props.simulation.result?.rotationDamage ?? []) : null
+    const hasSyncAbilityData = syncRotationDamage != null && syncRotationDamage.some((step) => step.actionType !== AbilityKind.NULL)
+
+    abilityBlock = isAsyncProps(props)
       ? (
+        <Suspense>
+          <AsyncAbilityDamageSummary
+            promise={props.simulation}
+            mode={props.type}
+            configType={props.configType}
+            header={abilityHeader}
+            wrapperClassName={classes.abilityDamageSection}
+          />
+        </Suspense>
+      )
+      : hasSyncAbilityData
+        ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
+            {abilityHeader}
+            <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} />
+          </div>
+        )
+        : null
+  } else {
+    const entry = SCORING_CONFIG_REGISTRY[props.configType]
+    const buffStat = getScoringMetadata(props.characterId)[CONFIG_FIELD_MAP[props.configType]]?.buffStat
+    const buffLabel = resolveComboLabel(entry, buffStat)
+
+    abilityBlock = isAsyncProps(props)
+      ? (
+        <Suspense>
+          <SuspenseNode
+            promise={props.simulation}
+            selector={(result: SimulationScore | null) => {
+              if (!result) return null
+              const sim = props.type === ScoringColumnKind.BENCHMARK ? result.benchmarkSim : result.maximumSim
+              const value = sim.result?.simScore ?? 0
+              return (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
+                  {abilityHeader}
+                  <SummaryRows entries={[[buffLabel, formatSimScore(value, buffStat, 1, entry.thousands)]]} />
+                </div>
+              )
+            }}
+          />
+        </Suspense>
+      )
+      : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
           {abilityHeader}
-          <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} />
+          <SummaryRows entries={[[buffLabel, formatSimScore(props.simulation.result?.simScore ?? 0, buffStat, 1, entry.thousands)]]} />
         </div>
       )
-      : null
+  }
 
   return (
     <div className={props.columnClassName}>

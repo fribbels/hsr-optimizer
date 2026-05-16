@@ -6,7 +6,7 @@ import {
   wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
+import { floorSafe } from 'lib/utils/mathUtils'
 import {
   HKey,
   type HKeyValue,
@@ -915,7 +915,7 @@ export const BuffDamageFunction: DamageFunction = {
     switch (hit.conversionType) {
       case ConversionType.Discrete: {
         const excess = Math.max(0, stat - hit.whenAbove)
-        const steps = Math.floor(precisionRound(excess / hit.forEvery))
+        const steps = floorSafe(excess / hit.forEvery)
         baseBuffValue = Math.min(hit.cappedAt, steps * hit.increaseBy)
         break
       }
@@ -951,7 +951,7 @@ export const BuffDamageFunction: DamageFunction = {
         formulaWgsl = `
   let stat = ${stat}${unconvertibleSubtraction};
   let excess = max(0.0, stat - ${hit.whenAbove});
-  let steps = floor(excess / ${hit.forEvery});
+  let steps = floorSafe(excess / ${hit.forEvery});
   let baseBuffValue = min(${hit.cappedAt}, steps * ${hit.increaseBy});`
         break
       }

@@ -37,10 +37,6 @@ const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.LushakaTheSunkenSeas)
   },
-  p2x: (x) => {
-    const baseAtk = x.config.selfEntity.baseAtk
-    x.buff(StatKey.DMG_BOOST, 0.12 * baseAtk, x.outputBuff(StatKey.ATK).source(Source.LushakaTheSunkenSeas))
-  },
   gpuBasic: () => [
     basicP2(WgslStatName.ERR, 0.05, LushakaTheSunkenSeas),
   ],

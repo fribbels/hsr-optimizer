@@ -3,7 +3,6 @@
   overflow: hidden;
   border-radius: var(--radius-md);
   border: var(--showcase-outline);
-  outline: var(--showcase-outline-shadow);
 }
 
 .buttonColumn {

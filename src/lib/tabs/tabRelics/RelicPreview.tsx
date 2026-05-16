@@ -135,7 +135,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
         borderRadius: 6,
         boxShadow: source == null ? 'inset 0 0 0 1px var(--border-default)' : showcaseShadow + showcaseShadowInsetAddition,
         cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
-        outline: useShowcaseColors ? 'var(--showcase-outline-shadow)' : '0',
+        outline: 0,
       }}
     >
       {useShowcaseColors && <ShadowRings />}

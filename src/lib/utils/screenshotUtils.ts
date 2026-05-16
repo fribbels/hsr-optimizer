@@ -118,7 +118,8 @@ import { Message } from 'lib/interactions/message.js'
 const FETCH_TIMEOUT_MS = 8000
 const SCREENSHOT_IMAGE_TYPE = 'png'
 const SCREENSHOT_EXPORT_DPR = 2
-const SCREENSHOT_BLUR_MULTIPLIER = 2
+const PREBAKE_CANVAS_W = cardTotalW * SCREENSHOT_EXPORT_DPR
+const PREBAKE_CANVAS_H = parentH * SCREENSHOT_EXPORT_DPR
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -345,12 +346,93 @@ function buildImageInliningPlugin(cache: Map<string, string>): SnapdomPlugin {
   }
 }
 
+function supportsCanvasFilter(ctx: CanvasRenderingContext2D): boolean {
+  if (!('filter' in ctx)) return false
+  ctx.filter = 'none'
+  ctx.filter = 'blur(1px)'
+  return ctx.filter === 'blur(1px)'
+}
+
 /**
- * Snapdom plugin that boosts blur on the portrait background in the clone.
- * Uses afterClone (same phase as image inlining) and modifies the style attribute
- * directly to ensure it survives SVG serialization.
+ * Pre-renders portrait background images with blur baked into the pixels.
+ * Draws at 2x card size and applies blur via canvas filter, producing a
+ * device-independent result that doesn't rely on SVG foreignObject CSS filter evaluation.
  */
-function buildScreenshotBlurPlugin(blurMultiplier: number): SnapdomPlugin {
+async function buildPreBakedBlurCache(
+  root: HTMLElement,
+  imageCache: Map<string, string>,
+): Promise<Map<string, string>> {
+  const blurCache = new Map<string, string>()
+  const canvas = document.createElement('canvas')
+  const ctx = canvas.getContext('2d')
+  if (!ctx || !supportsCanvasFilter(ctx)) return blurCache
+
+  canvas.width = PREBAKE_CANVAS_W
+  canvas.height = PREBAKE_CANVAS_H
+
+  for (const img of root.querySelectorAll<HTMLImageElement>('[data-portrait-bg] img')) {
+    const filterStyle = img.style.filter || ''
+    const blurMatch = filterStyle.match(/blur\(\s*([\d.]+)px\s*\)/)
+    if (!blurMatch) continue
+    const cssBlur = parseFloat(blurMatch[1])
+    if (!cssBlur || !Number.isFinite(cssBlur)) continue
+
+    const src = imageCache.get(img.src) || img.src
+    const bitmap = await createImageBitmap(await (await fetch(src)).blob()).catch(() => null)
+    if (!bitmap) continue
+
+    const rect = img.getBoundingClientRect()
+    if (!rect.width || !rect.height) continue
+
+    ctx.save()
+    ctx.clearRect(0, 0, PREBAKE_CANVAS_W, PREBAKE_CANVAS_H)
+    ctx.filter = `blur(${(cssBlur * SCREENSHOT_EXPORT_DPR).toFixed(1)}px)`
+
+    const style = img.style
+    if (style.objectFit === 'cover') {
+      const scale = Math.max(PREBAKE_CANVAS_W / bitmap.width, PREBAKE_CANVAS_H / bitmap.height)
+      const drawW = bitmap.width * scale
+      const drawH = bitmap.height * scale
+      ctx.drawImage(bitmap, (PREBAKE_CANVAS_W - drawW) / 2, (PREBAKE_CANVAS_H - drawH) / 2, drawW, drawH)
+    } else {
+      const imgW = (parseFloat(style.width) || rect.width) * SCREENSHOT_EXPORT_DPR
+      const imgH = (bitmap.height / bitmap.width) * imgW
+      const left = (parseFloat(style.left) || 0) * SCREENSHOT_EXPORT_DPR
+      const top = (parseFloat(style.top) || 0) * SCREENSHOT_EXPORT_DPR
+      ctx.drawImage(bitmap, left, top, imgW, imgH)
+    }
+
+    ctx.restore()
+    bitmap.close()
+    try {
+      blurCache.set(img.src, canvas.toDataURL('image/jpeg', 0.85))
+    } catch { /* tainted canvas — skip */ }
+  }
+
+  return blurCache
+}
+
+function buildPreBakedBlurPlugin(blurCache: Map<string, string>): SnapdomPlugin {
+  return {
+    name: 'prebaked-blur',
+    afterClone({ clone }) {
+      if (!blurCache.size || !clone) return
+      for (const img of clone.querySelectorAll<HTMLImageElement>('[data-portrait-bg] img')) {
+        const preblurred = blurCache.get(img.src) || blurCache.get(img.getAttribute('src') || '')
+        if (!preblurred) continue
+
+        img.setAttribute('src', preblurred)
+        img.src = preblurred
+
+        const styleAttr = img.getAttribute('style') || ''
+        img.setAttribute('style', styleAttr.replace(/blur\(\s*[\d.]+px\s*\)/g, 'blur(0px)'))
+      }
+    },
+  }
+}
+
+/** Fallback: boost blur in the clone when pre-bake is unavailable. */
+function buildBlurMultiplierPlugin(blurMultiplier: number): SnapdomPlugin {
   return {
     name: 'screenshot-blur-scale',
     afterClone({ clone }) {
@@ -421,6 +503,16 @@ export async function screenshotElementById(
     } catch { /* best-effort */ }
     const { cache: imageCache, corsFailed } = await buildImageDataUriCache(element)
 
+    const blurCache = mobile
+      ? await buildPreBakedBlurCache(element, imageCache).catch(() => new Map<string, string>())
+      : new Map<string, string>()
+
+    const blurPlugin = blurCache.size
+      ? buildPreBakedBlurPlugin(blurCache)
+      : mobile
+        ? buildBlurMultiplierPlugin(SCREENSHOT_EXPORT_DPR)
+        : null
+
     let blob: Blob | null = null
     let lastError: unknown = null
     for (let i = 0; i < maxAttempts; i++) {
@@ -439,7 +531,7 @@ export async function screenshotElementById(
             fallbackURL: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7',
             plugins: [
               buildImageInliningPlugin(imageCache),
-              buildScreenshotBlurPlugin(mobile ? SCREENSHOT_BLUR_MULTIPLIER : 1),
+              ...blurPlugin ? [blurPlugin] : [],
             ],
           }),
           attemptTimeoutMs,

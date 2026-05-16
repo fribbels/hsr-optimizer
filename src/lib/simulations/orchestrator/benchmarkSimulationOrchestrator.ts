@@ -415,7 +415,7 @@ export class BenchmarkSimulationOrchestrator {
     this.zeroMainsStatResult = zeroMainsStatResult
 
     this.spdBenchmark = inputSpdBenchmark != null
-      ? inputSpdBenchmark
+      ? Math.max(zeroMainsStatResult.x.c.SPD.get(), inputSpdBenchmark)
       : undefined
 
     applyBasicSpeedTargetFlag(flags, zeroMainsStatResult, originalSpd, this.spdBenchmark, force)

@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -51,6 +51,63 @@ interface Resources {
       }
     },
     "Title": "Benchmark Generator"
+  },
+  "calculatorsTab": {
+    "AHA": {
+      "Calculator": {
+        "AhaBase": "Aha Base",
+        "Formula": {
+          "Aha": "Aha Speed",
+          "TeammateSymbol": "T"
+        },
+        "TeammateN": "Teammate {{position}}",
+        "Title": "Aha Speed Calculator"
+      },
+      "Label": "Aha Speed",
+      "Solver": {
+        "Input": {
+          "DesiredAha": "Target Aha SPD"
+        },
+        "Output": {
+          "AllFilled": "No slots open",
+          "Teammate0": "1st Teammate's SPD",
+          "Teammate1": "2nd Teammate's SPD",
+          "Teammate2": "3rd Teammate's SPD",
+          "Teammate3": "4th Teammate's SPD"
+        },
+        "Title": "Target Speed Solver"
+      }
+    },
+    "EHR": {
+      "Calculator": {
+        "EHRLabel": "± {{value}}% $t(common:ShortStats.EHR)",
+        "EquationLabel": {
+          "BaseChance": "Base chance",
+          "DebuffRes": "Debuff RES multi",
+          "EffectRes": "Eff RES multi",
+          "HitRate": "EHR multi"
+        },
+        "Input": {
+          "Attempts": "Application attempts",
+          "BaseChance": "Debuff base chance",
+          "DebuffRes": "Enemy debuff RES",
+          "EffectRes": "Enemy effect RES",
+          "HitRate": "Effect Hit Rate",
+          "Range": "Grid range"
+        },
+        "Output": {
+          "Change": "chance",
+          "PerAttempt": "Per attempts"
+        },
+        "Title": "Debuff Application Calculator"
+      },
+      "Label": "Effect Hit Rate",
+      "Solver": {
+        "Input": "Target debuff chance",
+        "Output": "Required EHR",
+        "Title": "Target EHR Solver"
+      }
+    }
   },
   "charactersTab": {
     "CharacterMenu": {
@@ -6370,37 +6427,6 @@ interface Resources {
         "NoneSaved": "No saved builds"
       }
     },
-    "Calculators": {
-      "AHA": {
-        "Input": {
-          "DesiredAha": "Target Aha SPD",
-          "TeammateSpeeds": "Elation teammate speeds"
-        },
-        "Label": "Aha Speed",
-        "Output": {
-          "AhaSpeed": "Aha's Speed",
-          "Teammate0": "1st Teammate's SPD",
-          "Teammate1": "2nd Teammate's SPD",
-          "Teammate2": "3rd Teammate's SPD",
-          "Teammate3": "4th Teammate's SPD"
-        }
-      },
-      "EHR": {
-        "Input": {
-          "Attempts": "Application attempts",
-          "BaseChance": "Debuff base chance",
-          "DebuffRes": "Enemy debuff RES",
-          "DesiredHitRate": "Target debuff chance",
-          "EffectRes": "Enemy effect RES",
-          "HitRate": "Effect Hit Rate"
-        },
-        "Label": "Effect Hit Rate",
-        "Output": {
-          "ApplicationRate": "Chance to apply",
-          "RequiredHitRate": "Required EHR"
-        }
-      }
-    },
     "CharacterSelect": {
       "ClearButton": "Clear",
       "ExcludeButton": "Exclude all",
@@ -7878,5 +7904,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

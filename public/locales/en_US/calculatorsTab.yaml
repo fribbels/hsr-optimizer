@@ -1,0 +1,43 @@
+AHA:
+  Label: Aha Speed
+  Solver:
+    Title: Target Speed Solver
+    Output:
+      Teammate0: 1st Teammate's SPD
+      Teammate1: 2nd Teammate's SPD
+      Teammate2: 3rd Teammate's SPD
+      Teammate3: 4th Teammate's SPD
+      AllFilled: No slots open
+    Input:
+      DesiredAha: Target Aha SPD
+  Calculator:
+    Title: Aha Speed Calculator
+    TeammateN: Teammate {{position}}
+    AhaBase: Aha Base
+    Formula:
+      Aha: Aha Speed
+      TeammateSymbol: T
+EHR:
+  Label: Effect Hit Rate
+  Calculator:
+    Title: Debuff Application Calculator
+    EHRLabel: ± {{value}}% $t(common:ShortStats.EHR)
+    EquationLabel:
+      BaseChance: Base chance
+      EffectRes: Eff RES multi
+      DebuffRes: Debuff RES multi
+      HitRate: EHR multi
+    Input:
+      EffectRes: Enemy effect RES
+      DebuffRes: Enemy debuff RES
+      BaseChance: Debuff base chance
+      Attempts: Application attempts
+      HitRate: Effect Hit Rate
+      Range: Grid range
+    Output:
+      Change: chance
+      PerAttempt: Per attempts
+  Solver:
+    Title: Target EHR Solver
+    Input: Target debuff chance
+    Output: Required EHR

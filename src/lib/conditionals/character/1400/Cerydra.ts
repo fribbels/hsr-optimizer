@@ -1,7 +1,13 @@
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -17,6 +23,7 @@ import {
   ConditionalActivation,
   ConditionalType,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -30,7 +37,10 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
@@ -40,7 +50,11 @@ import {
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -51,6 +65,7 @@ export const CerydraAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.ULT,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -224,6 +239,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
         },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ATK)
+              .sourceStat(StatKey.ATK)
+              .scaling(talentAtkScaling)
+              .build(),
+          ],
+        },
       }
     },
     actionModifiers: () => [],
@@ -346,6 +370,55 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.ATK_P],
+    [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
+  buffStat: StatKey.ATK,
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
+  relicSets: [
+    [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Phainon.id,
+      lightCone: ThusBurnsTheDawn.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
@@ -381,6 +454,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [],
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

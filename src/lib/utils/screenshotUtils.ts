@@ -469,7 +469,7 @@ async function buildPreBakedBlurCache(
     ctx.drawImage(canvasImage, 0, 0, geometry.width, geometry.height)
     ctx.restore()
     try {
-      const blurredDataUri = canvas.toDataURL('image/png')
+      const blurredDataUri = canvas.toDataURL('image/jpeg', 0.85)
       blurCache.set(img.src, blurredDataUri)
       const cachedDataUri = imageCache.get(img.src)
       if (cachedDataUri) blurCache.set(cachedDataUri, blurredDataUri)
@@ -488,10 +488,6 @@ function buildPreBakedBlurPlugin(blurCache: Map<string, string>): SnapdomPlugin 
         const preblurred = blurCache.get(img.src) || blurCache.get(img.getAttribute('src') || '')
         if (!preblurred) continue
 
-        console.log('[screenshot] prebaked blur applied', {
-          oldSrc: img.src.slice(0, 80),
-          newSrc: preblurred.slice(0, 40),
-        })
         img.setAttribute('src', preblurred)
         img.src = preblurred
 

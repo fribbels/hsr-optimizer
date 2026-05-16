@@ -22,6 +22,7 @@ export const showcaseButtonStyle: CSSProperties = {
   visibility: 'hidden',
 }
 
+// Forces snapdom to treat ring divs as real rendered elements (without this, outlines vanish in mobile screenshots)
 const TRANSPARENT_PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII='
 const BASE_RADIUS = 6
 
@@ -56,7 +57,7 @@ interface ShadowRingsProps {
   side?: ShadowRingSide
 }
 
-export function ShadowRings({ side }: ShadowRingsProps = {}) {
+export function ShadowRings({ side }: ShadowRingsProps) {
   return getRings(side).map((ring, i) => (
     <div
       key={i}

@@ -358,11 +358,8 @@ function buildScreenshotBlurPlugin(blurMultiplier: number): SnapdomPlugin {
       for (const img of clone.querySelectorAll<HTMLElement>('[data-portrait-bg] img')) {
         const styleAttr = img.getAttribute('style') || ''
         const newStyle = styleAttr.replace(
-          /filter:\s*([^;]*)\bblur\(\s*([\d.]+)px\s*\)/,
-          (match, prefix, blurVal) => {
-            const boosted = parseFloat(blurVal) * blurMultiplier
-            return match.replace(/blur\(\s*[\d.]+px\s*\)/, `blur(${boosted.toFixed(1)}px)`)
-          },
+          /blur\(\s*([\d.]+)px\s*\)/g,
+          (_, blurVal) => `blur(${(parseFloat(blurVal) * blurMultiplier).toFixed(1)}px)`,
         )
         if (newStyle !== styleAttr) {
           img.setAttribute('style', newStyle)

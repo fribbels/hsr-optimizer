@@ -318,7 +318,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const memoSkillScalingIndividual = memoSkillDmgScaling + (e >= 4 ? r.e4BounceStacks * 0.06 : 0)
       const memoSkillTotalHpScaling = memoSkillDmgScaling
         + r.odeToEgoExtraBounces * memoSkillScalingIndividual
-        + r.e1ExtraBounces * memoSkillScalingIndividual
+        + (e >= 1 ? r.e1ExtraBounces * memoSkillScalingIndividual : 0)
       const memoSkillToughness = 10
         + 5 / 3 * r.odeToEgoExtraBounces
         + (e >= 1 ? 5 / 3 * r.e1ExtraBounces : 0)

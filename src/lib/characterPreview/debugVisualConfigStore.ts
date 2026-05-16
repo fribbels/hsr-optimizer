@@ -90,7 +90,7 @@ export enum ShowcasePreset {
 }
 
 export const SHINE_PRESET: DebugVisualConfig = {
-  portraitBlur: 80,
+  portraitBlur: 40,
   portraitBrightness: 0.40,
   portraitSaturate: 1.50,
   portraitContrast: 1.25,
@@ -112,7 +112,7 @@ export const SHINE_PRESET: DebugVisualConfig = {
 }
 
 export const NATURAL_PRESET: DebugVisualConfig = {
-  portraitBlur: 92,
+  portraitBlur: 46,
   portraitBrightness: 0.50,
   portraitSaturate: 1.75,
   portraitContrast: 0.85,

@@ -6675,6 +6675,7 @@ export default interface Resources {
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
         "None": "None",
+        "Placeholder": "Ability",
         "Skill": "Skill",
         "SkillHeal": "Skill HEAL",
         "SkillShield": "Skill SHIELD",
@@ -7434,72 +7435,58 @@ export default interface Resources {
       "TeammateSets": {
         "Ageless": {
           "Desc": "$t(gameData:RelicSets.302.Name) (+8% ATK)",
-          "Set": "$t(gameData:RelicSets.302.Name)",
           "Text": "8% ATK"
         },
         "Amphoreus": {
           "Desc": "$t(gameData:RelicSets.323.Name) (+8% SPD)",
-          "Set": "$t(gameData:RelicSets.323.Name)",
           "Text": "8% SPD"
         },
         "CityOfConvergingStars": {
           "Desc": "$t(gameData:RelicSets.326.Name) (+12% CD)",
-          "Set": "$t(gameData:RelicSets.326.Name)",
           "Text": "12% CD"
         },
         "Diviner": {
           "Desc": "4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)",
-          "Set": "$t(gameData:RelicSets.130.Name)",
           "Text": "10% Elation"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
-          "Set": "$t(gameData:RelicSets.310.Name)",
           "Text": "10% CD"
         },
         "Lushaka": {
           "Desc": "$t(gameData:RelicSets.317.Name) (+12% ATK)",
-          "Set": "$t(gameData:RelicSets.317.Name)",
           "Text": "12% ATK"
         },
         "Messenger": {
           "Desc": "4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)",
-          "Set": "$t(gameData:RelicSets.114.Name)",
           "Text": "12% SPD"
         },
         "Penacony": {
           "Desc": "$t(gameData:RelicSets.312.Name) (+10% DMG for same element)",
-          "Set": "$t(gameData:RelicSets.312.Name)",
           "Text": "10% DMG"
         },
         "Sacerdos1Stack": {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)",
-          "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "18% CD"
         },
         "Sacerdos2Stack": {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)",
-          "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "36% CD"
         },
         "SelfEnshrouded": {
           "Desc": "4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)",
-          "Set": "$t(gameData:RelicSets.128.Name)",
           "Text": "15% CD"
         },
         "Warrior": {
           "Desc": "4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)",
-          "Set": "$t(gameData:RelicSets.125.Name)",
           "Text": "15% CD"
         },
         "Watchmaker": {
           "Desc": "4 Piece: $t(gameData:RelicSets.118.Name) (+30% BE)",
-          "Set": "$t(gameData:RelicSets.118.Name)",
           "Text": "30% BE"
         },
         "WorldRemaking": {
           "Desc": "4 Piece: $t(gameData:RelicSets.127.Name) (+15% DMG)",
-          "Set": "$t(gameData:RelicSets.127.Name)",
           "Text": "15% DMG"
         }
       },

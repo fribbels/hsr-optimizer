@@ -113,7 +113,8 @@ export function CharacterSelectorDisplay() {
         // Hardcoded — BUFF sort label is dynamic based on buffStat, skip i18n
         const label = sortKey === SortOption.BUFF.key
           ? `Sorted by ${buffStat != null ? getAKeyName(buffStat) : ''} Buff`
-          : t(`SortOptions.${sortOption.key}` as string)
+          // @ts-expect-error - dynamic i18n key from SortOption registry
+          : t(`SortOptions.${sortOption.key}`)
         damageOptions.push({ value: sortOption.key, label: label as string })
       }
     }

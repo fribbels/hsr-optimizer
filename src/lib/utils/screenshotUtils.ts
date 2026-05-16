@@ -118,8 +118,7 @@ import { Message } from 'lib/interactions/message.js'
 const FETCH_TIMEOUT_MS = 8000
 const SCREENSHOT_IMAGE_TYPE = 'png'
 const SCREENSHOT_EXPORT_DPR = 2
-const PREBAKE_CANVAS_W = cardTotalW * SCREENSHOT_EXPORT_DPR
-const PREBAKE_CANVAS_H = parentH * SCREENSHOT_EXPORT_DPR
+const PREBAKE_MAX_DIMENSION = Math.max(cardTotalW, parentH) * SCREENSHOT_EXPORT_DPR
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -353,10 +352,80 @@ function supportsCanvasFilter(ctx: CanvasRenderingContext2D): boolean {
   return ctx.filter === 'blur(1px)'
 }
 
+function calculatePreBakedBlurGeometry({
+  naturalWidth,
+  naturalHeight,
+  renderedWidth,
+  renderedHeight,
+  cssBlur,
+  objectFit,
+}: {
+  naturalWidth: number,
+  naturalHeight: number,
+  renderedWidth: number,
+  renderedHeight: number,
+  cssBlur: number,
+  objectFit: string,
+}): { width: number, height: number, blur: number } | null {
+  if (
+    naturalWidth <= 0
+    || naturalHeight <= 0
+    || renderedWidth <= 0
+    || renderedHeight <= 0
+    || cssBlur <= 0
+  ) {
+    return null
+  }
+
+  const coverScale = objectFit === 'cover'
+    ? Math.max(renderedWidth / naturalWidth, renderedHeight / naturalHeight)
+    : renderedWidth / naturalWidth
+  const renderedImageWidth = naturalWidth * coverScale
+  const targetScale = Math.min(
+    1,
+    (renderedImageWidth * SCREENSHOT_EXPORT_DPR) / naturalWidth,
+    PREBAKE_MAX_DIMENSION / naturalWidth,
+    PREBAKE_MAX_DIMENSION / naturalHeight,
+  )
+  const width = Math.max(1, Math.round(naturalWidth * targetScale))
+  const height = Math.max(1, Math.round(naturalHeight * targetScale))
+  const displayScale = objectFit === 'cover'
+    ? Math.max(renderedWidth / width, renderedHeight / height)
+    : renderedWidth / width
+
+  if (!Number.isFinite(displayScale) || displayScale <= 0) return null
+
+  return {
+    width,
+    height,
+    blur: cssBlur / displayScale,
+  }
+}
+
+async function loadCanvasImage(src: string): Promise<HTMLImageElement | null> {
+  const img = new Image()
+  img.decoding = 'async'
+
+  await withTimeout(
+    new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve()
+      img.onerror = () => reject(new Error('Failed to load image for blur prebake'))
+      img.src = src
+    }),
+    FETCH_TIMEOUT_MS,
+  ).catch(() => {})
+
+  if (!img.complete || !img.naturalWidth || !img.naturalHeight) return null
+  if (typeof img.decode === 'function') {
+    await img.decode().catch(() => {})
+  }
+  return img
+}
+
 /**
  * Pre-renders portrait background images with blur baked into the pixels.
- * Draws at 2x card size and applies blur via canvas filter, producing a
- * device-independent result that doesn't rely on SVG foreignObject CSS filter evaluation.
+ * Keeps the bitmap in source-image coordinates so the clone can preserve the
+ * live image's positioning/cropping styles.
  */
 async function buildPreBakedBlurCache(
   root: HTMLElement,
@@ -367,9 +436,6 @@ async function buildPreBakedBlurCache(
   const ctx = canvas.getContext('2d')
   if (!ctx || !supportsCanvasFilter(ctx)) return blurCache
 
-  canvas.width = PREBAKE_CANVAS_W
-  canvas.height = PREBAKE_CANVAS_H
-
   for (const img of root.querySelectorAll<HTMLImageElement>('[data-portrait-bg] img')) {
     const filterStyle = img.style.filter || ''
     const blurMatch = filterStyle.match(/blur\(\s*([\d.]+)px\s*\)/)
@@ -378,34 +444,35 @@ async function buildPreBakedBlurCache(
     if (!cssBlur || !Number.isFinite(cssBlur)) continue
 
     const src = imageCache.get(img.src) || img.src
-    const bitmap = await createImageBitmap(await (await fetch(src)).blob()).catch(() => null)
-    if (!bitmap) continue
-
     const rect = img.getBoundingClientRect()
     if (!rect.width || !rect.height) continue
 
+    const canvasImage = await loadCanvasImage(src)
+    if (!canvasImage) continue
+
+    const geometry = calculatePreBakedBlurGeometry({
+      naturalWidth: canvasImage.naturalWidth,
+      naturalHeight: canvasImage.naturalHeight,
+      renderedWidth: rect.width,
+      renderedHeight: rect.height,
+      cssBlur,
+      objectFit: img.style.objectFit,
+    })
+    if (!geometry) continue
+
+    canvas.width = geometry.width
+    canvas.height = geometry.height
+
     ctx.save()
-    ctx.clearRect(0, 0, PREBAKE_CANVAS_W, PREBAKE_CANVAS_H)
-    ctx.filter = `blur(${(cssBlur * SCREENSHOT_EXPORT_DPR).toFixed(1)}px)`
-
-    const style = img.style
-    if (style.objectFit === 'cover') {
-      const scale = Math.max(PREBAKE_CANVAS_W / bitmap.width, PREBAKE_CANVAS_H / bitmap.height)
-      const drawW = bitmap.width * scale
-      const drawH = bitmap.height * scale
-      ctx.drawImage(bitmap, (PREBAKE_CANVAS_W - drawW) / 2, (PREBAKE_CANVAS_H - drawH) / 2, drawW, drawH)
-    } else {
-      const imgW = (parseFloat(style.width) || rect.width) * SCREENSHOT_EXPORT_DPR
-      const imgH = (bitmap.height / bitmap.width) * imgW
-      const left = (parseFloat(style.left) || 0) * SCREENSHOT_EXPORT_DPR
-      const top = (parseFloat(style.top) || 0) * SCREENSHOT_EXPORT_DPR
-      ctx.drawImage(bitmap, left, top, imgW, imgH)
-    }
-
+    ctx.clearRect(0, 0, geometry.width, geometry.height)
+    ctx.filter = `blur(${geometry.blur.toFixed(1)}px)`
+    ctx.drawImage(canvasImage, 0, 0, geometry.width, geometry.height)
     ctx.restore()
-    bitmap.close()
     try {
-      blurCache.set(img.src, canvas.toDataURL('image/jpeg', 0.85))
+      const blurredDataUri = canvas.toDataURL('image/png')
+      blurCache.set(img.src, blurredDataUri)
+      const cachedDataUri = imageCache.get(img.src)
+      if (cachedDataUri) blurCache.set(cachedDataUri, blurredDataUri)
     } catch { /* tainted canvas — skip */ }
   }
 
@@ -421,6 +488,10 @@ function buildPreBakedBlurPlugin(blurCache: Map<string, string>): SnapdomPlugin 
         const preblurred = blurCache.get(img.src) || blurCache.get(img.getAttribute('src') || '')
         if (!preblurred) continue
 
+        console.log('[screenshot] prebaked blur applied', {
+          oldSrc: img.src.slice(0, 80),
+          newSrc: preblurred.slice(0, 40),
+        })
         img.setAttribute('src', preblurred)
         img.src = preblurred
 
@@ -504,7 +575,6 @@ export async function screenshotElementById(
     const { cache: imageCache, corsFailed } = await buildImageDataUriCache(element)
 
     const blurCache = await buildPreBakedBlurCache(element, imageCache).catch(() => new Map<string, string>())
-    console.log('[screenshot] blur prebake:', blurCache.size ? 'active' : 'fallback (multiplier)')
 
     const blurPlugin = blurCache.size
       ? buildPreBakedBlurPlugin(blurCache)

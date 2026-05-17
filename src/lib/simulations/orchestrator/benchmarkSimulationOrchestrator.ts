@@ -162,7 +162,7 @@ function calculateResRollsDeduction(
 ): number {
   if (flags.benchmarkBasicResTarget <= 0) return 0
   const baseRes = simulationResult.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
-  const resGap = flags.benchmarkBasicResTarget - baseRes
+  const resGap = (flags.benchmarkBasicResTarget - baseRes) * 100
   if (resGap <= 0) return 0
   const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, quality)
   return Math.min(Math.max(0, resGap / resMaxedSubValue), 10)
@@ -352,20 +352,9 @@ export class BenchmarkSimulationOrchestrator {
     const simSets = this.simSets!
     const context = this.context!
 
-    const originalSim: Simulation = {
-      simType: StatSimTypes.SubstatRolls,
-      request: this.originalSimRequest!,
-    } as Simulation
-    const originalResult = runStatSimulations([originalSim], form, context, {
-      ...originalScoringParams,
-      mainStatMultiplier: 1,
-      simulationFlags: this.flags,
-    })[0]
-    const characterBasicSpd = precisionRound(originalResult.x.c.SPD.get(), 3)
-
     const baselineFlags: SimulationFlags = {
       ...this.flags,
-      benchmarkBasicSpdTarget: characterBasicSpd,
+      benchmarkBasicSpdTarget: 0,
     }
     const baselineMetadata: SimulationMetadata = {
       ...this.metadata,

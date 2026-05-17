@@ -60,12 +60,6 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
     }
   }
 
-  // Non-DPS scoring: relax DR so it only triggers at 3+ mains of the same stat
-  if (!SCORING_CONFIG_REGISTRY[input.configType].capFlatSubstats) {
-    const nonDpsDiminishingReturns = createDiminishingReturnsFormula(12, 2, 2)
-    return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, nonDpsDiminishingReturns)
-  }
-
   return substatRollsModifier
 }
 

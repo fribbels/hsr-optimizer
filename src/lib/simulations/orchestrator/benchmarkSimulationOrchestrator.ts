@@ -365,7 +365,7 @@ export class BenchmarkSimulationOrchestrator {
 
     const baselineFlags: SimulationFlags = {
       ...this.flags,
-      benchmarkBasicSpdTarget: characterBasicSpd,
+      benchmarkBasicSpdTarget: 0,
     }
     const baselineMetadata: SimulationMetadata = {
       ...this.metadata,

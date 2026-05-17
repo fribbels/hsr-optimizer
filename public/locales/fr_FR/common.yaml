@@ -132,6 +132,7 @@ ReadableStats:
   Wind DMG Boost: 'DGT $t(gameData:Elements.Wind)'
   Quantum DMG Boost: 'DGT $t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: 'DGT $t(gameData:Elements.Imaginary)'
+  simScore: DGT Combo
 ShortReadableStats:
   "HP%": PV %
   HP: PV

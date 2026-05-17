@@ -156,7 +156,7 @@ test('Castorice benchmark poet 100.4', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(5),
     }),
-    0.9511501935237638,
+    0.9591542220541416,
   )
 }, TIMEOUT)
 
@@ -203,7 +203,7 @@ test('Castorice benchmark longevous 108', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(5),
     }),
-    0.5894952082438186,
+    0.6567563153409707,
   )
 }, TIMEOUT)
 
@@ -218,7 +218,7 @@ test('Castorice benchmark longevous 95', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(0),
     }),
-    0.5894952082438186,
+    0.6567563153409707,
   )
 }, TIMEOUT)
 
@@ -235,7 +235,7 @@ test('Tribbie benchmark poet 88.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(0),
     }),
-    0.8306515015033564,
+    0.8821384217458543,
   )
 }, TIMEOUT)
 
@@ -250,7 +250,7 @@ test('Tribbie benchmark poet 101.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(5),
     }),
-    0.641533561767995,
+    0.7116109697654351,
   )
 }, TIMEOUT)
 
@@ -282,7 +282,7 @@ test('Tribbie benchmark poet 88.3 @ 88.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(0),
     }),
-    0.8306515015033564,
+    0.8821384217458543,
     88.3,
   )
 }, TIMEOUT)
@@ -298,7 +298,7 @@ test('Tribbie benchmark poet 101.3 @ 88.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(5),
     }),
-    0.619356213410122,
+    0.6916855241765822,
     88.3,
   )
 }, TIMEOUT)

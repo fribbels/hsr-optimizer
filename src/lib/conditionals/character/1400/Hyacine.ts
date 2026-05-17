@@ -609,7 +609,7 @@ const healSimulation = (): SimulationMetadata => ({
     Stats.HP,
     Stats.SPD,
     Stats.RES,
-    Stats.DEF_P,
+    Stats.CD,
   ],
   errRopeEidolon: 0,
   comboTurnAbilities: [

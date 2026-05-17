@@ -162,7 +162,7 @@ function calculateResRollsDeduction(
 ): number {
   if (flags.benchmarkBasicResTarget <= 0) return 0
   const baseRes = simulationResult.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
-  const resGap = flags.benchmarkBasicResTarget - baseRes
+  const resGap = (flags.benchmarkBasicResTarget - baseRes) * 100
   if (resGap <= 0) return 0
   const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, quality)
   return Math.min(Math.max(0, resGap / resMaxedSubValue), 10)

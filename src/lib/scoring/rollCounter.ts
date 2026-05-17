@@ -23,6 +23,13 @@ export function calculateMinSubstatRollCounts(
   scoringParams: ScoringParams,
   simulationFlags: SimulationFlags,
 ) {
+  const resBudget = scoringParams.substatGoal - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 10 * scoringParams.freeRolls
+  const ceiledResDeduction = Math.ceil(partialSimulationWrapper.resRollsDeduction)
+  const resMin = Math.min(
+    Math.max(ceiledResDeduction, scoringParams.freeRolls),
+    Math.max(resBudget, scoringParams.freeRolls),
+  )
+
   const minCounts: SubstatCounts = {
     [Stats.HP_P]: scoringParams.freeRolls,
     [Stats.ATK_P]: scoringParams.freeRolls,
@@ -34,7 +41,7 @@ export function calculateMinSubstatRollCounts(
     [Stats.CR]: scoringParams.freeRolls,
     [Stats.CD]: scoringParams.freeRolls,
     [Stats.EHR]: scoringParams.freeRolls,
-    [Stats.RES]: Math.max(partialSimulationWrapper.resRollsDeduction, scoringParams.freeRolls),
+    [Stats.RES]: resMin,
     [Stats.BE]: scoringParams.freeRolls,
   }
 
@@ -97,9 +104,14 @@ export function calculateMaxSubstatRollCounts(
   // Force speed
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
 
-  // Force RES when equalized
+  // Force RES when equalized, capped to available budget
   if (partialSimulationWrapper.resRollsDeduction > 0) {
-    maxCounts[Stats.RES] = Math.max(partialSimulationWrapper.resRollsDeduction, scoringParams.freeRolls)
+    const ceiledResDeduction = Math.ceil(partialSimulationWrapper.resRollsDeduction)
+    const resBudget = scoringParams.substatGoal - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 10 * scoringParams.freeRolls
+    maxCounts[Stats.RES] = Math.min(
+      Math.max(ceiledResDeduction, scoringParams.freeRolls),
+      Math.max(resBudget, scoringParams.freeRolls),
+    )
   }
 
   // The simplifications should not go below 6 rolls otherwise it interferes with possible build enforcement
@@ -112,20 +124,22 @@ export function calculateMaxSubstatRollCounts(
   if (!simulationFlags.overcapCritRate && scoringParams.quality == 1.0) {
     const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
     const missingCrit = Math.max(0, 100 - zeroMainsStatResult.x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) * 100)
-    maxCounts[Stats.CR] = Math.max(
-      scoringParams.baselineFreeRolls,
-      Math.max(
-        scoringParams.enforcePossibleDistribution
-          ? 6
-          : 0,
-        Math.min(
-          request.simBody == Stats.CR
-            ? Math.ceil((missingCrit - 32.4) / critValue)
-            : Math.ceil(missingCrit / critValue),
-          maxCounts[Stats.CR],
+    maxCounts[Stats.CR] = maxCounts[Stats.CR] == 0
+      ? 0
+      : Math.max(
+        scoringParams.baselineFreeRolls,
+        Math.max(
+          scoringParams.enforcePossibleDistribution
+            ? 6
+            : 0,
+          Math.min(
+            request.simBody == Stats.CR
+              ? Math.ceil((missingCrit - 32.4) / critValue)
+              : Math.ceil(missingCrit / critValue),
+            maxCounts[Stats.CR],
+          ),
         ),
-      ),
-    )
+      )
   }
 
   // Simplify EHR so the sim is not wasting permutations

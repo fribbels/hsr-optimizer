@@ -147,19 +147,16 @@ CharacterPreview:
       CombatStats: <1>Statistiche in combattimento</1> del personaggio
       Substats: Statistiche secondarie del personaggio (roll minimi)
       Mainstats: Statistiche principali del personaggio
-      Abilities: Danni abilità del personaggio
     Benchmark:
       Header: 'Build benchmark ({{score}}%)'
       CombatStats: <1>Statistiche in combattimento</1> del benchmark 100%
       Substats: Statistiche secondarie del benchmark 100% (roll minimi)
       Mainstats: Statistiche principali del benchmark 100%
-      Abilities: Danni abilità del benchmark 100%
     Perfect:
       Header: 'Build perfetta ({{score}}%)'
       CombatStats: <1>Statistiche in combattimento</1> perfette 200%
       Substats: Statistiche secondarie 200% (roll massimi)
       Mainstats: Statistiche principali perfette 200%
-      Abilities: Danni abilità perfetti 200%
   ScoringDetails:
     Header: Com'è calcolato il Punteggio DPS?
   EST-TBP:

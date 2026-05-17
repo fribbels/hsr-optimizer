@@ -168,7 +168,6 @@ CharacterPreview:
       CombatStats: 角色<1>战斗属性</1>
       Substats: 角色遗器副词条（最少升级次数)
       Mainstats: 角色遗器主词条
-      Abilities: 角色技能伤害
     Benchmark:
       Header: '基准配装 ({{score}}%)'
       Sets: 100% 基准套装
@@ -176,7 +175,6 @@ CharacterPreview:
       CombatStats: 100% 基准<1>战斗属性</1>
       Substats: 100% 基准副词条 (最少升级次数)
       Mainstats: 100% 基准主词条
-      Abilities: 100% 基准技能伤害
     Perfect:
       Header: '完美角色配装 ({{score}}%)'
       Sets: 200% 完美套装
@@ -184,7 +182,6 @@ CharacterPreview:
       CombatStats: 200% 完美<1>战斗属性</1>
       Substats: 200% 完美副词条 (最大升级次数)
       Mainstats: 200% 完美主词条
-      Abilities: 200% 完美技能伤害
   ScoringDetails:
     Header: DPS评分是如何计算的?
   EST-TBP:

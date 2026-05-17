@@ -10,8 +10,8 @@ import type {
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { statConversion } from 'lib/importer/characterConverter'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { SortOptionProperties } from 'lib/optimization/sortOptions'
 import type { PresetDefinition } from 'lib/scoring/presetEffects'
@@ -30,8 +30,8 @@ export enum ScoringConfigType {
 }
 
 export type ScoringConfig = {
-  configType: ScoringConfigType
-  simulation: SimulationMetadata
+  configType: ScoringConfigType,
+  simulation: SimulationMetadata,
 }
 
 export type ShowcasePreferences = {

@@ -7,7 +7,13 @@ import type {
 } from 'lib/characterPreview/characterPreviewController'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { CONFIG_DISPLAY_ORDER, hasConfig, isSimScoreMode, SCORING_CONFIG_REGISTRY, ScoringType } from 'lib/scoring/scoringConfig'
+import {
+  CONFIG_DISPLAY_ORDER,
+  hasConfig,
+  isSimScoreMode,
+  SCORING_CONFIG_REGISTRY,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'

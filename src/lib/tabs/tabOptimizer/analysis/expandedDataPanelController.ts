@@ -2,8 +2,8 @@ import {
   ElementToDamage,
   PathNames,
   Stats,
-  SubStats,
   type StatsValues,
+  SubStats,
 } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
@@ -26,12 +26,12 @@ import {
   ornamentSetIndexToName,
   relicSetIndexToNames,
 } from 'lib/simulations/statSimulationUtils'
+import { computeTeammateOrnamentUpgrades } from 'lib/simulations/teammateUpgradeGrouping'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { gridStore } from 'lib/stores/gridStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { optimizerFormCache } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
-import { computeTeammateOrnamentUpgrades } from 'lib/simulations/teammateUpgradeGrouping'
 import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { OptimizerForm } from 'types/form'
@@ -56,7 +56,6 @@ type StatUpgrade = {
   simRequest: SimulationRequest,
   x: ComputedStatsContainer,
 }
-
 
 export function calculateTeammateUpgrades(analysis: OptimizerResultAnalysis) {
   const relics = analysis.newRelics as SimulationRelicByPart

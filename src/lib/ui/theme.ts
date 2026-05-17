@@ -17,7 +17,7 @@ const comboboxMiddlewares = {
   flip: true,
   shift: true,
   size: {
-    apply({ availableHeight, elements }: { availableHeight: number; elements: { floating: HTMLElement } }) {
+    apply({ availableHeight, elements }: { availableHeight: number, elements: { floating: HTMLElement } }) {
       const floating = elements.floating
       const scrollEl = floating.querySelector('.mantine-ScrollArea-viewport, [role="listbox"]') as HTMLElement | null
       if (!scrollEl) return

@@ -409,6 +409,7 @@ const shieldSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
     Sets.LushakaTheSunkenSeas,

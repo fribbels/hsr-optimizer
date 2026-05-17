@@ -1,3 +1,9 @@
+import {
+  Parts,
+  Stats,
+} from 'lib/constants/constants'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import {
   applyScoringFunction,
@@ -6,8 +12,6 @@ import {
   isPoetSet,
   type SimulationFlags,
 } from 'lib/scoring/simScoringUtils'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
 import type {
   RunSimulationsParams,
@@ -17,18 +21,17 @@ import type {
 } from 'lib/simulations/statSimulationTypes'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
-import {
-  Parts,
-  Stats,
-} from 'lib/constants/constants'
 import type { Form } from 'types/form'
-import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
+import type {
+  ScoringConfigType,
+  SimulationMetadata,
+} from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
 type PoolCandidate = {
-  sim: Simulation
-  result: RunStatSimulationsResult
-  combatSpd: number
+  sim: Simulation,
+  result: RunStatSimulationsResult,
+  combatSpd: number,
 }
 
 type PoolStatSimOptions = {
@@ -43,7 +46,7 @@ export function runScoringBaselineSim(
   flags: SimulationFlags,
   metadata: SimulationMetadata,
   configType: ScoringConfigType,
-): { sim: Simulation; result: RunStatSimulationsResult } {
+): { sim: Simulation, result: RunStatSimulationsResult } {
   return runBestPoolStatSim(setCombination, form, context, flags, metadata, configType, {
     mainStatMultiplier: 1,
   })
@@ -58,7 +61,7 @@ export function runPoolZeroMainsStatSim(
   metadata: SimulationMetadata,
   configType: ScoringConfigType,
   targetCombatSpd?: number,
-): { sim: Simulation; result: RunStatSimulationsResult } {
+): { sim: Simulation, result: RunStatSimulationsResult } {
   return runBestPoolStatSim(setCombination, form, context, flags, metadata, configType, {
     mainStatMultiplier: 0,
     targetCombatSpd,
@@ -73,7 +76,7 @@ function runBestPoolStatSim(
   metadata: SimulationMetadata,
   configType: ScoringConfigType,
   options: PoolStatSimOptions,
-): { sim: Simulation; result: RunStatSimulationsResult } {
+): { sim: Simulation, result: RunStatSimulationsResult } {
   const correctedFlags: SimulationFlags = { ...flags, simPoetActive: isPoetSet(setCombination) }
 
   const params: RunSimulationsParams = {
@@ -144,7 +147,7 @@ export function resolveComboSpdTarget(
   baseFlags: SimulationFlags,
   originalSpd: number,
   spdBenchmark: number | undefined,
-): { combatSpdTarget: number; basicSpdTarget: number; flags: SimulationFlags } {
+): { combatSpdTarget: number, basicSpdTarget: number, flags: SimulationFlags } {
   const setCombinationFlags: SimulationFlags = { ...baseFlags, simPoetActive: isPoetSet(setCombination) }
 
   // Zero-mains sim to determine the natural basic SPD for Poet breakpoint detection.

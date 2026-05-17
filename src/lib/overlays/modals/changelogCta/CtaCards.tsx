@@ -1,4 +1,8 @@
-import { IconBrandDiscordFilled, IconBrandGithub, IconCoffee } from '@tabler/icons-react'
+import {
+  IconBrandDiscordFilled,
+  IconBrandGithub,
+  IconCoffee,
+} from '@tabler/icons-react'
 import classes from './changelogCta.module.css'
 
 export function CtaCards() {

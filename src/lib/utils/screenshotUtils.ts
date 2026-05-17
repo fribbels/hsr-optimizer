@@ -563,7 +563,7 @@ export async function screenshotElementById(
     await Promise.all([
       document.fonts.load('400 1em "Maven Pro"'),
       document.fonts.load('500 1em "Maven Pro"'),
-    ]).catch(() => { /* best-effort */ })
+    ]).catch(() => {/* best-effort */})
 
     try {
       await preCache(element)

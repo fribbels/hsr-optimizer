@@ -3,8 +3,8 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   applyScoringFunction,
   createDiminishingReturnsFormula,
@@ -56,16 +56,14 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
     const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
     if (!ehrLightCone) {
       const hysilensDiminishingReturns = createDiminishingReturnsFormula(24, 2, 0)
-      return (rolls: number, stat: string, sim: Simulation) =>
-        substatRollsModifier(rolls, stat, sim, hysilensDiminishingReturns)
+      return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, hysilensDiminishingReturns)
     }
   }
 
   // Non-DPS scoring: relax DR so it only triggers at 3+ mains of the same stat
   if (!SCORING_CONFIG_REGISTRY[input.configType].capFlatSubstats) {
     const nonDpsDiminishingReturns = createDiminishingReturnsFormula(12, 2, 2)
-    return (rolls: number, stat: string, sim: Simulation) =>
-      substatRollsModifier(rolls, stat, sim, nonDpsDiminishingReturns)
+    return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, nonDpsDiminishingReturns)
   }
 
   return substatRollsModifier
@@ -143,7 +141,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   if (maxAssignments < 24) {
     throw new Error(
       `Search space assignment-infeasible: ${maxAssignments}/24 slots fillable. `
-      + `Character's effectiveSubstats needs more filler stats.`,
+        + `Character's effectiveSubstats needs more filler stats.`,
     )
   }
 

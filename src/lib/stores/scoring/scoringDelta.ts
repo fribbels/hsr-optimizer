@@ -195,7 +195,8 @@ export function mergeAndPruneOverride(
   }
 
   // Check if result has any content
-  const hasContent = result.stats || result.parts || result.simulation || result.supportSimulation || result.healSimulation || result.shieldSimulation || result.traces
+  const hasContent = result.stats || result.parts || result.simulation || result.supportSimulation || result.healSimulation || result.shieldSimulation
+    || result.traces
   return hasContent ? result : undefined
 }
 
@@ -243,7 +244,8 @@ export function pruneOverridesOnLoad(
       if (override.traces) pruned.traces = override.traces
 
       // Only store if has content
-      const hasContent = pruned.stats || pruned.parts || pruned.simulation || pruned.supportSimulation || pruned.healSimulation || pruned.shieldSimulation || pruned.traces
+      const hasContent = pruned.stats || pruned.parts || pruned.simulation || pruned.supportSimulation || pruned.healSimulation || pruned.shieldSimulation
+        || pruned.traces
       if (hasContent) {
         result[id] = pruned
       } else {

@@ -728,8 +728,10 @@ export class ComputedStatsContainer {
       // Shield/heal hits have ElementTag.None (0), so check for ALL_DAMAGE/ELEMENT_TAGS before bitwise AND
       const damageMatches = damageTags === ALL_DAMAGE_TAGS || (hit.damageType & damageTags)
       const elementMatches = elementTags === ALL_ELEMENT_TAGS || (hit.damageElement & elementTags)
-      if (directnessMatches && damageMatches && elementMatches && (hit.outputTag & outputTags)
-        && (!buffStatFilter || (hit as BuffHit).buffStat === buffStatFilter)) {
+      if (
+        directnessMatches && damageMatches && elementMatches && (hit.outputTag & outputTags)
+        && (!buffStatFilter || (hit as BuffHit).buffStat === buffStatFilter)
+      ) {
         operation(this.a, this.getHitIndex(entityIndex, hitIndex, hitKey), value)
       }
     }

@@ -1,4 +1,7 @@
-import type { PreTeammateSetUpgrade, TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
+import type {
+  PreTeammateSetUpgrade,
+  TeammateSetUpgrade,
+} from 'lib/simulations/teammateUpgradeGrouping'
 import { groupTeammateSetUpgrades } from 'lib/simulations/teammateUpgradeGrouping'
 import {
   describe,

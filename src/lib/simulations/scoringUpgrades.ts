@@ -18,7 +18,10 @@ import type {
 import { partsToFilterMapping } from 'lib/simulations/utils/benchmarkUtils'
 import { clone } from 'lib/utils/objectUtils'
 import type { Form } from 'types/form'
-import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
+import type {
+  ScoringConfigType,
+  SimulationMetadata,
+} from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
 export type SimulationStatUpgrade = {

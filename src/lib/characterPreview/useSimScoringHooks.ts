@@ -1,8 +1,11 @@
-import { useContext } from 'react'
 import { usePromise } from 'hooks/usePromise'
-import { type ScoringPipeline, SimScoringContext } from 'lib/characterPreview/SimScoringContext'
+import {
+  type ScoringPipeline,
+  SimScoringContext,
+} from 'lib/characterPreview/SimScoringContext'
 import type { PreparedState } from 'lib/scoring/scoringService'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import { useContext } from 'react'
 import { ScoringConfigType } from 'types/metadata'
 
 export function useSimPreview(configType: ScoringConfigType): PreparedState | null {

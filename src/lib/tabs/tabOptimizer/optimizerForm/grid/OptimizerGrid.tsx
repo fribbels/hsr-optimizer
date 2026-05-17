@@ -10,7 +10,10 @@ import {
 } from 'lib/hooks/useGridLocale'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
-import { getAKeyName, isFlatStat } from 'lib/optimization/engine/config/keys'
+import {
+  getAKeyName,
+  isFlatStat,
+} from 'lib/optimization/engine/config/keys'
 import {
   AbilityKind,
   AbilityMeta,

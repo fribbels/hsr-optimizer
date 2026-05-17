@@ -1,27 +1,37 @@
 // @vitest-environment jsdom
+import { Bronya } from 'lib/conditionals/character/1100/Bronya'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { Sparkle } from 'lib/conditionals/character/1300/Sparkle'
+import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   Parts,
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { executeOrchestrator, prepareOrchestrator } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  executeOrchestrator,
+  prepareOrchestrator,
+} from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import {
   generateTestSingleRelicsByPart,
   testMains,
   testSets,
   testStatSpread,
 } from 'lib/simulations/tests/simTestUtils'
-import { clone } from 'lib/utils/objectUtils'
-import { ScoringConfigType, type ScoringConfig, type SimulationMetadata } from 'types/metadata'
-import type { Character } from 'types/character'
-import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
-import { Bronya } from 'lib/conditionals/character/1100/Bronya'
-import { Sparkle } from 'lib/conditionals/character/1300/Sparkle'
-import { Robin } from 'lib/conditionals/character/1300/Robin'
-import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import { Metadata } from 'lib/state/metadataInitializer'
-import { expect, test } from 'vitest'
+import { clone } from 'lib/utils/objectUtils'
+import type { Character } from 'types/character'
+import {
+  type ScoringConfig,
+  ScoringConfigType,
+  type SimulationMetadata,
+} from 'types/metadata'
+import {
+  expect,
+  test,
+} from 'vitest'
 
 void Bronya
 void Sparkle
@@ -219,7 +229,12 @@ test('RuanMei support score prepare', () => {
   globalThis.SEQUENTIAL_BENCHMARKS = true
   const character = { form: { characterId: '1303', characterEidolon: 6, lightCone: '23019', lightConeSuperimposition: 5 } } as Character
   const ruanMeiSimulation: SimulationMetadata = {
-    parts: { [Parts.Body]: [Stats.HP_P, Stats.DEF_P], [Parts.Feet]: [Stats.SPD], [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P], [Parts.LinkRope]: [Stats.ERR, Stats.BE] },
+    parts: {
+      [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
+      [Parts.Feet]: [Stats.SPD],
+      [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+      [Parts.LinkRope]: [Stats.ERR, Stats.BE],
+    },
     substats: [Stats.BE, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],
     errRopeEidolon: 0,
     breakpoints: { [Stats.BE]: 1.80 },
@@ -247,7 +262,12 @@ test('Yaoguang support score prepare', () => {
   globalThis.SEQUENTIAL_BENCHMARKS = true
   const character = { form: { characterId: '1502', characterEidolon: 6, lightCone: '23040', lightConeSuperimposition: 5 } } as Character
   const yaoguangSimulation: SimulationMetadata = {
-    parts: { [Parts.Body]: [Stats.HP_P, Stats.DEF_P], [Parts.Feet]: [Stats.SPD], [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P], [Parts.LinkRope]: [Stats.ERR] },
+    parts: {
+      [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
+      [Parts.Feet]: [Stats.SPD],
+      [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+      [Parts.LinkRope]: [Stats.ERR],
+    },
     substats: [Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P, Stats.ATK_P],
     errRopeEidolon: 0,
     comboTurnAbilities: [NULL_TURN_ABILITY_NAME],

@@ -16,6 +16,7 @@ import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
@@ -50,69 +51,70 @@ import {
   type ScoringConfigType,
   type SimulationMetadata,
 } from 'types/metadata'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 
-export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs, simulationMetadata, configType }: {
-  characterMetadata: DBMetadataCharacter,
-  originalSimResult: RunStatSimulationsResult,
-  deprioritizeBuffs: boolean,
-  simulationMetadata?: SimulationMetadata,
-  configType: ScoringConfigType,
-}) {
-  const { t } = useTranslation('common')
-  const { t: tCharactersTab } = useTranslation('charactersTab')
-  const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
+export const CharacterCardCombatStats = memo(
+  function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs, simulationMetadata, configType }: {
+    characterMetadata: DBMetadataCharacter,
+    originalSimResult: RunStatSimulationsResult,
+    deprioritizeBuffs: boolean,
+    simulationMetadata?: SimulationMetadata,
+    configType: ScoringConfigType,
+  }) {
+    const { t } = useTranslation('common')
+    const { t: tCharactersTab } = useTranslation('charactersTab')
+    const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
-  const element = characterMetadata.element as ElementName
-  const x = originalSimResult.x
-  const primaryActionStats = originalSimResult.primaryActionStats
+    const element = characterMetadata.element as ElementName
+    const x = originalSimResult.x
+    const primaryActionStats = originalSimResult.primaryActionStats
 
-  const simMetadata = simulationMetadata ?? characterMetadata.scoringMetadata.simulation!
-  const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata, simMetadata)
-  const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
+    const simMetadata = simulationMetadata ?? characterMetadata.scoringMetadata.simulation!
+    const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata, simMetadata)
+    const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
 
-  const rows: ReactElement[] = []
+    const rows: ReactElement[] = []
 
-  for (const wrapper of upgradeDisplayWrappers) {
-    const { stat, display, flat, upgraded } = wrapper
+    for (const wrapper of upgradeDisplayWrappers) {
+      const { stat, display, flat, upgraded } = wrapper
 
-    const isElationDmg = stat === Stats.Elation
-    const isElementalDmg = !isElationDmg && damageStats[stat] != null
-    const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
+      const isElationDmg = stat === Stats.Elation
+      const isElementalDmg = !isElationDmg && damageStats[stat] != null
+      const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
 
-    // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
-    rows.push(
-      <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-        <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
-        <div style={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <StatTextSm>
-            {statName}
-          </StatTextSm>
-          {upgraded && <Arrow />}
-        </div>
-        <CombatStatDivider />
-        <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
-      </div>,
-    )
-  }
+      // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
+      rows.push(
+        <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
+          <div style={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <StatTextSm>
+              {statName}
+            </StatTextSm>
+            {upgraded && <Arrow />}
+          </div>
+          <CombatStatDivider />
+          <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
+        </div>,
+      )
+    }
 
-  const suffix = SCORING_CONFIG_REGISTRY[configType].combatStatsSuffix
-  const combatStatsLabel = tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
-  const titleRender = suffix
-    ? `${combatStatsLabel} (${suffix})`
-    : deprioritizeBuffs
+    const suffix = SCORING_CONFIG_REGISTRY[configType].combatStatsSuffix
+    const combatStatsLabel = tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+    const titleRender = suffix
+      ? `${combatStatsLabel} (${suffix})`
+      : deprioritizeBuffs
       ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
       : combatStatsLabel
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
-      <HeaderText style={{ fontSize: 16, textDecoration: 'none' }}>
-        {titleRender}
-      </HeaderText>
-      {rows}
-    </div>
-  )
-})
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
+        <HeaderText style={{ fontSize: 16, textDecoration: 'none' }}>
+          {titleRender}
+        </HeaderText>
+        {rows}
+      </div>
+    )
+  },
+)
 
 type StatDisplayWrapper = {
   stat: StatsValues,

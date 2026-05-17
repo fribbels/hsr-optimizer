@@ -313,4 +313,3 @@ function buildTeammateRows(values: AhaFormValues): TeammateRow[] {
 function getDenominator(rank: number) {
   return Math.round(1 / speedToContributionMultiplier(rank))
 }
-

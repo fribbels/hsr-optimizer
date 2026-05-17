@@ -28,6 +28,7 @@ import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
+import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   SetsOrnaments,
   SetsRelics,
@@ -48,7 +49,6 @@ import type {
   SimulationRelic,
   SimulationRelicByPart,
 } from 'lib/simulations/statSimulationTypes'
-import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   OptimizerAction,
   OptimizerContext,

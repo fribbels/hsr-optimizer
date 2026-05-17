@@ -6,7 +6,6 @@ import {
   wgslDebugHitRegister,
 } from 'lib/gpu/injection/injectUtils'
 import { wgsl } from 'lib/gpu/injection/wgslUtils'
-import { floorSafe } from 'lib/utils/mathUtils'
 import {
   HKey,
   type HKeyValue,
@@ -15,11 +14,12 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { floorSafe } from 'lib/utils/mathUtils'
 import {
-  ConversionType,
   type AdditionalHit,
   type BreakHit,
   type BuffHit,
+  ConversionType,
   type CritHit,
   type DotHit,
   type ElationHit,

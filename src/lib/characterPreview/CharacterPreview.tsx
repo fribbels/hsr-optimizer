@@ -55,8 +55,8 @@ import {
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
 import {
   ShowcaseCombatScoreDetailsFooter,
-  ShowcaseSimScorePanel,
   ShowcaseScoreHeader,
+  ShowcaseSimScorePanel,
 } from 'lib/characterPreview/scoring/ShowcaseSimScore'
 import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
@@ -73,7 +73,10 @@ import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import type { RelicScoringResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
 import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
-import { ScoringType, isSimScoreMode } from 'lib/scoring/scoringConfig'
+import {
+  isSimScoreMode,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
@@ -710,12 +713,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 })
 
 const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, elementalDmgValue, scoringType, hasScoring, configType }: {
-  characterId: CharacterId
-  finalStats: BasicStatsObject
-  elementalDmgValue: StatsValues
-  scoringType: ScoringType
-  hasScoring: boolean
-  configType: ScoringConfigType | undefined
+  characterId: CharacterId,
+  finalStats: BasicStatsObject,
+  elementalDmgValue: StatsValues,
+  scoringType: ScoringType,
+  hasScoring: boolean,
+  configType: ScoringConfigType | undefined,
 }) {
   const activeConfigType = configType ?? ScoringConfigType.DPS
   const preview = useSimPreview(activeConfigType)

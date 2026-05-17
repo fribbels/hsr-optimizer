@@ -1,3 +1,4 @@
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import {
   getSkeletonCount,
   getSkeletonFiles,
@@ -5,7 +6,6 @@ import {
 } from 'lib/spine/manifest'
 import { createSpineInstance } from 'lib/spine/spineEngine'
 import type { SpineInstance } from 'lib/spine/spineEngine'
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import {
   useContext,
   useEffect,

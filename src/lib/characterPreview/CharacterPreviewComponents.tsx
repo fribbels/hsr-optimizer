@@ -67,8 +67,7 @@ export function ShadowRings({ side }: ShadowRingsProps) {
         borderRadius: BASE_RADIUS + ring.inset - 1,
         ...(ring.side === ShadowRingSide.INNER
           ? { border: `1px solid ${ring.color}` }
-          : { outline: `1px solid ${ring.color}` }
-        ),
+          : { outline: `1px solid ${ring.color}` }),
         backgroundImage: `url('${TRANSPARENT_PNG}')`,
         backgroundSize: '100% 100%',
         pointerEvents: 'none',

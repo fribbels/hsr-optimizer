@@ -1,15 +1,18 @@
+import { StatRowDivider } from 'lib/characterPreview/StatRow'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import { Assets } from 'lib/rendering/assets'
-import { resolveComboLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import {
+  resolveComboLabel,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
-import { ScoringConfigType } from 'types/metadata'
-import { StatRowDivider } from 'lib/characterPreview/StatRow'
 import iconClasses from 'style/icons.module.css'
+import { ScoringConfigType } from 'types/metadata'
 
 export function SimScoreRow({ value, configType, buffStat }: {
-  value: number
-  configType: ScoringConfigType
-  buffStat?: AKeyValue
+  value: number,
+  configType: ScoringConfigType,
+  buffStat?: AKeyValue,
 }) {
   const config = SCORING_CONFIG_REGISTRY[configType]
   const label = resolveComboLabel(config, buffStat)

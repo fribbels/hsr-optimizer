@@ -24,7 +24,10 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -236,6 +239,7 @@ const shieldSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
     Sets.LushakaTheSunkenSeas,
@@ -276,7 +280,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.CR]: 0,
     [Stats.CD]: 0,
     [Stats.EHR]: 0.75,
-    [Stats.RES]: 0.5,
+    [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
   parts: {

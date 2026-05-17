@@ -1,10 +1,10 @@
 import type { Buff } from 'lib/optimization/basicStatsArray'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import type {
   AbilityKind,
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import type {
   SetsOrnaments,

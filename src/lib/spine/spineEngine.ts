@@ -198,10 +198,8 @@ export async function createSpineInstance(
   const hasClipping = entries.some(({ skeleton }) =>
     skeleton.data.skins.some((skin) => {
       const maps = (skin as unknown as { attachments: Record<string, unknown>[] }).attachments
-      return maps.some((slotMap) =>
-        slotMap && Object.values(slotMap).some((att) => att instanceof ClippingAttachment),
-      )
-    }),
+      return maps.some((slotMap) => slotMap && Object.values(slotMap).some((att) => att instanceof ClippingAttachment))
+    })
   )
   if (!hasClipping) {
     // @ts-expect-error accessing private clipper — safe, just noops the JS-side polygon clipper

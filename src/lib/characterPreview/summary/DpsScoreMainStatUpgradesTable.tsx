@@ -7,11 +7,11 @@ import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import {
   useScoringPipeline,
   useSimUpgrades,
 } from 'lib/characterPreview/useSimScoringHooks'
-import styles from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable.module.css'
 import {
   type MainStatParts,
   type MainStats,

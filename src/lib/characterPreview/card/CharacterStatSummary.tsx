@@ -1,4 +1,5 @@
 import { usePromise } from 'hooks/usePromise'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import classes from 'lib/characterPreview/card/CharacterStatSummary.module.css'
 import { SimScoreRow } from 'lib/characterPreview/SimScoreRow'
 import {
@@ -13,11 +14,13 @@ import {
   type StatsValues,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
-import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
-import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
-import { isSimScoreMode, ScoringType } from 'lib/scoring/scoringConfig'
+import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  isSimScoreMode,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -271,19 +274,17 @@ export const AsyncCharacterStatSummary = memo(function({
             />
           )}
 
-        {configType != null && (
-          <AsyncSimScoreRow promise={promise} type={type} configType={configType} buffStat={buffStat} />
-        )}
+        {configType != null && <AsyncSimScoreRow promise={promise} type={type} configType={configType} buffStat={buffStat} />}
       </div>
     </StatText>
   )
 })
 
 function AsyncSimScoreRow({ promise, type, configType, buffStat }: {
-  promise: Promise<SimulationScore | null>
-  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
-  configType: ScoringConfigType
-  buffStat?: AKeyValue
+  promise: Promise<SimulationScore | null>,
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
+  configType: ScoringConfigType,
+  buffStat?: AKeyValue,
 }) {
   const output = usePromise(promise)
   const sim = output?.[type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']

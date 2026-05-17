@@ -97,8 +97,8 @@ function StatDiffSummary({ analysis }: { analysis: OptimizerResultAnalysis }) {
 }
 
 function ComboDiffRow({ oldValue, newValue }: {
-  oldValue: number
-  newValue: number
+  oldValue: number,
+  newValue: number,
 }) {
   const { t } = useTranslation('common')
   const oldDisplay = formatSimScore(oldValue, undefined, 1, false)
@@ -129,9 +129,9 @@ function ComboDiffRow({ oldValue, newValue }: {
 }
 
 function DiffRow({ oldStats, newStats, stat }: {
-  oldStats: ComputedStatsObjectExternal
-  newStats: ComputedStatsObjectExternal
-  stat: StatsValues
+  oldStats: ComputedStatsObjectExternal,
+  newStats: ComputedStatsObjectExternal,
+  stat: StatsValues,
 }) {
   const oldValue = precisionRound(oldStats[stat])
   const newValue = precisionRound(newStats[stat])

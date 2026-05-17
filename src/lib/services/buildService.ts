@@ -2,7 +2,6 @@ import i18next from 'i18next'
 import { handleTeamSelection } from 'lib/characterPreview/characterPreviewController'
 import { AppPages } from 'lib/constants/appPages'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
-import { ScoringConfigType } from 'types/metadata'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import {
@@ -26,6 +25,7 @@ import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormA
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
+import { ScoringConfigType } from 'types/metadata'
 import {
   type Build,
   BuildSource,

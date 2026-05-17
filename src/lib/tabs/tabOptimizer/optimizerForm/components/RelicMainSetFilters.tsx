@@ -5,7 +5,10 @@ import {
   Group,
   PillsInput,
 } from '@mantine/core'
-import { IconCircleAsterisk, IconSettings } from '@tabler/icons-react'
+import {
+  IconCircleAsterisk,
+  IconSettings,
+} from '@tabler/icons-react'
 import {
   Constants,
   Parts,
@@ -19,11 +22,11 @@ import { Assets } from 'lib/rendering/assets'
 import type { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { RelicSetMode } from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { SlotImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterBadges'
 import {
   optimizerTabDefaultGap,
   panelWidth,
 } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { SlotImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterBadges'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { TooltipImage } from 'lib/ui/TooltipImage'
@@ -226,11 +229,16 @@ function RelicSetFilterRow() {
                       }}
                     />
                   </Group>
-                ))}
+                )
+            )}
             {totalCount > 2 && <span style={{ fontSize: 12, color: 'var(--mantine-color-dimmed)', marginLeft: 'auto' }}>+{totalCount - 2}</span>}
           </Group>
         )
-        : <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>Relic set filters</span>}
+        : (
+          <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>
+            Relic set filters
+          </span>
+        )}
     </PillsInput>
   )
 }
@@ -271,7 +279,11 @@ function OrnamentSetFilterRow() {
             )}
           </Group>
         )
-        : <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>Ornament set filters</span>}
+        : (
+          <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>
+            Ornament set filters
+          </span>
+        )}
     </PillsInput>
   )
 }

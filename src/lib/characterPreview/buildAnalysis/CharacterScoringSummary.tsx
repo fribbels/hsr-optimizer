@@ -10,19 +10,23 @@ import type {
 } from 'lib/characterPreview/characterPreviewController'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
 import { SimScoringContext } from 'lib/characterPreview/SimScoringContext'
-import {
-  useScoringPipeline,
-  useSimPreview,
-} from 'lib/characterPreview/useSimScoringHooks'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { DpsScoreTeammateUpgradesTable } from 'lib/characterPreview/summary/DpsScoreTeammateUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
+import {
+  useScoringPipeline,
+  useSimPreview,
+} from 'lib/characterPreview/useSimScoringHooks'
 import { ElementToDamage } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
-import { CONFIG_FIELD_MAP, resolveComboLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import {
+  CONFIG_FIELD_MAP,
+  resolveComboLabel,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
@@ -159,8 +163,16 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                   label={t('CombatResults.Primary')}
                   text={resolveComboLabel(entry, buffStat)}
                 />
-                <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat, 1, thousands)} />
-                <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat, 1, thousands)} />
+                <ScoringNumber
+                  label={t('CombatResults.Character')}
+                  number={preview.originalSimResult.simScore}
+                  formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat, 1, thousands)}
+                />
+                <ScoringNumber
+                  label={t('CombatResults.Baseline')}
+                  number={preview.baselineSimResult.simScore}
+                  formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat, 1, thousands)}
+                />
                 <SuspenseNode
                   promise={scoringPromise}
                   fallback={<ScoringNumber label={t('CombatResults.Benchmark')} />}

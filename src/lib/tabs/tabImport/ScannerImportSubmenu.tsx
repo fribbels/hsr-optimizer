@@ -399,7 +399,13 @@ export function ScannerImportSubmenu() {
                     onChange={(event) => setIngestOnlyExistingCharacters(event.currentTarget.checked)}
                   />
 
-                  <Tooltip label={t('Import.LiveImport.OnlyExistingCharactersTooltip') /* Prevents live import from adding characters that are not already in the Characters tab. */}>
+                  <Tooltip
+                    label={
+                      t(
+                        'Import.LiveImport.OnlyExistingCharactersTooltip',
+                      ) /* Prevents live import from adding characters that are not already in the Characters tab. */
+                    }
+                  >
                     <div>{t('Import.LiveImport.OnlyExistingCharacters') /* Only update existing characters */}</div>
                   </Tooltip>
                 </Flex>

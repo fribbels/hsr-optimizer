@@ -1,9 +1,16 @@
-import { type AKeyValue, getAKeyName, GlobalRegister } from 'lib/optimization/engine/config/keys'
-import { SortOption, type SortOptionKey } from 'lib/optimization/sortOptions'
+import {
+  type AKeyValue,
+  getAKeyName,
+  GlobalRegister,
+} from 'lib/optimization/engine/config/keys'
+import {
+  SortOption,
+  type SortOptionKey,
+} from 'lib/optimization/sortOptions'
 import { getSimScoreGrade } from 'lib/scoring/dpsScore'
 import {
-  ScoringConfigType,
   type ScoringConfig,
+  ScoringConfigType,
   type ScoringMetadata,
   type ScoringMetadataOverride,
 } from 'types/metadata'

@@ -1,4 +1,4 @@
-import { Firefly } from 'lib/conditionals/character/1300/Firefly'
+import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
@@ -407,7 +407,7 @@ const healSimulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Firefly.id,
+      characterId: FireflyB1.id,
       lightCone: WhereaboutsShouldDreamsRest.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,

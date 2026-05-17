@@ -197,7 +197,7 @@ const healSimulation = (): SimulationMetadata => ({
     [Parts.Body]: [Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
     [Parts.PlanarSphere]: [Stats.ATK_P],
-    [Parts.LinkRope]: [Stats.ERR],
+    [Parts.LinkRope]: [Stats.ATK_P],
   },
   substats: [
     Stats.ATK_P,

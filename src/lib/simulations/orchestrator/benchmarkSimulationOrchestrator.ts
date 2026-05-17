@@ -352,17 +352,6 @@ export class BenchmarkSimulationOrchestrator {
     const simSets = this.simSets!
     const context = this.context!
 
-    const originalSim: Simulation = {
-      simType: StatSimTypes.SubstatRolls,
-      request: this.originalSimRequest!,
-    } as Simulation
-    const originalResult = runStatSimulations([originalSim], form, context, {
-      ...originalScoringParams,
-      mainStatMultiplier: 1,
-      simulationFlags: this.flags,
-    })[0]
-    const characterBasicSpd = precisionRound(originalResult.x.c.SPD.get(), 3)
-
     const baselineFlags: SimulationFlags = {
       ...this.flags,
       benchmarkBasicSpdTarget: 0,

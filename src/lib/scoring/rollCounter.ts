@@ -18,17 +18,24 @@ import type {
 import { isSubstat } from 'lib/utils/statUtils'
 import { ScoringConfigType } from 'types/metadata'
 
+function computeResRollTarget(
+  partialSimulationWrapper: PartialSimulationWrapper,
+  scoringParams: ScoringParams,
+): number {
+  const ceiledResDeduction = Math.ceil(partialSimulationWrapper.resRollsDeduction)
+  const resBudget = scoringParams.substatGoal - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 10 * scoringParams.freeRolls
+  return Math.min(
+    Math.max(ceiledResDeduction, scoringParams.freeRolls),
+    Math.max(resBudget, scoringParams.freeRolls),
+  )
+}
+
 export function calculateMinSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,
   scoringParams: ScoringParams,
   simulationFlags: SimulationFlags,
 ) {
-  const resBudget = scoringParams.substatGoal - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 10 * scoringParams.freeRolls
-  const ceiledResDeduction = Math.ceil(partialSimulationWrapper.resRollsDeduction)
-  const resMin = Math.min(
-    Math.max(ceiledResDeduction, scoringParams.freeRolls),
-    Math.max(resBudget, scoringParams.freeRolls),
-  )
+  const resMin = computeResRollTarget(partialSimulationWrapper, scoringParams)
 
   const minCounts: SubstatCounts = {
     [Stats.HP_P]: scoringParams.freeRolls,
@@ -84,7 +91,7 @@ export function calculateMaxSubstatRollCounts(
 
   const reservedRolls = 11 * scoringParams.freeRolls
     + Math.max(0, Math.ceil(partialSimulationWrapper.speedRollsDeduction) - scoringParams.freeRolls)
-    + Math.max(0, Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0) - scoringParams.freeRolls)
+    + Math.max(0, Math.ceil(partialSimulationWrapper.resRollsDeduction) - scoringParams.freeRolls)
   for (const stat of SubStats) {
     maxCounts[stat] = Math.min(
       maxCounts[stat],
@@ -106,12 +113,7 @@ export function calculateMaxSubstatRollCounts(
 
   // Force RES when equalized, capped to available budget
   if (partialSimulationWrapper.resRollsDeduction > 0) {
-    const ceiledResDeduction = Math.ceil(partialSimulationWrapper.resRollsDeduction)
-    const resBudget = scoringParams.substatGoal - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 10 * scoringParams.freeRolls
-    maxCounts[Stats.RES] = Math.min(
-      Math.max(ceiledResDeduction, scoringParams.freeRolls),
-      Math.max(resBudget, scoringParams.freeRolls),
-    )
+    maxCounts[Stats.RES] = computeResRollTarget(partialSimulationWrapper, scoringParams)
   }
 
   // The simplifications should not go below 6 rolls otherwise it interferes with possible build enforcement
@@ -167,7 +169,7 @@ export function calculateMaxSubstatRollCounts(
   }
 
   // Forced speed/RES rolls will take up slots from the 36 potential max rolls of other stats
-  const totalDeductions = Math.ceil(partialSimulationWrapper.speedRollsDeduction) + Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0) - 6
+  const totalDeductions = Math.ceil(partialSimulationWrapper.speedRollsDeduction) + Math.ceil(partialSimulationWrapper.resRollsDeduction) - 6
   for (const stat of SubStats) {
     if (stat == Stats.SPD) continue
     if (stat == Stats.RES && partialSimulationWrapper.resRollsDeduction > 0) continue

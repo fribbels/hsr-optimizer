@@ -14,6 +14,8 @@ import type {
   RunStatSimulationsResult,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { ScoringConfigType } from 'types/metadata'
 import { isSubstat } from 'lib/utils/statUtils'
 
 export function calculateMinSubstatRollCounts(
@@ -32,7 +34,7 @@ export function calculateMinSubstatRollCounts(
     [Stats.CR]: scoringParams.freeRolls,
     [Stats.CD]: scoringParams.freeRolls,
     [Stats.EHR]: scoringParams.freeRolls,
-    [Stats.RES]: scoringParams.freeRolls,
+    [Stats.RES]: partialSimulationWrapper.resRollsDeduction || scoringParams.freeRolls,
     [Stats.BE]: scoringParams.freeRolls,
   }
 
@@ -42,8 +44,9 @@ export function calculateMinSubstatRollCounts(
 export function calculateMaxSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,
   scoringParams: ScoringParams,
-  baselineSimResult: RunStatSimulationsResult,
+  zeroMainsStatResult: RunStatSimulationsResult,
   simulationFlags: SimulationFlags,
+  configType: ScoringConfigType,
 ): SubstatCounts {
   const request = partialSimulationWrapper.simulation.request
   const maxCounts: Record<string, number> = {
@@ -76,18 +79,26 @@ export function calculateMaxSubstatRollCounts(
     // What does this do?
     maxCounts[stat] = Math.min(
       maxCounts[stat],
-      scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction),
+      scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0),
     )
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
   }
 
-  // Naively assume flat stats won't be chosen more than 10 times. Are there real scenarios for flat atk?
-  maxCounts[Stats.ATK] = Math.min(10, maxCounts[Stats.ATK])
-  maxCounts[Stats.HP] = Math.min(10, maxCounts[Stats.HP])
-  maxCounts[Stats.DEF] = Math.min(10, maxCounts[Stats.DEF])
+  // For DPS, flat stats are always outcompeted by multiplicative stats — cap at 10 to reduce search space.
+  // For non-DPS (buffer/heal/shield), flat stats can be the primary scaling stat, so don't cap.
+  if (SCORING_CONFIG_REGISTRY[configType].capFlatSubstats) {
+    maxCounts[Stats.ATK] = Math.min(10, maxCounts[Stats.ATK])
+    maxCounts[Stats.HP] = Math.min(10, maxCounts[Stats.HP])
+    maxCounts[Stats.DEF] = Math.min(10, maxCounts[Stats.DEF])
+  }
 
   // Force speed
   maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
+
+  // Force RES when equalized
+  if (partialSimulationWrapper.resRollsDeduction > 0) {
+    maxCounts[Stats.RES] = partialSimulationWrapper.resRollsDeduction
+  }
 
   // The simplifications should not go below 6 rolls otherwise it interferes with possible build enforcement
   // These should only apply to the 200% benchmark as it doesn't have diminishing returns to account for
@@ -98,7 +109,7 @@ export function calculateMaxSubstatRollCounts(
   // Assumes maximum 100 CR is needed ever
   if (!simulationFlags.overcapCritRate && scoringParams.quality == 1.0) {
     const critValue = StatCalculator.getMaxedSubstatValue(Stats.CR, scoringParams.quality)
-    const missingCrit = Math.max(0, 100 - baselineSimResult.x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) * 100)
+    const missingCrit = Math.max(0, 100 - zeroMainsStatResult.x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) * 100)
     maxCounts[Stats.CR] = Math.max(
       scoringParams.baselineFreeRolls,
       Math.max(
@@ -120,7 +131,7 @@ export function calculateMaxSubstatRollCounts(
   // Assumes maximum 120 EHR is needed ever
   if (scoringParams.quality == 1.0) {
     const ehrValue = StatCalculator.getMaxedSubstatValue(Stats.EHR, scoringParams.quality)
-    const missingEhr = Math.max(0, 120 - baselineSimResult.x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) * 100)
+    const missingEhr = Math.max(0, 120 - zeroMainsStatResult.x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) * 100)
     maxCounts[Stats.EHR] = maxCounts[Stats.EHR] == 0
       ? 0
       : Math.max(
@@ -139,11 +150,12 @@ export function calculateMaxSubstatRollCounts(
       )
   }
 
-  // Forced speed rolls will take up slots from the 36 potential max rolls of other stats
-  const nonSpeedSubsCapDeduction = Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 6
+  // Forced speed/RES rolls will take up slots from the 36 potential max rolls of other stats
+  const totalDeductions = Math.ceil(partialSimulationWrapper.speedRollsDeduction) + Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0) - 6
   for (const stat of SubStats) {
     if (stat == Stats.SPD) continue
-    maxCounts[stat] = Math.max(scoringParams.baselineFreeRolls, Math.min(maxCounts[stat], 36 - nonSpeedSubsCapDeduction))
+    if (stat == Stats.RES && partialSimulationWrapper.resRollsDeduction > 0) continue
+    maxCounts[stat] = Math.max(scoringParams.baselineFreeRolls, Math.min(maxCounts[stat], 36 - totalDeductions))
   }
 
   return maxCounts

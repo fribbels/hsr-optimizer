@@ -18,7 +18,7 @@ import iconClasses from 'style/icons.module.css'
 
 import { Renderer } from 'lib/rendering/renderer'
 import { ScoreCategory } from 'lib/scoring/scoreComparison'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { ScoringType } from 'lib/scoring/scoringConfig'
 import {
   RelicStatRow,
   type SubstatDetails,

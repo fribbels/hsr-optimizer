@@ -34,4 +34,5 @@ export const SPREAD_ORNAMENTS_2P_SUPPORT = [
   Sets.LushakaTheSunkenSeas,
   Sets.ForgeOfTheKalpagniLantern,
   Sets.GiantTreeOfRaptBrooding,
+  Sets.CityOfConvergingStars,
 ]

@@ -260,16 +260,16 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       const r = action.characterConditionals as Conditionals<Content>
 
       // FUA DMG +80%
-      x.buff(StatKey.DMG_BOOST, 0.80, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, 0.80, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
       // FUA DMG +10% per Gluttony stack
-      x.buff(StatKey.DMG_BOOST, 0.10 * r.gluttonyStacks, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, 0.10 * r.gluttonyStacks, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
       // E4: ATK +40% after using Ultimate
       x.buff(StatKey.ATK_P, (e >= 4 && r.e4AtkBuff) ? 0.40 : 0, x.source(SOURCE_E4))
 
       // E6: DMG +4% per Gluttony gained stack, max 30 stacks
-      x.buff(StatKey.DMG_BOOST, (e >= 6) ? 0.04 * r.e6GluttonyGainedStacks : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6) ? 0.04 * r.e6GluttonyGainedStacks : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

@@ -17,14 +17,17 @@ import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
+import { ComboType } from 'lib/optimization/rotation/comboType'
 import {
   AbilityKind,
+  NULL_TURN_ABILITY_NAME,
   toTurnAbility,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   calculateSetNames,
   calculateSimSets,
 } from 'lib/scoring/dpsScore'
+import { calculateScorePercent, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import {
   calculateMaxSubstatRollCounts,
@@ -40,7 +43,6 @@ import {
   baselineScoringParams,
   benchmarkScoringParams,
   buildCandidateSetPool,
-  calculateScorePercent,
   cloneSimResult,
   cloneWorkerResult,
   invertDiminishingReturnsSpdFormula,
@@ -54,7 +56,8 @@ import {
 } from 'lib/scoring/simScoringUtils'
 import {
   resolveComboSpdTarget,
-  runPoolBaselineSim,
+  runPoolZeroMainsStatSim,
+  runScoringBaselineSim,
 } from 'lib/scoring/benchmarkPoolState'
 import { generatePartialSimulations } from 'lib/simulations/benchmarks/simulateBenchmarkBuild'
 import { generateStatImprovements } from 'lib/simulations/scoringUpgrades'
@@ -70,6 +73,7 @@ import type {
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { convertRelicsToSimulation } from 'lib/simulations/statSimulationUtils'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
+import { StatCalculator } from 'lib/relics/statCalculator'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import type { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -86,7 +90,11 @@ import type {
   Form,
   OptimizerForm,
 } from 'types/form'
-import type { SimulationMetadata } from 'types/metadata'
+import {
+  ScoringConfigType,
+  type ScoringConfig,
+  type SimulationMetadata,
+} from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
 export function enrichSimulationMetadata(metadata: SimulationMetadata) {
@@ -141,6 +149,19 @@ export function enrichSimulationMetadata(metadata: SimulationMetadata) {
   }
 }
 
+function calculateResRollsDeduction(
+  simulationResult: RunStatSimulationsResult,
+  flags: SimulationFlags,
+  quality: number,
+): number {
+  if (flags.benchmarkBasicResTarget <= 0) return 0
+  const baseRes = simulationResult.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
+  const resGap = flags.benchmarkBasicResTarget - baseRes
+  if (resGap <= 0) return 0
+  const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, quality)
+  return Math.min(Math.max(0, resGap / resMaxedSubValue), 10)
+}
+
 export class BenchmarkSimulationOrchestrator {
   public metadata: SimulationMetadata
   public flags: SimulationFlags
@@ -156,9 +177,13 @@ export class BenchmarkSimulationOrchestrator {
   public benchmarkWinnerPoolIndex?: number
   public benchmarkBaselineScore?: number
 
+  // Score/UI baseline: the 0% floor shown to users and used in percent normalization.
+  // It intentionally forces SPD boots, optimizes body/sphere/rope mains, uses 0 subs, and equalizes SPD.
   public baselineSim?: Simulation
-  public baselineSimRequest?: SimulationRequest
   public baselineSimResult?: RunStatSimulationsResult
+  // Internal stat probe only. Keep this separate from baselineSimResult:
+  // it has zero main stats and is used for speed breakpoints and search-space caps.
+  public zeroMainsStatResult?: RunStatSimulationsResult
 
   public originalSim?: Simulation
   public originalSimRequest?: SimulationRequest
@@ -179,6 +204,7 @@ export class BenchmarkSimulationOrchestrator {
 
   public percent?: number
   public simulationScore?: SimulationScore
+  public configType!: ScoringConfigType
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -188,11 +214,38 @@ export class BenchmarkSimulationOrchestrator {
       characterPoetActive: false,
       forceErrRope: false,
       benchmarkBasicSpdTarget: 0,
+      benchmarkBasicResTarget: 0,
     }
   }
 
   public setMetadata() {
     enrichSimulationMetadata(this.metadata)
+  }
+
+  public applyConfigOverrides(config: ScoringConfig) {
+    const entry = SCORING_CONFIG_REGISTRY[config.configType]
+    if (entry.resultSortKey) {
+      this.form!.resultSort = entry.resultSortKey
+    }
+
+    if (config.simulation.comboTurnAbilities) {
+      this.form!.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, ...config.simulation.comboTurnAbilities]
+      this.form!.comboType = ComboType.ADVANCED
+    }
+
+    if (config.configType === ScoringConfigType.BUFFER) {
+      this.form!.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 4
+    }
+  }
+
+  public applyResEqualization() {
+    const entry = SCORING_CONFIG_REGISTRY[this.configType]
+    if (!entry.applyResEqualization) return
+
+    const combatRes = this.originalSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
+    if (combatRes >= 0.50) {
+      this.flags.benchmarkBasicResTarget = combatRes
+    }
   }
 
   public setFlags() {
@@ -292,38 +345,42 @@ export class BenchmarkSimulationOrchestrator {
     const form = this.form!
     const simSets = this.simSets!
     const context = this.context!
-    const originalSimRequest = this.originalSimRequest!
 
-    const baselineSimRequest = {
-      ...originalSimRequest,
-      stats: {},
-      simRelicSet1: simSets.relicSet1,
-      simRelicSet2: simSets.relicSet2,
-      simOrnamentSet: simSets.ornamentSet,
-    } as SimulationRequest
-
-    const baselineSim: Simulation = {
+    const originalSim: Simulation = {
       simType: StatSimTypes.SubstatRolls,
-      request: baselineSimRequest,
+      request: this.originalSimRequest!,
     } as Simulation
-
-    const simParams: RunSimulationsParams = {
-      ...baselineScoringParams,
-      mainStatMultiplier: 0,
+    const originalResult = runStatSimulations([originalSim], form, context, {
+      ...originalScoringParams,
+      mainStatMultiplier: 1,
       simulationFlags: this.flags,
+    })[0]
+    const characterBasicSpd = precisionRound(originalResult.x.c.SPD.get(), 3)
+
+    const baselineFlags: SimulationFlags = {
+      ...this.flags,
+      benchmarkBasicSpdTarget: characterBasicSpd,
+    }
+    const baselineMetadata: SimulationMetadata = {
+      ...this.metadata,
+      parts: {
+        ...this.metadata.parts,
+        [Parts.Feet]: [Stats.SPD],
+      },
     }
 
-    const baselineSimResult = cloneSimResult(runStatSimulations([baselineSim], form, context, simParams)[0])
+    const { sim, result } = runScoringBaselineSim(
+      simSets, form, context, baselineFlags, baselineMetadata, this.configType,
+    )
 
-    this.baselineSim = baselineSim
-    this.baselineSimRequest = baselineSimRequest
-    this.baselineSimResult = baselineSimResult
+    this.baselineSim = sim
+    this.baselineSim.result = result
+    this.baselineSimResult = result
   }
 
   public setOriginalBuild(inputSpdBenchmark?: number, force?: boolean) {
     const form = this.form!
     const context = this.context!
-    const baselineSimResult = this.baselineSimResult!
     const flags = this.flags
 
     const originalSim: Simulation = {
@@ -337,16 +394,31 @@ export class BenchmarkSimulationOrchestrator {
       simulationFlags: this.flags,
     }
 
-    this.spdBenchmark = inputSpdBenchmark != null
-      ? Math.max(baselineSimResult.x.c.SPD.get(), inputSpdBenchmark)
-      : undefined
-
-    // Run the original character's sim to find the original basic SPD value
-    // This value is used to determine the benchmark's corresponding basic SPD in special set cases (poet)
     const originalSimResult = cloneSimResult(runStatSimulations([originalSim], form, context, simParams)[0])
     const originalSpd = precisionRound(originalSimResult.x.c.SPD.get(), 3)
 
-    applyBasicSpeedTargetFlag(flags, baselineSimResult, originalSpd, this.spdBenchmark, force)
+    const zeroMainsSim: Simulation = {
+      simType: StatSimTypes.SubstatRolls,
+      request: {
+        ...this.originalSimRequest!,
+        stats: {},
+        simRelicSet1: this.simSets!.relicSet1,
+        simRelicSet2: this.simSets!.relicSet2,
+        simOrnamentSet: this.simSets!.ornamentSet,
+      },
+    } as Simulation
+    const zeroMainsStatResult = cloneSimResult(runStatSimulations([zeroMainsSim], form, context, {
+      ...baselineScoringParams,
+      mainStatMultiplier: 0,
+      simulationFlags: { ...flags, benchmarkBasicSpdTarget: 0 },
+    })[0])
+    this.zeroMainsStatResult = zeroMainsStatResult
+
+    this.spdBenchmark = inputSpdBenchmark != null
+      ? Math.max(zeroMainsStatResult.x.c.SPD.get(), inputSpdBenchmark)
+      : undefined
+
+    applyBasicSpeedTargetFlag(flags, zeroMainsStatResult, originalSpd, this.spdBenchmark, force)
 
     // Run a second sim with basic SPD forced at benchmarkBasicSpdTarget
     // This will emulate the character's relics at the benchmark SPD
@@ -372,17 +444,18 @@ export class BenchmarkSimulationOrchestrator {
     const pool = this.candidateSetPool ?? [this.simSets!]
 
     this.poolComboStates = pool.map((setCombination) => {
-      const { sim, result } = runPoolBaselineSim(
-        this.originalSimRequest!, setCombination, this.form!, this.context!, this.flags, this.metadata,
+      const { sim, result } = runPoolZeroMainsStatSim(
+        setCombination, this.form!, this.context!, this.flags, this.metadata, this.configType,
+        this.benchmarkCombatSpdTarget,
       )
       const spdTarget = resolveComboSpdTarget(
-        setCombination, sim, result, this.form!, this.context!, this.flags, this.originalSpd!, this.spdBenchmark,
+        setCombination, sim, this.form!, this.context!, this.flags, this.originalSpd!, this.spdBenchmark,
       )
 
       return {
         sets: setCombination,
-        baselineScore: result.simScore,
-        baselineResult: result,
+        zeroMainsScore: result.simScore,
+        zeroMainsResult: result,
         combatSpdTarget: spdTarget.combatSpdTarget,
         basicSpdTarget: spdTarget.basicSpdTarget,
         flags: spdTarget.flags,
@@ -394,7 +467,6 @@ export class BenchmarkSimulationOrchestrator {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
-    const baselineSimResult = this.baselineSimResult!
 
     const clonedBenchmarkScoringParams = clone(benchmarkScoringParams)
 
@@ -411,7 +483,7 @@ export class BenchmarkSimulationOrchestrator {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
       const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
       const flags = comboState?.flags ?? defaultFlags
-      const candidateBaseline = comboState?.baselineResult ?? baselineSimResult
+      const zeroMainsStatResult = poolComboStates ? comboState!.zeroMainsResult : this.zeroMainsStatResult!
 
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
@@ -432,9 +504,11 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
+      partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedBenchmarkScoringParams.quality)
+
       // Define min/max limits
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, candidateBaseline, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, zeroMainsStatResult, flags, this.configType)
 
       // Start the sim search at the max then iterate downwards
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
@@ -449,6 +523,7 @@ export class BenchmarkSimulationOrchestrator {
         metadata: metadata,
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
+        configType: this.configType,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -462,6 +537,10 @@ export class BenchmarkSimulationOrchestrator {
 
     candidates.sort(simSorter)
     const benchmarkSim = candidates[0]
+
+    if (!benchmarkSim) {
+      throw new Error(`Benchmark produced no valid candidates (${runnerResults.length} runners, ${candidates.length} candidates)`)
+    }
 
     this.benchmarkSimCandidates = candidates
     this.benchmarkSimResult = cloneWorkerResult(benchmarkSim.result!)
@@ -477,7 +556,6 @@ export class BenchmarkSimulationOrchestrator {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
-    const baselineSimResult = this.baselineSimResult!
 
     const clonedPerfectionScoringParams = clone(maximumScoringParams)
 
@@ -492,7 +570,7 @@ export class BenchmarkSimulationOrchestrator {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
       const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
       const flags = comboState?.flags ?? defaultFlags
-      const candidateBaseline = comboState?.baselineResult ?? baselineSimResult
+      const zeroMainsStatResult = poolComboStates ? comboState!.zeroMainsResult : this.zeroMainsStatResult!
 
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
 
@@ -509,9 +587,11 @@ export class BenchmarkSimulationOrchestrator {
         return null
       }
 
+      partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedPerfectionScoringParams.quality)
+
       // Define min/max limits
       const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
-      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, candidateBaseline, flags)
+      const maxSubstatRollCounts = calculateMaxSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, zeroMainsStatResult, flags, this.configType)
 
       // Start the sim search at the max then iterate downwards
       partialSimulationWrapper.simulation.request.stats = maxSubstatRollCounts
@@ -526,6 +606,7 @@ export class BenchmarkSimulationOrchestrator {
         metadata: metadata,
         scoringParams: clonedPerfectionScoringParams,
         simulationFlags: flags,
+        configType: this.configType,
       }
 
       return globalThis.SEQUENTIAL_BENCHMARKS
@@ -540,6 +621,10 @@ export class BenchmarkSimulationOrchestrator {
     candidates.sort(simSorter)
     const perfectionSim = candidates[0]
 
+    if (!perfectionSim) {
+      throw new Error(`Perfection produced no valid candidates (${runnerResults.length} runners, ${candidates.length} candidates)`)
+    }
+
     this.perfectionSimCandidates = candidates
     this.perfectionSimResult = cloneWorkerResult(perfectionSim.result!)
     this.perfectionSimRequest = perfectionSim.request
@@ -552,17 +637,14 @@ export class BenchmarkSimulationOrchestrator {
     const benchmarkSimResult = this.benchmarkSimResult!
     const perfectionSimResult = this.perfectionSimResult!
 
-    applyScoringFunction(baselineSimResult, metadata)
-    applyScoringFunction(originalSimResult, metadata, true, true)
+    applyScoringFunction(baselineSimResult, metadata, true, false, this.context!, this.configType)
+    applyScoringFunction(originalSimResult, metadata, true, true, this.context!, this.configType)
 
     const benchmarkSimScore = benchmarkSimResult.simScore
     const originalSimScore = originalSimResult.simScore
     const perfectionSimScore = perfectionSimResult.simScore
 
-    // Look up benchmark winner's baseline from pre-computed pool state
-    const baselineSimScore = this.poolComboStates
-      ? this.poolComboStates[this.benchmarkWinnerPoolIndex!].baselineScore
-      : baselineSimResult.simScore
+    const baselineSimScore = baselineSimResult.simScore
 
     // Store for calculateUpgrades() and calculateResults()
     this.benchmarkBaselineScore = baselineSimScore
@@ -582,6 +664,7 @@ export class BenchmarkSimulationOrchestrator {
       this.benchmarkBaselineScore ?? this.baselineSimResult!.simScore,
       this.benchmarkSimResult!.simScore,
       this.perfectionSimResult!.simScore,
+      this.configType,
     )
 
     this.substatUpgradeResults = substatUpgradeResults
@@ -599,7 +682,7 @@ export class BenchmarkSimulationOrchestrator {
         ...benchmarkScoringParams,
         substatRollsModifier: (num: number) => num,
       })[0]
-      applyScoringFunction(result, metadata, true, true)
+      applyScoringFunction(result, metadata, true, true, context, this.configType)
       return result.simScore
     })
   }

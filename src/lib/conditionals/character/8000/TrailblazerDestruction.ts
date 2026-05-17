@@ -174,8 +174,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, (e >= 4 && action.config.enemyWeaknessBroken) ? 0.25 : 0, x.source(SOURCE_E4))
 
       // Boost
-      x.buff(StatKey.DMG_BOOST, 0.25, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (r.enhancedUlt) ? 0.25 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, 0.25, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enhancedUlt) ? 0.25 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
     },
   }
 }

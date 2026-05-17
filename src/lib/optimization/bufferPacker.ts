@@ -93,16 +93,17 @@ export type OptimizerDisplayData = {
 
   mxEHP: number,
 
-  BASIC_HEAL?: number,
-  SKILL_HEAL?: number,
-  ULT_HEAL?: number,
-  FUA_HEAL?: number,
-  TALENT_HEAL?: number,
-  BASIC_SHIELD?: number,
-  SKILL_SHIELD?: number,
-  ULT_SHIELD?: number,
-  FUA_SHIELD?: number,
-  TALENT_SHIELD?: number,
+  'BUFF'?: number,
+  'BASIC_HEAL'?: number,
+  'SKILL_HEAL'?: number,
+  'ULT_HEAL'?: number,
+  'FUA_HEAL'?: number,
+  'TALENT_HEAL'?: number,
+  'BASIC_SHIELD'?: number,
+  'SKILL_SHIELD'?: number,
+  'ULT_SHIELD'?: number,
+  'FUA_SHIELD'?: number,
+  'TALENT_SHIELD'?: number,
 
   xa: Float64Array,
   ca: Float32Array,
@@ -149,8 +150,9 @@ export const BufferPacker = {
     const primaryEntity = x.config.entitiesArray[0].name
     arr[offset + 14] = x.getActionValue(StatKey.EHP, primaryEntity)
 
-    // [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
+    // [15] Buff value, [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
     const actionNameToOffset: Record<string, number> = {
+      BUFF: 15,
       BASIC: 17,
       SKILL: 18,
       ULT: 19,
@@ -177,7 +179,7 @@ export const BufferPacker = {
       const action = context.defaultActions[i]
       const bufferOffset = actionNameToOffset[action.actionName]
       if (bufferOffset !== undefined) {
-        arr[offset + bufferOffset] = x.getActionRegisterValue(i)
+        arr[offset + bufferOffset] = x.getActionRegisterValue(action.registerIndex)
       }
     }
 
@@ -198,7 +200,7 @@ export const BufferPacker = {
     arr[offset + 36] = x.getActionValue(StatKey.OHB, primaryEntity)
     // xELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
     const elementalBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
-    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST, primaryEntity)
+    arr[offset + 37] = x.getActionValue(StatKey.BOOST, primaryEntity)
       + x.getActionValue(elementalBoostKey, primaryEntity)
 
     // [38-39] Set indices
@@ -237,7 +239,7 @@ export const BufferPacker = {
       arr[offset + 61] = x.getActionValue(StatKey.ERR, memoEntity)
       arr[offset + 62] = x.getActionValue(StatKey.OHB, memoEntity)
       // mxELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
-      arr[offset + 63] = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
+      arr[offset + 63] = x.getActionValue(StatKey.BOOST, memoEntity)
         + x.getActionValue(elementalBoostKey, memoEntity)
 
       // [64] mxEHP
@@ -248,81 +250,82 @@ export const BufferPacker = {
   extractCharacter: (arr: Float32Array, offset: number, skip: number): OptimizerDisplayData => { // Float32Array
     offset = offset * SIZE
     return {
-      id: arr[offset] + skip, // 0
-      HP: arr[offset + 1],
-      ATK: arr[offset + 2],
-      DEF: arr[offset + 3],
-      SPD: arr[offset + 4],
-      CR: arr[offset + 5],
-      CD: arr[offset + 6],
-      EHR: arr[offset + 7],
-      RES: arr[offset + 8],
-      BE: arr[offset + 9],
-      ERR: arr[offset + 10], // 10
-      OHB: arr[offset + 11],
-      ELEMENTAL_DMG: arr[offset + 12],
-      WEIGHT: arr[offset + 13], // DELETE
-      EHP: arr[offset + 14],
-      BASIC: arr[offset + 17],
-      SKILL: arr[offset + 18],
-      ULT: arr[offset + 19],
-      FUA: arr[offset + 20],
-      MEMO_SKILL: arr[offset + 21],
-      MEMO_TALENT: arr[offset + 22],
-      ELATION_SKILL: arr[offset + 75],
-      UNIQUE: arr[offset + 76],
-      DOT: arr[offset + 23],
-      BREAK: arr[offset + 24], // 24
-      COMBO: arr[offset + 25],
-      xHP: arr[offset + 26],
-      xATK: arr[offset + 27],
-      xDEF: arr[offset + 28],
-      xSPD: arr[offset + 29],
-      xCR: arr[offset + 30],
-      xCD: arr[offset + 31],
-      xEHR: arr[offset + 32],
-      xRES: arr[offset + 33],
-      xBE: arr[offset + 34], // 32
-      xERR: arr[offset + 35],
-      xOHB: arr[offset + 36],
-      xELEMENTAL_DMG: arr[offset + 37],
-      relicSetIndex: arr[offset + 38],
-      ornamentSetIndex: arr[offset + 39],
-      mHP: arr[offset + 40],
-      mATK: arr[offset + 41],
-      mDEF: arr[offset + 42],
-      mSPD: arr[offset + 43],
-      mCR: arr[offset + 44],
-      mCD: arr[offset + 45],
-      mEHR: arr[offset + 46],
-      mRES: arr[offset + 47],
-      mBE: arr[offset + 48], // 32
-      mERR: arr[offset + 49],
-      mOHB: arr[offset + 50],
-      mELEMENTAL_DMG: arr[offset + 51],
-      mxHP: arr[offset + 52],
-      mxATK: arr[offset + 53],
-      mxDEF: arr[offset + 54],
-      mxSPD: arr[offset + 55],
-      mxCR: arr[offset + 56],
-      mxCD: arr[offset + 57],
-      mxEHR: arr[offset + 58],
-      mxRES: arr[offset + 59],
-      mxBE: arr[offset + 60], // 32
-      mxERR: arr[offset + 61],
-      mxOHB: arr[offset + 62],
-      mxELEMENTAL_DMG: arr[offset + 63],
-      mxEHP: arr[offset + 64],
-      BASIC_HEAL: arr[offset + 65],
-      SKILL_HEAL: arr[offset + 66],
-      ULT_HEAL: arr[offset + 67],
-      FUA_HEAL: arr[offset + 68],
-      TALENT_HEAL: arr[offset + 69],
-      BASIC_SHIELD: arr[offset + 70],
-      SKILL_SHIELD: arr[offset + 71],
-      ULT_SHIELD: arr[offset + 72],
-      FUA_SHIELD: arr[offset + 73],
-      TALENT_SHIELD: arr[offset + 74],
+      'id': arr[offset] + skip, // 0
+      'HP': arr[offset + 1],
+      'ATK': arr[offset + 2],
+      'DEF': arr[offset + 3],
+      'SPD': arr[offset + 4],
+      'CR': arr[offset + 5],
+      'CD': arr[offset + 6],
+      'EHR': arr[offset + 7],
+      'RES': arr[offset + 8],
+      'BE': arr[offset + 9],
+      'ERR': arr[offset + 10], // 10
+      'OHB': arr[offset + 11],
+      'ELEMENTAL_DMG': arr[offset + 12],
+      'WEIGHT': arr[offset + 13], // DELETE
+      'EHP': arr[offset + 14],
+      'BASIC': arr[offset + 17],
+      'SKILL': arr[offset + 18],
+      'ULT': arr[offset + 19],
+      'FUA': arr[offset + 20],
+      'MEMO_SKILL': arr[offset + 21],
+      'MEMO_TALENT': arr[offset + 22],
+      'ELATION_SKILL': arr[offset + 75],
+      'UNIQUE': arr[offset + 76],
+      'DOT': arr[offset + 23],
+      'BREAK': arr[offset + 24], // 24
+      'COMBO': arr[offset + 25],
+      'xHP': arr[offset + 26],
+      'xATK': arr[offset + 27],
+      'xDEF': arr[offset + 28],
+      'xSPD': arr[offset + 29],
+      'xCR': arr[offset + 30],
+      'xCD': arr[offset + 31],
+      'xEHR': arr[offset + 32],
+      'xRES': arr[offset + 33],
+      'xBE': arr[offset + 34], // 32
+      'xERR': arr[offset + 35],
+      'xOHB': arr[offset + 36],
+      'xELEMENTAL_DMG': arr[offset + 37],
+      'relicSetIndex': arr[offset + 38],
+      'ornamentSetIndex': arr[offset + 39],
+      'mHP': arr[offset + 40],
+      'mATK': arr[offset + 41],
+      'mDEF': arr[offset + 42],
+      'mSPD': arr[offset + 43],
+      'mCR': arr[offset + 44],
+      'mCD': arr[offset + 45],
+      'mEHR': arr[offset + 46],
+      'mRES': arr[offset + 47],
+      'mBE': arr[offset + 48], // 32
+      'mERR': arr[offset + 49],
+      'mOHB': arr[offset + 50],
+      'mELEMENTAL_DMG': arr[offset + 51],
+      'mxHP': arr[offset + 52],
+      'mxATK': arr[offset + 53],
+      'mxDEF': arr[offset + 54],
+      'mxSPD': arr[offset + 55],
+      'mxCR': arr[offset + 56],
+      'mxCD': arr[offset + 57],
+      'mxEHR': arr[offset + 58],
+      'mxRES': arr[offset + 59],
+      'mxBE': arr[offset + 60], // 32
+      'mxERR': arr[offset + 61],
+      'mxOHB': arr[offset + 62],
+      'mxELEMENTAL_DMG': arr[offset + 63],
+      'mxEHP': arr[offset + 64],
+      'BUFF': arr[offset + 15],
+      'BASIC_HEAL': arr[offset + 65],
+      'SKILL_HEAL': arr[offset + 66],
+      'ULT_HEAL': arr[offset + 67],
+      'FUA_HEAL': arr[offset + 68],
+      'TALENT_HEAL': arr[offset + 69],
+      'BASIC_SHIELD': arr[offset + 70],
+      'SKILL_SHIELD': arr[offset + 71],
+      'ULT_SHIELD': arr[offset + 72],
+      'FUA_SHIELD': arr[offset + 73],
+      'TALENT_SHIELD': arr[offset + 74],
     } as OptimizerDisplayData
   },
 

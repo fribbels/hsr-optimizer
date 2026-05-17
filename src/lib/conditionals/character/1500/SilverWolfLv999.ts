@@ -22,6 +22,7 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
   ConditionalType,
+  ELEMENTAL_DMG_KEY,
   Parts,
   Sets,
   Stats,
@@ -537,7 +538,7 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboDot: 0,
   combatStatsConfig: [
-    { remove: 'ELEMENTAL_DMG' },
+    { remove: ELEMENTAL_DMG_KEY },
   ],
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],

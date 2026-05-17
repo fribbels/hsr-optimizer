@@ -1,3 +1,6 @@
+import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -5,8 +8,12 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -17,12 +24,20 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_TALENT_SHIELD,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -199,6 +214,56 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const shieldSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.DEF_P],
+    [Parts.Feet]: [Stats.DEF_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.DEF_P, Stats.ERR],
+  },
+  substats: [
+    Stats.DEF_P,
+    Stats.DEF,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_TALENT_SHIELD,
+    DEFAULT_TALENT_SHIELD,
+  ],
+  relicSets: [
+    [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Acheron.id,
+      lightCone: AlongThePassingShore.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Jiaoqiu.id,
+      lightCone: ThoseManySprings.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -234,6 +299,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.TALENT_SHIELD,
   addedColumns: [],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  shieldSimulation: shieldSimulation(),
 })
 
 const displayCaelus = {

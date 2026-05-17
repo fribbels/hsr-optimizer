@@ -201,7 +201,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, r.skillOutroarStacks * outroarStackCdValue, x.source(SOURCE_SKILL))
 
       // Talent - Righteous Heart DMG boost
-      x.buff(StatKey.DMG_BOOST, r.talentRighteousHeartStacks * righteousHeartDmgValue, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, r.talentRighteousHeartStacks * righteousHeartDmgValue, x.source(SOURCE_TALENT))
 
       // E6 - RES PEN for enhanced basic 3
       x.buff(StatKey.RES_PEN, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, x.damageType(DamageTag.BASIC).source(SOURCE_E6))

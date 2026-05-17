@@ -1,4 +1,5 @@
 import type {
+  ELEMENTAL_DMG_KEY,
   ElementName,
   MainStats,
   Parts,
@@ -9,6 +10,7 @@ import type {
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { statConversion } from 'lib/importer/characterConverter'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { SortOptionProperties } from 'lib/optimization/sortOptions'
@@ -19,6 +21,18 @@ import type {
 } from 'lib/sets/setConfigRegistry'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
+
+export enum ScoringConfigType {
+  DPS = 'dps',
+  BUFFER = 'buffer',
+  HEAL = 'heal',
+  SHIELD = 'shield',
+}
+
+export type ScoringConfig = {
+  configType: ScoringConfigType
+  simulation: SimulationMetadata
+}
 
 export type ShowcasePreferences = {
   color?: string,
@@ -40,6 +54,9 @@ export type ScoringMetadata = {
   /*      optimizer       */ addedColumns?: SortOptionProperties[],
   /* optimizer/dps score  */ traces?: { deactivated: string[] },
   /*      dps score       */ simulation?: SimulationMetadata,
+  /*   support score     */ supportSimulation?: SimulationMetadata,
+  /*     heal score      */ healSimulation?: SimulationMetadata,
+  /*    shield score     */ shieldSimulation?: SimulationMetadata,
 }
 
 export type ScoringParts = Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>
@@ -47,6 +64,9 @@ export type ScoringMetadataOverride = {
   stats?: Partial<Record<SubStats, number>>,
   parts?: Partial<Record<ScoringParts, MainStats[]>>,
   simulation?: Partial<SimulationMetadata>,
+  supportSimulation?: Partial<SimulationMetadata>,
+  healSimulation?: Partial<SimulationMetadata>,
+  shieldSimulation?: Partial<SimulationMetadata>,
   traces?: { deactivated: string[] },
 }
 
@@ -77,9 +97,10 @@ export type SimulationMetadata = {
   breakpoints?: {
     [stat: string]: number,
   },
+  buffStat?: AKeyValue,
   combatStatsConfig?: Array<{
     add?: StatsValues,
-    remove?: StatsValues | 'ELEMENTAL_DMG',
+    remove?: StatsValues | typeof ELEMENTAL_DMG_KEY,
   }>,
 }
 

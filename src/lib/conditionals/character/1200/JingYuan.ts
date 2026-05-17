@@ -255,7 +255,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, (talentHitsPerAction >= 6) ? 0.25 : 0, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
       // E2 DMG boost for Basic/Skill/Ult
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E2))
 
       // E6 FUA vulnerability
       x.buff(StatKey.VULNERABILITY, (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))

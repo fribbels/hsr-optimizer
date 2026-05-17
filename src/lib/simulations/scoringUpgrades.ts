@@ -3,10 +3,8 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import {
-  applyScoringFunction,
-  calculateScorePercent,
-} from 'lib/scoring/simScoringUtils'
+import { calculateScorePercent } from 'lib/scoring/scoringConfig'
+import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import type {
   ScoringParams,
   SimulationFlags,
@@ -20,7 +18,7 @@ import type {
 import { partsToFilterMapping } from 'lib/simulations/utils/benchmarkUtils'
 import { clone } from 'lib/utils/objectUtils'
 import type { Form } from 'types/form'
-import type { SimulationMetadata } from 'types/metadata'
+import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
 export type SimulationStatUpgrade = {
@@ -42,6 +40,7 @@ export function generateStatImprovements(
   baselineSimScore: number,
   benchmarkSimScore: number,
   maximumSimScore: number,
+  configType: ScoringConfigType,
 ) {
   // Upgrade substats
   const substatUpgradeResults: SimulationStatUpgrade[] = []
@@ -55,7 +54,7 @@ export function generateStatImprovements(
       substatRollsModifier: (num: number) => num,
     })[0]
 
-    applyScoringFunction(statImprovementResult, metadata, true, true)
+    applyScoringFunction(statImprovementResult, metadata, true, true, context, configType)
     substatUpgradeResults.push({
       stat: stat,
       simulation: originalSimClone,
@@ -75,7 +74,7 @@ export function generateStatImprovements(
     substatRollsModifier: (num: number) => num,
   })[0]
 
-  applyScoringFunction(setUpgradeResult, metadata, true, true)
+  applyScoringFunction(setUpgradeResult, metadata, true, true, context, configType)
   setUpgradeResults.push({
     simulation: originalSimClone,
     simulationResult: setUpgradeResult,
@@ -100,7 +99,7 @@ export function generateStatImprovements(
         substatRollsModifier: (num: number) => num,
       })[0]
 
-      applyScoringFunction(mainUpgradeResult, metadata, true, true)
+      applyScoringFunction(mainUpgradeResult, metadata, true, true, context, configType)
       const simulationStatUpgrade = {
         stat: upgradeMainStat,
         part: part,

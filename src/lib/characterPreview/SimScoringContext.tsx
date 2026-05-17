@@ -1,5 +1,3 @@
-import { usePromise } from 'hooks/usePromise'
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import {
   computeScoringCacheKey,
   getOrComputePreview,
@@ -9,22 +7,24 @@ import {
   resultCache,
   upgradeResultCache,
 } from 'lib/scoring/scoringService'
+import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import {
   createContext,
   memo,
   type PropsWithChildren,
-  use,
   useMemo,
 } from 'react'
 import type { Character } from 'types/character'
-import type {
-  ShowcaseTemporaryOptions,
-  SimulationMetadata,
+import {
+  ScoringConfigType,
+  type ScoringConfig,
+  type ShowcaseTemporaryOptions,
+  type SimulationMetadata,
 } from 'types/metadata'
 import { type PreviewRelics } from './characterPreviewController'
 
-interface SimScoringContext {
+export type ScoringPipeline = {
   preview: PreparedState | null
   scoringPromise: Promise<SimulationScore | null>
   upgradePromise: Promise<SimulationScore | null>
@@ -32,59 +32,101 @@ interface SimScoringContext {
   cachedUpgrades: SimulationScore | null
 }
 
+type SimScoringContextValue = {
+  pipelines: Partial<Record<ScoringConfigType, ScoringPipeline>>
+}
+
 // Stable reference to avoid re-renders when no promise exists
 const nullPromise = Promise.resolve(null)
 
-// Promise caches for deduplication
+const EMPTY_PIPELINES: SimScoringContextValue = { pipelines: {} }
+
+// Promise caches for deduplication — keyed by cacheKey string
 const scorePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 const scoreUpgradePromiseCache = new Map<string, Promise<SimulationScore | null>>()
 
-export const SimScoringContext = createContext<SimScoringContext>({
-  preview: null,
-  scoringPromise: nullPromise,
-  upgradePromise: nullPromise,
-  cachedScore: null,
-  cachedUpgrades: null,
-})
+export const SimScoringContext = createContext<SimScoringContextValue>(EMPTY_PIPELINES)
+
+function buildScoringPipeline(
+  cacheKey: string | null,
+  character: Character,
+  configType: ScoringConfigType,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: PreviewRelics,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+): ScoringPipeline {
+  if (cacheKey === null) {
+    return {
+      preview: null,
+      scoringPromise: nullPromise,
+      upgradePromise: nullPromise,
+      cachedScore: null,
+      cachedUpgrades: null,
+    }
+  }
+
+  const config: ScoringConfig = {
+    configType,
+    simulation: simulationMetadata,
+  }
+
+  const preview = getOrComputePreview(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions)
+
+  const scoringPromise = scorePromiseCache.get(cacheKey) ?? scorePromiseCache
+    .set(cacheKey, requestScore(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions))
+    .get(cacheKey)!
+
+  const upgradePromise = scoreUpgradePromiseCache.get(cacheKey) ?? scoreUpgradePromiseCache
+    .set(cacheKey, requestScoreUpgrades(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions))
+    .get(cacheKey)!
+
+  const cachedScore = resultCache.get(cacheKey) ?? null
+  const cachedUpgrades = upgradeResultCache.get(cacheKey) ?? null
+
+  const pipelineComplete = cachedScore != null && cachedUpgrades != null
+  if (pipelineComplete) {
+    scorePromiseCache.delete(cacheKey)
+    scoreUpgradePromiseCache.delete(cacheKey)
+  }
+
+  return { preview, scoringPromise, upgradePromise, cachedScore, cachedUpgrades }
+}
 
 interface SimScoringContextProps extends PropsWithChildren {
   character: Character
-  simulationMetadata: SimulationMetadata | null
+  configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>>
   singleRelicByPart: PreviewRelics
   showcaseTemporaryOptions: ShowcaseTemporaryOptions
 }
 
 export const SimScoringContextProvider = memo(function SimScoringContextProvider(props: SimScoringContextProps) {
-  const { character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
-  const cacheKey = computeScoringCacheKey(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+  const { character, configMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
+
+  const dpsCacheKey = computeScoringCacheKey(character, ScoringConfigType.DPS, configMetadata[ScoringConfigType.DPS] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const bufferCacheKey = computeScoringCacheKey(character, ScoringConfigType.BUFFER, configMetadata[ScoringConfigType.BUFFER] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const healCacheKey = computeScoringCacheKey(character, ScoringConfigType.HEAL, configMetadata[ScoringConfigType.HEAL] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+  const shieldCacheKey = computeScoringCacheKey(character, ScoringConfigType.SHIELD, configMetadata[ScoringConfigType.SHIELD] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+
+  const cacheKeys: Record<ScoringConfigType, string | null> = {
+    [ScoringConfigType.DPS]: dpsCacheKey,
+    [ScoringConfigType.BUFFER]: bufferCacheKey,
+    [ScoringConfigType.HEAL]: healCacheKey,
+    [ScoringConfigType.SHIELD]: shieldCacheKey,
+  }
 
   const context = useMemo(() => {
-    if (cacheKey === null) {
-      return {
-        preview: null,
-        scoringPromise: nullPromise,
-        upgradePromise: nullPromise,
-        cachedScore: null,
-        cachedUpgrades: null,
+    const pipelines: Partial<Record<ScoringConfigType, ScoringPipeline>> = {}
+
+    for (const configType of CONFIG_DISPLAY_ORDER) {
+      const meta = configMetadata[configType]
+      if (meta) {
+        pipelines[configType] = buildScoringPipeline(cacheKeys[configType], character, configType, meta, singleRelicByPart, showcaseTemporaryOptions)
       }
     }
 
-    const preview = getOrComputePreview(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions)
-
-    const scoringPromise = scorePromiseCache.get(cacheKey) ?? scorePromiseCache
-      .set(cacheKey, requestScore(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions))
-      .get(cacheKey)!
-
-    const upgradePromise = scoreUpgradePromiseCache.get(cacheKey) ?? scoreUpgradePromiseCache
-      .set(cacheKey, requestScoreUpgrades(cacheKey, character, simulationMetadata!, singleRelicByPart, showcaseTemporaryOptions))
-      .get(cacheKey)!
-
-    const cachedScore = resultCache.get(cacheKey) ?? null
-    const cachedUpgrades = upgradeResultCache.get(cacheKey) ?? null
-
-    return { preview, scoringPromise, upgradePromise, cachedScore, cachedUpgrades }
+    return { pipelines }
     // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [cacheKey])
+  }, [dpsCacheKey, bufferCacheKey, healCacheKey, shieldCacheKey])
 
   return (
     <SimScoringContext value={context}>
@@ -93,28 +135,3 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
   )
 })
 
-export enum ScoringSelector {
-  Preview,
-  Score,
-  Upgrades,
-}
-
-// Uses usePromise instead of use() to avoid Suspense and React profiler crashes
-// Returns cached result immediately if available, avoiding flash during transitions
-export function useSimScoringContext(selector: ScoringSelector.Preview): PreparedState | null
-export function useSimScoringContext(selector: ScoringSelector.Score | ScoringSelector.Upgrades): SimulationScore | null
-export function useSimScoringContext(selector: ScoringSelector) {
-  const ctx = use(SimScoringContext)
-  const promise = selector === ScoringSelector.Score
-    ? ctx.scoringPromise
-    : selector === ScoringSelector.Upgrades
-    ? ctx.upgradePromise
-    : null
-  const cached = selector === ScoringSelector.Score
-    ? ctx.cachedScore
-    : selector === ScoringSelector.Upgrades
-    ? ctx.cachedUpgrades
-    : null
-  const promised = usePromise(promise)
-  return selector === ScoringSelector.Preview ? ctx.preview : cached ?? promised
-}

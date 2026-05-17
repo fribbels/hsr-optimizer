@@ -44,14 +44,14 @@ const display = {
 
 const conditionals: SetConditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, x.damageType(DamageTag.FUA).source(Source.DuranDynastyOfRunningWolves))
+    x.buff(StatKey.BOOST, 0.05 * setConditionals.valueDuranDynastyOfRunningWolves, x.damageType(DamageTag.FUA).source(Source.DuranDynastyOfRunningWolves))
     if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
       x.buff(StatKey.CD, 0.25, x.source(Source.DuranDynastyOfRunningWolves))
     }
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (ornament2p(*p_sets, SET_DuranDynastyOfRunningWolves) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, `0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves)`).damageType(DamageTag.FUA).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, `0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves)`).damageType(DamageTag.FUA).wgsl(action, 2)}
       if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
         ${buff.action(AKey.CD, 0.25).wgsl(action, 3)}
       }

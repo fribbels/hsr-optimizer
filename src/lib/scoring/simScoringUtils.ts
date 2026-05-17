@@ -12,10 +12,12 @@ import type { OptimizerDisplayData } from 'lib/optimization/bufferPacker'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import {
   GlobalRegister,
+  isFlatStat,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
 import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
@@ -24,12 +26,15 @@ import type {
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
+import { renderThousandsK } from 'lib/utils/i18nUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
   SimulationMetadata,
 } from 'types/metadata'
+import { ScoringConfigType } from 'types/metadata'
+import type { OptimizerContext } from 'types/optimizer'
 import type { Relic } from 'types/relic'
 
 // Stats string to StatKey mapping - defined here to avoid circular dependency with keys.ts
@@ -63,16 +68,21 @@ export const StatsToStatKey: Record<StatsValues, AKeyValue> = {
 // DMG_BOOST (generic) + element-specific boost (e.g., ICE_DMG_BOOST)
 // Uses getSelfValue() to work with containers from fromArrays() that lack config
 export function getElementalDmgFromContainer(x: ComputedStatsContainer, element: ElementName): number {
-  const dmgBoost = x.getSelfValue(StatKey.DMG_BOOST)
+  const dmgBoost = x.getSelfValue(StatKey.BOOST)
   const elementBoost = x.getSelfValue(ElementToStatKeyDmgBoost[element])
   return dmgBoost + elementBoost
 }
 
-export enum ScoringType {
-  COMBAT_SCORE,
-  SUBSTAT_SCORE,
-  NONE,
+export function formatSimScore(value: number, buffStat?: AKeyValue, precision: number = 1, thousands: boolean = false): string {
+  if (buffStat == null || isFlatStat(buffStat)) {
+    if (thousands) {
+      return renderThousandsK(value, precision)
+    }
+    return String(Math.floor(value))
+  }
+  return `${(value * 100).toFixed(precision)}%`
 }
+
 
 export type ScoringParams = {
   quality: number,
@@ -138,14 +148,15 @@ export type RelicBuild = {
 export type PartialSimulationWrapper = {
   simulation: Simulation,
   speedRollsDeduction: number,
+  resRollsDeduction: number,
   effectiveSubstats: string[],
   poolIndex: number,
 }
 
 export type PoolComboState = {
   sets: SimulationSets,
-  baselineScore: number,
-  baselineResult: RunStatSimulationsResult,
+  zeroMainsScore: number,
+  zeroMainsResult: RunStatSimulationsResult,
   combatSpdTarget: number,
   basicSpdTarget: number,
   flags: SimulationFlags,
@@ -157,6 +168,7 @@ export type SimulationFlags = {
   characterPoetActive: boolean,
   forceErrRope: boolean,
   benchmarkBasicSpdTarget: number,
+  benchmarkBasicResTarget: number,
 }
 
 export const benchmarkScoringParams: ScoringParams = {
@@ -203,6 +215,8 @@ export function substatRollsModifier(
     sim.request.simFeet,
     sim.request.simPlanarSphere,
     sim.request.simLinkRope,
+    Stats.ATK,
+    Stats.HP,
   ].filter((x) => x == stat).length
 
   return stat == Stats.SPD
@@ -224,6 +238,21 @@ export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
   const diminishedExcess = excess / (Math.pow(excess, 0.25))
 
   return lowerLimit + diminishedExcess
+}
+
+export function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyPerMain: number, mainsFreeCount: number) {
+  return (mainsCount: number, rolls: number) => {
+    const effectiveMainsCount = Math.max(0, mainsCount - mainsFreeCount)
+    const lowerLimit = baseLowerLimit - penaltyPerMain * effectiveMainsCount
+    if (rolls <= lowerLimit) {
+      return rolls
+    }
+
+    const excess = Math.max(0, rolls - lowerLimit)
+    const diminishedExcess = excess / (Math.pow(excess, 0.25))
+
+    return lowerLimit + diminishedExcess
+  }
 }
 
 export function spdDiminishingReturnsFormula(mainsCount: number, rolls: number) {
@@ -301,25 +330,18 @@ export function simSorter(a: Simulation, b: Simulation) {
   return bResult.simScore - aResult.simScore
 }
 
-export function calculateScorePercent(
-  score: number,
-  baseline: number,
-  benchmark: number,
-  perfection: number,
-): number {
-  const clampedPerfection = Math.max(perfection, benchmark)
-  if (score >= benchmark) {
-    const range = clampedPerfection - benchmark
-    return range > 0 ? 1 + (score - benchmark) / range : 1
-  }
-  const range = benchmark - baseline
-  return range > 0 ? (score - baseline) / range : 0
-}
-
-export function applyScoringFunction(result: RunStatSimulationsResult, metadata: SimulationMetadata, penalty = true, user = false) {
+export function applyScoringFunction(
+  result: RunStatSimulationsResult,
+  metadata: SimulationMetadata,
+  penalty = true,
+  user = false,
+  context: OptimizerContext,
+  configType: ScoringConfigType,
+) {
   if (!result) return
 
-  const unpenalizedSimScore = result.x.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
+  const entry = SCORING_CONFIG_REGISTRY[configType]
+  const unpenalizedSimScore = result.x.getGlobalRegisterValue(entry.comboRegister)
   const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }

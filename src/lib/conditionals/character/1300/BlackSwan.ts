@@ -272,7 +272,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
-      x.buff(StatKey.DMG_BOOST, (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * ehrValue) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * ehrValue) : 0, x.source(SOURCE_TRACE))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -280,7 +280,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       return wgsl`
 if (${wgslTrue(r.ehrToDmgBoost)}) {
   let dmgBuff = min(0.72, 0.60 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)});
-  ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
+  ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
       `
     },

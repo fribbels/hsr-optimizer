@@ -207,8 +207,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (r.basicEnhancedSpdBuff) ? 0.10 : 0, x.source(SOURCE_TRACE))
 
       // Boost
-      x.buff(StatKey.DMG_BOOST, r.skillDmgIncreaseStacks * skillStackDmg, x.source(SOURCE_SKILL))
-      x.buff(StatKey.DMG_BOOST, (e >= 1) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, r.skillDmgIncreaseStacks * skillStackDmg, x.source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (e >= 1) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E1))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

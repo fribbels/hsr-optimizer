@@ -6,10 +6,12 @@ import {
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { Stats } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
+import { getAKeyName } from 'lib/optimization/engine/config/keys'
 import {
   type AbilityKind,
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -101,11 +103,19 @@ export function CharacterSelectorDisplay() {
     ]
 
     // Add character-specific damage options using AbilityToSortOption mapping
+    const buffStat = optimizerTabFocusCharacter
+      ? getGameMetadata().characters[optimizerTabFocusCharacter]?.scoringMetadata?.supportSimulation?.buffStat
+      : undefined
     for (const action of availableActions) {
       const sortKey = AbilityToSortOption[action as AbilityKind]
       if (sortKey) {
         const sortOption = SortOption[sortKey]
-        damageOptions.push({ value: sortOption.key, label: t(`SortOptions.${sortOption.key}` as const) })
+        // Hardcoded — BUFF sort label is dynamic based on buffStat, skip i18n
+        const label = sortKey === SortOption.BUFF.key
+          ? `Sorted by ${buffStat != null ? getAKeyName(buffStat) : ''} Buff`
+          // @ts-expect-error - dynamic i18n key from SortOption registry
+          : t(`SortOptions.${sortOption.key}`)
+        damageOptions.push({ value: sortOption.key, label: label as string })
       }
     }
 

@@ -223,8 +223,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, r.summationStacks * 0.05, x.source(SOURCE_TRACE))
 
       // Boost
-      x.buff(StatKey.DMG_BOOST, (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (e >= 6) ? 0.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (e >= 6) ? 0.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

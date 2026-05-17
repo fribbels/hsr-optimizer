@@ -365,7 +365,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const hasSustain = teammateMatchesId(context, Hyacine.id)
         + countTeamPath(context, PathNames.Abundance)
         + countTeamPath(context, PathNames.Preservation)
-      x.buff(StatKey.DMG_BOOST, (r.sustainDmgBuff && hasSustain) ? 0.45 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.sustainDmgBuff && hasSustain) ? 0.45 : 0, x.source(SOURCE_TRACE))
 
       // E1 CD buff
       x.buff(StatKey.CD, e >= 1 && r.e1Buffs ? 0.50 : 0, x.source(SOURCE_E1))

@@ -247,7 +247,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SUPER_BREAK_MODIFIER, (m.superBreakDmg) ? superBreakScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
       x.buff(StatKey.DEF_PEN, (m.defReduction) ? skillDefPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (e >= 4 && m.foxianPrayer && m.e4BreakDmg) ? 0.20 : 0,
         x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).source(SOURCE_E4),
       )

@@ -198,7 +198,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Trace - DMG boost when enemy is burned
-      x.buff(StatKey.DMG_BOOST, (r.enemyBurned) ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemyBurned) ? 0.20 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

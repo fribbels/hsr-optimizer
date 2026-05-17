@@ -1,11 +1,13 @@
 import i18next, { type TFunction } from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import { CONFIG_DISPLAY_ORDER, hasConfig, type MetadataFieldKey, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
   ElementToDamage,
   Parts,
+  type TeamSelection,
 } from 'lib/constants/constants'
 import {
   innerW,
@@ -30,7 +32,7 @@ import {
 } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { ScoringType } from 'lib/scoring/scoringConfig'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { simulateBuild } from 'lib/simulations/simulateBuild'
@@ -63,6 +65,7 @@ import type {
   DBMetadataLightCone,
   ElementalDamageType,
   ImageCenter,
+  ScoringMetadata,
 } from 'types/metadata'
 import type { Relic } from 'types/relic'
 
@@ -146,12 +149,22 @@ function getRelic(relicsById: Partial<Record<string, Relic>>, character: Charact
   return null
 }
 
-export function resolveScoringType(storedScoringType: ScoringType, hasSimulation: boolean) {
+export function resolveScoringType(
+  storedScoringType: ScoringType,
+  scoringMetadata: ScoringMetadata,
+) {
   if (storedScoringType === ScoringType.NONE || storedScoringType === ScoringType.SUBSTAT_SCORE) {
     return storedScoringType
   }
-  if (storedScoringType === ScoringType.COMBAT_SCORE && hasSimulation) {
-    return storedScoringType
+  for (const configType of CONFIG_DISPLAY_ORDER) {
+    if (SCORING_CONFIG_REGISTRY[configType].scoringType === storedScoringType && hasConfig(scoringMetadata, configType)) {
+      return storedScoringType
+    }
+  }
+  for (const configType of CONFIG_DISPLAY_ORDER) {
+    if (hasConfig(scoringMetadata, configType)) {
+      return SCORING_CONFIG_REGISTRY[configType].scoringType
+    }
   }
   return ScoringType.SUBSTAT_SCORE
 }
@@ -295,16 +308,17 @@ export function showcaseOnEditPortraitOk(
 
 export function handleTeamSelection(
   character: Character,
-  teamSelection: string | undefined,
-) {
-  let currentSelection: string | undefined = teamSelection
+  teamSelection: TeamSelection | undefined,
+  simulationKey: MetadataFieldKey = 'simulation',
+): TeamSelection {
+  let currentSelection: TeamSelection | undefined = teamSelection
 
   const defaultScoringMetadata = getGameMetadata().characters[character.id].scoringMetadata
-  if (defaultScoringMetadata?.simulation) {
+  if (defaultScoringMetadata?.[simulationKey]) {
     const scoringMetadata = getScoringMetadata(character.id)
 
-    const hasCustom = scoringMetadata.simulation?.teammates
-      && objectHash(scoringMetadata.simulation.teammates) !== objectHash(defaultScoringMetadata.simulation.teammates)
+    const hasCustom = scoringMetadata[simulationKey]?.teammates
+      && objectHash(scoringMetadata[simulationKey]!.teammates) !== objectHash(defaultScoringMetadata[simulationKey]!.teammates)
 
     if (hasCustom && currentSelection !== DEFAULT_TEAM) {
       currentSelection = CUSTOM_TEAM

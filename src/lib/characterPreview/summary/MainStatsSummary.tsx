@@ -5,6 +5,7 @@ import {
   type MainStats,
   Parts,
 } from 'lib/constants/constants'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { Assets } from 'lib/rendering/assets'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SuspenseNode } from 'lib/ui/SuspenseNode'
@@ -28,7 +29,7 @@ type MainStatsSummaryProps = {
   simPlanarSphere?: never,
   simLinkRope?: never,
   promise: Promise<SimulationScore | null>,
-  mode: 'Benchmark' | 'Perfect',
+  mode: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
 }
 export const MainStatsSummary = memo(function MainStatsSummary({
   simBody,
@@ -78,10 +79,10 @@ const partToSelectorString = {
 
 function selector(
   part: MainStatParts,
-  mode: 'Benchmark' | 'Perfect',
+  mode: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
   t: TFunction<'common', undefined>,
 ): (result: SimulationScore | null) => ReactNode {
-  const selectorString = mode === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'
+  const selectorString = mode === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim'
   return function(result: SimulationScore | null) {
     if (result === null) return null
     const stat = result[selectorString].request[partToSelectorString[part]] as MainStats

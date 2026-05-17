@@ -256,13 +256,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Skill DMG boost based on enemy count
-      x.buff(StatKey.DMG_BOOST, context.enemyCount * 0.20, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, context.enemyCount * 0.20, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
 
       // Trace: DEF PEN based on enemy weakness types
       x.buff(StatKey.DEF_PEN, r.enemyWeaknessTypes * 0.04, x.source(SOURCE_TRACE))
 
       // Talent: DMG boost when Exposed Nature active
-      x.buff(StatKey.DMG_BOOST, r.exposedNature ? talentDmgScaling : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, r.exposedNature ? talentDmgScaling : 0, x.source(SOURCE_TALENT))
 
       // E4: ATK% buff stacks
       x.buff(StatKey.ATK_P, (e >= 4) ? r.e4AtkBuffStacks * 0.30 : 0, x.source(SOURCE_E4))
@@ -286,7 +286,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Trace: DMG boost when 2+ Erudition members or E6 active
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.50 : 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_TRACE),
       )
@@ -304,7 +304,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.44 : 0.40)
         : 0
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         cyreneBuffActive ? cyreneSkillDmgBuff : 0,
         x.damageType(DamageTag.SKILL).targets(TargetTag.SelfAndPet).source(Source.odeTo(Anaxa.id)),
       )

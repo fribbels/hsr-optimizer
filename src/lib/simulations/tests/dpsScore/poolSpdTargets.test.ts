@@ -33,6 +33,7 @@ import { Metadata } from 'lib/state/metadataInitializer'
 import { clone } from 'lib/utils/objectUtils'
 import { type Character } from 'types/character'
 import type { CharacterId } from 'types/character'
+import { ScoringConfigType } from 'types/metadata'
 import {
   describe,
   expect,
@@ -67,7 +68,7 @@ function buildOrchestrator(
   simulationMetadata.teammates[2] = input.teammate2
 
   const singleRelicByPart = generateTestSingleRelicsByPart(input.sets, input.mains, input.stats)
-  return prepareOrchestrator(character, simulationMetadata, singleRelicByPart, { spdBenchmark })
+  return prepareOrchestrator(character, { configType: ScoringConfigType.DPS, simulation: simulationMetadata }, singleRelicByPart, { spdBenchmark })
 }
 
 // Castorice default metadata: Poet + BoneCollection
@@ -114,7 +115,7 @@ describe('Pool SPD targeting', () => {
     expect(normalEntry).toBeDefined()
   })
 
-  test('Default=Poet, User=Normal (same ornament) — pool=2, different SPD targets', () => {
+  test('Default=Poet, User=Normal (same ornament) — pool=2, Poet flag differs', () => {
     const o = buildOrchestrator(
       Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
       testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.BoneCollectionsSereneDemesne),
@@ -126,7 +127,6 @@ describe('Pool SPD targeting', () => {
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)
     expect(poetEntry).toBeDefined()
     expect(normalEntry).toBeDefined()
-    expect(poetEntry!.combatSpdTarget).not.toEqual(normalEntry!.combatSpdTarget)
   })
 
   test('Default=Poet, User=Normal (different ornament) — pool=4 cross-products with both Poet and non-Poet', () => {
@@ -155,7 +155,7 @@ describe('Pool SPD targeting', () => {
       expect(state.flags.simPoetActive).toBe(false)
     }
 
-    // Messenger and Scholar entries have different set bonuses → different baseline scores
+    // Messenger and Scholar entries have different set bonuses → different zero-mains scores
     const messengerEntry = o.poolComboStates!.find((s) =>
       s.sets.relicSet1 === Sets.MessengerTraversingHackerspace,
     )
@@ -164,7 +164,7 @@ describe('Pool SPD targeting', () => {
     )
     expect(messengerEntry).toBeDefined()
     expect(scholarEntry).toBeDefined()
-    expect(messengerEntry!.baselineScore).not.toEqual(scholarEntry!.baselineScore)
+    expect(messengerEntry!.zeroMainsScore).not.toEqual(scholarEntry!.zeroMainsScore)
 
     // Non-Poet targets equal originalSpd — same for both since basicSpdTarget doesn't depend on set
     expect(messengerEntry!.basicSpdTarget).toBeCloseTo(o.originalSpd!, 1)
@@ -181,7 +181,7 @@ describe('Pool SPD targeting', () => {
     expect(o.poolComboStates).toHaveLength(2)
 
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)!
-    expect(normalEntry.basicSpdTarget).toBeLessThanOrEqual(90)
+    expect(normalEntry.basicSpdTarget).toBeCloseTo(90, 3)
   })
 
   test('Default=Normal, User=Normal (identical) — dedup to pool=1', () => {

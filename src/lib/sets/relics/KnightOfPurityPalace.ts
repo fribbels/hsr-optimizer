@@ -46,14 +46,14 @@ const conditionals: SetConditionals = {
     c.DEF_P.buff(0.15, Source.KnightOfPurityPalace)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.20, x.outputType(OutputTag.SHIELD).source(Source.KnightOfPurityPalace))
+    x.buff(StatKey.BOOST, 0.20, x.outputType(OutputTag.SHIELD).source(Source.KnightOfPurityPalace))
   },
   gpuBasic: () => [
     basicP2(WgslStatName.DEF_P, 0.15, KnightOfPurityPalace),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_KnightOfPurityPalace) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, 0.20).outputType(OutputTag.SHIELD).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, 0.20).outputType(OutputTag.SHIELD).wgsl(action, 2)}
     }
   `,
 }

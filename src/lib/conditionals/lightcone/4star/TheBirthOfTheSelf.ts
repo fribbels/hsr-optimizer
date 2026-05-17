@@ -42,8 +42,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, sValues[s], x.damageType(DamageTag.FUA).source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (r.enemyHp50FuaBuff) ? sValues[s] : 0, x.damageType(DamageTag.FUA).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, sValues[s], x.damageType(DamageTag.FUA).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.enemyHp50FuaBuff) ? sValues[s] : 0, x.damageType(DamageTag.FUA).source(SOURCE_LC))
     },
   }
 }

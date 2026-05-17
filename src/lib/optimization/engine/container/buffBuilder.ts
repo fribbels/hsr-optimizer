@@ -3,6 +3,9 @@ import {
   Source,
 } from 'lib/optimization/buffSource'
 import {
+  type AKeyValue,
+} from 'lib/optimization/engine/config/keys'
+import {
   ALL_DAMAGE_TAGS,
   ALL_DIRECTNESS_TAGS,
   ALL_ELEMENT_TAGS,
@@ -28,6 +31,7 @@ export class BuffBuilder<_Completed extends boolean = false, _HasHitFilter exten
   _target = SELF_ENTITY_INDEX
   _targetTags = TargetTag.SelfAndPet
   _deferrable = false
+  _buffStatFilter: AKeyValue | null = null
   _source: BuffSource = Source.NONE
 
   private config!: ComputedStatsContainerConfig
@@ -46,6 +50,7 @@ export class BuffBuilder<_Completed extends boolean = false, _HasHitFilter exten
     this._target = SELF_ENTITY_INDEX
     this._targetTags = TargetTag.SelfAndPet
     this._deferrable = false
+    this._buffStatFilter = null
     this._source = Source.NONE
     return this as IncompleteActionBuff
   }
@@ -65,6 +70,12 @@ export class BuffBuilder<_Completed extends boolean = false, _HasHitFilter exten
 
   outputType(o: OutputTag): IncompleteHitBuff {
     this._outputTags = o
+    return this as IncompleteHitBuff
+  }
+
+  outputBuff(stat: AKeyValue): IncompleteHitBuff {
+    this._outputTags = OutputTag.BUFF
+    this._buffStatFilter = stat
     return this as IncompleteHitBuff
   }
 

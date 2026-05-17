@@ -64,12 +64,12 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, r.shieldBoost ? sValuesShieldBoost[s] : 0, x.outputType(OutputTag.SHIELD).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, r.shieldBoost ? sValuesShieldBoost[s] : 0, x.outputType(OutputTag.SHIELD).source(SOURCE_LC))
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.DMG_BOOST, m.dmgBoost ? sValuesDmgBoost[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, m.dmgBoost ? sValuesDmgBoost[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

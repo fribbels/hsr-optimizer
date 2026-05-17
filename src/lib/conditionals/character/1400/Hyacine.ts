@@ -1,6 +1,8 @@
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   BuffPriority,
   SKILL_DMG_TYPE,
@@ -13,6 +15,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
@@ -44,6 +48,8 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   DEFAULT_MEMO_SKILL,
+  DEFAULT_SKILL_HEAL,
+  DEFAULT_ULT_HEAL,
   END_MEMO_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
@@ -365,7 +371,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES, (r.resBuff) ? 0.50 : 0, x.source(SOURCE_TRACE))
 
       // Talent: Memosprite elemental DMG buff from healing stacks
-      x.buff(StatKey.DMG_BOOST, r.healingDmgStacks * talentHealingDmgStackValue, x.target(HyacineEntities.Ica).source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, r.healingDmgStacks * talentHealingDmgStackValue, x.target(HyacineEntities.Ica).source(SOURCE_TALENT))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -591,6 +597,57 @@ const simulation = (): SimulationMetadata => ({
   ],
 })
 
+const healSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.OHB],
+    [Parts.Feet]: [Stats.SPD, Stats.HP_P],
+    [Parts.PlanarSphere]: [Stats.HP_P],
+    [Parts.LinkRope]: [Stats.ERR],
+  },
+  substats: [
+    Stats.HP_P,
+    Stats.HP,
+    Stats.SPD,
+    Stats.RES,
+    Stats.DEF_P,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_HEAL,
+    DEFAULT_ULT_HEAL,
+    DEFAULT_SKILL_HEAL,
+  ],
+  relicSets: [
+    [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
+  ],
+  ornamentSets: [
+    Sets.GiantTreeOfRaptBrooding,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -633,6 +690,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [SortOption.MEMO_SKILL, SortOption.SKILL_HEAL, SortOption.OHB],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
   simulation: simulation(),
+  healSimulation: healSimulation(),
 })
 
 const display = {

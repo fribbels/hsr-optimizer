@@ -310,13 +310,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, (e >= 1 && r.e1AtkBuff) ? 0.80 : 0, x.source(SOURCE_E1))
 
       // E6 FUA DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.e6FuaDmg) ? 3.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.e6FuaDmg) ? 3.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
 
       // Cyrene special effect - DMG boost
       const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
         : 0
-      x.buff(StatKey.DMG_BOOST, r.cyreneSpecialEffect ? cyreneDmgBuff : 0, x.source(Source.odeTo(Cipher.id)))
+      x.buff(StatKey.BOOST, r.cyreneSpecialEffect ? cyreneDmgBuff : 0, x.source(Source.odeTo(Cipher.id)))
     },
 
     precomputeMutualEffectsContainer: (

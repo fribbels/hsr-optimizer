@@ -190,7 +190,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, (r.enemyDefeatedBuff) ? 0.20 : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.targetShocked) ? 0.30 : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.targetShocked) ? 0.30 : 0, x.source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},

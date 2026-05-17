@@ -76,10 +76,15 @@ export const HIT_STATS_LENGTH = hitStatEntries.length
 
 // ============== Global Registers ==============
 
-export const GlobalRegister = { COMBO_DMG: 0 } as const
-export const GLOBAL_REGISTERS_LENGTH = 1
+export const GlobalRegister = { COMBO_DMG: 0, COMBO_HEAL: 1, COMBO_SHIELD: 2, COMBO_BUFF: 3 } as const
+export const GLOBAL_REGISTERS_LENGTH = 4
 
 // ============== Legacy aliases ==============
 
 export const StatKey = AKey
 export type StatKeyValue = AKeyValue
+
+const FLAT_STATS: ReadonlySet<AKeyValue> = new Set([AKey.ATK, AKey.HP, AKey.DEF, AKey.SPD])
+export function isFlatStat(stat: AKeyValue): boolean {
+  return FLAT_STATS.has(stat)
+}

@@ -2,6 +2,7 @@ import type {
   ElementName,
   PathName,
 } from 'lib/constants/constants'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import type { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import type { ActionModifier } from 'lib/optimization/context/calculateActions'
@@ -51,6 +52,7 @@ export type OptimizerAction = {
   conditionalIndex: number,
 
   hits?: Hit[],
+  buffStat?: AKeyValue,
 
   teammate0: TeammateAction,
   teammate1: TeammateAction,

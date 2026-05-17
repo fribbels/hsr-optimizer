@@ -58,7 +58,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.CD, r.debuffCdStacks * sValuesCd[s], x.source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (r.postUltBuff) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.postUltBuff) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
       x.buff(StatKey.DEF_PEN, (r.postUltBuff) ? sValuesFuaPen[s] : 0, x.damageType(DamageTag.FUA).source(SOURCE_LC))
     },
   }

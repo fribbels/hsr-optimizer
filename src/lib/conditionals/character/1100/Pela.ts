@@ -202,10 +202,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0, x.source(SOURCE_E2))
 
       // DMG boost for Basic/Skill/Ult when buff removed
-      x.buff(StatKey.DMG_BOOST, (r.skillRemovedBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.skillRemovedBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
 
       // DMG boost when enemy debuffed
-      x.buff(StatKey.DMG_BOOST, (r.enemyDebuffed) ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemyDebuffed) ? 0.20 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

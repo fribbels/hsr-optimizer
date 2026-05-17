@@ -16,7 +16,7 @@ import {
   WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
   TargetTag,
@@ -61,7 +61,8 @@ const BrokenKeelConditional: DynamicConditional = {
     return ornament2p(SetKeys.BrokenKeel, x.c.sets) && x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX) >= 0.30
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-    x.buffDynamic(StatKey.CD, 0.10, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.BrokenKeel))
+    x.buffDynamic(StatKey.CD, 0.10, action, context, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
+    x.buff(StatKey.BOOST, 0.10, x.outputBuff(StatKey.CD).source(Source.BrokenKeel))
   },
   gpu: function(action: OptimizerAction, context: OptimizerContext) {
     const config = action.config
@@ -77,7 +78,8 @@ if (
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.RES, config)} >= 0.30
 ) {
   (*p_state).BrokenKeelConditional${action.actionIdentifier} = 1.0;
-  ${buff.action(StatKey.CD, 0.10).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+  ${buff.action(StatKey.CD, 0.10).targets(TargetTag.FullTeam).wgsl(action)}
+  ${buff.hit(HKey.BOOST, 0.10).outputBuff(StatKey.CD).wgsl(action)}
 }
     `,
     )

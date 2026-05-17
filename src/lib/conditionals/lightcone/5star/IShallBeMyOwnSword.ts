@@ -52,7 +52,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, r.eclipseStacks * sValuesStackDmg[s], x.source(SOURCE_LC))
+      x.buff(StatKey.BOOST, r.eclipseStacks * sValuesStackDmg[s], x.source(SOURCE_LC))
       x.buff(StatKey.DEF_PEN, (r.maxStackDefPen && r.eclipseStacks == 3) ? sValuesDefPen[s] : 0, x.source(SOURCE_LC))
     },
   }

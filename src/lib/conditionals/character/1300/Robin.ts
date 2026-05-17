@@ -1,3 +1,6 @@
+import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -9,6 +12,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -25,15 +31,22 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -44,6 +57,7 @@ export const RobinAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.UNIQUE,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -218,6 +232,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
           ],
         },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ATK)
+              .sourceStat(StatKey.ATK)
+              .scaling(ultAtkBuffScalingValue)
+              .flat(ultAtkBuffFlatValue)
+              .build(),
+          ],
+        },
       }
     },
     actionModifiers: () => [],
@@ -245,7 +269,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (e >= 2 && m.concertoActive && m.e2UltSpdBuff) ? 0.16 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
 
       // Skill DMG buff to team
-      x.buff(StatKey.DMG_BOOST, m.skillDmgBuff ? skillDmgBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, m.skillDmgBuff ? skillDmgBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
       // E1: RES PEN to team when concerto active
       x.buff(StatKey.RES_PEN, (e >= 1 && m.concertoActive && m.e1UltResPen) ? 0.24 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
@@ -308,6 +332,55 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.ATK_P],
+    [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ERR],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
+  buffStat: StatKey.ATK,
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
+  relicSets: [
+    [Sets.PrisonerInDeepConfinement, Sets.TheWindSoaringValorous],
+  ],
+  ornamentSets: [
+    Sets.SprightlyVonwacq,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Aventurine.id,
+      lightCone: InherentlyUnjustDestiny.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
@@ -347,6 +420,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

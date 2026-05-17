@@ -196,11 +196,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Traces
       x.buff(StatKey.RES, (r.talentEnhancedState) ? 0.35 : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (r.talentEnhancedState) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.talentEnhancedState) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
 
       // Eidolons
       x.buff(StatKey.CD, (e >= 1 && r.e1CdBuff) ? 0.24 : 0, x.source(SOURCE_E1))
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E2))
       x.buff(StatKey.CD, (e >= 6 && r.talentEnhancedState) ? 0.50 : 0, x.source(SOURCE_E6))
     },
 

@@ -7,6 +7,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -23,7 +24,9 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
@@ -33,7 +36,10 @@ import {
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -43,6 +49,7 @@ export const RuanMeiEntities = createEnum('RuanMei')
 export const RuanMeiAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -172,6 +179,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.standardBreak(ElementTag.Ice).build(),
         ],
       },
+      [AbilityKind.BUFF]: {
+        hits: [
+          HitDefinitionBuilder.discreteBuff()
+            .buffStat(StatKey.BOOST)
+            .sourceStat(StatKey.BE)
+            .whenAbove(1.20)
+            .forEvery(0.10)
+            .increaseBy(0.06)
+            .cappedAt(0.36)
+            .build(),
+        ],
+      },
     }),
     actionModifiers: () => [],
 
@@ -192,7 +211,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.BE, (m.teamBEBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Skill: Team DMG boost when overtone active
-      x.buff(StatKey.DMG_BOOST, (m.skillOvertoneBuff) ? skillScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (m.skillOvertoneBuff) ? skillScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
 
       // Skill: Team Break Efficiency +50% when overtone active
       x.buff(StatKey.BREAK_EFFICIENCY_BOOST, (m.skillOvertoneBuff) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
@@ -211,24 +230,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (t.teamSpdBuff) ? talentSpdScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
       // Trace: Team DMG boost (from BE scaling)
-      x.buff(StatKey.DMG_BOOST, t.teamDmgBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, t.teamDmgBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E2: Team ATK% buff
       x.buff(StatKey.ATK_P, (e >= 2 && t.e2AtkBoost) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // Trace: DMG boost based on BE over 120%
       const be = x.getActionValue(StatKey.BE, RuanMeiEntities.RuanMei)
       const beOver = floorSafe((be * 100 - 120) / 10)
       const buffValue = Math.min(0.36, Math.max(0, beOver) * 0.06)
-      x.buff(StatKey.DMG_BOOST, buffValue, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, buffValue, x.source(SOURCE_TRACE))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return wgsl`
 let beOver = floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} * 100.0 - 120.0) / 10.0);
 let beDmgBuff = min(0.36, max(0.0, beOver) * 0.06);
-${buff.action(AKey.DMG_BOOST, 'beDmgBuff').wgsl(action)}
+${buff.action(AKey.BOOST, 'beDmgBuff').wgsl(action)}
       `
     },
   }

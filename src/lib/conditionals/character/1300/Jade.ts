@@ -243,7 +243,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, r.pawnedAssetStacks * 0.005, x.source(SOURCE_TRACE))
       x.buff(StatKey.CR, (e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0, x.source(SOURCE_E2))
 
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
       x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, x.source(SOURCE_E4))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResShredBuff) ? 0.20 : 0, x.elements(ElementTag.Quantum).source(SOURCE_E6))
     },

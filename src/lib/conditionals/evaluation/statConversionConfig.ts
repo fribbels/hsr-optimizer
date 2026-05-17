@@ -176,3 +176,8 @@ export const statConversionEntries: StatConversionConfigEntry[] = Object.values(
 export const aKeyToConvertibleStat = Object.fromEntries(
   Object.entries(statConversionConfig).map(([stat, config]) => [config.key, stat]),
 ) as Record<AKeyValue, ConvertibleStatsType>
+
+// AKeyValue -> unconvertible AKeyValue
+export const aKeyToUnconvertibleKey: Partial<Record<AKeyValue, AKeyValue>> = Object.fromEntries(
+  Object.entries(statConversionConfig).map(([, config]) => [config.key, config.unconvertibleKey]),
+)

@@ -2,6 +2,7 @@ import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Boothill } from 'lib/conditionals/character/1300/Boothill'
+import { Firefly } from 'lib/conditionals/character/1300/Firefly'
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
@@ -76,6 +77,7 @@ export const TheDahliaAbilities: AbilityKind[] = [
   AbilityKind.ULT,
   AbilityKind.FUA,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -105,6 +107,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultDefPenValue = ult(e, 0.18, 0.20)
 
   const superBreakScaling = talent(e, 0.60, 0.66)
+
+  const beConversionScaling = 0.24
+  const beConversionFlat = 0.50
 
   const defaults = {
     zoneActive: true,
@@ -309,6 +314,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
           ],
         },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.BE)
+              .sourceStat(StatKey.BE)
+              .scaling(beConversionScaling)
+              .flat(beConversionFlat)
+              .build(),
+          ],
+        },
       }
     },
     actionModifiers() {
@@ -486,6 +501,55 @@ const simulation = (): SimulationMetadata => ({
   ],
 })
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.Feet]: [Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.ERR, Stats.BE],
+  },
+  substats: [
+    Stats.BE,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+    Stats.DEF_P,
+  ],
+  buffStat: StatKey.BE,
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
+  relicSets: [
+    [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+  ],
+  ornamentSets: [
+    Sets.ForgeOfTheKalpagniLantern,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Firefly.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -520,6 +584,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

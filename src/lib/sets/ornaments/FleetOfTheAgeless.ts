@@ -16,7 +16,7 @@ import {
   WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
+import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
   TargetTag,
@@ -63,6 +63,7 @@ const FleetOfTheAgelessConditional: DynamicConditional = {
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     const baseAtk = action.config.selfEntity.baseAtk
     x.buffDynamic(StatKey.ATK, 0.08 * baseAtk, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.FleetOfTheAgeless))
+    x.buff(StatKey.BOOST, 0.08 * baseAtk, x.outputBuff(StatKey.ATK).source(Source.FleetOfTheAgeless))
   },
   gpu: function(action: OptimizerAction, context: OptimizerContext) {
     const config = action.config
@@ -79,6 +80,7 @@ if (
 ) {
   (*p_state).FleetOfTheAgelessConditional${action.actionIdentifier} = 1.0;
   ${buff.action(StatKey.ATK, `0.08 * ${config.selfEntity.baseAtk}`).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+  ${buff.hit(HKey.BOOST, `0.08 * ${config.selfEntity.baseAtk}`).outputBuff(StatKey.ATK).wgsl(action)}
 }
     `,
     )

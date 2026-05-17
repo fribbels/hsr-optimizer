@@ -58,7 +58,7 @@ export class SearchTree {
 
   public nodeId = 0
   public measurements = 0
-  public bestDamage = 0
+  public bestDamage = -Infinity
   public bestHistory: number[] = []
   public bestHistoryDamage: number[] = []
   public bestNode: ProtoTreeStatNode | null = null

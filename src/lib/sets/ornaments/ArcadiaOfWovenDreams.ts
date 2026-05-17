@@ -43,7 +43,7 @@ const display = {
 const conditionals: SetConditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(
-      StatKey.DMG_BOOST,
+      StatKey.BOOST,
       arcadiaSetIndexToDmg[setConditionals.valueArcadiaOfWovenDreams],
       x.targets(TargetTag.SelfAndMemosprite).source(Source.ArcadiaOfWovenDreams),
     )
@@ -51,7 +51,7 @@ const conditionals: SetConditionals = {
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (ornament2p(*p_sets, SET_ArcadiaOfWovenDreams) >= 1) {
       let arcadiaBuffValue = getArcadiaOfWovenDreamsValue(setConditionals.valueArcadiaOfWovenDreams);
-      ${buff.action(AKey.DMG_BOOST, 'arcadiaBuffValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
+      ${buff.action(AKey.BOOST, 'arcadiaBuffValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }
   `,
 }

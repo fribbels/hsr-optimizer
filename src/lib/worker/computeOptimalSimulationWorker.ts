@@ -3,9 +3,11 @@ import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   applyScoringFunction,
+  createDiminishingReturnsFormula,
   substatRollsModifier,
 } from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
@@ -53,19 +55,17 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   if (input.context.characterId === Hysilens.id) {
     const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
     if (!ehrLightCone) {
+      const hysilensDiminishingReturns = createDiminishingReturnsFormula(24, 2, 0)
       return (rolls: number, stat: string, sim: Simulation) =>
-        substatRollsModifier(rolls, stat, sim, (mainsCount, rolls) => {
-          const lowerLimit = 24 - 2 * mainsCount
-          if (rolls <= lowerLimit) {
-            return rolls
-          }
-
-          const excess = Math.max(0, rolls - lowerLimit)
-          const diminishedExcess = excess / (Math.pow(excess, 0.25))
-
-          return lowerLimit + diminishedExcess
-        })
+        substatRollsModifier(rolls, stat, sim, hysilensDiminishingReturns)
     }
+  }
+
+  // Non-DPS scoring: relax DR so it only triggers at 3+ mains of the same stat
+  if (!SCORING_CONFIG_REGISTRY[input.configType].capFlatSubstats) {
+    const nonDpsDiminishingReturns = createDiminishingReturnsFormula(12, 2, 2)
+    return (rolls: number, stat: string, sim: Simulation) =>
+      substatRollsModifier(rolls, stat, sim, nonDpsDiminishingReturns)
   }
 
   return substatRollsModifier
@@ -81,6 +81,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     metadata,
     scoringParams,
     simulationFlags,
+    configType,
   } = input
 
   scoringParams.substatRollsModifier = scoringParams.quality === 0.8
@@ -113,10 +114,10 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
     mergedScoringParams.stabilize = stabilize
-    mergedScoringParams.skipDefaults = !stabilize
+    mergedScoringParams.skipDefaults = SCORING_CONFIG_REGISTRY[configType].requiresDefaultActions ? false : !stabilize
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
-    applyScoringFunction(currentSimulation.result, metadata)
+    applyScoringFunction(currentSimulation.result, metadata, true, false, context, configType)
     return currentSimulation.result.simScore
   }
 

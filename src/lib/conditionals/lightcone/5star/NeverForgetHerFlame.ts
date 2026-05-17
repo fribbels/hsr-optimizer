@@ -55,12 +55,12 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, (r.breakDmgBuff) ? sValuesBreakDmg[s] : 0, x.damageType(DamageTag.BREAK).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.breakDmgBuff) ? sValuesBreakDmg[s] : 0, x.damageType(DamageTag.BREAK).source(SOURCE_LC))
     },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.DMG_BOOST, (t.breakDmgBuff) ? sValuesBreakDmg[s] : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (t.breakDmgBuff) ? sValuesBreakDmg[s] : 0, x.damageType(DamageTag.BREAK).targets(TargetTag.SingleTarget).source(SOURCE_LC))
     },
   }
 }

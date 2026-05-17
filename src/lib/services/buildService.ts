@@ -2,6 +2,7 @@ import i18next from 'i18next'
 import { handleTeamSelection } from 'lib/characterPreview/characterPreviewController'
 import { AppPages } from 'lib/constants/appPages'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
+import { ScoringConfigType } from 'types/metadata'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import {
@@ -48,7 +49,7 @@ export function saveBuild(
     const equipped = useOptimizerDisplayStore.getState().optimizerBuild ?? {}
     build = serializeFromOptimizer(name, characterId, state as typeof state & { lightCone: LightConeId }, equipped)
   } else {
-    const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceById[characterId]
+    const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceByConfig[characterId]?.[ScoringConfigType.DPS]
     const teamSelection = handleTeamSelection(character, rawTeamSelection)
     const simulation = getScoringMetadata(character.id)?.simulation
     const useCustom = simulation && teamSelection !== DEFAULT_TEAM

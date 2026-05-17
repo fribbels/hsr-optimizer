@@ -1,3 +1,4 @@
+import { CONFIG_FIELD_MAP, hasOverrideContent } from 'lib/scoring/scoringConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import {
@@ -10,6 +11,7 @@ import {
 } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type {
+  ScoringConfigType,
   ScoringMetadata,
   ScoringMetadataOverride,
   SimulationMetadata,
@@ -23,8 +25,8 @@ type ScoringStoreState = {
 type ScoringStoreActions = {
   setScoringMetadataOverrides: (overrides: Partial<Record<CharacterId, ScoringMetadataOverride>>) => void,
   updateCharacterOverrides: (id: CharacterId, updated: Partial<ScoringMetadataOverride>) => void,
-  updateSimulationOverrides: (id: CharacterId, simulation: Partial<SimulationMetadata>) => void,
-  clearSimulationOverrides: (id: CharacterId) => void,
+  updateScoringConfigOverride: (id: CharacterId, configType: ScoringConfigType, simulation: Partial<SimulationMetadata>) => void,
+  clearScoringConfigOverride: (id: CharacterId, configType: ScoringConfigType) => void,
   clearCharacterOverrides: (id: CharacterId) => void,
 }
 
@@ -49,18 +51,30 @@ export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => (
     set({ scoringMetadataOverrides: setOrOmit(prev, id, newOverride), scoringVersion: get().scoringVersion + 1 })
   },
 
-  updateSimulationOverrides: (id, updatedSimulation) => {
+  updateScoringConfigOverride: (id, configType, updatedSimulation) => {
     if (!updatedSimulation) return
+    const field = CONFIG_FIELD_MAP[configType]
     const prev = get().scoringMetadataOverrides
-    const overrides = { ...prev, [id]: { ...prev[id], simulation: { ...prev[id]?.simulation, ...updatedSimulation } } }
+    const overrides = {
+      ...prev,
+      [id]: {
+        ...prev[id],
+        [field]: { ...prev[id]?.[field], ...updatedSimulation },
+      },
+    }
     set({ scoringMetadataOverrides: overrides, scoringVersion: get().scoringVersion + 1 })
   },
 
-  clearSimulationOverrides: (id) => {
+  clearScoringConfigOverride: (id, configType) => {
+    const field = CONFIG_FIELD_MAP[configType]
     const prev = get().scoringMetadataOverrides
-    const { simulation, ...rest } = prev[id] ?? {}
-    const hasContent = rest.stats || rest.parts || rest.traces
-    set({ scoringMetadataOverrides: setOrOmit(prev, id, hasContent ? rest : undefined), scoringVersion: get().scoringVersion + 1 })
+    const existing = prev[id]
+    if (!existing) return
+    const { [field]: _, ...rest } = existing
+    set({
+      scoringMetadataOverrides: setOrOmit(prev, id, hasOverrideContent(rest as ScoringMetadataOverride) ? rest as ScoringMetadataOverride : undefined),
+      scoringVersion: get().scoringVersion + 1,
+    })
   },
 
   clearCharacterOverrides: (id) => {

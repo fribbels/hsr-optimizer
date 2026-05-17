@@ -27,6 +27,7 @@ export enum AbilityKind {
   ULT_SHIELD = 'ULT_SHIELD',
   FUA_SHIELD = 'FUA_SHIELD',
   TALENT_SHIELD = 'TALENT_SHIELD',
+  BUFF = 'BUFF',
 }
 
 export enum TurnMarker {
@@ -40,7 +41,7 @@ export enum TurnMarker {
 // ABILITY META CONFIG - Single source of truth
 // =============================================================================
 
-type AbilityCategory = 'damage' | 'heal' | 'shield' | 'null'
+type AbilityCategory = 'damage' | 'heal' | 'shield' | 'buff' | 'null'
 
 interface AbilityMetaEntry {
   label: string
@@ -71,6 +72,7 @@ export const AbilityMeta = {
   [AbilityKind.ULT_SHIELD]: { label: 'UltShield', sortKey: 'ULT_SHIELD', category: 'shield' },
   [AbilityKind.FUA_SHIELD]: { label: 'FuaShield', sortKey: 'FUA_SHIELD', category: 'shield' },
   [AbilityKind.TALENT_SHIELD]: { label: 'TalentShield', sortKey: 'TALENT_SHIELD', category: 'shield' },
+  [AbilityKind.BUFF]: { label: 'Buff', sortKey: 'BUFF', category: 'buff' },
 } as const
 
 // Derived union of all combo option label strings (e.g. 'Basic' | 'Skill' | 'Ult' | ...)
@@ -172,6 +174,7 @@ export const {
   DEFAULT_ULT_SHIELD,
   DEFAULT_FUA_SHIELD,
   DEFAULT_TALENT_SHIELD,
+  DEFAULT_BUFF,
 
   START_BASIC,
   START_SKILL,
@@ -193,6 +196,7 @@ export const {
   START_ULT_SHIELD,
   START_FUA_SHIELD,
   START_TALENT_SHIELD,
+  START_BUFF,
 
   END_BASIC,
   END_SKILL,
@@ -214,6 +218,7 @@ export const {
   END_ULT_SHIELD,
   END_FUA_SHIELD,
   END_TALENT_SHIELD,
+  END_BUFF,
 
   WHOLE_BASIC,
   WHOLE_SKILL,
@@ -235,6 +240,7 @@ export const {
   WHOLE_ULT_SHIELD,
   WHOLE_FUA_SHIELD,
   WHOLE_TALENT_SHIELD,
+  WHOLE_BUFF,
 } = Abilities
 
 // =============================================================================

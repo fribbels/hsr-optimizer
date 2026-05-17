@@ -205,7 +205,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, r.talentStacks * talentCrStackValue, x.source(SOURCE_TALENT))
 
       // Trace
-      x.buff(StatKey.DMG_BOOST, (r.enemyHp50) ? 0.15 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemyHp50) ? 0.15 : 0, x.source(SOURCE_TRACE))
 
       // Eidolons
       x.buff(StatKey.CD, (e >= 1) ? r.talentStacks * 0.04 : 0, x.source(SOURCE_E1))

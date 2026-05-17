@@ -1,4 +1,6 @@
+import { usePromise } from 'hooks/usePromise'
 import classes from 'lib/characterPreview/card/CharacterStatSummary.module.css'
+import { SimScoreRow } from 'lib/characterPreview/SimScoreRow'
 import {
   AsyncStatRow,
   StatRow,
@@ -8,45 +10,49 @@ import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   PathNames,
   Stats,
+  type StatsValues,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  ScoringType,
-  type SimulationScore,
-} from 'lib/scoring/simScoringUtils'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
+import { isSimScoreMode, ScoringType } from 'lib/scoring/scoringConfig'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
   memo,
-  use,
   useMemo,
 } from 'react'
 import type { CharacterId } from 'types/character'
-import { SimScoringContext } from '../SimScoringContext'
+import { ScoringConfigType } from 'types/metadata'
 
 const epsilon = 0.001
 
 interface CommonStatSummaryProps {
   characterId: CharacterId
-  elementalDmgValue: string
+  elementalDmgValue: StatsValues
   scoringType?: ScoringType
   showAll?: boolean
   zebra?: boolean
 }
 
-interface SyncStatSumaryProps extends CommonStatSummaryProps {
+interface SyncStatSummaryProps extends CommonStatSummaryProps {
   simScore: number
   finalStats: BasicStatsObject | ComputedStatsObjectExternal
   hasScoring?: boolean
+  buffStat?: AKeyValue
+  configType?: ScoringConfigType
 }
 
 interface AsyncStatSummaryProps extends CommonStatSummaryProps {
   promise: Promise<SimulationScore | null>
-  type: 'Benchmark' | 'Perfect'
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
   subType: 'Combat' | 'Basic'
+  configType?: ScoringConfigType
+  buffStat?: AKeyValue
 }
 
 export const CharacterStatSummary = memo(function CharacterStatSummary({
@@ -58,7 +64,9 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   showAll,
   simScore,
   zebra,
-}: SyncStatSumaryProps) {
+  buffStat,
+  configType,
+}: SyncStatSummaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
@@ -89,12 +97,12 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
         {showAll && getGameMetadata().characters[characterId]?.path === PathNames.Elation
           && <StatRow finalStats={finalStats} stat={Stats.Elation} edits={edits} />}
 
-        {scoringType === ScoringType.COMBAT_SCORE
+        {isSimScoreMode(scoringType) && configType != null
           && (
-            <StatRow
-              finalStats={finalStats}
-              stat='simScore'
+            <SimScoreRow
               value={simScore}
+              configType={configType}
+              buffStat={buffStat}
             />
           )}
       </div>
@@ -110,6 +118,8 @@ export const AsyncCharacterStatSummary = memo(function({
   promise,
   type,
   subType,
+  configType,
+  buffStat,
 }: AsyncStatSummaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
@@ -260,10 +270,28 @@ export const AsyncCharacterStatSummary = memo(function({
               edits={edits}
             />
           )}
+
+        {configType != null && (
+          <AsyncSimScoreRow promise={promise} type={type} configType={configType} buffStat={buffStat} />
+        )}
       </div>
     </StatText>
   )
 })
+
+function AsyncSimScoreRow({ promise, type, configType, buffStat }: {
+  promise: Promise<SimulationScore | null>
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
+  configType: ScoringConfigType
+  buffStat?: AKeyValue
+}) {
+  const output = usePromise(promise)
+  const sim = output?.[type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']
+  const simScore = sim?.result?.simScore ?? 0
+  if (!simScore) return null
+
+  return <SimScoreRow value={simScore} configType={configType} buffStat={buffStat} />
+}
 
 function calculateStatCustomizations(characterId: CharacterId) {
   if (!characterId) return {}

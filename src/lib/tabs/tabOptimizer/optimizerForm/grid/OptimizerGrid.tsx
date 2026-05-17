@@ -10,6 +10,7 @@ import {
 } from 'lib/hooks/useGridLocale'
 import { arrowKeyGridNavigation } from 'lib/interactions/arrowKeyGridNavigation'
 import type { OptimizerDisplayDataStatSim } from 'lib/optimization/bufferPacker'
+import { getAKeyName, isFlatStat } from 'lib/optimization/engine/config/keys'
 import {
   AbilityKind,
   AbilityMeta,
@@ -106,19 +107,25 @@ export function OptimizerGrid() {
     if (context) {
       // Insert dynamic ability columns before COMBO (last column)
       const comboColumn = columnDefinitions.pop()
+
       for (const action of context.defaultActions) {
-        const meta = AbilityMeta[action.actionType]
-        if (meta && action.actionType !== AbilityKind.NULL) {
-          columnDefinitions.push({
-            field: action.actionName as any,
-            valueFormatter: Renderer.floor,
-            cellStyle: Gradient.getOptimizerColumnGradient,
-            minWidth: DIGITS_5,
-            flex: 12,
-            headerName: t(`Headers.Basic.${action.actionType}` as any) as string,
-          })
-        }
+        if (!AbilityMeta[action.actionType] || action.actionType === AbilityKind.NULL) continue
+
+        const { buffStat } = action
+        const isPercentBuff = buffStat != null && !isFlatStat(buffStat)
+
+        columnDefinitions.push({
+          field: action.actionName as any,
+          headerName: buffStat != null
+            ? `${getAKeyName(buffStat)} Buff`
+            : t(`Headers.Basic.${action.actionType}` as any) as string,
+          valueFormatter: isPercentBuff ? Renderer.x100Tenths : Renderer.floor,
+          cellStyle: Gradient.getOptimizerColumnGradient,
+          minWidth: DIGITS_5,
+          flex: 12,
+        })
       }
+
       if (comboColumn) {
         columnDefinitions.push(comboColumn)
       }

@@ -155,9 +155,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent), x.source(SOURCE_TALENT))
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E1))
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent), x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

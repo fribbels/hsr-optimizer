@@ -73,14 +73,14 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, { character
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       if (context.characterId == TrailblazerRemembranceStelle.id || context.characterId == TrailblazerRemembranceCaelus.id) {
-        x.buff(StatKey.DMG_BOOST, (r.enhancedBasicBoost) ? sValuesEnhancedBasicDmg[s] : 0, x.damageType(DamageTag.BASIC).source(SOURCE_LC))
+        x.buff(StatKey.BOOST, (r.enhancedBasicBoost) ? sValuesEnhancedBasicDmg[s] : 0, x.damageType(DamageTag.BASIC).source(SOURCE_LC))
       }
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
       if (characterId === TrailblazerRemembranceStelle.id || characterId === TrailblazerRemembranceCaelus.id) {
-        x.buff(StatKey.DMG_BOOST, (m.dmgBoost) ? sValuesDmg[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+        x.buff(StatKey.BOOST, (m.dmgBoost) ? sValuesDmg[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
       }
     },
   }

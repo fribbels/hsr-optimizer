@@ -285,7 +285,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.multiplicativeComplement(StatKey.DMG_RED, (r.blockActive) ? 0.20 : 0, x.source(SOURCE_TRACE))
 
       // E1: FUA DMG boost when parry active
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1 && r.e1UltBuff && r.blockActive) ? 0.20 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
 
       // E2: FUA DEF PEN
       x.buff(StatKey.DEF_PEN, (e >= 2 && r.e2DefShred) ? 0.20 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E2))

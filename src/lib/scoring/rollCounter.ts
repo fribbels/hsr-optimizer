@@ -34,7 +34,7 @@ export function calculateMinSubstatRollCounts(
     [Stats.CR]: scoringParams.freeRolls,
     [Stats.CD]: scoringParams.freeRolls,
     [Stats.EHR]: scoringParams.freeRolls,
-    [Stats.RES]: partialSimulationWrapper.resRollsDeduction || scoringParams.freeRolls,
+    [Stats.RES]: Math.max(partialSimulationWrapper.resRollsDeduction, scoringParams.freeRolls),
     [Stats.BE]: scoringParams.freeRolls,
   }
 
@@ -75,12 +75,13 @@ export function calculateMaxSubstatRollCounts(
   if (isSubstat(request.simPlanarSphere)) maxCounts[request.simPlanarSphere] -= scoringParams.deductionPerMain
   if (isSubstat(request.simLinkRope)) maxCounts[request.simLinkRope] -= scoringParams.deductionPerMain
 
+  const reservedRolls = 11 * scoringParams.freeRolls
+    + Math.max(0, Math.ceil(partialSimulationWrapper.speedRollsDeduction) - scoringParams.freeRolls)
+    + Math.max(0, Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0) - scoringParams.freeRolls)
   for (const stat of SubStats) {
-    // What does this do?
     maxCounts[stat] = Math.min(
       maxCounts[stat],
-      scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction)
-        - Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0),
+      scoringParams.substatGoal - reservedRolls,
     )
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
   }
@@ -98,7 +99,7 @@ export function calculateMaxSubstatRollCounts(
 
   // Force RES when equalized
   if (partialSimulationWrapper.resRollsDeduction > 0) {
-    maxCounts[Stats.RES] = partialSimulationWrapper.resRollsDeduction
+    maxCounts[Stats.RES] = Math.max(partialSimulationWrapper.resRollsDeduction, scoringParams.freeRolls)
   }
 
   // The simplifications should not go below 6 rolls otherwise it interferes with possible build enforcement

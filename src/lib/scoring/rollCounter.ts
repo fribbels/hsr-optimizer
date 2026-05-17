@@ -5,6 +5,7 @@ import {
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type {
   PartialSimulationWrapper,
   ScoringParams,
@@ -14,9 +15,8 @@ import type {
   RunStatSimulationsResult,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
-import { ScoringConfigType } from 'types/metadata'
 import { isSubstat } from 'lib/utils/statUtils'
+import { ScoringConfigType } from 'types/metadata'
 
 export function calculateMinSubstatRollCounts(
   partialSimulationWrapper: PartialSimulationWrapper,
@@ -79,7 +79,8 @@ export function calculateMaxSubstatRollCounts(
     // What does this do?
     maxCounts[stat] = Math.min(
       maxCounts[stat],
-      scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0),
+      scoringParams.substatGoal - 10 * scoringParams.freeRolls - Math.ceil(partialSimulationWrapper.speedRollsDeduction)
+        - Math.ceil(partialSimulationWrapper.resRollsDeduction ?? 0),
     )
     maxCounts[stat] = Math.max(maxCounts[stat], scoringParams.freeRolls)
   }

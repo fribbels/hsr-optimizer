@@ -19,7 +19,7 @@ export const DpsScoreTeammateUpgradesTable = memo(function DpsScoreTeammateUpgra
       <TeammateUpgrades
         groupedUpgrades={result.teammateOrnamentUpgradeResults}
         baseSimScore={result.originalSimScore}
-        variant="characters"
+        variant='characters'
       />
     </div>
   )

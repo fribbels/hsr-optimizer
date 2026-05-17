@@ -29,7 +29,6 @@ import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
-import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import {
   savedSessionDefaults,
   useGlobalStore,
@@ -39,6 +38,7 @@ import {
   getCharacters,
   useCharacterStore,
 } from 'lib/stores/character/characterStore'
+import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   getRelicById,

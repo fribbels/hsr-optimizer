@@ -2,10 +2,10 @@ import type {
   ElementName,
   PathName,
 } from 'lib/constants/constants'
-import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import type { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import type { ActionModifier } from 'lib/optimization/context/calculateActions'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type {
   ComputedStatsContainer,
   ComputedStatsContainerConfig,

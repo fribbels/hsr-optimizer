@@ -1,16 +1,15 @@
 import { Skeleton } from '@mantine/core'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
 import { SubStats } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   createDiminishingReturnsFormula,
   type SimulationScore,
   spdDiminishingReturnsFormula,
 } from 'lib/scoring/simScoringUtils'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
-import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
-import type { ScoringConfigType } from 'types/metadata'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
@@ -19,6 +18,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { ScoringConfigType } from 'types/metadata'
 
 interface SubstatRollsSummaryCommonProps {
   precision: number

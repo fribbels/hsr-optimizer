@@ -5,17 +5,16 @@ import {
   CharacterStatSummary,
 } from 'lib/characterPreview/card/CharacterStatSummary'
 import {
-  useScoringPipeline,
-  useSimPreview,
-} from 'lib/characterPreview/useSimScoringHooks'
-import {
   AbilityDamageSummary,
   AsyncAbilityDamageSummary,
   SummaryRows,
 } from 'lib/characterPreview/summary/AbilityDamageSummary'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
+import {
+  useScoringPipeline,
+  useSimPreview,
+} from 'lib/characterPreview/useSimScoringHooks'
 import {
   type ElementName,
   type PathName,
@@ -24,20 +23,26 @@ import {
   type StatsValues,
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { Assets } from 'lib/rendering/assets'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { Assets } from 'lib/rendering/assets'
+import {
+  CONFIG_FIELD_MAP,
+  resolveComboLabel,
+  SCORING_CONFIG_REGISTRY,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import {
   formatSimScore,
   getElementalDmgFromContainer,
   type SimulationScore,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
-import { CONFIG_FIELD_MAP, resolveComboLabel, SCORING_CONFIG_REGISTRY, ScoringType } from 'lib/scoring/scoringConfig'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import type {
   RunStatSimulationsResult,
   Simulation,
 } from 'lib/simulations/statSimulationTypes'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { DeferCreate } from 'lib/ui/DeferredRender'
 import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
@@ -136,8 +141,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
           ))
           : ([props.simulation.request.simRelicSet1, props.simulation.request.simRelicSet2, props.simulation.request.simOrnamentSet]
             .filter(Boolean)
-            .map((set, i) => <img key={i} src={Assets.getSetImage(set)} className={classes.setImage} />)
-          )}
+            .map((set, i) => <img key={i} src={Assets.getSetImage(set)} className={classes.setImage} />))}
       </div>
     </div>
   )
@@ -296,13 +300,13 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
         </Suspense>
       )
       : hasSyncAbilityData
-        ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
-            {abilityHeader}
-            <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} />
-          </div>
-        )
-        : null
+      ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
+          {abilityHeader}
+          <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} />
+        </div>
+      )
+      : null
   } else {
     const entry = SCORING_CONFIG_REGISTRY[props.configType]
     const buffStat = getScoringMetadata(props.characterId)[CONFIG_FIELD_MAP[props.configType]]?.buffStat

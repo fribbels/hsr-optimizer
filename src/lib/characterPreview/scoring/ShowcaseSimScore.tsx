@@ -13,18 +13,17 @@ import {
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/CharacterCardCombatStats'
+import { StatText } from 'lib/characterPreview/StatText'
 import {
   useSimPreview,
   useSimScore,
 } from 'lib/characterPreview/useSimScoringHooks'
-import { StatText } from 'lib/characterPreview/StatText'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
   SETTINGS_TEAM,
   type TeamSelection,
 } from 'lib/constants/constants'
-import { CONFIG_FIELD_MAP, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
@@ -34,6 +33,10 @@ import { Assets } from 'lib/rendering/assets'
 import {
   getSimScoreGrade,
 } from 'lib/scoring/dpsScore'
+import {
+  CONFIG_FIELD_MAP,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
 import { type PreparedState } from 'lib/scoring/scoringService'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById } from 'lib/stores/character/characterStore'

@@ -1,13 +1,10 @@
-import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
-import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -19,6 +16,9 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -42,6 +42,10 @@ import {
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   floorSafe,
@@ -50,7 +54,6 @@ import {
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { SPREAD_ORNAMENTS_2P_SUPPORT, SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
 import {
   type ScoringMetadata,
   type SimulationMetadata,

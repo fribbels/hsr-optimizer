@@ -1,11 +1,11 @@
-import { Castorice } from 'lib/conditionals/character/1400/Castorice'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
+import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
-import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
 import {
   Sets,
   Stats,
@@ -24,8 +24,8 @@ import {
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
-import { ScoringConfigType } from 'types/metadata'
 import { uuid } from 'lib/utils/miscUtils'
+import { ScoringConfigType } from 'types/metadata'
 
 export function injectBenchmarkDebuggers() {
   // @ts-expect-error - Injecting debug helper onto globalThis for dev tooling

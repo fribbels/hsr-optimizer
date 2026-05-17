@@ -1,5 +1,5 @@
-import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
@@ -29,7 +29,10 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { SPREAD_ORNAMENTS_2P_SUPPORT, SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'

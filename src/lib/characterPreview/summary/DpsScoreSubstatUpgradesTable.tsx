@@ -1,5 +1,4 @@
 import { Table } from '@mantine/core'
-import { useScoringPipeline } from 'lib/characterPreview/useSimScoringHooks'
 import {
   isStatWithoutScoreUpgrade,
   type SharedScoreColumn,
@@ -8,6 +7,7 @@ import {
   tableStyle,
 } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import styles from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable.module.css'
+import { useScoringPipeline } from 'lib/characterPreview/useSimScoringHooks'
 import type { SubStats } from 'lib/constants/constants'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
@@ -19,7 +19,10 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
+import type {
+  ScoringConfigType,
+  SimulationMetadata,
+} from 'types/metadata'
 
 const nullPromise = Promise.resolve(null)
 

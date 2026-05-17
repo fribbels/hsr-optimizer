@@ -1,6 +1,10 @@
-import { create } from 'zustand'
-import { ACTIVE_NEW_FEATURES, isNewFeatureCheck, isNewGroupCheck } from 'lib/constants/newFeatures'
+import {
+  ACTIVE_NEW_FEATURES,
+  isNewFeatureCheck,
+  isNewGroupCheck,
+} from 'lib/constants/newFeatures'
 import { SaveState } from 'lib/state/saveState'
+import { create } from 'zustand'
 
 interface NewFeatureState {
   seenFeatures: Set<string>

@@ -16,7 +16,10 @@ import {
   WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import {
   SELF_ENTITY_INDEX,
   TargetTag,

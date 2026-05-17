@@ -19,15 +19,15 @@ import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
 import {
-  getShowcasePreset,
-  ShowcasePreset,
-} from 'lib/characterPreview/debugVisualConfigStore'
-import {
   buildCardBgPipelineConfig,
   DEFAULT_SHOWCASE_COLOR,
   resolveShowcaseTheme,
 } from 'lib/characterPreview/color/showcaseColorService'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
+import {
+  getShowcasePreset,
+  ShowcasePreset,
+} from 'lib/characterPreview/debugVisualConfigStore'
 import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
 import { AppPages } from 'lib/constants/appPages'
 import {
@@ -49,7 +49,10 @@ import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { Assets } from 'lib/rendering/assets'
 import { configTypeForScoringType } from 'lib/scoring/scoringConfig'
-import { isSimScoreMode, ScoringType } from 'lib/scoring/scoringConfig'
+import {
+  isSimScoreMode,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'

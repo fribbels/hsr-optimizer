@@ -25,14 +25,17 @@ import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { AppPages } from 'lib/constants/appPages'
 import { officialOnly } from 'lib/constants/constants'
-import { isNewGroupCheck, NewFeatureKey } from 'lib/constants/newFeatures'
-import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
+import {
+  isNewGroupCheck,
+  NewFeatureKey,
+} from 'lib/constants/newFeatures'
 import {
   OpenCloseIDs,
   setOpen,
   useIsOpen,
 } from 'lib/hooks/useOpenClose'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import {
   useCallback,
   useEffect,

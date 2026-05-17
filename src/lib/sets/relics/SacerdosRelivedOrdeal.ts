@@ -12,7 +12,11 @@ import {
   WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { AKey, HKey, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'

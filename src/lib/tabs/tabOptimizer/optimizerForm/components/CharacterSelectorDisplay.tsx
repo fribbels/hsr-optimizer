@@ -11,9 +11,9 @@ import {
   type AbilityKind,
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'

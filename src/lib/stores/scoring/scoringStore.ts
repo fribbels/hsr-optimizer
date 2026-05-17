@@ -1,4 +1,7 @@
-import { CONFIG_FIELD_MAP, hasOverrideContent } from 'lib/scoring/scoringConfig'
+import {
+  CONFIG_FIELD_MAP,
+  hasOverrideContent,
+} from 'lib/scoring/scoringConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import {

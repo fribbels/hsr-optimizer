@@ -6,7 +6,10 @@ import {
   showcaseOnEditOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { ShowcaseColorMode } from 'lib/constants/constants'
-import type { Parts, TeamSelection } from 'lib/constants/constants'
+import type {
+  Parts,
+  TeamSelection,
+} from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'

@@ -1,13 +1,16 @@
-import { applySetConditionalPresets, applyScoringMetadataPresets } from 'lib/conditionals/evaluation/applyPresets'
+import {
+  applyScoringMetadataPresets,
+  applySetConditionalPresets,
+} from 'lib/conditionals/evaluation/applyPresets'
 import { TwoPieceStatTags } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import {
+  relicIndexToSetConfig,
   type SetsOrnaments,
-  type SetsRelics,
   SetsOrnamentsNames,
+  type SetsRelics,
   SetsRelicsNames,
   STAT_TAG_TO_SETS,
-  relicIndexToSetConfig,
 } from 'lib/sets/setConfigRegistry'
 import { enrichSimulationMetadata } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'

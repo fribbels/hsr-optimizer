@@ -1,7 +1,10 @@
 import { useSimScore } from 'lib/characterPreview/useSimScoringHooks'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
-import { resolveRulerLabel, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import {
+  resolveRulerLabel,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { Languages } from 'lib/utils/i18nUtils'
 import {
@@ -69,7 +72,6 @@ function toPercent(value: number, minimum: number, maximum: number): string {
   if (range <= 0) return '0%'
   return `${(value - minimum) / range * 100}%`
 }
-
 
 // --- Component ---
 

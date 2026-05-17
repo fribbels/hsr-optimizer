@@ -10,19 +10,33 @@ import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
-import { DEFAULT_TEAM, type TeamSelection } from 'lib/constants/constants'
+import {
+  DEFAULT_TEAM,
+  type TeamSelection,
+} from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import { CONFIG_DISPLAY_ORDER, configTypeForScoringType, hasConfig, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
-import { isSimScoreMode, ScoringType } from 'lib/scoring/scoringConfig'
+import {
+  CONFIG_DISPLAY_ORDER,
+  configTypeForScoringType,
+  hasConfig,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
+import {
+  isSimScoreMode,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import type {
   Character,
   SavedBuild,
 } from 'types/character'
 import type { CustomImageConfig } from 'types/customImage'
-import type { ScoringConfigType, SimulationMetadata } from 'types/metadata'
+import type {
+  ScoringConfigType,
+  SimulationMetadata,
+} from 'types/metadata'
 
 // ===== Layout Resolution (character-dependent, no color) =====
 

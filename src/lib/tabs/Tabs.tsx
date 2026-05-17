@@ -4,8 +4,8 @@ import {
   PageToRoute,
 } from 'lib/constants/appPages'
 import { PAGE_FEATURE_KEYS } from 'lib/constants/newFeatures'
-import { markFeatureSeen } from 'lib/stores/newFeatureStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { markFeatureSeen } from 'lib/stores/newFeatureStore'
 import { BenchmarksTab } from 'lib/tabs/tabBenchmarks/BenchmarksTab'
 import { CalculatorsTab } from 'lib/tabs/tabCalculators/CalculatorsTab'
 import { ChangelogTab } from 'lib/tabs/tabChangelog/ChangelogTab'

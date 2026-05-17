@@ -17,15 +17,15 @@ import {
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
-import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import type {
   RunStatSimulationsResult,
   Simulation,
   SimulationRequest,
 } from 'lib/simulations/statSimulationTypes'
+import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { renderThousandsK } from 'lib/utils/i18nUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
@@ -82,7 +82,6 @@ export function formatSimScore(value: number, buffStat?: AKeyValue, precision: n
   }
   return `${(value * 100).toFixed(precision)}%`
 }
-
 
 export type ScoringParams = {
   quality: number,
@@ -420,7 +419,7 @@ export function requestToSets(request: SimulationRequest): SimulationSets {
 
 export function isPoetSet(sets: SimulationSets): boolean {
   return sets.relicSet1 === Sets.PoetOfMourningCollapse
-      && sets.relicSet2 === Sets.PoetOfMourningCollapse
+    && sets.relicSet2 === Sets.PoetOfMourningCollapse
 }
 
 export function setsEqual(a: SimulationSets, b: SimulationSets): boolean {

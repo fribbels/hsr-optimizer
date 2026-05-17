@@ -1,9 +1,9 @@
 import { usePromise } from 'hooks/usePromise'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import {
   AbilityKind,
   toTurnAbility,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
@@ -25,7 +25,6 @@ interface AsynchronousAbilityDamageSummaryProps {
   header?: React.ReactNode
   wrapperClassName?: string
 }
-
 
 export function SummaryRows({ entries }: { entries: [string, string][] }) {
   return (
@@ -58,19 +57,21 @@ export const AbilityDamageSummary = memo(function AbilityDamageSummary({
   return <SummaryRows entries={entries} />
 })
 
-export const AsyncAbilityDamageSummary = memo(function AsyncAbilityDamageSummary({ promise, mode, configType, header, wrapperClassName }: AsynchronousAbilityDamageSummaryProps) {
-  const output = usePromise(promise)
-  const rotationDamage = output?.[mode === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']?.result?.rotationDamage
-  if (!rotationDamage?.some((step) => step.actionType !== AbilityKind.NULL)) return null
+export const AsyncAbilityDamageSummary = memo(
+  function AsyncAbilityDamageSummary({ promise, mode, configType, header, wrapperClassName }: AsynchronousAbilityDamageSummaryProps) {
+    const output = usePromise(promise)
+    const rotationDamage = output?.[mode === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']?.result?.rotationDamage
+    if (!rotationDamage?.some((step) => step.actionType !== AbilityKind.NULL)) return null
 
-  if (header) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={wrapperClassName}>
-        {header}
-        <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} />
-      </div>
-    )
-  }
+    if (header) {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={wrapperClassName}>
+          {header}
+          <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} />
+        </div>
+      )
+    }
 
-  return <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} />
-})
+    return <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} />
+  },
+)

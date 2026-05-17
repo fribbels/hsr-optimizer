@@ -12,6 +12,7 @@ import {
   ComputedStatsContainerConfig,
   type OptimizerEntity,
 } from 'lib/optimization/engine/container/computedStatsContainer'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
   defineAction,
@@ -32,7 +33,6 @@ import {
   type EntityDefinition,
   type Hit,
 } from 'types/hitConditionalTypes'
-import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   type OptimizerAction,
   type OptimizerContext,

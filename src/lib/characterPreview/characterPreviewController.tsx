@@ -1,7 +1,6 @@
 import i18next, { type TFunction } from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
-import { CONFIG_DISPLAY_ORDER, hasConfig, type MetadataFieldKey, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
@@ -32,6 +31,12 @@ import {
 } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
 import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
+import {
+  CONFIG_DISPLAY_ORDER,
+  hasConfig,
+  type MetadataFieldKey,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
 import { ScoringType } from 'lib/scoring/scoringConfig'
 import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'

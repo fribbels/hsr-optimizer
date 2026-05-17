@@ -1,8 +1,14 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import { CUSTOM_TEAM, type TeamSelection } from 'lib/constants/constants'
+import {
+  CUSTOM_TEAM,
+  type TeamSelection,
+} from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import type { SortOptionKey } from 'lib/optimization/sortOptions'
-import { CONFIG_FIELD_MAP, SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import {
+  CONFIG_FIELD_MAP,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -10,13 +16,16 @@ import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
 import type { Character } from 'types/character'
 import {
-  ScoringConfigType,
   type ScoringConfig,
+  ScoringConfigType,
   type ScoringMetadata,
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import { BuildSource, type SavedBuild } from 'types/savedBuild'
+import {
+  BuildSource,
+  type SavedBuild,
+} from 'types/savedBuild'
 
 /**
  * Prepare phase (steps 1-8): synchronous, ~5ms.

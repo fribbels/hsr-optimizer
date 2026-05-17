@@ -1,11 +1,11 @@
 import { type TFunction } from 'i18next'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import {
   type MainStatParts,
   MainStatPartsArray,
   type MainStats,
   Parts,
 } from 'lib/constants/constants'
-import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { Assets } from 'lib/rendering/assets'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { SuspenseNode } from 'lib/ui/SuspenseNode'

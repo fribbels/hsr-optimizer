@@ -1,6 +1,9 @@
 import { CombatBuffs } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { type AKeyValue, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  type AKeyValue,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import type { Form } from 'types/form'

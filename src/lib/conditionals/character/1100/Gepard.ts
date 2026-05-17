@@ -35,7 +35,10 @@ import {
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { SPREAD_ORNAMENTS_2P_SUPPORT, SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'

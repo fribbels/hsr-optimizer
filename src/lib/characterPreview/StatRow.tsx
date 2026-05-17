@@ -17,9 +17,9 @@ import {
   type i18n,
   type TFunction,
 } from 'i18next'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
-import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import {
   getElementalDmgFromContainer,
   type SimulationScore,
@@ -74,7 +74,11 @@ const READABLE_STAT_KEYS: ReadonlySet<string> = new Set([
   ...Object.keys(damageStats),
   Stats.OHB,
   Stats.ERR,
-  'BASIC', 'SKILL', 'ULT', 'FUA', 'DOT',
+  'BASIC',
+  'SKILL',
+  'ULT',
+  'FUA',
+  'DOT',
 ])
 
 export function StatRowDivider() {
@@ -87,10 +91,10 @@ export const StatRow = memo(function StatRow({
   edits,
   preciseSpd,
 }: {
-  stat: StatsValues
-  finalStats: BasicStatsObject | ComputedStatsObjectExternal
-  edits?: Record<string, boolean>
-  preciseSpd?: boolean
+  stat: StatsValues,
+  finalStats: BasicStatsObject | ComputedStatsObjectExternal,
+  edits?: Record<string, boolean>,
+  preciseSpd?: boolean,
 }): ReactNode {
   const value = precisionRound(finalStats[stat as keyof typeof finalStats])
 
@@ -119,15 +123,15 @@ export const StatRow = memo(function StatRow({
 })
 
 export const AsyncStatRow = memo(function({ promise, type, subType, stat, element, path, elementalDmgValue, edits, preciseSpd }: {
-  promise: Promise<SimulationScore | null>
-  type: ScoringColumnKind.CHARACTER | ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
-  subType: 'Basic' | 'Combat'
-  stat: StatsValues
-  element: ElementName
-  path: PathName
-  elementalDmgValue: StatsValues
-  edits?: Record<string, boolean>
-  preciseSpd?: boolean
+  promise: Promise<SimulationScore | null>,
+  type: ScoringColumnKind.CHARACTER | ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
+  subType: 'Basic' | 'Combat',
+  stat: StatsValues,
+  element: ElementName,
+  path: PathName,
+  elementalDmgValue: StatsValues,
+  edits?: Record<string, boolean>,
+  preciseSpd?: boolean,
 }) {
   const { t, i18n } = useTranslation('common')
 

@@ -50,7 +50,7 @@ import {
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { SPREAD_ORNAMENTS_2P_SUPPORT } from 'lib/scoring/scoringConstants'
+import { SPREAD_ORNAMENTS_2P_SUPPORT, SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -391,6 +391,7 @@ const supportSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
     Sets.LushakaTheSunkenSeas,

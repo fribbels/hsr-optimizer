@@ -620,6 +620,7 @@ const healSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
     Sets.GiantTreeOfRaptBrooding,

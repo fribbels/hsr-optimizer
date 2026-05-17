@@ -151,7 +151,7 @@ export function resolveSimulationMetadata(
       ? buildOverride.deprioritizeBuffs
       : customSimulation.deprioritizeBuffs ?? false
   } else {
-    simulation.deprioritizeBuffs = false
+    simulation.deprioritizeBuffs = true
   }
 
   return simulation

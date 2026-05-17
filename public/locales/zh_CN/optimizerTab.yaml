@@ -120,7 +120,6 @@ Grid:
   Of: /
   Page: 页
   PageSelectorLabel: '页面大小：'
-  Loading: 加载中...
   Headers:
     Basic:
       Set: 套装
@@ -499,7 +498,6 @@ CombatBuffs:
   SPD: 速度
   SPD_P: 速度 %
   BE: 击破特攻 %
-  DMG_BOOST: 伤害增益 %
   DEF_PEN: 防御穿透 %
   RES_PEN: 伤害抗性穿透 %
   EFFECT_RES_PEN: 效果抵抗穿透 %

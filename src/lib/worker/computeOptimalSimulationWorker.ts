@@ -89,6 +89,10 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   if (scoringParams.enforcePossibleDistribution) {
     maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD]) // Fixes SPD
     currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
+    if (maxSubstatRollCounts[Stats.RES] > 0) {
+      maxSubstatRollCounts[Stats.RES] = Math.max(6, maxSubstatRollCounts[Stats.RES])
+      currentSimulation.request.stats[Stats.RES] = Math.max(6, maxSubstatRollCounts[Stats.RES])
+    }
   }
 
   // Cached container reused across all damageFunction calls to avoid repeated allocations

@@ -490,6 +490,11 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
 }
 
 function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['characters']) {
+  // Clear legacy statSim formats that lack the current required shape
+  if (character.form?.statSim && !character.form.statSim.substatRolls) {
+    character.form.statSim = undefined
+  }
+
   // Previously sim requests didn't use the stats field
   if (character.form?.statSim?.simulations) {
     character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)

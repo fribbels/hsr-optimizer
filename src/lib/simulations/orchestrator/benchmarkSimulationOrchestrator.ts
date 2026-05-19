@@ -241,6 +241,8 @@ export class BenchmarkSimulationOrchestrator {
 
     if (config.configType === ScoringConfigType.BUFFER) {
       this.form!.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 4
+      this.form!.setConditionals[Sets.WatchmakerMasterOfDreamMachinations][1] = true
+      this.form!.setConditionals[Sets.LushakaTheSunkenSeas][1] = true
     }
   }
 

@@ -47,6 +47,7 @@ import {
   type EntityDefinition,
   type Hit,
 } from 'types/hitConditionalTypes'
+
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -715,6 +716,20 @@ export class ComputedStatsContainer {
     // Skip if no hits defined (some actions like non-transformed Phainon ULT have no damage hits)
     if (this.config.hitsLength === 0) {
       return
+    }
+
+    if (buffStatFilter === StatKey.ATK_P) {
+      buffStatFilter = StatKey.ATK
+      value = value * this.config.entitiesArray[entityIndex]!.baseAtk
+    } else if (buffStatFilter === StatKey.DEF_P) {
+      buffStatFilter = StatKey.DEF
+      value = value * this.config.entitiesArray[entityIndex]!.baseDef
+    } else if (buffStatFilter === StatKey.HP_P) {
+      buffStatFilter = StatKey.HP
+      value = value * this.config.entitiesArray[entityIndex]!.baseHp
+    } else if (buffStatFilter === StatKey.SPD_P) {
+      buffStatFilter = StatKey.SPD
+      value = value * this.config.entitiesArray[entityIndex]!.baseSpd
     }
 
     // Directness is determined by the primary hit - all hits in an action inherit this

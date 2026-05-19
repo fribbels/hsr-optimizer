@@ -522,6 +522,7 @@ const supportSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
     Sets.ForgeOfTheKalpagniLantern,

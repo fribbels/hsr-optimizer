@@ -7,7 +7,7 @@ import {
   TrailblazerHarmonyCaelus,
   TrailblazerHarmonyStelle,
 } from 'lib/conditionals/character/8000/TrailblazerHarmony'
-import { applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
+import { applyScoringMetadataPresets, applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
 import {
   Parts,
   Sets,
@@ -239,9 +239,7 @@ export class BenchmarkSimulationOrchestrator {
       this.form!.comboType = ComboType.ADVANCED
     }
 
-    if (config.configType === ScoringConfigType.BUFFER) {
-      this.form!.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 4
-    }
+    applyScoringMetadataPresets(this.form!)
   }
 
   public applyResEqualization() {
@@ -249,7 +247,7 @@ export class BenchmarkSimulationOrchestrator {
     if (!entry.applyResEqualization) return
 
     const combatRes = this.originalSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
-    if (combatRes >= 0.30) {
+    if (combatRes >= 0.50) {
       this.flags.benchmarkBasicResTarget = combatRes
     }
   }

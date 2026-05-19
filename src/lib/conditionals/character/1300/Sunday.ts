@@ -41,6 +41,7 @@ import {
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -441,7 +442,7 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
-    Sets.LushakaTheSunkenSeas,
+    Sets.BrokenKeel,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
@@ -492,7 +493,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnSacerdosSet(4),
+  ],
   sortOption: SortOption.CD,
   hiddenColumns: [
     SortOption.SKILL,

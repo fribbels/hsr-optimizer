@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -7895,5 +7895,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

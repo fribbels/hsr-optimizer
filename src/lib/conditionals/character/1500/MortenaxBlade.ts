@@ -340,6 +340,7 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_FUA,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
+  errRopeEidolon: 0,
   teammates: [
     {
       characterId: Ashveil.id,
@@ -392,6 +393,7 @@ const scoring = (): ScoringMetadata => ({
     ],
     [Parts.LinkRope]: [
       Stats.HP_P,
+      Stats.ERR,
     ],
   },
   presets: [

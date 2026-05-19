@@ -332,7 +332,7 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
-    Sets.LushakaTheSunkenSeas,
+    Sets.BrokenKeel,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [

@@ -9,9 +9,8 @@ import {
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  type OptimizerContext,
-} from 'types/optimizer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type OptimizerContext } from 'types/optimizer'
 import {
   type SetConditionals,
   type SetConfig,
@@ -30,12 +29,15 @@ const info = {
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Lushaka',
-  defaultValue: false,
+  defaultValue: true,
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.ERR.buff(0.05, Source.LushakaTheSunkenSeas)
+  },
+  p2x: (x: ComputedStatsContainer, context: OptimizerContext) => {
+    x.buff(StatKey.BOOST, 0.12, x.outputBuff(StatKey.ATK_P).source(Source.LushakaTheSunkenSeas))
   },
   gpuBasic: () => [
     basicP2(WgslStatName.ERR, 0.05, LushakaTheSunkenSeas),

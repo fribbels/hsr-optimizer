@@ -370,7 +370,7 @@ function generateSetComboConditionals(
         partitions: [valuePartitions],
       }
     } else {
-      const activations: boolean[] = Array(actionCount).fill(p4Value)
+      const activations: boolean[] = Array(actionCount).fill(!!p4Value)
       output[setName] = {
         type: ConditionalDataType.BOOLEAN,
         activations: activations,

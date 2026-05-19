@@ -3,9 +3,8 @@ import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringCol
 import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
 import { SubStats } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
-  createDiminishingReturnsFormula,
+  diminishingReturnsFormula,
   type SimulationScore,
   spdDiminishingReturnsFormula,
 } from 'lib/scoring/simScoringUtils'
@@ -18,13 +17,11 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ScoringConfigType } from 'types/metadata'
 
 interface SubstatRollsSummaryCommonProps {
   precision: number
   diminish: boolean
   columns?: 1 | 2
-  configType?: ScoringConfigType
 }
 
 interface SyncProps extends SubstatRollsSummaryCommonProps {
@@ -55,12 +52,10 @@ export const SubstatRollsSummary = memo(function SubstatRollsSummary(props: Subs
   return props.promise ? <AsyncStatRollSummary {...props} /> : <SyncSubstatRollsSummary {...props} />
 })
 
-function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns, configType }: SyncProps) {
+function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns }: SyncProps) {
   const stats = simRequest.stats
   const diminishingReturns: Record<string, number> = {}
   if (diminish) {
-    const mainsFreeCount = configType ? SCORING_CONFIG_REGISTRY[configType].mainsFreeCount : 0
-    const diminishingReturnsFormula = createDiminishingReturnsFormula(12, 2, mainsFreeCount)
     for (const [stat, rolls] of Object.entries(stats)) {
       const mainsCount = [
         simRequest.simBody,
@@ -118,7 +113,7 @@ function ScoringNumberParens({ label, number, parens: parensValue, precision = 1
   )
 }
 
-function AsyncStatRollSummary({ promise, type, precision, diminish, columns, configType }: AsyncProps) {
+function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: AsyncProps) {
   const [stats, setStats] = useState<Record<string, number>>({})
   const [diminishingReturns, setDiminishingReturns] = useState<Record<string, number>>({})
   const [suspended, setSuspended] = useState(true)
@@ -139,8 +134,6 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
       const diminishingReturns: Record<string, number> = {}
 
       if (diminish) {
-        const mainsFreeCount = configType ? SCORING_CONFIG_REGISTRY[configType].mainsFreeCount : 0
-        const diminishingReturnsFormula = createDiminishingReturnsFormula(12, 2, mainsFreeCount)
         for (const [stat, rolls] of Object.entries(stats)) {
           const mainsCount = [
             request.simBody,
@@ -167,7 +160,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
     return () => {
       stale = true
     }
-  }, [promise, type, diminish, configType])
+  }, [promise, type, diminish])
   return (
     <RenderStats
       stats={stats}

@@ -136,6 +136,7 @@ ReadableStats:
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)ダメージ'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)ダメージ'
   Elation: 愉悦
+  simScore: コンボダメージ
 ShortReadableStats:
   "HP%": HP割合
   HP: HP

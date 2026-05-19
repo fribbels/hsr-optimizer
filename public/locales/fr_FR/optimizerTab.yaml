@@ -104,7 +104,6 @@ Grid:
   Of: de
   Page: Page
   PageSelectorLabel: 'Taille de page'
-  Loading: Chargement...
   Headers:
     Basic:
       Set: Set
@@ -385,7 +384,6 @@ CombatBuffs:
   SPD: VIT
   SPD_P: VIT %
   BE: ER %
-  DMG_BOOST: Aug. DGT %
   DEF_PEN: Pén Def %
   RES_PEN: PÉN RÉS Dgt %
   EFFECT_RES_PEN: PÉN RÉS Eff %

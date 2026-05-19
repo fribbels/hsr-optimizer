@@ -361,7 +361,6 @@ CombatBuffs:
   SPD: Tốc Độ
   SPD_P: Tốc Độ %
   BE: Kích Phá %
-  DMG_BOOST: Tăng ST Nguyên Tố %
   DEF_PEN: Xuyên Phòng Thủ %
   RES_PEN: Xuyên Kháng ST Nguyên Tố %
   EFFECT_RES_PEN: Kháng Hiệu Ứng %

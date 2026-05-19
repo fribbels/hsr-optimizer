@@ -105,7 +105,6 @@ Grid:
   Of: de
   Page: Página
   PageSelectorLabel: 'Tamaño de página:'
-  Loading: Cargando...
   Headers:
     Basic:
       Set: Conj.
@@ -396,7 +395,6 @@ CombatBuffs:
   SPD: VEL
   SPD_P: VEL %
   BE: EdR %
-  DMG_BOOST: Aumento de daño %
   DEF_PEN: PEN DEF %
   RES_PEN: PEN RES a daño %
   EFFECT_RES_PEN: PEN RES a efecto %

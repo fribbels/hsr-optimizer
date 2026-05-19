@@ -31,7 +31,6 @@ ResultsPanel:
   CombatStats: 전투 스탯
   Rolls: 부옵 수
   Combo: 콤보 순서
-  Damage: 종류별 피해량
 Messages:
   Error:
     MissingField: 캐릭터/광추/팀원을 찾을 수 없습니다

@@ -73,4 +73,9 @@ export const PresetEffects = {
     value: true,
     set: Sets.TengokuLivestream,
   } as PresetDefinition,
+  WATCHMAKER_SET: {
+    name: 'WATCHMAKER_SET',
+    value: true,
+    set: Sets.WatchmakerMasterOfDreamMachinations,
+  } as PresetDefinition,
 }

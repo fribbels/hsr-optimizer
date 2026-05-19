@@ -7,7 +7,7 @@ import {
   TrailblazerHarmonyCaelus,
   TrailblazerHarmonyStelle,
 } from 'lib/conditionals/character/8000/TrailblazerHarmony'
-import { applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
+import { applyScoringMetadataPresets, applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
 import {
   Parts,
   Sets,
@@ -239,11 +239,7 @@ export class BenchmarkSimulationOrchestrator {
       this.form!.comboType = ComboType.ADVANCED
     }
 
-    if (config.configType === ScoringConfigType.BUFFER) {
-      this.form!.setConditionals[Sets.SacerdosRelivedOrdeal][1] = 4
-      this.form!.setConditionals[Sets.WatchmakerMasterOfDreamMachinations][1] = true
-      this.form!.setConditionals[Sets.LushakaTheSunkenSeas][1] = true
-    }
+    applyScoringMetadataPresets(this.form!)
   }
 
   public applyResEqualization() {

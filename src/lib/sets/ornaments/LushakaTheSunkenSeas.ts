@@ -33,7 +33,7 @@ const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
   conditionalI18nKey: 'Conditionals.Lushaka',
   modifiable: true,
-  defaultValue: false,
+  defaultValue: true,
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {

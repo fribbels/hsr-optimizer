@@ -30,6 +30,7 @@ import {
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -325,7 +326,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.WATCHMAKER_SET,
+  ],
   sortOption: SortOption.BE,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   supportSimulation: supportSimulation(),

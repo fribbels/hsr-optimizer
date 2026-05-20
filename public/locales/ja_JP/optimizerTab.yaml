@@ -36,6 +36,8 @@ SortOptions:
   DMGLabel: 与ダメージ計算
   HealLabel: 治癒量計算
   ShieldLabel: シールド量計算
+  OptimizationLabel: 最適化
+  AbilityLabel: アビリティ
   StatLabel: ステータス
   COMBO: コンボダメージ順
   BASIC: 通常攻撃ダメージ順

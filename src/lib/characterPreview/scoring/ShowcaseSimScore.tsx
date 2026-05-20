@@ -248,7 +248,7 @@ export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, t
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>
       {!isDps && (
         <StatText className={styles.scoreHeaderText}>
-          [ BETA 5 ]
+          [ BETA 6 ]
         </StatText>
       )}
       <ShowcaseScoreHeaderReady relics={relics} configType={configType} t={t} />

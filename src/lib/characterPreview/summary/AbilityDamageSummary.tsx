@@ -65,7 +65,7 @@ export const AsyncAbilityDamageSummary = memo(
 
     if (header) {
       return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={wrapperClassName}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }} className={wrapperClassName}>
           {header}
           <AbilityDamageSummary rotationDamage={rotationDamage} configType={configType} />
         </div>

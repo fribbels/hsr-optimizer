@@ -44,6 +44,7 @@ import type {
 } from 'lib/simulations/statSimulationTypes'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { DeferCreate } from 'lib/ui/DeferredRender'
+import { HorizontalDivider } from 'lib/ui/Dividers'
 import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   precisionRound,
@@ -302,7 +303,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
       )
       : hasSyncAbilityData
       ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.abilityDamageSection}>
           {abilityHeader}
           <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} />
         </div>
@@ -323,7 +324,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
               const sim = props.type === ScoringColumnKind.BENCHMARK ? result.benchmarkSim : result.maximumSim
               const value = sim.result?.simScore ?? 0
               return (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.abilityDamageSection}>
                   {abilityHeader}
                   <SummaryRows entries={[[buffLabel, formatSimScore(value, buffStat, 1, entry.thousands)]]} />
                 </div>
@@ -333,7 +334,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
         </Suspense>
       )
       : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.abilityDamageSection}>
           {abilityHeader}
           <SummaryRows entries={[[buffLabel, formatSimScore(props.simulation.result?.simScore ?? 0, buffStat, 1, entry.thousands)]]} />
         </div>
@@ -353,24 +354,17 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
         )
         : <SuspendedHeader t={t} configType={props.configType} avatarSrc={avatarSrc} />}
       <div className={classes.columnFilledBody}>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{setsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{basicStatsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{combatStatsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{substatsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{mainstatsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{abilityBlock}</div>
-        </DeferCreate>
+        <DeferCreate>{setsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{basicStatsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{combatStatsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{substatsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{mainstatsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{abilityBlock}</DeferCreate>
       </div>
     </div>
   )

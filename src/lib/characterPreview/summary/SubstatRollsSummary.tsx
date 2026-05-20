@@ -55,7 +55,7 @@ export const SubstatRollsSummary = memo(function SubstatRollsSummary(props: Subs
   return props.promise ? <AsyncStatRollSummary {...props} /> : <SyncSubstatRollsSummary {...props} />
 })
 
-function getDrFormula(configType?: ScoringConfigType) {
+function getDiminishingReturnsFormula(configType?: ScoringConfigType) {
   return configType != null && configType !== ScoringConfigType.DPS
     ? supportDiminishingReturnsFormula
     : diminishingReturnsFormula
@@ -64,7 +64,7 @@ function getDrFormula(configType?: ScoringConfigType) {
 function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns, configType }: SyncProps) {
   const stats = simRequest.stats
   const diminishingReturns: Record<string, number> = {}
-  const drFormula = getDrFormula(configType)
+  const resolvedDiminishingReturnsFormula = getDiminishingReturnsFormula(configType)
   if (diminish) {
     for (const [stat, rolls] of Object.entries(stats)) {
       const mainsCount = [
@@ -78,7 +78,7 @@ function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns, con
       if (stat === Stats.SPD) {
         diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
       } else {
-        diminishingReturns[stat] = rolls - drFormula(mainsCount, rolls)
+        diminishingReturns[stat] = rolls - resolvedDiminishingReturnsFormula(mainsCount, rolls)
       }
     }
   }
@@ -127,7 +127,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
   const [stats, setStats] = useState<Record<string, number>>({})
   const [diminishingReturns, setDiminishingReturns] = useState<Record<string, number>>({})
   const [suspended, setSuspended] = useState(true)
-  const drFormula = getDrFormula(configType)
+  const resolvedDiminishingReturnsFormula = getDiminishingReturnsFormula(configType)
 
   useEffect(() => {
     let stale = false
@@ -157,7 +157,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
           if (stat === Stats.SPD) {
             diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
           } else {
-            diminishingReturns[stat] = rolls - drFormula(mainsCount, rolls)
+            diminishingReturns[stat] = rolls - resolvedDiminishingReturnsFormula(mainsCount, rolls)
           }
         }
       }

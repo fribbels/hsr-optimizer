@@ -57,7 +57,7 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   if (input.context.characterId === Hysilens.id) {
     const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
     if (!ehrLightCone) {
-      const hysilensDiminishingReturns = createDiminishingReturnsFormula(24, 2, 0)
+      const hysilensDiminishingReturns = createDiminishingReturnsFormula(24, 2)
       return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, hysilensDiminishingReturns)
     }
   }

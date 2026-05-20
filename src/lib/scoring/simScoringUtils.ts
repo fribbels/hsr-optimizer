@@ -239,10 +239,9 @@ export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
   return lowerLimit + diminishedExcess
 }
 
-export function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyPerMain: number, mainsFreeCount: number) {
+export function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyPerMain: number) {
   return (mainsCount: number, rolls: number) => {
-    const effectiveMainsCount = Math.max(0, mainsCount - mainsFreeCount)
-    const lowerLimit = baseLowerLimit - penaltyPerMain * effectiveMainsCount
+    const lowerLimit = baseLowerLimit - penaltyPerMain * mainsCount
     if (rolls <= lowerLimit) {
       return rolls
     }
@@ -254,7 +253,7 @@ export function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyP
   }
 }
 
-export const supportDiminishingReturnsFormula = createDiminishingReturnsFormula(6, 1, 0)
+export const supportDiminishingReturnsFormula = createDiminishingReturnsFormula(6, 1)
 
 export function spdDiminishingReturnsFormula(mainsCount: number, rolls: number) {
   const lowerLimit = 12 - 2 * mainsCount

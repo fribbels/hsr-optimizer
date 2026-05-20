@@ -18,7 +18,7 @@ export function MinMaxStatFilters() {
         <FilterRow name='Atk' label={t('ATKLabel')} type='stat' />
         <FilterRow name='Hp' label={t('HPLabel')} type='stat' />
         <FilterRow name='Def' label={t('DEFLabel')} type='stat' />
-        <FilterRow name='Spd' label={t('SPDLabel')} type='stat' />
+        <FilterRow name='Spd' label={t('SPDLabel')} type='stat' highlighted />
         <FilterRow name='Cr' label={t('CRLabel')} type='stat' />
         <FilterRow name='Cd' label={t('CDLabel')} type='stat' />
         <FilterRow name='Ehr' label={t('EHRLabel')} type='stat' />

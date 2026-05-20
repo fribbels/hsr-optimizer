@@ -36,6 +36,8 @@ SortOptions:
   DMGLabel: Damage calculations
   HealLabel: Heal calculations
   ShieldLabel: Shield calculations
+  OptimizationLabel: Optimization
+  AbilityLabel: Abilities
   StatLabel: Stats
   COMBO: Sorted by Combo DMG
   COMBO_BUFF: Sorted by Combo Buff

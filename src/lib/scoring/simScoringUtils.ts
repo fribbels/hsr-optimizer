@@ -254,6 +254,8 @@ export function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyP
   }
 }
 
+export const supportDiminishingReturnsFormula = createDiminishingReturnsFormula(6, 1, 0)
+
 export function spdDiminishingReturnsFormula(mainsCount: number, rolls: number) {
   const lowerLimit = 12 - 2 * mainsCount
   if (rolls <= lowerLimit) {

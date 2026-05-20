@@ -7,8 +7,10 @@ import {
   diminishingReturnsFormula,
   type SimulationScore,
   spdDiminishingReturnsFormula,
+  supportDiminishingReturnsFormula,
 } from 'lib/scoring/simScoringUtils'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import { ScoringConfigType } from 'types/metadata'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
@@ -22,6 +24,7 @@ interface SubstatRollsSummaryCommonProps {
   precision: number
   diminish: boolean
   columns?: 1 | 2
+  configType?: ScoringConfigType
 }
 
 interface SyncProps extends SubstatRollsSummaryCommonProps {
@@ -52,9 +55,16 @@ export const SubstatRollsSummary = memo(function SubstatRollsSummary(props: Subs
   return props.promise ? <AsyncStatRollSummary {...props} /> : <SyncSubstatRollsSummary {...props} />
 })
 
-function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns }: SyncProps) {
+function getDrFormula(configType?: ScoringConfigType) {
+  return configType != null && configType !== ScoringConfigType.DPS
+    ? supportDiminishingReturnsFormula
+    : diminishingReturnsFormula
+}
+
+function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns, configType }: SyncProps) {
   const stats = simRequest.stats
   const diminishingReturns: Record<string, number> = {}
+  const drFormula = getDrFormula(configType)
   if (diminish) {
     for (const [stat, rolls] of Object.entries(stats)) {
       const mainsCount = [
@@ -68,7 +78,7 @@ function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns }: S
       if (stat === Stats.SPD) {
         diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
       } else {
-        diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+        diminishingReturns[stat] = rolls - drFormula(mainsCount, rolls)
       }
     }
   }
@@ -113,10 +123,11 @@ function ScoringNumberParens({ label, number, parens: parensValue, precision = 1
   )
 }
 
-function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: AsyncProps) {
+function AsyncStatRollSummary({ promise, type, precision, diminish, columns, configType }: AsyncProps) {
   const [stats, setStats] = useState<Record<string, number>>({})
   const [diminishingReturns, setDiminishingReturns] = useState<Record<string, number>>({})
   const [suspended, setSuspended] = useState(true)
+  const drFormula = getDrFormula(configType)
 
   useEffect(() => {
     let stale = false
@@ -146,7 +157,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: A
           if (stat === Stats.SPD) {
             diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
           } else {
-            diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+            diminishingReturns[stat] = rolls - drFormula(mainsCount, rolls)
           }
         }
       }

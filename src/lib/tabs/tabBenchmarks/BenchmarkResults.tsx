@@ -267,6 +267,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           precision={0}
           diminish={row.percentage === 100}
           columns={1}
+          configType={orchestrator.configType}
         />
       </Flex>
 

@@ -498,6 +498,16 @@ function buildPreBakedBlurPlugin(blurCache: Map<string, string>): SnapdomPlugin 
   }
 }
 
+const hideHoverButtonsPlugin: SnapdomPlugin = {
+  name: 'hide-hover-buttons',
+  afterClone({ clone }) {
+    if (!clone) return
+    for (const btn of clone.querySelectorAll<HTMLElement>('.character-build-portrait-button')) {
+      btn.style.display = 'none'
+    }
+  },
+}
+
 /** Fallback: boost blur in the clone when pre-bake is unavailable. */
 function buildBlurMultiplierPlugin(blurMultiplier: number): SnapdomPlugin {
   return {
@@ -595,6 +605,7 @@ export async function screenshotElementById(
             plugins: [
               buildImageInliningPlugin(imageCache),
               blurPlugin,
+              hideHoverButtonsPlugin,
             ],
           }),
           attemptTimeoutMs,

@@ -130,7 +130,7 @@ export function CharacterSelectorDisplay() {
     // EHP always in optimization
     optimizationOptions.push({ value: SortOption.EHP.key, label: t('SortOptions.EHP') })
 
-    const groups = [
+    const groups: { label: string, options: { value: SortOptionKey, label: string }[] }[] = [
       {
         label: t('SortOptions.StatLabel'),
         options: [

@@ -7329,6 +7329,7 @@ export default interface Resources {
     },
     "SortOptions": {
       "ATK": "Sorted by $t(common:ReadableStats.ATK)",
+      "AbilityLabel": "Abilities",
       "BASIC": "Sorted by Basic DMG",
       "BASIC_HEAL": "Sorted by Basic HEAL",
       "BASIC_SHIELD": "Sorted by Basic SHIELD",
@@ -7357,6 +7358,7 @@ export default interface Resources {
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
       "OHB": "Sorted by $t(common:ReadableStats.Outgoing Healing Boost)",
+      "OptimizationLabel": "Optimization",
       "RES": "Sorted by $t(common:ReadableStats.Effect RES)",
       "SHIELD": "Sorted by Shield",
       "SKILL": "Sorted by Skill DMG",

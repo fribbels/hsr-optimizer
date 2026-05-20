@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: Set de Ornamento
 SortOptions:
   DMGLabel: Cálculo de dano
+  OptimizationLabel: Otimização
+  AbilityLabel: Habilidades
   StatLabel: Atributos
   COMBO: Organizado por Combo DMG
   BASIC: Organizado por Dano Básico

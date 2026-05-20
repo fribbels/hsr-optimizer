@@ -120,7 +120,7 @@ export function OptimizerGrid() {
         columnDefinitions.push({
           field: action.actionName as any,
           headerName: buffStat != null
-            ? `${getAKeyName(buffStat)} Buff`
+            ? `${getAKeyName(buffStat)}\nBUFF`
             : t(`Headers.Basic.${action.actionType}` as any) as string,
           valueFormatter: isPercentBuff ? Renderer.x100Tenths : Renderer.floor,
           cellStyle: Gradient.getOptimizerColumnGradient,

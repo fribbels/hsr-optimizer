@@ -3,13 +3,14 @@ import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringCol
 import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
 import { SubStats } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
-  createDiminishingReturnsFormula,
+  diminishingReturnsFormula,
   type SimulationScore,
   spdDiminishingReturnsFormula,
+  supportDiminishingReturnsFormula,
 } from 'lib/scoring/simScoringUtils'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import { ScoringConfigType } from 'types/metadata'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
@@ -18,7 +19,6 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { ScoringConfigType } from 'types/metadata'
 
 interface SubstatRollsSummaryCommonProps {
   precision: number
@@ -55,12 +55,17 @@ export const SubstatRollsSummary = memo(function SubstatRollsSummary(props: Subs
   return props.promise ? <AsyncStatRollSummary {...props} /> : <SyncSubstatRollsSummary {...props} />
 })
 
+function getDiminishingReturnsFormula(configType?: ScoringConfigType) {
+  return configType != null && configType !== ScoringConfigType.DPS
+    ? supportDiminishingReturnsFormula
+    : diminishingReturnsFormula
+}
+
 function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns, configType }: SyncProps) {
   const stats = simRequest.stats
   const diminishingReturns: Record<string, number> = {}
+  const resolvedDiminishingReturnsFormula = getDiminishingReturnsFormula(configType)
   if (diminish) {
-    const mainsFreeCount = configType ? SCORING_CONFIG_REGISTRY[configType].mainsFreeCount : 0
-    const diminishingReturnsFormula = createDiminishingReturnsFormula(12, 2, mainsFreeCount)
     for (const [stat, rolls] of Object.entries(stats)) {
       const mainsCount = [
         simRequest.simBody,
@@ -73,7 +78,7 @@ function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns, con
       if (stat === Stats.SPD) {
         diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
       } else {
-        diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+        diminishingReturns[stat] = rolls - resolvedDiminishingReturnsFormula(mainsCount, rolls)
       }
     }
   }
@@ -122,6 +127,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
   const [stats, setStats] = useState<Record<string, number>>({})
   const [diminishingReturns, setDiminishingReturns] = useState<Record<string, number>>({})
   const [suspended, setSuspended] = useState(true)
+  const resolvedDiminishingReturnsFormula = getDiminishingReturnsFormula(configType)
 
   useEffect(() => {
     let stale = false
@@ -139,8 +145,6 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
       const diminishingReturns: Record<string, number> = {}
 
       if (diminish) {
-        const mainsFreeCount = configType ? SCORING_CONFIG_REGISTRY[configType].mainsFreeCount : 0
-        const diminishingReturnsFormula = createDiminishingReturnsFormula(12, 2, mainsFreeCount)
         for (const [stat, rolls] of Object.entries(stats)) {
           const mainsCount = [
             request.simBody,
@@ -153,7 +157,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
           if (stat === Stats.SPD) {
             diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
           } else {
-            diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
+            diminishingReturns[stat] = rolls - resolvedDiminishingReturnsFormula(mainsCount, rolls)
           }
         }
       }
@@ -167,7 +171,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns, con
     return () => {
       stale = true
     }
-  }, [promise, type, diminish, configType])
+  }, [promise, type, diminish])
   return (
     <RenderStats
       stats={stats}

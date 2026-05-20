@@ -27,7 +27,6 @@ export interface ScoringConfigEntry {
   headerScoreLabel: string
   rulerLabel: string
   comboLabel: string
-  mainsFreeCount: number
   comboRegister: number
   requiresDefaultActions: boolean
   capFlatSubstats: boolean
@@ -87,7 +86,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     headerScoreLabel: '',
     rulerLabel: 'DMG',
     comboLabel: 'Combo DMG',
-    mainsFreeCount: 0,
+
     comboRegister: GlobalRegister.COMBO_DMG,
     requiresDefaultActions: false,
     capFlatSubstats: true,
@@ -105,7 +104,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     headerScoreLabel: '',
     rulerLabel: 'Buff',
     comboLabel: 'Buff',
-    mainsFreeCount: 0,
+
     comboRegister: GlobalRegister.COMBO_BUFF,
     requiresDefaultActions: true,
     capFlatSubstats: false,
@@ -125,7 +124,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     headerScoreLabel: '',
     rulerLabel: 'Heal',
     comboLabel: 'Combo Heal',
-    mainsFreeCount: 0,
+
     comboRegister: GlobalRegister.COMBO_HEAL,
     requiresDefaultActions: false,
     capFlatSubstats: false,
@@ -145,7 +144,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     headerScoreLabel: '',
     rulerLabel: 'Shield',
     comboLabel: 'Combo Shield',
-    mainsFreeCount: 0,
+
     comboRegister: GlobalRegister.COMBO_SHIELD,
     requiresDefaultActions: false,
     capFlatSubstats: false,

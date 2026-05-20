@@ -9,9 +9,10 @@ import { Hint } from 'lib/interactions/hint'
 import { getAKeyName } from 'lib/optimization/engine/config/keys'
 import {
   type AbilityKind,
+  AbilityMeta,
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption } from 'lib/optimization/sortOptions'
+import { SortOption, type SortOptionKey } from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -97,12 +98,14 @@ export function CharacterSelectorDisplay() {
       availableActions = characterConditionals.actionDeclaration?.() ?? []
     }
 
-    // Build damage options: COMBO always first, then character-specific actions, then EHP
-    const damageOptions: { value: string, label: string }[] = [
+    // Optimization group: COMBO always first, then EHP, plus any buff-category actions
+    const optimizationOptions: { value: SortOptionKey, label: string }[] = [
       { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
     ]
 
-    // Add character-specific damage options using AbilityToSortOption mapping
+    // Abilities group: individual ability damage/heal/shield options
+    const abilityOptions: { value: SortOptionKey, label: string }[] = []
+
     const buffStat = optimizerTabFocusCharacter
       ? getGameMetadata().characters[optimizerTabFocusCharacter]?.scoringMetadata?.supportSimulation?.buffStat
       : undefined
@@ -110,23 +113,24 @@ export function CharacterSelectorDisplay() {
       const sortKey = AbilityToSortOption[action as AbilityKind]
       if (sortKey) {
         const sortOption = SortOption[sortKey]
-        // Hardcoded — BUFF sort label is dynamic based on buffStat, skip i18n
         const label = sortKey === SortOption.BUFF.key
           ? `Sorted by ${buffStat != null ? getAKeyName(buffStat) : ''} Buff`
           // @ts-ignore - BUFF key is handled above, not in i18n
           : t(`SortOptions.${sortOption.key}`)
-        damageOptions.push({ value: sortOption.key, label: label as string })
+
+        const category = AbilityMeta[action as AbilityKind]?.category
+        if (category === 'buff') {
+          optimizationOptions.push({ value: sortOption.key, label: label as string })
+        } else {
+          abilityOptions.push({ value: sortOption.key, label: label as string })
+        }
       }
     }
 
-    // EHP always available
-    damageOptions.push({ value: SortOption.EHP.key, label: t('SortOptions.EHP') })
+    // EHP always in optimization
+    optimizationOptions.push({ value: SortOption.EHP.key, label: t('SortOptions.EHP') })
 
-    return [
-      {
-        label: t('SortOptions.DMGLabel'),
-        options: damageOptions,
-      },
+    const groups: { label: string, options: { value: SortOptionKey, label: string }[] }[] = [
       {
         label: t('SortOptions.StatLabel'),
         options: [
@@ -144,7 +148,23 @@ export function CharacterSelectorDisplay() {
         ],
       },
     ]
+
+    if (abilityOptions.length > 0) {
+      groups.push({
+        label: t('SortOptions.AbilityLabel'),
+        options: abilityOptions,
+      })
+    }
+
+    groups.push({
+      label: t('SortOptions.OptimizationLabel'),
+      options: optimizationOptions,
+    })
+
+    return { groups, optimizationKeys: new Set(optimizationOptions.map((o) => o.value)) }
   }, [t, optimizerTabFocusCharacter, characterEidolon])
+
+  const { groups: resultSortGroups, optimizationKeys } = resultSortOptions
 
   return (
     <Flex direction='column' gap={optimizerTabDefaultGap}>
@@ -219,15 +239,17 @@ export function CharacterSelectorDisplay() {
 
       <Select
         style={{ width: panelWidth }}
-        data={resultSortOptions.map((group) => ({
+        data={resultSortGroups.map((group) => ({
           group: group.label,
           items: group.options.map((opt) => ({ value: opt.value, label: opt.label })),
         }))}
         renderOption={({ option }) => {
           const stat = sortKeyToStat[option.value]
+          const isOptimization = optimizationKeys.has(option.value)
           return (
             <Flex align='center' gap={6}>
               {stat && <img src={Assets.getStatIcon(stat)} className={iconClasses.icon20} />}
+              {isOptimization && <img src={Assets.getStatIcon('simScore')} className={iconClasses.icon20} />}
               <span>{option.label}</span>
             </Flex>
           )

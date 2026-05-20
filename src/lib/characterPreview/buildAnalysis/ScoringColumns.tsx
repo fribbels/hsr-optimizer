@@ -122,6 +122,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
 
   const scoringEntry = SCORING_CONFIG_REGISTRY[props.configType]
   const scoringBuffStat = getScoringMetadata(props.characterId)[CONFIG_FIELD_MAP[props.configType]]?.buffStat
+  const avatarSrc = Assets.getCharacterAvatarById(props.characterId)
 
   const setsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap, alignItems: 'center' }}>
@@ -344,12 +345,13 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
       {headerText
         ? (
           <div className={classes.columnFilledHeader}>
-            <div className={classes.scoringColumnHeader} style={{ color: highlight ? highlightColor : '' }}>
+            <div className={classes.scoringColumnHeader} style={{ color: highlight ? highlightColor : '', alignItems: 'center', gap: 6 }}>
+              <img src={avatarSrc} style={{ width: 22, height: 22, borderRadius: '50%' }} />
               {headerText}
             </div>
           </div>
         )
-        : <SuspendedHeader t={t} configType={props.configType} />}
+        : <SuspendedHeader t={t} configType={props.configType} avatarSrc={avatarSrc} />}
       <div className={classes.columnFilledBody}>
         <DeferCreate>
           <div className={classes.columnFilledSection}>{setsBlock}</div>
@@ -374,15 +376,17 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   )
 })
 
-const SuspendedHeader = memo(function SuspendedHeader({ t, configType }: {
+const SuspendedHeader = memo(function SuspendedHeader({ t, configType, avatarSrc }: {
   t: TFunction<readonly ['charactersTab', 'common'], undefined>,
   configType: ScoringConfigType,
+  avatarSrc: string,
 }) {
   const scoringPipeline = useScoringPipeline(configType)
   const promise = scoringPipeline?.scoringPromise ?? nullPromise
   return (
     <div className={classes.columnFilledHeader}>
-      <div className={classes.scoringColumnHeader} style={{ color: highlightColor, display: 'flex' }}>
+      <div className={classes.scoringColumnHeader} style={{ color: highlightColor, alignItems: 'center', gap: 6 }}>
+        <img src={avatarSrc} style={{ width: 22, height: 22, borderRadius: '50%' }} />
         <SuspenseNode
           fallback={<Fallback t={t} />}
           promise={promise}

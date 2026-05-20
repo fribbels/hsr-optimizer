@@ -36,6 +36,8 @@ SortOptions:
   DMGLabel: 伤害计算
   HealLabel: 治疗量计算
   ShieldLabel: 护盾值计算
+  OptimizationLabel: 优化
+  AbilityLabel: 技能
   StatLabel: 属性
   COMBO: 按连招伤害排序
   COMBO_BUFF: 按连招增益排序

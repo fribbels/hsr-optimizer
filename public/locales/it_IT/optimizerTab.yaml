@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: Set ornamento
 SortOptions:
   DMGLabel: Calcoli dei danni
+  OptimizationLabel: Ottimizzazione
+  AbilityLabel: Abilità
   StatLabel: Statistiche
   COMBO: Ordinato per DAN Combo
   BASIC: Ordinato per DAN Att. Base

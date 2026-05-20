@@ -18,6 +18,7 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { Assets } from 'lib/rendering/assets'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
+  getElementalDmgFromContainer,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
 import {
@@ -219,21 +220,25 @@ function getStatValue(
     return x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
   }
 
+  // Support/heal/shield scoring has no primary damage action — read from container instead
+  const hasPrimaryAction = primaryActionStats.sourceEntityCR > 0 || primaryActionStats.sourceEntityCD > 0
+  if (!hasPrimaryAction) {
+    if (damageStats[stat]) {
+      return getElementalDmgFromContainer(x, element)
+    }
+    return x.getActionValueByIndex(StatsToStatKey[stat], SELF_ENTITY_INDEX)
+  }
+
   // Handle elemental DMG stats: source entity's element boost + generic DMG_BOOST (action+hit)
   if (damageStats[stat]) {
     return primaryActionStats.sourceEntityElementDmgBoost + primaryActionStats.BOOST
   }
 
   // For CR and CD, use the fully resolved source entity values (already includes CR_BOOST/CD_BOOST)
-  if (stat === Stats.CR) {
-    return primaryActionStats.sourceEntityCR
-  }
-  if (stat === Stats.CD) {
-    return primaryActionStats.sourceEntityCD
-  }
+  if (stat === Stats.CR) return primaryActionStats.sourceEntityCR
+  if (stat === Stats.CD) return primaryActionStats.sourceEntityCD
 
-  const statKey = StatsToStatKey[stat]
-  return x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
+  return x.getActionValueByIndex(StatsToStatKey[stat], SELF_ENTITY_INDEX)
 }
 
 // Get basic stat value from Container's basic stats array

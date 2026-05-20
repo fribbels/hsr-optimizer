@@ -8,9 +8,9 @@ import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import { ScoringConfigType } from 'types/metadata'
 import {
   applyScoringFunction,
-  createDiminishingReturnsFormula,
+  createDiminishingReturns,
   substatRollsModifier,
-  supportDiminishingReturnsFormula,
+  supportDiminishingReturns,
 } from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
@@ -57,13 +57,13 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   if (input.context.characterId === Hysilens.id) {
     const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
     if (!ehrLightCone) {
-      const hysilensDiminishingReturns = createDiminishingReturnsFormula(24, 2)
+      const hysilensDiminishingReturns = createDiminishingReturns(24, 2)
       return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, hysilensDiminishingReturns)
     }
   }
 
   if (input.configType !== ScoringConfigType.DPS) {
-    return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, supportDiminishingReturnsFormula)
+    return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, supportDiminishingReturns)
   }
 
   return substatRollsModifier

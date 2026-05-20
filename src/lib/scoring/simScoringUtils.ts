@@ -203,43 +203,7 @@ export const maximumScoringParams: ScoringParams = {
   substatRollsModifier: (rolls: number) => rolls,
 }
 
-export function substatRollsModifier(
-  rolls: number,
-  stat: string,
-  sim: Simulation,
-  customDiminishingReturnsFormula?: (mainsCount: number, rolls: number) => number,
-) {
-  const mainsCount = [
-    sim.request.simBody,
-    sim.request.simFeet,
-    sim.request.simPlanarSphere,
-    sim.request.simLinkRope,
-    Stats.ATK,
-    Stats.HP,
-  ].filter((x) => x == stat).length
-
-  return stat == Stats.SPD
-    ? spdDiminishingReturnsFormula(mainsCount, rolls)
-    : (
-      customDiminishingReturnsFormula
-        ? customDiminishingReturnsFormula(mainsCount, rolls)
-        : diminishingReturnsFormula(mainsCount, rolls)
-    )
-}
-
-export function diminishingReturnsFormula(mainsCount: number, rolls: number) {
-  const lowerLimit = 12 - 2 * mainsCount
-  if (rolls <= lowerLimit) {
-    return rolls
-  }
-
-  const excess = Math.max(0, rolls - lowerLimit)
-  const diminishedExcess = excess / (Math.pow(excess, 0.25))
-
-  return lowerLimit + diminishedExcess
-}
-
-export function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyPerMain: number) {
+function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyPerMain: number, exponent: number) {
   return (mainsCount: number, rolls: number) => {
     const lowerLimit = baseLowerLimit - penaltyPerMain * mainsCount
     if (rolls <= lowerLimit) {
@@ -247,33 +211,68 @@ export function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyP
     }
 
     const excess = Math.max(0, rolls - lowerLimit)
-    const diminishedExcess = excess / (Math.pow(excess, 0.25))
+    const diminishedExcess = excess / (Math.pow(excess, exponent))
 
     return lowerLimit + diminishedExcess
   }
 }
 
-export const supportDiminishingReturnsFormula = createDiminishingReturnsFormula(6, 1)
-
-export function spdDiminishingReturnsFormula(mainsCount: number, rolls: number) {
-  const lowerLimit = 12 - 2 * mainsCount
-  if (rolls <= lowerLimit) {
-    return rolls
+export function createDiminishingReturns(baseLowerLimit: number, penaltyPerMain: number) {
+  return {
+    stat: createDiminishingReturnsFormula(baseLowerLimit, penaltyPerMain, 0.25),
+    spd: createDiminishingReturnsFormula(baseLowerLimit, penaltyPerMain, 0.10),
   }
-
-  const excess = Math.max(0, rolls - lowerLimit)
-  const diminishedExcess = excess / (Math.pow(excess, 0.10))
-
-  return lowerLimit + diminishedExcess
 }
 
-export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: number, rollValue: number) {
+export const dpsDiminishingReturns = createDiminishingReturns(12, 2)
+export const supportDiminishingReturns = createDiminishingReturns(6, 1)
+
+export function getDiminishingReturns(configType?: ScoringConfigType) {
+  return configType != null && configType !== ScoringConfigType.DPS
+    ? supportDiminishingReturns
+    : dpsDiminishingReturns
+}
+
+function countMatchingMainStats(request: SimulationRequest, stat: string) {
+  return [
+    request.simBody,
+    request.simFeet,
+    request.simPlanarSphere,
+    request.simLinkRope,
+    Stats.ATK,
+    Stats.HP,
+  ].filter((x) => x === stat).length
+}
+
+export function computeDiminishingReturnsPenalties(request: SimulationRequest, configType?: ScoringConfigType): Record<string, number> {
+  const diminishingReturns = getDiminishingReturns(configType)
+  const result: Record<string, number> = {}
+  for (const [stat, rolls] of Object.entries(request.stats)) {
+    const mainsCount = countMatchingMainStats(request, stat)
+    const formula = stat === Stats.SPD ? diminishingReturns.spd : diminishingReturns.stat
+    result[stat] = rolls - formula(mainsCount, rolls)
+  }
+  return result
+}
+
+export function substatRollsModifier(
+  rolls: number,
+  stat: string,
+  sim: Simulation,
+  diminishingReturns = dpsDiminishingReturns,
+) {
+  const mainsCount = countMatchingMainStats(sim.request, stat)
+  const formula = stat == Stats.SPD ? diminishingReturns.spd : diminishingReturns.stat
+  return formula(mainsCount, rolls)
+}
+
+export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: number, rollValue: number, diminishingReturns = dpsDiminishingReturns) {
   let current = 0
   let rolls = 0
 
   while (current < target) {
     rolls++
-    current = spdDiminishingReturnsFormula(mainsCount, rolls) * rollValue
+    current = diminishingReturns.spd(mainsCount, rolls) * rollValue
   }
 
   const previousRolls = rolls - 1
@@ -282,7 +281,6 @@ export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: n
     return rolls
   }
 
-  // Narrow down interpolation of fractional rolls by binary search
   let low = previousRolls
   let high = rolls
   let mid = 0
@@ -290,7 +288,7 @@ export function invertDiminishingReturnsSpdFormula(mainsCount: number, target: n
 
   while (high - low > precision) {
     mid = (low + high) / 2
-    const interpolatedValue = spdDiminishingReturnsFormula(mainsCount, mid) * rollValue
+    const interpolatedValue = diminishingReturns.spd(mainsCount, mid) * rollValue
 
     if (interpolatedValue < target) {
       low = mid

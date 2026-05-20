@@ -245,6 +245,7 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_SKILL,
     END_SKILL,
   ],
+  errRopeEidolon: 0,
   relicSets: [
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],

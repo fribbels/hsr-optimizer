@@ -2,9 +2,6 @@ import {
   aoe,
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
-import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
-import { Acheron } from 'lib/conditionals/character/1300/Acheron'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -16,12 +13,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
-import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -31,29 +24,16 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  END_SKILL,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  WHOLE_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import {
-  type ScoringMetadata,
-  type SimulationMetadata,
-} from 'types/metadata'
+import { type ScoringMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -257,71 +237,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.CR,
-      Stats.CD,
-    ],
-    [Parts.Feet]: [
-      Stats.ATK_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Imaginary_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-    ],
-  },
-  substats: [
-    Stats.CD,
-    Stats.CR,
-    Stats.ATK_P,
-    Stats.ATK,
-  ],
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    END_SKILL,
-    WHOLE_SKILL,
-    WHOLE_SKILL,
-  ],
-  errRopeEidolon: 0,
-  relicSets: [
-    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.RutilantArena,
-    Sets.FirmamentFrontlineGlamoth,
-    Sets.IzumoGenseiAndTakamaDivineRealm,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  ],
-  teammates: [
-    {
-      characterId: Acheron.id,
-      lightCone: AlongThePassingShore.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Jiaoqiu.id,
-      lightCone: ThoseManySprings.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
@@ -366,7 +281,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation: simulation(),
 })
 
 const display = {
@@ -379,6 +293,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See WeltB1.ts for the updated variant.
 export const Welt: CharacterConfig = {
   id: '1004',
   display,

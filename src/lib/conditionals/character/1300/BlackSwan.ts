@@ -1,6 +1,3 @@
-import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
@@ -13,12 +10,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -39,30 +32,16 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import {
-  AbilityKind,
-  DEFAULT_DOT,
-  END_SKILL,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  WHOLE_BASIC,
-  WHOLE_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import {
-  type ScoringMetadata,
-  type SimulationMetadata,
-} from 'types/metadata'
+import { type ScoringMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -296,77 +275,6 @@ if (${wgslTrue(r.ehrToDmgBoost)}) {
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.EHR,
-      Stats.ATK_P,
-    ],
-    [Parts.Feet]: [
-      Stats.ATK_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Wind_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-    ],
-  },
-  substats: [
-    Stats.ATK_P,
-    Stats.EHR,
-    Stats.ATK,
-    Stats.CR,
-    Stats.CD,
-  ],
-  breakpoints: {
-    [Stats.EHR]: 1.20,
-  },
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    END_SKILL,
-    DEFAULT_DOT,
-    WHOLE_BASIC,
-    DEFAULT_DOT,
-    WHOLE_SKILL,
-    DEFAULT_DOT,
-    WHOLE_BASIC,
-    DEFAULT_DOT,
-  ],
-  relicSets: [
-    [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.RevelryByTheSea,
-    Sets.FirmamentFrontlineGlamoth,
-    Sets.PanCosmicCommercialEnterprise,
-  ],
-  teammates: [
-    {
-      characterId: KafkaB1.id,
-      lightCone: PatienceIsAllYouNeed.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Hysilens.id,
-      lightCone: WhyDoesTheOceanSing.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
@@ -407,7 +315,6 @@ const scoring = (): ScoringMetadata => ({
   hiddenColumns: [
     SortOption.FUA,
   ],
-  simulation: simulation(),
 })
 
 const display = {
@@ -420,6 +327,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See BlackSwanB1.ts for the updated variant.
 export const BlackSwan: CharacterConfig = {
   id: '1307',
   display,

@@ -1,6 +1,3 @@
-import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
-import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
@@ -19,7 +16,6 @@ import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorlds
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -30,28 +26,15 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  DEFAULT_DOT,
-  DEFAULT_FUA,
-  DEFAULT_SKILL,
-  END_DOT,
-  NULL_TURN_ABILITY_NAME,
-  START_SKILL,
-  START_ULT,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { SPREAD_RELICS_4P_GENERAL_CONDITIONALS } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import {
-  type ScoringMetadata,
-  type SimulationMetadata,
-} from 'types/metadata'
+import { type ScoringMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -239,77 +222,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.ATK_P,
-    ],
-    [Parts.Feet]: [
-      Stats.ATK_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Lightning_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-    ],
-  },
-  substats: [
-    Stats.ATK_P,
-    Stats.ATK,
-    Stats.EHR,
-    Stats.CR,
-    Stats.CD,
-  ],
-  breakpoints: {
-    [Stats.EHR]: 0.282,
-  },
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    DEFAULT_DOT,
-    DEFAULT_SKILL,
-    END_DOT,
-    DEFAULT_FUA,
-    START_SKILL,
-    END_DOT,
-    DEFAULT_FUA,
-    START_SKILL,
-    END_DOT,
-    DEFAULT_FUA,
-  ],
-  relicSets: [
-    [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.FirmamentFrontlineGlamoth,
-    Sets.RevelryByTheSea,
-  ],
-  teammates: [
-    {
-      characterId: BlackSwanB1.id,
-      lightCone: ReforgedRemembrance.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Hysilens.id,
-      lightCone: WhyDoesTheOceanSing.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
@@ -349,7 +261,6 @@ const scoring = (): ScoringMetadata => ({
   ],
   sortOption: SortOption.DOT,
   hiddenColumns: [],
-  simulation: simulation(),
 })
 
 const display = {
@@ -362,6 +273,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See KafkaB1.ts for the updated variant.
 export const Kafka: CharacterConfig = {
   id: '1005',
   display,

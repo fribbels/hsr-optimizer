@@ -140,7 +140,11 @@ export function applyScoringMetadataPresets(form: Form | BenchmarkForm, teammate
       const match = teammates.some((teammate) =>
         teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
       )
-      if (!match) continue
+      if (!match) {
+        const index = preset.index ?? 1
+        form.setConditionals[preset.set][index] = defaultSetConditionals[preset.set][index]
+        continue
+      }
     }
 
     applyPreset(form, preset)
@@ -201,8 +205,9 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
 export function applyTeamAwareSetConditionalPresetsToStore() {
   const state = useOptimizerRequestStore.getState()
   const form = displayToInternal(state)
-  applyTeamAwareSetConditionalPresets(form, resolveTeammateInfo(form.teammate0, form.teammate1, form.teammate2))
+  const teammates = resolveTeammateInfo(form.teammate0, form.teammate1, form.teammate2)
+  applyTeamAwareSetConditionalPresets(form, teammates)
+  applyScoringMetadataPresets(form, teammates)
 
-  // Update the store with the modified set conditionals
   useOptimizerRequestStore.getState().setSetConditionals(form.setConditionals)
 }

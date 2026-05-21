@@ -215,6 +215,7 @@ export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
   const teammates = resolveTeammateInfo(teammate0, teammate1, teammate2)
 
   applyTeamAwareSetConditionalPresets(form, teammates)
+  applyScoringMetadataPresets(form, teammates)
 
   if (form.setConditionals) {
     useBenchmarksTabStore.getState().setSetConditionals(form.setConditionals)

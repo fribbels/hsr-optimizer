@@ -327,6 +327,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See BlackSwanB1.ts for the updated variant.
 export const BlackSwan: CharacterConfig = {
   id: '1307',
   display,

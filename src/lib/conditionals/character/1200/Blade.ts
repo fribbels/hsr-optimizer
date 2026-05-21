@@ -261,6 +261,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See BladeB1.ts for the updated variant.
 export const Blade: CharacterConfig = {
   id: '1205',
   display,

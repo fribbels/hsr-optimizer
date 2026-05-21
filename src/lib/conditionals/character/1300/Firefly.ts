@@ -381,6 +381,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See FireflyB1.ts for the updated variant.
 export const Firefly: CharacterConfig = {
   id: '1310',
   display,

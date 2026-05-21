@@ -229,6 +229,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See HuohuoB1.ts for the updated variant.
 export const Huohuo: CharacterConfig = {
   id: '1217',
   display,

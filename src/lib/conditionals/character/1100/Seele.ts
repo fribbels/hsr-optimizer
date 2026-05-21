@@ -259,6 +259,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See SeeleB1.ts for the updated variant.
 export const Seele: CharacterConfig = {
   id: '1102',
   display,

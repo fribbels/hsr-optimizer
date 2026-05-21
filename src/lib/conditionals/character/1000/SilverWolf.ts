@@ -269,6 +269,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See SilverWolfB1.ts for the updated variant.
 export const SilverWolf: CharacterConfig = {
   id: '1006',
   display,

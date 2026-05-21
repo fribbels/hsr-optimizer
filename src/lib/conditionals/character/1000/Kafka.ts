@@ -273,6 +273,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See KafkaB1.ts for the updated variant.
 export const Kafka: CharacterConfig = {
   id: '1005',
   display,

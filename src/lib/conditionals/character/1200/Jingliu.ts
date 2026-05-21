@@ -251,6 +251,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See JingliuB1.ts for the updated variant.
 export const Jingliu: CharacterConfig = {
   id: '1212',
   display,

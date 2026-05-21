@@ -341,6 +341,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See SparkleB1.ts for the updated variant.
 export const Sparkle: CharacterConfig = {
   id: '1306',
   display,

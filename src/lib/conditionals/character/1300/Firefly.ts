@@ -1,5 +1,3 @@
-import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import {
   AbilityEidolon,
@@ -13,14 +11,10 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
-import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
-import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
   ConditionalActivation,
   ConditionalType,
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -40,18 +34,8 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import {
-  AbilityKind,
-  DEFAULT_SKILL,
-  END_BREAK,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  WHOLE_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { floorSafe } from 'lib/utils/mathUtils'
 
@@ -60,10 +44,7 @@ import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import { type Hit } from 'types/hitConditionalTypes'
-import {
-  type ScoringMetadata,
-  type SimulationMetadata,
-} from 'types/metadata'
+import { type ScoringMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -345,67 +326,6 @@ if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.60) {
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.ATK_P,
-    ],
-    [Parts.Feet]: [
-      Stats.ATK_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-    ],
-    [Parts.LinkRope]: [
-      Stats.BE,
-    ],
-  },
-  substats: [
-    Stats.BE,
-    Stats.ATK_P,
-    Stats.ATK,
-    Stats.CR,
-    Stats.CD,
-  ],
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    DEFAULT_SKILL,
-    END_BREAK,
-    WHOLE_SKILL,
-    WHOLE_SKILL,
-    WHOLE_SKILL,
-  ],
-  relicSets: [
-    [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.ForgeOfTheKalpagniLantern,
-  ],
-  teammates: [
-    {
-      characterId: Fugue.id,
-      lightCone: LongRoadLeadsHome.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: TheDahlia.id,
-      lightCone: NeverForgetHerFlame.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Lingsha.id,
-      lightCone: ScentAloneStaysTrue.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.5,
@@ -444,7 +364,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation: simulation(),
 })
 
 const display = {

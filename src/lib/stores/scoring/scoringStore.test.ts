@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import {
   Stats,
@@ -37,6 +38,10 @@ function state() {
 
 function kafkaDefaults(): ScoringMetadata {
   return getGameMetadata().characters[Kafka.id].scoringMetadata
+}
+
+function kafkaB1Defaults(): ScoringMetadata {
+  return getGameMetadata().characters[KafkaB1.id].scoringMetadata
 }
 
 function statsOverride(stats: Partial<Record<string, number>>): Partial<ScoringMetadataOverride> {
@@ -101,29 +106,29 @@ describe('useScoringStore', () => {
     // the returned object holds a direct reference to the singleton. Mutating it would
     // corrupt game metadata for ALL future callers.
     it('mutating getScoringMetadata simulation does not corrupt game metadata', () => {
-      const defaults = kafkaDefaults()
+      const defaults = kafkaB1Defaults()
       expect(defaults.simulation).toBeDefined()
       const originalCount = defaults.simulation!.teammates.length
 
-      const result = getScoringMetadata(Kafka.id)
+      const result = getScoringMetadata(KafkaB1.id)
       expect(result.simulation).toBeDefined()
       result.simulation!.teammates.push({} as never)
 
-      expect(kafkaDefaults().simulation!.teammates).toHaveLength(originalCount)
+      expect(kafkaB1Defaults().simulation!.teammates).toHaveLength(originalCount)
     })
 
     it('mutating getScoringMetadata simulation does not corrupt game metadata when a partial simulation override exists', () => {
-      state().updateScoringConfigOverride(Kafka.id, ScoringConfigType.DPS, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
+      state().updateScoringConfigOverride(KafkaB1.id, ScoringConfigType.DPS, { deprioritizeBuffs: true } as Partial<SimulationMetadata>)
 
-      const defaults = kafkaDefaults()
+      const defaults = kafkaB1Defaults()
       expect(defaults.simulation).toBeDefined()
       const originalCount = defaults.simulation!.teammates.length
 
-      const result = getScoringMetadata(Kafka.id)
+      const result = getScoringMetadata(KafkaB1.id)
       expect(result.simulation).toBeDefined()
       result.simulation!.teammates.push({} as never)
 
-      expect(kafkaDefaults().simulation!.teammates).toHaveLength(originalCount)
+      expect(kafkaB1Defaults().simulation!.teammates).toHaveLength(originalCount)
     })
 
     it('mutating getScoringMetadata stats does not corrupt the stored override', () => {

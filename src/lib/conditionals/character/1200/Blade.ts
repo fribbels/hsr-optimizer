@@ -1,6 +1,3 @@
-import { Castorice } from 'lib/conditionals/character/1400/Castorice'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
@@ -15,12 +12,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import {
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -30,21 +23,9 @@ import {
   ElementTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  DEFAULT_FUA,
-  DEFAULT_ULT,
-  END_BASIC,
-  NULL_TURN_ABILITY_NAME,
-  START_SKILL,
-  WHOLE_BASIC,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -52,10 +33,7 @@ import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type NumberToNumberMap } from 'types/common'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import {
-  type ScoringMetadata,
-  type SimulationMetadata,
-} from 'types/metadata'
+import { type ScoringMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -225,74 +203,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.CR,
-      Stats.CD,
-    ],
-    [Parts.Feet]: [
-      Stats.HP_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.HP_P,
-      Stats.Wind_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.HP_P,
-    ],
-  },
-  substats: [
-    Stats.CD,
-    Stats.CR,
-    Stats.HP_P,
-    Stats.HP,
-    Stats.ATK_P,
-  ],
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_SKILL,
-    DEFAULT_ULT,
-    END_BASIC,
-    DEFAULT_FUA,
-    WHOLE_BASIC,
-    WHOLE_BASIC,
-    DEFAULT_FUA,
-    WHOLE_BASIC,
-  ],
-  relicSets: [
-    [Sets.LongevousDisciple, Sets.LongevousDisciple],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.BoneCollectionsSereneDemesne,
-    Sets.RutilantArena,
-    Sets.InertSalsotto,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  ],
-  teammates: [
-    {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Castorice.id,
-      lightCone: MakeFarewellsMoreBeautiful.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Hyacine.id,
-      lightCone: MayRainbowsRemainInTheSky.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.25,
@@ -334,7 +244,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.SKILL,
     SortOption.DOT,
   ],
-  simulation: simulation(),
 })
 
 const display = {

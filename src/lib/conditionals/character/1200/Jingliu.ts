@@ -12,7 +12,6 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -23,33 +22,13 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
-import {
-  type ScoringMetadata,
-  type SimulationMetadata,
-} from 'types/metadata'
+import { type ScoringMetadata } from 'types/metadata'
 
-import { Bronya } from 'lib/conditionals/character/1100/Bronya'
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
-import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
-import {
-  AbilityKind,
-  DEFAULT_ULT,
-  END_ULT,
-  NULL_TURN_ABILITY_NAME,
-  START_SKILL,
-  WHOLE_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -221,70 +200,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.CD,
-    ],
-    [Parts.Feet]: [
-      Stats.ATK_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Ice_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-    ],
-  },
-  substats: [
-    Stats.CD,
-    Stats.CR,
-    Stats.ATK_P,
-    Stats.ATK,
-  ],
-  errRopeEidolon: 0,
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    DEFAULT_ULT,
-    WHOLE_SKILL,
-    WHOLE_SKILL,
-    START_SKILL,
-    END_ULT,
-    WHOLE_SKILL,
-  ],
-  relicSets: [
-    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-    [Sets.HunterOfGlacialForest, Sets.HunterOfGlacialForest],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.RutilantArena,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  ],
-  teammates: [
-    {
-      characterId: Bronya.id,
-      lightCone: ButTheBattleIsntOver.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: RuanMei.id,
-      lightCone: PastSelfInTheMirror.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: HuohuoB1.id,
-      lightCone: NightOfFright.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
@@ -324,7 +239,6 @@ const scoring = (): ScoringMetadata => ({
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
-  simulation: simulation(),
 })
 
 const display = {

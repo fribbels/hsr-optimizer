@@ -87,7 +87,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.80, 3.08)
   const ultBounceScaling = ult(e, 1.10, 1.21)
 
-  const ultHitMulti = ashblazingMulti([aoe(0.2029), ...Array(10).fill(single(0.0797))])
+  const ultHitMulti = ashblazingMulti([aoe(ultScaling), ...Array(10).fill(single(ultBounceScaling))])
 
   const talentDmgBuffScaling = talent(e, 0.60, 0.66)
 

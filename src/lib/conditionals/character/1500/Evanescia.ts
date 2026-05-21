@@ -4,6 +4,7 @@ import {
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
 import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
+import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -14,6 +15,10 @@ import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
@@ -99,6 +104,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillMainScaling = skill(e, 3.00, 3.30)
   const ultAoeScaling = ult(e, 1.60, 1.76)
   const ultBounceScaling = ult(e, 1.20, 1.296)
+
+  const ultHitMulti = ashblazingMulti([aoe(ultAoeScaling), ...Array(5).fill(single(ultBounceScaling))])
 
   const cdToElationRatio = 0.20
   const talentSkillElationScaling = talent(e, 0.16, 0.176)
@@ -352,8 +359,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
 
     // Talent: CD to Elation conversion
     dynamicConditionals: [{

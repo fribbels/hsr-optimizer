@@ -1,4 +1,4 @@
-import { ULT_ASHBLAZING_1_SINGLE } from 'lib/conditionals/conditionalConstants'
+import { ULT_ASHBLAZING_1_AOE } from 'lib/conditionals/conditionalConstants'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -213,10 +213,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_SINGLE)
+      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_SINGLE)
+      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
     },
   }
 }

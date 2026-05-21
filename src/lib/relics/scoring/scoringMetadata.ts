@@ -23,6 +23,10 @@ export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
   const defaultScoringMetadata = getGameMetadata().characters[id]?.scoringMetadata
   scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })
 
+  for (const stat of Object.keys(scoringMetadata.stats)) {
+    scoringMetadata.stats[stat as SubStats] = Math.min(1, Math.max(0, scoringMetadata.stats[stat as SubStats]))
+  }
+
   scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * FLAT_STAT_SCALING.HP
   scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * FLAT_STAT_SCALING.ATK
   scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * FLAT_STAT_SCALING.DEF

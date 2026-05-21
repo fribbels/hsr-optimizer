@@ -71,10 +71,8 @@ export class ScoringCache {
   getCurrentRelicScore(relic: Nullable<Relic>, id: CharacterId): RelicScoringResult {
     if (!relic) {
       return {
-        score: '0',
-        scoreNumber: 0,
+        percentScore: 0,
         rating: '',
-        mainStatScore: 0,
       }
     }
     const meta = this.getMeta(id)
@@ -104,6 +102,7 @@ export class ScoringCache {
           worst: 0,
           rerollAvg: 0,
           blockerAvg: 0,
+          currentPct: 0,
           meta: {
             bestAddedStats: [],
             bestUpgradedStats: [],
@@ -122,9 +121,8 @@ export class ScoringCache {
   }
 
   scoreRelicPotential(relic: Relic, id: CharacterId, withMeta: boolean = false): PotentialResult {
-    const meta = this.getMeta(id)
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
-    return computePotentialScores(relic, meta, futureScore)
+    return computePotentialScores(futureScore)
   }
 
   scoreCharacterWithRelics(
@@ -144,6 +142,7 @@ export class ScoringCache {
         relics: [],
         totalScore: 0,
         totalRating: '',
+        correctMainStats: 0,
       }
     }
     return scoreCharacterUsingScorer(

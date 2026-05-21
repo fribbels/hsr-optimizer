@@ -143,9 +143,9 @@ describe('useRelicsTabStore', () => {
     })
 
     it('setValueColumns replaces the displayed value column list', () => {
-      const cols: ValueColumnField[] = ['weights.current', 'weights.rerollAvgSelected']
+      const cols: ValueColumnField[] = ['weights.currentPct', 'weights.rerollAvgSelected']
       state().setValueColumns(cols)
-      expect(state().valueColumns).toEqual(['weights.current', 'weights.rerollAvgSelected'])
+      expect(state().valueColumns).toEqual(['weights.currentPct', 'weights.rerollAvgSelected'])
     })
 
     it('setExcludedRelicPotentialCharacters replaces the exclusion list for relic scoring', () => {

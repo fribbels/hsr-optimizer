@@ -33,7 +33,6 @@ const relicColumnRanges = {
   'augmentedStats.Effect RES': 0.1728,
   'augmentedStats.Break Effect': 0.2592,
   'cv': 0.40,
-  'weights.current': 64.8,
   'weights.potentialSelected.averagePct': 100,
   'weights.potentialSelected.bestPct': 100,
   'weights.potentialAllAll': 100,
@@ -92,7 +91,7 @@ export const Gradient = {
     let range: number
     if (col === 'weights.rerollAvgSelectedDelta') {
       range = value / 40
-    } else if (col.startsWith('weights.potential') || col.startsWith('weights.reroll')) {
+    } else if (col.startsWith('weights.potential') || col.startsWith('weights.reroll') || col === 'weights.currentPct') {
       range = value / 100
     } else if (col.startsWith('weights.')) {
       range = value / (6.48 * 9)

@@ -28,10 +28,8 @@ export type ScorerMetadata = {
 }
 
 export type RelicScoringResult = {
-  score: string,
-  scoreNumber: number,
+  percentScore: number,
   rating: string,
-  mainStatScore: number,
   part?: Parts,
   meta?: ScorerMetadata,
 }
@@ -43,6 +41,7 @@ export type FutureScoringResult = {
   worst: number,
   rerollAvg: number,
   blockerAvg: number,
+  currentPct: number,
   meta: Partial<{
     bestAddedStats: string[],
     bestUpgradedStats: string[],
@@ -64,4 +63,5 @@ export type CharacterScoringResult = {
   relics: RelicScoringResult[],
   totalScore: number,
   totalRating: string,
+  correctMainStats: number,
 }

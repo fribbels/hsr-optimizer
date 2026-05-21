@@ -18,8 +18,6 @@ import {
 Metadata.initialize()
 
 test('relic-mainstatonly', () => {
-  // Test that calcs for a useful mainstat and useless substats are in alignment
-
   const character = '1205' // blade
   const scoringStats = getScoringMetadata(character).stats
 
@@ -61,17 +59,12 @@ test('relic-mainstatonly', () => {
   expect(score.rerollAvgPct).toBe(0)
 
   const relicScore = RelicScorer.scoreCurrentRelic(relic, character)
-  expect(relicScore.score).toBe('5.1')
+  expect(relicScore.percentScore).toBe(0)
   expect(relicScore.rating).toBe('F')
-  expect(relicScore.mainStatScore).toBe(64.8)
 })
 
 test('relic-perfect', () => {
-  // Test that when adding a stat, the relic predictor doesn't add the mainstat or an
-  // existing substat
-
   const character = '1205' // Blade
-  const scoringStats = getScoringMetadata(character).stats
 
   const relic: Relic = {
     enhance: 12,

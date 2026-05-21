@@ -26,7 +26,6 @@ import {
 import { RelicStatText } from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import {
   type Languages,
-  localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
 import {
   memo,
@@ -227,7 +226,7 @@ const ScoreFooter = memo(function ScoreFooter({ score }: { score?: RelicScoringR
           <img src={icon} className={iconClasses.statIcon}></img>
           {scored ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
         </div>
-        {scored ? `${localeNumberComma_0(Number(score.score))} (${score.rating})` : ''}
+        {scored ? `${(score.percentScore ?? 0).toFixed(1)}% (${score.rating})` : ''}
       </div>
     </>
   )

@@ -86,6 +86,7 @@ class PureScoringCache {
           worst: 0,
           rerollAvg: 0,
           blockerAvg: 0,
+          currentPct: 0,
           meta: { bestAddedStats: [], bestUpgradedStats: [] },
         }
       } else {
@@ -103,7 +104,7 @@ class PureScoringCache {
 
   scoreRelicPotential(relic: Relic, meta: ScorerMetadata) {
     const futureScore = this.getFutureScore(relic, meta)
-    return computePotentialScores(relic, meta, futureScore)
+    return computePotentialScores(futureScore)
   }
 }
 
@@ -136,7 +137,7 @@ function scoreSingleRelic(
 
       weights = {
         ...weights,
-        current: futureScore.current,
+        currentPct: futureScore.currentPct,
         best: futureScore.best,
         average: futureScore.average,
         potentialSelected,

@@ -31,24 +31,10 @@ export const GRADE_CONFIG = {
 } as const
 export type ValidGrade = keyof typeof GRADE_CONFIG
 
-export const PERCENT_TO_SCORE = 0.582
-export const MIN_ROLL_VALUE = 5.1
 export const FLAT_STAT_SCALING = { HP: 0.4, ATK: 0.4, DEF: 0.4 } as const
 export const POSSIBLE_SUBSTATS = new Set(Constants.SubStats)
 
 export const RATINGS = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+'] as const
-
-// Pre-computed toFixed(1) lookup — avoids expensive Number.toFixed() in hot path
-// Lazy-initialized on first call so users without relics pay zero cost
-let _toFixed1Table: string[] | undefined
-
-export function toFixed1(n: number): string {
-  if (!_toFixed1Table) {
-    _toFixed1Table = Array.from({ length: 600 }, (_, i) => (i / 10).toFixed(1))
-  }
-  const idx = Math.round(n * 10)
-  return idx >= 0 && idx < 600 ? _toFixed1Table[idx] : n.toFixed(1)
-}
 
 export const DMG_MAINSTATS = [
   Stats.Physical_DMG,

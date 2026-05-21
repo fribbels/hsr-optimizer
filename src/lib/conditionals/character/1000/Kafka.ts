@@ -1,7 +1,7 @@
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, ULT_ASHBLAZING_1_AOE } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -91,8 +91,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const dotScaling = ult(e, 2.90, 3.183)
   const e6DotScaling = 1.56
 
-  const hitMulti = ASHBLAZING_ATK_STACK
+  const fuaHitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ULT_ASHBLAZING_1_AOE[context.enemyCount]
+    }
+    return fuaHitMulti
+  }
 
   const defaults = {
     dotTickCoefficient: 4,
@@ -221,10 +228,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMulti, action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

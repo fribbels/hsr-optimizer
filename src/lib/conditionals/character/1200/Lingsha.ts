@@ -1,7 +1,7 @@
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { ASHBLAZING_ATK_STACK, ULT_ASHBLAZING_1_AOE } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -113,6 +113,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2),
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 2 + 3 * 1 / 2),
     5: ASHBLAZING_ATK_STACK * (3 * 1 / 2 + 4 * 1 / 2),
+  }
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ULT_ASHBLAZING_1_AOE[context.enemyCount]
+    }
+    return hitMultiByTargets[context.enemyCount]
   }
 
   const defaults = {
@@ -291,11 +298,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
 
     dynamicConditionals: [

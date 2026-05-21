@@ -245,7 +245,7 @@ export function CharacterSelectorDisplay() {
         }))}
         renderOption={({ option }) => {
           const stat = sortKeyToStat[option.value]
-          const isOptimization = optimizationKeys.has(option.value)
+          const isOptimization = optimizationKeys.has(option.value as SortOptionKey)
           return (
             <Flex align='center' gap={6}>
               {stat && <img src={Assets.getStatIcon(stat)} className={iconClasses.icon20} />}

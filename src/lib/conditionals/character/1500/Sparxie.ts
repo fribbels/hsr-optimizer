@@ -4,6 +4,11 @@ import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
+import { ULT_ASHBLAZING_1_AOE } from 'lib/conditionals/conditionalConstants'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -350,8 +355,12 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
 
-    finalizeCalculations: () => {},
-    newGpuFinalizeCalculations: () => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
+    },
     dynamicConditionals: [
       {
         id: 'SparxieAtkElationConditional',

@@ -8,6 +8,7 @@ import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   ASHBLAZING_ATK_STACK,
+  ULT_ASHBLAZING_1_AOE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -239,6 +240,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       5: ASHBLAZING_ATK_STACK * (3 * 1.00),
     }
 
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ULT_ASHBLAZING_1_AOE[context.enemyCount]
+    }
+    return hitMultiByTargets[context.enemyCount]
+  }
+
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
@@ -420,10 +428,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

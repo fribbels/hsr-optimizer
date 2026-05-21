@@ -5,6 +5,11 @@ import {
 } from 'lib/conditionals/character/1400/Cyrene'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { ULT_ASHBLAZING_1_BLAST } from 'lib/conditionals/conditionalConstants'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -278,6 +283,8 @@ if (${wgslTrue(r.hpToCrConversion)}) {
       if (r.vendettaState) {
         x.set(StatKey.DEF, 0, x.source(SOURCE_TALENT))
       }
+
+      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_BLAST[context.enemyCount])
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -286,7 +293,7 @@ if (${wgslTrue(r.hpToCrConversion)}) {
 if (${wgslTrue(r.vendettaState)}) {
   ${buff.actionSet(AKey.DEF, '0.0').wgsl(action)}
 }
-`
+` + gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_BLAST[context.enemyCount])
     },
 
     dynamicConditionals: [

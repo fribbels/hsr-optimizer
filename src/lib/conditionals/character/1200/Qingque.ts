@@ -1,5 +1,6 @@
 import {
   ASHBLAZING_ATK_STACK,
+  ULT_ASHBLAZING_1_AOE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -102,6 +103,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ULT_ASHBLAZING_1_AOE[context.enemyCount]
+    }
     const r = action.characterConditionals as Conditionals<typeof content>
     return r.basicEnhanced
       ? hitMultiByTargetsBlast[context.enemyCount]

@@ -5,6 +5,11 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { ULT_ASHBLAZING_1_AOE } from 'lib/conditionals/conditionalConstants'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -363,6 +368,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ehrBoost = (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * floorSafe((ehrValue - 0.60) / 0.10))) : 0
 
       x.buff(StatKey.BOOST, ehrBoost, x.source(SOURCE_TRACE))
+
+      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -372,7 +379,7 @@ if (${wgslTrue(r.ehrToDmg)}) {
   let dmgBuff = min(0.90, 0.15 * floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} - 0.60) / 0.10));
   ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
-`
+` + gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
     },
   }
 }

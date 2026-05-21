@@ -1,4 +1,4 @@
-import { applyPreset } from 'lib/conditionals/evaluation/applyPresets'
+import { applyScoringMetadataPresets, resolveTeammateInfo } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {
@@ -147,10 +147,8 @@ function shiftDefaultConditionalToFirst(comboConditionals?: ComboConditionals) {
 
 function displayModifiedSets(request: Form, comboState: ComboState) {
   const defaultForm = getDefaultForm({ id: request.characterId })
-  const presets = getGameMetadata().characters[request.characterId].scoringMetadata.presets || []
-  for (const preset of presets) {
-    applyPreset(defaultForm, preset)
-  }
+  const teammates = resolveTeammateInfo(request.teammate0, request.teammate1, request.teammate2)
+  applyScoringMetadataPresets(defaultForm, teammates)
 
   const modified: string[] = []
 

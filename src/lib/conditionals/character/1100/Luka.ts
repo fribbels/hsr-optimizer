@@ -1,6 +1,11 @@
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { ULT_ASHBLAZING_1_SINGLE } from 'lib/conditionals/conditionalConstants'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -238,8 +243,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_SINGLE)
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_SINGLE)
+    },
   }
 }
 

@@ -3,6 +3,9 @@ import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/contai
 
 export const ASHBLAZING_ATK_STACK = 0.06
 
+// ULT ashblazing hitMulti: 1 single-target hit, 100% weight — constant across enemy counts
+export const ULT_ASHBLAZING_1_SINGLE = ASHBLAZING_ATK_STACK * (1 * 1.00)
+
 // Ability types
 export const NONE_TYPE = 0
 

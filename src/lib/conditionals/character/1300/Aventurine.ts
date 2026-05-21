@@ -2,6 +2,11 @@ import { Topaz } from 'lib/conditionals/character/1100/Topaz'
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { ULT_ASHBLAZING_1_SINGLE } from 'lib/conditionals/conditionalConstants'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -268,8 +273,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_SINGLE)
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_SINGLE)
+    },
 
     dynamicConditionals: [{
       id: 'AventurineConversionConditional',

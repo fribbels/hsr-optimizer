@@ -3,6 +3,7 @@ import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import {
   ASHBLAZING_ATK_STACK,
+  ULT_ASHBLAZING_1_SINGLE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -111,6 +112,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ULT_ASHBLAZING_1_SINGLE
+    }
     const r = action.characterConditionals as Conditionals<typeof content>
     return e >= 2
       ? fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]

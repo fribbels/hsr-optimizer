@@ -1,6 +1,11 @@
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -77,6 +82,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(Hook.id)
+
+  const ultHitMulti = ASHBLAZING_ATK_STACK * (1 * 0.30 + 2 * 0.70)
 
   const targetBurnedExtraScaling = talent(e, 1.00, 1.10)
 
@@ -201,8 +208,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti)
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti)
+    },
   }
 }
 

@@ -1,7 +1,9 @@
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import {
+  ASHBLAZING_ATK_STACK,
+} from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -100,6 +102,15 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
 
   const fuaHitCountMulti = ASHBLAZING_ATK_STACK
     * (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 1 / 10 + 8 * 1 / 10 + 8 * 1 / 10)
+
+  const ultHitMulti = ASHBLAZING_ATK_STACK * (1 * 0.05 + 2 * 0.05 + 3 * 0.05 + 4 * 0.05 + 5 * 0.05 + 6 * 0.05 + 7 * 0.05 + 8 * 0.05 * 13)
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti
+    }
+    return fuaHitCountMulti
+  }
 
   const maxGluttonyStacks = (e >= 2) ? 18 : 12
 
@@ -296,10 +307,10 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, fuaHitCountMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(fuaHitCountMulti, action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

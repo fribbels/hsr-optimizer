@@ -1,5 +1,6 @@
 import {
   ASHBLAZING_ATK_STACK,
+  ULT_ASHBLAZING_1_SINGLE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -97,6 +98,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   // 0.06
   const fuaHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.40 + 2 * 0.60)
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ULT_ASHBLAZING_1_SINGLE
+    }
+    return fuaHitCountMulti
+  }
 
   const defaults = {
     enhancedBasic: true,
@@ -283,10 +291,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, fuaHitCountMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(fuaHitCountMulti, action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

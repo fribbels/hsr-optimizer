@@ -1,6 +1,11 @@
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { ULT_ASHBLAZING_1_SINGLE } from 'lib/conditionals/conditionalConstants'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -209,8 +214,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_SINGLE)
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_SINGLE)
+    },
   }
 }
 

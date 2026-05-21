@@ -1,3 +1,7 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
@@ -97,21 +101,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const fuaScaling = talent(e, 1.10, 1.21)
   const talentDmgBuff = talent(e, 0.60, 0.66)
 
-  const ultHitCountMulti = 1 * 0.1285 + 2 * 0.1285 + 3 * 0.1285 + 4 * 0.1285 + 5 * 0.1285 + 6 * 0.1285 + 7 * 0.2285
-  const ultBrokenHitCountMulti = 1 * 0.1285 * 0.1 + 2 * 0.1285 * 0.9
-    + 3 * 0.1285 * 0.1 + 4 * 0.1285 * 0.9
-    + 5 * 0.1285 * 0.1 + 6 * 0.1285 * 0.9
-    + 7 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
-    + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
-    + 8 * 0.1285 * 0.1 + 8 * 0.1285 * 0.9
-    + 8 * 0.2285
+  const ultHitMulti = ashblazingMulti([
+    ...Array(6).fill(single(0.1285)),
+    single(0.2285),
+  ])
+
+  const ultBrokenHitMulti = ashblazingMulti([
+    ...Array(6).flatMap(() => [
+      single(0.1285 * 0.1),
+      single(0.1285 * 0.9),
+    ]),
+    single(0.2285),
+  ])
 
   function getUltHitMulti(action: OptimizerAction, context: OptimizerContext) {
     const r = action.characterConditionals as Conditionals<typeof content>
 
     return r.weaknessBrokenUlt
-      ? ASHBLAZING_ATK_STACK * ultBrokenHitCountMulti
-      : ASHBLAZING_ATK_STACK * ultHitCountMulti
+      ? ultBrokenHitMulti(context)
+      : ultHitMulti(context)
   }
 
   const defaults = {
@@ -271,12 +279,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-      boostAshblazingAtkContainer(x, action, fuaHitMulti)
+      const hitMulti = action.actionType === AbilityKind.ULT
+        ? getUltHitMulti(action, context)
+        : ASHBLAZING_ATK_STACK * (1 * 1.00)
+      boostAshblazingAtkContainer(x, action, hitMulti)
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const fuaHitMulti = ASHBLAZING_ATK_STACK * (1 * 1.00)
-      return gpuBoostAshblazingAtkContainer(fuaHitMulti, action)
+      const hitMulti = action.actionType === AbilityKind.ULT
+        ? getUltHitMulti(action, context)
+        : ASHBLAZING_ATK_STACK * (1 * 1.00)
+      return gpuBoostAshblazingAtkContainer(hitMulti, action)
     },
   }
 }

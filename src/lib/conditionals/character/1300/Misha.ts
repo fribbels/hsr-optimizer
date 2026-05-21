@@ -1,12 +1,17 @@
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   AbilityEidolon,
   type Conditionals,
   type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -83,6 +88,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillScaling = skill(e, 2.00, 2.20)
   let ultStackScaling = ult(e, 0.60, 0.65)
   ultStackScaling += e >= 4 ? 0.06 : 0
+
+  const ultHitMulti = ashblazingMulti(Array(10).fill(single(1.00)))
 
   const defaults = {
     ultHitsOnTarget: 10,
@@ -216,10 +223,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ''
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }
@@ -323,6 +330,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
   sortOption: SortOption.ULT,
   hiddenColumns: [

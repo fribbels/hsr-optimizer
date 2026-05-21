@@ -1,6 +1,11 @@
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -89,6 +94,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(BlackSwan.id)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const arcanaStackMultiplier = talent(e, 0.12, 0.132)
   const epiphanyDmgTakenBoost = ult(e, 0.25, 0.27)
@@ -273,6 +280,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
       x.buff(StatKey.BOOST, (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * ehrValue) : 0, x.source(SOURCE_TRACE))
+
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -282,7 +291,7 @@ if (${wgslTrue(r.ehrToDmgBoost)}) {
   let dmgBuff = min(0.72, 0.60 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)});
   ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
-      `
+      ` + gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }
@@ -392,6 +401,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.PRISONER_SET,
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
   sortOption: SortOption.DOT,
   hiddenColumns: [

@@ -7,7 +7,11 @@ import {
   TrailblazerHarmonyCaelus,
   TrailblazerHarmonyStelle,
 } from 'lib/conditionals/character/8000/TrailblazerHarmony'
-import { applyScoringMetadataPresets, applyTeamAwareSetConditionalPresets } from 'lib/conditionals/evaluation/applyPresets'
+import {
+  applyScoringMetadataPresets,
+  applyTeamAwareSetConditionalPresets,
+  resolveTeammateInfo,
+} from 'lib/conditionals/evaluation/applyPresets'
 import {
   Parts,
   Sets,
@@ -240,7 +244,7 @@ export class BenchmarkSimulationOrchestrator {
       this.form!.comboType = ComboType.ADVANCED
     }
 
-    applyScoringMetadataPresets(this.form!)
+    applyScoringMetadataPresets(this.form!, resolveTeammateInfo(...this.metadata.teammates))
   }
 
   public applyResEqualization() {
@@ -334,7 +338,7 @@ export class BenchmarkSimulationOrchestrator {
 
     simulationForm.deprioritizeBuffs = this.metadata.deprioritizeBuffs
 
-    applyTeamAwareSetConditionalPresets(simulationForm)
+    applyTeamAwareSetConditionalPresets(simulationForm, resolveTeammateInfo(...metadata.teammates))
 
     this.form = simulationForm
   }

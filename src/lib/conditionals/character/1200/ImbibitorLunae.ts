@@ -1,6 +1,14 @@
+import {
+  ashblazingMulti,
+  blast,
+} from 'lib/conditionals/ashblazingCompute'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -85,6 +93,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const basicEnhanced2Scaling = basic(e, 3.80, 4.18)
   const basicEnhanced3Scaling = basic(e, 5.00, 5.50)
   const ultScaling = ult(e, 3.00, 3.24)
+
+  const ultHitMulti = ashblazingMulti([
+    blast(0.30),
+    blast(0.30),
+    blast(0.40),
+  ])
 
   const defaults = {
     basicEnhanced: 3,
@@ -208,8 +222,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -313,6 +330,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.WASTELANDER_SET,
     PresetEffects.TENGOKU_SET,
+    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
   sortOption: SortOption.BASIC,
   hiddenColumns: [

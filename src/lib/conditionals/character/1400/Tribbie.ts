@@ -332,7 +332,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }
 

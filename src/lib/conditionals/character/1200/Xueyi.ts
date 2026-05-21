@@ -1,6 +1,5 @@
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -101,11 +100,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.50, 2.70)
   const fuaScaling = talent(e, 0.90, 0.99)
 
+  const ultHitMulti = ashblazingMulti([single(1.00)])
+
   const hitMultiByFuaHits: NumberToNumberMap = {
     0: 0,
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
     2: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2), // 0.09
     3: ASHBLAZING_ATK_STACK * (1 * 1 / 3 + 2 * 1 / 3 + 3 * 1 / 3), // 0.12
+  }
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    const r = action.characterConditionals as Conditionals<typeof content>
+    return hitMultiByFuaHits[r.fuaHits]
   }
 
   const defaults = {
@@ -241,7 +250,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const be = x.getActionValue(StatKey.BE, XueyiEntities.Xueyi)
       x.buff(StatKey.BOOST, (r.beToDmgBoost) ? Math.min(2.40, be) : 0, x.source(SOURCE_TRACE))
 
-      boostAshblazingAtkContainer(x, action, hitMultiByFuaHits[r.fuaHits])
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -252,7 +261,7 @@ if (${wgslTrue(r.beToDmgBoost)}) {
   let dmgBuff = min(2.40, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)});
   ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
-      ` + gpuBoostAshblazingAtkContainer(hitMultiByFuaHits[r.fuaHits], action)
+      ` + gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

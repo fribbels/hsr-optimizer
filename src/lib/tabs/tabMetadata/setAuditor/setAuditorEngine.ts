@@ -1,6 +1,7 @@
 import {
   applyScoringMetadataPresets,
   applySetConditionalPresets,
+  resolveTeammateInfo,
 } from 'lib/conditionals/evaluation/applyPresets'
 import { TwoPieceStatTags } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
@@ -175,8 +176,9 @@ function buildBenchmarkForm(
     setConditionals: clone(defaultSetConditionals),
   }
 
-  applySetConditionalPresets(form)
-  applyScoringMetadataPresets(form)
+  const teammates = resolveTeammateInfo(...config.teammates)
+  applySetConditionalPresets(form, teammates)
+  applyScoringMetadataPresets(form, teammates)
 
   return form
 }

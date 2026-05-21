@@ -3,12 +3,18 @@ import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import type { CharacterId } from 'types/character'
 
 export type PresetDefinition = {
   name: string,
   set: SetsRelics | SetsOrnaments,
   value: number | boolean,
   index?: number,
+  teammateCondition?: {
+    characterId: CharacterId,
+    minEidolon: number,
+  },
 }
 
 export const PresetEffects = {
@@ -35,6 +41,12 @@ export const PresetEffects = {
       set: Sets.SacerdosRelivedOrdeal,
     }
   },
+  fnMortenaxAshblazingSet: (stacks: number): PresetDefinition => ({
+    name: 'fnMortenaxAshblazingSet',
+    value: stacks,
+    set: Sets.TheAshblazingGrandDuke,
+    teammateCondition: { characterId: MortenaxBlade.id, minEidolon: 2 },
+  }),
 
   // Preset values
 

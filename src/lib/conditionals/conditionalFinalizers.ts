@@ -11,6 +11,7 @@ import {
   relic4p,
   SetKeys,
 } from 'lib/optimization/setMatching'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { OptimizerAction } from 'types/optimizer'
 
 export function boostAshblazingAtkContainer(x: ComputedStatsContainer, action: OptimizerAction, hitMulti: number) {
@@ -20,6 +21,19 @@ export function boostAshblazingAtkContainer(x: ComputedStatsContainer, action: O
     const baseATK = x.config.selfEntity.baseAtk
     x.buff(StatKey.ATK, delta * baseATK, x.damageType(DamageTag.FUA).source(Source.TheAshblazingGrandDuke))
   }
+}
+
+export function boostUltAshblazingAtk(x: ComputedStatsContainer, action: OptimizerAction, hitMulti: number) {
+  if (action.actionType === AbilityKind.ULT) {
+    boostAshblazingAtkContainer(x, action, hitMulti)
+  }
+}
+
+export function gpuBoostUltAshblazingAtk(action: OptimizerAction, hitMulti: number): string {
+  if (action.actionType === AbilityKind.ULT) {
+    return gpuBoostAshblazingAtkContainer(hitMulti, action)
+  }
+  return ''
 }
 
 export function gpuBoostAshblazingAtkContainer(hitMulti: number, action: OptimizerAction) {

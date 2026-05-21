@@ -5,6 +5,7 @@ import {
 } from 'lib/conditionals/character/1400/Cyrene'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { ashblazingMulti, aoe } from 'lib/conditionals/ashblazingCompute'
 import {
   ASHBLAZING_ATK_STACK,
   NONE_TYPE,
@@ -177,6 +178,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     5: ASHBLAZING_ATK_STACK * (3 * 0.25 + 8 * 0.25 + 8 * 0.25 + 8 * 0.25),
   }
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    return hitMultiByTargets[context.enemyCount]
+  }
+
   return {
     content: () => Object.values(content),
     teammateContent: () => Object.values(teammateContent),
@@ -315,10 +325,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

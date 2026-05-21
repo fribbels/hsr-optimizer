@@ -97,6 +97,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     5: ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.42
   }
 
+  // ULT: 1 aoe hit
+  const ultHitMultiByTargets: NumberToNumberMap = {
+    1: ASHBLAZING_ATK_STACK * (1 * 1.00),
+    3: ASHBLAZING_ATK_STACK * (2 * 1.00),
+    5: ASHBLAZING_ATK_STACK * (3 * 1.00),
+  }
+
+  // ULT E6: 1 aoe hit (weight 5/9) + 2 single hits (weight 2/9 each)
+  const ultE6HitMultiByTargets: NumberToNumberMap = {
+    1: ASHBLAZING_ATK_STACK * (1 * 5 / 9 + 2 * 2 / 9 + 3 * 2 / 9),
+    3: ASHBLAZING_ATK_STACK * (2 * 5 / 9 + 5 * 2 / 9 + 6 * 2 / 9),
+    5: ASHBLAZING_ATK_STACK * (3 * 5 / 9 + 8 * 2 / 9 + 8 * 2 / 9),
+  }
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return (e >= 6 ? ultE6HitMultiByTargets : ultHitMultiByTargets)[context.enemyCount]
+    }
+    return hitMultiByTargets[context.enemyCount]
+  }
+
   const defaults = {
     targetBurned: true,
     selfCurrentHp80Percent: true,
@@ -228,10 +249,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

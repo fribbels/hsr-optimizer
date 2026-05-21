@@ -278,6 +278,7 @@ if (${wgslTrue(r.hpToCrConversion)}) {
       if (r.vendettaState) {
         x.set(StatKey.DEF, 0, x.source(SOURCE_TALENT))
       }
+
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>

@@ -1,6 +1,11 @@
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -83,6 +88,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultEnhancedScaling = ult(e, 2.80, 3.024)
   const ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
   const talentCrStackValue = talent(e, 0.025, 0.028)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+  const ultEnhancedHitMulti = ashblazingMulti([aoe(ultEnhancedScaling), ...Array(6).fill(single(ultEnhancedExtraHitScaling))])
 
   const defaults = {
     ultEnhanced: false,
@@ -215,9 +223,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      boostUltAshblazingAtk(x, action, (r.ultEnhanced ? ultEnhancedHitMulti : ultHitMulti)(context))
     },
-
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return gpuBoostUltAshblazingAtk(action, (r.ultEnhanced ? ultEnhancedHitMulti : ultHitMulti)(context))
+    },
   }
 }
 

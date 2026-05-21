@@ -5,6 +5,7 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { ashblazingMulti, blast, single } from 'lib/conditionals/ashblazingCompute'
 import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
@@ -195,6 +196,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const hitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.20 + 2 * 0.10 + 3 * 0.10 + 4 * 0.60)
 
+  const ultHitMulti = ashblazingMulti([single(ultScaling), blast(ultSecondaryScaling)])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    return hitMulti
+  }
+
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
@@ -344,10 +354,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMulti, action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
 
     dynamicConditionals: [

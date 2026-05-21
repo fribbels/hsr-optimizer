@@ -1,6 +1,11 @@
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -81,6 +86,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const ultScaling = ult(e, 2.80, 3.08)
   const ultBounceScaling = ult(e, 1.10, 1.21)
+
+  const ultHitMulti = ashblazingMulti([aoe(0.2029), ...Array(10).fill(single(0.0797))])
 
   const talentDmgBuffScaling = talent(e, 0.60, 0.66)
 
@@ -276,8 +283,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 

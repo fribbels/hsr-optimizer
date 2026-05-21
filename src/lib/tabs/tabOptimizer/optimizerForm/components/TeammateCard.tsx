@@ -12,6 +12,7 @@ import {
   useCombobox,
 } from '@mantine/core'
 import { IconRefresh } from '@tabler/icons-react'
+import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
 import { Constants } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
@@ -144,7 +145,10 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
             size='xs'
             data={EIDOLON_DATA}
             value={String(teammateEidolon ?? 0)}
-            onChange={(v) => useOptimizerRequestStore.getState().setTeammateField(index, 'characterEidolon', Number(v))}
+            onChange={(v) => {
+              useOptimizerRequestStore.getState().setTeammateField(index, 'characterEidolon', Number(v))
+              applyTeamAwareSetConditionalPresetsToStore()
+            }}
             fullWidth
             withItemsBorders={false}
             className={classes.segmented}

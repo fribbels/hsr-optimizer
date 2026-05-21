@@ -1,7 +1,5 @@
-import {
-  ASHBLAZING_ATK_STACK,
-  ULT_ASHBLAZING_1_SINGLE,
-} from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -99,9 +97,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   // 0.06
   const fuaHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.40 + 2 * 0.60)
 
+  const ultHitMulti = ashblazingMulti([single(1.00)])
+
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     if (action.actionType === AbilityKind.ULT) {
-      return ULT_ASHBLAZING_1_SINGLE
+      return ultHitMulti(context)
     }
     return fuaHitCountMulti
   }

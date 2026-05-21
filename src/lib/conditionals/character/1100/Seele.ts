@@ -1,7 +1,7 @@
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ULT_ASHBLAZING_1_SINGLE } from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -71,6 +71,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_TRACE,
     SOURCE_E1,
   } = Source.character(Seele.id)
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
 
   const buffedStateDmgBuff = talent(e, 0.80, 0.88)
   const speedBoostStacksMax = e >= 2 ? 2 : 1
@@ -215,10 +217,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_SINGLE)
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_SINGLE)
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }

@@ -1,7 +1,7 @@
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -92,7 +92,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E6,
   } = Source.character(Boothill.id)
 
-  const ultHitMulti = ASHBLAZING_ATK_STACK * (1 * 0.20 + 2 * 0.80)
+  const ultHitMulti = ashblazingMulti([single(0.20), single(0.80)])
 
   const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
 
@@ -282,10 +282,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti)
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti)
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
     dynamicConditionals: [{
       id: 'BoothillConversionConditional',

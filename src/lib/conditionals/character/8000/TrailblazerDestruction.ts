@@ -1,7 +1,7 @@
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { ULT_ASHBLAZING_1_SINGLE } from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -79,6 +79,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(TrailblazerDestructionStelle.id)
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
 
   const talentAtkScalingValue = talent(e, 0.20, 0.22)
 
@@ -166,10 +168,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     content: () => Object.values(content),
     defaults: () => defaults,
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_SINGLE)
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_SINGLE)
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
 
     // New container methods

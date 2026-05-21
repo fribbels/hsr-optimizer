@@ -1,25 +1,7 @@
 import type { SetKey } from 'lib/constants/constants'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
-import type { NumberToNumberMap } from 'types/common'
 
 export const ASHBLAZING_ATK_STACK = 0.06
-
-// ULT ashblazing hitMulti: 1 single-target hit, 100% weight — constant across enemy counts
-export const ULT_ASHBLAZING_1_SINGLE = ASHBLAZING_ATK_STACK * (1 * 1.00)
-
-// ULT ashblazing hitMulti: 1 AoE hit, 100% weight — varies by enemy count
-export const ULT_ASHBLAZING_1_AOE: NumberToNumberMap = {
-  1: ASHBLAZING_ATK_STACK * (1 * 1.00),
-  3: ASHBLAZING_ATK_STACK * (2 * 1.00),
-  5: ASHBLAZING_ATK_STACK * (3 * 1.00),
-}
-
-// ULT ashblazing hitMulti: 1 blast hit, 100% weight — blast hits max 3 targets (target + adjacent)
-export const ULT_ASHBLAZING_1_BLAST: NumberToNumberMap = {
-  1: ASHBLAZING_ATK_STACK * (1 * 1.00),
-  3: ASHBLAZING_ATK_STACK * (2 * 1.00),
-  5: ASHBLAZING_ATK_STACK * (2 * 1.00),
-}
 
 // Ability types
 export const NONE_TYPE = 0

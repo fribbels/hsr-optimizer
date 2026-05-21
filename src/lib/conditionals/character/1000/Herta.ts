@@ -1,7 +1,8 @@
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { ASHBLAZING_ATK_STACK, ULT_ASHBLAZING_1_AOE } from 'lib/conditionals/conditionalConstants'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -89,6 +90,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.00, 2.16)
   const fuaScaling = talent(e, 0.40, 0.43)
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
   function getHitMultiByTargetsAndHits(hits: number, context: OptimizerContext) {
     const div = 1 / hits
 
@@ -127,7 +130,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     if (action.actionType === AbilityKind.ULT) {
-      return ULT_ASHBLAZING_1_AOE[context.enemyCount]
+      return ultHitMulti(context)
     }
 
     const r = action.characterConditionals as Conditionals<typeof content>

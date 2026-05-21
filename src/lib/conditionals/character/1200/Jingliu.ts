@@ -1,4 +1,4 @@
-import { ULT_ASHBLAZING_1_BLAST } from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, blast } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -80,6 +80,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1212')
+
+  const ultHitMulti = ashblazingMulti([blast(1.00)])
 
   const talentCrBuff = talent(e, 0.50, 0.52)
   const basicScaling = basic(e, 1.00, 1.10)
@@ -210,10 +212,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_BLAST[context.enemyCount])
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_BLAST[context.enemyCount])
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }

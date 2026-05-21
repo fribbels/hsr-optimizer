@@ -1,7 +1,7 @@
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -81,7 +81,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E6,
   } = Source.character(Archer.id)
 
-  const ultHitMulti = ASHBLAZING_ATK_STACK * (1 * 0.04 + 2 * 0.04 + 3 * 0.04 + 4 * 0.04 + 5 * 0.04 + 6 * 0.04 + 7 * 0.04 + 8 * 0.04 * 7 + 8 * 0.44)
+  const ultHitMulti = ashblazingMulti([...Array(14).fill(single(0.04)), single(0.44)])
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -229,10 +229,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti)
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti)
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }

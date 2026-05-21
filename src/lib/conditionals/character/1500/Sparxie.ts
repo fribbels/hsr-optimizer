@@ -4,7 +4,7 @@ import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
-import { ULT_ASHBLAZING_1_AOE } from 'lib/conditionals/conditionalConstants'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -97,6 +97,8 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
   } = Source.character(Sparxie.id)
 
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparxie.Content')
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const engagementScaling = skill(e, 0.20, 0.22)
@@ -356,10 +358,10 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
     dynamicConditionals: [
       {

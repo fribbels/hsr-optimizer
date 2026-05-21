@@ -1,10 +1,8 @@
 import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
-import {
-  ASHBLAZING_ATK_STACK,
-  ULT_ASHBLAZING_1_SINGLE,
-} from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -102,6 +100,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
   }
 
+  const ultHitMulti = ashblazingMulti([single(1.00)])
+
   const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
   const fuaMultiByDebuffs: Record<number, number> = {
     0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
@@ -113,7 +113,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     if (action.actionType === AbilityKind.ULT) {
-      return ULT_ASHBLAZING_1_SINGLE
+      return ultHitMulti(context)
     }
     const r = action.characterConditionals as Conditionals<typeof content>
     return e >= 2

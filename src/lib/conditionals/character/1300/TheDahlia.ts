@@ -6,10 +6,8 @@ import { Firefly } from 'lib/conditionals/character/1300/Firefly'
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import {
-  ASHBLAZING_ATK_STACK,
-  ULT_ASHBLAZING_1_AOE,
-} from 'lib/conditionals/conditionalConstants'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -228,6 +226,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const fuaHits = (e >= 4) ? 10 : 5
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
   const hitMultiByTargets: NumberToNumberMap = (e >= 4)
     ? {
       1: ASHBLAZING_ATK_STACK * (1 * 0.10 + 2 * 0.10 + 3 * 0.10 + 4 * 0.10 + 5 * 0.10 + 6 * 0.10 + 7 * 0.10 + 8 * 0.10 + 9 * 0.10 + 10 * 0.10),
@@ -242,7 +242,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     if (action.actionType === AbilityKind.ULT) {
-      return ULT_ASHBLAZING_1_AOE[context.enemyCount]
+      return ultHitMulti(context)
     }
     return hitMultiByTargets[context.enemyCount]
   }

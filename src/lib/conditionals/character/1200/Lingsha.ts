@@ -1,7 +1,8 @@
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { ASHBLAZING_ATK_STACK, ULT_ASHBLAZING_1_AOE } from 'lib/conditionals/conditionalConstants'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -115,9 +116,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     5: ASHBLAZING_ATK_STACK * (3 * 1 / 2 + 4 * 1 / 2),
   }
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     if (action.actionType === AbilityKind.ULT) {
-      return ULT_ASHBLAZING_1_AOE[context.enemyCount]
+      return ultHitMulti(context)
     }
     return hitMultiByTargets[context.enemyCount]
   }

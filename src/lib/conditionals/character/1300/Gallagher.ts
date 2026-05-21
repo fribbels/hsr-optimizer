@@ -1,8 +1,8 @@
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   NONE_TYPE,
   SKILL_DMG_TYPE,
-  ULT_ASHBLAZING_1_AOE,
 } from 'lib/conditionals/conditionalConstants'
 import {
   boostUltAshblazingAtk,
@@ -80,6 +80,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(Gallagher.id)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.50, 2.75)
@@ -243,11 +245,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ULT_ASHBLAZING_1_AOE[context.enemyCount])
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
 
     dynamicConditionals: [

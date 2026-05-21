@@ -5,11 +5,6 @@ import {
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
-import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
-} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -90,8 +85,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1403')
-
-  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 0.30, 0.33)
 
@@ -338,10 +331,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti(context))
-    },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }

@@ -2,11 +2,6 @@ import { Topaz } from 'lib/conditionals/character/1100/Topaz'
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
-import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
-} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -96,8 +91,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(Aventurine.id)
-
-  const ultHitMulti = ashblazingMulti([single(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.70, 2.916)
@@ -275,10 +268,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti(context))
-    },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
 
     dynamicConditionals: [{

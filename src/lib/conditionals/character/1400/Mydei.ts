@@ -5,11 +5,6 @@ import {
 } from 'lib/conditionals/character/1400/Cyrene'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { ashblazingMulti, blast } from 'lib/conditionals/ashblazingCompute'
-import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
-} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -94,8 +89,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
   } = Source.character('1404')
-
-  const ultHitMulti = ashblazingMulti([blast(1.00)])
 
   const basicScaling = basic(e, 0.50, 0.55)
 
@@ -286,7 +279,6 @@ if (${wgslTrue(r.hpToCrConversion)}) {
         x.set(StatKey.DEF, 0, x.source(SOURCE_TALENT))
       }
 
-      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -295,7 +287,7 @@ if (${wgslTrue(r.hpToCrConversion)}) {
 if (${wgslTrue(r.vendettaState)}) {
   ${buff.actionSet(AKey.DEF, '0.0').wgsl(action)}
 }
-` + gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+`
     },
 
     dynamicConditionals: [

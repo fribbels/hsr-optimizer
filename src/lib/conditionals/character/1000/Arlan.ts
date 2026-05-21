@@ -43,6 +43,7 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -277,7 +278,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(8),
+  ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,

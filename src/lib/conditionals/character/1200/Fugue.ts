@@ -48,6 +48,7 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
@@ -385,7 +386,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.BE,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(8),
+  ],
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,

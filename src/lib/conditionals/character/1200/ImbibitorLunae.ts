@@ -330,6 +330,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.WASTELANDER_SET,
     PresetEffects.TENGOKU_SET,
+    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
   sortOption: SortOption.BASIC,
   hiddenColumns: [

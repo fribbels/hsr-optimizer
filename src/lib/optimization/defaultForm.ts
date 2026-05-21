@@ -104,8 +104,8 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
     ...defaultEnemyOptions(),
   })
 
-  applySetConditionalPresets(defaultForm as Form)
-  applyScoringMetadataPresets(defaultForm as Form)
+  applySetConditionalPresets(defaultForm as Form, [])
+  applyScoringMetadataPresets(defaultForm as Form, [])
 
   if (scoringMetadata?.simulation?.comboTurnAbilities) {
     defaultForm.comboTurnAbilities = [...scoringMetadata.simulation.comboTurnAbilities]

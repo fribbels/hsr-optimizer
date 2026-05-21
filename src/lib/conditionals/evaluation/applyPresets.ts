@@ -38,6 +38,12 @@ import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { ScoringMetadata } from 'types/metadata'
 
+export type TeammateInfo = { id: CharacterId | undefined, eidolon: number }
+type TeammateInfoSource = {
+  characterId?: CharacterId | null,
+  characterEidolon?: number | null,
+} | null | undefined
+
 export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
   if (!characterId) return
 
@@ -106,15 +112,37 @@ function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata)
   form.weights = { ...form.weights, ...scoringMetadata.stats }
   form.weights.minWeightedRolls = form.weights.minWeightedRolls ?? 0
 
-  applySetConditionalPresets(form)
-  applyScoringMetadataPresets(form)
+  const teammates = resolveTeammateInfo(form.teammate0, form.teammate1, form.teammate2)
+  applySetConditionalPresets(form, teammates)
+  applyScoringMetadataPresets(form, teammates)
 }
 
-export function applyScoringMetadataPresets(form: Form | BenchmarkForm) {
+function resolveScoringMetadataPresets(form: Form | BenchmarkForm) {
   const character = getGameMetadata().characters[form.characterId]
-  const presets = character?.scoringMetadata?.presets ?? []
+  return character?.scoringMetadata?.presets ?? []
+}
+
+export function resolveTeammateInfo(...teammates: TeammateInfoSource[]): TeammateInfo[] {
+  return teammates
+    .filter((teammate) => teammate != null)
+    .map((teammate) => ({
+      id: teammate.characterId ?? undefined,
+      eidolon: teammate.characterEidolon ?? 0,
+    }))
+}
+
+export function applyScoringMetadataPresets(form: Form | BenchmarkForm, teammates: TeammateInfo[]) {
+  const presets = resolveScoringMetadataPresets(form)
 
   for (const preset of presets) {
+    const { teammateCondition } = preset
+    if (teammateCondition) {
+      const match = teammates.some((teammate) =>
+        teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
+      )
+      if (!match) continue
+    }
+
     applyPreset(form, preset)
   }
 }
@@ -123,7 +151,7 @@ export function applyPreset(form: Form | BenchmarkForm, preset: PresetDefinition
   form.setConditionals[preset.set][preset.index ?? 1] = preset.value
 }
 
-export function applySetConditionalPresets(form: Form | BenchmarkForm) {
+export function applySetConditionalPresets(form: Form | BenchmarkForm, teammates: TeammateInfo[]) {
   const metadataCharacters = getGameMetadata().characters
   const characterMetadata = metadataCharacters[form.characterId]
   mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
@@ -141,25 +169,14 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   form.setConditionals[Sets.WorldRemakingDeliverer][1] = path == PathNames.Remembrance
   form.setConditionals[Sets.AmphoreusTheEternalLand][1] = path == PathNames.Remembrance
 
-  applyTeamAwareSetConditionalPresets(form)
+  applyTeamAwareSetConditionalPresets(form, teammates)
 }
 
-export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, teammateIds?: (CharacterId | undefined)[]) {
+export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, teammates: TeammateInfo[]) {
   if (!form.setConditionals) return
   const metadataCharacters = getGameMetadata().characters
 
-  const allyIds = [
-    form.characterId,
-    ...(
-      teammateIds
-        ? teammateIds
-        : [
-          form.teammate0?.characterId,
-          form.teammate1?.characterId,
-          form.teammate2?.characterId,
-        ]
-    ),
-  ].filter((x) => !!x)
+  const allyIds = [form.characterId, ...teammates.map((t) => t.id)].filter((x) => !!x)
 
   // Arcadia depends on the number of ally targets
   // Demiurge is out-of-bounds and therefore not a target
@@ -184,7 +201,7 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
 export function applyTeamAwareSetConditionalPresetsToStore() {
   const state = useOptimizerRequestStore.getState()
   const form = displayToInternal(state)
-  applyTeamAwareSetConditionalPresets(form)
+  applyTeamAwareSetConditionalPresets(form, resolveTeammateInfo(form.teammate0, form.teammate1, form.teammate2))
 
   // Update the store with the modified set conditionals
   useOptimizerRequestStore.getState().setSetConditionals(form.setConditionals)

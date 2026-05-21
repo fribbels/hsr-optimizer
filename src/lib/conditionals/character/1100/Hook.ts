@@ -321,6 +321,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnMortenaxAshblazingSet(2),
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [

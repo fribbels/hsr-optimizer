@@ -1,6 +1,11 @@
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { ashblazingMulti, aoe } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   addSuperBreakHits,
@@ -87,6 +92,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.00, 2.20)
   const superBreakScaling = talent(e, 1.00, 1.10)
+
+  const ultHitMulti = ashblazingMulti([aoe(0.60), aoe(0.10), aoe(0.10), aoe(0.10), aoe(0.10)])
 
   const defaults = {
     torridScorch: true,
@@ -259,7 +266,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.BE, t.weaknessBreakBeStacks * (0.06 + (t.be220Buff ? 0.12 : 0)), x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 

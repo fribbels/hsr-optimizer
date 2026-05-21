@@ -1,6 +1,7 @@
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { ashblazingMulti, aoe } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -76,6 +77,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
+  const ultHitMulti = ashblazingMulti([aoe(0.25), aoe(0.25), aoe(0.25), aoe(0.25)])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    return hitMulti
+  }
+
   const skillShieldScaling = skill(e, 0.57, 0.608)
   const skillShieldFlat = skill(e, 760, 845.5)
 
@@ -147,9 +157,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkContainer(hitMulti, action),
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action),
   }
 }
 

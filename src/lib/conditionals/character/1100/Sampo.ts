@@ -1,6 +1,11 @@
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { ashblazingMulti, aoe } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -77,6 +82,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillScaling = skill(e, 0.56, 0.616)
   const ultScaling = ult(e, 1.60, 1.728)
   const dotScaling = talent(e, 0.52, 0.572)
+
+  const ultHitMulti = ashblazingMulti([aoe(0.25), aoe(0.25), aoe(0.25), aoe(0.25)])
 
   const maxExtraHits = e < 1 ? 4 : 5
   const defaults = {
@@ -215,8 +222,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       )
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 

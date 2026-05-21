@@ -4,6 +4,7 @@ import {
   applyScoringMetadataPresets,
   applySetConditionalPresets,
   applyTeamAwareSetConditionalPresets,
+  applyTeammateConditionalPresets,
   resolveTeammateInfo,
 } from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
@@ -215,7 +216,7 @@ export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
   const teammates = resolveTeammateInfo(teammate0, teammate1, teammate2)
 
   applyTeamAwareSetConditionalPresets(form, teammates)
-  applyScoringMetadataPresets(form, teammates)
+  applyTeammateConditionalPresets(form, teammates)
 
   if (form.setConditionals) {
     useBenchmarksTabStore.getState().setSetConditionals(form.setConditionals)

@@ -1,3 +1,8 @@
+import {
+  ashblazingMulti,
+  blast,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import {
@@ -5,7 +10,6 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ashblazingMulti, blast, single } from 'lib/conditionals/ashblazingCompute'
 import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
@@ -196,7 +200,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const hitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.20 + 2 * 0.10 + 3 * 0.10 + 4 * 0.60)
 
-  const ultHitMulti = ashblazingMulti([single(ultScaling), blast(ultSecondaryScaling)])
+  const ultHitMulti = ashblazingMulti([
+    single(ultScaling),
+    blast(ultSecondaryScaling),
+  ])
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     if (action.actionType === AbilityKind.ULT) {

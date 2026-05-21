@@ -1,7 +1,11 @@
+import {
+  aoe,
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -90,7 +94,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const talentCrStackValue = talent(e, 0.025, 0.028)
 
   const ultHitMulti = ashblazingMulti([aoe(1.00)])
-  const ultEnhancedHitMulti = ashblazingMulti([aoe(ultEnhancedScaling), ...Array(6).fill(single(ultEnhancedExtraHitScaling))])
+  const ultEnhancedHitMulti = ashblazingMulti([
+    aoe(ultEnhancedScaling),
+    ...Array(6).fill(single(ultEnhancedExtraHitScaling)),
+  ])
 
   const defaults = {
     ultEnhanced: false,

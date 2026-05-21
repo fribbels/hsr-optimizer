@@ -1,10 +1,18 @@
+import {
+  aoe,
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
 import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
-import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -15,10 +23,6 @@ import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
-import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
-} from 'lib/conditionals/conditionalFinalizers'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
@@ -105,7 +109,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultAoeScaling = ult(e, 1.60, 1.76)
   const ultBounceScaling = ult(e, 1.20, 1.296)
 
-  const ultHitMulti = ashblazingMulti([aoe(ultAoeScaling), ...Array(5).fill(single(ultBounceScaling))])
+  const ultHitMulti = ashblazingMulti([
+    aoe(ultAoeScaling),
+    ...Array(5).fill(single(ultBounceScaling)),
+  ])
 
   const cdToElationRatio = 0.20
   const talentSkillElationScaling = talent(e, 0.16, 0.176)

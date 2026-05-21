@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -92,7 +95,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E6,
   } = Source.character(Boothill.id)
 
-  const ultHitMulti = ashblazingMulti([single(0.20), single(0.80)])
+  const ultHitMulti = ashblazingMulti([
+    single(0.20),
+    single(0.80),
+  ])
 
   const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
 

@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
@@ -104,7 +107,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   ])
 
   const ultBrokenHitMulti = ashblazingMulti([
-    ...Array(6).flatMap(() => [single(0.1285 * 0.1), single(0.1285 * 0.9)]),
+    ...Array(6).flatMap(() => [
+      single(0.1285 * 0.1),
+      single(0.1285 * 0.9),
+    ]),
     single(0.2285),
   ])
 

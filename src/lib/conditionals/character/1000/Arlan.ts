@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  blast,
+} from 'lib/conditionals/ashblazingCompute'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { ashblazingMulti, blast } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -84,7 +87,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillScaling = skill(e, 2.40, 2.64)
   const ultScaling = ult(e, 3.20, 3.456)
 
-  const ultHitMulti = ashblazingMulti([blast(0.30), blast(0.10), blast(0.60)])
+  const ultHitMulti = ashblazingMulti([
+    blast(0.30),
+    blast(0.10),
+    blast(0.60),
+  ])
 
   const talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
 

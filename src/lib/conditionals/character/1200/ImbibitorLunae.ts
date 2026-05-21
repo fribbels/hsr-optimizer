@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  blast,
+} from 'lib/conditionals/ashblazingCompute'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ashblazingMulti, blast } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -91,7 +94,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const basicEnhanced3Scaling = basic(e, 5.00, 5.50)
   const ultScaling = ult(e, 3.00, 3.24)
 
-  const ultHitMulti = ashblazingMulti([blast(0.30), blast(0.30), blast(0.40)])
+  const ultHitMulti = ashblazingMulti([
+    blast(0.30),
+    blast(0.30),
+    blast(0.40),
+  ])
 
   const defaults = {
     basicEnhanced: 3,

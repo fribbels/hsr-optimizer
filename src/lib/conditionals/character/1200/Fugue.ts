@@ -1,7 +1,10 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { ashblazingMulti, aoe } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -93,7 +96,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.00, 2.20)
   const superBreakScaling = talent(e, 1.00, 1.10)
 
-  const ultHitMulti = ashblazingMulti([aoe(0.60), aoe(0.10), aoe(0.10), aoe(0.10), aoe(0.10)])
+  const ultHitMulti = ashblazingMulti([
+    aoe(0.60),
+    aoe(0.10),
+    aoe(0.10),
+    aoe(0.10),
+    aoe(0.10),
+  ])
 
   const defaults = {
     torridScorch: true,

@@ -1,7 +1,10 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ashblazingMulti, aoe } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -88,7 +91,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 1.50, 1.62)
   const talentScaling = talent(e, 0.60, 0.66)
 
-  const ultHitMulti = ashblazingMulti([aoe(0.10), aoe(0.90)])
+  const ultHitMulti = ashblazingMulti([
+    aoe(0.10),
+    aoe(0.90),
+  ])
 
   const content: ContentDefinition<typeof defaults> = {
     enemyDmgTakenDebuff: {

@@ -1,7 +1,10 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { ashblazingMulti, aoe } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -83,7 +86,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 1.60, 1.728)
   const dotScaling = talent(e, 0.52, 0.572)
 
-  const ultHitMulti = ashblazingMulti([aoe(0.25), aoe(0.25), aoe(0.25), aoe(0.25)])
+  const ultHitMulti = ashblazingMulti([
+    aoe(0.25),
+    aoe(0.25),
+    aoe(0.25),
+    aoe(0.25),
+  ])
 
   const maxExtraHits = e < 1 ? 4 : 5
   const defaults = {

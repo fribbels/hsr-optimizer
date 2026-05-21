@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -83,7 +86,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E6,
   } = Source.character(Hook.id)
 
-  const ultHitMulti = ashblazingMulti([single(0.30), single(0.70)])
+  const ultHitMulti = ashblazingMulti([
+    single(0.30),
+    single(0.70),
+  ])
 
   const targetBurnedExtraScaling = talent(e, 1.00, 1.10)
 

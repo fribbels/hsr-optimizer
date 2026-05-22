@@ -45,7 +45,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_SUPPORT,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -469,7 +469,7 @@ const supportSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    ...SPREAD_RELICS_4P_SUPPORT,
   ],
   ornamentSets: [
     Sets.BrokenKeel,

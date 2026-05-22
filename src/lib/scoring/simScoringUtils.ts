@@ -344,7 +344,7 @@ export function applyScoringFunction(
 
   const entry = SCORING_CONFIG_REGISTRY[configType]
   const unpenalizedSimScore = result.x.getGlobalRegisterValue(entry.comboRegister)
-  const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user)
+  const penaltyMultiplier = calculatePenaltyMultiplier(result, metadata, user, configType)
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }
 
@@ -352,6 +352,7 @@ function calculatePenaltyMultiplier(
   simulationResult: RunStatSimulationsResult,
   metadata: SimulationMetadata,
   user = false,
+  configType: ScoringConfigType = ScoringConfigType.DPS,
 ) {
   const x = simulationResult.x
   let newPenaltyMultiplier = 1
@@ -378,7 +379,7 @@ function calculatePenaltyMultiplier(
     }
   }
 
-  if (user && ornament2p(SetKeys.BrokenKeel, x.c.sets)) {
+  if (user && configType !== ScoringConfigType.DPS && ornament2p(SetKeys.BrokenKeel, x.c.sets)) {
     const combatRes = x.getSelfValue(StatKey.RES)
     if (combatRes < 0.30) {
       newPenaltyMultiplier *= 0.75

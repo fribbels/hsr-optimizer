@@ -265,11 +265,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
   const allSlotsFilled = speeds.length >= 4
   const targetAlreadyMet = !allSlotsFilled && desiredValue !== undefined && ahaSpeed >= desiredValue
   const displaySpeed = teammateSpeed !== null && Math.abs(teammateSpeed) < 0.0005 ? 0 : teammateSpeed
-  const outputValue = displaySpeed !== null
-    ? targetAlreadyMet
-      ? `Already met (${localeNumber_000(displaySpeed)})`
-      : localeNumber_000(displaySpeed)
-    : ''
+  const outputValue = displaySpeed !== null ? localeNumber_000(displaySpeed) : ''
 
   return (
     <div className={classes.reverse}>
@@ -284,9 +280,13 @@ function ReverseSolve(props: AhaPanelContentProps) {
       </div>
       <div className={classes.reverseOutput} style={{ opacity: !allSlotsFilled && teammateSpeed === null ? 0.3 : undefined }}>
         <HeaderText>
-          {allSlotsFilled ? 'No slots open' : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
+          {allSlotsFilled
+            ? 'No slots open'
+            : targetAlreadyMet
+              ? 'SPD target already reached'
+              : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>
-        <span className={targetAlreadyMet ? classes.alreadyMetValue : undefined}>{outputValue}</span>
+        <span>{outputValue}</span>
       </div>
     </div>
   )

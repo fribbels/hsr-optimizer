@@ -1,6 +1,3 @@
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
-import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import { getYaoguangAhaPunchlineValue } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   AbilityEidolon,
@@ -13,14 +10,10 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
-import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
 import {
   ConditionalActivation,
   ConditionalType,
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -32,21 +25,8 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  WHOLE_ELATION_SKILL,
-  WHOLE_SKILL,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import {
-  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_SUPPORT,
-} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   floorSafe,
@@ -57,10 +37,7 @@ import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 import type { CharacterConditionalsController } from 'types/conditionals'
 import type { HitDefinition } from 'types/hitConditionalTypes'
-import type {
-  ScoringMetadata,
-  SimulationMetadata,
-} from 'types/metadata'
+import type { ScoringMetadata } from 'types/metadata'
 import type {
   OptimizerAction,
   OptimizerContext,
@@ -323,74 +300,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.CR,
-      Stats.CD,
-    ],
-    [Parts.Feet]: [
-      Stats.SPD,
-      Stats.ATK_P,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.Lightning_DMG,
-      Stats.ATK_P,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-    ],
-  },
-  substats: [
-    Stats.CD,
-    Stats.CR,
-    Stats.ATK_P,
-    Stats.ATK,
-  ],
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    WHOLE_SKILL,
-    WHOLE_SKILL,
-    WHOLE_ELATION_SKILL,
-    WHOLE_ELATION_SKILL,
-  ],
-  comboDot: 0,
-  errRopeEidolon: 0,
-  relicSets: [
-    [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
-    [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-    ...SPREAD_RELICS_4P_SUPPORT,
-  ],
-  ornamentSets: [
-    Sets.PunklordeStageZero,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
-  ],
-  teammates: [
-    {
-      characterId: SilverWolfLv999.id,
-      lightCone: WelcomeToTheCosmicCity.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Sparxie.id,
-      lightCone: DazzledByAFloweryWorld.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: HuohuoB1.id,
-      lightCone: NightOfFright.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
@@ -427,7 +336,6 @@ const scoring = (): ScoringMetadata => ({
   presets: [],
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
-  simulation: simulation(),
 })
 
 const display = {

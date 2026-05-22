@@ -1,4 +1,5 @@
 import {
+  CloseButton,
   Divider,
   NumberInput,
 } from '@mantine/core'
@@ -104,7 +105,7 @@ function IntegratedRows({ form, rows, ahaSpeed }: {
             form={form}
             row={row}
             ahaSpeed={ahaSpeed}
-            label={`Teammate ${visualPos + 1}`}
+            label='Teammate'
             style={{ transform: offset ? `translateY(${offset}px)` : undefined }}
             isNextSlot={isNextSlot}
           />
@@ -168,6 +169,19 @@ function IntegratedRow({ form, row, ahaSpeed, label, style, isNextSlot }: {
         {...form.getInputProps(row.key)}
         {...sharedInputProps}
         className={classes.rowInput}
+        rightSection={
+          row.speed !== '' && (
+            <CloseButton
+              size='xs'
+              variant='transparent'
+              tabIndex={-1}
+              style={{ marginRight: 8 }}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => form.setFieldValue(row.key, '')}
+            />
+          )
+        }
+        rightSectionPointerEvents='all'
       />
       <div className={classes.rowTrack}>
         {hasContribution && (
@@ -240,6 +254,7 @@ function FormulaSummary({ rows, ahaSpeed }: {
 
 function ReverseSolve(props: AhaPanelContentProps) {
   const {
+    ahaSpeed,
     speeds,
     teammateSpeed,
     desiredValue,
@@ -248,7 +263,13 @@ function ReverseSolve(props: AhaPanelContentProps) {
     t,
   } = props
   const allSlotsFilled = speeds.length >= 4
+  const targetAlreadyMet = !allSlotsFilled && desiredValue !== undefined && ahaSpeed >= desiredValue
   const displaySpeed = teammateSpeed !== null && Math.abs(teammateSpeed) < 0.0005 ? 0 : teammateSpeed
+  const outputValue = displaySpeed !== null
+    ? targetAlreadyMet
+      ? `Already met (${localeNumber_000(displaySpeed)})`
+      : localeNumber_000(displaySpeed)
+    : ''
 
   return (
     <div className={classes.reverse}>
@@ -265,9 +286,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
         <HeaderText>
           {allSlotsFilled ? 'No slots open' : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>
-        <span>
-          {displaySpeed !== null ? localeNumber_000(displaySpeed) : ''}
-        </span>
+        <span className={targetAlreadyMet ? classes.alreadyMetValue : undefined}>{outputValue}</span>
       </div>
     </div>
   )

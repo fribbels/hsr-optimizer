@@ -51,6 +51,7 @@ import {
   SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_SUPPORT,
 } from 'lib/scoring/scoringConstants'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -530,7 +531,7 @@ const supportSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    ...SPREAD_RELICS_4P_SUPPORT,
   ],
   ornamentSets: [
     Sets.ForgeOfTheKalpagniLantern,

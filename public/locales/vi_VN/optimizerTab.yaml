@@ -23,6 +23,8 @@ OrnamentSetSelector:
   Placeholder: Bộ Phụ Kiện Vị Diện
 SortOptions:
   DMGLabel: Tính Sát Thương
+  OptimizationLabel: Tối ưu hóa
+  AbilityLabel: Kĩ năng
   StatLabel: Chỉ số
   COMBO: Sắp xếp theo ST Combo
   BASIC: Sắp xếp theo ST Tấn Công Thường

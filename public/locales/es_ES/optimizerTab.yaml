@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: Conjunto de ornamentos
 SortOptions:
   DMGLabel: Cálculos de daño
+  OptimizationLabel: Optimización
+  AbilityLabel: Habilidades
   StatLabel: Atributos
   COMBO: Ord. por Daño de combo
   BASIC: Ord. por daño Básico

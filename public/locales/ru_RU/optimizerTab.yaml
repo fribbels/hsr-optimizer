@@ -36,6 +36,8 @@ SortOptions:
   DMGLabel: Расчеты урона 
   HealLabel: Расчеты исцеления
   ShieldLabel: Расчёты щита
+  OptimizationLabel: Оптимизация
+  AbilityLabel: Способности
   StatLabel: Статы
   COMBO: По Урону Комбо
   BASIC: По Урону Баз Атаки

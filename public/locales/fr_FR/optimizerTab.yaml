@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: Set d'ornement
 SortOptions:
   DMGLabel: Calcul des dégâts
+  OptimizationLabel: Optimisation
+  AbilityLabel: Capacités
   StatLabel: Stats
   COMBO: Trié par DGT Combo
   BASIC: Trié par DGT de Normale

@@ -252,8 +252,9 @@ export class BenchmarkSimulationOrchestrator {
     if (!entry.applyResEqualization) return
 
     const combatRes = this.originalSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
-    if (combatRes >= 0.50) {
-      this.flags.benchmarkBasicResTarget = combatRes
+    const baselineRes = this.baselineSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
+    if (combatRes - baselineRes >= 0.30) {
+      this.flags.benchmarkBasicResTarget = Math.min(combatRes, 1.00)
     }
   }
 

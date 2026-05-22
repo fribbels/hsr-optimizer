@@ -455,7 +455,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
 
       <HorizontalDivider />
       <HeaderText className={classes.headerCenteredMb} style={{ marginBottom: 1 }}>
-        {tCustomization('ShowL2D') /* Show Live2D */}
+        {tCustomization('ShowL2D') /* Animations */}
       </HeaderText>
       <SegmentedControl
         data={[

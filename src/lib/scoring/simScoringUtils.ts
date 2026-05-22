@@ -16,6 +16,10 @@ import {
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  ornament2p,
+  SetKeys,
+} from 'lib/optimization/setMatching'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
@@ -371,6 +375,13 @@ function calculatePenaltyMultiplier(
               / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
         )
       }
+    }
+  }
+
+  if (user && ornament2p(SetKeys.BrokenKeel, x.c.sets)) {
+    const combatRes = x.getSelfValue(StatKey.RES)
+    if (combatRes < 0.30) {
+      newPenaltyMultiplier *= 0.75
     }
   }
 

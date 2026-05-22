@@ -359,6 +359,8 @@ export class ComputedStatsContainer {
     clonedBasic.id = this.c.id
     clonedBasic.relicSetIndex = this.c.relicSetIndex
     clonedBasic.ornamentSetIndex = this.c.ornamentSetIndex
+    clonedBasic.sets = this.c.sets
+    clonedBasic.setsArray = this.c.setsArray
     clonedBasic.weight = this.c.weight
     clone.c = clonedBasic as BasicStatsArray
 

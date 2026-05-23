@@ -2,6 +2,7 @@ ScreenshotMessages:
   ScreenshotSuccess: スクリーンショットをクリップボードにコピーしました
   ScreenshotFailed:
     Default: スクリーンショットをクリップボードにコピーできませんでした。右側のダウンロードボタンをお試しください。
+    NotAllowed: ブラウザへのクリップボードのアクセスが拒否されました。スクリーンショットを撮る間は、ウェブページを開いたままにしてください。
   DownloadSuccess: スクリーンショットをダウンロードしました
 CharacterMenu:
   ButtonText: キャラクターメニュー
@@ -78,6 +79,7 @@ CharacterPreview:
       Standard: スタンダード
     PaletteLabel: カラーパレット
     ShowUID: UID を表示
+    ShowL2D: アニメーション
   ArtBy: '出典 {{artistName}}'
   EditCharacter: キャラクターを編集
   EditPortrait: 画像を変更
@@ -106,9 +108,11 @@ CharacterPreview:
   SubstatUpgradeComparisons:
     Header: サブステータス強化比較
     MainStatHeader: メインステータス強化比較
+    TeammatesHeader: 味方遺物セット強化比較
     AddedRoll: '+1x サブ {{stat}}'
     SubStatUpgrade: サブステータス強化
     MainStatUpgrade: メインステータス強化
+    TeammateUpgrade: 味方アップグレード
     DpsScorePercentUpgrade: DPS スコア変化率
     UpgradedDpsScore: 強化後の DPS スコア
     ComboDmgPercentUpgrade: コンボダメージ変化率
@@ -163,6 +167,7 @@ CharacterPreview:
       CombatStats: <1>戦闘</1>ステータス（選択キャラ）
       Substats: サブステータス（最小数）（選択キャラ）
       Mainstats: メインステータス（選択キャラ）
+      Abilities: スキル回しの詳細（選択キャラ）
     Benchmark:
       Header: '基準ビルド（{{score}}%）'
       Sets: 基準ビルドの装備
@@ -170,6 +175,15 @@ CharacterPreview:
       CombatStats: <1>戦闘</1>ステータス（基準ビルド）
       Substats: サブステータス（最小数）（基準ビルド）
       Mainstats: メインステータス（基準ビルド）
+      Abilities: スキル回しの詳細（基準ビルド）
+    Baseline:
+      Header: '素のビルド（{{score}}%）'
+      Sets: 素のビルドの装備
+      BasicStats: <1>非戦闘</1>ステータス（素のビルド）
+      CombatStats: <1>戦闘</1>ステータス（素のビルド）
+      Substats: サブステータス（最小数）（素のビルド）
+      Mainstats: メインステータス（素のビルド）
+      Abilities: スキル回しの詳細（素のビルド）
     Perfect:
       Header: '完璧ビルド（{{score}}%）'
       Sets: 完璧ビルドの装備
@@ -177,6 +191,7 @@ CharacterPreview:
       CombatStats: <1>戦闘</1>ステータス（完璧ビルド）
       Substats: サブステータス（最大数）（完璧ビルド）
       Mainstats: メインステータス（完璧ビルド）
+      Abilities: スキル回しの詳細（完璧ビルド）
   ScoringDetails:
     Header: DPSスコアはどのように計算されますか？
   EST-TBP:

@@ -1,0 +1,137 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+/* ─── Debug pills ────────────────────────────────────── */
+
+.debugPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-bottom: 6px;
+  justify-content: center;
+}
+
+.pill {
+  padding: 1px 5px;
+  border: 1px solid #555;
+  border-radius: 8px;
+  background: transparent;
+  color: #aaa;
+  font-size: 9px;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.pill:hover {
+  border-color: #888;
+  color: #ccc;
+}
+
+.pillActive {
+  background: #0e7eff;
+  color: #fff;
+  border-color: #0e7eff;
+}
+
+/* ─── Stat rows ──────────────────────────────────────── */
+
+.statGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2px;
+  margin-bottom: 4px;
+}
+
+.statLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20px;
+}
+
+.statLabel {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.rollCount {
+  min-width: 24px;
+  text-align: right;
+}
+
+/* ─── Shared row layouts ─────────────────────────────── */
+
+.row2 { display: flex; gap: 2px; align-items: center; }
+.row3 { display: flex; gap: 3px; }
+
+/* ─── Tiers: shared 4px bar ──────────────────────────── */
+
+.bar4 { height: 4px; border-radius: 2px; }
+
+/* ─── Steps (8px wide, height varies) ────────────────── */
+
+.stepsRow { display: flex; align-items: flex-end; gap: 1px; height: 10px; }
+.stepHigh { width: 8px; height: 10px; background-color: #0e7eff; border-radius: 1px; }
+.stepMid { width: 8px; height: 7px; background-color: #63a9ff; border-radius: 1px; }
+.stepLow { width: 8px; height: 4px; background-color: #a5bcd9; border-radius: 1px; }
+
+/* ─── Chunky (10×8px) ────────────────────────────────── */
+
+.chunky { width: 10px; height: 8px; border-radius: 2px; }
+
+/* ─── Skyline (steps with ground + shadow) ───────────── */
+
+.skylineRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  height: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 1px;
+}
+
+.skyHigh {
+  width: 8px;
+  height: 12px;
+  background-color: #0e7eff;
+  border-radius: 1px 1px 0 0;
+  box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.skyMid {
+  width: 8px;
+  height: 8px;
+  background-color: #63a9ff;
+  border-radius: 1px 1px 0 0;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.skyLow {
+  width: 8px;
+  height: 4px;
+  background-color: #a5bcd9;
+  border-radius: 1px 1px 0 0;
+}
+
+/* ─── Stripe (continuous bar, tick dividers) ──────────── */
+
+.stripeRow { display: flex; gap: 0; height: 6px; }
+
+.stripeSegment {
+  width: 10px;
+  height: 6px;
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.stripeSegment:last-child { border-right: none; }
+.stripeSegment:first-child { border-radius: 2px 0 0 2px; }
+.stripeSegment:last-child { border-radius: 0 2px 2px 0; }
+.stripeSegment:only-child { border-radius: 2px; }

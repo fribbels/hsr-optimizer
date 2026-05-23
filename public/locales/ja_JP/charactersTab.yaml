@@ -155,6 +155,9 @@ CharacterPreview:
         MEMO_TALENT: 精霊天賦
         ELATION_SKILL: 愉悦スキル
         COMBO: コンボ
+        BUFF: バフ
+        COMBO_HEAL: コンボ回復
+        COMBO_SHIELD: コンボシールド
     CombatBuffs:
       Header: 戦闘バフ
       SubDpsHeader: 戦闘バフ（サブ DPS）

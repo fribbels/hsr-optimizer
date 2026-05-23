@@ -26,6 +26,8 @@ Import:
     DisconnectedHint: スキャナーに接続できません。プログラムが実行中であることを確認してください。
     Enable: Live Import（推奨）
     UpdateCharacters: 装備中の遺物・光円錐の更新
+    OnlyExistingCharacters: 既存のキャラクターのみ更新
+    OnlyExistingCharactersTooltip: Live Import がキャラクタータブにいないキャラクターを追加しないようにします。
     UpdateWarpResources: 跳躍データ（星玉、チケット、確定天井）の取り込み
     AdvancedSettings:
       Title: 詳細設定

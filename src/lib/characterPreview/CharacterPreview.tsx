@@ -58,8 +58,11 @@ import {
   ShowcaseScoreHeader,
   ShowcaseSimScorePanel,
 } from 'lib/characterPreview/scoring/ShowcaseSimScore'
+import { ShowcaseDebugPills } from 'lib/characterPreview/scoring/ShowcaseDebugPills'
+import { ShowcaseSetBonuses } from 'lib/characterPreview/scoring/ShowcaseSetBonuses'
 import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
 import { ShowcaseSubstatRolls } from 'lib/characterPreview/scoring/ShowcaseSubstatRolls'
+import { useShowcaseDebugVizStore } from 'lib/characterPreview/scoring/showcaseDebugVizStore'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
@@ -473,6 +476,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   // --- Scoring (useSyncExternalStore for cache reads, effect for cache misses) ---
   const tempOptions = state.showcaseTemporaryOptions ?? EMPTY_OPTIONS
+  const setsOnTop = useShowcaseDebugVizStore((s) => s.setsOnTop)
+  const showScore = useShowcaseDebugVizStore((s) => s.showScore)
 
   // ===== Early return after all hooks =====
   if (!state.previewRelics || !state.finalStats) {
@@ -655,13 +660,24 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
               {scoringType === ScoringType.SUBSTAT_SCORE && (
                 <>
-                  <ShowcaseStatScore
-                    scoringResults={scoringResults}
-                  />
-                  <ShowcaseSubstatRolls
-                    displayRelics={displayRelics}
-                    characterId={showcaseMetadata.characterId}
-                  />
+                  {showScore && (
+                    <ShowcaseStatScore
+                      scoringResults={scoringResults}
+                    />
+                  )}
+                  {setsOnTop
+                    ? (
+                      <>
+                        <ShowcaseSetBonuses displayRelics={displayRelics} />
+                        <ShowcaseSubstatRolls displayRelics={displayRelics} characterId={showcaseMetadata.characterId} seedColor={seedColor} />
+                      </>
+                    )
+                    : (
+                      <>
+                        <ShowcaseSubstatRolls displayRelics={displayRelics} characterId={showcaseMetadata.characterId} seedColor={seedColor} />
+                        <ShowcaseSetBonuses displayRelics={displayRelics} />
+                      </>
+                    )}
                 </>
               )}
 
@@ -702,6 +718,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           characterId={showcaseMetadata.characterId}
           simulationMetadata={layout.activeSimulationMetadata}
         />
+
+        {scoringType === ScoringType.SUBSTAT_SCORE && !forceDebug && (
+          <ShowcaseDebugPills />
+        )}
 
         {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
           <ShowcaseBuildAnalysis

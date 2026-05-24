@@ -42,5 +42,5 @@ export function aggregateSubstatRolls(
   }
 
   results.sort((a, b) => b.weight - a.weight || b.effective - a.effective)
-  return results
+  return results.slice(0, 6)
 }

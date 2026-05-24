@@ -45,8 +45,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 2px;
-  margin-bottom: 4px;
+  gap: 5px;
+  margin-bottom: 8px;
 }
 
 .statLine {
@@ -72,16 +72,32 @@
 .row2 { display: flex; gap: 2px; align-items: center; }
 .row3 { display: flex; gap: 3px; }
 
-/* ─── Tiers: shared 4px bar ──────────────────────────── */
+/* ─── Empty ghost bar ───────────────────────────────── */
+
+.emptyGhost {
+  width: 12px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Track + Tiers bar ─────────────────────────────── */
+
+.track {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.06);
+}
 
 .bar4 { height: 4px; border-radius: 2px; }
 
 /* ─── Steps (8px wide, height varies) ────────────────── */
 
 .stepsRow { display: flex; align-items: flex-end; gap: 1px; height: 10px; }
-.stepHigh { width: 8px; height: 10px; background-color: #0e7eff; border-radius: 1px; }
-.stepMid { width: 8px; height: 7px; background-color: #63a9ff; border-radius: 1px; }
-.stepLow { width: 8px; height: 4px; background-color: #a5bcd9; border-radius: 1px; }
+.step { width: 8px; border-radius: 1px; }
 
 /* ─── Chunky (10×8px) ────────────────────────────────── */
 
@@ -98,26 +114,8 @@
   padding-bottom: 1px;
 }
 
-.skyHigh {
+.sky {
   width: 8px;
-  height: 12px;
-  background-color: #0e7eff;
-  border-radius: 1px 1px 0 0;
-  box-shadow: 2px 1px 2px rgba(0, 0, 0, 0.4);
-}
-
-.skyMid {
-  width: 8px;
-  height: 8px;
-  background-color: #63a9ff;
-  border-radius: 1px 1px 0 0;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-.skyLow {
-  width: 8px;
-  height: 4px;
-  background-color: #a5bcd9;
   border-radius: 1px 1px 0 0;
 }
 
@@ -135,3 +133,27 @@
 .stripeSegment:first-child { border-radius: 2px 0 0 2px; }
 .stripeSegment:last-child { border-radius: 0 2px 2px 0; }
 .stripeSegment:only-child { border-radius: 2px; }
+
+/* ─── Zones (fixed-position tiers with ghost slots) ──── */
+
+.zonesRow {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.zone {
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.zoneGhost {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.zoneBar {
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+}

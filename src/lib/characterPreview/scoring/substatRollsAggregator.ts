@@ -1,6 +1,10 @@
-import { type SubStats } from 'lib/constants/constants'
+import { Stats, type SubStats } from 'lib/constants/constants'
 import { countRelicRolls } from 'lib/characterPreview/summary/statScoringSummaryController'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+
+const DISPLAY_COUNT = 6
+const FALLBACK_STATS: SubStats[] = [Stats.SPD, Stats.CR, Stats.CD, Stats.ATK_P, Stats.HP_P, Stats.DEF_P]
+const FLAT_STATS = new Set<SubStats>([Stats.ATK, Stats.HP, Stats.DEF])
 
 export type AggregatedStatRolls = {
   stat: SubStats
@@ -10,6 +14,13 @@ export type AggregatedStatRolls = {
   total: number
   effective: number
   weight: number
+}
+
+function buildEntry(stat: SubStats, rollMap: Map<SubStats, { high: number; mid: number; low: number }>, weight: number): AggregatedStatRolls {
+  const rolls = rollMap.get(stat) ?? { high: 0, mid: 0, low: 0 }
+  const total = rolls.high + rolls.mid + rolls.low
+  const effective = rolls.high * 1.0 + rolls.mid * 0.9 + rolls.low * 0.8
+  return { stat, ...rolls, total, effective, weight }
 }
 
 export function aggregateSubstatRolls(
@@ -32,15 +43,42 @@ export function aggregateSubstatRolls(
     }
   }
 
+  // Pool 1: mandatory — all stats with positive weight
+  const selected = new Set<SubStats>()
   const results: AggregatedStatRolls[] = []
+
   for (const [stat, weight] of Object.entries(weights)) {
     if (weight <= 0) continue
-    const rolls = rollMap.get(stat as SubStats) ?? { high: 0, mid: 0, low: 0 }
-    const total = rolls.high + rolls.mid + rolls.low
-    const effective = rolls.high * 1.0 + rolls.mid * 0.9 + rolls.low * 0.8
-    results.push({ stat: stat as SubStats, ...rolls, total, effective, weight })
+    selected.add(stat as SubStats)
+    results.push(buildEntry(stat as SubStats, rollMap, weight))
   }
 
-  results.sort((a, b) => b.weight - a.weight || b.effective - a.effective)
-  return results.slice(0, 6)
+  // Pool 2: stats with actual rolls not already in Pool 1
+  if (results.length < DISPLAY_COUNT) {
+    const pool2: AggregatedStatRolls[] = []
+    for (const stat of rollMap.keys()) {
+      if (selected.has(stat)) continue
+      const entry = buildEntry(stat, rollMap, 0)
+      if (entry.total > 0) pool2.push(entry)
+    }
+    pool2.sort((a, b) => b.effective - a.effective)
+    for (const entry of pool2) {
+      if (results.length >= DISPLAY_COUNT) break
+      selected.add(entry.stat)
+      results.push(entry)
+    }
+  }
+
+  // Pool 3: fallback universal stats
+  if (results.length < DISPLAY_COUNT) {
+    for (const stat of FALLBACK_STATS) {
+      if (results.length >= DISPLAY_COUNT) break
+      if (selected.has(stat)) continue
+      selected.add(stat)
+      results.push(buildEntry(stat, rollMap, 0))
+    }
+  }
+
+  results.sort((a, b) => b.effective - a.effective || Number(FLAT_STATS.has(a.stat)) - Number(FLAT_STATS.has(b.stat)))
+  return results.slice(0, DISPLAY_COUNT)
 }

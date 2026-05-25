@@ -67,7 +67,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
     return {
       high: chroma.oklch(0.67, s * 0.75, hue).css(),
       mid: chroma.oklch(0.78, s * 0.38, hue).css(),
-      low: chroma.oklch(0.93, 0.005, hue).css(),
+      low: chroma.oklch(0.95, 0.005, hue).css(),
     }
   },
   // Ghost — barely there, very subtle tinting
@@ -157,7 +157,7 @@ type VizProps = { entry: AggregatedStatRolls; colors: TierColors; scale: number 
 
 function getScale(maxRolls: number): number {
   const cap = Math.max(Math.min(Math.floor(maxRolls / 3) * 3 + 6, 36), 18)
-  return 216 / cap
+  return (219 - cap) / cap
 }
 
 function EmptyGhost() {
@@ -174,11 +174,7 @@ function TierSegments({ count, color, segWidth }: { count: number; color: string
         <div
           key={i}
           className={classes.tierSeg}
-          style={{
-            width: segWidth,
-            backgroundColor: color,
-            borderRight: i < count - 1 ? SEGMENT_BORDER : 'none',
-          }}
+          style={{ width: segWidth, backgroundColor: color }}
         />
       ))}
     </div>
@@ -265,11 +261,7 @@ function StripeGroup({ count, color, segWidth }: { count: number; color: string;
         <div
           key={i}
           className={classes.stripeSegment}
-          style={{
-            width: segWidth,
-            backgroundColor: color,
-            borderRight: i < count - 1 ? SEGMENT_BORDER : 'none',
-          }}
+          style={{ width: segWidth, backgroundColor: color }}
         />
       ))}
     </div>
@@ -292,7 +284,6 @@ function StripeViz({ entry, colors, scale }: VizProps) {
 
 // ─── Mode definitions ────────────────────────────────────────
 
-const SEGMENT_BORDER = '1px solid rgba(0,0,0,0.50)'
 
 const VIZ_CONFIG: Record<string, { component: React.ComponentType<VizProps> }> = {
   s1: { component: TiersViz },

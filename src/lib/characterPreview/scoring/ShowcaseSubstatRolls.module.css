@@ -95,7 +95,7 @@
 
 .bar4 { height: 4px; border-radius: 2px; }
 
-.tierGroup { display: flex; height: 4px; }
+.tierGroup { display: flex; gap: 1px; height: 4px; }
 .tierSeg { height: 4px; }
 
 .track > .tierGroup:first-child > .tierSeg:first-child { border-radius: 2px 0 0 2px; }
@@ -139,7 +139,7 @@
   overflow: hidden;
 }
 
-.stripeGroup { display: flex; height: 6px; }
+.stripeGroup { display: flex; gap: 1px; height: 6px; }
 
 .stripeSegment {
   height: 6px;

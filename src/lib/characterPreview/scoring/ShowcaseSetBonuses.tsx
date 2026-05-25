@@ -2,7 +2,7 @@ import { type PreviewRelics } from 'lib/characterPreview/characterPreviewControl
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
 import { type RelicSetIngameId, setToId } from 'lib/sets/setConfigRegistry'
-import { memo, useMemo } from 'react'
+import { Fragment, memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Sets } from 'lib/constants/constants'
 import classes from './ShowcaseSetBonuses.module.css'
@@ -59,10 +59,15 @@ function SetEntry({ s, cardClass }: { s: ActiveSet; cardClass: string }) {
   )
 }
 
-function Col({ sets, cardClass, colClass }: { sets: ActiveSet[]; cardClass: string; colClass?: string }) {
+function Col({ sets, cardClass, colClass, sepClass }: { sets: ActiveSet[]; cardClass: string; colClass?: string; sepClass?: string }) {
   return (
     <div className={colClass ?? classes.cardsCol}>
-      {sets.map((s, i) => <SetEntry key={i} s={s} cardClass={cardClass} />)}
+      {sets.map((s, i) => (
+        <Fragment key={i}>
+          {i > 0 && sepClass && <div className={sepClass} />}
+          <SetEntry s={s} cardClass={cardClass} />
+        </Fragment>
+      ))}
     </div>
   )
 }
@@ -101,8 +106,9 @@ const BasicViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass
 const CoolViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardCool} />
 const DenseViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardDense} />
 const PlainViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardPlain} />
-const SepViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardSeparator} colClass={classes.separatorCol} />
-const SepFadeViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardSepFade} colClass={classes.separatorCol} />
+const SepViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepLine} />
+const SepFadeViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepFadeLine} />
+const SepComboViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepComboLine} />
 
 function SplitViz({ sets }: { sets: ActiveSet[] }) {
   return (
@@ -131,6 +137,7 @@ const VIZ_CONFIG: Record<string, { component: React.ComponentType<{ sets: Active
   b6: { component: PlainViz },
   b7: { component: SepViz },
   b12: { component: SepFadeViz },
+  b13: { component: SepComboViz },
 }
 
 // ─── Main Component ─────────────────────────────────────────
@@ -143,6 +150,7 @@ export const ShowcaseSetBonuses = memo(function ShowcaseSetBonuses({
   const vizMode = useShowcaseDebugVizStore((s) => s.setBonusMode)
   const activeSets = useMemo(() => getActiveSets(displayRelics), [displayRelics])
 
+  if (vizMode === 'b0') return null
   if (activeSets.length === 0) return null
 
   const { component: VizComponent } = VIZ_CONFIG[vizMode] ?? VIZ_CONFIG.b1

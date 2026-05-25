@@ -176,44 +176,27 @@
 .separatorCol {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 3px;
   width: 100%;
   padding: 2px 0;
 }
 
-.cardSeparator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+/* ─── Separator lines (real elements) ────────────────── */
 
-.cardSeparator + .cardSeparator {
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-  padding-top: 5px;
-  margin-top: 5px;
-}
-
-/* ─── Sep Fade — gradient separator ──────────────────── */
-
-.cardSepFade {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  position: relative;
-}
-
-.cardSepFade + .cardSepFade {
-  padding-top: 7px;
-  margin-top: 7px;
-}
-
-.cardSepFade + .cardSepFade::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 4px;
-  right: 4px;
+.sepLine {
   height: 1px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.sepFadeLine {
+  height: 1px;
+  margin: 0 4px;
   background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+.sepComboLine {
+  height: 1px;
+  margin: 0 12px;
+  background: linear-gradient(to right, transparent 5%, rgba(255, 255, 255, 0.18) 20%, rgba(255, 255, 255, 0.18) 80%, transparent 95%);
 }
 

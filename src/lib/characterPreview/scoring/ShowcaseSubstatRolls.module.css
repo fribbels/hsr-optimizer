@@ -90,9 +90,14 @@
   height: 4px;
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
 }
 
 .bar4 { height: 4px; border-radius: 2px; }
+
+.tierGroup { display: flex; height: 4px; }
+.tierSeg { width: 12px; height: 4px; }
+
 
 /* ─── Steps (8px wide, height varies) ────────────────── */
 
@@ -119,20 +124,25 @@
   border-radius: 1px 1px 0 0;
 }
 
-/* ─── Stripe (continuous bar, tick dividers) ──────────── */
+/* ─── Stripe (continuous bar with track) ─────────────── */
 
-.stripeRow { display: flex; gap: 0; height: 6px; }
+.stripeTrack {
+  display: flex;
+  gap: 0;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+}
 
 .stripeSegment {
   width: 10px;
   height: 6px;
-  border-right: 1px solid rgba(0, 0, 0, 0.4);
 }
 
-.stripeSegment:last-child { border-right: none; }
-.stripeSegment:first-child { border-radius: 2px 0 0 2px; }
-.stripeSegment:last-child { border-radius: 0 2px 2px 0; }
-.stripeSegment:only-child { border-radius: 2px; }
+.stripeSegment:first-child { border-radius: 3px 0 0 3px; }
+.stripeSegment:last-child { border-radius: 0 3px 3px 0; }
+.stripeSegment:only-child { border-radius: 3px; }
 
 /* ─── Zones (fixed-position tiers with ghost slots) ──── */
 

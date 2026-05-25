@@ -11,21 +11,35 @@ const SET_BONUS_MODES = [
   { key: 'b6', label: 'Plain' },
   { key: 'b7', label: 'Sep' },
   { key: 'b12', label: 'SepFde' },
+  { key: 'b13', label: 'Combo' },
+  { key: 'b0', label: 'None' },
+]
+
+const ALPHA_MODES = [
+  { key: 0.50, label: '.50' },
+  { key: 0.60, label: '.60' },
+  { key: 0.70, label: '.70' },
+  { key: 0.75, label: '.75' },
+  { key: 0.80, label: '.80' },
+  { key: 0.85, label: '.85' },
+  { key: 0.90, label: '.90' },
+  { key: 0.95, label: '.95' },
+  { key: 1.00, label: '1.0' },
 ]
 
 const COLOR_MODES = [
-  { key: 'c1', label: 'A' },
-  { key: 'c2', label: 'B' },
-  { key: 'c3', label: 'C' },
-  { key: 'c4', label: 'D' },
-  { key: 'c5', label: 'E' },
-  { key: 'c6', label: 'F' },
-  { key: 'c7', label: 'G' },
-  { key: 'c8', label: 'H' },
-  { key: 'c9', label: 'I' },
-  { key: 'c10', label: 'J' },
-  { key: 'c11', label: 'K' },
-  { key: 'c12', label: 'L' },
+  { key: 'c2', label: 'Vivid' },
+  { key: 'c11', label: 'Shift' },
+  { key: 'c6', label: 'Spread' },
+  { key: 'c3', label: 'Soft' },
+  { key: 'c3a', label: 'Softer' },
+  { key: 'c3c', label: 'Pastel' },
+  { key: 'c3b', label: 'Whispr' },
+  { key: 'c3d', label: 'Ghost' },
+  { key: 'c9', label: 'Tinted' },
+  { key: 'c10', label: 'Steep' },
+  { key: 'c12', label: 'Fade' },
+  { key: 'c8', label: 'Punch' },
 ]
 
 const SUBSTAT_ROLLS_MODES = [
@@ -43,9 +57,11 @@ export const ShowcaseDebugPills = memo(function ShowcaseDebugPills() {
   const setsOnTop = useShowcaseDebugVizStore((s) => s.setsOnTop)
   const showScore = useShowcaseDebugVizStore((s) => s.showScore)
   const colorMode = useShowcaseDebugVizStore((s) => s.colorMode)
+  const colorAlpha = useShowcaseDebugVizStore((s) => s.colorAlpha)
   const setSetBonusMode = useShowcaseDebugVizStore((s) => s.setSetBonusMode)
   const setSubstatRollsMode = useShowcaseDebugVizStore((s) => s.setSubstatRollsMode)
   const setColorMode = useShowcaseDebugVizStore((s) => s.setColorMode)
+  const setColorAlpha = useShowcaseDebugVizStore((s) => s.setColorAlpha)
   const toggleSetsOnTop = useShowcaseDebugVizStore((s) => s.toggleSetsOnTop)
   const toggleShowScore = useShowcaseDebugVizStore((s) => s.toggleShowScore)
 
@@ -121,6 +137,20 @@ export const ShowcaseDebugPills = memo(function ShowcaseDebugPills() {
               key={mode.key}
               className={`${classes.pill} ${colorMode === mode.key ? classes.pillActive : ''}`}
               onClick={() => setColorMode(mode.key)}
+            >
+              {mode.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span style={{ fontSize: 11, color: '#888', minWidth: 50 }}>Alpha</span>
+        <div className={classes.debugPills}>
+          {ALPHA_MODES.map((mode) => (
+            <button
+              key={mode.key}
+              className={`${classes.pill} ${colorAlpha === mode.key ? classes.pillActive : ''}`}
+              onClick={() => setColorAlpha(mode.key)}
             >
               {mode.label}
             </button>

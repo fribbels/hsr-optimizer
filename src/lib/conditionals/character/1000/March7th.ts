@@ -35,7 +35,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_4P_SUPPORT,
+  SPREAD_RELICS_4P_SHIELD,
 } from 'lib/scoring/scoringConstants'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -193,7 +193,7 @@ const shieldSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
-    ...SPREAD_RELICS_4P_SUPPORT,
+    ...SPREAD_RELICS_4P_SHIELD,
   ],
   ornamentSets: [
     Sets.LushakaTheSunkenSeas,

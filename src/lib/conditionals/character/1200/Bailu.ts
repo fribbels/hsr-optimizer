@@ -26,8 +26,8 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_4P_SUPPORT,
+  SPREAD_ORNAMENTS_2P_HEAL,
+  SPREAD_RELICS_4P_HEAL,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
@@ -243,11 +243,11 @@ const healSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
-    ...SPREAD_RELICS_4P_SUPPORT,
+    ...SPREAD_RELICS_4P_HEAL,
   ],
   ornamentSets: [
     Sets.LushakaTheSunkenSeas,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+    ...SPREAD_ORNAMENTS_2P_HEAL,
   ],
   teammates: [
     {

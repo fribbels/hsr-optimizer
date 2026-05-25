@@ -59,8 +59,8 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
-  SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_4P_SUPPORT,
+  SPREAD_ORNAMENTS_2P_HEAL,
+  SPREAD_RELICS_4P_HEAL,
 } from 'lib/scoring/scoringConstants'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -573,7 +573,7 @@ const simulation = (): SimulationMetadata => ({
     Sets.GiantTreeOfRaptBrooding,
     Sets.BoneCollectionsSereneDemesne,
     Sets.ArcadiaOfWovenDreams,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+    ...SPREAD_ORNAMENTS_2P_HEAL,
   ],
   teammates: [
     {
@@ -620,11 +620,11 @@ const healSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
-    ...SPREAD_RELICS_4P_SUPPORT,
+    ...SPREAD_RELICS_4P_HEAL,
   ],
   ornamentSets: [
     Sets.GiantTreeOfRaptBrooding,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+    ...SPREAD_ORNAMENTS_2P_HEAL,
   ],
   teammates: [
     {

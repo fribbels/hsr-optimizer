@@ -85,8 +85,8 @@
 
 .track {
   display: flex;
-  gap: 3px;
-  width: 100%;
+  gap: 1px;
+  width: 218px;
   height: 4px;
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.06);
@@ -96,7 +96,10 @@
 .bar4 { height: 4px; border-radius: 2px; }
 
 .tierGroup { display: flex; height: 4px; }
-.tierSeg { width: 12px; height: 4px; }
+.tierSeg { height: 4px; }
+
+.track > .tierGroup:first-child > .tierSeg:first-child { border-radius: 2px 0 0 2px; }
+.track > .tierGroup:last-child > .tierSeg:last-child { border-radius: 0 2px 2px 0; }
 
 
 /* ─── Steps (8px wide, height varies) ────────────────── */
@@ -128,21 +131,23 @@
 
 .stripeTrack {
   display: flex;
-  gap: 0;
-  width: 100%;
+  gap: 1px;
+  width: 218px;
   height: 6px;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
 }
 
+.stripeGroup { display: flex; height: 6px; }
+
 .stripeSegment {
-  width: 10px;
   height: 6px;
 }
 
-.stripeSegment:first-child { border-radius: 3px 0 0 3px; }
-.stripeSegment:last-child { border-radius: 0 3px 3px 0; }
-.stripeSegment:only-child { border-radius: 3px; }
+.stripeTrack > .stripeGroup:first-child > .stripeSegment:first-child { border-radius: 3px 0 0 3px; }
+.stripeTrack > .stripeGroup:last-child > .stripeSegment:last-child { border-radius: 0 3px 3px 0; }
+
 
 /* ─── Zones (fixed-position tiers with ghost slots) ──── */
 

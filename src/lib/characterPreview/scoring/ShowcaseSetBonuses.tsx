@@ -46,6 +46,20 @@ function useSetName(ingameId: RelicSetIngameId): string {
 
 // ─── Shared sub-components ──────────────────────────────────
 
+const DEFAULT_SET_ICON = Assets.getDefaultRelic()
+
+function EmptySetEntry({ cardClass }: { cardClass: string }) {
+  return (
+    <div className={cardClass}>
+      <img src={DEFAULT_SET_ICON} className={classes.setIconMd} />
+      <div className={classes.cardText}>
+        <span className={classes.cardPiece}>2pc</span>
+        <StatTextSm className={classes.cardName}>No selected set</StatTextSm>
+      </div>
+    </div>
+  )
+}
+
 function SetEntry({ s, cardClass }: { s: ActiveSet; cardClass: string }) {
   const name = useSetName(s.ingameId)
   return (
@@ -59,13 +73,13 @@ function SetEntry({ s, cardClass }: { s: ActiveSet; cardClass: string }) {
   )
 }
 
-function Col({ sets, cardClass, colClass, sepClass }: { sets: ActiveSet[]; cardClass: string; colClass?: string; sepClass?: string }) {
+function Col({ sets, cardClass, colClass, sepClass }: { sets: (ActiveSet | null)[]; cardClass: string; colClass?: string; sepClass?: string }) {
   return (
     <div className={colClass ?? classes.cardsCol}>
       {sets.map((s, i) => (
         <Fragment key={i}>
           {i > 0 && sepClass && <div className={sepClass} />}
-          <SetEntry s={s} cardClass={cardClass} />
+          {s ? <SetEntry s={s} cardClass={cardClass} /> : <EmptySetEntry cardClass={cardClass} />}
         </Fragment>
       ))}
     </div>
@@ -102,33 +116,36 @@ function TightEntry({ s }: { s: ActiveSet }) {
 
 // ─── Viz Components ─────────────────────────────────────────
 
-const BasicViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.card} />
-const CoolViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardCool} />
-const DenseViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardDense} />
-const PlainViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardPlain} />
-const SepViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepLine} />
-const SepFadeViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepFadeLine} />
-const SepComboViz = ({ sets }: { sets: ActiveSet[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepComboLine} />
+type SetsList = (ActiveSet | null)[]
 
-function SplitViz({ sets }: { sets: ActiveSet[] }) {
+const BasicViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.card} />
+const CoolViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardCool} />
+const DenseViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardDense} />
+const PlainViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} />
+const SepViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepLine} />
+const SepFadeViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepFadeLine} />
+const SepMidViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepMidLine} />
+const SepComboViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepComboLine} />
+
+function SplitViz({ sets }: { sets: SetsList }) {
   return (
     <div className={classes.cardsCol}>
-      {sets.map((s, i) => <SplitEntry key={i} s={s} />)}
+      {sets.map((s, i) => s ? <SplitEntry key={i} s={s} /> : <EmptySetEntry key={i} cardClass={classes.cardPlain} />)}
     </div>
   )
 }
 
-function TightViz({ sets }: { sets: ActiveSet[] }) {
+function TightViz({ sets }: { sets: SetsList }) {
   return (
     <div className={classes.cardsColTight}>
-      {sets.map((s, i) => <TightEntry key={i} s={s} />)}
+      {sets.map((s, i) => s ? <TightEntry key={i} s={s} /> : <EmptySetEntry key={i} cardClass={classes.cardPlain} />)}
     </div>
   )
 }
 
 // ─── Mode definitions ────────────────────────────────────────
 
-const VIZ_CONFIG: Record<string, { component: React.ComponentType<{ sets: ActiveSet[] }> }> = {
+const VIZ_CONFIG: Record<string, { component: React.ComponentType<{ sets: SetsList }> }> = {
   b1: { component: SplitViz },
   b3: { component: CoolViz },
   b2: { component: BasicViz },
@@ -137,6 +154,7 @@ const VIZ_CONFIG: Record<string, { component: React.ComponentType<{ sets: Active
   b6: { component: PlainViz },
   b7: { component: SepViz },
   b12: { component: SepFadeViz },
+  b14: { component: SepMidViz },
   b13: { component: SepComboViz },
 }
 
@@ -148,10 +166,13 @@ export const ShowcaseSetBonuses = memo(function ShowcaseSetBonuses({
   displayRelics: PreviewRelics
 }) {
   const vizMode = useShowcaseDebugVizStore((s) => s.setBonusMode)
-  const activeSets = useMemo(() => getActiveSets(displayRelics), [displayRelics])
+  const activeSets: SetsList = useMemo(() => {
+    const sets: SetsList = getActiveSets(displayRelics)
+    while (sets.length < 3) sets.push(null)
+    return sets
+  }, [displayRelics])
 
   if (vizMode === 'b0') return null
-  if (activeSets.length === 0) return null
 
   const { component: VizComponent } = VIZ_CONFIG[vizMode] ?? VIZ_CONFIG.b1
 

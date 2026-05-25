@@ -11,6 +11,7 @@ const SET_BONUS_MODES = [
   { key: 'b6', label: 'Plain' },
   { key: 'b7', label: 'Sep' },
   { key: 'b12', label: 'SepFde' },
+  { key: 'b14', label: 'Mid' },
   { key: 'b13', label: 'Combo' },
   { key: 'b0', label: 'None' },
 ]

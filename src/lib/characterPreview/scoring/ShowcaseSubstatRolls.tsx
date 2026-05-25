@@ -153,7 +153,12 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
 
 // ─── Viz Props ──────────────────────────────────────────────
 
-type VizProps = { entry: AggregatedStatRolls; colors: TierColors }
+type VizProps = { entry: AggregatedStatRolls; colors: TierColors; scale: number }
+
+function getScale(maxRolls: number): number {
+  const cap = Math.max(Math.min(Math.floor(maxRolls / 3) * 3 + 6, 36), 18)
+  return 216 / cap
+}
 
 function EmptyGhost() {
   return <div className={classes.emptyGhost} />
@@ -161,7 +166,7 @@ function EmptyGhost() {
 
 // ─── Viz Components ──────────────────────────────────────────
 
-function TierSegments({ count, color }: { count: number; color: string }) {
+function TierSegments({ count, color, segWidth }: { count: number; color: string; segWidth: number }) {
   if (count === 0) return null
   return (
     <div className={classes.tierGroup}>
@@ -170,6 +175,7 @@ function TierSegments({ count, color }: { count: number; color: string }) {
           key={i}
           className={classes.tierSeg}
           style={{
+            width: segWidth,
             backgroundColor: color,
             borderRight: i < count - 1 ? SEGMENT_BORDER : 'none',
           }}
@@ -179,12 +185,15 @@ function TierSegments({ count, color }: { count: number; color: string }) {
   )
 }
 
-function TiersViz({ entry, colors }: VizProps) {
+function TiersViz({ entry, colors, scale }: VizProps) {
+  const hw = Math.round(1.0 * scale)
+  const mw = Math.round(0.9 * scale)
+  const lw = Math.round(0.8 * scale)
   return (
     <div className={classes.track}>
-      <TierSegments count={entry.high} color={colors.high} />
-      <TierSegments count={entry.mid} color={colors.mid} />
-      <TierSegments count={entry.low} color={colors.low} />
+      <TierSegments count={entry.high} color={colors.high} segWidth={hw} />
+      <TierSegments count={entry.mid} color={colors.mid} segWidth={mw} />
+      <TierSegments count={entry.low} color={colors.low} segWidth={lw} />
     </div>
   )
 }
@@ -248,20 +257,34 @@ function buildSegments(entry: AggregatedStatRolls, colors: TierColors) {
   ]
 }
 
-function StripeViz({ entry, colors }: VizProps) {
-  const segments = buildSegments(entry, colors)
+function StripeGroup({ count, color, segWidth }: { count: number; color: string; segWidth: number }) {
+  if (count === 0) return null
   return (
-    <div className={classes.stripeTrack}>
-      {segments.map((color, i) => (
+    <div className={classes.stripeGroup}>
+      {Array.from({ length: count }, (_, i) => (
         <div
           key={i}
           className={classes.stripeSegment}
           style={{
+            width: segWidth,
             backgroundColor: color,
-            borderRight: i < segments.length - 1 ? SEGMENT_BORDER : 'none',
+            borderRight: i < count - 1 ? SEGMENT_BORDER : 'none',
           }}
         />
       ))}
+    </div>
+  )
+}
+
+function StripeViz({ entry, colors, scale }: VizProps) {
+  const hw = Math.round(1.0 * scale)
+  const mw = Math.round(0.9 * scale)
+  const lw = Math.round(0.8 * scale)
+  return (
+    <div className={classes.stripeTrack}>
+      <StripeGroup count={entry.high} color={colors.high} segWidth={hw} />
+      <StripeGroup count={entry.mid} color={colors.mid} segWidth={mw} />
+      <StripeGroup count={entry.low} color={colors.low} segWidth={lw} />
     </div>
   )
 }
@@ -315,6 +338,8 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
 
   if (aggregated.length === 0) return null
 
+  const maxRolls = Math.max(...aggregated.map((e) => e.total))
+  const scale = getScale(maxRolls)
   const { component: VizComponent } = VIZ_CONFIG[vizMode] ?? VIZ_CONFIG.s1
 
   return (
@@ -333,7 +358,7 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
               {entry.effective.toFixed(1)}
             </StatTextSm>
           </div>
-          <VizComponent entry={entry} colors={tierColors} />
+          <VizComponent entry={entry} colors={tierColors} scale={scale} />
         </div>
       ))}
     </div>

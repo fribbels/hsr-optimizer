@@ -99,6 +99,9 @@ export const Assets = {
   getBlank: () => {
     return getImageUrl('/misc/blank.webp')
   },
+  getDefaultRelic: () => {
+    return getImageUrl('/misc/defaultrelic.webp')
+  },
   getQuestion: () => {
     return getImageUrl('/misc/tooltip.webp')
   },

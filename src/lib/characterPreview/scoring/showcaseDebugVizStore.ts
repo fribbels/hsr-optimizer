@@ -16,10 +16,10 @@ type ShowcaseDebugVizStore = {
 }
 
 export const useShowcaseDebugVizStore = create<ShowcaseDebugVizStore>((set) => ({
-  setBonusMode: 'b12',
+  setBonusMode: 'b14',
   substatRollsMode: 's5',
-  colorMode: 'c3',
-  colorAlpha: 1.0,
+  colorMode: 'c3c',
+  colorAlpha: 0.90,
   setsOnTop: true,
   showScore: false,
   setSetBonusMode: (mode) => set({ setBonusMode: mode }),

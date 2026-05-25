@@ -49,7 +49,7 @@ import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import {
   type DBMetadataCharacter,
-  type ScoringConfigType,
+  ScoringConfigType,
   type SimulationMetadata,
 } from 'types/metadata'
 
@@ -70,7 +70,7 @@ export const CharacterCardCombatStats = memo(
     const primaryActionStats = originalSimResult.primaryActionStats
 
     const simMetadata = simulationMetadata ?? characterMetadata.scoringMetadata.simulation!
-    const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata, simMetadata)
+    const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata, simMetadata, configType)
     const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
 
     const rows: ReactElement[] = []
@@ -161,7 +161,7 @@ function aggregateCombatStats(
   return displayWrappers
 }
 
-function pickCombatStats(characterMetadata: DBMetadataCharacter, simulationMetadata: SimulationMetadata) {
+function pickCombatStats(characterMetadata: DBMetadataCharacter, simulationMetadata: SimulationMetadata, configType: ScoringConfigType) {
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
 
   let substats: StatsValues[] = [...simulationMetadata.substats as SubStats[]]
@@ -172,7 +172,7 @@ function pickCombatStats(characterMetadata: DBMetadataCharacter, simulationMetad
   substats = filterUnique(substats).filter((x) => !percentFlatStats[x])
   substats.sort((a, b) => getIndexOf(SubStats, a) - getIndexOf(SubStats, b))
 
-  let includeElementalDmg = true
+  let includeElementalDmg = configType === ScoringConfigType.DPS
   const config = simulationMetadata.combatStatsConfig
   if (config) {
     for (const entry of config) {

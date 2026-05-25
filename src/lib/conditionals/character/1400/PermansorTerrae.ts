@@ -40,14 +40,13 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
-  DEFAULT_SKILL_SHIELD,
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_4P_SUPPORT,
+  SPREAD_RELICS_4P_SHIELD,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
@@ -332,57 +331,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const shieldSimulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [Stats.ATK_P],
-    [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
-    [Parts.PlanarSphere]: [Stats.ATK_P],
-    [Parts.LinkRope]: [Stats.ERR, Stats.ATK_P],
-  },
-  substats: [
-    Stats.ATK_P,
-    Stats.ATK,
-    Stats.SPD,
-    Stats.RES,
-    Stats.HP_P,
-  ],
-  errRopeEidolon: 0,
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    DEFAULT_SKILL_SHIELD,
-    DEFAULT_SKILL_SHIELD,
-  ],
-  relicSets: [
-    [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
-    ...SPREAD_RELICS_4P_SUPPORT,
-  ],
-  ornamentSets: [
-    Sets.LushakaTheSunkenSeas,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
-  ],
-  teammates: [
-    {
-      characterId: Phainon.id,
-      lightCone: ThusBurnsTheDawn.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-  deprioritizeBuffs: true,
-})
-
 const supportSimulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [Stats.ATK_P],
@@ -404,7 +352,7 @@ const supportSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
-    ...SPREAD_RELICS_4P_SUPPORT,
+    ...SPREAD_RELICS_4P_SHIELD,
   ],
   ornamentSets: [
     Sets.LushakaTheSunkenSeas,
@@ -474,7 +422,6 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [],
   hiddenColumns: [SortOption.DOT, SortOption.SKILL],
   supportSimulation: supportSimulation(),
-  shieldSimulation: shieldSimulation(),
 })
 
 const display = {

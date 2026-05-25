@@ -31,7 +31,7 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_4P_SUPPORT,
+  SPREAD_RELICS_4P_SHIELD,
 } from 'lib/scoring/scoringConstants'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -250,7 +250,7 @@ const shieldSimulation = (): SimulationMetadata => ({
   ],
   relicSets: [
     [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
-    ...SPREAD_RELICS_4P_SUPPORT,
+    ...SPREAD_RELICS_4P_SHIELD,
   ],
   ornamentSets: [
     Sets.LushakaTheSunkenSeas,

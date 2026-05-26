@@ -288,6 +288,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, (e >= 6 && r.e6UltAtkBuff) ? 0.25 : 0, x.source(SOURCE_E6))
 
       x.buff(StatKey.BOOST, (r.enemyHpGte50) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (r.enemyHpGte50) ? 0.25 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
       x.buff(StatKey.BOOST, (r.targetFrozen) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
       x.buff(StatKey.BOOST, (e >= 4) ? 0.10 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E4))
     },

@@ -33,7 +33,6 @@ import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { getBuildCardStyle } from './buildsModalStyles'
 import {
   type CSSProperties,
   memo,
@@ -328,7 +327,7 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
   return (
     <div
       className={styles.buildCard}
-      style={getBuildCardStyle(selected)}
+      style={{ backgroundColor: selected ? 'var(--layer-3)' : undefined }}
       onClick={(e) => {
         setSelectedBuild(build.name)
         e.stopPropagation()

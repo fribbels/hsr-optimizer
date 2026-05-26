@@ -1,10 +1,26 @@
 import { Parts } from 'lib/constants/constants'
-import {
-  RATINGS,
-} from 'lib/relics/scoring/scoringConstants'
 
-// Each step ≈ 4.4% (one high roll of a max-weight stat relative to ideal 6-piece score). Indices align with RATINGS.
-const PCT_THRESHOLDS = [0, 0, 0, 4.4, 8.8, 13.1, 17.5, 21.9, 26.3, 30.7, 35.1, 39.4, 43.8, 48.2, 52.6, 56.9, 61.3, 65.7, 70.1, 74.5]
+// Each grade = 5% of ideal substat perfection
+const RATING_TIERS = [
+  { pct: 0, rating: 'F' },
+  { pct: 5, rating: 'F+' },
+  { pct: 10, rating: 'D' },
+  { pct: 15, rating: 'D+' },
+  { pct: 20, rating: 'C' },
+  { pct: 25, rating: 'C+' },
+  { pct: 30, rating: 'B' },
+  { pct: 35, rating: 'B+' },
+  { pct: 40, rating: 'A' },
+  { pct: 45, rating: 'A+' },
+  { pct: 50, rating: 'S' },
+  { pct: 55, rating: 'S+' },
+  { pct: 60, rating: 'SS' },
+  { pct: 65, rating: 'SS+' },
+  { pct: 70, rating: 'SSS' },
+  { pct: 75, rating: 'SSS+' },
+  { pct: 80, rating: 'WTF' },
+  { pct: 85, rating: 'WTF+' },
+] as const
 
 export function pctToRating(
   pct: number,
@@ -16,6 +32,8 @@ export function pctToRating(
   if (pct < 0) return '?'
   if (part !== Parts.Head && part !== Parts.Hands && hasCorrectMainStat === false) return '?'
 
-  const index = Math.min(PCT_THRESHOLDS.findLastIndex((t) => pct >= t), RATINGS.length - 1)
-  return index < 0 ? '?' : RATINGS[index]
+  for (let i = RATING_TIERS.length - 1; i >= 0; i--) {
+    if (pct >= RATING_TIERS[i].pct) return RATING_TIERS[i].rating
+  }
+  return '?'
 }

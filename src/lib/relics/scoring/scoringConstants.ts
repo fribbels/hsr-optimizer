@@ -34,7 +34,6 @@ export type ValidGrade = keyof typeof GRADE_CONFIG
 export const FLAT_STAT_SCALING = { HP: 0.4, ATK: 0.4, DEF: 0.4 } as const
 export const POSSIBLE_SUBSTATS = new Set(Constants.SubStats)
 
-export const RATINGS = ['F', 'F', 'F', 'F+', 'D', 'D+', 'C', 'C+', 'B', 'B+', 'A', 'A+', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+', 'WTF', 'WTF+'] as const
 
 export const DMG_MAINSTATS = [
   Stats.Physical_DMG,

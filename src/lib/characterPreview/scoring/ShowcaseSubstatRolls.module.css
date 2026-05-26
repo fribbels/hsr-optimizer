@@ -5,39 +5,6 @@
   align-items: center;
 }
 
-/* ─── Debug pills ────────────────────────────────────── */
-
-.debugPills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 3px;
-  margin-bottom: 4px;
-  justify-content: center;
-}
-
-.pill {
-  padding: 1px 5px;
-  border: 1px solid #555;
-  border-radius: 8px;
-  background: transparent;
-  color: #aaa;
-  font-size: 9px;
-  cursor: pointer;
-  font-family: inherit;
-  line-height: 1.4;
-}
-
-.pill:hover {
-  border-color: #888;
-  color: #ccc;
-}
-
-.pillActive {
-  background: #0e7eff;
-  color: #fff;
-  border-color: #0e7eff;
-}
-
 /* ─── Stat rows ──────────────────────────────────────── */
 
 .statGroup {
@@ -66,65 +33,6 @@
   text-align: right;
 }
 
-/* ─── Shared row layouts ─────────────────────────────── */
-
-.row2 { display: flex; gap: 2px; align-items: center; }
-.row3 { display: flex; gap: 3px; }
-
-/* ─── Empty ghost bar ───────────────────────────────── */
-
-.emptyGhost {
-  width: 12px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-/* ─── Track + Tiers bar ─────────────────────────────── */
-
-.track {
-  display: flex;
-  gap: 1px;
-  height: 4px;
-  border-radius: 2px;
-  background: rgba(255, 255, 255, 0.06);
-  overflow: hidden;
-}
-
-.bar4 { height: 4px; border-radius: 2px; }
-
-.tierGroup { display: flex; gap: 1px; height: 4px; }
-.tierSeg { height: 4px; }
-
-.track > .tierGroup:last-child > .tierSeg:last-child { border-radius: 0 2px 2px 0; }
-
-
-
-/* ─── Steps (8px wide, height varies) ────────────────── */
-
-.stepsRow { display: flex; align-items: flex-end; gap: 1px; height: 10px; }
-.step { width: 8px; border-radius: 1px; }
-
-/* ─── Chunky (10×8px) ────────────────────────────────── */
-
-.chunky { width: 10px; height: 8px; border-radius: 2px; }
-
-/* ─── Skyline (steps with ground + shadow) ───────────── */
-
-.skylineRow {
-  display: flex;
-  align-items: flex-end;
-  gap: 1px;
-  height: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  padding-bottom: 1px;
-}
-
-.sky {
-  width: 8px;
-  border-radius: 1px 1px 0 0;
-}
-
 /* ─── Stripe (continuous bar with track) ─────────────── */
 
 .stripeTrack {
@@ -143,29 +51,3 @@
 }
 
 .stripeTrack > .stripeGroup:last-child > .stripeSegment:last-child { border-radius: 0 3px 3px 0; }
-
-
-
-/* ─── Zones (fixed-position tiers with ghost slots) ──── */
-
-.zonesRow {
-  display: flex;
-  gap: 3px;
-  align-items: center;
-}
-
-.zone {
-  height: 4px;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.zoneGhost {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.zoneBar {
-  width: 100%;
-  height: 100%;
-  border-radius: 2px;
-}

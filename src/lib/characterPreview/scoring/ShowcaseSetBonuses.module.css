@@ -5,16 +5,6 @@
   align-items: center;
 }
 
-/* ─── Shared ─────────────────────────────────────────── */
-
-.cardsCol {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
-  padding: 2px 0;
-}
-
 .cardText {
   display: flex;
   flex-direction: column;
@@ -43,133 +33,11 @@
   flex-shrink: 0;
 }
 
-.setIconSm {
-  width: 28px;
-  height: 28px;
-  border-radius: 3px;
-  flex-shrink: 0;
-}
-
-/* ─── Basic ──────────────────────────────────────────── */
-
-.card {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 6px;
-  border-radius: 5px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* ─── Split ──────────────────────────────────────────── */
-
-.cardSplit {
-  display: flex;
-  align-items: stretch;
-  border-radius: 5px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.splitIconPanel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 6px;
-  background: rgba(255, 255, 255, 0.07);
-}
-
-.splitTextPanel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 4px 8px;
-  background: rgba(255, 255, 255, 0.02);
-  overflow: hidden;
-  min-width: 0;
-}
-
-/* ─── Cool ───────────────────────────────────────────── */
-
-.cardCool {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 8px;
-  border-radius: 6px;
-  background: rgba(100, 130, 200, 0.10);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ─── Dense ──────────────────────────────────────────── */
-
-.cardDense {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 4px 6px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* ─── Airy ───────────────────────────────────────────── */
-
-.cardsColAiry {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: 100%;
-  padding: 2px 0;
-}
-
-.cardAiry {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 9px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* ─── Tight ──────────────────────────────────────────── */
-
-.cardsColTight {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  width: 100%;
-  padding: 2px 0;
-}
-
-.cardTight {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 3px 5px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.cardNameSm {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 12px;
-}
-
-/* ─── Plain — no border, no bg ───────────────────────── */
-
 .cardPlain {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-
-/* ─── Separator — no bg, thin line between entries ───── */
 
 .separatorCol {
   display: flex;
@@ -178,28 +46,8 @@
   width: 100%;
 }
 
-/* ─── Separator lines (real elements) ────────────────── */
-
-.sepLine {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.06);
-}
-
-.sepFadeLine {
-  height: 1px;
-  margin: 0 4px;
-  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
-}
-
 .sepMidLine {
   height: 1px;
   margin: 0 8px;
   background: linear-gradient(to right, transparent 8%, rgba(255, 255, 255, 0.14) 25%, rgba(255, 255, 255, 0.14) 75%, transparent 92%);
 }
-
-.sepComboLine {
-  height: 1px;
-  margin: 0 12px;
-  background: linear-gradient(to right, transparent 5%, rgba(255, 255, 255, 0.18) 20%, rgba(255, 255, 255, 0.18) 80%, transparent 95%);
-}
-

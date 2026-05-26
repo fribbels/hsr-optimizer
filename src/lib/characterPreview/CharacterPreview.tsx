@@ -72,9 +72,10 @@ import {
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import type { RelicScoringResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
-import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import {
+  CONFIG_FIELD_MAP,
   isSimScoreMode,
+  SCORING_CONFIG_REGISTRY,
   ScoringType,
 } from 'lib/scoring/scoringConfig'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
@@ -379,9 +380,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
   // editorOverrides.forceSimScoreLayout overrides to DPS_SCORE layout for preview
+  const buildScoringType = savedBuildOverride?.scoringConfigType != null
+    ? SCORING_CONFIG_REGISTRY[savedBuildOverride.scoringConfigType].scoringType
+    : undefined
   const effectiveScoringType = editorOverrides?.forceSimScoreLayout
     ? ScoringType.DPS_SCORE
-    : (forceDebug ? ScoringType.SUBSTAT_SCORE : state.storedScoringType)
+    : (forceDebug ? ScoringType.SUBSTAT_SCORE : (buildScoringType ?? state.storedScoringType))
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
   // Cache-buster: portrait edits on the showcase tab wouldn't re-run the layout memo otherwise

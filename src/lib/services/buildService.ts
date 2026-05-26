@@ -1,9 +1,16 @@
 import i18next from 'i18next'
-import { handleTeamSelection } from 'lib/characterPreview/characterPreviewController'
+import {
+  handleTeamSelection,
+  resolveScoringType,
+} from 'lib/characterPreview/characterPreviewController'
 import { AppPages } from 'lib/constants/appPages'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
+import {
+  CONFIG_FIELD_MAP,
+  configTypeForScoringType,
+} from 'lib/scoring/scoringConfig'
 import {
   deserializeBuild,
   serializeFromCharacterTab,
@@ -49,12 +56,17 @@ export function saveBuild(
     const equipped = useOptimizerDisplayStore.getState().optimizerBuild ?? {}
     build = serializeFromOptimizer(name, characterId, state as typeof state & { lightCone: LightConeId }, equipped)
   } else {
-    const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceByConfig[characterId]?.[ScoringConfigType.DPS]
-    const teamSelection = handleTeamSelection(character, rawTeamSelection)
-    const simulation = getScoringMetadata(character.id)?.simulation
+    const scoringMetadata = getScoringMetadata(character.id)
+    const storedScoringType = useGlobalStore.getState().savedSession.scoringType
+    const effectiveScoringType = resolveScoringType(storedScoringType, scoringMetadata)
+    const configType = configTypeForScoringType(effectiveScoringType) ?? ScoringConfigType.DPS
+    const metadataField = CONFIG_FIELD_MAP[configType]
+    const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceByConfig[characterId]?.[configType]
+    const teamSelection = handleTeamSelection(character, rawTeamSelection, metadataField)
+    const simulation = scoringMetadata[metadataField]
     const useCustom = simulation && teamSelection !== DEFAULT_TEAM
-    const teammates = useCustom ? simulation.teammates : getGameMetadata().characters[characterId]?.scoringMetadata?.simulation?.teammates
-    build = serializeFromCharacterTab(name, character, teammates, teamSelection)
+    const teammates = useCustom ? simulation.teammates : getGameMetadata().characters[characterId]?.scoringMetadata?.[metadataField]?.teammates
+    build = serializeFromCharacterTab(name, character, teammates, configType)
   }
 
   const builds = [...(character.builds ?? [])]

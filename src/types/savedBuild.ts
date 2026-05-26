@@ -5,6 +5,7 @@ import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfi
 import type { CharacterId } from 'types/character'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type { LightConeId } from 'types/lightCone'
+import type { ScoringConfigType } from 'types/metadata'
 import type { Relic } from 'types/relic'
 
 export type Build = Partial<Record<Parts, Relic['id']>>
@@ -38,6 +39,7 @@ type SavedBuildBase = {
   characterEidolon: number,
   lightCone: LightConeId,
   lightConeSuperimposition: number,
+  scoringConfigType?: ScoringConfigType,
 }
 
 export type CharacterSavedBuild = SavedBuildBase & {

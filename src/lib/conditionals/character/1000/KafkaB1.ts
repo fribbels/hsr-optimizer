@@ -107,7 +107,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillScaling = skill(e, 1.60, 1.76)
   const ultScaling = ult(e, 0.80, 0.864)
   const fuaScaling = talent(e, 1.40, 1.596)
-  const dotScaling = ult(e, 2.90, 3.183)
+  const dotScaling = ult(e, 2.90, 3.18275)
 
   const fuaHitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)

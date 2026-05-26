@@ -95,7 +95,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const maxExtraHits = e < 1 ? 4 : 5
   const defaults = {
-    dotTickCoefficient: 20,
+    tickCoefficient: 20,
     targetDotTakenDebuff: true,
     skillExtraHits: maxExtraHits,
     targetWindShear: true,
@@ -126,8 +126,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('Content.targetWindShear.text'),
       content: t('Content.targetWindShear.content'),
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -201,7 +201,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Wind)
               .atkScaling(totalDotScaling)
               .dotBaseChance(0.65)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },

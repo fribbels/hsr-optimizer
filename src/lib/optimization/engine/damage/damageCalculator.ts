@@ -218,7 +218,7 @@ export const DotDamageFunction: DamageFunction = {
     const ehrMulti = calculateEhrMultiFromHit(x, hit, hitIndex, context)
     const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
 
-    const dotTickCoefficientMulti = hit.dotTickCoefficient ?? 1
+    const tickCoefficientMulti = hit.tickCoefficient ?? 1
 
     const dmg = m.baseUniversalMulti
       * m.defMulti
@@ -229,7 +229,7 @@ export const DotDamageFunction: DamageFunction = {
       * abilityMulti
       * ehrMulti
       * trueDmgMulti
-      * dotTickCoefficientMulti
+      * tickCoefficientMulti
 
     return dmg
   },
@@ -258,7 +258,7 @@ export const DotDamageFunction: DamageFunction = {
     const dotBaseChance = hit.dotBaseChance
     const dotSplit = hit.dotSplit ?? 0
     const dotStacks = hit.dotStacks ?? 1
-    const dotTickCoefficientMulti = hit.dotTickCoefficient ?? 1
+    const tickCoefficientMulti = hit.tickCoefficient ?? 1
     const shouldRecord = hit.recorded !== false
 
     const enemyEffectRes = context.enemyEffectResistance
@@ -307,7 +307,7 @@ export const DotDamageFunction: DamageFunction = {
     * abilityMulti
     * ehrMulti
     * trueDmgMulti
-    * ${dotTickCoefficientMulti};
+    * ${tickCoefficientMulti};
 
   ${shouldRecord ? 'comboDmg += damage;' : ''}
 
@@ -501,6 +501,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     const abilityMulti = calculateInitialDamage(x, hit, hitIndex, context)
     const critMulti = getAdditionalCritMultiplier(x, hit, hitIndex)
     const trueDmgMulti = 1 + x.getValue(StatKey.TRUE_DMG_MODIFIER, hitIndex) + (hit.trueDmgModifier ?? 0)
+    const tickCoefficientMulti = hit.tickCoefficient ?? 1
 
     const dmg = m.baseUniversalMulti
       * m.defMulti
@@ -511,6 +512,7 @@ export const AdditionalDamageFunction: DamageFunction = {
       * abilityMulti
       * critMulti
       * trueDmgMulti
+      * tickCoefficientMulti
 
     return dmg
   },
@@ -542,6 +544,7 @@ export const AdditionalDamageFunction: DamageFunction = {
     const cdExpr = hit.cdOverride != null
       ? `${hit.cdOverride}`
       : `${getValue(StatKey.CD)} + ${getValue(StatKey.CD_BOOST)}`
+    const tickCoefficientMulti = hit.tickCoefficient ?? 1
     const shouldRecord = hit.recorded !== false
 
     return wgsl`
@@ -581,7 +584,8 @@ export const AdditionalDamageFunction: DamageFunction = {
     * dmgBoostMulti
     * abilityMulti
     * critMulti
-    * trueDmgMulti;
+    * trueDmgMulti
+    * ${tickCoefficientMulti};
 
   ${shouldRecord ? 'comboDmg += damage;' : ''}
   ${wgslDebugHitRegister(hit, context)}

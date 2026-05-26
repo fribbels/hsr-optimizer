@@ -88,7 +88,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const dotChance = talent(e, 0.65, 0.68)
 
   const defaults = {
-    dotTickCoefficient: 2,
+    tickCoefficient: 2,
     ehrToDmgBoost: true,
     epiphanyDebuff: true,
     defDecreaseDebuff: true,
@@ -133,8 +133,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 1,
       max: 50,
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -221,7 +221,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Wind)
               .damageType(DamageTag.DOT)
               .atkScaling(dotScaling + arcanaStackMultiplier * r.arcanaStacks)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },

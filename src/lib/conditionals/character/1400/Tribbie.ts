@@ -33,7 +33,8 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_ULT,
-  END_ULT,
+  DEFAULT_UNIQUE,
+  END_FUA,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   WHOLE_BASIC,
@@ -64,13 +65,16 @@ import {
 export const TribbieEntities = createEnum('Tribbie')
 export const TribbieAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
+  AbilityKind.SKILL,
   AbilityKind.ULT,
   AbilityKind.FUA,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tribbie.Content')
+  const tUnique = wrappedFixedT(withContent).get(null, 'conditionals', 'Common.AdditionalTickCoefficient')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -101,6 +105,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: true,
     alliesMaxHp: 25000,
     talentFuaStacks: 3,
+    uniqueTickCoefficient: 8,
     cyreneSpecialEffect: true,
     e1TrueDmg: true,
     e2AdditionalDmg: true,
@@ -147,6 +152,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: t('talentFuaStacks.content'),
       min: 0,
       max: 3,
+    },
+    uniqueTickCoefficient: {
+      id: 'uniqueTickCoefficient',
+      formItem: 'slider',
+      text: tUnique('Text'),
+      content: tUnique('Content'),
+      min: 0,
+      max: 30,
+      percent: true,
     },
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
@@ -229,7 +243,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .hpScaling(basicScaling)
               .toughnessDmg(10)
               .build(),
-            // Additional damage from ultZone (HP-based)
             ...(
               (totalAdditionalScaling > 0)
                 ? [
@@ -242,6 +255,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
+        [AbilityKind.SKILL]: {
+          hits: [],
+        },
         [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
@@ -249,7 +265,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .hpScaling(ultScaling)
               .toughnessDmg(20)
               .build(),
-            // Additional damage from ultZone (HP-based)
             ...(
               (totalAdditionalScaling > 0)
                 ? [
@@ -269,13 +284,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .hpScaling(talentScaling)
               .toughnessDmg(5)
               .build(),
-            // Additional damage from ultZone (HP-based)
             ...(
               (totalAdditionalScaling > 0)
                 ? [
                   HitDefinitionBuilder.standardAdditional()
                     .damageElement(ElementTag.Quantum)
                     .hpScaling(totalAdditionalScaling)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [AbilityKind.UNIQUE]: {
+          hits: [
+            ...(
+              (totalAdditionalScaling > 0)
+                ? [
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Quantum)
+                    .hpScaling(totalAdditionalScaling)
+                    .tickCoefficient(r.uniqueTickCoefficient)
                     .build(),
                 ]
                 : []
@@ -362,16 +391,13 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
+    START_SKILL,
     DEFAULT_ULT,
-    DEFAULT_FUA,
-    DEFAULT_FUA,
-    WHOLE_BASIC,
-    DEFAULT_FUA,
-    DEFAULT_ULT,
-    DEFAULT_FUA,
+    END_FUA,
     WHOLE_BASIC,
     DEFAULT_FUA,
     DEFAULT_FUA,
+    DEFAULT_UNIQUE,
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,

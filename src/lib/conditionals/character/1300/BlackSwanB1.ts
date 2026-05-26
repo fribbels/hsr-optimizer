@@ -104,7 +104,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const arcanaStackLimit = e >= 6 ? 80 : 50
 
   const defaults = {
-    dotTickCoefficient: 2,
+    tickCoefficient: 2,
     skillDefShred: true,
     epiphanyDebuff: true,
     arcanaStacks: arcanaStackLimit,
@@ -152,8 +152,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('Content.ehrToDmgBoost.text'),
       content: t('Content.ehrToDmgBoost.content', {}),
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -250,7 +250,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Wind)
               .damageType(DamageTag.DOT)
               .atkScaling(dotScaling + arcanaStackMultiplier * r.arcanaStacks)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },

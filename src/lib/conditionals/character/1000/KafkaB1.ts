@@ -122,7 +122,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const defaults = {
-    dotTickCoefficient: 4,
+    tickCoefficient: 4,
     ehrBasedBuff: true,
     e1DotDmgReceivedDebuff: true,
     e2TeamDotDmg: true,
@@ -141,8 +141,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('ehrBasedBuff.text'),
       content: t('ehrBasedBuff.content'),
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -237,7 +237,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Lightning)
               .dotBaseChance(1.00)
               .atkScaling(dotTotalScaling)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },

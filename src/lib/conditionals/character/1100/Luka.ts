@@ -97,7 +97,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const dotScaling = skill(e, 3.38, 3.718)
 
   const defaults = {
-    dotTickCoefficient: 1,
+    tickCoefficient: 1,
     basicEnhanced: true,
     targetUltDebuffed: true,
     e1TargetBleeding: true,
@@ -130,8 +130,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: 3,
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -218,7 +218,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Physical)
               .atkScaling(dotScaling)
               .dotBaseChance(1.00)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },

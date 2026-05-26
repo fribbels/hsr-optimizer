@@ -66,7 +66,7 @@ function StripeViz({ entry, colors, scale }: { entry: AggregatedStatRolls; color
   )
 }
 
-// ─── Main Component ───────���─────────────────────────────────
+// ─── Main Component ─────────────────────────────────────────
 
 export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
   displayRelics,

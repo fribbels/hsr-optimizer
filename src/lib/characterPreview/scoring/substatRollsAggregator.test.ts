@@ -64,7 +64,7 @@ test('aggregates rolls across multiple relics with effective value', () => {
   const w = weights({ [Stats.CR]: 1, [Stats.CD]: 1, [Stats.ATK_P]: 0.75 } as Partial<Record<SubStats, number>>)
   const result = aggregateSubstatRolls(relics, w)
 
-  expect(result).toHaveLength(3)
+  expect(result).toHaveLength(6)
 
   const cr = result.find((r) => r.stat === Stats.CR)!
   expect(cr.high).toBe(3)
@@ -86,18 +86,30 @@ test('aggregates rolls across multiple relics with effective value', () => {
   expect(atk.low).toBe(0)
   expect(atk.total).toBe(2)
   expect(atk.effective).toBeCloseTo(1.8)
+
+  // Pool 3 fallback fills remaining 3 slots with zero-roll entries
+  const fillEntries = result.filter((r) => r.weight === 0)
+  expect(fillEntries).toHaveLength(3)
+  expect(fillEntries.every((r) => r.total === 0)).toBe(true)
 })
 
-test('includes weighted stats with zero rolls', () => {
+test('fills to 6 entries with fallback stats when few weighted stats', () => {
   const result = aggregateSubstatRolls(
     emptyRelics(),
     weights({ [Stats.CR]: 1, [Stats.CD]: 0.5 } as Partial<Record<SubStats, number>>),
   )
-  expect(result).toHaveLength(2)
-  expect(result.every((r) => r.total === 0 && r.effective === 0)).toBe(true)
+  expect(result).toHaveLength(6)
+
+  const weighted = result.filter((r) => r.weight > 0)
+  expect(weighted).toHaveLength(2)
+  expect(weighted.every((r) => r.total === 0 && r.effective === 0)).toBe(true)
+
+  const fallback = result.filter((r) => r.weight === 0)
+  expect(fallback).toHaveLength(4)
+  expect(fallback.every((r) => r.total === 0)).toBe(true)
 })
 
-test('excludes stats with zero weight', () => {
+test('includes unweighted stats with rolls via Pool 2', () => {
   const relics = emptyRelics({
     Head: mockRelic('Head', [
       { stat: Stats.CR as SubStats, value: 6.48, rolls: { high: 2, mid: 0, low: 0 }, addedRolls: 1 },
@@ -108,8 +120,13 @@ test('excludes stats with zero weight', () => {
   const w = weights({ [Stats.CR]: 1 } as Partial<Record<SubStats, number>>)
   const result = aggregateSubstatRolls(relics, w)
 
-  expect(result).toHaveLength(1)
+  expect(result).toHaveLength(6)
   expect(result[0].stat).toBe(Stats.CR)
+
+  // EHR has rolls but zero weight — picked up by Pool 2
+  const ehr = result.find((r) => r.stat === Stats.EHR)!
+  expect(ehr.total).toBe(2)
+  expect(ehr.weight).toBe(0)
 })
 
 test('handles partial relic sets', () => {
@@ -122,8 +139,33 @@ test('handles partial relic sets', () => {
   const w = weights({ [Stats.SPD]: 1 } as Partial<Record<SubStats, number>>)
   const result = aggregateSubstatRolls(relics, w)
 
-  expect(result).toHaveLength(1)
+  expect(result).toHaveLength(6)
   expect(result[0].stat).toBe(Stats.SPD)
   expect(result[0].total).toBe(2)
   expect(result[0].effective).toBeCloseTo(1.9)
+})
+
+test('caps result at 6 entries when many weighted stats exist', () => {
+  const w = weights({
+    [Stats.CR]: 1, [Stats.CD]: 1, [Stats.ATK_P]: 1, [Stats.HP_P]: 1,
+    [Stats.DEF_P]: 1, [Stats.SPD]: 1, [Stats.EHR]: 1, [Stats.BE]: 1,
+  } as Partial<Record<SubStats, number>>)
+  const result = aggregateSubstatRolls(emptyRelics(), w)
+  expect(result).toHaveLength(6)
+})
+
+test('flat stats sort last on effective tie', () => {
+  const relics = emptyRelics({
+    Head: mockRelic('Head', [
+      { stat: Stats.ATK as SubStats, value: 20, rolls: { high: 1, mid: 0, low: 0 }, addedRolls: 0 },
+      { stat: Stats.CR as SubStats, value: 3.24, rolls: { high: 1, mid: 0, low: 0 }, addedRolls: 0 },
+    ]),
+  })
+
+  const w = weights({ [Stats.ATK]: 0.4, [Stats.CR]: 1 } as Partial<Record<SubStats, number>>)
+  const result = aggregateSubstatRolls(relics, w)
+
+  const crIdx = result.findIndex((r) => r.stat === Stats.CR)
+  const atkIdx = result.findIndex((r) => r.stat === Stats.ATK)
+  expect(crIdx).toBeLessThan(atkIdx)
 })

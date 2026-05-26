@@ -167,6 +167,9 @@ function pickCombatStats(characterMetadata: DBMetadataCharacter, simulationMetad
   let substats: StatsValues[] = [...simulationMetadata.substats as SubStats[]]
 
   substats.push(Stats.SPD)
+  if (configType !== ScoringConfigType.DPS) {
+    substats.push(Stats.RES)
+  }
 
   // Dedupe, remove flats, standardize order
   substats = filterUnique(substats).filter((x) => !percentFlatStats[x])

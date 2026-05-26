@@ -110,7 +110,7 @@ export function RelicsGrid() {
     pendingResultRef.current = null
 
     if (relics.length === 0) {
-      setScoredRelics(null)
+      setScoredRelics([])
       return
     }
 

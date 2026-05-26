@@ -111,12 +111,14 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   const selfOptions = Array.from({ length: 3 }).map((_val, i) => ({
     display: t('Sacerdos.Display', { stackCount: i }),
     value: i,
-    label: t('Sacerdos.Label', { stackCount: i, buffValue: 18 * i }),
+    label: i === 0
+      ? '0 stacks: (+0% CD)'
+      : `Incoming buff: ${i} stack${i === 1 ? '' : 's'} (+${18 * i}% CD)`,
   }))
   const teammateOptions = [1, 2].map((stacks) => ({
-    display: `${stacks} (teammate)`,
+    display: `${stacks}x ally`,
     value: stacks + 2,
-    label: `${stacks} stack${stacks > 1 ? 's' : ''} (teammate buff) — ${18 * stacks}% CD`,
+    label: `Outgoing buff to ally: ${stacks} stack${stacks === 1 ? '' : 's'} (+${18 * stacks}% CD)`,
   }))
   return [...selfOptions, ...teammateOptions]
 }

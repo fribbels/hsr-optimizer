@@ -111,15 +111,17 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
   let inputType
   if (selectOptions) {
     const stringSelectOptions = selectOptions.map((opt) => ({
-      label: opt.display || opt.label,
+      label: opt.display || String(opt.value),
       value: String(opt.value),
     }))
+    const labelByValue = new Map(selectOptions.map((opt) => [String(opt.value), opt.label]))
     inputType = (
       <Select
         maxDropdownHeight={500}
         style={{ width: setConditionalsWidth }}
-        comboboxProps={{ keepMounted: false, width: 160 }}
+        comboboxProps={{ keepMounted: false, width: 'fit-content' }}
         data={stringSelectOptions}
+        renderOption={({ option }) => <>{labelByValue.get(option.value) || option.label}</>}
         value={value != null ? String(value) : null}
         onChange={(val) => handleChange(val != null ? Number(val) : null)}
       />

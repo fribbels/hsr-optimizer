@@ -1,9 +1,18 @@
+import {
+  aoe,
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
 import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -21,6 +30,7 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
   ConditionalType,
+  ELEMENTAL_DMG_KEY,
   Parts,
   Sets,
   Stats,
@@ -98,6 +108,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillMainScaling = skill(e, 3.00, 3.30)
   const ultAoeScaling = ult(e, 1.60, 1.76)
   const ultBounceScaling = ult(e, 1.20, 1.296)
+
+  const ultHitMulti = ashblazingMulti([
+    aoe(ultAoeScaling),
+    ...Array(5).fill(single(ultBounceScaling)),
+  ])
 
   const cdToElationRatio = 0.20
   const talentSkillElationScaling = talent(e, 0.16, 0.176)
@@ -351,8 +366,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
 
     // Talent: CD to Elation conversion
     dynamicConditionals: [{
@@ -435,7 +453,7 @@ const simulation = (): SimulationMetadata => ({
   comboDot: 0,
   errRopeEidolon: 0,
   combatStatsConfig: [
-    { add: Stats.ERR, remove: 'ELEMENTAL_DMG' },
+    { add: Stats.ERR, remove: ELEMENTAL_DMG_KEY },
   ],
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
@@ -497,6 +515,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],

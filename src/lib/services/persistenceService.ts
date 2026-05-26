@@ -29,7 +29,6 @@ import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
-import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import {
   savedSessionDefaults,
   useGlobalStore,
@@ -39,6 +38,7 @@ import {
   getCharacters,
   useCharacterStore,
 } from 'lib/stores/character/characterStore'
+import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   getRelicById,
@@ -510,7 +510,7 @@ function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['ch
   // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
   // @ts-expect-error - Migration: legacy save format field not in current types
   if (character.form.resultSort === 'WEIGHT') {
-    character.form.resultSort = 'SPD'
+    character.form.resultSort = SortOption.SPD.key
   }
 
   // Validate that the saved resultSort is a valid sort option, otherwise reset to default

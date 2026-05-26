@@ -1,14 +1,27 @@
-import { Modal, ScrollArea } from '@mantine/core'
+import {
+  Modal,
+  ScrollArea,
+} from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
-import { OpenCloseIDs, setOpen, useOpenClose } from 'lib/hooks/useOpenClose'
+import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
+import {
+  OpenCloseIDs,
+  setOpen,
+  useOpenClose,
+} from 'lib/hooks/useOpenClose'
+import { CtaCards } from 'lib/overlays/modals/changelogCta/CtaCards'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import { getChangelogContent } from 'lib/tabs/tabChangelog/changelogData'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import { CtaCards } from 'lib/overlays/modals/changelogCta/CtaCards'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import classes from './ChangelogModal.module.css'
 
 globalThis.openChangelogModal = () => setOpen(OpenCloseIDs.CHANGELOG_MODAL)
@@ -30,7 +43,7 @@ export function ChangelogModal() {
     return () => clearTimeout(t)
   }, [isOpen])
 
-  const handleScroll = useCallback((position: { x: number; y: number }) => {
+  const handleScroll = useCallback((position: { x: number, y: number }) => {
     const viewport = viewportRef.current
     if (!viewport) return
     const isAtBottom = position.y + viewport.clientHeight >= viewport.scrollHeight - 20
@@ -67,7 +80,6 @@ export function ChangelogModal() {
         header: classes.header,
       }}
     >
-
       <ScrollArea
         className={classes.scrollArea}
         type='scroll'

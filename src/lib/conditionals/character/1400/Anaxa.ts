@@ -5,6 +5,11 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -83,6 +88,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1405')
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.70, 0.77)
@@ -256,13 +263,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Skill DMG boost based on enemy count
-      x.buff(StatKey.DMG_BOOST, context.enemyCount * 0.20, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, context.enemyCount * 0.20, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
 
       // Trace: DEF PEN based on enemy weakness types
       x.buff(StatKey.DEF_PEN, r.enemyWeaknessTypes * 0.04, x.source(SOURCE_TRACE))
 
       // Talent: DMG boost when Exposed Nature active
-      x.buff(StatKey.DMG_BOOST, r.exposedNature ? talentDmgScaling : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, r.exposedNature ? talentDmgScaling : 0, x.source(SOURCE_TALENT))
 
       // E4: ATK% buff stacks
       x.buff(StatKey.ATK_P, (e >= 4) ? r.e4AtkBuffStacks * 0.30 : 0, x.source(SOURCE_E4))
@@ -286,7 +293,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Trace: DMG boost when 2+ Erudition members or E6 active
       const eruditionMembers = countTeamPath(context, PathNames.Erudition)
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (m.eruditionTeammateBuffs && eruditionMembers >= 2 || e >= 6 && m.e6Buffs) ? 0.50 : 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_TRACE),
       )
@@ -304,7 +311,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         ? (cyreneSpecialEffectEidolonUpgraded(originalCharacterAction!) ? 0.44 : 0.40)
         : 0
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         cyreneBuffActive ? cyreneSkillDmgBuff : 0,
         x.damageType(DamageTag.SKILL).targets(TargetTag.SelfAndPet).source(Source.odeTo(Anaxa.id)),
       )
@@ -319,8 +326,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -434,6 +444,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnPioneerSet(4),
     PresetEffects.GENIUS_SET,
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],

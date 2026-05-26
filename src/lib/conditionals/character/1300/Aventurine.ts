@@ -1,6 +1,7 @@
 import { Topaz } from 'lib/conditionals/character/1100/Topaz'
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -13,6 +14,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import {
@@ -35,6 +37,7 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   DEFAULT_FUA,
+  DEFAULT_SKILL_SHIELD,
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
@@ -47,6 +50,7 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_SHIELD,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { floorSafe } from 'lib/utils/mathUtils'
@@ -252,21 +256,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.DEF_P, (e >= 4 && r.e4DefBuff) ? 0.40 : 0, x.source(SOURCE_E4))
-      x.buff(StatKey.DMG_BOOST, (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6) ? Math.min(1.50, 0.50 * r.e6ShieldStacks) : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.RES, (m.fortifiedWagerBuff) ? talentResScaling : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
-      x.buff(StatKey.CD, (m.enemyUnnervedDebuff) ? ultCdBoost : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
+      x.buff(StatKey.CD_BOOST, (m.enemyUnnervedDebuff) ? ultCdBoost : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.CD, (e >= 1 && m.fortifiedWagerBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
       x.buff(StatKey.RES_PEN, (e >= 2 && m.e2ResShred) ? 0.12 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
     dynamicConditionals: [{
       id: 'AventurineConversionConditional',
@@ -384,6 +387,57 @@ const simulation = (): SimulationMetadata => ({
   ],
 })
 
+const shieldSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.DEF_P],
+    [Parts.Feet]: [Stats.DEF_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.DEF_P, Stats.ERR],
+  },
+  substats: [
+    Stats.DEF_P,
+    Stats.DEF,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_SHIELD,
+    DEFAULT_SKILL_SHIELD,
+  ],
+  relicSets: [
+    [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
+    ...SPREAD_RELICS_4P_SHIELD,
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Feixiao.id,
+      lightCone: IVentureForthToHunt.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Topaz.id,
+      lightCone: WorrisomeBlissful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
@@ -429,6 +483,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  shieldSimulation: shieldSimulation(),
 })
 
 const display = {

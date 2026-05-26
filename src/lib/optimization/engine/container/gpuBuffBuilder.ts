@@ -21,6 +21,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type OptimizerEntity } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type BuffHit } from 'types/hitConditionalTypes'
 import { type OptimizerAction } from 'types/optimizer'
 
 export function matchesTargetTag(entity: OptimizerEntity, targetTag: TargetTag, entities?: OptimizerEntity[]): boolean {
@@ -128,6 +129,7 @@ class HitBuffBuilder {
   private _directnessTag: number = ALL_DIRECTNESS_TAGS
   private _actionKind: string | undefined = undefined
   private _deferrable: boolean = false
+  private _buffStatFilter: AKeyValue | null = null
   private readonly hitKey: HKeyValue
   private readonly value: WgslBuffValue
 
@@ -156,6 +158,12 @@ class HitBuffBuilder {
 
   outputType(o: OutputTag): this {
     this._outputTags = o
+    return this
+  }
+
+  outputBuff(stat: AKeyValue): this {
+    this._outputTags = OutputTag.BUFF
+    this._buffStatFilter = stat
     return this
   }
 
@@ -197,7 +205,7 @@ class HitBuffBuilder {
 
     // Elemental damage boosts (e.g. +Ice DMG) don't affect break damage.
     // When buffing DMG_BOOST with element filtering, exclude break hits.
-    const isElementalDmgBoost = this.hitKey === HKey.DMG_BOOST && this._elementTags !== ALL_ELEMENT_TAGS
+    const isElementalDmgBoost = this.hitKey === HKey.BOOST && this._elementTags !== ALL_ELEMENT_TAGS
     const excludeBreakDamage = DamageTag.BREAK | DamageTag.SUPER_BREAK
     const effectiveDamageTags = isElementalDmgBoost
       ? this._damageTags & ~excludeBreakDamage
@@ -221,8 +229,9 @@ class HitBuffBuilder {
         const damageMatches = effectiveDamageTags === ALL_DAMAGE_TAGS || (hit.damageType & effectiveDamageTags)
         const elementMatches = this._elementTags === ALL_ELEMENT_TAGS || (hit.damageElement & this._elementTags)
         const outputMatches = hit.outputTag & this._outputTags
+        const buffStatMatches = !this._buffStatFilter || (hit as BuffHit).buffStat === this._buffStatFilter
 
-        if (directnessMatches && entityMatches && damageMatches && elementMatches && outputMatches) {
+        if (directnessMatches && entityMatches && damageMatches && elementMatches && outputMatches && buffStatMatches) {
           lines.push(code)
         } else {
           lines.push(`// ${code}`)

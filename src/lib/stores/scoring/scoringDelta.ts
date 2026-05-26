@@ -105,6 +105,27 @@ export function mergeDeltaWithDefaults(
     result.simulation = clone(override.simulation) as SimulationMetadata // Clone to avoid shared reference
   }
 
+  // Deep-merge supportSimulation
+  if (override?.supportSimulation && defaults.supportSimulation) {
+    result.supportSimulation = { ...clone(defaults.supportSimulation), ...override.supportSimulation } as SimulationMetadata
+  } else if (override?.supportSimulation) {
+    result.supportSimulation = clone(override.supportSimulation) as SimulationMetadata
+  }
+
+  // Deep-merge healSimulation
+  if (override?.healSimulation && defaults.healSimulation) {
+    result.healSimulation = { ...clone(defaults.healSimulation), ...override.healSimulation } as SimulationMetadata
+  } else if (override?.healSimulation) {
+    result.healSimulation = clone(override.healSimulation) as SimulationMetadata
+  }
+
+  // Deep-merge shieldSimulation
+  if (override?.shieldSimulation && defaults.shieldSimulation) {
+    result.shieldSimulation = { ...clone(defaults.shieldSimulation), ...override.shieldSimulation } as SimulationMetadata
+  } else if (override?.shieldSimulation) {
+    result.shieldSimulation = clone(override.shieldSimulation) as SimulationMetadata
+  }
+
   // Traces: full replacement
   if (override?.traces) {
     result.traces = override.traces
@@ -152,6 +173,21 @@ export function mergeAndPruneOverride(
   } else if (existing?.simulation) {
     result.simulation = existing.simulation
   }
+  if (update.supportSimulation !== undefined) {
+    result.supportSimulation = update.supportSimulation
+  } else if (existing?.supportSimulation) {
+    result.supportSimulation = existing.supportSimulation
+  }
+  if (update.healSimulation !== undefined) {
+    result.healSimulation = update.healSimulation
+  } else if (existing?.healSimulation) {
+    result.healSimulation = existing.healSimulation
+  }
+  if (update.shieldSimulation !== undefined) {
+    result.shieldSimulation = update.shieldSimulation
+  } else if (existing?.shieldSimulation) {
+    result.shieldSimulation = existing.shieldSimulation
+  }
   if (update.traces !== undefined) {
     result.traces = update.traces
   } else if (existing?.traces) {
@@ -159,7 +195,8 @@ export function mergeAndPruneOverride(
   }
 
   // Check if result has any content
-  const hasContent = result.stats || result.parts || result.simulation || result.traces
+  const hasContent = result.stats || result.parts || result.simulation || result.supportSimulation || result.healSimulation || result.shieldSimulation
+    || result.traces
   return hasContent ? result : undefined
 }
 
@@ -201,10 +238,14 @@ export function pruneOverridesOnLoad(
       if (prunedStats) pruned.stats = prunedStats
       if (prunedParts) pruned.parts = prunedParts
       if (override.simulation) pruned.simulation = override.simulation
+      if (override.supportSimulation) pruned.supportSimulation = override.supportSimulation
+      if (override.healSimulation) pruned.healSimulation = override.healSimulation
+      if (override.shieldSimulation) pruned.shieldSimulation = override.shieldSimulation
       if (override.traces) pruned.traces = override.traces
 
       // Only store if has content
-      const hasContent = pruned.stats || pruned.parts || pruned.simulation || pruned.traces
+      const hasContent = pruned.stats || pruned.parts || pruned.simulation || pruned.supportSimulation || pruned.healSimulation || pruned.shieldSimulation
+        || pruned.traces
       if (hasContent) {
         result[id] = pruned
       } else {

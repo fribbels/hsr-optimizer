@@ -46,7 +46,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.SPD_P, (r.spdDmgBuff) ? sValuesSpd[s] : 0, x.source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (r.spdDmgBuff) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.spdDmgBuff) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
     },
   }
 }

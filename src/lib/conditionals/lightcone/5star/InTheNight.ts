@@ -63,7 +63,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const stacks = Math.max(0, Math.min(6, floorSafe((spd - 100) / 10)))
 
-      x.buff(StatKey.DMG_BOOST, (r.spdScalingBuffs) ? stacks * sValuesDmg[s] : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.spdScalingBuffs) ? stacks * sValuesDmg[s] : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL).source(SOURCE_LC))
       x.buff(StatKey.CD, (r.spdScalingBuffs) ? stacks * sValuesCd[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -72,7 +72,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       return wgsl`
 if (${wgslTrue(r.spdScalingBuffs)}) {
   let stacks = max(0.0, min(6.0, floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} - 100.0) / 10.0)));
-  ${buff.hit(HKey.DMG_BOOST, `stacks * ${sValuesDmg[s]}`).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action)}
+  ${buff.hit(HKey.BOOST, `stacks * ${sValuesDmg[s]}`).damageType(DamageTag.BASIC | DamageTag.SKILL).wgsl(action)}
   ${buff.hit(HKey.CD, `stacks * ${sValuesCd[s]}`).damageType(DamageTag.ULT).wgsl(action)}
 }
       `

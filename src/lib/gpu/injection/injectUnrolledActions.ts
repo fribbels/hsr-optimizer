@@ -51,7 +51,12 @@ export function injectUnrolledActions(wgsl: string, request: Form, context: Opti
 }
 
 function generateUnrolledActions(request: Form, context: OptimizerContext, gpuParams: GpuConstants) {
-  let calls = '\n    var comboDmg: f32 = 0;\n'
+  let calls = `
+    var comboDmg: f32 = 0;
+    var comboHeal: f32 = 0;
+    var comboShield: f32 = 0;
+    var comboBuff: f32 = 0;
+`
   let functions = ''
 
   for (let i = 0; i < context.defaultActions.length; i++) {
@@ -100,7 +105,13 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
     calls += generateSortOptionReturn(request, context)
   } else {
     const comboGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_DMG, context)
+    const healGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_HEAL, context)
+    const shieldGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_SHIELD, context)
+    const buffGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_BUFF, context)
     calls += `    debugContainer[${comboGlobalRegIdx}] = comboDmg; // GlobalRegister[COMBO_DMG]\n`
+    calls += `    debugContainer[${healGlobalRegIdx}] = comboHeal; // GlobalRegister[COMBO_HEAL]\n`
+    calls += `    debugContainer[${shieldGlobalRegIdx}] = comboShield; // GlobalRegister[COMBO_SHIELD]\n`
+    calls += `    debugContainer[${buffGlobalRegIdx}] = comboBuff; // GlobalRegister[COMBO_BUFF]\n`
     calls += `
     results[indexGlobal * CYCLES_PER_INVOCATION + i] = debugContainer;
 `
@@ -113,6 +124,9 @@ function isAbilitySortAction(request: Form, action: OptimizerAction): boolean {
   const sortOption = SortOption[request.resultSort!]
   return !!sortOption?.isComputedRating
     && sortOption.key !== SortOption.COMBO.key
+    && sortOption.key !== SortOption.COMBO_HEAL.key
+    && sortOption.key !== SortOption.COMBO_SHIELD.key
+    && sortOption.key !== SortOption.COMBO_BUFF.key
     && sortOption.key !== SortOption.EHP.key
     && action.actionName === sortOption.key
 }
@@ -179,7 +193,7 @@ function generateRatingFilters(request: Form, context: OptimizerContext, gpuPara
  *   CPU decodes via assignment table to reconstruct absolute relic positions.
  * Naive mode: dispatch-local index (CPU adds offset on readback).
  */
-function compactWrite(valueExpr: string): string {
+function writeCompactResult(valueExpr: string): string {
   return indent(
     `
 // Tuple mode: pack (workgroup_in_batch, threadLocalOffset) into u32 so the CPU can
@@ -226,12 +240,12 @@ function generateSortOptionReturn(request: Form, context: OptimizerContext): str
     return `
     if (statDisplay == 1) {
       if (c.${sortKey} > threshold) {
-${compactWrite(`c.${sortKey}`)}
+${writeCompactResult(`c.${sortKey}`)}
       }
     } else {
       let sortValue = container0[${statIndex}]${boostExpr};
       if (sortValue > threshold) {
-${compactWrite('sortValue')}
+${writeCompactResult('sortValue')}
       }
     }
 `
@@ -240,7 +254,31 @@ ${compactWrite('sortValue')}
   if (sortKey === SortOption.COMBO.key) {
     return `
     if (comboDmg > threshold) {
-${compactWrite('comboDmg')}
+${writeCompactResult('comboDmg')}
+    }
+`
+  }
+
+  if (sortKey === SortOption.COMBO_HEAL.key) {
+    return `
+    if (comboHeal > threshold) {
+${writeCompactResult('comboHeal')}
+    }
+`
+  }
+
+  if (sortKey === SortOption.COMBO_SHIELD.key) {
+    return `
+    if (comboShield > threshold) {
+${writeCompactResult('comboShield')}
+    }
+`
+  }
+
+  if (sortKey === SortOption.COMBO_BUFF.key) {
+    return `
+    if (comboBuff > threshold) {
+${writeCompactResult('comboBuff')}
     }
 `
   }
@@ -248,7 +286,7 @@ ${compactWrite('comboDmg')}
   if (sortKey === SortOption.EHP.key) {
     return `
     if (ehp0 > threshold) {
-${compactWrite('ehp0')}
+${writeCompactResult('ehp0')}
     }
 `
   }
@@ -261,12 +299,12 @@ ${compactWrite('ehp0')}
   if (matchingIndex >= 0) {
     return `
     if (dmg${matchingIndex} > threshold) {
-${compactWrite(`dmg${matchingIndex}`)}
+${writeCompactResult(`dmg${matchingIndex}`)}
     }
 `
   }
 
-  throw new Error(`GPU sort: unsupported sort option '${sortKey}'`)
+  throw new Error(`Unhandled sort option: ${sortKey}`)
 }
 
 function generateRegisterCopy(actionIndex: number, action: OptimizerAction, context: OptimizerContext): string {
@@ -294,7 +332,7 @@ function generateRegisterCopy(actionIndex: number, action: OptimizerAction, cont
 }
 
 // dprint-ignore
-function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants, addToComboDmg: boolean) {
+function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants, isRotationAction: boolean) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
   const lightConeConditionals: LightConeConditionalsController = LightConeConditionalsResolver.get(context)
 
@@ -343,9 +381,17 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   //////////
 
-  const actionCall = `
+  let actionCall: string
+  let actionFunction: string
+
+  if (isRotationAction) {
+    actionCall = `
     var container${index}: array<f32, ${context.maxContainerArrayLength}> = precomputedStats[${index}];
     let dmg${index} = unrolledAction${index}(
+      &comboDmg,
+      &comboHeal,
+      &comboShield,
+      &comboBuff,
       &container${index},
       &sets,
       &c,
@@ -361,10 +407,14 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
       diffERR,
       diffOHB,
     );
-${addToComboDmg ? `    comboDmg += dmg${index};\n` : ''}`
-  
-  const actionFunction = `
+`
+
+    actionFunction = `
 fn unrolledAction${index}(
+  p_comboDmg: ptr<function, f32>,
+  p_comboHeal: ptr<function, f32>,
+  p_comboShield: ptr<function, f32>,
+  p_comboBuff: ptr<function, f32>,
   p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>,
   p_sets: ptr<function, Sets>,
   p_c: ptr<function, BasicStats>,
@@ -379,7 +429,7 @@ fn unrolledAction${index}(
   diffBE: f32,
   diffERR: f32,
   diffOHB: f32,
-) -> f32 { // Action ${index} - ${action.actionName} 
+) -> f32 { // Action ${index} - ${action.actionName} (rotation)
   let setConditionals = action${index}.setConditionals;
   var state = ConditionalState();
   let p_state = &state;
@@ -388,6 +438,7 @@ fn unrolledAction${index}(
   var comboDmg = 0.0;
   var comboHeal = 0.0;
   var comboShield = 0.0;
+  var comboBuff = 0.0;
 
   ${setCombatWgsl}
 
@@ -395,28 +446,100 @@ fn unrolledAction${index}(
   ${unrollEntityBaseStats(action)}
 
   ${basicConditionalsWgsl}
-  
+
   ${conditionalSequenceWgsl}
-  
+
   ${characterConditionalWgsl}
-  
+
   ${lightConeConditionalWgsl}
 
   ${setTerminalWgsl}
-  
+
   ${damageCalculationWgsl}
-  
-  // Combat stat filters
-  
-  // Basic stat filters
-  
-  // Rating stat filters
-  
-  // Return value
-  
-  return comboDmg + comboHeal + comboShield;
+
+  // Accumulate into outer scope accumulators by output type
+  *p_comboDmg += comboDmg;
+  *p_comboHeal += comboHeal;
+  *p_comboShield += comboShield;
+  *p_comboBuff += comboBuff;
+
+  // Return total for debug register copy
+  return comboDmg + comboHeal + comboShield + comboBuff;
 }
   `
+  } else {
+    actionCall = `
+    var container${index}: array<f32, ${context.maxContainerArrayLength}> = precomputedStats[${index}];
+    let dmg${index} = unrolledAction${index}(
+      &comboBuff,
+      &container${index},
+      &sets,
+      &c,
+      diffATK,
+      diffDEF,
+      diffHP,
+      diffSPD,
+      diffCD,
+      diffCR,
+      diffEHR,
+      diffRES,
+      diffBE,
+      diffERR,
+      diffOHB,
+    );
+`
+
+    actionFunction = `
+fn unrolledAction${index}(
+  p_comboBuff: ptr<function, f32>,
+  p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>,
+  p_sets: ptr<function, Sets>,
+  p_c: ptr<function, BasicStats>,
+  diffATK: f32,
+  diffDEF: f32,
+  diffHP: f32,
+  diffSPD: f32,
+  diffCD: f32,
+  diffCR: f32,
+  diffEHR: f32,
+  diffRES: f32,
+  diffBE: f32,
+  diffERR: f32,
+  diffOHB: f32,
+) -> f32 { // Action ${index} - ${action.actionName}
+  let setConditionals = action${index}.setConditionals;
+  var state = ConditionalState();
+  let p_state = &state;
+  state.actionIndex = ${index};
+
+  var comboDmg = 0.0;
+  var comboHeal = 0.0;
+  var comboShield = 0.0;
+  var comboBuff = 0.0;
+
+  ${setCombatWgsl}
+
+  // Set the Action-scope stats, to be added to the Hit-scope stats later
+  ${unrollEntityBaseStats(action)}
+
+  ${basicConditionalsWgsl}
+
+  ${conditionalSequenceWgsl}
+
+  ${characterConditionalWgsl}
+
+  ${lightConeConditionalWgsl}
+
+  ${setTerminalWgsl}
+
+  ${damageCalculationWgsl}
+
+  *p_comboBuff += comboBuff;
+
+  return comboDmg + comboHeal + comboShield + comboBuff;
+}
+  `
+  }
 
   return { actionCall, actionFunction }
 }
@@ -432,7 +555,7 @@ function unrollDamageCalculations(action: OptimizerAction, context: OptimizerCon
 
   if (gpuParams.DEBUG) {
     // Set action register with total combo damage
-    code += wgslDebugActionRegister(action, context, 'comboDmg + comboHeal + comboShield') + '\n'
+    code += wgslDebugActionRegister(action, context, 'comboDmg + comboHeal + comboShield + comboBuff') + '\n'
   }
 
   return wgsl`

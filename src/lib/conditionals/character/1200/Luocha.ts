@@ -1,3 +1,11 @@
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -5,8 +13,12 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -18,17 +30,29 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_HEAL,
+  SPREAD_RELICS_4P_HEAL,
+} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
 
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_SKILL_HEAL,
+  DEFAULT_TALENT_HEAL,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 export const LuochaEntities = createEnum('Luocha')
 export const LuochaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -54,6 +78,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1203')
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const ultScaling = ult(e, 2.00, 2.16)
@@ -168,10 +194,64 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
+
+const healSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.OHB],
+    [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ATK_P],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.RES,
+    Stats.DEF_P,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_HEAL,
+    DEFAULT_TALENT_HEAL,
+  ],
+  relicSets: [
+    [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
+    ...SPREAD_RELICS_4P_HEAL,
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_HEAL,
+  ],
+  teammates: [
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -211,10 +291,12 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.WASTELANDER_SET,
     PresetEffects.WARRIOR_SET,
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
   sortOption: SortOption.SPD,
   addedColumns: [SortOption.OHB],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  healSimulation: healSimulation(),
 })
 
 const display = {

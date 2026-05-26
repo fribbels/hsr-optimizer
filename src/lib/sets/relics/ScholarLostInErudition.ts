@@ -48,9 +48,9 @@ const conditionals: SetConditionals = {
     c.CR.buff(0.08, Source.ScholarLostInErudition)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.ULT | DamageTag.SKILL).source(Source.ScholarLostInErudition))
+    x.buff(StatKey.BOOST, 0.20, x.damageType(DamageTag.ULT | DamageTag.SKILL).source(Source.ScholarLostInErudition))
     if (setConditionals.enabledScholarLostInErudition) {
-      x.buff(StatKey.DMG_BOOST, 0.25, x.damageType(DamageTag.SKILL).source(Source.ScholarLostInErudition))
+      x.buff(StatKey.BOOST, 0.25, x.damageType(DamageTag.SKILL).source(Source.ScholarLostInErudition))
     }
   },
   gpuBasic: () => [
@@ -58,9 +58,9 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_ScholarLostInErudition) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, 0.20).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}
       if (setConditionals.enabledScholarLostInErudition == true) {
-        ${buff.hit(HKey.DMG_BOOST, 0.25).damageType(DamageTag.SKILL).wgsl(action, 3)}
+        ${buff.hit(HKey.BOOST, 0.25).damageType(DamageTag.SKILL).wgsl(action, 3)}
       }
     }
   `,

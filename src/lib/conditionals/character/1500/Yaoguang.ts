@@ -72,6 +72,7 @@ export const YaoguangAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.ELATION_SKILL,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals: CharacterConditionalFunction = (e, withContent) => {
@@ -291,6 +292,15 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ELATION)
+              .sourceStat(StatKey.ELATION)
+              .scaling(skillElationBuff)
+              .build(),
           ],
         },
       }

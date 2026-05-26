@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -24,7 +24,7 @@ interface Resources {
       "BasicStats": "Basic Stats",
       "CombatStats": "Combat Stats",
       "Combo": "Combo Rotation",
-      "Damage": "Ability Damage",
+      "Damage": "Ability Breakdown",
       "Rolls": "Substat Rolls"
     },
     "ResultsTabs": {
@@ -105,7 +105,10 @@ interface Resources {
           "Abilities": {
             "BASIC": "BASIC DMG",
             "BREAK": "BREAK DMG",
+            "BUFF": "BUFF",
             "COMBO": "COMBO DMG",
+            "COMBO_HEAL": "COMBO HEAL",
+            "COMBO_SHIELD": "COMBO SHIELD",
             "DOT": "DOT DMG",
             "ELATION_SKILL": "ELATION SKILL DMG",
             "FUA": "FUA DMG",
@@ -150,7 +153,7 @@ interface Resources {
           "Standard": "Standard"
         },
         "PaletteLabel": "Portrait color palette",
-        "ShowL2D": "Show Live2D",
+        "ShowL2D": "Animations",
         "ShowUID": "Show UID"
       },
       "DMGUpgrades": "Damage Upgrades",
@@ -187,8 +190,17 @@ interface Resources {
         "TitleBenchmark": "{{spd}} SPD Benchmark"
       },
       "ScoringColumn": {
+        "Baseline": {
+          "Abilities": "0% baseline ability breakdown",
+          "BasicStats": "0% baseline <1>basic stats</1>",
+          "CombatStats": "0% baseline <1>combat stats</1>",
+          "Header": "Baseline build ({{score}}%)",
+          "Mainstats": "0% baseline main stats",
+          "Sets": "0% baseline sets",
+          "Substats": "0% baseline subs"
+        },
         "Benchmark": {
-          "Abilities": "100% benchmark ability damage",
+          "Abilities": "100% benchmark ability breakdown",
           "BasicStats": "100% benchmark <1>basic stats</1>",
           "CombatStats": "100% benchmark <1>combat stats</1>",
           "Header": "Benchmark build ({{score}}%)",
@@ -197,7 +209,7 @@ interface Resources {
           "Substats": "100% benchmark subs (min rolls)"
         },
         "Character": {
-          "Abilities": "Character ability damage",
+          "Abilities": "Character ability breakdown",
           "BasicStats": "Character <1>basic stats</1>",
           "CombatStats": "Character <1>combat stats</1>",
           "Header": "Character build ({{score}}%)",
@@ -207,7 +219,7 @@ interface Resources {
           "Substats": "Character subs (min rolls)"
         },
         "Perfect": {
-          "Abilities": "200% perfect ability damage",
+          "Abilities": "200% perfect ability breakdown",
           "BasicStats": "200% perfect <1>basic stats</1>",
           "CombatStats": "200% perfect <1>combat stats</1>",
           "Header": "Perfect build ({{score}}%)",
@@ -369,7 +381,8 @@ interface Resources {
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
       "SPD": "SPD",
       "SPD%": "SPD %",
-      "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG"
+      "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
+      "simScore": "Combo DMG"
     },
     "RelicWithCount_one": "{{count}} relic",
     "RelicWithCount_other": "{{count}} relics",
@@ -6602,6 +6615,7 @@ interface Resources {
       "ATK": "ATK",
       "ATK_P": "ATK %",
       "BE": "BE %",
+      "BOOST": "Dmg Boost %",
       "BREAK_EFFICIENCY": "Break Efficiency %",
       "CD": "Crit Dmg %",
       "CR": "Crit Rate %",
@@ -6609,7 +6623,6 @@ interface Resources {
       "DEF": "DEF",
       "DEF_P": "DEF %",
       "DEF_PEN": "Def Pen %",
-      "DMG_BOOST": "Dmg Boost %",
       "EFFECT_RES_PEN": "Effect RES PEN %",
       "EHR": "Effect Hit Rate %",
       "HP": "HP",
@@ -6641,6 +6654,7 @@ interface Resources {
         "BasicHeal": "Basic HEAL",
         "BasicShield": "Basic SHIELD",
         "Break": "Break",
+        "Buff": "Buff",
         "Dot": "Dot",
         "ElationSkill": "Elation Skill",
         "Fua": "Fua",
@@ -6988,7 +7002,7 @@ interface Resources {
           "UNIQUE": "UNIQUE\nDMG"
         }
       },
-      "Loading": "Loading...",
+      "Loading": "Loading",
       "Of": "of",
       "Page": "Page",
       "PageSelectorLabel": "Page Size:",
@@ -7315,6 +7329,7 @@ interface Resources {
     },
     "SortOptions": {
       "ATK": "Sorted by $t(common:ReadableStats.ATK)",
+      "AbilityLabel": "Abilities",
       "BASIC": "Sorted by Basic DMG",
       "BASIC_HEAL": "Sorted by Basic HEAL",
       "BASIC_SHIELD": "Sorted by Basic SHIELD",
@@ -7322,6 +7337,9 @@ interface Resources {
       "BREAK": "Sorted by Break DMG",
       "CD": "Sorted by $t(common:ReadableStats.CRIT DMG)",
       "COMBO": "Sorted by Combo DMG",
+      "COMBO_BUFF": "Sorted by Combo Buff",
+      "COMBO_HEAL": "Sorted by Combo Heal",
+      "COMBO_SHIELD": "Sorted by Combo Shield",
       "CR": "Sorted by $t(common:ReadableStats.CRIT Rate)",
       "DEF": "Sorted by $t(common:ReadableStats.DEF)",
       "DMG": "Sorted by Elemental DMG",
@@ -7340,6 +7358,7 @@ interface Resources {
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
       "OHB": "Sorted by $t(common:ReadableStats.Outgoing Healing Boost)",
+      "OptimizationLabel": "Optimization",
       "RES": "Sorted by $t(common:ReadableStats.Effect RES)",
       "SHIELD": "Sorted by Shield",
       "SKILL": "Sorted by Skill DMG",
@@ -7878,5 +7897,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

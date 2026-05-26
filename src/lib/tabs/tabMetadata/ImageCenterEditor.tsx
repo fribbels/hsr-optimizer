@@ -29,7 +29,11 @@ import {
   SHINE_PRESET,
   ShowcasePreset,
 } from 'lib/characterPreview/debugVisualConfigStore'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import {
   cardTotalW,
   innerW,
@@ -55,10 +59,16 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Character, CharacterId } from 'types/character'
-import type { Relic } from 'types/relic'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { type LightConeId } from 'types/lightCone'
-import type { ImageCenter, ShowcaseDisplayDimensionsOverride } from 'types/metadata'
+import type {
+  ImageCenter,
+  ShowcaseDisplayDimensionsOverride,
+} from 'types/metadata'
+import type { Relic } from 'types/relic'
 
 // =========================================== Constants ===========================================
 
@@ -687,8 +697,12 @@ function CharacterPreviewEditor() {
 
   // Config strings with proper character name
   const characterName = selectedCharId ? t(`${selectedCharId}.LongName`) : 'Unknown'
-  const imageCenterString = `imageCenter: { x: ${Math.round(imageCenter.x)}, y: ${Math.round(imageCenter.y)}, z: ${Number(imageCenter.z.toFixed(2))} }, // ${characterName}`
-  const backgroundOffsetString = `backgroundCenterOffset: { x: ${Math.round(backgroundOffset.x)}, y: ${Math.round(backgroundOffset.y)}, z: ${Number(backgroundOffset.z.toFixed(2))} }, // ${characterName}`
+  const imageCenterString = `imageCenter: { x: ${Math.round(imageCenter.x)}, y: ${Math.round(imageCenter.y)}, z: ${
+    Number(imageCenter.z.toFixed(2))
+  } }, // ${characterName}`
+  const backgroundOffsetString = `backgroundCenterOffset: { x: ${Math.round(backgroundOffset.x)}, y: ${Math.round(backgroundOffset.y)}, z: ${
+    Number(backgroundOffset.z.toFixed(2))
+  } }, // ${characterName}`
 
   const handleResetImageCenter = () => {
     if (!selectedCharId) return
@@ -747,54 +761,76 @@ function CharacterPreviewEditor() {
       </Flex>
 
       {/* Card preview */}
-      {!selectedCharId || !mockCharacter ? (
-        <div
-          style={{
-            width: cardTotalW,
-            height: parentH,
-            border: '1px solid #555',
-            borderRadius: 6,
-            background: '#1a1a2e',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#888',
-          }}
-        >
-          Select a character to preview
-        </div>
-      ) : (
-        <div
-          ref={containerRef}
-          style={{
-            position: 'relative',
-            cursor: 'grab',
-            borderRadius: 8,
-            width: cardTotalW,
-          }}
-          onMouseDown={handleMouseDown}
-        >
-          <div style={{ pointerEvents: 'none' }}>
-            <CharacterPreview
-              id='metadata-preview'
-              character={mockCharacter}
-              source={ShowcaseSource.BUILDS_MODAL}
-              savedBuildOverride={null}
-              forceDebug={true}
-              debugVisualConfig={effectiveVisualConfig}
-              editorOverrides={editorOverrides}
-            />
+      {!selectedCharId || !mockCharacter
+        ? (
+          <div
+            style={{
+              width: cardTotalW,
+              height: parentH,
+              border: '1px solid #555',
+              borderRadius: 6,
+              background: '#1a1a2e',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#888',
+            }}
+          >
+            Select a character to preview
           </div>
-        </div>
-      )}
+        )
+        : (
+          <div
+            ref={containerRef}
+            style={{
+              position: 'relative',
+              cursor: 'grab',
+              borderRadius: 8,
+              width: cardTotalW,
+            }}
+            onMouseDown={handleMouseDown}
+          >
+            <div style={{ pointerEvents: 'none' }}>
+              <CharacterPreview
+                id='metadata-preview'
+                character={mockCharacter}
+                source={ShowcaseSource.BUILDS_MODAL}
+                savedBuildOverride={null}
+                forceDebug={true}
+                debugVisualConfig={effectiveVisualConfig}
+                editorOverrides={editorOverrides}
+              />
+            </div>
+          </div>
+        )}
 
       {/* Image center controls */}
       <Flex direction='column' gap={8}>
         <Text size='sm' fw={600}>Image Center (Portrait) — drag on portrait to adjust</Text>
         <Flex gap={8} align='flex-end'>
-          <NumberInput label='x' value={Math.round(imageCenter.x)} onChange={(v) => setImageCenter((c) => ({ ...c, x: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
-          <NumberInput label='y' value={Math.round(imageCenter.y)} onChange={(v) => setImageCenter((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
-          <NumberInput label='z' value={Number(imageCenter.z.toFixed(2))} onChange={(v) => setImageCenter((c) => ({ ...c, z: Number(v) || 1 }))} step={0.01} decimalScale={2} style={{ width: 90 }} size='xs' />
+          <NumberInput
+            label='x'
+            value={Math.round(imageCenter.x)}
+            onChange={(v) => setImageCenter((c) => ({ ...c, x: Number(v) || 0 }))}
+            style={{ width: 90 }}
+            size='xs'
+          />
+          <NumberInput
+            label='y'
+            value={Math.round(imageCenter.y)}
+            onChange={(v) => setImageCenter((c) => ({ ...c, y: Number(v) || 0 }))}
+            style={{ width: 90 }}
+            size='xs'
+          />
+          <NumberInput
+            label='z'
+            value={Number(imageCenter.z.toFixed(2))}
+            onChange={(v) => setImageCenter((c) => ({ ...c, z: Number(v) || 1 }))}
+            step={0.01}
+            decimalScale={2}
+            style={{ width: 90 }}
+            size='xs'
+          />
           <Button size='xs' variant='subtle' onClick={handleResetImageCenter}>Reset</Button>
         </Flex>
         <Flex gap={8} align='center'>
@@ -813,9 +849,29 @@ function CharacterPreviewEditor() {
       <Flex direction='column' gap={8}>
         <Text size='sm' fw={600}>Background Center Offset — drag outside portrait to adjust, scroll to zoom</Text>
         <Flex gap={8} align='flex-end'>
-          <NumberInput label='x' value={Math.round(backgroundOffset.x)} onChange={(v) => setBackgroundOffset((c) => ({ ...c, x: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
-          <NumberInput label='y' value={Math.round(backgroundOffset.y)} onChange={(v) => setBackgroundOffset((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
-          <NumberInput label='z' value={Number(backgroundOffset.z.toFixed(2))} onChange={(v) => setBackgroundOffset((c) => ({ ...c, z: Number(v) || 0 }))} step={0.01} decimalScale={2} style={{ width: 90 }} size='xs' />
+          <NumberInput
+            label='x'
+            value={Math.round(backgroundOffset.x)}
+            onChange={(v) => setBackgroundOffset((c) => ({ ...c, x: Number(v) || 0 }))}
+            style={{ width: 90 }}
+            size='xs'
+          />
+          <NumberInput
+            label='y'
+            value={Math.round(backgroundOffset.y)}
+            onChange={(v) => setBackgroundOffset((c) => ({ ...c, y: Number(v) || 0 }))}
+            style={{ width: 90 }}
+            size='xs'
+          />
+          <NumberInput
+            label='z'
+            value={Number(backgroundOffset.z.toFixed(2))}
+            onChange={(v) => setBackgroundOffset((c) => ({ ...c, z: Number(v) || 0 }))}
+            step={0.01}
+            decimalScale={2}
+            style={{ width: 90 }}
+            size='xs'
+          />
           <Button size='xs' variant='subtle' onClick={handleResetBackgroundOffset}>Reset</Button>
         </Flex>
         <Flex gap={8} align='center'>

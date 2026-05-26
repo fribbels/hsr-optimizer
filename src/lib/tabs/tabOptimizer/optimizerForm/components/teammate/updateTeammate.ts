@@ -66,12 +66,16 @@ export function updateTeammate(changedValues: Partial<Form>) {
 
     let lightConeConditionalsValues = currentTeammate.lightConeConditionals
     if (lightCone) {
-      const lcDefaults = resolveLcDefaults({
-        characterId: teammateCharacterId,
-        characterEidolon,
-        lightCone,
-        lightConeSuperimposition,
-      }, getGameMetadata(), true)
+      const lcDefaults = resolveLcDefaults(
+        {
+          characterId: teammateCharacterId,
+          characterEidolon,
+          lightCone,
+          lightConeSuperimposition,
+        },
+        getGameMetadata(),
+        true,
+      )
       if (lcDefaults) {
         lightConeConditionalsValues = { ...lcDefaults, ...lightConeConditionalsValues }
       }

@@ -67,6 +67,7 @@ export async function createSpineInstance(
   baseUrl: string,
   files: { skelFile: string, atlasFile: string }[],
   signal?: AbortSignal,
+  onError?: () => void,
 ): Promise<SpineInstance> {
   // Fast-path if already aborted before we did any work.
   if (signal?.aborted) {
@@ -198,10 +199,8 @@ export async function createSpineInstance(
   const hasClipping = entries.some(({ skeleton }) =>
     skeleton.data.skins.some((skin) => {
       const maps = (skin as unknown as { attachments: Record<string, unknown>[] }).attachments
-      return maps.some((slotMap) =>
-        slotMap && Object.values(slotMap).some((att) => att instanceof ClippingAttachment),
-      )
-    }),
+      return maps.some((slotMap) => slotMap && Object.values(slotMap).some((att) => att instanceof ClippingAttachment))
+    })
   )
   if (!hasClipping) {
     // @ts-expect-error accessing private clipper — safe, just noops the JS-side polygon clipper
@@ -214,42 +213,75 @@ export async function createSpineInstance(
   renderer.camera.setViewport(canvasSize, canvasSize)
   renderer.camera.update()
 
-  // Lifecycle invariant: `rafId != null` iff the loop is scheduled.
-  // `rafId == null && !disposed` means paused. `disposed` is terminal.
   let rafId: number | null = null
   let lastTime = performance.now()
   let disposed = false
+  let firstFrame = true
+
+  function dispose() {
+    if (disposed) return
+    disposed = true
+    if (rafId != null) {
+      cancelAnimationFrame(rafId)
+      rafId = null
+    }
+    canvas.removeEventListener('webglcontextlost', handleContextLost)
+    renderer.dispose()
+    assetManager.dispose()
+  }
+
+  function handleContextLost() {
+    dispose()
+    onError?.()
+  }
+
+  canvas.addEventListener('webglcontextlost', handleContextLost)
 
   const FRAME_INTERVAL = 1000 / 60
 
   function loop(now: number) {
+    if (disposed) return
     rafId = requestAnimationFrame(loop)
 
     if (now - lastTime < FRAME_INTERVAL) return
 
-    const delta = Math.min((now - lastTime) / 1000, 0.1)
-    lastTime = now
+    try {
+      const delta = Math.min((now - lastTime) / 1000, 0.1)
+      lastTime = now
 
-    for (const entry of entries) {
-      entry.animState.update(delta)
-      entry.animState.apply(entry.skeleton)
-      entry.skeleton.updateWorldTransform()
+      for (const entry of entries) {
+        entry.animState.update(delta)
+        entry.animState.apply(entry.skeleton)
+        entry.skeleton.updateWorldTransform()
+      }
+
+      gl.viewport(0, 0, canvasSize, canvasSize)
+      gl.clearColor(0, 0, 0, 0)
+      gl.clear(gl.COLOR_BUFFER_BIT)
+
+      renderer.begin()
+      for (const entry of entries) {
+        renderer.drawSkeleton(entry.skeleton, false)
+      }
+      renderer.end()
+
+      if (firstFrame) {
+        firstFrame = false
+        const glError = gl.getError()
+        if (glError !== gl.NO_ERROR) {
+          throw new Error(`WebGL error after first frame: 0x${glError.toString(16)}`)
+        }
+      }
+    } catch (err) {
+      console.error('SpinePortrait: render error', err)
+      dispose()
+      onError?.()
+      return
     }
-
-    gl.viewport(0, 0, canvasSize, canvasSize)
-    gl.clearColor(0, 0, 0, 0)
-    gl.clear(gl.COLOR_BUFFER_BIT)
-
-    renderer.begin()
-    for (const entry of entries) {
-      renderer.drawSkeleton(entry.skeleton, false)
-    }
-    renderer.end()
   }
 
   if (signal?.aborted) {
-    renderer.dispose()
-    assetManager.dispose()
+    dispose()
     throw new DOMException('Spine load aborted', 'AbortError')
   }
 
@@ -265,18 +297,11 @@ export async function createSpineInstance(
     },
     resume() {
       if (disposed || rafId != null) return
-      lastTime = performance.now() // avoid a large delta on the resumed frame
+      lastTime = performance.now()
       rafId = requestAnimationFrame(loop)
     },
     dispose() {
-      if (disposed) return
-      disposed = true
-      if (rafId != null) {
-        cancelAnimationFrame(rafId)
-        rafId = null
-      }
-      renderer.dispose()
-      assetManager.dispose()
+      dispose()
     },
   }
 }

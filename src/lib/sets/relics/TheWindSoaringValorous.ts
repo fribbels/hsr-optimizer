@@ -55,7 +55,7 @@ const conditionals: SetConditionals = {
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.enabledTheWindSoaringValorous) {
-      x.buff(StatKey.DMG_BOOST, 0.36, x.damageType(DamageTag.ULT).source(Source.TheWindSoaringValorous))
+      x.buff(StatKey.BOOST, 0.36, x.damageType(DamageTag.ULT).source(Source.TheWindSoaringValorous))
     }
   },
   gpuBasic: () => [
@@ -64,7 +64,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_TheWindSoaringValorous) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, `0.36 * f32(setConditionals.enabledTheWindSoaringValorous)`).damageType(DamageTag.ULT).wgsl(action, 2)}
     }
   `,
 }

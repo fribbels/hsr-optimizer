@@ -210,8 +210,8 @@ export function collectResults(input: TestInput) {
 
   // Total DMG% = generic DMG_BOOST (action+hit) + element-specific boost (action)
   if (primaryActionStats) {
-    nameCombatResults['DMG_BOOST'] = precisionRound(
-      primaryActionStats.DMG_BOOST + primaryActionStats.sourceEntityElementDmgBoost,
+    nameCombatResults['BOOST'] = precisionRound(
+      primaryActionStats.BOOST + primaryActionStats.sourceEntityElementDmgBoost,
       7,
     )
   }
@@ -227,20 +227,22 @@ export function collectResults(input: TestInput) {
   }
   nameCombatResults['HEAL_VALUE'] = 0
   nameCombatResults['SHIELD_VALUE'] = 0
+  nameCombatResults['BUFF_VALUE'] = 0
 
   if (actionDamage) {
     let healValue = 0
     let shieldValue = 0
+    let buffValue = 0
 
-    for (const [actionName, dmg] of Object.entries(actionDamage)) {
-      // actionName is TurnAbilityName like 'DEFAULT_BASIC' - strip marker prefix to get AbilityKind
-      const abilityKind = actionName.replace(/^[A-Z]+_/, '')
+    for (const [abilityKind, dmg] of Object.entries(actionDamage)) {
       const meta = AbilityMeta[abilityKind as keyof typeof AbilityMeta]
 
       if (meta?.category === 'heal') {
         healValue += dmg ?? 0
       } else if (meta?.category === 'shield') {
         shieldValue += dmg ?? 0
+      } else if (meta?.category === 'buff') {
+        buffValue += dmg ?? 0
       } else if (meta?.category === 'damage') {
         nameCombatResults[`${abilityKind}_DMG`] = precisionRound(dmg ?? 0, 7)
       }
@@ -248,6 +250,7 @@ export function collectResults(input: TestInput) {
 
     nameCombatResults['HEAL_VALUE'] = precisionRound(healValue, 7)
     nameCombatResults['SHIELD_VALUE'] = precisionRound(shieldValue, 7)
+    nameCombatResults['BUFF_VALUE'] = precisionRound(buffValue, 7)
   }
 
   for (const key of trackedBasicStatKeys) {

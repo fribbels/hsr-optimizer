@@ -1,3 +1,6 @@
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
+import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import {
   AbilityEidolon,
   addSuperBreakHits,
@@ -6,8 +9,12 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -18,14 +25,25 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_SUPPORT,
+} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 
 import { type Eidolon } from 'types/character'
 
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -38,6 +56,7 @@ export const TrailblazerHarmonyAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -122,7 +141,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: 4.00,
       percent: true,
-      disabled: e < 4,
     },
   }
 
@@ -161,6 +179,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Imaginary).build(),
+          ],
+        },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.BE)
+              .sourceStat(StatKey.BE)
+              .scaling(ultBeScaling)
+              .build(),
           ],
         },
       }
@@ -216,12 +243,62 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      const beBuff = (e >= 4) ? 0.15 * t.teammateBeValue : 0
+      const beBuff = 0.15 * t.teammateBeValue
       x.buff(StatKey.BE, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
       x.buff(StatKey.UNCONVERTIBLE_BE_BUFF, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
   }
 }
+
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.Feet]: [Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.ERR, Stats.BE],
+  },
+  substats: [
+    Stats.BE,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+    Stats.DEF_P,
+  ],
+  buffStat: StatKey.BE,
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
+  relicSets: [
+    [Sets.WatchmakerMasterOfDreamMachinations, Sets.WatchmakerMasterOfDreamMachinations],
+    ...SPREAD_RELICS_4P_SUPPORT,
+  ],
+  ornamentSets: [
+    Sets.ForgeOfTheKalpagniLantern,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: FireflyB1.id,
+      lightCone: WhereaboutsShouldDreamsRest.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Fugue.id,
+      lightCone: LongRoadLeadsHome.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Lingsha.id,
+      lightCone: ScentAloneStaysTrue.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -249,9 +326,12 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.WATCHMAKER_SET,
+  ],
   sortOption: SortOption.BE,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

@@ -1,6 +1,7 @@
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,6 +9,10 @@ import {
   countTeamPath,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { BeforeTheTutorialMissionStarts } from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
@@ -88,6 +93,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const talentResPen = talent(e, 0.2, 0.22)
 
   const maxCrimsonKnotStacks = 9
+
+  // Precompute ashblazing hitMulti for each possible knot stack count (0-9)
+  // ULT sequence: 3 Rainblades (single + AoE knot removal each) → Stygian Resurge (AoE) → 6 Thunder Core (single)
+  const ultHitMultis = Array.from({ length: maxCrimsonKnotStacks + 1 }, (_, knotStacks) => {
+    const knotAoePerRainblade = ultCrimsonKnotScaling * (1 + knotStacks / 3)
+    return ashblazingMulti([
+      single(0.50 * ultRainbladeScaling), single(0.50 * ultRainbladeScaling), aoe(knotAoePerRainblade),
+      single(0.30 * ultRainbladeScaling), single(0.30 * ultRainbladeScaling), single(0.40 * ultRainbladeScaling), aoe(knotAoePerRainblade),
+      single(ultRainbladeScaling), aoe(knotAoePerRainblade),
+      aoe(0.10 * ultStygianResurgeScaling), aoe(0.90 * ultStygianResurgeScaling),
+      ...Array(6).fill(single(ultThunderCoreScaling)),
+    ])
+  })
 
   const nihilityTeammateScaling: Record<number, number> = {
     0: 0,
@@ -245,7 +263,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.CR_BOOST, (e >= 1 && r.e1EnemyDebuffed) ? 0.18 : 0, x.source(SOURCE_E1))
 
-      x.buff(StatKey.DMG_BOOST, r.thunderCoreStacks * 0.30, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, r.thunderCoreStacks * 0.30, x.source(SOURCE_TRACE))
       x.buff(StatKey.RES_PEN, talentResPen, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6UltBuffs) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
 
@@ -262,9 +280,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      boostUltAshblazingAtk(x, action, ultHitMultis[r.crimsonKnotStacks](context))
     },
-
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return gpuBoostUltAshblazingAtk(action, ultHitMultis[r.crimsonKnotStacks](context))
+    },
   }
 }
 
@@ -365,6 +387,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
   sortOption: SortOption.ULT,
   hiddenColumns: [

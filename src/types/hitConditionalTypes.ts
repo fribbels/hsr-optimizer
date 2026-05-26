@@ -1,10 +1,19 @@
 import type {
+  AKeyValue,
+} from 'lib/optimization/engine/config/keys'
+import type {
+  DamageTag,
   ElementTag,
   OutputTag,
 } from 'lib/optimization/engine/config/tag'
 import type {
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
+
+export enum ConversionType {
+  Linear,
+  Discrete,
+}
 
 export interface AbilityDefinition {
   actionKind?: string
@@ -100,6 +109,34 @@ export interface ElationHitDefinition extends BaseHitDefinition {
   minElationOverride?: number // Minimum Elation value - uses max(attacker's Elation, this value) for this hit
 }
 
+export interface LinearBuffHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.Buff
+  damageType: DamageTag.None
+  outputTag: OutputTag.BUFF
+  conversionType: ConversionType.Linear
+  buffStat: AKeyValue
+  sourceStat: AKeyValue
+  includeUnconvertible: boolean
+  scaling: number
+  flat?: number
+}
+
+export interface DiscreteBuffHitDefinition extends BaseHitDefinition {
+  damageFunctionType: DamageFunctionType.Buff
+  damageType: DamageTag.None
+  outputTag: OutputTag.BUFF
+  conversionType: ConversionType.Discrete
+  buffStat: AKeyValue
+  sourceStat: AKeyValue
+  includeUnconvertible: boolean
+  whenAbove: number
+  forEvery: number
+  increaseBy: number
+  cappedAt: number
+}
+
+export type BuffHitDefinition = LinearBuffHitDefinition | DiscreteBuffHitDefinition
+
 // Union type for all hit definitions
 export type HitDefinition =
   | CritHitDefinition
@@ -111,6 +148,7 @@ export type HitDefinition =
   | ShieldHitDefinition
   | HealTallyHitDefinition
   | ElationHitDefinition
+  | BuffHitDefinition
 
 // Specialized Hit types (definition + runtime fields)
 export type CritHit = CritHitDefinition & HitRuntime
@@ -122,9 +160,10 @@ export type HealHit = HealHitDefinition & HitRuntime
 export type ShieldHit = ShieldHitDefinition & HitRuntime
 export type HealTallyHit = HealTallyHitDefinition & HitRuntime
 export type ElationHit = ElationHitDefinition & HitRuntime
+export type BuffHit = BuffHitDefinition & HitRuntime
 
 // Union type for all hits (definition + runtime fields)
-export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit | HealTallyHit | ElationHit
+export type Hit = CritHit | DotHit | BreakHit | SuperBreakHit | AdditionalHit | HealHit | ShieldHit | HealTallyHit | ElationHit | BuffHit
 
 export interface EntityDefinition {
   primary: boolean

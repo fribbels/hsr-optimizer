@@ -93,6 +93,7 @@ export type OptimizerDisplayData = {
 
   mxEHP: number,
 
+  BUFF?: number,
   BASIC_HEAL?: number,
   SKILL_HEAL?: number,
   ULT_HEAL?: number,
@@ -149,8 +150,9 @@ export const BufferPacker = {
     const primaryEntity = x.config.entitiesArray[0].name
     arr[offset + 14] = x.getActionValue(StatKey.EHP, primaryEntity)
 
-    // [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
+    // [15] Buff value, [17-24] Damage values, [65-74] Heal/Shield values from action registers - dynamically mapped
     const actionNameToOffset: Record<string, number> = {
+      BUFF: 15,
       BASIC: 17,
       SKILL: 18,
       ULT: 19,
@@ -177,7 +179,7 @@ export const BufferPacker = {
       const action = context.defaultActions[i]
       const bufferOffset = actionNameToOffset[action.actionName]
       if (bufferOffset !== undefined) {
-        arr[offset + bufferOffset] = x.getActionRegisterValue(i)
+        arr[offset + bufferOffset] = x.getActionRegisterValue(action.registerIndex)
       }
     }
 
@@ -198,7 +200,7 @@ export const BufferPacker = {
     arr[offset + 36] = x.getActionValue(StatKey.OHB, primaryEntity)
     // xELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
     const elementalBoostKey = ElementToStatKeyDmgBoost[context.element as ElementName]
-    arr[offset + 37] = x.getActionValue(StatKey.DMG_BOOST, primaryEntity)
+    arr[offset + 37] = x.getActionValue(StatKey.BOOST, primaryEntity)
       + x.getActionValue(elementalBoostKey, primaryEntity)
 
     // [38-39] Set indices
@@ -237,7 +239,7 @@ export const BufferPacker = {
       arr[offset + 61] = x.getActionValue(StatKey.ERR, memoEntity)
       arr[offset + 62] = x.getActionValue(StatKey.OHB, memoEntity)
       // mxELEMENTAL_DMG = generic DMG_BOOST + character's elemental boost
-      arr[offset + 63] = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
+      arr[offset + 63] = x.getActionValue(StatKey.BOOST, memoEntity)
         + x.getActionValue(elementalBoostKey, memoEntity)
 
       // [64] mxEHP
@@ -313,6 +315,7 @@ export const BufferPacker = {
       mxOHB: arr[offset + 62],
       mxELEMENTAL_DMG: arr[offset + 63],
       mxEHP: arr[offset + 64],
+      BUFF: arr[offset + 15],
       BASIC_HEAL: arr[offset + 65],
       SKILL_HEAL: arr[offset + 66],
       ULT_HEAL: arr[offset + 67],

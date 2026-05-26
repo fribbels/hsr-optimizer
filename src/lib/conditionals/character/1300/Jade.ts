@@ -1,9 +1,8 @@
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -94,6 +93,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const fuaScaling = talent(e, 1.20, 1.32)
   const pawnedAssetCdScaling = talent(e, 0.024, 0.0264)
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
   const unenhancedHitMultiByTargets: Record<number, number> = {
     1: ASHBLAZING_ATK_STACK * (1 * 0.25 + 2 * 0.25 + 3 * 0.25 + 4 * 0.25), // 0.15
     3: ASHBLAZING_ATK_STACK * (2 * 0.25 + 5 * 0.25 + 8 * 0.25 + 8 * 0.25), // 0.345
@@ -107,6 +108,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
     const r = action.characterConditionals as Conditionals<typeof content>
     return r.enhancedFollowUp
       ? enhancedHitMultiByTargets[context.enemyCount]
@@ -243,7 +247,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, r.pawnedAssetStacks * 0.005, x.source(SOURCE_TRACE))
       x.buff(StatKey.CR, (e >= 2 && r.e2CrBuff && r.pawnedAssetStacks >= 15) ? 0.18 : 0, x.source(SOURCE_E2))
 
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1 && r.e1FuaDmgBoost) ? 0.32 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
       x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefShredBuff) ? 0.12 : 0, x.source(SOURCE_E4))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResShredBuff) ? 0.20 : 0, x.elements(ElementTag.Quantum).source(SOURCE_E6))
     },

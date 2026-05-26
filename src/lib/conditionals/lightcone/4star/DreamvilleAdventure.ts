@@ -75,9 +75,9 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.DMG_BOOST, (m.basicDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.BASIC).targets(TargetTag.FullTeam).source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (m.skillDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (m.ultDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (m.basicDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.BASIC).targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (m.skillDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (m.ultDmgBuff) ? sValues[s] : 0, x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

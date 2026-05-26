@@ -128,6 +128,7 @@ ReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind)屬性傷害'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum)屬性傷害'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary)屬性傷害'
+  simScore: 連招傷害
 ShortReadableStats:
   "HP%": 生命值 %
   HP: 生命值

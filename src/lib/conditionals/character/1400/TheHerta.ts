@@ -1,6 +1,11 @@
 import { Jade } from 'lib/conditionals/character/1300/Jade'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -39,6 +44,7 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -77,6 +83,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1401')
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 0.70, 0.77)
@@ -240,8 +248,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     defaults: () => defaults,
     teammateDefaults: () => teammateDefaults,
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
 
     // New container methods
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -251,7 +262,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Skill DMG boost when stacks >= threshold
       const stackThreshold = (e >= 1 && r.e1BonusStacks) ? 28 : 42
-      x.buff(StatKey.DMG_BOOST, (r.enhancedSkill && r.interpretationStacks >= stackThreshold) ? 0.50 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enhancedSkill && r.interpretationStacks >= stackThreshold) ? 0.50 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
 
       // E6 Ice RES PEN
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.elements(ElementTag.Ice).source(SOURCE_E6))
@@ -373,7 +384,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(5),
+  ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,

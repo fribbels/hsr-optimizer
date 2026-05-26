@@ -48,7 +48,7 @@ const conditionals: SetConditionals = {
   },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.enabledPenaconyLandOfTheDreams) {
-      x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.Memosprite).source(Source.PenaconyLandOfTheDreams))
+      x.buff(StatKey.BOOST, 0.10, x.targets(TargetTag.Memosprite).source(Source.PenaconyLandOfTheDreams))
     }
   },
   gpuBasic: () => [
@@ -59,7 +59,7 @@ const conditionals: SetConditionals = {
       ornament2p(*p_sets, SET_PenaconyLandOfTheDreams) >= 1
       && setConditionals.enabledPenaconyLandOfTheDreams == true
     ) {
-      ${buff.action(AKey.DMG_BOOST, 0.10).targets(TargetTag.Memosprite).wgsl(action, 2)}
+      ${buff.action(AKey.BOOST, 0.10).targets(TargetTag.Memosprite).wgsl(action, 2)}
     }
   `,
   teammate: [{
@@ -69,7 +69,7 @@ const conditionals: SetConditionals = {
     nonstackable: false,
     effect: ({ x, characterElement, teammateElement }) => {
       if (characterElement != teammateElement) return
-      x.buff(StatKey.DMG_BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).source(Source.PenaconyLandOfTheDreams))
+      x.buff(StatKey.BOOST, 0.10, x.targets(TargetTag.SelfAndMemosprite).source(Source.PenaconyLandOfTheDreams))
     },
   }],
 }

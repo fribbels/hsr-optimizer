@@ -1,6 +1,14 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -75,6 +83,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(Archer.id)
+
+  const ultHitMulti = ashblazingMulti([
+    ...Array(14).fill(single(0.04)),
+    single(0.44),
+  ])
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -210,10 +223,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.CD, r.cdBuff ? 1.20 : 0, x.source(SOURCE_TRACE))
 
-      x.buff(StatKey.DMG_BOOST, (e >= 4 && r.e4UltDmg) ? 1.50 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E4))
+      x.buff(StatKey.BOOST, (e >= 4 && r.e4UltDmg) ? 1.50 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E4))
       x.buff(StatKey.DEF_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E6))
 
-      x.buff(StatKey.DMG_BOOST, r.skillEnhances * skillEnhancedExtraScaling, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, r.skillEnhances * skillEnhancedExtraScaling, x.damageType(DamageTag.SKILL).source(SOURCE_SKILL))
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
@@ -222,6 +235,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }
@@ -334,6 +351,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnPioneerSet(4),
     PresetEffects.TENGOKU_SET,
+    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [

@@ -63,6 +63,7 @@ export enum OutputTag {
   DAMAGE = 1,
   HEAL = 2,
   SHIELD = 4,
+  BUFF = 8,
 }
 
 // DirectnessTag classifies whether an action is "direct" (player-initiated attacks)

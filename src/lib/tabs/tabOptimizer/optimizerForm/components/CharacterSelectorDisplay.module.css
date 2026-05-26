@@ -1,9 +1,17 @@
+.sortTargetDropdown :global(.mantine-Select-options) > div {
+  min-width: fit-content;
+}
+
+.sortTargetDropdown :global(.mantine-Select-options) > div > div {
+  min-width: fit-content;
+}
+
 .sortTargetDropdown :global(.mantine-ScrollArea-content) {
   display: flex;
 }
 
 .sortTargetDropdown :global(.mantine-Select-group) {
-  flex: 0 0 auto;
+  flex: 1 0 0;
   white-space: nowrap;
 }
 

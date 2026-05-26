@@ -213,7 +213,9 @@ export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effect
   const currentColor = getBand(currentRate).text
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: `translateX(-${LABEL_W / 2}px)`, paddingTop: RES_LABEL_H }}>
+    <div
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: `translateX(-${LABEL_W / 2}px)`, paddingTop: RES_LABEL_H }}
+    >
       <GridHeaderRow nearestRes={nearestRes} currentColor={currentColor} />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>

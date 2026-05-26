@@ -264,7 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const nihilityCount = countTeamPath(context, PathNames.Nihility)
       const hasOtherNihility = nihilityCount >= 2
       if (r.ultZone && !hasOtherNihility) {
-        x.buff(StatKey.DMG_BOOST, 0.75, x.source(SOURCE_TRACE))
+        x.buff(StatKey.BOOST, 0.75, x.source(SOURCE_TRACE))
       }
     },
 
@@ -274,17 +274,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, m.ultZone ? ultDefReductionValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
       x.buff(StatKey.VULNERABILITY, m.ultZone ? ultVulnerabilityValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      x.buff(StatKey.DMG_BOOST, m.ultZone ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (e >= 4 && m.ultZone && m.e4DmgBoost) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.BOOST, m.ultZone ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (e >= 4 && m.ultZone && m.e4DmgBoost) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
 
       const nihilityCount = countTeamPath(context, PathNames.Nihility)
       const hasOtherNihility = nihilityCount >= 2
       if (m.ultZone && hasOtherNihility) {
-        x.buff(StatKey.DMG_BOOST, 0.75, x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+        x.buff(StatKey.BOOST, 0.75, x.damageType(DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       }
 
       x.buff(StatKey.RES_PEN, (e >= 1 && m.ultZone && m.e1ResPen) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && m.e2FuaDmgBoost) ? 0.75 : 0, x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && m.e2FuaDmgBoost) ? 0.75 : 0, x.damageType(DamageTag.FUA).targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

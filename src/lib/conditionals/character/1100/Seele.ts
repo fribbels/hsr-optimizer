@@ -1,6 +1,8 @@
-import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,31 +10,17 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
-  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import {
-  AbilityKind,
-  DEFAULT_SKILL,
-  END_SKILL,
-  NULL_TURN_ABILITY_NAME,
-  START_ULT,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import {
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -40,10 +28,7 @@ import { type CharacterConfig } from 'types/characterConfig'
 
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import {
-  type ScoringMetadata,
-  type SimulationMetadata,
-} from 'types/metadata'
+import { type ScoringMetadata } from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -66,6 +51,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_TRACE,
     SOURCE_E1,
   } = Source.character(Seele.id)
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
 
   const buffedStateDmgBuff = talent(e, 0.80, 0.88)
   const speedBoostStacksMax = e >= 2 ? 2 : 1
@@ -201,7 +188,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.15 : 0, x.source(SOURCE_E1))
       x.buff(StatKey.SPD_P, 0.25 * r.speedBoostStacks, x.source(SOURCE_SKILL))
 
-      x.buff(StatKey.DMG_BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.20 : 0, x.source(SOURCE_TRACE))
     },
 
@@ -209,74 +196,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // TODO: Seele's E6 should have a teammate effect but its kinda hard to calc
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
-
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.CR,
-      Stats.CD,
-    ],
-    [Parts.Feet]: [
-      Stats.ATK_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Quantum_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-    ],
-  },
-  substats: [
-    Stats.CD,
-    Stats.CR,
-    Stats.ATK_P,
-    Stats.ATK,
-  ],
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    DEFAULT_SKILL,
-    DEFAULT_SKILL,
-    END_SKILL,
-  ],
-  relicSets: [
-    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.RutilantArena,
-    Sets.TengokuLivestream,
-    Sets.FirmamentFrontlineGlamoth,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-  ],
-  teammates: [
-    {
-      characterId: SilverWolfB1.id,
-      lightCone: LiesAflutterInTheWind.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: SparkleB1.id,
-      lightCone: ButTheBattleIsntOver.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -313,13 +240,13 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.TENGOKU_SET,
+    PresetEffects.fnMortenaxAshblazingSet(1),
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation: simulation(),
 })
 
 const display = {
@@ -332,6 +259,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See SeeleB1.ts for the updated variant.
 export const Seele: CharacterConfig = {
   id: '1102',
   display,

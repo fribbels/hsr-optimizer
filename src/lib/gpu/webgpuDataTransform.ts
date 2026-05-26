@@ -2,11 +2,11 @@ import {
   type GpuExecutionContext,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
+import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   type PerSlotSetRanges,
   type ValidQuad,
 } from 'lib/optimization/relicSetSolver'
-import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
@@ -116,22 +116,32 @@ function relicsToArray(relics: Relic[]) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export type TupleParams = {
-  xh: number, hSize: number,
-  xg: number, gSize: number,
-  xb: number, bSize: number,
-  xf: number, fSize: number,
+  xh: number,
+  hSize: number,
+  xg: number,
+  gSize: number,
+  xb: number,
+  bSize: number,
+  xf: number,
+  fSize: number,
 }
 
 export type FullSizes = {
-  pSize: number, lSize: number,
+  pSize: number,
+  lSize: number,
 }
 
 export type WorkgroupEntry = {
-  xh: number, hSize: number,
-  xg: number, gSize: number,
-  xb: number, bSize: number,
-  xf: number, fSize: number,
-  pSize: number, lSize: number,
+  xh: number,
+  hSize: number,
+  xg: number,
+  gSize: number,
+  xb: number,
+  bSize: number,
+  xf: number,
+  fSize: number,
+  pSize: number,
+  lSize: number,
   permLimit: number,
   startOffset: number,
 }
@@ -165,11 +175,16 @@ export function buildWorkgroupAssignments(
       const start = wg * wgCapacity
       const limit = Math.min(wgCapacity, weight - start)
       assignments.push({
-        xh: t.xh, hSize: t.hSize,
-        xg: t.xg, gSize: t.gSize,
-        xb: t.xb, bSize: t.bSize,
-        xf: t.xf, fSize: t.fSize,
-        pSize: fullSizes.pSize, lSize: fullSizes.lSize,
+        xh: t.xh,
+        hSize: t.hSize,
+        xg: t.xg,
+        gSize: t.gSize,
+        xb: t.xb,
+        bSize: t.bSize,
+        xf: t.xf,
+        fSize: t.fSize,
+        pSize: fullSizes.pSize,
+        lSize: fullSizes.lSize,
         permLimit: limit,
         startOffset: start,
       })
@@ -215,11 +230,16 @@ export function serializeAssignments(assignments: WorkgroupEntry[]): ArrayBuffer
   for (let i = 0; i < assignments.length; i++) {
     const a = assignments[i]
     const off = i * ASSIGNMENT_ENTRY_U32S
-    u[off + 0] = a.xh;     u[off + 1] = a.hSize
-    u[off + 2] = a.xg;     u[off + 3] = a.gSize
-    u[off + 4] = a.xb;     u[off + 5] = a.bSize
-    u[off + 6] = a.xf;     u[off + 7] = a.fSize
-    u[off + 8] = a.pSize;  u[off + 9] = a.lSize
+    u[off + 0] = a.xh
+    u[off + 1] = a.hSize
+    u[off + 2] = a.xg
+    u[off + 3] = a.gSize
+    u[off + 4] = a.xb
+    u[off + 5] = a.bSize
+    u[off + 6] = a.xf
+    u[off + 7] = a.fSize
+    u[off + 8] = a.pSize
+    u[off + 9] = a.lSize
     u[off + 10] = a.permLimit
     u[off + 11] = a.startOffset
     // 12-15: padding (zero)

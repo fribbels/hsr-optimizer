@@ -9,19 +9,25 @@ import type {
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
-import {
-  ScoringSelector,
-  SimScoringContext,
-  useSimScoringContext,
-} from 'lib/characterPreview/SimScoringContext'
+import { SimScoringContext } from 'lib/characterPreview/SimScoringContext'
 import { DpsScoreGradeRuler } from 'lib/characterPreview/summary/DpsScoreGradeRuler'
 import { DpsScoreMainStatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreMainStatUpgradesTable'
 import { DpsScoreSubstatUpgradesTable } from 'lib/characterPreview/summary/DpsScoreSubstatUpgradesTable'
 import { DpsScoreTeammateUpgradesTable } from 'lib/characterPreview/summary/DpsScoreTeammateUpgradesTable'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
+import {
+  useScoringPipeline,
+  useSimPreview,
+} from 'lib/characterPreview/useSimScoringHooks'
 import { ElementToDamage } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
+import {
+  CONFIG_FIELD_MAP,
+  resolveComboLabel,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
+import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import {
@@ -33,15 +39,19 @@ import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import {
   memo,
-  useContext,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Form } from 'types/form'
+import { ScoringConfigType } from 'types/metadata'
 import classes from './CharacterScoringSummary.module.css'
 import {
+  BaselineScoringColumn,
   CharacterScoringColumn,
+  ScoringColumnKind,
   SimulationScoringColumn,
 } from './ScoringColumns'
+
+const nullPromise = Promise.resolve(null)
 
 // ─── Primitives used by ScoringBenchmarksPanel ───────────────────────────────
 
@@ -51,14 +61,17 @@ function ScoringNumber(props: {
   precision?: number,
   useGrouping?: boolean,
   suffix?: string,
+  formattedValue?: string,
 }) {
   const precision = props.precision ?? 1
   const value = props.number ?? 0
   const show = value !== 0
+  const formatted = props.formattedValue
+    ?? `${numberToLocaleString(value, precision, props.useGrouping)}${props.suffix ?? ''}`
   return (
     <div style={{ display: 'flex', gap: 15, justifyContent: 'space-between' }}>
       <span className={classes.dataLabel}>{props.label}</span>
-      <span className={classes.dataValue}>{show && `${numberToLocaleString(value, precision, props.useGrouping)}${props.suffix ?? ''}`}</span>
+      <span className={classes.dataValue}>{show && formatted}</span>
     </div>
   )
 }
@@ -98,7 +111,7 @@ function ScoringTeammate({ form, index }: {
 
 // ─── ScoringBenchmarksPanel ──────────────────────────────────────────────────
 
-function ScoringBenchmarksPanel() {
+function ScoringBenchmarksPanel({ configType }: { configType: ScoringConfigType }) {
   const { t } = useTranslation('charactersTab')
 
   return (
@@ -106,16 +119,21 @@ function ScoringBenchmarksPanel() {
       <div className={classes.sectionTitle}>
         {t('CharacterPreview.BuildAnalysis.SimulatedBenchmarks')}
       </div>
-      <BenchmarkDefaultLayout />
+      <BenchmarkDefaultLayout configType={configType} />
     </div>
   )
 }
 
-function BenchmarkDefaultLayout() {
+function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType }) {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.BuildAnalysis' })
-  const preview = useSimScoringContext(ScoringSelector.Preview)
-  const scoringPromise = useContext(SimScoringContext).scoringPromise
+  const preview = useSimPreview(configType)
+  const scoringPipeline = useScoringPipeline(configType)
+  const scoringPromise = scoringPipeline?.scoringPromise ?? nullPromise
   if (preview === null) return null
+
+  const entry = SCORING_CONFIG_REGISTRY[configType]
+  const buffStat = preview.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[configType]]?.buffStat
+  const thousands = entry.thousands
   return (
     <div className={classes.columnCardFilled} style={{ width: '100%' }}>
       <div className={classes.columnFilledBody}>
@@ -143,11 +161,18 @@ function BenchmarkDefaultLayout() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
                   label={t('CombatResults.Primary')}
-                  // @ts-ignore - not all sortOption keys have translations yet
-                  text={t(`CombatResults.Abilities.${preview.characterMetadata.scoringMetadata.sortOption.key}`)}
+                  text={resolveComboLabel(entry, buffStat)}
                 />
-                <ScoringNumber label={t('CombatResults.Character')} number={preview.originalSimResult.simScore} precision={1} />
-                <ScoringNumber label={t('CombatResults.Baseline')} number={preview.baselineSimResult.simScore} precision={1} />
+                <ScoringNumber
+                  label={t('CombatResults.Character')}
+                  number={preview.originalSimResult.simScore}
+                  formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat, 1, thousands)}
+                />
+                <ScoringNumber
+                  label={t('CombatResults.Baseline')}
+                  number={preview.baselineSimResult.simScore}
+                  formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat, 1, thousands)}
+                />
                 <SuspenseNode
                   promise={scoringPromise}
                   fallback={<ScoringNumber label={t('CombatResults.Benchmark')} />}
@@ -157,7 +182,7 @@ function BenchmarkDefaultLayout() {
                       <ScoringNumber
                         label={t('CombatResults.Benchmark')}
                         number={result.benchmarkSimScore}
-                        precision={1}
+                        formattedValue={formatSimScore(result.benchmarkSimScore, buffStat, 1, thousands)}
                       />
                     )
                   }}
@@ -171,22 +196,22 @@ function BenchmarkDefaultLayout() {
                       <ScoringNumber
                         label={t('CombatResults.Maximum')}
                         number={result.maximumSimScore}
-                        precision={1}
+                        formattedValue={formatSimScore(result.maximumSimScore, buffStat, 1, thousands)}
                       />
                     )
                   }}
                 />
                 <SuspenseNode
                   promise={scoringPromise}
-                  fallback={<ScoringNumber label={t('CombatResults.Score')} />}
+                  fallback={<ScoringNumber label={entry.label} />}
                   selector={(result: SimulationScore | null) => {
                     if (result === null) return null
                     return (
                       <ScoringNumber
-                        label={t('CombatResults.Score')}
+                        label={entry.label}
                         number={result.percent * 100}
                         precision={2}
-                        suffix=' %'
+                        suffix='%'
                       />
                     )
                   }}
@@ -201,8 +226,8 @@ function BenchmarkDefaultLayout() {
 }
 // ─── ScoringColumnsSection ────────────────────────────────────────────────────
 
-function ScoringColumnsSection() {
-  const preview = useSimScoringContext(ScoringSelector.Preview)
+function ScoringColumnsSection({ configType }: { configType: ScoringConfigType }) {
+  const preview = useSimPreview(configType)
   if (preview === null) return null
   const characterId = preview.characterMetadata.id
   const characterMetadata = preview.characterMetadata
@@ -211,11 +236,20 @@ function ScoringColumnsSection() {
 
   return (
     <div style={{ display: 'flex', gap: 12 }}>
+      <BaselineScoringColumn
+        characterId={characterId}
+        elementalDmgValue={elementalDmgValue}
+        element={element}
+        characterMetadata={characterMetadata}
+        configType={configType}
+      />
+
       <CharacterScoringColumn
         characterId={characterId}
         elementalDmgValue={elementalDmgValue}
         element={element}
         characterMetadata={characterMetadata}
+        configType={configType}
       />
 
       <SimulationScoringColumn
@@ -223,7 +257,8 @@ function ScoringColumnsSection() {
         elementalDmgValue={elementalDmgValue}
         element={element}
         characterMetadata={characterMetadata}
-        type='Benchmark'
+        type={ScoringColumnKind.BENCHMARK}
+        configType={configType}
       />
 
       <SimulationScoringColumn
@@ -231,7 +266,8 @@ function ScoringColumnsSection() {
         elementalDmgValue={elementalDmgValue}
         element={element}
         characterMetadata={characterMetadata}
-        type='Perfect'
+        type={ScoringColumnKind.PERFECT}
+        configType={configType}
       />
     </div>
   )
@@ -243,12 +279,15 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
   displayRelics,
   showcaseMetadata,
   source,
+  configType = ScoringConfigType.DPS,
 }: {
   displayRelics: PreviewRelics,
   showcaseMetadata: ShowcaseMetadata,
   source: ShowcaseSource,
+  configType?: ScoringConfigType,
 }) {
   const { t } = useTranslation('charactersTab')
+  const isDps = configType === ScoringConfigType.DPS
 
   return (
     <DeferCreateProvider resetKey={showcaseMetadata.characterId}>
@@ -256,42 +295,47 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         {/* Grade ruler */}
         <DeferCreate>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
-            <DPSScoreDisclaimer />
+            {isDps && <DPSScoreDisclaimer />}
             <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
-                text={t('CharacterPreview.BuildAnalysis.Header')}
-                url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md'
+                text={`${SCORING_CONFIG_REGISTRY[configType].label} Calculations`}
+                url={isDps ? 'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md' : undefined}
               />
             </div>
-            <DpsScoreGradeRuler />
+            <DpsScoreGradeRuler configType={configType} />
           </div>
         </DeferCreate>
 
         {/* Substat upgrade table */}
-        <DeferCreate>
-          <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-            <div className={classes.sectionTitle}>
-              {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
+        {isDps && (
+          <DeferCreate>
+            <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+              <div className={classes.sectionTitle}>
+                {t('CharacterPreview.SubstatUpgradeComparisons.Header')}
+              </div>
+              <DpsScoreSubstatUpgradesTable meta={showcaseMetadata.characterMetadata.scoringMetadata.simulation!} configType={configType} />
             </div>
-            <DpsScoreSubstatUpgradesTable meta={showcaseMetadata.characterMetadata.scoringMetadata.simulation!} />
-          </div>
-        </DeferCreate>
+          </DeferCreate>
+        )}
 
         {/* Main stat upgrade table */}
-        <DeferCreate>
-          <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-            <div className={classes.sectionTitle}>
-              {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')}
+        {isDps && (
+          <DeferCreate>
+            <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
+              <div className={classes.sectionTitle}>
+                {t('CharacterPreview.SubstatUpgradeComparisons.MainStatHeader')}
+              </div>
+              <DpsScoreMainStatUpgradesTable
+                meta={showcaseMetadata}
+                relics={displayRelics}
+                configType={configType}
+              />
             </div>
-            <DpsScoreMainStatUpgradesTable
-              meta={showcaseMetadata}
-              relics={displayRelics}
-            />
-          </div>
-        </DeferCreate>
+          </DeferCreate>
+        )}
 
         <DeferCreate>
-          <DpsScoreTeammateUpgradesTable />
+          <DpsScoreTeammateUpgradesTable configType={configType} />
         </DeferCreate>
 
         {/* Relic rarity */}
@@ -311,25 +355,27 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 
         {/* Simulated benchmarks */}
         <DeferCreate>
-          <ScoringBenchmarksPanel />
+          <ScoringBenchmarksPanel configType={configType} />
         </DeferCreate>
 
         {/* Three-column scoring comparison */}
         <DeferCreate>
-          <ScoringColumnsSection />
+          <ScoringColumnsSection configType={configType} />
         </DeferCreate>
 
         {/* Buffs analysis */}
-        <DeferCreate>
-          <WrappedBuffAnalysisDisplay t={t} />
-        </DeferCreate>
+        {isDps && (
+          <DeferCreate>
+            <WrappedBuffAnalysisDisplay t={t} configType={configType} />
+          </DeferCreate>
+        )}
       </div>
     </DeferCreateProvider>
   )
 })
 
-const WrappedBuffAnalysisDisplay = memo(function({ t }: { t: TFunction<'charactersTab', undefined> }) {
-  const preview = useSimScoringContext(ScoringSelector.Preview)
+const WrappedBuffAnalysisDisplay = memo(function({ t, configType }: { t: TFunction<'charactersTab', undefined>, configType: ScoringConfigType }) {
+  const preview = useSimPreview(configType)
   if (preview === null) return null
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>

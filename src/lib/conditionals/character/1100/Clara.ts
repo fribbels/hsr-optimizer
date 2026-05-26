@@ -207,7 +207,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.multiplicativeComplement(StatKey.DMG_RED, (r.ultBuff) ? ultDmgReductionValue : 0, x.source(SOURCE_ULT))
       x.multiplicativeComplement(StatKey.DMG_RED, (e >= 4 && r.e4DmgReductionBuff) ? 0.30 : 0, x.source(SOURCE_E4))
 
-      x.buff(StatKey.DMG_BOOST, 0.30, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, 0.30, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

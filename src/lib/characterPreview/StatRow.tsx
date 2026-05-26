@@ -17,6 +17,7 @@ import {
   type i18n,
   type TFunction,
 } from 'i18next'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -69,39 +70,29 @@ export const damageStats: Record<string, string> = {
   'Elation': 'Elation',
 }
 
-const displayTextMap: Record<string, string> = {
-  'simScore': 'Combo DMG',
-  'Fire DMG Boost': 'Fire DMG',
-  'Ice DMG Boost': 'Ice DMG',
-  'Imaginary DMG Boost': 'Imaginary DMG',
-  'Lightning DMG Boost': 'Lightning DMG',
-  'Physical DMG Boost': 'Physical DMG',
-  'Quantum DMG Boost': 'Quantum DMG',
-  'Wind DMG Boost': 'Wind DMG',
-  'Elation': 'Elation',
-  'Outgoing Healing Boost': 'Healing Boost',
-  'Energy Regeneration Rate': 'Energy Regen',
-  'BASIC': 'Basic Damage',
-  'ULT': 'Ult Damage',
-  'SKILL': 'Skill Damage',
-  'FUA': 'FUA Damage',
-  'DOT': 'DoT Damage',
-}
+const READABLE_STAT_KEYS: ReadonlySet<string> = new Set([
+  ...Object.keys(damageStats),
+  Stats.OHB,
+  Stats.ERR,
+  'BASIC',
+  'SKILL',
+  'ULT',
+  'FUA',
+  'DOT',
+])
 
-function StatRowDivider() {
+export function StatRowDivider() {
   return <span role='separator' style={{ margin: 'auto 10px', flexGrow: 1, borderBottom: `1px dashed ${separatorColor}` }} />
 }
 
 export const StatRow = memo(function StatRow({
   stat,
   finalStats,
-  value: customValue,
   edits,
   preciseSpd,
 }: {
-  stat: string,
+  stat: StatsValues,
   finalStats: BasicStatsObject | ComputedStatsObjectExternal,
-  value?: number,
   edits?: Record<string, boolean>,
   preciseSpd?: boolean,
 }): ReactNode {
@@ -109,15 +100,14 @@ export const StatRow = memo(function StatRow({
 
   const { t, i18n } = useTranslation('common')
 
-  const readableStat: string = statToLabel(stat, t, i18n)
-
-  const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, customValue ?? 0, stat, preciseSpd)
+  const readableStat = statToLabel(stat, t, i18n)
 
   if (!finalStats) {
     return null
   }
 
-  const valueText = `${valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`
+  const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, 0, stat, preciseSpd)
+  const valueText = `${valueDisplay}${isFlat(stat) ? '' : '%'}`
 
   return (
     <div
@@ -134,28 +124,25 @@ export const StatRow = memo(function StatRow({
 
 export const AsyncStatRow = memo(function({ promise, type, subType, stat, element, path, elementalDmgValue, edits, preciseSpd }: {
   promise: Promise<SimulationScore | null>,
-  type: 'Character' | 'Benchmark' | 'Perfect',
+  type: ScoringColumnKind.CHARACTER | ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
   subType: 'Basic' | 'Combat',
-  stat: string,
+  stat: StatsValues,
   element: ElementName,
   path: PathName,
-  elementalDmgValue: string,
+  elementalDmgValue: StatsValues,
   edits?: Record<string, boolean>,
   preciseSpd?: boolean,
 }) {
   const { t, i18n } = useTranslation('common')
 
-  const readableStat: string = (displayTextMap[stat] || stat === 'CV')
-    ? (i18n.exists(`ReadableStats.${stat}`)
-      ? t(`ReadableStats.${stat as StatsValues}`)
-      : t(`DMGTypes.${stat}` as never))
-    : t(`Stats.${stat as StatsValues}`)
+  const readableStat = statToLabel(stat, t, i18n)
 
   const output = usePromise(promise)
 
   const transformed = useMemo(() => {
     if (!output) return null
-    const simResult = output[type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'].result
+    const sim = type === ScoringColumnKind.BENCHMARK ? output.benchmarkSim : output.maximumSim
+    const simResult = sim.result
     if (!simResult) return null
     const stats = subType === 'Basic'
       ? toBasicStatsObject(simResult.ca)
@@ -175,7 +162,7 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
   const valueNode = transformed
     ? (
       <span>
-        {`${transformed.valueDisplay}${isFlat(stat) || stat === 'CV' || stat === 'simScore' ? '' : '%'}${stat === 'simScore' ? t('ThousandsSuffix') : ''}`}
+        {`${transformed.valueDisplay}${isFlat(stat) ? '' : '%'}`}
       </span>
     )
     : <Skeleton width={70} />
@@ -193,11 +180,13 @@ export const AsyncStatRow = memo(function({ promise, type, subType, stat, elemen
   )
 })
 
-export function getStatRenderValues(statValue: number, customValue: number, stat: string, preciseSpd?: boolean) {
+export const COMBO_DMG_STAT = 'COMBO_DMG' as const
+
+export function getStatRenderValues(statValue: number, customValue: number, stat: StatsValues | typeof COMBO_DMG_STAT, preciseSpd?: boolean) {
   let valueDisplay: string
   let value1000thsPrecision: string
 
-  if (stat === 'simScore' || stat === 'COMBO_DMG') {
+  if (stat === COMBO_DMG_STAT) {
     valueDisplay = localeNumber_0(truncate10ths(precisionRound((customValue ?? 0) / 1000)))
     value1000thsPrecision = localeNumber_000(precisionRound(customValue))
   } else if (stat === Constants.Stats.SPD) {
@@ -217,8 +206,8 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
   return { valueDisplay, value1000thsPrecision }
 }
 
-function statToLabel(stat: string, t: TFunction<'common'>, i18n: i18n) {
-  return (displayTextMap[stat] || stat === 'CV')
+export function statToLabel(stat: StatsValues, t: TFunction<'common'>, i18n: i18n) {
+  return READABLE_STAT_KEYS.has(stat)
     ? (i18n.exists(`ReadableStats.${stat}`)
       ? t(`ReadableStats.${stat as StatsValues}`)
       : t(`DMGTypes.${stat}` as never))

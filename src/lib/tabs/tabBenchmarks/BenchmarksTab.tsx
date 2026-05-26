@@ -37,7 +37,6 @@ import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
 import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
-import { TeammatesSection } from 'lib/tabs/tabBenchmarks/TeammateCards'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
 import {
   applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance,
@@ -47,6 +46,7 @@ import {
 } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
 import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
 import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
+import { TeammatesSection } from 'lib/tabs/tabBenchmarks/TeammateCards'
 import {
   type BenchmarkForm,
   useBenchmarksTabStore,

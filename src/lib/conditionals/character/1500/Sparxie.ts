@@ -4,6 +4,11 @@ import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -92,6 +97,8 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
   } = Source.character(Sparxie.id)
 
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Sparxie.Content')
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const engagementScaling = skill(e, 0.20, 0.22)
@@ -350,8 +357,12 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
 
-    finalizeCalculations: () => {},
-    newGpuFinalizeCalculations: () => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
     dynamicConditionals: [
       {
         id: 'SparxieAtkElationConditional',
@@ -503,6 +514,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.TENGOKU_SET,
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
@@ -515,7 +527,7 @@ const display = {
     y: 1050,
     z: 1.10,
   },
-  showcaseColor: '#b385ea',
+  showcaseColor: '#8e68ba',
   gridPortraitOffset: 20,
 }
 

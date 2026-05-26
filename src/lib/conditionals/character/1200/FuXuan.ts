@@ -13,6 +13,7 @@ import {
   ConditionalActivation,
   ConditionalType,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -29,7 +30,9 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+} from 'types/metadata'
 
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -37,7 +40,9 @@ import {
   type OptimizerContext,
 } from 'types/optimizer'
 
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 export const FuXuanEntities = createEnum('FuXuan')
 export const FuXuanAbilities: AbilityKind[] = [
@@ -270,7 +275,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.CR]: 0,
     [Stats.CD]: 0,
     [Stats.EHR]: 0,
-    [Stats.RES]: 0.5,
+    [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
   parts: {

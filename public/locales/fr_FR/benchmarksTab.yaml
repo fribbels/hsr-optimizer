@@ -31,7 +31,6 @@ ResultsPanel:
   CombatStats: Stats de Combat
   Rolls: Rolls de Substats
   Combo: Rotation COMBO
-  Damage: Dégâts de capacité
 Messages:
   Error:
     MissingField: Personnage/coéquipier/cône de lumière manquant

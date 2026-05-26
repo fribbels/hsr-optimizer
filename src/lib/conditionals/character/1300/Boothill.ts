@@ -1,6 +1,14 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -45,6 +53,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
@@ -86,6 +95,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(Boothill.id)
+
+  const ultHitMulti = ashblazingMulti([
+    single(0.20),
+    single(0.80),
+  ])
 
   const standoffVulnerabilityBoost = skill(e, 0.30, 0.33)
 
@@ -274,7 +288,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.VULNERABILITY, (e >= 4 && r.standoffActive && r.e4TargetStandoffVulnerability) ? 0.12 : 0, x.source(SOURCE_E4))
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
     dynamicConditionals: [{
       id: 'BoothillConversionConditional',
       type: ConditionalType.ABILITY,
@@ -432,7 +451,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.BE,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(2),
+  ],
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,

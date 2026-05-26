@@ -92,18 +92,15 @@ CharacterPreview:
       CombatStats: 角色<1>戰鬥屬性</1>
       Substats: 角色遺器副詞條 (最少升級次數)
       Mainstats: 角色遺器主詞條
-      Abilities: 角色技能傷害
     Benchmark:
       Header: '基準配裝 ({{score}}%)'
       CombatStats: 100% 基準<1>戰鬥屬性</1>
       Substats: 100% 基準副詞條 (最少升級次數)
       Mainstats: 100% 基準主詞條
-      Abilities: 100% 基準技能傷害
     Perfect:
       Header: '完美配装 ({{score}}%)'
       CombatStats: 200% 完美<1>戰鬥屬性</1>
       Substats: 200% 完美副詞條 (最大升級次數)
       Mainstats: 200% 完美主詞條
-      Abilities: 200% 完美技能傷害
   ScoringDetails:
     Header: DPS評分是如何計算的?

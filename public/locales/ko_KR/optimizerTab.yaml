@@ -33,6 +33,8 @@ OrnamentSetSelector:
   Placeholder: 장신구 세트
 SortOptions:
   DMGLabel: 피해 계산
+  OptimizationLabel: 최적화
+  AbilityLabel: 능력
   StatLabel: 스탯
   COMBO: 콤보 데미지 순으로 정렬
   BASIC: 일방 공격 순으로 정렬
@@ -105,7 +107,6 @@ Grid:
   Of: /
   Page: 페이지
   PageSelectorLabel: '페이지 크기 :'
-  Loading: 로딩중...
   Headers:
     Basic:
       Set: 세트
@@ -397,7 +398,6 @@ CombatBuffs:
   SPD: 속도
   SPD_P: 속도 %
   BE: 격특 %
-  DMG_BOOST: 가하는 피해 %
   DEF_PEN: 방어력 무시 %
   RES_PEN: 속성 저항 관통 %
   EFFECT_RES_PEN: 속성 저항 감소 %

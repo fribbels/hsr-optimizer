@@ -362,7 +362,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (r.spdBuff) ? 0.40 : 0, x.source(SOURCE_TRACE))
 
       // Talent DMG boost (both Castorice and Netherwing)
-      x.buff(StatKey.DMG_BOOST, talentDmgBoost * r.talentDmgStacks, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, talentDmgBoost * r.talentDmgStacks, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TALENT))
 
       // E1: Final DMG boost for Netherwing
       if (e >= 1) {
@@ -377,14 +377,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       )
 
       // Netherwing's trace DMG boost
-      x.buff(StatKey.DMG_BOOST, 0.30 * r.memoDmgStacks, x.target(CastoriceEntities.Netherwing).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, 0.30 * r.memoDmgStacks, x.target(CastoriceEntities.Netherwing).source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.RES_PEN, (m.memospriteActive) ? ultTerritoryResPen : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
-      x.buff(StatKey.DMG_BOOST, (m.teamDmgBoost) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_MEMO))
+      x.buff(StatKey.BOOST, (m.teamDmgBoost) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_MEMO))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

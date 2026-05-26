@@ -1,3 +1,8 @@
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -57,6 +62,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1210')
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const talentDebuffDmgIncreaseValue = talent(e, 0.07, 0.076)
   const talentDebuffMax = (e >= 6) ? 4 : 3
@@ -198,7 +205,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Trace - DMG boost when enemy is burned
-      x.buff(StatKey.DMG_BOOST, (r.enemyBurned) ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemyBurned) ? 0.20 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -212,8 +219,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -251,6 +261,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.PRISONER_SET,
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
   sortOption: SortOption.SPD,
   hiddenColumns: [

@@ -250,6 +250,7 @@ const presetToSetMapping: Record<string, string> = {
   fnAshblazingSet: Sets.TheAshblazingGrandDuke,
   fnPioneerSet: Sets.PioneerDiverOfDeadWaters,
   fnSacerdosSet: Sets.SacerdosRelivedOrdeal,
+  fnMortenaxAshblazingSet: Sets.TheAshblazingGrandDuke,
   PRISONER_SET: Sets.PrisonerInDeepConfinement,
   WASTELANDER_SET: Sets.WastelanderOfBanditryDesert,
   VALOROUS_SET: Sets.TheWindSoaringValorous,
@@ -467,4 +468,3 @@ function CharacterColorGridDashboard() {
     </div>
   )
 }
-

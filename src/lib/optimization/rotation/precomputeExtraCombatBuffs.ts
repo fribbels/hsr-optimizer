@@ -1,6 +1,9 @@
 import { CombatBuffs } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
-import { type AKeyValue, StatKey } from 'lib/optimization/engine/config/keys'
+import {
+  type AKeyValue,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import type { Form } from 'types/form'
@@ -17,7 +20,7 @@ const COMBAT_BUFF_KEY_TO_STAT_KEY: Record<string, AKeyValue> = {
   SPD: StatKey.SPD,
   SPD_P: StatKey.SPD_P,
   BE: StatKey.BE,
-  DMG_BOOST: StatKey.DMG_BOOST,
+  BOOST: StatKey.BOOST,
   DEF_PEN: StatKey.DEF_PEN,
   RES_PEN: StatKey.RES_PEN,
   EFFECT_RES_PEN: StatKey.EFFECT_RES_PEN,

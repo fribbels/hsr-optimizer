@@ -291,7 +291,9 @@ struct CompactEntry { index: u32, value: f32 }
 
 function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
   if (gpuParams.TUPLE_MODE) {
-    wgsl = wgsl.replace('/* INJECT OFFSET DECODE */', `
+    wgsl = wgsl.replace(
+      '/* INJECT OFFSET DECODE */',
+      `
   let a = assignments[params.batchOffset + workgroup_index];
   let threshold = params.threshold;
 
@@ -327,16 +329,22 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
   var curB = tXb + b0;
   var curG = tXg + g0;
   var curH = tXh + h0;
-`)
+`,
+    )
 
-    wgsl = wgsl.replace('/* INJECT PERM LIMIT CHECK */', `
+    wgsl = wgsl.replace(
+      '/* INJECT PERM LIMIT CHECK */',
+      `
     let localIndex = i32(local_invocation_index) * CYCLES_PER_INVOCATION + i;
     if (localIndex >= permLimit) {
       break;
     }
-`)
+`,
+    )
 
-    wgsl = wgsl.replace('/* INJECT CARRY CHAIN */', `
+    wgsl = wgsl.replace(
+      '/* INJECT CARRY CHAIN */',
+      `
     continuing {
       i++;
 
@@ -378,9 +386,12 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
         setP = u32(planarSphere.v5.z);
       }
     }
-`)
+`,
+    )
   } else {
-    wgsl = wgsl.replace('/* INJECT OFFSET DECODE */', `
+    wgsl = wgsl.replace(
+      '/* INJECT OFFSET DECODE */',
+      `
   let xl = i32(params.xl);
   let xp = i32(params.xp);
   let xf = i32(params.xf);
@@ -414,17 +425,23 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
   let carryG = (g + xg + carryB) / gSize;
   var curG = (g + xg + carryB) % gSize;
   var curH = (h + xh + carryG) % hSize;
-`)
+`,
+    )
 
-    wgsl = wgsl.replace('/* INJECT PERM LIMIT CHECK */', `
+    wgsl = wgsl.replace(
+      '/* INJECT PERM LIMIT CHECK */',
+      `
     let index = cycleIndex + i;
 
     if (index >= i32(params.permLimit)) {
       break;
     }
-`)
+`,
+    )
 
-    wgsl = wgsl.replace('/* INJECT CARRY CHAIN */', `
+    wgsl = wgsl.replace(
+      '/* INJECT CARRY CHAIN */',
+      `
     continuing {
       i++;
 
@@ -466,7 +483,8 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
         setP = u32(planarSphere.v5.z);
       }
     }
-`)
+`,
+    )
   }
 
   return wgsl

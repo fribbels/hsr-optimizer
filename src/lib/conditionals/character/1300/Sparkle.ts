@@ -27,6 +27,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -43,6 +44,7 @@ export const SparkleEntities = createEnum('Sparkle')
 export const SparkleAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -66,6 +68,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillCdBuffBase = skill(e, 0.45, 0.486)
   const cipherTalentStackBoost = ult(e, 0.10, 0.108)
   const talentBaseStackBoost = talent(e, 0.06, 0.066)
+
+  const effectiveCdScaling = skillCdBuffScaling + (e >= 6 ? 0.30 : 0)
 
   const basicScaling = basic(e, 1.00, 1.10)
 
@@ -172,6 +176,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
         ],
       },
+      [AbilityKind.BUFF]: {
+        hits: [
+          HitDefinitionBuilder.linearBuff()
+            .buffStat(StatKey.CD)
+            .sourceStat(StatKey.CD)
+            .scaling(effectiveCdScaling)
+            .flat(skillCdBuffBase)
+            .build(),
+        ],
+      },
     }),
     actionModifiers: () => [],
 
@@ -205,7 +219,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Talent: DMG boost based on stacks (with cipher bonus if active)
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (m.cipherBuff)
           ? m.talentStacks * (talentBaseStackBoost + cipherTalentStackBoost)
           : m.talentStacks * talentBaseStackBoost,
@@ -234,8 +248,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-    },
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
     dynamicConditionals: [
@@ -306,7 +319,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnSacerdosSet(3),
+  ],
   sortOption: SortOption.CD,
   hiddenColumns: [
     SortOption.SKILL,
@@ -326,6 +341,7 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See SparkleB1.ts for the updated variant.
 export const Sparkle: CharacterConfig = {
   id: '1306',
   display,

@@ -28,10 +28,7 @@ import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import {
-  type AbilityKind,
-  type TurnAbilityName,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   SetsOrnaments,
   SetsRelics,
@@ -112,6 +109,9 @@ export function simulateBuild(
   }
 
   let comboDmg = 0
+  let comboHeal = 0
+  let comboShield = 0
+  let comboBuff = 0
 
   const defaultActions = context.defaultActions
 
@@ -162,6 +162,12 @@ export function simulateBuild(
         sum += dmg
         if (hit.outputTag === OutputTag.DAMAGE) {
           comboDmg += dmg
+        } else if (hit.outputTag === OutputTag.HEAL) {
+          comboHeal += dmg
+        } else if (hit.outputTag === OutputTag.SHIELD) {
+          comboShield += dmg
+        } else if (hit.outputTag === OutputTag.BUFF) {
+          comboBuff = dmg
         }
       }
     }
@@ -171,7 +177,7 @@ export function simulateBuild(
 
   // Track primary action stats for the scoring action (for combat stats display)
   let primaryActionStats: PrimaryActionStats = {
-    DMG_BOOST: 0,
+    BOOST: 0,
     sourceEntityCR: 0,
     sourceEntityCD: 0,
     sourceEntityElementDmgBoost: 0,
@@ -210,7 +216,7 @@ export function simulateBuild(
         // Capture fully resolved stats matching the damage formula:
         const hasHits = action.hits?.length ?? 0
         primaryActionStats = {
-          DMG_BOOST: hasHits ? x.getValue(StatKey.DMG_BOOST, 0) : 0,
+          BOOST: hasHits ? x.getValue(StatKey.BOOST, 0) : 0,
           sourceEntityCR: (hasHits ? x.getValue(StatKey.CR, 0) : 0) + x.getActionValueByIndex(StatKey.CR_BOOST, sourceEntityIndex),
           sourceEntityCD: (hasHits ? x.getValue(StatKey.CD, 0) : 0) + x.getActionValueByIndex(StatKey.CD_BOOST, sourceEntityIndex),
           sourceEntityElementDmgBoost: x.getActionValueByIndex(elementDmgBoostKey, sourceEntityIndex),
@@ -230,6 +236,9 @@ export function simulateBuild(
 
         if (hit.recorded !== false) {
           sum += dmg
+          if (hit.outputTag === OutputTag.BUFF) {
+            comboBuff = dmg
+          }
         }
       }
 
@@ -240,7 +249,7 @@ export function simulateBuild(
 
     // Capture action damage for each default action
     for (const action of defaultActions) {
-      actionDamage[action.actionName as AbilityKind] = x.getActionRegisterValue(action.registerIndex)
+      actionDamage[action.actionType] = (actionDamage[action.actionType] ?? 0) + x.getActionRegisterValue(action.registerIndex)
     }
 
     // Capture per-step rotation damage
@@ -249,11 +258,15 @@ export function simulateBuild(
         actionType: action.actionType,
         actionName: action.actionName as TurnAbilityName,
         damage: x.getActionRegisterValue(action.registerIndex),
+        buffStat: action.buffStat,
       })
     }
   }
 
   x.setGlobalRegisterValue(GlobalRegister.COMBO_DMG, comboDmg)
+  x.setGlobalRegisterValue(GlobalRegister.COMBO_HEAL, comboHeal)
+  x.setGlobalRegisterValue(GlobalRegister.COMBO_SHIELD, comboShield)
+  x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, comboBuff)
 
   return {
     x,

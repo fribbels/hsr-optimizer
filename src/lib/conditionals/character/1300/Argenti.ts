@@ -1,6 +1,15 @@
+import {
+  aoe,
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -35,6 +44,7 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -83,6 +93,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultEnhancedScaling = ult(e, 2.80, 3.024)
   const ultEnhancedExtraHitScaling = ult(e, 0.95, 1.026)
   const talentCrStackValue = talent(e, 0.025, 0.028)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+  const ultEnhancedHitMulti = ashblazingMulti([
+    aoe(ultEnhancedScaling),
+    ...Array(6).fill(single(ultEnhancedExtraHitScaling)),
+  ])
 
   const defaults = {
     ultEnhanced: false,
@@ -205,7 +221,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, r.talentStacks * talentCrStackValue, x.source(SOURCE_TALENT))
 
       // Trace
-      x.buff(StatKey.DMG_BOOST, (r.enemyHp50) ? 0.15 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemyHp50) ? 0.15 : 0, x.source(SOURCE_TRACE))
 
       // Eidolons
       x.buff(StatKey.CD, (e >= 1) ? r.talentStacks * 0.04 : 0, x.source(SOURCE_E1))
@@ -215,9 +231,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      boostUltAshblazingAtk(x, action, (r.ultEnhanced ? ultEnhancedHitMulti : ultHitMulti)(context))
     },
-
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+      return gpuBoostUltAshblazingAtk(action, (r.ultEnhanced ? ultEnhancedHitMulti : ultHitMulti)(context))
+    },
   }
 }
 
@@ -322,7 +342,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(8),
+  ],
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.FUA,

@@ -1,3 +1,8 @@
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -50,6 +55,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
   } = Source.character(Pela.id)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const ultDefPenValue = ult(e, 0.40, 0.42)
 
@@ -202,10 +209,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (e >= 2 && r.skillRemovedBuff) ? 0.10 : 0, x.source(SOURCE_E2))
 
       // DMG boost for Basic/Skill/Ult when buff removed
-      x.buff(StatKey.DMG_BOOST, (r.skillRemovedBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.skillRemovedBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_TRACE))
 
       // DMG boost when enemy debuffed
-      x.buff(StatKey.DMG_BOOST, (r.enemyDebuffed) ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemyDebuffed) ? 0.20 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -217,8 +224,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, (e >= 4 && m.e4SkillResShred) ? 0.12 : 0, x.elements(ElementTag.Ice).targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -257,6 +268,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
   sortOption: SortOption.SPD,
   hiddenColumns: [

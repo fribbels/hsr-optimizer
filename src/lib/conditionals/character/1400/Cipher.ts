@@ -1,3 +1,8 @@
+import {
+  ashblazingMulti,
+  blast,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import {
@@ -195,6 +200,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const hitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.20 + 2 * 0.10 + 3 * 0.10 + 4 * 0.60)
 
+  const ultHitMulti = ashblazingMulti([
+    single(ultScaling),
+    blast(ultSecondaryScaling),
+  ])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    return hitMulti
+  }
+
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
@@ -310,13 +327,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, (e >= 1 && r.e1AtkBuff) ? 0.80 : 0, x.source(SOURCE_E1))
 
       // E6 FUA DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.e6FuaDmg) ? 3.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.e6FuaDmg) ? 3.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
 
       // Cyrene special effect - DMG boost
       const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
         : 0
-      x.buff(StatKey.DMG_BOOST, r.cyreneSpecialEffect ? cyreneDmgBuff : 0, x.source(Source.odeTo(Cipher.id)))
+      x.buff(StatKey.BOOST, r.cyreneSpecialEffect ? cyreneDmgBuff : 0, x.source(Source.odeTo(Cipher.id)))
     },
 
     precomputeMutualEffectsContainer: (
@@ -344,10 +361,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMulti, action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
 
     dynamicConditionals: [

@@ -19,19 +19,16 @@ import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
 import {
-  getShowcasePreset,
-  ShowcasePreset,
-} from 'lib/characterPreview/debugVisualConfigStore'
-import {
   buildCardBgPipelineConfig,
   DEFAULT_SHOWCASE_COLOR,
   resolveShowcaseTheme,
 } from 'lib/characterPreview/color/showcaseColorService'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
 import {
-  ScoringSelector,
-  useSimScoringContext,
-} from 'lib/characterPreview/SimScoringContext'
+  getShowcasePreset,
+  ShowcasePreset,
+} from 'lib/characterPreview/debugVisualConfigStore'
+import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
 import { AppPages } from 'lib/constants/appPages'
 import {
   ShowcaseColorMode,
@@ -51,7 +48,11 @@ import {
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { Assets } from 'lib/rendering/assets'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { configTypeForScoringType } from 'lib/scoring/scoringConfig'
+import {
+  isSimScoreMode,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -74,6 +75,7 @@ import React, {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type CharacterId } from 'types/character'
+import { ScoringConfigType } from 'types/metadata'
 import classes from './ShowcaseCustomizationSidebar.module.css'
 
 interface ShowcaseCustomizationSidebarProps {
@@ -180,7 +182,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
   function onDeprioritizeBuffsChange(value: boolean) {
     const meta = getScoringMetadata(characterId)
     if (meta?.simulation) {
-      useScoringStore.getState().updateSimulationOverrides(characterId, { deprioritizeBuffs: value })
+      useScoringStore.getState().updateScoringConfigOverride(characterId, ScoringConfigType.DPS, { deprioritizeBuffs: value })
       SaveState.delayedSave()
     }
   }
@@ -224,7 +226,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
 
       <HorizontalDivider />
 
-      {scoringType === ScoringType.COMBAT_SCORE && (
+      {scoringType === ScoringType.DPS_SCORE && (
         <>
           <HeaderText className={classes.headerCenteredMb}>
             {tScoring('BuffPriority.Header') /* DPS mode */}
@@ -262,7 +264,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
         onChange={(value) => onSpdPrecisionChange(value === 'true')}
       />
 
-      {scoringType === ScoringType.COMBAT_SCORE && (
+      {isSimScoreMode(scoringType) && (
         <>
           <HorizontalDivider />
           <HeaderText className={classes.headerCenteredMb}>
@@ -271,6 +273,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
           <SpdBenchmarkCombobox
             spdBenchmark={spdBenchmark}
             onSpdBenchmarkChange={onSpdBenchmarkChange}
+            scoringType={scoringType}
           />
         </>
       )}
@@ -452,7 +455,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
 
       <HorizontalDivider />
       <HeaderText className={classes.headerCenteredMb} style={{ marginBottom: 1 }}>
-        {tCustomization('ShowL2D') /* Show Live2D */}
+        {tCustomization('ShowL2D') /* Animations */}
       </HeaderText>
       <SegmentedControl
         data={[
@@ -473,11 +476,13 @@ const CustomizationPanel = memo(function CustomizationPanel({
 function SpdBenchmarkCombobox(props: {
   spdBenchmark: number | undefined,
   onSpdBenchmarkChange: (n: number | undefined) => void,
+  scoringType: ScoringType,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
   const { t: tCharacterTab } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.ScoringSidebar.BenchmarkSpd' })
 
-  const spdFilter = useSimScoringContext(ScoringSelector.Preview)?.originalSpd
+  const configType = configTypeForScoringType(props.scoringType) ?? ScoringConfigType.DPS
+  const spdFilter = useSimPreview(configType)?.originalSpd
 
   const options = useMemo(() =>
     buildSpdPresetOptions(t, {

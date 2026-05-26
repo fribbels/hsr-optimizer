@@ -1,7 +1,15 @@
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -13,10 +21,14 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   ConditionalActivation,
   ConditionalType,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { containerActionVal } from 'lib/gpu/injection/injectUtils'
@@ -30,8 +42,16 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_HEAL,
+  SPREAD_RELICS_4P_HEAL,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   floorSafe,
@@ -40,7 +60,10 @@ import {
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -51,6 +74,7 @@ export const CerydraAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.ULT,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -68,6 +92,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E6,
     SOURCE_MEMO,
   } = Source.character(Cerydra.id)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillCdScaling = skill(e, 0.72, 0.792)
@@ -224,6 +250,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
         },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ATK)
+              .sourceStat(StatKey.ATK)
+              .scaling(talentAtkScaling)
+              .build(),
+          ],
+        },
       }
     },
     actionModifiers: () => [],
@@ -241,7 +276,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD, r.spdBuff ? 20 : 0, x.source(SOURCE_TRACE))
 
       // E2: DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.e2DmgBoost) ? 1.60 : 0, x.source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && r.e2DmgBoost) ? 1.60 : 0, x.source(SOURCE_E2))
 
       // E6: RES PEN
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6Buffs) ? 0.20 : 0, x.source(SOURCE_E6))
@@ -287,7 +322,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, (e >= 1 && t.e1DefPen && t.peerage) ? 0.20 : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.SingleTarget).source(SOURCE_E1))
 
       // E2: DMG boost (requires militaryMerit)
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && t.e2DmgBoost && t.militaryMerit) ? 0.40 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && t.e2DmgBoost && t.militaryMerit) ? 0.40 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
 
       // E6: RES PEN (requires militaryMerit)
       x.buff(StatKey.RES_PEN, (e >= 6 && t.e6Buffs && t.militaryMerit) ? 0.20 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E6))
@@ -300,8 +335,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
 
     dynamicConditionals: [
       {
@@ -346,6 +384,56 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.ATK_P],
+    [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
+  buffStat: StatKey.ATK,
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
+  relicSets: [
+    [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+    ...SPREAD_RELICS_4P_HEAL,
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_HEAL,
+  ],
+  teammates: [
+    {
+      characterId: Phainon.id,
+      lightCone: ThusBurnsTheDawn.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
@@ -378,9 +466,12 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(5),
+  ],
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

@@ -5,26 +5,35 @@ import {
   CharacterStatSummary,
 } from 'lib/characterPreview/card/CharacterStatSummary'
 import {
-  ScoringSelector,
-  SimScoringContext,
-  useSimScoringContext,
-} from 'lib/characterPreview/SimScoringContext'
-import {
   AbilityDamageSummary,
   AsyncAbilityDamageSummary,
+  SummaryRows,
 } from 'lib/characterPreview/summary/AbilityDamageSummary'
 import { MainStatsSummary } from 'lib/characterPreview/summary/MainStatsSummary'
 import { SubstatRollsSummary } from 'lib/characterPreview/summary/SubstatRollsSummary'
+import {
+  useScoringPipeline,
+  useSimPreview,
+} from 'lib/characterPreview/useSimScoringHooks'
 import {
   type ElementName,
   type PathName,
   PathNames,
   Stats,
+  type StatsValues,
 } from 'lib/constants/constants'
 import { defaultGap } from 'lib/constants/constantsUi'
-import { Assets } from 'lib/rendering/assets'
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { Assets } from 'lib/rendering/assets'
 import {
+  CONFIG_FIELD_MAP,
+  resolveComboLabel,
+  SCORING_CONFIG_REGISTRY,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
+import {
+  formatSimScore,
   getElementalDmgFromContainer,
   type SimulationScore,
   StatsToStatKey,
@@ -33,7 +42,9 @@ import type {
   RunStatSimulationsResult,
   Simulation,
 } from 'lib/simulations/statSimulationTypes'
+import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { DeferCreate } from 'lib/ui/DeferredRender'
+import { HorizontalDivider } from 'lib/ui/Dividers'
 import { SuspenseNode } from 'lib/ui/SuspenseNode'
 import {
   precisionRound,
@@ -42,26 +53,35 @@ import {
 import {
   memo,
   Suspense,
-  useContext,
 } from 'react'
 import {
   Trans,
   useTranslation,
 } from 'react-i18next'
 import type { CharacterId } from 'types/character'
+import { ScoringConfigType } from 'types/metadata'
 import classes from './CharacterScoringSummary.module.css'
 
+const nullPromise = Promise.resolve(null)
 const highlightColor = 'rgb(225, 165, 100)'
+
+export enum ScoringColumnKind {
+  CHARACTER = 'Character',
+  BASELINE = 'Baseline',
+  BENCHMARK = 'Benchmark',
+  PERFECT = 'Perfect',
+}
 
 interface ExternalScoringColumnProps {
   characterId: CharacterId
-  elementalDmgValue: string
+  elementalDmgValue: StatsValues
   element: ElementName
   characterMetadata: { path: PathName }
+  configType: ScoringConfigType
 }
 
 interface ExternalSimulationScoringColumnProps extends ExternalScoringColumnProps {
-  type: 'Benchmark' | 'Perfect'
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
 }
 
 interface SharedScoringColumnProps extends ExternalScoringColumnProps {
@@ -71,26 +91,26 @@ interface SharedScoringColumnProps extends ExternalScoringColumnProps {
 }
 
 interface SynchronousScoringColumnProps extends SharedScoringColumnProps {
-  type: 'Character'
+  type: ScoringColumnKind.CHARACTER | ScoringColumnKind.BASELINE
   simulation: Simulation
   originalSimResult: RunStatSimulationsResult
 }
 
 interface AsynchronousScoringColumnProps extends SharedScoringColumnProps {
-  type: 'Benchmark' | 'Perfect'
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
   simulation: Promise<SimulationScore | null>
 }
 
 type ScoringColumnProps = SynchronousScoringColumnProps | AsynchronousScoringColumnProps
 
 function isAsyncProps(props: ScoringColumnProps): props is AsynchronousScoringColumnProps {
-  return props.type !== 'Character'
+  return props.type === ScoringColumnKind.BENCHMARK || props.type === ScoringColumnKind.PERFECT
 }
 
 const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   const { t } = useTranslation(['charactersTab', 'common'])
 
-  const highlight = props.type === 'Character'
+  const highlight = props.type === ScoringColumnKind.CHARACTER
 
   // only the character scoring column will pass as null as all other info is available synchronously
   const headerText = props.percent !== null
@@ -100,6 +120,10 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
     : null
 
   if (!isAsyncProps(props) && !props.simulation.result) return null
+
+  const scoringEntry = SCORING_CONFIG_REGISTRY[props.configType]
+  const scoringBuffStat = getScoringMetadata(props.characterId)[CONFIG_FIELD_MAP[props.configType]]?.buffStat
+  const avatarSrc = Assets.getCharacterAvatarById(props.characterId)
 
   const setsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap, alignItems: 'center' }}>
@@ -119,8 +143,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
           ))
           : ([props.simulation.request.simRelicSet1, props.simulation.request.simRelicSet2, props.simulation.request.simOrnamentSet]
             .filter(Boolean)
-            .map((set, i) => <img key={i} src={Assets.getSetImage(set)} className={classes.setImage} />)
-          )}
+            .map((set, i) => <img key={i} src={Assets.getSetImage(set)} className={classes.setImage} />))}
       </div>
     </div>
   )
@@ -141,6 +164,8 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             promise={props.simulation}
             type={props.type}
             subType='Basic'
+            configType={props.configType}
+            buffStat={scoringBuffStat}
           />
         )
         : (
@@ -149,6 +174,9 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             finalStats={toBasicStatsObject(props.simulation.result!.ca)}
             elementalDmgValue={props.elementalDmgValue}
             simScore={props.simulation.result!.simScore}
+            configType={props.configType}
+            scoringType={scoringEntry.scoringType}
+            buffStat={scoringBuffStat}
             showAll={true}
             zebra
           />
@@ -180,6 +208,8 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             promise={props.simulation}
             type={props.type}
             subType='Combat'
+            configType={props.configType}
+            buffStat={scoringBuffStat}
           />
         )
         : (
@@ -188,6 +218,9 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             finalStats={combatStats!}
             elementalDmgValue={props.elementalDmgValue}
             simScore={props.simulation.result!.simScore}
+            configType={props.configType}
+            scoringType={scoringEntry.scoringType}
+            buffStat={scoringBuffStat}
             showAll={true}
             zebra
           />
@@ -205,9 +238,10 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
           <SubstatRollsSummary
             promise={props.simulation}
             precision={props.precision}
-            diminish={props.type === 'Benchmark'}
+            diminish={props.type === ScoringColumnKind.BENCHMARK}
             type={props.type}
             columns={2}
+            configType={props.configType}
           />
         )
         : (
@@ -216,6 +250,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             precision={props.precision}
             diminish={false}
             columns={2}
+            configType={props.configType}
           />
         )}
     </div>
@@ -241,63 +276,111 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
     </div>
   )
 
-  const abilityBlock = (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className={classes.abilityDamageSection}>
-      <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
-        {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
-      </div>
-      {isAsyncProps(props)
-        ? (
-          <Suspense>
-            <AsyncAbilityDamageSummary promise={props.simulation} mode={props.type} />
-          </Suspense>
-        )
-        : <AbilityDamageSummary rotationDamage={props.simulation.result?.rotationDamage ?? []} />}
+  const abilityHeader = (
+    <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
+      {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
     </div>
   )
+
+  const isDps = props.configType === ScoringConfigType.DPS
+
+  let abilityBlock: React.ReactNode
+  if (isDps) {
+    const syncRotationDamage = !isAsyncProps(props) ? (props.simulation.result?.rotationDamage ?? []) : null
+    const hasSyncAbilityData = syncRotationDamage != null && syncRotationDamage.some((step) => step.actionType !== AbilityKind.NULL)
+
+    abilityBlock = isAsyncProps(props)
+      ? (
+        <Suspense>
+          <AsyncAbilityDamageSummary
+            promise={props.simulation}
+            mode={props.type}
+            configType={props.configType}
+            header={abilityHeader}
+            wrapperClassName={classes.abilityDamageSection}
+          />
+        </Suspense>
+      )
+      : hasSyncAbilityData
+      ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.abilityDamageSection}>
+          {abilityHeader}
+          <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} />
+        </div>
+      )
+      : null
+  } else {
+    const entry = SCORING_CONFIG_REGISTRY[props.configType]
+    const buffStat = getScoringMetadata(props.characterId)[CONFIG_FIELD_MAP[props.configType]]?.buffStat
+    const buffLabel = resolveComboLabel(entry, buffStat)
+
+    abilityBlock = isAsyncProps(props)
+      ? (
+        <Suspense>
+          <SuspenseNode
+            promise={props.simulation}
+            selector={(result: SimulationScore | null) => {
+              if (!result) return null
+              const sim = props.type === ScoringColumnKind.BENCHMARK ? result.benchmarkSim : result.maximumSim
+              const value = sim.result?.simScore ?? 0
+              return (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.abilityDamageSection}>
+                  {abilityHeader}
+                  <SummaryRows entries={[[buffLabel, formatSimScore(value, buffStat, 1, entry.thousands)]]} />
+                </div>
+              )
+            }}
+          />
+        </Suspense>
+      )
+      : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.abilityDamageSection}>
+          {abilityHeader}
+          <SummaryRows entries={[[buffLabel, formatSimScore(props.simulation.result?.simScore ?? 0, buffStat, 1, entry.thousands)]]} />
+        </div>
+      )
+  }
 
   return (
     <div className={props.columnClassName}>
       {headerText
         ? (
           <div className={classes.columnFilledHeader}>
-            <div className={classes.scoringColumnHeader} style={{ color: highlight ? highlightColor : '' }}>
+            <div className={classes.scoringColumnHeader} style={{ color: highlight ? highlightColor : '', alignItems: 'center', gap: 6 }}>
+              <img src={avatarSrc} style={{ width: 22, height: 22, borderRadius: '50%' }} />
               {headerText}
             </div>
           </div>
         )
-        : <SuspendedHeader t={t} />}
+        : <SuspendedHeader t={t} configType={props.configType} avatarSrc={avatarSrc} />}
       <div className={classes.columnFilledBody}>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{setsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{basicStatsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{combatStatsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{substatsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{mainstatsBlock}</div>
-        </DeferCreate>
-        <DeferCreate>
-          <div className={classes.columnFilledSection}>{abilityBlock}</div>
-        </DeferCreate>
+        <DeferCreate>{setsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{basicStatsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{combatStatsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{substatsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{mainstatsBlock}</DeferCreate>
+        <HorizontalDivider my={0} />
+        <DeferCreate>{abilityBlock}</DeferCreate>
       </div>
     </div>
   )
 })
 
-const SuspendedHeader = memo(function SuspendedHeader({ t }: {
+const SuspendedHeader = memo(function SuspendedHeader({ t, configType, avatarSrc }: {
   t: TFunction<readonly ['charactersTab', 'common'], undefined>,
+  configType: ScoringConfigType,
+  avatarSrc: string,
 }) {
-  const promise = useContext(SimScoringContext).scoringPromise
+  const scoringPipeline = useScoringPipeline(configType)
+  const promise = scoringPipeline?.scoringPromise ?? nullPromise
   return (
     <div className={classes.columnFilledHeader}>
-      <div className={classes.scoringColumnHeader} style={{ color: highlightColor, display: 'flex' }}>
+      <div className={classes.scoringColumnHeader} style={{ color: highlightColor, alignItems: 'center', gap: 6 }}>
+        <img src={avatarSrc} style={{ width: 22, height: 22, borderRadius: '50%' }} />
         <SuspenseNode
           fallback={<Fallback t={t} />}
           promise={promise}
@@ -326,8 +409,8 @@ function Fallback({ t }: {
 }
 
 type SetField = 'simRelicSet1' | 'simRelicSet2' | 'simOrnamentSet'
-function setSelector(type: 'Benchmark' | 'Perfect', field: SetField) {
-  const key = type === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'
+function setSelector(type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT, field: SetField) {
+  const key = type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim'
   return (score: SimulationScore | null) => {
     if (!score) return null
     const set = score[key].request[field]
@@ -338,7 +421,7 @@ function setSelector(type: 'Benchmark' | 'Perfect', field: SetField) {
 
 const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
 export const CharacterScoringColumn = memo(function(props: ExternalScoringColumnProps) {
-  const preview = useSimScoringContext(ScoringSelector.Preview)
+  const preview = useSimPreview(props.configType)
   if (preview === null) return null
   return (
     <ScoringColumn
@@ -346,23 +429,44 @@ export const CharacterScoringColumn = memo(function(props: ExternalScoringColumn
       originalSimResult={preview.originalSimResult}
       percent={null}
       precision={2}
-      type='Character'
+      type={ScoringColumnKind.CHARACTER}
       characterId={props.characterId}
       elementalDmgValue={props.elementalDmgValue}
       element={props.element}
       characterMetadata={props.characterMetadata}
       columnClassName={highlightClass}
+      configType={props.configType}
+    />
+  )
+})
+
+export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnProps) {
+  const preview = useSimPreview(props.configType)
+  if (preview === null) return null
+  return (
+    <ScoringColumn
+      simulation={preview.baselineSim}
+      originalSimResult={preview.baselineSimResult}
+      percent={0}
+      precision={0}
+      type={ScoringColumnKind.BASELINE}
+      characterId={props.characterId}
+      elementalDmgValue={props.elementalDmgValue}
+      element={props.element}
+      characterMetadata={props.characterMetadata}
+      columnClassName={classes.columnCardFilled}
+      configType={props.configType}
     />
   )
 })
 
 const defaultClass = classes.columnCardFilled
 export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps) {
-  const ctx = useContext(SimScoringContext)
-  const isBenchmark = props.type === 'Benchmark'
+  const scoringPipeline = useScoringPipeline(props.configType)
+  const isBenchmark = props.type === ScoringColumnKind.BENCHMARK
   return (
     <ScoringColumn
-      simulation={ctx.scoringPromise}
+      simulation={scoringPipeline?.scoringPromise ?? nullPromise}
       percent={isBenchmark ? 1.00 : 2.00}
       precision={0}
       type={props.type}
@@ -371,6 +475,7 @@ export const SimulationScoringColumn = memo(function(props: ExternalSimulationSc
       element={props.element}
       characterMetadata={props.characterMetadata}
       columnClassName={defaultClass}
+      configType={props.configType}
     />
   )
 })

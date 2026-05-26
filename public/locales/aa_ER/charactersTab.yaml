@@ -79,7 +79,7 @@ CharacterPreview:
       Standard: crwdns39662:0crwdne39662:0
     PaletteLabel: crwdns39664:0crwdne39664:0
     ShowUID: crwdns44572:0crwdne44572:0
-    ShowL2D: crwdns47124:0crwdne47124:0
+    ShowL2D: crwdns47247:0crwdne47247:0
   ArtBy: 'crwdns39666:0{{artistName}}crwdne39666:0'
   EditCharacter: crwdns39668:0crwdne39668:0
   EditPortrait: crwdns39670:0crwdne39670:0
@@ -156,6 +156,9 @@ CharacterPreview:
         ELATION_SKILL: crwdns46476:0crwdne46476:0
         UNIQUE: crwdns46704:0crwdne46704:0
         COMBO: crwdns39756:0crwdne39756:0
+        BUFF: crwdns47203:0crwdne47203:0
+        COMBO_HEAL: crwdns47205:0crwdne47205:0
+        COMBO_SHIELD: crwdns47207:0crwdne47207:0
     CombatBuffs:
       Header: crwdns44746:0crwdne44746:0
       SubDpsHeader: crwdns44885:0crwdne44885:0
@@ -168,7 +171,7 @@ CharacterPreview:
       CombatStats: crwdns39762:0crwdne39762:0
       Substats: crwdns39764:0crwdne39764:0
       Mainstats: crwdns39766:0crwdne39766:0
-      Abilities: crwdns39768:0crwdne39768:0
+      Abilities: crwdns47209:0crwdne47209:0
     Benchmark:
       Header: 'crwdns39770:0{{score}}crwdne39770:0'
       Sets: crwdns47144:0crwdne47144:0
@@ -176,7 +179,15 @@ CharacterPreview:
       CombatStats: crwdns39774:0crwdne39774:0
       Substats: crwdns39776:0crwdne39776:0
       Mainstats: crwdns39778:0crwdne39778:0
-      Abilities: crwdns39780:0crwdne39780:0
+      Abilities: crwdns47211:0crwdne47211:0
+    Baseline:
+      Header: 'crwdns47213:0{{score}}crwdne47213:0'
+      Sets: crwdns47215:0crwdne47215:0
+      BasicStats: crwdns47217:0crwdne47217:0
+      CombatStats: crwdns47219:0crwdne47219:0
+      Substats: crwdns47221:0crwdne47221:0
+      Mainstats: crwdns47223:0crwdne47223:0
+      Abilities: crwdns47225:0crwdne47225:0
     Perfect:
       Header: 'crwdns39782:0{{score}}crwdne39782:0'
       Sets: crwdns47146:0crwdne47146:0
@@ -184,7 +195,7 @@ CharacterPreview:
       CombatStats: crwdns39786:0crwdne39786:0
       Substats: crwdns39788:0crwdne39788:0
       Mainstats: crwdns39790:0crwdne39790:0
-      Abilities: crwdns39792:0crwdne39792:0
+      Abilities: crwdns47227:0crwdne47227:0
   ScoringDetails:
     Header: crwdns39794:0crwdne39794:0
   EST-TBP:

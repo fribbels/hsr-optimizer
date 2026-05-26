@@ -43,7 +43,6 @@ const iconFromStatMapping: Record<string, string> = {
 
 export const Assets = {
   getStatIcon: (stat: string, percented: boolean = false) => {
-    if (stat === 'CV') return getImageUrl(`/misc/cv.webp`)
     if (stat === 'simScore') return getImageUrl(`/misc/battle.webp`)
     if (stat === Constants.Stats.HP_P && percented) return getImageUrl(`/misc/IconMaxHPPercent.webp`)
     if (stat === Constants.Stats.ATK_P && percented) return getImageUrl(`/misc/IconAttackPercent.webp`)

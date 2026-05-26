@@ -37,7 +37,6 @@ export function generateContext(request: Form): OptimizerContext {
   return context
 }
 
-
 function generateFiltersContext(request: Form, context: OptimizerContext) {
   context.resultSort = request.resultSort!
 

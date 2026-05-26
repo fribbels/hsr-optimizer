@@ -194,7 +194,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Talent - DMG boost for Basic/Skill/Ult against Burdened enemy
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (m.targetBurdenActive) ? talentDmgBoostValue : 0,
         x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TALENT),
       )

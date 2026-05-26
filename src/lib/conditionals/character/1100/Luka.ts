@@ -1,6 +1,11 @@
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -79,6 +84,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(Luka.id)
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
 
   const basicEnhancedHitValue = basic(e, 0.20, 0.22)
   const targetUltDebuffDmgTakenValue = ult(e, 0.20, 0.216)
@@ -228,7 +235,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, (e >= 4) ? r.e4TalentStacks * 0.05 : 0, x.source(SOURCE_E4))
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1TargetBleeding) ? 0.15 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1 && r.e1TargetBleeding) ? 0.15 : 0, x.source(SOURCE_E1))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -238,8 +245,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -348,6 +358,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.PRISONER_SET,
+    PresetEffects.fnMortenaxAshblazingSet(1),
   ],
   sortOption: SortOption.DOT,
   hiddenColumns: [

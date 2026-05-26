@@ -1,9 +1,12 @@
 import { showcaseOutlineLight } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
+  COMBO_DMG_STAT,
   getStatRenderValues,
   StatRow,
+  StatRowDivider,
 } from 'lib/characterPreview/StatRow'
 import { StatText } from 'lib/characterPreview/StatText'
+import type { StatsValues } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
 import {
   GlobalRegister,
@@ -12,6 +15,7 @@ import {
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
 import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
+import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
@@ -27,6 +31,7 @@ import {
 } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import { useTranslation } from 'react-i18next'
+import iconClasses from 'style/icons.module.css'
 import classes from './StatsDiffCard.module.css'
 
 const baseCardHeight = 429
@@ -62,23 +67,17 @@ function StatDiffSummary({ analysis }: { analysis: OptimizerResultAnalysis }) {
   const newStats = analysis.newX.toComputedStatsObject()
 
   // Elemental DMG = element-specific boost (already mapped) + generic DMG_BOOST
-  oldStats[analysis.elementalDmgValue] += analysis.oldX.getSelfValue(StatKey.DMG_BOOST)
-  newStats[analysis.elementalDmgValue] += analysis.newX.getSelfValue(StatKey.DMG_BOOST)
+  oldStats[analysis.elementalDmgValue] += analysis.oldX.getSelfValue(StatKey.BOOST)
+  newStats[analysis.elementalDmgValue] += analysis.newX.getSelfValue(StatKey.BOOST)
 
   // COMBO_DMG is stored in global registers, inject for display
   const oldCombo = analysis.oldX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
   const newCombo = analysis.newX.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
-  ;(oldStats as Record<string, number>).COMBO_DMG = oldCombo
-  ;(newStats as Record<string, number>).COMBO_DMG = newCombo
-  // @ts-expect-error simScore used for compatibility with StatRow
-  oldStats.simScore = oldCombo
-  // @ts-expect-error simScore used for compatibility with StatRow
-  newStats.simScore = newCombo
 
   return (
     <StatText style={{ width: '100%' }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-        <DiffRow oldStats={oldStats} newStats={newStats} stat='COMBO_DMG' />
+        <ComboDiffRow oldValue={oldCombo} newValue={newCombo} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.HP} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.ATK} />
         <DiffRow oldStats={oldStats} newStats={newStats} stat={Stats.DEF} />
@@ -97,13 +96,45 @@ function StatDiffSummary({ analysis }: { analysis: OptimizerResultAnalysis }) {
   )
 }
 
+function ComboDiffRow({ oldValue, newValue }: {
+  oldValue: number,
+  newValue: number,
+}) {
+  const { t } = useTranslation('common')
+  const oldDisplay = formatSimScore(oldValue, undefined, 1, false)
+  const { valueDisplay: newDisplay } = getStatRenderValues(newValue, newValue, COMBO_DMG_STAT, false)
+
+  return (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <div className={classes.oldStatColumn}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 16 }}>
+          <img src={Assets.getStatIcon('simScore')} className={iconClasses.statIconSpaced} />
+          {t('ReadableStats.simScore')}
+          <StatRowDivider />
+          {oldDisplay}
+        </div>
+      </div>
+
+      <span className={classes.arrow}>
+        ➤
+      </span>
+
+      <div className={classes.newValueColumn} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <RenderValue value={newDisplay} stat={COMBO_DMG_STAT} />
+      </div>
+
+      <DiffRender oldValue={oldValue} newValue={newValue} stat={COMBO_DMG_STAT} />
+    </div>
+  )
+}
+
 function DiffRow({ oldStats, newStats, stat }: {
   oldStats: ComputedStatsObjectExternal,
   newStats: ComputedStatsObjectExternal,
-  stat: keyof ComputedStatsObjectExternal | 'COMBO_DMG',
+  stat: StatsValues,
 }) {
-  const oldValue = precisionRound((oldStats as Record<string, number>)[stat])
-  const newValue = precisionRound((newStats as Record<string, number>)[stat])
+  const oldValue = precisionRound(oldStats[stat])
+  const newValue = precisionRound(newStats[stat])
 
   const { valueDisplay } = getStatRenderValues(
     newValue,
@@ -115,7 +146,7 @@ function DiffRow({ oldStats, newStats, stat }: {
   return (
     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
       <div className={classes.oldStatColumn}>
-        <StatRow finalStats={oldStats} stat={stat === 'COMBO_DMG' ? 'simScore' : stat} value={stat === 'COMBO_DMG' ? oldValue : undefined} />
+        <StatRow finalStats={oldStats} stat={stat} />
       </div>
 
       <span className={classes.arrow}>
@@ -131,9 +162,9 @@ function DiffRow({ oldStats, newStats, stat }: {
   )
 }
 
-function RenderValue({ value, stat, comboDiff }: { value: string | number, stat: string, comboDiff?: boolean }) {
+function RenderValue({ value, stat, comboDiff }: { value: string | number, stat: StatsValues | typeof COMBO_DMG_STAT, comboDiff?: boolean }) {
   const { t } = useTranslation('common')
-  if (stat === 'COMBO_DMG') {
+  if (stat === COMBO_DMG_STAT) {
     return value + (comboDiff ? '%' : t('ThousandsSuffix'))
   } else if (isFlat(stat)) {
     return value
@@ -141,7 +172,7 @@ function RenderValue({ value, stat, comboDiff }: { value: string | number, stat:
   return value + '%'
 }
 
-function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: number, stat: string }) {
+function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: number, stat: StatsValues | typeof COMBO_DMG_STAT }) {
   if (visualDiff(newValue, oldValue, stat) === 0) return null
 
   const increase = newValue > oldValue
@@ -160,8 +191,8 @@ function DiffRender({ oldValue, newValue, stat }: { oldValue: number, newValue: 
   )
 }
 
-function getStatDiffRenderValues(statValue: number, customValue: number, stat: string) {
-  if (stat === 'COMBO_DMG') {
+function getStatDiffRenderValues(statValue: number, customValue: number, stat: StatsValues | typeof COMBO_DMG_STAT) {
+  if (stat === COMBO_DMG_STAT) {
     const valueDisplay = `${truncate10ths(precisionRound(customValue ?? 0)).toFixed(1)}`
     const value1000thsPrecision = precisionRound(customValue).toFixed(3)
     return {
@@ -172,12 +203,12 @@ function getStatDiffRenderValues(statValue: number, customValue: number, stat: s
   return getStatRenderValues(statValue, customValue, stat)
 }
 
-function visualDiff(n1: number, n2: number, stat: string) {
+function visualDiff(n1: number, n2: number, stat: StatsValues | typeof COMBO_DMG_STAT) {
   if (stat === Stats.SPD) {
     return precisionRound(truncate10ths(n1) - truncate10ths(n2))
   } else if (isFlat(stat)) {
     return precisionRound(Math.floor(n1) - Math.floor(n2))
-  } else if (stat === 'COMBO_DMG') {
+  } else if (stat === COMBO_DMG_STAT) {
     return precisionRound((n1 / n2 - 1) * 100)
   } else {
     return precisionRound(truncate1000ths(n1) - truncate1000ths(n2))

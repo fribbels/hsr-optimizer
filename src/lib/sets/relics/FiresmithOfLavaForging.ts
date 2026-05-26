@@ -51,7 +51,7 @@ const conditionals: SetConditionals = {
     }
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.12, x.damageType(DamageTag.SKILL).source(Source.FiresmithOfLavaForging))
+    x.buff(StatKey.BOOST, 0.12, x.damageType(DamageTag.SKILL).source(Source.FiresmithOfLavaForging))
     if (setConditionals.enabledFiresmithOfLavaForging) {
       x.buff(StatKey.FIRE_DMG_BOOST, 0.12, x.source(Source.FiresmithOfLavaForging))
     }
@@ -61,7 +61,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_FiresmithOfLavaForging) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, 0.12).damageType(DamageTag.SKILL).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, 0.12).damageType(DamageTag.SKILL).wgsl(action, 2)}
       if (setConditionals.enabledFiresmithOfLavaForging == true) {
         ${buff.action(AKey.FIRE_DMG_BOOST, 0.12).wgsl(action, 3)}
       }

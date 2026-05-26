@@ -36,8 +36,13 @@ SortOptions:
   DMGLabel: crwdns42684:0crwdne42684:0
   HealLabel: crwdns46228:0crwdne46228:0
   ShieldLabel: crwdns46230:0crwdne46230:0
+  OptimizationLabel: crwdns47243:0crwdne47243:0
+  AbilityLabel: crwdns47245:0crwdne47245:0
   StatLabel: crwdns42686:0crwdne42686:0
   COMBO: crwdns42688:0crwdne42688:0
+  COMBO_BUFF: crwdns47231:0crwdne47231:0
+  COMBO_HEAL: crwdns47233:0crwdne47233:0
+  COMBO_SHIELD: crwdns47235:0crwdne47235:0
   BASIC: crwdns42690:0crwdne42690:0
   SKILL: crwdns42692:0crwdne42692:0
   ULT: crwdns42694:0crwdne42694:0
@@ -120,7 +125,7 @@ Grid:
   Of: crwdns42796:0crwdne42796:0
   Page: crwdns42798:0crwdne42798:0
   PageSelectorLabel: 'crwdns42800:0crwdne42800:0'
-  Loading: crwdns45428:0crwdne45428:0
+  Loading: crwdns47237:0crwdne47237:0
   Headers:
     Basic:
       Set: crwdns42802:0crwdne42802:0
@@ -458,7 +463,7 @@ CombatBuffs:
   SPD: crwdns43142:0crwdne43142:0
   SPD_P: crwdns43144:0crwdne43144:0
   BE: crwdns43146:0crwdne43146:0
-  DMG_BOOST: crwdns43148:0crwdne43148:0
+  BOOST: crwdns47239:0crwdne47239:0
   DEF_PEN: crwdns43150:0crwdne43150:0
   RES_PEN: crwdns43152:0crwdne43152:0
   EFFECT_RES_PEN: crwdns43154:0crwdne43154:0
@@ -555,6 +560,7 @@ ComboFilter:
     UltShield: crwdns46306:0crwdne46306:0
     FuaShield: crwdns46308:0crwdne46308:0
     TalentShield: crwdns46310:0crwdne46310:0
+    Buff: crwdns47241:0crwdne47241:0
   RotationButton: crwdns43280:0crwdne43280:0
 ComboDrawer:
   NoConditionals: crwdns43282:0crwdne43282:0

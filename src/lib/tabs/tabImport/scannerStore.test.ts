@@ -257,9 +257,12 @@ describe('scannerStore', () => {
         ],
       } as any)
 
-      initialScan(state(), makeScanData({
-        characters: [{ id: CHAR_ID_1 } as any, { id: CHAR_ID_2 } as any],
-      }))
+      initialScan(
+        state(),
+        makeScanData({
+          characters: [{ id: CHAR_ID_1 } as any, { id: CHAR_ID_2 } as any],
+        }),
+      )
 
       expect(state().characters[CHAR_ID_1]).toBeDefined()
       expect(state().characters[CHAR_ID_2]).toBeDefined()
@@ -280,9 +283,12 @@ describe('scannerStore', () => {
         characters: [makeParsedCharacter(CHAR_ID_2)],
       } as any)
 
-      initialScan(state(), makeScanData({
-        characters: [{ id: CHAR_ID_2 } as any],
-      }))
+      initialScan(
+        state(),
+        makeScanData({
+          characters: [{ id: CHAR_ID_2 } as any],
+        }),
+      )
 
       expect(persistenceService.mergeRelics).toHaveBeenCalledWith([], [
         expect.objectContaining({ characterId: CHAR_ID_2 }),

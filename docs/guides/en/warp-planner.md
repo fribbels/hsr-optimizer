@@ -31,6 +31,7 @@ S1 first:  S1 -> E6 -> S5
 4★ pulls earn starlight, which converts back into passes (20 starlight = 1 pass). Refunds will compound.
 
 Assumptions:
+
 - 4★ pity always hits at 10 pulls (worst-case timing)
 - Owned 4★ characters are maxed (E6). Character dupes refund 20 starlight, Light Cones refund 8.
 - 5★ contribution ignored

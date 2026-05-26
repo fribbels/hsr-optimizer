@@ -1,4 +1,4 @@
-import { Flex } from '@mantine/core'
+import { Flex, type NumberInputProps } from '@mantine/core'
 import { useBlurCommittedNumberInput } from 'lib/hooks/useBlurCommittedNumberInput'
 import type {
   RatingFilterState,
@@ -7,8 +7,17 @@ import type {
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { FormStatTextStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/FormStatTextStyled'
 import { InputNumberStyled } from 'lib/tabs/tabOptimizer/optimizerForm/components/InputNumberStyled'
+import type { CSSProperties } from 'react'
 
-export function FilterRow({ name, label, type }: { name: string, label: string, type?: 'stat' | 'rating' }) {
+const highlightedInputStyles: NumberInputProps['styles'] = {
+  input: { borderColor: 'color-mix(in srgb, var(--mantine-color-primary-3) 75%, transparent)' },
+}
+
+const highlightedTextStyle: CSSProperties = {
+  color: 'var(--mantine-color-primary-2)',
+}
+
+export function FilterRow({ name, label, type, highlighted }: { name: string, label: string, type?: 'stat' | 'rating', highlighted?: boolean }) {
   const minKey = `min${name}` as keyof StatFilterState & keyof RatingFilterState
   const maxKey = `max${name}` as keyof StatFilterState & keyof RatingFilterState
 
@@ -37,15 +46,17 @@ export function FilterRow({ name, label, type }: { name: string, label: string, 
       <InputNumberStyled
         hideControls
         style={{ margin: 0, width: 63 }}
+        styles={highlighted ? highlightedInputStyles : undefined}
         value={min.value}
         onChange={min.onChange}
         onFocus={min.onFocus}
         onBlur={min.onBlur}
       />
-      <FormStatTextStyled>{label}</FormStatTextStyled>
+      <FormStatTextStyled style={highlighted ? highlightedTextStyle : undefined}>{label}</FormStatTextStyled>
       <InputNumberStyled
         hideControls
         style={{ margin: 0, width: 63 }}
+        styles={highlighted ? highlightedInputStyles : undefined}
         value={max.value}
         onChange={max.onChange}
         onFocus={max.onFocus}

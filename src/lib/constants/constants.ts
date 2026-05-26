@@ -4,10 +4,10 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.3.3'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.3.5'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.3v3'
+export const CURRENT_DATA_VERSION = '4.3v5'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
@@ -46,6 +46,7 @@ export const Stats = {
 
 type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
+export const ELEMENTAL_DMG_KEY = 'ELEMENTAL_DMG' as const
 
 export const TwoPieceStatTags = [
   Stats.ATK_P,
@@ -588,9 +589,9 @@ export const CombatBuffs = {
     key: 'EHR',
     percent: true,
   },
-  DMG_BOOST: {
+  BOOST: {
     title: 'Dmg Boost %',
-    key: 'DMG_BOOST',
+    key: 'BOOST',
     percent: true,
   },
   DEF_PEN: {
@@ -625,6 +626,7 @@ export const ABILITY_LIMIT = 12
 export const DEFAULT_TEAM = 'Default'
 export const CUSTOM_TEAM = 'Custom'
 export const SETTINGS_TEAM = 'Settings'
+export type TeamSelection = typeof DEFAULT_TEAM | typeof CUSTOM_TEAM
 
 export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'

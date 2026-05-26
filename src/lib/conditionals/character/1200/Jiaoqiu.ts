@@ -1,3 +1,8 @@
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -69,6 +74,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1218')
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 1.50, 1.65)
@@ -246,15 +253,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.VULNERABILITY, Math.max(0, m.ashenRoastStacks - 1) * talentVulnerabilityScaling, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
       // E1: DMG boost when enemies have Ashen Roast
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1 && m.e1DmgBoost && m.ashenRoastStacks > 0) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       // E6: RES shred based on stacks
       x.buff(StatKey.RES_PEN, (e >= 6 && m.e6ResShred) ? m.ashenRoastStacks * 0.03 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
 
     dynamicConditionals: [{
       id: 'JiaoqiuConversionConditional',
@@ -326,6 +336,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.PRISONER_SET,
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
   sortOption: SortOption.EHR,
   hiddenColumns: [

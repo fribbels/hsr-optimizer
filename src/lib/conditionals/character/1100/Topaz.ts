@@ -226,7 +226,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.CD, (r.numbyEnhancedState) ? enhancedStateFuaCdBoost : 0, x.target(TopazEntities.Numby).source(SOURCE_ULT))
-      x.buff(StatKey.RES_PEN, (e >= 6) ? 0.10 : 0, x.target(TopazEntities.Numby).source(SOURCE_E6))
+      x.buff(StatKey.RES_PEN, (e >= 6) ? 0.10 : 0, x.target(TopazEntities.Numby).elements(ElementTag.Fire).source(SOURCE_E6))
 
       x.buff(StatKey.BOOST, (context.enemyElementalWeak) ? 0.15 : 0, x.source(SOURCE_TRACE))
     },

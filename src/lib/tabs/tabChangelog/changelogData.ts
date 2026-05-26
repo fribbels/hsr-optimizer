@@ -22,7 +22,7 @@ export function getChangelogContent() {
       content: [
         `Added Support Benchmarks for Cerydra, Bronya, Robin, Sparkle, Sunday, Permansor Terrae, Trailblazer Harmony, and Trailblazer Remembrance`,
         `support.webp`,
-        `Added Heal Benchmarks for Huohuo, Lynx, Natasha, Bailu, Lingsha, Luocha, and Hyacine`,
+        `Added Heal Benchmarks for Huohuo, Lynx, Natasha, Bailu, Luocha, and Hyacine`,
         `heal.webp`,
         `Added Shield Benchmarks for Aventurine, March 7th, Gepard, and Trailblazer Preservation`,
         `shield.webp`,

@@ -136,7 +136,11 @@ function runBestPoolStatSim(
     best = bestFallback
   }
 
-  return { sim: best!.sim, result: best!.result }
+  if (!best) {
+    throw new Error('runBestPoolStatSim: no candidates — check that metadata parts arrays are non-empty')
+  }
+
+  return { sim: best.sim, result: best.result }
 }
 
 export function resolveComboSpdTarget(

@@ -29,7 +29,7 @@ export function pctToRating(
   hasCorrectMainStat?: boolean,
 ): string {
   if (grade != null && grade !== 5) return '?'
-  if (pct < 0) return '?'
+  if (pct <= 0) return '?'
   if (part !== Parts.Head && part !== Parts.Hands && hasCorrectMainStat === false) return '?'
 
   for (let i = RATING_TIERS.length - 1; i >= 0; i--) {

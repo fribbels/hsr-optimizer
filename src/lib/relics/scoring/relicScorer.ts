@@ -102,7 +102,6 @@ export class ScoringCache {
           worst: 0,
           rerollAvg: 0,
           blockerAvg: 0,
-          currentPct: 0,
           meta: {
             bestAddedStats: [],
             bestUpgradedStats: [],

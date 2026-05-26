@@ -41,7 +41,6 @@ export type FutureScoringResult = {
   worst: number,
   rerollAvg: number,
   blockerAvg: number,
-  currentPct: number,
   meta: Partial<{
     bestAddedStats: string[],
     bestUpgradedStats: string[],

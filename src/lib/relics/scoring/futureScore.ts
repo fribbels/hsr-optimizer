@@ -35,7 +35,7 @@ export function computeFutureScores(
   const contributions = meta.contributions
   const part = relic.part
 
-  // Inline mainStatWeight/deduction/bonus — avoids 6 cross-module function calls per relic
+  // Inline mainStatWeight/deduction — avoids cross-module function calls per relic
   const isSelectablePart = part === Parts.Body || part === Parts.Feet || part === Parts.PlanarSphere || part === Parts.LinkRope
   let deduction = 0
   if (isSelectablePart) {
@@ -49,7 +49,7 @@ export function computeFutureScores(
     : relic.substats
 
   if (allSubstats.length === 0) {
-    return { current: 0, best: 0, average: 0, worst: 0, rerollAvg: 0, blockerAvg: 0, currentPct: 0, meta: EMPTY_FUTURE_META }
+    return { current: 0, best: 0, average: 0, worst: 0, rerollAvg: 0, blockerAvg: 0, meta: EMPTY_FUTURE_META }
   }
 
   const mainStat = relic.main.stat
@@ -138,7 +138,6 @@ export function computeFutureScores(
   let worstRaw = baseRaw
 
   const current = Math.max(0, (currentRaw + deduction) * normFactor)
-  const currentPct = idealScore === Infinity ? 0 : Math.max(0, currentRaw / idealScore * 100)
 
   // ── Fill missing substats (only for relics with < 4 substats) ──
   if (needsFill) {
@@ -256,7 +255,6 @@ export function computeFutureScores(
     worst,
     rerollAvg,
     blockerAvg,
-    currentPct,
     meta: levelupMetadata ?? EMPTY_FUTURE_META,
   }
 }

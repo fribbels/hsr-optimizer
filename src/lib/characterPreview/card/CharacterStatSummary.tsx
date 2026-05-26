@@ -288,10 +288,9 @@ function AsyncSimScoreRow({ promise, type, configType, buffStat }: {
 }) {
   const output = usePromise(promise)
   const sim = output?.[type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']
-  const simScore = sim?.result?.simScore ?? 0
-  if (!simScore) return null
+  if (!sim?.result) return null
 
-  return <SimScoreRow value={simScore} configType={configType} buffStat={buffStat} />
+  return <SimScoreRow value={sim.result.simScore} configType={configType} buffStat={buffStat} />
 }
 
 function calculateStatCustomizations(characterId: CharacterId) {

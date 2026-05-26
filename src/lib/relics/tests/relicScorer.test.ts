@@ -63,7 +63,7 @@ test('relic-mainstatonly', () => {
 
   const relicScore = RelicScorer.scoreCurrentRelic(relic, character)
   expect(relicScore.percentScore).toBe(0)
-  expect(relicScore.rating).toBe('F')
+  expect(relicScore.rating).toBe('?')
 })
 
 // Best substats at max rolls should predict near-100% potential

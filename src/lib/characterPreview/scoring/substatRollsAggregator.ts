@@ -81,6 +81,6 @@ export function aggregateSubstatRolls(
     }
   }
 
-  results.sort((a, b) => b.effective - a.effective || (Number(FLAT_STATS.has(a.stat)) - Number(FLAT_STATS.has(b.stat))))
+  results.sort((a, b) => b.effective - a.effective || b.weight - a.weight || (Number(FLAT_STATS.has(a.stat)) - Number(FLAT_STATS.has(b.stat))))
   return results.slice(0, DISPLAY_COUNT)
 }

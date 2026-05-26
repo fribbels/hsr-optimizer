@@ -1,6 +1,8 @@
 import { Stats, type SubStats } from 'lib/constants/constants'
 import { countRelicRolls } from 'lib/characterPreview/summary/statScoringSummaryController'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import type { StatRolls } from 'types/relic'
+import { precisionRound } from 'lib/utils/mathUtils'
 
 const DISPLAY_COUNT = 6
 const FALLBACK_STATS: SubStats[] = [Stats.SPD, Stats.CR, Stats.CD, Stats.ATK_P, Stats.HP_P, Stats.DEF_P]
@@ -16,10 +18,10 @@ export type AggregatedStatRolls = {
   weight: number
 }
 
-function buildEntry(stat: SubStats, rollMap: Map<SubStats, { high: number; mid: number; low: number }>, weight: number): AggregatedStatRolls {
+function buildEntry(stat: SubStats, rollMap: Map<SubStats, StatRolls>, weight: number): AggregatedStatRolls {
   const rolls = rollMap.get(stat) ?? { high: 0, mid: 0, low: 0 }
   const total = rolls.high + rolls.mid + rolls.low
-  const effective = rolls.high * 1.0 + rolls.mid * 0.9 + rolls.low * 0.8
+  const effective = precisionRound(rolls.high * 1.0 + rolls.mid * 0.9 + rolls.low * 0.8)
   return { stat, ...rolls, total, effective, weight }
 }
 
@@ -27,7 +29,7 @@ export function aggregateSubstatRolls(
   relics: PreviewRelics,
   weights: Record<SubStats, number>,
 ): AggregatedStatRolls[] {
-  const rollMap = new Map<SubStats, { high: number; mid: number; low: number }>()
+  const rollMap = new Map<SubStats, StatRolls>()
 
   for (const relic of Object.values(relics)) {
     if (!relic) continue
@@ -79,6 +81,6 @@ export function aggregateSubstatRolls(
     }
   }
 
-  results.sort((a, b) => b.effective - a.effective || Number(FLAT_STATS.has(a.stat)) - Number(FLAT_STATS.has(b.stat)))
+  results.sort((a, b) => b.effective - a.effective || (Number(FLAT_STATS.has(a.stat)) - Number(FLAT_STATS.has(b.stat))))
   return results.slice(0, DISPLAY_COUNT)
 }

@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-/* ─── Stat rows ──────────────────────────────────────── */
+/* Stat rows */
 
 .statGroup {
   display: flex;
@@ -33,7 +33,7 @@
   text-align: right;
 }
 
-/* ─── Stripe (continuous bar with track) ─────────────── */
+/* Stripe bar */
 
 .stripeTrack {
   display: flex;

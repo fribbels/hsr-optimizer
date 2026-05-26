@@ -17,6 +17,7 @@ import {
 
 Metadata.initialize()
 
+// Correct mainstat with all zero-weight substats should score 0
 test('relic-mainstatonly', () => {
   const character = '1205' // blade
   const scoringStats = getScoringMetadata(character).stats
@@ -63,6 +64,7 @@ test('relic-mainstatonly', () => {
   expect(relicScore.rating).toBe('F')
 })
 
+// Best substats at max rolls should predict near-100% potential
 test('relic-perfect', () => {
   const character = '1205' // Blade
 

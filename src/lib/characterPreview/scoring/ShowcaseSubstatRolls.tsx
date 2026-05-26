@@ -53,7 +53,7 @@ function StripeGroup({ count, color, segWidth }: { count: number; color: string;
   )
 }
 
-function StripeViz({ entry, colors, scale }: { entry: AggregatedStatRolls; colors: TierColors; scale: number }) {
+function RollCounterStripe({ entry, colors, scale }: { entry: AggregatedStatRolls; colors: TierColors; scale: number }) {
   const hw = Math.round(1.0 * scale)
   const mw = Math.round(0.9 * scale)
   const lw = Math.round(0.8 * scale)
@@ -66,7 +66,6 @@ function StripeViz({ entry, colors, scale }: { entry: AggregatedStatRolls; color
   )
 }
 
-// ─── Main Component ─────────────────────────────────────────
 
 export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
   displayRelics,
@@ -116,7 +115,7 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
               {entry.effective.toFixed(1)}
             </StatTextSm>
           </div>
-          <StripeViz entry={entry} colors={tierColors} scale={scale} />
+          <RollCounterStripe entry={entry} colors={tierColors} scale={scale} />
         </div>
       ))}
     </div>

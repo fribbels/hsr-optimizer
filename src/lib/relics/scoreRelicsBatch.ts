@@ -137,7 +137,7 @@ function scoreSingleRelic(
 
       weights = {
         ...weights,
-        currentPct: futureScore.currentPct,
+        currentPct: futureScore.current,
         best: futureScore.best,
         average: futureScore.average,
         potentialSelected,

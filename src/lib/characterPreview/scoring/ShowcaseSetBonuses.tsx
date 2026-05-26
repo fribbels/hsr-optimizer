@@ -1,23 +1,21 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
-import { type RelicSetIngameId, setToId, SetsOrnamentsNames } from 'lib/sets/setConfigRegistry'
+import { type RelicSetIngameId, type SetsOrnaments, setToId, SetsOrnamentsNames } from 'lib/sets/setConfigRegistry'
 import { Fragment, memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Sets } from 'lib/constants/constants'
 import classes from './ShowcaseSetBonuses.module.css'
 
-const SHOW_4PC = true
-
-// ─── Types ─────────────────────────────────────────────────
+// Types
 
 type DisplayEntry =
-  | { type: 'active'; set: Sets; count: number; ingameId: RelicSetIngameId }
-  | { type: 'empty'; count: number }
+  | { active: true; set: Sets; count: number; ingameId: RelicSetIngameId }
+  | { active: false; count: number }
 
-// ─── Set detection + padding ───────────────────────────────
+// Set detection + padding
 
-const ornamentSetNames = new Set<string>(SetsOrnamentsNames as string[])
+const ORNAMENT_SETS = new Set<SetsOrnaments>(SetsOrnamentsNames)
 
 function getDisplaySets(relics: PreviewRelics): DisplayEntry[] {
   const setCounts = new Map<Sets, number>()
@@ -32,41 +30,36 @@ function getDisplaySets(relics: PreviewRelics): DisplayEntry[] {
   for (const [set, count] of setCounts) {
     const ingameId = setToId[set]
     if (!ingameId) continue
-    const target = ornamentSetNames.has(set) ? ornamentEntries : relicEntries
+    const target = ORNAMENT_SETS.has(set as SetsOrnaments) ? ornamentEntries : relicEntries
     if (count >= 4) {
-      if (SHOW_4PC) {
-        target.push({ type: 'active', set, count: 4, ingameId })
-      } else {
-        target.push({ type: 'active', set, count: 2, ingameId })
-        target.push({ type: 'active', set, count: 2, ingameId })
-      }
+      target.push({ active: true, set, count: 4, ingameId })
     } else if (count >= 2) {
-      target.push({ type: 'active', set, count: 2, ingameId })
+      target.push({ active: true, set, count: 2, ingameId })
     }
   }
 
-  if (SHOW_4PC && relicEntries.length === 0) {
-    relicEntries.push({ type: 'empty', count: 4 })
+  if (relicEntries.length === 0) {
+    relicEntries.push({ active: false, count: 4 })
   }
   const relicTarget = relicEntries.some((e) => e.count === 4) ? 1 : 2
   while (relicEntries.length < relicTarget) {
-    relicEntries.push({ type: 'empty', count: 2 })
+    relicEntries.push({ active: false, count: 2 })
   }
 
   if (ornamentEntries.length === 0) {
-    ornamentEntries.push({ type: 'empty', count: 2 })
+    ornamentEntries.push({ active: false, count: 2 })
   }
 
   relicEntries.sort((a, b) => {
-    if (a.type !== b.type) return a.type === 'active' ? -1 : 1
-    if (a.type === 'active' && b.type === 'active') return b.count - a.count || String(a.ingameId).localeCompare(String(b.ingameId))
+    if (a.active !== b.active) return a.active ? -1 : 1
+    if (a.active && b.active) return b.count - a.count || Number(a.ingameId) - Number(b.ingameId)
     return 0
   })
 
   return [...relicEntries, ...ornamentEntries]
 }
 
-// ─── Sub-components ─────────────────────────────────────────
+// Sub-components
 
 const DEFAULT_SET_ICON = Assets.getDefaultRelic()
 
@@ -87,7 +80,7 @@ function EmptySetEntry({ count }: { count: number }) {
   )
 }
 
-function ActiveSetEntry({ entry }: { entry: DisplayEntry & { type: 'active' } }) {
+function ActiveSetEntry({ entry }: { entry: DisplayEntry & { active: true } }) {
   const name = useSetName(entry.ingameId)
   return (
     <div className={classes.cardPlain}>
@@ -100,7 +93,7 @@ function ActiveSetEntry({ entry }: { entry: DisplayEntry & { type: 'active' } })
   )
 }
 
-// ─── Main Component ─────────────────────────────────────────
+// Main Component
 
 export const ShowcaseSetBonuses = memo(function ShowcaseSetBonuses({
   displayRelics,
@@ -115,7 +108,7 @@ export const ShowcaseSetBonuses = memo(function ShowcaseSetBonuses({
         {displaySets.map((entry, i) => (
           <Fragment key={i}>
             {i > 0 && <div className={classes.sepMidLine} />}
-            {entry.type === 'active'
+            {entry.active
               ? <ActiveSetEntry entry={entry} />
               : <EmptySetEntry count={entry.count} />}
           </Fragment>

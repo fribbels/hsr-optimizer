@@ -18,7 +18,6 @@ import { Assets } from 'lib/rendering/assets'
 import {
   CONFIG_DISPLAY_ORDER,
   configTypeForScoringType,
-  hasConfig,
   SCORING_CONFIG_REGISTRY,
 } from 'lib/scoring/scoringConfig'
 import {
@@ -81,9 +80,12 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
     if (meta) configMetadata[configType] = meta
   }
 
-  const hasSimulation = CONFIG_DISPLAY_ORDER.some((configType) => hasConfig(scoringMetadata, configType))
+  const hasSimulation = CONFIG_DISPLAY_ORDER.some((configType) => configMetadata[configType] != null)
 
-  const scoringType = resolveScoringType(storedScoringType, scoringMetadata)
+  let scoringType = resolveScoringType(storedScoringType, scoringMetadata)
+  if (isSimScoreMode(scoringType) && !configMetadata[configTypeForScoringType(scoringType)!]) {
+    scoringType = ScoringType.SUBSTAT_SCORE
+  }
 
   const portraitToUse = getCharacterById(character.id)?.portrait
   const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)

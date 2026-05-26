@@ -1,7 +1,7 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
-import { type RelicSetIngameId, setToId } from 'lib/sets/setConfigRegistry'
+import { type RelicSetIngameId, setToId, SetsOrnamentsNames } from 'lib/sets/setConfigRegistry'
 import { Fragment, memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Sets } from 'lib/constants/constants'
@@ -16,6 +16,8 @@ type DisplayEntry =
 
 // ─── Set detection + padding ───────────────────────────────
 
+const ornamentSetNames = new Set<string>(SetsOrnamentsNames as string[])
+
 function getDisplaySets(relics: PreviewRelics, show4pc: boolean): DisplayEntry[] {
   const setCounts = new Map<Sets, number>()
   for (const relic of Object.values(relics)) {
@@ -23,34 +25,38 @@ function getDisplaySets(relics: PreviewRelics, show4pc: boolean): DisplayEntry[]
     setCounts.set(relic.set, (setCounts.get(relic.set) ?? 0) + 1)
   }
 
-  const active: DisplayEntry[] = []
+  const relicEntries: DisplayEntry[] = []
+  const ornamentEntries: DisplayEntry[] = []
+
   for (const [set, count] of setCounts) {
     const ingameId = setToId[set]
     if (!ingameId) continue
+    const target = ornamentSetNames.has(set) ? ornamentEntries : relicEntries
     if (count >= 4) {
       if (show4pc) {
-        active.push({ type: 'active', set, count: 4, ingameId })
+        target.push({ type: 'active', set, count: 4, ingameId })
       } else {
-        active.push({ type: 'active', set, count: 2, ingameId })
-        active.push({ type: 'active', set, count: 2, ingameId })
+        target.push({ type: 'active', set, count: 2, ingameId })
+        target.push({ type: 'active', set, count: 2, ingameId })
       }
     } else if (count >= 2) {
-      active.push({ type: 'active', set, count: 2, ingameId })
+      target.push({ type: 'active', set, count: 2, ingameId })
     }
   }
 
-  const result: DisplayEntry[] = [...active]
-
-  if (show4pc && active.length === 0) {
-    result.push({ type: 'empty', count: 4 })
+  if (show4pc && relicEntries.length === 0) {
+    relicEntries.push({ type: 'empty', count: 4 })
+  }
+  const relicTarget = relicEntries.some((e) => e.count === 4) ? 1 : 2
+  while (relicEntries.length < relicTarget) {
+    relicEntries.push({ type: 'empty', count: 2 })
   }
 
-  const target = result.some((e) => e.count === 4) ? 2 : 3
-  while (result.length < target) {
-    result.push({ type: 'empty', count: 2 })
+  if (ornamentEntries.length === 0) {
+    ornamentEntries.push({ type: 'empty', count: 2 })
   }
 
-  return result
+  return [...relicEntries, ...ornamentEntries]
 }
 
 // ─── Shared sub-components ──────────────────────────────────

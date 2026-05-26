@@ -7,12 +7,14 @@ type ShowcaseDebugVizStore = {
   colorAlpha: number
   setsOnTop: boolean
   showScore: boolean
+  show4pc: boolean
   setSetBonusMode: (mode: string) => void
   setSubstatRollsMode: (mode: string) => void
   setColorMode: (mode: string) => void
   setColorAlpha: (alpha: number) => void
   toggleSetsOnTop: () => void
   toggleShowScore: () => void
+  toggleShow4pc: () => void
 }
 
 export const useShowcaseDebugVizStore = create<ShowcaseDebugVizStore>((set) => ({
@@ -22,10 +24,12 @@ export const useShowcaseDebugVizStore = create<ShowcaseDebugVizStore>((set) => (
   colorAlpha: 0.90,
   setsOnTop: true,
   showScore: false,
+  show4pc: true,
   setSetBonusMode: (mode) => set({ setBonusMode: mode }),
   setSubstatRollsMode: (mode) => set({ substatRollsMode: mode }),
   setColorMode: (mode) => set({ colorMode: mode }),
   setColorAlpha: (alpha) => set({ colorAlpha: alpha }),
   toggleSetsOnTop: () => set((s) => ({ setsOnTop: !s.setsOnTop })),
   toggleShowScore: () => set((s) => ({ showScore: !s.showScore })),
+  toggleShow4pc: () => set((s) => ({ show4pc: !s.show4pc })),
 }))

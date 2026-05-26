@@ -3,7 +3,6 @@
   flex-direction: column;
   padding: 0 6px;
   align-items: center;
-  margin-bottom: 4px;
 }
 
 /* ─── Debug pills ────────────────────────────────────── */
@@ -12,7 +11,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 3px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   justify-content: center;
 }
 
@@ -45,8 +44,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 5px;
-  margin-bottom: 8px;
+  gap: 4px;
+  margin-bottom: 9px;
 }
 
 .statLine {
@@ -86,7 +85,6 @@
 .track {
   display: flex;
   gap: 1px;
-  width: 218px;
   height: 4px;
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.06);
@@ -98,8 +96,8 @@
 .tierGroup { display: flex; gap: 1px; height: 4px; }
 .tierSeg { height: 4px; }
 
-.track > .tierGroup:first-child > .tierSeg:first-child { border-radius: 2px 0 0 2px; }
 .track > .tierGroup:last-child > .tierSeg:last-child { border-radius: 0 2px 2px 0; }
+
 
 
 /* ─── Steps (8px wide, height varies) ────────────────── */
@@ -132,7 +130,6 @@
 .stripeTrack {
   display: flex;
   gap: 1px;
-  width: 218px;
   height: 6px;
   border-radius: 3px;
   background: rgba(255, 255, 255, 0.06);
@@ -145,8 +142,8 @@
   height: 6px;
 }
 
-.stripeTrack > .stripeGroup:first-child > .stripeSegment:first-child { border-radius: 3px 0 0 3px; }
 .stripeTrack > .stripeGroup:last-child > .stripeSegment:last-child { border-radius: 0 3px 3px 0; }
+
 
 
 /* ─── Zones (fixed-position tiers with ghost slots) ──── */

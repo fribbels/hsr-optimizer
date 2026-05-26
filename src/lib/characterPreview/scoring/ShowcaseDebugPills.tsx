@@ -65,6 +65,8 @@ export const ShowcaseDebugPills = memo(function ShowcaseDebugPills() {
   const setColorAlpha = useShowcaseDebugVizStore((s) => s.setColorAlpha)
   const toggleSetsOnTop = useShowcaseDebugVizStore((s) => s.toggleSetsOnTop)
   const toggleShowScore = useShowcaseDebugVizStore((s) => s.toggleShowScore)
+  const show4pc = useShowcaseDebugVizStore((s) => s.show4pc)
+  const toggleShow4pc = useShowcaseDebugVizStore((s) => s.toggleShow4pc)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, padding: '8px 0' }}>
@@ -99,6 +101,23 @@ export const ShowcaseDebugPills = memo(function ShowcaseDebugPills() {
             onClick={() => { if (showScore) toggleShowScore() }}
           >
             Hide
+          </button>
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span style={{ fontSize: 11, color: '#888', minWidth: 50 }}>4P</span>
+        <div className={classes.debugPills}>
+          <button
+            className={`${classes.pill} ${show4pc ? classes.pillActive : ''}`}
+            onClick={() => { if (!show4pc) toggleShow4pc() }}
+          >
+            On
+          </button>
+          <button
+            className={`${classes.pill} ${!show4pc ? classes.pillActive : ''}`}
+            onClick={() => { if (show4pc) toggleShow4pc() }}
+          >
+            Off
           </button>
         </div>
       </div>

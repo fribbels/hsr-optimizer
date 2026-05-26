@@ -12,18 +12,21 @@ import { aggregateSubstatRolls, type AggregatedStatRolls } from './substatRollsA
 import classes from './ShowcaseSubstatRolls.module.css'
 import { useShowcaseDebugVizStore } from './showcaseDebugVizStore'
 
+const TRACK_WIDTH = 222
+
 type TierColors = { high: string; mid: string; low: string }
 
 function seedHueChroma(seed: string) {
   const [, c, h] = chroma(seed).oklch()
-  return { hue: Number.isNaN(h) ? 240 : h, c }
+  const achromatic = Number.isNaN(h) || c < 0.01
+  return { hue: achromatic ? 0 : h, c: achromatic ? 0 : c }
 }
 
 const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Vivid — saturated across all tiers, low still has color
   c2: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.55, s * 0.95, hue).css(),
       mid: chroma.oklch(0.68, s * 0.70, hue).css(),
@@ -33,7 +36,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Soft — muted, gentle, compressed range
   c3: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.62, s * 0.86, hue).css(),
       mid: chroma.oklch(0.71, s * 0.52, hue).css(),
@@ -43,7 +46,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Softer — lighter high, less saturated
   c3a: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.66, s * 0.70, hue).css(),
       mid: chroma.oklch(0.74, s * 0.42, hue).css(),
@@ -53,7 +56,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Whisper — very light high, gentle steps
   c3b: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.68, s * 0.60, hue).css(),
       mid: chroma.oklch(0.75, s * 0.35, hue).css(),
@@ -63,7 +66,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Pastel — high still colorful but lifted in lightness
   c3c: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.67, s * 0.75, hue).css(),
       mid: chroma.oklch(0.78, s * 0.38, hue).css(),
@@ -73,7 +76,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Ghost — barely there, very subtle tinting
   c3d: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.70, s * 0.50, hue).css(),
       mid: chroma.oklch(0.76, s * 0.28, hue).css(),
@@ -83,7 +86,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Spread — wider lightness gap, same subtle sat
   c6: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.57, s * 0.80, hue).css(),
       mid: chroma.oklch(0.71, s * 0.45, hue).css(),
@@ -93,7 +96,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Tinted — low keeps a hint of color instead of going grey
   c9: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.61, s * 0.82, hue).css(),
       mid: chroma.oklch(0.72, s * 0.48, hue).css(),
@@ -103,7 +106,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Steep — high close to Soft but mid drops off fast
   c10: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.62, s * 0.85, hue).css(),
       mid: chroma.oklch(0.74, s * 0.35, hue).css(),
@@ -113,7 +116,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Shift — mid stays saturated (closer to high), low is distinct
   c11: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.60, s * 0.82, hue).css(),
       mid: chroma.oklch(0.68, s * 0.65, hue).css(),
@@ -123,7 +126,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Fade — even chroma steps from high to zero
   c12: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.60, s * 0.75, hue).css(),
       mid: chroma.oklch(0.71, s * 0.40, hue).css(),
@@ -142,7 +145,7 @@ const COLOR_ALGORITHMS: Record<string, (seedColor: string) => TierColors> = {
   // Punch — high is very saturated, mid/low drop off sharply
   c8: (seed) => {
     const { hue, c } = seedHueChroma(seed)
-    const s = Math.max(c, 0.12)
+    const s = c > 0 ? Math.max(c, 0.12) : 0
     return {
       high: chroma.oklch(0.58, s * 1.00, hue).css(),
       mid: chroma.oklch(0.72, s * 0.35, hue).css(),
@@ -157,7 +160,7 @@ type VizProps = { entry: AggregatedStatRolls; colors: TierColors; scale: number 
 
 function getScale(maxRolls: number): number {
   const cap = Math.max(Math.min(Math.floor(maxRolls / 3) * 3 + 6, 36), 18)
-  return (219 - cap) / cap
+  return (TRACK_WIDTH + 1 - cap) / cap
 }
 
 function EmptyGhost() {
@@ -186,7 +189,7 @@ function TiersViz({ entry, colors, scale }: VizProps) {
   const mw = Math.round(0.9 * scale)
   const lw = Math.round(0.8 * scale)
   return (
-    <div className={classes.track}>
+    <div className={classes.track} style={{ width: TRACK_WIDTH }}>
       <TierSegments count={entry.high} color={colors.high} segWidth={hw} />
       <TierSegments count={entry.mid} color={colors.mid} segWidth={mw} />
       <TierSegments count={entry.low} color={colors.low} segWidth={lw} />
@@ -273,7 +276,7 @@ function StripeViz({ entry, colors, scale }: VizProps) {
   const mw = Math.round(0.9 * scale)
   const lw = Math.round(0.8 * scale)
   return (
-    <div className={classes.stripeTrack}>
+    <div className={classes.stripeTrack} style={{ width: TRACK_WIDTH }}>
       <StripeGroup count={entry.high} color={colors.high} segWidth={hw} />
       <StripeGroup count={entry.mid} color={colors.mid} segWidth={mw} />
       <StripeGroup count={entry.low} color={colors.low} segWidth={lw} />

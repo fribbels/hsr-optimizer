@@ -8,106 +8,126 @@ import type { Sets } from 'lib/constants/constants'
 import classes from './ShowcaseSetBonuses.module.css'
 import { useShowcaseDebugVizStore } from './showcaseDebugVizStore'
 
-// ─── Set detection ──────────────────────────────────────────
+// ─── Types ─────────────────────────────────────────────────
 
-type ActiveSet = {
-  set: Sets
-  count: 2 | 4
-  ingameId: RelicSetIngameId
-}
+type DisplayEntry =
+  | { type: 'active'; set: Sets; count: number; ingameId: RelicSetIngameId }
+  | { type: 'empty'; count: number }
 
-function getActiveSets(relics: PreviewRelics): ActiveSet[] {
+// ─── Set detection + padding ───────────────────────────────
+
+function getDisplaySets(relics: PreviewRelics, show4pc: boolean): DisplayEntry[] {
   const setCounts = new Map<Sets, number>()
-
   for (const relic of Object.values(relics)) {
     if (!relic) continue
     setCounts.set(relic.set, (setCounts.get(relic.set) ?? 0) + 1)
   }
 
-  const results: ActiveSet[] = []
+  const active: DisplayEntry[] = []
   for (const [set, count] of setCounts) {
     const ingameId = setToId[set]
     if (!ingameId) continue
     if (count >= 4) {
-      results.push({ set, count: 2, ingameId })
-      results.push({ set, count: 2, ingameId })
+      if (show4pc) {
+        active.push({ type: 'active', set, count: 4, ingameId })
+      } else {
+        active.push({ type: 'active', set, count: 2, ingameId })
+        active.push({ type: 'active', set, count: 2, ingameId })
+      }
     } else if (count >= 2) {
-      results.push({ set, count: 2, ingameId })
+      active.push({ type: 'active', set, count: 2, ingameId })
     }
   }
 
-  return results
-}
+  const result: DisplayEntry[] = [...active]
 
-function useSetName(ingameId: RelicSetIngameId): string {
-  const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
-  return t(`${ingameId}.Name`)
+  if (show4pc && active.length === 0) {
+    result.push({ type: 'empty', count: 4 })
+  }
+
+  const target = result.some((e) => e.count === 4) ? 2 : 3
+  while (result.length < target) {
+    result.push({ type: 'empty', count: 2 })
+  }
+
+  return result
 }
 
 // ─── Shared sub-components ──────────────────────────────────
 
 const DEFAULT_SET_ICON = Assets.getDefaultRelic()
 
-function EmptySetEntry({ cardClass }: { cardClass: string }) {
+function useSetName(ingameId: RelicSetIngameId): string {
+  const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
+  return t(`${ingameId}.Name`)
+}
+
+function EmptySetEntry({ cardClass, count }: { cardClass: string; count: number }) {
   return (
     <div className={cardClass}>
       <img src={DEFAULT_SET_ICON} className={classes.setIconMd} />
       <div className={classes.cardText}>
-        <span className={classes.cardPiece}>2pc</span>
-        <StatTextSm className={classes.cardName}>No selected set</StatTextSm>
+        <span className={classes.cardPiece}>{count}pc</span>
+        <StatTextSm className={classes.cardName}>Incomplete set</StatTextSm>
       </div>
     </div>
   )
 }
 
-function SetEntry({ s, cardClass }: { s: ActiveSet; cardClass: string }) {
-  const name = useSetName(s.ingameId)
+function ActiveSetEntry({ entry, cardClass }: { entry: DisplayEntry & { type: 'active' }; cardClass: string }) {
+  const name = useSetName(entry.ingameId)
   return (
     <div className={cardClass}>
-      <img src={Assets.getSetImage(s.set)} className={classes.setIconMd} />
+      <img src={Assets.getSetImage(entry.set)} className={classes.setIconMd} />
       <div className={classes.cardText}>
-        <span className={classes.cardPiece}>{s.count}pc</span>
+        <span className={classes.cardPiece}>{entry.count}pc</span>
         <StatTextSm className={classes.cardName}>{name}</StatTextSm>
       </div>
     </div>
   )
 }
 
-function Col({ sets, cardClass, colClass, sepClass }: { sets: (ActiveSet | null)[]; cardClass: string; colClass?: string; sepClass?: string }) {
+function EntryRenderer({ entry, cardClass }: { entry: DisplayEntry; cardClass: string }) {
+  return entry.type === 'active'
+    ? <ActiveSetEntry entry={entry} cardClass={cardClass} />
+    : <EmptySetEntry cardClass={cardClass} count={entry.count} />
+}
+
+function Col({ sets, cardClass, colClass, sepClass }: { sets: DisplayEntry[]; cardClass: string; colClass?: string; sepClass?: string }) {
   return (
     <div className={colClass ?? classes.cardsCol}>
-      {sets.map((s, i) => (
+      {sets.map((entry, i) => (
         <Fragment key={i}>
           {i > 0 && sepClass && <div className={sepClass} />}
-          {s ? <SetEntry s={s} cardClass={cardClass} /> : <EmptySetEntry cardClass={cardClass} />}
+          <EntryRenderer entry={entry} cardClass={cardClass} />
         </Fragment>
       ))}
     </div>
   )
 }
 
-function SplitEntry({ s }: { s: ActiveSet }) {
-  const name = useSetName(s.ingameId)
+function SplitEntry({ entry }: { entry: DisplayEntry & { type: 'active' } }) {
+  const name = useSetName(entry.ingameId)
   return (
     <div className={classes.cardSplit}>
       <div className={classes.splitIconPanel}>
-        <img src={Assets.getSetImage(s.set)} className={classes.setIconMd} />
+        <img src={Assets.getSetImage(entry.set)} className={classes.setIconMd} />
       </div>
       <div className={classes.splitTextPanel}>
-        <span className={classes.cardPiece}>{s.count}pc</span>
+        <span className={classes.cardPiece}>{entry.count}pc</span>
         <StatTextSm className={classes.cardName}>{name}</StatTextSm>
       </div>
     </div>
   )
 }
 
-function TightEntry({ s }: { s: ActiveSet }) {
-  const name = useSetName(s.ingameId)
+function TightEntry({ entry }: { entry: DisplayEntry & { type: 'active' } }) {
+  const name = useSetName(entry.ingameId)
   return (
     <div className={classes.cardTight}>
-      <img src={Assets.getSetImage(s.set)} className={classes.setIconSm} />
+      <img src={Assets.getSetImage(entry.set)} className={classes.setIconSm} />
       <div className={classes.cardText}>
-        <span className={classes.cardPiece}>{s.count}pc</span>
+        <span className={classes.cardPiece}>{entry.count}pc</span>
         <StatTextSm className={classes.cardNameSm}>{name}</StatTextSm>
       </div>
     </div>
@@ -116,36 +136,38 @@ function TightEntry({ s }: { s: ActiveSet }) {
 
 // ─── Viz Components ─────────────────────────────────────────
 
-type SetsList = (ActiveSet | null)[]
+const BasicViz = ({ sets }: { sets: DisplayEntry[] }) => <Col sets={sets} cardClass={classes.card} />
+const CoolViz = ({ sets }: { sets: DisplayEntry[] }) => <Col sets={sets} cardClass={classes.cardCool} />
+const DenseViz = ({ sets }: { sets: DisplayEntry[] }) => <Col sets={sets} cardClass={classes.cardDense} />
+const PlainViz = ({ sets }: { sets: DisplayEntry[] }) => <Col sets={sets} cardClass={classes.cardPlain} />
+const SepViz = ({ sets }: { sets: DisplayEntry[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepLine} />
+const SepFadeViz = ({ sets }: { sets: DisplayEntry[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepFadeLine} />
+const SepMidViz = ({ sets }: { sets: DisplayEntry[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepMidLine} />
+const SepComboViz = ({ sets }: { sets: DisplayEntry[] }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepComboLine} />
 
-const BasicViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.card} />
-const CoolViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardCool} />
-const DenseViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardDense} />
-const PlainViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} />
-const SepViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepLine} />
-const SepFadeViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepFadeLine} />
-const SepMidViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepMidLine} />
-const SepComboViz = ({ sets }: { sets: SetsList }) => <Col sets={sets} cardClass={classes.cardPlain} colClass={classes.separatorCol} sepClass={classes.sepComboLine} />
-
-function SplitViz({ sets }: { sets: SetsList }) {
+function SplitViz({ sets }: { sets: DisplayEntry[] }) {
   return (
     <div className={classes.cardsCol}>
-      {sets.map((s, i) => s ? <SplitEntry key={i} s={s} /> : <EmptySetEntry key={i} cardClass={classes.cardPlain} />)}
+      {sets.map((entry, i) => entry.type === 'active'
+        ? <SplitEntry key={i} entry={entry} />
+        : <EmptySetEntry key={i} cardClass={classes.cardPlain} count={entry.count} />)}
     </div>
   )
 }
 
-function TightViz({ sets }: { sets: SetsList }) {
+function TightViz({ sets }: { sets: DisplayEntry[] }) {
   return (
     <div className={classes.cardsColTight}>
-      {sets.map((s, i) => s ? <TightEntry key={i} s={s} /> : <EmptySetEntry key={i} cardClass={classes.cardPlain} />)}
+      {sets.map((entry, i) => entry.type === 'active'
+        ? <TightEntry key={i} entry={entry} />
+        : <EmptySetEntry key={i} cardClass={classes.cardPlain} count={entry.count} />)}
     </div>
   )
 }
 
 // ─── Mode definitions ────────────────────────────────────────
 
-const VIZ_CONFIG: Record<string, { component: React.ComponentType<{ sets: SetsList }> }> = {
+const VIZ_CONFIG: Record<string, { component: React.ComponentType<{ sets: DisplayEntry[] }> }> = {
   b1: { component: SplitViz },
   b3: { component: CoolViz },
   b2: { component: BasicViz },
@@ -166,11 +188,8 @@ export const ShowcaseSetBonuses = memo(function ShowcaseSetBonuses({
   displayRelics: PreviewRelics
 }) {
   const vizMode = useShowcaseDebugVizStore((s) => s.setBonusMode)
-  const activeSets: SetsList = useMemo(() => {
-    const sets: SetsList = getActiveSets(displayRelics)
-    while (sets.length < 3) sets.push(null)
-    return sets
-  }, [displayRelics])
+  const show4pc = useShowcaseDebugVizStore((s) => s.show4pc)
+  const displaySets = useMemo(() => getDisplaySets(displayRelics, show4pc), [displayRelics, show4pc])
 
   if (vizMode === 'b0') return null
 
@@ -178,7 +197,7 @@ export const ShowcaseSetBonuses = memo(function ShowcaseSetBonuses({
 
   return (
     <div className={classes.container}>
-      <VizComponent sets={activeSets} />
+      <VizComponent sets={displaySets} />
     </div>
   )
 })

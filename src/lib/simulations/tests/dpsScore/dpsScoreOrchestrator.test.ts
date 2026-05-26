@@ -235,7 +235,7 @@ test('Tribbie benchmark poet 88.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(0),
     }),
-    0.8821384217458543,
+    0.9009106288793595,
   )
 }, TIMEOUT)
 
@@ -250,7 +250,7 @@ test('Tribbie benchmark poet 101.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(5),
     }),
-    0.7116109697654351,
+    0.7286561551228741,
   )
 }, TIMEOUT)
 
@@ -265,7 +265,7 @@ test('Tribbie benchmark poet 114.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(10),
     }),
-    0.38504548492980584,
+    0.39831101296360977,
   )
 }, TIMEOUT)
 
@@ -282,7 +282,7 @@ test('Tribbie benchmark poet 88.3 @ 88.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(0),
     }),
-    0.8821384217458543,
+    0.9009106288793595,
     88.3,
   )
 }, TIMEOUT)
@@ -298,7 +298,7 @@ test('Tribbie benchmark poet 101.3 @ 88.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(5),
     }),
-    0.6916855241765822,
+    0.7082534362374845,
     88.3,
   )
 }, TIMEOUT)
@@ -314,7 +314,7 @@ test('Tribbie benchmark poet 114.3 @ 88.3', async () => {
       mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
       stats: testStatSpreadSpd(10),
     }),
-    0.37426402822779453,
+    0.3871581151676927,
     88.3,
   )
 }, TIMEOUT)

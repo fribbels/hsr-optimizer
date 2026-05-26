@@ -241,7 +241,7 @@ export class BenchmarkSimulationOrchestrator {
     }
 
     if (config.simulation.comboTurnAbilities) {
-      this.form!.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, ...config.simulation.comboTurnAbilities]
+      this.form!.comboTurnAbilities = [...config.simulation.comboTurnAbilities]
       this.form!.comboType = ComboType.ADVANCED
     }
 

@@ -168,8 +168,12 @@ export function calculateMaxSubstatRollCounts(
       )
   }
 
-  // Forced speed/RES rolls will take up slots from the 36 potential max rolls of other stats
-  const totalDeductions = Math.ceil(partialSimulationWrapper.speedRollsDeduction) + Math.ceil(partialSimulationWrapper.resRollsDeduction) - 6
+  // Approximate: a stat present on all 6 relics gets up to 6 base rolls (1 per piece) that don't
+  // consume upgrade slots. Only forced rolls beyond that are upgrades that displace other stats.
+  const BASE_ROLLS_PER_STAT = 6
+  const spdUpgrades = Math.max(0, Math.ceil(partialSimulationWrapper.speedRollsDeduction) - BASE_ROLLS_PER_STAT)
+  const resUpgrades = Math.max(0, Math.ceil(partialSimulationWrapper.resRollsDeduction) - BASE_ROLLS_PER_STAT)
+  const totalDeductions = spdUpgrades + resUpgrades
   for (const stat of SubStats) {
     if (stat == Stats.SPD) continue
     if (stat == Stats.RES && partialSimulationWrapper.resRollsDeduction > 0) continue

@@ -145,7 +145,7 @@ export function resolveSimulationMetadata(
   const simulation = { ...defaultSimulation }
   simulation.teammates = getTeammates(teamSelection, customSimulation, defaultSimulation, buildOverride)
 
-  // deprioritizeBuffs is DPS-only — always false for non-DPS
+  // Non-DPS scoring always deprioritizes teammate buffs to isolate the support's own contribution
   if (SCORING_CONFIG_REGISTRY[configType].supportsDeprioritizeBuffs) {
     simulation.deprioritizeBuffs = buildOverride?.source === BuildSource.Optimizer
       ? buildOverride.deprioritizeBuffs

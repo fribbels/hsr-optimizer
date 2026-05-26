@@ -47,6 +47,11 @@ const sortKeyToStat: Record<string, string> = {
   ERR: Stats.ERR,
 }
 
+export function handleResultSortSelectChange(val: SortOptionKey | null) {
+  if (val == null) return
+  useOptimizerRequestStore.getState().setResultSort(val)
+}
+
 export function CharacterSelectorDisplay() {
   const { t } = useTranslation(['optimizerTab', 'common'])
   const optimizerTabFocusCharacter = useOptimizerDisplayStore((s) => s.focusCharacterId)
@@ -255,7 +260,8 @@ export function CharacterSelectorDisplay() {
           )
         }}
         value={resultSort}
-        onChange={(val) => useOptimizerRequestStore.getState().setResultSort((val ?? undefined) as keyof typeof SortOption | undefined)}
+        onChange={(val) => handleResultSortSelectChange(val as SortOptionKey | null)}
+        allowDeselect={false}
         maxDropdownHeight={900}
         classNames={{ dropdown: classes.sortTargetDropdown }}
         comboboxProps={{

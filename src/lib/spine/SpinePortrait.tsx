@@ -83,7 +83,10 @@ export function SpinePortrait({
       const files = getSkeletonFiles(characterId, count)
       const baseUrl = getSpineAssetBaseUrl(characterId)
 
-      createSpineInstance(canvas, baseUrl, files, abortController.signal)
+      const handleRenderError = () => {
+        if (!disposed) onUnsupportedRef.current?.()
+      }
+      createSpineInstance(canvas, baseUrl, files, abortController.signal, handleRenderError)
         .then((instance) => {
           if (disposed) {
             instance.dispose()

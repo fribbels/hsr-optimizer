@@ -327,9 +327,7 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
   return (
     <div
       className={styles.buildCard}
-      style={{
-        backgroundColor: selected ? 'var(--layer-3)' : 'var(--layer-1)',
-      }}
+      style={{ backgroundColor: selected ? 'var(--layer-3)' : undefined }}
       onClick={(e) => {
         setSelectedBuild(build.name)
         e.stopPropagation()

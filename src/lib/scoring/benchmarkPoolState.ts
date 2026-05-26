@@ -152,7 +152,8 @@ export function resolveComboSpdTarget(
 
   // Zero-mains sim to determine the natural basic SPD for Poet breakpoint detection.
   // Sets like Poet give negative SPD, so each combo needs its own check.
-  const zeroSpdFlags: SimulationFlags = { ...setCombinationFlags, benchmarkBasicSpdTarget: 0 }
+  // Zero both targets so the probe measures natural SPD in isolation.
+  const zeroSpdFlags: SimulationFlags = { ...setCombinationFlags, benchmarkBasicSpdTarget: 0, benchmarkBasicResTarget: 0 }
   const zeroSpdResult = runStatSimulations([baselineSim], form, context, {
     ...baselineScoringParams,
     mainStatMultiplier: 0,

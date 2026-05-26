@@ -1,4 +1,3 @@
-import { DEFAULT_TEAM } from 'lib/constants/constants'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import { createDefaultTeammate } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import type {
@@ -14,6 +13,7 @@ import type {
   Teammate,
 } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
+import type { ScoringConfigType } from 'types/metadata'
 import {
   type Build,
   BuildSource,
@@ -94,10 +94,9 @@ export function serializeFromCharacterTab(
   name: string,
   character: Character,
   teammates: Teammate[] | undefined,
-  teamSelection: string | undefined,
+  scoringConfigType?: ScoringConfigType,
 ): CharacterSavedBuild {
-  const isCustom = teamSelection != null && teamSelection !== DEFAULT_TEAM
-  const team: TeamTuple<SavedTeammate> = isCustom && teammates
+  const team: TeamTuple<SavedTeammate> = teammates
     ? teammatesFromSimulation(teammates)
     : [null, null, null]
 
@@ -110,6 +109,7 @@ export function serializeFromCharacterTab(
     lightCone: character.form.lightCone,
     lightConeSuperimposition: character.form.lightConeSuperimposition,
     team,
+    ...(scoringConfigType != null && { scoringConfigType }),
   }
 }
 

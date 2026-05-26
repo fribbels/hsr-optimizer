@@ -153,7 +153,7 @@ export default interface Resources {
           "Standard": "Standard"
         },
         "PaletteLabel": "Portrait color palette",
-        "ShowL2D": "Show Live2D",
+        "ShowL2D": "Animations",
         "ShowUID": "Show UID"
       },
       "DMGUpgrades": "Damage Upgrades",

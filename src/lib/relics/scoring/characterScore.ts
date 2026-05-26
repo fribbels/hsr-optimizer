@@ -26,7 +26,7 @@ export function scoreCharacterWithRelicsUsingScorer(
   }
 
   const scoredRelics = relics.map((x) => getCurrentRelicScore(x, character.id))
-  const avgPerfection = scoredRelics.reduce((acc, r) => acc + (r.percentScore ?? 0), 0) / 6
+  const avgPerfection = scoredRelics.reduce((acc, r) => acc + r.percentScore, 0) / 6
 
   let correctMainStats = 0
   for (let i = 0; i < scoredRelics.length; i++) {

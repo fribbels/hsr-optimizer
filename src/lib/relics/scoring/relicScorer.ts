@@ -153,9 +153,7 @@ export class ScoringCache {
 }
 
 /**
- * Backward-compatible API — drop-in replacement for the old RelicScorer.
- * Supports both `RelicScorer.scoreCurrentRelic(...)` (static) and `new RelicScorer()` (instance).
- * Also supports `ReturnType<typeof RelicScorer.scoreRelicPotential>` type extraction.
+ * Static + instance API for relic scoring. Returns percentage-based results (0-100).
  */
 export class RelicScorer extends ScoringCache {
   static scoreCurrentRelic(relic: Relic, id: CharacterId) {

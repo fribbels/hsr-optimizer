@@ -54,10 +54,12 @@ test('relic-mainstatonly', () => {
   }
 
   const score = RelicScorer.scoreRelicPotential(relic, character)
+  expect(score.currentPct).toBe(0)
   expect(score.bestPct).toBe(0)
-  expect(score.rerollAvgPct).toBe(0)
+  expect(score.averagePct).toBe(0)
   expect(score.worstPct).toBe(0)
   expect(score.rerollAvgPct).toBe(0)
+  expect(score.blockedRerollAvgPct).toBe(0)
 
   const relicScore = RelicScorer.scoreCurrentRelic(relic, character)
   expect(relicScore.percentScore).toBe(0)

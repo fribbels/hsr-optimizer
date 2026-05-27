@@ -153,9 +153,9 @@ baseline), the benchmark simulations will also allocate RES rolls to match. This
 benchmark's substat budget, so that characters building RES are scored fairly against benchmarks with equivalent
 RES investment.
 
-Additionally, when a character equips Broken Keel and has at least 30% Effect RES, the benchmark will also match their
-RES investment when evaluating Broken Keel set combinations. If a character equips Broken Keel but does not have enough RES
-to activate it, a -25% penalty is applied to the score for failing to activate the set bonus.
+Additionally, when a character equips Broken Keel and has at least 30% Effect RES, the benchmark will allocate RES rolls
+to reach the 30% activation threshold when evaluating Broken Keel set combinations. If a character equips Broken Keel but
+does not have enough RES to activate it, a -25% penalty is applied to the score for failing to activate the set bonus.
 
 RES equalization does not apply to DPS benchmarks.
 

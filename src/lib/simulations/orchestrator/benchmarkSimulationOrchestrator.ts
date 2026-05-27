@@ -259,7 +259,7 @@ export class BenchmarkSimulationOrchestrator {
     }
 
     if (this.originalSimRequest!.simOrnamentSet === Sets.BrokenKeel && combatRes >= 0.30) {
-      this.brokenKeelResTarget = Math.min(combatRes, 1.00)
+      this.brokenKeelResTarget = 0.30
     }
   }
 

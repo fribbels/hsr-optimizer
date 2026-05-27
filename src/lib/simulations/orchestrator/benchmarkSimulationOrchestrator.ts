@@ -216,6 +216,7 @@ export class BenchmarkSimulationOrchestrator {
   public percent?: number
   public simulationScore?: SimulationScore
   public configType!: ScoringConfigType
+  public brokenKeelResTarget: number = 0
 
   constructor(metadata: SimulationMetadata) {
     this.metadata = metadata
@@ -240,7 +241,7 @@ export class BenchmarkSimulationOrchestrator {
     }
 
     if (config.simulation.comboTurnAbilities) {
-      this.form!.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, ...config.simulation.comboTurnAbilities]
+      this.form!.comboTurnAbilities = [...config.simulation.comboTurnAbilities]
       this.form!.comboType = ComboType.ADVANCED
     }
 
@@ -255,6 +256,10 @@ export class BenchmarkSimulationOrchestrator {
     const baselineRes = this.baselineSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
     if (combatRes - baselineRes >= 0.30 || combatRes >= 1.00) {
       this.flags.benchmarkBasicResTarget = Math.min(combatRes, 1.00)
+    }
+
+    if (this.originalSimRequest!.simOrnamentSet === Sets.BrokenKeel && combatRes >= 0.30) {
+      this.brokenKeelResTarget = Math.min(combatRes, 1.00)
     }
   }
 
@@ -469,13 +474,18 @@ export class BenchmarkSimulationOrchestrator {
         this.spdBenchmark,
       )
 
+      const comboFlags = spdTarget.flags
+      if (this.brokenKeelResTarget > 0 && setCombination.ornamentSet === Sets.BrokenKeel) {
+        comboFlags.benchmarkBasicResTarget = Math.max(comboFlags.benchmarkBasicResTarget, this.brokenKeelResTarget)
+      }
+
       return {
         sets: setCombination,
         zeroMainsScore: result.simScore,
         zeroMainsResult: result,
         combatSpdTarget: spdTarget.combatSpdTarget,
         basicSpdTarget: spdTarget.basicSpdTarget,
-        flags: spdTarget.flags,
+        flags: comboFlags,
       }
     })
   }

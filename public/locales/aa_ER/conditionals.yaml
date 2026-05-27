@@ -24,6 +24,9 @@ Common:
   DotTickCoefficient:
     Text: 'crwdns46720:0crwdne46720:0'
     Content: 'crwdns46722:0crwdne46722:0'
+  AdditionalTickCoefficient:
+    Text: 'crwdns47249:0crwdne47249:0'
+    Content: 'crwdns47251:0crwdne47251:0'
 Lightcones:
   AGroundedAscent:
     Content:

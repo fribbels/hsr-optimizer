@@ -48,6 +48,7 @@ interface BaseHitDefinition {
   defScaling?: number
   // Hit-specific modifiers
   trueDmgModifier?: number
+  tickCoefficient?: number
 }
 
 // Crit hits (default for most abilities)
@@ -64,7 +65,6 @@ export interface DotHitDefinition extends BaseHitDefinition {
   dotBaseChance: number
   dotSplit?: number
   dotStacks?: number
-  dotTickCoefficient?: number
 }
 
 export interface BreakHitDefinition extends BaseHitDefinition {

@@ -111,7 +111,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const maxUltDotInstances = e >= 6 ? 12 : 8
 
   const defaults = {
-    dotTickCoefficient: 1.25,
+    tickCoefficient: 1.25,
     skillVulnerability: true,
     ultZone: true,
     ultDotStacks: maxUltDotInstances,
@@ -171,8 +171,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('Content.cyreneSpecialEffect.text'),
       content: t('Content.cyreneSpecialEffect.content'),
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -293,31 +293,31 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Fire)
               .atkScaling(actualTalentDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Wind)
               .atkScaling(actualTalentDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Lightning)
               .atkScaling(actualTalentDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
               .atkScaling(actualTalentDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
               .atkScaling(actualUltDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },

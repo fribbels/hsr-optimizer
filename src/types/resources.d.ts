@@ -3265,6 +3265,10 @@ export default interface Resources {
       }
     },
     "Common": {
+      "AdditionalTickCoefficient": {
+        "Content": "Multiplier for sources of Additional DMG outside the combo. 100% = 1 instance of Additional DMG.",
+        "Text": "Additional DMG tick coefficient"
+      },
       "BuffPriority": {
         "Content": "Select the preferred recipient for single target buffs",
         "Memo": "Buff priority: Memo",

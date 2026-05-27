@@ -24,6 +24,9 @@ Common:
   DotTickCoefficient:
     Text: 'DOT tick coefficient'
     Content: 'DOT damage percentage per rotation action, accounting for total ticks from enemy turns, detonations, and other sources. 100% = 1 tick of DOT damage.'
+  AdditionalTickCoefficient:
+    Text: 'Additional DMG tick coefficient'
+    Content: 'Multiplier for sources of Additional DMG outside the combo. 100% = 1 instance of Additional DMG.'
 Lightcones:
   AGroundedAscent:
     Content:

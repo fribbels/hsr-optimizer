@@ -299,7 +299,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
                 text={`${SCORING_CONFIG_REGISTRY[configType].label} Calculations`}
-                url={isDps ? 'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md' : undefined}
+                url={'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmarks.md'}
               />
             </div>
             <DpsScoreGradeRuler configType={configType} />

@@ -44,6 +44,7 @@ import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_FUA,
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { type Eidolon } from 'types/character'
@@ -339,6 +340,7 @@ const simulation = (): SimulationMetadata => ({
     Sets.BoneCollectionsSereneDemesne,
     ...SPREAD_ORNAMENTS_2P_FUA,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   errRopeEidolon: 0,
   teammates: [

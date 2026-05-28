@@ -91,7 +91,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   } = Source.character(Lynx.id)
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
-  const skillHpFlatBuff = skill(e, 200, 223)
+  const skillHpFlatBuff = skill(e, 200, 222.5)
 
   const basicScaling = basic(e, 0.50, 0.55)
 
@@ -227,18 +227,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.RES, (e >= 6 && m.skillBuff) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+      x.buff(StatKey.RES, (e >= 6 && m.skillBuff) ? 0.30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E6))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.HP, (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.HP, (t.skillBuff) ? skillHpFlatBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.HP, (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+      x.buff(StatKey.HP, (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(StatKey.HP, (t.skillBuff) ? skillHpFlatBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(StatKey.HP, (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E6))
 
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
-      x.buff(StatKey.ATK, atkBuffValue, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.ATK, atkBuffValue, x.targets(TargetTag.SingleTarget).source(SOURCE_E4))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

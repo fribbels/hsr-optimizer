@@ -925,9 +925,6 @@ Characters:
         content: Augmente les DGT d'Arlan pour chaque pour cent de PVs perdus jusqu'à un maximum de DGT supplémentaires de {{talentMissingHpDmgBoostMax}}%.
   Asta:
     Content:
-      skillExtraDmgHits:
-        text: Coups supplémentaires de Compétence
-        content: "Inflige des DGT de feu équivalents à {{skillScaling}}% de l'ATQ d'Asta à un ennemi unique et inflige des DGT {{skillExtraDmgHitsMax}} fois supplémentaires, infligeant à chaque fois des DGT de feu équivalents à {{skillScaling}}% de l'ATQ d'Asta à un ennemi aléatoire.::BR::E1: Lors de l'utilisation de la compétence, inflige des DGT 1 fois supplémentaire à une cible ennemie."
       talentBuffStacks:
         text: Cumuls de bonus d'ATQ du Talent
         content: "Pour chaque cumul de Chargement d'Asta, l'ATQ de tous les alliés augmente de {{talentStacksAtkBuff}}%.::BR::E4: Le taux de régénération d'énergie d'Asta augmente de 15% lorsqu'elle dispose de 2 cumuls de Chargement ou plus."

@@ -74,7 +74,14 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   const [selectedAction, setSelectedAction] = useState<number | null>(null)
   const [selectedFilter, setSelectedFilter] = useState<DamageTag | null>(null)
   const toggleFilter = useCallback((tag: DamageTag | null) => {
-    setSelectedFilter((prev) => prev === tag ? null : tag)
+    if (tag === null) {
+      setSelectedFilter(null)
+      return
+    }
+    setSelectedFilter((prev) => {
+      const updated = (prev ?? 0) ^ tag
+      return updated === 0 ? null : updated as DamageTag
+    })
   }, [])
 
   const options = useMemo(() => ({

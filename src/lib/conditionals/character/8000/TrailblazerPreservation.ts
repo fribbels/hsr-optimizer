@@ -233,7 +233,7 @@ const shieldSimulation = (): SimulationMetadata => ({
     [Parts.Body]: [Stats.DEF_P],
     [Parts.Feet]: [Stats.DEF_P, Stats.SPD],
     [Parts.PlanarSphere]: [Stats.DEF_P],
-    [Parts.LinkRope]: [Stats.DEF_P, Stats.ERR],
+    [Parts.LinkRope]: [Stats.DEF_P],
   },
   substats: [
     Stats.DEF_P,

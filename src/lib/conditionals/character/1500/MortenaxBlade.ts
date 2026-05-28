@@ -400,7 +400,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.VALOROUS_SET,
     PresetEffects.MASTER_SMITH_SET,
-    PresetEffects.fnNavigatorSet(3),
+    PresetEffects.fnNavigatorSet(2),
   ],
   sortOption: SortOption.FUA,
   hiddenColumns: [

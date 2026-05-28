@@ -165,8 +165,8 @@ function Crosshairs({ width, height, visible }: { width: number, height: number,
   )
 }
 
-function formatCharConfigString(center: ImageCenter) {
-  return `imageCenter: { x: ${Math.round(center.x)}, y: ${Math.round(center.y)}, z: ${Number(center.z.toFixed(2))} }`
+function formatCharConfigString(center: ImageCenter, key: string = 'imageCenter') {
+  return `${key}: { x: ${Math.round(center.x)}, y: ${Math.round(center.y)}, z: ${Number(center.z.toFixed(2))} }`
 }
 
 // =========================================== Shared Controls ===========================================
@@ -265,7 +265,7 @@ function CharacterEditor({ label, selectedCharId, center, setCenter, clipboard, 
   const { handleMouseDown } = useDragInteraction(containerRef, onDrag, onZoom)
 
   const portraitStyle = computePortraitStyle(center, tempInnerW, containerH)
-  const configString = formatCharConfigString(center)
+  const configString = formatCharConfigString(center, mode === 'spine' ? 'spineCenter' : 'imageCenter')
 
   const handleReset = () => {
     if (!selectedCharId) return

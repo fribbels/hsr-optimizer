@@ -1,4 +1,5 @@
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import {
   Cyrene,
@@ -504,7 +505,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnNavigatorSet(3),
+  ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),

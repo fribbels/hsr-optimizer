@@ -48,8 +48,19 @@ export const PresetEffects = {
     teammateCondition: { characterId: MortenaxBlade.id, minEidolon: 2 },
   }),
 
+  fnNavigatorSet: (stacks: number): PresetDefinition => ({
+    name: 'fnNavigatorSet',
+    value: stacks,
+    set: Sets.AsNavigatorIseeSeesIt,
+  }),
+
   // Preset values
 
+  MASTER_SMITH_SET: {
+    name: 'MASTER_SMITH_SET',
+    value: 2,
+    set: Sets.DivineQueryingMasterSmith,
+  } as PresetDefinition,
   PRISONER_SET: {
     name: 'PRISONER_SET',
     value: 3,

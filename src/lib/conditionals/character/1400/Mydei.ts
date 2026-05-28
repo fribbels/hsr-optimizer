@@ -411,6 +411,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.WASTELANDER_SET,
+    PresetEffects.fnNavigatorSet(3),
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [],

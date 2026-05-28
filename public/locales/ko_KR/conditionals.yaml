@@ -933,9 +933,6 @@ Characters:
         content: 아를란이 현재 잃은 HP 백분율에 따라 피해 보너스를 획득하며, 아를란이 가하는 피해가 최대 {{talentMissingHpDmgBoostMax}}% 증가한다.
   Asta:
     Content:
-      skillExtraDmgHits:
-        text: 전투 스킬 추가 타격
-        content: "지정된 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 주며, 추가로 피해를 {{skillExtraDmgHitsMax}}회 가한다. 피해를 가할 때마다 임의의 단일 적에게 아스타 공격력 {{skillScaling}}%만큼의 화염 속성 피해를 준다.::E1: 전투 스킬 발동 시 임의의 단일 적에게 추가로 1회 피해를 가한다."
       talentBuffStacks:
         text: 특성 버프 스택
         content: "아스타가 에너지 충전을 1스택 보유할 때마다 모든 아군의 공격력이 {{talentStacksAtkBuff}}% 증가한다. 해당 효과 최대 중첩수: 5스택 ::E4:특성 에너지 충전 스택이 2 이상일 경우 아스타의 에너지 회복효율이 15% 증가한다."

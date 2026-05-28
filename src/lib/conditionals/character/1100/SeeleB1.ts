@@ -191,7 +191,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.BOOST, r.dmgBoostStacks * 0.50, x.source(SOURCE_TRACE))
       x.buff(StatKey.BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
-      x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.25 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.25 : 0, x.elements(ElementTag.Quantum).source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

@@ -1,4 +1,4 @@
-import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Boothill } from 'lib/conditionals/character/1300/Boothill'
@@ -415,7 +415,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         Boothill.id,
         Phainon.id,
         Anaxa.id,
-        SilverWolf.id,
+        SilverWolfB1.id,
       ]
       if (IMPLANT_CHARACTERS.includes(context.characterId)) {
         x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_TRACE))

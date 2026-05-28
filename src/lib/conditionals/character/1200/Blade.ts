@@ -1,37 +1,16 @@
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
-import {
-  boostAshblazingAtkContainer,
-  gpuBoostAshblazingAtkContainer,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
-  AbilityEidolon,
-  type Conditionals,
-  type ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
+import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  DamageTag,
-  ElementTag,
-} from 'lib/optimization/engine/config/tag'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { wrappedFixedT } from 'lib/utils/i18nUtils'
-
-import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type NumberToNumberMap } from 'types/common'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import { type ScoringMetadata } from 'types/metadata'
 import {
@@ -42,82 +21,13 @@ import {
 export const BladeEntities = createEnum('Blade')
 export const BladeAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
-  AbilityKind.ULT,
-  AbilityKind.FUA,
   AbilityKind.BREAK,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Blade')
-  const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
-  const {
-    SOURCE_BASIC,
-    SOURCE_SKILL,
-    SOURCE_ULT,
-    SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
-    SOURCE_TRACE,
-    SOURCE_MEMO,
-    SOURCE_E1,
-    SOURCE_E2,
-    SOURCE_E4,
-    SOURCE_E6,
-  } = Source.character('1205')
-
-  const enhancedStateDmgBoost = skill(e, 0.40, 0.456)
-  const hpPercentLostTotalMax = 0.90
-
-  const basicScaling = basic(e, 1.0, 1.1)
-  const basicEnhancedAtkScaling = skill(e, 0.40, 0.44)
-  const basicEnhancedHpScaling = skill(e, 1.00, 1.10)
-  const ultAtkScaling = ult(e, 0.40, 0.432)
-  const ultHpScaling = ult(e, 1.00, 1.08)
-  const ultLostHpScaling = ult(e, 1.00, 1.08)
-  const fuaAtkScaling = talent(e, 0.44, 0.484)
-  const fuaHpScaling = talent(e, 1.10, 1.21)
-
-  const hitMultiByTargets: NumberToNumberMap = {
-    1: ASHBLAZING_ATK_STACK * (1 * 0.33 + 2 * 0.33 + 3 * 0.34),
-    3: ASHBLAZING_ATK_STACK * (2 * 0.33 + 5 * 0.33 + 8 * 0.34),
-    5: ASHBLAZING_ATK_STACK * (3 * 0.33 + 8 * 0.33 + 8 * 0.34),
-  }
-
-  const defaults = {
-    enhancedStateActive: true,
-    hpPercentLostTotal: hpPercentLostTotalMax,
-    e4MaxHpIncreaseStacks: 2,
-  }
-
-  const content: ContentDefinition<typeof defaults> = {
-    enhancedStateActive: {
-      id: 'enhancedStateActive',
-      formItem: 'switch',
-      text: t('Content.enhancedStateActive.text'),
-      content: t('Content.enhancedStateActive.content', { enhancedStateDmgBoost: precisionRound(100 * enhancedStateDmgBoost) }),
-    },
-    hpPercentLostTotal: {
-      id: 'hpPercentLostTotal',
-      formItem: 'slider',
-      text: t('Content.hpPercentLostTotal.text'),
-      content: t('Content.hpPercentLostTotal.content', { hpPercentLostTotalMax: precisionRound(100 * hpPercentLostTotalMax) }),
-      min: 0,
-      max: hpPercentLostTotalMax,
-      percent: true,
-    },
-    e4MaxHpIncreaseStacks: {
-      id: 'e4MaxHpIncreaseStacks',
-      formItem: 'slider',
-      text: t('Content.e4MaxHpIncreaseStacks.text'),
-      content: t('Content.e4MaxHpIncreaseStacks.content'),
-      min: 0,
-      max: 2,
-      disabled: e < 4,
-    },
-  }
-
   return {
-    content: () => Object.values(content),
-    defaults: () => defaults,
+    content: () => [],
+    defaults: () => ({}),
 
     entityDeclaration: () => Object.values(BladeEntities),
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
@@ -129,77 +39,28 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     }),
 
     actionDeclaration: () => [...BladeAbilities],
-    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      // Calculate scaling values based on conditionals
-      const basicAtkScaling = r.enhancedStateActive ? basicEnhancedAtkScaling : basicScaling
-      const basicHpScaling = r.enhancedStateActive ? basicEnhancedHpScaling : 0
-
-      const ultTotalHpScaling = ultHpScaling
-        + ultLostHpScaling * r.hpPercentLostTotal
-        + ((e >= 1 && context.enemyCount == 1) ? 1.50 * r.hpPercentLostTotal : 0)
-
-      const fuaTotalHpScaling = fuaHpScaling + ((e >= 6) ? 0.50 : 0)
-
-      return {
-        [AbilityKind.BASIC]: {
-          hits: [
-            HitDefinitionBuilder.standardBasic()
-              .damageElement(ElementTag.Wind)
-              .atkScaling(basicAtkScaling)
-              .hpScaling(basicHpScaling)
-              .toughnessDmg(r.enhancedStateActive ? 20 : 10)
-              .build(),
-          ],
-        },
-        [AbilityKind.ULT]: {
-          hits: [
-            HitDefinitionBuilder.standardUlt()
-              .damageElement(ElementTag.Wind)
-              .atkScaling(ultAtkScaling)
-              .hpScaling(ultTotalHpScaling)
-              .toughnessDmg(20)
-              .build(),
-          ],
-        },
-        [AbilityKind.FUA]: {
-          hits: [
-            HitDefinitionBuilder.standardFua()
-              .damageElement(ElementTag.Wind)
-              .atkScaling(fuaAtkScaling)
-              .hpScaling(fuaTotalHpScaling)
-              .toughnessDmg(10)
-              .build(),
-          ],
-        },
-        [AbilityKind.BREAK]: {
-          hits: [
-            HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
-          ],
-        },
-      }
-    },
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [AbilityKind.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Wind)
+            .atkScaling(1.00)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [AbilityKind.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
+        ],
+      },
+    }),
     actionModifiers: () => [],
 
-    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
 
-      // Stats
-      x.buff(StatKey.CR, (e >= 2 && r.enhancedStateActive) ? 0.15 : 0, x.source(SOURCE_E2))
-      x.buff(StatKey.HP_P, (e >= 4) ? r.e4MaxHpIncreaseStacks * 0.20 : 0, x.source(SOURCE_E4))
-
-      // Boost
-      x.buff(StatKey.BOOST, r.enhancedStateActive ? enhancedStateDmgBoost : 0, x.source(SOURCE_SKILL))
-      x.buff(StatKey.BOOST, 0.20, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
-    },
-
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
-    },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
-    },
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }
 
@@ -242,6 +103,8 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
+    SortOption.ULT,
+    SortOption.FUA,
     SortOption.DOT,
   ],
 })

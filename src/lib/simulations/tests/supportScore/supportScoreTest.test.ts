@@ -199,9 +199,8 @@ test('Robin support score prepare', () => {
   globalThis.SEQUENTIAL_BENCHMARKS = true
   const character = { form: { characterId: '1309', characterEidolon: 6, lightCone: '23026', lightConeSuperimposition: 5 } } as Character
   const robinSimulation: SimulationMetadata = {
-    parts: { [Parts.Body]: [Stats.ATK_P], [Parts.Feet]: [Stats.ATK_P, Stats.SPD], [Parts.PlanarSphere]: [Stats.ATK_P], [Parts.LinkRope]: [Stats.ERR] },
+    parts: { [Parts.Body]: [Stats.ATK_P], [Parts.Feet]: [Stats.ATK_P, Stats.SPD], [Parts.PlanarSphere]: [Stats.ATK_P], [Parts.LinkRope]: [Stats.ATK_P] },
     substats: [Stats.ATK_P, Stats.ATK, Stats.SPD, Stats.RES, Stats.HP_P],
-    errRopeEidolon: 0,
     comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
     relicSets: [[Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace]],
     ornamentSets: [Sets.FleetOfTheAgeless, Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.LushakaTheSunkenSeas],
@@ -214,7 +213,7 @@ test('Robin support score prepare', () => {
   }
   const singleRelicByPart = generateTestSingleRelicsByPart(
     testSets(Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace, Sets.FleetOfTheAgeless),
-    testMains(Stats.ATK_P, Stats.ATK_P, Stats.ATK_P, Stats.ERR),
+    testMains(Stats.ATK_P, Stats.ATK_P, Stats.ATK_P, Stats.ATK_P),
     testStatSpread(),
   )
   const orchestrator = prepareOrchestrator(character, bufferConfig(clone(robinSimulation)), singleRelicByPart, {})

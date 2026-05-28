@@ -255,7 +255,7 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
     [Parts.Feet]: [Stats.SPD],
     [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
-    [Parts.LinkRope]: [Stats.ERR, Stats.BE],
+    [Parts.LinkRope]: [Stats.BE],
   },
   substats: [
     Stats.BE,

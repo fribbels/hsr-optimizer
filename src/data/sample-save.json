@@ -10526,15 +10526,5 @@
     }
   ],
   "completedMigrations": {
-    "novaflare1004": 1,
-    "novaflare1005": 1,
-    "novaflare1006": 1,
-    "novaflare1102": 1,
-    "novaflare1205": 1,
-    "novaflare1212": 1,
-    "novaflare1217": 1,
-    "novaflare1306": 1,
-    "novaflare1307": 1,
-    "novaflare1310": 1
   }
 }

@@ -3,12 +3,8 @@ import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
-import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
-import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import type { CharacterId } from 'types/character'
-import type { LightConeId } from 'types/lightCone'
 
 export type PresetDefinition = {
   name: string,
@@ -18,9 +14,6 @@ export type PresetDefinition = {
   teammateCondition?: {
     characterId: CharacterId,
     minEidolon: number,
-  },
-  lightConeCondition?: {
-    lightConeIds: LightConeId[],
   },
 }
 
@@ -67,14 +60,6 @@ export const PresetEffects = {
     name: 'MASTER_SMITH_SET',
     value: 2,
     set: Sets.DivineQueryingMasterSmith,
-  } as PresetDefinition,
-  MASTER_SMITH_LC_SET: {
-    name: 'MASTER_SMITH_LC_SET',
-    value: 2,
-    set: Sets.DivineQueryingMasterSmith,
-    lightConeCondition: {
-      lightConeIds: [LiesAflutterInTheWind.id, LifeShouldBeCastToFlames.id, ResolutionShinesAsPearlsOfSweat.id],
-    },
   } as PresetDefinition,
   PRISONER_SET: {
     name: 'PRISONER_SET',

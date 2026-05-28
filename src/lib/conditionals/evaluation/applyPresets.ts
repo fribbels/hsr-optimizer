@@ -1,5 +1,8 @@
 import type { UseFormReturnType } from '@mantine/form'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
@@ -36,14 +39,12 @@ import {
 } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
-import type { LightConeId } from 'types/lightCone'
 import type { ScoringMetadata } from 'types/metadata'
 
-export type TeammateInfo = { id: CharacterId | undefined, eidolon: number, lightCone?: LightConeId }
+export type TeammateInfo = { id: CharacterId | undefined, eidolon: number }
 type TeammateInfoSource = {
   characterId?: CharacterId | null,
   characterEidolon?: number | null,
-  lightCone?: LightConeId | null,
 } | null | undefined
 
 export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
@@ -130,7 +131,6 @@ export function resolveTeammateInfo(...teammates: TeammateInfoSource[]): Teammat
     .map((teammate) => ({
       id: teammate.characterId ?? undefined,
       eidolon: teammate.characterEidolon ?? 0,
-      lightCone: teammate.lightCone ?? undefined,
     }))
 }
 
@@ -138,16 +138,12 @@ export function applyScoringMetadataPresets(form: Form | BenchmarkForm, teammate
   const presets = resolveScoringMetadataPresets(form)
 
   for (const preset of presets) {
-    const { teammateCondition, lightConeCondition } = preset
+    const { teammateCondition } = preset
     if (teammateCondition) {
       const match = teammates.some((teammate) =>
         teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
       )
       if (!match) continue
-    }
-    if (lightConeCondition) {
-      const lcIds = lightConeCondition.lightConeIds
-      if (!lcIds.includes(form.lightCone) && !teammates.some((t) => t.lightCone && lcIds.includes(t.lightCone))) continue
     }
 
     applyPreset(form, preset)
@@ -158,21 +154,13 @@ export function applyTeammateConditionalPresets(form: Form | BenchmarkForm, team
   const presets = resolveScoringMetadataPresets(form)
 
   for (const preset of presets) {
-    const { teammateCondition, lightConeCondition } = preset
-    if (!teammateCondition && !lightConeCondition) continue
+    const { teammateCondition } = preset
+    if (!teammateCondition) continue
 
     const index = preset.index ?? 1
-    let match = true
-
-    if (teammateCondition) {
-      match = teammates.some((teammate) =>
-        teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
-      )
-    }
-    if (match && lightConeCondition) {
-      const lcIds = lightConeCondition.lightConeIds
-      match = lcIds.includes(form.lightCone) || teammates.some((t) => t.lightCone && lcIds.includes(t.lightCone))
-    }
+    const match = teammates.some((teammate) =>
+      teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
+    )
 
     form.setConditionals[preset.set][index] = match
       ? preset.value
@@ -228,6 +216,12 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
   // DHPT gives a summon to the primary character, enabling banana set conditional
   if (allyIds.includes(PermansorTerrae.id)) {
     form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
+  }
+
+  const DEF_REDUCTION_LIGHT_CONES = [LiesAflutterInTheWind.id, LifeShouldBeCastToFlames.id, ResolutionShinesAsPearlsOfSweat.id]
+  const allLightCones = [form.lightCone, ...teammates.map((t) => t.lightCone)].filter((x) => !!x)
+  if (allLightCones.some((lc) => DEF_REDUCTION_LIGHT_CONES.includes(lc))) {
+    form.setConditionals[Sets.DivineQueryingMasterSmith][1] = 2
   }
 }
 

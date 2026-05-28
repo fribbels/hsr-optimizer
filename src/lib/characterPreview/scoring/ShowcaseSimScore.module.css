@@ -10,7 +10,7 @@
 
 
 .scoreHeaderText {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 500;
   text-align: center;
   color: rgb(225, 165, 100);
@@ -19,9 +19,9 @@
 }
 
 .scoreHeaderWrapper {
-  margin-bottom: 6px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  gap: 2px;
+  padding-top: 4px;
+  padding-bottom: 14px;
 }
 
 .teamSelectPanel {

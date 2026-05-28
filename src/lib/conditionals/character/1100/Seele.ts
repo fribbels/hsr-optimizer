@@ -241,6 +241,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.TENGOKU_SET,
     PresetEffects.fnMortenaxAshblazingSet(1),
+    PresetEffects.fnNavigatorSet(3),
   ],
   sortOption: SortOption.SKILL,
   hiddenColumns: [

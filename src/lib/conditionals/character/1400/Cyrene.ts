@@ -544,6 +544,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.BANANA_SET,
+    PresetEffects.MASTER_SMITH_SET,
   ],
   sortOption: SortOption.MEMO_SKILL,
   hiddenColumns: [

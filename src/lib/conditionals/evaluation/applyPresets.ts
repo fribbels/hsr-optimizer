@@ -1,14 +1,22 @@
 import type { UseFormReturnType } from '@mantine/form'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
-import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
-import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
-
+import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
+import { Welt } from 'lib/conditionals/character/1000/Welt'
+import { Pela } from 'lib/conditionals/character/1100/Pela'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { BlackSwan } from 'lib/conditionals/character/1300/BlackSwan'
+import { Misha } from 'lib/conditionals/character/1300/Misha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import {
   Constants,
@@ -46,7 +54,22 @@ import type { ScoringMetadata } from 'types/metadata'
 const DEF_REDUCTION_LIGHT_CONES = [
   LiesAflutterInTheWind.id,
   LifeShouldBeCastToFlames.id,
-  ResolutionShinesAsPearlsOfSweat.id
+  ResolutionShinesAsPearlsOfSweat.id,
+]
+
+const DEF_REDUCTION_CHARACTERS = [
+  MortenaxBlade.id,
+  SilverWolf.id,
+  BlackSwan.id,
+  Ashveil.id,
+  Hysilens.id,
+  Cyrene.id,
+  Fugue.id,
+  Pela.id,
+  Welt.id,
+  TheDahlia.id,
+  Anaxa.id,
+  Misha.id,
 ]
 
 export type TeammateInfo = {
@@ -233,9 +256,17 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
     form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
   }
 
-  const allLightCones = [form.lightCone, ...teammates.map((t) => t.lightCone)].filter((x) => !!x)
-  if (allLightCones.some((lc) => DEF_REDUCTION_LIGHT_CONES.includes(lc))) {
+  const wearerHasDefReductionLc = DEF_REDUCTION_LIGHT_CONES.includes(form.lightCone)
+  const wearerIsDefReducer = DEF_REDUCTION_CHARACTERS.includes(form.characterId)
+
+  if (wearerHasDefReductionLc || wearerIsDefReducer) {
     form.setConditionals[Sets.DivineQueryingMasterSmith][1] = 2
+  } else {
+    const teammateHasDefReductionLc = teammates.some((t) => t.lightCone && DEF_REDUCTION_LIGHT_CONES.includes(t.lightCone))
+    const teammateIsDefReducer = teammates.some((t) => t.id && DEF_REDUCTION_CHARACTERS.includes(t.id))
+    if (teammateHasDefReductionLc || teammateIsDefReducer) {
+      form.setConditionals[Sets.DivineQueryingMasterSmith][1] = 1
+    }
   }
 }
 

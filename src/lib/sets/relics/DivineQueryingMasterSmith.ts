@@ -41,7 +41,7 @@ const display = {
   conditionalType: ConditionalDataType.SELECT,
   selectionOptions: selectionOptions,
   modifiable: true,
-  defaultValue: 1,
+  defaultValue: 0,
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {

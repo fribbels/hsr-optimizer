@@ -15,7 +15,6 @@ import {
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
 import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
-import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
@@ -101,7 +100,7 @@ function ComboDiffRow({ oldValue, newValue }: {
   newValue: number,
 }) {
   const { t } = useTranslation('common')
-  const oldDisplay = formatSimScore(oldValue, undefined, 1, false)
+  const { valueDisplay: oldDisplay } = getStatRenderValues(oldValue, oldValue, COMBO_DMG_STAT, false)
   const { valueDisplay: newDisplay } = getStatRenderValues(newValue, newValue, COMBO_DMG_STAT, false)
 
   return (
@@ -111,7 +110,7 @@ function ComboDiffRow({ oldValue, newValue }: {
           <img src={Assets.getStatIcon('simScore')} className={iconClasses.statIconSpaced} />
           {t('ReadableStats.simScore')}
           <StatRowDivider />
-          {oldDisplay}
+          <RenderValue value={oldDisplay} stat={COMBO_DMG_STAT} />
         </div>
       </div>
 

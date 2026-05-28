@@ -717,10 +717,6 @@ interface Resources {
             "content": "When Asta is on the field, all allies' Fire DMG increases by 18%.",
             "text": "Fire DMG buff"
           },
-          "skillExtraDmgHits": {
-            "content": "Deals Fire DMG equal to {{skillScaling}}% of Asta's ATK to a single enemy and further deals DMG for {{skillExtraDmgHitsMax}} extra times, with each time dealing Fire DMG equal to {{skillScaling}}% of Asta's ATK to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy.",
-            "text": "Skill extra hits"
-          },
           "talentBuffStacks": {
             "content": "Increases allies' ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks.",
             "text": "Talent ATK buff stacks"

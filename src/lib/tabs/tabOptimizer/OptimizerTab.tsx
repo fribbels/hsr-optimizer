@@ -11,6 +11,7 @@ import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { OptimizerForm } from 'lib/tabs/tabOptimizer/optimizerForm/OptimizerForm'
 import { Sidebar } from 'lib/tabs/tabOptimizer/Sidebar'
+import { PreNovaflareDisclaimer } from 'lib/tabs/tabOptimizer/PreNovaflareDisclaimer'
 import { UnreleasedCharacterDisclaimer } from 'lib/tabs/tabOptimizer/UnreleasedCharacterDisclaimer'
 import {
   DeferCreate,
@@ -40,6 +41,7 @@ export function OptimizerTab() {
           <OptimizerForm />
           <DPSScoreDisclaimer />
           <UnreleasedCharacterDisclaimer />
+          <PreNovaflareDisclaimer />
           <DeferCreate>
             <OptimizerGrid />
           </DeferCreate>

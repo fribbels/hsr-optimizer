@@ -2,7 +2,7 @@
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { Sparkle } from 'lib/conditionals/character/1300/Sparkle'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   Parts,
@@ -34,7 +34,7 @@ import {
 } from 'vitest'
 
 void Bronya
-void Sparkle
+void SparkleB1
 void Robin
 void RuanMei
 void Yaoguang
@@ -170,7 +170,7 @@ test('Bronya support score full benchmark', async () => {
 
 test('Sparkle support score prepare', () => {
   globalThis.SEQUENTIAL_BENCHMARKS = true
-  const character = { form: { characterId: '1306', characterEidolon: 6, lightCone: '23003', lightConeSuperimposition: 5 } } as Character
+  const character = { form: { characterId: '1306b1', characterEidolon: 6, lightCone: '23003', lightConeSuperimposition: 5 } } as Character
   const sparkleSimulation: SimulationMetadata = {
     parts: { [Parts.Body]: [Stats.CD], [Parts.Feet]: [Stats.SPD], [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P], [Parts.LinkRope]: [Stats.ERR] },
     substats: [Stats.CD, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],

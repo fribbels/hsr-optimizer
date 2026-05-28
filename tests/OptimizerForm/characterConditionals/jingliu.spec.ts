@@ -15,7 +15,7 @@ test('Jingliu conditionals show correct popover text', async ({ page }) => {
   }
 
   await page.locator('#OPTIMIZER').getByText('Enhanced state').hover()
-  await expect(page.getByTestId('conditional-popover').getByText('Spectral Transmigration')).toBeVisible()
+  await expect(page.getByTestId('conditional-popover').getByText('Spectral Transmigration').first()).toBeVisible()
 
   await page.locator('#OPTIMIZER').getByText('Moonlight stacks').hover()
   await expect(page.getByTestId('conditional-popover').getByText('gains 1 stack of "Moonlight"')).toBeVisible()

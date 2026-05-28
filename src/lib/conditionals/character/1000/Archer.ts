@@ -72,7 +72,7 @@ export const ArcherAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Archer.Content')
-  const { basic, skill, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
+  const { basic, skill, talent, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
@@ -94,7 +94,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillScaling = skill(e, 3.60, 3.96)
   const skillEnhancedExtraScaling = skill(e, 1.00, 1.08)
 
-  const ultScaling = skill(e, 10.00, 10.80)
+  const ultScaling = ult(e, 10.00, 10.80)
 
   const fuaScaling = talent(e, 2.00, 2.20)
 

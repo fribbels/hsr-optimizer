@@ -781,9 +781,6 @@ Characters:
         content: Tăng sát thương dựa trên phần trăm HP mất đi hiện tại của Arlan, tối đa tăng {{talentMissingHpDmgBoostMax}}% sát thương Arlan gây ra.
   Asta:
     Content:
-      skillExtraDmgHits:
-        text: Số lần chiến kỹ trúng 1 mục tiêu
-        content: "Gây Sát Thương Hỏa cho 1 kẻ địch chỉ định tương đương {{skillScaling}}% Tấn Công của Asta, đồng thời gây thêm {{skillExtraDmgHitsMax}} lần sát thương. Mỗi lần sát thương gây Sát Thương Hỏa cho kẻ địch ngẫu nhiên tương đương {{skillScaling}}% Tấn Công của Asta.::BR::E1: Khi thi triển Chiến Kỹ sẽ gây thêm 1 lần sát thương cho 1 kẻ địch ngẫu nhiên."
       talentBuffStacks:
         text: Số Tích Thiên Phú Tăng Tấn Công
         content: "Asta cứ có 1 tầng Tụ Năng, sẽ khiến toàn bộ phe ta tăng {{talentStacksAtkBuff}}% Tấn Công.::BR::E4: Khi số tầng Tụ Năng của Thiên Phú từ 2 trở lên, hiệu suất hồi Năng Lượng của Asta tăng 15%."

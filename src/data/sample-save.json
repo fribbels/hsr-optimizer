@@ -74,7 +74,7 @@
       "ss": 5.184,
       "ds": 5.183999999999999,
       "cs": 32.4,
-      "equippedBy": "1212",
+      "equippedBy": "1212b1",
       "weightScore": 42.767999999999994
     },
     {
@@ -1657,7 +1657,7 @@
       "os": 33,
       "ss": 15.584,
       "ds": 15.584,
-      "equippedBy": "1212",
+      "equippedBy": "1212b1",
       "cs": 33.08,
       "weightScore": 43.416
     },
@@ -3993,7 +3993,7 @@
       "os": 27.15,
       "ss": 5.184,
       "ds": 11.016,
-      "equippedBy": "1212",
+      "equippedBy": "1212b1",
       "cs": 16.2,
       "weightScore": 38.37073442122549
     },
@@ -5855,7 +5855,7 @@
       "os": 34.8,
       "ss": 5.831999999999999,
       "ds": 17.496,
-      "equippedBy": "1212",
+      "equippedBy": "1212b1",
       "cs": 17.496000000000002,
       "weightScore": 43.161747702977294
     },
@@ -7114,7 +7114,7 @@
       "os": 23.3,
       "ss": 0,
       "ds": 6.48,
-      "equippedBy": "1212",
+      "equippedBy": "1212b1",
       "cs": 23.328,
       "weightScore": 38.97197099567099
     },
@@ -8315,7 +8315,7 @@
       "os": 27.1,
       "ss": 0,
       "ds": 5.832,
-      "equippedBy": "1212",
+      "equippedBy": "1212b1",
       "cs": 27.215999999999998,
       "weightScore": 37.249627926047566
     },
@@ -9759,9 +9759,9 @@
   ],
   "characters": [
     {
-      "id": "1212",
+      "id": "1212b1",
       "form": {
-        "characterId": "1212",
+        "characterId": "1212b1",
         "characterLevel": 80,
         "characterEidolon": 1,
         "lightCone": "23014",
@@ -10526,5 +10526,15 @@
     }
   ],
   "completedMigrations": {
+    "novaflare1004": 1,
+    "novaflare1005": 1,
+    "novaflare1006": 1,
+    "novaflare1102": 1,
+    "novaflare1205": 1,
+    "novaflare1212": 1,
+    "novaflare1217": 1,
+    "novaflare1306": 1,
+    "novaflare1307": 1,
+    "novaflare1310": 1
   }
 }

@@ -1027,9 +1027,6 @@ Characters:
         content: crwdns46592:0crwdne46592:0
   Asta:
     Content:
-      skillExtraDmgHits:
-        text: crwdns40674:0crwdne40674:0
-        content: "crwdns44460:0{{skillScaling}}crwdnd44460:0{{skillExtraDmgHitsMax}}crwdnd44460:0{{skillScaling}}crwdnd44460:0:BR:crwdnd44460:0:E1:crwdne44460:0"
       talentBuffStacks:
         text: crwdns40678:0crwdne40678:0
         content: "crwdns40680:0{{talentStacksAtkBuff}}crwdnd40680:0:BR:crwdnd40680:0:E4:crwdne40680:0"

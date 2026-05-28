@@ -36,12 +36,14 @@ import {
 } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
 import type { ScoringMetadata } from 'types/metadata'
 
-export type TeammateInfo = { id: CharacterId | undefined, eidolon: number }
+export type TeammateInfo = { id: CharacterId | undefined, eidolon: number, lightCone?: LightConeId }
 type TeammateInfoSource = {
   characterId?: CharacterId | null,
   characterEidolon?: number | null,
+  lightCone?: LightConeId | null,
 } | null | undefined
 
 export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
@@ -128,6 +130,7 @@ export function resolveTeammateInfo(...teammates: TeammateInfoSource[]): Teammat
     .map((teammate) => ({
       id: teammate.characterId ?? undefined,
       eidolon: teammate.characterEidolon ?? 0,
+      lightCone: teammate.lightCone ?? undefined,
     }))
 }
 
@@ -135,12 +138,16 @@ export function applyScoringMetadataPresets(form: Form | BenchmarkForm, teammate
   const presets = resolveScoringMetadataPresets(form)
 
   for (const preset of presets) {
-    const { teammateCondition } = preset
+    const { teammateCondition, lightConeCondition } = preset
     if (teammateCondition) {
       const match = teammates.some((teammate) =>
         teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
       )
       if (!match) continue
+    }
+    if (lightConeCondition) {
+      const lcIds = lightConeCondition.lightConeIds
+      if (!lcIds.includes(form.lightCone) && !teammates.some((t) => t.lightCone && lcIds.includes(t.lightCone))) continue
     }
 
     applyPreset(form, preset)
@@ -151,13 +158,21 @@ export function applyTeammateConditionalPresets(form: Form | BenchmarkForm, team
   const presets = resolveScoringMetadataPresets(form)
 
   for (const preset of presets) {
-    const { teammateCondition } = preset
-    if (!teammateCondition) continue
+    const { teammateCondition, lightConeCondition } = preset
+    if (!teammateCondition && !lightConeCondition) continue
 
     const index = preset.index ?? 1
-    const match = teammates.some((teammate) =>
-      teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
-    )
+    let match = true
+
+    if (teammateCondition) {
+      match = teammates.some((teammate) =>
+        teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
+      )
+    }
+    if (match && lightConeCondition) {
+      const lcIds = lightConeCondition.lightConeIds
+      match = lcIds.includes(form.lightCone) || teammates.some((t) => t.lightCone && lcIds.includes(t.lightCone))
+    }
 
     form.setConditionals[preset.set][index] = match
       ? preset.value

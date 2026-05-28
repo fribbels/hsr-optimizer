@@ -1,10 +1,10 @@
 import type { UseFormReturnType } from '@mantine/form'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
-import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
-import { Welt } from 'lib/conditionals/character/1000/Welt'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { Pela } from 'lib/conditionals/character/1100/Pela'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { BlackSwan } from 'lib/conditionals/character/1300/BlackSwan'
+import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Misha } from 'lib/conditionals/character/1300/Misha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
@@ -59,14 +59,14 @@ const DEF_REDUCTION_LIGHT_CONES = [
 
 const DEF_REDUCTION_CHARACTERS = [
   MortenaxBlade.id,
-  SilverWolf.id,
-  BlackSwan.id,
+  SilverWolfB1.id,
+  BlackSwanB1.id,
   Ashveil.id,
   Hysilens.id,
   Cyrene.id,
   Fugue.id,
   Pela.id,
-  Welt.id,
+  WeltB1.id,
   TheDahlia.id,
   Anaxa.id,
   Misha.id,

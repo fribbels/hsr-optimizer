@@ -340,7 +340,7 @@ const supportSimulation = (): SimulationMetadata => ({
     [Parts.Body]: [Stats.ATK_P],
     [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
     [Parts.PlanarSphere]: [Stats.ATK_P],
-    [Parts.LinkRope]: [Stats.ERR],
+    [Parts.LinkRope]: [Stats.ATK_P],
   },
   substats: [
     Stats.ATK_P,
@@ -414,6 +414,7 @@ const scoring = (): ScoringMetadata => ({
       Stats.Physical_DMG,
     ],
     [Parts.LinkRope]: [
+      Stats.ATK_P,
       Stats.ERR,
     ],
   },

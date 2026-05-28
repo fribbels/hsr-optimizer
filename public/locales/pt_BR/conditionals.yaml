@@ -877,9 +877,6 @@ Characters:
         content: Baseado na porcentagem atual de HP faltante de Arlan, ganha um bônus de DMG, até um aumento máximo de {{talentMissingHpDmgBoostMax}}% de DMG causado por Arlan.
   Asta:
     Content:
-      skillExtraDmgHits:
-        text: Habilidade de hits extras
-        content: "Causa Dano Fogo igual a {{skillScaling}}% do ATK de Welt a um único inimigo e, adicionalmente, causa Dano {{skillExtraDmgHitsMax}} vezes a mais, com cada ataque causando Dano Fogo igual a {{skillScaling}}% do ATK de Welt a um inimigo aleatório. :BR::E1: Quando usar perícia, da dano 1 vez extra à um inimigo aleatório."
       talentBuffStacks:
         text: Acúmulo de buff de ATK do talento
         content: "Aumenta o ATK dos aliados em {{talentStacksAtkBuff}}% para cada acúmulo.::BR::E4: A taxa de regeneração de energia de Asta aumenta em 15% quando ela possui 2 ou mais acúmulos de Carga."

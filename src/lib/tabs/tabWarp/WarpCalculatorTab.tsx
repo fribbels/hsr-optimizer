@@ -17,7 +17,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { IconCheck, IconPlus, IconTrash, IconX } from '@tabler/icons-react'
+import { IconCheck, IconGripVertical, IconPlus, IconTrash, IconX } from '@tabler/icons-react'
 import { ActionIcon, Badge, Button, Divider, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle, Tooltip } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
@@ -423,17 +423,26 @@ function WarpTargetCard(props: {
   const target = targetResult.target
   const canRemove = form.getValues().targets.length > 1
   const hasMilestoneResults = Object.keys(targetResult.milestoneResults).length > 0
+  const hasCharacter = target.characterId != null
   const [characterSelectOpen, setCharacterSelectOpen] = useState(false)
 
   return (
-    <Paper className={classes.targetCard} data-dragging={isDragging || undefined} data-target-id={target.id} p={0} withBorder>
-      <WarpCharacterHeader
-        target={target}
-        rank={index + 1}
-        onClick={() => setCharacterSelectOpen(true)}
-        dragHandleRef={dragHandleRef}
-        dragHandleProps={dragHandleProps}
-      />
+    <Paper className={classes.targetCard} data-dragging={isDragging || undefined} data-empty={!hasCharacter || undefined} data-target-id={target.id} p={0} withBorder>
+      {hasCharacter ? (
+        <WarpCharacterHeader
+          target={target}
+          rank={index + 1}
+          onClick={() => setCharacterSelectOpen(true)}
+          dragHandleRef={dragHandleRef}
+          dragHandleProps={dragHandleProps}
+        />
+      ) : (
+        <WarpEmptyTargetHeader
+          rank={index + 1}
+          dragHandleRef={dragHandleRef}
+          dragHandleProps={dragHandleProps}
+        />
+      )}
 
       <Tooltip label={t('RemoveTarget')/* Remove target */} disabled={!canRemove}>
         <ActionIcon
@@ -526,6 +535,26 @@ function WarpTargetCard(props: {
         </div>
       )}
     </Paper>
+  )
+}
+
+function WarpEmptyTargetHeader(props: {
+  rank: number,
+  dragHandleRef?: (node: HTMLDivElement | null) => void,
+  dragHandleProps?: HTMLAttributes<HTMLDivElement>,
+}) {
+  const { dragHandleProps, dragHandleRef, rank } = props
+
+  return (
+    <div
+      ref={dragHandleRef}
+      className={classes.targetEmptyHeader}
+      {...dragHandleProps}
+      aria-label={`Reorder target ${rank}`}
+    >
+      <span className={classes.targetEmptyRank}>{rank}</span>
+      <IconGripVertical className={classes.targetEmptyGrip} size={16} aria-hidden='true' />
+    </div>
   )
 }
 

@@ -93,9 +93,45 @@
   cursor: grabbing;
 }
 
+.targetEmptyHeader {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 54px 0 18px;
+  cursor: grab;
+  touch-action: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--layer-2) 92%, black), color-mix(in srgb, var(--layer-1) 78%, var(--primary)));
+}
+
+.targetCard[data-dragging='true'] .targetEmptyHeader {
+  cursor: grabbing;
+}
+
+.targetEmptyRank {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1;
+}
+
+.targetEmptyGrip {
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.targetCard[data-empty='true'] .targetRemoveButton {
+  top: 3px;
+}
+
 .targetControls {
   padding: 14px 16px 16px;
   background: color-mix(in srgb, var(--layer-1) 88%, black);
+}
+
+.targetCard[data-empty='true'] .targetControls {
+  padding-top: 12px;
 }
 
 .targetControl {

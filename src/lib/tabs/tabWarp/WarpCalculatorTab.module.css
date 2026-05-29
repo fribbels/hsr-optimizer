@@ -1,6 +1,7 @@
 .plannerShell {
   max-width: 930px;
   width: 100%;
+  padding-bottom: 96px;
 }
 
 .warpTable {

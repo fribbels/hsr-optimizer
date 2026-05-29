@@ -327,8 +327,6 @@ function WarpPlanner() {
         </SortableContext>
       </DndContext>
 
-      <WarpResultsTable targetResults={warpResult.targetResults} request={warpResult.request}/>
-
       <Button
         variant='default'
         leftSection={<IconPlus size={16} />}
@@ -338,6 +336,8 @@ function WarpPlanner() {
       >
         {t('AddTarget')/* Add character target */}
       </Button>
+
+      <WarpResultsTable targetResults={warpResult.targetResults} request={warpResult.request}/>
     </div>
   )
 }

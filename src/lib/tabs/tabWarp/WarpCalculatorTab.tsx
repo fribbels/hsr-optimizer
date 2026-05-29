@@ -30,7 +30,6 @@ import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById, getCharacters } from 'lib/stores/character/characterStore'
 import { precomputedCssVars } from 'lib/tabs/tabCharacters/characterGridPresets'
-import { getSignatureLightConeId } from 'lib/tabs/tabWarp/signatureLightCones'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { BannerRotation, calculateWarps, DEFAULT_WARP_REQUEST, EidolonLevel, type EnrichedWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, normalizeWarpTargets, WarpIncomeOptions, WarpIncomeType, type WarpMilestoneResult, type WarpRequest, WarpStrategy, type WarpTarget, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
@@ -47,6 +46,7 @@ import { scannerChannel, useScannerState } from 'lib/tabs/tabImport/ScannerWebso
 import classes from './WarpCalculatorTab.module.css'
 import characterClasses from 'lib/tabs/tabCharacters/CharacterGrid.module.css'
 import { precisionRound } from 'lib/utils/mathUtils'
+import type { LightConeId } from 'types/lightCone'
 
 const HEADER_LABEL_GAP = 4
 const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
@@ -571,7 +571,7 @@ function WarpCharacterHeader(props: {
   const characterId = target.characterId
   const characterConfig = characterId ? getCharacterConfig(characterId) : undefined
   const showcaseColor = characterConfig?.display.showcaseColor
-  const signatureLightConeId = getSignatureLightConeId(characterId)
+  const signatureLightConeId = characterConfig?.defaultLightCone
   const longName = characterId ? tGameData(`${characterId}.LongName`) as string : ''
   const characterName = characterId ? longName.includes('(') ? longName : tGameData(`${characterId}.Name`) : t('Character_one')
   const targetParts = {
@@ -863,7 +863,7 @@ function getCharacterSelectionPatch(characterId: WarpTarget['characterId']): Par
   }
 
   const savedCharacter = getCharacterById(characterId)
-  const signatureLightConeId = getSignatureLightConeId(characterId)
+  const signatureLightConeId = getDefaultLightConeId(characterId)
 
   return {
     characterId,
@@ -873,7 +873,7 @@ function getCharacterSelectionPatch(characterId: WarpTarget['characterId']): Par
 }
 
 function getOwnedSignatureSuperimposition(
-  signatureLightConeId: ReturnType<typeof getSignatureLightConeId>,
+  signatureLightConeId: LightConeId | null,
 ): SuperimpositionLevel {
   if (!signatureLightConeId) return SuperimpositionLevel.NONE
 
@@ -890,6 +890,10 @@ function getOwnedSignatureSuperimposition(
   }
 
   return SuperimpositionLevel.NONE
+}
+
+function getDefaultLightConeId(characterId: WarpTarget['characterId']): LightConeId | null {
+  return characterId ? getCharacterConfig(characterId)?.defaultLightCone ?? null : null
 }
 
 function coerceSavedEidolonLevel(level: unknown): EidolonLevel {

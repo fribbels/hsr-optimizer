@@ -77,11 +77,10 @@ export function WarpCalculatorTab() {
 function sanitizeWarpRequest(warpRequest: WarpRequest) {
   if (!warpRequest) return { ...DEFAULT_WARP_REQUEST }
 
+  const hasStoredTargets = Array.isArray(warpRequest.targets) && warpRequest.targets.length > 0
+
   // Spread produces a new object — safe from mutating store state
   const sanitized = { ...DEFAULT_WARP_REQUEST, ...warpRequest }
-  sanitized.bannerRotation = BannerRotation.NEW
-  sanitized.currentEidolonLevel = EidolonLevel.NONE
-  sanitized.currentSuperimpositionLevel = SuperimpositionLevel.NONE
 
   // Filter to only valid IDs instead of clearing all selections
   if (!Array.isArray(sanitized.income)) {
@@ -92,7 +91,10 @@ function sanitizeWarpRequest(warpRequest: WarpRequest) {
     )
   }
 
-  sanitized.targets = normalizeWarpTargets(sanitized)
+  sanitized.targets = normalizeWarpTargets(hasStoredTargets ? sanitized : { ...sanitized, targets: [] })
+  sanitized.bannerRotation = BannerRotation.NEW
+  sanitized.currentEidolonLevel = EidolonLevel.NONE
+  sanitized.currentSuperimpositionLevel = SuperimpositionLevel.NONE
 
   return sanitized
 }

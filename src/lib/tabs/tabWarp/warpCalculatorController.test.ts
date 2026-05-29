@@ -350,6 +350,24 @@ test('target normalization preserves legacy goals when split target values are i
   expect(normalizedTargets[0].currentSuperimpositionLevel).toBe(SuperimpositionLevel.NONE)
 })
 
+test('target normalization migrates legacy request-level rerun settings into the first target', () => {
+  const normalizedTargets = normalizeWarpTargets({
+    ...DEFAULT_WARP_REQUEST,
+    targets: [],
+    bannerRotation: BannerRotation.RERUN,
+    strategy: WarpStrategy.E5,
+    currentEidolonLevel: EidolonLevel.E2,
+    currentSuperimpositionLevel: SuperimpositionLevel.S3,
+  })
+
+  expect(normalizedTargets).toHaveLength(1)
+  expect(normalizedTargets[0].strategy).toBe(WarpStrategy.E5)
+  expect(normalizedTargets[0].targetEidolonLevel).toBe(EidolonLevel.E6)
+  expect(normalizedTargets[0].targetSuperimpositionLevel).toBe(SuperimpositionLevel.S5)
+  expect(normalizedTargets[0].currentEidolonLevel).toBe(EidolonLevel.E2)
+  expect(normalizedTargets[0].currentSuperimpositionLevel).toBe(SuperimpositionLevel.S3)
+})
+
 function expectWithin3(actual: number, expected: number) {
   expect(actual).toBeGreaterThanOrEqual(expected - 3)
   expect(actual).toBeLessThanOrEqual(expected + 3)

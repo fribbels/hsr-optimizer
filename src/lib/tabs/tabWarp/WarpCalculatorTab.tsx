@@ -1,26 +1,63 @@
-import { IconCheck, IconX } from '@tabler/icons-react'
-import { Badge, Divider, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  restrictToParentElement,
+  restrictToVerticalAxis,
+} from '@dnd-kit/modifiers'
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+import { IconCheck, IconPlus, IconTrash, IconX } from '@tabler/icons-react'
+import { ActionIcon, Badge, Button, Divider, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle, Tooltip } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import chroma from 'chroma-js'
 import i18next from 'i18next'
+import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
+import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
+import { getCharacterById, getCharacters } from 'lib/stores/character/characterStore'
+import { precomputedCssVars } from 'lib/tabs/tabCharacters/characterGridPresets'
+import { getSignatureLightConeId } from 'lib/tabs/tabWarp/signatureLightCones'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { BannerRotation, calculateWarps, DEFAULT_WARP_REQUEST, EidolonLevel, type EnrichedWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, WarpIncomeOptions, WarpIncomeType, type WarpMilestoneResult, type WarpRequest, type WarpResult, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { BannerRotation, calculateWarps, DEFAULT_WARP_REQUEST, EidolonLevel, type EnrichedWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, normalizeWarpTargets, WarpIncomeOptions, WarpIncomeType, type WarpMilestoneResult, type WarpRequest, WarpStrategy, type WarpTarget, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
+import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
-import type { ReactNode } from 'react'
+import { showImageOnLoad } from 'lib/utils/frontendUtils'
+import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
+import { useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import classes from './WarpCalculatorTab.module.css'
+import characterClasses from 'lib/tabs/tabCharacters/CharacterGrid.module.css'
 import { precisionRound } from 'lib/utils/mathUtils'
 
 const HEADER_LABEL_GAP = 4
 const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
+const defaultTargetCssVars = {
+  ...precomputedCssVars.default,
+  '--cr-row-height': '114px',
+  '--cr-portrait-scale': '35%',
+  '--cr-lc-size': '100px',
+  '--cr-lc-right-pad': '46px',
+  '--cr-lc-strip-width': '166px',
+} as CSSProperties
 
 export function WarpCalculatorTab() {
   const { t } = useTranslation('warpCalculatorTab')
@@ -42,6 +79,9 @@ function sanitizeWarpRequest(warpRequest: WarpRequest) {
 
   // Spread produces a new object — safe from mutating store state
   const sanitized = { ...DEFAULT_WARP_REQUEST, ...warpRequest }
+  sanitized.bannerRotation = BannerRotation.NEW
+  sanitized.currentEidolonLevel = EidolonLevel.NONE
+  sanitized.currentSuperimpositionLevel = SuperimpositionLevel.NONE
 
   // Filter to only valid IDs instead of clearing all selections
   if (!Array.isArray(sanitized.income)) {
@@ -51,6 +91,8 @@ function sanitizeWarpRequest(warpRequest: WarpRequest) {
       WarpIncomeOptions.some((option) => option.id === incomeId),
     )
   }
+
+  sanitized.targets = normalizeWarpTargets(sanitized)
 
   return sanitized
 }
@@ -112,10 +154,22 @@ function WarpPlanner() {
   }, [form])
 
   const warpResult = calculateWarps(form.getValues())
+  const targetIds = warpResult.targetResults.map((targetResult) => targetResult.target.id)
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 3 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
+  )
+
+  function handleTargetDragEnd(event: DragEndEvent) {
+    const { active, over } = event
+    if (!over || active.id === over.id) return
+
+    moveTarget(form, String(active.id), String(over.id))
+  }
 
   return (
-    <div style={{ maxWidth: 930, width: '100%' }}>
-      <Paper style={{ width: '100%' }} p="xl" withBorder>
+    <div className={classes.plannerShell}>
+      <Paper style={{ width: '100%' }} p="xl" pb={8} withBorder>
         <Flex style={{ marginBottom: 30 }}>
           <Flex direction="column" flex={1}>
             <Title>
@@ -125,7 +179,7 @@ function WarpPlanner() {
             </Title>
 
             <Flex direction="column" gap={16}>
-              <Flex gap={20} justify='space-between'>
+              <Flex gap={20}>
                 <Flex align='flex-end' gap={8} flex={1}>
                   <Flex direction="column" gap={HEADER_LABEL_GAP}>
                     <HeaderText>{t('Jades')/* Jades */}</HeaderText>
@@ -148,15 +202,14 @@ function WarpPlanner() {
                 </Flex>
 
                 <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
-                  <HeaderText>{t('Banner')/* Banner */}</HeaderText>
-                  <SegmentedControl
-                    fullWidth
-                    data={[
-                      { label: t('New'), value: String(BannerRotation.NEW) },
-                      { label: t('Rerun'), value: String(BannerRotation.RERUN) },
-                    ]}
-                    value={String(form.getValues().bannerRotation)}
-                    onChange={(val) => form.setFieldValue('bannerRotation', Number(val) as BannerRotation)}
+                  <HeaderText>{t('DefaultStrategy')/* Default Strategy */}</HeaderText>
+                  <Select
+                    data={generateStrategyOptions()}
+                    value={String(form.getValues().strategy)}
+                    styles={{ input: { height: 30, minHeight: 30 } }}
+                    onChange={(val) => {
+                      if (val != null) form.setFieldValue('strategy', Number(val) as WarpStrategy)
+                    }}
                   />
                 </Flex>
               </Flex>
@@ -184,20 +237,6 @@ function WarpPlanner() {
                 </Flex>
 
                 <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
-                  <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
-                  <Select
-                    data={generateStrategyOptions()}
-                    value={String(form.getValues().strategy)}
-                    styles={{ input: { height: 30, minHeight: 30 } }}
-                    onChange={(val) => {
-                      if (val != null) form.setFieldValue('strategy', Number(val) as WarpStrategy)
-                    }}
-                  />
-                </Flex>
-              </Flex>
-
-              <Flex gap={20}>
-                <Flex direction="column" gap={HEADER_LABEL_GAP} style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
 
                   <Select
@@ -217,7 +256,9 @@ function WarpPlanner() {
                     }}
                   />
                 </Flex>
+              </Flex>
 
+              <Flex gap={20}>
                 <Flex direction="column" gap={HEADER_LABEL_GAP} style={{ width: 0, flex: 1, overflow: 'hidden' }}>
                   <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
                   <MultiSelectPills
@@ -237,6 +278,8 @@ function WarpPlanner() {
                     )}
                   />
                 </Flex>
+
+                <Flex flex={1}/>
               </Flex>
             </Flex>
           </Flex>
@@ -257,9 +300,39 @@ function WarpPlanner() {
         </Flex>
 
         <WarpSummary enriched={warpResult.request}/>
-
-        <WarpResultsTable warpResult={warpResult}/>
       </Paper>
+
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+        onDragEnd={handleTargetDragEnd}
+      >
+        <SortableContext
+          items={targetIds}
+          strategy={verticalListSortingStrategy}
+        >
+          <Flex direction='column' gap={16} mt={16}>
+            {warpResult.targetResults.map((targetResult, index) => (
+              <SortableWarpTargetCard
+                key={targetResult.target.id}
+                form={form}
+                index={index}
+                targetResult={targetResult}
+                request={warpResult.request}
+              />
+            ))}
+
+            <Button
+              variant='default'
+              leftSection={<IconPlus size={16} />}
+              onClick={() => addTarget(form)}
+            >
+              {t('AddTarget')/* Add character target */}
+            </Button>
+          </Flex>
+        </SortableContext>
+      </DndContext>
     </div>
   )
 }
@@ -277,7 +350,7 @@ function WarpSummary(props: { enriched: EnrichedWarpRequest }) {
 
   return (
     <Divider
-      mt={40} mb={30}
+      mt={40} mb={0}
       label={
         <Flex align='center' gap={4} style={{ fontSize: 16 }}>
           {localeNumberComma(enriched.totalJade)}
@@ -305,11 +378,256 @@ function WarpSummary(props: { enriched: EnrichedWarpRequest }) {
   )
 }
 
-function WarpResultsTable(props: { warpResult: Exclude<WarpResult, null> }) {
-  const { t } = useTranslation('warpCalculatorTab')
-  const { warpResult } = props
+function SortableWarpTargetCard(props: {
+  form: UseFormReturnType<WarpRequest>,
+  index: number,
+  targetResult: WarpTargetResult,
+  request: EnrichedWarpRequest,
+}) {
+  const { attributes, listeners, setActivatorNodeRef, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: props.targetResult.target.id,
+    animateLayoutChanges: () => false,
+  })
 
-  const warpTableData: WarpTableData[] = Object.entries(warpResult.milestoneResults ?? {})
+  const style: CSSProperties = {
+    transform: CSS.Translate.toString(transform),
+    transition: transform ? transition : undefined,
+    opacity: isDragging ? 0.45 : undefined,
+  }
+
+  return (
+    <div ref={setNodeRef} style={style}>
+      <WarpTargetCard
+        {...props}
+        dragHandleRef={setActivatorNodeRef}
+        dragHandleProps={{ ...attributes, ...listeners } as HTMLAttributes<HTMLDivElement>}
+        isDragging={isDragging}
+      />
+    </div>
+  )
+}
+
+function WarpTargetCard(props: {
+  form: UseFormReturnType<WarpRequest>,
+  index: number,
+  targetResult: WarpTargetResult,
+  request: EnrichedWarpRequest,
+  dragHandleRef?: (node: HTMLDivElement | null) => void,
+  dragHandleProps?: HTMLAttributes<HTMLDivElement>,
+  isDragging?: boolean,
+}) {
+  const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
+  const { dragHandleProps, dragHandleRef, form, index, isDragging, request, targetResult } = props
+  const target = targetResult.target
+  const canRemove = form.getValues().targets.length > 1
+  const hasMilestoneResults = Object.keys(targetResult.milestoneResults).length > 0
+  const [characterSelectOpen, setCharacterSelectOpen] = useState(false)
+
+  return (
+    <Paper className={classes.targetCard} data-dragging={isDragging || undefined} data-target-id={target.id} p={0} withBorder>
+      <WarpCharacterHeader
+        target={target}
+        rank={index + 1}
+        onClick={() => setCharacterSelectOpen(true)}
+        dragHandleRef={dragHandleRef}
+        dragHandleProps={dragHandleProps}
+      />
+
+      <Tooltip label={t('RemoveTarget')/* Remove target */} disabled={!canRemove}>
+        <ActionIcon
+          className={classes.targetRemoveButton}
+          variant='default'
+          size={30}
+          disabled={!canRemove}
+          aria-label={t('RemoveTarget')}
+          onClick={() => removeTarget(form, index)}
+        >
+          <IconTrash size={16} />
+        </ActionIcon>
+      </Tooltip>
+
+      <Flex className={classes.targetControls} direction='column' gap={12}>
+        <Flex gap={12} align='flex-end'>
+          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
+            <HeaderText>{t('Character')/* Character */}</HeaderText>
+            <CharacterSelect
+              value={target.characterId}
+              onChange={(characterId) => updateTarget(form, index, getCharacterSelectionPatch(characterId))}
+              opened={characterSelectOpen}
+              onOpenChange={setCharacterSelectOpen}
+            />
+          </Flex>
+
+          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
+            <HeaderText>{t('TargetEidolon')/* Eidolon target */}</HeaderText>
+            <Select
+              data={generateEidolonLevelOptions()}
+              value={String(target.targetEidolonLevel)}
+              onChange={(value) => {
+                if (value != null) updateTarget(form, index, { targetEidolonLevel: Number(value) as EidolonLevel })
+              }}
+            />
+          </Flex>
+
+          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
+            <HeaderText>{t('TargetLightCone')/* Light cone target */}</HeaderText>
+            <Select
+              data={generateSuperimpositionLevelOptions()}
+              value={String(target.targetSuperimpositionLevel)}
+              onChange={(value) => {
+                if (value != null) updateTarget(form, index, { targetSuperimpositionLevel: Number(value) as SuperimpositionLevel })
+              }}
+            />
+          </Flex>
+
+          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
+            <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
+            <Select
+              data={generateStrategyOptions()}
+              value={String(target.strategy)}
+              onChange={(value) => {
+                if (value != null) updateTarget(form, index, { strategy: Number(value) as WarpStrategy })
+              }}
+            />
+          </Flex>
+        </Flex>
+
+        <Flex gap={12} align='flex-end'>
+          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControlWide}>
+            <HeaderText>{t('CurrentEidolon')/* Current eidolon */}</HeaderText>
+            <Select
+              data={generateEidolonLevelOptions()}
+              value={String(target.currentEidolonLevel)}
+              onChange={(value) => {
+                if (value != null) updateTarget(form, index, { currentEidolonLevel: Number(value) as EidolonLevel })
+              }}
+            />
+          </Flex>
+
+          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControlWide}>
+            <HeaderText>{t('CurrentSuperimposition')/* Current superimposition */}</HeaderText>
+            <Select
+              data={generateSuperimpositionLevelOptions()}
+              value={String(target.currentSuperimpositionLevel)}
+              onChange={(value) => {
+                if (value != null) updateTarget(form, index, { currentSuperimpositionLevel: Number(value) as SuperimpositionLevel })
+              }}
+            />
+          </Flex>
+        </Flex>
+
+      </Flex>
+
+      {hasMilestoneResults && (
+        <div className={classes.targetTableWrap}>
+          <WarpResultsTable milestoneResults={targetResult.milestoneResults} request={request}/>
+        </div>
+      )}
+    </Paper>
+  )
+}
+
+function WarpCharacterHeader(props: {
+  target: WarpTarget,
+  rank: number,
+  onClick: () => void,
+  dragHandleRef?: (node: HTMLDivElement | null) => void,
+  dragHandleProps?: HTMLAttributes<HTMLDivElement>,
+}) {
+  const { t } = useTranslation('common')
+  const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const { dragHandleProps, dragHandleRef, target, rank, onClick } = props
+  const characterId = target.characterId
+  const characterConfig = characterId ? getCharacterConfig(characterId) : undefined
+  const showcaseColor = characterConfig?.display.showcaseColor
+  const signatureLightConeId = getSignatureLightConeId(characterId)
+  const longName = characterId ? tGameData(`${characterId}.LongName`) as string : ''
+  const characterName = characterId ? longName.includes('(') ? longName : tGameData(`${characterId}.Name`) : t('Character_one')
+  const targetParts = {
+    eidolon: target.targetEidolonLevel === EidolonLevel.NONE ? null : target.targetEidolonLevel,
+    superimposition: target.targetSuperimpositionLevel === SuperimpositionLevel.NONE ? null : target.targetSuperimpositionLevel,
+  }
+
+  const frameStyle: CSSProperties = {
+    backgroundColor: showcaseColor ? oklchCharacterListColor(showcaseColor, true, DEFAULT_CONFIG) : undefined,
+  }
+
+  return (
+    <div
+      ref={dragHandleRef}
+      className={`${characterClasses.root} ${classes.targetCharacterHeader}`}
+      data-character-id={characterId ?? undefined}
+      data-scrim-mode='frosted'
+      style={defaultTargetCssVars}
+      {...dragHandleProps}
+      role='button'
+      tabIndex={0}
+      onClick={onClick}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault()
+          onClick()
+        }
+      }}
+    >
+      <div className={characterClasses.frame} style={frameStyle}>
+        {characterId && (
+          <div className={characterClasses.portraitBg}>
+            <img
+              src={Assets.getCharacterPreviewById(characterId)}
+              alt=''
+              draggable={false}
+              decoding='async'
+              onLoad={showImageOnLoad}
+              style={characterConfig?.display.gridPortraitOffset
+                ? { marginTop: -(characterConfig.display.gridPortraitOffset ?? 0) }
+                : undefined}
+            />
+          </div>
+        )}
+
+        <div className={characterClasses.scrim} data-scrim-mode='frosted' />
+        {signatureLightConeId && <div className={characterClasses.lcStrip} />}
+
+        <div className={characterClasses.inner}>
+          <div className={characterClasses.rankGripSlot}>
+            <span className={characterClasses.rank}>{rank}</span>
+          </div>
+
+          <div className={characterClasses.info} data-name-shadow='true'>
+            <div className={characterClasses.name}>{characterName}</div>
+            <div className={characterClasses.subtitle}>
+              {targetParts.eidolon != null && (
+                <span className={characterClasses.subtitleBadge}>{t('EidolonNShort', { eidolon: targetParts.eidolon })}</span>
+              )}
+              {targetParts.superimposition != null && (
+                <span className={characterClasses.subtitleBadge}>{t('SuperimpositionNShort', { superimposition: targetParts.superimposition })}</span>
+              )}
+            </div>
+          </div>
+
+          {signatureLightConeId && (
+            <div className={characterClasses.lcWrap} data-lc-style='shadow'>
+              <img
+                src={Assets.getLightConeIconById(signatureLightConeId)}
+                alt=''
+                draggable={false}
+                decoding='async'
+                onLoad={showImageOnLoad}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function WarpResultsTable(props: { milestoneResults: Record<string, WarpMilestoneResult>, request: EnrichedWarpRequest }) {
+  const { t } = useTranslation('warpCalculatorTab')
+  const { milestoneResults, request } = props
+
+  const warpTableData: WarpTableData[] = Object.entries(milestoneResults ?? {})
     .map(([label, result]) => ({ key: label, warps: result.warps, wins: result.wins }))
 
   return (
@@ -322,7 +640,7 @@ function WarpResultsTable(props: { warpResult: Exclude<WarpResult, null> }) {
               <Trans<'ColumnTitles.Chance', 'warpCalculatorTab'>
                 t={t}
                 i18nKey='ColumnTitles.Chance'
-                values={{ ticketCount: localeNumberComma(warpResult.request.warps) }}
+                values={{ ticketCount: localeNumberComma(request.warps) }}
               >
                 Success chance with [[ticketCount]]
                 <img style={{ height: 18 }} src={Assets.getPass()}/>
@@ -389,7 +707,6 @@ type WarpTableData = {
 function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest> }) {
   const { t } = useTranslation(['warpCalculatorTab', 'common'])
   const { form } = props
-  const bannerRotation = form.getValues().bannerRotation
 
   const pityField = `pity${props.banner}` as keyof WarpRequest
   const guaranteedField = `guaranteed${props.banner}` as keyof WarpRequest
@@ -404,22 +721,6 @@ function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest
           style={{ width: '100%' }}
           hideControls
           {...form.getInputProps(pityField)}
-        />
-      </Flex>
-      <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP} style={{ display: bannerRotation === BannerRotation.RERUN ? 'flex' : 'none' }}>
-        <HeaderText>{t('PityCounter.CurrentEidolonSuperImp')/* Current */}</HeaderText>
-
-        <Select
-          data={props.banner === 'Character'
-            ? generateEidolonLevelOptions()
-            : generateSuperimpositionLevelOptions()}
-          value={String(form.getValues()[props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'])}
-          onChange={(val) => {
-            if (val != null) {
-              const field = props.banner === 'Character' ? 'currentEidolonLevel' : 'currentSuperimpositionLevel'
-              form.setFieldValue(field, Number(val) as never)
-            }
-          }}
         />
       </Flex>
       <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
@@ -517,6 +818,99 @@ function generateSuperimpositionLevelOptions() {
 
 function translateLabel(label: string) {
   const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
-  if (label === 'S1') return t('common:SuperimpositionNShort', { superimposition: 1 })
+  if (/^S\d$/.test(label)) return t('common:SuperimpositionNShort', { superimposition: label.charAt(1) })
   return t('warpCalculatorTab:TargetLabel', { superimposition: label.charAt(3), eidolon: label.charAt(1) })
+}
+
+function getCharacterSelectionPatch(characterId: WarpTarget['characterId']): Partial<WarpTarget> {
+  if (!characterId) {
+    return {
+      characterId: null,
+      currentEidolonLevel: EidolonLevel.NONE,
+      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
+    }
+  }
+
+  const savedCharacter = getCharacterById(characterId)
+  const signatureLightConeId = getSignatureLightConeId(characterId)
+
+  return {
+    characterId,
+    currentEidolonLevel: coerceSavedEidolonLevel(savedCharacter?.form?.characterEidolon),
+    currentSuperimpositionLevel: getOwnedSignatureSuperimposition(signatureLightConeId),
+  }
+}
+
+function getOwnedSignatureSuperimposition(
+  signatureLightConeId: ReturnType<typeof getSignatureLightConeId>,
+): SuperimpositionLevel {
+  if (!signatureLightConeId) return SuperimpositionLevel.NONE
+
+  const scannedSignatureLightCones = Object.values(useScannerState.getState().lightCones)
+    .filter((lightCone) => lightCone.id === signatureLightConeId)
+  if (scannedSignatureLightCones.length > 0) {
+    return coerceSavedSuperimpositionLevel(Math.max(...scannedSignatureLightCones.map((lightCone) => lightCone.superimposition)))
+  }
+
+  const savedSignatureHolders = getCharacters()
+    .filter((character) => character.form?.lightCone === signatureLightConeId)
+  if (savedSignatureHolders.length > 0) {
+    return coerceSavedSuperimpositionLevel(Math.max(...savedSignatureHolders.map((character) => character.form.lightConeSuperimposition)))
+  }
+
+  return SuperimpositionLevel.NONE
+}
+
+function coerceSavedEidolonLevel(level: unknown): EidolonLevel {
+  return typeof level === 'number' && level >= EidolonLevel.E0 && level <= EidolonLevel.E6
+    ? level as EidolonLevel
+    : EidolonLevel.NONE
+}
+
+function coerceSavedSuperimpositionLevel(level: unknown): SuperimpositionLevel {
+  return typeof level === 'number' && level >= SuperimpositionLevel.S1 && level <= SuperimpositionLevel.S5
+    ? level as SuperimpositionLevel
+    : SuperimpositionLevel.NONE
+}
+
+function updateTarget(form: UseFormReturnType<WarpRequest>, index: number, patch: Partial<WarpTarget>) {
+  const targets = form.getValues().targets.map((target, targetIndex) => {
+    if (targetIndex !== index) return target
+    return { ...target, ...patch }
+  })
+  form.setFieldValue('targets', targets)
+}
+
+function addTarget(form: UseFormReturnType<WarpRequest>) {
+  const id = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}`
+  const targets = [
+    ...form.getValues().targets,
+    {
+      ...DEFAULT_WARP_REQUEST.targets[0],
+      id,
+      strategy: form.getValues().strategy,
+      targetEidolonLevel: EidolonLevel.E0,
+      targetSuperimpositionLevel: SuperimpositionLevel.NONE,
+    },
+  ]
+  form.setFieldValue('targets', targets)
+}
+
+function removeTarget(form: UseFormReturnType<WarpRequest>, index: number) {
+  const targets = form.getValues().targets.filter((_, targetIndex) => targetIndex !== index)
+  if (targets.length > 0) {
+    form.setFieldValue('targets', targets)
+  }
+}
+
+function moveTarget(form: UseFormReturnType<WarpRequest>, activeId: string, overId: string) {
+  const targets = [...form.getValues().targets]
+  const fromIndex = targets.findIndex((target) => target.id === activeId)
+  const toIndex = targets.findIndex((target) => target.id === overId)
+
+  if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return
+
+  const [target] = targets.splice(fromIndex, 1)
+  targets.splice(toIndex, 0, target)
+  form.setFieldValue('targets', targets)
 }

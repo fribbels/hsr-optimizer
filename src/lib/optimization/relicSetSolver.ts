@@ -8,9 +8,9 @@ import type { PartCountsBySet } from 'lib/relics/relicFilters'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
-  SetsOrnaments,
+  type SetsOrnaments,
   SetsOrnamentsNames,
-  SetsRelics,
+  type SetsRelics,
   SetsRelicsNames,
 } from 'lib/sets/setConfigRegistry'
 import {

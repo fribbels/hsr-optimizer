@@ -1,3 +1,8 @@
+.plannerShell {
+  max-width: 930px;
+  width: 100%;
+}
+
 .warpTable {
   background-color: var(--layer-2);
   box-shadow: var(--shadow-card);
@@ -58,4 +63,51 @@
 
 .warpRowDisabled td {
   opacity: 0.10;
+}
+
+.targetCard {
+  position: relative;
+  overflow: hidden;
+  background: var(--layer-1);
+}
+
+.targetCard[data-dragging='true'] {
+  box-shadow: var(--shadow-card);
+}
+
+.targetRemoveButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 5;
+}
+
+.targetCharacterHeader {
+  width: 100%;
+  cursor: grab;
+  content-visibility: visible;
+  touch-action: none;
+}
+
+.targetCard[data-dragging='true'] .targetCharacterHeader {
+  cursor: grabbing;
+}
+
+.targetControls {
+  padding: 14px 16px 16px;
+  background: color-mix(in srgb, var(--layer-1) 88%, black);
+}
+
+.targetControl {
+  min-width: 145px;
+  flex: 1;
+}
+
+.targetControlWide {
+  min-width: 220px;
+  flex: 1;
+}
+
+.targetTableWrap {
+  padding: 8px 16px 16px;
 }

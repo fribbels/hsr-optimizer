@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -7860,20 +7860,28 @@ interface Resources {
       "REFUND_NONE_FULL": "None"
     },
     "SectionTitles": {
+      "AddTarget": "Add character target",
       "AdditionalResources": "Additional resources",
       "Banner": "Banner",
       "Calculate": "Calculate",
       "Character": "Character",
+      "CurrentEidolon": "Current eidolon",
+      "CurrentSuperimposition": "Current superimposition",
+      "DefaultStrategy": "Default Strategy",
       "Jades": "Jades",
       "LightCone": "Light Cone",
       "New": "New",
       "Passes": "Passes",
       "Planner": "Warp Planner",
+      "RemoveTarget": "Remove target",
       "Rerun": "Rerun",
       "Results": "Results",
       "Settings": "Settings",
       "Starlight": "Starlight",
-      "Strategy": "Strategy"
+      "Strategy": "Strategy",
+      "Target": "Target",
+      "TargetEidolon": "Eidolon target",
+      "TargetLightCone": "Light cone target"
     },
     "StrategyLabels": {
       "E0": "E0 first",
@@ -7897,5 +7905,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

@@ -335,7 +335,6 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
-  defaultDamageType: DamageTag.ELATION,
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
 })

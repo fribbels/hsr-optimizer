@@ -496,7 +496,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.MASTER_SMITH_SET,
   ],
-  defaultDamageType: DamageTag.SKILL,
+  defaultDamageType: DamageTag.SKILL | DamageTag.ADDITIONAL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,

@@ -470,7 +470,6 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(5),
   ],
-  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
   supportSimulation: supportSimulation(),

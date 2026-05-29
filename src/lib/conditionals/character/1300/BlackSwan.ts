@@ -101,7 +101,6 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.PRISONER_SET,
     PresetEffects.fnMortenaxAshblazingSet(5),
   ],
-  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,

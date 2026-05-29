@@ -104,7 +104,6 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnPioneerSet(4),
   ],
-  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,

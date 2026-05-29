@@ -410,7 +410,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.fnAshblazingSet(8),
   ],
-  defaultDamageType: DamageTag.FUA,
+  defaultDamageType: DamageTag.ULT | DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.ULT, SortOption.DOT],
   simulation: simulation(),

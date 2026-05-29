@@ -96,7 +96,6 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
-  defaultDamageType: DamageTag.SUPER_BREAK,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,

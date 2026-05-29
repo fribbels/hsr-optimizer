@@ -102,7 +102,6 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(6),
     PresetEffects.VALOROUS_SET,
   ],
-  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,

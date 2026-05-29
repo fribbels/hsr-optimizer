@@ -35,6 +35,7 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { TodayIsAnotherPeacefulDay } from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -332,6 +333,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnSacerdosSet(2),
     PresetEffects.fnMortenaxAshblazingSet(5),
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.DOT],
   simulation: simulation(),
@@ -349,6 +351,7 @@ const display = {
 
 export const Qingque: CharacterConfig = {
   id: '1201',
+  defaultLightCone: TodayIsAnotherPeacefulDay.id,
   display,
   conditionals,
   get scoring() {

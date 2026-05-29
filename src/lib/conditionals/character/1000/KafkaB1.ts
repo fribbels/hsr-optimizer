@@ -14,6 +14,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
@@ -448,6 +449,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(6),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [],
   simulation: simulation(),
@@ -464,6 +466,7 @@ const display = {
 
 export const KafkaB1: CharacterConfig = {
   id: '1005b1',
+  defaultLightCone: PatienceIsAllYouNeed.id,
   display,
   conditionals,
   get scoring() {

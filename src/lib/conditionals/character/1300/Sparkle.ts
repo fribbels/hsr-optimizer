@@ -1,5 +1,6 @@
 import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import {
   Parts,
   Stats,
@@ -116,6 +117,7 @@ const display = {
 // Pre-Novaflare version. See SparkleB1.ts for the updated variant.
 export const Sparkle: CharacterConfig = {
   id: '1306',
+  defaultLightCone: EarthlyEscapade.id,
   display,
   conditionals,
   get scoring() {

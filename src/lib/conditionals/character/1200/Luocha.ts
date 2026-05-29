@@ -13,6 +13,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { EchoesOfTheCoffin } from 'lib/conditionals/lightcone/5star/EchoesOfTheCoffin'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
@@ -315,6 +316,7 @@ const display = {
 
 export const Luocha: CharacterConfig = {
   id: '1203',
+  defaultLightCone: EchoesOfTheCoffin.id,
   display,
   conditionals,
   get scoring() {

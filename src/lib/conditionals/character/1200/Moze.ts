@@ -44,6 +44,7 @@ import {
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { ShadowedByNight } from 'lib/conditionals/lightcone/4star/ShadowedByNight'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -392,6 +393,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(6),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -413,6 +415,7 @@ const display = {
 
 export const Moze: CharacterConfig = {
   id: '1223',
+  defaultLightCone: ShadowedByNight.id,
   display,
   conditionals,
   get scoring() {

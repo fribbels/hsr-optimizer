@@ -9,6 +9,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
@@ -558,6 +559,7 @@ const displayStelle = {
 
 export const TrailblazerRemembranceCaelus: CharacterConfig = {
   id: '8007',
+  defaultLightCone: FlyIntoAPinkTomorrow.id,
   display: displayCaelus,
   conditionals,
   get scoring() {
@@ -567,6 +569,7 @@ export const TrailblazerRemembranceCaelus: CharacterConfig = {
 
 export const TrailblazerRemembranceStelle: CharacterConfig = {
   id: '8008',
+  defaultLightCone: FlyIntoAPinkTomorrow.id,
   display: displayStelle,
   conditionals,
   get scoring() {

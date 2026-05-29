@@ -5,6 +5,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import {
   Parts,
   Sets,
@@ -297,6 +298,7 @@ const display = {
 
 export const RuanMei: CharacterConfig = {
   id: '1303',
+  defaultLightCone: PastSelfInTheMirror.id,
   display,
   conditionals,
   get scoring() {

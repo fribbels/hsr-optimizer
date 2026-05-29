@@ -9,6 +9,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -282,6 +283,7 @@ const display = {
 
 export const Hanya: CharacterConfig = {
   id: '1215',
+  defaultLightCone: DanceDanceDance.id,
   display,
   conditionals,
   get scoring() {

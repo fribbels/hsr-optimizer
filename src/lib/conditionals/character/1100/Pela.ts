@@ -10,6 +10,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { GoodNightAndSleepWell } from 'lib/conditionals/lightcone/4star/GoodNightAndSleepWell'
 import {
   Parts,
   Stats,
@@ -290,6 +291,7 @@ const display = {
 
 export const Pela: CharacterConfig = {
   id: '1106',
+  defaultLightCone: GoodNightAndSleepWell.id,
   display,
   conditionals,
   get scoring() {

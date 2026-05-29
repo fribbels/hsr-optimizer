@@ -9,6 +9,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
@@ -346,6 +347,7 @@ const display = {
 
 export const TrailblazerHarmonyCaelus: CharacterConfig = {
   id: '8005',
+  defaultLightCone: MemoriesOfThePast.id,
   display,
   conditionals,
   get scoring() {
@@ -355,6 +357,7 @@ export const TrailblazerHarmonyCaelus: CharacterConfig = {
 
 export const TrailblazerHarmonyStelle: CharacterConfig = {
   id: '8006',
+  defaultLightCone: MemoriesOfThePast.id,
   display,
   conditionals,
   get scoring() {

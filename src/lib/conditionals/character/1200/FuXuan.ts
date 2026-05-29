@@ -9,6 +9,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { SheAlreadyShutHerEyes } from 'lib/conditionals/lightcone/5star/SheAlreadyShutHerEyes'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -322,6 +323,7 @@ const display = {
 
 export const FuXuan: CharacterConfig = {
   id: '1208',
+  defaultLightCone: SheAlreadyShutHerEyes.id,
   display,
   conditionals,
   get scoring() {

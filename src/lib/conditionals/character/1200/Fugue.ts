@@ -17,6 +17,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
@@ -390,6 +391,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnMortenaxAshblazingSet(8),
     PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.SUPER_BREAK,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
@@ -410,6 +412,7 @@ const display = {
 
 export const Fugue: CharacterConfig = {
   id: '1225',
+  defaultLightCone: LongRoadLeadsHome.id,
   display,
   conditionals,
   get scoring() {

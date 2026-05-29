@@ -12,6 +12,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -472,6 +473,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [],
   simulation: simulation(),
@@ -488,6 +490,7 @@ const display = {
 
 export const Tribbie: CharacterConfig = {
   id: '1403',
+  defaultLightCone: IfTimeWereAFlower.id,
   display,
   conditionals,
   get scoring() {

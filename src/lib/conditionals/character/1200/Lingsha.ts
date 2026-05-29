@@ -15,6 +15,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -430,6 +431,7 @@ const display = {
 
 export const Lingsha: CharacterConfig = {
   id: '1222',
+  defaultLightCone: ScentAloneStaysTrue.id,
   display,
   conditionals,
   get scoring() {

@@ -9,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
@@ -415,6 +416,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.PRISONER_SET,
     PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [
     SortOption.FUA,
@@ -433,6 +435,7 @@ const display = {
 
 export const BlackSwanB1: CharacterConfig = {
   id: '1307b1',
+  defaultLightCone: ReforgedRemembrance.id,
   display,
   conditionals,
   get scoring() {

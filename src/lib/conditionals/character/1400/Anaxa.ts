@@ -19,6 +19,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -448,6 +449,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.MASTER_SMITH_SET,
     PresetEffects.fnNavigatorSet(2),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -464,6 +466,7 @@ const display = {
 
 export const Anaxa: CharacterConfig = {
   id: '1405',
+  defaultLightCone: LifeShouldBeCastToFlames.id,
   display,
   conditionals,
   get scoring() {

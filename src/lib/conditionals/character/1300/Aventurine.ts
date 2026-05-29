@@ -14,6 +14,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
@@ -29,6 +30,7 @@ import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
+  DamageTag,
   ElementTag,
   SELF_ENTITY_INDEX,
   TargetTag,
@@ -476,6 +478,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.fnPioneerSet(4),
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   addedColumns: [],
   hiddenColumns: [
@@ -498,6 +501,7 @@ const display = {
 
 export const Aventurine: CharacterConfig = {
   id: '1304',
+  defaultLightCone: InherentlyUnjustDestiny.id,
   display,
   conditionals,
   get scoring() {

@@ -1,10 +1,11 @@
 import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { TheUnreachableSide } from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
 import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -127,6 +128,7 @@ const display = {
 // Pre-Novaflare version. See BladeB1.ts for the updated variant.
 export const Blade: CharacterConfig = {
   id: '1205',
+  defaultLightCone: TheUnreachableSide.id,
   display,
   conditionals,
   get scoring() {

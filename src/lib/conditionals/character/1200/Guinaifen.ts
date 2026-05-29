@@ -10,6 +10,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import {
   Parts,
   Stats,
@@ -280,6 +281,7 @@ const display = {
 
 export const Guinaifen: CharacterConfig = {
   id: '1210',
+  defaultLightCone: ResolutionShinesAsPearlsOfSweat.id,
   display,
   conditionals,
   get scoring() {

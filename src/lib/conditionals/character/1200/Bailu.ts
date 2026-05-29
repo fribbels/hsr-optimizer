@@ -9,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { TimeWaitsForNoOne } from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import {
@@ -329,6 +330,7 @@ const display = {
 
 export const Bailu: CharacterConfig = {
   id: '1211',
+  defaultLightCone: TimeWaitsForNoOne.id,
   display,
   conditionals,
   get scoring() {

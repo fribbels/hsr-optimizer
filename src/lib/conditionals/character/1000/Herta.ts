@@ -14,6 +14,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { TheBirthOfTheSelf } from 'lib/conditionals/lightcone/4star/TheBirthOfTheSelf'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -407,6 +408,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(8),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.DOT,
@@ -426,6 +428,7 @@ const display = {
 
 export const Herta: CharacterConfig = {
   id: '1013',
+  defaultLightCone: TheBirthOfTheSelf.id,
   display,
   conditionals,
   get scoring() {

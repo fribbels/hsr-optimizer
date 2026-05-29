@@ -16,6 +16,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
+import { SomethingIrreplaceable } from 'lib/conditionals/lightcone/5star/SomethingIrreplaceable'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -321,6 +322,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(2),
     PresetEffects.fnSacerdosSet(1),
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.ULT,
@@ -341,6 +343,7 @@ const display = {
 
 export const Clara: CharacterConfig = {
   id: '1107',
+  defaultLightCone: SomethingIrreplaceable.id,
   display,
   conditionals,
   get scoring() {

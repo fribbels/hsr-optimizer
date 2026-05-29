@@ -17,6 +17,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AnInstantBeforeAGaze } from 'lib/conditionals/lightcone/5star/AnInstantBeforeAGaze'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -345,6 +346,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.FUA,
@@ -369,6 +371,7 @@ const display = {
 
 export const Argenti: CharacterConfig = {
   id: '1302',
+  defaultLightCone: AnInstantBeforeAGaze.id,
   display,
   conditionals,
   get scoring() {

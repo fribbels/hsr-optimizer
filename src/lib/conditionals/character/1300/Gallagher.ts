@@ -1,5 +1,6 @@
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { WhatIsReal } from 'lib/conditionals/lightcone/4star/WhatIsReal'
 import {
   NONE_TYPE,
   SKILL_DMG_TYPE,
@@ -350,6 +351,7 @@ const display = {
 
 export const Gallagher: CharacterConfig = {
   id: '1301',
+  defaultLightCone: WhatIsReal.id,
   display,
   conditionals,
   get scoring() {

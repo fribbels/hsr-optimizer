@@ -20,6 +20,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -398,6 +399,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(1),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.ULT | DamageTag.FUA,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.DOT,
@@ -421,6 +423,7 @@ const display = {
 
 export const Feixiao: CharacterConfig = {
   id: '1220',
+  defaultLightCone: IVentureForthToHunt.id,
   display,
   conditionals,
   get scoring() {

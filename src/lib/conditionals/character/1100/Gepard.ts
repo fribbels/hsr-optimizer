@@ -13,6 +13,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { MomentOfVictory } from 'lib/conditionals/lightcone/5star/MomentOfVictory'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
@@ -294,6 +295,7 @@ const display = {
 
 export const Gepard: CharacterConfig = {
   id: '1104',
+  defaultLightCone: MomentOfVictory.id,
   display,
   conditionals,
   get scoring() {

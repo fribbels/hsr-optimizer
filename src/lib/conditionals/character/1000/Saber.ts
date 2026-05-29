@@ -19,6 +19,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { AThanklessCoronation } from 'lib/conditionals/lightcone/5star/AThanklessCoronation'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   Parts,
@@ -402,6 +403,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.DOT,
@@ -425,6 +427,7 @@ const display = {
 
 export const Saber: CharacterConfig = {
   id: '1014',
+  defaultLightCone: AThanklessCoronation.id,
   display,
   conditionals,
   get scoring() {

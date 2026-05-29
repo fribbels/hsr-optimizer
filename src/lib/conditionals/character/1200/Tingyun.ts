@@ -9,6 +9,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { CarveTheMoonWeaveTheClouds } from 'lib/conditionals/lightcone/4star/CarveTheMoonWeaveTheClouds'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -300,6 +301,7 @@ const display = {
 
 export const Tingyun: CharacterConfig = {
   id: '1202',
+  defaultLightCone: CarveTheMoonWeaveTheClouds.id,
   display,
   conditionals,
   get scoring() {

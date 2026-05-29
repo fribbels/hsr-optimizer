@@ -11,6 +11,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
@@ -310,6 +311,7 @@ const display = {
 
 export const HuohuoB1: CharacterConfig = {
   id: '1217b1',
+  defaultLightCone: NightOfFright.id,
   display,
   conditionals,
   get scoring() {

@@ -40,7 +40,7 @@ import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import classes from './WarpCalculatorTab.module.css'
@@ -321,20 +321,23 @@ function WarpPlanner() {
                 form={form}
                 index={index}
                 targetResult={targetResult}
-                request={warpResult.request}
               />
             ))}
-
-            <Button
-              variant='default'
-              leftSection={<IconPlus size={16} />}
-              onClick={() => addTarget(form)}
-            >
-              {t('AddTarget')/* Add character target */}
-            </Button>
           </Flex>
         </SortableContext>
       </DndContext>
+
+      <WarpResultsTable targetResults={warpResult.targetResults} request={warpResult.request}/>
+
+      <Button
+        variant='default'
+        leftSection={<IconPlus size={16} />}
+        mt={16}
+        w='100%'
+        onClick={() => addTarget(form)}
+      >
+        {t('AddTarget')/* Add character target */}
+      </Button>
     </div>
   )
 }
@@ -384,7 +387,6 @@ function SortableWarpTargetCard(props: {
   form: UseFormReturnType<WarpRequest>,
   index: number,
   targetResult: WarpTargetResult,
-  request: EnrichedWarpRequest,
 }) {
   const { attributes, listeners, setActivatorNodeRef, setNodeRef, transform, transition, isDragging } = useSortable({
     id: props.targetResult.target.id,
@@ -413,16 +415,14 @@ function WarpTargetCard(props: {
   form: UseFormReturnType<WarpRequest>,
   index: number,
   targetResult: WarpTargetResult,
-  request: EnrichedWarpRequest,
   dragHandleRef?: (node: HTMLDivElement | null) => void,
   dragHandleProps?: HTMLAttributes<HTMLDivElement>,
   isDragging?: boolean,
 }) {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
-  const { dragHandleProps, dragHandleRef, form, index, isDragging, request, targetResult } = props
+  const { dragHandleProps, dragHandleRef, form, index, isDragging, targetResult } = props
   const target = targetResult.target
   const canRemove = form.getValues().targets.length > 1
-  const hasMilestoneResults = Object.keys(targetResult.milestoneResults).length > 0
   const hasCharacter = target.characterId != null
   const [characterSelectOpen, setCharacterSelectOpen] = useState(false)
 
@@ -528,12 +528,6 @@ function WarpTargetCard(props: {
         </Flex>
 
       </Flex>
-
-      {hasMilestoneResults && (
-        <div className={classes.targetTableWrap}>
-          <WarpResultsTable milestoneResults={targetResult.milestoneResults} request={request}/>
-        </div>
-      )}
     </Paper>
   )
 }
@@ -654,15 +648,31 @@ function WarpCharacterHeader(props: {
   )
 }
 
-function WarpResultsTable(props: { milestoneResults: Record<string, WarpMilestoneResult>, request: EnrichedWarpRequest }) {
+function WarpResultsTable(props: { targetResults: WarpTargetResult[], request: EnrichedWarpRequest }) {
   const { t } = useTranslation('warpCalculatorTab')
-  const { milestoneResults, request } = props
+  const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const { request, targetResults } = props
+  const getTargetDisplayName = (target: WarpTarget, targetIndex: number) => {
+    if (!target.characterId) return ''
 
-  const warpTableData: WarpTableData[] = Object.entries(milestoneResults ?? {})
-    .map(([label, result]) => ({ key: label, warps: result.warps, wins: result.wins }))
+    const longName = tGameData(`${target.characterId}.LongName`) as string
+    return longName.includes('(') ? longName : tGameData(`${target.characterId}.Name`) as string
+  }
+
+  const targetGroups = targetResults
+    .map((targetResult, targetIndex) => ({
+      target: targetResult.target,
+      targetIndex,
+      targetName: getTargetDisplayName(targetResult.target, targetIndex),
+      rows: Object.entries(targetResult.milestoneResults ?? {})
+        .map(([label, result]) => ({ key: `${targetResult.target.id}-${label}`, label, warps: result.warps, wins: result.wins })),
+    }))
+    .filter((group) => group.rows.length > 0)
+
+  if (targetGroups.length === 0) return null
 
   return (
-    <Table className={classes.warpTable} style={{ width: '100%' }}>
+    <Table className={classes.warpTable} mt={16} style={{ width: '100%' }}>
       <Table.Thead>
         <Table.Tr>
           <Table.Th style={{ textAlign: 'center', width: 200 }}>{t('ColumnTitles.Goal')}</Table.Th>
@@ -690,39 +700,60 @@ function WarpResultsTable(props: { milestoneResults: Record<string, WarpMileston
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {warpTableData.map((record) => (
-          <Table.Tr
-            key={record.key}
-            className={record.wins < chanceThreshold ? classes.warpRowDisabled : classes.warpRow}
-          >
-            <Table.Td className={classes.goalCell}>
-              <Flex className={classes.goalBarOverlay} align='center'>
-                {record.wins >= chanceThreshold && (
-                  <div
-                    className={classes.goalBar}
-                    style={{
-                      width: `${record.wins * 100}%`,
-                      backgroundColor: warpChanceColorScale(record.wins).hex(),
-                    }}
-                  />
-                )}
-                <Flex className={classes.goalContent} justify='center' align='center'>
-                  <Badge color='#000000aa' className={classes.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
-                    {translateLabel(record.key)}
-                  </Badge>
+        {targetGroups.map((group, groupIndex) => (
+          <Fragment key={group.target.id}>
+            <Table.Tr className={classes.targetResultSeparator}>
+              <Table.Td colSpan={3}>
+                <Flex align='center' gap={8}>
+                  {group.target.characterId && (
+                    <img
+                      className={classes.targetResultSeparatorIcon}
+                      src={Assets.getCharacterAvatarById(group.target.characterId)}
+                      alt=''
+                      draggable={false}
+                    />
+                  )}
+                  <span className={classes.targetResultSeparatorIndex}>{group.targetIndex + 1}</span>
+                  {group.targetName && <span className={classes.targetResultSeparatorName}>{group.targetName}</span>}
                 </Flex>
-              </Flex>
-            </Table.Td>
-            <Table.Td style={{ textAlign: 'center' }}>
-              {`${localeNumber_0(precisionRound(record.wins * 100, 1))}%`}
-            </Table.Td>
-            <Table.Td style={{ textAlign: 'center' }}>
-              <Flex align='center' justify='center' gap={HEADER_LABEL_GAP}>
-                {`${Math.ceil(record.warps)}`}
-                <img style={{ height: 16 }} src={Assets.getPass()}/>
-              </Flex>
-            </Table.Td>
-          </Table.Tr>
+              </Table.Td>
+            </Table.Tr>
+
+            {group.rows.map((record) => (
+              <Table.Tr
+                key={record.key}
+                className={record.wins < chanceThreshold ? classes.warpRowDisabled : classes.warpRow}
+              >
+                <Table.Td className={classes.goalCell}>
+                  <Flex className={classes.goalBarOverlay} align='center'>
+                    {record.wins >= chanceThreshold && (
+                      <div
+                        className={classes.goalBar}
+                        style={{
+                          width: `${record.wins * 100}%`,
+                          backgroundColor: warpChanceColorScale(record.wins).hex(),
+                        }}
+                      />
+                    )}
+                    <Flex className={classes.goalContent} justify='center' align='center'>
+                      <Badge color='#000000aa' className={classes.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
+                        {translateLabel(record.label)}
+                      </Badge>
+                    </Flex>
+                  </Flex>
+                </Table.Td>
+                <Table.Td style={{ textAlign: 'center' }}>
+                  {`${localeNumber_0(precisionRound(record.wins * 100, 1))}%`}
+                </Table.Td>
+                <Table.Td style={{ textAlign: 'center' }}>
+                  <Flex align='center' justify='center' gap={HEADER_LABEL_GAP}>
+                    {`${Math.ceil(record.warps)}`}
+                    <img style={{ height: 16 }} src={Assets.getPass()}/>
+                  </Flex>
+                </Table.Td>
+              </Table.Tr>
+            ))}
+          </Fragment>
         ))}
       </Table.Tbody>
     </Table>
@@ -730,10 +761,6 @@ function WarpResultsTable(props: { milestoneResults: Record<string, WarpMileston
 }
 
 const chanceThreshold = 0.0005
-
-type WarpTableData = {
-  key: string
-} & WarpMilestoneResult
 
 function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest> }) {
   const { t } = useTranslation(['warpCalculatorTab', 'common'])

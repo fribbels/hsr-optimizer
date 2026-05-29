@@ -27,6 +27,36 @@
   background-color: rgba(255, 255, 255, 0.02);
 }
 
+.targetResultSeparator td {
+  height: 28px;
+  padding: 0 14px;
+  border-top: 1px solid color-mix(in srgb, var(--primary) 55%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
+  background: color-mix(in srgb, var(--layer-2) 88%, black);
+}
+
+.targetResultSeparatorIcon {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.targetResultSeparatorIndex {
+  min-width: 16px;
+  color: var(--text-secondary);
+  font-size: 11px;
+  line-height: 1;
+  text-align: center;
+}
+
+.targetResultSeparatorName {
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+}
+
 .goalCell {
   text-align: center;
   position: relative;
@@ -142,8 +172,4 @@
 .targetControlWide {
   min-width: 220px;
   flex: 1;
-}
-
-.targetTableWrap {
-  padding: 8px 16px 16px;
 }

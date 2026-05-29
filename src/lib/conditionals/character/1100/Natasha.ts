@@ -7,6 +7,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PostOpConversation } from 'lib/conditionals/lightcone/4star/PostOpConversation'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
@@ -247,6 +248,7 @@ const display = {
 
 export const Natasha: CharacterConfig = {
   id: '1105',
+  defaultLightCone: PostOpConversation.id,
   display,
   conditionals,
   get scoring() {

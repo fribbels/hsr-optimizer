@@ -16,6 +16,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { TheMolesWelcomeYou } from 'lib/conditionals/lightcone/4star/TheMolesWelcomeYou'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -323,6 +324,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.fnMortenaxAshblazingSet(2),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,
@@ -342,6 +344,7 @@ const display = {
 
 export const Hook: CharacterConfig = {
   id: '1109',
+  defaultLightCone: TheMolesWelcomeYou.id,
   display,
   conditionals,
   get scoring() {

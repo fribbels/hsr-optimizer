@@ -17,6 +17,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -379,6 +380,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.fnSacerdosSet(1),
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.ULT,
@@ -403,6 +405,7 @@ const display = {
 
 export const Topaz: CharacterConfig = {
   id: '1112',
+  defaultLightCone: WorrisomeBlissful.id,
   display,
   conditionals,
   get scoring() {

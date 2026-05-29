@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
@@ -546,6 +547,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.BANANA_SET,
     PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.MEMO,
   sortOption: SortOption.MEMO_SKILL,
   hiddenColumns: [
     SortOption.SKILL,
@@ -596,6 +598,7 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
 
 export const Cyrene: CharacterConfig = {
   id: '1415',
+  defaultLightCone: ThisLoveForever.id,
   display,
   conditionals,
   get scoring() {

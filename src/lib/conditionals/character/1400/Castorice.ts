@@ -15,6 +15,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
@@ -496,6 +497,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,
   ],
+  defaultDamageType: DamageTag.MEMO,
   sortOption: SortOption.MEMO_SKILL,
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],
@@ -523,6 +525,7 @@ const display = {
 
 export const Castorice: CharacterConfig = {
   id: '1407',
+  defaultLightCone: MakeFarewellsMoreBeautiful.id,
   display,
   conditionals,
   get scoring() {

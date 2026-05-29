@@ -1,10 +1,11 @@
 import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IncessantRain } from 'lib/conditionals/lightcone/5star/IncessantRain'
 import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -103,6 +104,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnPioneerSet(4),
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
@@ -125,6 +127,7 @@ const display = {
 // Pre-Novaflare version. See SilverWolfB1.ts for the updated variant.
 export const SilverWolf: CharacterConfig = {
   id: '1006',
+  defaultLightCone: IncessantRain.id,
   display,
   conditionals,
   get scoring() {

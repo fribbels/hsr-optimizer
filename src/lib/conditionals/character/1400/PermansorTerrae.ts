@@ -24,6 +24,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
@@ -435,6 +436,7 @@ const display = {
 
 export const PermansorTerrae: CharacterConfig = {
   id: '1414',
+  defaultLightCone: ThoughWorldsApart.id,
   display,
   conditionals,
   get scoring() {

@@ -10,6 +10,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -334,6 +335,7 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
+  defaultDamageType: DamageTag.ELATION,
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
 })
@@ -349,6 +351,7 @@ const display = {
 
 export const TrailblazerElationCaelus: CharacterConfig = {
   id: '8009',
+  defaultLightCone: ElationBrimmingWithBlessings.id,
   display,
   conditionals,
   get scoring() {
@@ -358,6 +361,7 @@ export const TrailblazerElationCaelus: CharacterConfig = {
 
 export const TrailblazerElationStelle: CharacterConfig = {
   id: '8010',
+  defaultLightCone: ElationBrimmingWithBlessings.id,
   display,
   conditionals,
   get scoring() {

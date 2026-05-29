@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/conditionalFinalizers'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { BeforeTheTutorialMissionStarts } from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts'
+import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -389,6 +390,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.FUA,
@@ -409,6 +411,7 @@ const display = {
 
 export const Acheron: CharacterConfig = {
   id: '1308',
+  defaultLightCone: AlongThePassingShore.id,
   display,
   conditionals,
   get scoring() {

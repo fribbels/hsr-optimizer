@@ -14,6 +14,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { OnTheFallOfAnAeon } from 'lib/conditionals/lightcone/5star/OnTheFallOfAnAeon'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import {
@@ -291,6 +292,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(3),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -318,6 +320,7 @@ const displayStelle = {
 
 export const TrailblazerDestructionCaelus: CharacterConfig = {
   id: '8001',
+  defaultLightCone: OnTheFallOfAnAeon.id,
   conditionals,
   get scoring() {
     return scoring()
@@ -327,6 +330,7 @@ export const TrailblazerDestructionCaelus: CharacterConfig = {
 
 export const TrailblazerDestructionStelle: CharacterConfig = {
   id: '8002',
+  defaultLightCone: OnTheFallOfAnAeon.id,
   conditionals,
   get scoring() {
     return scoring()

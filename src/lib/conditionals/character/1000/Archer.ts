@@ -17,6 +17,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
+import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -354,6 +355,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnMortenaxAshblazingSet(8),
     PresetEffects.fnNavigatorSet(3),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.DOT,
@@ -372,6 +374,7 @@ const display = {
 
 export const Archer: CharacterConfig = {
   id: '1015',
+  defaultLightCone: TheHellWhereIdealsBurn.id,
   display,
   conditionals,
   get scoring() {

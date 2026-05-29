@@ -1,10 +1,11 @@
 import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -101,6 +102,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(6),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
@@ -123,6 +125,7 @@ const display = {
 // Pre-Novaflare version. See KafkaB1.ts for the updated variant.
 export const Kafka: CharacterConfig = {
   id: '1005',
+  defaultLightCone: PatienceIsAllYouNeed.id,
   display,
   conditionals,
   get scoring() {

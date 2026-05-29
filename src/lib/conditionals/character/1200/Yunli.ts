@@ -37,6 +37,7 @@ import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
+import { DanceAtSunset } from 'lib/conditionals/lightcone/5star/DanceAtSunset'
 import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
@@ -409,6 +410,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.fnAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.ULT, SortOption.DOT],
   simulation: simulation(),
@@ -425,6 +427,7 @@ const display = {
 
 export const Yunli: CharacterConfig = {
   id: '1221',
+  defaultLightCone: DanceAtSunset.id,
   display,
   conditionals,
   get scoring() {

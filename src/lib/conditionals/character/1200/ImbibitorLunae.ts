@@ -17,6 +17,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { BrighterThanTheSun } from 'lib/conditionals/lightcone/5star/BrighterThanTheSun'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -332,6 +333,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.TENGOKU_SET,
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
@@ -352,6 +354,7 @@ const display = {
 
 export const ImbibitorLunae: CharacterConfig = {
   id: '1213',
+  defaultLightCone: BrighterThanTheSun.id,
   display,
   conditionals,
   get scoring() {

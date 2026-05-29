@@ -18,6 +18,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { IncessantRain } from 'lib/conditionals/lightcone/5star/IncessantRain'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -31,6 +32,7 @@ import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
+  DamageTag,
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -440,6 +442,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnMortenaxAshblazingSet(1),
     PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.FUA,
@@ -459,6 +462,7 @@ const display = {
 
 export const SilverWolfB1: CharacterConfig = {
   id: '1006b1',
+  defaultLightCone: IncessantRain.id,
   display,
   conditionals,
   get scoring() {

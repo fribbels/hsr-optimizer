@@ -20,6 +20,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
@@ -31,6 +32,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { type ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
+  DamageTag,
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -538,6 +540,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(5),
     PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.SUPER_BREAK,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.DOT,
@@ -561,6 +564,7 @@ const display = {
 
 export const TheDahlia: CharacterConfig = {
   id: '1321',
+  defaultLightCone: NeverForgetHerFlame.id,
   display,
   conditionals,
   get scoring() {

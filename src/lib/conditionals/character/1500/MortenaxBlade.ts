@@ -11,6 +11,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import {
@@ -402,6 +403,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.MASTER_SMITH_SET,
     PresetEffects.fnNavigatorSet(2),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.DOT,
@@ -418,6 +420,7 @@ const display = {
 
 export const MortenaxBlade: CharacterConfig = {
   id: '1507',
+  defaultLightCone: ReforgedInHellfire.id,
   display,
   conditionals,
   get scoring() {

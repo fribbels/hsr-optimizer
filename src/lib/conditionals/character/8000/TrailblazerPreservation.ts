@@ -13,6 +13,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { LandausChoice } from 'lib/conditionals/lightcone/4star/LandausChoice'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
@@ -341,6 +342,7 @@ const displayStelle = {
 
 export const TrailblazerPreservationCaelus: CharacterConfig = {
   id: '8003',
+  defaultLightCone: LandausChoice.id,
   display: displayCaelus,
   conditionals,
   get scoring() {
@@ -350,6 +352,7 @@ export const TrailblazerPreservationCaelus: CharacterConfig = {
 
 export const TrailblazerPreservationStelle: CharacterConfig = {
   id: '8004',
+  defaultLightCone: LandausChoice.id,
   display: displayStelle,
   conditionals,
   get scoring() {

@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
@@ -643,6 +644,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.BANANA_SET,
   ],
+  defaultDamageType: DamageTag.MEMO,
   sortOption: SortOption.MEMO_SKILL,
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
@@ -660,6 +662,7 @@ const display = {
 
 export const Evernight: CharacterConfig = {
   id: '1413',
+  defaultLightCone: ToEvernightsStars.id,
   display,
   conditionals,
   get scoring() {

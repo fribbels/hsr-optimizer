@@ -17,6 +17,7 @@ import {
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { TimeWovenIntoGold } from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -555,6 +556,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
@@ -572,6 +574,7 @@ const display = {
 
 export const Aglaea: CharacterConfig = {
   id: '1402',
+  defaultLightCone: TimeWovenIntoGold.id,
   display,
   conditionals,
   get scoring() {

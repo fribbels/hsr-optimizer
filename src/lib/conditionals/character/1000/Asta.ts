@@ -5,6 +5,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PlanetaryRendezvous } from 'lib/conditionals/lightcone/4star/PlanetaryRendezvous'
 import {
   Parts,
   Stats,
@@ -229,6 +230,7 @@ const display = {
 
 export const Asta: CharacterConfig = {
   id: '1009',
+  defaultLightCone: PlanetaryRendezvous.id,
   display,
   conditionals,
   get scoring() {

@@ -16,6 +16,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
@@ -687,6 +688,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,
   ],
+  defaultDamageType: DamageTag.MEMO,
   sortOption: SortOption.MEMO_SKILL,
   addedColumns: [SortOption.MEMO_SKILL, SortOption.SKILL_HEAL, SortOption.OHB],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
@@ -710,6 +712,7 @@ const display = {
 
 export const Hyacine: CharacterConfig = {
   id: '1409',
+  defaultLightCone: MayRainbowsRemainInTheSky.id,
   display,
   conditionals,
   get scoring() {

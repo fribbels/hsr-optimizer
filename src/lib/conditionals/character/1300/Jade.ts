@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
@@ -375,6 +376,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.fnAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.SKILL,
@@ -399,6 +401,7 @@ const display = {
 
 export const Jade: CharacterConfig = {
   id: '1314',
+  defaultLightCone: YetHopeIsPriceless.id,
   display,
   conditionals,
   get scoring() {

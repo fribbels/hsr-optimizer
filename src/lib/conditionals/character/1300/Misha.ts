@@ -13,6 +13,7 @@ import {
   gpuBoostUltAshblazingAtk,
 } from 'lib/conditionals/conditionalFinalizers'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IndeliblePromise } from 'lib/conditionals/lightcone/4star/IndeliblePromise'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
@@ -27,6 +28,7 @@ import {
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import {
+  DamageTag,
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -333,6 +335,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnMortenaxAshblazingSet(8),
     PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.FUA,
@@ -352,6 +355,7 @@ const display = {
 
 export const Misha: CharacterConfig = {
   id: '1312',
+  defaultLightCone: IndeliblePromise.id,
   display,
   conditionals,
   get scoring() {

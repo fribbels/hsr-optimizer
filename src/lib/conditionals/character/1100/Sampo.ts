@@ -16,6 +16,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { EyesOfThePrey } from 'lib/conditionals/lightcone/4star/EyesOfThePrey'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
@@ -341,6 +342,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.PRISONER_SET,
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [
     SortOption.FUA,
@@ -360,6 +362,7 @@ const display = {
 
 export const Sampo: CharacterConfig = {
   id: '1108',
+  defaultLightCone: EyesOfThePrey.id,
   display,
   conditionals,
   get scoring() {

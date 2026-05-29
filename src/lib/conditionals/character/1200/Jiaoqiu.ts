@@ -14,6 +14,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -355,6 +356,7 @@ const display = {
 
 export const Jiaoqiu: CharacterConfig = {
   id: '1218',
+  defaultLightCone: ThoseManySprings.id,
   display,
   conditionals,
   get scoring() {

@@ -22,6 +22,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
@@ -469,6 +470,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(5),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
   supportSimulation: supportSimulation(),
@@ -485,6 +487,7 @@ const display = {
 
 export const Cerydra: CharacterConfig = {
   id: '1412',
+  defaultLightCone: EpochEtchedInGoldenBlood.id,
   display,
   conditionals,
   get scoring() {

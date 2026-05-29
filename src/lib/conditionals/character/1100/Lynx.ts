@@ -17,6 +17,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { WarmthShortensColdNights } from 'lib/conditionals/lightcone/4star/WarmthShortensColdNights'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
@@ -404,6 +405,7 @@ const display = {
 
 export const Lynx: CharacterConfig = {
   id: '1110',
+  defaultLightCone: WarmthShortensColdNights.id,
   display,
   conditionals,
   get scoring() {

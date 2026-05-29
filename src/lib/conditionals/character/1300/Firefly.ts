@@ -1,10 +1,11 @@
 import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -95,6 +96,7 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
+  defaultDamageType: DamageTag.SUPER_BREAK,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
@@ -122,6 +124,7 @@ const display = {
 // Pre-Novaflare version. See FireflyB1.ts for the updated variant.
 export const Firefly: CharacterConfig = {
   id: '1310',
+  defaultLightCone: WhereaboutsShouldDreamsRest.id,
   display,
   conditionals,
   get scoring() {

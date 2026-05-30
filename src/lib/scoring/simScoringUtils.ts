@@ -348,45 +348,75 @@ export function applyScoringFunction(
   result.simScore = unpenalizedSimScore * (penalty ? penaltyMultiplier : 1)
 }
 
+type PenaltyRecord = {
+  stat: StatsValues
+  multiplier: number
+}
+
+function collectPenaltyRecords(
+  x: ComputedStatsContainer,
+  metadata: SimulationMetadata,
+  user: boolean,
+  configType: ScoringConfigType,
+): PenaltyRecord[] {
+  const records: PenaltyRecord[] = []
+
+  if (metadata.breakpoints) {
+    for (const stat of Object.keys(metadata.breakpoints)) {
+      const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
+      if (stat == Stats.SPD && statValue < metadata.breakpoints[stat]) {
+        if (user) {
+          records.push({ stat: stat as StatsValues, multiplier: 0.75 })
+        }
+      } else if (isFlat(stat)) {
+        const multiplier = (Math.min(1, statValue / metadata.breakpoints[stat]) + 1) / 2
+        if (multiplier < 1) {
+          records.push({ stat: stat as StatsValues, multiplier })
+        }
+      } else {
+        const multiplier = Math.min(
+          1,
+          1
+            - (metadata.breakpoints[stat] - statValue)
+              / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
+        )
+        if (multiplier < 1) {
+          records.push({ stat: stat as StatsValues, multiplier })
+        }
+      }
+    }
+  }
+
+  if (user && configType !== ScoringConfigType.DPS && ornament2p(SetKeys.BrokenKeel, x.c.sets)) {
+    if (x.getSelfValue(StatKey.RES) < 0.30) {
+      records.push({ stat: Stats.RES, multiplier: 0.75 })
+    }
+  }
+
+  return records
+}
+
 function calculatePenaltyMultiplier(
   simulationResult: RunStatSimulationsResult,
   metadata: SimulationMetadata,
   user = false,
   configType: ScoringConfigType = ScoringConfigType.DPS,
 ) {
-  const x = simulationResult.x
+  const records = collectPenaltyRecords(simulationResult.x, metadata, user, configType)
   let newPenaltyMultiplier = 1
-  if (metadata.breakpoints) {
-    for (const stat of Object.keys(metadata.breakpoints)) {
-      const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
-      if (stat == Stats.SPD && statValue < metadata.breakpoints[stat]) {
-        if (user) {
-          // Cyrene case
-          newPenaltyMultiplier *= 0.75
-        }
-      } else if (isFlat(stat)) {
-        // Flats are penalized by their percentage
-        newPenaltyMultiplier *= (Math.min(1, statValue / metadata.breakpoints[stat]) + 1) / 2
-      } else {
-        // Percents are penalize by half of the missing stat's breakpoint roll percentage
-        newPenaltyMultiplier *= Math.min(
-          1,
-          1
-            - (metadata.breakpoints[stat] - statValue)
-              / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
-        )
-      }
-    }
+  for (const record of records) {
+    newPenaltyMultiplier *= record.multiplier
   }
-
-  if (user && configType !== ScoringConfigType.DPS && ornament2p(SetKeys.BrokenKeel, x.c.sets)) {
-    const combatRes = x.getSelfValue(StatKey.RES)
-    if (combatRes < 0.30) {
-      newPenaltyMultiplier *= 0.75
-    }
-  }
-
   return newPenaltyMultiplier
+}
+
+export function getPenalizedStats(
+  x: ComputedStatsContainer,
+  metadata: SimulationMetadata,
+  configType: ScoringConfigType,
+): Set<StatsValues> {
+  const records = collectPenaltyRecords(x, metadata, true, configType)
+  return new Set(records.map((r) => r.stat))
 }
 
 export function cloneSimResult(result: RunStatSimulationsResult) {

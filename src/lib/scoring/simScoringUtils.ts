@@ -366,7 +366,7 @@ function collectPenaltyRecords(
       const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
       if (stat == Stats.SPD && statValue < metadata.breakpoints[stat]) {
         if (user) {
-          records.push({ stat: stat as StatsValues, multiplier: 0.75 })
+          records.push({ stat: stat as StatsValues, multiplier: 0 })
         }
       } else if (isFlat(stat)) {
         const multiplier = (Math.min(1, statValue / metadata.breakpoints[stat]) + 1) / 2
@@ -389,7 +389,7 @@ function collectPenaltyRecords(
 
   if (user && configType !== ScoringConfigType.DPS && ornament2p(SetKeys.BrokenKeel, x.c.sets)) {
     if (x.getSelfValue(StatKey.RES) < 0.30) {
-      records.push({ stat: Stats.RES, multiplier: 0.75 })
+      records.push({ stat: Stats.RES, multiplier: 0 })
     }
   }
 

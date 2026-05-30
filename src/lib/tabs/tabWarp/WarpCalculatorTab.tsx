@@ -52,11 +52,14 @@ const HEADER_LABEL_GAP = 4
 const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
 const defaultTargetCssVars = {
   ...precomputedCssVars.default,
-  '--cr-row-height': '114px',
-  '--cr-portrait-scale': '35%',
-  '--cr-lc-size': '100px',
-  '--cr-lc-right-pad': '46px',
-  '--cr-lc-strip-width': '166px',
+  '--cr-row-height': '132px',
+  '--cr-portrait-scale': '52%',
+  '--cr-portrait-x': '76%',
+  '--cr-frost-fade-end': '18%',
+  '--cr-frost-mask-solid': '62%',
+  '--cr-lc-size': '84px',
+  '--cr-lc-right-pad': '8px',
+  '--cr-lc-strip-width': '100px',
 } as CSSProperties
 
 export function WarpCalculatorTab() {
@@ -428,21 +431,95 @@ function WarpTargetCard(props: {
 
   return (
     <Paper className={classes.targetCard} data-dragging={isDragging || undefined} data-empty={!hasCharacter || undefined} data-target-id={target.id} p={0} withBorder>
-      {hasCharacter ? (
-        <WarpCharacterHeader
-          target={target}
-          rank={index + 1}
-          onClick={() => setCharacterSelectOpen(true)}
-          dragHandleRef={dragHandleRef}
-          dragHandleProps={dragHandleProps}
-        />
-      ) : (
-        <WarpEmptyTargetHeader
-          rank={index + 1}
-          dragHandleRef={dragHandleRef}
-          dragHandleProps={dragHandleProps}
-        />
-      )}
+      <div className={classes.targetCardContent}>
+        {hasCharacter ? (
+          <WarpCharacterHeader
+            target={target}
+            rank={index + 1}
+            onClick={() => setCharacterSelectOpen(true)}
+            dragHandleRef={dragHandleRef}
+            dragHandleProps={dragHandleProps}
+          />
+        ) : (
+          <WarpEmptyTargetHeader
+            rank={index + 1}
+            dragHandleRef={dragHandleRef}
+            dragHandleProps={dragHandleProps}
+          />
+        )}
+
+        <Flex className={classes.targetControls} direction='column' gap={12}>
+          <Flex gap={12} align='flex-end'>
+            <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
+              <HeaderText>{t('Character')/* Character */}</HeaderText>
+              <CharacterSelect
+                value={target.characterId}
+                onChange={(characterId) => updateTarget(form, index, getCharacterSelectionPatch(characterId))}
+                opened={characterSelectOpen}
+                onOpenChange={setCharacterSelectOpen}
+              />
+            </Flex>
+
+            <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
+              <HeaderText>{t('TargetEidolon')/* Eidolon target */}</HeaderText>
+              <Select
+                data={generateEidolonLevelOptions()}
+                value={String(target.targetEidolonLevel)}
+                onChange={(value) => {
+                  if (value != null) updateTarget(form, index, { targetEidolonLevel: Number(value) as EidolonLevel })
+                }}
+              />
+            </Flex>
+
+            <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
+              <HeaderText>{t('TargetLightCone')/* Light cone target */}</HeaderText>
+              <Select
+                data={generateSuperimpositionLevelOptions()}
+                value={String(target.targetSuperimpositionLevel)}
+                onChange={(value) => {
+                  if (value != null) updateTarget(form, index, { targetSuperimpositionLevel: Number(value) as SuperimpositionLevel })
+                }}
+              />
+            </Flex>
+
+            <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
+              <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
+              <Select
+                data={generateStrategyOptions()}
+                value={String(target.strategy)}
+                onChange={(value) => {
+                  if (value != null) updateTarget(form, index, { strategy: Number(value) as WarpStrategy })
+                }}
+              />
+            </Flex>
+          </Flex>
+
+          <Flex gap={12} align='flex-end'>
+            <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControlWide}>
+              <HeaderText>{t('CurrentEidolon')/* Current eidolon */}</HeaderText>
+              <Select
+                data={generateEidolonLevelOptions()}
+                value={String(target.currentEidolonLevel)}
+                onChange={(value) => {
+                  if (value != null) updateTarget(form, index, { currentEidolonLevel: Number(value) as EidolonLevel })
+                }}
+              />
+            </Flex>
+
+            <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControlWide}>
+              <HeaderText>{t('CurrentSuperimposition')/* Current superimposition */}</HeaderText>
+              <Select
+                data={generateSuperimpositionLevelOptions()}
+                value={String(target.currentSuperimpositionLevel)}
+                onChange={(value) => {
+                  if (value != null) updateTarget(form, index, { currentSuperimpositionLevel: Number(value) as SuperimpositionLevel })
+                }}
+              />
+            </Flex>
+          </Flex>
+
+        </Flex>
+      </div>
 
       <Tooltip label={t('RemoveTarget')/* Remove target */} disabled={!canRemove}>
         <ActionIcon
@@ -456,78 +533,6 @@ function WarpTargetCard(props: {
           <IconTrash size={16} />
         </ActionIcon>
       </Tooltip>
-
-      <Flex className={classes.targetControls} direction='column' gap={12}>
-        <Flex gap={12} align='flex-end'>
-          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
-            <HeaderText>{t('Character')/* Character */}</HeaderText>
-            <CharacterSelect
-              value={target.characterId}
-              onChange={(characterId) => updateTarget(form, index, getCharacterSelectionPatch(characterId))}
-              opened={characterSelectOpen}
-              onOpenChange={setCharacterSelectOpen}
-            />
-          </Flex>
-
-          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
-            <HeaderText>{t('TargetEidolon')/* Eidolon target */}</HeaderText>
-            <Select
-              data={generateEidolonLevelOptions()}
-              value={String(target.targetEidolonLevel)}
-              onChange={(value) => {
-                if (value != null) updateTarget(form, index, { targetEidolonLevel: Number(value) as EidolonLevel })
-              }}
-            />
-          </Flex>
-
-          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
-            <HeaderText>{t('TargetLightCone')/* Light cone target */}</HeaderText>
-            <Select
-              data={generateSuperimpositionLevelOptions()}
-              value={String(target.targetSuperimpositionLevel)}
-              onChange={(value) => {
-                if (value != null) updateTarget(form, index, { targetSuperimpositionLevel: Number(value) as SuperimpositionLevel })
-              }}
-            />
-          </Flex>
-
-          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControl}>
-            <HeaderText>{t('Strategy')/* Strategy */}</HeaderText>
-            <Select
-              data={generateStrategyOptions()}
-              value={String(target.strategy)}
-              onChange={(value) => {
-                if (value != null) updateTarget(form, index, { strategy: Number(value) as WarpStrategy })
-              }}
-            />
-          </Flex>
-        </Flex>
-
-        <Flex gap={12} align='flex-end'>
-          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControlWide}>
-            <HeaderText>{t('CurrentEidolon')/* Current eidolon */}</HeaderText>
-            <Select
-              data={generateEidolonLevelOptions()}
-              value={String(target.currentEidolonLevel)}
-              onChange={(value) => {
-                if (value != null) updateTarget(form, index, { currentEidolonLevel: Number(value) as EidolonLevel })
-              }}
-            />
-          </Flex>
-
-          <Flex direction='column' gap={HEADER_LABEL_GAP} className={classes.targetControlWide}>
-            <HeaderText>{t('CurrentSuperimposition')/* Current superimposition */}</HeaderText>
-            <Select
-              data={generateSuperimpositionLevelOptions()}
-              value={String(target.currentSuperimpositionLevel)}
-              onChange={(value) => {
-                if (value != null) updateTarget(form, index, { currentSuperimpositionLevel: Number(value) as SuperimpositionLevel })
-              }}
-            />
-          </Flex>
-        </Flex>
-
-      </Flex>
     </Paper>
   )
 }
@@ -559,19 +564,11 @@ function WarpCharacterHeader(props: {
   dragHandleRef?: (node: HTMLDivElement | null) => void,
   dragHandleProps?: HTMLAttributes<HTMLDivElement>,
 }) {
-  const { t } = useTranslation('common')
-  const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const { dragHandleProps, dragHandleRef, target, rank, onClick } = props
   const characterId = target.characterId
   const characterConfig = characterId ? getCharacterConfig(characterId) : undefined
   const showcaseColor = characterConfig?.display.showcaseColor
   const signatureLightConeId = characterConfig?.defaultLightCone
-  const longName = characterId ? tGameData(`${characterId}.LongName`) as string : ''
-  const characterName = characterId ? longName.includes('(') ? longName : tGameData(`${characterId}.Name`) : t('Character_one')
-  const targetParts = {
-    eidolon: target.targetEidolonLevel === EidolonLevel.NONE ? null : target.targetEidolonLevel,
-    superimposition: target.targetSuperimpositionLevel === SuperimpositionLevel.NONE ? null : target.targetSuperimpositionLevel,
-  }
 
   const frameStyle: CSSProperties = {
     backgroundColor: showcaseColor ? oklchCharacterListColor(showcaseColor, true, DEFAULT_CONFIG) : undefined,
@@ -614,22 +611,12 @@ function WarpCharacterHeader(props: {
         <div className={characterClasses.scrim} data-scrim-mode='frosted' />
         {signatureLightConeId && <div className={characterClasses.lcStrip} />}
 
-        <div className={characterClasses.inner}>
-          <div className={characterClasses.rankGripSlot}>
-            <span className={characterClasses.rank}>{rank}</span>
+        <div className={`${characterClasses.inner} ${classes.targetHeaderInner}`}>
+          <div className={`${characterClasses.rankGripSlot} ${classes.targetRankSlot}`}>
+            <span className={`${characterClasses.rank} ${classes.targetRank}`}>{rank}</span>
           </div>
 
-          <div className={characterClasses.info} data-name-shadow='true'>
-            <div className={characterClasses.name}>{characterName}</div>
-            <div className={characterClasses.subtitle}>
-              {targetParts.eidolon != null && (
-                <span className={characterClasses.subtitleBadge}>{t('EidolonNShort', { eidolon: targetParts.eidolon })}</span>
-              )}
-              {targetParts.superimposition != null && (
-                <span className={characterClasses.subtitleBadge}>{t('SuperimpositionNShort', { superimposition: targetParts.superimposition })}</span>
-              )}
-            </div>
-          </div>
+          <div className={characterClasses.info} />
 
           {signatureLightConeId && (
             <div className={characterClasses.lcWrap} data-lc-style='shadow'>

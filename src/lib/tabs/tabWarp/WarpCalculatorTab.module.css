@@ -106,6 +106,11 @@
   box-shadow: var(--shadow-card);
 }
 
+.targetCardContent {
+  display: flex;
+  align-items: stretch;
+}
+
 .targetRemoveButton {
   position: absolute;
   top: 12px;
@@ -114,7 +119,11 @@
 }
 
 .targetCharacterHeader {
-  width: 100%;
+  width: 280px;
+  flex: 0 0 280px;
+  align-self: stretch;
+  height: auto;
+  min-height: 132px;
   cursor: grab;
   content-visibility: visible;
   touch-action: none;
@@ -124,17 +133,39 @@
   cursor: grabbing;
 }
 
+.targetHeaderInner {
+  z-index: 3;
+}
+
+.targetRankSlot {
+  z-index: 4;
+}
+
+.targetCharacterHeader:hover .targetRankSlot .targetRank {
+  opacity: 1;
+}
+
+.targetRank {
+  position: relative;
+  z-index: 5;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+}
+
 .targetEmptyHeader {
-  height: 36px;
+  min-height: 132px;
+  width: 52px;
+  flex: 0 0 52px;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 8px;
-  padding: 0 54px 0 18px;
+  padding: 0;
   cursor: grab;
   touch-action: none;
-  border-bottom: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
+  border-right: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
   background:
-    linear-gradient(90deg, color-mix(in srgb, var(--layer-2) 92%, black), color-mix(in srgb, var(--layer-1) 78%, var(--primary)));
+    linear-gradient(180deg, color-mix(in srgb, var(--layer-2) 92%, black), color-mix(in srgb, var(--layer-1) 78%, var(--primary)));
 }
 
 .targetCard[data-dragging='true'] .targetEmptyHeader {
@@ -153,20 +184,23 @@
 }
 
 .targetCard[data-empty='true'] .targetRemoveButton {
-  top: 3px;
+  top: 12px;
 }
 
 .targetControls {
+  flex: 1;
+  min-width: 0;
   padding: 14px 16px 16px;
+  padding-right: 54px;
   background: color-mix(in srgb, var(--layer-1) 88%, black);
 }
 
 .targetCard[data-empty='true'] .targetControls {
-  padding-top: 12px;
+  padding-top: 14px;
 }
 
 .targetControl {
-  min-width: 145px;
+  min-width: 118px;
   flex: 1;
 }
 

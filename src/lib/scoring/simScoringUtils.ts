@@ -31,6 +31,7 @@ import type {
 } from 'lib/simulations/statSimulationTypes'
 import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { renderThousandsK } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type {
@@ -370,7 +371,7 @@ function collectPenaltyRecords(
         }
       } else if (isFlat(stat)) {
         const multiplier = (Math.min(1, statValue / metadata.breakpoints[stat]) + 1) / 2
-        if (multiplier < 1) {
+        if (precisionRound(multiplier) < 1) {
           records.push({ stat: stat as StatsValues, multiplier })
         }
       } else {
@@ -380,7 +381,7 @@ function collectPenaltyRecords(
             - (metadata.breakpoints[stat] - statValue)
               / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
         )
-        if (multiplier < 1) {
+        if (precisionRound(multiplier) < 1) {
           records.push({ stat: stat as StatsValues, multiplier })
         }
       }

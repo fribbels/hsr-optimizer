@@ -144,7 +144,9 @@ Certain characters will have breakpoints that are forced. For example, 120% comb
 passive EHR to DMG conversion, and to land Arcana stacks. Failing to reach the breakpoint will penalize the score for
 the missing percentage. This penalty applies to all simulations.
 
-Missing a SPD breakpoint (e.g. Cyrene's 180 SPD) will penalize by -25%.
+Missing a SPD breakpoint (e.g. Cyrene's 180 SPD) will fully penalize the score to 0%.
+
+Stats that are below their breakpoint threshold are highlighted in red in the Combat Stats panel.
 
 ### RES equalization
 
@@ -155,7 +157,7 @@ RES investment.
 
 Additionally, when a character equips Broken Keel and has at least 30% Effect RES, the benchmark will allocate RES rolls
 to reach the 30% activation threshold when evaluating Broken Keel set combinations. If a character equips Broken Keel but
-does not have enough RES to activate it, a -25% penalty is applied to the score for failing to activate the set bonus.
+does not have enough RES to activate it, the score is fully penalized to 0% for failing to activate the set bonus.
 
 RES equalization does not apply to DPS benchmarks.
 

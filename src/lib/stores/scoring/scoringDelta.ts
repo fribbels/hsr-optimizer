@@ -1,5 +1,6 @@
 import {
   MainStatPartsArray,
+  Stats,
   SubStats,
 } from 'lib/constants/constants'
 import type { MainStats } from 'lib/constants/constants'
@@ -138,8 +139,8 @@ export function mergeDeltaWithDefaults(
     }
   }
 
-  // Derive modified flag from override existence (replaces setModifiedScoringMetadata)
-  result.modified = !!(override?.stats && Object.keys(override.stats).length > 0)
+  // SPD weight changes alone don't show the asterisk
+  result.modified = !!(override?.stats && Object.keys(override.stats).some((key) => key !== Stats.SPD))
 
   return result
 }

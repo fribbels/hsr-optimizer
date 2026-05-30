@@ -19,6 +19,7 @@ import { Assets } from 'lib/rendering/assets'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   getElementalDmgFromContainer,
+  getPenalizedStats,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
 import {
@@ -53,6 +54,27 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
+function StatIcon({ stat, color }: { stat: StatsValues; color?: string }) {
+  const src = Assets.getStatIcon(stat)
+  if (color) {
+    return (
+      <div
+        className={iconClasses.statIconSpaced}
+        style={{
+          backgroundColor: color,
+          WebkitMaskImage: `url(${src})`,
+          maskImage: `url(${src})`,
+          WebkitMaskSize: 'contain',
+          maskSize: 'contain',
+          WebkitMaskRepeat: 'no-repeat',
+          maskRepeat: 'no-repeat',
+        }}
+      />
+    )
+  }
+  return <img src={src} className={iconClasses.statIconSpaced} />
+}
+
 export const CharacterCardCombatStats = memo(
   function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs, simulationMetadata, configType }: {
     characterMetadata: DBMetadataCharacter,
@@ -71,21 +93,24 @@ export const CharacterCardCombatStats = memo(
 
     const simMetadata = simulationMetadata ?? characterMetadata.scoringMetadata.simulation!
     const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata, simMetadata, configType)
-    const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
+    const penalizedStats = getPenalizedStats(x, simMetadata, configType)
+    const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats, penalizedStats)
 
     const rows: ReactElement[] = []
 
     for (const wrapper of upgradeDisplayWrappers) {
-      const { stat, display, flat, upgraded } = wrapper
+      const { stat, display, flat, upgraded, penalized } = wrapper
 
       const isElationDmg = stat === Stats.Elation
       const isElementalDmg = !isElationDmg && damageStats[stat] != null
       const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
 
       // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
+      const penaltyColor = penalized ? '#ff9a9a' : undefined
+
       rows.push(
-        <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
+        <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: penaltyColor }}>
+          <StatIcon stat={stat} color={penaltyColor} />
           <div style={{ display: 'flex', gap: 1, alignItems: 'center' }}>
             <StatTextSm>
               {statName}
@@ -122,6 +147,7 @@ type StatDisplayWrapper = {
   display: string,
   flat: boolean,
   upgraded: boolean,
+  penalized: boolean,
 }
 
 function aggregateCombatStats(
@@ -129,7 +155,8 @@ function aggregateCombatStats(
   upgradeStats: StatsValues[],
   preciseSpd: boolean,
   element: ElementName,
-  primaryActionStats?: PrimaryActionStats,
+  primaryActionStats: PrimaryActionStats | undefined,
+  penalizedStats: Set<StatsValues>,
 ) {
   const displayWrappers: StatDisplayWrapper[] = []
 
@@ -155,6 +182,7 @@ function aggregateCombatStats(
       upgraded,
       display,
       flat,
+      penalized: penalizedStats.has(stat),
     })
   }
 

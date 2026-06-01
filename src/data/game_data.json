@@ -7936,37 +7936,37 @@
       },
       "traceTree": [
         {
-          "id": "1507201_4.3v5",
+          "id": "1507201",
           "stat": "Fire DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1507210_4.3v5",
+              "id": "1507210",
               "stat": "Fire DMG Boost",
               "value": 0.064,
-              "pre": "1507201_4.3v5",
+              "pre": "1507201",
               "children": []
             }
           ]
         },
         {
-          "id": "1507202_4.3v5",
+          "id": "1507202",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1507203_4.3v5",
+              "id": "1507203",
               "stat": "Fire DMG Boost",
               "value": 0.032,
-              "pre": "1507202_4.3v5",
+              "pre": "1507202",
               "children": [
                 {
-                  "id": "1507204_4.3v5",
+                  "id": "1507204",
                   "stat": "HP%",
                   "value": 0.04,
-                  "pre": "1507203_4.3v5",
+                  "pre": "1507203",
                   "children": []
                 }
               ]
@@ -7974,22 +7974,22 @@
           ]
         },
         {
-          "id": "1507205_4.3v5",
+          "id": "1507205",
           "stat": "Fire DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1507206_4.3v5",
+              "id": "1507206",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1507205_4.3v5",
+              "pre": "1507205",
               "children": [
                 {
-                  "id": "1507207_4.3v5",
+                  "id": "1507207",
                   "stat": "Fire DMG Boost",
                   "value": 0.048,
-                  "pre": "1507206_4.3v5",
+                  "pre": "1507206",
                   "children": []
                 }
               ]
@@ -7997,14 +7997,14 @@
           ]
         },
         {
-          "id": "1507208_4.3v5",
+          "id": "1507208",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1507209_4.3v5",
+          "id": "1507209",
           "stat": "CRIT Rate",
           "value": 0.053,
           "pre": null,
@@ -8020,7 +8020,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "8001": {
       "id": "8001",
@@ -14465,7 +14465,7 @@
           "HPAddedRatio": 0.6
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "24000": {
       "id": "24000",

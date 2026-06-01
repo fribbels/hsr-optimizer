@@ -119,6 +119,8 @@ export function WarpUnifiedTable(props: {
   const { form, targetResults, request } = props
   const canRemove = form.getValues().targets.length > 1
   const targetIds = targetResults.map((r) => r.target.id)
+  const [addCharSelectOpen, setAddCharSelectOpen] = useState(false)
+  const [addLcSelectOpen, setAddLcSelectOpen] = useState(false)
   const [charAndSigSelectOpen, setCharAndSigSelectOpen] = useState(false)
 
   const sensors = useSensors(
@@ -180,21 +182,31 @@ export function WarpUnifiedTable(props: {
           ))}
 
           <Flex gap={8} py={4}>
-            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => addCharGoal(form)}>
-              Add character
-            </Button>
-            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => addLcGoal(form)}>
-              Add light cone
-            </Button>
             <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => setCharAndSigSelectOpen(true)}>
               Add character and signature
+            </Button>
+            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => setAddCharSelectOpen(true)}>
+              Add character
+            </Button>
+            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => setAddLcSelectOpen(true)}>
+              Add light cone
             </Button>
             <div style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0, overflow: 'hidden' }}>
               <CharacterSelect
                 value={null}
-                onChange={(characterId) => {
-                  if (characterId) addCharAndSignatureGoal(form, characterId)
-                }}
+                onChange={(characterId) => { if (characterId) addCharGoal(form, characterId) }}
+                opened={addCharSelectOpen}
+                onOpenChange={setAddCharSelectOpen}
+              />
+              <LightConeSelect
+                value={null}
+                onChange={(lightConeId) => { if (lightConeId) addLcGoal(form, lightConeId) }}
+                opened={addLcSelectOpen}
+                onOpenChange={setAddLcSelectOpen}
+              />
+              <CharacterSelect
+                value={null}
+                onChange={(characterId) => { if (characterId) addCharAndSignatureGoal(form, characterId) }}
                 opened={charAndSigSelectOpen}
                 onOpenChange={setCharAndSigSelectOpen}
               />
@@ -474,13 +486,15 @@ function TargetHeaderRow(props: {
   )
 }
 
-function addCharGoal(form: UseFormReturnType<WarpRequest>) {
+function addCharGoal(form: UseFormReturnType<WarpRequest>, characterId: NonNullable<WarpTarget['characterId']>) {
   const id = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}`
   const targets = [
     ...form.getValues().targets,
     {
       ...DEFAULT_WARP_REQUEST.targets[0],
       id,
+      characterId,
+      lightConeId: null,
       targetEidolonLevel: EidolonLevel.E0,
       targetSuperimpositionLevel: SuperimpositionLevel.NONE,
       currentEidolonLevel: EidolonLevel.NONE,
@@ -491,13 +505,16 @@ function addCharGoal(form: UseFormReturnType<WarpRequest>) {
   form.setFieldValue('targets', targets)
 }
 
-function addLcGoal(form: UseFormReturnType<WarpRequest>) {
+function addLcGoal(form: UseFormReturnType<WarpRequest>, lightConeId: LightConeId) {
   const id = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}`
+  const characterId = findCharacterByLightCone(lightConeId)
   const targets = [
     ...form.getValues().targets,
     {
       ...DEFAULT_WARP_REQUEST.targets[0],
       id,
+      characterId,
+      lightConeId,
       targetEidolonLevel: EidolonLevel.NONE,
       targetSuperimpositionLevel: SuperimpositionLevel.S1,
       currentEidolonLevel: EidolonLevel.NONE,

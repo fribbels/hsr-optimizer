@@ -1,5 +1,5 @@
 .plannerShell {
-  max-width: 930px;
+  max-width: 950px;
   width: 100%;
   padding-bottom: 96px;
 }
@@ -28,36 +28,6 @@
   background-color: rgba(255, 255, 255, 0.02);
 }
 
-.targetResultSeparator td {
-  height: 28px;
-  padding: 0 14px;
-  border-top: 1px solid color-mix(in srgb, var(--primary) 55%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--primary) 18%, transparent);
-  background: color-mix(in srgb, var(--layer-2) 88%, black);
-}
-
-.targetResultSeparatorIcon {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.targetResultSeparatorIndex {
-  min-width: 16px;
-  color: var(--text-secondary);
-  font-size: 11px;
-  line-height: 1;
-  text-align: center;
-}
-
-.targetResultSeparatorName {
-  color: var(--text-secondary);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1;
-}
-
 .goalCell {
   text-align: center;
   position: relative;
@@ -65,10 +35,10 @@
 
 .goalBarOverlay {
   height: 100%;
-  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
+  right: 5px;
 }
 
 .goalBar {
@@ -96,115 +66,13 @@
   opacity: 0.10;
 }
 
-.targetCard {
-  position: relative;
-  overflow: hidden;
-  background: var(--layer-1);
+/* Settings grid */
+.settingsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
 }
 
-.targetCard[data-dragging='true'] {
-  box-shadow: var(--shadow-card);
-}
-
-.targetCardContent {
-  display: flex;
-  align-items: stretch;
-}
-
-.targetRemoveButton {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  z-index: 5;
-}
-
-.targetCharacterHeader {
-  width: 280px;
-  flex: 0 0 280px;
-  align-self: stretch;
-  height: auto;
-  min-height: 132px;
-  cursor: grab;
-  content-visibility: visible;
-  touch-action: none;
-}
-
-.targetCard[data-dragging='true'] .targetCharacterHeader {
-  cursor: grabbing;
-}
-
-.targetHeaderInner {
-  z-index: 3;
-}
-
-.targetRankSlot {
-  z-index: 4;
-}
-
-.targetCharacterHeader:hover .targetRankSlot .targetRank {
-  opacity: 1;
-}
-
-.targetRank {
-  position: relative;
-  z-index: 5;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
-}
-
-.targetEmptyHeader {
-  min-height: 132px;
-  width: 52px;
-  flex: 0 0 52px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  padding: 0;
-  cursor: grab;
-  touch-action: none;
-  border-right: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--layer-2) 92%, black), color-mix(in srgb, var(--layer-1) 78%, var(--primary)));
-}
-
-.targetCard[data-dragging='true'] .targetEmptyHeader {
-  cursor: grabbing;
-}
-
-.targetEmptyRank {
-  color: var(--text-secondary);
-  font-size: 12px;
-  line-height: 1;
-}
-
-.targetEmptyGrip {
-  color: var(--text-secondary);
-  opacity: 0.8;
-}
-
-.targetCard[data-empty='true'] .targetRemoveButton {
-  top: 12px;
-}
-
-.targetControls {
-  flex: 1;
-  min-width: 0;
-  padding: 14px 16px 16px;
-  padding-right: 54px;
-  background: color-mix(in srgb, var(--layer-1) 88%, black);
-}
-
-.targetCard[data-empty='true'] .targetControls {
-  padding-top: 14px;
-}
-
-.targetControl {
-  min-width: 118px;
-  flex: 1;
-}
-
-.targetControlWide {
-  min-width: 220px;
-  flex: 1;
+.settingsStrategy {
+  display: none;
 }

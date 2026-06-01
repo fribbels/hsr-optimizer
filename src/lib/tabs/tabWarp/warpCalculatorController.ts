@@ -5,6 +5,7 @@ import {
   lightConeDistribution,
 } from 'lib/tabs/tabWarp/warpRates'
 import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 
 // Notes: 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
 
@@ -164,6 +165,7 @@ export type WarpRequest = {
 export type WarpTarget = {
   id: string,
   characterId: CharacterId | null,
+  lightConeId: LightConeId | null,
   target?: WarpTargetGoal,
   targetEidolonLevel: EidolonLevel,
   targetSuperimpositionLevel: SuperimpositionLevel,
@@ -197,6 +199,7 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
     {
       id: 'target-1',
       characterId: null,
+      lightConeId: null,
       targetEidolonLevel: EidolonLevel.E6,
       targetSuperimpositionLevel: SuperimpositionLevel.S5,
       strategy: WarpStrategy.E0,
@@ -544,6 +547,7 @@ export function normalizeWarpTargets(originalRequest: WarpRequest): WarpTarget[]
     normalizeTarget({
       id: 'target-1',
       characterId: null,
+      lightConeId: null,
       targetEidolonLevel: EidolonLevel.E6,
       targetSuperimpositionLevel: SuperimpositionLevel.S5,
       strategy: originalRequest.strategy ?? WarpStrategy.E0,
@@ -561,6 +565,7 @@ function normalizeTarget(target: Partial<WarpTarget>, index: number, originalReq
   return {
     id: target.id || `target-${index + 1}`,
     characterId: target.characterId ?? null,
+    lightConeId: target.lightConeId ?? null,
     targetEidolonLevel: coerceEidolonLevel(target.targetEidolonLevel, legacyTarget.targetEidolonLevel),
     targetSuperimpositionLevel: coerceSuperimpositionLevel(target.targetSuperimpositionLevel, legacyTarget.targetSuperimpositionLevel),
     strategy: target.strategy ?? originalRequest.strategy ?? WarpStrategy.E0,

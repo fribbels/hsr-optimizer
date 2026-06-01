@@ -23,6 +23,7 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
   targets: [{
     id: 'target-1',
     characterId: null,
+    lightConeId: null,
     targetEidolonLevel: EidolonLevel.E6,
     targetSuperimpositionLevel: SuperimpositionLevel.S5,
     strategy: WarpStrategy.E0,

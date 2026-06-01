@@ -119,6 +119,7 @@ export function WarpUnifiedTable(props: {
   const { form, targetResults, request } = props
   const canRemove = form.getValues().targets.length > 1
   const targetIds = targetResults.map((r) => r.target.id)
+  const [charAndSigSelectOpen, setCharAndSigSelectOpen] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
@@ -185,6 +186,19 @@ export function WarpUnifiedTable(props: {
             <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => addLcGoal(form)}>
               Add light cone
             </Button>
+            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => setCharAndSigSelectOpen(true)}>
+              Add character and signature
+            </Button>
+            <div style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0, overflow: 'hidden' }}>
+              <CharacterSelect
+                value={null}
+                onChange={(characterId) => {
+                  if (characterId) addCharAndSignatureGoal(form, characterId)
+                }}
+                opened={charAndSigSelectOpen}
+                onOpenChange={setCharAndSigSelectOpen}
+              />
+            </div>
           </Flex>
         </Flex>
       </SortableContext>
@@ -489,6 +503,40 @@ function addLcGoal(form: UseFormReturnType<WarpRequest>) {
       currentEidolonLevel: EidolonLevel.NONE,
       currentSuperimpositionLevel: SuperimpositionLevel.NONE,
       strategy: form.getValues().strategy,
+    },
+  ]
+  form.setFieldValue('targets', targets)
+}
+
+function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, characterId: NonNullable<WarpTarget['characterId']>) {
+  const charTargetId = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}-char`
+  const lcTargetId = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}-lc`
+  const strategy = form.getValues().strategy
+  const base = DEFAULT_WARP_REQUEST.targets[0]
+  const signatureLcId = getCharacterConfig(characterId)?.defaultLightCone ?? null
+  const targets = [
+    ...form.getValues().targets,
+    {
+      ...base,
+      id: charTargetId,
+      characterId,
+      lightConeId: null,
+      targetEidolonLevel: EidolonLevel.E0,
+      targetSuperimpositionLevel: SuperimpositionLevel.NONE,
+      currentEidolonLevel: EidolonLevel.NONE,
+      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
+      strategy,
+    },
+    {
+      ...base,
+      id: lcTargetId,
+      characterId,
+      lightConeId: signatureLcId,
+      targetEidolonLevel: EidolonLevel.NONE,
+      targetSuperimpositionLevel: SuperimpositionLevel.S1,
+      currentEidolonLevel: EidolonLevel.NONE,
+      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
+      strategy,
     },
   ]
   form.setFieldValue('targets', targets)

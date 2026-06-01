@@ -116,7 +116,9 @@ function WarpPlanner() {
     }
   }, [form])
 
+  console.time('calculateWarps')
   const warpResult = calculateWarps(form.getValues())
+  console.timeEnd('calculateWarps')
 
   return (
     <div className={classes.plannerShell}>

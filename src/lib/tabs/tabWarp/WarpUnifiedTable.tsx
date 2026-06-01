@@ -1,5 +1,5 @@
 import { closestCenter, DndContext, type DragEndEvent, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
-import { restrictToParentElement, restrictToVerticalAxis } from '@dnd-kit/modifiers'
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { IconArrowBigRightLines, IconGripVertical, IconPlus, IconX } from '@tabler/icons-react'
@@ -18,7 +18,7 @@ import { localeNumberComma, localeNumber_0 } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
-import { useRef, useState } from 'react'
+import { memo, useMemo, useRef, useState } from 'react'
 import chroma from 'chroma-js'
 import classes from './WarpCalculatorTab.module.css'
 import unifiedClasses from './WarpUnifiedTable.module.css'
@@ -121,7 +121,7 @@ export function WarpUnifiedTable(props: {
   const targetIds = targetResults.map((r) => r.target.id)
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 3 } }),
+    useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 5 } }),
   )
 
@@ -159,7 +159,7 @@ export function WarpUnifiedTable(props: {
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+      modifiers={[restrictToVerticalAxis]}
       onDragEnd={handleDragEnd}
     >
       <SortableContext items={targetIds} strategy={verticalListSortingStrategy}>
@@ -208,6 +208,8 @@ function SortableTargetGroup(props: {
     animateLayoutChanges: () => false,
   })
 
+  const dragHandleProps = useMemo(() => ({ ...attributes, ...listeners }), [attributes, listeners])
+
   const style: CSSProperties = {
     transform: CSS.Translate.toString(transform),
     transition: transform ? transition : undefined,
@@ -224,13 +226,13 @@ function SortableTargetGroup(props: {
         </colgroup>
         {thead}
         <Table.Tbody>
-          <TargetSection
+          <MemoizedTargetSection
             form={form}
             targetResult={targetResult}
             targetIndex={targetIndex}
             canRemove={canRemove}
             dragHandleRef={setActivatorNodeRef}
-            dragHandleProps={{ ...attributes, ...listeners }}
+            dragHandleProps={dragHandleProps}
           />
         </Table.Tbody>
       </Table>
@@ -300,6 +302,8 @@ function TargetSection(props: {
     </>
   )
 }
+
+const MemoizedTargetSection = memo(TargetSection)
 
 function TargetHeaderRow(props: {
   form: UseFormReturnType<WarpRequest>
@@ -414,8 +418,16 @@ function TargetHeaderRow(props: {
           data={fromData}
           value={String(fromValue)}
           onChange={(val) => {
-            if (isChar) updateTarget(form, targetIndex, { currentEidolonLevel: Number(val) as EidolonLevel })
-            else updateTarget(form, targetIndex, { currentSuperimpositionLevel: Number(val) as SuperimpositionLevel })
+            const newFrom = Number(val)
+            if (isChar) {
+              const patch: Partial<WarpTarget> = { currentEidolonLevel: newFrom as EidolonLevel }
+              if (newFrom >= toValue) patch.targetEidolonLevel = Math.min(newFrom + 1, EidolonLevel.E6) as EidolonLevel
+              updateTarget(form, targetIndex, patch)
+            } else {
+              const patch: Partial<WarpTarget> = { currentSuperimpositionLevel: newFrom as SuperimpositionLevel }
+              if (newFrom >= toValue) patch.targetSuperimpositionLevel = Math.min(newFrom + 1, SuperimpositionLevel.S5) as SuperimpositionLevel
+              updateTarget(form, targetIndex, patch)
+            }
           }}
         />
       </Table.Td>

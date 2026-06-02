@@ -6,6 +6,7 @@ import {
 import { Archer } from 'lib/conditionals/character/1000/Archer'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -21,6 +22,7 @@ import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarT
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import {
   CURRENT_DATA_VERSION,
@@ -363,6 +365,7 @@ const simulation = (): SimulationMetadata => ({
     END_FUA,
   ],
   errRopeEidolon: 0,
+  deprioritizeBuffs: true,
   relicSets: [
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -379,8 +382,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SparkleB1.id,
-      lightCone: EarthlyEscapade.id,
+      characterId: MortenaxBlade.id,
+      lightCone: ReforgedInHellfire.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

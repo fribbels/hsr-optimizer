@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
@@ -9,6 +10,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
 import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
@@ -142,7 +144,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     sourceEnergyStacks: {
       id: 'sourceEnergyStacks',
       formItem: 'slider',
-      text: 'Source Energy consumed by Orbital',
+      text: 'Source Energy stacks',
       content: betaContent,
       min: 0,
       max: e >= 6 ? 6 : 3,
@@ -338,8 +340,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: WeltB1.id,
-      lightCone: InTheNameOfTheWorld.id,
+      characterId: SparkleB1.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

@@ -47,7 +47,7 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
       lc: true,
       id: 'ultimateEnergyDmgBoost',
       formItem: 'switch',
-      text: 'Ultimate Energy DMG boost',
+      text: 'Ult Energy DMG boost',
       content: betaContent,
     },
     kingsEntertainment: {

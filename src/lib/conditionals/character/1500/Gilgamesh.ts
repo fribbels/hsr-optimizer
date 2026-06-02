@@ -126,7 +126,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     interestStacks: {
       id: 'interestStacks',
       formItem: 'slider',
-      text: 'Interest stacks (A4: +10% CRIT DMG each)',
+      text: 'Interest stacks',
       content: betaContent,
       min: 0,
       max: 12,
@@ -134,25 +134,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     kingsAcknowledgement: {
       id: 'kingsAcknowledgement',
       formItem: 'switch',
-      text: 'King\'s Acknowledgement (ignore 30% DEF)',
+      text: 'King\'s Acknowledgement',
       content: betaContent,
     },
     kingsBurden: {
       id: 'kingsBurden',
       formItem: 'switch',
-      text: 'King\'s Burden (Ult DMG +40%)',
+      text: 'King\'s Burden',
       content: betaContent,
     },
     a6TeamBuff: {
       id: 'a6TeamBuff',
       formItem: 'switch',
-      text: 'A6 Hegemon\'s Strife (team ATK / CRIT DMG)',
+      text: 'Hegemon\'s Strife',
       content: betaContent,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: 'E6 All-Type RES PEN (allies +20%)',
+      text: 'E6 RES PEN',
       content: betaContent,
       disabled: e < 6,
     },

@@ -1,15 +1,17 @@
 import i18next from 'i18next'
-import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
+import { Gilgamesh } from 'lib/conditionals/character/1500/Gilgamesh'
+import { HimekoNova } from 'lib/conditionals/character/1500/HimekoNova'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
-import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
+import { RinTohsaka } from 'lib/conditionals/character/1500/RinTohsaka'
 import {
   TrailblazerElationCaelus,
   TrailblazerElationStelle,
 } from 'lib/conditionals/character/8000/TrailblazerElation'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
+import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
+import { IAmAsYouBehold } from 'lib/conditionals/lightcone/5star/IAmAsYouBehold'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
-import { UntilTheFlowersBloomAgain } from 'lib/conditionals/lightcone/5star/UntilTheFlowersBloomAgain'
-import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
 import {
   AppPages,
   PageToRoute,
@@ -57,9 +59,10 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char(HimekoNova.id), lightConeId: lc(AStarThatLightsTheNight.id) },
+    { characterId: char(RinTohsaka.id), lightConeId: lc(FlickeringStars.id) },
+    { characterId: char(Gilgamesh.id), lightConeId: lc(IAmAsYouBehold.id) },
     { characterId: char(MortenaxBlade.id), lightConeId: lc(ReforgedInHellfire.id) },
-    { characterId: char(SilverWolfLv999.id), lightConeId: lc(WelcomeToTheCosmicCity.id) },
-    { characterId: char(Evanescia.id), lightConeId: lc(UntilTheFlowersBloomAgain.id) },
     { characterId: char(TrailblazerElationStelle.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
     { characterId: char(TrailblazerElationCaelus.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
 

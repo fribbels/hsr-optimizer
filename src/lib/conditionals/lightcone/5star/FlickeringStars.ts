@@ -77,4 +77,7 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
 export const FlickeringStars: LightConeConfig = {
   id: FLICKERING_STARS_ID,
   conditionals,
+  display: {
+    imageOffset: { x: 0, y: -80, s: 1.05 },
+  },
 }

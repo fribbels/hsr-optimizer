@@ -1,8 +1,8 @@
 import {
   type Conditionals,
   type ContentDefinition,
-  countTeamTrailblazeCompanion,
 } from 'lib/conditionals/conditionalUtils'
+import { countTeamTrailblazeCompanion } from 'lib/constants/characterTagConstants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'

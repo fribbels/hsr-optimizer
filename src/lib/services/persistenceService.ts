@@ -530,6 +530,7 @@ function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['ch
 
 function deduplicateDbCharacterScoringParts(dbCharacters: DBMetadata['characters']) {
   for (const character of Object.values(dbCharacters)) {
+    if (!character.scoringMetadata?.parts) continue
     for (const part of Object.keys(Constants.Parts) as Parts[]) {
       if (part === Parts.Hands || part === Parts.Head) continue
       character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])

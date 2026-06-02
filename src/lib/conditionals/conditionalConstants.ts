@@ -17,6 +17,7 @@ export enum DamageType {
   MEMO = 128,
   ADDITIONAL = 256,
   ELATION = 512,
+  ASSIST = 1024,
 }
 
 export const BASIC_DMG_TYPE: number = DamageType.BASIC
@@ -29,6 +30,7 @@ export const SUPER_BREAK_DMG_TYPE: number = DamageType.SUPER_BREAK
 export const MEMO_DMG_TYPE: number = DamageType.MEMO
 export const ADDITIONAL_DMG_TYPE: number = DamageType.ADDITIONAL
 export const ELATION_DMG_TYPE: number = DamageType.ELATION
+export const ASSIST_DMG_TYPE: number = DamageType.ASSIST
 
 export enum BuffPriority {
   SELF = 0,

@@ -10,6 +10,7 @@ export enum DamageTag {
   MEMO = 128,
   ADDITIONAL = 256,
   ELATION = 512,
+  ASSIST = 1024,
 }
 
 export enum ElementTag {

@@ -243,8 +243,17 @@ Characters:
     Name: 銀狼LV.999
     LongName: 銀狼LV.999
   "1507":
-    Name: Mortenax Blade
-    LongName: Mortenax Blade
+    Name: 千冶•刃
+    LongName: 千冶•刃
+  "1508":
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
+  "1509":
+    Name: Gilgamesh
+    LongName: Gilgamesh
+  "1510":
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: 穹
     LongName: 穹 (毀滅)
@@ -427,13 +436,13 @@ RelicSets:
     Description2pc: 速度提高6%。
     Description4pc: 進入戰鬥前，若裝備者的速度達到120/160，則使裝備者的暴擊率提高10%/18%。裝備者每場戰鬥首次施放歡愉技時，使我方全體歡愉度提高10%，該效果無法疊加。
   "131":
-    Name: As Navigator Isee Sees It
-    Description2pc: Increases ATK by 23%.
-    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+    Name: 星如我見的領航員
+    Description2pc: 攻擊力提高12%。
+    Description4pc: 裝備者進入戰鬥時/施放戰技時，使戰技和終結技造成的傷害提高18%，最多疊加3層，裝備者回合開始時/施放終結技後，移除1層該效果。
   "132":
-    Name: Divine-Querying Master Smith
-    Description2pc: Increases Max HP by 23%.
-    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
+    Name: 叩問天工的名冶
+    Description2pc: 生命上限提高12%。
+    Description4pc: 裝備者對防禦力降低狀態的敵方目標造成的暴擊傷害提高28%。裝備者對敵方目標施加防禦力降低狀態後，使我方全體獲得【助燃】，持續2回合，該效果無法疊加。持有【助燃】的我方目標造成的傷害提高15%。該效果在裝備者發動攻擊後可再次觸發。
   "301":
     Name: 太空封印站
     Description2pc: 使裝備者的攻擊力提高12%。當裝備者的速度大於等於120時，攻擊力額外提高12%。
@@ -512,6 +521,12 @@ RelicSets:
   "326":
     Name: 千星薈萃之城
     Description2pc: 裝備者發動追加攻擊時，攻擊力提高24%，持續2回合。當敵方目標被消滅時，我方全體在本場戰鬥中暴擊傷害提高12%，該效果無法疊加。
+  "327":
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+  "328":
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: 鋒鏑
@@ -822,7 +837,13 @@ Lightcones:
   "23058":
     Name: 邂逅於下一個花季
   "23059":
-    Name: Reforged in Hellfire
+    Name: 灼盡煉獄的新骸
+  "23060":
+    Name: A Star That Lights the Night
+  "23061":
+    Name: Flickering Stars
+  "23062":
+    Name: I Am As You Behold
   "24000":
     Name: 記一位星神的殞落
   "24001":

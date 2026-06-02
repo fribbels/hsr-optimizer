@@ -245,6 +245,15 @@ Characters:
   "1507":
     Name: Mortenax Blade
     LongName: Mortenax Blade
+  "1508":
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
+  "1509":
+    Name: Gilgamesh
+    LongName: Gilgamesh
+  "1510":
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -427,13 +436,13 @@ RelicSets:
     Description2pc: VEL +6%.
     Description4pc: Antes de entrar en combate, si la VEL del portador es igual o superior a 120/160, la Prob. CRIT del portador aumenta en un 10%/18%. La primera vez que el portador lance una habilidad de Exultación en cada combate, la Exultación de todos los aliados aumenta en un 10%. Este efecto no se puede acumular.
   "131":
-    Name: As Navigator Isee Sees It
-    Description2pc: Increases ATK by 23%.
-    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+    Name: Piloto estelar como Yoveo
+    Description2pc: ATQ +12%.
+    Description4pc: Cuando el portador entra en combate/lanza la habilidad básica, el daño que infligen su habilidad básica y su habilidad definitiva aumenta en un 18%. Se puede acumular hasta 3 veces. Al comenzar el turno del portador/después de lanzar la habilidad definitiva, se disipa 1 acumulación de este efecto.
   "132":
-    Name: Divine-Querying Master Smith
-    Description2pc: Increases Max HP by 23%.
-    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
+    Name: Gran forja del interrogante divino
+    Description2pc: PV máx. +12%.
+    Description4pc: El Daño CRIT que el portador inflige a los enemigos con reducción de DEF aumenta en un 28%. Cuando el portador aplica reducción de DEF a un enemigo, todos los aliados obtienen Ignición durante 2 turnos. Este efecto no se puede acumular. El daño que infligen los aliados con Ignición aumenta en un 15%. Este efecto se puede volver a activar después de que el portador lance un ataque.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -512,6 +521,12 @@ RelicSets:
   "326":
     Name: Ciudad de las mil estrellas
     Description2pc: Cuando el portador lanza un ataque adicional, el ATQ aumenta en un 24% durante 2 turnos. Cuando se elimina a un enemigo, el Daño CRIT de todos los aliados aumenta en un 12% durante la batalla actual. Este efecto no se puede acumular.
+  "327":
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+  "328":
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -822,7 +837,13 @@ Lightcones:
   "23058":
     Name: Encuentro en la próxima primavera
   "23059":
-    Name: Reforged in Hellfire
+    Name: Nuevo cuerpo del averno ardiente
+  "23060":
+    Name: A Star That Lights the Night
+  "23061":
+    Name: Flickering Stars
+  "23062":
+    Name: I Am As You Behold
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

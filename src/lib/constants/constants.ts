@@ -426,6 +426,8 @@ export const Sets = {
   TengokuLivestream: 'Tengoku@Livestream',
   PunklordeStageZero: 'Punklorde Stage Zero',
   CityOfConvergingStars: 'City of Converging Stars',
+  FallenStarAnchorage: 'Fallen Star Anchorage',
+  CosmicLifeSciencesInstitute: 'Cosmic Life Sciences Institute',
 } as const
 export type SetKey = keyof typeof Sets
 export type Sets = typeof Sets[SetKey]

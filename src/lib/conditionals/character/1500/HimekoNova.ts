@@ -1,4 +1,7 @@
 import i18next from 'i18next'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -6,12 +9,16 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   CURRENT_DATA_VERSION,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
-import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -22,9 +29,18 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  DEFAULT_SKILL,
+  DEFAULT_UNIQUE,
+  END_SKILL,
   NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -41,6 +57,7 @@ export const HimekoNovaEntities = createEnum('HimekoNova')
 export const HimekoNovaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.ULT,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -58,6 +75,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
+    SOURCE_UNIQUE,
   } = Source.character('1510')
 
   const basicScaling = basic(e, 1.00, 1.10)
@@ -72,9 +90,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const talentCdBuffValue = talent(e, 0.50, 0.54)
   const talentResPenValue = talent(e, 0.20, 0.22)
 
+  const assistAoeScaling = skill(e, 2.50, 2.75)
+  const assistRandomScaling = skill(e, 0.40, 0.44)
+  const verdictUltCdValue = skill(e, 1.00, 1.10)
+  const decimationCdValue = skill(e, 0.80, 0.88)
+
   const defaults = {
     navigatorsSemaphore: true,
     assistSkillBuff: true,
+    companionVerdict: false,
     talentWeaknessBreak: true,
     sourceEnergyStacks: 3,
     e4ResPen: true,
@@ -84,6 +108,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const teammateDefaults = {
     navigatorsSemaphore: true,
     assistSkillBuff: true,
+    companionVerdict: false,
     e4ResPen: true,
   }
 
@@ -98,6 +123,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'assistSkillBuff',
       formItem: 'switch',
       text: 'Assist Skill buff',
+      content: betaContent,
+    },
+    companionVerdict: {
+      id: 'companionVerdict',
+      formItem: 'switch',
+      text: 'Companion Protocol: Verdict (off = Decimation)',
       content: betaContent,
     },
     talentWeaknessBreak: {
@@ -136,6 +167,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       ...content.assistSkillBuff,
       disabled: e < 2,
     },
+    companionVerdict: content.companionVerdict,
     e4ResPen: content.e4ResPen,
   }
 
@@ -187,6 +219,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
+        [AbilityKind.UNIQUE]: {
+          hits: [
+            HitDefinitionBuilder.standardSkill()
+              .damageElement(ElementTag.Fire)
+              .damageType(DamageTag.ASSIST)
+              .atkScaling(assistAoeScaling + assistRandomScaling * 4 / context.enemyCount)
+              .toughnessDmg(10 + 5 * 4 / context.enemyCount)
+              .build(),
+          ],
+        },
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
@@ -210,13 +252,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, r.assistSkillBuff ? talentResPenValue : 0, x.source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (e >= 4 && r.e4ResPen && r.assistSkillBuff) ? 0.10 : 0, x.source(SOURCE_E4))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6) ? 0.20 : 0, x.elements(ElementTag.Fire).source(SOURCE_E6))
+
+      x.buff(StatKey.CD, r.companionVerdict ? verdictUltCdValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.BOOST, m.navigatorsSemaphore ? skillDmgBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.BOOST, (e >= 2 && m.assistSkillBuff) ? 0.24 : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && m.assistSkillBuff) ? 0.24 : 0, x.damageType(DamageTag.ASSIST).targets(TargetTag.FullTeam).source(SOURCE_E2))
+
+      x.buff(StatKey.CD, !m.companionVerdict ? decimationCdValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, !m.companionVerdict ? decimationCdValue : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_UNIQUE))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -234,12 +281,69 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
-  parts: {},
-  substats: [],
-  comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
-  relicSets: [],
-  ornamentSets: [],
-  teammates: [],
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Fire_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_SKILL,
+    DEFAULT_UNIQUE,
+    START_SKILL,
+    DEFAULT_SKILL,
+    END_SKILL,
+    DEFAULT_UNIQUE,
+  ],
+  errRopeEidolon: 0,
+  relicSets: [
+    [Sets.AsNavigatorIseeSeesIt, Sets.AsNavigatorIseeSeesIt],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.FallenStarAnchorage,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: WeltB1.id,
+      lightCone: InTheNameOfTheWorld.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -261,7 +365,7 @@ const scoring = (): ScoringMetadata => ({
     [Parts.Body]: [Stats.CR, Stats.CD],
     [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
     [Parts.PlanarSphere]: [Stats.ATK_P, Stats.Fire_DMG],
-    [Parts.LinkRope]: [Stats.ATK_P],
+    [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
   },
   presets: [],
   defaultDamageType: DamageTag.ULT,

@@ -17,8 +17,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import {
@@ -115,6 +115,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateDefaults = {
     elegantConduct: true,
+    talentCdBuff: true,
     ultDmgTakenDebuff: true,
     e2Buffs: true,
     e4SpdBuff: true,
@@ -192,6 +193,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     elegantConduct: content.elegantConduct,
+    talentCdBuff: content.talentCdBuff,
     ultDmgTakenDebuff: content.ultDmgTakenDebuff,
     e2Buffs: content.e2Buffs,
     e4SpdBuff: content.e4SpdBuff,
@@ -274,9 +276,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Talent CD buff on ally SP consume/recover
-      x.buff(StatKey.CD, (r.talentCdBuff) ? talentCdBuffValue : 0, x.source(SOURCE_TALENT))
-
       // Trace ATK +150% and DEF ignore 20%
       x.buff(StatKey.ATK_P, (r.elegantConduct) ? 1.50 : 0, x.source(SOURCE_TRACE))
       x.buff(StatKey.DEF_PEN, (r.elegantConduct) ? 0.20 : 0, x.source(SOURCE_TRACE))
@@ -292,6 +291,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      // Talent CD buff on ally SP consume/recover
+      x.buff(StatKey.CD, (m.talentCdBuff) ? talentCdBuffValue : 0, x.source(SOURCE_TALENT))
 
       // Ult vulnerability debuff
       x.buff(StatKey.VULNERABILITY, m.ultDmgTakenDebuff ? ultVulnerabilityValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))

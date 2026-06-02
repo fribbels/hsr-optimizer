@@ -7936,37 +7936,37 @@
       },
       "traceTree": [
         {
-          "id": "1507201_4.3v5",
+          "id": "1507201",
           "stat": "Fire DMG Boost",
           "value": 0.032,
           "pre": null,
           "children": [
             {
-              "id": "1507210_4.3v5",
+              "id": "1507210",
               "stat": "Fire DMG Boost",
               "value": 0.064,
-              "pre": "1507201_4.3v5",
+              "pre": "1507201",
               "children": []
             }
           ]
         },
         {
-          "id": "1507202_4.3v5",
+          "id": "1507202",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1507203_4.3v5",
+              "id": "1507203",
               "stat": "Fire DMG Boost",
               "value": 0.032,
-              "pre": "1507202_4.3v5",
+              "pre": "1507202",
               "children": [
                 {
-                  "id": "1507204_4.3v5",
+                  "id": "1507204",
                   "stat": "HP%",
                   "value": 0.04,
-                  "pre": "1507203_4.3v5",
+                  "pre": "1507203",
                   "children": []
                 }
               ]
@@ -7974,22 +7974,22 @@
           ]
         },
         {
-          "id": "1507205_4.3v5",
+          "id": "1507205",
           "stat": "Fire DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1507206_4.3v5",
+              "id": "1507206",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1507205_4.3v5",
+              "pre": "1507205",
               "children": [
                 {
-                  "id": "1507207_4.3v5",
+                  "id": "1507207",
                   "stat": "Fire DMG Boost",
                   "value": 0.048,
-                  "pre": "1507206_4.3v5",
+                  "pre": "1507206",
                   "children": []
                 }
               ]
@@ -7997,14 +7997,14 @@
           ]
         },
         {
-          "id": "1507208_4.3v5",
+          "id": "1507208",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1507209_4.3v5",
+          "id": "1507209",
           "stat": "CRIT Rate",
           "value": 0.053,
           "pre": null,
@@ -8017,6 +8017,297 @@
         "ATK": 543.312,
         "DEF": 485.1,
         "SPD": 107,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": false
+    },
+    "1508": {
+      "id": "1508",
+      "name": "Rin Tohsaka",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Quantum",
+      "traces": {
+        "CRIT DMG": 0.373,
+        "ATK%": 0.18,
+        "Quantum DMG Boost": 0.08
+      },
+      "traceTree": [
+        {
+          "id": "1508201_4.4v1",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1508202_4.4v1",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1508203_4.4v1",
+              "stat": "CRIT DMG",
+              "value": 0.053,
+              "pre": "1508202_4.4v1",
+              "children": []
+            },
+            {
+              "id": "1508204_4.4v1",
+              "stat": "Quantum DMG Boost",
+              "value": 0.032,
+              "pre": "1508202_4.4v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1508205_4.4v1",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1508206_4.4v1",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1508205_4.4v1",
+              "children": []
+            },
+            {
+              "id": "1508207_4.4v1",
+              "stat": "CRIT DMG",
+              "value": 0.08,
+              "pre": "1508205_4.4v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1508208_4.4v1",
+          "stat": "Quantum DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1508209_4.4v1",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1508210_4.4v1",
+          "stat": "CRIT DMG",
+          "value": 0.107,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 160,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 698.544,
+        "DEF": 460.845,
+        "SPD": 102,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1509": {
+      "id": "1509",
+      "name": "Gilgamesh",
+      "rarity": 5,
+      "path": "Destruction",
+      "element": "Lightning",
+      "traces": {
+        "Lightning DMG Boost": 0.08,
+        "CRIT Rate": 0.187,
+        "ATK%": 0.18
+      },
+      "traceTree": [
+        {
+          "id": "1509201_4.4v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1509202_4.4v1",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1509203_4.4v1",
+              "stat": "CRIT Rate",
+              "value": 0.027,
+              "pre": "1509202_4.4v1",
+              "children": [
+                {
+                  "id": "1509204_4.4v1",
+                  "stat": "Lightning DMG Boost",
+                  "value": 0.032,
+                  "pre": "1509203_4.4v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1509205_4.4v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1509206_4.4v1",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1509205_4.4v1",
+              "children": [
+                {
+                  "id": "1509207_4.4v1",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1509206_4.4v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1509208_4.4v1",
+          "stat": "Lightning DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": [
+            {
+              "id": "1509209_4.4v1",
+              "stat": "ATK%",
+              "value": 0.08,
+              "pre": "1509208_4.4v1",
+              "children": []
+            },
+            {
+              "id": "1509210_4.4v1",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1509208_4.4v1",
+              "children": []
+            }
+          ]
+        }
+      ],
+      "max_sp": 600,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 717.948,
+        "DEF": 509.355,
+        "SPD": 97,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1510": {
+      "id": "1510",
+      "name": "Himeko • Nova",
+      "rarity": 5,
+      "path": "Erudition",
+      "element": "Fire",
+      "traces": {
+        "ATK%": 0.28,
+        "CRIT Rate": 0.12,
+        "Fire DMG Boost": 0.08
+      },
+      "traceTree": [
+        {
+          "id": "1510201_4.4v1",
+          "stat": "ATK%",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1510202_4.4v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": [
+            {
+              "id": "1510203_4.4v1",
+              "stat": "ATK%",
+              "value": 0.04,
+              "pre": "1510202_4.4v1",
+              "children": []
+            },
+            {
+              "id": "1510204_4.4v1",
+              "stat": "Fire DMG Boost",
+              "value": 0.032,
+              "pre": "1510202_4.4v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1510205_4.4v1",
+          "stat": "ATK%",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1510206_4.4v1",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1510205_4.4v1",
+              "children": []
+            },
+            {
+              "id": "1510207_4.4v1",
+              "stat": "ATK%",
+              "value": 0.06,
+              "pre": "1510205_4.4v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1510208_4.4v1",
+          "stat": "Fire DMG Boost",
+          "value": 0.048,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1510209_4.4v1",
+          "stat": "CRIT Rate",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1510210_4.4v1",
+          "stat": "ATK%",
+          "value": 0.08,
+          "pre": null,
+          "children": []
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 1125.432,
+        "ATK": 756.756,
+        "DEF": 485.1,
+        "SPD": 98,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -14465,6 +14756,113 @@
           "HPAddedRatio": 0.6
         }
       },
+      "unreleased": false
+    },
+    "23060": {
+      "id": "23060",
+      "name": "A Star That Lights the Night",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 635.04,
+        "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 21,
+        "y": -95,
+        "s": 1.15
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.4
+        },
+        "2": {
+          "AttackAddedRatio": 0.5
+        },
+        "3": {
+          "AttackAddedRatio": 0.6
+        },
+        "4": {
+          "AttackAddedRatio": 0.7
+        },
+        "5": {
+          "AttackAddedRatio": 0.8
+        }
+      },
+      "unreleased": true
+    },
+    "23061": {
+      "id": "23061",
+      "name": "Flickering Stars",
+      "rarity": 5,
+      "path": "Erudition",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 635.04,
+        "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -78,
+        "s": 1.05
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.18
+        },
+        "2": {
+          "CriticalChanceBase": 0.21
+        },
+        "3": {
+          "CriticalChanceBase": 0.24
+        },
+        "4": {
+          "CriticalChanceBase": 0.27
+        },
+        "5": {
+          "CriticalChanceBase": 0.3
+        }
+      },
+      "unreleased": true
+    },
+    "23062": {
+      "id": "23062",
+      "name": "I Am As You Behold",
+      "rarity": 5,
+      "path": "Destruction",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 635.04,
+        "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 3,
+        "y": 74,
+        "s": 1.05
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.18,
+          "SPRatioBase": 0.1
+        },
+        "2": {
+          "AttackAddedRatio": 0.21,
+          "SPRatioBase": 0.125
+        },
+        "3": {
+          "AttackAddedRatio": 0.24,
+          "SPRatioBase": 0.15
+        },
+        "4": {
+          "AttackAddedRatio": 0.27,
+          "SPRatioBase": 0.175
+        },
+        "5": {
+          "AttackAddedRatio": 0.3,
+          "SPRatioBase": 0.2
+        }
+      },
       "unreleased": true
     },
     "24000": {
@@ -14844,12 +15242,12 @@
     {
       "id": "131",
       "name": "As Navigator Isee Sees It",
-      "skills": "Increases ATK by 12%. When the wearer enters combat or uses Skill, their Skill and Ultimate DMG dealt increases by 18%, stacking up to 3 times. At the start of the wearer's turn or after using their Ultimate, removes 1 stack of this effect."
+      "skills": "Increases ATK by 12%. When the wearer enters combat or uses Skill, the DMG dealt by their Skill and Ultimate increases by 18%, stacking up to 3 times. At the start of the wearer's turn or after using Ultimate, removes 1 stack of this effect."
     },
     {
       "id": "132",
       "name": "Divine-Querying Master Smith",
-      "skills": "Increases Max HP by 12%. Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 2 turns. This effect cannot be stacked. DMG dealt by ally targets with \"Comburent\" increases by 15%. This effect can be triggered again after the wearer uses an attack."
+      "skills": "Increases Max HP by 12%. Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 2 turns. This effect cannot be stacked. The DMG dealt by ally targets with \"Comburent\" increases by 15%. This effect can be triggered again after the wearer uses an attack."
     },
     {
       "id": "301",
@@ -14980,6 +15378,16 @@
       "id": "326",
       "name": "City of Converging Stars",
       "skills": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turns. When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack."
+    },
+    {
+      "id": "327",
+      "name": "Fallen Star Anchorage",
+      "skills": "Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%."
+    },
+    {
+      "id": "328",
+      "name": "Cosmic Life Sciences Institute",
+      "skills": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%."
     }
   ]
 }

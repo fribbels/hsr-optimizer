@@ -321,6 +321,7 @@ const simulation = (): SimulationMetadata => ({
     // TODO: verify rotation length
   ],
   errRopeEidolon: 0,
+  deprioritizeBuffs: true,
   relicSets: [
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,

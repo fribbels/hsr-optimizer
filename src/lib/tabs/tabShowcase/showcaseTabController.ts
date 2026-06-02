@@ -7,8 +7,8 @@ import {
   TrailblazerElationCaelus,
   TrailblazerElationStelle,
 } from 'lib/conditionals/character/8000/TrailblazerElation'
-import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
 import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
 import { IAmAsYouBehold } from 'lib/conditionals/lightcone/5star/IAmAsYouBehold'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
@@ -63,8 +63,6 @@ export function presetCharacters(): Preset[] {
     { characterId: char(RinTohsaka.id), lightConeId: lc(FlickeringStars.id) },
     { characterId: char(Gilgamesh.id), lightConeId: lc(IAmAsYouBehold.id) },
     { characterId: char(MortenaxBlade.id), lightConeId: lc(ReforgedInHellfire.id) },
-    { characterId: char(TrailblazerElationStelle.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
-    { characterId: char(TrailblazerElationCaelus.id), lightConeId: lc(ElationBrimmingWithBlessings.id), characterEidolon: 6, lightConeSuperimposition: 5 },
 
     // { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
     // { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},

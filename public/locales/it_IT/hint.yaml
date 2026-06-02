@@ -61,7 +61,6 @@ Relics:
   Title: Reliquie
   p1: >-
     Nota - Il potenziale è una percentuale di valutazione che confronta una reliquia con la migliore reliquia +15 possibile nello slot per il personaggio attuale. È basata sui pesi dell'algoritmo del punteggio. Questo significa che le reliquie a +0 senza roll hanno a volte un potenziale più elevato di relique +15 esistenti, perchè i loro possibili roll sono andati nelle statistiche desiderate del personaggio.
-  p2: "Personaggio selezionato: Punteggio - Il punteggio attuale della reliquia come definito dall'algoritmo del punteggio per il personaggio selezionato"
   p3: "Personaggio selezionato: Potenziale medio - Il potenziale della reliquia al suo livello massimo, calcolato come media di tutti i possibili roll che potrebbe avere fino a +15"
   p4: "Personaggio selezionato: Potenziale massimo - Il potenziale massimo della reliquia se tutti i roll futuri sono andati nelle statistiche desiderate del personaggio"
   p5: 'Tutti i personaggi: Potenziale massimo - Il potenziale più alto possibile della reliquia, tra tutti i personaggi del gioco.'

@@ -38,6 +38,7 @@ import {
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -385,7 +386,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnNavigatorSet(3),
+  ],
   defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],

@@ -41,6 +41,7 @@ export const TRAILBLAZE_COMPANION_IDS = new Set([
   Sunday.id,
   Evernight.id,
   PermansorTerrae.id,
+  '1510',
   TrailblazerDestructionCaelus.id,
   TrailblazerDestructionStelle.id,
   TrailblazerPreservationCaelus.id,

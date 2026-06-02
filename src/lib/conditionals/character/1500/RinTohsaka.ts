@@ -440,7 +440,7 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: { x: 1031, y: 1016, z: 1.02 },
-  showcaseColor: '#de75b4',
+  showcaseColor: '#bd81e1',
 }
 
 export const RinTohsaka: CharacterConfig = {

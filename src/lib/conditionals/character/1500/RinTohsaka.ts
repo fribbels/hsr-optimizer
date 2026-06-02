@@ -161,13 +161,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ladylikePoise: {
       id: 'ladylikePoise',
       formItem: 'switch',
-      text: 'Ladylike Poise SPD buff',
+      text: 'SPD buff',
       content: betaContent,
     },
     ultDmgTakenDebuff: {
       id: 'ultDmgTakenDebuff',
       formItem: 'switch',
-      text: 'Ult vulnerability debuff',
+      text: 'Ult Vulnerability',
       content: betaContent,
     },
     e2Buffs: {

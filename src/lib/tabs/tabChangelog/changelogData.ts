@@ -18,6 +18,19 @@ export function getChangelogContent() {
     },
     {
       title: '',
+      date: '2026-06-02',
+      content: [
+        `Updated content to 4.4v1`,
+        `Added Himeko Nova showcase`,
+        `himekonova.webp`,
+        `Added Rin Tohsaka showcase`,
+        `rin.webp`,
+        `Added Gilgamesh showcase`,
+        `gilgamesh.webp`,
+      ],
+    },
+    {
+      title: '',
       date: '2026-05-26',
       content: [
         `Added Support Benchmarks for Cerydra, Bronya, Robin, Sparkle, Sunday, Permansor Terrae, Trailblazer Harmony, and Trailblazer Remembrance`,
@@ -159,7 +172,6 @@ export function getChangelogContent() {
       title: '',
       date: '2026-03-17',
       content: [
-        `Updated content to ${CURRENT_DATA_VERSION}`,
         `Added Silver Wolf LV.999 showcase`,
         `sw999.webp`,
         `Added Evanescia showcase`,

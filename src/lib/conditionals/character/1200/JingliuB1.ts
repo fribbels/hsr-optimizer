@@ -9,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { IShallBeMyOwnSword } from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import {
@@ -342,6 +343,7 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -359,6 +361,7 @@ const display = {
 
 export const JingliuB1: CharacterConfig = {
   id: '1212b1',
+  defaultLightCone: IShallBeMyOwnSword.id,
   display,
   conditionals,
   get scoring() {

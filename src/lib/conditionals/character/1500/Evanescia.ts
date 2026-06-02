@@ -26,6 +26,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
+import { UntilTheFlowersBloomAgain } from 'lib/conditionals/lightcone/5star/UntilTheFlowersBloomAgain'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
@@ -517,6 +518,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.ELATION,
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -533,6 +535,7 @@ const display = {
 
 export const Evanescia: CharacterConfig = {
   id: '1505',
+  defaultLightCone: UntilTheFlowersBloomAgain.id,
   display,
   conditionals,
   get scoring() {

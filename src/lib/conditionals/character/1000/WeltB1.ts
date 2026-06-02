@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
 import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -495,6 +496,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.SKILL | DamageTag.ADDITIONAL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,
@@ -515,6 +517,7 @@ const display = {
 
 export const WeltB1: CharacterConfig = {
   id: '1004b1',
+  defaultLightCone: InTheNameOfTheWorld.id,
   display,
   conditionals,
   get scoring() {

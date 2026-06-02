@@ -14,6 +14,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NightOnTheMilkyWay } from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
@@ -360,6 +361,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [],
   simulation: simulation(),
@@ -377,6 +379,7 @@ const display = {
 
 export const Himeko: CharacterConfig = {
   id: '1003',
+  defaultLightCone: NightOnTheMilkyWay.id,
   display,
   conditionals,
   get scoring() {

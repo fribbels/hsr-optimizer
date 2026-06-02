@@ -40,6 +40,7 @@ import {
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Swordplay } from 'lib/conditionals/lightcone/4star/Swordplay'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
@@ -346,6 +347,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(1),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -363,6 +365,7 @@ const display = {
 
 export const Sushang: CharacterConfig = {
   id: '1206',
+  defaultLightCone: Swordplay.id,
   display,
   conditionals,
   get scoring() {

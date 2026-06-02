@@ -18,6 +18,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -495,6 +496,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnMortenaxAshblazingSet(5),
     PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [SortOption.FUA],
   simulation: simulation(),
@@ -511,6 +513,7 @@ const display = {
 
 export const Hysilens: CharacterConfig = {
   id: '1410',
+  defaultLightCone: WhyDoesTheOceanSing.id,
   display,
   conditionals,
   get scoring() {

@@ -17,6 +17,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
@@ -508,6 +509,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnNavigatorSet(3),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -529,6 +531,7 @@ const display = {
 
 export const Phainon: CharacterConfig = {
   id: '1408',
+  defaultLightCone: ThusBurnsTheDawn.id,
   display,
   conditionals,
   get scoring() {

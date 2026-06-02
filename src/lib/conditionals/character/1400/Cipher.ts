@@ -25,6 +25,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -558,6 +559,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -579,6 +581,7 @@ const display = {
 
 export const Cipher: CharacterConfig = {
   id: '1406',
+  defaultLightCone: LiesAflutterInTheWind.id,
   display,
   conditionals,
   get scoring() {

@@ -16,6 +16,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ASecretVow } from 'lib/conditionals/lightcone/4star/ASecretVow'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -281,6 +282,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,
@@ -301,6 +303,7 @@ const display = {
 
 export const Arlan: CharacterConfig = {
   id: '1008',
+  defaultLightCone: ASecretVow.id,
   display,
   conditionals,
   get scoring() {

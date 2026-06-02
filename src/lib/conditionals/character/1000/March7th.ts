@@ -15,6 +15,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DayOneOfMyNewLife } from 'lib/conditionals/lightcone/4star/DayOneOfMyNewLife'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
@@ -280,6 +281,7 @@ const display = {
 
 export const March7th: CharacterConfig = {
   id: '1001',
+  defaultLightCone: DayOneOfMyNewLife.id,
   display,
   conditionals,
   get scoring() {

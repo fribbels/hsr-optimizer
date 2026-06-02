@@ -243,8 +243,17 @@ Characters:
     Name: Silver Wolf LV.999
     LongName: Silver Wolf LV.999
   "1507":
-    Name: Mortenax Blade
-    LongName: Mortenax Blade
+    Name: ผู้ฝ่าบ่วงมฤตยู Blade
+    LongName: ผู้ฝ่าบ่วงมฤตยู Blade
+  "1508":
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
+  "1509":
+    Name: Gilgamesh
+    LongName: Gilgamesh
+  "1510":
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: Caelus
     LongName: Caelus (ทำลายล้าง)
@@ -428,12 +437,12 @@ RelicSets:
     Description4pc: ก่อนเข้าสู่การต่อสู้ หากความเร็วของผู้สวมใส่ มากกว่าหรือเท่ากับ 120/160 อัตราคริติคอลของผู้สวมใส่จะเพิ่มขึ้น 10%/18% เมื่อผู้สวมใส่ใช้สกิลปิติสุข เป็นครั้งแรกในแต่ละการต่อสู้ จะทำให้ระดับปิติสุขของฝ่ายเราทั้งหมด เพิ่มขึ้น 10% เอฟเฟกต์นี้ไม่สามารถซ้อนทับได้
   "131":
     Name: As Navigator Isee Sees It
-    Description2pc: Increases ATK by 23%.
-    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+    Description2pc: ATK เพิ่มขึ้น 12%
+    Description4pc: เมื่อผู้สวมใส่เข้าสู่การต่อสู้/ เมื่อปล่อยสกิลต่อสู้ จะทำให้สกิลต่อสู้และท่าไม้ตาย สร้าง DMG เพิ่มขึ้น 18% ซึ่งซ้อนทับได้สูงสุด 3 ชั้น เมื่อเริ่มต้นเทิร์นของผู้สวมใส่/ หลังจากผู้สวมใส่ปล่อยท่าไม้ตาย จะลบเอฟเฟกต์นี้ออก 1 ชั้น
   "132":
     Name: Divine-Querying Master Smith
-    Description2pc: Increases Max HP by 23%.
-    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
+    Description2pc: HP สูงสุดเพิ่มขึ้น 12%
+    Description4pc: ผู้สวมใส่สร้าง DMG คริติคอล ต่อศัตรูเป้าหมายที่ติดสถานะลด DEF เพิ่มขึ้น 28% หลังจากผู้สวมใส่ทำให้ศัตรูเป้าหมาย ติดสถานะลด DEF จะทำให้ฝ่ายเราทั้งหมดได้รับ "เชื้อเพลิง" เป็นเวลา 2 เทิร์น โดยเอฟเฟกต์นี้ไม่สามารถซ้อนทับได้ เป้าหมายฝ่ายเราที่มี "เชื้อเพลิง" จะสร้าง DMG เพิ่มขึ้น 15% เอฟเฟกต์นี้จะเกิดได้อีกครั้ง หลังจากที่ผู้สวมใส่ทำการโจมตี
   "301":
     Name: Space Sealing Station
     Description2pc: ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 120 ATK จะเพิ่มขึ้นอีก 12%
@@ -512,6 +521,12 @@ RelicSets:
   "326":
     Name: City of Converging Stars
     Description2pc: เมื่อผู้สวมใส่โจมตีต่อเนื่อง ATK จะเพิ่มขึ้น 24% เป็นเวลา 2 เทิร์น เมื่อศัตรูเป้าหมายถูกกำจัด ในการต่อสู้นี้ ฝ่ายเราทั้งหมดจะมี DMG คริติคอลเพิ่มขึ้น 12% เอฟเฟกต์นี้ไม่สามารถซ้อนทับได้
+  "327":
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+  "328":
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: Arrows
@@ -823,6 +838,12 @@ Lightcones:
     Name: Until the Flowers Bloom Again
   "23059":
     Name: Reforged in Hellfire
+  "23060":
+    Name: A Star That Lights the Night
+  "23061":
+    Name: Flickering Stars
+  "23062":
+    Name: I Am As You Behold
   "24000":
     Name: On the Fall of an Aeon
   "24001":

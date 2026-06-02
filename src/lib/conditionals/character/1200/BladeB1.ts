@@ -9,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { TheUnreachableSide } from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import {
@@ -327,6 +328,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.fnSacerdosSet(1),
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
@@ -351,6 +353,7 @@ const display = {
 
 export const BladeB1: CharacterConfig = {
   id: '1205b1',
+  defaultLightCone: TheUnreachableSide.id,
   display,
   conditionals,
   get scoring() {

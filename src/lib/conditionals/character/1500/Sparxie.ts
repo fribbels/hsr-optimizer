@@ -22,6 +22,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
@@ -516,6 +517,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.TENGOKU_SET,
     PresetEffects.fnMortenaxAshblazingSet(5),
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -533,6 +535,7 @@ const display = {
 
 export const Sparxie: CharacterConfig = {
   id: '1501',
+  defaultLightCone: DazzledByAFloweryWorld.id,
   display,
   conditionals,
   get scoring() {

@@ -14,6 +14,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { BaptismOfPureThought } from 'lib/conditionals/lightcone/5star/BaptismOfPureThought'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
@@ -348,6 +349,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.WASTELANDER_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.DOT,
@@ -371,6 +373,7 @@ const display = {
 
 export const DrRatio: CharacterConfig = {
   id: '1305',
+  defaultLightCone: BaptismOfPureThought.id,
   display,
   conditionals,
   get scoring() {

@@ -1,10 +1,11 @@
 import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -122,6 +123,7 @@ const display = {
 // Pre-Novaflare version. See BlackSwanB1.ts for the updated variant.
 export const BlackSwan: CharacterConfig = {
   id: '1307',
+  defaultLightCone: ReforgedRemembrance.id,
   display,
   conditionals,
   get scoring() {

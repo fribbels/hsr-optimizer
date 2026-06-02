@@ -18,7 +18,7 @@ import {
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -38,6 +38,7 @@ import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { SleepLikeTheDead } from 'lib/conditionals/lightcone/5star/SleepLikeTheDead'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -390,6 +391,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.fnAshblazingSet(2),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -407,6 +409,7 @@ const display = {
 
 export const Yanqing: CharacterConfig = {
   id: '1209',
+  defaultLightCone: SleepLikeTheDead.id,
   display,
   conditionals,
   get scoring() {

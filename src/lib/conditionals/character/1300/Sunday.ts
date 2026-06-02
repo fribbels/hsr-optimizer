@@ -9,6 +9,7 @@ import {
   findMemospriteIndex,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
@@ -522,6 +523,7 @@ const display = {
 
 export const Sunday: CharacterConfig = {
   id: '1313',
+  defaultLightCone: AGroundedAscent.id,
   display,
   conditionals,
   get scoring() {

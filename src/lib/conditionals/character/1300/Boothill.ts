@@ -17,6 +17,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { SailingTowardsASecondLife } from 'lib/conditionals/lightcone/5star/SailingTowardsASecondLife'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
@@ -35,6 +36,7 @@ import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
+  DamageTag,
   ElementTag,
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
@@ -454,6 +456,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(2),
   ],
+  defaultDamageType: DamageTag.BREAK,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
@@ -474,6 +477,7 @@ const display = {
 
 export const Boothill: CharacterConfig = {
   id: '1315',
+  defaultLightCone: SailingTowardsASecondLife.id,
   display,
   conditionals,
   get scoring() {

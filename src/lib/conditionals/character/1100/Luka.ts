@@ -13,6 +13,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
@@ -24,6 +25,7 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
+  DamageTag,
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -360,6 +362,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.PRISONER_SET,
     PresetEffects.fnMortenaxAshblazingSet(1),
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [
     SortOption.FUA,
@@ -383,6 +386,7 @@ const display = {
 
 export const Luka: CharacterConfig = {
   id: '1111',
+  defaultLightCone: ResolutionShinesAsPearlsOfSweat.id,
   display,
   conditionals,
   get scoring() {

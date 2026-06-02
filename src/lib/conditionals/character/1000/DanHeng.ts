@@ -13,6 +13,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { OnlySilenceRemains } from 'lib/conditionals/lightcone/4star/OnlySilenceRemains'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -299,6 +300,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.fnMortenaxAshblazingSet(1),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.FUA,
@@ -319,6 +321,7 @@ const display = {
 
 export const DanHeng: CharacterConfig = {
   id: '1002',
+  defaultLightCone: OnlySilenceRemains.id,
   display,
   conditionals,
   get scoring() {

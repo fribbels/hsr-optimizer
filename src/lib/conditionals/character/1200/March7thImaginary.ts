@@ -43,6 +43,7 @@ import {
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { CruisingInTheStellarSea } from 'lib/conditionals/lightcone/5star/CruisingInTheStellarSea'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
@@ -404,6 +405,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(2),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.DOT],
   simulation: simulation(),
@@ -425,6 +427,7 @@ const display = {
 
 export const March7thImaginary: CharacterConfig = {
   id: '1224',
+  defaultLightCone: CruisingInTheStellarSea.id,
   display,
   conditionals,
   get scoring() {

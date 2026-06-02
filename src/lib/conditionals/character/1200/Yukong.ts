@@ -10,6 +10,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PastAndFuture } from 'lib/conditionals/lightcone/4star/PastAndFuture'
 import {
   Parts,
   Stats,
@@ -260,6 +261,7 @@ const display = {
 
 export const Yukong: CharacterConfig = {
   id: '1207',
+  defaultLightCone: PastAndFuture.id,
   display,
   conditionals,
   get scoring() {

@@ -1,5 +1,6 @@
 import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   Parts,
   Stats,
@@ -122,6 +123,7 @@ const display = {
 // Pre-Novaflare version. See HuohuoB1.ts for the updated variant.
 export const Huohuo: CharacterConfig = {
   id: '1217',
+  defaultLightCone: NightOfFright.id,
   display,
   conditionals,
   get scoring() {

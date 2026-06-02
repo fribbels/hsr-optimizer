@@ -1,4 +1,5 @@
 import type { UseFormReturnType } from '@mantine/form'
+import { TRAILBLAZE_COMPANION_IDS } from 'lib/constants/characterTagConstants'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
@@ -250,6 +251,11 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
   if (allyIds.includes(TheDahlia.id)) {
     form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = true
   }
+
+  // Fallen Star Anchorage: wearer + at least one teammate are both Trailblaze Companions
+  const wearerIsCompanion = TRAILBLAZE_COMPANION_IDS.has(form.characterId)
+  const teammateIsCompanion = teammates.some((t) => t.id && TRAILBLAZE_COMPANION_IDS.has(t.id))
+  form.setConditionals[Sets.FallenStarAnchorage][1] = wearerIsCompanion && teammateIsCompanion
 
   // DHPT gives a summon to the primary character, enabling banana set conditional
   if (allyIds.includes(PermansorTerrae.id)) {

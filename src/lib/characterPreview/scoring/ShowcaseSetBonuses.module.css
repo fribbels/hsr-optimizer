@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px;
+  align-items: center;
+}
+
+.cardText {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.cardPiece {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.cardName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.setIconMd {
+  width: 36px;
+  height: 36px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.cardPlain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.separatorCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.sepMidLine {
+  height: 1px;
+  margin: 0 8px;
+  background: linear-gradient(to right, transparent 8%, rgba(255, 255, 255, 0.14) 25%, rgba(255, 255, 255, 0.14) 75%, transparent 92%);
+}

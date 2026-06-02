@@ -91,7 +91,7 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
   const portraitUrl = portraitToUse?.imageUrl ?? defaultPortraitUrl
 
-  const displayDimensions = getShowcaseDisplayDimensions(character, isSimScoreMode(scoringType))
+  const displayDimensions = getShowcaseDisplayDimensions(character, isSimScoreMode(scoringType) || scoringType === ScoringType.SUBSTAT_SCORE)
   const artistName = getArtistName(character)
 
   const activeConfigType = configTypeForScoringType(scoringType)

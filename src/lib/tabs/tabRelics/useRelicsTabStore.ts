@@ -41,7 +41,7 @@ const defaultState: RelicsTabStateValues = {
   selectedRelicId: null,
   selectedRelicsIds: [],
   valueColumns: [
-    'weights.current',
+    'weights.currentPct',
     'weights.rerollAvgSelected',
     'weights.rerollAvgSelectedDelta',
     'weights.potentialSelected.averagePct',

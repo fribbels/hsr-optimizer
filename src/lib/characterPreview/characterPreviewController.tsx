@@ -111,6 +111,7 @@ export type ScoringResults = {
   relics: RelicScoringResult[],
   totalScore: number,
   totalRating: string,
+  correctMainStats?: number,
 }
 
 export type PreviewRelics = Record<Parts, Relic | null>

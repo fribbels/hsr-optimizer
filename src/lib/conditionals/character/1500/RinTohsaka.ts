@@ -4,8 +4,8 @@ import {
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
 import { Archer } from 'lib/conditionals/character/1000/Archer'
-import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -17,10 +17,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
+import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
+import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   CURRENT_DATA_VERSION,
   Parts,
@@ -379,14 +379,14 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: SparkleB1.id,
+      lightCone: EarthlyEscapade.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: HuohuoB1.id,
+      lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -439,13 +439,13 @@ const scoring = (): ScoringMetadata => ({
 })
 
 const display = {
-  imageCenter: { x: 0, y: 0, z: 1 }, // TODO(HUMAN): set imageCenter/showcaseColor post-generation
-  showcaseColor: '#a01828', // TODO(HUMAN): set imageCenter/showcaseColor post-generation
+  imageCenter: { x: 1031, y: 1016, z: 1.02 },
+  showcaseColor: '#de75b4',
 }
 
 export const RinTohsaka: CharacterConfig = {
   id: '1508',
-  defaultLightCone: IntotheUnreachableVeil.id,
+  defaultLightCone: AStarThatLightsTheNight.id,
   display,
   conditionals,
   get scoring() {

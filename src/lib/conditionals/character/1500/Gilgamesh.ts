@@ -6,7 +6,7 @@ import {
 } from 'lib/conditionals/ashblazingCompute'
 import { Saber } from 'lib/conditionals/character/1000/Saber'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -19,9 +19,9 @@ import {
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { AThanklessCoronation } from 'lib/conditionals/lightcone/5star/AThanklessCoronation'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import {
   CURRENT_DATA_VERSION,
   Parts,
@@ -95,15 +95,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 4.00, 4.40)
   const ultBounceScaling = ult(e, 0.40, 0.44)
 
-  // Gilgamesh's Lightning portion only; Saber's Wind portion is modeled on Saber's file
-  const jointFuaScaling = talent(e, 4.00, 4.40)
+  // Gilgamesh's Lightning portion only
+  const jointFuaScaling = talent(e, 2.00, 2.20)
   const talentUltDmgBuffValue = talent(e, 0.40, 0.44)
 
   // 1 AoE + 10 bounces
-  const ultHitMulti = ashblazingMulti([
-    aoe(ultScaling),
-    ...Array(ultBounceCount).fill(single(ultBounceScaling)),
-  ])
+  // const ultHitMulti = ashblazingMulti([
+  //   aoe(ultScaling),
+  //   ...Array(ultBounceCount).fill(single(ultBounceScaling)),
+  // ])
 
   const defaults = {
     interestStacks: 12,
@@ -272,10 +272,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+      // boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+      return ''
+      // return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
 
     dynamicConditionals: [],
@@ -334,8 +335,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: MortenaxBlade.id,
+      lightCone: ReforgedInHellfire.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -345,7 +346,6 @@ const simulation = (): SimulationMetadata => ({
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
-    // TODO: confirm meta teammates
   ],
 })
 
@@ -398,8 +398,8 @@ const scoring = (): ScoringMetadata => ({
 })
 
 const display = {
-  imageCenter: { x: 0, y: 0, z: 1 },
-  showcaseColor: '#888888',
+  imageCenter: { x: 1102, y: 943, z: 1.11 },
+  showcaseColor: '#867fb3',
 }
 
 export const Gilgamesh: CharacterConfig = {

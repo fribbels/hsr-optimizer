@@ -19,6 +19,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
+import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import {
@@ -39,6 +40,7 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
+  END_FUA,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
@@ -356,20 +358,16 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     DEFAULT_SKILL,
-    DEFAULT_FUA,
+    END_FUA,
     START_SKILL,
-    DEFAULT_SKILL,
-    END_SKILL,
-    DEFAULT_FUA,
+    END_FUA,
   ],
   errRopeEidolon: 0,
   relicSets: [
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
-    Sets.RutilantArena,
     Sets.TengokuLivestream,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
@@ -447,7 +445,7 @@ const display = {
 
 export const RinTohsaka: CharacterConfig = {
   id: '1508',
-  defaultLightCone: AStarThatLightsTheNight.id,
+  defaultLightCone: FlickeringStars.id,
   display,
   conditionals,
   get scoring() {

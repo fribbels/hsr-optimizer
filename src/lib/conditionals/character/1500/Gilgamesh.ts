@@ -20,6 +20,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AThanklessCoronation } from 'lib/conditionals/lightcone/5star/AThanklessCoronation'
+import { IAmAsYouBehold } from 'lib/conditionals/lightcone/5star/IAmAsYouBehold'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import {
@@ -39,7 +40,9 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   DEFAULT_FUA,
+  DEFAULT_SKILL,
   END_BASIC,
+  END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_SKILL,
@@ -311,7 +314,7 @@ const simulation = (): SimulationMetadata => ({
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
-    END_BASIC,
+    END_SKILL,
     DEFAULT_FUA,
     WHOLE_SKILL,
     WHOLE_SKILL,
@@ -323,8 +326,7 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
-    Sets.InertSalsotto,
-    Sets.FirmamentFrontlineGlamoth,
+    Sets.CosmicLifeSciencesInstitute,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
   teammates: [
@@ -386,8 +388,8 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
-  defaultDamageType: DamageTag.ULT,
-  sortOption: SortOption.ULT,
+  defaultDamageType: DamageTag.SKILL,
+  sortOption: SortOption.SKILL,
   addedColumns: [
     SortOption.FUA,
   ],
@@ -404,7 +406,7 @@ const display = {
 
 export const Gilgamesh: CharacterConfig = {
   id: '1509',
-  defaultLightCone: AThanklessCoronation.id, // TODO: swap to signature LC once added
+  defaultLightCone: IAmAsYouBehold.id,
   display,
   conditionals,
   get scoring() {

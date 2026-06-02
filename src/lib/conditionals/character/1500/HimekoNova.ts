@@ -9,8 +9,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
 import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -32,6 +32,7 @@ import {
   DEFAULT_SKILL,
   DEFAULT_UNIQUE,
   END_SKILL,
+  END_UNIQUE,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   START_ULT,
@@ -98,7 +99,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     navigatorsSemaphore: true,
     assistSkillBuff: true,
-    companionVerdict: false,
+    companionVerdict: true,
     talentWeaknessBreak: true,
     sourceEnergyStacks: 3,
     e4ResPen: true,
@@ -108,7 +109,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const teammateDefaults = {
     navigatorsSemaphore: true,
     assistSkillBuff: true,
-    companionVerdict: false,
+    companionDecimation: true,
     e4ResPen: true,
   }
 
@@ -128,7 +129,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     companionVerdict: {
       id: 'companionVerdict',
       formItem: 'switch',
-      text: 'Companion Protocol: Verdict (off = Decimation)',
+      text: 'Companion Protocol: Verdict',
       content: betaContent,
     },
     talentWeaknessBreak: {
@@ -167,7 +168,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       ...content.assistSkillBuff,
       disabled: e < 2,
     },
-    companionVerdict: content.companionVerdict,
+    companionDecimation: {
+      id: 'companionDecimation',
+      formItem: 'switch',
+      text: 'Companion Protocol: Decimation',
+      content: betaContent,
+    },
     e4ResPen: content.e4ResPen,
   }
 
@@ -254,6 +260,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6) ? 0.20 : 0, x.elements(ElementTag.Fire).source(SOURCE_E6))
 
       x.buff(StatKey.CD, r.companionVerdict ? verdictUltCdValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, !r.companionVerdict ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -261,15 +268,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.BOOST, m.navigatorsSemaphore ? skillDmgBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
       x.buff(StatKey.BOOST, (e >= 2 && m.assistSkillBuff) ? 0.24 : 0, x.damageType(DamageTag.ASSIST).targets(TargetTag.FullTeam).source(SOURCE_E2))
-
-      x.buff(StatKey.CD, !m.companionVerdict ? decimationCdValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_UNIQUE))
-      x.buff(StatKey.CD, !m.companionVerdict ? decimationCdValue : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_UNIQUE))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen && m.assistSkillBuff) ? talentResPenValue : 0, x.source(SOURCE_E4))
+
+      x.buff(StatKey.CD, m.companionDecimation ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, m.companionDecimation ? decimationCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -307,12 +314,10 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL,
     START_ULT,
-    DEFAULT_SKILL,
+    END_UNIQUE,
     DEFAULT_UNIQUE,
-    START_SKILL,
-    DEFAULT_SKILL,
-    END_SKILL,
     DEFAULT_UNIQUE,
   ],
   errRopeEidolon: 0,
@@ -362,10 +367,23 @@ const scoring = (): ScoringMetadata => ({
     [Stats.BE]: 0,
   },
   parts: {
-    [Parts.Body]: [Stats.CR, Stats.CD],
-    [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
-    [Parts.PlanarSphere]: [Stats.ATK_P, Stats.Fire_DMG],
-    [Parts.LinkRope]: [Stats.ATK_P, Stats.ERR],
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Fire_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
   },
   presets: [],
   defaultDamageType: DamageTag.ULT,

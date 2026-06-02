@@ -243,8 +243,17 @@ Characters:
     Name: "은랑\_LV.999"
     LongName: "은랑\_LV.999"
   "1507":
-    Name: Mortenax Blade
-    LongName: Mortenax Blade
+    Name: 천야•블레이드
+    LongName: 천야•블레이드
+  "1508":
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
+  "1509":
+    Name: Gilgamesh
+    LongName: Gilgamesh
+  "1510":
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: 카일루스
     LongName: 카일루스 (파멸)
@@ -427,13 +436,13 @@ RelicSets:
     Description2pc: "속도\_6%\_증가"
     Description4pc: "전투\_진입\_전,\_장착한\_캐릭터의\_속도가\_120/160\_이상일\_시\_장착한\_캐릭터의\_치명타\_확률이\_10%/18%\_증가한다.\_장착한\_캐릭터가\_각\_전투에서\_처음으로\_환락\_스킬\_발동\_시\_모든\_아군의\_환락도가\_10%\_증가하며,\_해당\_효과는\_중첩되지\_않는다"
   "131":
-    Name: As Navigator Isee Sees It
-    Description2pc: Increases ATK by 23%.
-    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+    Name: "별을\_갈망하는\_항법사\_아집"
+    Description2pc: "공격력\_12%\_증가"
+    Description4pc: "장착한\_캐릭터가\_전투\_진입\_시/전투\_스킬\_발동\_시,\_전투\_스킬과\_필살기가\_가하는\_피해가\_18%\_증가한다,\_최대\_중첩수:\_3스택,\_장착한\_캐릭터의\_턴\_시작\_시/필살기\_발동\_후,\_해당\_효과를\_1스택\_해제한다"
   "132":
-    Name: Divine-Querying Master Smith
-    Description2pc: Increases Max HP by 23%.
-    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
+    Name: "신공을\_탐구하는\_명장"
+    Description2pc: "HP\_최대치\_12%\_증가"
+    Description4pc: "장착한\_캐릭터가\_방어력\_감소\_상태의\_적에게\_가하는\_치명타\_피해가\_28%\_증가한다.\_장착한\_캐릭터가\_적에게\_방어력\_감소\_상태를\_부여하면\_모든\_아군은\_[연소\_촉진]을\_획득한다,\_지속\_시간:\_2턴,\_해당\_효과는\_중첩되지\_않으며,\_[연소\_촉진]을\_보유한\_아군은\_가하는\_피해가\_15%\_증가한다.\_해당\_효과는\_장착한\_캐릭터가\_공격을\_발동하면\_다시\_발동할\_수\_있다"
   "301":
     Name: "우주\_봉인\_정거장"
     Description2pc: "장착한\_캐릭터의\_공격력이\_12%\_증가한다.\_장착한\_캐릭터의\_속도가\_120\_이상일\_경우\_공격력이\_추가로\_12%\_증가한다"
@@ -512,6 +521,12 @@ RelicSets:
   "326":
     Name: "천\_개의\_별이\_모인\_도시"
     Description2pc: "장착한\_캐릭터가\_추가\_공격\_발동\_시,\_공격력이\_24%\_증가한다,\_지속\_시간:\_2턴.\_적이\_처치될\_시,\_모든\_아군이\_이번\_전투에서\_치명타\_피해가\_12%\_증가하며,\_해당\_효과는\_중첩되지\_않는다"
+  "327":
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+  "328":
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: 화살촉
@@ -822,7 +837,13 @@ Lightcones:
   "23058":
     Name: "다음\_꽃피는\_계절의\_만남"
   "23059":
-    Name: Reforged in Hellfire
+    Name: "연옥을\_불사른\_새로운\_몸"
+  "23060":
+    Name: A Star That Lights the Night
+  "23061":
+    Name: Flickering Stars
+  "23062":
+    Name: I Am As You Behold
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":

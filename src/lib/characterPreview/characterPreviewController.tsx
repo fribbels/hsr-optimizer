@@ -9,16 +9,11 @@ import {
   type TeamSelection,
 } from 'lib/constants/constants'
 import {
-  innerW,
-  lcInnerH,
-  lcInnerW,
-  lcParentH,
-  lcParentW,
   newLcHeight,
   newLcMargin,
   parentH,
   parentW,
-  simScoreInnerW,
+  portraitInnerW,
 } from 'lib/constants/constantsUi'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
@@ -183,7 +178,7 @@ export function getArtistName(character: Character) {
   return name.length < 1 ? undefined : name
 }
 
-export function getShowcaseDisplayDimensions(character: Character, simScore: boolean): ShowcaseDisplayDimensions {
+export function getShowcaseDisplayDimensions(character: Character): ShowcaseDisplayDimensions {
   const characterMeta = getGameMetadata().characters[character.id]
   const charCenter = characterMeta.imageCenter
   const spineCenter = characterMeta.spineCenter
@@ -194,29 +189,13 @@ export function getShowcaseDisplayDimensions(character: Character, simScore: boo
     ? getGameMetadata().lightCones[character.form.lightCone].imageOffset ?? DEFAULT_LC_IMAGE_OFFSET
     : DEFAULT_LC_IMAGE_OFFSET
 
-  let tempLcParentW = lcParentW
-  let tempLcParentH = lcParentH
-  let tempLcInnerW = lcInnerW
-  let tempLcInnerH = lcInnerH
-  let tempParentH = parentH
-  let tempInnerW = innerW
-
-  if (simScore) {
-    tempLcParentW = parentW
-    tempLcParentH = newLcHeight
-    tempLcInnerW = parentW + 16
-    tempLcInnerH = 1260 / 902 * tempLcInnerW
-    tempParentH = parentH - newLcHeight - newLcMargin
-    tempInnerW = simScoreInnerW
-  }
-
   return {
-    tempLcParentW,
-    tempLcParentH,
-    tempLcInnerW,
-    tempLcInnerH,
-    tempInnerW,
-    tempParentH,
+    tempLcParentW: parentW,
+    tempLcParentH: newLcHeight,
+    tempLcInnerW: parentW + 16,
+    tempLcInnerH: 1260 / 902 * (parentW + 16),
+    tempInnerW: portraitInnerW,
+    tempParentH: parentH - newLcHeight - newLcMargin,
     newLcHeight,
     newLcMargin,
     charCenter,

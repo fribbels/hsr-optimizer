@@ -82,7 +82,7 @@ export const Renderer = {
     if (!x.value) return ''
 
     const value = precisionRound(Math.floor(x.value * 10) / 10)
-    return x.data?.verified ? localeNumber_0(value) : localeNumber(value)
+    return x.data?.verified ? localeNumber_0(value) : localeNumber(Math.floor(value))
   },
 
   mainValueRenderer: (x: ValueFormatterParams<ScoredRelic, number>) => {

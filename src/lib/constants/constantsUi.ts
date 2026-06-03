@@ -11,15 +11,9 @@ export const parentH = relicCardH * 3 + defaultGap * 2
 export const parentW = relicCardW * 2 + defaultGap // portrait width (symmetric with relics)
 export const cardTotalW = parentW + defaultGap + middleColumnWidth + defaultGap + parentW
 
-export const innerW = 1024
-export const lcParentW = middleColumnWidth
-export const lcParentH = relicCardH
-export const lcInnerW = 260
-export const lcInnerH = 1260 / 904 * lcInnerW
-
 export const newLcMargin = 8
 export const newLcHeight = 150
-export const simScoreInnerW = 950
+export const portraitInnerW = 950
 
 // Separator styling
 export const separatorColor = 'rgba(255, 255, 255, 0.125)'

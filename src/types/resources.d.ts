@@ -1,4 +1,4 @@
-export default interface Resources {
+interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -92,7 +92,7 @@ export default interface Resources {
           "CombatScore": "Combat Score",
           "CombatScoreTBD": "Combat (TBD)",
           "NoneScore": "None",
-          "StatScore": "Stat Score"
+          "StatScore": "Substat Rolls"
         }
       },
       "ArtBy": "Art by {{artistName}}",
@@ -164,7 +164,7 @@ export default interface Resources {
         }
       },
       "EST-TBP": {
-        "Header": "Stat Score Analysis",
+        "Header": "Substat Rolls Analysis",
         "MetricsCard": {
           "Days": "Days",
           "Potential": "Reroll Potential",
@@ -6595,7 +6595,7 @@ export default interface Resources {
       "SetWeightsHeader": "Set weights",
       "StatWeightsHeader": "Stat weights",
       "WeightMethodology": {
-        "Header": "How is Stat Score calculated?"
+        "Header": "How are substat weights used?"
       }
     },
     "SwitchRelics": {
@@ -7893,30 +7893,22 @@ export default interface Resources {
       "AddCharacter": "Add character",
       "AddCharacterAndSignature": "Add character and signature",
       "AddLightCone": "Add light cone",
-      "AddTarget": "Add character target",
       "AdditionalResources": "Additional resources",
       "Banner": "Banner",
       "Calculate": "Calculate",
       "Character": "Character",
-      "CurrentEidolon": "Current eidolon",
-      "CurrentSuperimposition": "Current superimposition",
-      "DefaultStrategy": "Default Strategy",
       "Jades": "Jades",
       "LightCone": "Light Cone",
       "MultiTarget": "Multi Target",
       "New": "New",
       "Passes": "Passes",
       "Planner": "Warp Planner",
-      "RemoveTarget": "Remove target",
       "Rerun": "Rerun",
       "Results": "Results",
       "Settings": "Settings",
       "Simple": "Simple",
       "Starlight": "Starlight",
-      "Strategy": "Strategy",
-      "Target": "Target",
-      "TargetEidolon": "Eidolon target",
-      "TargetLightCone": "Light cone target"
+      "Strategy": "Strategy"
     },
     "StrategyLabels": {
       "E0": "E0 first",
@@ -7940,3 +7932,5 @@ export default interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
+
+export default Resources;

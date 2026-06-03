@@ -71,10 +71,8 @@ function WarpPlanner() {
       <Paper style={{ width: '100%', padding: 16 }} withBorder>
         <WarpSettingsPanel form={form}/>
 
-        <WarpSummary enriched={warpResult.request}/>
-
         <SegmentedControl
-          fullWidth mt={16}
+          fullWidth
           size='sm'
           data={[
             { value: PlannerMode.SINGLE, label: t('SingleTarget')/* Single Target */ },
@@ -85,7 +83,26 @@ function WarpPlanner() {
         />
 
         {plannerMode === PlannerMode.SINGLE && (
-          <QuickResultsTable form={form} targetResults={warpResult.targetResults} request={warpResult.request}/>
+          <Flex justify='center' mt={12}>
+            <Select
+              w={210}
+              size='xs'
+              leftSection={<span style={{ fontSize: 12, whiteSpace: 'nowrap', paddingLeft: 2 }}>{t('Strategy')/* Strategy */}:</span>}
+              leftSectionWidth={62} leftSectionPointerEvents='none'
+              styles={{ input: { paddingLeft: 68 } }}
+              data={generateStrategyOptions()}
+              value={String(form.getValues().strategy)}
+              onChange={(val) => { if (val) form.setFieldValue('strategy', Number(val) as WarpStrategy) }}
+              comboboxProps={{ keepMounted: false, width: 'target' }}
+              allowDeselect={false}
+            />
+          </Flex>
+        )}
+
+        <WarpSummary enriched={warpResult.request}/>
+
+        {plannerMode === PlannerMode.SINGLE && (
+          <QuickResultsTable targetResults={warpResult.targetResults} request={warpResult.request}/>
         )}
         {plannerMode === PlannerMode.MULTI && (
           <WarpUnifiedTable form={form} targetResults={warpResult.targetResults} request={warpResult.request}/>
@@ -95,39 +112,23 @@ function WarpPlanner() {
   )
 }
 
-function QuickResultsTable(props: { form: UseFormReturnType<WarpRequest>; targetResults: WarpTargetResult[]; request: EnrichedWarpRequest }) {
-  const { form, targetResults, request } = props
-  const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
+function QuickResultsTable(props: { targetResults: WarpTargetResult[]; request: EnrichedWarpRequest }) {
+  const { targetResults, request } = props
 
   const allMilestones = targetResults.flatMap((tr) => toMilestoneRows(tr.milestoneResults))
 
   return (
-    <Flex direction='column' gap={12} style={{ marginTop: 16 }}>
-      <Flex justify='center'>
-        <Select
-          size='xs' w={210}
-          leftSection={<span style={{ fontSize: 12, whiteSpace: 'nowrap', paddingLeft: 2 }}>{t('Strategy')/* Strategy */}:</span>}
-          leftSectionWidth={62} leftSectionPointerEvents='none'
-          styles={{ input: { paddingLeft: 68 } }}
-          data={generateStrategyOptions()}
-          value={String(form.getValues().strategy)}
-          onChange={(val) => { if (val) form.setFieldValue('strategy', Number(val) as WarpStrategy) }}
-          comboboxProps={{ keepMounted: false, width: 'fit-content' }}
-          allowDeselect={false}
-        />
-      </Flex>
-      <Table className={classes.warpTable} style={{ tableLayout: 'fixed', borderCollapse: 'separate', borderSpacing: 0 }}>
-        <colgroup>
-          <col style={{ width: '25%' }}/>
-          <col/>
-          <col/>
-        </colgroup>
-        <WarpTableHeader request={request}/>
-        <Table.Tbody>
-          <WarpMilestoneRows milestones={allMilestones}/>
-        </Table.Tbody>
-      </Table>
-    </Flex>
+    <Table className={classes.warpTable} style={{ tableLayout: 'fixed', borderCollapse: 'separate', borderSpacing: 0, marginTop: 16 }}>
+      <colgroup>
+        <col style={{ width: '25%' }}/>
+        <col/>
+        <col/>
+      </colgroup>
+      <WarpTableHeader request={request}/>
+      <Table.Tbody>
+        <WarpMilestoneRows milestones={allMilestones}/>
+      </Table.Tbody>
+    </Table>
   )
 }
 
@@ -136,7 +137,7 @@ function WarpSummary(props: { enriched: EnrichedWarpRequest }) {
 
   return (
     <Divider
-      mt={40} mb={0}
+      mt={20} mb={20}
       label={
         <Flex align='center' gap={4} style={{ fontSize: 16 }}>
           {localeNumberComma(enriched.totalJade)}

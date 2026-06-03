@@ -16,7 +16,7 @@ import type {
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { isSubstat } from 'lib/utils/statUtils'
-import { ScoringConfigType } from 'types/metadata'
+import type { ScoringConfigType } from 'types/metadata'
 
 function computeResRollTarget(
   partialSimulationWrapper: PartialSimulationWrapper,

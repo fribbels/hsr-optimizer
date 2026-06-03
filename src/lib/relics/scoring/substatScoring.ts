@@ -8,7 +8,7 @@ import type {
   SubStats,
 } from 'lib/constants/constants'
 import {
-  STAT_NORMALIZATION,
+  substatPotentialValue,
 } from 'lib/relics/scoring/scoringConstants'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
 
@@ -18,7 +18,7 @@ export function weightedSubstatScore(
 ): number {
   let score = 0
   for (const substat of substats) {
-    score += substat.value * (weights[substat.stat] || 0) * STAT_NORMALIZATION[substat.stat]
+    score += substatPotentialValue(substat.stat, substat.value) * (weights[substat.stat] || 0)
   }
   return score
 }

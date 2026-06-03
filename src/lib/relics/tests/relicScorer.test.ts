@@ -5,8 +5,12 @@ import {
   Parts,
   Stats,
   type SubStats,
+  SubStatValues,
 } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
+import {
+  substatPotentialValue,
+} from 'lib/relics/scoring/scoringConstants'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
@@ -142,4 +146,13 @@ test('relic-spd-equal-roll-potential', () => {
   } finally {
     useScoringStore.getState().clearCharacterOverrides(character)
   }
+})
+
+test('substat potential helper preserves raw SPD tier ratios', () => {
+  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].high)).toBeCloseTo(6.48, 6)
+  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].mid)).toBeCloseTo(5.732307692, 6)
+  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].low)).toBeCloseTo(4.984615385, 6)
+
+  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].mid)).not.toBeCloseTo(6.48 * 0.9, 6)
+  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].low)).not.toBeCloseTo(6.48 * 0.8, 6)
 })

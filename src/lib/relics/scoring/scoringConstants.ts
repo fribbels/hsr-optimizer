@@ -5,22 +5,13 @@ import {
   SubStatValues,
 } from 'lib/constants/constants'
 
-// Relic scoring normalization: denominator = stat's +15 main-stat ceiling, scaled so CD (64.8) = 1.0,
-// so one high roll of any stat is worth 6.48 — weight alone sets relative value.
-export const STAT_NORMALIZATION: Record<SubStats, number> = {
-  [Constants.Stats.HP_P]: 64.8 / 43.2,
-  [Constants.Stats.ATK_P]: 64.8 / 43.2,
-  [Constants.Stats.DEF_P]: 64.8 / 54,
-  [Constants.Stats.HP]: (64.8 / 43.2) * SubStatValues[Constants.Stats.HP_P][5].high / SubStatValues[Constants.Stats.HP][5].high,
-  [Constants.Stats.ATK]: (64.8 / 43.2) * SubStatValues[Constants.Stats.ATK_P][5].high / SubStatValues[Constants.Stats.ATK][5].high,
-  [Constants.Stats.DEF]: (64.8 / 54) * SubStatValues[Constants.Stats.DEF_P][5].high / SubStatValues[Constants.Stats.DEF][5].high,
-  [Constants.Stats.CR]: 64.8 / 32.4,
-  [Constants.Stats.CD]: 64.8 / 64.8,
-  [Constants.Stats.EHR]: 64.8 / 43.2,
-  [Constants.Stats.RES]: 64.8 / 43.2,
-  [Constants.Stats.SPD]: 64.8 / 26.0, // synthetic 26.0, real is 25.032
-  [Constants.Stats.BE]: 64.8 / 64.8,
-} as const
+export function substatPotentialScale(stat: SubStats): number {
+  return 6.48 / SubStatValues[stat][5].high
+}
+
+export function substatPotentialValue(stat: SubStats, value: number): number {
+  return value * substatPotentialScale(stat)
+}
 
 // Grade configuration — replaces scattered switch statements for maxMainstat and maxEnhance
 export const GRADE_CONFIG = {

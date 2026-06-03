@@ -36,27 +36,23 @@ The idealScore is the substatScore for a theoretical perfect relic.
 By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main
 stat, the score value of the remaining substat weights increases.
 
-The substatScore is calculated by `SubstatScore = weight * normalization * value`.
+The substat potential value is calculated by `SubstatPotential = weight * value * potentialScale`.
 The weight of each stat is defined above, on a scale of 0 to 1.
-The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value
-`64.8`:
+The potential scale converts each substat value into grade-5 high-roll potential units. Crit DMG's high roll is `6.48`,
+so `potentialScale = 6.48 / grade5HighRollValue`:
 
 ```
-CD BE = 64.8 / 64.8 == 1.0
-DEF% = 64.8 / 54.0 == 1.2
-HP% ATK% EHR RES = 64.8 / 43.2 == 1.5
-CR = 64.8 / 32.4 == 2
-SPD = 64.8 / 25.032 == 2.59
-OHB = 64.8 / 34.561 == 1.87
-ERR = 64.8 / 19.439 == 3.33
-ELEMENTAL DMG = 64.8 / 38.88 == 1.67
+CD BE = 6.48 / 6.48 == 1.0
+DEF% = 6.48 / 5.4 == 1.2
+HP% ATK% EHR RES = 6.48 / 4.32 == 1.5
+CR = 6.48 / 3.24 == 2
+SPD = 6.48 / 2.6 == 2.49
 ```
 
 Flat ATK / HP / DEF have their weight reduced to 40% of their equivalent percent stat's weight.
 
-The normalization is calculated based on the normalization for the respective % counterparts:
-`64.8 / % main stat value * % stat high roll value / flat stat high roll value`.
-In combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against
+The potential scale uses the flat stat's own high-roll value.
+In combination with the adjusted weights, this allows for flat stats to be scored when compared against
 their % counterparts.
 
 A letter grade is assigned based on the number of normalized min rolls of each substat.

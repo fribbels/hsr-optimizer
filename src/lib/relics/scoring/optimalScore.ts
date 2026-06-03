@@ -2,17 +2,14 @@ import {
   AllStats,
   Constants,
   PartsMainStats,
-  SubStatValues,
 } from 'lib/constants/constants'
 import type {
   MainStats,
   Parts,
   StatsValues,
-  SubStats,
 } from 'lib/constants/constants'
 import {
   POSSIBLE_SUBSTATS,
-  STAT_NORMALIZATION,
 } from 'lib/relics/scoring/scoringConstants'
 import { hasMainStat } from 'lib/relics/scoring/substatScoring'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
@@ -108,12 +105,10 @@ export function resolveOptimalMainstat(part: Parts, mainstat: MainStats, meta: S
       } else return [stat, value] as [StatsValues, number]
     })
     .sort((a, b) => {
-      // We give the mainstat-only stats a score of 6.48 * weight simply to get them in the right area
+      // We give mainstat candidates a high-roll-equivalent score to keep ordering by weight.
       // The exact score does not matter as long as the final array is still sorted by weight
-      // @ts-expect-error - POSSIBLE_SUBSTATS.has() expects SubStats but receives StatsValues
-      const scoreA = !POSSIBLE_SUBSTATS.has(a[0]) ? a[1] * 6.48 : a[1] * STAT_NORMALIZATION[a[0] as SubStats] * SubStatValues[a[0] as SubStats][5].high
-      // @ts-expect-error - POSSIBLE_SUBSTATS.has() expects SubStats but receives StatsValues
-      const scoreB = !POSSIBLE_SUBSTATS.has(b[0]) ? b[1] * 6.48 : b[1] * STAT_NORMALIZATION[b[0] as SubStats] * SubStatValues[b[0] as SubStats][5].high
+      const scoreA = a[1] * 6.48
+      const scoreB = b[1] * 6.48
       return scoreB - scoreA
     })
 

@@ -12,7 +12,7 @@ import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { calculateRelicMainStatValue } from 'lib/relics/relicUtils'
 import {
   FLAT_STAT_SCALING,
-  STAT_NORMALIZATION,
+  substatPotentialValue,
 } from 'lib/relics/scoring/scoringConstants'
 import { weightedSubstatScore } from 'lib/relics/scoring/substatScoring'
 import {
@@ -76,7 +76,7 @@ function computeWeightScore(relic: Relic, weights: Record<string, number>, upgra
     for (let i = 0; i < relic.previewSubstats.length; i++) {
       if (relic.enhance + 3 * i >= upgradeLevel) break
       const sub = relic.previewSubstats[i]
-      score += (sub.value || 0) * (weights[sub.stat] || 0) * (STAT_NORMALIZATION[sub.stat] || 0)
+      score += substatPotentialValue(sub.stat, sub.value || 0) * (weights[sub.stat] || 0)
     }
   }
   return score

@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 0 6px;
+  padding: 6px 4px 6px 6px;
   align-items: center;
 }
 
@@ -27,8 +27,8 @@
 }
 
 .setIconMd {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: 3px;
   flex-shrink: 0;
 }
@@ -36,13 +36,13 @@
 .cardPlain {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .separatorCol {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
   width: 100%;
 }
 

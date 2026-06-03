@@ -155,50 +155,6 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
   guaranteedLightCone: false,
 }
 
-// Coerces raw persisted data (an older or partially-shaped save) into a valid WarpRequest, filling any
-// missing or out-of-range field from the defaults. Unknown / legacy fields are silently dropped.
-export function normalizeWarpRequest(raw: unknown): WarpRequest {
-  const source = (raw ?? {}) as Partial<WarpRequest>
-
-  const income = Array.isArray(source.income)
-    ? source.income.filter((id) => WarpIncomeOptions.some((option) => option.id === id))
-    : []
-
-  const targets = Array.isArray(source.targets) && source.targets.length > 0
-    ? source.targets.map(normalizeWarpTarget)
-    : [{ ...DEFAULT_WARP_TARGET }]
-
-  return {
-    passes: Math.max(0, Number(source.passes) || 0),
-    jades: Math.max(0, Number(source.jades) || 0),
-    income,
-    targets,
-    plannerMode: source.plannerMode ?? DEFAULT_WARP_REQUEST.plannerMode,
-    strategy: source.strategy ?? DEFAULT_WARP_REQUEST.strategy,
-    starlight: source.starlight ?? DEFAULT_WARP_REQUEST.starlight,
-    pityCharacter: Math.max(0, Number(source.pityCharacter) || 0),
-    guaranteedCharacter: source.guaranteedCharacter ?? false,
-    pityLightCone: Math.max(0, Number(source.pityLightCone) || 0),
-    guaranteedLightCone: source.guaranteedLightCone ?? false,
-  }
-}
-
-function normalizeWarpTarget(raw: Partial<WarpTarget>, index: number): WarpTarget {
-  return {
-    id: raw.id || `target-${index + 1}`,
-    characterId: raw.characterId ?? null,
-    lightConeId: raw.lightConeId ?? null,
-    targetEidolonLevel: clampLevel(raw.targetEidolonLevel, DEFAULT_WARP_TARGET.targetEidolonLevel, EidolonLevel.NONE, EidolonLevel.E6),
-    targetSuperimpositionLevel: clampLevel(raw.targetSuperimpositionLevel, DEFAULT_WARP_TARGET.targetSuperimpositionLevel, SuperimpositionLevel.NONE, SuperimpositionLevel.S5),
-    currentEidolonLevel: clampLevel(raw.currentEidolonLevel, DEFAULT_WARP_TARGET.currentEidolonLevel, EidolonLevel.NONE, EidolonLevel.E6),
-    currentSuperimpositionLevel: clampLevel(raw.currentSuperimpositionLevel, DEFAULT_WARP_TARGET.currentSuperimpositionLevel, SuperimpositionLevel.NONE, SuperimpositionLevel.S5),
-  }
-}
-
-function clampLevel<T extends number>(value: unknown, fallback: T, min: T, max: T): T {
-  return typeof value === 'number' && Number.isInteger(value) && value >= min && value <= max ? value as T : fallback
-}
-
 function generateOption(version: string, phase: number, type: WarpIncomeType, passes: number): WarpIncomeDefinition {
   return {
     passes,
@@ -213,7 +169,7 @@ function generateOptionKey(version: string, phase: number, type: WarpIncomeType)
   return `${version}_p${phase}_${type}`
 }
 
-function generateOptions(
+export function generateOptions(
   version: string,
   f2pTotal: number,
   f2pFirstHalf: number,
@@ -233,29 +189,6 @@ function generateOptions(
 }
 
 export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.NONE, 0)
-
-// Modified each patch
-export const WarpIncomeOptions: WarpIncomeDefinition[] = [
-  // ...generateOptions('3.4', 92, 57, 116, 69, 124, 77),
-  // ...generateOptions('3.5', 88, 66, 112, 77, 120, 86),
-
-  // ...generateOptions('3.7', 107, 82, 130, 94, 138, 102),
-  // ...[
-  //   generateOption('3.8', 1, WarpIncomeType.F2P, 66),
-  //   generateOption('3.8', 2, WarpIncomeType.F2P, 21),
-  //   generateOption('3.8', 3, WarpIncomeType.F2P, 22),
-  //   generateOption('3.8', 1, WarpIncomeType.EXPRESS, 78),
-  //   generateOption('3.8', 2, WarpIncomeType.EXPRESS, 32),
-  //   generateOption('3.8', 3, WarpIncomeType.EXPRESS, 31),
-  //   generateOption('3.8', 1, WarpIncomeType.BP_EXPRESS, 82),
-  //   generateOption('3.8', 2, WarpIncomeType.BP_EXPRESS, 36),
-  //   generateOption('3.8', 3, WarpIncomeType.BP_EXPRESS, 31),
-  // ],
-  // ...generateOptions('4.0', 115, 96, 138, 107, 146, 115),
-  ...generateOptions('4.1', 98, 81, 114, 89, 122, 97),
-  ...generateOptions('4.2', 117, 91, 140, 103, 149, 112),
-  ...generateOptions('4.3', 91, 66, 116, 78, 124, 86),
-]
 
 const excludedCharacterIds = new Set<CharacterId>([
   Bailu.id,

@@ -93,11 +93,11 @@
 }
 
 .headerRow :global(.mantine-SegmentedControl-root) {
-  background-color: rgba(0, 0, 0, 0.08) !important;
+  background-color: rgba(0, 0, 0, 0.075) !important;
 }
 
 .headerRow :global(.mantine-FloatingIndicator-root) {
-  background-color: rgba(80, 130, 220, 0.35) !important;
+  background-color: rgba(80, 130, 220, 0.50) !important;
 }
 
 .headerRow :global(.mantine-SegmentedControl-label[data-active]) {

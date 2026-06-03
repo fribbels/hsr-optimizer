@@ -54,7 +54,7 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { normalizeWarpRequest } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { normalizeWarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import type {
   Build,
   Character,

@@ -23,6 +23,9 @@ import classes from './WarpCalculatorTab.module.css'
 const premiumCharacterFilter = (option: CharacterOptions[CharacterId]) => isPremiumCharacter(option.id)
 const premiumLightConeFilter = (option: LcOptions[LightConeId]) => isPremiumLightCone(option.id)
 
+const GOAL_COL_STYLE = { width: '25%' }
+const TABLE_STYLE = { tableLayout: 'fixed' as const, borderCollapse: 'separate' as const, borderSpacing: 0 }
+
 export function WarpUnifiedTable(props: {
   form: UseFormReturnType<WarpRequest>
   targetResults: WarpTargetResult[]
@@ -30,7 +33,6 @@ export function WarpUnifiedTable(props: {
 }) {
   const { form, targetResults, request } = props
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
-  const canRemove = form.getValues().targets.length > 1
   const targetIds = targetResults.map((r) => r.target.id)
   const addChar = useHiddenSelectTrigger()
   const addLc = useHiddenSelectTrigger()
@@ -47,10 +49,7 @@ export function WarpUnifiedTable(props: {
     moveTarget(form, String(active.id), String(over.id))
   }
 
-  const colStyles = { goal: { width: '25%' } }
-  const tableStyle = { tableLayout: 'fixed' as const, borderCollapse: 'separate' as const, borderSpacing: 0 }
-
-  const thead = <WarpTableHeader request={request} goalColStyle={colStyles.goal}/>
+  const thead = <WarpTableHeader request={request} goalColStyle={GOAL_COL_STYLE}/>
 
   return (
     <DndContext
@@ -68,10 +67,7 @@ export function WarpUnifiedTable(props: {
               form={form}
               targetResult={targetResult}
               targetIndex={targetIndex}
-              canRemove={canRemove}
               thead={targetIndex === 0 ? thead : undefined}
-              colStyles={colStyles}
-              tableStyle={tableStyle}
             />
           ))}
 
@@ -120,12 +116,9 @@ function SortableTargetGroup(props: {
   form: UseFormReturnType<WarpRequest>
   targetResult: WarpTargetResult
   targetIndex: number
-  canRemove: boolean
   thead?: ReactNode
-  colStyles: { goal: { width: string } }
-  tableStyle: CSSProperties
 }) {
-  const { id, form, targetResult, targetIndex, canRemove, thead, colStyles, tableStyle } = props
+  const { id, form, targetResult, targetIndex, thead } = props
   const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } = useSortable({
     id,
     animateLayoutChanges: () => false,
@@ -143,9 +136,9 @@ function SortableTargetGroup(props: {
 
   return (
     <div ref={setNodeRef} style={style}>
-      <Table className={classes.warpTable} style={tableStyle}>
+      <Table className={classes.warpTable} style={TABLE_STYLE}>
         <colgroup>
-          <col style={colStyles.goal}/>
+          <col style={GOAL_COL_STYLE}/>
           <col/>
           <col/>
         </colgroup>
@@ -155,7 +148,6 @@ function SortableTargetGroup(props: {
             form={form}
             targetResult={targetResult}
             targetIndex={targetIndex}
-            canRemove={canRemove}
             dragHandleRef={setActivatorNodeRef}
             dragHandleProps={dragHandleProps}
           />
@@ -169,11 +161,10 @@ const TargetSection = memo(function TargetSection(props: {
   form: UseFormReturnType<WarpRequest>
   targetResult: WarpTargetResult
   targetIndex: number
-  canRemove: boolean
   dragHandleRef?: (node: HTMLElement | null) => void
   dragHandleProps?: HTMLAttributes<HTMLElement>
 }) {
-  const { form, targetResult, targetIndex, canRemove, dragHandleRef, dragHandleProps } = props
+  const { form, targetResult, targetIndex, dragHandleRef, dragHandleProps } = props
   const target = targetResult.target
   const milestones = toMilestoneRows(targetResult.milestoneResults)
 
@@ -183,7 +174,6 @@ const TargetSection = memo(function TargetSection(props: {
         form={form}
         target={target}
         targetIndex={targetIndex}
-        canRemove={canRemove}
         dragHandleRef={dragHandleRef}
         dragHandleProps={dragHandleProps}
       />

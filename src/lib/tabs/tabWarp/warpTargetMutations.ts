@@ -92,12 +92,11 @@ export function removeTarget(form: UseFormReturnType<WarpRequest>, index: number
   const before = form.getValues().targets
   const removed = before[index]
   const targets = before.filter((_, targetIndex) => targetIndex !== index)
-  if (targets.length === 0) return
 
-  // Removing a goal must not change the owned level. If the removed row carried its chain's base
-  // (it was the lowest goal), stamp that base onto the surviving lowest goal so the reflow keeps it.
-  if (removed.targetEidolonLevel !== EidolonLevel.NONE) preserveOwnedLevel(before, targets, WARP_DIMENSIONS[WarpType.CHARACTER], removed)
-  if (removed.targetSuperimpositionLevel !== SuperimpositionLevel.NONE) preserveOwnedLevel(before, targets, WARP_DIMENSIONS[WarpType.LIGHTCONE], removed)
+  if (targets.length > 0) {
+    if (removed.targetEidolonLevel !== EidolonLevel.NONE) preserveOwnedLevel(before, targets, WARP_DIMENSIONS[WarpType.CHARACTER], removed)
+    if (removed.targetSuperimpositionLevel !== SuperimpositionLevel.NONE) preserveOwnedLevel(before, targets, WARP_DIMENSIONS[WarpType.LIGHTCONE], removed)
+  }
 
   setTargets(form, targets)
 }

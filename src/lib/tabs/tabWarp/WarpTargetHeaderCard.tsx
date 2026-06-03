@@ -90,13 +90,12 @@ function TargetPreviewImage({ target, isChar, lcId }: { target: WarpTarget, isCh
   )
 }
 
-function TargetGoalSelectors({ form, target, targetIndex, warpType, floor, canRemove }: {
+function TargetGoalSelectors({ form, target, targetIndex, warpType, floor }: {
   form: UseFormReturnType<WarpRequest>
   target: WarpTarget
   targetIndex: number
   warpType: WarpType
   floor: number
-  canRemove: boolean
 }) {
   const isChar = warpType === WarpType.CHARACTER
   const fromValue = isChar ? target.currentEidolonLevel : target.currentSuperimpositionLevel
@@ -136,7 +135,6 @@ function TargetGoalSelectors({ form, target, targetIndex, warpType, floor, canRe
           />
           <ActionIcon
             size={32} variant='subtle' color='gray'
-            disabled={!canRemove}
             onClick={() => removeTarget(form, targetIndex)}
           >
             <IconX size={18}/>
@@ -151,11 +149,10 @@ export function TargetHeaderRow(props: {
   form: UseFormReturnType<WarpRequest>
   target: WarpTarget
   targetIndex: number
-  canRemove: boolean
   dragHandleRef?: (node: HTMLElement | null) => void
   dragHandleProps?: HTMLAttributes<HTMLElement>
 }) {
-  const { form, target, targetIndex, canRemove, dragHandleRef, dragHandleProps } = props
+  const { form, target, targetIndex, dragHandleRef, dragHandleProps } = props
   const select = useHiddenSelectTrigger()
   const warpType = getTargetWarpType(target)
   const isChar = warpType === WarpType.CHARACTER
@@ -206,7 +203,6 @@ export function TargetHeaderRow(props: {
         targetIndex={targetIndex}
         warpType={warpType}
         floor={floor}
-        canRemove={canRemove}
       />
     </Table.Tr>
   )

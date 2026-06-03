@@ -43,23 +43,26 @@ export function updateTarget(form: UseFormReturnType<WarpRequest>, index: number
   setTargets(form, targets)
 }
 
-// Sets a target's "from" (current) level. Keeps the goal strictly above the new start by bumping it
-// up when the user drags the start at or past it.
+// Sets the owned ("from") level for the whole same-target chain. The owned level is a property of the
+// character / light cone, not of a single row, so every goal in the chain starts from it. The reflow
+// then re-derives each row's FROM and pops any goal the new owned level would make redundant: raising
+// it shifts goals up, lowering it stretches the bottom row down — the upgrade count stays the same.
 export function updateTargetFrom(form: UseFormReturnType<WarpRequest>, index: number, isCharacter: boolean, newFrom: number) {
-  const target = form.getValues().targets[index]
-  if (isCharacter) {
-    const patch: Partial<WarpTarget> = { currentEidolonLevel: newFrom as EidolonLevel }
-    if (newFrom >= target.targetEidolonLevel) {
-      patch.targetEidolonLevel = Math.min(newFrom + 1, EidolonLevel.E6) as EidolonLevel
+  const targets = form.getValues().targets
+  const target = targets[index]
+  const next = targets.map((other) => {
+    if (isCharacter) {
+      if (other.characterId === target.characterId && other.targetEidolonLevel !== EidolonLevel.NONE) {
+        return { ...other, currentEidolonLevel: newFrom as EidolonLevel }
+      }
+    } else {
+      if (other.lightConeId === target.lightConeId && other.targetSuperimpositionLevel !== SuperimpositionLevel.NONE) {
+        return { ...other, currentSuperimpositionLevel: newFrom as SuperimpositionLevel }
+      }
     }
-    updateTarget(form, index, patch)
-  } else {
-    const patch: Partial<WarpTarget> = { currentSuperimpositionLevel: newFrom as SuperimpositionLevel }
-    if (newFrom >= target.targetSuperimpositionLevel) {
-      patch.targetSuperimpositionLevel = Math.min(newFrom + 1, SuperimpositionLevel.S5) as SuperimpositionLevel
-    }
-    updateTarget(form, index, patch)
-  }
+    return other
+  })
+  setTargets(form, next)
 }
 
 // Sets a target's "to" (goal) level for whichever dimension the card represents.
@@ -69,10 +72,17 @@ export function updateTargetTo(form: UseFormReturnType<WarpRequest>, index: numb
 }
 
 export function removeTarget(form: UseFormReturnType<WarpRequest>, index: number) {
-  const targets = form.getValues().targets.filter((_, targetIndex) => targetIndex !== index)
-  if (targets.length > 0) {
-    setTargets(form, targets)
-  }
+  const before = form.getValues().targets
+  const removed = before[index]
+  const targets = before.filter((_, targetIndex) => targetIndex !== index)
+  if (targets.length === 0) return
+
+  // Removing a goal must not change the owned level. If the removed row carried its chain's base
+  // (it was the lowest goal), stamp that base onto the surviving lowest goal so the reflow keeps it.
+  if (removed.targetEidolonLevel !== EidolonLevel.NONE) preserveOwnedLevel(before, targets, CHARACTER_CHAIN, removed)
+  if (removed.targetSuperimpositionLevel !== SuperimpositionLevel.NONE) preserveOwnedLevel(before, targets, LIGHT_CONE_CHAIN, removed)
+
+  setTargets(form, targets)
 }
 
 export function moveTarget(form: UseFormReturnType<WarpRequest>, activeId: string, overId: string) {
@@ -93,6 +103,7 @@ export function addCharGoal(form: UseFormReturnType<WarpRequest>, characterId: N
   const target = makeTarget({
     characterId,
     lightConeId: null,
+    currentEidolonLevel: floor,
     targetEidolonLevel: Math.min(floor + 1, EidolonLevel.E6) as EidolonLevel,
     targetSuperimpositionLevel: SuperimpositionLevel.NONE,
   })
@@ -106,6 +117,7 @@ export function addLcGoal(form: UseFormReturnType<WarpRequest>, lightConeId: Lig
     characterId: findCharacterByLightCone(lightConeId),
     lightConeId,
     targetEidolonLevel: EidolonLevel.NONE,
+    currentSuperimpositionLevel: floor,
     targetSuperimpositionLevel: Math.min(floor + 1, SuperimpositionLevel.S5) as SuperimpositionLevel,
   })
   setTargets(form, [...existing, target])
@@ -119,6 +131,7 @@ export function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, ch
   const charTarget = makeTarget({
     characterId,
     lightConeId: null,
+    currentEidolonLevel: eidolonFloor,
     targetEidolonLevel: Math.min(eidolonFloor + 1, EidolonLevel.E6) as EidolonLevel,
     targetSuperimpositionLevel: SuperimpositionLevel.NONE,
   })
@@ -126,6 +139,7 @@ export function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, ch
     characterId,
     lightConeId: signatureLcId,
     targetEidolonLevel: EidolonLevel.NONE,
+    currentSuperimpositionLevel: lcFloor,
     targetSuperimpositionLevel: Math.min(lcFloor + 1, SuperimpositionLevel.S5) as SuperimpositionLevel,
   })
   setTargets(form, [...existing, charTarget, lcTarget])
@@ -155,35 +169,102 @@ export function getLightConeSuperimpositionFloor(targets: WarpTarget[], lightCon
   return max
 }
 
-function reflowTargetChains(targets: WarpTarget[]) {
-  reflowChain(targets, 'character')
-  reflowChain(targets, 'lightcone')
+// Describes one dimension of a warp target (eidolons for characters, superimpositions for light cones)
+// so the reflow can treat both chains with a single algorithm via dot-access getters/setters.
+type WarpChain = {
+  none: number,
+  cap: number,
+  getId: (target: WarpTarget) => string | null,
+  getCurrent: (target: WarpTarget) => number,
+  getGoal: (target: WarpTarget) => number,
+  withLevels: (target: WarpTarget, current: number, goal: number) => WarpTarget,
 }
 
-function reflowChain(targets: WarpTarget[], kind: 'character' | 'lightcone') {
-  const isChar = kind === 'character'
-  const none = isChar ? EidolonLevel.NONE : SuperimpositionLevel.NONE
-  const max = isChar ? EidolonLevel.E6 : SuperimpositionLevel.S5
-  const currentKey = isChar ? 'currentEidolonLevel' : 'currentSuperimpositionLevel' as const
-  const targetKey = isChar ? 'targetEidolonLevel' : 'targetSuperimpositionLevel' as const
-  const idKey = isChar ? 'characterId' : 'lightConeId' as const
+const CHARACTER_CHAIN: WarpChain = {
+  none: EidolonLevel.NONE,
+  cap: EidolonLevel.E6,
+  getId: (target) => target.characterId,
+  getCurrent: (target) => target.currentEidolonLevel,
+  getGoal: (target) => target.targetEidolonLevel,
+  withLevels: (target, current, goal) => ({ ...target, currentEidolonLevel: current as EidolonLevel, targetEidolonLevel: goal as EidolonLevel }),
+}
 
-  const level = new Map<string, number>()
+const LIGHT_CONE_CHAIN: WarpChain = {
+  none: SuperimpositionLevel.NONE,
+  cap: SuperimpositionLevel.S5,
+  getId: (target) => target.lightConeId,
+  getCurrent: (target) => target.currentSuperimpositionLevel,
+  getGoal: (target) => target.targetSuperimpositionLevel,
+  withLevels: (target, current, goal) => ({ ...target, currentSuperimpositionLevel: current as SuperimpositionLevel, targetSuperimpositionLevel: goal as SuperimpositionLevel }),
+}
 
+function reflowTargetChains(targets: WarpTarget[]) {
+  reflowChain(targets, CHARACTER_CHAIN)
+  reflowChain(targets, LIGHT_CONE_CHAIN)
+}
+
+// For each id-group (a character / light cone with one or more goals): the owned level (base) is the
+// lowest stored FROM. Sort the goals ascending and derive each FROM from the previous goal, popping a
+// goal up only when it would land at/below its FROM (a collision from an edit, or the E6/S5 cap). Rows
+// are written back into the array positions the group occupied, so other groups — and the cross-group
+// order that drives pity sequencing — stay put. Reordering never changes the goal set, so a reorder
+// can never pop: the journey (endpoint and upgrade count) is invariant under drag.
+function reflowChain(targets: WarpTarget[], chain: WarpChain) {
+  const positionsById = new Map<string, number[]>()
   for (let i = 0; i < targets.length; i++) {
-    const t = targets[i]
-    const id = t[idKey]
-    if (!id || t[targetKey] === none) continue
+    const id = chain.getId(targets[i])
+    if (!id || chain.getGoal(targets[i]) === chain.none) continue
+    const positions = positionsById.get(id) ?? []
+    positions.push(i)
+    positionsById.set(id, positions)
+  }
 
-    const floor = level.get(id)
-    const from = floor !== undefined ? floor : t[currentKey]
-    let to = t[targetKey]
-    if (to <= from) to = Math.min(from + 1, max)
-
-    if (t[currentKey] !== from || t[targetKey] !== to) {
-      targets[i] = { ...t, [currentKey]: from, [targetKey]: to }
+  for (const positions of positionsById.values()) {
+    let base = chain.getCurrent(targets[positions[0]])
+    for (const position of positions) {
+      base = Math.min(base, chain.getCurrent(targets[position]))
     }
 
-    level.set(id, Math.max(from, to))
+    const sorted = positions
+      .map((position) => targets[position])
+      .sort((a, b) => chain.getGoal(a) - chain.getGoal(b))
+
+    let previousGoal = base
+    const reflowed = sorted.map((target) => {
+      const from = previousGoal
+      const goal = chain.getGoal(target) <= from ? Math.min(from + 1, chain.cap) : chain.getGoal(target)
+      previousGoal = goal
+      return chain.withLevels(target, from, goal)
+    })
+
+    positions.forEach((position, i) => {
+      targets[position] = reflowed[i]
+    })
   }
+}
+
+// Carries a chain's owned level (base) across a removal. If the removed row was the lowest goal it was
+// holding the base, so stamp that base onto the surviving lowest goal; the reflow derives the rest.
+function preserveOwnedLevel(before: WarpTarget[], after: WarpTarget[], chain: WarpChain, removed: WarpTarget) {
+  const id = chain.getId(removed)
+  if (!id) return
+
+  let base: number | null = null
+  for (const target of before) {
+    if (chain.getId(target) === id && chain.getGoal(target) !== chain.none) {
+      base = base === null ? chain.getCurrent(target) : Math.min(base, chain.getCurrent(target))
+    }
+  }
+  if (base === null) return
+
+  let lowestIndex = -1
+  for (let i = 0; i < after.length; i++) {
+    if (chain.getId(after[i]) !== id || chain.getGoal(after[i]) === chain.none) continue
+    if (lowestIndex === -1 || chain.getGoal(after[i]) < chain.getGoal(after[lowestIndex])) {
+      lowestIndex = i
+    }
+  }
+  if (lowestIndex === -1) return
+
+  after[lowestIndex] = chain.withLevels(after[lowestIndex], base, chain.getGoal(after[lowestIndex]))
 }

@@ -68,7 +68,7 @@ function WarpPlanner() {
 
   return (
     <div className={classes.plannerShell}>
-      <Paper style={{ width: '100%' }} p="xl" pb={8} withBorder>
+      <Paper style={{ width: '100%', padding: 16 }} withBorder>
         <WarpSettingsPanel form={form}/>
 
         <WarpSummary enriched={warpResult.request}/>

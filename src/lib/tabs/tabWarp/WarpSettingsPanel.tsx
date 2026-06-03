@@ -17,6 +17,7 @@ const HEADER_LABEL_GAP = 4
 
 export function WarpSettingsPanel({ form }: { form: UseFormReturnType<WarpRequest> }) {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
+  const { t: tPity } = useTranslation('warpCalculatorTab', { keyPrefix: 'PityCounter' })
 
   return (
     <Flex style={{ marginBottom: 30 }}>
@@ -61,24 +62,26 @@ export function WarpSettingsPanel({ form }: { form: UseFormReturnType<WarpReques
 
       <VerticalDivider width={30}/>
 
-      <Flex direction="column" flex={1} justify='space-between'>
-        <Flex direction="column">
-          <Title>{t('Character')/* Character */}</Title>
-          <PityInputs banner='Character' form={form}/>
+      <Flex direction="column" flex={1}>
+        <Flex>
+          <Title flex={1}>{t('Character')/* Character */}</Title>
+          <Title flex={1}>{t('LightCone')/* Light Cone */}</Title>
         </Flex>
 
-        <Flex direction="column">
-          <Title>{t('LightCone')/* Light Cone */}</Title>
-          <PityInputs banner='LightCone' form={form}/>
-        </Flex>
+        <div className={classes.settingsGrid}>
+          <PityField label={tPity('PityCounter')/* Pity counter */} field='pityCharacter' max={89} form={form}/>
+          <PityField label={tPity('PityCounter')/* Pity counter */} field='pityLightCone' max={79} form={form}/>
+          <GuaranteedField label={tPity('Guaranteed')/* Guaranteed */} field='guaranteedCharacter' form={form}/>
+          <GuaranteedField label={tPity('Guaranteed')/* Guaranteed */} field='guaranteedLightCone' form={form}/>
+        </div>
       </Flex>
     </Flex>
   )
 }
 
-function Title(props: { children: ReactNode }) {
+function Title(props: { children: ReactNode, flex?: number }) {
   return (
-    <MantineTitle order={5} style={{ margin: 0, marginBottom: 8, textAlign: 'center' }}>
+    <MantineTitle order={5} style={{ margin: 0, marginBottom: 8, textAlign: 'center', flex: props.flex }}>
       {props.children}
     </MantineTitle>
   )
@@ -113,37 +116,33 @@ function ResourceNumberField(props: {
   )
 }
 
-function PityInputs(props: { banner: string, form: UseFormReturnType<WarpRequest> }) {
-  const { t } = useTranslation(['warpCalculatorTab', 'common'])
-  const { form } = props
-
-  const pityField = `pity${props.banner}` as keyof WarpRequest
-  const guaranteedField = `guaranteed${props.banner}` as keyof WarpRequest
-
+function PityField(props: { label: string, field: keyof WarpRequest, max: number, form: UseFormReturnType<WarpRequest> }) {
   return (
-    <Flex gap={20} w='100%'>
-      <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
-        <HeaderText>{t('PityCounter.PityCounter')/* Pity counter */}</HeaderText>
+    <Flex direction="column" gap={HEADER_LABEL_GAP}>
+      <HeaderText>{props.label}</HeaderText>
+      <NumberInput
+        placeholder='0' min={0} max={props.max}
+        style={{ width: '100%' }}
+        hideControls
+        {...props.form.getInputProps(props.field)}
+      />
+    </Flex>
+  )
+}
 
-        <NumberInput
-          placeholder='0' min={0} max={props.banner === 'Character' ? 89 : 79}
-          style={{ width: '100%' }}
-          hideControls
-          {...form.getInputProps(pityField)}
-        />
-      </Flex>
-      <Flex direction="column" flex={1} gap={HEADER_LABEL_GAP}>
-        <HeaderText>{t('PityCounter.Guaranteed')/* Guaranteed */}</HeaderText>
-        <SegmentedControl
-          fullWidth
-          data={[
-            { label: <IconCheck size={18}/>, value: 'true' },
-            { label: <IconX size={18}/>, value: 'false' },
-          ]}
-          value={String(form.getValues()[guaranteedField] ?? false)}
-          onChange={(val) => form.setFieldValue(guaranteedField, (val === 'true') as never)}
-        />
-      </Flex>
+function GuaranteedField(props: { label: string, field: keyof WarpRequest, form: UseFormReturnType<WarpRequest> }) {
+  return (
+    <Flex direction="column" gap={HEADER_LABEL_GAP}>
+      <HeaderText>{props.label}</HeaderText>
+      <SegmentedControl
+        fullWidth
+        data={[
+          { label: <IconCheck size={18}/>, value: 'true' },
+          { label: <IconX size={18}/>, value: 'false' },
+        ]}
+        value={String(props.form.getValues()[props.field] ?? false)}
+        onChange={(val) => props.form.setFieldValue(props.field, (val === 'true') as never)}
+      />
     </Flex>
   )
 }

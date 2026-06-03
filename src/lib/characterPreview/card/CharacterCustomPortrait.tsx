@@ -5,7 +5,7 @@ import {
 } from 'lib/constants/constantsUi'
 import {
   isSimScoreMode,
-  ScoringType,
+  type ScoringType,
 } from 'lib/scoring/scoringConfig'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { type CustomImageConfig } from 'types/customImage'

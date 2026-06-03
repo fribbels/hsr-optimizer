@@ -7,7 +7,7 @@ import {
 } from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import iconClasses from 'style/icons.module.css'
-import { ScoringConfigType } from 'types/metadata'
+import type { ScoringConfigType } from 'types/metadata'
 
 export function SimScoreRow({ value, configType, buffStat }: {
   value: number,

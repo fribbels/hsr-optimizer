@@ -11,7 +11,7 @@ import type { RotationDamageStep } from 'lib/simulations/statSimulationTypes'
 import { toI18NVisual } from 'lib/utils/displayUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScoringConfigType } from 'types/metadata'
+import type { ScoringConfigType } from 'types/metadata'
 import classes from './AbilityDamageSummary.module.css'
 
 interface SynchronousAbilityDamageSummaryProps {

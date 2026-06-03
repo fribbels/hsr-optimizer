@@ -1,8 +1,6 @@
 Scoring:
   StatWeightsHeader: Trọng số chỉ số
   MainstatsHeader: Chỉ số chính hợp lý
-  WeightMethodology:
-    Header: Điểm chỉ số được tính như thế nào?
   Footer:
     Reset: Đặt lại mặc định
     ResetAll: Đặt lại tất cả nhân vật

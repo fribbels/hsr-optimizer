@@ -101,7 +101,7 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
 
   return (
     <div className={classes.container}>
-      <HeaderText style={{ fontSize: 16, textDecoration: 'none', marginBottom: 6 }}>
+      <HeaderText style={{ fontSize: 16, textDecoration: 'none', marginBottom: 4 }}>
         Substat Rolls
       </HeaderText>
       {aggregated.map((entry) => (

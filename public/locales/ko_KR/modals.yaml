@@ -5,8 +5,6 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: 유물 세트 추가
     AddOrnamentSetPlaceholder: 장신구 세트 추가
-  WeightMethodology:
-    Header: 스탯 점수 계산법
   Footer:
     Reset: 기본값으로 초기화
     ResetAll: 모든 캐릭터 초기화

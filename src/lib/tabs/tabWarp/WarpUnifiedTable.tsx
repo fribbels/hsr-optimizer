@@ -2,151 +2,20 @@ import { closestCenter, DndContext, type DragEndEvent, PointerSensor, TouchSenso
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { IconArrowBigRightLines, IconGripVertical, IconPlus, IconX } from '@tabler/icons-react'
-import { ActionIcon, Badge, Button, Flex, SegmentedControl, Table } from '@mantine/core'
+import { IconPlus } from '@tabler/icons-react'
+import { Button, Flex, Table } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
-import i18next from 'i18next'
-import { getAllCharacterConfigs, getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
-import { computeLcTransform, DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import { Assets } from 'lib/rendering/assets'
-import { EidolonLevel, SuperimpositionLevel, type WarpRequest, type WarpTarget, type WarpTargetResult, type EnrichedWarpRequest, DEFAULT_WARP_REQUEST } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { type EnrichedWarpRequest, type WarpRequest, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { HiddenSelectHost, useHiddenSelectTrigger } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
+import { toMilestoneRows, WarpMilestoneRows, WarpTableHeader } from 'lib/tabs/tabWarp/WarpMilestoneTable'
+import { TargetHeaderRow } from 'lib/tabs/tabWarp/WarpTargetHeaderCard'
+import { addCharAndSignatureGoal, addCharGoal, addLcGoal, moveTarget } from 'lib/tabs/tabWarp/warpTargetMutations'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
-import type { LightConeId } from 'types/lightCone'
-import { localeNumberComma, localeNumber_0 } from 'lib/utils/i18nUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
-import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
-import { memo, useMemo, useRef, useState } from 'react'
-import chroma from 'chroma-js'
+import { memo, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import classes from './WarpCalculatorTab.module.css'
-import unifiedClasses from './WarpUnifiedTable.module.css'
-
-export const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
-export const chanceThreshold = 0.0005
-
-const EIDOLON_FROM_DATA = [
-  { value: String(EidolonLevel.NONE), label: '—' },
-  { value: String(EidolonLevel.E0), label: 'E0' },
-  { value: String(EidolonLevel.E1), label: 'E1' },
-  { value: String(EidolonLevel.E2), label: 'E2' },
-  { value: String(EidolonLevel.E3), label: 'E3' },
-  { value: String(EidolonLevel.E4), label: 'E4' },
-  { value: String(EidolonLevel.E5), label: 'E5' },
-  { value: String(EidolonLevel.E6), label: 'E6' },
-]
-
-const EIDOLON_TO_DATA = [
-  { value: String(EidolonLevel.E0), label: 'E0' },
-  { value: String(EidolonLevel.E1), label: 'E1' },
-  { value: String(EidolonLevel.E2), label: 'E2' },
-  { value: String(EidolonLevel.E3), label: 'E3' },
-  { value: String(EidolonLevel.E4), label: 'E4' },
-  { value: String(EidolonLevel.E5), label: 'E5' },
-  { value: String(EidolonLevel.E6), label: 'E6' },
-]
-
-const SUPERIMPOSITION_FROM_DATA = [
-  { value: String(SuperimpositionLevel.NONE), label: '—' },
-  { value: String(SuperimpositionLevel.S1), label: 'S1' },
-  { value: String(SuperimpositionLevel.S2), label: 'S2' },
-  { value: String(SuperimpositionLevel.S3), label: 'S3' },
-  { value: String(SuperimpositionLevel.S4), label: 'S4' },
-  { value: String(SuperimpositionLevel.S5), label: 'S5' },
-]
-
-const SUPERIMPOSITION_TO_DATA = [
-  { value: String(SuperimpositionLevel.S1), label: 'S1' },
-  { value: String(SuperimpositionLevel.S2), label: 'S2' },
-  { value: String(SuperimpositionLevel.S3), label: 'S3' },
-  { value: String(SuperimpositionLevel.S4), label: 'S4' },
-  { value: String(SuperimpositionLevel.S5), label: 'S5' },
-]
-
-function findCharacterByLightCone(lightConeId: LightConeId): WarpTarget['characterId'] {
-  for (const [characterId, config] of getAllCharacterConfigs()) {
-    if (config.defaultLightCone === lightConeId) return characterId
-  }
-  return null
-}
-
-function getGoalType(target: WarpTarget): 'character' | 'lightcone' {
-  if (target.targetSuperimpositionLevel > SuperimpositionLevel.NONE && target.targetEidolonLevel === EidolonLevel.NONE) {
-    return 'lightcone'
-  }
-  return 'character'
-}
-
-export function translateLabel(label: string) {
-  const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
-  if (/^S\d$/.test(label)) return t('common:SuperimpositionNShort', { superimposition: label.charAt(1) })
-  if (/^E\d$/.test(label)) return t('common:EidolonNShort', { eidolon: label.charAt(1) })
-  return t('warpCalculatorTab:TargetLabel', { superimposition: label.charAt(3), eidolon: label.charAt(1) })
-}
-
-function updateTarget(form: UseFormReturnType<WarpRequest>, index: number, patch: Partial<WarpTarget>) {
-  const targets = form.getValues().targets.map((target, targetIndex) => {
-    if (targetIndex !== index) return target
-    return { ...target, ...patch }
-  })
-  cascadeTargetFloors(targets, index)
-  form.setFieldValue('targets', targets)
-}
-
-function cascadeTargetFloors(targets: WarpTarget[], fromIndex: number) {
-  for (let i = fromIndex + 1; i < targets.length; i++) {
-    const t = targets[i]
-    let updated = { ...t }
-    let changed = false
-
-    if (t.characterId && t.targetEidolonLevel !== EidolonLevel.NONE) {
-      const floor = getCharacterEidolonFloor(targets, t.characterId, i)
-      if (t.currentEidolonLevel !== floor) {
-        updated.currentEidolonLevel = floor
-        changed = true
-        if (updated.targetEidolonLevel <= floor) {
-          updated.targetEidolonLevel = Math.min(floor + 1, EidolonLevel.E6) as EidolonLevel
-        }
-      }
-    }
-
-    if (t.lightConeId && t.targetSuperimpositionLevel !== SuperimpositionLevel.NONE) {
-      const floor = getLightConeSuperimpositionFloor(targets, t.lightConeId, i)
-      if (t.currentSuperimpositionLevel !== floor) {
-        updated.currentSuperimpositionLevel = floor
-        changed = true
-        if (updated.targetSuperimpositionLevel <= floor) {
-          updated.targetSuperimpositionLevel = Math.min(floor + 1, SuperimpositionLevel.S5) as SuperimpositionLevel
-        }
-      }
-    }
-
-    if (changed) {
-      targets[i] = updated
-    }
-  }
-}
-
-function removeTarget(form: UseFormReturnType<WarpRequest>, index: number) {
-  const targets = form.getValues().targets.filter((_, targetIndex) => targetIndex !== index)
-  if (targets.length > 0) {
-    form.setFieldValue('targets', targets)
-  }
-}
-
-function moveTarget(form: UseFormReturnType<WarpRequest>, activeId: string, overId: string) {
-  const targets = [...form.getValues().targets]
-  const fromIndex = targets.findIndex((target) => target.id === activeId)
-  const toIndex = targets.findIndex((target) => target.id === overId)
-
-  if (fromIndex === -1 || toIndex === -1 || fromIndex === toIndex) return
-
-  const [target] = targets.splice(fromIndex, 1)
-  targets.splice(toIndex, 0, target)
-  cascadeTargetFloors(targets, Math.min(fromIndex, toIndex))
-  form.setFieldValue('targets', targets)
-}
 
 export function WarpUnifiedTable(props: {
   form: UseFormReturnType<WarpRequest>
@@ -154,11 +23,12 @@ export function WarpUnifiedTable(props: {
   request: EnrichedWarpRequest
 }) {
   const { form, targetResults, request } = props
+  const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
   const canRemove = form.getValues().targets.length > 1
   const targetIds = targetResults.map((r) => r.target.id)
-  const [addCharSelectOpen, setAddCharSelectOpen] = useState(false)
-  const [addLcSelectOpen, setAddLcSelectOpen] = useState(false)
-  const [charAndSigSelectOpen, setCharAndSigSelectOpen] = useState(false)
+  const addChar = useHiddenSelectTrigger()
+  const addLc = useHiddenSelectTrigger()
+  const addCharAndSig = useHiddenSelectTrigger()
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 1 } }),
@@ -174,26 +44,7 @@ export function WarpUnifiedTable(props: {
   const colStyles = { goal: { width: '25%' } }
   const tableStyle = { tableLayout: 'fixed' as const, borderCollapse: 'separate' as const, borderSpacing: 0 }
 
-  const thead = (
-    <Table.Thead>
-      <Table.Tr>
-        <Table.Th style={{ textAlign: 'center', ...colStyles.goal }}>Goal</Table.Th>
-        <Table.Th style={{ textAlign: 'center' }}>
-          <Flex justify='center' align='center' gap={4}>
-            Chance with {localeNumberComma(request.warps)}
-            <img style={{ height: 16 }} src={Assets.getPass()}/>
-          </Flex>
-        </Table.Th>
-        <Table.Th style={{ textAlign: 'center' }}>
-          <Flex justify='center' align='center' gap={4}>
-            Avg
-            <img style={{ height: 16 }} src={Assets.getPass()}/>
-            needed
-          </Flex>
-        </Table.Th>
-      </Table.Tr>
-    </Table.Thead>
-  )
+  const thead = <WarpTableHeader request={request} goalColStyle={colStyles.goal}/>
 
   return (
     <DndContext
@@ -219,35 +70,35 @@ export function WarpUnifiedTable(props: {
           ))}
 
           <Flex gap={8} py={4}>
-            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => setCharAndSigSelectOpen(true)}>
-              Add character and signature
+            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={addCharAndSig.open}>
+              {t('AddCharacterAndSignature')/* Add character and signature */}
             </Button>
-            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => setAddCharSelectOpen(true)}>
-              Add character
+            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={addChar.open}>
+              {t('AddCharacter')/* Add character */}
             </Button>
-            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={() => setAddLcSelectOpen(true)}>
-              Add light cone
+            <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={addLc.open}>
+              {t('AddLightCone')/* Add light cone */}
             </Button>
-            <div style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0, overflow: 'hidden' }}>
+            <HiddenSelectHost>
               <CharacterSelect
                 value={null}
                 onChange={(characterId) => { if (characterId) addCharGoal(form, characterId) }}
-                opened={addCharSelectOpen}
-                onOpenChange={setAddCharSelectOpen}
+                opened={addChar.opened}
+                onOpenChange={addChar.onOpenChange}
               />
               <LightConeSelect
                 value={null}
                 onChange={(lightConeId) => { if (lightConeId) addLcGoal(form, lightConeId) }}
-                opened={addLcSelectOpen}
-                onOpenChange={setAddLcSelectOpen}
+                opened={addLc.opened}
+                onOpenChange={addLc.onOpenChange}
               />
               <CharacterSelect
                 value={null}
                 onChange={(characterId) => { if (characterId) addCharAndSignatureGoal(form, characterId) }}
-                opened={charAndSigSelectOpen}
-                onOpenChange={setCharAndSigSelectOpen}
+                opened={addCharAndSig.opened}
+                onOpenChange={addCharAndSig.onOpenChange}
               />
-            </div>
+            </HiddenSelectHost>
           </Flex>
         </Flex>
       </SortableContext>
@@ -313,9 +164,7 @@ function TargetSection(props: {
 }) {
   const { form, targetResult, targetIndex, canRemove, dragHandleRef, dragHandleProps } = props
   const target = targetResult.target
-  const type = getGoalType(target)
-  const milestones = Object.entries(targetResult.milestoneResults ?? {})
-    .map(([label, result]) => ({ label, warps: result.warps, wins: result.wins }))
+  const milestones = toMilestoneRows(targetResult.milestoneResults)
 
   return (
     <>
@@ -323,310 +172,13 @@ function TargetSection(props: {
         form={form}
         target={target}
         targetIndex={targetIndex}
-        type={type}
         canRemove={canRemove}
         dragHandleRef={dragHandleRef}
         dragHandleProps={dragHandleProps}
       />
-      {milestones.map((milestone) => (
-        <Table.Tr
-          key={`${target.id}-${milestone.label}`}
-          className={milestone.wins < chanceThreshold ? classes.warpRowDisabled : classes.warpRow}
-        >
-          <Table.Td className={classes.goalCell}>
-            <Flex className={classes.goalBarOverlay} align='center'>
-              {milestone.wins >= chanceThreshold && (
-                <div
-                  className={classes.goalBar}
-                  style={{
-                    width: `${milestone.wins * 100}%`,
-                    backgroundColor: warpChanceColorScale(milestone.wins).hex(),
-                  }}
-                />
-              )}
-              <Flex className={classes.goalContent} justify='center' align='center'>
-                <Badge color='#000000aa' className={classes.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
-                  {translateLabel(milestone.label)}
-                </Badge>
-              </Flex>
-            </Flex>
-          </Table.Td>
-          <Table.Td style={{ textAlign: 'center' }}>
-            {`${localeNumber_0(precisionRound(milestone.wins * 100, 1))}%`}
-          </Table.Td>
-          <Table.Td style={{ textAlign: 'center' }}>
-            <Flex align='center' justify='center' gap={4}>
-              {Math.ceil(milestone.warps)}
-              <img style={{ height: 14 }} src={Assets.getPass()}/>
-            </Flex>
-          </Table.Td>
-        </Table.Tr>
-      ))}
+      <WarpMilestoneRows milestones={milestones} rowKeyPrefix={target.id}/>
     </>
   )
 }
 
 const MemoizedTargetSection = memo(TargetSection)
-
-function TargetHeaderRow(props: {
-  form: UseFormReturnType<WarpRequest>
-  target: WarpTarget
-  targetIndex: number
-  type: 'character' | 'lightcone'
-  canRemove: boolean
-  dragHandleRef?: (node: HTMLElement | null) => void
-  dragHandleProps?: HTMLAttributes<HTMLElement>
-}) {
-  const { form, target, targetIndex, type, canRemove, dragHandleRef, dragHandleProps } = props
-  const [selectOpen, setSelectOpen] = useState(false)
-  const justClosedRef = useRef(false)
-  const isChar = type === 'character'
-
-  const tGameData = i18next.getFixedT(null, 'gameData')
-  const charName = target.characterId ? (tGameData(`Characters.${target.characterId}.Name`) as string) : ''
-  const signatureLcId = target.characterId ? getCharacterConfig(target.characterId)?.defaultLightCone ?? null : null
-  const lcId = target.lightConeId ?? signatureLcId
-  const characterConfig = target.characterId ? getCharacterConfig(target.characterId) : undefined
-  const lcImageOffset = lcId ? getGameMetadata().lightCones[lcId]?.imageOffset ?? DEFAULT_LC_IMAGE_OFFSET : DEFAULT_LC_IMAGE_OFFSET
-
-  const floor = isChar
-    ? getCharacterEidolonFloor(form.getValues().targets, target.characterId, targetIndex)
-    : getLightConeSuperimpositionFloor(form.getValues().targets, target.lightConeId, targetIndex)
-  const fromData = (isChar ? EIDOLON_FROM_DATA : SUPERIMPOSITION_FROM_DATA).map((item) => ({
-    ...item,
-    disabled: Number(item.value) < floor,
-  }))
-  const fromValue = isChar ? target.currentEidolonLevel : target.currentSuperimpositionLevel
-  const toValue = isChar ? target.targetEidolonLevel : target.targetSuperimpositionLevel
-  const toData = (isChar ? EIDOLON_TO_DATA : SUPERIMPOSITION_TO_DATA).map((item) => ({
-    ...item,
-    disabled: Number(item.value) <= fromValue,
-  }))
-
-  return (
-    <Table.Tr className={unifiedClasses.headerRow}>
-      <Table.Td
-        className={unifiedClasses.goalCell}
-        onClick={() => { if (!justClosedRef.current) setSelectOpen(true) }}
-      >
-        <div
-          ref={dragHandleRef}
-          className={unifiedClasses.dragHandle}
-          {...dragHandleProps}
-        >
-          <IconGripVertical size={14}/>
-        </div>
-        {target.characterId && isChar && (
-          <img
-            src={Assets.getCharacterPreviewById(target.characterId)}
-            className={unifiedClasses.previewImage}
-            draggable={false}
-            decoding='async'
-            onLoad={showImageOnLoad}
-            style={characterConfig?.display.gridPortraitOffset
-              ? { marginTop: -(characterConfig.display.gridPortraitOffset * 0.5) }
-              : undefined}
-          />
-        )}
-        {!isChar && lcId && (() => {
-          const containerW = 230
-          const containerH = 64
-          const { dy, scale } = computeLcTransform(lcImageOffset, containerW, containerH)
-          return (
-            <div className={unifiedClasses.previewImageLcWrap} style={{ width: containerW, height: containerH }}>
-              <img
-                src={Assets.getLightConePortraitById(lcId)}
-                className={unifiedClasses.previewImageLc}
-                draggable={false}
-                decoding='async'
-                onLoad={showImageOnLoad}
-                style={{ transform: `translateY(${dy}px) scale(${scale})` }}
-              />
-            </div>
-          )
-        })()}
-        <div style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0, overflow: 'hidden' }}>
-          {isChar ? (
-            <CharacterSelect
-              value={target.characterId}
-              onChange={(characterId) => updateTarget(form, targetIndex, { characterId: characterId ?? null })}
-              opened={selectOpen}
-              onOpenChange={(open) => {
-                setSelectOpen(open)
-                if (!open) {
-                  justClosedRef.current = true
-                  setTimeout(() => { justClosedRef.current = false }, 150)
-                }
-              }}
-            />
-          ) : (
-            <LightConeSelect
-              value={lcId}
-              characterId={target.characterId}
-              onChange={(selectedLcId) => {
-                const characterId = selectedLcId ? findCharacterByLightCone(selectedLcId) : null
-                updateTarget(form, targetIndex, { lightConeId: selectedLcId ?? null, characterId })
-              }}
-              opened={selectOpen}
-              onOpenChange={(open) => {
-                setSelectOpen(open)
-                if (!open) {
-                  justClosedRef.current = true
-                  setTimeout(() => { justClosedRef.current = false }, 150)
-                }
-              }}
-            />
-          )}
-        </div>
-      </Table.Td>
-
-      <Table.Td style={{ textAlign: 'center', verticalAlign: 'middle', padding: '0 10px' }}>
-        <SegmentedControl
-          size='sm'
-          w='100%'
-          data={fromData}
-          value={String(fromValue)}
-          onChange={(val) => {
-            const newFrom = Number(val)
-            if (isChar) {
-              const patch: Partial<WarpTarget> = { currentEidolonLevel: newFrom as EidolonLevel }
-              if (newFrom >= toValue) patch.targetEidolonLevel = Math.min(newFrom + 1, EidolonLevel.E6) as EidolonLevel
-              updateTarget(form, targetIndex, patch)
-            } else {
-              const patch: Partial<WarpTarget> = { currentSuperimpositionLevel: newFrom as SuperimpositionLevel }
-              if (newFrom >= toValue) patch.targetSuperimpositionLevel = Math.min(newFrom + 1, SuperimpositionLevel.S5) as SuperimpositionLevel
-              updateTarget(form, targetIndex, patch)
-            }
-          }}
-        />
-      </Table.Td>
-
-      <Table.Td style={{ verticalAlign: 'middle', padding: '0 10px' }}>
-        <Flex align='center' gap={4}>
-          <Flex align='center' justify='center' w={32} h={32} style={{ flexShrink: 0, paddingRight: 15 }}>
-            <IconArrowBigRightLines size={18} color='var(--text-primary)' fill='var(--text-primary)'/>
-          </Flex>
-          <SegmentedControl
-            size='sm'
-            style={{ flex: 1 }}
-            data={toData}
-            value={String(toValue)}
-            onChange={(val) => {
-              if (isChar) updateTarget(form, targetIndex, { targetEidolonLevel: Number(val) as EidolonLevel })
-              else updateTarget(form, targetIndex, { targetSuperimpositionLevel: Number(val) as SuperimpositionLevel })
-            }}
-          />
-          <ActionIcon
-            size={32} variant='subtle' color='gray'
-            disabled={!canRemove}
-            onClick={() => removeTarget(form, targetIndex)}
-          >
-            <IconX size={18}/>
-          </ActionIcon>
-        </Flex>
-      </Table.Td>
-    </Table.Tr>
-  )
-}
-
-function getCharacterEidolonFloor(targets: WarpTarget[], characterId: string | null, beforeIndex: number): EidolonLevel {
-  if (!characterId) return EidolonLevel.NONE
-  let max = EidolonLevel.NONE
-  for (let i = 0; i < beforeIndex; i++) {
-    if (targets[i].characterId === characterId && targets[i].targetEidolonLevel > max) {
-      max = targets[i].targetEidolonLevel
-    }
-  }
-  return max
-}
-
-function getLightConeSuperimpositionFloor(targets: WarpTarget[], lightConeId: string | null, beforeIndex: number): SuperimpositionLevel {
-  if (!lightConeId) return SuperimpositionLevel.NONE
-  let max = SuperimpositionLevel.NONE
-  for (let i = 0; i < beforeIndex; i++) {
-    if (targets[i].lightConeId === lightConeId && targets[i].targetSuperimpositionLevel > max) {
-      max = targets[i].targetSuperimpositionLevel
-    }
-  }
-  return max
-}
-
-function addCharGoal(form: UseFormReturnType<WarpRequest>, characterId: NonNullable<WarpTarget['characterId']>) {
-  const id = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}`
-  const existingTargets = form.getValues().targets
-  const inheritedEidolon = getCharacterEidolonFloor(existingTargets, characterId, existingTargets.length)
-  const targets = [
-    ...existingTargets,
-    {
-      ...DEFAULT_WARP_REQUEST.targets[0],
-      id,
-      characterId,
-      lightConeId: null,
-      targetEidolonLevel: Math.min(inheritedEidolon + 1, EidolonLevel.E6) as EidolonLevel,
-      targetSuperimpositionLevel: SuperimpositionLevel.NONE,
-      currentEidolonLevel: inheritedEidolon,
-      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-      strategy: form.getValues().strategy,
-    },
-  ]
-  form.setFieldValue('targets', targets)
-}
-
-function addLcGoal(form: UseFormReturnType<WarpRequest>, lightConeId: LightConeId) {
-  const id = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}`
-  const characterId = findCharacterByLightCone(lightConeId)
-  const existingTargets = form.getValues().targets
-  const inheritedSuperimposition = getLightConeSuperimpositionFloor(existingTargets, lightConeId, existingTargets.length)
-  const targets = [
-    ...existingTargets,
-    {
-      ...DEFAULT_WARP_REQUEST.targets[0],
-      id,
-      characterId,
-      lightConeId,
-      targetEidolonLevel: EidolonLevel.NONE,
-      targetSuperimpositionLevel: Math.min(inheritedSuperimposition + 1, SuperimpositionLevel.S5) as SuperimpositionLevel,
-      currentEidolonLevel: EidolonLevel.NONE,
-      currentSuperimpositionLevel: inheritedSuperimposition,
-      strategy: form.getValues().strategy,
-    },
-  ]
-  form.setFieldValue('targets', targets)
-}
-
-function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, characterId: NonNullable<WarpTarget['characterId']>) {
-  const charTargetId = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}-char`
-  const lcTargetId = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}-lc`
-  const strategy = form.getValues().strategy
-  const base = DEFAULT_WARP_REQUEST.targets[0]
-  const existingTargets = form.getValues().targets
-  const signatureLcId = getCharacterConfig(characterId)?.defaultLightCone ?? null
-  const inheritedEidolon = getCharacterEidolonFloor(existingTargets, characterId, existingTargets.length)
-  const inheritedSuperimposition = getLightConeSuperimpositionFloor(existingTargets, signatureLcId, existingTargets.length)
-  const targets = [
-    ...existingTargets,
-    {
-      ...base,
-      id: charTargetId,
-      characterId,
-      lightConeId: null,
-      targetEidolonLevel: Math.min(inheritedEidolon + 1, EidolonLevel.E6) as EidolonLevel,
-      targetSuperimpositionLevel: SuperimpositionLevel.NONE,
-      currentEidolonLevel: inheritedEidolon,
-      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-      strategy,
-    },
-    {
-      ...base,
-      id: lcTargetId,
-      characterId,
-      lightConeId: signatureLcId,
-      targetEidolonLevel: EidolonLevel.NONE,
-      targetSuperimpositionLevel: Math.min(inheritedSuperimposition + 1, SuperimpositionLevel.S5) as SuperimpositionLevel,
-      currentEidolonLevel: EidolonLevel.NONE,
-      currentSuperimpositionLevel: inheritedSuperimposition,
-      strategy,
-    },
-  ]
-  form.setFieldValue('targets', targets)
-}

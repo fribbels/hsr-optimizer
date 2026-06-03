@@ -1,245 +1,36 @@
-import { SaveState } from 'lib/state/saveState'
-import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
+import {
+  character5050,
+  characterWarpCap,
+  DEFAULT_WARP_REQUEST,
+  EidolonLevel,
+  type EnrichedWarpRequest,
+  lightCone5050,
+  lightConeWarpCap,
+  NONE_WARP_INCOME_OPTION,
+  StarlightMultiplier,
+  SuperimpositionLevel,
+  type WarpRequest,
+  WarpIncomeOptions,
+  WarpStrategy,
+  type WarpTarget,
+  type WarpMilestoneResult,
+  type WarpResult,
+  type WarpTargetResult,
+  WarpType,
+} from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import {
   characterDistribution,
   lightConeDistribution,
 } from 'lib/tabs/tabWarp/warpRates'
-import type { CharacterId } from 'types/character'
-import type { LightConeId } from 'types/lightCone'
-
-// Notes: 626 to e6 and 960 to e6s5, 952 with 0.78125 on lc
-
-const characterWarpCap = 90
-const lightConeWarpCap = 80
-const character5050 = 0.5625
-const lightCone5050 = 0.78125
-
-export enum WarpIncomeType {
-  NONE,
-  F2P,
-  EXPRESS,
-  BP_EXPRESS,
-}
-
-export enum BannerRotation {
-  NEW,
-  RERUN,
-}
-
-export const NONE_WARP_INCOME_OPTION = generateOption('NONE', 0, WarpIncomeType.NONE, 0)
-
-function generateOptions(
-  version: string,
-  f2pTotal: number,
-  f2pFirstHalf: number,
-  expressTotal: number,
-  expressFirstHalf: number,
-  bpTotal: number,
-  bpFirstHalf: number,
-) {
-  return [
-    generateOption(version, 1, WarpIncomeType.F2P, f2pFirstHalf),
-    generateOption(version, 2, WarpIncomeType.F2P, f2pTotal - f2pFirstHalf),
-    generateOption(version, 1, WarpIncomeType.EXPRESS, expressFirstHalf),
-    generateOption(version, 2, WarpIncomeType.EXPRESS, expressTotal - expressFirstHalf),
-    generateOption(version, 1, WarpIncomeType.BP_EXPRESS, bpFirstHalf),
-    generateOption(version, 2, WarpIncomeType.BP_EXPRESS, bpTotal - bpFirstHalf),
-  ]
-}
-
-// Modified each patch
-export const WarpIncomeOptions: WarpIncomeDefinition[] = [
-  // ...generateOptions('3.4', 92, 57, 116, 69, 124, 77),
-  // ...generateOptions('3.5', 88, 66, 112, 77, 120, 86),
-
-  // ...generateOptions('3.7', 107, 82, 130, 94, 138, 102),
-  // ...[
-  //   generateOption('3.8', 1, WarpIncomeType.F2P, 66),
-  //   generateOption('3.8', 2, WarpIncomeType.F2P, 21),
-  //   generateOption('3.8', 3, WarpIncomeType.F2P, 22),
-  //   generateOption('3.8', 1, WarpIncomeType.EXPRESS, 78),
-  //   generateOption('3.8', 2, WarpIncomeType.EXPRESS, 32),
-  //   generateOption('3.8', 3, WarpIncomeType.EXPRESS, 31),
-  //   generateOption('3.8', 1, WarpIncomeType.BP_EXPRESS, 82),
-  //   generateOption('3.8', 2, WarpIncomeType.BP_EXPRESS, 36),
-  //   generateOption('3.8', 3, WarpIncomeType.BP_EXPRESS, 31),
-  // ],
-  // ...generateOptions('4.0', 115, 96, 138, 107, 146, 115),
-  ...generateOptions('4.1', 98, 81, 114, 89, 122, 97),
-  ...generateOptions('4.2', 117, 91, 140, 103, 149, 112),
-  ...generateOptions('4.3', 91, 66, 116, 78, 124, 86),
-]
-
-export enum PlannerMode {
-  SINGLE = 'single',
-  MULTI = 'multi',
-}
-
-export enum WarpStrategy {
-  E0 = 0, // E0 -> S1 -> E6 -> S5
-  E1 = 1, // E1 -> S1 -> E6 -> S5
-  E2 = 2, // E2 -> S1 -> E6 -> S5
-  E3 = 3, // E3 -> S1 -> E6 -> S5
-  E4 = 4, // E4 -> S1 -> E6 -> S5
-  E5 = 5, // E5 -> S1 -> E6 -> S5
-  E6 = 6, // E6 -> S1 -> S5
-  S1 = 7, // S1 -> E6 -> S5
-}
-
-export type WarpTargetGoal =
-  | 'S1'
-  | 'E0S0'
-  | 'E0S1'
-  | 'E1S1'
-  | 'E2S1'
-  | 'E3S1'
-  | 'E4S1'
-  | 'E5S1'
-  | 'E6S1'
-  | 'E6S2'
-  | 'E6S3'
-  | 'E6S4'
-  | 'E6S5'
-
-export const WarpTargetGoals: WarpTargetGoal[] = [
-  'E0S0',
-  'S1',
-  'E0S1',
-  'E1S1',
-  'E2S1',
-  'E3S1',
-  'E4S1',
-  'E5S1',
-  'E6S1',
-  'E6S2',
-  'E6S3',
-  'E6S4',
-  'E6S5',
-]
-
-export enum EidolonLevel {
-  NONE = -1,
-  E0,
-  E1,
-  E2,
-  E3,
-  E4,
-  E5,
-  E6,
-}
-
-export enum SuperimpositionLevel {
-  NONE = 0,
-  S1,
-  S2,
-  S3,
-  S4,
-  S5,
-}
-
-export enum StarlightRefund {
-  REFUND_NONE = 'REFUND_NONE',
-  REFUND_LOW = 'REFUND_LOW',
-  REFUND_AVG = 'REFUND_AVG',
-  REFUND_HIGH = 'REFUND_HIGH',
-}
-
-export const StarlightMultiplier: Record<StarlightRefund, number> = {
-  [StarlightRefund.REFUND_NONE]: 0.00,
-  [StarlightRefund.REFUND_LOW]: 0.04,
-  [StarlightRefund.REFUND_AVG]: 0.075,
-  [StarlightRefund.REFUND_HIGH]: 0.11,
-}
-
-export type WarpRequest = {
-  passes: number,
-  jades: number,
-  income: string[],
-  targets: WarpTarget[],
-  plannerMode: PlannerMode,
-  bannerRotation: BannerRotation,
-  strategy: WarpStrategy,
-  starlight: StarlightRefund,
-  pityCharacter: number,
-  guaranteedCharacter: boolean,
-  pityLightCone: number,
-  guaranteedLightCone: boolean,
-  currentEidolonLevel: EidolonLevel,
-  currentSuperimpositionLevel: SuperimpositionLevel,
-}
-
-export type WarpTarget = {
-  id: string,
-  characterId: CharacterId | null,
-  lightConeId: LightConeId | null,
-  target?: WarpTargetGoal,
-  targetEidolonLevel: EidolonLevel,
-  targetSuperimpositionLevel: SuperimpositionLevel,
-  strategy: WarpStrategy,
-  currentEidolonLevel: EidolonLevel,
-  currentSuperimpositionLevel: SuperimpositionLevel,
-}
-
-export type WarpMilestoneResult = { warps: number, wins: number }
-export type WarpResult = null | {
-  milestoneResults: Record<string, WarpMilestoneResult>,
-  targetResults: WarpTargetResult[],
-  request: EnrichedWarpRequest,
-}
-
-export type WarpTargetResult = {
-  target: WarpTarget,
-  milestoneResults: Record<string, WarpMilestoneResult>,
-}
-
-export enum WarpType {
-  CHARACTER,
-  LIGHTCONE,
-}
-
-export const DEFAULT_WARP_REQUEST: WarpRequest = {
-  passes: 0,
-  jades: 0,
-  income: [],
-  targets: [
-    {
-      id: 'target-1',
-      characterId: null,
-      lightConeId: null,
-      targetEidolonLevel: EidolonLevel.E6,
-      targetSuperimpositionLevel: SuperimpositionLevel.S5,
-      strategy: WarpStrategy.E0,
-      currentEidolonLevel: EidolonLevel.NONE,
-      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-    },
-  ],
-  plannerMode: PlannerMode.MULTI,
-  bannerRotation: BannerRotation.NEW,
-  strategy: WarpStrategy.E0,
-  starlight: StarlightRefund.REFUND_AVG,
-  pityCharacter: 0,
-  guaranteedCharacter: false,
-  pityLightCone: 0,
-  guaranteedLightCone: false,
-  currentEidolonLevel: EidolonLevel.NONE,
-  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-}
-
-export type WarpIncomeDefinition = {
-  passes: number,
-  id: string,
-  version: string,
-  type: WarpIncomeType,
-  phase: number,
-}
 
 type WarpMilestone = {
   warpType: WarpType,
-  label: string,
   pity: number,
   guaranteed: boolean,
   warpCap: number,
 }
+
+type LabeledWarpMilestone = WarpMilestone & { label: string }
 
 type StartingBannerState = {
   character: {
@@ -250,29 +41,6 @@ type StartingBannerState = {
     pity: number,
     guaranteed: boolean,
   },
-}
-
-function generateOption(version: string, phase: number, type: WarpIncomeType, passes: number) {
-  return {
-    passes,
-    version,
-    phase,
-    type,
-    id: generateOptionKey(version, phase, type),
-  }
-}
-
-function generateOptionKey(version: string, phase: number, type: WarpIncomeType) {
-  return `${version}_p${phase}_${type}`
-}
-
-export function handleWarpRequest(originalRequest: WarpRequest) {
-  useWarpCalculatorStore.getState().setRequest(originalRequest)
-
-  const warpResult = calculateWarps(originalRequest)
-
-  useWarpCalculatorStore.getState().setResult(warpResult)
-  SaveState.delayedSave()
 }
 
 export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult, null> {
@@ -299,7 +67,7 @@ export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult
       },
     }
 
-    const milestones = generateWarpMilestones(target, startingState)
+    const milestones = generateWarpMilestones(target, startingState, request.strategy)
     const targetMilestoneResults: Record<string, WarpMilestoneResult> = {}
 
     for (const milestone of milestones) {
@@ -315,16 +83,7 @@ export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult
 
       cumulativePmf = convolveArrays(cumulativePmf, milestoneDist)
 
-      // Expected warps = Σ k * P(total cost = k)
-      const expectedWarps = cumulativePmf.reduce((sum, p, k) => sum + k * p, 0)
-
-      // Win probability = P(total cost <= budget)
-      let winProb = 0
-      for (let k = 0; k <= request.warps && k < cumulativePmf.length; k++) {
-        winProb += cumulativePmf[k]
-      }
-
-      const result = { warps: expectedWarps, wins: winProb }
+      const result = milestoneStats(cumulativePmf, request.warps)
       targetMilestoneResults[label] = result
       milestoneResults[label] = result
 
@@ -338,99 +97,143 @@ export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult
   return { milestoneResults, targetResults, request }
 }
 
-function generateWarpMilestones(target: WarpTarget, startingState: StartingBannerState) {
-  const {
-    strategy,
-    targetEidolonLevel,
-    targetSuperimpositionLevel,
-    currentEidolonLevel,
-    currentSuperimpositionLevel,
-  } = target
+export function enrichWarpRequest(originalRequest: WarpRequest): EnrichedWarpRequest {
+  const request: WarpRequest = {
+    ...DEFAULT_WARP_REQUEST,
+    ...originalRequest,
+    jades: Number(originalRequest.jades) || 0,
+    passes: Number(originalRequest.passes) || 0,
+    pityCharacter: Number(originalRequest.pityCharacter) || 0,
+    pityLightCone: Number(originalRequest.pityLightCone) || 0,
+  }
+
+  const selectedIncome = request.income.map(
+    (incomeId) => WarpIncomeOptions.find((option) => option.id === incomeId) ?? NONE_WARP_INCOME_OPTION,
+  )
+
+  let additionalPasses = 0
+
+  for (const income of selectedIncome) {
+    additionalPasses += income.passes
+  }
+
+  const totalJade = request.jades
+  const totalPasses = request.passes + additionalPasses
+  const initialWarps = Math.floor(totalJade / 160) + totalPasses
+
+  const refundedWarps = Math.floor((StarlightMultiplier[request.starlight] ?? 0) * initialWarps)
+  const totalStarlight = refundedWarps * 20
+  const totalWarps = initialWarps + refundedWarps
+
+  return {
+    ...request,
+    warps: totalWarps,
+    totalJade: totalJade,
+    totalPasses: totalPasses,
+    additionalPasses: additionalPasses,
+    totalStarlight: totalStarlight,
+  }
+}
+
+function generateWarpMilestones(target: WarpTarget, startingState: StartingBannerState, strategy: WarpStrategy): LabeledWarpMilestone[] {
+  const { targetEidolonLevel, targetSuperimpositionLevel, currentEidolonLevel, currentSuperimpositionLevel } = target
 
   if (targetEidolonLevel === EidolonLevel.NONE && targetSuperimpositionLevel === SuperimpositionLevel.NONE) {
     return []
   }
 
-  let milestones = generateTargetMilestonePath(target, startingState)
+  const path = generateTargetMilestonePath(target, strategy)
 
-  const currEidolonSuperCheck: boolean = (currentEidolonLevel !== EidolonLevel.NONE) || (currentSuperimpositionLevel !== SuperimpositionLevel.NONE)
-  milestones = currEidolonSuperCheck ? filterRemapMilestones(milestones, target, startingState) : milestones
-
+  // Walk the ordered path once: skip levels already owned, label the survivors from the running
+  // eidolon/superimposition counters, and apply the banner's starting pity/guaranteed to the
+  // first emitted pull of each type. Truncate at the milestone that first reaches the goal.
+  let skipCharacters = currentEidolonLevel       // owns E0..currentEidolon -> skip currentEidolon + 1 (NONE = -1 -> skip 0)
+  let skipLightCones = currentSuperimpositionLevel // owns S1..currentSi     -> skip currentSi      (NONE =  0 -> skip 0)
   let e = currentEidolonLevel
   let s = currentSuperimpositionLevel
+  let assignedCharacterStart = false
+  let assignedLightConeStart = false
 
+  const milestones: LabeledWarpMilestone[] = []
   let targetIndex = -1
 
-  for (let i = 0; i < milestones.length; i++) {
-    const milestone = milestones[i]
-    if (milestone.warpType == WarpType.CHARACTER) e++
-    if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == EidolonLevel.NONE ? `S${s}` : targetSuperimpositionLevel == SuperimpositionLevel.NONE ? `E${e}` : `E${e}S${s}`
+  for (const warpType of path) {
+    const isCharacter = warpType === WarpType.CHARACTER
+    if (isCharacter) {
+      if (skipCharacters > EidolonLevel.NONE) {
+        skipCharacters--
+        continue
+      }
+      e++
+    } else {
+      if (skipLightCones > SuperimpositionLevel.NONE) {
+        skipLightCones--
+        continue
+      }
+      s++
+    }
+
+    const isFirstOfType = isCharacter ? !assignedCharacterStart : !assignedLightConeStart
+    if (isCharacter) assignedCharacterStart = true
+    else assignedLightConeStart = true
+
+    const bannerStart = isCharacter ? startingState.character : startingState.lightCone
+    const label = e === EidolonLevel.NONE
+      ? `S${s}`
+      : targetSuperimpositionLevel === SuperimpositionLevel.NONE ? `E${e}` : `E${e}S${s}`
+
+    milestones.push({
+      warpType,
+      label,
+      pity: isFirstOfType ? bannerStart.pity : 0,
+      guaranteed: isFirstOfType ? bannerStart.guaranteed : false,
+      warpCap: isCharacter ? characterWarpCap : lightConeWarpCap,
+    })
 
     if (targetIndex === -1 && isTargetReached(targetEidolonLevel, targetSuperimpositionLevel, e, s)) {
-      targetIndex = i
+      targetIndex = milestones.length - 1
     }
   }
 
   return targetIndex === -1 ? milestones : milestones.slice(0, targetIndex + 1)
 }
 
-function generateTargetMilestonePath(target: WarpTarget, startingState: StartingBannerState) {
-  const milestones: WarpMilestone[] = []
+// Ordered sequence of pulls (by type) to fully reach a target, from a fresh E0/S0 baseline.
+// Owned-level filtering and labeling happen later in generateWarpMilestones.
+function generateTargetMilestonePath(target: WarpTarget, strategy: WarpStrategy): WarpType[] {
+  const path: WarpType[] = []
   const characterTarget = target.targetEidolonLevel
   const lightConeTarget = target.targetSuperimpositionLevel
   const hasLightConeTarget = lightConeTarget !== SuperimpositionLevel.NONE
-  const s1InsertionAfterEidolon = target.strategy === WarpStrategy.S1
+
+  // WarpStrategy.S1 is the "light cone first" sentinel (value 7, outside the EidolonLevel range);
+  // any other strategy value is the eidolon (capped at the character target) after which S1 is pulled.
+  const s1InsertionAfterEidolon = strategy === WarpStrategy.S1
     ? EidolonLevel.NONE
-    : Math.min(target.strategy, Math.max(characterTarget, EidolonLevel.E0)) as EidolonLevel
+    : Math.min(strategy, Math.max(characterTarget, EidolonLevel.E0)) as EidolonLevel
   let insertedS1 = false
 
   function insertS1() {
     if (!hasLightConeTarget || insertedS1) return
-
-    milestones.push({
-      warpType: WarpType.LIGHTCONE,
-      label: 'S1',
-      guaranteed: startingState.lightCone.guaranteed,
-      pity: startingState.lightCone.pity,
-      warpCap: lightConeWarpCap,
-    })
+    path.push(WarpType.LIGHTCONE)
     insertedS1 = true
   }
 
   if (characterTarget !== EidolonLevel.NONE) {
     for (let eidolon = EidolonLevel.E0; eidolon <= characterTarget; eidolon++) {
-      if (s1InsertionAfterEidolon < eidolon) {
-        insertS1()
-      }
-
-      milestones.push({
-        warpType: WarpType.CHARACTER,
-        label: `E${eidolon}`,
-        guaranteed: eidolon === EidolonLevel.E0 ? startingState.character.guaranteed : false,
-        pity: eidolon === EidolonLevel.E0 ? startingState.character.pity : 0,
-        warpCap: characterWarpCap,
-      })
-
-      if (s1InsertionAfterEidolon === eidolon) {
-        insertS1()
-      }
+      if (s1InsertionAfterEidolon < eidolon) insertS1()
+      path.push(WarpType.CHARACTER)
+      if (s1InsertionAfterEidolon === eidolon) insertS1()
     }
   }
 
   insertS1()
 
   for (let superimposition = SuperimpositionLevel.S2; superimposition <= lightConeTarget; superimposition++) {
-    milestones.push({
-      warpType: WarpType.LIGHTCONE,
-      label: `S${superimposition}`,
-      guaranteed: false,
-      pity: 0,
-      warpCap: lightConeWarpCap,
-    })
+    path.push(WarpType.LIGHTCONE)
   }
 
-  return milestones
+  return path
 }
 
 function isTargetReached(
@@ -450,187 +253,17 @@ function isTargetReached(
   return true
 }
 
-function filterRemapMilestones(milestones: WarpMilestone[], target: WarpTarget, startingState: StartingBannerState) {
-  let skipCharacterMilestones: number = target.currentEidolonLevel
-  let skipLightConeMilestones: number = target.currentSuperimpositionLevel
-  let filteredMilestones: WarpMilestone[] = []
+function milestoneStats(cumulativePmf: number[], budget: number): WarpMilestoneResult {
+  // Expected warps = Σ k * P(total cost = k)
+  const warps = cumulativePmf.reduce((sum, p, k) => sum + k * p, 0)
 
-  // Filter out previous eidolon and superimposition already obtained.
-  filteredMilestones = milestones.filter((milestone) => {
-    switch (milestone.warpType) {
-      case WarpType.CHARACTER:
-        if (skipCharacterMilestones > -1) {
-          skipCharacterMilestones--
-          return false
-        }
-        break
-      case WarpType.LIGHTCONE:
-        if (skipLightConeMilestones > 0) {
-          skipLightConeMilestones--
-          return false
-        }
-        break
-    }
-    return true
-  })
-
-  // Remap the new starting milestone
-  const firstNewCharacterIndex: number = filteredMilestones.findIndex((milestone) => milestone.warpType === WarpType.CHARACTER)
-  if (firstNewCharacterIndex >= 0) {
-    filteredMilestones[firstNewCharacterIndex].pity = startingState.character.pity
-    filteredMilestones[firstNewCharacterIndex].guaranteed = startingState.character.guaranteed
+  // Win probability = P(total cost <= budget)
+  let wins = 0
+  for (let k = 0; k <= budget && k < cumulativePmf.length; k++) {
+    wins += cumulativePmf[k]
   }
 
-  const firstNewLightConeIndex: number = filteredMilestones.findIndex((milestone) => milestone.warpType === WarpType.LIGHTCONE)
-  if (firstNewLightConeIndex >= 0) {
-    filteredMilestones[firstNewLightConeIndex].pity = startingState.lightCone.pity
-    filteredMilestones[firstNewLightConeIndex].guaranteed = startingState.lightCone.guaranteed
-  }
-
-  return filteredMilestones
-}
-
-export type EnrichedWarpRequest = {
-  warps: number,
-  totalStarlight: number,
-  totalPasses: number,
-  additionalPasses: number,
-  totalJade: number,
-} & WarpRequest
-
-export function enrichWarpRequest(originalRequest: WarpRequest) {
-  const request: WarpRequest = {
-    ...DEFAULT_WARP_REQUEST,
-    ...originalRequest,
-    jades: Number(originalRequest.jades) || 0,
-    passes: Number(originalRequest.passes) || 0,
-    pityCharacter: Number(originalRequest.pityCharacter) || 0,
-    pityLightCone: Number(originalRequest.pityLightCone) || 0,
-    targets: normalizeWarpTargets(originalRequest),
-  }
-
-  const selectedIncome = request.income.map(
-    (incomeId) => WarpIncomeOptions.find((option) => option.id == incomeId) ?? NONE_WARP_INCOME_OPTION,
-  )
-
-  let additionalPasses = 0
-
-  for (const income of selectedIncome) {
-    additionalPasses += income.passes
-  }
-
-  const totalJade = request.jades
-  const totalPasses = request.passes + additionalPasses
-  const initialWarps = Math.floor(totalJade / 160) + totalPasses
-
-  const refundedWarps = Math.floor((StarlightMultiplier[request.starlight] ?? 0) * initialWarps)
-  const totalStarlight = refundedWarps * 20
-  const totalWarps = initialWarps + refundedWarps
-
-  const enrichedRequest: EnrichedWarpRequest = {
-    ...request,
-    warps: totalWarps,
-    totalJade: totalJade,
-    totalPasses: totalPasses,
-    additionalPasses: additionalPasses,
-    totalStarlight: totalStarlight,
-  }
-
-  if (request.bannerRotation == BannerRotation.NEW) {
-    enrichedRequest.currentEidolonLevel = EidolonLevel.NONE
-    enrichedRequest.currentSuperimpositionLevel = SuperimpositionLevel.NONE
-  }
-
-  return enrichedRequest
-}
-
-export function normalizeWarpTargets(originalRequest: WarpRequest): WarpTarget[] {
-  if (Array.isArray(originalRequest.targets) && originalRequest.targets.length > 0) {
-    return originalRequest.targets.map((target, index) => normalizeTarget(target, index, originalRequest))
-  }
-
-  return [
-    normalizeTarget({
-      id: 'target-1',
-      characterId: null,
-      lightConeId: null,
-      targetEidolonLevel: EidolonLevel.E6,
-      targetSuperimpositionLevel: SuperimpositionLevel.S5,
-      strategy: originalRequest.strategy ?? WarpStrategy.E0,
-      currentEidolonLevel: originalRequest.bannerRotation === BannerRotation.RERUN ? originalRequest.currentEidolonLevel ?? EidolonLevel.NONE : EidolonLevel.NONE,
-      currentSuperimpositionLevel: originalRequest.bannerRotation === BannerRotation.RERUN ? originalRequest.currentSuperimpositionLevel ?? SuperimpositionLevel.NONE : SuperimpositionLevel.NONE,
-    }, 0, originalRequest),
-  ]
-}
-
-function normalizeTarget(target: Partial<WarpTarget>, index: number, originalRequest: WarpRequest): WarpTarget {
-  const legacyTarget = splitLegacyTargetGoal(target.target)
-  const fallbackCurrentEidolonLevel = originalRequest.currentEidolonLevel ?? EidolonLevel.NONE
-  const fallbackCurrentSuperimpositionLevel = originalRequest.currentSuperimpositionLevel ?? SuperimpositionLevel.NONE
-
-  return {
-    id: target.id || `target-${index + 1}`,
-    characterId: target.characterId ?? null,
-    lightConeId: target.lightConeId ?? null,
-    targetEidolonLevel: coerceEidolonLevel(target.targetEidolonLevel, legacyTarget.targetEidolonLevel),
-    targetSuperimpositionLevel: coerceSuperimpositionLevel(target.targetSuperimpositionLevel, legacyTarget.targetSuperimpositionLevel),
-    strategy: target.strategy ?? originalRequest.strategy ?? WarpStrategy.E0,
-    currentEidolonLevel: coerceEidolonLevel(target.currentEidolonLevel, fallbackCurrentEidolonLevel),
-    currentSuperimpositionLevel: coerceSuperimpositionLevel(target.currentSuperimpositionLevel, fallbackCurrentSuperimpositionLevel),
-  }
-}
-
-function coerceEidolonLevel(level: unknown, fallback: EidolonLevel): EidolonLevel {
-  return isEidolonLevel(level) ? level : fallback
-}
-
-function coerceSuperimpositionLevel(level: unknown, fallback: SuperimpositionLevel): SuperimpositionLevel {
-  return isSuperimpositionLevel(level) ? level : fallback
-}
-
-function isEidolonLevel(level: unknown): level is EidolonLevel {
-  return [
-    EidolonLevel.NONE,
-    EidolonLevel.E0,
-    EidolonLevel.E1,
-    EidolonLevel.E2,
-    EidolonLevel.E3,
-    EidolonLevel.E4,
-    EidolonLevel.E5,
-    EidolonLevel.E6,
-  ].includes(level as EidolonLevel)
-}
-
-function isSuperimpositionLevel(level: unknown): level is SuperimpositionLevel {
-  return [
-    SuperimpositionLevel.NONE,
-    SuperimpositionLevel.S1,
-    SuperimpositionLevel.S2,
-    SuperimpositionLevel.S3,
-    SuperimpositionLevel.S4,
-    SuperimpositionLevel.S5,
-  ].includes(level as SuperimpositionLevel)
-}
-
-function splitLegacyTargetGoal(target: WarpTargetGoal | undefined): Pick<WarpTarget, 'targetEidolonLevel' | 'targetSuperimpositionLevel'> {
-  if (target === 'S1') {
-    return {
-      targetEidolonLevel: EidolonLevel.NONE,
-      targetSuperimpositionLevel: SuperimpositionLevel.S1,
-    }
-  }
-
-  if (target && WarpTargetGoals.includes(target)) {
-    return {
-      targetEidolonLevel: Number(target.charAt(1)) as EidolonLevel,
-      targetSuperimpositionLevel: Number(target.charAt(3)) as SuperimpositionLevel,
-    }
-  }
-
-  return {
-    targetEidolonLevel: EidolonLevel.E6,
-    targetSuperimpositionLevel: SuperimpositionLevel.S5,
-  }
+  return { warps, wins }
 }
 
 // PMF (probability mass function) for cost starting at pity position.
@@ -638,6 +271,8 @@ function splitLegacyTargetGoal(target: WarpTargetGoal | undefined): Pick<WarpTar
 function pityAdjustedPmf(distribution: number[], pity: number, warpCap: number): number[] {
   const slice = distribution.slice(pity, warpCap)
   const total = slice.reduce((sum, p) => sum + p, 0)
+  // pity at/beyond the hard cap leaves no probability mass; contribute zero cost rather than NaN.
+  if (total === 0) return [1]
   return [0, ...slice.map((p) => p / total)]
 }
 

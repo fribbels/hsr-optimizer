@@ -3,7 +3,7 @@ import {
   DEFAULT_WARP_REQUEST,
   type WarpRequest,
   type WarpResult,
-} from 'lib/tabs/tabWarp/warpCalculatorController'
+} from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { type Nullable } from 'types/common'
 
 const defaultStateValues = {

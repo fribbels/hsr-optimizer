@@ -1,17 +1,22 @@
 // @vitest-environment jsdom
 import { Metadata } from 'lib/state/metadataInitializer'
+import { calculateWarps } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
   BannerRotation,
-  calculateWarps,
+  type LegacyWarpRequest,
+  migrateWarpRequest,
+  normalizeWarpTargets,
+} from 'lib/tabs/tabWarp/warpCalculatorMigration'
+import {
+  DEFAULT_WARP_TARGET,
   EidolonLevel,
   NONE_WARP_INCOME_OPTION,
-  normalizeWarpTargets,
   PlannerMode,
   StarlightRefund,
   SuperimpositionLevel,
   type WarpRequest,
   WarpStrategy,
-} from 'lib/tabs/tabWarp/warpCalculatorController'
+} from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import {
   expect,
   test,
@@ -21,16 +26,7 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,
   jades: 0,
   income: [NONE_WARP_INCOME_OPTION.id],
-  targets: [{
-    id: 'target-1',
-    characterId: null,
-    lightConeId: null,
-    targetEidolonLevel: EidolonLevel.E6,
-    targetSuperimpositionLevel: SuperimpositionLevel.S5,
-    strategy: WarpStrategy.E0,
-    currentEidolonLevel: EidolonLevel.NONE,
-    currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-  }],
+  targets: [{ ...DEFAULT_WARP_TARGET }],
   plannerMode: PlannerMode.MULTI,
   strategy: WarpStrategy.E0,
   starlight: StarlightRefund.REFUND_NONE,
@@ -38,16 +34,13 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
-  bannerRotation: BannerRotation.NEW,
-  currentEidolonLevel: EidolonLevel.NONE,
-  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
 
 Metadata.initialize()
 
 function target(patch: Partial<WarpRequest['targets'][number]> = {}): WarpRequest['targets'][number] {
   return {
-    ...DEFAULT_WARP_REQUEST.targets[0],
+    ...DEFAULT_WARP_TARGET,
     ...patch,
   }
 }
@@ -63,7 +56,6 @@ test('strategies e0', () => {
   const e0Result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
     strategy: WarpStrategy.E0,
-    targets: [target({ strategy: WarpStrategy.E0 })],
   })
 
   expect(Object.keys(e0Result.milestoneResults)).toEqual([
@@ -86,7 +78,6 @@ test('strategies s1', () => {
   const s1Result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
     strategy: WarpStrategy.S1,
-    targets: [target({ strategy: WarpStrategy.S1 })],
   })
   expect(Object.keys(s1Result.milestoneResults)).toEqual([
     'S1',
@@ -108,7 +99,6 @@ test('strategies e6', () => {
   const e6Result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
     strategy: WarpStrategy.E6,
-    targets: [target({ strategy: WarpStrategy.E6 })],
   })
   expect(Object.keys(e6Result.milestoneResults)).toEqual([
     'E0S0',
@@ -198,9 +188,6 @@ test('expected current eidolon and lightcone values', () => {
   const result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
     passes: 300,
-    bannerRotation: BannerRotation.RERUN,
-    currentEidolonLevel: EidolonLevel.E1,
-    currentSuperimpositionLevel: SuperimpositionLevel.S1,
     targets: [target({
       currentEidolonLevel: EidolonLevel.E1,
       currentSuperimpositionLevel: SuperimpositionLevel.S1,
@@ -262,11 +249,11 @@ test('multiple targets carry cumulative pulls forward and stop at each target go
 test('s1 target stops at the first light cone milestone without requiring eidolons', () => {
   const result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
+    strategy: WarpStrategy.E0,
     targets: [
       target({
         targetEidolonLevel: EidolonLevel.NONE,
         targetSuperimpositionLevel: SuperimpositionLevel.S1,
-        strategy: WarpStrategy.E0,
       }),
     ],
   })
@@ -277,11 +264,11 @@ test('s1 target stops at the first light cone milestone without requiring eidolo
 test('split e0 and s5 target does not pull extra eidolons', () => {
   const result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
+    strategy: WarpStrategy.S1,
     targets: [
       target({
         targetEidolonLevel: EidolonLevel.E0,
         targetSuperimpositionLevel: SuperimpositionLevel.S5,
-        strategy: WarpStrategy.S1,
       }),
     ],
   })
@@ -299,11 +286,11 @@ test('split e0 and s5 target does not pull extra eidolons', () => {
 test('split none and s5 target pulls only light cone milestones', () => {
   const result = calculateWarps({
     ...DEFAULT_WARP_REQUEST,
+    strategy: WarpStrategy.S1,
     targets: [
       target({
         targetEidolonLevel: EidolonLevel.NONE,
         targetSuperimpositionLevel: SuperimpositionLevel.S5,
-        strategy: WarpStrategy.S1,
       }),
     ],
   })
@@ -317,18 +304,18 @@ test('split none and s5 target pulls only light cone milestones', () => {
   ])
 })
 
-test('legacy s1 target is normalized to light cone only', () => {
-  const result = calculateWarps({
+test('legacy s1 target is migrated to light cone only', () => {
+  const legacy: LegacyWarpRequest = {
     ...DEFAULT_WARP_REQUEST,
     targets: [{
       id: 'target-1',
       characterId: null,
       target: 'S1',
-      strategy: WarpStrategy.E0,
       currentEidolonLevel: EidolonLevel.NONE,
       currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-    } as unknown as WarpRequest['targets'][number]],
-  })
+    }],
+  }
+  const result = calculateWarps(migrateWarpRequest(legacy))
 
   expect(result.request.targets[0].targetEidolonLevel).toBe(EidolonLevel.NONE)
   expect(result.request.targets[0].targetSuperimpositionLevel).toBe(SuperimpositionLevel.S1)
@@ -336,16 +323,18 @@ test('legacy s1 target is normalized to light cone only', () => {
 })
 
 test('target normalization preserves legacy goals when split target values are invalid', () => {
-  const normalizedTargets = normalizeWarpTargets({
+  const legacy: LegacyWarpRequest = {
     ...DEFAULT_WARP_REQUEST,
-    targets: [target({
+    targets: [{
+      ...DEFAULT_WARP_TARGET,
       target: 'E2S1',
       targetEidolonLevel: 99 as EidolonLevel,
       targetSuperimpositionLevel: 99 as SuperimpositionLevel,
       currentEidolonLevel: 99 as EidolonLevel,
       currentSuperimpositionLevel: 99 as SuperimpositionLevel,
-    })],
-  })
+    }],
+  }
+  const normalizedTargets = normalizeWarpTargets(legacy)
 
   expect(normalizedTargets[0].targetEidolonLevel).toBe(EidolonLevel.E2)
   expect(normalizedTargets[0].targetSuperimpositionLevel).toBe(SuperimpositionLevel.S1)
@@ -354,21 +343,22 @@ test('target normalization preserves legacy goals when split target values are i
 })
 
 test('target normalization migrates legacy request-level rerun settings into the first target', () => {
-  const normalizedTargets = normalizeWarpTargets({
+  const legacy: LegacyWarpRequest = {
     ...DEFAULT_WARP_REQUEST,
     targets: [],
     bannerRotation: BannerRotation.RERUN,
     strategy: WarpStrategy.E5,
     currentEidolonLevel: EidolonLevel.E2,
     currentSuperimpositionLevel: SuperimpositionLevel.S3,
-  })
+  }
+  const normalizedTargets = normalizeWarpTargets(legacy)
 
   expect(normalizedTargets).toHaveLength(1)
-  expect(normalizedTargets[0].strategy).toBe(WarpStrategy.E5)
   expect(normalizedTargets[0].targetEidolonLevel).toBe(EidolonLevel.E6)
   expect(normalizedTargets[0].targetSuperimpositionLevel).toBe(SuperimpositionLevel.S5)
   expect(normalizedTargets[0].currentEidolonLevel).toBe(EidolonLevel.E2)
   expect(normalizedTargets[0].currentSuperimpositionLevel).toBe(SuperimpositionLevel.S3)
+  expect(migrateWarpRequest(legacy).strategy).toBe(WarpStrategy.E5)
 })
 
 function expectWithin3(actual: number, expected: number) {

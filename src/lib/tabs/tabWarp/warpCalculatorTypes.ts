@@ -15,11 +15,6 @@ export enum WarpIncomeType {
   BP_EXPRESS,
 }
 
-export enum BannerRotation {
-  NEW,
-  RERUN,
-}
-
 export enum PlannerMode {
   SINGLE = 'single',
   MULTI = 'multi',
@@ -75,62 +70,26 @@ export const StarlightMultiplier: Record<StarlightRefund, number> = {
   [StarlightRefund.REFUND_HIGH]: 0.11,
 }
 
-export type WarpTargetGoal =
-  | 'S1'
-  | 'E0S0'
-  | 'E0S1'
-  | 'E1S1'
-  | 'E2S1'
-  | 'E3S1'
-  | 'E4S1'
-  | 'E5S1'
-  | 'E6S1'
-  | 'E6S2'
-  | 'E6S3'
-  | 'E6S4'
-  | 'E6S5'
-
-export const WarpTargetGoals: WarpTargetGoal[] = [
-  'E0S0',
-  'S1',
-  'E0S1',
-  'E1S1',
-  'E2S1',
-  'E3S1',
-  'E4S1',
-  'E5S1',
-  'E6S1',
-  'E6S2',
-  'E6S3',
-  'E6S4',
-  'E6S5',
-]
-
 export type WarpRequest = {
   passes: number,
   jades: number,
   income: string[],
   targets: WarpTarget[],
   plannerMode: PlannerMode,
-  bannerRotation: BannerRotation,
   strategy: WarpStrategy,
   starlight: StarlightRefund,
   pityCharacter: number,
   guaranteedCharacter: boolean,
   pityLightCone: number,
   guaranteedLightCone: boolean,
-  currentEidolonLevel: EidolonLevel,
-  currentSuperimpositionLevel: SuperimpositionLevel,
 }
 
 export type WarpTarget = {
   id: string,
   characterId: CharacterId | null,
   lightConeId: LightConeId | null,
-  target?: WarpTargetGoal,
   targetEidolonLevel: EidolonLevel,
   targetSuperimpositionLevel: SuperimpositionLevel,
-  strategy: WarpStrategy,
   currentEidolonLevel: EidolonLevel,
   currentSuperimpositionLevel: SuperimpositionLevel,
 }
@@ -164,32 +123,28 @@ export type WarpIncomeDefinition = {
   phase: number,
 }
 
+export const DEFAULT_WARP_TARGET: WarpTarget = {
+  id: 'target-1',
+  characterId: null,
+  lightConeId: null,
+  targetEidolonLevel: EidolonLevel.E6,
+  targetSuperimpositionLevel: SuperimpositionLevel.S5,
+  currentEidolonLevel: EidolonLevel.NONE,
+  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
+}
+
 export const DEFAULT_WARP_REQUEST: WarpRequest = {
   passes: 0,
   jades: 0,
   income: [],
-  targets: [
-    {
-      id: 'target-1',
-      characterId: null,
-      lightConeId: null,
-      targetEidolonLevel: EidolonLevel.E6,
-      targetSuperimpositionLevel: SuperimpositionLevel.S5,
-      strategy: WarpStrategy.E0,
-      currentEidolonLevel: EidolonLevel.NONE,
-      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-    },
-  ],
+  targets: [{ ...DEFAULT_WARP_TARGET }],
   plannerMode: PlannerMode.MULTI,
-  bannerRotation: BannerRotation.NEW,
   strategy: WarpStrategy.E0,
   starlight: StarlightRefund.REFUND_AVG,
   pityCharacter: 0,
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
-  currentEidolonLevel: EidolonLevel.NONE,
-  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
 
 function generateOption(version: string, phase: number, type: WarpIncomeType, passes: number): WarpIncomeDefinition {

@@ -6,7 +6,7 @@ Scoring:
     AddRelicSetPlaceholder: Add relic set
     AddOrnamentSetPlaceholder: Add ornament set
   WeightMethodology:
-    Header: How is Stat Score calculated?
+    Header: How are Substat Rolls calculated?
   Footer:
     Reset: Reset to default
     ResetAll: Reset all characters

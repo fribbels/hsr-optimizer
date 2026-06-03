@@ -342,7 +342,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
           className={classes.bottomDivider}
           label={
             <ColorizedLinkWithIcon
-              text={'How is Substat Score calculated?' /* Hardcoded — label still in flux, skip i18n for now */}
+              text={'How are Substat Rolls calculated?' /* Hardcoded — label still in flux, skip i18n for now */}
               linkIcon={true}
               url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
             />

@@ -92,7 +92,7 @@ interface Resources {
           "CombatScore": "Combat Score",
           "CombatScoreTBD": "Combat (TBD)",
           "NoneScore": "None",
-          "StatScore": "Stat Score"
+          "StatScore": "Substat Rolls"
         }
       },
       "ArtBy": "Art by {{artistName}}",
@@ -164,7 +164,7 @@ interface Resources {
         }
       },
       "EST-TBP": {
-        "Header": "Stat Score Analysis",
+        "Header": "Substat Rolls Analysis",
         "MetricsCard": {
           "Days": "Days",
           "Potential": "Reroll Potential",
@@ -6595,7 +6595,7 @@ interface Resources {
       "SetWeightsHeader": "Set weights",
       "StatWeightsHeader": "Stat weights",
       "WeightMethodology": {
-        "Header": "How is Stat Score calculated?"
+        "Header": "How are Substat Rolls calculated?"
       }
     },
     "SwitchRelics": {

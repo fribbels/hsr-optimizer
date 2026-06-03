@@ -59,7 +59,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
       })
     }
     segments.push({
-      label: 'Substat Score', // Hardcoded — label still in flux, skip i18n for now
+      label: 'Substat Rolls', // Hardcoded — label still in flux, skip i18n for now
       value: String(ScoringType.SUBSTAT_SCORE),
     })
     segments.push({
@@ -128,7 +128,7 @@ function StatScoringSummary({ displayRelics, showcaseMetadata }: {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <ColorizedTitleWithInfo
-        text={'Substat Score Analysis' /* Hardcoded — label still in flux, skip i18n for now */}
+        text={'Substat Rolls Analysis' /* Hardcoded — label still in flux, skip i18n for now */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
       />
       <EstimatedTbpRelicsDisplay

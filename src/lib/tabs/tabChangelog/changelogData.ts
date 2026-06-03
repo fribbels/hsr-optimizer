@@ -452,7 +452,7 @@ export function getChangelogContent() {
       date: '2025-03-27',
       content: [
         `Updated content to 3.2v6`,
-        `Added a Stat Score Analysis section to the showcase`,
+        `Added a Substat Rolls Analysis section to the showcase`,
         `This visualizes the quality of a build's relics and the Estimated TBP investment that would be required to farm an upgrade based on stat weights`,
         `esttbp.webp`,
         `Added Starlight refund options to the Warp Planner`,

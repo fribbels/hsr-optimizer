@@ -59,6 +59,7 @@ SectionTitles:
   Rerun: 复刻
   AdditionalResources: 额外资源
   Calculate: 计算
+  Simple: 简易
 ColumnTitles:
   Goal: 目标
   Chance: "使用 {{ticketCount}} <1/> 的成功概率 "

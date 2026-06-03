@@ -72,7 +72,7 @@ import type { Relic } from 'types/relic'
 // =========================================== Constants ===========================================
 
 const DEFAULT_CENTER: ImageCenter = { x: 1024, y: 1024, z: 1 }
-const PORTRAIT_H = parentH - newLcHeight - newLcMargin // 720
+const PORTRAIT_H = parentH - newLcHeight - newLcMargin // 706
 
 // =========================================== Shared Hook ===========================================
 

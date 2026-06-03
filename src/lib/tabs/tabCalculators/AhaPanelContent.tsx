@@ -94,6 +94,7 @@ function IntegratedRows({ form, rows, ahaSpeed }: {
 
   return (
     <div className={classes.integratedRows}>
+      <HeaderRow />
       <BaseIntegratedRow ahaSpeed={ahaSpeed} />
       {rows.map((row, domIndex) => {
         const visualPos = visualPositions[domIndex]
@@ -124,10 +125,20 @@ function getVisualPositions(rows: TeammateRow[]): number[] {
   })
 }
 
+function HeaderRow() {
+  return (
+    <div className={`${classes.integratedRow} ${classes.headerRow}`}>
+      <div className={classes.headerCell}>Elation<br />Teammate</div>
+      <div className={classes.headerCell}>Combat<br />Speed</div>
+      <div className={classes.headerCell}>Speed<br />Added</div>
+    </div>
+  )
+}
+
 function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
   return (
     <div className={`${classes.integratedRow} ${classes.baseRow}`}>
-      <div className={classes.rowSource}>Aha Base</div>
+      <div className={classes.rowSource}>Aha</div>
       <div className={classes.rowInputPlaceholder} />
       <div className={classes.rowTrack}>
         <div

@@ -14,6 +14,8 @@ function getDamageTypeName(damageType: number): string {
   if (damageType & DamageTag.SUPER_BREAK) types.push('SUPER_BREAK')
   if (damageType & DamageTag.MEMO) types.push('MEMO')
   if (damageType & DamageTag.ADDITIONAL) types.push('ADDITIONAL')
+  if (damageType & DamageTag.ELATION) types.push('ELATION')
+  if (damageType & DamageTag.ASSIST) types.push('ASSIST')
   return types.length > 0 ? types.join(' | ') : 'NONE'
 }
 

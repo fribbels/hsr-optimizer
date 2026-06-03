@@ -4,18 +4,20 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.3.5'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.4.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.3v5'
+export const CURRENT_DATA_VERSION = '4.4v1'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
 export const RELIQUARY_DOWNTIME = false
-export const DOWNTIME_VERSION: string = '4.2'
+export const DOWNTIME_VERSION: string = '4.4'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  '1507': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1508': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1509': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1510': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
 }
 
 export const Stats = {
@@ -426,6 +428,8 @@ export const Sets = {
   TengokuLivestream: 'Tengoku@Livestream',
   PunklordeStageZero: 'Punklorde Stage Zero',
   CityOfConvergingStars: 'City of Converging Stars',
+  FallenStarAnchorage: 'Fallen Star Anchorage',
+  CosmicLifeSciencesInstitute: 'Cosmic Life Sciences Institute',
 } as const
 export type SetKey = keyof typeof Sets
 export type Sets = typeof Sets[SetKey]

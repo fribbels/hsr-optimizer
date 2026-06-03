@@ -1,0 +1,53 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 6px;
+  align-items: center;
+}
+
+/* Stat rows */
+
+.statGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+  margin-bottom: 9px;
+}
+
+.statLine {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20px;
+}
+
+.statLabel {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.rollCount {
+  min-width: 24px;
+  text-align: right;
+}
+
+/* Stripe bar */
+
+.stripeTrack {
+  display: flex;
+  gap: 1px;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.stripeGroup { display: flex; gap: 1px; height: 6px; }
+
+.stripeSegment {
+  height: 6px;
+}
+
+.stripeTrack > .stripeGroup:last-child > .stripeSegment:last-child { border-radius: 0 3px 3px 0; }

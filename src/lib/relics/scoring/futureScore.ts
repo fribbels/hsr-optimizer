@@ -6,8 +6,6 @@ import {
 import type { SubStats } from 'lib/constants/constants'
 import {
   GRADE_CONFIG,
-  MIN_ROLL_VALUE,
-  PERCENT_TO_SCORE,
 } from 'lib/relics/scoring/scoringConstants'
 import type { ValidGrade } from 'lib/relics/scoring/scoringConstants'
 import type {
@@ -37,16 +35,14 @@ export function computeFutureScores(
   const contributions = meta.contributions
   const part = relic.part
 
-  // Inline mainStatWeight/deduction/bonus — avoids 6 cross-module function calls per relic
+  // Inline mainStatWeight/deduction — avoids cross-module function calls per relic
   const isSelectablePart = part === Parts.Body || part === Parts.Feet || part === Parts.PlanarSphere || part === Parts.LinkRope
   let deduction = 0
-  let bonus = 0
   if (isSelectablePart) {
     const w = meta.parts[part].includes(relic.main.stat) ? 1 : (meta.stats[relic.main.stat] ?? 0)
     deduction = (w - 1) * config.maxMainstat
-    bonus = MIN_ROLL_VALUE * w
   }
-  const normFactor = idealScore === Infinity ? 0 : 100 * PERCENT_TO_SCORE / idealScore
+  const normFactor = idealScore === Infinity ? 0 : 100 / idealScore
 
   const allSubstats: RelicSubstatMetadata[] = relic.previewSubstats.length > 0
     ? relic.substats.concat(relic.previewSubstats)
@@ -141,7 +137,7 @@ export function computeFutureScores(
   let bestRaw = baseRaw
   let worstRaw = baseRaw
 
-  const current = Math.max(0, (currentRaw + deduction) * normFactor + bonus)
+  const current = Math.max(0, (currentRaw + deduction) * normFactor)
 
   // ── Fill missing substats (only for relics with < 4 substats) ──
   if (needsFill) {
@@ -173,12 +169,12 @@ export function computeFutureScores(
   }
 
   bestRaw += remainingRolls * SubStatValues[bestUpgradeStat][grade].high * contributions[bestUpgradeStat]
-  const best = Math.max(0, (bestRaw + deduction) * normFactor + bonus)
-  const average = Math.max(0, (avgRaw + deduction) * normFactor + bonus)
+  const best = Math.max(0, (bestRaw + deduction) * normFactor)
+  const average = Math.max(0, (avgRaw + deduction) * normFactor)
   worstRaw += remainingRolls * (grade === 5
     ? meta.lowRollScores[worstUpgradeStat]
     : SubStatValues[worstUpgradeStat][grade].low * contributions[worstUpgradeStat])
-  const worst = Math.max(0, (worstRaw + deduction) * normFactor + bonus)
+  const worst = Math.max(0, (worstRaw + deduction) * normFactor)
 
   // ── Levelup metadata ──
   let levelupMetadata: {
@@ -246,10 +242,10 @@ export function computeFutureScores(
     const blockedMid = meta.midRollScores[blockedStat]
 
     rerollAvg = Math.min(midRollSum * (1 + totalRolls / 4), idealScore)
-    rerollAvg = (rerollAvg + deduction) * normFactor + bonus
+    rerollAvg = (rerollAvg + deduction) * normFactor
 
     blockerAvg = Math.min(blockedMid + (midRollSum - blockedMid) * (1 + totalRolls / 3), idealScore)
-    blockerAvg = (blockerAvg + deduction) * normFactor + bonus
+    blockerAvg = (blockerAvg + deduction) * normFactor
   }
 
   return {

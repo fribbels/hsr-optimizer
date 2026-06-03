@@ -387,7 +387,7 @@ const SuspendedHeader = memo(function SuspendedHeader({ t, configType, avatarSrc
           selector={(result: SimulationScore | null) => {
             if (!result) return null
             return t('CharacterPreview.ScoringColumn.Character.Header', {
-              score: truncate10ths(precisionRound(result.percent * 100)),
+              score: truncate10ths(precisionRound(result.percent * 100)).toFixed(1),
             })
           }}
         />

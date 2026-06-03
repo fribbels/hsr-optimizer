@@ -58,7 +58,8 @@ import {
   ShowcaseScoreHeader,
   ShowcaseSimScorePanel,
 } from 'lib/characterPreview/scoring/ShowcaseSimScore'
-import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
+import { ShowcaseSetBonuses } from 'lib/characterPreview/scoring/ShowcaseSetBonuses'
+import { ShowcaseSubstatRolls } from 'lib/characterPreview/scoring/ShowcaseSubstatRolls'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
@@ -590,7 +591,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               />
             </OuterShadowRingWrapper>
 
-            {isSimScoreMode(scoringType) && (
+            {(isSimScoreMode(scoringType) || scoringType === ScoringType.SUBSTAT_SCORE) && (
               <OuterShadowRingWrapper>
                 <ShowcaseLightConeSmall
                   character={character}
@@ -656,22 +657,21 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 </>
               )}
 
-              {!isSimScoreMode(scoringType) && (
+              {scoringType === ScoringType.SUBSTAT_SCORE && (
                 <>
-                  {scoringType !== ScoringType.NONE && (
-                    <ShowcaseStatScore
-                      scoringResults={scoringResults}
-                    />
-                  )}
-
-                  <ShowcaseLightConeLargeName
-                    showcaseMetadata={showcaseMetadata}
-                  />
+                  <ShowcaseSetBonuses displayRelics={displayRelics} />
+                  <ShowcaseSubstatRolls displayRelics={displayRelics} characterId={showcaseMetadata.characterId} seedColor={seedColor} />
                 </>
+              )}
+
+              {scoringType === ScoringType.NONE && (
+                <ShowcaseLightConeLargeName
+                  showcaseMetadata={showcaseMetadata}
+                />
               )}
             </div>
 
-            {!isSimScoreMode(scoringType) && (
+            {scoringType === ScoringType.NONE && (
               <OuterShadowRingWrapper>
                 <ShowcaseLightConeLarge
                   character={character}
@@ -701,6 +701,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           characterId={showcaseMetadata.characterId}
           teammateCharacterIds={layout.activeSimulationMetadata?.teammates.map((t) => t.characterId)}
         />
+
 
         {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
           <ShowcaseBuildAnalysis

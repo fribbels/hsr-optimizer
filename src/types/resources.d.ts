@@ -4919,6 +4919,18 @@ export default interface Resources {
         "LongName": "Mortenax Blade",
         "Name": "Mortenax Blade"
       },
+      "1508": {
+        "LongName": "Rin Tohsaka",
+        "Name": "Rin Tohsaka"
+      },
+      "1509": {
+        "LongName": "Gilgamesh",
+        "Name": "Gilgamesh"
+      },
+      "1510": {
+        "LongName": "Himeko • Nova",
+        "Name": "Himeko • Nova"
+      },
       "8001": {
         "LongName": "Caelus (Destruction)",
         "Name": "Caelus"
@@ -5435,6 +5447,15 @@ export default interface Resources {
       "23059": {
         "Name": "Reforged in Hellfire"
       },
+      "23060": {
+        "Name": "A Star That Lights the Night"
+      },
+      "23061": {
+        "Name": "Flickering Stars"
+      },
+      "23062": {
+        "Name": "I Am As You Behold"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -5620,13 +5641,13 @@ export default interface Resources {
         "Name": "Diviner of Distant Reach"
       },
       "131": {
-        "Description2pc": "Increases ATK by 23%.",
-        "Description4pc": "When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).",
+        "Description2pc": "Increases ATK by 12%.",
+        "Description4pc": "When the wearer enters combat or uses Skill, the DMG dealt by their Skill and Ultimate increases by 18%, stacking up to 3 times. At the start of the wearer's turn or after using Ultimate, removes 1 stack of this effect.",
         "Name": "As Navigator Isee Sees It"
       },
       "132": {
-        "Description2pc": "Increases Max HP by 23%.",
-        "Description4pc": "Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with \"Comburent\" increases by 30%. This effect can be triggered again after the wearer uses an attack.",
+        "Description2pc": "Increases Max HP by 12%.",
+        "Description4pc": "Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 2 turns. This effect cannot be stacked. The DMG dealt by ally targets with \"Comburent\" increases by 15%. This effect can be triggered again after the wearer uses an attack.",
         "Name": "Divine-Querying Master Smith"
       },
       "301": {
@@ -5732,6 +5753,14 @@ export default interface Resources {
       "326": {
         "Description2pc": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turns. When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.",
         "Name": "City of Converging Stars"
+      },
+      "327": {
+        "Description2pc": "Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.",
+        "Name": "Fallen Star Anchorage"
+      },
+      "328": {
+        "Description2pc": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.",
+        "Name": "Cosmic Life Sciences Institute"
       }
     }
   },
@@ -5846,7 +5875,7 @@ export default interface Resources {
     "Relics": {
       "Title": "Relics",
       "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
-      "p2": "Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected character",
+      "p2": "Selected character: Score - The relic's current substat quality as a percentage of the ideal relic for the selected character in this slot",
       "p3": "Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible rolls it could have on the way to +15",
       "p4": "Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's desired stats",
       "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
@@ -6882,6 +6911,7 @@ export default interface Resources {
       "DamageTags": {
         "ADDITIONAL": "ADDITIONAL",
         "ALL": "ALL",
+        "ASSIST": "ASSIST",
         "BASIC": "BASIC",
         "BREAK": "BREAK",
         "DOT": "DOT",

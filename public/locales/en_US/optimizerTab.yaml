@@ -749,6 +749,7 @@ ExpandedDataPanel:
     MEMO: MEMO
     ADDITIONAL: ADDITIONAL
     ELATION: ELATION
+    ASSIST: ASSIST
     UNIQUE: UNIQUE
   DamageSplits:
     Title: Combo Breakdown

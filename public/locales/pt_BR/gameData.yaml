@@ -245,6 +245,15 @@ Characters:
   "1507":
     Name: Mortenax Blade
     LongName: Mortenax Blade
+  "1508":
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
+  "1509":
+    Name: Gilgamesh
+    LongName: Gilgamesh
+  "1510":
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -427,13 +436,13 @@ RelicSets:
     Description2pc: Aumenta a VEL em 6%.
     Description4pc: Antes de entrar em combate, se a VEL do usuário for maior ou igual a 120/160, aumenta a Chance de CRIT do usuário em 10%/18%. Quando o usuário usa uma Perícia da Euforia pela primeira vez em cada batalha, aprimora a Euforia de todos os aliados em 10%. Este efeito não pode acumular.
   "131":
-    Name: As Navigator Isee Sees It
-    Description2pc: Increases ATK by 23%.
-    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+    Name: Como o Navegador Isee Vê
+    Description2pc: Aumenta o ATQ em 12%.
+    Description4pc: Quando o usuário entra em combate ou usa a Perícia, o Dano causado pela Perícia e pela Perícia Suprema aumenta em 18%, acumulando até 3 vezes. No início da rodada do usuário ou após usar a Perícia Suprema, remove 1 acúmulo deste efeito.
   "132":
-    Name: Divine-Querying Master Smith
-    Description2pc: Increases Max HP by 23%.
-    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
+    Name: Mestre Ferreiro da Consulta Divina
+    Description2pc: Aumenta os PV máximos em 12%.
+    Description4pc: Aumenta o Dano CRIT causado pelo usuário a inimigos-alvo no estado de redução de DEF em 28%. Depois que o usuário inflige o estado de redução de DEF a um inimigo-alvo, todos os aliados ganham "Comburente" por 2 rodadas. Esse efeito não pode ser acumulado. O Dano causado por aliados-alvo com "Comburente" aumenta em 15%. Esse efeito pode ser ativado novamente depois que o usuário usa um ataque.
   "301":
     Name: Estação de Vedação Espacial
     Description2pc: Aumenta em 12% o ATQ do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em um extra de 12% o ATQ do usuário.
@@ -512,6 +521,12 @@ RelicSets:
   "326":
     Name: Cidade da Convergência Estelar
     Description2pc: Quando o usuário usa um <u>Ataque Extra</u>, aumenta o ATQ em 24% por 2 rodadas. Quando um inimigo-alvo é derrotado, aumenta o Dano CRIT de todos os aliados em 12% pelo resto da batalha atual. Esse efeito não acumula.
+  "327":
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+  "328":
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -822,7 +837,13 @@ Lightcones:
   "23058":
     Name: Um Encontro na Próxima Primavera
   "23059":
-    Name: Reforged in Hellfire
+    Name: Reforjado nas Chamas do Inferno
+  "23060":
+    Name: A Star That Lights the Night
+  "23061":
+    Name: Flickering Stars
+  "23062":
+    Name: I Am As You Behold
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

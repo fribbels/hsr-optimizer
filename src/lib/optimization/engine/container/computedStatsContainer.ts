@@ -643,7 +643,7 @@ export class ComputedStatsContainer {
     // Record trace once per buff call (outside entity loop to avoid duplicates from multi-entity targeting).
     // - buffs goes to the main character trace (recorded unless targeting exclusively memosprites)
     // - buffsMemo goes to the memosprite trace (recorded when any target is a memosprite)
-    if (this.trace && value !== 0) {
+    if (this.trace && value !== 0 && outputTags !== OutputTag.BUFF) {
       let hasMemo = false
       let allMemo = true
       for (const i of targetEntities) {

@@ -5,8 +5,6 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: Добавить набор реликвий
     AddOrnamentSetPlaceholder: Добавить набор планарок
-  WeightMethodology:
-    Header: Как рассчитывается оценка статов?
   Footer:
     Reset: Восстановить значения по умолчанию
     ResetAll: Сбросить для всех персонажей 

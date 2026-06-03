@@ -53,14 +53,6 @@ SectionTitles:
   Passes: Passes
   Jades: Jades
   Strategy: Strategy
-  DefaultStrategy: Default Strategy
-  Target: Target
-  TargetEidolon: Eidolon target
-  TargetLightCone: Light cone target
-  AddTarget: Add character target
-  RemoveTarget: Remove target
-  CurrentEidolon: Current eidolon
-  CurrentSuperimposition: Current superimposition
   Starlight: Starlight
   Banner: Banner
   New: New

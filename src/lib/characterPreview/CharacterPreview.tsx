@@ -1,8 +1,6 @@
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/card/ShowcaseCharacterHeader'
 import {
-  ShowcaseLightConeLarge,
-  ShowcaseLightConeLargeName,
   ShowcaseLightConeSmall,
 } from 'lib/characterPreview/card/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
@@ -591,17 +589,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               />
             </OuterShadowRingWrapper>
 
-            {(isSimScoreMode(scoringType) || scoringType === ScoringType.SUBSTAT_SCORE) && (
-              <OuterShadowRingWrapper>
-                <ShowcaseLightConeSmall
-                  character={character}
-                  showcaseMetadata={showcaseMetadata}
-                  displayDimensions={displayDimensions}
-                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                />
-              </OuterShadowRingWrapper>
-            )}
+            <OuterShadowRingWrapper>
+              <ShowcaseLightConeSmall
+                character={character}
+                showcaseMetadata={showcaseMetadata}
+                displayDimensions={displayDimensions}
+                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+              />
+            </OuterShadowRingWrapper>
           </div>
 
           {/* Character details middle panel */}
@@ -629,7 +625,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               <ShadowRings />
               <ShowcaseCharacterHeader
                 showcaseMetadata={showcaseMetadata}
-                scoringType={scoringType}
               />
 
               <WrappedCharacterStatSummary
@@ -657,31 +652,14 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 </>
               )}
 
-              {scoringType === ScoringType.SUBSTAT_SCORE && (
+              {(scoringType === ScoringType.SUBSTAT_SCORE || scoringType === ScoringType.NONE) && (
                 <>
                   <ShowcaseSetBonuses displayRelics={displayRelics} />
                   <ShowcaseSubstatRolls displayRelics={displayRelics} characterId={showcaseMetadata.characterId} seedColor={seedColor} />
                 </>
               )}
-
-              {scoringType === ScoringType.NONE && (
-                <ShowcaseLightConeLargeName
-                  showcaseMetadata={showcaseMetadata}
-                />
-              )}
             </div>
 
-            {scoringType === ScoringType.NONE && (
-              <OuterShadowRingWrapper>
-                <ShowcaseLightConeLarge
-                  character={character}
-                  showcaseMetadata={showcaseMetadata}
-                  displayDimensions={displayDimensions}
-                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                />
-              </OuterShadowRingWrapper>
-            )}
           </div>
 
           {/* Relics right panel */}

@@ -148,7 +148,6 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
           <CharacterCustomPortrait
             customPortrait={customPortrait ?? character.portrait!}
             parentW={parentW}
-            scoringType={scoringType}
             defaultPortraitUrl={defaultPortraitUrl}
           />
         )

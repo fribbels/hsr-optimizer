@@ -108,7 +108,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           configType={activeConfigType}
         />
       )}
-      {(scoringType === ScoringType.SUBSTAT_SCORE || !hasAnySimulation)
+      {(scoringType === ScoringType.SUBSTAT_SCORE || scoringType === ScoringType.NONE || !hasAnySimulation)
         && (
           <StatScoringSummary
             displayRelics={displayRelics}

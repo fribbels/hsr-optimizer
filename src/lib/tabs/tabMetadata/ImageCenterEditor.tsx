@@ -36,12 +36,11 @@ import {
 } from 'lib/constants/constants'
 import {
   cardTotalW,
-  innerW,
   newLcHeight,
   newLcMargin,
   parentH,
   parentW,
-  simScoreInnerW,
+  portraitInnerW,
 } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
@@ -73,7 +72,7 @@ import type { Relic } from 'types/relic'
 // =========================================== Constants ===========================================
 
 const DEFAULT_CENTER: ImageCenter = { x: 1024, y: 1024, z: 1 }
-const DPS_CONTAINER_H = parentH - newLcHeight - newLcMargin // 720
+const PORTRAIT_H = parentH - newLcHeight - newLcMargin // 720
 
 // =========================================== Shared Hook ===========================================
 
@@ -580,8 +579,6 @@ function CharacterPreviewEditor() {
 
   // Visual settings
   const [preset, setPreset] = useState<ShowcasePreset>(ShowcasePreset.SHINE)
-  const [dpsScoreMode, setDpsScoreMode] = useState(false)
-
   const characterOptions = useMemo(buildCharacterOptions, [])
   const lightConeOptions = useMemo(buildLightConeOptions, [])
 
@@ -613,8 +610,7 @@ function CharacterPreviewEditor() {
   const editorOverrides: ShowcaseDisplayDimensionsOverride = useMemo(() => ({
     charCenter: imageCenter,
     backgroundCenterOffset: backgroundOffset,
-    forceSimScoreLayout: dpsScoreMode,
-  }), [imageCenter, backgroundOffset, dpsScoreMode])
+  }), [imageCenter, backgroundOffset])
 
   // Track which zone is being dragged
   const draggingRef = useRef(false)
@@ -641,7 +637,7 @@ function CharacterPreviewEditor() {
       lastPosRef.current = { x: e.clientX, y: e.clientY }
 
       if (dragZoneRef.current === 'portrait') {
-        const dragInnerW = dpsScoreMode ? simScoreInnerW : innerW
+        const dragInnerW = portraitInnerW
         setImageCenter((prev) => ({
           ...prev,
           x: prev.x - dx * 2 * 1024 / (prev.z * dragInnerW),
@@ -664,7 +660,7 @@ function CharacterPreviewEditor() {
 
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
-  }, [dpsScoreMode])
+  }, [])
 
   // Zoom interaction (scroll) - portrait zoom vs background zoom based on cursor
   useEffect(() => {
@@ -747,15 +743,6 @@ function CharacterPreviewEditor() {
           data={[
             { label: <IconSparkles size={16} />, value: ShowcasePreset.SHINE },
             { label: <IconTree size={16} />, value: ShowcasePreset.NATURAL },
-          ]}
-        />
-        <SegmentedControl
-          size='xs'
-          value={dpsScoreMode ? 'dps' : 'full'}
-          onChange={(v) => setDpsScoreMode(v === 'dps')}
-          data={[
-            { label: 'Full', value: 'full' },
-            { label: 'DPS Score', value: 'dps' },
           ]}
         />
       </Flex>
@@ -931,50 +918,26 @@ export function ImageCenterEditorSection() {
 
       <Flex gap={40} wrap='nowrap' align='center'>
         <CharacterEditor
-          label='Full View - Static'
+          label='Static'
           selectedCharId={selectedCharId}
           center={portraitCenter}
           setCenter={setPortraitCenter}
           clipboard={clipboard}
           setClipboard={setClipboard}
-          tempInnerW={innerW}
-          containerH={parentH}
+          tempInnerW={portraitInnerW}
+          containerH={PORTRAIT_H}
           mode='static'
           showCrosshairs={showCrosshairs}
         />
         <CharacterEditor
-          label='DPS Score - Static'
-          selectedCharId={selectedCharId}
-          center={portraitCenter}
-          setCenter={setPortraitCenter}
-          clipboard={clipboard}
-          setClipboard={setClipboard}
-          tempInnerW={simScoreInnerW}
-          containerH={DPS_CONTAINER_H}
-          mode='static'
-          showCrosshairs={showCrosshairs}
-        />
-        <CharacterEditor
-          label='Full View - Spine'
+          label='Spine'
           selectedCharId={selectedCharId}
           center={spineCenter}
           setCenter={setSpineCenter}
           clipboard={clipboard}
           setClipboard={setClipboard}
-          tempInnerW={innerW}
-          containerH={parentH}
-          mode='spine'
-          showCrosshairs={showCrosshairs}
-        />
-        <CharacterEditor
-          label='DPS Score - Spine'
-          selectedCharId={selectedCharId}
-          center={spineCenter}
-          setCenter={setSpineCenter}
-          clipboard={clipboard}
-          setClipboard={setClipboard}
-          tempInnerW={simScoreInnerW}
-          containerH={DPS_CONTAINER_H}
+          tempInnerW={portraitInnerW}
+          containerH={PORTRAIT_H}
           mode='spine'
           showCrosshairs={showCrosshairs}
         />

@@ -132,7 +132,6 @@ export type ImageCenter = {
 export type ShowcaseDisplayDimensionsOverride = {
   charCenter?: ImageCenter,
   backgroundCenterOffset?: { x: number, y: number, z: number },
-  forceSimScoreLayout?: boolean,
 }
 
 export type TraceNode = {

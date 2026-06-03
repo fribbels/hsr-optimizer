@@ -6,7 +6,6 @@ import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
 import { calculateWarps } from 'lib/tabs/tabWarp/warpCalculatorController'
-import { migrateWarpRequest } from 'lib/tabs/tabWarp/warpCalculatorMigration'
 import { DEFAULT_WARP_TARGET, EidolonLevel, type EnrichedWarpRequest, PlannerMode, SuperimpositionLevel, type WarpRequest, WarpStrategy, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
@@ -36,10 +35,8 @@ function WarpPlanner() {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
   const storedWarpRequest = useWarpCalculatorStore((s) => s.request)
 
-  const warpRequest = migrateWarpRequest(storedWarpRequest)
-
   const form = useForm<WarpRequest>({
-    initialValues: warpRequest,
+    initialValues: storedWarpRequest,
     onValuesChange: (values) => {
       useWarpCalculatorStore.getState().setRequest(values)
       SaveState.delayedSave(10_000)

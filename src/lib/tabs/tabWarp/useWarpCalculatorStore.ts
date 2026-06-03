@@ -2,20 +2,19 @@ import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareSto
 import {
   DEFAULT_WARP_REQUEST,
   type WarpRequest,
-  type WarpResult,
 } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { type Nullable } from 'types/common'
 
-const defaultStateValues = {
-  request: DEFAULT_WARP_REQUEST,
-  result: null as WarpResult,
+// Seed with a fresh request (own copy of the targets array) so the shared module-level
+// DEFAULT_WARP_REQUEST can never be mutated through the store.
+const defaultStateValues: { request: WarpRequest } = {
+  request: { ...DEFAULT_WARP_REQUEST, targets: DEFAULT_WARP_REQUEST.targets.map((target) => ({ ...target })) },
 }
 
 type WarpCalculatorStateValues = typeof defaultStateValues
 
 type WarpCalculatorStateActions = {
   setRequest: (request: Nullable<WarpRequest>) => void,
-  setResult: (result: WarpResult) => void,
 }
 
 type WarpCalculatorStoreState = WarpCalculatorStateValues & WarpCalculatorStateActions
@@ -24,5 +23,4 @@ export const useWarpCalculatorStore = createTabAwareStore<WarpCalculatorStoreSta
   ...defaultStateValues,
 
   setRequest: (request) => set({ request: request ?? DEFAULT_WARP_REQUEST }),
-  setResult: (result) => set({ result }),
 }))

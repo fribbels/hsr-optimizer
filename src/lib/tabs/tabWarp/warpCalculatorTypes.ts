@@ -106,7 +106,6 @@ export type WarpTarget = {
 export type WarpMilestoneResult = { warps: number, wins: number }
 
 export type WarpResult = null | {
-  milestoneResults: Record<string, WarpMilestoneResult>,
   targetResults: WarpTargetResult[],
   request: EnrichedWarpRequest,
 }
@@ -154,6 +153,50 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
   guaranteedCharacter: false,
   pityLightCone: 0,
   guaranteedLightCone: false,
+}
+
+// Coerces raw persisted data (an older or partially-shaped save) into a valid WarpRequest, filling any
+// missing or out-of-range field from the defaults. Unknown / legacy fields are silently dropped.
+export function normalizeWarpRequest(raw: unknown): WarpRequest {
+  const source = (raw ?? {}) as Partial<WarpRequest>
+
+  const income = Array.isArray(source.income)
+    ? source.income.filter((id) => WarpIncomeOptions.some((option) => option.id === id))
+    : []
+
+  const targets = Array.isArray(source.targets) && source.targets.length > 0
+    ? source.targets.map(normalizeWarpTarget)
+    : [{ ...DEFAULT_WARP_TARGET }]
+
+  return {
+    passes: Math.max(0, Number(source.passes) || 0),
+    jades: Math.max(0, Number(source.jades) || 0),
+    income,
+    targets,
+    plannerMode: source.plannerMode ?? DEFAULT_WARP_REQUEST.plannerMode,
+    strategy: source.strategy ?? DEFAULT_WARP_REQUEST.strategy,
+    starlight: source.starlight ?? DEFAULT_WARP_REQUEST.starlight,
+    pityCharacter: Math.max(0, Number(source.pityCharacter) || 0),
+    guaranteedCharacter: source.guaranteedCharacter ?? false,
+    pityLightCone: Math.max(0, Number(source.pityLightCone) || 0),
+    guaranteedLightCone: source.guaranteedLightCone ?? false,
+  }
+}
+
+function normalizeWarpTarget(raw: Partial<WarpTarget>, index: number): WarpTarget {
+  return {
+    id: raw.id || `target-${index + 1}`,
+    characterId: raw.characterId ?? null,
+    lightConeId: raw.lightConeId ?? null,
+    targetEidolonLevel: clampLevel(raw.targetEidolonLevel, DEFAULT_WARP_TARGET.targetEidolonLevel, EidolonLevel.NONE, EidolonLevel.E6),
+    targetSuperimpositionLevel: clampLevel(raw.targetSuperimpositionLevel, DEFAULT_WARP_TARGET.targetSuperimpositionLevel, SuperimpositionLevel.NONE, SuperimpositionLevel.S5),
+    currentEidolonLevel: clampLevel(raw.currentEidolonLevel, DEFAULT_WARP_TARGET.currentEidolonLevel, EidolonLevel.NONE, EidolonLevel.E6),
+    currentSuperimpositionLevel: clampLevel(raw.currentSuperimpositionLevel, DEFAULT_WARP_TARGET.currentSuperimpositionLevel, SuperimpositionLevel.NONE, SuperimpositionLevel.S5),
+  }
+}
+
+function clampLevel<T extends number>(value: unknown, fallback: T, min: T, max: T): T {
+  return typeof value === 'number' && Number.isInteger(value) && value >= min && value <= max ? value as T : fallback
 }
 
 function generateOption(version: string, phase: number, type: WarpIncomeType, passes: number): WarpIncomeDefinition {

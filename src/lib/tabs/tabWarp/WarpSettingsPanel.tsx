@@ -130,7 +130,7 @@ function PityField(props: { label: string, field: keyof WarpRequest, max: number
   )
 }
 
-function GuaranteedField(props: { label: string, field: keyof WarpRequest, form: UseFormReturnType<WarpRequest> }) {
+function GuaranteedField(props: { label: string, field: 'guaranteedCharacter' | 'guaranteedLightCone', form: UseFormReturnType<WarpRequest> }) {
   return (
     <Flex direction="column" gap={HEADER_LABEL_GAP}>
       <HeaderText>{props.label}</HeaderText>
@@ -141,7 +141,7 @@ function GuaranteedField(props: { label: string, field: keyof WarpRequest, form:
           { label: <IconX size={18}/>, value: 'false' },
         ]}
         value={String(props.form.getValues()[props.field] ?? false)}
-        onChange={(val) => props.form.setFieldValue(props.field, (val === 'true') as never)}
+        onChange={(val) => props.form.setFieldValue(props.field, val === 'true')}
       />
     </Flex>
   )

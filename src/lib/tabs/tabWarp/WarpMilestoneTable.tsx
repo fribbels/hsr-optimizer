@@ -5,13 +5,14 @@ import type { EnrichedWarpRequest, WarpMilestoneResult } from 'lib/tabs/tabWarp/
 import { localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import type { CSSProperties } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import chroma from 'chroma-js'
 import classes from './WarpCalculatorTab.module.css'
 
-export const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
-export const chanceThreshold = 0.0005
+const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
+const chanceThreshold = 0.0005
 
-export function translateLabel(label: string) {
+function translateLabel(label: string) {
   const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
   if (/^S\d$/.test(label)) return t('common:SuperimpositionNShort', { superimposition: label.charAt(1) })
   if (/^E\d$/.test(label)) return t('common:EidolonNShort', { eidolon: label.charAt(1) })
@@ -29,19 +30,24 @@ export function PassIcon({ size = 16 }: { size?: number }) {
 }
 
 export function WarpTableHeader({ request, goalColStyle }: { request: EnrichedWarpRequest, goalColStyle?: CSSProperties }) {
+  const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'ColumnTitles' })
   return (
     <Table.Thead>
       <Table.Tr>
-        <Table.Th style={{ textAlign: 'center', ...goalColStyle }}>Goal</Table.Th>
+        <Table.Th style={{ textAlign: 'center', ...goalColStyle }}>{t('Goal')/* Goal */}</Table.Th>
         <Table.Th style={{ textAlign: 'center' }}>
           <Flex justify='center' align='center' gap={4}>
-            Chance with {localeNumberComma(request.warps)}
-            <PassIcon/>
+            <Trans
+              t={t}
+              i18nKey='Chance'
+              values={{ ticketCount: localeNumberComma(request.warps) }}
+              components={{ 1: <PassIcon/> }}
+            />
           </Flex>
         </Table.Th>
         <Table.Th style={{ textAlign: 'center' }}>
           <Flex justify='center' align='center' gap={4}>
-            Avg <PassIcon/> needed
+            <Trans t={t} i18nKey='Average' components={{ 1: <PassIcon/> }}/>
           </Flex>
         </Table.Th>
       </Table.Tr>

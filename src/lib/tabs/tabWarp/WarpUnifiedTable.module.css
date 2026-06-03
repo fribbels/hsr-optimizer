@@ -69,14 +69,6 @@
   height: auto;
 }
 
-.rank {
-  position: relative;
-  z-index: 2;
-  color: var(--text-secondary);
-  font-size: 13px;
-  font-weight: 600;
-}
-
 .dragHandle {
   position: absolute;
   left: 6px;

@@ -54,6 +54,7 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
+import { normalizeWarpRequest } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import type {
   Build,
   Character,
@@ -140,7 +141,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     useShowcaseTabStore.getState().setShowcasePreferences(saveData.showcasePreferences)
   }
 
-  useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
+  useWarpCalculatorStore.getState().setRequest(normalizeWarpRequest(saveData.warpRequest))
 
   if (saveData.optimizerMenuState) {
     const menuState = { ...useOptimizerDisplayStore.getState().menuState }

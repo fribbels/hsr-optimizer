@@ -1,11 +1,7 @@
 import {
-  character5050,
-  characterWarpCap,
   DEFAULT_WARP_REQUEST,
   EidolonLevel,
   type EnrichedWarpRequest,
-  lightCone5050,
-  lightConeWarpCap,
   NONE_WARP_INCOME_OPTION,
   StarlightMultiplier,
   SuperimpositionLevel,
@@ -18,16 +14,12 @@ import {
   type WarpTargetResult,
   WarpType,
 } from 'lib/tabs/tabWarp/warpCalculatorTypes'
-import {
-  characterDistribution,
-  lightConeDistribution,
-} from 'lib/tabs/tabWarp/warpRates'
+import { WARP_DIMENSIONS } from 'lib/tabs/tabWarp/warpDimensions'
 
 type WarpMilestone = {
   warpType: WarpType,
   pity: number,
   guaranteed: boolean,
-  warpCap: number,
 }
 
 type LabeledWarpMilestone = WarpMilestone & { label: string }
@@ -46,15 +38,19 @@ type StartingBannerState = {
 export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult, null> {
   const request = enrichWarpRequest(originalRequest)
 
-  const freshStartCharDist = pityAdjustedPmf(characterDistribution, 0, characterWarpCap)
-  const freshStartLcDist = pityAdjustedPmf(lightConeDistribution, 0, lightConeWarpCap)
+  const freshStartDistByType: Record<WarpType, number[]> = {
+    [WarpType.CHARACTER]: pityAdjustedPmf(WARP_DIMENSIONS[WarpType.CHARACTER].distribution, 0, WARP_DIMENSIONS[WarpType.CHARACTER].warpCap),
+    [WarpType.LIGHTCONE]: pityAdjustedPmf(WARP_DIMENSIONS[WarpType.LIGHTCONE].distribution, 0, WARP_DIMENSIONS[WarpType.LIGHTCONE].warpCap),
+  }
 
-  const milestoneResults: Record<string, WarpMilestoneResult> = {}
   const targetResults: WarpTargetResult[] = []
   let cumulativePmf: number[] = [1] // P(total cost = 0) = 1 before any milestones
   let hasUsedCharacterStart = false
   let hasUsedLightConeStart = false
 
+  // Banner pity / guaranteed applies only to the FIRST target that pulls each type; once a type has been
+  // pulled for an earlier target, later targets start that type fresh (pity 0). The flags below are flipped
+  // as we walk targets in array order, so this relies on targets being processed in that order.
   for (const target of request.targets) {
     const startingState: StartingBannerState = {
       character: {
@@ -72,20 +68,15 @@ export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult
 
     for (const milestone of milestones) {
       const { warpType, label, pity, guaranteed } = milestone
-      const isChar = warpType === WarpType.CHARACTER
-      const baseDistribution = isChar ? characterDistribution : lightConeDistribution
-      const warpCap = isChar ? characterWarpCap : lightConeWarpCap
-      const rate = isChar ? character5050 : lightCone5050
-      const freshStartDist = isChar ? freshStartCharDist : freshStartLcDist
+      const dimension = WARP_DIMENSIONS[warpType]
 
-      const milestoneStartDist = pityAdjustedPmf(baseDistribution, pity, warpCap)
-      const milestoneDist = milestoneCostPmf(milestoneStartDist, guaranteed, rate, freshStartDist)
+      const milestoneStartDist = pityAdjustedPmf(dimension.distribution, pity, dimension.warpCap)
+      const milestoneDist = milestoneCostPmf(milestoneStartDist, guaranteed, dimension.fiftyFifty, freshStartDistByType[warpType])
 
       cumulativePmf = convolveArrays(cumulativePmf, milestoneDist)
 
       const result = milestoneStats(cumulativePmf, request.warps)
       targetMilestoneResults[label] = result
-      milestoneResults[label] = result
 
       if (warpType === WarpType.CHARACTER) hasUsedCharacterStart = true
       if (warpType === WarpType.LIGHTCONE) hasUsedLightConeStart = true
@@ -94,7 +85,7 @@ export function calculateWarps(originalRequest: WarpRequest): Exclude<WarpResult
     targetResults.push({ target, milestoneResults: targetMilestoneResults })
   }
 
-  return { milestoneResults, targetResults, request }
+  return { targetResults, request }
 }
 
 export function enrichWarpRequest(originalRequest: WarpRequest): EnrichedWarpRequest {
@@ -103,8 +94,8 @@ export function enrichWarpRequest(originalRequest: WarpRequest): EnrichedWarpReq
     ...originalRequest,
     jades: Number(originalRequest.jades) || 0,
     passes: Number(originalRequest.passes) || 0,
-    pityCharacter: Number(originalRequest.pityCharacter) || 0,
-    pityLightCone: Number(originalRequest.pityLightCone) || 0,
+    pityCharacter: Math.max(0, Number(originalRequest.pityCharacter) || 0),
+    pityLightCone: Math.max(0, Number(originalRequest.pityLightCone) || 0),
   }
 
   const selectedIncome = request.income.map(
@@ -187,7 +178,6 @@ function generateWarpMilestones(target: WarpTarget, startingState: StartingBanne
       label,
       pity: isFirstOfType ? bannerStart.pity : 0,
       guaranteed: isFirstOfType ? bannerStart.guaranteed : false,
-      warpCap: isCharacter ? characterWarpCap : lightConeWarpCap,
     })
 
     if (targetIndex === -1 && isTargetReached(targetEidolonLevel, targetSuperimpositionLevel, e, s)) {

@@ -5,7 +5,8 @@ import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigReg
 import { computeLcTransform, DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Assets } from 'lib/rendering/assets'
-import { EidolonLevel, isPremiumCharacter, isPremiumLightCone, SuperimpositionLevel, type WarpRequest, type WarpTarget } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { EidolonLevel, isPremiumCharacter, isPremiumLightCone, SuperimpositionLevel, type WarpRequest, type WarpTarget, WarpType } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { getTargetWarpType } from 'lib/tabs/tabWarp/warpDimensions'
 import { HiddenSelectHost, useHiddenSelectTrigger } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
 import {
   findCharacterByLightCone,
@@ -18,9 +19,15 @@ import {
 } from 'lib/tabs/tabWarp/warpTargetMutations'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
+import type { CharacterOptions, LcOptions } from 'lib/ui/selectors/optionGenerator'
 import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import type { HTMLAttributes } from 'react'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 import unifiedClasses from './WarpUnifiedTable.module.css'
+
+const premiumCharacterFilter = (option: CharacterOptions[CharacterId]) => isPremiumCharacter(option.id)
+const premiumLightConeFilter = (option: LcOptions[LightConeId]) => isPremiumLightCone(option.id)
 
 const EIDOLON_TO_DATA = Array.from({ length: 7 }, (_, i) => ({ value: String(i), label: `E${i}` }))
 const EIDOLON_FROM_DATA = [{ value: String(EidolonLevel.NONE), label: '—' }, ...EIDOLON_TO_DATA]
@@ -30,14 +37,7 @@ const SUPERIMPOSITION_FROM_DATA = [{ value: String(SuperimpositionLevel.NONE), l
 const LC_PREVIEW_WIDTH = 230
 const LC_PREVIEW_HEIGHT = 64
 
-function getGoalType(target: WarpTarget): 'character' | 'lightcone' {
-  if (target.targetSuperimpositionLevel > SuperimpositionLevel.NONE && target.targetEidolonLevel === EidolonLevel.NONE) {
-    return 'lightcone'
-  }
-  return 'character'
-}
-
-function TargetPreviewImage({ target, isChar, lcId }: { target: WarpTarget, isChar: boolean, lcId: WarpTarget['lightConeId'] }) {
+function TargetPreviewImage({ target, isChar, lcId }: { target: WarpTarget, isChar: boolean, lcId: LightConeId | null }) {
   if (isChar) {
     if (!target.characterId) return null
     const portraitOffset = getCharacterConfig(target.characterId)?.display.gridPortraitOffset
@@ -70,14 +70,15 @@ function TargetPreviewImage({ target, isChar, lcId }: { target: WarpTarget, isCh
   )
 }
 
-function TargetGoalSelectors({ form, target, targetIndex, isChar, floor, canRemove }: {
+function TargetGoalSelectors({ form, target, targetIndex, warpType, floor, canRemove }: {
   form: UseFormReturnType<WarpRequest>
   target: WarpTarget
   targetIndex: number
-  isChar: boolean
+  warpType: WarpType
   floor: number
   canRemove: boolean
 }) {
+  const isChar = warpType === WarpType.CHARACTER
   const fromValue = isChar ? target.currentEidolonLevel : target.currentSuperimpositionLevel
   const toValue = isChar ? target.targetEidolonLevel : target.targetSuperimpositionLevel
   const fromData = (isChar ? EIDOLON_FROM_DATA : SUPERIMPOSITION_FROM_DATA).map((item) => ({
@@ -97,7 +98,7 @@ function TargetGoalSelectors({ form, target, targetIndex, isChar, floor, canRemo
           w='100%'
           data={fromData}
           value={String(fromValue)}
-          onChange={(val) => updateTargetFrom(form, targetIndex, isChar, Number(val))}
+          onChange={(val) => updateTargetFrom(form, targetIndex, warpType, Number(val))}
         />
       </Table.Td>
 
@@ -111,7 +112,7 @@ function TargetGoalSelectors({ form, target, targetIndex, isChar, floor, canRemo
             style={{ flex: 1 }}
             data={toData}
             value={String(toValue)}
-            onChange={(val) => updateTargetTo(form, targetIndex, isChar, Number(val))}
+            onChange={(val) => updateTargetTo(form, targetIndex, warpType, Number(val))}
           />
           <ActionIcon
             size={32} variant='subtle' color='gray'
@@ -136,7 +137,8 @@ export function TargetHeaderRow(props: {
 }) {
   const { form, target, targetIndex, canRemove, dragHandleRef, dragHandleProps } = props
   const select = useHiddenSelectTrigger()
-  const isChar = getGoalType(target) === 'character'
+  const warpType = getTargetWarpType(target)
+  const isChar = warpType === WarpType.CHARACTER
 
   const signatureLcId = target.characterId ? getCharacterConfig(target.characterId)?.defaultLightCone ?? null : null
   const lcId = target.lightConeId ?? signatureLcId
@@ -160,7 +162,7 @@ export function TargetHeaderRow(props: {
               onChange={(characterId) => updateTarget(form, targetIndex, { characterId: characterId ?? null })}
               opened={select.opened}
               onOpenChange={select.onOpenChange}
-              optionFilter={(opt) => isPremiumCharacter(opt.id)}
+              optionFilter={premiumCharacterFilter}
             />
           ) : (
             <LightConeSelect
@@ -172,7 +174,7 @@ export function TargetHeaderRow(props: {
               }}
               opened={select.opened}
               onOpenChange={select.onOpenChange}
-              optionFilter={(opt) => isPremiumLightCone(opt.id)}
+              optionFilter={premiumLightConeFilter}
             />
           )}
         </HiddenSelectHost>
@@ -182,7 +184,7 @@ export function TargetHeaderRow(props: {
         form={form}
         target={target}
         targetIndex={targetIndex}
-        isChar={isChar}
+        warpType={warpType}
         floor={floor}
         canRemove={canRemove}
       />

@@ -12,10 +12,16 @@ import { TargetHeaderRow } from 'lib/tabs/tabWarp/WarpTargetHeaderCard'
 import { addCharAndSignatureGoal, addCharGoal, addLcGoal, moveTarget } from 'lib/tabs/tabWarp/warpTargetMutations'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
+import type { CharacterOptions, LcOptions } from 'lib/ui/selectors/optionGenerator'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
-import { memo, useMemo } from 'react'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 import classes from './WarpCalculatorTab.module.css'
+
+const premiumCharacterFilter = (option: CharacterOptions[CharacterId]) => isPremiumCharacter(option.id)
+const premiumLightConeFilter = (option: LcOptions[LightConeId]) => isPremiumLightCone(option.id)
 
 export function WarpUnifiedTable(props: {
   form: UseFormReturnType<WarpRequest>
@@ -85,21 +91,21 @@ export function WarpUnifiedTable(props: {
                 onChange={(characterId) => { if (characterId) addCharGoal(form, characterId) }}
                 opened={addChar.opened}
                 onOpenChange={addChar.onOpenChange}
-                optionFilter={(opt) => isPremiumCharacter(opt.id)}
+                optionFilter={premiumCharacterFilter}
               />
               <LightConeSelect
                 value={null}
                 onChange={(lightConeId) => { if (lightConeId) addLcGoal(form, lightConeId) }}
                 opened={addLc.opened}
                 onOpenChange={addLc.onOpenChange}
-                optionFilter={(opt) => isPremiumLightCone(opt.id)}
+                optionFilter={premiumLightConeFilter}
               />
               <CharacterSelect
                 value={null}
                 onChange={(characterId) => { if (characterId) addCharAndSignatureGoal(form, characterId) }}
                 opened={addCharAndSig.opened}
                 onOpenChange={addCharAndSig.onOpenChange}
-                optionFilter={(opt) => isPremiumCharacter(opt.id)}
+                optionFilter={premiumCharacterFilter}
               />
             </HiddenSelectHost>
           </Flex>
@@ -143,7 +149,7 @@ function SortableTargetGroup(props: {
         </colgroup>
         {thead}
         <Table.Tbody>
-          <MemoizedTargetSection
+          <TargetSection
             form={form}
             targetResult={targetResult}
             targetIndex={targetIndex}
@@ -183,5 +189,3 @@ function TargetSection(props: {
     </>
   )
 }
-
-const MemoizedTargetSection = memo(TargetSection)

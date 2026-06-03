@@ -14,7 +14,7 @@ import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import type { CharacterOptions, LcOptions } from 'lib/ui/selectors/optionGenerator'
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
@@ -137,6 +137,8 @@ function SortableTargetGroup(props: {
     transform: CSS.Translate.toString(transform),
     transition: transform ? transition : undefined,
     opacity: isDragging ? 0.45 : undefined,
+    zIndex: isDragging ? 1 : undefined,
+    position: 'relative',
   }
 
   return (
@@ -163,7 +165,7 @@ function SortableTargetGroup(props: {
   )
 }
 
-function TargetSection(props: {
+const TargetSection = memo(function TargetSection(props: {
   form: UseFormReturnType<WarpRequest>
   targetResult: WarpTargetResult
   targetIndex: number
@@ -188,4 +190,4 @@ function TargetSection(props: {
       <WarpMilestoneRows milestones={milestones} rowKeyPrefix={target.id}/>
     </>
   )
-}
+})

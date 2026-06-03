@@ -137,8 +137,8 @@ function GuaranteedField(props: { label: string, field: 'guaranteedCharacter' | 
       <SegmentedControl
         fullWidth
         data={[
-          { label: <IconCheck size={18}/>, value: 'true' },
           { label: <IconX size={18}/>, value: 'false' },
+          { label: <IconCheck size={18}/>, value: 'true' },
         ]}
         value={String(props.form.getValues()[props.field] ?? false)}
         onChange={(val) => props.form.setFieldValue(props.field, val === 'true')}

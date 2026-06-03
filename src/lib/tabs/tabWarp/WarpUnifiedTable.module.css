@@ -92,7 +92,23 @@
   background: rgba(0, 0, 0, 0.55);
 }
 
+.headerRow :global(.mantine-SegmentedControl-root) {
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.headerRow :global(.mantine-FloatingIndicator-root) {
+  background-color: rgba(80, 130, 220, 0.35) !important;
+}
+
+.headerRow :global(.mantine-SegmentedControl-label[data-active]) {
+  font-weight: 600;
+}
+
+.headerRow :global(.mantine-SegmentedControl-label:not([data-active])) {
+  opacity: 0.3;
+}
+
 .headerRow :global(.mantine-SegmentedControl-label[data-disabled]) {
-  opacity: 0.15;
+  color: transparent;
 }
 

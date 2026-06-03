@@ -114,7 +114,7 @@ function TargetGoalSelectors({ form, target, targetIndex, warpType, floor, canRe
     <>
       <Table.Td style={{ textAlign: 'center', verticalAlign: 'middle', padding: '0 10px' }}>
         <SegmentedControl
-          size='sm'
+          size='xs'
           w='100%'
           data={fromData}
           value={String(fromValue)}
@@ -128,7 +128,7 @@ function TargetGoalSelectors({ form, target, targetIndex, warpType, floor, canRe
             <IconArrowBigRightLines size={18} color='var(--text-primary)' fill='var(--text-primary)'/>
           </Flex>
           <SegmentedControl
-            size='sm'
+            size='xs'
             style={{ flex: 1 }}
             data={toData}
             value={String(toValue)}

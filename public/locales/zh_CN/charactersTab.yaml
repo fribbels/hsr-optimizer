@@ -98,7 +98,7 @@ CharacterPreview:
     Labels:
       CombatScore: 战斗评分
       CombatScoreTBD: 战斗属性（待定）
-      StatScore: 属性评分
+      StatScore: 副词条升级次数
       NoneScore: 无
   DetailsSlider:
     Labels:
@@ -199,7 +199,6 @@ CharacterPreview:
   ScoringDetails:
     Header: DPS评分是如何计算的?
   EST-TBP:
-    Header: 属性评分分析
     RollsCard:
       Perfection: 完美度
     MetricsCard:

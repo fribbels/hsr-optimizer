@@ -88,7 +88,7 @@ CharacterPreview:
     Labels:
       CombatScore: Pontuação Combate
       CombatScoreTBD: Combate (TBD)
-      StatScore: Pontuação de Atributo
+      StatScore: Rolls Subatributos
       NoneScore: Nenhum
   DetailsSlider:
     Labels:
@@ -160,7 +160,6 @@ CharacterPreview:
   ScoringDetails:
     Header: Como o placar de DPS é calculado?
   EST-TBP:
-    Header: Análise de Pontuação de Atributos
     RollsCard:
       Perfection: Perfeição
     MetricsCard:

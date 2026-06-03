@@ -88,7 +88,7 @@ CharacterPreview:
     Labels:
       CombatScore: Puntaje de combate
       CombatScoreTBD: Combate (a definir)
-      StatScore: Puntaje de atributos
+      StatScore: Mejoras de atr. sec.
       NoneScore: Ninguno
   DetailsSlider:
     Labels:
@@ -160,7 +160,6 @@ CharacterPreview:
   ScoringDetails:
     Header: '¿Cómo se calcula el Puntaje DPS?'
   EST-TBP:
-    Header: Análisis del Puntaje de atributos
     RollsCard:
       Perfection: Perfección
     MetricsCard:

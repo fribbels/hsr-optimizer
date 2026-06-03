@@ -9,7 +9,6 @@ Messages:
   CharacterAlreadyExists: 所选角色已经存在
   UnknownButtonClicked: 点击了未知按钮
 Header:
-  DowntimeWarning: '展示功能可能在 {{game_version}} 版本更新后进行维护，请稍后再试。'
   WithVersion: '请输入你的账户UID，以对你角色展示中的角色进行评分（默认角色为80级和满行迹）。返回游戏登陆页面以立刻刷新你的角色展示。 (当前版本为{{beta_version}})'
   WithoutVersion: 请输入你的账户UID，以对你角色展示中的角色进行评分（默认角色为80级和满行迹）。返回游戏登陆页面以立刻刷新你的角色展示。
 SubmissionBar:

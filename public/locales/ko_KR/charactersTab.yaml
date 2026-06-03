@@ -88,7 +88,7 @@ CharacterPreview:
     Labels:
       CombatScore: 전투 점수
       CombatScoreTBD: 전투 (TBD)
-      StatScore: 스탯 점수
+      StatScore: 부옵 수
       NoneScore: 없음
   DetailsSlider:
     Labels:
@@ -159,7 +159,6 @@ CharacterPreview:
   ScoringDetails:
     Header: DPS 점수 계산법
   EST-TBP:
-    Header: 스텟 점수 분석
     RollsCard:
       Perfection: 완벽도
     MetricsCard:

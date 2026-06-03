@@ -90,7 +90,7 @@ CharacterPreview:
     Labels:
       CombatScore: В бою
       CombatScoreTBD: В бою (недоступно)
-      StatScore: Статы персонажа
+      StatScore: Проки Статов
       NoneScore: Нет
   DetailsSlider:
     Labels:
@@ -164,7 +164,6 @@ CharacterPreview:
   ScoringDetails:
     Header: Как рассчитывается рейтинг DPS?
   EST-TBP:
-    Header: Оценка реликвий
     RollsCard:
       Perfection: Идеал
     MetricsCard:

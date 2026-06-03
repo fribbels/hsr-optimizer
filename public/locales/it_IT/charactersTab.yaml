@@ -88,7 +88,7 @@ CharacterPreview:
     Labels:
       CombatScore: Punteggio Combat
       CombatScoreTBD: Combat (TBD)
-      StatScore: Punteggio Stat
+      StatScore: Roll Stat. Secondarie
       NoneScore: Nessuno
   DetailsSlider:
     Labels:
@@ -160,7 +160,6 @@ CharacterPreview:
   ScoringDetails:
     Header: Com'è calcolato il Punteggio DPS?
   EST-TBP:
-    Header: Analisi del Punteggio Statistiche
     RollsCard:
       Perfection: Perfezione
     MetricsCard:

@@ -88,7 +88,7 @@ CharacterPreview:
     Labels:
       CombatScore: Note de Combat
       CombatScoreTBD: Combat (TBD)
-      StatScore: Note de Stat
+      StatScore: Rolls de Substats
       NoneScore: Aucun
   DetailsSlider:
     Labels:
@@ -160,7 +160,6 @@ CharacterPreview:
   ScoringDetails:
     Header: Comment est calculée la note de DPS?
   EST-TBP:
-    Header: Analyse de note de stat
     RollsCard:
       Perfection: Perfection
     MetricsCard:

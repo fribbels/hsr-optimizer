@@ -62,7 +62,6 @@ Relics:
   Title: Artefactos
   p1: >-
     Nota - Potencial es un puntaje porcentual que compara un artefacto con el mejor artefacto +15 posible en esa ranura para el personaje. Este puntaje se basa en las prioridades del algoritmo de puntuación. Esto significa que artefactos +0 sin mejorar pueden llegar a tener un potencial mayor que artefactos que actualmente estén +15, porque pueden mejorar específicamente los atributos deseados del personaje.
-  p2: "Personaje seleccionado: Puntaje - El puntaje del artefacto actual, definido por el algoritmo de puntuación para el personaje seleccionado."
   p3: "Personaje seleccionado: Potencial promedio - El potencial del artefacto a su nivel máximo, promediado entre todas las posibles mejoras que pueda tener hasta llegar a +15."
   p4: "Personaje seleccionado: Potencial máximo - El potencial máximo del artefacto si todas las mejoras van a los atributos deseados del personaje."
   p5: 'Todos los personajes: Potencial máximo - El potencial máximo del artefacto, entre todos los personajes del juego.'

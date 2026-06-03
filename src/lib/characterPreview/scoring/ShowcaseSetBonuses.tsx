@@ -84,7 +84,7 @@ function ActiveSetEntry({ entry }: { entry: DisplayEntry & { active: true } }) {
   const name = useSetName(entry.ingameId)
   return (
     <div className={classes.cardPlain}>
-      <img src={Assets.getSetImage(entry.set)} className={classes.setIconMd} />
+      <img src={Assets.getSetImage(entry.set, undefined, true)} className={classes.setIconMd} />
       <div className={classes.cardText}>
         <span className={classes.cardPiece}>{entry.count}pc</span>
         <StatTextSm className={classes.cardName}>{name}</StatTextSm>

@@ -1,4 +1,4 @@
-export default interface Resources {
+interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -6595,7 +6595,7 @@ export default interface Resources {
       "SetWeightsHeader": "Set weights",
       "StatWeightsHeader": "Stat weights",
       "WeightMethodology": {
-        "Header": "How are Substat Rolls calculated?"
+        "Header": "How are substat weights used?"
       }
     },
     "SwitchRelics": {
@@ -7940,3 +7940,5 @@ export default interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
+
+export default Resources;

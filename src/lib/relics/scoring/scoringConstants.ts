@@ -5,8 +5,8 @@ import {
   SubStatValues,
 } from 'lib/constants/constants'
 
-// Shared normalization table for relic scoring
-// Precise values: SPD=25.032 (relicFilters previously used rounded 25)
+// Relic scoring normalization: denominator = stat's +15 main-stat ceiling, scaled so CD (64.8) = 1.0,
+// so one high roll of any stat is worth 6.48 — weight alone sets relative value.
 export const STAT_NORMALIZATION: Record<SubStats, number> = {
   [Constants.Stats.HP_P]: 64.8 / 43.2,
   [Constants.Stats.ATK_P]: 64.8 / 43.2,
@@ -18,7 +18,7 @@ export const STAT_NORMALIZATION: Record<SubStats, number> = {
   [Constants.Stats.CD]: 64.8 / 64.8,
   [Constants.Stats.EHR]: 64.8 / 43.2,
   [Constants.Stats.RES]: 64.8 / 43.2,
-  [Constants.Stats.SPD]: 64.8 / 25.032,
+  [Constants.Stats.SPD]: 64.8 / 26.0, // synthetic 26.0, real is 25.032
   [Constants.Stats.BE]: 64.8 / 64.8,
 } as const
 

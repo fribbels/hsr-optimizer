@@ -1,14 +1,22 @@
 // @vitest-environment jsdom
+import { Blade } from 'lib/conditionals/character/1200/Blade'
 import {
   Constants,
   Parts,
   Stats,
+  type SubStats,
 } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
+import { computeFutureScores } from 'lib/relics/scoring/futureScore'
+import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
+import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Metadata } from 'lib/state/metadataInitializer'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import {
+  getScoringMetadata,
+  useScoringStore,
+} from 'lib/stores/scoring/scoringStore'
 import type { Relic } from 'types/relic'
 import {
   expect,
@@ -19,7 +27,7 @@ Metadata.initialize()
 
 // Correct mainstat with all zero-weight substats should score 0
 test('relic-mainstatonly', () => {
-  const character = '1205' // blade
+  const character = Blade.id
   const scoringStats = getScoringMetadata(character).stats
 
   const mainStat = Constants.Stats.HP_P
@@ -68,7 +76,7 @@ test('relic-mainstatonly', () => {
 
 // Best substats at max rolls should predict near-100% potential
 test('relic-perfect', () => {
-  const character = '1205' // Blade
+  const character = Blade.id
 
   const relic: Relic = {
     enhance: 12,
@@ -96,4 +104,42 @@ test('relic-perfect', () => {
 
   const score = RelicScorer.scoreRelicPotential(relic, character)
   expect(score.bestPct).greaterThan(99).lessThanOrEqual(100)
+})
+
+// Two max-rolled relics of weight-1.0 substats both score 100%, whichever stat is 6-stacked.
+// (Pre-fix, the CD-stacked one scored 97.9%.) See plans/spd-normalization-equal-roll-potential.md
+test('relic-spd-equal-roll-potential', () => {
+  const character = Blade.id
+
+  try {
+    // Weights: exactly HP%/CR/CD/SPD = 1, every other substat 0.
+    const stats = {} as Record<SubStats, number>
+    for (const s of Constants.SubStats) stats[s] = 0
+    for (const s of [Stats.HP_P, Stats.CR, Stats.CD, Stats.SPD]) stats[s] = 1
+    useScoringStore.getState().setScoringMetadataOverrides({ [character]: { stats } })
+
+    const meta = prepareScoringMetadata(character)
+    const idealScore = computeOptimalScore(Parts.Hands, Stats.ATK, meta)
+
+    // Maxed +15 Hands relic; `stacked` gets 6 high rolls, the others 1 each.
+    const potential = (stacked: SubStats) => {
+      const relic = {
+        enhance: 15,
+        grade: 5,
+        part: Parts.Hands,
+        main: { stat: Stats.ATK },
+        substats: [Stats.HP_P, Stats.SPD, Stats.CR, Stats.CD].map((stat) => ({
+          stat,
+          value: StatCalculator.getMaxedSubstatValue(stat) * (stat === stacked ? 6 : 1),
+        })),
+        previewSubstats: [],
+      } as unknown as Relic
+      return computeFutureScores(relic, meta, idealScore, false).current
+    }
+
+    expect(potential(Stats.CD)).toBeCloseTo(100, 4)
+    expect(potential(Stats.SPD)).toBeCloseTo(100, 4)
+  } finally {
+    useScoringStore.getState().clearCharacterOverrides(character)
+  }
 })

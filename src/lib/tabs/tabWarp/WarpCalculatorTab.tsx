@@ -1,22 +1,23 @@
 import { IconCheck, IconX } from '@tabler/icons-react'
-import { Divider, Flex, NumberInput, Paper, SegmentedControl, Select, Title as MantineTitle } from '@mantine/core'
+import { Badge, Divider, Flex, NumberInput, Paper, SegmentedControl, Select, Table, Title as MantineTitle } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
-import { BannerRotation, calculateWarps, DEFAULT_WARP_REQUEST, EidolonLevel, type EnrichedWarpRequest, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, normalizeWarpTargets, WarpIncomeOptions, WarpIncomeType, type WarpRequest, WarpStrategy } from 'lib/tabs/tabWarp/warpCalculatorController'
+import { BannerRotation, calculateWarps, DEFAULT_WARP_REQUEST, EidolonLevel, type EnrichedWarpRequest, PlannerMode, StarlightMultiplier, StarlightRefund, SuperimpositionLevel, normalizeWarpTargets, WarpIncomeOptions, WarpIncomeType, type WarpRequest, WarpStrategy, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
 import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
-import type { ReactNode } from 'react'
+import { precisionRound } from 'lib/utils/mathUtils'
+import { type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { scannerChannel, useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import classes from './WarpCalculatorTab.module.css'
-import { WarpUnifiedTable } from 'lib/tabs/tabWarp/WarpUnifiedTable'
+import { chanceThreshold, translateLabel, warpChanceColorScale, WarpUnifiedTable } from 'lib/tabs/tabWarp/WarpUnifiedTable'
 
 const HEADER_LABEL_GAP = 4
 
@@ -116,9 +117,24 @@ function WarpPlanner() {
     }
   }, [form])
 
-  console.time('calculateWarps')
-  const warpResult = calculateWarps(form.getValues())
-  console.timeEnd('calculateWarps')
+  const plannerMode = form.getValues().plannerMode ?? PlannerMode.MULTI
+
+  const warpResult = calculateWarps(
+    plannerMode === PlannerMode.SINGLE
+      ? {
+        ...form.getValues(),
+        targets: [{
+          ...DEFAULT_WARP_REQUEST.targets[0],
+          id: 'quick-combined',
+          targetEidolonLevel: EidolonLevel.E6,
+          targetSuperimpositionLevel: SuperimpositionLevel.S5,
+          currentEidolonLevel: EidolonLevel.NONE,
+          currentSuperimpositionLevel: SuperimpositionLevel.NONE,
+          strategy: form.getValues().strategy,
+        }],
+      }
+      : form.getValues(),
+  )
 
   return (
     <div className={classes.plannerShell}>
@@ -140,16 +156,6 @@ function WarpPlanner() {
                   leftSectionWidth={34} leftSectionPointerEvents='none'
                   styles={{ input: { paddingLeft: 42 } }}
                   {...form.getInputProps('jades')}
-                />
-              </Flex>
-
-              <Flex direction="column" gap={HEADER_LABEL_GAP} className={classes.settingsStrategy}>
-                <HeaderText>{t('DefaultStrategy')/* Default Strategy */}</HeaderText>
-                <Select
-                  data={generateStrategyOptions()}
-                  value={String(form.getValues().strategy)}
-                  styles={{ input: { height: 30, minHeight: 30 } }}
-                  onChange={(val) => { if (val != null) form.setFieldValue('strategy', Number(val) as WarpStrategy) }}
                 />
               </Flex>
 
@@ -209,7 +215,23 @@ function WarpPlanner() {
 
         <WarpSummary enriched={warpResult.request}/>
 
-        <WarpUnifiedTable form={form} targetResults={warpResult.targetResults} request={warpResult.request}/>
+        <SegmentedControl
+          fullWidth mt={16}
+          size='sm'
+          data={[
+            { value: PlannerMode.SINGLE, label: 'Single Target' },
+            { value: PlannerMode.MULTI, label: 'Multi Target' },
+          ]}
+          value={plannerMode}
+          onChange={(val) => form.setFieldValue('plannerMode', val as PlannerMode)}
+        />
+
+        {plannerMode === PlannerMode.SINGLE && (
+          <QuickResultsTable form={form} targetResults={warpResult.targetResults} request={warpResult.request}/>
+        )}
+        {plannerMode === PlannerMode.MULTI && (
+          <WarpUnifiedTable form={form} targetResults={warpResult.targetResults} request={warpResult.request}/>
+        )}
       </Paper>
     </div>
   )
@@ -220,6 +242,95 @@ function Title(props: { children: ReactNode }) {
     <MantineTitle order={5} style={{ margin: 0, marginBottom: 8, textAlign: 'center' }}>
       {props.children}
     </MantineTitle>
+  )
+}
+
+function QuickResultsTable(props: { form: UseFormReturnType<WarpRequest>; targetResults: WarpTargetResult[]; request: EnrichedWarpRequest }) {
+  const { form, targetResults, request } = props
+
+  const allMilestones = targetResults.flatMap((tr) =>
+    Object.entries(tr.milestoneResults ?? {}).map(([label, result]) => ({
+      label,
+      warps: result.warps,
+      wins: result.wins,
+    })),
+  )
+
+  return (
+    <Flex direction='column' gap={12} style={{ marginTop: 16 }}>
+      <Flex justify='center'>
+        <Select
+          size='xs' w={210}
+          leftSection={<span style={{ fontSize: 12, whiteSpace: 'nowrap', paddingLeft: 2 }}>Strategy:</span>}
+          leftSectionWidth={62} leftSectionPointerEvents='none'
+          styles={{ input: { paddingLeft: 68 } }}
+          data={generateStrategyOptions()}
+          value={String(form.getValues().strategy)}
+          onChange={(val) => { if (val) form.setFieldValue('strategy', Number(val) as WarpStrategy) }}
+          comboboxProps={{ width: 'fit-content' }}
+          allowDeselect={false}
+        />
+      </Flex>
+      <Table className={classes.warpTable} style={{ tableLayout: 'fixed', borderCollapse: 'separate', borderSpacing: 0 }}>
+        <colgroup>
+          <col style={{ width: '25%' }}/>
+          <col/>
+          <col/>
+        </colgroup>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th style={{ textAlign: 'center' }}>Goal</Table.Th>
+            <Table.Th style={{ textAlign: 'center' }}>
+              <Flex justify='center' align='center' gap={4}>
+                Chance with {localeNumberComma(request.warps)}
+                <img style={{ height: 16 }} src={Assets.getPass()}/>
+              </Flex>
+            </Table.Th>
+            <Table.Th style={{ textAlign: 'center' }}>
+              <Flex justify='center' align='center' gap={4}>
+                Avg <img style={{ height: 16 }} src={Assets.getPass()}/> needed
+              </Flex>
+            </Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {allMilestones.map((milestone) => (
+            <Table.Tr
+              key={milestone.label}
+              className={milestone.wins < chanceThreshold ? classes.warpRowDisabled : classes.warpRow}
+            >
+              <Table.Td className={classes.goalCell}>
+                <Flex className={classes.goalBarOverlay} align='center'>
+                  {milestone.wins >= chanceThreshold && (
+                    <div
+                      className={classes.goalBar}
+                      style={{
+                        width: `${milestone.wins * 100}%`,
+                        backgroundColor: warpChanceColorScale(milestone.wins).hex(),
+                      }}
+                    />
+                  )}
+                  <Flex className={classes.goalContent} justify='center' align='center'>
+                    <Badge color='#000000aa' className={classes.goalBadge} style={{ fontWeight: 'normal', fontSize: 12 }}>
+                      {translateLabel(milestone.label)}
+                    </Badge>
+                  </Flex>
+                </Flex>
+              </Table.Td>
+              <Table.Td style={{ textAlign: 'center' }}>
+                {`${localeNumber_0(precisionRound(milestone.wins * 100, 1))}%`}
+              </Table.Td>
+              <Table.Td style={{ textAlign: 'center' }}>
+                <Flex align='center' justify='center' gap={4}>
+                  {Math.ceil(milestone.warps)}
+                  <img style={{ height: 14 }} src={Assets.getPass()}/>
+                </Flex>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </Flex>
   )
 }
 

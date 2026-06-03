@@ -70,6 +70,11 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   ...generateOptions('4.3', 91, 66, 116, 78, 124, 86),
 ]
 
+export enum PlannerMode {
+  SINGLE = 'single',
+  MULTI = 'multi',
+}
+
 export enum WarpStrategy {
   E0 = 0, // E0 -> S1 -> E6 -> S5
   E1 = 1, // E1 -> S1 -> E6 -> S5
@@ -151,6 +156,7 @@ export type WarpRequest = {
   jades: number,
   income: string[],
   targets: WarpTarget[],
+  plannerMode: PlannerMode,
   bannerRotation: BannerRotation,
   strategy: WarpStrategy,
   starlight: StarlightRefund,
@@ -207,6 +213,7 @@ export const DEFAULT_WARP_REQUEST: WarpRequest = {
       currentSuperimpositionLevel: SuperimpositionLevel.NONE,
     },
   ],
+  plannerMode: PlannerMode.MULTI,
   bannerRotation: BannerRotation.NEW,
   strategy: WarpStrategy.E0,
   starlight: StarlightRefund.REFUND_AVG,
@@ -260,7 +267,6 @@ function generateOptionKey(version: string, phase: number, type: WarpIncomeType)
 }
 
 export function handleWarpRequest(originalRequest: WarpRequest) {
-  console.log('calculate Warps', originalRequest)
   useWarpCalculatorStore.getState().setRequest(originalRequest)
 
   const warpResult = calculateWarps(originalRequest)
@@ -359,7 +365,7 @@ function generateWarpMilestones(target: WarpTarget, startingState: StartingBanne
     const milestone = milestones[i]
     if (milestone.warpType == WarpType.CHARACTER) e++
     if (milestone.warpType == WarpType.LIGHTCONE) s++
-    milestone.label = e == EidolonLevel.NONE ? `S${s}` : `E${e}S${s}`
+    milestone.label = e == EidolonLevel.NONE ? `S${s}` : targetSuperimpositionLevel == SuperimpositionLevel.NONE ? `E${e}` : `E${e}S${s}`
 
     if (targetIndex === -1 && isTargetReached(targetEidolonLevel, targetSuperimpositionLevel, e, s)) {
       targetIndex = i

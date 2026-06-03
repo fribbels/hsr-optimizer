@@ -72,7 +72,3 @@
   grid-template-columns: 1fr 1fr;
   gap: 16px 20px;
 }
-
-.settingsStrategy {
-  display: none;
-}

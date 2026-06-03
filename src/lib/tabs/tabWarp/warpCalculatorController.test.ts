@@ -6,6 +6,7 @@ import {
   EidolonLevel,
   NONE_WARP_INCOME_OPTION,
   normalizeWarpTargets,
+  PlannerMode,
   StarlightRefund,
   SuperimpositionLevel,
   type WarpRequest,
@@ -30,6 +31,7 @@ const DEFAULT_WARP_REQUEST: WarpRequest = {
     currentEidolonLevel: EidolonLevel.NONE,
     currentSuperimpositionLevel: SuperimpositionLevel.NONE,
   }],
+  plannerMode: PlannerMode.MULTI,
   strategy: WarpStrategy.E0,
   starlight: StarlightRefund.REFUND_NONE,
   pityCharacter: 0,
@@ -247,11 +249,11 @@ test('multiple targets carry cumulative pulls forward and stop at each target go
   })
 
   expect(result.targetResults).toHaveLength(2)
-  expect(Object.keys(result.targetResults[0].milestoneResults)).toEqual(['E0S0'])
-  expect(Object.keys(result.targetResults[1].milestoneResults)).toEqual(['E0S0'])
+  expect(Object.keys(result.targetResults[0].milestoneResults)).toEqual(['E0'])
+  expect(Object.keys(result.targetResults[1].milestoneResults)).toEqual(['E0'])
 
-  const firstTarget = result.targetResults[0].milestoneResults.E0S0
-  const secondTarget = result.targetResults[1].milestoneResults.E0S0
+  const firstTarget = result.targetResults[0].milestoneResults.E0
+  const secondTarget = result.targetResults[1].milestoneResults.E0
   expectWithin3(firstTarget.warps, 89)
   expectWithin3(secondTarget.warps, 179)
   expect(secondTarget.warps).toBeGreaterThan(firstTarget.warps)

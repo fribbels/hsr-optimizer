@@ -23,8 +23,8 @@ import chroma from 'chroma-js'
 import classes from './WarpCalculatorTab.module.css'
 import unifiedClasses from './WarpUnifiedTable.module.css'
 
-const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
-const chanceThreshold = 0.0005
+export const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
+export const chanceThreshold = 0.0005
 
 const EIDOLON_FROM_DATA = [
   { value: String(EidolonLevel.NONE), label: '—' },
@@ -78,9 +78,10 @@ function getGoalType(target: WarpTarget): 'character' | 'lightcone' {
   return 'character'
 }
 
-function translateLabel(label: string) {
+export function translateLabel(label: string) {
   const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
   if (/^S\d$/.test(label)) return t('common:SuperimpositionNShort', { superimposition: label.charAt(1) })
+  if (/^E\d$/.test(label)) return t('common:EidolonNShort', { eidolon: label.charAt(1) })
   return t('warpCalculatorTab:TargetLabel', { superimposition: label.charAt(3), eidolon: label.charAt(1) })
 }
 
@@ -89,7 +90,42 @@ function updateTarget(form: UseFormReturnType<WarpRequest>, index: number, patch
     if (targetIndex !== index) return target
     return { ...target, ...patch }
   })
+  cascadeTargetFloors(targets, index)
   form.setFieldValue('targets', targets)
+}
+
+function cascadeTargetFloors(targets: WarpTarget[], fromIndex: number) {
+  for (let i = fromIndex + 1; i < targets.length; i++) {
+    const t = targets[i]
+    let updated = { ...t }
+    let changed = false
+
+    if (t.characterId && t.targetEidolonLevel !== EidolonLevel.NONE) {
+      const floor = getCharacterEidolonFloor(targets, t.characterId, i)
+      if (t.currentEidolonLevel !== floor) {
+        updated.currentEidolonLevel = floor
+        changed = true
+        if (updated.targetEidolonLevel <= floor) {
+          updated.targetEidolonLevel = Math.min(floor + 1, EidolonLevel.E6) as EidolonLevel
+        }
+      }
+    }
+
+    if (t.lightConeId && t.targetSuperimpositionLevel !== SuperimpositionLevel.NONE) {
+      const floor = getLightConeSuperimpositionFloor(targets, t.lightConeId, i)
+      if (t.currentSuperimpositionLevel !== floor) {
+        updated.currentSuperimpositionLevel = floor
+        changed = true
+        if (updated.targetSuperimpositionLevel <= floor) {
+          updated.targetSuperimpositionLevel = Math.min(floor + 1, SuperimpositionLevel.S5) as SuperimpositionLevel
+        }
+      }
+    }
+
+    if (changed) {
+      targets[i] = updated
+    }
+  }
 }
 
 function removeTarget(form: UseFormReturnType<WarpRequest>, index: number) {
@@ -108,6 +144,7 @@ function moveTarget(form: UseFormReturnType<WarpRequest>, activeId: string, over
 
   const [target] = targets.splice(fromIndex, 1)
   targets.splice(toIndex, 0, target)
+  cascadeTargetFloors(targets, Math.min(fromIndex, toIndex))
   form.setFieldValue('targets', targets)
 }
 
@@ -352,7 +389,13 @@ function TargetHeaderRow(props: {
   const characterConfig = target.characterId ? getCharacterConfig(target.characterId) : undefined
   const lcImageOffset = lcId ? getGameMetadata().lightCones[lcId]?.imageOffset ?? DEFAULT_LC_IMAGE_OFFSET : DEFAULT_LC_IMAGE_OFFSET
 
-  const fromData = isChar ? EIDOLON_FROM_DATA : SUPERIMPOSITION_FROM_DATA
+  const floor = isChar
+    ? getCharacterEidolonFloor(form.getValues().targets, target.characterId, targetIndex)
+    : getLightConeSuperimpositionFloor(form.getValues().targets, target.lightConeId, targetIndex)
+  const fromData = (isChar ? EIDOLON_FROM_DATA : SUPERIMPOSITION_FROM_DATA).map((item) => ({
+    ...item,
+    disabled: Number(item.value) < floor,
+  }))
   const fromValue = isChar ? target.currentEidolonLevel : target.currentSuperimpositionLevel
   const toValue = isChar ? target.targetEidolonLevel : target.targetSuperimpositionLevel
   const toData = (isChar ? EIDOLON_TO_DATA : SUPERIMPOSITION_TO_DATA).map((item) => ({
@@ -486,18 +529,42 @@ function TargetHeaderRow(props: {
   )
 }
 
+function getCharacterEidolonFloor(targets: WarpTarget[], characterId: string | null, beforeIndex: number): EidolonLevel {
+  if (!characterId) return EidolonLevel.NONE
+  let max = EidolonLevel.NONE
+  for (let i = 0; i < beforeIndex; i++) {
+    if (targets[i].characterId === characterId && targets[i].targetEidolonLevel > max) {
+      max = targets[i].targetEidolonLevel
+    }
+  }
+  return max
+}
+
+function getLightConeSuperimpositionFloor(targets: WarpTarget[], lightConeId: string | null, beforeIndex: number): SuperimpositionLevel {
+  if (!lightConeId) return SuperimpositionLevel.NONE
+  let max = SuperimpositionLevel.NONE
+  for (let i = 0; i < beforeIndex; i++) {
+    if (targets[i].lightConeId === lightConeId && targets[i].targetSuperimpositionLevel > max) {
+      max = targets[i].targetSuperimpositionLevel
+    }
+  }
+  return max
+}
+
 function addCharGoal(form: UseFormReturnType<WarpRequest>, characterId: NonNullable<WarpTarget['characterId']>) {
   const id = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}`
+  const existingTargets = form.getValues().targets
+  const inheritedEidolon = getCharacterEidolonFloor(existingTargets, characterId, existingTargets.length)
   const targets = [
-    ...form.getValues().targets,
+    ...existingTargets,
     {
       ...DEFAULT_WARP_REQUEST.targets[0],
       id,
       characterId,
       lightConeId: null,
-      targetEidolonLevel: EidolonLevel.E0,
+      targetEidolonLevel: Math.min(inheritedEidolon + 1, EidolonLevel.E6) as EidolonLevel,
       targetSuperimpositionLevel: SuperimpositionLevel.NONE,
-      currentEidolonLevel: EidolonLevel.NONE,
+      currentEidolonLevel: inheritedEidolon,
       currentSuperimpositionLevel: SuperimpositionLevel.NONE,
       strategy: form.getValues().strategy,
     },
@@ -508,17 +575,19 @@ function addCharGoal(form: UseFormReturnType<WarpRequest>, characterId: NonNulla
 function addLcGoal(form: UseFormReturnType<WarpRequest>, lightConeId: LightConeId) {
   const id = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}`
   const characterId = findCharacterByLightCone(lightConeId)
+  const existingTargets = form.getValues().targets
+  const inheritedSuperimposition = getLightConeSuperimpositionFloor(existingTargets, lightConeId, existingTargets.length)
   const targets = [
-    ...form.getValues().targets,
+    ...existingTargets,
     {
       ...DEFAULT_WARP_REQUEST.targets[0],
       id,
       characterId,
       lightConeId,
       targetEidolonLevel: EidolonLevel.NONE,
-      targetSuperimpositionLevel: SuperimpositionLevel.S1,
+      targetSuperimpositionLevel: Math.min(inheritedSuperimposition + 1, SuperimpositionLevel.S5) as SuperimpositionLevel,
       currentEidolonLevel: EidolonLevel.NONE,
-      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
+      currentSuperimpositionLevel: inheritedSuperimposition,
       strategy: form.getValues().strategy,
     },
   ]
@@ -530,17 +599,20 @@ function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, character
   const lcTargetId = globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}-lc`
   const strategy = form.getValues().strategy
   const base = DEFAULT_WARP_REQUEST.targets[0]
+  const existingTargets = form.getValues().targets
   const signatureLcId = getCharacterConfig(characterId)?.defaultLightCone ?? null
+  const inheritedEidolon = getCharacterEidolonFloor(existingTargets, characterId, existingTargets.length)
+  const inheritedSuperimposition = getLightConeSuperimpositionFloor(existingTargets, signatureLcId, existingTargets.length)
   const targets = [
-    ...form.getValues().targets,
+    ...existingTargets,
     {
       ...base,
       id: charTargetId,
       characterId,
       lightConeId: null,
-      targetEidolonLevel: EidolonLevel.E0,
+      targetEidolonLevel: Math.min(inheritedEidolon + 1, EidolonLevel.E6) as EidolonLevel,
       targetSuperimpositionLevel: SuperimpositionLevel.NONE,
-      currentEidolonLevel: EidolonLevel.NONE,
+      currentEidolonLevel: inheritedEidolon,
       currentSuperimpositionLevel: SuperimpositionLevel.NONE,
       strategy,
     },
@@ -550,9 +622,9 @@ function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, character
       characterId,
       lightConeId: signatureLcId,
       targetEidolonLevel: EidolonLevel.NONE,
-      targetSuperimpositionLevel: SuperimpositionLevel.S1,
+      targetSuperimpositionLevel: Math.min(inheritedSuperimposition + 1, SuperimpositionLevel.S5) as SuperimpositionLevel,
       currentEidolonLevel: EidolonLevel.NONE,
-      currentSuperimpositionLevel: SuperimpositionLevel.NONE,
+      currentSuperimpositionLevel: inheritedSuperimposition,
       strategy,
     },
   ]

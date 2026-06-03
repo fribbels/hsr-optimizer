@@ -1,48 +1,24 @@
-import {
-  newLcHeight,
-  newLcMargin,
-  parentH,
-} from 'lib/constants/constantsUi'
-import {
-  isSimScoreMode,
-  type ScoringType,
-} from 'lib/scoring/scoringConfig'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { type CustomImageConfig } from 'types/customImage'
 
 export function CharacterCustomPortrait({
   customPortrait,
   parentW,
-  scoringType,
   defaultPortraitUrl,
 }: {
   customPortrait: CustomImageConfig,
   parentW: number,
-  scoringType: ScoringType,
   defaultPortraitUrl: string,
 }) {
-  // Scale by height so that the light cone in combat scoring doesn't cut off part of the image
-  const scaleWidth = parentW / customPortrait.customImageParams.croppedAreaPixels.width
-  const totalLcHeight = newLcHeight + newLcMargin
-  const heightScaleLimit = customPortrait.customImageParams.croppedAreaPixels.width / customPortrait.originalDimensions.width
-  const scaleHeight = isSimScoreMode(scoringType)
-    ? Math.max((parentH - totalLcHeight) / parentH, heightScaleLimit)
-    : 1
+  const scale = parentW / customPortrait.customImageParams.croppedAreaPixels.width
 
-  // When we shrink the scale by height, this is aligned left so the right side shrinks left.
-  // To balance that, we horizontally offset back towards the center, proportionally to the light cone height
-  // That also means we have to set left limits so that this doesnt cause the image to underflow on the left & right
-  const horizontalOffset = isSimScoreMode(scoringType)
-    ? totalLcHeight / parentH * parentW / 2
-    : 0
-
-  const height = customPortrait.originalDimensions.height * scaleWidth * scaleHeight
-  const width = customPortrait.originalDimensions.width * scaleWidth * scaleHeight
-  const top = -customPortrait.customImageParams.croppedAreaPixels.y * scaleWidth * scaleHeight
+  const height = customPortrait.originalDimensions.height * scale
+  const width = customPortrait.originalDimensions.width * scale
+  const top = -customPortrait.customImageParams.croppedAreaPixels.y * scale
   const left = Math.min(
     0,
     Math.max(
-      -customPortrait.customImageParams.croppedAreaPixels.x * scaleWidth * scaleHeight + horizontalOffset,
+      -customPortrait.customImageParams.croppedAreaPixels.x * scale,
       -width + parentW,
     ),
   )

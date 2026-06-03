@@ -98,7 +98,7 @@ CharacterPreview:
     Labels:
       CombatScore: Combat Score
       CombatScoreTBD: Combat (TBD)
-      StatScore: Stat Score
+      StatScore: Substat Rolls
       NoneScore: None
   DetailsSlider:
     Labels:
@@ -200,7 +200,7 @@ CharacterPreview:
   ScoringDetails:
     Header: How is DPS Score calculated?
   EST-TBP:
-    Header: Stat Score Analysis
+    Header: Substat Rolls Analysis
     RollsCard:
       Perfection: Perfection
     MetricsCard:

@@ -6,7 +6,6 @@ import {
   type ShowcaseDisplayDimensions,
   type ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
-import { StatText } from 'lib/characterPreview/StatText'
 import { parentW } from 'lib/constants/constantsUi'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
@@ -96,71 +95,3 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
   )
 })
 
-export const ShowcaseLightConeLarge = memo(function ShowcaseLightConeLarge({
-  character,
-  displayDimensions,
-  setOriginalCharacterModalInitialCharacter,
-  setOriginalCharacterModalOpen,
-  showcaseMetadata,
-}: ShowcaseLightConeProps) {
-  const {
-    tempLcParentW,
-    tempLcParentH,
-    lcImageOffset,
-  } = displayDimensions
-
-  const {
-    lightConeSrc,
-  } = showcaseMetadata
-
-  const { dy, scale } = computeLcTransform(lcImageOffset, tempLcParentW, tempLcParentH)
-
-  return (
-    <div
-      className={`lightConeCard ${styles.lcCard}`}
-      style={{
-        width: `${tempLcParentW}px`,
-        height: `${tempLcParentH}px`,
-        boxShadow: showcaseShadow,
-      }}
-      onClick={() => {
-        setOriginalCharacterModalInitialCharacter?.(character)
-        setOriginalCharacterModalOpen?.(true)
-      }}
-    >
-      <LoadingBlurredImage
-        src={lightConeSrc}
-        style={{
-          width: '100%',
-          transform: `translateY(${dy}px) scale(${scale})`,
-        }}
-      />
-    </div>
-  )
-})
-
-export const ShowcaseLightConeLargeName = memo(function ShowcaseLightConeLargeName({ showcaseMetadata }: {
-  showcaseMetadata: ShowcaseMetadata,
-}) {
-  const { t } = useTranslation('common')
-
-  const {
-    lightConeName,
-    lightConeLevel,
-    lightConeSuperimposition,
-  } = showcaseMetadata
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <StatText className={styles.lcNameText}>
-        {lightConeName}
-      </StatText>
-      <StatText className={styles.lcLevelText}>
-        {
-          `${t('LevelShort', { level: lightConeLevel })} ${t('SuperimpositionNShort', { superimposition: lightConeSuperimposition })}`
-          /* Lv 80 S5 */
-        }
-      </StatText>
-    </div>
-  )
-})

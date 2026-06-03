@@ -1,8 +1,6 @@
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/card/ShowcaseCharacterHeader'
 import {
-  ShowcaseLightConeLarge,
-  ShowcaseLightConeLargeName,
   ShowcaseLightConeSmall,
 } from 'lib/characterPreview/card/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
@@ -380,13 +378,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const { displayRelics, scoringResults } = state.previewRelics
 
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
-  // editorOverrides.forceSimScoreLayout overrides to DPS_SCORE layout for preview
   const buildScoringType = savedBuildOverride?.scoringConfigType != null
     ? SCORING_CONFIG_REGISTRY[savedBuildOverride.scoringConfigType].scoringType
     : undefined
-  const effectiveScoringType = editorOverrides?.forceSimScoreLayout
-    ? ScoringType.DPS_SCORE
-    : (forceDebug ? ScoringType.SUBSTAT_SCORE : (buildScoringType ?? state.storedScoringType))
+  const effectiveScoringType = forceDebug ? ScoringType.SUBSTAT_SCORE : (buildScoringType ?? state.storedScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
   // Cache-buster: portrait edits on the showcase tab wouldn't re-run the layout memo otherwise
@@ -402,7 +397,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         savedBuildOverride,
         t,
       })
-      if (forceDebug && !editorOverrides?.forceSimScoreLayout) {
+      if (forceDebug) {
         return { ...baseLayout, displayDimensions: { ...baseLayout.displayDimensions, disableSpine: true } }
       }
       return baseLayout
@@ -417,7 +412,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       _storePortrait,
       t,
       forceDebug,
-      editorOverrides?.forceSimScoreLayout,
     ],
   )
 
@@ -591,17 +585,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               />
             </OuterShadowRingWrapper>
 
-            {(isSimScoreMode(scoringType) || scoringType === ScoringType.SUBSTAT_SCORE) && (
-              <OuterShadowRingWrapper>
-                <ShowcaseLightConeSmall
-                  character={character}
-                  showcaseMetadata={showcaseMetadata}
-                  displayDimensions={displayDimensions}
-                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                />
-              </OuterShadowRingWrapper>
-            )}
+            <OuterShadowRingWrapper>
+              <ShowcaseLightConeSmall
+                character={character}
+                showcaseMetadata={showcaseMetadata}
+                displayDimensions={displayDimensions}
+                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+              />
+            </OuterShadowRingWrapper>
           </div>
 
           {/* Character details middle panel */}
@@ -629,7 +621,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               <ShadowRings />
               <ShowcaseCharacterHeader
                 showcaseMetadata={showcaseMetadata}
-                scoringType={scoringType}
               />
 
               <WrappedCharacterStatSummary
@@ -657,31 +648,14 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 </>
               )}
 
-              {scoringType === ScoringType.SUBSTAT_SCORE && (
+              {(scoringType === ScoringType.SUBSTAT_SCORE || scoringType === ScoringType.NONE) && (
                 <>
                   <ShowcaseSetBonuses displayRelics={displayRelics} />
                   <ShowcaseSubstatRolls displayRelics={displayRelics} characterId={showcaseMetadata.characterId} seedColor={seedColor} />
                 </>
               )}
-
-              {scoringType === ScoringType.NONE && (
-                <ShowcaseLightConeLargeName
-                  showcaseMetadata={showcaseMetadata}
-                />
-              )}
             </div>
 
-            {scoringType === ScoringType.NONE && (
-              <OuterShadowRingWrapper>
-                <ShowcaseLightConeLarge
-                  character={character}
-                  showcaseMetadata={showcaseMetadata}
-                  displayDimensions={displayDimensions}
-                  setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                  setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-                />
-              </OuterShadowRingWrapper>
-            )}
           </div>
 
           {/* Relics right panel */}

@@ -180,7 +180,7 @@ describe('getFilteredRelicCounts (countsBySet)', () => {
     expect(countsBySet[Parts.Head][setBIdx]).toBe(0)
   })
 
-  it('uses roll potential units for min weighted rolls in both filter paths', () => {
+  it('uses weighted min-roll units in both filter paths', () => {
     const highSpd = makeRelic({
       id: 'high-spd',
       part: Parts.Head,
@@ -220,5 +220,39 @@ describe('getFilteredRelicCounts (countsBySet)', () => {
 
     expect(relicsByPart.Head).toHaveLength(1)
     expect(relicsByPart.Hands).toHaveLength(0)
+  })
+
+  it('keeps one low SPD roll at a 1.0 weighted-roll threshold', () => {
+    const lowSpd = makeRelic({
+      id: 'low-spd',
+      part: Parts.Head,
+      set: SET_A,
+      substats: [{ stat: Stats.SPD, value: SubStatValues[Stats.SPD][5].low }],
+    })
+    const weights = {} as Form['weights']
+    for (const stat of Constants.SubStats) weights[stat] = 0
+    weights[Stats.SPD] = 1
+    weights.minWeightedRolls = 1
+    const request = baseRequest({
+      weights,
+    })
+
+    relicStoreMock.relics = [lowSpd]
+
+    const { counts } = RelicFilters.getFilteredRelicCounts(request)
+    expect(counts[Parts.Head]).toBe(1)
+
+    const relicsByPart = {
+      Head: [lowSpd],
+      Hands: [],
+      Body: [],
+      Feet: [],
+      PlanarSphere: [],
+      LinkRope: [],
+    }
+    RelicFilters.calculateWeightScore(request, [lowSpd])
+    RelicFilters.applyTopFilter(request, relicsByPart)
+
+    expect(relicsByPart.Head).toHaveLength(1)
   })
 })

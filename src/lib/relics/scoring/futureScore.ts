@@ -29,9 +29,9 @@ export function computeFutureScores(
   idealScore: number,
   withMeta: boolean,
 ): FutureScoringResult {
-  const gradeConfig = GRADE_CONFIG[relic.grade as ValidGrade]
-  const config = gradeConfig ?? GRADE_CONFIG[5]
-  const grade = relic.grade as ValidGrade
+  const relicGrade = relic.grade as ValidGrade
+  const grade = GRADE_CONFIG[relicGrade] ? relicGrade : 5
+  const config = GRADE_CONFIG[grade]
   const contributions = meta.contributions
   const part = relic.part
 
@@ -70,10 +70,17 @@ export function computeFutureScores(
   const remainingRolls = Math.ceil((config.maxEnhance - relic.enhance) / 3) - (4 - relic.substats.length)
 
   // ── Single-pass over existing substats: compute current, best, avg, worst raw scores ──
-  // Pre-compute grade-specific mid roll scores (grade 5 uses cached metadata, others compute on the fly)
+  const highRollPotential = (stat: SubStats) => grade === 5
+    ? meta.highRollPotential[stat]
+    : SubStatValues[stat][grade].high * contributions[stat]
+  const lowRollPotential = (stat: SubStats) => grade === 5
+    ? meta.lowRollPotential[stat]
+    : SubStatValues[stat][grade].low * contributions[stat]
+
+  // Pre-compute grade-specific mid roll potential (grade 5 uses cached metadata, others compute on the fly)
   let midRolls: Record<SubStats, number>
   if (grade === 5) {
-    midRolls = meta.midRollScores
+    midRolls = meta.midRollPotential
   } else {
     midRolls = {} as Record<SubStats, number>
     for (const [stat] of meta.sortedSubstats) {
@@ -101,10 +108,12 @@ export function computeFutureScores(
   let avgRaw = vc0 + rollMidFactor * mr0 // includes mid-roll upgrade projection
   let addedRollsSum = sub0.addedRolls ?? 0 // for reroll totalRolls
   let midRollSum = mr0 // for closed-form reroll (eliminates reroll loop)
-  let maxWeight = meta.stats[stat0] // tracks best upgrade stat
-  let minWeight = maxWeight // tracks worst upgrade stat (= blocked stat for reroll)
+  let maxHighRollPotential = highRollPotential(stat0) // tracks best upgrade stat
+  let minLowRollPotential = lowRollPotential(stat0) // tracks worst upgrade stat
+  let minMidRollPotential = mr0 // tracks blocked stat for reroll
   let bestUpgradeStat: SubStats = stat0
   let worstUpgradeStat: SubStats = stat0
+  let blockedUpgradeStat: SubStats = stat0
 
   for (let i = 1; i < allSubstats.length; i++) {
     const sub = allSubstats[i]
@@ -123,14 +132,19 @@ export function computeFutureScores(
     midRollSum += mr
 
     // ── Best/worst upgrade stat tracking ──
-    const w = meta.stats[stat]
-    if (w > maxWeight) {
-      maxWeight = w
+    const highPotential = highRollPotential(stat)
+    if (highPotential > maxHighRollPotential) {
+      maxHighRollPotential = highPotential
       bestUpgradeStat = stat
     }
-    if (w < minWeight) {
-      minWeight = w
+    const lowPotential = lowRollPotential(stat)
+    if (lowPotential < minLowRollPotential) {
+      minLowRollPotential = lowPotential
       worstUpgradeStat = stat
+    }
+    if (mr < minMidRollPotential) {
+      minMidRollPotential = mr
+      blockedUpgradeStat = stat
     }
   }
 
@@ -141,39 +155,43 @@ export function computeFutureScores(
 
   // ── Fill missing substats (only for relics with < 4 substats) ──
   if (needsFill) {
-    const availLen = availableSubstats.length
+    const bestAvailableSubstats = availableSubstats.slice().sort((a, b) => highRollPotential(b[0]) - highRollPotential(a[0]))
+    const worstAvailableSubstats = availableSubstats.slice().sort((a, b) => lowRollPotential(a[0]) - lowRollPotential(b[0]))
     for (let i = allSubstats.length; i < 4; i++) {
       const idx = i - allSubstats.length
       // Best: top available
-      const bestStat = availableSubstats[idx][0]
-      bestRaw += meta.highRollScores[bestStat]
-      const bw = meta.stats[bestStat]
-      if (bw > maxWeight) {
-        maxWeight = bw
+      const bestStat = bestAvailableSubstats[idx][0]
+      bestRaw += highRollPotential(bestStat)
+      const bestPotential = highRollPotential(bestStat)
+      if (bestPotential > maxHighRollPotential) {
+        maxHighRollPotential = bestPotential
         bestUpgradeStat = bestStat
       }
       // Worst: bottom available
-      const worstStat = availableSubstats[availLen - 1 - idx][0]
-      worstRaw += meta.lowRollScores[worstStat]
-      const ww = meta.stats[worstStat]
-      if (ww < minWeight) {
-        minWeight = ww
+      const worstStat = worstAvailableSubstats[idx][0]
+      worstRaw += lowRollPotential(worstStat)
+      const worstPotential = lowRollPotential(worstStat)
+      if (worstPotential < minLowRollPotential) {
+        minLowRollPotential = worstPotential
         worstUpgradeStat = worstStat
+      }
+      const midPotential = midRolls[worstStat]
+      if (midPotential < minMidRollPotential) {
+        minMidRollPotential = midPotential
+        blockedUpgradeStat = worstStat
       }
     }
     // Average: mean mid-roll contribution of available stats
     let avgNewContrib = 0
     for (const [stat] of availableSubstats) avgNewContrib += midRolls[stat]
-    avgNewContrib /= availLen
+    avgNewContrib /= availableSubstats.length
     avgRaw += (4 - allSubstats.length) * avgNewContrib * (1 + rollMidFactor)
   }
 
-  bestRaw += remainingRolls * SubStatValues[bestUpgradeStat][grade].high * contributions[bestUpgradeStat]
+  bestRaw += remainingRolls * highRollPotential(bestUpgradeStat)
   const best = Math.max(0, (bestRaw + deduction) * normFactor)
   const average = Math.max(0, (avgRaw + deduction) * normFactor)
-  worstRaw += remainingRolls * (grade === 5
-    ? meta.lowRollScores[worstUpgradeStat]
-    : SubStatValues[worstUpgradeStat][grade].low * contributions[worstUpgradeStat])
+  worstRaw += remainingRolls * lowRollPotential(worstUpgradeStat)
   const worst = Math.max(0, (worstRaw + deduction) * normFactor)
 
   // ── Levelup metadata ──
@@ -185,10 +203,12 @@ export function computeFutureScores(
   if (withMeta) {
     const bestAddedStats: SubStats[] = []
     if (allSubstats.length < 4 && availableSubstats.length > 0) {
-      const topWeight = availableSubstats[0][1]
-      for (const [stat, weight] of availableSubstats) {
-        if (weight < topWeight) break
-        bestAddedStats.push(stat)
+      let topPotential = 0
+      for (const [stat] of availableSubstats) {
+        topPotential = Math.max(topPotential, highRollPotential(stat))
+      }
+      for (const [stat] of availableSubstats) {
+        if (highRollPotential(stat) === topPotential) bestAddedStats.push(stat)
       }
     }
 
@@ -206,11 +226,12 @@ export function computeFutureScores(
       (candidateSubstats) => validUpgrades[candidateSubstats[0]],
     )
     if (upgradeCandidates.length > 0) {
-      const bestWeight = upgradeCandidates[0][1]
-      for (const [stat, weight] of upgradeCandidates) {
-        if (validUpgrades[stat] && weight >= bestWeight) {
-          bestUpgradedStats.push(stat)
-        }
+      let bestPotential = 0
+      for (const [stat] of upgradeCandidates) {
+        bestPotential = Math.max(bestPotential, highRollPotential(stat))
+      }
+      for (const [stat] of upgradeCandidates) {
+        if (validUpgrades[stat] && highRollPotential(stat) === bestPotential) bestUpgradedStats.push(stat)
       }
     }
 
@@ -234,12 +255,12 @@ export function computeFutureScores(
 
   if (relic.grade === 5 && allSubstats.length === 4) {
     const totalRolls = Math.min(addedRollsSum, 5)
-    blockedStat = worstUpgradeStat
+    blockedStat = blockedUpgradeStat
 
     // rerollAvg  = Σ(midRoll_i × (1 + totalRolls/4)) = midRollSum × (1 + totalRolls/4)
     // blockerAvg = blockedMid × 1 + Σ_{non-blocked}(midRoll_i × (1 + totalRolls/3))
     //            = blockedMid + (midRollSum - blockedMid) × (1 + totalRolls/3)
-    const blockedMid = meta.midRollScores[blockedStat]
+    const blockedMid = meta.midRollPotential[blockedStat]
 
     rerollAvg = Math.min(midRollSum * (1 + totalRolls / 4), idealScore)
     rerollAvg = (rerollAvg + deduction) * normFactor

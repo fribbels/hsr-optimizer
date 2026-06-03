@@ -19,7 +19,7 @@ import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   isSimScoreMode,
-  ScoringType,
+  type ScoringType,
 } from 'lib/scoring/scoringConfig'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'

@@ -9,7 +9,7 @@ export function substatPotentialScale(stat: SubStats): number {
   return 6.48 / SubStatValues[stat][5].high
 }
 
-export function substatPotentialValue(stat: SubStats, value: number): number {
+export function substatPotentialUnits(stat: SubStats, value: number): number {
   return value * substatPotentialScale(stat)
 }
 

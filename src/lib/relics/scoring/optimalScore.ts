@@ -61,22 +61,22 @@ export function computeOptimalScore(part: Parts, mainstat: MainStats, meta: Scor
         part === Constants.Parts.Head && handlingCase === ScoringCase.HP
         || part === Constants.Parts.Hands && handlingCase === ScoringCase.ATK
       ) {
-        return 6 * meta.highRollScores[stat1]
+        return 6 * meta.highRollPotential[stat1]
       }
-      return 6 * meta.highRollScores[stat1] + meta.highRollScores[stat2]
+      return 6 * meta.highRollPotential[stat1] + meta.highRollPotential[stat2]
     }
 
     case ScoringCase.SINGLE_STAT: {
-      return 6 * meta.highRollScores[meta.sortedSubstats[0][0]]
+      return 6 * meta.highRollPotential[meta.sortedSubstats[0][0]]
     }
 
     case ScoringCase.NORMAL: {
       const mainStat = resolveOptimalMainstat(part, mainstat, meta)
       const top4 = meta.sortedSubstats.filter(([name]) => name !== mainStat).slice(0, 4)
-      return 6 * meta.highRollScores[top4[0][0]]
-        + meta.highRollScores[top4[1][0]]
-        + meta.highRollScores[top4[2][0]]
-        + meta.highRollScores[top4[3][0]]
+      return 6 * meta.highRollPotential[top4[0][0]]
+        + meta.highRollPotential[top4[1][0]]
+        + meta.highRollPotential[top4[2][0]]
+        + meta.highRollPotential[top4[3][0]]
     }
   }
 }
@@ -105,11 +105,7 @@ export function resolveOptimalMainstat(part: Parts, mainstat: MainStats, meta: S
       } else return [stat, value] as [StatsValues, number]
     })
     .sort((a, b) => {
-      // We give mainstat candidates a high-roll-equivalent score to keep ordering by weight.
-      // The exact score does not matter as long as the final array is still sorted by weight
-      const scoreA = a[1] * 6.48
-      const scoreB = b[1] * 6.48
-      return scoreB - scoreA
+      return b[1] - a[1]
     })
 
   /*

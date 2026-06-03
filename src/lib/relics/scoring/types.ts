@@ -20,11 +20,10 @@ export type ScorerMetadata = {
   category: ScoreCategory,
   // Pre-computed: weight[stat] * raw-value-to-potential scale
   contributions: Record<SubStats, number>,
-  // Pre-computed: score per grade-5 high roll
-  highRollScores: Record<SubStats, number>,
-  // Pre-computed: score per grade-5 mid roll
-  midRollScores: Record<SubStats, number>,
-  lowRollScores: Record<SubStats, number>,
+  // Pre-computed weighted potential per grade-5 roll tier
+  highRollPotential: Record<SubStats, number>,
+  midRollPotential: Record<SubStats, number>,
+  lowRollPotential: Record<SubStats, number>,
 }
 
 export type RelicScoringResult = {

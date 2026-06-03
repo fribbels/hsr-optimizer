@@ -9,7 +9,7 @@ import {
 } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import {
-  substatPotentialValue,
+  substatPotentialUnits,
 } from 'lib/relics/scoring/scoringConstants'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
@@ -111,7 +111,7 @@ test('relic-perfect', () => {
 })
 
 // Two max-rolled relics of weight-1.0 substats both score 100%, whichever stat is 6-stacked.
-// (Pre-fix, the CD-stacked one scored 97.9%.) See plans/spd-normalization-equal-roll-potential.md
+// Pre-fix, the CD-stacked one scored 97.9% because SPD used a larger main-stat-derived scale.
 test('relic-spd-equal-roll-potential', () => {
   const character = Blade.id
 
@@ -149,10 +149,48 @@ test('relic-spd-equal-roll-potential', () => {
 })
 
 test('substat potential helper preserves raw SPD tier ratios', () => {
-  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].high)).toBeCloseTo(6.48, 6)
-  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].mid)).toBeCloseTo(5.732307692, 6)
-  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].low)).toBeCloseTo(4.984615385, 6)
+  expect(substatPotentialUnits(Stats.SPD, SubStatValues[Stats.SPD][5].high)).toBeCloseTo(6.48, 6)
+  expect(substatPotentialUnits(Stats.SPD, SubStatValues[Stats.SPD][5].mid)).toBeCloseTo(5.732307692, 6)
+  expect(substatPotentialUnits(Stats.SPD, SubStatValues[Stats.SPD][5].low)).toBeCloseTo(4.984615385, 6)
 
-  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].mid)).not.toBeCloseTo(6.48 * 0.9, 6)
-  expect(substatPotentialValue(Stats.SPD, SubStatValues[Stats.SPD][5].low)).not.toBeCloseTo(6.48 * 0.8, 6)
+  expect(substatPotentialUnits(Stats.SPD, SubStatValues[Stats.SPD][5].mid)).not.toBeCloseTo(6.48 * 0.9, 6)
+  expect(substatPotentialUnits(Stats.SPD, SubStatValues[Stats.SPD][5].low)).not.toBeCloseTo(6.48 * 0.8, 6)
+})
+
+test('future worst and blocked reroll potential use actual roll potential for tied weights', () => {
+  const character = Blade.id
+
+  try {
+    const stats = {} as Record<SubStats, number>
+    for (const s of Constants.SubStats) stats[s] = 0
+    for (const s of [Stats.SPD, Stats.CD, Stats.HP_P, Stats.ATK_P]) stats[s] = 1
+    useScoringStore.getState().setScoringMetadataOverrides({ [character]: { stats } })
+
+    const meta = prepareScoringMetadata(character)
+    const idealScore = computeOptimalScore(Parts.Hands, Stats.ATK, meta)
+    const score = (substats: SubStats[]) => {
+      const relic = {
+        enhance: 0,
+        grade: 5,
+        part: Parts.Hands,
+        main: { stat: Stats.ATK },
+        substats: substats.map((stat) => ({
+          stat,
+          value: SubStatValues[stat][5].high,
+          addedRolls: 1,
+        })),
+        previewSubstats: [],
+      } as unknown as Relic
+
+      return computeFutureScores(relic, meta, idealScore, false)
+    }
+
+    const cdFirst = score([Stats.CD, Stats.SPD, Stats.HP_P, Stats.ATK_P])
+    const spdFirst = score([Stats.SPD, Stats.CD, Stats.HP_P, Stats.ATK_P])
+
+    expect(cdFirst.worst).toBeCloseTo(spdFirst.worst, 6)
+    expect(cdFirst.blockerAvg).toBeCloseTo(spdFirst.blockerAvg, 6)
+  } finally {
+    useScoringStore.getState().clearCharacterOverrides(character)
+  }
 })

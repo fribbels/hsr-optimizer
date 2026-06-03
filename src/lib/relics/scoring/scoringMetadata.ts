@@ -8,7 +8,7 @@ import {
   FLAT_STAT_SCALING,
   POSSIBLE_SUBSTATS,
   substatPotentialScale,
-  substatPotentialValue,
+  substatPotentialUnits,
 } from 'lib/relics/scoring/scoringConstants'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import { getScoreCategory } from 'lib/scoring/scoreComparison'
@@ -35,7 +35,7 @@ export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
   scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
     .filter((x) => POSSIBLE_SUBSTATS.has(x[0]))
     .sort((a, b) => {
-      return b[1] * 6.48 - a[1] * 6.48
+      return b[1] - a[1]
     })
 
   scoringMetadata.groupedSubstats = new Map()
@@ -77,21 +77,21 @@ export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
 
   // Pre-compute raw-value potential scales and roll potential maps for hot loops.
   const contributions = {} as Record<SubStats, number>
-  const highRollScores = {} as Record<SubStats, number>
-  const midRollScores = {} as Record<SubStats, number>
-  const lowRollScores = {} as Record<SubStats, number>
+  const highRollPotential = {} as Record<SubStats, number>
+  const midRollPotential = {} as Record<SubStats, number>
+  const lowRollPotential = {} as Record<SubStats, number>
   for (const [stat] of scoringMetadata.sortedSubstats) {
     const weight = scoringMetadata.stats[stat] || 0
     const c = weight * substatPotentialScale(stat)
     contributions[stat] = c
-    highRollScores[stat] = weight * substatPotentialValue(stat, SubStatValues[stat][5].high)
-    midRollScores[stat] = weight * substatPotentialValue(stat, SubStatValues[stat][5].mid)
-    lowRollScores[stat] = weight * substatPotentialValue(stat, SubStatValues[stat][5].low)
+    highRollPotential[stat] = weight * substatPotentialUnits(stat, SubStatValues[stat][5].high)
+    midRollPotential[stat] = weight * substatPotentialUnits(stat, SubStatValues[stat][5].mid)
+    lowRollPotential[stat] = weight * substatPotentialUnits(stat, SubStatValues[stat][5].low)
   }
   scoringMetadata.contributions = contributions
-  scoringMetadata.highRollScores = highRollScores
-  scoringMetadata.midRollScores = midRollScores
-  scoringMetadata.lowRollScores = lowRollScores
+  scoringMetadata.highRollPotential = highRollPotential
+  scoringMetadata.midRollPotential = midRollPotential
+  scoringMetadata.lowRollPotential = lowRollPotential
 
   return scoringMetadata
 }

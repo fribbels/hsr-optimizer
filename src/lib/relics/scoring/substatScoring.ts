@@ -1,5 +1,6 @@
 import {
   Constants,
+  SubStatValues,
 } from 'lib/constants/constants'
 import type {
   MainStats,
@@ -7,20 +8,21 @@ import type {
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
-import {
-  substatPotentialValue,
-} from 'lib/relics/scoring/scoringConstants'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
 
-export function weightedSubstatScore(
+export function substatMinRolls(stat: SubStats, value: number): number {
+  return value / SubStatValues[stat][5].low
+}
+
+export function weightedSubstatMinRolls(
   substats: readonly { stat: SubStats, value: number }[],
   weights: Record<StatsValues, number>,
 ): number {
-  let score = 0
+  let rolls = 0
   for (const substat of substats) {
-    score += substatPotentialValue(substat.stat, substat.value) * (weights[substat.stat] || 0)
+    rolls += substatMinRolls(substat.stat, substat.value) * (weights[substat.stat] || 0)
   }
-  return score
+  return rolls
 }
 
 export function mainStatWeight(part: Parts, mainStat: MainStats, meta: ScorerMetadata): number {

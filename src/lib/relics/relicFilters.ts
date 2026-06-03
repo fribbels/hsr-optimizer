@@ -12,9 +12,11 @@ import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { calculateRelicMainStatValue } from 'lib/relics/relicUtils'
 import {
   FLAT_STAT_SCALING,
-  substatPotentialValue,
 } from 'lib/relics/scoring/scoringConstants'
-import { weightedSubstatScore } from 'lib/relics/scoring/substatScoring'
+import {
+  substatMinRolls,
+  weightedSubstatMinRolls,
+} from 'lib/relics/scoring/substatScoring'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,
@@ -71,12 +73,12 @@ function hasAchievableWeightedSubstat(weights: Record<string, number>, mainStat:
 }
 
 function computeWeightScore(relic: Relic, weights: Record<string, number>, upgradeLevel: number): number {
-  let score = weightedSubstatScore(relic.substats, weights as Record<StatsValues, number>)
+  let score = weightedSubstatMinRolls(relic.substats, weights as Record<StatsValues, number>)
   if (upgradeLevel) {
     for (let i = 0; i < relic.previewSubstats.length; i++) {
       if (relic.enhance + 3 * i >= upgradeLevel) break
       const sub = relic.previewSubstats[i]
-      score += substatPotentialValue(sub.stat, sub.value || 0) * (weights[sub.stat] || 0)
+      score += substatMinRolls(sub.stat, sub.value || 0) * (weights[sub.stat] || 0)
     }
   }
   return score
@@ -141,7 +143,7 @@ export const RelicFilters = {
     weights[Constants.Stats.DEF] = (weights[Constants.Stats.DEF_P] || 0) * FLAT_STAT_SCALING.DEF
     weights[Constants.Stats.HP] = (weights[Constants.Stats.HP_P] || 0) * FLAT_STAT_SCALING.HP
 
-    const rollThreshold = (weights.minWeightedRolls ?? 0) * 6.48 * 0.8
+    const rollThreshold = weights.minWeightedRolls ?? 0
 
     // Main stat filters (Head/Hands have no main stat constraints)
     const mainFilters: Partial<Record<Parts, string[]>> = {
@@ -226,7 +228,7 @@ export const RelicFilters = {
     }
 
     for (const relic of relics) {
-      relic.weightScore = weightedSubstatScore(relic.substats, weights as Record<StatsValues, number>)
+      relic.weightScore = weightedSubstatMinRolls(relic.substats, weights as Record<StatsValues, number>)
     }
 
     return relics
@@ -234,7 +236,7 @@ export const RelicFilters = {
 
   applyTopFilter: (request: Form, relics: RelicsByPart) => {
     const weights = request.weights || {}
-    const minRolls = (weights.minWeightedRolls ?? 0) * 6.48 * 0.8
+    const minRolls = weights.minWeightedRolls ?? 0
 
     for (const part of Object.values(Constants.Parts)) {
       const partition: Relic[] = relics[part]

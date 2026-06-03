@@ -5,8 +5,6 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: Ajouter un set de reliques
     AddOrnamentSetPlaceholder: Ajouter un set d'ornements
-  WeightMethodology:
-    Header: Comment est calculée la note de stat?
   Footer:
     Reset: Réinitialiser
     ResetAll: Réinitialiser tous les personnages

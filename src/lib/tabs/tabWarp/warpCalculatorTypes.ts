@@ -1,3 +1,12 @@
+import { Bailu } from 'lib/conditionals/character/1200/Bailu'
+import { Bronya } from 'lib/conditionals/character/1100/Bronya'
+import { Clara } from 'lib/conditionals/character/1100/Clara'
+import { Gepard } from 'lib/conditionals/character/1100/Gepard'
+import { Himeko } from 'lib/conditionals/character/1000/Himeko'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
+import { Yanqing } from 'lib/conditionals/character/1200/Yanqing'
+import { getAllCharacterConfigs } from 'lib/conditionals/resolver/characterConfigRegistry'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
@@ -204,3 +213,37 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   ...generateOptions('4.2', 117, 91, 140, 103, 149, 112),
   ...generateOptions('4.3', 91, 66, 116, 78, 124, 86),
 ]
+
+const excludedCharacterIds = new Set<CharacterId>([
+  Bailu.id,
+  Bronya.id,
+  Clara.id,
+  Gepard.id,
+  Himeko.id,
+  WeltB1.id,
+  Yanqing.id,
+])
+
+export function isPremiumCharacter(id: CharacterId): boolean {
+  const meta = getGameMetadata().characters
+  if (meta[id] == null || meta[id].rarity !== 5 || id.startsWith('80')) return false
+  if (meta[`${id}b1` as CharacterId] != null) return false
+  if (excludedCharacterIds.has(id)) return false
+  return true
+}
+
+let premiumLightConeIds: Set<LightConeId> | null = null
+function getPremiumLightConeIds(): Set<LightConeId> {
+  if (premiumLightConeIds) return premiumLightConeIds
+  premiumLightConeIds = new Set<LightConeId>()
+  for (const [charId, config] of getAllCharacterConfigs()) {
+    if (isPremiumCharacter(charId) && config.defaultLightCone) {
+      premiumLightConeIds.add(config.defaultLightCone)
+    }
+  }
+  return premiumLightConeIds
+}
+
+export function isPremiumLightCone(id: LightConeId): boolean {
+  return getPremiumLightConeIds().has(id)
+}

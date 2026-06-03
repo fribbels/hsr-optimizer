@@ -5,7 +5,7 @@ import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigReg
 import { computeLcTransform, DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Assets } from 'lib/rendering/assets'
-import { EidolonLevel, SuperimpositionLevel, type WarpRequest, type WarpTarget } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { EidolonLevel, isPremiumCharacter, isPremiumLightCone, SuperimpositionLevel, type WarpRequest, type WarpTarget } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { HiddenSelectHost, useHiddenSelectTrigger } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
 import {
   findCharacterByLightCone,
@@ -160,6 +160,7 @@ export function TargetHeaderRow(props: {
               onChange={(characterId) => updateTarget(form, targetIndex, { characterId: characterId ?? null })}
               opened={select.opened}
               onOpenChange={select.onOpenChange}
+              optionFilter={(opt) => isPremiumCharacter(opt.id)}
             />
           ) : (
             <LightConeSelect
@@ -171,6 +172,7 @@ export function TargetHeaderRow(props: {
               }}
               opened={select.opened}
               onOpenChange={select.onOpenChange}
+              optionFilter={(opt) => isPremiumLightCone(opt.id)}
             />
           )}
         </HiddenSelectHost>

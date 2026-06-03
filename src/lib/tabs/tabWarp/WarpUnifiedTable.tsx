@@ -5,7 +5,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { IconPlus } from '@tabler/icons-react'
 import { Button, Flex, Table } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
-import { type EnrichedWarpRequest, type WarpRequest, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { type EnrichedWarpRequest, isPremiumCharacter, isPremiumLightCone, type WarpRequest, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { HiddenSelectHost, useHiddenSelectTrigger } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
 import { toMilestoneRows, WarpMilestoneRows, WarpTableHeader } from 'lib/tabs/tabWarp/WarpMilestoneTable'
 import { TargetHeaderRow } from 'lib/tabs/tabWarp/WarpTargetHeaderCard'
@@ -85,18 +85,21 @@ export function WarpUnifiedTable(props: {
                 onChange={(characterId) => { if (characterId) addCharGoal(form, characterId) }}
                 opened={addChar.opened}
                 onOpenChange={addChar.onOpenChange}
+                optionFilter={(opt) => isPremiumCharacter(opt.id)}
               />
               <LightConeSelect
                 value={null}
                 onChange={(lightConeId) => { if (lightConeId) addLcGoal(form, lightConeId) }}
                 opened={addLc.opened}
                 onOpenChange={addLc.onOpenChange}
+                optionFilter={(opt) => isPremiumLightCone(opt.id)}
               />
               <CharacterSelect
                 value={null}
                 onChange={(characterId) => { if (characterId) addCharAndSignatureGoal(form, characterId) }}
                 opened={addCharAndSig.opened}
                 onOpenChange={addCharAndSig.onOpenChange}
+                optionFilter={(opt) => isPremiumCharacter(opt.id)}
               />
             </HiddenSelectHost>
           </Flex>

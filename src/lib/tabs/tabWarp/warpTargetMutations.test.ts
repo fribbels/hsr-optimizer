@@ -1,5 +1,6 @@
 import type { UseFormReturnType } from '@mantine/form'
 import {
+  addCharAndSignatureGoal,
   addCharGoal,
   getCharacterEidolonFloor,
   getLightConeSuperimpositionFloor,
@@ -17,13 +18,40 @@ import {
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import {
+  beforeEach,
   expect,
   test,
+  vi,
 } from 'vitest'
 
 const CHAR_A = '1001' as CharacterId
 const CHAR_B = '1002' as CharacterId
 const LC_A = '20001' as LightConeId
+const SIG_LC = '20002' as LightConeId
+const OTHER_LC = '20003' as LightConeId
+
+// Stand-in character save: add functions read owned eidolon / equipped-cone superimposition from here.
+const storeMock = vi.hoisted(() => ({
+  byId: {} as Record<string, { form: { characterEidolon: number, lightCone: string, lightConeSuperimposition: number } }>,
+}))
+const configMock = vi.hoisted(() => ({
+  byId: {} as Record<string, { defaultLightCone: string | null }>,
+}))
+
+vi.mock('lib/stores/character/characterStore', () => ({
+  getCharacterById: (id: string) => storeMock.byId[id],
+  getCharacters: () => Object.values(storeMock.byId),
+}))
+
+vi.mock('lib/conditionals/resolver/characterConfigRegistry', () => ({
+  getCharacterConfig: (id: string) => configMock.byId[id],
+  getAllCharacterConfigs: () => new Map(Object.entries(configMock.byId)),
+}))
+
+beforeEach(() => {
+  storeMock.byId = {}
+  configMock.byId = {}
+})
 
 function makeWarpTarget(patch: Partial<WarpTarget> = {}): WarpTarget {
   return {
@@ -211,4 +239,36 @@ test('a chained goal capped at E6 is kept as a redundant goal with no room to po
   const t = current()
   expect(t[0]).toMatchObject({ currentEidolonLevel: EidolonLevel.NONE, targetEidolonLevel: EidolonLevel.E6 })
   expect(t[1]).toMatchObject({ currentEidolonLevel: EidolonLevel.E6, targetEidolonLevel: EidolonLevel.E6 })
+})
+
+// --- Add buttons pre-fill the owned eidolon / superimposition from the save ---
+
+test('addCharGoal seeds the owned eidolon from the save', () => {
+  storeMock.byId[CHAR_A] = { form: { characterEidolon: EidolonLevel.E3, lightCone: '99999', lightConeSuperimposition: SuperimpositionLevel.S1 } }
+  const { form, current } = fakeForm([])
+  addCharGoal(form, CHAR_A)
+  const t = current()
+  expect(t).toHaveLength(1)
+  expect(t[0]).toMatchObject({ currentEidolonLevel: EidolonLevel.E3, targetEidolonLevel: EidolonLevel.E4 })
+})
+
+test('addCharAndSignatureGoal seeds owned eidolon and the signature superimposition', () => {
+  configMock.byId[CHAR_A] = { defaultLightCone: SIG_LC }
+  storeMock.byId[CHAR_A] = { form: { characterEidolon: EidolonLevel.E3, lightCone: SIG_LC, lightConeSuperimposition: SuperimpositionLevel.S2 } }
+  const { form, current } = fakeForm([])
+  addCharAndSignatureGoal(form, CHAR_A)
+  const t = current()
+  expect(t).toHaveLength(2)
+  expect(t[0]).toMatchObject({ characterId: CHAR_A, lightConeId: null, currentEidolonLevel: EidolonLevel.E3, targetEidolonLevel: EidolonLevel.E4 })
+  expect(t[1]).toMatchObject({ lightConeId: SIG_LC, currentSuperimpositionLevel: SuperimpositionLevel.S2, targetSuperimpositionLevel: SuperimpositionLevel.S3 })
+})
+
+test('addCharAndSignatureGoal starts the signature from NONE when a different cone is equipped', () => {
+  configMock.byId[CHAR_A] = { defaultLightCone: SIG_LC }
+  storeMock.byId[CHAR_A] = { form: { characterEidolon: EidolonLevel.E3, lightCone: OTHER_LC, lightConeSuperimposition: SuperimpositionLevel.S2 } }
+  const { form, current } = fakeForm([])
+  addCharAndSignatureGoal(form, CHAR_A)
+  const t = current()
+  expect(t[0]).toMatchObject({ currentEidolonLevel: EidolonLevel.E3, targetEidolonLevel: EidolonLevel.E4 })
+  expect(t[1]).toMatchObject({ lightConeId: SIG_LC, currentSuperimpositionLevel: SuperimpositionLevel.NONE, targetSuperimpositionLevel: SuperimpositionLevel.S1 })
 })

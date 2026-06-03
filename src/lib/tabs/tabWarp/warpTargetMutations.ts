@@ -1,5 +1,6 @@
 import type { UseFormReturnType } from '@mantine/form'
 import { getAllCharacterConfigs, getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
+import { getCharacterById } from 'lib/stores/character/characterStore'
 import {
   DEFAULT_WARP_TARGET,
   EidolonLevel,
@@ -24,6 +25,25 @@ export function findCharacterByLightCone(lightConeId: LightConeId): WarpTarget['
     if (config.defaultLightCone === lightConeId) return characterId
   }
   return null
+}
+
+// --- Owned-level lookups: pre-fill new goals from the player's save ---
+
+// The eidolon already owned for this character, or NONE if the character isn't in the save.
+function getOwnedEidolon(characterId: WarpTarget['characterId']): EidolonLevel {
+  if (!characterId) return EidolonLevel.NONE
+  const form = getCharacterById(characterId)?.form
+  if (!form) return EidolonLevel.NONE
+  return form.characterEidolon as EidolonLevel
+}
+
+// The superimposition already owned of a character's signature light cone. Only counts when that
+// character actually has the signature equipped; any other equipped cone reads as NONE.
+function getOwnedSignatureSuperimposition(characterId: WarpTarget['characterId'], signatureLcId: LightConeId | null): SuperimpositionLevel {
+  if (!characterId || !signatureLcId) return SuperimpositionLevel.NONE
+  const form = getCharacterById(characterId)?.form
+  if (!form || form.lightCone !== signatureLcId) return SuperimpositionLevel.NONE
+  return form.lightConeSuperimposition as SuperimpositionLevel
 }
 
 // --- Single gateway: every mutation goes through here ---
@@ -100,11 +120,12 @@ export function moveTarget(form: UseFormReturnType<WarpRequest>, activeId: strin
 export function addCharGoal(form: UseFormReturnType<WarpRequest>, characterId: NonNullable<WarpTarget['characterId']>) {
   const existing = form.getValues().targets
   const floor = getCharacterEidolonFloor(existing, characterId, existing.length)
+  const from = Math.max(floor, getOwnedEidolon(characterId))
   const target = makeTarget({
     characterId,
     lightConeId: null,
-    currentEidolonLevel: floor,
-    targetEidolonLevel: Math.min(floor + 1, EidolonLevel.E6) as EidolonLevel,
+    currentEidolonLevel: from as EidolonLevel,
+    targetEidolonLevel: Math.min(from + 1, EidolonLevel.E6) as EidolonLevel,
     targetSuperimpositionLevel: SuperimpositionLevel.NONE,
   })
   setTargets(form, [...existing, target])
@@ -128,19 +149,21 @@ export function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, ch
   const signatureLcId = getCharacterConfig(characterId)?.defaultLightCone ?? null
   const eidolonFloor = getCharacterEidolonFloor(existing, characterId, existing.length)
   const lcFloor = getLightConeSuperimpositionFloor(existing, signatureLcId, existing.length)
+  const eidolonFrom = Math.max(eidolonFloor, getOwnedEidolon(characterId))
+  const superimpositionFrom = Math.max(lcFloor, getOwnedSignatureSuperimposition(characterId, signatureLcId))
   const charTarget = makeTarget({
     characterId,
     lightConeId: null,
-    currentEidolonLevel: eidolonFloor,
-    targetEidolonLevel: Math.min(eidolonFloor + 1, EidolonLevel.E6) as EidolonLevel,
+    currentEidolonLevel: eidolonFrom as EidolonLevel,
+    targetEidolonLevel: Math.min(eidolonFrom + 1, EidolonLevel.E6) as EidolonLevel,
     targetSuperimpositionLevel: SuperimpositionLevel.NONE,
   })
   const lcTarget = makeTarget({
     characterId,
     lightConeId: signatureLcId,
     targetEidolonLevel: EidolonLevel.NONE,
-    currentSuperimpositionLevel: lcFloor,
-    targetSuperimpositionLevel: Math.min(lcFloor + 1, SuperimpositionLevel.S5) as SuperimpositionLevel,
+    currentSuperimpositionLevel: superimpositionFrom as SuperimpositionLevel,
+    targetSuperimpositionLevel: Math.min(superimpositionFrom + 1, SuperimpositionLevel.S5) as SuperimpositionLevel,
   })
   setTargets(form, [...existing, charTarget, lcTarget])
 }

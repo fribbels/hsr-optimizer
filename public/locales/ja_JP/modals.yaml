@@ -5,8 +5,6 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: 遺物を追加
     AddOrnamentSetPlaceholder: 次元界オーナメントを追加
-  WeightMethodology:
-    Header: ステータススコアはどのように計算されますか？
   Footer:
     Reset: デフォルトにリセット
     ResetAll: すべてのキャラクターをリセット

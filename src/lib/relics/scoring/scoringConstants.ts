@@ -5,22 +5,13 @@ import {
   SubStatValues,
 } from 'lib/constants/constants'
 
-// Shared normalization table for relic scoring
-// Precise values: SPD=25.032 (relicFilters previously used rounded 25)
-export const STAT_NORMALIZATION: Record<SubStats, number> = {
-  [Constants.Stats.HP_P]: 64.8 / 43.2,
-  [Constants.Stats.ATK_P]: 64.8 / 43.2,
-  [Constants.Stats.DEF_P]: 64.8 / 54,
-  [Constants.Stats.HP]: (64.8 / 43.2) * SubStatValues[Constants.Stats.HP_P][5].high / SubStatValues[Constants.Stats.HP][5].high,
-  [Constants.Stats.ATK]: (64.8 / 43.2) * SubStatValues[Constants.Stats.ATK_P][5].high / SubStatValues[Constants.Stats.ATK][5].high,
-  [Constants.Stats.DEF]: (64.8 / 54) * SubStatValues[Constants.Stats.DEF_P][5].high / SubStatValues[Constants.Stats.DEF][5].high,
-  [Constants.Stats.CR]: 64.8 / 32.4,
-  [Constants.Stats.CD]: 64.8 / 64.8,
-  [Constants.Stats.EHR]: 64.8 / 43.2,
-  [Constants.Stats.RES]: 64.8 / 43.2,
-  [Constants.Stats.SPD]: 64.8 / 25.032,
-  [Constants.Stats.BE]: 64.8 / 64.8,
-} as const
+export function substatPotentialScale(stat: SubStats): number {
+  return 6.48 / SubStatValues[stat][5].high
+}
+
+export function substatPotentialUnits(stat: SubStats, value: number): number {
+  return value * substatPotentialScale(stat)
+}
 
 // Grade configuration — replaces scattered switch statements for maxMainstat and maxEnhance
 export const GRADE_CONFIG = {

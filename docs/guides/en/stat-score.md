@@ -29,65 +29,60 @@ since substats scores don't take into account external factors like team buffs o
 
 ## Stat score calculations
 
-Relic scores are calculated by `Score = substatScore / idealScore * 0.582`.
-This allows for characters with fewer desired stats to achieve scores comparable to characters with many desired stats.
+Relic scores are displayed as a percent of the best achievable substat potential for that relic slot:
+`RelicPotentialPct = weightedPotential / idealPotential * 100`.
+The `idealPotential` is calculated from the theoretical best relic for the same slot and main stat context. If a weighted
+substat is occupied by the main stat, the relic is compared against the best remaining achievable substats.
 
-The idealScore is the substatScore for a theoretical perfect relic.
-By adjusting the score to the maximum possible relic, this means that when a weighted substat is occupied by the main
-stat, the score value of the remaining substat weights increases.
-
-The substatScore is calculated by `SubstatScore = weight * normalization * value`.
+The weighted potential contribution is calculated by `WeightedPotential = weight * value * potentialScale`.
 The weight of each stat is defined above, on a scale of 0 to 1.
-The normalization of each stat is calculated based on the ratio of their main stat values to Crit DMG with max value
-`64.8`:
+The potential scale converts each substat value into grade-5 high-roll potential units. Crit DMG's high roll is `6.48`,
+so `potentialScale = 6.48 / grade5HighRollValue`:
 
 ```
-CD BE = 64.8 / 64.8 == 1.0
-DEF% = 64.8 / 54.0 == 1.2
-HP% ATK% EHR RES = 64.8 / 43.2 == 1.5
-CR = 64.8 / 32.4 == 2
-SPD = 64.8 / 25.032 == 2.59
-OHB = 64.8 / 34.561 == 1.87
-ERR = 64.8 / 19.439 == 3.33
-ELEMENTAL DMG = 64.8 / 38.88 == 1.67
+CD BE = 6.48 / 6.48 == 1.0
+DEF% = 6.48 / 5.4 == 1.2
+HP% ATK% EHR RES = 6.48 / 4.32 == 1.5
+CR = 6.48 / 3.24 == 2
+SPD = 6.48 / 2.6 == 2.49
 ```
 
 Flat ATK / HP / DEF have their weight reduced to 40% of their equivalent percent stat's weight.
 
-The normalization is calculated based on the normalization for the respective % counterparts:
-`64.8 / % main stat value * % stat high roll value / flat stat high roll value`.
-In combination with the adjusted weights, this allows for flat stats to be accurately scored when compared against
+The potential scale uses the flat stat's own high-roll value.
+In combination with the adjusted weights, this allows for flat stats to be scored when compared against
 their % counterparts.
 
-A letter grade is assigned based on the number of normalized min rolls of each substat.
-The score for each min roll is equivalent to `5.1`
-The general scale for grade by rolls is:
+A letter grade is assigned from the relic's current potential percent in 5% steps:
 
 ```
-F = 1
-D = 2
-C = 3
-B = 4
-A = 5
-S = 6
-SS = 7
-SSS = 8
-WTF = 9
+F = 0%
+F+ = 5%
+D = 10%
+D+ = 15%
+C = 20%
+C+ = 25%
+B = 30%
+B+ = 35%
+A = 40%
+A+ = 45%
+S = 50%
+S+ = 55%
+SS = 60%
+SS+ = 65%
+SSS = 70%
+SSS+ = 75%
+WTF = 80%
+WTF+ = 85%
 ```
 
-With a + rating assigned for an additional half roll.
+Character scores are calculated as the average of the six equipped relic potential percentages.
+Correct main stats are counted separately for the build summary, and relics with incorrect selectable main stats do not
+receive a letter grade.
 
-Character scores are calculated by `Score = sum(relic scores) + sum(main stat scores)`.
-Only the feet / body / sphere / rope relics have main stat scores.
-The main stat score for a 5 star maxed relic is 64.8 if the main stat is optimal, otherwise scaled down by the stat
-weight.
-
-Non 5 star relic scores are also scaled down by their maximum enhance.
-Characters are expected to have three 2p sets, so 3 rolls worth of score is deducted for each missing 2p set.
-
-Relics with main stats (body / feet / sphere / rope) are granted an extra roll to compensate for the difficulty of
-obtaining optimal main stats with desired substats. These rolls are min rolls with a value of `5.1` and then, if the
-main stat is not optimal, scaled down by the stat weight to obtain the bonus score value.
+The optimizer's minimum weighted-roll filter is separate from potential percent scoring. It converts each substat value
+to grade-5 min-roll units with `WeightedMinRolls = weight * value / grade5LowRollValue`, so a threshold of `1.0` means
+one low roll of a weight-1 desired stat.
 
 # Estimated TBP
 

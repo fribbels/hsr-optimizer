@@ -13,9 +13,8 @@ import {
   lightConeDistribution,
 } from 'lib/tabs/tabWarp/warpRates'
 
-// One declarative description per warp dimension (eidolons for characters, superimpositions for light
-// cones). The reflow (mutations) and the cost engine (controller) both drive off this single table via
-// dot-access getters/setters, so the character/light-cone split lives in exactly one place.
+// Per-dimension config (eidolons for characters, superimpositions for light cones) so the reflow and the
+// cost engine share one definition of the character/light-cone split.
 export type WarpDimension = {
   type: WarpType,
   none: number, // "not owned / no goal" sentinel: EidolonLevel.NONE (-1) / SuperimpositionLevel.NONE (0)
@@ -40,7 +39,11 @@ export const WARP_DIMENSIONS: Record<WarpType, WarpDimension> = {
     getId: (target) => target.characterId,
     getCurrent: (target) => target.currentEidolonLevel,
     getGoal: (target) => target.targetEidolonLevel,
-    withLevels: (target, current, goal) => ({ ...target, currentEidolonLevel: current as EidolonLevel, targetEidolonLevel: goal as EidolonLevel }),
+    withLevels: (target, current, goal) => ({
+      ...target,
+      currentEidolonLevel: current as EidolonLevel,
+      targetEidolonLevel: goal as EidolonLevel,
+    }),
   },
   [WarpType.LIGHTCONE]: {
     type: WarpType.LIGHTCONE,
@@ -52,7 +55,11 @@ export const WARP_DIMENSIONS: Record<WarpType, WarpDimension> = {
     getId: (target) => target.lightConeId,
     getCurrent: (target) => target.currentSuperimpositionLevel,
     getGoal: (target) => target.targetSuperimpositionLevel,
-    withLevels: (target, current, goal) => ({ ...target, currentSuperimpositionLevel: current as SuperimpositionLevel, targetSuperimpositionLevel: goal as SuperimpositionLevel }),
+    withLevels: (target, current, goal) => ({
+      ...target,
+      currentSuperimpositionLevel: current as SuperimpositionLevel,
+      targetSuperimpositionLevel: goal as SuperimpositionLevel,
+    }),
   },
 }
 

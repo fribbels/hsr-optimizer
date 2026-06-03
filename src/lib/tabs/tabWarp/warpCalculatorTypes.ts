@@ -25,7 +25,7 @@ export enum WarpIncomeType {
 }
 
 export enum PlannerMode {
-  SINGLE = 'single',
+  SIMPLE = 'simple',
   MULTI = 'multi',
 }
 

@@ -29,10 +29,30 @@ import unifiedClasses from './WarpUnifiedTable.module.css'
 const premiumCharacterFilter = (option: CharacterOptions[CharacterId]) => isPremiumCharacter(option.id)
 const premiumLightConeFilter = (option: LcOptions[LightConeId]) => isPremiumLightCone(option.id)
 
-const EIDOLON_TO_DATA = Array.from({ length: 7 }, (_, i) => ({ value: String(i), label: `E${i}` }))
-const EIDOLON_FROM_DATA = [{ value: String(EidolonLevel.NONE), label: '—' }, ...EIDOLON_TO_DATA]
-const SUPERIMPOSITION_TO_DATA = Array.from({ length: 5 }, (_, i) => ({ value: String(i + 1), label: `S${i + 1}` }))
-const SUPERIMPOSITION_FROM_DATA = [{ value: String(SuperimpositionLevel.NONE), label: '—' }, ...SUPERIMPOSITION_TO_DATA]
+const EIDOLON_TO_DATA = [
+  { value: '0', label: 'E0' },
+  { value: '1', label: 'E1' },
+  { value: '2', label: 'E2' },
+  { value: '3', label: 'E3' },
+  { value: '4', label: 'E4' },
+  { value: '5', label: 'E5' },
+  { value: '6', label: 'E6' },
+]
+const EIDOLON_FROM_DATA = [
+  { value: String(EidolonLevel.NONE), label: '—' },
+  ...EIDOLON_TO_DATA,
+]
+const SUPERIMPOSITION_TO_DATA = [
+  { value: '1', label: 'S1' },
+  { value: '2', label: 'S2' },
+  { value: '3', label: 'S3' },
+  { value: '4', label: 'S4' },
+  { value: '5', label: 'S5' },
+]
+const SUPERIMPOSITION_FROM_DATA = [
+  { value: String(SuperimpositionLevel.NONE), label: '—' },
+  ...SUPERIMPOSITION_TO_DATA,
+]
 
 const LC_PREVIEW_WIDTH = 230
 const LC_PREVIEW_HEIGHT = 64

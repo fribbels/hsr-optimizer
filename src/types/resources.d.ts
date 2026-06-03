@@ -7586,7 +7586,7 @@ export default interface Resources {
     "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!",
     "DisclaimerDescription": "Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team. Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc. This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.",
     "Header": {
-      "DowntimeWarning": "The showcase may be down for maintenance after the {{game_version}} patch, please try again later",
+      "DowntimeWarning": "The showcase will be down for maintenance after the {{game_version}} patch, there is no ETA",
       "WithVersion": "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})",
       "WithoutVersion": "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly."
     },
@@ -7890,6 +7890,9 @@ export default interface Resources {
       "REFUND_NONE_FULL": "None"
     },
     "SectionTitles": {
+      "AddCharacter": "Add character",
+      "AddCharacterAndSignature": "Add character and signature",
+      "AddLightCone": "Add light cone",
       "AddTarget": "Add character target",
       "AdditionalResources": "Additional resources",
       "Banner": "Banner",
@@ -7900,6 +7903,7 @@ export default interface Resources {
       "DefaultStrategy": "Default Strategy",
       "Jades": "Jades",
       "LightCone": "Light Cone",
+      "MultiTarget": "Multi Target",
       "New": "New",
       "Passes": "Passes",
       "Planner": "Warp Planner",
@@ -7907,6 +7911,7 @@ export default interface Resources {
       "Rerun": "Rerun",
       "Results": "Results",
       "Settings": "Settings",
+      "Simple": "Simple",
       "Starlight": "Starlight",
       "Strategy": "Strategy",
       "Target": "Target",

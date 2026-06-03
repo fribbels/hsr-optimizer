@@ -48,7 +48,7 @@ function WarpPlanner() {
   const plannerMode = form.getValues().plannerMode ?? PlannerMode.MULTI
 
   const warpResult = calculateWarps(
-    plannerMode === PlannerMode.SINGLE
+    plannerMode === PlannerMode.SIMPLE
       ? {
         ...form.getValues(),
         targets: [{
@@ -72,14 +72,14 @@ function WarpPlanner() {
           fullWidth
           size='sm'
           data={[
-            { value: PlannerMode.SINGLE, label: t('SingleTarget')/* Single Target */ },
+            { value: PlannerMode.SIMPLE, label: t('Simple')/* Simple */ },
             { value: PlannerMode.MULTI, label: t('MultiTarget')/* Multi Target */ },
           ]}
           value={plannerMode}
           onChange={(val) => form.setFieldValue('plannerMode', val as PlannerMode)}
         />
 
-        {plannerMode === PlannerMode.SINGLE && (
+        {plannerMode === PlannerMode.SIMPLE && (
           <Flex justify='center' mt={12}>
             <Select
               w={210}
@@ -98,7 +98,7 @@ function WarpPlanner() {
 
         <WarpSummary enriched={warpResult.request}/>
 
-        {plannerMode === PlannerMode.SINGLE && (
+        {plannerMode === PlannerMode.SIMPLE && (
           <QuickResultsTable targetResults={warpResult.targetResults} request={warpResult.request}/>
         )}
         {plannerMode === PlannerMode.MULTI && (

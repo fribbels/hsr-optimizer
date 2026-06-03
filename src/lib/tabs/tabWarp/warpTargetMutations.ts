@@ -13,17 +13,12 @@ import {
   WARP_DIMENSIONS,
   type WarpDimension,
 } from 'lib/tabs/tabWarp/warpDimensions'
+import { uuid } from 'lib/utils/miscUtils'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
-let fallbackIdSeq = 0
-
-function newTargetId(): string {
-  return globalThis.crypto?.randomUUID?.() ?? `target-${Date.now()}-${fallbackIdSeq++}`
-}
-
 function makeTarget(patch: Partial<WarpTarget>): WarpTarget {
-  return { ...DEFAULT_WARP_TARGET, id: newTargetId(), ...patch }
+  return { ...DEFAULT_WARP_TARGET, id: uuid(), ...patch }
 }
 
 export function findCharacterByLightCone(lightConeId: LightConeId): CharacterId | null {

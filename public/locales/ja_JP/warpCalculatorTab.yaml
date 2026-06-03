@@ -59,6 +59,7 @@ SectionTitles:
   Rerun: 復刻
   AdditionalResources: 追加資源
   Calculate: 計算
+  Simple: シンプル
 ColumnTitles:
   Goal: 目標
   Chance: "{{ticketCount}} <1/> での成功率"

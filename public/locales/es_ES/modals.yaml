@@ -5,8 +5,6 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: Agregar conjunto de artefactos
     AddOrnamentSetPlaceholder: Agregar conjunto de ornamentos
-  WeightMethodology:
-    Header: '¿Cómo se calcula el Puntaje de atributo?'
   Footer:
     Reset: Restablecer a por defecto
     ResetAll: Restablecer todos los personajes

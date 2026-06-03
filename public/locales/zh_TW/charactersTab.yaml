@@ -58,7 +58,6 @@ CharacterPreview:
   AlgorithmSlider:
     Labels:
       CombatScore: 戰鬥評分
-      StatScore: 屬性評分
   DetailsSlider:
     Labels:
       CombatStats: 戰鬥屬性

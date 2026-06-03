@@ -53,12 +53,25 @@ SectionTitles:
   Passes: Passes
   Jades: Jades
   Strategy: Strategy
+  DefaultStrategy: Default Strategy
+  Target: Target
+  TargetEidolon: Eidolon target
+  TargetLightCone: Light cone target
+  AddTarget: Add character target
+  RemoveTarget: Remove target
+  CurrentEidolon: Current eidolon
+  CurrentSuperimposition: Current superimposition
   Starlight: Starlight
   Banner: Banner
   New: New
   Rerun: Rerun
   AdditionalResources: Additional resources
   Calculate: Calculate
+  Simple: Simple
+  MultiTarget: Multi Target
+  AddCharacter: Add character
+  AddLightCone: Add light cone
+  AddCharacterAndSignature: Add character and signature
 ColumnTitles:
   Goal: Goal
   Chance: "Success chance with {{ticketCount}} <1/>"

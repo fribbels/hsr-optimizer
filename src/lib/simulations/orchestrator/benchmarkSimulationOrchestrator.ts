@@ -103,7 +103,7 @@ import type {
 } from 'types/form'
 import {
   type ScoringConfig,
-  ScoringConfigType,
+  type ScoringConfigType,
   type SimulationMetadata,
 } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'

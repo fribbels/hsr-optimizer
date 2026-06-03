@@ -20,10 +20,10 @@ import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
   ScoringConfig,
+  ScoringConfigType,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
-import { ScoringConfigType } from 'types/metadata'
 
 // --- Types ---
 

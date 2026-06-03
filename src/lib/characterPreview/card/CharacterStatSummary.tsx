@@ -30,7 +30,7 @@ import {
   useMemo,
 } from 'react'
 import type { CharacterId } from 'types/character'
-import { ScoringConfigType } from 'types/metadata'
+import type { ScoringConfigType } from 'types/metadata'
 
 const epsilon = 0.001
 

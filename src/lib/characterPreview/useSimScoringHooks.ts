@@ -6,7 +6,7 @@ import {
 import type { PreparedState } from 'lib/scoring/scoringService'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { useContext } from 'react'
-import { ScoringConfigType } from 'types/metadata'
+import type { ScoringConfigType } from 'types/metadata'
 
 export function useSimPreview(configType: ScoringConfigType): PreparedState | null {
   const simScoringContext = useContext(SimScoringContext)

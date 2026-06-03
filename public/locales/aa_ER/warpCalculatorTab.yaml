@@ -59,6 +59,11 @@ SectionTitles:
   Rerun: crwdns44874:0crwdne44874:0
   AdditionalResources: crwdns44556:0crwdne44556:0
   Calculate: crwdns44558:0crwdne44558:0
+  Simple: crwdns47275:0crwdne47275:0
+  MultiTarget: crwdns47277:0crwdne47277:0
+  AddCharacter: crwdns47279:0crwdne47279:0
+  AddLightCone: crwdns47281:0crwdne47281:0
+  AddCharacterAndSignature: crwdns47283:0crwdne47283:0
 ColumnTitles:
   Goal: crwdns44560:0crwdne44560:0
   Chance: "crwdns44562:0{{ticketCount}}crwdne44562:0"

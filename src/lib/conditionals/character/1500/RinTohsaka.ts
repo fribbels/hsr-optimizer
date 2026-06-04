@@ -93,7 +93,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const enhancedSkillAoeScaling = skill(e, 0.90, 0.99)
   const enhancedSkillBounceScaling = skill(e, 0.90, 0.99)
   const maxBounces = 33
-  const maxSpConsumed = 5
+  const maxSpConsumed = 14
 
   const ultScaling = ult(e, 6.00, 6.60)
   const ultVulnerabilityValue = ult(e, 0.20, 0.22)
@@ -107,7 +107,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     enhancedSkill: true,
     skillBounces: 10,
-    enhancedSkillSpConsumed: 5,
+    enhancedSkillSpConsumed: 11,
     talentCdBuff: true,
     elegantConduct: true,
     ladylikePoise: true,

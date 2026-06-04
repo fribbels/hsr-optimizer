@@ -199,6 +199,7 @@ CharacterPreview:
   ScoringDetails:
     Header: DPS评分是如何计算的?
   EST-TBP:
+    Header: 副词条强化分析
     RollsCard:
       Perfection: 完美度
     MetricsCard:

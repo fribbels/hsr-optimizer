@@ -49,9 +49,9 @@ export function normalizeWarpRequest(raw: unknown): WarpRequest {
     ? source.income.filter((id) => WarpIncomeOptions.some((option) => option.id === id))
     : []
 
-  const targets = Array.isArray(source.targets) && source.targets.length > 0
+  const targets = Array.isArray(source.targets)
     ? source.targets.map(normalizeWarpTarget)
-    : [{ ...DEFAULT_WARP_TARGET }]
+    : DEFAULT_WARP_REQUEST.targets.map((target) => ({ ...target }))
 
   return {
     passes: Math.max(0, Number(source.passes) || 0),

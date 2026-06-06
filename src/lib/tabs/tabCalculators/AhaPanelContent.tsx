@@ -130,7 +130,7 @@ function HeaderRow() {
     <div className={`${classes.integratedRow} ${classes.headerRow}`}>
       <div className={classes.headerCell}>Elation<br />Teammate</div>
       <div className={classes.headerCell}>Combat<br />Speed</div>
-      <div className={classes.headerCell}>Speed<br />Added</div>
+      <div className={classes.headerCell}>Aha<br />Speed</div>
     </div>
   )
 }
@@ -138,7 +138,7 @@ function HeaderRow() {
 function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
   return (
     <div className={`${classes.integratedRow} ${classes.baseRow}`}>
-      <div className={classes.rowSource}>Aha</div>
+      <div className={classes.rowSource}>Constant</div>
       <div className={classes.rowInputPlaceholder} />
       <div className={classes.rowTrack}>
         <div

@@ -69,8 +69,8 @@ const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
-    [Stats.DEF]: 0.25,
-    [Stats.DEF_P]: 0.25,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
     [Stats.HP]: 1,
     [Stats.HP_P]: 1,
     [Stats.SPD]: 1,

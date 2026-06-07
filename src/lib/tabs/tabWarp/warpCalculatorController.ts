@@ -37,7 +37,7 @@ export const WarpIncomeOptions: WarpIncomeDefinition[] = [
   //   generateOption('3.8', 3, WarpIncomeType.BP_EXPRESS, 31),
   // ],
   // ...generateOptions('4.0', 115, 96, 138, 107, 146, 115),
-  ...generateOptions('4.1', 98, 81, 114, 89, 122, 97),
+  // ...generateOptions('4.1', 98, 81, 114, 89, 122, 97),
   ...generateOptions('4.2', 117, 91, 140, 103, 149, 112),
   ...generateOptions('4.3', 91, 66, 116, 78, 124, 86),
 ]
@@ -74,9 +74,19 @@ function normalizeWarpTarget(raw: Partial<WarpTarget>, index: number): WarpTarge
     characterId: raw.characterId ?? null,
     lightConeId: raw.lightConeId ?? null,
     targetEidolonLevel: clampLevel(raw.targetEidolonLevel, DEFAULT_WARP_TARGET.targetEidolonLevel, EidolonLevel.NONE, EidolonLevel.E6),
-    targetSuperimpositionLevel: clampLevel(raw.targetSuperimpositionLevel, DEFAULT_WARP_TARGET.targetSuperimpositionLevel, SuperimpositionLevel.NONE, SuperimpositionLevel.S5),
+    targetSuperimpositionLevel: clampLevel(
+      raw.targetSuperimpositionLevel,
+      DEFAULT_WARP_TARGET.targetSuperimpositionLevel,
+      SuperimpositionLevel.NONE,
+      SuperimpositionLevel.S5,
+    ),
     currentEidolonLevel: clampLevel(raw.currentEidolonLevel, DEFAULT_WARP_TARGET.currentEidolonLevel, EidolonLevel.NONE, EidolonLevel.E6),
-    currentSuperimpositionLevel: clampLevel(raw.currentSuperimpositionLevel, DEFAULT_WARP_TARGET.currentSuperimpositionLevel, SuperimpositionLevel.NONE, SuperimpositionLevel.S5),
+    currentSuperimpositionLevel: clampLevel(
+      raw.currentSuperimpositionLevel,
+      DEFAULT_WARP_TARGET.currentSuperimpositionLevel,
+      SuperimpositionLevel.NONE,
+      SuperimpositionLevel.S5,
+    ),
   }
 }
 
@@ -206,7 +216,7 @@ function generateWarpMilestones(target: WarpTarget, startingState: StartingBanne
   // Walk the ordered path once: skip levels already owned, label the survivors from the running
   // eidolon/superimposition counters, and apply the banner's starting pity/guaranteed to the
   // first emitted pull of each type. Truncate at the milestone that first reaches the goal.
-  let skipCharacters = currentEidolonLevel       // owns E0..currentEidolon -> skip currentEidolon + 1 (NONE = -1 -> skip 0)
+  let skipCharacters = currentEidolonLevel // owns E0..currentEidolon -> skip currentEidolon + 1 (NONE = -1 -> skip 0)
   let skipLightCones = currentSuperimpositionLevel // owns S1..currentSi     -> skip currentSi      (NONE =  0 -> skip 0)
   let e = currentEidolonLevel
   let s = currentSuperimpositionLevel
@@ -239,7 +249,9 @@ function generateWarpMilestones(target: WarpTarget, startingState: StartingBanne
     const bannerStart = isCharacter ? startingState.character : startingState.lightCone
     const label = e === EidolonLevel.NONE
       ? `S${s}`
-      : targetSuperimpositionLevel === SuperimpositionLevel.NONE ? `E${e}` : `E${e}S${s}`
+      : targetSuperimpositionLevel === SuperimpositionLevel.NONE
+      ? `E${e}`
+      : `E${e}S${s}`
 
     milestones.push({
       warpType,

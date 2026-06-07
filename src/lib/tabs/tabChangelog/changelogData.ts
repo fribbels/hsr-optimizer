@@ -24,7 +24,7 @@ export function getChangelogContent() {
         `rolls.webp`,
         `Character Score as a whole as been removed for being inaccurate & misleading, replaced by Substat Rolls view`,
         `Individual relic scores are now measured as a percent of the best possible relic in that slot`,
-        `(Relic scores are unrelated to benchmark scores)`,
+        `Relic scores are unrelated to benchmark scores`,
         `relic.webp`,
         `Following from percentage grading, the new letter scale will change to flat intervals`,
         `grade.webp`,

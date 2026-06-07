@@ -3,9 +3,9 @@ import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { IconPlus } from '@tabler/icons-react'
-import { Button, Flex, Table } from '@mantine/core'
+import { Alert, Button, Flex, Table } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
-import { type EnrichedWarpRequest, isPremiumCharacter, isPremiumLightCone, type WarpRequest, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { type EnrichedWarpRequest, isPremiumCharacter, isPremiumLightCone, type WarpRequest, type WarpTarget, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { HiddenSelectHost, useHiddenSelectTrigger } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
 import { toMilestoneRows, WarpMilestoneRows, WarpTableHeader } from 'lib/tabs/tabWarp/WarpMilestoneTable'
 import { TargetHeaderRow } from 'lib/tabs/tabWarp/WarpTargetHeaderCard'
@@ -19,6 +19,14 @@ import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import classes from './WarpCalculatorTab.module.css'
+
+import { Archer } from 'lib/conditionals/character/1000/Archer'
+import { Saber } from 'lib/conditionals/character/1000/Saber'
+import { Gilgamesh } from 'lib/conditionals/character/1500/Gilgamesh'
+import { RinTohsaka } from 'lib/conditionals/character/1500/RinTohsaka'
+
+const COLLAB_CHARACTER_IDS = new Set([Saber.id, Archer.id, RinTohsaka.id, Gilgamesh.id] as CharacterId[])
+const COLLAB_LIGHT_CONE_IDS = new Set([Saber.defaultLightCone, Archer.defaultLightCone, RinTohsaka.defaultLightCone, Gilgamesh.defaultLightCone] as LightConeId[])
 
 const premiumCharacterFilter = (option: CharacterOptions[CharacterId]) => isPremiumCharacter(option.id)
 const premiumLightConeFilter = (option: LcOptions[LightConeId]) => isPremiumLightCone(option.id)
@@ -70,6 +78,8 @@ export function WarpUnifiedTable(props: {
               thead={targetIndex === 0 ? thead : undefined}
             />
           ))}
+
+          <CollabBannerWarning targets={form.getValues().targets} />
 
           <Flex gap={8} py={4}>
             <Button variant='subtle' size='xs' leftSection={<IconPlus size={14}/>} onClick={addCharAndSig.open}>
@@ -154,6 +164,21 @@ function SortableTargetGroup(props: {
         </Table.Tbody>
       </Table>
     </div>
+  )
+}
+
+function CollabBannerWarning({ targets }: { targets: WarpTarget[] }) {
+  const hasCollab = targets.some((t) =>
+    (t.characterId && COLLAB_CHARACTER_IDS.has(t.characterId))
+    || (t.lightConeId && COLLAB_LIGHT_CONE_IDS.has(t.lightConeId))
+  )
+
+  if (!hasCollab) return null
+
+  return (
+    <Alert variant='light' color='blue' mt={4}>
+      Collab banners have a separate pity counter from standard banners
+    </Alert>
   )
 }
 

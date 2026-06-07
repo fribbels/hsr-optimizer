@@ -13,6 +13,7 @@ import type {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
+import type { ScoringType } from 'lib/scoring/scoringConfig'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useRelicStore } from 'lib/stores/relic/relicStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
@@ -84,15 +85,16 @@ export function useCharacterPreviewState(
     })),
   )
 
-  const { globalColorMode, storedScoringType, darkMode } = useGlobalStore(
+  const { globalColorMode, darkMode } = useGlobalStore(
     useShallow((s) => ({
       globalColorMode: s.savedSession[SavedSessionKeys.showcaseStandardMode]
         ? ShowcaseColorMode.STANDARD
         : ShowcaseColorMode.AUTO,
-      storedScoringType: s.savedSession.scoringType,
       darkMode: s.savedSession.showcaseDarkMode,
     })),
   )
+
+  const storedScoringType: ScoringType | undefined = showcasePreferences?.scoringType
 
   const relicsById = useRelicStore(useShallow((s) => {
     if (source === ShowcaseSource.SHOWCASE_TAB) return EMPTY_RELICS

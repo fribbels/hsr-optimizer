@@ -42,7 +42,7 @@ import type {
 interface ShowcaseLayoutParams {
   character: Character
   teamSelections: Partial<Record<ScoringConfigType, TeamSelection>>
-  storedScoringType: ScoringType
+  storedScoringType: ScoringType | undefined
   savedBuildOverride?: SavedBuild | null
   t: TFunction<'gameData'>
 }

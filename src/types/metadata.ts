@@ -37,6 +37,7 @@ export type ScoringConfig = {
 export type ShowcasePreferences = {
   color?: string,
   colorMode?: ShowcaseColorMode,
+  scoringType?: number,
 }
 
 export type ShowcaseTemporaryOptions = {

@@ -151,15 +151,17 @@ function getRelic(relicsById: Partial<Record<string, Relic>>, character: Charact
 }
 
 export function resolveScoringType(
-  storedScoringType: ScoringType,
+  storedScoringType: ScoringType | undefined,
   scoringMetadata: ScoringMetadata,
 ) {
   if (storedScoringType === ScoringType.NONE || storedScoringType === ScoringType.SUBSTAT_SCORE) {
     return storedScoringType
   }
-  for (const configType of CONFIG_DISPLAY_ORDER) {
-    if (SCORING_CONFIG_REGISTRY[configType].scoringType === storedScoringType && hasConfig(scoringMetadata, configType)) {
-      return storedScoringType
+  if (storedScoringType != null) {
+    for (const configType of CONFIG_DISPLAY_ORDER) {
+      if (SCORING_CONFIG_REGISTRY[configType].scoringType === storedScoringType && hasConfig(scoringMetadata, configType)) {
+        return storedScoringType
+      }
     }
   }
   for (const configType of CONFIG_DISPLAY_ORDER) {

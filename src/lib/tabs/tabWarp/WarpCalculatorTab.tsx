@@ -84,6 +84,7 @@ function WarpPlanner() {
             <Select
               w={210}
               size='xs'
+              maxDropdownHeight={400}
               leftSection={<span style={{ fontSize: 12, whiteSpace: 'nowrap', paddingLeft: 2 }}>{t('Strategy')/* Strategy */}:</span>}
               leftSectionWidth={62} leftSectionPointerEvents='none'
               styles={{ input: { paddingLeft: 68 } }}

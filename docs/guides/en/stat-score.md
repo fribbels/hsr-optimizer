@@ -56,24 +56,24 @@ their % counterparts.
 A letter grade is assigned from the relic's current potential percent in 5% steps:
 
 ```
-F = 0%
-F+ = 5%
-D = 10%
-D+ = 15%
-C = 20%
-C+ = 25%
-B = 30%
-B+ = 35%
-A = 40%
-A+ = 45%
-S = 50%
-S+ = 55%
-SS = 60%
-SS+ = 65%
-SSS = 70%
-SSS+ = 75%
-WTF = 80%
-WTF+ = 85%
+0%  = F
+5%  = F+
+10% = D
+15% = D+
+20% = C
+25% = C+
+30% = B
+35% = B+
+40% = A
+45% = A+
+50% = S
+55% = S+
+60% = SS
+65% = SS+
+70% = SSS
+75% = SSS+
+80% = WTF
+85% = WTF+
 ```
 
 Character scores are calculated as the average of the six equipped relic potential percentages.

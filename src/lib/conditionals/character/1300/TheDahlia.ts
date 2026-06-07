@@ -17,7 +17,7 @@ import {
   type Conditionals,
   type ContentDefinition,
   createEnum,
-  teamHasHeal,
+  teamHasSustain,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
@@ -424,7 +424,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_TRACE))
       }
 
-      const beBuff = (t.beConversion && teamHasHeal(context)) ? t.teammateBeValue * 0.24 + 0.50 : 0
+      const beBuff = (t.beConversion && teamHasSustain(context)) ? t.teammateBeValue * 0.24 + 0.50 : 0
       x.buff(StatKey.BE, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.UNCONVERTIBLE_BE_BUFF, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },

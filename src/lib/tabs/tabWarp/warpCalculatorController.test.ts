@@ -22,6 +22,7 @@ import {
 const BASE_REQUEST: WarpRequest = {
   ...DEFAULT_WARP_REQUEST,
   income: [NONE_WARP_INCOME_OPTION.id],
+  targets: [{ ...DEFAULT_WARP_TARGET }],
   starlight: StarlightRefund.REFUND_NONE,
 }
 
@@ -39,6 +40,11 @@ test('base options', () => {
   for (const milestone of Object.values(result.targetResults[0].milestoneResults)) {
     expect(milestone.wins).toBe(0)
   }
+})
+
+test('empty target list produces no target results', () => {
+  const result = calculateWarps({ ...BASE_REQUEST, targets: [] })
+  expect(result.targetResults).toEqual([])
 })
 
 test('strategies e0', () => {
@@ -316,7 +322,7 @@ test('normalizeWarpRequest clamps out-of-range target levels to defaults', () =>
   expect(result.targets[0].currentSuperimpositionLevel).toBe(DEFAULT_WARP_TARGET.currentSuperimpositionLevel)
 })
 
-test('normalizeWarpRequest drops legacy fields and defaults an empty target list', () => {
+test('normalizeWarpRequest drops legacy fields and preserves an empty target list', () => {
   const result = normalizeWarpRequest({ bannerRotation: 1, currentEidolonLevel: 3, targets: [] })
   expect(result).toEqual(DEFAULT_WARP_REQUEST)
 })

@@ -197,7 +197,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.CD]: 0,
     [Stats.EHR]: 0,
     [Stats.RES]: 0.25,
-    [Stats.BE]: 0.5,
+    [Stats.BE]: 0,
   },
   parts: {
     [Parts.Body]: [],

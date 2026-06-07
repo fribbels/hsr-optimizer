@@ -40,10 +40,12 @@
   display: flex;
   min-width: 0;
   flex-direction: column;
+  align-items: center;
   color: rgba(255, 255, 255, 0.78);
   font-size: 12px;
   font-weight: 650;
   line-height: 1.15;
+  text-align: center;
 }
 
 .rowSource span {

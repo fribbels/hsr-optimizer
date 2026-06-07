@@ -136,7 +136,7 @@ function SortableTargetGroup(props: {
 
   return (
     <div ref={setNodeRef} style={style}>
-      <Table className={classes.warpTable} style={TABLE_STYLE}>
+      <Table className={`${classes.warpTable} ${classes.warpTableNoStripe}`} style={TABLE_STYLE}>
         <colgroup>
           <col style={GOAL_COL_STYLE}/>
           <col/>

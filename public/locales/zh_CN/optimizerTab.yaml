@@ -745,6 +745,7 @@ ExpandedDataPanel:
     MEMO: 忆灵
     ADDITIONAL: 附加
     ELATION: 欢愉伤害
+    ASSIST: 助战技
     UNIQUE: 特殊
   DamageSplits:
     Title: 连招明细

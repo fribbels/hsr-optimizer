@@ -1,4 +1,4 @@
-import { Divider, Flex, Paper, SegmentedControl, Select, Table } from '@mantine/core'
+import { Badge, Divider, Flex, Paper, SegmentedControl, Select, Table } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import type { UseFormReturnType } from '@mantine/form'
 import i18next from 'i18next'
@@ -9,8 +9,11 @@ import { calculateWarps } from 'lib/tabs/tabWarp/warpCalculatorController'
 import { DEFAULT_WARP_TARGET, EidolonLevel, type EnrichedWarpRequest, PlannerMode, SuperimpositionLevel, type WarpRequest, WarpStrategy, type WarpTargetResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import { localeNumberComma } from 'lib/utils/i18nUtils'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import classes from './WarpCalculatorTab.module.css'
+import { NewFeatureKey } from 'lib/constants/newFeatures'
+import { markFeatureSeen, useIsNewFeature } from 'lib/stores/newFeatureStore'
 import { useWarpScannerSync } from 'lib/tabs/tabWarp/useWarpScannerSync'
 import { WarpSettingsPanel } from 'lib/tabs/tabWarp/WarpSettingsPanel'
 import { WarpUnifiedTable } from 'lib/tabs/tabWarp/WarpUnifiedTable'
@@ -45,7 +48,14 @@ function WarpPlanner() {
 
   useWarpScannerSync(form)
 
+  const isMultiTargetNew = useIsNewFeature(NewFeatureKey.WARP_MULTI_TARGET)
   const plannerMode = form.getValues().plannerMode ?? PlannerMode.MULTI
+
+  useEffect(() => {
+    if (plannerMode === PlannerMode.MULTI) {
+      markFeatureSeen(NewFeatureKey.WARP_MULTI_TARGET)
+    }
+  }, [plannerMode])
 
   const warpResult = calculateWarps(
     plannerMode === PlannerMode.SIMPLE
@@ -73,10 +83,23 @@ function WarpPlanner() {
           size='sm'
           data={[
             { value: PlannerMode.SIMPLE, label: t('Simple')/* Simple */ },
-            { value: PlannerMode.MULTI, label: t('MultiTarget')/* Multi Target */ },
+            {
+              value: PlannerMode.MULTI,
+              label: (
+                <Flex align="center" justify="center" gap={6}>
+                  {t('MultiTarget')/* Multi Target */}
+                  {isMultiTargetNew && <Badge size="xs" color="blue" variant="filled">New</Badge>}
+                </Flex>
+              ),
+            },
           ]}
           value={plannerMode}
-          onChange={(val) => form.setFieldValue('plannerMode', val as PlannerMode)}
+          onChange={(val) => {
+            form.setFieldValue('plannerMode', val as PlannerMode)
+            if (val === PlannerMode.MULTI) {
+              markFeatureSeen(NewFeatureKey.WARP_MULTI_TARGET)
+            }
+          }}
         />
 
         {plannerMode === PlannerMode.SIMPLE && (

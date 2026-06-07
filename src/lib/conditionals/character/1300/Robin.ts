@@ -1,6 +1,6 @@
-import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
-import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Aglaea } from 'lib/conditionals/character/1400/Aglaea'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -12,10 +12,10 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
-import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
-import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { TimeWovenIntoGold } from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -365,20 +365,20 @@ const supportSimulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Feixiao.id,
-      lightCone: IVentureForthToHunt.id,
+      characterId: Aglaea.id,
+      lightCone: TimeWovenIntoGold.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Aventurine.id,
-      lightCone: InherentlyUnjustDestiny.id,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

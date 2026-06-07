@@ -2,17 +2,14 @@ import {
   AllStats,
   Constants,
   PartsMainStats,
-  SubStatValues,
 } from 'lib/constants/constants'
 import type {
   MainStats,
   Parts,
   StatsValues,
-  SubStats,
 } from 'lib/constants/constants'
 import {
   POSSIBLE_SUBSTATS,
-  STAT_NORMALIZATION,
 } from 'lib/relics/scoring/scoringConstants'
 import { hasMainStat } from 'lib/relics/scoring/substatScoring'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
@@ -64,22 +61,22 @@ export function computeOptimalScore(part: Parts, mainstat: MainStats, meta: Scor
         part === Constants.Parts.Head && handlingCase === ScoringCase.HP
         || part === Constants.Parts.Hands && handlingCase === ScoringCase.ATK
       ) {
-        return 6 * meta.highRollScores[stat1]
+        return 6 * meta.highRollPotential[stat1]
       }
-      return 6 * meta.highRollScores[stat1] + meta.highRollScores[stat2]
+      return 6 * meta.highRollPotential[stat1] + meta.highRollPotential[stat2]
     }
 
     case ScoringCase.SINGLE_STAT: {
-      return 6 * meta.highRollScores[meta.sortedSubstats[0][0]]
+      return 6 * meta.highRollPotential[meta.sortedSubstats[0][0]]
     }
 
     case ScoringCase.NORMAL: {
       const mainStat = resolveOptimalMainstat(part, mainstat, meta)
       const top4 = meta.sortedSubstats.filter(([name]) => name !== mainStat).slice(0, 4)
-      return 6 * meta.highRollScores[top4[0][0]]
-        + meta.highRollScores[top4[1][0]]
-        + meta.highRollScores[top4[2][0]]
-        + meta.highRollScores[top4[3][0]]
+      return 6 * meta.highRollPotential[top4[0][0]]
+        + meta.highRollPotential[top4[1][0]]
+        + meta.highRollPotential[top4[2][0]]
+        + meta.highRollPotential[top4[3][0]]
     }
   }
 }
@@ -108,13 +105,7 @@ export function resolveOptimalMainstat(part: Parts, mainstat: MainStats, meta: S
       } else return [stat, value] as [StatsValues, number]
     })
     .sort((a, b) => {
-      // We give the mainstat-only stats a score of 6.48 * weight simply to get them in the right area
-      // The exact score does not matter as long as the final array is still sorted by weight
-      // @ts-expect-error - POSSIBLE_SUBSTATS.has() expects SubStats but receives StatsValues
-      const scoreA = !POSSIBLE_SUBSTATS.has(a[0]) ? a[1] * 6.48 : a[1] * STAT_NORMALIZATION[a[0] as SubStats] * SubStatValues[a[0] as SubStats][5].high
-      // @ts-expect-error - POSSIBLE_SUBSTATS.has() expects SubStats but receives StatsValues
-      const scoreB = !POSSIBLE_SUBSTATS.has(b[0]) ? b[1] * 6.48 : b[1] * STAT_NORMALIZATION[b[0] as SubStats] * SubStatValues[b[0] as SubStats][5].high
-      return scoreB - scoreA
+      return b[1] - a[1]
     })
 
   /*

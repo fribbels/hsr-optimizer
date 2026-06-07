@@ -25,21 +25,3 @@
   justify-content: center;
   align-items: center;
 }
-
-.lcNameText {
-  font-size: 18px;
-  font-weight: 400;
-  margin-left: 10px;
-  margin-right: 10px;
-  text-align: center;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.lcLevelText {
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 5px;
-  text-align: center;
-}

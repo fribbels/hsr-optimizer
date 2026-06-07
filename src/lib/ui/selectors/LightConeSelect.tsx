@@ -54,6 +54,7 @@ export function LightConeSelect({
   opened,
   onOpenChange,
   clearable = true,
+  optionFilter,
 }: {
   value: LightConeId | null,
   onChange: (id: LightConeId | null) => void,
@@ -62,10 +63,14 @@ export function LightConeSelect({
   opened?: boolean,
   onOpenChange?: (open: boolean) => void,
   clearable?: boolean,
+  optionFilter?: (option: LcOptions[LightConeId]) => boolean,
 }) {
   const metadata = getGameMetadata()
   const { t } = useTranslation('modals', { keyPrefix: 'LightconeSelect' })
-  const lightConeOptions = useMemo(() => generateLightConeOptions(), [t])
+  const lightConeOptions = useMemo(() => {
+    const options = generateLightConeOptions()
+    return optionFilter ? options.filter(optionFilter) : options
+  }, [t, optionFilter])
 
   const defaultFilters = useMemo((): LightConeFilters => ({
     rarity: [],

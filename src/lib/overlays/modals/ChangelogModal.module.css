@@ -63,7 +63,7 @@
 .scrollArea {
   height: 68vh;
   min-height: 400px;
-  max-height: 725px;
+  max-height: 745px;
   background: var(--layer-1);
 }
 
@@ -74,7 +74,7 @@
 .contentList {
   margin: 0;
   padding-left: 32px;
-  padding-right: 128px;
+  padding-right: 32px;
   list-style: none;
   margin-bottom: 50px;
 }
@@ -98,7 +98,7 @@
 
 .changelogImage {
   display: block;
-  max-width: 100%;
+  max-width: 85%;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
   margin: 16px 0;

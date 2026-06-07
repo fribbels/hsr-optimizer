@@ -59,6 +59,11 @@ SectionTitles:
   Rerun: 复刻
   AdditionalResources: 额外资源
   Calculate: 计算
+  Simple: 简易
+  MultiTarget: 多目标
+  AddCharacter: 添加角色
+  AddLightCone: 添加光锥
+  AddCharacterAndSignature: 添加角色及专属光锥
 ColumnTitles:
   Goal: 目标
   Chance: "使用 {{ticketCount}} <1/> 的成功概率 "

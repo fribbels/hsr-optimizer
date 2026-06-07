@@ -4,7 +4,7 @@ export type ScoredRelic = Relic & { weights: RelicScoringWeights }
 
 export type RelicScoringWeights = {
   average: number,
-  current: number,
+  currentPct: number,
   best: number,
   potentialSelected: PotentialWeights & { rerollAvgPct: number, blockedRerollAvgPct: number },
   potentialAllAll: PotentialWeights,
@@ -27,7 +27,7 @@ type PotentialWeights = {
 }
 
 export const DEFAULT_WEIGHTS: RelicScoringWeights = {
-  current: 0,
+  currentPct: 0,
   average: 0,
   best: 0,
   potentialSelected: { bestPct: 0, averagePct: 0, rerollAvgPct: 0, blockedRerollAvgPct: 0 },

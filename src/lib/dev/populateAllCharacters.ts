@@ -54,14 +54,26 @@ function calculateMainStatValue(stat: MainStats): number {
 function pickSubstats(mainStat: MainStats): RelicSubstatMetadata[] {
   const available = substatPool.filter((s) => s !== mainStat)
   const selected = available.slice(0, 4)
-  return selected.map((stat) => {
+
+  const rolls = [1, 1, 1, 1]
+  for (let i = 0; i < 5; i++) {
+    rolls[Math.floor(Math.random() * 4)]++
+  }
+
+  return selected.map((stat, i) => {
     const values = SubStatValues[stat as keyof typeof SubStatValues]?.[GRADE]
-    // Use mid-roll value, assume 2 rolls (initial + 1 upgrade)
-    const rollValue = values?.mid ?? 0
+    if (!values) return { stat, value: 0, addedRolls: rolls[i] - 1 }
+
+    const tiers = [values.high, values.mid, values.low]
+    let total = 0
+    for (let r = 0; r < rolls[i]; r++) {
+      total += tiers[Math.floor(Math.random() * 3)]
+    }
+
     return {
       stat,
-      value: rollValue * 2,
-      addedRolls: 1,
+      value: total,
+      addedRolls: rolls[i] - 1,
     }
   })
 }

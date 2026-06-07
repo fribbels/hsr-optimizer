@@ -37,6 +37,7 @@ export type ScoringConfig = {
 export type ShowcasePreferences = {
   color?: string,
   colorMode?: ShowcaseColorMode,
+  scoringType?: number,
 }
 
 export type ShowcaseTemporaryOptions = {
@@ -132,7 +133,6 @@ export type ImageCenter = {
 export type ShowcaseDisplayDimensionsOverride = {
   charCenter?: ImageCenter,
   backgroundCenterOffset?: { x: number, y: number, z: number },
-  forceSimScoreLayout?: boolean,
 }
 
 export type TraceNode = {

@@ -6,14 +6,12 @@ import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import {
   AbilityEidolon,
   type Conditionals,
   type ContentDefinition,
-  countTeamPath,
   createEnum,
-  teammateMatchesId,
+  teamHasSustain,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
@@ -22,7 +20,6 @@ import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/Epoch
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
   Parts,
-  PathNames,
   Sets,
   Stats,
 } from 'lib/constants/constants'
@@ -364,10 +361,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, r.atkBuffStacks * 0.50, x.source(SOURCE_TRACE))
 
       // Sustain DMG boost
-      const hasSustain = teammateMatchesId(context, Hyacine.id)
-        + countTeamPath(context, PathNames.Abundance)
-        + countTeamPath(context, PathNames.Preservation)
-      x.buff(StatKey.BOOST, (r.sustainDmgBuff && hasSustain) ? 0.45 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.sustainDmgBuff && teamHasSustain(context)) ? 0.45 : 0, x.source(SOURCE_TRACE))
 
       // E1 CD buff
       x.buff(StatKey.CD, e >= 1 && r.e1Buffs ? 0.50 : 0, x.source(SOURCE_E1))

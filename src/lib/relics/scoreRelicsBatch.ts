@@ -103,7 +103,7 @@ class PureScoringCache {
 
   scoreRelicPotential(relic: Relic, meta: ScorerMetadata) {
     const futureScore = this.getFutureScore(relic, meta)
-    return computePotentialScores(relic, meta, futureScore)
+    return computePotentialScores(futureScore)
   }
 }
 
@@ -136,7 +136,7 @@ function scoreSingleRelic(
 
       weights = {
         ...weights,
-        current: futureScore.current,
+        currentPct: futureScore.current,
         best: futureScore.best,
         average: futureScore.average,
         potentialSelected,

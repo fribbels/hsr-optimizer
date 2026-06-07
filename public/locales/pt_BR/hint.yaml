@@ -61,7 +61,6 @@ Relics:
   Title: Relíquias
   p1: >-
     Nota - O potencial é uma classificação em percentual que compara uma relíquia à melhor relíquia possível +15 para o personagem atual no slot. Essa classificação é baseada nos pesos do algoritmo de pontuação. Isso significa que relíquias não aprimoradas a +0 às vezes têm um potencial maior do que relíquias existentes a +15, porque seus possíveis rollings podem se encaixar nas estatísticas desejadas do personagem.
-  p2: "Personagem selecionado: Pontuação - A pontuação atual da relíquia, conforme definido pelo algoritmo de pontuação do personagem selecionado no momento"
   p3: "Personagem selecionado: Potencial médio - O potencial da relíquia em seu nível máximo, calculado pela média de todas as rolagens possíveis que ela poderia ter no caminho para +15"
   p4: "Personagem selecionado: Potencial máximo - O potencial máximo da relíquia se todas as rolagens futuras forem para as estatísticas desejadas do personagem"
   p5: 'Todos os personagens: Potencial máximo - O valor de potencial mais alto possível da relíquia, entre todos os personagens do jogo.'

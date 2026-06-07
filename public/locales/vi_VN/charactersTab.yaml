@@ -85,7 +85,6 @@ CharacterPreview:
     Labels:
       CombatScore: Điểm combat
       CombatScoreTBD: Combat (TBD)
-      StatScore: Điểm chỉ số
       NoneScore: Không có
   DetailsSlider:
     Labels:

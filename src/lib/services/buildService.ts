@@ -57,7 +57,7 @@ export function saveBuild(
     build = serializeFromOptimizer(name, characterId, state as typeof state & { lightCone: LightConeId }, equipped)
   } else {
     const scoringMetadata = getScoringMetadata(character.id)
-    const storedScoringType = useGlobalStore.getState().savedSession.scoringType
+    const storedScoringType = useShowcaseTabStore.getState().showcasePreferences[characterId]?.scoringType
     const effectiveScoringType = resolveScoringType(storedScoringType, scoringMetadata)
     const configType = configTypeForScoringType(effectiveScoringType) ?? ScoringConfigType.DPS
     const metadataField = CONFIG_FIELD_MAP[configType]

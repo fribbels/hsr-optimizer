@@ -3,7 +3,7 @@ import {
   BuffDisplaySize,
   BuffsAnalysisDisplay,
 } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type {
   PreviewRelics,
   ShowcaseMetadata,

@@ -42,7 +42,7 @@ import type {
 interface ShowcaseLayoutParams {
   character: Character
   teamSelections: Partial<Record<ScoringConfigType, TeamSelection>>
-  storedScoringType: ScoringType
+  storedScoringType: ScoringType | undefined
   savedBuildOverride?: SavedBuild | null
   t: TFunction<'gameData'>
 }
@@ -91,7 +91,7 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
   const portraitUrl = portraitToUse?.imageUrl ?? defaultPortraitUrl
 
-  const displayDimensions = getShowcaseDisplayDimensions(character, isSimScoreMode(scoringType))
+  const displayDimensions = getShowcaseDisplayDimensions(character)
   const artistName = getArtistName(character)
 
   const activeConfigType = configTypeForScoringType(scoringType)

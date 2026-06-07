@@ -98,7 +98,7 @@ CharacterPreview:
     Labels:
       CombatScore: crwdns39688:0crwdne39688:0
       CombatScoreTBD: crwdns43670:0crwdne43670:0
-      StatScore: crwdns39692:0crwdne39692:0
+      StatScore: crwdns47285:0crwdne47285:0
       NoneScore: crwdns43672:0crwdne43672:0
   DetailsSlider:
     Labels:
@@ -199,7 +199,7 @@ CharacterPreview:
   ScoringDetails:
     Header: crwdns39794:0crwdne39794:0
   EST-TBP:
-    Header: crwdns44891:0crwdne44891:0
+    Header: crwdns47287:0crwdne47287:0
     RollsCard:
       Perfection: crwdns44893:0crwdne44893:0
     MetricsCard:

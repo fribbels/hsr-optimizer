@@ -19,7 +19,7 @@ import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   isSimScoreMode,
-  ScoringType,
+  type ScoringType,
 } from 'lib/scoring/scoringConfig'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -30,7 +30,7 @@ import {
   useMemo,
 } from 'react'
 import type { CharacterId } from 'types/character'
-import { ScoringConfigType } from 'types/metadata'
+import type { ScoringConfigType } from 'types/metadata'
 
 const epsilon = 0.001
 
@@ -76,7 +76,7 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   return (
     <StatText className={classes.statSummary}>
       <div
-        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}
+        style={{ display: 'flex', flexDirection: 'column', gap: 3 }}
         className={zebra ? classes.zebra : undefined}
       >
         <StatRow finalStats={finalStats} stat={Stats.HP} edits={edits} />
@@ -132,7 +132,7 @@ export const AsyncCharacterStatSummary = memo(function({
   return (
     <StatText className={classes.statSummary}>
       <div
-        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}
+        style={{ display: 'flex', flexDirection: 'column', gap: 3 }}
         className={zebra ? classes.zebra : undefined}
       >
         <AsyncStatRow
@@ -288,10 +288,9 @@ function AsyncSimScoreRow({ promise, type, configType, buffStat }: {
 }) {
   const output = usePromise(promise)
   const sim = output?.[type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']
-  const simScore = sim?.result?.simScore ?? 0
-  if (!simScore) return null
+  if (!sim?.result) return null
 
-  return <SimScoreRow value={simScore} configType={configType} buffStat={buffStat} />
+  return <SimScoreRow value={sim.result.simScore} configType={configType} buffStat={buffStat} />
 }
 
 function calculateStatCustomizations(characterId: CharacterId) {

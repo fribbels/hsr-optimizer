@@ -92,7 +92,7 @@ interface Resources {
           "CombatScore": "Combat Score",
           "CombatScoreTBD": "Combat (TBD)",
           "NoneScore": "None",
-          "StatScore": "Stat Score"
+          "StatScore": "Substat Rolls"
         }
       },
       "ArtBy": "Art by {{artistName}}",
@@ -164,7 +164,7 @@ interface Resources {
         }
       },
       "EST-TBP": {
-        "Header": "Stat Score Analysis",
+        "Header": "Substat Rolls Analysis",
         "MetricsCard": {
           "Days": "Days",
           "Potential": "Reroll Potential",
@@ -5875,7 +5875,7 @@ interface Resources {
     "Relics": {
       "Title": "Relics",
       "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
-      "p2": "Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected character",
+      "p2": "Selected character: Score - The relic's current substat quality as a percentage of the ideal relic for the selected character in this slot",
       "p3": "Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible rolls it could have on the way to +15",
       "p4": "Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's desired stats",
       "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
@@ -6595,7 +6595,7 @@ interface Resources {
       "SetWeightsHeader": "Set weights",
       "StatWeightsHeader": "Stat weights",
       "WeightMethodology": {
-        "Header": "How is Stat Score calculated?"
+        "Header": "How are substat weights used?"
       }
     },
     "SwitchRelics": {
@@ -7586,7 +7586,7 @@ interface Resources {
     "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!",
     "DisclaimerDescription": "Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team. Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc. This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.",
     "Header": {
-      "DowntimeWarning": "The showcase may be down for maintenance after the {{game_version}} patch, please try again later",
+      "DowntimeWarning": "The showcase will be down for maintenance after the {{game_version}} patch, there is no ETA",
       "WithVersion": "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})",
       "WithoutVersion": "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly."
     },
@@ -7890,18 +7890,23 @@ interface Resources {
       "REFUND_NONE_FULL": "None"
     },
     "SectionTitles": {
+      "AddCharacter": "Add character",
+      "AddCharacterAndSignature": "Add character and signature",
+      "AddLightCone": "Add light cone",
       "AdditionalResources": "Additional resources",
       "Banner": "Banner",
       "Calculate": "Calculate",
       "Character": "Character",
       "Jades": "Jades",
       "LightCone": "Light Cone",
+      "MultiTarget": "Multi Target",
       "New": "New",
       "Passes": "Passes",
       "Planner": "Warp Planner",
       "Rerun": "Rerun",
       "Results": "Results",
       "Settings": "Settings",
+      "Simple": "Simple",
       "Starlight": "Starlight",
       "Strategy": "Strategy"
     },

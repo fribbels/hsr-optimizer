@@ -5,8 +5,8 @@ import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
   CONFIG_DISPLAY_ORDER,
   hasConfig,
@@ -14,8 +14,6 @@ import {
   SCORING_CONFIG_REGISTRY,
   ScoringType,
 } from 'lib/scoring/scoringConfig'
-import { SaveState } from 'lib/state/saveState'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import {
   memo,
@@ -59,7 +57,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
       })
     }
     segments.push({
-      label: 'Substat Score', // Hardcoded — label still in flux, skip i18n for now
+      label: 'Substat Rolls', // Hardcoded — label still in flux, skip i18n for now
       value: String(ScoringType.SUBSTAT_SCORE),
     })
     segments.push({
@@ -69,11 +67,10 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
     return segments
   }, [scoringMeta, t])
 
+  const characterId = showcaseMetadata.characterId
   const handleScoringTypeChange = useCallback((selection: string) => {
-    const value = Number(selection) as ScoringType
-    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.scoringType, value)
-    SaveState.delayedSave()
-  }, [])
+    editShowcasePreferences(characterId, { scoringType: Number(selection) })
+  }, [characterId])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 1000 }}>
@@ -108,7 +105,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           configType={activeConfigType}
         />
       )}
-      {(scoringType === ScoringType.SUBSTAT_SCORE || !hasAnySimulation)
+      {(scoringType === ScoringType.SUBSTAT_SCORE || scoringType === ScoringType.NONE || !hasAnySimulation)
         && (
           <StatScoringSummary
             displayRelics={displayRelics}
@@ -128,7 +125,7 @@ function StatScoringSummary({ displayRelics, showcaseMetadata }: {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <ColorizedTitleWithInfo
-        text={'Substat Score Analysis' /* Hardcoded — label still in flux, skip i18n for now */}
+        text={'Substat Rolls Analysis' /* Hardcoded — label still in flux, skip i18n for now */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
       />
       <EstimatedTbpRelicsDisplay

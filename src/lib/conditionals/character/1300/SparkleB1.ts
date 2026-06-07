@@ -167,7 +167,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         skillCdBuffBase: precisionRound(100 * skillCdBuffBase),
       }),
       min: 0,
-      max: 3.50,
+      max: 5.00,
       percent: true,
     },
     cipherBuff: content.cipherBuff,

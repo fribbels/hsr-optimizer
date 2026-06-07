@@ -29,6 +29,10 @@
   background-color: rgba(255, 255, 255, 0.02);
 }
 
+.warpTableNoStripe .warpRow td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
 .goalCell {
   text-align: center;
   position: relative;

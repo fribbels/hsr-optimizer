@@ -4,7 +4,7 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.4.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.4.2'
 
 // Represents the beta data content version, used for display but not for update notifications
 export const CURRENT_DATA_VERSION = '4.4v1'

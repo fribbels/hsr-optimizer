@@ -226,7 +226,7 @@ const ScoreFooter = memo(function ScoreFooter({ score }: { score?: RelicScoringR
           <img src={icon} className={iconClasses.statIcon}></img>
           {scored ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
         </div>
-        {scored ? `${score.rating} (${score.percentScore.toFixed(1)}%)` : ''}
+        {scored ? `${score.percentScore.toFixed(1)} (${score.rating})` : ''}
       </div>
     </>
   )

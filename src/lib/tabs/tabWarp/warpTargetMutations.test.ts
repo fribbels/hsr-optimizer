@@ -245,7 +245,7 @@ test('a chained goal capped at E6 is kept as a redundant goal with no room to po
   expect(t[1]).toMatchObject({ currentEidolonLevel: EidolonLevel.E6, targetEidolonLevel: EidolonLevel.E6 })
 })
 
-// --- Add buttons pre-fill the owned eidolon / superimposition from the save ---
+// --- Add buttons pre-fill owned character eidolons from the save ---
 
 test('addCharGoal seeds the owned eidolon from the save', () => {
   storeMock.byId[CHAR_A] = { form: { characterEidolon: EidolonLevel.E3, lightCone: '99999', lightConeSuperimposition: SuperimpositionLevel.S1 } }
@@ -256,7 +256,7 @@ test('addCharGoal seeds the owned eidolon from the save', () => {
   expect(t[0]).toMatchObject({ currentEidolonLevel: EidolonLevel.E3, targetEidolonLevel: EidolonLevel.E4 })
 })
 
-test('addCharAndSignatureGoal seeds owned eidolon and the signature superimposition', () => {
+test('addCharAndSignatureGoal seeds owned eidolon but starts the signature from NONE', () => {
   configMock.byId[CHAR_A] = { defaultLightCone: SIG_LC }
   storeMock.byId[CHAR_A] = { form: { characterEidolon: EidolonLevel.E3, lightCone: SIG_LC, lightConeSuperimposition: SuperimpositionLevel.S2 } }
   const { form, current } = fakeForm([])
@@ -264,7 +264,7 @@ test('addCharAndSignatureGoal seeds owned eidolon and the signature superimposit
   const t = current()
   expect(t).toHaveLength(2)
   expect(t[0]).toMatchObject({ characterId: CHAR_A, lightConeId: null, currentEidolonLevel: EidolonLevel.E3, targetEidolonLevel: EidolonLevel.E4 })
-  expect(t[1]).toMatchObject({ lightConeId: SIG_LC, currentSuperimpositionLevel: SuperimpositionLevel.S2, targetSuperimpositionLevel: SuperimpositionLevel.S3 })
+  expect(t[1]).toMatchObject({ lightConeId: SIG_LC, currentSuperimpositionLevel: SuperimpositionLevel.NONE, targetSuperimpositionLevel: SuperimpositionLevel.S1 })
 })
 
 test('addCharAndSignatureGoal starts the signature from NONE when a different cone is equipped', () => {

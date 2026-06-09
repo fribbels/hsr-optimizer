@@ -38,15 +38,6 @@ function getOwnedEidolon(characterId: CharacterId | null): EidolonLevel {
   return form.characterEidolon as EidolonLevel
 }
 
-// The superimposition already owned of a character's signature light cone. Only counts when that
-// character actually has the signature equipped; any other equipped cone reads as NONE.
-function getOwnedSignatureSuperimposition(characterId: CharacterId | null, signatureLcId: LightConeId | null): SuperimpositionLevel {
-  if (!characterId || !signatureLcId) return SuperimpositionLevel.NONE
-  const form = getCharacterById(characterId)?.form
-  if (!form || form.lightCone !== signatureLcId) return SuperimpositionLevel.NONE
-  return form.lightConeSuperimposition as SuperimpositionLevel
-}
-
 // --- Single gateway: every mutation goes through here ---
 
 function setTargets(form: UseFormReturnType<WarpRequest>, targets: WarpTarget[]) {
@@ -148,7 +139,7 @@ export function addCharAndSignatureGoal(form: UseFormReturnType<WarpRequest>, ch
   const eidolonFloor = getCharacterEidolonFloor(existing, characterId, existing.length)
   const lcFloor = getLightConeSuperimpositionFloor(existing, signatureLcId, existing.length)
   const eidolonFrom = Math.max(eidolonFloor, getOwnedEidolon(characterId))
-  const superimpositionFrom = Math.max(lcFloor, getOwnedSignatureSuperimposition(characterId, signatureLcId))
+  const superimpositionFrom = lcFloor
   const charTarget = makeTarget({
     characterId,
     lightConeId: null,

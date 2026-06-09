@@ -1,6 +1,5 @@
 import {
   ActionIcon,
-  Avatar,
   CheckIcon,
   CloseButton,
   Combobox,
@@ -155,13 +154,12 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
             disabled={disabled}
           />
 
-          <Avatar
-            src={Assets.getCharacterAvatarById(teammateCharacterId)}
-            size={96}
-            radius={96}
-            className={classes.avatar}
+          <button
+            type='button'
+            aria-label='Select teammate character'
+            className={`${classes.avatar} ${classes.characterAvatar}`}
             onClick={() => setTeammateSelectModalOpen(true)}
-            style={{ alignSelf: 'center' }}
+            style={{ backgroundImage: `url(${Assets.getCharacterAvatarById(teammateCharacterId)})` }}
           />
 
           <Flex direction='column' w='100%' gap={6}>
@@ -240,11 +238,11 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
             disabled={disabled}
           />
 
-          <Avatar
-            src={Assets.getLightConeIconById(teammateLightConeId)}
-            size={96}
-            radius='sm'
-            style={{ cursor: 'pointer', alignSelf: 'center' }}
+          <button
+            type='button'
+            aria-label='Select teammate light cone'
+            className={`${classes.avatar} ${classes.lightConeAvatar}`}
+            style={{ backgroundImage: `url(${Assets.getLightConeIconById(teammateLightConeId)})` }}
             onClick={() => setTeammateLightConeSelectOpen(true)}
           />
         </Flex>

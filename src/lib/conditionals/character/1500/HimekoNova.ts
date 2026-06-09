@@ -264,6 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.CD, r.companionVerdict ? verdictUltCdValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
       x.buff(StatKey.CD, !r.companionVerdict ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, !r.companionVerdict ? decimationCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

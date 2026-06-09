@@ -96,8 +96,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const assistAoeScaling = skill(e, 2.50, 2.75)
   const assistRandomScaling = skill(e, 0.40, 0.44)
-  const verdictUltCdValue = skill(e, 1.00, 1.10)
-  const decimationCdValue = skill(e, 0.80, 0.88)
+  const verdictUltCdValue = skill(e, 2.00, 2.20)
+  const decimationCdValue = skill(e, 0.50, 0.55)
 
   const defaults = {
     navigatorsSemaphore: true,

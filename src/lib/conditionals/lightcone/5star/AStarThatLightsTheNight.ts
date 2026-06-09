@@ -26,8 +26,8 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
 
   const sValuesAtk = [0.40, 0.50, 0.60, 0.70, 0.80]
   const sValuesDefPen = [0.20, 0.25, 0.30, 0.35, 0.40]
-  const sValuesAssistSkillDmg = [0.20, 0.25, 0.30, 0.35, 0.40]
-  const sValuesUltDmg = [0.60, 0.75, 0.90, 1.05, 1.20]
+  const sValuesAssistSkillDmg = [0.25, 0.3125, 0.375, 0.4375, 0.50]
+  const sValuesUltDmg = [0.30, 0.375, 0.45, 0.525, 0.60]
   const formatPercent = (value: number) => `${precisionRound(100 * value)}%`
 
   const defaults = {
@@ -54,7 +54,7 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
 
       x.buff(StatKey.ATK_P, sValuesAtk[s], x.source(SOURCE_LC))
       x.buff(StatKey.DEF_PEN, countTeamTrailblazeCompanion(context) >= 2 ? sValuesDefPen[s] : 0, x.source(SOURCE_LC))
-      x.buff(StatKey.BOOST, r.safeEscortStacks * sValuesAssistSkillDmg[s], x.damageType(DamageTag.SKILL).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, r.safeEscortStacks * sValuesAssistSkillDmg[s], x.damageType(DamageTag.ASSIST).source(SOURCE_LC))
       x.buff(StatKey.BOOST, r.safeEscortStacks === 3 ? r.safeEscortStacks * sValuesUltDmg[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
     },
   }

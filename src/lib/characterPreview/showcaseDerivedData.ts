@@ -24,6 +24,16 @@ import {
   isSimScoreMode,
   ScoringType,
 } from 'lib/scoring/scoringConfig'
+import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
+import { Jade } from 'lib/conditionals/character/1300/Jade'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
@@ -122,6 +132,22 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   }
 }
 
+// Characters whose DPS simulation is secondary to their support/heal/shield role.
+// When these are teammates, they don't count as a "real DPS" for the purpose of
+// keeping another sub DPS in sub mode.
+const SUB_SUB_DPS_CHARACTERS: Set<CharacterId> = new Set([
+  Aventurine.id,
+  Hyacine.id,
+  TheDahlia.id,
+  Tribbie.id,
+  KafkaB1.id,
+  Fugue.id,
+  Yaoguang.id,
+  Jade.id,
+  Cipher.id,
+  SilverWolfB1.id,
+])
+
 /**
  * Sub DPS characters default to main DPS when no teammate has a DPS simulation,
  * since the showcased character is the sole damage source. If the user has
@@ -138,9 +164,10 @@ export function resolveEffectiveDeprioritizeBuffs(
 
   if (simulation.deprioritizeBuffs) {
     const characters = getGameMetadata().characters
-    const hasTeammateDpsSim = simulation.teammates.some((tm) =>
-      characters[tm.characterId]?.scoringMetadata?.simulation != null
-    )
+    const hasTeammateDpsSim = simulation.teammates.some((teammate) => {
+      if (!characters[teammate.characterId]?.scoringMetadata?.simulation) return false
+      return !SUB_SUB_DPS_CHARACTERS.has(teammate.characterId)
+    })
     if (!hasTeammateDpsSim) {
       return false
     }

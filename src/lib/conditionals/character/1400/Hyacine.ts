@@ -576,6 +576,7 @@ const simulation = (): SimulationMetadata => ({
     Sets.ArcadiaOfWovenDreams,
     ...SPREAD_ORNAMENTS_2P_HEAL,
   ],
+  deprioritizeBuffs: true,
   teammates: [
     {
       characterId: Castorice.id,

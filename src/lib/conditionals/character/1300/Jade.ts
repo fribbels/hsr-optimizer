@@ -317,6 +317,7 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_ORNAMENTS_2P_FUA,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   ],
+  deprioritizeBuffs: true,
   teammates: [
     {
       characterId: TheHerta.id,

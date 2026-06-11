@@ -17,6 +17,7 @@ import {
 } from '@tabler/icons-react'
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
 import {
   buildCardBgPipelineConfig,
@@ -163,7 +164,9 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
   const spdBenchmark = useShowcaseTabStore((s) => s.showcaseTemporaryOptionsByCharacter[characterId]?.spdBenchmark)
   const scoringMetadata = useScoringMetadata(characterId)
   const spdValue = scoringMetadata.stats[Stats.SPD]
-  const deprioritizeBuffs = scoringMetadata.simulation?.deprioritizeBuffs ?? false
+  const deprioritizeBuffs = scoringMetadata.simulation
+    ? resolveEffectiveDeprioritizeBuffs(characterId, scoringMetadata.simulation)
+    : false
 
   function onSpdPrecisionChange(preciseSpd: boolean) {
     useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.showcasePreciseSpd, preciseSpd)

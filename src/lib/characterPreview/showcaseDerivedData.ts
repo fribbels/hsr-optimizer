@@ -25,10 +25,15 @@ import {
   ScoringType,
 } from 'lib/scoring/scoringConfig'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import {
+  getScoringMetadata,
+  useScoringStore,
+} from 'lib/stores/scoring/scoringStore'
 import type {
   Character,
+  CharacterId,
   SavedBuild,
 } from 'types/character'
 import type { CustomImageConfig } from 'types/customImage'
@@ -77,7 +82,10 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>> = {}
   for (const configType of CONFIG_DISPLAY_ORDER) {
     const meta = resolveSimulationMetadata(character, configType, resolvedTeamSelections[configType], savedBuildOverride)
-    if (meta) configMetadata[configType] = meta
+    if (meta) {
+      meta.deprioritizeBuffs = resolveEffectiveDeprioritizeBuffs(character.id, meta)
+      configMetadata[configType] = meta
+    }
   }
 
   const hasSimulation = CONFIG_DISPLAY_ORDER.some((configType) => configMetadata[configType] != null)
@@ -112,4 +120,31 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
     displayDimensions,
     artistName,
   }
+}
+
+/**
+ * Sub DPS characters default to main DPS when no teammate has a DPS simulation,
+ * since the showcased character is the sole damage source. If the user has
+ * explicitly overridden deprioritizeBuffs, their choice takes precedence.
+ */
+export function resolveEffectiveDeprioritizeBuffs(
+  characterId: CharacterId,
+  simulation: SimulationMetadata,
+): boolean {
+  const rawOverride = useScoringStore.getState().scoringMetadataOverrides[characterId]
+  if (rawOverride?.simulation != null && 'deprioritizeBuffs' in rawOverride.simulation) {
+    return simulation.deprioritizeBuffs ?? false
+  }
+
+  if (simulation.deprioritizeBuffs) {
+    const characters = getGameMetadata().characters
+    const hasTeammateDpsSim = simulation.teammates.some((tm) =>
+      characters[tm.characterId]?.scoringMetadata?.simulation != null
+    )
+    if (!hasTeammateDpsSim) {
+      return false
+    }
+  }
+
+  return simulation.deprioritizeBuffs ?? false
 }

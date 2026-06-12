@@ -6,8 +6,6 @@ import {
 import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
 import { ShowcaseRelicsPanel } from 'lib/characterPreview/card/ShowcaseRelicsPanel'
 import {
-  OuterShadowRingWrapper,
-  ShadowRings,
   showcaseShadow,
   showcaseShadowInsetAddition,
   ShowcaseSource,
@@ -569,31 +567,27 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
           {/* Portrait left panel */}
           <div className='character-build-portrait' style={{ display: 'flex', flexDirection: 'column', gap: 8, zIndex: 1 }}>
-            <OuterShadowRingWrapper>
-              <ShowcasePortrait
-                source={source}
-                character={character}
-                scoringType={scoringType}
-                displayDimensions={displayDimensions}
-                customPortrait={portraitToUse}
-                editPortraitModalOpen={state.editPortraitModalOpen}
-                setEditPortraitModalOpen={state.setEditPortraitModalOpen}
-                onEditPortraitOk={handleEditPortraitOk}
-                artistName={artistName}
-                setOriginalCharacterModalInitialCharacter={handleSetOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
-              />
-            </OuterShadowRingWrapper>
+            <ShowcasePortrait
+              source={source}
+              character={character}
+              scoringType={scoringType}
+              displayDimensions={displayDimensions}
+              customPortrait={portraitToUse}
+              editPortraitModalOpen={state.editPortraitModalOpen}
+              setEditPortraitModalOpen={state.setEditPortraitModalOpen}
+              onEditPortraitOk={handleEditPortraitOk}
+              artistName={artistName}
+              setOriginalCharacterModalInitialCharacter={handleSetOriginalCharacterModalInitialCharacter}
+              setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
+            />
 
-            <OuterShadowRingWrapper>
-              <ShowcaseLightConeSmall
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-              />
-            </OuterShadowRingWrapper>
+            <ShowcaseLightConeSmall
+              character={character}
+              showcaseMetadata={showcaseMetadata}
+              displayDimensions={displayDimensions}
+              setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+              setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+            />
           </div>
 
           {/* Character details middle panel */}
@@ -615,10 +609,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 paddingBottom: 3,
                 boxShadow: showcaseShadow + showcaseShadowInsetAddition,
                 border: '1px solid var(--showcase-card-border)',
-                position: 'relative',
               }}
             >
-              <ShadowRings />
               <ShowcaseCharacterHeader
                 showcaseMetadata={showcaseMetadata}
               />

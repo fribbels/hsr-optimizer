@@ -17,11 +17,11 @@ import {
 import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
-import { withAlpha } from 'lib/characterPreview/color/colorUtils'
 import {
   modifyCustomColor,
   organizeColors,
   pickBestSeed,
+  withAlpha,
 } from 'lib/characterPreview/color/colorUtils'
 import {
   buildCardBgPipelineConfig,
@@ -538,8 +538,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           id={id}
           className='characterPreview'
           style={{
-            '--showcase-card-bg': withAlpha(derivedShowcaseTheme.cardBackgroundColor, visual.cardBgAlpha),
-            '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
+            '--showcase-card-bg-bridge-high': withAlpha(derivedShowcaseTheme.cardBackgroundColor, Math.min(visual.cardBgAlpha * 0.88, 0.34)),
+            '--showcase-card-edge-medium': withAlpha(derivedShowcaseTheme.cardBorderColor, 0.50),
             '--showcase-shadow': buildShadow(visual.shadowX, visual.shadowY, visual.shadowBlur, visual.shadowOpacity),
             '--showcase-shadow-inset': buildInsetShadow(visual.insetBlur, visual.insetOpacity),
             'fontFamily': 'var(--font-showcase)',
@@ -601,14 +601,16 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 height: '100%',
                 borderRadius: 6,
                 zIndex: 10,
-                backgroundColor: 'var(--showcase-card-bg)',
                 transition: showcaseTransition,
                 flex: 1,
                 paddingRight: 2,
                 paddingLeft: 2,
                 paddingBottom: 3,
                 boxShadow: showcaseShadow + showcaseShadowInsetAddition,
-                border: '1px solid var(--showcase-card-border)',
+                backgroundColor: 'var(--showcase-card-bg-bridge-high)',
+                border: '1px solid var(--showcase-card-edge-medium)',
+                backgroundClip: 'padding-box',
+                boxSizing: 'border-box',
               }}
             >
               <ShowcaseCharacterHeader

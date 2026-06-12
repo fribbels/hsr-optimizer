@@ -17,8 +17,8 @@ import {
 } from '@tabler/icons-react'
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
+import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import {
   buildCardBgPipelineConfig,
   DEFAULT_SHOWCASE_COLOR,
@@ -348,8 +348,8 @@ const CustomizationPanel = memo(function CustomizationPanel({
     const theme = resolveShowcaseTheme(newColor, showcaseDarkMode, pipelineConfig)
     const el = document.getElementById(id)
     if (el) {
-      el.style.setProperty('--showcase-card-bg', withAlpha(theme.cardBackgroundColor, cardBgAlpha))
-      el.style.setProperty('--showcase-card-border', theme.cardBorderColor)
+      el.style.setProperty('--showcase-card-bg-bridge-high', withAlpha(theme.cardBackgroundColor, Math.min(cardBgAlpha * 0.88, 0.34)))
+      el.style.setProperty('--showcase-card-edge-medium', withAlpha(theme.cardBorderColor, 0.50))
     }
   }
 

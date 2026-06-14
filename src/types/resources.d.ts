@@ -1,4 +1,4 @@
-export default interface Resources {
+interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -70,6 +70,7 @@ export default interface Resources {
         },
         "Output": {
           "AllFilled": "No slots open",
+          "AlreadyMet": "SPD target already reached",
           "Teammate0": "1st Teammate's SPD",
           "Teammate1": "2nd Teammate's SPD",
           "Teammate2": "3rd Teammate's SPD",
@@ -7945,3 +7946,5 @@ export default interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
+
+export default Resources;

@@ -303,10 +303,10 @@ function ReverseSolve(props: AhaPanelContentProps) {
       <div className={classes.reverseOutput} style={{ opacity: !allSlotsFilled && teammateSpeed === null ? 0.3 : undefined }}>
         <HeaderText>
           {allSlotsFilled
-            ? 'No slots open'
-            : targetAlreadyMet
-            ? 'SPD target already reached'
-            : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
+            ? t('Solver.Output.AllFilled')
+            : (targetAlreadyMet
+              ? t('Solver.Output.AlreadyMet')
+              : t(`Solver.Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`))}
         </HeaderText>
         <span>{outputValue}</span>
       </div>

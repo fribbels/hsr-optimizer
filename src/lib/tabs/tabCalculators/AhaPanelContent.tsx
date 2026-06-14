@@ -1,4 +1,5 @@
 import {
+  CloseButton,
   Divider,
   NumberInput,
 } from '@mantine/core'
@@ -95,7 +96,8 @@ function IntegratedRows({ form, rows, ahaSpeed, t }: {
 
   return (
     <div className={classes.integratedRows}>
-      <BaseIntegratedRow ahaSpeed={ahaSpeed} t={t} />
+      <HeaderRow />
+      <BaseIntegratedRow ahaSpeed={ahaSpeed} />
       {rows.map((row, domIndex) => {
         const visualPos = visualPositions[domIndex]
         const offset = (visualPos - domIndex) * ROW_STEP
@@ -106,7 +108,7 @@ function IntegratedRows({ form, rows, ahaSpeed, t }: {
             form={form}
             row={row}
             ahaSpeed={ahaSpeed}
-            label={t('Calculator.TeammateN', { position: visualPos + 1 })}
+            label='Teammate'
             style={{ transform: offset ? `translateY(${offset}px)` : undefined }}
             isNextSlot={isNextSlot}
           />
@@ -125,10 +127,26 @@ function getVisualPositions(rows: TeammateRow[]): number[] {
   })
 }
 
-function BaseIntegratedRow({ ahaSpeed, t }: { ahaSpeed: number, t: TFunction<'calculatorsTab', 'AHA'> }) {
+function HeaderRow() {
+  return (
+    <div className={`${classes.integratedRow} ${classes.headerRow}`}>
+      <div className={classes.headerCell}>
+        Elation<br />Teammate
+      </div>
+      <div className={classes.headerCell}>
+        Combat<br />Speed
+      </div>
+      <div className={classes.headerCell}>
+        Aha<br />Speed
+      </div>
+    </div>
+  )
+}
+
+function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
   return (
     <div className={`${classes.integratedRow} ${classes.baseRow}`}>
-      <div className={classes.rowSource}>{t('Calculator.AhaBase')}</div>
+      <div className={classes.rowSource}>Constant</div>
       <div className={classes.rowInputPlaceholder} />
       <div className={classes.rowTrack}>
         <div
@@ -170,6 +188,17 @@ function IntegratedRow({ form, row, ahaSpeed, label, style, isNextSlot }: {
         {...form.getInputProps(row.key)}
         {...sharedInputProps}
         className={classes.rowInput}
+        rightSection={row.speed !== '' && (
+          <CloseButton
+            size='xs'
+            variant='transparent'
+            tabIndex={-1}
+            style={{ marginRight: 8 }}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => form.setFieldValue(row.key, '')}
+          />
+        )}
+        rightSectionPointerEvents='all'
       />
       <div className={classes.rowTrack}>
         {hasContribution && (
@@ -247,6 +276,7 @@ function FormulaSummary({ rows, ahaSpeed, t }: {
 
 function ReverseSolve(props: AhaPanelContentProps) {
   const {
+    ahaSpeed,
     speeds,
     teammateSpeed,
     desiredValue,
@@ -255,7 +285,9 @@ function ReverseSolve(props: AhaPanelContentProps) {
     t,
   } = props
   const allSlotsFilled = speeds.length >= 4
+  const targetAlreadyMet = !allSlotsFilled && desiredValue !== undefined && ahaSpeed >= desiredValue
   const displaySpeed = teammateSpeed !== null && Math.abs(teammateSpeed) < 0.0005 ? 0 : teammateSpeed
+  const outputValue = displaySpeed !== null ? localeNumber_000(displaySpeed) : ''
 
   return (
     <div className={classes.reverse}>
@@ -271,12 +303,12 @@ function ReverseSolve(props: AhaPanelContentProps) {
       <div className={classes.reverseOutput} style={{ opacity: !allSlotsFilled && teammateSpeed === null ? 0.3 : undefined }}>
         <HeaderText>
           {allSlotsFilled
-            ? t('Solver.Output.AllFilled')
-            : t(`Solver.Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
+            ? 'No slots open'
+            : targetAlreadyMet
+            ? 'SPD target already reached'
+            : t(`Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`)}
         </HeaderText>
-        <span>
-          {displaySpeed !== null ? localeNumber_000(displaySpeed) : ''}
-        </span>
+        <span>{outputValue}</span>
       </div>
     </div>
   )

@@ -57,9 +57,10 @@ export const FormSelect: ComponentType<FormSelectProps> = ({
     : (val: number) => handleConditionalChange(itemName as (string | number)[], val)
 
   const stringOptions = options?.map((opt) => ({
-    label: opt.display || opt.label,
+    label: opt.display || String(opt.value),
     value: String(opt.value),
   }))
+  const labelByValue = options && new Map(options.map((opt) => [String(opt.value), opt.label]))
 
   const internalSelect = (
     <Select
@@ -68,6 +69,7 @@ export const FormSelect: ComponentType<FormSelectProps> = ({
       maxDropdownHeight={500}
       comboboxProps={{ keepMounted: false, styles: { dropdown: { width: 'fit-content' } } }}
       data={stringOptions}
+      renderOption={labelByValue ? ({ option }) => <>{labelByValue.get(option.value) || option.label}</> : undefined}
       onChange={(newValue) => {
         if (handleChange) {
           handleChange(newValue ? Number(newValue) : 0)

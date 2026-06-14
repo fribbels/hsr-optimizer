@@ -1,3 +1,11 @@
+import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -5,8 +13,13 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { LandausChoice } from 'lib/conditionals/lightcone/4star/LandausChoice'
+import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import {
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
@@ -17,12 +30,24 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_SHIELD,
+} from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_TALENT_SHIELD,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -54,6 +79,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(TrailblazerPreservationStelle.id)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const skillDamageReductionValue = skill(e, 0.50, 0.52)
 
@@ -194,10 +221,64 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
+
+const shieldSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.DEF_P],
+    [Parts.Feet]: [Stats.DEF_P, Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.DEF_P],
+  },
+  substats: [
+    Stats.DEF_P,
+    Stats.DEF,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_TALENT_SHIELD,
+    DEFAULT_TALENT_SHIELD,
+  ],
+  relicSets: [
+    [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
+    ...SPREAD_RELICS_4P_SHIELD,
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Acheron.id,
+      lightCone: AlongThePassingShore.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Jiaoqiu.id,
+      lightCone: ThoseManySprings.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
 
 const scoring = (): ScoringMetadata => ({
   stats: {
@@ -205,13 +286,13 @@ const scoring = (): ScoringMetadata => ({
     [Stats.ATK_P]: 0,
     [Stats.DEF]: 1,
     [Stats.DEF_P]: 1,
-    [Stats.HP]: 0.25,
-    [Stats.HP_P]: 0.25,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
     [Stats.SPD]: 1,
     [Stats.CR]: 0,
     [Stats.CD]: 0,
     [Stats.EHR]: 0.75,
-    [Stats.RES]: 0.5,
+    [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
   parts: {
@@ -230,10 +311,13 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(5),
+  ],
   sortOption: SortOption.TALENT_SHIELD,
   addedColumns: [],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
+  shieldSimulation: shieldSimulation(),
 })
 
 const displayCaelus = {
@@ -258,6 +342,7 @@ const displayStelle = {
 
 export const TrailblazerPreservationCaelus: CharacterConfig = {
   id: '8003',
+  defaultLightCone: LandausChoice.id,
   display: displayCaelus,
   conditionals,
   get scoring() {
@@ -267,6 +352,7 @@ export const TrailblazerPreservationCaelus: CharacterConfig = {
 
 export const TrailblazerPreservationStelle: CharacterConfig = {
   id: '8004',
+  defaultLightCone: LandausChoice.id,
   display: displayStelle,
   conditionals,
   get scoring() {

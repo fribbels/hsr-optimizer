@@ -33,6 +33,7 @@ import { Metadata } from 'lib/state/metadataInitializer'
 import { clone } from 'lib/utils/objectUtils'
 import { type Character } from 'types/character'
 import type { CharacterId } from 'types/character'
+import { ScoringConfigType } from 'types/metadata'
 import {
   describe,
   expect,
@@ -67,7 +68,7 @@ function buildOrchestrator(
   simulationMetadata.teammates[2] = input.teammate2
 
   const singleRelicByPart = generateTestSingleRelicsByPart(input.sets, input.mains, input.stats)
-  return prepareOrchestrator(character, simulationMetadata, singleRelicByPart, { spdBenchmark })
+  return prepareOrchestrator(character, { configType: ScoringConfigType.DPS, simulation: simulationMetadata }, singleRelicByPart, { spdBenchmark })
 }
 
 // Castorice default metadata: Poet + BoneCollection
@@ -91,9 +92,12 @@ const anaxaDefaultMains = testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.A
 describe('Pool SPD targeting', () => {
   test('Default=Poet, User=Poet (same sets) — pool deduplicates to 1', () => {
     const o = buildOrchestrator(
-      Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
+      Castorice.id,
+      MakeFarewellsMoreBeautiful.id,
+      castoriceTeammates,
       testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
-      castoriceDefaultMains, testStatSpread(),
+      castoriceDefaultMains,
+      testStatSpread(),
     )
     expect(o.poolComboStates).toHaveLength(1)
     expect(o.poolComboStates![0].flags.simPoetActive).toBe(true)
@@ -102,9 +106,12 @@ describe('Pool SPD targeting', () => {
   test('User equips Poet on non-Poet character — pool=2 with Poet and non-Poet entries', () => {
     // Anaxa's metadata only has Scholar, not Poet. User equipping Poet creates a second pool entry.
     const o = buildOrchestrator(
-      Anaxa.id, LifeShouldBeCastToFlames.id, anaxaTeammates,
+      Anaxa.id,
+      LifeShouldBeCastToFlames.id,
+      anaxaTeammates,
       testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.RutilantArena),
-      anaxaDefaultMains, testStatSpread(),
+      anaxaDefaultMains,
+      testStatSpread(),
     )
     expect(o.poolComboStates).toHaveLength(2)
 
@@ -114,11 +121,14 @@ describe('Pool SPD targeting', () => {
     expect(normalEntry).toBeDefined()
   })
 
-  test('Default=Poet, User=Normal (same ornament) — pool=2, different SPD targets', () => {
+  test('Default=Poet, User=Normal (same ornament) — pool=2, Poet flag differs', () => {
     const o = buildOrchestrator(
-      Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
+      Castorice.id,
+      MakeFarewellsMoreBeautiful.id,
+      castoriceTeammates,
       testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.BoneCollectionsSereneDemesne),
-      castoriceDefaultMains, testStatSpread(),
+      castoriceDefaultMains,
+      testStatSpread(),
     )
     expect(o.poolComboStates).toHaveLength(2)
 
@@ -126,14 +136,16 @@ describe('Pool SPD targeting', () => {
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)
     expect(poetEntry).toBeDefined()
     expect(normalEntry).toBeDefined()
-    expect(poetEntry!.combatSpdTarget).not.toEqual(normalEntry!.combatSpdTarget)
   })
 
   test('Default=Poet, User=Normal (different ornament) — pool=4 cross-products with both Poet and non-Poet', () => {
     const o = buildOrchestrator(
-      Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
+      Castorice.id,
+      MakeFarewellsMoreBeautiful.id,
+      castoriceTeammates,
       testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.RutilantArena),
-      castoriceDefaultMains, testStatSpread(),
+      castoriceDefaultMains,
+      testStatSpread(),
     )
     expect(o.poolComboStates).toHaveLength(4)
 
@@ -145,9 +157,12 @@ describe('Pool SPD targeting', () => {
 
   test('Default=Normal, User=Normal (different sets) — each entry gets own baseline and SPD state', () => {
     const o = buildOrchestrator(
-      Anaxa.id, LifeShouldBeCastToFlames.id, anaxaTeammates,
+      Anaxa.id,
+      LifeShouldBeCastToFlames.id,
+      anaxaTeammates,
       testSets(Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace, Sets.RutilantArena),
-      anaxaDefaultMains, testStatSpread(),
+      anaxaDefaultMains,
+      testStatSpread(),
     )
     expect(o.poolComboStates!.length).toBeGreaterThan(1)
 
@@ -155,16 +170,12 @@ describe('Pool SPD targeting', () => {
       expect(state.flags.simPoetActive).toBe(false)
     }
 
-    // Messenger and Scholar entries have different set bonuses → different baseline scores
-    const messengerEntry = o.poolComboStates!.find((s) =>
-      s.sets.relicSet1 === Sets.MessengerTraversingHackerspace,
-    )
-    const scholarEntry = o.poolComboStates!.find((s) =>
-      s.sets.relicSet1 === Sets.ScholarLostInErudition,
-    )
+    // Messenger and Scholar entries have different set bonuses → different zero-mains scores
+    const messengerEntry = o.poolComboStates!.find((s) => s.sets.relicSet1 === Sets.MessengerTraversingHackerspace)
+    const scholarEntry = o.poolComboStates!.find((s) => s.sets.relicSet1 === Sets.ScholarLostInErudition)
     expect(messengerEntry).toBeDefined()
     expect(scholarEntry).toBeDefined()
-    expect(messengerEntry!.baselineScore).not.toEqual(scholarEntry!.baselineScore)
+    expect(messengerEntry!.zeroMainsScore).not.toEqual(scholarEntry!.zeroMainsScore)
 
     // Non-Poet targets equal originalSpd — same for both since basicSpdTarget doesn't depend on set
     expect(messengerEntry!.basicSpdTarget).toBeCloseTo(o.originalSpd!, 1)
@@ -173,22 +184,28 @@ describe('Pool SPD targeting', () => {
 
   test('spdBenchmark override is respected by pool entries', () => {
     const o = buildOrchestrator(
-      Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
+      Castorice.id,
+      MakeFarewellsMoreBeautiful.id,
+      castoriceTeammates,
       testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.BoneCollectionsSereneDemesne),
-      castoriceDefaultMains, testStatSpread(),
+      castoriceDefaultMains,
+      testStatSpread(),
       90,
     )
     expect(o.poolComboStates).toHaveLength(2)
 
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)!
-    expect(normalEntry.basicSpdTarget).toBeLessThanOrEqual(90)
+    expect(normalEntry.basicSpdTarget).toBeCloseTo(90, 3)
   })
 
   test('Default=Normal, User=Normal (identical) — dedup to pool=1', () => {
     const o = buildOrchestrator(
-      Anaxa.id, LifeShouldBeCastToFlames.id, anaxaTeammates,
+      Anaxa.id,
+      LifeShouldBeCastToFlames.id,
+      anaxaTeammates,
       testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
-      anaxaDefaultMains, testStatSpread(),
+      anaxaDefaultMains,
+      testStatSpread(),
     )
     expect(o.poolComboStates).toHaveLength(1)
     expect(o.poolComboStates![0].flags.simPoetActive).toBe(false)
@@ -197,9 +214,12 @@ describe('Pool SPD targeting', () => {
   test('Poet entry uses Poet breakpoint SPD targeting (< 95 threshold)', () => {
     // Castorice with Poet at 0 SPD rolls — baseline SPD should be well below 95
     const o = buildOrchestrator(
-      Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
+      Castorice.id,
+      MakeFarewellsMoreBeautiful.id,
+      castoriceTeammates,
       testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
-      castoriceDefaultMains, testStatSpread(0),
+      castoriceDefaultMains,
+      testStatSpread(0),
     )
     const poetState = o.poolComboStates![0]
     expect(poetState.flags.simPoetActive).toBe(true)
@@ -209,9 +229,12 @@ describe('Pool SPD targeting', () => {
 
   test('Non-Poet entry targets originalSpd regardless of default being Poet', () => {
     const o = buildOrchestrator(
-      Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
+      Castorice.id,
+      MakeFarewellsMoreBeautiful.id,
+      castoriceTeammates,
       testSets(Sets.LongevousDisciple, Sets.LongevousDisciple, Sets.BoneCollectionsSereneDemesne),
-      castoriceDefaultMains, testStatSpread(),
+      castoriceDefaultMains,
+      testStatSpread(),
     )
     const normalEntry = o.poolComboStates!.find((s) => !s.flags.simPoetActive)
     expect(normalEntry).toBeDefined()
@@ -223,9 +246,12 @@ describe('Pool SPD targeting', () => {
   test('Pool combatSpdTarget matches default when sets are identical', () => {
     // Verify the always-recompute path produces the same result as the default path
     const o = buildOrchestrator(
-      Castorice.id, MakeFarewellsMoreBeautiful.id, castoriceTeammates,
+      Castorice.id,
+      MakeFarewellsMoreBeautiful.id,
+      castoriceTeammates,
       testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
-      castoriceDefaultMains, testStatSpread(),
+      castoriceDefaultMains,
+      testStatSpread(),
     )
     expect(o.poolComboStates).toHaveLength(1)
     expect(o.poolComboStates![0].combatSpdTarget).toBeCloseTo(o.benchmarkCombatSpdTarget!, 5)

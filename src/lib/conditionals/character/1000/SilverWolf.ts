@@ -1,27 +1,15 @@
-import {
-  AbilityEidolon,
-  type Conditionals,
-  type ContentDefinition,
-  createEnum,
-} from 'lib/conditionals/conditionalUtils'
+import { createEnum } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IncessantRain } from 'lib/conditionals/lightcone/5star/IncessantRain'
 import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import {
-  ElementTag,
-  TargetTag,
-} from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { wrappedFixedT } from 'lib/utils/i18nUtils'
-
-import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -34,100 +22,13 @@ import {
 export const SilverWolfEntities = createEnum('SilverWolf')
 export const SilverWolfAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
-  AbilityKind.SKILL,
-  AbilityKind.ULT,
   AbilityKind.BREAK,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.SilverWolf')
-  const { basic, skill, ult, talent } = AbilityEidolon.SKILL_TALENT_3_ULT_BASIC_5
-  const {
-    SOURCE_BASIC,
-    SOURCE_SKILL,
-    SOURCE_ULT,
-    SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
-    SOURCE_TRACE,
-    SOURCE_MEMO,
-    SOURCE_E1,
-    SOURCE_E2,
-    SOURCE_E4,
-    SOURCE_E6,
-  } = Source.character(SilverWolf.id)
-
-  const skillResShredValue = skill(e, 0.10, 0.105)
-  const talentDefShredDebuffValue = talent(e, 0.08, 0.088)
-  const ultDefShredValue = ult(e, 0.45, 0.468)
-
-  const basicScaling = basic(e, 1.00, 1.10)
-  const skillScaling = skill(e, 1.96, 2.156)
-  const ultScaling = ult(e, 3.80, 4.104)
-
-  const defaults = {
-    skillWeaknessResShredDebuff: false,
-    skillResShredDebuff: true,
-    talentDefShredDebuff: true,
-    ultDefShredDebuff: true,
-    targetDebuffs: 5,
-  }
-
-  const teammateDefaults = {
-    skillWeaknessResShredDebuff: false,
-    skillResShredDebuff: true,
-    talentDefShredDebuff: true,
-    ultDefShredDebuff: true,
-    targetDebuffs: 5,
-  }
-
-  const content: ContentDefinition<typeof defaults> = {
-    skillResShredDebuff: {
-      id: 'skillResShredDebuff',
-      formItem: 'switch',
-      text: t('Content.skillResShredDebuff.text'),
-      content: t('Content.skillResShredDebuff.content', { skillResShredValue: precisionRound(100 * skillResShredValue) }),
-    },
-    skillWeaknessResShredDebuff: {
-      id: 'skillWeaknessResShredDebuff',
-      formItem: 'switch',
-      text: t('Content.skillWeaknessResShredDebuff.text'),
-      content: t('Content.skillWeaknessResShredDebuff.content', { implantChance: precisionRound(skill(e, 85, 87)) }),
-    },
-    talentDefShredDebuff: {
-      id: 'talentDefShredDebuff',
-      formItem: 'switch',
-      text: t('Content.talentDefShredDebuff.text'),
-      content: t('Content.talentDefShredDebuff.content', { talentDefShredDebuffValue: precisionRound(100 * talentDefShredDebuffValue) }),
-    },
-    ultDefShredDebuff: {
-      id: 'ultDefShredDebuff',
-      formItem: 'switch',
-      text: t('Content.ultDefShredDebuff.text'),
-      content: t('Content.ultDefShredDebuff.content', { ultDefShredValue: precisionRound(100 * ultDefShredValue) }),
-    },
-    targetDebuffs: {
-      id: 'targetDebuffs',
-      formItem: 'slider',
-      text: t('Content.targetDebuffs.text'),
-      content: t('Content.targetDebuffs.content'),
-      min: 0,
-      max: 5,
-    },
-  }
-
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    skillResShredDebuff: content.skillResShredDebuff,
-    skillWeaknessResShredDebuff: content.skillWeaknessResShredDebuff,
-    talentDefShredDebuff: content.talentDefShredDebuff,
-    ultDefShredDebuff: content.ultDefShredDebuff,
-    targetDebuffs: content.targetDebuffs,
-  }
-
   return {
-    content: () => Object.values(content),
-    teammateContent: () => Object.values(teammateContent),
-    defaults: () => defaults,
-    teammateDefaults: () => teammateDefaults,
+    content: () => [],
+    defaults: () => ({}),
 
     entityDeclaration: () => Object.values(SilverWolfEntities),
     entityDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
@@ -139,76 +40,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     }),
 
     actionDeclaration: () => [...SilverWolfAbilities],
-    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      // E4: ULT additional damage scaling (0.20 per debuff)
-      const ultAdditionalScaling = (e >= 4) ? r.targetDebuffs * 0.20 : 0
-
-      return {
-        [AbilityKind.BASIC]: {
-          hits: [
-            HitDefinitionBuilder.standardBasic()
-              .damageElement(ElementTag.Quantum)
-              .atkScaling(basicScaling)
-              .toughnessDmg(10)
-              .build(),
-          ],
-        },
-        [AbilityKind.SKILL]: {
-          hits: [
-            HitDefinitionBuilder.standardSkill()
-              .damageElement(ElementTag.Quantum)
-              .atkScaling(skillScaling)
-              .toughnessDmg(20)
-              .build(),
-          ],
-        },
-        [AbilityKind.ULT]: {
-          hits: [
-            HitDefinitionBuilder.standardUlt()
-              .damageElement(ElementTag.Quantum)
-              .atkScaling(ultScaling)
-              .toughnessDmg(30)
-              .build(),
-            ...(ultAdditionalScaling > 0
-              ? [
-                HitDefinitionBuilder.standardAdditional()
-                  .damageElement(ElementTag.Quantum)
-                  .atkScaling(ultAdditionalScaling)
-                  .build(),
-              ]
-              : []),
-          ],
-        },
-        [AbilityKind.BREAK]: {
-          hits: [
-            HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
-          ],
-        },
-      }
-    },
+    actionDefinition: (action: OptimizerAction, context: OptimizerContext) => ({
+      [AbilityKind.BASIC]: {
+        hits: [
+          HitDefinitionBuilder.standardBasic()
+            .damageElement(ElementTag.Quantum)
+            .atkScaling(1.00)
+            .toughnessDmg(10)
+            .build(),
+        ],
+      },
+      [AbilityKind.BREAK]: {
+        hits: [
+          HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
+        ],
+      },
+    }),
     actionModifiers: () => [],
 
-    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
 
-      // E6: Elemental DMG boost (0.20 per debuff)
-      x.buff(StatKey.DMG_BOOST, (e >= 6) ? r.targetDebuffs * 0.20 : 0, x.source(SOURCE_E6))
-    },
-
-    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const m = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      x.buff(StatKey.RES_PEN, (m.skillWeaknessResShredDebuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.RES_PEN, (m.skillResShredDebuff) ? skillResShredValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.RES_PEN, (m.skillResShredDebuff && m.targetDebuffs >= 3) ? 0.03 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      x.buff(StatKey.DEF_PEN, (m.ultDefShredDebuff) ? ultDefShredValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
-      x.buff(StatKey.DEF_PEN, (m.talentDefShredDebuff) ? talentDefShredDebuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
-    },
-
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-    },
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }
@@ -217,10 +69,10 @@ const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
-    [Stats.DEF]: 0.25,
-    [Stats.DEF_P]: 0.25,
-    [Stats.HP]: 0.25,
-    [Stats.HP_P]: 0.25,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
     [Stats.SPD]: 1,
     [Stats.CR]: 0,
     [Stats.CD]: 0,
@@ -252,8 +104,10 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnPioneerSet(4),
   ],
-  sortOption: SortOption.ULT,
+  sortOption: SortOption.BASIC,
   hiddenColumns: [
+    SortOption.SKILL,
+    SortOption.ULT,
     SortOption.FUA,
     SortOption.DOT,
   ],
@@ -269,8 +123,10 @@ const display = {
   showcaseColor: '#000000', // Deprecated Novaflare - Do not change
 }
 
+// Pre-Novaflare version. See SilverWolfB1.ts for the updated variant.
 export const SilverWolf: CharacterConfig = {
   id: '1006',
+  defaultLightCone: IncessantRain.id,
   display,
   conditionals,
   get scoring() {

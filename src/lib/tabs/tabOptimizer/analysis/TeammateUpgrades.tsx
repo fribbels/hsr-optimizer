@@ -1,18 +1,36 @@
-import { Flex, Table } from '@mantine/core'
-import { TeammateSetImageWithTooltip } from 'lib/ui/TeammateSetImage'
-import { iconSize } from 'lib/constants/constantsUi'
+import {
+  Flex,
+  Table,
+} from '@mantine/core'
 import { useToggle } from '@mantine/hooks'
-import { Assets } from 'lib/rendering/assets'
-import { getTeammateOption, setToId } from 'lib/sets/setConfigRegistry'
-import { TEAMMATE_UPGRADE_PRECISION, type TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { IconChevronRight } from '@tabler/icons-react'
-import { arrowColor, arrowDirection } from 'lib/utils/displayUtils'
-import { localeNumber_0, localeNumber_00 } from 'lib/utils/i18nUtils'
-import { precisionRound, truncate100ths } from 'lib/utils/mathUtils'
+import { iconSize } from 'lib/constants/constantsUi'
+import { Assets } from 'lib/rendering/assets'
+import {
+  getTeammateOption,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
+import {
+  TEAMMATE_UPGRADE_PRECISION,
+  type TeammateSetUpgrade,
+} from 'lib/simulations/teammateUpgradeGrouping'
+import { TeammateSetImageWithTooltip } from 'lib/ui/TeammateSetImage'
+import {
+  arrowColor,
+  arrowDirection,
+} from 'lib/utils/displayUtils'
+import {
+  localeNumber_0,
+  localeNumber_00,
+} from 'lib/utils/i18nUtils'
+import {
+  precisionRound,
+  truncate100ths,
+} from 'lib/utils/mathUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './UpgradeTable.module.css'
 import styles from './TeammateUpgrades.module.css'
+import classes from './UpgradeTable.module.css'
 
 function PercentCell({ percent, showArrow }: { percent: number, showArrow?: boolean }) {
   const text = `${localeNumber_00(truncate100ths(percent))}%`
@@ -26,15 +44,15 @@ function PercentCell({ percent, showArrow }: { percent: number, showArrow?: bool
 }
 
 type SetCentricRow = {
-  setValue: string
-  percent: number
-  delta: number
+  setValue: string,
+  percent: number,
+  delta: number,
 }
 
 export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades, baseSimScore, variant = 'optimizer' }: {
-  groupedUpgrades: TeammateSetUpgrade[]
-  baseSimScore: number
-  variant?: 'optimizer' | 'characters'
+  groupedUpgrades: TeammateSetUpgrade[],
+  baseSimScore: number,
+  variant?: 'optimizer' | 'characters',
 }) {
   const allSlotsFilled = groupedUpgrades.length > 0 && groupedUpgrades.every((g) => !!g.oldSet)
   const [showSwaps, toggleSwaps] = useToggle([allSlotsFilled, !allSlotsFilled])
@@ -92,7 +110,7 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
         {swapRows.length > 0 && (
           <Table.Tr className={styles.expandRow} onClick={() => toggleSwaps()}>
             <Table.Td colSpan={3}>
-              <Flex align="center" justify="center" gap={8}>
+              <Flex align='center' justify='center' gap={8}>
                 <IconChevronRight size={16} style={{ rotate: showSwaps ? '270deg' : '90deg', transition: 'rotate 0.2s ease' }} />
               </Flex>
             </Table.Td>
@@ -112,7 +130,7 @@ function SetRow({ row, showName, showArrow }: { row: SetCentricRow, showName?: b
   return (
     <Table.Tr>
       <Table.Td>
-        <Flex align="center" ml={3} gap={6} style={{ overflow: 'hidden' }}>
+        <Flex align='center' ml={3} gap={6} style={{ overflow: 'hidden' }}>
           <TeammateSetImageWithTooltip value={row.setValue} />
           {showName && (
             <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginLeft: 4, marginRight: 4 }}>
@@ -138,20 +156,16 @@ function SwapRow({ group, baseSimScore, showArrow }: { group: TeammateSetUpgrade
   return (
     <Table.Tr>
       <Table.Td>
-        <Flex gap={2} align="center" ml={3}>
+        <Flex gap={2} align='center' ml={3}>
           {showArrow && group.oldSet && getTeammateOption(group.oldSet) && (
             <>
               <TeammateSetImageWithTooltip value={group.oldSet} removed />
               ➔
             </>
           )}
-          {Array.from(group.set).map((set) => (
-            <TeammateSetImageWithTooltip value={set} key={set} />
-          ))}
+          {Array.from(group.set).map((set) => <TeammateSetImageWithTooltip value={set} key={set} />)}
           <span className={styles.overlappingAvatars} style={{ marginLeft: 4 }}>
-            {Array.from(group.ids).map((id) => (
-              <img src={Assets.getCharacterAvatarById(id)} key={id} width={iconSize} height={iconSize} />
-            ))}
+            {Array.from(group.ids).map((id) => <img src={Assets.getCharacterAvatarById(id)} key={id} width={iconSize} height={iconSize} />)}
           </span>
         </Flex>
       </Table.Td>

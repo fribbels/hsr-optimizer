@@ -5,6 +5,7 @@ import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { clone } from 'lib/utils/objectUtils'
+import { ScoringConfigType } from 'types/metadata'
 
 export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkForm, options?: { benchmarkOnly?: boolean, skipScoring?: boolean }) {
   const simulationMetadata = generateSimulationMetadata(benchmarkForm)
@@ -12,6 +13,7 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   const simulationSets = generateSimulationSets(benchmarkForm)
   const orchestrator = new BenchmarkSimulationOrchestrator(simulationMetadata)
 
+  orchestrator.configType = ScoringConfigType.DPS
   orchestrator.setMetadata()
   orchestrator.setOriginalSimRequest(simulationRequest)
   orchestrator.setSimSets(simulationSets)

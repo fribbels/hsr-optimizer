@@ -214,7 +214,7 @@ export function MultiSelectPills({
                 </>
               )
               : !search && (
-                <Input.Placeholder style={{ height: 'var(--pill-height, 22px)', display: 'flex', alignItems: 'center', position: 'absolute' }}>
+                <Input.Placeholder style={{ top: 0, bottom: 0, display: 'flex', alignItems: 'center', position: 'absolute' }}>
                   {placeholder}
                 </Input.Placeholder>
               )}

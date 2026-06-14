@@ -108,10 +108,11 @@ export function findRelicMatch(relic: Relic, oldRelics: Relic[]) {
         break
       }
 
-      // A substat's initial-roll quality is fixed at drop; later tiers only ADD
-      // rolls. So new.rolls must be a per-bucket superset of old — otherwise
-      // they're different relics even when the new values are strictly higher.
-      if (matchSubstat.rolls && newSubstat.rolls) {
+      // When values are equal (cmp === 0), roll decomposition differences are
+      // artifacts of the grading algorithm — not evidence of a different relic.
+      // Only enforce the roll-bucket superset check during upgrades (cmp === 1),
+      // where initial-roll quality is fixed at drop and later tiers only ADD rolls.
+      if (cmp === 1 && matchSubstat.rolls && newSubstat.rolls) {
         if (
           newSubstat.rolls.low < matchSubstat.rolls.low
           || newSubstat.rolls.mid < matchSubstat.rolls.mid

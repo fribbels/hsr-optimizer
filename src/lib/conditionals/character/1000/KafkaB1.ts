@@ -1,6 +1,7 @@
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -13,6 +14,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
@@ -106,13 +108,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillScaling = skill(e, 1.60, 1.76)
   const ultScaling = ult(e, 0.80, 0.864)
   const fuaScaling = talent(e, 1.40, 1.596)
-  const dotScaling = ult(e, 2.90, 3.183)
+  const dotScaling = ult(e, 2.90, 3.18275)
 
-  const hitMulti = ASHBLAZING_ATK_STACK
+  const fuaHitMulti = ASHBLAZING_ATK_STACK
     * (1 * 0.15 + 2 * 0.15 + 3 * 0.15 + 4 * 0.15 + 5 * 0.15 + 6 * 0.25)
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    return fuaHitMulti
+  }
+
   const defaults = {
-    dotTickCoefficient: 4,
+    tickCoefficient: 4,
     ehrBasedBuff: true,
     e1DotDmgReceivedDebuff: true,
     e2TeamDotDmg: true,
@@ -131,8 +142,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('ehrBasedBuff.text'),
       content: t('ehrBasedBuff.content'),
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -227,7 +238,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Lightning)
               .dotBaseChance(1.00)
               .atkScaling(dotTotalScaling)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },
@@ -250,7 +261,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.VULNERABILITY, (e >= 1 && m.e1DotDmgReceivedDebuff) ? 0.30 : 0, x.damageType(DamageTag.DOT).targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       // E2: DoT DMG +33% (team)
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && m.e2TeamDotDmg) ? 0.33 : 0, x.damageType(DamageTag.DOT).targets(TargetTag.FullTeam).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && m.e2TeamDotDmg) ? 0.33 : 0, x.damageType(DamageTag.DOT).targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -262,7 +273,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         x.buff(StatKey.ATK, 1.00 * context.baseATK, x.source(SOURCE_TRACE))
       }
 
-      boostAshblazingAtkContainer(x, action, hitMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -271,7 +282,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} >= 0.75) {
   ${buff.action(AKey.ATK, `1.00 * baseATK`).wgsl(action)}
 }
-      ` + gpuBoostAshblazingAtkContainer(hitMulti, action)
+      ` + gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
 
     teammateDynamicConditionals: [
@@ -438,6 +449,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(6),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [],
   simulation: simulation(),
@@ -454,6 +466,7 @@ const display = {
 
 export const KafkaB1: CharacterConfig = {
   id: '1005b1',
+  defaultLightCone: PatienceIsAllYouNeed.id,
   display,
   conditionals,
   get scoring() {

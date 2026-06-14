@@ -16,8 +16,8 @@ import {
 import { truncate100ths } from 'lib/utils/mathUtils'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import tableClasses from './UpgradeTable.module.css'
 import classes from './SubstatUpgrades.module.css'
+import tableClasses from './UpgradeTable.module.css'
 
 type Metrics = 'COMBO_DMG' | 'EHP'
 

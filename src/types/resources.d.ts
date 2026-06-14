@@ -24,7 +24,7 @@ export default interface Resources {
       "BasicStats": "Basic Stats",
       "CombatStats": "Combat Stats",
       "Combo": "Combo Rotation",
-      "Damage": "Ability Damage",
+      "Damage": "Ability Breakdown",
       "Rolls": "Substat Rolls"
     },
     "ResultsTabs": {
@@ -149,7 +149,7 @@ export default interface Resources {
           "CombatScore": "Combat Score",
           "CombatScoreTBD": "Combat (TBD)",
           "NoneScore": "None",
-          "StatScore": "Stat Score"
+          "StatScore": "Substat Rolls"
         }
       },
       "ArtBy": "Art by {{artistName}}",
@@ -162,7 +162,10 @@ export default interface Resources {
           "Abilities": {
             "BASIC": "BASIC DMG",
             "BREAK": "BREAK DMG",
+            "BUFF": "BUFF",
             "COMBO": "COMBO DMG",
+            "COMBO_HEAL": "COMBO HEAL",
+            "COMBO_SHIELD": "COMBO SHIELD",
             "DOT": "DOT DMG",
             "ELATION_SKILL": "ELATION SKILL DMG",
             "FUA": "FUA DMG",
@@ -207,7 +210,7 @@ export default interface Resources {
           "Standard": "Standard"
         },
         "PaletteLabel": "Portrait color palette",
-        "ShowL2D": "Show Live2D",
+        "ShowL2D": "Animations",
         "ShowUID": "Show UID"
       },
       "DMGUpgrades": "Damage Upgrades",
@@ -218,7 +221,7 @@ export default interface Resources {
         }
       },
       "EST-TBP": {
-        "Header": "Stat Score Analysis",
+        "Header": "Substat Rolls Analysis",
         "MetricsCard": {
           "Days": "Days",
           "Potential": "Reroll Potential",
@@ -244,8 +247,17 @@ export default interface Resources {
         "TitleBenchmark": "{{spd}} SPD Benchmark"
       },
       "ScoringColumn": {
+        "Baseline": {
+          "Abilities": "0% baseline ability breakdown",
+          "BasicStats": "0% baseline <1>basic stats</1>",
+          "CombatStats": "0% baseline <1>combat stats</1>",
+          "Header": "Baseline build ({{score}}%)",
+          "Mainstats": "0% baseline main stats",
+          "Sets": "0% baseline sets",
+          "Substats": "0% baseline subs"
+        },
         "Benchmark": {
-          "Abilities": "100% benchmark ability damage",
+          "Abilities": "100% benchmark ability breakdown",
           "BasicStats": "100% benchmark <1>basic stats</1>",
           "CombatStats": "100% benchmark <1>combat stats</1>",
           "Header": "Benchmark build ({{score}}%)",
@@ -254,7 +266,7 @@ export default interface Resources {
           "Substats": "100% benchmark subs (min rolls)"
         },
         "Character": {
-          "Abilities": "Character ability damage",
+          "Abilities": "Character ability breakdown",
           "BasicStats": "Character <1>basic stats</1>",
           "CombatStats": "Character <1>combat stats</1>",
           "Header": "Character build ({{score}}%)",
@@ -264,7 +276,7 @@ export default interface Resources {
           "Substats": "Character subs (min rolls)"
         },
         "Perfect": {
-          "Abilities": "200% perfect ability damage",
+          "Abilities": "200% perfect ability breakdown",
           "BasicStats": "200% perfect <1>basic stats</1>",
           "CombatStats": "200% perfect <1>combat stats</1>",
           "Header": "Perfect build ({{score}}%)",
@@ -426,7 +438,8 @@ export default interface Resources {
       "Quantum DMG Boost": "$t(gameData:Elements.Quantum) DMG",
       "SPD": "SPD",
       "SPD%": "SPD %",
-      "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG"
+      "Wind DMG Boost": "$t(gameData:Elements.Wind) DMG",
+      "simScore": "Combo DMG"
     },
     "RelicWithCount_one": "{{count}} relic",
     "RelicWithCount_other": "{{count}} relics",
@@ -760,10 +773,6 @@ export default interface Resources {
           "fireDmgBoost": {
             "content": "When Asta is on the field, all allies' Fire DMG increases by 18%.",
             "text": "Fire DMG buff"
-          },
-          "skillExtraDmgHits": {
-            "content": "Deals Fire DMG equal to {{skillScaling}}% of Asta's ATK to a single enemy and further deals DMG for {{skillExtraDmgHitsMax}} extra times, with each time dealing Fire DMG equal to {{skillScaling}}% of Asta's ATK to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy.",
-            "text": "Skill extra hits"
           },
           "talentBuffStacks": {
             "content": "Increases allies' ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks.",
@@ -3309,6 +3318,10 @@ export default interface Resources {
       }
     },
     "Common": {
+      "AdditionalTickCoefficient": {
+        "Content": "Multiplier for sources of Additional DMG outside the combo. 100% = 1 instance of Additional DMG.",
+        "Text": "Additional DMG tick coefficient"
+      },
       "BuffPriority": {
         "Content": "Select the preferred recipient for single target buffs",
         "Memo": "Buff priority: Memo",
@@ -4963,6 +4976,18 @@ export default interface Resources {
         "LongName": "Mortenax Blade",
         "Name": "Mortenax Blade"
       },
+      "1508": {
+        "LongName": "Rin Tohsaka",
+        "Name": "Rin Tohsaka"
+      },
+      "1509": {
+        "LongName": "Gilgamesh",
+        "Name": "Gilgamesh"
+      },
+      "1510": {
+        "LongName": "Himeko • Nova",
+        "Name": "Himeko • Nova"
+      },
       "8001": {
         "LongName": "Caelus (Destruction)",
         "Name": "Caelus"
@@ -5479,6 +5504,15 @@ export default interface Resources {
       "23059": {
         "Name": "Reforged in Hellfire"
       },
+      "23060": {
+        "Name": "A Star That Lights the Night"
+      },
+      "23061": {
+        "Name": "Flickering Stars"
+      },
+      "23062": {
+        "Name": "I Am As You Behold"
+      },
       "24000": {
         "Name": "On the Fall of an Aeon"
       },
@@ -5664,13 +5698,13 @@ export default interface Resources {
         "Name": "Diviner of Distant Reach"
       },
       "131": {
-        "Description2pc": "Increases ATK by 23%.",
-        "Description4pc": "When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).",
+        "Description2pc": "Increases ATK by 12%.",
+        "Description4pc": "When the wearer enters combat or uses Skill, the DMG dealt by their Skill and Ultimate increases by 18%, stacking up to 3 times. At the start of the wearer's turn or after using Ultimate, removes 1 stack of this effect.",
         "Name": "As Navigator Isee Sees It"
       },
       "132": {
-        "Description2pc": "Increases Max HP by 23%.",
-        "Description4pc": "Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with \"Comburent\" increases by 30%. This effect can be triggered again after the wearer uses an attack.",
+        "Description2pc": "Increases Max HP by 12%.",
+        "Description4pc": "Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 2 turns. This effect cannot be stacked. The DMG dealt by ally targets with \"Comburent\" increases by 15%. This effect can be triggered again after the wearer uses an attack.",
         "Name": "Divine-Querying Master Smith"
       },
       "301": {
@@ -5776,6 +5810,14 @@ export default interface Resources {
       "326": {
         "Description2pc": "When the wearer uses Follow-Up ATK, increases ATK by 24% for 2 turns. When an enemy target gets defeated, increases CRIT DMG for all allies by 12% in the current battle. This effect cannot stack.",
         "Name": "City of Converging Stars"
+      },
+      "327": {
+        "Description2pc": "Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.",
+        "Name": "Fallen Star Anchorage"
+      },
+      "328": {
+        "Description2pc": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.",
+        "Name": "Cosmic Life Sciences Institute"
       }
     }
   },
@@ -5890,7 +5932,7 @@ export default interface Resources {
     "Relics": {
       "Title": "Relics",
       "p1": "Note - Potential is a percent rating which compares a relic to the best possible +15 relic for the current character in the slot. This rating is based off the scoring algorithm weights. This means unrolled relics at +0 sometimes have a higher potential than existing +15 relics, because their possible rolls can go into the character's desired stats.",
-      "p2": "Selected character: Score - The relic's current score as defined by the scoring algorithm for the currently selected character",
+      "p2": "Selected character: Score - The relic's current substat quality as a percentage of the ideal relic for the selected character in this slot",
       "p3": "Selected character: Average potential - The relic's potential at its maximum level, averaged across all the possible rolls it could have on the way to +15",
       "p4": "Selected character: Max potential - The relic's maximum potential if all future rolls went into the character's desired stats",
       "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
@@ -6579,7 +6621,7 @@ export default interface Resources {
       "SetWeightsHeader": "Set weights",
       "StatWeightsHeader": "Stat weights",
       "WeightMethodology": {
-        "Header": "How is Stat Score calculated?"
+        "Header": "How are substat weights used?"
       }
     },
     "SwitchRelics": {
@@ -6628,6 +6670,7 @@ export default interface Resources {
       "ATK": "ATK",
       "ATK_P": "ATK %",
       "BE": "BE %",
+      "BOOST": "Dmg Boost %",
       "BREAK_EFFICIENCY": "Break Efficiency %",
       "CD": "Crit Dmg %",
       "CR": "Crit Rate %",
@@ -6635,7 +6678,6 @@ export default interface Resources {
       "DEF": "DEF",
       "DEF_P": "DEF %",
       "DEF_PEN": "Def Pen %",
-      "DMG_BOOST": "Dmg Boost %",
       "EFFECT_RES_PEN": "Effect RES PEN %",
       "EHR": "Effect Hit Rate %",
       "HP": "HP",
@@ -6667,6 +6709,7 @@ export default interface Resources {
         "BasicHeal": "Basic HEAL",
         "BasicShield": "Basic SHIELD",
         "Break": "Break",
+        "Buff": "Buff",
         "Dot": "Dot",
         "ElationSkill": "Elation Skill",
         "Fua": "Fua",
@@ -6895,6 +6938,7 @@ export default interface Resources {
       "DamageTags": {
         "ADDITIONAL": "ADDITIONAL",
         "ALL": "ALL",
+        "ASSIST": "ASSIST",
         "BASIC": "BASIC",
         "BREAK": "BREAK",
         "DOT": "DOT",
@@ -7015,7 +7059,7 @@ export default interface Resources {
           "UNIQUE": "UNIQUE\nDMG"
         }
       },
-      "Loading": "Loading...",
+      "Loading": "Loading",
       "Of": "of",
       "Page": "Page",
       "PageSelectorLabel": "Page Size:",
@@ -7342,6 +7386,7 @@ export default interface Resources {
     },
     "SortOptions": {
       "ATK": "Sorted by $t(common:ReadableStats.ATK)",
+      "AbilityLabel": "Abilities",
       "BASIC": "Sorted by Basic DMG",
       "BASIC_HEAL": "Sorted by Basic HEAL",
       "BASIC_SHIELD": "Sorted by Basic SHIELD",
@@ -7349,6 +7394,9 @@ export default interface Resources {
       "BREAK": "Sorted by Break DMG",
       "CD": "Sorted by $t(common:ReadableStats.CRIT DMG)",
       "COMBO": "Sorted by Combo DMG",
+      "COMBO_BUFF": "Sorted by Combo Buff",
+      "COMBO_HEAL": "Sorted by Combo Heal",
+      "COMBO_SHIELD": "Sorted by Combo Shield",
       "CR": "Sorted by $t(common:ReadableStats.CRIT Rate)",
       "DEF": "Sorted by $t(common:ReadableStats.DEF)",
       "DMG": "Sorted by Elemental DMG",
@@ -7367,6 +7415,7 @@ export default interface Resources {
       "MEMO_SKILL": "Sorted by Memo Skill DMG",
       "MEMO_TALENT": "Sorted by Memo Talent DMG",
       "OHB": "Sorted by $t(common:ReadableStats.Outgoing Healing Boost)",
+      "OptimizationLabel": "Optimization",
       "RES": "Sorted by $t(common:ReadableStats.Effect RES)",
       "SHIELD": "Sorted by Shield",
       "SKILL": "Sorted by Skill DMG",
@@ -7550,7 +7599,7 @@ export default interface Resources {
     "Disclaimer": "Note: Combo DMG is meant to compare different relics relative to the selected team, and should <1>NOT</1> be used to compare different teams / LCs / eidolons!",
     "DisclaimerDescription": "Combo DMG is a tool to measure the damage of a single ability rotation within the context of a specific team. Changing the team / eidolons / light cones will change the duration of the rotation, how much energy is generated, uptime of buffs, etc. This means Combo DMG can NOT be used to determine which team is better, or which light cone is better, or measure the damage increase between eidolons. Combo DMG is only meant to compare different relics within a defined team and speed target.",
     "Header": {
-      "DowntimeWarning": "The showcase may be down for maintenance after the {{game_version}} patch, please try again later",
+      "DowntimeWarning": "The showcase will be down for maintenance after the {{game_version}} patch, there is no ETA",
       "WithVersion": "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly. (Current version {{beta_version}})",
       "WithoutVersion": "Enter your account UID to score your profile characters at level 80 & maxed traces. Log out to refresh instantly."
     },
@@ -7854,18 +7903,23 @@ export default interface Resources {
       "REFUND_NONE_FULL": "None"
     },
     "SectionTitles": {
+      "AddCharacter": "Add character",
+      "AddCharacterAndSignature": "Add character and signature",
+      "AddLightCone": "Add light cone",
       "AdditionalResources": "Additional resources",
       "Banner": "Banner",
       "Calculate": "Calculate",
       "Character": "Character",
       "Jades": "Jades",
       "LightCone": "Light Cone",
+      "MultiTarget": "Multi Target",
       "New": "New",
       "Passes": "Passes",
       "Planner": "Warp Planner",
       "Rerun": "Rerun",
       "Results": "Results",
       "Settings": "Settings",
+      "Simple": "Simple",
       "Starlight": "Starlight",
       "Strategy": "Strategy"
     },

@@ -23,7 +23,7 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabStore>((set, g
     sidebarOpen: true,
   },
   showcasePreferences: {},
-  showcaseTeamPreferenceById: {},
+  showcaseTeamPreferenceByConfig: {},
   showcaseTemporaryOptionsByCharacter: {},
   portraitColorByCharacterId: {},
   portraitSwatchesByCharacterId: {},
@@ -78,9 +78,15 @@ export const useShowcaseTabStore = createTabAwareStore<ShowcaseTabStore>((set, g
 
   setShowcasePreferences: (showcasePreferences) => set({ showcasePreferences }),
 
-  setShowcaseTeamPreference: (characterId, team) =>
+  setShowcaseTeamPreference: (characterId, configType, team) =>
     set((s) => ({
-      showcaseTeamPreferenceById: { ...s.showcaseTeamPreferenceById, [characterId]: team },
+      showcaseTeamPreferenceByConfig: {
+        ...s.showcaseTeamPreferenceByConfig,
+        [characterId]: {
+          ...s.showcaseTeamPreferenceByConfig[characterId],
+          [configType]: team,
+        },
+      },
     })),
 
   setSpdBenchmark: (characterId, spdBenchmark) =>

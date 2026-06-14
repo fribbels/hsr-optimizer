@@ -1,3 +1,6 @@
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
@@ -16,6 +19,10 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -32,8 +39,16 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_SUPPORT,
+} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -41,7 +56,10 @@ import { type CharacterConfig } from 'types/characterConfig'
 
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -52,6 +70,7 @@ export const BronyaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.FUA,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -204,6 +223,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
         ],
       },
+      [AbilityKind.BUFF]: {
+        hits: [
+          HitDefinitionBuilder.linearBuff()
+            .buffStat(StatKey.CD)
+            .sourceStat(StatKey.CD)
+            .scaling(ultCdBoostValue)
+            .flat(ultCdBoostBaseValue)
+            .build(),
+        ],
+      },
     }),
     actionModifiers: () => [],
 
@@ -227,11 +256,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_P, (m.battleStartDefBuff) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.ATK_P, (m.techniqueBuff) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TECHNIQUE))
       x.buff(StatKey.ATK_P, (m.ultBuff) ? ultAtkBoostValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
-      x.buff(StatKey.DMG_BOOST, (m.teamDmgBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (m.teamDmgBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Single target buffs
       x.buff(StatKey.SPD_P, (e >= 2 && m.e2SkillSpdBuff) ? 0.30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
-      x.buff(StatKey.DMG_BOOST, (m.skillBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (m.skillBuff) ? skillDmgBoostValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -271,14 +300,64 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.CD],
+    [Parts.Feet]: [Stats.SPD],
+    [Parts.PlanarSphere]: [Stats.HP_P, Stats.DEF_P],
+    [Parts.LinkRope]: [Stats.ERR],
+  },
+  substats: [
+    Stats.CD,
+    Stats.SPD,
+    Stats.RES,
+    Stats.HP_P,
+    Stats.DEF_P,
+  ],
+  buffStat: StatKey.CD,
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
+  relicSets: [
+    [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+    ...SPREAD_RELICS_4P_SUPPORT,
+  ],
+  ornamentSets: [
+    Sets.BrokenKeel,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
+  teammates: [
+    {
+      characterId: Phainon.id,
+      lightCone: ThusBurnsTheDawn.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cerydra.id,
+      lightCone: EpochEtchedInGoldenBlood.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
-    [Stats.DEF]: 0.25,
-    [Stats.DEF_P]: 0.25,
-    [Stats.HP]: 0.25,
-    [Stats.HP_P]: 0.25,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
     [Stats.SPD]: 1,
     [Stats.CR]: 0,
     [Stats.CD]: 1,
@@ -298,13 +377,16 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnSacerdosSet(3),
+  ],
   sortOption: SortOption.CD,
   hiddenColumns: [
     SortOption.SKILL,
     SortOption.ULT,
     SortOption.DOT,
   ],
+  supportSimulation: supportSimulation(),
 })
 
 const display = {
@@ -319,6 +401,7 @@ const display = {
 
 export const Bronya: CharacterConfig = {
   id: '1101',
+  defaultLightCone: ButTheBattleIsntOver.id,
   display,
   conditionals,
   get scoring() {

@@ -51,7 +51,7 @@ const conditionals: SetConditionals = {
   },
   p2t: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (x.getActionValueByIndex(StatKey.CR, SELF_ENTITY_INDEX) >= 0.50) {
-      x.buff(StatKey.DMG_BOOST, 0.15, x.damageType(DamageTag.ULT | DamageTag.FUA).source(Source.InertSalsotto))
+      x.buff(StatKey.BOOST, 0.15, x.damageType(DamageTag.ULT | DamageTag.FUA).source(Source.InertSalsotto))
     }
   },
   gpuBasic: () => [
@@ -62,7 +62,7 @@ const conditionals: SetConditionals = {
     ornament2p(*p_sets, SET_InertSalsotto) >= 1
     && ${containerActionVal(SELF_ENTITY_INDEX, AKey.CR, action.config)} >= 0.50
   ) {
-    ${buff.hit(HKey.DMG_BOOST, 0.15).damageType(DamageTag.ULT | DamageTag.FUA).wgsl(action, 2)}
+    ${buff.hit(HKey.BOOST, 0.15).damageType(DamageTag.ULT | DamageTag.FUA).wgsl(action, 2)}
   }
 `,
 }

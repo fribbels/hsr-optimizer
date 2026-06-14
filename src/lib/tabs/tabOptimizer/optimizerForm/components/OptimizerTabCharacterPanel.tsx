@@ -36,7 +36,7 @@ export function OptimizerTabCharacterPanel() {
   const lcOffset = lightConeMetadata?.imageOffset ?? DEFAULT_LC_IMAGE_OFFSET
 
   return (
-    <Flex direction="column" gap={cardGap}>
+    <Flex direction='column' gap={cardGap}>
       <div style={{ ...cardStyle, width: containerW, height: charCardH, position: 'relative' }}>
         <CharacterPreviewInternalImage id={optimizerTabFocusCharacter!} parentH={charCardH} />
       </div>
@@ -80,7 +80,9 @@ export function CharacterPreviewInternalImage({ id, disableClick, parentH: custo
       width={charInnerW}
       src={Assets.getCharacterPreviewById(id)}
       style={{
-        transform: `translate(${(charInnerW - customParentW) / 2 / charInnerW * -100}%, calc(${(customInnerH - customParentH) / 2 / customInnerH * -100}% + ${charVerticalOffset}px)) scale(${charZoom})`,
+        transform: `translate(${(charInnerW - customParentW) / 2 / charInnerW * -100}%, calc(${
+          (customInnerH - customParentH) / 2 / customInnerH * -100
+        }% + ${charVerticalOffset}px)) scale(${charZoom})`,
         cursor: disableClick ? '' : 'pointer',
         filter: charFilter,
       }}

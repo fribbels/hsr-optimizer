@@ -51,7 +51,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, (r.enemyCountAtkBuff) ? context.enemyCount * sValuesAtk[s] : 0, x.source(SOURCE_LC))
-      x.buff(StatKey.DMG_BOOST, (r.enemyWeaknessBreakDmgBuff) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.enemyWeaknessBreakDmgBuff) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
     },
   }
 }

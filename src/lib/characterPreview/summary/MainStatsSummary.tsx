@@ -1,4 +1,5 @@
 import { type TFunction } from 'i18next'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import {
   type MainStatParts,
   MainStatPartsArray,
@@ -28,7 +29,7 @@ type MainStatsSummaryProps = {
   simPlanarSphere?: never,
   simLinkRope?: never,
   promise: Promise<SimulationScore | null>,
-  mode: 'Benchmark' | 'Perfect',
+  mode: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
 }
 export const MainStatsSummary = memo(function MainStatsSummary({
   simBody,
@@ -78,10 +79,10 @@ const partToSelectorString = {
 
 function selector(
   part: MainStatParts,
-  mode: 'Benchmark' | 'Perfect',
+  mode: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
   t: TFunction<'common', undefined>,
 ): (result: SimulationScore | null) => ReactNode {
-  const selectorString = mode === 'Benchmark' ? 'benchmarkSim' : 'maximumSim'
+  const selectorString = mode === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim'
   return function(result: SimulationScore | null) {
     if (result === null) return null
     const stat = result[selectorString].request[partToSelectorString[part]] as MainStats

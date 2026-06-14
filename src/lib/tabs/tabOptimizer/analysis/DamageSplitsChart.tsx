@@ -272,7 +272,7 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
           type='number'
           domain={[0, maxTotal]}
           tick={{ fill: chartColor, textRendering: 'geometricPrecision', fontWeight: 300, fontSize: 13 }}
-          tickFormatter={renderThousandsK}
+          tickFormatter={(v: number) => renderThousandsK(v)}
           width={100}
         />
         <YAxis

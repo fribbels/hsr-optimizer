@@ -25,7 +25,9 @@ import { BoneCollectionsSereneDemesne } from './ornaments/BoneCollectionsSereneD
 import { BrokenKeel } from './ornaments/BrokenKeel'
 import { CelestialDifferentiator } from './ornaments/CelestialDifferentiator'
 import { CityOfConvergingStars } from './ornaments/CityOfConvergingStars'
+import { CosmicLifeSciencesInstitute } from './ornaments/CosmicLifeSciencesInstitute'
 import { DuranDynastyOfRunningWolves } from './ornaments/DuranDynastyOfRunningWolves'
+import { FallenStarAnchorage } from './ornaments/FallenStarAnchorage'
 import { FirmamentFrontlineGlamoth } from './ornaments/FirmamentFrontlineGlamoth'
 import { FleetOfTheAgeless } from './ornaments/FleetOfTheAgeless'
 import { ForgeOfTheKalpagniLantern } from './ornaments/ForgeOfTheKalpagniLantern'
@@ -139,6 +141,8 @@ const ALL_ORNAMENT_CONFIGS = [
   AmphoreusTheEternalLand,
   CityOfConvergingStars,
   PunklordeStageZero,
+  FallenStarAnchorage,
+  CosmicLifeSciencesInstitute,
 ] as const
 
 const ALL_CONFIGS = [...ALL_RELIC_CONFIGS, ...ALL_ORNAMENT_CONFIGS] as const

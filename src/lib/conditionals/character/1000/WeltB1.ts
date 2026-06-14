@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
 import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -336,7 +337,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace: Retribution - DMG boost 10% per stack when attacking Weightless, max 10 stacks
-      x.buff(StatKey.DMG_BOOST, (m.enemyWeightless) ? 0.10 * m.retributionDmgStacks : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (m.enemyWeightless) ? 0.10 * m.retributionDmgStacks : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // Talent: Weightless DEF shred 40%
       x.buff(StatKey.DEF_PEN, (m.enemyWeightless) ? 0.40 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
@@ -493,7 +494,9 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.WASTELANDER_SET,
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.SKILL | DamageTag.ADDITIONAL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,
@@ -514,6 +517,7 @@ const display = {
 
 export const WeltB1: CharacterConfig = {
   id: '1004b1',
+  defaultLightCone: InTheNameOfTheWorld.id,
   display,
   conditionals,
   get scoring() {

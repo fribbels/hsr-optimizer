@@ -88,7 +88,7 @@ CharacterPreview:
     Labels:
       CombatScore: Puntaje de combate
       CombatScoreTBD: Combate (a definir)
-      StatScore: Puntaje de atributos
+      StatScore: Mejoras de atr. sec.
       NoneScore: Ninguno
   DetailsSlider:
     Labels:
@@ -147,23 +147,19 @@ CharacterPreview:
       CombatStats: <1>Atributos de combate</1> del personaje
       Substats: Atr. sec. del personje (mín. mejoras)
       Mainstats: Atributos principales del personaje
-      Abilities: Daño de habilidad del personaje
     Benchmark:
       Header: 'Equip. del evaluador ({{score}}%)'
       CombatStats: Evaluación al 100% de <1>atributos de combate</1>
       Substats: Eval. 100% de atr. sec. (mín. mejoras)
       Mainstats: Eval. al 100% de atributos principales
-      Abilities: Evaluación al 100% de daño de habilidad
     Perfect:
       Header: 'Equip. perfecto ({{score}}%)'
       CombatStats: 200% <1>Atributos de combate</1> perfectos
       Substats: 200% Atr. sec. perfectos (máx. mejoras)
       Mainstats: 200% Atributos principales perfectos
-      Abilities: 200% Daño de habilidad perfecto
   ScoringDetails:
     Header: '¿Cómo se calcula el Puntaje DPS?'
   EST-TBP:
-    Header: Análisis del Puntaje de atributos
     RollsCard:
       Perfection: Perfección
     MetricsCard:

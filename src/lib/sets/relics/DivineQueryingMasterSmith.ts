@@ -41,7 +41,7 @@ const display = {
   conditionalType: ConditionalDataType.SELECT,
   selectionOptions: selectionOptions,
   modifiable: true,
-  defaultValue: 2,
+  defaultValue: 0,
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
@@ -54,7 +54,7 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.CD_BOOST, 0.28, x.source(Source.DivineQueryingMasterSmith))
     }
     if (value >= 2) {
-      x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
+      x.buff(StatKey.BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
     }
   },
   gpuBasic: () => [
@@ -66,7 +66,7 @@ const conditionals: SetConditionals = {
         ${buff.action(AKey.CD_BOOST, 0.28).wgsl(action, 2)}
       }
       if (setConditionals.valueDivineQueryingMasterSmith >= 2) {
-        ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 3)}
+        ${buff.action(AKey.BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 3)}
       }
     }
   `,
@@ -76,7 +76,7 @@ const conditionals: SetConditionals = {
     desc: () => '4 Piece: Divine-Querying Master Smith (+15% DMG)',
     nonstackable: true,
     effect: ({ x }) => {
-      x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
+      x.buff(StatKey.BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
     },
   }],
 }
@@ -84,8 +84,8 @@ const conditionals: SetConditionals = {
 function selectionOptions(): SelectOptionContent[] {
   return [
     { display: 'Off', value: 0, label: 'Off' },
-    { display: '1x', value: 1, label: 'DEF reduced: CD +28%' },
-    { display: '2x', value: 2, label: 'DEF reduced: CD +28% + Comburent DMG +15%' },
+    { display: 'CD', value: 1, label: 'DEF reduced: CD +28%' },
+    { display: 'CD + DMG', value: 2, label: 'DEF reduced: CD +28% + Comburent DMG +15%' },
   ]
 }
 

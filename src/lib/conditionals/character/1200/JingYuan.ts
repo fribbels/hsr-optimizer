@@ -1,6 +1,5 @@
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -44,6 +43,7 @@ import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { BeforeDawn } from 'lib/conditionals/lightcone/5star/BeforeDawn'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -91,7 +91,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.00, 2.16)
   const fuaScaling = talent(e, 0.66, 0.726)
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+
     const r = action.characterConditionals as Conditionals<typeof content>
 
     let hitMulti = 0
@@ -255,7 +261,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, (talentHitsPerAction >= 6) ? 0.25 : 0, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
       // E2 DMG boost for Basic/Skill/Ult
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && r.e2DmgBuff) ? 0.20 : 0, x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).source(SOURCE_E2))
 
       // E6 FUA vulnerability
       x.buff(StatKey.VULNERABILITY, (e >= 6) ? r.e6FuaVulnerabilityStacks * 0.12 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
@@ -378,6 +384,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.BANANA_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -394,6 +401,7 @@ const display = {
 
 export const JingYuan: CharacterConfig = {
   id: '1204',
+  defaultLightCone: BeforeDawn.id,
   display,
   conditionals,
   get scoring() {

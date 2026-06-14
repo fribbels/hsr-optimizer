@@ -1,3 +1,4 @@
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import {
   getSkeletonCount,
   getSkeletonFiles,
@@ -5,7 +6,6 @@ import {
 } from 'lib/spine/manifest'
 import { createSpineInstance } from 'lib/spine/spineEngine'
 import type { SpineInstance } from 'lib/spine/spineEngine'
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import {
   useContext,
   useEffect,
@@ -83,7 +83,10 @@ export function SpinePortrait({
       const files = getSkeletonFiles(characterId, count)
       const baseUrl = getSpineAssetBaseUrl(characterId)
 
-      createSpineInstance(canvas, baseUrl, files, abortController.signal)
+      const handleRenderError = () => {
+        if (!disposed) onUnsupportedRef.current?.()
+      }
+      createSpineInstance(canvas, baseUrl, files, abortController.signal, handleRenderError)
         .then((instance) => {
           if (disposed) {
             instance.dispose()

@@ -137,6 +137,7 @@ ReadableStats:
   Quantum DMG Boost: 'crwdns40054:0$t(gameData:Elements.Quantum)crwdne40054:0'
   Imaginary DMG Boost: 'crwdns40056:0$t(gameData:Elements.Imaginary)crwdne40056:0'
   Elation: crwdns46484:0crwdne46484:0
+  simScore: crwdns47229:0crwdne47229:0
 ShortReadableStats:
   "HP%": crwdns40058:0crwdne40058:0
   HP: crwdns40060:0crwdne40060:0

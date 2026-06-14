@@ -243,8 +243,17 @@ Characters:
     Name: Серебряный Волк ур. 999
     LongName: Серебряный Волк ур. 999
   "1507":
-    Name: Mortenax Blade
-    LongName: Mortenax Blade
+    Name: Мортенакс Блэйд
+    LongName: Мортенакс Блэйд
+  "1508":
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
+  "1509":
+    Name: Gilgamesh
+    LongName: Gilgamesh
+  "1510":
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -427,13 +436,13 @@ RelicSets:
     Description2pc: Повышает скорость на 6%.
     Description4pc: В начале боя, если скорость владельца больше или равна 120/160, повышает крит. шанс владельца на 10%/18%. Когда владелец впервые в бою использует навык Радости, повышает Радость всех союзников на 10%. Этот эффект не складывается.
   "131":
-    Name: As Navigator Isee Sees It
-    Description2pc: Increases ATK by 23%.
-    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+    Name: Взор навигатора Взираи
+    Description2pc: Повышает силу атаки владельца на 12%.
+    Description4pc: Когда владелец вступает в бой или использует навык, урон навыка и сверхспособности повышается на 18%. Эффект может складываться до 3 раз. В начале хода владельца или после использования сверхспособности снимается 1 ур. этого эффекта.
   "132":
-    Name: Divine-Querying Master Smith
-    Description2pc: Increases Max HP by 23%.
-    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
+    Name: Обращённый к небесам кузнец
+    Description2pc: Повышает макс. НР владельца на 12%.
+    Description4pc: Повышает крит. урон владельца по противникам с пониженной защитой на 28%. После того как владелец понижает защиту противника, все союзники получают статус Поддержание огня на 2 хода. Этот эффект не складывается. Наносимый союзниками со статусом Поддержание огня урон повышается на 15%. Этот эффект может сработать повторно после атаки владельца.
   "301":
     Name: Запечатывающая космос станция
     Description2pc: Повышает силу атаки владельца на 12%. Если скорость владельца выше или равна 120 ед., то его сила атаки повышается на доп. 12%.
@@ -512,6 +521,12 @@ RelicSets:
   "326":
     Name: Город тысячи звёзд
     Description2pc: При бонус-атаке повышает силу атаки владельца на 24% на 2 хода. После победы над противником повышает крит. урон всех союзников на 12% на весь бой. Этот эффект не складывается.
+  "327":
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+  "328":
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -822,7 +837,13 @@ Lightcones:
   "23058":
     Name: Пока не распустятся цветы
   "23059":
-    Name: Reforged in Hellfire
+    Name: Перерождённый в пламени
+  "23060":
+    Name: A Star That Lights the Night
+  "23061":
+    Name: Flickering Stars
+  "23062":
+    Name: I Am As You Behold
   "24000":
     Name: О падении Эона
   "24001":

@@ -475,7 +475,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
   d.xBE = a[StatKey.BE]
   d.xERR = a[StatKey.ERR]
   d.xOHB = a[StatKey.OHB]
-  d.xELEMENTAL_DMG = a[StatKey.DMG_BOOST]
+  d.xELEMENTAL_DMG = a[StatKey.BOOST]
 
   if (context) {
     const basicElementalBoostKey = ElementToBasicKeyDmgBoost[context.element]
@@ -551,7 +551,7 @@ export function formatOptimizerDisplayData(x: ComputedStatsContainer) {
     d.mxBE = x.getActionValue(StatKey.BE, memoEntity)
     d.mxERR = x.getActionValue(StatKey.ERR, memoEntity)
     d.mxOHB = x.getActionValue(StatKey.OHB, memoEntity)
-    d.mxELEMENTAL_DMG = x.getActionValue(StatKey.DMG_BOOST, memoEntity)
+    d.mxELEMENTAL_DMG = x.getActionValue(StatKey.BOOST, memoEntity)
       + x.getActionValue(ElementToStatKeyDmgBoost[context.element as ElementName], memoEntity)
     d.mxEHP = x.getActionValue(StatKey.EHP, memoEntity)
   }

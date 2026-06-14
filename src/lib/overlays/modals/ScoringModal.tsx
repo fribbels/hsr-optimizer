@@ -341,11 +341,13 @@ function ScoringModalContent({ close }: { close: () => void }) {
         <Divider
           className={classes.bottomDivider}
           label={
-            <ColorizedLinkWithIcon
-              text={t('Scoring.WeightMethodology.Header')}
-              linkIcon={true}
-              url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
-            />
+            <span style={{ fontSize: 15 }}>
+              <ColorizedLinkWithIcon
+                text={'How are substat weights used?' /* Hardcoded — label still in flux, skip i18n for now */}
+                linkIcon={true}
+                url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+              />
+            </span>
           }
           labelPosition='center'
         />

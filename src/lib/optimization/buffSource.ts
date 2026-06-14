@@ -134,6 +134,11 @@ export const Source = {
     }
   },
   NONE: { id: 'NONE', label: 'NONE', buffType: BUFF_TYPE.NONE, ability: BUFF_ABILITY.NONE } as NoneBuffSource,
-  EXTRA_COMBAT_BUFFS: { id: 'EXTRA_COMBAT_BUFFS', label: 'EXTRA_COMBAT_BUFFS', buffType: BUFF_TYPE.COMBAT_STATS, ability: BUFF_ABILITY.NONE } as ExtraCombatBuffSource,
+  EXTRA_COMBAT_BUFFS: {
+    id: 'EXTRA_COMBAT_BUFFS',
+    label: 'EXTRA_COMBAT_BUFFS',
+    buffType: BUFF_TYPE.COMBAT_STATS,
+    ability: BUFF_ABILITY.NONE,
+  } as ExtraCombatBuffSource,
   ...setsSourceExpansion,
 }

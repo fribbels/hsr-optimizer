@@ -36,8 +36,13 @@ SortOptions:
   DMGLabel: 伤害计算
   HealLabel: 治疗量计算
   ShieldLabel: 护盾值计算
+  OptimizationLabel: 优化
+  AbilityLabel: 技能
   StatLabel: 属性
   COMBO: 按连招伤害排序
+  COMBO_BUFF: 按连招增益排序
+  COMBO_HEAL: 按连招治疗量排序
+  COMBO_SHIELD: 按连招护盾量排序
   BASIC: 按普攻伤害排序
   SKILL: 按战技伤害排序
   ULT: 按终结技伤害排序
@@ -120,7 +125,7 @@ Grid:
   Of: /
   Page: 页
   PageSelectorLabel: '页面大小：'
-  Loading: 加载中...
+  Loading: 加载中
   Headers:
     Basic:
       Set: 套装
@@ -499,7 +504,7 @@ CombatBuffs:
   SPD: 速度
   SPD_P: 速度 %
   BE: 击破特攻 %
-  DMG_BOOST: 伤害增益 %
+  BOOST: 伤害提升 %
   DEF_PEN: 防御穿透 %
   RES_PEN: 伤害抗性穿透 %
   EFFECT_RES_PEN: 效果抵抗穿透 %
@@ -596,6 +601,7 @@ ComboFilter:
     UltShield: 终结技护盾值
     FuaShield: 追加攻击护盾值
     TalentShield: 天赋护盾值
+    Buff: 增益
   RotationButton: 高级技能循环
 ComboDrawer:
   NoConditionals: 无可应用的条件触发被动技能
@@ -739,6 +745,7 @@ ExpandedDataPanel:
     MEMO: 忆灵
     ADDITIONAL: 附加
     ELATION: 欢愉伤害
+    ASSIST: 助战技
     UNIQUE: 特殊
   DamageSplits:
     Title: 连招明细

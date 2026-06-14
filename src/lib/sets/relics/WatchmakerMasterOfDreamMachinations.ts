@@ -51,6 +51,7 @@ const conditionals: SetConditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.enabledWatchmakerMasterOfDreamMachinations && !x.config.teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations]) {
       x.buff(StatKey.BE, 0.30, x.targets(TargetTag.FullTeam).source(Source.WatchmakerMasterOfDreamMachinations))
+      x.buff(StatKey.BOOST, 0.30, x.outputBuff(StatKey.BE).source(Source.WatchmakerMasterOfDreamMachinations))
     }
   },
   gpuBasic: () => [

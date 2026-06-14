@@ -29,15 +29,18 @@ import {
   SHINE_PRESET,
   ShowcasePreset,
 } from 'lib/characterPreview/debugVisualConfigStore'
-import { Parts, Sets, Stats } from 'lib/constants/constants'
+import {
+  Parts,
+  Sets,
+  Stats,
+} from 'lib/constants/constants'
 import {
   cardTotalW,
-  innerW,
   newLcHeight,
   newLcMargin,
   parentH,
   parentW,
-  simScoreInnerW,
+  portraitInnerW,
 } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
 import { computeLcTransform } from 'lib/rendering/lcImageTransform'
@@ -55,15 +58,21 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Character, CharacterId } from 'types/character'
-import type { Relic } from 'types/relic'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import { type LightConeId } from 'types/lightCone'
-import type { ImageCenter, ShowcaseDisplayDimensionsOverride } from 'types/metadata'
+import type {
+  ImageCenter,
+  ShowcaseDisplayDimensionsOverride,
+} from 'types/metadata'
+import type { Relic } from 'types/relic'
 
 // =========================================== Constants ===========================================
 
 const DEFAULT_CENTER: ImageCenter = { x: 1024, y: 1024, z: 1 }
-const DPS_CONTAINER_H = parentH - newLcHeight - newLcMargin // 720
+const PORTRAIT_H = parentH - newLcHeight - newLcMargin // 706
 
 // =========================================== Shared Hook ===========================================
 
@@ -155,8 +164,8 @@ function Crosshairs({ width, height, visible }: { width: number, height: number,
   )
 }
 
-function formatCharConfigString(center: ImageCenter) {
-  return `imageCenter: { x: ${Math.round(center.x)}, y: ${Math.round(center.y)}, z: ${Number(center.z.toFixed(2))} }`
+function formatCharConfigString(center: ImageCenter, key: string = 'imageCenter') {
+  return `${key}: { x: ${Math.round(center.x)}, y: ${Math.round(center.y)}, z: ${Number(center.z.toFixed(2))} }`
 }
 
 // =========================================== Shared Controls ===========================================
@@ -255,7 +264,7 @@ function CharacterEditor({ label, selectedCharId, center, setCenter, clipboard, 
   const { handleMouseDown } = useDragInteraction(containerRef, onDrag, onZoom)
 
   const portraitStyle = computePortraitStyle(center, tempInnerW, containerH)
-  const configString = formatCharConfigString(center)
+  const configString = formatCharConfigString(center, mode === 'spine' ? 'spineCenter' : 'imageCenter')
 
   const handleReset = () => {
     if (!selectedCharId) return
@@ -570,8 +579,6 @@ function CharacterPreviewEditor() {
 
   // Visual settings
   const [preset, setPreset] = useState<ShowcasePreset>(ShowcasePreset.SHINE)
-  const [dpsScoreMode, setDpsScoreMode] = useState(false)
-
   const characterOptions = useMemo(buildCharacterOptions, [])
   const lightConeOptions = useMemo(buildLightConeOptions, [])
 
@@ -603,8 +610,7 @@ function CharacterPreviewEditor() {
   const editorOverrides: ShowcaseDisplayDimensionsOverride = useMemo(() => ({
     charCenter: imageCenter,
     backgroundCenterOffset: backgroundOffset,
-    forceSimScoreLayout: dpsScoreMode,
-  }), [imageCenter, backgroundOffset, dpsScoreMode])
+  }), [imageCenter, backgroundOffset])
 
   // Track which zone is being dragged
   const draggingRef = useRef(false)
@@ -631,7 +637,7 @@ function CharacterPreviewEditor() {
       lastPosRef.current = { x: e.clientX, y: e.clientY }
 
       if (dragZoneRef.current === 'portrait') {
-        const dragInnerW = dpsScoreMode ? simScoreInnerW : innerW
+        const dragInnerW = portraitInnerW
         setImageCenter((prev) => ({
           ...prev,
           x: prev.x - dx * 2 * 1024 / (prev.z * dragInnerW),
@@ -654,7 +660,7 @@ function CharacterPreviewEditor() {
 
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
-  }, [dpsScoreMode])
+  }, [])
 
   // Zoom interaction (scroll) - portrait zoom vs background zoom based on cursor
   useEffect(() => {
@@ -687,8 +693,12 @@ function CharacterPreviewEditor() {
 
   // Config strings with proper character name
   const characterName = selectedCharId ? t(`${selectedCharId}.LongName`) : 'Unknown'
-  const imageCenterString = `imageCenter: { x: ${Math.round(imageCenter.x)}, y: ${Math.round(imageCenter.y)}, z: ${Number(imageCenter.z.toFixed(2))} }, // ${characterName}`
-  const backgroundOffsetString = `backgroundCenterOffset: { x: ${Math.round(backgroundOffset.x)}, y: ${Math.round(backgroundOffset.y)}, z: ${Number(backgroundOffset.z.toFixed(2))} }, // ${characterName}`
+  const imageCenterString = `imageCenter: { x: ${Math.round(imageCenter.x)}, y: ${Math.round(imageCenter.y)}, z: ${
+    Number(imageCenter.z.toFixed(2))
+  } }, // ${characterName}`
+  const backgroundOffsetString = `backgroundCenterOffset: { x: ${Math.round(backgroundOffset.x)}, y: ${Math.round(backgroundOffset.y)}, z: ${
+    Number(backgroundOffset.z.toFixed(2))
+  } }, // ${characterName}`
 
   const handleResetImageCenter = () => {
     if (!selectedCharId) return
@@ -735,66 +745,79 @@ function CharacterPreviewEditor() {
             { label: <IconTree size={16} />, value: ShowcasePreset.NATURAL },
           ]}
         />
-        <SegmentedControl
-          size='xs'
-          value={dpsScoreMode ? 'dps' : 'full'}
-          onChange={(v) => setDpsScoreMode(v === 'dps')}
-          data={[
-            { label: 'Full', value: 'full' },
-            { label: 'DPS Score', value: 'dps' },
-          ]}
-        />
       </Flex>
 
       {/* Card preview */}
-      {!selectedCharId || !mockCharacter ? (
-        <div
-          style={{
-            width: cardTotalW,
-            height: parentH,
-            border: '1px solid #555',
-            borderRadius: 6,
-            background: '#1a1a2e',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#888',
-          }}
-        >
-          Select a character to preview
-        </div>
-      ) : (
-        <div
-          ref={containerRef}
-          style={{
-            position: 'relative',
-            cursor: 'grab',
-            borderRadius: 8,
-            width: cardTotalW,
-          }}
-          onMouseDown={handleMouseDown}
-        >
-          <div style={{ pointerEvents: 'none' }}>
-            <CharacterPreview
-              id='metadata-preview'
-              character={mockCharacter}
-              source={ShowcaseSource.BUILDS_MODAL}
-              savedBuildOverride={null}
-              forceDebug={true}
-              debugVisualConfig={effectiveVisualConfig}
-              editorOverrides={editorOverrides}
-            />
+      {!selectedCharId || !mockCharacter
+        ? (
+          <div
+            style={{
+              width: cardTotalW,
+              height: parentH,
+              border: '1px solid #555',
+              borderRadius: 6,
+              background: '#1a1a2e',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#888',
+            }}
+          >
+            Select a character to preview
           </div>
-        </div>
-      )}
+        )
+        : (
+          <div
+            ref={containerRef}
+            style={{
+              position: 'relative',
+              cursor: 'grab',
+              borderRadius: 8,
+              width: cardTotalW,
+            }}
+            onMouseDown={handleMouseDown}
+          >
+            <div style={{ pointerEvents: 'none' }}>
+              <CharacterPreview
+                id='metadata-preview'
+                character={mockCharacter}
+                source={ShowcaseSource.BUILDS_MODAL}
+                savedBuildOverride={null}
+                forceDebug={true}
+                debugVisualConfig={effectiveVisualConfig}
+                editorOverrides={editorOverrides}
+              />
+            </div>
+          </div>
+        )}
 
       {/* Image center controls */}
       <Flex direction='column' gap={8}>
         <Text size='sm' fw={600}>Image Center (Portrait) — drag on portrait to adjust</Text>
         <Flex gap={8} align='flex-end'>
-          <NumberInput label='x' value={Math.round(imageCenter.x)} onChange={(v) => setImageCenter((c) => ({ ...c, x: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
-          <NumberInput label='y' value={Math.round(imageCenter.y)} onChange={(v) => setImageCenter((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
-          <NumberInput label='z' value={Number(imageCenter.z.toFixed(2))} onChange={(v) => setImageCenter((c) => ({ ...c, z: Number(v) || 1 }))} step={0.01} decimalScale={2} style={{ width: 90 }} size='xs' />
+          <NumberInput
+            label='x'
+            value={Math.round(imageCenter.x)}
+            onChange={(v) => setImageCenter((c) => ({ ...c, x: Number(v) || 0 }))}
+            style={{ width: 90 }}
+            size='xs'
+          />
+          <NumberInput
+            label='y'
+            value={Math.round(imageCenter.y)}
+            onChange={(v) => setImageCenter((c) => ({ ...c, y: Number(v) || 0 }))}
+            style={{ width: 90 }}
+            size='xs'
+          />
+          <NumberInput
+            label='z'
+            value={Number(imageCenter.z.toFixed(2))}
+            onChange={(v) => setImageCenter((c) => ({ ...c, z: Number(v) || 1 }))}
+            step={0.01}
+            decimalScale={2}
+            style={{ width: 90 }}
+            size='xs'
+          />
           <Button size='xs' variant='subtle' onClick={handleResetImageCenter}>Reset</Button>
         </Flex>
         <Flex gap={8} align='center'>
@@ -813,9 +836,29 @@ function CharacterPreviewEditor() {
       <Flex direction='column' gap={8}>
         <Text size='sm' fw={600}>Background Center Offset — drag outside portrait to adjust, scroll to zoom</Text>
         <Flex gap={8} align='flex-end'>
-          <NumberInput label='x' value={Math.round(backgroundOffset.x)} onChange={(v) => setBackgroundOffset((c) => ({ ...c, x: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
-          <NumberInput label='y' value={Math.round(backgroundOffset.y)} onChange={(v) => setBackgroundOffset((c) => ({ ...c, y: Number(v) || 0 }))} style={{ width: 90 }} size='xs' />
-          <NumberInput label='z' value={Number(backgroundOffset.z.toFixed(2))} onChange={(v) => setBackgroundOffset((c) => ({ ...c, z: Number(v) || 0 }))} step={0.01} decimalScale={2} style={{ width: 90 }} size='xs' />
+          <NumberInput
+            label='x'
+            value={Math.round(backgroundOffset.x)}
+            onChange={(v) => setBackgroundOffset((c) => ({ ...c, x: Number(v) || 0 }))}
+            style={{ width: 90 }}
+            size='xs'
+          />
+          <NumberInput
+            label='y'
+            value={Math.round(backgroundOffset.y)}
+            onChange={(v) => setBackgroundOffset((c) => ({ ...c, y: Number(v) || 0 }))}
+            style={{ width: 90 }}
+            size='xs'
+          />
+          <NumberInput
+            label='z'
+            value={Number(backgroundOffset.z.toFixed(2))}
+            onChange={(v) => setBackgroundOffset((c) => ({ ...c, z: Number(v) || 0 }))}
+            step={0.01}
+            decimalScale={2}
+            style={{ width: 90 }}
+            size='xs'
+          />
           <Button size='xs' variant='subtle' onClick={handleResetBackgroundOffset}>Reset</Button>
         </Flex>
         <Flex gap={8} align='center'>
@@ -875,50 +918,26 @@ export function ImageCenterEditorSection() {
 
       <Flex gap={40} wrap='nowrap' align='center'>
         <CharacterEditor
-          label='Full View - Static'
+          label='Static'
           selectedCharId={selectedCharId}
           center={portraitCenter}
           setCenter={setPortraitCenter}
           clipboard={clipboard}
           setClipboard={setClipboard}
-          tempInnerW={innerW}
-          containerH={parentH}
+          tempInnerW={portraitInnerW}
+          containerH={PORTRAIT_H}
           mode='static'
           showCrosshairs={showCrosshairs}
         />
         <CharacterEditor
-          label='DPS Score - Static'
-          selectedCharId={selectedCharId}
-          center={portraitCenter}
-          setCenter={setPortraitCenter}
-          clipboard={clipboard}
-          setClipboard={setClipboard}
-          tempInnerW={simScoreInnerW}
-          containerH={DPS_CONTAINER_H}
-          mode='static'
-          showCrosshairs={showCrosshairs}
-        />
-        <CharacterEditor
-          label='Full View - Spine'
+          label='Spine'
           selectedCharId={selectedCharId}
           center={spineCenter}
           setCenter={setSpineCenter}
           clipboard={clipboard}
           setClipboard={setClipboard}
-          tempInnerW={innerW}
-          containerH={parentH}
-          mode='spine'
-          showCrosshairs={showCrosshairs}
-        />
-        <CharacterEditor
-          label='DPS Score - Spine'
-          selectedCharId={selectedCharId}
-          center={spineCenter}
-          setCenter={setSpineCenter}
-          clipboard={clipboard}
-          setClipboard={setClipboard}
-          tempInnerW={simScoreInnerW}
-          containerH={DPS_CONTAINER_H}
+          tempInnerW={portraitInnerW}
+          containerH={PORTRAIT_H}
           mode='spine'
           showCrosshairs={showCrosshairs}
         />

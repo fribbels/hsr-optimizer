@@ -1,10 +1,8 @@
 import type { Relic } from 'types/relic'
-import { scoreToRating } from './scoreFormatting'
-import { toFixed1 } from './scoringConstants'
+import { pctToRating } from './scoreFormatting'
 import {
-  computeMainStatScore,
-  mainStatBonus,
-  normalizeDisplayScore,
+  hasMainStat,
+  mainStatWeight,
 } from './substatScoring'
 import type {
   RelicScoringResult,
@@ -16,7 +14,6 @@ export function scoreCurrentRelic(
   meta: ScorerMetadata,
   idealScore: number,
 ): RelicScoringResult {
-  const bonus = mainStatBonus(relic.part, relic.main.stat, meta)
   const contributions = meta.contributions
 
   let rawScore = 0
@@ -24,15 +21,13 @@ export function scoreCurrentRelic(
     rawScore += sub.value * contributions[sub.stat]
   }
 
-  const score = normalizeDisplayScore(rawScore, idealScore, bonus)
-  const msScore = computeMainStatScore(relic, meta)
-  const rating = scoreToRating(score, relic.grade, relic.part, msScore)
+  const percentScore = idealScore === Infinity ? 0 : rawScore / idealScore * 100
+  const hasCorrectMain = !hasMainStat(relic.part) || mainStatWeight(relic.part, relic.main.stat, meta) > 0
+  const rating = pctToRating(percentScore, relic.grade, relic.part, hasCorrectMain)
 
   return {
-    score: toFixed1(score),
-    scoreNumber: score,
+    percentScore,
     rating,
-    mainStatScore: msScore,
     part: relic.part,
     meta,
   }

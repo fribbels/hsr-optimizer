@@ -90,7 +90,7 @@ CharacterPreview:
     Labels:
       CombatScore: В бою
       CombatScoreTBD: В бою (недоступно)
-      StatScore: Статы персонажа
+      StatScore: Проки Статов
       NoneScore: Нет
   DetailsSlider:
     Labels:
@@ -151,23 +151,19 @@ CharacterPreview:
       CombatStats: Статы <1>с командой в бою</1>
       Substats: Распределение статов в сборке
       Mainstats: Основные статы реликвий
-      Abilities: Урон способностей персонажа
     Benchmark:
       Header: 'Тестовая сборка ({{score}}%)'
       CombatStats: Тестовые статы (100%) <1>с командой в бою</1> 
       Substats: Распределение статов в сборке 100%
       Mainstats: Основные статы реликвий в сборке 100%
-      Abilities: Урон способностей в сборке 100%
     Perfect:
       Header: 'Идеальная сборка ({{score}}%)'
       CombatStats: Тестовые статы (200%) <1>с командой в бою</1> 
       Substats: Распределение статов в сборке 200%
       Mainstats: Основные статы реликвий в сборке 200%
-      Abilities: Урон способностей в сборке 200%
   ScoringDetails:
     Header: Как рассчитывается рейтинг DPS?
   EST-TBP:
-    Header: Оценка реликвий
     RollsCard:
       Perfection: Идеал
     MetricsCard:

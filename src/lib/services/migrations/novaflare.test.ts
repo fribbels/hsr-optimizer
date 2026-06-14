@@ -1,9 +1,19 @@
-import type { Character, CharacterId } from 'types/character'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import type { CustomImageConfig } from 'types/customImage'
-import type { Form, Teammate } from 'types/form'
+import type {
+  Form,
+  Teammate,
+} from 'types/form'
 import type { DBMetadataCharacter } from 'types/metadata'
 import type { Relic } from 'types/relic'
-import type { SavedBuild, SavedTeammate, TeamTuple } from 'types/savedBuild'
+import type {
+  SavedBuild,
+  SavedTeammate,
+  TeamTuple,
+} from 'types/savedBuild'
 import type { HsrOptimizerSaveFormat } from 'types/store'
 import {
   beforeEach,
@@ -15,12 +25,14 @@ import {
 import { migrateNovaflare } from './novaflare'
 
 vi.mock('lib/optimization/defaultForm', () => ({
-  getDefaultForm: vi.fn(({ id }: { id: string }) => ({
-    characterId: id,
-    teammate0: { characterId: '' },
-    teammate1: { characterId: '' },
-    teammate2: { characterId: '' },
-  }) as unknown as Form),
+  getDefaultForm: vi.fn(({ id }: { id: string }) =>
+    ({
+      characterId: id,
+      teammate0: { characterId: '' },
+      teammate1: { characterId: '' },
+      teammate2: { characterId: '' },
+    }) as unknown as Form
+  ),
 }))
 
 function makeCharacter(id: string, overrides: Partial<Character> = {}): Character {

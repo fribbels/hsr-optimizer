@@ -1,6 +1,5 @@
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -43,6 +42,7 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { UnderTheBlueSky } from 'lib/conditionals/lightcone/4star/UnderTheBlueSky'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
@@ -101,11 +101,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.50, 2.70)
   const fuaScaling = talent(e, 0.90, 0.99)
 
+  const ultHitMulti = ashblazingMulti([single(1.00)])
+
   const hitMultiByFuaHits: NumberToNumberMap = {
     0: 0,
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
     2: ASHBLAZING_ATK_STACK * (1 * 1 / 2 + 2 * 1 / 2), // 0.09
     3: ASHBLAZING_ATK_STACK * (1 * 1 / 3 + 2 * 1 / 3 + 3 * 1 / 3), // 0.12
+  }
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    const r = action.characterConditionals as Conditionals<typeof content>
+    return hitMultiByFuaHits[r.fuaHits]
   }
 
   const defaults = {
@@ -225,13 +235,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.BE, (e >= 4 && r.e4BeBuff) ? 0.40 : 0, x.source(SOURCE_E4))
 
       // ULT: Toughness reduction DMG boost
-      x.buff(StatKey.DMG_BOOST, r.toughnessReductionDmgBoost, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
+      x.buff(StatKey.BOOST, r.toughnessReductionDmgBoost, x.damageType(DamageTag.ULT).source(SOURCE_ULT))
 
       // Trace: ULT DMG boost when enemy toughness < 50%
-      x.buff(StatKey.DMG_BOOST, (r.enemyToughness50) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemyToughness50) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
 
       // E1: FUA DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 1) ? 0.40 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1) ? 0.40 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E1))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -239,9 +249,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Trace: BE to DMG boost (max 240%)
       const be = x.getActionValue(StatKey.BE, XueyiEntities.Xueyi)
-      x.buff(StatKey.DMG_BOOST, (r.beToDmgBoost) ? Math.min(2.40, be) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.beToDmgBoost) ? Math.min(2.40, be) : 0, x.source(SOURCE_TRACE))
 
-      boostAshblazingAtkContainer(x, action, hitMultiByFuaHits[r.fuaHits])
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -250,9 +260,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       return `
 if (${wgslTrue(r.beToDmgBoost)}) {
   let dmgBuff = min(2.40, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)});
-  ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
+  ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
-      ` + gpuBoostAshblazingAtkContainer(hitMultiByFuaHits[r.fuaHits], action)
+      ` + gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -367,6 +377,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(3),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -383,6 +394,7 @@ const display = {
 
 export const Xueyi: CharacterConfig = {
   id: '1214',
+  defaultLightCone: UnderTheBlueSky.id,
   display,
   conditionals,
   get scoring() {

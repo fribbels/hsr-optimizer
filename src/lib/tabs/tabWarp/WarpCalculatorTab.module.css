@@ -1,3 +1,9 @@
+.plannerShell {
+  max-width: 950px;
+  width: 100%;
+  padding-bottom: 96px;
+}
+
 .warpTable {
   background-color: var(--layer-2);
   box-shadow: var(--shadow-card);
@@ -16,9 +22,14 @@
   padding-top: 6px;
   padding-bottom: 6px;
   font-size: 16px;
+  border-bottom: 1px solid var(--border-default);
 }
 
 .warpRow:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.warpTableNoStripe .warpRow td {
   background-color: rgba(255, 255, 255, 0.02);
 }
 
@@ -29,10 +40,10 @@
 
 .goalBarOverlay {
   height: 100%;
-  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
+  right: 5px;
 }
 
 .goalBar {
@@ -58,4 +69,11 @@
 
 .warpRowDisabled td {
   opacity: 0.10;
+}
+
+/* Settings grid */
+.settingsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
 }

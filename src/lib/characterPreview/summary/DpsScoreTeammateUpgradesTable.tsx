@@ -1,15 +1,13 @@
-import {
-  ScoringSelector,
-  useSimScoringContext,
-} from 'lib/characterPreview/SimScoringContext'
+import { useSimUpgrades } from 'lib/characterPreview/useSimScoringHooks'
 import { defaultGap } from 'lib/constants/constantsUi'
 import { TeammateUpgrades } from 'lib/tabs/tabOptimizer/analysis/TeammateUpgrades'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { ScoringConfigType } from 'types/metadata'
 
-export const DpsScoreTeammateUpgradesTable = memo(function DpsScoreTeammateUpgradesTable() {
+export const DpsScoreTeammateUpgradesTable = memo(function DpsScoreTeammateUpgradesTable({ configType }: { configType: ScoringConfigType }) {
   const { t } = useTranslation('charactersTab')
-  const result = useSimScoringContext(ScoringSelector.Upgrades)
+  const result = useSimUpgrades(configType)
 
   if (!result) return null
 
@@ -21,7 +19,7 @@ export const DpsScoreTeammateUpgradesTable = memo(function DpsScoreTeammateUpgra
       <TeammateUpgrades
         groupedUpgrades={result.teammateOrnamentUpgradeResults}
         baseSimScore={result.originalSimScore}
-        variant="characters"
+        variant='characters'
       />
     </div>
   )

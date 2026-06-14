@@ -1,6 +1,6 @@
 .ruler {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   --color-1: #FF6355dd;
   --color-2: #faf742dd;
   --color-3: #b0fa42dd;

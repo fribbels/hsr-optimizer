@@ -9,6 +9,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -194,7 +195,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Talent - DMG boost for Basic/Skill/Ult against Burdened enemy
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (m.targetBurdenActive) ? talentDmgBoostValue : 0,
         x.damageType(DamageTag.BASIC | DamageTag.SKILL | DamageTag.ULT).targets(TargetTag.FullTeam).source(SOURCE_TALENT),
       )
@@ -282,6 +283,7 @@ const display = {
 
 export const Hanya: CharacterConfig = {
   id: '1215',
+  defaultLightCone: DanceDanceDance.id,
   display,
   conditionals,
   get scoring() {

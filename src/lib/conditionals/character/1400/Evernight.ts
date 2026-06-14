@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
@@ -364,10 +365,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, (r.talentMemoCdBuff) ? talentCdScaling : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TALENT))
 
       // Enhanced state DMG boost (self and memosprite)
-      x.buff(StatKey.DMG_BOOST, (r.enhancedState) ? ultDmgBoostScaling : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_ULT))
+      x.buff(StatKey.BOOST, (r.enhancedState) ? ultDmgBoostScaling : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_ULT))
 
       // Memo talent DMG boost (self and memosprite)
-      x.buff(StatKey.DMG_BOOST, (r.memoTalentDmgBuff) ? memoTalentDmgBoost : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO))
+      x.buff(StatKey.BOOST, (r.memoTalentDmgBuff) ? memoTalentDmgBoost : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO))
 
       // E2 CD buff (self and memosprite)
       x.buff(StatKey.CD, (e >= 2 && r.e2CdBuff) ? 0.40 : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E2))
@@ -380,7 +381,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.198 : 0.18)
         : 0
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (r.cyreneSpecialEffect) ? cyreneMemoSkillDmgBuff : 0,
         x.actionKind(AbilityKind.MEMO_SKILL).target(EvernightEntities.Evey).source(Source.odeTo(Evernight.id)),
       )
@@ -643,6 +644,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.BANANA_SET,
   ],
+  defaultDamageType: DamageTag.MEMO,
   sortOption: SortOption.MEMO_SKILL,
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
@@ -660,6 +662,7 @@ const display = {
 
 export const Evernight: CharacterConfig = {
   id: '1413',
+  defaultLightCone: ToEvernightsStars.id,
   display,
   conditionals,
   get scoring() {

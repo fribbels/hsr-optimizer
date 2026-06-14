@@ -12,6 +12,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -33,7 +34,8 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_ULT,
-  END_ULT,
+  DEFAULT_UNIQUE,
+  END_FUA,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   WHOLE_BASIC,
@@ -64,13 +66,16 @@ import {
 export const TribbieEntities = createEnum('Tribbie')
 export const TribbieAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
+  AbilityKind.SKILL,
   AbilityKind.ULT,
   AbilityKind.FUA,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Tribbie.Content')
+  const tUnique = wrappedFixedT(withContent).get(null, 'conditionals', 'Common.AdditionalTickCoefficient')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -101,6 +106,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultZone: true,
     alliesMaxHp: 25000,
     talentFuaStacks: 3,
+    uniqueTickCoefficient: 8,
     cyreneSpecialEffect: true,
     e1TrueDmg: true,
     e2AdditionalDmg: true,
@@ -147,6 +153,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: t('talentFuaStacks.content'),
       min: 0,
       max: 3,
+    },
+    uniqueTickCoefficient: {
+      id: 'uniqueTickCoefficient',
+      formItem: 'slider',
+      text: tUnique('Text'),
+      content: tUnique('Content'),
+      min: 0,
+      max: 30,
+      percent: true,
     },
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
@@ -229,7 +244,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .hpScaling(basicScaling)
               .toughnessDmg(10)
               .build(),
-            // Additional damage from ultZone (HP-based)
             ...(
               (totalAdditionalScaling > 0)
                 ? [
@@ -242,6 +256,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             ),
           ],
         },
+        [AbilityKind.SKILL]: {
+          hits: [],
+        },
         [AbilityKind.ULT]: {
           hits: [
             HitDefinitionBuilder.standardUlt()
@@ -249,7 +266,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .hpScaling(ultScaling)
               .toughnessDmg(20)
               .build(),
-            // Additional damage from ultZone (HP-based)
             ...(
               (totalAdditionalScaling > 0)
                 ? [
@@ -269,13 +285,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .hpScaling(talentScaling)
               .toughnessDmg(5)
               .build(),
-            // Additional damage from ultZone (HP-based)
             ...(
               (totalAdditionalScaling > 0)
                 ? [
                   HitDefinitionBuilder.standardAdditional()
                     .damageElement(ElementTag.Quantum)
                     .hpScaling(totalAdditionalScaling)
+                    .build(),
+                ]
+                : []
+            ),
+          ],
+        },
+        [AbilityKind.UNIQUE]: {
+          hits: [
+            ...(
+              (totalAdditionalScaling > 0)
+                ? [
+                  HitDefinitionBuilder.standardAdditional()
+                    .damageElement(ElementTag.Quantum)
+                    .hpScaling(totalAdditionalScaling)
+                    .tickCoefficient(r.uniqueTickCoefficient)
                     .build(),
                 ]
                 : []
@@ -295,10 +325,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       // Elemental DMG boost from talent stacks
-      x.buff(StatKey.DMG_BOOST, r.talentFuaStacks * 0.72, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, r.talentFuaStacks * 0.72, x.source(SOURCE_TRACE))
 
       // E6 FUA DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.e6FuaScaling) ? 7.29 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.e6FuaScaling) ? 7.29 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
 
       // HP buff from ultZone based on allies' max HP
       x.buff(StatKey.HP, (r.ultZone) ? 0.09 * r.alliesMaxHp : 0, x.source(SOURCE_TRACE))
@@ -332,7 +362,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
   }
 }
 
@@ -363,16 +392,13 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
+    START_SKILL,
     DEFAULT_ULT,
-    DEFAULT_FUA,
-    DEFAULT_FUA,
-    WHOLE_BASIC,
-    DEFAULT_FUA,
-    DEFAULT_ULT,
-    DEFAULT_FUA,
+    END_FUA,
     WHOLE_BASIC,
     DEFAULT_FUA,
     DEFAULT_FUA,
+    DEFAULT_UNIQUE,
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
@@ -447,6 +473,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [],
   simulation: simulation(),
@@ -463,6 +490,7 @@ const display = {
 
 export const Tribbie: CharacterConfig = {
   id: '1403',
+  defaultLightCone: IfTimeWereAFlower.id,
   display,
   conditionals,
   get scoring() {

@@ -9,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
@@ -104,7 +105,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const arcanaStackLimit = e >= 6 ? 80 : 50
 
   const defaults = {
-    dotTickCoefficient: 2,
+    tickCoefficient: 2,
     skillDefShred: true,
     epiphanyDebuff: true,
     arcanaStacks: arcanaStackLimit,
@@ -152,8 +153,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('Content.ehrToDmgBoost.text'),
       content: t('Content.ehrToDmgBoost.content', {}),
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -250,7 +251,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Wind)
               .damageType(DamageTag.DOT)
               .atkScaling(dotScaling + arcanaStackMultiplier * r.arcanaStacks)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },
@@ -286,14 +287,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.DMG_BOOST, t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, t.ehrToDmgBoost ? Math.min(0.72, 0.60 * t.combatEhr) : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
       const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
-      x.buff(StatKey.DMG_BOOST, (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * ehrValue) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.ehrToDmgBoost) ? Math.min(0.72, 0.60 * ehrValue) : 0, x.source(SOURCE_TRACE))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -301,7 +302,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       return wgsl`
 if (${wgslTrue(r.ehrToDmgBoost)}) {
   let dmgBuff = min(0.72, 0.60 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)});
-  ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
+  ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
       `
     },
@@ -413,7 +414,9 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.PRISONER_SET,
+    PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [
     SortOption.FUA,
@@ -432,6 +435,7 @@ const display = {
 
 export const BlackSwanB1: CharacterConfig = {
   id: '1307b1',
+  defaultLightCone: ReforgedRemembrance.id,
   display,
   conditionals,
   get scoring() {

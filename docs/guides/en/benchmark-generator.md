@@ -15,7 +15,7 @@ team setups will change the rotation which invalidates any damage comparisons.
 
 These benchmark builds are generated following the DPS score ruleset:
 
-- https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/dps-score.md#how-is-it-calculated
+- https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmarks.md#how-is-it-calculated
 
 In summary:
 

@@ -56,7 +56,7 @@ const pioneerSetIndexToCd: Record<number, number> = {
 const conditionals: SetConditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-      x.buff(StatKey.DMG_BOOST, 0.12, x.source(Source.PioneerDiverOfDeadWaters))
+      x.buff(StatKey.BOOST, 0.12, x.source(Source.PioneerDiverOfDeadWaters))
     }
   },
   p4c: (c: BasicStatsArray, context: OptimizerContext) => {
@@ -73,7 +73,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
-      ${buff.action(AKey.DMG_BOOST, 0.12).wgsl(action, 2)}
+      ${buff.action(AKey.BOOST, 0.12).wgsl(action, 2)}
       if (relic4p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1) {
         ${buff.action(AKey.CD_BOOST, `getPioneerSetValue(setConditionals.valuePioneerDiverOfDeadWaters)`).wgsl(action, 3)}
         if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {

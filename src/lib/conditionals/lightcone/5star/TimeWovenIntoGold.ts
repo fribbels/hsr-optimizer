@@ -64,7 +64,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
 
       x.buff(StatKey.CD, r.brocadeStacks * sValuesCd[s], x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_LC))
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (r.brocadeStacks >= 6 && r.maxStacksBasicDmgBoost) ? r.brocadeStacks * sValuesBasicDmg[s] : 0,
         x.damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).source(SOURCE_LC),
       )

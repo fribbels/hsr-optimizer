@@ -5,6 +5,11 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -13,6 +18,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -89,6 +95,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E6,
   } = Source.character(Hysilens.id)
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
   const basicScaling = basic(e, 1.00, 1.10)
 
   const skillScaling = skill(e, 1.40, 1.54)
@@ -104,7 +112,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const maxUltDotInstances = e >= 6 ? 12 : 8
 
   const defaults = {
-    dotTickCoefficient: 1.25,
+    tickCoefficient: 1.25,
     skillVulnerability: true,
     ultZone: true,
     ultDotStacks: maxUltDotInstances,
@@ -164,8 +172,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('Content.cyreneSpecialEffect.text'),
       content: t('Content.cyreneSpecialEffect.content'),
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -286,31 +294,31 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Fire)
               .atkScaling(actualTalentDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Wind)
               .atkScaling(actualTalentDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Lightning)
               .atkScaling(actualTalentDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
               .atkScaling(actualTalentDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
             HitDefinitionBuilder.standardDot()
               .dotBaseChance(1.0)
               .damageElement(ElementTag.Physical)
               .atkScaling(actualUltDot)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },
@@ -331,13 +339,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const cyreneDmgBuff = cyreneActionExists(action)
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 1.32 : 1.20)
         : 0
-      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.source(Source.odeTo(Hysilens.id)))
+      x.buff(StatKey.BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.source(Source.odeTo(Hysilens.id)))
     },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(
-        StatKey.DMG_BOOST,
+        StatKey.BOOST,
         (e >= 2)
           ? Math.max(0, Math.min(0.90, 0.15 * Math.floor(precisionRound((t.e2TeammateEhr - 0.60) / 0.10))))
           : 0,
@@ -362,7 +370,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ehrValue = x.getActionValue(StatKey.EHR, HysilensEntities.Hysilens)
       const ehrBoost = (r.ehrToDmg) ? Math.max(0, Math.min(0.90, 0.15 * floorSafe((ehrValue - 0.60) / 0.10))) : 0
 
-      x.buff(StatKey.DMG_BOOST, ehrBoost, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, ehrBoost, x.source(SOURCE_TRACE))
+
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -370,9 +380,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       return `
 if (${wgslTrue(r.ehrToDmg)}) {
   let dmgBuff = min(0.90, 0.15 * floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} - 0.60) / 0.10));
-  ${buff.action(AKey.DMG_BOOST, 'dmgBuff').wgsl(action)}
+  ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
-`
+` + gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }
@@ -483,7 +493,10 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.PRISONER_SET,
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnMortenaxAshblazingSet(5),
+    PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [SortOption.FUA],
   simulation: simulation(),
@@ -500,6 +513,7 @@ const display = {
 
 export const Hysilens: CharacterConfig = {
   id: '1410',
+  defaultLightCone: WhyDoesTheOceanSing.id,
   display,
   conditionals,
   get scoring() {

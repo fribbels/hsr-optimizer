@@ -6,7 +6,7 @@ Scoring:
     AddRelicSetPlaceholder: 添加遗器套装
     AddOrnamentSetPlaceholder: 添加饰品套装
   WeightMethodology:
-    Header: 属性评分是如何计算的？
+    Header: 副词条权重说明
   Footer:
     Reset: 重置为默认
     ResetAll: 重置所有角色

@@ -62,7 +62,6 @@ Relics:
   Title: Reliques
   p1: >-
     Remarque : Le potentiel est une note de pourcentage, qui compare une relique à la meilleure relique possible +15 pour le personnage courrament sélectionné. Cette note est basée sur le poids de l'algorithme d'appréciation. Cela signifie que les reliques à +0 ont parfois un potentiel plus élevé que les reliques existantes +15, parce que leurs rolls possibles peuvent aller dans les statistiques désirées du personnage.
-  p2: "Personnage sélectionné: Note - La note actuelle de la relique, définie par l'algorithme d'appréciation du personnage actuellement sélectionné."
   p3: "Personnage sélectionné: Potentiel maximum - Le potentiel maximum de la relique une fois amenée à son niveau maximum."
   p4: "Personnage sélectionné: Potentiel maximum - Le potentiel maximum de la relique une fois amenée à son niveau maximum."
   p5: 'Tous les caractères: potentiel max - La valeur potentielle la plus élevée possible de la relique, à travers tous les personnages du jeu.'

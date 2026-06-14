@@ -19,6 +19,7 @@ import {
   HitDefinitionTable,
   StatSummaryTable,
 } from 'lib/characterPreview/buffsAnalysis/StatSummary'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { BUFF_TYPE } from 'lib/optimization/buffSource'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import type { DamageTag } from 'lib/optimization/engine/config/tag'
@@ -71,10 +72,23 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   )
   const perActionBuffGroups = perActionBuffGroupsProp ?? rerunResult?.perActionBuffGroups
   const context = contextProp ?? rerunResult?.context
+  const characterId = simulationForm?.characterId ?? contextProp?.characterId
+  const defaultDamageType = useMemo(
+    () => characterId ? getCharacterConfig(characterId)?.scoring?.defaultDamageType as DamageTag | undefined : undefined,
+    [characterId],
+  )
+
   const [selectedAction, setSelectedAction] = useState<number | null>(null)
-  const [selectedFilter, setSelectedFilter] = useState<DamageTag | null>(null)
+  const [selectedFilter, setSelectedFilter] = useState<DamageTag | null>(defaultDamageType ?? null)
   const toggleFilter = useCallback((tag: DamageTag | null) => {
-    setSelectedFilter((prev) => prev === tag ? null : tag)
+    if (tag === null) {
+      setSelectedFilter(null)
+      return
+    }
+    setSelectedFilter((prev) => {
+      const updated = (prev ?? 0) ^ tag
+      return updated === 0 ? null : updated as DamageTag
+    })
   }, [])
 
   const options = useMemo(() => ({

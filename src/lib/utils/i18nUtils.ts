@@ -134,8 +134,21 @@ export function isStatsValues(key: string): key is StatsValues {
 
 // Formats a number as compact thousands, e.g. 12345 → "12K".
 // Lives here instead of DamageSplitsChart to avoid pulling recharts into components that only need this formatter.
-export function renderThousandsK(n: number) {
-  return `${Math.floor(Number(n) / 1000)}${i18next.t('common:ThousandsSuffix')}`
+export function renderThousandsK(n: number, precision: number = 0) {
+  const factor = 10 ** precision
+  const units = Math.floor((Number(n) / 1000) * factor)
+  const suffix = i18next.t('common:ThousandsSuffix')
+
+  if (precision === 0) {
+    return `${units}${suffix}`
+  }
+
+  const sign = units < 0 ? '-' : ''
+  const absoluteUnits = Math.abs(units)
+  const whole = Math.floor(absoluteUnits / factor)
+  const fraction = String(absoluteUnits % factor).padStart(precision, '0')
+
+  return `${sign}${whole}.${fraction}${suffix}`
 }
 
 const getEmptyT = <

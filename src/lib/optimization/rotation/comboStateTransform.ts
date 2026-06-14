@@ -257,7 +257,7 @@ function transformSetConditionals(actionIndex: number, conditionals: ComboCondit
   for (const field of orderedSetConditionalFields) {
     const comboEntry = conditionals[field.setKey]
     if (!comboEntry) {
-      result[field.fieldName] = 0
+      result[field.fieldName] = field.wgslType === 'bool' ? false : 0
       continue
     }
     result[field.fieldName] = transformConditional(comboEntry, actionIndex)

@@ -16,6 +16,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { FlameOfBloodBlazeMyPath } from 'lib/conditionals/lightcone/5star/FlameOfBloodBlazeMyPath'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
@@ -278,6 +279,7 @@ if (${wgslTrue(r.hpToCrConversion)}) {
       if (r.vendettaState) {
         x.set(StatKey.DEF, 0, x.source(SOURCE_TALENT))
       }
+
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -410,7 +412,9 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.WASTELANDER_SET,
+    PresetEffects.fnNavigatorSet(3),
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [],
   simulation: simulation(),
@@ -427,6 +431,7 @@ const display = {
 
 export const Mydei: CharacterConfig = {
   id: '1404',
+  defaultLightCone: FlameOfBloodBlazeMyPath.id,
   display,
   conditionals,
   get scoring() {

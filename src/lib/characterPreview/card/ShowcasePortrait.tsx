@@ -9,12 +9,11 @@ import {
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import { type ShowcaseDisplayDimensions } from 'lib/characterPreview/characterPreviewController'
 import {
-  parentH,
   parentW,
 } from 'lib/constants/constantsUi'
 import { EditImageModal } from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
-import { type ScoringType } from 'lib/scoring/simScoringUtils'
+import { type ScoringType } from 'lib/scoring/scoringConfig'
 import { LoadingBlurredSpine } from 'lib/spine/LoadingBlurredSpine'
 import { getSkeletonCount } from 'lib/spine/manifest'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -148,7 +147,6 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
           <CharacterCustomPortrait
             customPortrait={customPortrait ?? character.portrait!}
             parentW={parentW}
-            scoringType={scoringType}
             defaultPortraitUrl={defaultPortraitUrl}
           />
         )
@@ -189,7 +187,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
       {editPortraitModalOpen && (
         <EditImageModal
           title={t('CharacterPreview.EditPortrait') /* Edit portrait */}
-          aspectRatio={parentW / parentH}
+          aspectRatio={parentW / tempParentH}
           existingConfig={customPortrait ?? character.portrait}
           open={editPortraitModalOpen}
           setOpen={setEditPortraitModalOpen}

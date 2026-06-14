@@ -11,6 +11,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { InTheNight } from 'lib/conditionals/lightcone/5star/InTheNight'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -20,7 +21,7 @@ import {
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
@@ -189,9 +190,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, (e >= 1 && r.e1EnemyHp80CrBoost) ? 0.20 : 0, x.source(SOURCE_E1))
       x.buff(StatKey.SPD_P, 0.25 * r.speedBoostStacks, x.source(SOURCE_SKILL))
 
-      x.buff(StatKey.DMG_BOOST, r.dmgBoostStacks * 0.50, x.source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
-      x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.25 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, r.dmgBoostStacks * 0.50, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.buffedState) ? buffedStateDmgBuff : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.RES_PEN, (r.buffedState) ? 0.25 : 0, x.elements(ElementTag.Quantum).source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -305,6 +306,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.TENGOKU_SET,
   ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,
@@ -324,6 +326,7 @@ const display = {
 
 export const SeeleB1: CharacterConfig = {
   id: '1102b1',
+  defaultLightCone: InTheNight.id,
   display,
   conditionals,
   get scoring() {

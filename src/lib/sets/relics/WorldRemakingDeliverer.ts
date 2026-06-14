@@ -4,7 +4,6 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import {
   type BasicStatsArray,
   WgslStatName,
@@ -51,9 +50,7 @@ const conditionals: SetConditionals = {
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.enabledWorldRemakingDeliverer) {
       x.buff(StatKey.HP_P, 0.24, x.targets(TargetTag.SelfAndMemosprite).source(Source.WorldRemakingDeliverer))
-      if (!x.config.teammateSetEffects[Sets.WorldRemakingDeliverer]) {
-        x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
-      }
+      x.buff(StatKey.BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
     }
   },
   gpuBasic: () => [
@@ -65,9 +62,7 @@ const conditionals: SetConditionals = {
       && setConditionals.enabledWorldRemakingDeliverer == true
     ) {
       ${buff.action(AKey.HP_P, 0.24).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
-      if (${wgslFalse(action.config.teammateSetEffects[Sets.WorldRemakingDeliverer])}) {
-        ${buff.action(AKey.DMG_BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
-      }
+      ${buff.action(AKey.BOOST, 0.15).targets(TargetTag.FullTeam).wgsl(action, 2)}
     }
   `,
   teammate: [{
@@ -76,7 +71,7 @@ const conditionals: SetConditionals = {
     desc: (t) => t('TeammateSets.WorldRemaking.Desc'),
     nonstackable: false,
     effect: ({ x }) => {
-      x.buff(StatKey.DMG_BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
+      x.buff(StatKey.BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))
     },
   }],
 }

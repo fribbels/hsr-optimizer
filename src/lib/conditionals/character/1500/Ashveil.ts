@@ -1,3 +1,7 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -15,6 +19,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -98,8 +103,30 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
 
   const talentFuaScaling = talent(e, 2.00, 2.20)
 
-  const fuaHitCountMulti = ASHBLAZING_ATK_STACK
-    * (1 * 1 / 10 + 2 * 1 / 10 + 3 * 1 / 10 + 4 * 1 / 10 + 5 * 1 / 10 + 6 * 1 / 10 + 7 * 1 / 10 + 8 * 1 / 10 + 8 * 1 / 10 + 8 * 1 / 10)
+  const fuaHitCountMulti = ashblazingMulti(Array(10).fill(single(0.10)))
+
+  const ultHitMulti = ashblazingMulti(Array(20).fill(single(0.05)))
+
+  const eFuaHitCountMultiByBite = {
+    0: ashblazingMulti(Array(10).fill(single(0.10))),
+    1: ashblazingMulti(Array(20).fill(single(0.10))),
+    2: ashblazingMulti(Array(30).fill(single(0.10))),
+    3: ashblazingMulti(Array(40).fill(single(0.10))),
+    4: ashblazingMulti(Array(50).fill(single(0.10))),
+  }
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    const conditionals = action.characterConditionals as Conditionals<Content>
+    if (conditionals.enhancedFua) {
+      const biteCount = Math.floor(conditionals.gluttonyStacks / 4)
+      if (biteCount > 4 || biteCount < 0) throw new Error('illegal number of enhanced fua')
+      return eFuaHitCountMultiByBite[biteCount as 0 | 1 | 2 | 3 | 4](context)
+    }
+    return fuaHitCountMulti(context)
+  }
 
   const maxGluttonyStacks = (e >= 2) ? 18 : 12
 
@@ -260,16 +287,23 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       const r = action.characterConditionals as Conditionals<Content>
 
       // FUA DMG +80%
-      x.buff(StatKey.DMG_BOOST, 0.80, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, 0.80, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
 
-      // FUA DMG +10% per Gluttony stack
-      x.buff(StatKey.DMG_BOOST, 0.10 * r.gluttonyStacks, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
+      // FUA DMG +10% per Gluttony stack, for enhanced FUA its averaged out to account for consumption of gluttony during the fua
+      if (r.enhancedFua) {
+        let avgStacks = 0
+        for (let i = r.gluttonyStacks; i >= 0; i -= 4) avgStacks += i
+        avgStacks /= 1 + Math.floor(r.gluttonyStacks / 4)
+        x.buff(StatKey.BOOST, 0.10 * avgStacks, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
+      } else {
+        x.buff(StatKey.BOOST, 0.10 * r.gluttonyStacks, x.damageType(DamageTag.FUA).source(SOURCE_TRACE))
+      }
 
       // E4: ATK +40% after using Ultimate
       x.buff(StatKey.ATK_P, (e >= 4 && r.e4AtkBuff) ? 0.40 : 0, x.source(SOURCE_E4))
 
       // E6: DMG +4% per Gluttony gained stack, max 30 stacks
-      x.buff(StatKey.DMG_BOOST, (e >= 6) ? 0.04 * r.e6GluttonyGainedStacks : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6) ? 0.04 * r.e6GluttonyGainedStacks : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -296,10 +330,10 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, fuaHitCountMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(fuaHitCountMulti, action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -399,7 +433,9 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(8),
     PresetEffects.fnPioneerSet(4),
     PresetEffects.VALOROUS_SET,
+    PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -411,6 +447,7 @@ const display = {
 
 export const Ashveil: CharacterConfig = {
   id: '1504',
+  defaultLightCone: TheFinaleOfALie.id,
   display,
   conditionals,
   get scoring() {

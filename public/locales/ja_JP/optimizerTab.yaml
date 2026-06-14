@@ -36,8 +36,13 @@ SortOptions:
   DMGLabel: 与ダメージ計算
   HealLabel: 治癒量計算
   ShieldLabel: シールド量計算
+  OptimizationLabel: 最適化
+  AbilityLabel: アビリティ
   StatLabel: ステータス
   COMBO: コンボダメージ順
+  COMBO_BUFF: コンボバフ順
+  COMBO_HEAL: コンボ回復量順
+  COMBO_SHIELD: コンボシールド量順
   BASIC: 通常攻撃ダメージ順
   SKILL: 戦闘スキルダメージ順
   ULT: 必殺技ダメージ順
@@ -119,7 +124,7 @@ Grid:
   Of: /
   Page: ページ
   PageSelectorLabel: '表示件数：'
-  Loading: 読み込み中...
+  Loading: 読み込み中
   Headers:
     Basic:
       Set: セット
@@ -477,7 +482,7 @@ CombatBuffs:
   SPD: 速度
   SPD_P: 速度割合
   BE: 撃破特効
-  DMG_BOOST: 与ダメージ増加
+  BOOST: 与ダメージ増加
   DEF_PEN: 防御力無視
   RES_PEN: ダメージ貫通
   EFFECT_RES_PEN: 属性耐性貫通
@@ -573,6 +578,7 @@ ComboFilter:
     UltShield: 必殺 シールド
     FuaShield: 追加 シールド
     TalentShield: 天賦 シールド
+    Buff: バフ
   RotationButton: 高度なスキル回しの設定
 ComboDrawer:
   NoConditionals: 条件付き追加能力なし

@@ -24,6 +24,9 @@ Common:
   DotTickCoefficient:
     Text: 'DOT tick coefficient'
     Content: 'DOT damage percentage per rotation action, accounting for total ticks from enemy turns, detonations, and other sources. 100% = 1 tick of DOT damage.'
+  AdditionalTickCoefficient:
+    Text: 'Additional DMG tick coefficient'
+    Content: 'Multiplier for sources of Additional DMG outside the combo. 100% = 1 instance of Additional DMG.'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -1024,9 +1027,6 @@ Characters:
         content: While "Bait" exists on the field, reduces all enemies' All-Type RES by 20%. For each stack of "Gluttony" Ashveil has gained, his DMG dealt increases by 4.0%.
   Asta:
     Content:
-      skillExtraDmgHits:
-        text: Skill extra hits
-        content: "Deals Fire DMG equal to {{skillScaling}}% of Asta's ATK to a single enemy and further deals DMG for {{skillExtraDmgHitsMax}} extra times, with each time dealing Fire DMG equal to {{skillScaling}}% of Asta's ATK to a random enemy.::BR::E1: When using Skill, deals DMG for 1 extra time to a random enemy."
       talentBuffStacks:
         text: Talent ATK buff stacks
         content: "Increases allies' ATK by {{talentStacksAtkBuff}}% for every stack.::BR::E4: Asta's Energy Regeneration Rate increases by 15% when she has 2 or more Charging stacks."

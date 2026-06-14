@@ -1,6 +1,5 @@
 import i18next from 'i18next'
 import {
-  ShadowRings,
   showcaseShadow,
   showcaseShadowInsetAddition,
   ShowcaseSource,
@@ -18,7 +17,7 @@ import iconClasses from 'style/icons.module.css'
 
 import { Renderer } from 'lib/rendering/renderer'
 import { ScoreCategory } from 'lib/scoring/scoreComparison'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { ScoringType } from 'lib/scoring/scoringConfig'
 import {
   RelicStatRow,
   type SubstatDetails,
@@ -26,7 +25,6 @@ import {
 import { RelicStatText } from 'lib/tabs/tabRelics/relicPreview/RelicStatText'
 import {
   type Languages,
-  localeNumberComma_0,
 } from 'lib/utils/i18nUtils'
 import {
   memo,
@@ -122,15 +120,15 @@ export const RelicPreview = memo(function RelicPreview(props: {
       data-testid='relic-preview'
       onClick={cardClicked}
       style={{
-        position: useShowcaseColors ? 'relative' as const : undefined,
         flex: fill ? 1 : undefined,
         width: fill ? undefined : relicCardW,
         minWidth: fill ? 0 : relicCardW,
         height: relicCardH,
         padding: 12,
-        backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg)' : 'var(--layer-2)',
-        border: source != null ? '1px solid var(--mantine-color-default-border)' : undefined,
-        borderColor: useShowcaseColors ? 'var(--showcase-card-border)' : undefined,
+        backgroundColor: useShowcaseColors ? 'var(--showcase-card-bg-bridge-high)' : 'var(--layer-2)',
+        border: useShowcaseColors ? '1px solid var(--showcase-card-edge-medium)' : source != null ? '1px solid var(--mantine-color-default-border)' : undefined,
+        backgroundClip: useShowcaseColors ? 'padding-box' : undefined,
+        boxSizing: useShowcaseColors ? 'border-box' : undefined,
         transition: showcaseTransition,
         borderRadius: 6,
         boxShadow: source == null ? 'inset 0 0 0 1px var(--border-default)' : showcaseShadow + showcaseShadowInsetAddition,
@@ -138,7 +136,6 @@ export const RelicPreview = memo(function RelicPreview(props: {
         outline: 0,
       }}
     >
-      {useShowcaseColors && <ShadowRings />}
       <RelicStatText language={i18next.resolvedLanguage as Languages} style={FULL_HEIGHT_STYLE}>
         <div
           style={{
@@ -227,7 +224,7 @@ const ScoreFooter = memo(function ScoreFooter({ score }: { score?: RelicScoringR
           <img src={icon} className={iconClasses.statIcon}></img>
           {scored ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
         </div>
-        {scored ? `${localeNumberComma_0(Number(score.score))} (${score.rating})` : ''}
+        {scored ? `${score.percentScore.toFixed(1)} (${score.rating})` : ''}
       </div>
     </>
   )

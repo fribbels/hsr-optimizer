@@ -1,48 +1,59 @@
 // @vitest-environment jsdom
 import { Metadata } from 'lib/state/metadataInitializer'
+import { calculateWarps, normalizeWarpRequest, WarpIncomeOptions } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
-  BannerRotation,
-  calculateWarps,
+  DEFAULT_WARP_REQUEST,
+  DEFAULT_WARP_TARGET,
   EidolonLevel,
   NONE_WARP_INCOME_OPTION,
   StarlightRefund,
   SuperimpositionLevel,
   type WarpRequest,
+  type WarpTarget,
   WarpStrategy,
-} from 'lib/tabs/tabWarp/warpCalculatorController'
+} from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import {
   expect,
   test,
 } from 'vitest'
 
-const DEFAULT_WARP_REQUEST: WarpRequest = {
-  passes: 0,
-  jades: 0,
+// Deterministic base request for the numeric assertions: no passive income and no starlight refund, so
+// the available warp budget equals exactly the `passes` each test sets.
+const BASE_REQUEST: WarpRequest = {
+  ...DEFAULT_WARP_REQUEST,
   income: [NONE_WARP_INCOME_OPTION.id],
-  strategy: WarpStrategy.E0,
+  targets: [{ ...DEFAULT_WARP_TARGET }],
   starlight: StarlightRefund.REFUND_NONE,
-  pityCharacter: 0,
-  guaranteedCharacter: false,
-  pityLightCone: 0,
-  guaranteedLightCone: false,
-  bannerRotation: BannerRotation.NEW,
-  currentEidolonLevel: EidolonLevel.NONE,
-  currentSuperimpositionLevel: SuperimpositionLevel.NONE,
 }
 
 Metadata.initialize()
 
+function target(patch: Partial<WarpTarget> = {}): WarpTarget {
+  return {
+    ...DEFAULT_WARP_TARGET,
+    ...patch,
+  }
+}
+
 test('base options', () => {
-  const result = calculateWarps({ ...DEFAULT_WARP_REQUEST })
-  for (const milestone of Object.values(result.milestoneResults)) {
+  const result = calculateWarps({ ...BASE_REQUEST })
+  for (const milestone of Object.values(result.targetResults[0].milestoneResults)) {
     expect(milestone.wins).toBe(0)
   }
 })
 
-test('strategies e0', () => {
-  const e0Result = calculateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.E0 })
+test('empty target list produces no target results', () => {
+  const result = calculateWarps({ ...BASE_REQUEST, targets: [] })
+  expect(result.targetResults).toEqual([])
+})
 
-  expect(Object.keys(e0Result.milestoneResults)).toEqual([
+test('strategies e0', () => {
+  const e0Result = calculateWarps({
+    ...BASE_REQUEST,
+    strategy: WarpStrategy.E0,
+  })
+
+  expect(Object.keys(e0Result.targetResults[0].milestoneResults)).toEqual([
     'E0S0',
     'E0S1',
     'E1S1',
@@ -59,8 +70,11 @@ test('strategies e0', () => {
 })
 
 test('strategies s1', () => {
-  const s1Result = calculateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.S1 })
-  expect(Object.keys(s1Result.milestoneResults)).toEqual([
+  const s1Result = calculateWarps({
+    ...BASE_REQUEST,
+    strategy: WarpStrategy.S1,
+  })
+  expect(Object.keys(s1Result.targetResults[0].milestoneResults)).toEqual([
     'S1',
     'E0S1',
     'E1S1',
@@ -77,8 +91,11 @@ test('strategies s1', () => {
 })
 
 test('strategies e6', () => {
-  const e6Result = calculateWarps({ ...DEFAULT_WARP_REQUEST, strategy: WarpStrategy.E6 })
-  expect(Object.keys(e6Result.milestoneResults)).toEqual([
+  const e6Result = calculateWarps({
+    ...BASE_REQUEST,
+    strategy: WarpStrategy.E6,
+  })
+  expect(Object.keys(e6Result.targetResults[0].milestoneResults)).toEqual([
     'E0S0',
     'E1S0',
     'E2S0',
@@ -95,8 +112,8 @@ test('strategies e6', () => {
 })
 
 test('expected base values', () => {
-  const result = calculateWarps({ ...DEFAULT_WARP_REQUEST, passes: 1000 })
-  const m = result.milestoneResults
+  const result = calculateWarps({ ...BASE_REQUEST, passes: 1000 })
+  const m = result.targetResults[0].milestoneResults
   expectWithin3(m.E0S0.warps, 89)
   expectWithin3(m.E0S1.warps, 154)
   expectWithin3(m.E1S1.warps, 244)
@@ -126,14 +143,14 @@ test('expected base values', () => {
 
 test('expected pity values', () => {
   const result = calculateWarps({
-    ...DEFAULT_WARP_REQUEST,
+    ...BASE_REQUEST,
     passes: 200,
     guaranteedCharacter: true,
     guaranteedLightCone: true,
     pityCharacter: 50,
     pityLightCone: 50,
   })
-  const m = result.milestoneResults
+  const m = result.targetResults[0].milestoneResults
 
   expectWithin3(m.E0S0.warps, 25)
   expectWithin3(m.E0S1.warps, 43)
@@ -164,14 +181,15 @@ test('expected pity values', () => {
 
 test('expected current eidolon and lightcone values', () => {
   const result = calculateWarps({
-    ...DEFAULT_WARP_REQUEST,
+    ...BASE_REQUEST,
     passes: 300,
-    bannerRotation: BannerRotation.RERUN,
-    currentEidolonLevel: EidolonLevel.E1,
-    currentSuperimpositionLevel: SuperimpositionLevel.S1,
+    targets: [target({
+      currentEidolonLevel: EidolonLevel.E1,
+      currentSuperimpositionLevel: SuperimpositionLevel.S1,
+    })],
   })
 
-  const m = result.milestoneResults
+  const m = result.targetResults[0].milestoneResults
 
   expectWithin3(m.E2S1.warps, 90)
   expectWithin3(m.E3S1.warps, 180)
@@ -192,6 +210,121 @@ test('expected current eidolon and lightcone values', () => {
   expectWithin1Percent(m.E6S3.wins, 0.00321)
   expectWithin1Percent(m.E6S4.wins, 0.00056)
   expectWithin1Percent(m.E6S5.wins, 0.00007)
+})
+
+test('multiple targets carry cumulative pulls forward and stop at each target goal', () => {
+  const result = calculateWarps({
+    ...BASE_REQUEST,
+    passes: 400,
+    targets: [
+      target({
+        id: 'target-1',
+        targetEidolonLevel: EidolonLevel.E0,
+        targetSuperimpositionLevel: SuperimpositionLevel.NONE,
+      }),
+      target({
+        id: 'target-2',
+        targetEidolonLevel: EidolonLevel.E0,
+        targetSuperimpositionLevel: SuperimpositionLevel.NONE,
+      }),
+    ],
+  })
+
+  expect(result.targetResults).toHaveLength(2)
+  expect(Object.keys(result.targetResults[0].milestoneResults)).toEqual(['E0'])
+  expect(Object.keys(result.targetResults[1].milestoneResults)).toEqual(['E0'])
+
+  const firstTarget = result.targetResults[0].milestoneResults.E0
+  const secondTarget = result.targetResults[1].milestoneResults.E0
+  expectWithin3(firstTarget.warps, 89)
+  expectWithin3(secondTarget.warps, 179)
+  expect(secondTarget.warps).toBeGreaterThan(firstTarget.warps)
+})
+
+test('s1 target stops at the first light cone milestone without requiring eidolons', () => {
+  const result = calculateWarps({
+    ...BASE_REQUEST,
+    strategy: WarpStrategy.E0,
+    targets: [
+      target({
+        targetEidolonLevel: EidolonLevel.NONE,
+        targetSuperimpositionLevel: SuperimpositionLevel.S1,
+      }),
+    ],
+  })
+
+  expect(Object.keys(result.targetResults[0].milestoneResults)).toEqual(['S1'])
+})
+
+test('split e0 and s5 target does not pull extra eidolons', () => {
+  const result = calculateWarps({
+    ...BASE_REQUEST,
+    strategy: WarpStrategy.S1,
+    targets: [
+      target({
+        targetEidolonLevel: EidolonLevel.E0,
+        targetSuperimpositionLevel: SuperimpositionLevel.S5,
+      }),
+    ],
+  })
+
+  expect(Object.keys(result.targetResults[0].milestoneResults)).toEqual([
+    'S1',
+    'E0S1',
+    'E0S2',
+    'E0S3',
+    'E0S4',
+    'E0S5',
+  ])
+})
+
+test('split none and s5 target pulls only light cone milestones', () => {
+  const result = calculateWarps({
+    ...BASE_REQUEST,
+    strategy: WarpStrategy.S1,
+    targets: [
+      target({
+        targetEidolonLevel: EidolonLevel.NONE,
+        targetSuperimpositionLevel: SuperimpositionLevel.S5,
+      }),
+    ],
+  })
+
+  expect(Object.keys(result.targetResults[0].milestoneResults)).toEqual([
+    'S1',
+    'S2',
+    'S3',
+    'S4',
+    'S5',
+  ])
+})
+
+test('normalizeWarpRequest fills defaults for missing or empty input', () => {
+  expect(normalizeWarpRequest(undefined)).toEqual(DEFAULT_WARP_REQUEST)
+  expect(normalizeWarpRequest({})).toEqual(DEFAULT_WARP_REQUEST)
+})
+
+test('normalizeWarpRequest keeps known income ids and drops unknown ones', () => {
+  const validId = WarpIncomeOptions[0].id
+  const result = normalizeWarpRequest({ income: [validId, 'bogus-income-id'] })
+  expect(result.income).toEqual([validId])
+})
+
+test('normalizeWarpRequest clamps out-of-range target levels to defaults', () => {
+  const result = normalizeWarpRequest({
+    targets: [{
+      ...DEFAULT_WARP_TARGET,
+      targetEidolonLevel: 99 as EidolonLevel,
+      currentSuperimpositionLevel: -5 as SuperimpositionLevel,
+    }],
+  })
+  expect(result.targets[0].targetEidolonLevel).toBe(DEFAULT_WARP_TARGET.targetEidolonLevel)
+  expect(result.targets[0].currentSuperimpositionLevel).toBe(DEFAULT_WARP_TARGET.currentSuperimpositionLevel)
+})
+
+test('normalizeWarpRequest drops legacy fields and preserves an empty target list', () => {
+  const result = normalizeWarpRequest({ bannerRotation: 1, currentEidolonLevel: 3, targets: [] })
+  expect(result).toEqual(DEFAULT_WARP_REQUEST)
 })
 
 function expectWithin3(actual: number, expected: number) {

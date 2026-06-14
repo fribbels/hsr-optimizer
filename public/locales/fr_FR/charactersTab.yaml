@@ -88,7 +88,7 @@ CharacterPreview:
     Labels:
       CombatScore: Note de Combat
       CombatScoreTBD: Combat (TBD)
-      StatScore: Note de Stat
+      StatScore: Rolls de Substats
       NoneScore: Aucun
   DetailsSlider:
     Labels:
@@ -147,23 +147,19 @@ CharacterPreview:
       CombatStats: <1>stats de combat</1> du personnage
       Substats: Substats du personnage (rolls min)
       Mainstats: Mainstats du personnage
-      Abilities: Dégâts des capacités du personnage
     Benchmark:
       Header: 'Build référence ({{score}}%)'
       CombatStats: <1>stats de combat</1> de référence
       Substats: Substats de référence 100% (rolls min)
       Mainstats: Mainstats de référence
-      Abilities: Dégâts de capacités de référence
     Perfect:
       Header: 'Build parfaite ({{score}}%)'
       CombatStats: <1>stats de combat</1> parfaites
       Substats: Substats parfaites 200% (rolls max)
       Mainstats: Mainstats parfaites
-      Abilities: Dégâts de capacités parfaits
   ScoringDetails:
     Header: Comment est calculée la note de DPS?
   EST-TBP:
-    Header: Analyse de note de stat
     RollsCard:
       Perfection: Perfection
     MetricsCard:

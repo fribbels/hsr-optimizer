@@ -140,6 +140,9 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
           label={stat === Stats.SPD ? t('SpdInputWarning') : ''}
           position='top'
           events={TOOLTIP_EVENTS}
+          disabled={stat !== Stats.SPD}
+          maw={400}
+          multiline
         >
           <TextInput
             disabled={Boolean(isPreview)}

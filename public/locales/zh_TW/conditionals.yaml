@@ -598,8 +598,6 @@ Characters:
         content: 根據阿蘭目前損失的生命值百分比獲得傷害加成，最多使阿蘭造成的傷害提高{{talentMissingHpDmgBoostMax}}%。
   Asta:
     Content:
-      skillExtraDmgHits:
-        text: 戰技額外擊中次數
       talentBuffStacks:
         text: 天賦攻擊力增益層數
         content: "艾絲妲每擁有1層蓄能，會使我方全體攻擊力提高{{talentStacksAtkBuff}}%。 ::BR::E4:天賦的蓄能層數大於等於2時，艾絲妲的能量恢復效率提高15% 。"

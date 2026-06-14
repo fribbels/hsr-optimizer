@@ -24,6 +24,9 @@ Common:
   DotTickCoefficient:
     Text: '持续伤害跳数系数'
     Content: '表示每轮行动中的持续伤害占比，已包含敌方回合、引爆及其他来源产生的全部跳数。100% = 1 次（跳数）持续伤害。'
+  AdditionalTickCoefficient:
+    Text: '追加伤害跳数系数'
+    Content: '连招外额外伤害来源的倍率系数。100% = 1 次额外伤害。'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -1024,9 +1027,6 @@ Characters:
         content: 当场上存在【饲饵】时，敌方全体的全属性抗性降低20%。不死途每获得过1层【婪酣】，造成的伤害提高4%，该效果最多叠加30层。
   Asta:
     Content:
-      skillExtraDmgHits:
-        text: 战技额外击中次数
-        content: "对指定敌方单体造成等同于艾丝妲{{skillScaling}}%攻击力的火属性伤害，并额外造成{{skillExtraDmgHitsMax}}次伤害。每次伤害对随机敌方单体造成等同于艾丝妲{{skillScaling}}%攻击力的火属性伤害。::BR::1魂：施放战技时，对敌方随机单体额外造成1次伤害。"
       talentBuffStacks:
         text: 天赋攻击力增益层数
         content: "艾丝妲每拥有1层蓄能，会使我方全体攻击力提高{{talentStacksAtkBuff}}%。::BR::4魂：天赋的蓄能层数大于等于2时，艾丝妲的能量恢复效率提高15% 。"

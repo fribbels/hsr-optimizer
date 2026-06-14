@@ -17,15 +17,35 @@
 /* ---- Avatar ---- */
 
 .avatar {
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  display: block;
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+  align-self: center;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   cursor: pointer;
+  overflow: hidden;
 }
 
-.avatar:hover {
+.characterAvatar {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.characterAvatar:hover {
   border-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.lightConeAvatar {
+  border-radius: var(--mantine-radius-sm);
 }
 
 /* ---- Segmented control ---- */
@@ -34,4 +54,3 @@
   padding-inline: 0;
   min-width: 0;
 }
-

@@ -5,12 +5,12 @@ import {
 } from '@mantine/core'
 import { useForm } from '@mantine/form'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
-import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
-import { TeammatesSection } from 'lib/tabs/tabBenchmarks/TeammateCards'
 import {
   handleCharacterSelectChange,
 } from 'lib/tabs/tabBenchmarks/benchmarksTabController'
+import { CharacterEidolonFormRadio } from 'lib/tabs/tabBenchmarks/CharacterEidolonFormRadio'
+import { LightConeSuperimpositionFormRadio } from 'lib/tabs/tabBenchmarks/LightConeSuperimpositionFormRadio'
+import { TeammatesSection } from 'lib/tabs/tabBenchmarks/TeammateCards'
 import {
   type BenchmarkForm,
   useBenchmarksTabStore,
@@ -25,10 +25,18 @@ import {
 import type { CharacterId } from 'types/character'
 import type { ReactElement } from 'types/components'
 import type { LightConeId } from 'types/lightCone'
-import { AUDITOR_SPD_BREAKPOINTS, getErrRopePermutations } from './setAuditorConstants'
+import {
+  AUDITOR_SPD_BREAKPOINTS,
+  getErrRopePermutations,
+} from './setAuditorConstants'
 import { runAudit } from './setAuditorEngine'
 import { SetAuditorSummaryTable } from './SetAuditorSummaryTable'
-import type { AuditorConfig, AuditorResults, AuditorSetType, AuditorStatus } from './setAuditorTypes'
+import type {
+  AuditorConfig,
+  AuditorResults,
+  AuditorSetType,
+  AuditorStatus,
+} from './setAuditorTypes'
 
 const SPD_OPTIONS = AUDITOR_SPD_BREAKPOINTS.map((v) => ({
   value: String(v),
@@ -62,20 +70,18 @@ function getCharacterSweepDefaults(characterId: CharacterId) {
 }
 
 function CheckboxGroupField(props: {
-  label: string
-  options: { value: string, label: string }[]
-  value: string[]
-  onChange: (value: string[]) => void
-  disabled: boolean
+  label: string,
+  options: { value: string, label: string }[],
+  value: string[],
+  onChange: (value: string[]) => void,
+  disabled: boolean,
 }) {
   return (
     <Flex direction='column' gap={4}>
       <span style={{ fontSize: 13, opacity: 0.7 }}>{props.label}</span>
       <Checkbox.Group value={props.value} onChange={props.onChange}>
         <Flex gap={12}>
-          {props.options.map((opt) => (
-            <Checkbox key={opt.value} value={opt.value} label={opt.label} disabled={props.disabled} />
-          ))}
+          {props.options.map((opt) => <Checkbox key={opt.value} value={opt.value} label={opt.label} disabled={props.disabled} />)}
         </Flex>
       </Checkbox.Group>
     </Flex>
@@ -221,7 +227,9 @@ export function SetBenchmarkAuditor(): ReactElement {
           <LightConeSelect
             value={form.values.lightCone}
             characterId={characterId}
-            onChange={(id: LightConeId | null) => { if (id) form.setFieldValue('lightCone', id) }}
+            onChange={(id: LightConeId | null) => {
+              if (id) form.setFieldValue('lightCone', id)
+            }}
             clearable={false}
           />
           <LightConeSuperimpositionFormRadio form={form} />
@@ -242,9 +250,7 @@ export function SetBenchmarkAuditor(): ReactElement {
             disabled={isRunning}
           />
 
-          {noSim && (
-            <span style={{ fontSize: 14, color: '#ff6b6b' }}>This character has no DPS score simulation metadata.</span>
-          )}
+          {noSim && <span style={{ fontSize: 14, color: '#ff6b6b' }}>This character has no DPS score simulation metadata.</span>}
 
           <Flex gap={12} align='center'>
             {isRunning
@@ -252,7 +258,8 @@ export function SetBenchmarkAuditor(): ReactElement {
               : (
                 <Button
                   onClick={handleRun}
-                  disabled={!characterId || !form.values.lightCone || noSim || selectedSetTypes.length === 0 || selectedSpd.length === 0 || selectedModes.length === 0 || selectedBenchmarkTargets.length === 0}
+                  disabled={!characterId || !form.values.lightCone || noSim || selectedSetTypes.length === 0 || selectedSpd.length === 0
+                    || selectedModes.length === 0 || selectedBenchmarkTargets.length === 0}
                 >
                   Run Audit
                 </Button>
@@ -261,18 +268,14 @@ export function SetBenchmarkAuditor(): ReactElement {
             {isRunning && (
               <Flex gap={8} style={{ fontSize: 14, opacity: 0.8 }}>
                 <span>Completed {progress.toLocaleString()} / {total.toLocaleString()} benchmarks</span>
-                {progress > 0 && (
-                  <span>— ~{remainingMin > 0 ? `${remainingMin}m ` : ''}{remainingSec}s remaining</span>
-                )}
+                {progress > 0 && <span>— ~{remainingMin > 0 ? `${remainingMin}m ` : ''}{remainingSec}s remaining</span>}
               </Flex>
             )}
           </Flex>
         </Flex>
       </Flex>
 
-      {status === 'cancelled' && (
-        <span style={{ fontSize: 14, color: '#ff6b6b' }}>Audit cancelled.</span>
-      )}
+      {status === 'cancelled' && <span style={{ fontSize: 14, color: '#ff6b6b' }}>Audit cancelled.</span>}
 
       {status === 'complete' && summaries.length > 0 && auditResults && (
         <Flex direction='column' gap={8}>

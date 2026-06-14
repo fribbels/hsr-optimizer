@@ -8,6 +8,7 @@ import {
   AgGridReact,
   type AgGridReactProps,
 } from 'ag-grid-react'
+import { RELICS_TAB_WIDTH } from 'lib/constants/constantsUi'
 import {
   useGridLocale,
   useGridLocaleRebuild,
@@ -22,7 +23,6 @@ import {
   generateBaselineColDefs,
   generateOptionalColDefs,
 } from 'lib/tabs/tabRelics/columnDefs'
-import { RELICS_TAB_WIDTH } from 'lib/constants/constantsUi'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import {
   useRelicsTabStore,
@@ -110,7 +110,7 @@ export function RelicsGrid() {
     pendingResultRef.current = null
 
     if (relics.length === 0) {
-      setScoredRelics(null)
+      setScoredRelics([])
       return
     }
 

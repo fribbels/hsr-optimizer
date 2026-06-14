@@ -373,9 +373,11 @@ export function ScannerImportSubmenu() {
                   />
 
                   <Tooltip
-                    label={t(
-                      'Import.LiveImport.OnlyExistingCharactersTooltip',
-                    ) /* Prevents live import from adding characters that are not already in the Characters tab. */}
+                    label={
+                      t(
+                        'Import.LiveImport.OnlyExistingCharactersTooltip',
+                      ) /* Prevents live import from adding characters that are not already in the Characters tab. */
+                    }
                   >
                     <div>{t('Import.LiveImport.OnlyExistingCharacters') /* Only update existing characters */}</div>
                   </Tooltip>

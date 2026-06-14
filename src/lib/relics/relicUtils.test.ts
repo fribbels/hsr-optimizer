@@ -327,6 +327,31 @@ describe('findRelicMatch — roll-quality constraint', () => {
     expect(findRelicMatch(incoming, [old])).toBe(old)
   })
 
+  it('matches when values are equal but roll decompositions differ (ambiguous grading)', () => {
+    // HP% 20.304 with 5 rolls can be decomposed as {h:3,m:1,l:1} or {h:2,m:3,l:0}.
+    // Both are valid — stale decompositions from older algorithm versions must not
+    // prevent matching on re-import.
+    const old = makeRelic({
+      enhance: 15,
+      substats: [
+        makeStat(Stats.HP_P, 20.304, { high: 3, mid: 1, low: 1 }),
+        makeStat(Stats.DEF_P, 4.32, { high: 0, mid: 0, low: 1 }),
+        makeStat(Stats.CD, 5.184, { high: 0, mid: 0, low: 1 }),
+        makeStat(Stats.CR, 3.888, { high: 0, mid: 1, low: 0 }),
+      ],
+    })
+    const incoming = makeRelic({
+      enhance: 15,
+      substats: [
+        makeStat(Stats.HP_P, 20.304, { high: 2, mid: 3, low: 0 }),
+        makeStat(Stats.DEF_P, 4.32, { high: 0, mid: 0, low: 1 }),
+        makeStat(Stats.CD, 5.184, { high: 0, mid: 0, low: 1 }),
+        makeStat(Stats.CR, 3.888, { high: 0, mid: 1, low: 0 }),
+      ],
+    })
+    expect(findRelicMatch(incoming, [old])).toBe(old)
+  })
+
   it('falls back to value-only comparison when rolls metadata is missing on either side', () => {
     // Non-verified importers may omit rolls; matching must still succeed via values.
     const old = makeRelic({

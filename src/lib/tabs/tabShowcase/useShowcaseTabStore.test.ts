@@ -8,6 +8,7 @@ import {
 } from 'lib/constants/constants'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
+import { ScoringConfigType } from 'types/metadata'
 import type { Relic } from 'types/relic'
 import {
   beforeEach,
@@ -98,7 +99,7 @@ describe('useShowcaseTabStore', () => {
       expect(state().selectedIndex).toBe(0)
       expect(state().savedSession).toEqual({ scorerId: null, sidebarOpen: true })
       expect(state().showcasePreferences).toEqual({})
-      expect(state().showcaseTeamPreferenceById).toEqual({})
+      expect(state().showcaseTeamPreferenceByConfig).toEqual({})
       expect(state().showcaseTemporaryOptionsByCharacter).toEqual({})
       expect(state().portraitColorByCharacterId).toEqual({})
       expect(state().portraitSwatchesByCharacterId).toEqual({})
@@ -313,11 +314,11 @@ describe('useShowcaseTabStore', () => {
     })
 
     it('setShowcaseTeamPreference adds an entry for a character preserving others', () => {
-      state().setShowcaseTeamPreference(Kafka.id, CUSTOM_TEAM)
-      state().setShowcaseTeamPreference(Jingliu.id, DEFAULT_TEAM)
+      state().setShowcaseTeamPreference(Kafka.id, ScoringConfigType.DPS, CUSTOM_TEAM)
+      state().setShowcaseTeamPreference(Jingliu.id, ScoringConfigType.DPS, DEFAULT_TEAM)
 
-      expect(state().showcaseTeamPreferenceById[Kafka.id]).toBe(CUSTOM_TEAM)
-      expect(state().showcaseTeamPreferenceById[Jingliu.id]).toBe(DEFAULT_TEAM)
+      expect(state().showcaseTeamPreferenceByConfig[Kafka.id]?.[ScoringConfigType.DPS]).toBe(CUSTOM_TEAM)
+      expect(state().showcaseTeamPreferenceByConfig[Jingliu.id]?.[ScoringConfigType.DPS]).toBe(DEFAULT_TEAM)
     })
 
     it('setSpdBenchmark sets value for a character preserving other characters', () => {

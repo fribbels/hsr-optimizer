@@ -2,7 +2,6 @@ import {
   ConditionalDataType,
   Sets,
 } from 'lib/constants/constants'
-import { wgslFalse } from 'lib/gpu/injection/wgslUtils'
 import { Source } from 'lib/optimization/buffSource'
 import {
   AKey,
@@ -44,21 +43,23 @@ const display = {
 
 const conditionals: SetConditionals = {
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.10, x.outputType(OutputTag.SHIELD).source(Source.SelfEnshroudedRecluse))
+    x.buff(StatKey.BOOST, 0.10, x.outputType(OutputTag.SHIELD).source(Source.SelfEnshroudedRecluse))
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.12, x.outputType(OutputTag.SHIELD).source(Source.SelfEnshroudedRecluse))
-    if (setConditionals.enabledSelfEnshroudedRecluse && !x.config.teammateSetEffects[Sets.SelfEnshroudedRecluse]) {
+    x.buff(StatKey.BOOST, 0.12, x.outputType(OutputTag.SHIELD).source(Source.SelfEnshroudedRecluse))
+    if (setConditionals.enabledSelfEnshroudedRecluse) {
       x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.SelfEnshroudedRecluse))
+      x.buff(StatKey.BOOST, 0.15, x.outputBuff(StatKey.CD).source(Source.SelfEnshroudedRecluse))
     }
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic2p(*p_sets, SET_SelfEnshroudedRecluse) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, 0.10).outputType(OutputTag.SHIELD).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, 0.10).outputType(OutputTag.SHIELD).wgsl(action, 2)}
       if (relic4p(*p_sets, SET_SelfEnshroudedRecluse) >= 1) {
-        ${buff.hit(HKey.DMG_BOOST, 0.12).outputType(OutputTag.SHIELD).wgsl(action, 3)}
-        if (setConditionals.enabledSelfEnshroudedRecluse == true && ${wgslFalse(action.config.teammateSetEffects[Sets.SelfEnshroudedRecluse])}) {
+        ${buff.hit(HKey.BOOST, 0.12).outputType(OutputTag.SHIELD).wgsl(action, 3)}
+        if (setConditionals.enabledSelfEnshroudedRecluse == true) {
           ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 4)}
+          ${buff.hit(HKey.BOOST, 0.15).outputBuff(StatKey.CD).wgsl(action, 5)}
         }
       }
     }

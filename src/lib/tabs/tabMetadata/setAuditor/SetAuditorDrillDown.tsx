@@ -1,8 +1,11 @@
-import { FLAG_COLORS, formatParamCombo } from './setAuditorConstants'
+import {
+  FLAG_COLORS,
+  formatParamCombo,
+} from './setAuditorConstants'
 import type { AuditorRunResult } from './setAuditorTypes'
 
 export function SetAuditorDrillDown(props: {
-  results: AuditorRunResult[]
+  results: AuditorRunResult[],
 }) {
   const sorted = [...props.results].sort((a, b) => b.deltaPct - a.deltaPct)
 

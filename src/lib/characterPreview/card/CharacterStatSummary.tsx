@@ -1,4 +1,7 @@
+import { usePromise } from 'hooks/usePromise'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import classes from 'lib/characterPreview/card/CharacterStatSummary.module.css'
+import { SimScoreRow } from 'lib/characterPreview/SimScoreRow'
 import {
   AsyncStatRow,
   StatRow,
@@ -8,45 +11,51 @@ import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   PathNames,
   Stats,
+  type StatsValues,
 } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { calculateCustomTraces } from 'lib/optimization/calculateTraces'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsObjectExternal } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  ScoringType,
-  type SimulationScore,
-} from 'lib/scoring/simScoringUtils'
+  isSimScoreMode,
+  type ScoringType,
+} from 'lib/scoring/scoringConfig'
+import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
   memo,
-  use,
   useMemo,
 } from 'react'
 import type { CharacterId } from 'types/character'
-import { SimScoringContext } from '../SimScoringContext'
+import type { ScoringConfigType } from 'types/metadata'
 
 const epsilon = 0.001
 
 interface CommonStatSummaryProps {
   characterId: CharacterId
-  elementalDmgValue: string
+  elementalDmgValue: StatsValues
   scoringType?: ScoringType
   showAll?: boolean
   zebra?: boolean
 }
 
-interface SyncStatSumaryProps extends CommonStatSummaryProps {
+interface SyncStatSummaryProps extends CommonStatSummaryProps {
   simScore: number
   finalStats: BasicStatsObject | ComputedStatsObjectExternal
   hasScoring?: boolean
+  buffStat?: AKeyValue
+  configType?: ScoringConfigType
 }
 
 interface AsyncStatSummaryProps extends CommonStatSummaryProps {
   promise: Promise<SimulationScore | null>
-  type: 'Benchmark' | 'Perfect'
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
   subType: 'Combat' | 'Basic'
+  configType?: ScoringConfigType
+  buffStat?: AKeyValue
 }
 
 export const CharacterStatSummary = memo(function CharacterStatSummary({
@@ -58,14 +67,16 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
   showAll,
   simScore,
   zebra,
-}: SyncStatSumaryProps) {
+  buffStat,
+  configType,
+}: SyncStatSummaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
   return (
     <StatText className={classes.statSummary}>
       <div
-        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}
+        style={{ display: 'flex', flexDirection: 'column', gap: 3 }}
         className={zebra ? classes.zebra : undefined}
       >
         <StatRow finalStats={finalStats} stat={Stats.HP} edits={edits} />
@@ -89,12 +100,12 @@ export const CharacterStatSummary = memo(function CharacterStatSummary({
         {showAll && getGameMetadata().characters[characterId]?.path === PathNames.Elation
           && <StatRow finalStats={finalStats} stat={Stats.Elation} edits={edits} />}
 
-        {scoringType === ScoringType.COMBAT_SCORE
+        {isSimScoreMode(scoringType) && configType != null
           && (
-            <StatRow
-              finalStats={finalStats}
-              stat='simScore'
+            <SimScoreRow
               value={simScore}
+              configType={configType}
+              buffStat={buffStat}
             />
           )}
       </div>
@@ -110,6 +121,8 @@ export const AsyncCharacterStatSummary = memo(function({
   promise,
   type,
   subType,
+  configType,
+  buffStat,
 }: AsyncStatSummaryProps) {
   const edits = useMemo(() => calculateStatCustomizations(characterId), [characterId])
   const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
@@ -119,7 +132,7 @@ export const AsyncCharacterStatSummary = memo(function({
   return (
     <StatText className={classes.statSummary}>
       <div
-        style={{ display: 'flex', flexDirection: 'column', gap: scoringType === ScoringType.NONE ? 5 : 3 }}
+        style={{ display: 'flex', flexDirection: 'column', gap: 3 }}
         className={zebra ? classes.zebra : undefined}
       >
         <AsyncStatRow
@@ -260,10 +273,25 @@ export const AsyncCharacterStatSummary = memo(function({
               edits={edits}
             />
           )}
+
+        {configType != null && <AsyncSimScoreRow promise={promise} type={type} configType={configType} buffStat={buffStat} />}
       </div>
     </StatText>
   )
 })
+
+function AsyncSimScoreRow({ promise, type, configType, buffStat }: {
+  promise: Promise<SimulationScore | null>,
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT,
+  configType: ScoringConfigType,
+  buffStat?: AKeyValue,
+}) {
+  const output = usePromise(promise)
+  const sim = output?.[type === ScoringColumnKind.BENCHMARK ? 'benchmarkSim' : 'maximumSim']
+  if (!sim?.result) return null
+
+  return <SimScoreRow value={sim.result.simScore} configType={configType} buffStat={buffStat} />
+}
 
 function calculateStatCustomizations(characterId: CharacterId) {
   if (!characterId) return {}

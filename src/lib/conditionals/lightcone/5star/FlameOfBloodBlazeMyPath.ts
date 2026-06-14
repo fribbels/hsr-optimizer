@@ -55,14 +55,14 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_LC))
     },
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
       const hp = x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX)
 
       if (hp * sValuesHpDrain[s] > 500) {
-        x.buff(StatKey.DMG_BOOST, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_LC))
+        x.buff(StatKey.BOOST, (r.skillUltDmgBoost) ? sValuesSkillUltDmg[s] : 0, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(SOURCE_LC))
       }
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -70,7 +70,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
 
       return wgsl`
 if (${wgslTrue(r.skillUltDmgBoost)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, action.config)} * ${sValuesHpDrain[s]} > 500) {
-  ${buff.hit(HKey.DMG_BOOST, sValuesSkillUltDmg[s]).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action)}
+  ${buff.hit(HKey.BOOST, sValuesSkillUltDmg[s]).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action)}
 }
       `
     },

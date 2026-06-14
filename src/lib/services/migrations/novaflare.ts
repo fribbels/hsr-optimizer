@@ -1,5 +1,8 @@
 import { getDefaultForm } from 'lib/optimization/defaultForm'
-import type { Character, CharacterId } from 'types/character'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import type { DBMetadata } from 'types/metadata'
 import type { HsrOptimizerSaveFormat } from 'types/store'
 

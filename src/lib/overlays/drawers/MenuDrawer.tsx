@@ -25,14 +25,17 @@ import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
 import { AppPages } from 'lib/constants/appPages'
 import { officialOnly } from 'lib/constants/constants'
-import { isNewGroupCheck, NewFeatureKey } from 'lib/constants/newFeatures'
-import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
+import {
+  isNewGroupCheck,
+  NewFeatureKey,
+} from 'lib/constants/newFeatures'
 import {
   OpenCloseIDs,
   setOpen,
   useIsOpen,
 } from 'lib/hooks/useOpenClose'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import {
   useCallback,
   useEffect,
@@ -256,8 +259,8 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
       items: [
         { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
-        { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} />, newFeatureKey: NewFeatureKey.CALCULATORS },
-        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
+        { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
+        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} />, newFeatureKey: NewFeatureKey.WARP },
       ],
     },
     {

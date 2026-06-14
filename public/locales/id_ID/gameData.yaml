@@ -245,6 +245,15 @@ Characters:
   "1507":
     Name: Mortenax Blade
     LongName: Mortenax Blade
+  "1508":
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
+  "1509":
+    Name: Gilgamesh
+    LongName: Gilgamesh
+  "1510":
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -405,7 +414,7 @@ RelicSets:
   "125":
     Name: Warrior Goddess of Sun and Thunder
     Description2pc: SPD +6%.
-    Description4pc: Setelah pengguna dan Memosprite miliknya memberikan pemulihan pada rekan tim selain pengguna dan Memosprite miliknya, pengguna akan memperoleh "Gentle Rain", yang dapat dipicu hingga 1 kali setiap giliran dan berlangsung selama 2 giliran. Saat pengguna memiliki "Gentle Rain", SPD pengguna akan meningkat 6%, dan CRIT DMG seluruh rekan tim akan meningkat 15%. Efek ini tidak dapat ditumpuk.
+    Description4pc: Setelah pengguna atau Memosprite miliknya memberikan pemulihan pada rekan tim selain pengguna atau Memosprite miliknya, pengguna akan memperoleh "Gentle Rain", yang dapat dipicu hingga 1 kali setiap giliran dan berlangsung selama 2 giliran. Saat pengguna memiliki "Gentle Rain", SPD pengguna akan meningkat 6%, dan CRIT DMG seluruh rekan tim akan meningkat 15%. Efek ini tidak dapat ditumpuk.
   "126":
     Name: Wavestrider Captain
     Description2pc: CRIT DMG +16%.
@@ -428,12 +437,12 @@ RelicSets:
     Description4pc: Sebelum memasuki pertempuran, jika SPD pengguna lebih dari atau sama dengan 120/160, maka akan meningkatkan 10%/18% CRIT Rate pengguna. Saat pengguna melancarkan Elation Skill untuk pertama kalinya dalam setiap pertempuran, akan meningkatkan 10% Tingkat Elation seluruh rekan tim, efek ini tidak dapat ditumpuk.
   "131":
     Name: As Navigator Isee Sees It
-    Description2pc: Increases ATK by 23%.
-    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+    Description2pc: ATK +12%.
+    Description4pc: Saat pengguna memasuki pertempuran/melancarkan Skill, meningkatkan 18% DMG yang diakibatkan Skill dan Ultimate, dapat ditumpuk hingga 3 lapis. Saat giliran pengguna dimulai/setelah melancarkan Ultimate, menghapus 1 lapis efek ini.
   "132":
     Name: Divine-Querying Master Smith
-    Description2pc: Increases Max HP by 23%.
-    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
+    Description2pc: Max HP +12%.
+    Description4pc: CRIT DMG yang diakibatkan pengguna pada target musuh yang terkena status Pengurangan DEF meningkat 28%. Setelah pengguna memberikan status Pengurangan DEF pada target musuh, seluruh rekan tim memperoleh "Comburent" selama 2 giliran. Efek ini tidak dapat ditumpuk. DMG yang diakibatkan rekan tim yang memiliki "Comburent" meningkat 15%. Efek ini dapat dipicu kembali setelah pengguna melancarkan serangan.
   "301":
     Name: Space Sealing Station
     Description2pc: Meningkatkan 12% ATK pengguna. Meningkatkan 12% ATK tambahan ketika SPD pengguna lebih dari atau sama dengan 120.
@@ -512,6 +521,12 @@ RelicSets:
   "326":
     Name: City of Converging Stars
     Description2pc: Saat pengguna melancarkan Serangan Lanjutan, ATK meningkat 24% selama 2 giliran. Saat target musuh dikalahkan, CRIT DMG seluruh rekan tim dalam pertempuran ini meningkat 12%. Efek ini tidak dapat ditumpuk.
+  "327":
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+  "328":
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: Arrows
@@ -823,6 +838,12 @@ Lightcones:
     Name: Until the Flowers Bloom Again
   "23059":
     Name: Reforged in Hellfire
+  "23060":
+    Name: A Star That Lights the Night
+  "23061":
+    Name: Flickering Stars
+  "23062":
+    Name: I Am As You Behold
   "24000":
     Name: On the Fall of an Aeon
   "24001":

@@ -3,11 +3,11 @@ import type { AppPages } from 'lib/constants/appPages'
 import type {
   ComputeEngine,
 } from 'lib/constants/constants'
-import type { ScoringType } from 'lib/scoring/simScoringUtils'
+import type { ScoringType } from 'lib/scoring/scoringConfig'
 import type { AhaForm } from 'lib/stores/ahaTuningStore'
 import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
+import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import type {
   Character,
   CharacterId,

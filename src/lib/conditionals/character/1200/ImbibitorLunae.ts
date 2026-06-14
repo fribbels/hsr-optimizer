@@ -1,6 +1,14 @@
+import {
+  ashblazingMulti,
+  blast,
+} from 'lib/conditionals/ashblazingCompute'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -9,6 +17,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { BrighterThanTheSun } from 'lib/conditionals/lightcone/5star/BrighterThanTheSun'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -85,6 +94,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const basicEnhanced2Scaling = basic(e, 3.80, 4.18)
   const basicEnhanced3Scaling = basic(e, 5.00, 5.50)
   const ultScaling = ult(e, 3.00, 3.24)
+
+  const ultHitMulti = ashblazingMulti([
+    blast(0.30),
+    blast(0.30),
+    blast(0.40),
+  ])
 
   const defaults = {
     basicEnhanced: 3,
@@ -201,15 +216,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, r.skillOutroarStacks * outroarStackCdValue, x.source(SOURCE_SKILL))
 
       // Talent - Righteous Heart DMG boost
-      x.buff(StatKey.DMG_BOOST, r.talentRighteousHeartStacks * righteousHeartDmgValue, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, r.talentRighteousHeartStacks * righteousHeartDmgValue, x.source(SOURCE_TALENT))
 
       // E6 - RES PEN for enhanced basic 3
       x.buff(StatKey.RES_PEN, (e >= 6 && r.basicEnhanced == 3) ? 0.20 * r.e6ResPenStacks : 0, x.damageType(DamageTag.BASIC).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -313,7 +331,9 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.WASTELANDER_SET,
     PresetEffects.TENGOKU_SET,
+    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.SKILL,
@@ -334,6 +354,7 @@ const display = {
 
 export const ImbibitorLunae: CharacterConfig = {
   id: '1213',
+  defaultLightCone: BrighterThanTheSun.id,
   display,
   conditionals,
   get scoring() {

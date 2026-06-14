@@ -1,5 +1,5 @@
 import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import { ScoringType } from 'lib/scoring/scoringConfig'
 import { useRelicById } from 'lib/stores/relic/relicStore'
 import { useRelicScore } from 'lib/tabs/tabRelics/bottomDock/useRelicScore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'

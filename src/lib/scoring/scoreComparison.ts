@@ -17,11 +17,11 @@ export function getScoreCategory(defaultMeta: Metadata, customMeta: Metadata) {
   let nonSpdMatches = true
   let spdDiff = false
   for (const stat of SubStats) {
-    const c = customMeta.stats[stat]
-    const d = defaultMeta.stats[stat]
-    if (d != c) {
+    const customWeight = customMeta.stats[stat]
+    const defaultWeight = defaultMeta.stats[stat]
+    if (defaultWeight != customWeight) {
       difference = true
-      if (stat == Stats.SPD && c == 0) {
+      if (stat == Stats.SPD && customWeight == 0) {
         spdDiff = true
       } else {
         nonSpdMatches = false

@@ -11,8 +11,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import {
   Parts,
@@ -335,6 +335,7 @@ const simulation = (): SimulationMetadata => ({
   deprioritizeBuffs: true,
   relicSets: [
     [Sets.DivineQueryingMasterSmith, Sets.DivineQueryingMasterSmith],
+    [Sets.GuardOfWutheringSnow, Sets.GuardOfWutheringSnow],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [

@@ -6,14 +6,13 @@ import {
   Group,
   useCombobox,
 } from '@mantine/core'
-import { IconEraser, IconFilter } from '@tabler/icons-react'
+import { IconFilter, IconXMark } from '@tabler/icons-react'
 import {
   memo,
   type ReactNode,
   useMemo,
   useState,
 } from 'react'
-import { useTranslation } from 'react-i18next'
 
 export type FilterOption<T> = {
   value: T,
@@ -40,7 +39,6 @@ function FilterPillInner<T extends string | number | boolean>({
   flex = 1,
   columns = 1,
 }: FilterPillProps<T>) {
-  const { t } = useTranslation('relicsTab')
   const [search, setSearch] = useState('')
   const optionValues = useMemo(() => new Set(options.map((o) => o.value)), [options])
   const activeCount = useMemo(() => selected.filter((v) => optionValues.has(v)).length, [selected, optionValues])
@@ -83,7 +81,9 @@ function FilterPillInner<T extends string | number | boolean>({
           variant={activeCount > 0 ? 'light' : 'default'}
           size='xs'
           onClick={() => combobox.toggleDropdown()}
-          leftSection={<IconFilter size={12} />}
+          leftSection={activeCount > 0
+            ? <IconXMark size={14} onClick={(e) => { e.stopPropagation(); onChange([]) }} />
+            : <IconFilter size={12} />}
           rightSection={activeCount > 0 ? <Badge size='xs' circle variant='filled'>{activeCount}</Badge> : undefined}
           style={{ flex, minWidth: 0, width: '100%' }}
         >
@@ -130,19 +130,6 @@ function FilterPillInner<T extends string | number | boolean>({
           })}
           {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
         </Combobox.Options>
-        <div style={{ padding: '4px 8px', borderTop: '1px solid var(--mantine-color-default-border)' }}>
-          <Button
-            size='xs'
-            variant='subtle'
-            color='dimmed'
-            fullWidth
-            disabled={activeCount === 0}
-            leftSection={<IconEraser size={12} />}
-            onClick={() => onChange([])}
-          >
-            {t('RelicFilterBar.Clear')}
-          </Button>
-        </div>
       </Combobox.Dropdown>
     </Combobox>
   )

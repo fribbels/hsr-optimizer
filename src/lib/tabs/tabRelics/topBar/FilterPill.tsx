@@ -6,13 +6,14 @@ import {
   Group,
   useCombobox,
 } from '@mantine/core'
-import { IconFilter } from '@tabler/icons-react'
+import { IconEraser, IconFilter } from '@tabler/icons-react'
 import {
   memo,
   type ReactNode,
   useMemo,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export type FilterOption<T> = {
   value: T,
@@ -39,6 +40,7 @@ function FilterPillInner<T extends string | number | boolean>({
   flex = 1,
   columns = 1,
 }: FilterPillProps<T>) {
+  const { t } = useTranslation('relicsTab')
   const [search, setSearch] = useState('')
   const optionValues = useMemo(() => new Set(options.map((o) => o.value)), [options])
   const activeCount = useMemo(() => selected.filter((v) => optionValues.has(v)).length, [selected, optionValues])
@@ -128,6 +130,19 @@ function FilterPillInner<T extends string | number | boolean>({
           })}
           {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
         </Combobox.Options>
+        <div style={{ padding: '4px 8px', borderTop: '1px solid var(--mantine-color-default-border)' }}>
+          <Button
+            size='xs'
+            variant='subtle'
+            color='dimmed'
+            fullWidth
+            disabled={activeCount === 0}
+            leftSection={<IconEraser size={12} />}
+            onClick={() => onChange([])}
+          >
+            {t('RelicFilterBar.Clear')}
+          </Button>
+        </div>
       </Combobox.Dropdown>
     </Combobox>
   )

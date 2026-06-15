@@ -4115,6 +4115,14 @@ export default interface Resources {
           }
         }
       },
+      "ReforgedInHellfire": {
+        "Content": {
+          "purgatoryState": {
+            "content": "While in the \"Purgatory\" state, the target receives {{cdBuff}}% increased CRIT DMG and {{cdBuff}}% additionally increased CRIT DMG from the wearer.",
+            "text": "CD buffs"
+          }
+        }
+      },
       "ReforgedRemembrance": {
         "Content": {
           "prophetStacks": {

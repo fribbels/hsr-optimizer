@@ -2035,6 +2035,31 @@ Characters:
       e6UltDmgBoost:
         text: E6 Ult DMG boost
         content: When using the Ultimate, increases own DMG by 30%, lasting until the end of the turn.
+  MortenaxBlade:
+    Content:
+      infiniteFuryActive:
+        text: Infinite Fury state
+        content: During the "Infinite Fury" state, increases CRIT Rate by 20%, increases CRIT DMG by {{cdBuff}}%, enhances Basic ATK, unlocks Skill, and gains a new Ultimate "Tenax Per Ignem."
+      ultZone:
+        text: Zone active
+        content: >-
+          While the Zone is active, decreases DMG taken by this unit by 50%. While the Zone is active, ally targets deal 50% increased DMG. If there are other Nihility characters aside from Mortenax Blade in the team, Ultimate DMG dealt by ally targets increases by 75%. Otherwise, DMG dealt by Mortenax Blade additionally increases by 75%.
+          ::BR::
+          E1: While the Zone is active, decreases all enemies' All-Type RES by 20%.
+          ::BR::
+          E4: Additionally increases ally targets' DMG dealt by 50%.
+      e1ResPen:
+        text: E1 RES PEN
+        content: While the Zone is active, decreases all enemies' All-Type RES by 20%.
+      e2FuaDmgBoost:
+        text: E2 buffs
+        content: When an ally character uses Ultimate to deal DMG, it is considered as having launched Follow-Up ATK. The Follow-Up ATK DMG dealt by ally targets increases by 75%.
+      e4DmgBoost:
+        text: E4 DMG boost
+        content: Ult zone additionally increases ally targets' DMG dealt by 50%.
+      e6EnhancedUlt:
+        text: E6 Ult Final DMG
+        content: The DMG multiplier of "Tenax Per Ignem" increases to 150% of its original value.
   Moze:
     Content:
       preyMark:

@@ -2109,6 +2109,34 @@ export default interface Resources {
           }
         }
       },
+      "MortenaxBlade": {
+        "Content": {
+          "e1ResPen": {
+            "content": "While the Zone is active, decreases all enemies' All-Type RES by 20%.",
+            "text": "E1 RES PEN"
+          },
+          "e2FuaDmgBoost": {
+            "content": "When an ally character uses Ultimate to deal DMG, it is considered as having launched Follow-Up ATK. And the Follow-Up ATK DMG dealt by ally targets increases by 75%.",
+            "text": "E2 buffs"
+          },
+          "e4DmgBoost": {
+            "content": "Ult zone additionally increases ally targets' DMG dealt by 50%.",
+            "text": "E4 DMG boost"
+          },
+          "e6EnhancedUlt": {
+            "content": "The DMG multiplier of \"Tenax Per Ignem\" increases to 150% of its original value.",
+            "text": "E6 Ult Final DMG"
+          },
+          "infiniteFuryActive": {
+            "content": "During the \"Infinite Fury\" state, increases CRIT Rate by 20%, increases CRIT DMG by {{cdBuff}}%, enhances Basic ATK, unlocks Skill, and gains a new Ultimate \"Tenax Per Ignem.\"",
+            "text": "Infinite Fury state"
+          },
+          "ultZone": {
+            "content": "While the Zone is active, decreases DMG taken by this unit by 50%. While the Zone is active, ally targets deal 50% increased DMG. If there are other Nihility characters aside from Mortenax Blade in the team, Ultimate DMG dealt by ally targets increases by 75%. Otherwise, DMG dealt by Mortenax Blade additionally increases by 75%. ::BR:: E1: While the Zone is active, decreases all enemies' All-Type RES by 20%. ::BR:: E4: Additionally increases ally targets' DMG dealt by 50%.",
+            "text": "Zone active"
+          }
+        }
+      },
       "Moze": {
         "Content": {
           "e2CdBoost": {

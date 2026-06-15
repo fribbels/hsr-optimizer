@@ -14,11 +14,13 @@ import {
   type Conditionals,
   type ContentDefinition,
   createEnum,
+  findTeamMeta,
+  uniqueAbility,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
-import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
@@ -37,6 +39,7 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
+  DEFAULT_UNIQUE,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
@@ -61,6 +64,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { RinTohsaka } from '../1500/RinTohsaka'
 
 export const ArcherEntities = createEnum('Archer')
 export const ArcherAbilities: AbilityKind[] = [
@@ -68,6 +72,7 @@ export const ArcherAbilities: AbilityKind[] = [
   AbilityKind.SKILL,
   AbilityKind.ULT,
   AbilityKind.FUA,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -90,6 +95,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     single(0.44),
   ])
 
+  const fuaHitMulti = ashblazingMulti([single(1.00)])
+
+  const uniqueHitMulti = ashblazingMulti([]) // TODO: joint FUA hit split
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    switch (action.actionType) {
+      case AbilityKind.ULT:
+        return ultHitMulti(context)
+      case AbilityKind.UNIQUE:
+        return uniqueHitMulti(context)
+      default:
+        return fuaHitMulti(context)
+    }
+  }
+
   const basicScaling = basic(e, 1.00, 1.10)
 
   const skillScaling = skill(e, 3.60, 3.96)
@@ -98,6 +118,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 10.00, 10.80)
 
   const fuaScaling = talent(e, 2.00, 2.20)
+
+  const jointFuaScaling = uniqueAbility(5)
 
   const defaults = {
     cdBuff: true,
@@ -170,6 +192,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     actionDeclaration: () => [...ArcherAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const rinMeta = findTeamMeta(context, RinTohsaka.id)
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -207,6 +230,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(10)
               .build(),
           ],
+        },
+        [AbilityKind.UNIQUE]: {
+          hits: rinMeta
+            ? [
+              HitDefinitionBuilder.standardFua()
+                .damageElement(ElementTag.Quantum)
+                .atkScaling(jointFuaScaling(rinMeta.characterEidolon, 3.00, 3.30))
+                .toughnessDmg(0) // TODO: how much toughness does his half do?
+                .build(),
+            ]
+            : [],
         },
         [AbilityKind.BREAK]: {
           hits: [
@@ -274,10 +308,13 @@ const simulation = (): SimulationMetadata => ({
     START_ULT,
     DEFAULT_SKILL,
     DEFAULT_SKILL,
+    DEFAULT_UNIQUE,
     END_SKILL,
     DEFAULT_FUA,
     START_SKILL,
     DEFAULT_SKILL,
+    DEFAULT_SKILL,
+    DEFAULT_UNIQUE,
     END_SKILL,
     DEFAULT_FUA,
   ],

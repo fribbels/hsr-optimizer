@@ -84,26 +84,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const ultBeamScaling = ult(e, 0.30, 0.33)
+  const ultBeamScaling = ult(e, 0.40, 0.44)
   const ultOrbitalAoeScaling = ult(e, 0.20, 0.22)
   const ultOrbitalRandomScaling = ult(e, 0.40, 0.44)
   const ultFinalHitScaling = ult(e, 1.00, 1.10)
-  const ultE6OrbitalScaling = 1.20
+  const ultE6OrbitalScaling = 2.40
 
-  const skillDmgBuffValue = skill(e, 0.30, 0.33)
-  const talentCdBuffValue = talent(e, 0.50, 0.54)
+  const skillDmgBuffValue = skill(e, 0.20, 0.22)
+  const talentCdBuffValue = talent(e, 1.00, 1.10)
   const talentResPenValue = talent(e, 0.20, 0.22)
 
   const assistAoeScaling = skill(e, 2.50, 2.75)
   const assistRandomScaling = skill(e, 0.40, 0.44)
-  const verdictUltCdValue = skill(e, 2.00, 2.20)
-  const decimationCdValue = skill(e, 0.50, 0.55)
+  const verdictDmgBoostValue = skill(e, 1.00, 1.10)
+  const verdictUltCdValue = skill(e, 1.00, 1.10)
+  const decimationCdValue = skill(e, 1.00, 1.10)
+  const decimationSkillCdValue = skill(e, 1.00, 1.10)
 
   const defaults = {
     navigatorsSemaphore: true,
     assistSkillBuff: true,
     companionVerdict: true,
-    talentWeaknessBreak: true,
     sourceEnergyStacks: 3,
     e4ResPen: true,
     e6: true,
@@ -135,12 +136,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Companion Protocol: Verdict',
       content: betaContent,
     },
-    talentWeaknessBreak: {
-      id: 'talentWeaknessBreak',
-      formItem: 'switch',
-      text: 'Talent Weakness Break',
-      content: betaContent,
-    },
     sourceEnergyStacks: {
       id: 'sourceEnergyStacks',
       formItem: 'slider',
@@ -167,10 +162,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     navigatorsSemaphore: content.navigatorsSemaphore,
-    assistSkillBuff: {
-      ...content.assistSkillBuff,
-      disabled: e < 2,
-    },
+    assistSkillBuff: content.assistSkillBuff,
     companionDecimation: {
       id: 'companionDecimation',
       formItem: 'switch',
@@ -205,7 +197,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       const ultAtkScaling = ultBeamScaling * 6
         + ultOrbitalAoeScaling * sourceEnergy
-        + ultOrbitalRandomScaling * 3 * sourceEnergy * a6Multiplier / context.enemyCount
+        + ultOrbitalRandomScaling * sourceEnergy * a6Multiplier / context.enemyCount
         + ultFinalHitScaling * 3 / context.enemyCount
         + ((e >= 6 && r.e6 && sourceEnergy >= 6) ? ultE6OrbitalScaling : 0)
 
@@ -247,13 +239,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     actionModifiers: () => [],
 
-    initializeConfigurationsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-      if (r.talentWeaknessBreak) {
-        action.config.enemyWeaknessBroken = true
-      }
-    },
-
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -261,17 +246,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, r.assistSkillBuff ? talentResPenValue : 0, x.source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (e >= 4 && r.e4ResPen && r.assistSkillBuff) ? 0.10 : 0, x.source(SOURCE_E4))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6) ? 0.20 : 0, x.elements(ElementTag.Fire).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.e6) ? 1.00 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E6))
 
+      // E2: Ult and Assist Skill DMG becomes 124% of original
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.24 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E2))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.24 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E2))
+
+      // Verdict: DMG +100%, Ult CD +100%
+      x.buff(StatKey.BOOST, r.companionVerdict ? verdictDmgBoostValue : 0, x.source(SOURCE_UNIQUE))
       x.buff(StatKey.CD, r.companionVerdict ? verdictUltCdValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
+
+      // Decimation: CD +100%, Skill CD +100%
       x.buff(StatKey.CD, !r.companionVerdict ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
-      x.buff(StatKey.CD, !r.companionVerdict ? decimationCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, !r.companionVerdict ? decimationSkillCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       x.buff(StatKey.BOOST, m.navigatorsSemaphore ? skillDmgBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.BOOST, (e >= 2 && m.assistSkillBuff) ? 0.24 : 0, x.damageType(DamageTag.ASSIST).targets(TargetTag.FullTeam).source(SOURCE_E2))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -279,8 +272,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen && m.assistSkillBuff) ? talentResPenValue : 0, x.source(SOURCE_E4))
 
+      // Decimation: team CD +100%, Skill CD +100%
       x.buff(StatKey.CD, m.companionDecimation ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
-      x.buff(StatKey.CD, m.companionDecimation ? decimationCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, m.companionDecimation ? decimationSkillCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -344,7 +338,7 @@ const simulation = (): SimulationMetadata => ({
       characterId: SparkleB1.id,
       lightCone: DanceDanceDance.id,
       characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: 5,
     },
     {
       characterId: PermansorTerrae.id,

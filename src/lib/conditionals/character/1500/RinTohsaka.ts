@@ -18,7 +18,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -89,9 +91,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const skillScaling = skill(e, 1.80, 1.98)
-  const enhancedSkillAoeScaling = skill(e, 0.90, 0.99)
-  const enhancedSkillBounceScaling = skill(e, 0.90, 0.99)
+  const skillScaling = skill(e, 1.60, 1.76)
+  const enhancedSkillAoeScaling = skill(e, 0.80, 0.88)
+  const enhancedSkillBounceScaling = skill(e, 0.80, 0.88)
   const maxBounces = 33
   const maxSpConsumed = 14
 
@@ -100,7 +102,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   // Joint FUA — Rin's portion only (Archer's half scales off Archer's ATK)
   const fuaScaling = talent(e, 3.00, 3.30)
-  const talentCdBuffValue = talent(e, 1.00, 1.10)
+  const talentCdBuffValue = talent(e, 0.70, 0.77)
 
   const fuaHitMulti = ashblazingMulti([aoe(fuaScaling)])
 
@@ -113,7 +115,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ladylikePoise: true,
     ultDmgTakenDebuff: true,
     e2Buffs: true,
-    e4SpdBuff: true,
+    e4TalentCdStacks: true,
     e6ResPen: true,
   }
 
@@ -122,7 +124,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentCdBuff: true,
     ultDmgTakenDebuff: true,
     e2Buffs: true,
-    e4SpdBuff: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -179,10 +180,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       disabled: e < 2,
     },
-    e4SpdBuff: {
-      id: 'e4SpdBuff',
+    e4TalentCdStacks: {
+      id: 'e4TalentCdStacks',
       formItem: 'switch',
-      text: 'E4 SPD buff',
+      text: 'E4 CD stacks',
       content: betaContent,
       disabled: e < 4,
     },
@@ -200,7 +201,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentCdBuff: content.talentCdBuff,
     ultDmgTakenDebuff: content.ultDmgTakenDebuff,
     e2Buffs: content.e2Buffs,
-    e4SpdBuff: content.e4SpdBuff,
   }
 
   return {
@@ -222,7 +222,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Enhanced: 90% AoE + 90% per bounce (randomly distributed). Unenhanced: 180% single target.
+      // Enhanced: 80% AoE + 80% per bounce (randomly distributed). Unenhanced: 160% single target.
       const skillTotalScaling = r.enhancedSkill
         ? enhancedSkillAoeScaling + enhancedSkillBounceScaling * r.skillBounces / context.enemyCount
         : skillScaling
@@ -280,15 +280,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Trace ATK +150% and DEF ignore 20%
       x.buff(StatKey.ATK_P, (r.elegantConduct) ? 1.50 : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.DEF_PEN, (r.elegantConduct) ? 0.20 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, (r.elegantConduct) ? 0.10 : 0, x.source(SOURCE_TRACE))
 
       // Trace SPD +20% after Enhanced Skill
       x.buff(StatKey.SPD_P, (r.ladylikePoise) ? 0.20 : 0, x.source(SOURCE_TRACE))
 
       // E2 Skill DMG +30%
       x.buff(StatKey.BOOST, (e >= 2 && r.e2Buffs) ? 0.30 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E2))
+
+      // E4 Talent CD stacks 2x on Rin
+      x.buff(StatKey.CD, (e >= 4 && r.e4TalentCdStacks && r.talentCdBuff) ? talentCdBuffValue : 0, x.source(SOURCE_E4))
 
       // E6 All-Type RES PEN +20%
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.source(SOURCE_E6))
@@ -302,23 +304,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Ult vulnerability debuff
       x.buff(StatKey.VULNERABILITY, m.ultDmgTakenDebuff ? ultVulnerabilityValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))
 
-      // E2 team Skill DMG becomes 110% of original
+      // E2 team Skill DMG becomes 130% of original
       x.multiplicativeBoost(
         StatKey.FINAL_DMG_BOOST,
-        (e >= 2 && m.e2Buffs) ? 0.10 : 0,
+        (e >= 2 && m.e2Buffs) ? 0.30 : 0,
         x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_E2),
       )
-
-      // E4 team SPD +10%
-      x.buff(StatKey.SPD_P, (e >= 4 && m.e4SpdBuff) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Trace ATK +150% and DEF ignore extends to Archer
       if (context.characterId == Archer.id) {
         x.buff(StatKey.ATK_P, (t.elegantConduct) ? 1.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-        x.buff(StatKey.DEF_PEN, (t.elegantConduct) ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+        x.buff(StatKey.RES_PEN, (t.elegantConduct) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       }
     },
 
@@ -382,10 +380,10 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: MortenaxBlade.id,
-      lightCone: ReforgedInHellfire.id,
+      characterId: SparkleB1.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: 5,
     },
     {
       characterId: HuohuoB1.id,

@@ -11,7 +11,6 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import {
   type LightConeId,
@@ -29,9 +28,8 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(FLICKERING_STARS_ID)
 
-  const sValuesSkillDmg = [0.36, 0.42, 0.48, 0.54, 0.60]
-  const sValuesTeamDefPen = [0.10, 0.12, 0.14, 0.16, 0.18]
-  const sValuesWearerDefPen = [0.20, 0.23, 0.26, 0.29, 0.32]
+  const sValuesSkillDmg = [0.60, 0.70, 0.80, 0.90, 1.00]
+  const sValuesDefPen = [0.20, 0.24, 0.28, 0.32, 0.36]
 
   const defaults = {
     radiantCrown: true,
@@ -63,13 +61,12 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.BOOST, sValuesSkillDmg[s], x.damageType(DamageTag.SKILL).source(SOURCE_LC))
-      x.buff(StatKey.DEF_PEN, r.radiantCrown ? sValuesWearerDefPen[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.BOOST, r.radiantCrown ? sValuesSkillDmg[s] : 0, x.damageType(DamageTag.SKILL).source(SOURCE_LC))
     },
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.DEF_PEN, m.radiantCrown ? sValuesTeamDefPen[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
+      x.buff(StatKey.DEF_PEN, m.radiantCrown ? sValuesDefPen[s] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

@@ -11,6 +11,7 @@ import {
   gpuBoostUltAshblazingAtk,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
+  Gilgamesh,
   gilgameshActionExists,
   gilgameshFuaSaberUltBoost,
 } from 'lib/conditionals/character/1500/Gilgamesh'
@@ -300,7 +301,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Gilgamesh Joint FUA: Saber's next Ult becomes 200% of original DMG
       if (gilgameshActionExists(action) && r.gilgameshFuaBuff) {
-        x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, gilgameshFuaSaberUltBoost(action), x.damageType(DamageTag.ULT).source(Source.character('1509')))
+        x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, gilgameshFuaSaberUltBoost(action), x.damageType(DamageTag.ULT).source(Source.character(Gilgamesh.id).SOURCE_UNIQUE))
       }
     },
 

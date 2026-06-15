@@ -1,0 +1,51 @@
+import { useForm } from '@mantine/form'
+import { buildSpdPresetOptions } from 'lib/constants/spdPresetConfig'
+import { SaveState } from 'lib/state/saveState'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
+import {
+  calculateAhaSpeed,
+  calculateNextTeammateSpeed,
+} from 'lib/tabs/tabCalculators/ahaCalculations'
+import { AhaPanelContent } from 'lib/tabs/tabCalculators/AhaPanelContent'
+import { CalculatorPanel } from 'lib/tabs/tabCalculators/CalculatorPanel'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+
+export function AhaPanel() {
+  const { t } = useTranslation('modals', { keyPrefix: 'Calculators.AHA' })
+  const { t: tPresets } = useTranslation('optimizerTab', { keyPrefix: 'Presets' })
+
+  const form = useForm({
+    initialValues: useAhaTuningStore.getState(),
+    onValuesChange(updated) {
+      useAhaTuningStore.setState(updated)
+      SaveState.delayedSave()
+    },
+  })
+
+  const { teammate0, teammate1, teammate2, teammate3, desiredAha } = form.getValues()
+  const speeds = [teammate0, teammate1, teammate2, teammate3].filter((x): x is number => x !== '')
+  const ahaSpeed = calculateAhaSpeed(speeds)
+  const teammateSpeed = speeds.length >= 4 ? null : calculateNextTeammateSpeed(desiredAha, speeds)
+  const spdOptions = useMemo(() => buildSpdPresetOptions(tPresets, { skipNoMinimum: true }), [tPresets])
+  const desiredValue = desiredAha === '' ? undefined : desiredAha
+
+  function handleDesiredChange(value: number | undefined) {
+    form.setFieldValue('desiredAha', value ?? '')
+  }
+
+  return (
+    <CalculatorPanel>
+      <AhaPanelContent
+        form={form}
+        ahaSpeed={ahaSpeed}
+        speeds={speeds}
+        teammateSpeed={teammateSpeed}
+        desiredValue={desiredValue}
+        spdOptions={spdOptions}
+        onDesiredChange={handleDesiredChange}
+        t={t}
+      />
+    </CalculatorPanel>
+  )
+}

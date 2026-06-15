@@ -132,6 +132,7 @@ ReadableStats:
   Wind DMG Boost: '$t(gameData:Elements.Wind) 속성 피해'
   Quantum DMG Boost: '$t(gameData:Elements.Quantum) 속성 피해'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary) 속성 피해'
+  simScore: 사이클 총 피해량
 ShortReadableStats:
   "HP%": 체력 %
   HP: 체력

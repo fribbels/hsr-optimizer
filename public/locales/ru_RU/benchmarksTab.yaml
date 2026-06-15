@@ -31,7 +31,6 @@ ResultsPanel:
   CombatStats: Статы Персонажа в бою
   Rolls: Проки Статов
   Combo: Ротация
-  Damage: Урон способностей
 Messages:
   Error:
     MissingField: Отсутствует персонаж/световой конус/союзник

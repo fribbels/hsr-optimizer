@@ -28,6 +28,7 @@ import { migrateSilverWolfLv999EvanesciaMainStats } from 'lib/services/migration
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import {
   savedSessionDefaults,
   useGlobalStore,
@@ -37,6 +38,7 @@ import {
   getCharacters,
   useCharacterStore,
 } from 'lib/stores/character/characterStore'
+import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import {
   getRelicById,
@@ -52,6 +54,7 @@ import { useRelicLocatorStore } from 'lib/tabs/tabRelics/RelicLocator'
 import { useRelicsTabStore } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { useWarpCalculatorStore } from 'lib/tabs/tabWarp/useWarpCalculatorStore'
+import { normalizeWarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
 import type {
   Build,
   Character,
@@ -95,6 +98,8 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     useGlobalStore.getState().setCompletedMigrations(saveData.completedMigrations)
   }
 
+  useNewFeatureStore.getState().setSeenFeatures(new Set(saveData.seenFeatures ?? []))
+
   const migratedOverrides = migrateSilverWolfLv999EvanesciaMainStats(
     saveData.scoringMetadataOverrides ?? {},
     (id) => dbCharacters[id as CharacterId]?.scoringMetadata,
@@ -136,7 +141,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
     useShowcaseTabStore.getState().setShowcasePreferences(saveData.showcasePreferences)
   }
 
-  useWarpCalculatorStore.getState().setRequest(saveData.warpRequest)
+  useWarpCalculatorStore.getState().setRequest(normalizeWarpRequest(saveData.warpRequest))
 
   if (saveData.optimizerMenuState) {
     const menuState = { ...useOptimizerDisplayStore.getState().menuState }
@@ -187,6 +192,8 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
   useRelicLocatorStore.getState().setInventoryWidth(saveData.relicLocator?.inventoryWidth)
   useRelicLocatorStore.getState().setRowLimit(saveData.relicLocator?.rowLimit)
 
+  if (saveData.ahaSpeedTuner) useAhaTuningStore.setState(saveData.ahaSpeedTuner)
+
   // Restore scanner settings if they exist
   if (saveData.scannerSettings) {
     const scannerState = useScannerState.getState()
@@ -217,6 +224,7 @@ export function resetAll(): void {
     relics: [],
     characters: [],
     scoringMetadataOverrides: {},
+    seenFeatures: Array.from(useNewFeatureStore.getState().seenFeatures),
   }
   SaveState.permitEmptySave()
   loadSaveData(saveFormat)
@@ -483,6 +491,14 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
 }
 
 function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['characters']) {
+  // Clear legacy statSim formats that lack the current required shape
+  if (character.form?.statSim) {
+    const ss = character.form.statSim
+    if (!ss.substatRolls?.stats || !ss.benchmarks?.stats) {
+      character.form.statSim = undefined
+    }
+  }
+
   // Previously sim requests didn't use the stats field
   if (character.form?.statSim?.simulations) {
     character.form.statSim.simulations = character.form.statSim.simulations.filter((simulation: Simulation) => simulation.request?.stats)
@@ -495,7 +511,7 @@ function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['ch
   // Previously there was a weight sort which is now removed, arbitrarily replaced with SPD if the user had used it
   // @ts-expect-error - Migration: legacy save format field not in current types
   if (character.form.resultSort === 'WEIGHT') {
-    character.form.resultSort = 'SPD'
+    character.form.resultSort = SortOption.SPD.key
   }
 
   // Validate that the saved resultSort is a valid sort option, otherwise reset to default
@@ -515,6 +531,7 @@ function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['ch
 
 function deduplicateDbCharacterScoringParts(dbCharacters: DBMetadata['characters']) {
   for (const character of Object.values(dbCharacters)) {
+    if (!character.scoringMetadata?.parts) continue
     for (const part of Object.keys(Constants.Parts) as Parts[]) {
       if (part === Parts.Hands || part === Parts.Head) continue
       character.scoringMetadata.parts[part] = deduplicateStringArray(character.scoringMetadata.parts[part])

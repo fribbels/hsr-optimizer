@@ -30,8 +30,8 @@ export function SimulationInputs() {
     let sum = 0
     for (const stat of SubStats) {
       const rolls = statSimFormValues.substatRolls
-      if (rolls.stats[stat]) {
-        sum += rolls.stats[stat]
+      if (rolls?.stats?.[stat]) {
+        sum += rolls.stats![stat]
       }
     }
     return sum

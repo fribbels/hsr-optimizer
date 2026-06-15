@@ -1,6 +1,14 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,6 +16,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { EyesOfThePrey } from 'lib/conditionals/lightcone/4star/EyesOfThePrey'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
@@ -78,9 +87,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 1.60, 1.728)
   const dotScaling = talent(e, 0.52, 0.572)
 
+  const ultHitMulti = ashblazingMulti([
+    aoe(0.25),
+    aoe(0.25),
+    aoe(0.25),
+    aoe(0.25),
+  ])
+
   const maxExtraHits = e < 1 ? 4 : 5
   const defaults = {
-    dotTickCoefficient: 20,
+    tickCoefficient: 20,
     targetDotTakenDebuff: true,
     skillExtraHits: maxExtraHits,
     targetWindShear: true,
@@ -111,8 +127,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('Content.targetWindShear.text'),
       content: t('Content.targetWindShear.content'),
     },
-    dotTickCoefficient: {
-      id: 'dotTickCoefficient',
+    tickCoefficient: {
+      id: 'tickCoefficient',
       formItem: 'slider',
       text: tDot('Text'),
       content: tDot('Content'),
@@ -186,7 +202,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Wind)
               .atkScaling(totalDotScaling)
               .dotBaseChance(0.65)
-              .dotTickCoefficient(r.dotTickCoefficient)
+              .tickCoefficient(r.tickCoefficient)
               .build(),
           ],
         },
@@ -215,8 +231,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       )
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -320,7 +340,9 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.PRISONER_SET,
+    PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [
     SortOption.FUA,
@@ -340,6 +362,7 @@ const display = {
 
 export const Sampo: CharacterConfig = {
   id: '1108',
+  defaultLightCone: EyesOfThePrey.id,
   display,
   conditionals,
   get scoring() {

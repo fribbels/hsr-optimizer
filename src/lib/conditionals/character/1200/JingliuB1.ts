@@ -9,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { IShallBeMyOwnSword } from 'lib/conditionals/lightcone/5star/IShallBeMyOwnSword'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import {
@@ -222,13 +223,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.DEF_PEN, (r.maxSyzygyDefPen) ? 0.25 : 0, x.source(SOURCE_TRACE))
 
       // Trace: ULT DMG boost in enhanced state
-      x.buff(StatKey.DMG_BOOST, (r.talentEnhancedState) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.talentEnhancedState) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_TRACE))
 
       // E1: CD buff
       x.buff(StatKey.CD, (e >= 1 && r.e1Buffs) ? 0.36 : 0, x.source(SOURCE_E1))
 
       // E2: Skill DMG boost in enhanced state
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (e >= 2 && r.talentEnhancedState && r.e2SkillDmgBuff) ? 0.80 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E2))
 
       // E6: Ice RES PEN
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.30 : 0, x.elements(ElementTag.Ice).source(SOURCE_E6))
@@ -342,6 +343,7 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -353,12 +355,17 @@ const display = {
     y: 930,
     z: 1,
   },
-  disableSpine: true,
+  spineCenter: {
+    x: 989,
+    y: 914,
+    z: 1.17,
+  },
   showcaseColor: '#3e65f2',
 }
 
 export const JingliuB1: CharacterConfig = {
   id: '1212b1',
+  defaultLightCone: IShallBeMyOwnSword.id,
   display,
   conditionals,
   get scoring() {

@@ -153,8 +153,26 @@ describe('mergeDeltaWithDefaults', () => {
     expect(result.stats[Stats.CD]).toBe(1)
   })
 
-  it('sets modified=true when has stats override', () => {
+  it('sets modified=false when only SPD weight differs', () => {
     const override: ScoringMetadataOverride = { stats: { [Stats.SPD]: 1 } }
+    const defaults = makeDefaults()
+
+    const result = mergeDeltaWithDefaults(override, defaults)
+
+    expect(result.modified).toBe(false)
+  })
+
+  it('sets modified=true when non-SPD stat weight differs', () => {
+    const override: ScoringMetadataOverride = { stats: { [Stats.ATK_P]: 0.5 } }
+    const defaults = makeDefaults()
+
+    const result = mergeDeltaWithDefaults(override, defaults)
+
+    expect(result.modified).toBe(true)
+  })
+
+  it('sets modified=true when SPD and non-SPD stats both differ', () => {
+    const override: ScoringMetadataOverride = { stats: { [Stats.SPD]: 1, [Stats.CR]: 0.5 } }
     const defaults = makeDefaults()
 
     const result = mergeDeltaWithDefaults(override, defaults)

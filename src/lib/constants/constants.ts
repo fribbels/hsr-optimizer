@@ -4,18 +4,20 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.3.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.4.2'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.3v3'
+export const CURRENT_DATA_VERSION = '4.4v2'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
 export const RELIQUARY_DOWNTIME = false
-export const DOWNTIME_VERSION: string = '4.2'
+export const DOWNTIME_VERSION: string = '4.4'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  '1507': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1508': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1509': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1510': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
 }
 
 export const Stats = {
@@ -46,6 +48,7 @@ export const Stats = {
 
 type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
+export const ELEMENTAL_DMG_KEY = 'ELEMENTAL_DMG' as const
 
 export const TwoPieceStatTags = [
   Stats.ATK_P,
@@ -425,6 +428,8 @@ export const Sets = {
   TengokuLivestream: 'Tengoku@Livestream',
   PunklordeStageZero: 'Punklorde Stage Zero',
   CityOfConvergingStars: 'City of Converging Stars',
+  FallenStarAnchorage: 'Fallen Star Anchorage',
+  CosmicLifeSciencesInstitute: 'Cosmic Life Sciences Institute',
 } as const
 export type SetKey = keyof typeof Sets
 export type Sets = typeof Sets[SetKey]
@@ -588,9 +593,9 @@ export const CombatBuffs = {
     key: 'EHR',
     percent: true,
   },
-  DMG_BOOST: {
+  BOOST: {
     title: 'Dmg Boost %',
-    key: 'DMG_BOOST',
+    key: 'BOOST',
     percent: true,
   },
   DEF_PEN: {
@@ -625,6 +630,7 @@ export const ABILITY_LIMIT = 12
 export const DEFAULT_TEAM = 'Default'
 export const CUSTOM_TEAM = 'Custom'
 export const SETTINGS_TEAM = 'Settings'
+export type TeamSelection = typeof DEFAULT_TEAM | typeof CUSTOM_TEAM
 
 export const COMPUTE_ENGINE_CPU = 'CPU'
 export const COMPUTE_ENGINE_GPU_STABLE = 'GPU Stable'

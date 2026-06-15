@@ -9,6 +9,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NinjutsuInscriptionDazzlingEvilbreaker } from 'lib/conditionals/lightcone/5star/NinjutsuInscriptionDazzlingEvilbreaker'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
@@ -421,6 +422,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.WASTELANDER_SET,
   ],
+  defaultDamageType: DamageTag.SUPER_BREAK,
   sortOption: SortOption.BASIC,
   hiddenColumns: [
     SortOption.ULT,
@@ -441,11 +443,12 @@ const display = {
     y: 1228,
     z: 1.95,
   },
-  showcaseColor: '#9190f8',
+  showcaseColor: '#373699',
 }
 
 export const Rappa: CharacterConfig = {
   id: '1317',
+  defaultLightCone: NinjutsuInscriptionDazzlingEvilbreaker.id,
   display,
   conditionals,
   get scoring() {

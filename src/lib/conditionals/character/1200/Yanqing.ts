@@ -1,6 +1,5 @@
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -19,7 +18,7 @@ import {
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -39,6 +38,7 @@ import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { SleepLikeTheDead } from 'lib/conditionals/lightcone/5star/SleepLikeTheDead'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -93,6 +93,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const fuaScaling = talent(e, 0.50, 0.55)
 
   const hitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    return hitMulti
+  }
 
   const defaults = {
     ultBuffActive: true,
@@ -271,11 +280,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
 
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMulti, action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -382,6 +391,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.fnAshblazingSet(2),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -399,6 +409,7 @@ const display = {
 
 export const Yanqing: CharacterConfig = {
   id: '1209',
+  defaultLightCone: SleepLikeTheDead.id,
   display,
   conditionals,
   get scoring() {

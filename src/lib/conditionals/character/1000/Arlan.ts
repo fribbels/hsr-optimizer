@@ -1,6 +1,14 @@
+import {
+  ashblazingMulti,
+  blast,
+} from 'lib/conditionals/ashblazingCompute'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,6 +16,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { ASecretVow } from 'lib/conditionals/lightcone/4star/ASecretVow'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -35,6 +44,7 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -78,6 +88,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.40, 2.64)
   const ultScaling = ult(e, 3.20, 3.456)
+
+  const ultHitMulti = ashblazingMulti([
+    blast(0.30),
+    blast(0.10),
+    blast(0.60),
+  ])
 
   const talentMissingHpDmgBoostMax = talent(e, 0.72, 0.792)
 
@@ -155,12 +171,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent), x.source(SOURCE_TALENT))
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E1))
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, Math.min(talentMissingHpDmgBoostMax, 1 - r.selfCurrentHpPercent), x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, (e >= 1 && r.selfCurrentHpPercent <= 0.50) ? 0.10 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 6 && r.selfCurrentHpPercent <= 0.50) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }
@@ -259,7 +279,10 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(8),
+  ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.FUA,
@@ -280,6 +303,7 @@ const display = {
 
 export const Arlan: CharacterConfig = {
   id: '1008',
+  defaultLightCone: ASecretVow.id,
   display,
   conditionals,
   get scoring() {

@@ -1,9 +1,15 @@
 import { Flex } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import { useState } from 'react'
-import { FLAG_COLORS, formatParamCombo } from './setAuditorConstants'
+import {
+  FLAG_COLORS,
+  formatParamCombo,
+} from './setAuditorConstants'
 import { SetAuditorDrillDown } from './SetAuditorDrillDown'
-import type { AuditorSetSummary, AuditorSetType } from './setAuditorTypes'
+import type {
+  AuditorSetSummary,
+  AuditorSetType,
+} from './setAuditorTypes'
 
 const MATCHED_COLOR = 'rgba(80, 200, 80, 0.1)'
 
@@ -30,9 +36,9 @@ function SetIcons(props: { summary: AuditorSetSummary }) {
 }
 
 export function SetAuditorSummaryTable(props: {
-  summaries: AuditorSetSummary[]
-  relicReferenceLabel: string
-  ornamentReferenceLabel: string
+  summaries: AuditorSetSummary[],
+  relicReferenceLabel: string,
+  ornamentReferenceLabel: string,
 }) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
 
@@ -66,12 +72,12 @@ export function SetAuditorSummaryTable(props: {
 }
 
 function SummarySection(props: {
-  title: string
-  referenceLabel: string
-  summaries: AuditorSetSummary[]
-  expandedIndex: number | null
-  setExpandedIndex: (i: number | null) => void
-  indexOffset: number
+  title: string,
+  referenceLabel: string,
+  summaries: AuditorSetSummary[],
+  expandedIndex: number | null,
+  setExpandedIndex: (i: number | null) => void,
+  indexOffset: number,
 }) {
   const { title, referenceLabel, summaries, expandedIndex, setExpandedIndex, indexOffset } = props
 
@@ -121,10 +127,10 @@ function SummarySection(props: {
 }
 
 function SummaryRow(props: {
-  summary: AuditorSetSummary
-  isExpanded: boolean
-  onClick: () => void
-  backgroundColor: string
+  summary: AuditorSetSummary,
+  isExpanded: boolean,
+  onClick: () => void,
+  backgroundColor: string,
 }) {
   const { summary, isExpanded, onClick, backgroundColor } = props
 

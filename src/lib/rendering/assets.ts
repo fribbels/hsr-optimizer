@@ -43,7 +43,6 @@ const iconFromStatMapping: Record<string, string> = {
 
 export const Assets = {
   getStatIcon: (stat: string, percented: boolean = false) => {
-    if (stat === 'CV') return getImageUrl(`/misc/cv.webp`)
     if (stat === 'simScore') return getImageUrl(`/misc/battle.webp`)
     if (stat === Constants.Stats.HP_P && percented) return getImageUrl(`/misc/IconMaxHPPercent.webp`)
     if (stat === Constants.Stats.ATK_P && percented) return getImageUrl(`/misc/IconAttackPercent.webp`)
@@ -99,6 +98,9 @@ export const Assets = {
   },
   getBlank: () => {
     return getImageUrl('/misc/blank.webp')
+  },
+  getDefaultRelic: () => {
+    return getImageUrl('/misc/defaultrelic.webp')
   },
   getQuestion: () => {
     return getImageUrl('/misc/tooltip.webp')
@@ -190,9 +192,5 @@ export const Assets = {
 
   getGlobe: () => {
     return getImageUrl(`/misc/globe.webp`)
-  },
-
-  getDefaultRelic: () => {
-    return getImageUrl('/misc/defaultrelic.webp')
   },
 }

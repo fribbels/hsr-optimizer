@@ -1,4 +1,5 @@
 import type { Buff } from 'lib/optimization/basicStatsArray'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import type {
   AbilityKind,
@@ -53,8 +54,8 @@ export type PrimaryActionStats = {
   // Full resolved stats for the primary hit's source entity, matching the damage formula:
   //   cr = CR (action+hit) + CR_BOOST (action)
   //   cd = CD (action+hit) + CD_BOOST (action)
-  //   dmg = DMG_BOOST (action+hit) + elementDmgBoost (action)
-  DMG_BOOST: number,
+  //   dmg = BOOST (action+hit) + elementDmgBoost (action)
+  BOOST: number,
   sourceEntityCR: number,
   sourceEntityCD: number,
   sourceEntityElementDmgBoost: number,
@@ -66,6 +67,7 @@ export type RotationDamageStep = {
   actionType: AbilityKind,
   actionName: TurnAbilityName,
   damage: number,
+  buffStat?: AKeyValue,
 }
 
 export type ActionBuffSnapshot = {

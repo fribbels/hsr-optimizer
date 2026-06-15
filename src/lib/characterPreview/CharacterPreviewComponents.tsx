@@ -7,21 +7,8 @@ export enum ShowcaseSource {
   BUILDS_MODAL,
 }
 
-function isMobileOrSafari() {
-  const userAgent = navigator.userAgent
-
-  // Detect mobile devices
-  const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop|BlackBerry/i.test(userAgent)
-
-  // Detect Safari (excluding Chrome on iOS)
-  const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent)
-
-  return isMobile || isSafari
-}
-
-// Mobile/Safari shadows don't render correctly on the Y axis
-const showcaseShadowDefault = isMobileOrSafari() ? 'rgb(0, 0, 0) 1px 0px 6px' : 'rgb(0, 0, 0) 1px 1px 6px'
-const showcaseShadowInsetDefault = ', inset rgb(255 255 255 / 30%) 0px 0px 2px'
+const showcaseShadowDefault = 'none'
+const showcaseShadowInsetDefault = ''
 
 // Use CSS custom properties so the debug slider panel can override these
 export const showcaseShadow = `var(--showcase-shadow, ${showcaseShadowDefault})`

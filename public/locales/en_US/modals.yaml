@@ -6,7 +6,7 @@ Scoring:
     AddRelicSetPlaceholder: Add relic set
     AddOrnamentSetPlaceholder: Add ornament set
   WeightMethodology:
-    Header: How is Stat Score calculated?
+    Header: How are substat weights used?
   Footer:
     Reset: Reset to default
     ResetAll: Reset all characters
@@ -384,3 +384,27 @@ RelicReroll:
   Title: Relic Reroll Detected
   OriginalSubstats: Original Substats
   RerolledSubstats: Rerolled Substats
+Calculators:
+  AHA:
+    Label: Aha Speed
+    Output:
+      Teammate0: 1st Teammate's SPD
+      Teammate1: 2nd Teammate's SPD
+      Teammate2: 3rd Teammate's SPD
+      Teammate3: 4th Teammate's SPD
+      AhaSpeed: Aha's Speed
+    Input:
+      DesiredAha: Target Aha SPD
+      TeammateSpeeds: Elation teammate speeds
+  EHR:
+    Label: Effect Hit Rate
+    Input:
+      EffectRes: Enemy effect RES
+      DebuffRes: Enemy debuff RES
+      BaseChance: Debuff base chance
+      Attempts: Application attempts
+      HitRate: Effect Hit Rate
+      DesiredHitRate: Target debuff chance
+    Output:
+      ApplicationRate: Chance to apply
+      RequiredHitRate: Required EHR

@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
@@ -318,7 +319,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const memoSkillScalingIndividual = memoSkillDmgScaling + (e >= 4 ? r.e4BounceStacks * 0.06 : 0)
       const memoSkillTotalHpScaling = memoSkillDmgScaling
         + r.odeToEgoExtraBounces * memoSkillScalingIndividual
-        + r.e1ExtraBounces * memoSkillScalingIndividual
+        + (e >= 1 ? r.e1ExtraBounces * memoSkillScalingIndividual : 0)
       const memoSkillToughness = 10
         + 5 / 3 * r.odeToEgoExtraBounces
         + (e >= 1 ? 5 / 3 * r.e1ExtraBounces : 0)
@@ -372,7 +373,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Talent DMG boost (full team)
-      x.buff(StatKey.DMG_BOOST, m.talentDmgBuff ? talentDmgBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, m.talentDmgBuff ? talentDmgBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
       // Skill zone TRUE_DMG_MODIFIER (full team)
       x.buff(StatKey.TRUE_DMG_MODIFIER, m.zoneActive ? skillTrueDmgBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
@@ -393,12 +394,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace SPD-based DMG buff
-      x.buff(StatKey.DMG_BOOST, t.cyreneSpdDmg ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, t.cyreneSpdDmg ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       if (t.specialEffect) {
         if (!chrysosHeirs.has(context.characterId)) {
           // Non-chrysosHeirs get DMG buff to single target (follows memo buff priority)
-          x.buff(StatKey.DMG_BOOST, t.specialEffect ? memoSkillDmgBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_MEMO))
+          x.buff(StatKey.BOOST, t.specialEffect ? memoSkillDmgBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_MEMO))
         } else if (context.characterId == TrailblazerRemembranceStelle.id || context.characterId == TrailblazerRemembranceCaelus.id) {
           // Trailblazers get ATK and CR conversion buffs (self + memosprite)
           const atkBuff = memoSkillTrailblazerAtkScaling * t.cyreneHp
@@ -417,7 +418,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const spd = x.getActionValue(StatKey.SPD, CyreneEntities.Cyrene)
 
       if (spd >= 180 && r.traceSpdBasedBuff) {
-        x.buff(StatKey.DMG_BOOST, 0.20, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
+        x.buff(StatKey.BOOST, 0.20, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
         x.buff(
           StatKey.RES_PEN,
           floorSafe(Math.min(60, spd - 180)) * 0.02,
@@ -430,7 +431,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       return wgsl`
 if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 180.0 && ${wgslTrue(r.traceSpdBasedBuff)}) {
-  ${buff.action(AKey.DMG_BOOST, 0.20).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
+  ${buff.action(AKey.BOOST, 0.20).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
 
   let penBuff = floorSafe(min(60.0, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} - 180.0)) * 0.02;
   ${buff.hit(HKey.RES_PEN, 'penBuff').elements(ElementTag.Ice).targets(TargetTag.SelfAndMemosprite).wgsl(action)}
@@ -544,7 +545,9 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.BANANA_SET,
+    PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.MEMO,
   sortOption: SortOption.MEMO_SKILL,
   hiddenColumns: [
     SortOption.SKILL,
@@ -595,6 +598,7 @@ export function cyreneSpecialEffectEidolonUpgraded(action: OptimizerAction) {
 
 export const Cyrene: CharacterConfig = {
   id: '1415',
+  defaultLightCone: ThisLoveForever.id,
   display,
   conditionals,
   get scoring() {

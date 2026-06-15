@@ -2,7 +2,10 @@ import { Flex } from '@mantine/core'
 import { notifications } from '@mantine/notifications'
 import i18next from 'i18next'
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
-import { setOpen, OpenCloseIDs } from 'lib/hooks/useOpenClose'
+import {
+  OpenCloseIDs,
+  setOpen,
+} from 'lib/hooks/useOpenClose'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import { isVersionOutdated } from 'lib/utils/miscUtils'
 import { Trans } from 'react-i18next'

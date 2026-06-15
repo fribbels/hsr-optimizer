@@ -50,7 +50,7 @@ export const newStatsConfig = {
   ERR: { hit: true, label: commonReadableStat('Energy Regeneration Rate') },
   OHB: { hit: true, label: commonReadableStat('Outgoing Healing Boost') },
 
-  DMG_BOOST: { hit: true, label: optimizerTabCompositeSuffix('DMG Boost') },
+  BOOST: { hit: true, label: optimizerTabCompositeSuffix('DMG Boost') },
 
   VULNERABILITY: { hit: true, label: optimizerTabCompositeSuffix('Vulnerability') },
   RES_PEN: { hit: true, label: optimizerTabCompositeSuffix('RES PEN') },

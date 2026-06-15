@@ -1,13 +1,14 @@
 import { Skeleton } from '@mantine/core'
+import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import styles from 'lib/characterPreview/summary/SubstatRollsSummary.module.css'
 import { SubStats } from 'lib/constants/constants'
 import { Stats } from 'lib/constants/constants'
 import {
-  diminishingReturnsFormula,
+  computeDiminishingReturnsPenalties,
   type SimulationScore,
-  spdDiminishingReturnsFormula,
 } from 'lib/scoring/simScoringUtils'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import { type ScoringConfigType } from 'types/metadata'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
@@ -21,6 +22,7 @@ interface SubstatRollsSummaryCommonProps {
   precision: number
   diminish: boolean
   columns?: 1 | 2
+  configType?: ScoringConfigType
 }
 
 interface SyncProps extends SubstatRollsSummaryCommonProps {
@@ -32,7 +34,7 @@ interface SyncProps extends SubstatRollsSummaryCommonProps {
 interface AsyncProps extends SubstatRollsSummaryCommonProps {
   simRequest?: never
   promise: Promise<SimulationScore | null>
-  type: 'Benchmark' | 'Perfect'
+  type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFECT
 }
 
 type SubstatRollsSummaryProps = SyncProps | AsyncProps
@@ -51,26 +53,9 @@ export const SubstatRollsSummary = memo(function SubstatRollsSummary(props: Subs
   return props.promise ? <AsyncStatRollSummary {...props} /> : <SyncSubstatRollsSummary {...props} />
 })
 
-function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns }: SyncProps) {
+function SyncSubstatRollsSummary({ simRequest, precision, diminish, columns, configType }: SyncProps) {
   const stats = simRequest.stats
-  const diminishingReturns: Record<string, number> = {}
-  if (diminish) {
-    for (const [stat, rolls] of Object.entries(stats)) {
-      const mainsCount = [
-        simRequest.simBody,
-        simRequest.simFeet,
-        simRequest.simPlanarSphere,
-        simRequest.simLinkRope,
-        Stats.ATK,
-        Stats.HP,
-      ].filter((x) => x === stat).length
-      if (stat === Stats.SPD) {
-        diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
-      } else {
-        diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
-      }
-    }
-  }
+  const diminishingReturns = diminish ? computeDiminishingReturnsPenalties(simRequest, configType) : {}
 
   return (
     <RenderStats
@@ -112,7 +97,7 @@ function ScoringNumberParens({ label, number, parens: parensValue, precision = 1
   )
 }
 
-function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: AsyncProps) {
+function AsyncStatRollSummary({ promise, type, precision, diminish, columns, configType }: AsyncProps) {
   const [stats, setStats] = useState<Record<string, number>>({})
   const [diminishingReturns, setDiminishingReturns] = useState<Record<string, number>>({})
   const [suspended, setSuspended] = useState(true)
@@ -127,28 +112,9 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: A
     promise.then((result) => {
       if (result === null) return
 
-      const request = type === 'Benchmark' ? result.benchmarkSim.request : result.maximumSim.request
-
+      const request = type === ScoringColumnKind.BENCHMARK ? result.benchmarkSim.request : result.maximumSim.request
       const stats = request.stats
-      const diminishingReturns: Record<string, number> = {}
-
-      if (diminish) {
-        for (const [stat, rolls] of Object.entries(stats)) {
-          const mainsCount = [
-            request.simBody,
-            request.simFeet,
-            request.simPlanarSphere,
-            request.simLinkRope,
-            Stats.ATK,
-            Stats.HP,
-          ].filter((x) => x === stat).length
-          if (stat === Stats.SPD) {
-            diminishingReturns[stat] = rolls - spdDiminishingReturnsFormula(mainsCount, rolls)
-          } else {
-            diminishingReturns[stat] = rolls - diminishingReturnsFormula(mainsCount, rolls)
-          }
-        }
-      }
+      const diminishingReturns = diminish ? computeDiminishingReturnsPenalties(request, configType) : {}
 
       if (stale) return
 
@@ -159,7 +125,7 @@ function AsyncStatRollSummary({ promise, type, precision, diminish, columns }: A
     return () => {
       stale = true
     }
-  }, [promise, type, diminish])
+  }, [promise, type, diminish, configType])
   return (
     <RenderStats
       stats={stats}

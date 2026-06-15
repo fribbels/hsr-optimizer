@@ -257,4 +257,3 @@ export function DeferCreate({
   const visible = useDeferredSlot()
   return visible ? children : fallback
 }
-

@@ -1,10 +1,13 @@
 import {
+  Badge,
   Box,
+  Indicator,
   Tooltip,
   UnstyledButton,
 } from '@mantine/core'
 import {
   IconBook,
+  IconCalculator,
   IconChartRadar,
   IconDiamond,
   IconHome,
@@ -23,11 +26,16 @@ import { GithubIcon } from 'icons/GithubIcon'
 import { AppPages } from 'lib/constants/appPages'
 import { officialOnly } from 'lib/constants/constants'
 import {
+  isNewGroupCheck,
+  NewFeatureKey,
+} from 'lib/constants/newFeatures'
+import {
   OpenCloseIDs,
   setOpen,
   useIsOpen,
 } from 'lib/hooks/useOpenClose'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import {
   useCallback,
   useEffect,
@@ -47,6 +55,7 @@ type NavItem = {
   icon: React.ReactNode,
   href?: string,
   onClick?: () => void,
+  newFeatureKey?: NewFeatureKey,
 }
 
 type NavGroup = {
@@ -65,6 +74,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
   onNavigate: (item: NavItem) => void,
   anyDrawerOpen: boolean,
 }) {
+  const seenFeatures = useNewFeatureStore((s) => s.seenFeatures)
   const navRef = useRef<HTMLDivElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
   const highlightedRef = useRef<HTMLElement>(null)
@@ -144,10 +154,12 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
                 'data-active': isActive || undefined,
                 'data-focused': isFocused || undefined,
               }
+              const isNew = item.newFeatureKey ? isNewGroupCheck(item.newFeatureKey, seenFeatures) : false
               const content = (
                 <>
                   <div className={classes.itemIcon}>{item.icon}</div>
                   <span className={classes.itemLabel}>{item.label}</span>
+                  {isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>New</Badge>}
                 </>
               )
               return item.href
@@ -183,6 +195,7 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
   activeKey: string,
   onNavigate: (item: NavItem) => void,
 }) {
+  const seenFeatures = useNewFeatureStore((s) => s.seenFeatures)
   return (
     <div className={classes.rootCollapsed}>
       {groups.map((group) => (
@@ -190,9 +203,14 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
           <div className={classes.groupItems}>
             {group.items.map((item) => {
               const isActive = item.key === activeKey
-              const iconContent = <Box className={classes.itemIcon}>{item.icon}</Box>
+              const isNew = item.newFeatureKey ? isNewGroupCheck(item.newFeatureKey, seenFeatures) : false
+              const iconBox = <Box className={classes.itemIcon}>{item.icon}</Box>
+              const iconContent = isNew
+                ? <Indicator size={8} color='blue' position='top-end' offset={1}>{iconBox}</Indicator>
+                : iconBox
+              const tooltipLabel = isNew ? `${item.label} — New` : item.label
               return (
-                <Tooltip key={item.key} label={item.label} position='right' withArrow openDelay={300}>
+                <Tooltip key={item.key} label={tooltipLabel} position='right' withArrow openDelay={300}>
                   {item.href
                     ? (
                       <a
@@ -241,7 +259,8 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
       items: [
         { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
-        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
+        { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
+        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} />, newFeatureKey: NewFeatureKey.WARP },
       ],
     },
     {

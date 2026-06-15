@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 import { FuXuan } from 'lib/conditionals/character/1200/FuXuan'
-import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
-import { Sparkle } from 'lib/conditionals/character/1300/Sparkle'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
@@ -38,7 +38,7 @@ test('Anaxa sim', () => {
       character: testCharacter(Anaxa.id, LifeShouldBeCastToFlames.id),
       teammate0: testCharacter(Sunday.id, AGroundedAscent.id),
       teammate1: testCharacter(Robin.id, FlowingNightglow.id),
-      teammate2: testCharacter(Huohuo.id, NightOfFright.id),
+      teammate2: testCharacter(HuohuoB1.id, NightOfFright.id),
       sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
@@ -69,7 +69,7 @@ test('Anaxa sim', () => {
       BE: 0.648,
       OHB: 0,
       ERR: 0,
-      DMG_BOOST: 6.0868,
+      BOOST: 6.0868,
       EHP: 8966.4990234,
       HEAL_VALUE: 0,
       SHIELD_VALUE: 0,
@@ -91,7 +91,7 @@ test('Acheron sim', () => {
     generateE6S5Test({
       character: testCharacter(Acheron.id, AlongThePassingShore.id),
       teammate0: testCharacter(Jiaoqiu.id, ThoseManySprings.id),
-      teammate1: testCharacter(Sparkle.id, EarthlyEscapade.id),
+      teammate1: testCharacter(SparkleB1.id, EarthlyEscapade.id),
       teammate2: testCharacter(FuXuan.id, SheAlreadyShutHerEyes.id),
       sets: testSets(Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters, Sets.IzumoGenseiAndTakamaDivineRealm),
       mains: testMains(Stats.CD, Stats.ATK_P, Stats.Lightning_DMG, Stats.ATK_P),
@@ -112,30 +112,30 @@ test('Acheron sim', () => {
       LIGHTNING_DMG_BOOST: 0.4688,
     },
     {
-      ATK: 4681.6137695,
+      ATK: 5081.6889781,
       DEF: 1283.574585,
-      HP: 4360.8476563,
-      SPD: 127.0000992,
+      HP: 4360.8474121,
+      SPD: 127,
       CR: 1.026,
-      CD: 5.632,
+      CD: 5.6319999,
       EHR: 0.432,
       RES: 0.432,
       BE: 0.648,
       OHB: 0,
       ERR: 0,
-      DMG_BOOST: 3.3607999,
-      EHP: 32793.9453125,
+      BOOST: 2.8388,
+      EHP: 32793.9415686,
       HEAL_VALUE: 0,
       SHIELD_VALUE: 0,
-      BASIC_DMG: 434591.90625,
-      SKILL_DMG: 695347.0475843,
-      ULT_DMG: 2179912.9941768,
+      BASIC_DMG: 522981.5629506,
+      SKILL_DMG: 836770.500721,
+      ULT_DMG: 2623275.5197605,
       FUA_DMG: 0,
       DOT_DMG: 0,
-      BREAK_DMG: 26575.1464844,
+      BREAK_DMG: 34608.8620462,
       MEMO_SKILL_DMG: 0,
       MEMO_TALENT_DMG: 0,
-      COMBO_DMG: 3570607.0893455,
+      COMBO_DMG: 4296816.5212025,
     },
   )
 })
@@ -146,7 +146,7 @@ test('Acheron sim', () => {
 //       character: testCharacter(JINGLIU, I_SHALL_BE_MY_OWN_SWORD),
 //       teammate0: testCharacter(BRONYA, BUT_THE_BATTLE_ISNT_OVER),
 //       teammate1: testCharacter(RUAN_MEI, PAST_SELF_IN_MIRROR),
-//       teammate2: testCharacter(Huohuo.id, NightOfFright.id),
+//       teammate2: testCharacter(HuohuoB1.id, NightOfFright.id),
 //       sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
 //       mains: testMains(Stats.CD, Stats.ATK_P, Stats.Ice_DMG, Stats.ATK_P),
 //       stats: testStatSpread(),
@@ -177,7 +177,7 @@ test('Acheron sim', () => {
 //       BE: 0.848,
 //       OHB: 0,
 //       ERR: 0,
-//       DMG_BOOST: 4.0468001,
+//       BOOST: 4.0468001,
 //       EHP: 10227.2568359,
 //       HEAL_VALUE: 0,
 //       SHIELD_VALUE: 0,

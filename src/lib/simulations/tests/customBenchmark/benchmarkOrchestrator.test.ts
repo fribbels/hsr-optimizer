@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
-import { Kafka } from 'lib/conditionals/character/1000/Kafka'
-import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { BlackSwan } from 'lib/conditionals/character/1300/BlackSwan'
+import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Boothill } from 'lib/conditionals/character/1300/Boothill'
-import { Firefly } from 'lib/conditionals/character/1300/Firefly'
+import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
@@ -51,7 +51,7 @@ test('Anaxa benchmark 0', async () => {
       character: testCharacter(Anaxa.id, LifeShouldBeCastToFlames.id),
       teammate0: testCharacter(Sunday.id, AGroundedAscent.id),
       teammate1: testCharacter(Robin.id, FlowingNightglow.id),
-      teammate2: testCharacter(Huohuo.id, NightOfFright.id),
+      teammate2: testCharacter(HuohuoB1.id, NightOfFright.id),
       sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
@@ -68,7 +68,7 @@ test('Anaxa benchmark 133.333', async () => {
       character: testCharacter(Anaxa.id, LifeShouldBeCastToFlames.id),
       teammate0: testCharacter(Sunday.id, AGroundedAscent.id),
       teammate1: testCharacter(Robin.id, FlowingNightglow.id),
-      teammate2: testCharacter(Huohuo.id, NightOfFright.id),
+      teammate2: testCharacter(HuohuoB1.id, NightOfFright.id),
       sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
@@ -85,7 +85,7 @@ test('Anaxa benchmark 200 captain', async () => {
       character: testCharacter(Anaxa.id, LifeShouldBeCastToFlames.id),
       teammate0: testCharacter(Sunday.id, AGroundedAscent.id),
       teammate1: testCharacter(Robin.id, FlowingNightglow.id),
-      teammate2: testCharacter(Huohuo.id, NightOfFright.id),
+      teammate2: testCharacter(HuohuoB1.id, NightOfFright.id),
       sets: testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
       mains: testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
@@ -95,30 +95,30 @@ test('Anaxa benchmark 200 captain', async () => {
   )
 }, TIMEOUT)
 
-test('Black Swan benchmark 0 captain', async () => {
+test('Black Swan B1 benchmark 0 captain', async () => {
   await expectBenchmarkResultsToMatch(
     0,
     generateE6S5Test({
-      character: testCharacter(BlackSwan.id, ReforgedRemembrance.id),
-      teammate0: testCharacter(Kafka.id, PatienceIsAllYouNeed.id),
+      character: testCharacter(BlackSwanB1.id, ReforgedRemembrance.id),
+      teammate0: testCharacter(KafkaB1.id, PatienceIsAllYouNeed.id),
       teammate1: testCharacter(RuanMei.id, PastSelfInTheMirror.id),
-      teammate2: testCharacter(Huohuo.id, NightOfFright.id),
+      teammate2: testCharacter(HuohuoB1.id, NightOfFright.id),
       sets: testSets(Sets.WavestriderCaptain, Sets.WavestriderCaptain, Sets.FirmamentFrontlineGlamoth),
       mains: testMains(Stats.ATK_P, Stats.ATK_P, Stats.Wind_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    1498006.2735128691,
-    1704332.6283416362,
+    7510289.308226261,
+    8310382.031654682,
   )
 }, TIMEOUT)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-test('Firefly benchmark 160', async () => {
+test('Firefly B1 benchmark 160', async () => {
   await expectBenchmarkResultsToMatch(
     160,
     generateE6S5Test({
-      character: testCharacter(Firefly.id, WhereaboutsShouldDreamsRest.id),
+      character: testCharacter(FireflyB1.id, WhereaboutsShouldDreamsRest.id),
       teammate0: testCharacter(TrailblazerHarmonyStelle.id, MemoriesOfThePast.id),
       teammate1: testCharacter(RuanMei.id, PastSelfInTheMirror.id),
       teammate2: testCharacter(Lingsha.id, ScentAloneStaysTrue.id),
@@ -126,8 +126,8 @@ test('Firefly benchmark 160', async () => {
       mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
       stats: testStatSpread(),
     }),
-    4879910.029681528,
-    5954549.011243393,
+    7224759.249151189,
+    8762463.417165942,
   )
 }, TIMEOUT)
 

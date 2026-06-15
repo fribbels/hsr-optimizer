@@ -86,3 +86,8 @@ CharacterSelect:
 LightconeSelect:
   Placeholder: Cono di luce
   Title: Seleziona un cono di luce
+Calculators:
+  EHR:
+    Label: Tasso di Successo Effetto
+    Input:
+      HitRate: Tasso di Successo Effetto

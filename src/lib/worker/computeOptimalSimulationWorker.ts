@@ -4,9 +4,13 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { ScoringConfigType } from 'types/metadata'
 import {
   applyScoringFunction,
+  createDiminishingReturns,
   substatRollsModifier,
+  supportDiminishingReturns,
 } from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { runStatSimulations } from 'lib/simulations/statSimulation'
@@ -53,19 +57,13 @@ function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
   if (input.context.characterId === Hysilens.id) {
     const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
     if (!ehrLightCone) {
-      return (rolls: number, stat: string, sim: Simulation) =>
-        substatRollsModifier(rolls, stat, sim, (mainsCount, rolls) => {
-          const lowerLimit = 24 - 2 * mainsCount
-          if (rolls <= lowerLimit) {
-            return rolls
-          }
-
-          const excess = Math.max(0, rolls - lowerLimit)
-          const diminishedExcess = excess / (Math.pow(excess, 0.25))
-
-          return lowerLimit + diminishedExcess
-        })
+      const hysilensDiminishingReturns = createDiminishingReturns(24, 2)
+      return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, hysilensDiminishingReturns)
     }
+  }
+
+  if (input.configType !== ScoringConfigType.DPS) {
+    return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, supportDiminishingReturns)
   }
 
   return substatRollsModifier
@@ -81,6 +79,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     metadata,
     scoringParams,
     simulationFlags,
+    configType,
   } = input
 
   scoringParams.substatRollsModifier = scoringParams.quality === 0.8
@@ -96,6 +95,10 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   if (scoringParams.enforcePossibleDistribution) {
     maxSubstatRollCounts[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD]) // Fixes SPD
     currentSimulation.request.stats[Stats.SPD] = Math.max(6, maxSubstatRollCounts[Stats.SPD])
+    if (maxSubstatRollCounts[Stats.RES] > 0) {
+      maxSubstatRollCounts[Stats.RES] = Math.max(6, maxSubstatRollCounts[Stats.RES])
+      currentSimulation.request.stats[Stats.RES] = Math.max(6, maxSubstatRollCounts[Stats.RES])
+    }
   }
 
   // Cached container reused across all damageFunction calls to avoid repeated allocations
@@ -113,10 +116,10 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
     mergedScoringParams.stabilize = stabilize
-    mergedScoringParams.skipDefaults = !stabilize
+    mergedScoringParams.skipDefaults = SCORING_CONFIG_REGISTRY[configType].requiresDefaultActions ? false : !stabilize
     currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
-    applyScoringFunction(currentSimulation.result, metadata)
+    applyScoringFunction(currentSimulation.result, metadata, true, false, context, configType)
     return currentSimulation.result.simScore
   }
 
@@ -142,7 +145,7 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   if (maxAssignments < 24) {
     throw new Error(
       `Search space assignment-infeasible: ${maxAssignments}/24 slots fillable. `
-      + `Character's effectiveSubstats needs more filler stats.`,
+        + `Character's effectiveSubstats needs more filler stats.`,
     )
   }
 

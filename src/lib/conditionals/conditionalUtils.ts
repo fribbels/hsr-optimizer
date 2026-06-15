@@ -1,7 +1,8 @@
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import type {
-  ElementName,
-  PathName,
+import {
+  type ElementName,
+  type PathName,
+  PathNames,
 } from 'lib/constants/constants'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import type { ContentItem } from 'types/conditionals'
@@ -175,6 +176,15 @@ export function teammateMatchesId(context: OptimizerContext, id: string) {
 
 export function mainIsPath(context: OptimizerContext, path: PathName) {
   return context.path == path
+}
+
+// Hardcoded to avoid circular dep with character files.
+const HYACINE_ID = '1409'
+
+export function teamHasSustain(context: OptimizerContext) {
+  return teammateMatchesId(context, HYACINE_ID)
+    + countTeamPath(context, PathNames.Abundance)
+    + countTeamPath(context, PathNames.Preservation)
 }
 
 export function findTeamAction(action: OptimizerAction, actorId: string) {

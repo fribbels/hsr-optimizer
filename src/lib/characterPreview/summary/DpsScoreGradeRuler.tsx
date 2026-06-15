@@ -1,10 +1,12 @@
-import {
-  ScoringSelector,
-  useSimScoringContext,
-} from 'lib/characterPreview/SimScoringContext'
+import { useSimScore } from 'lib/characterPreview/useSimScoringHooks'
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
+import {
+  resolveRulerLabel,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
+import { formatSimScore } from 'lib/scoring/simScoringUtils'
 import type { Languages } from 'lib/utils/i18nUtils'
-import { renderThousandsK } from 'lib/utils/i18nUtils'
 import {
   type CSSProperties,
   memo,
@@ -13,6 +15,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { ScoringConfigType } from 'types/metadata'
 import styles from './DpsScoreGradeRuler.module.css'
 
 // --- Static data ---
@@ -65,13 +68,16 @@ function calculateScaledPosition(gradeValue: number, minimum: number, benchmark:
 }
 
 function toPercent(value: number, minimum: number, maximum: number): string {
-  return `${(value - minimum) / (maximum - minimum) * 100}%`
+  const range = maximum - minimum
+  if (range <= 0) return '0%'
+  return `${(value - minimum) / range * 100}%`
 }
 
 // --- Component ---
 
 function computeGradientVars(minimum: number, benchmark: number, maximum: number): CSSProperties {
   const range = maximum - minimum
+  if (range <= 0) return defaultGradientVars
   const benchRatio = (benchmark - minimum) / range
   const maxRatio = (maximum - benchmark) / range
   return {
@@ -128,10 +134,10 @@ const emptyState: RulerState = {
   gradientVars: defaultGradientVars,
 }
 
-export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
+export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler({ configType }: { configType: ScoringConfigType }) {
   const { t, i18n } = useTranslation('common')
 
-  const scoringResult = useSimScoringContext(ScoringSelector.Score)
+  const scoringResult = useSimScore(configType)
 
   const [state, setState] = useState<RulerState>(initialState)
 
@@ -145,7 +151,8 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
     const maximum = scoringResult.maximumSimScore
     const score = Math.min(maximum, Math.max(scoringResult.originalSimScore, minimum))
 
-    const scoreRatio = (score - minimum) / (maximum - minimum)
+    const range = maximum - minimum
+    const scoreRatio = range > 0 ? (score - minimum) / range : 0
     const minBarRatio = 5 / CHART_AREA_WIDTH
 
     return {
@@ -168,7 +175,10 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
 
   const { transition, minimum, benchmark, maximum, barPercent, scorePercent, minPercent, benchPercent, maxPercent, gradientVars } = state
 
-  const dmgLabel = t('Damage')
+  const entry = SCORING_CONFIG_REGISTRY[configType]
+  const buffStat = scoringResult?.simulationMetadata.buffStat
+  const thousands = entry.thousands
+  const dmgLabel = resolveRulerLabel(entry, buffStat)
   const reversedLabels = reversedLanguages[i18n.resolvedLanguage as Languages]
   const numberOffset = reversedLabels ? LOW : HIGH
   const dmgOffset = reversedLabels ? HIGH : LOW
@@ -180,7 +190,7 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
 
         <ScoreFillBar barPercent={barPercent} transition={transition} />
 
-        <ScoreInidcator scorePercent={scorePercent} transition={transition} />
+        <ScoreIndicator scorePercent={scorePercent} transition={transition} />
 
         <MinimumTick
           percent={minPercent}
@@ -189,6 +199,8 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
+          buffStat={buffStat}
+          thousands={thousands}
         />
 
         <BenchmarkTick
@@ -198,6 +210,8 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
+          buffStat={buffStat}
+          thousands={thousands}
         />
 
         <MaximumTick
@@ -207,6 +221,8 @@ export const DpsScoreGradeRuler = memo(function DpsScoreGradeRuler() {
           numberOffset={numberOffset}
           dmgOffset={dmgOffset}
           transition={transition}
+          buffStat={buffStat}
+          thousands={thousands}
         />
 
         <GradeTicks minimum={minimum} benchmark={benchmark} maximum={maximum} transition={transition} />
@@ -235,7 +251,7 @@ const ScoreFillBar = memo(function({ barPercent, transition }: { barPercent: str
   )
 })
 
-const ScoreInidcator = memo(function({ scorePercent, transition }: { scorePercent: string, transition: string | undefined }) {
+const ScoreIndicator = memo(function({ scorePercent, transition }: { scorePercent: string, transition: string | undefined }) {
   return (
     <div
       className={styles.scoreMarker}
@@ -256,17 +272,19 @@ interface ReferenceTickProps {
   numberOffset: number
   dmgLabel: string
   value: number
+  buffStat?: AKeyValue
+  thousands: boolean
   bottomLabel?: string
   transition: string | undefined
 }
 
-function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, bottomLabel, transition }: ReferenceTickProps) {
+function ReferenceTick({ percent, dmgOffset, numberOffset, dmgLabel, value, buffStat, thousands, bottomLabel, transition }: ReferenceTickProps) {
   return (
     <div className={styles.tick} style={{ left: percent, transition }}>
       <div className={styles.tickLine} style={{ top: MARGIN_TOP, height: BAR_HEIGHT }} />
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - dmgOffset, fontSize: 12 }}>{dmgLabel}</span>
       <span className={styles.topLabel} style={{ top: MARGIN_TOP - numberOffset, fontSize: 12 }}>
-        {renderThousandsK(value)}
+        {formatSimScore(value, buffStat, thousands ? 0 : 1, thousands)}
       </span>
       {bottomLabel && (
         <span className={styles.bottomLabel} style={{ top: BOTTOM_Y + LOW, fontSize: 12 }}>

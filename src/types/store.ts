@@ -3,10 +3,11 @@ import type { AppPages } from 'lib/constants/appPages'
 import type {
   ComputeEngine,
 } from 'lib/constants/constants'
-import type { ScoringType } from 'lib/scoring/simScoringUtils'
+import type { ScoringType } from 'lib/scoring/scoringConfig'
+import type { AhaForm } from 'lib/stores/ahaTuningStore'
 import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorController'
+import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import type {
   Character,
   CharacterId,
@@ -79,6 +80,7 @@ export type HsrOptimizerSaveFormat = {
     inventoryWidth: number,
     rowLimit: number,
   },
+  ahaSpeedTuner?: AhaForm,
   scannerSettings?: {
     ingest: boolean,
     ingestCharacters: boolean,
@@ -88,6 +90,7 @@ export type HsrOptimizerSaveFormat = {
     customUrl: boolean,
   },
   completedMigrations?: Record<string, number>,
+  seenFeatures?: string[],
 }
 
 export type StatDisplay = 'combat' | 'base'

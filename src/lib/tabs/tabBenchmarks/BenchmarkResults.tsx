@@ -21,7 +21,11 @@ import {
 import { toBasicStatsObject } from 'lib/optimization/basicStatsArray'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
-import { getElementalDmgFromContainer } from 'lib/scoring/simScoringUtils'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import {
+  formatSimScore,
+  getElementalDmgFromContainer,
+} from 'lib/scoring/simScoringUtils'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -223,7 +227,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
   return (
     <Flex className={styles.expandedRow} gap={10} justify='space-around'>
-      <Flex direction='column' className={styles.statsColumn} align='center' gap={5}>
+      <Flex direction='column' className={styles.statsColumn} align='center' gap={5} flex={1}>
         <HeaderText className={styles.sectionHeader}>{t('BasicStats') /* Basic Stats */}</HeaderText>
 
         <CharacterStatSummary
@@ -239,7 +243,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex direction='column' className={styles.statsColumn} align='center' gap={5}>
+      <Flex direction='column' className={styles.statsColumn} align='center' gap={5} flex={1}>
         <HeaderText className={styles.sectionHeader}>{t('CombatStats') /* Combat Stats */}</HeaderText>
 
         <CharacterStatSummary
@@ -255,7 +259,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
 
       <VerticalDivider />
 
-      <Flex direction='column' align='center' gap={5}>
+      <Flex direction='column' align='center' gap={5} flex={1}>
         <HeaderText className={styles.sectionHeader}>{t('Rolls') /* Substat Rolls */}</HeaderText>
 
         <SubstatRollsSummary
@@ -263,14 +267,15 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
           precision={0}
           diminish={row.percentage === 100}
           columns={1}
+          configType={orchestrator.configType}
         />
       </Flex>
 
       <VerticalDivider />
 
-      <Flex direction='column' align='center' gap={5}>
+      <Flex direction='column' align='center' gap={5} flex={1}>
         <HeaderText className={styles.sectionHeader}>{t('Damage') /* Ability Damage */}</HeaderText>
-        <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} />
+        <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} configType={row.orchestrator.configType} />
       </Flex>
     </Flex>
   )
@@ -310,7 +315,7 @@ function ComboDmgCell({ comboDmg, row }: { comboDmg: number, row: BenchmarkRow }
       <Flex className={styles.comboDmgContent} justify='center' align='center'>
         <Badge color='#000000aa' className={styles.comboDmgBadge}>
           <div className={styles.comboDmgText}>
-            {`${localeNumber_0(comboDmg / 1000)}K`}
+            {formatSimScore(comboDmg, row.orchestrator.metadata.buffStat, 1, SCORING_CONFIG_REGISTRY[row.orchestrator.configType].thousands)}
           </div>
         </Badge>
       </Flex>
@@ -370,7 +375,7 @@ function generateBenchmarkRows(orchestrators: BenchmarkSimulationOrchestrator[])
   for (const orchestrator of orchestrators) {
     const benchmarkScore = orchestrator.benchmarkSimResult!.simScore
     const perfectionScore = orchestrator.perfectionSimResult!.simScore
-    const baselineScore = orchestrator.baselineSimResult!.simScore
+    const baselineScore = orchestrator.zeroMainsStatResult!.simScore
 
     topBenchmarkSimScore = Math.max(topBenchmarkSimScore, benchmarkScore)
     topPerfectionSimScore = Math.max(topPerfectionSimScore, perfectionScore)

@@ -31,7 +31,7 @@ ResultsPanel:
   CombatStats: Combat Stats
   Rolls: Substat Rolls
   Combo: Combo Rotation
-  Damage: Ability Damage
+  Damage: Ability Breakdown
 Messages:
   Error:
     MissingField: Missing character/lightcone/teammates

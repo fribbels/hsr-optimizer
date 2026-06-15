@@ -11,7 +11,7 @@ import {
   generatePathTags,
   SegmentedFilterRow,
 } from 'lib/ui/selectors/CardSelectModalComponents'
-import { generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
+import { type CharacterOptions, generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
 import {
   applyCharacterFilters,
@@ -48,6 +48,7 @@ export function CharacterSelect({
   showIcon = true,
   clearable = true,
   withSimulation = false,
+  optionFilter,
 }: {
   value: CharacterId | null,
   onChange: (id: CharacterId | null) => void,
@@ -57,15 +58,19 @@ export function CharacterSelect({
   showIcon?: boolean,
   clearable?: boolean,
   withSimulation?: boolean,
+  optionFilter?: (option: CharacterOptions[CharacterId]) => boolean,
 }) {
   const { t } = useTranslation('modals', { keyPrefix: 'CharacterSelect' })
   const characterOptions = useMemo(() => {
-    const options = generateCharacterOptions()
+    let options = generateCharacterOptions()
     if (withSimulation) {
-      return options.filter((opt) => getGameMetadata().characters[opt.id]?.scoringMetadata?.simulation)
+      options = options.filter((opt) => getGameMetadata().characters[opt.id]?.scoringMetadata?.simulation)
+    }
+    if (optionFilter) {
+      options = options.filter(optionFilter)
     }
     return options
-  }, [t, withSimulation])
+  }, [t, withSimulation, optionFilter])
 
   const {
     isOpen,

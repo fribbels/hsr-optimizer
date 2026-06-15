@@ -18,20 +18,17 @@ export type ScorerMetadata = {
   hash: string,
   modified?: boolean,
   category: ScoreCategory,
-  // Pre-computed: weight[stat] * normalization[stat] — eliminates repeated multiply in hot loop
+  // Pre-computed: weight[stat] * raw-value-to-potential scale
   contributions: Record<SubStats, number>,
-  // Pre-computed: contributions[stat] * SubStatValues[stat][5].high — score per grade-5 high roll
-  highRollScores: Record<SubStats, number>,
-  // Pre-computed: contributions[stat] * SubStatValues[stat][5].mid — score per grade-5 mid roll
-  midRollScores: Record<SubStats, number>,
-  lowRollScores: Record<SubStats, number>,
+  // Pre-computed weighted potential per grade-5 roll tier
+  highRollPotential: Record<SubStats, number>,
+  midRollPotential: Record<SubStats, number>,
+  lowRollPotential: Record<SubStats, number>,
 }
 
 export type RelicScoringResult = {
-  score: string,
-  scoreNumber: number,
+  percentScore: number,
   rating: string,
-  mainStatScore: number,
   part?: Parts,
   meta?: ScorerMetadata,
 }
@@ -64,4 +61,5 @@ export type CharacterScoringResult = {
   relics: RelicScoringResult[],
   totalScore: number,
   totalRating: string,
+  correctMainStats: number,
 }

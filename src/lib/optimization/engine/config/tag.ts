@@ -10,6 +10,7 @@ export enum DamageTag {
   MEMO = 128,
   ADDITIONAL = 256,
   ELATION = 512,
+  ASSIST = 1024,
 }
 
 export enum ElementTag {
@@ -63,6 +64,7 @@ export enum OutputTag {
   DAMAGE = 1,
   HEAL = 2,
   SHIELD = 4,
+  BUFF = 8,
 }
 
 // DirectnessTag classifies whether an action is "direct" (player-initiated attacks)

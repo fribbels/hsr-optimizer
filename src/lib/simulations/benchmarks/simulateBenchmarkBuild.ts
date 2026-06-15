@@ -45,6 +45,7 @@ export function generatePartialSimulations(
             results.push({
               simulation: simulation,
               speedRollsDeduction: 0,
+              resRollsDeduction: 0,
               effectiveSubstats: metadata.substats,
               poolIndex,
             })

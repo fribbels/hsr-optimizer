@@ -1,13 +1,12 @@
-import { SilverWolf } from 'lib/conditionals/character/1000/SilverWolf'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Boothill } from 'lib/conditionals/character/1300/Boothill'
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -18,9 +17,11 @@ import {
   type Conditionals,
   type ContentDefinition,
   createEnum,
+  teamHasSustain,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
@@ -32,6 +33,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { type ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
+  DamageTag,
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -76,6 +78,7 @@ export const TheDahliaAbilities: AbilityKind[] = [
   AbilityKind.ULT,
   AbilityKind.FUA,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -105,6 +108,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultDefPenValue = ult(e, 0.18, 0.20)
 
   const superBreakScaling = talent(e, 0.60, 0.66)
+
+  const beConversionScaling = 0.24
+  const beConversionFlat = 0.50
 
   const defaults = {
     zoneActive: true,
@@ -222,6 +228,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const fuaHits = (e >= 4) ? 10 : 5
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
   const hitMultiByTargets: NumberToNumberMap = (e >= 4)
     ? {
       1: ASHBLAZING_ATK_STACK * (1 * 0.10 + 2 * 0.10 + 3 * 0.10 + 4 * 0.10 + 5 * 0.10 + 6 * 0.10 + 7 * 0.10 + 8 * 0.10 + 9 * 0.10 + 10 * 0.10),
@@ -233,6 +241,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       3: ASHBLAZING_ATK_STACK * (2 * 0.50 + 5 * 0.50),
       5: ASHBLAZING_ATK_STACK * (3 * 1.00),
     }
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    return hitMultiByTargets[context.enemyCount]
+  }
 
   return {
     content: () => Object.values(content),
@@ -307,6 +322,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Fire).build(),
+          ],
+        },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.BE)
+              .sourceStat(StatKey.BE)
+              .scaling(beConversionScaling)
+              .flat(beConversionFlat)
+              .build(),
           ],
         },
       }
@@ -393,22 +418,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         Boothill.id,
         Phainon.id,
         Anaxa.id,
-        SilverWolf.id,
+        SilverWolfB1.id,
       ]
       if (IMPLANT_CHARACTERS.includes(context.characterId)) {
         x.buff(StatKey.SPD_P, (t.spdBuff) ? 0.30 : 0, x.targets(TargetTag.SelfAndPet).source(SOURCE_TRACE))
       }
 
-      const beBuff = (t.beConversion) ? t.teammateBeValue * 0.24 + 0.50 : 0
+      const beBuff = (t.beConversion && teamHasSustain(context)) ? t.teammateBeValue * 0.24 + 0.50 : 0
       x.buff(StatKey.BE, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.UNCONVERTIBLE_BE_BUFF, beBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -514,7 +539,9 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnAshblazingSet(5),
+    PresetEffects.MASTER_SMITH_SET,
   ],
+  defaultDamageType: DamageTag.SUPER_BREAK,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.DOT,
@@ -538,6 +565,7 @@ const display = {
 
 export const TheDahlia: CharacterConfig = {
   id: '1321',
+  defaultLightCone: NeverForgetHerFlame.id,
   display,
   conditionals,
   get scoring() {

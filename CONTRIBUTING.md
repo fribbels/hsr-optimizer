@@ -16,7 +16,7 @@ We use the #dev channel on discord https://discord.gg/rDmB4Un7qg for communicati
 
 #### Install NodeJS & NPM
 
-Currently, the best balance between legacy dependencies and future direction is `node v22.6.0` - if this changes, it will be reflected in the `.node-version` file in the root directory.
+Currently, the best balance between legacy dependencies and future direction is `node v26.1.0` - if this changes, it will be reflected in the `.nvmrc` file in the root directory.
 We suggest using a Node version manager such as [NVM](https://github.com/nvm-sh/nvm) or [FNM](https://github.com/Schniz/fnm) to quickly switch between this project and any other node/js project you are working in.
 
 #### Install project dependencies

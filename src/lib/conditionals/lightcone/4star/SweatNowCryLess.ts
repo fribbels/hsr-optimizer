@@ -42,7 +42,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, (r.dmgBoost) ? sValues[s] : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.dmgBoost) ? sValues[s] : 0, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_LC))
     },
   }
 }

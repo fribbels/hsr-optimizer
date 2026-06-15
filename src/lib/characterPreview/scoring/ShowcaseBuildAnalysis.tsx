@@ -5,12 +5,15 @@ import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
-
-import { ScoringType } from 'lib/scoring/simScoringUtils'
-import { SaveState } from 'lib/state/saveState'
-import { useGlobalStore } from 'lib/stores/app/appStore'
+import {
+  CONFIG_DISPLAY_ORDER,
+  hasConfig,
+  isSimScoreMode,
+  SCORING_CONFIG_REGISTRY,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import { ColorizedTitleWithInfo } from 'lib/ui/ColorizedLink'
 import {
   memo,
@@ -19,12 +22,14 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 
+import type { ScoringConfigType } from 'types/metadata'
+
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType
   showcaseMetadata: ShowcaseMetadata
   displayRelics: PreviewRelics
   source: ShowcaseSource
-  onScoringTypeChange?: (type: ScoringType) => void
+  activeConfigType: ScoringConfigType | undefined
 }
 
 export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
@@ -32,39 +37,40 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   showcaseMetadata,
   displayRelics,
   source,
-  onScoringTypeChange,
+  activeConfigType,
 }: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
   const { characterMetadata } = showcaseMetadata
+  const scoringMeta = characterMetadata.scoringMetadata
 
-  const simulationNull = characterMetadata.scoringMetadata.simulation == null
-  const segmentData = useMemo(() => [
-    {
-      label: simulationNull
-        ? t('CharacterPreview.AlgorithmSlider.Labels.CombatScoreTBD') /* Combat Score (TBD) */
-        : t('CharacterPreview.AlgorithmSlider.Labels.CombatScore'), /* Combat Score */
-      value: String(ScoringType.COMBAT_SCORE),
-      disabled: simulationNull,
-    },
-    {
-      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'), /* Stat Score */
+  const hasAnySimulation = CONFIG_DISPLAY_ORDER.some((configType) => hasConfig(scoringMeta, configType))
+
+  const segmentData = useMemo(() => {
+    const segments: { label: string, value: string }[] = []
+    for (const configType of CONFIG_DISPLAY_ORDER) {
+      if (!hasConfig(scoringMeta, configType)) continue
+      const entry = SCORING_CONFIG_REGISTRY[configType]
+      segments.push({
+        label: entry.label,
+        value: String(entry.scoringType),
+      })
+    }
+    segments.push({
+      label: 'Substat Rolls', // Hardcoded — label still in flux, skip i18n for now
       value: String(ScoringType.SUBSTAT_SCORE),
-      disabled: false,
-    },
-    {
-      label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'), /* None Score */
+    })
+    segments.push({
+      label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'),
       value: String(ScoringType.NONE),
-      disabled: false,
-    },
-  ], [simulationNull, t])
+    })
+    return segments
+  }, [scoringMeta, t])
 
+  const characterId = showcaseMetadata.characterId
   const handleScoringTypeChange = useCallback((selection: string) => {
-    const value = Number(selection) as ScoringType
-    onScoringTypeChange?.(value)
-    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.scoringType, value)
-    SaveState.delayedSave()
-  }, [onScoringTypeChange])
+    editShowcasePreferences(characterId, { scoringType: Number(selection) })
+  }, [characterId])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 1000 }}>
@@ -82,25 +88,24 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           }}
         >
           <SegmentedControl
+            key={segmentData.map((d) => d.value).join(',')}
             size='sm'
-            style={{ width: 400 }}
+            styles={{ control: { width: 165 } }}
             onChange={handleScoringTypeChange}
             value={String(scoringType)}
-            fullWidth
             data={segmentData}
           />
         </div>
       </div>
-      {scoringType === ScoringType.COMBAT_SCORE
-        && !simulationNull
-        && (
-          <CharacterScoringSummary
-            displayRelics={displayRelics}
-            showcaseMetadata={showcaseMetadata}
-            source={source}
-          />
-        )}
-      {(scoringType === ScoringType.SUBSTAT_SCORE || simulationNull)
+      {isSimScoreMode(scoringType) && activeConfigType && hasConfig(scoringMeta, activeConfigType) && (
+        <CharacterScoringSummary
+          displayRelics={displayRelics}
+          showcaseMetadata={showcaseMetadata}
+          source={source}
+          configType={activeConfigType}
+        />
+      )}
+      {(scoringType === ScoringType.SUBSTAT_SCORE || scoringType === ScoringType.NONE || !hasAnySimulation)
         && (
           <StatScoringSummary
             displayRelics={displayRelics}
@@ -120,7 +125,7 @@ function StatScoringSummary({ displayRelics, showcaseMetadata }: {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <ColorizedTitleWithInfo
-        text={t('Header') /* Stat Score Analysis */}
+        text={'Substat Rolls Analysis' /* Hardcoded — label still in flux, skip i18n for now */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
       />
       <EstimatedTbpRelicsDisplay

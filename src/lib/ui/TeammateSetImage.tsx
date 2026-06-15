@@ -1,7 +1,10 @@
 import { Tooltip } from '@mantine/core'
 import { iconSize } from 'lib/constants/constantsUi'
 import { Assets } from 'lib/rendering/assets'
-import { getTeammateOption, isRelicOption } from 'lib/sets/setConfigRegistry'
+import {
+  getTeammateOption,
+  isRelicOption,
+} from 'lib/sets/setConfigRegistry'
 import { useTranslation } from 'react-i18next'
 
 export function TeammateSetImageWithTooltip({ value, removed }: { value: string, removed?: boolean }) {

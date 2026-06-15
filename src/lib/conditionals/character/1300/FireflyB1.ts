@@ -16,6 +16,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
@@ -444,6 +445,7 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
+  defaultDamageType: DamageTag.SUPER_BREAK,
   sortOption: SortOption.SKILL,
   hiddenColumns: [
     SortOption.ULT,
@@ -464,6 +466,7 @@ const display = {
 
 export const FireflyB1: CharacterConfig = {
   id: '1310b1',
+  defaultLightCone: WhereaboutsShouldDreamsRest.id,
   display,
   conditionals,
   get scoring() {

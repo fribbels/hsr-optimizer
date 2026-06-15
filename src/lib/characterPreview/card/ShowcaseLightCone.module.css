@@ -10,10 +10,13 @@
   z-index: 21;
   text-shadow: var(--text-shadow-showcase);
   border: var(--showcase-outline);
+  overflow: hidden;
+  clip-path: inset(0 round var(--radius-md));
   backdrop-filter: var(--backdrop-blur);
 }
 
 .lcCard {
+  position: relative;
   overflow: hidden;
   z-index: 20;
   border-radius: var(--radius-md);
@@ -21,22 +24,4 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.lcNameText {
-  font-size: 18px;
-  font-weight: 400;
-  margin-left: 10px;
-  margin-right: 10px;
-  text-align: center;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.lcLevelText {
-  font-size: 16px;
-  font-weight: 400;
-  margin-bottom: 5px;
-  text-align: center;
 }

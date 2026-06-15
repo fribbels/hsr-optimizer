@@ -28,7 +28,21 @@ S1 first:  S1 -> E6 -> S5
 
 ### Starlight
 
-Starlight earned from 5★ pulls can be spent on passes (20 starlight = 1 pass). Select your expected refund rate to factor this into the total warp count.
+4★ pulls earn starlight, which converts back into passes (20 starlight = 1 pass). Refunds will compound.
+
+Assumptions:
+
+- 4★ pity always hits at 10 pulls (worst-case timing)
+- Owned 4★ characters are maxed (E6). Character dupes refund 20 starlight, Light Cones refund 8.
+- 5★ contribution ignored
+
+The estimated refunds reflect the character / Light Cone split on 4★ pulls:
+
+- **4% — Unlucky.** Every 4★ is a Light Cone.
+- **7.5% — Average (default).** 50/50 split between characters and Light Cones.
+- **11% — Lucky.** Every 4★ is a character.
+
+The actual refund rate varies by account based on collection and actual pulls.
 
 ### Additional resources
 

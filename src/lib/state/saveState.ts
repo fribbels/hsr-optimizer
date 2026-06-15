@@ -1,7 +1,9 @@
 import { CURRENT_OPTIMIZER_VERSION } from 'lib/constants/constants'
 import * as persistenceService from 'lib/services/persistenceService'
+import { useAhaTuningStore } from 'lib/stores/ahaTuningStore'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacters } from 'lib/stores/character/characterStore'
+import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
@@ -62,6 +64,7 @@ export const SaveState = {
     const showcaseTabSession = useShowcaseTabStore.getState().savedSession
     const globalSession = globalState.savedSession
     const relicLocatorSession = useRelicLocatorStore.getState()
+    const ahaSpeedTunerSession = useAhaTuningStore.getState()
 
     const warpCalculatorTabState = useWarpCalculatorStore.getState()
     const scannerState = useScannerState.getState()
@@ -84,6 +87,13 @@ export const SaveState = {
         inventoryWidth: relicLocatorSession.inventoryWidth,
         rowLimit: relicLocatorSession.rowLimit,
       },
+      ahaSpeedTuner: {
+        teammate0: ahaSpeedTunerSession.teammate0,
+        teammate1: ahaSpeedTunerSession.teammate1,
+        teammate2: ahaSpeedTunerSession.teammate2,
+        teammate3: ahaSpeedTunerSession.teammate3,
+        desiredAha: ahaSpeedTunerSession.desiredAha,
+      },
       scannerSettings: {
         ingest: scannerState.ingest,
         ingestCharacters: scannerState.ingestCharacters,
@@ -93,6 +103,7 @@ export const SaveState = {
         customUrl: scannerState.websocketUrl !== DEFAULT_WEBSOCKET_URL,
       },
       completedMigrations: globalState.completedMigrations,
+      seenFeatures: Array.from(useNewFeatureStore.getState().seenFeatures),
     }
 
     const stateString = JSON.stringify(state)

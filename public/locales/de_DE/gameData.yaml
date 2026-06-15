@@ -245,6 +245,15 @@ Characters:
   "1507":
     Name: Mortenax Blade
     LongName: Mortenax Blade
+  "1508":
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
+  "1509":
+    Name: Gilgamesh
+    LongName: Gilgamesh
+  "1510":
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -427,13 +436,13 @@ RelicSets:
     Description2pc: Erhöht GES um 6%.
     Description4pc: Wenn die GES des Trägers vor dem Kampfeintritt größer oder gleich 120/160 ist, wird seine KRIT-Rate um 10%/18% erhöht. Jedes Mal, wenn der Träger im Kampf zum ersten Mal seine Hochgefühl-Fähigkeit einsetzt, wird das Hochgefühl aller Verbündeten um 10% erhöht. Dieser Effekt ist nicht stapelbar.
   "131":
-    Name: As Navigator Isee Sees It
-    Description2pc: Increases ATK by 23%.
-    Description4pc: When the wearer uses their Ultimate, the Ultimate DMG dealt increases by 36%, lasting for 4 turn(s). This effect can stack up to 6 time(s).
+    Name: Wie Navigator Isee es sieht
+    Description2pc: Erhöht den ANG um 12%.
+    Description4pc: Wenn der Träger den Kampf betritt oder seine Fertigkeit einsetzt, wird der verursachte SCH durch Fertigkeiten und Ultimates um 18% erhöht. Dieser Effekt ist bis zu 3-fach stapelbar. Entfernt zu Beginn der Runde des Trägers bzw. nach dem Einsatz des Ultimates 1 Stapelung dieses Effekts.
   "132":
-    Name: Divine-Querying Master Smith
-    Description2pc: Increases Max HP by 23%.
-    Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 56%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 4 turn(s). This effect cannot be stacked. DMG dealt by ally targets with "Comburent" increases by 30%. This effect can be triggered again after the wearer uses an attack.
+    Name: Götterbefragender Meisterschmied
+    Description2pc: Erhöht die max. LP um 12%.
+    Description4pc: Erhöht den KRIT-SCH, den der Träger Gegnern im Status „VTD-Reduktion“ zufügt, um 28%. Nachdem der Träger einem Gegner den Status VTD-Reduktion zugefügt hat, erhalten alle Verbündeten für 2 Rd. „Brandbeschleuniger“. Dieser Effekt ist nicht stapelbar. Der von Verbündeten mit Brandbeschleuniger verursachte SCH wird um 15% erhöht. Dieser Effekt kann erneut ausgelöst werden, nachdem der Träger einen Angriff ausgeführt hat.
   "301":
     Name: Raumstation für Versiegelung
     Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
@@ -512,6 +521,12 @@ RelicSets:
   "326":
     Name: Stadt der unzähligen Sterne
     Description2pc: Wenn der Träger einen Folgeangriff einsetzt, wird sein ANG für 2 Rd. um 24% erhöht. Wenn ein Gegner besiegt wird, wird der KRIT-SCH aller Verbündeten im aktuellen Kampf um 12% erhöht. Dieser Effekt ist nicht stapelbar.
+  "327":
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+  "328":
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -822,7 +837,13 @@ Lightcones:
   "23058":
     Name: Begegnung in der nächsten Blütezeit
   "23059":
-    Name: Reforged in Hellfire
+    Name: Neue Überreste des versengenden Fegefeuers
+  "23060":
+    Name: A Star That Lights the Night
+  "23061":
+    Name: Flickering Stars
+  "23062":
+    Name: I Am As You Behold
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

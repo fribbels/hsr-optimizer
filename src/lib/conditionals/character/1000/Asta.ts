@@ -5,6 +5,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { PlanetaryRendezvous } from 'lib/conditionals/lightcone/4star/PlanetaryRendezvous'
 import {
   Parts,
   Stats,
@@ -66,7 +67,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const defaults = {
     talentBuffStacks: 5,
-    skillExtraDmgHits: skillExtraDmgHitsMax,
     ultSpdBuff: true,
     fireDmgBoost: true,
   }
@@ -78,14 +78,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    skillExtraDmgHits: {
-      id: 'skillExtraDmgHits',
-      formItem: 'slider',
-      text: t('Content.skillExtraDmgHits.text'),
-      content: t('Content.skillExtraDmgHits.content', { skillScaling: precisionRound(skillScaling * 100), skillExtraDmgHitsMax }),
-      min: 0,
-      max: skillExtraDmgHitsMax,
-    },
     talentBuffStacks: {
       id: 'talentBuffStacks',
       formItem: 'slider',
@@ -133,8 +125,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const totalSkillScaling = skillScaling + r.skillExtraDmgHits * skillScaling
-      const skillToughness = 10 + 5 * r.skillExtraDmgHits
+      const totalSkillScaling = skillScaling + skillExtraDmgHitsMax * skillScaling / context.enemyCount
+      const skillToughness = 10 + 5 * skillExtraDmgHitsMax / context.enemyCount
 
       return {
         [AbilityKind.BASIC]: {
@@ -205,7 +197,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.CD]: 0,
     [Stats.EHR]: 0,
     [Stats.RES]: 0.25,
-    [Stats.BE]: 0.5,
+    [Stats.BE]: 0,
   },
   parts: {
     [Parts.Body]: [],
@@ -238,6 +230,7 @@ const display = {
 
 export const Asta: CharacterConfig = {
   id: '1009',
+  defaultLightCone: PlanetaryRendezvous.id,
   display,
   conditionals,
   get scoring() {

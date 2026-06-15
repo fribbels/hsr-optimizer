@@ -14,6 +14,7 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
+import { NightOnTheMilkyWay } from 'lib/conditionals/lightcone/5star/NightOnTheMilkyWay'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import {
@@ -95,6 +96,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     1: ASHBLAZING_ATK_STACK * (1 * 0.20 + 2 * 0.20 + 3 * 0.20 + 4 * 0.40), // 0.168
     3: ASHBLAZING_ATK_STACK * (2 * 0.20 + 5 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.372
     5: ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), // 0.42
+  }
+
+  // ULT: 1 aoe hit
+  const ultHitMultiByTargets: NumberToNumberMap = {
+    1: ASHBLAZING_ATK_STACK * (1 * 1.00),
+    3: ASHBLAZING_ATK_STACK * (2 * 1.00),
+    5: ASHBLAZING_ATK_STACK * (3 * 1.00),
+  }
+
+  // ULT E6: 1 aoe hit (weight 5/9) + 2 single hits (weight 2/9 each)
+  const ultE6HitMultiByTargets: NumberToNumberMap = {
+    1: ASHBLAZING_ATK_STACK * (1 * 5 / 9 + 2 * 2 / 9 + 3 * 2 / 9),
+    3: ASHBLAZING_ATK_STACK * (2 * 5 / 9 + 5 * 2 / 9 + 6 * 2 / 9),
+    5: ASHBLAZING_ATK_STACK * (3 * 5 / 9 + 8 * 2 / 9 + 8 * 2 / 9),
+  }
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return (e >= 6 ? ultE6HitMultiByTargets : ultHitMultiByTargets)[context.enemyCount]
+    }
+    return hitMultiByTargets[context.enemyCount]
   }
 
   const defaults = {
@@ -223,15 +245,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CR, (r.selfCurrentHp80Percent) ? 0.15 : 0, x.source(SOURCE_TRACE))
       x.buff(StatKey.SPD_P, (e >= 1 && r.e1TalentSpdBuff) ? 0.20 : 0, x.source(SOURCE_E1))
 
-      x.buff(StatKey.DMG_BOOST, (r.targetBurned) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (e >= 2 && r.e2EnemyHp50DmgBoost) ? 0.15 : 0, x.source(SOURCE_E2))
+      x.buff(StatKey.BOOST, (r.targetBurned) ? 0.20 : 0, x.damageType(DamageTag.SKILL).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (e >= 2 && r.e2EnemyHp50DmgBoost) ? 0.15 : 0, x.source(SOURCE_E2))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMultiByTargets[context.enemyCount])
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMultiByTargets[context.enemyCount], action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -314,7 +336,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.CD]: 1,
     [Stats.EHR]: 0,
     [Stats.RES]: 0,
-    [Stats.BE]: 0.5,
+    [Stats.BE]: 0,
   },
   parts: {
     [Parts.Body]: [
@@ -339,6 +361,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnPioneerSet(4),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [],
   simulation: simulation(),
@@ -356,6 +379,7 @@ const display = {
 
 export const Himeko: CharacterConfig = {
   id: '1003',
+  defaultLightCone: NightOnTheMilkyWay.id,
   display,
   conditionals,
   get scoring() {

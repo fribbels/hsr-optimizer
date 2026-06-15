@@ -50,7 +50,6 @@ Relics:
   Title: Di vật
   p1: >-
     Lưu ý - Tiềm năng là một điểm số phần trăm so sánh di vật với di vật +15 tốt nhất có thể cho nhân vật hiện tại ở vị trí đó. Điểm số này dựa trên trọng số của thuật toán tính điểm. Có nghĩa là các di vật chưa được nâng cấp ở cấp +0 đôi khi có tiềm năng cao hơn di vật đã được +15, vì các chỉ số phụ có thể được mở và nâng cấp vào các chỉ số mong muốn của nhân vật.
-  p2: "Nhân vật đã chọn: Điểm - Điểm số hiện tại của di vật, được xác định bởi thuật toán tính điểm của nhân vật đã chọn"
   p3: "Nhân vật đã chọn: Tiềm năng trung bình - Tiềm năng của di vật ở cấp độ tối đa, tính trung bình dựa vào tất cả các chỉ số phụ có thể rơi vào khi nâng cấp lên +15."
   p4: "Nhân vật đã chọn: Tiềm năng tối đa - Tiềm năng tối đa của di vật nếu tất cả các chỉ số phụ được nâng cấp vào các đúng nơi nhân vật mong muốn"
   p5: 'Tất cả nhân vật: Tiềm năng tối đa - Giá trị tiềm năng cao nhất có thể của di vật, cho tất cả các nhân vật trong game.'

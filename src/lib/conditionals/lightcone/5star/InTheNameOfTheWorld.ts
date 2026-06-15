@@ -66,7 +66,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (r.enemyDebuffedDmgBoost) ? sValuesDmg[s] : 0, x.source(SOURCE_LC))
       x.buff(StatKey.ATK_P, (r.skillAtkBoost) ? sValuesAtk[s] : 0, x.actionKind(AbilityKind.SKILL).source(SOURCE_LC))
       x.buff(StatKey.EHR, (r.skillEhrBoost) ? sValuesEhr[s] : 0, x.actionKind(AbilityKind.SKILL).source(SOURCE_LC))
     },

@@ -1,6 +1,11 @@
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,6 +13,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { OnlySilenceRemains } from 'lib/conditionals/lightcone/4star/OnlySilenceRemains'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -75,6 +81,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(DanHeng.id)
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
 
   const extraPenValue = talent(e, 0.36, 0.396)
 
@@ -181,10 +189,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (r.spdBuff) ? 0.20 : 0, x.source(SOURCE_TRACE))
 
       x.buff(StatKey.RES_PEN, (r.talentPenBuff) ? extraPenValue : 0, x.elements(ElementTag.Wind).source(SOURCE_TALENT))
-      x.buff(StatKey.DMG_BOOST, (r.enemySlowed) ? 0.40 : 0, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.enemySlowed) ? 0.40 : 0, x.damageType(DamageTag.BASIC).source(SOURCE_TRACE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }
@@ -286,7 +298,9 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnMortenaxAshblazingSet(1),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.FUA,
@@ -307,6 +321,7 @@ const display = {
 
 export const DanHeng: CharacterConfig = {
   id: '1002',
+  defaultLightCone: OnlySilenceRemains.id,
   display,
   conditionals,
   get scoring() {

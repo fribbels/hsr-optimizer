@@ -18,7 +18,10 @@ import {
   useRelicsTabStore,
 } from 'lib/tabs/tabRelics/useRelicsTabStore'
 import { DeferCreate } from 'lib/ui/DeferredRender'
-import { memo, useMemo } from 'react'
+import {
+  memo,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import { useShallow } from 'zustand/react/shallow'

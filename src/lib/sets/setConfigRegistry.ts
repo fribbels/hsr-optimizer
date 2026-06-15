@@ -25,7 +25,9 @@ import { BoneCollectionsSereneDemesne } from './ornaments/BoneCollectionsSereneD
 import { BrokenKeel } from './ornaments/BrokenKeel'
 import { CelestialDifferentiator } from './ornaments/CelestialDifferentiator'
 import { CityOfConvergingStars } from './ornaments/CityOfConvergingStars'
+import { CosmicLifeSciencesInstitute } from './ornaments/CosmicLifeSciencesInstitute'
 import { DuranDynastyOfRunningWolves } from './ornaments/DuranDynastyOfRunningWolves'
+import { FallenStarAnchorage } from './ornaments/FallenStarAnchorage'
 import { FirmamentFrontlineGlamoth } from './ornaments/FirmamentFrontlineGlamoth'
 import { FleetOfTheAgeless } from './ornaments/FleetOfTheAgeless'
 import { ForgeOfTheKalpagniLantern } from './ornaments/ForgeOfTheKalpagniLantern'
@@ -44,8 +46,10 @@ import { SprightlyVonwacq } from './ornaments/SprightlyVonwacq'
 import { TaliaKingdomOfBanditry } from './ornaments/TaliaKingdomOfBanditry'
 import { TengokuLivestream } from './ornaments/TengokuLivestream'
 import { TheWondrousBananAmusementPark } from './ornaments/TheWondrousBananAmusementPark'
+import { AsNavigatorIseeSeesIt } from './relics/AsNavigatorIseeSeesIt'
 import { BandOfSizzlingThunder } from './relics/BandOfSizzlingThunder'
 import { ChampionOfStreetwiseBoxing } from './relics/ChampionOfStreetwiseBoxing'
+import { DivineQueryingMasterSmith } from './relics/DivineQueryingMasterSmith'
 import { DivinerOfDistantReach } from './relics/DivinerOfDistantReach'
 import { EagleOfTwilightLine } from './relics/EagleOfTwilightLine'
 import { EverGloriousMagicalGirl } from './relics/EverGloriousMagicalGirl'
@@ -74,8 +78,6 @@ import { WastelanderOfBanditryDesert } from './relics/WastelanderOfBanditryDeser
 import { WatchmakerMasterOfDreamMachinations } from './relics/WatchmakerMasterOfDreamMachinations'
 import { WavestriderCaptain } from './relics/WavestriderCaptain'
 import { WorldRemakingDeliverer } from './relics/WorldRemakingDeliverer'
-import { AsNavigatorIseeSeesIt } from './relics/AsNavigatorIseeSeesIt'
-import { DivineQueryingMasterSmith } from './relics/DivineQueryingMasterSmith'
 
 const ALL_RELIC_CONFIGS = [
   PasserbyOfWanderingCloud,
@@ -139,6 +141,8 @@ const ALL_ORNAMENT_CONFIGS = [
   AmphoreusTheEternalLand,
   CityOfConvergingStars,
   PunklordeStageZero,
+  FallenStarAnchorage,
+  CosmicLifeSciencesInstitute,
 ] as const
 
 const ALL_CONFIGS = [...ALL_RELIC_CONFIGS, ...ALL_ORNAMENT_CONFIGS] as const

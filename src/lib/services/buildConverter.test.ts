@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
-import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
@@ -174,31 +173,26 @@ function makeSimTeammate(overrides: Partial<Teammate> = {}): Teammate {
 
 describe('serializeFromCharacterTab', () => {
   it('source is BuildSource.Character', () => {
-    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined, undefined)
+    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined)
     expect(result.source).toBe(BuildSource.Character)
   })
 
   it('has no conditionals, rotation, or deprioritizeBuffs on output', () => {
-    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined, undefined)
+    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined)
     expect('characterConditionals' in result).toBe(false)
     expect('lightConeConditionals' in result).toBe(false)
     expect('comboType' in result).toBe(false)
     expect('deprioritizeBuffs' in result).toBe(false)
   })
 
-  it('default team stores [null, null, null]', () => {
-    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined, undefined)
+  it('no teammates stores [null, null, null]', () => {
+    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined)
     expect(result.team).toEqual([null, null, null])
   })
 
-  it('default team selection string stores [null, null, null]', () => {
-    const result = serializeFromCharacterTab('Test', makeCharacter(), [makeSimTeammate()], DEFAULT_TEAM)
-    expect(result.team).toEqual([null, null, null])
-  })
-
-  it('custom team stores teammate identity + sets, no conditionals', () => {
+  it('stores teammate identity + sets, no conditionals', () => {
     const teammates = [makeSimTeammate(), makeSimTeammate({ characterId: Kafka.id })]
-    const result = serializeFromCharacterTab('Test', makeCharacter(), teammates, 'CustomTeam')
+    const result = serializeFromCharacterTab('Test', makeCharacter(), teammates)
     expect(result.team[0]).not.toBeNull()
     expect(result.team[0]!.characterId).toBe(Jingliu.id)
     expect(result.team[0]!.teamRelicSet).toBe('SetA')
@@ -208,14 +202,14 @@ describe('serializeFromCharacterTab', () => {
   })
 
   it('captures characterEidolon, lightCone, lightConeSuperimposition from form', () => {
-    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined, undefined)
+    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined)
     expect(result.characterEidolon).toBe(2)
     expect(result.lightCone).toBe('21001')
     expect(result.lightConeSuperimposition).toBe(3)
   })
 
   it('captures equipped from character', () => {
-    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined, undefined)
+    const result = serializeFromCharacterTab('Test', makeCharacter(), undefined)
     expect(result.equipped).toEqual({ Head: 'r1', Body: 'r2' })
   })
 })
@@ -400,7 +394,7 @@ describe('deserializeBuild', () => {
 
     it('character tab: serialize then deserialize returns only LC + eidolon overrides', () => {
       const character = makeCharacter()
-      const serialized = serializeFromCharacterTab('Test', character, undefined, undefined)
+      const serialized = serializeFromCharacterTab('Test', character, undefined)
       const patch = deserializeBuild(
         serialized,
         makeForm({

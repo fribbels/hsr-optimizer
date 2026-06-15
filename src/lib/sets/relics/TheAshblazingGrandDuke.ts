@@ -46,14 +46,14 @@ const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
   },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.20, x.damageType(DamageTag.FUA).source(Source.TheAshblazingGrandDuke))
+    x.buff(StatKey.BOOST, 0.20, x.damageType(DamageTag.FUA).source(Source.TheAshblazingGrandDuke))
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.ATK_P, 0.06 * setConditionals.valueTheAshblazingGrandDuke, x.source(Source.TheAshblazingGrandDuke))
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic2p(*p_sets, SET_TheAshblazingGrandDuke) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, 0.20).damageType(DamageTag.FUA).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, 0.20).damageType(DamageTag.FUA).wgsl(action, 2)}
       if (relic4p(*p_sets, SET_TheAshblazingGrandDuke) >= 1) {
         ${buff.action(AKey.ATK_P, `0.06 * f32(setConditionals.valueTheAshblazingGrandDuke)`).wgsl(action, 3)}
       }

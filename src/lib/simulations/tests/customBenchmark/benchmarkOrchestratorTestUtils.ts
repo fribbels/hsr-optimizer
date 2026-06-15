@@ -2,6 +2,7 @@ import i18next from 'i18next'
 import {
   applyScoringMetadataPresets,
   applySetConditionalPresets,
+  resolveTeammateInfo,
 } from 'lib/conditionals/evaluation/applyPresets'
 import { Stats } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
@@ -46,8 +47,9 @@ export async function expectBenchmarkResultsToMatch(
     setConditionals: clone(defaultSetConditionals),
   }
 
-  applySetConditionalPresets(benchmarkForm)
-  applyScoringMetadataPresets(benchmarkForm)
+  const teammates = resolveTeammateInfo(teammate0, teammate1, teammate2)
+  applySetConditionalPresets(benchmarkForm, teammates)
+  applyScoringMetadataPresets(benchmarkForm, teammates)
 
   const orchestrator = await runCustomBenchmarkOrchestrator(benchmarkForm)
   const benchmarkSimScore = orchestrator.benchmarkSimResult?.simScore

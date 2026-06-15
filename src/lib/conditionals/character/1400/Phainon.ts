@@ -1,26 +1,25 @@
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import {
   Cyrene,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import {
   AbilityEidolon,
   type Conditionals,
   type ContentDefinition,
-  countTeamPath,
   createEnum,
-  teammateMatchesId,
+  teamHasSustain,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import {
   Parts,
-  PathNames,
   Sets,
   Stats,
 } from 'lib/constants/constants'
@@ -362,10 +361,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, r.atkBuffStacks * 0.50, x.source(SOURCE_TRACE))
 
       // Sustain DMG boost
-      const hasSustain = teammateMatchesId(context, Hyacine.id)
-        + countTeamPath(context, PathNames.Abundance)
-        + countTeamPath(context, PathNames.Preservation)
-      x.buff(StatKey.DMG_BOOST, (r.sustainDmgBuff && hasSustain) ? 0.45 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (r.sustainDmgBuff && teamHasSustain(context)) ? 0.45 : 0, x.source(SOURCE_TRACE))
 
       // E1 CD buff
       x.buff(StatKey.CD, e >= 1 && r.e1Buffs ? 0.50 : 0, x.source(SOURCE_E1))
@@ -504,7 +500,10 @@ const scoring = (): ScoringMetadata => ({
       Stats.ATK_P,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnNavigatorSet(3),
+  ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -526,6 +525,7 @@ const display = {
 
 export const Phainon: CharacterConfig = {
   id: '1408',
+  defaultLightCone: ThusBurnsTheDawn.id,
   display,
   conditionals,
   get scoring() {

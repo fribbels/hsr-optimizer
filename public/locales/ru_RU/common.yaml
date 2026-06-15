@@ -136,6 +136,7 @@ ReadableStats:
   Quantum DMG Boost: '$t(gameData:Elements.Quantum) урон'
   Imaginary DMG Boost: '$t(gameData:Elements.Imaginary) урон'
   Elation: Радость
+  simScore: Урон Комбо
 ShortReadableStats:
   "HP%": HP %
   HP: HP

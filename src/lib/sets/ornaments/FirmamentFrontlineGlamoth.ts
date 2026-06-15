@@ -48,7 +48,7 @@ const conditionals: SetConditionals = {
   p2t: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     const spd = x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
     if (spd >= 135) {
-      x.buff(StatKey.DMG_BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
+      x.buff(StatKey.BOOST, spd >= 160 ? 0.18 : 0.12, x.source(Source.FirmamentFrontlineGlamoth))
     }
   },
   gpuBasic: () => [
@@ -59,7 +59,7 @@ const conditionals: SetConditionals = {
     ornament2p(*p_sets, SET_FirmamentFrontlineGlamoth) >= 1
     && ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 135.0
   ) {
-    ${buff.action(AKey.DMG_BOOST, `select(0.12, 0.18, ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 160.0)`).wgsl(action, 2)}
+    ${buff.action(AKey.BOOST, `select(0.12, 0.18, ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 160.0)`).wgsl(action, 2)}
   }
 `,
 }

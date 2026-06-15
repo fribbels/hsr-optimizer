@@ -4,6 +4,8 @@ import {
   applyScoringMetadataPresets,
   applySetConditionalPresets,
   applyTeamAwareSetConditionalPresets,
+  applyTeammateConditionalPresets,
+  resolveTeammateInfo,
 } from 'lib/conditionals/evaluation/applyPresets'
 import { Message } from 'lib/interactions/message'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
@@ -187,9 +189,10 @@ export function handleCharacterSelectChange(id: CharacterId | null, formInstance
   form.simOrnamentSet = simulationMetadata.ornamentSets[0]
   form.subDps = !!simulationMetadata.deprioritizeBuffs
 
+  const teammates = resolveTeammateInfo(...simulationMetadata.teammates)
   form.setConditionals = clone(defaultSetConditionals)
-  applySetConditionalPresets(form)
-  applyScoringMetadataPresets(form)
+  applySetConditionalPresets(form, teammates)
+  applyScoringMetadataPresets(form, teammates)
 
   const state = useBenchmarksTabStore.getState()
   state.updateTeammate(0, simulationMetadata.teammates[0])
@@ -210,13 +213,10 @@ export function applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance(
   const currentSetConditionals = clone(useBenchmarksTabStore.getState().setConditionals)
   const form = { ...formInstance.getValues(), setConditionals: currentSetConditionals }
 
-  const teammateIds = [
-    teammate0?.characterId,
-    teammate1?.characterId,
-    teammate2?.characterId,
-  ]
+  const teammates = resolveTeammateInfo(teammate0, teammate1, teammate2)
 
-  applyTeamAwareSetConditionalPresets(form, teammateIds)
+  applyTeamAwareSetConditionalPresets(form, teammates)
+  applyTeammateConditionalPresets(form, teammates)
 
   if (form.setConditionals) {
     useBenchmarksTabStore.getState().setSetConditionals(form.setConditionals)

@@ -41,7 +41,7 @@ const display = {
   conditionalType: ConditionalDataType.SELECT,
   selectionOptions: selectionOptions,
   modifiable: true,
-  defaultValue: 3,
+  defaultValue: 1,
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
@@ -49,14 +49,14 @@ const conditionals: SetConditionals = {
     c.ATK_P.buff(0.12, Source.AsNavigatorIseeSeesIt)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    x.buff(StatKey.DMG_BOOST, 0.18 * setConditionals.valueAsNavigatorIseeSeesIt, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(Source.AsNavigatorIseeSeesIt))
+    x.buff(StatKey.BOOST, 0.18 * setConditionals.valueAsNavigatorIseeSeesIt, x.damageType(DamageTag.SKILL | DamageTag.ULT).source(Source.AsNavigatorIseeSeesIt))
   },
   gpuBasic: () => [
     basicP2(WgslStatName.ATK_P, 0.12, AsNavigatorIseeSeesIt),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_AsNavigatorIseeSeesIt) >= 1) {
-      ${buff.hit(HKey.DMG_BOOST, `0.18 * f32(setConditionals.valueAsNavigatorIseeSeesIt)`).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, `0.18 * f32(setConditionals.valueAsNavigatorIseeSeesIt)`).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}
     }
   `,
 }

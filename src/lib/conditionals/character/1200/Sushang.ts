@@ -1,3 +1,8 @@
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -22,6 +27,7 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { type Eidolon } from 'types/character'
@@ -34,6 +40,7 @@ import {
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Swordplay } from 'lib/conditionals/lightcone/4star/Swordplay'
 import { LongRoadLeadsHome } from 'lib/conditionals/lightcone/5star/LongRoadLeadsHome'
 import { NeverForgetHerFlame } from 'lib/conditionals/lightcone/5star/NeverForgetHerFlame'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
@@ -76,6 +83,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character('1206')
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
 
   const talentSpdBuffValue = talent(e, 0.20, 0.21)
   const ultBuffedAtk = ult(e, 0.30, 0.324)
@@ -216,16 +225,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, r.talentSpdBuffStacks * talentSpdBuffValue, x.source(SOURCE_TALENT))
 
       // Trace: Additional DMG boost based on skill trigger stacks
-      x.buff(StatKey.DMG_BOOST, r.skillTriggerStacks * 0.025, x.damageType(DamageTag.ADDITIONAL).source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, r.skillTriggerStacks * 0.025, x.damageType(DamageTag.ADDITIONAL).source(SOURCE_SKILL))
 
       // E2: DMG reduction
       x.multiplicativeComplement(StatKey.DMG_RED, (e >= 2 && r.e2DmgReductionBuff) ? 0.20 : 0, x.source(SOURCE_E2))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
 
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -311,7 +323,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.CD]: 1,
     [Stats.EHR]: 0,
     [Stats.RES]: 0,
-    [Stats.BE]: 0.5,
+    [Stats.BE]: 0,
   },
   parts: {
     [Parts.Body]: [
@@ -332,7 +344,10 @@ const scoring = (): ScoringMetadata => ({
       Stats.BE,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(1),
+  ],
+  defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -350,6 +365,7 @@ const display = {
 
 export const Sushang: CharacterConfig = {
   id: '1206',
+  defaultLightCone: Swordplay.id,
   display,
   conditionals,
   get scoring() {

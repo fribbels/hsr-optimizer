@@ -77,6 +77,9 @@ export const SortOption: {
   DOT: SortOptionProperties,
   BREAK: SortOptionProperties,
   COMBO: SortOptionProperties,
+  COMBO_HEAL: SortOptionProperties,
+  COMBO_SHIELD: SortOptionProperties,
+  COMBO_BUFF: SortOptionProperties,
   BASIC_HEAL: SortOptionProperties,
   SKILL_HEAL: SortOptionProperties,
   ULT_HEAL: SortOptionProperties,
@@ -87,6 +90,7 @@ export const SortOption: {
   ULT_SHIELD: SortOptionProperties,
   FUA_SHIELD: SortOptionProperties,
   TALENT_SHIELD: SortOptionProperties,
+  BUFF: SortOptionProperties,
 } = {
   // Base stats — each has basic/combat/memo-basic/memo-combat grid columns
   ATK: baseStat('ATK', true),
@@ -116,6 +120,8 @@ export const SortOption: {
   DOT: computed('DOT', true),
   BREAK: computed('BREAK', true),
   COMBO: { ...computed('COMBO'), globalRegisterIndex: GlobalRegister.COMBO_DMG },
+  COMBO_HEAL: { ...computed('COMBO_HEAL'), globalRegisterIndex: GlobalRegister.COMBO_HEAL },
+  COMBO_SHIELD: { ...computed('COMBO_SHIELD'), globalRegisterIndex: GlobalRegister.COMBO_SHIELD },
 
   // Computed heal/shield ratings
   BASIC_HEAL: computed('BASIC_HEAL'),
@@ -128,6 +134,10 @@ export const SortOption: {
   ULT_SHIELD: computed('ULT_SHIELD'),
   FUA_SHIELD: computed('FUA_SHIELD'),
   TALENT_SHIELD: computed('TALENT_SHIELD'),
+
+  // Computed buff ratings
+  COMBO_BUFF: { ...computed('COMBO_BUFF'), globalRegisterIndex: GlobalRegister.COMBO_BUFF },
+  BUFF: computed('BUFF'),
 }
 
 export function getGridColumn(option: SortOptionProperties, statDisplay: string, memoDisplay: string): string {

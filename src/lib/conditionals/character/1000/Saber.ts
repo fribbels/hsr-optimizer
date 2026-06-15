@@ -1,6 +1,15 @@
+import {
+  aoe,
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -10,6 +19,7 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { AThanklessCoronation } from 'lib/conditionals/lightcone/5star/AThanklessCoronation'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   Parts,
@@ -35,6 +45,7 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -81,6 +92,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const ultScaling = ult(e, 2.80, 3.08)
   const ultBounceScaling = ult(e, 1.10, 1.21)
+
+  const ultHitMulti = ashblazingMulti([
+    aoe(ultScaling),
+    ...Array(10).fill(single(ultBounceScaling)),
+  ])
 
   const talentDmgBuffScaling = talent(e, 0.60, 0.66)
 
@@ -257,10 +273,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, r.coreResonanceCdBuff ? 0.04 * 8 : 0, x.source(SOURCE_TRACE))
 
       // Talent DMG buff
-      x.buff(StatKey.DMG_BOOST, r.talentDmgBuff ? talentDmgBuffScaling : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.BOOST, r.talentDmgBuff ? talentDmgBuffScaling : 0, x.source(SOURCE_TALENT))
 
       // E1: DMG boost
-      x.buff(StatKey.DMG_BOOST, (e >= 1 && r.e1DmgBuff) ? 0.60 : 0, x.source(SOURCE_E1))
+      x.buff(StatKey.BOOST, (e >= 1 && r.e1DmgBuff) ? 0.60 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E1))
 
       // E2: DEF PEN (skill scaling handled in actionDefinition)
       x.buff(StatKey.DEF_PEN, (e >= 2 && r.e2Buffs) ? 0.01 * 15 : 0, x.source(SOURCE_E2))
@@ -269,15 +285,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, (e >= 4 && r.e4ResPen) ? 0.08 + 0.04 * 3 : 0, x.elements(ElementTag.Wind).source(SOURCE_E4))
 
       // E6: ULT RES PEN
-      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
+      x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.damageType(DamageTag.ULT).elements(ElementTag.Wind).source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -381,7 +400,10 @@ const scoring = (): ScoringMetadata => ({
       Stats.ERR,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.fnMortenaxAshblazingSet(8),
+  ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.DOT,
@@ -405,6 +427,7 @@ const display = {
 
 export const Saber: CharacterConfig = {
   id: '1014',
+  defaultLightCone: AThanklessCoronation.id,
   display,
   conditionals,
   get scoring() {

@@ -1,4 +1,7 @@
-import { IconCircleHalf2, IconPalette } from '@tabler/icons-react'
+import {
+  IconCircleHalf2,
+  IconPalette,
+} from '@tabler/icons-react'
 import { DEFAULT_CONFIG } from './color/colorPipelineConfig'
 import type {
   PillGroup,

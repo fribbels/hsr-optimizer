@@ -1,6 +1,5 @@
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -36,6 +35,7 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { TodayIsAnotherPeacefulDay } from 'lib/conditionals/lightcone/4star/TodayIsAnotherPeacefulDay'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -93,6 +93,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const basicEnhancedScaling = basic(e, 2.40, 2.64)
   const ultScaling = ult(e, 2.00, 2.16)
 
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
+
   const hitMultiByTargetsBlast: NumberToNumberMap = {
     1: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0.06
     3: ASHBLAZING_ATK_STACK * (2 * 1 / 1), // 0.12
@@ -102,6 +104,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const hitMultiSingle = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
     const r = action.characterConditionals as Conditionals<typeof content>
     return r.basicEnhanced
       ? hitMultiByTargetsBlast[context.enemyCount]
@@ -207,8 +212,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.SPD_P, (r.basicEnhancedSpdBuff) ? 0.10 : 0, x.source(SOURCE_TRACE))
 
       // Boost
-      x.buff(StatKey.DMG_BOOST, r.skillDmgIncreaseStacks * skillStackDmg, x.source(SOURCE_SKILL))
-      x.buff(StatKey.DMG_BOOST, (e >= 1) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E1))
+      x.buff(StatKey.BOOST, r.skillDmgIncreaseStacks * skillStackDmg, x.source(SOURCE_SKILL))
+      x.buff(StatKey.BOOST, (e >= 1) ? 0.10 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E1))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -326,7 +331,9 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.TENGOKU_SET,
     PresetEffects.fnSacerdosSet(2),
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.DOT],
   simulation: simulation(),
@@ -344,6 +351,7 @@ const display = {
 
 export const Qingque: CharacterConfig = {
   id: '1201',
+  defaultLightCone: TodayIsAnotherPeacefulDay.id,
   display,
   conditionals,
   get scoring() {

@@ -2,6 +2,7 @@ import { UpArrow } from 'icons/UpArrow'
 import { damageStats } from 'lib/characterPreview/StatRow'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import {
+  ELEMENTAL_DMG_KEY,
   type ElementName,
   ElementToDamage,
   PathNames,
@@ -15,7 +16,10 @@ import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { Assets } from 'lib/rendering/assets'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
+  getElementalDmgFromContainer,
+  getPenalizedStats,
   StatsToStatKey,
 } from 'lib/scoring/simScoringUtils'
 import {
@@ -44,68 +48,106 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
-import { type DBMetadataCharacter } from 'types/metadata'
+import {
+  type DBMetadataCharacter,
+  ScoringConfigType,
+  type SimulationMetadata,
+} from 'types/metadata'
 
-export const CharacterCardCombatStats = memo(function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs }: {
-  characterMetadata: DBMetadataCharacter,
-  originalSimResult: RunStatSimulationsResult,
-  deprioritizeBuffs: boolean,
-}) {
-  const { t } = useTranslation('common')
-  const { t: tCharactersTab } = useTranslation('charactersTab')
-  const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
-
-  const element = characterMetadata.element as ElementName
-  const x = originalSimResult.x
-  const primaryActionStats = originalSimResult.primaryActionStats
-
-  const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata)
-  const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats)
-
-  const rows: ReactElement[] = []
-
-  for (const wrapper of upgradeDisplayWrappers) {
-    const { stat, display, flat, upgraded } = wrapper
-
-    const isElationDmg = stat === Stats.Elation
-    const isElementalDmg = !isElationDmg && stat.includes('DMG Boost')
-    const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
-
-    // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
-    rows.push(
-      <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-        <img src={Assets.getStatIcon(stat)} className={iconClasses.statIconSpaced} />
-        <div style={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-          <StatTextSm>
-            {statName}
-          </StatTextSm>
-          {upgraded && <Arrow />}
-        </div>
-        <CombatStatDivider />
-        <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
-      </div>,
+function StatIcon({ stat, color }: { stat: StatsValues; color?: string }) {
+  const src = Assets.getStatIcon(stat)
+  if (color) {
+    return (
+      <div
+        className={iconClasses.statIconSpaced}
+        style={{
+          backgroundColor: color,
+          WebkitMaskImage: `url(${src})`,
+          maskImage: `url(${src})`,
+          WebkitMaskSize: 'contain',
+          maskSize: 'contain',
+          WebkitMaskRepeat: 'no-repeat',
+          maskRepeat: 'no-repeat',
+        }}
+      />
     )
   }
+  return <img src={src} className={iconClasses.statIconSpaced} />
+}
 
-  const titleRender = deprioritizeBuffs
-    ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
-    : tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+export const CharacterCardCombatStats = memo(
+  function CharacterCardCombatStats({ characterMetadata, originalSimResult, deprioritizeBuffs, simulationMetadata, configType }: {
+    characterMetadata: DBMetadataCharacter,
+    originalSimResult: RunStatSimulationsResult,
+    deprioritizeBuffs: boolean,
+    simulationMetadata?: SimulationMetadata,
+    configType: ScoringConfigType,
+  }) {
+    const { t } = useTranslation('common')
+    const { t: tCharactersTab } = useTranslation('charactersTab')
+    const preciseSpd = useGlobalStore((s) => s.savedSession[SavedSessionKeys.showcasePreciseSpd])
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
-      <HeaderText style={{ fontSize: 16, textDecoration: 'none' }}>
-        {titleRender}
-      </HeaderText>
-      {rows}
-    </div>
-  )
-})
+    const element = characterMetadata.element as ElementName
+    const x = originalSimResult.x
+    const primaryActionStats = originalSimResult.primaryActionStats
+
+    const simMetadata = simulationMetadata ?? characterMetadata.scoringMetadata.simulation!
+    const upgradeStats: StatsValues[] = pickCombatStats(characterMetadata, simMetadata, configType)
+    const penalizedStats = getPenalizedStats(x, simMetadata, configType)
+    const upgradeDisplayWrappers = aggregateCombatStats(x, upgradeStats, preciseSpd, element, primaryActionStats, penalizedStats)
+
+    const rows: ReactElement[] = []
+
+    for (const wrapper of upgradeDisplayWrappers) {
+      const { stat, display, flat, upgraded, penalized } = wrapper
+
+      const isElationDmg = stat === Stats.Elation
+      const isElementalDmg = !isElationDmg && damageStats[stat] != null
+      const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
+
+      // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
+      const penaltyColor = penalized ? '#ff9a9a' : undefined
+
+      rows.push(
+        <div key={stat} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', color: penaltyColor }}>
+          <StatIcon stat={stat} color={penaltyColor} />
+          <div style={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+            <StatTextSm>
+              {statName}
+            </StatTextSm>
+            {upgraded && <Arrow />}
+          </div>
+          <CombatStatDivider />
+          <StatTextSm>{`${display}${flat ? '' : '%'}`}</StatTextSm>
+        </div>,
+      )
+    }
+
+    const suffix = SCORING_CONFIG_REGISTRY[configType].combatStatsSuffix
+    const combatStatsLabel = tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+    const titleRender = suffix
+      ? `${combatStatsLabel} (${suffix})`
+      : deprioritizeBuffs
+      ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
+      : combatStatsLabel
+
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>
+        <HeaderText style={{ fontSize: 16, textDecoration: 'none' }}>
+          {titleRender}
+        </HeaderText>
+        {rows}
+      </div>
+    )
+  },
+)
 
 type StatDisplayWrapper = {
   stat: StatsValues,
   display: string,
   flat: boolean,
   upgraded: boolean,
+  penalized: boolean,
 }
 
 function aggregateCombatStats(
@@ -113,7 +155,8 @@ function aggregateCombatStats(
   upgradeStats: StatsValues[],
   preciseSpd: boolean,
   element: ElementName,
-  primaryActionStats?: PrimaryActionStats,
+  primaryActionStats: PrimaryActionStats | undefined,
+  penalizedStats: Set<StatsValues>,
 ) {
   const displayWrappers: StatDisplayWrapper[] = []
 
@@ -139,29 +182,32 @@ function aggregateCombatStats(
       upgraded,
       display,
       flat,
+      penalized: penalizedStats.has(stat),
     })
   }
 
   return displayWrappers
 }
 
-function pickCombatStats(characterMetadata: DBMetadataCharacter) {
-  const simulationMetadata = characterMetadata.scoringMetadata.simulation!
+function pickCombatStats(characterMetadata: DBMetadataCharacter, simulationMetadata: SimulationMetadata, configType: ScoringConfigType) {
   const elementalDmgValue = ElementToDamage[characterMetadata.element]
 
   let substats: StatsValues[] = [...simulationMetadata.substats as SubStats[]]
 
   substats.push(Stats.SPD)
+  if (configType !== ScoringConfigType.DPS) {
+    substats.push(Stats.RES)
+  }
 
   // Dedupe, remove flats, standardize order
   substats = filterUnique(substats).filter((x) => !percentFlatStats[x])
   substats.sort((a, b) => getIndexOf(SubStats, a) - getIndexOf(SubStats, b))
 
-  let includeElementalDmg = true
+  let includeElementalDmg = configType === ScoringConfigType.DPS
   const config = simulationMetadata.combatStatsConfig
   if (config) {
     for (const entry of config) {
-      if (entry.remove === 'ELEMENTAL_DMG') {
+      if (entry.remove === ELEMENTAL_DMG_KEY) {
         includeElementalDmg = false
       } else if (entry.remove) {
         substats = substats.filter((s) => s !== entry.remove)
@@ -205,21 +251,25 @@ function getStatValue(
     return x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
   }
 
+  // Support/heal/shield scoring has no primary damage action — read from container instead
+  const hasPrimaryAction = primaryActionStats.sourceEntityCR > 0 || primaryActionStats.sourceEntityCD > 0
+  if (!hasPrimaryAction) {
+    if (damageStats[stat]) {
+      return getElementalDmgFromContainer(x, element)
+    }
+    return x.getActionValueByIndex(StatsToStatKey[stat], SELF_ENTITY_INDEX)
+  }
+
   // Handle elemental DMG stats: source entity's element boost + generic DMG_BOOST (action+hit)
   if (damageStats[stat]) {
-    return primaryActionStats.sourceEntityElementDmgBoost + primaryActionStats.DMG_BOOST
+    return primaryActionStats.sourceEntityElementDmgBoost + primaryActionStats.BOOST
   }
 
   // For CR and CD, use the fully resolved source entity values (already includes CR_BOOST/CD_BOOST)
-  if (stat === Stats.CR) {
-    return primaryActionStats.sourceEntityCR
-  }
-  if (stat === Stats.CD) {
-    return primaryActionStats.sourceEntityCD
-  }
+  if (stat === Stats.CR) return primaryActionStats.sourceEntityCR
+  if (stat === Stats.CD) return primaryActionStats.sourceEntityCD
 
-  const statKey = StatsToStatKey[stat]
-  return x.getActionValueByIndex(statKey, SELF_ENTITY_INDEX)
+  return x.getActionValueByIndex(StatsToStatKey[stat], SELF_ENTITY_INDEX)
 }
 
 // Get basic stat value from Container's basic stats array

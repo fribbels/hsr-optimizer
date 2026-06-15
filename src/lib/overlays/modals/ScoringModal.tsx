@@ -51,7 +51,7 @@ const panelWidth = 220
 const statRenderOption: React.ComponentProps<typeof MultiSelect>['renderOption'] = ({ option, checked }) => (
   <Flex align='center' gap={10} justify='space-between' w='100%'>
     <Flex align='center' gap={10}>
-      <img src={Assets.getStatIcon(option.value, true)} className={iconClasses.icon22} />
+      <img src={Assets.getStatIcon(String(option.value), true)} className={iconClasses.icon22} />
       {option.label}
     </Flex>
     {checked && <CheckIcon size={12} />}
@@ -341,11 +341,13 @@ function ScoringModalContent({ close }: { close: () => void }) {
         <Divider
           className={classes.bottomDivider}
           label={
-            <ColorizedLinkWithIcon
-              text={t('Scoring.WeightMethodology.Header')}
-              linkIcon={true}
-              url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
-            />
+            <span style={{ fontSize: 15 }}>
+              <ColorizedLinkWithIcon
+                text={'How are substat weights used?' /* Hardcoded — label still in flux, skip i18n for now */}
+                linkIcon={true}
+                url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md'
+              />
+            </span>
           }
           labelPosition='center'
         />

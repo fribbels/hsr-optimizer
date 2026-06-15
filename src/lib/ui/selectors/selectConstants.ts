@@ -31,13 +31,13 @@ export const OVERLAY_SCROLLBAR_OPTIONS = { scrollbars: { autoHide: 'move' as con
 
 /** Shared modal styles for character selectors (both single and multi) */
 export const CHARACTER_MODAL_STYLES = {
-  content: { height: '80%', maxWidth: 1450, minHeight: 910 },
+  content: { height: '80%', maxWidth: 1450, minHeight: 'min(910px, 90dvh)' },
   body: { height: 'calc(100% - 60px)', overflow: 'hidden' as const },
 }
 
 /** Shared modal styles for light cone selector */
 export const LC_MODAL_STYLES = {
-  content: { height: '70%', maxWidth: 1200, minHeight: 910 },
+  content: { height: '70%', maxWidth: 1200, minHeight: 'min(910px, 90dvh)' },
   body: { height: 'calc(100% - 60px)', overflow: 'hidden' as const },
 }
 

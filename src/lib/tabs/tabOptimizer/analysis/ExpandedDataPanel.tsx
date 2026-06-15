@@ -1,12 +1,12 @@
 import { useDelayedProps } from 'hooks/useDelayedProps'
 import { BuffsAnalysisDisplay } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
 import { AppPages } from 'lib/constants/appPages'
+import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { DamageSplits } from 'lib/tabs/tabOptimizer/analysis/DamageSplits'
 import { DamageTagPieChart } from 'lib/tabs/tabOptimizer/analysis/DamageTagPieChart'
-import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import {
   calculateTeammateUpgrades,
   generateAnalysisData,

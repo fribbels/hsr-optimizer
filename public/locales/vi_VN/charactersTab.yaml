@@ -85,7 +85,6 @@ CharacterPreview:
     Labels:
       CombatScore: Điểm combat
       CombatScoreTBD: Combat (TBD)
-      StatScore: Điểm chỉ số
       NoneScore: Không có
   DetailsSlider:
     Labels:
@@ -137,18 +136,15 @@ CharacterPreview:
       CombatStats: <1>Chỉ số combat</1> nhân vật
       Substats: Thuộc tính phụ nhân vật (Roll tối thiểu)
       Mainstats: Thuộc tính chính nhân vật
-      Abilities: Sát thương nhân vật
     Benchmark:
       Header: 'Lối lên đồ tiêu chuẩn ({{score}}%)'
       CombatStats: <1>Chỉ số combat</1> 100% tiêu chuẩn
       Substats: Thuộc tính phụ 100% tiêu chuẩn (Roll tối thiểu)
       Mainstats: Thuộc tính chính 100% tiêu chuẩn
-      Abilities: Sát thương 100% tiêu chuẩn
     Perfect:
       Header: 'Lối lên đồ hoàn hảo ({{score}}%)'
       CombatStats: <1>Chỉ số combat</1> 200% hoàn hảo
       Substats: Thuộc tính phụ 200% hoàn hảo (Roll tối đa)
       Mainstats: Thuộc tính chính 200% hoàn hảo
-      Abilities: Sát thương 200% hoàn hảo
   ScoringDetails:
     Header: Điểm DPS được tính như thế nào?

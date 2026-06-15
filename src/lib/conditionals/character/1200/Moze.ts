@@ -1,6 +1,5 @@
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -45,6 +44,7 @@ import {
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { ShadowedByNight } from 'lib/conditionals/lightcone/4star/ShadowedByNight'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -96,6 +96,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const additionalDmgScaling = talent(e, 0.30, 0.33)
 
   const fuaHitCountMulti = ASHBLAZING_ATK_STACK * (1 * 0.08 + 2 * 0.08 + 3 * 0.08 + 4 * 0.08 + 5 * 0.08 + 6 * 0.6)
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    return fuaHitCountMulti
+  }
 
   const defaults = {
     preyMark: true,
@@ -258,7 +267,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.DMG_BOOST, (e >= 4 && r.e4DmgBuff) ? 0.30 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.BOOST, (e >= 4 && r.e4DmgBuff) ? 0.30 : 0, x.source(SOURCE_E4))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -269,10 +278,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, fuaHitCountMulti)
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(fuaHitCountMulti, action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -384,6 +393,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.fnAshblazingSet(6),
     PresetEffects.VALOROUS_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
@@ -405,6 +415,7 @@ const display = {
 
 export const Moze: CharacterConfig = {
   id: '1223',
+  defaultLightCone: ShadowedByNight.id,
   display,
   conditionals,
   get scoring() {

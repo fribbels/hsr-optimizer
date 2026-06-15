@@ -1,3 +1,6 @@
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   NONE_TYPE,
   SKILL_DMG_TYPE,
@@ -14,10 +17,15 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { WarmthShortensColdNights } from 'lib/conditionals/lightcone/4star/WarmthShortensColdNights'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import {
   ConditionalActivation,
   ConditionalType,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -28,16 +36,29 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_SKILL_HEAL,
+  DEFAULT_TALENT_HEAL,
+  DEFAULT_ULT_HEAL,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_HEAL,
+  SPREAD_RELICS_4P_HEAL,
+} from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -71,7 +92,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   } = Source.character(Lynx.id)
 
   const skillHpPercentBuff = skill(e, 0.075, 0.08)
-  const skillHpFlatBuff = skill(e, 200, 223)
+  const skillHpFlatBuff = skill(e, 200, 222.5)
 
   const basicScaling = basic(e, 0.50, 0.55)
 
@@ -207,18 +228,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.RES, (e >= 6 && m.skillBuff) ? 0.30 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+      x.buff(StatKey.RES, (e >= 6 && m.skillBuff) ? 0.30 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E6))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.HP, (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.HP, (t.skillBuff) ? skillHpFlatBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
-      x.buff(StatKey.HP, (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E6))
+      x.buff(StatKey.HP, (t.skillBuff) ? skillHpPercentBuff * t.teammateHPValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(StatKey.HP, (t.skillBuff) ? skillHpFlatBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(StatKey.HP, (e >= 6 && t.skillBuff) ? 0.06 * t.teammateHPValue : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E6))
 
       const atkBuffValue = (e >= 4 && t.skillBuff) ? 0.03 * t.teammateHPValue : 0
-      x.buff(StatKey.ATK, atkBuffValue, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+      x.buff(StatKey.ATK, atkBuffValue, x.targets(TargetTag.SingleTarget).source(SOURCE_E4))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -273,12 +294,64 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
+const healSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [Stats.OHB],
+    [Parts.Feet]: [Stats.SPD, Stats.HP_P],
+    [Parts.PlanarSphere]: [Stats.HP_P],
+    [Parts.LinkRope]: [Stats.HP_P],
+  },
+  substats: [
+    Stats.HP_P,
+    Stats.HP,
+    Stats.SPD,
+    Stats.RES,
+    Stats.DEF_P,
+  ],
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_SKILL_HEAL,
+    DEFAULT_TALENT_HEAL,
+    DEFAULT_ULT_HEAL,
+  ],
+  relicSets: [
+    [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
+    ...SPREAD_RELICS_4P_HEAL,
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    ...SPREAD_ORNAMENTS_2P_HEAL,
+  ],
+  teammates: [
+    {
+      characterId: Castorice.id,
+      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Tribbie.id,
+      lightCone: IfTimeWereAFlower.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  deprioritizeBuffs: true,
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
-    [Stats.DEF]: 0.25,
-    [Stats.DEF_P]: 0.25,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
     [Stats.HP]: 1,
     [Stats.HP_P]: 1,
     [Stats.SPD]: 1,
@@ -318,6 +391,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
+  healSimulation: healSimulation(),
 })
 
 const display = {
@@ -331,6 +405,7 @@ const display = {
 
 export const Lynx: CharacterConfig = {
   id: '1110',
+  defaultLightCone: WarmthShortensColdNights.id,
   display,
   conditionals,
   get scoring() {

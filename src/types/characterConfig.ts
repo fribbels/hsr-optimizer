@@ -3,6 +3,7 @@ import type {
   Eidolon,
 } from 'types/character'
 import type { CharacterConditionalsController } from 'types/conditionals'
+import type { LightConeId } from 'types/lightCone'
 import type { ScoringMetadata } from 'types/metadata'
 
 export type CharacterDisplay = {
@@ -28,6 +29,7 @@ export type CharacterDisplay = {
 
 export type CharacterConfig = {
   id: CharacterId,
+  defaultLightCone: LightConeId,
   display: CharacterDisplay,
   conditionals: CharacterConditionalFunction,
   /** Getter — defers evaluation to avoid circular imports between config files */

@@ -18,10 +18,12 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
+import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   ConditionalActivation,
   ConditionalType,
+  ELEMENTAL_DMG_KEY,
   Parts,
   Sets,
   Stats,
@@ -537,7 +539,7 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboDot: 0,
   combatStatsConfig: [
-    { remove: 'ELEMENTAL_DMG' },
+    { remove: ELEMENTAL_DMG_KEY },
   ],
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
@@ -595,6 +597,7 @@ const scoring = (): ScoringMetadata => ({
     [Parts.LinkRope]: [],
   },
   presets: [],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -616,6 +619,7 @@ const display = {
 
 export const SilverWolfLv999: CharacterConfig = {
   id: '1506',
+  defaultLightCone: WelcomeToTheCosmicCity.id,
   display,
   conditionals,
   get scoring() {

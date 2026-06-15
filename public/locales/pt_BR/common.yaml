@@ -132,6 +132,7 @@ ReadableStats:
   Wind DMG Boost: 'Dano $t(gameData:Elements.Wind)'
   Quantum DMG Boost: 'Dano $t(gameData:Elements.Quantum)'
   Imaginary DMG Boost: 'Dano $t(gameData:Elements.Imaginary)'
+  simScore: Dano de Combo
 ShortReadableStats:
   "HP%": PV %
   HP: PV

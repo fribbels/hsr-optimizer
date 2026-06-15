@@ -15,6 +15,7 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
@@ -72,6 +73,7 @@ export const YaoguangAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.ELATION_SKILL,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals: CharacterConditionalFunction = (e, withContent) => {
@@ -291,6 +293,15 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Physical).build(),
+          ],
+        },
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ELATION)
+              .sourceStat(StatKey.ELATION)
+              .scaling(skillElationBuff)
+              .build(),
           ],
         },
       }
@@ -567,6 +578,7 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [],
+  defaultDamageType: DamageTag.ELATION,
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
@@ -591,6 +603,7 @@ export function getYaoguangAhaPunchlineValue(action: OptimizerAction, context: O
 
 export const Yaoguang: CharacterConfig = {
   id: '1502',
+  defaultLightCone: WhenSheDecidedToSee.id,
   display,
   conditionals,
   get scoring() {

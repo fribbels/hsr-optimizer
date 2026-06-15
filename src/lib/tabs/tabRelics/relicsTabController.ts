@@ -66,6 +66,7 @@ export const RelicsTabController = {
     if (!selectedRelicsIds.length) return Message.error(t('NoRelicSelected'))
     setSelectedRelicsIds([])
     selectedRelicsIds.forEach((id) => equipmentService.removeRelic(id))
+    SaveState.permitEmptySave()
     SaveState.delayedSave()
     Message.success(t('DeleteRelicSuccess'))
   },

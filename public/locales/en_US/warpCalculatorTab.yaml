@@ -59,6 +59,11 @@ SectionTitles:
   Rerun: Rerun
   AdditionalResources: Additional resources
   Calculate: Calculate
+  Simple: Simple
+  MultiTarget: Multi Target
+  AddCharacter: Add character
+  AddLightCone: Add light cone
+  AddCharacterAndSignature: Add character and signature
 ColumnTitles:
   Goal: Goal
   Chance: "Success chance with {{ticketCount}} <1/>"

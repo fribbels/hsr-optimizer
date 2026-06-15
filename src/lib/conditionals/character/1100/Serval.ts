@@ -1,6 +1,11 @@
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,6 +13,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { MakeTheWorldClamor } from 'lib/conditionals/lightcone/4star/MakeTheWorldClamor'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -18,7 +24,7 @@ import {
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
@@ -71,6 +77,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_TRACE,
     SOURCE_E6,
   } = Source.character(Serval.id)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const talentExtraDmgScaling = talent(e, 0.72, 0.792)
 
@@ -190,11 +198,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, (r.enemyDefeatedBuff) ? 0.20 : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (e >= 6 && r.targetShocked) ? 0.30 : 0, x.source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.targetShocked) ? 0.30 : 0, x.source(SOURCE_E6))
     },
 
-    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+    },
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
   }
 }
 
@@ -303,7 +315,9 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.fnPioneerSet(4),
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
+  defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
     SortOption.FUA,
@@ -323,6 +337,7 @@ const display = {
 
 export const Serval: CharacterConfig = {
   id: '1103',
+  defaultLightCone: MakeTheWorldClamor.id,
   display,
   conditionals,
   get scoring() {

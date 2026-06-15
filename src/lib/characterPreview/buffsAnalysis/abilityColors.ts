@@ -17,6 +17,7 @@ export const ABILITY_COLORS = {
   MEMO: '#adc6ff',
   ADDITIONAL: '#d3adf7',
   ELATION: '#ffadd2',
+  ASSIST: '#69b1ff',
   UNIQUE: '#fadb14',
 } as const
 
@@ -35,6 +36,7 @@ export const DAMAGE_TAG_ENTRIES: DamageTagEntry[] = [
   { tag: DamageTag.MEMO, key: 'MEMO', color: ABILITY_COLORS.MEMO },
   { tag: DamageTag.ADDITIONAL, key: 'ADDITIONAL', color: ABILITY_COLORS.ADDITIONAL },
   { tag: DamageTag.ELATION, key: 'ELATION', color: ABILITY_COLORS.ELATION },
+  { tag: DamageTag.ASSIST, key: 'ASSIST', color: ABILITY_COLORS.ASSIST },
 ]
 
 export const DAMAGE_TAG_BY_KEY = new Map<AbilityColorKey, DamageTagEntry>(

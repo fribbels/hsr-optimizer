@@ -21,8 +21,9 @@ export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'
         /* 'Selected Char\nScore' | 'Selected character: Score' */
         {
           column: t('ValueColumns.SelectedCharacter.ScoreCol.Header'),
-          value: 'weights.current',
+          value: 'weights.currentPct',
           label: t('ValueColumns.SelectedCharacter.ScoreCol.Label'),
+          percent: true,
         },
         /* 'Selected Char\nAvg Potential' | 'Selected character: Average potential' */
         {

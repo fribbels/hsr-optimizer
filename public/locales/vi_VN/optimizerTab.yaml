@@ -23,6 +23,8 @@ OrnamentSetSelector:
   Placeholder: Bộ Phụ Kiện Vị Diện
 SortOptions:
   DMGLabel: Tính Sát Thương
+  OptimizationLabel: Tối ưu hóa
+  AbilityLabel: Kĩ năng
   StatLabel: Chỉ số
   COMBO: Sắp xếp theo ST Combo
   BASIC: Sắp xếp theo ST Tấn Công Thường
@@ -361,7 +363,6 @@ CombatBuffs:
   SPD: Tốc Độ
   SPD_P: Tốc Độ %
   BE: Kích Phá %
-  DMG_BOOST: Tăng ST Nguyên Tố %
   DEF_PEN: Xuyên Phòng Thủ %
   RES_PEN: Xuyên Kháng ST Nguyên Tố %
   EFFECT_RES_PEN: Kháng Hiệu Ứng %

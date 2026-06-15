@@ -12,6 +12,7 @@ import {
   ComputedStatsContainerConfig,
   type OptimizerEntity,
 } from 'lib/optimization/engine/container/computedStatsContainer'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
 import {
   defineAction,
@@ -28,6 +29,7 @@ import {
   type OptimizerForm,
 } from 'types/form'
 import {
+  type BuffHitDefinition,
   type EntityDefinition,
   type Hit,
 } from 'types/hitConditionalTypes'
@@ -50,6 +52,9 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
     actionDef.actionKind = actionDeclaration
     action.actionType = actionDeclaration
     action.hits = actionDef.hits as Hit[]
+    if (action.hits?.[0]?.damageFunctionType === DamageFunctionType.Buff) {
+      action.buffStat = (action.hits[0] as BuffHitDefinition).buffStat
+    }
 
     for (const modifier of context.actionModifiers) {
       const self = buildModifierContext(action, modifier)

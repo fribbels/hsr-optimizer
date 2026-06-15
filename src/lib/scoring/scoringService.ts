@@ -1,4 +1,5 @@
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import {
@@ -18,6 +19,8 @@ import type {
 import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
+  ScoringConfig,
+  ScoringConfigType,
   ShowcaseTemporaryOptions,
   SimulationMetadata,
 } from 'types/metadata'
@@ -31,6 +34,7 @@ export type PreparedState = {
   characterMetadata: DBMetadataCharacter,
   deprioritizeBuffs: boolean,
   originalSim: Simulation,
+  baselineSim: Simulation,
   simForm: Form,
 }
 
@@ -55,6 +59,7 @@ const previewCache = new Map<string, PreparedState>()
 // --- Public API ---
 export function computeScoringCacheKey(
   character: Character,
+  configType: ScoringConfigType,
   simulationMetadata: SimulationMetadata | null,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
@@ -62,6 +67,7 @@ export function computeScoringCacheKey(
   if (!simulationMetadata) return null
 
   return objectHash({
+    configType,
     form: character.form,
     singleRelicByPart,
     simulationMetadata,
@@ -93,7 +99,7 @@ export function hasExceededUpgradeRetries(cacheKey: string): boolean {
 export function getOrComputePreview(
   cacheKey: string,
   character: Character,
-  simulationMetadata: SimulationMetadata,
+  config: ScoringConfig,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): PreparedState | null {
@@ -103,7 +109,7 @@ export function getOrComputePreview(
   try {
     const orchestrator = prepareOrchestrator(
       character,
-      simulationMetadata,
+      config,
       singleRelicByPart,
       showcaseTemporaryOptions,
     )
@@ -115,18 +121,19 @@ export function getOrComputePreview(
       characterMetadata: getGameMetadata().characters[character.id],
       deprioritizeBuffs: orchestrator.metadata.deprioritizeBuffs ?? false,
       originalSim: orchestrator.originalSim!,
+      baselineSim: orchestrator.baselineSim!,
       simForm: orchestrator.form!,
     }
 
     previewCache.set(cacheKey, preview)
     // Only cache the orchestrator if the full pipeline hasn't already completed.
     // This prevents orphaned orchestrator entries when revisiting already-scored characters.
-    if (!upgradeResultCache.has(cacheKey)) {
+    if (!resultCache.has(cacheKey) && !upgradeResultCache.has(cacheKey)) {
       orchestratorCache.set(cacheKey, orchestrator)
     }
     return preview
   } catch (error) {
-    console.error('Preview preparation failed:', error)
+    console.error(`Preview preparation failed for ${config.configType}:`, error)
     return null
   }
 }
@@ -134,7 +141,7 @@ export function getOrComputePreview(
 export function requestScore(
   cacheKey: string | null,
   character: Character,
-  simulationMetadata: SimulationMetadata,
+  config: ScoringConfig,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
@@ -164,7 +171,7 @@ export function requestScore(
         const orchestrator = orchestratorCache.get(cacheKey) ?? orchestratorCache
           .set(
             cacheKey,
-            prepareOrchestrator(character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions),
+            prepareOrchestrator(character, config, singleRelicByPart, showcaseTemporaryOptions),
           )
           .get(cacheKey)!
 
@@ -174,9 +181,15 @@ export function requestScore(
         score.characterMetadata = getGameMetadata().characters[character.id]
         resultCache.set(cacheKey, score)
         previewCache.delete(cacheKey)
+
+        // Non-DPS types don't need upgrades yet, so release the orchestrator immediately
+        if (!SCORING_CONFIG_REGISTRY[config.configType].supportsUpgrades) {
+          orchestratorCache.delete(cacheKey)
+        }
+
         resolve(score)
       } catch (error) {
-        console.error('Scoring error:', error)
+        console.error(`Scoring error (${config.configType}):`, error)
         failedRetries.set(cacheKey, (failedRetries.get(cacheKey) ?? 0) + 1)
         resolve(null)
       } finally {
@@ -189,14 +202,17 @@ export function requestScore(
   return promise
 }
 
+// Upgrades are DPS-only in the initial implementation
 export function requestScoreUpgrades(
   cacheKey: string | null,
   character: Character,
-  simulationMetadata: SimulationMetadata,
+  config: ScoringConfig,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
 ): Promise<SimulationScore | null> {
   if (cacheKey === null) return Promise.resolve(null)
+  // Upgrades are DPS-only — non-DPS orchestrators are released immediately after scoring
+  if (!SCORING_CONFIG_REGISTRY[config.configType].supportsUpgrades) return Promise.resolve(null)
   // Return cached result as resolved promise
   if (upgradeResultCache.has(cacheKey)) {
     return Promise.resolve(upgradeResultCache.get(cacheKey)!)
@@ -213,7 +229,7 @@ export function requestScoreUpgrades(
   }
 
   const promise = new Promise<SimulationScore | null>((resolve) => {
-    requestScore(cacheKey, character, simulationMetadata, singleRelicByPart, showcaseTemporaryOptions)
+    requestScore(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions)
       .then(async () => {
         try {
           // requestScore ensures an orchestrator is always available in the cache by this point

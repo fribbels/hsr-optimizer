@@ -42,7 +42,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
       if (r.maxEnergyDmgBoost) {
-        x.buff(StatKey.DMG_BOOST, Math.min(160, context.baseEnergy) * sValues[s], x.source(SOURCE_LC))
+        x.buff(StatKey.BOOST, Math.min(160, context.baseEnergy) * sValues[s], x.source(SOURCE_LC))
       }
     },
   }

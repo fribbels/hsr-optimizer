@@ -17,6 +17,7 @@ import {
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { TimeWovenIntoGold } from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -321,7 +322,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         ? (cyreneSpecialEffectEidolonUpgraded(action) ? 0.396 : 0.36)
         : 0
 
-      x.buff(StatKey.DMG_BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(Aglaea.id)))
+      x.buff(StatKey.BOOST, (r.cyreneSpecialEffect) ? cyreneDmgBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(Aglaea.id)))
       x.buff(StatKey.DEF_PEN, (r.cyreneSpecialEffect) ? cyreneDefPenBuff : 0, x.targets(TargetTag.SelfAndMemosprite).source(Source.odeTo(Aglaea.id)))
     },
 
@@ -348,7 +349,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           jointBoost = 0.10
         }
 
-        x.buff(StatKey.DMG_BOOST, jointBoost, x.damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
+        x.buff(StatKey.BOOST, jointBoost, x.damageType(DamageTag.BASIC).targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6))
       }
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
@@ -361,7 +362,7 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
     ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 320
   ) {
     ${
-        buff.hit(HKey.DMG_BOOST, 0.60)
+        buff.hit(HKey.BOOST, 0.60)
           .damageType(DamageTag.BASIC)
           .targets(TargetTag.SelfAndMemosprite)
           .wgsl(action, 2)
@@ -371,7 +372,7 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
     ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 240
   ) {
     ${
-        buff.hit(HKey.DMG_BOOST, 0.30)
+        buff.hit(HKey.BOOST, 0.30)
           .damageType(DamageTag.BASIC)
           .targets(TargetTag.SelfAndMemosprite)
           .wgsl(action, 2)
@@ -381,7 +382,7 @@ if (${wgslTrue(e >= 6 && r.supremeStanceState && r.e6Buffs)}) {
     ${containerActionVal(action.config.entityRegistry.getIndex(AglaeaEntities.Garmentmaker), StatKey.SPD, action.config)} > 160
   ) {
     ${
-        buff.hit(HKey.DMG_BOOST, 0.10)
+        buff.hit(HKey.BOOST, 0.10)
           .damageType(DamageTag.BASIC)
           .targets(TargetTag.SelfAndMemosprite)
           .wgsl(action, 2)
@@ -555,6 +556,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,
   ],
+  defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
@@ -572,6 +574,7 @@ const display = {
 
 export const Aglaea: CharacterConfig = {
   id: '1402',
+  defaultLightCone: TimeWovenIntoGold.id,
   display,
   conditionals,
   get scoring() {

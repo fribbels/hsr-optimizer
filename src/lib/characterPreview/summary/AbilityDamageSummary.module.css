@@ -8,6 +8,7 @@
 
 .zebraContainer {
   composes: zebraContainer from './summaryStyles.module.css';
+  width: 100%;
 }
 
 .row {

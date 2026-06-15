@@ -71,10 +71,8 @@ export class ScoringCache {
   getCurrentRelicScore(relic: Nullable<Relic>, id: CharacterId): RelicScoringResult {
     if (!relic) {
       return {
-        score: '0',
-        scoreNumber: 0,
+        percentScore: 0,
         rating: '',
-        mainStatScore: 0,
       }
     }
     const meta = this.getMeta(id)
@@ -122,9 +120,8 @@ export class ScoringCache {
   }
 
   scoreRelicPotential(relic: Relic, id: CharacterId, withMeta: boolean = false): PotentialResult {
-    const meta = this.getMeta(id)
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
-    return computePotentialScores(relic, meta, futureScore)
+    return computePotentialScores(futureScore)
   }
 
   scoreCharacterWithRelics(
@@ -144,6 +141,7 @@ export class ScoringCache {
         relics: [],
         totalScore: 0,
         totalRating: '',
+        correctMainStats: 0,
       }
     }
     return scoreCharacterUsingScorer(
@@ -154,9 +152,7 @@ export class ScoringCache {
 }
 
 /**
- * Backward-compatible API — drop-in replacement for the old RelicScorer.
- * Supports both `RelicScorer.scoreCurrentRelic(...)` (static) and `new RelicScorer()` (instance).
- * Also supports `ReturnType<typeof RelicScorer.scoreRelicPotential>` type extraction.
+ * Static + instance API for relic scoring. Returns percentage-based results (0-100).
  */
 export class RelicScorer extends ScoringCache {
   static scoreCurrentRelic(relic: Relic, id: CharacterId) {

@@ -10,15 +10,20 @@ import {
 import {
   DamageFunctionType,
 } from 'lib/optimization/engine/damage/damageCalculator'
+import {
+  ConversionType,
+} from 'types/hitConditionalTypes'
 import type {
   AdditionalHitDefinition,
   BreakHitDefinition,
   CritHitDefinition,
+  DiscreteBuffHitDefinition,
   DotHitDefinition,
   ElationHitDefinition,
   HealHitDefinition,
   HealTallyHitDefinition,
   HitDefinition,
+  LinearBuffHitDefinition,
   ShieldHitDefinition,
   SuperBreakHitDefinition,
 } from 'types/hitConditionalTypes'
@@ -233,3 +238,19 @@ HitDefinitionBuilder.healTally = () =>
     outputTag: OutputTag.DAMAGE,
     directHit: true,
   })
+
+const BUFF_DEFAULTS = {
+  ...BASE_HIT_DEFAULTS,
+  damageFunctionType: DamageFunctionType.Buff,
+  damageType: DamageTag.None,
+  damageElement: ElementTag.None,
+  outputTag: OutputTag.BUFF,
+  directHit: false,
+  includeUnconvertible: false,
+}
+
+HitDefinitionBuilder.linearBuff = () =>
+  genericBuilder<LinearBuffHitDefinition>({ ...BUFF_DEFAULTS, conversionType: ConversionType.Linear } as Partial<LinearBuffHitDefinition>)
+
+HitDefinitionBuilder.discreteBuff = () =>
+  genericBuilder<DiscreteBuffHitDefinition>({ ...BUFF_DEFAULTS, conversionType: ConversionType.Discrete } as Partial<DiscreteBuffHitDefinition>)

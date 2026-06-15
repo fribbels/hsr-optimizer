@@ -44,58 +44,60 @@ const sets = gameData.relics.toReversed()
 const setToIndex: StringToNumberMap = Object.fromEntries(sets.map((set, i) => [set.name, i]))
 
 export function MetadataTab(): ReactElement {
+  const [opened, setOpened] = useState<string[]>([])
+
   return (
     <Flex direction='column' style={{ width: '100%', height: 'fit-content' }}>
       <h1 style={{ marginLeft: 20 }}>
         Metadata viewer
       </h1>
-      <Accordion multiple>
+      <Accordion multiple value={opened} onChange={setOpened}>
         <Accordion.Item value='set-auditor'>
           <Accordion.Control>Set benchmark auditor</Accordion.Control>
           <Accordion.Panel>
-            <SetBenchmarkAuditor />
+            {opened.includes('set-auditor') && <SetBenchmarkAuditor />}
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='color-grid'>
           <Accordion.Control>Character color grid</Accordion.Control>
           <Accordion.Panel>
-            <CharacterColorGridDashboard />
+            {opened.includes('color-grid') && <CharacterColorGridDashboard />}
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='image-center'>
           <Accordion.Control>Image center editor</Accordion.Control>
           <Accordion.Panel>
-            <ImageCenterEditorSection />
+            {opened.includes('image-center') && <ImageCenterEditorSection />}
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='1'>
           <Accordion.Control>Simulation sets</Accordion.Control>
           <Accordion.Panel>
-            <SimulationEquivalentSetsDashboard />
+            {opened.includes('1') && <SimulationEquivalentSetsDashboard />}
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='2'>
           <Accordion.Control>Simulation teams</Accordion.Control>
           <Accordion.Panel>
-            <SimulationTeamDashboard />
+            {opened.includes('2') && <SimulationTeamDashboard />}
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='3'>
           <Accordion.Control>Simulation combo</Accordion.Control>
           <Accordion.Panel>
-            <SimulationComboDashboard />
+            {opened.includes('3') && <SimulationComboDashboard />}
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='4'>
           <Accordion.Control>Conditional set presets</Accordion.Control>
           <Accordion.Panel>
-            <ConditionalSetsPresetsDashboard />
+            {opened.includes('4') && <ConditionalSetsPresetsDashboard />}
           </Accordion.Panel>
         </Accordion.Item>
         <Accordion.Item value='5'>
           <Accordion.Control>Substat weight dashboard</Accordion.Control>
           <Accordion.Panel>
-            <SubstatWeightDashboard />
+            {opened.includes('5') && <SubstatWeightDashboard />}
           </Accordion.Panel>
         </Accordion.Item>
       </Accordion>
@@ -250,6 +252,7 @@ const presetToSetMapping: Record<string, string> = {
   fnAshblazingSet: Sets.TheAshblazingGrandDuke,
   fnPioneerSet: Sets.PioneerDiverOfDeadWaters,
   fnSacerdosSet: Sets.SacerdosRelivedOrdeal,
+  fnMortenaxAshblazingSet: Sets.TheAshblazingGrandDuke,
   PRISONER_SET: Sets.PrisonerInDeepConfinement,
   WASTELANDER_SET: Sets.WastelanderOfBanditryDesert,
   VALOROUS_SET: Sets.TheWindSoaringValorous,
@@ -467,4 +470,3 @@ function CharacterColorGridDashboard() {
     </div>
   )
 }
-

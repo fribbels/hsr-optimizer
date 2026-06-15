@@ -1,11 +1,11 @@
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
-import { Firefly } from 'lib/conditionals/character/1300/Firefly'
-import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { TrailblazerHarmonyStelle } from 'lib/conditionals/character/8000/TrailblazerHarmony'
-import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
-import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
+import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
+import { VictoryInABlink } from 'lib/conditionals/lightcone/4star/VictoryInABlink'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
-import { WhereaboutsShouldDreamsRest } from 'lib/conditionals/lightcone/5star/WhereaboutsShouldDreamsRest'
 import {
   Sets,
   Stats,
@@ -25,6 +25,7 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { uuid } from 'lib/utils/miscUtils'
+import { ScoringConfigType } from 'types/metadata'
 
 export function injectBenchmarkDebuggers() {
   // @ts-expect-error - Injecting debug helper onto globalThis for dev tooling
@@ -33,18 +34,18 @@ export function injectBenchmarkDebuggers() {
 
 function equipTestCharacter() {
   const testInput = generateE6S5Test({
-    character: testCharacter(Firefly.id, WhereaboutsShouldDreamsRest.id),
-    teammate0: testCharacter(TrailblazerHarmonyStelle.id, MemoriesOfThePast.id),
-    teammate1: testCharacter(RuanMei.id, PastSelfInTheMirror.id),
+    character: testCharacter(Castorice.id, MakeFarewellsMoreBeautiful.id),
+    teammate0: testCharacter(Tribbie.id, IfTimeWereAFlower.id),
+    teammate1: testCharacter(TrailblazerRemembranceStelle.id, VictoryInABlink.id),
     teammate2: testCharacter(Lingsha.id, ScentAloneStaysTrue.id),
-    sets: testSets(Sets.IronCavalryAgainstTheScourge, Sets.IronCavalryAgainstTheScourge, Sets.ForgeOfTheKalpagniLantern),
-    mains: testMains(Stats.ATK_P, Stats.SPD, Stats.Lightning_DMG, Stats.ATK_P),
+    sets: testSets(Sets.PoetOfMourningCollapse, Sets.PoetOfMourningCollapse, Sets.BoneCollectionsSereneDemesne),
+    mains: testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG, Stats.HP_P),
     stats: testStatSpread(),
   })
 
   const simulationMetadata = getGameMetadata().characters[testInput.character.characterId].scoringMetadata.simulation!
 
-  useScoringStore.getState().updateSimulationOverrides(testInput.character.characterId, {
+  useScoringStore.getState().updateScoringConfigOverride(testInput.character.characterId, ScoringConfigType.DPS, {
     ...simulationMetadata,
     teammates: [
       testInput.teammate0,

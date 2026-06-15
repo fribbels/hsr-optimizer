@@ -103,18 +103,9 @@
   padding: 16px 14px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
-.columnFilledSection {
-  padding-bottom: 16px;
-  border-bottom: var(--border-subtle);
-}
-
-.columnFilledSection:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
-}
 
 /* Character column highlight */
 .columnHighlightFilled {

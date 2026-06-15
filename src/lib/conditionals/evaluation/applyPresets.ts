@@ -1,10 +1,23 @@
 import type { UseFormReturnType } from '@mantine/form'
+import { TRAILBLAZE_COMPANION_IDS } from 'lib/constants/characterTagConstants'
 import { Moze } from 'lib/conditionals/character/1200/Moze'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
+import { Pela } from 'lib/conditionals/character/1100/Pela'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
+import { Misha } from 'lib/conditionals/character/1300/Misha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import {
   Constants,
@@ -36,7 +49,41 @@ import {
 } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
+import type { LightConeId } from 'types/lightCone'
 import type { ScoringMetadata } from 'types/metadata'
+
+const DEF_REDUCTION_LIGHT_CONES = [
+  LiesAflutterInTheWind.id,
+  LifeShouldBeCastToFlames.id,
+  ResolutionShinesAsPearlsOfSweat.id,
+]
+
+const DEF_REDUCTION_CHARACTERS = [
+  MortenaxBlade.id,
+  SilverWolfB1.id,
+  BlackSwanB1.id,
+  Ashveil.id,
+  Hysilens.id,
+  Cyrene.id,
+  Fugue.id,
+  Pela.id,
+  WeltB1.id,
+  TheDahlia.id,
+  Anaxa.id,
+  Misha.id,
+]
+
+export type TeammateInfo = {
+  id: CharacterId | undefined,
+  eidolon: number,
+  lightCone?: LightConeId
+}
+
+type TeammateInfoSource = {
+  characterId?: CharacterId | null,
+  characterEidolon?: number | null,
+  lightCone?: LightConeId | null,
+} | null | undefined
 
 export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
   if (!characterId) return
@@ -106,16 +153,57 @@ function applyMetadataPresetToForm(form: Form, scoringMetadata: ScoringMetadata)
   form.weights = { ...form.weights, ...scoringMetadata.stats }
   form.weights.minWeightedRolls = form.weights.minWeightedRolls ?? 0
 
-  applySetConditionalPresets(form)
-  applyScoringMetadataPresets(form)
+  const teammates = resolveTeammateInfo(form.teammate0, form.teammate1, form.teammate2)
+  applySetConditionalPresets(form, teammates)
+  applyScoringMetadataPresets(form, teammates)
 }
 
-export function applyScoringMetadataPresets(form: Form | BenchmarkForm) {
+function resolveScoringMetadataPresets(form: Form | BenchmarkForm) {
   const character = getGameMetadata().characters[form.characterId]
-  const presets = character?.scoringMetadata?.presets ?? []
+  return character?.scoringMetadata?.presets ?? []
+}
+
+export function resolveTeammateInfo(...teammates: TeammateInfoSource[]): TeammateInfo[] {
+  return teammates
+    .filter((teammate) => teammate != null)
+    .map((teammate) => ({
+      id: teammate.characterId ?? undefined,
+      eidolon: teammate.characterEidolon ?? 0,
+      lightCone: teammate.lightCone ?? undefined,
+    }))
+}
+
+export function applyScoringMetadataPresets(form: Form | BenchmarkForm, teammates: TeammateInfo[]) {
+  const presets = resolveScoringMetadataPresets(form)
 
   for (const preset of presets) {
+    const { teammateCondition } = preset
+    if (teammateCondition) {
+      const match = teammates.some((teammate) =>
+        teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
+      )
+      if (!match) continue
+    }
+
     applyPreset(form, preset)
+  }
+}
+
+export function applyTeammateConditionalPresets(form: Form | BenchmarkForm, teammates: TeammateInfo[]) {
+  const presets = resolveScoringMetadataPresets(form)
+
+  for (const preset of presets) {
+    const { teammateCondition } = preset
+    if (!teammateCondition) continue
+
+    const index = preset.index ?? 1
+    const match = teammates.some((teammate) =>
+      teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
+    )
+
+    form.setConditionals[preset.set][index] = match
+      ? preset.value
+      : defaultSetConditionals[preset.set][index]
   }
 }
 
@@ -123,7 +211,7 @@ export function applyPreset(form: Form | BenchmarkForm, preset: PresetDefinition
   form.setConditionals[preset.set][preset.index ?? 1] = preset.value
 }
 
-export function applySetConditionalPresets(form: Form | BenchmarkForm) {
+export function applySetConditionalPresets(form: Form | BenchmarkForm, teammates: TeammateInfo[]) {
   const metadataCharacters = getGameMetadata().characters
   const characterMetadata = metadataCharacters[form.characterId]
   mergeUndefinedValues(form.setConditionals, defaultSetConditionals)
@@ -141,25 +229,14 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm) {
   form.setConditionals[Sets.WorldRemakingDeliverer][1] = path == PathNames.Remembrance
   form.setConditionals[Sets.AmphoreusTheEternalLand][1] = path == PathNames.Remembrance
 
-  applyTeamAwareSetConditionalPresets(form)
+  applyTeamAwareSetConditionalPresets(form, teammates)
 }
 
-export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, teammateIds?: (CharacterId | undefined)[]) {
+export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, teammates: TeammateInfo[]) {
   if (!form.setConditionals) return
   const metadataCharacters = getGameMetadata().characters
 
-  const allyIds = [
-    form.characterId,
-    ...(
-      teammateIds
-        ? teammateIds
-        : [
-          form.teammate0?.characterId,
-          form.teammate1?.characterId,
-          form.teammate2?.characterId,
-        ]
-    ),
-  ].filter((x) => !!x)
+  const allyIds = [form.characterId, ...teammates.map((t) => t.id)].filter((x) => !!x)
 
   // Arcadia depends on the number of ally targets
   // Demiurge is out-of-bounds and therefore not a target
@@ -175,17 +252,36 @@ export function applyTeamAwareSetConditionalPresets(form: Form | BenchmarkForm, 
     form.setConditionals[Sets.ForgeOfTheKalpagniLantern][1] = true
   }
 
+  // Fallen Star Anchorage: wearer + at least one teammate are both Trailblaze Companions
+  const wearerIsCompanion = TRAILBLAZE_COMPANION_IDS.has(form.characterId)
+  const teammateIsCompanion = teammates.some((t) => t.id && TRAILBLAZE_COMPANION_IDS.has(t.id))
+  form.setConditionals[Sets.FallenStarAnchorage][1] = wearerIsCompanion && teammateIsCompanion
+
   // DHPT gives a summon to the primary character, enabling banana set conditional
   if (allyIds.includes(PermansorTerrae.id)) {
     form.setConditionals[Sets.TheWondrousBananAmusementPark][1] = true
+  }
+
+  const wearerHasDefReductionLc = DEF_REDUCTION_LIGHT_CONES.includes(form.lightCone)
+  const wearerIsDefReducer = DEF_REDUCTION_CHARACTERS.includes(form.characterId)
+
+  if (wearerHasDefReductionLc || wearerIsDefReducer) {
+    form.setConditionals[Sets.DivineQueryingMasterSmith][1] = 2
+  } else {
+    const teammateHasDefReductionLc = teammates.some((t) => t.lightCone && DEF_REDUCTION_LIGHT_CONES.includes(t.lightCone))
+    const teammateIsDefReducer = teammates.some((t) => t.id && DEF_REDUCTION_CHARACTERS.includes(t.id))
+    if (teammateHasDefReductionLc || teammateIsDefReducer) {
+      form.setConditionals[Sets.DivineQueryingMasterSmith][1] = 1
+    }
   }
 }
 
 export function applyTeamAwareSetConditionalPresetsToStore() {
   const state = useOptimizerRequestStore.getState()
   const form = displayToInternal(state)
-  applyTeamAwareSetConditionalPresets(form)
+  const teammates = resolveTeammateInfo(form.teammate0, form.teammate1, form.teammate2)
+  applyTeamAwareSetConditionalPresets(form, teammates)
+  applyTeammateConditionalPresets(form, teammates)
 
-  // Update the store with the modified set conditionals
   useOptimizerRequestStore.getState().setSetConditionals(form.setConditionals)
 }

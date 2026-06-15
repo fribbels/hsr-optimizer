@@ -36,6 +36,8 @@ SortOptions:
   DMGLabel: Расчеты урона 
   HealLabel: Расчеты исцеления
   ShieldLabel: Расчёты щита
+  OptimizationLabel: Оптимизация
+  AbilityLabel: Способности
   StatLabel: Статы
   COMBO: По Урону Комбо
   BASIC: По Урону Баз Атаки
@@ -120,7 +122,6 @@ Grid:
   Of: из
   Page: Страница
   PageSelectorLabel: 'Элементов на страницу:'
-  Loading: Загрузка...
   Headers:
     Basic:
       Set: Набор
@@ -498,7 +499,6 @@ CombatBuffs:
   SPD: Скорость
   SPD_P: Скорость %
   BE: Пробитие %
-  DMG_BOOST: Бонус урона %
   DEF_PEN: Игнор защиты %
   RES_PEN: Игнор сопр. урону %
   EFFECT_RES_PEN: Игнор сопр. эффектам %

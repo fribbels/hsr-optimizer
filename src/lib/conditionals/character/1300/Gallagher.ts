@@ -1,7 +1,14 @@
+import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import { WhatIsReal } from 'lib/conditionals/lightcone/4star/WhatIsReal'
 import {
   NONE_TYPE,
   SKILL_DMG_TYPE,
 } from 'lib/conditionals/conditionalConstants'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -17,6 +24,7 @@ import {
   ConditionalActivation,
   ConditionalType,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -28,7 +36,10 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -36,7 +47,9 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type ScoringMetadata } from 'types/metadata'
+import {
+  type ScoringMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -68,6 +81,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E4,
     SOURCE_E6,
   } = Source.character(Gallagher.id)
+
+  const ultHitMulti = ashblazingMulti([aoe(1.00)])
 
   const basicScaling = basic(e, 1.00, 1.10)
   const basicEnhancedScaling = basic(e, 2.50, 2.75)
@@ -231,9 +246,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
 
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
 
     dynamicConditionals: [
       {
@@ -281,10 +299,10 @@ const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0,
     [Stats.ATK_P]: 0,
-    [Stats.DEF]: 0.25,
-    [Stats.DEF_P]: 0.25,
-    [Stats.HP]: 0.25,
-    [Stats.HP_P]: 0.25,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
     [Stats.SPD]: 1,
     [Stats.CR]: 0,
     [Stats.CD]: 0,
@@ -307,6 +325,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [
     PresetEffects.WARRIOR_SET,
+    PresetEffects.fnMortenaxAshblazingSet(5),
   ],
   sortOption: SortOption.BE,
   addedColumns: [
@@ -317,6 +336,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
+  // healSimulation omitted — Gallagher's heals are flat-only, scoring doesn't vary with substats
 })
 
 const display = {
@@ -331,6 +351,7 @@ const display = {
 
 export const Gallagher: CharacterConfig = {
   id: '1301',
+  defaultLightCone: WhatIsReal.id,
   display,
   conditionals,
   get scoring() {

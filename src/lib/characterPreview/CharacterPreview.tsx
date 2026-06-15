@@ -1,8 +1,6 @@
 import { CharacterStatSummary } from 'lib/characterPreview/card/CharacterStatSummary'
 import { ShowcaseCharacterHeader } from 'lib/characterPreview/card/ShowcaseCharacterHeader'
 import {
-  ShowcaseLightConeLarge,
-  ShowcaseLightConeLargeName,
   ShowcaseLightConeSmall,
 } from 'lib/characterPreview/card/ShowcaseLightCone'
 import { ShowcasePortrait } from 'lib/characterPreview/card/ShowcasePortrait'
@@ -19,11 +17,11 @@ import {
 import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
-import { withAlpha } from 'lib/characterPreview/color/colorUtils'
 import {
   modifyCustomColor,
   organizeColors,
   pickBestSeed,
+  withAlpha,
 } from 'lib/characterPreview/color/colorUtils'
 import {
   buildCardBgPipelineConfig,
@@ -53,13 +51,15 @@ import {
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
 import {
   ShowcaseCombatScoreDetailsFooter,
-  ShowcaseDpsScoreHeader,
-  ShowcaseDpsScorePanel,
-} from 'lib/characterPreview/scoring/ShowcaseDpsScore'
-import { ShowcaseStatScore } from 'lib/characterPreview/scoring/ShowcaseStatScore'
+  ShowcaseScoreHeader,
+  ShowcaseSimScorePanel,
+} from 'lib/characterPreview/scoring/ShowcaseSimScore'
+import { ShowcaseSetBonuses } from 'lib/characterPreview/scoring/ShowcaseSetBonuses'
+import { ShowcaseSubstatRolls } from 'lib/characterPreview/scoring/ShowcaseSubstatRolls'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
+import type { StatsValues } from 'lib/constants/constants'
 import {
   cardTotalW,
   defaultGap,
@@ -69,7 +69,12 @@ import {
 import { CharacterAnnouncement } from 'lib/interactions/CharacterAnnouncement'
 import type { RelicScoringResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
-import { ScoringType } from 'lib/scoring/simScoringUtils'
+import {
+  CONFIG_FIELD_MAP,
+  isSimScoreMode,
+  SCORING_CONFIG_REGISTRY,
+  ScoringType,
+} from 'lib/scoring/scoringConfig'
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
@@ -80,8 +85,6 @@ import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
-  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -93,15 +96,13 @@ import type {
   CustomImageConfig,
   CustomImagePayload,
 } from 'types/customImage'
-import type {
-  ShowcaseDisplayDimensionsOverride,
-  ShowcaseTemporaryOptions,
-} from 'types/metadata'
 import {
-  ScoringSelector,
-  SimScoringContextProvider,
-  useSimScoringContext,
-} from './SimScoringContext'
+  ScoringConfigType,
+  type ShowcaseDisplayDimensionsOverride,
+  type ShowcaseTemporaryOptions,
+} from 'types/metadata'
+import { SimScoringContextProvider } from './SimScoringContext'
+import { useSimPreview } from './useSimScoringHooks'
 
 const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
@@ -374,19 +375,11 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
   const { displayRelics, scoringResults } = state.previewRelics
 
-  // Resets to COMBAT_SCORE on character switch; resolveScoringType downgrades if no sim.
-  const [localScoringType, setLocalScoringType] = useState(ScoringType.COMBAT_SCORE)
-  const prevCharIdRef = useRef(character.id)
-  if (prevCharIdRef.current !== character.id) {
-    prevCharIdRef.current = character.id
-    setLocalScoringType(ScoringType.COMBAT_SCORE)
-  }
-
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
-  // editorOverrides.forceSimScoreLayout overrides to COMBAT_SCORE layout for preview
-  const effectiveScoringType = editorOverrides?.forceSimScoreLayout
-    ? ScoringType.COMBAT_SCORE
-    : (forceDebug ? ScoringType.SUBSTAT_SCORE : localScoringType)
+  const buildScoringType = savedBuildOverride?.scoringConfigType != null
+    ? SCORING_CONFIG_REGISTRY[savedBuildOverride.scoringConfigType].scoringType
+    : undefined
+  const effectiveScoringType = forceDebug ? ScoringType.SUBSTAT_SCORE : (buildScoringType ?? state.storedScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
   // Cache-buster: portrait edits on the showcase tab wouldn't re-run the layout memo otherwise
@@ -397,12 +390,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       void _storePortrait
       const baseLayout = resolveShowcaseLayout({
         character,
-        teamSelection: state.teamSelection,
+        teamSelections: state.teamSelections,
         storedScoringType: effectiveScoringType,
         savedBuildOverride,
         t,
       })
-      if (forceDebug && !editorOverrides?.forceSimScoreLayout) {
+      if (forceDebug) {
         return { ...baseLayout, displayDimensions: { ...baseLayout.displayDimensions, disableSpine: true } }
       }
       return baseLayout
@@ -410,14 +403,13 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       character,
-      state.teamSelection,
+      state.teamSelections,
       effectiveScoringType,
       savedBuildOverride,
       _scoringMetadataCacheBuster,
       _storePortrait,
       t,
       forceDebug,
-      editorOverrides?.forceSimScoreLayout,
     ],
   )
 
@@ -506,7 +498,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   return (
     <SimScoringContextProvider
       character={character}
-      simulationMetadata={layout.simulationMetadata}
+      configMetadata={layout.configMetadata}
       showcaseTemporaryOptions={tempOptions}
       singleRelicByPart={displayRelics}
     >
@@ -546,8 +538,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           id={id}
           className='characterPreview'
           style={{
-            '--showcase-card-bg': withAlpha(derivedShowcaseTheme.cardBackgroundColor, visual.cardBgAlpha),
-            '--showcase-card-border': derivedShowcaseTheme.cardBorderColor,
+            '--showcase-card-bg-bridge-high': withAlpha(derivedShowcaseTheme.cardBackgroundColor, Math.min(visual.cardBgAlpha * 0.88, 0.34)),
+            '--showcase-card-edge-medium': withAlpha(derivedShowcaseTheme.cardBorderColor, 0.50),
             '--showcase-shadow': buildShadow(visual.shadowX, visual.shadowY, visual.shadowBlur, visual.shadowOpacity),
             '--showcase-shadow-inset': buildInsetShadow(visual.insetBlur, visual.insetOpacity),
             'fontFamily': 'var(--font-showcase)',
@@ -589,15 +581,13 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               setOriginalCharacterModalOpen={handleSetOriginalCharacterModalOpen}
             />
 
-            {scoringType === ScoringType.COMBAT_SCORE && (
-              <ShowcaseLightConeSmall
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-              />
-            )}
+            <ShowcaseLightConeSmall
+              character={character}
+              showcaseMetadata={showcaseMetadata}
+              displayDimensions={displayDimensions}
+              setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
+              setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
+            />
           </div>
 
           {/* Character details middle panel */}
@@ -611,19 +601,20 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 height: '100%',
                 borderRadius: 6,
                 zIndex: 10,
-                backgroundColor: 'var(--showcase-card-bg)',
                 transition: showcaseTransition,
                 flex: 1,
                 paddingRight: 2,
                 paddingLeft: 2,
                 paddingBottom: 3,
                 boxShadow: showcaseShadow + showcaseShadowInsetAddition,
-                border: '1px solid var(--showcase-card-border)',
+                backgroundColor: 'var(--showcase-card-bg-bridge-high)',
+                border: '1px solid var(--showcase-card-edge-medium)',
+                backgroundClip: 'padding-box',
+                boxSizing: 'border-box',
               }}
             >
               <ShowcaseCharacterHeader
                 showcaseMetadata={showcaseMetadata}
-                scoringType={scoringType}
               />
 
               <WrappedCharacterStatSummary
@@ -631,48 +622,34 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 finalStats={state.finalStats}
                 elementalDmgValue={showcaseMetadata.elementalDmgType}
                 scoringType={scoringType}
-                hasScoring={layout.simulationMetadata !== null}
+                hasScoring={layout.activeConfigType != null}
+                configType={layout.activeConfigType}
               />
 
-              {scoringType === ScoringType.COMBAT_SCORE && (
+              {layout.activeConfigType && layout.activeSimulationMetadata && (
                 <>
-                  <ShowcaseDpsScoreHeader relics={displayRelics} tempOptions={tempOptions} />
+                  <ShowcaseScoreHeader relics={displayRelics} tempOptions={tempOptions} configType={layout.activeConfigType} />
 
-                  <ShowcaseDpsScorePanel
+                  <ShowcaseSimScorePanel
                     characterId={showcaseMetadata.characterId}
-                    simulationMetadata={layout.simulationMetadata!}
-                    teamSelection={layout.currentSelection}
+                    simulationMetadata={layout.activeSimulationMetadata}
+                    teamSelection={layout.activeTeamSelection}
                     source={source}
+                    configType={layout.activeConfigType}
                   />
 
-                  <ShowcaseCombatScoreDetailsFooter />
+                  <ShowcaseCombatScoreDetailsFooter configType={layout.activeConfigType} />
                 </>
               )}
 
-              {scoringType !== ScoringType.COMBAT_SCORE && (
+              {(scoringType === ScoringType.SUBSTAT_SCORE || scoringType === ScoringType.NONE) && (
                 <>
-                  {scoringType !== ScoringType.NONE && (
-                    <ShowcaseStatScore
-                      scoringResults={scoringResults}
-                    />
-                  )}
-
-                  <ShowcaseLightConeLargeName
-                    showcaseMetadata={showcaseMetadata}
-                  />
+                  <ShowcaseSetBonuses displayRelics={displayRelics} />
+                  <ShowcaseSubstatRolls displayRelics={displayRelics} characterId={showcaseMetadata.characterId} seedColor={seedColor} />
                 </>
               )}
             </div>
 
-            {scoringType !== ScoringType.COMBAT_SCORE && (
-              <ShowcaseLightConeLarge
-                character={character}
-                showcaseMetadata={showcaseMetadata}
-                displayDimensions={displayDimensions}
-                setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-                setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-              />
-            )}
           </div>
 
           {/* Relics right panel */}
@@ -690,8 +667,9 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
 
         <CharacterAnnouncement
           characterId={showcaseMetadata.characterId}
-          simulationMetadata={layout.simulationMetadata}
+          teammateCharacterIds={layout.activeSimulationMetadata?.teammates.map((t) => t.characterId)}
         />
+
 
         {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
           <ShowcaseBuildAnalysis
@@ -699,7 +677,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             scoringType={scoringType}
             displayRelics={displayRelics}
             source={source}
-            onScoringTypeChange={setLocalScoringType}
+            activeConfigType={layout.activeConfigType}
           />
         )}
       </div>
@@ -707,15 +685,18 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 })
 
-const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, elementalDmgValue, scoringType, hasScoring }: {
+const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, elementalDmgValue, scoringType, hasScoring, configType }: {
   characterId: CharacterId,
   finalStats: BasicStatsObject,
-  elementalDmgValue: string,
+  elementalDmgValue: StatsValues,
   scoringType: ScoringType,
   hasScoring: boolean,
+  configType: ScoringConfigType | undefined,
 }) {
-  const preview = useSimScoringContext(ScoringSelector.Preview)
+  const activeConfigType = configType ?? ScoringConfigType.DPS
+  const preview = useSimPreview(activeConfigType)
   const simScore = preview?.originalSimResult.simScore ?? 0
+  const buffStat = preview?.characterMetadata.scoringMetadata[CONFIG_FIELD_MAP[activeConfigType]]?.buffStat
   return (
     <CharacterStatSummary
       characterId={characterId}
@@ -724,6 +705,8 @@ const WrappedCharacterStatSummary = memo(function({ characterId, finalStats, ele
       scoringType={scoringType}
       hasScoring={hasScoring}
       simScore={simScore}
+      buffStat={buffStat}
+      configType={activeConfigType}
     />
   )
 })

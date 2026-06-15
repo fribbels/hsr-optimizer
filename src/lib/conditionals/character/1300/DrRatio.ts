@@ -1,9 +1,8 @@
 import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
-import {
-  ASHBLAZING_ATK_STACK,
-} from 'lib/conditionals/conditionalConstants'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -15,6 +14,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { BaptismOfPureThought } from 'lib/conditionals/lightcone/5star/BaptismOfPureThought'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
@@ -101,6 +101,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
   }
 
+  const ultHitMulti = ashblazingMulti([single(1.00)])
+
   const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
   const fuaMultiByDebuffs: Record<number, number> = {
     0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
@@ -111,6 +113,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
     const r = action.characterConditionals as Conditionals<typeof content>
     return e >= 2
       ? fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
@@ -223,8 +228,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, r.summationStacks * 0.05, x.source(SOURCE_TRACE))
 
       // Boost
-      x.buff(StatKey.DMG_BOOST, (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.DMG_BOOST, (e >= 6) ? 0.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (r.enemyDebuffStacks >= 3) ? Math.min(0.50, r.enemyDebuffStacks * 0.10) : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.BOOST, (e >= 6) ? 0.50 : 0, x.damageType(DamageTag.FUA).source(SOURCE_E6))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -344,6 +349,7 @@ const scoring = (): ScoringMetadata => ({
     PresetEffects.VALOROUS_SET,
     PresetEffects.WASTELANDER_SET,
   ],
+  defaultDamageType: DamageTag.FUA,
   sortOption: SortOption.FUA,
   hiddenColumns: [
     SortOption.DOT,
@@ -367,6 +373,7 @@ const display = {
 
 export const DrRatio: CharacterConfig = {
   id: '1305',
+  defaultLightCone: BaptismOfPureThought.id,
   display,
   conditionals,
   get scoring() {

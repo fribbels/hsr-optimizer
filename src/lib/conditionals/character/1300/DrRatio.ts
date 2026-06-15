@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -94,33 +97,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillScaling = skill(e, 1.50, 1.65)
   const ultScaling = ult(e, 2.40, 2.592)
   const fuaScaling = talent(e, 2.70, 2.97)
-
-  function e2FuaRatio(procs: number, fua = true) {
-    return fua
-      ? fuaScaling / (fuaScaling + 0.20 * procs) // for fua dmg
-      : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
-  }
-
-  const ultHitMulti = ashblazingMulti([single(1.00)])
-
-  const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
-  const fuaMultiByDebuffs: Record<number, number> = {
-    0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
-    1: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(1, true) + 2 * e2FuaRatio(1, false)), // 2
-    2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
-    3: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(3, true) + 9 * e2FuaRatio(3, false)), // 2 + 3 + 4
-    4: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(4, true) + 14 * e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
-  }
-
-  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    if (action.actionType === AbilityKind.ULT) {
-      return ultHitMulti(context)
-    }
-    const r = action.characterConditionals as Conditionals<typeof content>
-    return e >= 2
-      ? fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
-      : baseHitMulti
-  }
 
   const defaults = {
     enemyDebuffStacks: debuffStacksMax,
@@ -233,10 +209,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
+      boostAshblazingAtkContainer(x, action, ashblazingMulti([single(1.00)])(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
+      return gpuBoostAshblazingAtkContainer(ashblazingMulti([single(1.00)])(context), action)
     },
   }
 }

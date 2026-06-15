@@ -338,7 +338,7 @@ const simulation = (): SimulationMetadata => ({
       characterId: SparkleB1.id,
       lightCone: DanceDanceDance.id,
       characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: 5,
     },
     {
       characterId: PermansorTerrae.id,

@@ -18,7 +18,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -378,10 +380,10 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: MortenaxBlade.id,
-      lightCone: ReforgedInHellfire.id,
+      characterId: SparkleB1.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: 5,
     },
     {
       characterId: HuohuoB1.id,

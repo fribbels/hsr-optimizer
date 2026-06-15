@@ -98,7 +98,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const fuaHitMulti = ashblazingMulti([single(1.00)])
 
-  const uniqueHitMulti = ashblazingMulti([]) // TODO: joint FUA hit split
+  const uniqueHitMulti = ashblazingMulti([single(1.00)]) // TODO: joint FUA hit split
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     switch (action.actionType) {

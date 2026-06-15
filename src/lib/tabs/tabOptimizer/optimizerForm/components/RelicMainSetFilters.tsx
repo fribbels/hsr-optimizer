@@ -177,6 +177,7 @@ const anyIcon20 = <IconCircleAsterisk size={20} opacity={0.5} />
 
 function RelicSetFilterRow() {
   const display = useOptimizerRequestStore((s) => s.setFilters)
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetFilters' })
   const hasSelection = display.fourPiece.length > 0 || display.twoPieceCombos.length > 0
   const totalCount = display.fourPiece.length + display.twoPieceCombos.length
 
@@ -236,7 +237,7 @@ function RelicSetFilterRow() {
         )
         : (
           <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>
-            Relic set filters
+            {t('RelicPlaceholder')}
           </span>
         )}
     </PillsInput>
@@ -244,6 +245,7 @@ function RelicSetFilterRow() {
 }
 
 function OrnamentSetFilterRow() {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetFilters' })
   const display = useOptimizerRequestStore((s) => s.setFilters)
   const hasSelection = display.ornaments.length > 0
 
@@ -281,7 +283,7 @@ function OrnamentSetFilterRow() {
         )
         : (
           <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>
-            Ornament set filters
+            {t('OrnamentPlaceholder')}
           </span>
         )}
     </PillsInput>

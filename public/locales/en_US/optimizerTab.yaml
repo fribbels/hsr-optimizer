@@ -25,13 +25,21 @@ ResultLimitN: 'Find top {{limit}} results'
 MainStats: Main stats
 Sets: Sets
 UnreleasedDisclaimer: Calculations for {{nameList}} are not complete yet, optimizer results will not be accurate
-RelicSetSelector:
-  Placeholder: Relic set
-  4pcLabel: 4 Piece
-  2+2pcLabel: 2 + 2 Piece
-  2pcLabel: 2 + Any
-OrnamentSetSelector:
-  Placeholder: Ornament set
+SetFilters:
+  OrnamentPlaceholder: Ornament set filters
+  RelicPlaceholder: Relic set filters
+  4pcLabel: 4-Piece
+  2pcLabel: 2-Piece
+  AnyTag: Any
+  SelectedHeader: Selected Sets
+  RelicListHeader: Relic Sets
+  OrnamentListHeader: Ornament Sets
+  SearchPlaceholder: Search sets...
+  RelicSelectedPlaceholder: Relics
+  OrnamentSelectedPlaceholder: Ornaments
+  Revert: Revert
+  Done: Done
+  Clear: Clear All
 SortOptions:
   DMGLabel: Damage calculations
   HealLabel: Heal calculations

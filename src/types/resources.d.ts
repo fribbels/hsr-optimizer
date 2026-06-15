@@ -2116,7 +2116,7 @@ export default interface Resources {
             "text": "E1 RES PEN"
           },
           "e2FuaDmgBoost": {
-            "content": "When an ally character uses Ultimate to deal DMG, it is considered as having launched Follow-Up ATK. And the Follow-Up ATK DMG dealt by ally targets increases by 75%.",
+            "content": "When an ally character uses Ultimate to deal DMG, it is considered as having launched Follow-Up ATK. The Follow-Up ATK DMG dealt by ally targets increases by 75%.",
             "text": "E2 buffs"
           },
           "e4DmgBoost": {
@@ -7217,9 +7217,6 @@ export default interface Resources {
       },
       "PriorityFilter": "Character priority filter"
     },
-    "OrnamentSetSelector": {
-      "Placeholder": "Ornament set"
-    },
     "Presets": {
       "AaSpdValues": {
         "SPD120": "120.000 SPD - 6 turns in first two cycles",
@@ -7250,12 +7247,6 @@ export default interface Resources {
         "SPD200": "200.000 SPD - 3 actions in first cycle"
       },
       "StandardLabel": "Standard $t(gameData:Characters.{{id}}.Name)"
-    },
-    "RelicSetSelector": {
-      "2+2pcLabel": "2 + 2 Piece",
-      "2pcLabel": "2 + Any",
-      "4pcLabel": "4 Piece",
-      "Placeholder": "Relic set"
     },
     "ResultLimitN": "Find top {{limit}} results",
     "SetConditionals": {
@@ -7399,6 +7390,21 @@ export default interface Resources {
       },
       "SetName": "$t(gameData:RelicSets.{{id}}.Name)",
       "Title": "Conditional set effects"
+    },
+    "SetFilters": {
+      "2pcLabel": "2-Piece",
+      "4pcLabel": "4-Piece",
+      "Clear": "Clear All",
+      "Done": "Done",
+      "OrnamentListHeader": "Ornament Sets",
+      "OrnamentPlaceholder": "Ornament set filters",
+      "OrnamentSelectedPlaceholder": "Ornaments",
+      "RelicListHeader": "Relic Sets",
+      "RelicPlaceholder": "Relic set filters",
+      "RelicSelectedPlaceholder": "Relics",
+      "Revert": "Revert",
+      "SearchPlaceholder": "Search sets...",
+      "SelectedHeader": "Selected Sets"
     },
     "Sets": "Sets",
     "Sidebar": {

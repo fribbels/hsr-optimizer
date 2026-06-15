@@ -12,6 +12,7 @@ import type {
   TwoPieceCombo,
   TwoPieceSlot,
 } from 'lib/stores/optimizerForm/setFilterTypes'
+import { useTranslation } from 'react-i18next'
 import classes from './RelicSetFilterModal.module.css'
 import {
   FourPieceBadges,
@@ -33,27 +34,36 @@ export function ResultsCollector(
     onClearAll: () => void,
   },
 ) {
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetFilters' })
   const hasAnything = checked4p.size > 0 || combos.length > 0 || checkedOrnaments.size > 0 || pendingSlotA !== null
 
   return (
     <Group gap='xs' p='sm' wrap='nowrap' align='center' className={classes.resultsCollector}>
       <Stack gap={4} style={{ flex: 1 }}>
         <Group gap={5} wrap='wrap' align='center' className={classes.collectorRow}>
-          {checked4p.size === 0 && combos.length === 0 && !pendingSlotA && <Text size='xs' c='dimmed'>Relics</Text>}
+          {checked4p.size === 0 && combos.length === 0 && !pendingSlotA && (
+            <Text size='xs' c='dimmed'>
+              {t('RelicSelectedPlaceholder')}
+            </Text>
+          )}
           <FourPieceBadges checked4p={checked4p} onRemove={onRemove4p} />
           <TwoPieceComboBadges combos={combos} onRemove={onRemoveCombo} />
           {pendingSlotA && <PendingSlotBadge slotA={pendingSlotA} onCancel={onCancelSlotA} />}
         </Group>
 
         <Group gap={5} wrap='wrap' align='center' className={classes.collectorRow}>
-          {checkedOrnaments.size === 0 && <Text size='xs' c='dimmed'>Ornaments</Text>}
+          {checkedOrnaments.size === 0 && (
+            <Text size='xs' c='dimmed'>
+              {t('OrnamentSelectedPlaceholder')}
+            </Text>
+          )}
           <OrnamentBadges checkedOrnaments={checkedOrnaments} onRemove={onRemoveOrnament} />
         </Group>
       </Stack>
 
       {hasAnything && (
         <Button variant='subtle' size='compact-xs' onClick={onClearAll}>
-          Clear all
+          {t('Clear')}
         </Button>
       )}
     </Group>

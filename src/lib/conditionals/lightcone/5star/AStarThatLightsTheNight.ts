@@ -1,13 +1,13 @@
+import i18next from 'i18next'
 import {
   type Conditionals,
   type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { countTeamTrailblazeCompanion } from 'lib/constants/characterTagConstants'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import {
   type LightConeId,
@@ -22,25 +22,23 @@ import {
 const A_STAR_THAT_LIGHTS_THE_NIGHT_ID = '23060' as unknown as LightConeId
 
 const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightConeConditionalsController => {
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(A_STAR_THAT_LIGHTS_THE_NIGHT_ID)
 
-  const sValuesAtk = [0.40, 0.50, 0.60, 0.70, 0.80]
   const sValuesDefPen = [0.20, 0.25, 0.30, 0.35, 0.40]
-  const sValuesAssistSkillDmg = [0.25, 0.3125, 0.375, 0.4375, 0.50]
-  const sValuesUltDmg = [0.30, 0.375, 0.45, 0.525, 0.60]
-  const formatPercent = (value: number) => `${precisionRound(100 * value)}%`
+  const sValuesSailDmg = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   const defaults = {
-    safeEscortStacks: 3,
+    sailStacks: 3,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    safeEscortStacks: {
+    sailStacks: {
       lc: true,
-      id: 'safeEscortStacks',
+      id: 'sailStacks',
       formItem: 'slider',
-      text: 'Safe Escort stacks',
-      content: `When the wearer uses an Assist Skill, they gain the "Safe Escort" state, lasting for 2 turns and stacking up to 3 times. Each stack of "Safe Escort" increases Assist Skill DMG by ${formatPercent(sValuesAssistSkillDmg[s])}. When "Safe Escort" reaches 3 stacks, each stack also increases Ultimate DMG by ${formatPercent(sValuesUltDmg[s])}.`,
+      text: 'Sail stacks',
+      content: betaContent,
       min: 0,
       max: 3,
     },
@@ -49,13 +47,12 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
   return {
     content: () => Object.values(content),
     defaults: () => defaults,
-    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, _context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ATK_P, sValuesAtk[s], x.source(SOURCE_LC))
-      x.buff(StatKey.DEF_PEN, countTeamTrailblazeCompanion(context) >= 2 ? sValuesDefPen[s] : 0, x.source(SOURCE_LC))
-      x.buff(StatKey.BOOST, r.safeEscortStacks * sValuesAssistSkillDmg[s], x.damageType(DamageTag.ASSIST).source(SOURCE_LC))
-      x.buff(StatKey.BOOST, r.safeEscortStacks === 3 ? r.safeEscortStacks * sValuesUltDmg[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
+      x.buff(StatKey.DEF_PEN, sValuesDefPen[s], x.source(SOURCE_LC))
+      x.buff(StatKey.BOOST, r.sailStacks * sValuesSailDmg[s], x.damageType(DamageTag.ASSIST).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, r.sailStacks === 3 ? r.sailStacks * sValuesSailDmg[s] : 0, x.damageType(DamageTag.ULT).source(SOURCE_LC))
     },
   }
 }

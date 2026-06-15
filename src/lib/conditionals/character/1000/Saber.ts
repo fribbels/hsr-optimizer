@@ -11,6 +11,11 @@ import {
   gpuBoostUltAshblazingAtk,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
+  Gilgamesh,
+  gilgameshActionExists,
+  gilgameshFuaSaberUltBoost,
+} from 'lib/conditionals/character/1500/Gilgamesh'
+import {
   AbilityEidolon,
   type Conditionals,
   type ContentDefinition,
@@ -108,6 +113,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentDmgBuff: true,
     crBuff: true,
     cdBuff: true,
+    gilgameshFuaBuff: true,
     e1DmgBuff: true,
     e2Buffs: true,
     e4ResPen: true,
@@ -160,6 +166,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('cdBuff.text'),
       content: t('cdBuff.content'),
+    },
+    gilgameshFuaBuff: {
+      id: 'gilgameshFuaBuff',
+      formItem: 'switch',
+      text: 'Gilgamesh FUA Ult buff',
+      content: 'Gilgamesh Joint FUA: Saber\'s next Ultimate DMG becomes 200% of original.',
     },
     e1DmgBuff: {
       id: 'e1DmgBuff',
@@ -286,6 +298,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // E6: ULT RES PEN
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.damageType(DamageTag.ULT).elements(ElementTag.Wind).source(SOURCE_E6))
+
+      // Gilgamesh Joint FUA: Saber's next Ult becomes 200% of original DMG
+      if (gilgameshActionExists(action) && r.gilgameshFuaBuff) {
+        x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, gilgameshFuaSaberUltBoost(action), x.damageType(DamageTag.ULT).source(Source.character(Gilgamesh.id).SOURCE_UNIQUE))
+      }
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

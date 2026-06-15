@@ -897,3 +897,38 @@ ExpandedDataPanel:
         SuperBreak: Super Break DMG type
       Unconvertible: 'Unconvertible  $t(common:Stats.{{stat}})'
       ElementalDmgBoost: '$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'
+    HitDefinition:
+      AtkScaling: ATK Scaling
+      HpScaling: HP Scaling
+      DefScaling: DEF Scaling
+      Crit:
+        BeScaling: BE Scaling
+        BeCap: BE Cap
+        ElationAtkScaling: Elation ATK Scaling
+      Dot:
+        Chance: DoT Chance
+        Split: DoT Split
+        Stacks: DoT Stacks
+      Break:
+        SpecialScaling: Special Scaling
+      SuperBreak:
+        ExtraModifier: Extra Modifier
+      Additional:
+        CrOverride: CR Override
+        CdOverride: CD Override
+      Elation:
+        Scaling: Elation Scaling
+        Punchline: Punchline Stacks
+        Banger: Certified Banger Stacks
+      TrueDmg: True DMG modifier
+      Toughness: Toughness DMG
+      FixedToughness: Fixed Toughness
+    EnemyConfiguration:
+      Level: Enemy level
+      Res: DMG RES
+      Efres: Effect RES
+      Toughness: Toughness
+      Targets: Targets
+      Weakness: Elemental weakness
+      Broken: Weakness broken
+      Enemy: Enemy

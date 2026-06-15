@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -6772,6 +6772,49 @@ interface Resources {
           "S.Break": "S.Break"
         },
         "DefaultAction": "Default",
+        "EnemyConfiguration": {
+          "Broken": "Weakness broken",
+          "Efres": "Effect RES",
+          "Enemy": "Enemy",
+          "Level": "Enemy level",
+          "Res": "DMG RES",
+          "Targets": "Targets",
+          "Toughness": "Toughness",
+          "Weakness": "Elemental weakness"
+        },
+        "HitDefinition": {
+          "Additional": {
+            "CdOverride": "CD Override",
+            "CrOverride": "CR Override"
+          },
+          "AtkScaling": "ATK Scaling",
+          "Break": {
+            "SpecialScaling": "Special Scaling"
+          },
+          "Crit": {
+            "BeCap": "BE Cap",
+            "BeScaling": "BE Scaling",
+            "ElationAtkScaling": "Elation ATK Scaling"
+          },
+          "DefScaling": "DEF Scaling",
+          "Dot": {
+            "Chance": "DoT Chance",
+            "Split": "DoT Split",
+            "Stacks": "DoT Stacks"
+          },
+          "Elation": {
+            "Banger": "Certified Banger Stacks",
+            "Punchline": "Punchline Stacks",
+            "Scaling": "Elation Scaling"
+          },
+          "FixedToughness": "Fixed Toughness",
+          "HpScaling": "HP Scaling",
+          "SuperBreak": {
+            "ExtraModifier": "Extra Modifier"
+          },
+          "Toughness": "Toughness DMG",
+          "TrueDmg": "True DMG modifier"
+        },
         "Sources": {
           "Basic": "Basic",
           "E1": "E1",
@@ -7946,5 +7989,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

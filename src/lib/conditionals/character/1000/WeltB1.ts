@@ -66,6 +66,7 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const WeltB1Entities = createEnum('WeltB1')
 export const WeltB1Abilities: AbilityKind[] = [
@@ -443,8 +444,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Jiaoqiu.id,
-      lightCone: ThoseManySprings.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

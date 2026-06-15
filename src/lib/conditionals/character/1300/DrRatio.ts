@@ -51,6 +51,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -63,6 +64,8 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { MortenaxBlade } from '../1500/MortenaxBlade'
+import { Sparkle } from './Sparkle'
 
 export const DrRatioEntities = createEnum('DrRatio')
 export const DrRatioAbilities: AbilityKind[] = [
@@ -266,14 +269,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Cipher.id,
-      lightCone: LiesAflutterInTheWind.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
+      characterId: Sparkle.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

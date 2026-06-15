@@ -51,7 +51,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.ATK, (r.ultAtkBoost) ? sValuesUltAtk[s] * context.baseATK : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.ATK_P, (r.ultAtkBoost) ? sValuesUltAtk[s] : 0, x.source(SOURCE_LC))
       x.buff(StatKey.ATK_P, (r.energyAtkBuff && context.baseEnergy >= 300) ? sValuesEnergyAtk[s] : 0, x.source(SOURCE_LC))
     },
   }

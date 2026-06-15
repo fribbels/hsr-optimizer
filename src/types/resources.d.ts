@@ -7394,6 +7394,7 @@ export default interface Resources {
     "SetFilters": {
       "2pcLabel": "2-Piece",
       "4pcLabel": "4-Piece",
+      "AnyTag": "Any",
       "Clear": "Clear All",
       "Done": "Done",
       "OrnamentListHeader": "Ornament Sets",

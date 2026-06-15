@@ -8,14 +8,15 @@ import { Saber } from 'lib/conditionals/character/1000/Saber'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
+  boostAshblazingAtkContainer,
+  gpuBoostAshblazingAtkContainer,
 } from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
   type ContentDefinition,
   createEnum,
+  findTeamAction,
   teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
@@ -92,24 +93,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const skillScaling = skill(e, 2.00, 2.20) // Primary target only, adjacent Blast not modeled
+  const skillScaling = skill(e, 2.80, 3.08)
   const skillDefIgnoreValue = skill(e, 0.30, 0.33)
 
   const ultScaling = ult(e, 4.00, 4.40)
-  const ultBounceScaling = ult(e, 0.40, 0.44)
+  const ultBounceScaling = ult(e, 1.00, 1.10)
 
-  // Gilgamesh's Lightning portion only
-  const jointFuaScaling = talent(e, 2.00, 2.20)
+  const jointFuaScaling = talent(e, 3.00, 3.30)
   const talentUltDmgBuffValue = talent(e, 0.40, 0.44)
 
-  // 1 AoE + 10 bounces
-  // const ultHitMulti = ashblazingMulti([
-  //   aoe(ultScaling),
-  //   ...Array(ultBounceCount).fill(single(ultBounceScaling)),
-  // ])
+  const fuaHitMulti = ashblazingMulti([aoe(jointFuaScaling)])
 
   const defaults = {
-    interestStacks: 12,
+    interestStacks: 6,
     kingsAcknowledgement: true,
     kingsBurden: true,
     a6TeamBuff: true,
@@ -126,10 +122,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     interestStacks: {
       id: 'interestStacks',
       formItem: 'slider',
-      text: 'Interest stacks',
+      text: 'Hero\'s Hauteur CD stacks',
       content: betaContent,
       min: 0,
-      max: 12,
+      max: 6,
     },
     kingsAcknowledgement: {
       id: 'kingsAcknowledgement',
@@ -185,11 +181,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => [...GilgameshAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const hasSaber = teammateMatchesId(context, Saber.id) > 0
-      // E2: Skill primary +30%
-      const skillTotalScaling = skillScaling + (e >= 2 ? 0.30 : 0)
+      // E2: Skill primary +100%
+      const skillTotalScaling = skillScaling + (e >= 2 ? 1.00 : 0)
 
-      // E6: Ult bounce +20%
-      const ultBounceTotalScaling = ultBounceScaling + (e >= 6 ? 0.20 : 0)
+      // E6: Ult bounce +30%
+      const ultBounceTotalScaling = ultBounceScaling + (e >= 6 ? 0.30 : 0)
       const ultTotalScaling = ultScaling + ultBounceTotalScaling * 10 / context.enemyCount
       const ultToughness = 40 + 2 * 10 / context.enemyCount
 
@@ -243,16 +239,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // A4: +10% CD per Interest stack
-      x.buff(StatKey.CD, r.interestStacks * 0.10, x.source(SOURCE_TRACE))
+      // A4: +25% CD per Interest gained stack, max 6
+      x.buff(StatKey.CD, r.interestStacks * 0.25, x.source(SOURCE_TRACE))
 
       x.buff(StatKey.BOOST, (r.kingsBurden) ? talentUltDmgBuffValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
 
       // Self DEF ignore below E1; at E1+ the mutual container writes FullTeam instead
       x.buff(StatKey.DEF_PEN, (e < 1 && r.kingsAcknowledgement) ? skillDefIgnoreValue : 0, x.source(SOURCE_SKILL))
 
-      // E1: +25% ATK while skill active
-      x.buff(StatKey.ATK_P, (e >= 1 && r.kingsAcknowledgement) ? 0.25 : 0, x.source(SOURCE_E1))
+      // E1: +60% ATK while skill active
+      x.buff(StatKey.ATK_P, (e >= 1 && r.kingsAcknowledgement) ? 0.60 : 0, x.source(SOURCE_E1))
 
       x.buff(StatKey.ERR, (e >= 4) ? 0.20 : 0, x.source(SOURCE_E4))
     },
@@ -260,8 +256,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // A6: +30% ATK/CD to team, +1% per Max Energy over 100 (capped at +100%)
-      const a6EnergyBonus = Math.min(1.00, Math.max(0, context.baseEnergy - 100) * 0.01)
+      // A6: +30% ATK/CD to team, +1% per Max Energy over 140 (capped at +60%)
+      const a6EnergyBonus = Math.min(0.60, Math.max(0, context.baseEnergy - 140) * 0.01)
       x.buff(StatKey.ATK_P, (m.a6TeamBuff) ? 0.30 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.CD, (m.a6TeamBuff) ? 0.30 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
@@ -275,11 +271,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       return ''
-      // return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
 
     dynamicConditionals: [],
@@ -403,6 +397,16 @@ const scoring = (): ScoringMetadata => ({
 const display = {
   imageCenter: { x: 1102, y: 943, z: 1.11 },
   showcaseColor: '#867fb3',
+}
+
+export function gilgameshActionExists(action: OptimizerAction) {
+  return !!findTeamAction(action, Gilgamesh.id)
+}
+
+export function gilgameshFuaSaberUltBoost(action: OptimizerAction) {
+  const gilAction = findTeamAction(action, Gilgamesh.id)
+  if (!gilAction) return 0
+  return gilAction.actorEidolon >= 5 ? 1.16 : 1.00
 }
 
 export const Gilgamesh: CharacterConfig = {

@@ -66,6 +66,7 @@ import {
 } from 'types/optimizer'
 import { MortenaxBlade } from '../1500/MortenaxBlade'
 import { Sparkle } from './Sparkle'
+import { SparkleB1 } from './SparkleB1'
 
 export const DrRatioEntities = createEnum('DrRatio')
 export const DrRatioAbilities: AbilityKind[] = [
@@ -275,7 +276,7 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Sparkle.id,
+      characterId: SparkleB1.id,
       lightCone: DanceDanceDance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,

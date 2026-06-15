@@ -18,6 +18,7 @@ import {
   uniqueAbility,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
@@ -332,13 +333,13 @@ const simulation = (): SimulationMetadata => ({
   teammates: [
     {
       characterId: SparkleB1.id,
-      lightCone: EarthlyEscapade.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Cipher.id,
-      lightCone: LiesAflutterInTheWind.id,
+      characterId: RinTohsaka.id,
+      lightCone: RinTohsaka.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

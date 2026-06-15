@@ -7,14 +7,14 @@ import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
-} from 'lib/conditionals/conditionalFinalizers'
-import {
   Gilgamesh,
   gilgameshActionExists,
   gilgameshFuaSaberUltBoost,
 } from 'lib/conditionals/character/1500/Gilgamesh'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -46,11 +46,11 @@ import {
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -64,6 +64,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const SaberEntities = createEnum('Saber')
 export const SaberAbilities: AbilityKind[] = [
@@ -301,7 +302,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Gilgamesh Joint FUA: Saber's next Ult becomes 200% of original DMG
       if (gilgameshActionExists(action) && r.gilgameshFuaBuff) {
-        x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, gilgameshFuaSaberUltBoost(action), x.damageType(DamageTag.ULT).source(Source.character(Gilgamesh.id).SOURCE_UNIQUE))
+        x.multiplicativeBoost(
+          StatKey.FINAL_DMG_BOOST,
+          gilgameshFuaSaberUltBoost(action),
+          x.damageType(DamageTag.ULT).source(Source.character(Gilgamesh.id).SOURCE_UNIQUE),
+        )
       }
     },
 
@@ -362,16 +367,16 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tingyun.id,
-      lightCone: DanceDanceDance.id,
-      characterEidolon: 6,
-      lightConeSuperimposition: 5,
+      characterId: Gilgamesh.id,
+      lightCone: Gilgamesh.defaultLightCone,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
     },
     {
       characterId: HuohuoB1.id,

@@ -422,7 +422,6 @@ const simulation = (): SimulationMetadata => ({
     START_ULT,
     END_SKILL,
     WHOLE_SKILL,
-    WHOLE_SKILL,
   ],
   comboDot: 0,
   errRopeEidolon: 0,

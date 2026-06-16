@@ -64,6 +64,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { Hyacine } from '../1400/Hyacine'
 import { MortenaxBlade } from '../1500/MortenaxBlade'
 import { Sparkle } from './Sparkle'
 import { SparkleB1 } from './SparkleB1'
@@ -282,8 +283,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Aventurine.id,
-      lightCone: InherentlyUnjustDestiny.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

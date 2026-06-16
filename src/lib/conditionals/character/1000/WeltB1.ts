@@ -66,6 +66,7 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { Hyacine } from '../1400/Hyacine'
 import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const WeltB1Entities = createEnum('WeltB1')
@@ -449,8 +450,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

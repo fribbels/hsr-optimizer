@@ -65,6 +65,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { Hyacine } from '../1400/Hyacine'
 import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const AcheronEntities = createEnum('Acheron')
@@ -360,8 +361,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

@@ -64,6 +64,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { Hyacine } from '../1400/Hyacine'
 import { Tribbie } from '../1400/Tribbie'
 import { MortenaxBlade } from './MortenaxBlade'
 
@@ -400,8 +401,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

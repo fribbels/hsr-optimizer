@@ -5,6 +5,7 @@ import type {
 } from 'lib/constants/constants'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
 import type { AhaForm } from 'lib/stores/ahaTuningStore'
+import type { AVVisualizerTabSavedSession } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorTypes'
@@ -72,6 +73,7 @@ export type HsrOptimizerSaveFormat = {
   savedSession?: {
     showcaseTab: ShowcaseTabSavedSession,
     global: GlobalSavedSession,
+    avVisualizerTab?: AVVisualizerTabSavedSession,
   },
   settings?: UserSettings,
   version?: string,

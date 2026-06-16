@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -7842,6 +7842,7 @@ interface Resources {
       "Title": "Optimization"
     },
     "Tools": {
+      "AVVisualizer": "AV Visualizer",
       "Benchmarks": "Benchmarks",
       "Calculators": "Calculators",
       "Showcase": "Showcase",
@@ -7932,5 +7933,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

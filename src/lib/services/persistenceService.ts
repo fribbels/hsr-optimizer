@@ -47,6 +47,7 @@ import {
 } from 'lib/stores/relic/relicStore'
 import { pruneOverridesOnLoad } from 'lib/stores/scoring/scoringDelta'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
@@ -175,6 +176,17 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
     if (saveData.savedSession.showcaseTab) { // Set showcase tab state
       useShowcaseTabStore.getState().setSavedSession(saveData.savedSession.showcaseTab)
+    }
+
+    if (saveData.savedSession.avVisualizerTab) { // Set AV visualizer tab state
+      const session = saveData.savedSession.avVisualizerTab
+      // 角色若已被删除，清空对应位置，避免引用不存在的角色
+      const sanitizedSlots = session.slots.map((slot) =>
+        slot.characterId && !dbCharacters[slot.characterId as CharacterId]
+          ? { ...slot, characterId: null, spdOverride: null }
+          : slot
+      ) as typeof session.slots
+      useAVVisualTabStore.getState().setSavedSession({ slots: sanitizedSlots })
     }
   }
 

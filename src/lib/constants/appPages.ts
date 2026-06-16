@@ -24,11 +24,13 @@ export enum AppPages {
 
   WEBGPU_TEST = 'WEBGPU_TEST',
   METADATA_TEST = 'METADATA_TEST',
+
+  AV_VISUALIZER = 'AV_VISUALIZER',
 }
 
 type Route = `${typeof BASE_PATH}${RouteSuffix}`
 
-type RouteSuffix = '' | '#main' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#aha' | '#ehr' | '#webgpu' | '#metadata'
+type RouteSuffix = '' | '#main' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#aha' | '#ehr' | '#webgpu' | '#metadata' | '#av'
 
 export const PageToRoute = {
   [AppPages.HOME]: BASE_PATH,
@@ -46,6 +48,8 @@ export const PageToRoute = {
 
   [AppPages.WEBGPU_TEST]: `${BASE_PATH}#webgpu`,
   [AppPages.METADATA_TEST]: `${BASE_PATH}#metadata`,
+
+  [AppPages.AV_VISUALIZER]: `${BASE_PATH}#av`,
 } as const satisfies Record<AppPages, Route>
 
 const RouteToPage: Record<string, AppPages> = {

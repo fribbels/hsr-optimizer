@@ -16,6 +16,7 @@ import {
   IconList,
   IconSettings,
   IconStarFilled,
+  IconTimeline,
   IconTrendingUp,
   IconUpload,
   IconUser,
@@ -261,6 +262,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
         { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
         { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} />, newFeatureKey: NewFeatureKey.WARP },
+        { key: AppPages.AV_VISUALIZER, label: t('Tools.AVVisualizer'), icon: <IconTimeline size={16} /> },
       ],
     },
     {

@@ -332,7 +332,7 @@ Sidebar:
     EquipSuccessMessage: 已装备
     Filter: 过滤
     Pin: 置顶配装
-    Clear: 清除所有置顶
+    Clear: 清除置顶
   BuildsGroup:
     Header: 配装
     Save: 保存

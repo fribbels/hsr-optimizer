@@ -1,5 +1,6 @@
 import { Tooltip } from '@mantine/core'
 import { TIMELINE_RULER_Y } from 'lib/tabs/tabAvVisualizer/constants'
+import { useTranslation } from 'react-i18next'
 
 type InterventionMarkerProps = {
   triggerAv: number
@@ -13,9 +14,10 @@ const MARKER_SIZE = 18
 const MARKER_COLOR = '#f5c842'
 
 export function InterventionMarker({ triggerAv, count, leftPercent, onClick }: InterventionMarkerProps) {
+  const { t: tAv } = useTranslation('avVisualizerTab')
   return (
     <Tooltip
-      label={`AV ${triggerAv.toFixed(1)} · ${count} 条干预`}
+      label={tAv('Marker.InterventionTooltip', { av: triggerAv.toFixed(1), count })}
       position='top'
       withArrow
       openDelay={100}

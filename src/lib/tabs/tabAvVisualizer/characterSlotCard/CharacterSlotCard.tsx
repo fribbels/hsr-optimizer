@@ -11,6 +11,7 @@ import { SLOT_COLORS } from 'lib/tabs/tabAvVisualizer/constants'
 import type { Slot } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import classes from './CharacterSlotCard.module.css'
 
@@ -22,6 +23,7 @@ type CharacterSlotCardProps = {
 }
 
 export function CharacterSlotCard({ slotIndex, slot, characterName, baseSpd }: CharacterSlotCardProps) {
+  const { t: tAv } = useTranslation('avVisualizerTab')
   const [modalOpen, setModalOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const enterPressedRef = useRef(false)
@@ -36,7 +38,7 @@ export function CharacterSlotCard({ slotIndex, slot, characterName, baseSpd }: C
           <ActionIcon variant='subtle' color='gray' size='xl' style={{ pointerEvents: 'none' }}>
             <IconPlus size={28} />
           </ActionIcon>
-          <Text size='xs' c='dimmed'>Slot {slotIndex + 1}</Text>
+          <Text size='xs' c='dimmed'>{tAv('CharacterSlot.EmptySlot', { n: slotIndex + 1 })}</Text>
         </div>
 
         <CharacterSelect
@@ -98,7 +100,7 @@ export function CharacterSlotCard({ slotIndex, slot, characterName, baseSpd }: C
                 <NumberInput
                   size='xs'
                   defaultValue={displaySpd ?? undefined}
-                  placeholder='SPD'
+                  placeholder={tAv('CharacterSlot.SpdPlaceholder')}
                   min={1}
                   max={999}
                   step={0.1}
@@ -125,9 +127,9 @@ export function CharacterSlotCard({ slotIndex, slot, characterName, baseSpd }: C
                     style={{ flex: 1, color: hasOverride ? color : undefined }}
                     c={hasOverride ? undefined : 'dimmed'}
                   >
-                    {displaySpd != null ? `SPD ${displaySpd.toFixed(1)}` : '—'}
+                    {displaySpd != null ? tAv('CharacterSlot.SpdDisplay', { value: displaySpd.toFixed(1) }) : tAv('CharacterSlot.NoValue')}
                   </Text>
-                  <Tooltip label='Edit SPD' withArrow>
+                  <Tooltip label={tAv('CharacterSlot.EditSpd')} withArrow>
                     <ActionIcon variant='subtle' color='gray' size='xs' onClick={() => setIsEditing(true)}>
                       <IconPencil size={12} />
                     </ActionIcon>
@@ -135,7 +137,7 @@ export function CharacterSlotCard({ slotIndex, slot, characterName, baseSpd }: C
                 </>
               )}
 
-            <Tooltip label='Reset SPD' withArrow>
+            <Tooltip label={tAv('CharacterSlot.ResetSpd')} withArrow>
               <ActionIcon
                 variant='subtle'
                 color='gray'

@@ -6,6 +6,7 @@ import { InterventionItem } from 'lib/tabs/tabAvVisualizer/interventionPanel/Int
 import type { Intervention, InterventionType, InterventionUnit } from 'lib/tabs/tabAvVisualizer/types'
 import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { Fragment, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 // EnrichedSimEvent 的子集（避免循环引用）
 type ActionEvent = {
@@ -25,18 +26,6 @@ type InterventionListPanelProps = {
   simEvents: ActionEvent[]
 }
 
-const TYPE_OPTIONS = [
-  { label: '加速', value: 'spd_up' },
-  { label: '减速', value: 'spd_down' },
-  { label: '拉条', value: 'av_advance' },
-  { label: '推条', value: 'av_delay' },
-]
-
-const UNIT_OPTIONS = [
-  { label: '固定值', value: 'flat' },
-  { label: '百分比', value: 'percent' },
-]
-
 export function InterventionListPanel({
   opened,
   onClose,
@@ -45,7 +34,20 @@ export function InterventionListPanel({
   characters,
   simEvents,
 }: InterventionListPanelProps) {
+  const { t: tAv } = useTranslation('avVisualizerTab')
   const [activeAv, setActiveAv] = useState(triggerAv)
+
+  const TYPE_OPTIONS = [
+    { label: tAv('Types.SpdUp'), value: 'spd_up' },
+    { label: tAv('Types.SpdDown'), value: 'spd_down' },
+    { label: tAv('Types.AvAdvance'), value: 'av_advance' },
+    { label: tAv('Types.AvDelay'), value: 'av_delay' },
+  ]
+
+  const UNIT_OPTIONS = [
+    { label: tAv('Units.Flat'), value: 'flat' },
+    { label: tAv('Units.Percent'), value: 'percent' },
+  ]
 
   // ---- 标题区 AV 编辑（点击 ✏ 切换为输入框，✓ 确认更新）----
   const [avEditing, setAvEditing] = useState(false)
@@ -210,22 +212,22 @@ export function InterventionListPanel({
   }
 
   function getFormTitle(): string {
-    if (isEditing) return '编辑干预'
+    if (isEditing) return tAv('Panel.FormTitleEdit')
     if (formAfterCharId) {
       const name = characters.find((c) => c.id === formAfterCharId)?.name ?? formAfterCharId
-      const idxLabel = formAfterActionIndex !== undefined && formAfterActionIndex > 0
-        ? ` 第${formAfterActionIndex + 1}次`
+      const turnSuffix = formAfterActionIndex !== undefined && formAfterActionIndex > 0
+        ? tAv('TurnSuffix', { n: formAfterActionIndex + 1 })
         : ''
-      return `新增 · ${name}${idxLabel} 行动结束瞬间`
+      return tAv('Panel.FormTitleAfter', { name, turnSuffix })
     }
     if (formBeforeCharId) {
       const name = characters.find((c) => c.id === formBeforeCharId)?.name ?? formBeforeCharId
-      const idxLabel = formBeforeActionIndex !== undefined && formBeforeActionIndex > 0
-        ? ` 第${formBeforeActionIndex + 1}次`
+      const turnSuffix = formBeforeActionIndex !== undefined && formBeforeActionIndex > 0
+        ? tAv('TurnSuffix', { n: formBeforeActionIndex + 1 })
         : ''
-      return `新增 · ${name}${idxLabel} 行动期间`
+      return tAv('Panel.FormTitleBefore', { name, turnSuffix })
     }
-    return `新增 · AV ${activeAv.toFixed(1)}`
+    return tAv('Panel.FormTitleFlat', { av: activeAv.toFixed(1) })
   }
 
   function renderItem(iv: Intervention) {
@@ -294,7 +296,7 @@ export function InterventionListPanel({
                     backgroundColor: ev.color, flexShrink: 0,
                   }} />
                   <Text size='xs' fw={700} style={{ color: ev.color }}>
-                    {ev.characterName}{showIndex ? ` 第${ev.actionIndex + 1}次` : ''}
+                    {ev.characterName}{showIndex ? tAv('TurnSuffix', { n: ev.actionIndex + 1 }) : ''}
                   </Text>
                   <div style={{ flex: 1, height: 1, backgroundColor: ev.color, opacity: 0.35 }} />
                 </div>
@@ -321,22 +323,22 @@ export function InterventionListPanel({
         <Text size='xs' fw={600} c='dimmed'>{getFormTitle()}</Text>
 
         <div>
-          <Text size='xs' fw={500} mb={4}>效果类型</Text>
+          <Text size='xs' fw={500} mb={4}>{tAv('Panel.EffectType')}</Text>
           <SegmentedControl fullWidth size='xs' data={TYPE_OPTIONS} value={formType} onChange={handleTypeChange} />
         </div>
 
         <MultiSelect
-          label='作用对象'
+          label={tAv('Panel.Targets')}
           size='xs'
           data={targetOptions}
           value={formTargets}
           onChange={setFormTargets}
-          placeholder='选择角色'
+          placeholder={tAv('Panel.TargetsPlaceholder')}
         />
 
         <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
           <NumberInput
-            label='数值'
+            label={tAv('Panel.Value')}
             size='xs'
             value={formValue}
             onChange={(v) => setFormValue(typeof v === 'number' ? v : formValue)}
@@ -354,7 +356,7 @@ export function InterventionListPanel({
 
         {!isAvType && (
           <NumberInput
-            label='持续回合数'
+            label={tAv('Panel.Duration')}
             size='xs'
             value={formDuration}
             onChange={(v) => setFormDuration(typeof v === 'number' ? Math.max(1, v) : formDuration)}
@@ -363,9 +365,9 @@ export function InterventionListPanel({
         )}
 
         <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', marginTop: 4 }}>
-          <Button variant='default' size='xs' onClick={() => setFormOpened(false)}>取消</Button>
+          <Button variant='default' size='xs' onClick={() => setFormOpened(false)}>{tAv('Panel.Cancel')}</Button>
           <Button size='xs' onClick={handleSubmit} disabled={formTargets.length === 0 || formValue <= 0}>
-            {isEditing ? '保存' : '添加'}
+            {isEditing ? tAv('Panel.Save') : tAv('Panel.Add')}
           </Button>
         </div>
       </Stack>

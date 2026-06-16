@@ -6,6 +6,7 @@ import { TimelineRow } from 'lib/tabs/tabAvVisualizer/timeline/TimelineRow'
 import type { Intervention, SimEvent } from 'lib/tabs/tabAvVisualizer/types'
 import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export type TimelineCharacter = {
   id: string
@@ -36,6 +37,7 @@ type TimelineProps = {
 }
 
 export function Timeline({ characters, interventions, rowCount }: TimelineProps) {
+  const { t: tAv } = useTranslation('avVisualizerTab')
   const mocFirstRow = useAVVisualTabStore((s) => s.mocFirstRow)
   const totalAv = AvVisualTabController.getTotalAv(rowCount, mocFirstRow)
   const [panelCtx, setPanelCtx] = useState<MarkerClickContext | null>(null)
@@ -74,7 +76,7 @@ export function Timeline({ characters, interventions, rowCount }: TimelineProps)
               }}>
                 <Switch
                   size='xs'
-                  label='混沌回忆 (150)'
+                  label={tAv('Timeline.MocToggle')}
                   checked={mocFirstRow}
                   onChange={(e) => AvVisualTabController.setMocFirstRow(e.currentTarget.checked)}
                 />
@@ -91,7 +93,7 @@ export function Timeline({ characters, interventions, rowCount }: TimelineProps)
         onClick={AvVisualTabController.addRow}
         style={{ marginTop: 4, alignSelf: 'flex-start' }}
       >
-        Add 100 AV
+        {tAv('Timeline.AddRow')}
       </Button>
 
       {/* key 按 triggerAv+sourceCharId 变化，确保切换 AV 时表单状态重置 */}

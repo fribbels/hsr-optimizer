@@ -1,0 +1,47 @@
+Types:
+  SpdUp: Speed Up
+  SpdDown: Speed Down
+  AvAdvance: Advance
+  AvDelay: Delay
+Units:
+  Flat: Flat
+  Percent: Percent
+TurnSuffix: ' (turn {{n}})'
+
+Sidebar:
+  Title: Intervention List
+  ClearAll: Clear All
+  EmptyHint: Click the timeline to add an intervention
+  TimingAfter: after action
+  TimingBefore: during action
+  DurationSuffix: ' ({{n}} turns)'
+
+Timeline:
+  AddRow: Add 100 AV
+  MocToggle: Memory of Chaos (150)
+
+Marker:
+  ActionTooltip: '{{name}}  SPD {{spd}}  AV {{av}}'
+  InterventionTooltip: 'AV {{av}} · {{count}} interventions'
+
+Panel:
+  FormTitleEdit: Edit Intervention
+  FormTitleAfter: 'New · after {{name}}{{turnSuffix}}''s action'
+  FormTitleBefore: 'New · during {{name}}{{turnSuffix}}''s action'
+  FormTitleFlat: 'New · AV {{av}}'
+  EffectType: Effect Type
+  Targets: Targets
+  TargetsPlaceholder: Select characters
+  Value: Value
+  Duration: Duration (turns)
+  Cancel: Cancel
+  Add: Add
+  Save: Save
+
+CharacterSlot:
+  EmptySlot: 'Slot {{n}}'
+  SpdPlaceholder: SPD
+  EditSpd: Edit SPD
+  ResetSpd: Reset SPD
+  SpdDisplay: 'SPD {{value}}'
+  NoValue: '—'

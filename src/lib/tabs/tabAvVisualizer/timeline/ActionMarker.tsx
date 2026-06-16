@@ -3,6 +3,7 @@ import { Assets } from 'lib/rendering/assets'
 import { TIMELINE_AVATAR_SIZE, TIMELINE_RULER_Y } from 'lib/tabs/tabAvVisualizer/constants'
 import type { MarkerClickContext } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const TRIANGLE_H = 7
 const TRIANGLE_W = 6
@@ -37,6 +38,7 @@ type ActionMarkerProps = {
 }
 
 export function ActionMarker({ av, spd, color, characterName, characterId, leftPercent, stackLevel, actionCount, onMarkerClick }: ActionMarkerProps) {
+  const { t: tAv } = useTranslation('avVisualizerTab')
   const [imgError, setImgError] = useState(false)
 
   const { avatarTop, isAbove, isFar } = POSITIONS[Math.min(stackLevel, 3)]
@@ -62,7 +64,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
 
   return (
     <Tooltip
-      label={`${characterName}  SPD ${spd.toFixed(1)}  AV ${av.toFixed(2)}`}
+      label={tAv('Marker.ActionTooltip', { name: characterName, spd: spd.toFixed(1), av: av.toFixed(2) })}
       position='top'
       withArrow
       openDelay={100}

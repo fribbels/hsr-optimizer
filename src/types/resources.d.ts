@@ -1,4 +1,55 @@
 export default interface Resources {
+  "avVisualizerTab": {
+    "CharacterSlot": {
+      "EditSpd": "Edit SPD",
+      "EmptySlot": "Slot {{n}}",
+      "NoValue": "—",
+      "ResetSpd": "Reset SPD",
+      "SpdDisplay": "SPD {{value}}",
+      "SpdPlaceholder": "SPD"
+    },
+    "Marker": {
+      "ActionTooltip": "{{name}}  SPD {{spd}}  AV {{av}}",
+      "InterventionTooltip": "AV {{av}} · {{count}} interventions"
+    },
+    "Panel": {
+      "Add": "Add",
+      "Cancel": "Cancel",
+      "Duration": "Duration (turns)",
+      "EffectType": "Effect Type",
+      "FormTitleAfter": "New · after {{name}}{{turnSuffix}}'s action",
+      "FormTitleBefore": "New · during {{name}}{{turnSuffix}}'s action",
+      "FormTitleEdit": "Edit Intervention",
+      "FormTitleFlat": "New · AV {{av}}",
+      "Save": "Save",
+      "Targets": "Targets",
+      "TargetsPlaceholder": "Select characters",
+      "Value": "Value"
+    },
+    "Sidebar": {
+      "ClearAll": "Clear All",
+      "DurationSuffix": " ({{n}} turns)",
+      "EmptyHint": "Click the timeline to add an intervention",
+      "TimingAfter": "after action",
+      "TimingBefore": "during action",
+      "Title": "Intervention List"
+    },
+    "Timeline": {
+      "AddRow": "Add 100 AV",
+      "MocToggle": "Memory of Chaos (150)"
+    },
+    "TurnSuffix": " (turn {{n}})",
+    "Types": {
+      "AvAdvance": "Advance",
+      "AvDelay": "Delay",
+      "SpdDown": "Speed Down",
+      "SpdUp": "Speed Up"
+    },
+    "Units": {
+      "Flat": "Flat",
+      "Percent": "Percent"
+    }
+  },
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"

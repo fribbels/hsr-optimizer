@@ -14,6 +14,7 @@ window.yaml = yaml
 export const completedLocales: Languages[] = ['en_US', 'es_ES', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'ru_RU', 'vi_VN', 'zh_CN'] as const
 
 const namespaces = [
+  'avVisualizerTab',
   'charactersTab',
   'common',
   'conditionals',

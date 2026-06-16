@@ -1,0 +1,47 @@
+Types:
+  SpdUp: 加速
+  SpdDown: 减速
+  AvAdvance: 拉条
+  AvDelay: 推条
+Units:
+  Flat: 固定值
+  Percent: 百分比
+TurnSuffix: ' 第{{n}}次'
+
+Sidebar:
+  Title: 干预列表
+  ClearAll: 清除全部
+  EmptyHint: 点击时间轴添加干预
+  TimingAfter: 行动后
+  TimingBefore: 行动期间
+  DurationSuffix: ' ×{{n}}回合'
+
+Timeline:
+  AddRow: 添加 100 AV
+  MocToggle: 混沌回忆 (150)
+
+Marker:
+  ActionTooltip: '{{name}}  SPD {{spd}}  AV {{av}}'
+  InterventionTooltip: 'AV {{av}} · {{count}} 条干预'
+
+Panel:
+  FormTitleEdit: 编辑干预
+  FormTitleAfter: '新增 · {{name}}{{turnSuffix}} 行动结束瞬间'
+  FormTitleBefore: '新增 · {{name}}{{turnSuffix}} 行动期间'
+  FormTitleFlat: '新增 · AV {{av}}'
+  EffectType: 效果类型
+  Targets: 作用对象
+  TargetsPlaceholder: 选择角色
+  Value: 数值
+  Duration: 持续回合数
+  Cancel: 取消
+  Add: 添加
+  Save: 保存
+
+CharacterSlot:
+  EmptySlot: '位置 {{n}}'
+  SpdPlaceholder: SPD
+  EditSpd: 编辑 SPD
+  ResetSpd: 重置 SPD
+  SpdDisplay: 'SPD {{value}}'
+  NoValue: '—'

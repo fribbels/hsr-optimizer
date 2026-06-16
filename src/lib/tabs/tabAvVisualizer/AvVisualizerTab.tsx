@@ -24,6 +24,7 @@ export function AvVisualizerTab() {
   const charactersById = useCharacterStore((s) => s.charactersById)
   const relicsById = useRelicStore(useShallow((s) => s.relicsById))
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const { t: tAv } = useTranslation('avVisualizerTab')
 
   // 为每个槽位计算角色实际速度（baseSpd）
   const baseSpdMap = useMemo(() =>
@@ -106,9 +107,9 @@ export function AvVisualizerTab() {
             alignItems: 'center',
             justifyContent: 'space-between',
           }}>
-            <Text size='xs' fw={600} c='dimmed'>干预列表</Text>
+            <Text size='xs' fw={600} c='dimmed'>{tAv('Sidebar.Title')}</Text>
             {interventions.length > 0 && (
-              <Tooltip label='清除全部' withArrow>
+              <Tooltip label={tAv('Sidebar.ClearAll')} withArrow>
                 <ActionIcon
                   variant='subtle'
                   color='gray'
@@ -133,7 +134,7 @@ export function AvVisualizerTab() {
                 color: 'var(--mantine-color-dimmed)',
                 userSelect: 'none',
               }}>
-                点击时间轴添加干预
+                {tAv('Sidebar.EmptyHint')}
               </div>
             ) : (
               interventions.map((iv) => (
@@ -149,10 +150,6 @@ export function AvVisualizerTab() {
   )
 }
 
-const TYPE_LABELS: Record<Intervention['type'], string> = {
-  spd_up: '加速', spd_down: '减速', av_advance: '拉条', av_delay: '推条',
-}
-
 function InterventionListItem({
   intervention,
   characterNames,
@@ -160,8 +157,20 @@ function InterventionListItem({
   intervention: Intervention
   characterNames: Map<string, string>
 }) {
+  const { t: tAv } = useTranslation('avVisualizerTab')
+
+  // 字面量 key 调用，避免动态 Record 查找导致 t() 严格联合类型报错
+  function typeLabel(type: Intervention['type']): string {
+    switch (type) {
+      case 'spd_up': return tAv('Types.SpdUp')
+      case 'spd_down': return tAv('Types.SpdDown')
+      case 'av_advance': return tAv('Types.AvAdvance')
+      case 'av_delay': return tAv('Types.AvDelay')
+    }
+  }
+
   const unitStr = intervention.unit === 'percent' ? '%' : ''
-  const durationStr = intervention.durationTurns > 0 ? ` ×${intervention.durationTurns}回合` : ''
+  const durationStr = intervention.durationTurns > 0 ? tAv('Sidebar.DurationSuffix', { n: intervention.durationTurns }) : ''
   const targetStr = intervention.targets
     .map((id) => characterNames.get(id) ?? id)
     .join('、')
@@ -169,13 +178,13 @@ function InterventionListItem({
   // 显示该干预绑定的角色与时机（行动期间 / 行动结束瞬间），含第几次行动（>1 次时才标注）
   function buildTimingLabel(charId: string, actionIndex: number | undefined, suffix: string): string {
     const name = characterNames.get(charId) ?? charId
-    const idxLabel = actionIndex !== undefined && actionIndex > 0 ? ` 第${actionIndex + 1}次` : ''
+    const idxLabel = actionIndex !== undefined && actionIndex > 0 ? tAv('TurnSuffix', { n: actionIndex + 1 }) : ''
     return `${name}${idxLabel} ${suffix}`
   }
   const timingLabel = intervention.afterCharId
-    ? buildTimingLabel(intervention.afterCharId, intervention.afterActionIndex, '行动后')
+    ? buildTimingLabel(intervention.afterCharId, intervention.afterActionIndex, tAv('Sidebar.TimingAfter'))
     : intervention.beforeCharId
-      ? buildTimingLabel(intervention.beforeCharId, intervention.beforeActionIndex, '行动期间')
+      ? buildTimingLabel(intervention.beforeCharId, intervention.beforeActionIndex, tAv('Sidebar.TimingBefore'))
       : null
 
   return (
@@ -192,7 +201,7 @@ function InterventionListItem({
           AV {intervention.triggerAv.toFixed(1)}
           {timingLabel ? ` [${timingLabel}]` : ''}
           {' · '}
-          {TYPE_LABELS[intervention.type]} {intervention.value}{unitStr}{durationStr}
+          {typeLabel(intervention.type)} {intervention.value}{unitStr}{durationStr}
           {' → '}
           {targetStr}
         </Text>

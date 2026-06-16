@@ -359,14 +359,14 @@ SetConditionals:
   SelectOptions:
     Streetwise:
       Display: '{{stackCount}}层'
-      Label: '{{stackCount}}层 (+{{buffValue}}% ATK)'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 攻击力 )'
     Wastelander:
       Off:
         Display: '关闭'
         Label: '关闭'
       Debuffed:
         Display: 暴击率
-        Label: 被减益 (+10% CR)
+        Label: 被减益 (+10% 暴击)
       Imprisoned:
         Display: 暴击 + 爆伤
         Label: 禁锢 (+10% 暴击 | +20% 爆伤)
@@ -375,7 +375,7 @@ SetConditionals:
       Label: '{{stackCount}}层 (+{{buffValue}}% 暴击)'
     Ashblazing:
       Display: '{{stackCount}}层'
-      Label: '{{stackCount}}层 (+{{buffValue}}% ATK)'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 攻击力)'
     Prisoner:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% 防御穿透)'
@@ -403,7 +403,7 @@ SetConditionals:
       Label: '{{stackCount}} 层（+{{stackCount}}% 防御力穿透）'
     Sigonia:
       Display: '{{stackCount}}层'
-      Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 爆伤)'
     Duran:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% 追加攻击伤害)'

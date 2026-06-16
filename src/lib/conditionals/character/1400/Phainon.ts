@@ -1,8 +1,7 @@
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import {
-  Cyrene,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
@@ -14,10 +13,10 @@ import {
   teamHasSustain,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
-import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   Parts,
   Sets,
@@ -40,6 +39,7 @@ import {
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -446,8 +446,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: SparkleB1.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -458,8 +458,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Cyrene.id,
-      lightCone: ThisLoveForever.id,
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

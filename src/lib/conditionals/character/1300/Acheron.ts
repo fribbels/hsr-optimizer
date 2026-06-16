@@ -348,8 +348,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SilverWolfB1.id,
-      lightCone: BeforeTheTutorialMissionStarts.id,
+      characterId: Cipher.id,
+      lightCone: Cipher.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 5,
     },

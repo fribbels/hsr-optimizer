@@ -26,7 +26,7 @@ export function AvVisualizerTab() {
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
   const { t: tAv } = useTranslation('avVisualizerTab')
 
-  // 为每个槽位计算角色实际速度（baseSpd）
+  // Compute each slot's effective character speed (baseSpd)
   const baseSpdMap = useMemo(() =>
     slots.map((slot) => {
       if (!slot.characterId) return null
@@ -37,7 +37,7 @@ export function AvVisualizerTab() {
     }),
   [slots, charactersById, relicsById])
 
-  // 白值速度：角色基础速度（不含遗器），用于百分比速度 buff 计算
+  // White-value speed: the character's base speed (no relics), used for percent-based speed buff math
   const whiteSpdMap = useMemo(() =>
     slots.map((slot) => {
       if (!slot.characterId) return null
@@ -45,7 +45,7 @@ export function AvVisualizerTab() {
     }),
   [slots])
 
-  // 传给 Timeline 的角色列表：spdOverride 优先，其次 baseSpdMap（面板速度），空槽跳过
+  // Character list passed to Timeline: spdOverride takes priority, falling back to baseSpdMap (panel speed); empty slots are skipped
   const timelineCharacters = useMemo(() =>
     slots
       .map((slot, i) => {
@@ -65,7 +65,7 @@ export function AvVisualizerTab() {
       .filter((c): c is TimelineCharacter => c !== null),
   [slots, baseSpdMap, whiteSpdMap, t])
 
-  // 干预列表条目用的角色名映射（characterId → 显示名）
+  // Character name lookup used by intervention list items (characterId → display name)
   const characterNameMap = useMemo(() => {
     const map = new Map<string, string>()
     slots.forEach((slot) => {
@@ -99,7 +99,7 @@ export function AvVisualizerTab() {
           flexDirection: 'column',
           overflow: 'hidden',
         }}>
-          {/* 标题栏 */}
+          {/* Header bar */}
           <div style={{
             padding: '8px 12px',
             borderBottom: '1px solid var(--border-default)',
@@ -122,7 +122,7 @@ export function AvVisualizerTab() {
             )}
           </div>
 
-          {/* 干预条目 */}
+          {/* Intervention entries */}
           <div style={{ flex: 1, overflowY: 'auto', padding: '4px 0' }}>
             {interventions.length === 0 ? (
               <div style={{
@@ -159,7 +159,7 @@ function InterventionListItem({
 }) {
   const { t: tAv } = useTranslation('avVisualizerTab')
 
-  // 字面量 key 调用，避免动态 Record 查找导致 t() 严格联合类型报错
+  // Literal-key calls only, to avoid t()'s strict union type erroring on a dynamic Record lookup
   function typeLabel(type: Intervention['type']): string {
     switch (type) {
       case 'spd_up': return tAv('Types.SpdUp')
@@ -175,7 +175,8 @@ function InterventionListItem({
     .map((id) => characterNames.get(id) ?? id)
     .join('、')
 
-  // 显示该干预绑定的角色与时机（行动期间 / 行动结束瞬间），含第几次行动（>1 次时才标注）
+  // Displays the character and timing this intervention is bound to (during action / end-of-action instant),
+  // including the turn number (only annotated when > 1)
   function buildTimingLabel(charId: string, actionIndex: number | undefined, suffix: string): string {
     const name = characterNames.get(charId) ?? charId
     const idxLabel = actionIndex !== undefined && actionIndex > 0 ? tAv('TurnSuffix', { n: actionIndex + 1 }) : ''

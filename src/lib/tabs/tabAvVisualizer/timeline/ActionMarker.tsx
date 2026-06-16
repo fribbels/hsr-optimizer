@@ -7,17 +7,17 @@ import { useTranslation } from 'react-i18next'
 
 const TRIANGLE_H = 7
 const TRIANGLE_W = 6
-const AVATAR_TRI_GAP = 2   // avatar 与三角之间的间距
-const RULER_TRI_GAP = 1    // 数轴线与最近三角尖端的间距
-const AVATAR_STACK_GAP = 8 // 上下两层头像之间的间距
+const AVATAR_TRI_GAP = 2   // Gap between the avatar and the triangle
+const RULER_TRI_GAP = 1    // Gap between the ruler line and the nearest triangle tip
+const AVATAR_STACK_GAP = 8 // Gap between the upper and lower avatar layers
 
-// 四个固定位置（从行顶部计算 top 值）
+// Four fixed positions (top values computed from the top of the row)
 const ABOVE_CLOSE_TOP = TIMELINE_RULER_Y - RULER_TRI_GAP - TRIANGLE_H - AVATAR_TRI_GAP - TIMELINE_AVATAR_SIZE
 const ABOVE_FAR_TOP = ABOVE_CLOSE_TOP - AVATAR_STACK_GAP - TIMELINE_AVATAR_SIZE
 const BELOW_CLOSE_TOP = TIMELINE_RULER_Y + RULER_TRI_GAP + TRIANGLE_H + AVATAR_TRI_GAP
 const BELOW_FAR_TOP = BELOW_CLOSE_TOP + TIMELINE_AVATAR_SIZE + AVATAR_STACK_GAP
 
-// stackLevel → 位置信息的映射：0=上近, 1=下近, 2=上远, 3=下远
+// stackLevel → position mapping: 0=above-near, 1=below-near, 2=above-far, 3=below-far
 const POSITIONS = [
   { avatarTop: ABOVE_CLOSE_TOP, isAbove: true, isFar: false },
   { avatarTop: BELOW_CLOSE_TOP, isAbove: false, isFar: false },
@@ -33,7 +33,7 @@ type ActionMarkerProps = {
   characterId: string
   leftPercent: number
   stackLevel: number
-  actionCount?: number   // 该 AV 处此角色的行动总次数（>1 时显示徽章）
+  actionCount?: number   // Total number of times this character acts at this AV (badge shown when > 1)
   onMarkerClick: (ctx: MarkerClickContext) => void
 }
 
@@ -44,12 +44,12 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
   const { avatarTop, isAbove, isFar } = POSITIONS[Math.min(stackLevel, 3)]
   const avatarBottom = avatarTop + TIMELINE_AVATAR_SIZE
 
-  // 三角顶部位置（朝上/朝下）
+  // Triangle tip position (pointing up/down)
   const triangleTop = isAbove
-    ? avatarBottom + AVATAR_TRI_GAP          // 头像下方，三角朝下 ▼
-    : avatarTop - AVATAR_TRI_GAP - TRIANGLE_H // 头像上方，三角朝上 ▲
+    ? avatarBottom + AVATAR_TRI_GAP          // Avatar above the ruler, triangle points down ▼
+    : avatarTop - AVATAR_TRI_GAP - TRIANGLE_H // Avatar below the ruler, triangle points up ▲
 
-  // 远端标记的虚线连接（三角尖到数轴线）
+  // Dashed connector for far-layer markers (triangle tip to the ruler line)
   let dashTop = 0
   let dashHeight = 0
   if (isFar) {
@@ -84,7 +84,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
           zIndex: 1 + stackLevel,
         }}
       >
-        {/* 头像 */}
+        {/* Avatar */}
         <div style={{ position: 'absolute', top: avatarTop, left: '50%', transform: 'translateX(-50%)' }}>
           {imgError ? (
             <div style={{
@@ -118,7 +118,8 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
           )}
         </div>
 
-        {/* 多次行动徽章：同一 AV 该角色行动次数 > 1 时显示，内切于头像底部（不超出头像范围，避免遮挡相邻头像） */}
+        {/* Multi-action badge: shown when this character acts more than once at this AV, inset at the bottom of
+        the avatar (stays within the avatar's bounds so it doesn't cover neighboring avatars) */}
         {actionCount !== undefined && actionCount > 1 && (
           <div style={{
             position: 'absolute',
@@ -144,7 +145,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
           </div>
         )}
 
-        {/* 三角箭头（近端朝向数轴，远端背离数轴） */}
+        {/* Triangle arrow (near layer points toward the ruler, far layer points away from it) */}
         <div style={{
           position: 'absolute',
           left: '50%',
@@ -160,7 +161,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
           ),
         }} />
 
-        {/* 虚线连接（仅远端标记）*/}
+        {/* Dashed connector (far-layer markers only) */}
         {isFar && dashHeight > 0 && (
           <div style={{
             position: 'absolute',

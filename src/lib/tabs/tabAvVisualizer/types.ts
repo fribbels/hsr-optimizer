@@ -4,16 +4,20 @@ export type InterventionUnit = 'flat' | 'percent'
 export type Intervention = {
   id: string
   triggerAv: number
-  // 行动期间（before）：在指定角色第 beforeActionIndex 次行动开始前触发，spd buff 被当前行动消耗（对 durationTurns=1 无效果）
-  // beforeCharId 为 undefined 且 afterCharId 也为 undefined 时 = 全局行动期间：不绑定角色，仅按 triggerAv 触发一次（向后兼容旧数据/平铺视图场景）
+  // During action (before): fires right before the target character's beforeActionIndex-th action;
+  // the spd buff is consumed by that very action (no effect when durationTurns=1)
+  // When both beforeCharId and afterCharId are undefined = global "during action": not bound to any
+  // character, fires once based purely on triggerAv (kept for backward compat / flat-view scenarios)
   beforeCharId?: string
-  // 第几次行动（0-base）开始前触发；beforeCharId 有值时有效；undefined 等同于 0（第1次行动前）
+  // Which action (0-based) this fires before; only meaningful when beforeCharId is set;
+  // undefined is equivalent to 0 (before the 1st action)
   beforeActionIndex?: number
-  // 行动结束瞬间（after）：在指定角色第 afterActionIndex 次行动结束后触发
+  // End-of-action instant (after): fires right after the target character's afterActionIndex-th action ends
   afterCharId?: string
-  // 第几次行动（0-base）后触发；afterCharId 有值时有效；undefined 等同于 0（第1次行动后）
+  // Which action (0-based) this fires after; only meaningful when afterCharId is set;
+  // undefined is equivalent to 0 (after the 1st action)
   afterActionIndex?: number
-  // @deprecated 已被 beforeCharId 取代，仅为兼容旧数据保留；引擎不再读取此字段
+  // @deprecated Superseded by beforeCharId; kept only for backward compat with old data. The engine no longer reads this field.
   sourceCharId?: string
   type: InterventionType
   targets: string[]

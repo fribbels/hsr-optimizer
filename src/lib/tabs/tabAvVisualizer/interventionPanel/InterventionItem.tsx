@@ -11,7 +11,8 @@ type InterventionItemProps = {
   onDelete: () => void
 }
 
-// 类型 → 图标 + 颜色：上下表示加速/减速，左右表示拉条（更早）/推条（更晚），与时间轴方向一致
+// Type → icon + color: up/down represent speed up/down, left/right represent advance (earlier) / delay (later),
+// matching the timeline's left-to-right direction
 const TYPE_VISUAL: Record<InterventionType, { icon: ComponentType<{ size?: number; color?: string }>; color: string }> = {
   spd_up: { icon: IconArrowUp, color: 'var(--mantine-color-teal-5)' },
   spd_down: { icon: IconArrowDown, color: 'var(--mantine-color-red-5)' },
@@ -35,7 +36,7 @@ export function InterventionItem({ intervention, characters, highlighted, onEdit
       borderRadius: 4,
       background: highlighted ? 'var(--mantine-color-dark-5)' : undefined,
     }}>
-      {/* 类型图标：圆形背景 + 方向箭头 */}
+      {/* Type icon: circular background + directional arrow */}
       <div style={{
         width: 20,
         height: 20,

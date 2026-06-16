@@ -2,14 +2,14 @@ import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareSto
 import type { Intervention } from 'lib/tabs/tabAvVisualizer/types'
 import { uuid } from 'lib/utils/miscUtils'
 
-// ---- 类型定义 ----
+// ---- Type definitions ----
 
 export type Slot = {
   characterId: string | null
   spdOverride: number | null
 }
 
-// 跨会话持久化的部分（随全局存档写入 localStorage），见 saveState.ts / persistenceService.ts
+// The part that persists across sessions (written to localStorage with the global save), see saveState.ts / persistenceService.ts
 export type AVVisualizerTabSavedSession = {
   slots: [Slot, Slot, Slot, Slot]
 }
@@ -18,7 +18,7 @@ interface AVVisualTabStateValues {
   savedSession: AVVisualizerTabSavedSession
   rowCount: number
   interventions: Intervention[]
-  // 混沌回忆模式：开启后第一行时间轴为 150 AV（对应游戏内首回合机制），其余行仍为 100
+  // Memory of Chaos mode: when on, the first timeline row is 150 AV (matching the in-game first-cycle mechanic); other rows stay 100
   mocFirstRow: boolean
 }
 
@@ -37,7 +37,7 @@ interface AVVisualTabStateActions {
 
 type AVVisualTabState = AVVisualTabStateValues & AVVisualTabStateActions
 
-// ---- 默认状态 ----
+// ---- Default state ----
 
 const emptySlot = (): Slot => ({ characterId: null, spdOverride: null })
 
@@ -50,7 +50,7 @@ const defaultState: AVVisualTabStateValues = {
   mocFirstRow: false,
 }
 
-// ---- 工具函数 ----
+// ---- Helpers ----
 
 function updateSlot(slots: [Slot, Slot, Slot, Slot], index: number, patch: Partial<Slot>): [Slot, Slot, Slot, Slot] {
   const next = slots.map((s, i) => i === index ? { ...s, ...patch } : s)

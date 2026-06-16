@@ -8,7 +8,8 @@ type ActionOrderAvatarProps = {
   size?: number
 }
 
-// 与 ActionMarker.tsx 头像渲染逻辑一致（图片加载失败时回退为色块+首字），用于干预面板的行动顺序行
+// Mirrors ActionMarker.tsx's avatar rendering (falls back to a color block + initial on image load failure);
+// used for the action-order row in the intervention panel
 export function ActionOrderAvatar({ characterId, characterName, color, size = 40 }: ActionOrderAvatarProps) {
   const [imgError, setImgError] = useState(false)
 

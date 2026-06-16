@@ -12,22 +12,23 @@ export type TimelineCharacter = {
   id: string
   name: string
   spd: number
-  baseSpd: number  // 白值（不含遗器），用于百分比速度 buff 计算
+  baseSpd: number  // White value (no relics), used for percent-based speed buff math
   color: string
   slotIndex: number
 }
 
-// 模拟事件 + 渲染所需的展示字段（颜色、角色名、slotIndex），由 Timeline 统一丰化后传给 Row
+// Sim event plus the display fields needed for rendering (color, character name, slotIndex), enriched once by
+// Timeline and passed down to Row
 export type EnrichedSimEvent = SimEvent & {
   color: string
   characterName: string
   slotIndex: number
 }
 
-// 干预列表面板触发上下文：点击头像标记或数轴空白时记录的信息
+// Context for opening the intervention list panel: recorded when an avatar marker or empty ruler space is clicked
 export type MarkerClickContext = {
   triggerAv: number
-  sourceCharId?: string  // 来自 ActionMarker 点击，用于预填触发来源
+  sourceCharId?: string  // From an ActionMarker click, used to pre-fill the triggering source
 }
 
 type TimelineProps = {
@@ -42,7 +43,7 @@ export function Timeline({ characters, interventions, rowCount }: TimelineProps)
   const totalAv = AvVisualTabController.getTotalAv(rowCount, mocFirstRow)
   const [panelCtx, setPanelCtx] = useState<MarkerClickContext | null>(null)
 
-  // 调用模拟引擎，获取所有行动事件
+  // Run the simulation engine to get all action events
   const simEvents = useMemo(() => {
     const charMap = new Map(characters.map((c) => [c.id, c]))
     return AvVisualTabController.simulate(characters, interventions, totalAv).map((e): EnrichedSimEvent => ({
@@ -96,7 +97,7 @@ export function Timeline({ characters, interventions, rowCount }: TimelineProps)
         {tAv('Timeline.AddRow')}
       </Button>
 
-      {/* key 按 triggerAv+sourceCharId 变化，确保切换 AV 时表单状态重置 */}
+      {/* key changes with triggerAv+sourceCharId to ensure the form state resets when switching AV */}
       <InterventionListPanel
         key={panelCtx ? `${panelCtx.triggerAv}-${panelCtx.sourceCharId ?? ''}` : 'closed'}
         opened={panelCtx !== null}

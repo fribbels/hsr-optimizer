@@ -8,7 +8,7 @@ import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStor
 import { Fragment, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-// EnrichedSimEvent 的子集（避免循环引用）
+// A subset of EnrichedSimEvent (avoids a circular import)
 type ActionEvent = {
   av: number
   characterId: string
@@ -49,7 +49,7 @@ export function InterventionListPanel({
     { label: tAv('Units.Percent'), value: 'percent' },
   ]
 
-  // ---- 标题区 AV 编辑（点击 ✏ 切换为输入框，✓ 确认更新）----
+  // ---- Title-bar AV editing (click ✏ to switch to an input box, ✓ confirms the update) ----
   const [avEditing, setAvEditing] = useState(false)
   const [avEditValue, setAvEditValue] = useState(triggerAv)
 
@@ -65,13 +65,13 @@ export function InterventionListPanel({
     [allInterventions, activeAv],
   )
 
-  // 该 AV 处的所有行动，按 (characterId, actionIndex) 排列（不去重）
+  // All actions at this AV, ordered by (characterId, actionIndex) (not deduplicated)
   const actionsAtAv = useMemo(
     () => simEvents.filter((e) => Math.abs(e.av - activeAv) < 0.005),
     [simEvents, activeAv],
   )
 
-  // 每个 characterId 在该 AV 的总行动次数（用于判断是否显示序号标题）
+  // Total number of actions per characterId at this AV (used to decide whether to show a turn-number suffix)
   const actionCountPerChar = useMemo(() => {
     const map = new Map<string, number>()
     for (const e of actionsAtAv) map.set(e.characterId, (map.get(e.characterId) ?? 0) + 1)
@@ -80,7 +80,7 @@ export function InterventionListPanel({
 
   const isStructured = actionsAtAv.length > 0
 
-  // 行动结束瞬间干预：按 (afterCharId, afterActionIndex) 分组
+  // End-of-action interventions: grouped by (afterCharId, afterActionIndex)
   const afterMap = useMemo(() => {
     const map = new Map<string, Intervention[]>()
     for (const iv of currentInterventions) {
@@ -93,7 +93,7 @@ export function InterventionListPanel({
     return map
   }, [currentInterventions])
 
-  // 行动期间干预：按 (beforeCharId, beforeActionIndex) 分组，与 afterMap 对称
+  // During-action interventions: grouped by (beforeCharId, beforeActionIndex), symmetric to afterMap
   const beforeMap = useMemo(() => {
     const map = new Map<string, Intervention[]>()
     for (const iv of currentInterventions) {
@@ -106,7 +106,7 @@ export function InterventionListPanel({
     return map
   }, [currentInterventions])
 
-  // ---- 表单状态 ----
+  // ---- Form state ----
   const [formOpened, setFormOpened] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
@@ -133,7 +133,7 @@ export function InterventionListPanel({
     setFormDuration(1)
   }
 
-  // 行动期间 + 按钮：beforeCharId=该角色，beforeActionIndex=该次行动的 actionIndex
+  // "During action" + button: beforeCharId = this character, beforeActionIndex = this action's actionIndex
   function openAddBefore(charId: string, actionIndex: number) {
     setIsEditing(false)
     setEditingId(null)
@@ -145,7 +145,7 @@ export function InterventionListPanel({
     setFormOpened(true)
   }
 
-  // 行动结束瞬间 + 按钮：afterCharId=该角色，afterActionIndex=该次行动的 actionIndex
+  // "End-of-action instant" + button: afterCharId = this character, afterActionIndex = this action's actionIndex
   function openAddAfter(charId: string, actionIndex: number) {
     setIsEditing(false)
     setEditingId(null)
@@ -157,7 +157,7 @@ export function InterventionListPanel({
     setFormOpened(true)
   }
 
-  // 平铺视图（该 AV 处无角色行动）+ 按钮：使用全局行动期间（不绑定角色）
+  // Flat view (no character acts at this AV) + button: uses the global "during action" timing (not bound to a character)
   function openAddFlat() {
     setIsEditing(false)
     setEditingId(null)
@@ -246,7 +246,7 @@ export function InterventionListPanel({
     )
   }
 
-  // 添加按钮：尺寸与一条 InterventionItem 行相当，+ 号居中，而非单薄的小图标
+  // Add button: sized to match an InterventionItem row, with the + centered rather than a thin little icon
   function renderIconAdd(onClick: () => void) {
     return (
       <Button
@@ -261,7 +261,7 @@ export function InterventionListPanel({
     )
   }
 
-  // ---- 结构化列表 ----
+  // ---- Structured list ----
   function renderList() {
     if (!isStructured) {
       return (
@@ -284,7 +284,7 @@ export function InterventionListPanel({
 
           return (
             <Fragment key={`${ev.characterId}:${ev.actionIndex}`}>
-              {/* 容器：角色标题（含序号）+ 行动期间 —— 每次行动结构完全一致 */}
+              {/* Container: character header (with turn number) + during-action zone — identical structure for every action */}
               <div style={{
                 border: '1px solid var(--mantine-color-dark-4)',
                 borderRadius: 6, padding: '6px 8px',
@@ -304,7 +304,8 @@ export function InterventionListPanel({
                 {renderIconAdd(() => openAddBefore(ev.characterId, ev.actionIndex))}
               </div>
 
-              {/* 容器外：行动结束瞬间 —— 左右内缩与容器 padding（8px）对齐，条目/按钮宽度保持一致 */}
+              {/* Outside the container: end-of-action-instant zone — left/right inset matches the container's
+              8px padding so item/button widths line up */}
               <div style={{ paddingLeft: 8, paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {afterIvs.map(renderItem)}
                 {renderIconAdd(() => openAddAfter(ev.characterId, ev.actionIndex))}
@@ -316,7 +317,7 @@ export function InterventionListPanel({
     )
   }
 
-  // ---- 右侧表单 ----
+  // ---- Right-hand form ----
   function renderForm() {
     return (
       <Stack gap='sm'>
@@ -374,7 +375,7 @@ export function InterventionListPanel({
     )
   }
 
-  // ---- Modal 标题：AV {值} + ✏ 编辑按钮；编辑态切换为输入框 + ✓ 确认按钮 ----
+  // ---- Modal title: AV {value} + ✏ edit button; editing mode switches to an input box + ✓ confirm button ----
   function renderTitle() {
     if (avEditing) {
       return (
@@ -413,7 +414,7 @@ export function InterventionListPanel({
 
   return (
     <Modal opened={opened} onClose={onClose} title={renderTitle()} size='lg' centered>
-      {/* 行动顺序行：该 AV 处按行动顺序显示头像，同一角色多次行动显示多个头像 */}
+      {/* Action-order row: shows avatars at this AV in action order; the same character acting multiple times shows multiple avatars */}
       {actionsAtAv.length > 0 && (
         <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 14 }}>
           {actionsAtAv.map((ev, i) => (
@@ -426,15 +427,15 @@ export function InterventionListPanel({
       )}
 
       <div style={{ display: 'flex', gap: 0, alignItems: 'flex-start', minHeight: 200 }}>
-        {/* 左列：列表 */}
+        {/* Left column: list */}
         <div style={{ flex: '0 0 260px' }}>
           {renderList()}
         </div>
 
-        {/* 分隔线 */}
+        {/* Divider */}
         <div style={{ width: 1, alignSelf: 'stretch', backgroundColor: 'var(--mantine-color-dark-4)', margin: '0 16px' }} />
 
-        {/* 右列：表单 */}
+        {/* Right column: form */}
         <div style={{ flex: 1 }}>
           {formOpened && renderForm()}
         </div>

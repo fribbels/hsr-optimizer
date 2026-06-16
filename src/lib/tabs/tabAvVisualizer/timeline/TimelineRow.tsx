@@ -11,19 +11,19 @@ import type { Intervention } from 'lib/tabs/tabAvVisualizer/types'
 import { Fragment, useMemo, useState, type ReactNode } from 'react'
 
 type TimelineRowProps = {
-  rowStart: number                // 本行起始 AV（由父组件按混沌回忆模式计算好传入）
-  rowSize: number                 // 本行 AV 跨度（普通行=100，混沌回忆首行=150）
-  simEvents: EnrichedSimEvent[]   // 已由父组件（Timeline）过滤到本行范围
-  interventions: Intervention[]   // 本行范围内的干预（由父组件过滤）
+  rowStart: number                // This row's start AV (computed by the parent according to MoC mode and passed in)
+  rowSize: number                 // This row's AV span (normal row = 100, MoC first row = 150)
+  simEvents: EnrichedSimEvent[]   // Already filtered to this row's range by the parent (Timeline)
+  interventions: Intervention[]   // Interventions within this row's range (filtered by the parent)
   onMarkerClick: (ctx: MarkerClickContext) => void
   onRulerClick: (av: number) => void
-  topRightOverlay?: ReactNode     // 浮层（如混沌回忆开关），仅首行传入
+  topRightOverlay?: ReactNode     // Overlay (e.g. the MoC toggle), only passed for the first row
 }
 
 const RULER_INSET = TIMELINE_AVATAR_SIZE / 2 + 4
 const HOVER_DOT_SIZE = 7
 
-// 鼠标 X 坐标 → 吸附到最近整数 AV（点击和悬停预览共用，保证两者行为一致）
+// Mouse X coordinate → snapped to the nearest integer AV (shared by click and hover preview to keep both consistent)
 function snapAvFromClientX(clientX: number, rect: DOMRect, rowStart: number, rowSize: number, rowEnd: number): number {
   const relativeX = clientX - rect.left
   const rawAv = rowStart + (relativeX / rect.width) * rowSize
@@ -42,11 +42,11 @@ export function TimelineRow({
 }: TimelineRowProps) {
   const rowEnd = rowStart + rowSize
 
-  // 悬停预览：鼠标移动时实时计算吸附后的整数 AV，用于绘制预览圆点
+  // Hover preview: recompute the snapped integer AV live as the mouse moves, used to draw the preview dot
   const [hoverAv, setHoverAv] = useState<number | null>(null)
 
-  // 刻度：每 10 AV 一个大刻度（带数字标签），其余每 1 AV 一个小刻度；按 rowSize 动态生成
-  // （rowSize 可能是 100 或 150，故不能假设刻度数字与百分比数值相等）
+  // Ticks: one large tick (with a number label) every 10 AV, one small tick every other 1 AV; generated dynamically from rowSize
+  // (rowSize can be 100 or 150, so the tick number can't be assumed to equal the percentage value)
   const { smallTicks, largeTicks } = useMemo(() => {
     const small: number[] = []
     const large: number[] = []
@@ -57,7 +57,8 @@ export function TimelineRow({
     return { smallTicks: small, largeTicks: large }
   }, [rowSize])
 
-  // 按 (characterId, av) 分组：同一角色在同一 AV 多次行动时只渲染一个头像，徽章显示次数
+  // Grouped by (characterId, av): when the same character acts multiple times at the same AV, render a single
+  // avatar with a count badge
   const markers = useMemo(() => {
     type MarkerGroup = {
       event: EnrichedSimEvent & { leftPercent: number }
@@ -77,7 +78,7 @@ export function TimelineRow({
     return Array.from(groups.values())
   }, [simEvents, rowStart, rowSize])
 
-  // 按 triggerAv 分组：每个唯一 AV 位置只渲染一个标记，显示该位置的干预总数
+  // Grouped by triggerAv: render a single marker per unique AV position, showing the total intervention count there
   const interventionGroups = useMemo(() => {
     const map = new Map<number, number>()
     for (const iv of interventions) {
@@ -102,7 +103,7 @@ export function TimelineRow({
       position: 'relative',
     }}>
 
-      {/* 左侧行标签 */}
+      {/* Left-hand row label */}
       <div style={{
         width: 56,
         flexShrink: 0,
@@ -118,13 +119,13 @@ export function TimelineRow({
         {rowStart}
       </div>
 
-      {/* 行主体 */}
+      {/* Row body */}
       <div style={{
         flex: 1,
         height: TIMELINE_ROW_HEIGHT,
         position: 'relative',
       }}>
-        {/* 数轴区域：左右各缩进 RULER_INSET，避免边缘头像被裁剪；点击空白处打开干预列表 */}
+        {/* Ruler area: inset by RULER_INSET on both sides to avoid clipping edge avatars; clicking empty space opens the intervention list */}
         <div
           onClick={(e) => {
             const rect = e.currentTarget.getBoundingClientRect()
@@ -143,7 +144,7 @@ export function TimelineRow({
             bottom: 0,
           }}
         >
-          {/* 数轴主线 */}
+          {/* Main ruler line */}
           <div style={{
             position: 'absolute',
             left: 0,
@@ -154,7 +155,7 @@ export function TimelineRow({
             opacity: 0.6,
           }} />
 
-          {/* 悬停预览圆点：吸附到最近整数刻度，提示点击会选中的位置 */}
+          {/* Hover preview dot: snapped to the nearest integer tick, previews where a click would land */}
           {hoverAv !== null && (
             <div style={{
               position: 'absolute',
@@ -170,7 +171,7 @@ export function TimelineRow({
             }} />
           )}
 
-          {/* 小刻度：以数轴为中心，上下各 2px */}
+          {/* Small ticks: centered on the ruler line, 2px above and below */}
           {smallTicks.map((tick) => (
             <div
               key={tick}
@@ -186,7 +187,7 @@ export function TimelineRow({
             />
           ))}
 
-          {/* 大刻度：以数轴为中心，上下各 5px + 数字标签 */}
+          {/* Large ticks: centered on the ruler line, 5px above and below + number label */}
           {largeTicks.map((tick) => (
             <Fragment key={tick}>
               <div style={{
@@ -212,7 +213,7 @@ export function TimelineRow({
             </Fragment>
           ))}
 
-          {/* 行动标记（已按 characterId+av 分组，多次行动显示次数徽章） */}
+          {/* Action markers (already grouped by characterId+av; multiple actions show a count badge) */}
           {markers.map(({ event: m, actionCount }) => (
             <ActionMarker
               key={`${m.characterId}:${m.av}`}
@@ -228,7 +229,7 @@ export function TimelineRow({
             />
           ))}
 
-          {/* 干预标记（按 AV 分组，每组一个圆圈显示数量） */}
+          {/* Intervention markers (grouped by AV, one circle per group showing the count) */}
           {interventionGroups.map(({ triggerAv, count, leftPercent }) => (
             <InterventionMarker
               key={triggerAv}
@@ -241,7 +242,7 @@ export function TimelineRow({
         </div>
       </div>
 
-      {/* 浮层（如混沌回忆开关），叠加在行的右上角，层级高于行内所有标记 */}
+      {/* Overlay (e.g. the MoC toggle), layered on top of the row's top-right corner, above all in-row markers */}
       {topRightOverlay && (
         <div style={{ position: 'absolute', top: 6, right: 8, zIndex: 20 }}>
           {topRightOverlay}

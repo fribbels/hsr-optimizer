@@ -4,13 +4,13 @@ import { useTranslation } from 'react-i18next'
 
 type InterventionMarkerProps = {
   triggerAv: number
-  count: number          // 该 AV 处的干预条数
-  leftPercent: number    // 已由父组件换算好的水平位置
+  count: number          // Number of interventions at this AV
+  leftPercent: number    // Horizontal position, already computed by the parent
   onClick: (triggerAv: number) => void
 }
 
 const MARKER_SIZE = 18
-// 金色圆圈，与角色行动标记的槽位颜色区分
+// Gold circle, visually distinct from the per-slot colors used by action markers
 const MARKER_COLOR = '#f5c842'
 
 export function InterventionMarker({ triggerAv, count, leftPercent, onClick }: InterventionMarkerProps) {

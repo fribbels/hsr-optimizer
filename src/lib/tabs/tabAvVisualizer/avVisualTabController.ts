@@ -48,28 +48,39 @@ export const AvVisualTabController = {
 
   addRow() {
     useAVVisualTabStore.getState().addRow()
+    SaveState.delayedSave()
   },
 
   setMocFirstRow(value: boolean) {
     useAVVisualTabStore.getState().setMocFirstRow(value)
+    SaveState.delayedSave()
+  },
+
+  // Not persisted (session-only view state), so no delayedSave() here
+  setPlayheadAv(av: number) {
+    useAVVisualTabStore.getState().setPlayheadAv(av)
   },
 
   // ---- Intervention CRUD ----
 
   addIntervention(iv: Omit<Intervention, 'id'>) {
     useAVVisualTabStore.getState().addIntervention(iv)
+    SaveState.delayedSave()
   },
 
   removeIntervention(id: string) {
     useAVVisualTabStore.getState().removeIntervention(id)
+    SaveState.delayedSave()
   },
 
   updateIntervention(id: string, patch: Partial<Omit<Intervention, 'id'>>) {
     useAVVisualTabStore.getState().updateIntervention(id, patch)
+    SaveState.delayedSave()
   },
 
   clearInterventions() {
     useAVVisualTabStore.getState().clearInterventions()
+    SaveState.delayedSave()
   },
 
   // ---- Simulation engine wrapper ----

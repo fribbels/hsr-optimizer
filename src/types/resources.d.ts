@@ -1,5 +1,6 @@
 export default interface Resources {
   "avVisualizerTab": {
+    "AvLabel": "AV",
     "CharacterSlot": {
       "EditSpd": "Edit SPD",
       "EmptySlot": "Slot {{n}}",
@@ -17,6 +18,7 @@ export default interface Resources {
       "Cancel": "Cancel",
       "Duration": "Duration (turns)",
       "EffectType": "Effect Type",
+      "EmptyHint": "Select where to add or what to edit",
       "FormTitleAfter": "New · after {{name}}{{turnSuffix}}'s action",
       "FormTitleBefore": "New · during {{name}}{{turnSuffix}}'s action",
       "FormTitleEdit": "Edit Intervention",

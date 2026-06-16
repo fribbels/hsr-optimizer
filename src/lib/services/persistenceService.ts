@@ -186,7 +186,14 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
           ? { ...slot, characterId: null, spdOverride: null }
           : slot
       ) as typeof session.slots
-      useAVVisualTabStore.getState().setSavedSession({ slots: sanitizedSlots })
+      // interventions/rowCount/mocFirstRow were added after slots, so saves from before that point won't have
+      // them — fall back to sensible defaults rather than leaving them undefined
+      useAVVisualTabStore.getState().setSavedSession({
+        slots: sanitizedSlots,
+        interventions: session.interventions ?? [],
+        rowCount: session.rowCount ?? 3,
+        mocFirstRow: session.mocFirstRow ?? false,
+      })
     }
   }
 

@@ -35,6 +35,7 @@ export function InterventionItem({ intervention, characters, highlighted, onEdit
       padding: '3px 6px',
       borderRadius: 4,
       background: highlighted ? 'var(--mantine-color-dark-5)' : undefined,
+      border: `1px solid ${highlighted ? 'var(--mantine-color-blue-5)' : 'transparent'}`,
     }}>
       {/* Type icon: circular background + directional arrow */}
       <div style={{

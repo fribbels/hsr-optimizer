@@ -7,6 +7,7 @@ Units:
   Flat: 固定值
   Percent: 百分比
 TurnSuffix: ' 第{{n}}次'
+AvLabel: AV
 
 Sidebar:
   Title: 干预列表
@@ -25,6 +26,7 @@ Marker:
   InterventionTooltip: 'AV {{av}} · {{count}} 条干预'
 
 Panel:
+  EmptyHint: 请选定要添加的位置或者要编辑的内容
   FormTitleEdit: 编辑干预
   FormTitleAfter: '新增 · {{name}}{{turnSuffix}} 行动结束瞬间'
   FormTitleBefore: '新增 · {{name}}{{turnSuffix}} 行动期间'

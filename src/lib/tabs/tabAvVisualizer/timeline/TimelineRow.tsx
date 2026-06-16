@@ -6,29 +6,46 @@ import {
 } from 'lib/tabs/tabAvVisualizer/constants'
 import { ActionMarker } from 'lib/tabs/tabAvVisualizer/timeline/ActionMarker'
 import { InterventionMarker } from 'lib/tabs/tabAvVisualizer/timeline/InterventionMarker'
-import type { EnrichedSimEvent, MarkerClickContext } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
+import { Playhead } from 'lib/tabs/tabAvVisualizer/timeline/Playhead'
+import type { EnrichedSimEvent } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
 import type { Intervention } from 'lib/tabs/tabAvVisualizer/types'
-import { Fragment, useMemo, useState, type ReactNode } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 
 type TimelineRowProps = {
   rowStart: number                // This row's start AV (computed by the parent according to MoC mode and passed in)
   rowSize: number                 // This row's AV span (normal row = 100, MoC first row = 150)
   simEvents: EnrichedSimEvent[]   // Already filtered to this row's range by the parent (Timeline)
   interventions: Intervention[]   // Interventions within this row's range (filtered by the parent)
-  onMarkerClick: (ctx: MarkerClickContext) => void
-  onRulerClick: (av: number) => void
+  onSeek: (av: number) => void    // Click/drag on the ruler, or click on a marker — moves the Playhead there
   topRightOverlay?: ReactNode     // Overlay (e.g. the MoC toggle), only passed for the first row
+  playheadAv?: number             // Current Playhead AV; the Playhead line renders only when it falls within this row
 }
 
 const RULER_INSET = TIMELINE_AVATAR_SIZE / 2 + 4
 const HOVER_DOT_SIZE = 7
+const MAGNETIC_SNAP_PX = 14 // Drag-only magnetic snap radius to nearby character markers, in pixels
 
-// Mouse X coordinate → snapped to the nearest integer AV (shared by click and hover preview to keep both consistent)
-function snapAvFromClientX(clientX: number, rect: DOMRect, rowStart: number, rowSize: number, rowEnd: number): number {
+// Mouse X coordinate → continuous AV (no tick snapping). Used for click and hover preview.
+function rawAvFromClientX(clientX: number, rect: DOMRect, rowStart: number, rowSize: number, rowEnd: number): number {
   const relativeX = clientX - rect.left
-  const rawAv = rowStart + (relativeX / rect.width) * rowSize
-  const snapped = Math.round(rawAv)
-  return Math.max(rowStart, Math.min(rowEnd - 1, snapped))
+  const av = rowStart + (relativeX / rect.width) * rowSize
+  return Math.max(rowStart, Math.min(rowEnd - 0.001, av))
+}
+
+// Snaps to the nearest character marker AV if one is within MAGNETIC_SNAP_PX, otherwise returns av unchanged.
+// rectWidth is used to convert the pixel radius to an AV distance (so it works the same across row widths/sizes).
+function magneticSnapToMarker(av: number, markerAvs: number[], rectWidth: number, rowSize: number): number {
+  const thresholdAv = (MAGNETIC_SNAP_PX / rectWidth) * rowSize
+  let closest = av
+  let minDist = thresholdAv
+  for (const markerAv of markerAvs) {
+    const dist = Math.abs(markerAv - av)
+    if (dist < minDist) {
+      minDist = dist
+      closest = markerAv
+    }
+  }
+  return closest
 }
 
 export function TimelineRow({
@@ -36,14 +53,44 @@ export function TimelineRow({
   rowSize,
   simEvents,
   interventions,
-  onMarkerClick,
-  onRulerClick,
+  onSeek,
   topRightOverlay,
+  playheadAv,
 }: TimelineRowProps) {
   const rowEnd = rowStart + rowSize
+  const rulerRef = useRef<HTMLDivElement>(null)
 
-  // Hover preview: recompute the snapped integer AV live as the mouse moves, used to draw the preview dot
+  // Hover preview: recompute the continuous AV live as the mouse moves, used to draw the preview dot
+  // (suppressed while actively dragging the Playhead, since the Playhead line itself already tracks the cursor)
   const [hoverAv, setHoverAv] = useState<number | null>(null)
+  const [isDragging, setIsDragging] = useState(false)
+
+  // Distinct character marker AVs in this row, used for drag-only magnetic snapping
+  const markerAvs = useMemo(() => Array.from(new Set(simEvents.map((e) => e.av))), [simEvents])
+
+  // Drag-to-scrub: once started (mousedown on the ruler), keep tracking the mouse across the whole window so the
+  // Playhead follows even if the cursor leaves this row's bounds, until mouseup. Snaps magnetically to nearby
+  // character markers, but never to integer ticks.
+  useEffect(() => {
+    if (!isDragging) return
+
+    function handleMove(e: MouseEvent) {
+      const rect = rulerRef.current?.getBoundingClientRect()
+      if (!rect) return
+      const raw = rawAvFromClientX(e.clientX, rect, rowStart, rowSize, rowEnd)
+      onSeek(magneticSnapToMarker(raw, markerAvs, rect.width, rowSize))
+    }
+    function handleUp() {
+      setIsDragging(false)
+    }
+
+    window.addEventListener('mousemove', handleMove)
+    window.addEventListener('mouseup', handleUp)
+    return () => {
+      window.removeEventListener('mousemove', handleMove)
+      window.removeEventListener('mouseup', handleUp)
+    }
+  }, [isDragging, onSeek, rowStart, rowSize, rowEnd, markerAvs])
 
   // Ticks: one large tick (with a number label) every 10 AV, one small tick every other 1 AV; generated dynamically from rowSize
   // (rowSize can be 100 or 150, so the tick number can't be assumed to equal the percentage value)
@@ -93,17 +140,14 @@ export function TimelineRow({
 
   return (
     <div style={{
-      background: 'var(--layer-2)',
-      boxShadow: 'var(--shadow-card)',
-      borderRadius: 6,
-      overflow: 'hidden',
       display: 'flex',
       alignItems: 'stretch',
+      gap: 8,
       width: '100%',
       position: 'relative',
     }}>
 
-      {/* Left-hand row label */}
+      {/* Left-hand row label: its own box now, same styling as the row body box below */}
       <div style={{
         width: 56,
         flexShrink: 0,
@@ -114,7 +158,9 @@ export function TimelineRow({
         fontWeight: 600,
         color: 'var(--mantine-color-dimmed)',
         userSelect: 'none',
-        background: 'var(--layer-1)',
+        background: 'var(--layer-2)',
+        boxShadow: 'var(--shadow-card)',
+        borderRadius: 6,
       }}>
         {rowStart}
       </div>
@@ -124,16 +170,25 @@ export function TimelineRow({
         flex: 1,
         height: TIMELINE_ROW_HEIGHT,
         position: 'relative',
+        background: 'var(--layer-2)',
+        boxShadow: 'var(--shadow-card)',
+        borderRadius: 6,
+        overflow: 'hidden',
       }}>
-        {/* Ruler area: inset by RULER_INSET on both sides to avoid clipping edge avatars; clicking empty space opens the intervention list */}
+        {/* Ruler area: inset by RULER_INSET on both sides to avoid clipping edge avatars; click/drag moves the Playhead */}
         <div
-          onClick={(e) => {
+          ref={rulerRef}
+          onMouseDown={(e) => {
+            e.preventDefault() // Stops the browser's native drag-to-select gesture before it starts
             const rect = e.currentTarget.getBoundingClientRect()
-            onRulerClick(snapAvFromClientX(e.clientX, rect, rowStart, rowSize, rowEnd))
+            onSeek(rawAvFromClientX(e.clientX, rect, rowStart, rowSize, rowEnd))
+            setIsDragging(true)
+            setHoverAv(null)
           }}
           onMouseMove={(e) => {
+            if (isDragging) return
             const rect = e.currentTarget.getBoundingClientRect()
-            setHoverAv(snapAvFromClientX(e.clientX, rect, rowStart, rowSize, rowEnd))
+            setHoverAv(rawAvFromClientX(e.clientX, rect, rowStart, rowSize, rowEnd))
           }}
           onMouseLeave={() => setHoverAv(null)}
           style={{
@@ -142,6 +197,7 @@ export function TimelineRow({
             right: RULER_INSET,
             top: 0,
             bottom: 0,
+            userSelect: 'none',
           }}
         >
           {/* Main ruler line */}
@@ -155,7 +211,7 @@ export function TimelineRow({
             opacity: 0.6,
           }} />
 
-          {/* Hover preview dot: snapped to the nearest integer tick, previews where a click would land */}
+          {/* Hover preview dot: continuous position, previews exactly where a click would land (no tick snapping) */}
           {hoverAv !== null && (
             <div style={{
               position: 'absolute',
@@ -225,7 +281,7 @@ export function TimelineRow({
               leftPercent={m.leftPercent}
               stackLevel={m.slotIndex}
               actionCount={actionCount}
-              onMarkerClick={onMarkerClick}
+              onMarkerClick={onSeek}
             />
           ))}
 
@@ -236,9 +292,14 @@ export function TimelineRow({
               triggerAv={triggerAv}
               count={count}
               leftPercent={leftPercent}
-              onClick={(av) => onMarkerClick({ triggerAv: av })}
+              onClick={onSeek}
             />
           ))}
+
+          {/* Playhead: only rendered in the row it currently falls within */}
+          {playheadAv !== undefined && playheadAv >= rowStart && playheadAv < rowEnd && (
+            <Playhead av={playheadAv} rowStart={rowStart} rowSize={rowSize} />
+          )}
         </div>
       </div>
 

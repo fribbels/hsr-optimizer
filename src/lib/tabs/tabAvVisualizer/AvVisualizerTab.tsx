@@ -1,5 +1,3 @@
-import { ActionIcon, Text, Tooltip } from '@mantine/core'
-import { IconTrash, IconX } from '@tabler/icons-react'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { getPreviewRelics, getShowcaseStats } from 'lib/characterPreview/characterPreviewController'
 import { Stats } from 'lib/constants/constants'
@@ -9,22 +7,39 @@ import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { AvVisualTabController } from 'lib/tabs/tabAvVisualizer/avVisualTabController'
 import { CharacterSlotCard } from 'lib/tabs/tabAvVisualizer/characterSlotCard/CharacterSlotCard'
 import { SLOT_COLORS } from 'lib/tabs/tabAvVisualizer/constants'
-import { Timeline, type TimelineCharacter } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
-import type { Intervention } from 'lib/tabs/tabAvVisualizer/types'
+import { ActionDisplayPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/ActionDisplayPanel'
+import { EditPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/EditPanel'
+import { Timeline, type EnrichedSimEvent, type TimelineCharacter } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
+import type { EditRequest } from 'lib/tabs/tabAvVisualizer/types'
 import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import { useShallow } from 'zustand/react/shallow'
 
+// Fixed height for the two side panels, matching the 2-row character slot grid (CharacterSlotCard is 220px
+// tall, see CharacterSlotCard.module.css's .emptyCard) so panel content can't grow the whole row taller —
+// it scrolls internally instead (each panel's own root sets height: '100%' + overflowY: 'auto').
+const SIDE_PANEL_HEIGHT = 220 * 2 + 12
+
 export function AvVisualizerTab() {
   const slots = useAVVisualTabStore((s) => s.savedSession.slots)
-  const rowCount = useAVVisualTabStore((s) => s.rowCount)
-  const interventions = useAVVisualTabStore((s) => s.interventions)
+  const rowCount = useAVVisualTabStore((s) => s.savedSession.rowCount)
+  const mocFirstRow = useAVVisualTabStore((s) => s.savedSession.mocFirstRow)
+  const playheadAv = useAVVisualTabStore((s) => s.playheadAv)
+  const interventions = useAVVisualTabStore((s) => s.savedSession.interventions)
   const charactersById = useCharacterStore((s) => s.charactersById)
   const relicsById = useRelicStore(useShallow((s) => s.relicsById))
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
-  const { t: tAv } = useTranslation('avVisualizerTab')
+
+  // Pending add/edit request, shared between ActionDisplayPanel (emits it) and EditPanel (consumes it)
+  const [editRequest, setEditRequest] = useState<EditRequest | null>(null)
+
+  // Clear any pending add/edit request whenever the Playhead moves — it's bound to whatever AV was active when
+  // it was created, so it becomes stale (wrong target, or would submit at the wrong AV) once the Playhead leaves
+  useEffect(() => {
+    setEditRequest(null)
+  }, [playheadAv])
 
   // Compute each slot's effective character speed (baseSpd)
   const baseSpdMap = useMemo(() =>
@@ -45,7 +60,8 @@ export function AvVisualizerTab() {
     }),
   [slots])
 
-  // Character list passed to Timeline: spdOverride takes priority, falling back to baseSpdMap (panel speed); empty slots are skipped
+  // Character list shared by Timeline and the two side panels: spdOverride takes priority, falling back to
+  // baseSpdMap (panel speed); empty slots are skipped
   const timelineCharacters = useMemo(() =>
     slots
       .map((slot, i) => {
@@ -65,21 +81,56 @@ export function AvVisualizerTab() {
       .filter((c): c is TimelineCharacter => c !== null),
   [slots, baseSpdMap, whiteSpdMap, t])
 
-  // Character name lookup used by intervention list items (characterId → display name)
-  const characterNameMap = useMemo(() => {
-    const map = new Map<string, string>()
-    slots.forEach((slot) => {
-      if (slot.characterId) {
-        map.set(slot.characterId, t(`${slot.characterId}.Name`))
+  const totalAv = AvVisualTabController.getTotalAv(rowCount, mocFirstRow)
+
+  // Run the simulation engine once here, shared by Timeline and ActionDisplayPanel
+  const simEvents = useMemo(() => {
+    const charMap = new Map(timelineCharacters.map((c) => [c.id, c]))
+    return AvVisualTabController.simulate(timelineCharacters, interventions, totalAv).map((e): EnrichedSimEvent => ({
+      ...e,
+      color: charMap.get(e.characterId)?.color ?? '#888',
+      characterName: charMap.get(e.characterId)?.name ?? e.characterId,
+      slotIndex: charMap.get(e.characterId)?.slotIndex ?? 0,
+    }))
+  }, [timelineCharacters, interventions, totalAv])
+
+  // Keyboard Playhead control: left/right arrow keys move it ±1 AV, ignored while typing in a form field
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      const target = e.target as HTMLElement | null
+      if (target && (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) || target.isContentEditable)) return
+
+      // Always lands on the next whole AV tick in that direction, even from a fractional position left behind
+      // by a drag/click (floor+1 going right, ceil-1 going left — so a single press never skips a tick)
+      if (e.key === 'ArrowRight') {
+        e.preventDefault()
+        AvVisualTabController.setPlayheadAv(Math.min(totalAv - 1, Math.floor(playheadAv) + 1))
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault()
+        AvVisualTabController.setPlayheadAv(Math.max(0, Math.ceil(playheadAv) - 1))
       }
-    })
-    return map
-  }, [slots, t])
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [playheadAv, totalAv])
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 24, width: '100%' }}>
-      <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-        <div style={{ display: 'flex', gap: 12 }}>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16,
+      padding: 24,
+      width: 1302, // Matches OptimizerTab.tsx's fixed content width
+      background: 'var(--layer-1)',
+      borderRadius: 8,
+    }}>
+      <div style={{ display: 'flex', gap: 16, alignItems: 'stretch' }}>
+        {/* Character slots: 2x2 grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, max-content)',
+          gap: 12,
+        }}>
           {slots.map((slot, i) => (
             <CharacterSlotCard
               key={i}
@@ -90,131 +141,48 @@ export function AvVisualizerTab() {
             />
           ))}
         </div>
+
+        {/* Action Display Panel: always shows the Playhead's current AV. Fixed height matching the 2x2 slot
+        grid; content scrolls internally instead of growing the box (and the whole row) taller. */}
         <div style={{
           flex: 1,
-          alignSelf: 'stretch',
-          background: 'var(--layer-1)',
+          minWidth: 0,
+          height: SIDE_PANEL_HEIGHT,
+          background: 'var(--layer-2)',
+          boxShadow: 'var(--shadow-card)',
           borderRadius: 6,
-          display: 'flex',
-          flexDirection: 'column',
+          padding: 12,
           overflow: 'hidden',
         }}>
-          {/* Header bar */}
-          <div style={{
-            padding: '8px 12px',
-            borderBottom: '1px solid var(--border-default)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}>
-            <Text size='xs' fw={600} c='dimmed'>{tAv('Sidebar.Title')}</Text>
-            {interventions.length > 0 && (
-              <Tooltip label={tAv('Sidebar.ClearAll')} withArrow>
-                <ActionIcon
-                  variant='subtle'
-                  color='gray'
-                  size='xs'
-                  onClick={AvVisualTabController.clearInterventions}
-                >
-                  <IconX size={12} />
-                </ActionIcon>
-              </Tooltip>
-            )}
-          </div>
+          <ActionDisplayPanel
+            characters={timelineCharacters}
+            simEvents={simEvents}
+            request={editRequest}
+            onRequest={setEditRequest}
+          />
+        </div>
 
-          {/* Intervention entries */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '4px 0' }}>
-            {interventions.length === 0 ? (
-              <div style={{
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 12,
-                color: 'var(--mantine-color-dimmed)',
-                userSelect: 'none',
-              }}>
-                {tAv('Sidebar.EmptyHint')}
-              </div>
-            ) : (
-              interventions.map((iv) => (
-                <InterventionListItem key={iv.id} intervention={iv} characterNames={characterNameMap} />
-              ))
-            )}
-          </div>
+        {/* Edit Panel: idle until ActionDisplayPanel emits an add/edit request. Same fixed height as above. */}
+        <div style={{
+          flex: 1,
+          minWidth: 0,
+          height: SIDE_PANEL_HEIGHT,
+          background: 'var(--layer-2)',
+          boxShadow: 'var(--shadow-card)',
+          borderRadius: 6,
+          padding: 12,
+          overflow: 'hidden',
+        }}>
+          <EditPanel
+            request={editRequest}
+            playheadAv={playheadAv}
+            characters={timelineCharacters}
+            onDone={() => setEditRequest(null)}
+          />
         </div>
       </div>
 
-      <Timeline characters={timelineCharacters} interventions={interventions} rowCount={rowCount} />
-    </div>
-  )
-}
-
-function InterventionListItem({
-  intervention,
-  characterNames,
-}: {
-  intervention: Intervention
-  characterNames: Map<string, string>
-}) {
-  const { t: tAv } = useTranslation('avVisualizerTab')
-
-  // Literal-key calls only, to avoid t()'s strict union type erroring on a dynamic Record lookup
-  function typeLabel(type: Intervention['type']): string {
-    switch (type) {
-      case 'spd_up': return tAv('Types.SpdUp')
-      case 'spd_down': return tAv('Types.SpdDown')
-      case 'av_advance': return tAv('Types.AvAdvance')
-      case 'av_delay': return tAv('Types.AvDelay')
-    }
-  }
-
-  const unitStr = intervention.unit === 'percent' ? '%' : ''
-  const durationStr = intervention.durationTurns > 0 ? tAv('Sidebar.DurationSuffix', { n: intervention.durationTurns }) : ''
-  const targetStr = intervention.targets
-    .map((id) => characterNames.get(id) ?? id)
-    .join('、')
-
-  // Displays the character and timing this intervention is bound to (during action / end-of-action instant),
-  // including the turn number (only annotated when > 1)
-  function buildTimingLabel(charId: string, actionIndex: number | undefined, suffix: string): string {
-    const name = characterNames.get(charId) ?? charId
-    const idxLabel = actionIndex !== undefined && actionIndex > 0 ? tAv('TurnSuffix', { n: actionIndex + 1 }) : ''
-    return `${name}${idxLabel} ${suffix}`
-  }
-  const timingLabel = intervention.afterCharId
-    ? buildTimingLabel(intervention.afterCharId, intervention.afterActionIndex, tAv('Sidebar.TimingAfter'))
-    : intervention.beforeCharId
-      ? buildTimingLabel(intervention.beforeCharId, intervention.beforeActionIndex, tAv('Sidebar.TimingBefore'))
-      : null
-
-  return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      padding: '4px 12px',
-      fontSize: 11,
-      gap: 8,
-    }}>
-      <div style={{ flex: 1, overflow: 'hidden' }}>
-        <Text size='xs' c='dimmed' truncate>
-          AV {intervention.triggerAv.toFixed(1)}
-          {timingLabel ? ` [${timingLabel}]` : ''}
-          {' · '}
-          {typeLabel(intervention.type)} {intervention.value}{unitStr}{durationStr}
-          {' → '}
-          {targetStr}
-        </Text>
-      </div>
-      <ActionIcon
-        variant='subtle'
-        color='gray'
-        size='xs'
-        onClick={() => AvVisualTabController.removeIntervention(intervention.id)}
-      >
-        <IconTrash size={11} />
-      </ActionIcon>
+      <Timeline interventions={interventions} rowCount={rowCount} simEvents={simEvents} />
     </div>
   )
 }

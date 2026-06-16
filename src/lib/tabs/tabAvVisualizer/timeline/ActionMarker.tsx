@@ -1,7 +1,6 @@
 import { Tooltip } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import { TIMELINE_AVATAR_SIZE, TIMELINE_RULER_Y } from 'lib/tabs/tabAvVisualizer/constants'
-import type { MarkerClickContext } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -34,7 +33,7 @@ type ActionMarkerProps = {
   leftPercent: number
   stackLevel: number
   actionCount?: number   // Total number of times this character acts at this AV (badge shown when > 1)
-  onMarkerClick: (ctx: MarkerClickContext) => void
+  onMarkerClick: (av: number) => void   // Moves the Playhead to this marker's AV
 }
 
 export function ActionMarker({ av, spd, color, characterName, characterId, leftPercent, stackLevel, actionCount, onMarkerClick }: ActionMarkerProps) {
@@ -72,7 +71,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
       <div
         onClick={(e) => {
           e.stopPropagation()
-          onMarkerClick({ triggerAv: av, sourceCharId: characterId })
+          onMarkerClick(av)
         }}
         style={{
           position: 'absolute',
@@ -106,6 +105,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
             <img
               src={Assets.getCharacterAvatarById(characterId)}
               onError={() => setImgError(true)}
+              draggable={false}
               style={{
                 width: TIMELINE_AVATAR_SIZE,
                 height: TIMELINE_AVATAR_SIZE,
@@ -113,6 +113,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
                 objectFit: 'cover',
                 border: `2px solid ${color}`,
                 display: 'block',
+                userSelect: 'none',
               }}
             />
           )}

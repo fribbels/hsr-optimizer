@@ -73,7 +73,9 @@ export type HsrOptimizerSaveFormat = {
   savedSession?: {
     showcaseTab: ShowcaseTabSavedSession,
     global: GlobalSavedSession,
-    avVisualizerTab?: AVVisualizerTabSavedSession,
+    // `slots` has existed since this field was introduced; `interventions`/`rowCount`/`mocFirstRow` were added
+    // later, so older saved files may be missing them — persistenceService.ts applies fallbacks when loading.
+    avVisualizerTab?: Pick<AVVisualizerTabSavedSession, 'slots'> & Partial<Omit<AVVisualizerTabSavedSession, 'slots'>>,
   },
   settings?: UserSettings,
   version?: string,

@@ -32,3 +32,10 @@ export type SimEvent = {
   actionIndex: number
   effectiveSpd: number
 }
+
+// Shared contract between ActionDisplayPanel (emits requests) and EditPanel (consumes them), lifted in
+// AvVisualizerTab. 'add' carries the timing context (before/after/global) the request originated from;
+// 'edit' carries the full intervention being edited.
+export type EditRequest =
+  | { mode: 'add'; beforeCharId?: string; beforeActionIndex?: number; afterCharId?: string; afterActionIndex?: number }
+  | { mode: 'edit'; intervention: Intervention }

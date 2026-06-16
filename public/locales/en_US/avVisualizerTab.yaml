@@ -7,6 +7,7 @@ Units:
   Flat: Flat
   Percent: Percent
 TurnSuffix: ' (turn {{n}})'
+AvLabel: AV
 
 Sidebar:
   Title: Intervention List
@@ -25,6 +26,7 @@ Marker:
   InterventionTooltip: 'AV {{av}} · {{count}} interventions'
 
 Panel:
+  EmptyHint: Select where to add or what to edit
   FormTitleEdit: Edit Intervention
   FormTitleAfter: 'New · after {{name}}{{turnSuffix}}''s action'
   FormTitleBefore: 'New · during {{name}}{{turnSuffix}}''s action'

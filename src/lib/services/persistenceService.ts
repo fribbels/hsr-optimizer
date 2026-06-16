@@ -180,7 +180,7 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
     if (saveData.savedSession.avVisualizerTab) { // Set AV visualizer tab state
       const session = saveData.savedSession.avVisualizerTab
-      // 角色若已被删除，清空对应位置，避免引用不存在的角色
+      // If a character has been deleted, clear its slot to avoid referencing a non-existent character
       const sanitizedSlots = session.slots.map((slot) =>
         slot.characterId && !dbCharacters[slot.characterId as CharacterId]
           ? { ...slot, characterId: null, spdOverride: null }

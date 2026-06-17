@@ -1,7 +1,7 @@
-import {
-  aoe,
-  ashblazingMulti,
-} from 'lib/conditionals/ashblazingCompute'
+import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -15,10 +15,14 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
+import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
   ConditionalActivation,
   ConditionalType,
   Parts,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { newConditionalWgslWrapper } from 'lib/gpu/conditionals/dynamicConditionals'
@@ -39,16 +43,34 @@ import {
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
-import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  DEFAULT_DOT,
+  DEFAULT_FUA,
+  DEFAULT_SKILL,
+  END_DOT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
-import type { Eidolon } from 'types/character'
-import type { CharacterConfig } from 'types/characterConfig'
-import type { CharacterConditionalsController } from 'types/conditionals'
-import type { ScoringMetadata } from 'types/metadata'
+import { type Eidolon } from 'types/character'
+import { type CharacterConfig } from 'types/characterConfig'
+import { type CharacterConditionalsController } from 'types/conditionals'
+import {
+  type ScoringMetadata,
+  type SimulationMetadata,
+} from 'types/metadata'
 import {
   type OptimizerAction,
   type OptimizerContext,
@@ -312,6 +334,83 @@ if (ehrValue >= 0.75 && stateValue == 0) {
   }
 }
 
+const simulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.ATK_P,
+      Stats.EHR,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Lightning_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.ATK_P,
+    Stats.ATK,
+    Stats.EHR,
+    Stats.CR,
+    Stats.CD,
+  ],
+  breakpoints: {
+    [Stats.EHR]: 0.75,
+  },
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    DEFAULT_DOT,
+    DEFAULT_SKILL,
+    END_DOT,
+    DEFAULT_FUA,
+    START_SKILL,
+    END_DOT,
+    DEFAULT_FUA,
+    START_SKILL,
+    END_DOT,
+    DEFAULT_FUA,
+  ],
+  errRopeEidolon: 0,
+  deprioritizeBuffs: true,
+  relicSets: [
+    [Sets.PrisonerInDeepConfinement, Sets.PrisonerInDeepConfinement],
+    relics2pByStats(Stats.SPD_P),
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.RevelryByTheSea,
+    Sets.FirmamentFrontlineGlamoth,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
+  ],
+  teammates: [
+    {
+      characterId: BlackSwanB1.id,
+      lightCone: ReforgedRemembrance.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hysilens.id,
+      lightCone: WhyDoesTheOceanSing.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 1,
@@ -353,6 +452,7 @@ const scoring = (): ScoringMetadata => ({
   defaultDamageType: DamageTag.DOT,
   sortOption: SortOption.DOT,
   hiddenColumns: [],
+  simulation: simulation(),
 })
 
 const display = {

@@ -125,7 +125,7 @@ function ScoringBenchmarksPanel({ configType }: { configType: ScoringConfigType 
 }
 
 function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType }) {
-  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.BuildAnalysis' })
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview' })
   const preview = useSimPreview(configType)
   const scoringPipeline = useScoringPipeline(configType)
   const scoringPromise = scoringPipeline?.scoringPromise ?? nullPromise
@@ -141,7 +141,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
           <DeferCreate>
             <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
               <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('SimulationTeammates')}
+                {t('BuildAnalysis.SimulationTeammates')}
               </div>
               <div style={{ display: 'flex', gap: 15 }}>
                 <ScoringTeammate form={preview.simForm} index={0} />
@@ -156,31 +156,31 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
           <DeferCreate>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('CombatResults.Header')}
+                {t('BuildAnalysis.CombatResults.Header')}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
-                  label={t('CombatResults.Primary')}
+                  label={t('BuildAnalysis.CombatResults.Primary')}
                   text={resolveComboLabel(entry, buffStat)}
                 />
                 <ScoringNumber
-                  label={t('CombatResults.Character')}
+                  label={t('BuildAnalysis.CombatResults.Character')}
                   number={preview.originalSimResult.simScore}
                   formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat, 1, thousands)}
                 />
                 <ScoringNumber
-                  label={t('CombatResults.Baseline')}
+                  label={t('BuildAnalysis.CombatResults.Baseline')}
                   number={preview.baselineSimResult.simScore}
                   formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat, 1, thousands)}
                 />
                 <SuspenseNode
                   promise={scoringPromise}
-                  fallback={<ScoringNumber label={t('CombatResults.Benchmark')} />}
+                  fallback={<ScoringNumber label={t('BuildAnalysis.CombatResults.Benchmark')} />}
                   selector={(result: SimulationScore | null) => {
                     if (result === null) return null
                     return (
                       <ScoringNumber
-                        label={t('CombatResults.Benchmark')}
+                        label={t('BuildAnalysis.CombatResults.Benchmark')}
                         number={result.benchmarkSimScore}
                         formattedValue={formatSimScore(result.benchmarkSimScore, buffStat, 1, thousands)}
                       />
@@ -189,12 +189,12 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                 />
                 <SuspenseNode
                   promise={scoringPromise}
-                  fallback={<ScoringNumber label={t('CombatResults.Maximum')} />}
+                  fallback={<ScoringNumber label={t('BuildAnalysis.CombatResults.Maximum')} />}
                   selector={(result: SimulationScore | null) => {
                     if (result === null) return null
                     return (
                       <ScoringNumber
-                        label={t('CombatResults.Maximum')}
+                        label={t('BuildAnalysis.CombatResults.Maximum')}
                         number={result.maximumSimScore}
                         formattedValue={formatSimScore(result.maximumSimScore, buffStat, 1, thousands)}
                       />
@@ -203,12 +203,12 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                 />
                 <SuspenseNode
                   promise={scoringPromise}
-                  fallback={<ScoringNumber label={entry.label} />}
+                  fallback={<ScoringNumber label={t(`AlgorithmSlider.Labels.${entry.configType}`)} />}
                   selector={(result: SimulationScore | null) => {
                     if (result === null) return null
                     return (
                       <ScoringNumber
-                        label={entry.label}
+                        label={t(`AlgorithmSlider.Labels.${entry.configType}`)}
                         number={result.percent * 100}
                         precision={2}
                         suffix='%'
@@ -298,7 +298,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
             {isDps && <DPSScoreDisclaimer />}
             <div className={classes.mainTitle}>
               <ColorizedTitleWithInfo
-                text={`${SCORING_CONFIG_REGISTRY[configType].label} Calculations`}
+                text={t(`CharacterPreview.ScoringExplanation.${configType}`)}
                 url={'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmarks.md'}
               />
             </div>

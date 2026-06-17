@@ -147,10 +147,12 @@ export default interface Resources {
     "CharacterPreview": {
       "AlgorithmSlider": {
         "Labels": {
-          "CombatScore": "Combat Score",
-          "CombatScoreTBD": "Combat (TBD)",
           "NoneScore": "None",
-          "StatScore": "Substat Rolls"
+          "StatScore": "Substat Rolls",
+          "buffer": "Support Benchmark",
+          "dps": "DPS Benchmark",
+          "heal": "Heal Benchmark",
+          "shield": "Shield Benchmark"
         }
       },
       "ArtBy": "Art by {{artistName}}",
@@ -203,6 +205,12 @@ export default interface Resources {
         "SimulationTeammates": "Simulation teammates"
       },
       "CharacterScore": "Character Score: {{score}} {{grade}}",
+      "ComboLabel": {
+        "buffer": "{{stat}} Buff",
+        "dps": "Combo DMG",
+        "heal": "Combo Heal",
+        "shield": "Combo Shield"
+      },
       "CustomizationSidebar": {
         "Label": "Customization",
         "Modes": {
@@ -218,7 +226,10 @@ export default interface Resources {
       "DetailsSlider": {
         "Labels": {
           "CombatStats": "Combat Stats",
-          "SubDpsCombatStats": "Combat Stats (Sub DPS)"
+          "CombatStatsHeal": "Combat Stats (Heal)",
+          "CombatStatsShield": "Combat Stats (Shield)",
+          "CombatStatsSubDps": "Combat Stats (Sub DPS)",
+          "CombatStatsSupport": "Combat Stats (Support)"
         }
       },
       "EST-TBP": {
@@ -242,10 +253,18 @@ export default interface Resources {
         "RevertedPortrait": "Successfully reverted portrait",
         "SavedPortrait": "Successfully saved portrait"
       },
+      "RulerLabel": {
+        "buffer": "{{stat}} BUFF",
+        "dps": "DMG",
+        "heal": "HEAL",
+        "shield": "SHIELD"
+      },
       "ScoreHeader": {
-        "Score": "DPS Score {{score}}% {{grade}}",
-        "Title": "Combat Sim",
-        "TitleBenchmark": "{{spd}} SPD Benchmark"
+        "CustomSpeed": "{{spd}} SPD Benchmark",
+        "buffer": "Support Benchmark",
+        "dps": "DPS Benchmark",
+        "heal": "Heal Benchmark",
+        "shield": "Shield Benchmark"
       },
       "ScoringColumn": {
         "Baseline": {
@@ -288,6 +307,12 @@ export default interface Resources {
       },
       "ScoringDetails": {
         "Header": "How is DPS Score calculated?"
+      },
+      "ScoringExplanation": {
+        "buffer": "Support Benchmark Calculations",
+        "dps": "DPS Benchmark Calculations",
+        "heal": "Heal Benchmark Calculations",
+        "shield": "Shield Benchmark Calculations"
       },
       "ScoringSidebar": {
         "BenchmarkSpd": {

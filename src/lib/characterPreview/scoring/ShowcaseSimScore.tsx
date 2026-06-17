@@ -24,20 +24,13 @@ import {
   SETTINGS_TEAM,
   type TeamSelection,
 } from 'lib/constants/constants'
-import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
-import {
-  getSimScoreGrade,
-} from 'lib/scoring/dpsScore'
-import {
-  CONFIG_FIELD_MAP,
-  SCORING_CONFIG_REGISTRY,
-} from 'lib/scoring/scoringConfig'
-import { type PreparedState } from 'lib/scoring/scoringService'
+import { getSimScoreGrade } from 'lib/scoring/dpsScore'
+import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import {
@@ -48,21 +41,16 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
-import {
-  memo,
-  useState,
-} from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import teammateClasses from 'style/teammateCard.module.css'
-import {
-  type CharacterId,
-} from 'types/character'
+import type { CharacterId } from 'types/character'
 import {
   ScoringConfigType,
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import { type PreviewRelics } from '../characterPreviewController'
+import type { PreviewRelics } from '../characterPreviewController'
 import styles from './ShowcaseSimScore.module.css'
 
 export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
@@ -232,17 +220,12 @@ export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, t
 }) {
   const { t } = useTranslation(['charactersTab'])
 
-  const entry = SCORING_CONFIG_REGISTRY[configType]
   let titleRender: string
-  if (configType === ScoringConfigType.DPS && tempOptions?.spdBenchmark != null) {
-    titleRender = t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(tempOptions.spdBenchmark) })
-  } else if (tempOptions?.spdBenchmark != null) {
-    titleRender = `${entry.headerTitle} (SPD ${formatSpd(tempOptions.spdBenchmark)})`
+  if (tempOptions?.spdBenchmark != null) {
+    titleRender = t('CharacterPreview.ScoreHeader.CustomSpeed', { spd: formatSpd(tempOptions.spdBenchmark) })
   } else {
-    titleRender = entry.headerTitle
+    titleRender = t(`CharacterPreview.ScoreHeader.${configType}`)
   }
-
-  const isDps = configType === ScoringConfigType.DPS
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>

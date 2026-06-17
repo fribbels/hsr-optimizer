@@ -104,7 +104,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const fuaScaling = talent(e, 3.00, 3.30)
   const talentCdBuffValue = talent(e, 0.70, 0.77)
 
-  const fuaHitMulti = ashblazingMulti([aoe(fuaScaling)])
+  const ultHitMulti = ashblazingMulti([aoe(1)]) // TODO: confirm ult hitsplit
+
+  const fuaHitMulti = ashblazingMulti(Array(5).fill(aoe(0.20)))
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    switch (action.actionType) {
+      case AbilityKind.ULT:
+        return ultHitMulti(context)
+      default:
+        return fuaHitMulti(context)
+    }
+  }
 
   const defaults = {
     enhancedSkill: true,
@@ -321,10 +332,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, fuaHitMulti(context))
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(fuaHitMulti(context), action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }

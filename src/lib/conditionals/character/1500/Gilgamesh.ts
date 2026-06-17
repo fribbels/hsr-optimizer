@@ -102,13 +102,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const jointFuaScaling = talent(e, 3.00, 3.30)
   const talentUltDmgBuffValue = talent(e, 0.40, 0.44)
 
+  const ultHitMulti = ashblazingMulti([
+    aoe(1), // TODO: get real ult hitsplit
+  ])
+
   const fuaHitMulti = ashblazingMulti([
     ...Array(3).fill(aoe(0.2)),
     aoe(0.4),
-  ])
-
-  const ultHitMulti = ashblazingMulti([
-    aoe(1), // TODO: get real ult hitsplit
   ])
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {

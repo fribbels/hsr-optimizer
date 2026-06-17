@@ -20,6 +20,8 @@ import {
   type Conditionals,
   type ContentDefinition,
   createEnum,
+  findTeamMeta,
+  uniqueAbility,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
@@ -40,6 +42,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  DEFAULT_UNIQUE,
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
@@ -99,10 +102,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.80, 3.08)
   const ultBounceScaling = ult(e, 1.10, 1.21)
 
+  const jointFuaScaling = uniqueAbility(5)
+
   const ultHitMulti = ashblazingMulti([
     aoe(ultScaling),
     ...Array(10).fill(single(ultBounceScaling)),
   ])
+
+  const uniqueHitMulti = ashblazingMulti([aoe(1)])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    switch (action.actionType) {
+      case AbilityKind.ULT:
+        return ultHitMulti(context)
+      default:
+        return uniqueHitMulti(context)
+    }
+  }
 
   const talentDmgBuffScaling = talent(e, 0.60, 0.66)
 
@@ -240,6 +256,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ultTotalScaling = ultScaling + ultBounceScaling * 10 / context.enemyCount
       const ultToughness = 40 + 20 / context.enemyCount
 
+      const gilMeta = findTeamMeta(context, Gilgamesh.id)
+
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -267,6 +285,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(ultToughness)
               .build(),
           ],
+        },
+        [AbilityKind.UNIQUE]: {
+          hits: gilMeta
+            ? [
+              HitDefinitionBuilder.standardFua()
+                .damageElement(ElementTag.Wind)
+                .atkScaling(jointFuaScaling(gilMeta.characterEidolon, 4.00, 4.40))
+                .toughnessDmg(0) // TODO: confirm this
+                .build(),
+            ]
+            : [],
         },
         [AbilityKind.BREAK]: {
           hits: [
@@ -314,10 +343,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+      boostUltAshblazingAtk(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+      return gpuBoostUltAshblazingAtk(action, getHitMulti(action, context))
     },
   }
 }
@@ -353,6 +382,7 @@ const simulation = (): SimulationMetadata => ({
     END_BASIC,
     WHOLE_SKILL,
     WHOLE_SKILL,
+    DEFAULT_UNIQUE,
   ],
   errRopeEidolon: 0,
   relicSets: [

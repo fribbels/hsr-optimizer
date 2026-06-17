@@ -1,4 +1,5 @@
 import {
+  aoe,
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
@@ -99,7 +100,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const fuaHitMulti = ashblazingMulti([single(1.00)])
 
-  const uniqueHitMulti = ashblazingMulti([single(1.00)]) // TODO: joint FUA hit split
+  const uniqueHitMulti = ashblazingMulti(Array(4).fill(aoe(0.25)))
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     switch (action.actionType) {
@@ -272,10 +273,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, ultHitMulti(context))
+      boostUltAshblazingAtk(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+      return gpuBoostUltAshblazingAtk(action, getHitMulti(action, context))
     },
   }
 }

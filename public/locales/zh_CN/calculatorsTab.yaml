@@ -1,0 +1,25 @@
+AHA:
+  Label: 阿哈速度
+  Solver:
+    Output:
+      Teammate0: 1号队友速度
+      Teammate1: 2号队友速度
+      Teammate2: 3号队友速度
+      Teammate3: 4号队友速度
+    Input:
+      DesiredAha: 目标阿哈速度
+  Calculator:
+    Formula:
+      Aha: 阿哈速度
+EHR:
+  Label: 效果命中
+  Calculator:
+    Input:
+      EffectRes: 敌方效果抵抗
+      DebuffRes: 敌方减益抵抗
+      BaseChance: 减益基础概率
+      Attempts: 施加次数
+      HitRate: 效果命中
+  Solver:
+    Input: 目标减益概率
+    Output: 所需效果命中

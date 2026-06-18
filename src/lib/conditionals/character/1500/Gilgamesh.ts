@@ -103,7 +103,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const talentUltDmgBuffValue = talent(e, 0.40, 0.44)
 
   const ultHitMulti = ashblazingMulti([
-    aoe(1), // TODO: get real ult hitsplit
+    aoe(ultScaling),
+    ...Array(10).fill(single(ultBounceScaling)),
   ])
 
   const fuaHitMulti = ashblazingMulti([

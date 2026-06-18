@@ -240,7 +240,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               HitDefinitionBuilder.standardFua()
                 .damageElement(ElementTag.Quantum)
                 .atkScaling(jointFuaScaling(rinMeta.characterEidolon, 3.00, 3.30))
-                .toughnessDmg(0) // TODO: how much toughness does his half do?
+                .toughnessDmg(0)
                 .build(),
             ]
             : [],

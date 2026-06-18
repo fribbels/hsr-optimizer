@@ -292,7 +292,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               HitDefinitionBuilder.standardFua()
                 .damageElement(ElementTag.Wind)
                 .atkScaling(jointFuaScaling(gilMeta.characterEidolon, 4.00, 4.40))
-                .toughnessDmg(0) // TODO: confirm this
+                .toughnessDmg(0)
                 .build(),
             ]
             : [],

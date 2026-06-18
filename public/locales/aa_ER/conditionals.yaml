@@ -287,6 +287,11 @@ Lightcones:
         text: crwdns40310:0crwdne40310:0
         content: >-
           crwdns43992:0{{Multiplier}}crwdne43992:0
+  ReforgedInHellfire:
+    Content:
+      purgatoryState:
+        text: crwdns47415:0crwdne47415:0
+        content: crwdns47417:0{{cdBuff}}crwdnd47417:0{{cdBuff}}crwdne47417:0
   ReforgedRemembrance:
     Content:
       prophetStacks:
@@ -2030,6 +2035,27 @@ Characters:
       e6UltDmgBoost:
         text: crwdns41318:0crwdne41318:0
         content: crwdns44402:0crwdne44402:0
+  MortenaxBlade:
+    Content:
+      infiniteFuryActive:
+        text: crwdns47419:0crwdne47419:0
+        content: crwdns47421:0{{cdBuff}}crwdne47421:0
+      ultZone:
+        text: crwdns47423:0crwdne47423:0
+        content: >-
+          crwdns47425:0:BR:crwdnd47425:0:BR:crwdne47425:0
+      e1ResPen:
+        text: crwdns47427:0crwdne47427:0
+        content: crwdns47429:0crwdne47429:0
+      e2FuaDmgBoost:
+        text: crwdns47431:0crwdne47431:0
+        content: crwdns47433:0crwdne47433:0
+      e4DmgBoost:
+        text: crwdns47435:0crwdne47435:0
+        content: crwdns47437:0crwdne47437:0
+      e6EnhancedUlt:
+        text: crwdns47439:0crwdne47439:0
+        content: crwdns47441:0crwdne47441:0
   Moze:
     Content:
       preyMark:

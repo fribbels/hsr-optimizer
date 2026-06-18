@@ -2031,6 +2031,14 @@ Characters:
       e6UltDmgBoost:
         text: 6魂终结技伤害提高
         content: 施放终结技时，使自身造成的伤害提高30%，持续至自身回合结束。
+  MortenaxBlade:
+    Content:
+      ultZone:
+        text: 结界启用
+      e1ResPen:
+        text: 1魂抗性穿透
+      e2FuaDmgBoost:
+        text: 2魂增益
   Moze:
     Content:
       preyMark:

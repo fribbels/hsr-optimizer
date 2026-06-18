@@ -1965,6 +1965,14 @@ Characters:
       e6UltDmgBoost:
         text: E6 ↑Урон после ульты
         content: Использование сверхспособности повышает наносимый персонажем урон на 30% до конца его хода.
+  MortenaxBlade:
+    Content:
+      ultZone:
+        text: Зона активна
+      e1ResPen:
+        text: E1 Игнор Сопр. Урону
+      e2FuaDmgBoost:
+        text: E2 Баффы
   Moze:
     Content:
       preyMark:

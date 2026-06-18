@@ -90,20 +90,19 @@ CharacterPreview:
     RevertedPortrait: 成功还原角色图像
     NoSelectedCharacter: 未选择角色
     NoSelectedLightCone: 无选定光锥
-  ScoreHeader:
-    Title: 战斗模拟
-    TitleBenchmark: '{{spd}}速度基准'
-    Score: 'DPS评分 {{score}}% {{grade}}'
+  RulerLabel:
+    dps: 伤害
+    heal: 治疗量
+    shield: 护盾值
+  ComboLabel:
+    dps: 连招伤害
   AlgorithmSlider:
     Labels:
-      CombatScore: 战斗评分
-      CombatScoreTBD: 战斗属性（待定）
       StatScore: 副词条升级次数
       NoneScore: 无
   DetailsSlider:
     Labels:
       CombatStats: 战斗属性
-      SubDpsCombatStats: 战斗属性（副C）
   DMGUpgrades: 伤害升级
   SubstatUpgradeComparisons:
     Header: 副词条升级比较

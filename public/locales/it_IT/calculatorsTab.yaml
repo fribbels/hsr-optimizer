@@ -1,0 +1,5 @@
+EHR:
+  Label: Tasso di Successo Effetto
+  Calculator:
+    Input:
+      HitRate: Tasso di Successo Effetto

@@ -42,6 +42,7 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
+  DEFAULT_UNIQUE,
   END_BASIC,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -71,7 +72,7 @@ export const GilgameshAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ULT,
-  AbilityKind.FUA,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -107,7 +108,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ...Array(10).fill(single(ultBounceScaling)),
   ])
 
-  const fuaHitMulti = ashblazingMulti([
+  const uniqueHitMulti = ashblazingMulti([
     ...Array(3).fill(aoe(0.2)),
     aoe(0.4),
   ])
@@ -117,7 +118,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       case AbilityKind.ULT:
         return ultHitMulti(context)
       default:
-        return fuaHitMulti(context)
+        return uniqueHitMulti(context)
     }
   }
 
@@ -235,7 +236,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AbilityKind.FUA]: {
+        [AbilityKind.UNIQUE]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Lightning)
@@ -327,7 +328,7 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     END_SKILL,
-    DEFAULT_FUA,
+    DEFAULT_UNIQUE,
     WHOLE_SKILL,
     WHOLE_SKILL,
     // TODO: verify rotation length

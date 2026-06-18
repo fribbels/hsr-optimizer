@@ -74,6 +74,7 @@ export const SaberAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ULT,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 

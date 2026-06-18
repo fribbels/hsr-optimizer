@@ -44,6 +44,7 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
+  DEFAULT_UNIQUE,
   END_FUA,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -73,7 +74,7 @@ export const RinTohsakaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ULT,
-  AbilityKind.FUA,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -106,14 +107,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const ultHitMulti = ashblazingMulti([aoe(1)])
 
-  const fuaHitMulti = ashblazingMulti(Array(5).fill(aoe(0.20)))
+  const uniqueHitMulti = ashblazingMulti(Array(5).fill(aoe(0.20)))
 
   function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
     switch (action.actionType) {
       case AbilityKind.ULT:
         return ultHitMulti(context)
       default:
-        return fuaHitMulti(context)
+        return uniqueHitMulti(context)
     }
   }
 
@@ -270,7 +271,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AbilityKind.FUA]: {
+        [AbilityKind.UNIQUE]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Quantum)
@@ -369,9 +370,9 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     DEFAULT_SKILL,
-    END_FUA,
+    DEFAULT_UNIQUE,
     START_SKILL,
-    END_FUA,
+    DEFAULT_UNIQUE,
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,

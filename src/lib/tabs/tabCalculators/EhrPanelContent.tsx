@@ -257,7 +257,6 @@ function FormulaDisplay({ values, clampedRate, t }: {
             </mfrac>
             <mo>)</mo>
           </mrow>
-          {/* TODO:*/}
           <mtext style={LABEL_STYLE}>{t('Calculator.EquationLabel.DebuffRes')}</mtext>
         </munder>
         <mo style={{ padding: '0 5px' }}>=</mo>
@@ -298,7 +297,7 @@ function FormulaDisplay({ values, clampedRate, t }: {
               {t('Calculator.Output.Change')}
             </mtext>
           </mrow>
-          <mtext style={LABEL_STYLE}>{attempts > 1 ? `Over ${attempts} attempts` : 'Per attempt'}</mtext>
+          <mtext style={LABEL_STYLE}>{attempts > 1 ? t('Calculator.Output.OverAttempts', { count: attempts }) : t('Calculator.Output.PerAttempt')}</mtext>
         </munder>
       </math>
     </div>

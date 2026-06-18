@@ -96,8 +96,8 @@ function IntegratedRows({ form, rows, ahaSpeed, t }: {
 
   return (
     <div className={classes.integratedRows}>
-      <HeaderRow />
-      <BaseIntegratedRow ahaSpeed={ahaSpeed} />
+      <HeaderRow t={t} />
+      <BaseIntegratedRow ahaSpeed={ahaSpeed} t={t} />
       {rows.map((row, domIndex) => {
         const visualPos = visualPositions[domIndex]
         const offset = (visualPos - domIndex) * ROW_STEP
@@ -108,7 +108,7 @@ function IntegratedRows({ form, rows, ahaSpeed, t }: {
             form={form}
             row={row}
             ahaSpeed={ahaSpeed}
-            label='Teammate'
+            label={t('Calculator.TeammateN', { position: row.slot + 1 })}
             style={{ transform: offset ? `translateY(${offset}px)` : undefined }}
             isNextSlot={isNextSlot}
           />
@@ -127,26 +127,26 @@ function getVisualPositions(rows: TeammateRow[]): number[] {
   })
 }
 
-function HeaderRow() {
+function HeaderRow({ t }: { t: TFunction<'calculatorsTab', 'AHA'> }) {
   return (
     <div className={`${classes.integratedRow} ${classes.headerRow}`}>
       <div className={classes.headerCell}>
-        Elation<br />Teammate
+        {t('Calculator.Header.ElationTeammate')}
       </div>
       <div className={classes.headerCell}>
-        Combat<br />Speed
+        {t('Calculator.Header.CombatSpeed')}
       </div>
       <div className={classes.headerCell}>
-        Aha<br />Speed
+        {t('Calculator.Header.AhaSpeed')}
       </div>
     </div>
   )
 }
 
-function BaseIntegratedRow({ ahaSpeed }: { ahaSpeed: number }) {
+function BaseIntegratedRow({ ahaSpeed, t }: { ahaSpeed: number, t: TFunction<'calculatorsTab', 'AHA'> }) {
   return (
     <div className={`${classes.integratedRow} ${classes.baseRow}`}>
-      <div className={classes.rowSource}>Constant</div>
+      <div className={classes.rowSource}>{t('Calculator.Constant')}</div>
       <div className={classes.rowInputPlaceholder} />
       <div className={classes.rowTrack}>
         <div

@@ -932,6 +932,7 @@ ExpandedDataPanel:
       Toughness: Toughness DMG
       FixedToughness: Fixed Toughness
     EnemyConfiguration:
+      Header: ENEMY
       Level: Enemy level
       Res: DMG RES
       Efres: Effect RES

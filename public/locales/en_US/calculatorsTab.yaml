@@ -14,7 +14,11 @@ AHA:
   Calculator:
     Title: Aha Speed Calculator
     TeammateN: Teammate {{position}}
-    AhaBase: Aha Base
+    Constant: Constant
+    Header:
+      ElationTeammate: "Elation\nTeammate"
+      CombatSpeed: "Combat\nSpeed"
+      AhaSpeed: "Aha\nSpeed"
     Formula:
       Aha: Aha Speed
       TeammateSymbol: T
@@ -22,7 +26,7 @@ EHR:
   Label: Effect Hit Rate
   Calculator:
     Title: Debuff Application Calculator
-    EHRLabel: ± {{value}}% $t(common:ShortStats.EHR)
+    EHRLabel: ± {{value}}% $t(common:ShortStats.Effect Hit Rate)
     EquationLabel:
       BaseChance: Base chance
       EffectRes: Eff RES multi
@@ -37,7 +41,8 @@ EHR:
       Range: Grid range
     Output:
       Change: chance
-      PerAttempt: Per attempts
+      PerAttempt: Per attempt
+      OverAttempts: Over {{count}} attempts
   Solver:
     Title: Target EHR Solver
     Input: Target debuff chance

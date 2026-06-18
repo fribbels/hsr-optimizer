@@ -1,6 +1,5 @@
 import {
   Accordion,
-  Alert,
   Button,
   Checkbox,
   Divider,
@@ -22,7 +21,6 @@ import {
 } from 'lib/importer/hoyoLabFormatParser'
 import {
   KelzScannerConfig,
-  ReliquaryArchiverConfig,
   ScannerSourceToParser,
   ValidScannerSources,
 } from 'lib/importer/importConfig'

@@ -44,7 +44,7 @@ export function EnemyPanel({ avatarSrc, context }: {
 
   return (
     <CardShell avatarSrc={avatarSrc}>
-      <CardHeader label='ENEMY' />
+      <CardHeader label={t('Header')} />
       {rows.map((row, i) => (
         <div
           key={row.label}

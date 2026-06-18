@@ -211,12 +211,14 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
       if (keys.length) {
         const setName = keys[0]
         const setId = teammateOptionValueToSetId[setName]
+        const option = getTeammateOption(setName)
+        if (!option) return null
         content = [
           {
             formItem: 'switch',
             id: setName,
             text: t(`${setId}.Name`),
-            content: getTeammateOption(setName)!.desc(teammateSetsTFunction),
+            content: option.desc(teammateSetsTFunction),
           },
         ]
         src = Assets.getSetImage(setName, undefined, true)
@@ -228,12 +230,14 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
       if (keys.length) {
         const setName = keys[0]
         const setId = teammateOptionValueToSetId[setName]
+        const option = getTeammateOption(setName)
+        if (!option) return null
         content = [
           {
             formItem: 'switch',
             id: setName,
             text: t(`${setId}.Name`),
-            content: getTeammateOption(setName)!.desc(teammateSetsTFunction),
+            content: option.desc(teammateSetsTFunction),
           },
         ]
         src = Assets.getSetImage(setName, undefined, true)

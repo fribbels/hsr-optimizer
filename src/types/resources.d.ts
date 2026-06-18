@@ -1,4 +1,4 @@
-export default interface Resources {
+interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -55,10 +55,15 @@ export default interface Resources {
   "calculatorsTab": {
     "AHA": {
       "Calculator": {
-        "AhaBase": "Aha Base",
+        "Constant": "Constant",
         "Formula": {
           "Aha": "Aha Speed",
           "TeammateSymbol": "T"
+        },
+        "Header": {
+          "AhaSpeed": "Aha Speed",
+          "CombatSpeed": "Combat Speed",
+          "ElationTeammate": "Elation Teammate"
         },
         "TeammateN": "Teammate {{position}}",
         "Title": "Aha Speed Calculator"
@@ -81,7 +86,7 @@ export default interface Resources {
     },
     "EHR": {
       "Calculator": {
-        "EHRLabel": "± {{value}}% $t(common:ShortStats.EHR)",
+        "EHRLabel": "± {{value}}% $t(common:ShortStats.Effect Hit Rate)",
         "EquationLabel": {
           "BaseChance": "Base chance",
           "DebuffRes": "Debuff RES multi",
@@ -98,7 +103,8 @@ export default interface Resources {
         },
         "Output": {
           "Change": "chance",
-          "PerAttempt": "Per attempts"
+          "OverAttempts": "Over {{count}} attempts",
+          "PerAttempt": "Per attempt"
         },
         "Title": "Debuff Application Calculator"
       },
@@ -422,6 +428,7 @@ export default interface Resources {
       "Wind": "$t(gameData:Elements.Wind)"
     },
     "LevelShort": "Lv{{level}}",
+    "Loading": "Loading",
     "MemospriteLabel": "{{label}}ᴹ",
     "No": "No",
     "Ok": "Ok",
@@ -6837,6 +6844,7 @@ export default interface Resources {
           "Broken": "Weakness broken",
           "Efres": "Effect RES",
           "Enemy": "Enemy",
+          "Header": "ENEMY",
           "Level": "Enemy level",
           "Res": "DMG RES",
           "Targets": "Targets",
@@ -8057,3 +8065,5 @@ export default interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
+
+export default Resources;

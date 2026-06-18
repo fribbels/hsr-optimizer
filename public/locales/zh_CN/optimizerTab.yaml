@@ -25,13 +25,10 @@ ResultLimitN: '查找排名前{{limit}}的结果'
 MainStats: 主属性
 Sets: 套装
 UnreleasedDisclaimer: '{{nameList}} 的计算尚未完成，优化器结果可能不准确。'
-RelicSetSelector:
-  Placeholder: 隧洞遗器套装
-  4pcLabel: 4件套
-  2+2pcLabel: 2 + 2件套
-  2pcLabel: 2 + 任何
-OrnamentSetSelector:
-  Placeholder: 位面饰品套装
+SetFilters:
+  RelicSelectedPlaceholder: 遗器
+  OrnamentSelectedPlaceholder: 位面饰品
+  Done: 完成！
 SortOptions:
   DMGLabel: 伤害计算
   HealLabel: 治疗量计算
@@ -627,59 +624,45 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '四件套: $t(gameData:RelicSets.114.Name) (+12%速度)'
-      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% 速度
     Watchmaker:
       Desc: '四件套: $t(gameData:RelicSets.118.Name) (+30%击破特攻)'
-      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% 击破特攻
     Sacerdos1Stack:
       Desc: '四件套: $t(gameData:RelicSets.121.Name) (+18%暴击伤害)'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% 爆伤
     Sacerdos2Stack:
       Desc: '四件套: $t(gameData:RelicSets.121.Name) (+36%暴击伤害)'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36%暴伤
     Warrior:
       Desc: '四件套: $t(gameData:RelicSets.125.Name) (+15%暴击伤害)'
-      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% 爆伤
     WorldRemaking:
       Desc: '四件套：$t(gameData:RelicSets.127.Name)（+15%增伤）'
-      Set: '$t(gameData:RelicSets.127.Name)'
       Text: 15%增伤
     SelfEnshrouded:
       Desc: '四件套: $t(gameData:RelicSets.128.Name)（+15%暴击伤害）'
-      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% 爆伤
     Diviner:
       Desc: '4件套：$t(gameData:RelicSets.130.Name)（+10%欢愉度）'
-      Set: '$t(gameData:RelicSets.130.Name)'
       Text: 10%欢愉度
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
-      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10%暴伤
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8%攻击力)'
-      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8%攻击力
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10%同属性增伤)'
-      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10%增伤
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12%攻击力)'
-      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12%攻击力
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name)（+8%速度）'
-      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% 速度
     CityOfConvergingStars:
       Desc: '$t(gameData:RelicSets.326.Name) （+12% 暴伤）'
-      Set: '$t(gameData:RelicSets.326.Name)'
       Text: 12% 爆伤
 StatSimulation:
   DuplicateSimMessage: 相同属性的模拟已存在
@@ -906,3 +889,9 @@ ExpandedDataPanel:
         SuperBreak: 超击破伤害类型
       Unconvertible: '不可转化的$t(common:Stats.{{stat}})'
       ElementalDmgBoost: '$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'
+    HitDefinition:
+      Toughness: 韧性伤害值
+    EnemyConfiguration:
+      Efres: 效果抵抗
+      Weakness: 元素弱点
+      Broken: 弱点击破

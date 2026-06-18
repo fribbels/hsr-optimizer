@@ -55,6 +55,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { type Eidolon } from 'types/character'
@@ -383,6 +384,7 @@ const simulation = (): SimulationMetadata => ({
   ornamentSets: [
     Sets.TengokuLivestream,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
     {

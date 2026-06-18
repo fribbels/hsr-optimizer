@@ -66,7 +66,7 @@ function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter
     })
     const declared = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
     const actions = [...new Set([...declared, ...ALWAYS_INCLUDED_KINDS])]
-    return actions.map((kind) => mapKindToGroup(kind, kind, t))
+    return actions.map((kind) => mapKindToGroup(kind, t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`), t))
   }
 
   return ALL_ABILITIES.map((kind) => mapKindToGroup(kind, t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`), t))
@@ -91,7 +91,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number, disabl
     <CascaderSelect
       data={options}
       value={value || null}
-      placeholder='Ability'
+      placeholder={t('ComboOptions.Placeholder')}
       variant='unstyled'
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}

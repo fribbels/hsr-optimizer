@@ -25,7 +25,6 @@ import { generateContext } from 'lib/optimization/context/calculateContext'
 import type { DamageTag } from 'lib/optimization/engine/config/tag'
 import { Assets } from 'lib/rendering/assets'
 import { originalScoringParams } from 'lib/scoring/simScoringUtils'
-import type { SimulationScore } from 'lib/scoring/simScoringUtils'
 import { aggregatePerActionBuffs } from 'lib/simulations/combatBuffsAnalysis'
 import type {
   BuffGroups,
@@ -41,6 +40,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import { type Form } from 'types/form'
 import type { OptimizerContext } from 'types/optimizer'
 
@@ -66,6 +66,7 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   context: contextProp,
   twoColumn,
 }: BuffsAnalysisProps) {
+  const { i18n } = useTranslation()
   const rerunResult = useMemo(
     () => perActionBuffGroupsProp ? null : rerunSim({ originalSim, simulationForm }),
     [perActionBuffGroupsProp, originalSim, simulationForm],
@@ -109,7 +110,10 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
 
   const allBuffs = useMemo(() => buffGroups ? collectAllBuffs(buffGroups) : [], [buffGroups])
   const relevantTags = useMemo(() => computeRelevantTags(allBuffs), [allBuffs])
-  const statSums = useMemo(() => computeStatSums(allBuffs, selectedFilter), [allBuffs, selectedFilter])
+  const statSums = useMemo(() => {
+    return computeStatSums(allBuffs, selectedFilter)
+    // computeStatSums returns translated labels, therefore implicit dependancy on selected language
+  }, [allBuffs, selectedFilter, i18n.resolvedLanguage])
 
   if (!buffGroups) {
     return null
@@ -131,21 +135,21 @@ export const BuffsAnalysisDisplay = memo(function BuffsAnalysisDisplay({
   const hitAndEnemy = (
     <>
       {context && (
-        <DeferCreate>
-          <HitDefinitionTable
-            avatarSrc={summaryAvatarSrc}
-            context={context}
-            selectedAction={selectedAction}
-          />
-        </DeferCreate>
-      )}
-      {context && (
-        <DeferCreate>
-          <EnemyPanel
-            avatarSrc={summaryAvatarSrc}
-            context={context}
-          />
-        </DeferCreate>
+        <>
+          <DeferCreate>
+            <HitDefinitionTable
+              avatarSrc={summaryAvatarSrc}
+              context={context}
+              selectedAction={selectedAction}
+            />
+          </DeferCreate>
+          <DeferCreate>
+            <EnemyPanel
+              avatarSrc={summaryAvatarSrc}
+              context={context}
+            />
+          </DeferCreate>
+        </>
       )}
     </>
   )

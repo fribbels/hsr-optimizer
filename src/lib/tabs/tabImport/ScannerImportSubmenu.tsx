@@ -1,6 +1,5 @@
 import {
   Accordion,
-  Alert,
   Button,
   Checkbox,
   Divider,
@@ -22,7 +21,6 @@ import {
 } from 'lib/importer/hoyoLabFormatParser'
 import {
   KelzScannerConfig,
-  ReliquaryArchiverConfig,
   ScannerSourceToParser,
   ValidScannerSources,
 } from 'lib/importer/importConfig'
@@ -329,33 +327,6 @@ export function ScannerImportSubmenu() {
                 />
                 )
               </div>
-
-              <Alert
-                title='New version notice'
-                color='blue'
-                className={classes.alertNotice}
-              >
-                <div>
-                  If your live import fails to connect, download the new version of{' '}
-                  <ColorizedLinkWithIcon
-                    text={'Reliquary Archiver'}
-                    url={ReliquaryArchiverConfig.releases}
-                    linkIcon={true}
-                  />
-                  {websocketUrl !== DEFAULT_WEBSOCKET_URL && (() => {
-                    try {
-                      return new URL(websocketUrl).port === '53313' && (
-                        <>
-                          <br />
-                          If you have a custom ws url set, the default port has changed from 53313 to 23313.
-                        </>
-                      )
-                    } catch {
-                      return null
-                    }
-                  })()}
-                </div>
-              </Alert>
 
               <Flex gap={10} align='center' flex='1 0'>
                 <Switch

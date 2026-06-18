@@ -52,12 +52,12 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
       if (!hasConfig(scoringMeta, configType)) continue
       const entry = SCORING_CONFIG_REGISTRY[configType]
       segments.push({
-        label: entry.label,
+        label: t(`CharacterPreview.AlgorithmSlider.Labels.${entry.configType}`),
         value: String(entry.scoringType),
       })
     }
     segments.push({
-      label: 'Substat Rolls', // Hardcoded — label still in flux, skip i18n for now
+      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'),
       value: String(ScoringType.SUBSTAT_SCORE),
     })
     segments.push({

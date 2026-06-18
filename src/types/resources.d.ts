@@ -52,6 +52,70 @@ interface Resources {
     },
     "Title": "Benchmark Generator"
   },
+  "calculatorsTab": {
+    "AHA": {
+      "Calculator": {
+        "Constant": "Constant",
+        "Formula": {
+          "Aha": "Aha Speed",
+          "TeammateSymbol": "T"
+        },
+        "Header": {
+          "AhaSpeed": "Aha\nSpeed",
+          "CombatSpeed": "Combat\nSpeed",
+          "ElationTeammate": "Elation\nTeammate"
+        },
+        "TeammateN": "Teammate {{position}}",
+        "Title": "Aha Speed Calculator"
+      },
+      "Label": "Aha Speed",
+      "Solver": {
+        "Input": {
+          "DesiredAha": "Target Aha SPD"
+        },
+        "Output": {
+          "AllFilled": "No slots open",
+          "AlreadyMet": "SPD target already reached",
+          "Teammate0": "1st Teammate's SPD",
+          "Teammate1": "2nd Teammate's SPD",
+          "Teammate2": "3rd Teammate's SPD",
+          "Teammate3": "4th Teammate's SPD"
+        },
+        "Title": "Target Speed Solver"
+      }
+    },
+    "EHR": {
+      "Calculator": {
+        "EHRLabel": "± {{value}}% $t(common:ShortStats.Effect Hit Rate)",
+        "EquationLabel": {
+          "BaseChance": "Base chance",
+          "DebuffRes": "Debuff RES multi",
+          "EffectRes": "Eff RES multi",
+          "HitRate": "EHR multi"
+        },
+        "Input": {
+          "Attempts": "Application attempts",
+          "BaseChance": "Debuff base chance",
+          "DebuffRes": "Enemy debuff RES",
+          "EffectRes": "Enemy effect RES",
+          "HitRate": "Effect Hit Rate",
+          "Range": "Grid range"
+        },
+        "Output": {
+          "Change": "chance",
+          "OverAttempts": "Over {{count}} attempts",
+          "PerAttempt": "Per attempt"
+        },
+        "Title": "Debuff Application Calculator"
+      },
+      "Label": "Effect Hit Rate",
+      "Solver": {
+        "Input": "Target debuff chance",
+        "Output": "Required EHR",
+        "Title": "Target EHR Solver"
+      }
+    }
+  },
   "charactersTab": {
     "CharacterMenu": {
       "Build": {
@@ -89,10 +153,12 @@ interface Resources {
     "CharacterPreview": {
       "AlgorithmSlider": {
         "Labels": {
-          "CombatScore": "Combat Score",
-          "CombatScoreTBD": "Combat (TBD)",
           "NoneScore": "None",
-          "StatScore": "Substat Rolls"
+          "StatScore": "Substat Rolls",
+          "buffer": "Support Benchmark",
+          "dps": "DPS Benchmark",
+          "heal": "Heal Benchmark",
+          "shield": "Shield Benchmark"
         }
       },
       "ArtBy": "Art by {{artistName}}",
@@ -145,6 +211,12 @@ interface Resources {
         "SimulationTeammates": "Simulation teammates"
       },
       "CharacterScore": "Character Score: {{score}} {{grade}}",
+      "ComboLabel": {
+        "buffer": "{{stat}} Buff",
+        "dps": "Combo DMG",
+        "heal": "Combo Heal",
+        "shield": "Combo Shield"
+      },
       "CustomizationSidebar": {
         "Label": "Customization",
         "Modes": {
@@ -160,7 +232,10 @@ interface Resources {
       "DetailsSlider": {
         "Labels": {
           "CombatStats": "Combat Stats",
-          "SubDpsCombatStats": "Combat Stats (Sub DPS)"
+          "CombatStatsHeal": "Combat Stats (Heal)",
+          "CombatStatsShield": "Combat Stats (Shield)",
+          "CombatStatsSubDps": "Combat Stats (Sub DPS)",
+          "CombatStatsSupport": "Combat Stats (Support)"
         }
       },
       "EST-TBP": {
@@ -184,10 +259,18 @@ interface Resources {
         "RevertedPortrait": "Successfully reverted portrait",
         "SavedPortrait": "Successfully saved portrait"
       },
+      "RulerLabel": {
+        "buffer": "{{stat}} BUFF",
+        "dps": "DMG",
+        "heal": "HEAL",
+        "shield": "SHIELD"
+      },
       "ScoreHeader": {
-        "Score": "DPS Score {{score}}% {{grade}}",
-        "Title": "Combat Sim",
-        "TitleBenchmark": "{{spd}} SPD Benchmark"
+        "CustomSpeed": "{{spd}} SPD Benchmark",
+        "buffer": "Support Benchmark",
+        "dps": "DPS Benchmark",
+        "heal": "Heal Benchmark",
+        "shield": "Shield Benchmark"
       },
       "ScoringColumn": {
         "Baseline": {
@@ -230,6 +313,12 @@ interface Resources {
       },
       "ScoringDetails": {
         "Header": "How is DPS Score calculated?"
+      },
+      "ScoringExplanation": {
+        "buffer": "Support Benchmark Calculations",
+        "dps": "DPS Benchmark Calculations",
+        "heal": "Heal Benchmark Calculations",
+        "shield": "Shield Benchmark Calculations"
       },
       "ScoringSidebar": {
         "BenchmarkSpd": {
@@ -339,6 +428,7 @@ interface Resources {
       "Wind": "$t(gameData:Elements.Wind)"
     },
     "LevelShort": "Lv{{level}}",
+    "Loading": "Loading",
     "MemospriteLabel": "{{label}}ᴹ",
     "No": "No",
     "Ok": "Ok",
@@ -2048,6 +2138,34 @@ interface Resources {
           "ultHitsOnTarget": {
             "content": "Number of Ultimate hits on the primary target, dealing DMG equal to {{ultStackScaling}}% ATK per hit.",
             "text": "Ult hits on target"
+          }
+        }
+      },
+      "MortenaxBlade": {
+        "Content": {
+          "e1ResPen": {
+            "content": "While the Zone is active, decreases all enemies' All-Type RES by 20%.",
+            "text": "E1 RES PEN"
+          },
+          "e2FuaDmgBoost": {
+            "content": "When an ally character uses Ultimate to deal DMG, it is considered as having launched Follow-Up ATK. The Follow-Up ATK DMG dealt by ally targets increases by 75%.",
+            "text": "E2 buffs"
+          },
+          "e4DmgBoost": {
+            "content": "Ult zone additionally increases ally targets' DMG dealt by 50%.",
+            "text": "E4 DMG boost"
+          },
+          "e6EnhancedUlt": {
+            "content": "The DMG multiplier of \"Tenax Per Ignem\" increases to 150% of its original value.",
+            "text": "E6 Ult Final DMG"
+          },
+          "infiniteFuryActive": {
+            "content": "During the \"Infinite Fury\" state, increases CRIT Rate by 20%, increases CRIT DMG by {{cdBuff}}%, enhances Basic ATK, unlocks Skill, and gains a new Ultimate \"Tenax Per Ignem.\"",
+            "text": "Infinite Fury state"
+          },
+          "ultZone": {
+            "content": "While the Zone is active, decreases DMG taken by this unit by 50%. While the Zone is active, ally targets deal 50% increased DMG. If there are other Nihility characters aside from Mortenax Blade in the team, Ultimate DMG dealt by ally targets increases by 75%. Otherwise, DMG dealt by Mortenax Blade additionally increases by 75%. ::BR:: E1: While the Zone is active, decreases all enemies' All-Type RES by 20%. ::BR:: E4: Additionally increases ally targets' DMG dealt by 50%.",
+            "text": "Zone active"
           }
         }
       },
@@ -4054,6 +4172,14 @@ interface Resources {
           "postUltHealingBoost": {
             "content": "Increases the wearer's Outgoing Healing when they use their Ultimate by {{HealingBoost}}%.",
             "text": "Ult healing boost"
+          }
+        }
+      },
+      "ReforgedInHellfire": {
+        "Content": {
+          "purgatoryState": {
+            "content": "While in the \"Purgatory\" state, the target receives {{cdBuff}}% increased CRIT DMG and {{cdBuff}}% additionally increased CRIT DMG from the wearer.",
+            "text": "CD buffs"
           }
         }
       },
@@ -6412,37 +6538,6 @@ interface Resources {
         "NoneSaved": "No saved builds"
       }
     },
-    "Calculators": {
-      "AHA": {
-        "Input": {
-          "DesiredAha": "Target Aha SPD",
-          "TeammateSpeeds": "Elation teammate speeds"
-        },
-        "Label": "Aha Speed",
-        "Output": {
-          "AhaSpeed": "Aha's Speed",
-          "Teammate0": "1st Teammate's SPD",
-          "Teammate1": "2nd Teammate's SPD",
-          "Teammate2": "3rd Teammate's SPD",
-          "Teammate3": "4th Teammate's SPD"
-        }
-      },
-      "EHR": {
-        "Input": {
-          "Attempts": "Application attempts",
-          "BaseChance": "Debuff base chance",
-          "DebuffRes": "Enemy debuff RES",
-          "DesiredHitRate": "Target debuff chance",
-          "EffectRes": "Enemy effect RES",
-          "HitRate": "Effect Hit Rate"
-        },
-        "Label": "Effect Hit Rate",
-        "Output": {
-          "ApplicationRate": "Chance to apply",
-          "RequiredHitRate": "Required EHR"
-        }
-      }
-    },
     "CharacterSelect": {
       "ClearButton": "Clear",
       "ExcludeButton": "Exclude all",
@@ -6692,6 +6787,7 @@ interface Resources {
         "MemoSkill": "Skillᴹ",
         "MemoTalent": "Talentᴹ",
         "None": "None",
+        "Placeholder": "Ability",
         "Skill": "Skill",
         "SkillHeal": "Skill HEAL",
         "SkillShield": "Skill SHIELD",
@@ -6744,6 +6840,50 @@ interface Resources {
           "S.Break": "S.Break"
         },
         "DefaultAction": "Default",
+        "EnemyConfiguration": {
+          "Broken": "Weakness broken",
+          "Efres": "Effect RES",
+          "Enemy": "Enemy",
+          "Header": "ENEMY",
+          "Level": "Enemy level",
+          "Res": "DMG RES",
+          "Targets": "Targets",
+          "Toughness": "Toughness",
+          "Weakness": "Elemental weakness"
+        },
+        "HitDefinition": {
+          "Additional": {
+            "CdOverride": "CD Override",
+            "CrOverride": "CR Override"
+          },
+          "AtkScaling": "ATK Scaling",
+          "Break": {
+            "SpecialScaling": "Special Scaling"
+          },
+          "Crit": {
+            "BeCap": "BE Cap",
+            "BeScaling": "BE Scaling",
+            "ElationAtkScaling": "Elation ATK Scaling"
+          },
+          "DefScaling": "DEF Scaling",
+          "Dot": {
+            "Chance": "DoT Chance",
+            "Split": "DoT Split",
+            "Stacks": "DoT Stacks"
+          },
+          "Elation": {
+            "Banger": "Certified Banger Stacks",
+            "Punchline": "Punchline Stacks",
+            "Scaling": "Elation Scaling"
+          },
+          "FixedToughness": "Fixed Toughness",
+          "HpScaling": "HP Scaling",
+          "SuperBreak": {
+            "ExtraModifier": "Extra Modifier"
+          },
+          "Toughness": "Toughness DMG",
+          "TrueDmg": "True DMG modifier"
+        },
         "Sources": {
           "Basic": "Basic",
           "E1": "E1",
@@ -7110,9 +7250,6 @@ interface Resources {
       },
       "PriorityFilter": "Character priority filter"
     },
-    "OrnamentSetSelector": {
-      "Placeholder": "Ornament set"
-    },
     "Presets": {
       "AaSpdValues": {
         "SPD120": "120.000 SPD - 6 turns in first two cycles",
@@ -7143,12 +7280,6 @@ interface Resources {
         "SPD200": "200.000 SPD - 3 actions in first cycle"
       },
       "StandardLabel": "Standard $t(gameData:Characters.{{id}}.Name)"
-    },
-    "RelicSetSelector": {
-      "2+2pcLabel": "2 + 2 Piece",
-      "2pcLabel": "2 + Any",
-      "4pcLabel": "4 Piece",
-      "Placeholder": "Relic set"
     },
     "ResultLimitN": "Find top {{limit}} results",
     "SetConditionals": {
@@ -7292,6 +7423,22 @@ interface Resources {
       },
       "SetName": "$t(gameData:RelicSets.{{id}}.Name)",
       "Title": "Conditional set effects"
+    },
+    "SetFilters": {
+      "2pcLabel": "2-Piece",
+      "4pcLabel": "4-Piece",
+      "AnyTag": "Any",
+      "Clear": "Clear All",
+      "Done": "Done",
+      "OrnamentListHeader": "Ornament Sets",
+      "OrnamentPlaceholder": "Ornament set filters",
+      "OrnamentSelectedPlaceholder": "Ornaments",
+      "RelicListHeader": "Relic Sets",
+      "RelicPlaceholder": "Relic set filters",
+      "RelicSelectedPlaceholder": "Relics",
+      "Revert": "Revert",
+      "SearchPlaceholder": "Search sets...",
+      "SelectedHeader": "Selected Sets"
     },
     "Sets": "Sets",
     "Sidebar": {
@@ -7457,72 +7604,58 @@ interface Resources {
       "TeammateSets": {
         "Ageless": {
           "Desc": "$t(gameData:RelicSets.302.Name) (+8% ATK)",
-          "Set": "$t(gameData:RelicSets.302.Name)",
           "Text": "8% ATK"
         },
         "Amphoreus": {
           "Desc": "$t(gameData:RelicSets.323.Name) (+8% SPD)",
-          "Set": "$t(gameData:RelicSets.323.Name)",
           "Text": "8% SPD"
         },
         "CityOfConvergingStars": {
           "Desc": "$t(gameData:RelicSets.326.Name) (+12% CD)",
-          "Set": "$t(gameData:RelicSets.326.Name)",
           "Text": "12% CD"
         },
         "Diviner": {
           "Desc": "4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)",
-          "Set": "$t(gameData:RelicSets.130.Name)",
           "Text": "10% Elation"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
-          "Set": "$t(gameData:RelicSets.310.Name)",
           "Text": "10% CD"
         },
         "Lushaka": {
           "Desc": "$t(gameData:RelicSets.317.Name) (+12% ATK)",
-          "Set": "$t(gameData:RelicSets.317.Name)",
           "Text": "12% ATK"
         },
         "Messenger": {
           "Desc": "4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)",
-          "Set": "$t(gameData:RelicSets.114.Name)",
           "Text": "12% SPD"
         },
         "Penacony": {
           "Desc": "$t(gameData:RelicSets.312.Name) (+10% DMG for same element)",
-          "Set": "$t(gameData:RelicSets.312.Name)",
           "Text": "10% DMG"
         },
         "Sacerdos1Stack": {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)",
-          "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "18% CD"
         },
         "Sacerdos2Stack": {
           "Desc": "4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)",
-          "Set": "$t(gameData:RelicSets.121.Name)",
           "Text": "36% CD"
         },
         "SelfEnshrouded": {
           "Desc": "4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)",
-          "Set": "$t(gameData:RelicSets.128.Name)",
           "Text": "15% CD"
         },
         "Warrior": {
           "Desc": "4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)",
-          "Set": "$t(gameData:RelicSets.125.Name)",
           "Text": "15% CD"
         },
         "Watchmaker": {
           "Desc": "4 Piece: $t(gameData:RelicSets.118.Name) (+30% BE)",
-          "Set": "$t(gameData:RelicSets.118.Name)",
           "Text": "30% BE"
         },
         "WorldRemaking": {
           "Desc": "4 Piece: $t(gameData:RelicSets.127.Name) (+15% DMG)",
-          "Set": "$t(gameData:RelicSets.127.Name)",
           "Text": "15% DMG"
         }
       },

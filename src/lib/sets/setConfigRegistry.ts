@@ -187,6 +187,7 @@ const relicConfigs: IndexedConfig[] = []
 const ornamentConfigs: IndexedConfig[] = []
 const setToConditionalKeyMap = new Map<Sets, SetConditionalI18nKey>()
 const teammateOptionsMap = new Map<string, TeammateOption>()
+export const teammateOptionValueToSetId = {} as Record<TeammateOptionValue, RelicSetIngameId>
 const boolFields: IndexedField[] = []
 const intFields: IndexedField[] = []
 export const teammateRelicOptions: TeammateOption[] = []
@@ -216,6 +217,7 @@ for (const config of setConfigRegistry.values()) {
   // Teammates
   if (config.conditionals.teammate) {
     for (const option of config.conditionals.teammate) {
+      teammateOptionValueToSetId[option.value] = config.info.ingameId as RelicSetIngameId
       teammateOptionsMap.set(option.value, option)
       if (isRelic) {
         teammateRelicOptions.push(option)

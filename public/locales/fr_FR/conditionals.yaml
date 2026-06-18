@@ -1828,6 +1828,12 @@ Characters:
       e6UltDmgBoost:
         text: 'E6: Bonus de DGT d''ULT'
         content: Augmente de 30% les DGT de Micha jusqu'à la fin du tour lorsqu'il utilise son ultime.
+  MortenaxBlade:
+    Content:
+      e1ResPen:
+        text: 'E1: PÉN de RÉS'
+      e2FuaDmgBoost:
+        text: 'E2: Divers bonus'
   Moze:
     Content:
       preyMark:

@@ -242,12 +242,13 @@ function ShowcaseScoreHeaderReady({ relics, configType, t }: {
   configType: ScoringConfigType,
   t: TFunction<'charactersTab', undefined>,
 }) {
+  const { t: tCommon } = useTranslation('common')
   const result = useSimScore(configType)
 
   if (result === null) {
     return (
       <StatText className={styles.scoreHeaderText} style={{ filter: 'blur(2px)' }}>
-        {t('common:Loading')}
+        {tCommon('Loading')}
       </StatText>
     )
   }

@@ -61,9 +61,9 @@ interface Resources {
           "TeammateSymbol": "T"
         },
         "Header": {
-          "AhaSpeed": "Aha Speed",
-          "CombatSpeed": "Combat Speed",
-          "ElationTeammate": "Elation Teammate"
+          "AhaSpeed": "Aha\nSpeed",
+          "CombatSpeed": "Combat\nSpeed",
+          "ElationTeammate": "Elation\nTeammate"
         },
         "TeammateN": "Teammate {{position}}",
         "Title": "Aha Speed Calculator"

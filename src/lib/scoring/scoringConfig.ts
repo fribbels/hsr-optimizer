@@ -28,8 +28,6 @@ export interface ScoringConfigEntry {
   scoringType: ScoringType
   metadataField: MetadataFieldKey
   thousands: boolean
-  rulerLabel: string
-  comboLabel: string
   comboRegister: number
   requiresDefaultActions: boolean
   capFlatSubstats: boolean
@@ -84,9 +82,6 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     scoringType: ScoringType.DPS_SCORE,
     metadataField: 'simulation',
     thousands: true,
-    rulerLabel: 'DMG',
-    comboLabel: 'Combo DMG',
-
     comboRegister: GlobalRegister.COMBO_DMG,
     requiresDefaultActions: false,
     capFlatSubstats: true,
@@ -99,9 +94,6 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     scoringType: ScoringType.BUFFER_SCORE,
     metadataField: 'supportSimulation',
     thousands: false,
-    rulerLabel: 'Buff',
-    comboLabel: 'Buff',
-
     comboRegister: GlobalRegister.COMBO_BUFF,
     requiresDefaultActions: true,
     capFlatSubstats: false,
@@ -116,9 +108,6 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     scoringType: ScoringType.HEAL_SCORE,
     metadataField: 'healSimulation',
     thousands: false,
-    rulerLabel: 'Heal',
-    comboLabel: 'Combo Heal',
-
     comboRegister: GlobalRegister.COMBO_HEAL,
     requiresDefaultActions: false,
     capFlatSubstats: false,
@@ -133,9 +122,6 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     scoringType: ScoringType.SHIELD_SCORE,
     metadataField: 'shieldSimulation',
     thousands: false,
-    rulerLabel: 'Shield',
-    comboLabel: 'Combo Shield',
-
     comboRegister: GlobalRegister.COMBO_SHIELD,
     requiresDefaultActions: false,
     capFlatSubstats: false,

@@ -2031,6 +2031,14 @@ Characters:
       e6UltDmgBoost:
         text: 6凸 必殺技ダメバフ
         content: 必殺技を発動する時、自身の与ダメージ+30%、自身の次のターンが終了するまで継続。
+  MortenaxBlade:
+    Content:
+      ultZone:
+        text: 結界有効
+      e1ResPen:
+        text: 1凸 全属性耐性貫通
+      e2FuaDmgBoost:
+        text: 2凸 バフ
   Moze:
     Content:
       preyMark:

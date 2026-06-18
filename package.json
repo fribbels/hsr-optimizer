@@ -54,7 +54,7 @@
     "i18next": "^26.0.8",
     "i18next-browser-languagedetector": "^8.2.1",
     "i18next-http-backend": "^4.0.0",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^4.2.0",
     "overlayscrollbars": "^2.15.1",
     "overlayscrollbars-react": "^0.5.6",
     "partysocket": "^1.1.16",

@@ -352,7 +352,7 @@ const simulation = (): SimulationMetadata => ({
       characterId: Cipher.id,
       lightCone: Cipher.defaultLightCone,
       characterEidolon: 0,
-      lightConeSuperimposition: 5,
+      lightConeSuperimposition: 1,
     },
     {
       characterId: MortenaxBlade.id,

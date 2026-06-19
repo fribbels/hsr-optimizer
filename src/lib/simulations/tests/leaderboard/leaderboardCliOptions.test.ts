@@ -7,11 +7,11 @@ import {
   LeaderboardCliOptionsError,
   leaderboardCliUsage,
   parseLeaderboardCliOptions,
-} from '../../../../../scripts/leaderboard/shared/cliOptions'
+} from 'scripts/leaderboard/shared/cliOptions'
 import {
   homeDir,
   resolvePath,
-} from '../../../../../scripts/leaderboard/shared/nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 
 describe('leaderboard CLI options', () => {
   test('resolves defaults', () => {

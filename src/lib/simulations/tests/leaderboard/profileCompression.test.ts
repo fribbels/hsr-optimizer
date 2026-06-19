@@ -18,7 +18,7 @@ import {
   gunzipBase64Text,
   gzipTextToBase64,
   readTextFile,
-} from '../../../../../scripts/leaderboard/shared/nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 import { compressedProfileSampleBase64 } from './leaderboardProfileSample'
 
 Metadata.initialize()

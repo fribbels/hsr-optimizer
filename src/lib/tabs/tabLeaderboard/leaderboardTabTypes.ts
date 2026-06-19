@@ -1,7 +1,7 @@
 import type { MinifiedCharacter } from 'lib/simulations/leaderboard/profileCompression'
 import { type CharacterId } from 'types/character'
 import { type LightConeId } from 'types/lightCone'
-import type { LeaderboardEidolonGroup } from '../../../../scripts/leaderboard/shared/eidolonConfig'
+import type { LeaderboardEidolonGroup } from 'scripts/leaderboard/shared/eidolonConfig'
 
 export type { LeaderboardEidolonGroup }
 

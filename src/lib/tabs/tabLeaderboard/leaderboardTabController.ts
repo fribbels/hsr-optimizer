@@ -12,16 +12,16 @@ import {
   isLeaderboardConfigType,
   LEADERBOARD_CONFIG_TYPES,
   type LeaderboardConfigType,
-} from '../../../../scripts/leaderboard/shared/configTypeMapping'
+} from 'scripts/leaderboard/shared/configTypeMapping'
 import {
   EIDOLON_GROUPS,
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
-} from '../../../../scripts/leaderboard/shared/eidolonConfig'
+} from 'scripts/leaderboard/shared/eidolonConfig'
 import type {
   PublicCharacterData,
   PublicTeamMeta,
-} from '../../../../scripts/leaderboard/shared/types'
+} from 'scripts/leaderboard/shared/types'
 import { deriveVisibleEntries } from './deriveVisibleEntries'
 import { getLeaderboardCharacters } from './leaderboardCharacterHelpers'
 import {

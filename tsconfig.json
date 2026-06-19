@@ -21,7 +21,8 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "*": ["./src/*"]
+      "*": ["./src/*"],
+      "scripts/*": ["./scripts/*"]
     },
     "types": [
       "@webgpu/types"

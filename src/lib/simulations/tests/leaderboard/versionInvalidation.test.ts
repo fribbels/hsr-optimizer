@@ -6,11 +6,11 @@ import {
   expect,
   test,
 } from 'vitest'
-import type { LeaderboardVersionFile } from '../../../../../scripts/leaderboard/shared/types'
+import type { LeaderboardVersionFile } from 'scripts/leaderboard/shared/types'
 import {
   collectAffectedCharacterIds,
   collectBumpedIds,
-} from '../../../../../scripts/leaderboard/shared/versioning'
+} from 'scripts/leaderboard/shared/versioning'
 
 Metadata.initialize()
 

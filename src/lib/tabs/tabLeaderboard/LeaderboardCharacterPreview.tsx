@@ -14,7 +14,7 @@ import {
   useMemo,
 } from 'react'
 import { ScoringConfigType } from 'types/metadata'
-import { publicToConfigType } from '../../../../scripts/leaderboard/shared/configTypeMapping'
+import { publicToConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
 import type { LeaderboardTeammate } from './leaderboardTabTypes'
 import { useLeaderboardTabStore } from './useLeaderboardTabStore'
 

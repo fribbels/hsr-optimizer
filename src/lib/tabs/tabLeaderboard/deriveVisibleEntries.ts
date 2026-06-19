@@ -1,9 +1,9 @@
-import type { LeaderboardConfigType } from '../../../../scripts/leaderboard/shared/configTypeMapping'
+import type { LeaderboardConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
 import {
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
-} from '../../../../scripts/leaderboard/shared/eidolonConfig'
-import type { PublicCharacterData } from '../../../../scripts/leaderboard/shared/types'
+} from 'scripts/leaderboard/shared/eidolonConfig'
+import type { PublicCharacterData } from 'scripts/leaderboard/shared/types'
 import { mapPublicEntry } from './leaderboardDataLoader'
 import type { LeaderboardEntry } from './leaderboardTabTypes'
 

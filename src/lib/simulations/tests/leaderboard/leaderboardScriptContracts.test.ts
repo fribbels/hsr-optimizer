@@ -28,24 +28,24 @@ import {
 import {
   buildLeaderboardBuildScoreCacheKey,
   LeaderboardBuildScoreCache,
-} from '../../../../../scripts/leaderboard/cache/leaderboardBuildScoreCache'
-import { parseExport } from '../../../../../scripts/leaderboard/ingest/exportParser'
+} from 'scripts/leaderboard/cache/leaderboardBuildScoreCache'
+import { parseExport } from 'scripts/leaderboard/ingest/exportParser'
 import {
   buildProfilePayloadIndex,
   diffProfilePayloads,
-} from '../../../../../scripts/leaderboard/ingest/profileDiff'
+} from 'scripts/leaderboard/ingest/profileDiff'
 import {
   mergePrivateRankedOutput,
-} from '../../../../../scripts/leaderboard/output/privateOutput'
+} from 'scripts/leaderboard/output/privateOutput'
 import {
   buildPublicOutputFromPrivate,
   validateNoUidInPublicOutput,
-} from '../../../../../scripts/leaderboard/output/publicOutput'
+} from 'scripts/leaderboard/output/publicOutput'
 import {
   countScoringVariants,
   expandScoringVariants,
-} from '../../../../../scripts/leaderboard/scoring/scoringVariants'
-import type { EidolonTierValue } from '../../../../../scripts/leaderboard/shared/eidolonConfig'
+} from 'scripts/leaderboard/scoring/scoringVariants'
+import type { EidolonTierValue } from 'scripts/leaderboard/shared/eidolonConfig'
 import {
   deleteFile,
   fileExists,
@@ -55,7 +55,7 @@ import {
   resolvePath,
   tmpDir,
   writeGzipTextFile,
-} from '../../../../../scripts/leaderboard/shared/nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 import {
   type LeaderboardBuildScore,
   type LeaderboardDependencyNamespace,
@@ -69,10 +69,10 @@ import {
   type PrivateRankedEntry,
   type PrivateRankedOutput,
   type PublicCharacterData,
-} from '../../../../../scripts/leaderboard/shared/types'
+} from 'scripts/leaderboard/shared/types'
 import {
   buildLeaderboardScoreWorkerStateKey,
-} from '../../../../../scripts/leaderboard/workers/profileWorkerContracts'
+} from 'scripts/leaderboard/workers/profileWorkerContracts'
 import {
   compressedProfileSampleBase64,
   sampleFetchedAt,

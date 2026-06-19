@@ -1,9 +1,9 @@
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
-import { expandCharacter } from 'lib/simulations/leaderboard/profileCompression'
+import { expandCharacter } from 'scripts/leaderboard/shared/profileCompression'
 import type {
   MinifiedCharacter,
   MinifiedProfile,
-} from 'lib/simulations/leaderboard/profileCompression'
+} from 'scripts/leaderboard/shared/profileCompression'
 import { sha256Text } from '../shared/hash'
 import {
   gunzipBase64Text,

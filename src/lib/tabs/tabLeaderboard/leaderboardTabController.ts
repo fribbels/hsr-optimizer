@@ -5,7 +5,7 @@ import {
   PageToRoute,
 } from 'lib/constants/appPages'
 import { CharacterConverter } from 'lib/importer/characterConverter'
-import { expandCharacter } from 'lib/simulations/leaderboard/profileCompression'
+import { expandCharacter } from 'scripts/leaderboard/shared/profileCompression'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import { getLeaderboardCharacters } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import {

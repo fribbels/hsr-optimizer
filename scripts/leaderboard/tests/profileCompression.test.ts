@@ -6,7 +6,7 @@ import {
   expandProfile,
   type MinifiedProfile,
   minifyProfile,
-} from 'lib/simulations/leaderboard/profileCompression'
+} from 'scripts/leaderboard/shared/profileCompression'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
   fileExists,

@@ -1,4 +1,4 @@
-import type { LeaderboardBuildScore } from 'lib/simulations/leaderboard/scoreLeaderboardBuild'
+import type { LeaderboardBuildScore } from 'scripts/leaderboard/shared/scoreLeaderboardBuild'
 import { emptyBuildScoreCacheStats } from '../shared/metrics'
 import {
   homeDir,

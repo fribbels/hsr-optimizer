@@ -76,7 +76,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     slowTestThreshold: 500,
-    exclude: [],
+    exclude: ['node_modules/**', 'tests/**'],
     execArgv: ['--no-webstorage'],
   },
   worker: {

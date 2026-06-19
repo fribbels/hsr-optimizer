@@ -10,7 +10,7 @@ import {
   type SubStats,
 } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
-import type { MinifiedCharacter } from 'lib/simulations/leaderboard/profileCompression'
+import type { MinifiedCharacter } from 'scripts/leaderboard/shared/profileCompression'
 import {
   buildLeaderboardBuildScoreCacheKey,
   LeaderboardBuildScoreCache,

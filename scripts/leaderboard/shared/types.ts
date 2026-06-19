@@ -1,6 +1,6 @@
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
-import type { MinifiedCharacter } from 'lib/simulations/leaderboard/profileCompression'
-import type { LeaderboardBuildScore } from 'lib/simulations/leaderboard/scoreLeaderboardBuild'
+import type { MinifiedCharacter } from 'scripts/leaderboard/shared/profileCompression'
+import type { LeaderboardBuildScore } from 'scripts/leaderboard/shared/scoreLeaderboardBuild'
 import type {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,

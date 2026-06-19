@@ -4,7 +4,7 @@ import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import {
   type LeaderboardBuildScore,
   scoreLeaderboardBuild,
-} from 'lib/simulations/leaderboard/scoreLeaderboardBuild'
+} from 'scripts/leaderboard/shared/scoreLeaderboardBuild'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'

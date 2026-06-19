@@ -382,16 +382,3 @@ RelicReroll:
   Title: 遺物の振り直しを検出しました
   OriginalSubstats: 元のサブステ
   RerolledSubstats: 振り直し後のサブステ
-Calculators:
-  EHR:
-    Label: 効果命中
-    Input:
-      EffectRes: 敵効果抵抗
-      DebuffRes: 敵のデバフ抵抗
-      BaseChance: デバフ付与基礎確率
-      Attempts: 付与試行回数
-      HitRate: 効果命中
-      DesiredHitRate: 敵デバフ付与率
-    Output:
-      ApplicationRate: 付加確率
-      RequiredHitRate: 必要な効果命中

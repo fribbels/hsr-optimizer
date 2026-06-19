@@ -1890,6 +1890,14 @@ Characters:
       e6UltDmgBoost:
         text: E6 Aumento de daño por Definitiva
         content: Al usar la habilidad definitiva, inflige un 30% más de daño hasta que termine su turno.
+  MortenaxBlade:
+    Content:
+      ultZone:
+        text: Campo activo
+      e1ResPen:
+        text: E1 PEN RES
+      e2FuaDmgBoost:
+        text: E2 Mejoras
   Moze:
     Content:
       preyMark:

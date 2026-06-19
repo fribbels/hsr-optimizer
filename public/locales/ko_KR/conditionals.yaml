@@ -1893,6 +1893,14 @@ Characters:
       e6UltDmgBoost:
         text: 6돌 필살기 버프
         content: 필살기 발동 시, 자신이 가하는 피해가 자신의 턴이 종료될 때까지 30% 증가한다.
+  MortenaxBlade:
+    Content:
+      ultZone:
+        text: 결계 활성화
+      e1ResPen:
+        text: 1돌 속저관
+      e2FuaDmgBoost:
+        text: 2돌 버프
   Moze:
     Content:
       preyMark:

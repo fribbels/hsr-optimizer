@@ -287,6 +287,11 @@ Lightcones:
         text: 持续伤害效果（未实施）
         content: >-
           当装备者击中敌方目标时，如果该目标不处于【游丝】状态，则有 100% 的基础概率使其陷入【游丝】状态。当敌方目标处于【游丝】状态时，也会被视为陷入了触电状态。【游丝】状态下，敌方目标每回合开始时受到等同于装备者{{Multiplier}}%攻击力的雷属性持续伤害，持续1回合。
+  ReforgedInHellfire:
+    Content:
+      purgatoryState:
+        text: 爆伤增益
+        content: '【炼狱】状态下目标受到的暴击伤害提高{{cdBuff}}%，受到来自装备者的暴击伤害额外提高{{cdBuff}}%。'
   ReforgedRemembrance:
     Content:
       prophetStacks:
@@ -2031,6 +2036,27 @@ Characters:
       e6UltDmgBoost:
         text: 6魂终结技伤害提高
         content: 施放终结技时，使自身造成的伤害提高30%，持续至自身回合结束。
+  MortenaxBlade:
+    Content:
+      infiniteFuryActive:
+        text: 无量忿怒状态
+        content: '【无量忿怒】状态下暴击率提高20%，暴击伤害提高{{cdBuff}}%，普攻获得强化，同时解放战技并获得全新终结技【千冶铸一，万劫烬灭】。'
+      ultZone:
+        text: 结界启用
+        content: >-
+          结界持续期间，自身受到的伤害降低50%。结界持续期间，我方目标造成的伤害提高50%。我方队伍中存在除千冶•刃之外的「虚无」命途角色时，使我方目标造成的终结技伤害提高75%，否则，使千冶•刃造成的伤害额外提高75%。::BR:: 1魂：结界持续期间，使敌方全体全属性抗性降低20%。::BR:: 4魂：使我方目标造成的伤害额外提高50%。
+      e1ResPen:
+        text: 1魂抗性穿透
+        content: 结界持续期间，使敌方全体全属性抗性降低20%。
+      e2FuaDmgBoost:
+        text: 2魂增益
+        content: 我方角色施放终结技造成伤害时，被视为发动了追加攻击，我方目标造成的追加攻击伤害提高75%。
+      e4DmgBoost:
+        text: 4魂伤害提高
+        content: 终结技所释放的结界使我方目标造成的伤害额外提高50%。
+      e6EnhancedUlt:
+        text: 6魂终结技最终伤害
+        content: '【千冶铸一，万劫烬灭】的伤害倍率提高为原倍率的150%。'
   Moze:
     Content:
       preyMark:

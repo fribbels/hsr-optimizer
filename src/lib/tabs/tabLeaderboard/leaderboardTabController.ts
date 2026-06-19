@@ -20,17 +20,17 @@ import {
   isLeaderboardConfigType,
   LEADERBOARD_CONFIG_TYPES,
   type LeaderboardConfigType,
-} from 'scripts/leaderboard/shared/configTypeMapping'
+} from 'leaderboard/shared/configTypeMapping'
 import {
   EIDOLON_GROUPS,
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
-} from 'scripts/leaderboard/shared/eidolonConfig'
-import { expandCharacter } from 'scripts/leaderboard/shared/profileCompression'
+} from 'leaderboard/shared/eidolonConfig'
+import { expandCharacter } from 'leaderboard/shared/profileCompression'
 import type {
   PublicCharacterData,
   PublicTeamMeta,
-} from 'scripts/leaderboard/shared/types'
+} from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 
 const CONFIG_DISPLAY_ORDER = LEADERBOARD_CONFIG_TYPES

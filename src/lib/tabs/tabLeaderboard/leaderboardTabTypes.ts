@@ -1,5 +1,5 @@
-import type { LeaderboardEidolonGroup } from 'scripts/leaderboard/shared/eidolonConfig'
-import type { MinifiedCharacter } from 'scripts/leaderboard/shared/profileCompression'
+import type { LeaderboardEidolonGroup } from 'leaderboard/shared/eidolonConfig'
+import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import { type CharacterId } from 'types/character'
 import { type LightConeId } from 'types/lightCone'
 

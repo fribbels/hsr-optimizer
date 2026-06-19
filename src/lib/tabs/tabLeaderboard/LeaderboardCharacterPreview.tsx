@@ -15,7 +15,7 @@ import {
   useDeferredValue,
   useMemo,
 } from 'react'
-import { publicToConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
+import { publicToConfigType } from 'leaderboard/shared/configTypeMapping'
 import { ScoringConfigType } from 'types/metadata'
 
 export function LeaderboardCharacterPreview() {

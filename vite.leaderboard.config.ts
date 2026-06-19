@@ -14,8 +14,8 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       input: {
-        'runLeaderboard': resolve(import.meta.dirname, 'scripts/leaderboard/runLeaderboard.ts'),
-        'workers/profileWorkerThread': resolve(import.meta.dirname, 'scripts/leaderboard/workers/profileWorkerThread.ts'),
+        'runLeaderboard': resolve(import.meta.dirname, 'src/leaderboard/runLeaderboard.ts'),
+        'workers/profileWorkerThread': resolve(import.meta.dirname, 'src/leaderboard/workers/profileWorkerThread.ts'),
       },
       output: {
         entryFileNames: '[name].js',

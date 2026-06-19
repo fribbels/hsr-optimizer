@@ -15,8 +15,8 @@ import {
   EIDOLON_TIERS,
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
-} from 'scripts/leaderboard/shared/eidolonConfig'
-import type { PublicTeamMeta } from 'scripts/leaderboard/shared/types'
+} from 'leaderboard/shared/eidolonConfig'
+import type { PublicTeamMeta } from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 
 interface LeaderboardFilterControlsProps {

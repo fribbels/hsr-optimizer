@@ -21,16 +21,14 @@
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "*": ["./src/*"],
-      "scripts/*": ["./scripts/*"]
+      "*": ["./src/*"]
     },
     "types": [
       "@webgpu/types"
     ]
   },
   "include": [
-    "src",
-    "scripts/leaderboard/**/*.ts"
+    "src"
   ],
   "exclude": [
     "dist",

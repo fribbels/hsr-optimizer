@@ -3,15 +3,15 @@ import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTyp
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { type LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
-import type { LeaderboardConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
+import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import {
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
-} from 'scripts/leaderboard/shared/eidolonConfig'
+} from 'leaderboard/shared/eidolonConfig'
 import type {
   PublicCharacterData,
   PublicTeamMeta,
-} from 'scripts/leaderboard/shared/types'
+} from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 
 export interface LeaderboardTabState {

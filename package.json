@@ -19,7 +19,7 @@
     "preview": "vite preview",
     "build": "vite build",
     "lint": "oxlint",
-    "format": "node scripts/convert-relative-imports.mjs && dprint fmt",
+    "format": "node src/scripts/convert-relative-imports.mjs && dprint fmt",
     "vitest": "vitest --no-watch --pool=threads",
     "vitest:fast": "vitest --no-watch --pool=threads --exclude '**/simulations/tests/**/*Orchestrator*'",
     "vitest:silent": "vitest --no-watch --pool=threads --silent",

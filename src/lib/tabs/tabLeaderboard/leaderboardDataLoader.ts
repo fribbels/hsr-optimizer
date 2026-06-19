@@ -3,11 +3,11 @@ import {
   type LeaderboardEntry,
   type LeaderboardTeammate,
 } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
-import { eidolonToGroup } from 'scripts/leaderboard/shared/eidolonConfig'
+import { eidolonToGroup } from 'leaderboard/shared/eidolonConfig'
 import type {
   PublicCharacterData,
   PublicLeaderboardEntryV2,
-} from 'scripts/leaderboard/shared/types'
+} from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 

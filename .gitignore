@@ -1,9 +1,9 @@
 CLAUDE.md
 
 # Leaderboard
-output/
-leaderboard-cache/
-exports/
+/output/
+/leaderboard-cache/
+/exports/
 
 # Logs
 logs

@@ -103,6 +103,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.40, 2.592)
   const fuaScaling = talent(e, 2.70, 2.97)
 
+  const hitMulti = ashblazingMulti([single(1.00)])
+
   const defaults = {
     enemyDebuffStacks: debuffStacksMax,
     summationStacks: summationStacksMax,
@@ -214,10 +216,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, ashblazingMulti([single(1.00)])(context))
+      boostAshblazingAtkContainer(x, action, hitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(ashblazingMulti([single(1.00)])(context), action)
+      return gpuBoostAshblazingAtkContainer(hitMulti(context), action)
     },
   }
 }

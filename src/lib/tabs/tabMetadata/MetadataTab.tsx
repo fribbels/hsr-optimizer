@@ -114,7 +114,7 @@ export function MetadataTab(): ReactElement {
 // =========================================== LeaderboardTeamsDashboard ===========================================
 
 const CONFIG_SECTIONS: { label: string, key: keyof DBMetadataCharacter['scoringMetadata'], showSubDps: boolean }[] = [
-  { label: 'DPS', key: 'simulation', showSubDps: false },
+  { label: 'DPS', key: 'simulation', showSubDps: true },
   { label: 'Support', key: 'supportSimulation', showSubDps: true },
   { label: 'Heal', key: 'healSimulation', showSubDps: true },
   { label: 'Shield', key: 'shieldSimulation', showSubDps: true },

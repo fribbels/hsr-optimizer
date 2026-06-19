@@ -1,9 +1,9 @@
-import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import {
   hashObject,
   sha256Text,
   stableJson,
 } from 'leaderboard/shared/hash'
+import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type {
   ScoringConfigType,
   SimulationMetadata,

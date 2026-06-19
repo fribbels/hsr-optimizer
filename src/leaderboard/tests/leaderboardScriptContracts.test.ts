@@ -1,15 +1,3 @@
-import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { TrailblazerHarmonyCaelus } from 'lib/conditionals/character/8000/TrailblazerHarmony'
-import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
-import {
-  type MainStats,
-  Parts,
-  Sets,
-  Stats,
-  type SubStats,
-} from 'lib/constants/constants'
-import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import {
   buildLeaderboardBuildScoreCacheKey,
   LeaderboardBuildScoreCache,
@@ -64,6 +52,18 @@ import {
 import {
   buildLeaderboardScoreWorkerStateKey,
 } from 'leaderboard/workers/profileWorkerContracts'
+import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { TrailblazerHarmonyCaelus } from 'lib/conditionals/character/8000/TrailblazerHarmony'
+import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
+import {
+  type MainStats,
+  Parts,
+  Sets,
+  Stats,
+  type SubStats,
+} from 'lib/constants/constants'
+import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import {

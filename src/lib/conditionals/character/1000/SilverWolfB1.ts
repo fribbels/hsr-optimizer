@@ -59,6 +59,8 @@ import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { floorSafe } from 'lib/utils/mathUtils'
 
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -71,8 +73,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { Hyacine } from '../1400/Hyacine'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const SilverWolfB1Entities = createEnum('SilverWolfB1')
 export const SilverWolfB1Abilities: AbilityKind[] = [

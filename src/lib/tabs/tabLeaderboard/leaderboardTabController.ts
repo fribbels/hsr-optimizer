@@ -1,3 +1,18 @@
+import {
+  isLeaderboardConfigType,
+  LEADERBOARD_CONFIG_TYPES,
+  type LeaderboardConfigType,
+} from 'leaderboard/shared/configTypeMapping'
+import {
+  EIDOLON_GROUPS,
+  LEADERBOARD_FILTER_ALL,
+  type LeaderboardEidolonFilter,
+} from 'leaderboard/shared/eidolonConfig'
+import { expandCharacter } from 'leaderboard/shared/profileCompression'
+import type {
+  PublicCharacterData,
+  PublicTeamMeta,
+} from 'leaderboard/shared/types'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTypes'
 import {
@@ -16,21 +31,6 @@ import {
 } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
-import {
-  isLeaderboardConfigType,
-  LEADERBOARD_CONFIG_TYPES,
-  type LeaderboardConfigType,
-} from 'leaderboard/shared/configTypeMapping'
-import {
-  EIDOLON_GROUPS,
-  LEADERBOARD_FILTER_ALL,
-  type LeaderboardEidolonFilter,
-} from 'leaderboard/shared/eidolonConfig'
-import { expandCharacter } from 'leaderboard/shared/profileCompression'
-import type {
-  PublicCharacterData,
-  PublicTeamMeta,
-} from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 
 const CONFIG_DISPLAY_ORDER = LEADERBOARD_CONFIG_TYPES

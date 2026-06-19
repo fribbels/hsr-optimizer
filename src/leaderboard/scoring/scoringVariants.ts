@@ -1,4 +1,3 @@
-import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   DEFAULT_TIER_SUPERIMPOSITION,
   type EidolonTierValue,
@@ -10,6 +9,7 @@ import type {
   LeaderboardScoreCandidateConfigInput,
   LeaderboardScoringCandidate,
 } from 'leaderboard/shared/types'
+import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { LightConeId } from 'types/lightCone'
 import type {
   LeaderboardTeam,

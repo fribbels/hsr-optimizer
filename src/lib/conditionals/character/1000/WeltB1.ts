@@ -55,6 +55,8 @@ import {
   precisionRound,
 } from 'lib/utils/mathUtils'
 
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 import type { CharacterConditionalsController } from 'types/conditionals'
@@ -66,8 +68,6 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-import { Hyacine } from '../1400/Hyacine'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const WeltB1Entities = createEnum('WeltB1')
 export const WeltB1Abilities: AbilityKind[] = [

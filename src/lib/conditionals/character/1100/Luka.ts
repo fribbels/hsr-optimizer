@@ -52,6 +52,7 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -62,7 +63,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { TheDahlia } from '../1300/TheDahlia'
 
 export const LukaEntities = createEnum('Luka')
 export const LukaAbilities: AbilityKind[] = [

@@ -1,5 +1,3 @@
-import { Metadata } from 'lib/state/metadataInitializer'
-import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import { LeaderboardBuildScoreCache } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import { parseExport } from 'leaderboard/ingest/exportParser'
 import { preFilterProfiles } from 'leaderboard/ingest/preFilter'
@@ -47,6 +45,8 @@ import {
   collectBumpedIds,
   readLeaderboardVersions,
 } from 'leaderboard/shared/versioning'
+import { Metadata } from 'lib/state/metadataInitializer'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadataOverride } from 'types/metadata'
 

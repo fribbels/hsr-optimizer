@@ -1,4 +1,3 @@
-import { getGameMetadata } from 'lib/state/gameMetadata'
 import { hashObject } from 'leaderboard/shared/hash'
 import { LEADERBOARD_VERSIONS } from 'leaderboard/shared/leaderboardVersions'
 import type {
@@ -7,6 +6,7 @@ import type {
   LeaderboardEntryTeammate,
   LeaderboardVersionFile,
 } from 'leaderboard/shared/types'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 
 export function readLeaderboardVersions(): LeaderboardVersionFile {

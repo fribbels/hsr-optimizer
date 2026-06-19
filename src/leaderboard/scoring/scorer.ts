@@ -1,8 +1,3 @@
-import { DEFAULT_TEAM } from 'lib/constants/constants'
-import { CharacterConverter } from 'lib/importer/characterConverter'
-import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
-import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import { getGameMetadata } from 'lib/state/gameMetadata'
 import { buildLeaderboardBuildScoreCacheKey } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import {
   type EligibleConverted,
@@ -38,6 +33,11 @@ import {
   buildDependencyNamespace,
   getDependencyVersions,
 } from 'leaderboard/shared/versioning'
+import { DEFAULT_TEAM } from 'lib/constants/constants'
+import { CharacterConverter } from 'lib/importer/characterConverter'
+import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
+import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 import type {
   LeaderboardTeam,

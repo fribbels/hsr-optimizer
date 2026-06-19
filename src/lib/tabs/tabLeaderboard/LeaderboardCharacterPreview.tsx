@@ -1,3 +1,4 @@
+import { publicToConfigType } from 'leaderboard/shared/configTypeMapping'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterPreviewScoringProvider } from 'lib/characterPreview/CharacterPreviewScoringContext'
@@ -15,7 +16,6 @@ import {
   useDeferredValue,
   useMemo,
 } from 'react'
-import { publicToConfigType } from 'leaderboard/shared/configTypeMapping'
 import { ScoringConfigType } from 'types/metadata'
 
 export function LeaderboardCharacterPreview() {

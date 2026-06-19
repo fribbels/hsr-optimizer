@@ -52,6 +52,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import {
   floorSafe,
   precisionRound,
@@ -68,7 +69,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { TheDahlia } from './TheDahlia'
 
 export const RappaEntities = createEnum('Rappa')
 export const RappaAbilities: AbilityKind[] = [

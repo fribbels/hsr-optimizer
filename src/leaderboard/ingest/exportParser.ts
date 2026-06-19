@@ -1,4 +1,3 @@
-import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 import { sha256Text } from 'leaderboard/shared/hash'
 import {
   gunzipBase64Text,
@@ -16,6 +15,7 @@ import type {
   ParsedExport,
   ParsedProfile,
 } from 'leaderboard/shared/types'
+import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 
 export type { ExportParseSummary, ParsedCharacter, ParsedExport, ParsedProfile } from 'leaderboard/shared/types'
 

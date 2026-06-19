@@ -11,6 +11,7 @@ import {
   gilgameshActionExists,
   gilgameshFuaSaberUltBoost,
 } from 'lib/conditionals/character/1500/Gilgamesh'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -67,7 +68,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const SaberEntities = createEnum('Saber')
 export const SaberAbilities: AbilityKind[] = [

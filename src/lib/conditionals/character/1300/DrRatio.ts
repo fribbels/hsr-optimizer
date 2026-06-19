@@ -51,6 +51,10 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
+import { Sparkle } from 'lib/conditionals/character/1300/Sparkle'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -64,10 +68,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { Hyacine } from '../1400/Hyacine'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
-import { Sparkle } from './Sparkle'
-import { SparkleB1 } from './SparkleB1'
 
 export const DrRatioEntities = createEnum('DrRatio')
 export const DrRatioAbilities: AbilityKind[] = [

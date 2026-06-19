@@ -1,4 +1,8 @@
 import {
+  configTypeToPublic,
+  type LeaderboardConfigType,
+} from 'leaderboard/shared/configTypeMapping'
+import {
   dirnamePath,
   ensureDirectory,
   fileExists,
@@ -6,16 +10,18 @@ import {
   readTextFile,
   writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
-import { configTypeToPublic, type LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type {
+  LeaderboardVersionFile,
   PrivateBoard,
   PrivateBoardCompleteness,
   PrivateRankedEntry,
   PrivateRankedOutput,
   ProfilePayloadIndex,
-  LeaderboardVersionFile,
 } from 'leaderboard/shared/types'
-import { getCharacterVersion, getLightConeVersion } from 'leaderboard/shared/versioning'
+import {
+  getCharacterVersion,
+  getLightConeVersion,
+} from 'leaderboard/shared/versioning'
 
 export function comparePrivateRankedEntries(
   a: Pick<PrivateRankedEntry, 'score' | 'uidHash'>,
@@ -32,7 +38,7 @@ function entryReplacementKey(entry: PrivateRankedEntry): string {
   return `${entry.uid}#${entry.characterId}#${configTypeToPublic(entry.configType)}#${entry.teamId}`
 }
 
-function parseBoardKey(key: string): { characterId: string; configType: LeaderboardConfigType; teamId: string } {
+function parseBoardKey(key: string): { characterId: string, configType: LeaderboardConfigType, teamId: string } {
   const [characterId, configType, teamId] = key.split('#')
   return {
     characterId,
@@ -54,17 +60,17 @@ function dedupePrivateRankedEntries(entries: PrivateRankedEntry[]): PrivateRanke
 }
 
 export function mergePrivateRankedOutput(input: {
-  previous: PrivateRankedOutput | null
-  newEntries: PrivateRankedEntry[]
-  changedUids: Set<string>
-  missingUids: Set<string>
-  invalidatedDependencyDigests: Set<string>
-  globalVersion: number
-  topN: number
-  topNPublic: number
+  previous: PrivateRankedOutput | null,
+  newEntries: PrivateRankedEntry[],
+  changedUids: Set<string>,
+  missingUids: Set<string>,
+  invalidatedDependencyDigests: Set<string>,
+  globalVersion: number,
+  topN: number,
+  topNPublic: number,
 }): {
-  output: PrivateRankedOutput
-  dependencyInvalidatedUids: Set<string>
+  output: PrivateRankedOutput,
+  dependencyInvalidatedUids: Set<string>,
 } {
   const {
     previous,
@@ -163,12 +169,12 @@ export function mergePrivateRankedOutput(input: {
 }
 
 export function collectDependencyInvalidations(input: {
-  previous: PrivateRankedOutput | null
-  versions: LeaderboardVersionFile
-  globalVersion: number
+  previous: PrivateRankedOutput | null,
+  versions: LeaderboardVersionFile,
+  globalVersion: number,
 }): {
-  invalidatedDependencyDigests: Set<string>
-  invalidatedUids: Set<string>
+  invalidatedDependencyDigests: Set<string>,
+  invalidatedUids: Set<string>,
 } {
   const invalidatedDependencyDigests = new Set<string>()
   const invalidatedUids = new Set<string>()

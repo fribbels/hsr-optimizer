@@ -1,9 +1,5 @@
 // @vitest-environment jsdom
 import {
-  CharacterConverter,
-} from 'lib/importer/characterConverter'
-import { Metadata } from 'lib/state/metadataInitializer'
-import {
   fileExists,
   gunzipBase64Text,
   gzipTextToBase64,
@@ -15,6 +11,10 @@ import {
   minifyProfile,
 } from 'leaderboard/shared/profileCompression'
 import { compressedProfileSampleBase64 } from 'leaderboard/tests/leaderboardProfileSample'
+import {
+  CharacterConverter,
+} from 'lib/importer/characterConverter'
+import { Metadata } from 'lib/state/metadataInitializer'
 import {
   describe,
   expect,

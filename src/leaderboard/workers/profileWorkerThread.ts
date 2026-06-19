@@ -1,5 +1,3 @@
-import { Metadata } from 'lib/state/metadataInitializer'
-import { defaultComputeOptimalSimulationSearchRunner } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { LeaderboardBuildScoreCache } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import { scoreProfile } from 'leaderboard/scoring/scorer'
 import { createLeaderboardSearchRunner } from 'leaderboard/scoring/searchRunner'
@@ -14,6 +12,8 @@ import {
   type LeaderboardVersionFile,
 } from 'leaderboard/shared/types'
 import { buildLeaderboardScoreWorkerStateKey } from 'leaderboard/workers/profileWorkerContracts'
+import { Metadata } from 'lib/state/metadataInitializer'
+import { defaultComputeOptimalSimulationSearchRunner } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 
 type WorkerState = {
   key: string,

@@ -1,13 +1,13 @@
-import { BASE_PATH } from 'lib/constants/appPages'
-import {
-  type LeaderboardEntry,
-  type LeaderboardTeammate,
-} from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import { eidolonToGroup } from 'leaderboard/shared/eidolonConfig'
 import type {
   PublicCharacterData,
   PublicLeaderboardEntryV2,
 } from 'leaderboard/shared/types'
+import { BASE_PATH } from 'lib/constants/appPages'
+import {
+  type LeaderboardEntry,
+  type LeaderboardTeammate,
+} from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 

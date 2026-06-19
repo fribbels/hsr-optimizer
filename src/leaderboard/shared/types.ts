@@ -1,13 +1,13 @@
-import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
-import type {
-  ComputeOptimalSimulationWorkerInput,
-  ComputeOptimalSimulationWorkerOutput,
-} from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { LeaderboardEidolonGroup } from 'leaderboard/shared/eidolonConfig'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import type { LeaderboardBuildScore } from 'leaderboard/shared/scoreLeaderboardBuild'
+import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
+import type {
+  ComputeOptimalSimulationWorkerInput,
+  ComputeOptimalSimulationWorkerOutput,
+} from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type { CharacterId } from 'types/character'
 import type {
   ScoringConfigType,

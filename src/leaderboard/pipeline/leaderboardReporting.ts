@@ -1,5 +1,3 @@
-import { getSimScoreGrade } from 'lib/scoring/dpsScore'
-import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
 import type {
   FailureEntry,
@@ -10,6 +8,8 @@ import type {
   PrivateRankedEntry,
   PrivateRankedOutput,
 } from 'leaderboard/shared/types'
+import { getSimScoreGrade } from 'lib/scoring/dpsScore'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 
 function getCharacterLogName(characterId: string): string {

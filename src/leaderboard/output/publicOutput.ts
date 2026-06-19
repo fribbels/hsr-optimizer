@@ -1,17 +1,16 @@
+import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import { hashObject } from 'leaderboard/shared/hash'
 import {
   copyFile,
   deleteFile,
   dirnamePath,
   ensureDirectory,
-  gzipTextToBase64,
   gunzipBase64Text,
+  gzipTextToBase64,
   joinPath,
   renameFile,
   writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
-import type { CharacterId } from 'types/character'
-import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type {
   PrivateRankedOutput,
   PublicBoardDataV2,
@@ -21,11 +20,12 @@ import type {
   PublicLeaderboardOutputV3,
   PublicTeamMeta,
 } from 'leaderboard/shared/types'
+import type { CharacterId } from 'types/character'
 
 export function buildPublicOutputFromPrivate(input: {
-  privateOutput: PrivateRankedOutput
-  topNPublic: number
-  totalCounts: Map<string, number>
+  privateOutput: PrivateRankedOutput,
+  topNPublic: number,
+  totalCounts: Map<string, number>,
 }): PublicLeaderboardOutputV3 {
   const { privateOutput, topNPublic, totalCounts } = input
   if (!Number.isInteger(topNPublic) || topNPublic <= 0) {

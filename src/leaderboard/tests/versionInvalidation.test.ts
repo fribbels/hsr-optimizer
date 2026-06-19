@@ -1,10 +1,10 @@
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import { Metadata } from 'lib/state/metadataInitializer'
 import type { LeaderboardVersionFile } from 'leaderboard/shared/types'
 import {
   collectAffectedCharacterIds,
   collectBumpedIds,
 } from 'leaderboard/shared/versioning'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import type { CharacterId } from 'types/character'
 import {
   describe,

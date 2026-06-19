@@ -1,9 +1,9 @@
+import type { LeaderboardMetrics } from 'leaderboard/shared/types'
 import { clone } from 'lib/utils/objectUtils'
 import type {
   ComputeOptimalSimulationSearchRunner,
   ComputeOptimalSimulationWorkerInput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import type { LeaderboardMetrics } from 'leaderboard/shared/types'
 
 export function createLeaderboardSearchRunner(input: {
   metrics: LeaderboardMetrics,

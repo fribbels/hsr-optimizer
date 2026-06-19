@@ -1,11 +1,11 @@
 import {
   emptyBuildScoreCacheStats,
   emptyMetricsSnapshot,
-} from '../shared/metrics'
+} from 'scripts/leaderboard/shared/metrics'
 import {
   createNodeWorker,
   type NodeWorker,
-} from '../shared/nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 import type {
   FailureEntry,
   LeaderboardBuildScoreCacheStats,
@@ -16,7 +16,7 @@ import type {
   LeaderboardVersionFile,
   ParsedProfile,
   PrivateRankedEntry,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
 
 type LeaderboardScoreWorkerPoolOptions = {
   workerScriptUrl: URL,

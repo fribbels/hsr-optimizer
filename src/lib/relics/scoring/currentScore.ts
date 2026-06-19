@@ -1,13 +1,13 @@
-import type { Relic } from 'types/relic'
-import { pctToRating } from './scoreFormatting'
+import { pctToRating } from 'lib/relics/scoring/scoreFormatting'
 import {
   hasMainStat,
   mainStatWeight,
-} from './substatScoring'
+} from 'lib/relics/scoring/substatScoring'
 import type {
   RelicScoringResult,
   ScorerMetadata,
-} from './types'
+} from 'lib/relics/scoring/types'
+import type { Relic } from 'types/relic'
 
 export function scoreCurrentRelic(
   relic: Relic,

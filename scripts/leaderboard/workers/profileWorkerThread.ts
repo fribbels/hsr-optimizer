@@ -1,10 +1,10 @@
 import { Metadata } from 'lib/state/metadataInitializer'
 import { defaultComputeOptimalSimulationSearchRunner } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import { LeaderboardBuildScoreCache } from '../cache/leaderboardBuildScoreCache'
-import { scoreProfile } from '../scoring/scorer'
-import { createLeaderboardSearchRunner } from '../scoring/searchRunner'
-import { createLeaderboardMetrics } from '../shared/metrics'
-import { getParentMessagePort } from '../shared/nodeFacade'
+import { LeaderboardBuildScoreCache } from 'scripts/leaderboard/cache/leaderboardBuildScoreCache'
+import { scoreProfile } from 'scripts/leaderboard/scoring/scorer'
+import { createLeaderboardSearchRunner } from 'scripts/leaderboard/scoring/searchRunner'
+import { createLeaderboardMetrics } from 'scripts/leaderboard/shared/metrics'
+import { getParentMessagePort } from 'scripts/leaderboard/shared/nodeFacade'
 import {
   type LeaderboardBuildScoreCache as LeaderboardBuildScoreCacheContract,
   type LeaderboardBuildScoreCacheStats,
@@ -12,8 +12,8 @@ import {
   type LeaderboardScoreWorkerResponse,
   type LeaderboardScoreWorkerRuntimeConfig,
   type LeaderboardVersionFile,
-} from '../shared/types'
-import { buildLeaderboardScoreWorkerStateKey } from './profileWorkerContracts'
+} from 'scripts/leaderboard/shared/types'
+import { buildLeaderboardScoreWorkerStateKey } from 'scripts/leaderboard/workers/profileWorkerContracts'
 
 type WorkerState = {
   key: string,

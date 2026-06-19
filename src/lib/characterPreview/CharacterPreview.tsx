@@ -58,7 +58,11 @@ import {
 } from 'lib/characterPreview/scoring/ShowcaseSimScore'
 import { ShowcaseSubstatRolls } from 'lib/characterPreview/scoring/ShowcaseSubstatRolls'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
+import {
+  SimScoringContextProvider,
+} from 'lib/characterPreview/SimScoringContext'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
+import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import type { StatsValues } from 'lib/constants/constants'
 import {
@@ -102,10 +106,6 @@ import {
   type ShowcaseDisplayDimensionsOverride,
   type ShowcaseTemporaryOptions,
 } from 'types/metadata'
-import {
-  SimScoringContextProvider,
-} from './SimScoringContext'
-import { useSimPreview } from './useSimScoringHooks'
 
 const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}

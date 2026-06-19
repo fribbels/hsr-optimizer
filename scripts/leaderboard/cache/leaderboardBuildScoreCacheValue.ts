@@ -1,7 +1,7 @@
 import type {
   LeaderboardBuildScore,
   LeaderboardBuildScoreCacheValue,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
 
 export function createLeaderboardBuildScoreCacheValue(
   key: string,

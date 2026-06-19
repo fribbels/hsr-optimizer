@@ -1,4 +1,13 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import classes from 'lib/characterPreview/scoring/ShowcaseSubstatRolls.module.css'
+import {
+  computeTierColors,
+  type TierColors,
+} from 'lib/characterPreview/scoring/substatRollColors'
+import {
+  type AggregatedStatRolls,
+  aggregateSubstatRolls,
+} from 'lib/characterPreview/scoring/substatRollsAggregator'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
@@ -10,15 +19,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import type { CharacterId } from 'types/character'
-import classes from './ShowcaseSubstatRolls.module.css'
-import {
-  computeTierColors,
-  type TierColors,
-} from './substatRollColors'
-import {
-  type AggregatedStatRolls,
-  aggregateSubstatRolls,
-} from './substatRollsAggregator'
 
 const TRACK_WIDTH = 222
 

@@ -2,7 +2,7 @@ import type {
   IncrementalProfileDiff,
   ParsedProfile,
   ProfilePayloadIndex,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
 
 export function diffProfilePayloads(input: {
   previous: ProfilePayloadIndex | null,

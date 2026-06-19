@@ -1,7 +1,7 @@
 import {
   emptyBuildScoreCacheStats,
   emptyMetricsSnapshot,
-} from '../shared/metrics'
+} from 'scripts/leaderboard/shared/metrics'
 import type {
   FailureEntry,
   LeaderboardBuildScoreCacheStats,
@@ -10,8 +10,8 @@ import type {
   LeaderboardVersionFile,
   ParsedProfile,
   PrivateRankedEntry,
-} from '../shared/types'
-import { LeaderboardScoreWorkerPool } from '../workers/profileWorkerPool'
+} from 'scripts/leaderboard/shared/types'
+import { LeaderboardScoreWorkerPool } from 'scripts/leaderboard/workers/profileWorkerPool'
 
 export type RunScoringStageInput = {
   profiles: ParsedProfile[],

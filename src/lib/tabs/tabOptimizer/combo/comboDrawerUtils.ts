@@ -15,7 +15,7 @@ import type {
 import {
   locateConditional,
   useComboDrawerStore,
-} from './useComboDrawerStore'
+} from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 
 // ─── Teammate Helpers ────────────────────────────────────────
 

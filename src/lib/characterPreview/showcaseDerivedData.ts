@@ -10,6 +10,7 @@ import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import type { SimulationMetadataOverride } from 'lib/characterPreview/characterPreviewTypes'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
@@ -51,7 +52,6 @@ import type {
   ScoringConfigType,
   SimulationMetadata,
 } from 'types/metadata'
-import type { SimulationMetadataOverride } from './characterPreviewTypes'
 
 // ===== Layout Resolution (character-dependent, no color) =====
 

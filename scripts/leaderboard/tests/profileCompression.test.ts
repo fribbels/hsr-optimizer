@@ -2,11 +2,6 @@
 import {
   CharacterConverter,
 } from 'lib/importer/characterConverter'
-import {
-  expandProfile,
-  type MinifiedProfile,
-  minifyProfile,
-} from 'scripts/leaderboard/shared/profileCompression'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
   fileExists,
@@ -15,11 +10,16 @@ import {
   readTextFile,
 } from 'scripts/leaderboard/shared/nodeFacade'
 import {
+  expandProfile,
+  type MinifiedProfile,
+  minifyProfile,
+} from 'scripts/leaderboard/shared/profileCompression'
+import { compressedProfileSampleBase64 } from 'scripts/leaderboard/tests/leaderboardProfileSample'
+import {
   describe,
   expect,
   test,
 } from 'vitest'
-import { compressedProfileSampleBase64 } from './leaderboardProfileSample'
 
 Metadata.initialize()
 

@@ -28,6 +28,10 @@ import {
   TwoPieceSlotType,
 } from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal.module.css'
+import { ResultsCollector } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/ResultsCollector'
+import { SetGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetGrid'
+import { StatChips } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/StatChips'
 import {
   useCallback,
   useMemo,
@@ -35,10 +39,6 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './RelicSetFilterModal.module.css'
-import { ResultsCollector } from './ResultsCollector'
-import { SetGrid } from './SetGrid'
-import { StatChips } from './StatChips'
 
 function slotsEqual(a: TwoPieceSlot, b: TwoPieceSlot): boolean {
   if (a.type !== b.type) return false

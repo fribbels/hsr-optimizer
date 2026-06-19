@@ -1,4 +1,5 @@
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import { aggregateSubstatRolls } from 'lib/characterPreview/scoring/substatRollsAggregator'
 import { Stats } from 'lib/constants/constants'
 import type { SubStats } from 'lib/constants/constants'
 import type {
@@ -13,7 +14,6 @@ import {
   expect,
   test,
 } from 'vitest'
-import { aggregateSubstatRolls } from './substatRollsAggregator'
 
 Metadata.initialize()
 

@@ -40,6 +40,7 @@ import {
   updateTargetFrom,
   updateTargetTo,
 } from 'lib/tabs/tabWarp/warpTargetMutations'
+import unifiedClasses from 'lib/tabs/tabWarp/WarpUnifiedTable.module.css'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import type {
@@ -50,7 +51,6 @@ import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import type { HTMLAttributes } from 'react'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import unifiedClasses from './WarpUnifiedTable.module.css'
 
 const premiumCharacterFilter = (option: CharacterOptions[CharacterId]) => isPremiumCharacter(option.id)
 const premiumLightConeFilter = (option: LcOptions[LightConeId]) => isPremiumLightCone(option.id)

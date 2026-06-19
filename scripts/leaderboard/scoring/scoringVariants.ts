@@ -1,21 +1,21 @@
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
-import type { LightConeId } from 'types/lightCone'
-import type {
-  LeaderboardTeam,
-  ScoringConfigType,
-  SimulationMetadata,
-} from 'types/metadata'
 import {
   DEFAULT_TIER_SUPERIMPOSITION,
   type EidolonTierValue,
   eidolonToGroup,
   FIXED_TEAMMATE_OVERRIDES,
   TEAMMATE_EIDOLON_CAPS,
-} from '../shared/eidolonConfig'
+} from 'scripts/leaderboard/shared/eidolonConfig'
 import type {
   LeaderboardScoreCandidateConfigInput,
   LeaderboardScoringCandidate,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
+import type { LightConeId } from 'types/lightCone'
+import type {
+  LeaderboardTeam,
+  ScoringConfigType,
+  SimulationMetadata,
+} from 'types/metadata'
 
 export type ExpandScoringVariantsInput = {
   candidate: LeaderboardScoringCandidate,

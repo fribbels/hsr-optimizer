@@ -38,6 +38,11 @@ import {
   importerTabSpinnerMs,
 } from 'lib/tabs/tabImport/importerTabUiConstants'
 import { ReliquaryDescription } from 'lib/tabs/tabImport/ReliquaryDescription'
+import classes from 'lib/tabs/tabImport/ScannerImportSubmenu.module.css'
+import {
+  DEFAULT_WEBSOCKET_URL,
+  useScannerState,
+} from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
 import {
   useRef,
@@ -48,11 +53,6 @@ import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
 import { useShallow } from 'zustand/react/shallow'
-import classes from './ScannerImportSubmenu.module.css'
-import {
-  DEFAULT_WEBSOCKET_URL,
-  useScannerState,
-} from './ScannerWebsocketClient'
 
 type ParsedCharacter = {
   characterId: CharacterId,

@@ -6,6 +6,7 @@ import {
 import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
+import classes from 'lib/tabs/tabWarp/WarpCalculatorTab.module.css'
 import type {
   EnrichedWarpRequest,
   WarpMilestoneResult,
@@ -20,7 +21,6 @@ import {
   Trans,
   useTranslation,
 } from 'react-i18next'
-import classes from './WarpCalculatorTab.module.css'
 
 const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
 const chanceThreshold = 0.0005

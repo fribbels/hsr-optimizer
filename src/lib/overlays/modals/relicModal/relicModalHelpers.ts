@@ -4,6 +4,7 @@ import {
   Stats,
   type SubStats,
 } from 'lib/constants/constants'
+import type { SubstatValues } from 'lib/overlays/modals/relicModal/relicModalTypes'
 import {
   precisionRound,
   truncate1000ths,
@@ -12,7 +13,6 @@ import {
 import { objectHash } from 'lib/utils/objectUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Relic } from 'types/relic'
-import type { SubstatValues } from './relicModalTypes'
 
 export const defaultMainStatPerPart = {
   [Parts.Head]: Stats.HP,

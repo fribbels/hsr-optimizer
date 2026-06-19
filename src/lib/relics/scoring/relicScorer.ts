@@ -2,6 +2,22 @@ import type {
   MainStats,
   Parts,
 } from 'lib/constants/constants'
+import {
+  scoreCharacterUsingScorer,
+  scoreCharacterWithRelicsUsingScorer,
+} from 'lib/relics/scoring/characterScore'
+import { scoreCurrentRelic } from 'lib/relics/scoring/currentScore'
+import { computeFutureScores } from 'lib/relics/scoring/futureScore'
+import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
+import { computePotentialScores } from 'lib/relics/scoring/potentialScore'
+import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
+import type {
+  CharacterScoringResult,
+  FutureScoringResult,
+  PotentialResult,
+  RelicScoringResult,
+  ScorerMetadata,
+} from 'lib/relics/scoring/types'
 import type {
   Character,
   CharacterId,
@@ -11,22 +27,6 @@ import type {
   Relic,
   RelicId,
 } from 'types/relic'
-import {
-  scoreCharacterUsingScorer,
-  scoreCharacterWithRelicsUsingScorer,
-} from './characterScore'
-import { scoreCurrentRelic } from './currentScore'
-import { computeFutureScores } from './futureScore'
-import { computeOptimalScore } from './optimalScore'
-import { computePotentialScores } from './potentialScore'
-import { prepareScoringMetadata } from './scoringMetadata'
-import type {
-  CharacterScoringResult,
-  FutureScoringResult,
-  PotentialResult,
-  RelicScoringResult,
-  ScorerMetadata,
-} from './types'
 
 export type { CharacterScoringResult, FutureScoringResult, PotentialResult, RelicScoringResult, ScorerMetadata }
 

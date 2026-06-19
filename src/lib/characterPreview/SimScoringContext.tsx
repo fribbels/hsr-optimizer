@@ -1,3 +1,8 @@
+import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import type {
+  InjectedScoreData,
+  InjectedScoringInput,
+} from 'lib/characterPreview/characterPreviewTypes'
 import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import {
   computeScoringCacheKey,
@@ -27,11 +32,6 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import { type PreviewRelics } from './characterPreviewController'
-import type {
-  InjectedScoreData,
-  InjectedScoringInput,
-} from './characterPreviewTypes'
 
 export type ScoringPipeline = {
   preview: PreparedState | null,

@@ -2,7 +2,7 @@ import type {
   LeaderboardBuildScoreCacheStats,
   LeaderboardMetrics,
   LeaderboardMetricsSnapshot,
-} from './types'
+} from 'scripts/leaderboard/shared/types'
 
 function buildTaggedKey(name: string, tags?: Record<string, string>): string {
   if (!tags || Object.keys(tags).length === 0) return name

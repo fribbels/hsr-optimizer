@@ -6,14 +6,14 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
+  addAbility,
+  removeAbility,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/ComboFilter'
+import {
   describe,
   expect,
   it,
 } from 'vitest'
-import {
-  addAbility,
-  removeAbility,
-} from './ComboFilter'
 
 function makeAbilities(count: number): TurnAbilityName[] {
   const abilities: TurnAbilityName[] = [NULL_TURN_ABILITY_NAME]

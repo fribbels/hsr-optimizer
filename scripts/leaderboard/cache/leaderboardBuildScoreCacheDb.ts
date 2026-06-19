@@ -6,7 +6,7 @@ import {
   resolvePath,
   type SqliteDatabase,
   type SqliteRunResult,
-} from '../shared/nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 
 export const CACHE_TABLE = 'leaderboard_build_score_cache'
 

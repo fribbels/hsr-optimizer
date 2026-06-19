@@ -2,13 +2,13 @@ import { CharacterConverter } from 'lib/importer/characterConverter'
 import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import type { CharacterId } from 'types/character'
-import type { EligibleConverted } from './eligibility'
-import { isEligibleRaw } from './eligibility'
+import type { EligibleConverted } from 'scripts/leaderboard/ingest/eligibility'
+import { isEligibleRaw } from 'scripts/leaderboard/ingest/eligibility'
 import type {
   ParsedCharacter,
   ParsedProfile,
-} from './exportParser'
+} from 'scripts/leaderboard/ingest/exportParser'
+import type { CharacterId } from 'types/character'
 
 type PreFilterCandidate = {
   profile: ParsedProfile,

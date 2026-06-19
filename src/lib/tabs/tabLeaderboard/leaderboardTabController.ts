@@ -5,7 +5,6 @@ import {
   PageToRoute,
 } from 'lib/constants/appPages'
 import { CharacterConverter } from 'lib/importer/characterConverter'
-import { expandCharacter } from 'scripts/leaderboard/shared/profileCompression'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import { getLeaderboardCharacters } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import {
@@ -27,6 +26,7 @@ import {
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
 } from 'scripts/leaderboard/shared/eidolonConfig'
+import { expandCharacter } from 'scripts/leaderboard/shared/profileCompression'
 import type {
   PublicCharacterData,
   PublicTeamMeta,

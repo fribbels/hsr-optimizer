@@ -1,5 +1,6 @@
 import { type TFunction } from 'i18next'
 import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
+import classes from 'lib/characterPreview/summary/MainStatsSummary.module.css'
 import {
   type MainStatParts,
   MainStatPartsArray,
@@ -14,7 +15,6 @@ import {
   type ReactNode,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './MainStatsSummary.module.css'
 
 type MainStatsSummaryProps = {
   simBody: string,

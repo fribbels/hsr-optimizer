@@ -3,6 +3,13 @@ import {
   BuffDisplaySize,
   BuffsAnalysisDisplay,
 } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
+import classes from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary.module.css'
+import {
+  BaselineScoringColumn,
+  CharacterScoringColumn,
+  ScoringColumnKind,
+  SimulationScoringColumn,
+} from 'lib/characterPreview/buildAnalysis/ScoringColumns'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type {
   PreviewRelics,
@@ -43,13 +50,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import type { Form } from 'types/form'
 import { ScoringConfigType } from 'types/metadata'
-import classes from './CharacterScoringSummary.module.css'
-import {
-  BaselineScoringColumn,
-  CharacterScoringColumn,
-  ScoringColumnKind,
-  SimulationScoringColumn,
-} from './ScoringColumns'
 
 const nullPromise = Promise.resolve(null)
 

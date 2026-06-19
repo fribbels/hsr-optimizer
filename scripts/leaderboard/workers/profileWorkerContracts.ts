@@ -1,7 +1,7 @@
 import {
   type LeaderboardScoreWorkerRuntimeConfig,
   type LeaderboardVersionFile,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
 
 export function buildLeaderboardScoreWorkerStateKey(input: {
   versions: LeaderboardVersionFile,

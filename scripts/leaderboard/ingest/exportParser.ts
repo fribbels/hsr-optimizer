@@ -1,23 +1,23 @@
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
+import { sha256Text } from 'scripts/leaderboard/shared/hash'
+import {
+  gunzipBase64Text,
+  readGzipTextFile,
+} from 'scripts/leaderboard/shared/nodeFacade'
 import { expandCharacter } from 'scripts/leaderboard/shared/profileCompression'
 import type {
   MinifiedCharacter,
   MinifiedProfile,
 } from 'scripts/leaderboard/shared/profileCompression'
-import { sha256Text } from '../shared/hash'
-import {
-  gunzipBase64Text,
-  readGzipTextFile,
-} from '../shared/nodeFacade'
 import type {
   CharacterParseError,
   ExportParseSummary,
   ParsedCharacter,
   ParsedExport,
   ParsedProfile,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
 
-export type { ExportParseSummary, ParsedCharacter, ParsedExport, ParsedProfile } from '../shared/types'
+export type { ExportParseSummary, ParsedCharacter, ParsedExport, ParsedProfile } from 'scripts/leaderboard/shared/types'
 
 enum ExportLineOutcome {
   NonProfile = 'nonProfile',

@@ -20,6 +20,7 @@ import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/CharacterSelectorDisplay.module.css'
 import { RecommendedPresetsButton } from 'lib/tabs/tabOptimizer/optimizerForm/components/RecommendedPresetsButton'
 import {
   optimizerTabDefaultGap,
@@ -34,7 +35,6 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import { useShallow } from 'zustand/react/shallow'
-import classes from './CharacterSelectorDisplay.module.css'
 
 const sortKeyToStat: Record<string, string> = {
   HP: Stats.HP,

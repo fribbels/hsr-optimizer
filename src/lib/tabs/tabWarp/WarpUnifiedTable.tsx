@@ -26,6 +26,7 @@ import {
   HiddenSelectHost,
   useHiddenSelectTrigger,
 } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
+import classes from 'lib/tabs/tabWarp/WarpCalculatorTab.module.css'
 import {
   type EnrichedWarpRequest,
   isPremiumCharacter,
@@ -64,7 +65,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import classes from './WarpCalculatorTab.module.css'
 
 import { Archer } from 'lib/conditionals/character/1000/Archer'
 import { Saber } from 'lib/conditionals/character/1000/Saber'

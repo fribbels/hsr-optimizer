@@ -1,4 +1,4 @@
-import { hashObject } from '../shared/hash'
+import { hashObject } from 'scripts/leaderboard/shared/hash'
 import {
   copyFile,
   deleteFile,
@@ -9,9 +9,9 @@ import {
   joinPath,
   renameFile,
   writeTextFile,
-} from '../shared/nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 import type { CharacterId } from 'types/character'
-import type { LeaderboardConfigType } from '../shared/configTypeMapping'
+import type { LeaderboardConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
 import type {
   PrivateRankedOutput,
   PublicBoardDataV2,
@@ -20,7 +20,7 @@ import type {
   PublicLeaderboardEntryV2,
   PublicLeaderboardOutputV3,
   PublicTeamMeta,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
 
 export function buildPublicOutputFromPrivate(input: {
   privateOutput: PrivateRankedOutput

@@ -1,18 +1,18 @@
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
-import type { MinifiedCharacter } from 'scripts/leaderboard/shared/profileCompression'
-import type { LeaderboardBuildScore } from 'scripts/leaderboard/shared/scoreLeaderboardBuild'
 import type {
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import type { EligibleConverted } from 'scripts/leaderboard/ingest/eligibility'
+import type { LeaderboardConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
+import type { LeaderboardEidolonGroup } from 'scripts/leaderboard/shared/eidolonConfig'
+import type { MinifiedCharacter } from 'scripts/leaderboard/shared/profileCompression'
+import type { LeaderboardBuildScore } from 'scripts/leaderboard/shared/scoreLeaderboardBuild'
 import type { CharacterId } from 'types/character'
 import type {
   ScoringConfigType,
   SimulationMetadata,
 } from 'types/metadata'
-import type { EligibleConverted } from '../ingest/eligibility'
-import type { LeaderboardConfigType } from './configTypeMapping'
-import type { LeaderboardEidolonGroup } from './eidolonConfig'
 
 // ---------------------------------------------------------------------------
 // Entry data

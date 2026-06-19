@@ -12,7 +12,9 @@ import {
   OverlayText,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/CharacterCardCombatStats'
+import styles from 'lib/characterPreview/scoring/ShowcaseSimScore.module.css'
 import { StatText } from 'lib/characterPreview/StatText'
 import {
   useSimPreview,
@@ -50,8 +52,6 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import type { PreviewRelics } from '../characterPreviewController'
-import styles from './ShowcaseSimScore.module.css'
 
 export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
   characterId,

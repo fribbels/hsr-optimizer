@@ -5,8 +5,8 @@ import {
   joinPath,
   readTextFile,
   writeTextFile,
-} from '../shared/nodeFacade'
-import { configTypeToPublic, type LeaderboardConfigType } from '../shared/configTypeMapping'
+} from 'scripts/leaderboard/shared/nodeFacade'
+import { configTypeToPublic, type LeaderboardConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
 import type {
   PrivateBoard,
   PrivateBoardCompleteness,
@@ -14,8 +14,8 @@ import type {
   PrivateRankedOutput,
   ProfilePayloadIndex,
   LeaderboardVersionFile,
-} from '../shared/types'
-import { getCharacterVersion, getLightConeVersion } from '../shared/versioning'
+} from 'scripts/leaderboard/shared/types'
+import { getCharacterVersion, getLightConeVersion } from 'scripts/leaderboard/shared/versioning'
 
 export function comparePrivateRankedEntries(
   a: Pick<PrivateRankedEntry, 'score' | 'uidHash'>,

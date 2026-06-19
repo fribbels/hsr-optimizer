@@ -24,6 +24,7 @@ import {
   resolveShowcaseTheme,
 } from 'lib/characterPreview/color/showcaseColorService'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
+import classes from 'lib/characterPreview/customization/ShowcaseCustomizationSidebar.module.css'
 import {
   getShowcasePreset,
   ShowcasePreset,
@@ -77,7 +78,6 @@ import React, {
 import { useTranslation } from 'react-i18next'
 import { type CharacterId } from 'types/character'
 import { ScoringConfigType } from 'types/metadata'
-import classes from './ShowcaseCustomizationSidebar.module.css'
 
 interface ShowcaseCustomizationSidebarProps {
   id: string

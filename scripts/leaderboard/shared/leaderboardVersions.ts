@@ -1,4 +1,4 @@
-import type { LeaderboardVersionFile } from './types'
+import type { LeaderboardVersionFile } from 'scripts/leaderboard/shared/types'
 
 export const LEADERBOARD_VERSIONS: LeaderboardVersionFile = {
   global: 1,

@@ -1,54 +1,54 @@
 import { Metadata } from 'lib/state/metadataInitializer'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
-import type { CharacterId } from 'types/character'
-import type { ScoringMetadataOverride } from 'types/metadata'
-import { LeaderboardBuildScoreCache } from '../cache/leaderboardBuildScoreCache'
-import { parseExport } from '../ingest/exportParser'
-import { preFilterProfiles } from '../ingest/preFilter'
+import { LeaderboardBuildScoreCache } from 'scripts/leaderboard/cache/leaderboardBuildScoreCache'
+import { parseExport } from 'scripts/leaderboard/ingest/exportParser'
+import { preFilterProfiles } from 'scripts/leaderboard/ingest/preFilter'
 import {
   buildProfilePayloadIndex,
   diffProfilePayloads,
-} from '../ingest/profileDiff'
+} from 'scripts/leaderboard/ingest/profileDiff'
 import {
   assertPrivateOutputPublishable,
   collectDependencyInvalidations,
   mergePrivateRankedOutput,
   readPrivateRankedOutput,
   writePrivateRankedOutput,
-} from '../output/privateOutput'
+} from 'scripts/leaderboard/output/privateOutput'
 import {
   buildPublicOutputFromPrivate,
   validateNoUidInPublicOutput,
   writePublicLeaderboardOutput,
-} from '../output/publicOutput'
-import { estimateScoringRuns } from '../scoring/scorer'
-import type { LeaderboardCliOptions } from '../shared/cliOptions'
-import { hashObject } from '../shared/hash'
+} from 'scripts/leaderboard/output/publicOutput'
+import {
+  printLeaderboardResults,
+  printRunSummary,
+} from 'scripts/leaderboard/pipeline/leaderboardReporting'
+import {
+  runScoringStage,
+  type RunScoringStageResult,
+} from 'scripts/leaderboard/pipeline/scoringStage'
+import { estimateScoringRuns } from 'scripts/leaderboard/scoring/scorer'
+import type { LeaderboardCliOptions } from 'scripts/leaderboard/shared/cliOptions'
+import { hashObject } from 'scripts/leaderboard/shared/hash'
 import {
   joinPath,
   listDirectoryWithMtime,
   resolvePath,
-} from '../shared/nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 import type {
   ParsedExport,
   ParsedProfile,
   PrivateRankedEntry,
   PrivateRankedOutput,
   PublicLeaderboardOutputV3,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
 import {
   collectAffectedCharacterIds,
   collectBumpedIds,
   readLeaderboardVersions,
-} from '../shared/versioning'
-import {
-  printLeaderboardResults,
-  printRunSummary,
-} from './leaderboardReporting'
-import {
-  runScoringStage,
-  type RunScoringStageResult,
-} from './scoringStage'
+} from 'scripts/leaderboard/shared/versioning'
+import type { CharacterId } from 'types/character'
+import type { ScoringMetadataOverride } from 'types/metadata'
 
 type LeaderboardExportInput = {
   displayPath: string,

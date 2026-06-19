@@ -35,6 +35,7 @@ import {
   setOpen,
   useIsOpen,
 } from 'lib/hooks/useOpenClose'
+import classes from 'lib/overlays/drawers/MenuDrawer.module.css'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import {
@@ -46,7 +47,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import classes from './MenuDrawer.module.css'
 
 // ---- Types ----
 

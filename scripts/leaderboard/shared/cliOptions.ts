@@ -2,7 +2,7 @@ import {
   commandLineArgs,
   homeDir,
   resolvePath,
-} from './nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 
 const FLAG_EXPORT_PATH = '--export-path'
 const FLAG_PRIVATE_OUTPUT_PATH = '--private-output-path'

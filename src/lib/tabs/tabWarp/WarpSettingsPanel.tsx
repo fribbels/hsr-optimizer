@@ -13,6 +13,7 @@ import {
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { WarpIncomeOptions } from 'lib/tabs/tabWarp/warpCalculatorController'
+import classes from 'lib/tabs/tabWarp/WarpCalculatorTab.module.css'
 import {
   StarlightMultiplier,
   StarlightRefund,
@@ -30,7 +31,6 @@ import {
 } from 'lib/utils/i18nUtils'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './WarpCalculatorTab.module.css'
 
 const HEADER_LABEL_GAP = 4
 

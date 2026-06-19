@@ -1,13 +1,13 @@
-import { runLeaderboardPipeline } from './pipeline/leaderboardPipeline'
-import { printResolvedConfig } from './pipeline/leaderboardReporting'
+import { runLeaderboardPipeline } from 'scripts/leaderboard/pipeline/leaderboardPipeline'
+import { printResolvedConfig } from 'scripts/leaderboard/pipeline/leaderboardReporting'
 import {
   leaderboardCliUsage,
   readLeaderboardCliOptions,
-} from './shared/cliOptions'
+} from 'scripts/leaderboard/shared/cliOptions'
 import {
   isMainModule,
   setExitCode,
-} from './shared/nodeFacade'
+} from 'scripts/leaderboard/shared/nodeFacade'
 
 export async function runLeaderboard(): Promise<void> {
   const options = readLeaderboardCliOptions()

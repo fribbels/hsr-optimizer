@@ -1,10 +1,10 @@
+import classes from 'lib/characterPreview/card/ShowcaseCharacterHeader.module.css'
 import { ShowcaseRarity } from 'lib/characterPreview/card/ShowcaseRarity'
 import { type ShowcaseMetadata } from 'lib/characterPreview/characterPreviewController'
 import { StatText } from 'lib/characterPreview/StatText'
 import { Assets } from 'lib/rendering/assets'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './ShowcaseCharacterHeader.module.css'
 
 export const ShowcaseCharacterHeader = memo(function ShowcaseCharacterHeader({ showcaseMetadata }: {
   showcaseMetadata: ShowcaseMetadata,

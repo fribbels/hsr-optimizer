@@ -1,28 +1,26 @@
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
+import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
+import { getGameMetadata } from 'lib/state/gameMetadata'
+import { buildLeaderboardBuildScoreCacheKey } from 'scripts/leaderboard/cache/leaderboardBuildScoreCache'
+import {
+  type EligibleConverted,
+  isEligibleRaw,
+} from 'scripts/leaderboard/ingest/eligibility'
+import {
+  countScoringVariants,
+  expandScoringVariants,
+} from 'scripts/leaderboard/scoring/scoringVariants'
+import {
+  EIDOLON_TIERS,
+  type EidolonTierValue,
+} from 'scripts/leaderboard/shared/eidolonConfig'
+import { hashUid } from 'scripts/leaderboard/shared/hash'
 import {
   type LeaderboardBuildScore,
   scoreLeaderboardBuild,
 } from 'scripts/leaderboard/shared/scoreLeaderboardBuild'
-import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import type { CharacterId } from 'types/character'
-import type {
-  LeaderboardTeam,
-  LeaderboardTeammates,
-  SimulationMetadata,
-} from 'types/metadata'
-import { buildLeaderboardBuildScoreCacheKey } from '../cache/leaderboardBuildScoreCache'
-import {
-  type EligibleConverted,
-  isEligibleRaw,
-} from '../ingest/eligibility'
-import {
-  EIDOLON_TIERS,
-  type EidolonTierValue,
-} from '../shared/eidolonConfig'
-import { hashUid } from '../shared/hash'
 import type {
   ComputeOptimalSimulationSearchRunner,
   FailureEntry,
@@ -35,15 +33,17 @@ import type {
   ParsedCharacter,
   ParsedProfile,
   PrivateRankedEntry,
-} from '../shared/types'
+} from 'scripts/leaderboard/shared/types'
 import {
   buildDependencyNamespace,
   getDependencyVersions,
-} from '../shared/versioning'
-import {
-  countScoringVariants,
-  expandScoringVariants,
-} from './scoringVariants'
+} from 'scripts/leaderboard/shared/versioning'
+import type { CharacterId } from 'types/character'
+import type {
+  LeaderboardTeam,
+  LeaderboardTeammates,
+  SimulationMetadata,
+} from 'types/metadata'
 
 export async function scoreLeaderboardCandidateConfig(input: {
   candidateConfig: LeaderboardScoreCandidateConfigInput,

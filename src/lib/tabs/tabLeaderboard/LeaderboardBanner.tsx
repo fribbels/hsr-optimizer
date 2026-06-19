@@ -16,17 +16,17 @@ import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigReg
 import type { Sets } from 'lib/constants/constants'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
+import { HeroScoreRuler } from 'lib/tabs/tabLeaderboard/HeroScoreRuler'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardBanner.module.css'
-import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import type { LightConeId } from 'types/lightCone'
 import type {
   LeaderboardEntry,
   LeaderboardTeammate,
 } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
-import { HeroScoreRuler } from 'lib/tabs/tabLeaderboard/HeroScoreRuler'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
+import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { LightConeId } from 'types/lightCone'
 
 const STRIPE_SCALE = 10
 const SEG_W_HIGH = STRIPE_SCALE * ROLL_WIDTH_RATIOS.high

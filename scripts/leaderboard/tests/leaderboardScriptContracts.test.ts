@@ -10,7 +10,6 @@ import {
   type SubStats,
 } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
-import type { MinifiedCharacter } from 'scripts/leaderboard/shared/profileCompression'
 import {
   buildLeaderboardBuildScoreCacheKey,
   LeaderboardBuildScoreCache,
@@ -42,6 +41,7 @@ import {
   tmpDir,
   writeGzipTextFile,
 } from 'scripts/leaderboard/shared/nodeFacade'
+import type { MinifiedCharacter } from 'scripts/leaderboard/shared/profileCompression'
 import {
   type LeaderboardBuildScore,
   type LeaderboardDependencyNamespace,
@@ -56,6 +56,11 @@ import {
   type PrivateRankedOutput,
   type PublicCharacterData,
 } from 'scripts/leaderboard/shared/types'
+import {
+  compressedProfileSampleBase64,
+  sampleFetchedAt,
+  sampleUid,
+} from 'scripts/leaderboard/tests/leaderboardProfileSample'
 import {
   buildLeaderboardScoreWorkerStateKey,
 } from 'scripts/leaderboard/workers/profileWorkerContracts'
@@ -73,11 +78,6 @@ import {
   test,
   vi,
 } from 'vitest'
-import {
-  compressedProfileSampleBase64,
-  sampleFetchedAt,
-  sampleUid,
-} from './leaderboardProfileSample'
 
 const CHARACTER_ID = '1307b1'
 const LIGHT_CONE_ID = '23022'

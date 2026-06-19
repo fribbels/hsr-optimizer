@@ -2,6 +2,11 @@
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
+import {
+  getCharacterById,
+  getCharacters,
+  useCharacterStore,
+} from 'lib/stores/character/characterStore'
 import type {
   Character,
   CharacterId,
@@ -13,11 +18,6 @@ import {
   it,
   vi,
 } from 'vitest'
-import {
-  getCharacterById,
-  getCharacters,
-  useCharacterStore,
-} from './characterStore'
 
 // ---- Constants ----
 

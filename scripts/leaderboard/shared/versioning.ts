@@ -1,13 +1,13 @@
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import type { CharacterId } from 'types/character'
-import { hashObject } from './hash'
-import { LEADERBOARD_VERSIONS } from './leaderboardVersions'
+import { hashObject } from 'scripts/leaderboard/shared/hash'
+import { LEADERBOARD_VERSIONS } from 'scripts/leaderboard/shared/leaderboardVersions'
 import type {
   LeaderboardDependencyNamespace,
   LeaderboardDependencyVersions,
   LeaderboardEntryTeammate,
   LeaderboardVersionFile,
-} from './types'
+} from 'scripts/leaderboard/shared/types'
+import type { CharacterId } from 'types/character'
 
 export function readLeaderboardVersions(): LeaderboardVersionFile {
   return LEADERBOARD_VERSIONS

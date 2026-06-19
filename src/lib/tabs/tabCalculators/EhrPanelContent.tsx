@@ -9,6 +9,7 @@ import {
   EHR_TUNING_DEFAULTS,
   type EhrTuningForm,
 } from 'lib/stores/ehrTuningStore'
+import classes from 'lib/tabs/tabCalculators/CalculatorPanel.module.css'
 import { calculatePerAttemptRate } from 'lib/tabs/tabCalculators/ehrCalculations'
 import { EhrGrid } from 'lib/tabs/tabCalculators/ehrViz/EhrGrid'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -18,7 +19,6 @@ import {
   useMemo,
   useState,
 } from 'react'
-import classes from './CalculatorPanel.module.css'
 
 export interface EhrVizProps {
   baseChance: number

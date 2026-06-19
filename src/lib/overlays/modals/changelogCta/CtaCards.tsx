@@ -3,7 +3,7 @@ import {
   IconBrandGithub,
   IconCoffee,
 } from '@tabler/icons-react'
-import classes from './changelogCta.module.css'
+import classes from 'lib/overlays/modals/changelogCta/changelogCta.module.css'
 
 export function CtaCards() {
   return (

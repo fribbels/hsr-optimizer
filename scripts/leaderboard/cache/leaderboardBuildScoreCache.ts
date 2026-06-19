@@ -1,29 +1,29 @@
-import type { LeaderboardBuildScore } from 'scripts/leaderboard/shared/scoreLeaderboardBuild'
-import { emptyBuildScoreCacheStats } from '../shared/metrics'
-import {
-  homeDir,
-  resolvePath,
-  type SqliteDatabase,
-  type SqliteStatement,
-} from '../shared/nodeFacade'
-import type {
-  LeaderboardBuildScoreCache as LeaderboardBuildScoreCacheContract,
-  LeaderboardBuildScoreCachePruneOptions,
-  LeaderboardBuildScoreCachePruneStats,
-  LeaderboardBuildScoreCacheStats,
-} from '../shared/types'
 import {
   CACHE_TABLE,
   compactDatabase,
   openLeaderboardBuildScoreCacheDatabase,
   readSqliteChanges,
-} from './leaderboardBuildScoreCacheDb'
+} from 'scripts/leaderboard/cache/leaderboardBuildScoreCacheDb'
 import {
   createLeaderboardBuildScoreCacheValue,
   parseLeaderboardBuildScoreCacheValue,
-} from './leaderboardBuildScoreCacheValue'
+} from 'scripts/leaderboard/cache/leaderboardBuildScoreCacheValue'
+import { emptyBuildScoreCacheStats } from 'scripts/leaderboard/shared/metrics'
+import {
+  homeDir,
+  resolvePath,
+  type SqliteDatabase,
+  type SqliteStatement,
+} from 'scripts/leaderboard/shared/nodeFacade'
+import type { LeaderboardBuildScore } from 'scripts/leaderboard/shared/scoreLeaderboardBuild'
+import type {
+  LeaderboardBuildScoreCache as LeaderboardBuildScoreCacheContract,
+  LeaderboardBuildScoreCachePruneOptions,
+  LeaderboardBuildScoreCachePruneStats,
+  LeaderboardBuildScoreCacheStats,
+} from 'scripts/leaderboard/shared/types'
 
-export { buildLeaderboardBuildScoreCacheKey } from './leaderboardBuildScoreKey'
+export { buildLeaderboardBuildScoreCacheKey } from 'scripts/leaderboard/cache/leaderboardBuildScoreKey'
 
 const DEFAULT_DB_PATH = resolvePath(homeDir(), 'leaderboard-cache/leaderboard-build-score-cache.sqlite')
 const DEFAULT_FLUSH_INTERVAL = 100

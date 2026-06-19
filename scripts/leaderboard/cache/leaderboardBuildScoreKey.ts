@@ -1,14 +1,14 @@
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import {
+  hashObject,
+  sha256Text,
+  stableJson,
+} from 'scripts/leaderboard/shared/hash'
 import type {
   ScoringConfigType,
   SimulationMetadata,
 } from 'types/metadata'
 import type { Relic } from 'types/relic'
-import {
-  hashObject,
-  sha256Text,
-  stableJson,
-} from '../shared/hash'
 
 function stripRelicIds(relics: PreviewRelics): PreviewRelics {
   return Object.fromEntries(

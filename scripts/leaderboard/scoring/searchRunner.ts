@@ -3,7 +3,7 @@ import type {
   ComputeOptimalSimulationSearchRunner,
   ComputeOptimalSimulationWorkerInput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import type { LeaderboardMetrics } from '../shared/types'
+import type { LeaderboardMetrics } from 'scripts/leaderboard/shared/types'
 
 export function createLeaderboardSearchRunner(input: {
   metrics: LeaderboardMetrics,

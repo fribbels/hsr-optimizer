@@ -1,4 +1,5 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import classes from 'lib/characterPreview/scoring/ShowcaseSetBonuses.module.css'
 import { StatTextSm } from 'lib/characterPreview/StatText'
 import type { Sets } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
@@ -14,7 +15,6 @@ import {
   useMemo,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './ShowcaseSetBonuses.module.css'
 
 // Types
 

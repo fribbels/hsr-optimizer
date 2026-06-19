@@ -1,5 +1,5 @@
 import { sortKeys } from 'lib/utils/objectUtils'
-import { sha256Hex } from './nodeFacade'
+import { sha256Hex } from 'scripts/leaderboard/shared/nodeFacade'
 
 export type HashString = string
 

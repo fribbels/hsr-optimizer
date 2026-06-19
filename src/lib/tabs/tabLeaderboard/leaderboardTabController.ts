@@ -1,4 +1,5 @@
 import {
+  configTypeToPublic,
   isLeaderboardConfigType,
   LEADERBOARD_CONFIG_TYPES,
   type LeaderboardConfigType,
@@ -22,7 +23,10 @@ import {
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
-import { getLeaderboardCharacters } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
+import {
+  getCharacterLeaderboardConfigTypes,
+  getLeaderboardCharacters,
+} from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import {
   getBuildIndex,
   getLeaderboardCharacterIds,
@@ -170,7 +174,8 @@ export function selectLeaderboardCharacter(
     return
   }
 
-  const configTypes = Object.keys(data.configs).filter(isLeaderboardConfigType)
+  const validConfigs = new Set(getCharacterLeaderboardConfigTypes(characterId).map(configTypeToPublic))
+  const configTypes = Object.keys(data.configs).filter(isLeaderboardConfigType).filter((ct) => validConfigs.has(ct))
   const activeConfigType = resolveActiveConfigType(configTypes, requested?.configType)
 
   if (!activeConfigType) {

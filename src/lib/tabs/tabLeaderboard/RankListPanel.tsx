@@ -102,6 +102,9 @@ export function RankListPanel() {
     if (nextIdx === currentIdx) return
 
     selectLeaderboardEntry(list[nextIdx].buildId)
+
+    const rows = containerRef.current?.querySelectorAll<HTMLElement>(`.${classes.tableRow}`)
+    rows?.[nextIdx]?.scrollIntoView({ block: 'nearest' })
   }, [])
 
   const focusContainer = useCallback(() => containerRef.current?.focus({ preventScroll: true }), [])

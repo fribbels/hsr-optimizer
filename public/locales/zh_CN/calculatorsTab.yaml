@@ -1,25 +1,49 @@
 AHA:
   Label: 阿哈速度
   Solver:
+    Title: 目标速度求解器
     Output:
       Teammate0: 1号队友速度
       Teammate1: 2号队友速度
       Teammate2: 3号队友速度
       Teammate3: 4号队友速度
+      AllFilled: 所有槽位均已占用
+      AlreadyMet: 已达到目标速度
     Input:
       DesiredAha: 目标阿哈速度
   Calculator:
+    Title: 阿哈速度计算器
+    TeammateN: 队友 {{position}}
+    Constant: 常数
+    Header:
+      ElationTeammate: "欢愉\n队友"
+      CombatSpeed: "战斗\n速度"
+      AhaSpeed: "阿哈\n速度"
     Formula:
       Aha: 阿哈速度
+      TeammateSymbol: 队友
 EHR:
   Label: 效果命中
   Calculator:
+    Title: 减益施加计算器
+    EHRLabel: '± {{value}}% $t(common:ShortStats.Effect Hit Rate)'
+    EquationLabel:
+      BaseChance: 基础概率
+      EffectRes: 效果抵抗倍率
+      DebuffRes: 减益抵抗倍率
+      HitRate: 效果命中倍率
     Input:
       EffectRes: 敌方效果抵抗
       DebuffRes: 敌方减益抵抗
       BaseChance: 减益基础概率
       Attempts: 施加次数
       HitRate: 效果命中
+      Range: 网格范围
+    Output:
+      Change: 概率
+      PerAttempt: 每次施加
+      OverAttempts: 经过 {{count}} 次施加
   Solver:
+    Title: 目标效果命中求解器
     Input: 目标减益概率
     Output: 所需效果命中

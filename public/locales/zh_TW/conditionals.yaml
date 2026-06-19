@@ -636,22 +636,6 @@ Characters:
         text: 2魂終結技後治療量增益
       e4SkillHealingDmgBuffStacks:
         text: 4魂戰技傷害提高層數
-  BlackSwan:
-    Content:
-      ehrToDmgBoost:
-        text: 效果命中轉至傷害提高
-        content: 使自身造成的傷害提高，提高數值等同於效果命中的60%，最多使造成的傷害提高72%。
-      epiphanyDebuff:
-        text: 揭露負面效果
-        content: '【揭露】狀態下，敵方目標自身回合內受到的傷害提高{{epiphanyDmgTakenBoost}}%。'
-      defDecreaseDebuff:
-        text: 防禦力降低負面效果
-      arcanaStacks:
-        text: 奧跡層數
-        content: >-
-          【奧跡】狀態下，敵方目標每回合開始時受到等同於黑天鵝{{dotScaling}}%攻擊力的風屬性持續傷害，每層【奧跡】使此傷害倍率提高{{arcanaStackMultiplier}}% 。 【奧跡】最多疊加50層。 ::BR::當【奧跡】層數大於等於3層時，對鄰近目標造成等同於黑天鵝180%攻擊力的風屬性持續傷害。當【奧跡】層數大於等於7層時，使本次造成的持續傷害無視於該目標及其相鄰目標20%的防禦力。
-      e1ResReduction:
-        text: 1魂屬性抗性降低
   BlackSwanB1:
     Content:
       skillDefShred:
@@ -660,15 +644,6 @@ Characters:
         text: 揭露負面效果
       arcanaStacks:
         text: 奧跡層數
-  Blade:
-    Content:
-      enhancedStateActive:
-        text: 地獄變狀態
-      hpPercentLostTotal:
-        text: 累計已損失生命值%
-        content: 終結技傷害會根據刃在當前戰鬥中的生命值損失計數進行加成。 本場戰鬥中累計已損失生命值最高不超過刃生命上限的{{hpPercentLostTotalMax}}%，施放終結技後會清空並進行重新累積。
-      e4MaxHpIncreaseStacks:
-        text: 4魂生命上限層數
   BladeB1:
     Content:
       enhancedStateActive:
@@ -793,33 +768,6 @@ Characters:
         text: 4魂增益
       e6Buffs:
         text: 6魂增益
-  Firefly:
-    Content:
-      enhancedStateActive:
-        text: 強化狀態
-        content: 進入「完全燃燒」狀態，自身行動提早100%並獲得強化普攻與強化戰技。
-      enhancedStateSpdBuff:
-        text: 強化狀態速度增益
-        content: '「完全燃燒」狀態下速度提高{{ultSpdBuff}}點。'
-      superBreakDmg:
-        text: 啟用超擊破傷害（強制弱點擊破）
-        content: >-
-          「完全燃燒」狀態下，當裝甲「薩姆」的擊破特攻大於等於200%/360%時，攻擊處於弱點擊破狀態下的敵方目標後，會將本次攻擊的削韌值轉換為1次35%/50%的超擊破傷害。
-      atkToBeConversion:
-        text: 攻擊力轉至擊破特攻增益
-      talentDmgReductionBuff:
-        text: 有效生命值上限增益
-        content: >-
-          生命值越低受到的傷害越低，生命值小於等於20%時減傷效果達到最大值，最多降低{{talentDmgReductionBuff}}%。 「完全燃燒」狀態下減傷效果維持最大值，效果抗性提高{{talentResBuff}}%。
-      e1DefShred:
-        text: 1魂防禦穿透
-        content: 施放強化戰技時無視目標15%的防禦，且強化戰技不消耗戰技點。
-      e4ResBuff:
-        text: 4魂效果抵抗增益
-        content: '「完全燃燒」狀態下，裝甲「薩姆」的效果抵抗提高50%。'
-      e6Buffs:
-        text: 6魂增益
-        content: '「完全燃燒」狀態下裝甲「薩姆」的火屬性抗性穿透提高20%。施放強化普攻、強化戰技時弱點擊破效率提高50%。'
   FireflyB1:
     Content:
       enhancedStateActive:
@@ -898,10 +846,6 @@ Characters:
         text: 效果命中轉至傷害提高
       e6Buffs:
         text: 6魂增益
-  Jingliu:
-    Content:
-      talentEnhancedState:
-        text: 強化狀態
   JingliuB1:
     Content:
       talentEnhancedState:
@@ -970,10 +914,6 @@ Characters:
     Content:
       superBreakDmg:
         text: 超擊破傷害（強制弱點擊破）
-  Welt:
-    Content:
-      enemySlowed:
-        text: 敵人處於減速狀態
   WeltB1:
     Content:
       enemySlowed:

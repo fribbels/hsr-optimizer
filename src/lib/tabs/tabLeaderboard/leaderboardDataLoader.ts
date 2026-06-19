@@ -9,7 +9,7 @@ import type {
 import {
   type LeaderboardEntry,
   type LeaderboardTeammate,
-} from './leaderboardTabTypes'
+} from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 
 export type BuildIndexEntry = { characterId: CharacterId, configType: string, teamId: string }
 

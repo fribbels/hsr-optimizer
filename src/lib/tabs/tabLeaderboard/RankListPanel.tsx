@@ -6,11 +6,11 @@ import {
   useCallback,
   useRef,
 } from 'react'
-import { selectLeaderboardEntry } from './leaderboardTabController'
-import type { LeaderboardEntry } from './leaderboardTabTypes'
-import { LeaderboardTeamDisplay } from './LeaderboardTeamDisplay'
-import classes from './RankListPanel.module.css'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
+import { selectLeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import { LeaderboardTeamDisplay } from 'lib/tabs/tabLeaderboard/LeaderboardTeamDisplay'
+import classes from 'lib/tabs/tabLeaderboard/RankListPanel.module.css'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 const MEDAL_COLORS: Record<number, string> = {
   1: '#e0b420',

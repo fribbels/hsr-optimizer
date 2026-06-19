@@ -4,8 +4,8 @@ import {
   type LeaderboardEidolonFilter,
 } from 'scripts/leaderboard/shared/eidolonConfig'
 import type { PublicCharacterData } from 'scripts/leaderboard/shared/types'
-import { mapPublicEntry } from './leaderboardDataLoader'
-import type { LeaderboardEntry } from './leaderboardTabTypes'
+import { mapPublicEntry } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 
 export const LEADERBOARD_DISPLAY_TOP_N = 100
 

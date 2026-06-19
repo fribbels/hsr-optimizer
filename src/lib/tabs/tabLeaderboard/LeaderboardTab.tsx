@@ -10,9 +10,9 @@ import {
 import { RankListPanel } from 'lib/tabs/tabLeaderboard/RankListPanel'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { useEffect } from 'react'
-import { LeaderboardBanner } from './heroVariants/LeaderboardBanner'
-import { LeaderboardFilterControls } from './LeaderboardFilterControls'
-import classes from './LeaderboardLayout.module.css'
+import { LeaderboardBanner } from 'lib/tabs/tabLeaderboard/heroVariants/LeaderboardBanner'
+import { LeaderboardFilterControls } from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls'
+import classes from 'lib/tabs/tabLeaderboard/LeaderboardLayout.module.css'
 
 export function LeaderboardTab() {
   useEffect(() => {

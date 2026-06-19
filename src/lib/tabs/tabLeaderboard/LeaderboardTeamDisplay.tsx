@@ -1,6 +1,6 @@
 import { Assets } from 'lib/rendering/assets'
-import type { LeaderboardTeammate } from './leaderboardTabTypes'
-import classes from './LeaderboardTeamDisplay.module.css'
+import type { LeaderboardTeammate } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import classes from 'lib/tabs/tabLeaderboard/LeaderboardTeamDisplay.module.css'
 
 interface LeaderboardTeamDisplayProps {
   teammates: LeaderboardTeammate[]

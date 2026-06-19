@@ -12,7 +12,7 @@ import type {
   PublicCharacterData,
   PublicTeamMeta,
 } from 'scripts/leaderboard/shared/types'
-import { type LeaderboardEntry } from './leaderboardTabTypes'
+import { type LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 
 export interface LeaderboardTabState {
   selectedCharacterId: CharacterId | null

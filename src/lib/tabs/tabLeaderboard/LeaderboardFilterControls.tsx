@@ -15,9 +15,9 @@ import {
   type LeaderboardEidolonFilter,
 } from 'scripts/leaderboard/shared/eidolonConfig'
 import type { PublicTeamMeta } from 'scripts/leaderboard/shared/types'
-import classes from './LeaderboardFilterControls.module.css'
-import { setLeaderboardFilters } from './leaderboardTabController'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
+import classes from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls.module.css'
+import { setLeaderboardFilters } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 interface LeaderboardFilterControlsProps {
   activeTeamId: string

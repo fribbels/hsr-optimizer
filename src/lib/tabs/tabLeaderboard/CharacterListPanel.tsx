@@ -15,9 +15,9 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScoringConfigType } from 'types/metadata'
-import classes from './CharacterListPanel.module.css'
-import { selectLeaderboardCharacter } from './leaderboardTabController'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
+import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
+import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 const CONFIG_TABS = [
   { type: ScoringConfigType.DPS, label: 'DPS' },

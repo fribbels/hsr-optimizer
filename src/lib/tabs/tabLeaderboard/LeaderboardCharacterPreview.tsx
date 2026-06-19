@@ -15,8 +15,8 @@ import {
 } from 'react'
 import { ScoringConfigType } from 'types/metadata'
 import { publicToConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
-import type { LeaderboardTeammate } from './leaderboardTabTypes'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
+import type { LeaderboardTeammate } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 export function LeaderboardCharacterPreview() {
   const selectedEntry = useLeaderboardTabStore((s) => s.selectedEntry)

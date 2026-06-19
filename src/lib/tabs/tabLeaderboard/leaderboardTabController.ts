@@ -22,16 +22,16 @@ import type {
   PublicCharacterData,
   PublicTeamMeta,
 } from 'scripts/leaderboard/shared/types'
-import { deriveVisibleEntries } from './deriveVisibleEntries'
-import { getLeaderboardCharacters } from './leaderboardCharacterHelpers'
+import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
+import { getLeaderboardCharacters } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import {
   getBuildIndex,
   getLeaderboardCharacterIds,
   getLeaderboardTopScores,
   loadCharacterData,
   loadLeaderboardData,
-} from './leaderboardDataLoader'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
+} from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 const CONFIG_DISPLAY_ORDER = LEADERBOARD_CONFIG_TYPES
 

@@ -26,7 +26,7 @@ import type {
 } from '../leaderboardTabTypes'
 import { HeroScoreRuler } from '../rulerVariants/HeroScoreRuler'
 import { useLeaderboardTabStore } from '../useLeaderboardTabStore'
-import classes from './LeaderboardBanner.module.css'
+import classes from 'lib/tabs/tabLeaderboard/LeaderboardBanner.module.css'
 
 const STRIPE_SCALE = 10
 const SEG_W_HIGH = STRIPE_SCALE * ROLL_WIDTH_RATIOS.high

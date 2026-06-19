@@ -1,8 +1,8 @@
 import { UnstyledButton } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import classes from './CollapsedCharacterStrip.module.css'
-import { selectLeaderboardCharacter } from './leaderboardTabController'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
+import classes from 'lib/tabs/tabLeaderboard/CollapsedCharacterStrip.module.css'
+import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 export function CollapsedCharacterStrip() {
   const characters = useLeaderboardTabStore((s) => s.sortedCharacters)

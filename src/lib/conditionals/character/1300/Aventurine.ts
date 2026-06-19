@@ -1,6 +1,5 @@
 import { Topaz } from 'lib/conditionals/character/1100/Topaz'
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
-import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   AbilityEidolon,
@@ -13,9 +12,8 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
-import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import {
@@ -38,20 +36,13 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
-  DEFAULT_FUA,
   DEFAULT_SKILL_SHIELD,
-  END_BASIC,
   NULL_TURN_ABILITY_NAME,
-  START_ULT,
-  WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
-  SPREAD_ORNAMENTS_2P_FUA,
-  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
-  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_SHIELD,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
@@ -313,82 +304,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.CR,
-      Stats.CD,
-      Stats.DEF_P,
-    ],
-    [Parts.Feet]: [
-      Stats.DEF_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.DEF_P,
-      Stats.Imaginary_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.DEF_P,
-    ],
-  },
-  substats: [
-    Stats.CD,
-    Stats.CR,
-    Stats.DEF_P,
-    Stats.DEF,
-  ],
-  breakpoints: {
-    [Stats.DEF]: 4000,
-  },
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    DEFAULT_FUA,
-    END_BASIC,
-    DEFAULT_FUA,
-    WHOLE_BASIC,
-    DEFAULT_FUA,
-    WHOLE_BASIC,
-    DEFAULT_FUA,
-  ],
-  deprioritizeBuffs: true,
-  relicSets: [
-    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-    [Sets.SelfEnshroudedRecluse, Sets.SelfEnshroudedRecluse],
-    [Sets.KnightOfPurityPalace, Sets.KnightOfPurityPalace],
-    [Sets.TheAshblazingGrandDuke, Sets.KnightOfPurityPalace, Sets.PioneerDiverOfDeadWaters],
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.DuranDynastyOfRunningWolves,
-    Sets.InertSalsotto,
-    ...SPREAD_ORNAMENTS_2P_FUA,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
-  ],
-  teammates: [
-    {
-      characterId: Topaz.id,
-      lightCone: WorrisomeBlissful.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Feixiao.id,
-      lightCone: IVentureForthToHunt.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const shieldSimulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [Stats.DEF_P],
@@ -485,7 +400,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.SKILL,
     SortOption.DOT,
   ],
-  simulation: simulation(),
   shieldSimulation: shieldSimulation(),
 })
 

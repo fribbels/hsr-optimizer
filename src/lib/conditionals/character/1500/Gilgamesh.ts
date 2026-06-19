@@ -42,6 +42,7 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
+  DEFAULT_UNIQUE,
   END_BASIC,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -71,7 +72,7 @@ export const GilgameshAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ULT,
-  AbilityKind.FUA,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -102,7 +103,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const jointFuaScaling = talent(e, 3.00, 3.30)
   const talentUltDmgBuffValue = talent(e, 0.40, 0.44)
 
-  const fuaHitMulti = ashblazingMulti([aoe(jointFuaScaling)])
+  const ultHitMulti = ashblazingMulti([
+    aoe(ultScaling),
+    ...Array(10).fill(single(ultBounceScaling)),
+  ])
+
+  const uniqueHitMulti = ashblazingMulti([
+    ...Array(3).fill(aoe(0.2)),
+    aoe(0.4),
+  ])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    switch (action.actionType) {
+      case AbilityKind.ULT:
+        return ultHitMulti(context)
+      default:
+        return uniqueHitMulti(context)
+    }
+  }
 
   const defaults = {
     interestStacks: 6,
@@ -218,7 +236,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AbilityKind.FUA]: {
+        [AbilityKind.UNIQUE]: {
           hits: [
             HitDefinitionBuilder.standardFua()
               .damageElement(ElementTag.Lightning)
@@ -271,9 +289,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ''
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
 
     dynamicConditionals: [],
@@ -309,7 +328,7 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     END_SKILL,
-    DEFAULT_FUA,
+    DEFAULT_UNIQUE,
     WHOLE_SKILL,
     WHOLE_SKILL,
     // TODO: verify rotation length

@@ -21,7 +21,10 @@ import {
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
@@ -51,6 +54,7 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { Cerydra } from '../1400/Cerydra'
 
 export const SeeleB1Entities = createEnum('SeeleB1')
 export const SeeleB1Abilities: AbilityKind[] = [
@@ -236,7 +240,7 @@ const simulation = (): SimulationMetadata => ({
     END_SKILL,
     DEFAULT_SKILL,
   ],
-  comboDot: 0,
+  errRopeEidolon: 0,
   relicSets: [
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
@@ -250,8 +254,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SilverWolfB1.id,
-      lightCone: LiesAflutterInTheWind.id,
+      characterId: Cerydra.id,
+      lightCone: Cerydra.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

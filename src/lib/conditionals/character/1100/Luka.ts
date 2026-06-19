@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -59,6 +62,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { TheDahlia } from '../1300/TheDahlia'
 
 export const LukaEntities = createEnum('Luka')
 export const LukaAbilities: AbilityKind[] = [
@@ -311,8 +315,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: RuanMei.id,
-      lightCone: PastSelfInTheMirror.id,
+      characterId: TheDahlia.id,
+      lightCone: TheDahlia.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

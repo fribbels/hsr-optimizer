@@ -330,7 +330,6 @@ const simulation = (): SimulationMetadata => ({
     END_SKILL,
     DEFAULT_FUA,
     DEFAULT_FUA,
-    WHOLE_SKILL,
   ],
   deprioritizeBuffs: true,
   relicSets: [

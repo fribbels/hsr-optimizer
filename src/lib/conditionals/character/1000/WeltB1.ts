@@ -66,6 +66,8 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { Hyacine } from '../1400/Hyacine'
+import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const WeltB1Entities = createEnum('WeltB1')
 export const WeltB1Abilities: AbilityKind[] = [
@@ -421,7 +423,6 @@ const simulation = (): SimulationMetadata => ({
     START_ULT,
     END_SKILL,
     WHOLE_SKILL,
-    WHOLE_SKILL,
   ],
   comboDot: 0,
   errRopeEidolon: 0,
@@ -443,14 +444,14 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Jiaoqiu.id,
-      lightCone: ThoseManySprings.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

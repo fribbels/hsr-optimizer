@@ -246,14 +246,14 @@ Characters:
     Name: 千冶•刃
     LongName: 千冶•刃
   "1508":
-    Name: Rin Tohsaka
-    LongName: Rin Tohsaka
+    Name: 远坂凛
+    LongName: 远坂凛
   "1509":
-    Name: Gilgamesh
-    LongName: Gilgamesh
+    Name: 吉尔伽美什
+    LongName: 吉尔伽美什
   "1510":
-    Name: Himeko • Nova
-    LongName: Himeko • Nova
+    Name: 姬子•启行
+    LongName: 姬子•启行
   "8001":
     Name: 穹
     LongName: 穹 (毁灭)
@@ -522,11 +522,11 @@ RelicSets:
     Name: 千星荟萃之城
     Description2pc: 装备者施放追加攻击时，攻击力提高24%，持续2回合。当敌方目标被消灭时，我方全体在本场战斗中暴击伤害提高12%，该效果无法叠加。
   "327":
-    Name: Fallen Star Anchorage
-    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+    Name: 坠星启航地
+    Description2pc: 使装备者的暴击率提高8%。进入战斗时，若装备者与另一名队友均为开拓同行角色，使装备者的暴击伤害提高32%。
   "328":
-    Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
+    Name: 寰宇生研院
+    Description2pc: 进入战斗时，若装备者能量上限大于等于200点，每超过1点使装备者造成的伤害提高0.2%，最多提高32%。
 Lightcones:
   "20000":
     Name: 锋镝
@@ -839,11 +839,11 @@ Lightcones:
   "23059":
     Name: 灼尽炼狱的新骸
   "23060":
-    Name: A Star That Lights the Night
+    Name: 当一颗星照亮夜空
   "23061":
-    Name: Flickering Stars
+    Name: 星火悄然闪耀
   "23062":
-    Name: I Am As You Behold
+    Name: 所见即我
   "24000":
     Name: 记一位星神的陨落
   "24001":

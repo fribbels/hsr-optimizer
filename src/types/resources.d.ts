@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -5881,11 +5881,11 @@ interface Resources {
         "Name": "City of Converging Stars"
       },
       "327": {
-        "Description2pc": "Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.",
+        "Description2pc": "Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.",
         "Name": "Fallen Star Anchorage"
       },
       "328": {
-        "Description2pc": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.",
+        "Description2pc": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.",
         "Name": "Cosmic Life Sciences Institute"
       }
     }
@@ -8065,5 +8065,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

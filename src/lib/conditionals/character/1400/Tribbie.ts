@@ -434,6 +434,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: TheHerta.id, lightCones: [IntotheUnreachableVeil.id] },
+        { characterId: Anaxa.id, lightCones: [LifeShouldBeCastToFlames.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -477,6 +487,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.FUA,
   hiddenColumns: [],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

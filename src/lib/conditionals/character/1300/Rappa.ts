@@ -52,6 +52,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import {
   floorSafe,
   precisionRound,
@@ -68,7 +69,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { TheDahlia } from './TheDahlia'
 
 export const RappaEntities = createEnum('Rappa')
 export const RappaAbilities: AbilityKind[] = [
@@ -393,6 +393,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Fugue.id, lightCones: [LongRoadLeadsHome.id] },
+        { characterId: RuanMei.id, lightCones: [PastSelfInTheMirror.id] },
+        { characterId: Lingsha.id, lightCones: [ScentAloneStaysTrue.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -431,6 +440,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

@@ -1,5 +1,6 @@
 import { Skeleton } from '@mantine/core'
 import type { TFunction } from 'i18next'
+import classes from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary.module.css'
 import {
   AsyncCharacterStatSummary,
   CharacterStatSummary,
@@ -60,7 +61,6 @@ import {
 } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import { ScoringConfigType } from 'types/metadata'
-import classes from './CharacterScoringSummary.module.css'
 
 const nullPromise = Promise.resolve(null)
 const highlightColor = 'rgb(225, 165, 100)'

@@ -55,6 +55,8 @@ import {
   precisionRound,
 } from 'lib/utils/mathUtils'
 
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 import type { CharacterConditionalsController } from 'types/conditionals'
@@ -66,8 +68,6 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-import { Hyacine } from '../1400/Hyacine'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const WeltB1Entities = createEnum('WeltB1')
 export const WeltB1Abilities: AbilityKind[] = [
@@ -456,6 +456,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
+        { characterId: Jiaoqiu.id, lightCones: [ThoseManySprings.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -504,6 +514,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

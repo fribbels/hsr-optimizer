@@ -2,6 +2,7 @@ import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import styles from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay.module.css'
 import {
   countRelicRolls,
   flatReduction,
@@ -40,7 +41,6 @@ import type {
   Relic,
   RelicSubstatMetadata,
 } from 'types/relic'
-import styles from './EstimatedTbpRelicsDisplay.module.css'
 
 export const EstimatedTbpRelicsDisplay = memo(function EstimatedTbpRelicsDisplay({
   displayRelics,

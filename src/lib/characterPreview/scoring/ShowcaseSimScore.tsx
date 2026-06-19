@@ -12,7 +12,9 @@ import {
   OverlayText,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/CharacterCardCombatStats'
+import styles from 'lib/characterPreview/scoring/ShowcaseSimScore.module.css'
 import { StatText } from 'lib/characterPreview/StatText'
 import {
   useSimPreview,
@@ -50,8 +52,6 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import type { PreviewRelics } from '../characterPreviewController'
-import styles from './ShowcaseSimScore.module.css'
 
 export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
   characterId,
@@ -66,7 +66,7 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
   source: ShowcaseSource,
   configType?: ScoringConfigType,
 }) {
-  const readonly = source === ShowcaseSource.BUILDS_MODAL
+  const readonly = source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
 
   return (
@@ -84,34 +84,36 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
         ))}
       </div>
 
-      <ShowcaseTeamSelectPanel
-        characterId={characterId}
-        teamSelection={teamSelection}
-        readonly={readonly}
-        onClear={() => {
-          useScoringStore.getState().clearScoringConfigOverride(characterId, configType)
-        }}
-        onSync={() => {
-          const characterMetadata = getScoringMetadata(characterId)
-          const sim = characterMetadata[CONFIG_FIELD_MAP[configType]]
-          const update = {
-            teammates: sim?.teammates.map((t) => {
-              const form = getCharacterById(t.characterId)?.form
-              if (!form) return t
-              return {
-                ...t,
-                characterEidolon: form.characterEidolon,
-                lightCone: form.lightCone ?? t.lightCone,
-                lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
-              }
-            }),
-          }
-          useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
-        }}
-        onTeamChange={(team) => {
-          useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as TeamSelection)
-        }}
-      />
+      {source !== ShowcaseSource.LEADERBOARD && (
+        <ShowcaseTeamSelectPanel
+          characterId={characterId}
+          teamSelection={teamSelection}
+          readonly={readonly}
+          onClear={() => {
+            useScoringStore.getState().clearScoringConfigOverride(characterId, configType)
+          }}
+          onSync={() => {
+            const characterMetadata = getScoringMetadata(characterId)
+            const sim = characterMetadata[CONFIG_FIELD_MAP[configType]]
+            const update = {
+              teammates: sim?.teammates.map((t) => {
+                const form = getCharacterById(t.characterId)?.form
+                if (!form) return t
+                return {
+                  ...t,
+                  characterEidolon: form.characterEidolon,
+                  lightCone: form.lightCone ?? t.lightCone,
+                  lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
+                }
+              }),
+            }
+            useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
+          }}
+          onTeamChange={(team) => {
+            useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as TeamSelection)
+          }}
+        />
+      )}
     </div>
   )
 })

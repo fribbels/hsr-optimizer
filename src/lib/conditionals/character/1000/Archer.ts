@@ -6,6 +6,7 @@ import {
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { RinTohsaka } from 'lib/conditionals/character/1500/RinTohsaka'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -67,7 +68,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { RinTohsaka } from '../1500/RinTohsaka'
 
 export const ArcherEntities = createEnum('Archer')
 export const ArcherAbilities: AbilityKind[] = [
@@ -349,6 +349,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: Cipher.id, lightCones: [LiesAflutterInTheWind.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -398,6 +407,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {

@@ -12,6 +12,8 @@ import {
   AHA_BASE_SPEED,
   speedToContributionMultiplier,
 } from 'lib/tabs/tabCalculators/ahaCalculations'
+import localClasses from 'lib/tabs/tabCalculators/AhaPanelContent.module.css'
+import sharedClasses from 'lib/tabs/tabCalculators/CalculatorPanel.module.css'
 import {
   type ComboboxNumberGroup,
   ComboboxNumberInput,
@@ -20,8 +22,6 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
 import { useTranslation } from 'react-i18next'
-import localClasses from './AhaPanelContent.module.css'
-import sharedClasses from './CalculatorPanel.module.css'
 
 const classes = { ...sharedClasses, ...localClasses }
 

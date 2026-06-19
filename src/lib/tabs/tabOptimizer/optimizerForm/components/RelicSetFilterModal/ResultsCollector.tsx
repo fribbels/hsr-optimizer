@@ -12,14 +12,14 @@ import type {
   TwoPieceCombo,
   TwoPieceSlot,
 } from 'lib/stores/optimizerForm/setFilterTypes'
-import { useTranslation } from 'react-i18next'
-import classes from './RelicSetFilterModal.module.css'
+import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal.module.css'
 import {
   FourPieceBadges,
   OrnamentBadges,
   PendingSlotBadge,
   TwoPieceComboBadges,
-} from './SetFilterBadges'
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterBadges'
+import { useTranslation } from 'react-i18next'
 
 export function ResultsCollector(
   { checked4p, combos, checkedOrnaments, pendingSlotA, onRemove4p, onRemoveCombo, onRemoveOrnament, onCancelSlotA, onClearAll }: {

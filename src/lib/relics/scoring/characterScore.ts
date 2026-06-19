@@ -1,15 +1,15 @@
-import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { hasMainStat } from 'lib/relics/scoring/substatScoring'
+import type {
+  CharacterScoringResult,
+  RelicScoringResult,
+} from 'lib/relics/scoring/types'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import type {
   Character,
   CharacterId,
 } from 'types/character'
 import { type Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
-import type {
-  CharacterScoringResult,
-  RelicScoringResult,
-} from './types'
 
 export function scoreCharacterWithRelicsUsingScorer(
   character: Character | undefined,

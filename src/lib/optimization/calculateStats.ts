@@ -13,7 +13,6 @@ import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { type SetCounts } from 'lib/optimization/setMatching'
 import {
-  getAllSetDynamicConditionals,
   ornamentIndexToSetConfig,
   relicIndexToSetConfig,
 } from 'lib/sets/setConfigRegistry'
@@ -261,8 +260,6 @@ function applyPercentStats(x: ComputedStatsContainer, a: Float64Array, context: 
   }
 }
 
-const setDynamicConditionals = getAllSetDynamicConditionals()
-
 function evaluateDynamicSetConditionals(
   x: ComputedStatsContainer,
   sets: SetCounts,
@@ -271,8 +268,11 @@ function evaluateDynamicSetConditionals(
   context: OptimizerContext,
 ) {
   if (setsArray[4] == setsArray[5]) {
-    for (let i = 0; i < setDynamicConditionals.length; i++) {
-      evaluateConditional(setDynamicConditionals[i], x, action, context)
+    const conditionals = ornamentIndexToSetConfig[setsArray[4]].conditionals.dynamicConditionals
+    if (conditionals) {
+      for (let i = 0; i < conditionals.length; i++) {
+        evaluateConditional(conditionals[i], x, action, context)
+      }
     }
   }
 }

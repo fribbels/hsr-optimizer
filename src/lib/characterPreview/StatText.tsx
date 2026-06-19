@@ -1,5 +1,5 @@
+import classes from 'lib/characterPreview/StatText.module.css'
 import React from 'react'
-import classes from './StatText.module.css'
 
 type StatTextProps = React.HTMLAttributes<HTMLDivElement>
 

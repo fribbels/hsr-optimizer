@@ -59,15 +59,15 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { Hyacine } from '../1400/Hyacine'
-import { Ashveil } from '../1500/Ashveil'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const FeixiaoEntities = createEnum('Feixiao')
 export const FeixiaoAbilities: AbilityKind[] = [
@@ -363,6 +363,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -408,6 +417,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

@@ -17,6 +17,7 @@ import {
   IconSettings,
   IconStarFilled,
   IconTrendingUp,
+  IconTrophy,
   IconUpload,
   IconUser,
 } from '@tabler/icons-react'
@@ -34,6 +35,7 @@ import {
   setOpen,
   useIsOpen,
 } from 'lib/hooks/useOpenClose'
+import classes from 'lib/overlays/drawers/MenuDrawer.module.css'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import {
@@ -45,7 +47,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import classes from './MenuDrawer.module.css'
 
 // ---- Types ----
 
@@ -259,6 +260,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
       items: [
         { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
+        { key: AppPages.LEADERBOARD, label: 'Leaderboard', icon: <IconTrophy size={16} /> },
         { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
         { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} />, newFeatureKey: NewFeatureKey.WARP },
       ],

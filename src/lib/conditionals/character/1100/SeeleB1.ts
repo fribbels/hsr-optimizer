@@ -45,6 +45,7 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import type { CharacterConditionalsController } from 'types/conditionals'
 import type {
   ScoringMetadata,
@@ -54,7 +55,6 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-import { Cerydra } from '../1400/Cerydra'
 
 export const SeeleB1Entities = createEnum('SeeleB1')
 export const SeeleB1Abilities: AbilityKind[] = [
@@ -272,6 +272,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: SilverWolfB1.id, lightCones: [LiesAflutterInTheWind.id] },
+        { characterId: SparkleB1.id, lightCones: [ButTheBattleIsntOver.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -317,6 +326,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {

@@ -1,21 +1,24 @@
-import { Stats, type SubStats } from 'lib/constants/constants'
-import { countRelicRolls } from 'lib/characterPreview/summary/statScoringSummaryController'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import type { StatRolls } from 'types/relic'
+import { countRelicRolls } from 'lib/characterPreview/summary/statScoringSummaryController'
+import {
+  Stats,
+  type SubStats,
+} from 'lib/constants/constants'
 import { precisionRound } from 'lib/utils/mathUtils'
+import type { StatRolls } from 'types/relic'
 
 const DISPLAY_COUNT = 6
 const FALLBACK_STATS: SubStats[] = [Stats.SPD, Stats.CR, Stats.CD, Stats.ATK_P, Stats.HP_P, Stats.DEF_P]
 const FLAT_STATS = new Set<SubStats>([Stats.ATK, Stats.HP, Stats.DEF])
 
 export type AggregatedStatRolls = {
-  stat: SubStats
-  high: number
-  mid: number
-  low: number
-  total: number
-  effective: number
-  weight: number
+  stat: SubStats,
+  high: number,
+  mid: number,
+  low: number,
+  total: number,
+  effective: number,
+  weight: number,
 }
 
 function buildEntry(stat: SubStats, rollMap: Map<SubStats, StatRolls>, weight: number): AggregatedStatRolls {

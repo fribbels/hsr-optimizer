@@ -11,6 +11,7 @@ import {
   gilgameshActionExists,
   gilgameshFuaSaberUltBoost,
 } from 'lib/conditionals/character/1500/Gilgamesh'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -67,7 +68,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const SaberEntities = createEnum('Saber')
 export const SaberAbilities: AbilityKind[] = [
@@ -416,6 +416,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: Tingyun.id, lightCones: [DanceDanceDance.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -462,6 +471,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

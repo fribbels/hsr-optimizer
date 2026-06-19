@@ -1,0 +1,402 @@
+.root {
+  position: relative;
+  width: 1100px;
+  height: 275px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 6px;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.root::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(rgba(10, 11, 16, 0.40), rgba(10, 11, 16, 0.58));
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.bgImage {
+  position: absolute;
+  inset: -20px;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+/* ── Main row ── */
+
+.row {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.rowDivider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+}
+
+/* ── Portrait frame ── */
+
+.portraitFrame {
+  width: 200px;
+  flex-shrink: 0;
+  align-self: stretch;
+  position: relative;
+  filter: saturate(1.25);
+  border-radius: 50px 0 50px 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+.portraitImg {
+  position: absolute;
+  max-width: none;
+}
+
+.portraitFrame::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 45px 0 45px 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Nameplate ── */
+
+.nameplate {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  padding: 9px 12px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.35) 64%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.charName {
+  display: block;
+  max-width: 95%;
+  min-width: 0;
+  color: var(--lb-text-1);
+  font-size: 20px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.72);
+}
+
+/* ── Glass sheet ── */
+
+.glassSheet {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 14px;
+  border-radius: 10px;
+  padding: 10px 13px;
+  background: rgba(10, 12, 18, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(6px) saturate(1.06);
+  -webkit-backdrop-filter: blur(6px) saturate(1.06);
+  box-shadow:
+    inset 0 0 0 1px rgba(170, 196, 230, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 4px 14px rgba(0, 0, 0, 0.34);
+}
+
+/* Left column: result / module / ruler in one space-around rhythm */
+.stack {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-bottom: -8px;
+}
+
+.rankGroup {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.rankHash {
+  font-size: 20px;
+  color: var(--lb-text-3);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.rankNumber {
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--lb-text-1);
+  line-height: 0.9;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.72);
+}
+
+.resultDivider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.13);
+}
+
+.score {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--lb-text-1);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.72);
+}
+
+.aeonBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 11px;
+  border: 1px solid var(--aeon-color-border);
+  border-radius: 7px;
+  background: var(--aeon-color-bg);
+  color: var(--aeon-color);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.entries {
+  font-size: 12px;
+  color: var(--lb-text-3);
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+/* ── Module row ── */
+
+.moduleRow {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  /* Cap the row 6px from the edge so a growing LC never pushes Sets out */
+  padding-right: 6px;
+  transform: translateY(-6px);
+}
+
+/* Shared module bands — LC / Team / Sets align on real fixed heights, not offsets */
+.moduleStack {
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.moduleLabelBand {
+  height: 12px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.moduleContentBand {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.uplabel {
+  display: block;
+  height: 12px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--lb-text-3);
+  text-transform: uppercase;
+  line-height: 12px;
+  white-space: nowrap;
+}
+
+/* Light cone: icon + stack, label sits over the name column only.
+   This is the row's flexible slot — it grows with the name and shrinks (→ ellipsis)
+   so Team/Sets stay rigid. */
+.lcModule {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex-shrink: 1;
+  overflow: hidden;
+}
+
+/* The LC's own name column must shrink with it (the shared .moduleStack is rigid for Team/Sets) */
+.lcModule .moduleStack {
+  flex-shrink: 1;
+}
+
+.lcIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 9px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.lcText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.12;
+}
+
+.lcSuper {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: 0.75px;
+}
+
+.lcName {
+  font-size: 14px;
+  color: var(--lb-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.12;
+  /* No fixed cap: the LC region flexes, so the name uses whatever width is free
+     (pushing Team/Sets right) and ellipsizes only when the row can't fit it.
+     min-width:0 lets it shrink below its content for the ellipsis to engage. */
+  min-width: 0;
+}
+
+.vsep {
+  width: 1px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.10);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.partyAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-right: -8px;
+}
+
+.setBadge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.setIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.setPieces {
+  font-size: 12px;
+  color: var(--lb-text-3);
+  font-weight: 500;
+}
+
+/* ── Ruler row ── */
+
+.rulerRow {
+  flex: 0 0 auto;
+  padding: 0 6px;
+}
+
+/* ── Substat right column ── */
+
+.subDivider {
+  width: 1px;
+  align-self: stretch;
+  background: rgba(255, 255, 255, 0.10);
+  flex-shrink: 0;
+}
+
+.subColumn {
+  width: 215px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.subRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 6px;
+  padding: 3px 8px;
+}
+
+.statIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.statName {
+  font-size: 12px;
+  color: #ccd5ea;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statValue {
+  margin-left: auto;
+  font-size: 12px;
+  color: #ccd5ea;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.stripeBar {
+  height: 6px;
+  width: 100%;
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+

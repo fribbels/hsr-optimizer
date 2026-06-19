@@ -404,6 +404,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   supportSimulation: supportSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {

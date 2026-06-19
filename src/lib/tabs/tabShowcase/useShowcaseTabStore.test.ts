@@ -6,6 +6,14 @@ import {
   DEFAULT_TEAM,
   Parts,
 } from 'lib/constants/constants'
+import {
+  ShowcaseScreen,
+  type ShowcaseTabCharacter,
+} from 'lib/tabs/tabShowcase/showcaseTabTypes'
+import {
+  getSelectedCharacter,
+  useShowcaseTabStore,
+} from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import { ScoringConfigType } from 'types/metadata'
@@ -16,14 +24,6 @@ import {
   expect,
   it,
 } from 'vitest'
-import {
-  ShowcaseScreen,
-  type ShowcaseTabCharacter,
-} from './showcaseTabTypes'
-import {
-  getSelectedCharacter,
-  useShowcaseTabStore,
-} from './useShowcaseTabStore'
 
 // ---- Constants ----
 

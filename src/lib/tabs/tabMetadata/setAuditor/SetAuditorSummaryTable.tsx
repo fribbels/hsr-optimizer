@@ -1,15 +1,15 @@
 import { Flex } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { useState } from 'react'
 import {
   FLAG_COLORS,
   formatParamCombo,
-} from './setAuditorConstants'
-import { SetAuditorDrillDown } from './SetAuditorDrillDown'
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorConstants'
+import { SetAuditorDrillDown } from 'lib/tabs/tabMetadata/setAuditor/SetAuditorDrillDown'
 import type {
   AuditorSetSummary,
   AuditorSetType,
-} from './setAuditorTypes'
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorTypes'
+import { useState } from 'react'
 
 const MATCHED_COLOR = 'rgba(80, 200, 80, 0.1)'
 

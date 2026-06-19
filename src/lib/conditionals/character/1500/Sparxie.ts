@@ -1,10 +1,13 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -478,6 +481,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: SparkleB1.id, lightCones: [ButTheBattleIsntOver.id] },
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -521,6 +533,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {

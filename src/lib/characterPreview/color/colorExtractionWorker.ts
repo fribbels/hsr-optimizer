@@ -3,7 +3,7 @@ import {
   extractPalette,
   MmcqQuantizer,
   validateOptions,
-} from './colorthiefImports'
+} from 'lib/characterPreview/color/colorthiefImports'
 
 // Runs in a dedicated Web Worker — image decode, downsample, and OKLCH quantization all happen here.
 

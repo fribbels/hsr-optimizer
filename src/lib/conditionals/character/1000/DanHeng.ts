@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,

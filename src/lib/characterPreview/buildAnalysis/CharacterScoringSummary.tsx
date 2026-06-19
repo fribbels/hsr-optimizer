@@ -3,7 +3,14 @@ import {
   BuffDisplaySize,
   BuffsAnalysisDisplay,
 } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
-import type { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import classes from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary.module.css'
+import {
+  BaselineScoringColumn,
+  CharacterScoringColumn,
+  ScoringColumnKind,
+  SimulationScoringColumn,
+} from 'lib/characterPreview/buildAnalysis/ScoringColumns'
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type {
   PreviewRelics,
   ShowcaseMetadata,
@@ -43,13 +50,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import type { Form } from 'types/form'
 import { ScoringConfigType } from 'types/metadata'
-import classes from './CharacterScoringSummary.module.css'
-import {
-  BaselineScoringColumn,
-  CharacterScoringColumn,
-  ScoringColumnKind,
-  SimulationScoringColumn,
-} from './ScoringColumns'
 
 const nullPromise = Promise.resolve(null)
 
@@ -288,26 +288,29 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 }) {
   const { t } = useTranslation('charactersTab')
   const isDps = configType === ScoringConfigType.DPS
+  const isLeaderboard = source === ShowcaseSource.LEADERBOARD
 
   return (
-    <DeferCreateProvider resetKey={showcaseMetadata.characterId}>
+    <DeferCreateProvider resetKey={isLeaderboard ? 0 : showcaseMetadata.characterId}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 15, alignItems: 'center' }} className={classes.rootContainer}>
         {/* Grade ruler */}
-        <DeferCreate>
-          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
-            {isDps && <DPSScoreDisclaimer />}
-            <div className={classes.mainTitle}>
-              <ColorizedTitleWithInfo
-                text={t(`CharacterPreview.ScoringExplanation.${configType}`)}
-                url={'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmarks.md'}
-              />
+        {!isLeaderboard && (
+          <DeferCreate>
+            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
+              {isDps && <DPSScoreDisclaimer />}
+              <div className={classes.mainTitle}>
+                <ColorizedTitleWithInfo
+                  text={t(`CharacterPreview.ScoringExplanation.${configType}`)}
+                  url={'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmarks.md'}
+                />
+              </div>
+              <DpsScoreGradeRuler configType={configType} />
             </div>
-            <DpsScoreGradeRuler configType={configType} />
-          </div>
-        </DeferCreate>
+          </DeferCreate>
+        )}
 
         {/* Substat upgrade table */}
-        {isDps && (
+        {isDps && !isLeaderboard && (
           <DeferCreate>
             <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
               <div className={classes.sectionTitle}>
@@ -319,7 +322,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         )}
 
         {/* Main stat upgrade table */}
-        {isDps && (
+        {isDps && !isLeaderboard && (
           <DeferCreate>
             <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
               <div className={classes.sectionTitle}>
@@ -334,18 +337,22 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </DeferCreate>
         )}
 
-        <DeferCreate>
-          <DpsScoreTeammateUpgradesTable configType={configType} />
-        </DeferCreate>
+        {!isLeaderboard && (
+          <DeferCreate>
+            <DpsScoreTeammateUpgradesTable configType={configType} />
+          </DeferCreate>
+        )}
 
         {/* Relic rarity */}
         <DeferCreate>
           <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', alignItems: 'center' }} className={classes.relicRaritySection}>
-            <ColorizedTitleWithInfo
-              text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
-              url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
-              fontSize={24}
-            />
+            {!isLeaderboard && (
+              <ColorizedTitleWithInfo
+                text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
+                url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
+                fontSize={24}
+              />
+            )}
             <EstimatedTbpRelicsDisplay
               displayRelics={displayRelics}
               showcaseMetadata={showcaseMetadata}
@@ -354,17 +361,21 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         </DeferCreate>
 
         {/* Simulated benchmarks */}
-        <DeferCreate>
-          <ScoringBenchmarksPanel configType={configType} />
-        </DeferCreate>
+        {!isLeaderboard && (
+          <DeferCreate>
+            <ScoringBenchmarksPanel configType={configType} />
+          </DeferCreate>
+        )}
 
         {/* Three-column scoring comparison */}
-        <DeferCreate>
-          <ScoringColumnsSection configType={configType} />
-        </DeferCreate>
+        {!isLeaderboard && (
+          <DeferCreate>
+            <ScoringColumnsSection configType={configType} />
+          </DeferCreate>
+        )}
 
         {/* Buffs analysis */}
-        {isDps && (
+        {isDps && !isLeaderboard && (
           <DeferCreate>
             <WrappedBuffAnalysisDisplay t={t} configType={configType} />
           </DeferCreate>

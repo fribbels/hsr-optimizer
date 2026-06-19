@@ -18,17 +18,18 @@ import {
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
-import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import {
   buildCardBgPipelineConfig,
   DEFAULT_SHOWCASE_COLOR,
   resolveShowcaseTheme,
 } from 'lib/characterPreview/color/showcaseColorService'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
+import classes from 'lib/characterPreview/customization/ShowcaseCustomizationSidebar.module.css'
 import {
   getShowcasePreset,
   ShowcasePreset,
 } from 'lib/characterPreview/debugVisualConfigStore'
+import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
 import { AppPages } from 'lib/constants/appPages'
 import {
@@ -77,7 +78,6 @@ import React, {
 import { useTranslation } from 'react-i18next'
 import { type CharacterId } from 'types/character'
 import { ScoringConfigType } from 'types/metadata'
-import classes from './ShowcaseCustomizationSidebar.module.css'
 
 interface ShowcaseCustomizationSidebarProps {
   id: string
@@ -100,7 +100,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
   portraitSwatches,
   cardBgAlpha,
 }: ShowcaseCustomizationSidebarProps) {
-  if (source === ShowcaseSource.BUILDS_MODAL) return null
+  if (source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD) return null
 
   return (
     <Flex

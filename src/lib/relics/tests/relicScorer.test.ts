@@ -8,12 +8,12 @@ import {
   SubStatValues,
 } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
-import {
-  substatPotentialUnits,
-} from 'lib/relics/scoring/scoringConstants'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
 import { RelicScorer } from 'lib/relics/scoring/relicScorer'
+import {
+  substatPotentialUnits,
+} from 'lib/relics/scoring/scoringConstants'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { Metadata } from 'lib/state/metadataInitializer'

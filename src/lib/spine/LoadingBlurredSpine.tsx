@@ -31,6 +31,12 @@ export function LoadingBlurredSpine({
   const [storedStyle, setStoredStyle] = useState<CSSProperties>(style)
   const [blur, setBlur] = useState(true)
 
+  // Synchronous state adjustment during render — useEffect runs after paint,
+  // so without this the old spine renders at the new position for one frame.
+  if (characterId !== loadedCharIdRef.current && !blur) {
+    setBlur(true)
+  }
+
   useEffect(() => {
     if (characterId === loadedCharIdRef.current) {
       setStoredStyle(styleRef.current)

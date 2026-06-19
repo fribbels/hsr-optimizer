@@ -22,6 +22,7 @@ import { Assets } from 'lib/rendering/assets'
 import type { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { RelicSetMode } from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicMainSetFilters.module.css'
 import { SlotImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterBadges'
 import {
   optimizerTabDefaultGap,
@@ -33,7 +34,6 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import inputClasses from 'style/inputs.module.css'
-import classes from './RelicMainSetFilters.module.css'
 
 function handleMainStatChange(field: MainStatPart, val: string[]) {
   useOptimizerRequestStore.getState().setMainStats(field, val)

@@ -1,14 +1,24 @@
+import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import type {
+  InjectedScoreData,
+  InjectedScoringInput,
+} from 'lib/characterPreview/characterPreviewTypes'
 import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import {
   computeScoringCacheKey,
   getOrComputePreview,
   type PreparedState,
+  releaseOrchestrator,
   requestScore,
   requestScoreUpgrades,
   resultCache,
   upgradeResultCache,
 } from 'lib/scoring/scoringService'
-import type { SimulationScore } from 'lib/scoring/simScoringUtils'
+import type {
+  SimulationFlags,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   createContext,
   memo,
@@ -22,7 +32,6 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import { type PreviewRelics } from './characterPreviewController'
 
 export type ScoringPipeline = {
   preview: PreparedState | null,
@@ -38,6 +47,15 @@ type SimScoringContextValue = {
 
 // Stable reference to avoid re-renders when no promise exists
 const nullPromise = Promise.resolve(null)
+
+const EMPTY_FLAGS: SimulationFlags = {
+  overcapCritRate: false,
+  simPoetActive: false,
+  characterPoetActive: false,
+  forceErrRope: false,
+  benchmarkBasicSpdTarget: 0,
+  benchmarkBasicResTarget: 0,
+}
 
 const EMPTY_PIPELINES: SimScoringContextValue = { pipelines: {} }
 
@@ -92,44 +110,123 @@ function buildScoringPipeline(
   return { preview, scoringPromise, upgradePromise, cachedScore, cachedUpgrades }
 }
 
+function buildInjectedScorePipeline(
+  cacheKey: string | null,
+  character: Character,
+  configType: ScoringConfigType,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: PreviewRelics,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+  scoreData: InjectedScoreData,
+): ScoringPipeline {
+  if (cacheKey === null) {
+    return {
+      preview: null,
+      scoringPromise: nullPromise,
+      upgradePromise: nullPromise,
+      cachedScore: null,
+      cachedUpgrades: null,
+    }
+  }
+
+  const config: ScoringConfig = {
+    configType,
+    simulation: simulationMetadata,
+  }
+
+  const preview = getOrComputePreview(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions)
+
+  // Release the prepared orchestrator immediately — injected-score mode never calls
+  // requestScore, so nothing will consume it. Without this, orchestrators leak.
+  releaseOrchestrator(cacheKey)
+
+  if (preview === null) {
+    return {
+      preview: null,
+      scoringPromise: nullPromise,
+      upgradePromise: nullPromise,
+      cachedScore: null,
+      cachedUpgrades: null,
+    }
+  }
+
+  const cachedScore = buildInjectedScoreStub(scoreData, preview, simulationMetadata, character)
+
+  return {
+    preview,
+    scoringPromise: nullPromise,
+    upgradePromise: nullPromise,
+    cachedScore,
+    cachedUpgrades: null,
+  }
+}
+
+function buildInjectedScoreStub(
+  scoreData: InjectedScoreData,
+  preview: PreparedState,
+  simulationMetadata: SimulationMetadata,
+  character: Character,
+): SimulationScore {
+  return {
+    percent: scoreData.percent,
+
+    originalSim: preview.originalSim,
+    baselineSim: preview.baselineSim,
+    benchmarkSim: preview.baselineSim,
+    maximumSim: preview.baselineSim,
+
+    originalSimResult: preview.originalSimResult,
+    baselineSimResult: preview.baselineSimResult,
+    benchmarkSimResult: preview.baselineSimResult,
+    maximumSimResult: preview.baselineSimResult,
+
+    originalSimScore: preview.originalSimResult.simScore,
+    baselineSimScore: scoreData.baselineSimScore,
+    benchmarkSimScore: scoreData.benchmarkSimScore,
+    maximumSimScore: scoreData.maximumSimScore,
+
+    substatUpgrades: [],
+    setUpgrades: [],
+    mainUpgrades: [],
+    teammateOrnamentUpgradeResults: [],
+
+    simulationForm: preview.simForm,
+    simulationMetadata,
+    characterMetadata: getGameMetadata().characters[character.id],
+
+    originalSpd: preview.originalSpd,
+    spdBenchmark: undefined,
+    simulationFlags: EMPTY_FLAGS,
+  }
+}
+
 interface SimScoringContextProps extends PropsWithChildren {
   character: Character
   configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>>
   singleRelicByPart: PreviewRelics
   showcaseTemporaryOptions: ShowcaseTemporaryOptions
+  injectedScoring?: InjectedScoringInput
 }
 
 export const SimScoringContextProvider = memo(function SimScoringContextProvider(props: SimScoringContextProps) {
-  const { character, configMetadata, singleRelicByPart, showcaseTemporaryOptions } = props
+  const { character, configMetadata, singleRelicByPart, showcaseTemporaryOptions, injectedScoring } = props
 
-  const dpsCacheKey = computeScoringCacheKey(
-    character,
-    ScoringConfigType.DPS,
-    configMetadata[ScoringConfigType.DPS] ?? null,
-    singleRelicByPart,
-    showcaseTemporaryOptions,
-  )
-  const bufferCacheKey = computeScoringCacheKey(
-    character,
-    ScoringConfigType.BUFFER,
-    configMetadata[ScoringConfigType.BUFFER] ?? null,
-    singleRelicByPart,
-    showcaseTemporaryOptions,
-  )
-  const healCacheKey = computeScoringCacheKey(
-    character,
-    ScoringConfigType.HEAL,
-    configMetadata[ScoringConfigType.HEAL] ?? null,
-    singleRelicByPart,
-    showcaseTemporaryOptions,
-  )
-  const shieldCacheKey = computeScoringCacheKey(
-    character,
-    ScoringConfigType.SHIELD,
-    configMetadata[ScoringConfigType.SHIELD] ?? null,
-    singleRelicByPart,
-    showcaseTemporaryOptions,
-  )
+  const injectedScore = injectedScoring?.score
+  const injectedScoreConfigType = injectedScoring?.configType
+  const hasInjectedScore = injectedScoring != null
+
+  const dpsCacheKey = (!hasInjectedScore || injectedScoreConfigType === ScoringConfigType.DPS)
+    ? computeScoringCacheKey(character, ScoringConfigType.DPS, configMetadata[ScoringConfigType.DPS] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+    : null
+  const bufferCacheKey = (!hasInjectedScore || injectedScoreConfigType === ScoringConfigType.BUFFER)
+    ? computeScoringCacheKey(character, ScoringConfigType.BUFFER, configMetadata[ScoringConfigType.BUFFER] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+    : null
+  const healCacheKey = (!hasInjectedScore || injectedScoreConfigType === ScoringConfigType.HEAL)
+    ? computeScoringCacheKey(character, ScoringConfigType.HEAL, configMetadata[ScoringConfigType.HEAL] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+    : null
+  const shieldCacheKey = (!hasInjectedScore || injectedScoreConfigType === ScoringConfigType.SHIELD)
+    ? computeScoringCacheKey(character, ScoringConfigType.SHIELD, configMetadata[ScoringConfigType.SHIELD] ?? null, singleRelicByPart, showcaseTemporaryOptions)
+    : null
 
   const cacheKeys: Record<ScoringConfigType, string | null> = {
     [ScoringConfigType.DPS]: dpsCacheKey,
@@ -143,14 +240,28 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
 
     for (const configType of CONFIG_DISPLAY_ORDER) {
       const meta = configMetadata[configType]
-      if (meta) {
+      if (!meta) continue
+
+      if (injectedScoring) {
+        if (configType === injectedScoring.configType) {
+          pipelines[configType] = buildInjectedScorePipeline(
+            cacheKeys[configType],
+            character,
+            configType,
+            meta,
+            singleRelicByPart,
+            showcaseTemporaryOptions,
+            injectedScoring.score,
+          )
+        }
+      } else {
         pipelines[configType] = buildScoringPipeline(cacheKeys[configType], character, configType, meta, singleRelicByPart, showcaseTemporaryOptions)
       }
     }
 
     return { pipelines }
     // oxlint-disable-next-line react-hooks/exhaustive-deps
-  }, [dpsCacheKey, bufferCacheKey, healCacheKey, shieldCacheKey])
+  }, [dpsCacheKey, bufferCacheKey, healCacheKey, shieldCacheKey, injectedScoring])
 
   return (
     <SimScoringContext value={context}>

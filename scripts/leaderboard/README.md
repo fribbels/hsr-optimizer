@@ -8,7 +8,7 @@ Builds private and public leaderboard outputs from a DynamoDB export.
 npm run leaderboard -- --worker-threads 12
 ```
 
-When `--export-path` is omitted, the runner auto-discovers the latest `.json.gz` export under `../hsr-optimizer-server/exports`.
+When `--export-path` is omitted, the runner auto-discovers the latest `.json.gz` export under `./exports/`.
 
 Useful scratch run:
 

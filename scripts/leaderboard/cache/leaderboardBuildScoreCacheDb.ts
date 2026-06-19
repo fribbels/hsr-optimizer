@@ -12,17 +12,6 @@ export const CACHE_TABLE = 'leaderboard_build_score_cache'
 
 export function openLeaderboardBuildScoreCacheDatabase(dbPath: string): SqliteDatabase {
   const absPath = resolvePath(cwd(), dbPath)
-
-  const normalized = absPath.replace(/\\/g, '/').toLowerCase()
-  const cwdPath = cwd().replace(/\\/g, '/').toLowerCase()
-  const forbiddenRoots = ['public', 'src/data', 'dist']
-  for (const root of forbiddenRoots) {
-    const forbidden = `${cwdPath}/${root}`
-    if (normalized === forbidden || normalized.startsWith(`${forbidden}/`)) {
-      throw new Error(`Leaderboard build-score cache path must not be under ${root}/: ${absPath}`)
-    }
-  }
-
   ensureDirectory(dirnamePath(absPath))
   const db = openSqliteDatabase(absPath)
   db.exec('PRAGMA busy_timeout = 5000')

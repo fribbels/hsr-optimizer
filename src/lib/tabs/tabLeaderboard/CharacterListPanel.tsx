@@ -4,6 +4,7 @@ import {
 } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
+import { configTypeToPublic } from 'leaderboard/shared/configTypeMapping'
 import {
   getCharacterLeaderboardConfigTypes,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
@@ -21,7 +22,7 @@ import { useTranslation } from 'react-i18next'
 import { ScoringConfigType } from 'types/metadata'
 
 function abbreviateCount(n: number): string {
-  if (n >= 1000) return `${Math.round(n / 1000)}K`
+  if (n >= 1000) return `${Math.floor(n / 1000)}K`
   return String(n)
 }
 
@@ -108,7 +109,7 @@ export function CharacterListPanel() {
           <div
             key={row.id}
             className={`${classes.row} ${row.id === selectedId ? classes.selected : ''}`}
-            onClick={() => selectLeaderboardCharacter(row.id)}
+            onClick={() => selectLeaderboardCharacter(row.id, selectedType ? { configType: configTypeToPublic(selectedType) } : undefined)}
           >
             <span className={classes.rank}>{index + 1}</span>
             <span className={classes.nameCell}>

@@ -6,8 +6,17 @@ import {
 } from 'lib/constants/appPages'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { expandCharacter } from 'lib/simulations/leaderboard/profileCompression'
+import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
+import { getLeaderboardCharacters } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
+import {
+  getBuildIndex,
+  getLeaderboardCharacterIds,
+  getLeaderboardTopScores,
+  loadCharacterData,
+  loadLeaderboardData,
+} from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
-import type { CharacterId } from 'types/character'
 import {
   isLeaderboardConfigType,
   LEADERBOARD_CONFIG_TYPES,
@@ -22,16 +31,7 @@ import type {
   PublicCharacterData,
   PublicTeamMeta,
 } from 'scripts/leaderboard/shared/types'
-import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
-import { getLeaderboardCharacters } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
-import {
-  getBuildIndex,
-  getLeaderboardCharacterIds,
-  getLeaderboardTopScores,
-  loadCharacterData,
-  loadLeaderboardData,
-} from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
-import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
+import type { CharacterId } from 'types/character'
 
 const CONFIG_DISPLAY_ORDER = LEADERBOARD_CONFIG_TYPES
 

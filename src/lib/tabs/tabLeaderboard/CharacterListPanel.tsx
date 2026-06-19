@@ -3,9 +3,12 @@ import {
   TextInput,
 } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
+import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
 import {
   getCharacterLeaderboardConfigTypes,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
+import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
 import { truncate10ths } from 'lib/utils/mathUtils'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
@@ -15,9 +18,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScoringConfigType } from 'types/metadata'
-import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
-import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
-import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 const CONFIG_TABS = [
   { type: ScoringConfigType.DPS, label: 'DPS' },

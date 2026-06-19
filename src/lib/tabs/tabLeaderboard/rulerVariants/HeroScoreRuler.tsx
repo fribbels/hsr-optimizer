@@ -1,8 +1,8 @@
 import chroma from 'chroma-js'
 import type { TierColors } from 'lib/characterPreview/scoring/substatRollColors'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
-import { useMemo } from 'react'
 import classes from 'lib/tabs/tabLeaderboard/HeroScoreRuler.module.css'
+import { useMemo } from 'react'
 
 const GRADE_KEYS = ['F', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSS', 'WTF', 'AEON'] as const
 const SHADE_COUNT = 11

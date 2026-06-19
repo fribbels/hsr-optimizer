@@ -1,9 +1,4 @@
 import {
-  describe,
-  expect,
-  test,
-} from 'vitest'
-import {
   LeaderboardCliOptionsError,
   leaderboardCliUsage,
   parseLeaderboardCliOptions,
@@ -12,6 +7,11 @@ import {
   homeDir,
   resolvePath,
 } from 'scripts/leaderboard/shared/nodeFacade'
+import {
+  describe,
+  expect,
+  test,
+} from 'vitest'
 
 describe('leaderboard CLI options', () => {
   test('resolves defaults', () => {

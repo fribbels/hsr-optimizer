@@ -1,11 +1,11 @@
+import { mapPublicEntry } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import type { LeaderboardConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
 import {
   LEADERBOARD_FILTER_ALL,
   type LeaderboardEidolonFilter,
 } from 'scripts/leaderboard/shared/eidolonConfig'
 import type { PublicCharacterData } from 'scripts/leaderboard/shared/types'
-import { mapPublicEntry } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
-import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 
 export const LEADERBOARD_DISPLAY_TOP_N = 100
 

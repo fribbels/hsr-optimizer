@@ -1,4 +1,9 @@
 import { Assets } from 'lib/rendering/assets'
+import { selectLeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import { LeaderboardTeamDisplay } from 'lib/tabs/tabLeaderboard/LeaderboardTeamDisplay'
+import classes from 'lib/tabs/tabLeaderboard/RankListPanel.module.css'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
 import { truncate10ths } from 'lib/utils/mathUtils'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
@@ -6,11 +11,6 @@ import {
   useCallback,
   useRef,
 } from 'react'
-import { selectLeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
-import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
-import { LeaderboardTeamDisplay } from 'lib/tabs/tabLeaderboard/LeaderboardTeamDisplay'
-import classes from 'lib/tabs/tabLeaderboard/RankListPanel.module.css'
-import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 const MEDAL_COLORS: Record<number, string> = {
   1: '#e0b420',

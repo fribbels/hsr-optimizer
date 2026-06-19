@@ -16,6 +16,7 @@ import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigReg
 import type { Sets } from 'lib/constants/constants'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
+import classes from 'lib/tabs/tabLeaderboard/LeaderboardBanner.module.css'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -26,7 +27,6 @@ import type {
 } from '../leaderboardTabTypes'
 import { HeroScoreRuler } from '../rulerVariants/HeroScoreRuler'
 import { useLeaderboardTabStore } from '../useLeaderboardTabStore'
-import classes from 'lib/tabs/tabLeaderboard/LeaderboardBanner.module.css'
 
 const STRIPE_SCALE = 10
 const SEG_W_HIGH = STRIPE_SCALE * ROLL_WIDTH_RATIOS.high

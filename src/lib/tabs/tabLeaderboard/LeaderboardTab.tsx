@@ -2,7 +2,10 @@ import { UnstyledButton } from '@mantine/core'
 import { IconChevronLeft } from '@tabler/icons-react'
 import { CharacterListPanel } from 'lib/tabs/tabLeaderboard/CharacterListPanel'
 import { CollapsedCharacterStrip } from 'lib/tabs/tabLeaderboard/CollapsedCharacterStrip'
+import { LeaderboardBanner } from 'lib/tabs/tabLeaderboard/heroVariants/LeaderboardBanner'
 import { LeaderboardCharacterPreview } from 'lib/tabs/tabLeaderboard/LeaderboardCharacterPreview'
+import { LeaderboardFilterControls } from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls'
+import classes from 'lib/tabs/tabLeaderboard/LeaderboardLayout.module.css'
 import {
   expandCharacterList,
   initializeLeaderboardTab,
@@ -10,9 +13,6 @@ import {
 import { RankListPanel } from 'lib/tabs/tabLeaderboard/RankListPanel'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { useEffect } from 'react'
-import { LeaderboardBanner } from 'lib/tabs/tabLeaderboard/heroVariants/LeaderboardBanner'
-import { LeaderboardFilterControls } from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls'
-import classes from 'lib/tabs/tabLeaderboard/LeaderboardLayout.module.css'
 
 export function LeaderboardTab() {
   useEffect(() => {

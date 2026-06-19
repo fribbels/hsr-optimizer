@@ -1,16 +1,16 @@
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
+import type { LeaderboardVersionFile } from 'scripts/leaderboard/shared/types'
+import {
+  collectAffectedCharacterIds,
+  collectBumpedIds,
+} from 'scripts/leaderboard/shared/versioning'
 import type { CharacterId } from 'types/character'
 import {
   describe,
   expect,
   test,
 } from 'vitest'
-import type { LeaderboardVersionFile } from 'scripts/leaderboard/shared/types'
-import {
-  collectAffectedCharacterIds,
-  collectBumpedIds,
-} from 'scripts/leaderboard/shared/versioning'
 
 Metadata.initialize()
 

@@ -5,9 +5,11 @@ import {
 } from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
 import { Assets } from 'lib/rendering/assets'
+import classes from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls.module.css'
+import { setLeaderboardFilters } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { CharacterId } from 'types/character'
 import {
   EIDOLON_GROUPS,
   EIDOLON_TIERS,
@@ -15,9 +17,7 @@ import {
   type LeaderboardEidolonFilter,
 } from 'scripts/leaderboard/shared/eidolonConfig'
 import type { PublicTeamMeta } from 'scripts/leaderboard/shared/types'
-import classes from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls.module.css'
-import { setLeaderboardFilters } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
-import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
+import type { CharacterId } from 'types/character'
 
 interface LeaderboardFilterControlsProps {
   activeTeamId: string

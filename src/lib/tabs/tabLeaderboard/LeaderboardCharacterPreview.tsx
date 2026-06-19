@@ -9,14 +9,14 @@ import {
   cardTotalW,
   parentH,
 } from 'lib/constants/constantsUi'
+import type { LeaderboardTeammate } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import {
   useDeferredValue,
   useMemo,
 } from 'react'
-import { ScoringConfigType } from 'types/metadata'
 import { publicToConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
-import type { LeaderboardTeammate } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
-import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
+import { ScoringConfigType } from 'types/metadata'
 
 export function LeaderboardCharacterPreview() {
   const selectedEntry = useLeaderboardTabStore((s) => s.selectedEntry)

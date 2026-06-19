@@ -11,20 +11,6 @@ import {
 } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import type { MinifiedCharacter } from 'lib/simulations/leaderboard/profileCompression'
-import type { CharacterId } from 'types/character'
-import type { LightConeId } from 'types/lightCone'
-import {
-  type LeaderboardTeam,
-  ScoringConfigType,
-  type SimulationMetadata,
-} from 'types/metadata'
-import type { Relic } from 'types/relic'
-import {
-  describe,
-  expect,
-  test,
-  vi,
-} from 'vitest'
 import {
   buildLeaderboardBuildScoreCacheKey,
   LeaderboardBuildScoreCache,
@@ -73,6 +59,20 @@ import {
 import {
   buildLeaderboardScoreWorkerStateKey,
 } from 'scripts/leaderboard/workers/profileWorkerContracts'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+import {
+  type LeaderboardTeam,
+  ScoringConfigType,
+  type SimulationMetadata,
+} from 'types/metadata'
+import type { Relic } from 'types/relic'
+import {
+  describe,
+  expect,
+  test,
+  vi,
+} from 'vitest'
 import {
   compressedProfileSampleBase64,
   sampleFetchedAt,

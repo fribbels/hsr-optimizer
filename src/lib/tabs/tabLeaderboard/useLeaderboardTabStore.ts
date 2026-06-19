@@ -1,8 +1,8 @@
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTypes'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
+import { type LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
-import type { CharacterId } from 'types/character'
 import type { LeaderboardConfigType } from 'scripts/leaderboard/shared/configTypeMapping'
 import {
   LEADERBOARD_FILTER_ALL,
@@ -12,7 +12,7 @@ import type {
   PublicCharacterData,
   PublicTeamMeta,
 } from 'scripts/leaderboard/shared/types'
-import { type LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import type { CharacterId } from 'types/character'
 
 export interface LeaderboardTabState {
   selectedCharacterId: CharacterId | null

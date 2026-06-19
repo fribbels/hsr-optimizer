@@ -9,16 +9,16 @@ import {
 } from 'lib/simulations/leaderboard/profileCompression'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
-  describe,
-  expect,
-  test,
-} from 'vitest'
-import {
   fileExists,
   gunzipBase64Text,
   gzipTextToBase64,
   readTextFile,
 } from 'scripts/leaderboard/shared/nodeFacade'
+import {
+  describe,
+  expect,
+  test,
+} from 'vitest'
 import { compressedProfileSampleBase64 } from './leaderboardProfileSample'
 
 Metadata.initialize()

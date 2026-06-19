@@ -29,8 +29,9 @@ import { estimateScoringRuns } from 'leaderboard/scoring/scorer'
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
 import { hashObject } from 'leaderboard/shared/hash'
 import {
+  fileExists,
   joinPath,
-  listDirectoryWithMtime,
+  readTextFile,
   resolvePath,
 } from 'leaderboard/shared/nodeFacade'
 import type {
@@ -63,16 +64,22 @@ type PublishArtifacts = {
 
 function findLatestServerExport(): LeaderboardExportInput {
   const dir = resolvePath('exports')
-  const files = listDirectoryWithMtime(dir)
-    .filter((f) => f.name.endsWith('.json.gz'))
-    .sort((a, b) => b.mtimeMs - a.mtimeMs)
-  if (!files.length) throw new Error(`No .json.gz export files found in ${dir}`)
+  const manifestPath = joinPath(dir, 'latest-export.json')
 
-  const newestMtime = files[0].mtimeMs
-  const newestFiles = files.filter((f) => f.mtimeMs === newestMtime)
+  if (!fileExists(manifestPath)) {
+    throw new Error(`No export manifest found at ${manifestPath}. Run the download script first.`)
+  }
+
+  const manifest = JSON.parse(readTextFile(manifestPath)) as { exportId: string, exportTime: string, files: string[] }
+  if (!Array.isArray(manifest.files) || manifest.files.length === 0) {
+    throw new Error(`Export manifest at ${manifestPath} has no data files`)
+  }
+
+  console.log(`Export manifest: ${manifest.files.length} files, exportTime: ${manifest.exportTime}, exportId: ${manifest.exportId}`)
+
   return {
     displayPath: dir,
-    paths: newestFiles.map((f) => joinPath(dir, f.name)),
+    paths: manifest.files.map((f) => joinPath(dir, f)),
   }
 }
 

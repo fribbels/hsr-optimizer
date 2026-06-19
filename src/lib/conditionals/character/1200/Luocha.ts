@@ -298,6 +298,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [SortOption.OHB],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   healSimulation: healSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {

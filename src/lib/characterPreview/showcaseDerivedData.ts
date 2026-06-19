@@ -51,6 +51,7 @@ import type {
   ScoringConfigType,
   SimulationMetadata,
 } from 'types/metadata'
+import type { SimulationMetadataOverride } from './characterPreviewTypes'
 
 // ===== Layout Resolution (character-dependent, no color) =====
 
@@ -59,6 +60,8 @@ interface ShowcaseLayoutParams {
   teamSelections: Partial<Record<ScoringConfigType, TeamSelection>>
   storedScoringType: ScoringType | undefined
   savedBuildOverride?: SavedBuild | null
+  simulationMetadataOverride?: SimulationMetadataOverride
+  overrideConfigType?: ScoringConfigType
   t: TFunction<'gameData'>
 }
 
@@ -95,6 +98,19 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
     if (meta) {
       meta.deprioritizeBuffs = resolveEffectiveDeprioritizeBuffs(character.id, meta)
       configMetadata[configType] = meta
+    }
+  }
+
+  if (params.simulationMetadataOverride && params.overrideConfigType) {
+    const ct = params.overrideConfigType
+    const meta = configMetadata[ct]
+    if (meta) {
+      const override = params.simulationMetadataOverride
+      configMetadata[ct] = {
+        ...meta,
+        ...(override.teammates && { teammates: override.teammates }),
+        ...(override.deprioritizeBuffs != null && { deprioritizeBuffs: override.deprioritizeBuffs }),
+      }
     }
   }
 

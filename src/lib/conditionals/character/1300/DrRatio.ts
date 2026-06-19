@@ -308,6 +308,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Cipher.id, lightCones: [LiesAflutterInTheWind.id] },
+        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
+        { characterId: Aventurine.id, lightCones: [InherentlyUnjustDestiny.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -355,6 +365,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {

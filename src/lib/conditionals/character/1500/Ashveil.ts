@@ -52,6 +52,14 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
+import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import {
   type CharacterConditionalFunction,
   type CharacterConfig,
@@ -406,6 +414,30 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -439,6 +471,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

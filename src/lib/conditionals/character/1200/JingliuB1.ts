@@ -306,6 +306,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Bronya.id, lightCones: [ButTheBattleIsntOver.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -347,6 +357,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

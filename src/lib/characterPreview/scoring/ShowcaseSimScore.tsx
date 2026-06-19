@@ -66,7 +66,7 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
   source: ShowcaseSource,
   configType?: ScoringConfigType,
 }) {
-  const readonly = source === ShowcaseSource.BUILDS_MODAL
+  const readonly = source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
 
   return (
@@ -84,7 +84,7 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
         ))}
       </div>
 
-      <ShowcaseTeamSelectPanel
+      {source !== ShowcaseSource.LEADERBOARD && <ShowcaseTeamSelectPanel
         characterId={characterId}
         teamSelection={teamSelection}
         readonly={readonly}
@@ -111,7 +111,7 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
         onTeamChange={(team) => {
           useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as TeamSelection)
         }}
-      />
+      />}
     </div>
   )
 })

@@ -253,6 +253,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Bronya.id, lightCones: [ButTheBattleIsntOver.id] },
+        { characterId: RuanMei.id, lightCones: [PastSelfInTheMirror.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({

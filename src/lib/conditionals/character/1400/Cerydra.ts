@@ -473,6 +473,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
   supportSimulation: supportSimulation(),
+  eidolonImage: 3,
 })
 
 const display = {

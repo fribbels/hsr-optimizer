@@ -78,6 +78,7 @@ import {
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { useInjectedScoringInput } from 'lib/characterPreview/CharacterPreviewScoringContext'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import {
@@ -101,39 +102,26 @@ import {
   type ShowcaseDisplayDimensionsOverride,
   type ShowcaseTemporaryOptions,
 } from 'types/metadata'
-import { SimScoringContextProvider } from './SimScoringContext'
+import {
+  SimScoringContextProvider,
+} from './SimScoringContext'
 import { useSimPreview } from './useSimScoringHooks'
 
 const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
 const EMPTY_SCORED: RelicScoringResult[] = []
 
-interface InteractiveCharacterPreviewProps {
-  setOriginalCharacterModalOpen: (open: boolean) => void
-  setOriginalCharacterModalInitialCharacter: (character: Character) => void
-  savedBuildOverride?: never
-  source: Exclude<ShowcaseSource, ShowcaseSource.BUILDS_MODAL>
-}
-
-interface SavedBuildPreviewProps {
-  setOriginalCharacterModalOpen?: never
-  setOriginalCharacterModalInitialCharacter?: never
-  savedBuildOverride: SavedBuild | null
-  source: ShowcaseSource.BUILDS_MODAL
-}
-
-interface CharacterPreviewPropsBase {
+interface CharacterPreviewProps {
   id: string
   character: Character | ShowcaseTabCharacter | null
-  /** Debug mode: disables L2D, forces stat score, hides analysis footer */
+  source: ShowcaseSource
   forceDebug?: boolean
-  /** Override debug visual config (for shared debug panel across multiple cards) */
   debugVisualConfig?: DebugVisualConfig
-  /** Editor mode overrides for live preview of display dimensions */
   editorOverrides?: ShowcaseDisplayDimensionsOverride
+  setOriginalCharacterModalOpen?: (open: boolean) => void
+  setOriginalCharacterModalInitialCharacter?: (character: Character) => void
+  savedBuildOverride?: SavedBuild | null
 }
-
-type CharacterPreviewProps = CharacterPreviewPropsBase & (SavedBuildPreviewProps | InteractiveCharacterPreviewProps)
 
 globalThis.CARD_DEBUG = false
 
@@ -291,8 +279,7 @@ export function CharacterPreview({
           height: parentH,
           width: cardTotalW,
           borderRadius: 6,
-          backgroundColor: 'var(--layer-0)',
-          border: '1px solid var(--layer-0)',
+          border: '1px solid rgba(255, 255, 255, 0.1)',
         }}
       />
     )
@@ -339,6 +326,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   debugVisualConfig,
   editorOverrides,
 }: CharacterPreviewInnerProps) {
+  const injectedScoring = useInjectedScoringInput()
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
   // downstream usage. The source-aware branching in useCharacterPreviewState and getPreviewRelics
   // handles the equipped field difference (Relic objects vs string IDs).
@@ -379,7 +367,10 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const buildScoringType = savedBuildOverride?.scoringConfigType != null
     ? SCORING_CONFIG_REGISTRY[savedBuildOverride.scoringConfigType].scoringType
     : undefined
-  const effectiveScoringType = forceDebug ? ScoringType.SUBSTAT_SCORE : (buildScoringType ?? state.storedScoringType)
+  const injectedScoringType = injectedScoring
+    ? SCORING_CONFIG_REGISTRY[injectedScoring.configType].scoringType
+    : undefined
+  const effectiveScoringType = forceDebug ? ScoringType.SUBSTAT_SCORE : (injectedScoringType ?? buildScoringType ?? state.storedScoringType)
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
   // Cache-buster: portrait edits on the showcase tab wouldn't re-run the layout memo otherwise
@@ -394,7 +385,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         storedScoringType: effectiveScoringType,
         savedBuildOverride,
         t,
+        ...(injectedScoring?.simulationMetadataOverride && {
+          simulationMetadataOverride: injectedScoring.simulationMetadataOverride,
+          overrideConfigType: injectedScoring.configType,
+        }),
       })
+      if (source === ShowcaseSource.LEADERBOARD) {
+        baseLayout.portraitToUse = undefined
+        baseLayout.portraitUrl = baseLayout.defaultPortraitUrl
+      }
       if (forceDebug) {
         return { ...baseLayout, displayDimensions: { ...baseLayout.displayDimensions, disableSpine: true } }
       }
@@ -410,6 +409,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       _storePortrait,
       t,
       forceDebug,
+      injectedScoring,
     ],
   )
 
@@ -433,6 +433,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   )
 
   useEffect(() => {
+    if (source === ShowcaseSource.LEADERBOARD) return
     const imgSrc = portraitImageUrl ?? Assets.getCharacterPortraitById(character.id)
     let aborted = false
 
@@ -449,7 +450,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     return () => {
       aborted = true
     }
-  }, [character.id, portraitImageUrl])
+  }, [character.id, portraitImageUrl, source])
 
   // ===== Stable callback refs for child components =====
   const handleEditPortraitOk = useCallback(
@@ -501,13 +502,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       configMetadata={layout.configMetadata}
       showcaseTemporaryOptions={tempOptions}
       singleRelicByPart={displayRelics}
+      injectedScoring={injectedScoring}
     >
       <div
         style={{
           display: 'flex',
           flexDirection: 'column',
           width: cardTotalW,
-          minHeight: forceDebug ? 'auto' : (source === ShowcaseSource.BUILDS_MODAL ? 900 : 2000),
+          gap: source === ShowcaseSource.LEADERBOARD ? 16 : undefined,
+          minHeight: forceDebug ? 'auto' : (source === ShowcaseSource.BUILDS_MODAL ? 900 : (source === ShowcaseSource.LEADERBOARD ? undefined : 2000)),
         }}
       >
         {
@@ -570,7 +573,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             <ShowcasePortrait
               source={source}
               character={character}
-              scoringType={scoringType}
               displayDimensions={displayDimensions}
               customPortrait={portraitToUse}
               editPortraitModalOpen={state.editPortraitModalOpen}
@@ -585,6 +587,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               character={character}
               showcaseMetadata={showcaseMetadata}
               displayDimensions={displayDimensions}
+              source={source}
               setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
               setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
             />
@@ -669,7 +672,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           characterId={showcaseMetadata.characterId}
           teammateCharacterIds={layout.activeSimulationMetadata?.teammates.map((t) => t.characterId)}
         />
-
 
         {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
           <ShowcaseBuildAnalysis

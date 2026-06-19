@@ -5,6 +5,7 @@ export enum ShowcaseSource {
   CHARACTER_TAB,
   SHOWCASE_TAB,
   BUILDS_MODAL,
+  LEADERBOARD,
 }
 
 const showcaseShadowDefault = 'none'

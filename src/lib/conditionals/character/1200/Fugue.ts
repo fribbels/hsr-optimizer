@@ -359,6 +359,17 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: FireflyB1.id, lightCones: [WhereaboutsShouldDreamsRest.id] },
+        { characterId: TheDahlia.id, lightCones: [NeverForgetHerFlame.id] },
+        { characterId: Lingsha.id, lightCones: [ScentAloneStaysTrue.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -399,6 +410,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {

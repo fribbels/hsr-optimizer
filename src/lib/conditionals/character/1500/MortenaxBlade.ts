@@ -51,6 +51,10 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
+import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
+import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -364,6 +368,25 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Ashveil.id, lightCones: [TheFinaleOfALie.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
+        { characterId: Jiaoqiu.id, lightCones: [ThoseManySprings.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -411,6 +434,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

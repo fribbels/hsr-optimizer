@@ -8,6 +8,7 @@ import {
 interface LoadingBlurredImageProps {
   src: string
   style: CSSProperties
+  className?: string
 }
 
 function isImageCached(src: string): boolean {
@@ -16,7 +17,7 @@ function isImageCached(src: string): boolean {
   return img.complete && img.naturalWidth > 0
 }
 
-export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
+export function LoadingBlurredImage({ src, style, className }: LoadingBlurredImageProps) {
   // Capture the latest style in a ref so the onload callback always applies
   // the position that was current when the image finished loading
   const styleRef = useRef(style)
@@ -27,6 +28,18 @@ export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
   const [storedSrc, setStoredSrc] = useState<string | undefined>(() => cached ? src : undefined)
   const [storedStyle, setStoredStyle] = useState<CSSProperties>(style)
   const [blur, setBlur] = useState<boolean>(() => !cached)
+
+  // Synchronous state adjustment during render — useEffect runs after paint,
+  // so without this the old image renders at the new position for one frame.
+  if (src !== storedSrc) {
+    if (isImageCached(src)) {
+      setStoredSrc(src)
+      setStoredStyle(style)
+      setBlur(false)
+    } else if (!blur) {
+      setBlur(true)
+    }
+  }
 
   useEffect(() => {
     // Already loaded this src — nothing to do
@@ -43,9 +56,7 @@ export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
       return
     }
 
-    // Not cached — show blur, keep old style/position until new image loads
-    setBlur(true)
-
+    // Not cached — load in background, blur already set by render-time check
     const img = new Image()
     img.src = src
     img.onload = () => {
@@ -57,7 +68,7 @@ export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
     return () => {
       img.onload = null
     }
-  }, [src])
+  }, [src]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // During blur (src transition), freeze position so old image doesn't jump.
   // Otherwise use live style so scoring-type changes recenter immediately.
@@ -67,6 +78,7 @@ export function LoadingBlurredImage({ src, style }: LoadingBlurredImageProps) {
     <img
       src={storedSrc}
       loading='eager'
+      className={className}
       style={{
         ...effectiveStyle,
         filter: blur ? 'blur(6px)' : 'none',

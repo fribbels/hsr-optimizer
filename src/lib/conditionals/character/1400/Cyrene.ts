@@ -65,6 +65,12 @@ import {
 } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -509,6 +515,25 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
+        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Phainon.id, lightCones: [ThusBurnsTheDawn.id] },
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -559,6 +584,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.MEMO_SKILL,
   ],
   simulation: simulation(),
+  eidolonImage: 6,
 })
 
 const display = {

@@ -281,6 +281,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   shieldSimulation: shieldSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {

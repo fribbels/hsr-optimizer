@@ -547,6 +547,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Sparxie.id, lightCones: [DazzledByAFloweryWorld.id] },
+        { characterId: SparkleB1.id, lightCones: [ButTheBattleIsntOver.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -582,6 +592,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {

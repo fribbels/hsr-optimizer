@@ -1,6 +1,9 @@
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   AbilityEidolon,
@@ -16,6 +19,9 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { BeforeTheTutorialMissionStarts } from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
+import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -350,6 +356,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
+        { characterId: WeltB1.id, lightCones: [InTheNameOfTheWorld.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -397,6 +412,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 6,
 })
 
 const display = {

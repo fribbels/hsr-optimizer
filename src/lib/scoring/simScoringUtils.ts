@@ -222,7 +222,12 @@ function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyPerMain:
   }
 }
 
-export function createDiminishingReturns(baseLowerLimit: number, penaltyPerMain: number) {
+export type DiminishingReturnsFormulas = {
+  stat: (mainsCount: number, rolls: number) => number
+  spd: (mainsCount: number, rolls: number) => number
+}
+
+export function createDiminishingReturns(baseLowerLimit: number, penaltyPerMain: number): DiminishingReturnsFormulas {
   return {
     stat: createDiminishingReturnsFormula(baseLowerLimit, penaltyPerMain, 0.25),
     spd: createDiminishingReturnsFormula(baseLowerLimit, penaltyPerMain, 0.10),

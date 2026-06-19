@@ -318,6 +318,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   shieldSimulation: shieldSimulation(),
+  eidolonImage: 4,
 })
 
 const displayCaelus = {

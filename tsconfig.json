@@ -28,7 +28,8 @@
     ]
   },
   "include": [
-    "src"
+    "src",
+    "scripts/leaderboard/**/*.ts"
   ],
   "exclude": [
     "dist",

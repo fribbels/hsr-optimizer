@@ -485,6 +485,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id] },
+        { characterId: TrailblazerElationStelle.id, lightCones: [ElationBrimmingWithBlessings.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -522,6 +532,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

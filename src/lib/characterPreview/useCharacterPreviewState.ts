@@ -42,6 +42,7 @@ export function useCharacterPreviewState(
   savedBuildOverride?: SavedBuild | null,
 ) {
   const [selectedRelic, setSelectedRelic] = useState<Relic | null>(null)
+  const isLeaderboard = source === ShowcaseSource.LEADERBOARD
 
   const charIdRef = useRef(character.id)
   charIdRef.current = character.id
@@ -76,20 +77,33 @@ export function useCharacterPreviewState(
     portraitColor,
     portraitSwatches,
   } = useShowcaseTabStore(
-    useShallow((s) => ({
-      teamSelections: s.showcaseTeamPreferenceByConfig[charId] ?? EMPTY_TEAM_SELECTIONS,
-      showcasePreferences: s.showcasePreferences[charId],
-      showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
-      portraitColor: s.portraitColorByCharacterId[charId],
-      portraitSwatches: s.portraitSwatchesByCharacterId[charId],
-    })),
+    useShallow((s) => {
+      if (isLeaderboard) {
+        return {
+          teamSelections: EMPTY_TEAM_SELECTIONS,
+          showcasePreferences: undefined,
+          showcaseTemporaryOptions: undefined,
+          portraitColor: undefined,
+          portraitSwatches: undefined,
+        }
+      }
+      return {
+        teamSelections: s.showcaseTeamPreferenceByConfig[charId] ?? EMPTY_TEAM_SELECTIONS,
+        showcasePreferences: s.showcasePreferences[charId],
+        showcaseTemporaryOptions: s.showcaseTemporaryOptionsByCharacter[charId],
+        portraitColor: s.portraitColorByCharacterId[charId],
+        portraitSwatches: s.portraitSwatchesByCharacterId[charId],
+      }
+    }),
   )
 
   const { globalColorMode, darkMode } = useGlobalStore(
     useShallow((s) => ({
-      globalColorMode: s.savedSession[SavedSessionKeys.showcaseStandardMode]
-        ? ShowcaseColorMode.STANDARD
-        : ShowcaseColorMode.AUTO,
+      globalColorMode: isLeaderboard
+        ? ShowcaseColorMode.AUTO
+        : s.savedSession[SavedSessionKeys.showcaseStandardMode]
+          ? ShowcaseColorMode.STANDARD
+          : ShowcaseColorMode.AUTO,
       darkMode: s.savedSession.showcaseDarkMode,
     })),
   )

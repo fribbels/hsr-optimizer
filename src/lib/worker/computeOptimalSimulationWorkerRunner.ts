@@ -21,6 +21,8 @@ import {
 } from 'types/metadata'
 import { type OptimizerContext } from 'types/optimizer'
 
+import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
+
 export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
   partialSimulationWrapper: PartialSimulationWrapper
   inputMinSubstatRollCounts: SubstatCounts
@@ -38,6 +40,40 @@ export interface ComputeOptimalSimulationWorkerOutput extends BaseWorkerOutput {
   simulation: Simulation | null
 }
 
+export type ComputeOptimalSimulationPhase = 'benchmark' | 'perfection'
+export type ComputeOptimalSimulationResultMode = 'full' | 'scoreOnly'
+
+export type ComputeOptimalSimulationSearchRunnerContext = {
+  phase: ComputeOptimalSimulationPhase
+  configType: ScoringConfigType
+  resultMode?: ComputeOptimalSimulationResultMode
+}
+
+export type ComputeOptimalSimulationSearchRunner = (
+  input: ComputeOptimalSimulationWorkerInput,
+  context: ComputeOptimalSimulationSearchRunnerContext,
+) => Promise<ComputeOptimalSimulationWorkerOutput>
+
+export function runComputeOptimalSimulationInline(
+  input: ComputeOptimalSimulationWorkerInput,
+): ComputeOptimalSimulationWorkerOutput {
+  const prev = globalThis.SEQUENTIAL_BENCHMARKS
+  globalThis.SEQUENTIAL_BENCHMARKS = true
+  try {
+    return computeOptimalSimulationWorker({ data: input } as MessageEvent<ComputeOptimalSimulationWorkerInput>) as ComputeOptimalSimulationWorkerOutput
+  } finally {
+    globalThis.SEQUENTIAL_BENCHMARKS = prev
+  }
+}
+
+export async function defaultComputeOptimalSimulationSearchRunner(
+  input: ComputeOptimalSimulationWorkerInput,
+): Promise<ComputeOptimalSimulationWorkerOutput> {
+  return globalThis.SEQUENTIAL_BENCHMARKS
+    ? runComputeOptimalSimulationInline(input)
+    : runComputeOptimalSimulationWorker(input)
+}
+
 export async function runComputeOptimalSimulationWorker(
   input: ComputeOptimalSimulationWorkerInput,
 ): Promise<ComputeOptimalSimulationWorkerOutput> {
@@ -46,12 +82,5 @@ export async function runComputeOptimalSimulationWorker(
     workerType: WorkerType.COMPUTE_OPTIMAL_SIMULATION,
   }
 
-  try {
-    return await workerPool.runTask<ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput>(enhancedInput)
-  } catch (error) {
-    // Re-throw cancellation — don't mask it with a fallback value
-    if (error instanceof WorkerCancelledError) throw error
-    console.error('[WorkerPool] Worker execution error:', error)
-    return { simulation: null }
-  }
+  return await workerPool.runTask<ComputeOptimalSimulationWorkerInput, ComputeOptimalSimulationWorkerOutput>(enhancedInput)
 }

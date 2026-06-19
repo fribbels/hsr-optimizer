@@ -387,6 +387,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Topaz.id, lightCones: [WorrisomeBlissful.id] },
+        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
+        { characterId: Feixiao.id, lightCones: [IVentureForthToHunt.id] },
+      ],
+    },
+  ],
 })
 
 const shieldSimulation = (): SimulationMetadata => ({
@@ -438,6 +448,15 @@ const shieldSimulation = (): SimulationMetadata => ({
     },
   ],
   deprioritizeBuffs: true,
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Feixiao.id, lightCones: [IVentureForthToHunt.id] },
+        { characterId: Topaz.id, lightCones: [WorrisomeBlissful.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -487,6 +506,7 @@ const scoring = (): ScoringMetadata => ({
   ],
   simulation: simulation(),
   shieldSimulation: shieldSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {

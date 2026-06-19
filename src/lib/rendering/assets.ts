@@ -69,6 +69,12 @@ export const Assets = {
 
     return getImageUrl(`/image/character_preview/${id}.webp`)
   },
+  getCharacterRankImageById: (id?: string, rank: number = 4) => {
+    if (!id) return Assets.getBlank()
+
+    const baseId = id.replace(/b\d+$/, '')
+    return getImageUrl(`/textures/${baseId}/${baseId}_Rank_${rank}.webp`)
+  },
 
   getLightConePortrait: (lightCone: { id: string }) => {
     if (!lightCone) return Assets.getBlank()
@@ -192,5 +198,9 @@ export const Assets = {
 
   getGlobe: () => {
     return getImageUrl(`/misc/globe.webp`)
+  },
+
+  getLeaderboardCardBg: () => {
+    return getImageUrl(`/misc/test/ChallengeBgV2.webp`)
   },
 }

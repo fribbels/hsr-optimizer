@@ -298,6 +298,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   healSimulation: healSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {

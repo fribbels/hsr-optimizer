@@ -518,6 +518,17 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Feixiao.id, lightCones: [IVentureForthToHunt.id] },
+        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -563,6 +574,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {

@@ -409,6 +409,17 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: BlackSwanB1.id, lightCones: [ReforgedRemembrance.id] },
+        { characterId: Hysilens.id, lightCones: [WhyDoesTheOceanSing.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -453,6 +464,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.DOT,
   hiddenColumns: [],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

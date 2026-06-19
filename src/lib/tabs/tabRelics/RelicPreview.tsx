@@ -94,7 +94,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
 
   const cardClicked = () => {
-    if ((!relic.id && !characterId) || source === ShowcaseSource.SHOWCASE_TAB || source === ShowcaseSource.BUILDS_MODAL) return
+    if ((!relic.id && !characterId) || source === ShowcaseSource.SHOWCASE_TAB || source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD) return
 
     if (!relic.id && characterId) {
       const part = props.part ?? props.relic?.part ?? Parts.Head
@@ -132,7 +132,7 @@ export const RelicPreview = memo(function RelicPreview(props: {
         transition: showcaseTransition,
         borderRadius: 6,
         boxShadow: source == null ? 'inset 0 0 0 1px var(--border-default)' : showcaseShadow + showcaseShadowInsetAddition,
-        cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && !unhoverable) ? 'pointer' : 'default',
+        cursor: (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.BUILDS_MODAL && source !== ShowcaseSource.LEADERBOARD && !unhoverable) ? 'pointer' : 'default',
         outline: 0,
       }}
     >

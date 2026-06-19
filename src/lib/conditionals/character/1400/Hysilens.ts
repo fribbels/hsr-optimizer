@@ -59,6 +59,8 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -455,6 +457,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: KafkaB1.id, lightCones: [PatienceIsAllYouNeed.id] },
+        { characterId: BlackSwanB1.id, lightCones: [ReforgedRemembrance.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
+
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -500,6 +512,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.DOT,
   hiddenColumns: [SortOption.FUA],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

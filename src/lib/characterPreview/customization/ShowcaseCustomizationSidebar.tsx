@@ -100,7 +100,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
   portraitSwatches,
   cardBgAlpha,
 }: ShowcaseCustomizationSidebarProps) {
-  if (source === ShowcaseSource.BUILDS_MODAL) return null
+  if (source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD) return null
 
   return (
     <Flex

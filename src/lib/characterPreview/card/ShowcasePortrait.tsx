@@ -104,7 +104,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
 
   const hasCustomPortrait = !!(character.portrait ?? customPortrait)
   const hasSpineData = getSkeletonCount(character.id) != null
-  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D
+  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D && source !== ShowcaseSource.LEADERBOARD
 
   const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
 

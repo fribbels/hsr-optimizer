@@ -1,4 +1,5 @@
 import {
+  configTypeToPublic,
   isLeaderboardConfigType,
   LEADERBOARD_CONFIG_TYPES,
   type LeaderboardConfigType,
@@ -20,8 +21,12 @@ import {
   PageToRoute,
 } from 'lib/constants/appPages'
 import { CharacterConverter } from 'lib/importer/characterConverter'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
-import { getLeaderboardCharacters } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
+import {
+  getCharacterLeaderboardConfigTypes,
+  getLeaderboardCharacters,
+} from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import {
   getBuildIndex,
   getLeaderboardCharacterIds,
@@ -169,7 +174,8 @@ export function selectLeaderboardCharacter(
     return
   }
 
-  const configTypes = Object.keys(data.configs).filter(isLeaderboardConfigType)
+  const validConfigs = new Set(getCharacterLeaderboardConfigTypes(characterId).map(configTypeToPublic))
+  const configTypes = Object.keys(data.configs).filter(isLeaderboardConfigType).filter((ct) => validConfigs.has(ct))
   const activeConfigType = resolveActiveConfigType(configTypes, requested?.configType)
 
   if (!activeConfigType) {
@@ -247,7 +253,8 @@ export function getHashParam(param: string): string | null {
 export async function initializeLeaderboardTab() {
   const output = await loadLeaderboardData()
 
-  const liveIds = getLeaderboardCharacterIds(output)
+  const metadata = getGameMetadata()
+  const liveIds = getLeaderboardCharacterIds(output).filter((id) => metadata.characters[id]?.rarity === 5)
   const fallbackIds = getLeaderboardCharacters()
   const merged = [...new Set([...liveIds, ...fallbackIds])]
 

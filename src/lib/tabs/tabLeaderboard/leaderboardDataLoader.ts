@@ -63,6 +63,19 @@ export function loadCharacterData(characterId: CharacterId): PublicCharacterData
   return decompressedCache.get(characterId) ?? null
 }
 
+export function getPublicEntryCount(characterId: CharacterId): number {
+  const charData = decompressedCache.get(characterId)
+  if (!charData) return 0
+  let max = 0
+  for (const configData of Object.values(charData.configs)) {
+    if (!configData) continue
+    for (const boardData of Object.values(configData.teamsById)) {
+      if (boardData.entries.length > max) max = boardData.entries.length
+    }
+  }
+  return max
+}
+
 export function getLeaderboardCharacterIds(output: RawLeaderboardOutput): CharacterId[] {
   return Object.keys(output.characters) as CharacterId[]
 }

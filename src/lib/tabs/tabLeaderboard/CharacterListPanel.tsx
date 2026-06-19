@@ -7,6 +7,7 @@ import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
 import {
   getCharacterLeaderboardConfigTypes,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
+import { getPublicEntryCount } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
@@ -18,6 +19,11 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScoringConfigType } from 'types/metadata'
+
+function abbreviateCount(n: number): string {
+  if (n >= 1000) return `${Math.round(n / 1000)}K`
+  return String(n)
+}
 
 const CONFIG_TABS = [
   { type: ScoringConfigType.DPS, label: 'DPS' },
@@ -60,6 +66,7 @@ export function CharacterListPanel() {
           name: t(`Characters.${id}.${id.startsWith('80') ? 'LongName' : 'Name'}`),
           topScore,
           entryCount,
+          publicEntryCount: getPublicEntryCount(id),
         }
       })
       .filter((row) => normalizedSearch.length === 0 || row.name.toLowerCase().includes(normalizedSearch))
@@ -109,7 +116,7 @@ export function CharacterListPanel() {
               <span className={classes.name}>{row.name}</span>
             </span>
             <span className={classes.score}>{row.topScore > 0 ? `${truncate10ths(row.topScore * 100).toFixed(1)}%` : '—'}</span>
-            <span className={classes.count}>{row.entryCount > 0 ? row.entryCount : '—'}</span>
+            <span className={classes.count}>{row.entryCount > 0 ? `${abbreviateCount(row.publicEntryCount)} / ${abbreviateCount(row.entryCount)}` : '—'}</span>
           </div>
         ))}
         {rows.length === 0 && <div className={classes.empty}>No matching characters</div>}

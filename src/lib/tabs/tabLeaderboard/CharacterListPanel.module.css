@@ -116,7 +116,7 @@
 
 .header {
   display: grid;
-  grid-template-columns: minmax(32px, max-content) 1fr 64px 64px;
+  grid-template-columns: minmax(32px, max-content) 1fr 64px 90px;
   column-gap: 8px;
   align-items: center;
   height: 26px;
@@ -137,7 +137,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: minmax(32px, max-content) 1fr 64px 64px;
+  grid-template-columns: minmax(32px, max-content) 1fr 64px 90px;
   column-gap: 8px;
   align-items: center;
   min-height: 44px;

@@ -25,7 +25,7 @@ import type {
   LeaderboardEntry,
   LeaderboardTeammate,
 } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
-import { HeroScoreRuler } from 'lib/tabs/tabLeaderboard/rulerVariants/HeroScoreRuler'
+import { HeroScoreRuler } from 'lib/tabs/tabLeaderboard/HeroScoreRuler'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 const STRIPE_SCALE = 10

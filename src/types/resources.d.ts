@@ -7977,7 +7977,6 @@ export default interface Resources {
     "Tools": {
       "Benchmarks": "Benchmarks",
       "Calculators": "Calculators",
-      "Leaderboard": "Leaderboard",
       "Showcase": "Showcase",
       "Title": "Tools",
       "WarpPlanner": "Warp Planner"

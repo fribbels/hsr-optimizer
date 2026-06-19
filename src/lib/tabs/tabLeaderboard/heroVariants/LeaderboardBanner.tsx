@@ -24,9 +24,9 @@ import type { LightConeId } from 'types/lightCone'
 import type {
   LeaderboardEntry,
   LeaderboardTeammate,
-} from '../leaderboardTabTypes'
-import { HeroScoreRuler } from '../rulerVariants/HeroScoreRuler'
-import { useLeaderboardTabStore } from '../useLeaderboardTabStore'
+} from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
+import { HeroScoreRuler } from 'lib/tabs/tabLeaderboard/rulerVariants/HeroScoreRuler'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
 const STRIPE_SCALE = 10
 const SEG_W_HIGH = STRIPE_SCALE * ROLL_WIDTH_RATIOS.high

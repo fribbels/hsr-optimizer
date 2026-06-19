@@ -1,10 +1,18 @@
-import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
+import {
+  aoe,
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
-import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -12,17 +20,13 @@ import {
   countTeamPath,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
-} from 'lib/conditionals/conditionalFinalizers'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { BeforeTheTutorialMissionStarts } from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
@@ -106,10 +110,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultHitMultis = Array.from({ length: maxCrimsonKnotStacks + 1 }, (_, knotStacks) => {
     const knotAoePerRainblade = ultCrimsonKnotScaling * (1 + knotStacks / 3)
     return ashblazingMulti([
-      single(0.50 * ultRainbladeScaling), single(0.50 * ultRainbladeScaling), aoe(knotAoePerRainblade),
-      single(0.30 * ultRainbladeScaling), single(0.30 * ultRainbladeScaling), single(0.40 * ultRainbladeScaling), aoe(knotAoePerRainblade),
-      single(ultRainbladeScaling), aoe(knotAoePerRainblade),
-      aoe(0.10 * ultStygianResurgeScaling), aoe(0.90 * ultStygianResurgeScaling),
+      single(0.50 * ultRainbladeScaling),
+      single(0.50 * ultRainbladeScaling),
+      aoe(knotAoePerRainblade),
+      single(0.30 * ultRainbladeScaling),
+      single(0.30 * ultRainbladeScaling),
+      single(0.40 * ultRainbladeScaling),
+      aoe(knotAoePerRainblade),
+      single(ultRainbladeScaling),
+      aoe(knotAoePerRainblade),
+      aoe(0.10 * ultStygianResurgeScaling),
+      aoe(0.90 * ultStygianResurgeScaling),
       ...Array(6).fill(single(ultThunderCoreScaling)),
     ])
   })

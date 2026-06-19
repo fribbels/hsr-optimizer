@@ -31,19 +31,19 @@ npm run leaderboard -- --print-config --worker-threads 1
 
 ## Options
 
-| Option | Default | Notes |
-|---|---|---|
-| `--export-path <path>` | latest server export | DynamoDB export path |
-| `--private-output-path <path>` | `~/leaderboard-cache/private-ranked-output.json` | Private ranked output with full metadata |
-| `--public-output-path <path>` | `./public/leaderboard/leaderboard.json` | Public compressed leaderboard output |
-| `--top-n <n>` | `100` | Entries per character for prefilter and private output |
-| `--top-n-public <n>` | `100`, capped by private | Entries emitted per public board |
-| `--worker-threads <n>` | `12` | Profile workers. Must be a positive integer |
-| `--build-score-cache-db-path <path>` | `~/leaderboard-cache/leaderboard-build-score-cache.sqlite` | SQLite build-score cache |
-| `--prune-build-score-cache` | off | Deletes stale cache rows, then runs normally |
-| `--fresh-run` | off | Clears the build-score cache and bypasses private-output reuse |
-| `--print-config` | off | Prints resolved CLI config and exits before metadata/export/cache work |
-| `--help` | off | Prints usage and exits |
+| Option                               | Default                                                    | Notes                                                                  |
+| ------------------------------------ | ---------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `--export-path <path>`               | latest server export                                       | DynamoDB export path                                                   |
+| `--private-output-path <path>`       | `~/leaderboard-cache/private-ranked-output.json`           | Private ranked output with full metadata                               |
+| `--public-output-path <path>`        | `./public/leaderboard/leaderboard.json`                    | Public compressed leaderboard output                                   |
+| `--top-n <n>`                        | `100`                                                      | Entries per character for prefilter and private output                 |
+| `--top-n-public <n>`                 | `100`, capped by private                                   | Entries emitted per public board                                       |
+| `--worker-threads <n>`               | `12`                                                       | Profile workers. Must be a positive integer                            |
+| `--build-score-cache-db-path <path>` | `~/leaderboard-cache/leaderboard-build-score-cache.sqlite` | SQLite build-score cache                                               |
+| `--prune-build-score-cache`          | off                                                        | Deletes stale cache rows, then runs normally                           |
+| `--fresh-run`                        | off                                                        | Clears the build-score cache and bypasses private-output reuse         |
+| `--print-config`                     | off                                                        | Prints resolved CLI config and exits before metadata/export/cache work |
+| `--help`                             | off                                                        | Prints usage and exits                                                 |
 
 `--fresh-run` and `--prune-build-score-cache` cannot be used together.
 

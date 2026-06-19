@@ -8,43 +8,67 @@
 // the rest of the app.
 
 import { createHash } from 'node:crypto'
-import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync, unlinkSync, writeFileSync } from 'node:fs'
-import { availableParallelism as nodeAvailableParallelism, homedir, tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  statSync,
+  unlinkSync,
+  writeFileSync,
+} from 'node:fs'
+import {
+  availableParallelism as nodeAvailableParallelism,
+  homedir,
+  tmpdir,
+} from 'node:os'
+import {
+  dirname,
+  join,
+  resolve,
+} from 'node:path'
 import { DatabaseSync } from 'node:sqlite'
 import { fileURLToPath } from 'node:url'
-import { Worker, parentPort } from 'node:worker_threads'
-import { gunzipSync, gzipSync } from 'node:zlib'
+import {
+  parentPort,
+  Worker,
+} from 'node:worker_threads'
+import {
+  gunzipSync,
+  gzipSync,
+} from 'node:zlib'
 
 export type SqliteValue = string | number | bigint | null | Uint8Array
 export type SqliteRow = Record<string, SqliteValue>
 
 export type SqliteRunResult = {
-  changes: number | bigint
-  lastInsertRowid: number | bigint
+  changes: number | bigint,
+  lastInsertRowid: number | bigint,
 }
 
 export type SqliteStatement<Row extends SqliteRow = SqliteRow> = {
-  get(...params: SqliteValue[]): Row | undefined
-  run(...params: SqliteValue[]): SqliteRunResult
+  get(...params: SqliteValue[]): Row | undefined,
+  run(...params: SqliteValue[]): SqliteRunResult,
 }
 
 export type SqliteDatabase = {
-  exec(sql: string): void
-  prepare<Row extends SqliteRow = SqliteRow>(sql: string): SqliteStatement<Row>
+  exec(sql: string): void,
+  prepare<Row extends SqliteRow = SqliteRow>(sql: string): SqliteStatement<Row>,
 }
 
 export type NodeWorker = {
-  on<T>(event: 'message', listener: (value: T) => void): void
-  on(event: 'error', listener: (error: Error) => void): void
-  on(event: 'exit', listener: (code: number) => void): void
-  postMessage(value: unknown): void
-  terminate(): Promise<number>
+  on<T>(event: 'message', listener: (value: T) => void): void,
+  on(event: 'error', listener: (error: Error) => void): void,
+  on(event: 'exit', listener: (code: number) => void): void,
+  postMessage(value: unknown): void,
+  terminate(): Promise<number>,
 }
 
 export type ParentMessagePort = {
-  on<T>(event: 'message', listener: (value: T) => void): void
-  postMessage(value: unknown): void
+  on<T>(event: 'message', listener: (value: T) => void): void,
+  postMessage(value: unknown): void,
 }
 
 export function readTextFile(path: string): string {
@@ -107,7 +131,7 @@ export function fileExists(path: string): boolean {
   return existsSync(path)
 }
 
-export function listDirectoryWithMtime(dir: string): { name: string; mtimeMs: number }[] {
+export function listDirectoryWithMtime(dir: string): { name: string, mtimeMs: number }[] {
   return readdirSync(dir).map((name) => ({ name, mtimeMs: statSync(join(dir, name)).mtimeMs }))
 }
 

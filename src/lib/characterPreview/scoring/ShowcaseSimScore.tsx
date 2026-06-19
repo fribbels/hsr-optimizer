@@ -84,34 +84,36 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
         ))}
       </div>
 
-      {source !== ShowcaseSource.LEADERBOARD && <ShowcaseTeamSelectPanel
-        characterId={characterId}
-        teamSelection={teamSelection}
-        readonly={readonly}
-        onClear={() => {
-          useScoringStore.getState().clearScoringConfigOverride(characterId, configType)
-        }}
-        onSync={() => {
-          const characterMetadata = getScoringMetadata(characterId)
-          const sim = characterMetadata[CONFIG_FIELD_MAP[configType]]
-          const update = {
-            teammates: sim?.teammates.map((t) => {
-              const form = getCharacterById(t.characterId)?.form
-              if (!form) return t
-              return {
-                ...t,
-                characterEidolon: form.characterEidolon,
-                lightCone: form.lightCone ?? t.lightCone,
-                lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
-              }
-            }),
-          }
-          useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
-        }}
-        onTeamChange={(team) => {
-          useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as TeamSelection)
-        }}
-      />}
+      {source !== ShowcaseSource.LEADERBOARD && (
+        <ShowcaseTeamSelectPanel
+          characterId={characterId}
+          teamSelection={teamSelection}
+          readonly={readonly}
+          onClear={() => {
+            useScoringStore.getState().clearScoringConfigOverride(characterId, configType)
+          }}
+          onSync={() => {
+            const characterMetadata = getScoringMetadata(characterId)
+            const sim = characterMetadata[CONFIG_FIELD_MAP[configType]]
+            const update = {
+              teammates: sim?.teammates.map((t) => {
+                const form = getCharacterById(t.characterId)?.form
+                if (!form) return t
+                return {
+                  ...t,
+                  characterEidolon: form.characterEidolon,
+                  lightCone: form.lightCone ?? t.lightCone,
+                  lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
+                }
+              }),
+            }
+            useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
+          }}
+          onTeamChange={(team) => {
+            useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as TeamSelection)
+          }}
+        />
+      )}
     </div>
   )
 })

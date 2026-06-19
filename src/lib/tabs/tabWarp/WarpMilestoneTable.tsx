@@ -1,12 +1,25 @@
-import { Badge, Flex, Table } from '@mantine/core'
+import {
+  Badge,
+  Flex,
+  Table,
+} from '@mantine/core'
+import chroma from 'chroma-js'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
-import type { EnrichedWarpRequest, WarpMilestoneResult } from 'lib/tabs/tabWarp/warpCalculatorTypes'
-import { localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
+import type {
+  EnrichedWarpRequest,
+  WarpMilestoneResult,
+} from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import {
+  localeNumber_0,
+  localeNumberComma,
+} from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import type { CSSProperties } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
-import chroma from 'chroma-js'
+import {
+  Trans,
+  useTranslation,
+} from 'react-i18next'
 import classes from './WarpCalculatorTab.module.css'
 
 const warpChanceColorScale = chroma.scale(['#df524bcc', '#efe959cc', '#89d86dcc']).domain([0, 0.33, 1])
@@ -26,7 +39,7 @@ export function toMilestoneRows(milestoneResults: Record<string, WarpMilestoneRe
 }
 
 export function PassIcon({ size = 16 }: { size?: number }) {
-  return <img style={{ height: size }} src={Assets.getPass()}/>
+  return <img style={{ height: size }} src={Assets.getPass()} />
 }
 
 export function WarpTableHeader({ request, goalColStyle }: { request: EnrichedWarpRequest, goalColStyle?: CSSProperties }) {
@@ -34,20 +47,20 @@ export function WarpTableHeader({ request, goalColStyle }: { request: EnrichedWa
   return (
     <Table.Thead>
       <Table.Tr>
-        <Table.Th style={{ textAlign: 'center', ...goalColStyle }}>{t('Goal')/* Goal */}</Table.Th>
+        <Table.Th style={{ textAlign: 'center', ...goalColStyle }}>{t('Goal') /* Goal */}</Table.Th>
         <Table.Th style={{ textAlign: 'center' }}>
           <Flex justify='center' align='center' gap={4}>
             <Trans
               t={t}
               i18nKey='Chance'
               values={{ ticketCount: localeNumberComma(request.warps) }}
-              components={{ 1: <PassIcon/> }}
+              components={{ 1: <PassIcon /> }}
             />
           </Flex>
         </Table.Th>
         <Table.Th style={{ textAlign: 'center' }}>
           <Flex justify='center' align='center' gap={4}>
-            <Trans t={t} i18nKey='Average' components={{ 1: <PassIcon/> }}/>
+            <Trans t={t} i18nKey='Average' components={{ 1: <PassIcon /> }} />
           </Flex>
         </Table.Th>
       </Table.Tr>
@@ -87,7 +100,7 @@ export function WarpMilestoneRows({ milestones, rowKeyPrefix }: { milestones: Wa
           <Table.Td style={{ textAlign: 'center' }}>
             <Flex align='center' justify='center' gap={4}>
               {Math.ceil(milestone.warps)}
-              <PassIcon size={14}/>
+              <PassIcon size={14} />
             </Flex>
           </Table.Td>
         </Table.Tr>

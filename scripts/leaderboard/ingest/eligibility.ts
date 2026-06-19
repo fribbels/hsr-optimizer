@@ -1,13 +1,13 @@
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
+import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
 // CharacterConverter.convert() always produces non-null characterId/lightCone when isEligibleRaw passes
 export type EligibleConverted = ShowcaseTabCharacter & {
-  form: { characterId: CharacterId; lightCone: LightConeId }
-  equipped: PreviewRelics
+  form: { characterId: CharacterId, lightCone: LightConeId },
+  equipped: PreviewRelics,
 }
 
 export function isEligibleRaw(character: UnconvertedCharacter): boolean {

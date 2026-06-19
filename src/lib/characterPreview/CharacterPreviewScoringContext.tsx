@@ -1,4 +1,8 @@
-import { createContext, type PropsWithChildren, useContext } from 'react'
+import {
+  createContext,
+  type PropsWithChildren,
+  useContext,
+} from 'react'
 import type { InjectedScoringInput } from './characterPreviewTypes'
 
 const CharacterPreviewScoringContext = createContext<InjectedScoringInput | undefined>(undefined)

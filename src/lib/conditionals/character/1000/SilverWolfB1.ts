@@ -1,4 +1,7 @@
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'

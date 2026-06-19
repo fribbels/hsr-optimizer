@@ -132,26 +132,26 @@ export type SimulationRelicArrayByPart = {
 }
 
 export type PrecomputedSetState = {
-  setH: number
-  setG: number
-  setB: number
-  setF: number
-  setP: number
-  setL: number
-  relicSetIndex: number
-  ornamentSetIndex: number
-  sets: number[]
-  setCounts: SetCounts
+  setH: number,
+  setG: number,
+  setB: number,
+  setF: number,
+  setP: number,
+  setL: number,
+  relicSetIndex: number,
+  ornamentSetIndex: number,
+  sets: number[],
+  setCounts: SetCounts,
 }
 
 export type BenchmarkSimulationState = {
-  relics: SimulationRelicByPart
-  headEntries: [number, number][]
-  substatScales: number[]
-  substatValues: number[]
-  substatKeys: number[]
-  substatModifier: ((rolls: number) => number)[]
-  precomputedSets: PrecomputedSetState
-  params: RunSimulationsParams
-  cachedResult: CachedRunStatSimulationsResult
+  relics: SimulationRelicByPart,
+  headEntries: [number, number][],
+  substatScales: number[],
+  substatValues: number[],
+  substatKeys: number[],
+  substatModifier: ((rolls: number) => number)[],
+  precomputedSets: PrecomputedSetState,
+  params: RunSimulationsParams,
+  cachedResult: CachedRunStatSimulationsResult,
 }

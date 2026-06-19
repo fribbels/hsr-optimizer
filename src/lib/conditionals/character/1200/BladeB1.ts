@@ -1,6 +1,7 @@
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,10 +9,11 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { TheUnreachableSide } from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { TheUnreachableSide } from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
 import {
   Parts,
   Sets,
@@ -44,8 +46,6 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
-import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -307,7 +307,6 @@ const simulation = (): SimulationMetadata => ({
       ],
     },
   ],
-
 })
 
 const scoring = (): ScoringMetadata => ({

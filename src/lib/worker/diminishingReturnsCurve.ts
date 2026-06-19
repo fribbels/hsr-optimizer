@@ -19,8 +19,8 @@ export enum DiminishingReturnsCurve {
 }
 
 export type DiminishingReturnsCurveConfig = {
-  substatRollsModifier: (rolls: number, stat: string, sim: Simulation) => number
-  diminishingReturns: DiminishingReturnsFormulas | undefined
+  substatRollsModifier: (rolls: number, stat: string, sim: Simulation) => number,
+  diminishingReturns: DiminishingReturnsFormulas | undefined,
 }
 
 const hysilensNoEhrDr = createDiminishingReturns(24, 2)

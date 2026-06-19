@@ -1,6 +1,6 @@
 import chroma from 'chroma-js'
 
-export type TierColors = { high: string; mid: string; low: string }
+export type TierColors = { high: string, mid: string, low: string }
 
 export const ROLL_WIDTH_RATIOS = { high: 1.0, mid: 0.9, low: 0.8 } as const
 

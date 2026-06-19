@@ -29,20 +29,20 @@ const DEFAULT_DB_PATH = resolvePath(homeDir(), 'leaderboard-cache/leaderboard-bu
 const DEFAULT_FLUSH_INTERVAL = 100
 
 export type LeaderboardBuildScoreCacheOptions = {
-  dbPath?: string
-  leaderboardVersionsHash: string
-  flushInterval?: number
+  dbPath?: string,
+  leaderboardVersionsHash: string,
+  flushInterval?: number,
 }
 
 type LeaderboardBuildScorePendingWrite = {
-  key: string
-  leaderboardVersionsHash: string
-  valueJson: string
-  createdAt: string
+  key: string,
+  leaderboardVersionsHash: string,
+  valueJson: string,
+  createdAt: string,
 }
 
 type LeaderboardBuildScoreCacheRow = {
-  value: string
+  value: string,
 }
 
 export class LeaderboardBuildScoreCache implements LeaderboardBuildScoreCacheContract {

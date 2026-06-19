@@ -223,8 +223,8 @@ function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyPerMain:
 }
 
 export type DiminishingReturnsFormulas = {
-  stat: (mainsCount: number, rolls: number) => number
-  spd: (mainsCount: number, rolls: number) => number
+  stat: (mainsCount: number, rolls: number) => number,
+  spd: (mainsCount: number, rolls: number) => number,
 }
 
 export function createDiminishingReturns(baseLowerLimit: number, penaltyPerMain: number): DiminishingReturnsFormulas {
@@ -355,8 +355,8 @@ export function applyScoringFunction(
 }
 
 type PenaltyRecord = {
-  stat: StatsValues
-  multiplier: number
+  stat: StatsValues,
+  multiplier: number,
 }
 
 function collectPenaltyRecords(

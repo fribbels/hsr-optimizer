@@ -1,8 +1,8 @@
 import { Metadata } from 'lib/state/metadataInitializer'
 import { defaultComputeOptimalSimulationSearchRunner } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { LeaderboardBuildScoreCache } from '../cache/leaderboardBuildScoreCache'
-import { createLeaderboardSearchRunner } from '../scoring/searchRunner'
 import { scoreProfile } from '../scoring/scorer'
+import { createLeaderboardSearchRunner } from '../scoring/searchRunner'
 import { createLeaderboardMetrics } from '../shared/metrics'
 import { getParentMessagePort } from '../shared/nodeFacade'
 import {
@@ -16,8 +16,8 @@ import {
 import { buildLeaderboardScoreWorkerStateKey } from './profileWorkerContracts'
 
 type WorkerState = {
-  key: string
-  buildScoreCache: LeaderboardBuildScoreCacheContract
+  key: string,
+  buildScoreCache: LeaderboardBuildScoreCacheContract,
 }
 
 const parentPort = getParentMessagePort()

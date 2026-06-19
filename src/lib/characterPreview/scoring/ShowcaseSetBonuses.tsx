@@ -1,17 +1,26 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { StatTextSm } from 'lib/characterPreview/StatText'
-import { Assets } from 'lib/rendering/assets'
-import { type RelicSetIngameId, type SetsOrnaments, setToId, SetsOrnamentsNames } from 'lib/sets/setConfigRegistry'
-import { Fragment, memo, useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
 import type { Sets } from 'lib/constants/constants'
+import { Assets } from 'lib/rendering/assets'
+import {
+  type RelicSetIngameId,
+  type SetsOrnaments,
+  SetsOrnamentsNames,
+  setToId,
+} from 'lib/sets/setConfigRegistry'
+import {
+  Fragment,
+  memo,
+  useMemo,
+} from 'react'
+import { useTranslation } from 'react-i18next'
 import classes from './ShowcaseSetBonuses.module.css'
 
 // Types
 
 type DisplayEntry =
-  | { active: true; set: Sets; count: number; ingameId: RelicSetIngameId }
-  | { active: false; count: number }
+  | { active: true, set: Sets, count: number, ingameId: RelicSetIngameId }
+  | { active: false, count: number }
 
 // Set detection + padding
 
@@ -98,7 +107,7 @@ function ActiveSetEntry({ entry }: { entry: DisplayEntry & { active: true } }) {
 export const ShowcaseSetBonuses = memo(function ShowcaseSetBonuses({
   displayRelics,
 }: {
-  displayRelics: PreviewRelics
+  displayRelics: PreviewRelics,
 }) {
   const displaySets = useMemo(() => getDisplaySets(displayRelics), [displayRelics])
 

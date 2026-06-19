@@ -1,6 +1,6 @@
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { ScoringConfigType } from 'types/metadata'
 import { type CharacterId } from 'types/character'
+import { ScoringConfigType } from 'types/metadata'
 
 let cachedCharacters: CharacterId[] | null = null
 
@@ -23,4 +23,3 @@ export function getCharacterLeaderboardConfigTypes(characterId: CharacterId): Sc
   if (scoringMetadata?.shieldSimulation) configTypes.push(ScoringConfigType.SHIELD)
   return configTypes
 }
-

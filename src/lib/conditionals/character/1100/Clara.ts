@@ -16,8 +16,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
-import { SomethingIrreplaceable } from 'lib/conditionals/lightcone/5star/SomethingIrreplaceable'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { SomethingIrreplaceable } from 'lib/conditionals/lightcone/5star/SomethingIrreplaceable'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,

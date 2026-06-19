@@ -1,4 +1,7 @@
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -18,7 +21,10 @@ import {
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -38,8 +44,8 @@ import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { SleepLikeTheDead } from 'lib/conditionals/lightcone/5star/SleepLikeTheDead'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { SleepLikeTheDead } from 'lib/conditionals/lightcone/5star/SleepLikeTheDead'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   AbilityKind,

@@ -10,6 +10,16 @@ import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
+import { Fugue } from 'lib/conditionals/character/1200/Fugue'
+import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
+import { Jade } from 'lib/conditionals/character/1300/Jade'
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   DEFAULT_TEAM,
   type TeamSelection,
@@ -24,16 +34,6 @@ import {
   isSimScoreMode,
   ScoringType,
 } from 'lib/scoring/scoringConfig'
-import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
-import { Jade } from 'lib/conditionals/character/1300/Jade'
-import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
-import { Cipher } from 'lib/conditionals/character/1400/Cipher'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
-import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
-import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'

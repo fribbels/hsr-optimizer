@@ -1,11 +1,15 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -17,10 +21,11 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
-import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
   Parts,
   Sets,
@@ -59,8 +64,6 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -466,7 +469,6 @@ const simulation = (): SimulationMetadata => ({
       ],
     },
   ],
-
 })
 
 const scoring = (): ScoringMetadata => ({

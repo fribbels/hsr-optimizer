@@ -83,7 +83,17 @@ function FilterPillInner<T extends string | number | boolean>({
           size='xs'
           onClick={() => combobox.toggleDropdown()}
           leftSection={activeCount > 0
-            ? <CloseButton size={16} iconSize={16} variant='transparent' onClick={(e) => { e.stopPropagation(); onChange([]) }} />
+            ? (
+              <CloseButton
+                size={16}
+                iconSize={16}
+                variant='transparent'
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onChange([])
+                }}
+              />
+            )
             : <IconFilter size={12} />}
           rightSection={activeCount > 0 ? <Badge size='xs' circle variant='filled'>{activeCount}</Badge> : undefined}
           style={{ flex, minWidth: 0, width: '100%' }}

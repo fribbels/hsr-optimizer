@@ -6,17 +6,20 @@ import type {
   PublicCharacterData,
   PublicLeaderboardEntryV2,
 } from '../../../../scripts/leaderboard/shared/types'
-import { type LeaderboardEntry, type LeaderboardTeammate } from './leaderboardTabTypes'
+import {
+  type LeaderboardEntry,
+  type LeaderboardTeammate,
+} from './leaderboardTabTypes'
 
-export type BuildIndexEntry = { characterId: CharacterId; configType: string; teamId: string }
+export type BuildIndexEntry = { characterId: CharacterId, configType: string, teamId: string }
 
 export type LeaderboardTopScoresResult = {
-  bestScores: Partial<Record<CharacterId, number>>
-  totalEntries: Partial<Record<CharacterId, number>>
+  bestScores: Partial<Record<CharacterId, number>>,
+  totalEntries: Partial<Record<CharacterId, number>>,
 }
 
 type RawLeaderboardOutput = {
-  characters: Record<string, string>
+  characters: Record<string, string>,
 }
 
 let buildIndex: Map<string, BuildIndexEntry> | null = null
@@ -34,7 +37,10 @@ export async function loadLeaderboardData(): Promise<RawLeaderboardOutput> {
   if (!cachedPromise) {
     cachedPromise = fetch(LEADERBOARD_DATA_URL)
       .then((r) => r.json() as Promise<RawLeaderboardOutput>)
-      .catch((e) => { cachedPromise = null; throw e })
+      .catch((e) => {
+        cachedPromise = null
+        throw e
+      })
   }
   return cachedPromise
 }

@@ -40,24 +40,24 @@ export function printLeaderboardResults(privateOutput: PrivateRankedOutput, topN
 }
 
 type RunSummaryInput = {
-  entries: PrivateRankedEntry[]
-  failures: FailureEntry[]
-  buildScoreCacheStats: LeaderboardBuildScoreCacheStats
-  parsed: ParsedExport
-  profiles: ParsedProfile[]
-  totalCandidates: number
-  prefilterTotalKept: number
-  metrics: LeaderboardMetricsSnapshot
-  workerCount: number
-  buildScoreCacheDbPath: string
-  freshRun: boolean
-  pruneBuildScoreCache: boolean
-  topN: number
-  topNPublic: number
-  parseElapsedMs: number
-  prefilterElapsedMs: number
-  scoringElapsedMs: number
-  runElapsedMs: number
+  entries: PrivateRankedEntry[],
+  failures: FailureEntry[],
+  buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
+  parsed: ParsedExport,
+  profiles: ParsedProfile[],
+  totalCandidates: number,
+  prefilterTotalKept: number,
+  metrics: LeaderboardMetricsSnapshot,
+  workerCount: number,
+  buildScoreCacheDbPath: string,
+  freshRun: boolean,
+  pruneBuildScoreCache: boolean,
+  topN: number,
+  topNPublic: number,
+  parseElapsedMs: number,
+  prefilterElapsedMs: number,
+  scoringElapsedMs: number,
+  runElapsedMs: number,
 }
 
 export function printRunSummary(input: RunSummaryInput): void {
@@ -65,7 +65,7 @@ export function printRunSummary(input: RunSummaryInput): void {
   const scoringSec = input.scoringElapsedMs / 1000
   const runSec = input.runElapsedMs / 1000
 
-  const perCharStats: Record<string, { entries: number; failures: number }> = {}
+  const perCharStats: Record<string, { entries: number, failures: number }> = {}
   for (const e of entries) {
     const key = getCharacterLogName(String(e.characterId))
     const stat = perCharStats[key] ??= { entries: 0, failures: 0 }

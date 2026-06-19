@@ -1,4 +1,7 @@
-import { emptyBuildScoreCacheStats, emptyMetricsSnapshot } from '../shared/metrics'
+import {
+  emptyBuildScoreCacheStats,
+  emptyMetricsSnapshot,
+} from '../shared/metrics'
 import {
   createNodeWorker,
   type NodeWorker,
@@ -16,40 +19,40 @@ import type {
 } from '../shared/types'
 
 type LeaderboardScoreWorkerPoolOptions = {
-  workerScriptUrl: URL
-  workerCount: number
-  runtimeConfig: LeaderboardScoreWorkerRuntimeConfig
-  maxRetries?: number
+  workerScriptUrl: URL,
+  workerCount: number,
+  runtimeConfig: LeaderboardScoreWorkerRuntimeConfig,
+  maxRetries?: number,
 }
 
 type ScoreProfileResult = {
-  entries: PrivateRankedEntry[]
-  failures: FailureEntry[]
-  scored: number
-  failed: number
-  scoringRuns: number
-  buildScoreCacheStats: LeaderboardBuildScoreCacheStats
-  metrics: LeaderboardMetricsSnapshot
-  elapsedMs: number
+  entries: PrivateRankedEntry[],
+  failures: FailureEntry[],
+  scored: number,
+  failed: number,
+  scoringRuns: number,
+  buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
+  metrics: LeaderboardMetricsSnapshot,
+  elapsedMs: number,
 }
 
 type QueuedProfileTask = {
-  id: number
-  profile: ParsedProfile
-  profileIndex: number
-  versions: LeaderboardVersionFile
-  globalVersion: number
-  attempts: number
-  enqueuedAt: number
-  dispatchedAt: number
-  resolve: (value: ScoreProfileResult & { profileIndex: number }) => void
-  reject: (error: Error) => void
+  id: number,
+  profile: ParsedProfile,
+  profileIndex: number,
+  versions: LeaderboardVersionFile,
+  globalVersion: number,
+  attempts: number,
+  enqueuedAt: number,
+  dispatchedAt: number,
+  resolve: (value: ScoreProfileResult & { profileIndex: number }) => void,
+  reject: (error: Error) => void,
 }
 
 type WorkerSlot = {
-  index: number
-  worker: NodeWorker
-  currentTask: QueuedProfileTask | null
+  index: number,
+  worker: NodeWorker,
+  currentTask: QueuedProfileTask | null,
 }
 
 export class LeaderboardScoreWorkerPool {
@@ -81,15 +84,15 @@ export class LeaderboardScoreWorkerPool {
   }
 
   async scoreProfiles(input: {
-    profiles: ParsedProfile[]
-    versions: LeaderboardVersionFile
-    globalVersion: number
-    estimatedRuns?: number
+    profiles: ParsedProfile[],
+    versions: LeaderboardVersionFile,
+    globalVersion: number,
+    estimatedRuns?: number,
   }): Promise<{
-    entries: PrivateRankedEntry[]
-    failures: FailureEntry[]
-    buildScoreCacheStats: LeaderboardBuildScoreCacheStats
-    metrics: LeaderboardMetricsSnapshot
+    entries: PrivateRankedEntry[],
+    failures: FailureEntry[],
+    buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
+    metrics: LeaderboardMetricsSnapshot,
   }> {
     const { profiles, versions, globalVersion } = input
     let completedRuns = 0
@@ -149,10 +152,10 @@ export class LeaderboardScoreWorkerPool {
   }
 
   private runProfile(input: {
-    profile: ParsedProfile
-    profileIndex: number
-    versions: LeaderboardVersionFile
-    globalVersion: number
+    profile: ParsedProfile,
+    profileIndex: number,
+    versions: LeaderboardVersionFile,
+    globalVersion: number,
   }): Promise<ScoreProfileResult & { profileIndex: number }> {
     if (this.terminated) {
       return Promise.reject(new Error('Leaderboard score worker pool already terminated'))
@@ -313,16 +316,23 @@ export class LeaderboardScoreWorkerPool {
     if (finishedProfiles === 0 && this.queue.length === 0 && this.workers.length === 0) return
 
     const divisor = Math.max(1, finishedProfiles)
-    console.log('Leaderboard profile worker pool stats:', JSON.stringify({
-      workers: this.workerCount,
-      completedProfiles: this.completedProfiles,
-      failedProfiles: this.failedProfiles,
-      maxQueueDepth: this.maxQueueDepth,
-      maxInFlight: this.maxInFlight,
-      avgQueueWaitMs: this.totalQueueWaitMs / divisor,
-      avgRoundTripMs: this.totalRoundTripMs / divisor,
-      avgWorkerElapsedMs: this.totalWorkerElapsedMs / divisor,
-    }, null, 2))
+    console.log(
+      'Leaderboard profile worker pool stats:',
+      JSON.stringify(
+        {
+          workers: this.workerCount,
+          completedProfiles: this.completedProfiles,
+          failedProfiles: this.failedProfiles,
+          maxQueueDepth: this.maxQueueDepth,
+          maxInFlight: this.maxInFlight,
+          avgQueueWaitMs: this.totalQueueWaitMs / divisor,
+          avgRoundTripMs: this.totalRoundTripMs / divisor,
+          avgWorkerElapsedMs: this.totalWorkerElapsedMs / divisor,
+        },
+        null,
+        2,
+      ),
+    )
   }
 }
 

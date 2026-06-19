@@ -68,17 +68,21 @@ describe('leaderboard CLI options', () => {
   })
 
   test('caps public top n at top n', () => {
-    expect(parseLeaderboardCliOptions([
-      '--top-n',
-      '10',
-      '--top-n-public',
-      '50',
-    ]).topNPublic).toBe(10)
+    expect(
+      parseLeaderboardCliOptions([
+        '--top-n',
+        '10',
+        '--top-n-public',
+        '50',
+      ]).topNPublic,
+    ).toBe(10)
 
-    expect(parseLeaderboardCliOptions([
-      '--top-n',
-      '7',
-    ]).topNPublic).toBe(7)
+    expect(
+      parseLeaderboardCliOptions([
+        '--top-n',
+        '7',
+      ]).topNPublic,
+    ).toBe(7)
   })
 
   test('rejects unknown options', () => {
@@ -112,10 +116,12 @@ describe('leaderboard CLI options', () => {
   })
 
   test('rejects fresh run with prune cache', () => {
-    expect(() => parseLeaderboardCliOptions([
-      '--fresh-run',
-      '--prune-build-score-cache',
-    ])).toThrow('--fresh-run and --prune-build-score-cache cannot be used together')
+    expect(() =>
+      parseLeaderboardCliOptions([
+        '--fresh-run',
+        '--prune-build-score-cache',
+      ])
+    ).toThrow('--fresh-run and --prune-build-score-cache cannot be used together')
   })
 
   test('exports usage text for help output', () => {

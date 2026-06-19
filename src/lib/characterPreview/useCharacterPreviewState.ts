@@ -102,8 +102,8 @@ export function useCharacterPreviewState(
       globalColorMode: isLeaderboard
         ? ShowcaseColorMode.AUTO
         : s.savedSession[SavedSessionKeys.showcaseStandardMode]
-          ? ShowcaseColorMode.STANDARD
-          : ShowcaseColorMode.AUTO,
+        ? ShowcaseColorMode.STANDARD
+        : ShowcaseColorMode.AUTO,
       darkMode: s.savedSession.showcaseDarkMode,
     })),
   )

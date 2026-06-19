@@ -1,4 +1,8 @@
-import type { LeaderboardBuildScoreCacheStats, LeaderboardMetrics, LeaderboardMetricsSnapshot } from './types'
+import type {
+  LeaderboardBuildScoreCacheStats,
+  LeaderboardMetrics,
+  LeaderboardMetricsSnapshot,
+} from './types'
 
 function buildTaggedKey(name: string, tags?: Record<string, string>): string {
   if (!tags || Object.keys(tags).length === 0) return name
@@ -6,7 +10,7 @@ function buildTaggedKey(name: string, tags?: Record<string, string>): string {
   return `${name}:${tagStr}`
 }
 
-type TimingAggregate = { count: number; totalMs: number }
+type TimingAggregate = { count: number, totalMs: number }
 
 export function emptyMetricsSnapshot(): LeaderboardMetricsSnapshot {
   return {
@@ -64,7 +68,7 @@ export function createLeaderboardMetrics(): LeaderboardMetrics {
         gaugeSnapshot[key] = value
       }
 
-      const timingSnapshot: Record<string, { count: number; totalMs: number; avgMs: number }> = {}
+      const timingSnapshot: Record<string, { count: number, totalMs: number, avgMs: number }> = {}
       for (const [key, agg] of timings) {
         timingSnapshot[key] = { count: agg.count, totalMs: agg.totalMs, avgMs: agg.count > 0 ? agg.totalMs / agg.count : 0 }
       }

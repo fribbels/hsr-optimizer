@@ -30,10 +30,10 @@ export function getLightConeVersion(
 }
 
 export function getDependencyVersions(input: {
-  versions: LeaderboardVersionFile
-  primaryCharacterId: string
-  primaryLightConeId: string | null | undefined
-  teammates: LeaderboardEntryTeammate[]
+  versions: LeaderboardVersionFile,
+  primaryCharacterId: string,
+  primaryLightConeId: string | null | undefined,
+  teammates: LeaderboardEntryTeammate[],
 }): LeaderboardDependencyVersions {
   const { versions, primaryCharacterId, primaryLightConeId, teammates } = input
 
@@ -71,7 +71,7 @@ export function getDependencyVersions(input: {
 }
 
 export function buildDependencyNamespace(input: {
-  dependencyVersions: LeaderboardDependencyVersions
+  dependencyVersions: LeaderboardDependencyVersions,
 }): LeaderboardDependencyNamespace {
   const dependencyDigest = hashObject(input.dependencyVersions)
 
@@ -84,7 +84,7 @@ export function buildDependencyNamespace(input: {
 export function collectBumpedIds(
   previous: LeaderboardVersionFile | undefined,
   current: LeaderboardVersionFile,
-): { characterIds: Set<string>; lightConeIds: Set<string> } {
+): { characterIds: Set<string>, lightConeIds: Set<string> } {
   const characterIds = new Set<string>()
   const lightConeIds = new Set<string>()
   if (!previous) return { characterIds, lightConeIds }
@@ -129,18 +129,17 @@ export function collectAffectedCharacterIds(
 }
 
 function isSimAffected(
-  sim: { teammates: { characterId: CharacterId; lightCone: string }[]; leaderboardTeams?: { teammates: { characterId: CharacterId; lightCones: string[] }[] }[] },
+  sim: {
+    teammates: { characterId: CharacterId, lightCone: string }[],
+    leaderboardTeams?: { teammates: { characterId: CharacterId, lightCones: string[] }[] }[],
+  },
   bumpedCharIds: Set<string>,
   bumpedLcIds: Set<string>,
 ): boolean {
   if (sim.teammates.some((t) => bumpedCharIds.has(t.characterId) || bumpedLcIds.has(t.lightCone))) {
     return true
   }
-  if (sim.leaderboardTeams?.some((team) =>
-    team.teammates.some((t) =>
-      bumpedCharIds.has(t.characterId) || t.lightCones.some((lc) => bumpedLcIds.has(lc)),
-    ),
-  )) {
+  if (sim.leaderboardTeams?.some((team) => team.teammates.some((t) => bumpedCharIds.has(t.characterId) || t.lightCones.some((lc) => bumpedLcIds.has(lc))))) {
     return true
   }
   return false

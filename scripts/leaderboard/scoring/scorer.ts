@@ -1,40 +1,56 @@
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
-import { type LeaderboardBuildScore, scoreLeaderboardBuild } from 'lib/simulations/leaderboard/scoreLeaderboardBuild'
+import {
+  type LeaderboardBuildScore,
+  scoreLeaderboardBuild,
+} from 'lib/simulations/leaderboard/scoreLeaderboardBuild'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
-import type { LeaderboardTeam, LeaderboardTeammates, SimulationMetadata } from 'types/metadata'
-import { type EligibleConverted, isEligibleRaw } from '../ingest/eligibility'
-import { EIDOLON_TIERS, type EidolonTierValue } from '../shared/eidolonConfig'
-import { hashUid } from '../shared/hash'
+import type {
+  LeaderboardTeam,
+  LeaderboardTeammates,
+  SimulationMetadata,
+} from 'types/metadata'
 import { buildLeaderboardBuildScoreCacheKey } from '../cache/leaderboardBuildScoreCache'
+import {
+  type EligibleConverted,
+  isEligibleRaw,
+} from '../ingest/eligibility'
+import {
+  EIDOLON_TIERS,
+  type EidolonTierValue,
+} from '../shared/eidolonConfig'
+import { hashUid } from '../shared/hash'
 import type {
   ComputeOptimalSimulationSearchRunner,
   FailureEntry,
   LeaderboardBuildScoreCache,
+  LeaderboardEntryTeammate,
   LeaderboardMetrics,
   LeaderboardScoreCandidateConfigInput,
   LeaderboardScoringCandidate,
-  LeaderboardEntryTeammate,
   LeaderboardVersionFile,
   ParsedCharacter,
   ParsedProfile,
   PrivateRankedEntry,
 } from '../shared/types'
-import { buildDependencyNamespace, getDependencyVersions } from '../shared/versioning'
+import {
+  buildDependencyNamespace,
+  getDependencyVersions,
+} from '../shared/versioning'
 import {
   countScoringVariants,
   expandScoringVariants,
 } from './scoringVariants'
 
 export async function scoreLeaderboardCandidateConfig(input: {
-  candidateConfig: LeaderboardScoreCandidateConfigInput
-  versions: LeaderboardVersionFile
-  globalVersion: number
-  searchRunner: ComputeOptimalSimulationSearchRunner
-  buildScoreCache: LeaderboardBuildScoreCache
+  candidateConfig: LeaderboardScoreCandidateConfigInput,
+  versions: LeaderboardVersionFile,
+  globalVersion: number,
+  searchRunner: ComputeOptimalSimulationSearchRunner,
+  buildScoreCache: LeaderboardBuildScoreCache,
 }): Promise<PrivateRankedEntry | null> {
   const { candidateConfig, versions, globalVersion, searchRunner, buildScoreCache } = input
   const { candidate, configType, teamId, simulationMetadata } = candidateConfig
@@ -62,15 +78,16 @@ export async function scoreLeaderboardCandidateConfig(input: {
     dependencyVersions,
   })
 
-  const computeScore = () => scoreLeaderboardBuild({
-    character: candidate.converted,
-    configType,
-    simulationMetadata,
-    singleRelicByPart: candidate.converted.equipped,
-    showcaseTemporaryOptions: { spdBenchmark: undefined },
-    searchRunner,
-    scoreOnly: true,
-  })
+  const computeScore = () =>
+    scoreLeaderboardBuild({
+      character: candidate.converted,
+      configType,
+      simulationMetadata,
+      singleRelicByPart: candidate.converted.equipped,
+      showcaseTemporaryOptions: { spdBenchmark: undefined },
+      searchRunner,
+      scoreOnly: true,
+    })
 
   const cacheKey = buildLeaderboardBuildScoreCacheKey({
     globalVersion,
@@ -114,18 +131,18 @@ export async function scoreLeaderboardCandidateConfig(input: {
 }
 
 export async function scoreProfile(input: {
-  profile: ParsedProfile
-  versions: LeaderboardVersionFile
-  globalVersion: number
-  searchRunner: ComputeOptimalSimulationSearchRunner
-  metrics: LeaderboardMetrics
-  buildScoreCache: LeaderboardBuildScoreCache
+  profile: ParsedProfile,
+  versions: LeaderboardVersionFile,
+  globalVersion: number,
+  searchRunner: ComputeOptimalSimulationSearchRunner,
+  metrics: LeaderboardMetrics,
+  buildScoreCache: LeaderboardBuildScoreCache,
 }): Promise<{
-  entries: PrivateRankedEntry[]
-  failures: FailureEntry[]
-  scored: number
-  failed: number
-  scoringRuns: number
+  entries: PrivateRankedEntry[],
+  failures: FailureEntry[],
+  scored: number,
+  failed: number,
+  scoringRuns: number,
 }> {
   const { profile, versions, globalVersion, searchRunner, metrics, buildScoreCache } = input
   const entries: PrivateRankedEntry[] = []
@@ -257,9 +274,9 @@ function estimateCharacterScoringRuns(character: ParsedCharacter): number {
 }
 
 type ScoringPlan = {
-  baseMetadata: SimulationMetadata
-  leaderboardTeams: LeaderboardTeam[]
-  eligibleTiers: EidolonTierValue[]
+  baseMetadata: SimulationMetadata,
+  leaderboardTeams: LeaderboardTeam[],
+  eligibleTiers: EidolonTierValue[],
 }
 
 function buildScoringPlan(
@@ -279,9 +296,7 @@ function buildScoringPlan(
   }
   const customTeams = baseMetadata.leaderboardTeams ?? []
   const defaultTeamKey = defaultTeam.teammates.map((t) => t.characterId).sort().join('|')
-  const customCoversDefault = customTeams.some((t) =>
-    t.teammates.map((m) => m.characterId).sort().join('|') === defaultTeamKey
-  )
+  const customCoversDefault = customTeams.some((t) => t.teammates.map((m) => m.characterId).sort().join('|') === defaultTeamKey)
   const leaderboardTeams = customCoversDefault ? customTeams : [defaultTeam, ...customTeams]
   const characterEidolon = converted.form.characterEidolon
   const eligibleTiers = EIDOLON_TIERS.filter((tier) => tier <= characterEidolon)

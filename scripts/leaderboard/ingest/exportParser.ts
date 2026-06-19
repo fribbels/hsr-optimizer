@@ -1,11 +1,23 @@
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 import { expandCharacter } from 'lib/simulations/leaderboard/profileCompression'
-import type { MinifiedCharacter, MinifiedProfile } from 'lib/simulations/leaderboard/profileCompression'
+import type {
+  MinifiedCharacter,
+  MinifiedProfile,
+} from 'lib/simulations/leaderboard/profileCompression'
 import { sha256Text } from '../shared/hash'
-import { gunzipBase64Text, readGzipTextFile } from '../shared/nodeFacade'
-import type { CharacterParseError, ExportParseSummary, ParsedCharacter, ParsedExport, ParsedProfile } from '../shared/types'
+import {
+  gunzipBase64Text,
+  readGzipTextFile,
+} from '../shared/nodeFacade'
+import type {
+  CharacterParseError,
+  ExportParseSummary,
+  ParsedCharacter,
+  ParsedExport,
+  ParsedProfile,
+} from '../shared/types'
 
-export type { ParsedCharacter, ParsedProfile, ParsedExport, ExportParseSummary } from '../shared/types'
+export type { ExportParseSummary, ParsedCharacter, ParsedExport, ParsedProfile } from '../shared/types'
 
 enum ExportLineOutcome {
   NonProfile = 'nonProfile',
@@ -54,10 +66,10 @@ function parseExportLine(line: string, characterErrors: CharacterParseError[]): 
   try {
     const row = JSON.parse(line) as Record<string, unknown>
     const item = (row.Item ?? row) as {
-      pk?: { S?: string }
-      sk?: { S?: string }
-      t?: { N?: string }
-      d?: { B?: string }
+      pk?: { S?: string },
+      sk?: { S?: string },
+      t?: { N?: string },
+      d?: { B?: string },
     }
 
     if (item.sk?.S !== 'U') {

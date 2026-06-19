@@ -1,4 +1,8 @@
-import { commandLineArgs, homeDir, resolvePath } from './nodeFacade'
+import {
+  commandLineArgs,
+  homeDir,
+  resolvePath,
+} from './nodeFacade'
 
 const FLAG_EXPORT_PATH = '--export-path'
 const FLAG_PRIVATE_OUTPUT_PATH = '--private-output-path'
@@ -13,17 +17,17 @@ const FLAG_PRINT_CONFIG = '--print-config'
 const FLAG_HELP = '--help'
 
 export type LeaderboardCliOptions = Readonly<{
-  exportPath?: string
-  privateOutputPath: string
-  publicOutputPath: string
-  topN: number
-  topNPublic: number
-  workerThreads: number
-  buildScoreCacheDbPath: string
-  pruneBuildScoreCache: boolean
-  freshRun: boolean
-  printConfig: boolean
-  help: boolean
+  exportPath?: string,
+  privateOutputPath: string,
+  publicOutputPath: string,
+  topN: number,
+  topNPublic: number,
+  workerThreads: number,
+  buildScoreCacheDbPath: string,
+  pruneBuildScoreCache: boolean,
+  freshRun: boolean,
+  printConfig: boolean,
+  help: boolean,
 }>
 
 export class LeaderboardCliOptionsError extends Error {
@@ -34,17 +38,17 @@ export class LeaderboardCliOptionsError extends Error {
 }
 
 type MutableLeaderboardCliOptions = {
-  exportPath?: string
-  privateOutputPath: string
-  publicOutputPath: string
-  topN: number
-  topNPublic: number
-  workerThreads: number
-  buildScoreCacheDbPath: string
-  pruneBuildScoreCache: boolean
-  freshRun: boolean
-  printConfig: boolean
-  help: boolean
+  exportPath?: string,
+  privateOutputPath: string,
+  publicOutputPath: string,
+  topN: number,
+  topNPublic: number,
+  workerThreads: number,
+  buildScoreCacheDbPath: string,
+  pruneBuildScoreCache: boolean,
+  freshRun: boolean,
+  printConfig: boolean,
+  help: boolean,
 }
 
 function defaultLeaderboardCliOptions(): MutableLeaderboardCliOptions {

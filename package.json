@@ -19,6 +19,7 @@
     "preview": "vite preview",
     "build": "vite build",
     "lint": "oxlint",
+    "format": "dprint fmt",
     "vitest": "vitest --dir src/lib --no-watch --pool=threads",
     "vitest:fast": "vitest --dir src/lib --no-watch --pool=threads --exclude '**/simulations/tests/**/*Orchestrator*'",
     "vitest:silent": "vitest --dir src/lib --no-watch --pool=threads --silent",

@@ -1,24 +1,33 @@
-import { Popover, SegmentedControl, UnstyledButton } from '@mantine/core'
+import {
+  Popover,
+  SegmentedControl,
+  UnstyledButton,
+} from '@mantine/core'
 import { IconChevronDown } from '@tabler/icons-react'
+import { Assets } from 'lib/rendering/assets'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Assets } from 'lib/rendering/assets'
-import type { PublicTeamMeta } from '../../../../scripts/leaderboard/shared/types'
-import { EIDOLON_GROUPS, EIDOLON_TIERS, LEADERBOARD_FILTER_ALL, type LeaderboardEidolonFilter } from '../../../../scripts/leaderboard/shared/eidolonConfig'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
-import { setLeaderboardFilters } from './leaderboardTabController'
-import classes from './LeaderboardFilterControls.module.css'
 import type { CharacterId } from 'types/character'
+import {
+  EIDOLON_GROUPS,
+  EIDOLON_TIERS,
+  LEADERBOARD_FILTER_ALL,
+  type LeaderboardEidolonFilter,
+} from '../../../../scripts/leaderboard/shared/eidolonConfig'
+import type { PublicTeamMeta } from '../../../../scripts/leaderboard/shared/types'
+import classes from './LeaderboardFilterControls.module.css'
+import { setLeaderboardFilters } from './leaderboardTabController'
+import { useLeaderboardTabStore } from './useLeaderboardTabStore'
 
 interface LeaderboardFilterControlsProps {
   activeTeamId: string
   availableTeams: PublicTeamMeta[]
   filterCharacterEidolon: LeaderboardEidolonFilter
-  onFilterChange: (filters: { teamId?: string; characterEidolon?: string }) => void
+  onFilterChange: (filters: { teamId?: string, characterEidolon?: string }) => void
   getCharacterName: (characterId: string) => string
 }
 
-const EIDOLON_OPTIONS: { value: LeaderboardEidolonFilter; label: string }[] = [
+const EIDOLON_OPTIONS: { value: LeaderboardEidolonFilter, label: string }[] = [
   { value: LEADERBOARD_FILTER_ALL, label: 'All' },
   ...EIDOLON_TIERS.map((e, i) => ({ value: EIDOLON_GROUPS[i], label: `E${e}` })),
 ]
@@ -36,10 +45,10 @@ function allTeamsLabel(teamCount: number) {
 }
 
 function TeamNamedButton({ team, active, onSelect, label }: {
-  team: PublicTeamMeta
-  active: boolean
-  onSelect: (teamId: string) => void
-  label: string
+  team: PublicTeamMeta,
+  active: boolean,
+  onSelect: (teamId: string) => void,
+  label: string,
 }) {
   return (
     <UnstyledButton
@@ -99,7 +108,9 @@ function TeamPopover(props: LeaderboardFilterControlsProps) {
     <Popover opened={opened} onChange={setOpened} position='bottom-start' width='target' shadow='md' radius='md' offset={4}>
       <Popover.Target>
         <UnstyledButton
-          className={`${classes.teamNamedRow} ${classes.teamPopTrigger} ${selectedTeam ? '' : classes.teamPopTriggerAll} ${opened ? classes.teamPopTriggerOpen : ''}`}
+          className={`${classes.teamNamedRow} ${classes.teamPopTrigger} ${selectedTeam ? '' : classes.teamPopTriggerAll} ${
+            opened ? classes.teamPopTriggerOpen : ''
+          }`}
           title={triggerLabel}
           onClick={() => setOpened((o) => !o)}
         >
@@ -115,7 +126,9 @@ function TeamPopover(props: LeaderboardFilterControlsProps) {
             </span>
           )}
           <span className={classes.teamNamedText}>{triggerLabel}</span>
-          <span className={classes.teamPopChevron}><IconChevronDown size={14} /></span>
+          <span className={classes.teamPopChevron}>
+            <IconChevronDown size={14} />
+          </span>
         </UnstyledButton>
       </Popover.Target>
       <Popover.Dropdown className={classes.teamPopDropdown} p={6}>

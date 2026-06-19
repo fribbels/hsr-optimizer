@@ -1,13 +1,16 @@
 import { Assets } from 'lib/rendering/assets'
+import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
 import { truncate10ths } from 'lib/utils/mathUtils'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
-import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
-import { useCallback, useRef } from 'react'
-import type { LeaderboardEntry } from './leaderboardTabTypes'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
+import {
+  useCallback,
+  useRef,
+} from 'react'
 import { selectLeaderboardEntry } from './leaderboardTabController'
+import type { LeaderboardEntry } from './leaderboardTabTypes'
 import { LeaderboardTeamDisplay } from './LeaderboardTeamDisplay'
 import classes from './RankListPanel.module.css'
+import { useLeaderboardTabStore } from './useLeaderboardTabStore'
 
 const MEDAL_COLORS: Record<number, string> = {
   1: '#e0b420',
@@ -30,8 +33,8 @@ const EIDOLON_BORDER_ALPHA = '26'
 const EIDOLON_FILL_ALPHA = '15'
 
 function RankListEntry({ entry, isSelected }: {
-  entry: LeaderboardEntry
-  isSelected: boolean
+  entry: LeaderboardEntry,
+  isSelected: boolean,
 }) {
   const medalColor = MEDAL_COLORS[entry.rank]
   const rowBackground = rowColorBackground(entry.rank)
@@ -50,7 +53,7 @@ function RankListEntry({ entry, isSelected }: {
     <div
       className={`${classes.tableRow} ${isSelected ? classes.tableRowSelected : ''}${rowColorKeep}`}
       onClick={() => selectLeaderboardEntry(entry.buildId)}
-      style={{ '--eidolon-ring': ringColor, '--eidolon-border': borderColor, '--eidolon-fill': fillColor, background: rowBackground } as React.CSSProperties}
+      style={{ '--eidolon-ring': ringColor, '--eidolon-border': borderColor, '--eidolon-fill': fillColor, 'background': rowBackground } as React.CSSProperties}
     >
       <span className={classes.colRank}>
         {medalColor
@@ -79,7 +82,6 @@ export function RankListPanel() {
   const entries = useLeaderboardTabStore((s) => s.visibleEntries)
   const selectedBuildId = useLeaderboardTabStore((s) => s.selectedBuildId)
   const containerRef = useRef<HTMLDivElement>(null)
-
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return
@@ -116,7 +118,6 @@ export function RankListPanel() {
             key={entry.buildId}
             entry={entry}
             isSelected={entry.buildId === selectedBuildId}
-
           />
         ))}
       </OverlayScrollbarsComponent>

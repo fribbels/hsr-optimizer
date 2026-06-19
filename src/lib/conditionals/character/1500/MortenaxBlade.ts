@@ -1,3 +1,5 @@
+import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
+import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
@@ -9,10 +11,12 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
+import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import {
   Parts,
   PathNames,
@@ -51,10 +55,6 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
-import { Acheron } from 'lib/conditionals/character/1300/Acheron'
-import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
-import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -386,7 +386,6 @@ const simulation = (): SimulationMetadata => ({
       ],
     },
   ],
-
 })
 
 const scoring = (): ScoringMetadata => ({

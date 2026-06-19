@@ -2,22 +2,22 @@ import type { PreviewRelics } from 'lib/characterPreview/characterPreviewControl
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { TrailblazerHarmonyCaelus } from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
-import type { CharacterId } from 'types/character'
 import {
+  type MainStats,
   Parts,
   Sets,
   Stats,
-  type MainStats,
   type SubStats,
 } from 'lib/constants/constants'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import type { MinifiedCharacter } from 'lib/simulations/leaderboard/profileCompression'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 import {
-  ScoringConfigType,
   type LeaderboardTeam,
+  ScoringConfigType,
   type SimulationMetadata,
 } from 'types/metadata'
-import type { LightConeId } from 'types/lightCone'
 import type { Relic } from 'types/relic'
 import {
   describe,
@@ -26,8 +26,8 @@ import {
   vi,
 } from 'vitest'
 import {
-  LeaderboardBuildScoreCache,
   buildLeaderboardBuildScoreCacheKey,
+  LeaderboardBuildScoreCache,
 } from '../../../../../scripts/leaderboard/cache/leaderboardBuildScoreCache'
 import { parseExport } from '../../../../../scripts/leaderboard/ingest/exportParser'
 import {
@@ -49,30 +49,30 @@ import type { EidolonTierValue } from '../../../../../scripts/leaderboard/shared
 import {
   deleteFile,
   fileExists,
-  gzipTextToBase64,
   gunzipBase64Text,
+  gzipTextToBase64,
   openSqliteDatabase,
   resolvePath,
   tmpDir,
   writeGzipTextFile,
 } from '../../../../../scripts/leaderboard/shared/nodeFacade'
 import {
-  buildLeaderboardScoreWorkerStateKey,
-} from '../../../../../scripts/leaderboard/workers/profileWorkerContracts'
-import {
   type LeaderboardBuildScore,
   type LeaderboardDependencyNamespace,
   type LeaderboardDependencyVersions,
   type LeaderboardEntryData,
+  type LeaderboardScoreWorkerRuntimeConfig,
+  type LeaderboardScoringCandidate,
   type ParsedProfile,
   type PrivateBoard,
   type PrivateBoardCompleteness,
   type PrivateRankedEntry,
   type PrivateRankedOutput,
   type PublicCharacterData,
-  type LeaderboardScoreWorkerRuntimeConfig,
-  type LeaderboardScoringCandidate,
 } from '../../../../../scripts/leaderboard/shared/types'
+import {
+  buildLeaderboardScoreWorkerStateKey,
+} from '../../../../../scripts/leaderboard/workers/profileWorkerContracts'
 import {
   compressedProfileSampleBase64,
   sampleFetchedAt,
@@ -156,11 +156,11 @@ function tempSqlitePath(prefix: string): string {
 }
 
 function insertBuildScoreCacheRow(input: {
-  dbPath: string
-  key: string
-  leaderboardVersionsHash: string
-  valueJson: string
-  createdAt?: string
+  dbPath: string,
+  key: string,
+  leaderboardVersionsHash: string,
+  valueJson: string,
+  createdAt?: string,
 }): void {
   const db = openSqliteDatabase(input.dbPath)
   db.prepare(`

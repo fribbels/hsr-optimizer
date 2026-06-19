@@ -12,10 +12,10 @@ import { ChangelogTab } from 'lib/tabs/tabChangelog/ChangelogTab'
 import { CharacterTab } from 'lib/tabs/tabCharacters/CharacterTab'
 import { HomeTab } from 'lib/tabs/tabHome/HomeTab'
 import { ImportTab } from 'lib/tabs/tabImport/ImportTab'
+import { LeaderboardTab } from 'lib/tabs/tabLeaderboard/LeaderboardTab'
 import { OptimizerTab } from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
-import { LeaderboardTab } from 'lib/tabs/tabLeaderboard/LeaderboardTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
 
 import {

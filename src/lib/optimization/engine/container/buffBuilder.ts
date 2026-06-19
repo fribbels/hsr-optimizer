@@ -5,7 +5,6 @@ import {
 import {
   type AKeyValue,
 } from 'lib/optimization/engine/config/keys'
-import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   ALL_DAMAGE_TAGS,
   ALL_DIRECTNESS_TAGS,
@@ -18,6 +17,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainerConfig } from 'lib/optimization/engine/container/computedStatsContainer'
+import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 
 enum BuffBuilderDirtyFlag {
   ELEMENT = 1,

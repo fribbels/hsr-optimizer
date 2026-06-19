@@ -20,7 +20,7 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       input: {
-        runLeaderboard: resolve(import.meta.dirname, 'scripts/leaderboard/runLeaderboard.ts'),
+        'runLeaderboard': resolve(import.meta.dirname, 'scripts/leaderboard/runLeaderboard.ts'),
         'workers/profileWorkerThread': resolve(import.meta.dirname, 'scripts/leaderboard/workers/profileWorkerThread.ts'),
       },
       output: {

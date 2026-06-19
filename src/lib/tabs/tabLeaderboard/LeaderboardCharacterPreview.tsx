@@ -1,13 +1,22 @@
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { CharacterPreviewScoringProvider } from 'lib/characterPreview/CharacterPreviewScoringContext'
-import type { InjectedScoreData, InjectedScoringInput } from 'lib/characterPreview/characterPreviewTypes'
+import type {
+  InjectedScoreData,
+  InjectedScoringInput,
+} from 'lib/characterPreview/characterPreviewTypes'
+import {
+  cardTotalW,
+  parentH,
+} from 'lib/constants/constantsUi'
+import {
+  useDeferredValue,
+  useMemo,
+} from 'react'
 import { ScoringConfigType } from 'types/metadata'
 import { publicToConfigType } from '../../../../scripts/leaderboard/shared/configTypeMapping'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
 import type { LeaderboardTeammate } from './leaderboardTabTypes'
-import { cardTotalW, parentH } from 'lib/constants/constantsUi'
-import { useDeferredValue, useMemo } from 'react'
+import { useLeaderboardTabStore } from './useLeaderboardTabStore'
 
 export function LeaderboardCharacterPreview() {
   const selectedEntry = useLeaderboardTabStore((s) => s.selectedEntry)
@@ -51,14 +60,16 @@ function buildScoringInput(
   return {
     configType,
     score: scoreData,
-    simulationMetadataOverride: team ? {
-      teammates: team.map((tm) => ({
-        characterId: tm.characterId,
-        lightCone: tm.lightCone,
-        characterEidolon: tm.characterEidolon,
-        lightConeSuperimposition: tm.lightConeSuperimposition,
-      })),
-      deprioritizeBuffs,
-    } : undefined,
+    simulationMetadataOverride: team
+      ? {
+        teammates: team.map((tm) => ({
+          characterId: tm.characterId,
+          lightCone: tm.lightCone,
+          characterEidolon: tm.characterEidolon,
+          lightConeSuperimposition: tm.lightConeSuperimposition,
+        })),
+        deprioritizeBuffs,
+      }
+      : undefined,
   }
 }

@@ -55,7 +55,6 @@ import type {
   OptimizerContext,
 } from 'types/optimizer'
 
-
 function startTrace(x: ComputedStatsContainer, action: OptimizerAction) {
   x.enableTracing()
   x.mergePrecomputedTraces(action.precomputedStats)

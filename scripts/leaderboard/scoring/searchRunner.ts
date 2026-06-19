@@ -1,10 +1,13 @@
-import type { ComputeOptimalSimulationSearchRunner, ComputeOptimalSimulationWorkerInput } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { clone } from 'lib/utils/objectUtils'
+import type {
+  ComputeOptimalSimulationSearchRunner,
+  ComputeOptimalSimulationWorkerInput,
+} from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type { LeaderboardMetrics } from '../shared/types'
 
 export function createLeaderboardSearchRunner(input: {
-  metrics: LeaderboardMetrics
-  dispatch: ComputeOptimalSimulationSearchRunner
+  metrics: LeaderboardMetrics,
+  dispatch: ComputeOptimalSimulationSearchRunner,
 }): ComputeOptimalSimulationSearchRunner {
   const { metrics, dispatch } = input
 

@@ -14,6 +14,7 @@ import {
 import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
+import { useInjectedScoringInput } from 'lib/characterPreview/CharacterPreviewScoringContext'
 import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
@@ -49,12 +50,12 @@ import {
   useDebugVisualConfigStore,
 } from 'lib/characterPreview/debugVisualConfigStore'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
+import { ShowcaseSetBonuses } from 'lib/characterPreview/scoring/ShowcaseSetBonuses'
 import {
   ShowcaseCombatScoreDetailsFooter,
   ShowcaseScoreHeader,
   ShowcaseSimScorePanel,
 } from 'lib/characterPreview/scoring/ShowcaseSimScore'
-import { ShowcaseSetBonuses } from 'lib/characterPreview/scoring/ShowcaseSetBonuses'
 import { ShowcaseSubstatRolls } from 'lib/characterPreview/scoring/ShowcaseSubstatRolls'
 import { resolveShowcaseLayout } from 'lib/characterPreview/showcaseDerivedData'
 import { useCharacterPreviewState } from 'lib/characterPreview/useCharacterPreviewState'
@@ -78,7 +79,6 @@ import {
 import { injectBenchmarkDebuggers } from 'lib/simulations/tests/simDebuggers'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
-import { useInjectedScoringInput } from 'lib/characterPreview/CharacterPreviewScoringContext'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import {
@@ -652,7 +652,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 </>
               )}
             </div>
-
           </div>
 
           {/* Relics right panel */}

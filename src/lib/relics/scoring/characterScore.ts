@@ -1,5 +1,5 @@
-import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { hasMainStat } from 'lib/relics/scoring/substatScoring'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import type {
   Character,
   CharacterId,

@@ -109,17 +109,17 @@ export type SimulationMetadata = {
 }
 
 export type LeaderboardTeammate = {
-  characterId: CharacterId
-  lightCones: LightConeId[]
-  teamRelicSet?: string
-  teamOrnamentSet?: string
+  characterId: CharacterId,
+  lightCones: LightConeId[],
+  teamRelicSet?: string,
+  teamOrnamentSet?: string,
 }
 
 export type LeaderboardTeammates = [LeaderboardTeammate, LeaderboardTeammate, LeaderboardTeammate]
 
 export type LeaderboardTeam = {
-  teammates: LeaderboardTeammates
-  deprioritizeBuffs?: boolean
+  teammates: LeaderboardTeammates,
+  deprioritizeBuffs?: boolean,
 }
 
 export type ElementalResPenType =

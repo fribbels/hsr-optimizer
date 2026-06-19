@@ -51,14 +51,14 @@ import {
 } from './scoringStage'
 
 type LeaderboardExportInput = {
-  displayPath: string
-  paths: string[]
+  displayPath: string,
+  paths: string[],
 }
 
 type PublishArtifacts = {
-  privateOutput: PrivateRankedOutput
-  publicOutput: PublicLeaderboardOutputV3
-  dependencyInvalidatedUids: Set<string>
+  privateOutput: PrivateRankedOutput,
+  publicOutput: PublicLeaderboardOutputV3,
+  dependencyInvalidatedUids: Set<string>,
 }
 
 function findLatestServerExport(): LeaderboardExportInput {
@@ -124,7 +124,11 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     const parseStartMs = performance.now()
     const parsed = parseExportInput(exportInput)
     const parseElapsedMs = performance.now() - parseStartMs
-    console.log(`Parsed ${parsed.profiles.length} profiles from ${exportInput.paths.length} file(s) (${parsed.summary.malformedRows} malformed, ${parsed.summary.characterErrors.length} character errors) in ${(parseElapsedMs / 1000).toFixed(1)}s`)
+    console.log(
+      `Parsed ${parsed.profiles.length} profiles from ${exportInput.paths.length} file(s) (${parsed.summary.malformedRows} malformed, ${parsed.summary.characterErrors.length} character errors) in ${
+        (parseElapsedMs / 1000).toFixed(1)
+      }s`,
+    )
     if (parsed.profiles.length === 0) {
       throw new Error('Parsed export contained no profiles; refusing to publish empty leaderboard')
     }
@@ -156,7 +160,9 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       newUids: diff.newUids,
       dependencyInvalidatedUids: new Set([...dependencyInvalidations.invalidatedUids, ...versionBumpUids]),
     })
-    console.log(`Scoring queue: ${needsScoringUids.size} UIDs (${dependencyInvalidations.invalidatedUids.size} dependency invalidated, ${versionBumpUids.size} version bumped)`)
+    console.log(
+      `Scoring queue: ${needsScoringUids.size} UIDs (${dependencyInvalidations.invalidatedUids.size} dependency invalidated, ${versionBumpUids.size} version bumped)`,
+    )
 
     console.log(`Pre-filtering to top ${topN} per character...`)
     const prefilterStartMs = performance.now()
@@ -248,8 +254,8 @@ async function withSequentialBenchmarks<T>(run: () => Promise<T>): Promise<T> {
 }
 
 function runBuildScoreCacheMaintenance(input: {
-  options: LeaderboardCliOptions
-  leaderboardVersionsHash: string
+  options: LeaderboardCliOptions,
+  leaderboardVersionsHash: string,
 }): void {
   const { options, leaderboardVersionsHash } = input
   if (!options.freshRun && !options.pruneBuildScoreCache) return
@@ -272,9 +278,9 @@ function runBuildScoreCacheMaintenance(input: {
 }
 
 function collectVersionBumpUids(input: {
-  profiles: ParsedProfile[]
-  previousVersions: PrivateRankedOutput['versions'] | undefined
-  versions: PrivateRankedOutput['versions']
+  profiles: ParsedProfile[],
+  previousVersions: PrivateRankedOutput['versions'] | undefined,
+  versions: PrivateRankedOutput['versions'],
 }): Set<string> {
   const bumped = collectBumpedIds(input.previousVersions, input.versions)
   const affectedCharacterIds = collectAffectedCharacterIds(bumped.characterIds, bumped.lightConeIds)
@@ -289,16 +295,18 @@ function collectVersionBumpUids(input: {
       }
     }
   }
-  console.log(`Version bump: ${bumped.characterIds.size} characters, ${bumped.lightConeIds.size} light cones -> ${affectedCharacterIds.size} affected characters -> ${versionBumpUids.size} UIDs queued`)
+  console.log(
+    `Version bump: ${bumped.characterIds.size} characters, ${bumped.lightConeIds.size} light cones -> ${affectedCharacterIds.size} affected characters -> ${versionBumpUids.size} UIDs queued`,
+  )
   return versionBumpUids
 }
 
 function buildNeedsScoringUids(input: {
-  profiles: ParsedProfile[]
-  scoreAll: boolean
-  changedUids: Set<string>
-  newUids: Set<string>
-  dependencyInvalidatedUids: Set<string>
+  profiles: ParsedProfile[],
+  scoreAll: boolean,
+  changedUids: Set<string>,
+  newUids: Set<string>,
+  dependencyInvalidatedUids: Set<string>,
 }): Set<string> {
   const { profiles, scoreAll, changedUids, newUids, dependencyInvalidatedUids } = input
   if (scoreAll) {
@@ -322,18 +330,18 @@ function printFailures(scoring: Pick<RunScoringStageResult, 'failures'>): void {
 }
 
 function buildPublishArtifacts(input: {
-  previousPrivate: PrivateRankedOutput | null
-  entries: PrivateRankedEntry[]
-  changedUids: Set<string>
-  missingUids: Set<string>
-  invalidatedDependencyDigests: Set<string>
-  versions: PrivateRankedOutput['versions']
-  globalVersion: number
-  topN: number
-  topNPublic: number
-  parsed: ParsedExport
-  exportInput: LeaderboardExportInput
-  totalCounts: Map<string, number>
+  previousPrivate: PrivateRankedOutput | null,
+  entries: PrivateRankedEntry[],
+  changedUids: Set<string>,
+  missingUids: Set<string>,
+  invalidatedDependencyDigests: Set<string>,
+  versions: PrivateRankedOutput['versions'],
+  globalVersion: number,
+  topN: number,
+  topNPublic: number,
+  parsed: ParsedExport,
+  exportInput: LeaderboardExportInput,
+  totalCounts: Map<string, number>,
 }): PublishArtifacts {
   const { output: privateOutput, dependencyInvalidatedUids } = mergePrivateRankedOutput({
     previous: input.previousPrivate,
@@ -370,9 +378,9 @@ function buildPublishArtifacts(input: {
 }
 
 function writePublishArtifacts(input: {
-  privateOutputPath: string
-  publicOutputPath: string
-  artifacts: PublishArtifacts
+  privateOutputPath: string,
+  publicOutputPath: string,
+  artifacts: PublishArtifacts,
 }): void {
   writePrivateRankedOutput(input.privateOutputPath, input.artifacts.privateOutput)
   writePublicLeaderboardOutput(input.publicOutputPath, input.artifacts.publicOutput)

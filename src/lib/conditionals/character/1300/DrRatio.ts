@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -317,7 +320,6 @@ const simulation = (): SimulationMetadata => ({
       ],
     },
   ],
-
 })
 
 const scoring = (): ScoringMetadata => ({

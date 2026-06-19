@@ -1,7 +1,7 @@
 import styles from 'lib/characterPreview/card/ShowcaseLightCone.module.css'
 import {
-  ShowcaseSource,
   showcaseShadow,
+  ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   type ShowcaseDisplayDimensions,
@@ -100,4 +100,3 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
     </div>
   )
 })
-

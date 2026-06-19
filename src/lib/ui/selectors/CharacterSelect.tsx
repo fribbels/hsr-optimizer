@@ -11,7 +11,10 @@ import {
   generatePathTags,
   SegmentedFilterRow,
 } from 'lib/ui/selectors/CardSelectModalComponents'
-import { type CharacterOptions, generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
+import {
+  type CharacterOptions,
+  generateCharacterOptions,
+} from 'lib/ui/selectors/optionGenerator'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
 import {
   applyCharacterFilters,

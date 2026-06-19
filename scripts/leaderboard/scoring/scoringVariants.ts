@@ -2,13 +2,13 @@ import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { LightConeId } from 'types/lightCone'
 import type {
   LeaderboardTeam,
-  SimulationMetadata,
   ScoringConfigType,
+  SimulationMetadata,
 } from 'types/metadata'
 import {
   DEFAULT_TIER_SUPERIMPOSITION,
-  eidolonToGroup,
   type EidolonTierValue,
+  eidolonToGroup,
   FIXED_TEAMMATE_OVERRIDES,
   TEAMMATE_EIDOLON_CAPS,
 } from '../shared/eidolonConfig'
@@ -18,11 +18,11 @@ import type {
 } from '../shared/types'
 
 export type ExpandScoringVariantsInput = {
-  candidate: LeaderboardScoringCandidate
-  configType: ScoringConfigType
-  baseMetadata: SimulationMetadata
-  leaderboardTeams: LeaderboardTeam[]
-  eligibleTiers: EidolonTierValue[]
+  candidate: LeaderboardScoringCandidate,
+  configType: ScoringConfigType,
+  baseMetadata: SimulationMetadata,
+  leaderboardTeams: LeaderboardTeam[],
+  eligibleTiers: EidolonTierValue[],
 }
 
 export type CountScoringVariantsInput = Pick<
@@ -76,11 +76,11 @@ function buildTeamId(team: LeaderboardTeam): string {
 }
 
 function buildSimulationMetadata(input: {
-  baseMetadata: SimulationMetadata
-  configType: ScoringConfigType
-  team: LeaderboardTeam
-  tierEidolon: EidolonTierValue
-  lcCombo: LightConeId[]
+  baseMetadata: SimulationMetadata,
+  configType: ScoringConfigType,
+  team: LeaderboardTeam,
+  tierEidolon: EidolonTierValue,
+  lcCombo: LightConeId[],
 }): SimulationMetadata {
   const teammates: SimulationMetadata['teammates'] = input.team.teammates.map((t, i) => {
     const fixed = FIXED_TEAMMATE_OVERRIDES[t.characterId]

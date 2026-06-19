@@ -1,3 +1,7 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
@@ -11,7 +15,6 @@ import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -31,8 +34,8 @@ import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightg
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
-import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'

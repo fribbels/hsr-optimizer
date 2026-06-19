@@ -645,5 +645,4 @@ export class SearchTree {
 
     return childNode
   }
-
 }

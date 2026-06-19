@@ -1,14 +1,17 @@
-import { useEffect } from 'react'
 import { UnstyledButton } from '@mantine/core'
 import { IconChevronLeft } from '@tabler/icons-react'
-import { expandCharacterList, initializeLeaderboardTab } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
-import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { CharacterListPanel } from 'lib/tabs/tabLeaderboard/CharacterListPanel'
 import { CollapsedCharacterStrip } from 'lib/tabs/tabLeaderboard/CollapsedCharacterStrip'
-import { RankListPanel } from 'lib/tabs/tabLeaderboard/RankListPanel'
 import { LeaderboardCharacterPreview } from 'lib/tabs/tabLeaderboard/LeaderboardCharacterPreview'
-import { LeaderboardFilterControls } from './LeaderboardFilterControls'
+import {
+  expandCharacterList,
+  initializeLeaderboardTab,
+} from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { RankListPanel } from 'lib/tabs/tabLeaderboard/RankListPanel'
+import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
+import { useEffect } from 'react'
 import { LeaderboardBanner } from './heroVariants/LeaderboardBanner'
+import { LeaderboardFilterControls } from './LeaderboardFilterControls'
 import classes from './LeaderboardLayout.module.css'
 
 export function LeaderboardTab() {
@@ -30,10 +33,14 @@ export function LeaderboardTab() {
           </div>
           <div className={`${classes.panel} ${classes.panelDetail} ${detailClass}`}>
             <UnstyledButton className={classes.backUnified} onClick={expandCharacterList}>
-              <span className={classes.backUnifiedArrow}><IconChevronLeft size={16} /></span>
+              <span className={classes.backUnifiedArrow}>
+                <IconChevronLeft size={16} />
+              </span>
             </UnstyledButton>
 
-            <div className={classes.toolbarSlot}><LeaderboardFilterControls /></div>
+            <div className={classes.toolbarSlot}>
+              <LeaderboardFilterControls />
+            </div>
 
             <div className={classes.rankView}>
               <div className={classes.stripColumn}>

@@ -18,7 +18,6 @@ import {
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { withAlpha } from 'lib/characterPreview/color/colorUtils'
-import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import {
   buildCardBgPipelineConfig,
   DEFAULT_SHOWCASE_COLOR,
@@ -29,6 +28,7 @@ import {
   getShowcasePreset,
   ShowcasePreset,
 } from 'lib/characterPreview/debugVisualConfigStore'
+import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
 import { AppPages } from 'lib/constants/appPages'
 import {

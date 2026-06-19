@@ -12,7 +12,10 @@ import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { cloneSimResult } from 'lib/scoring/simScoringUtils'
-import type { DiminishingReturnsFormulas, SimulationFlags } from 'lib/scoring/simScoringUtils'
+import type {
+  DiminishingReturnsFormulas,
+  SimulationFlags,
+} from 'lib/scoring/simScoringUtils'
 import {
   OrnamentSetCount,
   OrnamentSetToIndex,
@@ -239,9 +242,16 @@ export function buildBenchmarkSimulationState(
   const setCounts = calculateSetCounts(sets)
 
   const precomputedSets: PrecomputedSetState = {
-    setH, setG, setB, setF, setP, setL,
-    relicSetIndex, ornamentSetIndex,
-    sets, setCounts,
+    setH,
+    setG,
+    setB,
+    setF,
+    setP,
+    setL,
+    relicSetIndex,
+    ornamentSetIndex,
+    sets,
+    setCounts,
   }
 
   // Pre-compute per-substat: scale, value, key, modifier
@@ -251,8 +261,12 @@ export function buildBenchmarkSimulationState(
   const substatModifier: ((rolls: number) => number)[] = []
 
   const mainStats = [
-    request.simBody, request.simFeet, request.simPlanarSphere, request.simLinkRope,
-    Constants.Stats.ATK, Constants.Stats.HP,
+    request.simBody,
+    request.simFeet,
+    request.simPlanarSphere,
+    request.simLinkRope,
+    Constants.Stats.ATK,
+    Constants.Stats.HP,
   ]
 
   for (let i = 0; i < SubStats.length; i++) {
@@ -333,8 +347,14 @@ export function runSingleStatSimulation(
   const forcedBasicSpd = params.simulationFlags.benchmarkBasicSpdTarget
 
   const built = simulateBuild(
-    state.relics, context, cachedBasicStatsArray, cachedComputedStatsContainer,
-    false, forcedBasicSpd, !!params.skipDefaults, state.precomputedSets,
+    state.relics,
+    context,
+    cachedBasicStatsArray,
+    cachedComputedStatsContainer,
+    false,
+    forcedBasicSpd,
+    !!params.skipDefaults,
+    state.precomputedSets,
   )
 
   const result = state.cachedResult

@@ -5,19 +5,22 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 import type { EligibleConverted } from './eligibility'
 import { isEligibleRaw } from './eligibility'
-import type { ParsedCharacter, ParsedProfile } from './exportParser'
+import type {
+  ParsedCharacter,
+  ParsedProfile,
+} from './exportParser'
 
 type PreFilterCandidate = {
-  profile: ParsedProfile
-  character: ParsedCharacter
-  charId: CharacterId
-  substatScore: number
+  profile: ParsedProfile,
+  character: ParsedCharacter,
+  charId: CharacterId,
+  substatScore: number,
 }
 
 export type PreFilterResult = {
-  profiles: ParsedProfile[]
-  eligibleCounts: Map<string, number>
-  totalCounts: Map<string, number>
+  profiles: ParsedProfile[],
+  eligibleCounts: Map<string, number>,
+  totalCounts: Map<string, number>,
 }
 
 export function preFilterProfiles(

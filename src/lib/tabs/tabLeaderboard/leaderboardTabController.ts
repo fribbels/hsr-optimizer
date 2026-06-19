@@ -1,14 +1,29 @@
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTypes'
+import {
+  AppPages,
+  PageToRoute,
+} from 'lib/constants/appPages'
 import { CharacterConverter } from 'lib/importer/characterConverter'
-import { AppPages, PageToRoute } from 'lib/constants/appPages'
 import { expandCharacter } from 'lib/simulations/leaderboard/profileCompression'
-import type { CharacterId } from 'types/character'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
-import { isLeaderboardConfigType, LEADERBOARD_CONFIG_TYPES, type LeaderboardConfigType } from '../../../../scripts/leaderboard/shared/configTypeMapping'
-import { EIDOLON_GROUPS, LEADERBOARD_FILTER_ALL, type LeaderboardEidolonFilter } from '../../../../scripts/leaderboard/shared/eidolonConfig'
-import type { PublicCharacterData, PublicTeamMeta } from '../../../../scripts/leaderboard/shared/types'
+import type { CharacterId } from 'types/character'
+import {
+  isLeaderboardConfigType,
+  LEADERBOARD_CONFIG_TYPES,
+  type LeaderboardConfigType,
+} from '../../../../scripts/leaderboard/shared/configTypeMapping'
+import {
+  EIDOLON_GROUPS,
+  LEADERBOARD_FILTER_ALL,
+  type LeaderboardEidolonFilter,
+} from '../../../../scripts/leaderboard/shared/eidolonConfig'
+import type {
+  PublicCharacterData,
+  PublicTeamMeta,
+} from '../../../../scripts/leaderboard/shared/types'
 import { deriveVisibleEntries } from './deriveVisibleEntries'
+import { getLeaderboardCharacters } from './leaderboardCharacterHelpers'
 import {
   getBuildIndex,
   getLeaderboardCharacterIds,
@@ -16,7 +31,6 @@ import {
   loadCharacterData,
   loadLeaderboardData,
 } from './leaderboardDataLoader'
-import { getLeaderboardCharacters } from './leaderboardCharacterHelpers'
 import { useLeaderboardTabStore } from './useLeaderboardTabStore'
 
 const CONFIG_DISPLAY_ORDER = LEADERBOARD_CONFIG_TYPES
@@ -141,7 +155,7 @@ function resolveActiveTeamId(
 
 export function selectLeaderboardCharacter(
   characterId: CharacterId,
-  requested?: { configType?: string; teamId?: string; buildId?: string },
+  requested?: { configType?: string, teamId?: string, buildId?: string },
 ) {
   const data = loadCharacterData(characterId)
 
@@ -206,16 +220,18 @@ function isValidEidolonFilter(value: string): value is LeaderboardEidolonFilter 
   return value === LEADERBOARD_FILTER_ALL || (EIDOLON_GROUPS as string[]).includes(value)
 }
 
-export function setLeaderboardFilters(filters: { teamId?: string; characterEidolon?: string }) {
+export function setLeaderboardFilters(filters: { teamId?: string, characterEidolon?: string }) {
   const state = useLeaderboardTabStore.getState()
 
   if (filters.teamId !== undefined && filters.teamId !== state.activeTeamId) {
     useLeaderboardTabStore.setState({ activeTeamId: filters.teamId })
   }
 
-  if (filters.characterEidolon !== undefined
+  if (
+    filters.characterEidolon !== undefined
     && filters.characterEidolon !== state.filterCharacterEidolon
-    && isValidEidolonFilter(filters.characterEidolon)) {
+    && isValidEidolonFilter(filters.characterEidolon)
+  ) {
     useLeaderboardTabStore.setState({ filterCharacterEidolon: filters.characterEidolon })
   }
 

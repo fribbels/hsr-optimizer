@@ -9,7 +9,10 @@ import {
   resultCache,
   upgradeResultCache,
 } from 'lib/scoring/scoringService'
-import type { SimulationFlags, SimulationScore } from 'lib/scoring/simScoringUtils'
+import type {
+  SimulationFlags,
+  SimulationScore,
+} from 'lib/scoring/simScoringUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import {
   createContext,
@@ -24,8 +27,11 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import type { InjectedScoreData, InjectedScoringInput } from './characterPreviewTypes'
 import { type PreviewRelics } from './characterPreviewController'
+import type {
+  InjectedScoreData,
+  InjectedScoringInput,
+} from './characterPreviewTypes'
 
 export type ScoringPipeline = {
   preview: PreparedState | null,
@@ -238,7 +244,15 @@ export const SimScoringContextProvider = memo(function SimScoringContextProvider
 
       if (injectedScoring) {
         if (configType === injectedScoring.configType) {
-          pipelines[configType] = buildInjectedScorePipeline(cacheKeys[configType], character, configType, meta, singleRelicByPart, showcaseTemporaryOptions, injectedScoring.score)
+          pipelines[configType] = buildInjectedScorePipeline(
+            cacheKeys[configType],
+            character,
+            configType,
+            meta,
+            singleRelicByPart,
+            showcaseTemporaryOptions,
+            injectedScoring.score,
+          )
         }
       } else {
         pipelines[configType] = buildScoringPipeline(cacheKeys[configType], character, configType, meta, singleRelicByPart, showcaseTemporaryOptions)

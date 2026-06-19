@@ -14,24 +14,24 @@ import type {
 import type { BasicForm } from 'types/optimizer'
 
 export type LeaderboardBuildScore = {
-  percent: number
-  originalSimScore: number
-  baselineSimScore: number
-  benchmarkSimScore: number
-  maximumSimScore: number
-  originalSpd: number
-  spdBenchmark: number | undefined
-  simulationFlags: SimulationFlags
+  percent: number,
+  originalSimScore: number,
+  baselineSimScore: number,
+  benchmarkSimScore: number,
+  maximumSimScore: number,
+  originalSpd: number,
+  spdBenchmark: number | undefined,
+  simulationFlags: SimulationFlags,
 }
 
 export async function scoreLeaderboardBuild(input: {
-  character: { form: BasicForm }
-  configType: ScoringConfigType
-  simulationMetadata: SimulationMetadata
-  singleRelicByPart: PreviewRelics
-  showcaseTemporaryOptions: ShowcaseTemporaryOptions
-  searchRunner?: ComputeOptimalSimulationSearchRunner
-  scoreOnly?: boolean
+  character: { form: BasicForm },
+  configType: ScoringConfigType,
+  simulationMetadata: SimulationMetadata,
+  singleRelicByPart: PreviewRelics,
+  showcaseTemporaryOptions: ShowcaseTemporaryOptions,
+  searchRunner?: ComputeOptimalSimulationSearchRunner,
+  scoreOnly?: boolean,
 }): Promise<LeaderboardBuildScore | null> {
   const config: ScoringConfig = {
     configType: input.configType,

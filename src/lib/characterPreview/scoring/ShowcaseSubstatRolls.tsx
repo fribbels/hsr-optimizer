@@ -3,13 +3,22 @@ import { StatTextSm } from 'lib/characterPreview/StatText'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
 import { HeaderText } from 'lib/ui/HeaderText'
-import { memo, useMemo } from 'react'
+import {
+  memo,
+  useMemo,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import type { CharacterId } from 'types/character'
-import { computeTierColors, type TierColors } from './substatRollColors'
-import { aggregateSubstatRolls, type AggregatedStatRolls } from './substatRollsAggregator'
 import classes from './ShowcaseSubstatRolls.module.css'
+import {
+  computeTierColors,
+  type TierColors,
+} from './substatRollColors'
+import {
+  type AggregatedStatRolls,
+  aggregateSubstatRolls,
+} from './substatRollsAggregator'
 
 const TRACK_WIDTH = 222
 
@@ -18,7 +27,7 @@ function getScale(maxRolls: number): number {
   return (TRACK_WIDTH + 1 - cap) / cap
 }
 
-function StripeGroup({ count, color, segWidth }: { count: number; color: string; segWidth: number }) {
+function StripeGroup({ count, color, segWidth }: { count: number, color: string, segWidth: number }) {
   if (count === 0) return null
   return (
     <div className={classes.stripeGroup}>
@@ -33,7 +42,7 @@ function StripeGroup({ count, color, segWidth }: { count: number; color: string;
   )
 }
 
-function RollCounterStripe({ entry, colors, scale }: { entry: AggregatedStatRolls; colors: TierColors; scale: number }) {
+function RollCounterStripe({ entry, colors, scale }: { entry: AggregatedStatRolls, colors: TierColors, scale: number }) {
   const hw = Math.round(1.0 * scale)
   const mw = Math.round(0.9 * scale)
   const lw = Math.round(0.8 * scale)
@@ -46,15 +55,14 @@ function RollCounterStripe({ entry, colors, scale }: { entry: AggregatedStatRoll
   )
 }
 
-
 export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
   displayRelics,
   characterId,
   seedColor,
 }: {
-  displayRelics: PreviewRelics
-  characterId: CharacterId
-  seedColor: string
+  displayRelics: PreviewRelics,
+  characterId: CharacterId,
+  seedColor: string,
 }) {
   const { t } = useTranslation('common')
   const scoringMetadata = useScoringMetadata(characterId)

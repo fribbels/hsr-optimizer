@@ -1,6 +1,9 @@
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   TrailblazerRemembranceCaelus,
   TrailblazerRemembranceStelle,
@@ -14,9 +17,12 @@ import {
   findTeamAction,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
-import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   Parts,
@@ -65,12 +71,6 @@ import {
 } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -533,7 +533,6 @@ const simulation = (): SimulationMetadata => ({
       ],
     },
   ],
-
 })
 
 const scoring = (): ScoringMetadata => ({

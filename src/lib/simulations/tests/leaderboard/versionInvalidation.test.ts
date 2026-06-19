@@ -1,16 +1,16 @@
-import { Metadata } from 'lib/state/metadataInitializer'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { Metadata } from 'lib/state/metadataInitializer'
 import type { CharacterId } from 'types/character'
 import {
   describe,
   expect,
   test,
 } from 'vitest'
+import type { LeaderboardVersionFile } from '../../../../../scripts/leaderboard/shared/types'
 import {
   collectAffectedCharacterIds,
   collectBumpedIds,
 } from '../../../../../scripts/leaderboard/shared/versioning'
-import type { LeaderboardVersionFile } from '../../../../../scripts/leaderboard/shared/types'
 
 Metadata.initialize()
 
@@ -97,9 +97,7 @@ describe('collectAffectedCharacterIds', () => {
       const sims = [scoring.simulation, scoring.supportSimulation, scoring.healSimulation, scoring.shieldSimulation]
       return sims.some((sim) =>
         sim?.teammates.some((t) => t.characterId === sundayId)
-        || sim?.leaderboardTeams?.some((team) =>
-          team.teammates.some((t) => t.characterId === sundayId as CharacterId),
-        ),
+        || sim?.leaderboardTeams?.some((team) => team.teammates.some((t) => t.characterId === sundayId as CharacterId))
       )
     }).map(([id]) => id)
 
@@ -168,9 +166,7 @@ describe('collectAffectedCharacterIds', () => {
       const sims = [scoring.simulation, scoring.supportSimulation, scoring.healSimulation, scoring.shieldSimulation]
       return !sims.some((sim) =>
         sim?.teammates.some((t) => t.characterId === sundayId)
-        || sim?.leaderboardTeams?.some((team) =>
-          team.teammates.some((t) => t.characterId === sundayId as CharacterId),
-        ),
+        || sim?.leaderboardTeams?.some((team) => team.teammates.some((t) => t.characterId === sundayId as CharacterId))
       )
     }).map(([id]) => id)
 

@@ -1,11 +1,17 @@
-import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTypes'
-import type { CharacterId } from 'types/character'
+import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
+import type { CharacterId } from 'types/character'
 import type { LeaderboardConfigType } from '../../../../scripts/leaderboard/shared/configTypeMapping'
-import { LEADERBOARD_FILTER_ALL, type LeaderboardEidolonFilter } from '../../../../scripts/leaderboard/shared/eidolonConfig'
-import type { PublicCharacterData, PublicTeamMeta } from '../../../../scripts/leaderboard/shared/types'
+import {
+  LEADERBOARD_FILTER_ALL,
+  type LeaderboardEidolonFilter,
+} from '../../../../scripts/leaderboard/shared/eidolonConfig'
+import type {
+  PublicCharacterData,
+  PublicTeamMeta,
+} from '../../../../scripts/leaderboard/shared/types'
 import { type LeaderboardEntry } from './leaderboardTabTypes'
 
 export interface LeaderboardTabState {

@@ -1,21 +1,31 @@
-import chroma from 'chroma-js'
 import { Flex } from '@mantine/core'
 import { IconRosette } from '@tabler/icons-react'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
+import chroma from 'chroma-js'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
-import { computeTierColors, ROLL_WIDTH_RATIOS, type TierColors } from 'lib/characterPreview/scoring/substatRollColors'
-import { aggregateSubstatRolls, type AggregatedStatRolls } from 'lib/characterPreview/scoring/substatRollsAggregator'
+import {
+  computeTierColors,
+  ROLL_WIDTH_RATIOS,
+  type TierColors,
+} from 'lib/characterPreview/scoring/substatRollColors'
+import {
+  type AggregatedStatRolls,
+  aggregateSubstatRolls,
+} from 'lib/characterPreview/scoring/substatRollsAggregator'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import type { Sets } from 'lib/constants/constants'
-import type { LightConeId } from 'types/lightCone'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Assets } from 'lib/rendering/assets'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { useLeaderboardTabStore } from '../useLeaderboardTabStore'
+import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
+import type { LightConeId } from 'types/lightCone'
+import type {
+  LeaderboardEntry,
+  LeaderboardTeammate,
+} from '../leaderboardTabTypes'
 import { HeroScoreRuler } from '../rulerVariants/HeroScoreRuler'
-import type { LeaderboardEntry, LeaderboardTeammate } from '../leaderboardTabTypes'
+import { useLeaderboardTabStore } from '../useLeaderboardTabStore'
 import classes from './LeaderboardBanner.module.css'
 
 const STRIPE_SCALE = 10
@@ -48,7 +58,7 @@ function cropStyle(config: CropConfig): React.CSSProperties {
   }
 }
 
-type ActiveSet = { set: Sets; count: number }
+type ActiveSet = { set: Sets, count: number }
 
 function useActiveSets(relics: PreviewRelics | null): ActiveSet[] {
   return useMemo(() => {
@@ -95,7 +105,7 @@ function stripeGradient(entry: AggregatedStatRolls, colors: TierColors): React.C
   }
 }
 
-function ModuleStack({ label, children }: { label: string; children: React.ReactNode }) {
+function ModuleStack({ label, children }: { label: string, children: React.ReactNode }) {
   return (
     <div className={classes.moduleStack}>
       <div className={classes.moduleLabelBand}>
@@ -107,9 +117,9 @@ function ModuleStack({ label, children }: { label: string; children: React.React
 }
 
 function PortraitSection({ portraitSrc, portraitCrop, characterName }: {
-  portraitSrc: string
-  portraitCrop: React.CSSProperties
-  characterName: string
+  portraitSrc: string,
+  portraitCrop: React.CSSProperties,
+  characterName: string,
 }) {
   return (
     <div className={classes.portraitFrame}>
@@ -122,13 +132,13 @@ function PortraitSection({ portraitSrc, portraitCrop, characterName }: {
 }
 
 function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount }: {
-  rank: number | undefined
-  scorePercent: number | undefined
-  aeonStyle: React.CSSProperties
-  totalEntryCount: number
+  rank: number | undefined,
+  scorePercent: number | undefined,
+  aeonStyle: React.CSSProperties,
+  totalEntryCount: number,
 }) {
   return (
-    <Flex align="center" gap={15} px={6}>
+    <Flex align='center' gap={15} px={6}>
       <span className={classes.rankGroup}>
         <span className={classes.rankHash}>#</span>
         <span className={classes.rankNumber}>{rank ?? '--'}</span>
@@ -149,14 +159,14 @@ function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount }: {
 }
 
 function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, teammates, activeSets }: {
-  selectedEntry: LeaderboardEntry | null
-  eidolon: number
-  lcId: LightConeId | null
-  lcSuper: number
-  lcName: string
-  lcIconSrc: string | null
-  teammates: LeaderboardTeammate[]
-  activeSets: ActiveSet[]
+  selectedEntry: LeaderboardEntry | null,
+  eidolon: number,
+  lcId: LightConeId | null,
+  lcSuper: number,
+  lcName: string,
+  lcIconSrc: string | null,
+  teammates: LeaderboardTeammate[],
+  activeSets: ActiveSet[],
 }) {
   if (!selectedEntry) return null
 
@@ -165,7 +175,7 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {lcIconSrc && (
         <div className={classes.lcModule}>
           <img src={lcIconSrc} className={classes.lcIcon} />
-          <ModuleStack label="Light cone">
+          <ModuleStack label='Light cone'>
             <div className={classes.lcText}>
               <span className={classes.lcSuper}>E{eidolon} S{lcSuper}</span>
               <span className={classes.lcName}>{lcName}</span>
@@ -177,8 +187,8 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {teammates.length > 0 && (
         <>
           <div className={classes.vsep} />
-          <ModuleStack label="Team">
-            <Flex align="center">
+          <ModuleStack label='Team'>
+            <Flex align='center'>
               {teammates.map((teammate, index) => (
                 <img
                   key={`${teammate.characterId}-${index}`}
@@ -194,8 +204,8 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {activeSets.length > 0 && (
         <>
           <div className={classes.vsep} />
-          <ModuleStack label="Sets">
-            <Flex align="center" gap={11}>
+          <ModuleStack label='Sets'>
+            <Flex align='center' gap={11}>
               {activeSets.map((s) => (
                 <div key={s.set} className={classes.setBadge}>
                   <img src={Assets.getSetImage(s.set)} className={classes.setIcon} />
@@ -211,8 +221,8 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
 }
 
 function SubstatColumn({ rolls, tierColors }: {
-  rolls: AggregatedStatRolls[]
-  tierColors: TierColors
+  rolls: AggregatedStatRolls[],
+  tierColors: TierColors,
 }) {
   const { t } = useTranslation('common')
 
@@ -224,7 +234,7 @@ function SubstatColumn({ rolls, tierColors }: {
       <div className={classes.subColumn}>
         {rolls.map((roll) => (
           <div key={roll.stat} className={classes.subRow}>
-            <Flex align="center" gap={5}>
+            <Flex align='center' gap={5}>
               <img src={Assets.getStatIcon(roll.stat)} className={classes.statIcon} />
               <span className={classes.statName}>{t(`Stats.${roll.stat}`)}</span>
               <span className={classes.statValue}>{roll.effective.toFixed(1)}</span>
@@ -242,7 +252,6 @@ export function LeaderboardBanner() {
   const selectedCharacterId = useLeaderboardTabStore((s) => s.selectedCharacterId)
   const previewRelics = useLeaderboardTabStore((s) => s.expandedPreviewRelics)
   const totalEntries = useLeaderboardTabStore((s) => s.totalEntries)
-
 
   const { t: tGame } = useTranslation('gameData')
 

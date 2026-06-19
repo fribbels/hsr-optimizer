@@ -1,8 +1,12 @@
-import type { IncrementalProfileDiff, ParsedProfile, ProfilePayloadIndex } from '../shared/types'
+import type {
+  IncrementalProfileDiff,
+  ParsedProfile,
+  ProfilePayloadIndex,
+} from '../shared/types'
 
 export function diffProfilePayloads(input: {
-  previous: ProfilePayloadIndex | null
-  currentProfiles: ParsedProfile[]
+  previous: ProfilePayloadIndex | null,
+  currentProfiles: ParsedProfile[],
 }): IncrementalProfileDiff {
   const { previous, currentProfiles } = input
   const currentByUid = indexProfilesByUid(currentProfiles)
@@ -40,8 +44,8 @@ export function diffProfilePayloads(input: {
 }
 
 export function buildProfilePayloadIndex(input: {
-  profiles: ParsedProfile[]
-  exportId?: string
+  profiles: ParsedProfile[],
+  exportId?: string,
 }): ProfilePayloadIndex {
   const { profiles, exportId } = input
   const profilesByUid = indexProfilesByUid(profiles)

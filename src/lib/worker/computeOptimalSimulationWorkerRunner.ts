@@ -44,9 +44,9 @@ export type ComputeOptimalSimulationPhase = 'benchmark' | 'perfection'
 export type ComputeOptimalSimulationResultMode = 'full' | 'scoreOnly'
 
 export type ComputeOptimalSimulationSearchRunnerContext = {
-  phase: ComputeOptimalSimulationPhase
-  configType: ScoringConfigType
-  resultMode?: ComputeOptimalSimulationResultMode
+  phase: ComputeOptimalSimulationPhase,
+  configType: ScoringConfigType,
+  resultMode?: ComputeOptimalSimulationResultMode,
 }
 
 export type ComputeOptimalSimulationSearchRunner = (

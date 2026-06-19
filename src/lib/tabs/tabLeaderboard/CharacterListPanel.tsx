@@ -1,17 +1,23 @@
-import { Chip, TextInput } from '@mantine/core'
-import { useMemo, useState } from 'react'
+import {
+  Chip,
+  TextInput,
+} from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import {
   getCharacterLeaderboardConfigTypes,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
-import { useTranslation } from 'react-i18next'
-import { truncate10ths } from 'lib/utils/mathUtils'
-import { ScoringConfigType } from 'types/metadata'
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
-import { useLeaderboardTabStore } from './useLeaderboardTabStore'
-import { selectLeaderboardCharacter } from './leaderboardTabController'
+import { truncate10ths } from 'lib/utils/mathUtils'
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
+import {
+  useMemo,
+  useState,
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import { ScoringConfigType } from 'types/metadata'
 import classes from './CharacterListPanel.module.css'
+import { selectLeaderboardCharacter } from './leaderboardTabController'
+import { useLeaderboardTabStore } from './useLeaderboardTabStore'
 
 const CONFIG_TABS = [
   { type: ScoringConfigType.DPS, label: 'DPS' },
@@ -65,7 +71,7 @@ export function CharacterListPanel() {
       <div className={classes.toolbar}>
         <TextInput
           className={classes.search}
-          variant="unstyled"
+          variant='unstyled'
           placeholder='Search'
           value={search}
           onChange={(event) => setSearch(event.target.value)}

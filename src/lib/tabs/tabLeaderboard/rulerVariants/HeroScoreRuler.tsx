@@ -1,7 +1,7 @@
 import chroma from 'chroma-js'
-import { useMemo } from 'react'
-import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import type { TierColors } from 'lib/characterPreview/scoring/substatRollColors'
+import { SimScoreGrades } from 'lib/scoring/dpsScore'
+import { useMemo } from 'react'
 import classes from './HeroScoreRuler.module.css'
 
 const GRADE_KEYS = ['F', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSS', 'WTF', 'AEON'] as const
@@ -84,9 +84,7 @@ export function HeroScoreRuler({ score, tierColors }: HeroScoreRulerProps) {
           {hasScore && <div className={classes.remain} style={{ left: `${fillPct}%` }} />}
         </div>
 
-        {THRESHOLDS.map((t) => (
-          <span key={`tick-${t.grade}`} className={classes.tick} style={{ left: `${t.left}%` }} />
-        ))}
+        {THRESHOLDS.map((t) => <span key={`tick-${t.grade}`} className={classes.tick} style={{ left: `${t.left}%` }} />)}
 
         {hasScore && <div className={classes.marker} style={{ left: `${fillPct}%` }} />}
       </div>

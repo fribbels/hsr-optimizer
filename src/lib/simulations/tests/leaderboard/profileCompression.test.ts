@@ -172,7 +172,9 @@ describe('profileCompression', () => {
       const fakeCharList: Record<string, unknown>[] = [{
         avatarId: 9999,
         relicList: [{
-          tid: 61151, level: 15, mainAffixId: 1,
+          tid: 61151,
+          level: 15,
+          mainAffixId: 1,
           subAffixList: [{ affixId: 5, cnt: 2, step: 0 }],
         }],
       }]

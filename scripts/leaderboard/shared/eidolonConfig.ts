@@ -1,12 +1,21 @@
-import type { CharacterId } from 'types/character'
-import type { LightConeId } from 'types/lightCone'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
+import {
+  TrailblazerElationCaelus,
+  TrailblazerElationStelle,
+} from 'lib/conditionals/character/8000/TrailblazerElation'
+import {
+  TrailblazerHarmonyCaelus,
+  TrailblazerHarmonyStelle,
+} from 'lib/conditionals/character/8000/TrailblazerHarmony'
+import {
+  TrailblazerRemembranceCaelus,
+  TrailblazerRemembranceStelle,
+} from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
-import { TrailblazerElationCaelus, TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
-import { TrailblazerHarmonyCaelus, TrailblazerHarmonyStelle } from 'lib/conditionals/character/8000/TrailblazerHarmony'
-import { TrailblazerRemembranceCaelus, TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
+import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
+import type { CharacterId } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 
 export const EIDOLON_TIERS = [0, 1, 2, 6] as const
 export type EidolonTierValue = typeof EIDOLON_TIERS[number]
@@ -27,8 +36,8 @@ export function eidolonToGroup(eidolon: number): LeaderboardEidolonGroup {
 }
 
 export type FixedTeammateOverride = {
-  eidolon: number
-  lcSuperimpositions: Partial<Record<LightConeId, number>>
+  eidolon: number,
+  lcSuperimpositions: Partial<Record<LightConeId, number>>,
 }
 
 export const FIXED_TEAMMATE_OVERRIDES: Partial<Record<CharacterId, FixedTeammateOverride>> = {

@@ -1,10 +1,12 @@
-import { Stats, SubStats } from 'lib/constants/constants'
+import {
+  Stats,
+  SubStats,
+} from 'lib/constants/constants'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import {
   applyScoringFunction,
 } from 'lib/scoring/simScoringUtils'
-import { DIMINISHING_RETURNS_CURVES, getDiminishingReturnsCurve } from 'lib/worker/diminishingReturnsCurve'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import {
   buildBenchmarkSimulationState,
@@ -19,6 +21,10 @@ import {
   type ComputeOptimalSimulationWorkerInput,
   type ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import {
+  DIMINISHING_RETURNS_CURVES,
+  getDiminishingReturnsCurve,
+} from 'lib/worker/diminishingReturnsCurve'
 import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
 import {
   SUBSTAT_COUNT,

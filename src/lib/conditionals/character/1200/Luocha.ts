@@ -1,7 +1,10 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,

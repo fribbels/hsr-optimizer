@@ -10,11 +10,14 @@ import {
 } from 'lib/scoring/scoringConfig'
 import { applyScoringFunction } from 'lib/scoring/simScoringUtils'
 import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
-import type { ComputeOptimalSimulationSearchRunner } from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
-import type { Character, CharacterId } from 'types/character'
+import type { ComputeOptimalSimulationSearchRunner } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import {
   type ScoringConfig,
   ScoringConfigType,
@@ -77,8 +80,8 @@ export function prepareOrchestrator(
 }
 
 export type ExecuteOrchestratorOptions = {
-  searchRunner?: ComputeOptimalSimulationSearchRunner
-  scoreOnly?: boolean
+  searchRunner?: ComputeOptimalSimulationSearchRunner,
+  scoreOnly?: boolean,
 }
 
 /**

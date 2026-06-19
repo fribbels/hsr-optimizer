@@ -12,7 +12,10 @@ import {
   AbilityMeta,
   AbilityToSortOption,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import { SortOption, type SortOptionKey } from 'lib/optimization/sortOptions'
+import {
+  SortOption,
+  type SortOptionKey,
+} from 'lib/optimization/sortOptions'
 import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'

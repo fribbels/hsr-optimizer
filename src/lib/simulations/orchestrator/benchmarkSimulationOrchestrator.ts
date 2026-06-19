@@ -109,7 +109,7 @@ import {
 import type { OptimizerContext } from 'types/optimizer'
 
 type SimulationSearchOptions = {
-  scoreOnly?: boolean
+  scoreOnly?: boolean,
 }
 
 export function enrichSimulationMetadata(metadata: SimulationMetadata) {
@@ -538,7 +538,12 @@ export class BenchmarkSimulationOrchestrator {
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
       const rolls = precisionRound(
-        invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue, getDiminishingReturns(this.configType)),
+        invertDiminishingReturnsSpdFormula(
+          mainsCount,
+          targetSpd - finalSpeed,
+          clonedBenchmarkScoringParams.speedRollValue,
+          getDiminishingReturns(this.configType),
+        ),
         3,
       )
 

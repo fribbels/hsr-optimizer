@@ -1,4 +1,7 @@
-import { emptyBuildScoreCacheStats, emptyMetricsSnapshot } from '../shared/metrics'
+import {
+  emptyBuildScoreCacheStats,
+  emptyMetricsSnapshot,
+} from '../shared/metrics'
 import type {
   FailureEntry,
   LeaderboardBuildScoreCacheStats,
@@ -11,21 +14,21 @@ import type {
 import { LeaderboardScoreWorkerPool } from '../workers/profileWorkerPool'
 
 export type RunScoringStageInput = {
-  profiles: ParsedProfile[]
-  versions: LeaderboardVersionFile
-  globalVersion: number
-  estimatedRuns: number
-  workerCount: number
-  runtimeConfig: LeaderboardScoreWorkerRuntimeConfig
-  workerScriptUrl: URL
+  profiles: ParsedProfile[],
+  versions: LeaderboardVersionFile,
+  globalVersion: number,
+  estimatedRuns: number,
+  workerCount: number,
+  runtimeConfig: LeaderboardScoreWorkerRuntimeConfig,
+  workerScriptUrl: URL,
 }
 
 export type RunScoringStageResult = {
-  entries: PrivateRankedEntry[]
-  failures: FailureEntry[]
-  buildScoreCacheStats: LeaderboardBuildScoreCacheStats
-  metrics: LeaderboardMetricsSnapshot
-  elapsedMs: number
+  entries: PrivateRankedEntry[],
+  failures: FailureEntry[],
+  buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
+  metrics: LeaderboardMetricsSnapshot,
+  elapsedMs: number,
 }
 
 type WorkerScoreProfilesResult = Omit<RunScoringStageResult, 'elapsedMs'>

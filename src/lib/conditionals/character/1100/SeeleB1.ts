@@ -54,6 +54,7 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { Cerydra } from '../1400/Cerydra'
 
 export const SeeleB1Entities = createEnum('SeeleB1')
 export const SeeleB1Abilities: AbilityKind[] = [
@@ -239,7 +240,7 @@ const simulation = (): SimulationMetadata => ({
     END_SKILL,
     DEFAULT_SKILL,
   ],
-  comboDot: 0,
+  errRopeEidolon: 0,
   relicSets: [
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
@@ -253,8 +254,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SilverWolfB1.id,
-      lightCone: LiesAflutterInTheWind.id,
+      characterId: Cerydra.id,
+      lightCone: Cerydra.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

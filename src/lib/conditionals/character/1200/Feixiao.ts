@@ -65,6 +65,9 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { Hyacine } from '../1400/Hyacine'
+import { Ashveil } from '../1500/Ashveil'
+import { MortenaxBlade } from '../1500/MortenaxBlade'
 
 export const FeixiaoEntities = createEnum('Feixiao')
 export const FeixiaoAbilities: AbilityKind[] = [
@@ -342,20 +345,20 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: Ashveil.id,
+      lightCone: Ashveil.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

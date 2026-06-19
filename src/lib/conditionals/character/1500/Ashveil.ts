@@ -72,7 +72,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-
 export const AshveilEntities = createEnum('Ashveil')
 export const AshveilAbilities = [
   AbilityKind.BASIC,
@@ -377,9 +376,7 @@ const simulation = (): SimulationMetadata => ({
     DEFAULT_FUA,
     END_SKILL,
     DEFAULT_FUA,
-    WHOLE_SKILL,
     DEFAULT_FUA,
-    WHOLE_SKILL,
     DEFAULT_FUA,
   ],
   relicSets: [
@@ -396,20 +393,20 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SparkleB1.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: Tribbie.id,
+      lightCone: Tribbie.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

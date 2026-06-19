@@ -1080,27 +1080,6 @@ Characters:
       e4SkillHealingDmgBuffStacks:
         text: E4 Skill DMG boost stacks
         content: Every healing provided by Bailu's Skill makes the recipient deal 10% more DMG for 2 turns. This effect can stack up to 3 times.
-  BlackSwan:
-    Content:
-      ehrToDmgBoost:
-        text: EHR to DMG boost
-        content: Increases this unit's DMG by an amount equal to 60% of Effect Hit Rate, up to a maximum DMG increase of 72%.
-      epiphanyDebuff:
-        text: Epiphany debuff
-        content: Enemies affected by Epiphany take {{epiphanyDmgTakenBoost}}% more DMG in their turn.
-      defDecreaseDebuff:
-        text: DEF shred debuff
-        content: Enemies DEF is decreased by {{defShredValue}}%.
-      arcanaStacks:
-        text: Arcana stacks
-        content: >-
-          While afflicted with Arcana, enemy targets receive Wind DoT equal to {{dotScaling}}% of Black Swan's ATK at the start of each turn. Each stack of Arcana increases this DoT DMG multiplier by {{arcanaStackMultiplier}}%. Arcana can stack up to 50 times.::BR::When there are 3 or more Arcana stacks, deals Wind DoT to adjacent targets. When there are 7 or more Arcana stacks, enables the current DoT dealt this time to ignore 20% of the target's and adjacent targets' DEF.
-      e1ResReduction:
-        text: E1 RES shred
-        content: While Black Swan is active in battle, enemies afflicted with Wind Shear, Bleed, Burn, or Shock will have their corresponding Wind, Physical, Fire, or Lightning RES respectively reduced by 25%.
-      e4EffResPen:
-        text: E4 Effect RES shred
-        content: While in the Epiphany state, enemy targets have their Effect RES reduced by 10%.
   BlackSwanB1:
     Content:
       skillDefShred:
@@ -1126,17 +1105,6 @@ Characters:
       combatEhr:
         text: Black Swan's combat EHR
         content: Increases the DMG dealt by all allies by an amount equal to 60% of Black Swan's Effect Hit Rate, up to a maximum DMG increase of 72%.
-  Blade:
-    Content:
-      enhancedStateActive:
-        text: Hellscape state
-        content: 'Increases DMG by {{enhancedStateDmgBoost}}% and his Basic ATK Shard Sword is enhanced to Forest of Swords for 3 turns.::BR::E2: Increases CRIT Rate by 15%.'
-      hpPercentLostTotal:
-        text: HP% lost total
-        content: Ultimate DMG scales off of the tally of Blade's HP loss in the current battle. The tally of Blade's HP loss in the current battle is capped at {{hpPercentLostTotalMax}}% of his Max HP.
-      e4MaxHpIncreaseStacks:
-        text: E4 max HP stacks
-        content: Increases HP by 20%, stacks up to 2 times.
   BladeB1:
     Content:
       enhancedStateActive:
@@ -1489,34 +1457,6 @@ Characters:
         text: E6 buffs
         content: >-
           Increases the All-Type RES PEN of Ultimate DMG dealt by Feixiao by 20%. Talent's follow-up attack DMG is considered as Ultimate DMG at the same time, and its DMG multiplier increases by 140%.
-  Firefly:
-    Content:
-      enhancedStateActive:
-        text: Enhanced state
-        content: Enters the Complete Combustion state, advances this unit's Action by 100%, and gains Enhanced Basic ATK and Enhanced Skill.
-      enhancedStateSpdBuff:
-        text: Enhanced SPD buff
-        content: While in Complete Combustion, increases SPD by {{ultSpdBuff}}.
-      superBreakDmg:
-        text: Super Break enabled (force weakness break)
-        content: >-
-          When SAM is in Complete Combustion with a Break Effect that is equal to or greater than 200%/360%, attacking a Weakness-Broken enemy target will convert the Toughness Reduction of this attack into 1 instance of 35%/50% Super Break DMG.
-      atkToBeConversion:
-        text: ATK to BE buff
-        content: For every 10 points of SAM's ATK that exceeds 1800, increases this unit's Break Effect by 0.8%.
-      talentDmgReductionBuff:
-        text: Max EHP buff
-        content: >-
-          The lower the HP, the less DMG received. When HP is 20% or lower, the DMG Reduction reaches its maximum effect, reducing up to {{talentDmgReductionBuff}}%. During the Complete Combustion, the DMG Reduction remains at its maximum effect, and the Effect RES increases by {{talentResBuff}}%.
-      e1DefShred:
-        text: E1 DEF PEN
-        content: When using the Enhanced Skill, ignores 15% of the target's DEF. The Enhanced Skill does not consume Skill Points.
-      e4ResBuff:
-        text: E4 RES buff
-        content: While in Complete Combustion, increases SAM's Effect RES by 50%.
-      e6Buffs:
-        text: E6 buffs
-        content: While in Complete Combustion, increases SAM's Fire RES PEN by 20%. When using the Enhanced Basic ATK or Enhanced Skill, increases the Weakness Break efficiency by 50%.
   FireflyB1:
     Content:
       enhancedStateActive:
@@ -1705,17 +1645,6 @@ Characters:
         text: Target burned
         content: >-
           When attacking a target afflicted with Burn, deals Additional Fire DMG equal to {{targetBurnedExtraScaling}}% of Hook's ATK.::BR::E6: Hook deals 20% more DMG to enemies afflicted with Burn.
-  Huohuo:
-    Content:
-      ultBuff:
-        text: Ult ATK buff
-        content: Increases all allies' ATK by {{ultBuffValue}}% for 2 turns after using Ultimate.
-      skillBuff:
-        text: E1 SPD buff
-        content: When Huohuo possesses Divine Provision, all allies' SPD increases by 12%.
-      e6DmgBuff:
-        text: E6 DMG buff
-        content: When healing a target ally, increases the target ally's DMG dealt by 50% for 2 turns.
   HuohuoB1:
     Content:
       ultBuff:
@@ -1859,22 +1788,6 @@ Characters:
       e6ResShred:
         text: E6 RES shred
         content: The maximum stack limit of Ashen Roast increases to 9, and each Ashen Roast stack reduces the target's All-Type RES by 3%.
-  Jingliu:
-    Content:
-      talentEnhancedState:
-        text: Enhanced state
-        content: >-
-          When Jingliu has 2 stacks of Syzygy, she enters the Spectral Transmigration state with her Action Advanced by 100% and her CRIT Rate increases by {{talentCrBuff}}%. Then, Jingliu's Skill Transcendent Flash becomes enhanced and turns into Moon On Glacial River, and becomes the only ability she can use in battle.
-      talentHpDrainAtkBuff:
-        text: HP drain ATK buff
-        content: >-
-          When Jingliu uses an attack in the Spectral Transmigration state, she consumes HP from all other allies and Jingliu's ATK increases based on the total HP consumed from all allies in this attack, capped at {{talentHpDrainAtkBuffMax}}% of her base ATK, lasting until the current attack ends.
-      e1CdBuff:
-        text: E1 Ult active
-        content: When using her Ultimate or Enhanced Skill, Jingliu's CRIT DMG increases by 24% for 1 turn. If only one enemy target is attacked, the target will additionally be dealt Ice DMG equal to 100% of Jingliu's ATK.
-      e2SkillDmgBuff:
-        text: E2 Skill buff
-        content: After using Ultimate, increases the DMG of the next Enhanced Skill by 80%.
   JingliuB1:
     Content:
       talentEnhancedState:
@@ -1916,14 +1829,6 @@ Characters:
       e6FuaVulnerabilityStacks:
         text: E6 Vulnerable stacks
         content: Each hit performed by the Lightning-Lord when it takes action will make the target enemy Vulnerable. While Vulnerable, enemies receive 12% more DMG until the end of the Lightning-Lord's current turn, stacking up to 3 times. (applies to all hits)
-  Kafka:
-    Content:
-      e1DotDmgReceivedDebuff:
-        text: E1 DoT vulnerability
-        content: When the Talent triggers a follow-up attack, there is a 100% base chance to increase the DoT received by the target by 30% for 2 turns.
-      e2TeamDotBoost:
-        text: E2 Team DoT DMG boost
-        content: While Kafka is on the field, DoT dealt by all allies increases by 25%.
   KafkaB1:
     Content:
       ehrBasedBuff:
@@ -2327,21 +2232,6 @@ Characters:
       targetWindShear:
         text: Target wind sheared
         content: Enemies with Wind Shear effect deal 15% less damage to Sampo.
-  Seele:
-    Content:
-      buffedState:
-        text: Buffed state
-        content: >-
-          Enters the buffed state upon defeating an enemy with Basic ATK, Skill, or Ultimate, and receives an extra turn. While in the buffed state, the DMG of Seele's attacks increases by {{buffedStateDmgBuff}}% for 1 turn.::BR::While Seele is in the buffed state, her Quantum RES PEN increases by 20%.
-      speedBoostStacks:
-        text: Speed buff stacks
-        content: "After using her skill, Seele's SPD increases by 25% for 2 turns.::BR::E2: The SPD Boost effect of Seele's Skill can stack up to 2 times."
-      e1EnemyHp80CrBoost:
-        text: E1 enemy HP ≤ 80% CR boost
-        content: When dealing DMG to an enemy whose HP percentage is 80% or lower, CRIT Rate increases by 15%.
-      e6UltTargetDebuff:
-        text: E6 Butterfly Flurry
-        content: After Seele uses her Ultimate, inflict the target enemy with Butterfly Flurry for 1 turn. Enemies suffering from Butterfly Flurry will take Additional Quantum DMG equal to 15% of Seele's Ultimate DMG every time they are attacked.
   SeeleB1:
     Content:
       buffedState:
@@ -2368,26 +2258,6 @@ Characters:
       enemyDefeatedBuff:
         text: Enemy defeated buff
         content: Upon defeating an enemy, ATK increases by 20% for 2 turns.
-  SilverWolf:
-    Content:
-      skillResShredDebuff:
-        text: Skill RES shred
-        content: >-
-          Decreases the target's All-Type RES of the enemy by {{skillResShredValue}}% for 2 turns.::BR::If there are 3 or more debuffs affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.
-      skillWeaknessResShredDebuff:
-        text: Skill weakness implanted RES shred
-        content: >-
-          There is a {{implantChance}}% base chance to add 1 Weakness of an on-field character's Type to the target enemy. This also reduces the enemy's DMG RES to that Weakness Type by 20% for 2 turns. If the enemy already has that Type Weakness, the effect of DMG RES reduction to that Weakness Type will not be triggered.
-      talentDefShredDebuff:
-        text: Bug DEF shred
-        content: Silver Wolf's bug reduces the target's DEF by {{talentDefShredDebuffValue}}% for 3 turns.
-      ultDefShredDebuff:
-        text: Ult DEF shred
-        content: Decreases the target's DEF by {{ultDefShredValue}}% for 3 turns.
-      targetDebuffs:
-        text: Target debuffs
-        content: >-
-          If there are 3 or more debuffs affecting the enemy when the Skill is used, then the Skill decreases the enemy's All-Type RES by an additional 3%.::BR::E4: After using her Ultimate to attack enemies, deals Additional Quantum DMG equal to 20% of Silver Wolf's ATK for every debuff currently on the enemy target. This effect can be triggered for a maximum of 5 times during each use of her Ultimate.::BR::E6: For every debuff the target enemy has, the DMG dealt by Silver Wolf increases by 20%, up to a limit of 100%.
   SilverWolfB1:
     Content:
       ehrToAtkConversion:
@@ -2449,27 +2319,6 @@ Characters:
         text: E6 RES PEN
         content: >-
           Elation DMG dealt during Enhanced Basic ATK merrymakes by 50%. When enemy targets enter combat, they are inflicted with "Absolute Weakness": Has All-Type Weakness, and All-Type Base RES is reduced to 0 (If Base RES is already at 0, then the corresponding Type RES decreases by 20%).
-  Sparkle:
-    Content:
-      skillCdBuff:
-        text: Skill CD buff
-        content: >-
-          Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn.::BR::E6: The CRIT DMG Boost effect of Sparkle's Skill additionally increases by 30% of Sparkle's CRIT DMG, and when she uses her Skill, the CRIT DMG Boost effect will apply to all allies currently with Cipher. When Sparkle uses her Ultimate, this effect will spread to all allies with Cipher should the allied target have the CRIT DMG increase effect provided by the Skill active on them.
-      cipherBuff:
-        text: Cipher buff
-        content: >-
-          When allies with Cipher trigger the DMG Boost effect provided by Sparkle's Talent, each stack additionally increases its effect by {{cipherTalentStackBoost}}%, lasting for 2 turns.::BR::E1: The Cipher effect applied by the Ultimate lasts for 1 extra turn. All allies affected by Cipher have their ATK increased by 40%.
-      talentStacks:
-        text: Talent DMG stacks
-        content: >-
-          Whenever an ally consumes 1 Skill Point, all allies' DMG increases by {{talentBaseStackBoost}}%. This effect lasts for 2 turns and can stack up to 3 times.::BR::E2: Each Talent stack allows allies to ignore 8% of the enemy target's DEF when dealing DMG to enemies.
-      quantumAlliesAtkBuff:
-        text: Quantum allies ATK buff
-        content: When there are 1/2/3 Quantum allies in your team, Quantum-Type allies' ATK are increased by 5%/15%/30%.
-    TeammateContent:
-      teammateCDValue:
-        text: Sparkle's Combat CD
-        content: Increases the CRIT DMG of a single ally by {{skillCdBuffScaling}}% of Sparkle's CRIT DMG plus {{skillCdBuffBase}}%, lasting for 1 turn.
   SparkleB1:
     Content:
       skillBuffs:
@@ -2822,21 +2671,6 @@ Characters:
       e6FuaScaling:
         text: E6 FUA DMG
         content: After Tribbie uses Ultimate, launches her Talent's Follow-up ATK against all enemies. The DMG dealt by Talent's Follow-up ATK increases by 729%.
-  Welt:
-    Content:
-      enemyDmgTakenDebuff:
-        text: Ult vulnerability debuff
-        content: When using Ultimate, there is a 100% base chance to increase the DMG received by the targets by 12% for 2 turns.
-      enemySlowed:
-        text: Enemy slowed
-        content: When hitting an enemy that is already Slowed, Welt deals Additional Imaginary DMG equal to {{talentScaling}}% of his ATK to the enemy.
-      skillExtraHits:
-        text: Skill extra hits on target
-        content: >-
-          Deals Imaginary DMG equal to {{skillScaling}}% of Welt's ATK to a single enemy and further deals DMG 2 extra times, with each time dealing Imaginary DMG equal to {{skillScaling}}% of Welt's ATK to a random enemy.
-      e1EnhancedState:
-        text: E1 enhanced state
-        content: After Welt uses his Ultimate, his abilities are enhanced. The next 2 times he uses his Basic ATK or Skill, deals Additional DMG to the target equal to 50% of his Basic ATK's DMG multiplier or 80% of his Skill's DMG multiplier respectively.
   WeltB1:
     Content:
       enemySlowed:

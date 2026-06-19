@@ -132,7 +132,7 @@ export function RelicModalContent() {
   const setOptions = getSetOptions(formValues.part)
 
   const characterOptions = useMemo(() => {
-    return generateCharacterList({ currentCharacters: characters, longNameLabel: true }, tCharacters)
+    return generateCharacterList({ currentCharacters: characters, longNameLabel: true, longNameTitle: true }, tCharacters)
   }, [characters, tCharacters])
 
   // ── EVENT HANDLERS ──

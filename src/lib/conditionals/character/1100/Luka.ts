@@ -62,6 +62,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+import { TheDahlia } from '../1300/TheDahlia'
 
 export const LukaEntities = createEnum('Luka')
 export const LukaAbilities: AbilityKind[] = [
@@ -314,8 +315,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: RuanMei.id,
-      lightCone: PastSelfInTheMirror.id,
+      characterId: TheDahlia.id,
+      lightCone: TheDahlia.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

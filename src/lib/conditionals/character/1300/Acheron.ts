@@ -45,9 +45,12 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   END_SKILL,
+  END_ULT,
   NULL_TURN_ABILITY_NAME,
+  START_SKILL,
   START_ULT,
   WHOLE_SKILL,
+  WHOLE_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -68,7 +71,6 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
-
 export const AcheronEntities = createEnum('Acheron')
 export const AcheronAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -335,9 +337,10 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    END_SKILL,
-    WHOLE_SKILL,
+    WHOLE_ULT,
+    WHOLE_ULT,
+    START_SKILL,
+    END_ULT,
   ],
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -349,20 +352,20 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SilverWolfB1.id,
-      lightCone: BeforeTheTutorialMissionStarts.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 5,
-    },
-    {
       characterId: Cipher.id,
-      lightCone: LiesAflutterInTheWind.id,
+      lightCone: Cipher.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

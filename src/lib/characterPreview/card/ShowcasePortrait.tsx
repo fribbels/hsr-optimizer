@@ -206,17 +206,19 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         >
           {uid}
         </span>
-        <span
-          className={styles.overlayTag}
-          style={{
-            display: artistName ? 'inline-block' : 'none',
-            maxWidth: parentW - 150,
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-        >
-          {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' }) /* Art by {{artistName}} */}
-        </span>
+        {source !== ShowcaseSource.LEADERBOARD && (
+          <span
+            className={styles.overlayTag}
+            style={{
+              display: artistName ? 'inline-block' : 'none',
+              maxWidth: parentW - 150,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' }) /* Art by {{artistName}} */}
+          </span>
+        )}
       </div>
     </div>
   )

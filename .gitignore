@@ -163,9 +163,3 @@ goldenSimBuildResults.json
 
 # PR review plans
 /plans/
-
-# codealmanac
-.almanac/index.db
-.almanac/index.db-wal
-.almanac/index.db-shm
-.almanac/runs/

@@ -128,98 +128,94 @@ function LeaderboardTeamsDashboard() {
   const { t } = useTranslation('gameData')
 
   return (
-    <Flex direction='column' gap={30}>
-      {CONFIG_SECTIONS.map((section) => (
-        <LeaderboardTeamsTable
-          key={section.label}
-          label={section.label}
-          characters={characters}
-          simKey={section.key}
-          showSubDps={section.showSubDps}
-          t={t}
-        />
-      ))}
+    <Flex direction='column' gap={40}>
+      {CONFIG_SECTIONS.map((section) => {
+        const charsWithConfig = characters.filter((c) => c.scoringMetadata[section.key])
+        if (charsWithConfig.length === 0) return null
+
+        return (
+          <div key={section.label}>
+            <h3 style={{ marginBottom: 12, fontSize: 16 }}>{section.label}</h3>
+            <Flex direction='column' gap={20}>
+              {charsWithConfig.map((character) => (
+                <LeaderboardCharacterBoard
+                  key={character.id}
+                  character={character}
+                  sim={character.scoringMetadata[section.key] as SimulationMetadata}
+                  showSubDps={section.showSubDps}
+                  t={t}
+                />
+              ))}
+            </Flex>
+          </div>
+        )
+      })}
     </Flex>
   )
 }
 
-function LeaderboardTeamsTable({ label, characters, simKey, showSubDps, t }: {
-  label: string,
-  characters: DBMetadataCharacter[],
-  simKey: keyof DBMetadataCharacter['scoringMetadata'],
+function LeaderboardCharacterBoard({ character, sim, showSubDps, t }: {
+  character: DBMetadataCharacter,
+  sim: SimulationMetadata,
   showSubDps: boolean,
   t: TFunction<'gameData'>,
 }) {
+  const teams = sim.leaderboardTeams
+  const defaultTeam = sim.teammates
+  const charName = t(`Characters.${character.id}.${character.id.startsWith('80') ? 'LongName' : 'Name'}`)
+
   const rows: ReactElement[] = []
 
-  for (const character of characters) {
-    const sim = character.scoringMetadata[simKey] as SimulationMetadata | undefined
-    if (!sim) continue
-
-    const teams = sim.leaderboardTeams
-    const defaultTeam = sim.teammates
-    const charName = t(`Characters.${character.id}.${character.id.startsWith('80') ? 'LongName' : 'Name'}`)
-
-    if (teams && teams.length > 0) {
-      for (let i = 0; i < teams.length; i++) {
-        rows.push(
-          <tr key={`${character.id}-${i}`}>
-            <td style={cellStyle}><Icon src={Assets.getCharacterAvatarById(character.id)} /></td>
-            <td style={{ ...cellStyle, whiteSpace: 'nowrap', paddingLeft: 8, paddingRight: 8, fontSize: 12 }}>{charName}</td>
-            <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 12 }}>
-              {i + 1}
-            </td>
-            {teams[i].teammates.map((tm, j) => (
-              <td key={j} style={cellStyle}>
-                <Flex align='center' justify='center' gap={2} style={{ minWidth: 110 }}>
-                  <Icon src={Assets.getCharacterAvatarById(tm.characterId)} />
-                  {tm.lightCones.map((lc, k) => (
-                    <img key={k} src={Assets.getLightConeIconById(lc)} style={{ width: 30 }} />
-                  ))}
-                </Flex>
-              </td>
-            ))}
-            {showSubDps && (
-              <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 11, textAlign: 'center' }}>
-                {teams[i].deprioritizeBuffs ? 'true' : ''}
-              </td>
-            )}
-          </tr>,
-        )
-      }
-    } else if (defaultTeam) {
+  if (teams && teams.length > 0) {
+    for (let i = 0; i < teams.length; i++) {
       rows.push(
-        <tr key={`${character.id}-default`} style={{ opacity: 0.5 }}>
-          <td style={cellStyle}><Icon src={Assets.getCharacterAvatarById(character.id)} /></td>
-          <td style={{ ...cellStyle, whiteSpace: 'nowrap', paddingLeft: 8, paddingRight: 8, fontSize: 12 }}>{charName}</td>
-          <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 12, color: '#f5a623' }}>
-            DEFAULT
-          </td>
-          {defaultTeam.map((tm, j) => (
+        <tr key={i}>
+          <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 12 }}>{i + 1}</td>
+          {teams[i].teammates.map((tm, j) => (
             <td key={j} style={cellStyle}>
               <Flex align='center' justify='center' gap={2} style={{ minWidth: 110 }}>
                 <Icon src={Assets.getCharacterAvatarById(tm.characterId)} />
-                <img src={Assets.getLightConeIconById(tm.lightCone)} style={{ width: 30 }} />
+                {tm.lightCones.map((lc, k) => (
+                  <img key={k} src={Assets.getLightConeIconById(lc)} style={{ width: 30 }} />
+                ))}
               </Flex>
             </td>
           ))}
-          {showSubDps && <td style={cellStyle} />}
+          {showSubDps && (
+            <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 11, textAlign: 'center' }}>
+              {teams[i].deprioritizeBuffs ? 'true' : ''}
+            </td>
+          )}
         </tr>,
       )
     }
+  } else if (defaultTeam) {
+    rows.push(
+      <tr key='default' style={{ opacity: 0.5 }}>
+        <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 12, color: '#f5a623' }}>DEFAULT</td>
+        {defaultTeam.map((tm, j) => (
+          <td key={j} style={cellStyle}>
+            <Flex align='center' justify='center' gap={2} style={{ minWidth: 110 }}>
+              <Icon src={Assets.getCharacterAvatarById(tm.characterId)} />
+              <img src={Assets.getLightConeIconById(tm.lightCone)} style={{ width: 30 }} />
+            </Flex>
+          </td>
+        ))}
+        {showSubDps && <td style={cellStyle} />}
+      </tr>,
+    )
   }
 
-  if (rows.length === 0) return null
-
   return (
-    <div style={{ overflow: 'auto' }}>
-      <h3 style={{ marginBottom: 8, fontSize: 14 }}>{label}</h3>
+    <div>
+      <Flex align='center' gap={8} style={{ marginBottom: 4 }}>
+        <img src={Assets.getCharacterAvatarById(character.id)} style={{ width: 32 }} />
+        <span style={{ fontSize: 13 }}>{charName}</span>
+      </Flex>
       <table style={{ borderCollapse: 'collapse', width: 'fit-content' }}>
         <thead>
           <tr>
-            <th style={headerStyle} />
-            <th style={headerStyle}>Character</th>
-            <th style={headerStyle}>Team</th>
+            <th style={headerStyle}>#</th>
             <th style={headerStyle}>Teammate 1</th>
             <th style={headerStyle}>Teammate 2</th>
             <th style={headerStyle}>Teammate 3</th>

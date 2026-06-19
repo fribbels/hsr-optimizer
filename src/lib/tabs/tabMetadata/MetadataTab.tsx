@@ -176,7 +176,7 @@ function LeaderboardCharacterBoard({ character, sim, showSubDps, t }: {
               <Flex align='center' justify='center' gap={2} style={{ minWidth: 110 }}>
                 <Icon src={Assets.getCharacterAvatarById(tm.characterId)} />
                 {tm.lightCones.map((lc, k) => (
-                  <img key={k} src={Assets.getLightConeIconById(lc)} style={{ width: 30 }} />
+                  <img key={k} src={Assets.getLightConeIconById(lc)} style={{ width: 38 }} />
                 ))}
               </Flex>
             </td>
@@ -197,7 +197,7 @@ function LeaderboardCharacterBoard({ character, sim, showSubDps, t }: {
           <td key={j} style={cellStyle}>
             <Flex align='center' justify='center' gap={2} style={{ minWidth: 110 }}>
               <Icon src={Assets.getCharacterAvatarById(tm.characterId)} />
-              <img src={Assets.getLightConeIconById(tm.lightCone)} style={{ width: 30 }} />
+              <img src={Assets.getLightConeIconById(tm.lightCone)} style={{ width: 38 }} />
             </Flex>
           </td>
         ))}
@@ -209,8 +209,8 @@ function LeaderboardCharacterBoard({ character, sim, showSubDps, t }: {
   return (
     <div>
       <Flex align='center' gap={8} style={{ marginBottom: 4 }}>
-        <img src={Assets.getCharacterAvatarById(character.id)} style={{ width: 32 }} />
-        <span style={{ fontSize: 13 }}>{charName}</span>
+        <img src={Assets.getCharacterAvatarById(character.id)} style={{ width: 40 }} />
+        <span style={{ fontSize: 14, fontWeight: 600 }}>{charName}</span>
       </Flex>
       <table style={{ borderCollapse: 'collapse', width: 'fit-content' }}>
         <thead>

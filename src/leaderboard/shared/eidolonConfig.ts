@@ -1,3 +1,4 @@
+import { getAllCharacterConfigs } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   TrailblazerElationCaelus,
@@ -14,6 +15,7 @@ import {
 import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
@@ -51,4 +53,41 @@ export const FIXED_TEAMMATE_OVERRIDES: Partial<Record<CharacterId, FixedTeammate
 
 export const TEAMMATE_EIDOLON_CAPS: Partial<Record<CharacterId, number>> = {
   [Sunday.id]: 5,
+}
+
+let signatureLcSet: Set<LightConeId> | null = null
+function getSignatureLcSet(): Set<LightConeId> {
+  if (signatureLcSet) return signatureLcSet
+  signatureLcSet = new Set<LightConeId>()
+  for (const config of getAllCharacterConfigs().values()) {
+    if (config.defaultLightCone) {
+      signatureLcSet.add(config.defaultLightCone)
+    }
+  }
+  return signatureLcSet
+}
+
+export function getTeammateLcSuperimposition(
+  characterId: CharacterId,
+  lightConeId: LightConeId,
+): number {
+  // Explicit per-character overrides (e.g. Trailblazers at E6/S5)
+  const fixed = FIXED_TEAMMATE_OVERRIDES[characterId]
+  if (fixed?.lcSuperimpositions[lightConeId] != null) {
+    return fixed.lcSuperimpositions[lightConeId]
+  }
+
+  // 4-star and 3-star LCs are cheap to superimpose
+  const lcMeta = getGameMetadata().lightCones?.[lightConeId]
+  if (lcMeta && lcMeta.rarity < 5) {
+    return 5
+  }
+
+  // Non-signature 5-star LCs are not worth pulling dupes for
+  if (!getSignatureLcSet().has(lightConeId)) {
+    return 5
+  }
+
+  // Signature 5-star LCs default to S1
+  return DEFAULT_TIER_SUPERIMPOSITION
 }

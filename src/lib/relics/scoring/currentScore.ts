@@ -23,7 +23,8 @@ export function scoreCurrentRelic(
 
   const percentScore = idealScore === Infinity ? 0 : rawScore / idealScore * 100
   const hasCorrectMain = !hasMainStat(relic.part) || mainStatWeight(relic.part, relic.main.stat, meta) > 0
-  const rating = pctToRating(percentScore, relic.grade, relic.part, hasCorrectMain)
+  const aeonEligible = relic.verified === true && meta.aeonEligibleWeights
+  const rating = pctToRating(percentScore, relic.grade, relic.part, hasCorrectMain, aeonEligible)
 
   return {
     percentScore,

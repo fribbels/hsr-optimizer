@@ -28,13 +28,20 @@ export function pctToRating(
   grade?: number,
   part?: Parts,
   hasCorrectMainStat?: boolean,
+  aeonEligible: boolean = false,
 ): string {
   if (grade != null && grade !== 5) return '?'
   if (pct <= 0) return '?'
   if (part !== Parts.Head && part !== Parts.Hands && hasCorrectMainStat === false) return '?'
 
   for (let i = RATING_TIERS.length - 1; i >= 0; i--) {
-    if (pct >= RATING_TIERS[i].pct) return RATING_TIERS[i].rating
+    if (pct >= RATING_TIERS[i].pct) {
+      const rating = RATING_TIERS[i].rating
+      if (rating === 'AEON' && !aeonEligible) {
+        return 'WTF+'
+      }
+      return rating
+    }
   }
   return '?'
 }

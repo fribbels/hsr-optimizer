@@ -10,14 +10,19 @@ import {
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
-import { RelicScorer } from 'lib/relics/scoring/relicScorer'
+import {
+  RelicScorer,
+  ScoringCache,
+} from 'lib/relics/scoring/relicScorer'
 import {
   substatPotentialUnits,
 } from 'lib/relics/scoring/scoringConstants'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
+  getDefaultScoringMetadata,
   getScoringMetadata,
   useScoringStore,
 } from 'lib/stores/scoring/scoringStore'
@@ -108,6 +113,67 @@ test('relic-perfect', () => {
 
   const score = RelicScorer.scoreRelicPotential(relic, character)
   expect(score.bestPct).greaterThan(99).lessThanOrEqual(100)
+})
+
+test('scoring cache metadata resolver can ignore user overrides', () => {
+  const character = Blade.id
+
+  try {
+    const stats = {} as Record<SubStats, number>
+    for (const s of Constants.SubStats) stats[s] = 0
+    useScoringStore.getState().setScoringMetadataOverrides({ [character]: { stats } })
+
+    const relic: Relic = {
+      enhance: 15,
+      grade: 5,
+      part: Parts.Hands,
+      set: 'Longevous Disciple',
+      main: {
+        stat: Stats.ATK,
+        value: 100,
+      },
+      substats: [Stats.HP_P, Stats.CR, Stats.CD, Stats.SPD].map((stat) => ({
+        stat,
+        value: StatCalculator.getMaxedSubstatValue(stat),
+      })),
+      previewSubstats: [],
+      weightScore: 0,
+      ageIndex: 0,
+      augmentedStats: {} as AugmentedStats,
+      initialRolls: 0,
+      id: '3cc6d912-6f7f-4dd7-8d1e-484033f15f5f',
+      equippedBy: character,
+    }
+
+    const overrideScorer = new ScoringCache()
+    const defaultScorer = new ScoringCache({ metadataResolver: getDefaultScoringMetadata })
+
+    const overrideScore = overrideScorer.getCurrentRelicScore(relic, character)
+    const defaultScore = defaultScorer.getCurrentRelicScore(relic, character)
+    expect(overrideScore.percentScore).toBe(0)
+    expect(defaultScore.percentScore).toBeGreaterThan(0)
+
+    const overridePotential = overrideScorer.scoreRelicPotential(relic, character)
+    const defaultPotential = defaultScorer.scoreRelicPotential(relic, character)
+    expect(overridePotential.bestPct).toBe(0)
+    expect(defaultPotential.bestPct).toBeGreaterThan(0)
+  } finally {
+    useScoringStore.getState().clearCharacterOverrides(character)
+  }
+})
+
+test('default metadata resolver does not let scorer preparation mutate game metadata', () => {
+  const character = Blade.id
+  const defaults = getGameMetadata().characters[character].scoringMetadata
+  const originalStats = { ...defaults.stats }
+  const originalBodyMainStats = [...defaults.parts[Parts.Body]]
+
+  const meta = prepareScoringMetadata(character, getDefaultScoringMetadata)
+  meta.stats[Stats.HP_P] = 999
+  meta.parts[Parts.Body].push(Stats.OHB)
+
+  expect(defaults.stats).toEqual(originalStats)
+  expect(defaults.parts[Parts.Body]).toEqual(originalBodyMainStats)
 })
 
 // Two max-rolled relics of weight-1.0 substats both score 100%, whichever stat is 6-stacked.

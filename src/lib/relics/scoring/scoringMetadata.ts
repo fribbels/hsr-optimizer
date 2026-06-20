@@ -1,5 +1,8 @@
 import {
   Constants,
+  PartsArray,
+  type Parts,
+  type StatsValues,
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
@@ -15,11 +18,40 @@ import { getScoreCategory } from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { objectHash } from 'lib/utils/objectUtils'
-import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
+import type { ScoringMetadata } from 'types/metadata'
 
-export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
-  const scoringMetadata = clone(getScoringMetadata(id)) as unknown as ScorerMetadata
+export type ScoringMetadataResolver = (id: CharacterId) => ScoringMetadata
+
+type ScorerPartsInput = Partial<Record<Parts, StatsValues[]>>
+
+function cloneScorerParts(parts: ScoringMetadata['parts']): ScorerMetadata['parts'] {
+  const sourceParts = parts as unknown as ScorerPartsInput
+  const scorerParts: ScorerPartsInput = {}
+
+  for (const part of PartsArray) {
+    const mainStats = sourceParts[part]
+    if (mainStats) {
+      scorerParts[part] = [...mainStats]
+    }
+  }
+
+  return scorerParts as ScorerMetadata['parts']
+}
+
+function toScorerMetadata(metadata: ScoringMetadata): ScorerMetadata {
+  return {
+    stats: { ...metadata.stats },
+    parts: cloneScorerParts(metadata.parts),
+    modified: metadata.modified,
+  } as ScorerMetadata
+}
+
+export function prepareScoringMetadata(
+  id: CharacterId,
+  metadataResolver: ScoringMetadataResolver = getScoringMetadata,
+): ScorerMetadata {
+  const scoringMetadata = toScorerMetadata(metadataResolver(id))
 
   const defaultScoringMetadata = getGameMetadata().characters[id]?.scoringMetadata
   scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })

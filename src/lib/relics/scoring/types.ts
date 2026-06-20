@@ -1,6 +1,5 @@
 import type {
   Parts,
-  Sets,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
@@ -11,7 +10,6 @@ import type { ScoreCategory } from 'lib/scoring/scoreComparison'
 export type ScorerMetadata = {
   parts: Record<Parts, StatsValues[]>,
   stats: Record<StatsValues, number>,
-  sets: Partial<Record<Sets, number>>,
   sortedSubstats: [SubStats, number][],
   groupedSubstats: Map<number, SubStats[]>,
   greedyHash: string,

@@ -1,5 +1,6 @@
 import { UnstyledButton } from '@mantine/core'
 import { IconChevronLeft } from '@tabler/icons-react'
+import { DefaultScoringProvider } from 'lib/hooks/useScoringMetadata'
 import { CharacterListPanel } from 'lib/tabs/tabLeaderboard/CharacterListPanel'
 import { CollapsedCharacterStrip } from 'lib/tabs/tabLeaderboard/CollapsedCharacterStrip'
 import { LeaderboardBanner } from 'lib/tabs/tabLeaderboard/LeaderboardBanner'
@@ -54,10 +55,12 @@ export function LeaderboardTab() {
         </div>
 
         <div className={classes.previewColumn}>
-          <div className={classes.previewFrame}>
-            <LeaderboardBanner />
-            <LeaderboardCharacterPreview />
-          </div>
+          <DefaultScoringProvider value={true}>
+            <div className={classes.previewFrame}>
+              <LeaderboardBanner />
+              <LeaderboardCharacterPreview />
+            </div>
+          </DefaultScoringProvider>
         </div>
       </div>
     </div>

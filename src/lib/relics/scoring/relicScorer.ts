@@ -10,7 +10,10 @@ import { scoreCurrentRelic } from 'lib/relics/scoring/currentScore'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
 import { computePotentialScores } from 'lib/relics/scoring/potentialScore'
-import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
+import {
+  prepareScoringMetadata,
+  type ScoringMetadataResolver,
+} from 'lib/relics/scoring/scoringMetadata'
 import type {
   CharacterScoringResult,
   FutureScoringResult,
@@ -30,21 +33,30 @@ import type {
 
 export type { CharacterScoringResult, FutureScoringResult, PotentialResult, RelicScoringResult, ScorerMetadata }
 
+export type ScoringCacheOptions = {
+  metadataResolver?: ScoringMetadataResolver,
+}
+
 /**
  * Caching layer for batch scoring operations.
  * Short-lived — instantiate per render cycle, not kept alive long-term.
  */
 export class ScoringCache {
+  private readonly metadataResolver: ScoringMetadataResolver | undefined
   private metaCache = new Map<CharacterId, ScorerMetadata>()
   private _optimalHash = ''
   private _optimalScores: Record<string, Record<string, number>> = {}
   private currentCache = new Map<RelicId, Map<string, RelicScoringResult>>()
   private futureCache = new Map<RelicId, Map<string, FutureScoringResult>>()
 
+  constructor(options?: ScoringCacheOptions) {
+    this.metadataResolver = options?.metadataResolver
+  }
+
   getMeta(id: CharacterId): ScorerMetadata {
     let meta = this.metaCache.get(id)
     if (!meta) {
-      meta = prepareScoringMetadata(id)
+      meta = prepareScoringMetadata(id, this.metadataResolver)
       this.metaCache.set(id, meta)
     }
     return meta

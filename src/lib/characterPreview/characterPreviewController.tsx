@@ -44,7 +44,10 @@ import {
   useCharacterStore,
 } from 'lib/stores/character/characterStore'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import {
+  getDefaultScoringMetadata,
+  getScoringMetadata,
+} from 'lib/stores/scoring/scoringStore'
 import {
   clone,
   objectHash,
@@ -119,6 +122,9 @@ export function getPreviewRelics(
 ) {
   let scoringResults: ScoringResults
   let displayRelics: PreviewRelics
+  const scorer = source === ShowcaseSource.LEADERBOARD
+    ? new RelicScorer({ metadataResolver: getDefaultScoringMetadata })
+    : new RelicScorer()
   if (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.LEADERBOARD) {
     displayRelics = {
       Head: getRelic(relicsById, character, Parts.Head, buildOverride),
@@ -128,11 +134,11 @@ export function getPreviewRelics(
       PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildOverride),
       LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildOverride),
     }
-    scoringResults = RelicScorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
+    scoringResults = scorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
   } else {
     const equipped = character.equipped as unknown as PreviewRelics
     const relicsArray = Object.values(equipped)
-    scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
+    scoringResults = scorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
     displayRelics = equipped
   }
 

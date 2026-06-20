@@ -28,6 +28,7 @@ import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyS
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { UntilTheFlowersBloomAgain } from 'lib/conditionals/lightcone/5star/UntilTheFlowersBloomAgain'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -488,7 +489,7 @@ const simulation = (): SimulationMetadata => ({
   leaderboardTeams: [
     {
       teammates: [
-        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id] },
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
         { characterId: TrailblazerElationStelle.id, lightCones: [ElationBrimmingWithBlessings.id] },
         { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],

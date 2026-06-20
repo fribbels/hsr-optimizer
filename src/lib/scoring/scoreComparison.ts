@@ -12,6 +12,14 @@ export enum ScoreCategory {
 
 type Metadata = Pick<ScoringMetadata, 'stats' | 'modified'>
 
+export function isAeonEligibleWeights(defaultMeta: Metadata, customMeta: Metadata): boolean {
+  for (const stat of SubStats) {
+    if (stat === Stats.SPD) continue
+    if (defaultMeta.stats[stat] !== customMeta.stats[stat]) return false
+  }
+  return true
+}
+
 export function getScoreCategory(defaultMeta: Metadata, customMeta: Metadata) {
   let difference = false
   let nonSpdMatches = true

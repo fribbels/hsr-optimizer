@@ -16,6 +16,7 @@ export type ScorerMetadata = {
   hash: string,
   modified?: boolean,
   category: ScoreCategory,
+  aeonEligibleWeights: boolean,
   // Pre-computed: weight[stat] * raw-value-to-potential scale
   contributions: Record<SubStats, number>,
   // Pre-computed weighted potential per grade-5 roll tier

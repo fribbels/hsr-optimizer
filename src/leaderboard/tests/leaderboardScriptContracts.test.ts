@@ -207,6 +207,7 @@ function makeEntryData(score: number): LeaderboardEntryData {
     baselineSimScore: score - 1,
     benchmarkSimScore: score,
     maximumSimScore: score + 1,
+    fetchedAt: 1_710_000_000,
   }
 }
 
@@ -334,6 +335,7 @@ function makeScoringVariantCandidate(): LeaderboardScoringCandidate {
     uid: sampleUid,
     uidHash: 'uid-hash',
     payloadHash: 'payload-hash',
+    fetchedAt: sampleFetchedAt,
     character: {
       unconverted: {} as LeaderboardScoringCandidate['character']['unconverted'],
       minified: MINIFIED_CHARACTER,
@@ -433,8 +435,11 @@ describe('leaderboard script contracts', () => {
   })
 
   test('private ranked output merge drops invalid rows, replaces rescored rows, dedupes, and reranks', () => {
+    const retainedFetchedAt = 1_810_000_000
+    const retainedEntry = makeEntry('uid-retained', 100)
+    retainedEntry.data.fetchedAt = 1_710_000_000
     const previous = privateOutput([
-      makeEntry('uid-retained', 100),
+      retainedEntry,
       makeEntry('uid-missing', 200),
       makeEntry('uid-changed', 300),
       makeEntry('uid-invalidated', 400, { dependencyDigest: OLD_DEPENDENCY_DIGEST }),
@@ -452,6 +457,9 @@ describe('leaderboard script contracts', () => {
       changedUids: new Set(['uid-changed']),
       missingUids: new Set(['uid-missing']),
       invalidatedDependencyDigests: new Set([OLD_DEPENDENCY_DIGEST]),
+      currentFetchedAtByUid: new Map([
+        ['uid-retained', retainedFetchedAt],
+      ]),
       globalVersion: GLOBAL_VERSION,
       topN: 10,
       topNPublic: 2,
@@ -471,6 +479,7 @@ describe('leaderboard script contracts', () => {
       publicCutoffScore: 250,
       canRefillPublicTopN: true,
     })
+    expect(board.entries.find((entry) => entry.uid === 'uid-retained')?.data.fetchedAt).toBe(retainedFetchedAt)
   })
 
   test('public output publishes only compressed public fields and preserves total eligible counts', () => {

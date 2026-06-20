@@ -35,6 +35,7 @@ export type LeaderboardEntryData = {
   baselineSimScore: number,
   benchmarkSimScore: number,
   maximumSimScore: number,
+  fetchedAt: number,
 }
 
 export type FailureEntry = {
@@ -227,6 +228,7 @@ export type LeaderboardScoringCandidate = {
   uid: string,
   uidHash: string,
   payloadHash: string,
+  fetchedAt: number,
   character: ParsedCharacter,
   converted: EligibleConverted,
   characterId: string,

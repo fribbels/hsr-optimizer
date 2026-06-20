@@ -100,12 +100,19 @@ function PortraitSection({ portraitSrc, portraitCrop, characterName }: {
   )
 }
 
-function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount }: {
+function formatFetchedAt(fetchedAt: number): string {
+  return new Date(fetchedAt * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+}
+
+function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount, fetchedAt }: {
   rank: number | undefined,
   scorePercent: number | undefined,
   aeonStyle: React.CSSProperties,
   totalEntryCount: number,
+  fetchedAt: number | undefined,
 }) {
+  const dateStr = fetchedAt ? formatFetchedAt(fetchedAt) : null
+
   return (
     <Flex align='center' gap={15} px={6}>
       <span className={classes.rankGroup}>
@@ -123,7 +130,8 @@ function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount }: {
         </span>
       )}
       <span className={classes.entries}>
-        of {totalEntryCount.toLocaleString()} entries
+        <span>of {totalEntryCount.toLocaleString()} entries</span>
+        {dateStr && <span className={classes.entryDate}>{dateStr}</span>}
       </span>
     </Flex>
   )
@@ -283,7 +291,7 @@ export function LeaderboardBanner() {
 
         <div className={classes.glassSheet}>
           <div className={classes.stack}>
-            <ResultRow rank={rank} scorePercent={scorePercent} aeonStyle={aeonStyle} totalEntryCount={totalEntryCount} />
+            <ResultRow rank={rank} scorePercent={scorePercent} aeonStyle={aeonStyle} totalEntryCount={totalEntryCount} fetchedAt={selectedEntry?.fetchedAt} />
 
             <ModuleRow
               selectedEntry={selectedEntry}

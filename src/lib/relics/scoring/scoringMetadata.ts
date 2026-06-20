@@ -58,10 +58,11 @@ export function prepareScoringMetadata(
   id: CharacterId,
   metadataResolver: ScoringMetadataResolver = getScoringMetadata,
 ): ScorerMetadata {
-  const scoringMetadata = toScorerMetadata(metadataResolver(id))
+  const rawMetadata = metadataResolver(id)
+  const scoringMetadata = toScorerMetadata(rawMetadata)
 
   const defaultScoringMetadata = getGameMetadata().characters[id]?.scoringMetadata
-  scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })
+  scoringMetadata.category = getScoreCategory(defaultScoringMetadata, rawMetadata)
 
   scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
     .filter((x) => POSSIBLE_SUBSTATS.has(x[0]))

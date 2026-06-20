@@ -3,9 +3,9 @@ import { IconRosette } from '@tabler/icons-react'
 import chroma from 'chroma-js'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
+import { RollStripeBar } from 'lib/characterPreview/scoring/RollStripeBar'
 import {
   computeTierColors,
-  ROLL_WIDTH_RATIOS,
   type TierColors,
 } from 'lib/characterPreview/scoring/substatRollColors'
 import {
@@ -28,10 +28,6 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LightConeId } from 'types/lightCone'
 
-const STRIPE_SCALE = 10
-const SEG_W_HIGH = STRIPE_SCALE * ROLL_WIDTH_RATIOS.high
-const SEG_W_MID = STRIPE_SCALE * ROLL_WIDTH_RATIOS.mid
-const SEG_W_LOW = STRIPE_SCALE * ROLL_WIDTH_RATIOS.low
 
 interface CropConfig {
   cxPct: number
@@ -77,33 +73,6 @@ function useActiveSets(relics: PreviewRelics | null): ActiveSet[] {
   }, [relics])
 }
 
-function stripeGradient(entry: AggregatedStatRolls, colors: TierColors): React.CSSProperties | undefined {
-  const stops: string[] = []
-  let pos = 0
-
-  const addSegments = (count: number, width: number, color: string) => {
-    for (let i = 0; i < count; i++) {
-      if (pos > 0) {
-        stops.push(`transparent ${pos}px ${pos + 1}px`)
-        pos += 1
-      }
-      stops.push(`${color} ${pos}px ${pos + width}px`)
-      pos += width
-    }
-  }
-
-  addSegments(entry.high, SEG_W_HIGH, colors.high)
-  addSegments(entry.mid, SEG_W_MID, colors.mid)
-  addSegments(entry.low, SEG_W_LOW, colors.low)
-
-  if (stops.length === 0) return undefined
-
-  return {
-    backgroundImage: `linear-gradient(to right, ${stops.join(', ')})`,
-    backgroundSize: `${pos}px 6px`,
-    backgroundRepeat: 'no-repeat',
-  }
-}
 
 function ModuleStack({ label, children }: { label: string, children: React.ReactNode }) {
   return (
@@ -230,6 +199,8 @@ function SubstatColumn({ rolls, tierColors }: {
 
   if (rolls.length === 0) return null
 
+  const maxRolls = Math.max(...rolls.map((r) => r.total))
+
   return (
     <>
       <div className={classes.subDivider} />
@@ -241,7 +212,7 @@ function SubstatColumn({ rolls, tierColors }: {
               <span className={classes.statName}>{t(`Stats.${roll.stat}`)}</span>
               <span className={classes.statValue}>{roll.effective.toFixed(1)}</span>
             </Flex>
-            <div className={classes.stripeBar} style={stripeGradient(roll, tierColors)} />
+            <RollStripeBar entry={roll} colors={tierColors} maxRolls={maxRolls} />
           </div>
         ))}
       </div>

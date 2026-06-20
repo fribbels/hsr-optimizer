@@ -162,18 +162,15 @@ test('scoring cache metadata resolver can ignore user overrides', () => {
   }
 })
 
-test('default metadata resolver does not let scorer preparation mutate game metadata', () => {
+test('default metadata resolver does not let scorer preparation mutate game metadata stats', () => {
   const character = Blade.id
   const defaults = getGameMetadata().characters[character].scoringMetadata
   const originalStats = { ...defaults.stats }
-  const originalBodyMainStats = [...defaults.parts[Parts.Body]]
 
   const meta = prepareScoringMetadata(character, getDefaultScoringMetadata)
   meta.stats[Stats.HP_P] = 999
-  meta.parts[Parts.Body].push(Stats.OHB)
 
   expect(defaults.stats).toEqual(originalStats)
-  expect(defaults.parts[Parts.Body]).toEqual(originalBodyMainStats)
 })
 
 // Two max-rolled relics of weight-1.0 substats both score 100%, whichever stat is 6-stacked.

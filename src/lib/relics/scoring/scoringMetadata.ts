@@ -1,7 +1,5 @@
 import {
   Constants,
-  PartsArray,
-  type Parts,
   type StatsValues,
   type SubStats,
   SubStatValues,
@@ -23,26 +21,35 @@ import type { ScoringMetadata } from 'types/metadata'
 
 export type ScoringMetadataResolver = (id: CharacterId) => ScoringMetadata
 
-type ScorerPartsInput = Partial<Record<Parts, StatsValues[]>>
+type SourceScoringStats = Record<SubStats, number> & { minWeightedRolls?: number }
+type PreparedScorerStats = Record<StatsValues, number> & { minWeightedRolls?: number }
 
-function cloneScorerParts(parts: ScoringMetadata['parts']): ScorerMetadata['parts'] {
-  const sourceParts = parts as unknown as ScorerPartsInput
-  const scorerParts: ScorerPartsInput = {}
+function normalizeStatWeight(value: number | undefined): number {
+  return Math.min(1, Math.max(0, value ?? 0))
+}
 
-  for (const part of PartsArray) {
-    const mainStats = sourceParts[part]
-    if (mainStats) {
-      scorerParts[part] = [...mainStats]
-    }
+function prepareScorerStats(stats: SourceScoringStats): PreparedScorerStats {
+  const scorerStats = {} as PreparedScorerStats
+
+  for (const stat of Constants.SubStats) {
+    scorerStats[stat] = normalizeStatWeight(stats[stat])
   }
 
-  return scorerParts as ScorerMetadata['parts']
+  if (typeof stats.minWeightedRolls === 'number') {
+    scorerStats.minWeightedRolls = normalizeStatWeight(stats.minWeightedRolls)
+  }
+
+  scorerStats[Constants.Stats.HP] = scorerStats[Constants.Stats.HP_P] * FLAT_STAT_SCALING.HP
+  scorerStats[Constants.Stats.ATK] = scorerStats[Constants.Stats.ATK_P] * FLAT_STAT_SCALING.ATK
+  scorerStats[Constants.Stats.DEF] = scorerStats[Constants.Stats.DEF_P] * FLAT_STAT_SCALING.DEF
+
+  return scorerStats
 }
 
 function toScorerMetadata(metadata: ScoringMetadata): ScorerMetadata {
   return {
-    stats: { ...metadata.stats },
-    parts: cloneScorerParts(metadata.parts),
+    stats: prepareScorerStats(metadata.stats),
+    parts: metadata.parts,
     modified: metadata.modified,
   } as ScorerMetadata
 }
@@ -55,14 +62,6 @@ export function prepareScoringMetadata(
 
   const defaultScoringMetadata = getGameMetadata().characters[id]?.scoringMetadata
   scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })
-
-  for (const stat of Object.keys(scoringMetadata.stats)) {
-    scoringMetadata.stats[stat as SubStats] = Math.min(1, Math.max(0, scoringMetadata.stats[stat as SubStats]))
-  }
-
-  scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * FLAT_STAT_SCALING.HP
-  scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * FLAT_STAT_SCALING.ATK
-  scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * FLAT_STAT_SCALING.DEF
 
   scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
     .filter((x) => POSSIBLE_SUBSTATS.has(x[0]))

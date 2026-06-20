@@ -147,10 +147,12 @@ function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount }: {
       <span className={classes.score}>
         {scorePercent != null ? `${scorePercent.toFixed(1)}%` : '--'}
       </span>
-      <span className={classes.aeonBadge} style={aeonStyle}>
-        <IconRosette size={15} />
-        AEON
-      </span>
+      {scorePercent != null && scorePercent >= 150 && (
+        <span className={classes.aeonBadge} style={aeonStyle}>
+          <IconRosette size={15} />
+          AEON
+        </span>
+      )}
       <span className={classes.entries}>
         of {totalEntryCount.toLocaleString()} entries
       </span>

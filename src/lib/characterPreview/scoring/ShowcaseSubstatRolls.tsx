@@ -1,11 +1,8 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import { RollStripeBar } from 'lib/characterPreview/scoring/RollStripeBar'
 import classes from 'lib/characterPreview/scoring/ShowcaseSubstatRolls.module.css'
+import { computeTierColors } from 'lib/characterPreview/scoring/substatRollColors'
 import {
-  computeTierColors,
-  type TierColors,
-} from 'lib/characterPreview/scoring/substatRollColors'
-import {
-  type AggregatedStatRolls,
   aggregateSubstatRolls,
 } from 'lib/characterPreview/scoring/substatRollsAggregator'
 import { StatTextSm } from 'lib/characterPreview/StatText'
@@ -19,41 +16,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import type { CharacterId } from 'types/character'
-
-const TRACK_WIDTH = 222
-
-function getScale(maxRolls: number): number {
-  const cap = Math.max(Math.min(Math.floor(maxRolls / 3) * 3 + 6, 36), 18)
-  return (TRACK_WIDTH + 1 - cap) / cap
-}
-
-function StripeGroup({ count, color, segWidth }: { count: number, color: string, segWidth: number }) {
-  if (count === 0) return null
-  return (
-    <div className={classes.stripeGroup}>
-      {Array.from({ length: count }, (_, i) => (
-        <div
-          key={i}
-          className={classes.stripeSegment}
-          style={{ width: segWidth, backgroundColor: color }}
-        />
-      ))}
-    </div>
-  )
-}
-
-function RollCounterStripe({ entry, colors, scale }: { entry: AggregatedStatRolls, colors: TierColors, scale: number }) {
-  const hw = Math.round(1.0 * scale)
-  const mw = Math.round(0.9 * scale)
-  const lw = Math.round(0.8 * scale)
-  return (
-    <div className={classes.stripeTrack} style={{ width: TRACK_WIDTH }}>
-      <StripeGroup count={entry.high} color={colors.high} segWidth={hw} />
-      <StripeGroup count={entry.mid} color={colors.mid} segWidth={mw} />
-      <StripeGroup count={entry.low} color={colors.low} segWidth={lw} />
-    </div>
-  )
-}
 
 export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
   displayRelics,
@@ -77,7 +39,6 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
   if (aggregated.length === 0) return null
 
   const maxRolls = Math.max(...aggregated.map((e) => e.total))
-  const scale = getScale(maxRolls)
 
   return (
     <div className={classes.container}>
@@ -95,7 +56,7 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
               {entry.effective.toFixed(1)}
             </StatTextSm>
           </div>
-          <RollCounterStripe entry={entry} colors={tierColors} scale={scale} />
+          <RollStripeBar entry={entry} colors={tierColors} maxRolls={maxRolls} />
         </div>
       ))}
     </div>

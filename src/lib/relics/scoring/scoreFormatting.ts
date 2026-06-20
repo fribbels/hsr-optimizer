@@ -20,6 +20,7 @@ const RATING_TIERS = [
   { pct: 75, rating: 'SSS+' },
   { pct: 80, rating: 'WTF' },
   { pct: 85, rating: 'WTF+' },
+  { pct: 90, rating: 'AEON' },
 ] as const
 
 export function pctToRating(

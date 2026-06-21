@@ -980,27 +980,6 @@ Characters:
       e4SkillHealingDmgBuffStacks:
         text: E4 Acumulaciones aumento de daño de Habilidad
         content: Cada curación proporcionada por la habilidad básica de Bailu aumenta el daño que inflige el receptor de la curación en un 10%. Se puede acumular hasta 3 veces y dura 2 turnos.
-  BlackSwan:
-    Content:
-      ehrToDmgBoost:
-        text: AdE a aumento de daño
-        content: Aumenta el daño que inflige en una cantidad equivalente al 60% de su acierto de efecto. El daño puede aumentar hasta un máximo del 72% mediante este efecto.
-      epiphanyDebuff:
-        text: Afección Desvelación
-        content: En el estado de Desvelación, el daño que reciben los objetivos durante su propio turno aumenta en un {{epiphanyDmgTakenBoost}}%.
-      defDecreaseDebuff:
-        text: Afección reducción DEF
-        content: La DEF de los enemigos se reduce en un {{defShredValue}}%.
-      arcanaStacks:
-        text: Acumulaciones de Arcano
-        content: >-
-          Los enemigos afectados por Arcano reciben un Daño de Viento con el tiempo equivalente al {{dotScaling}}% del ATQ de Cisne Negro al comienzo de cada turno. Cada acumulación de Arcano aumenta este multiplicador de daño en un {{arcanaStackMultiplier}}%. Arcano se puede acumular hasta 50 veces.::BR::Si tiene 3 o más acumulaciones, inflige un Daño de Viento con el tiempo a los objetivos adyacentes. Si tiene 7 o más acumulaciones, el Daño con el tiempo infligido esta vez ignora un 20% de la DEF del objetivo y de los objetivos adyacentes.
-      e1ResReduction:
-        text: E1 Reducción de RES
-        content: Cuando Cisne Negro está activa en la batalla, la RES a Viento, Físico, Fuego o Rayo de los enemigos afectados por Intemperie, Sangrado, Quemadura o Electrocución, respectivamente, se reduce en un 25%.
-      e4EffResPen:
-        text: E4 Reducción de RES a efecto
-        content: En el estado de Desvelación, la RES a efecto de los objetivos enemigos se reduce en un 10%.
   BlackSwanB1:
     Content:
       skillDefShred:
@@ -1011,17 +990,6 @@ Characters:
         text: Acumulaciones de Arcano
       e4Vulnerability:
         text: E4 Vulnerabilidad
-  Blade:
-    Content:
-      enhancedStateActive:
-        text: Panorama infernal
-        content: 'Aumenta el daño en un {{enhancedStateDmgBoost}}%. El ATQ básico Espada fragmentada se potencia y se transforma en Bosque de espadas durante 3 turnos.::BR::E2: Su Prob. CRIT aumenta en un 15%.'
-      hpPercentLostTotal:
-        text: Total de %PV perdidos
-        content: El daño de Definitiva aumenta con el recuento de PV que ha perdido en esta batalla. El recuento de PV perdidos en esta batalla no puede superar el {{hpPercentLostTotalMax}}% de los PV máx. de Blade.
-      e4MaxHpIncreaseStacks:
-        text: E4 Acumulaciones de PV máx.
-        content: Los PV máx. aumentan en un 20%. Este efecto se puede acumular hasta 2 veces.
   BladeB1:
     Content:
       enhancedStateActive:
@@ -1351,34 +1319,6 @@ Characters:
         text: E6 Mejoras
         content: >-
           La PEN de la RES a todos los tipos del daño de habilidad definitiva que inflige Feixiao aumenta en un 20%. A su vez, el daño de ataque adicional del talento se considera como daño de habilidad definitiva, y su multiplicador de daño aumenta en un 140%.
-  Firefly:
-    Content:
-      enhancedStateActive:
-        text: Estado potenciado
-        content: Entra en el estado de Combustión completa, su acción se adelanta un 100% y su ATQ básico y su habilidad básica se potencian.
-      enhancedStateSpdBuff:
-        text: Mejora de VEL potenciamiento
-        content: En el estado de Combustión completa, su VEL aumenta en {{ultSpdBuff}} pts.
-      superBreakDmg:
-        text: Ultrarruptura habilitada (forzar rupt. de debilidad)
-        content: >-
-          Si el efecto de Ruptura de SAM es igual o superior al 200%/360% cuando está en el estado de Combustión completa, tras atacar a un enemigo con Ruptura de Debilidad, la Reducción de Firmeza de este ataque se convertirá 1 vez en un 35%/50% de Daño de Ultrarruptura.
-      atkToBeConversion:
-        text: Mejora de ATQ a EdR
-        content: Si el ATQ de SAM es superior a 1800, por cada 10 pts. de ATQ que superen este valor, el efecto de Ruptura de SAM aumenta en un 0.8%.
-      talentDmgReductionBuff:
-        text: Mejora de PVE máx.
-        content: >-
-          Cuantos menos PV tenga, menos daño recibe. Cuando tenga un 20% o menos de PV, alcanza el máximo efecto de reducción de daño, hasta una reducción máxima del {{talentDmgReductionBuff}}%. Mientras esté en el estado de Combustión completa, el efecto de reducción de daño se mantiene al máximo y su RES a efecto aumenta en un {{talentResBuff}}%.
-      e1DefShred:
-        text: E1 PEN DEF
-        content: La habilidad básica potenciada ignora un 15% de la DEF de los objetivos y no consume pts. de habilidad básica.
-      e4ResBuff:
-        text: E4 Mejora de RES
-        content: En el estado de Combustión completa, la RES a efecto de SAM aumenta en un 50%.
-      e6Buffs:
-        text: E6 Mejoras
-        content: Cuando SAM está en el estado de Combustión completa, su PEN de la RES a Fuego aumenta en un 20%. Al usar el ATQ básico potenciado o la habilidad básica potenciada, su eficiencia de la Ruptura de Debilidad aumenta en un 50%.
   FireflyB1:
     Content:
       enhancedStateActive:
@@ -1563,17 +1503,6 @@ Characters:
         text: Objetivo quemado
         content: >-
           Al atacar a un enemigo afectado por Quemadura, inflige un {{targetBurnedExtraScaling}}% del ATQ de Hook como Daño de Fuego adicional.::BR::E6: Hook inflige un 20% más de daño a los enemigos afectados por Quemadura.
-  Huohuo:
-    Content:
-      ultBuff:
-        text: Mejora ATQ Definitiva
-        content: Aumenta el ATQ de todos los aliados en un {{ultBuffValue}}% durante 2 turnos luego de usar la Definitiva.
-      skillBuff:
-        text: E1 Mejora de VEL
-        content: Cuando Huohuo tiene Vida sacrificada, la VEL de todos los aliados aumenta en un 12%.
-      e6DmgBuff:
-        text: E6 Mejora de daño
-        content: Al curar a un aliado, el daño infligido por el aliado aumenta en un 50% durante 2 turnos.
   HuohuoB1:
     Content:
       ultBuff:
@@ -1714,22 +1643,6 @@ Characters:
       e6ResShred:
         text: E6 Reducción de RES
         content: El límite de acumulaciones de Asado al rescoldo aumenta a 9. Cada acumulación de Asado al rescoldo reduce la RES a todos los tipos del objetivo en un 3%.
-  Jingliu:
-    Content:
-      talentEnhancedState:
-        text: Transmigración espectral
-        content: >-
-          Cuando Jingliu tiene 2 acumulaciones de Sizigia, entra en el estado de Transmigración espectral, su acción se adelanta un 100% y su Prob. CRIT aumenta en un {{talentCrBuff}}%. Después, la habilidad básica Destello trascendental se potencia y se convierte en Reflejo helado de la luna (solo puede usar esta habilidad básica).
-      talentHpDrainAtkBuff:
-        text: Mejora de ATQ por robo de PV
-        content: >-
-          Al lanzar un ataque en el estado de Transmigración espectral, consume PV de los aliados y el ATQ de Jingliu aumenta dependiendo de la cantidad total de PV consumidos, hasta un máximo del {{talentHpDrainAtkBuffMax}}% del ATQ base de Jingliu. Dura hasta que termine el ataque actual.
-      e1CdBuff:
-        text: E1 Definitiva activada
-        content: Al lanzar la habilidad definitiva o la habilidad básica potenciada, el Daño CRIT de Jingliu aumenta en un 24% durante 1 turno. Si solo golpea a 1 enemigo, le inflige de forma adicional un 100% del ATQ de Jingliu como Daño de Hielo.
-      e2SkillDmgBuff:
-        text: E2 Mejora de Habilidad
-        content: Tras usar la habilidad definitiva, el daño de la siguiente habilidad básica potenciada aumenta en un 80%.
   JingliuB1:
     Content:
       talentEnhancedState:
@@ -1771,14 +1684,6 @@ Characters:
       e6FuaVulnerabilityStacks:
         text: E6 Acumulaciones de Vulnerabilidad
         content: Cada golpe que inflige el caballero divino hace que el objetivo enemigo entre en un estado de Vulnerabilidad. Los enemigos vulnerables reciben un 12% más de daño hasta que termine el ataque actual del caballero divino. Este efecto se puede acumular hasta 3 veces (aplica a todos los golpes).
-  Kafka:
-    Content:
-      e1DotDmgReceivedDebuff:
-        text: E1 Vulnerabilidad de Daño con el tiempo
-        content: Cuando el talento activa un ataque adicional, hay un 100% de probabilidad base de que el Daño con el tiempo que recibe el objetivo aumente en un 30% durante 2 turnos.
-      e2TeamDotBoost:
-        text: E2 Aumento de Daño con el tiempo al equipo
-        content: Cuando Kafka está en la batalla, el Daño con el tiempo que infligen todos los aliados aumenta en un 25%.
   KafkaB1:
     Content:
       ehrBasedBuff:
@@ -2165,21 +2070,6 @@ Characters:
       targetWindShear:
         text: Objetivo a la intemperie
         content: El daño que los enemigos afectados por Intemperie infligen a Sampo se reduce en un 15%.
-  Seele:
-    Content:
-      buffedState:
-        text: Estado mejorado
-        content: >-
-          Al eliminar a un objetivo enemigo usando su ATQ básico, habilidad básica o habilidad definitiva, obtiene inmediatamente un turno adicional y entra en un estado potenciado. Este estado hace que el daño de los ataques de Seele aumente en un {{buffedStateDmgBuff}}% durante 1 turno.::BR::Cuando Seele está en el estado potenciado, su PEN de la RES a Cuántico aumenta en un 20%.
-      speedBoostStacks:
-        text: Acumulaciones de la mejora de velocidad
-        content: "Luego de usar su Habilidad, Seele aumenta su VEL en un 25% durante 2 turnos.::BR::E2: El efecto de aumento de VEL de la habilidad básica se puede acumular hasta 2 veces."
-      e1EnemyHp80CrBoost:
-        text: "E1 Aumento de PC por\nPV enemigo  ≤ 80%"
-        content: Cuando inflige daño a un objetivo que tiene un porcentaje de PV igual o inferior al 80%, la Prob. CRIT aumenta en un 15%.
-      e6UltTargetDebuff:
-        text: E6 Mariposa desbocada
-        content: Tras usar la habilidad definitiva de Seele, el objetivo entra en el estado de Mariposa desbocada durante 1 turno. Cuando un enemigo afectado por Mariposa desbocada es atacado, recibe un Daño Cuántico adicional equivalente al 15% del daño de habilidad definitiva de Seele.
   SeeleB1:
     Content:
       buffedState:
@@ -2201,26 +2091,6 @@ Characters:
       enemyDefeatedBuff:
         text: Mejora por enemigo derrotado
         content: Tras eliminar a un enemigo, el ATQ aumenta en un 20% durante 2 turnos.
-  SilverWolf:
-    Content:
-      skillResShredDebuff:
-        text: Reducción de RES de la Habilidad
-        content: >-
-          Reduce la RES a todos los tipos del objetivo en un {{skillResShredValue}}% durante 2 turnos.::BR::Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.
-      skillWeaknessResShredDebuff:
-        text: Reducción de RES por debilidad implantada por Habilidad
-        content: >-
-          Tiene una probabilidad base del {{implantChance}}% de aplicar a un enemigo 1 Debilidad del mismo tipo que el de algún aliado en el campo de batalla y reducir su RES al tipo de esa Debilidad en un 20% durante 2 turnos. Si el objetivo enemigo ya tenía ese tipo de Debilidad, entonces no se activará la reducción de RES al tipo correspondiente a esa Debilidad.
-      talentDefShredDebuff:
-        text: Reducción de DEF del error
-        content: El error de Silver Wolf reduce la DEF del enemigo en un {{talentDefShredDebuffValue}}% durante 3 turnos.
-      ultDefShredDebuff:
-        text: Reducción DEF Definitiva
-        content: Reduce la DEF de un enemigo en un {{ultDefShredValue}}% durante 3 turnos.
-      targetDebuffs:
-        text: Afecciones del objetivo
-        content: >-
-          Al usar la habilidad básica, si el enemigo tiene 3 o más estados negativos, su RES a todos los tipos se reduce en un 3% adicional.::BR::E4: Tras usar su habilidad definitiva para atacar a un enemigo, Silver Wolf inflige un 20% de su ATQ como Daño Cuántico adicional por cada estado negativo que tenga el objetivo. Este efecto se puede activar un máximo de 5 veces cada vez que ataque con su habilidad definitiva.::BR::E6: Por cada estado negativo que tenga el objetivo enemigo, el daño que inflige Silver Wolf aumenta en un 20%, hasta un máximo del 100%.
   SilverWolfB1:
     Content:
       ehrToAtkConversion:
@@ -2250,28 +2120,6 @@ Characters:
     Content:
       e6ResPen:
         text: E6 PEN RES
-  Sparkle:
-    Content:
-      skillCdBuff:
-        text: Mejora DC de Habilidad
-        content: >-
-          Aumenta el Daño CRIT de un aliado en un valor equivalente al {{skillCdBuffScaling}}% del Daño CRIT de Sparkle + {{skillCdBuffBase}}% durante 1 turno.::BR::E6: El efecto de aumento de Daño CRIT de la habilidad básica aumenta adicionalmente en una cantidad equivalente al 30% del Daño CRIT de Sparkle. Cuando Sparkle usa su habilidad básica, el efecto de aumento de Daño CRIT de la habilidad básica se aplica a todos los aliados que tengan Adivinanza. Cuando Sparkle usa su habilidad definitiva, si un aliado tiene el efecto de aumento de Daño CRIT de la habilidad básica, este efecto se extiende a todos los aliados que tengan Adivinanza.
-
-      cipherBuff:
-        text: Mejora Adivinanza
-        content: >-
-          Para los aliados con Adivinanza, el efecto de aumento de daño que proporciona el talento de Sparkle se incrementa de forma adicional en un {{cipherTalentStackBoost}}% por cada acumulación durante 2 turnos.::BR::E1: La duración de Adivinanza otorgada por la habilidad definitiva aumenta en 1 turno. El ATQ de los aliados con Adivinanza aumenta en un 40%.
-      talentStacks:
-        text: Acumulaciones de daño del Talento
-        content: >-
-          Cuando un aliado consume 1 pt. de habilidad básica, el daño de todos los aliados aumenta en un {{talentBaseStackBoost}}% durante 2 turnos. Se puede acumular hasta 3 veces.::BR::E2: Por cada acumulación del efecto del talento, los aliados ignoran un 8% de la DEF del objetivo cuando infligen daño.
-      quantumAlliesAtkBuff:
-        text: Mejora ATQ aliados Cuánticos
-        content: Cuando en el equipo aliado hay 1/2/3 personajes de tipo Cuántico, el ATQ de los aliados de tipo Cuántico aumenta en un 5%/15%/30% adicional.
-    TeammateContent:
-      teammateCDValue:
-        text: DC en combate de Sparkle
-        content: Aumenta el Daño CRIT de un aliado en un valor equivalente al {{skillCdBuffScaling}}% del Daño CRIT de Sparkle + {{skillCdBuffBase}}% durante 1 turno
   SparkleB1:
     Content:
       cipherBuff:
@@ -2558,21 +2406,6 @@ Characters:
       e6FuaScaling:
         text: E6 Daño de ataque adicional
         content: Cuando Tribbie usa su habilidad definitiva, lanza el ataque adicional del talento contra todos los enemigos. El daño que inflige el ataque adicional del talento aumenta en un 729%.
-  Welt:
-    Content:
-      enemyDmgTakenDebuff:
-        text: Afección vulnerabilidad de Definitiva
-        content: Al usar la habilidad definitiva, hay una probabilidad base del 100% de infligir un 12% más de daño a los objetivos durante 2 turnos.
-      enemySlowed:
-        text: Enemigo ralentizado
-        content: Al golpear a un objetivo ya afectado por Ralentización, inflige un {{talentScaling}}% del ATQ de Welt como Daño Imaginario adicional.
-      skillExtraHits:
-        text: Golpes extra en objetivo de Habilidad
-        content: >-
-          Inflige un {{skillScaling}}% del ATQ de Welt como Daño Imaginario a un enemigo e inflige daño 2 veces más. Cada golpe inflige un {{skillScaling}}% del ATQ de Welt como Daño Imaginario a un enemigo al azar.
-      e1EnhancedState:
-        text: E1 Estado potenciado
-        content: 'Tras usar su habilidad definitiva, Welt obtiene una potenciación: las 2 siguientes veces que ataque usando el ATQ básico o la habilidad básica, inflige daño adicional igual al 50% del multiplicador del daño de ATQ básico o igual al 80% del multiplicador del daño de habilidad básica respectivamente.'
   WeltB1:
     Content:
       enemySlowed:

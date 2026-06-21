@@ -53,7 +53,7 @@ type MutableLeaderboardCliOptions = {
 
 function defaultLeaderboardCliOptions(): MutableLeaderboardCliOptions {
   return {
-    privateOutputPath: resolvePath(homeDir(), 'leaderboard-cache/private-ranked-output.json'),
+    privateOutputPath: resolvePath(homeDir(), 'leaderboard-cache/private-ranked-output'),
     publicOutputPath: './public/leaderboard/leaderboard.json',
     topN: 100,
     topNPublic: 100,

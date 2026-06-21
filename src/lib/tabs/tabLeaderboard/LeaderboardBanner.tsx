@@ -101,18 +101,13 @@ function PortraitSection({ portraitSrc, portraitCrop, characterName }: {
 }
 
 function formatFetchedAt(fetchedAt: number): string {
-  const d = new Date(fetchedAt * 1000)
-  const y = d.getFullYear()
-  const m = String(d.getMonth() + 1).padStart(2, '0')
-  const day = String(d.getDate()).padStart(2, '0')
-  return `${y}-${m}-${day}`
+  return new Date(fetchedAt * 1000).toISOString().slice(0, 10)
 }
 
-function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount, fetchedAt }: {
+function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt }: {
   rank: number | undefined,
   scorePercent: number | undefined,
   aeonStyle: React.CSSProperties,
-  totalEntryCount: number,
   fetchedAt: number | undefined,
 }) {
   const dateStr = fetchedAt ? formatFetchedAt(fetchedAt) : null
@@ -233,12 +228,9 @@ export function LeaderboardBanner() {
   const selectedEntry = useLeaderboardTabStore((s) => s.selectedEntry)
   const selectedCharacterId = useLeaderboardTabStore((s) => s.selectedCharacterId)
   const previewRelics = useLeaderboardTabStore((s) => s.expandedPreviewRelics)
-  const totalEntries = useLeaderboardTabStore((s) => s.totalEntries)
-
   const { t: tGame } = useTranslation('gameData')
 
   const characterId = selectedCharacterId
-  const totalEntryCount = characterId ? totalEntries[characterId] ?? 0 : 0
   const nameKey = characterId?.startsWith('80') ? 'LongName' : 'Name'
   const characterName = characterId ? tGame(`Characters.${characterId}.${nameKey}`) : ''
   const scoringMetadata = useScoringMetadata(characterId)
@@ -292,7 +284,7 @@ export function LeaderboardBanner() {
 
         <div className={classes.glassSheet}>
           <div className={classes.stack}>
-            <ResultRow rank={rank} scorePercent={scorePercent} aeonStyle={aeonStyle} totalEntryCount={totalEntryCount} fetchedAt={selectedEntry?.fetchedAt} />
+            <ResultRow rank={rank} scorePercent={scorePercent} aeonStyle={aeonStyle} fetchedAt={selectedEntry?.fetchedAt} />
 
             <ModuleRow
               selectedEntry={selectedEntry}

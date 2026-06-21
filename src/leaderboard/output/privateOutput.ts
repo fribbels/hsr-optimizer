@@ -3,11 +3,13 @@ import {
   type LeaderboardConfigType,
 } from 'leaderboard/shared/configTypeMapping'
 import {
-  dirnamePath,
   ensureDirectory,
   fileExists,
+  isDirectory,
   joinPath,
+  listDirectory,
   readTextFile,
+  removeDirectory,
   writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
 import type {
@@ -106,8 +108,7 @@ export function mergePrivateRankedOutput(input: {
         if (replacementKeys.has(entryReplacementKey(entry))) {
           continue
         }
-        entry.data.fetchedAt = currentFetchedAtByUid.get(entry.uid)!
-        retained.push(entry)
+        retained.push({ ...entry, data: { ...entry.data, fetchedAt: currentFetchedAtByUid.get(entry.uid)! } })
       }
       if (retained.length > 0) {
         boardEntries.set(boardKey, retained)
@@ -247,14 +248,58 @@ export function assertPrivateOutputPublishable(output: PrivateRankedOutput): voi
   }
 }
 
-export function writePrivateRankedOutput(path: string, output: PrivateRankedOutput): void {
-  const dir = dirnamePath(path)
-  ensureDirectory(dir)
-  writeTextFile(path, JSON.stringify(output))
+function encodeBoardKeyForFilename(key: string): string {
+  return key.replace(/#/g, '_').replace(/\|/g, '-')
 }
 
-export function readPrivateRankedOutput(path: string): PrivateRankedOutput | null {
-  if (!fileExists(path)) return null
-  const raw = readTextFile(path)
-  return JSON.parse(raw) as PrivateRankedOutput
+export function writePrivateRankedOutput(dir: string, output: PrivateRankedOutput): void {
+  removeDirectory(dir)
+  ensureDirectory(dir)
+  const boardsDir = joinPath(dir, 'boards')
+  ensureDirectory(boardsDir)
+
+  writeTextFile(joinPath(dir, 'header.json'), JSON.stringify({
+    generatedAt: output.generatedAt,
+    versions: output.versions,
+    sourceExport: output.sourceExport,
+  }))
+
+  for (const [key, board] of Object.entries(output.boards)) {
+    const filename = encodeBoardKeyForFilename(key) + '.json'
+    writeTextFile(joinPath(boardsDir, filename), JSON.stringify({ key, board }))
+  }
+
+  writeTextFile(joinPath(dir, 'payloadIndex.json'), JSON.stringify(output.payloadIndex))
+}
+
+export function readPrivateRankedOutput(dir: string): PrivateRankedOutput | null {
+  if (!isDirectory(dir)) return null
+
+  const headerPath = joinPath(dir, 'header.json')
+  if (!fileExists(headerPath)) return null
+
+  const header = JSON.parse(readTextFile(headerPath)) as Pick<PrivateRankedOutput, 'generatedAt' | 'versions' | 'sourceExport'>
+
+  const boards: Record<string, PrivateBoard> = {}
+  const boardsDir = joinPath(dir, 'boards')
+  if (isDirectory(boardsDir)) {
+    for (const filename of listDirectory(boardsDir)) {
+      if (!filename.endsWith('.json')) continue
+      const parsed = JSON.parse(readTextFile(joinPath(boardsDir, filename))) as { key: string, board: PrivateBoard }
+      boards[parsed.key] = parsed.board
+    }
+  }
+
+  const payloadIndexPath = joinPath(dir, 'payloadIndex.json')
+  const payloadIndex: ProfilePayloadIndex = fileExists(payloadIndexPath)
+    ? JSON.parse(readTextFile(payloadIndexPath)) as ProfilePayloadIndex
+    : { profiles: {} }
+
+  return {
+    generatedAt: header.generatedAt,
+    versions: header.versions,
+    sourceExport: header.sourceExport,
+    boards,
+    payloadIndex,
+  }
 }

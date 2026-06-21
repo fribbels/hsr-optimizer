@@ -190,12 +190,6 @@
   color: var(--lb-text-3);
   white-space: nowrap;
   margin-left: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.entryDate {
 }
 
 /* ── Module row ── */

@@ -108,8 +108,7 @@ export function mergePrivateRankedOutput(input: {
         if (replacementKeys.has(entryReplacementKey(entry))) {
           continue
         }
-        entry.data.fetchedAt = currentFetchedAtByUid.get(entry.uid)!
-        retained.push(entry)
+        retained.push({ ...entry, data: { ...entry.data, fetchedAt: currentFetchedAtByUid.get(entry.uid)! } })
       }
       if (retained.length > 0) {
         boardEntries.set(boardKey, retained)

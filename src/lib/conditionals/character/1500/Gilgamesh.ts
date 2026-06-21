@@ -207,6 +207,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ultTotalScaling = ultScaling + ultBounceTotalScaling * 10 / context.enemyCount
       const ultToughness = 40 + 2 * 10 / context.enemyCount
 
+      const saberInTeam = teammateMatchesId(context, Saber.id)
+
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -237,13 +239,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           ],
         },
         [AbilityKind.UNIQUE]: {
-          hits: [
-            HitDefinitionBuilder.standardFua()
-              .damageElement(ElementTag.Lightning)
-              .atkScaling(hasSaber ? jointFuaScaling : 0)
-              .toughnessDmg(hasSaber ? 20 : 0)
-              .build(),
-          ],
+          hits: saberInTeam
+            ? [
+              HitDefinitionBuilder.standardFua()
+                .damageElement(ElementTag.Lightning)
+                .atkScaling(hasSaber ? jointFuaScaling : 0)
+                .toughnessDmg(hasSaber ? 20 : 0)
+                .build(),
+            ]
+            : [],
         },
         [AbilityKind.BREAK]: {
           hits: [

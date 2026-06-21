@@ -62,6 +62,7 @@ import {
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -369,6 +370,20 @@ const simulation = (): SimulationMetadata => ({
         { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
         { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+        { characterId: Ashveil.id, lightCones: [Ashveil.defaultLightCone] },
+        { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [TrailblazerRemembranceStelle.defaultLightCone] },
+        { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
       ],
     },
   ],

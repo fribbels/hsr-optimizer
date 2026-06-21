@@ -5,6 +5,7 @@ import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
+import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -573,6 +574,13 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: Sparxie.id, lightCones: [DazzledByAFloweryWorld.id] },
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: TrailblazerElationStelle.id, lightCones: [TrailblazerElationStelle.defaultLightCone] },
         { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
         { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],

@@ -59,8 +59,12 @@ import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { floorSafe } from 'lib/utils/mathUtils'
 
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { CarveTheMoonWeaveTheClouds } from 'lib/conditionals/lightcone/4star/CarveTheMoonWeaveTheClouds'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -411,6 +415,13 @@ const simulation = (): SimulationMetadata => ({
         { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
         { characterId: Cipher.id, lightCones: [LiesAflutterInTheWind.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: SparkleB1.id, lightCones: [SparkleB1.defaultLightCone, DanceDanceDance.id] },
+        { characterId: Robin.id, lightCones: [Robin.defaultLightCone, CarveTheMoonWeaveTheClouds.id] },
+        { characterId: PermansorTerrae.id, lightCones: [PermansorTerrae.defaultLightCone] },
       ],
     },
   ],

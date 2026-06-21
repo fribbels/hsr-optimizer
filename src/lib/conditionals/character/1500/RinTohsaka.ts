@@ -16,6 +16,7 @@ import {
   type Conditionals,
   type ContentDefinition,
   createEnum,
+  teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
@@ -243,6 +244,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         ? 20 + 2 * r.skillBounces / context.enemyCount
         : 20
 
+      const archerInTeam = teammateMatchesId(context, Archer.id)
+
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -273,13 +276,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           ],
         },
         [AbilityKind.UNIQUE]: {
-          hits: [
-            HitDefinitionBuilder.standardFua()
-              .damageElement(ElementTag.Quantum)
-              .atkScaling(fuaScaling)
-              .toughnessDmg(20)
-              .build(),
-          ],
+          hits: archerInTeam
+            ? [
+              HitDefinitionBuilder.standardFua()
+                .damageElement(ElementTag.Quantum)
+                .atkScaling(fuaScaling)
+                .toughnessDmg(20)
+                .build(),
+            ]
+            : [],
         },
         [AbilityKind.BREAK]: {
           hits: [

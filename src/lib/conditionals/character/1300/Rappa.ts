@@ -397,7 +397,7 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: Fugue.id, lightCones: [LongRoadLeadsHome.id] },
-        { characterId: RuanMei.id, lightCones: [PastSelfInTheMirror.id] },
+        { characterId: TheDahlia.id, lightCones: [TheDahlia.defaultLightCone] },
         { characterId: Lingsha.id, lightCones: [ScentAloneStaysTrue.id] },
       ],
     },

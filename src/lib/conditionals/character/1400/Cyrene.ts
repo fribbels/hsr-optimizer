@@ -525,11 +525,10 @@ const simulation = (): SimulationMetadata => ({
       ],
     },
     {
-      deprioritizeBuffs: true,
       teammates: [
-        { characterId: Phainon.id, lightCones: [ThusBurnsTheDawn.id] },
-        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [TrailblazerRemembranceStelle.defaultLightCone] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
       ],
     },
   ],

@@ -1,4 +1,3 @@
-import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import type {
@@ -14,7 +13,6 @@ import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDanc
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { InTheNight } from 'lib/conditionals/lightcone/5star/InTheNight'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
@@ -47,7 +45,10 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import type { CharacterConditionalsController } from 'types/conditionals'
 import type {
   ScoringMetadata,
@@ -277,7 +278,28 @@ const simulation = (): SimulationMetadata => ({
   leaderboardTeams: [
     {
       teammates: [
-        { characterId: SilverWolfB1.id, lightCones: [LiesAflutterInTheWind.id] },
+        { characterId: Cerydra.id, lightCones: [Cerydra.defaultLightCone, DanceDanceDance.id] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Robin.id, lightCones: [Robin.defaultLightCone] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Sunday.id, lightCones: [Sunday.defaultLightCone] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [TrailblazerRemembranceStelle.defaultLightCone] },
         { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],

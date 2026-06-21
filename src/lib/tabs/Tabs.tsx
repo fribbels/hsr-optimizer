@@ -92,21 +92,41 @@ function getActiveHashParams(route: string) {
   return new URLSearchParams(query)
 }
 
-function getRouteForActiveKey(activeKey: AppPages) {
-  const route = PageToRoute[activeKey]
-  const params = getActiveHashParams(route)
-  if (!params) return route
+// function getRouteForActiveKey(activeKey: AppPages) {
+//   const route = PageToRoute[activeKey]
+//   const params = getActiveHashParams(route)
+//   if (!params) return route
+//
+//   if (activeKey === AppPages.SHOWCASE) {
+//     const id = params.get('id')
+//     return id ? appendRouteParams(route, new URLSearchParams({ id })) : route
+//   }
+//
+//   if (activeKey === AppPages.LEADERBOARD) {
+//     return appendRouteParams(route, params)
+//   }
+//
+//   return route
+// }
 
-  if (activeKey === AppPages.SHOWCASE) {
-    const id = params.get('id')
-    return id ? appendRouteParams(route, new URLSearchParams({ id })) : route
+export function navigateTo(key: AppPages) {
+  const activeKey = useGlobalStore.getState().activeKey
+  if (key === activeKey) return
+
+  const featureKey = PAGE_FEATURE_KEYS[key]
+  if (featureKey) {
+    markFeatureSeen(featureKey)
   }
 
-  if (activeKey === AppPages.LEADERBOARD) {
-    return appendRouteParams(route, params)
-  }
+  let route = PageToRoute[key]
 
-  return route
+  const currentUrl = window.location.href
+  const currentParams = currentUrl.split('?')
+  if (currentParams) route += '?' + currentParams
+
+  console.log('Navigating activekey to route', key, route)
+  window.history.pushState({}, '', route)
+  useGlobalStore.getState().setActiveKey(key)
 }
 
 const Tabs = () => {
@@ -146,6 +166,13 @@ const Tabs = () => {
         return new Set(prev).add(activeKey)
       })
     })
+
+    if (activeKey === AppPages.OPTIMIZER && !optimizerInitialized) {
+      // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
+      optimizerInitialized = true
+      workerPool.initialize()
+    }
+    window.scrollTo(0, 0)
   }, [activeKey])
 
   useEffect(() => {
@@ -168,30 +195,6 @@ const Tabs = () => {
     timerId = setTimeout(mountNext, 100)
     return () => clearTimeout(timerId)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    const featureKey = PAGE_FEATURE_KEYS[activeKey]
-    if (featureKey) {
-      markFeatureSeen(featureKey)
-    }
-
-    const route = getRouteForActiveKey(activeKey)
-    if (activeKey === AppPages.CALCULATORS) {
-      return
-    }
-    console.log('Navigating activekey to route', activeKey, route)
-    window.history.pushState({}, document.title, route)
-
-    if (activeKey === AppPages.OPTIMIZER) {
-      // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.
-      if (!optimizerInitialized) {
-        optimizerInitialized = true
-        workerPool.initialize()
-      }
-    } else {
-      window.scrollTo(0, 0)
-    }
-  }, [activeKey])
 
   return (
     <Flex justify='space-around' w='100%'>

@@ -481,6 +481,13 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
         { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],
@@ -490,6 +497,27 @@ const simulation = (): SimulationMetadata => ({
         { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
         { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
         { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: SparkleB1.id, lightCones: [SparkleB1.defaultLightCone, DanceDanceDance.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: SparkleB1.id, lightCones: [SparkleB1.defaultLightCone, DanceDanceDance.id] },
       ],
     },
   ],

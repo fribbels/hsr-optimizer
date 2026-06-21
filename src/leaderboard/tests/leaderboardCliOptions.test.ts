@@ -18,7 +18,7 @@ describe('leaderboard CLI options', () => {
     const options = parseLeaderboardCliOptions([])
 
     expect(options).toEqual({
-      privateOutputPath: resolvePath(homeDir(), 'leaderboard-cache/private-ranked-output.json'),
+      privateOutputPath: resolvePath(homeDir(), 'leaderboard-cache/private-ranked-output'),
       publicOutputPath: './public/leaderboard/leaderboard.json',
       topN: 100,
       topNPublic: 100,

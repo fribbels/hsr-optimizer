@@ -15,6 +15,7 @@ import {
   readdirSync,
   readFileSync,
   renameSync,
+  rmSync,
   statSync,
   unlinkSync,
   writeFileSync,
@@ -145,6 +146,18 @@ export function writeGzipTextFile(path: string, content: string): void {
 
 export function deleteFile(path: string): void {
   unlinkSync(path)
+}
+
+export function removeDirectory(path: string): void {
+  rmSync(path, { recursive: true, force: true })
+}
+
+export function listDirectory(dir: string): string[] {
+  return readdirSync(dir)
+}
+
+export function isDirectory(path: string): boolean {
+  return existsSync(path) && statSync(path).isDirectory()
 }
 
 export function renameFile(from: string, to: string): void {

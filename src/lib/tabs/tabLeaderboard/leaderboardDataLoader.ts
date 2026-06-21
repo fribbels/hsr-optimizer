@@ -100,6 +100,7 @@ export function mapPublicEntry(entry: PublicLeaderboardEntryV2): LeaderboardEntr
     baselineSimScore: entry.data.baselineSimScore,
     benchmarkSimScore: entry.data.benchmarkSimScore,
     maximumSimScore: entry.data.maximumSimScore,
+    fetchedAt: entry.data.fetchedAt,
   }
 }
 

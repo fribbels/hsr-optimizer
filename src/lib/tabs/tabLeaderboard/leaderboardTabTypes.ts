@@ -25,4 +25,5 @@ export interface LeaderboardEntry {
   baselineSimScore: number
   benchmarkSimScore: number
   maximumSimScore: number
+  fetchedAt: number
 }

@@ -80,7 +80,7 @@ export function CharacterListPanel() {
         <TextInput
           className={classes.search}
           variant='unstyled'
-          placeholder='Search'
+          placeholder='Search characters'
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />

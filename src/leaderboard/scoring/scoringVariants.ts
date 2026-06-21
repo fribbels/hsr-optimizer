@@ -1,8 +1,8 @@
 import {
-  DEFAULT_TIER_SUPERIMPOSITION,
   type EidolonTierValue,
   eidolonToGroup,
   FIXED_TEAMMATE_OVERRIDES,
+  getTeammateLcSuperimposition,
   TEAMMATE_EIDOLON_CAPS,
 } from 'leaderboard/shared/eidolonConfig'
 import type {
@@ -90,7 +90,7 @@ function buildSimulationMetadata(input: {
       characterId: t.characterId,
       lightCone: input.lcCombo[i],
       characterEidolon: cap != null ? Math.min(baseEidolon, cap) : baseEidolon,
-      lightConeSuperimposition: fixed?.lcSuperimpositions[input.lcCombo[i]] ?? DEFAULT_TIER_SUPERIMPOSITION,
+      lightConeSuperimposition: getTeammateLcSuperimposition(t.characterId, input.lcCombo[i]),
       teamRelicSet: t.teamRelicSet,
       teamOrnamentSet: t.teamOrnamentSet,
     }

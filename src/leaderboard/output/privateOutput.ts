@@ -65,6 +65,7 @@ export function mergePrivateRankedOutput(input: {
   changedUids: Set<string>,
   missingUids: Set<string>,
   invalidatedDependencyDigests: Set<string>,
+  currentFetchedAtByUid: ReadonlyMap<string, number>,
   globalVersion: number,
   topN: number,
   topNPublic: number,
@@ -78,6 +79,7 @@ export function mergePrivateRankedOutput(input: {
     changedUids,
     missingUids,
     invalidatedDependencyDigests,
+    currentFetchedAtByUid,
     globalVersion,
     topN,
     topNPublic,
@@ -104,6 +106,7 @@ export function mergePrivateRankedOutput(input: {
         if (replacementKeys.has(entryReplacementKey(entry))) {
           continue
         }
+        entry.data.fetchedAt = currentFetchedAtByUid.get(entry.uid)!
         retained.push(entry)
       }
       if (retained.length > 0) {
@@ -247,7 +250,7 @@ export function assertPrivateOutputPublishable(output: PrivateRankedOutput): voi
 export function writePrivateRankedOutput(path: string, output: PrivateRankedOutput): void {
   const dir = dirnamePath(path)
   ensureDirectory(dir)
-  writeTextFile(path, JSON.stringify(output, null, 2))
+  writeTextFile(path, JSON.stringify(output))
 }
 
 export function readPrivateRankedOutput(path: string): PrivateRankedOutput | null {

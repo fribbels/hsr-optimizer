@@ -350,12 +350,14 @@ function buildPublishArtifacts(input: {
   exportInput: LeaderboardExportInput,
   totalCounts: Map<string, number>,
 }): PublishArtifacts {
+  const currentFetchedAtByUid = buildCurrentFetchedAtByUid(input.parsed.profiles)
   const { output: privateOutput, dependencyInvalidatedUids } = mergePrivateRankedOutput({
     previous: input.previousPrivate,
     newEntries: input.entries,
     changedUids: input.changedUids,
     missingUids: input.missingUids,
     invalidatedDependencyDigests: input.invalidatedDependencyDigests,
+    currentFetchedAtByUid,
     globalVersion: input.globalVersion,
     topN: input.topN,
     topNPublic: input.topNPublic,
@@ -382,6 +384,14 @@ function buildPublishArtifacts(input: {
     publicOutput,
     dependencyInvalidatedUids,
   }
+}
+
+function buildCurrentFetchedAtByUid(profiles: ParsedProfile[]): Map<string, number> {
+  const fetchedAtByUid = new Map<string, number>()
+  for (const profile of profiles) {
+    fetchedAtByUid.set(profile.uid, profile.fetchedAt)
+  }
+  return fetchedAtByUid
 }
 
 function writePublishArtifacts(input: {

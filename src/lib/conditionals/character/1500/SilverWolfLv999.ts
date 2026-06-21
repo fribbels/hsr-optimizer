@@ -20,6 +20,7 @@ import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyS
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -572,7 +573,7 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: Sparxie.id, lightCones: [DazzledByAFloweryWorld.id] },
-        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id] },
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
         { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],
     },

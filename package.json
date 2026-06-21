@@ -24,7 +24,7 @@
     "vitest:fast": "vitest --no-watch --pool=threads --exclude '**/simulations/tests/**/*Orchestrator*'",
     "vitest:silent": "vitest --no-watch --pool=threads --silent",
     "vitest:watch": "vitest --watch",
-    "leaderboard": "vite build --config vite.leaderboard.config.ts --configLoader native && node .leaderboard-build/runLeaderboard.js",
+    "leaderboard": "vite build --config vite.leaderboard.config.ts --configLoader native && node --max-old-space-size=8192 .leaderboard-build/runLeaderboard.js",
     "test": "npx playwright test --config tests/playwright.config.ts",
     "test:generate": "npx playwright codegen localhost:3000/hsr-optimizer",
     "test:ui": "npm run test -- --ui",

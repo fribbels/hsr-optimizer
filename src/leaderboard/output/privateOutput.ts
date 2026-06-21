@@ -250,7 +250,7 @@ export function assertPrivateOutputPublishable(output: PrivateRankedOutput): voi
 export function writePrivateRankedOutput(path: string, output: PrivateRankedOutput): void {
   const dir = dirnamePath(path)
   ensureDirectory(dir)
-  writeTextFile(path, JSON.stringify(output, null, 2))
+  writeTextFile(path, JSON.stringify(output))
 }
 
 export function readPrivateRankedOutput(path: string): PrivateRankedOutput | null {

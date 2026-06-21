@@ -101,7 +101,11 @@ function PortraitSection({ portraitSrc, portraitCrop, characterName }: {
 }
 
 function formatFetchedAt(fetchedAt: number): string {
-  return new Date(fetchedAt * 1000).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+  const d = new Date(fetchedAt * 1000)
+  const y = d.getFullYear()
+  const m = String(d.getMonth() + 1).padStart(2, '0')
+  const day = String(d.getDate()).padStart(2, '0')
+  return `${y}-${m}-${day}`
 }
 
 function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount, fetchedAt }: {
@@ -129,10 +133,7 @@ function ResultRow({ rank, scorePercent, aeonStyle, totalEntryCount, fetchedAt }
           AEON
         </span>
       )}
-      <span className={classes.entries}>
-        <span>of {totalEntryCount.toLocaleString()} entries</span>
-        {dateStr && <span className={classes.entryDate}>{dateStr}</span>}
-      </span>
+      {dateStr && <span className={classes.entries}>{dateStr}</span>}
     </Flex>
   )
 }

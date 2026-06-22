@@ -76,7 +76,6 @@ export function buildPrivateRankedOutput(input: {
   } = input
 
   const boardEntries = new Map<string, PrivateRankedEntry[]>()
-  const entriesCountByBoard = new Map<string, number>()
 
   for (const entry of entries) {
     const boardKey = boardKeyFromEntry(entry)
@@ -86,8 +85,6 @@ export function buildPrivateRankedOutput(input: {
       boardEntries.set(boardKey, list)
     }
     list.push(entry)
-
-    entriesCountByBoard.set(boardKey, (entriesCountByBoard.get(boardKey) ?? 0) + 1)
   }
 
   const boards: Record<string, PrivateBoard> = {}
@@ -105,7 +102,7 @@ export function buildPrivateRankedOutput(input: {
     const { characterId, configType, teamId } = parseBoardKey(boardKey)
 
     const completeness: PrivateBoardCompleteness = {
-      scoredCandidateCount: entriesCountByBoard.get(boardKey) ?? 0,
+      scoredCandidateCount: entries.length,
       totalScoredEntries: dedupedEntries.length,
       privateCutoffScore: sliced.length > 0 ? sliced[sliced.length - 1].score : null,
       publicCutoffScore: sliced.length >= topNPublic ? sliced[topNPublic - 1].score : null,

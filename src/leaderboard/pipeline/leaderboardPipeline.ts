@@ -147,8 +147,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     const prefilterElapsedMs = performance.now() - prefilterStartMs
 
     const totalCandidates = profiles.reduce((n, p) => n + p.characters.length, 0)
-    const prefilterTotalKept = totalCandidates
-    console.log(`Pre-filter: kept ${prefilterTotalKept} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
+    console.log(`Pre-filter: kept ${totalCandidates} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
     const estimatedRuns = estimateScoringRuns(profiles)
     console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles (${estimatedRuns} scoring runs)`)
 
@@ -188,7 +187,6 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       parsed,
       profiles,
       totalCandidates,
-      prefilterTotalKept,
       estimatedRuns,
       metrics: scoring.metrics,
       workerCount: options.workerThreads,

@@ -47,6 +47,7 @@ type RunSummaryInput = {
   profiles: ParsedProfile[],
   totalCandidates: number,
   prefilterTotalKept: number,
+  estimatedRuns: number,
   metrics: LeaderboardMetricsSnapshot,
   workerCount: number,
   buildScoreCacheDbPath: string,
@@ -88,9 +89,11 @@ export function printRunSummary(input: RunSummaryInput): void {
   console.log(`  topNPublic: ${input.topNPublic}`)
   console.log(`Input:`)
   console.log(`  exportProfiles: ${parsed.profiles.length}`)
-  console.log(`  prefilterKept: ${input.prefilterTotalKept} candidates across ${profiles.length} profiles`)
-  console.log(`  scoringQueue: ${profiles.length} profiles, ${input.totalCandidates} candidates`)
+  console.log(`  prefilterProfiles: ${profiles.length}`)
+  console.log(`  prefilterCandidates: ${input.prefilterTotalKept}`)
+  console.log(`  submitted: ${profiles.length} profiles, ${input.totalCandidates} candidates`)
   console.log(`Scoring:`)
+  console.log(`  estimatedRuns: ${input.estimatedRuns}`)
   console.log(`  entries: ${entries.length}`)
   console.log(`  failures: ${failures.length}`)
   for (const [charName, stat] of Object.entries(perCharStats)) {

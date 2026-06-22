@@ -6,8 +6,6 @@ import type {
   LeaderboardEntryTeammate,
   LeaderboardVersionFile,
 } from 'leaderboard/shared/types'
-import { getGameMetadata } from 'lib/state/gameMetadata'
-import type { CharacterId } from 'types/character'
 
 export function readLeaderboardVersions(): LeaderboardVersionFile {
   return LEADERBOARD_VERSIONS
@@ -79,68 +77,4 @@ export function buildDependencyNamespace(input: {
     dependencies: input.dependencyVersions,
     dependencyDigest,
   }
-}
-
-export function collectBumpedIds(
-  previous: LeaderboardVersionFile | undefined,
-  current: LeaderboardVersionFile,
-): { characterIds: Set<string>, lightConeIds: Set<string> } {
-  const characterIds = new Set<string>()
-  const lightConeIds = new Set<string>()
-  if (!previous) return { characterIds, lightConeIds }
-
-  for (const [id, version] of Object.entries(current.characters)) {
-    if ((previous.characters[id] ?? 0) !== version) {
-      characterIds.add(id)
-    }
-  }
-  for (const [id, version] of Object.entries(current.lightCones)) {
-    if ((previous.lightCones[id] ?? 0) !== version) {
-      lightConeIds.add(id)
-    }
-  }
-  return { characterIds, lightConeIds }
-}
-
-export function collectAffectedCharacterIds(
-  bumpedCharIds: Set<string>,
-  bumpedLcIds: Set<string>,
-): Set<string> {
-  const affected = new Set<string>(bumpedCharIds)
-  if (bumpedCharIds.size === 0 && bumpedLcIds.size === 0) return affected
-
-  const characters = getGameMetadata().characters
-  for (const [charId, charMeta] of Object.entries(characters)) {
-    if (affected.has(charId)) continue
-    const scoring = charMeta?.scoringMetadata
-    if (!scoring) continue
-
-    const simConfigs = [scoring.simulation, scoring.supportSimulation, scoring.healSimulation, scoring.shieldSimulation]
-    for (const sim of simConfigs) {
-      if (!sim) continue
-      if (isSimAffected(sim, bumpedCharIds, bumpedLcIds)) {
-        affected.add(charId)
-        break
-      }
-    }
-  }
-
-  return affected
-}
-
-function isSimAffected(
-  sim: {
-    teammates: { characterId: CharacterId, lightCone: string }[],
-    leaderboardTeams?: { teammates: { characterId: CharacterId, lightCones: string[] }[] }[],
-  },
-  bumpedCharIds: Set<string>,
-  bumpedLcIds: Set<string>,
-): boolean {
-  if (sim.teammates.some((t) => bumpedCharIds.has(t.characterId) || bumpedLcIds.has(t.lightCone))) {
-    return true
-  }
-  if (sim.leaderboardTeams?.some((team) => team.teammates.some((t) => bumpedCharIds.has(t.characterId) || t.lightCones.some((lc) => bumpedLcIds.has(lc))))) {
-    return true
-  }
-  return false
 }

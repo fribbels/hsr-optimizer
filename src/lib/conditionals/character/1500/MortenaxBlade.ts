@@ -1,5 +1,5 @@
-import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
+import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
@@ -16,7 +16,6 @@ import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAF
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
-import { ThoseManySprings } from 'lib/conditionals/lightcone/5star/ThoseManySprings'
 import {
   Parts,
   PathNames,
@@ -380,7 +379,7 @@ const simulation = (): SimulationMetadata => ({
       deprioritizeBuffs: true,
       teammates: [
         { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
-        { characterId: Jiaoqiu.id, lightCones: [ThoseManySprings.id] },
+        { characterId: Cipher.id, lightCones: [Cipher.defaultLightCone] },
         { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
       ],
     },

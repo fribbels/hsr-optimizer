@@ -616,6 +616,14 @@ const simulation = (): SimulationMetadata => ({
         { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
       ],
     },
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Castorice.id, lightCones: [Castorice.defaultLightCone] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
   ],
 })
 

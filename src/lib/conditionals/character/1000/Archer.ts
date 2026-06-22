@@ -3,6 +3,7 @@ import {
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -355,6 +356,13 @@ const simulation = (): SimulationMetadata => ({
         { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
         { characterId: Cipher.id, lightCones: [LiesAflutterInTheWind.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: RinTohsaka.id, lightCones: [RinTohsaka.defaultLightCone] },
+        { characterId: HuohuoB1.id, lightCones: [HuohuoB1.defaultLightCone] },
       ],
     },
   ],

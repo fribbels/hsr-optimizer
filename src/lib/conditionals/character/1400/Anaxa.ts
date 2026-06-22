@@ -2,8 +2,6 @@ import {
   aoe,
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
-import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
-import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import {
@@ -11,10 +9,10 @@ import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -27,16 +25,12 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
-import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { InherentlyUnjustDestiny } from 'lib/conditionals/lightcone/5star/InherentlyUnjustDestiny'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
@@ -425,14 +419,21 @@ const simulation = (): SimulationMetadata => ({
   leaderboardTeams: [
     {
       teammates: [
-        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id, DanceDanceDance.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [TrailblazerRemembranceStelle.defaultLightCone] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id, DanceDanceDance.id] },
         { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],
     },
     {
       teammates: [
-        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id, DanceDanceDance.id] },
         { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],

@@ -299,6 +299,13 @@ const simulation = (): SimulationMetadata => ({
         { characterId: Aventurine.id, lightCones: [InherentlyUnjustDestiny.id] },
       ],
     },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+        { characterId: SparkleB1.id, lightCones: [SparkleB1.defaultLightCone, DanceDanceDance.id] },
+        { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
+      ],
+    },
   ],
 })
 

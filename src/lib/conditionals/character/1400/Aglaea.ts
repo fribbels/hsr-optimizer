@@ -8,6 +8,8 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   Cyrene,
@@ -531,6 +533,13 @@ const simulation = (): SimulationMetadata => ({
         { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
         { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: Robin.id, lightCones: [Robin.defaultLightCone] },
+        { characterId: HuohuoB1.id, lightCones: [HuohuoB1.defaultLightCone] },
       ],
     },
   ],

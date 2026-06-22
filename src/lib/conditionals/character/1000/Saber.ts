@@ -424,6 +424,13 @@ const simulation = (): SimulationMetadata => ({
         { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],
     },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+        { characterId: Gilgamesh.id, lightCones: [Gilgamesh.defaultLightCone] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
   ],
 })
 

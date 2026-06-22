@@ -4,7 +4,7 @@ import { Archer } from 'lib/conditionals/character/1000/Archer'
 import type { LeaderboardVersionFile } from 'leaderboard/shared/types'
 
 export const LEADERBOARD_VERSIONS: LeaderboardVersionFile = {
-  global: 2,
+  global: 3,
   characters: {
     [Archer.id]: 1,
     [Aglaea.id]: 2,

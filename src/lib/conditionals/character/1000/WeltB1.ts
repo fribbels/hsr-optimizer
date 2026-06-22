@@ -461,7 +461,7 @@ const simulation = (): SimulationMetadata => ({
       deprioritizeBuffs: true,
       teammates: [
         { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
-        { characterId: Jiaoqiu.id, lightCones: [ThoseManySprings.id] },
+        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],
     },

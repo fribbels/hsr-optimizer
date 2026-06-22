@@ -3,11 +3,9 @@ import {
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
-import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
   boostUltAshblazingAtk,
@@ -21,13 +19,9 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { BeforeTheTutorialMissionStarts } from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
-import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
   PathNames,
@@ -374,7 +368,14 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
-        { characterId: WeltB1.id, lightCones: [InTheNameOfTheWorld.id] },
+        { characterId: Cipher.id, lightCones: [Cipher.defaultLightCone] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
+        { characterId: Tribbie.id, lightCones: [Tribbie.defaultLightCone] },
         { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
       ],
     },

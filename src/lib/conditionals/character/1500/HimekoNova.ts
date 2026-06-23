@@ -148,7 +148,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     companionDecimation: {
       id: 'companionDecimation',
       formItem: 'switch',
-      text: 'Companion Protocol: Verdict',
+      text: 'Companion Protocol: Decimation',
       content: betaContent,
     },
     sourceEnergyStacks: {

@@ -91,9 +91,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const skillScaling = skill(e, 1.60, 1.76)
-  const enhancedSkillAoeScaling = skill(e, 0.80, 0.88)
-  const enhancedSkillBounceScaling = skill(e, 0.80, 0.88)
+  const skillScaling = skill(e, 1.80, 1.98)
+  const enhancedSkillAoeScaling = skill(e, 0.90, 0.99)
+  const enhancedSkillBounceScaling = skill(e, 0.90, 0.99)
   const maxBounces = 33
   const maxSpConsumed = 14
 
@@ -281,7 +281,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, (r.elegantConduct) ? 1.50 : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.RES_PEN, (r.elegantConduct) ? 0.10 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, (r.elegantConduct) ? 0.15 : 0, x.source(SOURCE_TRACE))
 
       // Trace SPD +20% after Enhanced Skill
       x.buff(StatKey.SPD_P, (r.ladylikePoise) ? 0.20 : 0, x.source(SOURCE_TRACE))
@@ -316,7 +316,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       if (context.characterId == Archer.id) {
         x.buff(StatKey.ATK_P, (t.elegantConduct) ? 1.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-        x.buff(StatKey.RES_PEN, (t.elegantConduct) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+        x.buff(StatKey.RES_PEN, (t.elegantConduct) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       }
     },
 

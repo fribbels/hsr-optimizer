@@ -1,5 +1,4 @@
 import i18next from 'i18next'
-import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -13,7 +12,6 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
-import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   CURRENT_DATA_VERSION,
@@ -84,18 +82,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const ultBeamScaling = ult(e, 0.40, 0.44)
+  const ultBeamScaling = ult(e, 0.32, 0.352)
   const ultOrbitalAoeScaling = ult(e, 0.20, 0.22)
-  const ultOrbitalRandomScaling = ult(e, 0.40, 0.44)
-  const ultFinalHitScaling = ult(e, 1.00, 1.10)
-  const ultE6OrbitalScaling = 2.40
+  const ultOrbitalRandomScaling = ult(e, 0.30, 0.33)
+  const ultFinalHitScaling = ult(e, 0.80, 0.88)
+  const ultE6OrbitalScaling = 1.60
 
   const skillDmgBuffValue = skill(e, 0.20, 0.22)
-  const talentCdBuffValue = talent(e, 1.00, 1.10)
+
+  const talentCdBuffValue = talent(e, 0.80, 0.88)
   const talentResPenValue = talent(e, 0.20, 0.22)
 
-  const assistAoeScaling = skill(e, 2.50, 2.75)
-  const assistRandomScaling = skill(e, 0.40, 0.44)
+  const selfAssistAoeScaling = skill(e, 2.00, 2.20)
+  const selfAssistRandomScaling = skill(e, 0.32, 0.348)
+  const allyAssistAoeScaling = skill(e, 1.60, 1.76)
+  const allyAssistRandomScaling = skill(e, 0.24, 0.264)
   const verdictDmgBoostValue = skill(e, 1.00, 1.10)
   const verdictUltCdValue = skill(e, 1.00, 1.10)
   const decimationCdValue = skill(e, 1.00, 1.10)
@@ -103,8 +104,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const defaults = {
     navigatorsSemaphore: true,
+    selfUseAssistSkill: true,
     assistSkillBuff: true,
     companionVerdict: true,
+    companionDecimation: false,
     sourceEnergyStacks: 3,
     e4ResPen: true,
     e6: true,
@@ -124,6 +127,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Navigator\'s Semaphore',
       content: betaContent,
     },
+    selfUseAssistSkill: {
+      id: 'selfUseAssistSkill',
+      formItem: 'switch',
+      text: 'Self use Assist Skill',
+      content: betaContent,
+    },
     assistSkillBuff: {
       id: 'assistSkillBuff',
       formItem: 'switch',
@@ -132,6 +141,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     companionVerdict: {
       id: 'companionVerdict',
+      formItem: 'switch',
+      text: 'Companion Protocol: Verdict',
+      content: betaContent,
+    },
+    companionDecimation: {
+      id: 'companionDecimation',
       formItem: 'switch',
       text: 'Companion Protocol: Verdict',
       content: betaContent,
@@ -163,12 +178,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     navigatorsSemaphore: content.navigatorsSemaphore,
     assistSkillBuff: content.assistSkillBuff,
-    companionDecimation: {
-      id: 'companionDecimation',
-      formItem: 'switch',
-      text: 'Companion Protocol: Decimation',
-      content: betaContent,
-    },
+    companionDecimation: content.companionDecimation,
     e4ResPen: content.e4ResPen,
   }
 
@@ -193,11 +203,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       const maxSourceEnergy = e >= 6 ? 6 : 3
       const sourceEnergy = Math.min(r.sourceEnergyStacks, maxSourceEnergy)
-      const a6Multiplier = sourceEnergy >= 3 ? 1.40 : 1.00
+      const a6Multiplier = sourceEnergy >= 3 ? 0.30 : 0
 
       const ultAtkScaling = ultBeamScaling * 6
         + ultOrbitalAoeScaling * sourceEnergy
-        + ultOrbitalRandomScaling * sourceEnergy * a6Multiplier / context.enemyCount
+        + (ultOrbitalRandomScaling + a6Multiplier) * sourceEnergy / context.enemyCount
         + ultFinalHitScaling * 3 / context.enemyCount
         + ((e >= 6 && r.e6 && sourceEnergy >= 6) ? ultE6OrbitalScaling : 0)
 
@@ -225,8 +235,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardSkill()
               .damageElement(ElementTag.Fire)
               .damageType(DamageTag.ASSIST)
-              .atkScaling(assistAoeScaling + assistRandomScaling * 4 / context.enemyCount)
-              .toughnessDmg(10 + 5 * 4 / context.enemyCount)
+              .atkScaling(
+                r.selfUseAssistSkill
+                  ? (selfAssistAoeScaling + selfAssistRandomScaling * 4 / context.enemyCount)
+                  : (allyAssistAoeScaling + allyAssistRandomScaling * 3 / context.enemyCount),
+              )
+              .toughnessDmg(
+                r.selfUseAssistSkill
+                  ? (10 + 5 * 4 / context.enemyCount)
+                  : (10 + 5 * 3 / context.enemyCount),
+              )
               .build(),
           ],
         },
@@ -246,7 +264,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, r.assistSkillBuff ? talentResPenValue : 0, x.source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (e >= 4 && r.e4ResPen && r.assistSkillBuff) ? 0.10 : 0, x.source(SOURCE_E4))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6) ? 0.20 : 0, x.elements(ElementTag.Fire).source(SOURCE_E6))
-      x.buff(StatKey.BOOST, (e >= 6 && r.e6) ? 1.00 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.e6) ? 0.60 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E6))
 
       // E2: Ult and Assist Skill DMG becomes 124% of original
       x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.24 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E2))
@@ -257,8 +275,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.CD, r.companionVerdict ? verdictUltCdValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
 
       // Decimation: CD +100%, Skill CD +100%
-      x.buff(StatKey.CD, !r.companionVerdict ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
-      x.buff(StatKey.CD, !r.companionVerdict ? decimationSkillCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, r.companionDecimation ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, r.companionDecimation ? decimationSkillCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

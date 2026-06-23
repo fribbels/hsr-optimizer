@@ -17,6 +17,7 @@ import {
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import classes from 'lib/tabs/tabHome/HomeTab.module.css'
 import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { validateUuid } from 'lib/utils/miscUtils'
@@ -26,7 +27,6 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './HomeTab.module.css'
 
 export function HomeTab() {
   return (

@@ -25,19 +25,16 @@ export interface TreeStatRegion {
 }
 
 export interface TreeConfig {
-  explorationLimit: number
-  transitionLimit: number
   refinementLimit: number
+  noImprovementWindow: number
 }
 
 export interface ProtoTreeStatNode {
   region: TreeStatRegion
   representative: Float32Array
   damage: number
-  volume: number
   logVolume: number
   nodeId: number
-  measurement: number
   evaluated: boolean
   parent: TreeStatNode | null
 }
@@ -59,11 +56,9 @@ export class SearchTree {
   public nodeId = 0
   public measurements = 0
   public bestDamage = -Infinity
-  public bestHistory: number[] = []
-  public bestHistoryDamage: number[] = []
+  public bestFoundMeasurement = 0
   public bestNode: ProtoTreeStatNode | null = null
 
-  public maxStatRollsPerPiece = 6
   public dimensions: number
   public fixedSum: number
   public activeStats: number[] = []
@@ -73,9 +68,7 @@ export class SearchTree {
   public lower: Float32Array
   public upper: Float32Array
 
-  public cache: Record<string, number> = {}
-  public startTime = 0
-  public endTime = 0
+  public cache: Map<number, number> = new Map()
   public completed = false
 
   public dimensionVarianceTracker: {
@@ -119,8 +112,6 @@ export class SearchTree {
       this.damageFunctionBuffer[stat] = 0
     }
 
-    this.maxStatRollsPerPiece = this.targetSum === 54 ? 6 : 5
-
     this.config = getSearchTreeConfig(this)
 
     // damageQueue peaks at ~1× budget. volumeQueue accumulates during refinement (no pops) and can peak much higher.
@@ -140,11 +131,10 @@ export class SearchTree {
   }
 
   public singleIteration() {
-    if (this.measurements < this.config.explorationLimit) {
+    if (this.measurements < this.config.refinementLimit * 0.75) {
       this.evaluate(this.volumeQueue)
-      this.evaluate(this.volumeQueue)
-    } else if (this.measurements < this.config.transitionLimit) {
-      this.evaluate(this.volumeQueue)
+      this.evaluate(this.damageQueue)
+      this.evaluate(this.damageQueue)
       this.evaluate(this.damageQueue)
     } else {
       this.evaluate(this.damageQueue)
@@ -153,14 +143,12 @@ export class SearchTree {
   }
 
   public search() {
-    this.startTime = performance.now()
     while (
-      ((this.measurements < this.config.refinementLimit) || (this.measurements < this.bestNode!.measurement * 2))
+      this.measurements < this.bestFoundMeasurement + this.getAdaptiveWindow()
       && !this.completed
     ) {
       this.singleIteration()
     }
-    this.endTime = performance.now()
 
     return this.getBest()
   }
@@ -240,10 +228,8 @@ export class SearchTree {
       region: region,
       representative: representative,
       damage: 0,
-      volume: 0,
       logVolume: 0,
       nodeId: this.nodeId++,
-      measurement: this.measurements,
       evaluated: false,
       parent: parentNode,
     }
@@ -386,7 +372,7 @@ export class SearchTree {
       const tracker = this.dimensionVarianceTracker[statIdx]
 
       if (
-        tracker && tracker.splitCount >= 100
+        tracker && tracker.splitCount >= 50
         && tracker.avgVariance > bestVariance
         && this.isStatSplitPossible(statIdx, node)
       ) {
@@ -464,10 +450,8 @@ export class SearchTree {
       region: region,
       representative: representative,
       damage: 0,
-      volume: 0,
       logVolume: 0,
       nodeId: this.nodeId++,
-      measurement: this.measurements,
       evaluated: false,
       parent: null,
     }
@@ -482,7 +466,7 @@ export class SearchTree {
 
   public calculateDamage(node: ProtoTreeStatNode) {
     const id = pointToBitwiseId(node.representative, this.activeStats)
-    const value = this.cache[id]
+    const value = this.cache.get(id)
     if (value !== undefined) {
       node.damage = value
       return value
@@ -492,7 +476,7 @@ export class SearchTree {
     const damage = this.damageFunction(this.damageFunctionBuffer)
 
     this.measurements++
-    this.cache[id] = damage
+    this.cache.set(id, damage)
     node.damage = damage
 
     return damage
@@ -501,14 +485,18 @@ export class SearchTree {
   public trackBestDamage(node: ProtoTreeStatNode) {
     if (node.damage > this.bestDamage) {
       this.bestDamage = node.damage
+      this.bestFoundMeasurement = this.measurements
       this.bestNode = node
-      this.bestHistory.push(node.nodeId)
-      this.bestHistoryDamage.push(node.damage)
-
-      if (this.measurements > this.config.explorationLimit) {
+      if (this.measurements > 100) {
         this.scanPointNeighbors(node.representative)
+        this.scanExtendedNeighbors(node.representative)
       }
     }
+  }
+
+  private getAdaptiveWindow(): number {
+    const floor = this.config.noImprovementWindow
+    return Math.max(floor - this.bestFoundMeasurement, floor / 2)
   }
 
   public calculateVolume(node: ProtoTreeStatNode) {
@@ -521,7 +509,6 @@ export class SearchTree {
       volume *= Math.max(1, upper[statIdx] - lower[statIdx])
     }
 
-    node.volume = volume
     node.logVolume = Math.log(volume)
     return volume
   }
@@ -534,31 +521,85 @@ export class SearchTree {
   }
 
   public scanPointNeighbors(centerPoint: Float32Array) {
-    const validOffsets = this.generateZeroSumOffsets(this.activeStats.length, centerPoint)
     const testPoint = centerPoint.slice() as Float32Array
+    const D = this.activeStats.length
 
-    for (const offsets of validOffsets) {
-      for (let i = 0; i < this.activeStats.length; i++) {
-        testPoint[this.activeStats[i]] = centerPoint[this.activeStats[i]] + offsets[i]
-      }
+    for (let i = 0; i < D; i++) {
+      for (let j = 0; j < D; j++) {
+        if (i === j) continue
+        const statI = this.activeStats[i]
+        const statJ = this.activeStats[j]
+        const origI = centerPoint[statI]
+        const origJ = centerPoint[statJ]
+        const newI = origI + 1
+        const newJ = origJ - 1
+        if (newI > this.upper[statI] || newJ < this.lower[statJ]) continue
 
-      if (!this.substatValidator.isValidDistributionSimple(testPoint)) {
-        continue
-      }
+        testPoint[statI] = newI
+        testPoint[statJ] = newJ
 
-      const id = pointToBitwiseId(testPoint, this.activeStats)
-      const value = this.cache[id]
-      if (value === undefined) {
-        writeToSubstatCounts(testPoint, this.damageFunctionBuffer)
-        const damage = this.damageFunction(this.damageFunctionBuffer)
-
-        this.measurements++
-        this.cache[id] = damage
-
-        if (damage > this.bestDamage) {
-          const newPoint = testPoint.slice() as Float32Array
-          this.insertIntoTree(newPoint, this.root as TreeStatNode)
+        if (!this.substatValidator.isValidDistributionSimple(testPoint)) {
+          testPoint[statI] = origI
+          testPoint[statJ] = origJ
+          continue
         }
+
+        const id = pointToBitwiseId(testPoint, this.activeStats)
+        const value = this.cache.get(id)
+        if (value === undefined) {
+          writeToSubstatCounts(testPoint, this.damageFunctionBuffer)
+          const damage = this.damageFunction(this.damageFunctionBuffer)
+
+          this.measurements++
+          this.cache.set(id, damage)
+
+          if (damage > this.bestDamage) {
+            const newPoint = testPoint.slice() as Float32Array
+            this.insertIntoTree(newPoint, this.root as TreeStatNode)
+          }
+        }
+
+        testPoint[statI] = origI
+        testPoint[statJ] = origJ
+      }
+    }
+  }
+
+  private scanExtendedNeighbors(centerPoint: Float32Array) {
+    const D = this.activeStats.length
+    const testPoint = centerPoint.slice() as Float32Array
+    for (let i = 0; i < D; i++) {
+      for (let j = 0; j < D; j++) {
+        if (i === j) continue
+        const statI = this.activeStats[i]
+        const statJ = this.activeStats[j]
+        const origI = testPoint[statI]
+        const origJ = testPoint[statJ]
+        testPoint[statI] = origI + 2
+        testPoint[statJ] = origJ - 2
+        if (testPoint[statI] > this.upper[statI] || testPoint[statJ] < this.lower[statJ]) {
+          testPoint[statI] = origI
+          testPoint[statJ] = origJ
+          continue
+        }
+        if (!this.substatValidator.isValidDistributionSimple(testPoint)) {
+          testPoint[statI] = origI
+          testPoint[statJ] = origJ
+          continue
+        }
+        const id = pointToBitwiseId(testPoint, this.activeStats)
+        if (this.cache.get(id) === undefined) {
+          writeToSubstatCounts(testPoint, this.damageFunctionBuffer)
+          const damage = this.damageFunction(this.damageFunctionBuffer)
+          this.measurements++
+          this.cache.set(id, damage)
+          if (damage > this.bestDamage) {
+            const newPoint = testPoint.slice() as Float32Array
+            this.insertIntoTree(newPoint, this.root as TreeStatNode)
+          }
+        }
+        testPoint[statI] = origI
+        testPoint[statJ] = origJ
       }
     }
   }
@@ -591,10 +632,8 @@ export class SearchTree {
       region,
       representative: point,
       damage: 0,
-      volume: 0,
       logVolume: 0,
       nodeId: this.nodeId++,
-      measurement: this.measurements,
       evaluated: false,
       parent: root,
     }
@@ -605,43 +644,5 @@ export class SearchTree {
     this.enqueue(childNode)
 
     return childNode
-  }
-
-  private generateZeroSumOffsets(dimensions: number, centerPoint: Float32Array): number[][] {
-    const result: number[][] = []
-
-    const backtrack = (currentOffsets: number[], remainingDimensions: number, currentSum: number) => {
-      if (remainingDimensions === 0) {
-        if (currentSum === 0) {
-          result.push([...currentOffsets])
-        }
-        return
-      }
-
-      const currentDimIndex = dimensions - remainingDimensions
-      const statIdx = this.activeStats[currentDimIndex]
-      const centerValue = centerPoint[statIdx]
-
-      for (const offset of [-1, 0, 1]) {
-        const newValue = centerValue + offset
-
-        if (newValue < this.lower[statIdx] || newValue > this.upper[statIdx]) {
-          continue
-        }
-
-        const newSum = currentSum + offset
-        const maxPossibleFromRemaining = (remainingDimensions - 1) * 1
-        const minPossibleFromRemaining = (remainingDimensions - 1) * -1
-
-        if (newSum + minPossibleFromRemaining <= 0 && newSum + maxPossibleFromRemaining >= 0) {
-          currentOffsets.push(offset)
-          backtrack(currentOffsets, remainingDimensions - 1, newSum)
-          currentOffsets.pop()
-        }
-      }
-    }
-
-    backtrack([], dimensions, 0)
-    return result
   }
 }

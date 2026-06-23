@@ -24,13 +24,10 @@ NoTeamConditionals: Nessuna passiva condizionale di squadra
 ResultLimitN: 'Trova i migliori {{limit}} risultati'
 MainStats: Statistiche principali
 Sets: Set
-RelicSetSelector:
-  Placeholder: Set reliquia
-  4pcLabel: 4 Pezzi
-  2+2pcLabel: 2 + 2 Pezzi
-  2pcLabel: 2 + Qualsiasi
-OrnamentSetSelector:
-  Placeholder: Set ornamento
+SetFilters:
+  RelicSelectedPlaceholder: Reliquie
+  OrnamentSelectedPlaceholder: Ornamenti
+  Done: Finito
 SortOptions:
   DMGLabel: Calcoli dei danni
   OptimizationLabel: Ottimizzazione
@@ -487,45 +484,35 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '4 Pezzi: $t(gameData:RelicSets.114.Name) (+12% VEL)'
-      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% VEL
     Watchmaker:
       Desc: '4 Pezzi: $t(gameData:RelicSets.118.Name) (+30% BE)'
-      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% BE
     Sacerdos1Stack:
       Desc: '4 Pezzi: $t(gameData:RelicSets.121.Name) (+18% CD)'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% CD
     Sacerdos2Stack:
       Desc: '4 Pezzi: $t(gameData:RelicSets.121.Name) (+36% CD)'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% CD
     Warrior:
       Desc: '4 Pezzi: $t(gameData:RelicSets.125.Name) (+15% CD)'
-      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% CD
     SelfEnshrouded:
       Text: 15% CD
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'
-      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% CD
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8% ATT)'
-      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% ATT
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10% DAN per lo stesso elemento)'
-      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10% DAN
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% ATT)'
-      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATT
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name) (+8% VEL)'
-      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% VEL
 StatSimulation:
   DuplicateSimMessage: Esiste già una simulazione stat identica
@@ -720,3 +707,9 @@ ExpandedDataPanel:
         Additional: Tipo DAN Aggiuntivo
         SuperBreak: Tipo DAN Super Break
       Unconvertible: '$t(common:Stats.{{stat}}) non convertibile'
+    HitDefinition:
+      Toughness: DAN Resistenza
+    EnemyConfiguration:
+      Efres: RES Effetti
+      Weakness: Debolezza elementale
+      Broken: Debolezza rotta

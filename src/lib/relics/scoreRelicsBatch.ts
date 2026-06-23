@@ -2,6 +2,10 @@ import type {
   MainStats,
   Parts,
 } from 'lib/constants/constants'
+import {
+  DEFAULT_WEIGHTS,
+  type ScoredRelic,
+} from 'lib/relics/scoreRelics'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
 import { computePotentialScores } from 'lib/relics/scoring/potentialScore'
@@ -13,10 +17,6 @@ import type {
 import type { CharacterId } from 'types/character'
 import type { Nullable } from 'types/common'
 import type { Relic } from 'types/relic'
-import {
-  DEFAULT_WEIGHTS,
-  type ScoredRelic,
-} from './scoreRelics'
 
 /**
  * Pure scoring batch function — no store or singleton dependencies.

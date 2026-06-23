@@ -2,6 +2,7 @@ import type {
   PreviewRelics,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
+import styles from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay.module.css'
 import {
   countRelicRolls,
   flatReduction,
@@ -9,7 +10,10 @@ import {
 import { type SubStats } from 'lib/constants/constants'
 import { relicCardH } from 'lib/constants/constantsUi'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
+import {
+  useDefaultScoringEnabled,
+  useScoringMetadata,
+} from 'lib/hooks/useScoringMetadata'
 import {
   type PotentialResult,
   ScoringCache,
@@ -26,6 +30,7 @@ import {
 } from 'lib/utils/i18nUtils'
 import type { EstTbpWorkerOutput } from 'lib/worker/estTbpWorkerRunner'
 import { handleWork } from 'lib/worker/estTbpWorkerRunner'
+import { getDefaultScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import {
   memo,
   useCallback,
@@ -40,7 +45,6 @@ import type {
   Relic,
   RelicSubstatMetadata,
 } from 'types/relic'
-import styles from './EstimatedTbpRelicsDisplay.module.css'
 
 export const EstimatedTbpRelicsDisplay = memo(function EstimatedTbpRelicsDisplay({
   displayRelics,
@@ -50,8 +54,11 @@ export const EstimatedTbpRelicsDisplay = memo(function EstimatedTbpRelicsDisplay
   showcaseMetadata: ShowcaseMetadata,
 }) {
   const scoringMetadata = useScoringMetadata(showcaseMetadata.characterId)
+  const useDefaultScoring = useDefaultScoringEnabled()
 
-  const scorer = new ScoringCache()
+  const scorer = useDefaultScoring
+    ? new ScoringCache({ metadataResolver: getDefaultScoringMetadata })
+    : new ScoringCache()
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className={styles.fullWidth}>

@@ -16,6 +16,7 @@ import {
   type Conditionals,
   type ContentDefinition,
   createEnum,
+  teammateMatchesId,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
@@ -44,6 +45,7 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
+  DEFAULT_UNIQUE,
   END_FUA,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -54,6 +56,7 @@ import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { type Eidolon } from 'types/character'
@@ -73,7 +76,7 @@ export const RinTohsakaAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ULT,
-  AbilityKind.FUA,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -91,9 +94,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const basicScaling = basic(e, 1.00, 1.10)
 
-  const skillScaling = skill(e, 1.60, 1.76)
-  const enhancedSkillAoeScaling = skill(e, 0.80, 0.88)
-  const enhancedSkillBounceScaling = skill(e, 0.80, 0.88)
+  const skillScaling = skill(e, 1.80, 1.98)
+  const enhancedSkillAoeScaling = skill(e, 0.90, 0.99)
+  const enhancedSkillBounceScaling = skill(e, 0.90, 0.99)
   const maxBounces = 33
   const maxSpConsumed = 14
 
@@ -104,7 +107,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const fuaScaling = talent(e, 3.00, 3.30)
   const talentCdBuffValue = talent(e, 0.70, 0.77)
 
-  const fuaHitMulti = ashblazingMulti([aoe(fuaScaling)])
+  const ultHitMulti = ashblazingMulti([aoe(1)])
+
+  const uniqueHitMulti = ashblazingMulti(Array(5).fill(aoe(0.20)))
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    switch (action.actionType) {
+      case AbilityKind.ULT:
+        return ultHitMulti(context)
+      default:
+        return uniqueHitMulti(context)
+    }
+  }
 
   const defaults = {
     enhancedSkill: true,
@@ -230,6 +244,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         ? 20 + 2 * r.skillBounces / context.enemyCount
         : 20
 
+      const archerInTeam = teammateMatchesId(context, Archer.id)
+
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -259,14 +275,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AbilityKind.FUA]: {
-          hits: [
-            HitDefinitionBuilder.standardFua()
-              .damageElement(ElementTag.Quantum)
-              .atkScaling(fuaScaling)
-              .toughnessDmg(20)
-              .build(),
-          ],
+        [AbilityKind.UNIQUE]: {
+          hits: archerInTeam
+            ? [
+              HitDefinitionBuilder.standardFua()
+                .damageElement(ElementTag.Quantum)
+                .atkScaling(fuaScaling)
+                .toughnessDmg(20)
+                .build(),
+            ]
+            : [],
         },
         [AbilityKind.BREAK]: {
           hits: [
@@ -281,7 +299,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, (r.elegantConduct) ? 1.50 : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.RES_PEN, (r.elegantConduct) ? 0.10 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, (r.elegantConduct) ? 0.15 : 0, x.source(SOURCE_TRACE))
 
       // Trace SPD +20% after Enhanced Skill
       x.buff(StatKey.SPD_P, (r.ladylikePoise) ? 0.20 : 0, x.source(SOURCE_TRACE))
@@ -316,15 +334,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       if (context.characterId == Archer.id) {
         x.buff(StatKey.ATK_P, (t.elegantConduct) ? 1.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-        x.buff(StatKey.RES_PEN, (t.elegantConduct) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+        x.buff(StatKey.RES_PEN, (t.elegantConduct) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       }
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, fuaHitMulti(context))
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(fuaHitMulti(context), action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -358,9 +376,9 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     DEFAULT_SKILL,
-    END_FUA,
+    DEFAULT_UNIQUE,
     START_SKILL,
-    END_FUA,
+    DEFAULT_UNIQUE,
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
@@ -371,6 +389,7 @@ const simulation = (): SimulationMetadata => ({
   ornamentSets: [
     Sets.TengokuLivestream,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
     {

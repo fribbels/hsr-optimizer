@@ -1,3 +1,4 @@
+import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import {
   Cyrene,
   cyreneActionExists,
@@ -5,6 +6,8 @@ import {
 } from 'lib/conditionals/character/1400/Cyrene'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import {
   BuffPriority,
 } from 'lib/conditionals/conditionalConstants'
@@ -15,9 +18,12 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
+import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   Parts,
@@ -459,6 +465,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -502,6 +517,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.ULT],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {

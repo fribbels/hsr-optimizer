@@ -6,20 +6,20 @@ import {
   Sets,
 } from 'lib/constants/constants'
 import {
+  InsightCharacters,
+  RelicInsights,
+  useRelicsTabStore,
+} from 'lib/tabs/tabRelics/useRelicsTabStore'
+import type {
+  RelicTabFilters,
+  ValueColumnField,
+} from 'lib/tabs/tabRelics/useRelicsTabStore'
+import {
   beforeEach,
   describe,
   expect,
   it,
 } from 'vitest'
-import {
-  InsightCharacters,
-  RelicInsights,
-  useRelicsTabStore,
-} from './useRelicsTabStore'
-import type {
-  RelicTabFilters,
-  ValueColumnField,
-} from './useRelicsTabStore'
 
 // ---- Constants ----
 

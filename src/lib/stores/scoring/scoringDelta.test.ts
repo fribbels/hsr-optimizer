@@ -4,6 +4,13 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import type { MainStats } from 'lib/constants/constants'
+import {
+  extractPartsDelta,
+  extractStatsDelta,
+  mergeAndPruneOverride,
+  mergeDeltaWithDefaults,
+  pruneOverridesOnLoad,
+} from 'lib/stores/scoring/scoringDelta'
 import type {
   ScoringMetadata,
   ScoringMetadataOverride,
@@ -14,13 +21,6 @@ import {
   expect,
   it,
 } from 'vitest'
-import {
-  extractPartsDelta,
-  extractStatsDelta,
-  mergeAndPruneOverride,
-  mergeDeltaWithDefaults,
-  pruneOverridesOnLoad,
-} from './scoringDelta'
 
 // Helper to create a full stats record with all zeros except specified
 function makeStats(overrides: Partial<Record<SubStats, number>> = {}): Record<SubStats, number> {

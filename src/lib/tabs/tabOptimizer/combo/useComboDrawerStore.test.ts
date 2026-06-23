@@ -33,8 +33,8 @@ import type {
 import {
   locateConditional,
   useComboDrawerStore,
-} from './useComboDrawerStore'
-import type { ComboDrawerStore } from './useComboDrawerStore'
+} from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
+import type { ComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 
 // ---------------------------------------------------------------------------
 // Global setup

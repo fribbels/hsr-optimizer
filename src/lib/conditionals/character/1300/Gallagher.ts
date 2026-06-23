@@ -1,6 +1,8 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
-import { WhatIsReal } from 'lib/conditionals/lightcone/4star/WhatIsReal'
 import {
   NONE_TYPE,
   SKILL_DMG_TYPE,
@@ -20,6 +22,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { WhatIsReal } from 'lib/conditionals/lightcone/4star/WhatIsReal'
 import {
   ConditionalActivation,
   ConditionalType,

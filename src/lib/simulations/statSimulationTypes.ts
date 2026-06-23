@@ -5,6 +5,7 @@ import type {
   AbilityKind,
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { SetCounts } from 'lib/optimization/setMatching'
 import type { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import type {
   SetsOrnaments,
@@ -82,9 +83,9 @@ export type RotationBuffStep = {
 
 export type SimulateBuildResult = {
   x: ComputedStatsContainer,
-  primaryActionStats: PrimaryActionStats,
-  actionDamage: ActionDamage,
-  rotationDamage: RotationDamageStep[],
+  primaryActionStats?: PrimaryActionStats,
+  actionDamage?: ActionDamage,
+  rotationDamage?: RotationDamageStep[],
   actionBuffSnapshots?: Record<string, ActionBuffSnapshot>,
   rotationBuffSteps?: RotationBuffStep[],
 }
@@ -100,6 +101,12 @@ export type RunStatSimulationsResult = {
   rotationDamage?: RotationDamageStep[],
   actionBuffSnapshots?: Record<string, ActionBuffSnapshot>,
   rotationBuffSteps?: RotationBuffStep[],
+}
+
+export type CachedRunStatSimulationsResult = Omit<RunStatSimulationsResult, 'x' | 'xa' | 'ca'> & {
+  x: ComputedStatsContainer | null,
+  xa: Float64Array | null,
+  ca: Float32Array | null,
 }
 
 export type SimulationRelic = {
@@ -122,4 +129,29 @@ export type SimulationRelicArrayByPart = {
   Body: SimulationRelic[],
   Hands: SimulationRelic[],
   Head: SimulationRelic[],
+}
+
+export type PrecomputedSetState = {
+  setH: number,
+  setG: number,
+  setB: number,
+  setF: number,
+  setP: number,
+  setL: number,
+  relicSetIndex: number,
+  ornamentSetIndex: number,
+  sets: number[],
+  setCounts: SetCounts,
+}
+
+export type BenchmarkSimulationState = {
+  relics: SimulationRelicByPart,
+  headEntries: [number, number][],
+  substatScales: number[],
+  substatValues: number[],
+  substatKeys: number[],
+  substatModifier: ((rolls: number) => number)[],
+  precomputedSets: PrecomputedSetState,
+  params: RunSimulationsParams,
+  cachedResult: CachedRunStatSimulationsResult,
 }

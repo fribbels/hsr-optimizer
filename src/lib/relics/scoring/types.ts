@@ -1,6 +1,5 @@
 import type {
   Parts,
-  Sets,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
@@ -11,13 +10,13 @@ import type { ScoreCategory } from 'lib/scoring/scoreComparison'
 export type ScorerMetadata = {
   parts: Record<Parts, StatsValues[]>,
   stats: Record<StatsValues, number>,
-  sets: Partial<Record<Sets, number>>,
   sortedSubstats: [SubStats, number][],
   groupedSubstats: Map<number, SubStats[]>,
   greedyHash: string,
   hash: string,
   modified?: boolean,
   category: ScoreCategory,
+  aeonEligibleWeights: boolean,
   // Pre-computed: weight[stat] * raw-value-to-potential scale
   contributions: Record<SubStats, number>,
   // Pre-computed weighted potential per grade-5 roll tier

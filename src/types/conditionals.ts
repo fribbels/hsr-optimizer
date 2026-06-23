@@ -10,13 +10,13 @@ import type {
   ComponentType,
 } from 'react'
 import type {
+  AbilityDefinition,
+  EntityDefinition,
+} from 'types/hitConditionalTypes'
+import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
-import type {
-  AbilityDefinition,
-  EntityDefinition,
-} from './hitConditionalTypes'
 
 // Interface to an instance of a Character or Light Cone conditional controller
 export interface ConditionalsController {

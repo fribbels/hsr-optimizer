@@ -1,7 +1,7 @@
 import type {
   FutureScoringResult,
   PotentialResult,
-} from './types'
+} from 'lib/relics/scoring/types'
 
 export function computePotentialScores(
   futureScore: FutureScoringResult,

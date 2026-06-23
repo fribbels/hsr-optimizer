@@ -5,8 +5,6 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: Добавить набор реликвий
     AddOrnamentSetPlaceholder: Добавить набор планарок
-  WeightMethodology:
-    Header: Как рассчитывается оценка статов?
   Footer:
     Reset: Восстановить значения по умолчанию
     ResetAll: Сбросить для всех персонажей 
@@ -382,8 +380,3 @@ RelicReroll:
   Title: Обнаружен Переброс Реликвии
   OriginalSubstats: Изначальные Сабстаты
   RerolledSubstats: Новые Сабстаты
-Calculators:
-  EHR:
-    Label: Шанс эффектов
-    Input:
-      HitRate: Шанс эффектов

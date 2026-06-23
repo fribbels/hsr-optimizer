@@ -1,4 +1,4 @@
-function sortKeys(val: unknown): unknown {
+export function sortKeys(val: unknown): unknown {
   if (val === null || typeof val !== 'object') return val
   if (Array.isArray(val)) return val.map(sortKeys)
   const obj = val as Record<string, unknown>

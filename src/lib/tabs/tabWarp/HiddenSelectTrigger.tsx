@@ -1,5 +1,11 @@
-import type { CSSProperties, ReactNode } from 'react'
-import { useRef, useState } from 'react'
+import type {
+  CSSProperties,
+  ReactNode,
+} from 'react'
+import {
+  useRef,
+  useState,
+} from 'react'
 
 // Mounts a triggerless select invisibly so it can be opened imperatively from custom UI.
 const HIDDEN_HOST_STYLE: CSSProperties = { position: 'absolute', opacity: 0, pointerEvents: 'none', width: 0, height: 0, overflow: 'hidden' }
@@ -23,7 +29,9 @@ export function useHiddenSelectTrigger(): HiddenSelectTrigger {
     setOpened(next)
     if (!next) {
       justClosedRef.current = true
-      setTimeout(() => { justClosedRef.current = false }, 150)
+      setTimeout(() => {
+        justClosedRef.current = false
+      }, 150)
     }
   }
 

@@ -7,6 +7,10 @@ import {
   useCharacterStore,
 } from 'lib/stores/character/characterStore'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import {
+  resetFilters,
+  updateCharacter,
+} from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import type { Character } from 'types/character'
 import type { Form } from 'types/form'
 import {
@@ -16,10 +20,6 @@ import {
   it,
   vi,
 } from 'vitest'
-import {
-  resetFilters,
-  updateCharacter,
-} from './optimizerFormActions'
 
 // ---- Mocks ----
 

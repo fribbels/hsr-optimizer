@@ -1,0 +1,174 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 1556px;
+  margin: 0 auto;
+  padding: 16px 0;
+  gap: 16px;
+
+  /* Sizing */
+  --lb-strip-width: 56px;
+
+  /* Toolbar */
+  --lb-toolbar-bg: rgba(0, 0, 0, 0.35);
+  --lb-input-bg: rgba(0, 0, 0, 0.25);
+  --lb-tab-bg: rgba(255, 255, 255, 0.03);
+  --lb-tab-border: rgba(255, 255, 255, 0.05);
+
+  /* Colors */
+  --lb-text-1: rgba(255, 255, 255, 0.92);
+  --lb-text-2: rgba(255, 255, 255, 0.72);
+  --lb-text-3: rgba(255, 255, 255, 0.52);
+  --lb-divider: rgba(255, 255, 255, 0.1);
+  --lb-hover-bg: rgba(255, 255, 255, 0.07);
+  --lb-select-bg: rgba(24, 144, 255, 0.16);
+  --lb-select-accent: #3ba0ff;
+  --lb-select-text: #d4eaff;
+}
+
+.mainContent {
+  display: flex;
+  gap: 16px;
+}
+
+.sidebar {
+  position: sticky;
+  top: 16px;
+  align-self: flex-start;
+  z-index: 2;
+  width: 440px;
+  height: calc(100dvh - 90px);
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.25);
+}
+
+.panel {
+  position: absolute;
+  inset: 0;
+}
+
+.panelDetail {
+  display: flex;
+  flex-direction: column;
+}
+
+.rankView {
+  display: flex;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Structural Slots ── */
+
+.toolbarSlot {
+  flex-shrink: 0;
+  min-width: 0;
+  overflow: hidden;
+  padding: 12px 14px;
+  background: var(--lb-toolbar-bg);
+  border-bottom: 1px solid var(--lb-divider);
+}
+
+
+/* ── Back button: unified ── */
+
+.backUnified {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 38px;
+  padding: 0;
+  border: none;
+  border-bottom: 1px solid var(--lb-divider);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  font-family: inherit;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.backUnified:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.backUnifiedArrow {
+  width: var(--lb-strip-width);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.backUnified:hover .backUnifiedArrow {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stripColumn {
+  display: flex;
+  flex-direction: column;
+  width: var(--lb-strip-width);
+  flex-shrink: 0;
+  overflow: hidden;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.rankColumn {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.previewColumn {
+  width: 1100px;
+  flex-shrink: 0;
+}
+
+.previewFrame {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Panel transitions: fast exit left, delayed enter from right */
+
+.panelBrowsing.panelVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition: opacity 0.15s ease-out, transform 0.15s ease-in;
+}
+
+.panelBrowsing.panelHidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50px);
+  transition: opacity 0.12s ease-in, transform 0.12s ease-in;
+}
+
+.panelDetail.panelVisible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition: opacity 0.18s ease-out 0.1s, transform 0.2s cubic-bezier(0, 0, 0.2, 1) 0.1s;
+}
+
+.panelDetail.panelHidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(50px);
+  transition: opacity 0.12s ease-in, transform 0.12s ease-in;
+}
+

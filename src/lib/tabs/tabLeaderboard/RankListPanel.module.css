@@ -1,0 +1,145 @@
+/* ── Base Layout ── */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  outline: none;
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Current Row ── */
+
+.tableRow {
+  display: grid;
+  grid-template-columns: minmax(32px, max-content) minmax(56px, max-content) minmax(58px, max-content) minmax(36px, max-content) max-content;
+  column-gap: 8px;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  height: 56px;
+  padding: 0 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--lb-divider);
+  user-select: none;
+  position: relative;
+}
+
+/* Hover brighten — a faint white wash over the whole row on hover. Uses an overlay
+   (not background:hover) so it layers over the podium medal fill, which an inline
+   background would otherwise block. */
+.tableRow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.07);
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+
+.tableRow:hover::after {
+  opacity: 1;
+}
+
+.tableRowSelected {
+  background: var(--lb-select-bg);
+  box-shadow: inset 3px 0 0 var(--lb-select-accent);
+}
+
+/* Selected podium row: the medal fill (inline) is kept; selection is shown via a 4px left rail. */
+.tableRowSelected.rowColorKeep {
+  box-shadow: inset 4px 0 0 var(--lb-select-accent);
+}
+
+/* ── Column Cells ── */
+
+.colRank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rankBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--lb-text-2);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.rankNumber {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--lb-text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.colScore {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scoreValue {
+  font-size: 14px;
+  color: var(--lb-text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.colTeam {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  position: relative;
+}
+
+.colLightCone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+}
+
+.lcIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.tableRowSelected .scoreValue {
+  color: var(--lb-select-text);
+}
+
+/* ── Default Hidden: Eidolon tag ── */
+
+.eidolonTag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 400;
+  padding: 1px 8px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  color: var(--eidolon-ring, rgba(255, 255, 255, 0.4));
+  background: var(--eidolon-fill, transparent);
+  border: 1px solid var(--eidolon-border, rgba(255, 255, 255, 0.1));
+}

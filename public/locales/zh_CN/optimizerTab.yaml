@@ -25,13 +25,21 @@ ResultLimitN: '查找排名前{{limit}}的结果'
 MainStats: 主属性
 Sets: 套装
 UnreleasedDisclaimer: '{{nameList}} 的计算尚未完成，优化器结果可能不准确。'
-RelicSetSelector:
-  Placeholder: 隧洞遗器套装
+SetFilters:
+  OrnamentPlaceholder: 饰品套装筛选
+  RelicPlaceholder: 遗器套装筛选
   4pcLabel: 4件套
-  2+2pcLabel: 2 + 2件套
-  2pcLabel: 2 + 任何
-OrnamentSetSelector:
-  Placeholder: 位面饰品套装
+  2pcLabel: 2件套
+  AnyTag: 任何
+  SelectedHeader: 已选套装
+  RelicListHeader: 遗器套装
+  OrnamentListHeader: 饰品套装
+  SearchPlaceholder: 搜索套装...
+  RelicSelectedPlaceholder: 遗器
+  OrnamentSelectedPlaceholder: 位面饰品
+  Revert: 还原
+  Done: 完成！
+  Clear: 全部清除
 SortOptions:
   DMGLabel: 伤害计算
   HealLabel: 治疗量计算
@@ -332,7 +340,7 @@ Sidebar:
     EquipSuccessMessage: 已装备
     Filter: 过滤
     Pin: 置顶配装
-    Clear: 清除所有置顶
+    Clear: 清除置顶
   BuildsGroup:
     Header: 配装
     Save: 保存
@@ -359,14 +367,14 @@ SetConditionals:
   SelectOptions:
     Streetwise:
       Display: '{{stackCount}}层'
-      Label: '{{stackCount}}层 (+{{buffValue}}% ATK)'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 攻击力 )'
     Wastelander:
       Off:
         Display: '关闭'
         Label: '关闭'
       Debuffed:
         Display: 暴击率
-        Label: 被减益 (+10% CR)
+        Label: 被减益 (+10% 暴击)
       Imprisoned:
         Display: 暴击 + 爆伤
         Label: 禁锢 (+10% 暴击 | +20% 爆伤)
@@ -375,7 +383,7 @@ SetConditionals:
       Label: '{{stackCount}}层 (+{{buffValue}}% 暴击)'
     Ashblazing:
       Display: '{{stackCount}}层'
-      Label: '{{stackCount}}层 (+{{buffValue}}% ATK)'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 攻击力)'
     Prisoner:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% 防御穿透)'
@@ -403,7 +411,7 @@ SetConditionals:
       Label: '{{stackCount}} 层（+{{stackCount}}% 防御力穿透）'
     Sigonia:
       Display: '{{stackCount}}层'
-      Label: '{{stackCount}}层 (+{{buffValue}}% CD)'
+      Label: '{{stackCount}}层 (+{{buffValue}}% 爆伤)'
     Duran:
       Display: '{{stackCount}}层'
       Label: '{{stackCount}}层 (+{{buffValue}}% 追加攻击伤害)'
@@ -580,6 +588,7 @@ ComboFilter:
     Enabled: 已启用条件预设
     Disabled: 已禁用条件预设
   ComboOptions:
+    Placeholder: 技能
     None: '无'
     Basic: 普攻
     Skill: 战技
@@ -627,59 +636,45 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '四件套: $t(gameData:RelicSets.114.Name) (+12%速度)'
-      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% 速度
     Watchmaker:
       Desc: '四件套: $t(gameData:RelicSets.118.Name) (+30%击破特攻)'
-      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% 击破特攻
     Sacerdos1Stack:
       Desc: '四件套: $t(gameData:RelicSets.121.Name) (+18%暴击伤害)'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% 爆伤
     Sacerdos2Stack:
       Desc: '四件套: $t(gameData:RelicSets.121.Name) (+36%暴击伤害)'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36%暴伤
     Warrior:
       Desc: '四件套: $t(gameData:RelicSets.125.Name) (+15%暴击伤害)'
-      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% 爆伤
     WorldRemaking:
       Desc: '四件套：$t(gameData:RelicSets.127.Name)（+15%增伤）'
-      Set: '$t(gameData:RelicSets.127.Name)'
       Text: 15%增伤
     SelfEnshrouded:
       Desc: '四件套: $t(gameData:RelicSets.128.Name)（+15%暴击伤害）'
-      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% 爆伤
     Diviner:
       Desc: '4件套：$t(gameData:RelicSets.130.Name)（+10%欢愉度）'
-      Set: '$t(gameData:RelicSets.130.Name)'
       Text: 10%欢愉度
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
-      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10%暴伤
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8%攻击力)'
-      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8%攻击力
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10%同属性增伤)'
-      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10%增伤
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12%攻击力)'
-      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12%攻击力
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name)（+8%速度）'
-      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% 速度
     CityOfConvergingStars:
       Desc: '$t(gameData:RelicSets.326.Name) （+12% 暴伤）'
-      Set: '$t(gameData:RelicSets.326.Name)'
       Text: 12% 爆伤
 StatSimulation:
   DuplicateSimMessage: 相同属性的模拟已存在
@@ -906,3 +901,39 @@ ExpandedDataPanel:
         SuperBreak: 超击破伤害类型
       Unconvertible: '不可转化的$t(common:Stats.{{stat}})'
       ElementalDmgBoost: '$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'
+    HitDefinition:
+      AtkScaling: 攻击力加成
+      HpScaling: 生命值加成
+      DefScaling: 防御力加成
+      Crit:
+        BeScaling: 击破特攻加成
+        BeCap: 击破特攻上限
+        ElationAtkScaling: 欢愉攻击力加成
+      Dot:
+        Chance: 持续伤害概率
+        Split: 持续伤害分摊
+        Stacks: 持续伤害层数
+      Break:
+        SpecialScaling: 特殊加成
+      SuperBreak:
+        ExtraModifier: 额外倍率
+      Additional:
+        CrOverride: 暴击率覆盖
+        CdOverride: 暴击伤害覆盖
+      Elation:
+        Scaling: 欢愉度加成
+        Punchline: 笑点层数
+        Banger: 好活当赏层数
+      TrueDmg: 真实伤害倍率
+      Toughness: 韧性伤害值
+      FixedToughness: 固定韧性值
+    EnemyConfiguration:
+      Header: 敌方配置
+      Level: 敌方等级
+      Res: 伤害抗性
+      Efres: 效果抵抗
+      Toughness: 韧性值
+      Targets: 目标数量
+      Weakness: 元素弱点
+      Broken: 弱点击破
+      Enemy: 敌人

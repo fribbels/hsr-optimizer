@@ -24,7 +24,7 @@ const partConversion = {
   5: Constants.Parts.PlanarSphere,
   6: Constants.Parts.LinkRope,
 }
-const gradeConversion = {
+export const gradeConversion: Record<string, number> = {
   6: 5,
   5: 4,
   4: 3,
@@ -171,7 +171,7 @@ function convertRelic(preRelic: PreRelic) {
     }
     const partName: Relic['part'] = partConversion[partId]
 
-    const gradeId = tid.substring(0, 1) as '3' | '4' | '5' | '6'
+    const gradeId = tid.substring(0, 1)
     const grade: Relic['grade'] = gradeConversion[gradeId]
 
     let mainId = preRelic.mainAffixId

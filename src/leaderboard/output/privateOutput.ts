@@ -13,17 +13,12 @@ import {
   writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
 import type {
-  LeaderboardVersionFile,
   PrivateBoard,
   PrivateBoardCompleteness,
   PrivateRankedEntry,
   PrivateRankedOutput,
   ProfilePayloadIndex,
 } from 'leaderboard/shared/types'
-import {
-  getCharacterVersion,
-  getLightConeVersion,
-} from 'leaderboard/shared/versioning'
 
 export function comparePrivateRankedEntries(
   a: Pick<PrivateRankedEntry, 'score' | 'uidHash'>,
@@ -61,62 +56,28 @@ function dedupePrivateRankedEntries(entries: PrivateRankedEntry[]): PrivateRanke
   return [...bestByIdentity.values()]
 }
 
-export function mergePrivateRankedOutput(input: {
-  previous: PrivateRankedOutput | null,
-  newEntries: PrivateRankedEntry[],
-  changedUids: Set<string>,
-  missingUids: Set<string>,
-  invalidatedDependencyDigests: Set<string>,
-  currentFetchedAtByUid: ReadonlyMap<string, number>,
-  globalVersion: number,
+export function buildPrivateRankedOutput(input: {
+  entries: PrivateRankedEntry[],
+  versions: PrivateRankedOutput['versions'],
+  sourceExport: PrivateRankedOutput['sourceExport'],
+  payloadIndex: ProfilePayloadIndex,
+  generatedAt: string,
   topN: number,
   topNPublic: number,
-}): {
-  output: PrivateRankedOutput,
-  dependencyInvalidatedUids: Set<string>,
-} {
+}): PrivateRankedOutput {
   const {
-    previous,
-    newEntries,
-    changedUids,
-    missingUids,
-    invalidatedDependencyDigests,
-    currentFetchedAtByUid,
-    globalVersion,
+    entries,
+    versions,
+    sourceExport,
+    payloadIndex,
+    generatedAt,
     topN,
     topNPublic,
   } = input
 
-  const dependencyInvalidatedUids = new Set<string>()
   const boardEntries = new Map<string, PrivateRankedEntry[]>()
-  const newEntriesCountByBoard = new Map<string, number>()
-  const replacementKeys = new Set(newEntries.map(entryReplacementKey))
 
-  const globalVersionMismatch = previous == null || previous.versions.global !== globalVersion
-
-  if (!globalVersionMismatch && previous != null) {
-    for (const [boardKey, board] of Object.entries(previous.boards)) {
-      const retained: PrivateRankedEntry[] = []
-      for (const entry of board.entries) {
-        if (missingUids.has(entry.uid) || changedUids.has(entry.uid)) {
-          continue
-        }
-        if (invalidatedDependencyDigests.has(entry.dependencyDigest)) {
-          dependencyInvalidatedUids.add(entry.uid)
-          continue
-        }
-        if (replacementKeys.has(entryReplacementKey(entry))) {
-          continue
-        }
-        retained.push({ ...entry, data: { ...entry.data, fetchedAt: currentFetchedAtByUid.get(entry.uid)! } })
-      }
-      if (retained.length > 0) {
-        boardEntries.set(boardKey, retained)
-      }
-    }
-  }
-
-  for (const entry of newEntries) {
+  for (const entry of entries) {
     const boardKey = boardKeyFromEntry(entry)
     let list = boardEntries.get(boardKey)
     if (!list) {
@@ -124,8 +85,6 @@ export function mergePrivateRankedOutput(input: {
       boardEntries.set(boardKey, list)
     }
     list.push(entry)
-
-    newEntriesCountByBoard.set(boardKey, (newEntriesCountByBoard.get(boardKey) ?? 0) + 1)
   }
 
   const boards: Record<string, PrivateBoard> = {}
@@ -143,7 +102,7 @@ export function mergePrivateRankedOutput(input: {
     const { characterId, configType, teamId } = parseBoardKey(boardKey)
 
     const completeness: PrivateBoardCompleteness = {
-      scoredCandidateCount: newEntriesCountByBoard.get(boardKey) ?? 0,
+      scoredCandidateCount: entries.length,
       totalScoredEntries: dedupedEntries.length,
       privateCutoffScore: sliced.length > 0 ? sliced[sliced.length - 1].score : null,
       publicCutoffScore: sliced.length >= topNPublic ? sliced[topNPublic - 1].score : null,
@@ -161,66 +120,13 @@ export function mergePrivateRankedOutput(input: {
     }
   }
 
-  const output: PrivateRankedOutput = {
-    generatedAt: new Date().toISOString(),
-    versions: previous?.versions ?? { global: 0, characters: {}, lightCones: {} },
-    sourceExport: previous?.sourceExport ?? { path: '', profileCount: 0 },
+  return {
+    generatedAt,
+    versions,
+    sourceExport,
     boards,
-    payloadIndex: previous?.payloadIndex ?? { profiles: {} },
+    payloadIndex,
   }
-
-  return { output, dependencyInvalidatedUids }
-}
-
-export function collectDependencyInvalidations(input: {
-  previous: PrivateRankedOutput | null,
-  versions: LeaderboardVersionFile,
-  globalVersion: number,
-}): {
-  invalidatedDependencyDigests: Set<string>,
-  invalidatedUids: Set<string>,
-} {
-  const invalidatedDependencyDigests = new Set<string>()
-  const invalidatedUids = new Set<string>()
-  const { previous, versions, globalVersion } = input
-
-  if (previous == null || previous.versions.global !== globalVersion) {
-    return { invalidatedDependencyDigests, invalidatedUids }
-  }
-
-  for (const board of Object.values(previous.boards)) {
-    for (const entry of board.entries) {
-      if (dependencyVersionsAreStale(entry, versions)) {
-        invalidatedDependencyDigests.add(entry.dependencyDigest)
-        invalidatedUids.add(entry.uid)
-      }
-    }
-  }
-
-  return { invalidatedDependencyDigests, invalidatedUids }
-}
-
-function dependencyVersionsAreStale(
-  entry: PrivateRankedEntry,
-  versions: LeaderboardVersionFile,
-): boolean {
-  if (entry.dependencyVersions.global !== versions.global) {
-    return true
-  }
-
-  for (const [characterId, version] of Object.entries(entry.dependencyVersions.characterVersions)) {
-    if (version !== getCharacterVersion(versions, characterId)) {
-      return true
-    }
-  }
-
-  for (const [lightConeId, version] of Object.entries(entry.dependencyVersions.lightConeVersions)) {
-    if (version !== getLightConeVersion(versions, lightConeId)) {
-      return true
-    }
-  }
-
-  return false
 }
 
 export function assertPrivateOutputPublishable(output: PrivateRankedOutput): void {
@@ -290,10 +196,7 @@ export function readPrivateRankedOutput(dir: string): PrivateRankedOutput | null
     }
   }
 
-  const payloadIndexPath = joinPath(dir, 'payloadIndex.json')
-  const payloadIndex: ProfilePayloadIndex = fileExists(payloadIndexPath)
-    ? JSON.parse(readTextFile(payloadIndexPath)) as ProfilePayloadIndex
-    : { profiles: {} }
+  const payloadIndex = readProfilePayloadIndex(dir) ?? { profiles: {} }
 
   return {
     generatedAt: header.generatedAt,
@@ -302,4 +205,13 @@ export function readPrivateRankedOutput(dir: string): PrivateRankedOutput | null
     boards,
     payloadIndex,
   }
+}
+
+export function readProfilePayloadIndex(dir: string): ProfilePayloadIndex | null {
+  if (!isDirectory(dir)) return null
+
+  const payloadIndexPath = joinPath(dir, 'payloadIndex.json')
+  if (!fileExists(payloadIndexPath)) return null
+
+  return JSON.parse(readTextFile(payloadIndexPath)) as ProfilePayloadIndex
 }

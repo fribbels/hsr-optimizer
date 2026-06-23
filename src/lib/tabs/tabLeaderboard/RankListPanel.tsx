@@ -6,9 +6,10 @@ import classes from 'lib/tabs/tabLeaderboard/RankListPanel.module.css'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
 import { truncate10ths } from 'lib/utils/mathUtils'
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
+import { OverlayScrollbarsComponent, type OverlayScrollbarsComponentRef } from 'overlayscrollbars-react'
 import {
   useCallback,
+  useEffect,
   useRef,
 } from 'react'
 
@@ -81,7 +82,16 @@ function RankListEntry({ entry, isSelected }: {
 export function RankListPanel() {
   const entries = useLeaderboardTabStore((s) => s.visibleEntries)
   const selectedBuildId = useLeaderboardTabStore((s) => s.selectedBuildId)
+  const selectedCharacterId = useLeaderboardTabStore((s) => s.selectedCharacterId)
   const containerRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<OverlayScrollbarsComponentRef>(null)
+
+  useEffect(() => {
+    const viewport = scrollRef.current?.osInstance()?.elements().viewport
+    if (viewport) {
+      viewport.scrollTo({ top: 0 })
+    }
+  }, [selectedCharacterId])
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return
@@ -115,7 +125,7 @@ export function RankListPanel() {
 
   return (
     <div className={classes.container} ref={containerRef} onKeyDown={handleKeyDown} onClick={focusContainer} tabIndex={0}>
-      <OverlayScrollbarsComponent className={classes.list} options={OVERLAY_SCROLLBAR_OPTIONS} defer>
+      <OverlayScrollbarsComponent ref={scrollRef} className={classes.list} options={OVERLAY_SCROLLBAR_OPTIONS} defer>
         {entries.map((entry) => (
           <RankListEntry
             key={entry.buildId}

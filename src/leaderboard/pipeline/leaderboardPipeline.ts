@@ -7,9 +7,8 @@ import {
 } from 'leaderboard/ingest/profileDiff'
 import {
   assertPrivateOutputPublishable,
-  collectDependencyInvalidations,
-  mergePrivateRankedOutput,
-  readPrivateRankedOutput,
+  buildPrivateRankedOutput,
+  readProfilePayloadIndex,
   writePrivateRankedOutput,
 } from 'leaderboard/output/privateOutput'
 import {
@@ -20,12 +19,12 @@ import {
 import {
   printLeaderboardResults,
   printRunSummary,
+  printTopNCoverageAnalysis,
 } from 'leaderboard/pipeline/leaderboardReporting'
 import {
   runScoringStage,
   type RunScoringStageResult,
 } from 'leaderboard/pipeline/scoringStage'
-import { estimateScoringRuns } from 'leaderboard/scoring/scorer'
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
 import { hashObject } from 'leaderboard/shared/hash'
 import {
@@ -36,16 +35,11 @@ import {
 } from 'leaderboard/shared/nodeFacade'
 import type {
   ParsedExport,
-  ParsedProfile,
   PrivateRankedEntry,
   PrivateRankedOutput,
   PublicLeaderboardOutputV3,
 } from 'leaderboard/shared/types'
-import {
-  collectAffectedCharacterIds,
-  collectBumpedIds,
-  readLeaderboardVersions,
-} from 'leaderboard/shared/versioning'
+import { readLeaderboardVersions } from 'leaderboard/shared/versioning'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type { CharacterId } from 'types/character'
@@ -59,7 +53,6 @@ type LeaderboardExportInput = {
 type PublishArtifacts = {
   privateOutput: PrivateRankedOutput,
   publicOutput: PublicLeaderboardOutputV3,
-  dependencyInvalidatedUids: Set<string>,
 }
 
 function findLatestServerExport(): LeaderboardExportInput {
@@ -140,60 +133,27 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       throw new Error('Parsed export contained no profiles; refusing to publish empty leaderboard')
     }
 
-    const previousPrivate = options.freshRun
+    const previousPayloadIndex = options.freshRun
       ? null
-      : readPrivateRankedOutput(privateOutputPath)
-    const previousIndex = previousPrivate?.payloadIndex ?? null
-    const diff = diffProfilePayloads({ previous: previousIndex, currentProfiles: parsed.profiles })
+      : readProfilePayloadIndex(privateOutputPath)
+    const diff = diffProfilePayloads({ previous: previousPayloadIndex, currentProfiles: parsed.profiles })
     console.log(`Diff: ${diff.newUids.size} new, ${diff.changedUids.size} changed, ${diff.unchangedUids.size} unchanged, ${diff.missingUids.size} missing`)
-
-    const globalVersionChanged = previousPrivate == null || previousPrivate.versions.global !== globalVersion
-    const dependencyInvalidations = collectDependencyInvalidations({
-      previous: previousPrivate,
-      versions,
-      globalVersion,
-    })
-
-    const versionBumpUids = collectVersionBumpUids({
-      profiles: parsed.profiles,
-      previousVersions: previousPrivate?.versions,
-      versions,
-    })
-
-    const needsScoringUids = buildNeedsScoringUids({
-      profiles: parsed.profiles,
-      scoreAll: options.freshRun || globalVersionChanged,
-      changedUids: diff.changedUids,
-      newUids: diff.newUids,
-      dependencyInvalidatedUids: new Set([...dependencyInvalidations.invalidatedUids, ...versionBumpUids]),
-    })
-    console.log(
-      `Scoring queue: ${needsScoringUids.size} UIDs (${dependencyInvalidations.invalidatedUids.size} dependency invalidated, ${versionBumpUids.size} version bumped)`,
-    )
 
     console.log(`Pre-filtering to top ${topN} per character...`)
     const prefilterStartMs = performance.now()
     const preFilterResult = preFilterProfiles(parsed.profiles, topN)
     const totalCounts = preFilterResult.totalCounts
-    const profiles = preFilterResult.profiles
-      .filter((p) => needsScoringUids.has(p.uid))
-      .filter((p) => p.characters.length > 0)
+    const profiles = preFilterResult.profiles.filter((p) => p.characters.length > 0)
     const prefilterElapsedMs = performance.now() - prefilterStartMs
 
     const totalCandidates = profiles.reduce((n, p) => n + p.characters.length, 0)
-    const prefilterTotalKept = preFilterResult.profiles.reduce((n, p) => n + p.characters.length, 0)
-    console.log(`Pre-filter: kept ${prefilterTotalKept} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
-    const estimatedRuns = estimateScoringRuns(profiles)
-    console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles (${estimatedRuns} scoring runs)`)
-    if (globalVersionChanged && totalCandidates === 0) {
-      throw new Error('Full leaderboard run has no candidates after filtering; refusing to publish empty leaderboard')
-    }
+    console.log(`Pre-filter: kept ${totalCandidates} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
+    console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles`)
 
     const scoring = await runScoringStage({
       profiles,
       versions,
       globalVersion,
-      estimatedRuns,
       workerCount: options.workerThreads,
       runtimeConfig,
       workerScriptUrl,
@@ -202,23 +162,14 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     printFailures(scoring)
 
     const artifacts = buildPublishArtifacts({
-      previousPrivate,
       entries: scoring.entries,
-      changedUids: diff.changedUids,
-      missingUids: diff.missingUids,
-      invalidatedDependencyDigests: dependencyInvalidations.invalidatedDependencyDigests,
       versions,
-      globalVersion,
       topN,
       topNPublic,
       parsed,
       exportInput,
       totalCounts,
     })
-
-    if (artifacts.dependencyInvalidatedUids.size > 0) {
-      console.log(`Dependency invalidated UIDs: ${artifacts.dependencyInvalidatedUids.size}`)
-    }
 
     writePublishArtifacts({
       privateOutputPath,
@@ -227,6 +178,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     })
 
     printLeaderboardResults(artifacts.privateOutput, topNPublic)
+    printTopNCoverageAnalysis(artifacts.privateOutput, topNPublic)
     printRunSummary({
       entries: scoring.entries,
       failures: scoring.failures,
@@ -234,7 +186,6 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       parsed,
       profiles,
       totalCandidates,
-      prefilterTotalKept,
       metrics: scoring.metrics,
       workerCount: options.workerThreads,
       buildScoreCacheDbPath: options.buildScoreCacheDbPath,
@@ -284,49 +235,6 @@ function runBuildScoreCacheMaintenance(input: {
   console.log(`Pruned Leaderboard Build Score Cache rows: ${result.deletedRows}`)
 }
 
-function collectVersionBumpUids(input: {
-  profiles: ParsedProfile[],
-  previousVersions: PrivateRankedOutput['versions'] | undefined,
-  versions: PrivateRankedOutput['versions'],
-}): Set<string> {
-  const bumped = collectBumpedIds(input.previousVersions, input.versions)
-  const affectedCharacterIds = collectAffectedCharacterIds(bumped.characterIds, bumped.lightConeIds)
-  const versionBumpUids = new Set<string>()
-  if (affectedCharacterIds.size === 0) return versionBumpUids
-
-  for (const profile of input.profiles) {
-    for (const character of profile.characters) {
-      if (affectedCharacterIds.has(String(character.unconverted.avatarId))) {
-        versionBumpUids.add(profile.uid)
-        break
-      }
-    }
-  }
-  console.log(
-    `Version bump: ${bumped.characterIds.size} characters, ${bumped.lightConeIds.size} light cones -> ${affectedCharacterIds.size} affected characters -> ${versionBumpUids.size} UIDs queued`,
-  )
-  return versionBumpUids
-}
-
-function buildNeedsScoringUids(input: {
-  profiles: ParsedProfile[],
-  scoreAll: boolean,
-  changedUids: Set<string>,
-  newUids: Set<string>,
-  dependencyInvalidatedUids: Set<string>,
-}): Set<string> {
-  const { profiles, scoreAll, changedUids, newUids, dependencyInvalidatedUids } = input
-  if (scoreAll) {
-    return new Set(profiles.map((profile) => profile.uid))
-  }
-
-  return new Set([
-    ...changedUids,
-    ...newUids,
-    ...dependencyInvalidatedUids,
-  ])
-}
-
 function printFailures(scoring: Pick<RunScoringStageResult, 'failures'>): void {
   if (scoring.failures.length === 0) return
 
@@ -337,39 +245,27 @@ function printFailures(scoring: Pick<RunScoringStageResult, 'failures'>): void {
 }
 
 function buildPublishArtifacts(input: {
-  previousPrivate: PrivateRankedOutput | null,
   entries: PrivateRankedEntry[],
-  changedUids: Set<string>,
-  missingUids: Set<string>,
-  invalidatedDependencyDigests: Set<string>,
   versions: PrivateRankedOutput['versions'],
-  globalVersion: number,
   topN: number,
   topNPublic: number,
   parsed: ParsedExport,
   exportInput: LeaderboardExportInput,
   totalCounts: Map<string, number>,
 }): PublishArtifacts {
-  const currentFetchedAtByUid = buildCurrentFetchedAtByUid(input.parsed.profiles)
-  const { output: privateOutput, dependencyInvalidatedUids } = mergePrivateRankedOutput({
-    previous: input.previousPrivate,
-    newEntries: input.entries,
-    changedUids: input.changedUids,
-    missingUids: input.missingUids,
-    invalidatedDependencyDigests: input.invalidatedDependencyDigests,
-    currentFetchedAtByUid,
-    globalVersion: input.globalVersion,
+  const privateOutput = buildPrivateRankedOutput({
+    entries: input.entries,
+    versions: input.versions,
+    sourceExport: {
+      path: input.exportInput.displayPath,
+      profileCount: input.parsed.profiles.length,
+    },
+    payloadIndex: buildProfilePayloadIndex({ profiles: input.parsed.profiles }),
+    generatedAt: new Date().toISOString(),
     topN: input.topN,
     topNPublic: input.topNPublic,
   })
 
-  privateOutput.payloadIndex = buildProfilePayloadIndex({ profiles: input.parsed.profiles })
-  privateOutput.versions = input.versions
-  privateOutput.sourceExport = {
-    path: input.exportInput.displayPath,
-    profileCount: input.parsed.profiles.length,
-  }
-  privateOutput.generatedAt = new Date().toISOString()
   assertPrivateOutputPublishable(privateOutput)
 
   const publicOutput = buildPublicOutputFromPrivate({
@@ -382,16 +278,7 @@ function buildPublishArtifacts(input: {
   return {
     privateOutput,
     publicOutput,
-    dependencyInvalidatedUids,
   }
-}
-
-function buildCurrentFetchedAtByUid(profiles: ParsedProfile[]): Map<string, number> {
-  const fetchedAtByUid = new Map<string, number>()
-  for (const profile of profiles) {
-    fetchedAtByUid.set(profile.uid, profile.fetchedAt)
-  }
-  return fetchedAtByUid
 }
 
 function writePublishArtifacts(input: {

@@ -13,8 +13,8 @@ import type {
   LeaderboardScoreWorkerRequest,
   LeaderboardScoreWorkerResponse,
   LeaderboardScoreWorkerRuntimeConfig,
+  LeaderboardScoringProfile,
   LeaderboardVersionFile,
-  ParsedProfile,
   PrivateRankedEntry,
 } from 'leaderboard/shared/types'
 
@@ -38,7 +38,7 @@ type ScoreProfileResult = {
 
 type QueuedProfileTask = {
   id: number,
-  profile: ParsedProfile,
+  profile: LeaderboardScoringProfile,
   profileIndex: number,
   versions: LeaderboardVersionFile,
   globalVersion: number,
@@ -84,10 +84,9 @@ export class LeaderboardScoreWorkerPool {
   }
 
   async scoreProfiles(input: {
-    profiles: ParsedProfile[],
+    profiles: LeaderboardScoringProfile[],
     versions: LeaderboardVersionFile,
     globalVersion: number,
-    estimatedRuns?: number,
   }): Promise<{
     entries: PrivateRankedEntry[],
     failures: FailureEntry[],
@@ -96,7 +95,6 @@ export class LeaderboardScoreWorkerPool {
   }> {
     const { profiles, versions, globalVersion } = input
     let completedRuns = 0
-    const totalRuns = input.estimatedRuns ?? 0
     let cacheHits = 0
     let cacheMisses = 0
 
@@ -112,8 +110,7 @@ export class LeaderboardScoreWorkerPool {
         cacheMisses += result.buildScoreCacheStats.misses
         const cacheTotal = cacheHits + cacheMisses
         const hitRate = cacheTotal > 0 ? `${(100 * cacheHits / cacheTotal).toFixed(1)}%` : '-'
-        const runsProgress = totalRuns > 0 ? `[${completedRuns}/${totalRuns} runs] ` : ''
-        console.log(`${runsProgress}[${profileIndex + 1}/${profiles.length} profiles] [cache: ${hitRate} hit, ${cacheHits}/${cacheTotal}]`)
+        console.log(`[${completedRuns} runs] [${profileIndex + 1}/${profiles.length} profiles] [cache: ${hitRate} hit, ${cacheHits}/${cacheTotal}]`)
         return result
       })
     }))
@@ -152,7 +149,7 @@ export class LeaderboardScoreWorkerPool {
   }
 
   private runProfile(input: {
-    profile: ParsedProfile,
+    profile: LeaderboardScoringProfile,
     profileIndex: number,
     versions: LeaderboardVersionFile,
     globalVersion: number,

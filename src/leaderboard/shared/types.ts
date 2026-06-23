@@ -62,6 +62,21 @@ export type ParsedProfile = {
   characters: ParsedCharacter[],
 }
 
+// Scoring-stage DTO: carries pre-converted characters for survivors, drops payloadBase64
+export type LeaderboardScoringCharacter = {
+  unconverted: UnconvertedCharacter,
+  minified: MinifiedCharacter,
+  converted: EligibleConverted,
+  preFilterRank: number,
+}
+
+export type LeaderboardScoringProfile = {
+  uid: string,
+  fetchedAt: number,
+  payloadHash: string,
+  characters: LeaderboardScoringCharacter[],
+}
+
 export type CharacterParseError = {
   uid: string,
   avatarId: number,
@@ -176,6 +191,7 @@ export type PrivateRankedEntry = {
   data: LeaderboardEntryData,
   dependencyVersions: LeaderboardDependencyVersions,
   dependencyDigest: string,
+  preFilterRank: number,
 }
 
 // ---------------------------------------------------------------------------
@@ -229,8 +245,7 @@ export type LeaderboardScoringCandidate = {
   uidHash: string,
   payloadHash: string,
   fetchedAt: number,
-  character: ParsedCharacter,
-  converted: EligibleConverted,
+  character: LeaderboardScoringCharacter,
   characterId: string,
 }
 
@@ -241,6 +256,8 @@ export type LeaderboardScoreCandidateConfigInput = {
   simulationMetadata: SimulationMetadata,
   teamEidolon?: number,
   teamTier: LeaderboardEidolonGroup,
+  strippedRelicHash?: string,
+  dependencyNamespace?: LeaderboardDependencyNamespace,
 }
 
 export type { LeaderboardBuildScore }
@@ -327,7 +344,7 @@ export type LeaderboardScoreWorkerRuntimeConfig = {
 
 export type LeaderboardScoreWorkerRequest = {
   id: number,
-  profile: ParsedProfile,
+  profile: LeaderboardScoringProfile,
   versions: LeaderboardVersionFile,
   globalVersion: number,
   runtimeConfig: LeaderboardScoreWorkerRuntimeConfig,

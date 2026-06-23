@@ -3,8 +3,8 @@ import type {
   FailureEntry,
   LeaderboardBuildScoreCacheStats,
   LeaderboardMetricsSnapshot,
+  LeaderboardScoringProfile,
   ParsedExport,
-  ParsedProfile,
   PrivateRankedEntry,
   PrivateRankedOutput,
 } from 'leaderboard/shared/types'
@@ -39,14 +39,78 @@ export function printLeaderboardResults(privateOutput: PrivateRankedOutput, topN
   console.log('\n=========================================')
 }
 
+export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, topNPublic: number): void {
+  const MIN_AEON_SCORE = 1.50
+
+  type CharStats = {
+    eligible: number,
+    totalAeons: number,
+    maxRankAllAeons: number,
+    topNAeons: number,
+    maxRankTopNAeons: number,
+  }
+  const charStats = new Map<string, CharStats>()
+
+  for (const [, board] of Object.entries(privateOutput.boards)) {
+    const charId = board.characterId
+
+    let stats = charStats.get(charId)
+    if (!stats) {
+      stats = { eligible: board.completeness.totalScoredEntries, totalAeons: 0, maxRankAllAeons: 0, topNAeons: 0, maxRankTopNAeons: 0 }
+      charStats.set(charId, stats)
+    }
+
+    for (const entry of board.entries) {
+      if (entry.score >= MIN_AEON_SCORE) {
+        stats.totalAeons++
+        if (entry.preFilterRank > stats.maxRankAllAeons) {
+          stats.maxRankAllAeons = entry.preFilterRank
+        }
+      }
+    }
+
+    const publicEntries = board.entries.slice(0, topNPublic)
+    for (const entry of publicEntries) {
+      if (entry.score >= MIN_AEON_SCORE) {
+        stats.topNAeons++
+        if (entry.preFilterRank > stats.maxRankTopNAeons) {
+          stats.maxRankTopNAeons = entry.preFilterRank
+        }
+      }
+    }
+  }
+
+  const sorted = [...charStats.entries()]
+    .map(([charId, stats]) => ({ charId, name: getCharacterLogName(charId), ...stats }))
+    .sort((a, b) => b.maxRankTopNAeons - a.maxRankTopNAeons)
+
+  const globalMaxRank = sorted.reduce((max, s) => Math.max(max, s.maxRankTopNAeons), 0)
+
+  console.log('\n========== TOP-N COVERAGE ANALYSIS ==========')
+  console.log('Question: what --top-n covers the best 100 aeons (>=150%) per board?')
+  console.log()
+  console.log(`${'Character'.padEnd(28)} ${'Scored'.padStart(7)} ${'Aeons'.padStart(7)} ${'Top100'.padStart(7)} ${'Need'.padStart(6)}`)
+  console.log('-'.repeat(57))
+  for (const s of sorted) {
+    const need = s.maxRankTopNAeons > 0 ? String(s.maxRankTopNAeons) : '-'
+    console.log(
+      `${s.name.padEnd(28)} ${String(s.eligible).padStart(7)} ${String(s.totalAeons).padStart(7)} ${String(s.topNAeons).padStart(7)} ${need.padStart(6)}`,
+    )
+  }
+  console.log('-'.repeat(57))
+  console.log(`Global max pre-filter rank needed for top-${topNPublic} aeons: ${globalMaxRank}`)
+  const margin = Math.ceil(globalMaxRank * 1.5)
+  console.log(`Recommended --top-n with 1.5x margin: ${margin}`)
+  console.log('==============================================\n')
+}
+
 type RunSummaryInput = {
   entries: PrivateRankedEntry[],
   failures: FailureEntry[],
   buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
   parsed: ParsedExport,
-  profiles: ParsedProfile[],
+  profiles: LeaderboardScoringProfile[],
   totalCandidates: number,
-  prefilterTotalKept: number,
   metrics: LeaderboardMetricsSnapshot,
   workerCount: number,
   buildScoreCacheDbPath: string,
@@ -88,8 +152,7 @@ export function printRunSummary(input: RunSummaryInput): void {
   console.log(`  topNPublic: ${input.topNPublic}`)
   console.log(`Input:`)
   console.log(`  exportProfiles: ${parsed.profiles.length}`)
-  console.log(`  prefilterKept: ${input.prefilterTotalKept} candidates across ${profiles.length} profiles`)
-  console.log(`  scoringQueue: ${profiles.length} profiles, ${input.totalCandidates} candidates`)
+  console.log(`  submitted: ${profiles.length} profiles, ${input.totalCandidates} candidates`)
   console.log(`Scoring:`)
   console.log(`  entries: ${entries.length}`)
   console.log(`  failures: ${failures.length}`)

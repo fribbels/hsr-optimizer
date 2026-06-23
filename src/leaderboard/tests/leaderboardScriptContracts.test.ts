@@ -3,12 +3,19 @@ import {
   LeaderboardBuildScoreCache,
 } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import { parseExport } from 'leaderboard/ingest/exportParser'
+import { isEligibleRaw } from 'leaderboard/ingest/eligibility'
+import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
+import { extractPreFilterSubstats } from 'leaderboard/ingest/preFilterExtractor'
+import { CharacterConverter } from 'lib/importer/characterConverter'
+import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
+import { Metadata } from 'lib/state/metadataInitializer'
 import {
   buildProfilePayloadIndex,
   diffProfilePayloads,
 } from 'leaderboard/ingest/profileDiff'
 import {
-  mergePrivateRankedOutput,
+  buildPrivateRankedOutput,
+  readProfilePayloadIndex,
 } from 'leaderboard/output/privateOutput'
 import {
   buildPublicOutputFromPrivate,
@@ -21,15 +28,22 @@ import {
 import type { EidolonTierValue } from 'leaderboard/shared/eidolonConfig'
 import {
   deleteFile,
+  ensureDirectory,
   fileExists,
   gunzipBase64Text,
   gzipTextToBase64,
+  joinPath,
   openSqliteDatabase,
   resolvePath,
   tmpDir,
   writeGzipTextFile,
+  writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
-import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
+import {
+  expandProfile,
+  type MinifiedCharacter,
+  type MinifiedProfile,
+} from 'leaderboard/shared/profileCompression'
 import {
   type LeaderboardBuildScore,
   type LeaderboardDependencyNamespace,
@@ -52,6 +66,10 @@ import {
 import {
   buildLeaderboardScoreWorkerStateKey,
 } from 'leaderboard/workers/profileWorkerContracts'
+import {
+  buildDependencyNamespace,
+  getDependencyVersions,
+} from 'leaderboard/shared/versioning'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { TrailblazerHarmonyCaelus } from 'lib/conditionals/character/8000/TrailblazerHarmony'
@@ -87,7 +105,6 @@ const TEAM_ID = 'default'
 const BOARD_KEY = `${CHARACTER_ID}#dps#${TEAM_ID}`
 const GLOBAL_VERSION = 1
 const CURRENT_DEPENDENCY_DIGEST = 'dependency-current'
-const OLD_DEPENDENCY_DIGEST = 'dependency-old'
 
 const DEPENDENCY_VERSIONS: LeaderboardDependencyVersions = {
   global: GLOBAL_VERSION,
@@ -153,6 +170,11 @@ function tempGzipPath(prefix: string): string {
 function tempSqlitePath(prefix: string): string {
   const uniqueId = `${Date.now()}-${Math.random().toString(36).slice(2)}`
   return resolvePath(tmpDir(), `${prefix}-${uniqueId}.sqlite`)
+}
+
+function tempPrivateOutputPath(prefix: string): string {
+  const uniqueId = `${Date.now()}-${Math.random().toString(36).slice(2)}`
+  return resolvePath(tmpDir(), `${prefix}-${uniqueId}`)
 }
 
 function insertBuildScoreCacheRow(input: {
@@ -242,6 +264,7 @@ function makeEntry(
     data: makeEntryData(score),
     dependencyVersions: DEPENDENCY_VERSIONS,
     dependencyDigest: CURRENT_DEPENDENCY_DIGEST,
+    preFilterRank: 1,
     ...overrides,
   }
 }
@@ -339,8 +362,9 @@ function makeScoringVariantCandidate(): LeaderboardScoringCandidate {
     character: {
       unconverted: {} as LeaderboardScoringCandidate['character']['unconverted'],
       minified: MINIFIED_CHARACTER,
+      converted: {} as LeaderboardScoringCandidate['character']['converted'],
+      preFilterRank: 1,
     },
-    converted: {} as LeaderboardScoringCandidate['converted'],
     characterId: CHARACTER_ID,
   }
 }
@@ -434,52 +458,83 @@ describe('leaderboard script contracts', () => {
     })
   })
 
-  test('private ranked output merge drops invalid rows, replaces rescored rows, dedupes, and reranks', () => {
-    const retainedFetchedAt = 1_810_000_000
-    const retainedEntry = makeEntry('uid-retained', 100)
-    retainedEntry.data.fetchedAt = 1_710_000_000
-    const previous = privateOutput([
-      retainedEntry,
-      makeEntry('uid-missing', 200),
-      makeEntry('uid-changed', 300),
-      makeEntry('uid-invalidated', 400, { dependencyDigest: OLD_DEPENDENCY_DIGEST }),
-      makeEntry('uid-replaced', 10),
-    ])
-    const newEntries = [
-      makeEntry('uid-replaced', 500),
-      makeEntry('uid-new', 250),
-      makeEntry('uid-new', 240),
-    ]
+  test('private ranked output builder groups, dedupes, slices, ranks, and computes completeness', () => {
+    const otherTeamEntry = makeEntry('uid-other-team', 700, {
+      teamId: 'team-2',
+      data: {
+        ...makeEntryData(700),
+        teamId: 'team-2',
+      },
+    })
 
-    const result = mergePrivateRankedOutput({
-      previous,
-      newEntries,
-      changedUids: new Set(['uid-changed']),
-      missingUids: new Set(['uid-missing']),
-      invalidatedDependencyDigests: new Set([OLD_DEPENDENCY_DIGEST]),
-      currentFetchedAtByUid: new Map([
-        ['uid-retained', retainedFetchedAt],
-      ]),
-      globalVersion: GLOBAL_VERSION,
+    const output = buildPrivateRankedOutput({
+      entries: [
+        makeEntry('uid-low', 100),
+        makeEntry('uid-top', 500),
+        makeEntry('uid-tier-duplicate', 240, { teamTier: 'e0' }),
+        makeEntry('uid-tier-duplicate', 250, { teamTier: 'e2', data: { ...makeEntryData(250), teamEidolon: 2 } }),
+        otherTeamEntry,
+      ],
+      versions: { global: GLOBAL_VERSION, characters: {}, lightCones: {} },
+      sourceExport: {
+        path: 'export.json.gz',
+        profileCount: 5,
+      },
+      payloadIndex: {
+        exportId: 'test-export',
+        profiles: {},
+      },
+      generatedAt: '2026-06-06T00:00:00.000Z',
       topN: 10,
       topNPublic: 2,
     })
-    const board = Object.values(result.output.boards)[0]
+    const board = output.boards[BOARD_KEY]
+    const otherBoard = output.boards[`${CHARACTER_ID}#dps#team-2`]
 
-    expect(sortedValues(result.dependencyInvalidatedUids)).toEqual(['uid-invalidated'])
     expect(board.entries.map((entry) => `${entry.rank}:${entry.uid}:${entry.score}`)).toEqual([
-      '1:uid-replaced:500',
-      '2:uid-new:250',
-      '3:uid-retained:100',
+      '1:uid-top:500',
+      '2:uid-tier-duplicate:250',
+      '3:uid-low:100',
     ])
+    expect(board.entries[1].teamTier).toBe('e2')
     expect(board.completeness).toMatchObject({
-      scoredCandidateCount: 3,
+      scoredCandidateCount: 4,
       totalScoredEntries: 3,
       privateCutoffScore: 100,
       publicCutoffScore: 250,
       canRefillPublicTopN: true,
     })
-    expect(board.entries.find((entry) => entry.uid === 'uid-retained')?.data.fetchedAt).toBe(retainedFetchedAt)
+    expect(otherBoard.entries.map((entry) => `${entry.rank}:${entry.uid}:${entry.score}`)).toEqual([
+      '1:uid-other-team:700',
+    ])
+    expect(output).toMatchObject({
+      generatedAt: '2026-06-06T00:00:00.000Z',
+      sourceExport: {
+        path: 'export.json.gz',
+        profileCount: 5,
+      },
+    })
+  })
+
+  test('private output payload index can be read without loading boards', () => {
+    const outputPath = tempPrivateOutputPath('leaderboard-private-output')
+    const payloadIndex = {
+      exportId: 'test-export',
+      profiles: {
+        'uid-indexed': {
+          uid: 'uid-indexed',
+          fetchedAt: 123,
+          payloadHash: 'payload-uid-indexed',
+        },
+      },
+    }
+
+    ensureDirectory(outputPath)
+    ensureDirectory(joinPath(outputPath, 'boards'))
+    writeTextFile(joinPath(outputPath, 'payloadIndex.json'), JSON.stringify(payloadIndex))
+    writeTextFile(joinPath(outputPath, 'boards', 'malformed-board.json'), '{not-json')
+
+    expect(readProfilePayloadIndex(outputPath)).toEqual(payloadIndex)
   })
 
   test('public output publishes only compressed public fields and preserves total eligible counts', () => {
@@ -615,6 +670,18 @@ describe('leaderboard script contracts', () => {
       ...baseInput,
       simulationMetadata: { ...SIMULATION_METADATA, deprioritizeBuffs: true },
     })
+    const changedTeamMetadataKey = buildLeaderboardBuildScoreCacheKey({
+      ...baseInput,
+      simulationMetadata: {
+        ...SIMULATION_METADATA,
+        teammates: [{
+          characterId: TEAMMATE_ID as CharacterId,
+          lightCone: TEAMMATE_LIGHT_CONE_ID as LightConeId,
+          characterEidolon: 6,
+          lightConeSuperimposition: 5,
+        }],
+      },
+    })
     const changedSpdBenchmarkKey = buildLeaderboardBuildScoreCacheKey({
       ...baseInput,
       spdBenchmark: 135,
@@ -634,9 +701,72 @@ describe('leaderboard script contracts', () => {
     expect(changedDependencyKey).not.toBe(baseKey)
     expect(changedConfigTypeKey).not.toBe(baseKey)
     expect(changedMetadataKey).not.toBe(baseKey)
+    expect(changedTeamMetadataKey).not.toBe(baseKey)
     expect(changedSpdBenchmarkKey).not.toBe(baseKey)
     expect(changedEidolonKey).not.toBe(baseKey)
     expect(changedSuperimpositionKey).not.toBe(baseKey)
+  })
+
+  test('dependency version bumps change the dependency digest used by the build score cache key', () => {
+    const baseVersions = {
+      global: GLOBAL_VERSION,
+      characters: {
+        [CHARACTER_ID]: 1,
+        [TEAMMATE_ID]: 1,
+      },
+      lightCones: {
+        [LIGHT_CONE_ID]: 1,
+        [TEAMMATE_LIGHT_CONE_ID]: 1,
+      },
+    }
+    const bumpedVersions = {
+      ...baseVersions,
+      characters: {
+        ...baseVersions.characters,
+        [TEAMMATE_ID]: 2,
+      },
+    }
+    const team = makeEntryData(100).team
+    const baseDependencyNamespace = buildDependencyNamespace({
+      dependencyVersions: getDependencyVersions({
+        versions: baseVersions,
+        primaryCharacterId: CHARACTER_ID,
+        primaryLightConeId: LIGHT_CONE_ID,
+        teammates: team,
+      }),
+    })
+    const bumpedDependencyNamespace = buildDependencyNamespace({
+      dependencyVersions: getDependencyVersions({
+        versions: bumpedVersions,
+        primaryCharacterId: CHARACTER_ID,
+        primaryLightConeId: LIGHT_CONE_ID,
+        teammates: team,
+      }),
+    })
+
+    const baseKey = buildLeaderboardBuildScoreCacheKey({
+      globalVersion: GLOBAL_VERSION,
+      dependencyDigest: baseDependencyNamespace.dependencyDigest,
+      configType: ScoringConfigType.DPS,
+      simulationMetadata: SIMULATION_METADATA,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+      singleRelicByPart: makePreviewRelics('relic-a'),
+      spdBenchmark: 134,
+    })
+    const bumpedKey = buildLeaderboardBuildScoreCacheKey({
+      globalVersion: GLOBAL_VERSION,
+      dependencyDigest: bumpedDependencyNamespace.dependencyDigest,
+      configType: ScoringConfigType.DPS,
+      simulationMetadata: SIMULATION_METADATA,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+      singleRelicByPart: makePreviewRelics('relic-a'),
+      spdBenchmark: 134,
+    })
+
+    expect(bumpedDependencyNamespace.dependencyDigest).not.toBe(baseDependencyNamespace.dependencyDigest)
+    expect(bumpedKey).not.toBe(baseKey)
   })
 
   test('leaderboard build score cache persists SQLite values and deletes corrupt rows', () => {
@@ -1016,5 +1146,56 @@ describe('leaderboard script contracts', () => {
       configType: ScoringConfigType.BUFFER,
     })
     expect(unsupportedVariant.simulationMetadata.deprioritizeBuffs).toBeUndefined()
+  })
+
+  describe('preFilter mini-convert contract', () => {
+    Metadata.initialize()
+
+    function decompressSampleProfile() {
+      const minified: MinifiedProfile = JSON.parse(gunzipBase64Text(compressedProfileSampleBase64))
+      return expandProfile(minified)
+    }
+
+    test('extractPreFilterSubstats produces identical stat/value pairs as full CharacterConverter.convert', () => {
+      const characters = decompressSampleProfile()
+      const eligible = characters.filter((c) => isEligibleRaw(c))
+      expect(eligible.length).toBeGreaterThan(0)
+
+      for (const unconverted of eligible) {
+        const converted = CharacterConverter.convert(unconverted) as EligibleConverted
+        const fullSubstats = Object.values(converted.equipped)
+          .filter(Boolean)
+          .flatMap((relic) => relic!.substats.map((s) => ({ stat: s.stat, value: s.value })))
+
+        const miniSubstats = extractPreFilterSubstats(unconverted.relicList!)
+
+        expect(miniSubstats).toEqual(fullSubstats)
+      }
+    })
+
+    test('prefilter substat scoring is identical between mini-convert and full convert', () => {
+      const characters = decompressSampleProfile()
+      const eligible = characters.filter((c) => isEligibleRaw(c))
+
+      for (const unconverted of eligible) {
+        const converted = CharacterConverter.convert(unconverted) as EligibleConverted
+
+        let fullScore = 0
+        for (const relic of Object.values(converted.equipped)) {
+          if (!relic) continue
+          for (const sub of relic.substats) {
+            fullScore += substatPotentialUnits(sub.stat, sub.value)
+          }
+        }
+
+        let miniScore = 0
+        const miniSubstats = extractPreFilterSubstats(unconverted.relicList!)
+        for (const sub of miniSubstats) {
+          miniScore += substatPotentialUnits(sub.stat, sub.value)
+        }
+
+        expect(miniScore).toBe(fullScore)
+      }
+    })
   })
 })

@@ -6,7 +6,7 @@ Scoring:
     AddRelicSetPlaceholder: crwdns45744:0crwdne45744:0
     AddOrnamentSetPlaceholder: crwdns45746:0crwdne45746:0
   WeightMethodology:
-    Header: crwdns47289:0crwdne47289:0
+    Header: crwdns42112:0crwdne42112:0
   Footer:
     Reset: crwdns42114:0crwdne42114:0
     ResetAll: crwdns42116:0crwdne42116:0
@@ -384,3 +384,27 @@ RelicReroll:
   Title: crwdns45750:0crwdne45750:0
   OriginalSubstats: crwdns45752:0crwdne45752:0
   RerolledSubstats: crwdns45754:0crwdne45754:0
+Calculators:
+  AHA:
+    Label: crwdns47165:0crwdne47165:0
+    Output:
+      Teammate0: crwdns47167:0crwdne47167:0
+      Teammate1: crwdns47169:0crwdne47169:0
+      Teammate2: crwdns47171:0crwdne47171:0
+      Teammate3: crwdns47173:0crwdne47173:0
+      AhaSpeed: crwdns47175:0crwdne47175:0
+    Input:
+      DesiredAha: crwdns47177:0crwdne47177:0
+      TeammateSpeeds: crwdns47179:0crwdne47179:0
+  EHR:
+    Label: crwdns47181:0crwdne47181:0
+    Input:
+      EffectRes: crwdns47183:0crwdne47183:0
+      DebuffRes: crwdns47185:0crwdne47185:0
+      BaseChance: crwdns47187:0crwdne47187:0
+      Attempts: crwdns47189:0crwdne47189:0
+      HitRate: crwdns47191:0crwdne47191:0
+      DesiredHitRate: crwdns47193:0crwdne47193:0
+    Output:
+      ApplicationRate: crwdns47195:0crwdne47195:0
+      RequiredHitRate: crwdns47197:0crwdne47197:0

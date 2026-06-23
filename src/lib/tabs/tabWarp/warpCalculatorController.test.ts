@@ -1,10 +1,6 @@
 // @vitest-environment jsdom
 import { Metadata } from 'lib/state/metadataInitializer'
-import {
-  calculateWarps,
-  normalizeWarpRequest,
-  WarpIncomeOptions,
-} from 'lib/tabs/tabWarp/warpCalculatorController'
+import { calculateWarps, normalizeWarpRequest, WarpIncomeOptions } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
   DEFAULT_WARP_REQUEST,
   DEFAULT_WARP_TARGET,
@@ -13,8 +9,8 @@ import {
   StarlightRefund,
   SuperimpositionLevel,
   type WarpRequest,
-  WarpStrategy,
   type WarpTarget,
+  WarpStrategy,
 } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import {
   expect,

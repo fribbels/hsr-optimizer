@@ -6,11 +6,11 @@ import { modals } from '@mantine/modals'
 import { IconAlertTriangle } from '@tabler/icons-react'
 import type { TFunction } from 'i18next'
 import i18next from 'i18next'
-import styles from 'lib/characterPreview/DPSScoreDisclaimer.module.css'
 import { SettingOptions } from 'lib/constants/settingsConstants'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useTranslation } from 'react-i18next'
+import styles from './DPSScoreDisclaimer.module.css'
 
 function handleDismiss() {
   useGlobalStore.getState().setSettings({

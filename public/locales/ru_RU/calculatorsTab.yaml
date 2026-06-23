@@ -1,5 +1,0 @@
-EHR:
-  Label: Шанс эффектов
-  Calculator:
-    Input:
-      HitRate: Шанс эффектов

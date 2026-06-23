@@ -2,13 +2,6 @@
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { ComboType } from 'lib/optimization/rotation/comboType'
-import {
-  deserializeBuild,
-  resolveEidolon,
-  resolveFlexibleLC,
-  serializeFromCharacterTab,
-  serializeFromOptimizer,
-} from 'lib/services/buildConverter'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
   createDefaultFormState,
@@ -32,6 +25,13 @@ import {
   expect,
   it,
 } from 'vitest'
+import {
+  deserializeBuild,
+  resolveEidolon,
+  resolveFlexibleLC,
+  serializeFromCharacterTab,
+  serializeFromOptimizer,
+} from './buildConverter'
 
 Metadata.initialize()
 

@@ -80,19 +80,20 @@ CharacterPreview:
     SavedPortrait: Immagine di copertina salvata con successo
     RevertedPortrait: Immagine di copertina ripristinata con successo
     NoSelectedCharacter: Nessun personaggio selezionato
-  RulerLabel:
-    dps: DANNO
-    heal: CURE
-    shield: SCUDO
-  ComboLabel:
-    dps: DAN da Combo
+  ScoreHeader:
+    Title: Sim Combat
+    TitleBenchmark: '{{spd}} VEL Benchmark'
+    Score: 'Punteggio DPS {{score}}% {{grade}}'
   AlgorithmSlider:
     Labels:
+      CombatScore: Punteggio Combat
+      CombatScoreTBD: Combat (TBD)
       StatScore: Roll Stat. Secondarie
       NoneScore: Nessuno
   DetailsSlider:
     Labels:
       CombatStats: Stat Combat
+      SubDpsCombatStats: Stat Combat (DPS secondario)
   DMGUpgrades: Miglioramento danno
   SubstatUpgradeComparisons:
     Header: Confronto miglioramento statistiche secondarie

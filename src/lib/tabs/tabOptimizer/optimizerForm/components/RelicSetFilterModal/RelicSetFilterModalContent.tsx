@@ -28,17 +28,16 @@ import {
   TwoPieceSlotType,
 } from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal.module.css'
-import { ResultsCollector } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/ResultsCollector'
-import { SetGrid } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetGrid'
-import { StatChips } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/StatChips'
 import {
   useCallback,
   useMemo,
   useRef,
   useState,
 } from 'react'
-import { useTranslation } from 'react-i18next'
+import classes from './RelicSetFilterModal.module.css'
+import { ResultsCollector } from './ResultsCollector'
+import { SetGrid } from './SetGrid'
+import { StatChips } from './StatChips'
 
 function slotsEqual(a: TwoPieceSlot, b: TwoPieceSlot): boolean {
   if (a.type !== b.type) return false
@@ -58,7 +57,6 @@ function syncToStore(state: ModalState) {
 const EMPTY_CHECKED = new Set<string>()
 
 export function RelicSetFilterModalContent({ close }: { close: () => void }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetFilters' })
   const [initial] = useState(() => {
     const display = useOptimizerRequestStore.getState().setFilters
     return { display, parsed: parseDisplayToModalState(display) }
@@ -168,7 +166,7 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
 
   return (
     <Stack gap={0}>
-      <Divider label={t('SelectedHeader')} labelPosition='center' mx='sm' mt='xs' />
+      <Divider label='Selected Sets' labelPosition='center' mx='sm' mt='xs' />
 
       <ResultsCollector
         checked4p={checked4p}
@@ -186,14 +184,14 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
         <Stack gap={10}>
           <TextInput
             data-autofocus
-            placeholder={t('SearchPlaceholder')}
+            placeholder='Search sets...'
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
             size='xs'
             rightSection={search && <CloseButton size='xs' onClick={() => setSearch('')} />}
           />
 
-          <Divider label={t('RelicListHeader')} labelPosition='center' />
+          <Divider label='Relic Sets' labelPosition='center' />
 
           <Group gap={10} wrap='nowrap'>
             <SegmentedControl
@@ -201,8 +199,8 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
               onChange={handleModeSwitch}
               size='xs'
               data={[
-                { label: t('4pcLabel'), value: RelicSetMode.FourPiece },
-                { label: t('2pcLabel'), value: RelicSetMode.TwoPiece },
+                { label: '4-Piece', value: RelicSetMode.FourPiece },
+                { label: '2-Piece', value: RelicSetMode.TwoPiece },
               ]}
             />
             {mode === RelicSetMode.TwoPiece && <StatChips slotA={slotA} onPick={pick2p} />}
@@ -215,7 +213,7 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
             search={search}
           />
 
-          <Divider label={t('OrnamentListHeader')} labelPosition='center' />
+          <Divider label='Ornament Sets' labelPosition='center' />
           <SetGrid
             configs={ornamentIndexToSetConfig}
             checkedNames={checkedOrnaments as Set<string>}
@@ -226,8 +224,8 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
       </Box>
 
       <Group className={classes.footer} p='sm' justify='flex-end' gap={6}>
-        <Button variant='default' size='xs' onClick={handleRevert}>{t('Revert')}</Button>
-        <Button variant='filled' size='xs' onClick={close}>{t('Done')}</Button>
+        <Button variant='default' size='xs' onClick={handleRevert}>Revert</Button>
+        <Button variant='filled' size='xs' onClick={close}>Done</Button>
       </Group>
     </Stack>
   )

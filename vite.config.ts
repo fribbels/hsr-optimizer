@@ -10,12 +10,12 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
     alias: {
-      'cross-fetch': resolve(import.meta.dirname, 'src/lib/utils/nativeFetch.ts'),
+      'cross-fetch': resolve(__dirname, 'src/lib/utils/nativeFetch.ts'),
       // colorthief/internals barrel includes WasmQuantizer with a broken wasm import.
       // Alias to the specific source modules we need, bypassing the barrel entirely.
-      'colorthief-pipeline': resolve(import.meta.dirname, 'node_modules/colorthief/src/pipeline.ts'),
-      'colorthief-swatches': resolve(import.meta.dirname, 'node_modules/colorthief/src/swatches.ts'),
-      'colorthief-mmcq': resolve(import.meta.dirname, 'node_modules/colorthief/src/quantizers/mmcq.ts'),
+      'colorthief-pipeline': resolve(__dirname, 'node_modules/colorthief/src/pipeline.ts'),
+      'colorthief-swatches': resolve(__dirname, 'node_modules/colorthief/src/swatches.ts'),
+      'colorthief-mmcq': resolve(__dirname, 'node_modules/colorthief/src/quantizers/mmcq.ts'),
     },
   },
   optimizeDeps: {
@@ -68,15 +68,13 @@ export default defineConfig({
     watch: {
       ignored: [
         '**/public/assets/**',
-        '**/public/leaderboard/**',
-        '**/.*/**',
       ],
     },
   },
   test: {
     environment: 'node',
     slowTestThreshold: 500,
-    exclude: ['node_modules/**', 'tests/**'],
+    exclude: [],
     execArgv: ['--no-webstorage'],
   },
   worker: {

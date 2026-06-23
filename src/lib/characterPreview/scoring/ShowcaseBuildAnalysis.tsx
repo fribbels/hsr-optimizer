@@ -1,6 +1,6 @@
 import { SegmentedControl } from '@mantine/core'
 import { CharacterScoringSummary } from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type {
   PreviewRelics,
   ShowcaseMetadata,
@@ -52,12 +52,12 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
       if (!hasConfig(scoringMeta, configType)) continue
       const entry = SCORING_CONFIG_REGISTRY[configType]
       segments.push({
-        label: t(`CharacterPreview.AlgorithmSlider.Labels.${entry.configType}`),
+        label: entry.label,
         value: String(entry.scoringType),
       })
     }
     segments.push({
-      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'),
+      label: 'Substat Rolls', // Hardcoded — label still in flux, skip i18n for now
       value: String(ScoringType.SUBSTAT_SCORE),
     })
     segments.push({
@@ -74,31 +74,29 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 1000 }}>
-      {source !== ShowcaseSource.LEADERBOARD && (
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              borderRadius: 6,
-              height: 40,
-              marginTop: 10,
-              marginBottom: 10,
-              backgroundColor: 'color-mix(in srgb, var(--layer-0) 52%, transparent)',
-              alignItems: 'center',
-            }}
-          >
-            <SegmentedControl
-              key={segmentData.map((d) => d.value).join(',')}
-              size='sm'
-              styles={{ control: { width: 165 } }}
-              onChange={handleScoringTypeChange}
-              value={String(scoringType)}
-              data={segmentData}
-            />
-          </div>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 10 }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            borderRadius: 6,
+            height: 40,
+            marginTop: 10,
+            marginBottom: 10,
+            backgroundColor: 'color-mix(in srgb, var(--layer-0) 52%, transparent)',
+            alignItems: 'center',
+          }}
+        >
+          <SegmentedControl
+            key={segmentData.map((d) => d.value).join(',')}
+            size='sm'
+            styles={{ control: { width: 165 } }}
+            onChange={handleScoringTypeChange}
+            value={String(scoringType)}
+            data={segmentData}
+          />
         </div>
-      )}
+      </div>
       {isSimScoreMode(scoringType) && activeConfigType && hasConfig(scoringMeta, activeConfigType) && (
         <CharacterScoringSummary
           displayRelics={displayRelics}

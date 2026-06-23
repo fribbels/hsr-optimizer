@@ -1,7 +1,4 @@
-import {
-  Flex,
-  type NumberInputProps,
-} from '@mantine/core'
+import { Flex, type NumberInputProps } from '@mantine/core'
 import { useBlurCommittedNumberInput } from 'lib/hooks/useBlurCommittedNumberInput'
 import type {
   RatingFilterState,

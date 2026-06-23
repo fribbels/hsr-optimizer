@@ -2,8 +2,8 @@ import type {
   ColorWorkerRequest,
   ColorWorkerResponse,
   ColorWorkerResult,
-} from 'lib/characterPreview/color/colorExtractionWorker'
-import ColorExtractionWorker from 'lib/characterPreview/color/colorExtractionWorker.ts?worker'
+} from './colorExtractionWorker'
+import ColorExtractionWorker from './colorExtractionWorker.ts?worker'
 
 export type PaletteResponse = {
   Vibrant: string,

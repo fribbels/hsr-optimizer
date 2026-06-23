@@ -8,7 +8,7 @@ import {
   deriveCustomLayers,
   deriveDarkPalette,
   derivePrimaryPalette,
-} from 'lib/ui/themeColors'
+} from './themeColors'
 
 const DEFAULT_SEED = '#1668DC'
 

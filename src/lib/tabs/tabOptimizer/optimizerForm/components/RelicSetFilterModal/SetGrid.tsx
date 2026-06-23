@@ -1,7 +1,7 @@
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal.module.css'
-import { SetRow } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetRow'
 import { useMemo } from 'react'
 import type { SetConfig } from 'types/setConfig'
+import classes from './RelicSetFilterModal.module.css'
+import { SetRow } from './SetRow'
 
 export function SetGrid({ configs, checkedNames, onToggle, search }: {
   configs: SetConfig[],

@@ -4,8 +4,7 @@ import type {
   ComboNumberConditional,
   ComboState,
 } from 'lib/optimization/combo/comboTypes'
-import type { TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { EntityKey } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
+import { type TurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 
 export abstract class AbilityPreprocessorBase {
   abstract id: string
@@ -14,43 +13,25 @@ export abstract class AbilityPreprocessorBase {
 }
 
 export function setComboBooleanCategorySetActivation(comboState: ComboState, set: string, index: number, value: boolean) {
-  const category = comboState.comboCharacter.setConditionals[set] as ComboBooleanConditional | undefined
+  const category = comboState.comboCharacter.setConditionals[set] as ComboBooleanConditional
   if (category) category.activations[index] = value
 }
 
-export function setComboBooleanCategoryCharacterActivation(
-  comboState: ComboState,
-  conditional: string,
-  index: number,
-  value: boolean,
-  entityKey: EntityKey = 'comboCharacter',
-) {
-  const category = comboState[entityKey]?.characterConditionals[conditional] as ComboBooleanConditional | undefined
+export function setComboBooleanCategoryCharacterActivation(comboState: ComboState, conditional: string, index: number, value: boolean) {
+  const category = comboState.comboCharacter.characterConditionals[conditional] as ComboBooleanConditional
   if (category) {
     category.activations[index] = value
   }
 }
-export function setComboBooleanCategoryLightConeActivation(
-  comboState: ComboState,
-  conditional: string,
-  index: number,
-  value: boolean,
-  entityKey: EntityKey = 'comboCharacter',
-) {
-  const category = comboState[entityKey]?.lightConeConditionals[conditional] as ComboBooleanConditional | undefined
+export function setComboBooleanCategoryLightConeActivation(comboState: ComboState, conditional: string, index: number, value: boolean) {
+  const category = comboState.comboCharacter.lightConeConditionals[conditional] as ComboBooleanConditional
   if (category) {
     category.activations[index] = value
   }
 }
 
-export function setComboNumberCategoryCharacterActivation(
-  comboState: ComboState,
-  conditional: string,
-  index: number,
-  value: number,
-  entityKey: EntityKey = 'comboCharacter',
-) {
-  const category = comboState[entityKey]?.characterConditionals[conditional] as ComboNumberConditional | undefined
+export function setComboNumberCategoryCharacterActivation(comboState: ComboState, conditional: string, index: number, value: number) {
+  const category = comboState.comboCharacter.characterConditionals[conditional] as ComboNumberConditional
 
   if (category) {
     const partition = category.partitions.find((x) => x.value == value)

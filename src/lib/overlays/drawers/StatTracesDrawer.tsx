@@ -16,7 +16,6 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { useScoringMetadata } from 'lib/hooks/useScoringMetadata'
 import { Message } from 'lib/interactions/message'
-import classes from 'lib/overlays/drawers/StatTracesDrawer.module.css'
 import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
@@ -34,6 +33,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type TraceNode } from 'types/metadata'
+import classes from './StatTracesDrawer.module.css'
 
 const TraceTreeNode = ({
   node,

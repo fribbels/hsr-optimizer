@@ -1,10 +1,7 @@
-import {
-  ashblazingMulti,
-  single,
-} from 'lib/conditionals/ashblazingCompute'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -17,8 +14,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { OnTheFallOfAnAeon } from 'lib/conditionals/lightcone/5star/OnTheFallOfAnAeon'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PastSelfInTheMirror } from 'lib/conditionals/lightcone/5star/PastSelfInTheMirror'
 import {
   Parts,
@@ -40,11 +37,11 @@ import {
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -254,15 +251,6 @@ const simulation = (): SimulationMetadata => ({
       lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
-    },
-  ],
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: Bronya.id, lightCones: [ButTheBattleIsntOver.id] },
-        { characterId: RuanMei.id, lightCones: [PastSelfInTheMirror.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
-      ],
     },
   ],
 })

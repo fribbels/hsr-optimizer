@@ -1,9 +1,6 @@
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
-import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   TrailblazerRemembranceCaelus,
   TrailblazerRemembranceStelle,
@@ -17,12 +14,9 @@ import {
   findTeamAction,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   Parts,
@@ -515,23 +509,6 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
-        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
-        { characterId: TrailblazerRemembranceStelle.id, lightCones: [TrailblazerRemembranceStelle.defaultLightCone] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
-    },
-  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -582,7 +559,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.MEMO_SKILL,
   ],
   simulation: simulation(),
-  eidolonImage: 6,
 })
 
 const display = {

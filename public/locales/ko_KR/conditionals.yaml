@@ -981,6 +981,27 @@ Characters:
       e4SkillHealingDmgBuffStacks:
         text: 4돌 데미지 버프
         content: '전투 스킬이 제공하는 치유를 받을 때마다 치유를 받는 아군은 가하는 피해가 추가로 10% 증가한다. 최대 중첩수: 3스택. 지속 시간: 2턴'
+  BlackSwan:
+    Content:
+      ehrToDmgBoost:
+        text: 효과 명중 비례 데미지 증가
+        content: 자신이 가하는 피해를 효과 명중의 60%만큼 증가시킨다. 최대 72% 증가한다.
+      epiphanyDebuff:
+        text: '[발로] 상태'
+        content: '[발로] 상태에서 적은 자신의 턴 동안 받는 피해가 {{epiphanyDmgTakenBoost}}% 증가한다.'
+      defDecreaseDebuff:
+        text: 방어력 감소 디버프
+        content: 목표 및 인접한 목표의 방어력을 {{defShredValue}}% 감소시킨다.
+      arcanaStacks:
+        text: '[아르카나] 스택'
+        content: >-
+          [아르카나] 상태에서 적의 턴이 시작될 때마다 적은 블랙 스완 공격력의 {{dotScaling}}%만큼 바람 속성 지속 피해를 받는다. [아르카나] 스택당 해당 피해 배율이 {{arcanaStackMultiplier}}% 증가하며, 이후 1스택으로 초기화된다. [아르카나] 최대 중첩수: 50스택::BR: 3스택 이상 일 경우, 인접한 목표를 [아르카나] 1스택에 빠트린다. 7스택 이상일 경우, 이번에 가하는 지속 피해는 해당 목표 및 인접한 목표의 방어력을 20% 무시한다.
+      e1ResReduction:
+        text: 1돌 속성 저항 감소
+        content: 블랙 스완이 전투 가능 상태일 시 풍화, 열상, 연소, 감전 상태인 적의 상응하는 바람, 물리, 화염, 번개 속성 저항이 각각 25% 감소한다.
+      e4EffResPen:
+        text: 4돌 적 효저 감소
+        content: 발로] 상태에서 적의 효과 저항이 10% 감소한다.
   BlackSwanB1:
     Content:
       skillDefShred:
@@ -991,6 +1012,17 @@ Characters:
         text: '[아르카나] 스택'
       e4Vulnerability:
         text: 4돌 받피증
+  Blade:
+    Content:
+      enhancedStateActive:
+        text: '[지옥변] 상태'
+        content: '[지옥변] 상태에서는 전투 스킬을 발동할 수 없으며, 자신이 가하는 피해가 {{enhancedStateDmgBoost}}% 증가하고, 일반 공격 [지리검(支離劍)]이 강화되어 [무간검수(無間劍樹)]로 바뀐다. 지속 시간: 3턴::E2: 블레이드가 [지옥변] 상태일 때 치명타 확률이 15% 증가한다.'
+      hpPercentLostTotal:
+        text: 잃은 HP 총량
+        content: 이번 전투에서 누적 손실한 HP는 블레이드 HP 최대치의 {{hpPercentLostTotalMax}}%를 넘을 수 없다. 필살기 발동 후 리셋하고 다시 누적된다
+      e4MaxHpIncreaseStacks:
+        text: 4돌 최대 HP 증가 버프
+        content: '현재 HP 백분율이 50%를 초과한 상태에서 50% 이하로 떨어지면 HP 최대치가 20% 증가한다. 해당 효과 최대 중첩수: 2스택'
   BladeB1:
     Content:
       enhancedStateActive:
@@ -1321,6 +1353,34 @@ Characters:
         text: 6돌 버프
         content: >-
           비소가 가하는 필살기 피해의 모든 속성 저항 관통이 20% 증가한다. 특성의 추가 공격 피해는 동시에 필살기 피해로 간주되며, 피해 배율이 140% 증가한다
+  Firefly:
+    Content:
+      enhancedStateActive:
+        text: '[완전 연소] 상태'
+        content: '[완전연소] 상태에 진입하고 자신의 행동 게이지가 100% 증가하며, 일반 공격 강화 및 전투 스킬 강화를 획득한다.'
+      enhancedStateSpdBuff:
+        text: '[완전 연소] 속도 버프'
+        content: '[완전 연소] 상태에서는 속도가 {{ultSpdBuff}}pt 증가한다.'
+      superBreakDmg:
+        text: 슈퍼 격파 적용 (격파 상태)
+        content: >-
+          [완전연소] 상태에서 기갑 [샘]의 격파 특수효과가 200%/360% 이상일 시, 약점 격파 상태의 적을 공격하면 이번 공격의 강인성 감소 수치가 35%/50%의 슈퍼 격파 피해 1회로 전환된다.
+      atkToBeConversion:
+        text: 공격력 비례 격특 버프
+        content: 기갑 [샘]의 공격력이 1800pt보다 높으면 공격력이 10pt 초과할 때마다 자신의 격파 특수효과가 0.8% 증가한다
+      talentDmgReductionBuff:
+        text: 최대 피해 감소 버프
+        content: >-
+          HP가 낮을수록 받는 피해가 감소한다. HP가 20% 이하일 경우 피해 감소 효과가 최대치에 도달하며, 최대 {{talentDmgReductionBuff}}% 감소한다. 「완전연소」 상태에서는 피해 감소 효과가 최대치를 유지하며, 효과 저항이 {{talentResBuff}}% 증가한다.
+      e1DefShred:
+        text: 1돌 방어력 무시
+        content: 강화된 전투 스킬 발동 시 목표의 방어력을 15% 무시하고, 강화된 전투 스킬은 전투 스킬 포인트를 소모하지 않는다.
+      e4ResBuff:
+        text: 4돌 효과 저항 버프
+        content: '[완전연소] 상태일 때 기갑 「샘」의 효과 저항이 50% 증가한다'
+      e6Buffs:
+        text: 6돌 버프
+        content: '[완전연소] 상태에서 기갑 [샘]의 화염 속성 저항 관통이 20% 증가한다. 강화된 일반 공격, 강화된 전투 스킬 발동 시 약점 격파 효율이 50% 증가한다.'
   FireflyB1:
     Content:
       enhancedStateActive:
@@ -1506,6 +1566,17 @@ Characters:
         text: 연소 상태
         content: >-
           연소 상태의 적 공격 시, 추가로 후크 공격력 100%만큼의 화염 속성 추가 피해를 준다.::E6: 후크가 연소 상태를 보유한 적에게 가하는 피해가 20% 증가한다.
+  Huohuo:
+    Content:
+      ultBuff:
+        text: 필살기 공격력 버프
+        content: '공격력을 {{ultBuffValue}}% 증가시킨다. 지속 시간: 2턴'
+      skillBuff:
+        text: 1돌 속도 버프
+        content: 곽향이 [양명]을 보유할 시 모든 아군의 속도가 12% 증가한다.
+      e6DmgBuff:
+        text: 6돌 데미지 버프
+        content: '아군에게 치유 제공 시, 목표가 가하는 피해가 50% 증가한다. 지속 시간: 2턴'
   HuohuoB1:
     Content:
       ultBuff:
@@ -1646,6 +1717,22 @@ Characters:
       e6ResShred:
         text: 6돌 속성 저항 감소
         content: 적이 처치될 때 해당 적이 보유한 [훈작]은 필드 위 [훈작] 스택이 가장 낮은 적에게 중첩된다. [훈작]의 스택 수 상한이 9까지 증가하고, [훈작] 1스택마다 목표의 모든 속성 저항이 3% 감소한다.
+  Jingliu:
+    Content:
+      talentEnhancedState:
+        text: '[완전 연소] 상태'
+        content: >-
+          [삭망] 2스택 보유 시, 경류가 [전백(轉魄)] 상태에 진입하고 행동 게이지가 100% 증가, 치명타 확률이 {{talentCrBuff}}% 증가한다. 이후 전투 스킬 [무결의 섬광]이 [한천(寒川)에 비친 달]로 강화되며 해당 전투 스킬만 사용할 수 있다.
+      talentHpDrainAtkBuff:
+        text: HP 소모 공격력 버프
+        content: >-
+          [전백] 상태일 때 공격을 발동하면 동료 HP를 각각 동료 HP 최대치를 소모한다(모든 동료의 HP는 최대 1까지 소모 가능). 이번에 모든 아군이 소모한 HP 총량의 {{talentHpDrainAtkBuffMax}}%만큼 경류의 공격력이 증가하고 최대 경류 기초 공격력의 180%를 넘지 않는다. 해당 효과는 이번 공격이 종료될 때까지 지속된다.
+      e1CdBuff:
+        text: 1돌 필살기 버프
+        content: '필살기를 발동하거나 전투 스킬 강화 시 경류의 치명타 피해가 24% 증가한다. 지속 시간: 1턴. 적을 1기만 공격하면 해당 목표에게 추가로 경류 공격력의 100%만큼 얼음 속성 피해를 가한다.'
+      e2SkillDmgBuff:
+        text: 2돌 전투 스킬 버프
+        content: 필살기 발동 후 다음 강화 전투 스킬의 피해가 80% 증가한다.
   JingliuB1:
     Content:
       talentEnhancedState:
@@ -1687,6 +1774,14 @@ Characters:
       e6FuaVulnerabilityStacks:
         text: 6돌 취약 스택
         content: '[신군]의 공격은 단마다 지정된 적을 추가로 취약 상태에 빠트린다. 취약 상태의 적은 받는 피해가 12% 증가하며, 이번 [신군] 공격 종료까지 지속된다. 해당 효과 최대 중첩수: 3스택'
+  Kafka:
+    Content:
+      e1DotDmgReceivedDebuff:
+        text: 1돌 지속 피해 증가
+        content: '특성으로 추가 공격 발동 시 100%의 기본 확률로 목표가 받는 지속 피해가 30% 증가한다. 지속 시간: 2턴'
+      e2TeamDotBoost:
+        text: 2돌 아군 지속 피해 증가
+        content: 카프카가 필드에 있으면 모든 아군이 가하는 지속 피해가 25% 증가한다.
   KafkaB1:
     Content:
       ehrBasedBuff:
@@ -1798,14 +1893,6 @@ Characters:
       e6UltDmgBoost:
         text: 6돌 필살기 버프
         content: 필살기 발동 시, 자신이 가하는 피해가 자신의 턴이 종료될 때까지 30% 증가한다.
-  MortenaxBlade:
-    Content:
-      ultZone:
-        text: 결계 활성화
-      e1ResPen:
-        text: 1돌 속저관
-      e2FuaDmgBoost:
-        text: 2돌 버프
   Moze:
     Content:
       preyMark:
@@ -2075,6 +2162,21 @@ Characters:
       targetWindShear:
         text: 풍화 상태
         content: 풍화 상태의 적이 삼포에게 가하는 피해가 15% 감소한다.
+  Seele:
+    Content:
+      buffedState:
+        text: '[증폭] 상태'
+        content: >-
+          일반 공격, 전투 스킬, 필살기를 발동해 적을 처치한 후 즉시 보너스 턴을 1턴 획득하고 증폭 상태에 진입한다. 증폭 상태의 제레는 공격 발동으로 가하는 피해가 {{buffedStateDmgBuff}}% 증가한다. 지속 시간: 1턴::BR:: 증폭 상태일 때 제레의 양자 속성 저항 관통이 20% 증가한다.
+      speedBoostStacks:
+        text: 속도 버프 스택
+        content: "제레의 속도가 25% 증가하고, 지정된 단일 적에게 제레 공격력 220%만큼의 양자 속성 피해를 준다. 속도 증가 효과 지속 시간: 2턴"
+      e1EnemyHp80CrBoost:
+        text: 1돌 적 HP ≤ 80%  치확 버프
+        content: 현재 HP 백분율이 80% 이하인 적에게 피해를 가할 시 치명타 확률이 15% 증가한다.
+      e6UltTargetDebuff:
+        text: 6돌 [혼란의 나비]
+        content: '필살기 발동 후 피격된 단일 적은 [혼란의 나비] 상태에 빠진다, 지속 시간: 1턴. [혼란의 나비] 상태의 적은 피격 후 추가로 제레 필살기 피해의 15%만큼 양자 속성 추가 피해를 1회 받는다. 다른 아군의 공격으로 [혼란의 나비] 상태의 추가 피해가 발동되어 해당 적이 처치되면 제레의 특성이 발동하지 않는다.'
   SeeleB1:
     Content:
       buffedState:
@@ -2096,6 +2198,26 @@ Characters:
       enemyDefeatedBuff:
         text: 적 처치 버프
         content: '적 처치 후 공격력이 20% 증가한다. 지속 시간: 2턴'
+  SilverWolf:
+    Content:
+      skillResShredDebuff:
+        text: 전투 스킬 속성 저항 감소
+        content: >-
+          목표의 모든 속성 저항이 {{skillResShredValue}}% 감소한다. 지속 시간: 2턴::BR:: 전투 스킬 발동 시 적의 디버프 효과 수량이 3개 이상일 경우, 전투 스킬로 인한 목표의 모든 속성 저항 감소 효과가 추가로 3% 감소한다.
+      skillWeaknessResShredDebuff:
+        text: 전투 스킬 속성 저항 감소
+        content: >-
+          지정된 단일 적에게 필드에 있는 아군이 보유한 속성의 약점을 {{implantChance}}%의 기본 확률로 1개 부여하고, 해당 약점에 대응하는 속성의 저항이 20% 감소한다. 지속 시간: 2턴. 적이 보유한 속성과 동일한 약점이 부여되면 대응하는 속성 저항 감소 효과가 발동되지 않는다. 은랑은 단일 적에게 1개의 약점만 부여할 수 있고, 약점 재부여 시 새로 부여된 약점만 존재한다.
+      talentDefShredDebuff:
+        text: '[결함] 상태'
+        content: '[결함]에 의하여 방어력 {{talentDefShredDebuffValue}}% 감소한다. 지속 시간: 3턴'
+      ultDefShredDebuff:
+        text: '[분석] 상태'
+        content: '방어력 {{ultDefShredValue}}% 감소한다. 지속 시간: 3턴'
+      targetDebuffs:
+        text: 디버프 보유 수
+        content: >-
+          전투 스킬 발동 시 적의 디버프 효과 수량이 3개 이상일 경우, 전투 스킬로 인한 목표의 모든 속성 저항 감소 효과가 추가로 3% 감소한다.::BR::E4: 필살기를 발동해 적 공격 후 목표가 보유한 디버프 효과 1개당 추가로 은랑 공격력의 20%만큼 양자 속성 추가 피해를 가한다. 해당 효과는 필살기 공격마다 최대 5회 발동된다.::BR::E6: 적이 보유한 디버프 효과 1개당 은랑이 대상에게 가하는 피해가 20% 증가하며, 최대 100% 증가한다.
   SilverWolfB1:
     Content:
       ehrToAtkConversion:
@@ -2125,6 +2247,27 @@ Characters:
     Content:
       e6ResPen:
         text: 6돌 속성 저항 관통
+  Sparkle:
+    Content:
+      skillCdBuff:
+        text: 전투 스킬 치피 버프
+        content: >-
+          지정된 단일 아군의 치명타 피해가 스파클 치명타 피해의 {{skillCdBuffScaling}}%에 {{skillCdBuffBase}}%를 더한 값만큼 증가한다. 지속 시간: 1턴 또한, 해당 목표의 행동 게이지가 50% 증가한다. 스파클이 자신에게 해당 스킬을 발동하면 행동 게이지 증가 효과가 발동하지 않는다.::BR::E6: 전투 스킬의 치명타 피해 증가 효과가 스파클 치명타 피해의 30%만큼 추가로 증가한다. 스파클이 전투 스킬을 발동하면, 전투 스킬의 치명타 피해 증가 효과는 [기이한 수수께끼]를 보유한 모든 동료에게 적용된다. 스파클이 필살기 발동 시 단일 아군 중 전투 스킬의 치명타 피해 증가 효과를 보유한 목표가 있으면, 해당 효과는 [기이한 수수께끼]를 보유한 동료에게까지 확산된다.
+      cipherBuff:
+        text: '[기이한 수수꼐끼] 상태'
+        content: >-
+          [기이한 수수께끼]를 보유한 아군은 스파클 특성으로 발동되는 피해 증가 효과가 스택당 추가로 {{cipherTalentStackBoost}}% 증가한다. 지속 시간: 2턴::BR::E1: 필살기가 부여하는 [기이한 수수께끼]의 지속 시간이 추가로 1턴 증가하며, [기이한 수수께끼]를 보유한 아군의 공격력이 40% 증가한다.
+      talentStacks:
+        text: 특성 스택
+        content: >-
+          아군이 전투 스킬 포인트를 1pt 소모할 때마다 모든 아군이 가하는 피해가 {{talentBaseStackBoost}}% 증가한다, 해당 효과 지속 시간: 2턴, 최대 중첩수: 3스택::BR::E2: 특성의 각 스택 효과는 추가로 아군이 피해를 가할 시 목표의 방어력을 8% 무시하게 한다.
+      quantumAlliesAtkBuff:
+        text: 양자 속성 공격력 버프
+        content: 모든 아군의 공격력이 15% 증가한다. 아군 파티 중 양자 속성 캐릭터가 1명/2명/3명 존재 시 아군 양자 속성 캐릭터의 공격력이 추가로 5%/15%/30% 증가한다.
+    TeammateContent:
+      teammateCDValue:
+        text: 스파클 치피 (전투시)
+        content: '지정된 단일 아군의 치명타 피해가 스파클 치명타 피해의 {{skillCdBuffScaling}}%에 {{skillCdBuffBase}}%를 더한 값만큼 증가한다. 지속 시간: 1턴'
   SparkleB1:
     Content:
       cipherBuff:
@@ -2411,6 +2554,21 @@ Characters:
       e6FuaScaling:
         text: 6돌 추가공격 피해량
         content: 트리비가 필살기 발동 후, 모든 적에게 특성의 추가 공격을 발동한다. 특성의 추가 공격이 가하는 피해가 729% 증가한다.
+  Welt:
+    Content:
+      enemyDmgTakenDebuff:
+        text: 필살기 받는 피해 증가
+        content: '필살기 발동 시 100%의 기본 확률로 목표가 받는 피해가 12% 증가한다. 지속 시간: 2턴'
+      enemySlowed:
+        text: 적 감속
+        content: 감속 상태의 적을 공격 시 추가로 웰트 공격력 {{talentScaling}}%만큼의 허수 속성 추가 피해를 1회 준다
+      skillExtraHits:
+        text: 전투 스킬 적중 수
+        content: >-
+          지정된 단일 적에게 웰트 공격력 {{skillScaling}}%만큼의 허수 속성 피해를 주고, 추가로 피해를 2회 가한다. 피해를 가할 때마다 임의의 단일 적에게 웰트 공격력 {{skillScaling}}%만큼의 허수 속성 피해를 준다. 
+      e1EnhancedState:
+        text: 1돌 강화 상태
+        content: 필살기 발동 후 웰트는 강화를 획득하며 다음 2번의 일반 공격 혹은 전투 스킬 발동 시 적에게 1회 추가 피해를 가한다. 일반 공격 발동 시의 추가 피해는 일반 공격 피해 배율의 50%이고, 전투 스킬 발동 시의 추가 피해는 전투 스킬 피해 배율의 80%이다.
   WeltB1:
     Content:
       enemySlowed:

@@ -90,42 +90,20 @@ CharacterPreview:
     RevertedPortrait: crwdns39678:0crwdne39678:0
     NoSelectedCharacter: crwdns39680:0crwdne39680:0
     NoSelectedLightCone: crwdns47128:0crwdne47128:0
-  RulerLabel:
-    dps: crwdns47363:0crwdne47363:0
-    buffer: "crwdns47365:0{{stat}}crwdne47365:0"
-    heal: crwdns47367:0crwdne47367:0
-    shield: crwdns47369:0crwdne47369:0
-  ComboLabel:
-    dps: crwdns47371:0crwdne47371:0
-    buffer: "crwdns47373:0{{stat}}crwdne47373:0"
-    heal: crwdns47375:0crwdne47375:0
-    shield: crwdns47377:0crwdne47377:0
   ScoreHeader:
-    CustomSpeed: 'crwdns47379:0{{spd}}crwdne47379:0'
-    dps: crwdns47381:0crwdne47381:0
-    buffer: crwdns47383:0crwdne47383:0
-    heal: crwdns47385:0crwdne47385:0
-    shield: crwdns47387:0crwdne47387:0
+    Title: crwdns39682:0crwdne39682:0
+    TitleBenchmark: 'crwdns44466:0{{spd}}crwdne44466:0'
+    Score: 'crwdns39684:0{{score}}crwdnd39684:0{{grade}}crwdne39684:0'
   AlgorithmSlider:
     Labels:
-      dps: crwdns47389:0crwdne47389:0
-      buffer: crwdns47391:0crwdne47391:0
-      heal: crwdns47393:0crwdne47393:0
-      shield: crwdns47395:0crwdne47395:0
+      CombatScore: crwdns39688:0crwdne39688:0
+      CombatScoreTBD: crwdns43670:0crwdne43670:0
       StatScore: crwdns47285:0crwdne47285:0
       NoneScore: crwdns43672:0crwdne43672:0
   DetailsSlider:
     Labels:
       CombatStats: crwdns39696:0crwdne39696:0
-      CombatStatsSubDps: crwdns47397:0crwdne47397:0
-      CombatStatsSupport: crwdns47399:0crwdne47399:0
-      CombatStatsHeal: crwdns47401:0crwdne47401:0
-      CombatStatsShield: crwdns47403:0crwdne47403:0
-  ScoringExplanation:
-    dps: crwdns47405:0crwdne47405:0
-    buffer: crwdns47407:0crwdne47407:0
-    heal: crwdns47409:0crwdne47409:0
-    shield: crwdns47411:0crwdne47411:0
+      SubDpsCombatStats: crwdns44468:0crwdne44468:0
   DMGUpgrades: crwdns39700:0crwdne39700:0
   SubstatUpgradeComparisons:
     Header: crwdns39702:0crwdne39702:0

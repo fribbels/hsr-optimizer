@@ -8,9 +8,9 @@ import {
   SetsOrnamentsNames,
   setToId,
 } from 'lib/sets/setConfigRegistry'
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/OrnamentsOptions.module.css'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import classes from './OrnamentsOptions.module.css'
 
 export function useOrnamentsOptions() {
   const { t } = useTranslation('gameData')

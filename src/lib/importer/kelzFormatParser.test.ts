@@ -1,9 +1,5 @@
 // @vitest-environment jsdom
 import { ReliquaryArchiverConfig } from 'lib/importer/importConfig'
-import {
-  KelzFormatParser,
-  type V4ParserRelic,
-} from 'lib/importer/kelzFormatParser'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
   beforeEach,
@@ -12,6 +8,10 @@ import {
   it,
   vi,
 } from 'vitest'
+import {
+  KelzFormatParser,
+  type V4ParserRelic,
+} from './kelzFormatParser'
 
 // ---- Mocks ----
 

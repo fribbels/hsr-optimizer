@@ -1,30 +1,28 @@
+import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import {
   Stats,
   SubStats,
 } from 'lib/constants/constants'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import { ScoringConfigType } from 'types/metadata'
 import {
   applyScoringFunction,
+  createDiminishingReturns,
+  substatRollsModifier,
+  supportDiminishingReturns,
 } from 'lib/scoring/simScoringUtils'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
+import { runStatSimulations } from 'lib/simulations/statSimulation'
 import {
-  buildBenchmarkSimulationState,
-  runSingleStatSimulation,
-} from 'lib/simulations/statSimulation'
-import type {
-  Simulation,
-  SubstatCounts,
+  type Simulation,
+  type SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
 import { clone } from 'lib/utils/objectUtils'
 import {
   type ComputeOptimalSimulationWorkerInput,
   type ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
-import {
-  DIMINISHING_RETURNS_CURVES,
-  getDiminishingReturnsCurve,
-} from 'lib/worker/diminishingReturnsCurve'
 import { SearchTree } from 'lib/worker/maxima/tree/searchTree'
 import {
   SUBSTAT_COUNT,
@@ -39,8 +37,8 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   initializeContextConditionals(context)
   const optimalSimulation = computeOptimalSimulationSearch(input)
 
-  const { x: _x, ...serializableResult } = optimalSimulation.result!
-  optimalSimulation.result = serializableResult as typeof optimalSimulation.result
+  // @ts-expect-error - removing ComputedStatsContainer before postMessage (not serializable)
+  delete optimalSimulation.result.x
 
   const workerOutput: ComputeOptimalSimulationWorkerOutput = {
     simulation: optimalSimulation,
@@ -51,6 +49,24 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   }
 
   self.postMessage(workerOutput)
+}
+
+function getSubstatRollsModifier(input: ComputeOptimalSimulationWorkerInput) {
+  // Manual adjustment for Hysilens scoring - Using non-EHR light cones forces the benchmark to be unable to hit 120%
+  // EHR due to diminishing returns. To fix, relax diminishing returns on non-EHR LC builds
+  if (input.context.characterId === Hysilens.id) {
+    const ehrLightCone = input.context.characterStatsBreakdown.lightCone[Stats.EHR]
+    if (!ehrLightCone) {
+      const hysilensDiminishingReturns = createDiminishingReturns(24, 2)
+      return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, hysilensDiminishingReturns)
+    }
+  }
+
+  if (input.configType !== ScoringConfigType.DPS) {
+    return (rolls: number, stat: string, sim: Simulation) => substatRollsModifier(rolls, stat, sim, supportDiminishingReturns)
+  }
+
+  return substatRollsModifier
 }
 
 function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInput) {
@@ -66,8 +82,9 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     configType,
   } = input
 
-  const curveConfig = DIMINISHING_RETURNS_CURVES[getDiminishingReturnsCurve(input)]
-  scoringParams.substatRollsModifier = curveConfig.substatRollsModifier
+  scoringParams.substatRollsModifier = scoringParams.quality === 0.8
+    ? getSubstatRollsModifier(input)
+    : (rolls: number) => rolls
 
   const minSubstatRollCounts = inputMinSubstatRollCounts
   const maxSubstatRollCounts = inputMaxSubstatRollCounts
@@ -88,17 +105,19 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
   const cachedComputedStatsContainer = new ComputedStatsContainer()
   cachedComputedStatsContainer.initializeArrays(context.maxContainerArrayLength, context)
 
-  const benchmarkSimState = buildBenchmarkSimulationState(
-    currentSimulation,
-    { ...scoringParams, mainStatMultiplier: 1, simulationFlags, stabilize: false, skipDefaults: true },
-    curveConfig.diminishingReturns,
-  )
+  const mergedScoringParams = {
+    ...scoringParams,
+    substatRollsModifier: scoringParams.substatRollsModifier,
+    simulationFlags: simulationFlags,
+    stabilize: false,
+    skipDefaults: true,
+  }
 
   function damageFunction(stats: SubstatCounts, stabilize = false): number {
     currentSimulation.request.stats = stats
-    benchmarkSimState.params.stabilize = stabilize
-    benchmarkSimState.params.skipDefaults = SCORING_CONFIG_REGISTRY[configType].requiresDefaultActions ? false : !stabilize
-    currentSimulation.result = runSingleStatSimulation(benchmarkSimState, currentSimulation, simulationForm, context, cachedComputedStatsContainer)
+    mergedScoringParams.stabilize = stabilize
+    mergedScoringParams.skipDefaults = SCORING_CONFIG_REGISTRY[configType].requiresDefaultActions ? false : !stabilize
+    currentSimulation.result = runStatSimulations([currentSimulation], simulationForm, context, mergedScoringParams, cachedComputedStatsContainer)[0]
 
     applyScoringFunction(currentSimulation.result, metadata, true, false, context, configType)
     return currentSimulation.result.simScore

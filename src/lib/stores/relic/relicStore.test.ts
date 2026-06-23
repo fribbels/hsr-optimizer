@@ -4,11 +4,6 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import {
-  getRelicById,
-  getRelics,
-  useRelicStore,
-} from 'lib/stores/relic/relicStore'
 import type { Relic } from 'types/relic'
 import {
   beforeEach,
@@ -16,6 +11,11 @@ import {
   expect,
   it,
 } from 'vitest'
+import {
+  getRelicById,
+  getRelics,
+  useRelicStore,
+} from './relicStore'
 
 // ---- Constants ----
 

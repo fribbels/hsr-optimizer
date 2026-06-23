@@ -5,13 +5,13 @@ import {
   Stack,
 } from '@mantine/core'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal.module.css'
+import { useMemo } from 'react'
+import classes from './RelicSetFilterModal.module.css'
 import {
   FourPieceBadges,
   OrnamentBadges,
   TwoPieceComboBadges,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterBadges'
-import { useMemo } from 'react'
+} from './SetFilterBadges'
 
 const MAX_VISIBLE_RELICS = 2
 const MAX_VISIBLE_ORNAMENTS = 3

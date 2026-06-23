@@ -10,18 +10,6 @@ import {
   SubStatValues,
 } from 'lib/constants/constants'
 import { Message } from 'lib/interactions/message'
-import {
-  defaultMainStatPerPart,
-  defaultSubstatValues,
-  renderMainStat,
-} from 'lib/overlays/modals/relicModal/relicModalHelpers'
-import type { RelicModalConfig } from 'lib/overlays/modals/relicModal/relicModalStore'
-import type {
-  MainStatOption,
-  RelicForm,
-  RelicFormStat,
-  RelicUpgradeValues,
-} from 'lib/overlays/modals/relicModal/relicModalTypes'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import {
@@ -47,6 +35,18 @@ import {
 import { clone } from 'lib/utils/objectUtils'
 import { isFlat } from 'lib/utils/statUtils'
 import type { Relic } from 'types/relic'
+import {
+  defaultMainStatPerPart,
+  defaultSubstatValues,
+  renderMainStat,
+} from './relicModalHelpers'
+import type { RelicModalConfig } from './relicModalStore'
+import type {
+  MainStatOption,
+  RelicForm,
+  RelicFormStat,
+  RelicUpgradeValues,
+} from './relicModalTypes'
 
 // ─── Initialization ──────────────────────────────────────────────────────────
 

@@ -25,21 +25,13 @@ ResultLimitN: 'crwdns42668:0{{limit}}crwdne42668:0'
 MainStats: crwdns42670:0crwdne42670:0
 Sets: crwdns42672:0crwdne42672:0
 UnreleasedDisclaimer: crwdns46524:0{{nameList}}crwdne46524:0
-SetFilters:
-  OrnamentPlaceholder: crwdns47443:0crwdne47443:0
-  RelicPlaceholder: crwdns47445:0crwdne47445:0
-  4pcLabel: crwdns47447:0crwdne47447:0
-  2pcLabel: crwdns47449:0crwdne47449:0
-  AnyTag: crwdns47451:0crwdne47451:0
-  SelectedHeader: crwdns47453:0crwdne47453:0
-  RelicListHeader: crwdns47455:0crwdne47455:0
-  OrnamentListHeader: crwdns47457:0crwdne47457:0
-  SearchPlaceholder: crwdns47459:0crwdne47459:0
-  RelicSelectedPlaceholder: crwdns47461:0crwdne47461:0
-  OrnamentSelectedPlaceholder: crwdns47463:0crwdne47463:0
-  Revert: crwdns47465:0crwdne47465:0
-  Done: crwdns47467:0crwdne47467:0
-  Clear: crwdns47469:0crwdne47469:0
+RelicSetSelector:
+  Placeholder: crwdns42674:0crwdne42674:0
+  4pcLabel: crwdns42676:0crwdne42676:0
+  2+2pcLabel: crwdns42678:0crwdne42678:0
+  2pcLabel: crwdns42680:0crwdne42680:0
+OrnamentSetSelector:
+  Placeholder: crwdns42682:0crwdne42682:0
 SortOptions:
   DMGLabel: crwdns42684:0crwdne42684:0
   HealLabel: crwdns46228:0crwdne46228:0
@@ -547,7 +539,6 @@ ComboFilter:
     Enabled: crwdns46728:0crwdne46728:0
     Disabled: crwdns46730:0crwdne46730:0
   ComboOptions:
-    Placeholder: crwdns47471:0crwdne47471:0
     None: 'crwdns45228:0crwdne45228:0'
     Basic: crwdns43270:0crwdne43270:0
     Skill: crwdns43272:0crwdne43272:0
@@ -595,45 +586,59 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: 'crwdns43312:0$t(gameData:RelicSets.114.Name)crwdne43312:0'
+      Set: 'crwdns43314:0$t(gameData:RelicSets.114.Name)crwdne43314:0'
       Text: crwdns43316:0crwdne43316:0
     Watchmaker:
       Desc: 'crwdns43318:0$t(gameData:RelicSets.118.Name)crwdne43318:0'
+      Set: 'crwdns43320:0$t(gameData:RelicSets.118.Name)crwdne43320:0'
       Text: crwdns43322:0crwdne43322:0
     Sacerdos1Stack:
       Desc: 'crwdns43324:0$t(gameData:RelicSets.121.Name)crwdne43324:0'
+      Set: 'crwdns43326:0$t(gameData:RelicSets.121.Name)crwdne43326:0'
       Text: crwdns43328:0crwdne43328:0
     Sacerdos2Stack:
       Desc: 'crwdns43330:0$t(gameData:RelicSets.121.Name)crwdne43330:0'
+      Set: 'crwdns43332:0$t(gameData:RelicSets.121.Name)crwdne43332:0'
       Text: crwdns43334:0crwdne43334:0
     Warrior:
       Desc: 'crwdns45994:0$t(gameData:RelicSets.125.Name)crwdne45994:0'
+      Set: 'crwdns45236:0$t(gameData:RelicSets.125.Name)crwdne45236:0'
       Text: crwdns45238:0crwdne45238:0
     WorldRemaking:
       Desc: 'crwdns46142:0$t(gameData:RelicSets.127.Name)crwdne46142:0'
+      Set: 'crwdns46144:0$t(gameData:RelicSets.127.Name)crwdne46144:0'
       Text: crwdns46146:0crwdne46146:0
     SelfEnshrouded:
       Desc: 'crwdns46148:0$t(gameData:RelicSets.128.Name)crwdne46148:0'
+      Set: 'crwdns46150:0$t(gameData:RelicSets.128.Name)crwdne46150:0'
       Text: crwdns46152:0crwdne46152:0
     Diviner:
       Desc: 'crwdns46462:0$t(gameData:RelicSets.130.Name)crwdne46462:0'
+      Set: 'crwdns46464:0$t(gameData:RelicSets.130.Name)crwdne46464:0'
       Text: crwdns46466:0crwdne46466:0
     Keel:
       Desc: 'crwdns43336:0$t(gameData:RelicSets.310.Name)crwdne43336:0'
+      Set: 'crwdns43338:0$t(gameData:RelicSets.310.Name)crwdne43338:0'
       Text: crwdns43340:0crwdne43340:0
     Ageless:
       Desc: 'crwdns43342:0$t(gameData:RelicSets.302.Name)crwdne43342:0'
+      Set: 'crwdns43344:0$t(gameData:RelicSets.302.Name)crwdne43344:0'
       Text: crwdns43346:0crwdne43346:0
     Penacony:
       Desc: 'crwdns43348:0$t(gameData:RelicSets.312.Name)crwdne43348:0'
+      Set: 'crwdns43350:0$t(gameData:RelicSets.312.Name)crwdne43350:0'
       Text: crwdns43352:0crwdne43352:0
     Lushaka:
       Desc: 'crwdns43354:0$t(gameData:RelicSets.317.Name)crwdne43354:0'
+      Set: 'crwdns43356:0$t(gameData:RelicSets.317.Name)crwdne43356:0'
       Text: crwdns43358:0crwdne43358:0
     Amphoreus:
       Desc: 'crwdns45996:0$t(gameData:RelicSets.323.Name)crwdne45996:0'
+      Set: 'crwdns45998:0$t(gameData:RelicSets.323.Name)crwdne45998:0'
       Text: crwdns46000:0crwdne46000:0
     CityOfConvergingStars:
       Desc: 'crwdns46516:0$t(gameData:RelicSets.326.Name)crwdne46516:0'
+      Set: 'crwdns46518:0$t(gameData:RelicSets.326.Name)crwdne46518:0'
       Text: crwdns46520:0crwdne46520:0
 StatSimulation:
   DuplicateSimMessage: crwdns43360:0crwdne43360:0
@@ -860,39 +865,3 @@ ExpandedDataPanel:
         SuperBreak: crwdns45195:0crwdne45195:0
       Unconvertible: 'crwdns45199:0$t(common:Stats.{{stat}})crwdne45199:0'
       ElementalDmgBoost: 'crwdns47086:0$t(gameData:Elements.{{element}})crwdnd47086:0$t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)crwdne47086:0'
-    HitDefinition:
-      AtkScaling: crwdns47473:0crwdne47473:0
-      HpScaling: crwdns47475:0crwdne47475:0
-      DefScaling: crwdns47477:0crwdne47477:0
-      Crit:
-        BeScaling: crwdns47479:0crwdne47479:0
-        BeCap: crwdns47481:0crwdne47481:0
-        ElationAtkScaling: crwdns47483:0crwdne47483:0
-      Dot:
-        Chance: crwdns47485:0crwdne47485:0
-        Split: crwdns47487:0crwdne47487:0
-        Stacks: crwdns47489:0crwdne47489:0
-      Break:
-        SpecialScaling: crwdns47491:0crwdne47491:0
-      SuperBreak:
-        ExtraModifier: crwdns47493:0crwdne47493:0
-      Additional:
-        CrOverride: crwdns47495:0crwdne47495:0
-        CdOverride: crwdns47497:0crwdne47497:0
-      Elation:
-        Scaling: crwdns47499:0crwdne47499:0
-        Punchline: crwdns47501:0crwdne47501:0
-        Banger: crwdns47503:0crwdne47503:0
-      TrueDmg: crwdns47505:0crwdne47505:0
-      Toughness: crwdns47507:0crwdne47507:0
-      FixedToughness: crwdns47509:0crwdne47509:0
-    EnemyConfiguration:
-      Header: crwdns47511:0crwdne47511:0
-      Level: crwdns47513:0crwdne47513:0
-      Res: crwdns47515:0crwdne47515:0
-      Efres: crwdns47517:0crwdne47517:0
-      Toughness: crwdns47519:0crwdne47519:0
-      Targets: crwdns47521:0crwdne47521:0
-      Weakness: crwdns47523:0crwdne47523:0
-      Broken: crwdns47525:0crwdne47525:0
-      Enemy: crwdns47527:0crwdne47527:0

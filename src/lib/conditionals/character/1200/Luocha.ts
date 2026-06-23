@@ -1,10 +1,7 @@
-import {
-  aoe,
-  ashblazingMulti,
-} from 'lib/conditionals/ashblazingCompute'
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -301,7 +298,6 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [SortOption.OHB],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   healSimulation: healSimulation(),
-  eidolonImage: 4,
 })
 
 const display = {

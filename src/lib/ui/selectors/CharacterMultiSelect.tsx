@@ -16,7 +16,6 @@ import {
 } from 'lib/ui/selectors/CardSelectModalComponents'
 import { generateCharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
-import classes from 'lib/ui/selectors/SelectCardGrid.module.css'
 import {
   applyCharacterFilters,
   CHARACTER_CARD_IMAGE_HEIGHT,
@@ -38,6 +37,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
+import classes from './SelectCardGrid.module.css'
 
 const elementTags = generateElementTags()
 const pathTags = generatePathTags()

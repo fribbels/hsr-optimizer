@@ -7,13 +7,13 @@ import {
   IconPlus,
 } from '@tabler/icons-react'
 import { Assets } from 'lib/rendering/assets'
-import styles from 'lib/tabs/tabShowcase/ShowcaseTab.module.css'
 import {
   type CharacterPreset,
   type Preset,
   presetCharacters,
 } from 'lib/tabs/tabShowcase/showcaseTabController'
 import { useMemo } from 'react'
+import styles from './ShowcaseTab.module.css'
 
 export function SimulationSidebar({
   open,

@@ -13,10 +13,6 @@ import {
   Constants,
   Stats,
 } from 'lib/constants/constants'
-import type {
-  RelicForm,
-  RelicUpgradeValues,
-} from 'lib/overlays/modals/relicModal/relicModalTypes'
 import { Assets } from 'lib/rendering/assets'
 import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
 import {
@@ -29,6 +25,10 @@ import {
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import type {
+  RelicForm,
+  RelicUpgradeValues,
+} from './relicModalTypes'
 
 const BUTTON_STYLE = { width: '100%', padding: 0 }
 const CONTENTS_STYLE = { display: 'contents' }

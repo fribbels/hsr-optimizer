@@ -54,7 +54,7 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
-function StatIcon({ stat, color }: { stat: StatsValues, color?: string }) {
+function StatIcon({ stat, color }: { stat: StatsValues; color?: string }) {
   const src = Assets.getStatIcon(stat)
   if (color) {
     return (
@@ -123,8 +123,13 @@ export const CharacterCardCombatStats = memo(
       )
     }
 
-    const suffix = (deprioritizeBuffs ? 'SubDps' : SCORING_CONFIG_REGISTRY[configType].combatStatsSuffix) ?? ''
-    const titleRender = tCharactersTab(`CharacterPreview.DetailsSlider.Labels.CombatStats${suffix}`)
+    const suffix = SCORING_CONFIG_REGISTRY[configType].combatStatsSuffix
+    const combatStatsLabel = tCharactersTab('CharacterPreview.DetailsSlider.Labels.CombatStats')
+    const titleRender = suffix
+      ? `${combatStatsLabel} (${suffix})`
+      : deprioritizeBuffs
+      ? tCharactersTab('CharacterPreview.DetailsSlider.Labels.SubDpsCombatStats')
+      : combatStatsLabel
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>

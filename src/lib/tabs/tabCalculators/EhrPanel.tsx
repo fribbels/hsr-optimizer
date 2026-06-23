@@ -9,7 +9,7 @@ import { EhrPanelContent } from 'lib/tabs/tabCalculators/EhrPanelContent'
 import { useTranslation } from 'react-i18next'
 
 export function EhrPanel() {
-  const { t } = useTranslation('calculatorsTab', { keyPrefix: 'EHR' })
+  const { t } = useTranslation('modals', { keyPrefix: 'Calculators.EHR' })
 
   const form = useForm({
     initialValues: useEhrTuningStore.getState(),

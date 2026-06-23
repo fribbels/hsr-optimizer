@@ -1,5 +1,0 @@
-EHR:
-  Label: Acerto Efeito
-  Calculator:
-    Input:
-      HitRate: Acerto Efeito

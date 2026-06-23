@@ -135,7 +135,7 @@ test('Acheron sim', () => {
       BREAK_DMG: 34608.8620462,
       MEMO_SKILL_DMG: 0,
       MEMO_TALENT_DMG: 0,
-      COMBO_DMG: 8706597.0600024,
+      COMBO_DMG: 4296816.5212025,
     },
   )
 })

@@ -28,7 +28,7 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(FLICKERING_STARS_ID)
 
-  const sValuesSkillDmg = [0.72, 0.84, 0.96, 1.08, 1.20]
+  const sValuesSkillDmg = [0.60, 0.70, 0.80, 0.90, 1.00]
   const sValuesDefPen = [0.20, 0.24, 0.28, 0.32, 0.36]
 
   const defaults = {

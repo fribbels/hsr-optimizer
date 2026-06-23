@@ -1,12 +1,7 @@
-import {
-  aoe,
-  ashblazingMulti,
-} from 'lib/conditionals/ashblazingCompute'
 import { Jade } from 'lib/conditionals/character/1300/Jade'
-import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -20,10 +15,8 @@ import {
   mainIsPath,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
-import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import {
@@ -48,11 +41,11 @@ import {
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -356,22 +349,6 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: Anaxa.id, lightCones: [LifeShouldBeCastToFlames.id] },
-        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: Jade.id, lightCones: [YetHopeIsPriceless.id] },
-        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
-      ],
-    },
-  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -418,7 +395,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 3,
 })
 
 const display = {

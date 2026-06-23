@@ -1,8 +1,8 @@
-import classes from 'lib/ui/selectors/SelectCardGrid.module.css'
 import {
   type MouseEvent,
   useMemo,
 } from 'react'
+import classes from './SelectCardGrid.module.css'
 
 const rarityClass: Record<number, string> = {
   5: classes.rarity5Card,

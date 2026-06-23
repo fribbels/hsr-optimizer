@@ -1,13 +1,10 @@
 import {
-  aoe,
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { RinTohsaka } from 'lib/conditionals/character/1500/RinTohsaka'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -17,14 +14,11 @@ import {
   type Conditionals,
   type ContentDefinition,
   createEnum,
-  findTeamMeta,
-  uniqueAbility,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
@@ -43,9 +37,7 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
-  DEFAULT_UNIQUE,
   END_SKILL,
-  END_UNIQUE,
   NULL_TURN_ABILITY_NAME,
   START_SKILL,
   START_ULT,
@@ -76,7 +68,6 @@ export const ArcherAbilities: AbilityKind[] = [
   AbilityKind.SKILL,
   AbilityKind.ULT,
   AbilityKind.FUA,
-  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -99,21 +90,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     single(0.44),
   ])
 
-  const fuaHitMulti = ashblazingMulti([single(1.00)])
-
-  const uniqueHitMulti = ashblazingMulti(Array(4).fill(aoe(0.25)))
-
-  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    switch (action.actionType) {
-      case AbilityKind.ULT:
-        return ultHitMulti(context)
-      case AbilityKind.UNIQUE:
-        return uniqueHitMulti(context)
-      default:
-        return fuaHitMulti(context)
-    }
-  }
-
   const basicScaling = basic(e, 1.00, 1.10)
 
   const skillScaling = skill(e, 3.60, 3.96)
@@ -122,8 +98,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 10.00, 10.80)
 
   const fuaScaling = talent(e, 2.00, 2.20)
-
-  const jointFuaScaling = uniqueAbility(5)
 
   const defaults = {
     cdBuff: true,
@@ -196,7 +170,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     actionDeclaration: () => [...ArcherAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
-      const rinMeta = findTeamMeta(context, RinTohsaka.id)
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -235,17 +208,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AbilityKind.UNIQUE]: {
-          hits: rinMeta
-            ? [
-              HitDefinitionBuilder.standardFua()
-                .damageElement(ElementTag.Quantum)
-                .atkScaling(jointFuaScaling(rinMeta.characterEidolon, 3.00, 3.30))
-                .toughnessDmg(0)
-                .build(),
-            ]
-            : [],
-        },
         [AbilityKind.BREAK]: {
           hits: [
             HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build(),
@@ -274,10 +236,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, getHitMulti(action, context))
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, getHitMulti(action, context))
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }
@@ -312,11 +274,11 @@ const simulation = (): SimulationMetadata => ({
     START_ULT,
     DEFAULT_SKILL,
     DEFAULT_SKILL,
-    DEFAULT_SKILL,
-    DEFAULT_SKILL,
-    DEFAULT_SKILL,
-    END_UNIQUE,
+    END_SKILL,
     DEFAULT_FUA,
+    START_SKILL,
+    DEFAULT_SKILL,
+    END_SKILL,
     DEFAULT_FUA,
   ],
   errRopeEidolon: 0,
@@ -333,13 +295,13 @@ const simulation = (): SimulationMetadata => ({
   teammates: [
     {
       characterId: SparkleB1.id,
-      lightCone: DanceDanceDance.id,
+      lightCone: EarthlyEscapade.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: RinTohsaka.id,
-      lightCone: RinTohsaka.defaultLightCone,
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -348,22 +310,6 @@ const simulation = (): SimulationMetadata => ({
       lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
-    },
-  ],
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
-        { characterId: Cipher.id, lightCones: [LiesAflutterInTheWind.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
-        { characterId: RinTohsaka.id, lightCones: [RinTohsaka.defaultLightCone] },
-        { characterId: HuohuoB1.id, lightCones: [HuohuoB1.defaultLightCone] },
-      ],
     },
   ],
 })
@@ -415,7 +361,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 3,
 })
 
 const display = {

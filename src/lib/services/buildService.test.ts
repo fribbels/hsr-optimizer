@@ -2,12 +2,6 @@
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
 import { ComboType } from 'lib/optimization/rotation/comboType'
-import {
-  clearBuilds,
-  deleteBuild,
-  loadBuildInOptimizer,
-  saveBuild,
-} from 'lib/services/buildService'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
   getCharacterById,
@@ -31,6 +25,12 @@ import {
   it,
   vi,
 } from 'vitest'
+import {
+  clearBuilds,
+  deleteBuild,
+  loadBuildInOptimizer,
+  saveBuild,
+} from './buildService'
 
 // ---- Mocks ----
 

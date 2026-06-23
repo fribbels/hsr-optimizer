@@ -1,10 +1,7 @@
-import {
-  aoe,
-  ashblazingMulti,
-} from 'lib/conditionals/ashblazingCompute'
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -412,16 +409,6 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: BlackSwanB1.id, lightCones: [ReforgedRemembrance.id] },
-        { characterId: Hysilens.id, lightCones: [WhyDoesTheOceanSing.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
-      ],
-    },
-  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -466,7 +453,6 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.DOT,
   hiddenColumns: [],
   simulation: simulation(),
-  eidolonImage: 4,
 })
 
 const display = {

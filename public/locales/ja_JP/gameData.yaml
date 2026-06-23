@@ -246,14 +246,14 @@ Characters:
     Name: 千冶・刃
     LongName: 千冶・刃
   "1508":
-    Name: 遠坂凛
-    LongName: 遠坂凛
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
   "1509":
-    Name: ギルガメッシュ
-    LongName: ギルガメッシュ
+    Name: Gilgamesh
+    LongName: Gilgamesh
   "1510":
-    Name: 姫子・旅立ち
-    LongName: 姫子・旅立ち
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: 穹
     LongName: 穹 (壊滅)
@@ -522,11 +522,11 @@ RelicSets:
     Name: 千の星が集う街
     Description2pc: 装備キャラが追加攻撃を行う時、攻撃力+24%、2ターン継続。敵が倒された時、その戦闘中、味方全体の会心ダメージ+12%。この効果は累積できない。
   "327":
-    Name: 墜星の出航地
-    Description2pc: 装備キャラの会心率+8%。戦闘に入る時、装備キャラおよび自身以外にもう1名の味方キャラが「開拓仲間」である場合、装備キャラの会心ダメージ+32%。
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
   "328":
-    Name: 宇宙生命科学研究院
-    Description2pc: 戦闘に入る時、装備キャラの最大EPが200以上の場合、超過分1につき、装備キャラの与ダメージ+0.2%、最大で+32%。
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: 矢じり
@@ -839,11 +839,11 @@ Lightcones:
   "23059":
     Name: 煉獄に焼かれし新身
   "23060":
-    Name: 夜を照らす導きの星
+    Name: A Star That Lights the Night
   "23061":
-    Name: 静かに瞬く小さな火
+    Name: Flickering Stars
   "23062":
-    Name: 在るがままの我
+    Name: I Am As You Behold
   "24000":
     Name: とある星神の殞落を記す
   "24001":

@@ -5,6 +5,8 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: Ajouter un set de reliques
     AddOrnamentSetPlaceholder: Ajouter un set d'ornements
+  WeightMethodology:
+    Header: Comment est calculée la note de stat?
   Footer:
     Reset: Réinitialiser
     ResetAll: Réinitialiser tous les personnages
@@ -370,3 +372,8 @@ RelicReroll:
   Title: Re-lancé de relique détecté
   OriginalSubstats: Substats originelles
   RerolledSubstats: Substats re-roulées
+Calculators:
+  EHR:
+    Label: Taux d'app. d'eff.
+    Input:
+      HitRate: Taux d'app. d'eff.

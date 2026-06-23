@@ -5,7 +5,6 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { BuffPriority } from 'lib/conditionals/conditionalConstants'
 import {
   AbilityEidolon,
@@ -15,11 +14,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
-import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -608,23 +606,6 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
-        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
-    },
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: Castorice.id, lightCones: [Castorice.defaultLightCone] },
-        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
-    },
-  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -668,7 +649,6 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [SortOption.MEMO_SKILL, SortOption.MEMO_TALENT],
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.MEMO_TALENT],
   simulation: simulation(),
-  eidolonImage: 4,
 })
 
 const display = {

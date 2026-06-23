@@ -1,6 +1,6 @@
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import Backend, { type HttpBackendOptions } from 'i18next-http-backend'
+import Backend from 'i18next-http-backend'
 import yaml from 'js-yaml'
 import {
   BASE_PATH,
@@ -14,8 +14,6 @@ window.yaml = yaml
 export const completedLocales: Languages[] = ['en_US', 'es_ES', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'ru_RU', 'vi_VN', 'zh_CN'] as const
 
 const namespaces = [
-  'benchmarksTab',
-  'calculatorsTab',
   'charactersTab',
   'common',
   'conditionals',
@@ -32,6 +30,7 @@ const namespaces = [
   'settings',
   'sidebar',
   'warpCalculatorTab',
+  'benchmarksTab',
 ] as const
 export type Namespaces = typeof namespaces[number]
 
@@ -42,7 +41,7 @@ void i18next
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
-  .init<HttpBackendOptions>({
+  .init({
     ns: namespaces,
     defaultNS: 'common',
     fallbackNS: ['common', 'gameData'],
@@ -56,7 +55,7 @@ void i18next
     backend: {
       loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.yaml',
       parse: function(data: string) {
-        return yaml.load(data) as Record<string, any>
+        return yaml.load(data)
       },
     },
   })

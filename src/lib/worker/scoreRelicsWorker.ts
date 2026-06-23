@@ -1,5 +1,5 @@
 import { scoreRelicsBatch } from 'lib/relics/scoreRelicsBatch'
-import type { ScoreRelicsWorkerInput } from 'lib/worker/scoreRelicsWorkerRunner'
+import type { ScoreRelicsWorkerInput } from './scoreRelicsWorkerRunner'
 
 self.onmessage = function(e: MessageEvent<ScoreRelicsWorkerInput>) {
   const {

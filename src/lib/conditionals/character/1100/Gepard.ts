@@ -13,8 +13,8 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { MomentOfVictory } from 'lib/conditionals/lightcone/5star/MomentOfVictory'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   ConditionalActivation,
@@ -281,7 +281,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   shieldSimulation: shieldSimulation(),
-  eidolonImage: 4,
 })
 
 const display = {

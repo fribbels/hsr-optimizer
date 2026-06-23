@@ -25,15 +25,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const sValuesErr = [0.06, 0.075, 0.09, 0.105, 0.12]
 
   const defaults = {
-    atkBuffActive: false,
+    atkBuffActive: true,
     cdBuffActive: false,
-    errBuffActive: true,
+    errBuffActive: false,
   }
 
   const teammateDefaults = {
-    atkBuffActive: false,
+    atkBuffActive: true,
     cdBuffActive: false,
-    errBuffActive: true,
+    errBuffActive: false,
   }
 
   const content: ContentDefinition<typeof defaults> = {

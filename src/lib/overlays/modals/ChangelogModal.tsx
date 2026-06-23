@@ -10,7 +10,6 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { CtaCards } from 'lib/overlays/modals/changelogCta/CtaCards'
-import classes from 'lib/overlays/modals/ChangelogModal.module.css'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -23,6 +22,7 @@ import {
   useRef,
   useState,
 } from 'react'
+import classes from './ChangelogModal.module.css'
 
 globalThis.openChangelogModal = () => setOpen(OpenCloseIDs.CHANGELOG_MODAL)
 

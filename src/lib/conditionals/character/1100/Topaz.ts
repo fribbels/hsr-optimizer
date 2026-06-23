@@ -17,9 +17,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
-import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import {
   Parts,
   Sets,
@@ -338,16 +338,6 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: Feixiao.id, lightCones: [IVentureForthToHunt.id] },
-        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
-      ],
-    },
-  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -397,7 +387,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 3,
 })
 
 const display = {

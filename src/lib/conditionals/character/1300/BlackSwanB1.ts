@@ -378,15 +378,6 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: KafkaB1.id, lightCones: [PatienceIsAllYouNeed.id] },
-        { characterId: Hysilens.id, lightCones: [WhyDoesTheOceanSing.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
-      ],
-    },
-  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -431,7 +422,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
   ],
   simulation: simulation(),
-  eidolonImage: 3,
 })
 
 const display = {

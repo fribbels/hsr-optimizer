@@ -1,10 +1,7 @@
-import {
-  ashblazingMulti,
-  single,
-} from 'lib/conditionals/ashblazingCompute'
 import { Aventurine } from 'lib/conditionals/character/1300/Aventurine'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -51,11 +48,6 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
-import { Sparkle } from 'lib/conditionals/character/1300/Sparkle'
-import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
-import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -103,7 +95,32 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.40, 2.592)
   const fuaScaling = talent(e, 2.70, 2.97)
 
-  const hitMulti = ashblazingMulti([single(1.00)])
+  function e2FuaRatio(procs: number, fua = true) {
+    return fua
+      ? fuaScaling / (fuaScaling + 0.20 * procs) // for fua dmg
+      : 0.20 / (fuaScaling + 0.20 * procs) // for each e2 proc
+  }
+
+  const ultHitMulti = ashblazingMulti([single(1.00)])
+
+  const baseHitMulti = ASHBLAZING_ATK_STACK * (1 * 1 / 1)
+  const fuaMultiByDebuffs: Record<number, number> = {
+    0: ASHBLAZING_ATK_STACK * (1 * 1 / 1), // 0
+    1: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(1, true) + 2 * e2FuaRatio(1, false)), // 2
+    2: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(2, true) + 5 * e2FuaRatio(2, false)), // 2 + 3
+    3: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(3, true) + 9 * e2FuaRatio(3, false)), // 2 + 3 + 4
+    4: ASHBLAZING_ATK_STACK * (1 * e2FuaRatio(4, true) + 14 * e2FuaRatio(4, false)), // 2 + 3 + 4 + 5
+  }
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    if (action.actionType === AbilityKind.ULT) {
+      return ultHitMulti(context)
+    }
+    const r = action.characterConditionals as Conditionals<typeof content>
+    return e >= 2
+      ? fuaMultiByDebuffs[Math.min(4, r.enemyDebuffStacks)]
+      : baseHitMulti
+  }
 
   const defaults = {
     enemyDebuffStacks: debuffStacksMax,
@@ -216,10 +233,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, hitMulti(context))
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(hitMulti(context), action)
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
   }
 }
@@ -273,38 +290,22 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: MortenaxBlade.id,
-      lightCone: MortenaxBlade.defaultLightCone,
+      characterId: Cipher.id,
+      lightCone: LiesAflutterInTheWind.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SparkleB1.id,
-      lightCone: DanceDanceDance.id,
+      characterId: Robin.id,
+      lightCone: FlowingNightglow.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Hyacine.id,
-      lightCone: Hyacine.defaultLightCone,
+      characterId: Aventurine.id,
+      lightCone: InherentlyUnjustDestiny.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
-    },
-  ],
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: Cipher.id, lightCones: [LiesAflutterInTheWind.id] },
-        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
-        { characterId: Aventurine.id, lightCones: [InherentlyUnjustDestiny.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
-        { characterId: SparkleB1.id, lightCones: [SparkleB1.defaultLightCone, DanceDanceDance.id] },
-        { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
-      ],
     },
   ],
 })
@@ -354,7 +355,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 3,
 })
 
 const display = {

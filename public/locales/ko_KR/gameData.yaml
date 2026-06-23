@@ -246,14 +246,14 @@ Characters:
     Name: 천야•블레이드
     LongName: 천야•블레이드
   "1508":
-    Name: 토오사카 린
-    LongName: 토오사카 린
+    Name: Rin Tohsaka
+    LongName: Rin Tohsaka
   "1509":
-    Name: 길가메시
-    LongName: 길가메시
+    Name: Gilgamesh
+    LongName: Gilgamesh
   "1510":
-    Name: 히메코•노바
-    LongName: 히메코•노바
+    Name: Himeko • Nova
+    LongName: Himeko • Nova
   "8001":
     Name: 카일루스
     LongName: 카일루스 (파멸)
@@ -522,11 +522,11 @@ RelicSets:
     Name: "천\_개의\_별이\_모인\_도시"
     Description2pc: "장착한\_캐릭터가\_추가\_공격\_발동\_시,\_공격력이\_24%\_증가한다,\_지속\_시간:\_2턴.\_적이\_처치될\_시,\_모든\_아군이\_이번\_전투에서\_치명타\_피해가\_12%\_증가하며,\_해당\_효과는\_중첩되지\_않는다"
   "327":
-    Name: 추락한 별의 출항지
-    Description2pc: 장착한 캐릭터의 치명타 확률이 8% 증가한다. 전투 진입 시, 장착한 캐릭터와 다른 동료 1명이 모두 개척 동행 캐릭터일 경우, 장착한 캐릭터의 치명타 피해가 32% 증가한다
+    Name: Fallen Star Anchorage
+    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
   "328":
-    Name: 우주 생명과학연구원
-    Description2pc: 전투 진입 시 장착한 캐릭터의 에너지 최대치가 200pt 이상일 경우, 초과한 에너지 최대치 1pt당 장착한 캐릭터가 가하는 피해가 0.2% 증가하며, 최대 32% 증가한다
+    Name: Cosmic Life Sciences Institute
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
 Lightcones:
   "20000":
     Name: 화살촉
@@ -839,11 +839,11 @@ Lightcones:
   "23059":
     Name: "연옥을\_불사른\_새로운\_몸"
   "23060":
-    Name: 별이 밤하늘을 밝힐 때
+    Name: A Star That Lights the Night
   "23061":
-    Name: 고요히 빛나는 불티
+    Name: Flickering Stars
   "23062":
-    Name: 보이는 것이 곧 나
+    Name: I Am As You Behold
   "24000":
     Name: "어떤\_에이언즈의\_몰락"
   "24001":

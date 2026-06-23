@@ -4,7 +4,7 @@ import {
 } from '@mantine/core'
 import type { HintContent } from 'lib/interactions/hint'
 import { Assets } from 'lib/rendering/assets'
-import classes from 'lib/ui/TooltipImage.module.css'
+import classes from './TooltipImage.module.css'
 
 export const TooltipImage = (props: { type: HintContent }) => (
   <HoverCard width={500} openDelay={200} closeDelay={100}>

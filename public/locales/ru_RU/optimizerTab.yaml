@@ -25,10 +25,13 @@ ResultLimitN: 'Найти {{limit}} лучших'
 MainStats: Основные статы
 Sets: Наборы
 UnreleasedDisclaimer: Расчёты {{nameList}} ещё не завершены, результаты оптимизатора не будут точными
-SetFilters:
-  RelicSelectedPlaceholder: Реликвии
-  OrnamentSelectedPlaceholder: Планарки
-  Done: Готово
+RelicSetSelector:
+  Placeholder: Набор реликвий
+  4pcLabel: 4 Части
+  2+2pcLabel: 2 + 2 Части
+  2pcLabel: 2 + Любые
+OrnamentSetSelector:
+  Placeholder: Планарные украшения
 SortOptions:
   DMGLabel: Расчеты урона 
   HealLabel: Расчеты исцеления
@@ -609,45 +612,59 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '4 Части: $t(gameData:RelicSets.114.Name) (+12% СКР)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% СКР
     Watchmaker:
       Desc: '4 Части: $t(gameData:RelicSets.118.Name) (+30% ЭП)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% ЭП
     Sacerdos1Stack:
       Desc: '4 Части: $t(gameData:RelicSets.121.Name) (+18% КУ)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% КУ
     Sacerdos2Stack:
       Desc: '4 Части: $t(gameData:RelicSets.121.Name) (+36% КУ)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% КУ
     Warrior:
       Desc: '4 Части: $t(gameData:RelicSets.125.Name) (+15% КУ)'
+      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% КУ
     WorldRemaking:
       Desc: '4 Части: $t(gameData:RelicSets.127.Name) (+15% УРОН)'
+      Set: '$t(gameData:RelicSets.127.Name)'
       Text: 15% Урона
     SelfEnshrouded:
       Desc: '4 Части: $t(gameData:RelicSets.128.Name) (+15% КУ)'
+      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% КУ
     Diviner:
       Desc: '4 Части: $t(gameData:RelicSets.130.Name) (+10% Радости)'
+      Set: '$t(gameData:RelicSets.130.Name)'
       Text: 10% Радости
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% КУ)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% КУ
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8% АТК)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% АТК
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10% урона для того же элемента)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10% Урона
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% АТК)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% АТК
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name) (+8% СКР)'
+      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% СКР
     CityOfConvergingStars:
       Desc: '$t(gameData:RelicSets.326.Name) (+12% КУ)'
+      Set: '$t(gameData:RelicSets.326.Name)'
       Text: 12% КУ
 StatSimulation:
   DuplicateSimMessage: Идентичный вариант статов уже существует
@@ -855,9 +872,3 @@ ExpandedDataPanel:
         Additional: Тип Доп Урона
         SuperBreak: Тип Урона Пробития
       Unconvertible: '$t(common:Stats.{{stat}}) неконвертируем'
-    HitDefinition:
-      Toughness: УронСтойкости
-    EnemyConfiguration:
-      Efres: Сопротивление
-      Weakness: Уязвимость к элементу
-      Broken: Уязвимость пробита

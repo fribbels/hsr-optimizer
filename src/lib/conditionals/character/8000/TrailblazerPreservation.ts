@@ -1,10 +1,7 @@
-import {
-  aoe,
-  ashblazingMulti,
-} from 'lib/conditionals/ashblazingCompute'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -33,11 +30,11 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_SHIELD,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -321,7 +318,6 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   shieldSimulation: shieldSimulation(),
-  eidolonImage: 4,
 })
 
 const displayCaelus = {

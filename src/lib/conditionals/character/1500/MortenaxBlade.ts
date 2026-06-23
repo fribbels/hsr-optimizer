@@ -1,5 +1,4 @@
-import { Acheron } from 'lib/conditionals/character/1300/Acheron'
-import { Cipher } from 'lib/conditionals/character/1400/Cipher'
+import i18next from 'i18next'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
@@ -11,7 +10,6 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
@@ -22,6 +20,7 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
+import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { type ModifierContext } from 'lib/optimization/context/calculateActions'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -49,8 +48,6 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { wrappedFixedT } from 'lib/utils/i18nUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -73,7 +70,7 @@ export const MortenaxBladeAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.MortenaxBlade.Content')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_TALENT_3_SKILL_BASIC_5
   const {
     SOURCE_BASIC,
@@ -121,41 +118,41 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     infiniteFuryActive: {
       id: 'infiniteFuryActive',
       formItem: 'switch',
-      text: t('infiniteFuryActive.text'),
-      content: t('infiniteFuryActive.content', { cdBuff: precisionRound(100 * ultCdBuffValue) }),
+      text: 'Infinite Fury state',
+      content: betaContent,
     },
     ultZone: {
       id: 'ultZone',
       formItem: 'switch',
-      text: t('ultZone.text'),
-      content: t('ultZone.content'),
+      text: 'Zone active',
+      content: betaContent,
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
-      text: t('e1ResPen.text'),
-      content: t('e1ResPen.content'),
+      text: 'E1 RES PEN',
+      content: betaContent,
       disabled: e < 1,
     },
     e2FuaDmgBoost: {
       id: 'e2FuaDmgBoost',
       formItem: 'switch',
-      text: t('e2FuaDmgBoost.text'),
-      content: t('e2FuaDmgBoost.content'),
+      text: 'E2 buffs',
+      content: betaContent,
       disabled: e < 2,
     },
     e4DmgBoost: {
       id: 'e4DmgBoost',
       formItem: 'switch',
-      text: t('e4DmgBoost.text'),
-      content: t('e4DmgBoost.content'),
+      text: 'E4 DMG boost',
+      content: betaContent,
       disabled: e < 4,
     },
     e6EnhancedUlt: {
       id: 'e6EnhancedUlt',
       formItem: 'switch',
-      text: t('e6EnhancedUlt.text'),
-      content: t('e6EnhancedUlt.content'),
+      text: 'E6 Ult Final DMG',
+      content: betaContent,
       disabled: e < 6,
     },
   }
@@ -333,6 +330,7 @@ const simulation = (): SimulationMetadata => ({
     END_SKILL,
     DEFAULT_FUA,
     DEFAULT_FUA,
+    WHOLE_SKILL,
   ],
   deprioritizeBuffs: true,
   relicSets: [
@@ -365,24 +363,6 @@ const simulation = (): SimulationMetadata => ({
       lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
-    },
-  ],
-  leaderboardTeams: [
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: Ashveil.id, lightCones: [TheFinaleOfALie.id] },
-        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
-    },
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
-        { characterId: Cipher.id, lightCones: [Cipher.defaultLightCone] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
     },
   ],
 })
@@ -432,7 +412,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 4,
 })
 
 const display = {

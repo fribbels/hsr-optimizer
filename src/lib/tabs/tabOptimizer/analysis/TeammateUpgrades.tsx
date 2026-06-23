@@ -14,8 +14,6 @@ import {
   TEAMMATE_UPGRADE_PRECISION,
   type TeammateSetUpgrade,
 } from 'lib/simulations/teammateUpgradeGrouping'
-import styles from 'lib/tabs/tabOptimizer/analysis/TeammateUpgrades.module.css'
-import classes from 'lib/tabs/tabOptimizer/analysis/UpgradeTable.module.css'
 import { TeammateSetImageWithTooltip } from 'lib/ui/TeammateSetImage'
 import {
   arrowColor,
@@ -31,6 +29,8 @@ import {
 } from 'lib/utils/mathUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
+import styles from './TeammateUpgrades.module.css'
+import classes from './UpgradeTable.module.css'
 
 function PercentCell({ percent, showArrow }: { percent: number, showArrow?: boolean }) {
   const text = `${localeNumber_00(truncate100ths(percent))}%`

@@ -1,7 +1,4 @@
-import {
-  ashblazingMulti,
-  single,
-} from 'lib/conditionals/ashblazingCompute'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,

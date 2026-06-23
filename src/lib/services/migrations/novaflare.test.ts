@@ -1,4 +1,3 @@
-import { migrateNovaflare } from 'lib/services/migrations/novaflare'
 import type {
   Character,
   CharacterId,
@@ -23,6 +22,7 @@ import {
   it,
   vi,
 } from 'vitest'
+import { migrateNovaflare } from './novaflare'
 
 vi.mock('lib/optimization/defaultForm', () => ({
   getDefaultForm: vi.fn(({ id }: { id: string }) =>

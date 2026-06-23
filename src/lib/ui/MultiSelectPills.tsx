@@ -11,13 +11,13 @@ import {
   useCombobox,
 } from '@mantine/core'
 import { ellipsisTextStyle } from 'lib/constants/constantsUi'
-import classes from 'lib/ui/MultiSelectPills.module.css'
 import {
   type CSSProperties,
   type ReactNode,
   useMemo,
   useState,
 } from 'react'
+import classes from './MultiSelectPills.module.css'
 
 type SimpleOption = { value: string, label: string }
 type GroupedOption = { group: string, items: SimpleOption[] }

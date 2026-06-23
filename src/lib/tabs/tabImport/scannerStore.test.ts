@@ -11,15 +11,6 @@ import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
-import {
-  DEFAULT_WEBSOCKET_URL,
-  handleDeleteRelic,
-  handleUpdateCharacter,
-  handleUpdateRelic,
-  initialScan,
-  usePrivateScannerState,
-  useScannerState,
-} from 'lib/tabs/tabImport/scannerStore'
 import type { CharacterId } from 'types/character'
 import {
   beforeEach,
@@ -28,6 +19,15 @@ import {
   it,
   vi,
 } from 'vitest'
+import {
+  DEFAULT_WEBSOCKET_URL,
+  handleDeleteRelic,
+  handleUpdateCharacter,
+  handleUpdateRelic,
+  initialScan,
+  usePrivateScannerState,
+  useScannerState,
+} from './scannerStore'
 
 // ---- Mocks ----
 

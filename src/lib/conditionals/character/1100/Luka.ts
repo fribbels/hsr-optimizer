@@ -1,10 +1,7 @@
-import {
-  ashblazingMulti,
-  single,
-} from 'lib/conditionals/ashblazingCompute'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -52,7 +49,6 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 
-import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -315,8 +311,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TheDahlia.id,
-      lightCone: TheDahlia.defaultLightCone,
+      characterId: RuanMei.id,
+      lightCone: PastSelfInTheMirror.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

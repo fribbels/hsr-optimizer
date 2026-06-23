@@ -4,6 +4,8 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: Adicionar conjunto de relíquia
     AddOrnamentSetPlaceholder: Adicionar conjunto de ornamento
+  WeightMethodology:
+    Header: Como o Pontuador de atributos funciona?
   Footer:
     Reset: Resetar para padrão
     ResetAll: Resetar todos os personagens
@@ -369,3 +371,8 @@ RelicReroll:
   Title: Redistribuição de Relíquia Detectada
   OriginalSubstats: Substatus Originais
   RerolledSubstats: Substatus Redistribuídos
+Calculators:
+  EHR:
+    Label: Acerto Efeito
+    Input:
+      HitRate: Acerto Efeito

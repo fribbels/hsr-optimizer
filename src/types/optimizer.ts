@@ -17,14 +17,14 @@ import type {
   ConditionalValueMap,
   LightConeConditionalsController,
 } from 'types/conditionals'
-import type {
-  Hit,
-} from 'types/hitConditionalTypes'
 import type { LightConeId } from 'types/lightCone'
 import type {
   ElementalDamageType,
   ElementalResPenType,
 } from 'types/metadata'
+import type {
+  Hit,
+} from './hitConditionalTypes'
 
 export type OptimizerAction = {
   precomputedStats: ComputedStatsContainer,

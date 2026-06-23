@@ -4,11 +4,6 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import {
-  equipRelic,
-  switchRelics,
-  upsertRelicWithEquipment,
-} from 'lib/services/equipmentService'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import {
   getCharacterById,
@@ -31,6 +26,11 @@ import {
   it,
   vi,
 } from 'vitest'
+import {
+  equipRelic,
+  switchRelics,
+  upsertRelicWithEquipment,
+} from './equipmentService'
 
 // ---- Mocks ----
 

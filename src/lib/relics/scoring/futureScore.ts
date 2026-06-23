@@ -16,6 +16,7 @@ import {
   arrayToMap,
   stringArrayToMap,
 } from 'lib/utils/arrayUtils'
+import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
 import type {
   Relic,
   RelicSubstatMetadata,
@@ -153,7 +154,7 @@ export function computeFutureScores(
   let bestRaw = baseRaw
   let worstRaw = baseRaw
 
-  const current = Math.max(0, (currentRaw + deduction) * normFactor)
+  const current = truncate10ths(precisionRound(Math.max(0, (currentRaw + deduction) * normFactor)))
 
   // ── Fill missing substats (only for relics with < 4 substats) ──
   if (needsFill) {

@@ -7,6 +7,7 @@ import type {
   RelicScoringResult,
   ScorerMetadata,
 } from 'lib/relics/scoring/types'
+import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
 import type { Relic } from 'types/relic'
 
 export function scoreCurrentRelic(
@@ -21,7 +22,7 @@ export function scoreCurrentRelic(
     rawScore += sub.value * contributions[sub.stat]
   }
 
-  const percentScore = idealScore === Infinity ? 0 : rawScore / idealScore * 100
+  const percentScore = idealScore === Infinity ? 0 : truncate10ths(precisionRound(rawScore / idealScore * 100))
   const hasCorrectMain = !hasMainStat(relic.part) || mainStatWeight(relic.part, relic.main.stat, meta) > 0
   const aeonEligible = relic.verified === true && meta.aeonEligibleWeights
   const rating = pctToRating(percentScore, relic.grade, relic.part, hasCorrectMain, aeonEligible)

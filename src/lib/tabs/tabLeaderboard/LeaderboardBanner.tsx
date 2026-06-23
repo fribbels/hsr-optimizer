@@ -23,6 +23,7 @@ import type {
   LeaderboardTeammate,
 } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
+import { truncate10ths } from 'lib/utils/mathUtils'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -264,7 +265,7 @@ export function LeaderboardBanner() {
   }
 
   const rank = selectedEntry?.rank
-  const scorePercent = selectedEntry ? selectedEntry.score * 100 : undefined
+  const scorePercent = selectedEntry ? truncate10ths(selectedEntry.score * 100) : undefined
   const eidolon = selectedEntry?.characterEidolon ?? 0
   const teammates = selectedEntry?.team ?? []
 

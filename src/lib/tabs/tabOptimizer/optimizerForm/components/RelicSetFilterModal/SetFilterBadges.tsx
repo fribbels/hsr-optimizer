@@ -14,8 +14,8 @@ import type {
   TwoPieceSlot,
 } from 'lib/stores/optimizerForm/setFilterTypes'
 import { TwoPieceSlotType } from 'lib/stores/optimizerForm/setFilterTypes'
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal.module.css'
 import type { ReactNode } from 'react'
+import classes from './RelicSetFilterModal.module.css'
 
 function slotIcon(slot: TwoPieceSlot): string | null {
   switch (slot.type) {

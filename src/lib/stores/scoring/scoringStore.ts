@@ -88,11 +88,6 @@ export const useScoringStore = createTabAwareStore<ScoringStore>((set, get) => (
 
 const fallbackMetadata = { stats: {}, parts: {}, presets: [], sortOption: {}, hiddenColumns: [] } as unknown as ScoringMetadata
 
-function omitPresets(result: ScoringMetadata): ScoringMetadata {
-  const { presets: _presets, ...rest } = result
-  return rest as ScoringMetadata
-}
-
 /**
  * Gets scoring metadata for a character, merged with overrides.
  */
@@ -105,15 +100,8 @@ export function getScoringMetadata(id: CharacterId): ScoringMetadata {
 
   const result = mergeDeltaWithDefaults(override, defaults)
 
-  return omitPresets(result)
-}
+  // @ts-expect-error - presets are not needed for scoring
+  delete result.presets
 
-/**
- * Gets scoring metadata for a character without user overrides.
- */
-export function getDefaultScoringMetadata(id: CharacterId): ScoringMetadata {
-  const characterMeta = getGameMetadata().characters[id]
-  if (!characterMeta?.scoringMetadata) return fallbackMetadata
-
-  return omitPresets(characterMeta.scoringMetadata)
+  return result
 }

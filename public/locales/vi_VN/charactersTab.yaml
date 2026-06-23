@@ -77,18 +77,19 @@ CharacterPreview:
     SavedPortrait: Thêm ảnh mới thành công
     RevertedPortrait: Đưa ảnh về ban đầu thành công
     NoSelectedCharacter: Không nhân vật nào được chọn
-  RulerLabel:
-    dps: ST
-    heal: TRỊ LIỆU
-    shield: LÁ CHẮN
-  ComboLabel:
-    dps: ST Combo
+  ScoreHeader:
+    Title: Giả lập combat
+    TitleBenchmark: '{{spd}} Mốc chuẩn SPD'
+    Score: 'Điểm DPS {{score}}% {{grade}}'
   AlgorithmSlider:
     Labels:
+      CombatScore: Điểm combat
+      CombatScoreTBD: Combat (TBD)
       NoneScore: Không có
   DetailsSlider:
     Labels:
       CombatStats: Chỉ số trong combat
+      SubDpsCombatStats: Chỉ số combat (Sub DPS)
   DMGUpgrades: Tăng sát thương
   SubstatUpgradeComparisons:
     Header: So sánh nâng cấp thuộc tính dị vật

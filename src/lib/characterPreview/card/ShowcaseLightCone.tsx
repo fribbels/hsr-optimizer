@@ -1,7 +1,6 @@
 import styles from 'lib/characterPreview/card/ShowcaseLightCone.module.css'
 import {
   showcaseShadow,
-  ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
   type ShowcaseDisplayDimensions,
@@ -18,7 +17,6 @@ type ShowcaseLightConeProps = {
   character: Character,
   displayDimensions: ShowcaseDisplayDimensions,
   showcaseMetadata: ShowcaseMetadata,
-  source?: ShowcaseSource,
   setOriginalCharacterModalInitialCharacter?: (c: Character) => void,
   setOriginalCharacterModalOpen?: (b: boolean) => void,
 }
@@ -29,7 +27,6 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
   setOriginalCharacterModalInitialCharacter,
   setOriginalCharacterModalOpen,
   showcaseMetadata,
-  source,
 }: ShowcaseLightConeProps) {
   const { t } = useTranslation('common')
 
@@ -80,14 +77,11 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
           width: `${tempLcParentW}px`,
           height: `${tempLcParentH}px`,
           boxShadow: showcaseShadow,
-          cursor: source === ShowcaseSource.LEADERBOARD ? 'default' : undefined,
         }}
-        onClick={source !== ShowcaseSource.LEADERBOARD
-          ? () => {
-            setOriginalCharacterModalInitialCharacter?.(character)
-            setOriginalCharacterModalOpen?.(true)
-          }
-          : undefined}
+        onClick={() => {
+          setOriginalCharacterModalInitialCharacter?.(character)
+          setOriginalCharacterModalOpen?.(true)
+        }}
       >
         <LoadingBlurredImage
           src={lightConeSrc}
@@ -100,3 +94,4 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
     </div>
   )
 })
+

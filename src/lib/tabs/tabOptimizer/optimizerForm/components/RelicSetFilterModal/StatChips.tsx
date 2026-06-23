@@ -17,8 +17,7 @@ export function StatChips({ slotA, onPick }: {
   slotA: TwoPieceSlot | null,
   onPick: (slot: TwoPieceSlot) => void,
 }) {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetFilters' })
-  const { t: tCommon } = useTranslation('common')
+  const { t } = useTranslation('common')
 
   return (
     <Group wrap='wrap' gap={10}>
@@ -33,7 +32,7 @@ export function StatChips({ slotA, onPick }: {
             styles={chipStyles}
             onClick={() => onPick({ type: TwoPieceSlotType.Stat, value: tag })}
           >
-            {tCommon(`ShortStats.${tag}`)}
+            {t(`ShortStats.${tag}`)}
             <Text span size='xs' c='dimmed' ml={4}>×{count}</Text>
           </Button>
         )
@@ -45,7 +44,7 @@ export function StatChips({ slotA, onPick }: {
         styles={chipStyles}
         onClick={() => onPick({ type: TwoPieceSlotType.Any })}
       >
-        {t('AnyTag')}
+        Any
       </Button>
     </Group>
   )

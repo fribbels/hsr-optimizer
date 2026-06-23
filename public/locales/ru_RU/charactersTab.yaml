@@ -82,19 +82,20 @@ CharacterPreview:
     SavedPortrait: Картинка успешно сохранён
     RevertedPortrait: Изображение успешно восстановлено
     NoSelectedCharacter: Нет выбранного персонажа
-  RulerLabel:
-    dps: Урон 
-    heal: ИСЦЕЛЕНИЕ
-    shield: ЩИТ
-  ComboLabel:
-    dps: Урон Комбо
+  ScoreHeader:
+    Title: Эффективность сборки
+    TitleBenchmark: 'Эталонная СКР {{spd}}'
+    Score: 'Оценка урона {{score}}% {{grade}}'
   AlgorithmSlider:
     Labels:
+      CombatScore: В бою
+      CombatScoreTBD: В бою (недоступно)
       StatScore: Проки Статов
       NoneScore: Нет
   DetailsSlider:
     Labels:
       CombatStats: Статы персонажа в бою
+      SubDpsCombatStats: Статы в бою (Доп DPS)
   DMGUpgrades: Повышение урона
   SubstatUpgradeComparisons:
     Header: Сравнение статов для повышения урона

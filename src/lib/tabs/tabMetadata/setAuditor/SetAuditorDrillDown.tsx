@@ -1,8 +1,8 @@
 import {
   FLAG_COLORS,
   formatParamCombo,
-} from 'lib/tabs/tabMetadata/setAuditor/setAuditorConstants'
-import type { AuditorRunResult } from 'lib/tabs/tabMetadata/setAuditor/setAuditorTypes'
+} from './setAuditorConstants'
+import type { AuditorRunResult } from './setAuditorTypes'
 
 export function SetAuditorDrillDown(props: {
   results: AuditorRunResult[],

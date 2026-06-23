@@ -42,7 +42,6 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
-  DEFAULT_UNIQUE,
   END_BASIC,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -72,7 +71,7 @@ export const GilgameshAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ULT,
-  AbilityKind.UNIQUE,
+  AbilityKind.FUA,
   AbilityKind.BREAK,
 ]
 
@@ -103,33 +102,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const jointFuaScaling = talent(e, 3.00, 3.30)
   const talentUltDmgBuffValue = talent(e, 0.40, 0.44)
 
-  const ultHitMulti = ashblazingMulti([
-    aoe(ultScaling),
-    ...Array(10).fill(single(ultBounceScaling)),
-  ])
-
-  const uniqueHitMulti = ashblazingMulti([
-    ...Array(3).fill(aoe(0.2)),
-    aoe(0.4),
-  ])
-
-  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    switch (action.actionType) {
-      case AbilityKind.ULT:
-        return ultHitMulti(context)
-      default:
-        return uniqueHitMulti(context)
-    }
-  }
+  const fuaHitMulti = ashblazingMulti([aoe(jointFuaScaling)])
 
   const defaults = {
-    herosHauteurStacks: 6,
-    interestSpdStacks: 10,
+    interestStacks: 6,
     kingsAcknowledgement: true,
     kingsBurden: true,
     a6TeamBuff: true,
     e6ResPen: true,
-    goldenRuleStacks: 2,
   }
 
   const teammateDefaults = {
@@ -139,21 +119,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    herosHauteurStacks: {
-      id: 'herosHauteurStacks',
+    interestStacks: {
+      id: 'interestStacks',
       formItem: 'slider',
       text: 'Hero\'s Hauteur CD stacks',
       content: betaContent,
       min: 0,
       max: 6,
-    },
-    interestSpdStacks: {
-      id: 'interestSpdStacks',
-      formItem: 'slider',
-      text: 'Interest stacks',
-      content: betaContent,
-      min: 0,
-      max: 20,
     },
     kingsAcknowledgement: {
       id: 'kingsAcknowledgement',
@@ -179,14 +151,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'E6 RES PEN',
       content: betaContent,
       disabled: e < 6,
-    },
-    goldenRuleStacks: {
-      id: 'goldenRuleStacks',
-      formItem: 'slider',
-      text: 'Golden Rule stacks',
-      content: betaContent,
-      min: 0,
-      max: 3,
     },
   }
 
@@ -220,11 +184,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E2: Skill primary +100%
       const skillTotalScaling = skillScaling + (e >= 2 ? 1.00 : 0)
 
-      const ultBounceTotalScaling = ultBounceScaling + (e >= 6 ? 0.80 : 0)
+      // E6: Ult bounce +30%
+      const ultBounceTotalScaling = ultBounceScaling + (e >= 6 ? 0.30 : 0)
       const ultTotalScaling = ultScaling + ultBounceTotalScaling * 10 / context.enemyCount
       const ultToughness = 40 + 2 * 10 / context.enemyCount
-
-      const saberInTeam = teammateMatchesId(context, Saber.id)
 
       return {
         [AbilityKind.BASIC]: {
@@ -255,16 +218,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AbilityKind.UNIQUE]: {
-          hits: saberInTeam
-            ? [
-              HitDefinitionBuilder.standardFua()
-                .damageElement(ElementTag.Lightning)
-                .atkScaling(hasSaber ? jointFuaScaling : 0)
-                .toughnessDmg(hasSaber ? 20 : 0)
-                .build(),
-            ]
-            : [],
+        [AbilityKind.FUA]: {
+          hits: [
+            HitDefinitionBuilder.standardFua()
+              .damageElement(ElementTag.Lightning)
+              .atkScaling(hasSaber ? jointFuaScaling : 0)
+              .toughnessDmg(hasSaber ? 20 : 0)
+              .build(),
+          ],
         },
         [AbilityKind.BREAK]: {
           hits: [
@@ -278,10 +239,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // A4: +25% CD per Interest gained stack throughout the battle, max 6
-      x.buff(StatKey.CD, r.herosHauteurStacks * 0.25, x.source(SOURCE_TRACE))
-
-      x.buff(StatKey.SPD_P, r.interestSpdStacks * 0.10, x.source(SOURCE_TALENT))
+      // A4: +25% CD per Interest gained stack, max 6
+      x.buff(StatKey.CD, r.interestStacks * 0.25, x.source(SOURCE_TRACE))
 
       x.buff(StatKey.BOOST, (r.kingsBurden) ? talentUltDmgBuffValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
 
@@ -292,16 +251,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, (e >= 1 && r.kingsAcknowledgement) ? 0.60 : 0, x.source(SOURCE_E1))
 
       x.buff(StatKey.ERR, (e >= 4) ? 0.20 : 0, x.source(SOURCE_E4))
-
-      x.buff(StatKey.CD, e >= 6 ? (r.goldenRuleStacks * 1.00) : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      const a6EnergyBonus = Math.min(1.00, Math.max(0, context.baseEnergy - 140) * 0.01)
-      x.buff(StatKey.ATK_P, (m.a6TeamBuff) ? 0.20 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      x.buff(StatKey.CD, (m.a6TeamBuff) ? 0.20 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      // A6: +30% ATK/CD to team, +1% per Max Energy over 140 (capped at +60%)
+      const a6EnergyBonus = Math.min(0.60, Math.max(0, context.baseEnergy - 140) * 0.01)
+      x.buff(StatKey.ATK_P, (m.a6TeamBuff) ? 0.30 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.CD, (m.a6TeamBuff) ? 0.30 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E1: DEF ignore extends to team
       x.buff(StatKey.DEF_PEN, (e >= 1 && m.kingsAcknowledgement) ? skillDefIgnoreValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))
@@ -313,10 +271,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
+      return ''
     },
 
     dynamicConditionals: [],
@@ -352,7 +309,7 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     END_SKILL,
-    DEFAULT_UNIQUE,
+    DEFAULT_FUA,
     WHOLE_SKILL,
     WHOLE_SKILL,
     // TODO: verify rotation length

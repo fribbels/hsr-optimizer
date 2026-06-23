@@ -1,5 +1,5 @@
-import type { AuditorFlagLevel } from 'lib/tabs/tabMetadata/setAuditor/setAuditorTypes'
 import type { SimulationMetadata } from 'types/metadata'
+import type { AuditorFlagLevel } from './setAuditorTypes'
 
 export const AUDITOR_RED_THRESHOLD = 0
 export const AUDITOR_YELLOW_THRESHOLD = -2

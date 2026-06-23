@@ -28,12 +28,6 @@ export class NamedArray<T> {
     return this.nameToIndex.get(key) ?? -1
   }
 
-  getRequiredIndex(key: string): number {
-    const index = this.nameToIndex.get(key)
-    if (index === undefined) throw new Error(`Unknown key: ${key}`)
-    return index
-  }
-
   has(key: string): boolean {
     return this.nameToIndex.has(key)
   }

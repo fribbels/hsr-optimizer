@@ -7,22 +7,19 @@ import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
+import {
   Gilgamesh,
   gilgameshActionExists,
   gilgameshFuaSaberUltBoost,
 } from 'lib/conditionals/character/1500/Gilgamesh'
-import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
-import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
-} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
   type ContentDefinition,
   createEnum,
-  findTeamMeta,
-  uniqueAbility,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
@@ -43,18 +40,17 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
-  DEFAULT_UNIQUE,
   END_BASIC,
   NULL_TURN_ABILITY_NAME,
   START_ULT,
   WHOLE_SKILL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -74,7 +70,6 @@ export const SaberAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ULT,
-  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -103,23 +98,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 2.80, 3.08)
   const ultBounceScaling = ult(e, 1.10, 1.21)
 
-  const jointFuaScaling = uniqueAbility(5)
-
   const ultHitMulti = ashblazingMulti([
     aoe(ultScaling),
     ...Array(10).fill(single(ultBounceScaling)),
   ])
-
-  const uniqueHitMulti = ashblazingMulti([aoe(1)])
-
-  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
-    switch (action.actionType) {
-      case AbilityKind.ULT:
-        return ultHitMulti(context)
-      default:
-        return uniqueHitMulti(context)
-    }
-  }
 
   const talentDmgBuffScaling = talent(e, 0.60, 0.66)
 
@@ -257,8 +239,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ultTotalScaling = ultScaling + ultBounceScaling * 10 / context.enemyCount
       const ultToughness = 40 + 20 / context.enemyCount
 
-      const gilMeta = findTeamMeta(context, Gilgamesh.id)
-
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -286,17 +266,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .toughnessDmg(ultToughness)
               .build(),
           ],
-        },
-        [AbilityKind.UNIQUE]: {
-          hits: gilMeta
-            ? [
-              HitDefinitionBuilder.standardFua()
-                .damageElement(ElementTag.Wind)
-                .atkScaling(jointFuaScaling(gilMeta.characterEidolon, 4.00, 4.40))
-                .toughnessDmg(0)
-                .build(),
-            ]
-            : [],
         },
         [AbilityKind.BREAK]: {
           hits: [
@@ -332,11 +301,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Gilgamesh Joint FUA: Saber's next Ult becomes 200% of original DMG
       if (gilgameshActionExists(action) && r.gilgameshFuaBuff) {
-        x.multiplicativeBoost(
-          StatKey.FINAL_DMG_BOOST,
-          gilgameshFuaSaberUltBoost(action),
-          x.damageType(DamageTag.ULT).source(Source.character(Gilgamesh.id).SOURCE_UNIQUE),
-        )
+        x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, gilgameshFuaSaberUltBoost(action), x.damageType(DamageTag.ULT).source(Source.character(Gilgamesh.id).SOURCE_UNIQUE))
       }
     },
 
@@ -344,10 +309,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      boostUltAshblazingAtk(x, action, getHitMulti(action, context))
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return gpuBoostUltAshblazingAtk(action, getHitMulti(action, context))
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
     },
   }
 }
@@ -383,7 +348,6 @@ const simulation = (): SimulationMetadata => ({
     END_BASIC,
     WHOLE_SKILL,
     WHOLE_SKILL,
-    DEFAULT_UNIQUE,
   ],
   errRopeEidolon: 0,
   relicSets: [
@@ -398,38 +362,22 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: MortenaxBlade.id,
-      lightCone: MortenaxBlade.defaultLightCone,
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Gilgamesh.id,
-      lightCone: Gilgamesh.defaultLightCone,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      characterId: Tingyun.id,
+      lightCone: DanceDanceDance.id,
+      characterEidolon: 6,
+      lightConeSuperimposition: 5,
     },
     {
       characterId: HuohuoB1.id,
       lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
-    },
-  ],
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
-        { characterId: Tingyun.id, lightCones: [DanceDanceDance.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
-        { characterId: Gilgamesh.id, lightCones: [Gilgamesh.defaultLightCone] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
-      ],
     },
   ],
 })
@@ -478,7 +426,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 4,
 })
 
 const display = {

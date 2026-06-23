@@ -1,5 +1,0 @@
-EHR:
-  Label: 效果命中
-  Calculator:
-    Input:
-      HitRate: 效果命中

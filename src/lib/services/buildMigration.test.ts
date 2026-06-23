@@ -1,5 +1,4 @@
 // @vitest-environment jsdom
-import { migrateBuild } from 'lib/services/buildMigration'
 import { Metadata } from 'lib/state/metadataInitializer'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
@@ -10,6 +9,7 @@ import {
   expect,
   it,
 } from 'vitest'
+import { migrateBuild } from './buildMigration'
 
 Metadata.initialize()
 

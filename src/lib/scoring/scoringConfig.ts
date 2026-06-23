@@ -1,17 +1,13 @@
-import i18next from 'i18next'
-import { labelToString } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import {
   type AKeyValue,
   getAKeyName,
   GlobalRegister,
 } from 'lib/optimization/engine/config/keys'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import {
   SortOption,
   type SortOptionKey,
 } from 'lib/optimization/sortOptions'
 import { getSimScoreGrade } from 'lib/scoring/dpsScore'
-import { currentLocale } from 'lib/utils/i18nUtils'
 import {
   type ScoringConfig,
   ScoringConfigType,
@@ -21,20 +17,23 @@ import {
 
 export type MetadataFieldKey = 'simulation' | 'supportSimulation' | 'healSimulation' | 'shieldSimulation'
 
-type combatStatsSuffixKey = 'Support' | 'Heal' | 'Shield'
-
 export interface ScoringConfigEntry {
   configType: ScoringConfigType
   scoringType: ScoringType
   metadataField: MetadataFieldKey
   thousands: boolean
+  label: string
+  headerTitle: string
+  headerScoreLabel: string
+  rulerLabel: string
+  comboLabel: string
   comboRegister: number
   requiresDefaultActions: boolean
   capFlatSubstats: boolean
   applyResEqualization: boolean
   supportsUpgrades: boolean
   supportsDeprioritizeBuffs: boolean
-  combatStatsSuffix?: combatStatsSuffixKey
+  combatStatsSuffix?: string
   resultSortKey?: SortOptionKey
 }
 
@@ -82,6 +81,12 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     scoringType: ScoringType.DPS_SCORE,
     metadataField: 'simulation',
     thousands: true,
+    label: 'DPS Benchmark',
+    headerTitle: 'DPS Benchmark',
+    headerScoreLabel: '',
+    rulerLabel: 'DMG',
+    comboLabel: 'Combo DMG',
+
     comboRegister: GlobalRegister.COMBO_DMG,
     requiresDefaultActions: false,
     capFlatSubstats: true,
@@ -94,6 +99,12 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     scoringType: ScoringType.BUFFER_SCORE,
     metadataField: 'supportSimulation',
     thousands: false,
+    label: 'Support Benchmark',
+    headerTitle: 'Support Benchmark',
+    headerScoreLabel: '',
+    rulerLabel: 'Buff',
+    comboLabel: 'Buff',
+
     comboRegister: GlobalRegister.COMBO_BUFF,
     requiresDefaultActions: true,
     capFlatSubstats: false,
@@ -108,6 +119,12 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     scoringType: ScoringType.HEAL_SCORE,
     metadataField: 'healSimulation',
     thousands: false,
+    label: 'Heal Benchmark',
+    headerTitle: 'Heal Benchmark',
+    headerScoreLabel: '',
+    rulerLabel: 'Heal',
+    comboLabel: 'Combo Heal',
+
     comboRegister: GlobalRegister.COMBO_HEAL,
     requiresDefaultActions: false,
     capFlatSubstats: false,
@@ -122,6 +139,12 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     scoringType: ScoringType.SHIELD_SCORE,
     metadataField: 'shieldSimulation',
     thousands: false,
+    label: 'Shield Benchmark',
+    headerTitle: 'Shield Benchmark',
+    headerScoreLabel: '',
+    rulerLabel: 'Shield',
+    comboLabel: 'Combo Shield',
+
     comboRegister: GlobalRegister.COMBO_SHIELD,
     requiresDefaultActions: false,
     capFlatSubstats: false,
@@ -133,26 +156,23 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
   },
 }
 
+const BUFF_STAT_SHORT_LABELS: Partial<Record<string, string>> = {
+  BOOST: 'DMG%',
+}
+
 export function getBuffStatShortLabel(buffStat: AKeyValue): string {
   const name = getAKeyName(buffStat)
-  const label = newStatsConfig[name].label
-  return labelToString(label)
+  return BUFF_STAT_SHORT_LABELS[name] ?? name
 }
 
 export function resolveRulerLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {
-  if (buffStat != null) {
-    const stat = getBuffStatShortLabel(buffStat).toLocaleUpperCase(currentLocale())
-    return i18next.t('charactersTab:CharacterPreview.RulerLabel.buffer', { stat })
-  }
-  return i18next.t(`charactersTab:CharacterPreview.RulerLabel.${entry.configType}`)
+  const label = buffStat != null ? `${getBuffStatShortLabel(buffStat)} ${entry.rulerLabel}` : entry.rulerLabel
+  return label.toUpperCase()
 }
 
 export function resolveComboLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {
-  if (buffStat != null) {
-    const stat = getBuffStatShortLabel(buffStat).toLocaleUpperCase(currentLocale())
-    return i18next.t('charactersTab:CharacterPreview.ComboLabel.buffer', { stat })
-  }
-  return i18next.t(`charactersTab:CharacterPreview.ComboLabel.${entry.configType}`)
+  if (buffStat != null) return `${getBuffStatShortLabel(buffStat)} ${entry.comboLabel}`
+  return entry.comboLabel
 }
 
 export const CONFIG_FIELD_MAP: Record<ScoringConfigType, MetadataFieldKey> = Object.fromEntries(

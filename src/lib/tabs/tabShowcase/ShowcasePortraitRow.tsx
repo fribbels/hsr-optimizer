@@ -1,8 +1,8 @@
 import { Flex } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import styles from 'lib/tabs/tabShowcase/ShowcaseTab.module.css'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { memo } from 'react'
+import styles from './ShowcaseTab.module.css'
 
 export const ShowcasePortraitRow = memo(function ShowcasePortraitRow({
   characters,

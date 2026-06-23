@@ -2,7 +2,6 @@ import type { TFunction } from 'i18next'
 import { type SubStats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { Renderer } from 'lib/rendering/renderer'
-import styles from 'lib/tabs/tabRelics/relicPreview/RelicStatRow.module.css'
 import { isFlat } from 'lib/utils/statUtils'
 import React, { memo } from 'react'
 import iconClasses from 'style/icons.module.css'
@@ -10,6 +9,7 @@ import type {
   Relic,
   StatRolls,
 } from 'types/relic'
+import styles from './RelicStatRow.module.css'
 
 export type SubstatDetails = {
   stat: SubStats,

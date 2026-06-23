@@ -1,7 +1,5 @@
 CharacterSelector:
   Character: 角色
-SetFilters:
-  Done: 完成!
 OptimizerOptions:
   Priority:
     Header: 優先級
@@ -110,5 +108,3 @@ ExpandedDataPanel:
           Break: 擊破
       Misc:
         Combo DMG: 連招傷害
-    EnemyConfiguration:
-      Efres: 效果抵抗

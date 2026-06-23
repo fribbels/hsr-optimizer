@@ -5,6 +5,8 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: Agregar conjunto de artefactos
     AddOrnamentSetPlaceholder: Agregar conjunto de ornamentos
+  WeightMethodology:
+    Header: '¿Cómo se calcula el Puntaje de atributo?'
   Footer:
     Reset: Restablecer a por defecto
     ResetAll: Restablecer todos los personajes
@@ -370,3 +372,8 @@ RelicReroll:
   Title: Reasignación de artefacto detectada
   OriginalSubstats: Atributos secundarios originales
   RerolledSubstats: Atributos secundarios reasignados
+Calculators:
+  EHR:
+    Label: Acierto de efecto
+    Input:
+      HitRate: Acierto de efecto

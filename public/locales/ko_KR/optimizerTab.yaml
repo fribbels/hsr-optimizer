@@ -24,10 +24,13 @@ NoTeamConditionals: 조건부 팀 효과 없음
 ResultLimitN: '상위 {{limit}} 결과 찾기'
 MainStats: 주 스탯
 Sets: 세트
-SetFilters:
-  RelicSelectedPlaceholder: 유물
-  OrnamentSelectedPlaceholder: 장신구
-  Done: 완료
+RelicSetSelector:
+  Placeholder: 유물 세트
+  4pcLabel: 4 부위
+  2+2pcLabel: 2 + 2 부위
+  2pcLabel: 2 + 임의 부위
+OrnamentSetSelector:
+  Placeholder: 장신구 세트
 SortOptions:
   DMGLabel: 피해 계산
   OptimizationLabel: 최적화
@@ -496,39 +499,51 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '4 세트 :$t(gameData:RelicSets.114.Name) (+12% 속도)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 속도 12%
     Watchmaker:
       Desc: '4 세트 : $t(gameData:RelicSets.118.Name) (+30% 격특)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 격특 30%
     Sacerdos1Stack:
       Desc: '4 세트 : $t(gameData:RelicSets.121.Name) (+18% 치확)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 치확 18%
     Sacerdos2Stack:
       Desc: '4 세트 : $t(gameData:RelicSets.121.Name) (+36% 치피)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 치피 36%
     Warrior:
       Desc: '4 세트 : $t(gameData:RelicSets.125.Name) (+15% 치확)'
+      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 치피 15%
     WorldRemaking:
       Desc: '4 세트: $t(gameData:RelicSets.127.Name) (+15% 가피증)'
+      Set: '$t(gameData:RelicSets.127.Name)'
       Text: 가피증 15%
     SelfEnshrouded:
       Desc: '4 세트 : $t(gameData:RelicSets.128.Name) (+15% 치확)'
+      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 치피 15%
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% 치피)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 치피 10%
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8% 공격력)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 공격력 8%
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10% 같은 속성 가피증)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 가피증 10%
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% 공격력)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 공격력 12%
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name) (+8% 속도)'
+      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 속도 8%
 StatSimulation:
   DuplicateSimMessage: 동일한 스텟 시뮬레이션이 존재합니다.
@@ -726,9 +741,3 @@ ExpandedDataPanel:
         Additional: 추가 피해 타입
         SuperBreak: 슈퍼 격파 데미지 타입
       Unconvertible: '변환 불가능한 $t(common:Stats.{{stat}})'
-    HitDefinition:
-      Toughness: 강인도 데미지
-    EnemyConfiguration:
-      Efres: 효과 저항
-      Weakness: 약점 속성
-      Broken: 약점 격파

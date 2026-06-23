@@ -1,11 +1,11 @@
 // @vitest-environment jsdom
-import { createOverlayStore } from 'lib/stores/infrastructure/createOverlayStore'
 import {
   beforeEach,
   describe,
   expect,
   it,
 } from 'vitest'
+import { createOverlayStore } from './createOverlayStore'
 
 // ---- Types ----
 

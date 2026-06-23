@@ -65,7 +65,7 @@ type PreRelic = {
   tid: string,
   level: number,
   mainAffixId: number,
-  main_affix?: {
+  main_affix: {
     type: keyof typeof statConversion,
   },
   subAffixList: SubAffix[],
@@ -73,7 +73,7 @@ type PreRelic = {
 
 interface SubAffixBase {
   affixId: number
-  type?: keyof typeof statConversion
+  type: keyof typeof statConversion
   step: number
 }
 
@@ -176,10 +176,10 @@ function convertRelic(preRelic: PreRelic) {
 
     let mainId = preRelic.mainAffixId
     if (!mainId) {
-      const match = Object.values(metadata.relicMainAffixes[`${grade}${partId}`].affixes)
-        .find((x) => x.property === preRelic.main_affix?.type)
-      if (!match) return null
-      mainId = Number(match.affix_id)
+      mainId = Number(
+        Object.values(metadata.relicMainAffixes[`${grade}${partId}`].affixes)
+          .find((x) => x.property === preRelic.main_affix.type)!.affix_id,
+      )
     }
     let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
     // @ts-expect-error - tidOverrides keys are numeric but tid is string
@@ -203,10 +203,10 @@ function convertRelic(preRelic: PreRelic) {
     for (const sub of preRelic.subAffixList) {
       let subId = sub.affixId
       if (!subId) {
-        const match = Object.values(metadata.relicSubAffixes[`${grade}`].affixes)
-          .find((x) => x.property === sub.type)
-        if (!match) continue
-        subId = Number(match.affix_id)
+        subId = Number(
+          Object.values(metadata.relicSubAffixes[`${grade}`].affixes)
+            .find((x) => x.property === sub.type)!.affix_id,
+        )
       }
       const count: number = sub.cnt ?? sub.count
       const step: number = sub.step || 0

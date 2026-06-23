@@ -1,6 +1,6 @@
 import { BASE_PATH } from 'lib/constants/appPages'
-import manifest from 'lib/spine/spineManifest.json' with { type: 'json' }
 import type { CharacterId } from 'types/character'
+import manifest from './spineManifest.json' with { type: 'json' }
 
 const SPINE_BASE = new URL(BASE_PATH + '/assets/spine', import.meta.url).href
 

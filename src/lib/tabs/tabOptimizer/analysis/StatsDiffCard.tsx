@@ -17,7 +17,6 @@ import { Assets } from 'lib/rendering/assets'
 import { DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
-import classes from 'lib/tabs/tabOptimizer/analysis/StatsDiffCard.module.css'
 import { CharacterPreviewInternalImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerTabCharacterPanel'
 import { CenteredImage } from 'lib/ui/CenteredImage'
 import {
@@ -32,6 +31,7 @@ import {
 import { isFlat } from 'lib/utils/statUtils'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
+import classes from './StatsDiffCard.module.css'
 
 const baseCardHeight = 429
 const extraRowHeight = 27

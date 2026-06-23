@@ -25,21 +25,13 @@ ResultLimitN: 'Find top {{limit}} results'
 MainStats: Main stats
 Sets: Sets
 UnreleasedDisclaimer: Calculations for {{nameList}} are not complete yet, optimizer results will not be accurate
-SetFilters:
-  OrnamentPlaceholder: Ornament set filters
-  RelicPlaceholder: Relic set filters
-  4pcLabel: 4-Piece
-  2pcLabel: 2-Piece
-  AnyTag: Any
-  SelectedHeader: Selected Sets
-  RelicListHeader: Relic Sets
-  OrnamentListHeader: Ornament Sets
-  SearchPlaceholder: Search sets...
-  RelicSelectedPlaceholder: Relics
-  OrnamentSelectedPlaceholder: Ornaments
-  Revert: Revert
-  Done: Done
-  Clear: Clear All
+RelicSetSelector:
+  Placeholder: Relic set
+  4pcLabel: 4 Piece
+  2+2pcLabel: 2 + 2 Piece
+  2pcLabel: 2 + Any
+OrnamentSetSelector:
+  Placeholder: Ornament set
 SortOptions:
   DMGLabel: Damage calculations
   HealLabel: Heal calculations
@@ -592,7 +584,6 @@ ComboFilter:
     Enabled: Conditional presets enabled
     Disabled: Conditional presets disabled
   ComboOptions:
-    Placeholder: Ability
     None: 'None'
     Basic: Basic
     Skill: Skill
@@ -640,45 +631,59 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% SPD
     Watchmaker:
       Desc: '4 Piece: $t(gameData:RelicSets.118.Name) (+30% BE)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% BE
     Sacerdos1Stack:
       Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+18% CD)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% CD
     Sacerdos2Stack:
       Desc: '4 Piece: $t(gameData:RelicSets.121.Name) (+36% CD)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% CD
     Warrior:
       Desc: '4 Piece: $t(gameData:RelicSets.125.Name) (+15% CD)'
+      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% CD
     WorldRemaking:
       Desc: '4 Piece: $t(gameData:RelicSets.127.Name) (+15% DMG)'
+      Set: '$t(gameData:RelicSets.127.Name)'
       Text: 15% DMG
     SelfEnshrouded:
       Desc: '4 Piece: $t(gameData:RelicSets.128.Name) (+15% CD)'
+      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% CD
     Diviner:
       Desc: '4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)'
+      Set: '$t(gameData:RelicSets.130.Name)'
       Text: 10% Elation
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% CD
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8% ATK)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% ATK
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10% DMG for same element)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10% DMG
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% ATK)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATK
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name) (+8% SPD)'
+      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% SPD
     CityOfConvergingStars:
       Desc: '$t(gameData:RelicSets.326.Name) (+12% CD)'
+      Set: '$t(gameData:RelicSets.326.Name)'
       Text: 12% CD
 StatSimulation:
   DuplicateSimMessage: Identical stat simulation already exists
@@ -905,39 +910,3 @@ ExpandedDataPanel:
         SuperBreak: Super Break DMG type
       Unconvertible: 'Unconvertible  $t(common:Stats.{{stat}})'
       ElementalDmgBoost: '$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'
-    HitDefinition:
-      AtkScaling: ATK Scaling
-      HpScaling: HP Scaling
-      DefScaling: DEF Scaling
-      Crit:
-        BeScaling: BE Scaling
-        BeCap: BE Cap
-        ElationAtkScaling: Elation ATK Scaling
-      Dot:
-        Chance: DoT Chance
-        Split: DoT Split
-        Stacks: DoT Stacks
-      Break:
-        SpecialScaling: Special Scaling
-      SuperBreak:
-        ExtraModifier: Extra Modifier
-      Additional:
-        CrOverride: CR Override
-        CdOverride: CD Override
-      Elation:
-        Scaling: Elation Scaling
-        Punchline: Punchline Stacks
-        Banger: Certified Banger Stacks
-      TrueDmg: True DMG modifier
-      Toughness: Toughness DMG
-      FixedToughness: Fixed Toughness
-    EnemyConfiguration:
-      Header: ENEMY
-      Level: Enemy level
-      Res: DMG RES
-      Efres: Effect RES
-      Toughness: Toughness
-      Targets: Targets
-      Weakness: Elemental weakness
-      Broken: Weakness broken
-      Enemy: Enemy

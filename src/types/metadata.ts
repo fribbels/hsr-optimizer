@@ -59,7 +59,6 @@ export type ScoringMetadata = {
   /*   support score     */ supportSimulation?: SimulationMetadata,
   /*     heal score      */ healSimulation?: SimulationMetadata,
   /*    shield score     */ shieldSimulation?: SimulationMetadata,
-  /*    leaderboard     */ eidolonImage?: number,
 }
 
 export type ScoringParts = Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>
@@ -97,7 +96,6 @@ export type SimulationMetadata = {
     teamRelicSet?: string,
     teamOrnamentSet?: string,
   }[],
-  leaderboardTeams?: LeaderboardTeam[],
   breakpoints?: {
     [stat: string]: number,
   },
@@ -106,20 +104,6 @@ export type SimulationMetadata = {
     add?: StatsValues,
     remove?: StatsValues | typeof ELEMENTAL_DMG_KEY,
   }>,
-}
-
-export type LeaderboardTeammate = {
-  characterId: CharacterId,
-  lightCones: LightConeId[],
-  teamRelicSet?: string,
-  teamOrnamentSet?: string,
-}
-
-export type LeaderboardTeammates = [LeaderboardTeammate, LeaderboardTeammate, LeaderboardTeammate]
-
-export type LeaderboardTeam = {
-  teammates: LeaderboardTeammates,
-  deprioritizeBuffs?: boolean,
 }
 
 export type ElementalResPenType =
@@ -161,7 +145,6 @@ export type TraceNode = {
 
 export type DBMetadataCharacter = {
   id: CharacterId,
-  name: string,
   rarity: number,
   path: PathName,
   element: ElementName,

@@ -3,14 +3,7 @@ import {
   BuffDisplaySize,
   BuffsAnalysisDisplay,
 } from 'lib/characterPreview/buildAnalysis/BuffsAnalysisDisplay'
-import classes from 'lib/characterPreview/buildAnalysis/CharacterScoringSummary.module.css'
-import {
-  BaselineScoringColumn,
-  CharacterScoringColumn,
-  ScoringColumnKind,
-  SimulationScoringColumn,
-} from 'lib/characterPreview/buildAnalysis/ScoringColumns'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import type {
   PreviewRelics,
   ShowcaseMetadata,
@@ -50,6 +43,13 @@ import {
 import { useTranslation } from 'react-i18next'
 import type { Form } from 'types/form'
 import { ScoringConfigType } from 'types/metadata'
+import classes from './CharacterScoringSummary.module.css'
+import {
+  BaselineScoringColumn,
+  CharacterScoringColumn,
+  ScoringColumnKind,
+  SimulationScoringColumn,
+} from './ScoringColumns'
 
 const nullPromise = Promise.resolve(null)
 
@@ -125,7 +125,7 @@ function ScoringBenchmarksPanel({ configType }: { configType: ScoringConfigType 
 }
 
 function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType }) {
-  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview' })
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.BuildAnalysis' })
   const preview = useSimPreview(configType)
   const scoringPipeline = useScoringPipeline(configType)
   const scoringPromise = scoringPipeline?.scoringPromise ?? nullPromise
@@ -141,7 +141,7 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
           <DeferCreate>
             <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
               <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('BuildAnalysis.SimulationTeammates')}
+                {t('SimulationTeammates')}
               </div>
               <div style={{ display: 'flex', gap: 15 }}>
                 <ScoringTeammate form={preview.simForm} index={0} />
@@ -156,31 +156,31 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
           <DeferCreate>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <div className={classes.sectionLabel} style={{ margin: '5px auto' }}>
-                {t('BuildAnalysis.CombatResults.Header')}
+                {t('CombatResults.Header')}
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }} className={classes.combatResultsWidth}>
                 <ScoringText
-                  label={t('BuildAnalysis.CombatResults.Primary')}
+                  label={t('CombatResults.Primary')}
                   text={resolveComboLabel(entry, buffStat)}
                 />
                 <ScoringNumber
-                  label={t('BuildAnalysis.CombatResults.Character')}
+                  label={t('CombatResults.Character')}
                   number={preview.originalSimResult.simScore}
                   formattedValue={formatSimScore(preview.originalSimResult.simScore, buffStat, 1, thousands)}
                 />
                 <ScoringNumber
-                  label={t('BuildAnalysis.CombatResults.Baseline')}
+                  label={t('CombatResults.Baseline')}
                   number={preview.baselineSimResult.simScore}
                   formattedValue={formatSimScore(preview.baselineSimResult.simScore, buffStat, 1, thousands)}
                 />
                 <SuspenseNode
                   promise={scoringPromise}
-                  fallback={<ScoringNumber label={t('BuildAnalysis.CombatResults.Benchmark')} />}
+                  fallback={<ScoringNumber label={t('CombatResults.Benchmark')} />}
                   selector={(result: SimulationScore | null) => {
                     if (result === null) return null
                     return (
                       <ScoringNumber
-                        label={t('BuildAnalysis.CombatResults.Benchmark')}
+                        label={t('CombatResults.Benchmark')}
                         number={result.benchmarkSimScore}
                         formattedValue={formatSimScore(result.benchmarkSimScore, buffStat, 1, thousands)}
                       />
@@ -189,12 +189,12 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                 />
                 <SuspenseNode
                   promise={scoringPromise}
-                  fallback={<ScoringNumber label={t('BuildAnalysis.CombatResults.Maximum')} />}
+                  fallback={<ScoringNumber label={t('CombatResults.Maximum')} />}
                   selector={(result: SimulationScore | null) => {
                     if (result === null) return null
                     return (
                       <ScoringNumber
-                        label={t('BuildAnalysis.CombatResults.Maximum')}
+                        label={t('CombatResults.Maximum')}
                         number={result.maximumSimScore}
                         formattedValue={formatSimScore(result.maximumSimScore, buffStat, 1, thousands)}
                       />
@@ -203,12 +203,12 @@ function BenchmarkDefaultLayout({ configType }: { configType: ScoringConfigType 
                 />
                 <SuspenseNode
                   promise={scoringPromise}
-                  fallback={<ScoringNumber label={t(`AlgorithmSlider.Labels.${entry.configType}`)} />}
+                  fallback={<ScoringNumber label={entry.label} />}
                   selector={(result: SimulationScore | null) => {
                     if (result === null) return null
                     return (
                       <ScoringNumber
-                        label={t(`AlgorithmSlider.Labels.${entry.configType}`)}
+                        label={entry.label}
                         number={result.percent * 100}
                         precision={2}
                         suffix='%'
@@ -288,29 +288,26 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
 }) {
   const { t } = useTranslation('charactersTab')
   const isDps = configType === ScoringConfigType.DPS
-  const isLeaderboard = source === ShowcaseSource.LEADERBOARD
 
   return (
-    <DeferCreateProvider resetKey={isLeaderboard ? 0 : showcaseMetadata.characterId}>
+    <DeferCreateProvider resetKey={showcaseMetadata.characterId}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 15, alignItems: 'center' }} className={classes.rootContainer}>
         {/* Grade ruler */}
-        {!isLeaderboard && (
-          <DeferCreate>
-            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
-              {isDps && <DPSScoreDisclaimer />}
-              <div className={classes.mainTitle}>
-                <ColorizedTitleWithInfo
-                  text={t(`CharacterPreview.ScoringExplanation.${configType}`)}
-                  url={'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmarks.md'}
-                />
-              </div>
-              <DpsScoreGradeRuler configType={configType} />
+        <DeferCreate>
+          <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', gap: 5, width: '100%' }}>
+            {isDps && <DPSScoreDisclaimer />}
+            <div className={classes.mainTitle}>
+              <ColorizedTitleWithInfo
+                text={`${SCORING_CONFIG_REGISTRY[configType].label} Calculations`}
+                url={'https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmarks.md'}
+              />
             </div>
-          </DeferCreate>
-        )}
+            <DpsScoreGradeRuler configType={configType} />
+          </div>
+        </DeferCreate>
 
         {/* Substat upgrade table */}
-        {isDps && !isLeaderboard && (
+        {isDps && (
           <DeferCreate>
             <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
               <div className={classes.sectionTitle}>
@@ -322,7 +319,7 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         )}
 
         {/* Main stat upgrade table */}
-        {isDps && !isLeaderboard && (
+        {isDps && (
           <DeferCreate>
             <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
               <div className={classes.sectionTitle}>
@@ -337,22 +334,18 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
           </DeferCreate>
         )}
 
-        {!isLeaderboard && (
-          <DeferCreate>
-            <DpsScoreTeammateUpgradesTable configType={configType} />
-          </DeferCreate>
-        )}
+        <DeferCreate>
+          <DpsScoreTeammateUpgradesTable configType={configType} />
+        </DeferCreate>
 
         {/* Relic rarity */}
         <DeferCreate>
           <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', alignItems: 'center' }} className={classes.relicRaritySection}>
-            {!isLeaderboard && (
-              <ColorizedTitleWithInfo
-                text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
-                url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
-                fontSize={24}
-              />
-            )}
+            <ColorizedTitleWithInfo
+              text={t('CharacterPreview.BuildAnalysis.RelicRarityHeader')}
+              url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/stat-score.md#estimated-tbp'
+              fontSize={24}
+            />
             <EstimatedTbpRelicsDisplay
               displayRelics={displayRelics}
               showcaseMetadata={showcaseMetadata}
@@ -361,21 +354,17 @@ export const CharacterScoringSummary = memo(function CharacterScoringSummary({
         </DeferCreate>
 
         {/* Simulated benchmarks */}
-        {!isLeaderboard && (
-          <DeferCreate>
-            <ScoringBenchmarksPanel configType={configType} />
-          </DeferCreate>
-        )}
+        <DeferCreate>
+          <ScoringBenchmarksPanel configType={configType} />
+        </DeferCreate>
 
         {/* Three-column scoring comparison */}
-        {!isLeaderboard && (
-          <DeferCreate>
-            <ScoringColumnsSection configType={configType} />
-          </DeferCreate>
-        )}
+        <DeferCreate>
+          <ScoringColumnsSection configType={configType} />
+        </DeferCreate>
 
         {/* Buffs analysis */}
-        {isDps && !isLeaderboard && (
+        {isDps && (
           <DeferCreate>
             <WrappedBuffAnalysisDisplay t={t} configType={configType} />
           </DeferCreate>

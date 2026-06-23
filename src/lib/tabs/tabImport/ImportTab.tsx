@@ -14,6 +14,7 @@ import {
   useScannerState,
 } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { consoleWarnWrapper } from 'lib/utils/miscUtils'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 const buttonWidth = 250

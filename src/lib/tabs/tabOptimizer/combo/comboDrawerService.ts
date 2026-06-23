@@ -2,9 +2,9 @@ import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { COMBO_STATE_JSON_VERSION } from 'lib/optimization/combo/comboTypes'
 import { preprocessTurnAbilityNames } from 'lib/optimization/rotation/turnPreprocessor'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { persistFormToCharacterStore } from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
-import { useComboDrawerStore } from 'lib/tabs/tabOptimizer/combo/useComboDrawerStore'
 import { arraysShallowEqual } from 'lib/utils/arrayUtils'
+import { persistFormToCharacterStore } from './comboDrawerUtils'
+import { useComboDrawerStore } from './useComboDrawerStore'
 
 function syncToStores(comboState: ComboState) {
   const requestStore = useOptimizerRequestStore.getState()

@@ -28,7 +28,7 @@ import {
   resolveSourceKeyRoute,
   shiftLeft,
   withEntityConditionals,
-} from 'lib/tabs/tabOptimizer/combo/comboDrawerUtils'
+} from './comboDrawerUtils'
 
 // ─── State Shape ───────────────────────────────────────────────
 

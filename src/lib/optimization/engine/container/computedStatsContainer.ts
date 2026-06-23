@@ -42,7 +42,6 @@ import {
   type IncompleteHitBuff,
 } from 'lib/optimization/engine/container/buffBuilder'
 import { NamedArray } from 'lib/optimization/engine/util/namedArray'
-import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   type BuffHit,
   type EntityDefinition,
@@ -62,24 +61,30 @@ export enum Operator {
   MULTIPLICATIVE_BOOST,
 }
 
-function applyOperator(a: Float64Array, index: number, operator: Operator, value: number): void {
-  switch (operator) {
-    case Operator.ADD:
-      a[index] += value
-      return
-    case Operator.SET:
-      a[index] = value
-      return
-    case Operator.MULTIPLY:
-      a[index] *= value
-      return
-    case Operator.MULTIPLICATIVE_COMPLEMENT:
-      a[index] = 1 - (1 - a[index]) * (1 - value)
-      return
-    case Operator.MULTIPLICATIVE_BOOST:
-      a[index] = (1 + a[index]) * (1 + value) - 1
-      return
-  }
+type Operation = (a: Float64Array, index: number, value: number) => void
+
+const OPERATOR_MAP: Record<Operator, Operation> = {
+  [Operator.ADD]: (a, i, v) => {
+    a[i] += v
+  },
+  [Operator.SET]: (a, i, v) => {
+    a[i] = v
+  },
+  [Operator.MULTIPLY]: (a, i, v) => {
+    a[i] *= v
+  },
+  [Operator.MULTIPLICATIVE_COMPLEMENT]: (a, i, v) => {
+    // Composes damage reductions multiplicatively: 1 - (1 - current) * (1 - new)
+    // Default 0 means no reduction. 0.08 means 8% reduction.
+    // Two 8% + 10% reductions: 1 - (1-0)*(1-0.08) = 0.08, then 1 - (1-0.08)*(1-0.10) = 0.172
+    a[i] = 1 - (1 - a[i]) * (1 - v)
+  },
+  [Operator.MULTIPLICATIVE_BOOST]: (a, i, v) => {
+    // Composes damage boosts multiplicatively: (1 + current) * (1 + new) - 1
+    // Default 0 means no boost. 0.20 means 20% boost.
+    // Two 20% boosts: (1+0)*(1+0.20)-1 = 0.20, then (1+0.20)*(1+0.20)-1 = 0.44
+    a[i] = (1 + a[i]) * (1 + v) - 1
+  },
 }
 
 // Shared entity matching logic for target tags
@@ -158,7 +163,7 @@ export class ComputedStatsContainerConfig {
   public selfEntity: OptimizerEntity
 
   public hits: Hit[]
-  public actionKind: AbilityKind
+  public actionKind: string // The action type (e.g., 'BASIC', 'SKILL', 'ULT')
 
   public hitsLength: number
   public entitiesLength: number
@@ -311,7 +316,6 @@ export class ComputedStatsContainer {
    */
   public enableTracing(): void {
     this.trace = true
-    this.builder._tracing = true
     this.buffs = []
     this.buffsMemo = []
   }
@@ -417,38 +421,141 @@ export class ComputedStatsContainer {
   set(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
   set(key: AKeyValue, value: number, config: CompleteActionBuff): void
   set(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
-    this.internalBuff(key, value, Operator.SET, config)
+    this.internalBuff(
+      key,
+      value,
+      Operator.SET,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+      config._deferrable,
+      config._buffStatFilter,
+    )
   }
 
   buff(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
   buff(key: AKeyValue, value: number, config: CompleteActionBuff): void
   buff(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
-    this.internalBuff(key, value, Operator.ADD, config)
+    this.internalBuff(
+      key,
+      value,
+      Operator.ADD,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+      config._deferrable,
+      config._buffStatFilter,
+    )
   }
 
   multiply(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
   multiply(key: AKeyValue, value: number, config: CompleteActionBuff): void
   multiply(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
-    this.internalBuff(key, value, Operator.MULTIPLY, config)
+    this.internalBuff(
+      key,
+      value,
+      Operator.MULTIPLY,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+      config._deferrable,
+      config._buffStatFilter,
+    )
   }
 
   multiplicativeComplement(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
   multiplicativeComplement(key: AKeyValue, value: number, config: CompleteActionBuff): void
   multiplicativeComplement(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
-    this.internalBuff(key, value, Operator.MULTIPLICATIVE_COMPLEMENT, config)
+    this.internalBuff(
+      key,
+      value,
+      Operator.MULTIPLICATIVE_COMPLEMENT,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+      config._deferrable,
+      config._buffStatFilter,
+    )
   }
 
   multiplicativeBoost(key: HitAKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff): void
   multiplicativeBoost(key: AKeyValue, value: number, config: CompleteActionBuff): void
   multiplicativeBoost(key: AKeyValue, value: number, config: CompleteActionBuff | CompleteHitBuff) {
-    this.internalBuff(key, value, Operator.MULTIPLICATIVE_BOOST, config)
+    this.internalBuff(
+      key,
+      value,
+      Operator.MULTIPLICATIVE_BOOST,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+      config._deferrable,
+      config._buffStatFilter,
+    )
   }
 
   buffDynamic(key: HitAKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff | CompleteHitBuff): void
   buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff): void
   buffDynamic(key: AKeyValue, value: number, action: OptimizerAction, context: OptimizerContext, config: CompleteActionBuff | CompleteHitBuff) {
-    this.internalBuff(key, value, Operator.ADD, config)
-    this.internalBuffDynamic(key, value, action, context, Operator.ADD)
+    this.internalBuff(
+      key,
+      value,
+      Operator.ADD,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+      config._directnessTag,
+      config._actionKind,
+      config._deferrable,
+      config._buffStatFilter,
+    )
+    this.internalBuffDynamic(
+      key,
+      value,
+      action,
+      context,
+      Operator.ADD,
+      config._source,
+      config._origin,
+      config._target,
+      config._targetTags,
+      config._elementTags,
+      config._damageTags,
+      config._outputTags,
+    )
   }
 
   public actionBuff(key: AKeyValue, value: number, targetTags: TargetTag = TargetTag.SelfAndPet) {
@@ -481,26 +588,38 @@ export class ComputedStatsContainer {
     key: AKeyValue,
     value: number,
     operator: Operator,
-    config: CompleteActionBuff | CompleteHitBuff,
+    source: BuffSource,
+    origin: number,
+    target: number,
+    targetTags: TargetTag,
+    elementTags: ElementTag,
+    damageTags: DamageTag,
+    outputTags: OutputTag,
+    directnessTag: number,
+    actionKind: string | undefined,
+    deferrable: boolean = false,
+    buffStatFilter: AKeyValue | null = null,
   ): void {
     if (value === 0 && operator === Operator.ADD) return
-    if (config._deferrable && this.config.deprioritizeBuffs) return
-    if (config._actionKind !== undefined && this.config.actionKind !== config._actionKind) return
 
-    const elementTags = config._elementTags
-    const damageTags = config._damageTags
-    const outputTags = config._outputTags
-    const directnessTag = config._directnessTag
-    const buffStatFilter = config._buffStatFilter
+    // Deferrable buffs are skipped when the character deprioritizes buffs (subdps)
+    if (deferrable && this.config.deprioritizeBuffs) return
 
+    // Action kind filter: skip if this action doesn't match the specified kind
+    if (actionKind !== undefined && this.config.actionKind !== actionKind) return
+
+    // Elemental damage boosts (e.g. +Ice DMG) don't affect break damage.
+    // When buffing DMG_BOOST with element filtering, exclude break hits.
     const isElementalDmgBoost = key === StatKey.BOOST && elementTags !== ALL_ELEMENT_TAGS
     const excludeBreakDamage = DamageTag.BREAK | DamageTag.SUPER_BREAK
     const effectiveDamageTags = isElementalDmgBoost
       ? damageTags & ~excludeBreakDamage
       : damageTags
 
-    const targetEntities = this.getTargetEntities(config._target, config._targetTags)
+    const targetEntities = this.getTargetEntities(target, targetTags)
+    const operation = OPERATOR_MAP[operator]
 
+    // Check if we need hit-level filtering
     const needsHitFiltering = elementTags !== ALL_ELEMENT_TAGS
       || effectiveDamageTags !== ALL_DAMAGE_TAGS
       || outputTags !== OutputTag.DAMAGE
@@ -509,8 +628,10 @@ export class ComputedStatsContainer {
 
     for (const entityIndex of targetEntities) {
       if (!needsHitFiltering) {
-        applyOperator(this.a, this.getActionIndex(entityIndex, key), operator, value)
+        // Fast path: no filtering needed for standard damage buffs
+        operation(this.a, this.getActionIndex(entityIndex, key), value)
       } else {
+        // Hit-level filtering requires a hit stat
         const hitKey = AToHKey[key]
         if (hitKey === undefined) {
           throw new Error(`Cannot apply hit-level buff to action-only stat: ${getAKeyName(key)}`)
@@ -519,6 +640,9 @@ export class ComputedStatsContainer {
       }
     }
 
+    // Record trace once per buff call (outside entity loop to avoid duplicates from multi-entity targeting).
+    // - buffs goes to the main character trace (recorded unless targeting exclusively memosprites)
+    // - buffsMemo goes to the memosprite trace (recorded when any target is a memosprite)
     if (this.trace && value !== 0 && outputTags !== OutputTag.BUFF) {
       let hasMemo = false
       let allMemo = true
@@ -533,7 +657,7 @@ export class ComputedStatsContainer {
           stat: getAKeyName(key),
           key: key as number,
           value: value,
-          source: config._source,
+          source: source,
           memo: false,
           damageTags: traceDamageTags,
         })
@@ -543,7 +667,7 @@ export class ComputedStatsContainer {
           stat: getAKeyName(key),
           key: key as number,
           value: value,
-          source: config._source,
+          source: source,
           memo: true,
           damageTags: traceDamageTags,
         })
@@ -557,6 +681,13 @@ export class ComputedStatsContainer {
     action: OptimizerAction,
     context: OptimizerContext,
     operator: Operator,
+    source: BuffSource,
+    origin: number,
+    target: number,
+    targetTags: TargetTag,
+    elementTags: ElementTag,
+    damageTags: DamageTag,
+    outputTags: OutputTag,
   ): void {
     if (value === 0 && operator === Operator.ADD) return
 
@@ -607,6 +738,7 @@ export class ComputedStatsContainer {
     const primaryHit = this.config.hits[0]
     const actionDirectness = primaryHit.directHit ? DirectnessTag.Direct : DirectnessTag.Indirect
     const directnessMatches = (actionDirectness & directnessTag) !== 0
+    const operation = OPERATOR_MAP[operator]
 
     for (let hitIndex = 0; hitIndex < this.config.hitsLength; hitIndex++) {
       const hit = this.config.hits[hitIndex]
@@ -617,7 +749,7 @@ export class ComputedStatsContainer {
         directnessMatches && damageMatches && elementMatches && (hit.outputTag & outputTags)
         && (!buffStatFilter || (hit as BuffHit).buffStat === buffStatFilter)
       ) {
-        applyOperator(this.a, this.getHitIndex(entityIndex, hitIndex, hitKey), operator, value)
+        operation(this.a, this.getHitIndex(entityIndex, hitIndex, hitKey), value)
       }
     }
   }
@@ -670,7 +802,7 @@ export class ComputedStatsContainer {
   }
 
   public getActionValue(key: AKeyValue, entityName: string): number {
-    const entityIndex = this.config.entityRegistry.getRequiredIndex(entityName)
+    const entityIndex = this.config.entitiesArray.findIndex((e) => e.name === entityName)
     const index = this.getActionIndex(entityIndex, key)
     return this.a[index]
   }
@@ -723,6 +855,10 @@ export class ComputedStatsContainer {
     return this.builder.reset().damageType(d)
   }
 
+  origin(o: string): IncompleteActionBuff {
+    return this.builder.reset().origin(o)
+  }
+
   target(e: string): IncompleteActionBuff {
     return this.builder.reset().target(e)
   }
@@ -743,7 +879,7 @@ export class ComputedStatsContainer {
     return this.builder.reset().directness(d)
   }
 
-  actionKind(k: AbilityKind): IncompleteActionBuff {
+  actionKind(k: string): IncompleteActionBuff {
     return this.builder.reset().actionKind(k)
   }
 

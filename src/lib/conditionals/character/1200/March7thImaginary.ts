@@ -1,7 +1,4 @@
-import {
-  ashblazingMulti,
-  single,
-} from 'lib/conditionals/ashblazingCompute'
+import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,

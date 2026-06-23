@@ -1,16 +1,7 @@
-import {
-  aoe,
-  ashblazingMulti,
-  single,
-} from 'lib/conditionals/ashblazingCompute'
+import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
-import {
-  boostUltAshblazingAtk,
-  gpuBoostUltAshblazingAtk,
-} from 'lib/conditionals/conditionalFinalizers'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { aoe, ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -18,10 +9,15 @@ import {
   countTeamPath,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { BeforeTheTutorialMissionStarts } from 'lib/conditionals/lightcone/4star/BeforeTheTutorialMissionStarts'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
-import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
   PathNames,
@@ -39,12 +35,9 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   END_SKILL,
-  END_ULT,
   NULL_TURN_ABILITY_NAME,
-  START_SKILL,
   START_ULT,
   WHOLE_SKILL,
-  WHOLE_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
@@ -65,6 +58,7 @@ import {
   type OptimizerAction,
   type OptimizerContext,
 } from 'types/optimizer'
+
 export const AcheronEntities = createEnum('Acheron')
 export const AcheronAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
@@ -106,17 +100,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultHitMultis = Array.from({ length: maxCrimsonKnotStacks + 1 }, (_, knotStacks) => {
     const knotAoePerRainblade = ultCrimsonKnotScaling * (1 + knotStacks / 3)
     return ashblazingMulti([
-      single(0.50 * ultRainbladeScaling),
-      single(0.50 * ultRainbladeScaling),
-      aoe(knotAoePerRainblade),
-      single(0.30 * ultRainbladeScaling),
-      single(0.30 * ultRainbladeScaling),
-      single(0.40 * ultRainbladeScaling),
-      aoe(knotAoePerRainblade),
-      single(ultRainbladeScaling),
-      aoe(knotAoePerRainblade),
-      aoe(0.10 * ultStygianResurgeScaling),
-      aoe(0.90 * ultStygianResurgeScaling),
+      single(0.50 * ultRainbladeScaling), single(0.50 * ultRainbladeScaling), aoe(knotAoePerRainblade),
+      single(0.30 * ultRainbladeScaling), single(0.30 * ultRainbladeScaling), single(0.40 * ultRainbladeScaling), aoe(knotAoePerRainblade),
+      single(ultRainbladeScaling), aoe(knotAoePerRainblade),
+      aoe(0.10 * ultStygianResurgeScaling), aoe(0.90 * ultStygianResurgeScaling),
       ...Array(6).fill(single(ultThunderCoreScaling)),
     ])
   })
@@ -331,10 +318,9 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
-    WHOLE_ULT,
-    WHOLE_ULT,
-    START_SKILL,
-    END_ULT,
+    START_ULT,
+    END_SKILL,
+    WHOLE_SKILL,
   ],
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -346,38 +332,22 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
+      characterId: SilverWolfB1.id,
+      lightCone: BeforeTheTutorialMissionStarts.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 5,
+    },
+    {
       characterId: Cipher.id,
-      lightCone: Cipher.defaultLightCone,
+      lightCone: LiesAflutterInTheWind.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: MortenaxBlade.id,
-      lightCone: MortenaxBlade.defaultLightCone,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Hyacine.id,
-      lightCone: Hyacine.defaultLightCone,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
-        { characterId: Cipher.id, lightCones: [Cipher.defaultLightCone] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
-        { characterId: Tribbie.id, lightCones: [Tribbie.defaultLightCone] },
-        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
-      ],
     },
   ],
 })
@@ -427,7 +397,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 6,
 })
 
 const display = {

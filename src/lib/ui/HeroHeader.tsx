@@ -14,13 +14,13 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
-import classes from 'lib/ui/HeroHeader.module.css'
 import { validateUuid } from 'lib/utils/miscUtils'
 import { useRef } from 'react'
 import {
   Trans,
   useTranslation,
 } from 'react-i18next'
+import classes from './HeroHeader.module.css'
 
 export function HeroHeader() {
   const { t } = useTranslation('hometab')

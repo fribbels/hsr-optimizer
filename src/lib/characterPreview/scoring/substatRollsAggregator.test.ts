@@ -1,19 +1,12 @@
-import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
-import { aggregateSubstatRolls } from 'lib/characterPreview/scoring/substatRollsAggregator'
 import { Stats } from 'lib/constants/constants'
 import type { SubStats } from 'lib/constants/constants'
-import type {
-  MainStats,
-  Parts,
-  Sets,
-} from 'lib/constants/constants'
-import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { Metadata } from 'lib/state/metadataInitializer'
+import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import { aggregateSubstatRolls } from './substatRollsAggregator'
+import type { AugmentedStats } from 'lib/relics/relicAugmenter'
+import type { MainStats, Parts, Sets } from 'lib/constants/constants'
 import type { Relic } from 'types/relic'
-import {
-  expect,
-  test,
-} from 'vitest'
+import { expect, test } from 'vitest'
 
 Metadata.initialize()
 
@@ -47,7 +40,9 @@ function emptyRelics(overrides?: Partial<PreviewRelics>): PreviewRelics {
 }
 
 const ZERO_WEIGHTS: Record<SubStats, number> = Object.fromEntries(
-  [Stats.HP, Stats.ATK, Stats.DEF, Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.SPD, Stats.CR, Stats.CD, Stats.EHR, Stats.RES, Stats.BE].map((s) => [s, 0]),
+  [Stats.HP, Stats.ATK, Stats.DEF, Stats.HP_P, Stats.ATK_P, Stats.DEF_P,
+    Stats.SPD, Stats.CR, Stats.CD, Stats.EHR, Stats.RES, Stats.BE,
+  ].map((s) => [s, 0]),
 ) as Record<SubStats, number>
 
 function weights(overrides: Partial<Record<SubStats, number>>): Record<SubStats, number> {
@@ -152,14 +147,8 @@ test('handles partial relic sets', () => {
 
 test('caps result at 6 entries when many weighted stats exist', () => {
   const w = weights({
-    [Stats.CR]: 1,
-    [Stats.CD]: 1,
-    [Stats.ATK_P]: 1,
-    [Stats.HP_P]: 1,
-    [Stats.DEF_P]: 1,
-    [Stats.SPD]: 1,
-    [Stats.EHR]: 1,
-    [Stats.BE]: 1,
+    [Stats.CR]: 1, [Stats.CD]: 1, [Stats.ATK_P]: 1, [Stats.HP_P]: 1,
+    [Stats.DEF_P]: 1, [Stats.SPD]: 1, [Stats.EHR]: 1, [Stats.BE]: 1,
   } as Partial<Record<SubStats, number>>)
   const result = aggregateSubstatRolls(emptyRelics(), w)
   expect(result).toHaveLength(6)

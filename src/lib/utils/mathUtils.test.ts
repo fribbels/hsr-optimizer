@@ -1,4 +1,5 @@
 import {
+  nullUndefinedToZero,
   truncate10000ths,
   truncate1000ths,
   truncate100ths,
@@ -24,5 +25,17 @@ describe('truncate functions', () => {
   })
   it('truncate10000ths', () => {
     expect(truncate10000ths(16.19999)).toBe(16.1999)
+  })
+})
+
+describe('nullUndefinedToZero', () => {
+  it('returns the number for valid input', () => {
+    expect(nullUndefinedToZero(5)).toBe(5)
+  })
+  it('returns 0 for null', () => {
+    expect(nullUndefinedToZero(null)).toBe(0)
+  })
+  it('returns 0 for undefined', () => {
+    expect(nullUndefinedToZero(undefined)).toBe(0)
   })
 })

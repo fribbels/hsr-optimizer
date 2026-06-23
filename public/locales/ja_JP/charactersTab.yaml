@@ -90,19 +90,20 @@ CharacterPreview:
     RevertedPortrait: 画像を復元しました
     NoSelectedCharacter: キャラクターが未選択です
     NoSelectedLightCone: 光円錐が選択されていません
-  RulerLabel:
-    dps: ダメージ
-    heal: 治癒量
-    shield: シールド量
-  ComboLabel:
-    dps: コンボダメージ
+  ScoreHeader:
+    Title: 戦闘シミュレーション
+    TitleBenchmark: '{{spd}} 基準速度'
+    Score: 'DPSスコア {{score}}% {{grade}}'
   AlgorithmSlider:
     Labels:
+      CombatScore: 戦闘スコア
+      CombatScoreTBD: 戦闘 (TBD)
       StatScore: サブステータス出現数
       NoneScore: なし
   DetailsSlider:
     Labels:
       CombatStats: 戦闘ステータス
+      SubDpsCombatStats: 戦闘ステータス（サブ DPS）
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
     Header: サブステータス強化比較

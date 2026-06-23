@@ -1,6 +1,6 @@
 import { Flex } from '@mantine/core'
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/layout/FilterContainer.module.css'
 import type { ReactElement } from 'react'
+import classes from './FilterContainer.module.css'
 
 export function FilterContainer({ children }: { children: ReactElement | ReactElement[] }) {
   return (

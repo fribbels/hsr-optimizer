@@ -1,10 +1,3 @@
-CLAUDE.md
-
-# Leaderboard
-/output/
-/leaderboard-cache/
-/exports/
-
 # Logs
 logs
 *.log
@@ -99,9 +92,9 @@ out
 # Nuxt.js build / generate output
 .nuxt
 dist
-.leaderboard-build
 
 # Gatsby files
+.cache/
 # Comment in the public line in if your project uses Gatsby and not Next.js
 # https://nextjs.org/blog/next-9-1#public-directory-support
 # public
@@ -111,6 +104,7 @@ dist
 
 # vuepress v2.x temp and cache directory
 .temp
+.cache
 
 # Docusaurus cache and generated files
 .docusaurus
@@ -140,9 +134,11 @@ dist
 .DS_Store
 .idea*
 /test-results/
+/playwright-report/
 /blob-report/
 AGENTS.md
 .claude/*
+/playwright/.cache/
 
 # playwright tests
 playwright-report/

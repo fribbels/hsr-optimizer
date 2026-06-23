@@ -2,12 +2,12 @@ import {
   IconCircleHalf2,
   IconPalette,
 } from '@tabler/icons-react'
-import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
+import { DEFAULT_CONFIG } from './color/colorPipelineConfig'
 import type {
   PillGroup,
   PresetGroup,
   SliderGroup,
-} from 'lib/characterPreview/DebugSliderPanel'
+} from './DebugSliderPanel'
 import {
   BLEND_MODE_DEFAULT,
   CARD_BG_ALPHA_DEFAULT,
@@ -25,7 +25,7 @@ import {
   TEXT_SHADOW_DEFAULT,
   TEXT_SHADOW_PRESETS,
   useDebugVisualConfigStore,
-} from 'lib/characterPreview/debugVisualConfigStore'
+} from './debugVisualConfigStore'
 
 // Hook version for reactive components
 export function useDebugPanelConfig() {

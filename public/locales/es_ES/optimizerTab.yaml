@@ -24,10 +24,13 @@ NoTeamConditionals: Sin pasivas de equipo condicionales
 ResultLimitN: 'Mejores {{limit}} resultados'
 MainStats: Atributos principales
 Sets: Conjuntos
-SetFilters:
-  RelicSelectedPlaceholder: Artefactos
-  OrnamentSelectedPlaceholder: Ornamentos
-  Done: Hecho
+RelicSetSelector:
+  Placeholder: Conjunto de artefactos
+  4pcLabel: 4 Piezas
+  2+2pcLabel: 2 + 2 Piezas
+  2pcLabel: 2 + Cualquiera
+OrnamentSetSelector:
+  Placeholder: Conjunto de ornamentos
 SortOptions:
   DMGLabel: Cálculos de daño
   OptimizationLabel: Optimización
@@ -495,39 +498,51 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '4 Piezas: $t(gameData:RelicSets.114.Name) (+12% VEL)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% VEL
     Watchmaker:
       Desc: '4 Piezas: $t(gameData:RelicSets.118.Name) (+30% EdR)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% EdR
     Sacerdos1Stack:
       Desc: '4 Piezas: $t(gameData:RelicSets.121.Name) (+18% DC)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% DC
     Sacerdos2Stack:
       Desc: '4 Piezas: $t(gameData:RelicSets.121.Name) (+36% DC)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% DC
     Warrior:
       Desc: '4 Piezas: $t(gameData:RelicSets.125.Name) (+15% DC)'
+      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% DC
     WorldRemaking:
       Desc: '4 Piezas: $t(gameData:RelicSets.127.Name) (+15% DAÑO)'
+      Set: '$t(gameData:RelicSets.127.Name)'
       Text: 15% DAÑO
     SelfEnshrouded:
       Desc: '4 Piezas: $t(gameData:RelicSets.128.Name) (+15% DC)'
+      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 15% DC
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% DC)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% DC
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8% ATQ)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% ATQ
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10% DAÑO para mismo elemento)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10 % DAÑO
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% ATQ)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATQ
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name) (+8% VEL)'
+      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% VEL
 StatSimulation:
   DuplicateSimMessage: Ya existe una simulación de atributos idéntica
@@ -725,9 +740,3 @@ ExpandedDataPanel:
         Additional: Tipo de Daño adicional
         SuperBreak: Tipo de Daño de Ultrarruptura
       Unconvertible: '$t(common:Stats.{{stat}}) inconvertible'
-    HitDefinition:
-      Toughness: Daño de firmeza
-    EnemyConfiguration:
-      Efres: RES a efecto
-      Weakness: Debilidad elemental
-      Broken: Ruptura de Debilidad

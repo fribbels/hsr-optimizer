@@ -22,7 +22,6 @@ import { Assets } from 'lib/rendering/assets'
 import type { MainStatPart } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { RelicSetMode } from 'lib/stores/optimizerForm/setFilterTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicMainSetFilters.module.css'
 import { SlotImage } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/SetFilterBadges'
 import {
   optimizerTabDefaultGap,
@@ -34,6 +33,7 @@ import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import inputClasses from 'style/inputs.module.css'
+import classes from './RelicMainSetFilters.module.css'
 
 function handleMainStatChange(field: MainStatPart, val: string[]) {
   useOptimizerRequestStore.getState().setMainStats(field, val)
@@ -177,7 +177,6 @@ const anyIcon20 = <IconCircleAsterisk size={20} opacity={0.5} />
 
 function RelicSetFilterRow() {
   const display = useOptimizerRequestStore((s) => s.setFilters)
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetFilters' })
   const hasSelection = display.fourPiece.length > 0 || display.twoPieceCombos.length > 0
   const totalCount = display.fourPiece.length + display.twoPieceCombos.length
 
@@ -237,7 +236,7 @@ function RelicSetFilterRow() {
         )
         : (
           <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>
-            {t('RelicPlaceholder')}
+            Relic set filters
           </span>
         )}
     </PillsInput>
@@ -245,7 +244,6 @@ function RelicSetFilterRow() {
 }
 
 function OrnamentSetFilterRow() {
-  const { t } = useTranslation('optimizerTab', { keyPrefix: 'SetFilters' })
   const display = useOptimizerRequestStore((s) => s.setFilters)
   const hasSelection = display.ornaments.length > 0
 
@@ -283,7 +281,7 @@ function OrnamentSetFilterRow() {
         )
         : (
           <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>
-            {t('OrnamentPlaceholder')}
+            Ornament set filters
           </span>
         )}
     </PillsInput>

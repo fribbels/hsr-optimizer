@@ -1,7 +1,3 @@
-import {
-  aoe,
-  ashblazingMulti,
-} from 'lib/conditionals/ashblazingCompute'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
 import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
@@ -9,6 +5,7 @@ import { Boothill } from 'lib/conditionals/character/1300/Boothill'
 import { FireflyB1 } from 'lib/conditionals/character/1300/FireflyB1'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -512,16 +509,6 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: FireflyB1.id, lightCones: [WhereaboutsShouldDreamsRest.id] },
-        { characterId: Fugue.id, lightCones: [LongRoadLeadsHome.id] },
-        { characterId: Lingsha.id, lightCones: [ScentAloneStaysTrue.id] },
-      ],
-    },
-  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -560,7 +547,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 3,
 })
 
 const display = {

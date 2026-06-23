@@ -1,36 +1,13 @@
-import {
-  ActionIcon,
-  Flex,
-  SegmentedControl,
-  Table,
-} from '@mantine/core'
+import { IconArrowBigRightLines, IconGripVertical, IconX } from '@tabler/icons-react'
+import { ActionIcon, Flex, SegmentedControl, Table } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
-import {
-  IconArrowBigRightLines,
-  IconGripVertical,
-  IconX,
-} from '@tabler/icons-react'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
-import { Assets } from 'lib/rendering/assets'
-import {
-  computeLcTransform,
-  DEFAULT_LC_IMAGE_OFFSET,
-} from 'lib/rendering/lcImageTransform'
+import { computeLcTransform, DEFAULT_LC_IMAGE_OFFSET } from 'lib/rendering/lcImageTransform'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import {
-  HiddenSelectHost,
-  useHiddenSelectTrigger,
-} from 'lib/tabs/tabWarp/HiddenSelectTrigger'
-import {
-  EidolonLevel,
-  isPremiumCharacter,
-  isPremiumLightCone,
-  SuperimpositionLevel,
-  type WarpRequest,
-  type WarpTarget,
-  WarpType,
-} from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import { Assets } from 'lib/rendering/assets'
+import { EidolonLevel, isPremiumCharacter, isPremiumLightCone, SuperimpositionLevel, type WarpRequest, type WarpTarget, WarpType } from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { getTargetWarpType } from 'lib/tabs/tabWarp/warpDimensions'
+import { HiddenSelectHost, useHiddenSelectTrigger } from 'lib/tabs/tabWarp/HiddenSelectTrigger'
 import {
   findCharacterByLightCone,
   getCharacterEidolonFloor,
@@ -40,17 +17,14 @@ import {
   updateTargetFrom,
   updateTargetTo,
 } from 'lib/tabs/tabWarp/warpTargetMutations'
-import unifiedClasses from 'lib/tabs/tabWarp/WarpUnifiedTable.module.css'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
-import type {
-  CharacterOptions,
-  LcOptions,
-} from 'lib/ui/selectors/optionGenerator'
+import type { CharacterOptions, LcOptions } from 'lib/ui/selectors/optionGenerator'
 import { showImageOnLoad } from 'lib/utils/frontendUtils'
 import type { HTMLAttributes } from 'react'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
+import unifiedClasses from './WarpUnifiedTable.module.css'
 
 const premiumCharacterFilter = (option: CharacterOptions[CharacterId]) => isPremiumCharacter(option.id)
 const premiumLightConeFilter = (option: LcOptions[LightConeId]) => isPremiumLightCone(option.id)
@@ -117,11 +91,11 @@ function TargetPreviewImage({ target, isChar, lcId }: { target: WarpTarget, isCh
 }
 
 function TargetGoalSelectors({ form, target, targetIndex, warpType, floor }: {
-  form: UseFormReturnType<WarpRequest>,
-  target: WarpTarget,
-  targetIndex: number,
-  warpType: WarpType,
-  floor: number,
+  form: UseFormReturnType<WarpRequest>
+  target: WarpTarget
+  targetIndex: number
+  warpType: WarpType
+  floor: number
 }) {
   const isChar = warpType === WarpType.CHARACTER
   const fromValue = isChar ? target.currentEidolonLevel : target.currentSuperimpositionLevel
@@ -150,7 +124,7 @@ function TargetGoalSelectors({ form, target, targetIndex, warpType, floor }: {
       <Table.Td style={{ verticalAlign: 'middle', padding: '0 10px' }}>
         <Flex align='center' gap={4}>
           <Flex align='center' justify='center' w={32} h={32} style={{ flexShrink: 0, paddingRight: 15 }}>
-            <IconArrowBigRightLines size={18} color='var(--text-primary)' fill='var(--text-primary)' />
+            <IconArrowBigRightLines size={18} color='var(--text-primary)' fill='var(--text-primary)'/>
           </Flex>
           <SegmentedControl
             size='xs'
@@ -160,12 +134,10 @@ function TargetGoalSelectors({ form, target, targetIndex, warpType, floor }: {
             onChange={(val) => updateTargetTo(form, targetIndex, warpType, Number(val))}
           />
           <ActionIcon
-            size={32}
-            variant='subtle'
-            color='gray'
+            size={32} variant='subtle' color='gray'
             onClick={() => removeTarget(form, targetIndex)}
           >
-            <IconX size={18} />
+            <IconX size={18}/>
           </ActionIcon>
         </Flex>
       </Table.Td>
@@ -174,11 +146,11 @@ function TargetGoalSelectors({ form, target, targetIndex, warpType, floor }: {
 }
 
 export function TargetHeaderRow(props: {
-  form: UseFormReturnType<WarpRequest>,
-  target: WarpTarget,
-  targetIndex: number,
-  dragHandleRef?: (node: HTMLElement | null) => void,
-  dragHandleProps?: HTMLAttributes<HTMLElement>,
+  form: UseFormReturnType<WarpRequest>
+  target: WarpTarget
+  targetIndex: number
+  dragHandleRef?: (node: HTMLElement | null) => void
+  dragHandleProps?: HTMLAttributes<HTMLElement>
 }) {
   const { form, target, targetIndex, dragHandleRef, dragHandleProps } = props
   const select = useHiddenSelectTrigger()
@@ -195,35 +167,33 @@ export function TargetHeaderRow(props: {
     <Table.Tr className={unifiedClasses.headerRow}>
       <Table.Td className={unifiedClasses.goalCell} onClick={select.open}>
         <div ref={dragHandleRef} className={unifiedClasses.dragHandle} {...dragHandleProps}>
-          <IconGripVertical size={14} />
+          <IconGripVertical size={14}/>
         </div>
 
-        <TargetPreviewImage target={target} isChar={isChar} lcId={lcId} />
+        <TargetPreviewImage target={target} isChar={isChar} lcId={lcId}/>
 
         <HiddenSelectHost>
-          {isChar
-            ? (
-              <CharacterSelect
-                value={target.characterId}
-                onChange={(characterId) => updateTarget(form, targetIndex, { characterId: characterId ?? null })}
-                opened={select.opened}
-                onOpenChange={select.onOpenChange}
-                optionFilter={premiumCharacterFilter}
-              />
-            )
-            : (
-              <LightConeSelect
-                value={lcId}
-                characterId={target.characterId}
-                onChange={(selectedLcId) => {
-                  const characterId = selectedLcId ? findCharacterByLightCone(selectedLcId) : null
-                  updateTarget(form, targetIndex, { lightConeId: selectedLcId ?? null, characterId })
-                }}
-                opened={select.opened}
-                onOpenChange={select.onOpenChange}
-                optionFilter={premiumLightConeFilter}
-              />
-            )}
+          {isChar ? (
+            <CharacterSelect
+              value={target.characterId}
+              onChange={(characterId) => updateTarget(form, targetIndex, { characterId: characterId ?? null })}
+              opened={select.opened}
+              onOpenChange={select.onOpenChange}
+              optionFilter={premiumCharacterFilter}
+            />
+          ) : (
+            <LightConeSelect
+              value={lcId}
+              characterId={target.characterId}
+              onChange={(selectedLcId) => {
+                const characterId = selectedLcId ? findCharacterByLightCone(selectedLcId) : null
+                updateTarget(form, targetIndex, { lightConeId: selectedLcId ?? null, characterId })
+              }}
+              opened={select.opened}
+              onOpenChange={select.onOpenChange}
+              optionFilter={premiumLightConeFilter}
+            />
+          )}
         </HiddenSelectHost>
       </Table.Td>
 

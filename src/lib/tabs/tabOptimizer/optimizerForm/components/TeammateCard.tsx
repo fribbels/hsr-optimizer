@@ -24,7 +24,6 @@ import {
   renderTeammateRelicSetOptions,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
 import { updateTeammate } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/updateTeammate'
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/TeammateCard.module.css'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
@@ -37,6 +36,7 @@ import iconClasses from 'style/icons.module.css'
 import type { TeammateProperty } from 'types/form'
 import type { DBMetadata } from 'types/metadata'
 import { useShallow } from 'zustand/react/shallow'
+import classes from './TeammateCard.module.css'
 
 const EIDOLON_DATA = ['0', '1', '2', '3', '4', '5', '6'].map((v) => ({ value: v, label: v }))
 const SI_DATA = ['1', '2', '3', '4', '5'].map((v) => ({ value: v, label: v }))

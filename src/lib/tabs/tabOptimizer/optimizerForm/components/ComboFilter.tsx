@@ -35,7 +35,6 @@ import {
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/ComboFilter.module.css'
 import {
   TurnAbilitySelector,
   TurnAbilitySelectorSimple,
@@ -45,6 +44,7 @@ import { HeaderText } from 'lib/ui/HeaderText'
 import { TooltipImage } from 'lib/ui/TooltipImage'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
+import classes from './ComboFilter.module.css'
 
 const controlSize = 28
 

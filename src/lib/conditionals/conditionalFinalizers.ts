@@ -7,11 +7,11 @@ import {
 import { DamageTag } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
-import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   relic4p,
   SetKeys,
 } from 'lib/optimization/setMatching'
+import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { OptimizerAction } from 'types/optimizer'
 
 export function boostAshblazingAtkContainer(x: ComputedStatsContainer, action: OptimizerAction, hitMulti: number) {

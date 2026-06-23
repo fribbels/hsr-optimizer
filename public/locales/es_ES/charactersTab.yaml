@@ -80,19 +80,20 @@ CharacterPreview:
     SavedPortrait: Retrato guardado con éxito
     RevertedPortrait: Retrato revertido con éxito
     NoSelectedCharacter: No hay personaje seleccionado
-  RulerLabel:
-    dps: DAÑO
-    heal: CURACIÓN
-    shield: ESCUDO
-  ComboLabel:
-    dps: Daño de combo
+  ScoreHeader:
+    Title: Simulación de combate
+    TitleBenchmark: 'Evaluación {{spd}} VEL'
+    Score: 'Puntaje DPS {{score}}% {{grade}}'
   AlgorithmSlider:
     Labels:
+      CombatScore: Puntaje de combate
+      CombatScoreTBD: Combate (a definir)
       StatScore: Mejoras de atr. sec.
       NoneScore: Ninguno
   DetailsSlider:
     Labels:
       CombatStats: Atributos de combate
+      SubDpsCombatStats: Atr. de combate (DPS sec.)
   DMGUpgrades: Mejoras de daño
   SubstatUpgradeComparisons:
     Header: Comparación de mejoras de atributos secundarios

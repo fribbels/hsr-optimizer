@@ -9,8 +9,8 @@ import {
   PathNames,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
-import classes from 'lib/ui/selectors/CardSelectModalComponents.module.css'
 import type { ReactElement } from 'react'
+import classes from './CardSelectModalComponents.module.css'
 
 type PathTag = { key: PathName, display: ReactElement }
 let cachedPathTags: PathTag[] | null = null

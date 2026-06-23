@@ -537,7 +537,6 @@ const scoring = (): ScoringMetadata => ({
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   addedColumns: [SortOption.MEMO_SKILL],
   supportSimulation: supportSimulation(),
-  eidolonImage: 4,
 })
 
 const displayCaelus = {

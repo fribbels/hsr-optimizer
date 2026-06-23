@@ -70,14 +70,12 @@ export function computeFutureScores(
   const remainingRolls = Math.ceil((config.maxEnhance - relic.enhance) / 3) - (4 - relic.substats.length)
 
   // ── Single-pass over existing substats: compute current, best, avg, worst raw scores ──
-  const highRollPotential = (stat: SubStats) =>
-    grade === 5
-      ? meta.highRollPotential[stat]
-      : SubStatValues[stat][grade].high * contributions[stat]
-  const lowRollPotential = (stat: SubStats) =>
-    grade === 5
-      ? meta.lowRollPotential[stat]
-      : SubStatValues[stat][grade].low * contributions[stat]
+  const highRollPotential = (stat: SubStats) => grade === 5
+    ? meta.highRollPotential[stat]
+    : SubStatValues[stat][grade].high * contributions[stat]
+  const lowRollPotential = (stat: SubStats) => grade === 5
+    ? meta.lowRollPotential[stat]
+    : SubStatValues[stat][grade].low * contributions[stat]
 
   // Pre-compute grade-specific mid roll potential (grade 5 uses cached metadata, others compute on the fly)
   let midRolls: Record<SubStats, number>

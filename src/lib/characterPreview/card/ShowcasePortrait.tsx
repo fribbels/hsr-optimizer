@@ -13,6 +13,7 @@ import {
 } from 'lib/constants/constantsUi'
 import { EditImageModal } from 'lib/overlays/modals/EditImageModal'
 import { Assets } from 'lib/rendering/assets'
+import { type ScoringType } from 'lib/scoring/scoringConfig'
 import { LoadingBlurredSpine } from 'lib/spine/LoadingBlurredSpine'
 import { getSkeletonCount } from 'lib/spine/manifest'
 import { useGlobalStore } from 'lib/stores/app/appStore'
@@ -39,6 +40,7 @@ const safeNum = (v: string | number | undefined): string => {
 export const ShowcasePortrait = memo(function ShowcasePortrait({
   source,
   character,
+  scoringType,
   displayDimensions,
   customPortrait,
   editPortraitModalOpen,
@@ -50,6 +52,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
 }: {
   source: ShowcaseSource,
   character: Character,
+  scoringType: ScoringType,
   displayDimensions: ShowcaseDisplayDimensions,
   customPortrait: CustomImageConfig | undefined,
   editPortraitModalOpen: boolean,
@@ -104,7 +107,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
 
   const hasCustomPortrait = !!(character.portrait ?? customPortrait)
   const hasSpineData = getSkeletonCount(character.id) != null
-  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D && source !== ShowcaseSource.LEADERBOARD
+  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D
 
   const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
 
@@ -157,7 +160,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         )}
 
       <div className={styles.buttonColumn} style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-        {source !== ShowcaseSource.BUILDS_MODAL && source !== ShowcaseSource.LEADERBOARD && (
+        {source !== ShowcaseSource.BUILDS_MODAL && (
           <>
             <Button
               style={showcaseButtonStyle}
@@ -206,19 +209,17 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         >
           {uid}
         </span>
-        {source !== ShowcaseSource.LEADERBOARD && (
-          <span
-            className={styles.overlayTag}
-            style={{
-              display: artistName ? 'inline-block' : 'none',
-              maxWidth: parentW - 150,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' }) /* Art by {{artistName}} */}
-          </span>
-        )}
+        <span
+          className={styles.overlayTag}
+          style={{
+            display: artistName ? 'inline-block' : 'none',
+            maxWidth: parentW - 150,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' }) /* Art by {{artistName}} */}
+        </span>
       </div>
     </div>
   )

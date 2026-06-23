@@ -337,7 +337,6 @@ const scoring = (): ScoringMetadata => ({
   presets: [],
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
-  eidolonImage: 4,
 })
 
 const display = {

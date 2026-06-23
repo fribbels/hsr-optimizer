@@ -46,10 +46,7 @@ export function translatedLabel(stat: string, isMemo = false): string {
   const config = getStatConfig(stat)
   if (!config) return stat
 
-  return labelToString(config.label, isMemo)
-}
-
-export function labelToString(label: StatConfigEntry['label'], isMemo = false) {
+  const label = config.label
   if (typeof label === 'string') {
     return isMemo ? i18next.t('MemospriteLabel', { label }) as string : label
   }

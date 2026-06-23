@@ -24,10 +24,13 @@ NoTeamConditionals: Pas de passifs conditionnels de coéquipier
 ResultLimitN: '{{limit}} meilleurs résultats'
 MainStats: Mainstats
 Sets: Sets
-SetFilters:
-  RelicSelectedPlaceholder: Reliques
-  OrnamentSelectedPlaceholder: Ornements
-  Done: Terminé
+RelicSetSelector:
+  Placeholder: Set de relique
+  4pcLabel: 4 pièces
+  2+2pcLabel: 2 + 2 pièces
+  2pcLabel: 2 + Quelconque
+OrnamentSetSelector:
+  Placeholder: Set d'ornement
 SortOptions:
   DMGLabel: Calcul des dégâts
   OptimizationLabel: Optimisation
@@ -484,35 +487,45 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '4 Pièces: $t(gameData:RelicSets.114.Name) (+12% VIT)'
+      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% VIT
     Watchmaker:
       Desc: '4 Pièces: $t(gameData:RelicSets.118.Name) (+30% ER)'
+      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% BE
     Sacerdos1Stack:
       Desc: '4 Pièces: $t(gameData:RelicSets.121.Name) (+18% DC)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% DC
     Sacerdos2Stack:
       Desc: '4 Pièces: $t(gameData:RelicSets.121.Name) (+36% DC)'
+      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% DC
     Warrior:
       Desc: '4 Pièces: $t(gameData:RelicSets.125.Name) (+15% DC)'
+      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 15% DC
     SelfEnshrouded:
       Text: 15% DC
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% DC)'
+      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% DC
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8% ATQ)'
+      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% ATQ
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10% DGT pour même élément)'
+      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10% DGT
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% ATQ)'
+      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATQ
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name) (+8% VIT)'
+      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 8% VIT
 StatSimulation:
   DuplicateSimMessage: Une simulation identique existe déjà
@@ -709,9 +722,3 @@ ExpandedDataPanel:
         Additional: Type de DGT de DGT additionels
         SuperBreak: Type de DGT de Rupture Extrême
       Unconvertible: '$t(common:Stats.{{stat}}) inconvertible'
-    HitDefinition:
-      Toughness: DGT de robustesse
-    EnemyConfiguration:
-      Efres: RÉS aux effets
-      Weakness: Faiblesse élémentaire
-      Broken: État de rupture de faiblesse

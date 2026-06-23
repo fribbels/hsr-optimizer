@@ -1,11 +1,10 @@
-import componentClasses from 'lib/characterPreview/CharacterPreviewComponents.module.css'
 import { type CSSProperties } from 'react'
+import componentClasses from './CharacterPreviewComponents.module.css'
 
 export enum ShowcaseSource {
   CHARACTER_TAB,
   SHOWCASE_TAB,
   BUILDS_MODAL,
-  LEADERBOARD,
 }
 
 const showcaseShadowDefault = 'none'

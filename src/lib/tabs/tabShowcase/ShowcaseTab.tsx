@@ -24,7 +24,6 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
 import { ShowcasePortraitRow } from 'lib/tabs/tabShowcase/ShowcasePortraitRow'
-import styles from 'lib/tabs/tabShowcase/ShowcaseTab.module.css'
 import {
   handleCharacterModalOk,
   importShowcaseCharacters,
@@ -50,6 +49,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import type { Character } from 'types/character'
 import { useShallow } from 'zustand/react/shallow'
+import styles from './ShowcaseTab.module.css'
 
 const PRERENDER_HIDDEN: React.CSSProperties = {
   visibility: 'hidden',

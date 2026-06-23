@@ -46,7 +46,6 @@ import {
   getCharacterById,
   useCharacterStore,
 } from 'lib/stores/character/characterStore'
-import classes from 'lib/tabs/tabCharacters/CharacterGrid.module.css'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { switchToCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -70,6 +69,7 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
+import classes from './CharacterGrid.module.css'
 
 const noop = () => {}
 const DROP_ANIMATION_DURATION = 200

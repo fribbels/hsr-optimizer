@@ -31,7 +31,6 @@ import { type AbilityPreprocessorBase } from 'lib/optimization/rotation/preproce
 import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilities } from 'lib/optimization/rotation/turnPreprocessor'
 import { type Form } from 'types/form'
-import { getTeammateAbilityPreprocessors } from './preprocessTeammate'
 
 const characterPreprocessors: AbilityPreprocessorBase[] = [
   new AshveilPreprocessor(),
@@ -84,15 +83,9 @@ export function precomputeConditionalActivations(comboState: ComboState, request
     return isSetPreprocessorEnabled(x, comboState)
   })
   const filteredCharacterPreprocessors = characterPreprocessors.filter((x) => x.id == request.characterId)
-  const Teammate0Preprocessors = getTeammateAbilityPreprocessors(request, 'teammate0')
-  const Teammate1Preprocessors = getTeammateAbilityPreprocessors(request, 'teammate1')
-  const Teammate2Preprocessors = getTeammateAbilityPreprocessors(request, 'teammate2')
   const filteredLightConePreprocessors = lightConePreprocessors.filter((x) => x.id == request.lightCone)
 
   for (const preprocessor of filteredSetPreprocessors) preprocessor.reset()
-  Teammate0Preprocessors.forEach((preprocessor) => preprocessor.reset())
-  Teammate1Preprocessors.forEach((preprocessor) => preprocessor.reset())
-  Teammate2Preprocessors.forEach((preprocessor) => preprocessor.reset())
   for (const preprocessor of filteredCharacterPreprocessors) preprocessor.reset()
   for (const preprocessor of filteredLightConePreprocessors) preprocessor.reset()
 
@@ -108,10 +101,6 @@ export function precomputeConditionalActivations(comboState: ComboState, request
     for (const preprocessor of filteredCharacterPreprocessors) {
       preprocessor.processAbility(turnAbility, i, comboState)
     }
-
-    Teammate0Preprocessors.forEach((preprocessor) => preprocessor.processAbility(turnAbility, i, comboState))
-    Teammate1Preprocessors.forEach((preprocessor) => preprocessor.processAbility(turnAbility, i, comboState))
-    Teammate2Preprocessors.forEach((preprocessor) => preprocessor.processAbility(turnAbility, i, comboState))
 
     for (const preprocessor of filteredLightConePreprocessors) {
       preprocessor.processAbility(turnAbility, i, comboState)

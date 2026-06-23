@@ -29,7 +29,6 @@ import {
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
 import type { Simulation } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import styles from 'lib/tabs/tabBenchmarks/BenchmarkResults.module.css'
 import { useBenchmarksTabStore } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -47,6 +46,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import styles from './BenchmarkResults.module.css'
 
 type BenchmarkRow = {
   key: string,

@@ -1,6 +1,5 @@
 import { usePromise } from 'hooks/usePromise'
 import { ScoringColumnKind } from 'lib/characterPreview/buildAnalysis/ScoringColumns'
-import classes from 'lib/characterPreview/summary/AbilityDamageSummary.module.css'
 import {
   AbilityKind,
   toTurnAbility,
@@ -13,6 +12,7 @@ import { toI18NVisual } from 'lib/utils/displayUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ScoringConfigType } from 'types/metadata'
+import classes from './AbilityDamageSummary.module.css'
 
 interface SynchronousAbilityDamageSummaryProps {
   rotationDamage: RotationDamageStep[]

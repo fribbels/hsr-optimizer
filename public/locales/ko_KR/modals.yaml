@@ -5,6 +5,8 @@ Scoring:
   SetWeights:
     AddRelicSetPlaceholder: 유물 세트 추가
     AddOrnamentSetPlaceholder: 장신구 세트 추가
+  WeightMethodology:
+    Header: 스탯 점수 계산법
   Footer:
     Reset: 기본값으로 초기화
     ResetAll: 모든 캐릭터 초기화
@@ -370,3 +372,8 @@ RelicReroll:
   Title: 유물 리롤 감지
   OriginalSubstats: 리롤 전 부옵
   RerolledSubstats: 리롤 후 부옵
+Calculators:
+  EHR:
+    Label: 효과 명중
+    Input:
+      HitRate: 효과 명중

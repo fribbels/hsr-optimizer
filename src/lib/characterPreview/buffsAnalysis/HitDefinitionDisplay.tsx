@@ -22,10 +22,7 @@ import {
   OutputTag,
 } from 'lib/optimization/engine/config/tag'
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
-import {
-  AbilityKind,
-  AbilityMeta,
-} from 'lib/optimization/rotation/turnAbilityConfig'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   Fragment,
   useContext,
@@ -70,16 +67,16 @@ const FUNCTION_LABELS: Partial<Record<DamageFunctionType, DamageFunctionI18nKey>
 
 type HitPropRow = { value: string, label: string }
 
-function buildRows(hit: Hit, t: TFunction<'optimizerTab', 'ExpandedDataPanel'>, abilityKind: AbilityKind): HitPropRow[] {
+function buildRows(hit: Hit): HitPropRow[] {
   const rows: HitPropRow[] = []
   const add = (v: number | undefined, value: (n: number) => string, label: string) => {
     if (!v) return
     rows.push({ value: value(v), label })
   }
 
-  add(hit.atkScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.AtkScaling'))
-  add(hit.hpScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.HpScaling'))
-  add(hit.defScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.DefScaling'))
+  add(hit.atkScaling, pct, 'ATK Scaling')
+  add(hit.hpScaling, pct, 'HP Scaling')
+  add(hit.defScaling, pct, 'DEF Scaling')
 
   const addElementRow = () => {
     const i18nKey = ELEMENT_I18N_KEYS[hit.damageElement]
@@ -88,40 +85,36 @@ function buildRows(hit: Hit, t: TFunction<'optimizerTab', 'ExpandedDataPanel'>, 
 
   switch (hit.damageFunctionType) {
     case DamageFunctionType.Crit:
-      add(hit.beScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.Crit.BeScaling'))
-      add(hit.beCap, num, t('BuffsAnalysisDisplay.HitDefinition.Crit.BeCap'))
-      add(hit.elationAtkScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.Crit.ElationAtkScaling'))
+      add(hit.beScaling, pct, 'BE Scaling')
+      add(hit.beCap, num, 'BE Cap')
+      add(hit.elationAtkScaling, pct, 'Elation ATK Scaling')
       break
     case DamageFunctionType.Dot:
-      add(hit.dotBaseChance, pct, t('BuffsAnalysisDisplay.HitDefinition.Dot.Chance'))
-      add(hit.dotSplit, num, t('BuffsAnalysisDisplay.HitDefinition.Dot.Split'))
-      add(hit.dotStacks, String, t('BuffsAnalysisDisplay.HitDefinition.Dot.Stacks'))
+      add(hit.dotBaseChance, pct, 'DoT Chance')
+      add(hit.dotSplit, num, 'DoT Split')
+      add(hit.dotStacks, String, 'DoT Stacks')
       break
     case DamageFunctionType.Break:
       addElementRow()
-      add(hit.specialScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.Break.SpecialScaling'))
+      add(hit.specialScaling, pct, 'Special Scaling')
       break
     case DamageFunctionType.SuperBreak:
       addElementRow()
-      add(hit.extraSuperBreakModifier, pct, t('BuffsAnalysisDisplay.HitDefinition.SuperBreak.ExtraModifier'))
+      add(hit.extraSuperBreakModifier, pct, 'Extra Modifier')
       break
     case DamageFunctionType.Additional:
-      add(hit.crOverride, pct, t('BuffsAnalysisDisplay.HitDefinition.Additional.CrOverride'))
-      add(hit.cdOverride, pct, t('BuffsAnalysisDisplay.HitDefinition.Additional.CdOverride'))
+      add(hit.crOverride, pct, 'CR Override')
+      add(hit.cdOverride, pct, 'CD Override')
       break
     case DamageFunctionType.Elation:
-      add(hit.elationScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.Elation.Scaling'))
-      if (abilityKind === AbilityKind.ELATION_SKILL) {
-        add(hit.punchlineStacks, String, t('BuffsAnalysisDisplay.HitDefinition.Elation.Punchline'))
-      } else {
-        add(hit.punchlineStacks, String, t('BuffsAnalysisDisplay.HitDefinition.Elation.Banger'))
-      }
+      add(hit.elationScaling, pct, 'Elation Scaling')
+      add(hit.punchlineStacks, String, 'Punchline Stacks')
       break
   }
 
-  add(hit.trueDmgModifier, pct, t('BuffsAnalysisDisplay.HitDefinition.TrueDmg'))
-  add(hit.toughnessDmg, num, t('BuffsAnalysisDisplay.HitDefinition.Toughness'))
-  add(hit.fixedToughnessDmg, num, t('BuffsAnalysisDisplay.HitDefinition.FixedToughness'))
+  add(hit.trueDmgModifier, pct, 'True DMG modifier')
+  add(hit.toughnessDmg, num, 'Toughness DMG')
+  add(hit.fixedToughnessDmg, num, 'Fixed Toughness')
 
   return rows
 }
@@ -144,7 +137,7 @@ function HitSubHeader({ label }: { label: string }) {
   )
 }
 
-function HitRow({ hit, isLastHit, abilityKind }: { hit: Hit, isLastHit: boolean, abilityKind: AbilityKind }) {
+function HitRow({ hit, isLastHit }: { hit: Hit, isLastHit: boolean }) {
   const options = useContext(DesignContext)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel' })
   const onFilterChange = useContext(FilterChangeContext)
@@ -152,7 +145,7 @@ function HitRow({ hit, isLastHit, abilityKind }: { hit: Hit, isLastHit: boolean,
   const rowBase = getRowBaseStyle(options)
   const sourceLabelStyle = getSourceLabelStyle(options)
 
-  const rows = buildRows(hit, t, abilityKind)
+  const rows = buildRows(hit)
   const fnLabel = FUNCTION_LABELS[hit.damageFunctionType]
     ? t(`BuffsAnalysisDisplay.DamageFunctions.${FUNCTION_LABELS[hit.damageFunctionType]!}`)
     : undefined
@@ -231,7 +224,6 @@ function ActionHitGroup({ action, isLastAction, t }: {
             <HitRow
               hit={hit}
               isLastHit={isLastAction && i === hits.length - 1}
-              abilityKind={action.actionType}
             />
           </Fragment>
         )

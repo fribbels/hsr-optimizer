@@ -5,13 +5,6 @@ import { Amber } from 'lib/conditionals/lightcone/3star/Amber'
 import { Chorus } from 'lib/conditionals/lightcone/3star/Chorus'
 import { Cornucopia } from 'lib/conditionals/lightcone/3star/Cornucopia'
 import {
-  EidolonLevel,
-  SuperimpositionLevel,
-  type WarpRequest,
-  type WarpTarget,
-  WarpType,
-} from 'lib/tabs/tabWarp/warpCalculatorTypes'
-import {
   addCharAndSignatureGoal,
   addCharGoal,
   getCharacterEidolonFloor,
@@ -21,6 +14,13 @@ import {
   updateTargetFrom,
   updateTargetTo,
 } from 'lib/tabs/tabWarp/warpTargetMutations'
+import {
+  EidolonLevel,
+  SuperimpositionLevel,
+  type WarpRequest,
+  type WarpTarget,
+  WarpType,
+} from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import {
   beforeEach,
   expect,
@@ -75,9 +75,7 @@ function fakeForm(initial: WarpTarget[]) {
   let targets = initial
   const form = {
     getValues: () => ({ targets }),
-    setFieldValue: (_field: string, value: WarpTarget[]) => {
-      targets = value
-    },
+    setFieldValue: (_field: string, value: WarpTarget[]) => { targets = value },
   } as unknown as UseFormReturnType<WarpRequest>
   return { form, current: () => targets }
 }
@@ -266,11 +264,7 @@ test('addCharAndSignatureGoal seeds owned eidolon but starts the signature from 
   const t = current()
   expect(t).toHaveLength(2)
   expect(t[0]).toMatchObject({ characterId: CHAR_A, lightConeId: null, currentEidolonLevel: EidolonLevel.E3, targetEidolonLevel: EidolonLevel.E4 })
-  expect(t[1]).toMatchObject({
-    lightConeId: SIG_LC,
-    currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-    targetSuperimpositionLevel: SuperimpositionLevel.S1,
-  })
+  expect(t[1]).toMatchObject({ lightConeId: SIG_LC, currentSuperimpositionLevel: SuperimpositionLevel.NONE, targetSuperimpositionLevel: SuperimpositionLevel.S1 })
 })
 
 test('addCharAndSignatureGoal starts the signature from NONE when a different cone is equipped', () => {
@@ -280,9 +274,5 @@ test('addCharAndSignatureGoal starts the signature from NONE when a different co
   addCharAndSignatureGoal(form, CHAR_A)
   const t = current()
   expect(t[0]).toMatchObject({ currentEidolonLevel: EidolonLevel.E3, targetEidolonLevel: EidolonLevel.E4 })
-  expect(t[1]).toMatchObject({
-    lightConeId: SIG_LC,
-    currentSuperimpositionLevel: SuperimpositionLevel.NONE,
-    targetSuperimpositionLevel: SuperimpositionLevel.S1,
-  })
+  expect(t[1]).toMatchObject({ lightConeId: SIG_LC, currentSuperimpositionLevel: SuperimpositionLevel.NONE, targetSuperimpositionLevel: SuperimpositionLevel.S1 })
 })

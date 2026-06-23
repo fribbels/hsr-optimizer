@@ -6,7 +6,6 @@ import {
   SCORING_CONFIG_REGISTRY,
 } from 'lib/scoring/scoringConfig'
 import { formatSimScore } from 'lib/scoring/simScoringUtils'
-import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 import type { ScoringConfigType } from 'types/metadata'
 
@@ -15,7 +14,6 @@ export function SimScoreRow({ value, configType, buffStat }: {
   configType: ScoringConfigType,
   buffStat?: AKeyValue,
 }) {
-  useTranslation()
   const config = SCORING_CONFIG_REGISTRY[configType]
   const label = resolveComboLabel(config, buffStat)
   const valueText = formatSimScore(value, buffStat, 1, config.thousands)

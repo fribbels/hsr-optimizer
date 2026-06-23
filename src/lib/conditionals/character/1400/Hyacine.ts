@@ -16,9 +16,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
@@ -597,16 +597,6 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
-  leaderboardTeams: [
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
-        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
-        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
-      ],
-    },
-  ],
 })
 
 const healSimulation = (): SimulationMetadata => ({
@@ -659,15 +649,6 @@ const healSimulation = (): SimulationMetadata => ({
     },
   ],
   deprioritizeBuffs: true,
-  leaderboardTeams: [
-    {
-      teammates: [
-        { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
-        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
-        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
-      ],
-    },
-  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -714,7 +695,6 @@ const scoring = (): ScoringMetadata => ({
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
   simulation: simulation(),
   healSimulation: healSimulation(),
-  eidolonImage: 4,
 })
 
 const display = {

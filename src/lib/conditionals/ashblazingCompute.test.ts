@@ -1,15 +1,11 @@
+import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   aoe,
   ashblazingMulti,
   blast,
   single,
 } from 'lib/conditionals/ashblazingCompute'
-import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
-import {
-  describe,
-  expect,
-  it,
-} from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 function context(enemyCount: number) {
   return { enemyCount }
@@ -37,12 +33,8 @@ describe('ashblazingMulti', () => {
 
     it('Moze FUA — 6 single hits', () => {
       const hitMulti = ashblazingMulti([
-        single(0.08),
-        single(0.08),
-        single(0.08),
-        single(0.08),
-        single(0.08),
-        single(0.60),
+        single(0.08), single(0.08), single(0.08),
+        single(0.08), single(0.08), single(0.60),
       ])
 
       // stacks: 1, 2, 3, 4, 5, 6
@@ -97,18 +89,15 @@ describe('ashblazingMulti', () => {
 
       // 1 enemy: stacks 1, 2, 3, 4
       expect(hitMulti(context(1))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (1 * 0.20 + 2 * 0.20 + 3 * 0.20 + 4 * 0.40),
-        6,
+        ASHBLAZING_ATK_STACK * (1 * 0.20 + 2 * 0.20 + 3 * 0.20 + 4 * 0.40), 6,
       )
       // 3 enemies: stacks 2, 5, 8, 8
       expect(hitMulti(context(3))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (2 * 0.20 + 5 * 0.20 + 8 * 0.20 + 8 * 0.40),
-        6,
+        ASHBLAZING_ATK_STACK * (2 * 0.20 + 5 * 0.20 + 8 * 0.20 + 8 * 0.40), 6,
       )
       // 5 enemies: stacks 3, 8, 8, 8
       expect(hitMulti(context(5))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40),
-        6,
+        ASHBLAZING_ATK_STACK * (3 * 0.20 + 8 * 0.20 + 8 * 0.20 + 8 * 0.40), 6,
       )
     })
 
@@ -116,16 +105,13 @@ describe('ashblazingMulti', () => {
       const hitMulti = ashblazingMulti([aoe(0.25), aoe(0.25), aoe(0.25), aoe(0.25)])
 
       expect(hitMulti(context(1))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (1 * 0.25 + 2 * 0.25 + 3 * 0.25 + 4 * 0.25),
-        6,
+        ASHBLAZING_ATK_STACK * (1 * 0.25 + 2 * 0.25 + 3 * 0.25 + 4 * 0.25), 6,
       )
       expect(hitMulti(context(3))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (2 * 0.25 + 5 * 0.25 + 8 * 0.25 + 8 * 0.25),
-        6,
+        ASHBLAZING_ATK_STACK * (2 * 0.25 + 5 * 0.25 + 8 * 0.25 + 8 * 0.25), 6,
       )
       expect(hitMulti(context(5))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (3 * 0.25 + 8 * 0.25 + 8 * 0.25 + 8 * 0.25),
-        6,
+        ASHBLAZING_ATK_STACK * (3 * 0.25 + 8 * 0.25 + 8 * 0.25 + 8 * 0.25), 6,
       )
     })
   })
@@ -146,13 +132,11 @@ describe('ashblazingMulti', () => {
 
       // 1 enemy: stacks 1, 2, 3
       expect(hitMulti(context(1))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (1 * 0.30 + 2 * 0.10 + 3 * 0.60),
-        6,
+        ASHBLAZING_ATK_STACK * (1 * 0.30 + 2 * 0.10 + 3 * 0.60), 6,
       )
       // 3 enemies: stacks 2, 5, 8
       expect(hitMulti(context(3))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (2 * 0.30 + 5 * 0.10 + 8 * 0.60),
-        6,
+        ASHBLAZING_ATK_STACK * (2 * 0.30 + 5 * 0.10 + 8 * 0.60), 6,
       )
       // 5 enemies: blast only hits 3, so stacks 2, 5, 8 — same as 3 enemies
       expect(hitMulti(context(5))).toBeCloseTo(hitMulti(context(3)), 6)
@@ -165,18 +149,15 @@ describe('ashblazingMulti', () => {
 
       // 1 enemy: start=1(aoe), stacks 1, 2, 3
       expect(hitMulti(context(1))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (1 * 5 / 9 + 2 * 2 / 9 + 3 * 2 / 9),
-        6,
+        ASHBLAZING_ATK_STACK * (1 * 5 / 9 + 2 * 2 / 9 + 3 * 2 / 9), 6,
       )
       // 3 enemies: start=2(aoe at 3), growth aoe→+3, single→+1 → stacks 2, 5, 6
       expect(hitMulti(context(3))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (2 * 5 / 9 + 5 * 2 / 9 + 6 * 2 / 9),
-        6,
+        ASHBLAZING_ATK_STACK * (2 * 5 / 9 + 5 * 2 / 9 + 6 * 2 / 9), 6,
       )
       // 5 enemies: start=3(aoe at 5), growth aoe→+5, single→+1 → stacks 3, 8, 8
       expect(hitMulti(context(5))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (3 * 5 / 9 + 8 * 2 / 9 + 8 * 2 / 9),
-        6,
+        ASHBLAZING_ATK_STACK * (3 * 5 / 9 + 8 * 2 / 9 + 8 * 2 / 9), 6,
       )
     })
 
@@ -196,8 +177,7 @@ describe('ashblazingMulti', () => {
           + 2 * 0.0797 + 3 * 0.0797 + 4 * 0.0797 + 5 * 0.0797
           + 6 * 0.0797 + 7 * 0.0797 + 8 * 0.0797 + 8 * 0.0797
           + 8 * 0.0797 + 8 * 0.0797
-        ),
-        4,
+        ), 4,
       )
 
       // 3 enemies: start=2(aoe at 3), aoe growth +3→5, then single +1 each
@@ -205,15 +185,13 @@ describe('ashblazingMulti', () => {
       expect(hitMulti(context(3))).toBeCloseTo(
         ASHBLAZING_ATK_STACK * (
           2 * 0.2029 + 5 * 0.0797 + 6 * 0.0797 + 7 * 0.0797 + 8 * 0.0797 * 7
-        ),
-        4,
+        ), 4,
       )
 
       // 5 enemies: start=3(aoe at 5), aoe growth +5→8, then all at 8
       // stacks: 3, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
       expect(hitMulti(context(5))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (3 * 0.2029 + 8 * 0.0797 * 10),
-        4,
+        ASHBLAZING_ATK_STACK * (3 * 0.2029 + 8 * 0.0797 * 10), 4,
       )
     })
   })
@@ -233,8 +211,7 @@ describe('ashblazingMulti', () => {
 
       // 1 enemy: stacks 1, 2
       expect(hitMulti(context(1))).toBeCloseTo(
-        ASHBLAZING_ATK_STACK * (1 * 0.60 + 2 * 0.40),
-        6,
+        ASHBLAZING_ATK_STACK * (1 * 0.60 + 2 * 0.40), 6,
       )
     })
   })

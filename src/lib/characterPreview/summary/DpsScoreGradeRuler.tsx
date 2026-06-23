@@ -1,4 +1,3 @@
-import styles from 'lib/characterPreview/summary/DpsScoreGradeRuler.module.css'
 import { useSimScore } from 'lib/characterPreview/useSimScoringHooks'
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
@@ -17,6 +16,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { ScoringConfigType } from 'types/metadata'
+import styles from './DpsScoreGradeRuler.module.css'
 
 // --- Static data ---
 

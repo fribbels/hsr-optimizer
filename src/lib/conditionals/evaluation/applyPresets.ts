@@ -1,9 +1,10 @@
 import type { UseFormReturnType } from '@mantine/form'
+import { TRAILBLAZE_COMPANION_IDS } from 'lib/constants/characterTagConstants'
+import { Moze } from 'lib/conditionals/character/1200/Moze'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { Pela } from 'lib/conditionals/character/1100/Pela'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
-import { Moze } from 'lib/conditionals/character/1200/Moze'
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Misha } from 'lib/conditionals/character/1300/Misha'
 import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
@@ -14,11 +15,10 @@ import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
-import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { TRAILBLAZE_COMPANION_IDS } from 'lib/constants/characterTagConstants'
 import {
   Constants,
   ElementNames,
@@ -76,17 +76,14 @@ const DEF_REDUCTION_CHARACTERS = [
 export type TeammateInfo = {
   id: CharacterId | undefined,
   eidolon: number,
-  lightCone?: LightConeId,
+  lightCone?: LightConeId
 }
 
-type TeammateInfoSource =
-  | {
-    characterId?: CharacterId | null,
-    characterEidolon?: number | null,
-    lightCone?: LightConeId | null,
-  }
-  | null
-  | undefined
+type TeammateInfoSource = {
+  characterId?: CharacterId | null,
+  characterEidolon?: number | null,
+  lightCone?: LightConeId | null,
+} | null | undefined
 
 export function applySpdPreset(spd: number, characterId: CharacterId | null | undefined) {
   if (!characterId) return
@@ -182,7 +179,9 @@ export function applyScoringMetadataPresets(form: Form | BenchmarkForm, teammate
   for (const preset of presets) {
     const { teammateCondition } = preset
     if (teammateCondition) {
-      const match = teammates.some((teammate) => teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon)
+      const match = teammates.some((teammate) =>
+        teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
+      )
       if (!match) continue
     }
 
@@ -198,7 +197,9 @@ export function applyTeammateConditionalPresets(form: Form | BenchmarkForm, team
     if (!teammateCondition) continue
 
     const index = preset.index ?? 1
-    const match = teammates.some((teammate) => teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon)
+    const match = teammates.some((teammate) =>
+      teammate.id === teammateCondition.characterId && teammate.eidolon >= teammateCondition.minEidolon
+    )
 
     form.setConditionals[preset.set][index] = match
       ? preset.value

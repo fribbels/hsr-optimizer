@@ -55,8 +55,6 @@ import {
   precisionRound,
 } from 'lib/utils/mathUtils'
 
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
-import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 import type { CharacterConditionalsController } from 'types/conditionals'
@@ -423,6 +421,7 @@ const simulation = (): SimulationMetadata => ({
     START_ULT,
     END_SKILL,
     WHOLE_SKILL,
+    WHOLE_SKILL,
   ],
   comboDot: 0,
   errRopeEidolon: 0,
@@ -444,26 +443,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: MortenaxBlade.id,
-      lightCone: MortenaxBlade.defaultLightCone,
+      characterId: Jiaoqiu.id,
+      lightCone: ThoseManySprings.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Hyacine.id,
-      lightCone: Hyacine.defaultLightCone,
+      characterId: PermansorTerrae.id,
+      lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
-    },
-  ],
-  leaderboardTeams: [
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
-        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
-      ],
     },
   ],
 })
@@ -514,7 +503,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
-  eidolonImage: 4,
 })
 
 const display = {

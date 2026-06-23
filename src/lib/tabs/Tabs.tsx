@@ -12,7 +12,6 @@ import { ChangelogTab } from 'lib/tabs/tabChangelog/ChangelogTab'
 import { CharacterTab } from 'lib/tabs/tabCharacters/CharacterTab'
 import { HomeTab } from 'lib/tabs/tabHome/HomeTab'
 import { ImportTab } from 'lib/tabs/tabImport/ImportTab'
-import { LeaderboardTab } from 'lib/tabs/tabLeaderboard/LeaderboardTab'
 import { OptimizerTab } from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
@@ -52,7 +51,6 @@ const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.WARP, WarpCalculatorTab],
   [AppPages.BENCHMARKS, BenchmarksTab],
   [AppPages.CALCULATORS, CalculatorsTab],
-  [AppPages.LEADERBOARD, LeaderboardTab],
   [AppPages.CHANGELOG, ChangelogTab],
   [AppPages.WEBGPU_TEST, WebgpuTab],
   [AppPages.METADATA_TEST, MetadataTab],
@@ -67,7 +65,6 @@ const MOUNT_PRIORITY: AppPages[] = [
   AppPages.WARP,
   AppPages.BENCHMARKS,
   AppPages.CALCULATORS,
-  AppPages.LEADERBOARD,
   AppPages.CHANGELOG,
   AppPages.CHARACTERS,
   AppPages.RELICS,
@@ -76,38 +73,6 @@ const MOUNT_PRIORITY: AppPages[] = [
 ]
 
 let optimizerInitialized = false
-
-function appendRouteParams(route: string, params: URLSearchParams) {
-  const query = params.toString()
-  return query ? `${route}?${query}` : route
-}
-
-function getActiveHashParams(route: string) {
-  const hashStart = route.indexOf('#')
-  if (hashStart < 0) return null
-
-  const [activeHash, query] = window.location.hash.split('?', 2)
-  if (activeHash !== route.slice(hashStart) || !query) return null
-
-  return new URLSearchParams(query)
-}
-
-function getRouteForActiveKey(activeKey: AppPages) {
-  const route = PageToRoute[activeKey]
-  const params = getActiveHashParams(route)
-  if (!params) return route
-
-  if (activeKey === AppPages.SHOWCASE) {
-    const id = params.get('id')
-    return id ? appendRouteParams(route, new URLSearchParams({ id })) : route
-  }
-
-  if (activeKey === AppPages.LEADERBOARD) {
-    return appendRouteParams(route, params)
-  }
-
-  return route
-}
 
 const Tabs = () => {
   const activeKey = useGlobalStore((s) => s.activeKey).split('?')[0] as AppPages
@@ -175,7 +140,13 @@ const Tabs = () => {
       markFeatureSeen(featureKey)
     }
 
-    const route = getRouteForActiveKey(activeKey)
+    let route = PageToRoute[activeKey]
+    if (activeKey === AppPages.SHOWCASE) {
+      const id = window.location.hash.split('?')[1]?.split('id=')[1]?.split('&')[0]
+      if (id) {
+        route += `?id=${id}`
+      }
+    }
     if (activeKey === AppPages.CALCULATORS) {
       return
     }

@@ -1,13 +1,13 @@
-import { pctToRating } from 'lib/relics/scoring/scoreFormatting'
+import type { Relic } from 'types/relic'
+import { pctToRating } from './scoreFormatting'
 import {
   hasMainStat,
   mainStatWeight,
-} from 'lib/relics/scoring/substatScoring'
+} from './substatScoring'
 import type {
   RelicScoringResult,
   ScorerMetadata,
-} from 'lib/relics/scoring/types'
-import type { Relic } from 'types/relic'
+} from './types'
 
 export function scoreCurrentRelic(
   relic: Relic,
@@ -23,8 +23,7 @@ export function scoreCurrentRelic(
 
   const percentScore = idealScore === Infinity ? 0 : rawScore / idealScore * 100
   const hasCorrectMain = !hasMainStat(relic.part) || mainStatWeight(relic.part, relic.main.stat, meta) > 0
-  const aeonEligible = relic.verified === true && meta.aeonEligibleWeights
-  const rating = pctToRating(percentScore, relic.grade, relic.part, hasCorrectMain, aeonEligible)
+  const rating = pctToRating(percentScore, relic.grade, relic.part, hasCorrectMain)
 
   return {
     percentScore,

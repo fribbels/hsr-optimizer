@@ -3,10 +3,10 @@ import {
   DAMAGE_TAG_ENTRIES,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { PILL_SIZE } from 'lib/characterPreview/buffsAnalysis/designContext'
-import classes from 'lib/characterPreview/buffsAnalysis/FilterBar.module.css'
 import type { Buff } from 'lib/optimization/basicStatsArray'
 import type { DamageTag } from 'lib/optimization/engine/config/tag'
 import { useTranslation } from 'react-i18next'
+import classes from './FilterBar.module.css'
 
 export function computeRelevantTags(allBuffs: Buff[]): Set<DamageTag> {
   const tags = new Set<DamageTag>()

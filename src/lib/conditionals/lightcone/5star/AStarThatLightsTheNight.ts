@@ -25,8 +25,8 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(A_STAR_THAT_LIGHTS_THE_NIGHT_ID)
 
-  const sValuesDefPen = [0.20, 0.25, 0.30, 0.35, 0.40]
-  const sValuesSailDmg = [0.24, 0.30, 0.36, 0.42, 0.48]
+  const sValuesDefPen = [0.32, 0.36, 0.40, 0.44, 0.48]
+  const sValuesSailDmg = [0.20, 0.25, 0.30, 0.35, 0.40]
 
   const defaults = {
     sailStacks: 3,

@@ -3,8 +3,8 @@ import type {
   FailureEntry,
   LeaderboardBuildScoreCacheStats,
   LeaderboardMetricsSnapshot,
+  LeaderboardScoringProfile,
   ParsedExport,
-  ParsedProfile,
   PrivateRankedEntry,
   PrivateRankedOutput,
 } from 'leaderboard/shared/types'
@@ -44,9 +44,8 @@ type RunSummaryInput = {
   failures: FailureEntry[],
   buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
   parsed: ParsedExport,
-  profiles: ParsedProfile[],
+  profiles: LeaderboardScoringProfile[],
   totalCandidates: number,
-  estimatedRuns: number,
   metrics: LeaderboardMetricsSnapshot,
   workerCount: number,
   buildScoreCacheDbPath: string,
@@ -90,7 +89,6 @@ export function printRunSummary(input: RunSummaryInput): void {
   console.log(`  exportProfiles: ${parsed.profiles.length}`)
   console.log(`  submitted: ${profiles.length} profiles, ${input.totalCandidates} candidates`)
   console.log(`Scoring:`)
-  console.log(`  estimatedRuns: ${input.estimatedRuns}`)
   console.log(`  entries: ${entries.length}`)
   console.log(`  failures: ${failures.length}`)
   for (const [charName, stat] of Object.entries(perCharStats)) {

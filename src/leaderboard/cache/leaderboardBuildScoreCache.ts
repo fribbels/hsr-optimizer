@@ -23,7 +23,7 @@ import type {
   LeaderboardBuildScoreCacheStats,
 } from 'leaderboard/shared/types'
 
-export { buildLeaderboardBuildScoreCacheKey } from 'leaderboard/cache/leaderboardBuildScoreKey'
+export { buildLeaderboardBuildScoreCacheKey, buildStrippedRelicHash } from 'leaderboard/cache/leaderboardBuildScoreKey'
 
 const DEFAULT_DB_PATH = resolvePath(homeDir(), 'leaderboard-cache/leaderboard-build-score-cache.sqlite')
 const DEFAULT_FLUSH_INTERVAL = 100

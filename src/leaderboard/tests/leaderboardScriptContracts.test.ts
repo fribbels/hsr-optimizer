@@ -351,8 +351,8 @@ function makeScoringVariantCandidate(): LeaderboardScoringCandidate {
     character: {
       unconverted: {} as LeaderboardScoringCandidate['character']['unconverted'],
       minified: MINIFIED_CHARACTER,
+      converted: {} as LeaderboardScoringCandidate['character']['converted'],
     },
-    converted: {} as LeaderboardScoringCandidate['converted'],
     characterId: CHARACTER_ID,
   }
 }

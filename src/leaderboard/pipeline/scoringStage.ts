@@ -7,17 +7,16 @@ import type {
   LeaderboardBuildScoreCacheStats,
   LeaderboardMetricsSnapshot,
   LeaderboardScoreWorkerRuntimeConfig,
+  LeaderboardScoringProfile,
   LeaderboardVersionFile,
-  ParsedProfile,
   PrivateRankedEntry,
 } from 'leaderboard/shared/types'
 import { LeaderboardScoreWorkerPool } from 'leaderboard/workers/profileWorkerPool'
 
 export type RunScoringStageInput = {
-  profiles: ParsedProfile[],
+  profiles: LeaderboardScoringProfile[],
   versions: LeaderboardVersionFile,
   globalVersion: number,
-  estimatedRuns: number,
   workerCount: number,
   runtimeConfig: LeaderboardScoreWorkerRuntimeConfig,
   workerScriptUrl: URL,
@@ -60,7 +59,6 @@ export async function runScoringStage(input: RunScoringStageInput): Promise<RunS
       profiles: input.profiles,
       versions: input.versions,
       globalVersion: input.globalVersion,
-      estimatedRuns: input.estimatedRuns,
     })
   } catch (error: unknown) {
     scoringError = error

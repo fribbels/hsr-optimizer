@@ -1,12 +1,9 @@
-import { buildLeaderboardBuildScoreCacheKey } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import {
-  type EligibleConverted,
-  isEligibleRaw,
-} from 'leaderboard/ingest/eligibility'
-import {
-  countScoringVariants,
-  expandScoringVariants,
-} from 'leaderboard/scoring/scoringVariants'
+  buildLeaderboardBuildScoreCacheKey,
+  buildStrippedRelicHash,
+} from 'leaderboard/cache/leaderboardBuildScoreCache'
+import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
+import { expandScoringVariants } from 'leaderboard/scoring/scoringVariants'
 import {
   EIDOLON_TIERS,
   type EidolonTierValue,
@@ -20,13 +17,13 @@ import type {
   ComputeOptimalSimulationSearchRunner,
   FailureEntry,
   LeaderboardBuildScoreCache,
+  LeaderboardDependencyNamespace,
   LeaderboardEntryTeammate,
   LeaderboardMetrics,
   LeaderboardScoreCandidateConfigInput,
   LeaderboardScoringCandidate,
+  LeaderboardScoringProfile,
   LeaderboardVersionFile,
-  ParsedCharacter,
-  ParsedProfile,
   PrivateRankedEntry,
 } from 'leaderboard/shared/types'
 import {
@@ -34,7 +31,6 @@ import {
   getDependencyVersions,
 } from 'leaderboard/shared/versioning'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
-import { CharacterConverter } from 'lib/importer/characterConverter'
 import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -54,6 +50,7 @@ export async function scoreLeaderboardCandidateConfig(input: {
 }): Promise<PrivateRankedEntry | null> {
   const { candidateConfig, versions, globalVersion, searchRunner, buildScoreCache } = input
   const { candidate, configType, teamId, simulationMetadata } = candidateConfig
+  const converted = candidate.character.converted
 
   const team: LeaderboardEntryTeammate[] = simulationMetadata.teammates.map((t) => ({
     characterId: String(t.characterId),
@@ -63,27 +60,27 @@ export async function scoreLeaderboardCandidateConfig(input: {
   }))
 
   const charId = candidate.characterId
-  const primaryLightConeId = candidate.converted.form.lightCone
-    ? String(candidate.converted.form.lightCone)
+  const primaryLightConeId = converted.form.lightCone
+    ? String(converted.form.lightCone)
     : null
 
-  const dependencyVersions = getDependencyVersions({
-    versions,
-    primaryCharacterId: charId,
-    primaryLightConeId,
-    teammates: team,
-  })
-
-  const dependencyNamespace = buildDependencyNamespace({
-    dependencyVersions,
-  })
+  let resolvedNamespace = candidateConfig.dependencyNamespace
+  if (!resolvedNamespace) {
+    const dependencyVersions = getDependencyVersions({
+      versions,
+      primaryCharacterId: charId,
+      primaryLightConeId,
+      teammates: team,
+    })
+    resolvedNamespace = buildDependencyNamespace({ dependencyVersions })
+  }
 
   const computeScore = () =>
     scoreLeaderboardBuild({
-      character: candidate.converted,
+      character: converted,
       configType,
       simulationMetadata,
-      singleRelicByPart: candidate.converted.equipped,
+      singleRelicByPart: converted.equipped,
       showcaseTemporaryOptions: { spdBenchmark: undefined },
       searchRunner,
       scoreOnly: true,
@@ -91,12 +88,13 @@ export async function scoreLeaderboardCandidateConfig(input: {
 
   const cacheKey = buildLeaderboardBuildScoreCacheKey({
     globalVersion,
-    dependencyDigest: dependencyNamespace.dependencyDigest,
+    dependencyDigest: resolvedNamespace.dependencyDigest,
     configType,
     simulationMetadata,
-    characterEidolon: candidate.converted.form.characterEidolon,
-    lightConeSuperimposition: candidate.converted.form.lightConeSuperimposition,
-    singleRelicByPart: candidate.converted.equipped,
+    characterEidolon: converted.form.characterEidolon,
+    lightConeSuperimposition: converted.form.lightConeSuperimposition,
+    strippedRelicHash: candidateConfig.strippedRelicHash,
+    singleRelicByPart: candidateConfig.strippedRelicHash ? undefined : converted.equipped,
     spdBenchmark: null,
   })
   const result: LeaderboardBuildScore | null = await buildScoreCache.getOrCompute(cacheKey, computeScore)
@@ -118,7 +116,7 @@ export async function scoreLeaderboardCandidateConfig(input: {
       character: candidate.character.minified,
       team,
       teamEidolon: candidateConfig.teamEidolon ?? 0,
-      characterEidolon: candidate.converted.form.characterEidolon,
+      characterEidolon: converted.form.characterEidolon,
       teamId: candidateConfig.teamId,
       deprioritizeBuffs: simulationMetadata.deprioritizeBuffs ?? false,
       baselineSimScore: result.baselineSimScore,
@@ -126,13 +124,13 @@ export async function scoreLeaderboardCandidateConfig(input: {
       maximumSimScore: result.maximumSimScore,
       fetchedAt: candidate.fetchedAt,
     },
-    dependencyVersions,
-    dependencyDigest: dependencyNamespace.dependencyDigest,
+    dependencyVersions: resolvedNamespace.dependencies,
+    dependencyDigest: resolvedNamespace.dependencyDigest,
   }
 }
 
 export async function scoreProfile(input: {
-  profile: ParsedProfile,
+  profile: LeaderboardScoringProfile,
   versions: LeaderboardVersionFile,
   globalVersion: number,
   searchRunner: ComputeOptimalSimulationSearchRunner,
@@ -152,29 +150,29 @@ export async function scoreProfile(input: {
   let failed = 0
   let scoringRuns = 0
 
+  const uidHash = hashUid(profile.uid)
+
   for (const character of profile.characters) {
-    if (!isEligibleRaw(character.unconverted)) continue
-
-    let converted: EligibleConverted
-    let charId: string
-    try {
-      converted = CharacterConverter.convert(character.unconverted) as EligibleConverted
-    } catch (e) {
-      failures.push({
-        uid: profile.uid,
-        characterId: character.unconverted.avatarId,
-        error: String(e),
-      })
-      failed++
-      metrics.increment('scorer.failure', 1, { stage: 'convert' })
-      continue
-    }
-
-    charId = String(converted.id)
+    const converted = character.converted
+    const charId = String(converted.id)
     const metadata = getGameMetadata().characters[charId as CharacterId]
     if (!metadata?.scoringMetadata) continue
 
-    const uidHash = hashUid(profile.uid)
+    const strippedRelicHash = buildStrippedRelicHash(converted.equipped)
+    const primaryLightConeId = converted.form.lightCone
+      ? String(converted.form.lightCone)
+      : null
+
+    const candidate: LeaderboardScoringCandidate = {
+      uid: profile.uid,
+      uidHash,
+      payloadHash: profile.payloadHash,
+      fetchedAt: profile.fetchedAt,
+      character,
+      characterId: charId,
+    }
+
+    const depNamespaceCache = new Map<string, LeaderboardDependencyNamespace>()
 
     for (const configType of CONFIG_DISPLAY_ORDER) {
       try {
@@ -182,16 +180,6 @@ export async function scoreProfile(input: {
         if (!plan) continue
 
         metrics.increment('scorer.configAttempted', 1, { configType })
-
-        const candidate: LeaderboardScoringCandidate = {
-          uid: profile.uid,
-          uidHash,
-          payloadHash: profile.payloadHash,
-          fetchedAt: profile.fetchedAt,
-          character,
-          converted,
-          characterId: charId,
-        }
 
         const bestPerTeam = new Map<string, PrivateRankedEntry>()
 
@@ -201,6 +189,28 @@ export async function scoreProfile(input: {
           ...plan,
         })
         for (const variant of variants) {
+          const teammates = variant.simulationMetadata.teammates
+          const depKey = teammates.map((t) => `${t.characterId}:${t.lightCone}`).join('|')
+          let depNamespace = depNamespaceCache.get(depKey)
+          if (!depNamespace) {
+            const team: LeaderboardEntryTeammate[] = teammates.map((t) => ({
+              characterId: String(t.characterId),
+              lightCone: String(t.lightCone),
+              characterEidolon: t.characterEidolon,
+              lightConeSuperimposition: t.lightConeSuperimposition,
+            }))
+            const dependencyVersions = getDependencyVersions({
+              versions,
+              primaryCharacterId: charId,
+              primaryLightConeId,
+              teammates: team,
+            })
+            depNamespace = buildDependencyNamespace({ dependencyVersions })
+            depNamespaceCache.set(depKey, depNamespace)
+          }
+          variant.strippedRelicHash = strippedRelicHash
+          variant.dependencyNamespace = depNamespace
+
           scoringRuns++
           const result = await scoreLeaderboardCandidateConfig({
             candidateConfig: variant,
@@ -241,38 +251,6 @@ export async function scoreProfile(input: {
     failed,
     scoringRuns,
   }
-}
-
-export function estimateScoringRuns(profiles: ParsedProfile[]): number {
-  let total = 0
-  for (const profile of profiles) {
-    for (const character of profile.characters) {
-      total += estimateCharacterScoringRuns(character)
-    }
-  }
-  return total
-}
-
-function estimateCharacterScoringRuns(character: ParsedCharacter): number {
-  if (!isEligibleRaw(character.unconverted)) return 0
-
-  const converted = CharacterConverter.convert(character.unconverted) as EligibleConverted
-  const charId = String(converted.id)
-  const metadata = getGameMetadata().characters[charId as CharacterId]
-  if (!metadata?.scoringMetadata) return 0
-
-  let runs = 0
-  for (const configType of CONFIG_DISPLAY_ORDER) {
-    try {
-      const plan = buildScoringPlan(converted, configType)
-      if (!plan) continue
-
-      runs += countScoringVariants(plan)
-    } catch {
-      continue
-    }
-  }
-  return runs
 }
 
 type ScoringPlan = {

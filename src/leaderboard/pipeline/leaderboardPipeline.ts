@@ -24,7 +24,6 @@ import {
   runScoringStage,
   type RunScoringStageResult,
 } from 'leaderboard/pipeline/scoringStage'
-import { estimateScoringRuns } from 'leaderboard/scoring/scorer'
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
 import { hashObject } from 'leaderboard/shared/hash'
 import {
@@ -148,14 +147,12 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
 
     const totalCandidates = profiles.reduce((n, p) => n + p.characters.length, 0)
     console.log(`Pre-filter: kept ${totalCandidates} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
-    const estimatedRuns = estimateScoringRuns(profiles)
-    console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles (${estimatedRuns} scoring runs)`)
+    console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles`)
 
     const scoring = await runScoringStage({
       profiles,
       versions,
       globalVersion,
-      estimatedRuns,
       workerCount: options.workerThreads,
       runtimeConfig,
       workerScriptUrl,
@@ -187,7 +184,6 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       parsed,
       profiles,
       totalCandidates,
-      estimatedRuns,
       metrics: scoring.metrics,
       workerCount: options.workerThreads,
       buildScoreCacheDbPath: options.buildScoreCacheDbPath,

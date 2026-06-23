@@ -21,6 +21,10 @@ function stripRelicIds(relics: PreviewRelics): PreviewRelics {
   ) as PreviewRelics
 }
 
+export function buildStrippedRelicHash(relics: PreviewRelics): string {
+  return hashObject(stripRelicIds(relics))
+}
+
 export function buildLeaderboardBuildScoreCacheKey(input: {
   globalVersion: number,
   dependencyDigest: string,
@@ -28,7 +32,8 @@ export function buildLeaderboardBuildScoreCacheKey(input: {
   simulationMetadata: SimulationMetadata,
   characterEidolon: number,
   lightConeSuperimposition: number,
-  singleRelicByPart: PreviewRelics,
+  singleRelicByPart?: PreviewRelics,
+  strippedRelicHash?: string,
   spdBenchmark: number | null,
 }): string {
   const preimage = {
@@ -38,7 +43,7 @@ export function buildLeaderboardBuildScoreCacheKey(input: {
     simulationMetadataHash: hashObject(input.simulationMetadata),
     characterEidolon: input.characterEidolon,
     lightConeSuperimposition: input.lightConeSuperimposition,
-    strippedRelicHash: hashObject(stripRelicIds(input.singleRelicByPart)),
+    strippedRelicHash: input.strippedRelicHash ?? buildStrippedRelicHash(input.singleRelicByPart!),
     spdBenchmark: input.spdBenchmark,
   }
 

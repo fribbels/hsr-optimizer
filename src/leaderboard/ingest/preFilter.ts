@@ -1,24 +1,31 @@
 import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
 import { isEligibleRaw } from 'leaderboard/ingest/eligibility'
+import type { ParsedProfile } from 'leaderboard/ingest/exportParser'
 import type {
-  ParsedCharacter,
-  ParsedProfile,
-} from 'leaderboard/ingest/exportParser'
+  LeaderboardScoringCharacter,
+  LeaderboardScoringProfile,
+} from 'leaderboard/shared/types'
+import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 import { CharacterConverter } from 'lib/importer/characterConverter'
+import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
+import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 
 type PreFilterCandidate = {
-  profile: ParsedProfile,
-  character: ParsedCharacter,
+  uid: string,
+  fetchedAt: number,
+  payloadHash: string,
+  unconverted: UnconvertedCharacter,
+  minified: MinifiedCharacter,
   charId: CharacterId,
   substatScore: number,
 }
 
 export type PreFilterResult = {
-  profiles: ParsedProfile[],
+  profiles: LeaderboardScoringProfile[],
   eligibleCounts: Map<string, number>,
   totalCounts: Map<string, number>,
 }
@@ -29,6 +36,7 @@ export function preFilterProfiles(
 ): PreFilterResult {
   const candidatesByChar = new Map<string, PreFilterCandidate[]>()
   const totalCountsByChar = new Map<string, number>()
+  const scoringMetadataCache = new Map<CharacterId, ScorerMetadata>()
   let totalEligible = 0
   let totalSkipped = 0
 
@@ -52,7 +60,11 @@ export function preFilterProfiles(
         continue
       }
 
-      const prepared = prepareScoringMetadata(charId)
+      let prepared = scoringMetadataCache.get(charId)
+      if (!prepared) {
+        prepared = prepareScoringMetadata(charId)
+        scoringMetadataCache.set(charId, prepared)
+      }
       let totalScore = 0
       for (const relic of Object.values(converted.equipped)) {
         if (!relic) continue
@@ -63,33 +75,51 @@ export function preFilterProfiles(
       }
 
       if (!candidatesByChar.has(charId)) candidatesByChar.set(charId, [])
-      candidatesByChar.get(charId)!.push({ profile, character, charId, substatScore: totalScore })
+      candidatesByChar.get(charId)!.push({
+        uid: profile.uid,
+        fetchedAt: profile.fetchedAt,
+        payloadHash: profile.payloadHash,
+        unconverted: character.unconverted,
+        minified: character.minified,
+        charId,
+        substatScore: totalScore,
+      })
       totalEligible++
     }
   }
 
-  const survivorKeys = new Set<string>()
+  const survivorsByProfile = new Map<string, LeaderboardScoringCharacter[]>()
+  const profileMeta = new Map<string, { fetchedAt: number, payloadHash: string }>()
   let totalSurvivors = 0
 
-  for (const [charId, candidates] of candidatesByChar) {
+  for (const [, candidates] of candidatesByChar) {
     candidates.sort((a, b) => b.substatScore - a.substatScore)
     const kept = candidates.slice(0, topN)
     totalSurvivors += kept.length
 
     for (const c of kept) {
-      survivorKeys.add(`${c.profile.uid}#${c.charId}`)
+      const converted = CharacterConverter.convert(c.unconverted) as EligibleConverted
+      if (!survivorsByProfile.has(c.uid)) {
+        survivorsByProfile.set(c.uid, [])
+        profileMeta.set(c.uid, { fetchedAt: c.fetchedAt, payloadHash: c.payloadHash })
+      }
+      survivorsByProfile.get(c.uid)!.push({
+        unconverted: c.unconverted,
+        minified: c.minified,
+        converted,
+      })
     }
   }
 
-  const filteredProfiles: ParsedProfile[] = []
-  for (const profile of profiles) {
-    const keptCharacters = profile.characters.filter((c) => {
-      const charId = String(c.unconverted.avatarId)
-      return survivorKeys.has(`${profile.uid}#${charId}`)
+  const filteredProfiles: LeaderboardScoringProfile[] = []
+  for (const [uid, characters] of survivorsByProfile) {
+    const meta = profileMeta.get(uid)!
+    filteredProfiles.push({
+      uid,
+      fetchedAt: meta.fetchedAt,
+      payloadHash: meta.payloadHash,
+      characters,
     })
-    if (keptCharacters.length > 0) {
-      filteredProfiles.push({ ...profile, characters: keptCharacters })
-    }
   }
 
   console.log(`Pre-filter: ${totalEligible} eligible across ${candidatesByChar.size} characters, ${totalSkipped} skipped`)

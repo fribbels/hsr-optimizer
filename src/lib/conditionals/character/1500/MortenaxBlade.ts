@@ -337,6 +337,7 @@ const simulation = (): SimulationMetadata => ({
   deprioritizeBuffs: true,
   relicSets: [
     [Sets.DivineQueryingMasterSmith, Sets.DivineQueryingMasterSmith],
+    [Sets.GuardOfWutheringSnow, Sets.GuardOfWutheringSnow],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [

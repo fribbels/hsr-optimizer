@@ -123,11 +123,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const defaults = {
-    interestStacks: 6,
+    herosHauteurStacks: 6,
+    interestSpdStacks: 10,
     kingsAcknowledgement: true,
     kingsBurden: true,
     a6TeamBuff: true,
     e6ResPen: true,
+    goldenRuleStacks: 2,
   }
 
   const teammateDefaults = {
@@ -137,13 +139,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    interestStacks: {
-      id: 'interestStacks',
+    herosHauteurStacks: {
+      id: 'herosHauteurStacks',
       formItem: 'slider',
       text: 'Hero\'s Hauteur CD stacks',
       content: betaContent,
       min: 0,
       max: 6,
+    },
+    interestSpdStacks: {
+      id: 'interestSpdStacks',
+      formItem: 'slider',
+      text: 'Interest stacks',
+      content: betaContent,
+      min: 0,
+      max: 20,
     },
     kingsAcknowledgement: {
       id: 'kingsAcknowledgement',
@@ -169,6 +179,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'E6 RES PEN',
       content: betaContent,
       disabled: e < 6,
+    },
+    goldenRuleStacks: {
+      id: 'goldenRuleStacks',
+      formItem: 'slider',
+      text: 'Golden Rule stacks',
+      content: betaContent,
+      min: 0,
+      max: 3,
     },
   }
 
@@ -202,8 +220,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E2: Skill primary +100%
       const skillTotalScaling = skillScaling + (e >= 2 ? 1.00 : 0)
 
-      // E6: Ult bounce +30%
-      const ultBounceTotalScaling = ultBounceScaling + (e >= 6 ? 0.30 : 0)
+      const ultBounceTotalScaling = ultBounceScaling + (e >= 6 ? 0.80 : 0)
       const ultTotalScaling = ultScaling + ultBounceTotalScaling * 10 / context.enemyCount
       const ultToughness = 40 + 2 * 10 / context.enemyCount
 
@@ -261,8 +278,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // A4: +25% CD per Interest gained stack, max 6
-      x.buff(StatKey.CD, r.interestStacks * 0.25, x.source(SOURCE_TRACE))
+      // A4: +25% CD per Interest gained stack throughout the battle, max 6
+      x.buff(StatKey.CD, r.herosHauteurStacks * 0.25, x.source(SOURCE_TRACE))
+
+      x.buff(StatKey.SPD_P, r.interestSpdStacks * 0.10, x.source(SOURCE_TALENT))
 
       x.buff(StatKey.BOOST, (r.kingsBurden) ? talentUltDmgBuffValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_TALENT))
 
@@ -273,15 +292,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.ATK_P, (e >= 1 && r.kingsAcknowledgement) ? 0.60 : 0, x.source(SOURCE_E1))
 
       x.buff(StatKey.ERR, (e >= 4) ? 0.20 : 0, x.source(SOURCE_E4))
+
+      x.buff(StatKey.CD, e >= 6 ? (r.goldenRuleStacks * 1.00) : 0, x.damageType(DamageTag.ULT).source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // A6: +30% ATK/CD to team, +1% per Max Energy over 140 (capped at +60%)
-      const a6EnergyBonus = Math.min(0.60, Math.max(0, context.baseEnergy - 140) * 0.01)
-      x.buff(StatKey.ATK_P, (m.a6TeamBuff) ? 0.30 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      x.buff(StatKey.CD, (m.a6TeamBuff) ? 0.30 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      const a6EnergyBonus = Math.min(1.00, Math.max(0, context.baseEnergy - 140) * 0.01)
+      x.buff(StatKey.ATK_P, (m.a6TeamBuff) ? 0.20 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      x.buff(StatKey.CD, (m.a6TeamBuff) ? 0.20 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
       // E1: DEF ignore extends to team
       x.buff(StatKey.DEF_PEN, (e >= 1 && m.kingsAcknowledgement) ? skillDefIgnoreValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_SKILL))

@@ -1,6 +1,7 @@
 import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
 import { isEligibleRaw } from 'leaderboard/ingest/eligibility'
 import type { ParsedProfile } from 'leaderboard/ingest/exportParser'
+import { extractPreFilterSubstats } from 'leaderboard/ingest/preFilterExtractor'
 import type {
   LeaderboardScoringCharacter,
   LeaderboardScoringProfile,
@@ -12,6 +13,7 @@ import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { Constants } from 'lib/constants/constants'
 import type { CharacterId } from 'types/character'
 
 type PreFilterCandidate = {
@@ -20,9 +22,9 @@ type PreFilterCandidate = {
   payloadHash: string,
   unconverted: UnconvertedCharacter,
   minified: MinifiedCharacter,
-  converted: EligibleConverted,
   charId: CharacterId,
   substatScore: number,
+  substatScoreNoSpd: number,
 }
 
 export type PreFilterResult = {
@@ -51,9 +53,7 @@ export function preFilterProfiles(
         continue
       }
 
-      const converted = CharacterConverter.convert(character.unconverted) as EligibleConverted
-
-      const charId = converted.id
+      const charId = rawCharId as CharacterId
 
       const metadata = getGameMetadata().characters[charId]
       if (!metadata?.scoringMetadata) {
@@ -61,17 +61,21 @@ export function preFilterProfiles(
         continue
       }
 
+      const substats = extractPreFilterSubstats(character.unconverted.relicList!)
+
       let prepared = scoringMetadataCache.get(charId)
       if (!prepared) {
         prepared = prepareScoringMetadata(charId)
         scoringMetadataCache.set(charId, prepared)
       }
       let totalScore = 0
-      for (const relic of Object.values(converted.equipped)) {
-        if (!relic) continue
-        for (const sub of relic.substats) {
-          const weight = prepared.stats[sub.stat] || 0
-          totalScore += substatPotentialUnits(sub.stat, sub.value) * weight
+      let totalScoreNoSpd = 0
+      for (const sub of substats) {
+        const weight = prepared.stats[sub.stat] || 0
+        const units = substatPotentialUnits(sub.stat, sub.value)
+        totalScore += units * weight
+        if (sub.stat !== Constants.Stats.SPD) {
+          totalScoreNoSpd += units * weight
         }
       }
 
@@ -82,9 +86,9 @@ export function preFilterProfiles(
         payloadHash: profile.payloadHash,
         unconverted: character.unconverted,
         minified: character.minified,
-        converted,
         charId,
         substatScore: totalScore,
+        substatScoreNoSpd: totalScoreNoSpd,
       })
       totalEligible++
     }
@@ -96,18 +100,36 @@ export function preFilterProfiles(
 
   for (const [, candidates] of candidatesByChar) {
     candidates.sort((a, b) => b.substatScore - a.substatScore)
-    const kept = candidates.slice(0, topN)
-    totalSurvivors += kept.length
+    const keptBySpd = candidates.slice(0, topN)
 
-    for (const c of kept) {
+    candidates.sort((a, b) => b.substatScoreNoSpd - a.substatScoreNoSpd)
+    const keptNoSpd = candidates.slice(0, topN)
+
+    const seen = new Set<string>()
+    const merged: { candidate: PreFilterCandidate, rank: number }[] = []
+    for (const kept of [keptBySpd, keptNoSpd]) {
+      for (let i = 0; i < kept.length; i++) {
+        const key = `${kept[i].uid}#${kept[i].charId}`
+        if (!seen.has(key)) {
+          seen.add(key)
+          merged.push({ candidate: kept[i], rank: i + 1 })
+        }
+      }
+    }
+
+    totalSurvivors += merged.length
+
+    for (const { candidate: c, rank } of merged) {
       if (!survivorsByProfile.has(c.uid)) {
         survivorsByProfile.set(c.uid, [])
         profileMeta.set(c.uid, { fetchedAt: c.fetchedAt, payloadHash: c.payloadHash })
       }
+      const converted = CharacterConverter.convert(c.unconverted) as EligibleConverted
       survivorsByProfile.get(c.uid)!.push({
         unconverted: c.unconverted,
         minified: c.minified,
-        converted: c.converted,
+        converted,
+        preFilterRank: rank,
       })
     }
   }

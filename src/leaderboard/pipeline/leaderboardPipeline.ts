@@ -19,6 +19,7 @@ import {
 import {
   printLeaderboardResults,
   printRunSummary,
+  printTopNCoverageAnalysis,
 } from 'leaderboard/pipeline/leaderboardReporting'
 import {
   runScoringStage,
@@ -177,6 +178,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     })
 
     printLeaderboardResults(artifacts.privateOutput, topNPublic)
+    printTopNCoverageAnalysis(artifacts.privateOutput, topNPublic)
     printRunSummary({
       entries: scoring.entries,
       failures: scoring.failures,

@@ -67,6 +67,7 @@ export type LeaderboardScoringCharacter = {
   unconverted: UnconvertedCharacter,
   minified: MinifiedCharacter,
   converted: EligibleConverted,
+  preFilterRank: number,
 }
 
 export type LeaderboardScoringProfile = {
@@ -190,6 +191,7 @@ export type PrivateRankedEntry = {
   data: LeaderboardEntryData,
   dependencyVersions: LeaderboardDependencyVersions,
   dependencyDigest: string,
+  preFilterRank: number,
 }
 
 // ---------------------------------------------------------------------------

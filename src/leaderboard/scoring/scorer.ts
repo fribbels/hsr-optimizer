@@ -47,8 +47,9 @@ export async function scoreLeaderboardCandidateConfig(input: {
   globalVersion: number,
   searchRunner: ComputeOptimalSimulationSearchRunner,
   buildScoreCache: LeaderboardBuildScoreCache,
+  metrics: LeaderboardMetrics,
 }): Promise<PrivateRankedEntry | null> {
-  const { candidateConfig, versions, globalVersion, searchRunner, buildScoreCache } = input
+  const { candidateConfig, versions, globalVersion, searchRunner, buildScoreCache, metrics } = input
   const { candidate, configType, teamId, simulationMetadata } = candidateConfig
   const converted = candidate.character.converted
 
@@ -75,17 +76,7 @@ export async function scoreLeaderboardCandidateConfig(input: {
     resolvedNamespace = buildDependencyNamespace({ dependencyVersions })
   }
 
-  const computeScore = () =>
-    scoreLeaderboardBuild({
-      character: converted,
-      configType,
-      simulationMetadata,
-      singleRelicByPart: converted.equipped,
-      showcaseTemporaryOptions: { spdBenchmark: undefined },
-      searchRunner,
-      scoreOnly: true,
-    })
-
+  const t0Key = performance.now()
   const cacheKey = buildLeaderboardBuildScoreCacheKey({
     globalVersion,
     dependencyDigest: resolvedNamespace.dependencyDigest,
@@ -97,7 +88,33 @@ export async function scoreLeaderboardCandidateConfig(input: {
     singleRelicByPart: candidateConfig.strippedRelicHash ? undefined : converted.equipped,
     spdBenchmark: null,
   })
-  const result: LeaderboardBuildScore | null = await buildScoreCache.getOrCompute(cacheKey, computeScore)
+  metrics.timing('scorer.keyBuild', performance.now() - t0Key)
+
+  const t0Cache = performance.now()
+  const cached = buildScoreCache.get(cacheKey)
+  metrics.timing('scorer.cacheGet', performance.now() - t0Cache)
+
+  let result: LeaderboardBuildScore | null
+  if (cached != null) {
+    result = cached
+  } else {
+    const t0Compute = performance.now()
+    const computeScore = () =>
+      scoreLeaderboardBuild({
+        character: converted,
+        configType,
+        simulationMetadata,
+        singleRelicByPart: converted.equipped,
+        showcaseTemporaryOptions: { spdBenchmark: undefined },
+        searchRunner,
+        scoreOnly: true,
+      })
+    result = await computeScore()
+    if (result != null) {
+      buildScoreCache.set(cacheKey, result)
+    }
+    metrics.timing('scorer.compute', performance.now() - t0Compute)
+  }
 
   if (!result) return null
   if (result.percent <= 0 || !Number.isFinite(result.percent)) return null
@@ -126,6 +143,7 @@ export async function scoreLeaderboardCandidateConfig(input: {
     },
     dependencyVersions: resolvedNamespace.dependencies,
     dependencyDigest: resolvedNamespace.dependencyDigest,
+    preFilterRank: candidate.character.preFilterRank,
   }
 }
 
@@ -152,13 +170,20 @@ export async function scoreProfile(input: {
 
   const uidHash = hashUid(profile.uid)
 
+  let relicHashMs = 0
+  let planMs = 0
+  let expandMs = 0
+
   for (const character of profile.characters) {
     const converted = character.converted
     const charId = String(converted.id)
     const metadata = getGameMetadata().characters[charId as CharacterId]
     if (!metadata?.scoringMetadata) continue
 
+    const t0Hash = performance.now()
     const strippedRelicHash = buildStrippedRelicHash(converted.equipped)
+    relicHashMs += performance.now() - t0Hash
+
     const primaryLightConeId = converted.form.lightCone
       ? String(converted.form.lightCone)
       : null
@@ -176,18 +201,23 @@ export async function scoreProfile(input: {
 
     for (const configType of CONFIG_DISPLAY_ORDER) {
       try {
+        const t0Plan = performance.now()
         const plan = buildScoringPlan(converted, configType)
+        planMs += performance.now() - t0Plan
         if (!plan) continue
 
         metrics.increment('scorer.configAttempted', 1, { configType })
 
         const bestPerTeam = new Map<string, PrivateRankedEntry>()
 
+        const t0Expand = performance.now()
         const variants = expandScoringVariants({
           candidate,
           configType,
           ...plan,
         })
+        expandMs += performance.now() - t0Expand
+
         for (const variant of variants) {
           const teammates = variant.simulationMetadata.teammates
           const depKey = teammates.map((t) => `${t.characterId}:${t.lightCone}`).join('|')
@@ -218,6 +248,7 @@ export async function scoreProfile(input: {
             globalVersion,
             searchRunner,
             buildScoreCache,
+            metrics,
           })
 
           const current = bestPerTeam.get(variant.teamId)
@@ -243,6 +274,10 @@ export async function scoreProfile(input: {
       }
     }
   }
+
+  metrics.timing('scorer.relicHash', relicHashMs)
+  metrics.timing('scorer.plan', planMs)
+  metrics.timing('scorer.expand', expandMs)
 
   return {
     entries,

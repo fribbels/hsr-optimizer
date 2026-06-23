@@ -3,6 +3,12 @@ import {
   LeaderboardBuildScoreCache,
 } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import { parseExport } from 'leaderboard/ingest/exportParser'
+import { isEligibleRaw } from 'leaderboard/ingest/eligibility'
+import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
+import { extractPreFilterSubstats } from 'leaderboard/ingest/preFilterExtractor'
+import { CharacterConverter } from 'lib/importer/characterConverter'
+import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
+import { Metadata } from 'lib/state/metadataInitializer'
 import {
   buildProfilePayloadIndex,
   diffProfilePayloads,
@@ -33,7 +39,11 @@ import {
   writeGzipTextFile,
   writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
-import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
+import {
+  expandProfile,
+  type MinifiedCharacter,
+  type MinifiedProfile,
+} from 'leaderboard/shared/profileCompression'
 import {
   type LeaderboardBuildScore,
   type LeaderboardDependencyNamespace,
@@ -254,6 +264,7 @@ function makeEntry(
     data: makeEntryData(score),
     dependencyVersions: DEPENDENCY_VERSIONS,
     dependencyDigest: CURRENT_DEPENDENCY_DIGEST,
+    preFilterRank: 1,
     ...overrides,
   }
 }
@@ -352,6 +363,7 @@ function makeScoringVariantCandidate(): LeaderboardScoringCandidate {
       unconverted: {} as LeaderboardScoringCandidate['character']['unconverted'],
       minified: MINIFIED_CHARACTER,
       converted: {} as LeaderboardScoringCandidate['character']['converted'],
+      preFilterRank: 1,
     },
     characterId: CHARACTER_ID,
   }
@@ -1134,5 +1146,56 @@ describe('leaderboard script contracts', () => {
       configType: ScoringConfigType.BUFFER,
     })
     expect(unsupportedVariant.simulationMetadata.deprioritizeBuffs).toBeUndefined()
+  })
+
+  describe('preFilter mini-convert contract', () => {
+    Metadata.initialize()
+
+    function decompressSampleProfile() {
+      const minified: MinifiedProfile = JSON.parse(gunzipBase64Text(compressedProfileSampleBase64))
+      return expandProfile(minified)
+    }
+
+    test('extractPreFilterSubstats produces identical stat/value pairs as full CharacterConverter.convert', () => {
+      const characters = decompressSampleProfile()
+      const eligible = characters.filter((c) => isEligibleRaw(c))
+      expect(eligible.length).toBeGreaterThan(0)
+
+      for (const unconverted of eligible) {
+        const converted = CharacterConverter.convert(unconverted) as EligibleConverted
+        const fullSubstats = Object.values(converted.equipped)
+          .filter(Boolean)
+          .flatMap((relic) => relic!.substats.map((s) => ({ stat: s.stat, value: s.value })))
+
+        const miniSubstats = extractPreFilterSubstats(unconverted.relicList!)
+
+        expect(miniSubstats).toEqual(fullSubstats)
+      }
+    })
+
+    test('prefilter substat scoring is identical between mini-convert and full convert', () => {
+      const characters = decompressSampleProfile()
+      const eligible = characters.filter((c) => isEligibleRaw(c))
+
+      for (const unconverted of eligible) {
+        const converted = CharacterConverter.convert(unconverted) as EligibleConverted
+
+        let fullScore = 0
+        for (const relic of Object.values(converted.equipped)) {
+          if (!relic) continue
+          for (const sub of relic.substats) {
+            fullScore += substatPotentialUnits(sub.stat, sub.value)
+          }
+        }
+
+        let miniScore = 0
+        const miniSubstats = extractPreFilterSubstats(unconverted.relicList!)
+        for (const sub of miniSubstats) {
+          miniScore += substatPotentialUnits(sub.stat, sub.value)
+        }
+
+        expect(miniScore).toBe(fullScore)
+      }
+    })
   })
 })

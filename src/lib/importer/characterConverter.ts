@@ -24,7 +24,7 @@ const partConversion = {
   5: Constants.Parts.PlanarSphere,
   6: Constants.Parts.LinkRope,
 }
-const gradeConversion = {
+export const gradeConversion = {
   6: 5,
   5: 4,
   4: 3,

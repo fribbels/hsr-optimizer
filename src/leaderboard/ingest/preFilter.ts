@@ -20,6 +20,7 @@ type PreFilterCandidate = {
   payloadHash: string,
   unconverted: UnconvertedCharacter,
   minified: MinifiedCharacter,
+  converted: EligibleConverted,
   charId: CharacterId,
   substatScore: number,
 }
@@ -81,6 +82,7 @@ export function preFilterProfiles(
         payloadHash: profile.payloadHash,
         unconverted: character.unconverted,
         minified: character.minified,
+        converted,
         charId,
         substatScore: totalScore,
       })
@@ -98,7 +100,6 @@ export function preFilterProfiles(
     totalSurvivors += kept.length
 
     for (const c of kept) {
-      const converted = CharacterConverter.convert(c.unconverted) as EligibleConverted
       if (!survivorsByProfile.has(c.uid)) {
         survivorsByProfile.set(c.uid, [])
         profileMeta.set(c.uid, { fetchedAt: c.fetchedAt, payloadHash: c.payloadHash })
@@ -106,7 +107,7 @@ export function preFilterProfiles(
       survivorsByProfile.get(c.uid)!.push({
         unconverted: c.unconverted,
         minified: c.minified,
-        converted,
+        converted: c.converted,
       })
     }
   }

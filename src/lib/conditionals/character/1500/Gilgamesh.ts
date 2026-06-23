@@ -220,7 +220,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E2: Skill primary +100%
       const skillTotalScaling = skillScaling + (e >= 2 ? 1.00 : 0)
 
-      // E6: Ult bounce +30%
       const ultBounceTotalScaling = ultBounceScaling + (e >= 6 ? 0.80 : 0)
       const ultTotalScaling = ultScaling + ultBounceTotalScaling * 10 / context.enemyCount
       const ultToughness = 40 + 2 * 10 / context.enemyCount
@@ -300,7 +299,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // A6: +30% ATK/CD to team, +1% per Max Energy over 140 (capped at +100%)
       const a6EnergyBonus = Math.min(1.00, Math.max(0, context.baseEnergy - 140) * 0.01)
       x.buff(StatKey.ATK_P, (m.a6TeamBuff) ? 0.20 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.CD, (m.a6TeamBuff) ? 0.20 + a6EnergyBonus : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))

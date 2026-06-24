@@ -167,7 +167,6 @@ describe('useScoringStore', () => {
 
       expect(state().scoringMetadataOverrides[Kafka.id]?.stats?.[Stats.ATK_P]).toBe(0.5)
     })
-
   })
 
   describe('override management', () => {

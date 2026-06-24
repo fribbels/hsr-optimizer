@@ -24,6 +24,7 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import {
   AppPages,
 } from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
 import { ShowcasePortraitRow } from 'lib/tabs/tabShowcase/ShowcasePortraitRow'
 import styles from 'lib/tabs/tabShowcase/ShowcaseTab.module.css'
@@ -52,7 +53,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import type { Character } from 'types/character'
 import { useShallow } from 'zustand/react/shallow'
-import { navigateTo } from '../navigation/utils'
 
 const PRERENDER_HIDDEN: React.CSSProperties = {
   visibility: 'hidden',

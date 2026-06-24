@@ -5,6 +5,7 @@ import {
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
+import { updateHashParams } from 'lib/tabs/navigation/utils'
 import {
   type APIResponse,
   processEnkaData,
@@ -12,7 +13,6 @@ import {
 } from 'lib/tabs/tabShowcase/dataProcessors'
 import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
-import { updateHashParams } from '../navigation/utils'
 
 const API_ENDPOINT = 'https://9di5b7zvtb.execute-api.us-west-2.amazonaws.com/prod'
 

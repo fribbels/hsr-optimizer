@@ -9,14 +9,14 @@ import {
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { scoreCurrentRelic } from 'lib/relics/scoring/currentScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
-import { pctToRating } from 'lib/relics/scoring/scoreFormatting'
 import {
   ScoringCache,
 } from 'lib/relics/scoring/relicScorer'
+import { pctToRating } from 'lib/relics/scoring/scoreFormatting'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
-import { isAeonEligibleWeights } from 'lib/scoring/scoreComparison'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { isAeonEligibleWeights } from 'lib/scoring/scoreComparison'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
   getDefaultScoringMetadata,
@@ -180,7 +180,6 @@ function makeHighScoreRelic(verified: boolean, id = 'aeon-test-relic'): Relic {
 }
 
 describe('scoreCurrentRelic AEON integration', () => {
-
   function scoreWithMeta(relic: Relic, meta: ScorerMetadata) {
     const idealScore = computeOptimalScore(relic.part, relic.main.stat, meta)
     return scoreCurrentRelic(relic, meta, idealScore)

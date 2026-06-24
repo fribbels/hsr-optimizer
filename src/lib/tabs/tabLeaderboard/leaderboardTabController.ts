@@ -20,6 +20,7 @@ import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { AppPages } from 'lib/tabs/navigation/constants'
+import { updateHashParams } from 'lib/tabs/navigation/utils'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import {
   getCharacterLeaderboardConfigTypes,
@@ -35,7 +36,6 @@ import {
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import type { CharacterId } from 'types/character'
-import { updateHashParams } from '../navigation/utils'
 
 const CONFIG_DISPLAY_ORDER = LEADERBOARD_CONFIG_TYPES
 

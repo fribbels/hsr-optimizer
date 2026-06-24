@@ -18,6 +18,12 @@ import {
   TabVisibilityContext,
   type TabVisibilityValue,
 } from 'lib/hooks/useTabVisibility'
+import {
+  AppPages,
+  HashToPage,
+  type PageHash,
+} from 'lib/tabs/navigation/constants'
+import { useHashNavigation } from 'lib/tabs/navigation/useHashNavigation'
 import { workerPool } from 'lib/worker/workerPool'
 import React, {
   lazy,
@@ -34,12 +40,6 @@ import {
   type FallbackProps,
 } from 'react-error-boundary'
 import { useShallow } from 'zustand/react/shallow'
-import {
-  AppPages,
-  HashToPage,
-  type PageHash,
-} from './navigation/constants'
-import { useHashNavigation } from './navigation/useHashNavigation'
 
 const MetadataTab = lazy(() => import('lib/tabs/tabMetadata/MetadataTab').then((m) => ({ default: m.MetadataTab })))
 const WebgpuTab = lazy(() => import('lib/tabs/tabWebgpu/WebgpuTab').then((m) => ({ default: m.WebgpuTab })))

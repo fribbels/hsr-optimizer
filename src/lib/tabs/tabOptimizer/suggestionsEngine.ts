@@ -25,9 +25,9 @@ import { getRelics } from 'lib/stores/relic/relicStore'
 import {
   AppPages,
 } from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import type { Form } from 'types/form'
-import { navigateTo } from '../navigation/utils'
 
 // ---- Zero Permutations ----
 

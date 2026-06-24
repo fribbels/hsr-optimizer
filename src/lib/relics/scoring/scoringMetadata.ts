@@ -12,7 +12,11 @@ import {
   substatPotentialUnits,
 } from 'lib/relics/scoring/scoringConstants'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
-import { getScoreCategory, isAeonEligibleWeights, ScoreCategory } from 'lib/scoring/scoreComparison'
+import {
+  getScoreCategory,
+  isAeonEligibleWeights,
+  ScoreCategory,
+} from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { objectHash } from 'lib/utils/objectUtils'

@@ -48,6 +48,7 @@ import {
 import {
   AppPages,
 } from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import classes from 'lib/tabs/tabCharacters/CharacterGrid.module.css'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
@@ -72,7 +73,6 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import { navigateTo } from '../navigation/utils'
 
 const noop = () => {}
 const DROP_ANIMATION_DURATION = 200

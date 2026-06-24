@@ -12,6 +12,7 @@ import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore
 import * as persistenceService from 'lib/services/persistenceService'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
+import { updateHashParams } from 'lib/tabs/navigation/utils'
 import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import {
@@ -21,7 +22,6 @@ import {
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
-import { updateHashParams } from '../navigation/utils'
 
 // ── Preset types ──
 

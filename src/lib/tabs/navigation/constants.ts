@@ -1,8 +1,8 @@
-import { flipStringMapping } from 'lib/utils/objectUtils'
 import {
   CALCULATOR_PANEL_HASH,
   CalculatorPanel,
-} from '../tabCalculators/calculatorPanels'
+} from 'lib/tabs/tabCalculators/calculatorPanels'
+import { flipStringMapping } from 'lib/utils/objectUtils'
 
 export enum BasePath {
   MAIN = '/hsr-optimizer',

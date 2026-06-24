@@ -5,6 +5,7 @@ import {
 import { Stats } from 'lib/constants/constants'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { Assets } from 'lib/rendering/assets'
+import { useHashNavigation } from 'lib/tabs/navigation/useHashNavigation'
 import { AhaPanel } from 'lib/tabs/tabCalculators/AhaPanel'
 import {
   CALCULATOR_PANELS,
@@ -22,7 +23,6 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHashNavigation } from '../navigation/useHashNavigation'
 
 const PANEL_ICONS: Record<CalculatorPanel, string> = {
   [CalculatorPanel.AHA]: Stats.Elation,

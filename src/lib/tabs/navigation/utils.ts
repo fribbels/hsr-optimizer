@@ -4,7 +4,7 @@ import {
   BASE_PATH,
   type PageHash,
   PageToHash,
-} from './constants'
+} from 'lib/tabs/navigation/constants'
 
 export function navigateTo(page: AppPages, params?: URLSearchParams, stripPreviousParams = false) {
   const currentPage = useGlobalStore.getState().activeKey

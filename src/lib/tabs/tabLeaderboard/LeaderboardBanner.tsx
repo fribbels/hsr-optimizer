@@ -28,7 +28,6 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LightConeId } from 'types/lightCone'
 
-
 interface CropConfig {
   cxPct: number
   cyPct: number
@@ -72,7 +71,6 @@ function useActiveSets(relics: PreviewRelics | null): ActiveSet[] {
     return result
   }, [relics])
 }
-
 
 function ModuleStack({ label, children }: { label: string, children: React.ReactNode }) {
   return (

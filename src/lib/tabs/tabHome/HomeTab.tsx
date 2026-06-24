@@ -13,6 +13,11 @@ import {
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
 import { BASE_PATH } from 'lib/tabs/navigation/constants'
+import {
+  AppPages,
+  PageToHash,
+} from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import classes from 'lib/tabs/tabHome/HomeTab.module.css'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { validateUuid } from 'lib/utils/miscUtils'
@@ -22,11 +27,6 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  AppPages,
-  PageToHash,
-} from '../navigation/constants'
-import { navigateTo } from '../navigation/utils'
 
 export function HomeTab() {
   return (

@@ -35,6 +35,7 @@ import {
 import {
   AppPages,
 } from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
@@ -55,7 +56,6 @@ import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
 import { useShallow } from 'zustand/react/shallow'
-import { navigateTo } from '../navigation/utils'
 
 type ParsedCharacter = {
   characterId: CharacterId,

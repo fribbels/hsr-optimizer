@@ -48,9 +48,8 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
     boards: number,
     survivors: number,
     scored: number,
-    totalAeons: number,
-    maxRankAllAeons: number,
-    topNAeons: number,
+    aeonUids: Set<string>,
+    topNAeonUids: Set<string>,
     maxRankTopNAeons: number,
   }
   const charStats = new Map<string, CharStats>()
@@ -60,7 +59,7 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
 
     let stats = charStats.get(charId)
     if (!stats) {
-      stats = { boards: 0, survivors: board.completeness.totalScoredEntries, scored: 0, totalAeons: 0, maxRankAllAeons: 0, topNAeons: 0, maxRankTopNAeons: 0 }
+      stats = { boards: 0, survivors: board.completeness.totalScoredEntries, scored: 0, aeonUids: new Set(), topNAeonUids: new Set(), maxRankTopNAeons: 0 }
       charStats.set(charId, stats)
     }
     stats.boards++
@@ -68,17 +67,14 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
 
     for (const entry of board.entries) {
       if (entry.score >= MIN_AEON_SCORE) {
-        stats.totalAeons++
-        if (entry.preFilterRank > stats.maxRankAllAeons) {
-          stats.maxRankAllAeons = entry.preFilterRank
-        }
+        stats.aeonUids.add(entry.uidHash)
       }
     }
 
     const publicEntries = board.entries.slice(0, topNPublic)
     for (const entry of publicEntries) {
       if (entry.score >= MIN_AEON_SCORE) {
-        stats.topNAeons++
+        stats.topNAeonUids.add(entry.uidHash)
         if (entry.preFilterRank > stats.maxRankTopNAeons) {
           stats.maxRankTopNAeons = entry.preFilterRank
         }
@@ -87,23 +83,32 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
   }
 
   const sorted = [...charStats.entries()]
-    .map(([charId, stats]) => ({ charId, name: getCharacterLogName(charId), ...stats }))
-    .sort((a, b) => b.maxRankTopNAeons - a.maxRankTopNAeons)
+    .map(([charId, stats]) => ({
+      charId,
+      name: getCharacterLogName(charId),
+      boards: stats.boards,
+      survivors: stats.survivors,
+      scored: stats.scored,
+      aeons: stats.aeonUids.size,
+      topN: stats.topNAeonUids.size,
+      need: stats.maxRankTopNAeons,
+    }))
+    .sort((a, b) => b.need - a.need)
 
-  const globalMaxRank = sorted.reduce((max, s) => Math.max(max, s.maxRankTopNAeons), 0)
+  const globalMaxRank = sorted.reduce((max, s) => Math.max(max, s.need), 0)
 
   console.log('\n========== TOP-N COVERAGE ANALYSIS ==========')
   console.log('Question: what --top-n covers the best 100 aeons (>=150%) per board?')
   console.log()
-  console.log(`${'Character'.padEnd(20)} ${'k'.padStart(2)} ${'Surv'.padStart(5)} ${'Scored'.padStart(6)} ${'Aeons'.padStart(6)} ${'TopN'.padStart(5)} ${'Need'.padStart(5)}`)
-  console.log('-'.repeat(51))
+  console.log(`${'Character'.padEnd(20)} ${'Aeons'.padStart(5)} ${'TopN'.padStart(5)} ${'k'.padStart(2)} ${'Surv'.padStart(5)} ${'Scored'.padStart(6)} ${'Need'.padStart(5)}`)
+  console.log('-'.repeat(50))
   for (const s of sorted) {
-    const need = s.maxRankTopNAeons > 0 ? String(s.maxRankTopNAeons) : '-'
+    const need = s.need > 0 ? String(s.need) : '-'
     console.log(
-      `${s.name.padEnd(20)} ${String(s.boards).padStart(2)} ${String(s.survivors).padStart(5)} ${String(s.scored).padStart(6)} ${String(s.totalAeons).padStart(6)} ${String(s.topNAeons).padStart(5)} ${need.padStart(5)}`,
+      `${s.name.padEnd(20)} ${String(s.aeons).padStart(5)} ${String(s.topN).padStart(5)} ${String(s.boards).padStart(2)} ${String(s.survivors).padStart(5)} ${String(s.scored).padStart(6)} ${need.padStart(5)}`,
     )
   }
-  console.log('-'.repeat(51))
+  console.log('-'.repeat(50))
   console.log(`Global max pre-filter rank needed for top-${topNPublic} aeons: ${globalMaxRank}`)
   const margin = Math.ceil(globalMaxRank * 1.5)
   console.log(`Recommended --top-n with 1.5x margin: ${margin}`)

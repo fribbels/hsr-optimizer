@@ -54,7 +54,7 @@ export function preFilterProfiles(
       const charId = rawCharId as CharacterId
 
       const metadata = getGameMetadata().characters[charId]
-      if (!metadata?.scoringMetadata) {
+      if (!metadata?.scoringMetadata || metadata.rarity < 5) {
         totalSkipped++
         continue
       }

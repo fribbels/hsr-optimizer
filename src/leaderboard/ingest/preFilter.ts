@@ -1,4 +1,3 @@
-import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
 import { isEligibleRaw } from 'leaderboard/ingest/eligibility'
 import type { ParsedProfile } from 'leaderboard/ingest/exportParser'
 import { extractPreFilterSubstats } from 'leaderboard/ingest/preFilterExtractor'
@@ -7,7 +6,6 @@ import type {
   LeaderboardScoringProfile,
 } from 'leaderboard/shared/types'
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
-import { CharacterConverter } from 'lib/importer/characterConverter'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
@@ -138,11 +136,9 @@ export function preFilterProfiles(
         survivorsByProfile.set(c.uid, [])
         profileMeta.set(c.uid, { fetchedAt: c.fetchedAt, payloadHash: c.payloadHash })
       }
-      const converted = CharacterConverter.convert(c.unconverted) as EligibleConverted
       survivorsByProfile.get(c.uid)!.push({
         unconverted: c.unconverted,
         minified: c.minified,
-        converted,
         preFilterRank: rank,
       })
     }

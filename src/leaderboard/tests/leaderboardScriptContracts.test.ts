@@ -209,7 +209,6 @@ function parsedProfile(uid: string, payloadHash: string, fetchedAt = 1): ParsedP
     uid,
     fetchedAt,
     payloadHash,
-    payloadBase64: `payload-${uid}`,
     characters: [],
   }
 }
@@ -362,7 +361,6 @@ function makeScoringVariantCandidate(): LeaderboardScoringCandidate {
     character: {
       unconverted: {} as LeaderboardScoringCandidate['character']['unconverted'],
       minified: MINIFIED_CHARACTER,
-      converted: {} as LeaderboardScoringCandidate['character']['converted'],
       preFilterRank: 1,
     },
     characterId: CHARACTER_ID,
@@ -407,7 +405,7 @@ describe('leaderboard script contracts', () => {
       })
       expect(profile.uid).toBe(sampleUid)
       expect(profile.fetchedAt).toBe(sampleFetchedAt)
-      expect(profile.payloadBase64).toBe(compressedProfileSampleBase64)
+      expect(profile).not.toHaveProperty('payloadBase64')
       expect(profile.payloadHash.length).toBe(64)
       expect(profile.characters).toHaveLength(8)
       expect(profile.characters.map((character) => character.unconverted.avatarId)).toContain(CHARACTER_ID)

@@ -108,7 +108,7 @@ function parseExportLine(line: string, characterErrors: CharacterParseError[]): 
       }
     }
 
-    return { uid, fetchedAt, payloadHash, payloadBase64, characters }
+    return { uid, fetchedAt, payloadHash, characters }
   } catch (e) {
     console.warn(`Skipping malformed export line: ${String(e)}`)
     return ExportLineOutcome.Malformed

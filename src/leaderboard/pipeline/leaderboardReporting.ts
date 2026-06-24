@@ -1,10 +1,10 @@
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
 import type {
+  ExportParseSummary,
   FailureEntry,
   LeaderboardBuildScoreCacheStats,
   LeaderboardMetricsSnapshot,
   LeaderboardScoringProfile,
-  ParsedExport,
   PrivateRankedEntry,
   PrivateRankedOutput,
 } from 'leaderboard/shared/types'
@@ -13,7 +13,9 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 
 function getCharacterLogName(characterId: string): string {
-  return getGameMetadata().characters[characterId as CharacterId]?.name ?? characterId
+  const name = getGameMetadata().characters[characterId as CharacterId]?.name ?? characterId
+  const sep = name.indexOf('•')
+  return sep >= 0 ? name.substring(sep + 1).trimStart() : name
 }
 
 export function printResolvedConfig(options: LeaderboardCliOptions): void {
@@ -93,15 +95,15 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
   console.log('\n========== TOP-N COVERAGE ANALYSIS ==========')
   console.log('Question: what --top-n covers the best 100 aeons (>=150%) per board?')
   console.log()
-  console.log(`${'Character'.padEnd(28)} ${'Boards'.padStart(6)} ${'Surv'.padStart(6)} ${'Scored'.padStart(7)} ${'Aeons'.padStart(7)} ${'TopN'.padStart(6)} ${'Need'.padStart(6)}`)
-  console.log('-'.repeat(68))
+  console.log(`${'Character'.padEnd(20)} ${'k'.padStart(2)} ${'Surv'.padStart(5)} ${'Scored'.padStart(6)} ${'Aeons'.padStart(6)} ${'TopN'.padStart(5)} ${'Need'.padStart(5)}`)
+  console.log('-'.repeat(51))
   for (const s of sorted) {
     const need = s.maxRankTopNAeons > 0 ? String(s.maxRankTopNAeons) : '-'
     console.log(
-      `${s.name.padEnd(28)} ${String(s.boards).padStart(6)} ${String(s.survivors).padStart(6)} ${String(s.scored).padStart(7)} ${String(s.totalAeons).padStart(7)} ${String(s.topNAeons).padStart(6)} ${need.padStart(6)}`,
+      `${s.name.padEnd(20)} ${String(s.boards).padStart(2)} ${String(s.survivors).padStart(5)} ${String(s.scored).padStart(6)} ${String(s.totalAeons).padStart(6)} ${String(s.topNAeons).padStart(5)} ${need.padStart(5)}`,
     )
   }
-  console.log('-'.repeat(68))
+  console.log('-'.repeat(51))
   console.log(`Global max pre-filter rank needed for top-${topNPublic} aeons: ${globalMaxRank}`)
   const margin = Math.ceil(globalMaxRank * 1.5)
   console.log(`Recommended --top-n with 1.5x margin: ${margin}`)
@@ -112,7 +114,8 @@ type RunSummaryInput = {
   entries: PrivateRankedEntry[],
   failures: FailureEntry[],
   buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
-  parsed: ParsedExport,
+  exportProfileCount: number,
+  parseSummary: ExportParseSummary,
   profiles: LeaderboardScoringProfile[],
   totalCandidates: number,
   metrics: LeaderboardMetricsSnapshot,
@@ -129,7 +132,7 @@ type RunSummaryInput = {
 }
 
 export function printRunSummary(input: RunSummaryInput): void {
-  const { entries, failures, buildScoreCacheStats, parsed, profiles } = input
+  const { entries, failures, buildScoreCacheStats, profiles } = input
   const scoringSec = input.scoringElapsedMs / 1000
   const runSec = input.runElapsedMs / 1000
 
@@ -155,7 +158,7 @@ export function printRunSummary(input: RunSummaryInput): void {
   console.log(`  topN: ${input.topN}`)
   console.log(`  topNPublic: ${input.topNPublic}`)
   console.log(`Input:`)
-  console.log(`  exportProfiles: ${parsed.profiles.length}`)
+  console.log(`  exportProfiles: ${input.exportProfileCount}`)
   console.log(`  submitted: ${profiles.length} profiles, ${input.totalCandidates} candidates`)
   console.log(`Scoring:`)
   console.log(`  entries: ${entries.length}`)
@@ -186,7 +189,7 @@ export function printRunSummary(input: RunSummaryInput): void {
   if (cacheHits + buildScoreCacheStats.misses > 0) {
     console.log(`  hitRate: ${((cacheHits / (cacheHits + buildScoreCacheStats.misses)) * 100).toFixed(1)}%`)
   }
-  const { characterErrors } = parsed.summary
+  const { characterErrors } = input.parseSummary
   if (characterErrors.length > 0) {
     const byAvatar = new Map<number, number>()
     for (const err of characterErrors) {

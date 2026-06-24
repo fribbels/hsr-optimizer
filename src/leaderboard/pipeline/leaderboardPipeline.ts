@@ -37,6 +37,7 @@ import type {
   ParsedExport,
   PrivateRankedEntry,
   PrivateRankedOutput,
+  ProfilePayloadIndex,
   PublicLeaderboardOutputV3,
 } from 'leaderboard/shared/types'
 import { readLeaderboardVersions } from 'leaderboard/shared/versioning'
@@ -122,14 +123,16 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     })
 
     const parseStartMs = performance.now()
-    const parsed = parseExportInput(exportInput)
+    let parsed: ParsedExport | undefined = parseExportInput(exportInput)
     const parseElapsedMs = performance.now() - parseStartMs
+    const exportProfileCount = parsed.profiles.length
+    const parseSummary = parsed.summary
     console.log(
-      `Parsed ${parsed.profiles.length} profiles from ${exportInput.paths.length} file(s) (${parsed.summary.malformedRows} malformed, ${parsed.summary.characterErrors.length} character errors) in ${
+      `Parsed ${exportProfileCount} profiles from ${exportInput.paths.length} file(s) (${parseSummary.malformedRows} malformed, ${parseSummary.characterErrors.length} character errors) in ${
         (parseElapsedMs / 1000).toFixed(1)
       }s`,
     )
-    if (parsed.profiles.length === 0) {
+    if (exportProfileCount === 0) {
       throw new Error('Parsed export contained no profiles; refusing to publish empty leaderboard')
     }
 
@@ -145,6 +148,9 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     const totalCounts = preFilterResult.totalCounts
     const profiles = preFilterResult.profiles.filter((p) => p.characters.length > 0)
     const prefilterElapsedMs = performance.now() - prefilterStartMs
+
+    const payloadIndex = buildProfilePayloadIndex({ profiles: parsed.profiles })
+    parsed = undefined
 
     const totalCandidates = profiles.reduce((n, p) => n + p.characters.length, 0)
     console.log(`Pre-filter: kept ${totalCandidates} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
@@ -166,7 +172,8 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       versions,
       topN,
       topNPublic,
-      parsed,
+      payloadIndex,
+      profileCount: exportProfileCount,
       exportInput,
       totalCounts,
     })
@@ -183,7 +190,8 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       entries: scoring.entries,
       failures: scoring.failures,
       buildScoreCacheStats: scoring.buildScoreCacheStats,
-      parsed,
+      exportProfileCount,
+      parseSummary,
       profiles,
       totalCandidates,
       metrics: scoring.metrics,
@@ -249,7 +257,8 @@ function buildPublishArtifacts(input: {
   versions: PrivateRankedOutput['versions'],
   topN: number,
   topNPublic: number,
-  parsed: ParsedExport,
+  payloadIndex: ProfilePayloadIndex,
+  profileCount: number,
   exportInput: LeaderboardExportInput,
   totalCounts: Map<string, number>,
 }): PublishArtifacts {
@@ -258,9 +267,9 @@ function buildPublishArtifacts(input: {
     versions: input.versions,
     sourceExport: {
       path: input.exportInput.displayPath,
-      profileCount: input.parsed.profiles.length,
+      profileCount: input.profileCount,
     },
-    payloadIndex: buildProfilePayloadIndex({ profiles: input.parsed.profiles }),
+    payloadIndex: input.payloadIndex,
     generatedAt: new Date().toISOString(),
     topN: input.topN,
     topNPublic: input.topNPublic,

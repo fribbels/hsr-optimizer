@@ -1,4 +1,3 @@
-import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { LeaderboardEidolonGroup } from 'leaderboard/shared/eidolonConfig'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
@@ -58,15 +57,12 @@ export type ParsedProfile = {
   uid: string,
   fetchedAt: number,
   payloadHash: string,
-  payloadBase64: string,
   characters: ParsedCharacter[],
 }
 
-// Scoring-stage DTO: carries pre-converted characters for survivors, drops payloadBase64
 export type LeaderboardScoringCharacter = {
   unconverted: UnconvertedCharacter,
   minified: MinifiedCharacter,
-  converted: EligibleConverted,
   preFilterRank: number,
 }
 

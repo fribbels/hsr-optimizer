@@ -1,4 +1,3 @@
-import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
 import { isEligibleRaw } from 'leaderboard/ingest/eligibility'
 import type { ParsedProfile } from 'leaderboard/ingest/exportParser'
 import { extractPreFilterSubstats } from 'leaderboard/ingest/preFilterExtractor'
@@ -7,7 +6,6 @@ import type {
   LeaderboardScoringProfile,
 } from 'leaderboard/shared/types'
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
-import { CharacterConverter } from 'lib/importer/characterConverter'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
@@ -56,7 +54,7 @@ export function preFilterProfiles(
       const charId = rawCharId as CharacterId
 
       const metadata = getGameMetadata().characters[charId]
-      if (!metadata?.scoringMetadata) {
+      if (!metadata?.scoringMetadata || metadata.rarity < 5) {
         totalSkipped++
         continue
       }
@@ -105,16 +103,30 @@ export function preFilterProfiles(
     candidates.sort((a, b) => b.substatScoreNoSpd - a.substatScoreNoSpd)
     const keptNoSpd = candidates.slice(0, topN)
 
-    const seen = new Set<string>()
-    const merged: { candidate: PreFilterCandidate, rank: number }[] = []
-    for (const kept of [keptBySpd, keptNoSpd]) {
-      for (let i = 0; i < kept.length; i++) {
-        const key = `${kept[i].uid}#${kept[i].charId}`
-        if (!seen.has(key)) {
-          seen.add(key)
-          merged.push({ candidate: kept[i], rank: i + 1 })
-        }
+    const bestRank = new Map<string, number>()
+    const candidateByKey = new Map<string, PreFilterCandidate>()
+
+    for (let i = 0; i < keptBySpd.length; i++) {
+      const key = `${keptBySpd[i].uid}#${keptBySpd[i].charId}`
+      bestRank.set(key, i + 1)
+      candidateByKey.set(key, keptBySpd[i])
+    }
+
+    for (let i = 0; i < keptNoSpd.length; i++) {
+      const key = `${keptNoSpd[i].uid}#${keptNoSpd[i].charId}`
+      const rank = i + 1
+      const existing = bestRank.get(key)
+      if (existing === undefined || rank < existing) {
+        bestRank.set(key, rank)
       }
+      if (!candidateByKey.has(key)) {
+        candidateByKey.set(key, keptNoSpd[i])
+      }
+    }
+
+    const merged: { candidate: PreFilterCandidate, rank: number }[] = []
+    for (const [key, candidate] of candidateByKey) {
+      merged.push({ candidate, rank: bestRank.get(key)! })
     }
 
     totalSurvivors += merged.length
@@ -124,11 +136,9 @@ export function preFilterProfiles(
         survivorsByProfile.set(c.uid, [])
         profileMeta.set(c.uid, { fetchedAt: c.fetchedAt, payloadHash: c.payloadHash })
       }
-      const converted = CharacterConverter.convert(c.unconverted) as EligibleConverted
       survivorsByProfile.get(c.uid)!.push({
         unconverted: c.unconverted,
         minified: c.minified,
-        converted,
         preFilterRank: rank,
       })
     }

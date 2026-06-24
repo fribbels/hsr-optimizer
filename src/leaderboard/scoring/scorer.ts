@@ -4,6 +4,7 @@ import {
 } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
 import { expandScoringVariants } from 'leaderboard/scoring/scoringVariants'
+import { CharacterConverter } from 'lib/importer/characterConverter'
 import {
   EIDOLON_TIERS,
   type EidolonTierValue,
@@ -43,15 +44,15 @@ import type {
 
 export async function scoreLeaderboardCandidateConfig(input: {
   candidateConfig: LeaderboardScoreCandidateConfigInput,
+  converted: EligibleConverted,
   versions: LeaderboardVersionFile,
   globalVersion: number,
   searchRunner: ComputeOptimalSimulationSearchRunner,
   buildScoreCache: LeaderboardBuildScoreCache,
   metrics: LeaderboardMetrics,
 }): Promise<PrivateRankedEntry | null> {
-  const { candidateConfig, versions, globalVersion, searchRunner, buildScoreCache, metrics } = input
+  const { candidateConfig, converted, versions, globalVersion, searchRunner, buildScoreCache, metrics } = input
   const { candidate, configType, teamId, simulationMetadata } = candidateConfig
-  const converted = candidate.character.converted
 
   const team: LeaderboardEntryTeammate[] = simulationMetadata.teammates.map((t) => ({
     characterId: String(t.characterId),
@@ -175,7 +176,7 @@ export async function scoreProfile(input: {
   let expandMs = 0
 
   for (const character of profile.characters) {
-    const converted = character.converted
+    const converted = CharacterConverter.convert(character.unconverted) as EligibleConverted
     const charId = String(converted.id)
     const metadata = getGameMetadata().characters[charId as CharacterId]
     if (!metadata?.scoringMetadata) continue
@@ -244,6 +245,7 @@ export async function scoreProfile(input: {
           scoringRuns++
           const result = await scoreLeaderboardCandidateConfig({
             candidateConfig: variant,
+            converted,
             versions,
             globalVersion,
             searchRunner,

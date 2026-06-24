@@ -105,16 +105,30 @@ export function preFilterProfiles(
     candidates.sort((a, b) => b.substatScoreNoSpd - a.substatScoreNoSpd)
     const keptNoSpd = candidates.slice(0, topN)
 
-    const seen = new Set<string>()
-    const merged: { candidate: PreFilterCandidate, rank: number }[] = []
-    for (const kept of [keptBySpd, keptNoSpd]) {
-      for (let i = 0; i < kept.length; i++) {
-        const key = `${kept[i].uid}#${kept[i].charId}`
-        if (!seen.has(key)) {
-          seen.add(key)
-          merged.push({ candidate: kept[i], rank: i + 1 })
-        }
+    const bestRank = new Map<string, number>()
+    const candidateByKey = new Map<string, PreFilterCandidate>()
+
+    for (let i = 0; i < keptBySpd.length; i++) {
+      const key = `${keptBySpd[i].uid}#${keptBySpd[i].charId}`
+      bestRank.set(key, i + 1)
+      candidateByKey.set(key, keptBySpd[i])
+    }
+
+    for (let i = 0; i < keptNoSpd.length; i++) {
+      const key = `${keptNoSpd[i].uid}#${keptNoSpd[i].charId}`
+      const rank = i + 1
+      const existing = bestRank.get(key)
+      if (existing === undefined || rank < existing) {
+        bestRank.set(key, rank)
       }
+      if (!candidateByKey.has(key)) {
+        candidateByKey.set(key, keptNoSpd[i])
+      }
+    }
+
+    const merged: { candidate: PreFilterCandidate, rank: number }[] = []
+    for (const [key, candidate] of candidateByKey) {
+      merged.push({ candidate, rank: bestRank.get(key)! })
     }
 
     totalSurvivors += merged.length

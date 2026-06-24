@@ -43,7 +43,9 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
   const MIN_AEON_SCORE = 1.50
 
   type CharStats = {
-    eligible: number,
+    boards: number,
+    survivors: number,
+    scored: number,
     totalAeons: number,
     maxRankAllAeons: number,
     topNAeons: number,
@@ -56,9 +58,11 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
 
     let stats = charStats.get(charId)
     if (!stats) {
-      stats = { eligible: board.completeness.totalScoredEntries, totalAeons: 0, maxRankAllAeons: 0, topNAeons: 0, maxRankTopNAeons: 0 }
+      stats = { boards: 0, survivors: board.completeness.totalScoredEntries, scored: 0, totalAeons: 0, maxRankAllAeons: 0, topNAeons: 0, maxRankTopNAeons: 0 }
       charStats.set(charId, stats)
     }
+    stats.boards++
+    stats.scored += board.completeness.totalScoredEntries
 
     for (const entry of board.entries) {
       if (entry.score >= MIN_AEON_SCORE) {
@@ -89,15 +93,15 @@ export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, to
   console.log('\n========== TOP-N COVERAGE ANALYSIS ==========')
   console.log('Question: what --top-n covers the best 100 aeons (>=150%) per board?')
   console.log()
-  console.log(`${'Character'.padEnd(28)} ${'Scored'.padStart(7)} ${'Aeons'.padStart(7)} ${'Top100'.padStart(7)} ${'Need'.padStart(6)}`)
-  console.log('-'.repeat(57))
+  console.log(`${'Character'.padEnd(28)} ${'Boards'.padStart(6)} ${'Surv'.padStart(6)} ${'Scored'.padStart(7)} ${'Aeons'.padStart(7)} ${'TopN'.padStart(6)} ${'Need'.padStart(6)}`)
+  console.log('-'.repeat(68))
   for (const s of sorted) {
     const need = s.maxRankTopNAeons > 0 ? String(s.maxRankTopNAeons) : '-'
     console.log(
-      `${s.name.padEnd(28)} ${String(s.eligible).padStart(7)} ${String(s.totalAeons).padStart(7)} ${String(s.topNAeons).padStart(7)} ${need.padStart(6)}`,
+      `${s.name.padEnd(28)} ${String(s.boards).padStart(6)} ${String(s.survivors).padStart(6)} ${String(s.scored).padStart(7)} ${String(s.totalAeons).padStart(7)} ${String(s.topNAeons).padStart(6)} ${need.padStart(6)}`,
     )
   }
-  console.log('-'.repeat(57))
+  console.log('-'.repeat(68))
   console.log(`Global max pre-filter rank needed for top-${topNPublic} aeons: ${globalMaxRank}`)
   const margin = Math.ceil(globalMaxRank * 1.5)
   console.log(`Recommended --top-n with 1.5x margin: ${margin}`)

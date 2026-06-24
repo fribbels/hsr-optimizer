@@ -1,4 +1,9 @@
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
+import {
+  ensureDirectory,
+  resolvePath,
+  writeTextFile,
+} from 'leaderboard/shared/nodeFacade'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import type {
   ExportParseSummary,
@@ -357,8 +362,6 @@ function analyzeSubstatAllocation(charId: string, privateOutput: PrivateRankedOu
 type CoverageCharStat = { charId: string, name: string, aeons: number, topN: number, boards: number, survivors: number, scored: number, need: number }
 
 function printWeightAnalysisSummary(chars: CoverageCharStat[], privateOutput: PrivateRankedOutput, topNPublic: number): void {
-  const fs = require('fs') as typeof import('fs')
-  const path = require('path') as typeof import('path')
 
   console.log('\n========== SUBSTAT ANALYSIS: top-100 substat allocation (normalized to 1.00) ==========')
   const results: SubstatAnalysisResult[] = []
@@ -410,11 +413,11 @@ function printWeightAnalysisSummary(chars: CoverageCharStat[], privateOutput: Pr
   lines.push(divider)
   console.log()
 
-  const outDir = path.resolve('plans/scratch')
-  fs.mkdirSync(outDir, { recursive: true })
+  const outDir = resolvePath('plans/scratch')
+  ensureDirectory(outDir)
 
-  const txtPath = path.resolve(outDir, 'weight-analysis.txt')
-  fs.writeFileSync(txtPath, lines.join('\n') + '\n')
+  const txtPath = resolvePath(outDir, 'weight-analysis.txt')
+  writeTextFile(txtPath, lines.join('\n') + '\n')
   console.log(`  → saved to ${txtPath}`)
 
   const jsonData = results.map((r) => {
@@ -436,8 +439,8 @@ function printWeightAnalysisSummary(chars: CoverageCharStat[], privateOutput: Pr
       weights,
     }
   })
-  const jsonPath = path.resolve(outDir, 'weight-analysis.json')
-  fs.writeFileSync(jsonPath, JSON.stringify(jsonData, null, 2) + '\n')
+  const jsonPath = resolvePath(outDir, 'weight-analysis.json')
+  writeTextFile(jsonPath, JSON.stringify(jsonData, null, 2) + '\n')
   console.log(`  → saved to ${jsonPath}`)
 }
 

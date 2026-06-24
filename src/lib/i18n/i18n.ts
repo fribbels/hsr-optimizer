@@ -5,7 +5,7 @@ import yaml from 'js-yaml'
 import {
   BASE_PATH,
   BasePath,
-} from 'lib/constants/appPages'
+} from 'lib/tabs/navigation/constants'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { languages } from 'lib/utils/i18nUtils'
 import { initReactI18next } from 'react-i18next'

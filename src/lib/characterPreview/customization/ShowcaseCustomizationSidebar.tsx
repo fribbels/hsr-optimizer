@@ -31,7 +31,6 @@ import {
 } from 'lib/characterPreview/debugVisualConfigStore'
 import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
-import { AppPages } from 'lib/constants/appPages'
 import {
   ShowcaseColorMode,
   Stats,
@@ -62,6 +61,7 @@ import {
   getScoringMetadata,
   useScoringStore,
 } from 'lib/stores/scoring/scoringStore'
+import { AppPages } from 'lib/tabs/navigation/constants'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   getSelectedCharacter,

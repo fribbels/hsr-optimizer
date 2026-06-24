@@ -16,12 +16,10 @@ import type {
 } from 'leaderboard/shared/types'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTypes'
-import {
-  AppPages,
-  PageToRoute,
-} from 'lib/constants/appPages'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { AppPages } from 'lib/tabs/navigation/constants'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import {
   getCharacterLeaderboardConfigTypes,
@@ -37,6 +35,7 @@ import {
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import type { CharacterId } from 'types/character'
+import { updateHashParams } from '../navigation/utils'
 
 const CONFIG_DISPLAY_ORDER = LEADERBOARD_CONFIG_TYPES
 
@@ -116,19 +115,16 @@ function deriveAndUpdateEntries() {
   recomputeDerivedState()
 }
 
-const LEADERBOARD_ROUTE = PageToRoute[AppPages.LEADERBOARD]
-const LEADERBOARD_HASH = LEADERBOARD_ROUTE.slice(LEADERBOARD_ROUTE.indexOf('#'))
-
 function updateLeaderboardUrl() {
-  if (!window.location.hash.startsWith(LEADERBOARD_HASH)) return
+  if (useGlobalStore.getState().activeKey !== AppPages.LEADERBOARD) return
 
   const state = useLeaderboardTabStore.getState()
   const entry = state.selectedEntry
 
   if (entry) {
-    history.replaceState(null, '', `${LEADERBOARD_ROUTE}?b=${entry.buildId}`)
+    updateHashParams([['b', entry.buildId]])
   } else {
-    history.replaceState(null, '', LEADERBOARD_ROUTE)
+    updateHashParams([])
   }
 }
 
@@ -277,7 +273,7 @@ export async function initializeLeaderboardTab() {
     const index = getBuildIndex()
     const match = index?.get(buildIdParam)
     if (match) {
-      await selectLeaderboardCharacter(match.characterId, {
+      selectLeaderboardCharacter(match.characterId, {
         configType: match.configType,
         teamId: match.teamId,
         buildId: buildIdParam,

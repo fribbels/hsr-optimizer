@@ -14,7 +14,6 @@ import {
   IconRefresh,
   IconUpload,
 } from '@tabler/icons-react'
-import { AppPages } from 'lib/constants/appPages'
 import {
   type HoyolabData,
   hoyolabParser,
@@ -33,6 +32,9 @@ import {
   getCharacterById,
   getCharacters,
 } from 'lib/stores/character/characterStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
 import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
@@ -53,6 +55,7 @@ import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { Relic } from 'types/relic'
 import { useShallow } from 'zustand/react/shallow'
+import { navigateTo } from '../navigation/utils'
 
 type ParsedCharacter = {
   characterId: CharacterId,
@@ -239,7 +242,7 @@ export function ScannerImportSubmenu() {
                 <ColorizedLinkWithIcon
                   text={t('Import.Stage1.ScorerDesc.Link')}
                   linkIcon={true}
-                  onClick={() => useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)}
+                  onClick={() => navigateTo(AppPages.SHOWCASE)}
                 />
                 )
                 <ul>

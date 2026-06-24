@@ -1,4 +1,4 @@
-import { AppPages } from 'lib/constants/appPages'
+import { AppPages } from 'lib/tabs/navigation/constants'
 
 export enum NewFeatureKey {
   WARP = 'warp',

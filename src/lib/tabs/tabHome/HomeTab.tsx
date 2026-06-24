@@ -10,15 +10,10 @@ import {
   IconLayoutKanban,
   IconSearch,
 } from '@tabler/icons-react'
-import {
-  AppPages,
-  PageToRoute,
-} from 'lib/constants/appPages'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import { useGlobalStore } from 'lib/stores/app/appStore'
+import { BASE_PATH } from 'lib/tabs/navigation/constants'
 import classes from 'lib/tabs/tabHome/HomeTab.module.css'
-import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { validateUuid } from 'lib/utils/miscUtils'
 import {
@@ -27,6 +22,11 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  AppPages,
+  PageToHash,
+} from '../navigation/constants'
+import { navigateTo } from '../navigation/utils'
 
 export function HomeTab() {
   return (
@@ -127,9 +127,7 @@ function HeroSection() {
       return Message.warning(t('SearchBar.Message'))
     }
 
-    window.history.pushState({}, '', `${PageToRoute[AppPages.SHOWCASE]}?id=${uuid}`)
-    useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loading)
-    useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)
+    navigateTo(AppPages.SHOWCASE, new URLSearchParams(`id=${uuid}`))
   }
 
   return (
@@ -331,7 +329,7 @@ function CommunitySection() {
             icon={<IconHistory size={28} />}
             title='Changelog'
             description='Check out recent updates, new features, and bug fixes.'
-            href={PageToRoute[AppPages.CHANGELOG]}
+            href={BASE_PATH + PageToHash[AppPages.CHANGELOG]}
             iconColor='#ffffff'
             iconBg='#b8863b'
             external={false}
@@ -395,7 +393,7 @@ function CommunityCard({ icon, title, description, href, iconColor, iconBg, exte
         ? (e) => {
           if (e.ctrlKey || e.metaKey || e.shiftKey) return
           e.preventDefault()
-          useGlobalStore.getState().setActiveKey(appPage)
+          navigateTo(appPage)
         }
         : undefined}
     >

@@ -3,19 +3,10 @@ import { Gilgamesh } from 'lib/conditionals/character/1500/Gilgamesh'
 import { HimekoNova } from 'lib/conditionals/character/1500/HimekoNova'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { RinTohsaka } from 'lib/conditionals/character/1500/RinTohsaka'
-import {
-  TrailblazerElationCaelus,
-  TrailblazerElationStelle,
-} from 'lib/conditionals/character/8000/TrailblazerElation'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
-import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
 import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
 import { IAmAsYouBehold } from 'lib/conditionals/lightcone/5star/IAmAsYouBehold'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
-import {
-  AppPages,
-  PageToRoute,
-} from 'lib/constants/appPages'
 import { Message } from 'lib/interactions/message'
 import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import * as persistenceService from 'lib/services/persistenceService'
@@ -30,6 +21,7 @@ import {
 import type { CharacterId } from 'types/character'
 import type { Form } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
+import { updateHashParams } from '../navigation/utils'
 
 // ── Preset types ──
 
@@ -105,11 +97,7 @@ export function syncShowcaseUrl(): void {
   const { scorerId } = savedSession
 
   if (availableCharacters?.length && scorerId) {
-    window.history.replaceState(
-      { id: scorerId },
-      `profile: ${scorerId}`,
-      PageToRoute[AppPages.SHOWCASE] + `?id=${scorerId}`,
-    )
+    updateHashParams([['id', scorerId]])
   }
 }
 

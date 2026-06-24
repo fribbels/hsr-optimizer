@@ -12,7 +12,6 @@ import {
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { DPSScoreDisclaimer } from 'lib/characterPreview/DPSScoreDisclaimer'
-import { AppPages } from 'lib/constants/appPages'
 import {
   DOWNTIME_VERSION,
   SHOWCASE_DOWNTIME,
@@ -22,6 +21,9 @@ import { Hint } from 'lib/interactions/hint'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
 import { submitForm } from 'lib/tabs/tabShowcase/showcaseApi'
 import { ShowcasePortraitRow } from 'lib/tabs/tabShowcase/ShowcasePortraitRow'
 import styles from 'lib/tabs/tabShowcase/ShowcaseTab.module.css'
@@ -50,6 +52,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import type { Character } from 'types/character'
 import { useShallow } from 'zustand/react/shallow'
+import { navigateTo } from '../navigation/utils'
 
 const PRERENDER_HIDDEN: React.CSSProperties = {
   visibility: 'hidden',
@@ -96,7 +99,7 @@ function RedirectToHome() {
       const savedScorerId = useShowcaseTabStore.getState().savedSession.scorerId
       if (urlId || savedScorerId) return
 
-      useGlobalStore.getState().setActiveKey(AppPages.HOME)
+      navigateTo(AppPages.HOME)
     }
 
     // Re-run on every tab activation, not just first mount — this component

@@ -1,8 +1,4 @@
 import { Flex } from '@mantine/core'
-import {
-  AppPages,
-  PageToRoute,
-} from 'lib/constants/appPages'
 import { PAGE_FEATURE_KEYS } from 'lib/constants/newFeatures'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { markFeatureSeen } from 'lib/stores/newFeatureStore'
@@ -28,6 +24,7 @@ import React, {
   type ReactElement,
   startTransition,
   Suspense,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -36,6 +33,13 @@ import {
   ErrorBoundary,
   type FallbackProps,
 } from 'react-error-boundary'
+import { useShallow } from 'zustand/react/shallow'
+import {
+  AppPages,
+  HashToPage,
+  type PageHash,
+} from './navigation/constants'
+import { useHashNavigation } from './navigation/useHashNavigation'
 
 const MetadataTab = lazy(() => import('lib/tabs/tabMetadata/MetadataTab').then((m) => ({ default: m.MetadataTab })))
 const WebgpuTab = lazy(() => import('lib/tabs/tabWebgpu/WebgpuTab').then((m) => ({ default: m.WebgpuTab })))
@@ -77,61 +81,21 @@ const MOUNT_PRIORITY: AppPages[] = [
 
 let optimizerInitialized = false
 
-function appendRouteParams(route: string, params: URLSearchParams) {
-  const query = params.toString()
-  return query ? `${route}?${query}` : route
-}
-
-function getActiveHashParams(route: string) {
-  const hashStart = route.indexOf('#')
-  if (hashStart < 0) return null
-
-  const [activeHash, query] = window.location.hash.split('?', 2)
-  if (activeHash !== route.slice(hashStart) || !query) return null
-
-  return new URLSearchParams(query)
-}
-
-// function getRouteForActiveKey(activeKey: AppPages) {
-//   const route = PageToRoute[activeKey]
-//   const params = getActiveHashParams(route)
-//   if (!params) return route
-//
-//   if (activeKey === AppPages.SHOWCASE) {
-//     const id = params.get('id')
-//     return id ? appendRouteParams(route, new URLSearchParams({ id })) : route
-//   }
-//
-//   if (activeKey === AppPages.LEADERBOARD) {
-//     return appendRouteParams(route, params)
-//   }
-//
-//   return route
-// }
-
-export function navigateTo(key: AppPages) {
-  const activeKey = useGlobalStore.getState().activeKey
-  if (key === activeKey) return
-
-  const featureKey = PAGE_FEATURE_KEYS[key]
-  if (featureKey) {
-    markFeatureSeen(featureKey)
-  }
-
-  let route = PageToRoute[key]
-
-  const currentUrl = window.location.href
-  const currentParams = currentUrl.split('?')
-  if (currentParams) route += '?' + currentParams
-
-  console.log('Navigating activekey to route', key, route)
-  window.history.pushState({}, '', route)
-  useGlobalStore.getState().setActiveKey(key)
-}
-
 const Tabs = () => {
-  const activeKey = useGlobalStore((s) => s.activeKey).split('?')[0] as AppPages
+  const { activeKey, setActiveKey } = useGlobalStore(useShallow((s) => ({
+    activeKey: s.activeKey,
+    setActiveKey: s.setActiveKey,
+  })))
   const prevKeyRef = useRef(activeKey)
+
+  const setActivePage = useCallback((hash: string) => {
+    const page: AppPages | undefined = HashToPage[hash as PageHash]
+    if (page && page !== activeKey) {
+      setActiveKey(page)
+    }
+  }, [setActiveKey, activeKey])
+
+  useHashNavigation(setActivePage)
 
   // Create all element descriptions once (stable references, but not mounted until included in tree)
   const tabElements = React.useMemo(
@@ -166,6 +130,11 @@ const Tabs = () => {
         return new Set(prev).add(activeKey)
       })
     })
+
+    const featureKey = PAGE_FEATURE_KEYS[activeKey]
+    if (featureKey) {
+      markFeatureSeen(featureKey)
+    }
 
     if (activeKey === AppPages.OPTIMIZER && !optimizerInitialized) {
       // Only kick off the workers on the first load of OptimizerTab. Skips this for scorer-only users.

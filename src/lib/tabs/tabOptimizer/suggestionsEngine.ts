@@ -1,4 +1,3 @@
-import { AppPages } from 'lib/constants/appPages'
 import {
   Constants,
   Parts,
@@ -23,8 +22,12 @@ import type {
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import type { Form } from 'types/form'
+import { navigateTo } from '../navigation/utils'
 
 // ---- Zero Permutations ----
 
@@ -59,7 +62,7 @@ export const ZeroPermRootCauseFixes = {
     descriptionKey: '0Perms.RootCauses.IMPORT.Description',
     buttonTextKey: '0Perms.RootCauses.IMPORT.ButtonText',
     applyFix: () => {
-      useGlobalStore.getState().setActiveKey(AppPages.IMPORT)
+      navigateTo(AppPages.IMPORT)
       setClose(OpenCloseIDs.ZERO_PERMS_MODAL)
     },
     successMessageKey: '0Perms.RootCauses.IMPORT.SuccessMessage',

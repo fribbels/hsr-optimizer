@@ -1,9 +1,9 @@
-import { AppPages } from 'lib/constants/appPages'
 import { type V4ParserRelic } from 'lib/importer/kelzFormatParser'
 import { RelicRerollModal } from 'lib/overlays/modals/RelicRerollModal'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { gridStore } from 'lib/stores/gridStore'
+import { AppPages } from 'lib/tabs/navigation/constants'
 import {
   handleDeleteLightCone,
   handleDeleteRelic,

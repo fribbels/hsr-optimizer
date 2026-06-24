@@ -15,7 +15,7 @@ import type {
   PrivateRankedOutput,
 } from 'leaderboard/shared/types'
 import { gradeConversion, statConversion } from 'lib/importer/characterConverter'
-import { Constants } from 'lib/constants/constants'
+import { Constants, type SubStats } from 'lib/constants/constants'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
 import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
 import { getSimScoreGrade } from 'lib/scoring/dpsScore'
@@ -261,7 +261,7 @@ function extractSubstatUnitsFromMinified(char: MinifiedCharacter): Record<string
       const subData = metadata.relicSubAffixes[grade]?.affixes[sub.a]
       if (!subData) continue
 
-      const stat = statConversion[subData.property as keyof typeof statConversion] as string
+      const stat = statConversion[subData.property as keyof typeof statConversion] as SubStats | undefined
       if (!stat) continue
 
       const count = sub.c
@@ -291,7 +291,7 @@ const STAT_SHORT: Record<string, string> = {
   [Constants.Stats.OHB]: 'OHB',
 }
 
-const EXCLUDED_STATS = new Set([Constants.Stats.ATK, Constants.Stats.HP, Constants.Stats.DEF])
+const EXCLUDED_STATS: Set<string> = new Set([Constants.Stats.ATK, Constants.Stats.HP, Constants.Stats.DEF])
 
 const STAT_ORDER = [
   Constants.Stats.ATK_P, Constants.Stats.HP_P, Constants.Stats.DEF_P,

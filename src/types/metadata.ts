@@ -179,6 +179,7 @@ export type DBMetadataCharacter = {
 
 export type DBMetadataLightCone = {
   id: LightConeId,
+  name: string,
   rarity: 5 | 4 | 3,
   path: PathName,
   stats: Record<string, number>,

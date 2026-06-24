@@ -208,6 +208,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.standardBasic()
             .damageElement(ElementTag.Fire)
             .atkScaling(basicScaling)
+            .toughnessDmg(10)
             .build(),
         ],
       },
@@ -216,6 +217,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.standardUlt()
             .damageElement(ElementTag.Fire)
             .atkScaling(ultScaling)
+            .toughnessDmg(20)
             .build(),
         ],
       },

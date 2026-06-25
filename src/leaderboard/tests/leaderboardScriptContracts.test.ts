@@ -543,6 +543,7 @@ describe('leaderboard script contracts', () => {
       ]),
       topNPublic: 1,
       totalCounts: new Map([[CHARACTER_ID, 42]]),
+      generatedAt: '2026-06-24T00:00:00.000Z',
     })
 
     validateNoUidInPublicOutput(output)

@@ -1,4 +1,6 @@
 import { LeaderboardBuildScoreCache } from 'leaderboard/cache/leaderboardBuildScoreCache'
+import { computeChangelogUpdate } from 'leaderboard/changelog/computeChangelog'
+import { deriveChangelogPath, deriveSnapshotPath, writeChangelogArtifacts } from 'leaderboard/changelog/changelogStorage'
 import { parseExport } from 'leaderboard/ingest/exportParser'
 import { preFilterProfiles } from 'leaderboard/ingest/preFilter'
 import {
@@ -41,6 +43,7 @@ import type {
   PublicLeaderboardOutputV3,
 } from 'leaderboard/shared/types'
 import { readLeaderboardVersions } from 'leaderboard/shared/versioning'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type { CharacterId } from 'types/character'
@@ -167,6 +170,8 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
 
     printFailures(scoring)
 
+    const generatedAt = new Date().toISOString()
+
     const artifacts = buildPublishArtifacts({
       entries: scoring.entries,
       versions,
@@ -176,13 +181,34 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       profileCount: exportProfileCount,
       exportInput,
       totalCounts,
+      generatedAt,
     })
+
+    const changelogResult = options.skipChangelog
+      ? null
+      : computeChangelogUpdate({
+        privateOutput: artifacts.privateOutput,
+        totalCounts,
+        generatedAt,
+        snapshotPath: deriveSnapshotPath(options.buildScoreCacheDbPath),
+        changelogPath: deriveChangelogPath(publicOutputPath),
+        allowedCharacterIds: new Set(
+          Object.values(getGameMetadata().characters)
+            .filter((c) => c.rarity === 5)
+            .map((c) => c.id),
+        ),
+      })
 
     writePublishArtifacts({
       privateOutputPath,
       publicOutputPath,
       artifacts,
     })
+
+    if (changelogResult) {
+      writeChangelogArtifacts(changelogResult)
+      console.log(`Changelog: ${changelogResult.changelog.events.length} events, written to ${changelogResult.changelogPath}`)
+    }
 
     printLeaderboardResults(artifacts.privateOutput, topNPublic)
     printTopNCoverageAnalysis(artifacts.privateOutput, topNPublic)
@@ -261,6 +287,7 @@ function buildPublishArtifacts(input: {
   profileCount: number,
   exportInput: LeaderboardExportInput,
   totalCounts: Map<string, number>,
+  generatedAt: string,
 }): PublishArtifacts {
   const privateOutput = buildPrivateRankedOutput({
     entries: input.entries,
@@ -270,7 +297,7 @@ function buildPublishArtifacts(input: {
       profileCount: input.profileCount,
     },
     payloadIndex: input.payloadIndex,
-    generatedAt: new Date().toISOString(),
+    generatedAt: input.generatedAt,
     topN: input.topN,
     topNPublic: input.topNPublic,
   })
@@ -281,6 +308,7 @@ function buildPublishArtifacts(input: {
     privateOutput,
     topNPublic: input.topNPublic,
     totalCounts: input.totalCounts,
+    generatedAt: input.generatedAt,
   })
   validateNoUidInPublicOutput(publicOutput)
 

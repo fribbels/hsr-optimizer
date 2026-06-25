@@ -28,6 +28,7 @@ describe('leaderboard CLI options', () => {
       freshRun: false,
       printConfig: false,
       help: false,
+      skipChangelog: false,
     })
   })
 
@@ -50,6 +51,7 @@ describe('leaderboard CLI options', () => {
       '--prune-build-score-cache',
       '--print-config',
       '--help',
+      '--skip-changelog',
     ])
 
     expect(options).toMatchObject({
@@ -64,6 +66,7 @@ describe('leaderboard CLI options', () => {
       freshRun: false,
       printConfig: true,
       help: true,
+      skipChangelog: true,
     })
   })
 
@@ -127,5 +130,6 @@ describe('leaderboard CLI options', () => {
   test('exports usage text for help output', () => {
     expect(leaderboardCliUsage()).toContain('--worker-threads <n>')
     expect(leaderboardCliUsage()).toContain('--fresh-run')
+    expect(leaderboardCliUsage()).toContain('--skip-changelog')
   })
 })

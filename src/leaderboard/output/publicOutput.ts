@@ -1,15 +1,9 @@
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
-import { hashObject } from 'leaderboard/shared/hash'
+import { computeBuildId, hashObject } from 'leaderboard/shared/hash'
+import { atomicWriteJsonFile } from 'leaderboard/output/atomicWrite'
 import {
-  copyFile,
-  deleteFile,
-  dirnamePath,
-  ensureDirectory,
   gunzipBase64Text,
   gzipTextToBase64,
-  joinPath,
-  renameFile,
-  writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
 import type {
   PrivateRankedOutput,
@@ -26,8 +20,9 @@ export function buildPublicOutputFromPrivate(input: {
   privateOutput: PrivateRankedOutput,
   topNPublic: number,
   totalCounts: Map<string, number>,
+  generatedAt: string,
 }): PublicLeaderboardOutputV3 {
-  const { privateOutput, topNPublic, totalCounts } = input
+  const { privateOutput, topNPublic, totalCounts, generatedAt } = input
   if (!Number.isInteger(topNPublic) || topNPublic <= 0) {
     throw new Error(`topNPublic must be a positive integer, received ${topNPublic}`)
   }
@@ -78,7 +73,7 @@ export function buildPublicOutputFromPrivate(input: {
         const publicEntries: PublicLeaderboardEntryV2[] = topEntries.map((entry) => ({
           rank: entry.rank,
           characterId: entry.characterId as CharacterId,
-          buildId: hashObject(`${entry.uidHash}#${entry.characterId}#${board.configType}#${board.teamId}`).slice(0, 12),
+          buildId: computeBuildId(entry.uidHash, entry.characterId, board.configType, board.teamId),
           candidateId: hashObject(`${entry.uidHash}#${entry.characterId}`).slice(0, 12),
           score: entry.score,
           data: entry.data,
@@ -104,7 +99,7 @@ export function buildPublicOutputFromPrivate(input: {
   }
 
   return {
-    generatedAt: new Date().toISOString(),
+    generatedAt,
     characters,
   }
 }
@@ -162,33 +157,6 @@ function validateNoForbiddenFields(value: unknown, forbiddenFields: Set<string>,
   }
 }
 
-function getErrorCode(err: unknown): string | undefined {
-  if (err == null || typeof err !== 'object') {
-    return undefined
-  }
-
-  const code = (err as { code?: unknown }).code
-  return typeof code === 'string' ? code : undefined
-}
-
-function atomicWriteFileSync(path: string, content: string): void {
-  const dir = dirnamePath(path)
-  ensureDirectory(dir)
-
-  const tmpPath = joinPath(dir, `.tmp-${Date.now()}-${Math.random().toString(36).slice(2)}`)
-  writeTextFile(tmpPath, content)
-  try {
-    renameFile(tmpPath, path)
-  } catch (err: unknown) {
-    if (getErrorCode(err) === 'EPERM') {
-      copyFile(tmpPath, path)
-      deleteFile(tmpPath)
-    } else {
-      throw err
-    }
-  }
-}
-
 export function writePublicLeaderboardOutput(path: string, output: PublicLeaderboardOutputV3): void {
-  atomicWriteFileSync(path, JSON.stringify(output, null, 2))
+  atomicWriteJsonFile(path, JSON.stringify(output, null, 2))
 }

@@ -5,7 +5,7 @@ import {
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
 import { SaveState } from 'lib/state/saveState'
-import { updateHashParams } from 'lib/tabs/navigation/utils'
+import { setHashParams } from 'lib/tabs/navigation/utils'
 import {
   type APIResponse,
   processEnkaData,
@@ -61,7 +61,7 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
     }, THROTTLE_SECONDS * 1000)
   }
 
-  updateHashParams([['id', id]])
+  setHashParams([['id', id]])
 
   void fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
     .then((response) => {

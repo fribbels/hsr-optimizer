@@ -2,6 +2,7 @@ import {
   BASE_PATH,
   type PageHash,
 } from 'lib/tabs/navigation/constants'
+import { parseHash } from 'lib/tabs/navigation/parseHash'
 import { flipStringMapping } from 'lib/utils/objectUtils'
 
 export enum CalculatorPanel {
@@ -19,12 +20,11 @@ export const CALCULATOR_PANEL_HASH = {
 export const HashToPanel = flipStringMapping(CALCULATOR_PANEL_HASH) as Record<string, CalculatorPanel>
 
 export function resolveCalculatorPanel(): CalculatorPanel {
-  const hash = window.location.hash.split('?')[0]
-  return HashToPanel[hash] ?? CalculatorPanel.AHA
+  return HashToPanel[parseHash().hash] ?? CalculatorPanel.AHA
 }
 
 export function pushCalculatorHash(panel: CalculatorPanel) {
-  if (HashToPanel[window.location.hash.split('?')[0]] === panel) return
+  if (HashToPanel[parseHash().hash] === panel) return
   const route = `${BASE_PATH}${CALCULATOR_PANEL_HASH[panel]}`
   window.history.pushState({}, '', route)
 }

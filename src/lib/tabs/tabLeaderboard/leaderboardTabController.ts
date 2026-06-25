@@ -20,7 +20,8 @@ import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { AppPages } from 'lib/tabs/navigation/constants'
-import { updateHashParams } from 'lib/tabs/navigation/utils'
+import { parseHash } from 'lib/tabs/navigation/parseHash'
+import { clearHashParams, setHashParams } from 'lib/tabs/navigation/utils'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import {
   getCharacterLeaderboardConfigTypes,
@@ -122,9 +123,9 @@ function updateLeaderboardUrl() {
   const entry = state.selectedEntry
 
   if (entry) {
-    updateHashParams([['b', entry.buildId]])
+    setHashParams([['b', entry.buildId]])
   } else {
-    updateHashParams([])
+    clearHashParams()
   }
 }
 
@@ -242,8 +243,7 @@ export function setLeaderboardFilters(filters: { teamId?: string, characterEidol
 }
 
 export function getHashParam(param: string): string | null {
-  const query = window.location.hash.split('?')[1]
-  return query ? new URLSearchParams(query).get(param) : null
+  return parseHash().params.get(param)
 }
 
 export async function initializeLeaderboardTab() {

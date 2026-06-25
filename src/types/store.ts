@@ -28,6 +28,7 @@ export type HsrOptimizerStore = {
   setCompletedMigrations: (x: Record<string, number>) => void,
   setSettings: (settings: UserSettings) => void,
   setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
+  // Internal — only called by the navigation module (lib/tabs/navigation/). Use navigateTo() instead.
   setActiveKey: (key: AppPages) => void,
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,

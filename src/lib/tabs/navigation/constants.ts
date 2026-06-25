@@ -1,3 +1,4 @@
+import { parseHash } from 'lib/tabs/navigation/parseHash'
 import {
   CALCULATOR_PANEL_HASH,
   CalculatorPanel,
@@ -72,7 +73,7 @@ export const HashToPage = {
 } as const satisfies Record<PageHash, AppPages>
 
 export function getDefaultActiveKey() {
-  const page = HashToPage[window.location.hash.split('?')[0] as PageHash]
+  const page = HashToPage[parseHash().hash as PageHash]
 
   // Redirect #main to HOME for first-time users (no prior save data)
   if (

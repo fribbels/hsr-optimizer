@@ -541,8 +541,8 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           id={id}
           className='characterPreview'
           style={{
-            '--showcase-card-bg-bridge-high': withAlpha(derivedShowcaseTheme.cardBackgroundColor, Math.min(visual.cardBgAlpha * 0.88, 0.34)),
-            '--showcase-card-edge-medium': withAlpha(derivedShowcaseTheme.cardBorderColor, 0.50),
+            '--showcase-card-bg-bridge-high': derivedShowcaseTheme.cardBackgroundColor,
+            '--showcase-card-edge-medium': derivedShowcaseTheme.cardBorderColor,
             '--showcase-shadow': buildShadow(visual.shadowX, visual.shadowY, visual.shadowBlur, visual.shadowOpacity),
             '--showcase-shadow-inset': buildInsetShadow(visual.insetBlur, visual.insetOpacity),
             'fontFamily': 'var(--font-showcase)',
@@ -566,6 +566,17 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             displayDimensions={displayDimensions}
             portraitFilter={portraitFilter}
             blendMode={visual.blendMode}
+          />
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 0,
+              pointerEvents: 'none',
+              background: seedColor,
+              mixBlendMode: 'soft-light',
+              opacity: visual.cardBgAlpha,
+            }}
           />
 
           {/* Portrait left panel */}

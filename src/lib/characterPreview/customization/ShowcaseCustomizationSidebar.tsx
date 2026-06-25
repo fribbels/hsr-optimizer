@@ -341,6 +341,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
     if (el) {
       el.style.setProperty('--showcase-card-bg-bridge-high', theme.cardBackgroundColor)
       el.style.setProperty('--showcase-card-edge-medium', theme.cardBorderColor)
+      el.style.setProperty('--showcase-seed-color', newColor)
     }
   }
 

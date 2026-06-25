@@ -34,7 +34,7 @@ export interface DebugVisualConfig {
 // Portrait background filter defaults (Matte preset)
 export const PORTRAIT_BLUR = 40
 export const PORTRAIT_BRIGHTNESS = 0.40
-export const PORTRAIT_SATURATE = 1.50
+export const PORTRAIT_SATURATE = 2.00
 export const PORTRAIT_CONTRAST = 1.25
 export const CARD_BG_ALPHA_DEFAULT = 0.40
 

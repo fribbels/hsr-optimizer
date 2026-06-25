@@ -17,7 +17,6 @@ import {
 } from '@tabler/icons-react'
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { withAlpha } from 'lib/characterPreview/color/colorUtils'
 import {
   buildCardBgPipelineConfig,
   DEFAULT_SHOWCASE_COLOR,
@@ -87,7 +86,6 @@ interface ShowcaseCustomizationSidebarProps {
   seedColor: string
   effectiveColorMode: ShowcaseColorMode
   portraitSwatches: string[]
-  cardBgAlpha: number
 }
 
 export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationSidebar({
@@ -98,7 +96,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
   seedColor,
   effectiveColorMode,
   portraitSwatches,
-  cardBgAlpha,
 }: ShowcaseCustomizationSidebarProps) {
   if (source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD) return null
 
@@ -117,7 +114,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
         seedColor={seedColor}
         effectiveColorMode={effectiveColorMode}
         portraitSwatches={portraitSwatches}
-        cardBgAlpha={cardBgAlpha}
         source={source}
       />
     </Flex>
@@ -313,7 +309,6 @@ const CustomizationPanel = memo(function CustomizationPanel({
   seedColor,
   effectiveColorMode,
   portraitSwatches,
-  cardBgAlpha,
   source,
 }: {
   id: string,
@@ -321,7 +316,6 @@ const CustomizationPanel = memo(function CustomizationPanel({
   seedColor: string,
   effectiveColorMode: ShowcaseColorMode,
   portraitSwatches: string[],
-  cardBgAlpha: number,
   source: ShowcaseSource,
 }) {
   const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
@@ -341,15 +335,12 @@ const CustomizationPanel = memo(function CustomizationPanel({
 
   function onColorDrag(newColor: string) {
     setLocalColor(newColor)
-    // Imperatively update CSS vars for instant card preview without a React re-render.
-    // Must use the preset-aware pipeline config so drag preview matches the committed render;
-    // otherwise a trailing onChange after onChangeEnd clobbers the correct value with a DEFAULT_CONFIG-processed one.
     const pipelineConfig = buildCardBgPipelineConfig(getShowcasePreset(showcasePreset))
     const theme = resolveShowcaseTheme(newColor, showcaseDarkMode, pipelineConfig)
     const el = document.getElementById(id)
     if (el) {
-      el.style.setProperty('--showcase-card-bg-bridge-high', withAlpha(theme.cardBackgroundColor, Math.min(cardBgAlpha * 0.88, 0.34)))
-      el.style.setProperty('--showcase-card-edge-medium', withAlpha(theme.cardBorderColor, 0.50))
+      el.style.setProperty('--showcase-card-bg-bridge-high', theme.cardBackgroundColor)
+      el.style.setProperty('--showcase-card-edge-medium', theme.cardBorderColor)
     }
   }
 

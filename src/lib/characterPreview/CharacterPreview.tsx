@@ -529,7 +529,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             seedColor={seedColor}
             effectiveColorMode={effectiveColorMode}
             portraitSwatches={state.portraitSwatches ?? EMPTY_SWATCHES}
-            cardBgAlpha={visual.cardBgAlpha}
           />
         )}
 

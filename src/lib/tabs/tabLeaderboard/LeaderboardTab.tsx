@@ -1,6 +1,7 @@
 import { UnstyledButton } from '@mantine/core'
 import { IconChevronLeft } from '@tabler/icons-react'
 import { DefaultScoringProvider } from 'lib/hooks/useScoringMetadata'
+import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { CharacterListPanel } from 'lib/tabs/tabLeaderboard/CharacterListPanel'
 import { CollapsedCharacterStrip } from 'lib/tabs/tabLeaderboard/CollapsedCharacterStrip'
 import { LeaderboardBanner } from 'lib/tabs/tabLeaderboard/LeaderboardBanner'
@@ -13,12 +14,27 @@ import {
 } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { RankListPanel } from 'lib/tabs/tabLeaderboard/RankListPanel'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
-import { useEffect } from 'react'
+import {
+  useContext,
+  useEffect,
+  useRef,
+} from 'react'
 
 export function LeaderboardTab() {
+  const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
+  const initializationStartedRef = useRef(false)
+
   useEffect(() => {
-    void initializeLeaderboardTab()
-  }, [])
+    const initializeOnce = () => {
+      if (initializationStartedRef.current) return
+
+      initializationStartedRef.current = true
+      void initializeLeaderboardTab()
+    }
+
+    if (isActiveRef.current) initializeOnce()
+    return addActivationListener(initializeOnce)
+  }, [addActivationListener, isActiveRef])
 
   const characterListExpanded = useLeaderboardTabStore((s) => s.characterListExpanded)
 

@@ -19,9 +19,9 @@ const SEGMENT_TIERS: { key: 'high' | 'mid' | 'low', ratio: number }[] = [
 ]
 
 export function RollStripeBar({ entry, colors, maxRolls }: {
-  entry: AggregatedStatRolls
-  colors: TierColors
-  maxRolls: number
+  entry: AggregatedStatRolls,
+  colors: TierColors,
+  maxRolls: number,
 }) {
   const cap = computeCap(maxRolls)
   const gaps = cap - 1
@@ -38,7 +38,7 @@ export function RollStripeBar({ entry, colors, maxRolls }: {
               backgroundColor: colors[key],
             }}
           />
-        )),
+        ))
       )}
     </div>
   )

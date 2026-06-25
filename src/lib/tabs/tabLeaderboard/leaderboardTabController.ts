@@ -16,12 +16,12 @@ import type {
 } from 'leaderboard/shared/types'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTypes'
-import {
-  AppPages,
-  PageToRoute,
-} from 'lib/constants/appPages'
 import { CharacterConverter } from 'lib/importer/characterConverter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
+import { useGlobalStore } from 'lib/stores/app/appStore'
+import { AppPages } from 'lib/tabs/navigation/constants'
+import { parseHash } from 'lib/tabs/navigation/parseHash'
+import { clearHashParams, setHashParams } from 'lib/tabs/navigation/utils'
 import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import {
   getCharacterLeaderboardConfigTypes,
@@ -116,19 +116,16 @@ function deriveAndUpdateEntries() {
   recomputeDerivedState()
 }
 
-const LEADERBOARD_ROUTE = PageToRoute[AppPages.LEADERBOARD]
-const LEADERBOARD_HASH = LEADERBOARD_ROUTE.slice(LEADERBOARD_ROUTE.indexOf('#'))
-
 function updateLeaderboardUrl() {
-  if (!window.location.hash.startsWith(LEADERBOARD_HASH)) return
+  if (useGlobalStore.getState().activeKey !== AppPages.LEADERBOARD) return
 
   const state = useLeaderboardTabStore.getState()
   const entry = state.selectedEntry
 
   if (entry) {
-    history.replaceState(null, '', `${LEADERBOARD_ROUTE}?b=${entry.buildId}`)
+    setHashParams([['b', entry.buildId]])
   } else {
-    history.replaceState(null, '', LEADERBOARD_ROUTE)
+    clearHashParams()
   }
 }
 
@@ -246,8 +243,7 @@ export function setLeaderboardFilters(filters: { teamId?: string, characterEidol
 }
 
 export function getHashParam(param: string): string | null {
-  const query = window.location.hash.split('?')[1]
-  return query ? new URLSearchParams(query).get(param) : null
+  return parseHash().params.get(param)
 }
 
 export async function initializeLeaderboardTab() {
@@ -277,7 +273,7 @@ export async function initializeLeaderboardTab() {
     const index = getBuildIndex()
     const match = index?.get(buildIdParam)
     if (match) {
-      await selectLeaderboardCharacter(match.characterId, {
+      selectLeaderboardCharacter(match.characterId, {
         configType: match.configType,
         teamId: match.teamId,
         buildId: buildIdParam,

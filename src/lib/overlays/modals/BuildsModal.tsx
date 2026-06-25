@@ -10,7 +10,6 @@ import {
 } from '@tabler/icons-react'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { AppPages } from 'lib/constants/appPages'
 import {
   CUSTOM_TEAM,
   PartsArray,
@@ -30,6 +29,10 @@ import {
 } from 'lib/stores/character/characterStore'
 import { getRelicById } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -145,7 +148,7 @@ function BuildsModalContent() {
 
       handleCancel()
       useCharacterTabStore.getState().setFocusCharacter(build.characterId)
-      useGlobalStore.getState().setActiveKey(AppPages.CHARACTERS)
+      navigateTo(AppPages.CHARACTERS)
     }
   }, [confirm, handleCancel, t])
 

@@ -1,10 +1,6 @@
 // @vitest-environment jsdom
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import {
-  AppPages,
-  getDefaultActiveKey,
-} from 'lib/constants/appPages'
-import {
   COMPUTE_ENGINE_CPU,
   CURRENT_OPTIMIZER_VERSION,
 } from 'lib/constants/constants'
@@ -18,6 +14,10 @@ import {
   savedSessionDefaults,
   useGlobalStore,
 } from 'lib/stores/app/appStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
+import { getDefaultActiveKey } from 'lib/tabs/navigation/constants'
 import {
   beforeEach,
   describe,

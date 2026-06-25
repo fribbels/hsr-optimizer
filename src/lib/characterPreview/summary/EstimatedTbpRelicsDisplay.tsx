@@ -19,6 +19,7 @@ import {
   ScoringCache,
 } from 'lib/relics/scoring/relicScorer'
 import { Assets } from 'lib/rendering/assets'
+import { getDefaultScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { RelicPreview } from 'lib/tabs/tabRelics/RelicPreview'
 import { DeferCreate } from 'lib/ui/DeferredRender'
 import { HorizontalDivider } from 'lib/ui/Dividers'
@@ -30,7 +31,6 @@ import {
 } from 'lib/utils/i18nUtils'
 import type { EstTbpWorkerOutput } from 'lib/worker/estTbpWorkerRunner'
 import { handleWork } from 'lib/worker/estTbpWorkerRunner'
-import { getDefaultScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import {
   memo,
   useCallback,

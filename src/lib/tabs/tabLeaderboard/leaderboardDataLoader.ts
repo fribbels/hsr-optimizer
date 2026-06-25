@@ -3,7 +3,7 @@ import type {
   PublicCharacterData,
   PublicLeaderboardEntryV2,
 } from 'leaderboard/shared/types'
-import { BASE_PATH } from 'lib/constants/appPages'
+import { BASE_PATH } from 'lib/tabs/navigation/constants'
 import {
   type LeaderboardEntry,
   type LeaderboardTeammate,

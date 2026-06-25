@@ -5,16 +5,19 @@ import {
 import { Stats } from 'lib/constants/constants'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { Assets } from 'lib/rendering/assets'
+import { useHashNavigation } from 'lib/tabs/navigation/useHashNavigation'
 import { AhaPanel } from 'lib/tabs/tabCalculators/AhaPanel'
 import {
   CALCULATOR_PANELS,
   CalculatorPanel,
+  HashToPanel,
   pushCalculatorHash,
   replaceCalculatorHash,
   resolveCalculatorPanel,
 } from 'lib/tabs/tabCalculators/calculatorPanels'
 import { EhrPanel } from 'lib/tabs/tabCalculators/EhrPanel'
 import {
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -36,6 +39,13 @@ export function CalculatorsTab() {
   const [activePanel, setActivePanel] = useState<CalculatorPanel>(resolveCalculatorPanel)
   const { addActivationListener } = useContext(TabVisibilityContext)
 
+  const updateActivePanel = useCallback((hash: string) => {
+    const panel = HashToPanel[hash]
+    if (panel && panel !== activePanel) setActivePanel(panel)
+  }, [activePanel, setActivePanel])
+
+  useHashNavigation(updateActivePanel)
+
   useEffect(() => {
     return addActivationListener(() => {
       replaceCalculatorHash(activePanel)
@@ -43,8 +53,9 @@ export function CalculatorsTab() {
   }, [addActivationListener, activePanel])
 
   function handleTabChange(value: string | null) {
-    if (!value || !(Object.values(CalculatorPanel) as string[]).includes(value)) return
-    const panel = value as CalculatorPanel
+    if (!value || !(CALCULATOR_PANELS as readonly string[]).includes(value)) return
+    const panel = value as typeof CALCULATOR_PANELS[number]
+    if (panel === activePanel) return
     setActivePanel(panel)
     pushCalculatorHash(panel)
   }

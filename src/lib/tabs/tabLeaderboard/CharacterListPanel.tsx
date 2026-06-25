@@ -2,9 +2,9 @@ import {
   Chip,
   TextInput,
 } from '@mantine/core'
+import { configTypeToPublic } from 'leaderboard/shared/configTypeMapping'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
-import { configTypeToPublic } from 'leaderboard/shared/configTypeMapping'
 import {
   getCharacterLeaderboardConfigTypes,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'

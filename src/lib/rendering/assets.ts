@@ -1,4 +1,3 @@
-import { BASE_PATH } from 'lib/constants/appPages'
 import {
   Constants,
   Parts,
@@ -8,6 +7,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'
+import { BASE_PATH } from 'lib/tabs/navigation/constants'
 import { type Languages } from 'lib/utils/i18nUtils'
 import { type Nullable } from 'types/common'
 

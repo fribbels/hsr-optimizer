@@ -36,7 +36,10 @@ import { useTranslation } from 'react-i18next'
 import type { Character } from 'types/character'
 import type { StringToNumberMap } from 'types/common'
 import type { ReactElement } from 'types/components'
-import type { DBMetadataCharacter, SimulationMetadata } from 'types/metadata'
+import type {
+  DBMetadataCharacter,
+  SimulationMetadata,
+} from 'types/metadata'
 
 const iconSize = 40
 
@@ -175,9 +178,7 @@ function LeaderboardCharacterBoard({ character, sim, showSubDps, t }: {
             <td key={j} style={cellStyle}>
               <Flex align='center' justify='center' gap={2} style={{ minWidth: 110 }}>
                 <Icon src={Assets.getCharacterAvatarById(tm.characterId)} />
-                {tm.lightCones.map((lc, k) => (
-                  <img key={k} src={Assets.getLightConeIconById(lc)} style={{ width: 38 }} />
-                ))}
+                {tm.lightCones.map((lc, k) => <img key={k} src={Assets.getLightConeIconById(lc)} style={{ width: 38 }} />)}
               </Flex>
             </td>
           ))}

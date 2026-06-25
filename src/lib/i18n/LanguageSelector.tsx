@@ -3,14 +3,14 @@ import {
   Select,
 } from '@mantine/core'
 import {
-  BASE_PATH,
-  BasePath,
-} from 'lib/constants/appPages'
-import {
   completedLocales,
   isBeta,
 } from 'lib/i18n/i18n'
 import { Assets } from 'lib/rendering/assets'
+import {
+  BASE_PATH,
+  BasePath,
+} from 'lib/tabs/navigation/constants'
 import type { Languages } from 'lib/utils/i18nUtils'
 import { languages } from 'lib/utils/i18nUtils'
 import type { CSSProperties } from 'react'

@@ -1,4 +1,3 @@
-import { getAllCharacterConfigs } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   TrailblazerElationCaelus,
@@ -15,6 +14,7 @@ import {
 import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
+import { getAllCharacterConfigs } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'

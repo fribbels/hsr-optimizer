@@ -24,7 +24,6 @@ import {
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
-import { AppPages } from 'lib/constants/appPages'
 import { officialOnly } from 'lib/constants/constants'
 import {
   isNewGroupCheck,
@@ -38,6 +37,10 @@ import {
 import classes from 'lib/overlays/drawers/MenuDrawer.module.css'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import {
   useCallback,
   useEffect,
@@ -249,10 +252,7 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
 
 export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
   const { t } = useTranslation('sidebar')
-  const { activeKey, setActiveKey } = useGlobalStore(useShallow((s) => ({
-    activeKey: s.activeKey,
-    setActiveKey: s.setActiveKey,
-  })))
+  const activeKey = useGlobalStore((s) => s.activeKey)
 
   const groups: NavGroup[] = useMemo(() => [
     {
@@ -308,8 +308,8 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
   const handleNavigate = useCallback((item: NavItem) => {
     item.onClick?.()
     if (item.href || item.key.startsWith('link ')) return
-    setActiveKey(item.key as AppPages)
-  }, [setActiveKey])
+    navigateTo(item.key as AppPages)
+  }, [])
 
   const nav = collapsed
     ? <SidebarNavCollapsed groups={groups} activeKey={activeKey} onNavigate={handleNavigate} />

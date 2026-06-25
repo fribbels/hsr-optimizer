@@ -32,7 +32,7 @@ jobs:
         with:
           find: 'const BASE_PATH: BasePath = BasePath.MAIN'
           replace: 'const BASE_PATH: BasePath = BasePath.BETA'
-          include: 'src/lib/constants/appPages.ts'
+          include: 'src/lib/tabs/navigation/constants.ts'
       - name: Find and Replace Beta header
         uses: jacobtomlinson/gha-find-replace@v3
         with:

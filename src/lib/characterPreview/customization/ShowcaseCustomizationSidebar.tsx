@@ -334,7 +334,6 @@ const CustomizationPanel = memo(function CustomizationPanel({
   }
 
   function onColorDrag(newColor: string) {
-    setLocalColor(newColor)
     const pipelineConfig = buildCardBgPipelineConfig(getShowcasePreset(showcasePreset))
     const theme = resolveShowcaseTheme(newColor, showcaseDarkMode, pipelineConfig)
     const el = document.getElementById(id)

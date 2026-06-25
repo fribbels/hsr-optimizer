@@ -1,12 +1,12 @@
 import type { CharacterId } from 'types/character'
 
-export enum ChangelogEventType {
+export enum TimelineEventType {
   NEW_BEST = 'new_best',
   NEW_CHARACTER = 'new_character',
 }
 
-export type ChangelogNewBestEvent = {
-  type: ChangelogEventType.NEW_BEST,
+export type TimelineNewBestEvent = {
+  type: TimelineEventType.NEW_BEST,
   characterId: CharacterId,
   date: string,
   score: number,
@@ -16,8 +16,8 @@ export type ChangelogNewBestEvent = {
   buildId: string,
 }
 
-export type ChangelogNewCharacterEvent = {
-  type: ChangelogEventType.NEW_CHARACTER,
+export type TimelineNewCharacterEvent = {
+  type: TimelineEventType.NEW_CHARACTER,
   characterId: CharacterId,
   date: string,
   score: number,
@@ -26,12 +26,12 @@ export type ChangelogNewCharacterEvent = {
   buildId: string,
 }
 
-export type ChangelogEvent = ChangelogNewBestEvent | ChangelogNewCharacterEvent
+export type TimelineEvent = TimelineNewBestEvent | TimelineNewCharacterEvent
 
-export type LeaderboardChangelog = {
+export type LeaderboardTimeline = {
   schemaVersion: 1,
   generatedAt: string,
-  events: ChangelogEvent[],
+  events: TimelineEvent[],
 }
 
 export type LeaderboardSnapshotEntry = {

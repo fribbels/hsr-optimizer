@@ -1,6 +1,6 @@
 import { LeaderboardBuildScoreCache } from 'leaderboard/cache/leaderboardBuildScoreCache'
-import { computeChangelogUpdate } from 'leaderboard/changelog/computeChangelog'
-import { deriveChangelogPath, deriveSnapshotPath, writeChangelogArtifacts } from 'leaderboard/changelog/changelogStorage'
+import { computeTimelineUpdate } from 'leaderboard/timeline/computeTimeline'
+import { deriveTimelinePath, deriveSnapshotPath, writeTimelineArtifacts } from 'leaderboard/timeline/timelineStorage'
 import { parseExport } from 'leaderboard/ingest/exportParser'
 import { preFilterProfiles } from 'leaderboard/ingest/preFilter'
 import {
@@ -184,20 +184,18 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       generatedAt,
     })
 
-    const changelogResult = options.skipChangelog
-      ? null
-      : computeChangelogUpdate({
-        privateOutput: artifacts.privateOutput,
-        totalCounts,
-        generatedAt,
-        snapshotPath: deriveSnapshotPath(options.buildScoreCacheDbPath),
-        changelogPath: deriveChangelogPath(publicOutputPath),
-        allowedCharacterIds: new Set(
-          Object.values(getGameMetadata().characters)
-            .filter((c) => c.rarity === 5)
-            .map((c) => c.id),
-        ),
-      })
+    const timelineResult = computeTimelineUpdate({
+      privateOutput: artifacts.privateOutput,
+      totalCounts,
+      generatedAt,
+      snapshotPath: deriveSnapshotPath(options.buildScoreCacheDbPath),
+      timelinePath: deriveTimelinePath(publicOutputPath),
+      allowedCharacterIds: new Set(
+        Object.values(getGameMetadata().characters)
+          .filter((c) => c.rarity === 5)
+          .map((c) => c.id),
+      ),
+    })
 
     writePublishArtifacts({
       privateOutputPath,
@@ -205,10 +203,8 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       artifacts,
     })
 
-    if (changelogResult) {
-      writeChangelogArtifacts(changelogResult)
-      console.log(`Changelog: ${changelogResult.changelog.events.length} events, written to ${changelogResult.changelogPath}`)
-    }
+    writeTimelineArtifacts(timelineResult)
+    console.log(`Timeline: ${timelineResult.timeline.events.length} events, written to ${timelineResult.timelinePath}`)
 
     printLeaderboardResults(artifacts.privateOutput, topNPublic)
     printTopNCoverageAnalysis(artifacts.privateOutput, topNPublic)

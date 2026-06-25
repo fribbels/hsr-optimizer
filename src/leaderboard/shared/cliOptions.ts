@@ -13,7 +13,6 @@ const FLAG_WORKER_THREADS = '--worker-threads'
 const FLAG_BUILD_SCORE_CACHE_DB_PATH = '--build-score-cache-db-path'
 const FLAG_PRUNE_BUILD_SCORE_CACHE = '--prune-build-score-cache'
 const FLAG_FRESH_RUN = '--fresh-run'
-const FLAG_SKIP_CHANGELOG = '--skip-changelog'
 const FLAG_PRINT_CONFIG = '--print-config'
 const FLAG_HELP = '--help'
 
@@ -27,7 +26,6 @@ export type LeaderboardCliOptions = Readonly<{
   buildScoreCacheDbPath: string,
   pruneBuildScoreCache: boolean,
   freshRun: boolean,
-  skipChangelog: boolean,
   printConfig: boolean,
   help: boolean,
 }>
@@ -49,7 +47,6 @@ type MutableLeaderboardCliOptions = {
   buildScoreCacheDbPath: string,
   pruneBuildScoreCache: boolean,
   freshRun: boolean,
-  skipChangelog: boolean,
   printConfig: boolean,
   help: boolean,
 }
@@ -64,7 +61,6 @@ function defaultLeaderboardCliOptions(): MutableLeaderboardCliOptions {
     buildScoreCacheDbPath: resolvePath(homeDir(), 'leaderboard-cache/leaderboard-build-score-cache.sqlite'),
     pruneBuildScoreCache: false,
     freshRun: false,
-    skipChangelog: false,
     printConfig: false,
     help: false,
   }
@@ -111,9 +107,6 @@ export function parseLeaderboardCliOptions(args: readonly string[]): Leaderboard
       case FLAG_FRESH_RUN:
         options.freshRun = true
         break
-      case FLAG_SKIP_CHANGELOG:
-        options.skipChangelog = true
-        break
       case FLAG_PRINT_CONFIG:
         options.printConfig = true
         break
@@ -153,7 +146,6 @@ export function leaderboardCliUsage(command = 'npm run leaderboard --'): string 
     `  ${FLAG_BUILD_SCORE_CACHE_DB_PATH} <path>`,
     `  ${FLAG_PRUNE_BUILD_SCORE_CACHE}`,
     `  ${FLAG_FRESH_RUN}`,
-    `  ${FLAG_SKIP_CHANGELOG}`,
     `  ${FLAG_PRINT_CONFIG}`,
     `  ${FLAG_HELP}`,
   ].join('\n')

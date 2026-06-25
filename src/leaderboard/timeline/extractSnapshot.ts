@@ -2,7 +2,7 @@ import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping
 import { computeBuildId } from 'leaderboard/shared/hash'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
-import type { LeaderboardSnapshot, LeaderboardSnapshotEntry } from 'leaderboard/changelog/changelogTypes'
+import type { LeaderboardSnapshot, LeaderboardSnapshotEntry } from 'leaderboard/timeline/timelineTypes'
 
 export type SnapshotExtractionResult = {
   snapshot: LeaderboardSnapshot,
@@ -25,12 +25,15 @@ export function extractSnapshot(
   allowedCharacterIds?: Set<string>,
 ): SnapshotExtractionResult {
   const topEntries = new Map<string, TopEntryIdentity>()
+
   for (const board of Object.values(privateOutput.boards)) {
     const charId = board.characterId
     if (board.entries.length === 0) continue
     if (allowedCharacterIds && !allowedCharacterIds.has(charId)) continue
+
     const topEntry = board.entries[0]
     const current = topEntries.get(charId)
+
     if (!current || topEntry.score > current.score) {
       topEntries.set(charId, {
         score: topEntry.score,

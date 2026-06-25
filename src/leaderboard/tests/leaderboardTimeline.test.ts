@@ -1,8 +1,8 @@
-import { ChangelogEventType } from 'leaderboard/changelog/changelogTypes'
-import type { LeaderboardSnapshot, LeaderboardSnapshotEntry } from 'leaderboard/changelog/changelogTypes'
-import { extractSnapshot } from 'leaderboard/changelog/extractSnapshot'
-import { deduplicateAndMerge, diffSnapshots, displayScore } from 'leaderboard/changelog/computeChangelog'
-import { deriveChangelogPath, deriveSnapshotPath } from 'leaderboard/changelog/changelogStorage'
+import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
+import type { LeaderboardSnapshot, LeaderboardSnapshotEntry } from 'leaderboard/timeline/timelineTypes'
+import { extractSnapshot } from 'leaderboard/timeline/extractSnapshot'
+import { deduplicateAndMerge, diffSnapshots, displayScore } from 'leaderboard/timeline/computeTimeline'
+import { deriveTimelinePath, deriveSnapshotPath } from 'leaderboard/timeline/timelineStorage'
 import type { PrivateBoard, PrivateBoardCompleteness, PrivateRankedEntry, PrivateRankedOutput } from 'leaderboard/shared/types'
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { LeaderboardEidolonGroup } from 'leaderboard/shared/eidolonConfig'
@@ -182,7 +182,7 @@ describe('diffSnapshots', () => {
 
     expect(events).toHaveLength(1)
     expect(events[0]).toEqual({
-      type: ChangelogEventType.NEW_CHARACTER,
+      type: TimelineEventType.NEW_CHARACTER,
       characterId: '1001',
       date: '2026-06-24',
       score: 2.0,
@@ -210,7 +210,7 @@ describe('diffSnapshots', () => {
 
     expect(events).toHaveLength(1)
     expect(events[0]).toEqual({
-      type: ChangelogEventType.NEW_BEST,
+      type: TimelineEventType.NEW_BEST,
       characterId: '1001',
       date: '2026-06-24',
       score: 1.502,
@@ -292,7 +292,7 @@ describe('diffSnapshots', () => {
     const events = diffSnapshots(current, previous, buildIds, '2026-06-24')
 
     expect(events).toHaveLength(1)
-    expect(events[0].type).toBe(ChangelogEventType.NEW_BEST)
+    expect(events[0].type).toBe(TimelineEventType.NEW_BEST)
     expect(events[0]).toMatchObject({
       score: 1.502,
       previousScore: 1.5,
@@ -323,7 +323,7 @@ describe('diffSnapshots', () => {
 describe('deduplicateAndMerge', () => {
   test('same-day same-character: new event replaces existing', () => {
     const newEvent = {
-      type: ChangelogEventType.NEW_BEST as const,
+      type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
       date: '2026-06-24',
       score: 2.5,
@@ -333,7 +333,7 @@ describe('deduplicateAndMerge', () => {
       buildId: 'aaa',
     }
     const existingEvent = {
-      type: ChangelogEventType.NEW_BEST as const,
+      type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
       date: '2026-06-24',
       score: 2.2,
@@ -351,7 +351,7 @@ describe('deduplicateAndMerge', () => {
 
   test('cross-day events preserved', () => {
     const day1 = {
-      type: ChangelogEventType.NEW_BEST as const,
+      type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
       date: '2026-06-23',
       score: 2.0,
@@ -361,7 +361,7 @@ describe('deduplicateAndMerge', () => {
       buildId: 'aaa',
     }
     const day2 = {
-      type: ChangelogEventType.NEW_BEST as const,
+      type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
       date: '2026-06-24',
       score: 2.5,
@@ -378,7 +378,7 @@ describe('deduplicateAndMerge', () => {
   test('deterministic sorting newest-first', () => {
     const events = [
       {
-        type: ChangelogEventType.NEW_BEST as const,
+        type: TimelineEventType.NEW_BEST as const,
         characterId: '1001' as CharacterId,
         date: '2026-06-22',
         score: 1.5,
@@ -388,7 +388,7 @@ describe('deduplicateAndMerge', () => {
         buildId: 'a',
       },
       {
-        type: ChangelogEventType.NEW_BEST as const,
+        type: TimelineEventType.NEW_BEST as const,
         characterId: '1002' as CharacterId,
         date: '2026-06-24',
         score: 2.5,
@@ -398,7 +398,7 @@ describe('deduplicateAndMerge', () => {
         buildId: 'b',
       },
       {
-        type: ChangelogEventType.NEW_CHARACTER as const,
+        type: TimelineEventType.NEW_CHARACTER as const,
         characterId: '1003' as CharacterId,
         date: '2026-06-23',
         score: 1.8,
@@ -416,7 +416,7 @@ describe('deduplicateAndMerge', () => {
 
   test('cap at maxEvents after merge', () => {
     const events = Array.from({ length: 10 }, (_, i) => ({
-      type: ChangelogEventType.NEW_BEST as const,
+      type: TimelineEventType.NEW_BEST as const,
       characterId: `char-${i}` as CharacterId,
       date: `2026-06-${String(10 + i).padStart(2, '0')}`,
       score: i + 1,
@@ -434,9 +434,9 @@ describe('deduplicateAndMerge', () => {
 })
 
 describe('path derivation', () => {
-  test('deriveChangelogPath produces correct sibling of public output', () => {
-    const result = deriveChangelogPath('./public/leaderboard/leaderboard.json')
-    const expected = cwd() + '/public/leaderboard/leaderboard-changelog.json'
+  test('deriveTimelinePath produces correct sibling of public output', () => {
+    const result = deriveTimelinePath('./public/leaderboard/leaderboard.json')
+    const expected = cwd() + '/public/leaderboard/leaderboard-timeline.json'
     const normalized = result.replace(/\\/g, '/')
     const normalizedExpected = expected.replace(/\\/g, '/')
 

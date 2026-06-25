@@ -1,11 +1,11 @@
 import type {
-  ChangelogEvent,
-  LeaderboardChangelog,
+  TimelineEvent,
+  LeaderboardTimeline,
   LeaderboardSnapshot,
-} from 'leaderboard/changelog/changelogTypes'
-import { ChangelogEventType } from 'leaderboard/changelog/changelogTypes'
-import { readChangelog, readSnapshot } from 'leaderboard/changelog/changelogStorage'
-import { extractSnapshot } from 'leaderboard/changelog/extractSnapshot'
+} from 'leaderboard/timeline/timelineTypes'
+import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
+import { readTimeline, readSnapshot } from 'leaderboard/timeline/timelineStorage'
+import { extractSnapshot } from 'leaderboard/timeline/extractSnapshot'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 
@@ -18,18 +18,18 @@ export function diffSnapshots(
   previous: LeaderboardSnapshot | null,
   topBuildIds: Map<CharacterId, string>,
   date: string,
-): ChangelogEvent[] {
+): TimelineEvent[] {
   if (!previous) return []
 
-  const events: ChangelogEvent[] = []
+  const events: TimelineEvent[] = []
 
   for (const [charId, curr] of Object.entries(current.characters)) {
     const prev = previous.characters[charId]
-    const buildId = topBuildIds.get(charId as CharacterId) ?? ''
+    const buildId = topBuildIds.get(charId as CharacterId)!
 
     if (!prev) {
       events.push({
-        type: ChangelogEventType.NEW_CHARACTER,
+        type: TimelineEventType.NEW_CHARACTER,
         characterId: charId as CharacterId,
         date,
         score: curr.topScore,
@@ -39,7 +39,7 @@ export function diffSnapshots(
       })
     } else if (displayScore(curr.topScore) > displayScore(prev.highWatermark)) {
       events.push({
-        type: ChangelogEventType.NEW_BEST,
+        type: TimelineEventType.NEW_BEST,
         characterId: charId as CharacterId,
         date,
         score: curr.topScore,
@@ -55,11 +55,11 @@ export function diffSnapshots(
 }
 
 export function deduplicateAndMerge(
-  newEvents: ChangelogEvent[],
-  existingEvents: ChangelogEvent[],
+  newEvents: TimelineEvent[],
+  existingEvents: TimelineEvent[],
   maxEvents: number,
-): ChangelogEvent[] {
-  const seen = new Map<string, ChangelogEvent>()
+): TimelineEvent[] {
+  const seen = new Map<string, TimelineEvent>()
 
   for (const event of newEvents) {
     seen.set(`${event.characterId}#${event.type}#${event.date}`, event)
@@ -77,32 +77,32 @@ export function deduplicateAndMerge(
     .slice(0, maxEvents)
 }
 
-export type ChangelogUpdateResult = {
+export type TimelineUpdateResult = {
   snapshot: LeaderboardSnapshot,
-  changelog: LeaderboardChangelog,
+  timeline: LeaderboardTimeline,
   snapshotPath: string,
-  changelogPath: string,
+  timelinePath: string,
 }
 
-export function computeChangelogUpdate(input: {
+export function computeTimelineUpdate(input: {
   privateOutput: PrivateRankedOutput,
   totalCounts: Map<string, number>,
   generatedAt: string,
   snapshotPath: string,
-  changelogPath: string,
+  timelinePath: string,
   allowedCharacterIds?: Set<string>,
-}): ChangelogUpdateResult {
+}): TimelineUpdateResult {
   const previousSnapshot = readSnapshot(input.snapshotPath)
   const result = extractSnapshot(input.privateOutput, input.totalCounts, previousSnapshot, input.generatedAt, input.allowedCharacterIds)
   const date = input.generatedAt.slice(0, 10)
   const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.topBuildIds, date)
-  const existingEvents = readChangelog(input.changelogPath)
+  const existingEvents = readTimeline(input.timelinePath)
   const events = deduplicateAndMerge(newEvents, existingEvents, 50)
 
   return {
     snapshot: result.snapshot,
-    changelog: { schemaVersion: 1, generatedAt: input.generatedAt, events },
+    timeline: { schemaVersion: 1, generatedAt: input.generatedAt, events },
     snapshotPath: input.snapshotPath,
-    changelogPath: input.changelogPath,
+    timelinePath: input.timelinePath,
   }
 }

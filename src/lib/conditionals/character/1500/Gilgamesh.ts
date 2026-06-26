@@ -99,7 +99,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultScaling = ult(e, 4.00, 4.40)
   const ultBounceScaling = ult(e, 1.00, 1.10)
 
-  const jointFuaScaling = talent(e, 3.00, 3.30)
+  const jointFuaScaling = talent(e, 4.00, 4.40)
   const talentUltDmgBuffValue = talent(e, 0.40, 0.44)
 
   const fuaHitMulti = ashblazingMulti([aoe(jointFuaScaling)])

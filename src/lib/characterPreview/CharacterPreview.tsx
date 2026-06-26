@@ -529,7 +529,6 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             seedColor={seedColor}
             effectiveColorMode={effectiveColorMode}
             portraitSwatches={state.portraitSwatches ?? EMPTY_SWATCHES}
-            cardBgAlpha={visual.cardBgAlpha}
           />
         )}
 
@@ -543,6 +542,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           style={{
             '--showcase-card-bg-bridge-high': derivedShowcaseTheme.cardBackgroundColor,
             '--showcase-card-edge-medium': derivedShowcaseTheme.cardBorderColor,
+            '--showcase-seed-color': seedColor,
             '--showcase-shadow': buildShadow(visual.shadowX, visual.shadowY, visual.shadowBlur, visual.shadowOpacity),
             '--showcase-shadow-inset': buildInsetShadow(visual.insetBlur, visual.insetOpacity),
             'fontFamily': 'var(--font-showcase)',
@@ -573,7 +573,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
               inset: 0,
               zIndex: 0,
               pointerEvents: 'none',
-              background: seedColor,
+              background: 'var(--showcase-seed-color)',
               mixBlendMode: 'soft-light',
               opacity: visual.cardBgAlpha,
             }}

@@ -264,11 +264,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, r.assistSkillBuff ? talentResPenValue : 0, x.source(SOURCE_TALENT))
       x.buff(StatKey.RES_PEN, (e >= 4 && r.e4ResPen && r.assistSkillBuff) ? 0.10 : 0, x.source(SOURCE_E4))
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6) ? 0.20 : 0, x.elements(ElementTag.Fire).source(SOURCE_E6))
-      x.buff(StatKey.BOOST, (e >= 6 && r.e6) ? 0.60 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E6))
+      x.buff(StatKey.BOOST, (e >= 6 && r.e6) ? 0.75 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E6))
 
-      // E2: Ult and Assist Skill DMG becomes 124% of original
-      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.24 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E2))
-      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.24 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E2))
+      // E2: Ult and Assist Skill DMG becomes 130% of original
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.30 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E2))
+      x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.30 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E2))
 
       // Verdict: DMG +100%, Ult CD +100%
       x.buff(StatKey.BOOST, r.companionVerdict ? verdictDmgBoostValue : 0, x.source(SOURCE_UNIQUE))

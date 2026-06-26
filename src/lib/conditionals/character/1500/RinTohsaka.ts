@@ -299,7 +299,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.ATK_P, (r.elegantConduct) ? 1.50 : 0, x.source(SOURCE_TRACE))
-      x.buff(StatKey.RES_PEN, (r.elegantConduct) ? 0.15 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.RES_PEN, (r.elegantConduct) ? 0.15 : 0, x.elements(ElementTag.Quantum).source(SOURCE_TRACE))
 
       // Trace SPD +20% after Enhanced Skill
       x.buff(StatKey.SPD_P, (r.ladylikePoise) ? 0.20 : 0, x.source(SOURCE_TRACE))
@@ -334,7 +334,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       if (context.characterId == Archer.id) {
         x.buff(StatKey.ATK_P, (t.elegantConduct) ? 1.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-        x.buff(StatKey.RES_PEN, (t.elegantConduct) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+        x.buff(StatKey.RES_PEN, (t.elegantConduct) ? 0.15 : 0, x.elements(ElementTag.Quantum).targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       }
     },
 

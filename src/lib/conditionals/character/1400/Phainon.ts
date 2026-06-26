@@ -481,13 +481,6 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
-        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
-        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
         { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],

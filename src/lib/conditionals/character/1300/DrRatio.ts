@@ -368,7 +368,7 @@ const display = {
     y: 815,
     z: 1.25,
   },
-  showcaseColor: '#8d98c9',
+  showcaseColor: '#949bb9',
 }
 
 export const DrRatio: CharacterConfig = {

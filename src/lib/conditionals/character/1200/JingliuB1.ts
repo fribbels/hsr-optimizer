@@ -370,7 +370,7 @@ const display = {
     y: 914,
     z: 1.17,
   },
-  showcaseColor: '#3e65f2',
+  showcaseColor: '#85a4f3',
 }
 
 export const JingliuB1: CharacterConfig = {

@@ -400,7 +400,7 @@ const display = {
     y: 1050,
     z: 1.05,
   },
-  showcaseColor: '#13aaef',
+  showcaseColor: '#a6e3f1',
 }
 
 export const Lynx: CharacterConfig = {

@@ -441,7 +441,7 @@ const display = {
     y: 923,
     z: 1.15,
   },
-  showcaseColor: '#a071c9',
+  showcaseColor: '#c8ade0',
 }
 
 export const Robin: CharacterConfig = {

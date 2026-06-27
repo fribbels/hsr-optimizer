@@ -33,7 +33,7 @@ export interface DebugVisualConfig {
 
 // Portrait background filter defaults (Matte preset)
 export const PORTRAIT_BLUR = 40
-export const PORTRAIT_BRIGHTNESS = 0.40
+export const PORTRAIT_BRIGHTNESS = 0.10
 export const PORTRAIT_SATURATE = 2.00
 export const PORTRAIT_CONTRAST = 1.25
 export const CARD_BG_ALPHA_DEFAULT = 0.40
@@ -91,14 +91,14 @@ export enum ShowcasePreset {
 
 export const SHINE_PRESET: DebugVisualConfig = {
   portraitBlur: 40,
-  portraitBrightness: 0.40,
+  portraitBrightness: 0.35,
   portraitSaturate: 1.50,
   portraitContrast: 1.25,
   cardBgAlpha: 0.40,
   debugMaxC: 0.120,
   debugMinC: 0.010,
   debugChromaScale: 1.20,
-  debugTargetL: 0.50,
+  debugTargetL: 0.45,
   debugMinL: 0.05,
   debugMaxL: 0.70,
   blendMode: 'screen',

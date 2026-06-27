@@ -439,7 +439,7 @@ const display = {
   imageCenter: { x: 1040, y: 1002, z: 1.15 },
   spineCenter: { x: 1017, y: 1125, z: 1.15 },
   backgroundCenterOffset: { x: -66, y: 52, z: 0.17 },
-  showcaseColor: '#d4c5a1',
+  showcaseColor: '#ebdec3',
 }
 
 export const MortenaxBlade: CharacterConfig = {

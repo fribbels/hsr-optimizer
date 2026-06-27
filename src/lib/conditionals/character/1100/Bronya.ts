@@ -397,7 +397,7 @@ const display = {
     z: 1.1,
   },
   disableSpine: true,
-  showcaseColor: '#749ad4',
+  showcaseColor: '#c3d0ff',
 }
 
 export const Bronya: CharacterConfig = {

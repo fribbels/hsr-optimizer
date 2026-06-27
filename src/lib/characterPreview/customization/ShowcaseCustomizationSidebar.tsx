@@ -71,7 +71,9 @@ import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, {
   memo,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -332,6 +334,38 @@ const CustomizationPanel = memo(function CustomizationPanel({
     setPrevSeedColor(seedColor)
     setLocalColor(seedColor)
   }
+
+  const characterIdRef = useRef(characterId)
+  characterIdRef.current = characterId
+  const portraitSwatchesRef = useRef(portraitSwatches)
+  portraitSwatchesRef.current = portraitSwatches
+  const localColorRef = useRef(localColor)
+  localColorRef.current = localColor
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+
+      const swatches = portraitSwatchesRef.current
+      if (!swatches.length) return
+
+      e.preventDefault()
+
+      const currentColor = localColorRef.current.toLowerCase()
+      const currentIndex = swatches.findIndex((s) => s.toLowerCase() === currentColor)
+
+      const nextIndex = e.key === 'ArrowRight'
+        ? (currentIndex === -1 ? 0 : (currentIndex + 1) % swatches.length)
+        : (currentIndex === -1 ? 0 : (currentIndex - 1 + swatches.length) % swatches.length)
+
+      const newColor = swatches[nextIndex]
+      setLocalColor(newColor)
+      editShowcasePreferences(characterIdRef.current, { color: newColor, colorMode: ShowcaseColorMode.CUSTOM })
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   function onColorDrag(newColor: string) {
     const pipelineConfig = buildCardBgPipelineConfig(getShowcasePreset(showcasePreset))

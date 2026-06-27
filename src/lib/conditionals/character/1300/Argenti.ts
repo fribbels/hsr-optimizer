@@ -381,7 +381,7 @@ const display = {
     y: 983,
     z: 1.75,
   },
-  showcaseColor: '#d19095',
+  showcaseColor: '#de928c',
 }
 
 export const Argenti: CharacterConfig = {

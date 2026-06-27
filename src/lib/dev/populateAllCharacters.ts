@@ -182,7 +182,19 @@ export function populateAllCharacters() {
     }
 
     if (existingAfterRemoval.has(charId)) {
-      skipped.push(`${charName} (already exists)`)
+      // Equip relics to existing characters that are missing any slot
+      const existing = store.characters.find((c) => c.id === charId)
+      if (existing) {
+        const missingSlots = Object.values(Parts).filter((p) => !existing.equipped?.[p])
+        if (missingSlots.length > 0) {
+          const { relics, equipped } = createRelicsForCharacter(charId)
+          allRelics.push(...relics)
+          store.setCharacter({ ...existing, equipped: { ...existing.equipped, ...equipped } })
+          added.push(`${charName} (equipped ${relics.length} missing relics)`)
+        } else {
+          skipped.push(`${charName} (already exists)`)
+        }
+      }
       continue
     }
 

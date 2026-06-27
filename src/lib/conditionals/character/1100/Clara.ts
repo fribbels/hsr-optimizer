@@ -349,7 +349,7 @@ const display = {
     z: 1.15,
   },
   disableSpine: true,
-  showcaseColor: '#8172cc',
+  showcaseColor: '#b7b0e8',
 }
 
 export const Clara: CharacterConfig = {

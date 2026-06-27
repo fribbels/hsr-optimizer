@@ -359,7 +359,7 @@ const display = {
     y: 1075,
     z: 1.1,
   },
-  showcaseColor: '#624c9c',
+  showcaseColor: '#9588cf',
 }
 
 export const SeeleB1: CharacterConfig = {

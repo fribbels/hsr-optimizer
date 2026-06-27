@@ -437,7 +437,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#8374b0',
+  showcaseColor: '#8578a2',
 }
 
 export const Acheron: CharacterConfig = {

@@ -319,7 +319,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#a5b8c7',
+  showcaseColor: '#d0d9df',
 }
 
 export const DanHeng: CharacterConfig = {

@@ -425,7 +425,7 @@ const display = {
     y: 112,
     z: -0.17,
   },
-  showcaseColor: '#d777c1',
+  showcaseColor: '#e1bdef',
 }
 
 export const March7thImaginary: CharacterConfig = {

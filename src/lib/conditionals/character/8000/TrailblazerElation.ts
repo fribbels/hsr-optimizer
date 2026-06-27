@@ -346,7 +346,7 @@ const display = {
     y: 1014,
     z: 1,
   },
-  showcaseColor: '#976be3',
+  showcaseColor: '#8471c1',
 }
 
 export const TrailblazerElationCaelus: CharacterConfig = {

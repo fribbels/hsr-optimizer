@@ -209,7 +209,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 const healSimulation = (): SimulationMetadata => ({
   parts: {
     [Parts.Body]: [Stats.OHB],
-    [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
+    [Parts.Feet]: [Stats.SPD],
     [Parts.PlanarSphere]: [Stats.ATK_P],
     [Parts.LinkRope]: [Stats.ATK_P],
   },

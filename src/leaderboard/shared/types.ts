@@ -64,6 +64,7 @@ export type LeaderboardScoringCharacter = {
   unconverted: UnconvertedCharacter,
   minified: MinifiedCharacter,
   preFilterRank: number,
+  qualityOrder: number,
 }
 
 export type LeaderboardScoringProfile = {

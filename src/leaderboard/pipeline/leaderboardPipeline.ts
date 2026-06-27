@@ -8,6 +8,10 @@ import {
   diffProfilePayloads,
 } from 'leaderboard/ingest/profileDiff'
 import {
+  findLatestServerExport,
+  type LeaderboardExportInput,
+} from 'leaderboard/shared/exportResolution'
+import {
   assertPrivateOutputPublishable,
   buildPrivateRankedOutput,
   readProfilePayloadIndex,
@@ -29,12 +33,6 @@ import {
 } from 'leaderboard/pipeline/scoringStage'
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
 import { hashObject } from 'leaderboard/shared/hash'
-import {
-  fileExists,
-  joinPath,
-  readTextFile,
-  resolvePath,
-} from 'leaderboard/shared/nodeFacade'
 import type {
   ParsedExport,
   PrivateRankedEntry,
@@ -49,49 +47,30 @@ import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadataOverride } from 'types/metadata'
 
-type LeaderboardExportInput = {
-  displayPath: string,
-  paths: string[],
-}
-
 type PublishArtifacts = {
   privateOutput: PrivateRankedOutput,
   publicOutput: PublicLeaderboardOutputV3,
 }
 
-function findLatestServerExport(): LeaderboardExportInput {
-  const dir = resolvePath('exports')
-  const manifestPath = joinPath(dir, 'latest-export.json')
-
-  if (!fileExists(manifestPath)) {
-    throw new Error(`No export manifest found at ${manifestPath}. Run the download script first.`)
-  }
-
-  const manifest = JSON.parse(readTextFile(manifestPath)) as { exportId: string, exportTime: string, files: string[] }
-  if (!Array.isArray(manifest.files) || manifest.files.length === 0) {
-    throw new Error(`Export manifest at ${manifestPath} has no data files`)
-  }
-
-  console.log(`Export manifest: ${manifest.files.length} files, exportTime: ${manifest.exportTime}, exportId: ${manifest.exportId}`)
-
-  return {
-    displayPath: dir,
-    paths: manifest.files.map((f) => joinPath(dir, f)),
-  }
-}
-
 function parseExportInput(input: LeaderboardExportInput): ParsedExport {
   const parsedFiles = input.paths.map((path) => parseExport(path))
+  const profiles: ParsedExport['profiles'] = []
+  let totalRows = 0
+  let profileRows = 0
+  let malformedRows = 0
+  let parsedProfiles = 0
+  const characterErrors: ParsedExport['summary']['characterErrors'] = []
+  for (const parsed of parsedFiles) {
+    for (const profile of parsed.profiles) profiles.push(profile)
+    totalRows += parsed.summary.totalRows
+    profileRows += parsed.summary.profileRows
+    malformedRows += parsed.summary.malformedRows
+    parsedProfiles += parsed.summary.parsedProfiles
+    characterErrors.push(...parsed.summary.characterErrors)
+  }
   return {
-    profiles: parsedFiles.flatMap((p) => p.profiles),
-    summary: {
-      exportPath: input.displayPath,
-      totalRows: parsedFiles.reduce((n, p) => n + p.summary.totalRows, 0),
-      profileRows: parsedFiles.reduce((n, p) => n + p.summary.profileRows, 0),
-      malformedRows: parsedFiles.reduce((n, p) => n + p.summary.malformedRows, 0),
-      parsedProfiles: parsedFiles.reduce((n, p) => n + p.summary.parsedProfiles, 0),
-      characterErrors: parsedFiles.flatMap((p) => p.summary.characterErrors),
-    },
+    profiles,
+    summary: { exportPath: input.displayPath, totalRows, profileRows, malformedRows, parsedProfiles, characterErrors },
   }
 }
 
@@ -157,6 +136,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
 
     const totalCandidates = profiles.reduce((n, p) => n + p.characters.length, 0)
     console.log(`Pre-filter: kept ${totalCandidates} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
+
     console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles`)
 
     const scoring = await runScoringStage({

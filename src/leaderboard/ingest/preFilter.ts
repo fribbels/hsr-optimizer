@@ -1,17 +1,18 @@
 import { isEligibleRaw } from 'leaderboard/ingest/eligibility'
 import type { ParsedProfile } from 'leaderboard/ingest/exportParser'
-import { extractPreFilterSubstats } from 'leaderboard/ingest/preFilterExtractor'
+import {
+  computePreFilterSubstatScore,
+  extractPreFilterSubstats,
+} from 'leaderboard/ingest/preFilterExtractor'
 import type {
   LeaderboardScoringCharacter,
   LeaderboardScoringProfile,
 } from 'leaderboard/shared/types'
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
-import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
 import { getGameMetadata } from 'lib/state/gameMetadata'
-import { Constants } from 'lib/constants/constants'
 import type { CharacterId } from 'types/character'
 
 type PreFilterCandidate = {
@@ -66,16 +67,7 @@ export function preFilterProfiles(
         prepared = prepareScoringMetadata(charId)
         scoringMetadataCache.set(charId, prepared)
       }
-      let totalScore = 0
-      let totalScoreNoSpd = 0
-      for (const sub of substats) {
-        const weight = prepared.stats[sub.stat] || 0
-        const units = substatPotentialUnits(sub.stat, sub.value)
-        totalScore += units * weight
-        if (sub.stat !== Constants.Stats.SPD) {
-          totalScoreNoSpd += units * weight
-        }
-      }
+      const { score: totalScore, scoreNoSpd: totalScoreNoSpd } = computePreFilterSubstatScore(substats, prepared.stats)
 
       if (!candidatesByChar.has(charId)) candidatesByChar.set(charId, [])
       candidatesByChar.get(charId)!.push({
@@ -96,6 +88,8 @@ export function preFilterProfiles(
   const profileMeta = new Map<string, { fetchedAt: number, payloadHash: string }>()
   let totalSurvivors = 0
 
+  // Union of two top-N lists: one ranked with SPD, one without.
+  // Ensures both SPD-dependent and SPD-independent builds survive the prefilter.
   for (const [, candidates] of candidatesByChar) {
     candidates.sort((a, b) => b.substatScore - a.substatScore)
     const keptBySpd = candidates.slice(0, topN)
@@ -103,6 +97,7 @@ export function preFilterProfiles(
     candidates.sort((a, b) => b.substatScoreNoSpd - a.substatScoreNoSpd)
     const keptNoSpd = candidates.slice(0, topN)
 
+    // Merge both lists, keeping the best rank from either list per candidate
     const bestRank = new Map<string, number>()
     const candidateByKey = new Map<string, PreFilterCandidate>()
 
@@ -129,9 +124,11 @@ export function preFilterProfiles(
       merged.push({ candidate, rank: bestRank.get(key)! })
     }
 
+    merged.sort((a, b) => a.rank - b.rank)
     totalSurvivors += merged.length
 
-    for (const { candidate: c, rank } of merged) {
+    for (let i = 0; i < merged.length; i++) {
+      const { candidate: c, rank } = merged[i]
       if (!survivorsByProfile.has(c.uid)) {
         survivorsByProfile.set(c.uid, [])
         profileMeta.set(c.uid, { fetchedAt: c.fetchedAt, payloadHash: c.payloadHash })
@@ -140,6 +137,7 @@ export function preFilterProfiles(
         unconverted: c.unconverted,
         minified: c.minified,
         preFilterRank: rank,
+        qualityOrder: i,
       })
     }
   }

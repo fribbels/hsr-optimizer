@@ -1,6 +1,8 @@
 import {
   emptyBuildScoreCacheStats,
   emptyMetricsSnapshot,
+  sumBuildScoreCacheStats,
+  sumMetricSnapshots,
 } from 'leaderboard/shared/metrics'
 import {
   createNodeWorker,
@@ -331,34 +333,4 @@ export class LeaderboardScoreWorkerPool {
       ),
     )
   }
-}
-
-function sumBuildScoreCacheStats(stats: LeaderboardBuildScoreCacheStats[]): LeaderboardBuildScoreCacheStats {
-  return stats.reduce<LeaderboardBuildScoreCacheStats>((sum, stat) => ({
-    l1Hits: sum.l1Hits + stat.l1Hits,
-    sqliteHits: sum.sqliteHits + stat.sqliteHits,
-    misses: sum.misses + stat.misses,
-    writes: sum.writes + stat.writes,
-    corruptRowsDeleted: sum.corruptRowsDeleted + stat.corruptRowsDeleted,
-  }), emptyBuildScoreCacheStats())
-}
-
-function sumMetricSnapshots(snapshots: LeaderboardMetricsSnapshot[]): LeaderboardMetricsSnapshot {
-  const result = emptyMetricsSnapshot()
-  for (const snapshot of snapshots) {
-    for (const [key, value] of Object.entries(snapshot.counters)) {
-      result.counters[key] = (result.counters[key] ?? 0) + value
-    }
-    for (const [key, value] of Object.entries(snapshot.gauges)) {
-      result.gauges[key] = value
-    }
-    for (const [key, value] of Object.entries(snapshot.timings)) {
-      const current = result.timings[key] ?? { count: 0, totalMs: 0, avgMs: 0 }
-      current.count += value.count
-      current.totalMs += value.totalMs
-      current.avgMs = current.totalMs / current.count
-      result.timings[key] = current
-    }
-  }
-  return result
 }

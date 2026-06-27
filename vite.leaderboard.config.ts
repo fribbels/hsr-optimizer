@@ -15,6 +15,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         'runLeaderboard': resolve(import.meta.dirname, 'src/leaderboard/runLeaderboard.ts'),
+        'runPreFilterAnalysis': resolve(import.meta.dirname, 'src/leaderboard/runPreFilterAnalysis.ts'),
         'workers/profileWorkerThread': resolve(import.meta.dirname, 'src/leaderboard/workers/profileWorkerThread.ts'),
       },
       output: {

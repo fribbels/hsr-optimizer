@@ -83,6 +83,17 @@ Use `--fresh-run` when you want a fully fresh rebuild. It clears the selected SQ
 
 Boards are keyed by character, config type, and team. Eidolon is a frontend filter.
 
+## Prefilter Analysis
+
+Offline script that measures prefilter accuracy and simulates batching strategies against ground truth.
+
+```bash
+npm run leaderboard -- --top-n 2000 --top-n-public 100
+vite build --config vite.leaderboard.config.ts --configLoader native && node --max-old-space-size=8192 .leaderboard-build/runPreFilterAnalysis.js
+```
+
+The first command generates ground truth with top-2000 candidates. The second runs the analysis against the private output and current export. If the analysis prints `Ground Truth Warning`, the private output was generated from a different export snapshot — rerun the leaderboard first.
+
 ## Validation
 
 ```bash

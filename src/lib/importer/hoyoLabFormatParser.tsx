@@ -7,6 +7,7 @@ import type {
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
+import { tidOverrides } from 'lib/importer/characterConverter'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -265,7 +266,7 @@ function getSlot(id: number) {
 
 function getSet(id: number, relicData: Record<string, DBMetadataSets>) {
   const setId = id.toString().substring(1, 4)
-  const override = tidOverrides[id]
+  const override = tidOverrides[String(id)]
   if (override) {
     return relicData[override.set].name
   }
@@ -273,11 +274,3 @@ function getSet(id: number, relicData: Record<string, DBMetadataSets>) {
   return relicData[setId].name
 }
 
-const tidOverrides: Record<number, { set: string, part: string, main: string }> = {
-  55001: { set: '101', part: '3', main: '436' },
-  55002: { set: '101', part: '4', main: '441' },
-  55003: { set: '102', part: '3', main: '434' },
-  55004: { set: '103', part: '3', main: '433' },
-  55005: { set: '103', part: '4', main: '443' },
-  55006: { set: '105', part: '3', main: '434' },
-}

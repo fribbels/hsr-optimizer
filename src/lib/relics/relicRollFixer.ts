@@ -8,7 +8,7 @@ import type { UnaugmentedRelic } from 'types/relic'
 
 let optimizerStatToJsonSubStat: Record<string, string>
 let optimizerStatToAffixStat: Record<string, string>
-let optimizerPartToPartId: Record<string, number>
+let optimizerPartToPartId: Record<string, string>
 let initialized = false
 
 export const RelicRollFixer = {

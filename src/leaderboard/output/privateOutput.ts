@@ -27,11 +27,11 @@ export function comparePrivateRankedEntries(
   return b.score - a.score || a.uidHash.localeCompare(b.uidHash)
 }
 
-function boardKeyFromEntry(entry: PrivateRankedEntry): string {
+export function boardKeyFromEntry(entry: Pick<PrivateRankedEntry, 'characterId' | 'configType' | 'teamId'>): string {
   return `${entry.characterId}#${configTypeToPublic(entry.configType)}#${entry.teamId}`
 }
 
-function entryReplacementKey(entry: PrivateRankedEntry): string {
+export function entryReplacementKey(entry: Pick<PrivateRankedEntry, 'uid' | 'characterId' | 'configType' | 'teamId'>): string {
   return `${entry.uid}#${entry.characterId}#${configTypeToPublic(entry.configType)}#${entry.teamId}`
 }
 

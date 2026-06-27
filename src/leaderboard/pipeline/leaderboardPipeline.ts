@@ -146,6 +146,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       workerCount: options.workerThreads,
       runtimeConfig,
       workerScriptUrl,
+      topNPublic,
     })
 
     printFailures(scoring)

@@ -89,13 +89,15 @@ export class LeaderboardScoreWorkerPool {
     profiles: LeaderboardScoringProfile[],
     versions: LeaderboardVersionFile,
     globalVersion: number,
+    label?: string,
   }): Promise<{
     entries: PrivateRankedEntry[],
     failures: FailureEntry[],
     buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
     metrics: LeaderboardMetricsSnapshot,
   }> {
-    const { profiles, versions, globalVersion } = input
+    const { profiles, versions, globalVersion, label } = input
+    const prefix = label ? `[${label}] ` : ''
     let completedRuns = 0
     let cacheHits = 0
     let cacheMisses = 0
@@ -112,7 +114,7 @@ export class LeaderboardScoreWorkerPool {
         cacheMisses += result.buildScoreCacheStats.misses
         const cacheTotal = cacheHits + cacheMisses
         const hitRate = cacheTotal > 0 ? `${(100 * cacheHits / cacheTotal).toFixed(1)}%` : '-'
-        console.log(`[${completedRuns} runs] [${profileIndex + 1}/${profiles.length} profiles] [cache: ${hitRate} hit, ${cacheHits}/${cacheTotal}]`)
+        console.log(`${prefix}[${completedRuns} runs] [${profileIndex + 1}/${profiles.length} profiles] [cache: ${hitRate} hit, ${cacheHits}/${cacheTotal}]`)
         return result
       })
     }))

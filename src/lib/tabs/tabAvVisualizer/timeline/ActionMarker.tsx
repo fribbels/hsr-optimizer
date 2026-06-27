@@ -1,27 +1,27 @@
 import { Tooltip } from '@mantine/core'
+import { IconBolt } from '@tabler/icons-react'
 import { Assets } from 'lib/rendering/assets'
 import { TIMELINE_AVATAR_SIZE, TIMELINE_RULER_Y } from 'lib/tabs/tabAvVisualizer/constants'
+import type { TurnKind } from 'lib/tabs/tabAvVisualizer/types'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const TRIANGLE_H = 7
 const TRIANGLE_W = 6
-const AVATAR_TRI_GAP = 2   // Gap between the avatar and the triangle
-const RULER_TRI_GAP = 1    // Gap between the ruler line and the nearest triangle tip
-const AVATAR_STACK_GAP = 8 // Gap between the upper and lower avatar layers
+const AVATAR_TRI_GAP = 2
+const RULER_TRI_GAP = 1
+const AVATAR_STACK_GAP = 8
 
-// Four fixed positions (top values computed from the top of the row)
 const ABOVE_CLOSE_TOP = TIMELINE_RULER_Y - RULER_TRI_GAP - TRIANGLE_H - AVATAR_TRI_GAP - TIMELINE_AVATAR_SIZE
 const ABOVE_FAR_TOP = ABOVE_CLOSE_TOP - AVATAR_STACK_GAP - TIMELINE_AVATAR_SIZE
 const BELOW_CLOSE_TOP = TIMELINE_RULER_Y + RULER_TRI_GAP + TRIANGLE_H + AVATAR_TRI_GAP
 const BELOW_FAR_TOP = BELOW_CLOSE_TOP + TIMELINE_AVATAR_SIZE + AVATAR_STACK_GAP
 
-// stackLevel → position mapping: 0=above-near, 1=below-near, 2=above-far, 3=below-far
 const POSITIONS = [
-  { avatarTop: ABOVE_CLOSE_TOP, isAbove: true, isFar: false },
+  { avatarTop: ABOVE_CLOSE_TOP, isAbove: true,  isFar: false },
   { avatarTop: BELOW_CLOSE_TOP, isAbove: false, isFar: false },
-  { avatarTop: ABOVE_FAR_TOP, isAbove: true, isFar: true },
-  { avatarTop: BELOW_FAR_TOP, isAbove: false, isFar: true },
+  { avatarTop: ABOVE_FAR_TOP,   isAbove: true,  isFar: true  },
+  { avatarTop: BELOW_FAR_TOP,   isAbove: false, isFar: true  },
 ] as const
 
 type ActionMarkerProps = {
@@ -32,23 +32,22 @@ type ActionMarkerProps = {
   characterId: string
   leftPercent: number
   stackLevel: number
-  actionCount?: number   // Total number of times this character acts at this AV (badge shown when > 1)
-  onMarkerClick: (av: number) => void   // Moves the Playhead to this marker's AV
+  actionCount?: number
+  turnKind: TurnKind
+  onMarkerClick: (av: number) => void
 }
 
-export function ActionMarker({ av, spd, color, characterName, characterId, leftPercent, stackLevel, actionCount, onMarkerClick }: ActionMarkerProps) {
+export function ActionMarker({ av, spd, color, characterName, characterId, leftPercent, stackLevel, actionCount, turnKind, onMarkerClick }: ActionMarkerProps) {
   const { t: tAv } = useTranslation('avVisualizerTab')
   const [imgError, setImgError] = useState(false)
 
   const { avatarTop, isAbove, isFar } = POSITIONS[Math.min(stackLevel, 3)]
   const avatarBottom = avatarTop + TIMELINE_AVATAR_SIZE
 
-  // Triangle tip position (pointing up/down)
   const triangleTop = isAbove
-    ? avatarBottom + AVATAR_TRI_GAP          // Avatar above the ruler, triangle points down ▼
-    : avatarTop - AVATAR_TRI_GAP - TRIANGLE_H // Avatar below the ruler, triangle points up ▲
+    ? avatarBottom + AVATAR_TRI_GAP
+    : avatarTop - AVATAR_TRI_GAP - TRIANGLE_H
 
-  // Dashed connector for far-layer markers (triangle tip to the ruler line)
   let dashTop = 0
   let dashHeight = 0
   if (isFar) {
@@ -63,16 +62,15 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
 
   return (
     <Tooltip
-      label={tAv('Marker.ActionTooltip', { name: characterName, spd: spd.toFixed(1), av: av.toFixed(2) })}
+      label={turnKind === 'ult'
+        ? tAv('Marker.UltTooltip', { name: characterName, av: av.toFixed(2) })
+        : tAv('Marker.ActionTooltip', { name: characterName, spd: spd.toFixed(1), av: av.toFixed(2) })}
       position='top'
       withArrow
       openDelay={100}
     >
       <div
-        onClick={(e) => {
-          e.stopPropagation()
-          onMarkerClick(av)
-        }}
+        onClick={(e) => { e.stopPropagation(); onMarkerClick(av) }}
         style={{
           position: 'absolute',
           left: `${leftPercent}%`,
@@ -83,9 +81,22 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
           zIndex: 1 + stackLevel,
         }}
       >
-        {/* Avatar */}
+        {/* Avatar / Ult icon */}
         <div style={{ position: 'absolute', top: avatarTop, left: '50%', transform: 'translateX(-50%)' }}>
-          {imgError ? (
+          {turnKind === 'ult' ? (
+            <div style={{
+              width: TIMELINE_AVATAR_SIZE,
+              height: TIMELINE_AVATAR_SIZE,
+              borderRadius: '50%',
+              border: '2px solid gold',
+              backgroundColor: 'rgba(255,215,0,0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <IconBolt size={Math.round(TIMELINE_AVATAR_SIZE * 0.55)} color='gold' />
+            </div>
+          ) : imgError ? (
             <div style={{
               width: TIMELINE_AVATAR_SIZE,
               height: TIMELINE_AVATAR_SIZE,
@@ -97,7 +108,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
               justifyContent: 'center',
               fontSize: Math.round(TIMELINE_AVATAR_SIZE * 0.4),
               fontWeight: 700,
-              color: color,
+              color,
             }}>
               {characterName.charAt(0)}
             </div>
@@ -119,9 +130,8 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
           )}
         </div>
 
-        {/* Multi-action badge: shown when this character acts more than once at this AV, inset at the bottom of
-        the avatar (stays within the avatar's bounds so it doesn't cover neighboring avatars) */}
-        {actionCount !== undefined && actionCount > 1 && (
+        {/* Multi-action badge (ult markers are always single events) */}
+        {turnKind !== 'ult' && actionCount !== undefined && actionCount > 1 && (
           <div style={{
             position: 'absolute',
             top: avatarBottom - 14,
@@ -146,7 +156,7 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
           </div>
         )}
 
-        {/* Triangle arrow (near layer points toward the ruler, far layer points away from it) */}
+        {/* Triangle */}
         <div style={{
           position: 'absolute',
           left: '50%',

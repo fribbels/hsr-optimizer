@@ -4,17 +4,14 @@ import type { EditRequest, InterventionType, InterventionUnit } from 'lib/tabs/t
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-type EditPanelProps = {
+type InterventionEditPanelProps = {
   request: EditRequest | null
   playheadAv: number
   characters: Array<{ id: string; name: string; color: string }>
   onDone: () => void   // Called after submit or cancel, so the parent can clear the request
 }
 
-// Always-mounted panel that shows the add/edit form when a request comes in from ActionDisplayPanel, and goes
-// back to an idle/empty state once submitted or cancelled. Replaces the right half of the old
-// InterventionListPanel modal.
-export function EditPanel({ request, playheadAv, characters, onDone }: EditPanelProps) {
+export function InterventionEditPanel({ request, playheadAv, characters, onDone }: InterventionEditPanelProps) {
   const { t: tAv } = useTranslation('avVisualizerTab')
 
   const TYPE_OPTIONS = [
@@ -22,6 +19,8 @@ export function EditPanel({ request, playheadAv, characters, onDone }: EditPanel
     { label: tAv('Types.SpdDown'), value: 'spd_down' },
     { label: tAv('Types.AvAdvance'), value: 'av_advance' },
     { label: tAv('Types.AvDelay'), value: 'av_delay' },
+    { label: tAv('Types.EnergyGain'), value: 'energy_gain' },
+    { label: tAv('Types.EnergyLoss'), value: 'energy_loss' },
   ]
 
   const UNIT_OPTIONS = [
@@ -69,13 +68,15 @@ export function EditPanel({ request, playheadAv, characters, onDone }: EditPanel
     )
   }
 
-  const isAvType = formType === 'av_advance' || formType === 'av_delay'
+  const isInstantType = formType === 'av_advance' || formType === 'av_delay'
+    || formType === 'energy_gain' || formType === 'energy_loss'
   const targetOptions = characters.map((c) => ({ label: c.name, value: c.id }))
 
   function handleTypeChange(newType: string) {
     setFormType(newType as InterventionType)
-    const nowAvType = newType === 'av_advance' || newType === 'av_delay'
-    if (nowAvType) setFormDuration(0)
+    const nowInstantType = newType === 'av_advance' || newType === 'av_delay'
+      || newType === 'energy_gain' || newType === 'energy_loss'
+    if (nowInstantType) setFormDuration(0)
     else if (formDuration === 0) setFormDuration(1)
   }
 
@@ -85,7 +86,7 @@ export function EditPanel({ request, playheadAv, characters, onDone }: EditPanel
 
   function handleSubmit() {
     if (formTargets.length === 0 || formValue <= 0) return
-    const durationTurns = isAvType ? 0 : formDuration
+    const durationTurns = isInstantType ? 0 : formDuration
     if (req.mode === 'edit') {
       AvVisualTabController.updateIntervention(req.intervention.id, {
         type: formType, targets: formTargets, value: formValue, unit: formUnit, durationTurns,
@@ -161,7 +162,7 @@ export function EditPanel({ request, playheadAv, characters, onDone }: EditPanel
             />
           </div>
 
-          {!isAvType && (
+          {!isInstantType && (
             <NumberInput
               label={tAv('Panel.Duration')}
               size='xs'

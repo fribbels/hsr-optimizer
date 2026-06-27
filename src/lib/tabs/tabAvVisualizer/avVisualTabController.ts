@@ -1,16 +1,9 @@
 import { SaveState } from 'lib/state/saveState'
-import { simulateTimeline } from 'lib/tabs/tabAvVisualizer/simulation/simulateTimeline'
+import { simulateBattle, type SimulationResult } from 'lib/tabs/tabAvVisualizer/simulation/simulateBattle'
 import { ROW_SIZE } from 'lib/tabs/tabAvVisualizer/constants'
-import type { Intervention, SimEvent } from 'lib/tabs/tabAvVisualizer/types'
+import type { ActionNodeOverride, BattleEntity, Intervention, UltInsertion } from 'lib/tabs/tabAvVisualizer/types'
 import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
-
-// TimelineCharacter is defined in Timeline.tsx; here we only need id + spd + baseSpd
-// baseSpd (white value, no relics) is required by simulateTimeline for percent-based speed buff math
-type SimInput = {
-  id: string
-  spd: number
-  baseSpd: number
-}
+import { uuid } from 'lib/utils/miscUtils'
 
 // Memory of Chaos first-cycle AV: the in-game first cycle is fixed at 150, every other cycle is 100 (= ROW_SIZE)
 const MOC_FIRST_ROW_SIZE = 150
@@ -83,10 +76,53 @@ export const AvVisualTabController = {
     SaveState.delayedSave()
   },
 
+  // ---- ActionNodeOverride CRUD ----
+
+  setActionOverride(override: ActionNodeOverride) {
+    useAVVisualTabStore.getState().setActionOverride(override)
+    SaveState.delayedSave()
+  },
+
+  removeActionOverride(characterId: string, actionIndex: number) {
+    useAVVisualTabStore.getState().removeActionOverride(characterId, actionIndex)
+    SaveState.delayedSave()
+  },
+
+  clearActionOverrides() {
+    useAVVisualTabStore.getState().clearActionOverrides()
+    SaveState.delayedSave()
+  },
+
+  // ---- UltInsertion CRUD ----
+
+  addUltInsertion(insertion: Omit<UltInsertion, 'id'>, insertAfterId?: string, insertBeforeUltId?: string) {
+    const full = { ...insertion, id: uuid() }
+    const store = useAVVisualTabStore.getState()
+    if (insertAfterId) {
+      store.addUltInsertionAfter(insertAfterId, full)
+    } else if (insertBeforeUltId) {
+      store.addUltInsertionBefore(insertBeforeUltId, full)
+    } else {
+      store.addUltInsertion(full)
+    }
+    SaveState.delayedSave()
+  },
+
+  removeUltInsertion(id: string) {
+    useAVVisualTabStore.getState().removeUltInsertion(id)
+    SaveState.delayedSave()
+  },
+
+  clearUltInsertions() {
+    useAVVisualTabStore.getState().clearUltInsertions()
+    SaveState.delayedSave()
+  },
+
   // ---- Simulation engine wrapper ----
 
-  simulate(characters: SimInput[], interventions: Intervention[], totalAv: number): SimEvent[] {
-    return simulateTimeline(characters, interventions, totalAv)
+  simulate(entities: BattleEntity[], interventions: Intervention[], totalAv: number): SimulationResult {
+    const { actionOverrides, ultInsertions } = useAVVisualTabStore.getState().savedSession
+    return simulateBattle(entities, interventions, actionOverrides, ultInsertions, totalAv)
   },
 
   // ---- Helper math ----

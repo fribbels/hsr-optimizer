@@ -1,5 +1,21 @@
 export default interface Resources {
   "avVisualizerTab": {
+    "ActionConfig": {
+      "EffectsTitle": "Effects",
+      "NoConfig": "No action config available",
+      "NoEffects": "No effects for this action"
+    },
+    "ActionNode": {
+      "Basic": "Basic Attack",
+      "ChoiceLabel": "Action",
+      "Skill": "Skill",
+      "Target": "Target"
+    },
+    "AddBranch": {
+      "AddIntervention": "Add Intervention",
+      "AddUlt": "Add Ultimate",
+      "AddUltHint": "Insert an ultimate at this position"
+    },
     "AvLabel": "AV",
     "CharacterSlot": {
       "EditSpd": "Edit SPD",
@@ -9,9 +25,15 @@ export default interface Resources {
       "SpdDisplay": "SPD {{value}}",
       "SpdPlaceholder": "SPD"
     },
+    "CharacterState": {
+      "EnergyPlaceholder": "Energy — available in Step 5",
+      "NoBuffs": "No active buffs",
+      "SpeedLabel": "SPD {{value}}"
+    },
     "Marker": {
       "ActionTooltip": "{{name}}  SPD {{spd}}  AV {{av}}",
-      "InterventionTooltip": "AV {{av}} · {{count}} interventions"
+      "InterventionTooltip": "AV {{av}} · {{count}} interventions",
+      "UltTooltip": "{{name}} Ultimate  AV {{av}}"
     },
     "Panel": {
       "Add": "Add",
@@ -36,6 +58,12 @@ export default interface Resources {
       "TimingBefore": "during action",
       "Title": "Intervention List"
     },
+    "TargetType": {
+      "AllAllies": "All allies",
+      "Self": "Self",
+      "SingleAlly": "Select target",
+      "Team": "Team SP"
+    },
     "Timeline": {
       "AddRow": "Add 100 AV",
       "MocToggle": "Memory of Chaos (150)"
@@ -44,8 +72,23 @@ export default interface Resources {
     "Types": {
       "AvAdvance": "Advance",
       "AvDelay": "Delay",
+      "EnergyGain": "Energy Gain",
+      "EnergyLoss": "Energy Loss",
       "SpdDown": "Speed Down",
-      "SpdUp": "Speed Up"
+      "SpdUp": "Speed Up",
+      "StatBuff": "Stat Buff",
+      "StatDebuff": "Stat Debuff"
+    },
+    "UltCard": {
+      "Effects": "Ult Effects"
+    },
+    "UltCaster": {
+      "Confirm": "Insert",
+      "EnergyInsufficient": "Insufficient energy",
+      "EnergyStatus": "{{energy}} / {{threshold}}",
+      "NeedTarget": "Select target",
+      "NoAnchor": "Select next to a character action first",
+      "Title": "Insert Ultimate"
     },
     "Units": {
       "Flat": "Flat",

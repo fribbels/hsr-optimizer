@@ -1,5 +1,5 @@
 import { ActionIcon, Text } from '@mantine/core'
-import { IconArrowDown, IconArrowLeft, IconArrowRight, IconArrowUp, IconPencil, IconTrash } from '@tabler/icons-react'
+import { IconArrowDown, IconArrowLeft, IconArrowRight, IconArrowUp, IconBolt, IconCircleMinus, IconCirclePlus, IconLayoutGridAdd, IconLayoutGridRemove, IconMinus, IconPencil, IconPlus, IconStar, IconTrash } from '@tabler/icons-react'
 import type { Intervention, InterventionType } from 'lib/tabs/tabAvVisualizer/types'
 import type { ComponentType } from 'react'
 
@@ -14,10 +14,18 @@ type InterventionItemProps = {
 // Type → icon + color: up/down represent speed up/down, left/right represent advance (earlier) / delay (later),
 // matching the timeline's left-to-right direction
 const TYPE_VISUAL: Record<InterventionType, { icon: ComponentType<{ size?: number; color?: string }>; color: string }> = {
-  spd_up: { icon: IconArrowUp, color: 'var(--mantine-color-teal-5)' },
-  spd_down: { icon: IconArrowDown, color: 'var(--mantine-color-red-5)' },
-  av_advance: { icon: IconArrowLeft, color: 'var(--mantine-color-blue-5)' },
-  av_delay: { icon: IconArrowRight, color: 'var(--mantine-color-orange-5)' },
+  spd_up:       { icon: IconArrowUp,    color: 'var(--mantine-color-teal-5)' },
+  spd_down:     { icon: IconArrowDown,  color: 'var(--mantine-color-red-5)' },
+  av_advance:   { icon: IconArrowLeft,  color: 'var(--mantine-color-blue-5)' },
+  av_delay:     { icon: IconArrowRight, color: 'var(--mantine-color-orange-5)' },
+  energy_gain:  { icon: IconPlus,              color: 'var(--mantine-color-yellow-5)' },
+  energy_loss:  { icon: IconMinus,             color: 'var(--mantine-color-orange-7)' },
+  sp_gain:      { icon: IconCirclePlus,        color: 'var(--mantine-color-cyan-5)' },
+  sp_loss:      { icon: IconCircleMinus,       color: 'var(--mantine-color-red-4)' },
+  sp_cap_up:    { icon: IconLayoutGridAdd,     color: 'var(--mantine-color-indigo-4)' },
+  sp_cap_down:  { icon: IconLayoutGridRemove,  color: 'var(--mantine-color-orange-6)' },
+  stat_buff:    { icon: IconStar,              color: 'var(--mantine-color-violet-5)' },
+  stat_debuff:  { icon: IconBolt,              color: 'var(--mantine-color-pink-5)' },
 }
 
 export function InterventionItem({ intervention, characters, highlighted, onEdit, onDelete }: InterventionItemProps) {

@@ -1,3 +1,4 @@
+import { Text } from '@mantine/core'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { getPreviewRelics, getShowcaseStats } from 'lib/characterPreview/characterPreviewController'
 import { Stats } from 'lib/constants/constants'
@@ -7,10 +8,16 @@ import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { AvVisualTabController } from 'lib/tabs/tabAvVisualizer/avVisualTabController'
 import { CharacterSlotCard } from 'lib/tabs/tabAvVisualizer/characterSlotCard/CharacterSlotCard'
 import { SLOT_COLORS } from 'lib/tabs/tabAvVisualizer/constants'
+import { ActionConfigPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/ActionConfigPanel'
 import { ActionDisplayPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/ActionDisplayPanel'
-import { EditPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/EditPanel'
-import { Timeline, type EnrichedSimEvent, type TimelineCharacter } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
-import type { EditRequest } from 'lib/tabs/tabAvVisualizer/types'
+import { SpBar } from 'lib/tabs/tabAvVisualizer/interventionPanel/SpBar'
+import { AddBranchPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/AddBranchPanel'
+import { CharacterStatePanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/CharacterStatePanel'
+import { InterventionEditPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/InterventionEditPanel'
+import { UltCasterPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/UltCasterPanel'
+import { UltEffectsPanel } from 'lib/tabs/tabAvVisualizer/interventionPanel/UltEffectsPanel'
+import { Timeline, type EnrichedSimEvent } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
+import type { BattleEntity, RightPanelContext } from 'lib/tabs/tabAvVisualizer/types'
 import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -22,26 +29,27 @@ import { useShallow } from 'zustand/react/shallow'
 // it scrolls internally instead (each panel's own root sets height: '100%' + overflowY: 'auto').
 const SIDE_PANEL_HEIGHT = 220 * 2 + 12
 
+const IDLE_CONTEXT: RightPanelContext = { kind: 'idle' }
+
 export function AvVisualizerTab() {
   const slots = useAVVisualTabStore((s) => s.savedSession.slots)
   const rowCount = useAVVisualTabStore((s) => s.savedSession.rowCount)
   const mocFirstRow = useAVVisualTabStore((s) => s.savedSession.mocFirstRow)
   const playheadAv = useAVVisualTabStore((s) => s.playheadAv)
   const interventions = useAVVisualTabStore((s) => s.savedSession.interventions)
+  const actionOverrides = useAVVisualTabStore((s) => s.savedSession.actionOverrides)
+  const ultInsertions = useAVVisualTabStore((s) => s.savedSession.ultInsertions)
   const charactersById = useCharacterStore((s) => s.charactersById)
   const relicsById = useRelicStore(useShallow((s) => s.relicsById))
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
 
-  // Pending add/edit request, shared between ActionDisplayPanel (emits it) and EditPanel (consumes it)
-  const [editRequest, setEditRequest] = useState<EditRequest | null>(null)
+  // Which panel to show on the right side; resets to idle whenever the Playhead moves
+  const [rightPanelContext, setRightPanelContext] = useState<RightPanelContext>(IDLE_CONTEXT)
 
-  // Clear any pending add/edit request whenever the Playhead moves — it's bound to whatever AV was active when
-  // it was created, so it becomes stale (wrong target, or would submit at the wrong AV) once the Playhead leaves
   useEffect(() => {
-    setEditRequest(null)
+    setRightPanelContext(IDLE_CONTEXT)
   }, [playheadAv])
 
-  // Compute each slot's effective character speed (baseSpd)
   const baseSpdMap = useMemo(() =>
     slots.map((slot) => {
       if (!slot.characterId) return null
@@ -52,7 +60,6 @@ export function AvVisualizerTab() {
     }),
   [slots, charactersById, relicsById])
 
-  // White-value speed: the character's base speed (no relics), used for percent-based speed buff math
   const whiteSpdMap = useMemo(() =>
     slots.map((slot) => {
       if (!slot.characterId) return null
@@ -60,17 +67,16 @@ export function AvVisualizerTab() {
     }),
   [slots])
 
-  // Character list shared by Timeline and the two side panels: spdOverride takes priority, falling back to
-  // baseSpdMap (panel speed); empty slots are skipped
   const timelineCharacters = useMemo(() =>
     slots
       .map((slot, i) => {
         if (!slot.characterId) return null
         const effectiveSpd = slot.spdOverride ?? baseSpdMap[i]
         if (!effectiveSpd) return null
-        const entry: TimelineCharacter = {
+        const entry: BattleEntity = {
           id: slot.characterId,
-          name: t(`${slot.characterId}.Name`),
+          type: 'character',
+          name: t(`${slot.characterId as CharacterId}.Name`),
           spd: effectiveSpd,
           baseSpd: whiteSpdMap[i] ?? effectiveSpd,
           color: SLOT_COLORS[i],
@@ -78,30 +84,51 @@ export function AvVisualizerTab() {
         }
         return entry
       })
-      .filter((c): c is TimelineCharacter => c !== null),
+      .filter((c): c is BattleEntity => c !== null),
   [slots, baseSpdMap, whiteSpdMap, t])
 
   const totalAv = AvVisualTabController.getTotalAv(rowCount, mocFirstRow)
 
-  // Run the simulation engine once here, shared by Timeline and ActionDisplayPanel
-  const simEvents = useMemo(() => {
+  const [simEvents, energyTimeline] = useMemo(() => {
     const charMap = new Map(timelineCharacters.map((c) => [c.id, c]))
-    return AvVisualTabController.simulate(timelineCharacters, interventions, totalAv).map((e): EnrichedSimEvent => ({
+    const overrideMap = new Map(
+      actionOverrides.map((o) => [`${o.characterId}:${o.actionIndex}`, o]),
+    )
+    const result = AvVisualTabController.simulate(timelineCharacters, interventions, totalAv)
+    const enriched = result.events.map((e): EnrichedSimEvent => ({
       ...e,
-      color: charMap.get(e.characterId)?.color ?? '#888',
-      characterName: charMap.get(e.characterId)?.name ?? e.characterId,
-      slotIndex: charMap.get(e.characterId)?.slotIndex ?? 0,
+      color:          charMap.get(e.characterId)?.color     ?? '#888',
+      characterName:  charMap.get(e.characterId)?.name      ?? e.characterId,
+      slotIndex:      charMap.get(e.characterId)?.slotIndex ?? 0,
+      currentTargets: overrideMap.get(`${e.characterId}:${e.actionIndex}`)?.targets,
     }))
-  }, [timelineCharacters, interventions, totalAv])
+    return [enriched, result.energyTimeline] as const
+  }, [timelineCharacters, interventions, totalAv, actionOverrides, ultInsertions])
 
-  // Keyboard Playhead control: left/right arrow keys move it ±1 AV, ignored while typing in a form field
+  const teamSpAtPlayhead = useMemo(() => {
+    let last = { sp: 3, spMax: 5 }
+    for (const ev of simEvents) {
+      if (ev.av > playheadAv + 0.005) break
+      last = ev.teamStateAfter
+    }
+    return last
+  }, [simEvents, playheadAv])
+
+  const energyAtPlayhead = useMemo(() => {
+    const map = new Map<string, number>()
+    for (const checkpoint of energyTimeline) {
+      if (checkpoint.av > playheadAv + 0.005) break  // energyTimeline is sorted by av ascending
+      for (const [charId, energy] of Object.entries(checkpoint.energyMap)) {
+        map.set(charId, energy)
+      }
+    }
+    return map
+  }, [energyTimeline, playheadAv])
+
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       const target = e.target as HTMLElement | null
       if (target && (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) || target.isContentEditable)) return
-
-      // Always lands on the next whole AV tick in that direction, even from a fractional position left behind
-      // by a drag/click (floor+1 going right, ceil-1 going left — so a single press never skips a tick)
       if (e.key === 'ArrowRight') {
         e.preventDefault()
         AvVisualTabController.setPlayheadAv(Math.min(totalAv - 1, Math.floor(playheadAv) + 1))
@@ -114,71 +141,122 @@ export function AvVisualizerTab() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [playheadAv, totalAv])
 
+  function renderRightPanel() {
+    const ctx = rightPanelContext
+    if (ctx.kind === 'add-branch') {
+      return <AddBranchPanel context={ctx} onContextChange={setRightPanelContext} />
+    }
+    if (ctx.kind === 'intervention') {
+      return (
+        <InterventionEditPanel
+          request={ctx.request}
+          playheadAv={playheadAv}
+          characters={timelineCharacters}
+          onDone={() => setRightPanelContext(IDLE_CONTEXT)}
+        />
+      )
+    }
+    if (ctx.kind === 'action-config') {
+      return (
+        <ActionConfigPanel
+          characterId={ctx.characterId}
+          actionIndex={ctx.actionIndex}
+          characters={timelineCharacters}
+        />
+      )
+    }
+    if (ctx.kind === 'character-state') {
+      return (
+        <CharacterStatePanel
+          characterId={ctx.characterId}
+          characters={timelineCharacters}
+          energy={ctx.stateSnapshot?.energy ?? energyAtPlayhead.get(ctx.characterId)}
+          activeInterventions={ctx.stateSnapshot?.activeInterventions}
+        />
+      )
+    }
+    if (ctx.kind === 'ult-effects') {
+      return (
+        <UltEffectsPanel
+          casterId={ctx.casterId}
+          targets={ctx.targets}
+          characters={timelineCharacters}
+        />
+      )
+    }
+    if (ctx.kind === 'ult-caster') {
+      return (
+        <UltCasterPanel
+          timing={ctx.timing}
+          insertAfterId={ctx.insertAfterId}
+          insertBeforeUltId={ctx.insertBeforeUltId}
+          characters={timelineCharacters}
+          energyAtPlayhead={energyAtPlayhead}
+          onDone={() => setRightPanelContext(IDLE_CONTEXT)}
+        />
+      )
+    }
+    return (
+      <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 16 }}>
+        <Text size='xs' c='dimmed'>{t('Panel.EmptyHint' as never)}</Text>
+      </div>
+    )
+  }
+
   return (
     <div style={{
       display: 'flex',
       flexDirection: 'column',
       gap: 16,
       padding: 24,
-      width: 1302, // Matches OptimizerTab.tsx's fixed content width
+      width: 1302,
       background: 'var(--layer-1)',
       borderRadius: 8,
     }}>
       <div style={{ display: 'flex', gap: 16, alignItems: 'stretch' }}>
-        {/* Character slots: 2x2 grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, max-content)',
-          gap: 12,
-        }}>
+        {/* Character slots: 2×2 grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, max-content)', gap: 12 }}>
           {slots.map((slot, i) => (
             <CharacterSlotCard
               key={i}
               slotIndex={i}
               slot={slot}
-              characterName={slot.characterId ? t(`${slot.characterId}.Name`) : null}
+              characterName={slot.characterId ? t(`${slot.characterId as CharacterId}.Name`) : null}
               baseSpd={baseSpdMap[i]}
             />
           ))}
         </div>
 
-        {/* Action Display Panel: always shows the Playhead's current AV. Fixed height matching the 2x2 slot
-        grid; content scrolls internally instead of growing the box (and the whole row) taller. */}
+        {/* Action Display Panel */}
         <div style={{
-          flex: 1,
-          minWidth: 0,
-          height: SIDE_PANEL_HEIGHT,
-          background: 'var(--layer-2)',
-          boxShadow: 'var(--shadow-card)',
-          borderRadius: 6,
-          padding: 12,
-          overflow: 'hidden',
+          flex: 1, minWidth: 0, height: SIDE_PANEL_HEIGHT,
+          background: 'var(--layer-2)', boxShadow: 'var(--shadow-card)',
+          borderRadius: 6, padding: 12, overflow: 'hidden',
         }}>
           <ActionDisplayPanel
             characters={timelineCharacters}
             simEvents={simEvents}
-            request={editRequest}
-            onRequest={setEditRequest}
+            activeContext={rightPanelContext}
+            onContextChange={setRightPanelContext}
           />
         </div>
 
-        {/* Edit Panel: idle until ActionDisplayPanel emits an add/edit request. Same fixed height as above. */}
-        <div style={{
-          flex: 1,
-          minWidth: 0,
-          height: SIDE_PANEL_HEIGHT,
-          background: 'var(--layer-2)',
-          boxShadow: 'var(--shadow-card)',
-          borderRadius: 6,
-          padding: 12,
-          overflow: 'hidden',
-        }}>
-          <EditPanel
-            request={editRequest}
-            playheadAv={playheadAv}
-            characters={timelineCharacters}
-            onDone={() => setEditRequest(null)}
-          />
+        {/* Right column: SP bar + context panel */}
+        <div style={{ flex: 1, minWidth: 0, height: SIDE_PANEL_HEIGHT, display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{
+            height: 36, flexShrink: 0,
+            background: 'var(--layer-2)', boxShadow: 'var(--shadow-card)',
+            borderRadius: 6, padding: '0 12px',
+          }}>
+            <SpBar sp={teamSpAtPlayhead.sp} spMax={teamSpAtPlayhead.spMax} />
+          </div>
+          <div style={{
+            flex: 1, minWidth: 0,
+            background: 'var(--layer-2)', boxShadow: 'var(--shadow-card)',
+            borderRadius: 6, padding: 12, overflow: 'hidden',
+          }}>
+            {renderRightPanel()}
+          </div>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import type { Intervention, SimEvent } from 'lib/tabs/tabAvVisualizer/types'
+import type { ActionChoice, BattleEvent, CharacterBattleState, Intervention, TurnKind } from 'lib/tabs/tabAvVisualizer/types'
 
 type SimCharacter = {
   id: string
@@ -117,7 +117,7 @@ export function simulateTimeline(
   characters: SimCharacter[],
   interventions: Intervention[],
   totalAv: number,
-): SimEvent[] {
+): BattleEvent[] {
   if (characters.length === 0 || totalAv <= 0) return []
 
   const charStates = new Map<string, CharState>()
@@ -141,7 +141,7 @@ export function simulateTimeline(
   const pendingAfter = interventions.filter((iv) => iv.afterCharId)
 
   let beforeIdx = 0
-  const results: SimEvent[] = []
+  const results: BattleEvent[] = []
 
   // Unified discrete event loop:
   // 1. First drain all global "before" interventions whose triggerAv <= the AV of the character at the head of the queue
@@ -186,6 +186,13 @@ export function simulateTimeline(
       characterId: event.characterId,
       actionIndex: event.actionIndex,
       effectiveSpd: spd,
+      // Placeholder values — will be populated by simulateBattle.ts in Step 3
+      turnKind: 'normal' as TurnKind,
+      actionChoice: 'basic' as ActionChoice,
+      stateBefore: {} as Record<string, CharacterBattleState>,
+      stateAfter: {} as Record<string, CharacterBattleState>,
+      teamStateBefore: { sp: 0, spMax: 5 },
+      teamStateAfter: { sp: 0, spMax: 5 },
     })
 
     const nextAv = event.av + 10000 / spd

@@ -1,5 +1,5 @@
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
-import type { Intervention } from 'lib/tabs/tabAvVisualizer/types'
+import type { ActionNodeOverride, Intervention, UltInsertion } from 'lib/tabs/tabAvVisualizer/types'
 import { uuid } from 'lib/utils/miscUtils'
 
 // ---- Type definitions ----
@@ -15,6 +15,8 @@ export type Slot = {
 export type AVVisualizerTabSavedSession = {
   slots: [Slot, Slot, Slot, Slot]
   interventions: Intervention[]
+  actionOverrides: ActionNodeOverride[]
+  ultInsertions: UltInsertion[]
   rowCount: number
   // Memory of Chaos mode: when on, the first timeline row is 150 AV (matching the in-game first-cycle mechanic); other rows stay 100
   mocFirstRow: boolean
@@ -37,6 +39,14 @@ interface AVVisualTabStateActions {
   removeIntervention: (id: string) => void
   updateIntervention: (id: string, patch: Partial<Omit<Intervention, 'id'>>) => void
   clearInterventions: () => void
+  setActionOverride: (override: ActionNodeOverride) => void
+  removeActionOverride: (characterId: string, actionIndex: number) => void
+  clearActionOverrides: () => void
+  addUltInsertion: (insertion: UltInsertion) => void
+  addUltInsertionAfter: (afterId: string, insertion: UltInsertion) => void
+  addUltInsertionBefore: (beforeId: string, insertion: UltInsertion) => void
+  removeUltInsertion: (id: string) => void
+  clearUltInsertions: () => void
   setMocFirstRow: (value: boolean) => void
   setPlayheadAv: (av: number) => void
 }
@@ -51,6 +61,8 @@ const defaultState: AVVisualTabStateValues = {
   savedSession: {
     slots: [emptySlot(), emptySlot(), emptySlot(), emptySlot()],
     interventions: [],
+    actionOverrides: [],
+    ultInsertions: [],
     rowCount: 3,
     mocFirstRow: false,
   },
@@ -125,6 +137,62 @@ const useAVVisualTabStore = createTabAwareStore<AVVisualTabState>((set) => ({
   },
 
   clearInterventions: () => set((s) => ({ savedSession: { ...s.savedSession, interventions: [] } })),
+
+  setActionOverride: (override) => set((s) => {
+    const list = s.savedSession.actionOverrides
+    const idx = list.findIndex(
+      (o) => o.characterId === override.characterId && o.actionIndex === override.actionIndex,
+    )
+    const next = idx >= 0
+      ? list.map((o, i) => (i === idx ? override : o))
+      : [...list, override]
+    return { savedSession: { ...s.savedSession, actionOverrides: next } }
+  }),
+
+  removeActionOverride: (characterId, actionIndex) => set((s) => ({
+    savedSession: {
+      ...s.savedSession,
+      actionOverrides: s.savedSession.actionOverrides.filter(
+        (o) => !(o.characterId === characterId && o.actionIndex === actionIndex),
+      ),
+    },
+  })),
+
+  clearActionOverrides: () => set((s) => ({ savedSession: { ...s.savedSession, actionOverrides: [] } })),
+
+  addUltInsertion: (insertion) => set((s) => ({
+    savedSession: {
+      ...s.savedSession,
+      ultInsertions: [...s.savedSession.ultInsertions, insertion],
+    },
+  })),
+
+  addUltInsertionAfter: (afterId, insertion) => set((s) => {
+    const list = s.savedSession.ultInsertions
+    const idx = list.findIndex((u) => u.id === afterId)
+    const next = idx >= 0
+      ? [...list.slice(0, idx + 1), insertion, ...list.slice(idx + 1)]
+      : [...list, insertion]
+    return { savedSession: { ...s.savedSession, ultInsertions: next } }
+  }),
+
+  addUltInsertionBefore: (beforeId, insertion) => set((s) => {
+    const list = s.savedSession.ultInsertions
+    const idx = list.findIndex((u) => u.id === beforeId)
+    const next = idx >= 0
+      ? [...list.slice(0, idx), insertion, ...list.slice(idx)]
+      : [insertion, ...list]
+    return { savedSession: { ...s.savedSession, ultInsertions: next } }
+  }),
+
+  removeUltInsertion: (id) => set((s) => ({
+    savedSession: {
+      ...s.savedSession,
+      ultInsertions: s.savedSession.ultInsertions.filter((u) => u.id !== id),
+    },
+  })),
+
+  clearUltInsertions: () => set((s) => ({ savedSession: { ...s.savedSession, ultInsertions: [] } })),
 
   setMocFirstRow: (value) => set((s) => ({ savedSession: { ...s.savedSession, mocFirstRow: value } })),
 

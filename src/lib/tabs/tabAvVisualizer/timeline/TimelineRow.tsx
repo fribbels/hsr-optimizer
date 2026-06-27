@@ -104,8 +104,7 @@ export function TimelineRow({
     return { smallTicks: small, largeTicks: large }
   }, [rowSize])
 
-  // Grouped by (characterId, av): when the same character acts multiple times at the same AV, render a single
-  // avatar with a count badge
+  // Grouped by (characterId, av, turnKind): normal and ult events at the same AV are separate markers
   const markers = useMemo(() => {
     type MarkerGroup = {
       event: EnrichedSimEvent & { leftPercent: number }
@@ -113,7 +112,7 @@ export function TimelineRow({
     }
     const groups = new Map<string, MarkerGroup>()
     for (const event of simEvents) {
-      const key = `${event.characterId}:${event.av}`
+      const key = `${event.characterId}:${event.av}:${event.turnKind}`
       if (!groups.has(key)) {
         groups.set(key, {
           event: { ...event, leftPercent: AvVisualTabController.avToRowPercent(event.av, rowStart, rowSize) },
@@ -269,10 +268,10 @@ export function TimelineRow({
             </Fragment>
           ))}
 
-          {/* Action markers (already grouped by characterId+av; multiple actions show a count badge) */}
+          {/* Action markers (grouped by characterId+av+turnKind; ult and normal events render separately) */}
           {markers.map(({ event: m, actionCount }) => (
             <ActionMarker
-              key={`${m.characterId}:${m.av}`}
+              key={`${m.characterId}:${m.av}:${m.turnKind}`}
               av={m.av}
               spd={m.effectiveSpd}
               color={m.color}
@@ -281,6 +280,7 @@ export function TimelineRow({
               leftPercent={m.leftPercent}
               stackLevel={m.slotIndex}
               actionCount={actionCount}
+              turnKind={m.turnKind}
               onMarkerClick={onSeek}
             />
           ))}

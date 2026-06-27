@@ -3,6 +3,10 @@ Types:
   SpdDown: Speed Down
   AvAdvance: Advance
   AvDelay: Delay
+  EnergyGain: Energy Gain
+  EnergyLoss: Energy Loss
+  StatBuff: Stat Buff
+  StatDebuff: Stat Debuff
 Units:
   Flat: Flat
   Percent: Percent
@@ -24,6 +28,7 @@ Timeline:
 Marker:
   ActionTooltip: '{{name}}  SPD {{spd}}  AV {{av}}'
   InterventionTooltip: 'AV {{av}} · {{count}} interventions'
+  UltTooltip: "{{name}} Ultimate  AV {{av}}"
 
 Panel:
   EmptyHint: Select where to add or what to edit
@@ -47,3 +52,41 @@ CharacterSlot:
   ResetSpd: Reset SPD
   SpdDisplay: 'SPD {{value}}'
   NoValue: '—'
+
+ActionNode:
+  Basic: Basic Attack
+  Skill: Skill
+  Target: Target
+  ChoiceLabel: Action
+
+AddBranch:
+  AddIntervention: Add Intervention
+  AddUlt: Add Ultimate
+  AddUltHint: Insert an ultimate at this position
+
+ActionConfig:
+  EffectsTitle: Effects
+  NoEffects: No effects for this action
+  NoConfig: No action config available
+
+CharacterState:
+  SpeedLabel: "SPD {{value}}"
+  EnergyPlaceholder: Energy — available in Step 5
+  NoBuffs: No active buffs
+
+TargetType:
+  Self: Self
+  AllAllies: All allies
+  SingleAlly: Select target
+  Team: Team SP
+
+UltCard:
+  Effects: Ult Effects
+
+UltCaster:
+  Title: Insert Ultimate
+  EnergyStatus: "{{energy}} / {{threshold}}"
+  EnergyInsufficient: Insufficient energy
+  NeedTarget: Select target
+  Confirm: Insert
+  NoAnchor: Select next to a character action first

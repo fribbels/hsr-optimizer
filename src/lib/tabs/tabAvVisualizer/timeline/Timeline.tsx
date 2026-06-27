@@ -2,26 +2,21 @@ import { Button, Switch } from '@mantine/core'
 import { IconPlus } from '@tabler/icons-react'
 import { AvVisualTabController } from 'lib/tabs/tabAvVisualizer/avVisualTabController'
 import { TimelineRow } from 'lib/tabs/tabAvVisualizer/timeline/TimelineRow'
-import type { Intervention, SimEvent } from 'lib/tabs/tabAvVisualizer/types'
+import type { BattleEntity, BattleEvent, Intervention } from 'lib/tabs/tabAvVisualizer/types'
 import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { useTranslation } from 'react-i18next'
 
-export type TimelineCharacter = {
-  id: string
-  name: string
-  spd: number
-  baseSpd: number  // White value (no relics), used for percent-based speed buff math
-  color: string
-  slotIndex: number
-}
-
-// Sim event plus the display fields needed for rendering (color, character name, slotIndex). Computed once in
-// AvVisualizerTab (shared with ActionDisplayPanel) and passed down to Timeline / Row.
-export type EnrichedSimEvent = SimEvent & {
+// BattleEvent plus the display fields needed for rendering. Computed once in AvVisualizerTab
+// (shared with ActionDisplayPanel) and passed down to Timeline / Row.
+export type EnrichedSimEvent = BattleEvent & {
   color: string
   characterName: string
   slotIndex: number
+  currentTargets?: string[]   // Selected single_ally targets for this action's override (if any)
 }
+
+// Re-export so callers that previously imported TimelineCharacter can migrate to BattleEntity.
+export type { BattleEntity }
 
 type TimelineProps = {
   interventions: Intervention[]

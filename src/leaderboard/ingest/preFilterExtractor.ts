@@ -1,10 +1,11 @@
-import type { SubStats } from 'lib/constants/constants'
+import { Constants, type SubStats } from 'lib/constants/constants'
 import {
   gradeConversion,
   statConversion,
   type UnconvertedCharacter,
 } from 'lib/importer/characterConverter'
 import { RelicRollFixer } from 'lib/relics/relicRollFixer'
+import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { isFlat } from 'lib/utils/statUtils'
@@ -51,4 +52,27 @@ export function extractPreFilterSubstats(
   }
 
   return substats
+}
+
+export type PreFilterSubstatScore = {
+  score: number,
+  scoreNoSpd: number,
+}
+
+// SPD always contributes at weight=1 regardless of metadata weight
+export function computePreFilterSubstatScore(
+  substats: PreFilterSubstat[],
+  statWeights: Record<string, number>,
+): PreFilterSubstatScore {
+  let score = 0
+  let scoreNoSpd = 0
+  for (const sub of substats) {
+    const weight = statWeights[sub.stat] || 0
+    const units = substatPotentialUnits(sub.stat, sub.value)
+    score += units * (sub.stat === Constants.Stats.SPD ? 1 : weight)
+    if (sub.stat !== Constants.Stats.SPD) {
+      scoreNoSpd += units * weight
+    }
+  }
+  return { score, scoreNoSpd }
 }

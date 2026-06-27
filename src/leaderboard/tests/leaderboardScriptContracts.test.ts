@@ -362,6 +362,7 @@ function makeScoringVariantCandidate(): LeaderboardScoringCandidate {
       unconverted: {} as LeaderboardScoringCandidate['character']['unconverted'],
       minified: MINIFIED_CHARACTER,
       preFilterRank: 1,
+      qualityOrder: 0,
     },
     characterId: CHARACTER_ID,
   }
@@ -566,6 +567,27 @@ describe('leaderboard script contracts', () => {
     expect(publicEntry.candidateId).toHaveLength(12)
     expect(publicEntry).not.toHaveProperty('uid')
     expect(publicEntry).not.toHaveProperty('uidHash')
+  })
+
+  test('public output filters entries below MIN_PUBLIC_SCORE threshold', () => {
+    const output = buildPublicOutputFromPrivate({
+      privateOutput: privateOutput([
+        makeEntry('uid-above', 1.51, { rank: 1 }),
+        makeEntry('uid-at', 1.50, { rank: 2 }),
+        makeEntry('uid-below', 1.49, { rank: 3 }),
+      ]),
+      topNPublic: 10,
+      totalCounts: new Map([[CHARACTER_ID, 100]]),
+      generatedAt: '2026-06-26T00:00:00.000Z',
+    })
+
+    const compressedData = Object.values(output.characters)[0]
+    const charData = JSON.parse(gunzipBase64Text(compressedData)) as PublicCharacterData
+    const boardData = charData.configs.dps?.teamsById[TEAM_ID]
+
+    expect(boardData?.entries).toHaveLength(2)
+    expect(boardData!.entries[0].score).toBe(1.51)
+    expect(boardData!.entries[1].score).toBe(1.50)
   })
 
   test('public output validator rejects forbidden identity fields in compressed entries', () => {

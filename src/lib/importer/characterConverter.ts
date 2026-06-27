@@ -16,7 +16,7 @@ import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { Relic } from 'types/relic'
 
-const partConversion = {
+export const partConversion: Record<string, Parts> = {
   1: Constants.Parts.Head,
   2: Constants.Parts.Hands,
   3: Constants.Parts.Body,
@@ -136,8 +136,7 @@ export const CharacterConverter = {
   },
 }
 
-// Some special relics have a weird id -> set/part/main mapping
-const tidOverrides = {
+export const tidOverrides: Record<string, { set: string, part: string, main: string }> = {
   55001: { set: '101', part: '3', main: '436' },
   55002: { set: '101', part: '4', main: '441' },
   55003: { set: '102', part: '3', main: '434' },
@@ -153,22 +152,12 @@ function convertRelic(preRelic: PreRelic) {
 
     const enhance: Relic['enhance'] = preRelic.level || 0
 
-    let setId = tid.substring(1, 4)
-    // @ts-expect-error - tidOverrides keys are numeric but tid is string
-    if (tidOverrides[tid]) {
-      // @ts-expect-error - tidOverrides keys are numeric but tid is string
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      setId = tidOverrides[tid].set
-    }
+    const override = tidOverrides[tid]
+
+    let setId = override?.set ?? tid.substring(1, 4)
     const setName = metadata.relicSets[setId].name
 
-    let partId = tid.substring(4, 5) as '1' | '2' | '3' | '4' | '5' | '6'
-    // @ts-expect-error - tidOverrides keys are numeric but tid is string
-    if (tidOverrides[tid]) {
-      // @ts-expect-error - tidOverrides keys are numeric but tid is string
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      partId = tidOverrides[tid].part
-    }
+    let partId = (override?.part ?? tid.substring(4, 5)) as '1' | '2' | '3' | '4' | '5' | '6'
     const partName: Relic['part'] = partConversion[partId]
 
     const gradeId = tid.substring(0, 1)
@@ -181,13 +170,8 @@ function convertRelic(preRelic: PreRelic) {
       if (!match) return null
       mainId = Number(match.affix_id)
     }
-    let mainData = metadata.relicMainAffixes[`${grade}${partId}`].affixes[mainId]
-    // @ts-expect-error - tidOverrides keys are numeric but tid is string
-    if (tidOverrides[tid]) {
-      // @ts-expect-error - tidOverrides keys are numeric but tid is string
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      mainData = metadata.relicMainAffixes[tidOverrides[tid].main].affixes[mainId]
-    }
+    const mainKey = override?.main ?? `${grade}${partId}`
+    let mainData = metadata.relicMainAffixes[mainKey].affixes[mainId]
 
     const mainStat = statConversion[mainData.property] as MainStats
     const mainBase = mainData.base

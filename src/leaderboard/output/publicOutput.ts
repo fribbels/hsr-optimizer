@@ -16,6 +16,8 @@ import type {
 } from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 
+import { MIN_PUBLIC_SCORE } from 'leaderboard/shared/constants'
+
 export function buildPublicOutputFromPrivate(input: {
   privateOutput: PrivateRankedOutput,
   topNPublic: number,
@@ -66,10 +68,8 @@ export function buildPublicOutputFromPrivate(input: {
       const teamsById: Record<string, PublicBoardDataV2> = {}
 
       for (const [teamId, board] of teamMap) {
-        // Temporarily disabled — including all scores while iterating on the leaderboard
-        // const MIN_PUBLIC_SCORE = 1.50
-        // const qualified = board.entries.filter((e) => e.score >= MIN_PUBLIC_SCORE)
-        const topEntries = board.entries.slice(0, topNPublic)
+        const qualified = board.entries.filter((e) => e.score >= MIN_PUBLIC_SCORE)
+        const topEntries = qualified.slice(0, topNPublic)
         const publicEntries: PublicLeaderboardEntryV2[] = topEntries.map((entry) => ({
           rank: entry.rank,
           characterId: entry.characterId as CharacterId,

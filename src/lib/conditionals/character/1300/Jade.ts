@@ -411,7 +411,7 @@ const display = {
     y: 835,
     z: 1.15,
   },
-  showcaseColor: '#ac87ee',
+  showcaseColor: '#d3c7ff',
 }
 
 export const Jade: CharacterConfig = {

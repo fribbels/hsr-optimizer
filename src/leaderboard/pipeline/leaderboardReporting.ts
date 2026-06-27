@@ -11,6 +11,7 @@ import type {
   LeaderboardBuildScoreCacheStats,
   LeaderboardMetricsSnapshot,
   LeaderboardScoringProfile,
+  PrivateBoard,
   PrivateRankedEntry,
   PrivateRankedOutput,
 } from 'leaderboard/shared/types'
@@ -55,8 +56,6 @@ export function printLeaderboardResults(privateOutput: PrivateRankedOutput, topN
 }
 
 export function printTopNCoverageAnalysis(privateOutput: PrivateRankedOutput, topNPublic: number): void {
-  const MIN_AEON_SCORE = 1.50
-
   type CharStats = {
     boards: number,
     survivors: number,
@@ -199,11 +198,26 @@ function getBuildSummary(char: MinifiedCharacter): { body: string, feet: string,
   }
 }
 
+const MIN_AEON_SCORE = 1.50
 const DIAGNOSTIC_LIMIT = 20
 
-function printDeepAeonDiagnostic(charId: string, charName: string, privateOutput: PrivateRankedOutput, topNPublic: number): void {
-  const MIN_AEON_SCORE = 1.50
+function printEntryTable(entries: PrivateRankedEntry[], title: string): void {
+  const limited = entries.slice(0, DIAGNOSTIC_LIMIT)
+  const summaries = limited.map((entry) => getBuildSummary(entry.data.character))
+  console.log(`\n-- ${title} --`)
+  console.log(`${'Rank'.padStart(5)} ${'Score'.padStart(6)} ${'E'.padStart(1)} ${'Body'.padEnd(10)} ${'Feet'.padEnd(10)} ${'Sphere'.padEnd(14)} ${'Rope'.padEnd(10)} LC`)
+  for (let i = 0; i < limited.length; i++) {
+    const entry = limited[i]
+    const b = summaries[i]
+    const pct = (entry.score * 100).toFixed(0)
+    console.log(
+      `${String(entry.preFilterRank).padStart(5)} ${(pct + '%').padStart(6)} ${String(b.eidolon).padStart(1)} ${b.body.padEnd(10)} ${b.feet.padEnd(10)} ${b.sphere.padEnd(14)} ${b.rope.padEnd(10)} S${b.lcSuper} ${b.lc}`,
+    )
+  }
+  console.log(`  Sets: ${summaries.map((b) => b.sets).join(' | ')}`)
+}
 
+function printDeepAeonDiagnostic(charId: string, charName: string, privateOutput: PrivateRankedOutput, topNPublic: number): void {
   const aeonEntries: PrivateRankedEntry[] = []
   const nonAeonEntries: PrivateRankedEntry[] = []
 
@@ -224,27 +238,8 @@ function printDeepAeonDiagnostic(charId: string, charName: string, privateOutput
 
   console.log(`\n===== DEEP AEON DIAGNOSTIC: ${charName} (${aeonEntries.length} aeons, ${nonAeonEntries.length} non-aeons in top-${topNPublic}) =====`)
 
-  console.log(`\n-- Deepest-ranked aeons (worst prefilter rank first) --`)
-  console.log(`${'Rank'.padStart(5)} ${'Score'.padStart(6)} ${'E'.padStart(1)} ${'Body'.padEnd(10)} ${'Feet'.padEnd(10)} ${'Sphere'.padEnd(14)} ${'Rope'.padEnd(10)} LC`)
-  for (const entry of aeonEntries.slice(0, DIAGNOSTIC_LIMIT)) {
-    const b = getBuildSummary(entry.data.character)
-    const pct = (entry.score * 100).toFixed(0)
-    console.log(
-      `${String(entry.preFilterRank).padStart(5)} ${(pct + '%').padStart(6)} ${String(b.eidolon).padStart(1)} ${b.body.padEnd(10)} ${b.feet.padEnd(10)} ${b.sphere.padEnd(14)} ${b.rope.padEnd(10)} S${b.lcSuper} ${b.lc}`,
-    )
-  }
-  console.log(`  Sets: ${aeonEntries.slice(0, DIAGNOSTIC_LIMIT).map((e) => getBuildSummary(e.data.character).sets).join(' | ')}`)
-
-  console.log(`\n-- Top-ranked non-aeons (best prefilter rank first) --`)
-  console.log(`${'Rank'.padStart(5)} ${'Score'.padStart(6)} ${'E'.padStart(1)} ${'Body'.padEnd(10)} ${'Feet'.padEnd(10)} ${'Sphere'.padEnd(14)} ${'Rope'.padEnd(10)} LC`)
-  for (const entry of nonAeonEntries.slice(0, DIAGNOSTIC_LIMIT)) {
-    const b = getBuildSummary(entry.data.character)
-    const pct = (entry.score * 100).toFixed(0)
-    console.log(
-      `${String(entry.preFilterRank).padStart(5)} ${(pct + '%').padStart(6)} ${String(b.eidolon).padStart(1)} ${b.body.padEnd(10)} ${b.feet.padEnd(10)} ${b.sphere.padEnd(14)} ${b.rope.padEnd(10)} S${b.lcSuper} ${b.lc}`,
-    )
-  }
-  console.log(`  Sets: ${nonAeonEntries.slice(0, DIAGNOSTIC_LIMIT).map((e) => getBuildSummary(e.data.character).sets).join(' | ')}`)
+  printEntryTable(aeonEntries, 'Deepest-ranked aeons (worst prefilter rank first)')
+  printEntryTable(nonAeonEntries, 'Top-ranked non-aeons (best prefilter rank first)')
   console.log()
 }
 
@@ -307,12 +302,11 @@ type SubstatAnalysisResult = {
   weights: number[],
 }
 
-function analyzeSubstatAllocation(charId: string, privateOutput: PrivateRankedOutput, topNPublic: number): SubstatAnalysisResult | null {
+function analyzeSubstatAllocation(charId: string, boards: PrivateBoard[], topNPublic: number): SubstatAnalysisResult | null {
   type EntryData = { units: Record<string, number>, isTop: boolean }
   const entryMap = new Map<string, EntryData>()
 
-  for (const [, board] of Object.entries(privateOutput.boards)) {
-    if (board.characterId !== charId) continue
+  for (const board of boards) {
     for (const entry of board.entries) {
       const existing = entryMap.get(entry.uidHash)
       if (!existing) {
@@ -364,10 +358,20 @@ type CoverageCharStat = { charId: string, name: string, aeons: number, topN: num
 function printWeightAnalysisSummary(chars: CoverageCharStat[], privateOutput: PrivateRankedOutput, topNPublic: number): void {
 
   console.log('\n========== SUBSTAT ANALYSIS: top-100 substat allocation (normalized to 1.00) ==========')
-  const results: SubstatAnalysisResult[] = []
 
+  const boardsByCharId = new Map<string, PrivateBoard[]>()
+  for (const board of Object.values(privateOutput.boards)) {
+    const existing = boardsByCharId.get(board.characterId)
+    if (existing) {
+      existing.push(board)
+    } else {
+      boardsByCharId.set(board.characterId, [board])
+    }
+  }
+
+  const results: SubstatAnalysisResult[] = []
   for (const c of chars) {
-    const result = analyzeSubstatAllocation(c.charId, privateOutput, topNPublic)
+    const result = analyzeSubstatAllocation(c.charId, boardsByCharId.get(c.charId) ?? [], topNPublic)
     if (result) results.push(result)
   }
 

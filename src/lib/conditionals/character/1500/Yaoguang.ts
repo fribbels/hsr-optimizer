@@ -513,9 +513,9 @@ const simulation = (): SimulationMetadata => ({
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
-  breakpoints: {
-    [Stats.SPD]: 120,
-  },
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 120 },
+  ],
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
@@ -603,7 +603,7 @@ const display = {
     y: 1086,
     z: 1.2,
   },
-  showcaseColor: '#688ba3',
+  showcaseColor: '#abdaeb',
 }
 
 export function getYaoguangAhaPunchlineValue(action: OptimizerAction, context: OptimizerContext): number | undefined {

@@ -334,9 +334,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.CR,
     Stats.CD,
   ],
-  breakpoints: {
-    [Stats.EHR]: 1.20,
-  },
+  softBreakpoints: [
+    { stat: Stats.EHR, threshold: 1.20 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -440,7 +440,7 @@ const display = {
     y: 934,
     z: 1.3,
   },
-  showcaseColor: '#a37df4',
+  showcaseColor: '#b4a0d5',
 }
 
 export const BlackSwanB1: CharacterConfig = {

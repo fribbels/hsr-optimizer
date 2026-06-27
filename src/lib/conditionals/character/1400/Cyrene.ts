@@ -473,7 +473,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.HP,
     Stats.SPD,
   ],
-  breakpoints: { [Stats.SPD]: 180 },
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 180 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     DEFAULT_ULT,
@@ -605,7 +607,7 @@ const display = {
     y: 384,
     z: -0.5,
   },
-  showcaseColor: '#301a66',
+  showcaseColor: '#7499fb',
 }
 
 export function getCyreneAction(action: OptimizerAction) {

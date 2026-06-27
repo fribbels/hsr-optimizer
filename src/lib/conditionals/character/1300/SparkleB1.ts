@@ -412,7 +412,7 @@ const display = {
     y: 1050,
     z: 1,
   },
-  showcaseColor: '#3f62bf',
+  showcaseColor: '#8896e3',
 }
 
 export const SparkleB1: CharacterConfig = {

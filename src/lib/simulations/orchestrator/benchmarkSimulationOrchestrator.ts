@@ -38,6 +38,7 @@ import {
 } from 'lib/scoring/dpsScore'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import {
+  applyHardBreakpoints,
   calculateMaxSubstatRollCounts,
   calculateMinSubstatRollCounts,
 } from 'lib/scoring/rollCounter'
@@ -558,8 +559,11 @@ export class BenchmarkSimulationOrchestrator {
 
       partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedBenchmarkScoringParams.quality)
 
-      // Define min/max limits
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
+      if (!applyHardBreakpoints(partialSimulationWrapper, simulationResult, metadata, clonedBenchmarkScoringParams)) {
+        return null
+      }
+
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams)
       const maxSubstatRollCounts = calculateMaxSubstatRollCounts(
         partialSimulationWrapper,
         clonedBenchmarkScoringParams,
@@ -662,7 +666,7 @@ export class BenchmarkSimulationOrchestrator {
       partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedPerfectionScoringParams.quality)
 
       // Define min/max limits
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams)
       const maxSubstatRollCounts = calculateMaxSubstatRollCounts(
         partialSimulationWrapper,
         clonedPerfectionScoringParams,

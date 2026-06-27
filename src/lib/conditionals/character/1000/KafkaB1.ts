@@ -362,9 +362,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.CR,
     Stats.CD,
   ],
-  breakpoints: {
-    [Stats.EHR]: 0.75,
-  },
+  hardBreakpoints: [
+    { stat: Stats.EHR, threshold: 0.75 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -475,7 +475,7 @@ const display = {
     y: 950,
     z: 1.25,
   },
-  showcaseColor: '#cf99a9',
+  showcaseColor: '#c1a2c7',
 }
 
 export const KafkaB1: CharacterConfig = {

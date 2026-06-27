@@ -29,6 +29,11 @@ export enum ScoringConfigType {
   SHIELD = 'shield',
 }
 
+export type BreakpointThreshold = {
+  stat: SubStats,
+  threshold: number,
+}
+
 export type ScoringConfig = {
   configType: ScoringConfigType,
   simulation: SimulationMetadata,
@@ -98,9 +103,8 @@ export type SimulationMetadata = {
     teamOrnamentSet?: string,
   }[],
   leaderboardTeams?: LeaderboardTeam[],
-  breakpoints?: {
-    [stat: string]: number,
-  },
+  softBreakpoints?: BreakpointThreshold[],
+  hardBreakpoints?: BreakpointThreshold[],
   buffStat?: AKeyValue,
   combatStatsConfig?: Array<{
     add?: StatsValues,

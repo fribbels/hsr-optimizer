@@ -349,7 +349,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#ce7bd0',
+  showcaseColor: '#b88fb2',
 }
 
 export const Gallagher: CharacterConfig = {

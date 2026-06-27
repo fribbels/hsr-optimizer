@@ -413,7 +413,7 @@ const scoring = (): ScoringMetadata => ({
 const display = {
   // TODO: placeholder image coordinates
   imageCenter: { x: 902, y: 928, z: 1.25 },
-  showcaseColor: '#b584e8',
+  showcaseColor: '#b498d3',
 }
 
 export const HimekoNova: CharacterConfig = {

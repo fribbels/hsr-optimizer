@@ -523,7 +523,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.DEF_P,
     Stats.HP_P,
   ],
-  breakpoints: { [Stats.SPD]: 160 },
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 160 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -633,7 +635,7 @@ const display = {
     y: 936,
     z: 1.28,
   },
-  showcaseColor: '#0d1075',
+  showcaseColor: '#6b8cd8',
 }
 
 export const SilverWolfLv999: CharacterConfig = {

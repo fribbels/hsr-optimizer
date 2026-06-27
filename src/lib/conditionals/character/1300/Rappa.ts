@@ -353,9 +353,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.CD,
     Stats.CR,
   ],
-  breakpoints: {
-    [Stats.ATK]: 3200,
-  },
+  softBreakpoints: [
+    { stat: Stats.ATK, threshold: 3200 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -454,7 +454,7 @@ const display = {
     y: 1228,
     z: 1.95,
   },
-  showcaseColor: '#373699',
+  showcaseColor: '#896fbe',
 }
 
 export const Rappa: CharacterConfig = {

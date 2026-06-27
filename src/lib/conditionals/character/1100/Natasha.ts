@@ -243,7 +243,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#7499fb',
+  showcaseColor: '#bec8ed',
 }
 
 export const Natasha: CharacterConfig = {

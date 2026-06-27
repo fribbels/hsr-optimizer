@@ -444,7 +444,7 @@ const display = {
     y: 1050,
     z: 1.05,
   },
-  showcaseColor: '#e573a2',
+  showcaseColor: '#f09f9c',
 }
 
 export const Mydei: CharacterConfig = {

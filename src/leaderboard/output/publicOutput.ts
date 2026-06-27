@@ -16,7 +16,7 @@ import type {
 } from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 
-import { MIN_PUBLIC_SCORE } from 'leaderboard/shared/constants'
+export const MIN_PUBLIC_SCORE = 1.50
 
 export function buildPublicOutputFromPrivate(input: {
   privateOutput: PrivateRankedOutput,

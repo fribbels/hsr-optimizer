@@ -5,7 +5,7 @@ import {
   extractPreFilterSubstats,
 } from 'leaderboard/ingest/preFilterExtractor'
 import { readPrivateRankedOutput } from 'leaderboard/output/privateOutput'
-import { MIN_PUBLIC_SCORE } from 'leaderboard/shared/constants'
+import { MIN_PUBLIC_SCORE } from 'leaderboard/output/publicOutput'
 import { findLatestServerExport } from 'leaderboard/shared/exportResolution'
 import {
   computeBuildId,

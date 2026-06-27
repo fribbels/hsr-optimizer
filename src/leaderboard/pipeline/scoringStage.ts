@@ -1,4 +1,4 @@
-import { MIN_PUBLIC_SCORE } from 'leaderboard/shared/constants'
+import { MIN_PUBLIC_SCORE } from 'leaderboard/output/publicOutput'
 import {
   emptyBuildScoreCacheStats,
   emptyMetricsSnapshot,

@@ -334,9 +334,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.CR,
     Stats.CD,
   ],
-  breakpoints: {
-    [Stats.EHR]: 1.20,
-  },
+  softBreakpoints: [
+    { stat: Stats.EHR, threshold: 1.20 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,

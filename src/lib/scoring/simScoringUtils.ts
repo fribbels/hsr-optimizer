@@ -149,12 +149,18 @@ export type RelicBuild = {
   [key: string]: Relic,
 }
 
+export type BreakpointRollRequirement = {
+  stat: SubStats,
+  requiredRolls: number,
+}
+
 export type PartialSimulationWrapper = {
   simulation: Simulation,
   speedRollsDeduction: number,
   resRollsDeduction: number,
-  effectiveSubstats: string[],
+  effectiveSubstats: SubStats[],
   poolIndex: number,
+  breakpointRequirements?: BreakpointRollRequirement[],
 }
 
 export type PoolComboState = {
@@ -367,28 +373,43 @@ function collectPenaltyRecords(
 ): PenaltyRecord[] {
   const records: PenaltyRecord[] = []
 
-  if (metadata.breakpoints) {
-    for (const stat of Object.keys(metadata.breakpoints)) {
-      const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
-      if (stat == Stats.SPD && statValue < metadata.breakpoints[stat]) {
-        if (user) {
-          records.push({ stat: stat as StatsValues, multiplier: 0 })
-        }
-      } else if (isFlat(stat)) {
-        const multiplier = (Math.min(1, statValue / metadata.breakpoints[stat]) + 1) / 2
-        if (precisionRound(multiplier) < 1) {
-          records.push({ stat: stat as StatsValues, multiplier })
-        }
-      } else {
-        const multiplier = Math.min(
-          1,
-          1
-            - (metadata.breakpoints[stat] - statValue)
-              / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
-        )
-        if (precisionRound(multiplier) < 1) {
-          records.push({ stat: stat as StatsValues, multiplier })
-        }
+  type PenaltyEntry = { threshold: number, hard: boolean }
+  const penaltyThresholds = new Map<string, PenaltyEntry>()
+  if (metadata.softBreakpoints) {
+    for (const { stat, threshold } of metadata.softBreakpoints) {
+      penaltyThresholds.set(stat, { threshold, hard: false })
+    }
+  }
+  if (metadata.hardBreakpoints) {
+    for (const { stat, threshold } of metadata.hardBreakpoints) {
+      const existing = penaltyThresholds.get(stat)
+      if (!existing || threshold >= existing.threshold) {
+        penaltyThresholds.set(stat, { threshold, hard: true })
+      }
+    }
+  }
+
+  for (const [stat, { threshold, hard }] of penaltyThresholds) {
+    void hard
+    const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
+    if (stat == Stats.SPD && statValue < threshold) {
+      if (user) {
+        records.push({ stat: stat as StatsValues, multiplier: 0 })
+      }
+    } else if (isFlat(stat)) {
+      const multiplier = (Math.min(1, statValue / threshold) + 1) / 2
+      if (precisionRound(multiplier) < 1) {
+        records.push({ stat: stat as StatsValues, multiplier })
+      }
+    } else {
+      const multiplier = Math.min(
+        1,
+        1
+          - (threshold - statValue)
+            / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
+      )
+      if (precisionRound(multiplier) < 1) {
+        records.push({ stat: stat as StatsValues, multiplier })
       }
     }
   }

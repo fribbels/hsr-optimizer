@@ -470,9 +470,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.ATK,
     Stats.EHR,
   ],
-  breakpoints: {
-    [Stats.EHR]: 0.19,
-  },
+  softBreakpoints: [
+    { stat: Stats.EHR, threshold: 0.19 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     DEFAULT_ULT,

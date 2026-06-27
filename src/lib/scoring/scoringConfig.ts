@@ -1,11 +1,9 @@
 import i18next from 'i18next'
-import { labelToString } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import {
   type AKeyValue,
   getAKeyName,
   GlobalRegister,
 } from 'lib/optimization/engine/config/keys'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
 import {
   SortOption,
   type SortOptionKey,
@@ -134,9 +132,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
 }
 
 export function getBuffStatShortLabel(buffStat: AKeyValue): string {
-  const name = getAKeyName(buffStat)
-  const label = newStatsConfig[name].label
-  return labelToString(label)
+  return getAKeyName(buffStat)
 }
 
 export function resolveRulerLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {

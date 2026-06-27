@@ -88,6 +88,8 @@ export function preFilterProfiles(
   const profileMeta = new Map<string, { fetchedAt: number, payloadHash: string }>()
   let totalSurvivors = 0
 
+  // Union of two top-N lists: one ranked with SPD, one without.
+  // Ensures both SPD-dependent and SPD-independent builds survive the prefilter.
   for (const [, candidates] of candidatesByChar) {
     candidates.sort((a, b) => b.substatScore - a.substatScore)
     const keptBySpd = candidates.slice(0, topN)
@@ -95,6 +97,7 @@ export function preFilterProfiles(
     candidates.sort((a, b) => b.substatScoreNoSpd - a.substatScoreNoSpd)
     const keptNoSpd = candidates.slice(0, topN)
 
+    // Merge both lists, keeping the best rank from either list per candidate
     const bestRank = new Map<string, number>()
     const candidateByKey = new Map<string, PreFilterCandidate>()
 

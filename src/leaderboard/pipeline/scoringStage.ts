@@ -17,8 +17,11 @@ import type {
 } from 'leaderboard/shared/types'
 import { LeaderboardScoreWorkerPool } from 'leaderboard/workers/profileWorkerPool'
 
+// Percentage of total candidates per character to include in each batch
 const BATCH_PERCENT = 15
+// Minimum candidates per batch regardless of percentage
 const BATCH_MIN = 100
+// Maximum candidates per batch regardless of percentage
 const BATCH_MAX = 500
 
 export type RunScoringStageInput = {
@@ -28,7 +31,6 @@ export type RunScoringStageInput = {
   workerCount: number,
   runtimeConfig: LeaderboardScoreWorkerRuntimeConfig,
   workerScriptUrl: URL,
-  batching: boolean,
 }
 
 export type RunScoringStageResult = {
@@ -63,15 +65,7 @@ export async function runScoringStage(input: RunScoringStageInput): Promise<RunS
   let scoringError: unknown
   let scoringResult: WorkerScoreProfilesResult | null = null
   try {
-    if (input.batching) {
-      scoringResult = await runBatchedScoring(workerPool, input)
-    } else {
-      scoringResult = await workerPool.scoreProfiles({
-        profiles: input.profiles,
-        versions: input.versions,
-        globalVersion: input.globalVersion,
-      })
-    }
+    scoringResult = await runBatchedScoring(workerPool, input)
   } catch (error: unknown) {
     scoringError = error
   }
@@ -105,7 +99,7 @@ type CharacterBatchState = {
   done: boolean,
 }
 
-// Orchestrates batch rounds: init → loop(build→score→update) → merge
+// Orchestrates batch rounds: init → loop(select→score→update) → merge
 async function runBatchedScoring(
   workerPool: LeaderboardScoreWorkerPool,
   input: RunScoringStageInput,
@@ -113,23 +107,28 @@ async function runBatchedScoring(
   const { profiles, versions, globalVersion } = input
   const { characterStates, maxRounds } = initializeBatchStates(profiles)
 
+  // Process candidates in rounds, stopping characters that no longer produce public output
   const roundResults: WorkerScoreProfilesResult[] = []
   for (let round = 0; round < maxRounds; round++) {
+    // Select candidates belonging to this round's batch window
     const { profiles: roundProfiles, submittedCharacterIds } = selectRoundCandidates(profiles, characterStates, round)
     if (roundProfiles.length === 0) break
 
     const roundCandidates = roundProfiles.reduce((n, p) => n + p.characters.length, 0)
     console.log(`\nBatch round ${round + 1}: ${roundProfiles.length} profiles, ${roundCandidates} candidates, ${submittedCharacterIds.size} active characters`)
 
+    // Score this round's candidates via worker pool
     const result = await workerPool.scoreProfiles({ profiles: roundProfiles, versions, globalVersion })
     roundResults.push(result)
 
+    // Mark characters as done if they've converged
     updateStopStates(characterStates, result.entries, result.failures, submittedCharacterIds, round)
 
     const doneCount = [...characterStates.values()].filter((s) => s.done).length
     console.log(`Batch round ${round + 1} complete: ${result.entries.length} entries, ${doneCount}/${characterStates.size} characters done`)
   }
 
+  // Characters that used all batches without converging were fully scored anyway
   const exhausted = [...characterStates.entries()].filter(([, s]) => !s.done)
   if (exhausted.length > 0) {
     console.warn(`Batching: ${exhausted.length} character(s) used all batches without converging: ${exhausted.map(([id]) => id).join(', ')}`)
@@ -138,11 +137,12 @@ async function runBatchedScoring(
   return mergeRoundResults(roundResults)
 }
 
-// Counts candidates per character and computes batch sizes
+// Counts candidates per character and computes per-character batch sizes
 function initializeBatchStates(profiles: LeaderboardScoringProfile[]): {
   characterStates: Map<string, CharacterBatchState>,
   maxRounds: number,
 } {
+  // Count how many candidates exist per character across all profiles
   const candidateCounts = new Map<string, number>()
   for (const profile of profiles) {
     for (const character of profile.characters) {
@@ -151,6 +151,7 @@ function initializeBatchStates(profiles: LeaderboardScoringProfile[]): {
     }
   }
 
+  // Compute batch size for each character and determine how many rounds are needed
   const characterStates = new Map<string, CharacterBatchState>()
   let maxRounds = 0
   for (const [characterId, totalCandidates] of candidateCounts) {
@@ -167,7 +168,7 @@ function initializeBatchStates(profiles: LeaderboardScoringProfile[]): {
   return { characterStates, maxRounds }
 }
 
-// Filters profiles to candidates in the current batch window for active characters
+// Selects candidates whose qualityOrder falls in the current round's batch window
 function selectRoundCandidates(
   profiles: LeaderboardScoringProfile[],
   characterStates: Map<string, CharacterBatchState>,
@@ -184,12 +185,14 @@ function selectRoundCandidates(
       const state = characterStates.get(charId)
       if (!state || state.done) continue
 
+      // qualityOrder / batchSize determines which round this candidate belongs to
       if (Math.floor(character.qualityOrder / state.batchSize) === round) {
         roundCharacters.push(character)
         submittedCharacterIds.add(charId)
       }
     }
 
+    // Rebuild profile with only this round's characters
     if (roundCharacters.length > 0) {
       roundProfiles.push({
         uid: profile.uid,
@@ -221,10 +224,12 @@ function updateStopStates(
     }
   }
 
+  // Failures keep the character active so it isn't stopped on a transient error
   for (const failure of failures) {
     activeThisRound.add(String(failure.characterId))
   }
 
+  // Never stop on round 0 — need at least one full batch before evaluating convergence
   if (round === 0) return
 
   for (const characterId of submittedCharacterIds) {

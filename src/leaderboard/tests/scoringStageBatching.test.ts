@@ -109,21 +109,6 @@ describe('runScoringStage batching', () => {
     expect(workerPoolMocks.scoreProfiles).toHaveBeenCalledTimes(3)
   })
 
-  test('non-batching path submits the original profiles once', async () => {
-    const profiles = makeProfiles(CHARACTER_ID, 2)
-    workerPoolMocks.scoreProfiles.mockResolvedValueOnce(scoreResult({
-      entries: [makeEntry(CHARACTER_ID, 1.5)],
-    }))
-
-    await runScoringStage(makeInput(profiles, { batching: false }))
-
-    expect(workerPoolMocks.scoreProfiles).toHaveBeenCalledTimes(1)
-    expect(workerPoolMocks.scoreProfiles).toHaveBeenCalledWith({
-      profiles,
-      versions: VERSIONS,
-      globalVersion: 1,
-    })
-  })
 })
 
 const VERSIONS: LeaderboardVersionFile = {
@@ -134,7 +119,6 @@ const VERSIONS: LeaderboardVersionFile = {
 
 function makeInput(
   profiles: LeaderboardScoringProfile[],
-  overrides: { batching?: boolean } = {},
 ): RunScoringStageInput {
   return {
     profiles,
@@ -143,7 +127,6 @@ function makeInput(
     workerCount: 1,
     runtimeConfig: {} as LeaderboardScoreWorkerRuntimeConfig,
     workerScriptUrl: WORKER_SCRIPT_URL,
-    batching: overrides.batching ?? true,
   }
 }
 

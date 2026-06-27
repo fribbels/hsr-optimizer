@@ -137,8 +137,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     const totalCandidates = profiles.reduce((n, p) => n + p.characters.length, 0)
     console.log(`Pre-filter: kept ${totalCandidates} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
 
-    const batching = options.batching && !options.freshRun
-    console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles (batching: ${batching ? 'on' : 'off'})`)
+    console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles`)
 
     const scoring = await runScoringStage({
       profiles,
@@ -147,7 +146,6 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       workerCount: options.workerThreads,
       runtimeConfig,
       workerScriptUrl,
-      batching,
     })
 
     printFailures(scoring)

@@ -26,7 +26,6 @@ describe('leaderboard CLI options', () => {
       buildScoreCacheDbPath: resolvePath(homeDir(), 'leaderboard-cache/leaderboard-build-score-cache.sqlite'),
       pruneBuildScoreCache: false,
       freshRun: false,
-      batching: false,
       printConfig: false,
       help: false,
     })
@@ -125,14 +124,8 @@ describe('leaderboard CLI options', () => {
     ).toThrow('--fresh-run and --prune-build-score-cache cannot be used together')
   })
 
-  test('parses --batching flag', () => {
-    expect(parseLeaderboardCliOptions(['--batching']).batching).toBe(true)
-    expect(parseLeaderboardCliOptions([]).batching).toBe(false)
-  })
-
   test('exports usage text for help output', () => {
     expect(leaderboardCliUsage()).toContain('--worker-threads <n>')
     expect(leaderboardCliUsage()).toContain('--fresh-run')
-    expect(leaderboardCliUsage()).toContain('--batching')
   })
 })

@@ -68,8 +68,9 @@ export function buildPublicOutputFromPrivate(input: {
       const teamsById: Record<string, PublicBoardDataV2> = {}
 
       for (const [teamId, board] of teamMap) {
-        const qualified = board.entries.filter((e) => e.score >= MIN_PUBLIC_SCORE)
-        const topEntries = qualified.slice(0, topNPublic)
+        // Temporarily disabled — including all scores while iterating on the leaderboard
+        // const qualified = board.entries.filter((e) => e.score >= MIN_PUBLIC_SCORE)
+        const topEntries = board.entries.slice(0, topNPublic)
         const publicEntries: PublicLeaderboardEntryV2[] = topEntries.map((entry) => ({
           rank: entry.rank,
           characterId: entry.characterId as CharacterId,

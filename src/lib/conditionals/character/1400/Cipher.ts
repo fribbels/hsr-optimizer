@@ -587,7 +587,7 @@ const display = {
     y: 364,
     z: 0.17,
   },
-  showcaseColor: '#896ed4',
+  showcaseColor: '#bbaaff',
 }
 
 export const Cipher: CharacterConfig = {

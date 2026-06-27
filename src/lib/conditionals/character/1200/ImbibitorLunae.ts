@@ -361,7 +361,7 @@ const display = {
     y: 979,
     z: 1.05,
   },
-  showcaseColor: '#90bfd6',
+  showcaseColor: '#7dafb8',
 }
 
 export const ImbibitorLunae: CharacterConfig = {

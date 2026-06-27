@@ -524,7 +524,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#524dc9',
+  showcaseColor: '#bac6ff',
 }
 
 export const WeltB1: CharacterConfig = {

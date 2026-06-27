@@ -432,7 +432,7 @@ const display = {
     y: -16,
     z: 0.5,
   },
-  showcaseColor: '#8d61c7',
+  showcaseColor: '#dec7fc',
 }
 
 export const TheHerta: CharacterConfig = {

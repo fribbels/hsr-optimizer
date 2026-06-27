@@ -420,7 +420,7 @@ const display = {
     y: 1125,
     z: 1.15,
   },
-  showcaseColor: '#f2c2e8',
+  showcaseColor: '#f0dfec',
 }
 
 export const Fugue: CharacterConfig = {

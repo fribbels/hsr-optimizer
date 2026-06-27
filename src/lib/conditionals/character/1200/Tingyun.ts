@@ -296,7 +296,7 @@ const display = {
     y: 890,
     z: 1,
   },
-  showcaseColor: '#e573a2',
+  showcaseColor: '#dac2d1',
 }
 
 export const Tingyun: CharacterConfig = {

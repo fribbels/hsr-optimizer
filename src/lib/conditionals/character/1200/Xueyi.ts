@@ -392,7 +392,7 @@ const display = {
     y: 900,
     z: 1,
   },
-  showcaseColor: '#8e91f9',
+  showcaseColor: '#abaded',
 }
 
 export const Xueyi: CharacterConfig = {

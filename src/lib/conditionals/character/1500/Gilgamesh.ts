@@ -439,7 +439,7 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: { x: 1102, y: 943, z: 1.11 },
-  showcaseColor: '#867fb3',
+  showcaseColor: '#afa4ed',
 }
 
 export function gilgameshActionExists(action: OptimizerAction) {

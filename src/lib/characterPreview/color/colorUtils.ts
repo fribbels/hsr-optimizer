@@ -113,16 +113,18 @@ function sortColorsByGroups(colors: string[], groupSize: number): string[] {
   return groupedColors
 }
 
+const MAX_SWATCH_CHROMA = 0.12
+
 /**
  * Builds the full color swatch grid shown in the showcase customization sidebar.
  *
- * All palette colors (named swatches + extras) are normalized to fixed
- * OKLCH lightness values while preserving their hue. Two tiers are generated:
- * light (L=0.70) and dark (L=0.50), then combined into a single array.
+ * Preserves each extracted color's natural lightness and hue so the palette
+ * reflects the full tonal range of the character art (deep darks, mid-tones,
+ * light pastels). Chroma is capped at MAX_SWATCH_CHROMA to soften overly
+ * vivid colors without collapsing everything into fixed lightness bands.
  *
- * After normalization, duplicates are removed (multiple input hues can round to
- * the same output hex), and the result is sorted into fixed-width lightness
- * bands with hue ordering within each band.
+ * After processing, duplicates are removed and the result is sorted into
+ * fixed-width lightness bands with hue ordering within each band.
  */
 export function organizeColors(palette: PaletteResponse): string[] {
   const sourceColors = [
@@ -137,20 +139,17 @@ export function organizeColors(palette: PaletteResponse): string[] {
     ]),
   ]
 
-  // Light tier: L=0.70
-  const lightColors = sourceColors.map((hex) => {
-    const [, , h] = chroma(hex).oklch()
-    return chroma.oklch(0.70, 0.15, Number.isNaN(h) ? 0 : h).hex()
+  const processed = sourceColors.flatMap((hex) => {
+    const [l, c, h] = chroma(hex).oklch()
+    const hue = Number.isNaN(h) ? 0 : h
+    const chromaCapped = Math.min(c, MAX_SWATCH_CHROMA)
+    return [
+      chroma.oklch(Math.min(l + 0.18, 0.88), chromaCapped, hue).hex(),
+      chroma.oklch(Math.max(l - 0.18, 0.60), chromaCapped, hue).hex(),
+    ]
   })
 
-  // Dark tier: L=0.50
-  const darkColors = sourceColors.map((hex) => {
-    const [, , h] = chroma(hex).oklch()
-    return chroma.oklch(0.50, 0.15, Number.isNaN(h) ? 0 : h).hex()
-  })
-
-  const combined = [...new Set([...lightColors, ...darkColors])]
-  return sortColorsByGroups(combined, 8)
+  return sortColorsByGroups([...new Set(processed)], 8)
 }
 
 /**

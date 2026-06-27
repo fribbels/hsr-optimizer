@@ -492,7 +492,7 @@ const display = {
     y: 213,
     z: 0.5,
   },
-  showcaseColor: '#8395fb',
+  showcaseColor: '#c5bff2',
 }
 
 export const Saber: CharacterConfig = {

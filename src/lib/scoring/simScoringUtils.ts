@@ -365,6 +365,11 @@ type PenaltyRecord = {
   multiplier: number,
 }
 
+type PenaltyEntry = {
+  threshold: number,
+  hard: boolean,
+}
+
 function collectPenaltyRecords(
   x: ComputedStatsContainer,
   metadata: SimulationMetadata,
@@ -373,7 +378,7 @@ function collectPenaltyRecords(
 ): PenaltyRecord[] {
   const records: PenaltyRecord[] = []
 
-  type PenaltyEntry = { threshold: number, hard: boolean }
+  // Merge soft and hard breakpoints into a single map, hard takes priority for the same stat
   const penaltyThresholds = new Map<string, PenaltyEntry>()
   if (metadata.softBreakpoints) {
     for (const { stat, threshold } of metadata.softBreakpoints) {
@@ -389,6 +394,7 @@ function collectPenaltyRecords(
     }
   }
 
+  // Apply scoring penalties for missed breakpoints
   for (const [stat, { threshold, hard }] of penaltyThresholds) {
     void hard
     const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])

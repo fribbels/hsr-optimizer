@@ -66,9 +66,11 @@ export function calculateBreakpointRollRequirements(
     const gap = threshold - statValue
     if (gap <= 0) continue
 
+    // Percent stats are stored as fractions (0.75) but roll values are display-scale (3.456), so scale down
     const baseRollValue = StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality)
     const rollValue = isFlat(stat) ? baseRollValue : baseRollValue * 0.01
     const requiredRolls = Math.ceil(gap / rollValue)
+    // Already covered by the baseline freeRolls allocation
     if (requiredRolls <= scoringParams.freeRolls) continue
 
     requirements.push({ stat, requiredRolls })
@@ -293,6 +295,7 @@ export function calculateMaxSubstatRollCounts(
     maxCounts[stat] = Math.max(scoringParams.baselineFreeRolls, Math.min(maxCounts[stat], 36 - totalDeductions))
   }
 
+  // Hard breakpoint floors override all caps — applied last so the required allocation is guaranteed
   if (partialSimulationWrapper.breakpointRequirements) {
     for (const req of partialSimulationWrapper.breakpointRequirements) {
       maxCounts[req.stat] = Math.max(maxCounts[req.stat], req.requiredRolls)

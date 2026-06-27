@@ -236,7 +236,9 @@ test('RuanMei support score prepare', () => {
     },
     substats: [Stats.BE, Stats.SPD, Stats.RES, Stats.HP_P, Stats.DEF_P],
     errRopeEidolon: 0,
-    breakpoints: { [Stats.BE]: 1.80 },
+    softBreakpoints: [
+      { stat: Stats.BE, threshold: 1.80 },
+    ],
     comboTurnAbilities: [NULL_TURN_ABILITY_NAME],
     relicSets: [[Sets.ThiefOfShootingMeteor, Sets.ThiefOfShootingMeteor], [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace]],
     ornamentSets: [Sets.BrokenKeel, Sets.PenaconyLandOfTheDreams, Sets.SprightlyVonwacq],

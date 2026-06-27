@@ -559,9 +559,9 @@ const simulation = (): SimulationMetadata => ({
     START_SKILL,
     END_MEMO_SKILL,
   ],
-  breakpoints: {
-    [Stats.SPD]: 200,
-  },
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 200 },
+  ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
     [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],

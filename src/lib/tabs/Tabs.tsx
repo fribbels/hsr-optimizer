@@ -90,10 +90,10 @@ const Tabs = () => {
 
   const setActivePage = useCallback((hash: string) => {
     const page: AppPages | undefined = HashToPage[hash as PageHash]
-    if (page && page !== activeKey) {
+    if (page) {
       setActiveKey(page)
     }
-  }, [setActiveKey, activeKey])
+  }, [setActiveKey])
 
   useHashNavigation(setActivePage)
 

@@ -41,8 +41,8 @@ export function CalculatorsTab() {
 
   const updateActivePanel = useCallback((hash: string) => {
     const panel = HashToPanel[hash]
-    if (panel && panel !== activePanel) setActivePanel(panel)
-  }, [activePanel, setActivePanel])
+    if (panel) setActivePanel(panel)
+  }, [setActivePanel])
 
   useHashNavigation(updateActivePanel)
 

@@ -559,7 +559,7 @@ const simulation = (): SimulationMetadata => ({
     START_SKILL,
     END_MEMO_SKILL,
   ],
-  softBreakpoints: [
+  hardBreakpoints: [
     { stat: Stats.SPD, threshold: 200 },
   ],
   relicSets: [

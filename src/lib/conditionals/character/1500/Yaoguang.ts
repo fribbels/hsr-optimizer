@@ -513,7 +513,7 @@ const simulation = (): SimulationMetadata => ({
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
-  softBreakpoints: [
+  hardBreakpoints: [
     { stat: Stats.SPD, threshold: 120 },
   ],
   relicSets: [

@@ -17,6 +17,7 @@ import type {
   RunStatSimulationsResult,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
   isFlat,
   isSubstat,
@@ -69,7 +70,7 @@ export function calculateBreakpointRollRequirements(
     // Percent stats are stored as fractions (0.75) but roll values are display-scale (3.456), so scale down
     const baseRollValue = StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality)
     const rollValue = isFlat(stat) ? baseRollValue : baseRollValue * 0.01
-    const requiredRolls = Math.ceil(gap / rollValue)
+    const requiredRolls = Math.ceil(precisionRound(gap / rollValue))
     // Already covered by the baseline freeRolls allocation
     if (requiredRolls <= scoringParams.freeRolls) continue
 

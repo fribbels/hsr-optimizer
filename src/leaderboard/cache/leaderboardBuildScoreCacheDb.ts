@@ -11,8 +11,8 @@ import {
 export const CACHE_TABLE = 'leaderboard_build_score_cache'
 
 export function openLeaderboardBuildScoreCacheDatabase(dbPath: string): SqliteDatabase {
-  const absPath = resolvePath(cwd(), dbPath)
-  ensureDirectory(dirnamePath(absPath))
+  const absPath = dbPath === ':memory:' ? ':memory:' : resolvePath(cwd(), dbPath)
+  if (absPath !== ':memory:') ensureDirectory(dirnamePath(absPath))
   const db = openSqliteDatabase(absPath)
   db.exec('PRAGMA busy_timeout = 5000')
   db.exec('PRAGMA journal_mode = WAL')

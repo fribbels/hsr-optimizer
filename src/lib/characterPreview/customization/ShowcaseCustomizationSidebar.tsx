@@ -341,10 +341,10 @@ const CustomizationPanel = memo(function CustomizationPanel({
   portraitSwatchesRef.current = portraitSwatches
   const localColorRef = useRef(localColor)
   localColorRef.current = localColor
-
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+      if (!(document.activeElement instanceof HTMLElement) || !document.activeElement.closest('.mantine-ColorInput-wrapper')) return
 
       const swatches = portraitSwatchesRef.current
       if (!swatches.length) return

@@ -59,7 +59,7 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
 
   return (
     <div className={classes.feedContainer}>
-      <span className={classes.feedHeader}>Timeline</span>
+      <span className={classes.feedHeader}>New Bests</span>
       <div className={classes.feedGrid}>
         {displayed.map((event) => {
           const characterId = event.characterId

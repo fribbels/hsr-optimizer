@@ -44,7 +44,7 @@
   z-index: 2;
   height: 100%;
   display: flex;
-  padding: 20px 28px;
+  padding: 14px 16px 14px 28px;
   gap: 20px;
 }
 
@@ -97,14 +97,14 @@
 /* ── Glass feed panel ── */
 
 .glassPanel {
-  flex: 0 0 460px;
+  flex: 0 0 400px;
   display: flex;
   overflow: hidden;
   background: rgba(10, 11, 16, 0.45);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 8px;
-  padding: 12px;
+  padding: 16px 20px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -124,7 +124,6 @@
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.32);
   margin-bottom: 2px;
-  padding-left: 8px;
 }
 
 /* ── Feed grid ── */
@@ -135,7 +134,6 @@
   font-size: 13px;
   grid-template-columns: 24px 1px 32px 20px 1fr 52px 48px;
   gap: 0 7px;
-  padding: 4px 8px;
 }
 
 .feedRow {

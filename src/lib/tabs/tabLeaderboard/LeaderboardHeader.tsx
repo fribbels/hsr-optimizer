@@ -16,7 +16,7 @@ export function LeaderboardHeader() {
     <div className={classes.header}>
       <div className={classes.background}>
         <img
-          src={Assets.getLeaderboardCardBg()}
+          src={Assets.getLeaderboardHeaderBg()}
           className={classes.backgroundImage}
         />
       </div>
@@ -25,9 +25,9 @@ export function LeaderboardHeader() {
 
       <div className={classes.content}>
         <div className={classes.titleColumn}>
-          <span className={classes.title}>Leaderboard</span>
+          <span className={classes.title}>Leaderboards</span>
           <span className={classes.subtitle}>
-            Rankings based on Showcase tab builds, new scores refreshed daily.
+            Benchmark rankings based on Showcase tab builds, scores refreshed daily.
           </span>
           <button type="button" className={classes.showcaseButton} onClick={goToShowcase}>
             Go to Showcase &rarr;

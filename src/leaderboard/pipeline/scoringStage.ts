@@ -141,44 +141,34 @@ function computeBatchSize(totalCandidates: number): number {
   return Math.max(BATCH_MIN, Math.min(BATCH_MAX, rawSize))
 }
 
-type ProgressTracker = {
-  totalCharacters: number,
-  totalCandidates: number,
-  completedCharacters: number,
-  candidatesScored: number,
-  candidatesSaved: number,
-  convergedCount: number,
-  startMs: number,
-  onCharacterComplete(result: CharacterResult): void,
-}
+class ProgressTracker {
+  completedCharacters = 0
+  candidatesScored = 0
+  candidatesSaved = 0
+  convergedCount = 0
+  private readonly startMs = performance.now()
 
-function createProgressTracker(totalCharacters: number, totalCandidates: number): ProgressTracker {
-  const tracker: ProgressTracker = {
-    totalCharacters,
-    totalCandidates,
-    completedCharacters: 0,
-    candidatesScored: 0,
-    candidatesSaved: 0,
-    convergedCount: 0,
-    startMs: performance.now(),
-    onCharacterComplete(result: CharacterResult) {
-      tracker.completedCharacters++
-      tracker.candidatesScored += result.candidatesScored
-      tracker.candidatesSaved += result.totalCandidates - result.candidatesScored
-      if (result.converged) tracker.convergedCount++
-      const elapsedS = ((performance.now() - tracker.startMs) / 1000).toFixed(0)
-      const pct = tracker.totalCandidates > 0
-        ? Math.round(100 * tracker.candidatesScored / tracker.totalCandidates)
-        : 0
-      console.log(
-        `--- [${tracker.completedCharacters}/${tracker.totalCharacters} characters] `
-        + `${tracker.candidatesScored} scored, ${tracker.candidatesSaved} saved `
-        + `(${pct}% of ${tracker.totalCandidates}) `
-        + `${tracker.convergedCount} converged, ${elapsedS}s`,
-      )
-    },
+  constructor(
+    readonly totalCharacters: number,
+    readonly totalCandidates: number,
+  ) {}
+
+  onCharacterComplete(result: CharacterResult): void {
+    this.completedCharacters++
+    this.candidatesScored += result.candidatesScored
+    this.candidatesSaved += result.totalCandidates - result.candidatesScored
+    if (result.converged) this.convergedCount++
+    const elapsedS = ((performance.now() - this.startMs) / 1000).toFixed(0)
+    const pct = this.totalCandidates > 0
+      ? Math.round(100 * this.candidatesScored / this.totalCandidates)
+      : 0
+    console.log(
+      `--- [${this.completedCharacters}/${this.totalCharacters} characters] `
+      + `${this.candidatesScored} scored, ${this.candidatesSaved} saved `
+      + `(${pct}% of ${this.totalCandidates}) `
+      + `${this.convergedCount} converged, ${elapsedS}s`,
+    )
   }
-  return tracker
 }
 
 async function processCharacter(input: {
@@ -275,26 +265,28 @@ async function runPerCharacterBatchedScoring(
 ): Promise<Omit<RunScoringStageResult, 'elapsedMs'>> {
   const candidatesByChar = groupCandidatesByCharacter(input.profiles)
   const totalCandidates = [...candidatesByChar.values()].reduce((n, c) => n + c.length, 0)
-  const progress = createProgressTracker(candidatesByChar.size, totalCandidates)
+  const progress = new ProgressTracker(candidatesByChar.size, totalCandidates)
   const candidateCounts = [...candidatesByChar.values()].map((c) => c.length).sort((a, b) => a - b)
   const minC = candidateCounts[0] ?? 0
   const medC = candidateCounts[Math.floor(candidateCounts.length / 2)] ?? 0
   const maxC = candidateCounts[candidateCounts.length - 1] ?? 0
   console.log(`\nPer-character batching: ${candidatesByChar.size} characters, ${totalCandidates} total candidates (min=${minC}, median=${medC}, max=${maxC})`)
 
-  const characterResults = await Promise.all(
-    [...candidatesByChar.entries()].map(([characterId, candidates]) =>
-      processCharacter({
-        characterId,
-        candidates,
-        workerPool,
-        versions: input.versions,
-        globalVersion: input.globalVersion,
-        topK: input.topNPublic,
-        progress,
-      }),
-    ),
-  )
+  const sortedEntries = [...candidatesByChar.entries()].sort((a, b) => a[1].length - b[1].length)
+
+  const characterResults: CharacterResult[] = []
+  for (const [characterId, candidates] of sortedEntries) {
+    const result = await processCharacter({
+      characterId,
+      candidates,
+      workerPool,
+      versions: input.versions,
+      globalVersion: input.globalVersion,
+      topK: input.topNPublic,
+      progress,
+    })
+    characterResults.push(result)
+  }
 
   const avgBatches = characterResults.length > 0
     ? (characterResults.reduce((n, r) => n + r.batchesRun, 0) / characterResults.length).toFixed(1)
@@ -362,23 +354,16 @@ class BoardTopK {
   }
 
   tryInsert(entry: PrivateRankedEntry): boolean {
+    const dedupeKey = entryReplacementKey(entry)
+    if (this.seen.has(dedupeKey)) return false
+
     if (this.heap.size() >= this.heap.limit) {
       const min = this.heap.top()!
       const displaces = entry.score > min.score
         || (entry.score === min.score && entry.uidHash < min.uidHash)
       if (!displaces) return false
-
-      const dedupeKey = entryReplacementKey(entry)
-      if (this.seen.has(dedupeKey)) return false
-
       this.seen.delete(entryReplacementKey(min))
-      this.heap.fixedSizePush(entry, entry.score)
-      this.seen.add(dedupeKey)
-      return true
     }
-
-    const dedupeKey = entryReplacementKey(entry)
-    if (this.seen.has(dedupeKey)) return false
 
     this.heap.fixedSizePush(entry, entry.score)
     this.seen.add(dedupeKey)

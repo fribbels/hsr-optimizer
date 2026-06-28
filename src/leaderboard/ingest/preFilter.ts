@@ -12,6 +12,7 @@ import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
 import type { MinifiedCharacter } from 'leaderboard/shared/profileCompression'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
+import { CONFIG_DISPLAY_ORDER, hasConfig } from 'lib/scoring/scoringConfig'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { CharacterId } from 'types/character'
 
@@ -56,6 +57,11 @@ export function preFilterProfiles(
 
       const metadata = getGameMetadata().characters[charId]
       if (!metadata?.scoringMetadata || metadata.rarity < 5) {
+        totalSkipped++
+        continue
+      }
+
+      if (!CONFIG_DISPLAY_ORDER.some((ct) => hasConfig(metadata.scoringMetadata, ct))) {
         totalSkipped++
         continue
       }

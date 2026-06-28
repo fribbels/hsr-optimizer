@@ -191,6 +191,7 @@ async function processCharacter(input: {
   progress: ProgressTracker,
 }): Promise<CharacterResult> {
   const { characterId, candidates, workerPool, versions, globalVersion, topK, progress } = input
+  const charStartMs = performance.now()
   const batchSize = computeBatchSize(candidates.length)
   const convergenceTracker = new BoardConvergenceTracker(topK)
 
@@ -211,7 +212,9 @@ async function processCharacter(input: {
       characters: [c.character],
     }))
 
-    const result = await workerPool.scoreProfiles({ profiles, versions, globalVersion, label: characterId })
+    const batchNum = batchesRun + 1
+    const label = `${characterId} batch${batchNum} (${progress.completedCharacters}/${progress.totalCharacters} chars done)`
+    const result = await workerPool.scoreProfiles({ profiles, versions, globalVersion, label })
     batchesRun++
     candidatesScored += batch.length
 
@@ -240,10 +243,15 @@ async function processCharacter(input: {
     }
   }
 
+  const charElapsedS = ((performance.now() - charStartMs) / 1000).toFixed(1)
+  const cacheTotal = cacheStats.l1Hits + cacheStats.sqliteHits + cacheStats.misses
+  const cacheMissRate = cacheTotal > 0 ? `${(100 * cacheStats.misses / cacheTotal).toFixed(0)}% miss` : 'no cache'
+  const boardInfo = `${convergenceTracker.boardCount} boards`
+
   if (converged) {
-    console.log(`[${characterId}] Converged after ${batchesRun} batches (${candidatesScored}/${candidates.length} candidates, ${allEntries.length} entries)`)
+    console.log(`[${characterId}] Converged after ${batchesRun} batches (${candidatesScored}/${candidates.length} candidates, ${allEntries.length} entries, ${boardInfo}, ${cacheMissRate}, ${charElapsedS}s)`)
   } else if (candidates.length > 0) {
-    console.log(`[${characterId}] Scored all ${batchesRun} batches (${candidatesScored} candidates, ${allEntries.length} entries)`)
+    console.log(`[${characterId}] Scored all ${batchesRun} batches (${candidatesScored} candidates, ${allEntries.length} entries, ${boardInfo}, ${cacheMissRate}, ${charElapsedS}s)`)
   }
 
   const characterResult: CharacterResult = {
@@ -268,7 +276,11 @@ async function runPerCharacterBatchedScoring(
   const candidatesByChar = groupCandidatesByCharacter(input.profiles)
   const totalCandidates = [...candidatesByChar.values()].reduce((n, c) => n + c.length, 0)
   const progress = createProgressTracker(candidatesByChar.size, totalCandidates)
-  console.log(`\nPer-character batching: ${candidatesByChar.size} characters, ${totalCandidates} total candidates`)
+  const candidateCounts = [...candidatesByChar.values()].map((c) => c.length).sort((a, b) => a - b)
+  const minC = candidateCounts[0] ?? 0
+  const medC = candidateCounts[Math.floor(candidateCounts.length / 2)] ?? 0
+  const maxC = candidateCounts[candidateCounts.length - 1] ?? 0
+  console.log(`\nPer-character batching: ${candidatesByChar.size} characters, ${totalCandidates} total candidates (min=${minC}, median=${medC}, max=${maxC})`)
 
   const characterResults = await Promise.all(
     [...candidatesByChar.entries()].map(([characterId, candidates]) =>
@@ -318,6 +330,10 @@ class BoardConvergenceTracker {
 
   constructor(topK: number) {
     this.topK = topK
+  }
+
+  get boardCount(): number {
+    return this.boards.size
   }
 
   ingestBatch(entries: PrivateRankedEntry[]): boolean {

@@ -1,7 +1,7 @@
 import { eidolonToGroup } from 'leaderboard/shared/eidolonConfig'
 import type {
   PublicCharacterData,
-  PublicLeaderboardEntryV2,
+  PublicLeaderboardEntry,
 } from 'leaderboard/shared/types'
 import type { LeaderboardTimeline, TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { BASE_PATH } from 'lib/tabs/navigation/constants'
@@ -98,7 +98,7 @@ export function getLeaderboardCharacterIds(output: RawLeaderboardOutput): Charac
   return Object.keys(output.characters) as CharacterId[]
 }
 
-export function mapPublicEntry(entry: PublicLeaderboardEntryV2): LeaderboardEntry {
+export function mapPublicEntry(entry: PublicLeaderboardEntry): LeaderboardEntry {
   const characterEidolon = entry.data.character.r ?? 0
   return {
     rank: entry.rank,

@@ -7,10 +7,10 @@ import {
 } from 'leaderboard/shared/nodeFacade'
 import type {
   PrivateRankedOutput,
-  PublicBoardDataV2,
+  PublicBoardData,
   PublicCharacterData,
   PublicConfigData,
-  PublicLeaderboardEntryV2,
+  PublicLeaderboardEntry,
   PublicLeaderboardOutputV3,
   PublicTeamMeta,
 } from 'leaderboard/shared/types'
@@ -65,13 +65,13 @@ export function buildPublicOutputFromPrivate(input: {
           })
         }
       }
-      const teamsById: Record<string, PublicBoardDataV2> = {}
+      const teamsById: Record<string, PublicBoardData> = {}
 
       for (const [teamId, board] of teamMap) {
         // Temporarily disabled — including all scores while iterating on the leaderboard
         // const qualified = board.entries.filter((e) => e.score >= MIN_PUBLIC_SCORE)
         const topEntries = board.entries.slice(0, topNPublic)
-        const publicEntries: PublicLeaderboardEntryV2[] = topEntries.map((entry) => ({
+        const publicEntries: PublicLeaderboardEntry[] = topEntries.map((entry) => ({
           rank: entry.rank,
           characterId: entry.characterId as CharacterId,
           buildId: computeBuildId(entry.uidHash, entry.characterId, board.configType, board.teamId),

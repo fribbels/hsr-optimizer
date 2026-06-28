@@ -79,41 +79,6 @@
   display: none;
 }
 
-.tab {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 30px;
-  padding: 0 10px;
-  border: 1px solid var(--lb-tab-border);
-  border-radius: 6px;
-  background: var(--lb-tab-bg);
-  color: var(--lb-text-2);
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.tab:hover {
-  background: var(--lb-hover-bg);
-}
-
-.tabActive {
-  border-color: rgba(255, 255, 255, 0.24);
-  background: rgba(255, 255, 255, 0.11);
-  color: var(--lb-select-text);
-}
-
-.tab span {
-  color: var(--lb-text-3);
-  font-variant-numeric: tabular-nums;
-}
-
-.tabActive span {
-  color: var(--lb-select-text);
-}
-
 .header {
   display: grid;
   grid-template-columns: minmax(32px, max-content) 1fr 64px 90px;

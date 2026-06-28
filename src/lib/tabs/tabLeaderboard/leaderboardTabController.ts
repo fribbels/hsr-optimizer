@@ -200,16 +200,14 @@ export function selectLeaderboardCharacter(
     filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
   })
 
-  setTimeout(() => {
-    deriveAndUpdateEntries()
+  deriveAndUpdateEntries()
 
-    if (requested?.buildId) {
-      useLeaderboardTabStore.setState({ selectedBuildId: requested.buildId })
-      recomputeDerivedState()
-    }
+  if (requested?.buildId) {
+    useLeaderboardTabStore.setState({ selectedBuildId: requested.buildId })
+    recomputeDerivedState()
+  }
 
-    updateLeaderboardUrl()
-  }, 0)
+  updateLeaderboardUrl()
 }
 
 export function selectLeaderboardEntry(buildId: string) {

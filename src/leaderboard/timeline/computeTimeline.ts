@@ -43,7 +43,7 @@ export function diffSnapshots(
         characterId: charId as CharacterId,
         date,
         score: curr.topScore,
-        previousScore: prev.topScore,
+        previousScore: prev.highWatermark,
         rank: curr.rank,
         previousRank: prev.rank,
         buildId,

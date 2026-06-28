@@ -2,6 +2,8 @@ import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
+import { getBuildIndex } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useTranslation } from 'react-i18next'
 
 const MAX_FEED_ENTRIES = 8
@@ -37,6 +39,18 @@ function renderScoreDelta(event: TimelineEvent) {
   return <span className={classes.cellGreen}>+{delta.toFixed(1)}%</span>
 }
 
+function handleRowClick(event: TimelineEvent) {
+  const index = getBuildIndex()
+  const match = index?.get(event.buildId)
+  if (match) {
+    selectLeaderboardCharacter(match.characterId, {
+      configType: match.configType,
+      teamId: match.teamId,
+      buildId: event.buildId,
+    })
+  }
+}
+
 export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
   const { t: tGame } = useTranslation('gameData')
   const displayed = events.slice(0, MAX_FEED_ENTRIES)
@@ -54,7 +68,7 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
           const scorePercent = (event.score * 100).toFixed(1)
 
           return (
-            <div key={`${characterId}#${event.type}#${event.date}`} className={classes.feedRow}>
+            <div key={`${characterId}#${event.type}#${event.date}`} className={classes.feedRow} onClick={() => handleRowClick(event)}>
               <span className={classes.cellTime}>{formatRelativeTime(event.date)}</span>
               <span className={classes.cellDivider} />
               <span className={classes.cellRankDelta}>{renderRankDelta(event)}</span>

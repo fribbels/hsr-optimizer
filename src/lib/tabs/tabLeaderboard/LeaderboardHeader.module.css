@@ -126,14 +126,24 @@
 
 .feedGrid {
   display: grid;
-  align-items: center;
   font-size: 14px;
-  grid-template-columns: 24px 1px 32px 20px 1fr 52px 48px;
+  grid-template-columns: 20px 1px 32px 20px 1fr 52px 42px;
   gap: 4px 7px;
 }
 
 .feedRow {
-  display: contents;
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  border-radius: 4px;
+  margin: 0 -6px;
+  padding: 0 6px;
+  cursor: pointer;
+}
+
+.feedRow:hover {
+  background: rgba(255, 255, 255, 0.07);
 }
 
 /* ── Grid cell styles ── */
@@ -151,6 +161,7 @@
 
 .cellRankDelta {
   font-size: 12px;
+  padding-left: 4px;
 }
 
 .cellAvatar {
@@ -158,6 +169,7 @@
   height: 20px;
   border-radius: 50%;
   object-fit: cover;
+  display: block;
 }
 
 .cellName {

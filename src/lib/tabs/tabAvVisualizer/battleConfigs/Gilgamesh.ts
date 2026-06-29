@@ -1,10 +1,12 @@
 import { Stats } from 'lib/constants/constants'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getBattleConfig } from 'lib/tabs/tabAvVisualizer/battleConfigs'
 import type {
   CharacterBattleConfig,
   GlobalListener,
   InterventionTemplate,
 } from 'lib/tabs/tabAvVisualizer/types'
+import type { CharacterId } from 'types/character'
 
 // Real game_data.json id. Its own max_sp (600) doesn't match this kit's 360 ult threshold/cap, so
 // customMaxEnergy below overrides it — same convention as Saber/Mimi's own mismatched lookups.
@@ -101,12 +103,18 @@ function buildGilgameshConfig(eidolon: number): CharacterBattleConfig {
     },
     // 特殊能力3: restores 30% of *that character's own* Ult energy cost, fixed (doesn't scale with ERR).
     // Needs a function effect — the value depends on the acting character's own config, not a fixed number.
+    // Mirrors simulateBattle.ts's own processUlt cost resolution exactly (customMaxEnergy -> real max_sp
+    // -> ultThreshold -> ultEnergyCost) — a character with neither ultThreshold nor ultEnergyCost set
+    // (e.g. Trailblazer-Remembrance) still has a real energy cost (their actual max_sp), not 0.
     {
       trigger: 'any_ally_action',
       condition: (ctx) => ctx.actingCharacterId !== ctx.selfId && ctx.actingAbility === 'ult',
       effect: (ctx) => {
         const actingConfig = getBattleConfig(ctx.actingCharacterId)
-        const cost = actingConfig?.ultEnergyCost ?? actingConfig?.ultThreshold ?? 0
+        const maxSp = actingConfig?.customMaxEnergy
+          ?? (getGameMetadata().characters?.[ctx.actingCharacterId as CharacterId]?.max_sp ?? 100)
+        const threshold = actingConfig?.ultThreshold ?? maxSp
+        const cost = actingConfig?.ultEnergyCost ?? threshold
         return { type: 'energy_gain', targets: 'self', value: cost * 0.3, unit: 'flat', scalesWithErr: false }
       },
     },

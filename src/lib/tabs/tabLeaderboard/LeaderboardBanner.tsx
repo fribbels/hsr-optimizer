@@ -112,7 +112,7 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
   isAllTeams: boolean,
 }) {
   const dateStr = fetchedAt ? formatFetchedAt(fetchedAt) : null
-  const rankingLabel = isAllTeams ? 'Combined rank' : 'Team rank'
+  const rankingLabel = isAllTeams ? 'All teams' : 'Team rank'
 
   return (
     <Flex align='center' gap={15} px={6}>

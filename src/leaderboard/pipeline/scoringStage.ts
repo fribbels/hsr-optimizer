@@ -1,5 +1,10 @@
-import { MIN_PUBLIC_SCORE } from 'leaderboard/output/publicOutput'
 import {
+  boardKeyFromEntry,
+  entryReplacementKey,
+} from 'leaderboard/output/privateOutput'
+import { FixedSizeMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
+import {
+  ScoringProgressTracker,
   emptyBuildScoreCacheStats,
   emptyMetricsSnapshot,
   sumBuildScoreCacheStats,
@@ -17,11 +22,8 @@ import type {
 } from 'leaderboard/shared/types'
 import { LeaderboardScoreWorkerPool } from 'leaderboard/workers/profileWorkerPool'
 
-// Percentage of total candidates per character to include in each batch
 const BATCH_PERCENT = 15
-// Minimum candidates per batch regardless of percentage
 const BATCH_MIN = 100
-// Maximum candidates per batch regardless of percentage
 const BATCH_MAX = 500
 
 export type RunScoringStageInput = {
@@ -31,6 +33,7 @@ export type RunScoringStageInput = {
   workerCount: number,
   runtimeConfig: LeaderboardScoreWorkerRuntimeConfig,
   workerScriptUrl: URL,
+  topNPublic: number,
 }
 
 export type RunScoringStageResult = {
@@ -40,8 +43,6 @@ export type RunScoringStageResult = {
   metrics: LeaderboardMetricsSnapshot,
   elapsedMs: number,
 }
-
-type WorkerScoreProfilesResult = Omit<RunScoringStageResult, 'elapsedMs'>
 
 export async function runScoringStage(input: RunScoringStageInput): Promise<RunScoringStageResult> {
   const scoringStartMs = performance.now()
@@ -63,9 +64,9 @@ export async function runScoringStage(input: RunScoringStageInput): Promise<RunS
   console.log(`Leaderboard profile worker_threads enabled: ${input.workerCount} workers`)
 
   let scoringError: unknown
-  let scoringResult: WorkerScoreProfilesResult | null = null
+  let scoringResult: RunScoringStageResult | null = null
   try {
-    scoringResult = await runBatchedScoring(workerPool, input)
+    scoringResult = await runPerCharacterBatchedScoring(workerPool, input)
   } catch (error: unknown) {
     scoringError = error
   }
@@ -85,170 +86,240 @@ export async function runScoringStage(input: RunScoringStageInput): Promise<RunS
     throw new Error('Leaderboard scoring finished without a result')
   }
 
-  return { ...scoringResult, elapsedMs: scoringElapsedMs }
+  scoringResult.elapsedMs = scoringElapsedMs
+  return scoringResult
 }
 
 // ---------------------------------------------------------------------------
-// Batched scoring — process candidates in qualityOrder batches per character,
-// stopping each character once it no longer produces public-threshold output.
+// Per-character batched scoring
 // ---------------------------------------------------------------------------
 
-type CharacterBatchState = {
-  batchSize: number,
-  hasSeenPublicOutput: boolean,
-  done: boolean,
+type CharacterCandidate = {
+  uid: string,
+  fetchedAt: number,
+  payloadHash: string,
+  character: LeaderboardScoringCharacter,
+  qualityOrder: number,
 }
 
-// Orchestrates batch rounds: init → loop(select→score→update) → merge
-async function runBatchedScoring(
-  workerPool: LeaderboardScoreWorkerPool,
-  input: RunScoringStageInput,
-): Promise<WorkerScoreProfilesResult> {
-  const { profiles, versions, globalVersion } = input
-  const { characterStates, maxRounds } = initializeBatchStates(profiles)
-
-  // Process candidates in rounds, stopping characters that no longer produce public output
-  const roundResults: WorkerScoreProfilesResult[] = []
-  for (let round = 0; round < maxRounds; round++) {
-    // Select candidates belonging to this round's batch window
-    const { profiles: roundProfiles, submittedCharacterIds } = selectRoundCandidates(profiles, characterStates, round)
-    if (roundProfiles.length === 0) break
-
-    const roundCandidates = roundProfiles.reduce((n, p) => n + p.characters.length, 0)
-    console.log(`\nBatch round ${round + 1}: ${roundProfiles.length} profiles, ${roundCandidates} candidates, ${submittedCharacterIds.size} active characters`)
-
-    // Score this round's candidates via worker pool
-    const result = await workerPool.scoreProfiles({ profiles: roundProfiles, versions, globalVersion })
-    roundResults.push(result)
-
-    // Mark characters as done if they've converged
-    updateStopStates(characterStates, result.entries, result.failures, submittedCharacterIds, round)
-
-    const doneCount = [...characterStates.values()].filter((s) => s.done).length
-    console.log(`Batch round ${round + 1} complete: ${result.entries.length} entries, ${doneCount}/${characterStates.size} characters done`)
-  }
-
-  // Characters that used all batches without converging were fully scored anyway
-  const exhausted = [...characterStates.entries()].filter(([, s]) => !s.done)
-  if (exhausted.length > 0) {
-    console.warn(`Batching: ${exhausted.length} character(s) used all batches without converging: ${exhausted.map(([id]) => id).join(', ')}`)
-  }
-
-  return mergeRoundResults(roundResults)
+type CharacterResult = {
+  characterId: string,
+  entries: PrivateRankedEntry[],
+  buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
+  metrics: LeaderboardMetricsSnapshot,
+  candidatesScored: number,
+  totalCandidates: number,
+  batchesRun: number,
+  converged: boolean,
 }
 
-// Counts candidates per character and computes per-character batch sizes
-function initializeBatchStates(profiles: LeaderboardScoringProfile[]): {
-  characterStates: Map<string, CharacterBatchState>,
-  maxRounds: number,
-} {
-  // Count how many candidates exist per character across all profiles
-  const candidateCounts = new Map<string, number>()
+function groupCandidatesByCharacter(profiles: LeaderboardScoringProfile[]): Map<string, CharacterCandidate[]> {
+  const byChar = new Map<string, CharacterCandidate[]>()
   for (const profile of profiles) {
     for (const character of profile.characters) {
       const charId = String(character.unconverted.avatarId)
-      candidateCounts.set(charId, (candidateCounts.get(charId) ?? 0) + 1)
-    }
-  }
-
-  // Compute batch size for each character and determine how many rounds are needed
-  const characterStates = new Map<string, CharacterBatchState>()
-  let maxRounds = 0
-  for (const [characterId, totalCandidates] of candidateCounts) {
-    const rawSize = Math.ceil(totalCandidates * BATCH_PERCENT / 100)
-    const batchSize = Math.max(BATCH_MIN, Math.min(BATCH_MAX, rawSize))
-    characterStates.set(characterId, {
-      batchSize,
-      hasSeenPublicOutput: false,
-      done: false,
-    })
-    maxRounds = Math.max(maxRounds, Math.ceil(totalCandidates / batchSize))
-  }
-
-  return { characterStates, maxRounds }
-}
-
-// Selects candidates whose qualityOrder falls in the current round's batch window
-function selectRoundCandidates(
-  profiles: LeaderboardScoringProfile[],
-  characterStates: Map<string, CharacterBatchState>,
-  round: number,
-): { profiles: LeaderboardScoringProfile[], submittedCharacterIds: Set<string> } {
-  const roundProfiles: LeaderboardScoringProfile[] = []
-  const submittedCharacterIds = new Set<string>()
-
-  for (const profile of profiles) {
-    const roundCharacters: LeaderboardScoringCharacter[] = []
-
-    for (const character of profile.characters) {
-      const charId = String(character.unconverted.avatarId)
-      const state = characterStates.get(charId)
-      if (!state || state.done) continue
-
-      // qualityOrder / batchSize determines which round this candidate belongs to
-      if (Math.floor(character.qualityOrder / state.batchSize) === round) {
-        roundCharacters.push(character)
-        submittedCharacterIds.add(charId)
+      let list = byChar.get(charId)
+      if (!list) {
+        list = []
+        byChar.set(charId, list)
       }
-    }
-
-    // Rebuild profile with only this round's characters
-    if (roundCharacters.length > 0) {
-      roundProfiles.push({
+      list.push({
         uid: profile.uid,
         fetchedAt: profile.fetchedAt,
         payloadHash: profile.payloadHash,
-        characters: roundCharacters,
+        character,
+        qualityOrder: character.qualityOrder,
       })
     }
   }
-
-  return { profiles: roundProfiles, submittedCharacterIds }
+  for (const candidates of byChar.values()) {
+    candidates.sort((a, b) => a.qualityOrder - b.qualityOrder)
+  }
+  return byChar
 }
 
-// Marks characters done if they previously produced public output but didn't this round
-function updateStopStates(
-  characterStates: Map<string, CharacterBatchState>,
-  entries: PrivateRankedEntry[],
-  failures: FailureEntry[],
-  submittedCharacterIds: Set<string>,
-  round: number,
-): void {
-  const activeThisRound = new Set<string>()
+function computeBatchSize(totalCandidates: number): number {
+  const rawSize = Math.ceil(totalCandidates * BATCH_PERCENT / 100)
+  return Math.max(BATCH_MIN, Math.min(BATCH_MAX, rawSize))
+}
 
-  for (const entry of entries) {
-    if (entry.score >= MIN_PUBLIC_SCORE) {
-      const state = characterStates.get(entry.characterId)
-      if (state) state.hasSeenPublicOutput = true
-      activeThisRound.add(entry.characterId)
+
+async function processCharacter(input: {
+  characterId: string,
+  candidates: CharacterCandidate[],
+  workerPool: LeaderboardScoreWorkerPool,
+  versions: LeaderboardVersionFile,
+  globalVersion: number,
+  topK: number,
+  progress: ScoringProgressTracker,
+}): Promise<CharacterResult> {
+  const { characterId, candidates, workerPool, versions, globalVersion, topK, progress } = input
+  const charStartMs = performance.now()
+  const batchSize = computeBatchSize(candidates.length)
+  const convergenceTracker = new BoardConvergenceTracker(topK)
+
+  const allEntries: PrivateRankedEntry[] = []
+  let cacheStats = emptyBuildScoreCacheStats()
+  let metrics = emptyMetricsSnapshot()
+
+  let batchesRun = 0
+  let candidatesScored = 0
+  let converged = false
+
+  for (let offset = 0; offset < candidates.length; offset += batchSize) {
+    const batch = candidates.slice(offset, offset + batchSize)
+    const profiles: LeaderboardScoringProfile[] = batch.map((c) => ({
+      uid: c.uid,
+      fetchedAt: c.fetchedAt,
+      payloadHash: c.payloadHash,
+      characters: [c.character],
+    }))
+
+    const batchNum = batchesRun + 1
+    const label = `${characterId} batch${batchNum} (${progress.completedCharacters}/${progress.totalCharacters} chars done)`
+    const result = await workerPool.scoreProfiles({ profiles, versions, globalVersion, label })
+    batchesRun++
+    candidatesScored += batch.length
+
+    if (result.failures.length > 0) {
+      throw new Error(
+        `Leaderboard scoring failed for ${characterId}: ${result.failures.length} failures in batch ${batchesRun}\n`
+        + result.failures.map((f) => `  ${f.uid} / ${f.characterId}: ${f.error}`).join('\n'),
+      )
+    }
+
+    allEntries.push(...result.entries)
+    cacheStats = sumBuildScoreCacheStats([cacheStats, result.buildScoreCacheStats])
+    metrics = sumMetricSnapshots([metrics, result.metrics])
+
+    const batchHitTopK = convergenceTracker.ingestBatch(result.entries)
+
+    if (!batchHitTopK) {
+      converged = true
+      break
     }
   }
 
-  // Failures keep the character active so it isn't stopped on a transient error
-  for (const failure of failures) {
-    activeThisRound.add(String(failure.characterId))
+  const charElapsedS = ((performance.now() - charStartMs) / 1000).toFixed(1)
+  const status = converged ? `Converged after ${batchesRun} batches` : `Scored all ${batchesRun} batches`
+  console.log(`[${characterId}] ${status} (${candidatesScored}/${candidates.length} candidates, ${allEntries.length} entries, ${charElapsedS}s)`)
+
+  const characterResult: CharacterResult = {
+    characterId,
+    entries: allEntries,
+    buildScoreCacheStats: cacheStats,
+    metrics,
+    candidatesScored,
+    totalCandidates: candidates.length,
+    batchesRun,
+    converged,
   }
 
-  // Never stop on round 0 — need at least one full batch before evaluating convergence
-  if (round === 0) return
-
-  for (const characterId of submittedCharacterIds) {
-    const state = characterStates.get(characterId)
-    if (!state || state.done) continue
-    if (!state.hasSeenPublicOutput) continue
-    if (!activeThisRound.has(characterId)) {
-      state.done = true
-    }
-  }
+  progress.onCharacterComplete(characterResult.candidatesScored, characterResult.totalCandidates, characterResult.converged)
+  return characterResult
 }
 
-// Flattens per-round results into a single combined result
-function mergeRoundResults(results: WorkerScoreProfilesResult[]): WorkerScoreProfilesResult {
+async function runPerCharacterBatchedScoring(
+  workerPool: LeaderboardScoreWorkerPool,
+  input: RunScoringStageInput,
+): Promise<RunScoringStageResult> {
+  const candidatesByChar = groupCandidatesByCharacter(input.profiles)
+  const totalCandidates = [...candidatesByChar.values()].reduce((n, c) => n + c.length, 0)
+  const progress = new ScoringProgressTracker(candidatesByChar.size, totalCandidates)
+  const candidateCounts = [...candidatesByChar.values()].map((c) => c.length).sort((a, b) => a - b)
+  const minCandidates = candidateCounts[0] ?? 0
+  const medianCandidates = candidateCounts[Math.floor(candidateCounts.length / 2)] ?? 0
+  const maxCandidates = candidateCounts[candidateCounts.length - 1] ?? 0
+  console.log(`\nPer-character batching: ${candidatesByChar.size} characters, ${totalCandidates} total candidates (min=${minCandidates}, median=${medianCandidates}, max=${maxCandidates})`)
+
+  const sortedEntries = [...candidatesByChar.entries()].sort((a, b) => a[1].length - b[1].length)
+
+  const characterResults: CharacterResult[] = []
+  for (const [characterId, candidates] of sortedEntries) {
+    const result = await processCharacter({
+      characterId,
+      candidates,
+      workerPool,
+      versions: input.versions,
+      globalVersion: input.globalVersion,
+      topK: input.topNPublic,
+      progress,
+    })
+    characterResults.push(result)
+  }
+
+  const avgBatches = characterResults.length > 0
+    ? (characterResults.reduce((n, r) => n + r.batchesRun, 0) / characterResults.length).toFixed(1)
+    : '0'
+  const savedPct = totalCandidates > 0 ? Math.round(100 * progress.candidatesSaved / totalCandidates) : 0
+
+  console.log(`\nScoring complete: ${characterResults.length} characters, ${progress.candidatesScored} scored (${savedPct}% saved), converged ${progress.convergedCount}, avg batches ${avgBatches}`)
+
   return {
-    entries: results.flatMap((r) => r.entries),
-    failures: results.flatMap((r) => r.failures),
-    buildScoreCacheStats: sumBuildScoreCacheStats(results.map((r) => r.buildScoreCacheStats)),
-    metrics: sumMetricSnapshots(results.map((r) => r.metrics)),
+    entries: characterResults.flatMap((r) => r.entries),
+    failures: [],
+    buildScoreCacheStats: sumBuildScoreCacheStats(characterResults.map((r) => r.buildScoreCacheStats)),
+    metrics: sumMetricSnapshots(characterResults.map((r) => r.metrics)),
+    elapsedMs: 0,
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Board convergence tracker — decides when to stop scoring a character
+// ---------------------------------------------------------------------------
+
+class BoardConvergenceTracker {
+  private readonly topK: number
+  private readonly boards = new Map<string, BoardTopK>()
+
+  constructor(topK: number) {
+    this.topK = topK
+  }
+
+  get boardCount(): number {
+    return this.boards.size
+  }
+
+  ingestBatch(entries: PrivateRankedEntry[]): boolean {
+    let batchHitTopK = false
+    for (const entry of entries) {
+      const key = boardKeyFromEntry(entry)
+      let board = this.boards.get(key)
+      if (!board) {
+        board = new BoardTopK(this.topK)
+        this.boards.set(key, board)
+      }
+      if (board.tryInsert(entry)) {
+        batchHitTopK = true
+      }
+    }
+    return batchHitTopK
+  }
+}
+
+class BoardTopK {
+  private readonly heap: FixedSizeMinQueue<PrivateRankedEntry>
+  private readonly seen = new Set<string>()
+
+  constructor(k: number) {
+    this.heap = new FixedSizeMinQueue<PrivateRankedEntry>(k)
+  }
+
+  tryInsert(entry: PrivateRankedEntry): boolean {
+    const dedupeKey = entryReplacementKey(entry)
+    if (this.seen.has(dedupeKey)) return false
+
+    if (this.heap.size() >= this.heap.limit) {
+      const min = this.heap.top()!
+      const displaces = entry.score > min.score
+        || (entry.score === min.score && entry.uidHash < min.uidHash)
+      if (!displaces) return false
+      this.seen.delete(entryReplacementKey(min))
+    }
+
+    this.heap.fixedSizePush(entry, entry.score)
+    this.seen.add(dedupeKey)
+    return true
   }
 }
 

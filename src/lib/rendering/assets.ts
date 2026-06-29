@@ -203,4 +203,8 @@ export const Assets = {
   getLeaderboardCardBg: () => {
     return getImageUrl(`/misc/test/ChallengeBgV2.webp`)
   },
+
+  getLeaderboardHeaderBg: () => {
+    return getImageUrl(`/misc/test/BgStoryTokens01.webp`)
+  },
 }

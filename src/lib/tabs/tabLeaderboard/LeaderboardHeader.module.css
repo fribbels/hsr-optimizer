@@ -1,0 +1,208 @@
+/* ── Header container ── */
+
+.header {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  background: #0b0d13;
+  height: 260px;
+  width: 100%;
+}
+
+/* ── Background art ── */
+
+.background {
+  position: absolute;
+  inset: -5px;
+  filter: saturate(1.1) brightness(0.9);
+  opacity: 0.8;
+}
+
+.backgroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+
+/* ── Gradient overlay ── */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(10, 11, 16, 0.15) 0%, rgba(10, 11, 16, 0) 60%);
+}
+
+/* ── Content flex row ── */
+
+.content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  padding: 12px 12px 12px 44px;
+  gap: 20px;
+}
+
+/* ── Title column ── */
+
+.titleColumn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: center;
+  position: relative;
+  padding-bottom: 26px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--lb-text-1);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: var(--lb-text-3);
+  line-height: 1.45;
+}
+
+.showcaseButton {
+  position: absolute;
+  bottom: 32px;
+  padding: 7px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid rgba(140, 200, 255, 0.25);
+  color: #8cc8ff;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+}
+
+.showcaseButton:hover {
+  border-color: rgba(140, 200, 255, 0.45);
+}
+
+/* ── Glass feed panel ── */
+
+.glassPanel {
+  flex: 0 0 400px;
+  display: flex;
+  overflow: hidden;
+  background: rgba(10, 11, 16, 0.30);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 8px;
+  padding: 16px 20px;
+  border: 1px solid var(--lb-divider);
+}
+
+/* ── Feed container ── */
+
+.feedContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feedHeader {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.32);
+}
+
+/* ── Feed grid ── */
+
+.feedGrid {
+  display: grid;
+  font-size: 14px;
+  grid-template-columns: 20px 1px 32px 20px 1fr 52px 42px;
+  gap: 4px 7px;
+}
+
+.feedRow {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+  border-radius: 4px;
+  margin: 0 -6px;
+  padding: 0 6px;
+  cursor: pointer;
+}
+
+.feedRow:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* ── Grid cell styles ── */
+
+.cellTime {
+  color: rgba(255, 255, 255, 0.32);
+  font-size: 12px;
+}
+
+.cellDivider {
+  width: 1px;
+  height: 14px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.cellRankDelta {
+  font-size: 12px;
+  padding-left: 4px;
+}
+
+.cellAvatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.cellName {
+  color: var(--lb-text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cellScore {
+  color: var(--lb-text-1);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.cellScoreDelta {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* ── Cell color variants ── */
+
+.cellGreen {
+  color: #69f0ae;
+  opacity: 0.7;
+}
+
+.cellNewLabel {
+  color: #8cc8ff;
+}
+
+.cellDash {
+  color: rgba(255, 255, 255, 0.32);
+}

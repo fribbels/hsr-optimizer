@@ -60,6 +60,10 @@ export function releaseOrchestrator(cacheKey: string) {
   orchestratorCache.delete(cacheKey)
 }
 
+export function releasePreview(cacheKey: string) {
+  previewCache.delete(cacheKey)
+}
+
 // --- Public API ---
 export function computeScoringCacheKey(
   character: Character,

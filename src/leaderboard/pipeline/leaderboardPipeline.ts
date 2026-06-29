@@ -146,6 +146,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       workerCount: options.workerThreads,
       runtimeConfig,
       workerScriptUrl,
+      topNPublic,
     })
 
     printFailures(scoring)
@@ -245,7 +246,7 @@ function runBuildScoreCacheMaintenance(input: {
   console.log(`Pruned Leaderboard Build Score Cache rows: ${result.deletedRows}`)
 }
 
-function printFailures(scoring: Pick<RunScoringStageResult, 'failures'>): void {
+function printFailures(scoring: RunScoringStageResult): void {
   if (scoring.failures.length === 0) return
 
   console.log(`${scoring.failures.length} failures:`)

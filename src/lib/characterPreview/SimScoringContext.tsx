@@ -9,6 +9,7 @@ import {
   getOrComputePreview,
   type PreparedState,
   releaseOrchestrator,
+  releasePreview,
   requestScore,
   requestScoreUpgrades,
   resultCache,
@@ -136,9 +137,8 @@ function buildInjectedScorePipeline(
 
   const preview = getOrComputePreview(cacheKey, character, config, singleRelicByPart, showcaseTemporaryOptions)
 
-  // Release the prepared orchestrator immediately — injected-score mode never calls
-  // requestScore, so nothing will consume it. Without this, orchestrators leak.
   releaseOrchestrator(cacheKey)
+  releasePreview(cacheKey)
 
   if (preview === null) {
     return {

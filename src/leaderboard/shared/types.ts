@@ -206,7 +206,7 @@ export type PublicCharacterData = {
 
 export type PublicConfigData = {
   teams: PublicTeamMeta[],
-  teamsById: Record<string, PublicBoardDataV2>,
+  teamsById: Record<string, PublicBoardData>,
   totalEntries: number,
 }
 
@@ -219,12 +219,12 @@ export type PublicTeammateMeta = {
   characterId: string,
 }
 
-export type PublicBoardDataV2 = {
-  entries: PublicLeaderboardEntryV2[],
+export type PublicBoardData = {
+  entries: PublicLeaderboardEntry[],
   totalEntries: number,
 }
 
-export type PublicLeaderboardEntryV2 = {
+export type PublicLeaderboardEntry = {
   rank: number,
   characterId: CharacterId,
   buildId: string,

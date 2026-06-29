@@ -1,4 +1,5 @@
 import {
+  BatchCacheTracker,
   emptyBuildScoreCacheStats,
   emptyMetricsSnapshot,
   sumBuildScoreCacheStats,
@@ -89,16 +90,15 @@ export class LeaderboardScoreWorkerPool {
     profiles: LeaderboardScoringProfile[],
     versions: LeaderboardVersionFile,
     globalVersion: number,
+    label?: string,
   }): Promise<{
     entries: PrivateRankedEntry[],
     failures: FailureEntry[],
     buildScoreCacheStats: LeaderboardBuildScoreCacheStats,
     metrics: LeaderboardMetricsSnapshot,
   }> {
-    const { profiles, versions, globalVersion } = input
-    let completedRuns = 0
-    let cacheHits = 0
-    let cacheMisses = 0
+    const { profiles, versions, globalVersion, label } = input
+    const tracker = new BatchCacheTracker(label ?? '', profiles.length)
 
     const results = await Promise.all(profiles.map((profile, profileIndex) => {
       return this.runProfile({
@@ -107,12 +107,7 @@ export class LeaderboardScoreWorkerPool {
         versions,
         globalVersion,
       }).then((result) => {
-        completedRuns += result.scoringRuns
-        cacheHits += result.buildScoreCacheStats.l1Hits + result.buildScoreCacheStats.sqliteHits
-        cacheMisses += result.buildScoreCacheStats.misses
-        const cacheTotal = cacheHits + cacheMisses
-        const hitRate = cacheTotal > 0 ? `${(100 * cacheHits / cacheTotal).toFixed(1)}%` : '-'
-        console.log(`[${completedRuns} runs] [${profileIndex + 1}/${profiles.length} profiles] [cache: ${hitRate} hit, ${cacheHits}/${cacheTotal}]`)
+        tracker.onProfileComplete(profileIndex, result.scoringRuns, result.buildScoreCacheStats)
         return result
       })
     }))

@@ -334,99 +334,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.CR,
-      Stats.CD,
-      Stats.ATK_P,
-      Stats.EHR,
-    ],
-    [Parts.Feet]: [
-      Stats.ATK_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Quantum_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-    ],
-  },
-  substats: [
-    Stats.ATK_P,
-    Stats.CR,
-    Stats.CD,
-    Stats.ATK,
-    Stats.EHR,
-  ],
-  softBreakpoints: [
-    { stat: Stats.EHR, threshold: 0.50 },
-  ],
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    END_SKILL,
-    WHOLE_BASIC,
-  ],
-  deprioritizeBuffs: true,
-  errRopeEidolon: 0,
-  relicSets: [
-    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-    relics2pByStats(Stats.SPD_P),
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.InertSalsotto,
-    Sets.FirmamentFrontlineGlamoth,
-    Sets.IzumoGenseiAndTakamaDivineRealm,
-    Sets.RutilantArena,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
-    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-  ],
-  teammates: [
-    {
-      characterId: Acheron.id,
-      lightCone: AlongThePassingShore.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: MortenaxBlade.id,
-      lightCone: MortenaxBlade.defaultLightCone,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Hyacine.id,
-      lightCone: Hyacine.defaultLightCone,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-  leaderboardTeams: [
-    {
-      deprioritizeBuffs: true,
-      teammates: [
-        { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
-        { characterId: Cipher.id, lightCones: [LiesAflutterInTheWind.id] },
-        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
-      ],
-    },
-    {
-      teammates: [
-        { characterId: SparkleB1.id, lightCones: [SparkleB1.defaultLightCone, DanceDanceDance.id] },
-        { characterId: Robin.id, lightCones: [Robin.defaultLightCone, CarveTheMoonWeaveTheClouds.id] },
-        { characterId: PermansorTerrae.id, lightCones: [PermansorTerrae.defaultLightCone] },
-      ],
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
@@ -474,7 +381,6 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation: simulation(),
   eidolonImage: 4,
 })
 

@@ -25,6 +25,7 @@ import type {
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { truncate10ths } from 'lib/utils/mathUtils'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
+import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LightConeId } from 'types/lightCone'
@@ -103,13 +104,15 @@ function formatFetchedAt(fetchedAt: number): string {
   return new Date(fetchedAt * 1000).toISOString().slice(0, 10)
 }
 
-function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt }: {
+function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
   rank: number | undefined,
   scorePercent: number | undefined,
   aeonStyle: React.CSSProperties,
   fetchedAt: number | undefined,
+  isAllTeams: boolean,
 }) {
   const dateStr = fetchedAt ? formatFetchedAt(fetchedAt) : null
+  const rankingLabel = isAllTeams ? 'All teams' : 'Team rank'
 
   return (
     <Flex align='center' gap={15} px={6}>
@@ -127,7 +130,10 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt }: {
           AEON
         </span>
       )}
-      {dateStr && <span className={classes.entries}>{dateStr}</span>}
+      <span className={classes.entries}>
+        <span>{rankingLabel}</span>
+        {dateStr && <span>{dateStr}</span>}
+      </span>
     </Flex>
   )
 }
@@ -227,6 +233,8 @@ export function LeaderboardBanner() {
   const selectedEntry = useLeaderboardTabStore((s) => s.selectedEntry)
   const selectedCharacterId = useLeaderboardTabStore((s) => s.selectedCharacterId)
   const previewRelics = useLeaderboardTabStore((s) => s.expandedPreviewRelics)
+  const activeTeamId = useLeaderboardTabStore((s) => s.activeTeamId)
+  const isAllTeams = activeTeamId === LEADERBOARD_FILTER_ALL
   const { t: tGame } = useTranslation('gameData')
 
   const characterId = selectedCharacterId
@@ -283,7 +291,7 @@ export function LeaderboardBanner() {
 
         <div className={classes.glassSheet}>
           <div className={classes.stack}>
-            <ResultRow rank={rank} scorePercent={scorePercent} aeonStyle={aeonStyle} fetchedAt={selectedEntry?.fetchedAt} />
+            <ResultRow rank={rank} scorePercent={scorePercent} aeonStyle={aeonStyle} fetchedAt={selectedEntry?.fetchedAt} isAllTeams={isAllTeams} />
 
             <ModuleRow
               selectedEntry={selectedEntry}

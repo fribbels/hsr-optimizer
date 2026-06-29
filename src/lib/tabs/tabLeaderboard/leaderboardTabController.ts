@@ -33,6 +33,7 @@ import {
   getLeaderboardTopScores,
   loadCharacterData,
   loadLeaderboardData,
+  loadLeaderboardTimeline,
 } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes'
@@ -199,16 +200,14 @@ export function selectLeaderboardCharacter(
     filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
   })
 
-  setTimeout(() => {
-    deriveAndUpdateEntries()
+  deriveAndUpdateEntries()
 
-    if (requested?.buildId) {
-      useLeaderboardTabStore.setState({ selectedBuildId: requested.buildId })
-      recomputeDerivedState()
-    }
+  if (requested?.buildId) {
+    useLeaderboardTabStore.setState({ selectedBuildId: requested.buildId })
+    recomputeDerivedState()
+  }
 
-    updateLeaderboardUrl()
-  }, 0)
+  updateLeaderboardUrl()
 }
 
 export function selectLeaderboardEntry(buildId: string) {
@@ -247,7 +246,10 @@ export function getHashParam(param: string): string | null {
 }
 
 export async function initializeLeaderboardTab() {
-  const output = await loadLeaderboardData()
+  const [output, timelineEvents] = await Promise.all([
+    loadLeaderboardData(),
+    loadLeaderboardTimeline(),
+  ])
 
   const metadata = getGameMetadata()
   const liveIds = getLeaderboardCharacterIds(output).filter((id) => metadata.characters[id]?.rarity === 5)
@@ -265,6 +267,7 @@ export async function initializeLeaderboardTab() {
     sortedCharacters: sorted,
     topScores,
     totalEntries,
+    timelineEvents,
   })
 
   const buildIdParam = getHashParam('b')

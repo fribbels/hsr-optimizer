@@ -1,8 +1,9 @@
 import { eidolonToGroup } from 'leaderboard/shared/eidolonConfig'
 import type {
   PublicCharacterData,
-  PublicLeaderboardEntryV2,
+  PublicLeaderboardEntry,
 } from 'leaderboard/shared/types'
+import type { LeaderboardTimeline, TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { BASE_PATH } from 'lib/tabs/navigation/constants'
 import {
   type LeaderboardEntry,
@@ -45,6 +46,23 @@ export async function loadLeaderboardData(): Promise<RawLeaderboardOutput> {
   return cachedPromise
 }
 
+const TIMELINE_DATA_URL = new URL(`${BASE_PATH}/leaderboard/leaderboard-timeline.json`, import.meta.url).href
+
+let cachedTimelinePromise: Promise<TimelineEvent[]> | null = null
+
+export async function loadLeaderboardTimeline(): Promise<TimelineEvent[]> {
+  if (!cachedTimelinePromise) {
+    cachedTimelinePromise = fetch(TIMELINE_DATA_URL)
+      .then((r) => r.json() as Promise<LeaderboardTimeline>)
+      .then((t) => t.events)
+      .catch(() => {
+        cachedTimelinePromise = null
+        return []
+      })
+  }
+  return cachedTimelinePromise
+}
+
 async function decompressCharacterDataAsync(compressed: string): Promise<PublicCharacterData> {
   const binary = atob(compressed)
   const bytes = new Uint8Array(binary.length)
@@ -80,7 +98,7 @@ export function getLeaderboardCharacterIds(output: RawLeaderboardOutput): Charac
   return Object.keys(output.characters) as CharacterId[]
 }
 
-export function mapPublicEntry(entry: PublicLeaderboardEntryV2): LeaderboardEntry {
+export function mapPublicEntry(entry: PublicLeaderboardEntry): LeaderboardEntry {
   const characterEidolon = entry.data.character.r ?? 0
   return {
     rank: entry.rank,

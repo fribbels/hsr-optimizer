@@ -7,6 +7,7 @@ import type {
   PublicCharacterData,
   PublicTeamMeta,
 } from 'leaderboard/shared/types'
+import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import type { InjectedScoreData } from 'lib/characterPreview/characterPreviewTypes'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
@@ -33,6 +34,8 @@ export interface LeaderboardTabState {
   availableCharacters: CharacterId[]
   sortedCharacters: CharacterId[]
 
+  timelineEvents: TimelineEvent[]
+
   selectedEntry: LeaderboardEntry | null
   expandedCharacter: ShowcaseTabCharacter | null
   expandedPreviewRelics: PreviewRelics | null
@@ -57,6 +60,8 @@ export const useLeaderboardTabStore = createTabAwareStore<LeaderboardTabState>((
   totalEntries: {},
   availableCharacters: [],
   sortedCharacters: [],
+
+  timelineEvents: [],
 
   selectedEntry: null,
   expandedCharacter: null,

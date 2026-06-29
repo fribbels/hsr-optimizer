@@ -7,6 +7,7 @@ import { CollapsedCharacterStrip } from 'lib/tabs/tabLeaderboard/CollapsedCharac
 import { LeaderboardBanner } from 'lib/tabs/tabLeaderboard/LeaderboardBanner'
 import { LeaderboardCharacterPreview } from 'lib/tabs/tabLeaderboard/LeaderboardCharacterPreview'
 import { LeaderboardFilterControls } from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls'
+import { LeaderboardHeader } from 'lib/tabs/tabLeaderboard/LeaderboardHeader'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardLayout.module.css'
 import {
   expandCharacterList,
@@ -43,6 +44,7 @@ export function LeaderboardTab() {
 
   return (
     <div className={classes.wrapper}>
+      <LeaderboardHeader />
       <div className={classes.mainContent}>
         <div className={classes.sidebar}>
           <div className={`${classes.panel} ${classes.panelBrowsing} ${browsingClass}`}>

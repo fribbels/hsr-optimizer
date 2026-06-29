@@ -125,7 +125,7 @@
 .teamPopDropdown {
   max-height: 280px;
   overflow-y: auto;
-  border: 1px solid var(--lb-divider);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: #1e2433;
 }
 

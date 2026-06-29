@@ -105,7 +105,7 @@ function TeamPopover(props: LeaderboardFilterControlsProps) {
   const triggerLabel = selectedTeam ? teamLabel(props, selectedTeam) : allTeamsLabel(availableTeams.length)
 
   return (
-    <Popover opened={opened} onChange={setOpened} position='bottom-start' width='target' shadow='md' radius='md' offset={4}>
+    <Popover opened={opened} onChange={setOpened} position='bottom-start' width='target' shadow='md' radius='md' offset={4} withinPortal={false}>
       <Popover.Target>
         <UnstyledButton
           className={`${classes.teamNamedRow} ${classes.teamPopTrigger} ${selectedTeam ? '' : classes.teamPopTriggerAll} ${

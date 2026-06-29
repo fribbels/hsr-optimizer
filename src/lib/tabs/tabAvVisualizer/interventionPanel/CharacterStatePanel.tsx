@@ -94,6 +94,10 @@ export function CharacterStatePanel({ characterId, characters, energy, activeInt
     )
   }
 
+  // Turn-based (remainingTurns) buffs shown before stack-based ones — see renderBuffGroup's divider.
+  const turnBasedBuffs = (activeInterventions ?? []).filter((b) => b.stacks === undefined)
+  const stackBasedBuffs = (activeInterventions ?? []).filter((b) => b.stacks !== undefined)
+
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 12, padding: 4 }}>
       {/* Header: avatar + name */}
@@ -158,63 +162,82 @@ export function CharacterStatePanel({ characterId, characters, energy, activeInt
 
       <Divider />
 
-      {/* Buffs */}
-      <Stack gap={4}>
+      {/* Buffs — own scroll region (flex:1 + minHeight:0 + overflowY:auto, same pattern as
+      SimulatedBuildsGrid.tsx in the optimizer tab) so a long buff list scrolls on its own instead of
+      pushing the header/stats/energy above it out of view. */}
+      <Stack gap={4} style={{ flex: 1, minHeight: 0 }}>
         <Text size='xs' fw={600} c='dimmed'>Buffs</Text>
         {(!activeInterventions || activeInterventions.length === 0) ? (
           <Text size='xs' c='dimmed'>{tAv('CharacterState.NoBuffs')}</Text>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', columnGap: 6, rowGap: 2, alignItems: 'center' }}>
-            {activeInterventions.map((b) => {
-              const hasName = b.effectId && i18next.exists(`avVisualizerTab:BuffNames.${b.effectId}`)
-              const name = hasName
-                ? tAv(`BuffNames.${b.effectId}` as never)
-                : (BUFF_TYPE_KEY[b.type] ? tAv(BUFF_TYPE_KEY[b.type] as never) : b.type)
-
-              // spd_up/spd_down carry no `stat` field (only stat_buff/debuff do) — imply SPD for display
-              // so the effect column doesn't just show a bare percentage with no indication of what it is.
-              const statKey = b.stat ?? ((b.type === 'spd_up' || b.type === 'spd_down') ? Stats.SPD : null)
-              // Some battleConfigs use optimizer-internal "extended" StatKey strings (BOOST etc.) that
-              // aren't real Stats enum members and have no common:ShortStats entry — check the AV
-              // Visualizer's own EffectStatNames table for those first.
-              // Some ShortStats labels (e.g. ATK% → "攻击力%") already carry a trailing '%' baked into the
-              // substat name itself — strip it so it doesn't end up sandwiched between the number and the
-              // unit suffix. The '%' for percent-unit effects always goes right after the number instead.
-              const statLabel = statKey
-                ? (i18next.exists(`avVisualizerTab:EffectStatNames.${statKey}`)
-                    ? String(tAv(`EffectStatNames.${statKey}` as never))
-                    : String(tCommon(statKey as never)).replace(/%$/, ''))
-                : null
-              const percentSuffix = b.unit === 'percent' ? '%' : ''
-              // value === 0 means there's nothing to describe (e.g. Huohuo's Rangming is a pure marker
-              // buff) — leave the column blank rather than a placeholder dash.
-              const effect = b.value === 0
-                ? ''
-                : `${b.value > 0 ? '+' : ''}${b.value}${percentSuffix}${statLabel ? ` ${statLabel}` : ''}`
-
-              const auraMarker = b.buffKind === 'aura' ? ' ◈' : ''
-              const isPositive = b.type === 'spd_up' || b.type === 'stat_buff'
-              // Aura buffs mirrored onto this character from another character's cast (see
-              // applyIntervention's aura registration) tick on the *source's* turns, not this
-              // character's — their remainingTurns here isn't meaningful, so it's hidden.
-              const isMirroredAura = b.buffKind === 'aura' && b.sourceCharacterId !== characterId
-              return (
-                <Fragment key={b.id}>
-                  <Text size='xs' truncate style={{ color: isPositive ? 'var(--mantine-color-green-5)' : 'var(--mantine-color-red-5)' }}>
-                    {name}{auraMarker}
-                  </Text>
-                  <Text size='xs' c='dimmed'>{effect}</Text>
-                  <Text size='xs' c='dimmed'>
-                    {b.stacks !== undefined
-                      ? `x${b.stacks}`
-                      : (isMirroredAura || !Number.isFinite(b.remainingTurns)) ? '' : `${b.remainingTurns}T`}
-                  </Text>
-                </Fragment>
-              )
-            })}
+          <div style={{
+            flex: 1, minHeight: 0, overflowY: 'auto',
+            backgroundColor: '#0000001a', border: '1px solid rgba(255, 255, 255, 0.15)',
+            borderRadius: 6, padding: 6,
+          }}>
+            {renderBuffGroup(turnBasedBuffs)}
+            {turnBasedBuffs.length > 0 && stackBasedBuffs.length > 0 && <Divider my={4} />}
+            {renderBuffGroup(stackBasedBuffs)}
           </div>
         )}
       </Stack>
     </div>
   )
+
+  // Turn-based (remainingTurns) buffs are shown before stack-based ones — a small divider between the
+  // two groups (see above) instead of interleaving them in whatever order they happen to be in.
+  function renderBuffGroup(buffs: ActiveIntervention[]) {
+    if (buffs.length === 0) return null
+    return (
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', columnGap: 6, rowGap: 2, alignItems: 'center' }}>
+        {buffs.map((b) => {
+          const hasName = b.effectId && i18next.exists(`avVisualizerTab:BuffNames.${b.effectId}`)
+          const name = hasName
+            ? tAv(`BuffNames.${b.effectId}` as never)
+            : (BUFF_TYPE_KEY[b.type] ? tAv(BUFF_TYPE_KEY[b.type] as never) : b.type)
+
+          // spd_up/spd_down carry no `stat` field (only stat_buff/debuff do) — imply SPD for display
+          // so the effect column doesn't just show a bare percentage with no indication of what it is.
+          const statKey = b.stat ?? ((b.type === 'spd_up' || b.type === 'spd_down') ? Stats.SPD : null)
+          // Some battleConfigs use optimizer-internal "extended" StatKey strings (BOOST etc.) that
+          // aren't real Stats enum members and have no common:ShortStats entry — check the AV
+          // Visualizer's own EffectStatNames table for those first.
+          // Some ShortStats labels (e.g. ATK% → "攻击力%") already carry a trailing '%' baked into the
+          // substat name itself — strip it so it doesn't end up sandwiched between the number and the
+          // unit suffix. The '%' for percent-unit effects always goes right after the number instead.
+          const statLabel = statKey
+            ? (i18next.exists(`avVisualizerTab:EffectStatNames.${statKey}`)
+                ? String(tAv(`EffectStatNames.${statKey}` as never))
+                : String(tCommon(statKey as never)).replace(/%$/, ''))
+            : null
+          const percentSuffix = b.unit === 'percent' ? '%' : ''
+          // value === 0 means there's nothing to describe (e.g. Huohuo's Rangming is a pure marker
+          // buff) — leave the column blank rather than a placeholder dash.
+          const effect = b.value === 0
+            ? ''
+            : `${b.value > 0 ? '+' : ''}${b.value}${percentSuffix}${statLabel ? ` ${statLabel}` : ''}`
+
+          const auraMarker = b.buffKind === 'aura' ? ' ◈' : ''
+          const isPositive = b.type === 'spd_up' || b.type === 'stat_buff'
+          // Aura buffs mirrored onto this character from another character's cast (see
+          // applyIntervention's aura registration) tick on the *source's* turns, not this
+          // character's — their remainingTurns here isn't meaningful, so it's hidden.
+          const isMirroredAura = b.buffKind === 'aura' && b.sourceCharacterId !== characterId
+          return (
+            <Fragment key={b.id}>
+              <Text size='xs' truncate style={{ color: isPositive ? 'var(--mantine-color-green-5)' : 'var(--mantine-color-red-5)' }}>
+                {name}{auraMarker}
+              </Text>
+              <Text size='xs' c='dimmed'>{effect}</Text>
+              <Text size='xs' c='dimmed'>
+                {b.stacks !== undefined
+                  ? `x${b.stacks}`
+                  : (isMirroredAura || !Number.isFinite(b.remainingTurns)) ? '' : `${b.remainingTurns}T`}
+              </Text>
+            </Fragment>
+          )
+        })}
+      </div>
+    )
+  }
 }

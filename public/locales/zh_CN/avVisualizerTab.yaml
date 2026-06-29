@@ -50,6 +50,7 @@ ActionNode:
 
 Panel:
   EmptyHint: 请选定要添加的位置或者要编辑的内容
+  Back: 返回
   FormTitleEdit: 编辑干预
   FormTitleAfter: '新增 · {{name}}{{turnSuffix}} 行动结束瞬间'
   FormTitleBefore: '新增 · {{name}}{{turnSuffix}} 行动期间'

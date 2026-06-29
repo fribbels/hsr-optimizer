@@ -1,3 +1,5 @@
+import { Button } from '@mantine/core'
+import { IconArrowLeft } from '@tabler/icons-react'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { getPreviewRelics, getShowcaseStats } from 'lib/characterPreview/characterPreviewController'
 import { Stats } from 'lib/constants/constants'
@@ -43,6 +45,7 @@ export function AvVisualizerTab() {
   const charactersById = useCharacterStore((s) => s.charactersById)
   const relicsById = useRelicStore(useShallow((s) => s.relicsById))
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const { t: tAv } = useTranslation('avVisualizerTab')
 
   // Which panel to show on the right side; resets to idle whenever the Playhead moves
   const [rightPanelContext, setRightPanelContext] = useState<RightPanelContext>(IDLE_CONTEXT)
@@ -303,21 +306,43 @@ export function AvVisualizerTab() {
       )
     }
     if (ctx.kind === 'character-state') {
+      // No actionIndex means this came from clicking an avatar in the idle energy overview rather than a
+      // specific historical action — i.e. it's tracking the live Playhead, not a frozen snapshot. That's
+      // also the only case with no stateSnapshot of its own, so both fallbacks (energy/buffs) and the
+      // back button below key off the same actionIndex check.
+      const isLivePlayheadView = ctx.actionIndex === undefined
       return (
-        <CharacterStatePanel
-          characterId={ctx.characterId}
-          characters={timelineCharacters}
-          energy={ctx.stateSnapshot?.energy ?? energyAtPlayhead.get(ctx.characterId)}
-          activeInterventions={ctx.stateSnapshot?.activeInterventions}
-        />
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {isLivePlayheadView && (
+            <Button
+              size='xs'
+              variant='subtle'
+              color='gray'
+              leftSection={<IconArrowLeft size={14} />}
+              onClick={() => setRightPanelContext(IDLE_CONTEXT)}
+              style={{ alignSelf: 'flex-start' }}
+            >
+              {tAv('Panel.Back')}
+            </Button>
+          )}
+          <div style={{ flex: 1, minHeight: 0 }}>
+            <CharacterStatePanel
+              characterId={ctx.characterId}
+              characters={timelineCharacters}
+              energy={ctx.stateSnapshot?.energy ?? energyAtPlayhead.get(ctx.characterId)}
+              activeInterventions={ctx.stateSnapshot?.activeInterventions ?? (isLivePlayheadView ? activeInterventionsAtPlayhead.get(ctx.characterId) : undefined)}
+            />
+          </div>
+        </div>
       )
     }
-    if (ctx.kind === 'ult-effects') {
+    if (ctx.kind === 'ult-effects' || ctx.kind === 'extra-effects') {
       return (
         <UltEffectsPanel
           casterId={ctx.casterId}
           targets={ctx.targets}
           characters={timelineCharacters}
+          kind={ctx.kind === 'extra-effects' ? 'extra' : 'ult'}
         />
       )
     }
@@ -339,6 +364,7 @@ export function AvVisualizerTab() {
         characters={timelineCharacters}
         energyAtPlayhead={energyAtPlayhead}
         activeInterventionsAtPlayhead={activeInterventionsAtPlayhead}
+        onContextChange={setRightPanelContext}
       />
     )
   }

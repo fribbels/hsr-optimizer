@@ -1,5 +1,6 @@
 import { Tooltip } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
+import { ActionOverlayBadge, SpecialActionIcon } from 'lib/tabs/tabAvVisualizer/SpecialActionIcon'
 import { TIMELINE_AVATAR_SIZE, TIMELINE_AVATAR_STACK_GAP, TIMELINE_RULER_Y } from 'lib/tabs/tabAvVisualizer/constants'
 import type { TurnKind } from 'lib/tabs/tabAvVisualizer/types'
 import { useState } from 'react'
@@ -111,29 +112,19 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
           zIndex: 1 + stackLevel,
         }}
       >
-        {/* Avatar / Ult / Extra-attack icon */}
-        <div style={{ position: 'absolute', top: avatarTop, left: '50%', transform: 'translateX(-50%)' }}>
+        {/* Avatar / Ult / Extra-attack icon — explicit size (not shrink-to-fit) so ActionOverlayBadge
+            below can anchor itself to this same container's own top/bottom edge. */}
+        <div style={{
+          position: 'absolute', top: avatarTop, left: '50%', transform: 'translateX(-50%)',
+          width: TIMELINE_AVATAR_SIZE, height: TIMELINE_AVATAR_SIZE,
+        }}>
           {(turnKind === 'ult' || turnKind === 'extra') ? (
             // Half-size circle, recentered on the same point the full-size avatar slot would occupy
             // (avatarTop/avatarBottom — used elsewhere for the triangle/badge positions — stay as the
-            // full slot's geometry; only this circle's own rendered size+offset shrinks, via the same
-            // amount of margin on every side so its center doesn't move).
-            <div style={{
-              width: SPECIAL_ICON_SIZE,
-              height: SPECIAL_ICON_SIZE,
-              margin: (TIMELINE_AVATAR_SIZE - SPECIAL_ICON_SIZE) / 2,
-              borderRadius: '50%',
-              border: `2px solid ${color}`,
-              backgroundColor: color,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <img
-                src={turnKind === 'ult' ? Assets.getUltIcon() : Assets.getExtraAttackIcon()}
-                draggable={false}
-                style={{ width: Math.round(SPECIAL_ICON_SIZE * 0.65), height: Math.round(SPECIAL_ICON_SIZE * 0.65), userSelect: 'none' }}
-              />
+            // full slot's geometry; only this icon's own rendered size shrinks, flex-centered within the
+            // unchanged full-size container so its center doesn't move).
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <SpecialActionIcon turnKind={turnKind} color={color} size={SPECIAL_ICON_SIZE} />
             </div>
           ) : imgError ? (
             <div style={{
@@ -167,65 +158,11 @@ export function ActionMarker({ av, spd, color, characterName, characterId, leftP
               }}
             />
           )}
-        </div>
 
-        {/* Ult/Extra-overlay badge: this character's own Ult or extraAttack lands at the exact same AV —
-            instead of a second independent marker, a small sliver sits on this avatar's own edge (Ult on
-            the bottom, extraAttack on the top, so the two don't overlap if both land here). The shape is
-            a circular segment: a circle cut by a single horizontal chord positioned a quarter of the way
-            in from that edge, keeping only the (smaller) piece beyond that chord — not a quarter-pie
-            wedge with two straight radius cuts. Built as an outer div sized to exactly that visible
-            sliver, clipping (overflow:hidden) an inner full circle positioned so only its outer quarter
-            peeks out — simpler than clip-path math for getting the icon centered inside the sliver itself
-            rather than the full (mostly hidden) circle. */}
-        {[
-          hasUltOverlay && { edge: 'bottom' as const, iconSrc: Assets.getUltIcon() },
-          hasExtraOverlay && { edge: 'top' as const, iconSrc: Assets.getExtraAttackIcon() },
-        ].filter((v): v is { edge: 'top' | 'bottom'; iconSrc: string } => !!v).map(({ edge, iconSrc }) => {
-          const circleSize = Math.round(TIMELINE_AVATAR_SIZE * 0.9)
-          const sliverHeight = Math.round(circleSize * 0.25)
-          const isBottom = edge === 'bottom'
-          return (
-            // Outer container is exactly TIMELINE_AVATAR_SIZE wide, centered with the *same* left:50% +
-            // translateX(-50%) formula the avatar itself uses — guarantees their centerlines actually
-            // match. The inner circle is centered within it too — no horizontal bias.
-            <div key={edge} style={{
-              position: 'absolute',
-              top: isBottom ? avatarBottom - sliverHeight : avatarTop,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: TIMELINE_AVATAR_SIZE,
-              height: sliverHeight,
-              overflow: 'hidden',
-              zIndex: 3,
-            }}>
-              <div style={{
-                position: 'absolute',
-                ...(isBottom ? { bottom: 0 } : { top: 0 }),
-                left: (TIMELINE_AVATAR_SIZE - circleSize) / 2,
-                width: circleSize,
-                height: circleSize,
-                borderRadius: '50%',
-                border: `1.5px solid ${color}`,
-                backgroundColor: color,
-                display: 'flex',
-                alignItems: isBottom ? 'flex-end' : 'flex-start',
-                justifyContent: 'center',
-              }}>
-                <img
-                  src={iconSrc}
-                  draggable={false}
-                  style={{
-                    width: Math.round(sliverHeight * 0.85),
-                    height: Math.round(sliverHeight * 0.85),
-                    userSelect: 'none',
-                    ...(isBottom ? { marginBottom: Math.round(sliverHeight * 0.05) } : { marginTop: Math.round(sliverHeight * 0.05) }),
-                  }}
-                />
-              </div>
-            </div>
-          )
-        })}
+          {/* This character's own Ult/extraAttack lands at the exact same AV — see ActionOverlayBadge. */}
+          {hasUltOverlay && <ActionOverlayBadge edge='bottom' color={color} size={TIMELINE_AVATAR_SIZE} />}
+          {hasExtraOverlay && <ActionOverlayBadge edge='top' color={color} size={TIMELINE_AVATAR_SIZE} />}
+        </div>
 
         {/* Multi-action badge (ult/extra markers are always single events) */}
         {turnKind === 'normal' && actionCount !== undefined && actionCount > 1 && (

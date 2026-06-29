@@ -114,6 +114,7 @@ export default interface Resources {
     },
     "Panel": {
       "Add": "Add",
+      "Back": "Back",
       "Cancel": "Cancel",
       "Duration": "Duration (turns)",
       "EffectType": "Effect Type",

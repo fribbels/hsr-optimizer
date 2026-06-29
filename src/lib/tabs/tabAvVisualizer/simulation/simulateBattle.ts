@@ -1538,9 +1538,19 @@ export function simulateBattle(
       // autoActsOnOwnEnergy: ignores the user's override entirely and decides basic-vs-skill from this
       // character's own live energy instead (e.g. Mimi: below max -> basic, at/above max -> skill).
       const ownEnergy = energyStates.get(event.characterId)
+      // actionLock: same idea, but the decision comes from an arbitrary buff condition instead of energy
+      // (e.g. Gilgamesh: locked to Basic before Interest Piqued, locked to Skill for good once gained —
+      // there's no free-choice state at all). Also takes priority over the user's override — without
+      // this, ActionConfigPanel's UI lock was purely cosmetic (it hid the picker but never actually made
+      // the simulation itself resolve to the locked choice, so the engine kept silently running Basic).
+      const lockedChoice = config?.actionLock?.({
+        energy: ownEnergy?.energy ?? 0,
+        maxEnergy: ownEnergy?.maxEnergy ?? 0,
+        activeInterventions: activeBuffsMap.get(event.characterId) ?? [],
+      })
       const effectiveChoice = config?.autoActsOnOwnEnergy && ownEnergy
         ? (ownEnergy.energy >= ownEnergy.maxEnergy ? 'skill' : 'basic')
-        : (override?.choice ?? 'basic')
+        : lockedChoice ?? (override?.choice ?? 'basic')
       // basicVariants: an alternate basic-attack version selected when the caster currently holds a
       // matching stack-based buff (e.g. Trailblazer-Remembrance: with 史诗 stacked, basic becomes the
       // enhanced 2-hit version) — checked in order, first match wins, falls back to abilities.basic.

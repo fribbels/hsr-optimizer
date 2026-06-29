@@ -48,6 +48,7 @@ Marker:
 
 Panel:
   EmptyHint: Select where to add or what to edit
+  Back: Back
   FormTitleEdit: Edit Intervention
   FormTitleAfter: 'New · after {{name}}{{turnSuffix}}''s action'
   FormTitleBefore: 'New · during {{name}}{{turnSuffix}}''s action'

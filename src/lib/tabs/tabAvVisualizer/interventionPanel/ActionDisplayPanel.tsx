@@ -1,5 +1,6 @@
 import { ActionIcon, Button, NumberInput, ScrollArea, Stack, Switch, Text, Tooltip } from '@mantine/core'
-import { IconBolt, IconCheck, IconChevronRight, IconListDetails, IconPencil, IconPlus, IconTrash } from '@tabler/icons-react'
+import { IconCheck, IconChevronRight, IconPencil, IconPlus, IconTrash } from '@tabler/icons-react'
+import { Assets } from 'lib/rendering/assets'
 import { AvVisualTabController } from 'lib/tabs/tabAvVisualizer/avVisualTabController'
 import { getBattleConfig } from 'lib/tabs/tabAvVisualizer/battleConfigs'
 import { ActionOrderAvatar } from 'lib/tabs/tabAvVisualizer/interventionPanel/ActionOrderAvatar'
@@ -88,8 +89,23 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
     [simEvents, playheadAv],
   )
 
-  const normalActionsAtAv = useMemo(() => actionsAtAv.filter((e) => e.turnKind !== 'ult'), [actionsAtAv])
+  // Precise turnKind check (not just "!== 'ult'") — extraAttack events should count as neither a normal
+  // action (for actionCountPerChar's multi-action badge) nor toggle isStructured by themselves alone.
+  const normalActionsAtAv = useMemo(() => actionsAtAv.filter((e) => e.turnKind === 'normal'), [actionsAtAv])
   const ultActionsAtAv    = useMemo(() => actionsAtAv.filter((e) => e.turnKind === 'ult'),  [actionsAtAv])
+  const extraActionsAtAv  = useMemo(() => actionsAtAv.filter((e) => e.turnKind === 'extra'), [actionsAtAv])
+
+  // Order-preview strip at the top: every event at this AV gets its own slot, in actual resolution
+  // order — a character's own Ult/extraAttack is NOT merged onto their separate normal-action slot (each
+  // occurrence is its own position in the sequence). The only difference is *how* a slot renders: a
+  // Ult/extraAttack slot always shows that character's own avatar with the matching overlay badge (see
+  // ActionOrderAvatar) — never a generic icon-only marker — so it reads as "this character's Ult", not
+  // an anonymous Ult.
+  const orderPreviewEntries = useMemo(() => actionsAtAv.map((ev) => ({
+    ...ev,
+    hasUltOverlay: ev.turnKind === 'ult',
+    hasExtraOverlay: ev.turnKind === 'extra',
+  })), [actionsAtAv])
 
   // during_action ults resolve before the action they're bound to (see simulateBattle.ts), so they're
   // rendered nested inside that action's box instead of as a separate top-level card — keyed by the
@@ -210,15 +226,21 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
     )
   }
 
-  function renderUltCard(ev: ActionEvent) {
-    const isUltActive = activeCharTurnKey === `${ev.characterId}:${ev.actionIndex}:${ev.turnKind}`
-    const isEffectsActive = activeContext.kind === 'ult-effects' && activeContext.casterId === ev.characterId
+  // Shared by Ult and extraAttack — both are "this character's own thing happened here" cards rather
+  // than a normal action (no basic/skill choice, no before/after insertion points of their own).
+  // extraAttack additionally has no delete affordance (it's not something the user manually inserted,
+  // unlike a Ult — see TurnKind/extraAttack's own doc comments for why it has no turn of its own at all).
+  function renderSpecialCard(ev: ActionEvent, kind: 'ult' | 'extra') {
+    const isActive = activeCharTurnKey === `${ev.characterId}:${ev.actionIndex}:${ev.turnKind}`
+    const effectsContextKind = kind === 'ult' ? 'ult-effects' as const : 'extra-effects' as const
+    const isEffectsActive = activeContext.kind === effectsContextKind && activeContext.casterId === ev.characterId
+    const iconSrc = kind === 'ult' ? Assets.getUltIcon() : Assets.getExtraAttackIcon()
     return (
       <div
-        key={`ult:${ev.characterId}:${ev.av}`}
+        key={`${kind}:${ev.characterId}:${ev.av}`}
         style={{
-          border: `1.5px solid ${isUltActive ? 'var(--mantine-color-yellow-4)' : 'gold'}`,
-          background: isUltActive ? 'rgba(255,215,0,0.08)' : 'transparent',
+          border: `1.5px solid ${ev.color}`,
+          background: isActive ? `${ev.color}1a` : 'transparent',
           borderRadius: 6, padding: '6px 8px',
           display: 'flex', alignItems: 'center', gap: 6,
         }}
@@ -226,11 +248,15 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
         <Tooltip label={tAv('UltCard.Effects')} position='top' withinPortal>
           <ActionIcon
             size='xs'
-            variant={isEffectsActive ? 'filled' : 'subtle'}
-            color={isEffectsActive ? 'yellow' : 'gray'}
-            onClick={() => onContextChange({ kind: 'ult-effects', casterId: ev.characterId, targets: ev.currentTargets })}
+            variant='subtle'
+            style={isEffectsActive ? { backgroundColor: `${ev.color}33` } : undefined}
+            onClick={() => onContextChange(
+              kind === 'ult'
+                ? { kind: 'ult-effects', casterId: ev.characterId, targets: ev.currentTargets }
+                : { kind: 'extra-effects', casterId: ev.characterId, targets: ev.currentTargets },
+            )}
           >
-            <IconListDetails size={12} />
+            <img src={iconSrc} draggable={false} style={{ width: 12, height: 12, userSelect: 'none' }} />
           </ActionIcon>
         </Tooltip>
         <Text
@@ -239,7 +265,7 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
         >
           {ev.characterName}
         </Text>
-        {ev.ultInsertionId && (
+        {kind === 'ult' && ev.ultInsertionId && (
           <ActionIcon
             size='xs'
             variant='subtle'
@@ -261,7 +287,7 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
             const ref = allUltInsertions.find((u) => u.id === ev.ultInsertionId)
             return (
               <Fragment key={`ult-wrap:${ev.characterId}:${ev.av}:${ev.actionIndex}`}>
-                {renderUltCard(ev)}
+                {renderSpecialCard(ev, 'ult')}
                 {ev.ultInsertionId && renderAddButton(
                   () => onContextChange({ kind: 'add-branch', triggerAv: playheadAv, afterUltId: ev.ultInsertionId, ultTimingReference: ref?.timing }),
                   `after-ult:${ev.ultInsertionId}`,
@@ -269,6 +295,7 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
               </Fragment>
             )
           })}
+          {extraActionsAtAv.map((ev) => renderSpecialCard(ev, 'extra'))}
           {currentInterventions.length > 0 && (
             <Stack gap={2}>{currentInterventions.map(renderItem)}</Stack>
           )}
@@ -289,7 +316,7 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
 
             return (
               <Fragment key={`ult:${ev.characterId}:${ev.av}`}>
-                {renderUltCard(ev)}
+                {renderSpecialCard(ev, 'ult')}
                 {ev.ultInsertionId && (
                   <div style={{ paddingLeft: 8, paddingRight: 8 }}>
                     {renderAddButton(
@@ -300,6 +327,13 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                 )}
               </Fragment>
             )
+          }
+
+          // extraAttack: card only — no add-button before or after it. It has no turn of its own at all
+          // (see TurnKind/extraAttack's own doc comments), triggers tightly bound to whatever condition
+          // fired it, so there's no meaningful insertion point immediately around it either.
+          if (ev.turnKind === 'extra') {
+            return <Fragment key={`extra:${ev.characterId}:${ev.av}`}>{renderSpecialCard(ev, 'extra')}</Fragment>
           }
 
           const totalForChar = actionCountPerChar.get(ev.characterId) ?? 1
@@ -345,7 +379,7 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                       }),
                       `before-ult:${duringUlt.ultInsertionId}`,
                     )}
-                    {renderUltCard(duringUlt)}
+                    {renderSpecialCard(duringUlt, 'ult')}
                   </Fragment>
                 ))}
 
@@ -426,16 +460,22 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
 
       <ScrollArea type='scroll' scrollbarSize={8} scrollbars='y' style={{ flex: 1 }}>
         <Stack gap='sm'>
-          {normalActionsAtAv.length > 0 && (
+          {orderPreviewEntries.length > 0 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              {normalActionsAtAv.map((ev, i) => (
-                <Fragment key={`${ev.characterId}:${ev.actionIndex}`}>
+              {orderPreviewEntries.map((ev, i) => (
+                <Fragment key={`${ev.characterId}:${ev.actionIndex}:${ev.turnKind}`}>
                   {i > 0 && <IconChevronRight size={16} color='var(--mantine-color-dimmed)' />}
                   <div
                     onClick={() => onContextChange({ kind: 'character-state', characterId: ev.characterId, actionIndex: ev.actionIndex, turnKind: ev.turnKind, stateSnapshot: ev.stateBefore[ev.characterId] })}
                     style={{ cursor: 'pointer' }}
                   >
-                    <ActionOrderAvatar characterId={ev.characterId} characterName={ev.characterName} color={ev.color} />
+                    <ActionOrderAvatar
+                      characterId={ev.characterId}
+                      characterName={ev.characterName}
+                      color={ev.color}
+                      hasUltOverlay={ev.hasUltOverlay}
+                      hasExtraOverlay={ev.hasExtraOverlay}
+                    />
                   </div>
                 </Fragment>
               ))}

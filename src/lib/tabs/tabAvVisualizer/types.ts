@@ -72,6 +72,7 @@ export type RightPanelContext =
   | { kind: 'character-state'; characterId: string; actionIndex?: number; turnKind?: TurnKind; stateSnapshot?: CharacterBattleState }
   | { kind: 'ult-caster'; timing: UltTiming; insertAfterId?: string; insertBeforeUltId?: string }
   | { kind: 'ult-effects'; casterId: string; targets?: string[] }
+  | { kind: 'extra-effects'; casterId: string; targets?: string[] }
 
 // ── New types ─────────────────────────────────────────────────────────────────
 

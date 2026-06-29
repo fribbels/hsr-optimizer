@@ -8,9 +8,13 @@ type UltEffectsPanelProps = {
   casterId: string
   targets?: string[]
   characters: BattleEntity[]
+  // 'extra' reads CharacterBattleConfig.extraAttack.effect instead of abilities.ult — same panel, just a
+  // different static template list (extraAttack's effect is always a plain array, no AbilityResolver
+  // complexity to guard against there).
+  kind?: 'ult' | 'extra'
 }
 
-export function UltEffectsPanel({ casterId, targets, characters }: UltEffectsPanelProps) {
+export function UltEffectsPanel({ casterId, targets, characters, kind = 'ult' }: UltEffectsPanelProps) {
   const { t: tAv } = useTranslation('avVisualizerTab')
   const config = getBattleConfig(casterId)
   const selfName = characters.find((c) => c.id === casterId)?.name ?? casterId
@@ -25,7 +29,9 @@ export function UltEffectsPanel({ casterId, targets, characters }: UltEffectsPan
 
   // Dynamic (AbilityResolver) ults aren't expected currently, but Array.isArray guards against this
   // panel breaking if that ever changes — no static preview is possible for those.
-  const ultTemplates = Array.isArray(config.abilities.ult) ? config.abilities.ult : []
+  const ultTemplates = kind === 'extra'
+    ? config.extraAttack?.effect ?? []
+    : (Array.isArray(config.abilities.ult) ? config.abilities.ult : [])
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>

@@ -20,18 +20,15 @@ import type {
   ProfilePayloadIndex,
 } from 'leaderboard/shared/types'
 
-export function comparePrivateRankedEntries(
-  a: Pick<PrivateRankedEntry, 'score' | 'uidHash'>,
-  b: Pick<PrivateRankedEntry, 'score' | 'uidHash'>,
-): number {
+export function comparePrivateRankedEntries(a: PrivateRankedEntry, b: PrivateRankedEntry): number {
   return b.score - a.score || a.uidHash.localeCompare(b.uidHash)
 }
 
-export function boardKeyFromEntry(entry: Pick<PrivateRankedEntry, 'characterId' | 'configType' | 'teamId'>): string {
+export function boardKeyFromEntry(entry: PrivateRankedEntry): string {
   return `${entry.characterId}#${configTypeToPublic(entry.configType)}#${entry.teamId}`
 }
 
-export function entryReplacementKey(entry: Pick<PrivateRankedEntry, 'uid' | 'characterId' | 'configType' | 'teamId'>): string {
+export function entryReplacementKey(entry: PrivateRankedEntry): string {
   return `${entry.uid}#${entry.characterId}#${configTypeToPublic(entry.configType)}#${entry.teamId}`
 }
 

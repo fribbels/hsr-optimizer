@@ -4,6 +4,7 @@ import {
 } from 'leaderboard/output/privateOutput'
 import { FixedSizeMinQueue } from 'lib/dataStructures/fixedSizeMinQueue'
 import {
+  ScoringProgressTracker,
   emptyBuildScoreCacheStats,
   emptyMetricsSnapshot,
   sumBuildScoreCacheStats,
@@ -63,7 +64,7 @@ export async function runScoringStage(input: RunScoringStageInput): Promise<RunS
   console.log(`Leaderboard profile worker_threads enabled: ${input.workerCount} workers`)
 
   let scoringError: unknown
-  let scoringResult: Omit<RunScoringStageResult, 'elapsedMs'> | null = null
+  let scoringResult: RunScoringStageResult | null = null
   try {
     scoringResult = await runPerCharacterBatchedScoring(workerPool, input)
   } catch (error: unknown) {
@@ -85,7 +86,8 @@ export async function runScoringStage(input: RunScoringStageInput): Promise<RunS
     throw new Error('Leaderboard scoring finished without a result')
   }
 
-  return { ...scoringResult, elapsedMs: scoringElapsedMs }
+  scoringResult.elapsedMs = scoringElapsedMs
+  return scoringResult
 }
 
 // ---------------------------------------------------------------------------
@@ -141,35 +143,6 @@ function computeBatchSize(totalCandidates: number): number {
   return Math.max(BATCH_MIN, Math.min(BATCH_MAX, rawSize))
 }
 
-class ProgressTracker {
-  completedCharacters = 0
-  candidatesScored = 0
-  candidatesSaved = 0
-  convergedCount = 0
-  private readonly startMs = performance.now()
-
-  constructor(
-    readonly totalCharacters: number,
-    readonly totalCandidates: number,
-  ) {}
-
-  onCharacterComplete(result: CharacterResult): void {
-    this.completedCharacters++
-    this.candidatesScored += result.candidatesScored
-    this.candidatesSaved += result.totalCandidates - result.candidatesScored
-    if (result.converged) this.convergedCount++
-    const elapsedS = ((performance.now() - this.startMs) / 1000).toFixed(0)
-    const pct = this.totalCandidates > 0
-      ? Math.round(100 * this.candidatesScored / this.totalCandidates)
-      : 0
-    console.log(
-      `--- [${this.completedCharacters}/${this.totalCharacters} characters] `
-      + `${this.candidatesScored} scored, ${this.candidatesSaved} saved `
-      + `(${pct}% of ${this.totalCandidates}) `
-      + `${this.convergedCount} converged, ${elapsedS}s`,
-    )
-  }
-}
 
 async function processCharacter(input: {
   characterId: string,
@@ -178,7 +151,7 @@ async function processCharacter(input: {
   versions: LeaderboardVersionFile,
   globalVersion: number,
   topK: number,
-  progress: ProgressTracker,
+  progress: ScoringProgressTracker,
 }): Promise<CharacterResult> {
   const { characterId, candidates, workerPool, versions, globalVersion, topK, progress } = input
   const charStartMs = performance.now()
@@ -221,12 +194,6 @@ async function processCharacter(input: {
 
     const batchHitTopK = convergenceTracker.ingestBatch(result.entries)
 
-    console.log(
-      `[${characterId}] Batch ${batchesRun}: ${batch.length} candidates, `
-      + `${result.entries.length} entries, `
-      + `${batchHitTopK ? 'top-K updated' : 'no top-K change'}`,
-    )
-
     if (!batchHitTopK) {
       converged = true
       break
@@ -234,15 +201,8 @@ async function processCharacter(input: {
   }
 
   const charElapsedS = ((performance.now() - charStartMs) / 1000).toFixed(1)
-  const cacheTotal = cacheStats.l1Hits + cacheStats.sqliteHits + cacheStats.misses
-  const cacheMissRate = cacheTotal > 0 ? `${(100 * cacheStats.misses / cacheTotal).toFixed(0)}% miss` : 'no cache'
-  const boardInfo = `${convergenceTracker.boardCount} boards`
-
-  if (converged) {
-    console.log(`[${characterId}] Converged after ${batchesRun} batches (${candidatesScored}/${candidates.length} candidates, ${allEntries.length} entries, ${boardInfo}, ${cacheMissRate}, ${charElapsedS}s)`)
-  } else if (candidates.length > 0) {
-    console.log(`[${characterId}] Scored all ${batchesRun} batches (${candidatesScored} candidates, ${allEntries.length} entries, ${boardInfo}, ${cacheMissRate}, ${charElapsedS}s)`)
-  }
+  const status = converged ? `Converged after ${batchesRun} batches` : `Scored all ${batchesRun} batches`
+  console.log(`[${characterId}] ${status} (${candidatesScored}/${candidates.length} candidates, ${allEntries.length} entries, ${charElapsedS}s)`)
 
   const characterResult: CharacterResult = {
     characterId,
@@ -255,22 +215,22 @@ async function processCharacter(input: {
     converged,
   }
 
-  progress.onCharacterComplete(characterResult)
+  progress.onCharacterComplete(characterResult.candidatesScored, characterResult.totalCandidates, characterResult.converged)
   return characterResult
 }
 
 async function runPerCharacterBatchedScoring(
   workerPool: LeaderboardScoreWorkerPool,
   input: RunScoringStageInput,
-): Promise<Omit<RunScoringStageResult, 'elapsedMs'>> {
+): Promise<RunScoringStageResult> {
   const candidatesByChar = groupCandidatesByCharacter(input.profiles)
   const totalCandidates = [...candidatesByChar.values()].reduce((n, c) => n + c.length, 0)
-  const progress = new ProgressTracker(candidatesByChar.size, totalCandidates)
+  const progress = new ScoringProgressTracker(candidatesByChar.size, totalCandidates)
   const candidateCounts = [...candidatesByChar.values()].map((c) => c.length).sort((a, b) => a - b)
-  const minC = candidateCounts[0] ?? 0
-  const medC = candidateCounts[Math.floor(candidateCounts.length / 2)] ?? 0
-  const maxC = candidateCounts[candidateCounts.length - 1] ?? 0
-  console.log(`\nPer-character batching: ${candidatesByChar.size} characters, ${totalCandidates} total candidates (min=${minC}, median=${medC}, max=${maxC})`)
+  const minCandidates = candidateCounts[0] ?? 0
+  const medianCandidates = candidateCounts[Math.floor(candidateCounts.length / 2)] ?? 0
+  const maxCandidates = candidateCounts[candidateCounts.length - 1] ?? 0
+  console.log(`\nPer-character batching: ${candidatesByChar.size} characters, ${totalCandidates} total candidates (min=${minCandidates}, median=${medianCandidates}, max=${maxCandidates})`)
 
   const sortedEntries = [...candidatesByChar.entries()].sort((a, b) => a[1].length - b[1].length)
 
@@ -291,24 +251,16 @@ async function runPerCharacterBatchedScoring(
   const avgBatches = characterResults.length > 0
     ? (characterResults.reduce((n, r) => n + r.batchesRun, 0) / characterResults.length).toFixed(1)
     : '0'
-  const maxBatchResult = characterResults.reduce<CharacterResult | null>((max, r) => (!max || r.batchesRun > max.batchesRun) ? r : max, null)
+  const savedPct = totalCandidates > 0 ? Math.round(100 * progress.candidatesSaved / totalCandidates) : 0
 
-  console.log(
-    `\nScoring complete: ${characterResults.length} characters, `
-    + `${progress.candidatesScored} candidates scored of ${totalCandidates} total `
-    + `(${totalCandidates > 0 ? Math.round(100 * progress.candidatesSaved / totalCandidates) : 0}% saved)`,
-  )
-  console.log(
-    `  Converged: ${progress.convergedCount}/${characterResults.length}, `
-    + `Avg batches: ${avgBatches}`
-    + (maxBatchResult ? `, Max batches: ${maxBatchResult.batchesRun} (${maxBatchResult.characterId})` : ''),
-  )
+  console.log(`\nScoring complete: ${characterResults.length} characters, ${progress.candidatesScored} scored (${savedPct}% saved), converged ${progress.convergedCount}, avg batches ${avgBatches}`)
 
   return {
     entries: characterResults.flatMap((r) => r.entries),
     failures: [],
     buildScoreCacheStats: sumBuildScoreCacheStats(characterResults.map((r) => r.buildScoreCacheStats)),
     metrics: sumMetricSnapshots(characterResults.map((r) => r.metrics)),
+    elapsedMs: 0,
   }
 }
 

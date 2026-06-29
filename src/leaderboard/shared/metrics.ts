@@ -60,6 +60,61 @@ export function sumMetricSnapshots(snapshots: LeaderboardMetricsSnapshot[]): Lea
   return result
 }
 
+// ---------------------------------------------------------------------------
+// Progress tracking
+// ---------------------------------------------------------------------------
+
+export class ScoringProgressTracker {
+  completedCharacters = 0
+  candidatesScored = 0
+  candidatesSaved = 0
+  convergedCount = 0
+  private readonly startMs = performance.now()
+
+  constructor(
+    readonly totalCharacters: number,
+    readonly totalCandidates: number,
+  ) {}
+
+  onCharacterComplete(scored: number, total: number, converged: boolean): void {
+    this.completedCharacters++
+    this.candidatesScored += scored
+    this.candidatesSaved += total - scored
+    if (converged) this.convergedCount++
+    const elapsedS = ((performance.now() - this.startMs) / 1000).toFixed(0)
+    const pct = this.totalCandidates > 0
+      ? Math.round(100 * this.candidatesScored / this.totalCandidates)
+      : 0
+    console.log(
+      `--- [${this.completedCharacters}/${this.totalCharacters} characters] `
+      + `${this.candidatesScored} scored, ${this.candidatesSaved} saved `
+      + `(${pct}% of ${this.totalCandidates}) `
+      + `${this.convergedCount} converged, ${elapsedS}s`,
+    )
+  }
+}
+
+export class BatchCacheTracker {
+  completedRuns = 0
+  cacheHits = 0
+  cacheMisses = 0
+
+  constructor(
+    private readonly label: string,
+    private readonly totalProfiles: number,
+  ) {}
+
+  onProfileComplete(profileIndex: number, scoringRuns: number, stats: LeaderboardBuildScoreCacheStats): void {
+    this.completedRuns += scoringRuns
+    this.cacheHits += stats.l1Hits + stats.sqliteHits
+    this.cacheMisses += stats.misses
+    const cacheTotal = this.cacheHits + this.cacheMisses
+    const hitRate = cacheTotal > 0 ? `${(100 * this.cacheHits / cacheTotal).toFixed(1)}%` : '-'
+    const prefix = this.label ? `[${this.label}] ` : ''
+    console.log(`${prefix}[${this.completedRuns} runs] [${profileIndex + 1}/${this.totalProfiles} profiles] [cache: ${hitRate} hit, ${this.cacheHits}/${cacheTotal}]`)
+  }
+}
+
 export function createLeaderboardMetrics(): LeaderboardMetrics {
   const counters = new Map<string, number>()
   const timings = new Map<string, TimingAggregate>()

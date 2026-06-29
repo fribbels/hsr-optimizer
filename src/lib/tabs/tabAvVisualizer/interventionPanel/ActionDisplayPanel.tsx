@@ -3,9 +3,10 @@ import { IconCheck, IconChevronRight, IconPencil, IconPlus, IconTrash } from '@t
 import { Assets } from 'lib/rendering/assets'
 import { AvVisualTabController } from 'lib/tabs/tabAvVisualizer/avVisualTabController'
 import { getBattleConfig } from 'lib/tabs/tabAvVisualizer/battleConfigs'
+import { mergeChainedOrder } from 'lib/tabs/tabAvVisualizer/chainOrder'
 import { ActionOrderAvatar } from 'lib/tabs/tabAvVisualizer/interventionPanel/ActionOrderAvatar'
 import { InterventionItem } from 'lib/tabs/tabAvVisualizer/interventionPanel/InterventionItem'
-import type { ActionChoice, CharacterBattleState, Intervention, RightPanelContext, TurnKind } from 'lib/tabs/tabAvVisualizer/types'
+import type { ActionChoice, CharacterBattleState, Intervention, RightPanelContext, TurnKind, UltInsertion } from 'lib/tabs/tabAvVisualizer/types'
 import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { truncate100ths } from 'lib/utils/mathUtils'
 import { Fragment, useMemo, useState } from 'react'
@@ -24,6 +25,12 @@ type ActionEvent = {
   ultInsertionId?: string
   hitCount?: number
 }
+
+// One slot in a merged before/after sequence (see buildMergedDisplay) — either a Ult (rendered as its own
+// card) or a manually-added Intervention, in the exact order simulateBattle.ts itself resolves them in.
+type MergedDisplayItem =
+  | { kind: 'ult'; id: string; afterItemId?: string; ev: ActionEvent }
+  | { kind: 'intervention'; id: string; afterItemId?: string; iv: Intervention }
 
 type ActionDisplayPanelProps = {
   characters: Array<{ id: string; name: string; color: string }>
@@ -74,8 +81,8 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
     setAvEditing(false)
   }
 
-  const allInterventions = useAVVisualTabStore((s) => s.savedSession.interventions)
-  const allUltInsertions = useAVVisualTabStore((s) => s.savedSession.ultInsertions)
+  const allInterventions = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].interventions)
+  const allUltInsertions = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].ultInsertions)
   // Bucketed to 2 decimals rather than exact equality — an intervention created by dragging/clicking the
   // ruler lands on a continuous floating-point AV (e.g. 9.9999997), so typing/seeking to a clean value
   // like 10 in the AV input below would otherwise never match it.
@@ -107,21 +114,37 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
     hasExtraOverlay: ev.turnKind === 'extra',
   })), [actionsAtAv])
 
-  // during_action ults resolve before the action they're bound to (see simulateBattle.ts), so they're
-  // rendered nested inside that action's box instead of as a separate top-level card — keyed by the
-  // (characterId, actionIndex) of the action they precede. A slot can hold more than one (e.g. two
-  // characters' ults both inserted "during" the same action) — stored as a list, in the same order the
-  // engine actually fires them (simEvents is already in simulation order), not just the last one.
-  const duringUltByCharAction = useMemo(() => {
-    const map = new Map<string, ActionEvent[]>()
-    for (const ev of ultActionsAtAv) {
-      const insertion = allUltInsertions.find((u) => u.id === ev.ultInsertionId)
-      if (insertion?.timing.type !== 'during_action') continue
-      const key = `${insertion.timing.charId}:${insertion.timing.actionIndex}`
-      map.set(key, [...(map.get(key) ?? []), ev])
+  // Raw UltInsertion records (not ActionEvents) grouped by the action they're bound to — needed alongside
+  // currentInterventions to build the true merged display order (see buildMergedDisplay), since
+  // afterItemId chaining can splice an Intervention in between two Ults at this anchor.
+  const duringUltInsertionsByCharAction = useMemo(() => {
+    const map = new Map<string, UltInsertion[]>()
+    for (const u of allUltInsertions) {
+      if (u.timing.type !== 'during_action') continue
+      const key = `${u.timing.charId}:${u.timing.actionIndex}`
+      map.set(key, [...(map.get(key) ?? []), u])
     }
     return map
-  }, [ultActionsAtAv, allUltInsertions])
+  }, [allUltInsertions])
+
+  const afterUltInsertionsByCharAction = useMemo(() => {
+    const map = new Map<string, UltInsertion[]>()
+    for (const u of allUltInsertions) {
+      if (u.timing.type !== 'after_action') continue
+      const key = `${u.timing.charId}:${u.timing.actionIndex}`
+      map.set(key, [...(map.get(key) ?? []), u])
+    }
+    return map
+  }, [allUltInsertions])
+
+  // Lets buildMergedDisplay go from "this Ult insertion resolved" to the ActionEvent that carries its
+  // display data (color, characterName, etc) — an insertion with no matching event here never actually
+  // fired (e.g. insufficient energy), so it's excluded from the merged display entirely.
+  const ultEventByInsertionId = useMemo(() => {
+    const map = new Map<string, ActionEvent>()
+    for (const ev of ultActionsAtAv) if (ev.ultInsertionId) map.set(ev.ultInsertionId, ev)
+    return map
+  }, [ultActionsAtAv])
 
   const actionCountPerChar = useMemo(() => {
     const map = new Map<string, number>()
@@ -150,6 +173,37 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
     }
     return map
   }, [currentInterventions])
+
+  // Interventions with neither beforeCharId nor afterCharId — not bound to any character's action, so
+  // they'd otherwise have no display slot at all in the structured view below (only the at_av Ult cards,
+  // which render via actionsAtAv since they're true BattleEvents, would be visible). Shown as their own
+  // section so they're not silently invisible just because they share this AV with a normal action.
+  const flatInterventions = useMemo(
+    () => currentInterventions.filter((iv) => !iv.beforeCharId && !iv.afterCharId),
+    [currentInterventions],
+  )
+
+  // Merges a character action's before/after Interventions with the Ults sharing that same anchor into
+  // the exact order simulateBattle.ts itself resolves them in (see mergeChainedOrder) — so the panel shows
+  // (and lets you precisely insert into) the true sequence, not just "all interventions, then all Ults".
+  function buildMergedDisplay(ivsHere: Intervention[], ultsHere: UltInsertion[]): MergedDisplayItem[] {
+    const liveUlts = ultsHere.filter((u) => ultEventByInsertionId.has(u.id))
+    const toEntry = (iv: Intervention): MergedDisplayItem => ({ kind: 'intervention', id: iv.id, afterItemId: iv.afterItemId, iv })
+    const toUltEntry = (u: UltInsertion): MergedDisplayItem => ({ kind: 'ult', id: u.id, afterItemId: u.afterItemId, ev: ultEventByInsertionId.get(u.id)! })
+    return mergeChainedOrder(
+      [...ivsHere.filter((iv) => !iv.afterItemId).map(toEntry), ...liveUlts.filter((u) => !u.afterItemId).map(toUltEntry)],
+      [...ivsHere.filter((iv) => iv.afterItemId).map(toEntry), ...liveUlts.filter((u) => u.afterItemId).map(toUltEntry)],
+    )
+  }
+
+  // When the item right before a "+" is itself a Ult, the add-branch context needs afterUltId set (not
+  // just afterItemId) — UltCasterPanel's stale-state fix (see priorUltEvent in AvVisualizerTab.tsx) keys
+  // specifically off afterUltId/insertAfterId to find that Ult's own post-resolution state as the energy/
+  // buff baseline, instead of falling back to this AV's very first state (before that Ult ever fired).
+  function precedingUltId(items: MergedDisplayItem[], i: number): string | undefined {
+    const preceding = i > 0 ? items[i - 1] : undefined
+    return preceding?.kind === 'ult' ? preceding.id : undefined
+  }
 
   function renderItem(iv: Intervention) {
     return (
@@ -289,7 +343,7 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
               <Fragment key={`ult-wrap:${ev.characterId}:${ev.av}:${ev.actionIndex}`}>
                 {renderSpecialCard(ev, 'ult')}
                 {ev.ultInsertionId && renderAddButton(
-                  () => onContextChange({ kind: 'add-branch', triggerAv: playheadAv, afterUltId: ev.ultInsertionId, ultTimingReference: ref?.timing }),
+                  () => onContextChange({ kind: 'add-branch', triggerAv: playheadAv, afterUltId: ev.ultInsertionId, ultTimingReference: ref?.timing, afterItemId: ev.ultInsertionId }),
                   `after-ult:${ev.ultInsertionId}`,
                 )}
               </Fragment>
@@ -306,13 +360,17 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
 
     return (
       <Stack gap='sm'>
+        {flatInterventions.length > 0 && (
+          <Stack gap={2}>{flatInterventions.map(renderItem)}</Stack>
+        )}
+
         {actionsAtAv.map((ev) => {
-          // Ult events: card + add button below (no before/after within the ult)
+          // Ult events: during_action and after_action ults are both rendered nested under the action
+          // they're bound to (below) instead of as separate top-level cards here — only at_av ults (bound
+          // to no specific action) keep their own top-level card.
           if (ev.turnKind === 'ult') {
-            // during_action ults are rendered nested inside the action box they precede (below),
-            // not as a separate top-level card — skip them here.
             const insertion = allUltInsertions.find((u) => u.id === ev.ultInsertionId)
-            if (insertion?.timing.type === 'during_action') return null
+            if (insertion?.timing.type === 'during_action' || insertion?.timing.type === 'after_action') return null
 
             return (
               <Fragment key={`ult:${ev.characterId}:${ev.av}`}>
@@ -320,7 +378,7 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                 {ev.ultInsertionId && (
                   <div style={{ paddingLeft: 8, paddingRight: 8 }}>
                     {renderAddButton(
-                      () => onContextChange({ kind: 'add-branch', triggerAv: playheadAv, afterUltId: ev.ultInsertionId, ultTimingReference: insertion?.timing }),
+                      () => onContextChange({ kind: 'add-branch', triggerAv: playheadAv, afterUltId: ev.ultInsertionId, ultTimingReference: insertion?.timing, afterItemId: ev.ultInsertionId }),
                       `after-ult:${ev.ultInsertionId}`,
                     )}
                   </div>
@@ -341,6 +399,12 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
           const beforeIvs = beforeMap.get(`${ev.characterId}:${ev.actionIndex}`) ?? []
           const afterIvs = afterMap.get(`${ev.characterId}:${ev.actionIndex}`) ?? []
           const isCharActive = activeCharTurnKey === `${ev.characterId}:${ev.actionIndex}:${ev.turnKind}`
+          // True resolved order — interleaves Ults and manually-added Interventions sharing this same
+          // anchor exactly the way simulateBattle.ts itself resolves them (see buildMergedDisplay), so a
+          // "+" between any two adjacent items here always inserts precisely at that point (afterItemId
+          // = the item right before it, or undefined for the very first slot).
+          const mergedDuring = buildMergedDisplay(beforeIvs, duringUltInsertionsByCharAction.get(`${ev.characterId}:${ev.actionIndex}`) ?? [])
+          const mergedAfter  = buildMergedDisplay(afterIvs,  afterUltInsertionsByCharAction.get(`${ev.characterId}:${ev.actionIndex}`) ?? [])
 
           return (
             <Fragment key={`${ev.characterId}:${ev.actionIndex}`}>
@@ -362,30 +426,30 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                   <IconChevronRight size={12} color={ev.color} style={{ opacity: 0.6 }} />
                 </div>
 
-                {/* during_action ults: resolve before this action's basic/skill, so they're shown here,
-                ahead of the behavior row. A slot can hold more than one (e.g. two different characters'
-                ults both inserted "during" this same action) — each gets its own add-button right
-                before it (including the first), so there's always exactly one "+" between any two
-                renderable items here, never two in a row. The slot right before the action itself
-                (beforeIvs' add-button below) already covers "append after the last ult", so it isn't
-                repeated here. */}
-                {duringUltByCharAction.get(`${ev.characterId}:${ev.actionIndex}`)?.map((duringUlt) => (
-                  <Fragment key={`during-ult:${duringUlt.ultInsertionId}`}>
-                    {duringUlt.ultInsertionId && renderAddButton(
+                {/* during_action Ults + before-Interventions: resolve before this action's basic/skill, in
+                their true merged order — a "+" before each item (including the first), so there's always
+                exactly one between any two renderable items here, never two in a row. */}
+                {mergedDuring.map((item, i) => (
+                  <Fragment key={`during:${item.id}`}>
+                    {renderAddButton(
                       () => onContextChange({
                         kind: 'add-branch', triggerAv: playheadAv,
                         beforeCharId: ev.characterId, beforeActionIndex: ev.actionIndex,
-                        insertBeforeUltId: duringUlt.ultInsertionId,
+                        afterItemId: i > 0 ? mergedDuring[i - 1].id : undefined,
+                        afterUltId: precedingUltId(mergedDuring, i),
                       }),
-                      `before-ult:${duringUlt.ultInsertionId}`,
+                      `before-item:${item.id}`,
                     )}
-                    {renderSpecialCard(duringUlt, 'ult')}
+                    {item.kind === 'ult' ? renderSpecialCard(item.ev, 'ult') : renderItem(item.iv)}
                   </Fragment>
                 ))}
-
-                {beforeIvs.map(renderItem)}
                 {renderAddButton(
-                  () => onContextChange({ kind: 'add-branch', triggerAv: playheadAv, beforeCharId: ev.characterId, beforeActionIndex: ev.actionIndex }),
+                  () => onContextChange({
+                    kind: 'add-branch', triggerAv: playheadAv,
+                    beforeCharId: ev.characterId, beforeActionIndex: ev.actionIndex,
+                    afterItemId: mergedDuring.length > 0 ? mergedDuring[mergedDuring.length - 1].id : undefined,
+                    afterUltId: precedingUltId(mergedDuring, mergedDuring.length),
+                  }),
                   addZoneKey(ev.characterId, ev.actionIndex, undefined, undefined),
                 )}
 
@@ -394,15 +458,30 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                 {renderBehaviorRow(ev)}
               </div>
 
+              {/* after_action Ults + after-Interventions: same merged-order treatment as the during_action
+              zone above, just below the action's own box instead of inside it. */}
               <div style={{ paddingLeft: 8, paddingRight: 8, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                {afterIvs.map(renderItem)}
+                {mergedAfter.map((item, i) => (
+                  <Fragment key={`after:${item.id}`}>
+                    {renderAddButton(
+                      () => onContextChange({
+                        kind: 'add-branch', triggerAv: playheadAv,
+                        afterCharId: ev.characterId, afterActionIndex: ev.actionIndex,
+                        afterItemId: i > 0 ? mergedAfter[i - 1].id : undefined,
+                        afterUltId: precedingUltId(mergedAfter, i),
+                      }),
+                      `after-before-item:${item.id}`,
+                    )}
+                    {item.kind === 'ult' ? renderSpecialCard(item.ev, 'ult') : renderItem(item.iv)}
+                  </Fragment>
+                ))}
                 {renderAddButton(
-                  () => {
-                    const firstUltInSlot = allUltInsertions.find(
-                      (u) => u.timing.type === 'after_action' && u.timing.charId === ev.characterId && u.timing.actionIndex === ev.actionIndex,
-                    )
-                    onContextChange({ kind: 'add-branch', triggerAv: playheadAv, afterCharId: ev.characterId, afterActionIndex: ev.actionIndex, insertBeforeUltId: firstUltInSlot?.id })
-                  },
+                  () => onContextChange({
+                    kind: 'add-branch', triggerAv: playheadAv,
+                    afterCharId: ev.characterId, afterActionIndex: ev.actionIndex,
+                    afterItemId: mergedAfter.length > 0 ? mergedAfter[mergedAfter.length - 1].id : undefined,
+                    afterUltId: precedingUltId(mergedAfter, mergedAfter.length),
+                  }),
                   addZoneKey(undefined, undefined, ev.characterId, ev.actionIndex),
                 )}
               </div>

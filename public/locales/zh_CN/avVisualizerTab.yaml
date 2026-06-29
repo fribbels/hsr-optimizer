@@ -22,10 +22,28 @@ Sidebar:
 
 Timeline:
   AddRow: 添加 100 AV
+  RemoveRow: 减少 100 AV
   MocToggle: 混沌回忆 (150)
+  PrevRow: 上一T
+  NextRow: 下一T
 
 GlobalActions:
   Title: 全局操作
+  Wave: 波次
+  PrevWave: 上一波
+  NextWave: 下一波
+  CutWave: 生成新波次
+  CutWaveHint: 在Playhead这个AV位置截断当前波次的时间轴，新建一个从AV 0重新开始的波次，能量/buff/团队SP会原样继承。
+  CutWaveConfirmTitle: 在这里截断并生成新波次？
+  CutWaveConfirmBody: 当前波次中，Playhead所在行之后的行会被删除。新波次从AV 0开始，以此刻每个角色的能量/buff/团队SP作为起始状态。此操作无法撤销。
+  CutWaveSuccess: 已生成新波次
+  RemoveWave: 删除最后波次
+  RemoveWaveConfirmTitle: 删除最后一个波次？
+  RemoveWaveConfirmBody: 只会删除最后这一个波次本身——它之前的那个波次会维持截断后的状态不变（没有保存截断前的历史，无法恢复）。此操作无法撤销。
+  RemoveWaveSuccess: 已删除波次
+  DisplayMode: 显示模式
+  DisplayModeAll: 整览
+  DisplayModeSingle: 单行
   Export: 导出会话
   Import: 导入会话
   ImportSuccess: 导入成功

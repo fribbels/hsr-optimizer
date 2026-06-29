@@ -26,10 +26,28 @@ Sidebar:
 
 Timeline:
   AddRow: Add 100 AV
+  RemoveRow: Remove 100 AV
   MocToggle: Memory of Chaos (150)
+  PrevRow: Previous cycle
+  NextRow: Next cycle
 
 GlobalActions:
   Title: Global Actions
+  Wave: Wave
+  PrevWave: Previous wave
+  NextWave: Next wave
+  CutWave: Start new wave
+  CutWaveHint: Cuts the current wave's timeline at the Playhead and starts a new wave from AV 0, carrying over energy/buffs/team SP.
+  CutWaveConfirmTitle: Cut here and start a new wave?
+  CutWaveConfirmBody: Rows after the Playhead's row in the current wave will be deleted. A new wave starts at AV 0, seeded with each character's energy/buffs/team SP at this exact point. This can't be undone.
+  CutWaveSuccess: New wave created
+  RemoveWave: Remove last wave
+  RemoveWaveConfirmTitle: Remove the last wave?
+  RemoveWaveConfirmBody: This only removes the last wave itself — the wave before it stays exactly as it was left after being cut (there's no stored history to undo that). This can't be undone.
+  RemoveWaveSuccess: Wave removed
+  DisplayMode: Display Mode
+  DisplayModeAll: Overview
+  DisplayModeSingle: Single Row
   Export: Export session
   Import: Import session
   ImportSuccess: Session imported

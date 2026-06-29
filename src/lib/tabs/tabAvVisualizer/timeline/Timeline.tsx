@@ -1,5 +1,5 @@
-import { Button, Switch } from '@mantine/core'
-import { IconPlus } from '@tabler/icons-react'
+import { Button, Switch, Tooltip } from '@mantine/core'
+import { IconChevronLeft, IconChevronRight, IconMinus, IconPlus } from '@tabler/icons-react'
 import { AvVisualTabController } from 'lib/tabs/tabAvVisualizer/avVisualTabController'
 import { TimelineRow } from 'lib/tabs/tabAvVisualizer/timeline/TimelineRow'
 import type { BattleEntity, BattleEvent, Intervention } from 'lib/tabs/tabAvVisualizer/types'
@@ -32,57 +32,102 @@ type TimelineProps = {
 
 export function Timeline({ interventions, rowCount, simEvents, hasCompanions }: TimelineProps) {
   const { t: tAv } = useTranslation('avVisualizerTab')
-  const mocFirstRow = useAVVisualTabStore((s) => s.savedSession.mocFirstRow)
+  const mocFirstRow = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].mocFirstRow)
+  const cutoffAv = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].cutoffAv)
   const playheadAv = useAVVisualTabStore((s) => s.playheadAv)
+  const displayMode = useAVVisualTabStore((s) => s.timelineDisplayMode)
+  const singleRowIndex = useAVVisualTabStore((s) => s.singleRowIndex)
 
   // memosprite/summon/marker entities don't fit into the 4-slot character avatar stack — they're
   // rendered in a separate companion lane within each row instead (see TimelineRow).
   const characterEvents = simEvents.filter((e) => e.entityType === 'character')
   const companionEvents = simEvents.filter((e) => e.entityType !== 'character')
 
+  function renderRow(i: number) {
+    const rowStart = AvVisualTabController.getRowStart(i, mocFirstRow)
+    const rowSize = AvVisualTabController.getRowSize(i, mocFirstRow)
+    const rowEnd = rowStart + rowSize
+    return (
+      <TimelineRow
+        key={i}
+        rowStart={rowStart}
+        rowSize={rowSize}
+        simEvents={characterEvents.filter((e) => e.av >= rowStart && e.av < rowEnd)}
+        companionEvents={hasCompanions ? companionEvents.filter((e) => e.av >= rowStart && e.av < rowEnd) : undefined}
+        interventions={interventions.filter((iv) => iv.triggerAv >= rowStart && iv.triggerAv < rowEnd)}
+        onSeek={AvVisualTabController.setPlayheadAv}
+        playheadAv={playheadAv}
+        cutoffAv={cutoffAv}
+        topRightOverlay={i === 0 ? (
+          <div style={{
+            background: 'rgba(0,0,0,0.4)',
+            borderRadius: 6,
+            padding: '2px 8px',
+          }}>
+            <Switch
+              size='xs'
+              label={tAv('Timeline.MocToggle')}
+              checked={mocFirstRow}
+              onChange={(e) => AvVisualTabController.setMocFirstRow(e.currentTarget.checked)}
+            />
+          </div>
+        ) : undefined}
+      />
+    )
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%' }}>
-      {Array.from({ length: rowCount }, (_, i) => {
-        const rowStart = AvVisualTabController.getRowStart(i, mocFirstRow)
-        const rowSize = AvVisualTabController.getRowSize(i, mocFirstRow)
-        const rowEnd = rowStart + rowSize
-        return (
-          <TimelineRow
-            key={i}
-            rowStart={rowStart}
-            rowSize={rowSize}
-            simEvents={characterEvents.filter((e) => e.av >= rowStart && e.av < rowEnd)}
-            companionEvents={hasCompanions ? companionEvents.filter((e) => e.av >= rowStart && e.av < rowEnd) : undefined}
-            interventions={interventions.filter((iv) => iv.triggerAv >= rowStart && iv.triggerAv < rowEnd)}
-            onSeek={AvVisualTabController.setPlayheadAv}
-            playheadAv={playheadAv}
-            topRightOverlay={i === 0 ? (
-              <div style={{
-                background: 'rgba(0,0,0,0.4)',
-                borderRadius: 6,
-                padding: '2px 8px',
-              }}>
-                <Switch
-                  size='xs'
-                  label={tAv('Timeline.MocToggle')}
-                  checked={mocFirstRow}
-                  onChange={(e) => AvVisualTabController.setMocFirstRow(e.currentTarget.checked)}
-                />
-              </div>
-            ) : undefined}
-          />
-        )
-      })}
+      {displayMode === 'single' ? renderRow(singleRowIndex) : Array.from({ length: rowCount }, (_, i) => renderRow(i))}
 
-      <Button
-        variant='default'
-        size='xs'
-        leftSection={<IconPlus size={12} />}
-        onClick={AvVisualTabController.addRow}
-        style={{ marginTop: 4, alignSelf: 'flex-start' }}
-      >
-        {tAv('Timeline.AddRow')}
-      </Button>
+      {/* Add/remove a row on the left; in single-row mode, paging shares this same bottom row instead of
+      flanking the row itself (less visual clutter than the row-height arrows this replaced). */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4 }}>
+        <Button
+          variant='default'
+          size='xs'
+          leftSection={<IconPlus size={12} />}
+          onClick={AvVisualTabController.addRow}
+        >
+          {tAv('Timeline.AddRow')}
+        </Button>
+        <Button
+          variant='default'
+          size='xs'
+          leftSection={<IconMinus size={12} />}
+          disabled={rowCount <= 1}
+          onClick={AvVisualTabController.removeRow}
+        >
+          {tAv('Timeline.RemoveRow')}
+        </Button>
+
+        {displayMode === 'single' && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginLeft: 'auto' }}>
+            <Tooltip label={tAv('Timeline.PrevRow')} position='top'>
+              <Button
+                variant='default'
+                size='xs'
+                px={8}
+                disabled={singleRowIndex <= 0}
+                onClick={() => AvVisualTabController.setSingleRowIndex(singleRowIndex - 1)}
+              >
+                <IconChevronLeft size={14} />
+              </Button>
+            </Tooltip>
+            <Tooltip label={tAv('Timeline.NextRow')} position='top'>
+              <Button
+                variant='default'
+                size='xs'
+                px={8}
+                disabled={singleRowIndex >= rowCount - 1}
+                onClick={() => AvVisualTabController.setSingleRowIndex(singleRowIndex + 1)}
+              >
+                <IconChevronRight size={14} />
+              </Button>
+            </Tooltip>
+          </div>
+        )}
+      </div>
     </div>
   )
 }

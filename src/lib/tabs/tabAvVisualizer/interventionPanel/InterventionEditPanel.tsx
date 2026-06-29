@@ -109,6 +109,7 @@ export function InterventionEditPanel({ request, playheadAv, characters, onDone 
         afterActionIndex: req.afterActionIndex,
         beforeCharId: req.beforeCharId,
         beforeActionIndex: req.beforeActionIndex,
+        afterItemId: req.afterItemId,
         type: formType, targets: formTargets, value: formValue, unit: formUnit, durationTurns, scalesWithErr,
       })
     }

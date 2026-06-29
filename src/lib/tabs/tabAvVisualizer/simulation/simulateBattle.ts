@@ -1,5 +1,6 @@
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getBattleConfig } from 'lib/tabs/tabAvVisualizer/battleConfigs'
+import { mergeChainedOrder } from 'lib/tabs/tabAvVisualizer/chainOrder'
 import type {
   AbilityResolution,
   ActionChoice,
@@ -16,6 +17,7 @@ import type {
   TemplateCondition,
   TurnKind,
   UltInsertion,
+  WaveSeedState,
 } from 'lib/tabs/tabAvVisualizer/types'
 import { uuid } from 'lib/utils/miscUtils'
 import type { CharacterId } from 'types/character'
@@ -1253,6 +1255,11 @@ function processUlt(
     companionIdByOwnerId, ownerIdByCompanionId,
   )
 
+  // Re-sync passive-driven buffs before this Ult's own snapshot — same reasoning as the normal-action
+  // closeOutNormalTurn checkpoint (see its comment): a clear_buff inside this Ult's own templates
+  // shouldn't visibly outrun the passiveTrigger-synced buff tied to it.
+  runPassiveTriggers(allCharacterIds, triggerAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
+
   const stateAfter = snapshotStates(energyStates, charStates, allCharacterIds, activeBuffsMap)
   const casterState = charStates.get(ult.casterId)
 
@@ -1272,6 +1279,12 @@ function processUlt(
   })
 }
 
+// ---- Chained ordering (Intervention.afterItemId / UltInsertion.afterItemId) ----
+
+type MergedEntry =
+  | { kind: 'ult'; id: string; item: UltInsertion; afterItemId?: string }
+  | { kind: 'intervention'; id: string; item: Intervention; afterItemId?: string }
+
 // ---- Main export ----
 
 export function simulateBattle(
@@ -1280,6 +1293,10 @@ export function simulateBattle(
   actionOverrides: ActionNodeOverride[],
   ultInsertions: UltInsertion[],
   totalAv: number,
+  // Set when this is a later Wave (混沌回忆换面) continuing from a previous one's cut point — carries
+  // over energy/buffs/team SP instead of the normal onBattleStart baseline. See useAVVisualTabStore's
+  // Wave.seedState for how it's captured.
+  seedState?: WaveSeedState,
 ): SimulationResult {
   if (entities.length === 0 || totalAv <= 0) return { events: [], energyTimeline: [], initialActiveInterventions: {} }
 
@@ -1317,25 +1334,29 @@ export function simulateBattle(
     // Initial energy is 50% of what's actually needed to cast the Ultimate (ultThreshold), not 50% of
     // maxEnergy itself — for most characters these are the same number, but for one with an overflow-
     // style energy cap beyond their ult cost (e.g. Saber: 480/560 maxEnergy vs 360 ultThreshold), the
-    // starting baseline should still be relative to the 360, not the inflated cap.
+    // starting baseline should still be relative to the 360, not the inflated cap. seedState (a wave
+    // transition — see Wave.seedState) overrides this baseline with whatever energy the character
+    // actually carried over from the previous wave's cut point; entities the seed has nothing for (e.g.
+    // a companion not yet summoned at cut time) still fall back to the normal baseline.
     const startingBasis = config?.ultThreshold ?? maxEnergy
-    energyStates.set(char.id, { energy: startingBasis * 0.5, maxEnergy, err: char.err, eidolon: char.eidolon, cd: char.cd })
+    const seededEnergy = seedState?.energyByChar[char.id]
+    energyStates.set(char.id, { energy: seededEnergy ?? startingBasis * 0.5, maxEnergy, err: char.err, eidolon: char.eidolon, cd: char.cd })
   }
 
   const activeBuffsMap = new Map<string, ActiveIntervention[]>()
   for (const id of targetableIds) {
-    activeBuffsMap.set(id, [])
+    activeBuffsMap.set(id, seedState?.activeInterventionsByChar[id] ?? [])
   }
 
   // Sum permanent SP cap bonuses from all team members' BattleConfigs (e.g. Sparkle: +3)
   const spCapBonus = targetableIds.reduce((sum, id) => {
     return sum + (getBattleConfig(id, energyStates.get(id)?.eidolon ?? 0)?.spCapBonus ?? 0)
   }, 0)
-  const teamState: TeamStateInternal = {
-    sp: 3,
-    spMax: 5 + spCapBonus,
-    spCapChanges: [],
-  }
+  // seedState's own teamSp already reflects spCapBonus (captured live from the previous wave, same
+  // roster/configs) — only fall back to the normal 3/(5+spCapBonus) baseline when starting fresh.
+  const teamState: TeamStateInternal = seedState
+    ? { sp: seedState.teamSp.sp, spMax: seedState.teamSp.spMax, spCapChanges: [] }
+    : { sp: 3, spMax: 5 + spCapBonus, spCapChanges: [] }
 
   // Tracks GlobalListener.maxTriggersPerOwnTurn counters, keyed by `${listenerOwnerId}:${listenerIndex}`.
   // Reset per-owner whenever that owner's own turn begins (see the main loop below).
@@ -1349,15 +1370,19 @@ export function simulateBattle(
 
   // Battle-start passives (e.g. Huohuo: +30 energy and a 2-turn Rangming buff at AV=0). Must run after
   // `queue` exists (applyIntervention's AV-gauge math looks up queue entries) and before the first
-  // energyTimeline checkpoint below, so the very first snapshot already reflects these effects.
-  for (const char of actingEntities) {
-    const onBattleStart = getBattleConfig(char.id, char.eidolon)?.onBattleStart
-    if (!onBattleStart) continue
-    resolveAndApplyTemplates(
-      onBattleStart, char.id, 0, -1, undefined,
-      targetableIds, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById,
-      companionIdByOwnerId, ownerIdByCompanionId,
-    )
+  // energyTimeline checkpoint below, so the very first snapshot already reflects these effects. Skipped
+  // entirely when seedState is set — a wave transition isn't a fresh battle start, it's a continuation;
+  // re-running onBattleStart would incorrectly re-grant one-time battle-start effects a second time.
+  if (!seedState) {
+    for (const char of actingEntities) {
+      const onBattleStart = getBattleConfig(char.id, char.eidolon)?.onBattleStart
+      if (!onBattleStart) continue
+      resolveAndApplyTemplates(
+        onBattleStart, char.id, 0, -1, undefined,
+        targetableIds, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById,
+        companionIdByOwnerId, ownerIdByCompanionId,
+      )
+    }
   }
 
   // Snapshot right after onBattleStart resolves — see SimulationResult.initialActiveInterventions for why.
@@ -1407,35 +1432,78 @@ export function simulateBattle(
 
     if (Math.min(nextActionAv, nextGlobalBeforeAv, nextUltAtAv) >= totalAv) break
 
-    // at_av ults fire before global interventions and character actions at the same AV
-    if (nextUltAtAv <= nextGlobalBeforeAv && nextUltAtAv <= nextActionAv) {
-      processUlt(pendingUltAtAv[ultAtAvIdx], nextUltAtAv, charStates, energyStates, queue, targetableIds, results, activeBuffsMap, teamState, listenerTriggerCounts, listenerOccurrenceCounts, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
-      runPassiveTriggers(targetableIds, nextUltAtAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
-      runExtraAttacks(targetableIds, nextUltAtAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId, results)
-      energyTimeline.push({ av: nextUltAtAv, energyMap: snapshotEnergy(energyStates, targetableIds) })
-      ultAtAvIdx++
-      continue
-    }
-
-    if (nextGlobalBeforeAv <= nextActionAv) {
-      applyIntervention(pendingGlobalBefore[beforeIdx], charStates, queue, energyStates, activeBuffsMap, undefined, teamState)
-      runPassiveTriggers(targetableIds, nextGlobalBeforeAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
-      runExtraAttacks(targetableIds, nextGlobalBeforeAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId, results)
-      energyTimeline.push({ av: nextGlobalBeforeAv, energyMap: snapshotEnergy(energyStates, targetableIds) })
-      beforeIdx++
+    // at_av Ults and flat (unanchored) interventions sharing this exact AV: gather everything tied at the
+    // minimum AV from both buckets and merge — legacy default is "all at_av Ults first, then all flat
+    // interventions" (exactly today's behavior); afterItemId splices a specific item in elsewhere.
+    const minBeforeOrUltAv = Math.min(nextGlobalBeforeAv, nextUltAtAv)
+    if (minBeforeOrUltAv <= nextActionAv) {
+      const ultsAtThisAv: UltInsertion[] = []
+      while (ultAtAvIdx < pendingUltAtAv.length && (pendingUltAtAv[ultAtAvIdx].timing as { type: 'at_av'; av: number }).av === minBeforeOrUltAv) {
+        ultsAtThisAv.push(pendingUltAtAv[ultAtAvIdx])
+        ultAtAvIdx++
+      }
+      const ivsAtThisAv: Intervention[] = []
+      while (beforeIdx < pendingGlobalBefore.length && pendingGlobalBefore[beforeIdx].triggerAv === minBeforeOrUltAv) {
+        ivsAtThisAv.push(pendingGlobalBefore[beforeIdx])
+        beforeIdx++
+      }
+      const atAvMerged = mergeChainedOrder(
+        [
+          ...ultsAtThisAv.filter((u) => !u.afterItemId).map((u): MergedEntry => ({ kind: 'ult', id: u.id, item: u, afterItemId: u.afterItemId })),
+          ...ivsAtThisAv.filter((iv) => !iv.afterItemId).map((iv): MergedEntry => ({ kind: 'intervention', id: iv.id, item: iv, afterItemId: iv.afterItemId })),
+        ],
+        [
+          ...ultsAtThisAv.filter((u) => u.afterItemId).map((u): MergedEntry => ({ kind: 'ult', id: u.id, item: u, afterItemId: u.afterItemId })),
+          ...ivsAtThisAv.filter((iv) => iv.afterItemId).map((iv): MergedEntry => ({ kind: 'intervention', id: iv.id, item: iv, afterItemId: iv.afterItemId })),
+        ],
+      )
+      for (const entry of atAvMerged) {
+        if (entry.kind === 'ult') {
+          processUlt(entry.item, minBeforeOrUltAv, charStates, energyStates, queue, targetableIds, results, activeBuffsMap, teamState, listenerTriggerCounts, listenerOccurrenceCounts, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
+        } else {
+          applyIntervention(entry.item, charStates, queue, energyStates, activeBuffsMap, undefined, teamState)
+        }
+        runPassiveTriggers(targetableIds, minBeforeOrUltAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
+        runExtraAttacks(targetableIds, minBeforeOrUltAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId, results)
+        energyTimeline.push({ av: minBeforeOrUltAv, energyMap: snapshotEnergy(energyStates, targetableIds) })
+      }
       continue
     }
 
     const head = queue[0]
-    const charBeforeMatch = pendingCharBefore.find((iv) =>
+    const beforeMatches = pendingCharBefore.filter((iv) =>
       iv.beforeCharId === head.characterId
       && iv.triggerAv === head.av
       && (iv.beforeActionIndex ?? 0) === head.actionIndex,
     )
-    if (charBeforeMatch) {
-      applyIntervention(charBeforeMatch, charStates, queue, energyStates, activeBuffsMap, undefined, teamState)
-      pendingCharBefore.splice(pendingCharBefore.indexOf(charBeforeMatch), 1)
-      continue
+    // Only acting entities can be bound by during_action Ult timing in the first place — matches the
+    // isActing check below, computed early here since it gates whether to even look at this bucket.
+    const headIsActing = entityTypeById.get(head.characterId) === 'character' || entityTypeById.get(head.characterId) === 'memosprite'
+    const duringActionAnchorKey = `${head.characterId}:${head.actionIndex}`
+    const ultsDuringHere = headIsActing ? (pendingUltDuringAction.get(duringActionAnchorKey) ?? []) : []
+
+    if (beforeMatches.length > 0 || ultsDuringHere.length > 0) {
+      // Same merge as the after_action anchor — legacy default is "all before-interventions, then all
+      // during_action Ults in their array order"; afterItemId splices a specific item in elsewhere.
+      const beforeMerged = mergeChainedOrder(
+        [
+          ...beforeMatches.filter((iv) => !iv.afterItemId).map((iv): MergedEntry => ({ kind: 'intervention', id: iv.id, item: iv, afterItemId: iv.afterItemId })),
+          ...ultsDuringHere.filter((u) => !u.afterItemId).map((u): MergedEntry => ({ kind: 'ult', id: u.id, item: u, afterItemId: u.afterItemId })),
+        ],
+        [
+          ...beforeMatches.filter((iv) => iv.afterItemId).map((iv): MergedEntry => ({ kind: 'intervention', id: iv.id, item: iv, afterItemId: iv.afterItemId })),
+          ...ultsDuringHere.filter((u) => u.afterItemId).map((u): MergedEntry => ({ kind: 'ult', id: u.id, item: u, afterItemId: u.afterItemId })),
+        ],
+      )
+      for (const entry of beforeMerged) {
+        if (entry.kind === 'ult') {
+          processUlt(entry.item, head.av, charStates, energyStates, queue, targetableIds, results, activeBuffsMap, teamState, listenerTriggerCounts, listenerOccurrenceCounts, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
+        } else {
+          applyIntervention(entry.item, charStates, queue, energyStates, activeBuffsMap, undefined, teamState)
+          pendingCharBefore.splice(pendingCharBefore.indexOf(entry.item), 1)
+        }
+      }
+      pendingUltDuringAction.delete(duringActionAnchorKey)
     }
 
     const event = queue.shift()!
@@ -1458,16 +1526,8 @@ export function simulateBattle(
       ? actionOverrides.find((o) => o.characterId === event.characterId && o.actionIndex === event.actionIndex)
       : undefined
 
-    // Fire during_action ults BEFORE the normal action — these push their own BattleEvents first,
-    // so they appear before the normal action in results at the same AV. Only acting entities can be
-    // bound by ult timing in the first place.
-    if (isActing) {
-      const duringUltKey = `${event.characterId}:${event.actionIndex}`
-      for (const ult of (pendingUltDuringAction.get(duringUltKey) ?? [])) {
-        processUlt(ult, event.av, charStates, energyStates, queue, targetableIds, results, activeBuffsMap, teamState, listenerTriggerCounts, listenerOccurrenceCounts, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
-      }
-      pendingUltDuringAction.delete(duringUltKey)
-    }
+    // during_action Ults (and any before-interventions bound to this same action) were already resolved
+    // above, before this entry was shifted off the queue — see beforeMatches/ultsDuringHere.
 
     // 'start'-phase buff tick (e.g. Huohuo's Rangming): happens before this turn's own choice/effects, so
     // if it would expire right now, it's already gone for the rest of this turn — including the
@@ -1620,33 +1680,62 @@ export function simulateBattle(
         )
       }
 
-      // Fire any manually-added "after" interventions for this action.
+      // Fire any manually-added "after" interventions, interleaved with after_action Ults bound to this
+      // same action — by default ("legacy", no afterItemId on anything here) every intervention resolves
+      // before any of the Ults, exactly as before; an intervention/Ult with afterItemId set is spliced in
+      // immediately after whichever specific item it points to instead (see mergeChainedOrder).
       // Pass event.characterId as casterId so aura buffs register their tick entry on this character.
-      for (const iv of pendingAfter) {
+      const matchingAfterIvs = pendingAfter.filter((iv) => {
         const targetIdx = iv.afterActionIndex ?? 0
-        if (iv.afterCharId === event.characterId && iv.triggerAv === event.av && targetIdx === event.actionIndex) {
-          applyIntervention(iv, charStates, queue, energyStates, activeBuffsMap, event.characterId, teamState)
+        return iv.afterCharId === event.characterId && iv.triggerAv === event.av && targetIdx === event.actionIndex
+      })
+      const afterUltKey = `${event.characterId}:${event.actionIndex}`
+      const ultsAfterHere = pendingUltAfterAction.get(afterUltKey) ?? []
+      const afterMerged = mergeChainedOrder(
+        [
+          ...matchingAfterIvs.filter((iv) => !iv.afterItemId).map((iv): MergedEntry => ({ kind: 'intervention', id: iv.id, item: iv, afterItemId: iv.afterItemId })),
+          ...ultsAfterHere.filter((u) => !u.afterItemId).map((u): MergedEntry => ({ kind: 'ult', id: u.id, item: u, afterItemId: u.afterItemId })),
+        ],
+        [
+          ...matchingAfterIvs.filter((iv) => iv.afterItemId).map((iv): MergedEntry => ({ kind: 'intervention', id: iv.id, item: iv, afterItemId: iv.afterItemId })),
+          ...ultsAfterHere.filter((u) => u.afterItemId).map((u): MergedEntry => ({ kind: 'ult', id: u.id, item: u, afterItemId: u.afterItemId })),
+        ],
+      )
+
+      // This normal action (own templates, listeners, manually-added "after" interventions) is fully
+      // resolved once we reach the first after_action Ult (or the end, if there are none) — 'end'-phase
+      // buff tick (the default — everything except e.g. Huohuo's Rangming) happens here, so stateAfter
+      // reflects it: these buffs stay fully active through this whole turn and only disappear starting
+      // the next one, unlike 'start'-phase ones which already ticked before this turn did anything.
+      // buffIdsAtTurnStart excludes anything granted just now by this same turn's own effects/after-
+      // interventions from being immediately docked a turn. Snapshotting here (instead of after every
+      // Ult) keeps stateAfter/teamStateAfter as "this action's own result, before any Ult" regardless of
+      // how many Ults/interventions are interleaved after it — each Ult gets its own independent snapshot
+      // inside processUlt.
+      let turnClosedOut = false
+      const closeOutNormalTurn = () => {
+        if (turnClosedOut) return
+        turnClosedOut = true
+        tickBuffsForCharacter(event.characterId, 'end', event.av, charStates, activeBuffsMap, queue, buffIdsAtTurnStart)
+        // Re-sync passive-driven buffs (e.g. Gilgamesh's Interest-stacks-to-SPD sync) before this action's
+        // own snapshot is taken — without this, a clear_buff inside this same action's own templates (e.g.
+        // his Skill clearing Interest) would show up in stateAfter immediately, while the buff it's tied
+        // to via passiveTrigger would still show its pre-clear value until the next checkpoint runs,
+        // making the two visibly out of sync in the panel.
+        runPassiveTriggers(targetableIds, event.av, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
+        results[normalActionResultIdx].stateAfter    = snapshotStates(energyStates, charStates, targetableIds, activeBuffsMap)
+        results[normalActionResultIdx].teamStateAfter = snapshotTeamState(teamState)
+      }
+
+      for (const entry of afterMerged) {
+        if (entry.kind === 'ult') {
+          closeOutNormalTurn()
+          processUlt(entry.item, event.av, charStates, energyStates, queue, targetableIds, results, activeBuffsMap, teamState, listenerTriggerCounts, listenerOccurrenceCounts, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
+        } else {
+          applyIntervention(entry.item, charStates, queue, energyStates, activeBuffsMap, event.characterId, teamState)
         }
       }
-
-      // This normal action (own templates, listeners, manually-added "after" interventions) is now fully
-      // resolved — 'end'-phase buff tick (the default — everything except e.g. Huohuo's Rangming) happens
-      // here, so stateAfter below reflects it: these buffs stay fully active through this whole turn and
-      // only disappear starting the next one, unlike 'start'-phase ones which already ticked before this
-      // turn did anything. buffIdsAtTurnStart excludes anything granted just now by this same turn's own
-      // effects/after-interventions from being immediately docked a turn.
-      tickBuffsForCharacter(event.characterId, 'end', event.av, charStates, activeBuffsMap, queue, buffIdsAtTurnStart)
-
-      // Snapshot stateAfter/teamStateAfter for the normal action (before after-action ults,
-      // so each event has independent snapshots).
-      results[normalActionResultIdx].stateAfter     = snapshotStates(energyStates, charStates, targetableIds, activeBuffsMap)
-      results[normalActionResultIdx].teamStateAfter  = snapshotTeamState(teamState)
-
-      // Fire after_action ults — these push their own BattleEvents after the normal action in results.
-      const afterUltKey = `${event.characterId}:${event.actionIndex}`
-      for (const ult of (pendingUltAfterAction.get(afterUltKey) ?? [])) {
-        processUlt(ult, event.av, charStates, energyStates, queue, targetableIds, results, activeBuffsMap, teamState, listenerTriggerCounts, listenerOccurrenceCounts, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
-      }
+      closeOutNormalTurn()
       pendingUltAfterAction.delete(afterUltKey)
     } else {
       // summon/marker: no abilities, no energy of their own — stateAfter stays empty, teamStateAfter

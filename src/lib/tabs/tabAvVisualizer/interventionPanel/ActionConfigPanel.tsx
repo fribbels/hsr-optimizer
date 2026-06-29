@@ -143,7 +143,7 @@ export function EffectRow({ template, selfName, resolvedTarget, characters }: {
 
 export function ActionConfigPanel({ characterId, actionIndex, characters, hitCount, stateSnapshot }: ActionConfigPanelProps) {
   const { t: tAv } = useTranslation('avVisualizerTab')
-  const actionOverrides = useAVVisualTabStore((s) => s.savedSession.actionOverrides)
+  const actionOverrides = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].actionOverrides)
   const override = actionOverrides.find((o) => o.characterId === characterId && o.actionIndex === actionIndex)
 
   const config = getBattleConfig(characterId)

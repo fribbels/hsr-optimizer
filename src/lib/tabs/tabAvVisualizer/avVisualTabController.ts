@@ -1,12 +1,52 @@
+import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { getPreviewRelics, getShowcaseStats } from 'lib/characterPreview/characterPreviewController'
+import { Stats } from 'lib/constants/constants'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { SaveState } from 'lib/state/saveState'
+import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { simulateBattle, type SimulationResult } from 'lib/tabs/tabAvVisualizer/simulation/simulateBattle'
 import { ELEMENT_COLORS, ROW_SIZE, SLOT_COLORS } from 'lib/tabs/tabAvVisualizer/constants'
-import type { ActionNodeOverride, BattleEntity, Intervention, UltInsertion } from 'lib/tabs/tabAvVisualizer/types'
-import type { AVVisualizerTabSavedSession } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
-import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
+import type { ActionNodeOverride, ActiveIntervention, BattleEntity, Intervention, UltInsertion } from 'lib/tabs/tabAvVisualizer/types'
+import type { AVVisualizerTabSavedSession, Slot, Wave, WaveSeedState } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
+import { emptyWave, useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { uuid } from 'lib/utils/miscUtils'
 import type { CharacterId } from 'types/character'
+
+// Pure merge step, decoupled from the getShowcaseStats/getPreviewRelics pipeline so it's unit-testable
+// without a full character/relic fixture — keeps any override the slot already has, only filling in
+// from `resolved` (the character's currently-computed real values) where one's missing.
+export function mergeEffectiveOverrides(slot: Slot, resolved: { spd?: number; err?: number; eidolon?: number } | null): Slot {
+  if (!resolved) return slot
+  return {
+    ...slot,
+    spdOverride: slot.spdOverride ?? resolved.spd ?? slot.spdOverride,
+    errOverride: slot.errOverride ?? resolved.err ?? slot.errOverride,
+    eidolonOverride: slot.eidolonOverride ?? resolved.eidolon ?? slot.eidolonOverride,
+  }
+}
+
+// Bakes each slot's currently-effective SPD/ERR/Eidolon into explicit overrides before export — these are
+// the only 3 numbers that affect the simulated action order/energy (ATK/CR/CD etc. don't, so they're left
+// alone). Without this, a slot left at "use my own build" (override === null) would silently resolve
+// against whoever's account the file is later opened on, instead of reproducing the exporter's own result.
+// Slots that already have an explicit override keep it untouched.
+function bakeEffectiveOverrides(slots: AVVisualizerTabSavedSession['slots']): AVVisualizerTabSavedSession['slots'] {
+  const charactersById = useCharacterStore.getState().charactersById
+  const relicsById = useRelicStore.getState().relicsById
+  return slots.map((slot): Slot => {
+    if (!slot.characterId) return slot
+    const character = charactersById[slot.characterId as CharacterId]
+    if (!character) return slot
+    const { displayRelics } = getPreviewRelics(ShowcaseSource.CHARACTER_TAB, character, relicsById, null)
+    const stats = getShowcaseStats(character, displayRelics, null)
+    return mergeEffectiveOverrides(slot, {
+      spd: stats[Stats.SPD],
+      err: stats[Stats.ERR],
+      eidolon: character.form.characterEidolon,
+    })
+  }) as AVVisualizerTabSavedSession['slots']
+}
 
 // Loose shape check before accepting an imported file as a real saved session — rejects anything that's
 // clearly not one (wrong file, unrelated JSON, corrupted data) rather than silently applying garbage.
@@ -14,11 +54,22 @@ function isValidSavedSession(json: unknown): json is AVVisualizerTabSavedSession
   if (!json || typeof json !== 'object') return false
   const s = json as Record<string, unknown>
   return Array.isArray(s.slots) && s.slots.length === 4
-    && Array.isArray(s.interventions)
-    && Array.isArray(s.actionOverrides)
-    && Array.isArray(s.ultInsertions)
-    && typeof s.rowCount === 'number'
-    && typeof s.mocFirstRow === 'boolean'
+    && Array.isArray(s.waves) && s.waves.length > 0 && s.waves.every(isValidWave)
+    && typeof s.currentWaveIndex === 'number'
+}
+
+function isValidWave(json: unknown): json is Wave {
+  if (!json || typeof json !== 'object') return false
+  const w = json as Record<string, unknown>
+  return Array.isArray(w.interventions)
+    && Array.isArray(w.actionOverrides)
+    && Array.isArray(w.ultInsertions)
+    && typeof w.rowCount === 'number'
+    && typeof w.mocFirstRow === 'boolean'
+}
+
+function currentWave(session: AVVisualizerTabSavedSession): Wave {
+  return session.waves[session.currentWaveIndex]
 }
 
 // Memory of Chaos first-cycle AV: the in-game first cycle is fixed at 150, every other cycle is 100 (= ROW_SIZE)
@@ -34,6 +85,16 @@ function rowStartAt(rowIndex: number, mocFirstRow: boolean): number {
 // Width (AV span) of row rowIndex
 function rowSizeAt(rowIndex: number, mocFirstRow: boolean): number {
   return (mocFirstRow && rowIndex === 0) ? MOC_FIRST_ROW_SIZE : ROW_SIZE
+}
+
+// Inverse of rowStartAt — which row index a given AV falls into. Used so switching into single-row
+// display mode lands on whichever row the Playhead is already on, instead of always resetting to row 0.
+function rowIndexForAv(av: number, mocFirstRow: boolean): number {
+  if (mocFirstRow) {
+    if (av < MOC_FIRST_ROW_SIZE) return 0
+    return 1 + Math.floor((av - MOC_FIRST_ROW_SIZE) / ROW_SIZE)
+  }
+  return Math.floor(av / ROW_SIZE)
 }
 
 export const AvVisualTabController = {
@@ -80,6 +141,15 @@ export const AvVisualTabController = {
     SaveState.delayedSave()
   },
 
+  removeRow() {
+    useAVVisualTabStore.getState().removeRow()
+    SaveState.delayedSave()
+    // Keep singleRowIndex in bounds — rowCount may have just shrunk past whatever row was showing.
+    const state = useAVVisualTabStore.getState()
+    const clamped = Math.min(currentWave(state.savedSession).rowCount - 1, state.singleRowIndex)
+    if (clamped !== state.singleRowIndex) state.setSingleRowIndex(clamped)
+  },
+
   setMocFirstRow(value: boolean) {
     useAVVisualTabStore.getState().setMocFirstRow(value)
     SaveState.delayedSave()
@@ -88,6 +158,30 @@ export const AvVisualTabController = {
   // Not persisted (session-only view state), so no delayedSave() here
   setPlayheadAv(av: number) {
     useAVVisualTabStore.getState().setPlayheadAv(av)
+  },
+
+  // ---- Timeline display mode (session-only view state, no delayedSave()) ----
+
+  setTimelineDisplayMode(mode: 'all' | 'single') {
+    const state = useAVVisualTabStore.getState()
+    state.setTimelineDisplayMode(mode)
+    // Land on whichever row the Playhead is already on, not always row 0 — switching modes shouldn't
+    // make the user lose their place.
+    if (mode === 'single') {
+      const { mocFirstRow, rowCount } = currentWave(state.savedSession)
+      const rowIndex = Math.min(rowCount - 1, Math.max(0, rowIndexForAv(state.playheadAv, mocFirstRow)))
+      state.setSingleRowIndex(rowIndex)
+    }
+  },
+
+  // Paging in single-row mode also moves the Playhead to the new row's start, so the always-visible side
+  // panels (energy overview / character detail) refresh to match what's now on screen.
+  setSingleRowIndex(index: number) {
+    const state = useAVVisualTabStore.getState()
+    const { mocFirstRow, rowCount } = currentWave(state.savedSession)
+    const clamped = Math.min(rowCount - 1, Math.max(0, index))
+    state.setSingleRowIndex(clamped)
+    state.setPlayheadAv(rowStartAt(clamped, mocFirstRow))
   },
 
   // ---- Intervention CRUD ----
@@ -154,18 +248,56 @@ export const AvVisualTabController = {
     SaveState.delayedSave()
   },
 
-  // Clears every added intervention/override/ult insertion, back to the state right after picking
-  // characters — leaves slots (character/SPD/ERR/eidolon picks) and row count/MoC toggle untouched.
+  // Clears every added intervention/override/ult insertion in the CURRENT wave, back to the state right
+  // after picking characters (or, for a later wave, right after its own seedState) — leaves slots
+  // (character/SPD/ERR/eidolon picks) and row count/MoC toggle untouched.
   resetTimeline() {
-    useAVVisualTabStore.getState().setSavedSession({ interventions: [], actionOverrides: [], ultInsertions: [] })
+    useAVVisualTabStore.getState().patchCurrentWave({ interventions: [], actionOverrides: [], ultInsertions: [] })
     SaveState.delayedSave()
   },
 
   // ---- Simulation engine wrapper ----
 
   simulate(entities: BattleEntity[], interventions: Intervention[], totalAv: number): SimulationResult {
-    const { actionOverrides, ultInsertions } = useAVVisualTabStore.getState().savedSession
-    return simulateBattle(entities, interventions, actionOverrides, ultInsertions, totalAv)
+    const wave = currentWave(useAVVisualTabStore.getState().savedSession)
+    return simulateBattle(entities, interventions, wave.actionOverrides, wave.ultInsertions, totalAv, wave.seedState)
+  },
+
+  // ---- Wave (混沌回忆换面) operations ----
+
+  setCurrentWaveIndex(index: number) {
+    useAVVisualTabStore.getState().setCurrentWaveIndex(index)
+    // Not persisted as a meaningful "edit" by itself, but the index IS part of savedSession, so still
+    // worth remembering which wave was last being viewed across reloads.
+    SaveState.delayedSave()
+  },
+
+  // Cuts the current wave's timeline at `cutoffAv`: rows after the one containing the cutoff are
+  // dropped, along with anything (interventions/overrides/Ult insertions) scheduled strictly after the
+  // cutoff point — the fight is over there, so nothing after it is meaningful. A new wave is created
+  // starting fresh at AV 0, seeded with `seedState` (the carried-over energy/buffs/team SP at that exact
+  // point) instead of the normal onBattleStart baseline.
+  cutWaveAtPlayhead(cutoffAv: number, seedState: WaveSeedState) {
+    const state = useAVVisualTabStore.getState()
+    const wave = currentWave(state.savedSession)
+    const keptRowCount = Math.max(1, rowIndexForAv(cutoffAv, wave.mocFirstRow) + 1)
+    state.patchCurrentWave({
+      rowCount: keptRowCount,
+      interventions: wave.interventions.filter((iv) => iv.triggerAv <= cutoffAv),
+      actionOverrides: wave.actionOverrides,
+      ultInsertions: wave.ultInsertions.filter((u) => u.timing.type !== 'at_av' || u.timing.av <= cutoffAv),
+      cutoffAv,
+    })
+    state.addWaveAndSwitch({ ...emptyWave(), seedState })
+    SaveState.delayedSave()
+  },
+
+  // Only ever removes the LAST wave (no-op with just one left) — deleting a middle wave would orphan
+  // whatever comes after it, and there's no stored history to undo the wave before it being cut in the
+  // first place (see cutWaveAtPlayhead's own doc comment) — that wave stays however the cut left it.
+  removeLastWave() {
+    useAVVisualTabStore.getState().removeLastWave()
+    SaveState.delayedSave()
   },
 
   // ---- Helper math ----
@@ -203,7 +335,8 @@ export const AvVisualTabController = {
 
   exportSession(): void {
     const session = useAVVisualTabStore.getState().savedSession
-    const blob = new Blob([JSON.stringify(session, null, 2)], { type: 'text/json;charset=utf-8' })
+    const exportedSession: AVVisualizerTabSavedSession = { ...session, slots: bakeEffectiveOverrides(session.slots) }
+    const blob = new Blob([JSON.stringify(exportedSession, null, 2)], { type: 'text/json;charset=utf-8' })
     const blobURL = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = blobURL

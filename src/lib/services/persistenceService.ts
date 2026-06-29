@@ -47,6 +47,7 @@ import {
 } from 'lib/stores/relic/relicStore'
 import { pruneOverridesOnLoad } from 'lib/stores/scoring/scoringDelta'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import type { Wave } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
@@ -187,13 +188,20 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
           ? { ...slot, characterId: null, spdOverride: null, errOverride: null, eidolonOverride: null }
           : { ...slot, errOverride: slot.errOverride ?? null, eidolonOverride: slot.eidolonOverride ?? null }
       ) as typeof session.slots
-      // interventions/rowCount/mocFirstRow were added after slots, so saves from before that point won't have
-      // them — fall back to sensible defaults rather than leaving them undefined
+      // Saves from before Wave support was added have the old flat shape (interventions/rowCount/
+      // mocFirstRow directly on the session, no `waves` array) — wrap that into a single Wave. Saves from
+      // even earlier (before those fields existed at all) fall back to sensible defaults either way.
+      const raw = session as unknown as Partial<Wave> & { waves?: Wave[]; currentWaveIndex?: number }
       useAVVisualTabStore.getState().setSavedSession({
         slots: sanitizedSlots,
-        interventions: session.interventions ?? [],
-        rowCount: session.rowCount ?? 3,
-        mocFirstRow: session.mocFirstRow ?? false,
+        waves: raw.waves ?? [{
+          interventions: raw.interventions ?? [],
+          actionOverrides: raw.actionOverrides ?? [],
+          ultInsertions: raw.ultInsertions ?? [],
+          rowCount: raw.rowCount ?? 3,
+          mocFirstRow: raw.mocFirstRow ?? false,
+        }],
+        currentWaveIndex: raw.currentWaveIndex ?? 0,
       })
     }
   }

@@ -95,16 +95,31 @@ export default interface Resources {
       "WIND_RES_PEN": "Wind RES PEN"
     },
     "GlobalActions": {
+      "CutWave": "Start new wave",
+      "CutWaveConfirmBody": "Rows after the Playhead's row in the current wave will be deleted. A new wave starts at AV 0, seeded with each character's energy/buffs/team SP at this exact point. This can't be undone.",
+      "CutWaveConfirmTitle": "Cut here and start a new wave?",
+      "CutWaveHint": "Cuts the current wave's timeline at the Playhead and starts a new wave from AV 0, carrying over energy/buffs/team SP.",
+      "CutWaveSuccess": "New wave created",
+      "DisplayMode": "Display Mode",
+      "DisplayModeAll": "Overview",
+      "DisplayModeSingle": "Single Row",
       "Export": "Export session",
       "Import": "Import session",
       "ImportError": "Invalid session file",
       "ImportSuccess": "Session imported",
+      "NextWave": "Next wave",
+      "PrevWave": "Previous wave",
+      "RemoveWave": "Remove last wave",
+      "RemoveWaveConfirmBody": "This only removes the last wave itself — the wave before it stays exactly as it was left after being cut (there's no stored history to undo that). This can't be undone.",
+      "RemoveWaveConfirmTitle": "Remove the last wave?",
+      "RemoveWaveSuccess": "Wave removed",
       "Reset": "Reset",
       "ResetCancel": "Cancel",
       "ResetConfirmBody": "This clears every added intervention, action override, and ult insertion, back to right after picking characters. Character picks, SPD/ERR/eidolon, and row settings are unaffected — this can't be undone.",
       "ResetConfirmTitle": "Reset timeline?",
       "ResetSuccess": "Reset",
-      "Title": "Global Actions"
+      "Title": "Global Actions",
+      "Wave": "Wave"
     },
     "Marker": {
       "ActionTooltip": "{{name}}  SPD {{spd}}  AV {{av}}",
@@ -147,7 +162,10 @@ export default interface Resources {
     },
     "Timeline": {
       "AddRow": "Add 100 AV",
-      "MocToggle": "Memory of Chaos (150)"
+      "MocToggle": "Memory of Chaos (150)",
+      "NextRow": "Next cycle",
+      "PrevRow": "Previous cycle",
+      "RemoveRow": "Remove 100 AV"
     },
     "TurnSuffix": " (turn {{n}})",
     "Types": {

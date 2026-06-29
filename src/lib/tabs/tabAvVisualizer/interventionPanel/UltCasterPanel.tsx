@@ -12,13 +12,14 @@ type UltCasterPanelProps = {
   timing: UltTiming
   insertAfterId?: string
   insertBeforeUltId?: string
+  afterItemId?: string
   characters: BattleEntity[]
   energyAtPlayhead: Map<string, number>
   activeInterventionsAtPlayhead: Map<string, ActiveIntervention[]>
   onDone: () => void
 }
 
-export function UltCasterPanel({ timing, insertAfterId, insertBeforeUltId, characters, energyAtPlayhead, activeInterventionsAtPlayhead, onDone }: UltCasterPanelProps) {
+export function UltCasterPanel({ timing, insertAfterId, insertBeforeUltId, afterItemId, characters, energyAtPlayhead, activeInterventionsAtPlayhead, onDone }: UltCasterPanelProps) {
   const { t: tAv } = useTranslation('avVisualizerTab')
   const [selectedCasterId, setSelectedCasterId] = useState<string | null>(null)
   const [selectedTarget, setSelectedTarget] = useState<string | null>(null)
@@ -56,6 +57,7 @@ export function UltCasterPanel({ timing, insertAfterId, insertBeforeUltId, chara
       casterId: selectedCasterId,
       timing,
       targets: selected?.needTarget && selectedTarget ? [selectedTarget] : undefined,
+      afterItemId,
     }, insertAfterId, insertBeforeUltId)
     onDone()
   }

@@ -6,6 +6,7 @@ import {
   TIMELINE_RULER_Y,
 } from 'lib/tabs/tabAvVisualizer/constants'
 import { ActionMarker } from 'lib/tabs/tabAvVisualizer/timeline/ActionMarker'
+import { CutoffMarker } from 'lib/tabs/tabAvVisualizer/timeline/CutoffMarker'
 import { InterventionMarker } from 'lib/tabs/tabAvVisualizer/timeline/InterventionMarker'
 import { Playhead } from 'lib/tabs/tabAvVisualizer/timeline/Playhead'
 import type { EnrichedSimEvent } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
@@ -22,6 +23,7 @@ type TimelineRowProps = {
   onSeek: (av: number) => void    // Click/drag on the ruler, or click on a marker — moves the Playhead there
   topRightOverlay?: ReactNode     // Overlay (e.g. the MoC toggle), only passed for the first row
   playheadAv?: number             // Current Playhead AV; the Playhead line renders only when it falls within this row
+  cutoffAv?: number               // Where this Wave was cut (see CutoffMarker), if at all — renders only within that row
 }
 
 const RULER_INSET = TIMELINE_AVATAR_SIZE / 2 + 4
@@ -60,6 +62,7 @@ export function TimelineRow({
   onSeek,
   topRightOverlay,
   playheadAv,
+  cutoffAv,
 }: TimelineRowProps) {
   const rowEnd = rowStart + rowSize
   const rulerRef = useRef<HTMLDivElement>(null)
@@ -376,6 +379,12 @@ export function TimelineRow({
               instead of stopping at the ruler's own fixed band. */}
           {playheadAv !== undefined && playheadAv >= rowStart && playheadAv < rowEnd && (
             <Playhead av={playheadAv} rowStart={rowStart} rowSize={rowSize} topOffset={rulerTop} totalHeight={rowBodyHeight} />
+          )}
+
+          {/* Where this Wave was cut, if it falls within this row — fixed marker + greyed-out overlay
+              for everything after it (see CutoffMarker's own doc comment). */}
+          {cutoffAv !== undefined && cutoffAv >= rowStart && cutoffAv < rowEnd && (
+            <CutoffMarker av={cutoffAv} rowStart={rowStart} rowSize={rowSize} topOffset={rulerTop} totalHeight={rowBodyHeight} />
           )}
         </div>
       </div>

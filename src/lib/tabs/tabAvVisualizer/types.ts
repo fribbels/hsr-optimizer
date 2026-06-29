@@ -39,6 +39,12 @@ export type Intervention = {
   afterActionIndex?: number
   // @deprecated Superseded by beforeCharId; kept only for backward compat with old data. The engine no longer reads this field.
   sourceCharId?: string
+  // Precise ordering against other items (an UltInsertion or another Intervention) sharing the same
+  // anchor (same beforeCharId/afterCharId+actionIndex, or same triggerAv for an unanchored/at_av item).
+  // When set, this resolves immediately after the named item instead of the legacy default ("right
+  // after the action, before any of its after_action ults" for afterCharId-anchored interventions).
+  // Undefined for old/legacy data — that case keeps the pre-existing default ordering exactly as before.
+  afterItemId?: string
   type: InterventionType
   targets: string[]
   value: number
@@ -59,18 +65,25 @@ export type Intervention = {
 // AvVisualizerTab. 'add' carries the timing context (before/after/global) the request originated from;
 // 'edit' carries the full intervention being edited.
 export type EditRequest =
-  | { mode: 'add'; beforeCharId?: string; beforeActionIndex?: number; afterCharId?: string; afterActionIndex?: number }
+  | { mode: 'add'; beforeCharId?: string; beforeActionIndex?: number; afterCharId?: string; afterActionIndex?: number; afterItemId?: string }
   | { mode: 'edit'; intervention: Intervention }
 
 // Drives which component renders in the right-side context panel of AvVisualizerTab.
 // Replaces the single EditRequest state — each kind maps to a different panel component.
 export type RightPanelContext =
   | { kind: 'idle' }
-  | { kind: 'add-branch'; triggerAv: number; afterCharId?: string; afterActionIndex?: number; beforeCharId?: string; beforeActionIndex?: number; afterUltId?: string; insertBeforeUltId?: string; ultTimingReference?: UltTiming }
+  // afterItemId: precise chain position — whatever item (an Intervention or UltInsertion) is immediately
+  // before this exact "+" click, so the newly added item (whichever kind the user picks next) resolves
+  // right after it instead of falling back to the coarser legacy default. Undefined for the very first
+  // slot in a given anchor's sequence (legacy default: goes first). afterUltId/insertBeforeUltId/
+  // ultTimingReference are kept only for the existing Ult-to-Ult array-splice mechanics that addUltInsertion
+  // still uses to decide an ult's array position (harmless to also set even when afterItemId already
+  // makes that position non-authoritative).
+  | { kind: 'add-branch'; triggerAv: number; afterCharId?: string; afterActionIndex?: number; beforeCharId?: string; beforeActionIndex?: number; afterUltId?: string; insertBeforeUltId?: string; ultTimingReference?: UltTiming; afterItemId?: string }
   | { kind: 'intervention'; request: EditRequest }
   | { kind: 'action-config'; characterId: string; actionIndex: number; hitCount?: number; stateSnapshot?: CharacterBattleState }
   | { kind: 'character-state'; characterId: string; actionIndex?: number; turnKind?: TurnKind; stateSnapshot?: CharacterBattleState }
-  | { kind: 'ult-caster'; timing: UltTiming; insertAfterId?: string; insertBeforeUltId?: string }
+  | { kind: 'ult-caster'; timing: UltTiming; insertAfterId?: string; insertBeforeUltId?: string; afterItemId?: string }
   | { kind: 'ult-effects'; casterId: string; targets?: string[] }
   | { kind: 'extra-effects'; casterId: string; targets?: string[] }
 
@@ -528,6 +541,19 @@ export type UltInsertion = {
   casterId: string
   timing: UltTiming
   targets?: string[]
+  // Same meaning as Intervention.afterItemId — lets an Ult be spliced immediately after a specific
+  // Intervention sharing the same anchor, instead of only ever being ordered relative to other Ults via
+  // ultInsertions' own array position (the legacy default, still used whenever this is unset).
+  afterItemId?: string
+}
+
+// Carried over from the previous Wave's cut point (混沌回忆换面) — persistent resources (energy/buffs/
+// team SP) that survive a wave transition, used as the next Wave's starting state INSTEAD of the normal
+// onBattleStart baseline. See simulateBattle's seedState param and useAVVisualTabStore's Wave.seedState.
+export type WaveSeedState = {
+  energyByChar: Record<string, number>
+  activeInterventionsByChar: Record<string, ActiveIntervention[]>
+  teamSp: { sp: number; spMax: number }
 }
 
 // A currently active effect that is ticking down, stored in CharacterBattleState.

@@ -36,12 +36,16 @@ const IDLE_CONTEXT: RightPanelContext = { kind: 'idle' }
 
 export function AvVisualizerTab() {
   const slots = useAVVisualTabStore((s) => s.savedSession.slots)
-  const rowCount = useAVVisualTabStore((s) => s.savedSession.rowCount)
-  const mocFirstRow = useAVVisualTabStore((s) => s.savedSession.mocFirstRow)
+  // Every Wave-scoped field (rows/interventions/overrides/Ult insertions/MoC toggle) is read off the
+  // CURRENT Wave — switching Waves transparently swaps all of this out, see useAVVisualTabStore's Wave.
+  const currentWaveIndex = useAVVisualTabStore((s) => s.savedSession.currentWaveIndex)
+  const waveCount = useAVVisualTabStore((s) => s.savedSession.waves.length)
+  const rowCount = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].rowCount)
+  const mocFirstRow = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].mocFirstRow)
   const playheadAv = useAVVisualTabStore((s) => s.playheadAv)
-  const interventions = useAVVisualTabStore((s) => s.savedSession.interventions)
-  const actionOverrides = useAVVisualTabStore((s) => s.savedSession.actionOverrides)
-  const ultInsertions = useAVVisualTabStore((s) => s.savedSession.ultInsertions)
+  const interventions = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].interventions)
+  const actionOverrides = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].actionOverrides)
+  const ultInsertions = useAVVisualTabStore((s) => s.savedSession.waves[s.savedSession.currentWaveIndex].ultInsertions)
   const charactersById = useCharacterStore((s) => s.charactersById)
   const relicsById = useRelicStore(useShallow((s) => s.relicsById))
   const { t } = useTranslation('gameData', { keyPrefix: 'Characters' })
@@ -352,6 +356,7 @@ export function AvVisualizerTab() {
           timing={ctx.timing}
           insertAfterId={ctx.insertAfterId}
           insertBeforeUltId={ctx.insertBeforeUltId}
+          afterItemId={ctx.afterItemId}
           characters={timelineCharacters}
           energyAtPlayhead={ultCasterEnergyMap}
           activeInterventionsAtPlayhead={ultCasterActiveInterventionsMap}
@@ -435,7 +440,11 @@ export function AvVisualizerTab() {
       {/* Sticky sidebar for whole-session operations (export/import for now) — stays in view as the
           page scrolls past the (potentially tall) Timeline below it, same idea as OptimizerSidebar. */}
       <div style={{ position: 'sticky', top: 16, alignSelf: 'flex-start' }}>
-        <GlobalActionsPanel />
+        <GlobalActionsPanel
+          energyAtPlayhead={energyAtPlayhead}
+          activeInterventionsAtPlayhead={activeInterventionsAtPlayhead}
+          teamSpAtPlayhead={teamSpAtPlayhead}
+        />
       </div>
     </div>
   )

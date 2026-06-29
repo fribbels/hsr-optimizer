@@ -13,6 +13,11 @@ function state() {
   return useAVVisualTabStore.getState()
 }
 
+function wave() {
+  const s = state().savedSession
+  return s.waves[s.currentWaveIndex]
+}
+
 // ---- Reset ----
 
 beforeEach(() => {
@@ -32,7 +37,7 @@ describe('useAVVisualTabStore', () => {
     })
 
     it('starts with 3 rows', () => {
-      expect(state().savedSession.rowCount).toBe(3)
+      expect(wave().rowCount).toBe(3)
     })
   })
 
@@ -122,20 +127,20 @@ describe('useAVVisualTabStore', () => {
   describe('addRow', () => {
     it('increments rowCount by 1', () => {
       state().addRow()
-      expect(state().savedSession.rowCount).toBe(4)
+      expect(wave().rowCount).toBe(4)
     })
 
     it('can be called multiple times', () => {
       state().addRow()
       state().addRow()
       state().addRow()
-      expect(state().savedSession.rowCount).toBe(6)
+      expect(wave().rowCount).toBe(6)
     })
   })
 
   describe('interventions', () => {
     it('starts with no interventions', () => {
-      expect(state().savedSession.interventions).toEqual([])
+      expect(wave().interventions).toEqual([])
     })
 
     it('addIntervention appends an intervention with a generated id', () => {
@@ -147,49 +152,49 @@ describe('useAVVisualTabStore', () => {
         unit: 'flat',
         durationTurns: 2,
       })
-      expect(state().savedSession.interventions).toHaveLength(1)
-      expect(state().savedSession.interventions[0].id).toBeTruthy()
-      expect(state().savedSession.interventions[0].triggerAv).toBe(100)
-      expect(state().savedSession.interventions[0].type).toBe('spd_up')
+      expect(wave().interventions).toHaveLength(1)
+      expect(wave().interventions[0].id).toBeTruthy()
+      expect(wave().interventions[0].triggerAv).toBe(100)
+      expect(wave().interventions[0].type).toBe('spd_up')
     })
 
     it('addIntervention generates unique ids for each intervention', () => {
       state().addIntervention({ triggerAv: 50, type: 'av_advance', targets: ['1001'], value: 25, unit: 'percent', durationTurns: 0 })
       state().addIntervention({ triggerAv: 50, type: 'av_advance', targets: ['1001'], value: 25, unit: 'percent', durationTurns: 0 })
-      const ids = state().savedSession.interventions.map((iv) => iv.id)
+      const ids = wave().interventions.map((iv) => iv.id)
       expect(new Set(ids).size).toBe(2)
     })
 
     it('removeIntervention deletes the matching intervention', () => {
       state().addIntervention({ triggerAv: 100, type: 'spd_up', targets: [], value: 10, unit: 'flat', durationTurns: 1 })
-      const id = state().savedSession.interventions[0].id
+      const id = wave().interventions[0].id
       state().removeIntervention(id)
-      expect(state().savedSession.interventions).toHaveLength(0)
+      expect(wave().interventions).toHaveLength(0)
     })
 
     it('removeIntervention does not affect other interventions', () => {
       state().addIntervention({ triggerAv: 50, type: 'spd_up', targets: [], value: 10, unit: 'flat', durationTurns: 1 })
       state().addIntervention({ triggerAv: 100, type: 'spd_down', targets: [], value: 5, unit: 'flat', durationTurns: 1 })
-      const idToRemove = state().savedSession.interventions[0].id
+      const idToRemove = wave().interventions[0].id
       state().removeIntervention(idToRemove)
-      expect(state().savedSession.interventions).toHaveLength(1)
-      expect(state().savedSession.interventions[0].triggerAv).toBe(100)
+      expect(wave().interventions).toHaveLength(1)
+      expect(wave().interventions[0].triggerAv).toBe(100)
     })
 
     it('updateIntervention patches only the specified fields', () => {
       state().addIntervention({ triggerAv: 100, type: 'spd_up', targets: ['1001'], value: 10, unit: 'flat', durationTurns: 2 })
-      const id = state().savedSession.interventions[0].id
+      const id = wave().interventions[0].id
       state().updateIntervention(id, { value: 20, durationTurns: 3 })
-      expect(state().savedSession.interventions[0].value).toBe(20)
-      expect(state().savedSession.interventions[0].durationTurns).toBe(3)
-      expect(state().savedSession.interventions[0].type).toBe('spd_up')
+      expect(wave().interventions[0].value).toBe(20)
+      expect(wave().interventions[0].durationTurns).toBe(3)
+      expect(wave().interventions[0].type).toBe('spd_up')
     })
 
     it('clearInterventions removes all interventions', () => {
       state().addIntervention({ triggerAv: 50, type: 'spd_up', targets: [], value: 10, unit: 'flat', durationTurns: 1 })
       state().addIntervention({ triggerAv: 100, type: 'spd_up', targets: [], value: 10, unit: 'flat', durationTurns: 1 })
       state().clearInterventions()
-      expect(state().savedSession.interventions).toEqual([])
+      expect(wave().interventions).toEqual([])
     })
   })
 })

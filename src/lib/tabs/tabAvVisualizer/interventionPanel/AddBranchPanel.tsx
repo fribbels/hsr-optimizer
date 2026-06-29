@@ -20,6 +20,7 @@ export function AddBranchPanel({ context, onContextChange }: AddBranchPanelProps
         afterActionIndex: context.afterActionIndex,
         beforeCharId: context.beforeCharId,
         beforeActionIndex: context.beforeActionIndex,
+        afterItemId: context.afterItemId,
       },
     })
   }
@@ -36,7 +37,11 @@ export function AddBranchPanel({ context, onContextChange }: AddBranchPanelProps
     } else {
       timing = { type: 'at_av', av: triggerAv }
     }
-    onContextChange({ kind: 'ult-caster', timing, insertAfterId: afterUltId, insertBeforeUltId: context.insertBeforeUltId })
+    onContextChange({
+      kind: 'ult-caster', timing,
+      insertAfterId: afterUltId, insertBeforeUltId: context.insertBeforeUltId,
+      afterItemId: context.afterItemId,
+    })
   }
 
   return (

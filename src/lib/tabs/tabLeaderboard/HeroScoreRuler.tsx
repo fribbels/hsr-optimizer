@@ -12,9 +12,9 @@ function linScale(start: number, count: number): number[] {
   return Array.from({ length: count }, (_, i) => start + step * i)
 }
 
-const DARK_ALPHA = 0.70
-const DARK_CHROMA = 0.75
-const DARKEN_AMT = 1.0
+const DARK_ALPHA = 0.80
+const DARK_CHROMA = 0.90
+const DARKEN_AMT = 0.5
 
 function buildHeat(tierColors: TierColors): string[] {
   const high = chroma(tierColors.high).alpha(1).darken(DARKEN_AMT)

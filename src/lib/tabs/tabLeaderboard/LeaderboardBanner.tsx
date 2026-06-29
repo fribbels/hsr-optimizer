@@ -131,8 +131,8 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
         </span>
       )}
       <span className={classes.entries}>
-        {dateStr && <span>{dateStr}</span>}
         <span>{rankingLabel}</span>
+        {dateStr && <span>{dateStr}</span>}
       </span>
     </Flex>
   )

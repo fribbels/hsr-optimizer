@@ -96,6 +96,13 @@ export type SimulationResult = {
   // own first action actually happens (e.g. Saber's Reactor Core stacks from her talent/technique
   // wouldn't show up on an energy bar reading "buffs as of the playhead" until her first turn).
   initialActiveInterventions: Record<string, ActiveIntervention[]>
+  // Per-character state right after a specific chained item (a Ult OR a manually-added Intervention,
+  // sharing an anchor with afterItemId — see chainOrder.ts) resolved, keyed by that item's own id. Lets
+  // the UI ("+" buttons in ActionDisplayPanel, used as RightPanelContext's insertAfterId) look up the
+  // exact baseline for whatever it's inserting right after, regardless of whether the preceding item was
+  // a Ult (which already produces its own BattleEvent.stateAfter) or an Intervention (which doesn't
+  // produce any event at all otherwise — this is the only place its post-resolution state is recorded).
+  chainSnapshots: Record<string, Record<string, CharacterBattleState>>
 }
 
 // ---- Internal helpers (mirrors simulateTimeline.ts) ----
@@ -1298,7 +1305,7 @@ export function simulateBattle(
   // Wave.seedState for how it's captured.
   seedState?: WaveSeedState,
 ): SimulationResult {
-  if (entities.length === 0 || totalAv <= 0) return { events: [], energyTimeline: [], initialActiveInterventions: {} }
+  if (entities.length === 0 || totalAv <= 0) return { events: [], energyTimeline: [], initialActiveInterventions: {}, chainSnapshots: {} }
 
   // Every entity (character, memosprite, summon, marker) runs its own AV cycle and needs a CharState —
   // that's the only thing all four types share. Only 'character'/'memosprite' actually "act" (own
@@ -1391,6 +1398,9 @@ export function simulateBattle(
     initialActiveInterventions[char.id] = activeBuffsMap.get(char.id) ?? []
   }
 
+  // Per-chained-item state — see SimulationResult.chainSnapshots' own doc comment.
+  const chainSnapshots: Record<string, Record<string, CharacterBattleState>> = {}
+
   const pendingGlobalBefore = interventions
     .filter((iv) => !iv.beforeCharId && !iv.afterCharId)
     .sort((a, b) => a.triggerAv - b.triggerAv)
@@ -1466,6 +1476,9 @@ export function simulateBattle(
         runPassiveTriggers(targetableIds, minBeforeOrUltAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
         runExtraAttacks(targetableIds, minBeforeOrUltAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId, results)
         energyTimeline.push({ av: minBeforeOrUltAv, energyMap: snapshotEnergy(energyStates, targetableIds) })
+        // See SimulationResult.chainSnapshots — recorded after passiveTriggers/extraAttacks too, so this
+        // is the fully settled state once this item is done, not just its own immediate effects.
+        chainSnapshots[entry.id] = snapshotStates(energyStates, charStates, targetableIds, activeBuffsMap)
       }
       continue
     }
@@ -1502,6 +1515,8 @@ export function simulateBattle(
           applyIntervention(entry.item, charStates, queue, energyStates, activeBuffsMap, undefined, teamState)
           pendingCharBefore.splice(pendingCharBefore.indexOf(entry.item), 1)
         }
+        // See SimulationResult.chainSnapshots' own doc comment.
+        chainSnapshots[entry.id] = snapshotStates(energyStates, charStates, targetableIds, activeBuffsMap)
       }
       pendingUltDuringAction.delete(duringActionAnchorKey)
     }
@@ -1734,6 +1749,8 @@ export function simulateBattle(
         } else {
           applyIntervention(entry.item, charStates, queue, energyStates, activeBuffsMap, event.characterId, teamState)
         }
+        // See SimulationResult.chainSnapshots' own doc comment.
+        chainSnapshots[entry.id] = snapshotStates(energyStates, charStates, targetableIds, activeBuffsMap)
       }
       closeOutNormalTurn()
       pendingUltAfterAction.delete(afterUltKey)
@@ -1775,5 +1792,5 @@ export function simulateBattle(
     energyTimeline.push({ av: event.av, energyMap: snapshotEnergy(energyStates, targetableIds) })
   }
 
-  return { events: results, energyTimeline, initialActiveInterventions }
+  return { events: results, energyTimeline, initialActiveInterventions, chainSnapshots }
 }

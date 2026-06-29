@@ -176,7 +176,7 @@ export function AvVisualizerTab() {
 
   const totalAv = AvVisualTabController.getTotalAv(rowCount, mocFirstRow)
 
-  const [simEvents, energyTimeline, initialActiveInterventions] = useMemo(() => {
+  const [simEvents, energyTimeline, initialActiveInterventions, chainSnapshots] = useMemo(() => {
     const charMap = new Map(timelineCharacters.map((c) => [c.id, c]))
     const overrideMap = new Map(
       actionOverrides.map((o) => [`${o.characterId}:${o.actionIndex}`, o]),
@@ -190,7 +190,7 @@ export function AvVisualizerTab() {
       entityType:     charMap.get(e.characterId)?.type      ?? 'character',
       currentTargets: overrideMap.get(`${e.characterId}:${e.actionIndex}`)?.targets,
     }))
-    return [enriched, result.energyTimeline, result.initialActiveInterventions] as const
+    return [enriched, result.energyTimeline, result.initialActiveInterventions, result.chainSnapshots] as const
   }, [timelineCharacters, simulationEntities, interventions, totalAv, actionOverrides, ultInsertions])
 
   const teamSpAtPlayhead = useMemo(() => {
@@ -232,21 +232,24 @@ export function AvVisualizerTab() {
     return map
   }, [simEvents, playheadAv, initialActiveInterventions])
 
-  // When adding a new ult right after an already-inserted one (same timing anchor, stacked in sequence —
-  // see ActionDisplayPanel's "add" button under an ult card), the prior ult's own resulting event (not
-  // the normal action it's anchored to) is what reflects "state once that prior ult has resolved". Shared
-  // by both energy and buff lookups below so neither shows stale pre-prior-ult data.
-  const priorUltEvent = useMemo(() => {
+  // When adding a new ult/intervention right after an already-inserted item (same anchor, chained in
+  // sequence via afterItemId — see ActionDisplayPanel's "+" buttons), that prior item's own resulting
+  // state (not the normal action's the whole anchor is attached to) is what reflects "state once that
+  // prior item has resolved". Looked up from chainSnapshots — recorded for every chained item, Ult OR
+  // Intervention alike (see SimulationResult.chainSnapshots' own doc comment for why this exists at all:
+  // a plain Intervention produces no BattleEvent of its own to read a "stateAfter" from otherwise).
+  // Shared by both energy and buff lookups below so neither shows stale pre-prior-item data.
+  const priorChainState = useMemo(() => {
     if (rightPanelContext.kind !== 'ult-caster' || !rightPanelContext.insertAfterId) return undefined
-    return simEvents.find((e) => e.turnKind === 'ult' && e.ultInsertionId === rightPanelContext.insertAfterId)
-  }, [rightPanelContext, simEvents])
+    return chainSnapshots[rightPanelContext.insertAfterId]
+  }, [rightPanelContext, chainSnapshots])
 
   // UltCasterPanel needs energy as of the specific insertion point, not the coarse per-AV checkpoint
   // energyAtPlayhead provides (which reflects the whole action's effects, basic/skill included).
   // during_action should show energy before this action's basic/skill resolves; after_action after.
   const ultCasterEnergyMap = useMemo(() => {
     if (rightPanelContext.kind !== 'ult-caster') return energyAtPlayhead
-    if (priorUltEvent) return new Map(Object.entries(priorUltEvent.stateAfter).map(([id, s]) => [id, s.energy]))
+    if (priorChainState) return new Map(Object.entries(priorChainState).map(([id, s]) => [id, s.energy]))
     const { timing } = rightPanelContext
     if (timing.type === 'at_av') return energyAtPlayhead
 
@@ -257,15 +260,15 @@ export function AvVisualizerTab() {
 
     const snapshot = timing.type === 'during_action' ? match.stateBefore : match.stateAfter
     return new Map(Object.entries(snapshot).map(([id, s]) => [id, s.energy]))
-  }, [rightPanelContext, simEvents, energyAtPlayhead, priorUltEvent])
+  }, [rightPanelContext, simEvents, energyAtPlayhead, priorChainState])
 
-  // Same prior-ult override for the buff data UltCasterPanel's character-specific energy bars need.
+  // Same prior-chain override for the buff data UltCasterPanel's character-specific energy bars need.
   const ultCasterActiveInterventionsMap = useMemo(() => {
-    if (priorUltEvent) {
-      return new Map(Object.entries(priorUltEvent.stateAfter).map(([id, s]) => [id, s.activeInterventions]))
+    if (priorChainState) {
+      return new Map(Object.entries(priorChainState).map(([id, s]) => [id, s.activeInterventions]))
     }
     return activeInterventionsAtPlayhead
-  }, [priorUltEvent, activeInterventionsAtPlayhead])
+  }, [priorChainState, activeInterventionsAtPlayhead])
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {

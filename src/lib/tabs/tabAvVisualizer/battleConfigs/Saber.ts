@@ -214,6 +214,8 @@ function buildSaberConfig(eidolon: number): CharacterBattleConfig {
         { type: 'energy_gain', targets: 'self', value: 30, unit: 'flat', scalesWithErr: true },
         { type: 'sp_gain', targets: 'team', value: 1, unit: 'flat' },
         { type: 'stat_buff', targets: 'self', stat: MANA_BURST_STAT, value: 0, unit: 'flat', durationTurns: 0, effectId: MANA_BURST_ID, stackable: { maxStacks: 1 } },
+        // Base kit: +2 Reactor Core, regardless of eidolon. E1 adds its own +1 on top (3 total at E1+).
+        ...grantReactorCore(2),
         ...(hasE1 ? grantReactorCore(1) : []),
       ],
       consumesStack: true,

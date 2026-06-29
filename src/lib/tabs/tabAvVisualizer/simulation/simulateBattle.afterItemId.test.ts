@@ -144,3 +144,39 @@ describe('simulateBattle — afterItemId precise interleaving', () => {
     expect(ultEvent.stateAfter['A'].energy).toBe(1110)
   })
 })
+
+// Covers SimulationResult.chainSnapshots — the fix for "the '+' button right after an Intervention
+// (itself chained right after a Ult) showed the wrong baseline state, falling back to this AV's very
+// first state instead of 'after that Ult AND that Intervention'". A plain Intervention produces no
+// BattleEvent of its own, so without chainSnapshots there was nothing to look up its post-resolution
+// state from at all.
+describe('simulateBattle — chainSnapshots', () => {
+  it('records state after EVERY chained item, Ult or Intervention alike, not just Ults', () => {
+    mockConfigs.set('A', {
+      characterId: 'A',
+      energyType: 'standard',
+      abilities: {
+        basic: [{ type: 'energy_gain', targets: 'self', value: 10, unit: 'flat', scalesWithErr: false }],
+        skill: [],
+        ult: [{ type: 'energy_gain', targets: 'self', value: 1000, unit: 'flat', scalesWithErr: false }],
+      },
+      ultThreshold: 0,
+      ultEnergyCost: 0,
+      customMaxEnergy: 100000,
+    })
+    // Chain: A's turn (+10) -> ult1 (+1000) -> intervention (+100, chained after ult1) -> ult2 (+1000,
+    // chained after the intervention) — the bug scenario: a "+" placed right after the intervention.
+    const ult1 = makeUlt('ult1', { timing: { type: 'after_action', charId: 'A', actionIndex: 0 } })
+    const ult2 = makeUlt('ult2', { timing: { type: 'after_action', charId: 'A', actionIndex: 0 }, afterItemId: 'iv1' })
+    const iv = makeIv('iv1', { value: 100, triggerAv: 100, afterCharId: 'A', afterActionIndex: 0, afterItemId: 'ult1' })
+
+    const result = simulateBattle([makeEntity('A', 100)], [iv], [], [ult1, ult2], 150)
+    // ult1's own snapshot: basic (+10) + its own ult effect (+1000) = 1010.
+    expect(result.chainSnapshots['ult1']['A'].energy).toBe(1010)
+    // The intervention's snapshot must reflect ult1 AND its own +100 — this is the exact state a "+"
+    // placed right after it should show as the baseline for whatever comes next.
+    expect(result.chainSnapshots['iv1']['A'].energy).toBe(1110)
+    // ult2 chains off the intervention, not ult1 directly — its own snapshot adds its +1000 on top.
+    expect(result.chainSnapshots['ult2']['A'].energy).toBe(2110)
+  })
+})

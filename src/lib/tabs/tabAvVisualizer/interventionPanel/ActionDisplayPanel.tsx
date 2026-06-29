@@ -39,9 +39,29 @@ type ActionDisplayPanelProps = {
   onContextChange: (ctx: RightPanelContext) => void
 }
 
-function addZoneKey(beforeCharId?: string, beforeActionIndex?: number, afterCharId?: string, afterActionIndex?: number): string {
-  if (beforeCharId) return `before:${beforeCharId}:${beforeActionIndex ?? 0}`
-  if (afterCharId) return `after:${afterCharId}:${afterActionIndex ?? 0}`
+// Precise key for one specific "+" slot in a before/after chain (see buildMergedDisplay) — encodes the
+// anchor (before/after this action) plus exactly which gap in the chain, via the id of whatever
+// immediately precedes it (or 'start' for the very first gap, which has no preceding item). Without the
+// afterItemId component, every "+" sharing the same action would collapse onto the same key — which is
+// exactly the bug this fixes: the leading "+" (no preceding item) used to fall back to a key that
+// happened to collide with the trailing "+" at the same action.
+function chainAddZoneKey(anchorKind: 'before' | 'after', charId: string, actionIndex: number, afterItemId?: string): string {
+  return `chain-${anchorKind}:${charId}:${actionIndex}:${afterItemId ?? 'start'}`
+}
+
+// Mirrors how an add-branch-like context (RightPanelContext's 'add-branch' kind, or EditRequest's 'add'
+// mode) maps onto a "+" button's own zoneKey — beforeCharId/afterCharId set means it's one of the chain
+// buttons above (always use chainAddZoneKey, regardless of whether afterUltId also happens to be set,
+// e.g. because the preceding chain item happens to be a Ult); afterUltId alone (no before/afterCharId at
+// all) means a standalone Ult card's own single button; neither means the flat/idle add button.
+function deriveAddZoneKey(
+  beforeCharId?: string, beforeActionIndex?: number,
+  afterCharId?: string, afterActionIndex?: number,
+  afterItemId?: string, afterUltId?: string,
+): string {
+  if (beforeCharId !== undefined) return chainAddZoneKey('before', beforeCharId, beforeActionIndex ?? 0, afterItemId)
+  if (afterCharId !== undefined) return chainAddZoneKey('after', afterCharId, afterActionIndex ?? 0, afterItemId)
+  if (afterUltId) return `after-ult:${afterUltId}`
   return 'flat'
 }
 
@@ -54,11 +74,17 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
     ? activeContext.request.intervention.id
     : null
   const activeAddKey = activeContext.kind === 'intervention' && activeContext.request.mode === 'add'
-    ? addZoneKey(activeContext.request.beforeCharId, activeContext.request.beforeActionIndex, activeContext.request.afterCharId, activeContext.request.afterActionIndex)
+    ? deriveAddZoneKey(
+        activeContext.request.beforeCharId, activeContext.request.beforeActionIndex,
+        activeContext.request.afterCharId, activeContext.request.afterActionIndex,
+        activeContext.request.afterItemId, undefined,
+      )
     : activeContext.kind === 'add-branch'
-      ? (activeContext.afterUltId
-        ? `after-ult:${activeContext.afterUltId}`
-        : addZoneKey(activeContext.beforeCharId, activeContext.beforeActionIndex, activeContext.afterCharId, activeContext.afterActionIndex))
+      ? deriveAddZoneKey(
+          activeContext.beforeCharId, activeContext.beforeActionIndex,
+          activeContext.afterCharId, activeContext.afterActionIndex,
+          activeContext.afterItemId, activeContext.afterUltId,
+        )
       : null
   const activeActionConfig = activeContext.kind === 'action-config'
     ? `${activeContext.characterId}:${activeContext.actionIndex}`
@@ -200,9 +226,12 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
   // just afterItemId) — UltCasterPanel's stale-state fix (see priorUltEvent in AvVisualizerTab.tsx) keys
   // specifically off afterUltId/insertAfterId to find that Ult's own post-resolution state as the energy/
   // buff baseline, instead of falling back to this AV's very first state (before that Ult ever fired).
-  function precedingUltId(items: MergedDisplayItem[], i: number): string | undefined {
-    const preceding = i > 0 ? items[i - 1] : undefined
-    return preceding?.kind === 'ult' ? preceding.id : undefined
+  // The id of whatever item (Ult OR Intervention — both now produce a chainSnapshots entry, see
+  // simulateBattle.ts) sits immediately before this slot, used as RightPanelContext's insertAfterId so
+  // UltCasterPanel can look up that item's own post-resolution state as its energy/buff baseline instead
+  // of falling back to this AV's very first state.
+  function precedingAnchorId(items: MergedDisplayItem[], i: number): string | undefined {
+    return i > 0 ? items[i - 1].id : undefined
   }
 
   function renderItem(iv: Intervention) {
@@ -436,9 +465,9 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                         kind: 'add-branch', triggerAv: playheadAv,
                         beforeCharId: ev.characterId, beforeActionIndex: ev.actionIndex,
                         afterItemId: i > 0 ? mergedDuring[i - 1].id : undefined,
-                        afterUltId: precedingUltId(mergedDuring, i),
+                        afterUltId: precedingAnchorId(mergedDuring, i),
                       }),
-                      `before-item:${item.id}`,
+                      chainAddZoneKey('before', ev.characterId, ev.actionIndex, i > 0 ? mergedDuring[i - 1].id : undefined),
                     )}
                     {item.kind === 'ult' ? renderSpecialCard(item.ev, 'ult') : renderItem(item.iv)}
                   </Fragment>
@@ -448,9 +477,9 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                     kind: 'add-branch', triggerAv: playheadAv,
                     beforeCharId: ev.characterId, beforeActionIndex: ev.actionIndex,
                     afterItemId: mergedDuring.length > 0 ? mergedDuring[mergedDuring.length - 1].id : undefined,
-                    afterUltId: precedingUltId(mergedDuring, mergedDuring.length),
+                    afterUltId: precedingAnchorId(mergedDuring, mergedDuring.length),
                   }),
-                  addZoneKey(ev.characterId, ev.actionIndex, undefined, undefined),
+                  chainAddZoneKey('before', ev.characterId, ev.actionIndex, mergedDuring.length > 0 ? mergedDuring[mergedDuring.length - 1].id : undefined),
                 )}
 
                 {/* Behavior row: current action choice, click → ActionConfigPanel. Placed last — it
@@ -468,9 +497,9 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                         kind: 'add-branch', triggerAv: playheadAv,
                         afterCharId: ev.characterId, afterActionIndex: ev.actionIndex,
                         afterItemId: i > 0 ? mergedAfter[i - 1].id : undefined,
-                        afterUltId: precedingUltId(mergedAfter, i),
+                        afterUltId: precedingAnchorId(mergedAfter, i),
                       }),
-                      `after-before-item:${item.id}`,
+                      chainAddZoneKey('after', ev.characterId, ev.actionIndex, i > 0 ? mergedAfter[i - 1].id : undefined),
                     )}
                     {item.kind === 'ult' ? renderSpecialCard(item.ev, 'ult') : renderItem(item.iv)}
                   </Fragment>
@@ -480,9 +509,9 @@ export function ActionDisplayPanel({ characters, simEvents, activeContext, onCon
                     kind: 'add-branch', triggerAv: playheadAv,
                     afterCharId: ev.characterId, afterActionIndex: ev.actionIndex,
                     afterItemId: mergedAfter.length > 0 ? mergedAfter[mergedAfter.length - 1].id : undefined,
-                    afterUltId: precedingUltId(mergedAfter, mergedAfter.length),
+                    afterUltId: precedingAnchorId(mergedAfter, mergedAfter.length),
                   }),
-                  addZoneKey(undefined, undefined, ev.characterId, ev.actionIndex),
+                  chainAddZoneKey('after', ev.characterId, ev.actionIndex, mergedAfter.length > 0 ? mergedAfter[mergedAfter.length - 1].id : undefined),
                 )}
               </div>
             </Fragment>

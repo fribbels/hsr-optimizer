@@ -78,7 +78,11 @@ type QueueEntry = {
 // eidolonUpgrades can conditionally patch in higher-Eidolon effects.
 // cd: this character's real Crit DMG (see BattleEntity.cd) — only read by InterventionTemplate's
 // casterStatScaling.
-type EnergyState = { energy: number; maxEnergy: number; err: number; eidolon: number; cd?: number }
+// maxEnergy is the real hard cap used to clamp energy (e.g. Saber: 480/560, including her overflow-style
+// mechanic) — percentBasis is the "real 100%" reference percent-based energy_gain/loss effects (e.g.
+// Huohuo's Ult: "restore 20% energy") compute their delta against instead. These differ specifically for
+// overflow-style characters; ultThreshold ?? maxEnergy for everyone else (where they're the same number).
+type EnergyState = { energy: number; maxEnergy: number; percentBasis: number; err: number; eidolon: number; cd?: number }
 
 // ---- Public output types ----
 
@@ -312,9 +316,11 @@ function summonCompanion(
 
   if (companion.type === 'memosprite') {
     const ownerEnergy = energyStates.get(ownerId)
-    const maxEnergy = getBattleConfig(companion.characterId)?.customMaxEnergy ?? 100
+    const companionConfig = getBattleConfig(companion.characterId)
+    const maxEnergy = companionConfig?.customMaxEnergy ?? 100
+    const percentBasis = companionConfig?.ultThreshold ?? maxEnergy
     energyStates.set(companion.characterId, {
-      energy: 0, maxEnergy, err: ownerEnergy?.err ?? 0, eidolon: ownerEnergy?.eidolon ?? 0, cd: ownerEnergy?.cd ?? 0,
+      energy: 0, maxEnergy, percentBasis, err: ownerEnergy?.err ?? 0, eidolon: ownerEnergy?.eidolon ?? 0, cd: ownerEnergy?.cd ?? 0,
     })
     activeBuffsMap.set(companion.characterId, [])
     targetableIds.push(companion.characterId)
@@ -517,8 +523,10 @@ function applyIntervention(
       const energyTarget = energyStates?.get(targetId)
       if (!energyTarget) continue
       const errMultiplier = iv.scalesWithErr === false ? 1 : 1 + energyTarget.err
+      // percentBasis, not maxEnergy — see EnergyState's own doc comment (an overflow-style character's
+      // real hard cap shouldn't inflate what "100%" means for an external ability's percent restoration).
       const delta = (iv.unit === 'percent'
-        ? energyTarget.maxEnergy * (iv.value / 100)
+        ? energyTarget.percentBasis * (iv.value / 100)
         : iv.value) * errMultiplier
       const energyBefore = energyTarget.energy
       energyTarget.energy = iv.type === 'energy_gain'
@@ -1347,7 +1355,7 @@ export function simulateBattle(
     // a companion not yet summoned at cut time) still fall back to the normal baseline.
     const startingBasis = config?.ultThreshold ?? maxEnergy
     const seededEnergy = seedState?.energyByChar[char.id]
-    energyStates.set(char.id, { energy: seededEnergy ?? startingBasis * 0.5, maxEnergy, err: char.err, eidolon: char.eidolon, cd: char.cd })
+    energyStates.set(char.id, { energy: seededEnergy ?? startingBasis * 0.5, maxEnergy, percentBasis: startingBasis, err: char.err, eidolon: char.eidolon, cd: char.cd })
   }
 
   const activeBuffsMap = new Map<string, ActiveIntervention[]>()

@@ -64,6 +64,18 @@
   opacity: 1;
 }
 
+.nameOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 4px 4px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .emptyCard {
   display: flex;
   flex-direction: column;
@@ -71,7 +83,7 @@
   justify-content: center;
   gap: 8px;
   width: 130px;
-  height: 220px;
+  height: 256px;
   flex-shrink: 0;
   border-radius: 6px;
   background-color: var(--layer-2);

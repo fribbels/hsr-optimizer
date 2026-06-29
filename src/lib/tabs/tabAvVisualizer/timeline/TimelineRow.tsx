@@ -1,6 +1,7 @@
 import { AvVisualTabController } from 'lib/tabs/tabAvVisualizer/avVisualTabController'
 import {
   TIMELINE_AVATAR_SIZE,
+  TIMELINE_AVATAR_STACK_GAP,
   TIMELINE_ROW_HEIGHT,
   TIMELINE_RULER_Y,
 } from 'lib/tabs/tabAvVisualizer/constants'
@@ -9,12 +10,14 @@ import { InterventionMarker } from 'lib/tabs/tabAvVisualizer/timeline/Interventi
 import { Playhead } from 'lib/tabs/tabAvVisualizer/timeline/Playhead'
 import type { EnrichedSimEvent } from 'lib/tabs/tabAvVisualizer/timeline/Timeline'
 import type { Intervention } from 'lib/tabs/tabAvVisualizer/types'
+import { truncate100ths } from 'lib/utils/mathUtils'
 import { Fragment, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 
 type TimelineRowProps = {
   rowStart: number                // This row's start AV (computed by the parent according to MoC mode and passed in)
   rowSize: number                 // This row's AV span (normal row = 100, MoC first row = 150)
   simEvents: EnrichedSimEvent[]   // Already filtered to this row's range by the parent (Timeline)
+  companionEvents?: EnrichedSimEvent[]   // memosprite/summon/marker events; undefined when none exist in the whole battle
   interventions: Intervention[]   // Interventions within this row's range (filtered by the parent)
   onSeek: (av: number) => void    // Click/drag on the ruler, or click on a marker — moves the Playhead there
   topRightOverlay?: ReactNode     // Overlay (e.g. the MoC toggle), only passed for the first row
@@ -52,6 +55,7 @@ export function TimelineRow({
   rowStart,
   rowSize,
   simEvents,
+  companionEvents,
   interventions,
   onSeek,
   topRightOverlay,
@@ -104,11 +108,17 @@ export function TimelineRow({
     return { smallTicks: small, largeTicks: large }
   }, [rowSize])
 
-  // Grouped by (characterId, av, turnKind): normal and ult events at the same AV are separate markers
+  // Grouped by (characterId, av, turnKind): normal, ult, and extra events at the same AV are separate
+  // groups, but when a character's own Ult or extraAttack lands at the exact same AV as their own normal
+  // action, that group is dropped here and surfaces instead as a `hasUltOverlay`/`hasExtraOverlay` flag
+  // on the matching normal group — rendered as a small badge on that avatar (see ActionMarker) instead of
+  // a second independent marker.
   const markers = useMemo(() => {
     type MarkerGroup = {
       event: EnrichedSimEvent & { leftPercent: number }
       actionCount: number
+      hasUltOverlay?: boolean
+      hasExtraOverlay?: boolean
     }
     const groups = new Map<string, MarkerGroup>()
     for (const event of simEvents) {
@@ -121,14 +131,47 @@ export function TimelineRow({
       }
       groups.get(key)!.actionCount++
     }
+    for (const [key, group] of groups) {
+      if (group.event.turnKind !== 'ult' && group.event.turnKind !== 'extra') continue
+      const normalKey = `${group.event.characterId}:${group.event.av}:normal`
+      const normalGroup = groups.get(normalKey)
+      if (!normalGroup) continue
+      if (group.event.turnKind === 'ult') normalGroup.hasUltOverlay = true
+      else normalGroup.hasExtraOverlay = true
+      groups.delete(key)
+    }
     return Array.from(groups.values())
   }, [simEvents, rowStart, rowSize])
 
-  // Grouped by triggerAv: render a single marker per unique AV position, showing the total intervention count there
+  // Grouped by (characterId, av): one dot per distinct companion position, same dedup approach as `markers`
+  const companionMarkers = useMemo(() => {
+    type CompanionGroup = {
+      event: EnrichedSimEvent & { leftPercent: number }
+      actionCount: number
+    }
+    const groups = new Map<string, CompanionGroup>()
+    for (const event of (companionEvents ?? [])) {
+      const key = `${event.characterId}:${event.av}`
+      if (!groups.has(key)) {
+        groups.set(key, {
+          event: { ...event, leftPercent: AvVisualTabController.avToRowPercent(event.av, rowStart, rowSize) },
+          actionCount: 0,
+        })
+      }
+      groups.get(key)!.actionCount++
+    }
+    return Array.from(groups.values())
+  }, [companionEvents, rowStart, rowSize])
+
+  // Grouped by triggerAv truncated to 2 decimals (not the raw stored value) — interventions created by
+  // dragging/clicking the ruler land on continuous floating-point AVs (e.g. 9.9999997), so grouping by
+  // exact equality would split visually-identical positions into separate markers. Every intervention
+  // within the same 0.01 AV bucket renders as one marker, positioned/clickable at that bucket's value.
   const interventionGroups = useMemo(() => {
     const map = new Map<number, number>()
     for (const iv of interventions) {
-      map.set(iv.triggerAv, (map.get(iv.triggerAv) ?? 0) + 1)
+      const bucket = truncate100ths(iv.triggerAv)
+      map.set(bucket, (map.get(bucket) ?? 0) + 1)
     }
     return Array.from(map.entries()).map(([av, count]) => ({
       triggerAv: av,
@@ -136,6 +179,16 @@ export function TimelineRow({
       leftPercent: AvVisualTabController.avToRowPercent(av, rowStart, rowSize),
     }))
   }, [interventions, rowStart, rowSize])
+
+  // Companions attach directly outside their owner's existing avatar (ActionMarker's extraOffset=1),
+  // one avatar-increment further from the ruler than the owner's own base position. That can push a
+  // marker beyond the box's normal close+far headroom, so when any companion exists, pad the box with
+  // one extra increment on both sides (and shift the ruler container down by the same amount) so nothing
+  // gets clipped by the box's overflow:hidden.
+  const hasCompanions = companionEvents !== undefined
+  const extraLevelHeight = TIMELINE_AVATAR_SIZE + TIMELINE_AVATAR_STACK_GAP
+  const rulerTop = hasCompanions ? extraLevelHeight : 0
+  const rowBodyHeight = TIMELINE_ROW_HEIGHT + (hasCompanions ? extraLevelHeight * 2 : 0)
 
   return (
     <div style={{
@@ -167,7 +220,7 @@ export function TimelineRow({
       {/* Row body */}
       <div style={{
         flex: 1,
-        height: TIMELINE_ROW_HEIGHT,
+        height: rowBodyHeight,
         position: 'relative',
         background: 'var(--layer-2)',
         boxShadow: 'var(--shadow-card)',
@@ -194,8 +247,8 @@ export function TimelineRow({
             position: 'absolute',
             left: RULER_INSET,
             right: RULER_INSET,
-            top: 0,
-            bottom: 0,
+            top: rulerTop,
+            height: TIMELINE_ROW_HEIGHT,
             userSelect: 'none',
           }}
         >
@@ -269,7 +322,7 @@ export function TimelineRow({
           ))}
 
           {/* Action markers (grouped by characterId+av+turnKind; ult and normal events render separately) */}
-          {markers.map(({ event: m, actionCount }) => (
+          {markers.map(({ event: m, actionCount, hasUltOverlay, hasExtraOverlay }) => (
             <ActionMarker
               key={`${m.characterId}:${m.av}:${m.turnKind}`}
               av={m.av}
@@ -279,6 +332,28 @@ export function TimelineRow({
               characterId={m.characterId}
               leftPercent={m.leftPercent}
               stackLevel={m.slotIndex}
+              actionCount={actionCount}
+              turnKind={m.turnKind}
+              hasUltOverlay={hasUltOverlay}
+              hasExtraOverlay={hasExtraOverlay}
+              onMarkerClick={onSeek}
+            />
+          ))}
+
+          {/* Companion markers (memosprite/summon/marker): same ActionMarker, anchored to the owner's
+              own slotIndex/stackLevel with extraOffset=1 so they attach right outside the owner's avatar
+              on the same side, instead of getting their own stackLevel/numbering. */}
+          {companionMarkers.map(({ event: m, actionCount }) => (
+            <ActionMarker
+              key={`${m.characterId}:${m.av}`}
+              av={m.av}
+              spd={m.effectiveSpd}
+              color={m.color}
+              characterName={m.characterName}
+              characterId={m.characterId}
+              leftPercent={m.leftPercent}
+              stackLevel={m.slotIndex}
+              extraOffset={1}
               actionCount={actionCount}
               turnKind={m.turnKind}
               onMarkerClick={onSeek}
@@ -296,9 +371,11 @@ export function TimelineRow({
             />
           ))}
 
-          {/* Playhead: only rendered in the row it currently falls within */}
+          {/* Playhead: only rendered in the row it currently falls within. topOffset/totalHeight let it
+              span the row's actual height (taller when companion avatars need extra stacking levels)
+              instead of stopping at the ruler's own fixed band. */}
           {playheadAv !== undefined && playheadAv >= rowStart && playheadAv < rowEnd && (
-            <Playhead av={playheadAv} rowStart={rowStart} rowSize={rowSize} />
+            <Playhead av={playheadAv} rowStart={rowStart} rowSize={rowSize} topOffset={rulerTop} totalHeight={rowBodyHeight} />
           )}
         </div>
       </div>

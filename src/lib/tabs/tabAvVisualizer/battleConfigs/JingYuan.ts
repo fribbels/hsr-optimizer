@@ -23,6 +23,12 @@ export const JingYuan: CharacterBattleConfig = {
     // Each HPA stack adds speed; capped at 10 stacks; TODO: verify per-stack delta
     derivedSpd: (extras) => 60 + (extras['hpa'] ?? 0) * 10,
   },
+  // Fake placeholder for testing the companion-lane Timeline UI — fixed 60 SPD, no real mechanics yet.
+  companion: {
+    type: 'summon',
+    characterId: `${characterId}_lightning_lord`,
+    baseSpd: 60,
+  },
   extrasOnAction: [
     {
       ability: 'skill',

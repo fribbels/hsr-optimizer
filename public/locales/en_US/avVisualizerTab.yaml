@@ -13,6 +13,9 @@ Units:
 TurnSuffix: ' (turn {{n}})'
 AvLabel: AV
 
+ActionDisplayPanel:
+  EditModeLabel: Edit Mode
+
 Sidebar:
   Title: Intervention List
   ClearAll: Clear All
@@ -25,10 +28,23 @@ Timeline:
   AddRow: Add 100 AV
   MocToggle: Memory of Chaos (150)
 
+GlobalActions:
+  Title: Global Actions
+  Export: Export session
+  Import: Import session
+  ImportSuccess: Session imported
+  ImportError: Invalid session file
+  Reset: Reset
+  ResetCancel: Cancel
+  ResetConfirmTitle: Reset timeline?
+  ResetConfirmBody: This clears every added intervention, action override, and ult insertion, back to right after picking characters. Character picks, SPD/ERR/eidolon, and row settings are unaffected — this can't be undone.
+  ResetSuccess: Reset
+
 Marker:
   ActionTooltip: '{{name}}  SPD {{spd}}  AV {{av}}'
   InterventionTooltip: 'AV {{av}} · {{count}} interventions'
   UltTooltip: "{{name}} Ultimate  AV {{av}}"
+  ExtraTooltip: "{{name}} Extra Attack  AV {{av}}"
 
 Panel:
   EmptyHint: Select where to add or what to edit
@@ -41,6 +57,9 @@ Panel:
   TargetsPlaceholder: Select characters
   Value: Value
   Duration: Duration (turns)
+  EnergyMode: Energy Mode
+  EnergyModeNormal: Normal (scales with ERR)
+  EnergyModeFixed: Fixed (ignores ERR)
   Cancel: Cancel
   Add: Add
   Save: Save
@@ -52,9 +71,15 @@ CharacterSlot:
   ResetSpd: Reset SPD
   SpdDisplay: 'SPD {{value}}'
   NoValue: '—'
+  ErrPlaceholder: ERR
+  EditErr: Edit ERR
+  ResetErr: Reset ERR
+  ErrDisplay: 'ERR {{value}}%'
+  ResetEidolon: Reset Eidolon
 
 ActionNode:
   Basic: Basic Attack
+  BasicEnhanced: Enhanced Basic ATK
   Skill: Skill
   Target: Target
   ChoiceLabel: Action
@@ -68,6 +93,11 @@ ActionConfig:
   EffectsTitle: Effects
   NoEffects: No effects for this action
   NoConfig: No action config available
+  SummonCompanion: Summon companion (no-op if already present)
+  EnergySetMinimum: 'Raise energy to {{value}} if below it'
+  ClearBuff: 'Remove {{effectId}}'
+  AfterEffectsTitle: After action
+  DynamicNoSnapshot: Effects depend on live state — run the simulation first to see them
 
 CharacterState:
   SpeedLabel: "SPD {{value}}"
@@ -86,7 +116,60 @@ UltCard:
 UltCaster:
   Title: Insert Ultimate
   EnergyStatus: "{{energy}} / {{threshold}}"
-  EnergyInsufficient: Insufficient energy
   NeedTarget: Select target
   Confirm: Insert
   NoAnchor: Select next to a character action first
+
+BuffNames:
+  huohuo_rangming: Divine Provision
+  huohuo_qianshenyigui: Spiritual Domination
+  huohuo_zhenxiongzhiming: The Cursed One
+  huohuo_e1_spd: "Possessed by a Heliobus, Evil Subduing"
+  huohuo_e6_dmg: Shared Fate
+  trailblazer_remembrance_epic: Epic
+  mimi_partner_cheer: Friends! Together!
+  mimi_cheer: "Mem's Support"
+  mimi_now_narrator: Narrator of the Present
+  trailblazer_remembrance_e6: Bearer of the Revelation
+  saber_reactor_core: Reactor Core
+  saber_dragon_reactor_core: Dragon Reactor Core
+  saber_king_of_knights: Behold, the King of Knights
+  saber_knight_of_dragon: Knight of the Dragon
+  saber_mana_burst: Mana Burst
+  saber_crown_of_stars: Crown of the Stars
+  saber_crown_of_stars_cd: Crown of the Stars (Bonus Ability)
+  saber_e1_lost_white_walls: The Lost White Walls
+  saber_e2_round_table: The Lost Oath of the Round Table
+  saber_e4_sixteen_winters: The Saga of Sixteen Winter Days
+  saber_e6_long_fated_night: The Long Fated Night
+  saber_e6_long_fated_night_energy: The Long Fated Night (Energy)
+  saber_enhanced_basic_marker: Enhanced Basic ATK Marker
+  gilgamesh_kings_acknowledgement: King's Acknowledgement
+  gilgamesh_kings_burden: King's Burden
+  gilgamesh_witness: He Who Saw the Deep
+  gilgamesh_interest: Interest
+  gilgamesh_interest_spd: Interest
+  gilgamesh_interest_piqued: Interest Piqued
+  gilgamesh_heros_solitude: "Hero's Solitude"
+  gilgamesh_permission_to_strike: I Grant You Permission To Strike
+  gilgamesh_permission_to_strike_ult_double: I Grant You Permission To Strike
+  gilgamesh_kings_contest_atk: King's Contest
+  gilgamesh_kings_contest_cd: King's Contest
+  gilgamesh_king_who_bowed: King Who Bowed to None
+  gilgamesh_soul_bore_friendship: Soul That Bore Friendship
+  gilgamesh_golden_rule: Golden Rule
+
+# Short labels for optimizer-internal "extended" StatKey strings used by battleConfigs (e.g. RuanMei's
+# and Huohuo's BOOST/BREAK_EFFICIENCY_BOOST/RES_PEN) — these aren't real Stats enum members, so they
+# have no entry under common:ShortStats. DEF_PEN/WIND_RES_PEN *are* real StatKey members but still have
+# no common:ShortStats entry, so they fall back to here too (see CharacterStatePanel's lookup order).
+EffectStatNames:
+  BOOST: DMG Boost
+  BREAK_EFFICIENCY_BOOST: Break Efficiency
+  RES_PEN: RES PEN
+  DEF_PEN: DEF PEN
+  WIND_RES_PEN: Wind RES PEN
+  TRUE_DMG: True DMG
+  ULT_DMG_BOOST: Ult DMG Boost
+  ULT_CD_BOOST: Ult CRIT DMG Boost
+  ULT_DMG_MULTIPLIER: Ult DMG Multiplier

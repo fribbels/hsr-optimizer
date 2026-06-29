@@ -23,7 +23,9 @@ export function UltEffectsPanel({ casterId, targets, characters }: UltEffectsPan
     )
   }
 
-  const ultTemplates = config.abilities.ult
+  // Dynamic (AbilityResolver) ults aren't expected currently, but Array.isArray guards against this
+  // panel breaking if that ever changes — no static preview is possible for those.
+  const ultTemplates = Array.isArray(config.abilities.ult) ? config.abilities.ult : []
 
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>

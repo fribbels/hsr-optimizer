@@ -1,12 +1,12 @@
 import { Button, Select, Text } from '@mantine/core'
-import { getGameMetadata } from 'lib/state/gameMetadata'
 import { AvVisualTabController } from 'lib/tabs/tabAvVisualizer/avVisualTabController'
 import { getBattleConfig } from 'lib/tabs/tabAvVisualizer/battleConfigs'
 import { ActionOrderAvatar } from 'lib/tabs/tabAvVisualizer/interventionPanel/ActionOrderAvatar'
-import type { BattleEntity, UltTiming } from 'lib/tabs/tabAvVisualizer/types'
+import { EnergyDisplay } from 'lib/tabs/tabAvVisualizer/interventionPanel/characterEnergyBars'
+import { resolveMaxEnergy } from 'lib/tabs/tabAvVisualizer/interventionPanel/EnergyBar'
+import type { ActiveIntervention, BattleEntity, UltTiming } from 'lib/tabs/tabAvVisualizer/types'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { CharacterId } from 'types/character'
 
 type UltCasterPanelProps = {
   timing: UltTiming
@@ -14,23 +14,36 @@ type UltCasterPanelProps = {
   insertBeforeUltId?: string
   characters: BattleEntity[]
   energyAtPlayhead: Map<string, number>
+  activeInterventionsAtPlayhead: Map<string, ActiveIntervention[]>
   onDone: () => void
 }
 
-export function UltCasterPanel({ timing, insertAfterId, insertBeforeUltId, characters, energyAtPlayhead, onDone }: UltCasterPanelProps) {
+export function UltCasterPanel({ timing, insertAfterId, insertBeforeUltId, characters, energyAtPlayhead, activeInterventionsAtPlayhead, onDone }: UltCasterPanelProps) {
   const { t: tAv } = useTranslation('avVisualizerTab')
   const [selectedCasterId, setSelectedCasterId] = useState<string | null>(null)
   const [selectedTarget, setSelectedTarget] = useState<string | null>(null)
 
-  const casterInfo = characters.map((char) => {
-    const maxSp      = getGameMetadata().characters?.[char.id as CharacterId]?.max_sp ?? 100
-    const config     = getBattleConfig(char.id)
-    const threshold  = config?.ultThreshold ?? maxSp
-    const energy     = energyAtPlayhead.get(char.id) ?? maxSp * 0.5
-    const canCast    = energy >= threshold
-    const needTarget = config?.abilities.ult.some((t) => t.targets === 'single_ally') ?? false
-    return { char, maxSp, threshold, energy, canCast, needTarget }
-  })
+  // Mimi (and any other companion without an ultimate of her own) has no abilities.ult — her energy
+  // only ever drives her own skill logic, so she can't be picked as an ult caster here. Dynamic
+  // (AbilityResolver) ults aren't expected currently, but Array.isArray guards against treating one's
+  // function arity as a template count if that ever changes.
+  const casterInfo = characters
+    .filter((char) => {
+      const ult = getBattleConfig(char.id, char.eidolon)?.abilities.ult
+      return Array.isArray(ult) && ult.length > 0
+    })
+    .map((char) => {
+      const config     = getBattleConfig(char.id, char.eidolon)
+      const maxSp      = resolveMaxEnergy(char.id, char.eidolon)
+      const threshold  = config?.ultThreshold ?? maxSp
+      // Mirrors simulateBattle's own initial-energy baseline: 50% of what's needed to cast Ult, not 50%
+      // of maxSp itself (those differ for an overflow-style cap like Saber's).
+      const energy     = energyAtPlayhead.get(char.id) ?? threshold * 0.5
+      const canCast    = energy >= threshold
+      const ultTemplates = Array.isArray(config?.abilities.ult) ? config.abilities.ult : []
+      const needTarget = ultTemplates.some((t) => 'targets' in t && t.targets === 'single_ally')
+      return { char, maxSp, threshold, energy, canCast, needTarget }
+    })
 
   const selected = casterInfo.find((c) => c.char.id === selectedCasterId)
   const availableTargets = selected
@@ -76,11 +89,16 @@ export function UltCasterPanel({ timing, insertAfterId, insertBeforeUltId, chara
             >
               <ActionOrderAvatar characterId={char.id} characterName={char.name} color={char.color} size={32} />
               <Text size='xs' fw={600} style={{ color: char.color }}>{char.name}</Text>
-              <Text size='xs' c={canCast ? 'dimmed' : 'red'}>
-                {canCast
-                  ? tAv('UltCaster.EnergyStatus', { energy: energy.toFixed(0), threshold })
-                  : tAv('UltCaster.EnergyInsufficient')}
-              </Text>
+              <div style={{ width: '100%' }}>
+                <EnergyDisplay
+                  characterId={char.id}
+                  eidolon={char.eidolon}
+                  energy={energy}
+                  maxEnergy={threshold}
+                  color={char.color}
+                  activeInterventions={activeInterventionsAtPlayhead.get(char.id)}
+                />
+              </div>
             </div>
           )
         })}

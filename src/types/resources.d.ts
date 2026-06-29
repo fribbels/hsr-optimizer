@@ -1,12 +1,21 @@
 export default interface Resources {
   "avVisualizerTab": {
     "ActionConfig": {
+      "AfterEffectsTitle": "After action",
+      "ClearBuff": "Remove {{effectId}}",
+      "DynamicNoSnapshot": "Effects depend on live state — run the simulation first to see them",
       "EffectsTitle": "Effects",
+      "EnergySetMinimum": "Raise energy to {{value}} if below it",
       "NoConfig": "No action config available",
-      "NoEffects": "No effects for this action"
+      "NoEffects": "No effects for this action",
+      "SummonCompanion": "Summon companion (no-op if already present)"
+    },
+    "ActionDisplayPanel": {
+      "EditModeLabel": "Edit Mode"
     },
     "ActionNode": {
       "Basic": "Basic Attack",
+      "BasicEnhanced": "Enhanced Basic ATK",
       "ChoiceLabel": "Action",
       "Skill": "Skill",
       "Target": "Target"
@@ -17,10 +26,54 @@ export default interface Resources {
       "AddUltHint": "Insert an ultimate at this position"
     },
     "AvLabel": "AV",
+    "BuffNames": {
+      "gilgamesh_golden_rule": "Golden Rule",
+      "gilgamesh_heros_solitude": "Hero's Solitude",
+      "gilgamesh_interest": "Interest",
+      "gilgamesh_interest_piqued": "Interest Piqued",
+      "gilgamesh_interest_spd": "Interest",
+      "gilgamesh_king_who_bowed": "King Who Bowed to None",
+      "gilgamesh_kings_acknowledgement": "King's Acknowledgement",
+      "gilgamesh_kings_burden": "King's Burden",
+      "gilgamesh_kings_contest_atk": "King's Contest",
+      "gilgamesh_kings_contest_cd": "King's Contest",
+      "gilgamesh_permission_to_strike": "I Grant You Permission To Strike",
+      "gilgamesh_permission_to_strike_ult_double": "I Grant You Permission To Strike",
+      "gilgamesh_soul_bore_friendship": "Soul That Bore Friendship",
+      "gilgamesh_witness": "He Who Saw the Deep",
+      "huohuo_e1_spd": "Possessed by a Heliobus, Evil Subduing",
+      "huohuo_e6_dmg": "Shared Fate",
+      "huohuo_qianshenyigui": "Spiritual Domination",
+      "huohuo_rangming": "Divine Provision",
+      "huohuo_zhenxiongzhiming": "The Cursed One",
+      "mimi_cheer": "Mem's Support",
+      "mimi_now_narrator": "Narrator of the Present",
+      "mimi_partner_cheer": "Friends! Together!",
+      "saber_crown_of_stars": "Crown of the Stars",
+      "saber_crown_of_stars_cd": "Crown of the Stars (Bonus Ability)",
+      "saber_dragon_reactor_core": "Dragon Reactor Core",
+      "saber_e1_lost_white_walls": "The Lost White Walls",
+      "saber_e2_round_table": "The Lost Oath of the Round Table",
+      "saber_e4_sixteen_winters": "The Saga of Sixteen Winter Days",
+      "saber_e6_long_fated_night": "The Long Fated Night",
+      "saber_e6_long_fated_night_energy": "The Long Fated Night (Energy)",
+      "saber_enhanced_basic_marker": "Enhanced Basic ATK Marker",
+      "saber_king_of_knights": "Behold, the King of Knights",
+      "saber_knight_of_dragon": "Knight of the Dragon",
+      "saber_mana_burst": "Mana Burst",
+      "saber_reactor_core": "Reactor Core",
+      "trailblazer_remembrance_e6": "Bearer of the Revelation",
+      "trailblazer_remembrance_epic": "Epic"
+    },
     "CharacterSlot": {
+      "EditErr": "Edit ERR",
       "EditSpd": "Edit SPD",
       "EmptySlot": "Slot {{n}}",
+      "ErrDisplay": "ERR {{value}}%",
+      "ErrPlaceholder": "ERR",
       "NoValue": "—",
+      "ResetEidolon": "Reset Eidolon",
+      "ResetErr": "Reset ERR",
       "ResetSpd": "Reset SPD",
       "SpdDisplay": "SPD {{value}}",
       "SpdPlaceholder": "SPD"
@@ -30,8 +83,32 @@ export default interface Resources {
       "NoBuffs": "No active buffs",
       "SpeedLabel": "SPD {{value}}"
     },
+    "EffectStatNames": {
+      "BOOST": "DMG Boost",
+      "BREAK_EFFICIENCY_BOOST": "Break Efficiency",
+      "DEF_PEN": "DEF PEN",
+      "RES_PEN": "RES PEN",
+      "TRUE_DMG": "True DMG",
+      "ULT_CD_BOOST": "Ult CRIT DMG Boost",
+      "ULT_DMG_BOOST": "Ult DMG Boost",
+      "ULT_DMG_MULTIPLIER": "Ult DMG Multiplier",
+      "WIND_RES_PEN": "Wind RES PEN"
+    },
+    "GlobalActions": {
+      "Export": "Export session",
+      "Import": "Import session",
+      "ImportError": "Invalid session file",
+      "ImportSuccess": "Session imported",
+      "Reset": "Reset",
+      "ResetCancel": "Cancel",
+      "ResetConfirmBody": "This clears every added intervention, action override, and ult insertion, back to right after picking characters. Character picks, SPD/ERR/eidolon, and row settings are unaffected — this can't be undone.",
+      "ResetConfirmTitle": "Reset timeline?",
+      "ResetSuccess": "Reset",
+      "Title": "Global Actions"
+    },
     "Marker": {
       "ActionTooltip": "{{name}}  SPD {{spd}}  AV {{av}}",
+      "ExtraTooltip": "{{name}} Extra Attack  AV {{av}}",
       "InterventionTooltip": "AV {{av}} · {{count}} interventions",
       "UltTooltip": "{{name}} Ultimate  AV {{av}}"
     },
@@ -41,6 +118,9 @@ export default interface Resources {
       "Duration": "Duration (turns)",
       "EffectType": "Effect Type",
       "EmptyHint": "Select where to add or what to edit",
+      "EnergyMode": "Energy Mode",
+      "EnergyModeFixed": "Fixed (ignores ERR)",
+      "EnergyModeNormal": "Normal (scales with ERR)",
       "FormTitleAfter": "New · after {{name}}{{turnSuffix}}'s action",
       "FormTitleBefore": "New · during {{name}}{{turnSuffix}}'s action",
       "FormTitleEdit": "Edit Intervention",
@@ -84,7 +164,6 @@ export default interface Resources {
     },
     "UltCaster": {
       "Confirm": "Insert",
-      "EnergyInsufficient": "Insufficient energy",
       "EnergyStatus": "{{energy}} / {{threshold}}",
       "NeedTarget": "Select target",
       "NoAnchor": "Select next to a character action first",
@@ -5066,6 +5145,9 @@ export default interface Resources {
       "8010": {
         "LongName": "Stelle (Elation)",
         "Name": "Stelle"
+      },
+      "trailblazer_remembrance_mimi": {
+        "Name": "Mimi"
       }
     },
     "Elements": {

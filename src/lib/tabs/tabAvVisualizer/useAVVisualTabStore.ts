@@ -7,6 +7,14 @@ import { uuid } from 'lib/utils/miscUtils'
 export type Slot = {
   characterId: string | null
   spdOverride: number | null
+  // Energy Regeneration Rate override, stored as a bonus fraction (e.g. 0.185 for +18.5%), matching
+  // the convention finalStats[Stats.ERR] uses elsewhere in the app. null/undefined = use the computed
+  // value — optional (unlike spdOverride) because it was added after `slots` already existed, so saves
+  // written before this point won't have it; consumers should treat undefined the same as null.
+  errOverride?: number | null
+  // Eidolon level override (0-6); same backward-compat reasoning as errOverride — added later, so
+  // optional, and consumers should treat undefined the same as null (use the character's real Eidolon).
+  eidolonOverride?: number | null
 }
 
 // The part that persists across sessions (written to localStorage with the global save), see saveState.ts /
@@ -33,6 +41,10 @@ interface AVVisualTabStateActions {
   setSlotCharacter: (slotIndex: number, characterId: string | null) => void
   setSlotSpdOverride: (slotIndex: number, spd: number) => void
   resetSlotSpdOverride: (slotIndex: number) => void
+  setSlotErrOverride: (slotIndex: number, err: number) => void
+  resetSlotErrOverride: (slotIndex: number) => void
+  setSlotEidolonOverride: (slotIndex: number, eidolon: number) => void
+  resetSlotEidolonOverride: (slotIndex: number) => void
   setSavedSession: (session: Partial<AVVisualizerTabSavedSession>) => void
   addRow: () => void
   addIntervention: (iv: Omit<Intervention, 'id'>) => void
@@ -55,7 +67,7 @@ type AVVisualTabState = AVVisualTabStateValues & AVVisualTabStateActions
 
 // ---- Default state ----
 
-const emptySlot = (): Slot => ({ characterId: null, spdOverride: null })
+const emptySlot = (): Slot => ({ characterId: null, spdOverride: null, errOverride: null })
 
 const defaultState: AVVisualTabStateValues = {
   savedSession: {
@@ -85,7 +97,9 @@ const useAVVisualTabStore = createTabAwareStore<AVVisualTabState>((set) => ({
     set((s) => ({
       savedSession: {
         ...s.savedSession,
-        slots: updateSlot(s.savedSession.slots, slotIndex, { characterId, spdOverride: null }),
+        slots: updateSlot(s.savedSession.slots, slotIndex, {
+          characterId, spdOverride: null, errOverride: null, eidolonOverride: null,
+        }),
       },
     }))
   },
@@ -104,6 +118,42 @@ const useAVVisualTabStore = createTabAwareStore<AVVisualTabState>((set) => ({
       savedSession: {
         ...s.savedSession,
         slots: updateSlot(s.savedSession.slots, slotIndex, { spdOverride: null }),
+      },
+    }))
+  },
+
+  setSlotErrOverride: (slotIndex, err) => {
+    set((s) => ({
+      savedSession: {
+        ...s.savedSession,
+        slots: updateSlot(s.savedSession.slots, slotIndex, { errOverride: err }),
+      },
+    }))
+  },
+
+  resetSlotErrOverride: (slotIndex) => {
+    set((s) => ({
+      savedSession: {
+        ...s.savedSession,
+        slots: updateSlot(s.savedSession.slots, slotIndex, { errOverride: null }),
+      },
+    }))
+  },
+
+  setSlotEidolonOverride: (slotIndex, eidolon) => {
+    set((s) => ({
+      savedSession: {
+        ...s.savedSession,
+        slots: updateSlot(s.savedSession.slots, slotIndex, { eidolonOverride: eidolon }),
+      },
+    }))
+  },
+
+  resetSlotEidolonOverride: (slotIndex) => {
+    set((s) => ({
+      savedSession: {
+        ...s.savedSession,
+        slots: updateSlot(s.savedSession.slots, slotIndex, { eidolonOverride: null }),
       },
     }))
   },

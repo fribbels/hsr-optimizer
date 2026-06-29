@@ -180,11 +180,12 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
     if (saveData.savedSession.avVisualizerTab) { // Set AV visualizer tab state
       const session = saveData.savedSession.avVisualizerTab
-      // If a character has been deleted, clear its slot to avoid referencing a non-existent character
+      // If a character has been deleted, clear its slot to avoid referencing a non-existent character.
+      // errOverride/eidolonOverride default to null for saves written before those fields existed.
       const sanitizedSlots = session.slots.map((slot) =>
         slot.characterId && !dbCharacters[slot.characterId as CharacterId]
-          ? { ...slot, characterId: null, spdOverride: null }
-          : slot
+          ? { ...slot, characterId: null, spdOverride: null, errOverride: null, eidolonOverride: null }
+          : { ...slot, errOverride: slot.errOverride ?? null, eidolonOverride: slot.eidolonOverride ?? null }
       ) as typeof session.slots
       // interventions/rowCount/mocFirstRow were added after slots, so saves from before that point won't have
       // them — fall back to sensible defaults rather than leaving them undefined

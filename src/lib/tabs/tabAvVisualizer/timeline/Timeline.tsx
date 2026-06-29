@@ -12,6 +12,7 @@ export type EnrichedSimEvent = BattleEvent & {
   color: string
   characterName: string
   slotIndex: number
+  entityType: BattleEntity['type']
   currentTargets?: string[]   // Selected single_ally targets for this action's override (if any)
 }
 
@@ -22,12 +23,22 @@ type TimelineProps = {
   interventions: Intervention[]
   rowCount: number
   simEvents: EnrichedSimEvent[]
+  // Whether any selected character has a companion at all (memosprite/summon/marker), regardless of
+  // whether it's been summoned yet — a structural fact from the team composition, not derived from
+  // simEvents, so the lane reserves space on every row from the start instead of only once a companion's
+  // first event actually appears (which would otherwise shift the layout the moment one is summoned).
+  hasCompanions: boolean
 }
 
-export function Timeline({ interventions, rowCount, simEvents }: TimelineProps) {
+export function Timeline({ interventions, rowCount, simEvents, hasCompanions }: TimelineProps) {
   const { t: tAv } = useTranslation('avVisualizerTab')
   const mocFirstRow = useAVVisualTabStore((s) => s.savedSession.mocFirstRow)
   const playheadAv = useAVVisualTabStore((s) => s.playheadAv)
+
+  // memosprite/summon/marker entities don't fit into the 4-slot character avatar stack — they're
+  // rendered in a separate companion lane within each row instead (see TimelineRow).
+  const characterEvents = simEvents.filter((e) => e.entityType === 'character')
+  const companionEvents = simEvents.filter((e) => e.entityType !== 'character')
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%' }}>
@@ -40,7 +51,8 @@ export function Timeline({ interventions, rowCount, simEvents }: TimelineProps) 
             key={i}
             rowStart={rowStart}
             rowSize={rowSize}
-            simEvents={simEvents.filter((e) => e.av >= rowStart && e.av < rowEnd)}
+            simEvents={characterEvents.filter((e) => e.av >= rowStart && e.av < rowEnd)}
+            companionEvents={hasCompanions ? companionEvents.filter((e) => e.av >= rowStart && e.av < rowEnd) : undefined}
             interventions={interventions.filter((iv) => iv.triggerAv >= rowStart && iv.triggerAv < rowEnd)}
             onSeek={AvVisualTabController.setPlayheadAv}
             playheadAv={playheadAv}

@@ -9,6 +9,9 @@ Units:
 TurnSuffix: ' 第{{n}}次'
 AvLabel: AV
 
+ActionDisplayPanel:
+  EditModeLabel: 编辑模式
+
 Sidebar:
   Title: 干预列表
   ClearAll: 清除全部
@@ -21,9 +24,29 @@ Timeline:
   AddRow: 添加 100 AV
   MocToggle: 混沌回忆 (150)
 
+GlobalActions:
+  Title: 全局操作
+  Export: 导出会话
+  Import: 导入会话
+  ImportSuccess: 导入成功
+  ImportError: 文件格式不对
+  Reset: 重置
+  ResetCancel: 取消
+  ResetConfirmTitle: 确认重置？
+  ResetConfirmBody: 将清空所有已添加的干预、行动覆盖和大招插入，恢复到刚选完角色的状态。角色选择、SPD/ERR/星魂、行数设置不受影响，且无法撤销。
+  ResetSuccess: 已重置
+
 Marker:
   ActionTooltip: '{{name}}  SPD {{spd}}  AV {{av}}'
   InterventionTooltip: 'AV {{av}} · {{count}} 条干预'
+  ExtraTooltip: '{{name}} 追加攻击  AV {{av}}'
+
+ActionNode:
+  Basic: 普攻
+  BasicEnhanced: 强化普攻
+  Skill: 战技
+  Target: 目标
+  ChoiceLabel: 行动
 
 Panel:
   EmptyHint: 请选定要添加的位置或者要编辑的内容
@@ -36,9 +59,22 @@ Panel:
   TargetsPlaceholder: 选择角色
   Value: 数值
   Duration: 持续回合数
+  EnergyMode: 能量回复方式
+  EnergyModeNormal: 正常回复(吃 ERR 加成)
+  EnergyModeFixed: 固定回复(不吃 ERR 加成)
   Cancel: 取消
   Add: 添加
   Save: 保存
+
+ActionConfig:
+  EffectsTitle: 效果
+  NoEffects: 这次行动没有效果
+  NoConfig: 没有可用的行动配置
+  SummonCompanion: 召唤忆灵(已存在则无效果)
+  EnergySetMinimum: '能量低于 {{value}} 则补到 {{value}}'
+  ClearBuff: '移除 {{effectId}}'
+  AfterEffectsTitle: 行动后
+  DynamicNoSnapshot: 效果取决于实时状态，需要先运行模拟才能查看
 
 CharacterSlot:
   EmptySlot: '位置 {{n}}'
@@ -47,3 +83,58 @@ CharacterSlot:
   ResetSpd: 重置 SPD
   SpdDisplay: 'SPD {{value}}'
   NoValue: '—'
+  ErrPlaceholder: 能量恢复效率
+  EditErr: 编辑能量恢复效率
+  ResetErr: 重置能量恢复效率
+  ErrDisplay: '能量恢复 {{value}}%'
+  ResetEidolon: 重置星魂
+
+BuffNames:
+  huohuo_rangming: 禳命
+  huohuo_qianshenyigui: 遣神役鬼
+  huohuo_zhenxiongzhiming: 贞凶之命
+  huohuo_e1_spd: 岁阳寄体，妖邪依凭
+  huohuo_e6_dmg: 同休共戚，相须而行
+  trailblazer_remembrance_epic: 史诗
+  mimi_partner_cheer: 伙伴！一起！
+  mimi_cheer: 迷迷的声援
+  mimi_now_narrator: 现在的记叙者
+  trailblazer_remembrance_e6: 神启的转呈者
+  saber_reactor_core: 炉心共鸣
+  saber_dragon_reactor_core: 龙之炉心
+  saber_king_of_knights: 骑士王的登场
+  saber_knight_of_dragon: 龙之骑士
+  saber_mana_burst: 魔力放出
+  saber_crown_of_stars: 星之冠冕
+  saber_crown_of_stars_cd: 星之冠冕(暴击伤害)
+  saber_e1_lost_white_walls: 失落的白垩坚城
+  saber_e2_round_table: 尘封的圆桌誓言
+  saber_e4_sixteen_winters: 十六个冬日的奇遇
+  saber_e6_long_fated_night: 守护命运长夜
+  saber_e6_long_fated_night_energy: 守护命运长夜(能量)
+  saber_enhanced_basic_marker: 普通攻击强化
+  gilgamesh_kings_acknowledgement: 王来承认
+  gilgamesh_kings_burden: 王来背负
+  gilgamesh_witness: 见证一切之人
+  gilgamesh_interest: 兴致
+  gilgamesh_interest_spd: 兴致
+  gilgamesh_interest_piqued: 来兴致了
+  gilgamesh_heros_solitude: 英雄的孤傲
+  gilgamesh_permission_to_strike: 本王允许你进攻
+  gilgamesh_permission_to_strike_ult_double: 本王允许你进攻_大招伤害翻倍
+  gilgamesh_kings_contest_atk: 王霸的竞逐_攻击
+  gilgamesh_kings_contest_cd: 王霸的竞逐_暴伤
+  gilgamesh_king_who_bowed: 唯我独尊之王
+  gilgamesh_soul_bore_friendship: 挚友淬锻之魂
+  gilgamesh_golden_rule: 黄金律
+
+EffectStatNames:
+  BOOST: 增伤
+  BREAK_EFFICIENCY_BOOST: 击破效率
+  RES_PEN: 抗性穿透
+  DEF_PEN: 无视防御
+  WIND_RES_PEN: 风属性抗性穿透
+  TRUE_DMG: 真实伤害
+  ULT_DMG_BOOST: 终结技伤害提高
+  ULT_CD_BOOST: 终结技暴击伤害提高
+  ULT_DMG_MULTIPLIER: 终结技伤害倍率

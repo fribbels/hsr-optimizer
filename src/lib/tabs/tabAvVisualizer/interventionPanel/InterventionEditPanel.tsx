@@ -28,11 +28,18 @@ export function InterventionEditPanel({ request, playheadAv, characters, onDone 
     { label: tAv('Units.Percent'), value: 'percent' },
   ]
 
+  const ENERGY_MODE_OPTIONS = [
+    { label: tAv('Panel.EnergyModeNormal'), value: 'normal' },
+    { label: tAv('Panel.EnergyModeFixed'), value: 'fixed' },
+  ]
+
   const [formType, setFormType] = useState<InterventionType>('spd_up')
   const [formTargets, setFormTargets] = useState<string[]>([])
   const [formValue, setFormValue] = useState(0)
   const [formUnit, setFormUnit] = useState<InterventionUnit>('flat')
   const [formDuration, setFormDuration] = useState(1)
+  // Only meaningful for energy_gain/energy_loss: whether this restoration scales with the target's ERR
+  const [formScalesWithErr, setFormScalesWithErr] = useState(true)
 
   // (Re)initialize the form fields whenever a new request comes in
   useEffect(() => {
@@ -44,12 +51,14 @@ export function InterventionEditPanel({ request, playheadAv, characters, onDone 
       setFormValue(iv.value)
       setFormUnit(iv.unit)
       setFormDuration(iv.durationTurns)
+      setFormScalesWithErr(iv.scalesWithErr ?? true)
     } else {
       setFormType('spd_up')
       setFormTargets([])
       setFormValue(0)
       setFormUnit('flat')
       setFormDuration(1)
+      setFormScalesWithErr(true)
     }
   }, [request])
 
@@ -70,6 +79,7 @@ export function InterventionEditPanel({ request, playheadAv, characters, onDone 
 
   const isInstantType = formType === 'av_advance' || formType === 'av_delay'
     || formType === 'energy_gain' || formType === 'energy_loss'
+  const isEnergyType = formType === 'energy_gain' || formType === 'energy_loss'
   const targetOptions = characters.map((c) => ({ label: c.name, value: c.id }))
 
   function handleTypeChange(newType: string) {
@@ -87,9 +97,10 @@ export function InterventionEditPanel({ request, playheadAv, characters, onDone 
   function handleSubmit() {
     if (formTargets.length === 0 || formValue <= 0) return
     const durationTurns = isInstantType ? 0 : formDuration
+    const scalesWithErr = isEnergyType ? formScalesWithErr : undefined
     if (req.mode === 'edit') {
       AvVisualTabController.updateIntervention(req.intervention.id, {
-        type: formType, targets: formTargets, value: formValue, unit: formUnit, durationTurns,
+        type: formType, targets: formTargets, value: formValue, unit: formUnit, durationTurns, scalesWithErr,
       })
     } else {
       AvVisualTabController.addIntervention({
@@ -98,7 +109,7 @@ export function InterventionEditPanel({ request, playheadAv, characters, onDone 
         afterActionIndex: req.afterActionIndex,
         beforeCharId: req.beforeCharId,
         beforeActionIndex: req.beforeActionIndex,
-        type: formType, targets: formTargets, value: formValue, unit: formUnit, durationTurns,
+        type: formType, targets: formTargets, value: formValue, unit: formUnit, durationTurns, scalesWithErr,
       })
     }
     onDone()
@@ -161,6 +172,19 @@ export function InterventionEditPanel({ request, playheadAv, characters, onDone 
               style={{ alignSelf: 'flex-end' }}
             />
           </div>
+
+          {isEnergyType && (
+            <div>
+              <Text size='xs' fw={500} mb={4}>{tAv('Panel.EnergyMode')}</Text>
+              <SegmentedControl
+                fullWidth
+                size='xs'
+                data={ENERGY_MODE_OPTIONS}
+                value={formScalesWithErr ? 'normal' : 'fixed'}
+                onChange={(v) => setFormScalesWithErr(v === 'normal')}
+              />
+            </div>
+          )}
 
           {!isInstantType && (
             <NumberInput

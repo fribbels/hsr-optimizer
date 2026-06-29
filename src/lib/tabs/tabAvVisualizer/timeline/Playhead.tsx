@@ -4,6 +4,11 @@ type PlayheadProps = {
   av: number
   rowStart: number
   rowSize: number
+  // Rendered inside the ruler (a fixed-height band within the row), but the row itself can be taller
+  // than that band when companion avatars need extra stacking levels above/below — these let the line
+  // span the row's actual full height instead of stopping at the ruler's fixed bounds.
+  topOffset: number
+  totalHeight: number
 }
 
 const PLAYHEAD_COLOR = '#ff4d4f'
@@ -11,7 +16,7 @@ const HANDLE_SIZE = 10
 
 // The persistent scrubber line (à la video-editing software). Purely presentational — drag/click/keyboard
 // handling that updates the underlying AV lives in TimelineRow / AvVisualizerTab.
-export function Playhead({ av, rowStart, rowSize }: PlayheadProps) {
+export function Playhead({ av, rowStart, rowSize, topOffset, totalHeight }: PlayheadProps) {
   const leftPercent = AvVisualTabController.avToRowPercent(av, rowStart, rowSize)
 
   return (
@@ -19,8 +24,8 @@ export function Playhead({ av, rowStart, rowSize }: PlayheadProps) {
       style={{
         position: 'absolute',
         left: `${leftPercent}%`,
-        top: 0,
-        bottom: 0,
+        top: -topOffset,
+        height: totalHeight,
         width: 0,
         transform: 'translateX(-50%)',
         zIndex: 15,

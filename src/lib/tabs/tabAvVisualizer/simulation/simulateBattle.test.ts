@@ -14,7 +14,7 @@ function sim(...args: Parameters<typeof simulateBattle>) {
 // ---- Helpers ----
 
 function makeEntity(id: string, spd: number): BattleEntity {
-  return { id, type: 'character', name: id, baseSpd: spd, spd, color: '#fff', slotIndex: 0 }
+  return { id, type: 'character', name: id, baseSpd: spd, spd, err: 0, eidolon: 0, color: '#fff', slotIndex: 0 }
 }
 
 function makeOverride(
@@ -222,16 +222,20 @@ describe('simulateBattle — Sparkle skill av_advance', () => {
 // ---- Summon entities are excluded from the queue ----
 
 describe('simulateBattle — entity type filtering', () => {
-  it('summon entities are ignored in the AV queue', () => {
+  it('summon entities get their own timeline turns but never act (no energy, no ability templates)', () => {
     const char = makeEntity('A', 100)
-    const summon: BattleEntity = { id: 'S', type: 'summon', ownerId: 'A', name: 'Summon', baseSpd: 60, spd: 60, color: '#fff', slotIndex: 0 }
+    const summon: BattleEntity = { id: 'S', type: 'summon', ownerId: 'A', name: 'Summon', baseSpd: 60, spd: 60, err: 0, eidolon: 0, color: '#fff', slotIndex: 0 }
 
     const withSummon = sim([char, summon], [], [], [], 250)
     const withoutSummon = sim([char], [], [], [], 250)
 
-    // Only character actions should appear
-    expect(withSummon.every((e) => e.characterId === 'A')).toBe(true)
-    expect(withSummon.map((e) => e.av)).toEqual(withoutSummon.map((e) => e.av))
+    // The character's own action AVs are unaffected by the summon's mere presence
+    expect(withSummon.filter((e) => e.characterId === 'A').map((e) => e.av))
+      .toEqual(withoutSummon.map((e) => e.av))
+    // But the summon now occupies its own turns on the timeline, at its own speed
+    const summonEvents = withSummon.filter((e) => e.characterId === 'S')
+    expect(summonEvents.length).toBeGreaterThan(0)
+    expect(summonEvents[0].stateBefore).toEqual({})
   })
 })
 
@@ -269,14 +273,15 @@ describe('simulateBattle — energy tracking', () => {
     expect(after).toBeCloseTo(before + 20, 5)
   })
 
-  it('Huohuo basic gains 20 flat energy on self', () => {
-    // Huohuo basic: energy_gain self 20 flat
+  it('Huohuo basic gains 20 flat energy on self, plus 2 from her own Rangming talent listener', () => {
+    // Huohuo basic: energy_gain self 20 flat. She also starts the battle with Rangming (onBattleStart),
+    // so her own action also triggers her talent's "any ally action restores 2 energy" globalListener.
     const huohuo = makeEntity(HUOHUO_ID, 134)
     const events = sim([huohuo], [], [], [], 200)
     const first = events[0]!
     const before = first.stateBefore[HUOHUO_ID].energy
     const after  = first.stateAfter[HUOHUO_ID].energy
-    expect(after).toBeCloseTo(before + 20, 5)
+    expect(after).toBeCloseTo(before + 22, 5)
   })
 
   it('energy_gain percent: delta = maxEnergy × value / 100', () => {
@@ -456,10 +461,13 @@ describe('simulateBattle — ult insertion', () => {
     const ultEvent = results.find((e) => e.turnKind === 'ult')!
     const before = ultEvent.stateBefore[HUOHUO_ID].energy
     const after  = ultEvent.stateAfter[HUOHUO_ID].energy
-    // Huohuo ult (no special config): threshold=cost=140; template gives all_allies +20% of max_sp = 28
-    // Flow: 140 - 140 (cost) + 28 (template gain on self) = 28
-    expect(before).toBeCloseTo(HUOHUO_MAX_SP, 5)          // energy was exactly full before ult
-    expect(after).toBeCloseTo(HUOHUO_MAX_SP * 0.2, 4)     // 28 — the ult template self-gain is the only remainder
+    // Huohuo ult: threshold=cost=140; the 20% max-energy restore targets all_allies_except_self (she
+    // doesn't get it), and her talent's globalListener fires BEFORE the cost deduction — at that point
+    // she's still capped at maxEnergy, so the self-triggered +2 is absorbed by the cap and never
+    // survives into the post-cost total. Only her own template (+5 flat self) actually lands.
+    // Flow: 140 - 140 (cost) + 5 = 5
+    expect(before).toBeCloseTo(HUOHUO_MAX_SP, 5)   // energy was exactly full before ult
+    expect(after).toBeCloseTo(5, 4)
   })
 
   it('ult with insufficient energy is silently skipped — no ult BattleEvent produced', () => {
@@ -551,6 +559,7 @@ describe('simulateBattle — buff tracking', () => {
     delta: number,
     durationTurns: number,
     buffKind: 'direct' | 'aura' = 'direct',
+    effectId?: string,
   ): Intervention {
     return {
       id,
@@ -563,6 +572,7 @@ describe('simulateBattle — buff tracking', () => {
       unit: 'flat',
       durationTurns,
       buffKind,
+      effectId,
     }
   }
 
@@ -573,6 +583,7 @@ describe('simulateBattle — buff tracking', () => {
     afterActionIndex: number,
     triggerAv: number,
     durationTurns: number,
+    effectId?: string,
   ): Intervention {
     return {
       id,
@@ -586,6 +597,7 @@ describe('simulateBattle — buff tracking', () => {
       unit: 'percent',
       durationTurns,
       buffKind: 'direct',
+      effectId,
     }
   }
 
@@ -596,7 +608,9 @@ describe('simulateBattle — buff tracking', () => {
 
   it('direct spd_up buff appears in stateAfter.activeInterventions with correct remainingTurns', () => {
     const A = makeEntity('A', 100)
-    // Applied after A's action 0; durationTurns=2 → immediate tick (remainingAv > 0) → displayRemaining=1
+    // Applied after A's action 0; default tickPhase is 'end', and a buff granted by this very turn's own
+    // after-action effect doesn't get docked a turn by this same turn's end tick — full durationTurns=2
+    // shows in stateAfter, only starting to count down from the *next* turn's end.
     const iv = makeSpdIv('spd1', 'A', 'A', 0, A_AV0, 20, 2)
     const result = simulateBattle([A], [iv], [], [], 500)
     const action0 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 0)!
@@ -604,13 +618,13 @@ describe('simulateBattle — buff tracking', () => {
     // stateBefore: no buff yet
     expect(action0.stateBefore['A'].activeInterventions).toHaveLength(0)
 
-    // stateAfter: buff registered with remainingTurns = durationTurns - 1 (immediate tick)
+    // stateAfter: buff registered at the full nominal duration (no same-turn immediate tick)
     const buffsAfter = action0.stateAfter['A'].activeInterventions
     expect(buffsAfter).toHaveLength(1)
     expect(buffsAfter[0].id).toBe('spd1')
     expect(buffsAfter[0].type).toBe('spd_up')
     expect(buffsAfter[0].buffKind).toBe('direct')
-    expect(buffsAfter[0].remainingTurns).toBe(1)
+    expect(buffsAfter[0].remainingTurns).toBe(2)
   })
 
   it('direct spd_up buff remainingTurns decrements on target actions and disappears on expiry', () => {
@@ -621,15 +635,17 @@ describe('simulateBattle — buff tracking', () => {
     const action1 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 1)!
     const action2 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 2)!
 
-    // action 1 stateBefore: buff at remainingTurns=1 (applied + immediate tick during action 0)
+    // action 1 stateBefore: still the full 2 (granting turn's own end-tick didn't touch it)
     expect(action1.stateBefore['A'].activeInterventions).toHaveLength(1)
-    expect(action1.stateBefore['A'].activeInterventions[0].remainingTurns).toBe(1)
+    expect(action1.stateBefore['A'].activeInterventions[0].remainingTurns).toBe(2)
 
-    // action 1 stateAfter: buff ticked to 0 and removed
-    expect(action1.stateAfter['A'].activeInterventions).toHaveLength(0)
+    // action 1 stateAfter: ticked once at the end of this (now pre-existing) turn -> 1, still active
+    expect(action1.stateAfter['A'].activeInterventions).toHaveLength(1)
+    expect(action1.stateAfter['A'].activeInterventions[0].remainingTurns).toBe(1)
 
-    // action 2: buff is gone entirely
-    expect(action2.stateBefore['A'].activeInterventions).toHaveLength(0)
+    // action 2: still active entering the turn (1), gone once this turn's own end-tick runs
+    expect(action2.stateBefore['A'].activeInterventions).toHaveLength(1)
+    expect(action2.stateBefore['A'].activeInterventions[0].remainingTurns).toBe(1)
     expect(action2.stateAfter['A'].activeInterventions).toHaveLength(0)
   })
 
@@ -639,13 +655,16 @@ describe('simulateBattle — buff tracking', () => {
     const result = simulateBattle([A], [iv], [], [], 500)
     const action0 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 0)!
     const action1 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 1)!
+    const action2 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 2)!
 
     // stateAfter of action 0 shows buffed speed
     expect(action0.stateAfter['A'].spd).toBeCloseTo(130, 2)
-    // stateBefore of action 1 also reflects buffed speed
+    // Still buffed through action 1 entirely (only ticks 2 -> 1 at its own end, not yet expired)
     expect(action1.stateBefore['A'].spd).toBeCloseTo(130, 2)
-    // stateAfter of action 1: buff expired after tick, speed reverts
-    expect(action1.stateAfter['A'].spd).toBeCloseTo(100, 2)
+    expect(action1.stateAfter['A'].spd).toBeCloseTo(130, 2)
+    // action 2: still buffed entering the turn, expires (1 -> 0) at this turn's own end -> speed reverts
+    expect(action2.stateBefore['A'].spd).toBeCloseTo(130, 2)
+    expect(action2.stateAfter['A'].spd).toBeCloseTo(100, 2)
   })
 
   it('snapshot isolation: captured stateAfter activeInterventions not mutated by later ticks', () => {
@@ -655,10 +674,11 @@ describe('simulateBattle — buff tracking', () => {
     const action0 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 0)!
     const action1 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 1)!
 
-    // action 0 stateAfter captured remainingTurns=1; action 1 tick must NOT retroactively change it
-    expect(action0.stateAfter['A'].activeInterventions[0].remainingTurns).toBe(1)
-    // action 1 stateAfter is a separate array — buff is gone there
-    expect(action1.stateAfter['A'].activeInterventions).toHaveLength(0)
+    // action 0 stateAfter captured remainingTurns=2; action 1's own end-tick (2 -> 1) must NOT
+    // retroactively change it
+    expect(action0.stateAfter['A'].activeInterventions[0].remainingTurns).toBe(2)
+    // action 1 stateAfter is a separate array — reflects its own tick (1), not action 0's
+    expect(action1.stateAfter['A'].activeInterventions[0].remainingTurns).toBe(1)
   })
 
   it('stat_buff direct appears in stateAfter, does not change AV sequence or spd', () => {
@@ -699,7 +719,7 @@ describe('simulateBattle — buff tracking', () => {
     expect(action2.stateAfter['A'].activeInterventions.find((b) => b.id === 'stat2')).toBeUndefined()
   })
 
-  it('spd_up aura appears on caster activeInterventions and boosts target spd', () => {
+  it('spd_up aura appears on caster activeInterventions, and is mirrored (display-only) onto the target', () => {
     // C (caster, SPD=50) emits aura on T (target, SPD=100) after C's action 0 at AV=200
     const C = makeEntity('C', 50)
     const T = makeEntity('T', 100)
@@ -707,12 +727,14 @@ describe('simulateBattle — buff tracking', () => {
     const result = simulateBattle([C, T], [auraIv], [], [], 600)
     const cAction0 = result.events.find((e) => e.characterId === 'C' && e.actionIndex === 0)!
 
-    // Aura entry is on caster C's activeInterventions
+    // Master entry is on caster C's activeInterventions, with the real countdown
     const cBuffs = cAction0.stateAfter['C'].activeInterventions
     expect(cBuffs.some((b) => b.id === 'aura1' && b.buffKind === 'aura')).toBe(true)
 
-    // T's activeInterventions: aura buffs stored on caster, not on target
-    expect(cAction0.stateAfter['T'].activeInterventions).toHaveLength(0)
+    // T gets a mirrored entry (same id, sourced from C) purely so T's own panel can show the buff —
+    // its remainingTurns is a sentinel (not ticked independently of the master)
+    const tBuffs = cAction0.stateAfter['T'].activeInterventions
+    expect(tBuffs.some((b) => b.id === 'aura1' && b.buffKind === 'aura' && b.sourceCharacterId === 'C')).toBe(true)
 
     // But T's effective speed is boosted (+50)
     expect(cAction0.stateAfter['T'].spd).toBeCloseTo(150, 2)
@@ -747,17 +769,69 @@ describe('simulateBattle — buff tracking', () => {
     const withAura    = simulateBattle([C, T], [auraIv], [], [], 700)
     const withoutAura = simulateBattle([C, T], [], [], [], 700)
 
-    // T events after AV=400: aura expired, spd should be 100
+    // T events after AV=400: aura expired, spd should be 100, and the mirrored display entry is gone too
     const tAfterExpiry = withAura.events.filter((e) => e.characterId === 'T' && e.av > 400)
     expect(tAfterExpiry.length).toBeGreaterThan(0)
     for (const ev of tAfterExpiry) {
       expect(ev.stateAfter['T'].spd).toBeCloseTo(100, 2)
+      expect(ev.stateAfter['T'].activeInterventions.some((b) => b.id === 'aura3')).toBe(false)
     }
 
     // Before expiry (AV 200–400): T should be faster due to the +50 aura → more actions
     const tWithAuraPreExpiry    = withAura.events.filter((e) => e.characterId === 'T' && e.av > 200 && e.av < 400)
     const tWithoutAuraPreExpiry = withoutAura.events.filter((e) => e.characterId === 'T' && e.av > 200 && e.av < 400)
     expect(tWithAuraPreExpiry.length).toBeGreaterThanOrEqual(tWithoutAuraPreExpiry.length)
+  })
+
+  it('stat_buff with the same effectId replaces the previous instance instead of stacking', () => {
+    const A = makeEntity('A', 100)
+    // Both fired after A's action 0, same effectId — second should replace, not stack alongside, the first
+    const first  = makeStatIv('statA', 'A', 'A', 0, A_AV0, 3, 'shared_effect')
+    const second = makeStatIv('statB', 'A', 'A', 0, A_AV0, 5, 'shared_effect')
+    const result = simulateBattle([A], [first, second], [], [], 500)
+    const action0 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 0)!
+
+    const buffsAfter = action0.stateAfter['A'].activeInterventions
+    expect(buffsAfter).toHaveLength(1)
+    expect(buffsAfter[0].id).toBe('statB')
+    expect(buffsAfter[0].remainingTurns).toBe(5)
+  })
+
+  it('spd_up with the same effectId replaces the previous instance instead of stacking the speed delta', () => {
+    const A = makeEntity('A', 100)
+    const first  = makeSpdIv('spdA', 'A', 'A', 0, A_AV0, 20, 3, 'direct', 'shared_spd')
+    const second = makeSpdIv('spdB', 'A', 'A', 0, A_AV0, 50, 5, 'direct', 'shared_spd')
+    const result = simulateBattle([A], [first, second], [], [], 500)
+    const action0 = result.events.find((e) => e.characterId === 'A' && e.actionIndex === 0)!
+
+    // Only the second buff instance should remain
+    const buffsAfter = action0.stateAfter['A'].activeInterventions
+    expect(buffsAfter).toHaveLength(1)
+    expect(buffsAfter[0].id).toBe('spdB')
+
+    // Speed reflects only the second buff's +50, not a stacked +20+50=+70
+    expect(action0.stateAfter['A'].spd).toBeCloseTo(150, 2)
+  })
+
+  it('refreshing a spd_up aura with the same effectId and same delta causes no extra AV pull-in', () => {
+    // A (caster, SPD=45 — deliberately not a clean divisor of T's post-buff tick, so the refresh point
+    // doesn't coincidentally land exactly on one of T's action ticks) grants T (SPD=100) the same +50
+    // aura twice via the same effectId: once after A's action 0, again after A's action 1 — a pure
+    // "refresh", same delta both times. Since T's actual speed never changes across the refresh, it
+    // must not get an extra gauge pull-in on top of the one already applied at the first grant.
+    const A = makeEntity('A', 45)
+    const T = makeEntity('T', 100)
+    const av0 = 10000 / 45
+    const av1 = 2 * 10000 / 45
+    const firstGrant  = makeSpdIv('grant1', 'T', 'A', 0, av0, 50, 10, 'aura', 'persist_spd')
+    const secondGrant = makeSpdIv('grant2', 'T', 'A', 1, av1, 50, 10, 'aura', 'persist_spd')
+
+    const withRefresh    = simulateBattle([A, T], [firstGrant, secondGrant], [], [], 1000)
+    const withoutRefresh = simulateBattle([A, T], [firstGrant], [], [], 1000)
+
+    const tWith    = withRefresh.events.filter((e) => e.characterId === 'T' && e.av > av1).map((e) => e.av)
+    const tWithout = withoutRefresh.events.filter((e) => e.characterId === 'T' && e.av > av1).map((e) => e.av)
+    expect(tWith).toEqual(tWithout)
   })
 })
 

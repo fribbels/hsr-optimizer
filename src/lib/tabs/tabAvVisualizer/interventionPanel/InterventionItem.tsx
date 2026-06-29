@@ -1,5 +1,5 @@
 import { ActionIcon, Text } from '@mantine/core'
-import { IconArrowDown, IconArrowLeft, IconArrowRight, IconArrowUp, IconBolt, IconCircleMinus, IconCirclePlus, IconLayoutGridAdd, IconLayoutGridRemove, IconMinus, IconPencil, IconPlus, IconStar, IconTrash } from '@tabler/icons-react'
+import { IconArrowDown, IconArrowLeft, IconArrowRight, IconArrowUp, IconBolt, IconCircleMinus, IconCirclePlus, IconLayoutGridAdd, IconLayoutGridRemove, IconMinus, IconPencil, IconPlus, IconStar, IconTrash, IconTrendingUp, IconUserPlus, IconX } from '@tabler/icons-react'
 import type { Intervention, InterventionType } from 'lib/tabs/tabAvVisualizer/types'
 import type { ComponentType } from 'react'
 
@@ -9,6 +9,7 @@ type InterventionItemProps = {
   highlighted?: boolean
   onEdit: () => void
   onDelete: () => void
+  readOnly?: boolean   // observe mode: hides the edit/delete icons
 }
 
 // Type → icon + color: up/down represent speed up/down, left/right represent advance (earlier) / delay (later),
@@ -26,9 +27,14 @@ const TYPE_VISUAL: Record<InterventionType, { icon: ComponentType<{ size?: numbe
   sp_cap_down:  { icon: IconLayoutGridRemove,  color: 'var(--mantine-color-orange-6)' },
   stat_buff:    { icon: IconStar,              color: 'var(--mantine-color-violet-5)' },
   stat_debuff:  { icon: IconBolt,              color: 'var(--mantine-color-pink-5)' },
+  // Config-only — never user-addable as a manual Intervention, but Record<InterventionType, ...> needs
+  // an entry for type completeness.
+  summon_companion: { icon: IconUserPlus,      color: 'var(--mantine-color-grape-5)' },
+  energy_set_minimum: { icon: IconTrendingUp,  color: 'var(--mantine-color-yellow-7)' },
+  clear_buff:   { icon: IconX,                 color: 'var(--mantine-color-gray-5)' },
 }
 
-export function InterventionItem({ intervention, characters, highlighted, onEdit, onDelete }: InterventionItemProps) {
+export function InterventionItem({ intervention, characters, highlighted, onEdit, onDelete, readOnly }: InterventionItemProps) {
   const { icon: Icon, color } = TYPE_VISUAL[intervention.type]
   const unitStr = intervention.unit === 'percent' ? '%' : ''
   const targetStr = intervention.targets
@@ -74,12 +80,16 @@ export function InterventionItem({ intervention, characters, highlighted, onEdit
         → {targetStr}
       </Text>
 
-      <ActionIcon size='xs' variant='subtle' color='gray' onClick={onEdit}>
-        <IconPencil size={11} />
-      </ActionIcon>
-      <ActionIcon size='xs' variant='subtle' color='red' onClick={onDelete}>
-        <IconTrash size={11} />
-      </ActionIcon>
+      {!readOnly && (
+        <>
+          <ActionIcon size='xs' variant='subtle' color='gray' onClick={onEdit}>
+            <IconPencil size={11} />
+          </ActionIcon>
+          <ActionIcon size='xs' variant='subtle' color='red' onClick={onDelete}>
+            <IconTrash size={11} />
+          </ActionIcon>
+        </>
+      )}
     </div>
   )
 }

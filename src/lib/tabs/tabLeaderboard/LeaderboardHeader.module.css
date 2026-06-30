@@ -112,6 +112,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .feedHeader {
@@ -129,6 +131,35 @@
   font-size: 14px;
   grid-template-columns: 20px 1px 32px 20px 1fr 52px 42px;
   gap: 4px 7px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  mask-image: linear-gradient(to bottom, black calc(100% - 24px), transparent);
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  padding: 0 6px 16px;
+}
+
+.feedGrid::-webkit-scrollbar {
+  width: 4px;
+}
+
+.feedGrid::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.feedGrid::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 2px;
+}
+
+.feedGrid:hover {
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.feedGrid:hover::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .feedRow {

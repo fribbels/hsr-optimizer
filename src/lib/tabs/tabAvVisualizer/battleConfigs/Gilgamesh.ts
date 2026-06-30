@@ -152,8 +152,13 @@ function buildGilgameshConfig(eidolon: number): CharacterBattleConfig {
     hitCounts: { basic: 1, skill: 1, ult: 1 },
 
     onBattleStart: [
-      // 秘技: +3 Interest immediately.
+      // 秘技: +3 Interest immediately, and counts as one hit toward the shared 本王允许你进攻 (extraAttack)
+      // counter — same template shape the hit-count-driven global listener below grants per real hit.
       ...grantInterest(3),
+      {
+        type: 'stat_buff', targets: 'self', stat: PERMISSION_STAT, value: 0, unit: 'flat',
+        durationTurns: 0, effectId: PERMISSION_TO_STRIKE_ID, stackable: { maxStacks: 8 },
+      },
       // 特殊能力5/6: team-wide ATK/CD +20%, scaling with each ally's own max energy past 140.
       {
         type: 'stat_buff', targets: 'all_allies', stat: Stats.ATK_P, value: 20, unit: 'percent', durationTurns: Infinity,

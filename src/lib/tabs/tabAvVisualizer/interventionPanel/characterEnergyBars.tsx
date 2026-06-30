@@ -1,4 +1,5 @@
 import { EnergyBar, resolveMaxEnergy, type EnergyBarProps } from 'lib/tabs/tabAvVisualizer/interventionPanel/EnergyBar'
+import { GilgameshEnergyBar } from 'lib/tabs/tabAvVisualizer/interventionPanel/GilgameshEnergyBar'
 import { HuohuoEnergyBar } from 'lib/tabs/tabAvVisualizer/interventionPanel/HuohuoEnergyBar'
 import { SaberEnergyBar } from 'lib/tabs/tabAvVisualizer/interventionPanel/SaberEnergyBar'
 import type { ActiveIntervention } from 'lib/tabs/tabAvVisualizer/types'
@@ -16,8 +17,9 @@ export type CharacterEnergyBarProps = EnergyBarProps & {
 // Core conversion preview, instead of a single generic bar). Most characters have no entry here and just
 // fall through to the generic EnergyBar via EnergyDisplay below.
 const registry: Record<string, ComponentType<CharacterEnergyBarProps>> = {
-  '1014': SaberEnergyBar,     // Saber
-  '1217b1': HuohuoEnergyBar,  // Huohuo
+  '1014': SaberEnergyBar,        // Saber
+  '1217b1': HuohuoEnergyBar,     // Huohuo
+  '1509': GilgameshEnergyBar,    // Gilgamesh
 }
 
 export function getCharacterEnergyBar(characterId: string): ComponentType<CharacterEnergyBarProps> | undefined {

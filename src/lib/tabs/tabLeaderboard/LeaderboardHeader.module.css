@@ -99,7 +99,6 @@
   overflow: hidden;
   background: rgba(10, 11, 16, 0.30);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-radius: 8px;
   padding: 16px 20px;
   border: 1px solid var(--lb-divider);

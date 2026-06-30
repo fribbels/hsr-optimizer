@@ -360,7 +360,7 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_SUPPORT,
   ],
   ornamentSets: [
-    Sets.SprightlyVonwacq,
+    Sets.LushakaTheSunkenSeas,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [

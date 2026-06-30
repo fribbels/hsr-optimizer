@@ -241,7 +241,10 @@ export function createDiminishingReturns(baseLowerLimit: number, penaltyPerMain:
 }
 
 export const dpsDiminishingReturns = createDiminishingReturns(12, 2)
-export const supportDiminishingReturns = createDiminishingReturns(6, 1)
+export const supportDiminishingReturns: DiminishingReturnsFormulas = {
+  stat: createDiminishingReturnsFormula(6, 1, 0.25),
+  spd: createDiminishingReturnsFormula(6, 1, 0.25),
+}
 
 export function getDiminishingReturns(configType?: ScoringConfigType) {
   return configType != null && configType !== ScoringConfigType.DPS

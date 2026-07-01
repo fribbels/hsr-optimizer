@@ -45,7 +45,6 @@ function handleRowClick(event: TimelineEvent) {
   if (match) {
     selectLeaderboardCharacter(match.characterId, {
       configType: match.configType,
-      teamId: match.teamId,
       buildId: event.buildId,
     })
   }

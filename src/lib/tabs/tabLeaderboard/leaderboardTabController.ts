@@ -263,6 +263,7 @@ export async function initializeLeaderboardTab() {
   const sorted = [...merged].sort((a, b) => (topScores[b] ?? 0) - (topScores[a] ?? 0))
 
   useLeaderboardTabStore.setState({
+    loading: false,
     availableCharacters: merged,
     sortedCharacters: sorted,
     topScores,

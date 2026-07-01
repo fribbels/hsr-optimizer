@@ -6,7 +6,6 @@ import {
   SubStats,
 } from 'lib/constants/constants'
 import { BasicStatsArrayCore } from 'lib/optimization/basicStatsArray'
-import { calculateSetCounts } from 'lib/optimization/calculateStats'
 import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import { GlobalRegister } from 'lib/optimization/engine/config/keys'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -16,19 +15,10 @@ import type {
   DiminishingReturnsFormulas,
   SimulationFlags,
 } from 'lib/scoring/simScoringUtils'
-import {
-  OrnamentSetCount,
-  OrnamentSetToIndex,
-  RelicSetCount,
-  RelicSetToIndex,
-  type SetsOrnaments,
-  type SetsRelics,
-} from 'lib/sets/setConfigRegistry'
-import { simulateBuild } from 'lib/simulations/simulateBuild'
+import { precomputeSetState, simulateBuild } from 'lib/simulations/simulateBuild'
 import type {
   BenchmarkSimulationState,
   CachedRunStatSimulationsResult,
-  PrecomputedSetState,
   RunSimulationsParams,
   RunStatSimulationsResult,
   Simulation,
@@ -217,42 +207,7 @@ export function buildBenchmarkSimulationState(
   }
   simRelics.Head.condensedStats = headEntries
 
-  // Pre-resolve set indices
-  const usedSets = new Set([
-    RelicSetToIndex[simRelics.Head.set as SetsRelics],
-    RelicSetToIndex[simRelics.Hands.set as SetsRelics],
-    RelicSetToIndex[simRelics.Body.set as SetsRelics],
-    RelicSetToIndex[simRelics.Feet.set as SetsRelics],
-    OrnamentSetToIndex[simRelics.PlanarSphere.set as SetsOrnaments],
-    OrnamentSetToIndex[simRelics.LinkRope.set as SetsOrnaments],
-  ])
-  const unusedSets = [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
-  let unusedSetCounter = 0
-
-  const setH = RelicSetToIndex[simRelics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-  const setG = RelicSetToIndex[simRelics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-  const setB = RelicSetToIndex[simRelics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-  const setF = RelicSetToIndex[simRelics.Feet.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-  const setP = OrnamentSetToIndex[simRelics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
-  const setL = OrnamentSetToIndex[simRelics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
-
-  const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
-  const ornamentSetIndex = setP + setL * OrnamentSetCount
-  const sets = [setH, setG, setB, setF, setP, setL]
-  const setCounts = calculateSetCounts(sets)
-
-  const precomputedSets: PrecomputedSetState = {
-    setH,
-    setG,
-    setB,
-    setF,
-    setP,
-    setL,
-    relicSetIndex,
-    ornamentSetIndex,
-    sets,
-    setCounts,
-  }
+  const precomputedSets = precomputeSetState(simRelics)
 
   // Pre-compute per-substat: scale, value, key, modifier
   const substatScales: number[] = []

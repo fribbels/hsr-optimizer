@@ -217,6 +217,12 @@ const trailblazerMetadataLookup: { [key: number]: TrailblazerMetadata } = {
 
   8006: { trailblazer: 'Stelle', current_trailblazer_path: 'Harmony' },
   8005: { trailblazer: 'Caelus', current_trailblazer_path: 'Harmony' },
+
+  8007: { trailblazer: 'Caelus', current_trailblazer_path: 'Remembrance' },
+  8008: { trailblazer: 'Stelle', current_trailblazer_path: 'Remembrance' },
+
+  8009: { trailblazer: 'Caelus', current_trailblazer_path: 'Elation' },
+  8010: { trailblazer: 'Stelle', current_trailblazer_path: 'Elation' },
 }
 
 function getTrailblazerMetadata(id: number) {

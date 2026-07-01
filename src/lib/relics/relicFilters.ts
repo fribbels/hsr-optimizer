@@ -286,21 +286,17 @@ export const RelicFilters = {
   },
 
   applyMainFilter: (request: Form, relics: Relic[]) => {
-    const out: Relic[] = []
-    out.push(...relics.filter((x) => x.part == Constants.Parts.Head))
-    out.push(...relics.filter((x) => x.part == Constants.Parts.Hands))
-    out.push(...relics.filter((x) => x.part == Constants.Parts.Body).filter((x) => request.mainBody.length == 0 || request.mainBody.includes(x.main.stat)))
-    out.push(...relics.filter((x) => x.part == Constants.Parts.Feet).filter((x) => request.mainFeet.length == 0 || request.mainFeet.includes(x.main.stat)))
-    out.push(
-      ...relics.filter((x) => x.part == Constants.Parts.PlanarSphere).filter((x) =>
-        request.mainPlanarSphere.length == 0 || request.mainPlanarSphere.includes(x.main.stat)
-      ),
-    )
-    out.push(
-      ...relics.filter((x) => x.part == Constants.Parts.LinkRope).filter((x) => request.mainLinkRope.length == 0 || request.mainLinkRope.includes(x.main.stat)),
-    )
+    const mainFilters: Partial<Record<Parts, string[]>> = {
+      [Constants.Parts.Body]: request.mainBody,
+      [Constants.Parts.Feet]: request.mainFeet,
+      [Constants.Parts.PlanarSphere]: request.mainPlanarSphere,
+      [Constants.Parts.LinkRope]: request.mainLinkRope,
+    }
 
-    return out
+    return relics.filter((x) => {
+      const allowed = mainFilters[x.part]
+      return !allowed || allowed.length === 0 || allowed.includes(x.main.stat)
+    })
   },
 
   applyEnhanceFilter: (request: Form, relics: Relic[]) => {
@@ -311,14 +307,14 @@ export const RelicFilters = {
     if (request.includeEquippedRelics) return relics
 
     const characterId = request.characterId || '99999999'
-    // TODO: refactor after https://github.com/fribbels/hsr-optimizer/issues/56 is completed
-    let blacklist: string[] = []
-    getCharacters().forEach((char) => {
-      if (char.id == characterId) return
-      const equipped: string[] = Object.values(char.equipped).filter((x) => x != undefined)
-      blacklist = blacklist.concat(equipped)
-    })
-    return relics.filter((x) => !blacklist.includes(x.id))
+    const blacklist = new Set<string>()
+    for (const char of getCharacters()) {
+      if (char.id == characterId) continue
+      for (const relicId of Object.values(char.equipped)) {
+        if (relicId != undefined) blacklist.add(relicId)
+      }
+    }
+    return relics.filter((x) => !blacklist.has(x.id))
   },
 
   applyGradeFilter: (request: Form, relics: Relic[]) => {
@@ -427,14 +423,18 @@ export const RelicFilters = {
   },
 
   splitRelicsByPart: (relics: Relic[]) => {
-    return {
-      Head: relics.filter((x) => x.part == Parts.Head),
-      Hands: relics.filter((x) => x.part == Parts.Hands),
-      Body: relics.filter((x) => x.part == Parts.Body),
-      Feet: relics.filter((x) => x.part == Parts.Feet),
-      PlanarSphere: relics.filter((x) => x.part == Parts.PlanarSphere),
-      LinkRope: relics.filter((x) => x.part == Parts.LinkRope),
+    const result: RelicsByPart = {
+      Head: [],
+      Hands: [],
+      Body: [],
+      Feet: [],
+      PlanarSphere: [],
+      LinkRope: [],
     }
+    for (const relic of relics) {
+      result[relic.part].push(relic)
+    }
+    return result
   },
 
   mergePreviewSubstats: (request: Form, relics: Relic[]) => {

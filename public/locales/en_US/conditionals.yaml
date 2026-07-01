@@ -176,6 +176,8 @@ Lightcones:
       skillAtkBoost:
         text: Skill ATK boost
         content: When the wearer uses their Skill, the Effect Hit Rate for this attack increases by {{EhrBuff}}%, and ATK increases by {{AtkBuff}}%.
+      skillEhrBoost:
+        text: Skill EHR boost
   InTheNight:
     Content:
       spdScalingBuffs:

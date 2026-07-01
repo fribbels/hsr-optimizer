@@ -20,7 +20,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const { SOURCE_LC } = Source.lightCone(ThusBurnsTheDawn.id)
 
   const sValuesDefPen = [0.18, 0.225, 0.27, 0.315, 0.36]
-  const sValuesDmgBuff = [0.60, 0.78, 0.96, 1.14, 1.132]
+  const sValuesDmgBuff = [0.60, 0.78, 0.96, 1.14, 1.32]
 
   const defaults = {
     defPen: true,

@@ -57,7 +57,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'ultFuaDefShred',
       formItem: 'switch',
       text: t('Content.ultFuaDefShred.text'),
-      content: t('Content.ultFuaDefShred.content', { DefShred: precisionRound(sValuesFuaDmg[s] * 100) }),
+      content: t('Content.ultFuaDefShred.content', { DefShred: precisionRound(sValuesUltFuaDefShred[s] * 100) }),
     },
   }
 

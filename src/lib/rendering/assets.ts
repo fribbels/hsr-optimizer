@@ -51,6 +51,16 @@ export const Assets = {
 
     return getImageUrl(`/icon/property/${iconFromStatMapping[stat]}`)
   },
+  getSpIcon: (filled: boolean) => {
+    return getImageUrl(`/misc/sp/${filled ? 'SP.webp' : 'SP_empty.webp'}`)
+  },
+  // AV Visualizer timeline markers — white line-art icons, meant to sit on a colored circle background.
+  getUltIcon: () => {
+    return getImageUrl(`/misc/ULT.webp`)
+  },
+  getExtraAttackIcon: () => {
+    return getImageUrl(`/misc/FUA.webp`)
+  },
   getCharacterPortraitById: (id: string) => {
     if (!id) {
       console.warn('No id found')

@@ -1,0 +1,194 @@
+Types:
+  SpdUp: Speed Up
+  SpdDown: Speed Down
+  AvAdvance: Advance
+  AvDelay: Delay
+  EnergyGain: Energy Gain
+  EnergyLoss: Energy Loss
+  StatBuff: Stat Buff
+  StatDebuff: Stat Debuff
+Units:
+  Flat: Flat
+  Percent: Percent
+TurnSuffix: ' (turn {{n}})'
+AvLabel: AV
+
+ActionDisplayPanel:
+  EditModeLabel: Edit Mode
+
+Sidebar:
+  Title: Intervention List
+  ClearAll: Clear All
+  EmptyHint: Click the timeline to add an intervention
+  TimingAfter: after action
+  TimingBefore: during action
+  DurationSuffix: ' ({{n}} turns)'
+
+Timeline:
+  AddRow: Add 100 AV
+  RemoveRow: Remove 100 AV
+  MocToggle: Memory of Chaos (150)
+  PrevRow: Previous cycle
+  NextRow: Next cycle
+
+GlobalActions:
+  Title: Global Actions
+  Wave: Wave
+  PrevWave: Previous wave
+  NextWave: Next wave
+  CutWave: Start new wave
+  CutWaveHint: Cuts the current wave's timeline at the Playhead and starts a new wave from AV 0, carrying over energy/buffs/team SP.
+  CutWaveConfirmTitle: Cut here and start a new wave?
+  CutWaveConfirmBody: Rows after the Playhead's row in the current wave will be deleted. A new wave starts at AV 0, seeded with each character's energy/buffs/team SP at this exact point. This can't be undone.
+  CutWaveSuccess: New wave created
+  RemoveWave: Remove last wave
+  RemoveWaveConfirmTitle: Remove the last wave?
+  RemoveWaveConfirmBody: This only removes the last wave itself — the wave before it stays exactly as it was left after being cut (there's no stored history to undo that). This can't be undone.
+  RemoveWaveSuccess: Wave removed
+  DisplayMode: Display Mode
+  DisplayModeAll: Overview
+  DisplayModeSingle: Single Row
+  Export: Export session
+  Import: Import session
+  ImportSuccess: Session imported
+  ImportError: Invalid session file
+  Reset: Reset
+  ResetCancel: Cancel
+  ResetConfirmTitle: Reset timeline?
+  ResetConfirmBody: This clears every added intervention, action override, and ult insertion, back to right after picking characters. Character picks, SPD/ERR/eidolon, and row settings are unaffected — this can't be undone.
+  ResetSuccess: Reset
+
+Marker:
+  ActionTooltip: '{{name}}  SPD {{spd}}  AV {{av}}'
+  InterventionTooltip: 'AV {{av}} · {{count}} interventions'
+  UltTooltip: "{{name}} Ultimate  AV {{av}}"
+  ExtraTooltip: "{{name}} Extra Attack  AV {{av}}"
+
+Panel:
+  EmptyHint: Select where to add or what to edit
+  Back: Back
+  FormTitleEdit: Edit Intervention
+  FormTitleAfter: 'New · after {{name}}{{turnSuffix}}''s action'
+  FormTitleBefore: 'New · during {{name}}{{turnSuffix}}''s action'
+  FormTitleFlat: 'New · AV {{av}}'
+  EffectType: Effect Type
+  Targets: Targets
+  TargetsPlaceholder: Select characters
+  Value: Value
+  Duration: Duration (turns)
+  EnergyMode: Energy Mode
+  EnergyModeNormal: Normal (scales with ERR)
+  EnergyModeFixed: Fixed (ignores ERR)
+  Cancel: Cancel
+  Add: Add
+  Save: Save
+
+CharacterSlot:
+  EmptySlot: 'Slot {{n}}'
+  SpdPlaceholder: SPD
+  EditSpd: Edit SPD
+  ResetSpd: Reset SPD
+  SpdDisplay: 'SPD {{value}}'
+  NoValue: '—'
+  ErrPlaceholder: ERR
+  EditErr: Edit ERR
+  ResetErr: Reset ERR
+  ErrDisplay: 'ERR {{value}}%'
+  ResetEidolon: Reset Eidolon
+
+ActionNode:
+  Basic: Basic Attack
+  BasicEnhanced: Enhanced Basic ATK
+  Skill: Skill
+  Target: Target
+  ChoiceLabel: Action
+
+AddBranch:
+  AddIntervention: Add Intervention
+  AddUlt: Add Ultimate
+  AddUltHint: Insert an ultimate at this position
+
+ActionConfig:
+  EffectsTitle: Effects
+  NoEffects: No effects for this action
+  NoConfig: No action config available
+  SummonCompanion: Summon companion (no-op if already present)
+  EnergySetMinimum: 'Raise energy to {{value}} if below it'
+  ClearBuff: 'Remove {{effectId}}'
+  AfterEffectsTitle: After action
+  DynamicNoSnapshot: Effects depend on live state — run the simulation first to see them
+
+CharacterState:
+  SpeedLabel: "SPD {{value}}"
+  EnergyPlaceholder: Energy — available in Step 5
+  NoBuffs: No active buffs
+
+TargetType:
+  Self: Self
+  AllAllies: All allies
+  SingleAlly: Select target
+  Team: Team SP
+
+UltCard:
+  Effects: Ult Effects
+
+UltCaster:
+  Title: Insert Ultimate
+  EnergyStatus: "{{energy}} / {{threshold}}"
+  NeedTarget: Select target
+  Confirm: Insert
+  NoAnchor: Select next to a character action first
+
+BuffNames:
+  huohuo_rangming: Divine Provision
+  huohuo_qianshenyigui: Spiritual Domination
+  huohuo_zhenxiongzhiming: The Cursed One
+  huohuo_e1_spd: "Possessed by a Heliobus, Evil Subduing"
+  huohuo_e6_dmg: Shared Fate
+  trailblazer_remembrance_epic: Epic
+  mimi_partner_cheer: Friends! Together!
+  mimi_cheer: "Mem's Support"
+  mimi_now_narrator: Narrator of the Present
+  trailblazer_remembrance_e6: Bearer of the Revelation
+  saber_reactor_core: Reactor Core
+  saber_dragon_reactor_core: Dragon Reactor Core
+  saber_king_of_knights: Behold, the King of Knights
+  saber_knight_of_dragon: Knight of the Dragon
+  saber_mana_burst: Mana Burst
+  saber_crown_of_stars: Crown of the Stars
+  saber_crown_of_stars_cd: Crown of the Stars (Bonus Ability)
+  saber_e1_lost_white_walls: The Lost White Walls
+  saber_e2_round_table: The Lost Oath of the Round Table
+  saber_e4_sixteen_winters: The Saga of Sixteen Winter Days
+  saber_e6_long_fated_night: The Long Fated Night
+  saber_e6_long_fated_night_energy: The Long Fated Night (Energy)
+  saber_enhanced_basic_marker: Enhanced Basic ATK Marker
+  gilgamesh_kings_acknowledgement: King's Acknowledgement
+  gilgamesh_kings_burden: King's Burden
+  gilgamesh_witness: He Who Saw the Deep
+  gilgamesh_interest: Interest
+  gilgamesh_interest_spd: Interest
+  gilgamesh_interest_piqued: Interest Piqued
+  gilgamesh_heros_solitude: "Hero's Solitude"
+  gilgamesh_permission_to_strike: I Grant You Permission To Strike
+  gilgamesh_permission_to_strike_ult_double: I Grant You Permission To Strike
+  gilgamesh_kings_contest_atk: King's Contest
+  gilgamesh_kings_contest_cd: King's Contest
+  gilgamesh_king_who_bowed: King Who Bowed to None
+  gilgamesh_soul_bore_friendship: Soul That Bore Friendship
+  gilgamesh_golden_rule: Golden Rule
+
+# Short labels for optimizer-internal "extended" StatKey strings used by battleConfigs (e.g. RuanMei's
+# and Huohuo's BOOST/BREAK_EFFICIENCY_BOOST/RES_PEN) — these aren't real Stats enum members, so they
+# have no entry under common:ShortStats. DEF_PEN/WIND_RES_PEN *are* real StatKey members but still have
+# no common:ShortStats entry, so they fall back to here too (see CharacterStatePanel's lookup order).
+EffectStatNames:
+  BOOST: DMG Boost
+  BREAK_EFFICIENCY_BOOST: Break Efficiency
+  RES_PEN: RES PEN
+  DEF_PEN: DEF PEN
+  WIND_RES_PEN: Wind RES PEN
+  TRUE_DMG: True DMG
+  ULT_DMG_BOOST: Ult DMG Boost
+  ULT_CD_BOOST: Ult CRIT DMG Boost
+  ULT_DMG_MULTIPLIER: Ult DMG Multiplier

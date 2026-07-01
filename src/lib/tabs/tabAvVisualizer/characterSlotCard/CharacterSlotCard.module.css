@@ -1,0 +1,99 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 130px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background-color: var(--layer-2);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  cursor: default;
+}
+
+.colorStrip {
+  height: 3px;
+  flex-shrink: 0;
+}
+
+.imageArea {
+  height: 150px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.imageArea:hover .portrait {
+  filter: brightness(1.1) saturate(1.1);
+}
+
+.portrait {
+  width: 200px;
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: filter 0.15s ease;
+  filter: brightness(1.0) saturate(1.0);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+}
+
+.speedRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+}
+
+.clearButton {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 1;
+}
+
+.imageArea:hover .clearButton {
+  opacity: 1;
+}
+
+.nameOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 4px 4px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emptyCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 130px;
+  height: 256px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background-color: var(--layer-2);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.emptyCard:hover {
+  border-color: var(--mantine-color-dimmed);
+  background: var(--layer-1);
+}

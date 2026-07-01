@@ -1,41 +1,27 @@
 import {
-  Badge,
   Box,
-  Indicator,
   Tooltip,
   UnstyledButton,
 } from '@mantine/core'
 import {
-  IconBook,
   IconCalculator,
   IconChartRadar,
-  IconDiamond,
-  IconHome,
   IconLayoutGrid,
-  IconLink,
-  IconList,
   IconSettings,
   IconStarFilled,
+  IconTimeline,
   IconTrendingUp,
   IconUpload,
   IconUser,
 } from '@tabler/icons-react'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
-import { DiscordIcon } from 'icons/DiscordIcon'
-import { GithubIcon } from 'icons/GithubIcon'
 import { AppPages } from 'lib/constants/appPages'
-import { officialOnly } from 'lib/constants/constants'
-import {
-  isNewGroupCheck,
-  NewFeatureKey,
-} from 'lib/constants/newFeatures'
 import {
   OpenCloseIDs,
   setOpen,
   useIsOpen,
 } from 'lib/hooks/useOpenClose'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import {
   useCallback,
   useEffect,
@@ -55,7 +41,6 @@ type NavItem = {
   icon: React.ReactNode,
   href?: string,
   onClick?: () => void,
-  newFeatureKey?: NewFeatureKey,
 }
 
 type NavGroup = {
@@ -74,7 +59,6 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
   onNavigate: (item: NavItem) => void,
   anyDrawerOpen: boolean,
 }) {
-  const seenFeatures = useNewFeatureStore((s) => s.seenFeatures)
   const navRef = useRef<HTMLDivElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
   const highlightedRef = useRef<HTMLElement>(null)
@@ -154,12 +138,10 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
                 'data-active': isActive || undefined,
                 'data-focused': isFocused || undefined,
               }
-              const isNew = item.newFeatureKey ? isNewGroupCheck(item.newFeatureKey, seenFeatures) : false
               const content = (
                 <>
                   <div className={classes.itemIcon}>{item.icon}</div>
                   <span className={classes.itemLabel}>{item.label}</span>
-                  {isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>New</Badge>}
                 </>
               )
               return item.href
@@ -195,7 +177,6 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
   activeKey: string,
   onNavigate: (item: NavItem) => void,
 }) {
-  const seenFeatures = useNewFeatureStore((s) => s.seenFeatures)
   return (
     <div className={classes.rootCollapsed}>
       {groups.map((group) => (
@@ -203,14 +184,9 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
           <div className={classes.groupItems}>
             {group.items.map((item) => {
               const isActive = item.key === activeKey
-              const isNew = item.newFeatureKey ? isNewGroupCheck(item.newFeatureKey, seenFeatures) : false
-              const iconBox = <Box className={classes.itemIcon}>{item.icon}</Box>
-              const iconContent = isNew
-                ? <Indicator size={8} color='blue' position='top-end' offset={1}>{iconBox}</Indicator>
-                : iconBox
-              const tooltipLabel = isNew ? `${item.label} — New` : item.label
+              const iconContent = <Box className={classes.itemIcon}>{item.icon}</Box>
               return (
-                <Tooltip key={item.key} label={tooltipLabel} position='right' withArrow openDelay={300}>
+                <Tooltip key={item.key} label={item.label} position='right' withArrow openDelay={300}>
                   {item.href
                     ? (
                       <a
@@ -247,61 +223,60 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
 // ---- Main component ----
 
 export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
-  const { t } = useTranslation('sidebar')
+  const { t, i18n } = useTranslation('sidebar')
+  const isZh = i18n.language.startsWith('zh')
   const { activeKey, setActiveKey } = useGlobalStore(useShallow((s) => ({
     activeKey: s.activeKey,
     setActiveKey: s.setActiveKey,
   })))
 
-  const groups: NavGroup[] = useMemo(() => [
-    {
-      label: t('Tools.Title'),
+  const groups: NavGroup[] = useMemo(() => {
+    const result: NavGroup[] = [
+      {
+        label: t('AV.Title'),
+        items: [
+          { key: AppPages.SHOWCASE, label: t('AV.Home'), icon: <IconStarFilled size={16} /> },
+          { key: AppPages.AV_VISUALIZER, label: t('AV.AVVisualizer'), icon: <IconTimeline size={16} /> },
+        ],
+      },
+    ]
+    if (isZh) {
+      result.push(
+        {
+          label: t('Optimization.Title'),
+          items: [
+            { key: AppPages.OPTIMIZER, label: t('Optimization.Optimizer'), icon: <IconTrendingUp size={16} /> },
+            { key: AppPages.CHARACTERS, label: t('Optimization.Characters'), icon: <IconUser size={16} /> },
+            { key: AppPages.RELICS, label: t('Optimization.Relics'), icon: <IconChartRadar size={16} /> },
+          ],
+        },
+        {
+          label: t('OtherTools.Title'),
+          items: [
+            { key: AppPages.BENCHMARKS, label: t('OtherTools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
+            { key: AppPages.CALCULATORS, label: t('OtherTools.Calculators'), icon: <IconCalculator size={16} /> },
+          ],
+        },
+      )
+    }
+    result.push({
+      label: t('General.Title'),
       items: [
-        { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
-        { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
-        { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
-        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} />, newFeatureKey: NewFeatureKey.WARP },
-      ],
-    },
-    {
-      label: t('Optimization.Title'),
-      items: [
-        { key: AppPages.OPTIMIZER, label: t('Optimization.Optimizer'), icon: <IconTrendingUp size={16} /> },
-        { key: AppPages.CHARACTERS, label: t('Optimization.Characters'), icon: <IconUser size={16} /> },
-        { key: AppPages.RELICS, label: t('Optimization.Relics'), icon: <IconChartRadar size={16} /> },
-        { key: AppPages.IMPORT, label: t('Optimization.Import'), icon: <IconUpload size={16} /> },
+        { key: AppPages.DONATE, label: t('General.Kofi'), icon: <CoffeeIcon /> },
+        { key: AppPages.IMPORT, label: t('General.Import'), icon: <IconUpload size={16} /> },
         {
           key: 'link settings',
-          label: t('Optimization.Settings'),
+          label: t('General.Settings'),
           icon: <IconSettings size={16} />,
           onClick: () => setOpen(OpenCloseIDs.SETTINGS_DRAWER),
         },
-        {
-          key: 'link gettingstarted',
-          label: t('Optimization.Start'),
-          icon: <IconBook size={16} />,
-          onClick: () => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER),
-        },
       ],
-    },
-    {
-      label: t('Links.Title'),
-      items: [
-        { key: AppPages.HOME, label: t('Links.Home'), icon: <IconHome size={16} /> },
-        { key: AppPages.CHANGELOG, label: t('Links.Changelog'), icon: <IconList size={16} /> },
-        { key: 'link donate', label: t('Links.Kofi'), icon: <CoffeeIcon />, href: 'https://ko-fi.com/fribbels' },
-        { key: 'link discord', label: t('Links.Discord'), icon: <DiscordIcon />, href: 'https://discord.gg/rDmB4Un7qg' },
-        { key: 'link github', label: t('Links.Github'), icon: <GithubIcon />, href: 'https://github.com/fribbels/hsr-optimizer' },
-        officialOnly
-          ? { key: 'link leaks', label: t('Links.Leaks'), icon: <IconLink size={16} />, href: 'https://fribbels.github.io/hsr-optimizer/' }
-          : { key: 'link leaks free', label: t('Links.Unleak'), icon: <IconLink size={16} />, href: 'https://starrailoptimizer.github.io/' },
-      ],
-    },
-  ], [t])
+    })
+    return result
+  }, [t, isZh])
 
   const isSettingsOpen = useIsOpen(OpenCloseIDs.SETTINGS_DRAWER)
-  const isGettingStartedOpen = useIsOpen(OpenCloseIDs.GETTING_STARTED_DRAWER)
-  const anyDrawerOpen = isSettingsOpen || isGettingStartedOpen
+  const anyDrawerOpen = isSettingsOpen
 
   const handleNavigate = useCallback((item: NavItem) => {
     item.onClick?.()

@@ -16,6 +16,8 @@ import { OptimizerTab } from 'lib/tabs/tabOptimizer/OptimizerTab'
 import { RelicsTab } from 'lib/tabs/tabRelics/RelicsTab'
 import { ShowcaseTab } from 'lib/tabs/tabShowcase/ShowcaseTab'
 import { WarpCalculatorTab } from 'lib/tabs/tabWarp/WarpCalculatorTab'
+import { AvVisualizerTab } from 'lib/tabs/tabAvVisualizer/AvVisualizerTab'
+import { DonateTab } from 'lib/tabs/tabDonate/DonateTab'
 
 import {
   TabVisibilityContext,
@@ -54,6 +56,8 @@ const TAB_COMPONENTS: [AppPages, React.ComponentType][] = [
   [AppPages.CHANGELOG, ChangelogTab],
   [AppPages.WEBGPU_TEST, WebgpuTab],
   [AppPages.METADATA_TEST, MetadataTab],
+  [AppPages.AV_VISUALIZER, AvVisualizerTab],
+  [AppPages.DONATE, DonateTab],
 ]
 
 // Mount priority: active tab is instant, then stagger one per frame in this order.
@@ -69,6 +73,7 @@ const MOUNT_PRIORITY: AppPages[] = [
   AppPages.CHARACTERS,
   AppPages.RELICS,
   AppPages.IMPORT,
+  AppPages.AV_VISUALIZER,
   // WEBGPU_TEST and METADATA_TEST are dev-only: lazy-loaded and mounted only on navigate
 ]
 

@@ -1,23 +1,18 @@
-Tools:
-  Title: 工具
-  Showcase: 展示
-  WarpPlanner: 跃迁规划器
-  Benchmarks: 基准
-  Calculators: 计算器
+AV:
+  Title: AV
+  Home: 主页
+  AVVisualizer: AV 可视化器
 Optimization:
   Title: 优化
   Optimizer: 优化器
   Relics: 遗器
   Characters: 角色
+OtherTools:
+  Title: 其他工具
+  Benchmarks: 基准
+  Calculators: 计算器
+General:
+  Title: 基础
+  Kofi: 给作者买零食
   Import: 导入 / 保存
   Settings: 设置
-  Start: 开始使用
-Links:
-  Home: 主页
-  Title: 链接
-  Changelog: 更新日志
-  Discord: Discord
-  Github: GitHub
-  Kofi: Ko-fi
-  Unleak: 无爆料
-  Leaks: 测试服内容

@@ -19,14 +19,12 @@
 }
 
 .mainTitle {
-  font-family: var(--font-ui);
   font-size: 28px;
   font-weight: 600;
   margin: 0;
 }
 
 .sectionTitle {
-  font-family: var(--font-ui);
   font-size: 24px;
   font-weight: 500;
   color: var(--text-secondary);
@@ -41,7 +39,6 @@
 }
 
 .scoringColumnHeader {
-  font-family: var(--font-ui);
   font-size: 18px;
   font-weight: 600;
   display: flex;
@@ -60,7 +57,6 @@
 }
 
 .sectionLabel {
-  font-family: var(--font-ui);
   font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;
@@ -70,7 +66,6 @@
 }
 
 .annotation {
-  font-family: var(--font-ui);
   font-size: 13px;
   color: var(--text-secondary);
   margin: 0;

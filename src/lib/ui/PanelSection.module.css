@@ -5,7 +5,6 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-ui);
   font-size: 24px;
   font-weight: 500;
   color: var(--text-secondary);

@@ -42,7 +42,6 @@
 
 .reverseOutput span {
   color: rgba(255, 255, 255, 0.86);
-  font-family: var(--font-mono);
   font-size: 20px;
   font-weight: 650;
   font-variant-numeric: tabular-nums;

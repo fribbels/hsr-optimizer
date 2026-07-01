@@ -236,7 +236,7 @@ function FormulaSummary({ rows, ahaSpeed, t }: {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0' }}>
       <math display='block' className={classes.formula}>
-        <mtext style={{ fontFamily: 'var(--font-ui)' }}>{t('Calculator.Formula.Aha')}</mtext>
+        <mtext>{t('Calculator.Formula.Aha')}</mtext>
         <mo style={{ padding: '0 5px' }}>=</mo>
         <mn>{AHA_BASE_SPEED}</mn>
         {byRank.map((row, rank) => {
@@ -265,7 +265,7 @@ function FormulaSummary({ rows, ahaSpeed, t }: {
           <mn style={{ fontSize: 26, fontWeight: 750, color: 'rgba(255, 255, 255, 0.92)' }}>
             {localeNumber_000(ahaSpeed)}
           </mn>
-          <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12 }}>
+          <mtext style={{ fontSize: 22, color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12 }}>
             {tStats(Stats.SPD)}
           </mtext>
         </mrow>

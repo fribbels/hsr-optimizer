@@ -67,7 +67,6 @@ function GridCell({ rate, isSelectedCol }: { rate: number, isSelectedCol: boolea
         style={{
           fontSize: 12,
           lineHeight: 1,
-          fontFamily: 'var(--font-showcase)',
           fontVariantNumeric: 'tabular-nums',
           color: band.text,
           fontWeight: 400,
@@ -111,7 +110,6 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
             transform: 'translateY(-50%)',
             paddingRight: 4,
             fontSize: 11,
-            fontFamily: 'var(--font-showcase)',
             color: 'rgba(255,255,255,0.5)',
             whiteSpace: 'nowrap',
           }}
@@ -132,7 +130,6 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
         <span
           style={{
             fontSize: 12,
-            fontFamily: 'var(--font-showcase)',
             fontVariantNumeric: 'tabular-nums',
             color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.40)',
             fontWeight: 400,
@@ -183,7 +180,6 @@ function GridHeaderRow({ nearestRes, currentColor, t }: {
                   transform: 'translateX(-50%)',
                   paddingBottom: 2,
                   fontSize: 11,
-                  fontFamily: 'var(--font-showcase)',
                   color: 'rgba(255,255,255,0.5)',
                   whiteSpace: 'nowrap',
                 }}
@@ -192,7 +188,7 @@ function GridHeaderRow({ nearestRes, currentColor, t }: {
               </span>
             )}
             <span
-              style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: isSelected ? currentColor : 'rgba(255,255,255,0.65)' }}
+              style={{ fontSize: 12, fontWeight: 400, color: isSelected ? currentColor : 'rgba(255,255,255,0.65)' }}
             >
               {res}%
             </span>

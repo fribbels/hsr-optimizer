@@ -30,7 +30,7 @@
 }
 
 .pre-font {
-    font-family: var(--font-mono) !important;
+    font-family: monospace !important;
 }
 
 .layout-sider-scroll::-webkit-scrollbar {

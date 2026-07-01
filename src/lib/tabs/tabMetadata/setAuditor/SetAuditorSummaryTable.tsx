@@ -148,7 +148,7 @@ function SummaryRow(props: {
         <td style={{ padding: '4px 8px' }}>
           {summary.flag === 'red' ? '🔴' : summary.flag === 'yellow' ? '🟡' : ''}
         </td>
-        <td style={{ padding: '4px 8px', fontFamily: 'monospace', fontWeight: 600 }}>
+        <td style={{ padding: '4px 8px', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
           {summary.bestDelta === -Infinity
             ? '—'
             : `${summary.bestDelta >= 0 ? '+' : ''}${summary.bestDelta.toFixed(2)}%`}

@@ -220,7 +220,7 @@ test('default metadata resolver does not let scorer preparation mutate game meta
 
 test('flat mainstat boost values flat stat at paired percent weight on matching mainstat', () => {
   const character = Blade.id
-  const boostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata({ [Stats.ATK]: true }))
+  const boostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata(Stats.ATK))
   const unboostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata())
   const relic = makeFlatAtkBodyRelic(Stats.ATK_P)
 
@@ -234,7 +234,7 @@ test('flat mainstat boost values flat stat at paired percent weight on matching 
 
 test('flat mainstat boost does not apply on unrelated mainstat', () => {
   const character = Blade.id
-  const boostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata({ [Stats.ATK]: true }))
+  const boostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata(Stats.ATK))
   const unboostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata())
   const relic = makeFlatAtkBodyRelic(Stats.HP_P)
 

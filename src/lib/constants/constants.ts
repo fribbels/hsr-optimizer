@@ -48,6 +48,7 @@ export const Stats = {
 
 type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
+export type FlatPercentStat = typeof Stats.ATK | typeof Stats.HP | typeof Stats.DEF
 export const ELEMENTAL_DMG_KEY = 'ELEMENTAL_DMG' as const
 
 export const TwoPieceStatTags = [

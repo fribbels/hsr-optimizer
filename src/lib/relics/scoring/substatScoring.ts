@@ -60,7 +60,7 @@ function getFlatMainstatBoost(meta: ScorerMetadata, mainStat: MainStats): FlatMa
   if (!isFlatMainstatBoostMainStat(mainStat)) return undefined
 
   const stat = MAINSTAT_FLAT_BOOST[mainStat]
-  if (!meta.flatMainstatBoost?.[stat]) return undefined
+  if (meta.flatMainstatBoost !== stat) return undefined
 
   const weight = meta.stats[mainStat] ?? 0
   if (weight <= 0) return undefined

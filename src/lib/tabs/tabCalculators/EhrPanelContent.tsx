@@ -193,7 +193,7 @@ function SelectField({ label, data, value, onChange }: {
   )
 }
 
-const LABEL_STYLE: React.CSSProperties = { fontSize: 12, fontFamily: 'var(--font-ui)', color: 'rgba(255,255,255,0.4)' }
+const LABEL_STYLE: React.CSSProperties = { fontSize: 12, color: 'rgba(255,255,255,0.4)' }
 
 function FormulaDisplay({ values, clampedRate, t }: {
   values: EhrTuningForm,
@@ -271,7 +271,7 @@ function FormulaDisplay({ values, clampedRate, t }: {
                   {localeNumber_00(perAttemptPct)}%
                 </mn>
                 <mtext
-                  style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}
+                  style={{ fontSize: 22, color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}
                 >
                   {t('Calculator.Output.Change')}
                 </mtext>
@@ -293,7 +293,7 @@ function FormulaDisplay({ values, clampedRate, t }: {
             >
               {localeNumber_00(clampedRate)}%
             </mn>
-            <mtext style={{ fontSize: 22, fontFamily: 'var(--font-ui)', color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}>
+            <mtext style={{ fontSize: 22, color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}>
               {t('Calculator.Output.Change')}
             </mtext>
           </mrow>

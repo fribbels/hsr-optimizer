@@ -1,10 +1,10 @@
 import type {
+  FlatPercentStat,
   Parts,
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
 import type { ScoreCategory } from 'lib/scoring/scoreComparison'
-
 // Internal scorer metadata — enriched from the public ScoringMetadata in types/metadata.ts
 // Contains computed fields: sortedSubstats, groupedSubstats, hash, greedyHash, category
 export type ScorerMetadata = {
@@ -23,6 +23,7 @@ export type ScorerMetadata = {
   highRollPotential: Record<SubStats, number>,
   midRollPotential: Record<SubStats, number>,
   lowRollPotential: Record<SubStats, number>,
+  flatMainstatBoost?: FlatPercentStat,
 }
 
 export type RelicScoringResult = {

@@ -6,7 +6,7 @@ import {
 } from 'lib/constants/constants'
 import {
   DMG_MAINSTATS,
-  FLAT_STAT_SCALING,
+  applyFlatStatScaling,
   POSSIBLE_SUBSTATS,
   substatPotentialScale,
   substatPotentialUnits,
@@ -43,9 +43,7 @@ function prepareScorerStats(stats: SourceScoringStats): PreparedScorerStats {
     scorerStats.minWeightedRolls = normalizeStatWeight(stats.minWeightedRolls)
   }
 
-  scorerStats[Constants.Stats.HP] = scorerStats[Constants.Stats.HP_P] * FLAT_STAT_SCALING.HP
-  scorerStats[Constants.Stats.ATK] = scorerStats[Constants.Stats.ATK_P] * FLAT_STAT_SCALING.ATK
-  scorerStats[Constants.Stats.DEF] = scorerStats[Constants.Stats.DEF_P] * FLAT_STAT_SCALING.DEF
+  applyFlatStatScaling(scorerStats)
 
   return scorerStats
 }
@@ -55,6 +53,7 @@ function toScorerMetadata(metadata: ScoringMetadata): ScorerMetadata {
     stats: prepareScorerStats(metadata.stats),
     parts: metadata.parts,
     modified: metadata.modified,
+    flatMainstatBoost: metadata.flatMainstatBoost,
   } as ScorerMetadata
 }
 
@@ -109,10 +108,10 @@ export function prepareScoringMetadata(
       scoringMetadata.parts.PlanarSphere.filter((x) => !(DMG_MAINSTATS as string[]).includes(x)),
       scoringMetadata.parts.LinkRope,
     ]
-    scoringMetadata.greedyHash = objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
-    scoringMetadata.hash = objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+    scoringMetadata.greedyHash = objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
+    scoringMetadata.hash = objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
   } else {
-    scoringMetadata.greedyHash = objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
+    scoringMetadata.greedyHash = objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
     scoringMetadata.hash = scoringMetadata.greedyHash
   }
 

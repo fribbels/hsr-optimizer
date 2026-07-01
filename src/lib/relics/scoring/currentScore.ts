@@ -1,5 +1,6 @@
 import { pctToRating } from 'lib/relics/scoring/scoreFormatting'
 import {
+  getEffectiveSubstatAccessors,
   hasMainStat,
   mainStatWeight,
 } from 'lib/relics/scoring/substatScoring'
@@ -15,11 +16,11 @@ export function scoreCurrentRelic(
   meta: ScorerMetadata,
   idealScore: number,
 ): RelicScoringResult {
-  const contributions = meta.contributions
+  const { contribution } = getEffectiveSubstatAccessors(meta, relic.main.stat)
 
   let rawScore = 0
   for (const sub of relic.substats) {
-    rawScore += sub.value * contributions[sub.stat]
+    rawScore += sub.value * contribution(sub.stat)
   }
 
   const percentScore = idealScore === Infinity ? 0 : truncate10ths(precisionRound(rawScore / idealScore * 100))

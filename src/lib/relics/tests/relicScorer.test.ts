@@ -2,11 +2,13 @@
 import { Blade } from 'lib/conditionals/character/1200/Blade'
 import {
   Constants,
+  type MainStats,
   Parts,
   Stats,
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
+import { scoreCurrentRelic } from 'lib/relics/scoring/currentScore'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
@@ -26,6 +28,7 @@ import {
   getScoringMetadata,
   useScoringStore,
 } from 'lib/stores/scoring/scoringStore'
+import type { ScoringMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
 import {
   expect,
@@ -33,6 +36,48 @@ import {
 } from 'vitest'
 
 Metadata.initialize()
+
+function makeFlatMainstatMetadata(flatMainstatBoost?: ScoringMetadata['flatMainstatBoost']): ScoringMetadata {
+  const defaults = getDefaultScoringMetadata(Blade.id)
+  const stats = {} as Record<SubStats, number>
+  for (const s of Constants.SubStats) stats[s] = 0
+  stats[Stats.ATK_P] = 1
+  stats[Stats.SPD] = 1
+
+  return {
+    ...defaults,
+    stats,
+    flatMainstatBoost,
+    parts: {
+      ...defaults.parts,
+      [Parts.Body]: [Stats.ATK_P, Stats.HP_P],
+    },
+  }
+}
+
+function makeFlatAtkBodyRelic(mainStat: MainStats): Relic {
+  return {
+    enhance: 15,
+    grade: 5,
+    part: Parts.Body,
+    set: 'Longevous Disciple',
+    main: {
+      stat: mainStat,
+      value: 100,
+    },
+    substats: [
+      { stat: Stats.ATK, value: StatCalculator.getMaxedSubstatValue(Stats.ATK) * 6 },
+      { stat: Stats.SPD, value: StatCalculator.getMaxedSubstatValue(Stats.SPD) },
+    ],
+    previewSubstats: [],
+    weightScore: 0,
+    ageIndex: 0,
+    augmentedStats: {} as AugmentedStats,
+    initialRolls: 0,
+    id: `flat-mainstat-${mainStat}`,
+    equippedBy: Blade.id,
+  }
+}
 
 // Correct mainstat with all zero-weight substats should score 0
 test('relic-mainstatonly', () => {
@@ -171,6 +216,33 @@ test('default metadata resolver does not let scorer preparation mutate game meta
   meta.stats[Stats.HP_P] = 999
 
   expect(defaults.stats).toEqual(originalStats)
+})
+
+test('flat mainstat boost values flat stat at paired percent weight on matching mainstat', () => {
+  const character = Blade.id
+  const boostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata(Stats.ATK))
+  const unboostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata())
+  const relic = makeFlatAtkBodyRelic(Stats.ATK_P)
+
+  const boostedIdeal = computeOptimalScore(relic.part, relic.main.stat, boostedMeta)
+  const unboostedIdeal = computeOptimalScore(relic.part, relic.main.stat, unboostedMeta)
+
+  expect(scoreCurrentRelic(relic, boostedMeta, boostedIdeal).percentScore).toBeGreaterThan(99.8)
+  expect(computeFutureScores(relic, boostedMeta, boostedIdeal, false).current).toBeGreaterThan(99.8)
+  expect(scoreCurrentRelic(relic, unboostedMeta, unboostedIdeal).percentScore).toBeLessThan(60)
+})
+
+test('flat mainstat boost does not apply on unrelated mainstat', () => {
+  const character = Blade.id
+  const boostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata(Stats.ATK))
+  const unboostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata())
+  const relic = makeFlatAtkBodyRelic(Stats.HP_P)
+
+  const boostedIdeal = computeOptimalScore(relic.part, relic.main.stat, boostedMeta)
+  const unboostedIdeal = computeOptimalScore(relic.part, relic.main.stat, unboostedMeta)
+
+  expect(scoreCurrentRelic(relic, boostedMeta, boostedIdeal).percentScore).toBe(scoreCurrentRelic(relic, unboostedMeta, unboostedIdeal).percentScore)
+  expect(computeFutureScores(relic, boostedMeta, boostedIdeal, false).current).toBe(computeFutureScores(relic, unboostedMeta, unboostedIdeal, false).current)
 })
 
 // Two max-rolled relics of weight-1.0 substats both score 100%, whichever stat is 6-stacked.

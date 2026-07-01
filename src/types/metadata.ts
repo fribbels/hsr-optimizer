@@ -1,6 +1,7 @@
 import type {
   ELEMENTAL_DMG_KEY,
   ElementName,
+  FlatPercentStat,
   MainStats,
   Parts,
   PathName,
@@ -54,6 +55,7 @@ export type ScoringMetadata = {
   /*      stat score      */ modified?: boolean,
   /*      stat score      */ parts: Record<Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>, MainStats[]>,
   /* stat score/optimizer */ stats: Record<SubStats, number> & Partial<Record<'minWeightedRolls', number>>,
+  /*      stat score      */ flatMainstatBoost?: FlatPercentStat,
   /*      optimizer       */ presets: PresetDefinition[],
   /*      optimizer       */ defaultDamageType?: number,
   /*      optimizer       */ sortOption: SortOptionProperties,

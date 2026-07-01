@@ -299,6 +299,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.DEF,
   parts: {
     [Parts.Body]: [
       Stats.DEF_P,

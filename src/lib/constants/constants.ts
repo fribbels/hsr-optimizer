@@ -48,6 +48,14 @@ export const Stats = {
 
 type StatsKeys = keyof typeof Stats
 export type StatsValues = (typeof Stats)[StatsKeys]
+export type FlatPercentStat = typeof Stats.ATK | typeof Stats.HP | typeof Stats.DEF
+
+export const PERCENT_TO_FLAT_STAT: Partial<Record<StatsValues, FlatPercentStat>> = {
+  [Stats.ATK_P]: Stats.ATK,
+  [Stats.HP_P]: Stats.HP,
+  [Stats.DEF_P]: Stats.DEF,
+}
+
 export const ELEMENTAL_DMG_KEY = 'ELEMENTAL_DMG' as const
 
 export const TwoPieceStatTags = [

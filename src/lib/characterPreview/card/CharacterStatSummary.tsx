@@ -10,6 +10,7 @@ import { StatText } from 'lib/characterPreview/StatText'
 import type { BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import {
   PathNames,
+  PERCENT_TO_FLAT_STAT,
   Stats,
   type StatsValues,
 } from 'lib/constants/constants'
@@ -304,9 +305,8 @@ function calculateStatCustomizations(characterId: CharacterId) {
   for (const [stat, value] of Object.entries(defaultTraces)) {
     if (precisionRound(customTraces[stat]) !== precisionRound(value)) {
       edits[stat] = true
-      if (stat === Stats.ATK_P) edits[Stats.ATK] = true
-      if (stat === Stats.DEF_P) edits[Stats.DEF] = true
-      if (stat === Stats.HP_P) edits[Stats.HP] = true
+      const flat = PERCENT_TO_FLAT_STAT[stat as StatsValues]
+      if (flat) edits[flat] = true
     }
   }
 

@@ -86,9 +86,9 @@ function extractActionDamageFields(x: ComputedStatsContainer, context: Optimizer
         const hitValue = x.getHitRegisterValue(hit.registerIndex)
         if (hit.outputTag === OutputTag.DAMAGE && hit.recorded !== false) {
           fields.COMBO += hitValue
-        } else if (hit.outputTag === OutputTag.HEAL) {
+        } else if (hit.outputTag === OutputTag.HEAL && hit.recorded !== false) {
           fields.HEAL += hitValue
-        } else if (hit.outputTag === OutputTag.SHIELD) {
+        } else if (hit.outputTag === OutputTag.SHIELD && hit.recorded !== false) {
           fields.SHIELD += hitValue
         } else if (hit.outputTag === OutputTag.BUFF) {
           fields.BUFF = hitValue

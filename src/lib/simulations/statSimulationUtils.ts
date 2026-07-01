@@ -1,4 +1,5 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import { calculateRelicSets } from 'lib/scoring/dpsScore'
 import {
   Parts,
   Stats,
@@ -8,7 +9,6 @@ import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import {
   OrnamentSetToIndex,
-  RelicSetToIndex,
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
@@ -82,23 +82,6 @@ export function convertRelicsToSimulation(
       [Stats.BE]: accumulatedSubstatRolls[Stats.BE] || null,
     },
   }
-}
-
-function calculateRelicSets(relicSets: (string | number)[], nameProvided = false) {
-  const relicSetNames: string[] = []
-  while (relicSets.length > 0) {
-    const value = relicSets[0]
-    if (relicSets.indexOf(value) !== relicSets.lastIndexOf(value)) {
-      const setName = nameProvided ? value : Object.entries(RelicSetToIndex).find((x) => x[1] === value)![0]
-      relicSetNames.push(setName as string)
-
-      const otherIndex = relicSets.lastIndexOf(value)
-      relicSets.splice(otherIndex, 1)
-    }
-    relicSets.splice(0, 1)
-  }
-
-  return relicSetNames
 }
 
 function calculateOrnamentSets(ornamentSets: unknown[], nameProvided = true): string | undefined {

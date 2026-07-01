@@ -96,15 +96,15 @@ export const StatRow = memo(function StatRow({
   edits?: Record<string, boolean>,
   preciseSpd?: boolean,
 }): ReactNode {
+  if (!finalStats) {
+    return null
+  }
+
   const value = precisionRound(finalStats[stat as keyof typeof finalStats])
 
   const { t, i18n } = useTranslation('common')
 
   const readableStat = statToLabel(stat, t, i18n)
-
-  if (!finalStats) {
-    return null
-  }
 
   const { valueDisplay, value1000thsPrecision } = getStatRenderValues(value, 0, stat, preciseSpd)
   const valueText = `${valueDisplay}${isFlat(stat) ? '' : '%'}`

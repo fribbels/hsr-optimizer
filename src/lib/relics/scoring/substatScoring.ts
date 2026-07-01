@@ -1,6 +1,6 @@
 import {
   Constants,
-  Stats,
+  PERCENT_TO_FLAT_STAT,
   SubStatValues,
 } from 'lib/constants/constants'
 import type {
@@ -21,18 +21,6 @@ type FlatMainstatBoost = {
   high: number,
   mid: number,
   low: number,
-}
-
-const MAINSTAT_FLAT_BOOST = {
-  [Stats.ATK_P]: Stats.ATK,
-  [Stats.HP_P]: Stats.HP,
-  [Stats.DEF_P]: Stats.DEF,
-} as const
-
-type FlatMainstatBoostMainStat = keyof typeof MAINSTAT_FLAT_BOOST
-
-function isFlatMainstatBoostMainStat(mainStat: MainStats): mainStat is FlatMainstatBoostMainStat {
-  return mainStat === Stats.ATK_P || mainStat === Stats.HP_P || mainStat === Stats.DEF_P
 }
 
 export function substatMinRolls(stat: SubStats, value: number): number {
@@ -57,10 +45,8 @@ export function mainStatWeight(part: Parts, mainStat: MainStats, meta: ScorerMet
 }
 
 function getFlatMainstatBoost(meta: ScorerMetadata, mainStat: MainStats): FlatMainstatBoost | undefined {
-  if (!isFlatMainstatBoostMainStat(mainStat)) return undefined
-
-  const stat = MAINSTAT_FLAT_BOOST[mainStat]
-  if (meta.flatMainstatBoost !== stat) return undefined
+  const stat = PERCENT_TO_FLAT_STAT[mainStat]
+  if (!stat || meta.flatMainstatBoost !== stat) return undefined
 
   const weight = meta.stats[mainStat] ?? 0
   if (weight <= 0) return undefined

@@ -6,7 +6,7 @@ import {
 } from 'lib/constants/constants'
 import {
   DMG_MAINSTATS,
-  FLAT_STAT_SCALING,
+  applyFlatStatScaling,
   POSSIBLE_SUBSTATS,
   substatPotentialScale,
   substatPotentialUnits,
@@ -43,9 +43,7 @@ function prepareScorerStats(stats: SourceScoringStats): PreparedScorerStats {
     scorerStats.minWeightedRolls = normalizeStatWeight(stats.minWeightedRolls)
   }
 
-  scorerStats[Constants.Stats.HP] = scorerStats[Constants.Stats.HP_P] * FLAT_STAT_SCALING.HP
-  scorerStats[Constants.Stats.ATK] = scorerStats[Constants.Stats.ATK_P] * FLAT_STAT_SCALING.ATK
-  scorerStats[Constants.Stats.DEF] = scorerStats[Constants.Stats.DEF_P] * FLAT_STAT_SCALING.DEF
+  applyFlatStatScaling(scorerStats)
 
   return scorerStats
 }

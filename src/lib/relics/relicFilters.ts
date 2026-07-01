@@ -11,7 +11,7 @@ import type {
 import { BasicStatToKey } from 'lib/optimization/basicStatsArray'
 import { calculateRelicMainStatValue } from 'lib/relics/relicUtils'
 import {
-  FLAT_STAT_SCALING,
+  applyFlatStatScaling,
 } from 'lib/relics/scoring/scoringConstants'
 import {
   substatMinRolls,
@@ -139,9 +139,7 @@ export const RelicFilters = {
 
     // Weight score thresholds
     const weights: Record<string, number> = { ...request.weights }
-    weights[Constants.Stats.ATK] = (weights[Constants.Stats.ATK_P] || 0) * FLAT_STAT_SCALING.ATK
-    weights[Constants.Stats.DEF] = (weights[Constants.Stats.DEF_P] || 0) * FLAT_STAT_SCALING.DEF
-    weights[Constants.Stats.HP] = (weights[Constants.Stats.HP_P] || 0) * FLAT_STAT_SCALING.HP
+    applyFlatStatScaling(weights)
 
     const rollThreshold = weights.minWeightedRolls ?? 0
 
@@ -219,9 +217,7 @@ export const RelicFilters = {
   calculateWeightScore: (request: Form, relics: Relic[]) => {
     const weights = request.weights || {}
 
-    weights[Constants.Stats.ATK] = (weights[Constants.Stats.ATK_P] || 0) * FLAT_STAT_SCALING.ATK
-    weights[Constants.Stats.DEF] = (weights[Constants.Stats.DEF_P] || 0) * FLAT_STAT_SCALING.DEF
-    weights[Constants.Stats.HP] = (weights[Constants.Stats.HP_P] || 0) * FLAT_STAT_SCALING.HP
+    applyFlatStatScaling(weights as Record<string, number>)
 
     for (const weight of Object.keys(weights) as Array<keyof typeof weights>) {
       if (!weights[weight]) weights[weight] = 0

@@ -1,6 +1,8 @@
 import {
   Constants,
+  PERCENT_TO_FLAT_STAT,
   Stats,
+  type FlatPercentStat,
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
@@ -22,7 +24,13 @@ export const GRADE_CONFIG = {
 } as const
 export type ValidGrade = keyof typeof GRADE_CONFIG
 
-export const FLAT_STAT_SCALING = { HP: 0.4, ATK: 0.4, DEF: 0.4 } as const
+export const FLAT_STAT_SCALING: Record<FlatPercentStat, number> = { [Stats.HP]: 0.4, [Stats.ATK]: 0.4, [Stats.DEF]: 0.4 }
+
+export function applyFlatStatScaling(stats: Record<string, number>) {
+  for (const [pct, flat] of Object.entries(PERCENT_TO_FLAT_STAT)) {
+    if (flat) stats[flat] = (stats[pct] || 0) * FLAT_STAT_SCALING[flat]
+  }
+}
 
 export const POSSIBLE_SUBSTATS = new Set(Constants.SubStats)
 

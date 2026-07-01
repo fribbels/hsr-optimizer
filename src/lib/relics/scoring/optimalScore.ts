@@ -76,6 +76,7 @@ export function computeOptimalScore(part: Parts, mainstat: MainStats, meta: Scor
 
     case ScoringCase.NORMAL: {
       const mainStat = resolveOptimalMainstat(part, mainstat, meta)
+      const { high } = getEffectiveSubstatAccessors(meta, mainStat)
       const filtered = meta.sortedSubstats.filter(([name]) => name !== mainStat)
       const effective = filtered
         .map(([name]) => high(name))

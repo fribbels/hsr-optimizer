@@ -210,7 +210,7 @@ const healSimulation = (): SimulationMetadata => ({
   leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.OHB],
-    [Parts.Feet]: [Stats.SPD],
+    [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
     [Parts.PlanarSphere]: [Stats.ATK_P],
     [Parts.LinkRope]: [Stats.ATK_P],
   },
@@ -277,13 +277,12 @@ const scoring = (): ScoringMetadata => ({
   parts: {
     [Parts.Body]: [
       Stats.OHB,
-      Stats.HP_P,
-      Stats.DEF_P,
       Stats.ATK_P,
       Stats.EHR,
     ],
     [Parts.Feet]: [
       Stats.SPD,
+      Stats.ATK_P,
     ],
     [Parts.PlanarSphere]: [
       Stats.ATK_P,

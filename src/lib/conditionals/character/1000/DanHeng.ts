@@ -205,6 +205,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,

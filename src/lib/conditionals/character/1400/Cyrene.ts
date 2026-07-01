@@ -448,6 +448,7 @@ if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 180.
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,

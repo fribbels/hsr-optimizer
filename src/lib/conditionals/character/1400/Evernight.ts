@@ -541,6 +541,7 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,

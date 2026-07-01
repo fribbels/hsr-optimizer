@@ -524,6 +524,7 @@ if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CD,
@@ -610,6 +611,7 @@ const simulation = (): SimulationMetadata => ({
 })
 
 const healSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.HP_P],

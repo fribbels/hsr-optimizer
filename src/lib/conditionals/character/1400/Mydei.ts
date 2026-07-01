@@ -318,6 +318,7 @@ if (${wgslTrue(r.vendettaState)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CD,

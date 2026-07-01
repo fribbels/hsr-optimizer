@@ -331,6 +331,7 @@ if (${wgslTrue(r.atkToBreakVulnerability)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,

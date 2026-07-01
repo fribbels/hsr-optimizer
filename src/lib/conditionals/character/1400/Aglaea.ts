@@ -453,6 +453,7 @@ ${p_containerActionVal(memoEntityIndex, StatKey.ATK, config)} += buffValue - sta
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,

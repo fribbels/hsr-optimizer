@@ -218,6 +218,14 @@
   background: transparent;
 }
 
+.growingRowClickable {
+  cursor: pointer;
+}
+
+.growingRowClickable:hover {
+  background: var(--lb-hover-bg);
+}
+
 .growingAvatar {
   filter: grayscale(0.6);
 }

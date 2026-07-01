@@ -66,9 +66,18 @@ function ActiveRow({ row, index, selectedId, selectedType }: {
   )
 }
 
-function GrowingRow({ row }: { row: CharacterRow }) {
+const IS_LOCALHOST = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+
+function GrowingRow({ row, selectedId, selectedType }: {
+  row: CharacterRow
+  selectedId: string | null
+  selectedType: ScoringConfigType | null
+}) {
   return (
-    <div className={`${classes.row} ${classes.growingRow}`}>
+    <div
+      className={`${classes.row} ${classes.growingRow} ${IS_LOCALHOST ? classes.growingRowClickable : ''} ${IS_LOCALHOST && row.id === selectedId ? classes.selected : ''}`}
+      onClick={IS_LOCALHOST ? () => selectLeaderboardCharacter(row.id, selectedType ? { configType: configTypeToPublic(selectedType) } : undefined) : undefined}
+    >
       <span className={classes.rank}>—</span>
       <span className={classes.nameCell}>
         <img src={Assets.getCharacterAvatarById(row.id)} className={`${classes.avatar} ${classes.growingAvatar}`} />
@@ -179,7 +188,7 @@ export function CharacterListPanel() {
               <span>Insufficient data</span>
             </div>
             {growingRows.map((row) => (
-              <GrowingRow key={row.id} row={row} />
+              <GrowingRow key={row.id} row={row} selectedId={selectedId} selectedType={selectedType} />
             ))}
           </>
         )}

@@ -36,11 +36,15 @@ export function buildLeaderboardBuildScoreCacheKey(input: {
   strippedRelicHash?: string,
   spdBenchmark: number | null,
 }): string {
+  // leaderboardEnabled is a UI-only gating flag with no effect on scoring math —
+  // excluded so its addition/removal doesn't invalidate every cached build score.
+  const { leaderboardEnabled: _leaderboardEnabled, ...hashableSimulationMetadata } = input.simulationMetadata
+
   const preimage = {
     globalVersion: input.globalVersion,
     dependencyDigest: input.dependencyDigest,
     configType: input.configType,
-    simulationMetadataHash: hashObject(input.simulationMetadata),
+    simulationMetadataHash: hashObject(hashableSimulationMetadata),
     characterEidolon: input.characterEidolon,
     lightConeSuperimposition: input.lightConeSuperimposition,
     strippedRelicHash: input.strippedRelicHash ?? buildStrippedRelicHash(input.singleRelicByPart!),

@@ -1,7 +1,37 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-06-30T06:39:40.973Z",
+  "generatedAt": "2026-07-01T07:23:33.991Z",
   "events": [
+    {
+      "type": "new_best",
+      "characterId": "1309",
+      "date": "2026-07-01",
+      "score": 1.5570249792732975,
+      "previousScore": 1.5187871766446428,
+      "rank": 45,
+      "previousRank": 45,
+      "buildId": "bc9a38b1e3a4"
+    },
+    {
+      "type": "new_best",
+      "characterId": "1412",
+      "date": "2026-07-01",
+      "score": 1.5105393433364682,
+      "previousScore": 1.4620843961868188,
+      "rank": 46,
+      "previousRank": 52,
+      "buildId": "ad82f6a71aae"
+    },
+    {
+      "type": "new_best",
+      "characterId": "8005",
+      "date": "2026-07-01",
+      "score": 1.443965536381612,
+      "previousScore": 1.42349154637723,
+      "rank": 53,
+      "previousRank": 55,
+      "buildId": "63030808f2f0"
+    },
     {
       "type": "new_best",
       "characterId": "1221",

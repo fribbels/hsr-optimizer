@@ -400,6 +400,9 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.25,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: {
+    [Stats.ATK]: true,
+  },
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,

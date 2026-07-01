@@ -129,10 +129,13 @@ function buildSaberConfig(eidolon: number): CharacterBattleConfig {
         }]
       : []),
     ...(hasE6
-      ? [{
-          type: 'energy_gain' as const, targets: 'self' as const, value: 300, unit: 'flat' as const, scalesWithErr: false,
-          condition: { metric: 'buffStacks' as const, effectId: E6_ENERGY_MARKER_ID, operator: 'gte' as const, value: 1 },
-        }]
+      ? [
+          {
+            type: 'energy_gain' as const, targets: 'self' as const, value: 300, unit: 'flat' as const, scalesWithErr: false,
+            condition: { metric: 'buffStacks' as const, effectId: E6_ENERGY_MARKER_ID, operator: 'gte' as const, value: 1 },
+          },
+          { type: 'clear_buff' as const, targets: 'self' as const, effectId: E6_ENERGY_MARKER_ID },
+        ]
       : []),
     // Consumes Gilgamesh's extraAttack-granted Ult-damage-double buff, if held — a no-op otherwise.
     { type: 'clear_buff' as const, targets: 'self' as const, effectId: GILGAMESH_ULT_DOUBLE_ID },
@@ -151,7 +154,7 @@ function buildSaberConfig(eidolon: number): CharacterBattleConfig {
     ...(hasE6
       ? [{
           trigger: 'any_ally_action' as const,
-          condition: (ctx: { actingAbility: string }) => ctx.actingAbility === 'ult',
+          condition: (ctx) => ctx.actingAbility === 'ult' && ctx.actingCharacterId === ctx.selfId,
           everyNOccurrences: 3,
           effect: {
             type: 'stat_buff' as const, targets: 'self' as const, stat: E6_ENERGY_STAT, value: 0, unit: 'flat' as const,
@@ -231,7 +234,8 @@ function buildSaberConfig(eidolon: number): CharacterBattleConfig {
       condition: (ctx) => {
         const stacks = ctx.activeInterventions.find((b) => b.effectId === REACTOR_CORE_ID)?.stacks ?? 0
         const hasManaBurst = ctx.activeInterventions.some((b) => b.effectId === MANA_BURST_ID)
-        return hasManaBurst && stacks > 0 && (ctx.energy + stacks * 8) >= FULL_ENERGY_THRESHOLD
+        const skillEnergyGain = 30 * (1 + ctx.err)
+        return hasManaBurst && stacks > 0 && (ctx.energy + stacks * 8 + skillEnergyGain) >= FULL_ENERGY_THRESHOLD
       },
       effect: [
         { type: 'clear_buff', targets: 'self', effectId: MANA_BURST_ID },

@@ -223,45 +223,6 @@ export function ScannerImportSubmenu() {
           <div>
             <ul>
               <ReliquaryDescription />
-              <li>
-                {t('Import.Stage1.KelzDesc.Title')} (
-                <ColorizedLinkWithIcon
-                  text={t('Import.Stage1.KelzDesc.Link')}
-                  url={KelzScannerConfig.releases}
-                  linkIcon={true}
-                />
-                )
-                <ul>
-                  <li>{t('Import.Stage1.KelzDesc.l1')}</li>
-                  <li>{t('Import.Stage1.KelzDesc.l2')}</li>
-                </ul>
-              </li>
-              <li>
-                {t('Import.Stage1.ScorerDesc.Title')} (
-                <ColorizedLinkWithIcon
-                  text={t('Import.Stage1.ScorerDesc.Link')}
-                  linkIcon={true}
-                  onClick={() => useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)}
-                />
-                )
-                <ul>
-                  <li>{t('Import.Stage1.ScorerDesc.l1')}</li>
-                  <li>{t('Import.Stage1.ScorerDesc.l2')}</li>
-                </ul>
-              </li>
-              <li>
-                {t('Import.Stage1.HoyolabDesc.Title')} (
-                <ColorizedLinkWithIcon
-                  text={t('Import.Stage1.HoyolabDesc.Link')}
-                  url='https://github.com/fribbels/hsr-optimizer/discussions/403'
-                  linkIcon={true}
-                />
-                )
-                <ul>
-                  <li>{t('Import.Stage1.HoyolabDesc.l1')}</li>
-                  <li>{t('Import.Stage1.HoyolabDesc.l2')}</li>
-                </ul>
-              </li>
             </ul>
           </div>
           <Flex direction='column' align='flex-start'>
@@ -339,7 +300,7 @@ export function ScannerImportSubmenu() {
                   If your live import fails to connect, download the new version of{' '}
                   <ColorizedLinkWithIcon
                     text={'Reliquary Archiver'}
-                    url={ReliquaryArchiverConfig.releases}
+                    url={'/downloads/reliquary-archiver-pktmon-x64.exe'}
                     linkIcon={true}
                   />
                   {websocketUrl !== DEFAULT_WEBSOCKET_URL && (() => {

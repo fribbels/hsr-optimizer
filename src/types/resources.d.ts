@@ -8019,32 +8019,27 @@ export default interface Resources {
     "Title": "Settings"
   },
   "sidebar": {
-    "Links": {
-      "Changelog": "Changelog",
-      "Discord": "Discord",
-      "Github": "GitHub",
+    "AV": {
+      "AVVisualizer": "AV Visualizer",
       "Home": "Home",
+      "Title": "AV"
+    },
+    "General": {
+      "Import": "Import / Save",
       "Kofi": "Ko-fi",
-      "Leaks": "Beta content",
-      "Title": "Links",
-      "Unleak": "No leaks"
+      "Settings": "Settings",
+      "Title": "General"
     },
     "Optimization": {
       "Characters": "Characters",
-      "Import": "Import / Save",
       "Optimizer": "Optimizer",
       "Relics": "Relics",
-      "Settings": "Settings",
-      "Start": "Get Started",
       "Title": "Optimization"
     },
-    "Tools": {
-      "AVVisualizer": "AV Visualizer",
+    "OtherTools": {
       "Benchmarks": "Benchmarks",
       "Calculators": "Calculators",
-      "Showcase": "Showcase",
-      "Title": "Tools",
-      "WarpPlanner": "Warp Planner"
+      "Title": "Other Tools"
     }
   },
   "warpCalculatorTab": {

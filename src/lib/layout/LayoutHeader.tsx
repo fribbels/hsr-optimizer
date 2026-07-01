@@ -17,9 +17,9 @@ import {
 } from 'lib/hooks/useOpenClose'
 import { LanguageSelector } from 'lib/i18n/LanguageSelector'
 import classes from 'lib/layout/layout.module.css'
-import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import avatarImage from 'assets/david.webp'
 
 export const HEADER_HEIGHT = 48
 
@@ -47,18 +47,18 @@ export function LayoutHeader() {
             </Button>
           </Flex>
           <a
-            href={BASE_PATH}
+            href={`${BASE_PATH}#home`}
             style={{ textDecoration: 'none', color: 'inherit' }}
             onClick={(e) => {
               if (e.ctrlKey || e.metaKey || e.shiftKey) return
               e.preventDefault()
-              useGlobalStore.getState().setActiveKey(AppPages.HOME)
+              useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)
             }}
           >
             <Flex align='center'>
-              <img src={Assets.getLogo()} className={classes.logo} />
+              <img src={avatarImage} className={classes.logo} />
               <div className={classes.title}>
-                Fribbels Star Rail Optimizer
+                崩铁排轴工具 - 非官方免费开源小工具
               </div>
             </Flex>
           </a>

@@ -159,6 +159,7 @@ export function ActionConfigPanel({ characterId, actionIndex, characters, hitCou
     energy: stateSnapshot?.energy ?? 0,
     maxEnergy,
     activeInterventions: stateSnapshot?.activeInterventions ?? [],
+    err: 0,
   })
   const currentChoice: ActionChoice = lockedChoice ?? override?.choice ?? 'basic'
   const currentTargets = override?.targets ?? []
@@ -200,7 +201,7 @@ export function ActionConfigPanel({ characterId, actionIndex, characters, hitCou
   // empty) preview. maxEnergy (computed above, also used by actionLock) mirrors UltCasterPanel's own
   // lookup (customMaxEnergy, falling back to game_data's max_sp).
   const resolved = (typeof currentChoiceAbility === 'function' && stateSnapshot)
-    ? currentChoiceAbility({ energy: stateSnapshot.energy, maxEnergy, activeInterventions: stateSnapshot.activeInterventions ?? [] })
+    ? currentChoiceAbility({ energy: stateSnapshot.energy, maxEnergy, activeInterventions: stateSnapshot.activeInterventions ?? [], err: 0 })
     : undefined
   // Dynamic but no snapshot available (e.g. no simulation has run yet) — distinct from "really has no
   // effects", surfaced separately below instead of silently reading as NoEffects.

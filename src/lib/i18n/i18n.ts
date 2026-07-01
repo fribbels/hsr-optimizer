@@ -11,7 +11,7 @@ import { languages } from 'lib/utils/i18nUtils'
 import { initReactI18next } from 'react-i18next'
 
 window.yaml = yaml
-export const completedLocales: Languages[] = ['en_US', 'es_ES', 'fr_FR', 'ja_JP', 'ko_KR', 'pt_BR', 'ru_RU', 'vi_VN', 'zh_CN'] as const
+export const completedLocales: Languages[] = ['zh_CN', 'en_US'] as const
 
 const namespaces = [
   'avVisualizerTab',
@@ -49,7 +49,7 @@ void i18next
     debug: false,
     supportedLngs: supportedLanguages,
     load: 'currentOnly',
-    fallbackLng: 'en_US',
+    fallbackLng: 'zh_CN',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },

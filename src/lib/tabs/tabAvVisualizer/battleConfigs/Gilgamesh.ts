@@ -249,7 +249,6 @@ function buildGilgameshConfig(eidolon: number): CharacterBattleConfig {
         ...grantInterest(3),
         { type: 'energy_gain', targets: 'self', value: 5, unit: 'flat', scalesWithErr: true },
         { type: 'energy_gain', targets: 'self', fixedTargetId: SABER_ID, value: 120, unit: 'flat', scalesWithErr: false },
-        { type: 'energy_gain', targets: 'self', fixedTargetId: SABER_ID, value: 5, unit: 'flat', scalesWithErr: true },
         {
           type: 'stat_buff', targets: 'self', fixedTargetId: SABER_ID, stat: ULT_DMG_MULTIPLIER, value: 100, unit: 'percent',
           durationTurns: 0, effectId: SABER_ULT_DOUBLE_ID, stackable: { maxStacks: 1 },

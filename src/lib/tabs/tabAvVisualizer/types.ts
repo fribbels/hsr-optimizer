@@ -307,6 +307,7 @@ export type AbilityResolutionContext = {
   energy: number
   maxEnergy: number
   activeInterventions: ActiveIntervention[]
+  err: number
 }
 
 // What a callback-style ability resolver returns.

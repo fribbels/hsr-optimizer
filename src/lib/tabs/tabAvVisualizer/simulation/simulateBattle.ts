@@ -1148,6 +1148,7 @@ function runPassiveTriggers(
         energy: energyState?.energy ?? 0,
         maxEnergy: energyState?.maxEnergy ?? 0,
         activeInterventions: activeBuffsMap.get(id) ?? [],
+        err: energyState?.err ?? 0,
       }
       const satisfied = trigger.condition(ctx)
       if (!satisfied) continue
@@ -1191,6 +1192,7 @@ function runExtraAttacks(
       energy: energyState?.energy ?? 0,
       maxEnergy: energyState?.maxEnergy ?? 0,
       activeInterventions: activeBuffsMap.get(id) ?? [],
+      err: energyState?.err ?? 0,
     })
     if (!satisfied) continue
 
@@ -1437,6 +1439,7 @@ export function simulateBattle(
   const results: BattleEvent[] = []
   runPassiveTriggers(targetableIds, 0, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
   runExtraAttacks(targetableIds, 0, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId, results)
+  runPassiveTriggers(targetableIds, 0, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
   const energyTimeline: EnergyCheckpoint[] = [
     { av: 0, energyMap: snapshotEnergy(energyStates, targetableIds) },
   ]
@@ -1483,6 +1486,7 @@ export function simulateBattle(
         }
         runPassiveTriggers(targetableIds, minBeforeOrUltAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
         runExtraAttacks(targetableIds, minBeforeOrUltAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId, results)
+        runPassiveTriggers(targetableIds, minBeforeOrUltAv, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
         energyTimeline.push({ av: minBeforeOrUltAv, energyMap: snapshotEnergy(energyStates, targetableIds) })
         // See SimulationResult.chainSnapshots — recorded after passiveTriggers/extraAttacks too, so this
         // is the fully settled state once this item is done, not just its own immediate effects.
@@ -1630,6 +1634,7 @@ export function simulateBattle(
         energy: ownEnergy?.energy ?? 0,
         maxEnergy: ownEnergy?.maxEnergy ?? 0,
         activeInterventions: activeBuffsMap.get(event.characterId) ?? [],
+        err: ownEnergy?.err ?? 0,
       })
       const effectiveChoice = config?.autoActsOnOwnEnergy && ownEnergy
         ? (ownEnergy.energy >= ownEnergy.maxEnergy ? 'skill' : 'basic')
@@ -1653,6 +1658,7 @@ export function simulateBattle(
             energy: ownEnergyForAbility?.energy ?? 0,
             maxEnergy: ownEnergyForAbility?.maxEnergy ?? 0,
             activeInterventions: activeBuffsMap.get(event.characterId) ?? [],
+            err: ownEnergyForAbility?.err ?? 0,
           })
         : { templates: rawAbility ?? [] }
       const templates: InterventionTemplate[] = matchedVariant?.templates ?? abilityResolution.templates
@@ -1797,6 +1803,7 @@ export function simulateBattle(
     // Checkpoint after all effects at this action AV have been applied.
     runPassiveTriggers(targetableIds, event.av, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
     runExtraAttacks(targetableIds, event.av, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId, results)
+    runPassiveTriggers(targetableIds, event.av, charStates, queue, energyStates, activeBuffsMap, teamState, entityTypeById, companionIdByOwnerId, ownerIdByCompanionId)
     energyTimeline.push({ av: event.av, energyMap: snapshotEnergy(energyStates, targetableIds) })
   }
 

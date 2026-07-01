@@ -1,7 +1,8 @@
 import { stripTrailingSlashes } from 'lib/utils/miscUtils'
 
 export enum BasePath {
-  MAIN = '/hsr-optimizer',
+  // MAIN = '/hsr-optimizer',
+  MAIN = '',
   BETA = '/dreary-quibbles',
 }
 
@@ -26,11 +27,12 @@ export enum AppPages {
   METADATA_TEST = 'METADATA_TEST',
 
   AV_VISUALIZER = 'AV_VISUALIZER',
+  DONATE = 'DONATE',
 }
 
 type Route = `${typeof BASE_PATH}${RouteSuffix}`
 
-type RouteSuffix = '' | '#main' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#aha' | '#ehr' | '#webgpu' | '#metadata' | '#av'
+type RouteSuffix = '' | '#main' | '#home' | '#showcase' | '#changelog' | '#warp' | '#benchmarks' | '#aha' | '#ehr' | '#webgpu' | '#metadata' | '#av' | '#donate'
 
 export const PageToRoute = {
   [AppPages.HOME]: BASE_PATH,
@@ -40,7 +42,7 @@ export const PageToRoute = {
   [AppPages.RELICS]: `${BASE_PATH}#main`,
   [AppPages.IMPORT]: `${BASE_PATH}#main`,
 
-  [AppPages.SHOWCASE]: `${BASE_PATH}#showcase`,
+  [AppPages.SHOWCASE]: `${BASE_PATH}#home`,
   [AppPages.CHANGELOG]: `${BASE_PATH}#changelog`,
   [AppPages.WARP]: `${BASE_PATH}#warp`,
   [AppPages.BENCHMARKS]: `${BASE_PATH}#benchmarks`,
@@ -50,6 +52,7 @@ export const PageToRoute = {
   [AppPages.METADATA_TEST]: `${BASE_PATH}#metadata`,
 
   [AppPages.AV_VISUALIZER]: `${BASE_PATH}#av`,
+  [AppPages.DONATE]: `${BASE_PATH}#donate`,
 } as const satisfies Record<AppPages, Route>
 
 const RouteToPage: Record<string, AppPages> = {
@@ -63,10 +66,6 @@ export function getDefaultActiveKey() {
   const pathname = stripTrailingSlashes(window.location.pathname)
   const page = RouteToPage[pathname + window.location.hash.split('?')[0] as Route]
 
-  // Redirect #main to HOME for first-time users (no prior save data)
-  if (page === AppPages.OPTIMIZER && localStorage.getItem('state') === null) {
-    return AppPages.HOME
-  }
-
-  return page ?? AppPages.HOME
+  if (!page || page === AppPages.HOME) return AppPages.SHOWCASE
+  return page
 }

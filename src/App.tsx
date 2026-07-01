@@ -15,6 +15,7 @@ import {
   themeResolver,
 } from 'lib/ui/theme'
 
+import bgImage from 'assets/Aeon_Nous_opt.webp'
 import {
   useEffect,
   useMemo,
@@ -37,6 +38,11 @@ export function App() {
   useEffect(() => {
     const timerId = setTimeout(() => checkForUpdatesNotification(useGlobalStore.getState().version), 1000)
     return () => clearTimeout(timerId)
+  }, [])
+
+  useEffect(() => {
+    const img = new Image()
+    img.src = bgImage
   }, [])
 
   return (

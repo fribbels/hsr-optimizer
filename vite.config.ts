@@ -3,7 +3,8 @@ import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  base: '/hsr-optimizer',
+  // base: '/hsr-optimizer',
+  base: '/',
   plugins: [
     react(),
   ],

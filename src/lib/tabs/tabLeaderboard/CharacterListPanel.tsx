@@ -7,6 +7,7 @@ import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
 import {
   getCharacterLeaderboardConfigTypes,
+  isCharacterLeaderboardEnabled,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import { getPublicEntryCount } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
@@ -19,6 +20,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import type { CharacterId } from 'types/character'
 import { ScoringConfigType } from 'types/metadata'
 
 function abbreviateCount(n: number): string {
@@ -26,12 +28,57 @@ function abbreviateCount(n: number): string {
   return String(n)
 }
 
+
 const CONFIG_TABS = [
   { type: ScoringConfigType.DPS, label: 'DPS' },
   { type: ScoringConfigType.BUFFER, label: 'Support' },
   { type: ScoringConfigType.HEAL, label: 'Heal' },
   { type: ScoringConfigType.SHIELD, label: 'Shield' },
 ]
+
+type CharacterRow = {
+  id: CharacterId
+  name: string
+  topScore: number
+  entryCount: number
+  publicEntryCount: number
+}
+
+function ActiveRow({ row, index, selectedId, selectedType }: {
+  row: CharacterRow
+  index: number
+  selectedId: string | null
+  selectedType: ScoringConfigType | null
+}) {
+  return (
+    <div
+      className={`${classes.row} ${row.id === selectedId ? classes.selected : ''}`}
+      onClick={() => selectLeaderboardCharacter(row.id, selectedType ? { configType: configTypeToPublic(selectedType) } : undefined)}
+    >
+      <span className={classes.rank}>{index + 1}</span>
+      <span className={classes.nameCell}>
+        <img src={Assets.getCharacterAvatarById(row.id)} className={classes.avatar} />
+        <span className={classes.name}>{row.name}</span>
+      </span>
+      <span className={classes.score}>{row.topScore > 0 ? `${truncate10ths(row.topScore * 100).toFixed(1)}%` : '—'}</span>
+      <span className={classes.count}>{row.entryCount > 0 ? `${abbreviateCount(row.publicEntryCount)} / ${abbreviateCount(row.entryCount)}` : '—'}</span>
+    </div>
+  )
+}
+
+function GrowingRow({ row }: { row: CharacterRow }) {
+  return (
+    <div className={`${classes.row} ${classes.growingRow}`}>
+      <span className={classes.rank}>—</span>
+      <span className={classes.nameCell}>
+        <img src={Assets.getCharacterAvatarById(row.id)} className={`${classes.avatar} ${classes.growingAvatar}`} />
+        <span className={classes.name}>{row.name}</span>
+      </span>
+      <span className={classes.score}>—</span>
+      <span className={classes.count}>{row.entryCount > 0 ? abbreviateCount(row.entryCount) : '—'}</span>
+    </div>
+  )
+}
 
 export function CharacterListPanel() {
   const characters = useLeaderboardTabStore((s) => s.availableCharacters)
@@ -53,10 +100,10 @@ export function CharacterListPanel() {
     ? activeType
     : null
 
-  const rows = useMemo(() => {
+  const { activeRows, growingRows } = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase()
 
-    return characters
+    const all = characters
       .filter((id) => selectedType == null || getCharacterLeaderboardConfigTypes(id).includes(selectedType))
       .map((id) => {
         const topScore = topScores[id] ?? 0
@@ -71,7 +118,22 @@ export function CharacterListPanel() {
         }
       })
       .filter((row) => normalizedSearch.length === 0 || row.name.toLowerCase().includes(normalizedSearch))
-      .sort((a, b) => b.topScore - a.topScore)
+
+    const active: CharacterRow[] = []
+    const growing: CharacterRow[] = []
+
+    for (const row of all) {
+      if (isCharacterLeaderboardEnabled(row.id)) {
+        active.push(row)
+      } else {
+        growing.push(row)
+      }
+    }
+
+    active.sort((a, b) => b.topScore - a.topScore)
+    growing.sort((a, b) => b.entryCount - a.entryCount)
+
+    return { activeRows: active, growingRows: growing }
   }, [characters, search, selectedType, topScores, totalEntries, t])
 
   return (
@@ -105,22 +167,22 @@ export function CharacterListPanel() {
       </div>
 
       <OverlayScrollbarsComponent className={classes.list} options={OVERLAY_SCROLLBAR_OPTIONS} defer>
-        {rows.map((row, index) => (
-          <div
-            key={row.id}
-            className={`${classes.row} ${row.id === selectedId ? classes.selected : ''}`}
-            onClick={() => selectLeaderboardCharacter(row.id, selectedType ? { configType: configTypeToPublic(selectedType) } : undefined)}
-          >
-            <span className={classes.rank}>{index + 1}</span>
-            <span className={classes.nameCell}>
-              <img src={Assets.getCharacterAvatarById(row.id)} className={classes.avatar} />
-              <span className={classes.name}>{row.name}</span>
-            </span>
-            <span className={classes.score}>{row.topScore > 0 ? `${truncate10ths(row.topScore * 100).toFixed(1)}%` : '—'}</span>
-            <span className={classes.count}>{row.entryCount > 0 ? `${abbreviateCount(row.publicEntryCount)} / ${abbreviateCount(row.entryCount)}` : '—'}</span>
-          </div>
+        {activeRows.map((row, index) => (
+          <ActiveRow key={row.id} row={row} index={index} selectedId={selectedId} selectedType={selectedType} />
         ))}
-        {rows.length === 0 && <div className={classes.empty}>No matching characters</div>}
+        {activeRows.length === 0 && growingRows.length === 0 && (
+          <div className={classes.empty}>No matching characters</div>
+        )}
+        {growingRows.length > 0 && (
+          <>
+            <div className={classes.growingDivider}>
+              <span>Insufficient data</span>
+            </div>
+            {growingRows.map((row) => (
+              <GrowingRow key={row.id} row={row} />
+            ))}
+          </>
+        )}
       </OverlayScrollbarsComponent>
     </div>
   )

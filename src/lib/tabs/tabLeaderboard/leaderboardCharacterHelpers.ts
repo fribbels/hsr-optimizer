@@ -23,3 +23,15 @@ export function getCharacterLeaderboardConfigTypes(characterId: CharacterId): Sc
   if (scoringMetadata?.shieldSimulation) configTypes.push(ScoringConfigType.SHIELD)
   return configTypes
 }
+
+export function isCharacterLeaderboardEnabled(characterId: CharacterId): boolean {
+  const scoringMetadata = getGameMetadata().characters[characterId]?.scoringMetadata
+  if (!scoringMetadata) return false
+  const sims = [
+    scoringMetadata.simulation,
+    scoringMetadata.supportSimulation,
+    scoringMetadata.healSimulation,
+    scoringMetadata.shieldSimulation,
+  ]
+  return sims.some((sim) => sim?.leaderboardEnabled === true)
+}

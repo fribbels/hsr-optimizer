@@ -54,6 +54,7 @@ export type ScoringMetadata = {
   /*      stat score      */ modified?: boolean,
   /*      stat score      */ parts: Record<Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>, MainStats[]>,
   /* stat score/optimizer */ stats: Record<SubStats, number> & Partial<Record<'minWeightedRolls', number>>,
+  /*      stat score      */ flatMainstatBoost?: Partial<Record<'ATK' | 'HP' | 'DEF', true>>,
   /*      optimizer       */ presets: PresetDefinition[],
   /*      optimizer       */ defaultDamageType?: number,
   /*      optimizer       */ sortOption: SortOptionProperties,

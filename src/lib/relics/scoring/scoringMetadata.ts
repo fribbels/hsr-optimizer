@@ -55,6 +55,7 @@ function toScorerMetadata(metadata: ScoringMetadata): ScorerMetadata {
     stats: prepareScorerStats(metadata.stats),
     parts: metadata.parts,
     modified: metadata.modified,
+    flatMainstatBoost: metadata.flatMainstatBoost,
   } as ScorerMetadata
 }
 
@@ -109,10 +110,10 @@ export function prepareScoringMetadata(
       scoringMetadata.parts.PlanarSphere.filter((x) => !(DMG_MAINSTATS as string[]).includes(x)),
       scoringMetadata.parts.LinkRope,
     ]
-    scoringMetadata.greedyHash = objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
-    scoringMetadata.hash = objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+    scoringMetadata.greedyHash = objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
+    scoringMetadata.hash = objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
   } else {
-    scoringMetadata.greedyHash = objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
+    scoringMetadata.greedyHash = objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
     scoringMetadata.hash = scoringMetadata.greedyHash
   }
 

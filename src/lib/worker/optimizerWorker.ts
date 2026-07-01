@@ -50,8 +50,8 @@ import {
   encodeRelicSetIndex,
   OrnamentSetToIndex,
   RelicSetToIndex,
-  SetsOrnaments,
-  SetsRelics,
+  type SetsOrnaments,
+  type SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import { type SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
 import type { BaseWorkerInput } from 'lib/worker/workerPool'

@@ -420,6 +420,7 @@ if (cr > 1.00) {
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.CD],
     [Parts.Feet]: [Stats.SPD],

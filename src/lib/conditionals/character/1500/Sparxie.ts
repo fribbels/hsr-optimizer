@@ -419,6 +419,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,

@@ -393,6 +393,7 @@ if (${wgslTrue(r.ehrToDmg)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.EHR,

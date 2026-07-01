@@ -88,6 +88,7 @@ export type SimulationMetadata = {
    * flat filler (`Stats.ATK` / `Stats.HP` / `Stats.DEF`) — SPD is implicit and doesn't count.
    */
   substats: SubStats[],
+  leaderboardEnabled?: boolean,
   errRopeEidolon?: number,
   deprioritizeBuffs?: boolean,
   comboTurnAbilities: TurnAbilityName[],

@@ -338,6 +338,7 @@ if (ehrValue >= 0.75 && stateValue == 0) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,

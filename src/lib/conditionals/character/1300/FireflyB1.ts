@@ -352,6 +352,7 @@ if (${wgslTrue(r.superBreakDmg && r.enhancedStateActive)} && be >= 3.00) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,

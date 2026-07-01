@@ -362,6 +362,7 @@ ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)} += cdBuffV
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,

@@ -252,6 +252,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
     [Parts.Feet]: [Stats.SPD],

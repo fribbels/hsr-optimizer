@@ -501,6 +501,7 @@ ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += cdDelta;
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,

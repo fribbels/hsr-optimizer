@@ -22,7 +22,6 @@
   --primary-light: var(--mantine-color-primary-2);
   --primary-default: var(--mantine-color-primary-5);
   --primary-hover: var(--mantine-color-primary-4);
-  --primary-active: var(--mantine-color-primary-6);
   --primary-subtle: var(--mantine-color-primary-7);
   --primary-bg: var(--mantine-color-primary-8);
   --primary-light-alpha: var(--mantine-color-primary-light);
@@ -41,7 +40,6 @@
 
   /* Fixed accent colors (not seed-derived) */
   --color-link: #91bfff;
-  --color-gold: #e1a564;
   --color-accent: #799ef4;
 
   /* Rarity card gradients */
@@ -62,6 +60,4 @@
   --backdrop-blur: blur(5px);
   --showcase-backdrop: blur(3px);
 
-  /* Translucent (follow-up: seed-tint this) */
-  --bg-translucent: rgba(26, 27, 30, 0.73);
 }

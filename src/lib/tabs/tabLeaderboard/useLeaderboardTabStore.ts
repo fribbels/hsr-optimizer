@@ -16,6 +16,8 @@ import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/showcaseTabTypes
 import type { CharacterId } from 'types/character'
 
 export interface LeaderboardTabState {
+  loading: boolean
+
   selectedCharacterId: CharacterId | null
   selectedBuildId: string | null
   characterListExpanded: boolean
@@ -43,6 +45,8 @@ export interface LeaderboardTabState {
 }
 
 export const useLeaderboardTabStore = createTabAwareStore<LeaderboardTabState>((set) => ({
+  loading: true,
+
   selectedCharacterId: null,
   selectedBuildId: null,
   characterListExpanded: true,

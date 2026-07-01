@@ -1,5 +1,6 @@
 import {
   Chip,
+  Loader,
   TextInput,
 } from '@mantine/core'
 import { configTypeToPublic } from 'leaderboard/shared/configTypeMapping'
@@ -90,6 +91,7 @@ function GrowingRow({ row, selectedId, selectedType }: {
 }
 
 export function CharacterListPanel() {
+  const loading = useLeaderboardTabStore((s) => s.loading)
   const characters = useLeaderboardTabStore((s) => s.availableCharacters)
   const selectedId = useLeaderboardTabStore((s) => s.selectedCharacterId)
   const topScores = useLeaderboardTabStore((s) => s.topScores)
@@ -180,7 +182,9 @@ export function CharacterListPanel() {
           <ActiveRow key={row.id} row={row} index={index} selectedId={selectedId} selectedType={selectedType} />
         ))}
         {activeRows.length === 0 && growingRows.length === 0 && (
-          <div className={classes.empty}>No matching characters</div>
+          <div className={classes.empty}>
+            {loading ? <Loader size='lg' /> : 'No matching characters'}
+          </div>
         )}
         {growingRows.length > 0 && (
           <>

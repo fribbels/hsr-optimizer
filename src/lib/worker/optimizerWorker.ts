@@ -46,6 +46,8 @@ import {
   type SortOptionProperties,
 } from 'lib/optimization/sortOptions'
 import {
+  encodeOrnamentSetIndex,
+  encodeRelicSetIndex,
   OrnamentSetToIndex,
   RelicSetToIndex,
   SetsOrnaments,
@@ -61,9 +63,6 @@ import {
   type OptimizerContext,
 } from 'types/optimizer'
 import { type Relic } from 'types/relic'
-
-const relicSetCount = Object.values(SetsRelics).length
-const ornamentSetCount = Object.values(SetsOrnaments).length
 
 export interface OptimizerWorkerInput extends BaseWorkerInput, OptimizerEventData {
   workerType: WorkerType.OPTIMIZER
@@ -228,8 +227,8 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     const setP = OrnamentSetToIndex[planarSphere.set as SetsOrnaments]
     const setL = OrnamentSetToIndex[linkRope.set as SetsOrnaments]
 
-    const relicSetIndex = setH + setB * relicSetCount + setG * relicSetCount * relicSetCount + setF * relicSetCount * relicSetCount * relicSetCount
-    const ornamentSetIndex = setP + setL * ornamentSetCount
+    const relicSetIndex = encodeRelicSetIndex(setH, setG, setB, setF)
+    const ornamentSetIndex = encodeOrnamentSetIndex(setP, setL)
 
     // Exit early if sets don't match
     const relicValid = ((relicSetSolutions[relicSetIndex >> 5] >> (relicSetIndex & 31)) & 1) === 1

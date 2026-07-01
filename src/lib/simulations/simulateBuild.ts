@@ -34,9 +34,9 @@ import type {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import {
-  OrnamentSetCount,
+  encodeOrnamentSetIndex,
+  encodeRelicSetIndex,
   OrnamentSetToIndex,
-  RelicSetCount,
   RelicSetToIndex,
 } from 'lib/sets/setConfigRegistry'
 import type {
@@ -102,19 +102,11 @@ export function simulateBuild(
     PlanarSphere = relics.PlanarSphere
     LinkRope = relics.LinkRope
 
-    let unusedSetCounter = 0
-    const unusedSets = generateUnusedSets(relics)
-    const setH = RelicSetToIndex[relics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-    const setG = RelicSetToIndex[relics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-    const setB = RelicSetToIndex[relics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-    const setF = RelicSetToIndex[relics.Feet.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-    const setP = OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
-    const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
-
-    relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
-    ornamentSetIndex = setP + setL * OrnamentSetCount
-    sets = [setH, setG, setB, setF, setP, setL]
-    setCounts = calculateSetCounts(sets)
+    const computed = precomputeSetState(relics)
+    relicSetIndex = computed.relicSetIndex
+    ornamentSetIndex = computed.ornamentSetIndex
+    sets = computed.sets
+    setCounts = computed.setCounts
   }
 
   const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
@@ -306,6 +298,24 @@ function generateUnusedSets(relics: SimulationRelicByPart) {
     OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments],
   ])
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
+}
+
+export function precomputeSetState(relics: SimulationRelicByPart): PrecomputedSetState {
+  let unusedSetCounter = 0
+  const unusedSets = generateUnusedSets(relics)
+  const setH = RelicSetToIndex[relics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setG = RelicSetToIndex[relics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setB = RelicSetToIndex[relics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setF = RelicSetToIndex[relics.Feet.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setP = OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
+  const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
+
+  const relicSetIndex = encodeRelicSetIndex(setH, setG, setB, setF)
+  const ornamentSetIndex = encodeOrnamentSetIndex(setP, setL)
+  const sets = [setH, setG, setB, setF, setP, setL]
+  const setCounts = calculateSetCounts(sets)
+
+  return { setH, setG, setB, setF, setP, setL, relicSetIndex, ornamentSetIndex, sets, setCounts }
 }
 
 function extractRelics(relics: SimulationRelicByPart) {

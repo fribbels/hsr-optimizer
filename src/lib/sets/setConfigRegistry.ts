@@ -296,6 +296,14 @@ export const OrnamentSetKeyToIndex: Record<string, number> = Object.fromEntries(
 export const RelicSetCount = ALL_RELIC_CONFIGS.length
 export const OrnamentSetCount = ALL_ORNAMENT_CONFIGS.length
 
+export function encodeRelicSetIndex(setH: number, setG: number, setB: number, setF: number): number {
+  return setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
+}
+
+export function encodeOrnamentSetIndex(setP: number, setL: number): number {
+  return setP + setL * OrnamentSetCount
+}
+
 // ── Usage ──
 
 export function setToConditionalKey(set: Sets): SetConditionalI18nKey {

@@ -399,6 +399,7 @@ const scoring = (): ScoringMetadata => ({
     [Parts.Body]: [],
     [Parts.Feet]: [
       Stats.SPD,
+      Stats.ATK_P,
     ],
     [Parts.PlanarSphere]: [],
     [Parts.LinkRope]: [

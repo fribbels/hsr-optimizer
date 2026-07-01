@@ -44,6 +44,7 @@ import { readLeaderboardVersions } from 'leaderboard/shared/versioning'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { isCharacterLeaderboardEnabled } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import type { CharacterId } from 'types/character'
 import type { ScoringMetadataOverride } from 'types/metadata'
 
@@ -173,7 +174,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       timelinePath: deriveTimelinePath(publicOutputPath),
       allowedCharacterIds: new Set(
         Object.values(getGameMetadata().characters)
-          .filter((c) => c.rarity === 5)
+          .filter((c) => c.rarity === 5 && isCharacterLeaderboardEnabled(c.id))
           .map((c) => c.id),
       ),
     })

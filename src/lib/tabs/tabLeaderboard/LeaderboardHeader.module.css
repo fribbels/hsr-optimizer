@@ -4,7 +4,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   background: #0b0d13;
   height: 260px;

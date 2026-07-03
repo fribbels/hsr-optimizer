@@ -1,7 +1,17 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-02T09:08:10.470Z",
+  "generatedAt": "2026-07-03T06:39:52.251Z",
   "events": [
+    {
+      "type": "new_best",
+      "characterId": "1315",
+      "date": "2026-07-03",
+      "score": 1.5932835753284138,
+      "previousScore": 1.5694615455847778,
+      "rank": 40,
+      "previousRank": 44,
+      "buildId": "98380daf3f96"
+    },
     {
       "type": "new_best",
       "characterId": "1014",

@@ -1,7 +1,16 @@
 import i18next from 'i18next'
+import {
+  aoe,
+  ashblazingMulti,
+  bounce,
+} from 'lib/conditionals/ashblazingCompute'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import {
+  boostUltAshblazingAtk,
+  gpuBoostUltAshblazingAtk,
+} from 'lib/conditionals/conditionalFinalizers'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -102,13 +111,56 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const decimationCdValue = skill(e, 1.00, 1.10)
   const decimationSkillCdValue = skill(e, 1.00, 1.10)
 
+  // const maxSourceEnergy = e >= 6 ? 6 : 3
+  const sourceEnergy = e >= 6 ? 6 : 3 // Math.min(r.sourceEnergyStacks, maxSourceEnergy)
+
+  // Himenova ult sequence is
+  // Orbital Annihilation Pulse - AOE(ultOrbitalAoeScaling) + Bounce(sourceEnergy * ultOrbitalRandomScaling)
+  // Hyperluminal Particle Beam - AOE(ultBeamScaling)
+  // Hyperluminal Particle Beam - AOE(ultBeamScaling)
+  // Hyperluminal Particle Beam - AOE(ultBeamScaling)
+  // Orbital Annihilation Pulse - AOE(ultOrbitalAoeScaling) + Bounce(sourceEnergy * ultOrbitalRandomScaling)
+  // Hyperluminal Particle Beam - AOE(ultBeamScaling)
+  // Hyperluminal Particle Beam - AOE(ultBeamScaling)
+  // Hyperluminal Particle Beam - AOE(ultBeamScaling)
+  // Orbital Annihilation Pulse - AOE(ultOrbitalAoeScaling) + Bounce(sourceEnergy * ultOrbitalRandomScaling)
+  // Final hit                  - Bounce 3 * ultFinalHitScaling
+
+  // for E6 Himeko:
+  // sequencing is reliant on getting 3 external sourceEnergy between each ult, not guaranteed but should be consistent
+  // Pulses get an extra AOE hit:
+  //   When launching "Orbital Annihilation Pulse," if the current "Source Energy" is 6 point(s) or more,
+  //   additionally deals Fire DMG equal to 160% of Himeko • Nova's ATK to all enemies 1 time.
+
+  const pulseHits = [
+    aoe(ultOrbitalAoeScaling),
+    bounce(ultOrbitalRandomScaling, sourceEnergy),
+  ]
+  if (e >= 6) pulseHits.push(aoe(ultE6OrbitalScaling))
+
+  const beamHit = aoe(ultBeamScaling)
+
+  const finalHitHit = bounce(ultFinalHitScaling, 3)
+
+  const ultHitMulti = ashblazingMulti([
+    ...pulseHits,
+    beamHit,
+    beamHit,
+    beamHit,
+    ...pulseHits,
+    beamHit,
+    beamHit,
+    beamHit,
+    ...pulseHits,
+    finalHitHit,
+  ])
+
   const defaults = {
     navigatorsSemaphore: true,
     selfUseAssistSkill: true,
     assistSkillBuff: true,
     companionVerdict: true,
     companionDecimation: false,
-    sourceEnergyStacks: 3,
     e4ResPen: true,
     e6: true,
   }
@@ -151,14 +203,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Companion Protocol: Decimation',
       content: betaContent,
     },
-    sourceEnergyStacks: {
-      id: 'sourceEnergyStacks',
-      formItem: 'slider',
-      text: 'Source Energy stacks',
-      content: betaContent,
-      min: 0,
-      max: e >= 6 ? 6 : 3,
-    },
     e4ResPen: {
       id: 'e4ResPen',
       formItem: 'switch',
@@ -200,16 +244,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => [...HimekoNovaAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-
-      const maxSourceEnergy = e >= 6 ? 6 : 3
-      const sourceEnergy = Math.min(r.sourceEnergyStacks, maxSourceEnergy)
       const a6Multiplier = sourceEnergy >= 3 ? 0.30 : 0
 
-      const ultAtkScaling = ultBeamScaling * 6
-        + ultOrbitalAoeScaling * sourceEnergy
+      const pulseScaling = ultOrbitalAoeScaling
         + (ultOrbitalRandomScaling + a6Multiplier) * sourceEnergy / context.enemyCount
-        + ultFinalHitScaling * 3 / context.enemyCount
-        + ((e >= 6 && r.e6 && sourceEnergy >= 6) ? ultE6OrbitalScaling : 0)
+        + (e >= 6 && r.e6 && sourceEnergy >= 6 ? ultE6OrbitalScaling : 0)
+      const beamScaling = ultBeamScaling
+      const finalHitScaling = ultFinalHitScaling * 3 / context.enemyCount
+
+      const ultAtkScaling = finalHitScaling
+        + pulseScaling * 3
+        + beamScaling * 6
 
       return {
         [AbilityKind.BASIC]: {
@@ -296,8 +341,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostUltAshblazingAtk(x, action, ultHitMulti(context))
     },
-    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
+    newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
+      return gpuBoostUltAshblazingAtk(action, ultHitMulti(context))
+    },
 
     dynamicConditionals: [],
   }

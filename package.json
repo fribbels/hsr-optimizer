@@ -98,5 +98,9 @@
       "framework-utils": "1.1.0"
     },
     "@esotericsoftware/spine-core": "4.1.23"
+  },
+  "allowScripts": {
+    "@swc/core@1.15.33": true,
+    "dprint@0.54.0": true
   }
 }

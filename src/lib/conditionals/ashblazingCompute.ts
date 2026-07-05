@@ -6,8 +6,8 @@ const ENEMY_COUNTS = [1, 3, 5] as const
 type TargetType = 'single' | 'aoe' | 'blast' | 'bounce' | 'outer'
 
 export type AshblazingHit =
-  | { targetType: 'single' | 'aoe' | 'blast'; weight: number }
-  | { targetType: 'bounce'; weight: number; bounceCount: number }
+  | { targetType: 'single' | 'aoe' | 'blast', weight: number }
+  | { targetType: 'bounce', weight: number, bounceCount: number }
   | { targetType: 'outer' }
 
 export type AshblazingMultiFn = (context: { enemyCount: number }) => number

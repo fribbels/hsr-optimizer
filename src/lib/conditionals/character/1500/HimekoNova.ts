@@ -98,7 +98,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const allyAssistAoeScaling = skill(e, 1.60, 1.76)
   const allyAssistRandomScaling = skill(e, 0.24, 0.264)
   const verdictDmgBoostValue = skill(e, 1.00, 1.10)
-  const verdictUltCdValue = skill(e, 1.00, 1.10)
+  const verdictUltDmgBoostValue = skill(e, 1.00, 1.10)
   const decimationCdValue = skill(e, 1.00, 1.10)
   const decimationSkillCdValue = skill(e, 1.00, 1.10)
 
@@ -270,9 +270,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.30 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E2))
       x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.30 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E2))
 
-      // Verdict: DMG +100%, Ult CD +100%
+      // Verdict: DMG +100%, Ult DMG +100%
       x.buff(StatKey.BOOST, r.companionVerdict ? verdictDmgBoostValue : 0, x.source(SOURCE_UNIQUE))
-      x.buff(StatKey.CD, r.companionVerdict ? verdictUltCdValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
+      x.buff(StatKey.BOOST, r.companionVerdict ? verdictUltDmgBoostValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
 
       // Decimation: CD +100%, Skill CD +100%
       x.buff(StatKey.CD, r.companionDecimation ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))

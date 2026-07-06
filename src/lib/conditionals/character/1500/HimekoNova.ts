@@ -232,9 +232,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         [AbilityKind.UNIQUE]: {
           hits: [
-            HitDefinitionBuilder.standardSkill()
+            HitDefinitionBuilder.standardAssistSkill()
               .damageElement(ElementTag.Fire)
-              .damageType(DamageTag.ASSIST)
               .atkScaling(
                 r.selfUseAssistSkill
                   ? (selfAssistAoeScaling + selfAssistRandomScaling * 4 / context.enemyCount)

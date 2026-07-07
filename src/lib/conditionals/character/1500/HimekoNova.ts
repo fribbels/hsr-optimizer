@@ -412,6 +412,7 @@ const scoring = (): ScoringMetadata => ({
 const display = {
   // TODO: placeholder image coordinates
   imageCenter: { x: 902, y: 928, z: 1.25 },
+  spineCenter: { x: 914, y: 969, z: 1.25 },
   showcaseColor: '#b584e8',
 }
 

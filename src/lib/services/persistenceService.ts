@@ -47,6 +47,8 @@ import {
 } from 'lib/stores/relic/relicStore'
 import { pruneOverridesOnLoad } from 'lib/stores/scoring/scoringDelta'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import type { Wave } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
+import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
@@ -175,6 +177,32 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
     if (saveData.savedSession.showcaseTab) { // Set showcase tab state
       useShowcaseTabStore.getState().setSavedSession(saveData.savedSession.showcaseTab)
+    }
+
+    if (saveData.savedSession.avVisualizerTab) { // Set AV visualizer tab state
+      const session = saveData.savedSession.avVisualizerTab
+      // If a character has been deleted, clear its slot to avoid referencing a non-existent character.
+      // errOverride/eidolonOverride default to null for saves written before those fields existed.
+      const sanitizedSlots = session.slots.map((slot) =>
+        slot.characterId && !dbCharacters[slot.characterId as CharacterId]
+          ? { ...slot, characterId: null, spdOverride: null, errOverride: null, eidolonOverride: null }
+          : { ...slot, errOverride: slot.errOverride ?? null, eidolonOverride: slot.eidolonOverride ?? null }
+      ) as typeof session.slots
+      // Saves from before Wave support was added have the old flat shape (interventions/rowCount/
+      // mocFirstRow directly on the session, no `waves` array) — wrap that into a single Wave. Saves from
+      // even earlier (before those fields existed at all) fall back to sensible defaults either way.
+      const raw = session as unknown as Partial<Wave> & { waves?: Wave[]; currentWaveIndex?: number }
+      useAVVisualTabStore.getState().setSavedSession({
+        slots: sanitizedSlots,
+        waves: raw.waves ?? [{
+          interventions: raw.interventions ?? [],
+          actionOverrides: raw.actionOverrides ?? [],
+          ultInsertions: raw.ultInsertions ?? [],
+          rowCount: raw.rowCount ?? 3,
+          mocFirstRow: raw.mocFirstRow ?? false,
+        }],
+        currentWaveIndex: raw.currentWaveIndex ?? 0,
+      })
     }
   }
 

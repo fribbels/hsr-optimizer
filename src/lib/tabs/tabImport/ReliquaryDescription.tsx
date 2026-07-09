@@ -12,7 +12,7 @@ export function ReliquaryDescription() {
     <>
       <li>
         <b>{t('Title') /* (Recommended) IceDynamix Reliquary Archiver */}</b>{' '}
-        (<ColorizedLinkWithIcon text={t('Link') /* Github */} url={ReliquaryArchiverConfig.releases} linkIcon={true} />)
+        (<ColorizedLinkWithIcon text='下载' url='/downloads/reliquary-archiver-pktmon-x64.exe' linkIcon={true} />)
         <ul>
           {RELIQUARY_DOWNTIME
             ? (

@@ -5,6 +5,8 @@ import type {
 } from 'lib/constants/constants'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
 import type { AhaForm } from 'lib/stores/ahaTuningStore'
+import type { ActionNodeOverride, Intervention, UltInsertion } from 'lib/tabs/tabAvVisualizer/types'
+import type { AVVisualizerTabSavedSession } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorTypes'
@@ -72,6 +74,21 @@ export type HsrOptimizerSaveFormat = {
   savedSession?: {
     showcaseTab: ShowcaseTabSavedSession,
     global: GlobalSavedSession,
+    // `slots` has existed since this field was introduced. Everything else has gone through two shape
+    // changes since: `interventions`/`rowCount`/`mocFirstRow` were added after `slots` (older saves may be
+    // missing them), then that whole flat shape was wrapped into `waves`/`currentWaveIndex` when Wave
+    // support was added (older saves still have the flat fields directly, no `waves` array at all) —
+    // persistenceService.ts migrates either older shape into the current one when loading.
+    avVisualizerTab?: Pick<AVVisualizerTabSavedSession, 'slots'> & (
+      Partial<Omit<AVVisualizerTabSavedSession, 'slots'>>
+      | {
+        interventions?: Intervention[]
+        actionOverrides?: ActionNodeOverride[]
+        ultInsertions?: UltInsertion[]
+        rowCount?: number
+        mocFirstRow?: boolean
+      }
+    ),
   },
   settings?: UserSettings,
   version?: string,

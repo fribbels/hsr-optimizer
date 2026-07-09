@@ -7,6 +7,7 @@ import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import {
   DEFAULT_WEBSOCKET_URL,
   useScannerState,
@@ -63,6 +64,7 @@ export const SaveState = {
     const relicsTabState = useRelicsTabStore.getState()
     const showcaseTabSession = useShowcaseTabStore.getState().savedSession
     const globalSession = globalState.savedSession
+    const avVisualizerTabSession = useAVVisualTabStore.getState().savedSession
     const relicLocatorSession = useRelicLocatorStore.getState()
     const ahaSpeedTunerSession = useAhaTuningStore.getState()
 
@@ -79,6 +81,7 @@ export const SaveState = {
       savedSession: {
         showcaseTab: showcaseTabSession,
         global: globalSession,
+        avVisualizerTab: avVisualizerTabSession,
       },
       settings: globalState.settings,
       version: CURRENT_OPTIMIZER_VERSION,

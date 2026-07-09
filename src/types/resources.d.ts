@@ -1,4 +1,198 @@
-interface Resources {
+export default interface Resources {
+  "avVisualizerTab": {
+    "ActionConfig": {
+      "AfterEffectsTitle": "After action",
+      "ClearBuff": "Remove {{effectId}}",
+      "DynamicNoSnapshot": "Effects depend on live state — run the simulation first to see them",
+      "EffectsTitle": "Effects",
+      "EnergySetMinimum": "Raise energy to {{value}} if below it",
+      "NoConfig": "No action config available",
+      "NoEffects": "No effects for this action",
+      "SummonCompanion": "Summon companion (no-op if already present)"
+    },
+    "ActionDisplayPanel": {
+      "EditModeLabel": "Edit Mode"
+    },
+    "ActionNode": {
+      "Basic": "Basic Attack",
+      "BasicEnhanced": "Enhanced Basic ATK",
+      "ChoiceLabel": "Action",
+      "Skill": "Skill",
+      "Target": "Target"
+    },
+    "AddBranch": {
+      "AddIntervention": "Add Intervention",
+      "AddUlt": "Add Ultimate",
+      "AddUltHint": "Insert an ultimate at this position"
+    },
+    "AvLabel": "AV",
+    "BuffNames": {
+      "gilgamesh_golden_rule": "Golden Rule",
+      "gilgamesh_heros_solitude": "Hero's Solitude",
+      "gilgamesh_interest": "Interest",
+      "gilgamesh_interest_piqued": "Interest Piqued",
+      "gilgamesh_interest_spd": "Interest",
+      "gilgamesh_king_who_bowed": "King Who Bowed to None",
+      "gilgamesh_kings_acknowledgement": "King's Acknowledgement",
+      "gilgamesh_kings_burden": "King's Burden",
+      "gilgamesh_kings_contest_atk": "King's Contest",
+      "gilgamesh_kings_contest_cd": "King's Contest",
+      "gilgamesh_permission_to_strike": "I Grant You Permission To Strike",
+      "gilgamesh_permission_to_strike_ult_double": "I Grant You Permission To Strike",
+      "gilgamesh_soul_bore_friendship": "Soul That Bore Friendship",
+      "gilgamesh_witness": "He Who Saw the Deep",
+      "huohuo_e1_spd": "Possessed by a Heliobus, Evil Subduing",
+      "huohuo_e6_dmg": "Shared Fate",
+      "huohuo_qianshenyigui": "Spiritual Domination",
+      "huohuo_rangming": "Divine Provision",
+      "huohuo_zhenxiongzhiming": "The Cursed One",
+      "mimi_cheer": "Mem's Support",
+      "mimi_now_narrator": "Narrator of the Present",
+      "mimi_partner_cheer": "Friends! Together!",
+      "saber_crown_of_stars": "Crown of the Stars",
+      "saber_crown_of_stars_cd": "Crown of the Stars (Bonus Ability)",
+      "saber_dragon_reactor_core": "Dragon Reactor Core",
+      "saber_e1_lost_white_walls": "The Lost White Walls",
+      "saber_e2_round_table": "The Lost Oath of the Round Table",
+      "saber_e4_sixteen_winters": "The Saga of Sixteen Winter Days",
+      "saber_e6_long_fated_night": "The Long Fated Night",
+      "saber_e6_long_fated_night_energy": "The Long Fated Night (Energy)",
+      "saber_enhanced_basic_marker": "Enhanced Basic ATK Marker",
+      "saber_king_of_knights": "Behold, the King of Knights",
+      "saber_knight_of_dragon": "Knight of the Dragon",
+      "saber_mana_burst": "Mana Burst",
+      "saber_reactor_core": "Reactor Core",
+      "trailblazer_remembrance_e6": "Bearer of the Revelation",
+      "trailblazer_remembrance_epic": "Epic"
+    },
+    "CharacterSlot": {
+      "EditErr": "Edit ERR",
+      "EditSpd": "Edit SPD",
+      "EmptySlot": "Slot {{n}}",
+      "ErrDisplay": "ERR {{value}}%",
+      "ErrPlaceholder": "ERR",
+      "NoValue": "—",
+      "ResetEidolon": "Reset Eidolon",
+      "ResetErr": "Reset ERR",
+      "ResetSpd": "Reset SPD",
+      "SpdDisplay": "SPD {{value}}",
+      "SpdPlaceholder": "SPD"
+    },
+    "CharacterState": {
+      "EnergyPlaceholder": "Energy — available in Step 5",
+      "NoBuffs": "No active buffs",
+      "SpeedLabel": "SPD {{value}}"
+    },
+    "EffectStatNames": {
+      "BOOST": "DMG Boost",
+      "BREAK_EFFICIENCY_BOOST": "Break Efficiency",
+      "DEF_PEN": "DEF PEN",
+      "RES_PEN": "RES PEN",
+      "TRUE_DMG": "True DMG",
+      "ULT_CD_BOOST": "Ult CRIT DMG Boost",
+      "ULT_DMG_BOOST": "Ult DMG Boost",
+      "ULT_DMG_MULTIPLIER": "Ult DMG Multiplier",
+      "WIND_RES_PEN": "Wind RES PEN"
+    },
+    "GlobalActions": {
+      "CutWave": "Start new wave",
+      "CutWaveConfirmBody": "Rows after the Playhead's row in the current wave will be deleted. A new wave starts at AV 0, seeded with each character's energy/buffs/team SP at this exact point. This can't be undone.",
+      "CutWaveConfirmTitle": "Cut here and start a new wave?",
+      "CutWaveHint": "Cuts the current wave's timeline at the Playhead and starts a new wave from AV 0, carrying over energy/buffs/team SP.",
+      "CutWaveSuccess": "New wave created",
+      "DisplayMode": "Display Mode",
+      "DisplayModeAll": "Overview",
+      "DisplayModeSingle": "Single Row",
+      "Export": "Export session",
+      "Import": "Import session",
+      "ImportError": "Invalid session file",
+      "ImportSuccess": "Session imported",
+      "NextWave": "Next wave",
+      "PrevWave": "Previous wave",
+      "RemoveWave": "Remove last wave",
+      "RemoveWaveConfirmBody": "This only removes the last wave itself — the wave before it stays exactly as it was left after being cut (there's no stored history to undo that). This can't be undone.",
+      "RemoveWaveConfirmTitle": "Remove the last wave?",
+      "RemoveWaveSuccess": "Wave removed",
+      "Reset": "Reset",
+      "ResetCancel": "Cancel",
+      "ResetConfirmBody": "This clears every added intervention, action override, and ult insertion, back to right after picking characters. Character picks, SPD/ERR/eidolon, and row settings are unaffected — this can't be undone.",
+      "ResetConfirmTitle": "Reset timeline?",
+      "ResetSuccess": "Reset",
+      "Title": "Global Actions",
+      "Wave": "Wave"
+    },
+    "Marker": {
+      "ActionTooltip": "{{name}}  SPD {{spd}}  AV {{av}}",
+      "ExtraTooltip": "{{name}} Extra Attack  AV {{av}}",
+      "InterventionTooltip": "AV {{av}} · {{count}} interventions",
+      "UltTooltip": "{{name}} Ultimate  AV {{av}}"
+    },
+    "Panel": {
+      "Add": "Add",
+      "Back": "Back",
+      "Cancel": "Cancel",
+      "Duration": "Duration (turns)",
+      "EffectType": "Effect Type",
+      "EmptyHint": "Select where to add or what to edit",
+      "EnergyMode": "Energy Mode",
+      "EnergyModeFixed": "Fixed (ignores ERR)",
+      "EnergyModeNormal": "Normal (scales with ERR)",
+      "FormTitleAfter": "New · after {{name}}{{turnSuffix}}'s action",
+      "FormTitleBefore": "New · during {{name}}{{turnSuffix}}'s action",
+      "FormTitleEdit": "Edit Intervention",
+      "FormTitleFlat": "New · AV {{av}}",
+      "Save": "Save",
+      "Targets": "Targets",
+      "TargetsPlaceholder": "Select characters",
+      "Value": "Value"
+    },
+    "Sidebar": {
+      "ClearAll": "Clear All",
+      "DurationSuffix": " ({{n}} turns)",
+      "EmptyHint": "Click the timeline to add an intervention",
+      "TimingAfter": "after action",
+      "TimingBefore": "during action",
+      "Title": "Intervention List"
+    },
+    "TargetType": {
+      "AllAllies": "All allies",
+      "Self": "Self",
+      "SingleAlly": "Select target",
+      "Team": "Team SP"
+    },
+    "Timeline": {
+      "AddRow": "Add 100 AV",
+      "MocToggle": "Memory of Chaos (150)",
+      "NextRow": "Next cycle",
+      "PrevRow": "Previous cycle",
+      "RemoveRow": "Remove 100 AV"
+    },
+    "TurnSuffix": " (turn {{n}})",
+    "Types": {
+      "AvAdvance": "Advance",
+      "AvDelay": "Delay",
+      "EnergyGain": "Energy Gain",
+      "EnergyLoss": "Energy Loss",
+      "SpdDown": "Speed Down",
+      "SpdUp": "Speed Up",
+      "StatBuff": "Stat Buff",
+      "StatDebuff": "Stat Debuff"
+    },
+    "UltCard": {
+      "Effects": "Ult Effects"
+    },
+    "UltCaster": {
+      "Confirm": "Insert",
+      "EnergyStatus": "{{energy}} / {{threshold}}",
+      "NeedTarget": "Select target",
+      "NoAnchor": "Select next to a character action first",
+      "Title": "Insert Ultimate"
+    },
+    "Units": {
+      "Flat": "Flat",
+      "Percent": "Percent"
+    }
+  },
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -4970,6 +5164,9 @@ interface Resources {
       "8010": {
         "LongName": "Stelle (Elation)",
         "Name": "Stelle"
+      },
+      "trailblazer_remembrance_mimi": {
+        "Name": "Mimi"
       }
     },
     "Elements": {
@@ -7822,31 +8019,27 @@ interface Resources {
     "Title": "Settings"
   },
   "sidebar": {
-    "Links": {
-      "Changelog": "Changelog",
-      "Discord": "Discord",
-      "Github": "GitHub",
+    "AV": {
+      "AVVisualizer": "AV Visualizer",
       "Home": "Home",
+      "Title": "AV"
+    },
+    "General": {
+      "Import": "Import / Save",
       "Kofi": "Ko-fi",
-      "Leaks": "Beta content",
-      "Title": "Links",
-      "Unleak": "No leaks"
+      "Settings": "Settings",
+      "Title": "General"
     },
     "Optimization": {
       "Characters": "Characters",
-      "Import": "Import / Save",
       "Optimizer": "Optimizer",
       "Relics": "Relics",
-      "Settings": "Settings",
-      "Start": "Get Started",
       "Title": "Optimization"
     },
-    "Tools": {
+    "OtherTools": {
       "Benchmarks": "Benchmarks",
       "Calculators": "Calculators",
-      "Showcase": "Showcase",
-      "Title": "Tools",
-      "WarpPlanner": "Warp Planner"
+      "Title": "Other Tools"
     }
   },
   "warpCalculatorTab": {
@@ -7932,5 +8125,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

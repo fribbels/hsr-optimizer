@@ -29,6 +29,7 @@ import {
   useRelicStore,
 } from 'lib/stores/relic/relicStore'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
+import { useAVVisualTabStore } from 'lib/tabs/tabAvVisualizer/useAVVisualTabStore'
 import { useScannerState } from 'lib/tabs/tabImport/scannerStore'
 import { OptimizerMenuIds } from 'lib/tabs/tabOptimizer/optimizerForm/layout/optimizerMenuIds'
 import type {
@@ -130,6 +131,7 @@ beforeEach(() => {
   useScoringStore.setState(useScoringStore.getInitialState())
   useScannerState.setState(useScannerState.getInitialState())
   useOptimizerDisplayStore.setState(useOptimizerDisplayStore.getInitialState())
+  useAVVisualTabStore.setState(useAVVisualTabStore.getInitialState())
   useGlobalStore.setState({
     settings: DefaultSettingOptions,
     savedSession: savedSessionDefaults,
@@ -319,6 +321,53 @@ describe('loadSaveData', () => {
     // The original reference must be untouched — catches in-place mutation
     // even when the caller re-writes the store with a fresh object afterwards
     expect(menuStateBefore).toEqual(snapshotBefore)
+  })
+
+  it('loadSaveData restores AV visualizer tab slots from saved session', () => {
+    const saveData = emptySaveData({
+      savedSession: {
+        showcaseTab: { scorerId: null, sidebarOpen: true },
+        global: savedSessionDefaults,
+        avVisualizerTab: {
+          slots: [
+            { characterId: Kafka.id, spdOverride: null },
+            { characterId: null, spdOverride: null },
+            { characterId: Jingliu.id, spdOverride: 150 },
+            { characterId: null, spdOverride: null },
+          ],
+        },
+      },
+    })
+
+    loadSaveData(saveData, false, false)
+
+    const slots = useAVVisualTabStore.getState().savedSession.slots
+    expect(slots[0].characterId).toBe(Kafka.id)
+    expect(slots[2].characterId).toBe(Jingliu.id)
+    expect(slots[2].spdOverride).toBe(150)
+  })
+
+  it('loadSaveData clears AV visualizer tab slots referencing characters not in game metadata', () => {
+    const saveData = emptySaveData({
+      savedSession: {
+        showcaseTab: { scorerId: null, sidebarOpen: true },
+        global: savedSessionDefaults,
+        avVisualizerTab: {
+          slots: [
+            { characterId: STALE_CHARACTER_ID, spdOverride: 160 },
+            { characterId: null, spdOverride: null },
+            { characterId: null, spdOverride: null },
+            { characterId: null, spdOverride: null },
+          ],
+        },
+      },
+    })
+
+    loadSaveData(saveData, false, false)
+
+    const slots = useAVVisualTabStore.getState().savedSession.slots
+    expect(slots[0].characterId).toBeNull()
+    expect(slots[0].spdOverride).toBeNull()
   })
 
   it('loadSaveData merges settings with DefaultSettingOptions for missing keys', () => {

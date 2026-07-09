@@ -14774,21 +14774,11 @@
         "s": 1.15
       },
       "superimpositions": {
-        "1": {
-          "AttackAddedRatio": 0.4
-        },
-        "2": {
-          "AttackAddedRatio": 0.5
-        },
-        "3": {
-          "AttackAddedRatio": 0.6
-        },
-        "4": {
-          "AttackAddedRatio": 0.7
-        },
-        "5": {
-          "AttackAddedRatio": 0.8
-        }
+        "1": {},
+        "2": {},
+        "3": {},
+        "4": {},
+        "5": {}
       },
       "unreleased": true
     },

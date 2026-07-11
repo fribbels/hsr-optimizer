@@ -1,9 +1,7 @@
-import i18next from 'i18next'
 import {
   type Conditionals,
   type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -11,6 +9,8 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import {
   type LightConeId,
@@ -24,8 +24,8 @@ import {
 
 const FLICKERING_STARS_ID = '23061' as unknown as LightConeId
 
-const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightConeConditionalsController => {
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.FlickeringStars.Content')
   const { SOURCE_LC } = Source.lightCone(FLICKERING_STARS_ID)
 
   const sValuesSkillDmg = [0.72, 0.84, 0.96, 1.08, 1.20]
@@ -44,8 +44,8 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
       lc: true,
       id: 'radiantCrown',
       formItem: 'switch',
-      text: 'Radiant Crown',
-      content: betaContent,
+      text: t('radiantCrown.text'),
+      content: t('radiantCrown.content', { DefPen: precisionRound(100 * sValuesDefPen[s]), DmgBoost: precisionRound(100 * sValuesSkillDmg[s]) }),
     },
   }
 

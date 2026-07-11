@@ -3219,6 +3219,14 @@ export default interface Resources {
           }
         }
       },
+      "AStarThatLightsTheNight": {
+        "Content": {
+          "sailStacks": {
+            "content": "Each stack of \"Sail\" increases Assist Skill DMG by {{sailDmgBoost}}%. When \"Sail\" reaches 3 stacks, each stack of \"Sail\" increases Ultimate DMG by {{sailDmgBoost}}%.",
+            "text": "Sail Stacks"
+          }
+        }
+      },
       "AThanklessCoronation": {
         "Content": {
           "energyAtkBuff": {
@@ -3527,6 +3535,14 @@ export default interface Resources {
           }
         }
       },
+      "FlickeringStars": {
+        "Content": {
+          "radiantCrown": {
+            "content": "hen any ally character consumes a total of 4 or more Skill Points in a single turn, the wearer gains \"Radiant Crown,\" lasting for 3 turns. While the wearer has \"Radiant Crown,\" all allies' DMG ignores {{DefPen}}% of the target's DEF, and Skill DMG dealt by the wearer increases by {{DmgBoost}}%.",
+            "text": "Radiant Crown"
+          }
+        }
+      },
       "FlowingNightglow": {
         "Content": {
           "cadenzaActive": {
@@ -3611,6 +3627,18 @@ export default interface Resources {
           }
         }
       },
+      "IAmAsYouBehold": {
+        "Content": {
+          "kingsEntertainment": {
+            "content": "When the wearer enters combat or uses their Ultimate, the wearer gains \"King's Entertainment,\" lasting for 3 turn  s. While the wearer has \"King's Entertainment,\" increases all allies' CRIT DMG by {{CdBoost}}%.",
+            "text": "King's Entertainment"
+          },
+          "ultimateEnergyDmgBoost": {
+            "content": "When the wearer uses their Ultimate, increases the Ultimate DMG dealt this time by {{DmgBoostStep}}% for every 1 Energy consumed, up to {{MaxDmgBoost}}%.",
+            "text": "Ult Energy DMG boost"
+          }
+        }
+      },
       "IShallBeMyOwnSword": {
         "Content": {
           "eclipseStacks": {
@@ -3656,6 +3684,9 @@ export default interface Resources {
           "skillAtkBoost": {
             "content": "When the wearer uses their Skill, the Effect Hit Rate for this attack increases by {{EhrBuff}}%, and ATK increases by {{AtkBuff}}%.",
             "text": "Skill ATK boost"
+          },
+          "skillEhrBoost": {
+            "text": "Skill EHR boost"
           }
         }
       },

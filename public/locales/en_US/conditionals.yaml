@@ -40,6 +40,11 @@ Lightcones:
         text: Mirage Fizzle debuff
         content: >-
           When the wearer hits an enemy target, inflicts Mirage Fizzle on the enemy, lasting for 1 turn. Each time the wearer attacks, this effect can only trigger 1 time on each target. The wearer deals {{DmgBoost}}% increased DMG to targets afflicted with Mirage Fizzle, and the DMG dealt by the wearer's Ultimate additionally increases by {{UltDmgBoost}}%.
+  AStarThatLightsTheNight:
+    Content:
+      sailStacks:
+        text: Sail Stacks
+        content: Each stack of "Sail" increases Assist Skill DMG by {{sailDmgBoost}}%. When "Sail" reaches 3 stacks, each stack of "Sail" increases Ultimate DMG by {{sailDmgBoost}}%.
   AThanklessCoronation:
     Content:
       ultAtkBoost:
@@ -136,6 +141,11 @@ Lightcones:
       skillUltDmgBoost:
         text: Skill / Ult DMG boost
         content: When using Skill or Ultimate, increases the DMG dealt by this attack by {{DmgBoost}}%.
+  FlickeringStars:
+    Content:
+      radiantCrown:
+        text: Radiant Crown
+        content: hen any ally character consumes a total of 4 or more Skill Points in a single turn, the wearer gains "Radiant Crown," lasting for 3 turns. While the wearer has "Radiant Crown," all allies' DMG ignores {{DefPen}}% of the target's DEF, and Skill DMG dealt by the wearer increases by {{DmgBoost}}%.
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -146,6 +156,14 @@ Lightcones:
         text: Cantillation stacks
         content: >-
           Every time an ally attacks, the wearer gains 1 stack of Cantillation. Each stack of Cantillation increases the wearer's Energy Regeneration Rate by {{RegenBuff}}%, stacking up to 5 times. When the wearer uses their Ultimate, removes Cantillation and gains Cadenza. Cadenza increases the Wearer's ATK by {{AtkBuff}}% and increases all allies' DMG dealt by {{DmgBuff}}%, lasting for 1 turn.
+  IAmAsYouBehold:
+    Content:
+        ultimateEnergyDmgBoost:
+          text: Ult Energy DMG boost
+          content: When the wearer uses their Ultimate, increases the Ultimate DMG dealt this time by {{DmgBoostStep}}% for every 1 Energy consumed, up to {{MaxDmgBoost}}%.
+        kingsEntertainment:
+          text: King's Entertainment
+          content: When the wearer enters combat or uses their Ultimate, the wearer gains "King's Entertainment," lasting for 3 turn  s. While the wearer has "King's Entertainment," increases all allies' CRIT DMG by {{CdBoost}}%.
   IfTimeWereAFlower:
     Content:
       presage:

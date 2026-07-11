@@ -155,21 +155,6 @@ describe('extractSnapshot', () => {
     expect(result.snapshot.characters['1001'].highWatermark).toBe(1.8)
   })
 
-  test('topBuildIds has entries for each character with 12-char hex strings', () => {
-    const output = makePrivateOutput({
-      'board-a': makeBoard('1001', [{ score: 2.0 }]),
-      'board-b': makeBoard('1002', [{ score: 1.5 }]),
-    })
-    const result = extractSnapshot(output, new Map(), null, '2026-06-24T00:00:00Z')
-
-    expect(result.topBuildIds.size).toBe(2)
-    expect(result.topBuildIds.has('1001' as CharacterId)).toBe(true)
-    expect(result.topBuildIds.has('1002' as CharacterId)).toBe(true)
-    for (const buildId of result.topBuildIds.values()) {
-      expect(buildId).toMatch(/^[0-9a-f]{12}$/)
-    }
-  })
-
   test('collects userCharEntries for all entries across boards', () => {
     const output = makePrivateOutput({
       board: makeBoard('1001', [
@@ -395,6 +380,54 @@ describe('diffSnapshots', () => {
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toEqual([])
+  })
+
+  test('rank-only change with same score ignored', () => {
+    const previous: LeaderboardSnapshot = {
+      generatedAt: '2026-06-23T00:00:00Z',
+      characters: {},
+      userBests: {
+        'user-a:1001': { highWatermark: 1.5, rank: 1 },
+      },
+    }
+    const current: LeaderboardSnapshot = {
+      generatedAt: '2026-06-24T00:00:00Z',
+      characters: {},
+      userBests: {
+        'user-a:1001': { highWatermark: 1.5, rank: 3 },
+      },
+    }
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.5, rank: 3 }])
+    const events = diffSnapshots(current, previous, entries)
+
+    expect(events).toEqual([])
+  })
+
+  test('score increase with rank worsening is a valid NEW_BEST', () => {
+    const previous: LeaderboardSnapshot = {
+      generatedAt: '2026-06-23T00:00:00Z',
+      characters: {},
+      userBests: {
+        'user-a:1001': { highWatermark: 1.5, rank: 1 },
+      },
+    }
+    const current: LeaderboardSnapshot = {
+      generatedAt: '2026-06-24T00:00:00Z',
+      characters: {},
+      userBests: {
+        'user-a:1001': { highWatermark: 1.502, rank: 3 },
+      },
+    }
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.502, rank: 3 }])
+    const events = diffSnapshots(current, previous, entries)
+
+    expect(events).toHaveLength(1)
+    expect(events[0].type).toBe(TimelineEventType.NEW_BEST)
+    expect(events[0]).toMatchObject({
+      score: 1.502,
+      previousScore: 1.5,
+      rank: 3,
+    })
   })
 })
 

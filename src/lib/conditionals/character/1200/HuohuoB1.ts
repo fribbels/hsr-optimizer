@@ -229,7 +229,7 @@ const healSimulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_HEAL,
   ],
   ornamentSets: [
-    Sets.LushakaTheSunkenSeas,
+    Sets.GiantTreeOfRaptBrooding,
     ...SPREAD_ORNAMENTS_2P_HEAL,
   ],
   teammates: [

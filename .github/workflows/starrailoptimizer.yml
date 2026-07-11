@@ -3,12 +3,19 @@ name: starrailoptimizer
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch leaderboard data
+        run: |
+          git fetch origin leaderboard-data --depth=1
+          mkdir -p public/leaderboard
+          git show origin/leaderboard-data:main/leaderboard.json > public/leaderboard/leaderboard.json
+          git show origin/leaderboard-data:main/leaderboard-timeline.json > public/leaderboard/leaderboard-timeline.json
       - name: Find and Replace homepage
         uses: jacobtomlinson/gha-find-replace@v3
         with:

@@ -149,12 +149,18 @@ export type RelicBuild = {
   [key: string]: Relic,
 }
 
+export type BreakpointRollRequirement = {
+  stat: SubStats,
+  requiredRolls: number,
+}
+
 export type PartialSimulationWrapper = {
   simulation: Simulation,
   speedRollsDeduction: number,
   resRollsDeduction: number,
-  effectiveSubstats: string[],
+  effectiveSubstats: SubStats[],
   poolIndex: number,
+  breakpointRequirements?: BreakpointRollRequirement[],
 }
 
 export type PoolComboState = {
@@ -222,7 +228,12 @@ function createDiminishingReturnsFormula(baseLowerLimit: number, penaltyPerMain:
   }
 }
 
-export function createDiminishingReturns(baseLowerLimit: number, penaltyPerMain: number) {
+export type DiminishingReturnsFormulas = {
+  stat: (mainsCount: number, rolls: number) => number,
+  spd: (mainsCount: number, rolls: number) => number,
+}
+
+export function createDiminishingReturns(baseLowerLimit: number, penaltyPerMain: number): DiminishingReturnsFormulas {
   return {
     stat: createDiminishingReturnsFormula(baseLowerLimit, penaltyPerMain, 0.25),
     spd: createDiminishingReturnsFormula(baseLowerLimit, penaltyPerMain, 0.10),
@@ -230,7 +241,10 @@ export function createDiminishingReturns(baseLowerLimit: number, penaltyPerMain:
 }
 
 export const dpsDiminishingReturns = createDiminishingReturns(12, 2)
-export const supportDiminishingReturns = createDiminishingReturns(6, 1)
+export const supportDiminishingReturns: DiminishingReturnsFormulas = {
+  stat: createDiminishingReturnsFormula(6, 1, 0.25),
+  spd: createDiminishingReturnsFormula(6, 1, 0.25),
+}
 
 export function getDiminishingReturns(configType?: ScoringConfigType) {
   return configType != null && configType !== ScoringConfigType.DPS
@@ -350,8 +364,13 @@ export function applyScoringFunction(
 }
 
 type PenaltyRecord = {
-  stat: StatsValues
-  multiplier: number
+  stat: StatsValues,
+  multiplier: number,
+}
+
+type PenaltyEntry = {
+  threshold: number,
+  hard: boolean,
 }
 
 function collectPenaltyRecords(
@@ -362,28 +381,44 @@ function collectPenaltyRecords(
 ): PenaltyRecord[] {
   const records: PenaltyRecord[] = []
 
-  if (metadata.breakpoints) {
-    for (const stat of Object.keys(metadata.breakpoints)) {
-      const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
-      if (stat == Stats.SPD && statValue < metadata.breakpoints[stat]) {
-        if (user) {
-          records.push({ stat: stat as StatsValues, multiplier: 0 })
-        }
-      } else if (isFlat(stat)) {
-        const multiplier = (Math.min(1, statValue / metadata.breakpoints[stat]) + 1) / 2
-        if (precisionRound(multiplier) < 1) {
-          records.push({ stat: stat as StatsValues, multiplier })
-        }
-      } else {
-        const multiplier = Math.min(
-          1,
-          1
-            - (metadata.breakpoints[stat] - statValue)
-              / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
-        )
-        if (precisionRound(multiplier) < 1) {
-          records.push({ stat: stat as StatsValues, multiplier })
-        }
+  // Merge soft and hard breakpoints into a single map, hard takes priority for the same stat
+  const penaltyThresholds = new Map<string, PenaltyEntry>()
+  if (metadata.softBreakpoints) {
+    for (const { stat, threshold } of metadata.softBreakpoints) {
+      penaltyThresholds.set(stat, { threshold, hard: false })
+    }
+  }
+  if (metadata.hardBreakpoints) {
+    for (const { stat, threshold } of metadata.hardBreakpoints) {
+      const existing = penaltyThresholds.get(stat)
+      if (!existing || threshold >= existing.threshold) {
+        penaltyThresholds.set(stat, { threshold, hard: true })
+      }
+    }
+  }
+
+  // Apply scoring penalties for missed breakpoints
+  for (const [stat, { threshold, hard }] of penaltyThresholds) {
+    void hard
+    const statValue = x.getSelfValue(StatsToStatKey[stat as StatsValues])
+    if (stat == Stats.SPD && statValue < threshold) {
+      if (user) {
+        records.push({ stat: stat as StatsValues, multiplier: 0 })
+      }
+    } else if (isFlat(stat)) {
+      const multiplier = (Math.min(1, statValue / threshold) + 1) / 2
+      if (precisionRound(multiplier) < 1) {
+        records.push({ stat: stat as StatsValues, multiplier })
+      }
+    } else {
+      const multiplier = Math.min(
+        1,
+        1
+          - (threshold - statValue)
+            / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
+      )
+      if (precisionRound(multiplier) < 1) {
+        records.push({ stat: stat as StatsValues, multiplier })
       }
     }
   }

@@ -52,7 +52,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'skillEhrBoost',
       formItem: 'switch',
-      text: 'Skill EHR boost',
+      text: t('Content.skillEhrBoost.text'),
       content: t('Content.skillAtkBoost.content', {
         EhrBuff: precisionRound(100 * sValuesEhr[s]),
         AtkBuff: precisionRound(100 * sValuesAtk[s]),

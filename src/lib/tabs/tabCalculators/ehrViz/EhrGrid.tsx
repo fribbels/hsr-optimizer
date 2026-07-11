@@ -1,8 +1,11 @@
 import chroma from 'chroma-js'
+import { type TFunction } from 'i18next'
+import { Stats } from 'lib/constants/constants'
 import { calculateApplicationRate } from 'lib/tabs/tabCalculators/ehrCalculations'
 import type { EhrVizProps } from 'lib/tabs/tabCalculators/EhrPanelContent'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const EHR_STEP = 5
 const RES_STEPS = [0, 10, 20, 30, 40, 50, 60, 70, 80]
@@ -64,7 +67,6 @@ function GridCell({ rate, isSelectedCol }: { rate: number, isSelectedCol: boolea
         style={{
           fontSize: 12,
           lineHeight: 1,
-          fontFamily: 'var(--font-showcase)',
           fontVariantNumeric: 'tabular-nums',
           color: band.text,
           fontWeight: 400,
@@ -76,7 +78,7 @@ function GridCell({ rate, isSelectedCol }: { rate: number, isSelectedCol: boolea
   )
 }
 
-function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuffRes, attempts }: {
+function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuffRes, attempts, t }: {
   ehr: number,
   snappedEhr: number,
   nearestRes: number,
@@ -84,6 +86,7 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
   baseChance: number,
   debuffRes: number,
   attempts: number,
+  t: TFunction<'common', 'ShortStats'>,
 }) {
   const isCurrentRow = ehr === snappedEhr
   const isMajor = ehr % 10 === 0
@@ -107,12 +110,11 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
             transform: 'translateY(-50%)',
             paddingRight: 4,
             fontSize: 11,
-            fontFamily: 'var(--font-showcase)',
             color: 'rgba(255,255,255,0.5)',
             whiteSpace: 'nowrap',
           }}
         >
-          EHR
+          {t(Stats.EHR)}
         </span>
       )}
       <div
@@ -128,7 +130,6 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
         <span
           style={{
             fontSize: 12,
-            fontFamily: 'var(--font-showcase)',
             fontVariantNumeric: 'tabular-nums',
             color: isCurrentRow ? currentColor : isMajor ? 'rgba(255,255,255,0.65)' : 'rgba(255,255,255,0.40)',
             fontWeight: 400,
@@ -147,7 +148,11 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
   )
 }
 
-function GridHeaderRow({ nearestRes, currentColor }: { nearestRes: number, currentColor: string }) {
+function GridHeaderRow({ nearestRes, currentColor, t }: {
+  nearestRes: number,
+  currentColor: string,
+  t: TFunction<'common', 'ShortStats'>,
+}) {
   return (
     <div style={{ display: 'flex', gap: 0 }}>
       <div style={{ width: LABEL_W }} />
@@ -175,16 +180,15 @@ function GridHeaderRow({ nearestRes, currentColor }: { nearestRes: number, curre
                   transform: 'translateX(-50%)',
                   paddingBottom: 2,
                   fontSize: 11,
-                  fontFamily: 'var(--font-showcase)',
                   color: 'rgba(255,255,255,0.5)',
                   whiteSpace: 'nowrap',
                 }}
               >
-                RES
+                {t(Stats.RES)}
               </span>
             )}
             <span
-              style={{ fontSize: 12, fontFamily: 'var(--font-showcase)', fontWeight: 400, color: isSelected ? currentColor : 'rgba(255,255,255,0.65)' }}
+              style={{ fontSize: 12, fontWeight: 400, color: isSelected ? currentColor : 'rgba(255,255,255,0.65)' }}
             >
               {res}%
             </span>
@@ -212,11 +216,13 @@ export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effect
   )
   const currentColor = getBand(currentRate).text
 
+  const { t } = useTranslation('common', { keyPrefix: 'ShortStats' })
+
   return (
     <div
       style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 0, transform: `translateX(-${LABEL_W / 2}px)`, paddingTop: RES_LABEL_H }}
     >
-      <GridHeaderRow nearestRes={nearestRes} currentColor={currentColor} />
+      <GridHeaderRow nearestRes={nearestRes} currentColor={currentColor} t={t} />
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
         {ehrSteps.map((ehr) => (
@@ -229,6 +235,7 @@ export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effect
             baseChance={baseChance}
             debuffRes={debuffRes}
             attempts={attempts}
+            t={t}
           />
         ))}
       </div>

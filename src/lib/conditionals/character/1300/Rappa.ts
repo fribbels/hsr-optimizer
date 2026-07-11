@@ -52,6 +52,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
+import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import {
   floorSafe,
   precisionRound,
@@ -330,6 +331,7 @@ if (${wgslTrue(r.atkToBreakVulnerability)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -352,9 +354,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.CD,
     Stats.CR,
   ],
-  breakpoints: {
-    [Stats.ATK]: 3200,
-  },
+  softBreakpoints: [
+    { stat: Stats.ATK, threshold: 3200 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -380,8 +382,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: RuanMei.id,
-      lightCone: PastSelfInTheMirror.id,
+      characterId: TheDahlia.id,
+      lightCone: TheDahlia.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -390,6 +392,15 @@ const simulation = (): SimulationMetadata => ({
       lightCone: ScentAloneStaysTrue.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Fugue.id, lightCones: [LongRoadLeadsHome.id] },
+        { characterId: TheDahlia.id, lightCones: [TheDahlia.defaultLightCone] },
+        { characterId: Lingsha.id, lightCones: [ScentAloneStaysTrue.id] },
+      ],
     },
   ],
 })
@@ -430,6 +441,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -443,7 +455,7 @@ const display = {
     y: 1228,
     z: 1.95,
   },
-  showcaseColor: '#373699',
+  showcaseColor: '#896fbe',
 }
 
 export const Rappa: CharacterConfig = {

@@ -266,7 +266,7 @@ export function sharedSimResultComparator(simScore: SimulationScore, upgrade: Si
   return {
     scorePercentUpgrade: adjustedPercentDiff * 100,
     scoreValueUpgrade: upgrade.percent! * 100,
-    damagePercentUpgrade: adjustedScoreDiff / simScore.originalSimScore * 100,
+    damagePercentUpgrade: simScore.originalSimScore === 0 ? 0 : adjustedScoreDiff / simScore.originalSimScore * 100,
     damageValueUpgrade: adjustedScoreDiff,
   }
 }

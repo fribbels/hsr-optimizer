@@ -5,6 +5,7 @@ import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
+import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -18,8 +19,9 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
-import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { WelcomeToTheCosmicCity } from 'lib/conditionals/lightcone/5star/WelcomeToTheCosmicCity'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -499,6 +501,7 @@ ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += cdDelta;
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -521,7 +524,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.DEF_P,
     Stats.HP_P,
   ],
-  breakpoints: { [Stats.SPD]: 160 },
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 160 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -568,6 +573,22 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Sparxie.id, lightCones: [DazzledByAFloweryWorld.id] },
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: TrailblazerElationStelle.id, lightCones: [TrailblazerElationStelle.defaultLightCone] },
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -601,6 +622,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.BASIC,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -614,7 +636,7 @@ const display = {
     y: 936,
     z: 1.28,
   },
-  showcaseColor: '#0d1075',
+  showcaseColor: '#6b8cd8',
 }
 
 export const SilverWolfLv999: CharacterConfig = {

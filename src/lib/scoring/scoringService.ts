@@ -56,6 +56,14 @@ const orchestratorCache = new Map<string, BenchmarkSimulationOrchestrator>()
 // Cleaned up when the full result arrives (preview data becomes redundant).
 const previewCache = new Map<string, PreparedState>()
 
+export function releaseOrchestrator(cacheKey: string) {
+  orchestratorCache.delete(cacheKey)
+}
+
+export function releasePreview(cacheKey: string) {
+  previewCache.delete(cacheKey)
+}
+
 // --- Public API ---
 export function computeScoringCacheKey(
   character: Character,
@@ -191,6 +199,7 @@ export function requestScore(
       } catch (error) {
         console.error(`Scoring error (${config.configType}):`, error)
         failedRetries.set(cacheKey, (failedRetries.get(cacheKey) ?? 0) + 1)
+        orchestratorCache.delete(cacheKey)
         resolve(null)
       } finally {
         promiseCache.delete(cacheKey)

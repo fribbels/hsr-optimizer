@@ -241,6 +241,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -357,7 +358,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#a38af2',
+  showcaseColor: '#d2c4f5',
 }
 
 export const Sampo: CharacterConfig = {

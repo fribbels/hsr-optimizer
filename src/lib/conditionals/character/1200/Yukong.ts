@@ -1,4 +1,7 @@
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -256,7 +259,7 @@ const display = {
     y: 1057,
     z: 1.2,
   },
-  showcaseColor: '#8096fb',
+  showcaseColor: '#c4cef2',
 }
 
 export const Yukong: CharacterConfig = {

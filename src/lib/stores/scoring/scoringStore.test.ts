@@ -9,6 +9,7 @@ import {
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
+  getDefaultScoringMetadata,
   getScoringMetadata,
   useScoringStore,
 } from 'lib/stores/scoring/scoringStore'
@@ -90,6 +91,33 @@ describe('useScoringStore', () => {
 
       const result = getScoringMetadata(Kafka.id)
       expect(result.stats[Stats.ATK_P]).toBe(0.75)
+    })
+
+    it('getDefaultScoringMetadata ignores override stat weights', () => {
+      const defaultAtkWeight = kafkaDefaults().stats[Stats.ATK_P]
+      const overrideAtkWeight = defaultAtkWeight === 0.75 ? 0.5 : 0.75
+      state().setScoringMetadataOverrides({ [Kafka.id]: statsOverride({ [Stats.ATK_P]: overrideAtkWeight }) as ScoringMetadataOverride })
+
+      const result = getDefaultScoringMetadata(Kafka.id)
+
+      expect(result.stats[Stats.ATK_P]).toBe(defaultAtkWeight)
+    })
+
+    it('getDefaultScoringMetadata returns a numeric weight for every SubStat on every character', () => {
+      const invalidWeights: string[] = []
+
+      for (const [id, characterMeta] of Object.entries(getGameMetadata().characters)) {
+        if (!characterMeta.scoringMetadata) continue
+
+        const result = getDefaultScoringMetadata(id as CharacterId)
+        for (const stat of SubStats) {
+          if (typeof result.stats[stat] !== 'number') {
+            invalidWeights.push(`${id}:${stat}`)
+          }
+        }
+      }
+
+      expect(invalidWeights).toEqual([])
     })
 
     // getScoringMetadata must handle invalid character IDs gracefully

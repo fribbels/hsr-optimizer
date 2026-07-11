@@ -17,20 +17,19 @@ import {
 } from '@tabler/icons-react'
 import i18next from 'i18next'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
-import { withAlpha } from 'lib/characterPreview/color/colorUtils'
-import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import {
   buildCardBgPipelineConfig,
   DEFAULT_SHOWCASE_COLOR,
   resolveShowcaseTheme,
 } from 'lib/characterPreview/color/showcaseColorService'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
+import classes from 'lib/characterPreview/customization/ShowcaseCustomizationSidebar.module.css'
 import {
   getShowcasePreset,
   ShowcasePreset,
 } from 'lib/characterPreview/debugVisualConfigStore'
+import { resolveEffectiveDeprioritizeBuffs } from 'lib/characterPreview/showcaseDerivedData'
 import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
-import { AppPages } from 'lib/constants/appPages'
 import {
   ShowcaseColorMode,
   Stats,
@@ -61,6 +60,7 @@ import {
   getScoringMetadata,
   useScoringStore,
 } from 'lib/stores/scoring/scoringStore'
+import { AppPages } from 'lib/tabs/navigation/constants'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   getSelectedCharacter,
@@ -71,13 +71,14 @@ import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import React, {
   memo,
+  useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type CharacterId } from 'types/character'
 import { ScoringConfigType } from 'types/metadata'
-import classes from './ShowcaseCustomizationSidebar.module.css'
 
 interface ShowcaseCustomizationSidebarProps {
   id: string
@@ -87,7 +88,6 @@ interface ShowcaseCustomizationSidebarProps {
   seedColor: string
   effectiveColorMode: ShowcaseColorMode
   portraitSwatches: string[]
-  cardBgAlpha: number
 }
 
 export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationSidebar({
@@ -98,9 +98,8 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
   seedColor,
   effectiveColorMode,
   portraitSwatches,
-  cardBgAlpha,
 }: ShowcaseCustomizationSidebarProps) {
-  if (source === ShowcaseSource.BUILDS_MODAL) return null
+  if (source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD) return null
 
   return (
     <Flex
@@ -117,7 +116,6 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
         seedColor={seedColor}
         effectiveColorMode={effectiveColorMode}
         portraitSwatches={portraitSwatches}
-        cardBgAlpha={cardBgAlpha}
         source={source}
       />
     </Flex>
@@ -313,7 +311,6 @@ const CustomizationPanel = memo(function CustomizationPanel({
   seedColor,
   effectiveColorMode,
   portraitSwatches,
-  cardBgAlpha,
   source,
 }: {
   id: string,
@@ -321,7 +318,6 @@ const CustomizationPanel = memo(function CustomizationPanel({
   seedColor: string,
   effectiveColorMode: ShowcaseColorMode,
   portraitSwatches: string[],
-  cardBgAlpha: number,
   source: ShowcaseSource,
 }) {
   const { t: tCustomization } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview.CustomizationSidebar' })
@@ -339,17 +335,46 @@ const CustomizationPanel = memo(function CustomizationPanel({
     setLocalColor(seedColor)
   }
 
+  const characterIdRef = useRef(characterId)
+  characterIdRef.current = characterId
+  const portraitSwatchesRef = useRef(portraitSwatches)
+  portraitSwatchesRef.current = portraitSwatches
+  const localColorRef = useRef(localColor)
+  localColorRef.current = localColor
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return
+      if (!(document.activeElement instanceof HTMLElement) || !document.activeElement.closest('.mantine-ColorInput-wrapper')) return
+
+      const swatches = portraitSwatchesRef.current
+      if (!swatches.length) return
+
+      e.preventDefault()
+
+      const currentColor = localColorRef.current.toLowerCase()
+      const currentIndex = swatches.findIndex((s) => s.toLowerCase() === currentColor)
+
+      const nextIndex = e.key === 'ArrowRight'
+        ? (currentIndex === -1 ? 0 : (currentIndex + 1) % swatches.length)
+        : (currentIndex === -1 ? 0 : (currentIndex - 1 + swatches.length) % swatches.length)
+
+      const newColor = swatches[nextIndex]
+      setLocalColor(newColor)
+      editShowcasePreferences(characterIdRef.current, { color: newColor, colorMode: ShowcaseColorMode.CUSTOM })
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   function onColorDrag(newColor: string) {
-    setLocalColor(newColor)
-    // Imperatively update CSS vars for instant card preview without a React re-render.
-    // Must use the preset-aware pipeline config so drag preview matches the committed render;
-    // otherwise a trailing onChange after onChangeEnd clobbers the correct value with a DEFAULT_CONFIG-processed one.
     const pipelineConfig = buildCardBgPipelineConfig(getShowcasePreset(showcasePreset))
     const theme = resolveShowcaseTheme(newColor, showcaseDarkMode, pipelineConfig)
     const el = document.getElementById(id)
     if (el) {
-      el.style.setProperty('--showcase-card-bg-bridge-high', withAlpha(theme.cardBackgroundColor, Math.min(cardBgAlpha * 0.88, 0.34)))
-      el.style.setProperty('--showcase-card-edge-medium', withAlpha(theme.cardBorderColor, 0.50))
+      el.style.setProperty('--showcase-card-bg-bridge-high', theme.cardBackgroundColor)
+      el.style.setProperty('--showcase-card-edge-medium', theme.cardBorderColor)
+      el.style.setProperty('--showcase-seed-color', newColor)
     }
   }
 

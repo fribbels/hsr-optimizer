@@ -301,6 +301,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [Stats.CD],
     [Parts.Feet]: [Stats.SPD],
@@ -387,6 +388,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   supportSimulation: supportSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -396,7 +398,7 @@ const display = {
     z: 1.1,
   },
   disableSpine: true,
-  showcaseColor: '#749ad4',
+  showcaseColor: '#c3d0ff',
 }
 
 export const Bronya: CharacterConfig = {

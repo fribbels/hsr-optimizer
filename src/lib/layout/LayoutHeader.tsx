@@ -6,10 +6,6 @@ import {
   IconMenu2,
   IconX,
 } from '@tabler/icons-react'
-import {
-  AppPages,
-  BASE_PATH,
-} from 'lib/constants/appPages'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import {
   OpenCloseIDs,
@@ -20,6 +16,11 @@ import classes from 'lib/layout/layout.module.css'
 import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
+import {
+  AppPages,
+  BASE_PATH,
+} from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 
 export const HEADER_HEIGHT = 48
 
@@ -52,7 +53,7 @@ export function LayoutHeader() {
             onClick={(e) => {
               if (e.ctrlKey || e.metaKey || e.shiftKey) return
               e.preventDefault()
-              useGlobalStore.getState().setActiveKey(AppPages.HOME)
+              navigateTo(AppPages.HOME)
             }}
           >
             <Flex align='center'>

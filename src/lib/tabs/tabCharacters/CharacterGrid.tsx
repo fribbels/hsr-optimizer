@@ -35,7 +35,6 @@ import i18next from 'i18next'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
-import { AppPages } from 'lib/constants/appPages'
 import { PartsArray } from 'lib/constants/constants'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
@@ -46,6 +45,11 @@ import {
   getCharacterById,
   useCharacterStore,
 } from 'lib/stores/character/characterStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
+import classes from 'lib/tabs/tabCharacters/CharacterGrid.module.css'
 import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { switchToCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
@@ -69,7 +73,6 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import classes from './CharacterGrid.module.css'
 
 const noop = () => {}
 const DROP_ANIMATION_DURATION = 200
@@ -192,7 +195,7 @@ export function CharacterGrid() {
   }, [])
 
   const handleRowDoubleClick = useCallback((characterId: CharacterId) => {
-    useGlobalStore.getState().setActiveKey(AppPages.OPTIMIZER)
+    navigateTo(AppPages.OPTIMIZER)
     switchToCharacter(characterId)
   }, [])
 

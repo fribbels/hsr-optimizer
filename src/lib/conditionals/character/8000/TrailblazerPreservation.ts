@@ -1,7 +1,10 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Jiaoqiu } from 'lib/conditionals/character/1200/Jiaoqiu'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -30,11 +33,11 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_SHIELD,
 } from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -230,6 +233,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const shieldSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [Stats.DEF_P],
     [Parts.Feet]: [Stats.DEF_P, Stats.SPD],
@@ -295,6 +299,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.DEF,
   parts: {
     [Parts.Body]: [
       Stats.DEF_P,
@@ -318,6 +323,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   shieldSimulation: shieldSimulation(),
+  eidolonImage: 4,
 })
 
 const displayCaelus = {
@@ -327,7 +333,7 @@ const displayCaelus = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#80449f',
+  showcaseColor: '#8277ac',
 }
 
 const displayStelle = {
@@ -337,7 +343,7 @@ const displayStelle = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#80449f',
+  showcaseColor: '#8277ac',
 }
 
 export const TrailblazerPreservationCaelus: CharacterConfig = {

@@ -1,4 +1,3 @@
-import { BASE_PATH } from 'lib/constants/appPages'
 import {
   Constants,
   Parts,
@@ -8,6 +7,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import { setToId } from 'lib/sets/setConfigRegistry'
+import { BASE_PATH } from 'lib/tabs/navigation/constants'
 import { type Languages } from 'lib/utils/i18nUtils'
 import { type Nullable } from 'types/common'
 
@@ -68,6 +68,12 @@ export const Assets = {
     if (!id) return Assets.getBlank()
 
     return getImageUrl(`/image/character_preview/${id}.webp`)
+  },
+  getCharacterRankImageById: (id?: string, rank: number = 4) => {
+    if (!id) return Assets.getBlank()
+
+    const baseId = id.replace(/b\d+$/, '')
+    return getImageUrl(`/textures/${baseId}/${baseId}_Rank_${rank}.webp`)
   },
 
   getLightConePortrait: (lightCone: { id: string }) => {
@@ -192,5 +198,13 @@ export const Assets = {
 
   getGlobe: () => {
     return getImageUrl(`/misc/globe.webp`)
+  },
+
+  getLeaderboardCardBg: () => {
+    return getImageUrl(`/misc/test/ChallengeBgV2.webp`)
+  },
+
+  getLeaderboardHeaderBg: () => {
+    return getImageUrl(`/misc/test/BgStoryTokens01.webp`)
   },
 }

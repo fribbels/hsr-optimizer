@@ -38,6 +38,7 @@ import { StatSimTypes } from 'lib/simulations/statSimulationTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { BenchmarkResults } from 'lib/tabs/tabBenchmarks/BenchmarkResults'
 import { BenchmarkSetting } from 'lib/tabs/tabBenchmarks/BenchmarkSettings'
+import styles from 'lib/tabs/tabBenchmarks/BenchmarksTab.module.css'
 import {
   applyTeamAwareSetConditionalPresetsToBenchmarkFormInstance,
   handleBenchmarkFormSubmit,
@@ -70,7 +71,6 @@ import type {
 } from 'types/character'
 import type { ReactElement } from 'types/components'
 import { useShallow } from 'zustand/react/shallow'
-import styles from './BenchmarksTab.module.css'
 
 const GAP = 8
 

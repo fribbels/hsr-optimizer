@@ -1,17 +1,17 @@
-import { AppPages } from 'lib/constants/appPages'
+import { AppPages } from 'lib/tabs/navigation/constants'
 
 export enum NewFeatureKey {
   WARP = 'warp',
   WARP_MULTI_TARGET = 'warp_multiTarget',
+  LEADERBOARD = 'leaderboard',
 }
 
 export const ACTIVE_NEW_FEATURES = new Set<string>([
-  NewFeatureKey.WARP,
-  NewFeatureKey.WARP_MULTI_TARGET,
+  NewFeatureKey.LEADERBOARD,
 ])
 
 export const PAGE_FEATURE_KEYS: Partial<Record<AppPages, NewFeatureKey>> = {
-  [AppPages.WARP]: NewFeatureKey.WARP,
+  [AppPages.LEADERBOARD]: NewFeatureKey.LEADERBOARD,
 }
 
 export function isNewGroupCheck(prefix: string, seenFeatures: Set<string>): boolean {

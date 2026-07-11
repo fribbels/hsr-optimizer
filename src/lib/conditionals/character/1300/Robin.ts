@@ -337,6 +337,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.ATK_P],
     [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
@@ -360,7 +361,7 @@ const supportSimulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_SUPPORT,
   ],
   ornamentSets: [
-    Sets.SprightlyVonwacq,
+    Sets.LushakaTheSunkenSeas,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   teammates: [
@@ -401,6 +402,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.25,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.ATK,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -427,6 +429,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   supportSimulation: supportSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -440,7 +443,7 @@ const display = {
     y: 923,
     z: 1.15,
   },
-  showcaseColor: '#a071c9',
+  showcaseColor: '#c8ade0',
 }
 
 export const Robin: CharacterConfig = {

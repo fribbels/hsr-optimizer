@@ -1,10 +1,10 @@
 import type { ShowcasePreset } from 'lib/characterPreview/debugVisualConfigStore'
-import type { AppPages } from 'lib/constants/appPages'
 import type {
   ComputeEngine,
 } from 'lib/constants/constants'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
 import type { AhaForm } from 'lib/stores/ahaTuningStore'
+import type { AppPages } from 'lib/tabs/navigation/constants'
 import type { CharacterGridDensity } from 'lib/tabs/tabCharacters/characterGridPresets'
 import type { ShowcaseTabSavedSession } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { WarpRequest } from 'lib/tabs/tabWarp/warpCalculatorTypes'
@@ -28,6 +28,7 @@ export type HsrOptimizerStore = {
   setCompletedMigrations: (x: Record<string, number>) => void,
   setSettings: (settings: UserSettings) => void,
   setSavedSessionKey: <T extends keyof GlobalSavedSession>(key: T, value: GlobalSavedSession[T]) => void,
+  // Internal — only called by the navigation module (lib/tabs/navigation/). Use navigateTo() instead.
   setActiveKey: (key: AppPages) => void,
   setScoringAlgorithmFocusCharacter: (id: CharacterId | null | undefined) => void,
   setStatTracesDrawerFocusCharacter: (id: CharacterId | null | undefined) => void,

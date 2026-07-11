@@ -13,7 +13,7 @@ export const DpsScoreTeammateUpgradesTable = memo(function DpsScoreTeammateUpgra
 
   return (
     <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
-      <div style={{ fontFamily: 'var(--font-ui)', fontSize: 24, fontWeight: 500, color: 'var(--text-secondary)' }}>
+      <div style={{ fontSize: 24, fontWeight: 500, color: 'var(--text-secondary)' }}>
         {t('CharacterPreview.SubstatUpgradeComparisons.TeammatesHeader')}
       </div>
       <TeammateUpgrades

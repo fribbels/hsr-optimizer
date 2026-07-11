@@ -1,6 +1,7 @@
 import type {
   ELEMENTAL_DMG_KEY,
   ElementName,
+  FlatPercentStat,
   MainStats,
   Parts,
   PathName,
@@ -29,6 +30,11 @@ export enum ScoringConfigType {
   SHIELD = 'shield',
 }
 
+export type BreakpointThreshold = {
+  stat: SubStats,
+  threshold: number,
+}
+
 export type ScoringConfig = {
   configType: ScoringConfigType,
   simulation: SimulationMetadata,
@@ -49,6 +55,7 @@ export type ScoringMetadata = {
   /*      stat score      */ modified?: boolean,
   /*      stat score      */ parts: Record<Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>, MainStats[]>,
   /* stat score/optimizer */ stats: Record<SubStats, number> & Partial<Record<'minWeightedRolls', number>>,
+  /*      stat score      */ flatMainstatBoost?: FlatPercentStat,
   /*      optimizer       */ presets: PresetDefinition[],
   /*      optimizer       */ defaultDamageType?: number,
   /*      optimizer       */ sortOption: SortOptionProperties,
@@ -59,6 +66,7 @@ export type ScoringMetadata = {
   /*   support score     */ supportSimulation?: SimulationMetadata,
   /*     heal score      */ healSimulation?: SimulationMetadata,
   /*    shield score     */ shieldSimulation?: SimulationMetadata,
+  /*    leaderboard     */ eidolonImage?: number,
 }
 
 export type ScoringParts = Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>
@@ -82,6 +90,7 @@ export type SimulationMetadata = {
    * flat filler (`Stats.ATK` / `Stats.HP` / `Stats.DEF`) — SPD is implicit and doesn't count.
    */
   substats: SubStats[],
+  leaderboardEnabled?: boolean,
   errRopeEidolon?: number,
   deprioritizeBuffs?: boolean,
   comboTurnAbilities: TurnAbilityName[],
@@ -96,14 +105,28 @@ export type SimulationMetadata = {
     teamRelicSet?: string,
     teamOrnamentSet?: string,
   }[],
-  breakpoints?: {
-    [stat: string]: number,
-  },
+  leaderboardTeams?: LeaderboardTeam[],
+  softBreakpoints?: BreakpointThreshold[],
+  hardBreakpoints?: BreakpointThreshold[],
   buffStat?: AKeyValue,
   combatStatsConfig?: Array<{
     add?: StatsValues,
     remove?: StatsValues | typeof ELEMENTAL_DMG_KEY,
   }>,
+}
+
+export type LeaderboardTeammate = {
+  characterId: CharacterId,
+  lightCones: LightConeId[],
+  teamRelicSet?: string,
+  teamOrnamentSet?: string,
+}
+
+export type LeaderboardTeammates = [LeaderboardTeammate, LeaderboardTeammate, LeaderboardTeammate]
+
+export type LeaderboardTeam = {
+  teammates: LeaderboardTeammates,
+  deprioritizeBuffs?: boolean,
 }
 
 export type ElementalResPenType =
@@ -145,6 +168,7 @@ export type TraceNode = {
 
 export type DBMetadataCharacter = {
   id: CharacterId,
+  name: string,
   rarity: number,
   path: PathName,
   element: ElementName,
@@ -162,6 +186,7 @@ export type DBMetadataCharacter = {
 
 export type DBMetadataLightCone = {
   id: LightConeId,
+  name: string,
   rarity: 5 | 4 | 3,
   path: PathName,
   stats: Record<string, number>,

@@ -1,7 +1,10 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -335,6 +338,7 @@ if (ehrValue >= 0.75 && stateValue == 0) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -359,9 +363,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.CR,
     Stats.CD,
   ],
-  breakpoints: {
-    [Stats.EHR]: 0.75,
-  },
+  hardBreakpoints: [
+    { stat: Stats.EHR, threshold: 0.75 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -409,6 +413,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: BlackSwanB1.id, lightCones: [ReforgedRemembrance.id] },
+        { characterId: Hysilens.id, lightCones: [WhyDoesTheOceanSing.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -453,6 +467,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.DOT,
   hiddenColumns: [],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -461,7 +476,7 @@ const display = {
     y: 950,
     z: 1.25,
   },
-  showcaseColor: '#cf99a9',
+  showcaseColor: '#c1a2c7',
 }
 
 export const KafkaB1: CharacterConfig = {

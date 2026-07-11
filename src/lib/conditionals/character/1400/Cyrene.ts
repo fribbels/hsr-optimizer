@@ -1,6 +1,9 @@
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import {
   TrailblazerRemembranceCaelus,
   TrailblazerRemembranceStelle,
@@ -14,9 +17,12 @@ import {
   findTeamAction,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
-import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   Parts,
@@ -442,6 +448,7 @@ if (${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} >= 180.
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -467,7 +474,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.HP,
     Stats.SPD,
   ],
-  breakpoints: { [Stats.SPD]: 180 },
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 180 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     DEFAULT_ULT,
@@ -509,6 +518,23 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
+        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [TrailblazerRemembranceStelle.defaultLightCone] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -534,6 +560,7 @@ const scoring = (): ScoringMetadata => ({
     ],
     [Parts.Feet]: [
       Stats.SPD,
+      Stats.HP_P,
     ],
     [Parts.PlanarSphere]: [
       Stats.HP_P,
@@ -559,6 +586,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.MEMO_SKILL,
   ],
   simulation: simulation(),
+  eidolonImage: 6,
 })
 
 const display = {
@@ -581,7 +609,7 @@ const display = {
     y: 384,
     z: -0.5,
   },
-  showcaseColor: '#301a66',
+  showcaseColor: '#7499fb',
 }
 
 export function getCyreneAction(action: OptimizerAction) {

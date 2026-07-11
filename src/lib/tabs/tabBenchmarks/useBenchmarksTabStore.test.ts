@@ -8,6 +8,10 @@ import { Sets } from 'lib/constants/constants'
 import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/benchmarkSimulationOrchestrator'
+import {
+  type SimpleCharacterSets,
+  useBenchmarksTabStore,
+} from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { clone } from 'lib/utils/objectUtils'
 import {
   beforeEach,
@@ -16,10 +20,6 @@ import {
   it,
   vi,
 } from 'vitest'
-import {
-  type SimpleCharacterSets,
-  useBenchmarksTabStore,
-} from './useBenchmarksTabStore'
 
 // ---- Constants ----
 

@@ -1,4 +1,7 @@
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -286,7 +289,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#609efa',
+  showcaseColor: '#92a5d4',
 }
 
 export const Pela: CharacterConfig = {

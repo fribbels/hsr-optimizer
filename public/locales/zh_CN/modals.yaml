@@ -384,27 +384,3 @@ RelicReroll:
   Title: 检测到遗器重掷
   OriginalSubstats: 原始副词条
   RerolledSubstats: 重掷副词条
-Calculators:
-  AHA:
-    Label: 阿哈速度
-    Output:
-      Teammate0: 1号队友速度
-      Teammate1: 2号队友速度
-      Teammate2: 3号队友速度
-      Teammate3: 4号队友速度
-      AhaSpeed: 阿哈速度
-    Input:
-      DesiredAha: 目标阿哈速度
-      TeammateSpeeds: 欢愉队友速度
-  EHR:
-    Label: 效果命中
-    Input:
-      EffectRes: 敌方效果抵抗
-      DebuffRes: 敌方减益抵抗
-      BaseChance: 减益基础概率
-      Attempts: 施加次数
-      HitRate: 效果命中
-      DesiredHitRate: 目标减益概率
-    Output:
-      ApplicationRate: 施加概率
-      RequiredHitRate: 所需效果命中

@@ -2,6 +2,7 @@ import {
   ABILITY_COLORS,
   ACTION_COLORS,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
+import classes from 'lib/characterPreview/buffsAnalysis/ActionSelector.module.css'
 import {
   TEXT_DIM,
   TEXT_PRIMARY,
@@ -10,7 +11,6 @@ import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { RotationStepEntry } from 'lib/simulations/combatBuffsAnalysis'
 import { useTranslation } from 'react-i18next'
-import classes from './ActionSelector.module.css'
 
 type ActionItem = {
   label: string,

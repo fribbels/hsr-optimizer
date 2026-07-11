@@ -1,0 +1,5 @@
+EHR:
+  Label: Taux d'app. d'eff.
+  Calculator:
+    Input:
+      HitRate: Taux d'app. d'eff.

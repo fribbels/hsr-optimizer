@@ -3,7 +3,7 @@ import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
-import { RelicSetFilterModalContent } from './RelicSetFilterModalContent'
+import { RelicSetFilterModalContent } from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModalContent'
 
 export function RelicSetFilterModal() {
   const { isOpen, close } = useOpenClose(OpenCloseIDs.RELIC_SET_FILTER_MODAL)

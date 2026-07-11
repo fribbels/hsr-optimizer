@@ -287,6 +287,11 @@ Lightcones:
         text: 持续伤害效果（未实施）
         content: >-
           当装备者击中敌方目标时，如果该目标不处于【游丝】状态，则有 100% 的基础概率使其陷入【游丝】状态。当敌方目标处于【游丝】状态时，也会被视为陷入了触电状态。【游丝】状态下，敌方目标每回合开始时受到等同于装备者{{Multiplier}}%攻击力的雷属性持续伤害，持续1回合。
+  ReforgedInHellfire:
+    Content:
+      purgatoryState:
+        text: 爆伤增益
+        content: '【炼狱】状态下目标受到的暴击伤害提高{{cdBuff}}%，受到来自装备者的暴击伤害额外提高{{cdBuff}}%。'
   ReforgedRemembrance:
     Content:
       prophetStacks:
@@ -1075,27 +1080,6 @@ Characters:
       e4SkillHealingDmgBuffStacks:
         text: 4魂战技伤害提高层数
         content: 战技提供的每1次治疗会额外使受治疗者造成的伤害提高10%，最多叠加3层，持续2回合。
-  BlackSwan:
-    Content:
-      ehrToDmgBoost:
-        text: 效果命中转至伤害提高
-        content: 使自身造成的伤害提高，提高数值等同于效果命中的60%，最多使造成的伤害提高72%。
-      epiphanyDebuff:
-        text: 揭露负面效果
-        content: '【揭露】状态下，敌方目标自身回合内受到的伤害提高{{epiphanyDmgTakenBoost}}%。'
-      defDecreaseDebuff:
-        text: 防御力降低负面效果
-        content: 目标防御力降低{{defShredValue}}%。
-      arcanaStacks:
-        text: 奥迹层数
-        content: >-
-          【奥迹】状态下，敌方目标每回合开始时受到等同于黑天鹅{{dotScaling}}%攻击力的风属性持续伤害，每层【奥迹】使此伤害倍率提高{{arcanaStackMultiplier}}%。【奥迹】最多叠加50层。::BR::当【奥迹】层数大于等于3层时，对相邻目标造成等同于黑天鹅180%攻击力的风属性持续伤害。当【奥迹】层数大于等于7层时，使本次造成的持续伤害无视该目标及其相邻目标20%的防御力。
-      e1ResReduction:
-        text: 1魂属性抗性降低
-        content: 当黑天鹅处于可战斗状态时，处于风化、裂伤、灼烧、触电状态下的敌方目标对应的风、物理、火、雷属性抗性分别降低25%。
-      e4EffResPen:
-        text: 4魂效果抵抗降低
-        content: '【揭露】状态下，敌方目标效果抵抗降低10%。'
   BlackSwanB1:
     Content:
       skillDefShred:
@@ -1121,17 +1105,6 @@ Characters:
       combatEhr:
         text: 黑天鹅战斗时效果命中
         content: 使我方全体造成的伤害提高，提高数值等同于黑天鹅效果命中的60%，最多使造成的伤害提高72%。
-  Blade:
-    Content:
-      enhancedStateActive:
-        text: 地狱变状态
-        content: '使自身造成的伤害提高{{enhancedStateDmgBoost}}%，普攻【支离剑】强化为【无间剑树】，持续3回合。::BR::2魂：刃处于【地狱变】状态时，暴击率提高15%。'
-      hpPercentLostTotal:
-        text: 累计已损失生命值%
-        content: 终结技伤害会根据刃在当前战斗中的生命值损失计数进行加成。 本场战斗中累计已损失生命值最高不超过刃生命上限的{{hpPercentLostTotalMax}}%，施放终结技后会清空并进行重新累计。
-      e4MaxHpIncreaseStacks:
-        text: 4魂生命上限层数
-        content: 当前生命值百分比从大于50%降低至小于等于50%时，生命上限提高20%，该效果最多叠加2层。
   BladeB1:
     Content:
       enhancedStateActive:
@@ -1484,34 +1457,6 @@ Characters:
         text: 6魂增益
         content: >-
           飞霄造成的终结技伤害的全属性抗性穿透提高20%。天赋的追加攻击伤害同时视为终结技伤害，并且伤害倍率提高140%。
-  Firefly:
-    Content:
-      enhancedStateActive:
-        text: 强化状态
-        content: 进入「完全燃烧」状态，自身行动提前100%并获得强化普攻和强化战技。
-      enhancedStateSpdBuff:
-        text: 强化状态速度增益
-        content: '「完全燃烧」状态下速度提高{{ultSpdBuff}}点。'
-      superBreakDmg:
-        text: 启用超击破伤害（强制弱点击破）
-        content: >-
-          「完全燃烧」状态下，当装甲「萨姆」的击破特攻大于等于200%/360%时，攻击处于弱点击破状态下的敌方目标后，会将本次攻击的削韧值转化为1次35%/50%的超击破伤害。
-      atkToBeConversion:
-        text: 攻击力转至击破特攻增益
-        content: 若装甲「萨姆」的攻击力高于1800点，每超过10点攻击力可使自身击破特攻提高0.8%。
-      talentDmgReductionBuff:
-        text: 有效生命值上限增益
-        content: >-
-          生命值越低受到的伤害越低，生命值小于等于20%时减伤效果达到最大值，最多降低{{talentDmgReductionBuff}}%。「完全燃烧」状态下减伤效果维持最大值，效果抵抗提高{{talentResBuff}}%。
-      e1DefShred:
-        text: 1魂防御穿透
-        content: 施放强化战技时无视目标15%的防御，且强化战技不消耗战技点。
-      e4ResBuff:
-        text: 4魂效果抵抗增益
-        content: '「完全燃烧」状态下，装甲「萨姆」的效果抵抗提高50%。'
-      e6Buffs:
-        text: 6魂增益
-        content: '「完全燃烧」状态下装甲「萨姆」的火属性抗性穿透提高20%。施放强化普攻、强化战技时弱点击破效率提高50%。'
   FireflyB1:
     Content:
       enhancedStateActive:
@@ -1701,17 +1646,6 @@ Characters:
         text: 目标处于灼烧状态
         content: >-
           攻击处于灼烧状态的敌方目标时，追加1次等同于虎克{{targetBurnedExtraScaling}}%攻击力的火属性附加伤害。::BR::6魂：虎克对灼烧状态下的敌方目标造成的伤害提高20%。
-  Huohuo:
-    Content:
-      ultBuff:
-        text: 终结技攻击力增益
-        content: 使用终结技后为除自身以外的队友攻击力提高{{ultBuffValue}}%，持续2回合。
-      skillBuff:
-        text: 1魂速度增益
-        content: 当藿藿拥有【禳命】时我方全体提高12%的速度。
-      e6DmgBuff:
-        text: 6魂伤害增益
-        content: 为我方目标提供治疗时，使目标造成的伤害提高50%，持续2回合。
   HuohuoB1:
     Content:
       ultBuff:
@@ -1855,22 +1789,6 @@ Characters:
       e6ResShred:
         text: 6魂抗性削弱
         content: 敌方目标被消灭时，其持有的【烬煨】会叠加给场上存活的【烬煨】层数最低的敌人。【烬煨】的层数上限提升至9，每层【烬煨】会使目标的全属性抗性降低3%。
-  Jingliu:
-    Content:
-      talentEnhancedState:
-        text: 强化状态
-        content: >-
-          当拥有2层【朔望】时，镜流将进入【转魄】状态，并使行动提前100%、暴击率提高{{talentCrBuff}}%，随后战技【无罅飞光】强化为【寒川映月】且仅能使用该战技。
-      talentHpDrainAtkBuff:
-        text: 吸血量攻击力增益
-        content: >-
-          【转魄】状态下施放攻击时，消耗队友一定生命上限的生命值。根据本次我方全体生命值消耗总量提高镜流攻击力，最高不超过镜流基础攻击力的{{talentHpDrainAtkBuffMax}}%，持续至本次攻击结束。
-      e1CdBuff:
-        text: 1魂终结技后增益激活
-        content: 施放终结技或强化战技时，镜流的暴击伤害提高 24% ，持续1回合。若只攻击了1个敌方目标，则额外对该目标造成1次等同于镜流100%攻击力的冰属性伤害。
-      e2SkillDmgBuff:
-        text: 2魂强化战技增益
-        content: 施放终结技后，下一次强化战技的伤害提高80%。
   JingliuB1:
     Content:
       talentEnhancedState:
@@ -1912,14 +1830,6 @@ Characters:
       e6FuaVulnerabilityStacks:
         text: 6魂易伤层数
         content: '【神君】每段攻击后会使指定敌方目标额外陷入易伤状态。易伤状态下的敌方目标受到的伤害提高12%，持续至【神君】本次攻击结束，该效果最多叠加3层。（应用于所有攻击次数）'
-  Kafka:
-    Content:
-      e1DotDmgReceivedDebuff:
-        text: 1魂持续伤害易伤
-        content: 天赋触发追加攻击时，有100%的基础概率使目标受到的持续伤害提高30%，持续2回合。
-      e2TeamDotBoost:
-        text: 2魂团队持续伤害提高
-        content: 卡芙卡在场时，我方全体造成的持续伤害提高25%。
   KafkaB1:
     Content:
       ehrBasedBuff:
@@ -2031,6 +1941,27 @@ Characters:
       e6UltDmgBoost:
         text: 6魂终结技伤害提高
         content: 施放终结技时，使自身造成的伤害提高30%，持续至自身回合结束。
+  MortenaxBlade:
+    Content:
+      infiniteFuryActive:
+        text: 无量忿怒状态
+        content: '【无量忿怒】状态下暴击率提高20%，暴击伤害提高{{cdBuff}}%，普攻获得强化，同时解放战技并获得全新终结技【千冶铸一，万劫烬灭】。'
+      ultZone:
+        text: 结界启用
+        content: >-
+          结界持续期间，自身受到的伤害降低50%。结界持续期间，我方目标造成的伤害提高50%。我方队伍中存在除千冶•刃之外的「虚无」命途角色时，使我方目标造成的终结技伤害提高75%，否则，使千冶•刃造成的伤害额外提高75%。::BR:: 1魂：结界持续期间，使敌方全体全属性抗性降低20%。::BR:: 4魂：使我方目标造成的伤害额外提高50%。
+      e1ResPen:
+        text: 1魂抗性穿透
+        content: 结界持续期间，使敌方全体全属性抗性降低20%。
+      e2FuaDmgBoost:
+        text: 2魂增益
+        content: 我方角色施放终结技造成伤害时，被视为发动了追加攻击，我方目标造成的追加攻击伤害提高75%。
+      e4DmgBoost:
+        text: 4魂伤害提高
+        content: 终结技所释放的结界使我方目标造成的伤害额外提高50%。
+      e6EnhancedUlt:
+        text: 6魂终结技最终伤害
+        content: '【千冶铸一，万劫烬灭】的伤害倍率提高为原倍率的150%。'
   Moze:
     Content:
       preyMark:
@@ -2298,21 +2229,6 @@ Characters:
       targetWindShear:
         text: 目标处于风化状态
         content: 风化状态下的敌方目标对桑博造成的伤害降低15%。
-  Seele:
-    Content:
-      buffedState:
-        text: 增幅状态
-        content: >-
-          施放普攻、战技、终结技消灭敌方目标时立即获得1个额外回合并进入增幅状态，增幅状态下希儿施放攻击造成的伤害提高{{buffedStateDmgBuff}}%，持续1回合。::BR::增幅状态下希儿的量子属性抗性穿透提高20%。
-      speedBoostStacks:
-        text: 速度增益层数
-        content: "使用战技后，希儿的速度提高25%，持续2回合。::BR::2魂：战技的加速效果可以叠加，最多叠加2层。"
-      e1EnemyHp80CrBoost:
-        text: 1魂敌人生命值≤80%时暴击率提升
-        content: 对当前生命值百分比小于等于80%的敌方目标造成伤害时，暴击率提高15%。
-      e6UltTargetDebuff:
-        text: 6魂敌人处于乱蝶状态
-        content: 施放终结技后使受到攻击的敌方单体陷入【乱蝶】状态，持续1回合。【乱蝶】状态下的敌方目标受到攻击后，额外受到1次等同于希儿终结技伤害15%的量子属性附加伤害。
   SeeleB1:
     Content:
       buffedState:
@@ -2339,26 +2255,6 @@ Characters:
       enemyDefeatedBuff:
         text: 消灭敌人后增益
         content: 消灭敌方目标后，攻击力提高20%，持续2回合。
-  SilverWolf:
-    Content:
-      skillResShredDebuff:
-        text: 战技抗性削弱
-        content: >-
-          有100%的基础概率额外使该目标的全属性抗性降低{{skillResShredValue}}%持续2回合。::BR::施放战技时，若敌方目标的负面效果数量大于等于3个，则战技使目标全属性抗性降低的效果额外降低3%。
-      skillWeaknessResShredDebuff:
-        text: 战技添加弱点后属性削弱
-        content: >-
-          有{{implantChance}}%的基础概率为指定敌方单体目标添加1个场上我方目标持有属性的弱点，且该弱点对应属性的抗性降低20%，持续2回合。若添加的是敌方目标原有属性的弱点，则不会触发对应属性的抗性降低效果。
-      talentDefShredDebuff:
-        text: 缺陷防御力削弱
-        content: 银狼制造的【缺陷】使目标防御力降低{{talentDefShredDebuffValue}}%，持续3回合。
-      ultDefShredDebuff:
-        text: 终结技防御力削弱
-        content: 使指定敌方单体防御力降低{{ultDefShredValue}}%，持续3回合。
-      targetDebuffs:
-        text: 目标负面效果数量
-        content: >-
-          施放战技时，若敌方目标的负面效果数量大于等于3个，则战技使目标全属性抗性降低的效果额外降低3%。::BR::4魂：施放终结技攻击敌方目标后，目标每有1个负面效果，则额外造成等同于银狼20%攻击力的量子属性附加伤害。该效果在每次终结技攻击中最多触发5次。::BR::6魂：敌方目标每有1个负面效果，银狼对其造成的伤害提高20%，最多提高100%。
   SilverWolfB1:
     Content:
       ehrToAtkConversion:
@@ -2422,27 +2318,6 @@ Characters:
           强化普攻期间造成的欢愉伤害增笑50%。
           敌方目标进入战斗时，会被植入【禁限弱点】：拥有全属性弱点并且全属性基础抗性降低至0（若基础抗性为0则改为对应属性抗性降低20%）。
           欢愉伤害
-  Sparkle:
-    Content:
-      skillCdBuff:
-        text: 战技暴击伤害增益
-        content: >-
-          使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续1回合。::BR::6魂：战技的暴击伤害提高效果额外提高，提高数值等同于花火暴击伤害的30%，花火施放战技时，使战技的暴击伤害提高效果对持有【谜诡】的队友都会生效，花火施放终结技时，若我方单体中有目标持有战技的暴击伤害提高效果，使该效果扩散至持有【谜诡】的队友。
-      cipherBuff:
-        text: 谜诡增益
-        content: >-
-          持有【谜诡】的我方目标触发花火天赋造成的伤害提高效果每层额外提高{{cipherTalentStackBoost}}%，持续2回合。::BR::1魂：终结技施加的【谜诡】的持续时间额外增加1回合，持有【谜诡】的我方目标攻击力提高40%。
-      talentStacks:
-        text: 天赋增伤层数
-        content: >-
-          当我方目标每消耗1点战技点，则使我方全体造成的伤害提高{{talentBaseStackBoost}}%，该效果持续2回合，最多可叠加3层。::BR::2魂：天赋每层效果额外使我方目标造成伤害时无视目标8%的防御力。
-      quantumAlliesAtkBuff:
-        text: 量子队友攻击力增益
-        content: 当我方队伍中存在1名/2名/3名量子属性的角色时，我方量子属性的角色的攻击力额外提高5%/15%/30%。
-    TeammateContent:
-      teammateCDValue:
-        text: 花火战斗中暴击伤害值
-        content: 使指定我方单体的暴击伤害提高，提高数值等同于花火{{skillCdBuffScaling}}%暴击伤害+{{skillCdBuffBase}}%，持续1回合。
   SparkleB1:
     Content:
       skillBuffs:
@@ -2796,21 +2671,6 @@ Characters:
       e6FuaScaling:
         text: 6魂追加攻击伤害
         content: 缇宝施放终结技后，对敌方全体发动天赋的追加攻击。天赋的追加攻击造成的伤害提高729%。
-  Welt:
-    Content:
-      enemyDmgTakenDebuff:
-        text: 终结技易伤负面效果
-        content: 施放终结技时，有100%基础概率使目标受到的伤害提高12%，持续2回合。
-      enemySlowed:
-        text: 敌人处于减速状态
-        content: 击中处于减速状态的敌方目标时，额外造成1次等同于瓦尔特{{talentScaling}}%攻击力的虚数属性附加伤害。
-      skillExtraHits:
-        text: 战技对目标的额外击中次数
-        content: >-
-          对指定敌方单体造成等同于瓦尔特{{skillScaling}}%攻击力的虚数属性伤害，并额外造成2次伤害。每次伤害对敌方随机单体造成等同于瓦尔特{{skillScaling}}%攻击力的虚数属性伤害。
-      e1EnhancedState:
-        text: 1魂强化状态
-        content: 施放终结技后，瓦尔特获得强化，在随后2次施放普攻或战技时额外对敌方目标造成1次附加伤害。施放普攻造成的附加伤害等同于普攻伤害倍率的50%，施放战技造成的附加伤害等同于战技伤害倍率的80%。
   WeltB1:
     Content:
       enemySlowed:

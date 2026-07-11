@@ -13,8 +13,8 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { MomentOfVictory } from 'lib/conditionals/lightcone/5star/MomentOfVictory'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { MomentOfVictory } from 'lib/conditionals/lightcone/5star/MomentOfVictory'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   ConditionalActivation,
@@ -192,6 +192,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const shieldSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [Stats.DEF_P],
     [Parts.Feet]: [Stats.DEF_P, Stats.SPD],
@@ -256,6 +257,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.DEF,
   parts: {
     [Parts.Body]: [
       Stats.DEF_P,
@@ -281,6 +283,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   shieldSimulation: shieldSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -290,7 +293,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#5375e6',
+  showcaseColor: '#768acc',
 }
 
 export const Gepard: CharacterConfig = {

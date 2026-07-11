@@ -1,4 +1,7 @@
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -301,6 +304,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -395,6 +399,7 @@ const scoring = (): ScoringMetadata => ({
     [Parts.Body]: [],
     [Parts.Feet]: [
       Stats.SPD,
+      Stats.ATK_P,
     ],
     [Parts.PlanarSphere]: [],
     [Parts.LinkRope]: [
@@ -422,7 +427,7 @@ const display = {
     y: 112,
     z: -0.17,
   },
-  showcaseColor: '#d777c1',
+  showcaseColor: '#e1bdef',
 }
 
 export const March7thImaginary: CharacterConfig = {

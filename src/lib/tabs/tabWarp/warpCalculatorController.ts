@@ -313,15 +313,8 @@ function isTargetReached(
   eidolon: EidolonLevel,
   superimposition: SuperimpositionLevel,
 ) {
-  if (targetEidolonLevel !== EidolonLevel.NONE && eidolon < targetEidolonLevel) {
-    return false
-  }
-
-  if (targetSuperimpositionLevel !== SuperimpositionLevel.NONE && superimposition < targetSuperimpositionLevel) {
-    return false
-  }
-
-  return true
+  return (targetEidolonLevel === EidolonLevel.NONE || eidolon >= targetEidolonLevel)
+    && (targetSuperimpositionLevel === SuperimpositionLevel.NONE || superimposition >= targetSuperimpositionLevel)
 }
 
 function milestoneStats(cumulativePmf: number[], budget: number): WarpMilestoneResult {

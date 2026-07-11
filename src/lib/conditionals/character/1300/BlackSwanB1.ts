@@ -310,6 +310,7 @@ if (${wgslTrue(r.ehrToDmgBoost)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.EHR,
@@ -334,9 +335,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.CR,
     Stats.CD,
   ],
-  breakpoints: {
-    [Stats.EHR]: 1.20,
-  },
+  softBreakpoints: [
+    { stat: Stats.EHR, threshold: 1.20 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -376,6 +377,15 @@ const simulation = (): SimulationMetadata => ({
       lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: KafkaB1.id, lightCones: [PatienceIsAllYouNeed.id] },
+        { characterId: Hysilens.id, lightCones: [WhyDoesTheOceanSing.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
     },
   ],
 })
@@ -422,6 +432,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -430,7 +441,7 @@ const display = {
     y: 934,
     z: 1.3,
   },
-  showcaseColor: '#a37df4',
+  showcaseColor: '#b4a0d5',
 }
 
 export const BlackSwanB1: CharacterConfig = {

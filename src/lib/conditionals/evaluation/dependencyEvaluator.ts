@@ -1,7 +1,7 @@
 import type { ConvertibleStatsType } from 'lib/conditionals/evaluation/statConversionConfig'
 import { Stats } from 'lib/constants/constants'
 import type { DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
-import type { ConditionalRegistry } from 'lib/optimization/calculateConditionals'
+import { emptyRegistry, type ConditionalRegistry } from 'lib/optimization/calculateConditionals'
 
 const MAX_EVALUATIONS = 3
 
@@ -133,23 +133,6 @@ const statOrder: ConvertibleStatsType[] = [
   Stats.HP,
   Stats.Elation,
 ]
-
-function emptyRegistry(): ConditionalRegistry {
-  return {
-    [Stats.HP]: [],
-    [Stats.ATK]: [],
-    [Stats.DEF]: [],
-    [Stats.SPD]: [],
-    [Stats.CR]: [],
-    [Stats.CD]: [],
-    [Stats.EHR]: [],
-    [Stats.RES]: [],
-    [Stats.BE]: [],
-    [Stats.OHB]: [],
-    [Stats.ERR]: [],
-    [Stats.Elation]: [],
-  }
-}
 
 function getTotalReachableConditionals(
   stat: ConvertibleStatsType,

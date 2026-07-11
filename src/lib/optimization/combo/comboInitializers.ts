@@ -1,4 +1,7 @@
-import { applyScoringMetadataPresets, resolveTeammateInfo } from 'lib/conditionals/evaluation/applyPresets'
+import {
+  applyScoringMetadataPresets,
+  resolveTeammateInfo,
+} from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import {

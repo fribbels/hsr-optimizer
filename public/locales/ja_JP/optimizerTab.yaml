@@ -25,13 +25,10 @@ ResultLimitN: '上位{{limit}}件を表示'
 MainStats: メインステータス
 Sets: セット
 UnreleasedDisclaimer: '{{nameList}}の計算はまだ完了していないため、オプティマイザーの結果は正確ではありません'
-RelicSetSelector:
-  Placeholder: 遺物セット
-  4pcLabel: 4セット
-  2+2pcLabel: 2+2セット
-  2pcLabel: 2セット+任意
-OrnamentSetSelector:
-  Placeholder: オーナメントセット
+SetFilters:
+  RelicSelectedPlaceholder: 遺物
+  OrnamentSelectedPlaceholder: オーナメント
+  Done: 完了
 SortOptions:
   DMGLabel: 与ダメージ計算
   HealLabel: 治癒量計算
@@ -604,59 +601,45 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: '4セット：$t(gameData:RelicSets.114.Name)（速度+12%）'
-      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 速度12%
     Watchmaker:
       Desc: '4セット：$t(gameData:RelicSets.118.Name)（撃破特効+30%）'
-      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 撃破30%
     Sacerdos1Stack:
       Desc: '4セット：$t(gameData:RelicSets.121.Name)（会心ダメージ+18%）'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 会心ダメ18%
     Sacerdos2Stack:
       Desc: '4セット：$t(gameData:RelicSets.121.Name)（会心ダメージ+36%）'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 会心ダメ36%
     Warrior:
       Desc: '4セット：$t(gameData:RelicSets.125.Name)（会心ダメージ+15%）'
-      Set: '$t(gameData:RelicSets.125.Name)'
       Text: 会心ダメ15%
     WorldRemaking:
       Desc: '4セット：$t(gameData:RelicSets.127.Name)（与ダメージ+15%）'
-      Set: '$t(gameData:RelicSets.127.Name)'
       Text: 与ダメ+15%
     SelfEnshrouded:
       Desc: '4セット：$t(gameData:RelicSets.128.Name)（会心ダメージ+15%）'
-      Set: '$t(gameData:RelicSets.128.Name)'
       Text: 会心ダメ15%
     Diviner:
       Desc: '4セット：$t(gameData:RelicSets.130.Name)（愉悦ダメージ+10%）'
-      Set: '$t(gameData:RelicSets.130.Name)'
       Text: 愉悦10%
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) （会心ダメージ+10%）'
-      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 会心ダメ10%
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) （攻撃力+8%）'
-      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 攻撃力8%
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name)（同属性に+10%与ダメージ）'
-      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 与ダメ10%
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) （攻撃力+12%）'
-      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 攻撃力12%
     Amphoreus:
       Desc: '$t(gameData:RelicSets.323.Name) (速度+8%)'
-      Set: '$t(gameData:RelicSets.323.Name)'
       Text: 速度8%
     CityOfConvergingStars:
       Desc: '$t(gameData:RelicSets.326.Name) （会心ダメージ+12%）'
-      Set: '$t(gameData:RelicSets.326.Name)'
       Text: 会心ダメ12%
 StatSimulation:
   DuplicateSimMessage: 同一のシミュレーションが既に存在します
@@ -879,3 +862,9 @@ ExpandedDataPanel:
         SuperBreak: 超撃破ダメージの種類
       Unconvertible: '変換不能な$t(common:Stats.{{stat}})'
       ElementalDmgBoost: '$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'
+    HitDefinition:
+      Toughness: 削靭値
+    EnemyConfiguration:
+      Efres: 効果抵抗
+      Weakness: 弱点属性
+      Broken: 弱点撃破状態

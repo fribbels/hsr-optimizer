@@ -16,9 +16,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
@@ -524,6 +524,7 @@ if (${wgslTrue(e >= 4 && r.e4CdBuff)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CD,
@@ -559,9 +560,9 @@ const simulation = (): SimulationMetadata => ({
     START_SKILL,
     END_MEMO_SKILL,
   ],
-  breakpoints: {
-    [Stats.SPD]: 200,
-  },
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 200 },
+  ],
   relicSets: [
     [Sets.WarriorGoddessOfSunAndThunder, Sets.WarriorGoddessOfSunAndThunder],
     [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
@@ -597,9 +598,20 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
+        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+      ],
+    },
+  ],
 })
 
 const healSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.HP_P],
@@ -649,6 +661,15 @@ const healSimulation = (): SimulationMetadata => ({
     },
   ],
   deprioritizeBuffs: true,
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Castorice.id, lightCones: [MakeFarewellsMoreBeautiful.id] },
+        { characterId: Evernight.id, lightCones: [ToEvernightsStars.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -695,6 +716,7 @@ const scoring = (): ScoringMetadata => ({
   hiddenColumns: [SortOption.FUA, SortOption.DOT, SortOption.SKILL, SortOption.ULT],
   simulation: simulation(),
   healSimulation: healSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -708,7 +730,7 @@ const display = {
     y: 172,
     z: 0,
   },
-  showcaseColor: '#1cd4a0',
+  showcaseColor: '#bbf2d8',
 }
 
 export const Hyacine: CharacterConfig = {

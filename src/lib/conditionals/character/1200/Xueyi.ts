@@ -1,4 +1,7 @@
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -268,6 +271,7 @@ if (${wgslTrue(r.beToDmgBoost)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -389,7 +393,7 @@ const display = {
     y: 900,
     z: 1,
   },
-  showcaseColor: '#8e91f9',
+  showcaseColor: '#abaded',
 }
 
 export const Xueyi: CharacterConfig = {

@@ -523,10 +523,10 @@ RelicSets:
     Description2pc: เมื่อผู้สวมใส่โจมตีต่อเนื่อง ATK จะเพิ่มขึ้น 24% เป็นเวลา 2 เทิร์น เมื่อศัตรูเป้าหมายถูกกำจัด ในการต่อสู้นี้ ฝ่ายเราทั้งหมดจะมี DMG คริติคอลเพิ่มขึ้น 12% เอฟเฟกต์นี้ไม่สามารถซ้อนทับได้
   "327":
     Name: Fallen Star Anchorage
-    Description2pc: Increases the wearer's CRIT Rate by 7%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 31%.
+    Description2pc: Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.
   "328":
     Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 31%.
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.
 Lightcones:
   "20000":
     Name: Arrows

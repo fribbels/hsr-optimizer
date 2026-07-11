@@ -2,25 +2,33 @@
 import { Blade } from 'lib/conditionals/character/1200/Blade'
 import {
   Constants,
+  type MainStats,
   Parts,
   Stats,
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
+import { scoreCurrentRelic } from 'lib/relics/scoring/currentScore'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
+import { computeFutureScores } from 'lib/relics/scoring/futureScore'
+import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
+import {
+  RelicScorer,
+  ScoringCache,
+} from 'lib/relics/scoring/relicScorer'
 import {
   substatPotentialUnits,
 } from 'lib/relics/scoring/scoringConstants'
-import { computeFutureScores } from 'lib/relics/scoring/futureScore'
-import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
-import { RelicScorer } from 'lib/relics/scoring/relicScorer'
 import { prepareScoringMetadata } from 'lib/relics/scoring/scoringMetadata'
 import { StatCalculator } from 'lib/relics/statCalculator'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
+  getDefaultScoringMetadata,
   getScoringMetadata,
   useScoringStore,
 } from 'lib/stores/scoring/scoringStore'
+import type { ScoringMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
 import {
   expect,
@@ -28,6 +36,48 @@ import {
 } from 'vitest'
 
 Metadata.initialize()
+
+function makeFlatMainstatMetadata(flatMainstatBoost?: ScoringMetadata['flatMainstatBoost']): ScoringMetadata {
+  const defaults = getDefaultScoringMetadata(Blade.id)
+  const stats = {} as Record<SubStats, number>
+  for (const s of Constants.SubStats) stats[s] = 0
+  stats[Stats.ATK_P] = 1
+  stats[Stats.SPD] = 1
+
+  return {
+    ...defaults,
+    stats,
+    flatMainstatBoost,
+    parts: {
+      ...defaults.parts,
+      [Parts.Body]: [Stats.ATK_P, Stats.HP_P],
+    },
+  }
+}
+
+function makeFlatAtkBodyRelic(mainStat: MainStats): Relic {
+  return {
+    enhance: 15,
+    grade: 5,
+    part: Parts.Body,
+    set: 'Longevous Disciple',
+    main: {
+      stat: mainStat,
+      value: 100,
+    },
+    substats: [
+      { stat: Stats.ATK, value: StatCalculator.getMaxedSubstatValue(Stats.ATK) * 6 },
+      { stat: Stats.SPD, value: StatCalculator.getMaxedSubstatValue(Stats.SPD) },
+    ],
+    previewSubstats: [],
+    weightScore: 0,
+    ageIndex: 0,
+    augmentedStats: {} as AugmentedStats,
+    initialRolls: 0,
+    id: `flat-mainstat-${mainStat}`,
+    equippedBy: Blade.id,
+  }
+}
 
 // Correct mainstat with all zero-weight substats should score 0
 test('relic-mainstatonly', () => {
@@ -108,6 +158,91 @@ test('relic-perfect', () => {
 
   const score = RelicScorer.scoreRelicPotential(relic, character)
   expect(score.bestPct).greaterThan(99).lessThanOrEqual(100)
+})
+
+test('scoring cache metadata resolver can ignore user overrides', () => {
+  const character = Blade.id
+
+  try {
+    const stats = {} as Record<SubStats, number>
+    for (const s of Constants.SubStats) stats[s] = 0
+    useScoringStore.getState().setScoringMetadataOverrides({ [character]: { stats } })
+
+    const relic: Relic = {
+      enhance: 15,
+      grade: 5,
+      part: Parts.Hands,
+      set: 'Longevous Disciple',
+      main: {
+        stat: Stats.ATK,
+        value: 100,
+      },
+      substats: [Stats.HP_P, Stats.CR, Stats.CD, Stats.SPD].map((stat) => ({
+        stat,
+        value: StatCalculator.getMaxedSubstatValue(stat),
+      })),
+      previewSubstats: [],
+      weightScore: 0,
+      ageIndex: 0,
+      augmentedStats: {} as AugmentedStats,
+      initialRolls: 0,
+      id: '3cc6d912-6f7f-4dd7-8d1e-484033f15f5f',
+      equippedBy: character,
+    }
+
+    const overrideScorer = new ScoringCache()
+    const defaultScorer = new ScoringCache({ metadataResolver: getDefaultScoringMetadata })
+
+    const overrideScore = overrideScorer.getCurrentRelicScore(relic, character)
+    const defaultScore = defaultScorer.getCurrentRelicScore(relic, character)
+    expect(overrideScore.percentScore).toBe(0)
+    expect(defaultScore.percentScore).toBeGreaterThan(0)
+
+    const overridePotential = overrideScorer.scoreRelicPotential(relic, character)
+    const defaultPotential = defaultScorer.scoreRelicPotential(relic, character)
+    expect(overridePotential.bestPct).toBe(0)
+    expect(defaultPotential.bestPct).toBeGreaterThan(0)
+  } finally {
+    useScoringStore.getState().clearCharacterOverrides(character)
+  }
+})
+
+test('default metadata resolver does not let scorer preparation mutate game metadata stats', () => {
+  const character = Blade.id
+  const defaults = getGameMetadata().characters[character].scoringMetadata
+  const originalStats = { ...defaults.stats }
+
+  const meta = prepareScoringMetadata(character, getDefaultScoringMetadata)
+  meta.stats[Stats.HP_P] = 999
+
+  expect(defaults.stats).toEqual(originalStats)
+})
+
+test('flat mainstat boost values flat stat at paired percent weight on matching mainstat', () => {
+  const character = Blade.id
+  const boostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata(Stats.ATK))
+  const unboostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata())
+  const relic = makeFlatAtkBodyRelic(Stats.ATK_P)
+
+  const boostedIdeal = computeOptimalScore(relic.part, relic.main.stat, boostedMeta)
+  const unboostedIdeal = computeOptimalScore(relic.part, relic.main.stat, unboostedMeta)
+
+  expect(scoreCurrentRelic(relic, boostedMeta, boostedIdeal).percentScore).toBeGreaterThan(99.8)
+  expect(computeFutureScores(relic, boostedMeta, boostedIdeal, false).current).toBeGreaterThan(99.8)
+  expect(scoreCurrentRelic(relic, unboostedMeta, unboostedIdeal).percentScore).toBeLessThan(60)
+})
+
+test('flat mainstat boost does not apply on unrelated mainstat', () => {
+  const character = Blade.id
+  const boostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata(Stats.ATK))
+  const unboostedMeta = prepareScoringMetadata(character, () => makeFlatMainstatMetadata())
+  const relic = makeFlatAtkBodyRelic(Stats.HP_P)
+
+  const boostedIdeal = computeOptimalScore(relic.part, relic.main.stat, boostedMeta)
+  const unboostedIdeal = computeOptimalScore(relic.part, relic.main.stat, unboostedMeta)
+
+  expect(scoreCurrentRelic(relic, boostedMeta, boostedIdeal).percentScore).toBe(scoreCurrentRelic(relic, unboostedMeta, unboostedIdeal).percentScore)
+  expect(computeFutureScores(relic, boostedMeta, boostedIdeal, false).current).toBe(computeFutureScores(relic, unboostedMeta, unboostedIdeal, false).current)
 })
 
 // Two max-rolled relics of weight-1.0 substats both score 100%, whichever stat is 6-stacked.

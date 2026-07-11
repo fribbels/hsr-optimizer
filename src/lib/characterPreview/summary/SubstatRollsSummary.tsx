@@ -8,7 +8,6 @@ import {
   type SimulationScore,
 } from 'lib/scoring/simScoringUtils'
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
-import { type ScoringConfigType } from 'types/metadata'
 import { numberToLocaleString } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import {
@@ -17,6 +16,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { type ScoringConfigType } from 'types/metadata'
 
 interface SubstatRollsSummaryCommonProps {
   precision: number

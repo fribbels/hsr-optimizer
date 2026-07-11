@@ -1,5 +1,4 @@
 import { ShowcasePreset } from 'lib/characterPreview/debugVisualConfigStore'
-import { getDefaultActiveKey } from 'lib/constants/appPages'
 import {
   COMPUTE_ENGINE_GPU_STABLE,
   CURRENT_OPTIMIZER_VERSION,
@@ -7,6 +6,7 @@ import {
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { DefaultSettingOptions } from 'lib/constants/settingsConstants'
 import { ScoringType } from 'lib/scoring/scoringConfig'
+import { getDefaultActiveKey } from 'lib/tabs/navigation/constants'
 import type {
   GlobalSavedSession,
   HsrOptimizerStore,

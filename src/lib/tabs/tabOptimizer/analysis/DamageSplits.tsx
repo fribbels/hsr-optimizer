@@ -23,7 +23,7 @@ function ModeToggle({ mode, onModeChange }: {
   ]
 
   return (
-    <div style={{ display: 'flex', gap: 6, alignItems: 'center', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+    <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
       {modes.map((m) => (
         <span
           key={m.key}

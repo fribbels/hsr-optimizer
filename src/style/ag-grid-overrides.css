@@ -90,7 +90,6 @@
 .ag-theme-balham .ag-header-group-cell {
     padding-left: 2px;
     padding-right: 2px;
-    font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-align: center;
@@ -177,7 +176,6 @@
 .ag-cell-value {
     font-weight: 400;
     text-align: center;
-    font-family: var(--font-ui);
     font-size: 14px;
     display: flex !important;
     justify-content: center;

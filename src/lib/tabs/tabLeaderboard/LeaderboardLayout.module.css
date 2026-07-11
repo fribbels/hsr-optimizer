@@ -113,6 +113,22 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
+.backUnifiedLabel {
+  flex: 1;
+  font-size: 14px;
+  text-align: center;
+  padding-right: var(--lb-strip-width);
+  margin-top: 1px;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.backUnified:hover .backUnifiedLabel {
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .stripColumn {
   display: flex;
   flex-direction: column;

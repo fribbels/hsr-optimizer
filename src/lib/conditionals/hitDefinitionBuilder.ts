@@ -100,6 +100,16 @@ HitDefinitionBuilder.standardSkill = () =>
     skillPointsUsed: 1,
   })
 
+HitDefinitionBuilder.standardAssistSkill = () =>
+  genericBuilder<CritHitDefinition>({
+    ...BASE_HIT_DEFAULTS,
+    damageFunctionType: DamageFunctionType.Crit,
+    damageType: DamageTag.SKILL | DamageTag.ASSIST,
+    outputTag: OutputTag.DAMAGE,
+    directHit: true,
+    skillPointsUsed: 0,
+  })
+
 HitDefinitionBuilder.standardUlt = () =>
   genericBuilder<CritHitDefinition>({
     ...BASE_HIT_DEFAULTS,

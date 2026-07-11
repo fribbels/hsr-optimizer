@@ -450,7 +450,7 @@ ${p_containerActionVal(memoEntityIndex, StatKey.CD, config)} += finalBuffCd;
 }
 
 const supportSimulation = (): SimulationMetadata => ({
-  leaderboardEnabled: true,
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [Stats.CD],
     [Parts.Feet]: [Stats.SPD],

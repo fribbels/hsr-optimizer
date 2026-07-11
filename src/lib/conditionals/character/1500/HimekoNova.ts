@@ -110,7 +110,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const allyAssistAoeScaling = skill(e, 1.60, 1.76)
   const allyAssistRandomScaling = skill(e, 0.24, 0.264)
   const verdictDmgBoostValue = skill(e, 1.00, 1.10)
-  const verdictUltCdValue = skill(e, 1.00, 1.10)
+  const verdictUltDmgBoostValue = skill(e, 1.00, 1.10)
   const decimationCdValue = skill(e, 1.00, 1.10)
   const decimationSkillCdValue = skill(e, 1.00, 1.10)
 
@@ -203,7 +203,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('companionVerdict.text'),
       content: t('companionVerdict.content', {
         VerdictDmgBuff: precisionRound(100 * verdictDmgBoostValue),
-        VeridctUltDmgBuff: precisionRound(100 * verdictUltCdValue),
+        VeridctUltDmgBuff: precisionRound(100 * verdictUltDmgBoostValue),
       }),
     },
     companionDecimation: {
@@ -289,9 +289,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         [AbilityKind.UNIQUE]: {
           hits: [
-            HitDefinitionBuilder.standardSkill()
+            HitDefinitionBuilder.standardAssistSkill()
               .damageElement(ElementTag.Fire)
-              .damageType(DamageTag.ASSIST)
               .atkScaling(
                 r.selfUseAssistSkill
                   ? (selfAssistAoeScaling + selfAssistRandomScaling * 4 / context.enemyCount)
@@ -327,9 +326,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.30 : 0, x.damageType(DamageTag.ULT).source(SOURCE_E2))
       x.multiplicativeBoost(StatKey.FINAL_DMG_BOOST, (e >= 2) ? 0.30 : 0, x.damageType(DamageTag.ASSIST).source(SOURCE_E2))
 
-      // Verdict: DMG +100%, Ult CD +100%
+      // Verdict: DMG +100%, Ult DMG +100%
       x.buff(StatKey.BOOST, r.companionVerdict ? verdictDmgBoostValue : 0, x.source(SOURCE_UNIQUE))
-      x.buff(StatKey.CD, r.companionVerdict ? verdictUltCdValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
+      x.buff(StatKey.BOOST, r.companionVerdict ? verdictUltDmgBoostValue : 0, x.damageType(DamageTag.ULT).source(SOURCE_UNIQUE))
 
       // Decimation: CD +100%, Skill CD +100%
       x.buff(StatKey.CD, r.companionDecimation ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
@@ -472,8 +471,8 @@ const scoring = (): ScoringMetadata => ({
 })
 
 const display = {
-  // TODO: placeholder image coordinates
   imageCenter: { x: 902, y: 928, z: 1.25 },
+  spineCenter: { x: 914, y: 969, z: 1.25 },
   showcaseColor: '#b498d3',
 }
 

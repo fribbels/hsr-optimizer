@@ -172,6 +172,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       generatedAt,
       snapshotPath: deriveSnapshotPath(options.buildScoreCacheDbPath),
       timelinePath: deriveTimelinePath(publicOutputPath),
+      topNPublic,
       allowedCharacterIds: new Set(
         Object.values(getGameMetadata().characters)
           .filter((c) => c.rarity === 5 && isCharacterLeaderboardEnabled(c.id))

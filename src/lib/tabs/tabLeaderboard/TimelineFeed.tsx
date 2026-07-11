@@ -6,7 +6,7 @@ import { getBuildIndex } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useTranslation } from 'react-i18next'
 
-const MAX_FEED_ENTRIES = 8
+const MAX_FEED_ENTRIES = 50
 const MS_PER_HOUR = 1000 * 60 * 60
 
 function formatRelativeTime(dateString: string): string {
@@ -20,20 +20,16 @@ function formatRelativeTime(dateString: string): string {
   return `${Math.floor(hours / 24)}d`
 }
 
-function renderRankDelta(event: TimelineEvent) {
-  if (event.type === TimelineEventType.NEW_CHARACTER) {
-    return <span className={classes.cellNewLabel}>new</span>
-  }
-  const delta = event.previousRank - event.rank
-  if (delta > 0) {
-    return <span className={classes.cellGreen}>&#9650; {delta}</span>
-  }
-  return <span className={classes.cellDash}>&mdash;</span>
+function renderRank(event: TimelineEvent) {
+  const style = event.type === TimelineEventType.NEW_CHARACTER
+    ? classes.cellNewLabel
+    : classes.cellGreen
+  return <span className={style}># {event.rank}</span>
 }
 
 function renderScoreDelta(event: TimelineEvent) {
   if (event.type === TimelineEventType.NEW_CHARACTER) {
-    return <span className={classes.cellNewLabel}>new</span>
+    return <span className={classes.cellNewLabel}>NEW</span>
   }
   const delta = (event.score - event.previousScore) * 100
   return <span className={classes.cellGreen}>+{delta.toFixed(1)}%</span>
@@ -67,10 +63,10 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
           const scorePercent = (event.score * 100).toFixed(1)
 
           return (
-            <div key={`${characterId}#${event.type}#${event.date}`} className={classes.feedRow} onClick={() => handleRowClick(event)}>
+            <div key={`${event.uidHash}#${characterId}#${event.configType}#${event.type}#${event.date}`} className={classes.feedRow} onClick={() => handleRowClick(event)}>
               <span className={classes.cellTime}>{formatRelativeTime(event.date)}</span>
               <span className={classes.cellDivider} />
-              <span className={classes.cellRankDelta}>{renderRankDelta(event)}</span>
+              <span className={classes.cellRankDelta}>{renderRank(event)}</span>
               <img
                 src={Assets.getCharacterAvatarById(characterId)}
                 className={classes.cellAvatar}

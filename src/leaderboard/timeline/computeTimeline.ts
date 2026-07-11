@@ -107,7 +107,7 @@ export function computeTimelineUpdate(input: {
   topNPublic?: number,
 }): TimelineUpdateResult {
   const previousSnapshot = readSnapshot(input.snapshotPath)
-  const result = extractSnapshot(input.privateOutput, input.totalCounts, previousSnapshot, input.generatedAt, input.allowedCharacterIds)
+  const result = extractSnapshot(input.privateOutput, input.totalCounts, previousSnapshot, input.generatedAt, input.allowedCharacterIds, input.topNPublic)
   const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries, { maxRank: input.topNPublic })
   const existingEvents = readTimeline(input.timelinePath)
   const events = deduplicateAndMerge(newEvents, existingEvents, 100)

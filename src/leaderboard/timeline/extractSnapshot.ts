@@ -34,7 +34,9 @@ export function extractSnapshot(
   previousSnapshot: LeaderboardSnapshot | null,
   generatedAt: string,
   allowedCharacterIds?: Set<string>,
+  topNPublic?: number,
 ): SnapshotExtractionResult {
+  const maxBoardRank = topNPublic ?? 100
   const topEntries = new Map<string, TopEntryIdentity>()
   const userCharEntries = new Map<string, UserCharCurrentEntry>()
 
@@ -57,6 +59,7 @@ export function extractSnapshot(
     }
 
     for (const entry of board.entries) {
+      if (entry.rank > maxBoardRank) continue
       const key = `${entry.uidHash}:${charId}`
       const existing = userCharEntries.get(key)
       if (!existing || entry.score > existing.score) {
@@ -91,6 +94,23 @@ export function extractSnapshot(
       charId as CharacterId,
       computeBuildId(entry.uidHash, entry.characterId, entry.configType, entry.teamId),
     )
+  }
+
+  const byCharacter = new Map<string, string[]>()
+  for (const [key, entry] of userCharEntries) {
+    const charId = entry.characterId
+    let list = byCharacter.get(charId)
+    if (!list) {
+      list = []
+      byCharacter.set(charId, list)
+    }
+    list.push(key)
+  }
+  for (const keys of byCharacter.values()) {
+    keys.sort((a, b) => userCharEntries.get(b)!.score - userCharEntries.get(a)!.score)
+    for (let i = 0; i < keys.length; i++) {
+      userCharEntries.get(keys[i])!.rank = i + 1
+    }
   }
 
   const prevUserBests = previousSnapshot?.userBests ?? {}

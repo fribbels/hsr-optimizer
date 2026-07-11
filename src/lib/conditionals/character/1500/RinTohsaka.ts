@@ -59,6 +59,8 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -81,6 +83,7 @@ export const RinTohsakaAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RinTohsaka.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, talent, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
@@ -144,68 +147,68 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedSkill: {
       id: 'enhancedSkill',
       formItem: 'switch',
-      text: 'Enhanced Skill',
-      content: betaContent,
+      text: t('enhancedSkill.text'),
+      content: t('enhancedSkill.content'),
     },
     skillBounces: {
       id: 'skillBounces',
       formItem: 'slider',
-      text: 'Skill bounces',
-      content: betaContent,
+      text: t('skillBounces.text'),
+      content: t('skillBounces.content'),
       min: 0,
       max: maxBounces,
     },
     enhancedSkillSpConsumed: {
       id: 'enhancedSkillSpConsumed',
       formItem: 'slider',
-      text: 'Enhanced Skill SP consumed',
-      content: betaContent,
+      text: t('enhancedSkillSpConsumed.text'),
+      content: t('enhancedSkillSpConsumed.content'),
       min: 0,
       max: maxSpConsumed,
     },
     talentCdBuff: {
       id: 'talentCdBuff',
       formItem: 'switch',
-      text: 'Talent CD buff',
-      content: betaContent,
+      text: t('talentCdBuff.text'),
+      content: t('talentCdBuff.content', { TalentCdBuff: precisionRound(100 * talentCdBuffValue) }),
     },
     elegantConduct: {
       id: 'elegantConduct',
       formItem: 'switch',
-      text: 'Elegant Conduct',
-      content: betaContent,
+      text: t('elegantConduct.text'),
+      content: t('elegantConduct.content'),
     },
     ladylikePoise: {
       id: 'ladylikePoise',
       formItem: 'switch',
-      text: 'SPD buff',
-      content: betaContent,
+      text: t('ladylikePoise.text'),
+      content: t('ladylikePoise.content'),
     },
     ultDmgTakenDebuff: {
       id: 'ultDmgTakenDebuff',
       formItem: 'switch',
-      text: 'Ult Vulnerability',
-      content: betaContent,
+      text: t('ultDmgTakenDebuff.text'),
+      content: t('ultDmgTakenDebuff.content', { UltVulnerability: precisionRound(100 * ultVulnerabilityValue) }),
     },
     e2Buffs: {
       id: 'e2Buffs',
       formItem: 'switch',
-      text: 'E2 Skill DMG buffs',
-      content: betaContent,
+      text: t('e2Buffs.text'),
+      content: t('e2Buffs.content'),
       disabled: e < 2,
     },
     e4TalentCdStacks: {
       id: 'e4TalentCdStacks',
       formItem: 'switch',
-      text: 'E4 CD stacks',
-      content: betaContent,
+      text: t('e4TalentCdStacks.text'),
+      content: t('e4TalentCdStacks.content'),
       disabled: e < 4,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: 'E6 RES PEN',
-      content: betaContent,
+      text: t('e6ResPen.text'),
+      content: t('e6ResPen.content'),
       disabled: e < 6,
     },
   }

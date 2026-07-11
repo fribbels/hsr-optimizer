@@ -2253,6 +2253,50 @@ export default interface Resources {
           }
         }
       },
+      "RinTohsaka": {
+        "Content": {
+          "e2Buffs": {
+            "content": "Increases Rin Tohsaka's Skill DMG by 30%. While Rin Tohsaka is on the field, Skill DMG dealt by all allies becomes 130% of the original DMG.",
+            "text": "E2 Skill DMG buffs"
+          },
+          "e4TalentCdStacks": {
+            "content": "When the CRIT DMG boost effect from Talent \"Gem Magecraft\" takes effect on Rin Tohsaka, the effect can stack up to 2 times.",
+            "text": "E4 CD stacks"
+          },
+          "e6ResPen": {
+            "content": "Rin Tohsaka's All-Type RES PEN increases by 20%. When using Ultimate, gains 24 point(s) of \"Gem Energy\" and 1 extra turn.",
+            "text": "E6 RES PEN"
+          },
+          "elegantConduct": {
+            "content": "When Rin Tohsaka is on the field, additionally increases the max number of Skill Points by 2. When entering combat, Rin Tohsaka's ATK increases by 150%, and Quantum RES PEN increases by 15%. If Archer is in the team, Archer also gains this effect.",
+            "text": "Elegant Conduct"
+          },
+          "enhancedSkill": {
+            "content": "If Rin Tohsaka possesses 15 or more \"Gem Energy\" or if current Skill Points are 7 or more, her Skill is enhanced into \"Second Magic Experiment.\"",
+            "text": "Enhanced Skill"
+          },
+          "enhancedSkillSpConsumed": {
+            "content": "Consumes 3 points of \"Gem Energy\" to deal additional Quantum DMG to one random enemy target. This repeats until \"Gem Energy\" is less than 3 or there are no enemy targets with current HP greater than 0, up to a maximum of 33 times. When used, if current Skill Points are greater than 2, consumes Skill Points until there are 2 points left, immediately gaining 2 points of \"Gem Energy\" for every 1 Skill Point consumed.",
+            "text": "Enhanced Skill SP consumed"
+          },
+          "ladylikePoise": {
+            "content": "When entering combat and after using Enhanced Skill, Rin Tohsaka's SPD increases by 20%, lasting for 3 turns.",
+            "text": "SPD buff"
+          },
+          "skillBounces": {
+            "content": "Consumes 3 points of \"Gem Energy\" to deal additional Quantum DMG to one random enemy target. This repeats until \"Gem Energy\" is less than 3 or there are no enemy targets with current HP greater than 0, up to a maximum of 33 times. When used, if current Skill Points are greater than 2, consumes Skill Points until there are 2 points left, immediately gaining 2 points of \"Gem Energy\" for every 1 Skill Point consumed.",
+            "text": "Skill bounces"
+          },
+          "talentCdBuff": {
+            "content": "When an ally target consumes or recovers Skill Points, increases their CRIT DMG by {{TalentCdBuff}}% for 2 turns.",
+            "text": "Talent CD buff"
+          },
+          "ultDmgTakenDebuff": {
+            "content": "When Rin Tohsaka uses her ultimate, recovers 1 Skill Points for allies, and increases the DMG taken by all enemies by {{UltVulnerability}}% for 3 turns.",
+            "text": "Ult Vulnerability"
+          }
+        }
+      },
       "Robin": {
         "Content": {
           "concertoActive": {

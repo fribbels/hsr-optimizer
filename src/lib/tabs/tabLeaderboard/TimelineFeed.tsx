@@ -21,7 +21,7 @@ function formatRelativeTime(dateString: string): string {
 }
 
 function renderRank(event: TimelineEvent) {
-  const style = event.type === TimelineEventType.NEW_CHARACTER || event.previousRank > 100
+  const style = event.type === TimelineEventType.NEW_CHARACTER
     ? classes.cellNewLabel
     : classes.cellGreen
   return <span className={style}># {event.rank}</span>

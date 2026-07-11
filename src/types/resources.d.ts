@@ -1499,6 +1499,38 @@ export default interface Resources {
           }
         }
       },
+      "Gilgamesh": {
+        "Content": {
+          "a6TeamBuff": {
+            "content": "While Gilgamesh is on the field, increases the ATK of all ally targets by 20% and CRIT DMG by 20%. If the target's Max Energy exceeds 140, every 1 excess point of Max Energy additionally increases ATK and CRIT DMG by 1%, up to a maximum of 100%.",
+            "text": "Hegemon's Strife"
+          },
+          "e6ResPen": {
+            "content": "While Gilgamesh is on the field, increases the All-Type RES PEN of ally characters by 20%.",
+            "text": "E6 RES PEN"
+          },
+          "goldenRuleStacks": {
+            "content": "When a teammate uses their Ultimate, Gilgamesh gains 1 point of \"Golden Rule,\" up to a total of 3 points. When this unit uses his Ultimate, he consumes all \"Golden Rule\" points and increases his Ultimate DMG's CRIT DMG by 100% for each point of \"Golden Rule\" consumed.",
+            "text": "Golden Rule stacks"
+          },
+          "herosHauteurStacks": {
+            "content": "During the battle, every 1 point of \"Interest\" gained by Gilgamesh increases his CRIT DMG by 25%. This effect can stack up to 6 times.",
+            "text": "Hero's Hauteur CD stacks"
+          },
+          "interestSpdStacks": {
+            "content": "When another ally target takes action, Gilgamesh gains 1 point of \"Interest\". For each point of \"Interest\" in possession, SPD increases by 10%.",
+            "text": "Interest stacks"
+          },
+          "kingsAcknowledgement": {
+            "content": "When using skill, obtains \"King's Acknowledgement,\" allowing this unit to ignore {{KingsAcknowledgementDefPen}}% of the target's DEF when dealing DMG, lasting for 3 turns. ::BR:: E1: When Gilgamesh possesses \"King's Acknowledgement,\" its DEF-ignoring effect will apply to other teammates as well, and \"King's Acknowledgement\" will additionally increase Gilgamesh's ATK by 60%.",
+            "text": "King's Acknowledgement"
+          },
+          "kingsBurden": {
+            "content": "When an ally uses their Ultimate, Gilgamesh gains \"King's Burden,\" which increases Ultimate DMG dealt by this unit by {{TalentUltDmgBoost}}%, lasting for 3 turns.",
+            "text": "King's Burden"
+          }
+        }
+      },
       "Guinaifen": {
         "Content": {
           "e1EffectResShred": {
@@ -1602,6 +1634,38 @@ export default interface Resources {
           "targetBurned": {
             "content": "Skill deals 20% more DMG to enemies currently afflicted with Burn.",
             "text": "Target burned"
+          }
+        }
+      },
+      "HimekoNova": {
+        "Content": {
+          "assistSkillBuff": {
+            "content": "Using the Assist Skill is considered as Himeko • Nova using her Skill. Himeko • Nova's All-Type RES PEN increases by {{AssistSkillResPen}}% and CRIT DMG increases by {{AssistSkillCdBUff}}%.",
+            "text": "Assist Skill buff"
+          },
+          "companionDecimation": {
+            "content": "Increases all allies' CRIT DMG by {{DecimationCdBuff}}%, and additionally increases the CRIT DMG dealt by Skills by {{DecimationSkillCdBuff}}%.",
+            "text": "Companion Protocol: Decimation"
+          },
+          "companionVerdict": {
+            "content": "Increases DMG dealt by Himeko • Nova by {{VerdictDmgBuff}}%, and additionally increases her Ultimate DMG dealt by {{VeridctUltDmgBuff}}%.",
+            "text": "Companion Protocol: Verdict"
+          },
+          "e4ResPen": {
+            "content": "When using the Assist Skill from Talent \"Of Fire and Far Faring,\" the All-Type RES PEN increase effect applies to all allies. When Himeko • Nova gains this effect, her All-Type RES PEN increases by an additional 10%.",
+            "text": "E4 team RES PEN"
+          },
+          "e6": {
+            "content": "Himeko • Nova's Fire Type RES PEN increases by 20%. Max \"Source Energy\" increases to 6 points, and when an ally uses or triggers an Assist Skill, DMG dealt by the Assist Skill increases by 75%, and Himeko • Nova gains 1 point of \"Source Energy\". When launching a \"Hyperluminal Particle Beam\" attack during Ultimate, additionally gains 1 point of \"Source Energy\". When launching \"Orbital Annihilation Pulse,\" if the current \"Source Energy\" is 6 points or more, additionally deals Fire DMG equal to 160% of Himeko • Nova's ATK to all enemies 1 time.",
+            "text": "E6 buffs"
+          },
+          "navigatorsSemaphore": {
+            "content": "When Himeko • Nova has \"Navigator's Semaphore,\" DMG dealt by all allies increases by {{SemaphoreDmgBoost}}%.",
+            "text": "Navigator 's Semaphore"
+          },
+          "selfUseAssistSkill": {
+            "content": "When Himeko uses her assist skill, deals increased damage to all enemies and deals 1 additional instance of damage to a random enemy target.",
+            "text": "Self use Assist Skill"
           }
         }
       },
@@ -2250,6 +2314,50 @@ export default interface Resources {
           "teammateBreakVulnerability": {
             "content": "When an enemy target becomes Weakness Broken, increases the Break DMG taken by 2%. If Rappa's current ATK is higher than 2400, for every 100 excess ATK, additionally increases this value by 1%, up to a max additional increase of 8%.",
             "text": "Break vulnerability"
+          }
+        }
+      },
+      "RinTohsaka": {
+        "Content": {
+          "e2Buffs": {
+            "content": "Increases Rin Tohsaka's Skill DMG by 30%. While Rin Tohsaka is on the field, Skill DMG dealt by all allies becomes 130% of the original DMG.",
+            "text": "E2 Skill DMG buffs"
+          },
+          "e4TalentCdStacks": {
+            "content": "When the CRIT DMG boost effect from Talent \"Gem Magecraft\" takes effect on Rin Tohsaka, the effect can stack up to 2 times.",
+            "text": "E4 CD stacks"
+          },
+          "e6ResPen": {
+            "content": "Rin Tohsaka's All-Type RES PEN increases by 20%. When using Ultimate, gains 24 point(s) of \"Gem Energy\" and 1 extra turn.",
+            "text": "E6 RES PEN"
+          },
+          "elegantConduct": {
+            "content": "When Rin Tohsaka is on the field, additionally increases the max number of Skill Points by 2. When entering combat, Rin Tohsaka's ATK increases by 150%, and Quantum RES PEN increases by 15%. If Archer is in the team, Archer also gains this effect.",
+            "text": "Elegant Conduct"
+          },
+          "enhancedSkill": {
+            "content": "If Rin Tohsaka possesses 15 or more \"Gem Energy\" or if current Skill Points are 7 or more, her Skill is enhanced into \"Second Magic Experiment.\"",
+            "text": "Enhanced Skill"
+          },
+          "enhancedSkillSpConsumed": {
+            "content": "Consumes 3 points of \"Gem Energy\" to deal additional Quantum DMG to one random enemy target. This repeats until \"Gem Energy\" is less than 3 or there are no enemy targets with current HP greater than 0, up to a maximum of 33 times. When used, if current Skill Points are greater than 2, consumes Skill Points until there are 2 points left, immediately gaining 2 points of \"Gem Energy\" for every 1 Skill Point consumed.",
+            "text": "Enhanced Skill SP consumed"
+          },
+          "ladylikePoise": {
+            "content": "When entering combat and after using Enhanced Skill, Rin Tohsaka's SPD increases by 20%, lasting for 3 turns.",
+            "text": "SPD buff"
+          },
+          "skillBounces": {
+            "content": "Consumes 3 points of \"Gem Energy\" to deal additional Quantum DMG to one random enemy target. This repeats until \"Gem Energy\" is less than 3 or there are no enemy targets with current HP greater than 0, up to a maximum of 33 times. When used, if current Skill Points are greater than 2, consumes Skill Points until there are 2 points left, immediately gaining 2 points of \"Gem Energy\" for every 1 Skill Point consumed.",
+            "text": "Skill bounces"
+          },
+          "talentCdBuff": {
+            "content": "When an ally target consumes or recovers Skill Points, increases their CRIT DMG by {{TalentCdBuff}}% for 2 turns.",
+            "text": "Talent CD buff"
+          },
+          "ultDmgTakenDebuff": {
+            "content": "When Rin Tohsaka uses her ultimate, recovers 1 Skill Points for allies, and increases the DMG taken by all enemies by {{UltVulnerability}}% for 3 turns.",
+            "text": "Ult Vulnerability"
           }
         }
       },
@@ -3219,6 +3327,14 @@ export default interface Resources {
           }
         }
       },
+      "AStarThatLightsTheNight": {
+        "Content": {
+          "sailStacks": {
+            "content": "Each stack of \"Sail\" increases Assist Skill DMG by {{sailDmgBoost}}%. When \"Sail\" reaches 3 stacks, each stack of \"Sail\" increases Ultimate DMG by {{sailDmgBoost}}%.",
+            "text": "Sail Stacks"
+          }
+        }
+      },
       "AThanklessCoronation": {
         "Content": {
           "energyAtkBuff": {
@@ -3527,6 +3643,14 @@ export default interface Resources {
           }
         }
       },
+      "FlickeringStars": {
+        "Content": {
+          "radiantCrown": {
+            "content": "hen any ally character consumes a total of 4 or more Skill Points in a single turn, the wearer gains \"Radiant Crown,\" lasting for 3 turns. While the wearer has \"Radiant Crown,\" all allies' DMG ignores {{DefPen}}% of the target's DEF, and Skill DMG dealt by the wearer increases by {{DmgBoost}}%.",
+            "text": "Radiant Crown"
+          }
+        }
+      },
       "FlowingNightglow": {
         "Content": {
           "cadenzaActive": {
@@ -3608,6 +3732,18 @@ export default interface Resources {
           "vulnerability": {
             "content": "After the wearer attacks, there is a 100% base chance that the attacked target is inflicted with Vulnerability, increasing the DMG they receive by {{Vulnerability}}% for 2 turns.",
             "text": "Vulnerability"
+          }
+        }
+      },
+      "IAmAsYouBehold": {
+        "Content": {
+          "kingsEntertainment": {
+            "content": "When the wearer enters combat or uses their Ultimate, the wearer gains \"King's Entertainment,\" lasting for 3 turn  s. While the wearer has \"King's Entertainment,\" increases all allies' CRIT DMG by {{CdBoost}}%.",
+            "text": "King's Entertainment"
+          },
+          "ultimateEnergyDmgBoost": {
+            "content": "When the wearer uses their Ultimate, increases the Ultimate DMG dealt this time by {{DmgBoostStep}}% for every 1 Energy consumed, up to {{MaxDmgBoost}}%.",
+            "text": "Ult Energy DMG boost"
           }
         }
       },

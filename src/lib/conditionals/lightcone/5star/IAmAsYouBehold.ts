@@ -11,6 +11,8 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import {
   type LightConeId,
@@ -24,14 +26,15 @@ import {
 
 const I_AM_AS_YOU_BEHOLD_ID = '23062' as unknown as LightConeId
 
-const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightConeConditionalsController => {
+const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IAmAsYouBehold.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(I_AM_AS_YOU_BEHOLD_ID)
 
   const sValuesErr = [0.10, 0.125, 0.15, 0.175, 0.20]
-  const sValuesUltDmgPerEnergy = [0.10, 0.125, 0.15, 0.175, 0.20]
-  const sValuesUltDmgCap = [0.60, 0.75, 0.90, 1.05, 1.20]
-  const sValuesTeamCd = [0.25, 0.3125, 0.375, 0.4375, 0.50]
+  const sValuesUltDmgPerEnergy = [0.20, 0.25, 0.30, 0.35, 0.40]
+  const sValuesUltDmgCap = [0.72, 0.90, 1.08, 1.26, 1.44]
+  const sValuesTeamCd = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   const defaults = {
     ultimateEnergyDmgBoost: true,
@@ -47,15 +50,15 @@ const conditionals = (s: SuperImpositionLevel, _withContent: boolean): LightCone
       lc: true,
       id: 'ultimateEnergyDmgBoost',
       formItem: 'switch',
-      text: 'Ult Energy DMG boost',
-      content: betaContent,
+      text: t('ultimateEnergyDmgBoost.text'),
+      content: t('ultimateEnergyDmgBoost.content', { DmgBoostStep: precisionRound(sValuesUltDmgPerEnergy[s]), MaxDmgBoost: precisionRound(100 * sValuesUltDmgCap[s]) }),
     },
     kingsEntertainment: {
       lc: true,
       id: 'kingsEntertainment',
       formItem: 'switch',
-      text: 'King\'s Entertainment',
-      content: betaContent,
+      text: t('kingsEntertainment.text'),
+      content: t('kingsEntertainment.content', { CdBoost: precisionRound(100 * sValuesTeamCd[s]) }),
     },
   }
 

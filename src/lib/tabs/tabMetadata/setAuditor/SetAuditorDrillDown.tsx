@@ -1,8 +1,8 @@
 import {
   FLAG_COLORS,
   formatParamCombo,
-} from './setAuditorConstants'
-import type { AuditorRunResult } from './setAuditorTypes'
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorConstants'
+import type { AuditorRunResult } from 'lib/tabs/tabMetadata/setAuditor/setAuditorTypes'
 
 export function SetAuditorDrillDown(props: {
   results: AuditorRunResult[],
@@ -29,7 +29,7 @@ export function SetAuditorDrillDown(props: {
               <td style={{ padding: '3px 8px' }}>
                 {result.flag === 'red' ? '🔴' : result.flag === 'yellow' ? '🟡' : ''}
               </td>
-              <td style={{ padding: '3px 8px', fontFamily: 'monospace', fontWeight: 600 }}>
+              <td style={{ padding: '3px 8px', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
                 {result.error ? '—' : `${result.deltaPct >= 0 ? '+' : ''}${result.deltaPct.toFixed(2)}%`}
               </td>
               <td style={{ padding: '3px 8px', fontSize: 12, opacity: 0.7 }}>
@@ -38,10 +38,10 @@ export function SetAuditorDrillDown(props: {
               <td style={{ padding: '3px 8px' }}>
                 {formatParamCombo(result.paramCombo.spd, result.paramCombo.subDps, result.paramCombo.errRope)}
               </td>
-              <td style={{ textAlign: 'right', padding: '3px 8px', fontFamily: 'monospace' }}>
+              <td style={{ textAlign: 'right', padding: '3px 8px', fontVariantNumeric: 'tabular-nums' }}>
                 {result.error ? 'Error' : Math.round(result.score).toLocaleString()}
               </td>
-              <td style={{ textAlign: 'right', padding: '3px 8px', fontFamily: 'monospace' }}>
+              <td style={{ textAlign: 'right', padding: '3px 8px', fontVariantNumeric: 'tabular-nums' }}>
                 {Math.round(result.referenceScore).toLocaleString()}
               </td>
             </tr>

@@ -1,29 +1,3 @@
-// 0.1, 0.2, 0.3, 0.5 => 0.15
-
-export function scaleTowardsRange(
-  value: number,
-  min: number,
-  max: number,
-  factor: number,
-): number {
-  if (value < min) {
-    return value + (min - value) * factor
-  } else if (value > max) {
-    return value - (value - max) * factor
-  }
-  return value
-}
-
-export function sumArray(arr: number[]) {
-  let sum = 0
-  for (let i = 0; i < arr.length; i++) {
-    if (!isNaN(arr[i])) {
-      sum += arr[i]
-    }
-  }
-  return sum
-}
-
 export function truncate10ths(x: number): number {
   return Math.floor(x * 10) / 10
 }
@@ -40,12 +14,8 @@ export function truncate10000ths(x: number): number {
   return Math.floor(x * 10000) / 10000
 }
 
-export function nullUndefinedToZero(x: number | null | undefined): number {
-  if (x == null) return 0
-  return x
-}
-
 export function precisionRound(number: number, precision: number = 5): number {
+  if (precision === 5) return Math.round(number * 1e5) / 1e5
   const factor = Math.pow(10, precision)
   return Math.round(number * factor) / factor
 }

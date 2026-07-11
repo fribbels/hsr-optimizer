@@ -3,6 +3,7 @@ import {
   Stats,
 } from 'lib/constants/constants'
 import type { MainStats } from 'lib/constants/constants'
+import { migrateSilverWolfLv999EvanesciaMainStats } from 'lib/services/migrations/silverWolfLv999EvanesciaMainStats'
 import type {
   ScoringMetadata,
   ScoringMetadataOverride,
@@ -13,7 +14,6 @@ import {
   it,
   vi,
 } from 'vitest'
-import { migrateSilverWolfLv999EvanesciaMainStats } from './silverWolfLv999EvanesciaMainStats'
 
 const SW999_ID = '1506'
 const EVA_ID = '1505'

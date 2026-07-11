@@ -303,40 +303,33 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
 const scoring = (): ScoringMetadata => ({
   stats: {
-    [Stats.ATK]: 0.75,
-    [Stats.ATK_P]: 0.75,
+    [Stats.ATK]: 0.25,
+    [Stats.ATK_P]: 0.25,
     [Stats.DEF]: 0,
     [Stats.DEF_P]: 0,
     [Stats.HP]: 0,
     [Stats.HP_P]: 0,
     [Stats.SPD]: 1,
-    [Stats.CR]: 1,
-    [Stats.CD]: 1,
+    [Stats.CR]: 0.25,
+    [Stats.CD]: 0.25,
     [Stats.EHR]: 0,
     [Stats.RES]: 0,
     [Stats.BE]: 0,
   },
   parts: {
-    [Parts.Body]: [
-      Stats.CR,
-      Stats.CD,
-    ],
+    [Parts.Body]: [],
     [Parts.Feet]: [
       Stats.SPD,
-      Stats.ATK_P,
     ],
-    [Parts.PlanarSphere]: [
-      Stats.Lightning_DMG,
-      Stats.ATK_P,
-    ],
+    [Parts.PlanarSphere]: [],
     [Parts.LinkRope]: [
       Stats.ERR,
-      Stats.ATK_P,
     ],
   },
   presets: [],
-  sortOption: SortOption.ELATION_SKILL,
+  sortOption: SortOption.SPD,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
+  eidolonImage: 4,
 })
 
 const display = {
@@ -345,7 +338,7 @@ const display = {
     y: 1014,
     z: 1,
   },
-  showcaseColor: '#976be3',
+  showcaseColor: '#8471c1',
 }
 
 export const TrailblazerElationCaelus: CharacterConfig = {

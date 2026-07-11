@@ -42,6 +42,7 @@ import {
   AbilityKind,
   DEFAULT_FUA,
   DEFAULT_SKILL,
+  DEFAULT_UNIQUE,
   END_BASIC,
   END_SKILL,
   NULL_TURN_ABILITY_NAME,
@@ -71,7 +72,7 @@ export const GilgameshAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.SKILL,
   AbilityKind.ULT,
-  AbilityKind.FUA,
+  AbilityKind.UNIQUE,
   AbilityKind.BREAK,
 ]
 
@@ -102,7 +103,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const jointFuaScaling = talent(e, 4.00, 4.40)
   const talentUltDmgBuffValue = talent(e, 0.40, 0.44)
 
-  const fuaHitMulti = ashblazingMulti([aoe(jointFuaScaling)])
+  const ultHitMulti = ashblazingMulti([
+    aoe(ultScaling),
+    ...Array(10).fill(single(ultBounceScaling)),
+  ])
+
+  const uniqueHitMulti = ashblazingMulti([
+    ...Array(3).fill(aoe(0.2)),
+    aoe(0.4),
+  ])
+
+  function getHitMulti(action: OptimizerAction, context: OptimizerContext) {
+    switch (action.actionType) {
+      case AbilityKind.ULT:
+        return ultHitMulti(context)
+      default:
+        return uniqueHitMulti(context)
+    }
+  }
 
   const defaults = {
     herosHauteurStacks: 6,
@@ -206,6 +224,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const ultTotalScaling = ultScaling + ultBounceTotalScaling * 10 / context.enemyCount
       const ultToughness = 40 + 2 * 10 / context.enemyCount
 
+      const saberInTeam = teammateMatchesId(context, Saber.id)
+
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -235,14 +255,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .build(),
           ],
         },
-        [AbilityKind.FUA]: {
-          hits: [
-            HitDefinitionBuilder.standardFua()
-              .damageElement(ElementTag.Lightning)
-              .atkScaling(hasSaber ? jointFuaScaling : 0)
-              .toughnessDmg(hasSaber ? 20 : 0)
-              .build(),
-          ],
+        [AbilityKind.UNIQUE]: {
+          hits: saberInTeam
+            ? [
+              HitDefinitionBuilder.standardFua()
+                .damageElement(ElementTag.Lightning)
+                .atkScaling(hasSaber ? jointFuaScaling : 0)
+                .toughnessDmg(hasSaber ? 20 : 0)
+                .build(),
+            ]
+            : [],
         },
         [AbilityKind.BREAK]: {
           hits: [
@@ -291,9 +313,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      return ''
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
     },
 
     dynamicConditionals: [],
@@ -301,6 +324,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -329,7 +353,7 @@ const simulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
     START_ULT,
     END_SKILL,
-    DEFAULT_FUA,
+    DEFAULT_UNIQUE,
     WHOLE_SKILL,
     WHOLE_SKILL,
     // TODO: verify rotation length
@@ -416,7 +440,7 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: { x: 1102, y: 943, z: 1.11 },
-  showcaseColor: '#867fb3',
+  showcaseColor: '#afa4ed',
 }
 
 export function gilgameshActionExists(action: OptimizerAction) {

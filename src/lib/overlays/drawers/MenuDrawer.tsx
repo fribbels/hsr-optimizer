@@ -17,13 +17,13 @@ import {
   IconSettings,
   IconStarFilled,
   IconTrendingUp,
+  IconTrophy,
   IconUpload,
   IconUser,
 } from '@tabler/icons-react'
 import { CoffeeIcon } from 'icons/CoffeeIcon'
 import { DiscordIcon } from 'icons/DiscordIcon'
 import { GithubIcon } from 'icons/GithubIcon'
-import { AppPages } from 'lib/constants/appPages'
 import { officialOnly } from 'lib/constants/constants'
 import {
   isNewGroupCheck,
@@ -34,8 +34,13 @@ import {
   setOpen,
   useIsOpen,
 } from 'lib/hooks/useOpenClose'
+import classes from 'lib/overlays/drawers/MenuDrawer.module.css'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useNewFeatureStore } from 'lib/stores/newFeatureStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import {
   useCallback,
   useEffect,
@@ -45,7 +50,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-import classes from './MenuDrawer.module.css'
 
 // ---- Types ----
 
@@ -248,19 +252,17 @@ function SidebarNavCollapsed({ groups, activeKey, onNavigate }: {
 
 export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
   const { t } = useTranslation('sidebar')
-  const { activeKey, setActiveKey } = useGlobalStore(useShallow((s) => ({
-    activeKey: s.activeKey,
-    setActiveKey: s.setActiveKey,
-  })))
+  const activeKey = useGlobalStore((s) => s.activeKey)
 
   const groups: NavGroup[] = useMemo(() => [
     {
       label: t('Tools.Title'),
       items: [
         { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
+        { key: AppPages.LEADERBOARD, label: 'Leaderboards', icon: <IconTrophy size={16} />, newFeatureKey: NewFeatureKey.LEADERBOARD },
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
         { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
-        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} />, newFeatureKey: NewFeatureKey.WARP },
+        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
       ],
     },
     {
@@ -306,8 +308,8 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
   const handleNavigate = useCallback((item: NavItem) => {
     item.onClick?.()
     if (item.href || item.key.startsWith('link ')) return
-    setActiveKey(item.key as AppPages)
-  }, [setActiveKey])
+    navigateTo(item.key as AppPages)
+  }, [])
 
   const nav = collapsed
     ? <SidebarNavCollapsed groups={groups} activeKey={activeKey} onNavigate={handleNavigate} />

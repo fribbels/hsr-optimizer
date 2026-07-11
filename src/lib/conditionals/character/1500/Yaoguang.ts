@@ -14,10 +14,12 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
-import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
+import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -475,6 +477,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -511,9 +514,9 @@ const simulation = (): SimulationMetadata => ({
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
-  breakpoints: {
-    [Stats.SPD]: 120,
-  },
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 120 },
+  ],
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
@@ -545,6 +548,16 @@ const simulation = (): SimulationMetadata => ({
       lightCone: NightOfFright.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Sparxie.id, lightCones: [DazzledByAFloweryWorld.id] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
     },
   ],
 })
@@ -582,6 +595,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -590,7 +604,7 @@ const display = {
     y: 1086,
     z: 1.2,
   },
-  showcaseColor: '#688ba3',
+  showcaseColor: '#abdaeb',
 }
 
 export function getYaoguangAhaPunchlineValue(action: OptimizerAction, context: OptimizerContext): number | undefined {

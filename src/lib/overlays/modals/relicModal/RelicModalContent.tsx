@@ -13,6 +13,21 @@ import {
 } from 'lib/constants/constants'
 import { SettingOptions } from 'lib/constants/settingsConstants'
 import { useScrollLock } from 'lib/layout/scrollController'
+import modalClasses from 'lib/overlays/modals/relicModal/RelicModal.module.css'
+import {
+  calculateUpgradeValues,
+  computeInitialFormValues,
+  computeMainStatDisplayValue,
+  computeMainStatOptions,
+  computePartChangeUpdates,
+  ENHANCE_OPTIONS,
+  GRADE_OPTIONS,
+  validateRelic,
+} from 'lib/overlays/modals/relicModal/relicModalController'
+import { relicsAreDifferent } from 'lib/overlays/modals/relicModal/relicModalHelpers'
+import { useRelicModalStore } from 'lib/overlays/modals/relicModal/relicModalStore'
+import type { RelicForm } from 'lib/overlays/modals/relicModal/relicModalTypes'
+import { SubstatInput } from 'lib/overlays/modals/relicModal/SubstatInput'
 import { Assets } from 'lib/rendering/assets'
 import { generateCharacterList } from 'lib/rendering/displayUtils'
 import {
@@ -35,21 +50,6 @@ import {
   useRef,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import modalClasses from './RelicModal.module.css'
-import {
-  calculateUpgradeValues,
-  computeInitialFormValues,
-  computeMainStatDisplayValue,
-  computeMainStatOptions,
-  computePartChangeUpdates,
-  ENHANCE_OPTIONS,
-  GRADE_OPTIONS,
-  validateRelic,
-} from './relicModalController'
-import { relicsAreDifferent } from './relicModalHelpers'
-import { useRelicModalStore } from './relicModalStore'
-import type { RelicForm } from './relicModalTypes'
-import { SubstatInput } from './SubstatInput'
 
 function partSegmentData(value: string, src: string) {
   return {
@@ -132,7 +132,7 @@ export function RelicModalContent() {
   const setOptions = getSetOptions(formValues.part)
 
   const characterOptions = useMemo(() => {
-    return generateCharacterList({ currentCharacters: characters, longNameLabel: true }, tCharacters)
+    return generateCharacterList({ currentCharacters: characters, longNameLabel: true, longNameTitle: true }, tCharacters)
   }, [characters, tCharacters])
 
   // ── EVENT HANDLERS ──

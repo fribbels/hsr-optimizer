@@ -36,7 +36,10 @@ import { useTranslation } from 'react-i18next'
 import type { Character } from 'types/character'
 import type { StringToNumberMap } from 'types/common'
 import type { ReactElement } from 'types/components'
-import type { DBMetadataCharacter } from 'types/metadata'
+import type {
+  DBMetadataCharacter,
+  SimulationMetadata,
+} from 'types/metadata'
 
 const iconSize = 40
 
@@ -100,9 +103,144 @@ export function MetadataTab(): ReactElement {
             {opened.includes('5') && <SubstatWeightDashboard />}
           </Accordion.Panel>
         </Accordion.Item>
+        <Accordion.Item value='leaderboard-teams'>
+          <Accordion.Control>Leaderboard teams</Accordion.Control>
+          <Accordion.Panel>
+            {opened.includes('leaderboard-teams') && <LeaderboardTeamsDashboard />}
+          </Accordion.Panel>
+        </Accordion.Item>
       </Accordion>
     </Flex>
   )
+}
+
+// =========================================== LeaderboardTeamsDashboard ===========================================
+
+const CONFIG_SECTIONS: { label: string, key: keyof DBMetadataCharacter['scoringMetadata'], showSubDps: boolean }[] = [
+  { label: 'DPS', key: 'simulation', showSubDps: true },
+  { label: 'Support', key: 'supportSimulation', showSubDps: true },
+  { label: 'Heal', key: 'healSimulation', showSubDps: true },
+  { label: 'Shield', key: 'shieldSimulation', showSubDps: true },
+]
+
+function LeaderboardTeamsDashboard() {
+  const characters = Object.values(getGameMetadata().characters)
+    .filter((c) => c.rarity === 5)
+    .sort((a, b) => a.id.localeCompare(b.id))
+
+  const { t } = useTranslation('gameData')
+
+  return (
+    <Flex direction='column' gap={40}>
+      {CONFIG_SECTIONS.map((section) => {
+        const charsWithConfig = characters.filter((c) => c.scoringMetadata[section.key])
+        if (charsWithConfig.length === 0) return null
+
+        return (
+          <div key={section.label}>
+            <h3 style={{ marginBottom: 12, fontSize: 16 }}>{section.label}</h3>
+            <Flex direction='column' gap={20}>
+              {charsWithConfig.map((character) => (
+                <LeaderboardCharacterBoard
+                  key={character.id}
+                  character={character}
+                  sim={character.scoringMetadata[section.key] as SimulationMetadata}
+                  showSubDps={section.showSubDps}
+                  t={t}
+                />
+              ))}
+            </Flex>
+          </div>
+        )
+      })}
+    </Flex>
+  )
+}
+
+function LeaderboardCharacterBoard({ character, sim, showSubDps, t }: {
+  character: DBMetadataCharacter,
+  sim: SimulationMetadata,
+  showSubDps: boolean,
+  t: TFunction<'gameData'>,
+}) {
+  const teams = sim.leaderboardTeams
+  const defaultTeam = sim.teammates
+  const charName = t(`Characters.${character.id}.${character.id.startsWith('80') ? 'LongName' : 'Name'}`)
+
+  const rows: ReactElement[] = []
+
+  if (teams && teams.length > 0) {
+    for (let i = 0; i < teams.length; i++) {
+      rows.push(
+        <tr key={i}>
+          <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 12 }}>{i + 1}</td>
+          {teams[i].teammates.map((tm, j) => (
+            <td key={j} style={cellStyle}>
+              <Flex align='center' justify='center' gap={2} style={{ minWidth: 110 }}>
+                <Icon src={Assets.getCharacterAvatarById(tm.characterId)} />
+                {tm.lightCones.map((lc, k) => <img key={k} src={Assets.getLightConeIconById(lc)} style={{ width: 38 }} />)}
+              </Flex>
+            </td>
+          ))}
+          {showSubDps && (
+            <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 11, textAlign: 'center' }}>
+              {teams[i].deprioritizeBuffs ? 'true' : ''}
+            </td>
+          )}
+        </tr>,
+      )
+    }
+  } else if (defaultTeam) {
+    rows.push(
+      <tr key='default' style={{ opacity: 0.5 }}>
+        <td style={{ ...cellStyle, paddingLeft: 8, paddingRight: 8, fontSize: 12, color: '#f5a623' }}>DEFAULT</td>
+        {defaultTeam.map((tm, j) => (
+          <td key={j} style={cellStyle}>
+            <Flex align='center' justify='center' gap={2} style={{ minWidth: 110 }}>
+              <Icon src={Assets.getCharacterAvatarById(tm.characterId)} />
+              <img src={Assets.getLightConeIconById(tm.lightCone)} style={{ width: 38 }} />
+            </Flex>
+          </td>
+        ))}
+        {showSubDps && <td style={cellStyle} />}
+      </tr>,
+    )
+  }
+
+  return (
+    <div>
+      <Flex align='center' gap={8} style={{ marginBottom: 4 }}>
+        <img src={Assets.getCharacterAvatarById(character.id)} style={{ width: 40 }} />
+        <span style={{ fontSize: 14, fontWeight: 600 }}>{charName}</span>
+      </Flex>
+      <table style={{ borderCollapse: 'collapse', width: 'fit-content' }}>
+        <thead>
+          <tr>
+            <th style={headerStyle}>#</th>
+            <th style={headerStyle}>Teammate 1</th>
+            <th style={headerStyle}>Teammate 2</th>
+            <th style={headerStyle}>Teammate 3</th>
+            {showSubDps && <th style={headerStyle}>SubDPS</th>}
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </div>
+  )
+}
+
+const cellStyle: React.CSSProperties = {
+  border: '1px solid #464d6bc4',
+  padding: 2,
+  verticalAlign: 'middle',
+}
+
+const headerStyle: React.CSSProperties = {
+  ...cellStyle,
+  fontSize: 12,
+  padding: '4px 8px',
+  textAlign: 'left',
+  color: 'rgba(255,255,255,0.7)',
 }
 
 // =========================================== SimulationEquivalentSetsDashboard ===========================================

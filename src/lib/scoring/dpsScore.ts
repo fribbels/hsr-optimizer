@@ -90,8 +90,8 @@ export function calculateRelicSets(relicSets: (string | number)[], nameProvided 
   const relicSetNames: string[] = []
   while (relicSets.length > 0) {
     const value = relicSets[0]
-    if (relicSets.lastIndexOf(value)) {
-      const setName = nameProvided ? value : Object.entries(RelicSetToIndex).find((x) => x[1] == value)![0]
+    if (relicSets.indexOf(value) !== relicSets.lastIndexOf(value)) {
+      const setName = nameProvided ? value : Object.entries(RelicSetToIndex).find((x) => x[1] === value)![0]
       relicSetNames.push(setName as string)
 
       const otherIndex = relicSets.lastIndexOf(value)

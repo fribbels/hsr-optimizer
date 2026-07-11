@@ -34,14 +34,15 @@ import type {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import {
-  OrnamentSetCount,
+  encodeOrnamentSetIndex,
+  encodeRelicSetIndex,
   OrnamentSetToIndex,
-  RelicSetCount,
   RelicSetToIndex,
 } from 'lib/sets/setConfigRegistry'
 import type {
   ActionBuffSnapshot,
   ActionDamage,
+  PrecomputedSetState,
   PrimaryActionStats,
   RotationBuffStep,
   RotationDamageStep,
@@ -75,27 +76,40 @@ export function simulateBuild(
   trace: boolean = false,
   forcedBasicSpd: number = 0,
   skipDefaults: boolean = false,
+  precomputedSets: PrecomputedSetState | null = null,
 ): SimulateBuildResult {
   // Compute
-  const { Head, Hands, Body, Feet, PlanarSphere, LinkRope } = extractRelics(relics)
+  let Head: SimulationRelic, Hands: SimulationRelic, Body: SimulationRelic, Feet: SimulationRelic, PlanarSphere: SimulationRelic, LinkRope: SimulationRelic
+  let relicSetIndex: number, ornamentSetIndex: number, sets: number[], setCounts: ReturnType<typeof calculateSetCounts>
 
-  // When the relic is empty / has no set, we have to use an unused set index to simulate a broken set
-  let unusedSetCounter = 0
-  const unusedSets = generateUnusedSets(relics)
-  const setH = RelicSetToIndex[relics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-  const setG = RelicSetToIndex[relics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-  const setB = RelicSetToIndex[relics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-  const setF = RelicSetToIndex[relics.Feet.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
-  const setP = OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
-  const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
+  if (precomputedSets) {
+    Head = relics.Head
+    Hands = relics.Hands
+    Body = relics.Body
+    Feet = relics.Feet
+    PlanarSphere = relics.PlanarSphere
+    LinkRope = relics.LinkRope
+    relicSetIndex = precomputedSets.relicSetIndex
+    ornamentSetIndex = precomputedSets.ornamentSetIndex
+    sets = precomputedSets.sets
+    setCounts = precomputedSets.setCounts
+  } else {
+    extractRelics(relics)
+    Head = relics.Head
+    Hands = relics.Hands
+    Body = relics.Body
+    Feet = relics.Feet
+    PlanarSphere = relics.PlanarSphere
+    LinkRope = relics.LinkRope
+
+    const computed = precomputeSetState(relics)
+    relicSetIndex = computed.relicSetIndex
+    ornamentSetIndex = computed.ornamentSetIndex
+    sets = computed.sets
+    setCounts = computed.setCounts
+  }
 
   const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
-
-  const relicSetIndex = setH + setB * RelicSetCount + setG * RelicSetCount * RelicSetCount + setF * RelicSetCount * RelicSetCount * RelicSetCount
-  const ornamentSetIndex = setP + setL * OrnamentSetCount
-
-  const sets = [setH, setG, setB, setF, setP, setL]
-  const setCounts = calculateSetCounts(sets)
   c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, -1)
 
   calculateBasicSetEffects(c, context, setCounts, sets)
@@ -175,18 +189,14 @@ export function simulateBuild(
     x.setActionRegisterValue(action.registerIndex, sum)
   }
 
-  // Track primary action stats for the scoring action (for combat stats display)
-  let primaryActionStats: PrimaryActionStats = {
-    BOOST: 0,
-    sourceEntityCR: 0,
-    sourceEntityCD: 0,
-    sourceEntityElementDmgBoost: 0,
-  }
-
-  const actionDamage: ActionDamage = {}
-  const rotationDamage: RotationDamageStep[] = []
+  let primaryActionStats: PrimaryActionStats | undefined
+  let actionDamage: ActionDamage | undefined
+  let rotationDamage: RotationDamageStep[] | undefined
 
   if (!skipDefaults) {
+    primaryActionStats = { BOOST: 0, sourceEntityCR: 0, sourceEntityCD: 0, sourceEntityElementDmgBoost: 0 }
+    actionDamage = {}
+    rotationDamage = []
     for (let i = 0; i < context.defaultActions.length; i++) {
       const action = context.defaultActions[i]
       x.setConfig(action.config)
@@ -288,6 +298,24 @@ function generateUnusedSets(relics: SimulationRelicByPart) {
     OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments],
   ])
   return [0, 1, 2, 3, 4, 5].filter((x) => !usedSets.has(x))
+}
+
+export function precomputeSetState(relics: SimulationRelicByPart): PrecomputedSetState {
+  let unusedSetCounter = 0
+  const unusedSets = generateUnusedSets(relics)
+  const setH = RelicSetToIndex[relics.Head.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setG = RelicSetToIndex[relics.Hands.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setB = RelicSetToIndex[relics.Body.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setF = RelicSetToIndex[relics.Feet.set as SetsRelics] ?? unusedSets[unusedSetCounter++]
+  const setP = OrnamentSetToIndex[relics.PlanarSphere.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
+  const setL = OrnamentSetToIndex[relics.LinkRope.set as SetsOrnaments] ?? unusedSets[unusedSetCounter++]
+
+  const relicSetIndex = encodeRelicSetIndex(setH, setG, setB, setF)
+  const ornamentSetIndex = encodeOrnamentSetIndex(setP, setL)
+  const sets = [setH, setG, setB, setF, setP, setL]
+  const setCounts = calculateSetCounts(sets)
+
+  return { setH, setG, setB, setF, setP, setL, relicSetIndex, ornamentSetIndex, sets, setCounts }
 }
 
 function extractRelics(relics: SimulationRelicByPart) {

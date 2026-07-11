@@ -11,8 +11,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   Parts,
@@ -203,6 +203,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const healSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.HP_P],
@@ -269,6 +270,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.HP,
   parts: {
     [Parts.Body]: [
       Stats.HP_P,
@@ -298,6 +300,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   healSimulation: healSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -306,7 +309,7 @@ const display = {
     y: 975,
     z: 1.075,
   },
-  showcaseColor: '#8ebdaf',
+  showcaseColor: '#b9d7fa',
 }
 
 export const HuohuoB1: CharacterConfig = {

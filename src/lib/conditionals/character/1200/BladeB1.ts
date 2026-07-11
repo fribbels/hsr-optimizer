@@ -1,6 +1,7 @@
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -8,10 +9,11 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { TheUnreachableSide } from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { TheUnreachableSide } from 'lib/conditionals/lightcone/5star/TheUnreachableSide'
 import {
   Parts,
   Sets,
@@ -225,6 +227,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -289,6 +292,22 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -335,6 +354,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -348,7 +368,7 @@ const display = {
     y: 804,
     z: 1.05,
   },
-  showcaseColor: '#4d69be',
+  showcaseColor: '#91adcf',
 }
 
 export const BladeB1: CharacterConfig = {

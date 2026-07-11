@@ -420,6 +420,7 @@ if (cr > 1.00) {
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.CD],
     [Parts.Feet]: [Stats.SPD],
@@ -505,6 +506,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   supportSimulation: supportSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -518,7 +520,7 @@ const display = {
     y: 810,
     z: 1.17,
   },
-  showcaseColor: '#8495fb',
+  showcaseColor: '#ada7f2',
 }
 
 export const Sunday: CharacterConfig = {

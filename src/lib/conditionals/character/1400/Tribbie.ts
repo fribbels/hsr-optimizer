@@ -366,6 +366,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -434,6 +435,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: TheHerta.id, lightCones: [IntotheUnreachableVeil.id] },
+        { characterId: Anaxa.id, lightCones: [LifeShouldBeCastToFlames.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -477,6 +488,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.FUA,
   hiddenColumns: [],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -485,7 +497,7 @@ const display = {
     y: 1000,
     z: 1.075,
   },
-  showcaseColor: '#9390f8',
+  showcaseColor: '#aaa7fa',
 }
 
 export const Tribbie: CharacterConfig = {

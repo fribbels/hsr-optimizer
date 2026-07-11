@@ -14,13 +14,10 @@ NoTeamConditionals: Không có hiệu ứng để kích hoạt
 ResultLimitN: 'Tìm {{limit}} kết quả hàng đầu.'
 MainStats: Dòng Chính
 Sets: Bộ
-RelicSetSelector:
-  Placeholder: Bộ di vật
-  4pcLabel: Bộ 4
-  2+2pcLabel: Bộ 2 + 2
-  2pcLabel: Bộ 2 + bất kỳ
-OrnamentSetSelector:
-  Placeholder: Bộ Phụ Kiện Vị Diện
+SetFilters:
+  RelicSelectedPlaceholder: Di vật
+  OrnamentSelectedPlaceholder: Phụ Kiện Vị Diện
+  Done: Hoàn thành
 SortOptions:
   DMGLabel: Tính Sát Thương
   OptimizationLabel: Tối ưu hóa
@@ -464,35 +461,27 @@ TeammateCard:
   TeammateSets:
     Messenger:
       Desc: 'Bộ 4 món: $t(gameData:RelicSets.114.Name) (+12% SPD)'
-      Set: '$t(gameData:RelicSets.114.Name)'
       Text: 12% SPD
     Watchmaker:
       Desc: 'Bộ 4 món: $t(gameData:RelicSets.118.Name) (+30% BE)'
-      Set: '$t(gameData:RelicSets.118.Name)'
       Text: 30% BE
     Sacerdos1Stack:
       Desc: 'Bộ 4 món: $t(gameData:RelicSets.121.Name) (+18% CD)'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 18% CD
     Sacerdos2Stack:
       Desc: 'Bộ 4 món: $t(gameData:RelicSets.121.Name) (+36% CD)'
-      Set: '$t(gameData:RelicSets.121.Name)'
       Text: 36% CD
     Keel:
       Desc: '$t(gameData:RelicSets.310.Name) (+10% CD)'
-      Set: '$t(gameData:RelicSets.310.Name)'
       Text: 10% CD
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8% ATK)'
-      Set: '$t(gameData:RelicSets.302.Name)'
       Text: 8% ATK
     Penacony:
       Desc: '$t(gameData:RelicSets.312.Name) (+10% DMG for same element)'
-      Set: '$t(gameData:RelicSets.312.Name)'
       Text: 10% DMG
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12% ATK)'
-      Set: '$t(gameData:RelicSets.317.Name)'
       Text: 12% ATK
 StatSimulation:
   DuplicateSimMessage: Mô phỏng chỉ số giống hệt đã tồn tại
@@ -619,3 +608,7 @@ ExpandedDataPanel:
         Memosprite: Linh hồn ký ức
         Combo DMG: ST Combo
         Effect RES PEN: Kháng Hiệu Ứng
+    EnemyConfiguration:
+      Efres: Kháng Hiệu Ứng
+      Weakness: Điểm yếu thuộc tính
+      Broken: Trạng thái Phá Vỡ Điểm Yếu

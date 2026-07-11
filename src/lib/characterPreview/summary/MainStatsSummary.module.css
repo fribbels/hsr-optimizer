@@ -20,7 +20,6 @@
 }
 
 .statName {
-  font-family: var(--font-ui);
   font-size: 14px;
   white-space: nowrap;
 }

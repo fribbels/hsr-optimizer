@@ -1,4 +1,3 @@
-import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import type {
@@ -10,9 +9,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { InTheNight } from 'lib/conditionals/lightcone/5star/InTheNight'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
@@ -21,7 +21,10 @@ import {
 } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
@@ -42,6 +45,10 @@ import { precisionRound } from 'lib/utils/mathUtils'
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import type { CharacterConditionalsController } from 'types/conditionals'
 import type {
   ScoringMetadata,
@@ -205,6 +212,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -236,7 +244,7 @@ const simulation = (): SimulationMetadata => ({
     END_SKILL,
     DEFAULT_SKILL,
   ],
-  comboDot: 0,
+  errRopeEidolon: 0,
   relicSets: [
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
@@ -250,8 +258,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SilverWolfB1.id,
-      lightCone: LiesAflutterInTheWind.id,
+      characterId: Cerydra.id,
+      lightCone: Cerydra.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -266,6 +274,36 @@ const simulation = (): SimulationMetadata => ({
       lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [Cerydra.defaultLightCone, DanceDanceDance.id] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Robin.id, lightCones: [Robin.defaultLightCone] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Sunday.id, lightCones: [Sunday.defaultLightCone] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [TrailblazerRemembranceStelle.defaultLightCone] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
     },
   ],
 })
@@ -313,6 +351,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -321,7 +360,7 @@ const display = {
     y: 1075,
     z: 1.1,
   },
-  showcaseColor: '#624c9c',
+  showcaseColor: '#9588cf',
 }
 
 export const SeeleB1: CharacterConfig = {

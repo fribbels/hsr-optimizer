@@ -17,13 +17,10 @@ import { enrichSimulationMetadata } from 'lib/simulations/orchestrator/benchmark
 import { runCustomBenchmarkOrchestrator } from 'lib/simulations/orchestrator/runCustomBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { BenchmarkForm } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
-import { clone } from 'lib/utils/objectUtils'
-import type { CharacterId } from 'types/character'
-import type { SimulationMetadata } from 'types/metadata'
 import {
   computeFlag,
   getErrRopePermutations,
-} from './setAuditorConstants'
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorConstants'
 import type {
   AuditorConfig,
   AuditorFlagLevel,
@@ -32,7 +29,10 @@ import type {
   AuditorRunResult,
   AuditorSetCombo,
   AuditorSetSummary,
-} from './setAuditorTypes'
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorTypes'
+import { clone } from 'lib/utils/objectUtils'
+import type { CharacterId } from 'types/character'
+import type { SimulationMetadata } from 'types/metadata'
 
 export function generateParamCombos(metadata: SimulationMetadata, config: AuditorConfig): AuditorParamCombo[] {
   const allErrPerms = getErrRopePermutations(metadata)

@@ -1,4 +1,7 @@
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -226,6 +229,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -346,7 +350,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#b7e5eb',
+  showcaseColor: '#c8e3f8',
 }
 
 export const Qingque: CharacterConfig = {

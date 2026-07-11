@@ -1,4 +1,7 @@
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -426,7 +429,7 @@ const display = {
     y: 1000,
     z: 1.2,
   },
-  showcaseColor: '#debfd8',
+  showcaseColor: '#ffe4e0',
 }
 
 export const Lingsha: CharacterConfig = {

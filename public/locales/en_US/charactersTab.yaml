@@ -90,20 +90,42 @@ CharacterPreview:
     RevertedPortrait: Successfully reverted portrait
     NoSelectedCharacter: No selected character
     NoSelectedLightCone: No selected light cone
+  RulerLabel:
+    dps: DMG
+    buffer: "{{stat}} BUFF"
+    heal: HEAL
+    shield: SHIELD
+  ComboLabel:
+    dps: Combo DMG
+    buffer: "{{stat}} Buff"
+    heal: Combo Heal
+    shield: Combo Shield
   ScoreHeader:
-    Title: Combat Sim
-    TitleBenchmark: '{{spd}} SPD Benchmark'
-    Score: 'DPS Score {{score}}% {{grade}}'
+    CustomSpeed: '{{spd}} SPD Benchmark'
+    dps: DPS Benchmark
+    buffer: Support Benchmark
+    heal: Heal Benchmark
+    shield: Shield Benchmark
   AlgorithmSlider:
     Labels:
-      CombatScore: Combat Score
-      CombatScoreTBD: Combat (TBD)
+      dps: DPS Benchmark
+      buffer: Support Benchmark
+      heal: Heal Benchmark
+      shield: Shield Benchmark
       StatScore: Substat Rolls
       NoneScore: None
   DetailsSlider:
     Labels:
       CombatStats: Combat Stats
-      SubDpsCombatStats: Combat Stats (Sub DPS)
+      CombatStatsSubDps: Combat Stats (Sub DPS)
+      CombatStatsSupport: Combat Stats (Support)
+      CombatStatsHeal: Combat Stats (Heal)
+      CombatStatsShield: Combat Stats (Shield)
+  ScoringExplanation:
+    dps: DPS Benchmark Calculations
+    buffer: Support Benchmark Calculations
+    heal: Heal Benchmark Calculations
+    shield: Shield Benchmark Calculations
   DMGUpgrades: Damage Upgrades
   SubstatUpgradeComparisons:
     Header: Substat upgrade comparisons

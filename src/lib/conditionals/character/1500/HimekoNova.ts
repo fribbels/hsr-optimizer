@@ -303,6 +303,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -410,10 +411,9 @@ const scoring = (): ScoringMetadata => ({
 })
 
 const display = {
-  // TODO: placeholder image coordinates
   imageCenter: { x: 902, y: 928, z: 1.25 },
   spineCenter: { x: 914, y: 969, z: 1.25 },
-  showcaseColor: '#b584e8',
+  showcaseColor: '#b498d3',
 }
 
 export const HimekoNova: CharacterConfig = {

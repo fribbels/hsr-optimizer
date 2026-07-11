@@ -1,15 +1,11 @@
 import i18next from 'i18next'
 import {
-  AppPages,
-  PageToRoute,
-} from 'lib/constants/appPages'
-import {
   CharacterConverter,
   type UnconvertedCharacter,
 } from 'lib/importer/characterConverter'
 import { Message } from 'lib/interactions/message'
-import { Assets } from 'lib/rendering/assets'
 import { SaveState } from 'lib/state/saveState'
+import { setHashParams } from 'lib/tabs/navigation/utils'
 import {
   type APIResponse,
   processEnkaData,
@@ -65,7 +61,7 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
     }, THROTTLE_SECONDS * 1000)
   }
 
-  window.history.replaceState({ id: id }, `profile: ${id}`, PageToRoute[AppPages.SHOWCASE] + `?id=${id}`)
+  setHashParams([['id', id]])
 
   void fetch(`${API_ENDPOINT}/profile/${id}`, { method: 'GET' })
     .then((response) => {

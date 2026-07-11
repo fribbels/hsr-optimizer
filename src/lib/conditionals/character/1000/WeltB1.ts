@@ -55,6 +55,8 @@ import {
   precisionRound,
 } from 'lib/utils/mathUtils'
 
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import type { Eidolon } from 'types/character'
 import type { CharacterConfig } from 'types/characterConfig'
 import type { CharacterConditionalsController } from 'types/conditionals'
@@ -392,6 +394,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -421,7 +424,6 @@ const simulation = (): SimulationMetadata => ({
     START_ULT,
     END_SKILL,
     WHOLE_SKILL,
-    WHOLE_SKILL,
   ],
   comboDot: 0,
   errRopeEidolon: 0,
@@ -443,16 +445,26 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Jiaoqiu.id,
-      lightCone: ThoseManySprings.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Acheron.id, lightCones: [AlongThePassingShore.id] },
+        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
     },
   ],
 })
@@ -503,6 +515,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -512,7 +525,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#524dc9',
+  showcaseColor: '#bac6ff',
 }
 
 export const WeltB1: CharacterConfig = {

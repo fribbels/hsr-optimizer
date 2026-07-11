@@ -44,7 +44,10 @@ import {
   useCharacterStore,
 } from 'lib/stores/character/characterStore'
 import { normalizeForm } from 'lib/stores/optimizerForm/optimizerFormConversions'
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import {
+  getDefaultScoringMetadata,
+  getScoringMetadata,
+} from 'lib/stores/scoring/scoringStore'
 import {
   clone,
   objectHash,
@@ -119,8 +122,10 @@ export function getPreviewRelics(
 ) {
   let scoringResults: ScoringResults
   let displayRelics: PreviewRelics
-  // Showcase tab relics are stored in equipped as relics instead of ids
-  if (source !== ShowcaseSource.SHOWCASE_TAB) {
+  const scorer = source === ShowcaseSource.LEADERBOARD
+    ? new RelicScorer({ metadataResolver: getDefaultScoringMetadata })
+    : new RelicScorer()
+  if (source !== ShowcaseSource.SHOWCASE_TAB && source !== ShowcaseSource.LEADERBOARD) {
     displayRelics = {
       Head: getRelic(relicsById, character, Parts.Head, buildOverride),
       Hands: getRelic(relicsById, character, Parts.Hands, buildOverride),
@@ -129,11 +134,11 @@ export function getPreviewRelics(
       PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildOverride),
       LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildOverride),
     }
-    scoringResults = RelicScorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
+    scoringResults = scorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
   } else {
     const equipped = character.equipped as unknown as PreviewRelics
     const relicsArray = Object.values(equipped)
-    scoringResults = RelicScorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
+    scoringResults = scorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
     displayRelics = equipped
   }
 
@@ -226,15 +231,7 @@ export function getShowcaseStats(
   const form = normalizeForm(preForm)
   const context = generateContext(form)
   const { x } = simulateBuild(statCalculationRelics as SimulationRelicByPart, context, null)
-  const basicStats = x.c.toBasicStatsObject()
-  const finalStats: BasicStatsObject = {
-    ...basicStats,
-  }
-
-  // Element-specific DMG (e.g., "Ice DMG Boost") is already populated by toBasicStatsObject
-  // from the correct Key index - no need to overwrite with ELEMENTAL_DMG
-
-  return finalStats
+  return x.c.toBasicStatsObject()
 }
 
 export function showcaseOnEditOk(relic: Relic, selectedRelic: Relic, setSelectedRelic: (r: Relic) => void) {

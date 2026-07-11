@@ -1,9 +1,9 @@
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { Sets } from 'lib/constants/constants'
 import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import type { CharacterId } from 'types/character'
 
 export type PresetDefinition = {

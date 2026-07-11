@@ -1,4 +1,7 @@
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -351,7 +354,7 @@ const display = {
     y: 900,
     z: 1.1,
   },
-  showcaseColor: '#f2d0cb',
+  showcaseColor: '#ffeade',
 }
 
 export const Jiaoqiu: CharacterConfig = {

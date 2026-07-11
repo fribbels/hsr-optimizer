@@ -1,0 +1,5 @@
+EHR:
+  Label: 효과 명중
+  Calculator:
+    Input:
+      HitRate: 효과 명중

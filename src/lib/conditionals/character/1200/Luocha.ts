@@ -1,7 +1,10 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -204,6 +207,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const healSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
@@ -269,16 +273,16 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.ATK,
   parts: {
     [Parts.Body]: [
       Stats.OHB,
-      Stats.HP_P,
-      Stats.DEF_P,
       Stats.ATK_P,
       Stats.EHR,
     ],
     [Parts.Feet]: [
       Stats.SPD,
+      Stats.ATK_P,
     ],
     [Parts.PlanarSphere]: [
       Stats.ATK_P,
@@ -298,6 +302,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [SortOption.OHB],
   hiddenColumns: [SortOption.SKILL, SortOption.FUA, SortOption.DOT],
   healSimulation: healSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -311,7 +316,7 @@ const display = {
     y: 981,
     z: 1.35,
   },
-  showcaseColor: '#8ab8c2',
+  showcaseColor: '#beeddc',
 }
 
 export const Luocha: CharacterConfig = {

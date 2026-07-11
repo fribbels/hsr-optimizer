@@ -17,9 +17,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WorrisomeBlissful } from 'lib/conditionals/lightcone/5star/WorrisomeBlissful'
 import {
   Parts,
   Sets,
@@ -269,6 +269,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -338,6 +339,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Feixiao.id, lightCones: [IVentureForthToHunt.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -387,6 +398,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -400,7 +412,7 @@ const display = {
     y: 886,
     z: 1.1,
   },
-  showcaseColor: '#576ec2',
+  showcaseColor: '#bcc0df',
 }
 
 export const Topaz: CharacterConfig = {

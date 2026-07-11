@@ -26,6 +26,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-align: center;
+  white-space: pre-line;
 }
 
 .baseRow {
@@ -96,7 +97,6 @@
   display: flex;
   flex-direction: column;
   color: rgba(255, 255, 255, 0.77);
-  font-family: var(--font-mono);
   font-size: 13px;
   font-weight: 400;
   font-variant-numeric: tabular-nums;

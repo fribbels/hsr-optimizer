@@ -1,36 +1,76 @@
 import {
   Constants,
+  type StatsValues,
   type SubStats,
   SubStatValues,
 } from 'lib/constants/constants'
 import {
   DMG_MAINSTATS,
-  FLAT_STAT_SCALING,
+  applyFlatStatScaling,
   POSSIBLE_SUBSTATS,
   substatPotentialScale,
   substatPotentialUnits,
 } from 'lib/relics/scoring/scoringConstants'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
-import { getScoreCategory } from 'lib/scoring/scoreComparison'
+import {
+  getScoreCategory,
+  isAeonEligibleWeights,
+  ScoreCategory,
+} from 'lib/scoring/scoreComparison'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { objectHash } from 'lib/utils/objectUtils'
-import { clone } from 'lib/utils/objectUtils'
 import type { CharacterId } from 'types/character'
+import type { ScoringMetadata } from 'types/metadata'
 
-export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
-  const scoringMetadata = clone(getScoringMetadata(id)) as unknown as ScorerMetadata
+export type ScoringMetadataResolver = (id: CharacterId) => ScoringMetadata
 
-  const defaultScoringMetadata = getGameMetadata().characters[id]?.scoringMetadata
-  scoringMetadata.category = getScoreCategory(defaultScoringMetadata, { stats: scoringMetadata.stats })
+type SourceScoringStats = Record<SubStats, number> & { minWeightedRolls?: number }
+type PreparedScorerStats = Record<StatsValues, number> & { minWeightedRolls?: number }
 
-  for (const stat of Object.keys(scoringMetadata.stats)) {
-    scoringMetadata.stats[stat as SubStats] = Math.min(1, Math.max(0, scoringMetadata.stats[stat as SubStats]))
+function normalizeStatWeight(value: number | undefined): number {
+  return Math.min(1, Math.max(0, value ?? 0))
+}
+
+function prepareScorerStats(stats: SourceScoringStats): PreparedScorerStats {
+  const scorerStats = {} as PreparedScorerStats
+
+  for (const stat of Constants.SubStats) {
+    scorerStats[stat] = normalizeStatWeight(stats[stat])
   }
 
-  scoringMetadata.stats[Constants.Stats.HP] = scoringMetadata.stats[Constants.Stats.HP_P] * FLAT_STAT_SCALING.HP
-  scoringMetadata.stats[Constants.Stats.ATK] = scoringMetadata.stats[Constants.Stats.ATK_P] * FLAT_STAT_SCALING.ATK
-  scoringMetadata.stats[Constants.Stats.DEF] = scoringMetadata.stats[Constants.Stats.DEF_P] * FLAT_STAT_SCALING.DEF
+  if (typeof stats.minWeightedRolls === 'number') {
+    scorerStats.minWeightedRolls = normalizeStatWeight(stats.minWeightedRolls)
+  }
+
+  applyFlatStatScaling(scorerStats)
+
+  return scorerStats
+}
+
+function toScorerMetadata(metadata: ScoringMetadata): ScorerMetadata {
+  return {
+    stats: prepareScorerStats(metadata.stats),
+    parts: metadata.parts,
+    modified: metadata.modified,
+    flatMainstatBoost: metadata.flatMainstatBoost,
+  } as ScorerMetadata
+}
+
+export function prepareScoringMetadata(
+  id: CharacterId,
+  metadataResolver: ScoringMetadataResolver = getScoringMetadata,
+): ScorerMetadata {
+  const rawMetadata = metadataResolver(id)
+  const scoringMetadata = toScorerMetadata(rawMetadata)
+
+  const defaultScoringMetadata = getGameMetadata().characters[id]?.scoringMetadata
+  scoringMetadata.category = defaultScoringMetadata
+    ? getScoreCategory(defaultScoringMetadata, rawMetadata)
+    : ScoreCategory.DEFAULT
+  scoringMetadata.aeonEligibleWeights = defaultScoringMetadata
+    ? isAeonEligibleWeights(defaultScoringMetadata, rawMetadata)
+    : false
 
   scoringMetadata.sortedSubstats = (Object.entries(scoringMetadata.stats) as [SubStats, number][])
     .filter((x) => POSSIBLE_SUBSTATS.has(x[0]))
@@ -68,10 +108,10 @@ export function prepareScoringMetadata(id: CharacterId): ScorerMetadata {
       scoringMetadata.parts.PlanarSphere.filter((x) => !(DMG_MAINSTATS as string[]).includes(x)),
       scoringMetadata.parts.LinkRope,
     ]
-    scoringMetadata.greedyHash = objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts })
-    scoringMetadata.hash = objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts })
+    scoringMetadata.greedyHash = objectHash({ sortedSubstats: scoringMetadata.sortedSubstats, parts: hashParts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
+    scoringMetadata.hash = objectHash({ ...scoringMetadata.stats, ...scoringMetadata.parts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
   } else {
-    scoringMetadata.greedyHash = objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts })
+    scoringMetadata.greedyHash = objectHash({ stats: scoringMetadata.stats, parts: scoringMetadata.parts, flatMainstatBoost: rawMetadata.flatMainstatBoost })
     scoringMetadata.hash = scoringMetadata.greedyHash
   }
 

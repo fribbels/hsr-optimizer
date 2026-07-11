@@ -20,8 +20,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
-import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
@@ -59,6 +59,10 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -295,6 +299,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -342,22 +347,45 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: Ashveil.id,
+      lightCone: Ashveil.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: Hyacine.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+        { characterId: Ashveil.id, lightCones: [Ashveil.defaultLightCone] },
+        { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [MortenaxBlade.defaultLightCone] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [TrailblazerRemembranceStelle.defaultLightCone] },
+        { characterId: Hyacine.id, lightCones: [Hyacine.defaultLightCone] },
+      ],
     },
   ],
 })
@@ -405,6 +433,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -418,7 +447,7 @@ const display = {
     y: 1033,
     z: 1.9,
   },
-  showcaseColor: '#3d8566',
+  showcaseColor: '#badfe6',
 }
 
 export const Feixiao: CharacterConfig = {

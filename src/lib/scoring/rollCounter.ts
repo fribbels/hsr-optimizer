@@ -6,45 +6,99 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
-import type {
-  PartialSimulationWrapper,
-  ScoringParams,
-  SimulationFlags,
+import {
+  StatsToStatKey,
+  type BreakpointRollRequirement,
+  type PartialSimulationWrapper,
+  type ScoringParams,
+  type SimulationFlags,
 } from 'lib/scoring/simScoringUtils'
 import type {
   RunStatSimulationsResult,
   SubstatCounts,
 } from 'lib/simulations/statSimulationTypes'
-import { isSubstat } from 'lib/utils/statUtils'
-import type { ScoringConfigType } from 'types/metadata'
+import { precisionRound } from 'lib/utils/mathUtils'
+import {
+  isFlat,
+  isSubstat,
+} from 'lib/utils/statUtils'
+import type {
+  ScoringConfigType,
+  SimulationMetadata,
+} from 'types/metadata'
 
 function computeResRollTarget(
   partialSimulationWrapper: PartialSimulationWrapper,
   scoringParams: ScoringParams,
 ): number {
-  const ceiledResDeduction = Math.ceil(partialSimulationWrapper.resRollsDeduction)
+  const resTarget = computeForcedResRollTarget(partialSimulationWrapper, scoringParams)
   const resBudget = scoringParams.substatGoal - Math.ceil(partialSimulationWrapper.speedRollsDeduction) - 10 * scoringParams.freeRolls
   return Math.min(
-    Math.max(ceiledResDeduction, scoringParams.freeRolls),
+    resTarget,
     Math.max(resBudget, scoringParams.freeRolls),
   )
 }
 
-export function calculateMinSubstatRollCounts(
+function computeForcedResRollTarget(
   partialSimulationWrapper: PartialSimulationWrapper,
   scoringParams: ScoringParams,
-  simulationFlags: SimulationFlags,
-) {
-  const resMin = computeResRollTarget(partialSimulationWrapper, scoringParams)
+): number {
+  return Math.max(Math.ceil(partialSimulationWrapper.resRollsDeduction), scoringParams.freeRolls)
+}
 
-  const minCounts: SubstatCounts = {
+export function calculateSubstatRollCountTotal(counts: SubstatCounts): number {
+  return SubStats.reduce((sum, stat) => sum + (counts[stat] ?? 0), 0)
+}
+
+// Converts hard breakpoint metadata into concrete roll requirements using the zero-substat simulation result.
+// SPD is excluded — it's handled by the existing speed deduction system.
+export function calculateBreakpointRollRequirements(
+  simulationResult: RunStatSimulationsResult,
+  metadata: SimulationMetadata,
+  scoringParams: Pick<ScoringParams, 'quality' | 'freeRolls'>,
+): BreakpointRollRequirement[] {
+  const hardBreakpoints = metadata.hardBreakpoints ?? []
+
+  const requirements: BreakpointRollRequirement[] = []
+
+  for (const { stat, threshold } of hardBreakpoints) {
+    if (stat === Stats.SPD) continue
+    const statValue = simulationResult.x.getActionValueByIndex(StatsToStatKey[stat], SELF_ENTITY_INDEX)
+    const gap = threshold - statValue
+    if (gap <= 0) continue
+
+    // Percent stats are stored as fractions (0.75) but roll values are display-scale (3.456), so scale down
+    const baseRollValue = StatCalculator.getMaxedSubstatValue(stat, scoringParams.quality)
+    const rollValue = isFlat(stat) ? baseRollValue : baseRollValue * 0.01
+    const requiredRolls = Math.ceil(precisionRound(gap / rollValue))
+    // Already covered by the baseline freeRolls allocation
+    if (requiredRolls <= scoringParams.freeRolls) continue
+
+    requirements.push({ stat, requiredRolls })
+  }
+
+  return requirements
+}
+
+export type HardBreakpointRollBudget = {
+  speedRollsDeduction: number,
+  feasible: boolean,
+}
+
+function buildMinSubstatRollCounts(
+  speedRollsDeduction: number,
+  breakpointRequirements: BreakpointRollRequirement[] | undefined,
+  scoringParams: ScoringParams,
+  resMin: number,
+): SubstatCounts {
+  const counts: SubstatCounts = {
     [Stats.HP_P]: scoringParams.freeRolls,
     [Stats.ATK_P]: scoringParams.freeRolls,
     [Stats.DEF_P]: scoringParams.freeRolls,
     [Stats.HP]: scoringParams.freeRolls,
     [Stats.ATK]: scoringParams.freeRolls,
     [Stats.DEF]: scoringParams.freeRolls,
-    [Stats.SPD]: partialSimulationWrapper.speedRollsDeduction,
+    [Stats.SPD]: speedRollsDeduction,
     [Stats.CR]: scoringParams.freeRolls,
     [Stats.CD]: scoringParams.freeRolls,
     [Stats.EHR]: scoringParams.freeRolls,
@@ -52,7 +106,69 @@ export function calculateMinSubstatRollCounts(
     [Stats.BE]: scoringParams.freeRolls,
   }
 
-  return minCounts
+  if (breakpointRequirements) {
+    for (const req of breakpointRequirements) {
+      counts[req.stat] = Math.max(counts[req.stat], req.requiredRolls)
+    }
+  }
+
+  return counts
+}
+
+// Caps SPD to fit within the roll budget after non-SPD forced costs (freeRolls, RES, breakpoints).
+// Returns feasible=false when forced non-SPD costs alone exceed the budget.
+export function calculateHardBreakpointRollBudget(
+  partialSimulationWrapper: PartialSimulationWrapper,
+  scoringParams: ScoringParams,
+): HardBreakpointRollBudget {
+  const forcedResRollTarget = computeForcedResRollTarget(partialSimulationWrapper, scoringParams)
+  const minCountsWithoutSpeed = buildMinSubstatRollCounts(
+    0,
+    partialSimulationWrapper.breakpointRequirements,
+    scoringParams,
+    forcedResRollTarget,
+  )
+  const totalWithoutSpeed = calculateSubstatRollCountTotal(minCountsWithoutSpeed)
+  const speedRollsDeduction = Math.min(
+    partialSimulationWrapper.speedRollsDeduction,
+    Math.max(0, scoringParams.substatGoal - totalWithoutSpeed),
+  )
+  const totalForcedRolls = totalWithoutSpeed + speedRollsDeduction
+
+  return {
+    speedRollsDeduction,
+    feasible: totalForcedRolls <= scoringParams.substatGoal,
+  }
+}
+
+// Detects hard breakpoints, caps SPD, and mutates the wrapper. Returns false if infeasible.
+export function applyHardBreakpoints(
+  partialSimulationWrapper: PartialSimulationWrapper,
+  simulationResult: RunStatSimulationsResult,
+  metadata: SimulationMetadata,
+  scoringParams: ScoringParams,
+): boolean {
+  const breakpointReqs = calculateBreakpointRollRequirements(simulationResult, metadata, scoringParams)
+  if (!breakpointReqs.length) return true
+
+  partialSimulationWrapper.breakpointRequirements = breakpointReqs
+  const hardBudget = calculateHardBreakpointRollBudget(partialSimulationWrapper, scoringParams)
+  if (!hardBudget.feasible) return false
+
+  partialSimulationWrapper.speedRollsDeduction = hardBudget.speedRollsDeduction
+  return true
+}
+
+export function calculateMinSubstatRollCounts(
+  partialSimulationWrapper: PartialSimulationWrapper,
+  scoringParams: ScoringParams,
+): SubstatCounts {
+  return buildMinSubstatRollCounts(
+    partialSimulationWrapper.speedRollsDeduction,
+    partialSimulationWrapper.breakpointRequirements,
+    scoringParams,
+    computeResRollTarget(partialSimulationWrapper, scoringParams),
+  )
 }
 
 export function calculateMaxSubstatRollCounts(
@@ -178,6 +294,13 @@ export function calculateMaxSubstatRollCounts(
     if (stat == Stats.SPD) continue
     if (stat == Stats.RES && partialSimulationWrapper.resRollsDeduction > 0) continue
     maxCounts[stat] = Math.max(scoringParams.baselineFreeRolls, Math.min(maxCounts[stat], 36 - totalDeductions))
+  }
+
+  // Hard breakpoint floors override all caps — applied last so the required allocation is guaranteed
+  if (partialSimulationWrapper.breakpointRequirements) {
+    for (const req of partialSimulationWrapper.breakpointRequirements) {
+      maxCounts[req.stat] = Math.max(maxCounts[req.stat], req.requiredRolls)
+    }
   }
 
   return maxCounts

@@ -124,7 +124,7 @@ export function DebugSliderPanel({ groups, savedPresetGroups, pillGroups }: {
           {g.sliders.map((s) => (
             <label key={s.label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
               <span style={{ minWidth: 100 }}>{s.label}</span>
-              <span style={{ minWidth: 40, textAlign: 'right', fontFamily: 'monospace' }}>{s.value.toFixed(2)}</span>
+              <span style={{ minWidth: 40, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{s.value.toFixed(2)}</span>
               <input
                 type='range'
                 min={s.min}

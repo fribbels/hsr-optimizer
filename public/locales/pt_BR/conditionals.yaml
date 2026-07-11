@@ -925,27 +925,6 @@ Characters:
       e4SkillHealingDmgBuffStacks:
         text: Acúmulos de aumento de DMG da habilidade E4
         content: Cada cura fornecida pela habilidade de Bailu faz com que o recipiente cause 10% a mais de DMG por 2 turnos. Este efeito pode acumular até 3 vezes.
-  BlackSwan:
-    Content:
-      ehrToDmgBoost:
-        text: Aumento de DMG de EHR
-        content: Aumenta o DMG desta unidade em um valor igual a 60% da Taxa de Acerto de Efeito, até um aumento máximo de DMG de 72%.
-      epiphanyDebuff:
-        text: Debuff epifânico
-        content: Inimigos afetados pela Epifania recebem {{epiphanyDmgTakenBoost}}% a mais de DMG em seu turno.
-      defDecreaseDebuff:
-        text: Debuff de redução de DEF
-        content: DEF dos inimigos é reduzida em {{defShredValue}}.
-      arcanaStacks:
-        text: Acúmulos de Arcana
-        content: >-
-          Enquanto estiverem afetados por Arcana, os alvos inimigos recebem DoT de Vento igual a {{dotScaling}}% do ATK do Cisne Negro no início de cada turno. Cada acúmulo de Arcana aumenta esse multiplicador de DMG do DoT em {{arcanaStackMultiplier}}%. Arcana pode acumular até 50 vezes.::BR::Quando há 3 ou mais acúmulos de Arcana, causa DoT de Vento aos alvos adjacentes. Quando há 7 ou mais acúmulos de Arcana, permite que o DoT causado desta vez ignore 20% da DEF do alvo e dos alvos adjacentes.
-      e1ResReduction:
-        text: Redução de RES E1
-        content: Enquanto Black Swan estiver ativa na batalha, inimigos afetados por Corte de Vento, Sangramento, Queimadura ou Choque terão sua RES correspondente de Vento, Físico, Fogo ou Relâmpago reduzida em 25%.
-      e4EffResPen:
-        text: E4 Redução de RES
-        content: Enquanto estiver no estado de Epifânia, alvos inimigos tem sua Effect RES reduzida em 10%.
   BlackSwanB1:
     Content:
       skillDefShred:
@@ -954,17 +933,6 @@ Characters:
         text: Debuff epifânico
       arcanaStacks:
         text: Acúmulos de Arcana
-  Blade:
-    Content:
-      enhancedStateActive:
-        text: Estado de Inferno
-        content: 'Aumenta o DMG em {{enhancedStateDmgBoost}}% e seu ATK Básico Espada Fragmentada é aprimorado para Floresta de Espadas por 3 turnos.::BR::E2: Aumenta a taxa de CRIT em 15%.'
-      hpPercentLostTotal:
-        text: HP% perdido total
-        content: O DMG da Ultimate escala com base na contagem da perda de HP de Blade na batalha atual. A contagem da perda de HP de Blade na batalha atual é limitada a {{hpPercentLostTotalMax}}% de seu HP máximo.
-      e4MaxHpIncreaseStacks:
-        text: Acúmulos de HP máximo E4
-        content: Aumenta o HP em 20%, acumulando até 2 vezes.
   BladeB1:
     Content:
       enhancedStateActive:
@@ -1189,34 +1157,6 @@ Characters:
         text: Buffs E6
         content: >-
           Aumenta a PEN de RES de Todos os Tipos do DMG da Ultimate causado por Feixiao em 20%. O DMG do ataque adicional do Talento é considerado como DMG da Ultimate ao mesmo tempo, e seu multiplicador de DMG aumenta em 140%.
-  Firefly:
-    Content:
-      enhancedStateActive:
-        text: Estado aprimorado
-        content: Entra no estado de Combustão Completa, avança a Ação desta unidade em 100% e ganha ATK Básico Aprimorado e Habilidade Aprimorada.
-      enhancedStateSpdBuff:
-        text: Buff SPD aprimorado
-        content: Enquanto estiver em Combustão Completa, aumenta a SPD em {{ultSpdBuff}}.
-      superBreakDmg:
-        text: Super Break ativado (forçar quebra de fraqueza)
-        content: >-
-          Quando o SAM está em Combustão Completa com um Efeito de Quebra igual ou superior a 200%/360%, atacar um alvo inimigo com Fraqueza Quebrada converterá a Redução de Resistência deste ataque em 1 instância de 35%/50% de DMG de Super Break.
-      atkToBeConversion:
-        text: Buff de ATK para BE
-        content: Para cada 10 pontos de ATK do SAM que excedem 1800, aumenta o Efeito de Quebra desta unidade em 0,8%.
-      talentDmgReductionBuff:
-        text: Buff de EHP máximo
-        content: >-
-          Quanto menor o HP, menos DMG recebido. Quando o HP está em 20% ou menos, a Redução de DMG atinge seu efeito máximo, reduzindo até {{talentDmgReductionBuff}}%. Durante a Combustão Completa, a Redução de DMG permanece em seu efeito máximo, e a RES ao Efeito aumenta em {{talentResBuff}}%.
-      e1DefShred:
-        text: PEN de DEF E1
-        content: Ao usar a Habilidade Aprimorada, ignora 15% da DEF do alvo. A Habilidade Aprimorada não consome Pontos de Habilidade.
-      e4ResBuff:
-        text: Buff de RES E4
-        content: Enquanto estiver em Combustão Completa, aumenta a RES ao Efeito do SAM em 50%.
-      e6Buffs:
-        text: Buffs E6
-        content: Enquanto estiver em Combustão Completa, aumenta a PEN de RES de Fogo do SAM em 20%. Ao usar o ATK Básico Aprimorado ou a Habilidade Aprimorada, aumenta a eficiência da quebra de fraqueza em 50%.
   FireflyB1:
     Content:
       enhancedStateActive:
@@ -1401,17 +1341,6 @@ Characters:
         text: Alvo queimado
         content: >-
           Quando atacar um alvo afetado por Queimadura, causa DMG de Fogo Adicional igual a {{targetBurnedExtraScaling}}% do ATK de Hook.::BR::E6: Hook causa 20% a mais de DMG a inimigos afetados por Queimadura.
-  Huohuo:
-    Content:
-      ultBuff:
-        text: Buff de ATK da Ultimate
-        content: Aumenta o ATK de todos os aliados em {{ultBuffValue}}% por 2 turnos após usar a Ultimate.
-      skillBuff:
-        text: Buff de SPD E1
-        content: Quando Huohuo possui Provisão Divina, a SPD de todos os aliados aumenta em 12%.
-      e6DmgBuff:
-        text: Buff de DMG E6
-        content: Quando cura um aliado alvo, aumenta o DMG causado pelo aliado alvo em 50% por 2 turnos.
   HuohuoB1:
     Content:
       ultBuff:
@@ -1530,22 +1459,6 @@ Characters:
       e6ResShred:
         text: Redução de RES E6
         content: O limite máximo de acúmulos de Assados Cinzentos aumentam para 9, e cada acúmulo de Assado Cinzento reduz a RES de Todos os Tipos do alvo em 3%.
-  Jingliu:
-    Content:
-      talentEnhancedState:
-        text: Estado aprimorado
-        content: >-
-          Quando Jingliu tem 2 acúmulos de Syzygy, ela entra no estado de Transmigração Espectral com sua Ação Avançada em 100% e sua Taxa de CRIT aumenta em {{talentCrBuff}}%. Em seguida, a Habilidade de Jingliu, Flash Transcendente, é aprimorada e se transforma em Lua no Rio Glacial, tornando-se a única habilidade que ela pode usar em batalha.
-      talentHpDrainAtkBuff:
-        text: Buff de ATK de drenagem de HP
-        content: >-
-          Quando Jingliu usa um ataque no estado de Transmigração Espectral, ela consome HP de todos os outros aliados e o ATK de Jingliu aumenta com base no total de HP consumido de todos os aliados neste ataque, limitado a {{talentHpDrainAtkBuffMax}}% de seu ATK base, durando até o final do ataque atual.
-      e1CdBuff:
-        text: Ultimate ativo E1
-        content: Ao usar seu Ultimate ou Habilidade Aprimorada, o DMG CRIT de Jingliu aumenta em 24% por 1 turno. Se apenas um alvo inimigo for atacado, o alvo receberá adicionalmente DMG de Gelo igual a 100% do ATK de Jingliu.
-      e2SkillDmgBuff:
-        text: Buff de Habilidade E2
-        content: Após usar o Ultimate, aumenta o DMG da próxima Habilidade Aprimorada em 80%.
   JingliuB1:
     Content:
       talentEnhancedState:
@@ -1586,14 +1499,6 @@ Characters:
       e6FuaVulnerabilityStacks:
         text: Acúmulos de Vulnerabilidade E6
         content: Cada acerto realizado pelo Senhor do Relâmpago quando ele realiza uma ação fará com que o alvo inimigo fique Vulnerável. Enquanto Vulnerável, os inimigos recebem 12% a mais de DMG até o final do turno atual do Senhor do Relâmpago, acumulando até 3 vezes. (aplica-se a todos os acertos)
-  Kafka:
-    Content:
-      e1DotDmgReceivedDebuff:
-        text: Vulnerabilidade de DoT E1
-        content: Quando o Talento ativa um ataque de acompanhamento, há uma chance base de 100% de aumentar o DoT recebido pelo alvo em 30% por 2 turnos.
-      e2TeamDotBoost:
-        text: Aumento de DMG de DoT da equipe E2
-        content: Enquanto Kafka estiver em campo, o DoT causado por todos os aliados aumenta em 25%.
   KafkaB1:
     Content:
       ehrBasedBuff:
@@ -1902,21 +1807,6 @@ Characters:
       targetWindShear:
         text: Alvo cortado pelo vento
         content: Inimigos com o efeito Cortado pelo Vento causam 15% a menos de dano a Sampo.
-  Seele:
-    Content:
-      buffedState:
-        text: Estado Buffado
-        content: >-
-          Entra no estado de buff ao derrotar um inimigo com ATK Básico, Habilidade ou Ultimativa, e recebe um turno extra. Enquanto estiver no estado de buff, o DMG dos ataques de Seele aumenta em {{buffedStateDmgBuff}}% por 1 turno.::BR::Enquanto Seele estiver no estado de buff, sua PEN de RES Quantum aumenta em 20%.
-      speedBoostStacks:
-        text: Acúmulos de buff de velocidade
-        content: "Após usar sua perícia, aumenta a VEL de Seele em 25% por 2 rodadas.:BR::E2: O aumento de VEL da perícia pode acumular até 2 vezes."
-      e1EnemyHp80CrBoost:
-        text: E1 HP do inimigo ≤ 80% aumento de CR
-        content: Ao causar DMG a um inimigo cuja porcentagem de HP é 80% ou inferior, a Taxa de CRIT aumenta em 15%.
-      e6UltTargetDebuff:
-        text: E6 Flurry da Borboleta
-        content: Após Seele usar sua Ultimate, inflige ao inimigo alvo o efeito Flurry da Borboleta por 1 turnos. Inimigos sofrendo com Flurry da Borboleta receberão Dano Quantum Adicional igual a 15% do DMG da Ultimativa de Seele toda vez que forem atacados.
   SeeleB1:
     Content:
       buffedState:
@@ -1938,26 +1828,6 @@ Characters:
       enemyDefeatedBuff:
         text: Buff de inimigo derrotado
         content: Ao derrotar um inimigo, o ATK aumenta em 20% por 2 turnos.
-  SilverWolf:
-    Content:
-      skillResShredDebuff:
-        text: Redução de RES de Habilidade
-        content: >-
-          Diminui a RES de Todos os Tipos do inimigo em {{skillResShredValue}}% por 2 turnos.::BR::Se houver 3 ou mais debuffs afetando o inimigo quando a Habilidade for utilizada, a Perícia diminui a RES de Todos os Tipos do inimigo em mais 3%.
-      skillWeaknessResShredDebuff:
-        text: Redução de RES implantada de fraqueza de Habilidade
-        content: >-
-          Há uma {{implantChance}}% chance base de adicionar 1 Fraqueza do Tipo de um personagem em campo ao inimigo alvo. Isso também reduz a RES de DMG do inimigo para esse Tipo de Fraqueza em 20% por 2 turnos. Se o inimigo já tiver essa Fraqueza de Tipo, o efeito de redução de RES de DMG para esse Tipo de Fraqueza não será acionado.
-      talentDefShredDebuff:
-        text: Redução de DEF de Bug
-        content: O bug do Lobo Prateado reduz a DEF do alvo em {{talentDefShredDebuffValue}}% por 3 turnos.
-      ultDefShredDebuff:
-        text: Redução de DEF final
-        content: Diminui a DEF do alvo em {{ultDefShredValue}}% por 3 turnos.
-      targetDebuffs:
-        text: Debuffs do alvo
-        content: >-
-          Se houver 3 ou mais debuffs afetando o inimigo quando a Habilidade for utilizada, a Habilidade diminui a RES de Todos os Tipos do inimigo em mais 3%.::BR::E4: Após usar sua Ultimativa para atacar inimigos, causa Dano Quantum Adicional igual a 20% do ATK do Lobo Prateado para cada debuff atualmente no alvo inimigo. Esse efeito pode ser acionado no máximo 5 vezes durante cada uso de sua Ultimate.::BR::E6: Para cada debuff que o inimigo alvo possui, o DMG causado pelo Lobo Prateado aumenta em 20%, até um limite de 100%.
   SilverWolfB1:
     Content:
       ehrToAtkConversion:
@@ -1981,27 +1851,6 @@ Characters:
     Content:
       e6ResPen:
         text: E6 RES PEN
-  Sparkle:
-    Content:
-      skillCdBuff:
-        text: Buff de CD de Habilidade
-        content: >-
-          Aumenta o CRIT DMG de um único aliado em {{skillCdBuffScaling}}% do CRIT DMG de Sparkle mais {{skillCdBuffBase}}%, durando por 1 turno.::BR::E6: O efeito de Aumento de CRIT DMG da Habilidade de Sparkle aumenta adicionalmente em 30% do CRIT DMG de Sparkle, e quando ela usa sua Habilidade, o efeito de Aumento de CRIT DMG se aplicará a todos os aliados atualmente com Cipher. Quando Sparkle usa sua Ultimate, esse efeito se espalhará para todos os aliados com Cipher, caso o alvo aliado tenha o efeito de aumento de CRIT DMG fornecido pela Habilidade ativo.
-      cipherBuff:
-        text: Buff de Cifra
-        content: >-
-          Quando aliados com Cipher ativam o efeito de DMG Boost fornecido pelo Talento de Sparkle, cada pilha aumenta adicionalmente seu efeito em {{cipherTalentStackBoost}}%, durando por 2 turnos.::BR::E1: O efeito de Cipher aplicado pela Ultimativa dura 1 turno extra. Todos os aliados afetados por Cipher têm seu ATK aumentado em 40%.
-      talentStacks:
-        text: DMG Stacks do Talento
-        content: >-
-          Sempre que um aliado consomir 1 Ponto de Habilidade, o DMG de todos os aliados aumenta em {{talentBaseStackBoost}}%. Esse efeito dura por 2 turnos e pode acumular até 3 vezes.::BR::E2: Cada acúmulo do Talento permite que os aliados ignorem 8% da DEF do alvo inimigo ao causar dano.
-      quantumAlliesAtkBuff:
-        text: Buff de aliados Quantum
-        content: Quando há 1/2/3 aliados Quantum em sua equipe, o ATK dos aliados do Tipo Quantum é aumentado em 5%/15%/30%.
-    TeammateContent:
-      teammateCDValue:
-        text: Tempo de recarga de combate da Sparkle
-        content: Aumenta o CRIT DMG de um único aliado em {{skillCdBuffScaling}}% do CRIT DMG de Sparkle mais {{skillCdBuffBase}}%, durando por 1 turnos.
   SparkleB1:
     Content:
       cipherBuff:
@@ -2254,21 +2103,6 @@ Characters:
       e6FuaScaling:
         text: E6 Dano ATQ. EXT.
         content: Após Tribbie usar sua Ultimate, lança seu Ataque Extra do Talento contra todos os alvos inimigos. O Dano causado pelo Ataque Extra do Talento aumenta em 729%.
-  Welt:
-    Content:
-      enemyDmgTakenDebuff:
-        text: Debuff de vulnerabilidade Ult
-        content: Ao usar a Ultimate, há uma chance base de 100% de aumentar o DMG recebido pelos alvos em 12% por 2 turnos.
-      enemySlowed:
-        text: Inimigo desacelerado
-        content: Ao atingir um inimigo que já está Lentificado, Welt causa Dano Imaginário Adicional igual a {{talentScaling}}% do seu ATK ao inimigo.
-      skillExtraHits:
-        text: Acertos extras da Habilidade no alvo
-        content: >-
-          Causa Dano Imaginário igual a {{skillScaling}}% do ATK de Welt a um único inimigo e, adicionalmente, causa Dano 2 vezes a mais, com cada ataque causando Dano Imaginário igual a {{skillScaling}}% do ATK de Welt a um inimigo aleatório.
-      e1EnhancedState:
-        text: Estado aprimorado E1
-        content: Após Welt usar sua Ultimativa, suas habilidades são aprimoradas. Nas próximas 2 vezes que ele usar seu ATK Básico ou Habilidade, causará Dano Adicional ao alvo igual a 50% do multiplicador de DMG do seu ATK Básico ou 80% do multiplicador de DMG da sua Habilidade, respectivamente.
   WeltB1:
     Content:
       enemySlowed:

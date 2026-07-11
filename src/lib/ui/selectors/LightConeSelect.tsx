@@ -17,6 +17,7 @@ import {
   type LcOptions,
 } from 'lib/ui/selectors/optionGenerator'
 import { SelectCardGrid } from 'lib/ui/selectors/SelectCardGrid'
+import classes from 'lib/ui/selectors/SelectCardGrid.module.css'
 import {
   LC_CARD_IMAGE_HEIGHT,
   LC_CARD_IMAGE_WIDTH,
@@ -35,7 +36,6 @@ import {
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import classes from './SelectCardGrid.module.css'
 
 type LightConeFilters = {
   rarity: number[],

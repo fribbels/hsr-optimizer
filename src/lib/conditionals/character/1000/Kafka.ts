@@ -5,7 +5,10 @@ import {
   Parts,
   Stats,
 } from 'lib/constants/constants'
-import { DamageTag, ElementTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  ElementTag,
+} from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'

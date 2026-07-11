@@ -1,14 +1,18 @@
+import { Pela } from 'lib/conditionals/character/1100/Pela'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
   applyScoringMetadataPresets,
 } from 'lib/conditionals/evaluation/applyPresets'
-import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
-import { Pela } from 'lib/conditionals/character/1100/Pela'
-import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { Sets } from 'lib/constants/constants'
+import { defaultSetConditionals } from 'lib/optimization/defaultForm'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { clone } from 'lib/utils/objectUtils'
 import type { Form } from 'types/form'
-import { describe, expect, it } from 'vitest'
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest'
 
 Metadata.initialize()
 

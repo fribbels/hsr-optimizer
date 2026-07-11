@@ -1,5 +1,8 @@
 import type { UseFormReturnType } from '@mantine/form'
-import { getAllCharacterConfigs, getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
+import {
+  getAllCharacterConfigs,
+  getCharacterConfig,
+} from 'lib/conditionals/resolver/characterConfigRegistry'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import {
   DEFAULT_WARP_TARGET,
@@ -67,7 +70,7 @@ export function updateTargetFrom(form: UseFormReturnType<WarpRequest>, index: nu
   const next = targets.map((other) =>
     dimension.getId(other) === chainId && dimension.getGoal(other) !== dimension.none
       ? dimension.withLevels(other, newFrom, dimension.getGoal(other))
-      : other,
+      : other
   )
   setTargets(form, next)
 }

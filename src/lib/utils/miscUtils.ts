@@ -9,10 +9,6 @@ export function validateUuid(uid: string): string | null {
   return /^\d{9}$/.test(trimmed) ? trimmed : null
 }
 
-export function stripTrailingSlashes(str: string): string {
-  return str.replace(/\/+$/, '')
-}
-
 /** Convert milliseconds to "MM:SS" or "H:MM:SS" string. */
 export function msToReadable(duration: number): string {
   const seconds = Math.floor((duration / 1000) % 60)

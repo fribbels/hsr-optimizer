@@ -1,18 +1,36 @@
-import { IconCheck, IconX } from '@tabler/icons-react'
-import { Flex, NumberInput, SegmentedControl, Select, Title as MantineTitle } from '@mantine/core'
+import {
+  Flex,
+  NumberInput,
+  SegmentedControl,
+  Select,
+  Title as MantineTitle,
+} from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
+import {
+  IconCheck,
+  IconX,
+} from '@tabler/icons-react'
 import i18next from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { WarpIncomeOptions } from 'lib/tabs/tabWarp/warpCalculatorController'
-import { StarlightMultiplier, StarlightRefund, type WarpRequest, WarpIncomeType } from 'lib/tabs/tabWarp/warpCalculatorTypes'
+import classes from 'lib/tabs/tabWarp/WarpCalculatorTab.module.css'
+import {
+  StarlightMultiplier,
+  StarlightRefund,
+  WarpIncomeType,
+  type WarpRequest,
+} from 'lib/tabs/tabWarp/warpCalculatorTypes'
 import { PassIcon } from 'lib/tabs/tabWarp/WarpMilestoneTable'
+import { VerticalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { MultiSelectPills } from 'lib/ui/MultiSelectPills'
-import { VerticalDivider } from 'lib/ui/Dividers'
-import { localeNumber, localeNumber_0, localeNumberComma } from 'lib/utils/i18nUtils'
+import {
+  localeNumber,
+  localeNumber_0,
+  localeNumberComma,
+} from 'lib/utils/i18nUtils'
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './WarpCalculatorTab.module.css'
 
 const HEADER_LABEL_GAP = 4
 
@@ -22,58 +40,68 @@ export function WarpSettingsPanel({ form }: { form: UseFormReturnType<WarpReques
 
   return (
     <Flex style={{ marginBottom: 30 }}>
-      <Flex direction="column" flex={1}>
+      <Flex direction='column' flex={1}>
         <Title>
           <Flex justify='center' gap={10}>
-            {t('Settings')/* Settings */}
+            {t('Settings') /* Settings */}
           </Flex>
         </Title>
 
         <div className={classes.settingsGrid}>
-          <ResourceNumberField label={t('Jades')/* Jades */} icon={Assets.getJade()} field='jades' form={form}/>
-          <ResourceNumberField label={t('Passes')/* Passes */} icon={Assets.getPass()} field='passes' form={form}/>
+          <ResourceNumberField label={t('Jades') /* Jades */} icon={Assets.getJade()} field='jades' form={form} />
+          <ResourceNumberField label={t('Passes') /* Passes */} icon={Assets.getPass()} field='passes' form={form} />
 
-          <Flex direction="column" gap={HEADER_LABEL_GAP}>
-            <HeaderText>{t('Starlight')/* Starlight */}</HeaderText>
+          <Flex direction='column' gap={HEADER_LABEL_GAP}>
+            <HeaderText>{t('Starlight') /* Starlight */}</HeaderText>
             <Select
               leftSection={resourceIcon(Assets.getStarlight())}
-              leftSectionWidth={34} leftSectionPointerEvents='none'
+              leftSectionWidth={34}
+              leftSectionPointerEvents='none'
               styles={{ input: { paddingLeft: 42 } }}
               data={generateStarlightOptions()}
               comboboxProps={{ keepMounted: false, width: 'fit-content' }}
               value={form.getValues().starlight}
-              onChange={(val) => { if (val != null) form.setFieldValue('starlight', val as StarlightRefund) }}
+              onChange={(val) => {
+                if (val != null) form.setFieldValue('starlight', val as StarlightRefund)
+              }}
             />
           </Flex>
 
-          <Flex direction="column" gap={HEADER_LABEL_GAP} style={{ overflow: 'hidden' }}>
-            <HeaderText>{t('AdditionalResources')/* Additional resources */}</HeaderText>
+          <Flex direction='column' gap={HEADER_LABEL_GAP} style={{ overflow: 'hidden' }}>
+            <HeaderText>{t('AdditionalResources') /* Additional resources */}</HeaderText>
             <MultiSelectPills
-              placeholder='None' clearable size='xs' maxDisplayedValues={0}
-              data={generateIncomeOptions()} dropdownWidth={500}
+              placeholder='None'
+              clearable
+              size='xs'
+              maxDisplayedValues={0}
+              data={generateIncomeOptions()}
+              dropdownWidth={500}
               value={form.getValues().income}
               onChange={(val) => form.setFieldValue('income', val)}
               renderOption={(option) => (
-                <Flex align='center' gap={4}><span>{option.label}</span><PassIcon/></Flex>
+                <Flex align='center' gap={4}>
+                  <span>{option.label}</span>
+                  <PassIcon />
+                </Flex>
               )}
             />
           </Flex>
         </div>
       </Flex>
 
-      <VerticalDivider width={30}/>
+      <VerticalDivider width={30} />
 
-      <Flex direction="column" flex={1}>
+      <Flex direction='column' flex={1}>
         <Flex>
-          <Title flex={1}>{t('Character')/* Character */}</Title>
-          <Title flex={1}>{t('LightCone')/* Light Cone */}</Title>
+          <Title flex={1}>{t('Character') /* Character */}</Title>
+          <Title flex={1}>{t('LightCone') /* Light Cone */}</Title>
         </Flex>
 
         <div className={classes.settingsGrid}>
-          <PityField label={tPity('PityCounter')/* Pity counter */} field='pityCharacter' max={89} form={form}/>
-          <PityField label={tPity('PityCounter')/* Pity counter */} field='pityLightCone' max={79} form={form}/>
-          <GuaranteedField label={tPity('Guaranteed')/* Guaranteed */} field='guaranteedCharacter' form={form}/>
-          <GuaranteedField label={tPity('Guaranteed')/* Guaranteed */} field='guaranteedLightCone' form={form}/>
+          <PityField label={tPity('PityCounter') /* Pity counter */} field='pityCharacter' max={89} form={form} />
+          <PityField label={tPity('PityCounter') /* Pity counter */} field='pityLightCone' max={79} form={form} />
+          <GuaranteedField label={tPity('Guaranteed') /* Guaranteed */} field='guaranteedCharacter' form={form} />
+          <GuaranteedField label={tPity('Guaranteed') /* Guaranteed */} field='guaranteedLightCone' form={form} />
         </div>
       </Flex>
     </Flex>
@@ -91,25 +119,29 @@ function Title(props: { children: ReactNode, flex?: number }) {
 function resourceIcon(src: string) {
   return (
     <Flex align='center' justify='center' w='100%' h='60%' pl={2} style={{ borderRight: '1px solid var(--border-default)' }}>
-      <img src={src} style={{ height: 24 }}/>
+      <img src={src} style={{ height: 24 }} />
     </Flex>
   )
 }
 
 function ResourceNumberField(props: {
-  label: string
-  icon: string
-  field: 'jades' | 'passes'
-  form: UseFormReturnType<WarpRequest>
+  label: string,
+  icon: string,
+  field: 'jades' | 'passes',
+  form: UseFormReturnType<WarpRequest>,
 }) {
   const { label, icon, field, form } = props
   return (
-    <Flex direction="column" gap={HEADER_LABEL_GAP}>
+    <Flex direction='column' gap={HEADER_LABEL_GAP}>
       <HeaderText>{label}</HeaderText>
       <NumberInput
-        placeholder='0' min={0} style={{ width: '100%' }} hideControls
+        placeholder='0'
+        min={0}
+        style={{ width: '100%' }}
+        hideControls
         leftSection={resourceIcon(icon)}
-        leftSectionWidth={34} leftSectionPointerEvents='none'
+        leftSectionWidth={34}
+        leftSectionPointerEvents='none'
         styles={{ input: { paddingLeft: 42 } }}
         {...form.getInputProps(field)}
       />
@@ -119,10 +151,12 @@ function ResourceNumberField(props: {
 
 function PityField(props: { label: string, field: keyof WarpRequest, max: number, form: UseFormReturnType<WarpRequest> }) {
   return (
-    <Flex direction="column" gap={HEADER_LABEL_GAP}>
+    <Flex direction='column' gap={HEADER_LABEL_GAP}>
       <HeaderText>{props.label}</HeaderText>
       <NumberInput
-        placeholder='0' min={0} max={props.max}
+        placeholder='0'
+        min={0}
+        max={props.max}
         style={{ width: '100%' }}
         hideControls
         {...props.form.getInputProps(props.field)}
@@ -133,13 +167,13 @@ function PityField(props: { label: string, field: keyof WarpRequest, max: number
 
 function GuaranteedField(props: { label: string, field: 'guaranteedCharacter' | 'guaranteedLightCone', form: UseFormReturnType<WarpRequest> }) {
   return (
-    <Flex direction="column" gap={HEADER_LABEL_GAP}>
+    <Flex direction='column' gap={HEADER_LABEL_GAP}>
       <HeaderText>{props.label}</HeaderText>
       <SegmentedControl
         fullWidth
         data={[
-          { label: <IconX size={18}/>, value: 'false' },
-          { label: <IconCheck size={18}/>, value: 'true' },
+          { label: <IconX size={18} />, value: 'false' },
+          { label: <IconCheck size={18} />, value: 'true' },
         ]}
         value={String(props.form.getValues()[props.field] ?? false)}
         onChange={(val) => props.form.setFieldValue(props.field, val === 'true')}

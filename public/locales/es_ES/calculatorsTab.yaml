@@ -1,0 +1,5 @@
+EHR:
+  Label: Acierto de efecto
+  Calculator:
+    Input:
+      HitRate: Acierto de efecto

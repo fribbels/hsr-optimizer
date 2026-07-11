@@ -3,7 +3,6 @@ import {
   handleTeamSelection,
   resolveScoringType,
 } from 'lib/characterPreview/characterPreviewController'
-import { AppPages } from 'lib/constants/appPages'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
@@ -28,6 +27,10 @@ import { computeLoadForm } from 'lib/stores/optimizerForm/optimizerFormStoreActi
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { CharacterId } from 'types/character'
@@ -100,7 +103,7 @@ export function loadBuildInOptimizer(build: SavedBuild): void {
   useOptimizerRequestStore.setState(mergedState)
 
   // Navigate
-  useGlobalStore.getState().setActiveKey(AppPages.OPTIMIZER)
+  navigateTo(AppPages.OPTIMIZER)
   useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.optimizerCharacterId, characterId)
   SaveState.delayedSave()
 }

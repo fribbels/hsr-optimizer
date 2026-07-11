@@ -9,9 +9,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { TimeWaitsForNoOne } from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
+import { TimeWaitsForNoOne } from 'lib/conditionals/lightcone/5star/TimeWaitsForNoOne'
 import {
   Parts,
   Sets,
@@ -222,6 +222,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const healSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.HP_P],
@@ -288,6 +289,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.HP,
   parts: {
     [Parts.Body]: [
       Stats.OHB,
@@ -316,6 +318,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   healSimulation: healSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -325,7 +328,7 @@ const display = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#3553ab',
+  showcaseColor: '#6282b3',
 }
 
 export const Bailu: CharacterConfig = {

@@ -21,7 +21,7 @@ function formatRelativeTime(dateString: string): string {
 }
 
 function renderRankDelta(event: TimelineEvent) {
-  if (event.type === TimelineEventType.NEW_CHARACTER) {
+  if (event.type === TimelineEventType.NEW_CHARACTER || event.previousRank > 100) {
     return <span className={classes.cellNewLabel}>new</span>
   }
   const delta = event.previousRank - event.rank

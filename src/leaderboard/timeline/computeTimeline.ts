@@ -22,13 +22,18 @@ export function diffSnapshots(
   current: LeaderboardSnapshot,
   previous: LeaderboardSnapshot | null,
   userCharEntries: Map<string, UserCharCurrentEntry>,
+  options?: { minScore?: number, maxRank?: number },
 ): TimelineEvent[] {
   if (!previous) return []
 
+  const minScore = options?.minScore ?? 1.5
+  const maxRank = options?.maxRank ?? 100
   const prevUserBests = previous.userBests ?? {}
   const events: TimelineEvent[] = []
 
   for (const [key, entry] of userCharEntries) {
+    if (entry.score < minScore || entry.rank > maxRank) continue
+
     const prev = prevUserBests[key]
     const buildId = computeBuildId(entry.uidHash, entry.characterId, entry.configType, entry.teamId)
     const date = fetchedAtToDateString(entry.fetchedAt)
@@ -53,7 +58,7 @@ export function diffSnapshots(
         score: entry.score,
         previousScore: prev.highWatermark,
         rank: entry.rank,
-        previousRank: prev.rank,
+        previousRank: Math.min(prev.rank, maxRank + 1),
         buildId,
       })
     }
@@ -99,10 +104,11 @@ export function computeTimelineUpdate(input: {
   snapshotPath: string,
   timelinePath: string,
   allowedCharacterIds?: Set<string>,
+  topNPublic?: number,
 }): TimelineUpdateResult {
   const previousSnapshot = readSnapshot(input.snapshotPath)
   const result = extractSnapshot(input.privateOutput, input.totalCounts, previousSnapshot, input.generatedAt, input.allowedCharacterIds)
-  const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries)
+  const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries, { maxRank: input.topNPublic })
   const existingEvents = readTimeline(input.timelinePath)
   const events = deduplicateAndMerge(newEvents, existingEvents, 100)
 

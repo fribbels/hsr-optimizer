@@ -8035,72 +8035,72 @@
       },
       "traceTree": [
         {
-          "id": "1508201_4.4v3",
+          "id": "1508201",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1508202_4.4v3",
+          "id": "1508202",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1508203_4.4v3",
+              "id": "1508203",
               "stat": "CRIT DMG",
               "value": 0.053,
-              "pre": "1508202_4.4v3",
+              "pre": "1508202",
               "children": []
             },
             {
-              "id": "1508204_4.4v3",
+              "id": "1508204",
               "stat": "Quantum DMG Boost",
               "value": 0.032,
-              "pre": "1508202_4.4v3",
+              "pre": "1508202",
               "children": []
             }
           ]
         },
         {
-          "id": "1508205_4.4v3",
+          "id": "1508205",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1508206_4.4v3",
+              "id": "1508206",
               "stat": "ATK%",
               "value": 0.06,
-              "pre": "1508205_4.4v3",
+              "pre": "1508205",
               "children": []
             },
             {
-              "id": "1508207_4.4v3",
+              "id": "1508207",
               "stat": "CRIT DMG",
               "value": 0.08,
-              "pre": "1508205_4.4v3",
+              "pre": "1508205",
               "children": []
             }
           ]
         },
         {
-          "id": "1508208_4.4v3",
+          "id": "1508208",
           "stat": "Quantum DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": []
         },
         {
-          "id": "1508209_4.4v3",
+          "id": "1508209",
           "stat": "ATK%",
           "value": 0.08,
           "pre": null,
           "children": []
         },
         {
-          "id": "1508210_4.4v3",
+          "id": "1508210",
           "stat": "CRIT DMG",
           "value": 0.107,
           "pre": null,
@@ -8116,7 +8116,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1509": {
       "id": "1509",
@@ -8131,29 +8131,29 @@
       },
       "traceTree": [
         {
-          "id": "1509201_4.4v3",
+          "id": "1509201",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1509202_4.4v3",
+          "id": "1509202",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1509203_4.4v3",
+              "id": "1509203",
               "stat": "CRIT Rate",
               "value": 0.027,
-              "pre": "1509202_4.4v3",
+              "pre": "1509202",
               "children": [
                 {
-                  "id": "1509204_4.4v3",
+                  "id": "1509204",
                   "stat": "Lightning DMG Boost",
                   "value": 0.032,
-                  "pre": "1509203_4.4v3",
+                  "pre": "1509203",
                   "children": []
                 }
               ]
@@ -8161,22 +8161,22 @@
           ]
         },
         {
-          "id": "1509205_4.4v3",
+          "id": "1509205",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1509206_4.4v3",
+              "id": "1509206",
               "stat": "ATK%",
               "value": 0.06,
-              "pre": "1509205_4.4v3",
+              "pre": "1509205",
               "children": [
                 {
-                  "id": "1509207_4.4v3",
+                  "id": "1509207",
                   "stat": "CRIT Rate",
                   "value": 0.04,
-                  "pre": "1509206_4.4v3",
+                  "pre": "1509206",
                   "children": []
                 }
               ]
@@ -8184,29 +8184,29 @@
           ]
         },
         {
-          "id": "1509208_4.4v3",
+          "id": "1509208",
           "stat": "Lightning DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": [
             {
-              "id": "1509209_4.4v3",
+              "id": "1509209",
               "stat": "ATK%",
               "value": 0.08,
-              "pre": "1509208_4.4v3",
+              "pre": "1509208",
               "children": []
             },
             {
-              "id": "1509210_4.4v3",
+              "id": "1509210",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "1509208_4.4v3",
+              "pre": "1509208",
               "children": []
             }
           ]
         }
       ],
-      "max_sp": 600,
+      "max_sp": 360,
       "stats": {
         "HP": 1125.432,
         "ATK": 717.948,
@@ -8215,7 +8215,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1510": {
       "id": "1510",
@@ -8230,79 +8230,79 @@
       },
       "traceTree": [
         {
-          "id": "1510201_4.4v3",
+          "id": "1510201",
           "stat": "ATK%",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1510202_4.4v3",
+          "id": "1510202",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": [
             {
-              "id": "1510203_4.4v3",
+              "id": "1510203",
               "stat": "ATK%",
               "value": 0.04,
-              "pre": "1510202_4.4v3",
+              "pre": "1510202",
               "children": []
             },
             {
-              "id": "1510204_4.4v3",
+              "id": "1510204",
               "stat": "Fire DMG Boost",
               "value": 0.032,
-              "pre": "1510202_4.4v3",
+              "pre": "1510202",
               "children": []
             }
           ]
         },
         {
-          "id": "1510205_4.4v3",
+          "id": "1510205",
           "stat": "ATK%",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1510206_4.4v3",
+              "id": "1510206",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1510205_4.4v3",
+              "pre": "1510205",
               "children": []
             },
             {
-              "id": "1510207_4.4v3",
+              "id": "1510207",
               "stat": "ATK%",
               "value": 0.06,
-              "pre": "1510205_4.4v3",
+              "pre": "1510205",
               "children": []
             }
           ]
         },
         {
-          "id": "1510208_4.4v3",
+          "id": "1510208",
           "stat": "Fire DMG Boost",
           "value": 0.048,
           "pre": null,
           "children": []
         },
         {
-          "id": "1510209_4.4v3",
+          "id": "1510209",
           "stat": "CRIT Rate",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1510210_4.4v3",
+          "id": "1510210",
           "stat": "ATK%",
           "value": 0.08,
           "pre": null,
           "children": []
         }
       ],
-      "max_sp": 140,
+      "max_sp": 150,
       "stats": {
         "HP": 1125.432,
         "ATK": 756.756,
@@ -8311,7 +8311,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "8001": {
       "id": "8001",
@@ -14773,14 +14773,8 @@
         "y": -95,
         "s": 1.15
       },
-      "superimpositions": {
-        "1": {},
-        "2": {},
-        "3": {},
-        "4": {},
-        "5": {}
-      },
-      "unreleased": true
+      "superimpositions": {},
+      "unreleased": false
     },
     "23061": {
       "id": "23061",
@@ -14814,7 +14808,7 @@
           "CriticalChanceBase": 0.3
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23062": {
       "id": "23062",
@@ -14822,9 +14816,9 @@
       "rarity": 5,
       "path": "Destruction",
       "stats": {
-        "HP": 846.72,
+        "HP": 952.56,
         "ATK": 635.04,
-        "DEF": 529.2
+        "DEF": 463.05
       },
       "imageOffset": {
         "x": 3,
@@ -14853,7 +14847,7 @@
           "SPRatioBase": 0.2
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "24000": {
       "id": "24000",

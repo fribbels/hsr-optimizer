@@ -1580,6 +1580,32 @@ Characters:
       e4TeamResBuff:
         text: E4 team RES buff
         content: When Gepard is in battle, all allies' Effect RES increases by 20%.
+  Gilgamesh:
+    Content:
+      herosHauteurStacks:
+        text: Hero's Hauteur CD stacks
+        content: During the battle, every 1 point of "Interest" gained by Gilgamesh increases his CRIT DMG by 25%. This effect can stack up to 6 times.
+      interestSpdStacks:
+        text: Interest stacks
+        content: When another ally target takes action, Gilgamesh gains 1 point of "Interest". For each point of "Interest" in possession, SPD increases by 10%.
+      kingsAcknowledgement:
+        text: King's Acknowledgement
+        content: >-
+          When using skill, obtains "King's Acknowledgement," allowing this unit to ignore {{KingsAcknowledgementDefPen}}% of the target's DEF when dealing DMG, lasting for 3 turns.
+          ::BR::
+          E1: When Gilgamesh possesses "King's Acknowledgement," its DEF-ignoring effect will apply to other teammates as well, and "King's Acknowledgement" will additionally increase Gilgamesh's ATK by 60%.
+      kingsBurden:
+        text: King's Burden
+        content: When an ally uses their Ultimate, Gilgamesh gains "King's Burden," which increases Ultimate DMG dealt by this unit by {{TalentUltDmgBoost}}%, lasting for 3 turns.
+      a6TeamBuff:
+        text: Hegemon's Strife
+        content: While Gilgamesh is on the field, increases the ATK of all ally targets by 20% and CRIT DMG by 20%. If the target's Max Energy exceeds 140, every 1 excess point of Max Energy additionally increases ATK and CRIT DMG by 1%, up to a maximum of 100%.
+      e6ResPen:
+        text: E6 RES PEN
+        content: While Gilgamesh is on the field, increases the All-Type RES PEN of ally characters by 20%.
+      goldenRuleStacks:
+        text: Golden Rule stacks
+        content: When a teammate uses their Ultimate, Gilgamesh gains 1 point of "Golden Rule," up to a total of 3 points. When this unit uses his Ultimate, he consumes all "Golden Rule" points and increases his Ultimate DMG's CRIT DMG by 100% for each point of "Golden Rule" consumed.
   Guinaifen:
     Content:
       talentDebuffStacks:

@@ -1499,6 +1499,38 @@ export default interface Resources {
           }
         }
       },
+      "Gilgamesh": {
+        "Content": {
+          "a6TeamBuff": {
+            "content": "While Gilgamesh is on the field, increases the ATK of all ally targets by 20% and CRIT DMG by 20%. If the target's Max Energy exceeds 140, every 1 excess point of Max Energy additionally increases ATK and CRIT DMG by 1%, up to a maximum of 100%.",
+            "text": "Hegemon's Strife"
+          },
+          "e6ResPen": {
+            "content": "While Gilgamesh is on the field, increases the All-Type RES PEN of ally characters by 20%.",
+            "text": "E6 RES PEN"
+          },
+          "goldenRuleStacks": {
+            "content": "When a teammate uses their Ultimate, Gilgamesh gains 1 point of \"Golden Rule,\" up to a total of 3 points. When this unit uses his Ultimate, he consumes all \"Golden Rule\" points and increases his Ultimate DMG's CRIT DMG by 100% for each point of \"Golden Rule\" consumed.",
+            "text": "Golden Rule stacks"
+          },
+          "herosHauteurStacks": {
+            "content": "During the battle, every 1 point of \"Interest\" gained by Gilgamesh increases his CRIT DMG by 25%. This effect can stack up to 6 times.",
+            "text": "Hero's Hauteur CD stacks"
+          },
+          "interestSpdStacks": {
+            "content": "When another ally target takes action, Gilgamesh gains 1 point of \"Interest\". For each point of \"Interest\" in possession, SPD increases by 10%.",
+            "text": "Interest stacks"
+          },
+          "kingsAcknowledgement": {
+            "content": "When using skill, obtains \"King's Acknowledgement,\" allowing this unit to ignore {{KingsAcknowledgementDefPen}}% of the target's DEF when dealing DMG, lasting for 3 turns. ::BR:: E1: When Gilgamesh possesses \"King's Acknowledgement,\" its DEF-ignoring effect will apply to other teammates as well, and \"King's Acknowledgement\" will additionally increase Gilgamesh's ATK by 60%.",
+            "text": "King's Acknowledgement"
+          },
+          "kingsBurden": {
+            "content": "When an ally uses their Ultimate, Gilgamesh gains \"King's Burden,\" which increases Ultimate DMG dealt by this unit by {{TalentUltDmgBoost}}%, lasting for 3 turns.",
+            "text": "King's Burden"
+          }
+        }
+      },
       "Guinaifen": {
         "Content": {
           "e1EffectResShred": {

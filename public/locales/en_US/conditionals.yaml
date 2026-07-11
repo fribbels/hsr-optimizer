@@ -1691,7 +1691,7 @@ Characters:
         content: When Himeko uses her assist skill, deals increased damage to all enemies and deals 1 additional instance of damage to a random enemy target.
       assistSkillBuff:
         text: Assist Skill buff
-        content: Using the Assist Skill is considered as Himeko • Nova using her Skill. Himeko • Nova's All-Type RES PEN increases by {{AssistSkillResPen}}% and CRIT DMG increases by {{AssistSkillCdBUff}}%.
+        content: Using the Assist Skill is considered as Himeko • Nova using her Skill. Himeko • Nova's All-Type RES PEN increases by {{AssistSkillResPen}}% and CRIT DMG increases by {{AssistSkillCdBuff}}%.
       companionVerdict:
         text: 'Companion Protocol: Verdict'
         content: Increases DMG dealt by Himeko • Nova by {{VerdictDmgBuff}}%, and additionally increases her Ultimate DMG dealt by {{VerdictUltDmgBuff}}%.

@@ -194,7 +194,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('assistSkillBuff.text'),
       content: t('assistSkillBuff.content', {
         AssistSkillResPen: precisionRound(100 * talentResPenValue),
-        AssistSkillCdBUff: precisionRound(100 * talentCdBuffValue),
+        AssistSkillCdBuff: precisionRound(100 * talentCdBuffValue),
       }),
     },
     companionVerdict: {

@@ -1,5 +1,6 @@
 import { UnstyledButton } from '@mantine/core'
 import { IconChevronLeft } from '@tabler/icons-react'
+import type { CharacterId } from 'lib/characterConditionals/conditionalConstants'
 import { DefaultScoringProvider } from 'lib/hooks/useScoringMetadata'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { CharacterListPanel } from 'lib/tabs/tabLeaderboard/CharacterListPanel'
@@ -20,6 +21,7 @@ import {
   useEffect,
   useRef,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export function LeaderboardTab() {
   const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
@@ -38,6 +40,11 @@ export function LeaderboardTab() {
   }, [addActivationListener, isActiveRef])
 
   const characterListExpanded = useLeaderboardTabStore((s) => s.characterListExpanded)
+  const selectedCharacterId = useLeaderboardTabStore((s) => s.selectedCharacterId)
+  const { t: tGame } = useTranslation('gameData')
+
+  const nameKey = selectedCharacterId?.startsWith('80') ? 'LongName' : 'Name'
+  const characterName = selectedCharacterId ? tGame(`Characters.${selectedCharacterId as CharacterId}.${nameKey}`) : ''
 
   const browsingClass = characterListExpanded ? classes.panelVisible : classes.panelHidden
   const detailClass = characterListExpanded ? classes.panelHidden : classes.panelVisible
@@ -55,6 +62,7 @@ export function LeaderboardTab() {
               <span className={classes.backUnifiedArrow}>
                 <IconChevronLeft size={16} />
               </span>
+              <span className={classes.backUnifiedLabel}>{characterName}</span>
             </UnstyledButton>
 
             <div className={classes.toolbarSlot}>

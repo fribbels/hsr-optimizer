@@ -18,7 +18,7 @@ export function getChangelogContent() {
     },
     {
       title: '',
-      date: '2026-07-09',
+      date: '2026-07-11',
       content: [
         `Updated content to 4.4v5`,
         `Added Leaderboards tab with per-character benchmark rankings from Showcase builds, refreshed daily`,

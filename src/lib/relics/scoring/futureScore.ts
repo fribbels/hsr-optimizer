@@ -8,6 +8,7 @@ import {
   GRADE_CONFIG,
 } from 'lib/relics/scoring/scoringConstants'
 import type { ValidGrade } from 'lib/relics/scoring/scoringConstants'
+import { getEffectiveSubstatAccessors } from 'lib/relics/scoring/substatScoring'
 import type {
   FutureScoringResult,
   ScorerMetadata,
@@ -16,6 +17,7 @@ import {
   arrayToMap,
   stringArrayToMap,
 } from 'lib/utils/arrayUtils'
+import { precisionRound, truncate10ths } from 'lib/utils/mathUtils'
 import type {
   Relic,
   RelicSubstatMetadata,
@@ -32,7 +34,6 @@ export function computeFutureScores(
   const relicGrade = relic.grade as ValidGrade
   const grade = GRADE_CONFIG[relicGrade] ? relicGrade : 5
   const config = GRADE_CONFIG[grade]
-  const contributions = meta.contributions
   const part = relic.part
 
   // Inline mainStatWeight/deduction — avoids cross-module function calls per relic
@@ -53,6 +54,7 @@ export function computeFutureScores(
   }
 
   const mainStat = relic.main.stat
+  const { contribution, high, mid, low } = getEffectiveSubstatAccessors(meta, mainStat)
   const needsFill = allSubstats.length < 4
   // Only compute availableSubstats when needed — skips 238K filter+array allocations for 4-substat relics
   let availableSubstats: [SubStats, number][]
@@ -70,23 +72,18 @@ export function computeFutureScores(
   const remainingRolls = Math.ceil((config.maxEnhance - relic.enhance) / 3) - (4 - relic.substats.length)
 
   // ── Single-pass over existing substats: compute current, best, avg, worst raw scores ──
-  const highRollPotential = (stat: SubStats) => grade === 5
-    ? meta.highRollPotential[stat]
-    : SubStatValues[stat][grade].high * contributions[stat]
-  const lowRollPotential = (stat: SubStats) => grade === 5
-    ? meta.lowRollPotential[stat]
-    : SubStatValues[stat][grade].low * contributions[stat]
-
-  // Pre-compute grade-specific mid roll potential (grade 5 uses cached metadata, others compute on the fly)
-  let midRolls: Record<SubStats, number>
-  if (grade === 5) {
-    midRolls = meta.midRollPotential
-  } else {
-    midRolls = {} as Record<SubStats, number>
-    for (const [stat] of meta.sortedSubstats) {
-      midRolls[stat] = contributions[stat] * SubStatValues[stat][grade].mid
-    }
-  }
+  const highRollPotential = (stat: SubStats) =>
+    grade === 5
+      ? high(stat)
+      : SubStatValues[stat][grade].high * contribution(stat)
+  const lowRollPotential = (stat: SubStats) =>
+    grade === 5
+      ? low(stat)
+      : SubStatValues[stat][grade].low * contribution(stat)
+  const midRollPotential = (stat: SubStats) =>
+    grade === 5
+      ? mid(stat)
+      : SubStatValues[stat][grade].mid * contribution(stat)
 
   // ────────────────────────────────────────────────────────────────────────────
   // Single-pass accumulation: all scenario raw scores + reroll data in one loop.
@@ -99,9 +96,9 @@ export function computeFutureScores(
   // Initialize from first substat (avoids -Infinity sentinel checks per iteration)
   const sub0 = allSubstats[0]
   const stat0 = sub0.stat
-  const c0 = contributions[stat0]
+  const c0 = contribution(stat0)
   const vc0 = sub0.value * c0
-  const mr0 = midRolls[stat0]
+  const mr0 = midRollPotential(stat0)
 
   let baseRaw = vc0 // shared base for best + worst (forked after loop)
   let currentRaw = vc0 // only includes relic.substats (not preview)
@@ -118,9 +115,9 @@ export function computeFutureScores(
   for (let i = 1; i < allSubstats.length; i++) {
     const sub = allSubstats[i]
     const stat = sub.stat
-    const c = contributions[stat]
+    const c = contribution(stat)
     const vc = sub.value * c
-    const mr = midRolls[stat]
+    const mr = midRollPotential(stat)
 
     // ── Raw score accumulation ──
     if (i < subsLen) currentRaw += vc
@@ -151,7 +148,7 @@ export function computeFutureScores(
   let bestRaw = baseRaw
   let worstRaw = baseRaw
 
-  const current = Math.max(0, (currentRaw + deduction) * normFactor)
+  const current = truncate10ths(precisionRound(Math.max(0, (currentRaw + deduction) * normFactor)))
 
   // ── Fill missing substats (only for relics with < 4 substats) ──
   if (needsFill) {
@@ -175,7 +172,7 @@ export function computeFutureScores(
         minLowRollPotential = worstPotential
         worstUpgradeStat = worstStat
       }
-      const midPotential = midRolls[worstStat]
+      const midPotential = midRollPotential(worstStat)
       if (midPotential < minMidRollPotential) {
         minMidRollPotential = midPotential
         blockedUpgradeStat = worstStat
@@ -183,7 +180,7 @@ export function computeFutureScores(
     }
     // Average: mean mid-roll contribution of available stats
     let avgNewContrib = 0
-    for (const [stat] of availableSubstats) avgNewContrib += midRolls[stat]
+    for (const [stat] of availableSubstats) avgNewContrib += midRollPotential(stat)
     avgNewContrib /= availableSubstats.length
     avgRaw += (4 - allSubstats.length) * avgNewContrib * (1 + rollMidFactor)
   }
@@ -260,7 +257,7 @@ export function computeFutureScores(
     // rerollAvg  = Σ(midRoll_i × (1 + totalRolls/4)) = midRollSum × (1 + totalRolls/4)
     // blockerAvg = blockedMid × 1 + Σ_{non-blocked}(midRoll_i × (1 + totalRolls/3))
     //            = blockedMid + (midRollSum - blockedMid) × (1 + totalRolls/3)
-    const blockedMid = meta.midRollPotential[blockedStat]
+    const blockedMid = midRollPotential(blockedStat)
 
     rerollAvg = Math.min(midRollSum * (1 + totalRolls / 4), idealScore)
     rerollAvg = (rerollAvg + deduction) * normFactor

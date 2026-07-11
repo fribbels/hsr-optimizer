@@ -295,6 +295,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const healSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.HP_P],
@@ -361,6 +362,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.HP,
   parts: {
     [Parts.Body]: [
       Stats.HP_P,
@@ -400,7 +402,7 @@ const display = {
     y: 1050,
     z: 1.05,
   },
-  showcaseColor: '#13aaef',
+  showcaseColor: '#a6e3f1',
 }
 
 export const Lynx: CharacterConfig = {

@@ -4,23 +4,21 @@ import {
   TextInput,
 } from '@mantine/core'
 import { IconSearch } from '@tabler/icons-react'
-import {
-  AppPages,
-  PageToRoute,
-} from 'lib/constants/appPages'
 import { Message } from 'lib/interactions/message'
 import { Assets } from 'lib/rendering/assets'
-import { useGlobalStore } from 'lib/stores/app/appStore'
-import { ShowcaseScreen } from 'lib/tabs/tabShowcase/showcaseTabTypes'
+import {
+  AppPages,
+} from 'lib/tabs/navigation/constants'
+import { navigateTo } from 'lib/tabs/navigation/utils'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { ColorizedLinkWithIcon } from 'lib/ui/ColorizedLink'
+import classes from 'lib/ui/HeroHeader.module.css'
 import { validateUuid } from 'lib/utils/miscUtils'
 import { useRef } from 'react'
 import {
   Trans,
   useTranslation,
 } from 'react-i18next'
-import classes from './HeroHeader.module.css'
 
 export function HeroHeader() {
   const { t } = useTranslation('hometab')
@@ -64,9 +62,7 @@ function SearchBar() {
       return Message.warning(t('Message') /* 'Invalid input - This should be your 9 digit ingame UUID' */)
     }
 
-    window.history.pushState({}, '', `${PageToRoute[AppPages.SHOWCASE]}?id=${uuid}`)
-    useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loading)
-    useGlobalStore.getState().setActiveKey(AppPages.SHOWCASE)
+    navigateTo(AppPages.SHOWCASE, new URLSearchParams(`?id=${uuid}`))
   }
 
   return (

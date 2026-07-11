@@ -169,7 +169,7 @@ function TestIcon(props: { test: WebgpuTest }) {
 
 function RenderText(props: { text: string }) {
   return (
-    <div style={{ margin: '0', fontFamily: 'Segoe UI, Frutiger, Frutiger Linotype, Dejavu Sans, Helvetica Neue, Arial, sans-serif' }}>
+    <div style={{ margin: '0' }}>
       {props.text}
     </div>
   )

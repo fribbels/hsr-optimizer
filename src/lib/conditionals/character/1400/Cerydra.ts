@@ -1,3 +1,7 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   cyreneActionExists,
@@ -5,7 +9,6 @@ import {
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -48,11 +51,11 @@ import {
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_HEAL,
   SPREAD_RELICS_4P_HEAL,
 } from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   floorSafe,
@@ -386,6 +389,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.ATK_P],
     [Parts.Feet]: [Stats.ATK_P, Stats.SPD],
@@ -450,6 +454,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.25,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.ATK,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -473,6 +478,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.DOT],
   supportSimulation: supportSimulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -481,7 +487,7 @@ const display = {
     y: 933,
     z: 1.1,
   },
-  showcaseColor: '#5050ab',
+  showcaseColor: '#7687d6',
 }
 
 export const Cerydra: CharacterConfig = {

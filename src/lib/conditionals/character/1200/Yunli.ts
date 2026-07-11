@@ -35,10 +35,18 @@ import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Tingyun } from 'lib/conditionals/character/1200/Tingyun'
+import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
-import { DanceAtSunset } from 'lib/conditionals/lightcone/5star/DanceAtSunset'
+import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { MemoriesOfThePast } from 'lib/conditionals/lightcone/4star/MemoriesOfThePast'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { DanceAtSunset } from 'lib/conditionals/lightcone/5star/DanceAtSunset'
+import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
+import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import {
   AbilityKind,
@@ -309,6 +317,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -369,6 +378,29 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -414,6 +446,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.ULT, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -422,7 +455,7 @@ const display = {
     y: 1075,
     z: 1.1,
   },
-  showcaseColor: '#4fa2f8',
+  showcaseColor: '#b0c0e8',
 }
 
 export const Yunli: CharacterConfig = {

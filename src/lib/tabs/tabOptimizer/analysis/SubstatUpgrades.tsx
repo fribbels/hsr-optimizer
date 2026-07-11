@@ -9,6 +9,8 @@ import type { ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import { Assets } from 'lib/rendering/assets'
 import { calculateStatUpgrades } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
 import type { OptimizerResultAnalysis } from 'lib/tabs/tabOptimizer/analysis/expandedDataPanelController'
+import classes from 'lib/tabs/tabOptimizer/analysis/SubstatUpgrades.module.css'
+import tableClasses from 'lib/tabs/tabOptimizer/analysis/UpgradeTable.module.css'
 import {
   localeNumber_0,
   localeNumber_00,
@@ -16,8 +18,6 @@ import {
 import { truncate100ths } from 'lib/utils/mathUtils'
 import type { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import classes from './SubstatUpgrades.module.css'
-import tableClasses from './UpgradeTable.module.css'
 
 type Metrics = 'COMBO_DMG' | 'EHP'
 

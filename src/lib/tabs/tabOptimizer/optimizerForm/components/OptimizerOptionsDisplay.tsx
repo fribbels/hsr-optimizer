@@ -21,6 +21,7 @@ import {
 import type { RelicFilterFields } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/OptimizerOptionsDisplay.module.css'
 import {
   optimizerTabDefaultGap,
   panelWidth,
@@ -36,7 +37,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
-import classes from './OptimizerOptionsDisplay.module.css'
 
 function PriorityCombobox(props: {
   options: { value: string, label: string, characterId: string }[],

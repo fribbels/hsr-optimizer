@@ -12,7 +12,9 @@ import {
   OverlayText,
   ShowcaseSource,
 } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { CharacterCardCombatStats } from 'lib/characterPreview/scoring/CharacterCardCombatStats'
+import styles from 'lib/characterPreview/scoring/ShowcaseSimScore.module.css'
 import { StatText } from 'lib/characterPreview/StatText'
 import {
   useSimPreview,
@@ -24,20 +26,13 @@ import {
   SETTINGS_TEAM,
   type TeamSelection,
 } from 'lib/constants/constants'
-import { type SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { getConfirmModal } from 'lib/interactions/confirmModal'
 import { Message } from 'lib/interactions/message'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import type { CharacterModalForm } from 'lib/overlays/modals/characterModalStore'
 import { Assets } from 'lib/rendering/assets'
-import {
-  getSimScoreGrade,
-} from 'lib/scoring/dpsScore'
-import {
-  CONFIG_FIELD_MAP,
-  SCORING_CONFIG_REGISTRY,
-} from 'lib/scoring/scoringConfig'
-import { type PreparedState } from 'lib/scoring/scoringService'
+import { getSimScoreGrade } from 'lib/scoring/dpsScore'
+import { CONFIG_FIELD_MAP } from 'lib/scoring/scoringConfig'
 import { SaveState } from 'lib/state/saveState'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import {
@@ -48,22 +43,15 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
 import { localeNumber_0 } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
-import {
-  memo,
-  useState,
-} from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import teammateClasses from 'style/teammateCard.module.css'
-import {
-  type CharacterId,
-} from 'types/character'
+import type { CharacterId } from 'types/character'
 import {
   ScoringConfigType,
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
-import { type PreviewRelics } from '../characterPreviewController'
-import styles from './ShowcaseSimScore.module.css'
 
 export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
   characterId,
@@ -78,7 +66,7 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
   source: ShowcaseSource,
   configType?: ScoringConfigType,
 }) {
-  const readonly = source === ShowcaseSource.BUILDS_MODAL
+  const readonly = source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
 
   return (
@@ -96,34 +84,36 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
         ))}
       </div>
 
-      <ShowcaseTeamSelectPanel
-        characterId={characterId}
-        teamSelection={teamSelection}
-        readonly={readonly}
-        onClear={() => {
-          useScoringStore.getState().clearScoringConfigOverride(characterId, configType)
-        }}
-        onSync={() => {
-          const characterMetadata = getScoringMetadata(characterId)
-          const sim = characterMetadata[CONFIG_FIELD_MAP[configType]]
-          const update = {
-            teammates: sim?.teammates.map((t) => {
-              const form = getCharacterById(t.characterId)?.form
-              if (!form) return t
-              return {
-                ...t,
-                characterEidolon: form.characterEidolon,
-                lightCone: form.lightCone ?? t.lightCone,
-                lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
-              }
-            }),
-          }
-          useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
-        }}
-        onTeamChange={(team) => {
-          useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as TeamSelection)
-        }}
-      />
+      {source !== ShowcaseSource.LEADERBOARD && (
+        <ShowcaseTeamSelectPanel
+          characterId={characterId}
+          teamSelection={teamSelection}
+          readonly={readonly}
+          onClear={() => {
+            useScoringStore.getState().clearScoringConfigOverride(characterId, configType)
+          }}
+          onSync={() => {
+            const characterMetadata = getScoringMetadata(characterId)
+            const sim = characterMetadata[CONFIG_FIELD_MAP[configType]]
+            const update = {
+              teammates: sim?.teammates.map((t) => {
+                const form = getCharacterById(t.characterId)?.form
+                if (!form) return t
+                return {
+                  ...t,
+                  characterEidolon: form.characterEidolon,
+                  lightCone: form.lightCone ?? t.lightCone,
+                  lightConeSuperimposition: form.lightCone ? form.lightConeSuperimposition : t.lightConeSuperimposition,
+                }
+              }),
+            }
+            useScoringStore.getState().updateScoringConfigOverride(characterId, configType, update)
+          }}
+          onTeamChange={(team) => {
+            useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, team as TeamSelection)
+          }}
+        />
+      )}
     </div>
   )
 })
@@ -232,17 +222,12 @@ export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, t
 }) {
   const { t } = useTranslation(['charactersTab'])
 
-  const entry = SCORING_CONFIG_REGISTRY[configType]
   let titleRender: string
-  if (configType === ScoringConfigType.DPS && tempOptions?.spdBenchmark != null) {
-    titleRender = t('CharacterPreview.ScoreHeader.TitleBenchmark', { spd: formatSpd(tempOptions.spdBenchmark) })
-  } else if (tempOptions?.spdBenchmark != null) {
-    titleRender = `${entry.headerTitle} (SPD ${formatSpd(tempOptions.spdBenchmark)})`
+  if (tempOptions?.spdBenchmark != null) {
+    titleRender = t('CharacterPreview.ScoreHeader.CustomSpeed', { spd: formatSpd(tempOptions.spdBenchmark) })
   } else {
-    titleRender = entry.headerTitle
+    titleRender = t(`CharacterPreview.ScoreHeader.${configType}`)
   }
-
-  const isDps = configType === ScoringConfigType.DPS
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }} className={styles.scoreHeaderWrapper}>
@@ -259,12 +244,13 @@ function ShowcaseScoreHeaderReady({ relics, configType, t }: {
   configType: ScoringConfigType,
   t: TFunction<'charactersTab', undefined>,
 }) {
+  const { t: tCommon } = useTranslation('common')
   const result = useSimScore(configType)
 
   if (result === null) {
     return (
       <StatText className={styles.scoreHeaderText} style={{ filter: 'blur(2px)' }}>
-        Loading
+        {tCommon('Loading')}
       </StatText>
     )
   }

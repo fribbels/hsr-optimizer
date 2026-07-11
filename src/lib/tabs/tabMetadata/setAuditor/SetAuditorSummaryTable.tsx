@@ -1,15 +1,15 @@
 import { Flex } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
-import { useState } from 'react'
 import {
   FLAG_COLORS,
   formatParamCombo,
-} from './setAuditorConstants'
-import { SetAuditorDrillDown } from './SetAuditorDrillDown'
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorConstants'
+import { SetAuditorDrillDown } from 'lib/tabs/tabMetadata/setAuditor/SetAuditorDrillDown'
 import type {
   AuditorSetSummary,
   AuditorSetType,
-} from './setAuditorTypes'
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorTypes'
+import { useState } from 'react'
 
 const MATCHED_COLOR = 'rgba(80, 200, 80, 0.1)'
 
@@ -148,7 +148,7 @@ function SummaryRow(props: {
         <td style={{ padding: '4px 8px' }}>
           {summary.flag === 'red' ? '🔴' : summary.flag === 'yellow' ? '🟡' : ''}
         </td>
-        <td style={{ padding: '4px 8px', fontFamily: 'monospace', fontWeight: 600 }}>
+        <td style={{ padding: '4px 8px', fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>
           {summary.bestDelta === -Infinity
             ? '—'
             : `${summary.bestDelta >= 0 ? '+' : ''}${summary.bestDelta.toFixed(2)}%`}

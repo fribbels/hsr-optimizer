@@ -1,3 +1,7 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   cyreneActionExists,
@@ -5,7 +9,6 @@ import {
 } from 'lib/conditionals/character/1400/Cyrene'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
-import { ashblazingMulti, aoe } from 'lib/conditionals/ashblazingCompute'
 import {
   ASHBLAZING_ATK_STACK,
   NONE_TYPE,
@@ -24,8 +27,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   Parts,
@@ -333,6 +336,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.ATK_P],
     [Parts.Feet]: [Stats.SPD, Stats.ATK_P],
@@ -397,6 +401,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.25,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.ATK,
   parts: {
     [Parts.Body]: [
       Stats.ATK_P,
@@ -423,6 +428,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [],
   hiddenColumns: [SortOption.DOT, SortOption.SKILL],
   supportSimulation: supportSimulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -431,7 +437,7 @@ const display = {
     y: 1042,
     z: 1.1,
   },
-  showcaseColor: '#639480',
+  showcaseColor: '#b9e1de',
 }
 
 export const PermansorTerrae: CharacterConfig = {

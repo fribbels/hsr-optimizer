@@ -37,7 +37,6 @@
 .headerTitle {
   margin-top: 50px;
   font-size: 50px;
-  font-family: Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 700;
   color: white;
   text-shadow:
@@ -59,7 +58,6 @@
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .searchBarLabel {

@@ -17,7 +17,6 @@ import {
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
@@ -39,6 +38,7 @@ import {
 } from 'lib/scoring/dpsScore'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import {
+  applyHardBreakpoints,
   calculateMaxSubstatRollCounts,
   calculateMinSubstatRollCounts,
 } from 'lib/scoring/rollCounter'
@@ -88,11 +88,12 @@ import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { applyBasicSpeedTargetFlag } from 'lib/simulations/utils/benchmarkSpeedTargets'
 import type { SimpleCharacter } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
 import { precisionRound } from 'lib/utils/mathUtils'
-import { uuid } from 'lib/utils/miscUtils'
 import { clone } from 'lib/utils/objectUtils'
-import { computeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorker'
-import { runComputeOptimalSimulationWorker } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import {
+  defaultComputeOptimalSimulationSearchRunner,
+} from 'lib/worker/computeOptimalSimulationWorkerRunner'
 import type {
+  ComputeOptimalSimulationSearchRunner,
   ComputeOptimalSimulationWorkerInput,
   ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
@@ -107,6 +108,10 @@ import {
   type SimulationMetadata,
 } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
+
+type SimulationSearchOptions = {
+  scoreOnly?: boolean,
+}
 
 export function enrichSimulationMetadata(metadata: SimulationMetadata) {
   const substats: string[] = metadata.substats
@@ -160,6 +165,17 @@ export function enrichSimulationMetadata(metadata: SimulationMetadata) {
   }
 }
 
+function selectBestSimulation(candidates: Simulation[]): Simulation | undefined {
+  let best: Simulation | undefined
+  for (const candidate of candidates) {
+    if (!candidate.result) continue
+    if (!best?.result || candidate.result.simScore > best.result.simScore) {
+      best = candidate
+    }
+  }
+  return best
+}
+
 function calculateResRollsDeduction(
   simulationResult: RunStatSimulationsResult,
   flags: SimulationFlags,
@@ -203,10 +219,12 @@ export class BenchmarkSimulationOrchestrator {
   public benchmarkSimRequest?: SimulationRequest
   public benchmarkSimResult?: RunStatSimulationsResult
   public benchmarkSimCandidates?: Simulation[]
+  public benchmarkSimScore?: number
 
   public perfectionSimRequest?: SimulationRequest
   public perfectionSimResult?: RunStatSimulationsResult
   public perfectionSimCandidates?: Simulation[]
+  public perfectionSimScore?: number
 
   public substatUpgradeResults?: SimulationStatUpgrade[]
   public setUpgradeResults?: SimulationStatUpgrade[]
@@ -254,7 +272,7 @@ export class BenchmarkSimulationOrchestrator {
 
     const combatRes = this.originalSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
     const baselineRes = this.baselineSimResult!.x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX)
-    if (combatRes - baselineRes >= 0.30 || combatRes >= 1.00) {
+    if (combatRes - baselineRes >= 0.50 || combatRes >= 1.00) {
       this.flags.benchmarkBasicResTarget = Math.min(combatRes, 1.00)
     }
 
@@ -315,7 +333,7 @@ export class BenchmarkSimulationOrchestrator {
     this.candidateSetPool = buildCandidateSetPool(this.simSets!, this.originalSimRequest!)
   }
 
-  public setSimForm(form: SimpleCharacter, simulationMetadata: SimulationMetadata) {
+  public setSimForm(form: SimpleCharacter) {
     const metadata = this.metadata
     const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
 
@@ -490,7 +508,11 @@ export class BenchmarkSimulationOrchestrator {
     })
   }
 
-  public async calculateBenchmark(clonedContext: OptimizerContext) {
+  public async calculateBenchmark(
+    clonedContext: OptimizerContext,
+    searchRunner?: ComputeOptimalSimulationSearchRunner,
+    options: SimulationSearchOptions = {},
+  ) {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
@@ -499,8 +521,7 @@ export class BenchmarkSimulationOrchestrator {
 
     const partialSimulationWrappers = generatePartialSimulations(this)
 
-    const id = uuid()
-    console.time('===== Benchmark runner time ' + id)
+    const benchmarkStartMs = performance.now()
 
     const poolComboStates = this.poolComboStates
     const defaultTargetSpd = this.benchmarkCombatSpdTarget!
@@ -518,7 +539,12 @@ export class BenchmarkSimulationOrchestrator {
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const mainsCount = partialSimulationWrapper.simulation.request.simFeet == Stats.SPD ? 1 : 0
       const rolls = precisionRound(
-        invertDiminishingReturnsSpdFormula(mainsCount, targetSpd - finalSpeed, clonedBenchmarkScoringParams.speedRollValue, getDiminishingReturns(this.configType)),
+        invertDiminishingReturnsSpdFormula(
+          mainsCount,
+          targetSpd - finalSpeed,
+          clonedBenchmarkScoringParams.speedRollValue,
+          getDiminishingReturns(this.configType),
+        ),
         3,
       )
 
@@ -533,8 +559,11 @@ export class BenchmarkSimulationOrchestrator {
 
       partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedBenchmarkScoringParams.quality)
 
-      // Define min/max limits
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams, flags)
+      if (!applyHardBreakpoints(partialSimulationWrapper, simulationResult, metadata, clonedBenchmarkScoringParams)) {
+        return null
+      }
+
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedBenchmarkScoringParams)
       const maxSubstatRollCounts = calculateMaxSubstatRollCounts(
         partialSimulationWrapper,
         clonedBenchmarkScoringParams,
@@ -552,31 +581,42 @@ export class BenchmarkSimulationOrchestrator {
         inputMinSubstatRollCounts: minSubstatRollCounts,
         inputMaxSubstatRollCounts: maxSubstatRollCounts,
         simulationForm: form,
-        context: clonedContext,
+        context: searchRunner ? clonedContext : clone(clonedContext),
         metadata: metadata,
         scoringParams: clonedBenchmarkScoringParams,
         simulationFlags: flags,
         configType: this.configType,
       }
 
-      return globalThis.SEQUENTIAL_BENCHMARKS
-        ? computeOptimalSimulationWorker({ data: input } as MessageEvent<ComputeOptimalSimulationWorkerInput>)
-        : runComputeOptimalSimulationWorker(input)
+      return searchRunner
+        ? searchRunner(input, {
+          phase: 'benchmark',
+          configType: this.configType,
+          resultMode: options.scoreOnly ? 'scoreOnly' : 'full',
+        })
+        : defaultComputeOptimalSimulationSearchRunner(input)
     })
 
     const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationWorkerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
-    console.timeEnd('===== Benchmark runner time ' + id)
+    const benchmarkElapsedMs = performance.now() - benchmarkStartMs
+    console.log(`===== Benchmark: ${form.characterId} | ${partialSimulationWrappers.length} sims | ${(benchmarkElapsedMs / 1000).toFixed(1)}s`)
 
-    candidates.sort(simSorter)
-    const benchmarkSim = candidates[0]
+    let benchmarkSim = selectBestSimulation(candidates)
+    if (!options.scoreOnly) {
+      candidates.sort(simSorter)
+      benchmarkSim = candidates[0]
+    }
 
     if (!benchmarkSim) {
       throw new Error(`Benchmark produced no valid candidates (${runnerResults.length} runners, ${candidates.length} candidates)`)
     }
 
-    this.benchmarkSimCandidates = candidates
-    this.benchmarkSimResult = cloneWorkerResult(benchmarkSim.result!)
+    this.benchmarkSimCandidates = options.scoreOnly ? [benchmarkSim] : candidates
+    this.benchmarkSimScore = benchmarkSim.result!.simScore
+    this.benchmarkSimResult = options.scoreOnly
+      ? undefined
+      : cloneWorkerResult(benchmarkSim.result!)
     this.benchmarkSimRequest = benchmarkSim.request
 
     if (poolComboStates) {
@@ -585,7 +625,11 @@ export class BenchmarkSimulationOrchestrator {
     }
   }
 
-  public async calculatePerfection(clonedContext: OptimizerContext) {
+  public async calculatePerfection(
+    clonedContext: OptimizerContext,
+    searchRunner?: ComputeOptimalSimulationSearchRunner,
+    options: SimulationSearchOptions = {},
+  ) {
     const form = this.form!
     const context = this.context!
     const metadata = this.metadata
@@ -597,8 +641,7 @@ export class BenchmarkSimulationOrchestrator {
     const defaultTargetSpd = this.benchmarkCombatSpdTarget!
     const defaultFlags = this.flags
 
-    const id = uuid()
-    console.time('===== Perfection runner time ' + id)
+    const perfectionStartMs = performance.now()
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
       const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
@@ -623,7 +666,7 @@ export class BenchmarkSimulationOrchestrator {
       partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedPerfectionScoringParams.quality)
 
       // Define min/max limits
-      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams, flags)
+      const minSubstatRollCounts = calculateMinSubstatRollCounts(partialSimulationWrapper, clonedPerfectionScoringParams)
       const maxSubstatRollCounts = calculateMaxSubstatRollCounts(
         partialSimulationWrapper,
         clonedPerfectionScoringParams,
@@ -641,31 +684,42 @@ export class BenchmarkSimulationOrchestrator {
         inputMinSubstatRollCounts: minSubstatRollCounts,
         inputMaxSubstatRollCounts: maxSubstatRollCounts,
         simulationForm: form,
-        context: clonedContext,
+        context: searchRunner ? clonedContext : clone(clonedContext),
         metadata: metadata,
         scoringParams: clonedPerfectionScoringParams,
         simulationFlags: flags,
         configType: this.configType,
       }
 
-      return globalThis.SEQUENTIAL_BENCHMARKS
-        ? computeOptimalSimulationWorker({ data: input } as MessageEvent<ComputeOptimalSimulationWorkerInput>)
-        : runComputeOptimalSimulationWorker(input)
+      return searchRunner
+        ? searchRunner(input, {
+          phase: 'perfection',
+          configType: this.configType,
+          resultMode: options.scoreOnly ? 'scoreOnly' : 'full',
+        })
+        : defaultComputeOptimalSimulationSearchRunner(input)
     })
 
     const runnerResults = await Promise.all(runnerPromises) as unknown as ComputeOptimalSimulationWorkerOutput[]
     const candidates = runnerResults.filter((r) => r?.simulation).map((r) => r.simulation!)
-    console.timeEnd('===== Perfection runner time ' + id)
+    const perfectionElapsedMs = performance.now() - perfectionStartMs
+    console.log(`===== Perfection: ${form.characterId} | ${partialSimulationWrappers.length} sims | ${(perfectionElapsedMs / 1000).toFixed(1)}s`)
 
-    candidates.sort(simSorter)
-    const perfectionSim = candidates[0]
+    let perfectionSim = selectBestSimulation(candidates)
+    if (!options.scoreOnly) {
+      candidates.sort(simSorter)
+      perfectionSim = candidates[0]
+    }
 
     if (!perfectionSim) {
       throw new Error(`Perfection produced no valid candidates (${runnerResults.length} runners, ${candidates.length} candidates)`)
     }
 
-    this.perfectionSimCandidates = candidates
-    this.perfectionSimResult = cloneWorkerResult(perfectionSim.result!)
+    this.perfectionSimCandidates = options.scoreOnly ? [perfectionSim] : candidates
+    this.perfectionSimScore = perfectionSim.result!.simScore
+    this.perfectionSimResult = options.scoreOnly
+      ? undefined
+      : cloneWorkerResult(perfectionSim.result!)
     this.perfectionSimRequest = perfectionSim.request
   }
 
@@ -673,15 +727,13 @@ export class BenchmarkSimulationOrchestrator {
     const metadata = this.metadata
     const originalSimResult = this.originalSimResult!
     const baselineSimResult = this.baselineSimResult!
-    const benchmarkSimResult = this.benchmarkSimResult!
-    const perfectionSimResult = this.perfectionSimResult!
 
     applyScoringFunction(baselineSimResult, metadata, true, false, this.context!, this.configType)
     applyScoringFunction(originalSimResult, metadata, true, true, this.context!, this.configType)
 
-    const benchmarkSimScore = benchmarkSimResult.simScore
+    const benchmarkSimScore = this.benchmarkSimScore!
     const originalSimScore = originalSimResult.simScore
-    const perfectionSimScore = perfectionSimResult.simScore
+    const perfectionSimScore = this.perfectionSimScore!
 
     const baselineSimScore = baselineSimResult.simScore
 
@@ -700,9 +752,9 @@ export class BenchmarkSimulationOrchestrator {
       this.metadata,
       this.flags,
       benchmarkScoringParams,
-      this.benchmarkBaselineScore ?? this.baselineSimResult!.simScore,
-      this.benchmarkSimResult!.simScore,
-      this.perfectionSimResult!.simScore,
+      this.benchmarkBaselineScore!,
+      this.benchmarkSimScore!,
+      this.perfectionSimScore!,
       this.configType,
     )
 
@@ -741,9 +793,9 @@ export class BenchmarkSimulationOrchestrator {
       maximumSimResult: this.perfectionSimResult!,
 
       originalSimScore: this.originalSimResult!.simScore,
-      baselineSimScore: this.benchmarkBaselineScore ?? this.baselineSimResult!.simScore,
-      benchmarkSimScore: this.benchmarkSimResult!.simScore,
-      maximumSimScore: Math.max(this.perfectionSimResult!.simScore, this.benchmarkSimResult!.simScore),
+      baselineSimScore: this.benchmarkBaselineScore!,
+      benchmarkSimScore: this.benchmarkSimScore!,
+      maximumSimScore: Math.max(this.perfectionSimScore!, this.benchmarkSimScore!),
 
       substatUpgrades: this.substatUpgradeResults!,
       setUpgrades: this.setUpgradeResults!,

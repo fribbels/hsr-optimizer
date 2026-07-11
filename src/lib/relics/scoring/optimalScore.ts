@@ -8,10 +8,11 @@ import type {
   Parts,
   StatsValues,
 } from 'lib/constants/constants'
+import { POSSIBLE_SUBSTATS } from 'lib/relics/scoring/scoringConstants'
 import {
-  POSSIBLE_SUBSTATS,
-} from 'lib/relics/scoring/scoringConstants'
-import { hasMainStat } from 'lib/relics/scoring/substatScoring'
+  getEffectiveSubstatAccessors,
+  hasMainStat,
+} from 'lib/relics/scoring/substatScoring'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
 
 export enum ScoringCase {
@@ -48,6 +49,8 @@ export function getHandlingCase(meta: ScorerMetadata): ScoringCase {
 export function computeOptimalScore(part: Parts, mainstat: MainStats, meta: ScorerMetadata): number {
   const handlingCase = getHandlingCase(meta)
 
+  const { high } = getEffectiveSubstatAccessors(meta, mainstat)
+
   switch (handlingCase) {
     case ScoringCase.NONE:
       return Infinity
@@ -57,26 +60,28 @@ export function computeOptimalScore(part: Parts, mainstat: MainStats, meta: Scor
     case ScoringCase.DEF: {
       const stat1 = meta.sortedSubstats[0][0]
       const stat2 = meta.sortedSubstats[1][0]
-      if (
-        part === Constants.Parts.Head && handlingCase === ScoringCase.HP
-        || part === Constants.Parts.Hands && handlingCase === ScoringCase.ATK
-      ) {
-        return 6 * meta.highRollPotential[stat1]
-      }
-      return 6 * meta.highRollPotential[stat1] + meta.highRollPotential[stat2]
+      const stat1Blocked = stat1 === mainstat
+      const stat2Blocked = stat2 === mainstat
+      if (stat1Blocked && stat2Blocked) return Infinity
+      if (stat1Blocked) return 6 * high(stat2)
+      if (stat2Blocked) return 6 * high(stat1)
+      return 6 * high(stat1) + high(stat2)
     }
 
     case ScoringCase.SINGLE_STAT: {
-      return 6 * meta.highRollPotential[meta.sortedSubstats[0][0]]
+      const stat = meta.sortedSubstats[0][0]
+      if (stat === mainstat) return Infinity
+      return 6 * high(stat)
     }
 
     case ScoringCase.NORMAL: {
       const mainStat = resolveOptimalMainstat(part, mainstat, meta)
-      const top4 = meta.sortedSubstats.filter(([name]) => name !== mainStat).slice(0, 4)
-      return 6 * meta.highRollPotential[top4[0][0]]
-        + meta.highRollPotential[top4[1][0]]
-        + meta.highRollPotential[top4[2][0]]
-        + meta.highRollPotential[top4[3][0]]
+      const { high } = getEffectiveSubstatAccessors(meta, mainStat)
+      const filtered = meta.sortedSubstats.filter(([name]) => name !== mainStat)
+      const effective = filtered
+        .map(([name]) => high(name))
+        .sort((a, b) => b - a)
+      return 6 * effective[0] + effective[1] + effective[2] + effective[3]
     }
   }
 }

@@ -1,7 +1,10 @@
+import {
+  ashblazingMulti,
+  single,
+} from 'lib/conditionals/ashblazingCompute'
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
-import { ashblazingMulti, single } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -202,6 +205,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -316,7 +320,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#a5b8c7',
+  showcaseColor: '#d0d9df',
 }
 
 export const DanHeng: CharacterConfig = {

@@ -3,25 +3,38 @@ import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 const MAX_STACKS = 8
 const ENEMY_COUNTS = [1, 3, 5] as const
 
-type TargetType = 'single' | 'aoe' | 'blast'
+type TargetType = 'single' | 'aoe' | 'blast' | 'bounce' | 'outer'
 
-export interface AshblazingHit {
-  targetType: TargetType
-  weight: number
-}
+export type AshblazingHit =
+  | { targetType: 'single' | 'aoe' | 'blast'; weight: number }
+  | { targetType: 'bounce'; weight: number; bounceCount: number }
+  | { targetType: 'outer' }
 
 export type AshblazingMultiFn = (context: { enemyCount: number }) => number
 
+// _ _ 1 _ _
 export function single(weight: number): AshblazingHit {
   return { targetType: 'single', weight }
 }
 
+// 1 2 3 4 5
 export function aoe(weight: number): AshblazingHit {
   return { targetType: 'aoe', weight }
 }
 
+// _ 1 2 3 _
 export function blast(weight: number): AshblazingHit {
   return { targetType: 'blast', weight }
+}
+
+// random target per bounce, weighted by 1/enemyCount
+export function bounce(weight: number, count: number): AshblazingHit {
+  return { targetType: 'bounce', weight, bounceCount: count }
+}
+
+// 1 2 _ 3 4
+export function outer(): AshblazingHit {
+  return { targetType: 'outer' }
 }
 
 function getTargetsHit(targetType: TargetType, enemyCount: number): number {
@@ -32,43 +45,48 @@ function getTargetsHit(targetType: TargetType, enemyCount: number): number {
       return enemyCount
     case 'blast':
       return Math.min(3, enemyCount)
+    case 'outer':
+      return Math.max(0, enemyCount - 1)
+    case 'bounce':
+      return 1
   }
-}
-
-function normalizeWeights(hits: AshblazingHit[]): AshblazingHit[] {
-  const totalWeight = hits.reduce((sum, hit) => sum + hit.weight, 0)
-
-  if (Math.abs(totalWeight - 1.0) < 1e-6) {
-    return hits
-  }
-
-  return hits.map((hit) => ({
-    targetType: hit.targetType,
-    weight: hit.weight / totalWeight,
-  }))
 }
 
 function computeForEnemyCount(hits: AshblazingHit[], enemyCount: number): number {
-  const firstHitTargets = getTargetsHit(hits[0].targetType, enemyCount)
-  let stacks = Math.ceil(firstHitTargets / 2)
-  let weightedStackTotal = 0
+  let stacks = Math.ceil(getTargetsHit(hits[0].targetType, enemyCount) / 2)
+  let totalContrib = 0
+  let totalWeight = 0
 
   for (const hit of hits) {
-    weightedStackTotal += stacks * hit.weight
+    if (hit.targetType === 'outer') {
+      stacks = Math.min(MAX_STACKS, stacks + Math.max(0, enemyCount - 1))
+      continue
+    }
 
-    const stackGrowth = getTargetsHit(hit.targetType, enemyCount)
-    stacks = Math.min(MAX_STACKS, stacks + stackGrowth)
+    if (hit.targetType === 'bounce') {
+      const perBounceWeight = hit.weight / enemyCount
+      for (let i = 0; i < hit.bounceCount; i++) {
+        totalContrib += stacks * perBounceWeight
+        totalWeight += perBounceWeight
+        stacks = Math.min(MAX_STACKS, stacks + 1)
+      }
+      continue
+    }
+
+    totalContrib += stacks * hit.weight
+    totalWeight += hit.weight
+    stacks = Math.min(MAX_STACKS, stacks + getTargetsHit(hit.targetType, enemyCount))
   }
 
-  return ASHBLAZING_ATK_STACK * weightedStackTotal
+  if (totalWeight === 0) return 0
+  return ASHBLAZING_ATK_STACK * totalContrib / totalWeight
 }
 
 export function ashblazingMulti(hits: AshblazingHit[]): AshblazingMultiFn {
-  const normalizedHits = normalizeWeights(hits)
   const hitMultiByEnemyCount: Record<number, number> = {}
 
   for (const enemyCount of ENEMY_COUNTS) {
-    hitMultiByEnemyCount[enemyCount] = computeForEnemyCount(normalizedHits, enemyCount)
+    hitMultiByEnemyCount[enemyCount] = computeForEnemyCount(hits, enemyCount)
   }
 
   return (context) => hitMultiByEnemyCount[context.enemyCount]

@@ -1,11 +1,15 @@
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { BlackSwanB1 } from 'lib/conditionals/character/1300/BlackSwanB1'
 import {
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -17,10 +21,11 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
-import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { WhyDoesTheOceanSing } from 'lib/conditionals/lightcone/5star/WhyDoesTheOceanSing'
 import {
   Parts,
   Sets,
@@ -388,6 +393,7 @@ if (${wgslTrue(r.ehrToDmg)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.EHR,
@@ -412,9 +418,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.CR,
     Stats.CD,
   ],
-  breakpoints: {
-    [Stats.EHR]: 1.20,
-  },
+  hardBreakpoints: [
+    { stat: Stats.EHR, threshold: 1.20 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -453,6 +459,15 @@ const simulation = (): SimulationMetadata => ({
       lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: KafkaB1.id, lightCones: [PatienceIsAllYouNeed.id] },
+        { characterId: BlackSwanB1.id, lightCones: [ReforgedRemembrance.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
     },
   ],
 })
@@ -500,6 +515,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.DOT,
   hiddenColumns: [SortOption.FUA],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -508,7 +524,7 @@ const display = {
     y: 878,
     z: 1.2,
   },
-  showcaseColor: '#a08bf4',
+  showcaseColor: '#a9aeff',
 }
 
 export const Hysilens: CharacterConfig = {

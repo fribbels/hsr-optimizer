@@ -14,6 +14,7 @@ import {
   importerTabButtonWidth,
   importerTabSpinnerMs,
 } from 'lib/tabs/tabImport/importerTabUiConstants'
+import classes from 'lib/tabs/tabImport/LoadDataSubmenu.module.css'
 import {
   useRef,
   useState,
@@ -21,7 +22,6 @@ import {
 import type { RefObject } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { HsrOptimizerSaveFormat } from 'types/store'
-import classes from './LoadDataSubmenu.module.css'
 
 enum Stages {
   LOAD_FILE = 0,

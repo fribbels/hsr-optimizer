@@ -287,6 +287,11 @@ Lightcones:
         text: crwdns40310:0crwdne40310:0
         content: >-
           crwdns43992:0{{Multiplier}}crwdne43992:0
+  ReforgedInHellfire:
+    Content:
+      purgatoryState:
+        text: crwdns47415:0crwdne47415:0
+        content: crwdns47417:0{{cdBuff}}crwdnd47417:0{{cdBuff}}crwdne47417:0
   ReforgedRemembrance:
     Content:
       prophetStacks:
@@ -1075,27 +1080,6 @@ Characters:
       e4SkillHealingDmgBuffStacks:
         text: crwdns40730:0crwdne40730:0
         content: crwdns44306:0crwdne44306:0
-  BlackSwan:
-    Content:
-      ehrToDmgBoost:
-        text: crwdns40734:0crwdne40734:0
-        content: crwdns40736:0crwdne40736:0
-      epiphanyDebuff:
-        text: crwdns40738:0crwdne40738:0
-        content: crwdns40740:0{{epiphanyDmgTakenBoost}}crwdne40740:0
-      defDecreaseDebuff:
-        text: crwdns40742:0crwdne40742:0
-        content: crwdns44090:0{{defShredValue}}crwdne44090:0
-      arcanaStacks:
-        text: crwdns40746:0crwdne40746:0
-        content: >-
-          crwdns40748:0{{dotScaling}}crwdnd40748:0{{arcanaStackMultiplier}}crwdnd40748:0:BR:crwdne40748:0
-      e1ResReduction:
-        text: crwdns40750:0crwdne40750:0
-        content: crwdns44308:0crwdne44308:0
-      e4EffResPen:
-        text: crwdns43698:0crwdne43698:0
-        content: crwdns44310:0crwdne44310:0
   BlackSwanB1:
     Content:
       skillDefShred:
@@ -1121,17 +1105,6 @@ Characters:
       combatEhr:
         text: crwdns46422:0crwdne46422:0
         content: crwdns46424:0crwdne46424:0
-  Blade:
-    Content:
-      enhancedStateActive:
-        text: crwdns40754:0crwdne40754:0
-        content: 'crwdns44094:0{{enhancedStateDmgBoost}}crwdnd44094:0:BR:crwdnd44094:0:E2:crwdne44094:0'
-      hpPercentLostTotal:
-        text: crwdns40758:0crwdne40758:0
-        content: crwdns40760:0{{hpPercentLostTotalMax}}crwdne40760:0
-      e4MaxHpIncreaseStacks:
-        text: crwdns40762:0crwdne40762:0
-        content: crwdns44312:0crwdne44312:0
   BladeB1:
     Content:
       enhancedStateActive:
@@ -1484,34 +1457,6 @@ Characters:
         text: crwdns40882:0crwdne40882:0
         content: >-
           crwdns44122:0crwdne44122:0
-  Firefly:
-    Content:
-      enhancedStateActive:
-        text: crwdns40886:0crwdne40886:0
-        content: crwdns40888:0crwdne40888:0
-      enhancedStateSpdBuff:
-        text: crwdns40890:0crwdne40890:0
-        content: crwdns40892:0{{ultSpdBuff}}crwdne40892:0
-      superBreakDmg:
-        text: crwdns40894:0crwdne40894:0
-        content: >-
-          crwdns40896:0crwdne40896:0
-      atkToBeConversion:
-        text: crwdns40898:0crwdne40898:0
-        content: crwdns44124:0crwdne44124:0
-      talentDmgReductionBuff:
-        text: crwdns40902:0crwdne40902:0
-        content: >-
-          crwdns40904:0{{talentDmgReductionBuff}}crwdnd40904:0{{talentResBuff}}crwdne40904:0
-      e1DefShred:
-        text: crwdns40906:0crwdne40906:0
-        content: crwdns40908:0crwdne40908:0
-      e4ResBuff:
-        text: crwdns40910:0crwdne40910:0
-        content: crwdns40912:0crwdne40912:0
-      e6Buffs:
-        text: crwdns40914:0crwdne40914:0
-        content: crwdns40916:0crwdne40916:0
   FireflyB1:
     Content:
       enhancedStateActive:
@@ -1700,17 +1645,6 @@ Characters:
         text: crwdns41086:0crwdne41086:0
         content: >-
           crwdns44142:0{{targetBurnedExtraScaling}}crwdnd44142:0:BR:crwdnd44142:0:E6:crwdne44142:0
-  Huohuo:
-    Content:
-      ultBuff:
-        text: crwdns41090:0crwdne41090:0
-        content: crwdns41092:0{{ultBuffValue}}crwdne41092:0
-      skillBuff:
-        text: crwdns41094:0crwdne41094:0
-        content: crwdns44350:0crwdne44350:0
-      e6DmgBuff:
-        text: crwdns41098:0crwdne41098:0
-        content: crwdns44352:0crwdne44352:0
   HuohuoB1:
     Content:
       ultBuff:
@@ -1854,22 +1788,6 @@ Characters:
       e6ResShred:
         text: crwdns41166:0crwdne41166:0
         content: crwdns44368:0crwdne44368:0
-  Jingliu:
-    Content:
-      talentEnhancedState:
-        text: crwdns41170:0crwdne41170:0
-        content: >-
-          crwdns41172:0{{talentCrBuff}}crwdne41172:0
-      talentHpDrainAtkBuff:
-        text: crwdns41174:0crwdne41174:0
-        content: >-
-          crwdns41176:0{{talentHpDrainAtkBuffMax}}crwdne41176:0
-      e1CdBuff:
-        text: crwdns41178:0crwdne41178:0
-        content: crwdns44370:0crwdne44370:0
-      e2SkillDmgBuff:
-        text: crwdns41182:0crwdne41182:0
-        content: crwdns44372:0crwdne44372:0
   JingliuB1:
     Content:
       talentEnhancedState:
@@ -1911,14 +1829,6 @@ Characters:
       e6FuaVulnerabilityStacks:
         text: crwdns41202:0crwdne41202:0
         content: crwdns44376:0crwdne44376:0
-  Kafka:
-    Content:
-      e1DotDmgReceivedDebuff:
-        text: crwdns41206:0crwdne41206:0
-        content: crwdns44378:0crwdne44378:0
-      e2TeamDotBoost:
-        text: crwdns41210:0crwdne41210:0
-        content: crwdns44380:0crwdne44380:0
   KafkaB1:
     Content:
       ehrBasedBuff:
@@ -2030,6 +1940,27 @@ Characters:
       e6UltDmgBoost:
         text: crwdns41318:0crwdne41318:0
         content: crwdns44402:0crwdne44402:0
+  MortenaxBlade:
+    Content:
+      infiniteFuryActive:
+        text: crwdns47419:0crwdne47419:0
+        content: crwdns47421:0{{cdBuff}}crwdne47421:0
+      ultZone:
+        text: crwdns47423:0crwdne47423:0
+        content: >-
+          crwdns47425:0:BR:crwdnd47425:0:BR:crwdne47425:0
+      e1ResPen:
+        text: crwdns47427:0crwdne47427:0
+        content: crwdns47429:0crwdne47429:0
+      e2FuaDmgBoost:
+        text: crwdns47431:0crwdne47431:0
+        content: crwdns47433:0crwdne47433:0
+      e4DmgBoost:
+        text: crwdns47435:0crwdne47435:0
+        content: crwdns47437:0crwdne47437:0
+      e6EnhancedUlt:
+        text: crwdns47439:0crwdne47439:0
+        content: crwdns47441:0crwdne47441:0
   Moze:
     Content:
       preyMark:
@@ -2297,21 +2228,6 @@ Characters:
       targetWindShear:
         text: crwdns41476:0crwdne41476:0
         content: crwdns41478:0crwdne41478:0
-  Seele:
-    Content:
-      buffedState:
-        text: crwdns41480:0crwdne41480:0
-        content: >-
-          crwdns44230:0{{buffedStateDmgBuff}}crwdnd44230:0:BR:crwdne44230:0
-      speedBoostStacks:
-        text: crwdns41484:0crwdne41484:0
-        content: "crwdns44464:0:BR:crwdnd44464:0:E2:crwdne44464:0"
-      e1EnemyHp80CrBoost:
-        text: crwdns41488:0crwdne41488:0
-        content: crwdns44412:0crwdne44412:0
-      e6UltTargetDebuff:
-        text: crwdns41492:0crwdne41492:0
-        content: crwdns44414:0crwdne44414:0
   SeeleB1:
     Content:
       buffedState:
@@ -2338,26 +2254,6 @@ Characters:
       enemyDefeatedBuff:
         text: crwdns41500:0crwdne41500:0
         content: crwdns44236:0crwdne44236:0
-  SilverWolf:
-    Content:
-      skillResShredDebuff:
-        text: crwdns41504:0crwdne41504:0
-        content: >-
-          crwdns44238:0{{skillResShredValue}}crwdnd44238:0:BR:crwdne44238:0
-      skillWeaknessResShredDebuff:
-        text: crwdns41508:0crwdne41508:0
-        content: >-
-          crwdns44462:0{{implantChance}}crwdne44462:0
-      talentDefShredDebuff:
-        text: crwdns41512:0crwdne41512:0
-        content: crwdns44242:0{{talentDefShredDebuffValue}}crwdne44242:0
-      ultDefShredDebuff:
-        text: crwdns41516:0crwdne41516:0
-        content: crwdns44244:0{{ultDefShredValue}}crwdne44244:0
-      targetDebuffs:
-        text: crwdns41520:0crwdne41520:0
-        content: >-
-          crwdns44246:0:BR:crwdnd44246:0:E4:crwdnd44246:0:BR:crwdnd44246:0:E6:crwdne44246:0
   SilverWolfB1:
     Content:
       ehrToAtkConversion:
@@ -2419,27 +2315,6 @@ Characters:
         text: crwdns46946:0crwdne46946:0
         content: >-
           crwdns46948:0crwdne46948:0
-  Sparkle:
-    Content:
-      skillCdBuff:
-        text: crwdns41524:0crwdne41524:0
-        content: >-
-          crwdns44248:0{{skillCdBuffScaling}}crwdnd44248:0{{skillCdBuffBase}}crwdnd44248:0:BR:crwdnd44248:0:E6:crwdne44248:0
-      cipherBuff:
-        text: crwdns41528:0crwdne41528:0
-        content: >-
-          crwdns41530:0{{cipherTalentStackBoost}}crwdnd41530:0:BR:crwdnd41530:0:E1:crwdne41530:0
-      talentStacks:
-        text: crwdns41532:0crwdne41532:0
-        content: >-
-          crwdns44250:0{{talentBaseStackBoost}}crwdnd44250:0:BR:crwdnd44250:0:E2:crwdne44250:0
-      quantumAlliesAtkBuff:
-        text: crwdns44788:0crwdne44788:0
-        content: crwdns44790:0crwdne44790:0
-    TeammateContent:
-      teammateCDValue:
-        text: crwdns41540:0crwdne41540:0
-        content: crwdns44252:0{{skillCdBuffScaling}}crwdnd44252:0{{skillCdBuffBase}}crwdne44252:0
   SparkleB1:
     Content:
       skillBuffs:
@@ -2792,21 +2667,6 @@ Characters:
       e6FuaScaling:
         text: crwdns44650:0crwdne44650:0
         content: crwdns44652:0crwdne44652:0
-  Welt:
-    Content:
-      enemyDmgTakenDebuff:
-        text: crwdns41672:0crwdne41672:0
-        content: crwdns44276:0crwdne44276:0
-      enemySlowed:
-        text: crwdns41676:0crwdne41676:0
-        content: crwdns41678:0{{talentScaling}}crwdne41678:0
-      skillExtraHits:
-        text: crwdns41680:0crwdne41680:0
-        content: >-
-          crwdns41682:0{{skillScaling}}crwdnd41682:0{{skillScaling}}crwdne41682:0
-      e1EnhancedState:
-        text: crwdns41684:0crwdne41684:0
-        content: crwdns44432:0crwdne44432:0
   WeltB1:
     Content:
       enemySlowed:

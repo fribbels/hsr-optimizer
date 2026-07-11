@@ -74,6 +74,7 @@ A letter grade is assigned from the relic's current potential percent in 5% step
 75% = SSS+
 80% = WTF
 85% = WTF+
+90% = AEON
 ```
 
 Character scores are calculated as the average of the six equipped relic potential percentages.

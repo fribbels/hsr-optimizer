@@ -80,20 +80,19 @@ CharacterPreview:
     SavedPortrait: 일러스트를 저장했습니다.
     RevertedPortrait: 일러스트를 초기화했습니다.
     NoSelectedCharacter: 선택된 캐릭터가 없습니다.
-  ScoreHeader:
-    Title: 전투 시뮬레이션
-    TitleBenchmark: '{{spd}} 속도 벤치마크'
-    Score: 'DPS 점수 {{score}}% {{grade}}'
+  RulerLabel:
+    dps: 데미지
+    heal: 치유량
+    shield: 실드량
+  ComboLabel:
+    dps: 사이클 총 피해량
   AlgorithmSlider:
     Labels:
-      CombatScore: 전투 점수
-      CombatScoreTBD: 전투 (TBD)
       StatScore: 부옵 수
       NoneScore: 없음
   DetailsSlider:
     Labels:
       CombatStats: 전투 스탯
-      SubDpsCombatStats: 전투 스텟 (보조 DPS)
   DMGUpgrades: 피해량 강화
   SubstatUpgradeComparisons:
     Header: 부옵 강화 비교

@@ -1,11 +1,13 @@
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { Cerydra } from 'lib/conditionals/character/1400/Cerydra'
 import {
   Cyrene,
   cyreneActionExists,
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
+import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -14,10 +16,13 @@ import {
   teamHasSustain,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
+import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
-import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
+import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import {
   Parts,
   Sets,
@@ -40,6 +45,7 @@ import {
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -400,6 +406,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -446,8 +453,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: SparkleB1.id,
+      lightCone: DanceDanceDance.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -458,10 +465,54 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Cyrene.id,
-      lightCone: ThisLoveForever.id,
+      characterId: Sunday.id,
+      lightCone: AGroundedAscent.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: SparkleB1.id, lightCones: [SparkleB1.defaultLightCone, DanceDanceDance.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: SparkleB1.id, lightCones: [SparkleB1.defaultLightCone, DanceDanceDance.id] },
+      ],
     },
   ],
 })
@@ -507,6 +558,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.SKILL,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -520,7 +572,7 @@ const display = {
     y: 993,
     z: 1.25,
   },
-  showcaseColor: '#7790d4',
+  showcaseColor: '#b1cef2',
 }
 
 export const Phainon: CharacterConfig = {

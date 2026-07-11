@@ -1,4 +1,4 @@
-function sortKeys(val: unknown): unknown {
+export function sortKeys(val: unknown): unknown {
   if (val === null || typeof val !== 'object') return val
   if (Array.isArray(val)) return val.map(sortKeys)
   const obj = val as Record<string, unknown>
@@ -23,10 +23,10 @@ export function objectHash<T>(obj: T): string {
 }
 
 /** Swap keys and values in a string→string mapping. */
-export function flipStringMapping(obj: Record<string, string>): Record<string, string> {
+export function flipStringMapping<T extends Record<PropertyKey, PropertyKey>>(obj: T) {
   return Object.fromEntries(
     Object.entries(obj).map(([key, value]) => [value, key]),
-  )
+  ) as { [Key in keyof T as T[Key]]: Key }
 }
 
 /**

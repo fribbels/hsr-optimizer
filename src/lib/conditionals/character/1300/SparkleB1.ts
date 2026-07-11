@@ -1,5 +1,4 @@
 import { Archer } from 'lib/conditionals/character/1000/Archer'
-import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import type {
   Mutual,
@@ -15,9 +14,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
-import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import {
   ConditionalActivation,
@@ -46,6 +43,8 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { RinTohsaka } from 'lib/conditionals/character/1500/RinTohsaka'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -317,6 +316,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.CD],
     [Parts.Feet]: [Stats.SPD],
@@ -351,14 +351,14 @@ const supportSimulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: RinTohsaka.id,
+      lightCone: RinTohsaka.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Hyacine.id,
-      lightCone: MayRainbowsRemainInTheSky.id,
+      characterId: HuohuoB1.id,
+      lightCone: HuohuoB1.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -404,6 +404,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   supportSimulation: supportSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -412,7 +413,7 @@ const display = {
     y: 1050,
     z: 1,
   },
-  showcaseColor: '#3f62bf',
+  showcaseColor: '#8896e3',
 }
 
 export const SparkleB1: CharacterConfig = {

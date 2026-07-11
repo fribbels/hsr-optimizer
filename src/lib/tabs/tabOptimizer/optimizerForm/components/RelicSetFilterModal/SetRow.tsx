@@ -4,13 +4,13 @@ import {
 } from '@mantine/core'
 import { Assets } from 'lib/rendering/assets'
 import { setToId } from 'lib/sets/setConfigRegistry'
+import classes from 'lib/tabs/tabOptimizer/optimizerForm/components/RelicSetFilterModal/RelicSetFilterModal.module.css'
 import {
   memo,
   useCallback,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SetConfig } from 'types/setConfig'
-import classes from './RelicSetFilterModal.module.css'
 
 export const SetRow = memo(function SetRow({ config, checked, dimmed, onToggle }: {
   config: SetConfig,

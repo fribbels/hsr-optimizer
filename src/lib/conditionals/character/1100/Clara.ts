@@ -16,8 +16,9 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
-import { SomethingIrreplaceable } from 'lib/conditionals/lightcone/5star/SomethingIrreplaceable'
+import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
+import { SomethingIrreplaceable } from 'lib/conditionals/lightcone/5star/SomethingIrreplaceable'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   Parts,
@@ -221,6 +222,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -283,6 +285,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -329,6 +340,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -338,7 +350,7 @@ const display = {
     z: 1.15,
   },
   disableSpine: true,
-  showcaseColor: '#8172cc',
+  showcaseColor: '#b7b0e8',
 }
 
 export const Clara: CharacterConfig = {

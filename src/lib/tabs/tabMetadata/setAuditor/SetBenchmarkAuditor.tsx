@@ -15,6 +15,18 @@ import {
   type BenchmarkForm,
   useBenchmarksTabStore,
 } from 'lib/tabs/tabBenchmarks/useBenchmarksTabStore'
+import {
+  AUDITOR_SPD_BREAKPOINTS,
+  getErrRopePermutations,
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorConstants'
+import { runAudit } from 'lib/tabs/tabMetadata/setAuditor/setAuditorEngine'
+import { SetAuditorSummaryTable } from 'lib/tabs/tabMetadata/setAuditor/SetAuditorSummaryTable'
+import type {
+  AuditorConfig,
+  AuditorResults,
+  AuditorSetType,
+  AuditorStatus,
+} from 'lib/tabs/tabMetadata/setAuditor/setAuditorTypes'
 import { CharacterSelect } from 'lib/ui/selectors/CharacterSelect'
 import { LightConeSelect } from 'lib/ui/selectors/LightConeSelect'
 import {
@@ -25,18 +37,6 @@ import {
 import type { CharacterId } from 'types/character'
 import type { ReactElement } from 'types/components'
 import type { LightConeId } from 'types/lightCone'
-import {
-  AUDITOR_SPD_BREAKPOINTS,
-  getErrRopePermutations,
-} from './setAuditorConstants'
-import { runAudit } from './setAuditorEngine'
-import { SetAuditorSummaryTable } from './SetAuditorSummaryTable'
-import type {
-  AuditorConfig,
-  AuditorResults,
-  AuditorSetType,
-  AuditorStatus,
-} from './setAuditorTypes'
 
 const SPD_OPTIONS = AUDITOR_SPD_BREAKPOINTS.map((v) => ({
   value: String(v),

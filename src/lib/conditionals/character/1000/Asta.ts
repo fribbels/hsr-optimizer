@@ -225,7 +225,7 @@ const display = {
     z: 1,
   },
   disableSpine: true,
-  showcaseColor: '#a28bf3',
+  showcaseColor: '#c293e1',
 }
 
 export const Asta: CharacterConfig = {

@@ -26,8 +26,9 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
 import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
-import { UntilTheFlowersBloomAgain } from 'lib/conditionals/lightcone/5star/UntilTheFlowersBloomAgain'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { UntilTheFlowersBloomAgain } from 'lib/conditionals/lightcone/5star/UntilTheFlowersBloomAgain'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -414,6 +415,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -485,6 +487,15 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Yaoguang.id, lightCones: [MushyShroomysAdventures.id, WhenSheDecidedToSee.id] },
+        { characterId: TrailblazerElationStelle.id, lightCones: [ElationBrimmingWithBlessings.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -522,6 +533,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ELATION_SKILL,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -530,7 +542,7 @@ const display = {
     y: 950,
     z: 1.10,
   },
-  showcaseColor: '#7d558a',
+  showcaseColor: '#bfa2f2',
 }
 
 export const Evanescia: CharacterConfig = {

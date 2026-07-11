@@ -173,6 +173,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const shieldSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.DEF_P],
     [Parts.Feet]: [Stats.DEF_P, Stats.SPD],
@@ -238,6 +239,7 @@ const scoring = (): ScoringMetadata => ({
     [Stats.RES]: 0.50,
     [Stats.BE]: 0,
   },
+  flatMainstatBoost: Stats.DEF,
   parts: {
     [Parts.Body]: [
       Stats.DEF_P,
@@ -276,7 +278,7 @@ const display = {
     z: 1.05,
   },
   disableSpine: true,
-  showcaseColor: '#7863d4',
+  showcaseColor: '#9aa6e3',
 }
 
 export const March7th: CharacterConfig = {

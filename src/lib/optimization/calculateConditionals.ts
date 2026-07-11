@@ -67,7 +67,7 @@ export function wrapTeammateDynamicConditional(dynamicConditional: DynamicCondit
 
 export type ConditionalRegistry = Record<ConvertibleStatsType, DynamicConditional[]>
 
-function emptyRegistry(): ConditionalRegistry {
+export function emptyRegistry(): ConditionalRegistry {
   return {
     [Stats.HP]: [],
     [Stats.ATK]: [],

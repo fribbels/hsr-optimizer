@@ -52,12 +52,8 @@ CharacterPreview:
     SavedPortrait: 成功保存角色圖像
     RevertedPortrait: 成功還原角色圖像
     NoSelectedCharacter: 未選擇角色
-  ScoreHeader:
-    Title: 戰鬥模擬
-    Score: 'DPS評分 {{score}}% {{grade}}'
-  AlgorithmSlider:
-    Labels:
-      CombatScore: 戰鬥評分
+  ComboLabel:
+    dps: 連招傷害
   DetailsSlider:
     Labels:
       CombatStats: 戰鬥屬性

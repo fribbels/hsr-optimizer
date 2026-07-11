@@ -252,6 +252,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const supportSimulation = (): SimulationMetadata => ({
+  leaderboardEnabled: false,
   parts: {
     [Parts.Body]: [Stats.HP_P, Stats.DEF_P],
     [Parts.Feet]: [Stats.SPD],
@@ -333,6 +334,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.BE,
   hiddenColumns: [SortOption.ULT, SortOption.FUA, SortOption.DOT],
   supportSimulation: supportSimulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -342,7 +344,7 @@ const display = {
     z: 1.1,
   },
   disableSpine: true,
-  showcaseColor: '#b68ad1',
+  showcaseColor: '#92548a',
 }
 
 export const TrailblazerHarmonyCaelus: CharacterConfig = {

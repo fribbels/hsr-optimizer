@@ -8,6 +8,7 @@
   width: var(--cr-list-width, 320px);
   height: 100%;
   outline: none;
+  font-family: var(--font-showcase);
 }
 
 /* OverlayScrollbars injects wrapper divs; target the content container for flex layout */
@@ -259,7 +260,7 @@
   font-size: var(--cr-subtitle-font-size, 12px);
   line-height: var(--cr-subtitle-line-height, 1.4);
   font-weight: 500;
-  font-family: var(--cr-subtitle-font-family, var(--mantine-font-family-monospace, monospace));
+  font-family: inherit;
   color: var(--text-secondary);
 }
 
@@ -305,7 +306,6 @@
 /* --- Rank number --- */
 
 .rank {
-  font-family: var(--mantine-font-family-monospace, monospace);
   font-size: 11px;
   font-weight: 500;
   color: var(--text-tertiary);

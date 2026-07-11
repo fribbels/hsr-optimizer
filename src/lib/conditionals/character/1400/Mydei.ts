@@ -5,6 +5,7 @@ import {
 } from 'lib/conditionals/character/1400/Cyrene'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -16,6 +17,7 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { FlameOfBloodBlazeMyPath } from 'lib/conditionals/lightcone/5star/FlameOfBloodBlazeMyPath'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
@@ -279,7 +281,6 @@ if (${wgslTrue(r.hpToCrConversion)}) {
       if (r.vendettaState) {
         x.set(StatKey.DEF, 0, x.source(SOURCE_TALENT))
       }
-
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
@@ -317,6 +318,7 @@ if (${wgslTrue(r.vendettaState)}) {
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CD,
@@ -375,6 +377,22 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Cyrene.id, lightCones: [ThisLoveForever.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: Hyacine.id, lightCones: [MayRainbowsRemainInTheSky.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -418,6 +436,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.SKILL,
   hiddenColumns: [],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -426,7 +445,7 @@ const display = {
     y: 1050,
     z: 1.05,
   },
-  showcaseColor: '#e573a2',
+  showcaseColor: '#f09f9c',
 }
 
 export const Mydei: CharacterConfig = {

@@ -1,4 +1,7 @@
-import { aoe, ashblazingMulti } from 'lib/conditionals/ashblazingCompute'
+import {
+  aoe,
+  ashblazingMulti,
+} from 'lib/conditionals/ashblazingCompute'
 import { Acheron } from 'lib/conditionals/character/1300/Acheron'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -56,6 +59,12 @@ import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { floorSafe } from 'lib/utils/mathUtils'
 
+import { Robin } from 'lib/conditionals/character/1300/Robin'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { CarveTheMoonWeaveTheClouds } from 'lib/conditionals/lightcone/4star/CarveTheMoonWeaveTheClouds'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -325,82 +334,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-const simulation = (): SimulationMetadata => ({
-  parts: {
-    [Parts.Body]: [
-      Stats.CR,
-      Stats.CD,
-      Stats.ATK_P,
-      Stats.EHR,
-    ],
-    [Parts.Feet]: [
-      Stats.ATK_P,
-      Stats.SPD,
-    ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Quantum_DMG,
-    ],
-    [Parts.LinkRope]: [
-      Stats.ATK_P,
-    ],
-  },
-  substats: [
-    Stats.ATK_P,
-    Stats.CR,
-    Stats.CD,
-    Stats.ATK,
-    Stats.EHR,
-  ],
-  breakpoints: {
-    [Stats.EHR]: 0.50,
-  },
-  comboTurnAbilities: [
-    NULL_TURN_ABILITY_NAME,
-    START_ULT,
-    END_SKILL,
-    WHOLE_BASIC,
-  ],
-  deprioritizeBuffs: true,
-  errRopeEidolon: 0,
-  relicSets: [
-    [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
-    [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
-    [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
-    relics2pByStats(Stats.SPD_P),
-    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
-  ],
-  ornamentSets: [
-    Sets.InertSalsotto,
-    Sets.FirmamentFrontlineGlamoth,
-    Sets.IzumoGenseiAndTakamaDivineRealm,
-    Sets.RutilantArena,
-    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
-    ...SPREAD_ORNAMENTS_2P_SUPPORT,
-    ...SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
-  ],
-  teammates: [
-    {
-      characterId: Acheron.id,
-      lightCone: AlongThePassingShore.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: Cipher.id,
-      lightCone: LiesAflutterInTheWind.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-    {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
-  ],
-})
-
 const scoring = (): ScoringMetadata => ({
   stats: {
     [Stats.ATK]: 0.75,
@@ -448,7 +381,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.FUA,
     SortOption.DOT,
   ],
-  simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {
@@ -457,7 +390,7 @@ const display = {
     y: 950,
     z: 1,
   },
-  showcaseColor: '#8d92f9',
+  showcaseColor: '#919cee',
 }
 
 export const SilverWolfB1: CharacterConfig = {

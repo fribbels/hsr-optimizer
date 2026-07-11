@@ -10,10 +10,6 @@
     outline: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
 
-.center-input-text > div > input {
-    text-align: center !important;
-}
-
 .centered-placeholder::placeholder {
     text-align: center;
 }
@@ -33,16 +29,8 @@
     cursor: pointer;
 }
 
-.warp-table-row-disabled {
-    color: rgba(255, 255, 255, 0.10) !important;
-}
-
 .pre-font {
-    font-family: var(--font-mono) !important;
-}
-
-.no-highlight {
-    user-select: none !important;
+    font-family: monospace !important;
 }
 
 .layout-sider-scroll::-webkit-scrollbar {

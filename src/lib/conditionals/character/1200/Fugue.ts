@@ -44,12 +44,12 @@ import {
   START_ULT,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_ENERGY_REGEN,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
-import { PresetEffects } from 'lib/scoring/presetEffects'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
@@ -289,6 +289,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -315,9 +316,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.EHR,
   ],
   errRopeEidolon: 0,
-  breakpoints: {
-    [Stats.EHR]: 0.67,
-  },
+  softBreakpoints: [
+    { stat: Stats.EHR, threshold: 0.67 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -361,6 +362,16 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: FireflyB1.id, lightCones: [WhereaboutsShouldDreamsRest.id] },
+        { characterId: TheDahlia.id, lightCones: [NeverForgetHerFlame.id] },
+        { characterId: Lingsha.id, lightCones: [ScentAloneStaysTrue.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -401,6 +412,7 @@ const scoring = (): ScoringMetadata => ({
     SortOption.DOT,
   ],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -409,7 +421,7 @@ const display = {
     y: 1125,
     z: 1.15,
   },
-  showcaseColor: '#f2c2e8',
+  showcaseColor: '#f0dfec',
 }
 
 export const Fugue: CharacterConfig = {

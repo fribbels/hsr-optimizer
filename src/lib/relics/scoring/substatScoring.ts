@@ -1,5 +1,6 @@
 import {
   Constants,
+  PERCENT_TO_FLAT_STAT,
   SubStatValues,
 } from 'lib/constants/constants'
 import type {
@@ -8,7 +9,19 @@ import type {
   StatsValues,
   SubStats,
 } from 'lib/constants/constants'
+import {
+  substatPotentialScale,
+  substatPotentialUnits,
+} from 'lib/relics/scoring/scoringConstants'
 import type { ScorerMetadata } from 'lib/relics/scoring/types'
+
+type FlatMainstatBoost = {
+  stat: SubStats,
+  contribution: number,
+  high: number,
+  mid: number,
+  low: number,
+}
 
 export function substatMinRolls(stat: SubStats, value: number): number {
   return value / SubStatValues[stat][5].low
@@ -29,6 +42,39 @@ export function mainStatWeight(part: Parts, mainStat: MainStats, meta: ScorerMet
   if (!hasMainStat(part)) return 0
   if (meta.parts[part].includes(mainStat)) return 1
   return meta.stats[mainStat] ?? 0
+}
+
+function getFlatMainstatBoost(meta: ScorerMetadata, mainStat: MainStats): FlatMainstatBoost | undefined {
+  const stat = PERCENT_TO_FLAT_STAT[mainStat]
+  if (!stat || meta.flatMainstatBoost !== stat) return undefined
+
+  const weight = meta.stats[mainStat] ?? 0
+  if (weight <= 0) return undefined
+
+  return {
+    stat,
+    contribution: weight * substatPotentialScale(stat),
+    high: weight * substatPotentialUnits(stat, SubStatValues[stat][5].high),
+    mid: weight * substatPotentialUnits(stat, SubStatValues[stat][5].mid),
+    low: weight * substatPotentialUnits(stat, SubStatValues[stat][5].low),
+  }
+}
+
+export type EffectiveSubstatAccessors = {
+  contribution: (stat: SubStats) => number
+  high: (stat: SubStats) => number
+  mid: (stat: SubStats) => number
+  low: (stat: SubStats) => number
+}
+
+export function getEffectiveSubstatAccessors(meta: ScorerMetadata, mainStat: MainStats): EffectiveSubstatAccessors {
+  const boost = getFlatMainstatBoost(meta, mainStat)
+  return {
+    contribution: (stat) => boost?.stat === stat ? boost.contribution : meta.contributions[stat],
+    high: (stat) => boost?.stat === stat ? boost.high : meta.highRollPotential[stat],
+    mid: (stat) => boost?.stat === stat ? boost.mid : meta.midRollPotential[stat],
+    low: (stat) => boost?.stat === stat ? boost.low : meta.lowRollPotential[stat],
+  }
 }
 
 export function hasMainStat(part: Parts): boolean {

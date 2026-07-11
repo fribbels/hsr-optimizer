@@ -169,8 +169,3 @@ ScoreFooter:
 CharacterSelect:
   SingleSelect:
     Placeholder: 角色
-Calculators:
-  EHR:
-    Label: 效果命中
-    Input:
-      HitRate: 效果命中

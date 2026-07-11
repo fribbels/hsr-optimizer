@@ -25,8 +25,8 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlowingNightglow } from 'lib/conditionals/lightcone/5star/FlowingNightglow'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { IVentureForthToHunt } from 'lib/conditionals/lightcone/5star/IVentureForthToHunt'
+import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   ConditionalActivation,
@@ -446,6 +446,7 @@ if (
 }
 
 const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -470,9 +471,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.ATK,
     Stats.EHR,
   ],
-  breakpoints: {
-    [Stats.EHR]: 0.19,
-  },
+  softBreakpoints: [
+    { stat: Stats.EHR, threshold: 0.19 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     DEFAULT_ULT,
@@ -516,6 +517,16 @@ const simulation = (): SimulationMetadata => ({
       lightCone: ThoughWorldsApart.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Feixiao.id, lightCones: [IVentureForthToHunt.id] },
+        { characterId: Robin.id, lightCones: [FlowingNightglow.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
     },
   ],
 })
@@ -563,6 +574,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.FUA,
   hiddenColumns: [SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 3,
 })
 
 const display = {
@@ -576,7 +588,7 @@ const display = {
     y: 364,
     z: 0.17,
   },
-  showcaseColor: '#896ed4',
+  showcaseColor: '#bbaaff',
 }
 
 export const Cipher: CharacterConfig = {

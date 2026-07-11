@@ -1,4 +1,5 @@
 import { type ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import {
   Constants,
   type Parts,
@@ -16,7 +17,6 @@ import {
 } from 'react'
 import { type CharacterId } from 'types/character'
 import { type Relic } from 'types/relic'
-import { type PreviewRelics } from '../characterPreviewController'
 
 const leftParts: Parts[] = [Constants.Parts.Head, Constants.Parts.Body, Constants.Parts.PlanarSphere]
 const rightParts: Parts[] = [Constants.Parts.Hands, Constants.Parts.Feet, Constants.Parts.LinkRope]

@@ -4,7 +4,6 @@ import {
   type TeamSelection,
 } from 'lib/constants/constants'
 import type { SingleRelicByPart } from 'lib/gpu/webgpuTypes'
-import type { SortOptionKey } from 'lib/optimization/sortOptions'
 import {
   CONFIG_FIELD_MAP,
   SCORING_CONFIG_REGISTRY,
@@ -14,7 +13,11 @@ import { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrator/be
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
 import { clone } from 'lib/utils/objectUtils'
-import type { Character } from 'types/character'
+import type { ComputeOptimalSimulationSearchRunner } from 'lib/worker/computeOptimalSimulationWorkerRunner'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import {
   type ScoringConfig,
   ScoringConfigType,
@@ -22,6 +25,7 @@ import {
   type ShowcaseTemporaryOptions,
   type SimulationMetadata,
 } from 'types/metadata'
+import type { BasicForm } from 'types/optimizer'
 import {
   BuildSource,
   type SavedBuild,
@@ -35,7 +39,7 @@ import {
  * Unified for all scoring config types (DPS, buffer, heal, shield).
  */
 export function prepareOrchestrator(
-  character: Character,
+  character: { form: BasicForm },
   config: ScoringConfig,
   singleRelicByPart: PreviewRelics,
   showcaseTemporaryOptions: ShowcaseTemporaryOptions,
@@ -49,7 +53,7 @@ export function prepareOrchestrator(
   orchestrator.setOriginalSimRequestWithRelics(singleRelicByPart)
   orchestrator.setSimSetsWithSimRequest()
   orchestrator.setCandidateSetPool()
-  orchestrator.setSimForm(character.form, config.simulation)
+  orchestrator.setSimForm(character.form)
   orchestrator.applyConfigOverrides(config)
 
   orchestrator.setSimContext()
@@ -75,12 +79,18 @@ export function prepareOrchestrator(
   return orchestrator
 }
 
+export type ExecuteOrchestratorOptions = {
+  searchRunner?: ComputeOptimalSimulationSearchRunner,
+  scoreOnly?: boolean,
+}
+
 /**
  * Execute phase (steps 9-13): async, ~500-2000ms.
  * Runs the expensive benchmark + perfection search on a prepared orchestrator.
  */
 export async function executeOrchestrator(
   orchestrator: BenchmarkSimulationOrchestrator,
+  options: ExecuteOrchestratorOptions = {},
 ): Promise<BenchmarkSimulationOrchestrator> {
   // JSON clone strips closures (conditional registries, controllers) that
   // postMessage's structured clone can't handle. The worker rebuilds them
@@ -88,10 +98,14 @@ export async function executeOrchestrator(
   // objects, which the worker reconstructs.
   const clonedContext = clone(orchestrator.context!)
 
-  await orchestrator.calculateBenchmark(clonedContext)
-  await orchestrator.calculatePerfection(clonedContext)
+  const searchRunner = options.searchRunner
+  const searchOptions = { scoreOnly: options.scoreOnly ?? false }
+  await orchestrator.calculateBenchmark(clonedContext, searchRunner, searchOptions)
+  await orchestrator.calculatePerfection(clonedContext, searchRunner, searchOptions)
 
   orchestrator.calculateScores()
+  if (options.scoreOnly) return orchestrator
+
   // Initialize empty upgrades so the early SimulationScore is structurally valid
   // (upgrade tables may render before calculateUpgrades completes)
   orchestrator.substatUpgradeResults ??= []
@@ -123,16 +137,16 @@ export async function runDpsScoreBenchmarkOrchestrator(
 }
 
 export function resolveSimulationMetadata(
-  character: Character,
+  character: { id: CharacterId, form: BasicForm },
   configType: ScoringConfigType,
   teamSelection: TeamSelection,
   buildOverride?: SavedBuild | null,
 ): SimulationMetadata | null {
-  const characterId = character.id
   if (!character?.id || !character.form) {
     console.warn('Invalid character sim setup')
     return null
   }
+  const characterId = character.id
 
   const field = CONFIG_FIELD_MAP[configType]
   const customSimulation = getScoringMetadata(characterId)[field]

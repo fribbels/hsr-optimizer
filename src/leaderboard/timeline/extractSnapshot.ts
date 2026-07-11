@@ -17,6 +17,7 @@ export type UserCharCurrentEntry = {
   characterId: string,
   configType: LeaderboardConfigType,
   teamId: string,
+  fetchedAt: number,
 }
 
 type TopEntryIdentity = {
@@ -66,6 +67,7 @@ export function extractSnapshot(
           characterId: entry.characterId,
           configType: board.configType,
           teamId: board.teamId,
+          fetchedAt: entry.data.fetchedAt,
         })
       }
     }

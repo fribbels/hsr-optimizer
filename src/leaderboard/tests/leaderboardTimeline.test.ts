@@ -18,7 +18,7 @@ import {
 const VERSIONS = { global: 1, characters: {}, lightCones: {} }
 const TEAM_ID = 'sorted-1005-1309-1313'
 
-function makeBoard(characterId: string, entries: Array<{ score: number, uidHash?: string, rank?: number }>): PrivateBoard {
+function makeBoard(characterId: string, entries: Array<{ score: number, uidHash?: string, rank?: number, fetchedAt?: number }>): PrivateBoard {
   return {
     characterId,
     configType: 'dps' as LeaderboardConfigType,
@@ -33,7 +33,7 @@ function makeBoard(characterId: string, entries: Array<{ score: number, uidHash?
       characterId,
       teamId: TEAM_ID,
       teamTier: 'e0' as LeaderboardEidolonGroup,
-      data: {} as any,
+      data: { fetchedAt: e.fetchedAt ?? DEFAULT_FETCHED_AT } as any,
       dependencyVersions: {} as any,
       dependencyDigest: 'digest',
       preFilterRank: i + 1,
@@ -60,7 +60,9 @@ function makePrivateOutput(boards: Record<string, PrivateBoard>): PrivateRankedO
   }
 }
 
-function makeUserCharEntries(entries: Array<{ uidHash: string, characterId: string, score: number, rank: number }>): Map<string, UserCharCurrentEntry> {
+const DEFAULT_FETCHED_AT = 1782259200 // 2026-06-24T00:00:00Z
+
+function makeUserCharEntries(entries: Array<{ uidHash: string, characterId: string, score: number, rank: number, fetchedAt?: number }>): Map<string, UserCharCurrentEntry> {
   const map = new Map<string, UserCharCurrentEntry>()
   for (const e of entries) {
     map.set(`${e.uidHash}:${e.characterId}`, {
@@ -70,6 +72,7 @@ function makeUserCharEntries(entries: Array<{ uidHash: string, characterId: stri
       characterId: e.characterId,
       configType: 'dps' as LeaderboardConfigType,
       teamId: TEAM_ID,
+      fetchedAt: e.fetchedAt ?? DEFAULT_FETCHED_AT,
     })
   }
   return map
@@ -229,7 +232,7 @@ describe('diffSnapshots', () => {
       },
     }
     const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 2.0, rank: 1 }])
-    const events = diffSnapshots(current, null, entries, '2026-06-24')
+    const events = diffSnapshots(current, null, entries)
 
     expect(events).toEqual([])
   })
@@ -250,7 +253,7 @@ describe('diffSnapshots', () => {
       },
     }
     const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 2.0, rank: 1 }])
-    const events = diffSnapshots(current, previous, entries, '2026-06-24')
+    const events = diffSnapshots(current, previous, entries)
 
     expect(events).toHaveLength(1)
     expect(events[0]).toMatchObject({
@@ -284,7 +287,7 @@ describe('diffSnapshots', () => {
       },
     }
     const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.502, rank: 1 }])
-    const events = diffSnapshots(current, previous, entries, '2026-06-24')
+    const events = diffSnapshots(current, previous, entries)
 
     expect(events).toHaveLength(1)
     expect(events[0]).toMatchObject({
@@ -315,7 +318,7 @@ describe('diffSnapshots', () => {
       },
     }
     const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.5009, rank: 1 }])
-    const events = diffSnapshots(current, previous, entries, '2026-06-24')
+    const events = diffSnapshots(current, previous, entries)
 
     expect(events).toEqual([])
   })
@@ -336,7 +339,7 @@ describe('diffSnapshots', () => {
       },
     }
     const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.8, rank: 1 }])
-    const events = diffSnapshots(current, previous, entries, '2026-06-24')
+    const events = diffSnapshots(current, previous, entries)
 
     expect(events).toEqual([])
   })
@@ -366,7 +369,7 @@ describe('diffSnapshots', () => {
       { uidHash: 'user-a', characterId: '1001', score: 1.8, rank: 1 },
       { uidHash: 'user-b', characterId: '1001', score: 1.6, rank: 2 },
     ])
-    const events = diffSnapshots(current, previous, entries, '2026-06-24')
+    const events = diffSnapshots(current, previous, entries)
 
     expect(events).toHaveLength(2)
     expect(events.find((e) => e.uidHash === 'user-a')).toBeDefined()
@@ -389,7 +392,7 @@ describe('diffSnapshots', () => {
       },
     }
     const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 2.0, rank: 1 }])
-    const events = diffSnapshots(current, previous, entries, '2026-06-24')
+    const events = diffSnapshots(current, previous, entries)
 
     expect(events).toEqual([])
   })

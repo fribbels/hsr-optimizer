@@ -14,11 +14,14 @@ export function displayScore(score: number): number {
   return Math.trunc(score * 1000)
 }
 
+function fetchedAtToDateString(fetchedAt: number): string {
+  return new Date(fetchedAt * 1000).toISOString().slice(0, 10)
+}
+
 export function diffSnapshots(
   current: LeaderboardSnapshot,
   previous: LeaderboardSnapshot | null,
   userCharEntries: Map<string, UserCharCurrentEntry>,
-  date: string,
 ): TimelineEvent[] {
   if (!previous) return []
 
@@ -28,6 +31,7 @@ export function diffSnapshots(
   for (const [key, entry] of userCharEntries) {
     const prev = prevUserBests[key]
     const buildId = computeBuildId(entry.uidHash, entry.characterId, entry.configType, entry.teamId)
+    const date = fetchedAtToDateString(entry.fetchedAt)
 
     if (!prev) {
       events.push({
@@ -98,8 +102,7 @@ export function computeTimelineUpdate(input: {
 }): TimelineUpdateResult {
   const previousSnapshot = readSnapshot(input.snapshotPath)
   const result = extractSnapshot(input.privateOutput, input.totalCounts, previousSnapshot, input.generatedAt, input.allowedCharacterIds)
-  const date = input.generatedAt.slice(0, 10)
-  const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries, date)
+  const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries)
   const existingEvents = readTimeline(input.timelinePath)
   const events = deduplicateAndMerge(newEvents, existingEvents, 100)
 

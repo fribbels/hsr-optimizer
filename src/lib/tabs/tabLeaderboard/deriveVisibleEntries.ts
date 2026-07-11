@@ -4,6 +4,7 @@ import {
   type LeaderboardEidolonFilter,
 } from 'leaderboard/shared/eidolonConfig'
 import type { PublicCharacterData } from 'leaderboard/shared/types'
+import { IS_LOCALHOST } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import { mapPublicEntry } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import type { LeaderboardEntry } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 
@@ -49,9 +50,11 @@ export function deriveVisibleEntries(input: DeriveVisibleEntriesInput): Leaderbo
     .sort((a, b) => b.score - a.score || a.buildId.localeCompare(b.buildId))
     .map((entry, i) => ({ ...entry, rank: i + 1 }))
 
+  const qualified = IS_LOCALHOST ? ranked : ranked.filter((e) => e.score >= 1.50)
+
   const filtered = filterCharacterEidolon !== LEADERBOARD_FILTER_ALL
-    ? ranked.filter((e) => e.eidolonGroup === filterCharacterEidolon)
-    : ranked
+    ? qualified.filter((e) => e.eidolonGroup === filterCharacterEidolon)
+    : qualified
 
   return filtered.slice(0, LEADERBOARD_DISPLAY_TOP_N)
 }

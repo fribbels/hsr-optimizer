@@ -7,6 +7,7 @@ import { configTypeToPublic } from 'leaderboard/shared/configTypeMapping'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
 import {
+  IS_LOCALHOST,
   getCharacterLeaderboardConfigTypes,
   isCharacterLeaderboardEnabled,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
@@ -67,7 +68,6 @@ function ActiveRow({ row, index, selectedId, selectedType }: {
   )
 }
 
-const IS_LOCALHOST = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
 
 function GrowingRow({ row, selectedId, selectedType }: {
   row: CharacterRow

@@ -2,6 +2,8 @@ import { getGameMetadata } from 'lib/state/gameMetadata'
 import { type CharacterId } from 'types/character'
 import { ScoringConfigType } from 'types/metadata'
 
+export const IS_LOCALHOST = location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+
 let cachedCharacters: CharacterId[] | null = null
 
 export function getLeaderboardCharacters(): CharacterId[] {

@@ -88,7 +88,8 @@ export function getPublicEntryCount(characterId: CharacterId): number {
   for (const configData of Object.values(charData.configs)) {
     if (!configData) continue
     for (const boardData of Object.values(configData.teamsById)) {
-      if (boardData.entries.length > max) max = boardData.entries.length
+      const count = boardData.entries.filter((e) => e.score >= 1.50).length
+      if (count > max) max = count
     }
   }
   return max

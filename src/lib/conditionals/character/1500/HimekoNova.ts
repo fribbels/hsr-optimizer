@@ -203,7 +203,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: t('companionVerdict.text'),
       content: t('companionVerdict.content', {
         VerdictDmgBuff: precisionRound(100 * verdictDmgBoostValue),
-        VeridctUltDmgBuff: precisionRound(100 * verdictUltDmgBoostValue),
+        VerdictUltDmgBuff: precisionRound(100 * verdictUltDmgBoostValue),
       }),
     },
     companionDecimation: {

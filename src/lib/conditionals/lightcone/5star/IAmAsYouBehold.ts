@@ -32,9 +32,9 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const { SOURCE_LC } = Source.lightCone(I_AM_AS_YOU_BEHOLD_ID)
 
   const sValuesErr = [0.10, 0.125, 0.15, 0.175, 0.20]
-  const sValuesUltDmgPerEnergy = [0.10, 0.125, 0.15, 0.175, 0.20]
-  const sValuesUltDmgCap = [0.60, 0.75, 0.90, 1.05, 1.20]
-  const sValuesTeamCd = [0.25, 0.3125, 0.375, 0.4375, 0.50]
+  const sValuesUltDmgPerEnergy = [0.20, 0.25, 0.30, 0.35, 0.40]
+  const sValuesUltDmgCap = [0.72, 0.90, 1.08, 1.26, 1.44]
+  const sValuesTeamCd = [0.24, 0.30, 0.36, 0.42, 0.48]
 
   const defaults = {
     ultimateEnergyDmgBoost: true,
@@ -51,7 +51,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'ultimateEnergyDmgBoost',
       formItem: 'switch',
       text: t('ultimateEnergyDmgBoost.text'),
-      content: t('ultimateEnergyDmgBoost.content', { DmgBoostStep: 0.20 + 0.05 * s, MaxDmgBoost: precisionRound(100 * sValuesUltDmgCap[s]) }),
+      content: t('ultimateEnergyDmgBoost.content', { DmgBoostStep: precisionRound(sValuesUltDmgPerEnergy[s]), MaxDmgBoost: precisionRound(100 * sValuesUltDmgCap[s]) }),
     },
     kingsEntertainment: {
       lc: true,

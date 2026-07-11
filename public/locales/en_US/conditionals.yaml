@@ -2227,7 +2227,7 @@ Characters:
         content: When the CRIT DMG boost effect from Talent "Gem Magecraft" takes effect on Rin Tohsaka, the effect can stack up to 2 times.
       e6ResPen:
         text: E6 RES PEN
-        content: Rin Tohsaka's All-Type RES PEN increases by 20%. When using Ultimate, gains 24 point(s) of "Gem Energy" and 1 extra turn.
+        content: Rin Tohsaka's All-Type RES PEN increases by 20%. When using Ultimate, gains 24 points of "Gem Energy" and 1 extra turn.
   Robin:
     Content:
       concertoActive:

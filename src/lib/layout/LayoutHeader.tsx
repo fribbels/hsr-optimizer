@@ -64,9 +64,12 @@ export function LayoutHeader() {
             </Flex>
           </a>
         </Flex>
-        <div>
+        <Flex align='center' gap={6}>
+          <a href='https://discord.gg/rDmB4Un7qg' target='_blank' rel='noreferrer'>
+            <img src={Assets.getDiscord()} style={{ height: 32, borderRadius: 5, display: 'block' }} />
+          </a>
           <LanguageSelector />
-        </div>
+        </Flex>
       </Flex>
     </header>
   )

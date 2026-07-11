@@ -40,6 +40,7 @@
   z-index: 2;
   width: 440px;
   height: calc(100dvh - 90px);
+  max-height: 1171px;
   flex-shrink: 0;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);

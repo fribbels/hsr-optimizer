@@ -52,6 +52,8 @@ import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -73,6 +75,7 @@ export const HimekoNovaAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.HimekoNova.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -176,45 +179,54 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     navigatorsSemaphore: {
       id: 'navigatorsSemaphore',
       formItem: 'switch',
-      text: 'Navigator\'s Semaphore',
-      content: betaContent,
+      text: t('navigatorsSemaphore.text'),
+      content: t('navigatorsSemaphore.content', { SemaphoreDmgBoost: precisionRound(100 * skillDmgBuffValue) }),
     },
     selfUseAssistSkill: {
       id: 'selfUseAssistSkill',
       formItem: 'switch',
-      text: 'Self use Assist Skill',
-      content: betaContent,
+      text: t('selfUseAssistSkill.text'),
+      content: t('selfUseAssistSkill.content'),
     },
     assistSkillBuff: {
       id: 'assistSkillBuff',
       formItem: 'switch',
-      text: 'Assist Skill buff',
-      content: betaContent,
+      text: t('assistSkillBuff.text'),
+      content: t('assistSkillBuff.content', {
+        AssistSkillResPen: precisionRound(100 * talentResPenValue),
+        AssistSkillCdBUff: precisionRound(100 * talentCdBuffValue),
+      }),
     },
     companionVerdict: {
       id: 'companionVerdict',
       formItem: 'switch',
-      text: 'Companion Protocol: Verdict',
-      content: betaContent,
+      text: t('companionVerdict.text'),
+      content: t('companionVerdict.content', {
+        VerdictDmgBuff: precisionRound(100 * verdictDmgBoostValue),
+        VeridctUltDmgBuff: precisionRound(100 * verdictUltCdValue),
+      }),
     },
     companionDecimation: {
       id: 'companionDecimation',
       formItem: 'switch',
-      text: 'Companion Protocol: Decimation',
-      content: betaContent,
+      text: t('companionDecimation.text'),
+      content: t('companionDecimation.content', {
+        DecimationCdBuff: precisionRound(100 * decimationCdValue),
+        DecimationSkillCdBuff: precisionRound(100 * decimationSkillCdValue),
+      }),
     },
     e4ResPen: {
       id: 'e4ResPen',
       formItem: 'switch',
-      text: 'E4 team RES PEN',
-      content: betaContent,
+      text: t('e4ResPen.text'),
+      content: t('e4ResPen.content'),
       disabled: e < 4,
     },
     e6: {
       id: 'e6',
       formItem: 'switch',
-      text: 'E6 buffs',
-      content: betaContent,
+      text: t('e6.text'),
+      content: t('e6.content'),
       disabled: e < 6,
     },
   }

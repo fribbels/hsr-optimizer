@@ -1605,6 +1605,38 @@ export default interface Resources {
           }
         }
       },
+      "HimekoNova": {
+        "Content": {
+          "assistSkillBuff": {
+            "content": "Using the Assist Skill is considered as Himeko • Nova using her Skill. Himeko • Nova's All-Type RES PEN increases by {{AssistSkillResPen}}% and CRIT DMG increases by {{AssistSkillCdBUff}}%.",
+            "text": "Assist Skill buff"
+          },
+          "companionDecimation": {
+            "content": "Increases all allies' CRIT DMG by {{DecimationCdBuff}}%, and additionally increases the CRIT DMG dealt by Skills by {{DecimationSkillCdBuff}}%.",
+            "text": "Companion Protocol: Decimation"
+          },
+          "companionVerdict": {
+            "content": "Increases DMG dealt by Himeko • Nova by {{VerdictDmgBuff}}%, and additionally increases her Ultimate DMG dealt by {{VeridctUltDmgBuff}}%.",
+            "text": "Companion Protocol: Verdict"
+          },
+          "e4ResPen": {
+            "content": "When using the Assist Skill from Talent \"Of Fire and Far Faring,\" the All-Type RES PEN increase effect applies to all allies. When Himeko • Nova gains this effect, her All-Type RES PEN increases by an additional 10%.",
+            "text": "E4 team RES PEN"
+          },
+          "e6": {
+            "content": "Himeko • Nova's Fire Type RES PEN increases by 20%. Max \"Source Energy\" increases to 6 points, and when an ally uses or triggers an Assist Skill, DMG dealt by the Assist Skill increases by 75%, and Himeko • Nova gains 1 point of \"Source Energy\". When launching a \"Hyperluminal Particle Beam\" attack during Ultimate, additionally gains 1 point of \"Source Energy\". When launching \"Orbital Annihilation Pulse,\" if the current \"Source Energy\" is 6 points or more, additionally deals Fire DMG equal to 160% of Himeko • Nova's ATK to all enemies 1 time.",
+            "text": "E6 buffs"
+          },
+          "navigatorsSemaphore": {
+            "content": "When Himeko • Nova has \"Navigator's Semaphore,\" DMG dealt by all allies increases by {{SemaphoreDmgBoost}}%.",
+            "text": "Navigator 's Semaphore"
+          },
+          "selfUseAssistSkill": {
+            "content": "When Himeko uses her assist skill, deals increased damage to all enemies and deals 1 additional instance of damage to a random enemy target.",
+            "text": "Self use Assist Skill"
+          }
+        }
+      },
       "Hook": {
         "Content": {
           "enhancedSkill": {

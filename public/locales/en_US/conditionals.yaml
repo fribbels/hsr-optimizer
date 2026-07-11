@@ -1655,6 +1655,29 @@ Characters:
       e6UltExtraHits:
         text: E6 Ult extra hits
         content: Ultimate deals DMG 2 extra times. Extra hits deals 40% of the original DMG per hit.
+  HimekoNova:
+    Content:
+      navigatorsSemaphore:
+        text: Navigator 's Semaphore
+        content: When Himeko • Nova has "Navigator's Semaphore," DMG dealt by all allies increases by {{SemaphoreDmgBoost}}%.
+      selfUseAssistSkill:
+        text: Self use Assist Skill
+        content: When Himeko uses her assist skill, deals increased damage to all enemies and deals 1 additional instance of damage to a random enemy target.
+      assistSkillBuff:
+        text: Assist Skill buff
+        content: Using the Assist Skill is considered as Himeko • Nova using her Skill. Himeko • Nova's All-Type RES PEN increases by {{AssistSkillResPen}}% and CRIT DMG increases by {{AssistSkillCdBUff}}%.
+      companionVerdict:
+        text: 'Companion Protocol: Verdict'
+        content:  Increases DMG dealt by Himeko • Nova by {{VerdictDmgBuff}}%, and additionally increases her Ultimate DMG dealt by {{VeridctUltDmgBuff}}%.
+      companionDecimation:
+        text: 'Companion Protocol: Decimation'
+        content: Increases all allies' CRIT DMG by {{DecimationCdBuff}}%, and additionally increases the CRIT DMG dealt by Skills by {{DecimationSkillCdBuff}}%.
+      e4ResPen:
+        text: E4 team RES PEN
+        content: When using the Assist Skill from Talent "Of Fire and Far Faring," the All-Type RES PEN increase effect applies to all allies. When Himeko • Nova gains this effect, her All-Type RES PEN increases by an additional 10%.
+      e6:
+        text: E6 buffs
+        content: Himeko • Nova's Fire Type RES PEN increases by 20%. Max "Source Energy" increases to 6 points, and when an ally uses or triggers an Assist Skill, DMG dealt by the Assist Skill increases by 75%, and Himeko • Nova gains 1 point of "Source Energy". When launching a "Hyperluminal Particle Beam" attack during Ultimate, additionally gains 1 point of "Source Energy". When launching "Orbital Annihilation Pulse," if the current "Source Energy" is 6 points or more, additionally deals Fire DMG equal to 160% of Himeko • Nova's ATK to all enemies 1 time.
   Hook:
     Content:
       enhancedSkill:

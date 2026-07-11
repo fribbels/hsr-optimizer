@@ -1,6 +1,6 @@
 import { UnstyledButton } from '@mantine/core'
 import { IconChevronLeft } from '@tabler/icons-react'
-import type { CharacterId } from 'lib/characterConditionals/conditionalConstants'
+import type { CharacterId } from 'types/character'
 import { DefaultScoringProvider } from 'lib/hooks/useScoringMetadata'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { CharacterListPanel } from 'lib/tabs/tabLeaderboard/CharacterListPanel'

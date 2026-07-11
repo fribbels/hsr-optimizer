@@ -27,7 +27,7 @@ export function getChangelogContent() {
         `filter.webp`,
         `Added timeline feed showing recent score improvements with clickable links to builds`,
         `timeline.webp`,
-        `Added AEON reic rating tier (90%+) for verified relics with default scoring weights`,
+        `Added AEON reic rating tier (90%+ perfection) for verified relics with default scoring weights`,
         `aeon.webp`,
         `Added Live2D character models for 4.4 characters`,
         `Added browser forward/backward navigation support`,

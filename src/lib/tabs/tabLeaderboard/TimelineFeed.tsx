@@ -63,7 +63,7 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
           const scorePercent = (event.score * 100).toFixed(1)
 
           return (
-            <div key={`${event.uidHash}#${characterId}#${event.type}#${event.date}`} className={classes.feedRow} onClick={() => handleRowClick(event)}>
+            <div key={`${event.uidHash}#${characterId}#${event.configType}#${event.type}#${event.date}`} className={classes.feedRow} onClick={() => handleRowClick(event)}>
               <span className={classes.cellTime}>{formatRelativeTime(event.date)}</span>
               <span className={classes.cellDivider} />
               <span className={classes.cellRankDelta}>{renderRank(event)}</span>

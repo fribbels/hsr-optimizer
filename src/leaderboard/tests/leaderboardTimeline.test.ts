@@ -1,6 +1,6 @@
 import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
 import type { LeaderboardSnapshot, LeaderboardSnapshotEntry, UserCharacterWatermark } from 'leaderboard/timeline/timelineTypes'
-import { extractSnapshot, type UserCharCurrentEntry } from 'leaderboard/timeline/extractSnapshot'
+import { extractSnapshot, userCharKey, type UserCharCurrentEntry } from 'leaderboard/timeline/extractSnapshot'
 import { deduplicateAndMerge, diffSnapshots, displayScore } from 'leaderboard/timeline/computeTimeline'
 import { deriveTimelinePath, deriveSnapshotPath } from 'leaderboard/timeline/timelineStorage'
 import type { PrivateBoard, PrivateBoardCompleteness, PrivateRankedEntry, PrivateRankedOutput } from 'leaderboard/shared/types'
@@ -62,15 +62,18 @@ function makePrivateOutput(boards: Record<string, PrivateBoard>): PrivateRankedO
 
 const DEFAULT_FETCHED_AT = 1782259200 // 2026-06-24T00:00:00Z
 
-function makeUserCharEntries(entries: Array<{ uidHash: string, characterId: string, score: number, rank: number, fetchedAt?: number }>): Map<string, UserCharCurrentEntry> {
+const CONFIG_TYPE = 'dps' as LeaderboardConfigType
+
+function makeUserCharEntries(entries: Array<{ uidHash: string, characterId: CharacterId, score: number, rank: number, fetchedAt?: number, configType?: LeaderboardConfigType }>): Map<string, UserCharCurrentEntry> {
   const map = new Map<string, UserCharCurrentEntry>()
   for (const e of entries) {
-    map.set(`${e.uidHash}:${e.characterId}`, {
+    const ct = e.configType ?? CONFIG_TYPE
+    map.set(userCharKey(e.uidHash, e.characterId, ct), {
       score: e.score,
       rank: e.rank,
       uidHash: e.uidHash,
       characterId: e.characterId,
-      configType: 'dps' as LeaderboardConfigType,
+      configType: ct,
       teamId: TEAM_ID,
       fetchedAt: e.fetchedAt ?? DEFAULT_FETCHED_AT,
     })
@@ -165,8 +168,8 @@ describe('extractSnapshot', () => {
     const result = extractSnapshot(output, new Map(), null, '2026-06-24T00:00:00Z')
 
     expect(result.userCharEntries.size).toBe(2)
-    expect(result.userCharEntries.get('user-a:1001')?.score).toBe(2.0)
-    expect(result.userCharEntries.get('user-b:1001')?.score).toBe(1.5)
+    expect(result.userCharEntries.get('user-a:1001:dps')?.score).toBe(2.0)
+    expect(result.userCharEntries.get('user-b:1001:dps')?.score).toBe(1.5)
   })
 
   test('userCharEntries picks best score across boards for same user-character', () => {
@@ -176,7 +179,7 @@ describe('extractSnapshot', () => {
     })
     const result = extractSnapshot(output, new Map(), null, '2026-06-24T00:00:00Z')
 
-    expect(result.userCharEntries.get('user-a:1001')?.score).toBe(2.0)
+    expect(result.userCharEntries.get('user-a:1001:dps')?.score).toBe(2.0)
   })
 
   test('userBests watermark carries forward from previous snapshot', () => {
@@ -187,12 +190,12 @@ describe('extractSnapshot', () => {
       generatedAt: '2026-06-23T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 2.0, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 2.0, rank: 1 },
       },
     }
     const result = extractSnapshot(output, new Map(), previous, '2026-06-24T00:00:00Z')
 
-    expect(result.snapshot.userBests!['user-a:1001'].highWatermark).toBe(2.0)
+    expect(result.snapshot.userBests!['user-a:1001:dps'].highWatermark).toBe(2.0)
   })
 
   test('userBests initializes watermark from current score when no previous', () => {
@@ -201,7 +204,7 @@ describe('extractSnapshot', () => {
     })
     const result = extractSnapshot(output, new Map(), null, '2026-06-24T00:00:00Z')
 
-    expect(result.snapshot.userBests!['user-a:1001'].highWatermark).toBe(1.8)
+    expect(result.snapshot.userBests!['user-a:1001:dps'].highWatermark).toBe(1.8)
   })
 })
 
@@ -213,10 +216,10 @@ describe('diffSnapshots', () => {
         '1001': { topScore: 2.0, highWatermark: 2.0, rank: 1, entryCount: 10 },
       },
       userBests: {
-        'user-a:1001': { highWatermark: 2.0, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 2.0, rank: 1 },
       },
     }
-    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 2.0, rank: 1 }])
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001' as CharacterId, score: 2.0, rank: 1 }])
     const events = diffSnapshots(current, null, entries)
 
     expect(events).toEqual([])
@@ -234,10 +237,10 @@ describe('diffSnapshots', () => {
         '1001': { topScore: 2.0, highWatermark: 2.0, rank: 1, entryCount: 15 },
       },
       userBests: {
-        'user-a:1001': { highWatermark: 2.0, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 2.0, rank: 1 },
       },
     }
-    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 2.0, rank: 1 }])
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001' as CharacterId, score: 2.0, rank: 1 }])
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toHaveLength(1)
@@ -245,7 +248,7 @@ describe('diffSnapshots', () => {
       type: TimelineEventType.NEW_CHARACTER,
       characterId: '1001',
       uidHash: 'user-a',
-      date: '2026-06-24',
+      date: '2026-06-24T00:00:00.000Z',
       score: 2.0,
       rank: 1,
       entryCount: 15,
@@ -259,7 +262,7 @@ describe('diffSnapshots', () => {
         '1001': { topScore: 1.5, highWatermark: 1.5, rank: 1, entryCount: 10 },
       },
       userBests: {
-        'user-a:1001': { highWatermark: 1.5, rank: 2 },
+        'user-a:1001:dps': { highWatermark: 1.5, rank: 2 },
       },
     }
     const current: LeaderboardSnapshot = {
@@ -268,10 +271,10 @@ describe('diffSnapshots', () => {
         '1001': { topScore: 1.502, highWatermark: 1.502, rank: 1, entryCount: 12 },
       },
       userBests: {
-        'user-a:1001': { highWatermark: 1.502, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 1.502, rank: 1 },
       },
     }
-    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.502, rank: 1 }])
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001' as CharacterId, score: 1.502, rank: 1 }])
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toHaveLength(1)
@@ -279,7 +282,7 @@ describe('diffSnapshots', () => {
       type: TimelineEventType.NEW_BEST,
       characterId: '1001',
       uidHash: 'user-a',
-      date: '2026-06-24',
+      date: '2026-06-24T00:00:00.000Z',
       score: 1.502,
       previousScore: 1.5,
       rank: 1,
@@ -292,17 +295,17 @@ describe('diffSnapshots', () => {
       generatedAt: '2026-06-23T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 1.500, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 1.500, rank: 1 },
       },
     }
     const current: LeaderboardSnapshot = {
       generatedAt: '2026-06-24T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 1.5009, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 1.5009, rank: 1 },
       },
     }
-    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.5009, rank: 1 }])
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001' as CharacterId, score: 1.5009, rank: 1 }])
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toEqual([])
@@ -313,17 +316,17 @@ describe('diffSnapshots', () => {
       generatedAt: '2026-06-23T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 2.0, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 2.0, rank: 1 },
       },
     }
     const current: LeaderboardSnapshot = {
       generatedAt: '2026-06-24T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 2.0, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 2.0, rank: 1 },
       },
     }
-    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.8, rank: 1 }])
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001' as CharacterId, score: 1.8, rank: 1 }])
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toEqual([])
@@ -336,8 +339,8 @@ describe('diffSnapshots', () => {
         '1001': { topScore: 1.5, highWatermark: 1.5, rank: 1, entryCount: 10 },
       },
       userBests: {
-        'user-a:1001': { highWatermark: 1.5, rank: 1 },
-        'user-b:1001': { highWatermark: 1.3, rank: 2 },
+        'user-a:1001:dps': { highWatermark: 1.5, rank: 1 },
+        'user-b:1001:dps': { highWatermark: 1.3, rank: 2 },
       },
     }
     const current: LeaderboardSnapshot = {
@@ -346,13 +349,13 @@ describe('diffSnapshots', () => {
         '1001': { topScore: 1.8, highWatermark: 1.8, rank: 1, entryCount: 10 },
       },
       userBests: {
-        'user-a:1001': { highWatermark: 1.8, rank: 1 },
-        'user-b:1001': { highWatermark: 1.6, rank: 2 },
+        'user-a:1001:dps': { highWatermark: 1.8, rank: 1 },
+        'user-b:1001:dps': { highWatermark: 1.6, rank: 2 },
       },
     }
     const entries = makeUserCharEntries([
-      { uidHash: 'user-a', characterId: '1001', score: 1.8, rank: 1 },
-      { uidHash: 'user-b', characterId: '1001', score: 1.6, rank: 2 },
+      { uidHash: 'user-a', characterId: '1001' as CharacterId, score: 1.8, rank: 1 },
+      { uidHash: 'user-b', characterId: '1001' as CharacterId, score: 1.6, rank: 2 },
     ])
     const events = diffSnapshots(current, previous, entries)
 
@@ -366,17 +369,17 @@ describe('diffSnapshots', () => {
       generatedAt: '2026-06-23T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 2.0, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 2.0, rank: 1 },
       },
     }
     const current: LeaderboardSnapshot = {
       generatedAt: '2026-06-24T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 2.0, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 2.0, rank: 1 },
       },
     }
-    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 2.0, rank: 1 }])
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001' as CharacterId, score: 2.0, rank: 1 }])
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toEqual([])
@@ -387,17 +390,17 @@ describe('diffSnapshots', () => {
       generatedAt: '2026-06-23T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 1.5, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 1.5, rank: 1 },
       },
     }
     const current: LeaderboardSnapshot = {
       generatedAt: '2026-06-24T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 1.5, rank: 3 },
+        'user-a:1001:dps': { highWatermark: 1.5, rank: 3 },
       },
     }
-    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.5, rank: 3 }])
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001' as CharacterId, score: 1.5, rank: 3 }])
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toEqual([])
@@ -408,17 +411,17 @@ describe('diffSnapshots', () => {
       generatedAt: '2026-06-23T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 1.5, rank: 1 },
+        'user-a:1001:dps': { highWatermark: 1.5, rank: 1 },
       },
     }
     const current: LeaderboardSnapshot = {
       generatedAt: '2026-06-24T00:00:00Z',
       characters: {},
       userBests: {
-        'user-a:1001': { highWatermark: 1.502, rank: 3 },
+        'user-a:1001:dps': { highWatermark: 1.502, rank: 3 },
       },
     }
-    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001', score: 1.502, rank: 3 }])
+    const entries = makeUserCharEntries([{ uidHash: 'user-a', characterId: '1001' as CharacterId, score: 1.502, rank: 3 }])
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toHaveLength(1)
@@ -436,6 +439,7 @@ describe('deduplicateAndMerge', () => {
     const newEvent = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
+      configType: 'dps',
       uidHash: 'user-a',
       date: '2026-06-24',
       score: 2.5,
@@ -447,6 +451,7 @@ describe('deduplicateAndMerge', () => {
     const existingEvent = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
+      configType: 'dps',
       uidHash: 'user-a',
       date: '2026-06-24',
       score: 2.2,
@@ -466,6 +471,7 @@ describe('deduplicateAndMerge', () => {
     const userA = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
+      configType: 'dps',
       uidHash: 'user-a',
       date: '2026-06-24',
       score: 2.5,
@@ -477,6 +483,7 @@ describe('deduplicateAndMerge', () => {
     const userB = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
+      configType: 'dps',
       uidHash: 'user-b',
       date: '2026-06-24',
       score: 2.2,
@@ -494,6 +501,7 @@ describe('deduplicateAndMerge', () => {
     const day1 = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
+      configType: 'dps',
       uidHash: 'user-a',
       date: '2026-06-23',
       score: 2.0,
@@ -505,6 +513,7 @@ describe('deduplicateAndMerge', () => {
     const day2 = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
+      configType: 'dps',
       uidHash: 'user-a',
       date: '2026-06-24',
       score: 2.5,
@@ -523,6 +532,7 @@ describe('deduplicateAndMerge', () => {
       {
         type: TimelineEventType.NEW_BEST as const,
         characterId: '1001' as CharacterId,
+        configType: 'dps',
         uidHash: 'user-a',
         date: '2026-06-22',
         score: 1.5,
@@ -534,6 +544,7 @@ describe('deduplicateAndMerge', () => {
       {
         type: TimelineEventType.NEW_BEST as const,
         characterId: '1002' as CharacterId,
+        configType: 'dps',
         uidHash: 'user-b',
         date: '2026-06-24',
         score: 2.5,
@@ -545,6 +556,7 @@ describe('deduplicateAndMerge', () => {
       {
         type: TimelineEventType.NEW_CHARACTER as const,
         characterId: '1003' as CharacterId,
+        configType: 'dps',
         uidHash: 'user-c',
         date: '2026-06-23',
         score: 1.8,
@@ -564,6 +576,7 @@ describe('deduplicateAndMerge', () => {
     const events = Array.from({ length: 10 }, (_, i) => ({
       type: TimelineEventType.NEW_BEST as const,
       characterId: `char-${i}` as CharacterId,
+      configType: 'dps',
       uidHash: `user-${i}`,
       date: `2026-06-${String(10 + i).padStart(2, '0')}`,
       score: i + 1,

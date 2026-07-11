@@ -1,5 +1,6 @@
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
+import type { CharacterId } from 'types/character'
 import type { LeaderboardSnapshot, LeaderboardSnapshotEntry, UserCharacterWatermark } from 'leaderboard/timeline/timelineTypes'
 
 export type SnapshotExtractionResult = {
@@ -11,10 +12,14 @@ export type UserCharCurrentEntry = {
   score: number,
   rank: number,
   uidHash: string,
-  characterId: string,
+  characterId: CharacterId,
   configType: LeaderboardConfigType,
   teamId: string,
   fetchedAt: number,
+}
+
+export function userCharKey(uidHash: string, characterId: CharacterId, configType: LeaderboardConfigType): string {
+  return `${uidHash}:${characterId}:${configType}`
 }
 
 export function extractSnapshot(
@@ -30,7 +35,7 @@ export function extractSnapshot(
   const userCharEntries = new Map<string, UserCharCurrentEntry>()
 
   for (const board of Object.values(privateOutput.boards)) {
-    const charId = board.characterId
+    const charId = board.characterId as CharacterId
     if (board.entries.length === 0) continue
     if (allowedCharacterIds && !allowedCharacterIds.has(charId)) continue
 
@@ -42,14 +47,14 @@ export function extractSnapshot(
 
     for (const entry of board.entries) {
       if (entry.rank > maxBoardRank) continue
-      const key = `${entry.uidHash}:${charId}`
+      const key = userCharKey(entry.uidHash, charId, board.configType)
       const existing = userCharEntries.get(key)
       if (!existing || entry.score > existing.score) {
         userCharEntries.set(key, {
           score: entry.score,
           rank: entry.rank,
           uidHash: entry.uidHash,
-          characterId: entry.characterId,
+          characterId: charId,
           configType: board.configType,
           teamId: board.teamId,
           fetchedAt: entry.data.fetchedAt,
@@ -73,25 +78,25 @@ export function extractSnapshot(
     }
   }
 
-  const byCharacter = new Map<string, string[]>()
-  for (const [key, entry] of userCharEntries) {
-    const charId = entry.characterId
-    let list = byCharacter.get(charId)
+  const byCharConfig = new Map<string, UserCharCurrentEntry[]>()
+  for (const entry of userCharEntries.values()) {
+    const groupKey = `${entry.characterId}:${entry.configType}`
+    let list = byCharConfig.get(groupKey)
     if (!list) {
       list = []
-      byCharacter.set(charId, list)
+      byCharConfig.set(groupKey, list)
     }
-    list.push(key)
+    list.push(entry)
   }
-  for (const keys of byCharacter.values()) {
-    keys.sort((a, b) => userCharEntries.get(b)!.score - userCharEntries.get(a)!.score)
-    for (let i = 0; i < keys.length; i++) {
-      userCharEntries.get(keys[i])!.rank = i + 1
+  for (const entries of byCharConfig.values()) {
+    entries.sort((a, b) => b.score - a.score)
+    for (let i = 0; i < entries.length; i++) {
+      entries[i].rank = i + 1
     }
   }
 
   const prevUserBests = previousSnapshot?.userBests ?? {}
-  const userBests: Record<string, UserCharacterWatermark> = {}
+  const userBests: Record<string, UserCharacterWatermark> = { ...prevUserBests }
   for (const [key, entry] of userCharEntries) {
     const prevWatermark = prevUserBests[key]?.highWatermark ?? -Infinity
     userBests[key] = {

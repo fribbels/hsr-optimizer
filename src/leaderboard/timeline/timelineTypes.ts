@@ -1,5 +1,7 @@
 import type { CharacterId } from 'types/character'
 
+export const TIMELINE_SCHEMA_VERSION = 2
+
 export enum TimelineEventType {
   NEW_BEST = 'new_best',
   NEW_CHARACTER = 'new_character',
@@ -8,6 +10,7 @@ export enum TimelineEventType {
 export type TimelineNewBestEvent = {
   type: TimelineEventType.NEW_BEST,
   characterId: CharacterId,
+  configType: string,
   uidHash: string,
   date: string,
   score: number,
@@ -20,6 +23,7 @@ export type TimelineNewBestEvent = {
 export type TimelineNewCharacterEvent = {
   type: TimelineEventType.NEW_CHARACTER,
   characterId: CharacterId,
+  configType: string,
   uidHash: string,
   date: string,
   score: number,
@@ -31,7 +35,7 @@ export type TimelineNewCharacterEvent = {
 export type TimelineEvent = TimelineNewBestEvent | TimelineNewCharacterEvent
 
 export type LeaderboardTimeline = {
-  schemaVersion: 1,
+  schemaVersion: number,
   generatedAt: string,
   events: TimelineEvent[],
 }
@@ -49,6 +53,7 @@ export type UserCharacterWatermark = {
 }
 
 export type LeaderboardSnapshot = {
+  schemaVersion?: number,
   generatedAt: string,
   characters: Record<string, LeaderboardSnapshotEntry>,
   userBests?: Record<string, UserCharacterWatermark>,

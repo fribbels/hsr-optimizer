@@ -6,7 +6,7 @@ import { getBuildIndex } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useTranslation } from 'react-i18next'
 
-const MAX_FEED_ENTRIES = 8
+const MAX_FEED_ENTRIES = 50
 const MS_PER_HOUR = 1000 * 60 * 60
 
 function formatRelativeTime(dateString: string): string {
@@ -67,7 +67,7 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
           const scorePercent = (event.score * 100).toFixed(1)
 
           return (
-            <div key={`${characterId}#${event.type}#${event.date}`} className={classes.feedRow} onClick={() => handleRowClick(event)}>
+            <div key={`${event.uidHash}#${characterId}#${event.type}#${event.date}`} className={classes.feedRow} onClick={() => handleRowClick(event)}>
               <span className={classes.cellTime}>{formatRelativeTime(event.date)}</span>
               <span className={classes.cellDivider} />
               <span className={classes.cellRankDelta}>{renderRankDelta(event)}</span>

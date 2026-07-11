@@ -8,6 +8,7 @@ export enum TimelineEventType {
 export type TimelineNewBestEvent = {
   type: TimelineEventType.NEW_BEST,
   characterId: CharacterId,
+  uidHash: string,
   date: string,
   score: number,
   previousScore: number,
@@ -19,6 +20,7 @@ export type TimelineNewBestEvent = {
 export type TimelineNewCharacterEvent = {
   type: TimelineEventType.NEW_CHARACTER,
   characterId: CharacterId,
+  uidHash: string,
   date: string,
   score: number,
   rank: number,
@@ -41,7 +43,13 @@ export type LeaderboardSnapshotEntry = {
   entryCount: number,
 }
 
+export type UserCharacterWatermark = {
+  highWatermark: number,
+  rank: number,
+}
+
 export type LeaderboardSnapshot = {
   generatedAt: string,
   characters: Record<string, LeaderboardSnapshotEntry>,
+  userBests?: Record<string, UserCharacterWatermark>,
 }

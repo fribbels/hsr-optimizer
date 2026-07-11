@@ -2,11 +2,21 @@ import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping
 import { computeBuildId } from 'leaderboard/shared/hash'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
-import type { LeaderboardSnapshot, LeaderboardSnapshotEntry } from 'leaderboard/timeline/timelineTypes'
+import type { LeaderboardSnapshot, LeaderboardSnapshotEntry, UserCharacterWatermark } from 'leaderboard/timeline/timelineTypes'
 
 export type SnapshotExtractionResult = {
   snapshot: LeaderboardSnapshot,
   topBuildIds: Map<CharacterId, string>,
+  userCharEntries: Map<string, UserCharCurrentEntry>,
+}
+
+export type UserCharCurrentEntry = {
+  score: number,
+  rank: number,
+  uidHash: string,
+  characterId: string,
+  configType: LeaderboardConfigType,
+  teamId: string,
 }
 
 type TopEntryIdentity = {
@@ -25,6 +35,7 @@ export function extractSnapshot(
   allowedCharacterIds?: Set<string>,
 ): SnapshotExtractionResult {
   const topEntries = new Map<string, TopEntryIdentity>()
+  const userCharEntries = new Map<string, UserCharCurrentEntry>()
 
   for (const board of Object.values(privateOutput.boards)) {
     const charId = board.characterId
@@ -42,6 +53,21 @@ export function extractSnapshot(
         configType: board.configType,
         teamId: board.teamId,
       })
+    }
+
+    for (const entry of board.entries) {
+      const key = `${entry.uidHash}:${charId}`
+      const existing = userCharEntries.get(key)
+      if (!existing || entry.score > existing.score) {
+        userCharEntries.set(key, {
+          score: entry.score,
+          rank: entry.rank,
+          uidHash: entry.uidHash,
+          characterId: entry.characterId,
+          configType: board.configType,
+          teamId: board.teamId,
+        })
+      }
     }
   }
 
@@ -65,8 +91,19 @@ export function extractSnapshot(
     )
   }
 
+  const prevUserBests = previousSnapshot?.userBests ?? {}
+  const userBests: Record<string, UserCharacterWatermark> = {}
+  for (const [key, entry] of userCharEntries) {
+    const prevWatermark = prevUserBests[key]?.highWatermark ?? -Infinity
+    userBests[key] = {
+      highWatermark: Math.max(prevWatermark, entry.score),
+      rank: entry.rank,
+    }
+  }
+
   return {
-    snapshot: { generatedAt, characters },
+    snapshot: { generatedAt, characters, userBests },
     topBuildIds,
+    userCharEntries,
   }
 }

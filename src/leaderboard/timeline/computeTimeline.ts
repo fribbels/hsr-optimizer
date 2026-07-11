@@ -5,7 +5,8 @@ import type {
 } from 'leaderboard/timeline/timelineTypes'
 import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
 import { readTimeline, readSnapshot } from 'leaderboard/timeline/timelineStorage'
-import { extractSnapshot } from 'leaderboard/timeline/extractSnapshot'
+import { extractSnapshot, type UserCharCurrentEntry } from 'leaderboard/timeline/extractSnapshot'
+import { computeBuildId } from 'leaderboard/shared/hash'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 import type { CharacterId } from 'types/character'
 
@@ -16,35 +17,38 @@ export function displayScore(score: number): number {
 export function diffSnapshots(
   current: LeaderboardSnapshot,
   previous: LeaderboardSnapshot | null,
-  topBuildIds: Map<CharacterId, string>,
+  userCharEntries: Map<string, UserCharCurrentEntry>,
   date: string,
 ): TimelineEvent[] {
   if (!previous) return []
 
+  const prevUserBests = previous.userBests ?? {}
   const events: TimelineEvent[] = []
 
-  for (const [charId, curr] of Object.entries(current.characters)) {
-    const prev = previous.characters[charId]
-    const buildId = topBuildIds.get(charId as CharacterId)!
+  for (const [key, entry] of userCharEntries) {
+    const prev = prevUserBests[key]
+    const buildId = computeBuildId(entry.uidHash, entry.characterId, entry.configType, entry.teamId)
 
     if (!prev) {
       events.push({
         type: TimelineEventType.NEW_CHARACTER,
-        characterId: charId as CharacterId,
+        characterId: entry.characterId as CharacterId,
+        uidHash: entry.uidHash,
         date,
-        score: curr.topScore,
-        rank: curr.rank,
-        entryCount: curr.entryCount,
+        score: entry.score,
+        rank: entry.rank,
+        entryCount: current.characters[entry.characterId]?.entryCount ?? 0,
         buildId,
       })
-    } else if (displayScore(curr.topScore) > displayScore(prev.highWatermark)) {
+    } else if (displayScore(entry.score) > displayScore(prev.highWatermark)) {
       events.push({
         type: TimelineEventType.NEW_BEST,
-        characterId: charId as CharacterId,
+        characterId: entry.characterId as CharacterId,
+        uidHash: entry.uidHash,
         date,
-        score: curr.topScore,
+        score: entry.score,
         previousScore: prev.highWatermark,
-        rank: curr.rank,
+        rank: entry.rank,
         previousRank: prev.rank,
         buildId,
       })
@@ -62,11 +66,11 @@ export function deduplicateAndMerge(
   const seen = new Map<string, TimelineEvent>()
 
   for (const event of newEvents) {
-    seen.set(`${event.characterId}#${event.type}#${event.date}`, event)
+    seen.set(`${event.uidHash}#${event.characterId}#${event.type}#${event.date}`, event)
   }
 
   for (const event of existingEvents) {
-    const key = `${event.characterId}#${event.type}#${event.date}`
+    const key = `${event.uidHash}#${event.characterId}#${event.type}#${event.date}`
     if (!seen.has(key)) {
       seen.set(key, event)
     }
@@ -95,9 +99,9 @@ export function computeTimelineUpdate(input: {
   const previousSnapshot = readSnapshot(input.snapshotPath)
   const result = extractSnapshot(input.privateOutput, input.totalCounts, previousSnapshot, input.generatedAt, input.allowedCharacterIds)
   const date = input.generatedAt.slice(0, 10)
-  const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.topBuildIds, date)
+  const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries, date)
   const existingEvents = readTimeline(input.timelinePath)
-  const events = deduplicateAndMerge(newEvents, existingEvents, 50)
+  const events = deduplicateAndMerge(newEvents, existingEvents, 100)
 
   return {
     snapshot: result.snapshot,

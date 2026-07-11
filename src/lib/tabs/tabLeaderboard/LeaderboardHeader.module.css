@@ -128,7 +128,7 @@
 .feedGrid {
   display: grid;
   font-size: 14px;
-  grid-template-columns: 20px 1px 32px 20px 1fr 52px 42px;
+  grid-template-columns: 20px 1px 36px 20px 1fr 52px 42px;
   gap: 4px 7px;
   align-content: start;
   flex: 1;

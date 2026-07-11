@@ -118,7 +118,8 @@
   font-size: 14px;
   text-align: center;
   padding-right: var(--lb-strip-width);
-  color: rgba(255, 255, 255, 0.55);
+  margin-top: 1px;
+  color: rgba(255, 255, 255, 0.5);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

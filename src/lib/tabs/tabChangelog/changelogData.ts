@@ -25,7 +25,7 @@ export function getChangelogContent() {
         `leaderboard.webp`,
         `Added eidolon filter and team filter for filtering entries within a character`,
         `filter.webp`,
-        `Added timeline feed showing recent score improvements with clickable links to builds`,
+        `Added timeline feed showing anonymized recent score improvements with clickable links to builds`,
         `timeline.webp`,
         `Added AEON reic rating tier (90%+ perfection) for verified relics with default scoring weights`,
         `aeon.webp`,

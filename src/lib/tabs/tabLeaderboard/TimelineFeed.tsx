@@ -1,5 +1,4 @@
-import { TIMELINE_MIN_SCORE } from 'leaderboard/timeline/computeTimeline'
-import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
+import { TIMELINE_MIN_SCORE, TimelineEventType } from 'leaderboard/timeline/timelineTypes'
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'

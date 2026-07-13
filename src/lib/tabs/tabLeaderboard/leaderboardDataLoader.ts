@@ -4,7 +4,8 @@ import type {
   PublicLeaderboardEntry,
 } from 'leaderboard/shared/types'
 import type { LeaderboardTimeline, TimelineEvent } from 'leaderboard/timeline/timelineTypes'
-import { BASE_PATH } from 'lib/tabs/navigation/constants'
+import { IS_LOCALHOST } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
+import { BASE_PATH, BasePath } from 'lib/tabs/navigation/constants'
 import {
   type LeaderboardEntry,
   type LeaderboardTeammate,
@@ -30,14 +31,38 @@ export function getBuildIndex(): Map<string, BuildIndexEntry> | null {
   return buildIndex
 }
 
-const LEADERBOARD_DATA_URL = new URL(`${BASE_PATH}/leaderboard/leaderboard.json`, import.meta.url).href
+const BETA_ORIGIN = 'https://fribbels.github.io'
+
+function leaderboardUrl(filename: string): string {
+  return new URL(`${BASE_PATH}/leaderboard/${filename}`, import.meta.url).href
+}
+
+function betaFallbackUrl(filename: string): string {
+  return `${BETA_ORIGIN}${BasePath.BETA}/leaderboard/${filename}`
+}
+
+async function fetchJsonWithFallback<T>(filename: string): Promise<T> {
+  const localResponse = await fetch(leaderboardUrl(filename))
+  const contentType = localResponse.headers.get('content-type') ?? ''
+  if (localResponse.ok && contentType.includes('json')) {
+    return localResponse.json() as Promise<T>
+  }
+
+  if (IS_LOCALHOST) {
+    const betaResponse = await fetch(betaFallbackUrl(filename))
+    if (betaResponse.ok) {
+      return betaResponse.json() as Promise<T>
+    }
+  }
+
+  throw new Error(`Failed to load ${filename}`)
+}
 
 let cachedPromise: Promise<RawLeaderboardOutput> | null = null
 
 export async function loadLeaderboardData(): Promise<RawLeaderboardOutput> {
   if (!cachedPromise) {
-    cachedPromise = fetch(LEADERBOARD_DATA_URL)
-      .then((r) => r.json() as Promise<RawLeaderboardOutput>)
+    cachedPromise = fetchJsonWithFallback<RawLeaderboardOutput>('leaderboard.json')
       .catch((e) => {
         cachedPromise = null
         throw e
@@ -46,14 +71,11 @@ export async function loadLeaderboardData(): Promise<RawLeaderboardOutput> {
   return cachedPromise
 }
 
-const TIMELINE_DATA_URL = new URL(`${BASE_PATH}/leaderboard/leaderboard-timeline.json`, import.meta.url).href
-
 let cachedTimelinePromise: Promise<TimelineEvent[]> | null = null
 
 export async function loadLeaderboardTimeline(): Promise<TimelineEvent[]> {
   if (!cachedTimelinePromise) {
-    cachedTimelinePromise = fetch(TIMELINE_DATA_URL)
-      .then((r) => r.json() as Promise<LeaderboardTimeline>)
+    cachedTimelinePromise = fetchJsonWithFallback<LeaderboardTimeline>('leaderboard-timeline.json')
       .then((t) => t.events)
       .catch(() => {
         cachedTimelinePromise = null

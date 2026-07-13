@@ -4,6 +4,8 @@ CLAUDE.md
 /output/
 /leaderboard-cache/
 /exports/
+public/leaderboard/leaderboard.json
+public/leaderboard/leaderboard-timeline.json
 
 # Logs
 logs

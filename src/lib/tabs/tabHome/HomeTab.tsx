@@ -27,6 +27,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import type Resources from 'types/resources'
 
 export function HomeTab() {
   return (
@@ -36,73 +37,37 @@ export function HomeTab() {
       </div>
       <div className={classes.container}>
         <FeatureCard
-          title='Character Showcase'
-          description="Showcase and share your character's stats or prebuild future characters. Simulate combat damage with DPS score and measure it against the benchmarks."
-          features={[
-            'Full stats display with DPS Score and stats analysis',
-            'Configure teammate buffs for accurate scoring',
-            'Simulate unreleased character stats on current relics',
-          ]}
+          feature='Showcase'
           background='blackswan'
           image='showcase'
           align='left'
         />
         <FeatureCard
-          title='Optimization Engine'
-          description='Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.'
-          features={[
-            'Find best builds for stats, abilities, or rotation damage',
-            'GPU-accelerated compute at billions of builds per second',
-            'Set up teammate conditional buffs for damage calculations',
-          ]}
+          feature='Optimizer'
           background='nous'
           image='optimizer'
           align='right'
         />
         <FeatureCard
-          title='Warp Planner'
-          description='Calculate exact success probabilities for character and light cone banner targets, with pity counters, starlight refunds, and predicted future resources.'
-          features={[
-            'Shows expected average warps needed for each target',
-            'Per-patch income tracking for F2P and spending tiers',
-            'Calculates starlight refund from duplicate trades',
-          ]}
+          feature='Warp'
           background='ruanmeibloom'
           image='warp'
           align='left'
         />
         <FeatureCard
-          title='Damage Calculator'
-          description='Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.'
-          features={[
-            'Customize rotations, teammates, and relics',
-            'See the buff breakdown by source and ability',
-            'Easy-to-use presets to get started with',
-          ]}
+          feature='DamageCalculator'
           background='sparkle'
           image='damage'
           align='right'
         />
         <FeatureCard
-          title='Build Benchmarks'
-          description='Determine which relic sets and main stats produce the highest damage for your character. Find the optimal substat distribution for each configuration.'
-          features={[
-            'Compare main stat and relic combinations head-to-head',
-            'Two tiers: realistic benchmark and perfection builds',
-            'Expandable rows show stats, rolls, and damage breakdown',
-          ]}
+          feature='Benchmarks'
           background='silverwolf'
           image='benchmark'
           align='left'
         />
         <FeatureCard
-          title='Rarity Analysis'
-          description='Evaluate relic quality using character-specific substat weights that rank each piece against its theoretical maximum.'
-          features={[
-            'Estimate days of farming needed to replace a relic',
-            'Visualize high, mid, and low rolls across your substats',
-            'See the reroll dice potential for each piece',
-          ]}
+          feature='RarityAnalysis'
           background='ciphergem'
           image='rarity'
           align='right'
@@ -239,28 +204,27 @@ function FadeSection({ children, className = '' }: FadeSectionProps) {
 }
 
 interface FeatureCardProps {
-  title: string
-  description: string
-  features: string[]
+  feature: keyof Resources['hometab']['FeatureCard']
   background: string
   image: string
   align: 'left' | 'right'
 }
 
-function FeatureCard({ title, description, features, background, image, align }: FeatureCardProps) {
+function FeatureCard({ feature, background, image, align }: FeatureCardProps) {
+  const { t } = useTranslation('hometab', { keyPrefix: `FeatureCard.${feature}`! })
   const isLeft = align === 'left'
 
   const textBlock = (
     <div className={classes.textBlock}>
-      <h2 className={classes.sectionTitle}>{title}</h2>
-      <p className={classes.sectionDescription}>{description}</p>
-      <FeatureList features={features} />
+      <h2 className={classes.sectionTitle}>{t('Title')}</h2>
+      <p className={classes.sectionDescription}>{t('Description')}</p>
+      <FeatureList features={t('Features', { returnObjects: true })} />
     </div>
   )
 
   const imageBlock = (
     <div className={`${classes.imageBlock} ${isLeft ? classes.imageBlockLeft : classes.imageBlockRight}`}>
-      <img src={Assets.getHomeFeature(image)} alt={title} className={classes.sectionImage} loading='lazy' />
+      <img src={Assets.getHomeFeature(image)} alt={feature} className={classes.sectionImage} loading='lazy' />
     </div>
   )
 
@@ -297,38 +261,39 @@ function FeatureList({ features }: { features: string[] }) {
 }
 
 function CommunitySection() {
+  const { t } = useTranslation('hometab', { keyPrefix: 'CommunityCard' })
   return (
     <section className={classes.communitySection}>
       <FadeSection>
         <div className={classes.communityGrid}>
           <CommunityCard
             icon={<IconBrandDiscord size={28} />}
-            title='Discord'
-            description='Join thousands of players sharing builds, strategies, and optimization tips.'
+            title={t('Discord.Title')}
+            description={t('Discord.Description')}
             href='https://discord.gg/rDmB4Un7qg'
             iconColor='#ffffff'
             iconBg='#5865F2'
           />
           <CommunityCard
             icon={<IconBrandGithub size={28} />}
-            title='GitHub'
-            description='Contribute to the project. Bug reports, features, and pull requests welcome.'
+            title={t('Github.Title')}
+            description={t('Github.Description')}
             href='https://github.com/fribbels/hsr-optimizer'
             iconColor='#ffffff'
             iconBg='#24292f'
           />
           <CommunityCard
             icon={<IconLayoutKanban size={28} />}
-            title='Roadmap'
-            description="See what's planned and in progress on the project board."
+            title={t('Roadmap.Title')}
+            description={t('Roadmap.Description')}
             href='https://github.com/users/fribbels/projects/2'
             iconColor='#ffffff'
             iconBg='#2d8a85'
           />
           <CommunityCard
             icon={<IconHistory size={28} />}
-            title='Changelog'
-            description='Check out recent updates, new features, and bug fixes.'
+            title={t('Changelog.Title')}
+            description={t('Changelog.Description')}
             href={BASE_PATH + PageToHash[AppPages.CHANGELOG]}
             iconColor='#ffffff'
             iconBg='#b8863b'

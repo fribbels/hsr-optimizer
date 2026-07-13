@@ -9,7 +9,7 @@ import { extractSnapshot, type UserCharCurrentEntry } from 'leaderboard/timeline
 import { computeBuildId } from 'leaderboard/shared/hash'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 
-const TIMELINE_MIN_SCORE = 1.5
+export const TIMELINE_MIN_SCORE = 1.5
 
 export function displayScore(score: number): number {
   return Math.trunc(score * 1000)

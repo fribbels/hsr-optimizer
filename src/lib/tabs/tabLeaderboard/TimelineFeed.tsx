@@ -1,3 +1,4 @@
+import { TIMELINE_MIN_SCORE } from 'leaderboard/timeline/computeTimeline'
 import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { Assets } from 'lib/rendering/assets'
@@ -31,7 +32,8 @@ function renderScoreDelta(event: TimelineEvent) {
   if (event.type === TimelineEventType.NEW_CHARACTER) {
     return <span className={classes.cellNewLabel}>NEW</span>
   }
-  const delta = (event.score - event.previousScore) * 100
+  const clampedPrevious = Math.max(event.previousScore, TIMELINE_MIN_SCORE)
+  const delta = (event.score - clampedPrevious) * 100
   return <span className={classes.cellGreen}>+{delta.toFixed(1)}%</span>
 }
 

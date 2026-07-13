@@ -38,7 +38,7 @@ export type Namespaces = typeof namespaces[number]
 export const isBeta = BASE_PATH === BasePath.BETA
 
 export const defaultNS = 'common'
-export const fallbackNS = ['common', 'gameData']
+export const fallbackNS = ['common', 'gameData'] as const
 
 const supportedLanguages = isBeta ? Object.keys(languages) : completedLocales
 void i18next

@@ -1,6 +1,7 @@
 import type { CharacterId } from 'types/character'
 
 export const TIMELINE_SCHEMA_VERSION = 2
+export const TIMELINE_MIN_SCORE = 1.5
 
 export enum TimelineEventType {
   NEW_BEST = 'new_best',

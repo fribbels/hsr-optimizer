@@ -3,13 +3,12 @@ import type {
   LeaderboardTimeline,
   LeaderboardSnapshot,
 } from 'leaderboard/timeline/timelineTypes'
-import { TIMELINE_SCHEMA_VERSION, TimelineEventType } from 'leaderboard/timeline/timelineTypes'
+import { TIMELINE_MIN_SCORE, TIMELINE_SCHEMA_VERSION, TimelineEventType } from 'leaderboard/timeline/timelineTypes'
 import { readTimeline, readSnapshot } from 'leaderboard/timeline/timelineStorage'
 import { extractSnapshot, type UserCharCurrentEntry } from 'leaderboard/timeline/extractSnapshot'
 import { computeBuildId } from 'leaderboard/shared/hash'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
 
-const TIMELINE_MIN_SCORE = 1.5
 
 export function displayScore(score: number): number {
   return Math.trunc(score * 1000)

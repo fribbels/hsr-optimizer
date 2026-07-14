@@ -10,6 +10,9 @@ import {
   IconGripVertical,
   IconX,
 } from '@tabler/icons-react'
+import chroma from 'chroma-js'
+import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
+import { oklchCharacterListColor } from 'lib/characterPreview/color/colorUtilsOklch'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { Assets } from 'lib/rendering/assets'
 import {
@@ -185,15 +188,23 @@ export function TargetHeaderRow(props: {
   const warpType = getTargetWarpType(target)
   const isChar = warpType === WarpType.CHARACTER
 
-  const signatureLcId = target.characterId ? getCharacterConfig(target.characterId)?.defaultLightCone ?? null : null
+  const characterConfig = target.characterId ? getCharacterConfig(target.characterId) : null
+  const signatureLcId = characterConfig?.defaultLightCone ?? null
   const lcId = target.lightConeId ?? signatureLcId
+  const showcaseColor = isChar ? characterConfig?.display.showcaseColor : undefined
+  const goalCellColor = showcaseColor
+    ? chroma(oklchCharacterListColor(showcaseColor, true, DEFAULT_CONFIG)).darken(2.0).alpha(0.25).css()
+    : undefined
+  const goalCellBg = goalCellColor
+    ? `linear-gradient(to right, ${goalCellColor} 75%, transparent 100%)`
+    : undefined
   const floor = isChar
     ? getCharacterEidolonFloor(form.getValues().targets, target.characterId, targetIndex)
     : getLightConeSuperimpositionFloor(form.getValues().targets, target.lightConeId, targetIndex)
 
   return (
     <Table.Tr className={unifiedClasses.headerRow}>
-      <Table.Td className={unifiedClasses.goalCell} onClick={select.open}>
+      <Table.Td className={unifiedClasses.goalCell} onClick={select.open} style={{ background: goalCellBg }}>
         <div ref={dragHandleRef} className={unifiedClasses.dragHandle} {...dragHandleProps}>
           <IconGripVertical size={14} />
         </div>

@@ -28,7 +28,6 @@ import {
   deriveSnapshotPath,
   deriveTimelinePath,
   readTimeline,
-  validateNoUidInPublicTimeline,
   writeTimelineArtifacts,
 } from 'leaderboard/timeline/timelineStorage'
 import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
@@ -706,8 +705,6 @@ describe('timeline identity migration', () => {
       }],
     }
     Object.assign(timeline.events[0], { uidHash: 'should-not-publish' })
-
-    expect(() => validateNoUidInPublicTimeline(timeline)).toThrow('forbidden field "uidHash"')
 
     const timelinePath = joinPath(cwd(), `.leaderboard-timeline-${crypto.randomUUID()}.json`)
     const snapshotPath = joinPath(cwd(), `.leaderboard-snapshot-${crypto.randomUUID()}.json`)

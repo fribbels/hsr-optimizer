@@ -50,32 +50,30 @@ export function diffSnapshots(
     if (entry.score < TIMELINE_MIN_SCORE || entry.rank > maxRank) continue
 
     const prev = prevUserBests[key]
-    const date = fetchedAtToISOString(entry.fetchedAt)
+    if (prev && displayScore(entry.score) <= displayScore(prev.highWatermark)) continue
+
+    const common = {
+      characterId: entry.characterId,
+      configType: entry.configType,
+      candidateId: computeCandidateId(entry.uidHash, entry.characterId),
+      date: fetchedAtToISOString(entry.fetchedAt),
+      score: entry.score,
+      rank: entry.rank,
+      buildId: computeBuildId(entry.uidHash, entry.characterId, entry.configType, entry.teamId),
+    }
 
     if (!prev) {
       events.push({
+        ...common,
         type: TimelineEventType.NEW_CHARACTER,
-        characterId: entry.characterId,
-        configType: entry.configType,
-        candidateId: computeCandidateId(entry.uidHash, entry.characterId),
-        date,
-        score: entry.score,
-        rank: entry.rank,
         entryCount: current.characters[entry.characterId]?.entryCount ?? 0,
-        buildId: computeBuildId(entry.uidHash, entry.characterId, entry.configType, entry.teamId),
       })
-    } else if (displayScore(entry.score) > displayScore(prev.highWatermark)) {
+    } else {
       events.push({
+        ...common,
         type: TimelineEventType.NEW_BEST,
-        characterId: entry.characterId,
-        configType: entry.configType,
-        candidateId: computeCandidateId(entry.uidHash, entry.characterId),
-        date,
-        score: entry.score,
         previousScore: prev.highWatermark,
-        rank: entry.rank,
         previousRank: Math.min(prev.rank, maxRank + 1),
-        buildId: computeBuildId(entry.uidHash, entry.characterId, entry.configType, entry.teamId),
       })
     }
   }

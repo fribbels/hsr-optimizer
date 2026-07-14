@@ -1,5 +1,6 @@
-import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
+import { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
+import { LEADERBOARD_DISPLAY_TOP_N } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import { Assets } from 'lib/rendering/assets'
 import { loadCharacterData } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
@@ -21,18 +22,18 @@ import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 
 const CONFIG_LABELS: Record<LeaderboardConfigType, string> = {
-  dps: 'DPS',
-  support: 'Support',
-  heal: 'Heal',
-  shield: 'Shield',
+  [LeaderboardConfigType.DPS]: 'DPS',
+  [LeaderboardConfigType.SUPPORT]: 'Support',
+  [LeaderboardConfigType.HEAL]: 'Heal',
+  [LeaderboardConfigType.SHIELD]: 'Shield',
 }
 
 enum UserRanksStatus {
-  NO_UID = 'no_uid',
-  INVALID_UID = 'invalid_uid',
-  LOADING = 'loading',
-  READY = 'ready',
-  UNAVAILABLE = 'unavailable',
+  NO_UID = 'NO_UID',
+  INVALID_UID = 'INVALID_UID',
+  LOADING = 'LOADING',
+  READY = 'READY',
+  UNAVAILABLE = 'UNAVAILABLE',
 }
 
 type UserRanksState =
@@ -61,7 +62,7 @@ function statusMessage(state: UserRanksState): string | null {
     case UserRanksStatus.UNAVAILABLE:
       return 'Ranks are temporarily unavailable.'
     case UserRanksStatus.READY:
-      return state.ranks.length === 0 ? 'No current top 100 ranks.' : null
+      return state.ranks.length === 0 ? `No current top ${LEADERBOARD_DISPLAY_TOP_N} ranks.` : null
   }
 }
 

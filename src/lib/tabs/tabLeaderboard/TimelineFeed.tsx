@@ -4,6 +4,7 @@ import {
 } from 'leaderboard/timeline/timelineTypes'
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { Assets } from 'lib/rendering/assets'
+import { truncate10ths } from 'lib/utils/mathUtils'
 import { getBuildIndex } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
@@ -64,7 +65,7 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
           const characterId = event.characterId
           const nameKey = characterId.startsWith('80') ? 'LongName' : 'Name'
           const name = tGame(`Characters.${characterId}.${nameKey}`)
-          const scorePercent = (event.score * 100).toFixed(1)
+          const scorePercent = truncate10ths(event.score * 100).toFixed(1)
 
           return (
             <div

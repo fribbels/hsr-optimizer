@@ -2,8 +2,8 @@ import { isLeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import {
   type TimelineEvent,
   TimelineEventType,
-  type TimelineNewBestEvent,
-  type TimelineNewCharacterEvent,
+  type TimelineNewBestEventBase,
+  type TimelineNewCharacterEventBase,
 } from 'leaderboard/timeline/timelineTypes'
 import type { CharacterId } from 'types/character'
 
@@ -14,26 +14,26 @@ type TimelineWireIdentity = {
   uidHash?: string,
 }
 
-type TimelineNewBestEventWire = Omit<TimelineNewBestEvent, 'candidateId'> & TimelineWireIdentity
-type TimelineNewCharacterEventWire = Omit<TimelineNewCharacterEvent, 'candidateId'> & TimelineWireIdentity
+type TimelineNewBestEventWire = TimelineNewBestEventBase & TimelineWireIdentity
+type TimelineNewCharacterEventWire = TimelineNewCharacterEventBase & TimelineWireIdentity
 type TimelineEventWire = TimelineNewBestEventWire | TimelineNewCharacterEventWire
 
-type UnknownTimelineEvent = {
-  type?: unknown,
-  characterId?: unknown,
-  configType?: unknown,
-  candidateId?: unknown,
-  uidHash?: unknown,
-  date?: unknown,
-  score?: unknown,
-  previousScore?: unknown,
-  rank?: unknown,
-  previousRank?: unknown,
-  entryCount?: unknown,
-  buildId?: unknown,
-}
+export type RawTimelineEvent = Partial<{
+  type: string,
+  characterId: string,
+  configType: string,
+  candidateId: string,
+  uidHash: string,
+  date: string,
+  score: number,
+  previousScore: number,
+  rank: number,
+  previousRank: number,
+  entryCount: number,
+  buildId: string,
+}>
 
-function isFiniteNumber(value: unknown): value is number {
+function isFiniteNumber(value: number | undefined): value is number {
   return typeof value === 'number' && Number.isFinite(value)
 }
 
@@ -41,55 +41,46 @@ function isCandidateId(value: string | undefined): value is string {
   return value != null && CANDIDATE_ID_PATTERN.test(value)
 }
 
-export function parseTimelineEventWire(value: unknown): TimelineEventWire | null {
-  if (value == null || typeof value !== 'object' || Array.isArray(value)) return null
-
-  const event = value as UnknownTimelineEvent
+export function parseTimelineEventWire(value: RawTimelineEvent): TimelineEventWire | null {
   if (
-    typeof event.characterId !== 'string'
-    || typeof event.configType !== 'string'
-    || !isLeaderboardConfigType(event.configType)
-    || typeof event.date !== 'string'
-    || !isFiniteNumber(event.score)
-    || !isFiniteNumber(event.rank)
-    || typeof event.buildId !== 'string'
+    typeof value.characterId !== 'string'
+    || typeof value.configType !== 'string'
+    || !isLeaderboardConfigType(value.configType)
+    || typeof value.date !== 'string'
+    || !isFiniteNumber(value.score)
+    || !isFiniteNumber(value.rank)
+    || typeof value.buildId !== 'string'
   ) {
     return null
   }
 
-  const identity = {
-    ...(typeof event.candidateId === 'string' ? { candidateId: event.candidateId } : {}),
-    ...(typeof event.uidHash === 'string' ? { uidHash: event.uidHash } : {}),
+  const common = {
+    characterId: value.characterId as CharacterId,
+    configType: value.configType,
+    candidateId: typeof value.candidateId === 'string' ? value.candidateId : undefined,
+    uidHash: typeof value.uidHash === 'string' ? value.uidHash : undefined,
+    date: value.date,
+    score: value.score,
+    rank: value.rank,
+    buildId: value.buildId,
   }
 
-  if (event.type === TimelineEventType.NEW_BEST) {
-    if (!isFiniteNumber(event.previousScore) || !isFiniteNumber(event.previousRank)) return null
+  if (value.type === TimelineEventType.NEW_BEST) {
+    if (!isFiniteNumber(value.previousScore) || !isFiniteNumber(value.previousRank)) return null
     return {
+      ...common,
       type: TimelineEventType.NEW_BEST,
-      characterId: event.characterId as CharacterId,
-      configType: event.configType,
-      ...identity,
-      date: event.date,
-      score: event.score,
-      previousScore: event.previousScore,
-      rank: event.rank,
-      previousRank: event.previousRank,
-      buildId: event.buildId,
+      previousScore: value.previousScore,
+      previousRank: value.previousRank,
     }
   }
 
-  if (event.type === TimelineEventType.NEW_CHARACTER) {
-    if (!isFiniteNumber(event.entryCount)) return null
+  if (value.type === TimelineEventType.NEW_CHARACTER) {
+    if (!isFiniteNumber(value.entryCount)) return null
     return {
+      ...common,
       type: TimelineEventType.NEW_CHARACTER,
-      characterId: event.characterId as CharacterId,
-      configType: event.configType,
-      ...identity,
-      date: event.date,
-      score: event.score,
-      rank: event.rank,
-      entryCount: event.entryCount,
-      buildId: event.buildId,
+      entryCount: value.entryCount,
     }
   }
 

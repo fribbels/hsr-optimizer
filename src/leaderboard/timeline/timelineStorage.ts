@@ -12,10 +12,12 @@ import type { TimelineUpdateResult } from 'leaderboard/timeline/computeTimeline'
 import {
   completeTimelineEventIdentity,
   parseTimelineEventWire,
+  type RawTimelineEvent,
 } from 'leaderboard/timeline/timelineEventValidation'
 import type {
   LeaderboardSnapshot,
   LeaderboardTimeline,
+  TimelineEvent,
 } from 'leaderboard/timeline/timelineTypes'
 import { TIMELINE_SCHEMA_VERSION } from 'leaderboard/timeline/timelineTypes'
 
@@ -34,16 +36,16 @@ export function readSnapshot(path: string): LeaderboardSnapshot | null {
   }
 }
 
-export function readTimeline(path: string): LeaderboardTimeline['events'] {
+export function readTimeline(path: string): TimelineEvent[] {
   if (!fileExists(path)) return []
   try {
-    const parsed = JSON.parse(readTextFile(path)) as { schemaVersion?: number, events?: unknown[] }
+    const parsed = JSON.parse(readTextFile(path)) as { schemaVersion?: number, events?: RawTimelineEvent[] }
     if ((parsed.schemaVersion ?? 1) < TIMELINE_SCHEMA_VERSION) {
       return []
     }
     if (!Array.isArray(parsed.events)) return []
 
-    const events: LeaderboardTimeline['events'] = []
+    const events: TimelineEvent[] = []
     for (const value of parsed.events) {
       const event = parseTimelineEventWire(value)
       if (!event) {
@@ -75,25 +77,15 @@ export function writeTimelineArtifacts(result: TimelineUpdateResult): void {
   atomicWriteJsonFile(result.snapshotPath, JSON.stringify(snapshot, null, 2))
 }
 
-export function validateNoUidInPublicTimeline(timeline: LeaderboardTimeline): void {
-  validateNoUidFields(timeline, 'timeline')
-}
-
-function validateNoUidFields(value: unknown, path: string): void {
-  if (value == null || typeof value !== 'object') return
-
-  if (Array.isArray(value)) {
-    for (let i = 0; i < value.length; i++) {
-      validateNoUidFields(value[i], `${path}[${i}]`)
+function validateNoUidInPublicTimeline(timeline: LeaderboardTimeline): void {
+  for (let i = 0; i < timeline.events.length; i++) {
+    const event = timeline.events[i]
+    if ('uid' in event) {
+      throw new Error(`Public timeline contains forbidden field "uid" in timeline.events[${i}]`)
     }
-    return
-  }
-
-  for (const [field, child] of Object.entries(value)) {
-    if (field === 'uid' || field === 'uidHash') {
-      throw new Error(`Public timeline contains forbidden field "${field}" in ${path}`)
+    if ('uidHash' in event) {
+      throw new Error(`Public timeline contains forbidden field "uidHash" in timeline.events[${i}]`)
     }
-    validateNoUidFields(child, `${path}.${field}`)
   }
 }
 

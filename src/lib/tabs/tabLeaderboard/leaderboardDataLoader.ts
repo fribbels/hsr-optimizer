@@ -6,6 +6,7 @@ import type {
 import {
   completeTimelineEventIdentity,
   parseTimelineEventWire,
+  type RawTimelineEvent,
 } from 'leaderboard/timeline/timelineEventValidation'
 import {
   TIMELINE_SCHEMA_VERSION,
@@ -86,10 +87,10 @@ let cachedTimelinePromise: Promise<TimelineEvent[]> | null = null
 
 type RawLeaderboardTimeline = {
   schemaVersion?: number,
-  events?: unknown[],
+  events?: RawTimelineEvent[],
 }
 
-export async function normalizeBrowserTimelineEvent(value: unknown): Promise<TimelineEvent | null> {
+export async function normalizeBrowserTimelineEvent(value: RawTimelineEvent): Promise<TimelineEvent | null> {
   const event = parseTimelineEventWire(value)
   if (!event) {
     console.warn('Ignoring malformed leaderboard timeline event')

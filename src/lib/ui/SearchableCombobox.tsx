@@ -21,6 +21,7 @@ export type SearchableComboboxOption = {
   value: string,
   label: string,
   icon?: string,
+  disabled?: boolean,
 }
 
 export function SearchableCombobox(props: {
@@ -115,7 +116,13 @@ export function SearchableCombobox(props: {
         <Combobox.Options mah={dropdownMaxHeight} style={{ overflowY: 'auto' }}>
           {combobox.dropdownOpened
             && filteredOptions.map((opt) => (
-              <Combobox.Option key={opt.value} value={opt.value} active={opt.value === value} style={{ whiteSpace: 'nowrap' }}>
+              <Combobox.Option
+                key={opt.value}
+                value={opt.value}
+                active={opt.value === value}
+                disabled={opt.disabled}
+                style={{ whiteSpace: 'nowrap' }}
+              >
                 <Group gap={6} justify='space-between' wrap='nowrap'>
                   {renderOption
                     ? renderOption(opt)

@@ -76,8 +76,10 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
   const { t: tStats } = useTranslation('common', { keyPrefix: 'Stats' })
 
-  const substat = getRelicFormSubstats(relicForm.getValues())[index]
+  const formValues = relicForm.getValues()
+  const substat = getRelicFormSubstats(formValues)[index]
   const { isPreview, stat, value } = substat
+  const { mainStatType } = formValues
 
   function updateSubstat(updates: Partial<RelicFormStat>) {
     relicForm.setValues(computeSubstatRowUpdates(relicForm.getValues(), index, updates))
@@ -103,12 +105,13 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
   }
 
   const substatOptionsMemoized = useMemo(() => {
-    return Constants.SubStats.map((stat) => ({
-      label: tStats(stat),
-      value: stat,
-      icon: Assets.getStatIcon(stat, true),
+    return Constants.SubStats.map((substatOption) => ({
+      label: tStats(substatOption),
+      value: substatOption,
+      icon: Assets.getStatIcon(substatOption, true),
+      disabled: substatOption === mainStatType,
     }))
-  }, [tStats])
+  }, [mainStatType, tStats])
 
   function handlePreviewToggle() {
     if (isPreview) {

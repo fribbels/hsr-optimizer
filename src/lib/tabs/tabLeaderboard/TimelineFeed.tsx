@@ -1,8 +1,11 @@
-import { TIMELINE_MIN_SCORE, TimelineEventType } from 'leaderboard/timeline/timelineTypes'
+import {
+  TIMELINE_MIN_SCORE,
+  TimelineEventType,
+} from 'leaderboard/timeline/timelineTypes'
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { Assets } from 'lib/rendering/assets'
-import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
 import { getBuildIndex } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useTranslation } from 'react-i18next'
 
@@ -64,7 +67,11 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
           const scorePercent = (event.score * 100).toFixed(1)
 
           return (
-            <div key={`${event.uidHash}#${characterId}#${event.configType}#${event.type}#${event.date}`} className={classes.feedRow} onClick={() => handleRowClick(event)}>
+            <div
+              key={`${event.candidateId}#${event.configType}#${event.type}#${event.date}`}
+              className={classes.feedRow}
+              onClick={() => handleRowClick(event)}
+            >
               <span className={classes.cellTime}>{formatRelativeTime(event.date)}</span>
               <span className={classes.cellDivider} />
               <span className={classes.cellRankDelta}>{renderRank(event)}</span>

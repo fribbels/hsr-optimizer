@@ -2,6 +2,7 @@ import { Assets } from 'lib/rendering/assets'
 import { AppPages } from 'lib/tabs/navigation/constants'
 import { navigateTo } from 'lib/tabs/navigation/utils'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
+import { LeaderboardUserRanksCard } from 'lib/tabs/tabLeaderboard/LeaderboardUserRanksCard'
 import { TimelineFeed } from 'lib/tabs/tabLeaderboard/TimelineFeed'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 
@@ -29,9 +30,13 @@ export function LeaderboardHeader() {
           <span className={classes.subtitle}>
             Benchmark rankings based on Showcase tab builds, scores refreshed daily.
           </span>
-          <button type="button" className={classes.showcaseButton} onClick={goToShowcase}>
+          <button type='button' className={classes.showcaseButton} onClick={goToShowcase}>
             Go to Showcase &rarr;
           </button>
+        </div>
+
+        <div className={`${classes.glassPanel} ${classes.userRanksPanel}`}>
+          <LeaderboardUserRanksCard />
         </div>
 
         {timelineEvents.length > 0 && (

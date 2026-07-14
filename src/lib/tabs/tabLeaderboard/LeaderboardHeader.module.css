@@ -104,6 +104,108 @@
   border: 1px solid var(--lb-divider);
 }
 
+.userRanksPanel {
+  flex-basis: 330px;
+}
+
+/* ── Saved UID ranks ── */
+
+.rankContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.rankHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.rankScope {
+  color: var(--lb-text-3);
+  font-size: 11px;
+}
+
+.rankState {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lb-text-3);
+  font-size: 13px;
+  text-align: center;
+}
+
+.rankGrid {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+
+.rankRow {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) 52px 40px 52px;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 5px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.rankRow:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.rankAvatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rankName {
+  overflow: hidden;
+  color: var(--lb-text-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rankConfig,
+.rankNumber,
+.rankScore {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.rankConfig {
+  color: var(--lb-text-3);
+}
+
+.rankNumber {
+  color: #8cc8ff;
+  font-weight: 600;
+  text-align: right;
+}
+
+.rankScore {
+  color: var(--lb-text-1);
+  text-align: right;
+}
+
 /* ── Feed container ── */
 
 .feedContainer {

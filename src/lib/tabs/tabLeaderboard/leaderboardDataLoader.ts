@@ -3,9 +3,21 @@ import type {
   PublicCharacterData,
   PublicLeaderboardEntry,
 } from 'leaderboard/shared/types'
-import type { LeaderboardTimeline, TimelineEvent } from 'leaderboard/timeline/timelineTypes'
+import {
+  buildTimelineEvent,
+  isCandidateId,
+  parseTimelineEventWire,
+} from 'leaderboard/timeline/timelineEventValidation'
+import {
+  TIMELINE_SCHEMA_VERSION,
+  type TimelineEvent,
+} from 'leaderboard/timeline/timelineTypes'
+import {
+  BASE_PATH,
+  BasePath,
+} from 'lib/tabs/navigation/constants'
+import { computeBrowserCandidateId } from 'lib/tabs/tabLeaderboard/leaderboardBrowserHash'
 import { IS_LOCALHOST } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
-import { BASE_PATH, BasePath } from 'lib/tabs/navigation/constants'
 import {
   type LeaderboardEntry,
   type LeaderboardTeammate,
@@ -73,10 +85,47 @@ export async function loadLeaderboardData(): Promise<RawLeaderboardOutput> {
 
 let cachedTimelinePromise: Promise<TimelineEvent[]> | null = null
 
+type RawLeaderboardTimeline = {
+  schemaVersion?: number,
+  events?: unknown[],
+}
+
+export async function normalizeBrowserTimelineEvent(value: unknown): Promise<TimelineEvent | null> {
+  const event = parseTimelineEventWire(value)
+  if (!event) {
+    console.warn('Ignoring malformed leaderboard timeline event')
+    return null
+  }
+
+  try {
+    const legacyCandidateId = event.uidHash == null
+      ? undefined
+      : await computeBrowserCandidateId(event.uidHash, event.characterId)
+    if (event.candidateId != null && legacyCandidateId != null && event.candidateId !== legacyCandidateId) {
+      console.warn('Ignoring leaderboard timeline event with mismatched identity')
+      return null
+    }
+
+    const candidateId = event.candidateId ?? legacyCandidateId
+    if (!isCandidateId(candidateId)) {
+      console.warn('Ignoring leaderboard timeline event with invalid identity')
+      return null
+    }
+    return buildTimelineEvent(event, candidateId)
+  } catch (error) {
+    console.warn('Failed to normalize leaderboard timeline event', error)
+    return null
+  }
+}
+
 export async function loadLeaderboardTimeline(): Promise<TimelineEvent[]> {
   if (!cachedTimelinePromise) {
-    cachedTimelinePromise = fetchJsonWithFallback<LeaderboardTimeline>('leaderboard-timeline.json')
-      .then((t) => t.events)
+    cachedTimelinePromise = fetchJsonWithFallback<RawLeaderboardTimeline>('leaderboard-timeline.json')
+      .then(async (timeline) => {
+        if ((timeline.schemaVersion ?? 1) < TIMELINE_SCHEMA_VERSION || !Array.isArray(timeline.events)) return []
+        const events = await Promise.all(timeline.events.map(normalizeBrowserTimelineEvent))
+        return events.filter((event): event is TimelineEvent => event !== null)
+      })
       .catch(() => {
         cachedTimelinePromise = null
         return []

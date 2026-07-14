@@ -1,14 +1,26 @@
-import type {
-  TimelineEvent,
-  LeaderboardTimeline,
-  LeaderboardSnapshot,
-} from 'leaderboard/timeline/timelineTypes'
-import { TIMELINE_MIN_SCORE, TIMELINE_SCHEMA_VERSION, TimelineEventType } from 'leaderboard/timeline/timelineTypes'
-import { readTimeline, readSnapshot } from 'leaderboard/timeline/timelineStorage'
-import { extractSnapshot, type UserCharCurrentEntry } from 'leaderboard/timeline/extractSnapshot'
-import { computeBuildId } from 'leaderboard/shared/hash'
+import {
+  computeBuildId,
+  computeCandidateId,
+} from 'leaderboard/shared/hash'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
-
+import {
+  extractSnapshot,
+  type UserCharCurrentEntry,
+} from 'leaderboard/timeline/extractSnapshot'
+import {
+  readSnapshot,
+  readTimeline,
+} from 'leaderboard/timeline/timelineStorage'
+import type {
+  LeaderboardSnapshot,
+  LeaderboardTimeline,
+  TimelineEvent,
+} from 'leaderboard/timeline/timelineTypes'
+import {
+  TIMELINE_MIN_SCORE,
+  TIMELINE_SCHEMA_VERSION,
+  TimelineEventType,
+} from 'leaderboard/timeline/timelineTypes'
 
 export function displayScore(score: number): number {
   return Math.trunc(score * 1000)
@@ -45,7 +57,7 @@ export function diffSnapshots(
         type: TimelineEventType.NEW_CHARACTER,
         characterId: entry.characterId,
         configType: entry.configType,
-        uidHash: entry.uidHash,
+        candidateId: computeCandidateId(entry.uidHash, entry.characterId),
         date,
         score: entry.score,
         rank: entry.rank,
@@ -57,7 +69,7 @@ export function diffSnapshots(
         type: TimelineEventType.NEW_BEST,
         characterId: entry.characterId,
         configType: entry.configType,
-        uidHash: entry.uidHash,
+        candidateId: computeCandidateId(entry.uidHash, entry.characterId),
         date,
         score: entry.score,
         previousScore: prev.highWatermark,
@@ -79,11 +91,11 @@ export function deduplicateAndMerge(
   const seen = new Map<string, TimelineEvent>()
 
   for (const event of newEvents) {
-    seen.set(`${event.uidHash}#${event.characterId}#${event.configType}#${event.type}#${dedupDay(event.date)}`, event)
+    seen.set(`${event.candidateId}#${event.configType}#${event.type}#${dedupDay(event.date)}`, event)
   }
 
   for (const event of existingEvents) {
-    const key = `${event.uidHash}#${event.characterId}#${event.configType}#${event.type}#${dedupDay(event.date)}`
+    const key = `${event.candidateId}#${event.configType}#${event.type}#${dedupDay(event.date)}`
     if (!seen.has(key)) {
       seen.set(key, event)
     }

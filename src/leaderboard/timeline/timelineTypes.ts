@@ -1,3 +1,4 @@
+import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { CharacterId } from 'types/character'
 
 export const TIMELINE_SCHEMA_VERSION = 2
@@ -11,8 +12,8 @@ export enum TimelineEventType {
 export type TimelineNewBestEvent = {
   type: TimelineEventType.NEW_BEST,
   characterId: CharacterId,
-  configType: string,
-  uidHash: string,
+  configType: LeaderboardConfigType,
+  candidateId: string,
   date: string,
   score: number,
   previousScore: number,
@@ -24,8 +25,8 @@ export type TimelineNewBestEvent = {
 export type TimelineNewCharacterEvent = {
   type: TimelineEventType.NEW_CHARACTER,
   characterId: CharacterId,
-  configType: string,
-  uidHash: string,
+  configType: LeaderboardConfigType,
+  candidateId: string,
   date: string,
   score: number,
   rank: number,
@@ -34,6 +35,15 @@ export type TimelineNewCharacterEvent = {
 }
 
 export type TimelineEvent = TimelineNewBestEvent | TimelineNewCharacterEvent
+
+type TimelineWireIdentity = {
+  candidateId?: string,
+  uidHash?: string,
+}
+
+export type TimelineNewBestEventWire = Omit<TimelineNewBestEvent, 'candidateId'> & TimelineWireIdentity
+export type TimelineNewCharacterEventWire = Omit<TimelineNewCharacterEvent, 'candidateId'> & TimelineWireIdentity
+export type TimelineEventWire = TimelineNewBestEventWire | TimelineNewCharacterEventWire
 
 export type LeaderboardTimeline = {
   schemaVersion: number,

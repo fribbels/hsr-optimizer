@@ -1,6 +1,5 @@
 import { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
-import { LEADERBOARD_DISPLAY_TOP_N } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import { Assets } from 'lib/rendering/assets'
 import { loadCharacterData } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
@@ -62,7 +61,7 @@ function statusMessage(state: UserRanksState): string | null {
     case UserRanksStatus.UNAVAILABLE:
       return 'Ranks are temporarily unavailable.'
     case UserRanksStatus.READY:
-      return state.ranks.length === 0 ? `No current top ${LEADERBOARD_DISPLAY_TOP_N} ranks.` : null
+      return null
   }
 }
 
@@ -117,10 +116,13 @@ export function LeaderboardUserRanksCard() {
     }
   }, [availableCharacters, loading, scorerId])
 
+  if (state.status === UserRanksStatus.READY && state.ranks.length === 0) return null
+
   const message = statusMessage(state)
 
   return (
-    <div className={classes.rankContainer}>
+    <div className={`${classes.glassPanel} ${classes.userRanksPanel}`}>
+      <div className={classes.rankContainer}>
       <div className={classes.rankHeaderRow}>
         <span className={classes.feedHeader}>Your Ranks</span>
         <span className={classes.rankScope}>All Teams</span>
@@ -156,6 +158,7 @@ export function LeaderboardUserRanksCard() {
           })}
         </div>
       )}
+      </div>
     </div>
   )
 }

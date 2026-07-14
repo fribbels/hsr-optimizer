@@ -35,9 +35,7 @@ export function LeaderboardHeader() {
           </button>
         </div>
 
-        <div className={`${classes.glassPanel} ${classes.userRanksPanel}`}>
-          <LeaderboardUserRanksCard />
-        </div>
+        <LeaderboardUserRanksCard />
 
         {timelineEvents.length > 0 && (
           <div className={classes.glassPanel}>

@@ -1,4 +1,5 @@
 import { atomicWriteJsonFile } from 'leaderboard/output/atomicWrite'
+import { computeCandidateId } from 'leaderboard/shared/hash'
 import {
   cwd,
   dirnamePath,
@@ -7,9 +8,18 @@ import {
   readTextFile,
   resolvePath,
 } from 'leaderboard/shared/nodeFacade'
-import type { LeaderboardTimeline, LeaderboardSnapshot } from 'leaderboard/timeline/timelineTypes'
-import { TIMELINE_SCHEMA_VERSION } from 'leaderboard/timeline/timelineTypes'
 import type { TimelineUpdateResult } from 'leaderboard/timeline/computeTimeline'
+import {
+  completeTimelineEventIdentity,
+  parseTimelineEventWire,
+  type RawTimelineEvent,
+} from 'leaderboard/timeline/timelineEventValidation'
+import type {
+  LeaderboardSnapshot,
+  LeaderboardTimeline,
+  TimelineEvent,
+} from 'leaderboard/timeline/timelineTypes'
+import { TIMELINE_SCHEMA_VERSION } from 'leaderboard/timeline/timelineTypes'
 
 export function readSnapshot(path: string): LeaderboardSnapshot | null {
   if (!fileExists(path)) return null
@@ -26,14 +36,34 @@ export function readSnapshot(path: string): LeaderboardSnapshot | null {
   }
 }
 
-export function readTimeline(path: string): LeaderboardTimeline['events'] {
+export function readTimeline(path: string): TimelineEvent[] {
   if (!fileExists(path)) return []
   try {
-    const parsed = JSON.parse(readTextFile(path)) as LeaderboardTimeline
+    const parsed = JSON.parse(readTextFile(path)) as { schemaVersion?: number, events?: RawTimelineEvent[] }
     if ((parsed.schemaVersion ?? 1) < TIMELINE_SCHEMA_VERSION) {
       return []
     }
-    return parsed.events ?? []
+    if (!Array.isArray(parsed.events)) return []
+
+    const events: TimelineEvent[] = []
+    for (const value of parsed.events) {
+      const event = parseTimelineEventWire(value)
+      if (!event) {
+        console.warn(`Ignoring malformed timeline event in ${path}`)
+        continue
+      }
+
+      const legacyCandidateId = event.uidHash == null
+        ? undefined
+        : computeCandidateId(event.uidHash, event.characterId)
+      const completedEvent = completeTimelineEventIdentity(event, legacyCandidateId)
+      if (!completedEvent) {
+        console.warn(`Ignoring timeline event with invalid identity in ${path}`)
+        continue
+      }
+      events.push(completedEvent)
+    }
+    return events
   } catch (err) {
     console.warn(`Failed to parse timeline at ${path}:`, err)
     return []
@@ -41,9 +71,22 @@ export function readTimeline(path: string): LeaderboardTimeline['events'] {
 }
 
 export function writeTimelineArtifacts(result: TimelineUpdateResult): void {
+  validateNoUidInPublicTimeline(result.timeline)
   atomicWriteJsonFile(result.timelinePath, JSON.stringify(result.timeline, null, 2))
   const snapshot = { ...result.snapshot, schemaVersion: TIMELINE_SCHEMA_VERSION }
   atomicWriteJsonFile(result.snapshotPath, JSON.stringify(snapshot, null, 2))
+}
+
+function validateNoUidInPublicTimeline(timeline: LeaderboardTimeline): void {
+  for (let i = 0; i < timeline.events.length; i++) {
+    const event = timeline.events[i]
+    if ('uid' in event) {
+      throw new Error(`Public timeline contains forbidden field "uid" in timeline.events[${i}]`)
+    }
+    if ('uidHash' in event) {
+      throw new Error(`Public timeline contains forbidden field "uidHash" in timeline.events[${i}]`)
+    }
+  }
 }
 
 export function deriveTimelinePath(publicOutputPath: string): string {

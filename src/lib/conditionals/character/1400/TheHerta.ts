@@ -2,7 +2,10 @@ import {
   aoe,
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
+import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Jade } from 'lib/conditionals/character/1300/Jade'
+import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
@@ -21,9 +24,11 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
+import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import {
@@ -369,6 +374,13 @@ const simulation = (): SimulationMetadata => ({
       teammates: [
         { characterId: Jade.id, lightCones: [YetHopeIsPriceless.id] },
         { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Jade.id, lightCones: [YetHopeIsPriceless.id] },
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],
     },

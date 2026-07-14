@@ -210,15 +210,21 @@ interface FeatureCardProps {
   align: 'left' | 'right'
 }
 
+const EMPTY_FEATURES: string[] = []
+
 function FeatureCard({ feature, background, image, align }: FeatureCardProps) {
   const { t } = useTranslation('hometab', { keyPrefix: `FeatureCard.${feature}`! })
   const isLeft = align === 'left'
+  const translatedFeatures = t('Features', { returnObjects: true })
+  const features = Array.isArray(translatedFeatures)
+    ? translatedFeatures
+    : EMPTY_FEATURES
 
   const textBlock = (
     <div className={classes.textBlock}>
       <h2 className={classes.sectionTitle}>{t('Title')}</h2>
       <p className={classes.sectionDescription}>{t('Description')}</p>
-      <FeatureList features={t('Features', { returnObjects: true })} />
+      <FeatureList features={features} />
     </div>
   )
 

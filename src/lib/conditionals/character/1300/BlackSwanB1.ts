@@ -1,4 +1,5 @@
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import {
@@ -8,6 +9,7 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { PatienceIsAllYouNeed } from 'lib/conditionals/lightcone/5star/PatienceIsAllYouNeed'
 import { ReforgedRemembrance } from 'lib/conditionals/lightcone/5star/ReforgedRemembrance'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -385,6 +387,13 @@ const simulation = (): SimulationMetadata => ({
         { characterId: KafkaB1.id, lightCones: [PatienceIsAllYouNeed.id] },
         { characterId: Hysilens.id, lightCones: [WhyDoesTheOceanSing.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: KafkaB1.id, lightCones: [PatienceIsAllYouNeed.id] },
+        { characterId: Hysilens.id, lightCones: [WhyDoesTheOceanSing.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],
     },
   ],

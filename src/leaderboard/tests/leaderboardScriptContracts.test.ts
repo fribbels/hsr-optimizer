@@ -26,6 +26,7 @@ import {
   countScoringVariants,
   expandScoringVariants,
 } from 'leaderboard/scoring/scoringVariants'
+import { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { EidolonTierValue } from 'leaderboard/shared/eidolonConfig'
 import {
   deleteFile,
@@ -272,7 +273,7 @@ function makeEntry(
 function privateOutput(entries: PrivateRankedEntry[]): PrivateRankedOutput {
   const board: PrivateBoard = {
     characterId: CHARACTER_ID,
-    configType: 'dps',
+    configType: LeaderboardConfigType.DPS,
     teamId: TEAM_ID,
     entries,
     completeness: makeCompleteness({

@@ -1,6 +1,9 @@
-import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
-import { computeBuildId, hashObject } from 'leaderboard/shared/hash'
 import { atomicWriteJsonFile } from 'leaderboard/output/atomicWrite'
+import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
+import {
+  computeBuildId,
+  computeCandidateId,
+} from 'leaderboard/shared/hash'
 import {
   gunzipBase64Text,
   gzipTextToBase64,
@@ -75,7 +78,7 @@ export function buildPublicOutputFromPrivate(input: {
           rank: entry.rank,
           characterId: entry.characterId as CharacterId,
           buildId: computeBuildId(entry.uidHash, entry.characterId, board.configType, board.teamId),
-          candidateId: hashObject(`${entry.uidHash}#${entry.characterId}`).slice(0, 12),
+          candidateId: computeCandidateId(entry.uidHash, entry.characterId),
           score: entry.score,
           data: entry.data,
         }))

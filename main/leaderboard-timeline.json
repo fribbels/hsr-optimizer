@@ -1,7 +1,18 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-07-14T16:47:28.123Z",
+  "generatedAt": "2026-07-14T22:42:59.531Z",
   "events": [
+    {
+      "type": "new_character",
+      "characterId": "1410",
+      "configType": "dps",
+      "uidHash": "34d10bc64d76ce416f975336ee43939432f27419efce6bca638ae8ad61a8e6b6",
+      "date": "2026-07-14T19:59:39.000Z",
+      "score": 1.5089135809434873,
+      "rank": 65,
+      "entryCount": 26661,
+      "buildId": "88d452b07943"
+    },
     {
       "type": "new_best",
       "characterId": "1415",

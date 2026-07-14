@@ -234,19 +234,27 @@ async function runPerCharacterBatchedScoring(
 
   const sortedEntries = [...candidatesByChar.entries()].sort((a, b) => a[1].length - b[1].length)
 
-  const characterResults: CharacterResult[] = []
-  for (const [characterId, candidates] of sortedEntries) {
-    const result = await processCharacter({
-      characterId,
-      candidates,
-      workerPool,
-      versions: input.versions,
-      globalVersion: input.globalVersion,
-      topK: input.topNPublic,
-      progress,
-    })
-    characterResults.push(result)
+  const CHARACTER_CONCURRENCY = 4
+  const characterResults: CharacterResult[] = new Array(sortedEntries.length)
+  let nextIndex = 0
+
+  async function processNextCharacter(): Promise<void> {
+    while (nextIndex < sortedEntries.length) {
+      const index = nextIndex++
+      const [characterId, candidates] = sortedEntries[index]
+      characterResults[index] = await processCharacter({
+        characterId,
+        candidates,
+        workerPool,
+        versions: input.versions,
+        globalVersion: input.globalVersion,
+        topK: input.topNPublic,
+        progress,
+      })
+    }
   }
+
+  await Promise.all(Array.from({ length: CHARACTER_CONCURRENCY }, () => processNextCharacter()))
 
   const avgBatches = characterResults.length > 0
     ? (characterResults.reduce((n, r) => n + r.batchesRun, 0) / characterResults.length).toFixed(1)

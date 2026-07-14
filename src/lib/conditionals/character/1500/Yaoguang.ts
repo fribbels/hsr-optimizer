@@ -604,7 +604,7 @@ const display = {
     y: 1086,
     z: 1.2,
   },
-  showcaseColor: '#abdaeb',
+  showcaseColor: '#c7ccf5',
 }
 
 export function getYaoguangAhaPunchlineValue(action: OptimizerAction, context: OptimizerContext): number | undefined {

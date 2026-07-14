@@ -12,10 +12,18 @@ import {
 import {
   Constants,
   Stats,
+  type SubStats,
 } from 'lib/constants/constants'
+import {
+  computeSubstatRemovalUpdates,
+  computeSubstatRowUpdates,
+  getRelicFormSubstats,
+} from 'lib/overlays/modals/relicModal/relicModalHelpers'
 import type {
   RelicForm,
+  RelicFormStat,
   RelicUpgradeValues,
+  SubstatIndex,
 } from 'lib/overlays/modals/relicModal/relicModalTypes'
 import { Assets } from 'lib/rendering/assets'
 import { SearchableCombobox } from 'lib/ui/SearchableCombobox'
@@ -59,19 +67,21 @@ function UpgradeButton({ value, label, onClick }: {
 }
 
 export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
-  index: 0 | 1 | 2 | 3,
+  index: SubstatIndex,
   upgrades: RelicUpgradeValues[],
   relicForm: UseFormReturnType<RelicForm>,
   plusThree: () => void,
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
-  const statTypeField = `substatType${index}` as `substatType${typeof index}`
-  const statValueField = `substatValue${index}` as `substatValue${typeof index}`
-  const isPreviewField = `substat${index}IsPreview` as `substat${typeof index}IsPreview`
   const { t } = useTranslation('modals', { keyPrefix: 'Relic' })
   const { t: tStats } = useTranslation('common', { keyPrefix: 'Stats' })
 
-  const isPreview = relicForm.getValues()[isPreviewField]
+  const substat = getRelicFormSubstats(relicForm.getValues())[index]
+  const { isPreview, stat, value } = substat
+
+  function updateSubstat(updates: Partial<RelicFormStat>) {
+    relicForm.setValues(computeSubstatRowUpdates(relicForm.getValues(), index, updates))
+  }
 
   const handleFocus = () => {
     if (inputRef.current) {
@@ -82,16 +92,14 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
   function upgradeClicked(quality: 'low' | 'mid' | 'high') {
     const upgradeValue = upgrades[index][quality]
     if (upgradeValue == null) return
-    relicForm.setFieldValue(statValueField, String(upgradeValue))
-    relicForm.setFieldValue(isPreviewField, false as RelicForm[typeof isPreviewField])
+    updateSubstat({ value: String(upgradeValue), isPreview: false })
     plusThree()
   }
 
-  const formatStat = (value?: string | number) => {
-    const stat = relicForm.getValues()[`substatType${index}`]
-    if (!value) return ''
-    if (stat && isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(value))
-    return localeNumber_0(Number(value))
+  const formatStat = (displayValue?: string | number) => {
+    if (!displayValue) return ''
+    if (stat && isFlat(stat) && stat !== Stats.SPD) return localeNumber(Number(displayValue))
+    return localeNumber_0(Number(displayValue))
   }
 
   const substatOptionsMemoized = useMemo(() => {
@@ -104,17 +112,12 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
 
   function handlePreviewToggle() {
     if (isPreview) {
-      relicForm.setFieldValue(isPreviewField, false as RelicForm[typeof isPreviewField])
-      relicForm.setFieldValue(statValueField, String(isPreview))
+      updateSubstat({ isPreview: false, value: String(isPreview) })
     } else {
-      const value = relicForm.getValues()[statValueField]
       if (value === '0' || !value) return
-      relicForm.setFieldValue(isPreviewField, Number(value) as RelicForm[typeof isPreviewField])
-      relicForm.setFieldValue(statValueField, '0')
+      updateSubstat({ isPreview: Number(value), value: '0' })
     }
   }
-
-  const stat = relicForm.getValues()[statTypeField] as RelicForm[typeof statTypeField]
 
   return (
     <div style={CONTENTS_STYLE}>
@@ -123,12 +126,11 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
           options={substatOptionsMemoized}
           value={stat ?? null}
           onChange={(val) => {
-            relicForm.setFieldValue(statTypeField, val as RelicForm[typeof statTypeField])
-            if (val) {
-              relicForm.setFieldValue(statValueField, '0')
-            } else {
-              relicForm.setFieldValue(statValueField, undefined as RelicForm[typeof statValueField])
+            if (val == null) {
+              relicForm.setValues(computeSubstatRemovalUpdates(relicForm.getValues(), index))
+              return
             }
+            updateSubstat({ stat: val as SubStats, value: '0', isPreview: false })
           }}
           placeholder={t('SubstatPlaceholder')}
           style={COMBOBOX_STYLE}
@@ -149,9 +151,9 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
             ref={inputRef}
             onFocus={handleFocus}
             style={TEXT_INPUT_STYLE}
-            value={relicForm.getValues()[statValueField] ?? ''}
+            value={value ?? ''}
             onChange={(e) => {
-              relicForm.setFieldValue(statValueField, e.currentTarget.value)
+              updateSubstat({ value: e.currentTarget.value })
             }}
             tabIndex={0}
           />

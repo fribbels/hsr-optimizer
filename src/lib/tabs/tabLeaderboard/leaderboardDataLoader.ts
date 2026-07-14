@@ -54,7 +54,7 @@ function betaFallbackUrl(filename: string): string {
 }
 
 async function fetchJsonWithFallback<T>(filename: string): Promise<T> {
-  const localResponse = await fetch(leaderboardUrl(filename))
+  const localResponse = await fetch(leaderboardUrl(filename), IS_LOCALHOST ? { cache: 'reload' } : undefined)
   const contentType = localResponse.headers.get('content-type') ?? ''
   if (localResponse.ok && contentType.includes('json')) {
     return localResponse.json() as Promise<T>

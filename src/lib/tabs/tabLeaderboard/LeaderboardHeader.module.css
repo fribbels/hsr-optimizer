@@ -126,11 +126,6 @@
   gap: 12px;
 }
 
-.rankScope {
-  color: var(--lb-text-3);
-  font-size: 11px;
-}
-
 .rankState {
   flex: 1;
   display: flex;
@@ -152,10 +147,10 @@
 .rankRow {
   width: 100%;
   display: grid;
-  grid-template-columns: 36px 24px minmax(0, 1fr) 52px 52px;
+  grid-template-columns: 42px 24px minmax(0, 1fr) 52px 52px;
   align-items: center;
   gap: 7px;
-  padding: 4px 0;
+  padding: 4px 6px 4px 0;
   border: 0;
   border-radius: 4px;
   background: transparent;

@@ -45,7 +45,7 @@ type UserRanksState =
 function selectRank(rank: UserLeaderboardRank) {
   selectLeaderboardCharacter(rank.characterId, {
     configType: rank.configType,
-    teamId: LEADERBOARD_FILTER_ALL,
+    teamId: rank.teamId,
     buildId: rank.buildId,
   })
 }
@@ -124,8 +124,7 @@ export function LeaderboardUserRanksCard() {
     <div className={`${classes.glassPanel} ${classes.userRanksPanel}`}>
       <div className={classes.rankContainer}>
       <div className={classes.rankHeaderRow}>
-        <span className={classes.feedHeader}>Your Ranks</span>
-        <span className={classes.rankScope}>All Teams</span>
+        <span className={classes.feedHeader}>Your Characters</span>
       </div>
 
       {message && <div className={classes.rankState}>{message}</div>}
@@ -135,6 +134,7 @@ export function LeaderboardUserRanksCard() {
           {state.ranks.map((rank) => {
             const nameKey = rank.characterId.startsWith('80') ? 'LongName' : 'Name'
             const name = tGame(`Characters.${rank.characterId}.${nameKey}`)
+            const isTeamRank = rank.teamId !== LEADERBOARD_FILTER_ALL
 
             return (
               <button
@@ -143,7 +143,14 @@ export function LeaderboardUserRanksCard() {
                 className={classes.rankRow}
                 onClick={() => selectRank(rank)}
               >
-                <span className={classes.rankNumber}># {rank.rank}</span>
+                <span
+                  className={classes.rankNumber}
+                  title={isTeamRank ? 'Best team rank' : undefined}
+                  aria-label={isTeamRank ? `Team rank ${rank.rank}` : `All teams rank ${rank.rank}`}
+                >
+                  # {rank.rank}
+                  {isTeamRank && ' ᵀ'}
+                </span>
                 <img
                   src={Assets.getCharacterAvatarById(rank.characterId)}
                   className={classes.rankAvatar}

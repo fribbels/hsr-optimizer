@@ -19,6 +19,7 @@ export type LoadedLeaderboardCharacter = {
 export type UserLeaderboardRank = {
   characterId: CharacterId,
   configType: LeaderboardConfigType,
+  teamId: string,
   rank: number,
   score: number,
   buildId: string,
@@ -39,17 +40,49 @@ export async function lookupUserLeaderboardRanks(
     const candidateId = candidateIds[characterIndex]
 
     for (const configType of LEADERBOARD_CONFIG_TYPES) {
-      const entry = deriveVisibleEntries({
+      const configData = characterData.configs[configType]
+      if (!configData) continue
+
+      let teamId: string = LEADERBOARD_FILTER_ALL
+      let entry = deriveVisibleEntries({
         characterData,
         activeConfigType: configType,
-        activeTeamId: LEADERBOARD_FILTER_ALL,
+        activeTeamId: teamId,
         filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
       }).find((candidate) => candidate.candidateId === candidateId)
+
+      if (!entry) {
+        for (const candidateTeamId of Object.keys(configData.teamsById)) {
+          const candidateEntry = deriveVisibleEntries({
+            characterData,
+            activeConfigType: configType,
+            activeTeamId: candidateTeamId,
+            filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+          }).find((candidate) => candidate.candidateId === candidateId)
+          if (!candidateEntry) continue
+
+          if (
+            !entry
+            || candidateEntry.rank < entry.rank
+            || (candidateEntry.rank === entry.rank && candidateEntry.score > entry.score)
+            || (
+              candidateEntry.rank === entry.rank
+              && candidateEntry.score === entry.score
+              && candidateEntry.buildId < entry.buildId
+            )
+          ) {
+            entry = candidateEntry
+            teamId = candidateTeamId
+          }
+        }
+      }
+
       if (!entry) continue
 
       matches.push({
         characterId,
         configType,
+        teamId,
         rank: entry.rank,
         score: entry.score,
         buildId: entry.buildId,

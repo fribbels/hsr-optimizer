@@ -28,7 +28,7 @@ export function LeaderboardHeader() {
         <div className={classes.titleColumn}>
           <span className={classes.title}>Leaderboards</span>
           <span className={classes.subtitle}>
-            Benchmark rankings based on Showcase tab AEON builds, scores refreshed daily.
+            Benchmark rankings based on Showcase tab Aeon builds, scores refreshed daily.
           </span>
           <button type='button' className={classes.showcaseButton} onClick={goToShowcase}>
             Go to Showcase &rarr;

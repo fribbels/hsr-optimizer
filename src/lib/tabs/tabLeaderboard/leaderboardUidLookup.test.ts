@@ -1,3 +1,5 @@
+import { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
+import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import { computeCandidateId } from 'leaderboard/shared/hash'
 import type {
   PublicCharacterData,
@@ -128,6 +130,7 @@ describe('lookupUserLeaderboardRanks', () => {
       {
         characterId: CHARACTER_ID,
         configType: 'support',
+        teamId: LEADERBOARD_FILTER_ALL,
         rank: 1,
         score: 1.7,
         buildId: '444444444444',
@@ -135,10 +138,59 @@ describe('lookupUserLeaderboardRanks', () => {
       {
         characterId: CHARACTER_ID,
         configType: 'dps',
+        teamId: LEADERBOARD_FILTER_ALL,
         rank: 2,
         score: 1.9,
         buildId: '333333333333',
       },
     ])
+  })
+
+  test('falls back to the best visible team rank', async () => {
+    const bestTeamId = 'best-team'
+    const otherTeamId = 'other-team'
+    const strongerTeamId = 'stronger-team'
+    const strongerEntries = Array.from({ length: 100 }, (_, index) => {
+      const id = String(index).padStart(12, '0')
+      return makeEntry(id, 2.5 - index * 0.001, id, strongerTeamId)
+    })
+
+    const ranks = await lookupUserLeaderboardRanks(UID, [{
+      characterId: CHARACTER_ID,
+      characterData: {
+        configs: {
+          dps: {
+            teams: [],
+            teamsById: {
+              [otherTeamId]: {
+                entries: [
+                  makeEntry('aaaaaaaaaaaa', 2, 'aaaaaaaaaaaa', otherTeamId),
+                  makeEntry(CANDIDATE_ID, 1.9, 'bbbbbbbbbbbb', otherTeamId),
+                ],
+                totalEntries: 2,
+              },
+              [bestTeamId]: {
+                entries: [makeEntry(CANDIDATE_ID, 1.8, 'cccccccccccc', bestTeamId)],
+                totalEntries: 1,
+              },
+              [strongerTeamId]: {
+                entries: strongerEntries,
+                totalEntries: strongerEntries.length,
+              },
+            },
+            totalEntries: 103,
+          },
+        },
+      },
+    }])
+
+    expect(ranks).toEqual([{
+      characterId: CHARACTER_ID,
+      configType: LeaderboardConfigType.DPS,
+      teamId: bestTeamId,
+      rank: 1,
+      score: 1.8,
+      buildId: 'cccccccccccc',
+    }])
   })
 })

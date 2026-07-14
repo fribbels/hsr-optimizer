@@ -24,7 +24,14 @@ export type UserLeaderboardRank = {
   buildId: string,
 }
 
-type OrderedUserLeaderboardRank = UserLeaderboardRank & { order: number }
+function hasCandidate(characterData: PublicCharacterData, configType: LeaderboardConfigType, candidateId: string): boolean {
+  const configData = characterData.configs[configType]
+  if (!configData) return false
+  for (const board of Object.values(configData.teamsById)) {
+    if (board.entries.some((e) => e.candidateId === candidateId)) return true
+  }
+  return false
+}
 
 export async function lookupUserLeaderboardRanks(
   uid: string,
@@ -34,15 +41,14 @@ export async function lookupUserLeaderboardRanks(
   const candidateIds = await Promise.all(
     characters.map(({ characterId }) => computeBrowserCandidateId(uidHash, characterId)),
   )
-  const matches: OrderedUserLeaderboardRank[] = []
+  const matches: UserLeaderboardRank[] = []
 
   for (let characterIndex = 0; characterIndex < characters.length; characterIndex++) {
     const { characterId, characterData } = characters[characterIndex]
     const candidateId = candidateIds[characterIndex]
 
-    for (let configIndex = 0; configIndex < LEADERBOARD_CONFIG_TYPES.length; configIndex++) {
-      const configType = LEADERBOARD_CONFIG_TYPES[configIndex]
-      if (!characterData.configs[configType]) continue
+    for (const configType of LEADERBOARD_CONFIG_TYPES) {
+      if (!hasCandidate(characterData, configType, candidateId)) continue
 
       const entry = deriveVisibleEntries({
         characterData,
@@ -58,12 +64,9 @@ export async function lookupUserLeaderboardRanks(
         rank: entry.rank,
         score: entry.score,
         buildId: entry.buildId,
-        order: characterIndex * LEADERBOARD_CONFIG_TYPES.length + configIndex,
       })
     }
   }
 
-  return matches
-    .sort((a, b) => a.rank - b.rank || a.order - b.order)
-    .map(({ order: _order, ...rank }) => rank)
+  return matches.sort((a, b) => a.rank - b.rank)
 }

@@ -87,30 +87,6 @@ export function parseTimelineEventWire(value: unknown): TimelineEventWire | null
 }
 
 export function buildTimelineEvent(event: TimelineEventWire, candidateId: string): TimelineEvent {
-  if (event.type === TimelineEventType.NEW_BEST) {
-    return {
-      type: event.type,
-      characterId: event.characterId,
-      configType: event.configType,
-      candidateId,
-      date: event.date,
-      score: event.score,
-      previousScore: event.previousScore,
-      rank: event.rank,
-      previousRank: event.previousRank,
-      buildId: event.buildId,
-    }
-  }
-
-  return {
-    type: event.type,
-    characterId: event.characterId,
-    configType: event.configType,
-    candidateId,
-    date: event.date,
-    score: event.score,
-    rank: event.rank,
-    entryCount: event.entryCount,
-    buildId: event.buildId,
-  }
+  const { uidHash: _, candidateId: __, ...rest } = event
+  return { ...rest, candidateId } as TimelineEvent
 }

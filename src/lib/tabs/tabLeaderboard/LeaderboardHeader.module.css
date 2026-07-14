@@ -44,7 +44,7 @@
   height: 100%;
   display: flex;
   padding: 12px 12px 12px 44px;
-  gap: 20px;
+  gap: 12px;
 }
 
 /* ── Title column ── */
@@ -105,7 +105,7 @@
 }
 
 .userRanksPanel {
-  flex-basis: 330px;
+  flex-basis: 350px;
 }
 
 /* ── Saved UID ranks ── */
@@ -150,7 +150,7 @@
   grid-template-columns: 42px 24px minmax(0, 1fr) 52px 52px;
   align-items: center;
   gap: 7px;
-  padding: 4px 6px 4px 0;
+  padding: 4px 6px;
   border: 0;
   border-radius: 4px;
   background: transparent;

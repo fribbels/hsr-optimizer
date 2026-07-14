@@ -43,16 +43,24 @@ export async function lookupUserLeaderboardRanks(
       const configData = characterData.configs[configType]
       if (!configData) continue
 
+      const teamsWithCandidate: string[] = []
+      for (const [tid, board] of Object.entries(configData.teamsById)) {
+        if (board.entries.some((e) => e.candidateId === candidateId)) {
+          teamsWithCandidate.push(tid)
+        }
+      }
+      if (teamsWithCandidate.length === 0) continue
+
       let teamId: string = LEADERBOARD_FILTER_ALL
       let entry = deriveVisibleEntries({
         characterData,
         activeConfigType: configType,
-        activeTeamId: teamId,
+        activeTeamId: LEADERBOARD_FILTER_ALL,
         filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
       }).find((candidate) => candidate.candidateId === candidateId)
 
       if (!entry) {
-        for (const candidateTeamId of Object.keys(configData.teamsById)) {
+        for (const candidateTeamId of teamsWithCandidate) {
           const candidateEntry = deriveVisibleEntries({
             characterData,
             activeConfigType: configType,

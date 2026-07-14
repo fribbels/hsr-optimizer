@@ -1,3 +1,4 @@
+import { isFiniteNumber } from 'leaderboard/shared/typeGuards'
 import type {
   LeaderboardBuildScore,
   LeaderboardBuildScoreCacheValue,
@@ -61,6 +62,3 @@ function isLeaderboardBuildScore(value: unknown): value is LeaderboardBuildScore
     && score.simulationFlags != null
 }
 
-function isFiniteNumber(value: unknown): value is number {
-  return typeof value === 'number' && Number.isFinite(value)
-}

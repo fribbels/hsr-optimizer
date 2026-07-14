@@ -3,6 +3,7 @@ import {
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { Jade } from 'lib/conditionals/character/1300/Jade'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
@@ -380,7 +381,7 @@ const simulation = (): SimulationMetadata => ({
       teammates: [
         { characterId: Jade.id, lightCones: [YetHopeIsPriceless.id] },
         { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
-        { characterId: Huohuo.id, lightCones: [NightOfFright.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
       ],
     },
   ],

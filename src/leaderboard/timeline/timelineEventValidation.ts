@@ -1,4 +1,5 @@
 import { isLeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
+import { isFiniteNumber } from 'leaderboard/shared/typeGuards'
 import {
   type TimelineEvent,
   TimelineEventType,
@@ -9,13 +10,14 @@ import type { CharacterId } from 'types/character'
 
 const CANDIDATE_ID_PATTERN = /^[0-9a-f]{12}$/
 
-type TimelineWireIdentity = {
+type TimelineNewBestEventWire = TimelineNewBestEventBase & {
   candidateId?: string,
   uidHash?: string,
 }
-
-type TimelineNewBestEventWire = TimelineNewBestEventBase & TimelineWireIdentity
-type TimelineNewCharacterEventWire = TimelineNewCharacterEventBase & TimelineWireIdentity
+type TimelineNewCharacterEventWire = TimelineNewCharacterEventBase & {
+  candidateId?: string,
+  uidHash?: string,
+}
 type TimelineEventWire = TimelineNewBestEventWire | TimelineNewCharacterEventWire
 
 export type RawTimelineEvent = Partial<{
@@ -32,10 +34,6 @@ export type RawTimelineEvent = Partial<{
   entryCount: number,
   buildId: string,
 }>
-
-function isFiniteNumber(value: number | undefined): value is number {
-  return typeof value === 'number' && Number.isFinite(value)
-}
 
 function isCandidateId(value: string | undefined): value is string {
   return value != null && CANDIDATE_ID_PATTERN.test(value)

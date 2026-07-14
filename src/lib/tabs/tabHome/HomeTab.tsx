@@ -217,7 +217,7 @@ function FeatureCard({ feature, background, image, align }: FeatureCardProps) {
   const isLeft = align === 'left'
   const translatedFeatures = t('Features', { returnObjects: true })
   const features = Array.isArray(translatedFeatures)
-    ? translatedFeatures.filter((item): item is string => typeof item === 'string')
+    ? translatedFeatures
     : EMPTY_FEATURES
 
   const textBlock = (

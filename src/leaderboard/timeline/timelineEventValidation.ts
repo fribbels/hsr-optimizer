@@ -2,11 +2,21 @@ import { isLeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import {
   type TimelineEvent,
   TimelineEventType,
-  type TimelineEventWire,
+  type TimelineNewBestEvent,
+  type TimelineNewCharacterEvent,
 } from 'leaderboard/timeline/timelineTypes'
 import type { CharacterId } from 'types/character'
 
 const CANDIDATE_ID_PATTERN = /^[0-9a-f]{12}$/
+
+type TimelineWireIdentity = {
+  candidateId?: string,
+  uidHash?: string,
+}
+
+type TimelineNewBestEventWire = Omit<TimelineNewBestEvent, 'candidateId'> & TimelineWireIdentity
+type TimelineNewCharacterEventWire = Omit<TimelineNewCharacterEvent, 'candidateId'> & TimelineWireIdentity
+type TimelineEventWire = TimelineNewBestEventWire | TimelineNewCharacterEventWire
 
 type UnknownTimelineEvent = {
   type?: unknown,
@@ -27,7 +37,7 @@ function isFiniteNumber(value: unknown): value is number {
   return typeof value === 'number' && Number.isFinite(value)
 }
 
-export function isCandidateId(value: string | undefined): value is string {
+function isCandidateId(value: string | undefined): value is string {
   return value != null && CANDIDATE_ID_PATTERN.test(value)
 }
 
@@ -86,7 +96,15 @@ export function parseTimelineEventWire(value: unknown): TimelineEventWire | null
   return null
 }
 
-export function buildTimelineEvent(event: TimelineEventWire, candidateId: string): TimelineEvent {
+export function completeTimelineEventIdentity(
+  event: TimelineEventWire,
+  legacyCandidateId: string | undefined,
+): TimelineEvent | null {
+  if (event.candidateId != null && legacyCandidateId != null && event.candidateId !== legacyCandidateId) return null
+
+  const candidateId = event.candidateId ?? legacyCandidateId
+  if (!isCandidateId(candidateId)) return null
+
   const { uidHash: _, candidateId: __, ...rest } = event
   return { ...rest, candidateId } as TimelineEvent
 }

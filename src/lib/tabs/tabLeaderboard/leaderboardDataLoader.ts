@@ -4,8 +4,7 @@ import type {
   PublicLeaderboardEntry,
 } from 'leaderboard/shared/types'
 import {
-  buildTimelineEvent,
-  isCandidateId,
+  completeTimelineEventIdentity,
   parseTimelineEventWire,
 } from 'leaderboard/timeline/timelineEventValidation'
 import {
@@ -101,17 +100,12 @@ export async function normalizeBrowserTimelineEvent(value: unknown): Promise<Tim
     const legacyCandidateId = event.uidHash == null
       ? undefined
       : await computeBrowserCandidateId(event.uidHash, event.characterId)
-    if (event.candidateId != null && legacyCandidateId != null && event.candidateId !== legacyCandidateId) {
-      console.warn('Ignoring leaderboard timeline event with mismatched identity')
-      return null
-    }
-
-    const candidateId = event.candidateId ?? legacyCandidateId
-    if (!isCandidateId(candidateId)) {
+    const completedEvent = completeTimelineEventIdentity(event, legacyCandidateId)
+    if (!completedEvent) {
       console.warn('Ignoring leaderboard timeline event with invalid identity')
       return null
     }
-    return buildTimelineEvent(event, candidateId)
+    return completedEvent
   } catch (error) {
     console.warn('Failed to normalize leaderboard timeline event', error)
     return null

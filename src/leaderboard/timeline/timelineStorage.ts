@@ -10,8 +10,7 @@ import {
 } from 'leaderboard/shared/nodeFacade'
 import type { TimelineUpdateResult } from 'leaderboard/timeline/computeTimeline'
 import {
-  buildTimelineEvent,
-  isCandidateId,
+  completeTimelineEventIdentity,
   parseTimelineEventWire,
 } from 'leaderboard/timeline/timelineEventValidation'
 import type {
@@ -55,17 +54,12 @@ export function readTimeline(path: string): LeaderboardTimeline['events'] {
       const legacyCandidateId = event.uidHash == null
         ? undefined
         : computeCandidateId(event.uidHash, event.characterId)
-      if (event.candidateId != null && legacyCandidateId != null && event.candidateId !== legacyCandidateId) {
-        console.warn(`Ignoring timeline event with mismatched identity in ${path}`)
-        continue
-      }
-
-      const candidateId = event.candidateId ?? legacyCandidateId
-      if (!isCandidateId(candidateId)) {
+      const completedEvent = completeTimelineEventIdentity(event, legacyCandidateId)
+      if (!completedEvent) {
         console.warn(`Ignoring timeline event with invalid identity in ${path}`)
         continue
       }
-      events.push(buildTimelineEvent(event, candidateId))
+      events.push(completedEvent)
     }
     return events
   } catch (err) {

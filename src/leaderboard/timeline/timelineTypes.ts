@@ -36,15 +36,6 @@ export type TimelineNewCharacterEvent = {
 
 export type TimelineEvent = TimelineNewBestEvent | TimelineNewCharacterEvent
 
-type TimelineWireIdentity = {
-  candidateId?: string,
-  uidHash?: string,
-}
-
-export type TimelineNewBestEventWire = Omit<TimelineNewBestEvent, 'candidateId'> & TimelineWireIdentity
-export type TimelineNewCharacterEventWire = Omit<TimelineNewCharacterEvent, 'candidateId'> & TimelineWireIdentity
-export type TimelineEventWire = TimelineNewBestEventWire | TimelineNewCharacterEventWire
-
 export type LeaderboardTimeline = {
   schemaVersion: number,
   generatedAt: string,

@@ -24,15 +24,6 @@ export type UserLeaderboardRank = {
   buildId: string,
 }
 
-function hasCandidate(characterData: PublicCharacterData, configType: LeaderboardConfigType, candidateId: string): boolean {
-  const configData = characterData.configs[configType]
-  if (!configData) return false
-  for (const board of Object.values(configData.teamsById)) {
-    if (board.entries.some((e) => e.candidateId === candidateId)) return true
-  }
-  return false
-}
-
 export async function lookupUserLeaderboardRanks(
   uid: string,
   characters: readonly LoadedLeaderboardCharacter[],
@@ -48,8 +39,6 @@ export async function lookupUserLeaderboardRanks(
     const candidateId = candidateIds[characterIndex]
 
     for (const configType of LEADERBOARD_CONFIG_TYPES) {
-      if (!hasCandidate(characterData, configType, candidateId)) continue
-
       const entry = deriveVisibleEntries({
         characterData,
         activeConfigType: configType,

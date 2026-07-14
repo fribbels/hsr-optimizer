@@ -11,6 +11,7 @@ import {
 } from 'lib/tabs/tabLeaderboard/leaderboardUidLookup'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { truncate10ths } from 'lib/utils/mathUtils'
 import { validateUuid } from 'lib/utils/miscUtils'
 import {
   useEffect,
@@ -148,7 +149,7 @@ export function LeaderboardUserRanksCard() {
                 <span className={classes.rankName}>{name}</span>
                 <span className={classes.rankConfig}>{CONFIG_LABELS[rank.configType]}</span>
                 <span className={classes.rankNumber}>#{rank.rank}</span>
-                <span className={classes.rankScore}>{(rank.score * 100).toFixed(1)}%</span>
+                <span className={classes.rankScore}>{truncate10ths(rank.score * 100).toFixed(1)}%</span>
               </button>
             )
           })}

@@ -142,8 +142,8 @@ export function LeaderboardUserRanksCard() {
                 key={`${rank.characterId}#${rank.configType}`}
                 className={classes.rankRow}
                 onClick={() => selectRank(rank)}
-                title={`${name} ${CONFIG_LABELS[rank.configType]} rank ${rank.rank}`}
               >
+                <span className={classes.rankNumber}># {rank.rank}</span>
                 <img
                   src={Assets.getCharacterAvatarById(rank.characterId)}
                   className={classes.rankAvatar}
@@ -151,7 +151,6 @@ export function LeaderboardUserRanksCard() {
                 />
                 <span className={classes.rankName}>{name}</span>
                 <span className={classes.rankConfig}>{CONFIG_LABELS[rank.configType]}</span>
-                <span className={classes.rankNumber}>#{rank.rank}</span>
                 <span className={classes.rankScore}>{truncate10ths(rank.score * 100).toFixed(1)}%</span>
               </button>
             )

@@ -13,13 +13,14 @@ import { Message } from 'lib/interactions/message'
 import {
   defaultMainStatPerPart,
   defaultSubstatValues,
+  getPopulatedRelicFormSubstats,
+  getRelicFormSubstats,
   renderMainStat,
 } from 'lib/overlays/modals/relicModal/relicModalHelpers'
 import type { RelicModalConfig } from 'lib/overlays/modals/relicModal/relicModalStore'
 import type {
   MainStatOption,
   RelicForm,
-  RelicFormStat,
   RelicUpgradeValues,
 } from 'lib/overlays/modals/relicModal/relicModalTypes'
 import { RelicAugmenter } from 'lib/relics/relicAugmenter'
@@ -261,19 +262,8 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     return Message.error(t('SubNInvalid', { number: 4 }) /* Substat 4 is invalid */)
   }
 
-  if (
-    relicForm.substatType3 != undefined && (relicForm.substatType0 == undefined || relicForm.substatType1 == undefined || relicForm.substatType2 == undefined)
-  ) {
-    return Message.error(t('SubsOutOfOrder') /* Substats are out of order */)
-  }
-  if (relicForm.substatType2 != undefined && (relicForm.substatType0 == undefined || relicForm.substatType1 == undefined)) {
-    return Message.error(t('SubsOutOfOrder') /* Substats are out of order */)
-  }
-  if (relicForm.substatType1 != undefined && (relicForm.substatType0 == undefined)) {
-    return Message.error(t('SubsOutOfOrder') /* Substats are out of order */)
-  }
-
-  const substatTypes = [relicForm.substatType0, relicForm.substatType1, relicForm.substatType2, relicForm.substatType3].filter((x) => x != undefined)
+  const formSubstats = getPopulatedRelicFormSubstats(relicForm)
+  const substatTypes = formSubstats.map((substat) => substat.stat)
   if (new Set(substatTypes).size !== substatTypes.length) {
     return Message.error(t('DuplicateSubs') /* Duplicate substats, only one of each type is allowed */)
   }
@@ -281,27 +271,21 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
     return Message.error(t('MainAsSub') /* Substat type is the same as the main stat */)
   }
 
-  //
-  const substatNumber0 = parseFloat(relicForm.substatValue0!)
-  const substatNumber1 = parseFloat(relicForm.substatValue1!)
-  const substatNumber2 = parseFloat(relicForm.substatValue2!)
-  const substatNumber3 = parseFloat(relicForm.substatValue3!)
+  const numericSubstats = formSubstats.map((substat) => ({
+    ...substat,
+    value: parseFloat(substat.value),
+  }))
 
-  if (substatNumber0 >= 1000 || substatNumber1 >= 1000 || substatNumber2 >= 1000 || substatNumber3 >= 1000) {
+  if (numericSubstats.some((substat) => substat.value >= 1000)) {
     return Message.error(t('SubTooBig') /* Substat value is too big */)
   }
   if (relicForm.mainStatValue >= 1000) {
     return Message.error(t('MainTooBig') /* Main stat value is too big */)
   }
-  if (substatNumber0 < 0 || substatNumber1 < 0 || substatNumber2 < 0 || substatNumber3 < 0) {
+  if (numericSubstats.some((substat) => substat.value < 0)) {
     return Message.error(t('SubTooSmall') /* Substat values should be positive */)
   }
-  if (
-    substatNumber0 === 0 && !relicForm.substat0IsPreview
-    || substatNumber1 === 0 && !relicForm.substat1IsPreview
-    || substatNumber2 === 0 && !relicForm.substat2IsPreview
-    || substatNumber3 === 0 && !relicForm.substat3IsPreview
-  ) {
+  if (numericSubstats.some((substat) => substat.value === 0 && !substat.isPreview)) {
     return Message.error(t('SubTooSmall') /* Substat values should be positive */)
   }
 
@@ -323,55 +307,16 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
 
   const substats: { value: number, stat: SubStats }[] = []
   const previewSubstats: { value: number, stat: SubStats }[] = []
-  if (relicForm.substatType0 != undefined && relicForm.substatValue0 != undefined) {
-    if (relicForm.substat0IsPreview) {
+  for (const substat of numericSubstats) {
+    if (substat.isPreview) {
       previewSubstats.push({
-        stat: relicForm.substatType0,
-        value: relicForm.substat0IsPreview,
+        stat: substat.stat,
+        value: substat.isPreview,
       })
     } else {
       substats.push({
-        stat: relicForm.substatType0,
-        value: substatNumber0,
-      })
-    }
-  }
-  if (relicForm.substatType1 != undefined && relicForm.substatValue1 != undefined) {
-    if (relicForm.substat1IsPreview) {
-      previewSubstats.push({
-        stat: relicForm.substatType1,
-        value: relicForm.substat1IsPreview,
-      })
-    } else {
-      substats.push({
-        stat: relicForm.substatType1,
-        value: substatNumber1,
-      })
-    }
-  }
-  if (relicForm.substatType2 != undefined && relicForm.substatValue2 != undefined) {
-    if (relicForm.substat2IsPreview) {
-      previewSubstats.push({
-        stat: relicForm.substatType2,
-        value: relicForm.substat2IsPreview,
-      })
-    } else {
-      substats.push({
-        stat: relicForm.substatType2,
-        value: substatNumber2,
-      })
-    }
-  }
-  if (relicForm.substatType3 != undefined && relicForm.substatValue3 != undefined) {
-    if (relicForm.substat3IsPreview) {
-      previewSubstats.push({
-        stat: relicForm.substatType3,
-        value: relicForm.substat3IsPreview,
-      })
-    } else {
-      substats.push({
-        stat: relicForm.substatType3,
-        value: substatNumber3,
+        stat: substat.stat,
+        value: substat.value,
       })
     }
   }
@@ -385,12 +330,7 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
 // ─── Existing: Upgrade values ────────────────────────────────────────────────
 
 export function calculateUpgradeValues(relicForm: RelicForm): RelicUpgradeValues[] {
-  const statPairs: RelicFormStat[] = [
-    { stat: relicForm.substatType0, value: relicForm.substatValue0, isPreview: relicForm.substat0IsPreview },
-    { stat: relicForm.substatType1, value: relicForm.substatValue1, isPreview: relicForm.substat1IsPreview },
-    { stat: relicForm.substatType2, value: relicForm.substatValue2, isPreview: relicForm.substat2IsPreview },
-    { stat: relicForm.substatType3, value: relicForm.substatValue3, isPreview: relicForm.substat3IsPreview },
-  ]
+  const statPairs = getRelicFormSubstats(relicForm)
 
   const upgradeValues: RelicUpgradeValues[] = []
 

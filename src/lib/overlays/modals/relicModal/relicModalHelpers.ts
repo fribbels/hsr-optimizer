@@ -4,7 +4,13 @@ import {
   Stats,
   type SubStats,
 } from 'lib/constants/constants'
-import type { SubstatValues } from 'lib/overlays/modals/relicModal/relicModalTypes'
+import type {
+  RelicForm,
+  RelicFormStat,
+  RelicFormSubstats,
+  SubstatIndex,
+  SubstatValues,
+} from 'lib/overlays/modals/relicModal/relicModalTypes'
 import {
   precisionRound,
   truncate1000ths,
@@ -27,6 +33,64 @@ function statUsesDecimal(stat: string | undefined, verified: boolean): boolean {
   if (!stat) return false
   if (stat === Stats.SPD) return verified
   return !isFlat(stat)
+}
+
+const EMPTY_RELIC_FORM_STAT: RelicFormStat = {
+  stat: undefined,
+  value: undefined,
+  isPreview: false,
+}
+
+export function getRelicFormSubstats(relicForm: RelicForm): RelicFormSubstats {
+  return [
+    { stat: relicForm.substatType0, value: relicForm.substatValue0, isPreview: relicForm.substat0IsPreview ?? false },
+    { stat: relicForm.substatType1, value: relicForm.substatValue1, isPreview: relicForm.substat1IsPreview ?? false },
+    { stat: relicForm.substatType2, value: relicForm.substatValue2, isPreview: relicForm.substat2IsPreview ?? false },
+    { stat: relicForm.substatType3, value: relicForm.substatValue3, isPreview: relicForm.substat3IsPreview ?? false },
+  ]
+}
+
+export function getPopulatedRelicFormSubstats(relicForm: RelicForm) {
+  return getRelicFormSubstats(relicForm).filter(
+    (substat): substat is RelicFormStat & { stat: SubStats, value: string } => substat.stat != null && substat.value != null,
+  )
+}
+
+function toSubstatValues([substat0, substat1, substat2, substat3]: RelicFormSubstats): SubstatValues {
+  return {
+    substatType0: substat0.stat,
+    substatValue0: substat0.value,
+    substat0IsPreview: substat0.isPreview,
+    substatType1: substat1.stat,
+    substatValue1: substat1.value,
+    substat1IsPreview: substat1.isPreview,
+    substatType2: substat2.stat,
+    substatValue2: substat2.value,
+    substat2IsPreview: substat2.isPreview,
+    substatType3: substat3.stat,
+    substatValue3: substat3.value,
+    substat3IsPreview: substat3.isPreview,
+  }
+}
+
+export function computeSubstatRowUpdates(
+  relicForm: RelicForm,
+  index: SubstatIndex,
+  updates: Partial<RelicFormStat>,
+): SubstatValues {
+  const substats = getRelicFormSubstats(relicForm)
+  substats[index] = { ...substats[index], ...updates }
+  return toSubstatValues(substats)
+}
+
+export function computeSubstatRemovalUpdates(relicForm: RelicForm, removedIndex: SubstatIndex): SubstatValues {
+  const remaining = getRelicFormSubstats(relicForm).filter((_, index) => index !== removedIndex)
+  return toSubstatValues([
+    remaining[0] ?? EMPTY_RELIC_FORM_STAT,
+    remaining[1] ?? EMPTY_RELIC_FORM_STAT,
+    remaining[2] ?? EMPTY_RELIC_FORM_STAT,
+    EMPTY_RELIC_FORM_STAT,
+  ])
 }
 
 export function defaultSubstatValues(relic: Relic): SubstatValues {

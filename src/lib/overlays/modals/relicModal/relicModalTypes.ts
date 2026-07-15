@@ -43,13 +43,17 @@ export type MainStatOption = {
   icon?: string,
 }
 
+export type SubstatIndex = 0 | 1 | 2 | 3
+
 export type SubstatValues = Pick<
   RelicForm,
-  `substatType${0 | 1 | 2 | 3}` | `substatValue${0 | 1 | 2 | 3}` | `substat${0 | 1 | 2 | 3}IsPreview`
+  `substatType${SubstatIndex}` | `substatValue${SubstatIndex}` | `substat${SubstatIndex}IsPreview`
 >
 
 export type RelicFormStat = {
-  stat: string | undefined,
+  stat: SubStats | undefined,
   value: string | undefined,
-  isPreview: false | number | undefined,
+  isPreview: false | number,
 }
+
+export type RelicFormSubstats = [RelicFormStat, RelicFormStat, RelicFormStat, RelicFormStat]

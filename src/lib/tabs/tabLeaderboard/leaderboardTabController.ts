@@ -132,6 +132,7 @@ function updateLeaderboardUrl() {
 
 export function expandCharacterList() {
   useLeaderboardTabStore.setState({ characterListExpanded: true })
+  clearHashParams()
 }
 
 function resolveActiveConfigType(

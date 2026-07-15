@@ -43,12 +43,10 @@ function renderScoreDelta(event: TimelineEvent) {
 function handleRowClick(event: TimelineEvent) {
   const index = getBuildIndex()
   const match = index?.get(event.buildId)
-  if (match) {
-    selectLeaderboardCharacter(match.characterId, {
-      configType: match.configType,
-      buildId: event.buildId,
-    })
-  }
+  selectLeaderboardCharacter(event.characterId, {
+    configType: match?.configType ?? event.configType,
+    buildId: match ? event.buildId : undefined,
+  })
 }
 
 export function TimelineFeed({ events }: { events: TimelineEvent[] }) {

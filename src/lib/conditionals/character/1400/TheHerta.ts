@@ -4,6 +4,7 @@ import {
 } from 'lib/conditionals/ashblazingCompute'
 import { Huohuo } from 'lib/conditionals/character/1200/Huohuo'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { Lingsha } from 'lib/conditionals/character/1200/Lingsha'
 import { Jade } from 'lib/conditionals/character/1300/Jade'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Anaxa } from 'lib/conditionals/character/1400/Anaxa'
@@ -29,6 +30,7 @@ import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAF
 import { IntotheUnreachableVeil } from 'lib/conditionals/lightcone/5star/IntotheUnreachableVeil'
 import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { ScentAloneStaysTrue } from 'lib/conditionals/lightcone/5star/ScentAloneStaysTrue'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { YetHopeIsPriceless } from 'lib/conditionals/lightcone/5star/YetHopeIsPriceless'
 import {
@@ -381,7 +383,7 @@ const simulation = (): SimulationMetadata => ({
       teammates: [
         { characterId: Jade.id, lightCones: [YetHopeIsPriceless.id] },
         { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
-        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+        { characterId: Lingsha.id, lightCones: [ScentAloneStaysTrue.id] },
       ],
     },
   ],

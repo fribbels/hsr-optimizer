@@ -18,6 +18,22 @@ export function getChangelogContent() {
     },
     {
       title: '',
+      date: '2026-07-16',
+      content: [
+        `Updated content to 4.5v1`,
+        `Added Robin Summeretto showcase`,
+        `robin.webp`,
+        `Added Aventurine Waveflair showcase`,
+        `ave.webp`,
+        `Added new Your Characters panel to the Leaderboard header, showing personal rankings`,
+        `your.webp`,
+        `Relic edit modal substat dropdown now disables the main stat to prevent invalid selections`,
+        `Removing a substat in the relic editor now shifts remaining substats up instead of leaving gaps`,
+        `Fix: Leaderboard timeline entries now navigate to the character even when the build is not in the current view`,
+      ],
+    },
+    {
+      title: '',
       date: '2026-07-11',
       content: [
         `Updated content to 4.4v5`,

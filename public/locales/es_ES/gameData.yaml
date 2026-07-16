@@ -252,8 +252,14 @@ Characters:
     Name: Gilgamesh
     LongName: Gilgamesh
   "1510":
-    Name: Himeko • Nova
-    LongName: Himeko • Nova
+    Name: Himeko Nova
+    LongName: Himeko Nova
+  "1512":
+    Name: Robin • Summeretto
+    LongName: Robin • Summeretto
+  "1513":
+    Name: Aventurine • Waveflair
+    LongName: Aventurine • Waveflair
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -522,11 +528,11 @@ RelicSets:
     Name: Ciudad de las mil estrellas
     Description2pc: Cuando el portador lanza un ataque adicional, el ATQ aumenta en un 24% durante 2 turnos. Cuando se elimina a un enemigo, el Daño CRIT de todos los aliados aumenta en un 12% durante la batalla actual. Este efecto no se puede acumular.
   "327":
-    Name: Fallen Star Anchorage
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.
+    Name: Punto de partida de la estrella caída
+    Description2pc: La Prob. CRIT del portador aumenta en un 8%. Al entrar en combate, si tanto el portador como otro compañero de equipo son personajes de Camarada trazacaminos, el Daño CRIT del portador aumenta en un 32%.
   "328":
-    Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.
+    Name: Instituto de Ciencias de la Vida Cósmica
+    Description2pc: "Al entrar en combate, si la energía máxima del portador es igual o superior a 200\_pts., el daño infligido por el portador aumenta en un 0.2% por cada punto que supere este valor, hasta un máximo del 32%."
 Lightcones:
   "20000":
     Name: Flechas
@@ -704,6 +710,8 @@ Lightcones:
     Name: Las aventuras de Champigaga
   "21065":
     Name: La buena suerte de hoy
+  "21066":
+    Name: A Little Getaway
   "22000":
     Name: Antes de que comience la misión del tutorial
   "22001":
@@ -720,6 +728,8 @@ Lightcones:
     Name: Volando hacia un mañana rosado
   "22007":
     Name: Juntos hacia el futuro
+  "22008":
+    Name: Race to the Horizon
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -839,11 +849,15 @@ Lightcones:
   "23059":
     Name: Nuevo cuerpo del averno ardiente
   "23060":
-    Name: A Star That Lights the Night
+    Name: Cuando una estrella ilumina la noche
   "23061":
-    Name: Flickering Stars
+    Name: Destelleos silentes
   "23062":
-    Name: I Am As You Behold
+    Name: Soy lo que ves
+  "23063":
+    Name: Rise and Sing
+  "23064":
+    Name: Summer Rides the Surf
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

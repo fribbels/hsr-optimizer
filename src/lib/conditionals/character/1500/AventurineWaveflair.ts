@@ -1,6 +1,6 @@
 import i18next from 'i18next'
-import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
@@ -122,9 +122,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBangerStacks: 60,
     punchlineStacks: 30,
     enhancedElationSkill: true,
-    fervorStacks: fervorMax,
-    traceA1SpdElation: true,
-    traceA4CdStacks: 6,
+    fervorStacks: 15,
+    spdElationConversion: true,
+    cdStacks: 4,
     e1ResPen: true,
     e4DefPen: true,
     e6Merrymaking: true,
@@ -175,16 +175,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: fervorMax,
     },
-    traceA1SpdElation: {
-      id: 'traceA1SpdElation',
+    spdElationConversion: {
+      id: 'spdElationConversion',
       formItem: 'switch',
       text: 'SPD to Elation conversion',
       content: betaContent,
     },
-    traceA4CdStacks: {
-      id: 'traceA4CdStacks',
+    cdStacks: {
+      id: 'cdStacks',
       formItem: 'slider',
-      text: 'Trace A4 CD stacks',
+      text: 'CD stacks',
       content: betaContent,
       min: 0,
       max: 6,
@@ -349,7 +349,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Trace A4: +48% base CD + up to 6 stacks of 48% CD
       x.buff(StatKey.CD, 0.48, x.source(SOURCE_TRACE))
-      x.buff(StatKey.CD, r.traceA4CdStacks * 0.48, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CD, r.cdStacks * 0.48, x.source(SOURCE_TRACE))
 
       // E1: +24% All-Type RES PEN
       x.buff(StatKey.RES_PEN, (e >= 1 && r.e1ResPen) ? 0.24 : 0, x.source(SOURCE_E1))
@@ -378,7 +378,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         chainsTo: [Stats.Elation],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return r.traceA1SpdElation
+          return r.spdElationConversion
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           dynamicStatConversionContainer(
@@ -407,7 +407,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             action,
             context,
             `0.30 + min(200.0, convertibleValue - 160.0) * 0.01`,
-            `${wgslTrue(r.traceA1SpdElation)}`,
+            `${wgslTrue(r.spdElationConversion)}`,
             `convertibleValue >= 160.0`,
             TargetTag.SelfAndPet,
             true,

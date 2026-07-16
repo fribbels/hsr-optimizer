@@ -90,7 +90,7 @@ function FilterPillInner<T extends string | number | boolean>({
                 variant='transparent'
                 onClick={(e) => {
                   e.stopPropagation()
-                  onChange([])
+                  onChange(selected.filter((v) => !optionValues.has(v)))
                 }}
               />
             )

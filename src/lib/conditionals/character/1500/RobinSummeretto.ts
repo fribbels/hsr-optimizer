@@ -1,7 +1,7 @@
 import i18next from 'i18next'
-import { Sunday } from 'lib/conditionals/character/1300/Sunday'
+import { Aglaea } from 'lib/conditionals/character/1400/Aglaea'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
-import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import {
   BuffPriority,
 } from 'lib/conditionals/conditionalConstants'
@@ -16,9 +16,10 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
-import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
+import { TimeWovenIntoGold } from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
   ConditionalActivation,
@@ -41,7 +42,10 @@ import { type ComputedStatsContainer } from 'lib/optimization/engine/container/c
 import {
   AbilityKind,
   DEFAULT_MEMO_SKILL,
+  END_BASIC,
+  END_SKILL,
   NULL_TURN_ABILITY_NAME,
+  START_ULT,
   WHOLE_BASIC,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -90,7 +94,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E2,
     SOURCE_E4,
     SOURCE_E6,
-  } = Source.character('1512')
+  } = Source.character(RobinSummeretto.id)
 
   const basicScaling = basic(e, 0.50, 0.55)
 
@@ -111,11 +115,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const traceCdBuff = 0.40
   const traceCdBuffPerVibe = 0.01
-
-  // Not modeled: Skill memosprite self-heal, Ult action advance / Energy, Fever CC immunity,
-  // Energy regen (Memo Talent, Bonus Ability 2), Songbird-exit action advance, and Vibes
-  // generation rates (E1/E4) - the vibes slider stands in for the last.
-  // E2 True DMG needs a cumulative team-damage accumulator the optimizer does not track.
 
   const defaults = {
     buffPriority: BuffPriority.MEMO,
@@ -165,9 +164,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     songbirdCount: {
       id: 'songbirdCount',
       formItem: 'slider',
-      text: 'Summer Songbirds on field',
+      text: 'Summer Songbirds',
       content: betaContent,
-      // 0 = none on field, before the Skill summons Bessie or after Vibes hit 0
       min: 0,
       max: 3,
     },
@@ -180,7 +178,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e4MemoSpdBuff: {
       id: 'e4MemoSpdBuff',
       formItem: 'switch',
-      text: 'E4 Songbirds SPD buff',
+      text: 'E4 SPD buff',
       content: betaContent,
       disabled: e < 4,
     },
@@ -202,7 +200,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
-      text: `Robin's Max HP`,
+      text: `Robin's combat HP`,
       content: betaContent,
       min: 0,
       max: 20000,
@@ -335,7 +333,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         x.targets(TargetTag.FullTeam).source(SOURCE_TALENT),
       )
 
-      // Memo Talent: enemy DMG taken 10/15/20% by Songbirds on field
+      // Memo Talent: enemy DMG taken, based on Songbirds
       x.buff(
         StatKey.VULNERABILITY,
         memoTalentVulnerabilityByCount[m.songbirdCount] ?? 0,
@@ -351,8 +349,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      // Deviated Chord is applied in teammateDynamicConditionals - its branch depends on the ally's
-      // final ATK, which is not settled at precompute time.
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
@@ -360,11 +356,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     dynamicConditionals: [],
 
-    // Deviated Chord: the ally takes the ATK branch when their ATK exceeds Robin's, else the CRIT
-    // DMG branch. Split into two conditionals because the GPU state struct holds exactly one f32
-    // per conditional id, and each branch needs its own state to retract when the branch flips.
-    // Both keep `condition: true` and fold the branch into the buff value, so the losing branch
-    // un-applies via its own negative delta.
+    // Deviated Chord: ATK branch when the ally's ATK exceeds Robin's, else CRIT DMG.
+    // The branch lives in the buff value, not `condition`, so the losing branch retracts via its delta.
     teammateDynamicConditionals: [
       {
         id: 'RobinSummerettoDeviatedChordAtk',
@@ -401,9 +394,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             this,
             action,
             context,
-            `select(0.0, ${atkBuff.toFixed(4)}, ${
-              containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)
-            } > ${t.teammateATKValue.toFixed(4)})`,
+            `select(0.0, ${atkBuff.toFixed(4)}, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} > ${t.teammateATKValue.toFixed(4)})`,
             'true',
             'true',
             TargetTag.FullTeam,
@@ -445,9 +436,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             this,
             action,
             context,
-            `select(${cdBuff.toFixed(4)}, 0.0, ${
-              containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)
-            } > ${t.teammateATKValue.toFixed(4)})`,
+            `select(${cdBuff.toFixed(4)}, 0.0, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} > ${t.teammateATKValue.toFixed(4)})`,
             'true',
             'true',
             TargetTag.FullTeam,
@@ -486,32 +475,28 @@ const simulation = (): SimulationMetadata => ({
   ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
-    WHOLE_BASIC,
+    START_ULT,
+    END_SKILL,
     DEFAULT_MEMO_SKILL,
     DEFAULT_MEMO_SKILL,
     WHOLE_BASIC,
     DEFAULT_MEMO_SKILL,
     DEFAULT_MEMO_SKILL,
-    // TODO(HUMAN): verify rotation length vs ult cost
   ],
   errRopeEidolon: 0,
   relicSets: [
     [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
-    [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
-    [Sets.MessengerTraversingHackerspace, Sets.MessengerTraversingHackerspace],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
     Sets.AmphoreusTheEternalLand,
-    Sets.SprightlyVonwacq,
-    Sets.LushakaTheSunkenSeas,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
-  // TODO(HUMAN): verify deprioritizeBuffs flag
+  deprioritizeBuffs: true,
   teammates: [
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: Aglaea.id,
+      lightCone: TimeWovenIntoGold.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -522,12 +507,11 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
-    // TODO(HUMAN): pick 3 canonical teammates
   ],
 })
 
@@ -566,7 +550,7 @@ const scoring = (): ScoringMetadata => ({
     ],
   },
   presets: [
-    PresetEffects.fnSacerdosSet(2),
+    PresetEffects.fnSacerdosSet(1),
     PresetEffects.BANANA_SET,
     PresetEffects.WARRIOR_SET,
   ],
@@ -588,8 +572,7 @@ const display = {
 
 export const RobinSummeretto: CharacterConfig = {
   id: '1512',
-  // TODO(HUMAN): swap to RiseAndSing (23063) once that lightcone conditional exists
-  defaultLightCone: ToEvernightsStars.id,
+  defaultLightCone: RiseAndSing.id,
   display,
   conditionals,
   get scoring() {

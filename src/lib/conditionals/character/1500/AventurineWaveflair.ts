@@ -1,11 +1,12 @@
 import i18next from 'i18next'
-import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
-import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -21,10 +22,10 @@ import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
-import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
-import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { SummerRidesTheSurf } from 'lib/conditionals/lightcone/5star/SummerRidesTheSurf'
-import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
+import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALie'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -468,20 +469,20 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Yaoguang.id,
-      lightCone: WhenSheDecidedToSee.id,
+      characterId: Ashveil.id,
+      lightCone: TheFinaleOfALie.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: TrailblazerElationStelle.id,
-      lightCone: ElationBrimmingWithBlessings.id,
-      characterEidolon: 6,
-      lightConeSuperimposition: 5,
+      characterId: MortenaxBlade.id,
+      lightCone: ReforgedInHellfire.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
     },
     {
-      characterId: HuohuoB1.id,
-      lightCone: NightOfFright.id,
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

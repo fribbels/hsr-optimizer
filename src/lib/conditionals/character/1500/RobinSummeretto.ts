@@ -11,22 +11,30 @@ import {
   type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import {
+  dynamicStatConversionContainer,
+  gpuDynamicStatConversion,
+} from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
+  ConditionalActivation,
+  ConditionalType,
   CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
 } from 'lib/constants/constants'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
+  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -123,9 +131,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     feverState: true,
     vibes: 30,
     songbirdCount: 3,
-    deviatedChordAtkBuff: true,
-    deviatedChordCdBuff: false,
     teammateHPValue: 8000,
+    teammateATKValue: 1750,
     e6Buffs: true,
   }
 
@@ -190,14 +197,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     feverState: content.feverState,
     vibes: content.vibes,
     songbirdCount: content.songbirdCount,
-    // Deviated Chord: exclusive branches, enable the one matching the ally's ATK vs Robin's
-    deviatedChordAtkBuff: {
-      id: 'deviatedChordAtkBuff',
-      formItem: 'switch',
-      text: 'Deviated Chord: ATK',
-      content: betaContent,
-    },
-    deviatedChordCdBuff: content.deviatedChordCdBuff,
+    // Deviated Chord's branch is derived from the ally's ATK vs Robin's, so both sliders feed the
+    // comparison in teammateDynamicConditionals instead of exposing the branch as a toggle.
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
@@ -205,6 +206,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       min: 0,
       max: 20000,
+    },
+    teammateATKValue: {
+      id: 'teammateATKValue',
+      formItem: 'slider',
+      text: `Robin's combat ATK`,
+      content: betaContent,
+      min: 0,
+      max: 5000,
     },
     e6Buffs: content.e6Buffs,
   }
@@ -342,25 +351,110 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      // Deviated Chord ATK branch: flat ATK from 16% + Vibes x 0.4% of Robin's Max HP
-      const atkBuff = (t.deviatedChordAtkBuff)
-        ? (0.16 + t.vibes * 0.004) * t.teammateHPValue
-        : 0
-      x.buff(StatKey.ATK, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-
-      // Deviated Chord CD branch: 40% + Vibes x 1%
-      const cdBuff = (t.deviatedChordCdBuff) ? traceCdBuff + t.vibes * traceCdBuffPerVibe : 0
-      x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
-      x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      // Deviated Chord is applied in teammateDynamicConditionals - its branch depends on the ally's
+      // final ATK, which is not settled at precompute time.
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
     dynamicConditionals: [],
+
+    // Deviated Chord: the ally takes the ATK branch when their ATK exceeds Robin's, else the CRIT
+    // DMG branch. Split into two conditionals because the GPU state struct holds exactly one f32
+    // per conditional id, and each branch needs its own state to retract when the branch flips.
+    // Both keep `condition: true` and fold the branch into the buff value, so the losing branch
+    // un-applies via its own negative delta.
+    teammateDynamicConditionals: [
+      {
+        id: 'RobinSummerettoDeviatedChordAtk',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.ATK],
+        chainsTo: [Stats.ATK],
+        condition: function() {
+          return true
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+          const atkBuff = (0.16 + t.vibes * 0.004) * t.teammateHPValue
+
+          dynamicStatConversionContainer(
+            Stats.ATK,
+            Stats.ATK,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            () => (x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX) > t.teammateATKValue) ? atkBuff : 0,
+            TargetTag.FullTeam,
+          )
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+          const atkBuff = (0.16 + t.vibes * 0.004) * t.teammateHPValue
+
+          return gpuDynamicStatConversion(
+            Stats.ATK,
+            Stats.ATK,
+            this,
+            action,
+            context,
+            `select(0.0, ${atkBuff.toFixed(4)}, ${
+              containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)
+            } > ${t.teammateATKValue.toFixed(4)})`,
+            'true',
+            'true',
+            TargetTag.FullTeam,
+          )
+        },
+      },
+      {
+        id: 'RobinSummerettoDeviatedChordCd',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.CONTINUOUS,
+        dependsOn: [Stats.ATK],
+        chainsTo: [Stats.CD],
+        condition: function() {
+          return true
+        },
+        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
+          const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+          const cdBuff = traceCdBuff + t.vibes * traceCdBuffPerVibe
+
+          dynamicStatConversionContainer(
+            Stats.ATK,
+            Stats.CD,
+            this,
+            x,
+            action,
+            context,
+            SOURCE_TRACE,
+            () => (x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX) > t.teammateATKValue) ? 0 : cdBuff,
+            TargetTag.FullTeam,
+          )
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+          const cdBuff = traceCdBuff + t.vibes * traceCdBuffPerVibe
+
+          return gpuDynamicStatConversion(
+            Stats.ATK,
+            Stats.CD,
+            this,
+            action,
+            context,
+            `select(${cdBuff.toFixed(4)}, 0.0, ${
+              containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)
+            } > ${t.teammateATKValue.toFixed(4)})`,
+            'true',
+            'true',
+            TargetTag.FullTeam,
+          )
+        },
+      },
+    ],
   }
 }
 
@@ -485,11 +579,11 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 0,
-    y: 0,
-    z: 1,
-  }, // TODO(HUMAN): set imageCenter/showcaseColor post-generation
-  showcaseColor: '#888888', // TODO(HUMAN): set imageCenter/showcaseColor post-generation
+    x: 946,
+    y: 902,
+    z: 1.12,
+  },
+  showcaseColor: '#86aef4',
 }
 
 export const RobinSummeretto: CharacterConfig = {

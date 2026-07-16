@@ -533,11 +533,11 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 1000,
-    y: 1050,
-    z: 1.10,
+    x: 979,
+    y: 1011,
+    z: 1.02,
   },
-  showcaseColor: '#000000',
+  showcaseColor: '#bfc7ff',
 }
 
 export const AventurineWaveflair: CharacterConfig = {

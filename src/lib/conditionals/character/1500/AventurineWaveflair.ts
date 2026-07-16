@@ -1,6 +1,11 @@
+import i18next from 'i18next'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import {
   getYaoguangAhaPunchlineValue,
+  Yaoguang,
 } from 'lib/conditionals/character/1500/Yaoguang'
+import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -13,12 +18,20 @@ import {
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import i18next from 'i18next'
+import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
+import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
+import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
+import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/ElationBrimmingWithBlessings'
+import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
+import { SummerRidesTheSurf } from 'lib/conditionals/lightcone/5star/SummerRidesTheSurf'
+import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDecidedToSee'
 import {
   ConditionalActivation,
   ConditionalType,
   CURRENT_DATA_VERSION,
+  Parts,
   PathNames,
+  Sets,
   Stats,
 } from 'lib/constants/constants'
 import { wgslTrue } from 'lib/gpu/injection/wgslUtils'
@@ -32,7 +45,21 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  END_SKILL,
+  END_ULT,
+  NULL_TURN_ABILITY_NAME,
+  START_SKILL,
+  START_ULT,
+  WHOLE_ELATION_SKILL,
+  WHOLE_SKILL,
+  WHOLE_UNIQUE,
 } from 'lib/optimization/rotation/turnAbilityConfig'
+import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
+import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+} from 'lib/scoring/scoringConstants'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -277,9 +304,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .damageElement(ElementTag.Quantum)
         .elationScaling(elationSkillAoeScaling + totalBounceCount * elationSkillBounceScaling / context.enemyCount)
         .punchlineStacks(punchlineStacks)
-        .toughnessDmg(r.enhancedElationSkill
-          ? 20 + 5 * totalBounceCount / context.enemyCount
-          : 10 + 3.33 * elationSkillBounceCount / context.enemyCount)
+        .toughnessDmg(
+          r.enhancedElationSkill
+            ? 20 + 5 * totalBounceCount / context.enemyCount
+            : 10 + 3.33 * elationSkillBounceCount / context.enemyCount,
+        )
         .build()
 
       // ============== UNIQUE (Talent-triggered Cheers! with fixed 20 Punchline) ==============
@@ -388,11 +417,119 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   }
 }
 
-// TODO: simulation
-const simulation = (): SimulationMetadata => ({} as SimulationMetadata)
+const simulation = (): SimulationMetadata => ({
+  leaderboardEnabled: true,
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.ATK_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.Quantum_DMG,
+      Stats.ATK_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ERR,
+      Stats.ATK_P,
+    ],
+  },
+  substats: [
+    Stats.CD,
+    Stats.CR,
+    Stats.SPD,
+    Stats.ATK_P,
+    Stats.ATK,
+  ],
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+    START_ULT,
+    END_SKILL,
+    WHOLE_ELATION_SKILL,
+    WHOLE_SKILL,
+    WHOLE_ELATION_SKILL,
+    WHOLE_UNIQUE,
+  ],
+  errRopeEidolon: 0,
+  hardBreakpoints: [
+    { stat: Stats.SPD, threshold: 160 },
+  ],
+  relicSets: [
+    [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  ],
+  ornamentSets: [
+    Sets.PunklordeStageZero,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+  ],
+  teammates: [
+    {
+      characterId: Yaoguang.id,
+      lightCone: WhenSheDecidedToSee.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: TrailblazerElationStelle.id,
+      lightCone: ElationBrimmingWithBlessings.id,
+      characterEidolon: 6,
+      lightConeSuperimposition: 5,
+    },
+    {
+      characterId: HuohuoB1.id,
+      lightCone: NightOfFright.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+  leaderboardTeams: [],
+})
 
-// TODO: scoring
-const scoring = (): ScoringMetadata => ({} as ScoringMetadata)
+const scoring = (): ScoringMetadata => ({
+  stats: {
+    [Stats.ATK]: 0.75,
+    [Stats.ATK_P]: 0.75,
+    [Stats.DEF]: 0,
+    [Stats.DEF_P]: 0,
+    [Stats.HP]: 0,
+    [Stats.HP_P]: 0,
+    [Stats.SPD]: 1,
+    [Stats.CR]: 1,
+    [Stats.CD]: 1,
+    [Stats.EHR]: 0,
+    [Stats.RES]: 0,
+    [Stats.BE]: 0,
+  },
+  parts: {
+    [Parts.Body]: [
+      Stats.CR,
+      Stats.CD,
+      Stats.ATK_P,
+    ],
+    [Parts.Feet]: [
+      Stats.ATK_P,
+      Stats.SPD,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.ATK_P,
+      Stats.Quantum_DMG,
+    ],
+    [Parts.LinkRope]: [
+      Stats.ATK_P,
+      Stats.ERR,
+    ],
+  },
+  presets: [],
+  defaultDamageType: DamageTag.ELATION,
+  sortOption: SortOption.ELATION_SKILL,
+  hiddenColumns: [SortOption.FUA, SortOption.DOT],
+  simulation: simulation(),
+  eidolonImage: 4,
+})
 
 const display = {
   imageCenter: {
@@ -405,7 +542,7 @@ const display = {
 
 export const AventurineWaveflair: CharacterConfig = {
   id: '1513',
-  defaultLightCone: '24005', // TODO: Summer Rides the Surf LC ID
+  defaultLightCone: SummerRidesTheSurf.id,
   display,
   conditionals,
   get scoring() {

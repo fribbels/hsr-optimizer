@@ -252,8 +252,14 @@ Characters:
     Name: Gilgamesh
     LongName: Gilgamesh
   "1510":
-    Name: Himeko • Nova
-    LongName: Himeko • Nova
+    Name: Himeko - Nova
+    LongName: Himeko - Nova
+  "1512":
+    Name: Robin • Summeretto
+    LongName: Robin • Summeretto
+  "1513":
+    Name: Aventurine • Waveflair
+    LongName: Aventurine • Waveflair
   "8001":
     Name: Caelus
     LongName: Caelus (Hủy Diệt)
@@ -522,11 +528,11 @@ RelicSets:
     Name: Thành Phố Ngàn Sao Hội Tụ
     Description2pc: Khi người trang bị thi triển Đòn Đánh Theo Sau, Tấn Công tăng 24%, duy trì 2 hiệp. Khi mục tiêu phe địch bị tiêu diệt, Sát Thương Bạo Kích toàn phe ta trong trận này tăng 12%, hiệu ứng này không thể cộng dồn.
   "327":
-    Name: Fallen Star Anchorage
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.
+    Name: Điểm Khởi Hành Sao Rơi
+    Description2pc: Tăng 8% Tỷ Lệ Bạo Kích của người trang bị. Khi vào chiến đấu, nếu người trang bị và một đồng đội khác đều là nhân vật Đồng Hành Khai Phá, tăng 32% Sát Thương Bạo Kích của người trang bị.
   "328":
-    Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.
+    Name: Viện Nghiên Cứu Sinh Học Vũ Trụ
+    Description2pc: Khi vào chiến đấu, nếu Giới Hạn Năng Lượng của người trang bị lớn hơn hoặc bằng 200 điểm, cứ vượt quá 1 điểm sẽ khiến sát thương do người trang bị gây ra tăng 0.2%, tối đa tăng 32%.
 Lightcones:
   "20000":
     Name: Mũi Tên
@@ -704,6 +710,8 @@ Lightcones:
     Name: Cuộc Phiêu Lưu Của Nấm Núng Nính
   "21065":
     Name: Hôm Nay May Mắn Đấy
+  "21066":
+    Name: A Little Getaway
   "22000":
     Name: Trước Khi Bắt Đầu Nhiệm Vụ Tân Thủ
   "22001":
@@ -720,6 +728,8 @@ Lightcones:
     Name: Bay Đến Ngày Mai Màu Hồng
   "22007":
     Name: Tương Lai, Có Chúng Ta Cùng Nhau
+  "22008":
+    Name: Race to the Horizon
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
   "23001":
@@ -839,11 +849,15 @@ Lightcones:
   "23059":
     Name: Hình Hài Tái Sinh Từ Hỏa Ngục
   "23060":
-    Name: A Star That Lights the Night
+    Name: Khi Một Vì Sao Chiếu Sáng Trời Đêm
   "23061":
-    Name: Flickering Stars
+    Name: Ngọn Lửa Nhỏ Thầm Lặng Tỏa Sáng
   "23062":
-    Name: I Am As You Behold
+    Name: Ngươi Thấy Chính Là Ta
+  "23063":
+    Name: Rise and Sing
+  "23064":
+    Name: Summer Rides the Surf
   "24000":
     Name: Sự Sụp Đổ Của Aeon
   "24001":

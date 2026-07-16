@@ -254,6 +254,12 @@ Characters:
   "1510":
     Name: Himeko • Nova
     LongName: Himeko • Nova
+  "1512":
+    Name: Robin • Summeretto
+    LongName: Robin • Summeretto
+  "1513":
+    Name: Aventurine • Waveflair
+    LongName: Aventurine • Waveflair
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -526,7 +532,7 @@ RelicSets:
     Description2pc: Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.
   "328":
     Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.
+    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, for every 1 excess point, increases the wearer's DMG dealt by 0.2%, up to a max increase of 32%.
 Lightcones:
   "20000":
     Name: Arrows
@@ -704,6 +710,8 @@ Lightcones:
     Name: Mushy Shroomy's Adventures
   "21065":
     Name: Today's Good Luck
+  "21066":
+    Name: A Little Getaway
   "22000":
     Name: Before the Tutorial Mission Starts
   "22001":
@@ -720,6 +728,8 @@ Lightcones:
     Name: Fly Into a Pink Tomorrow
   "22007":
     Name: Tomorrow, Together
+  "22008":
+    Name: Race to the Horizon
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -844,6 +854,10 @@ Lightcones:
     Name: Flickering Stars
   "23062":
     Name: I Am As You Behold
+  "23063":
+    Name: Rise and Sing
+  "23064":
+    Name: Summer Rides the Surf
   "24000":
     Name: On the Fall of an Aeon
   "24001":

@@ -246,14 +246,20 @@ Characters:
     Name: Мортенакс Блэйд
     LongName: Мортенакс Блэйд
   "1508":
-    Name: Rin Tohsaka
-    LongName: Rin Tohsaka
+    Name: Рин Тосака
+    LongName: Рин Тосака
   "1509":
-    Name: Gilgamesh
-    LongName: Gilgamesh
+    Name: Гильгамеш
+    LongName: Гильгамеш
   "1510":
-    Name: Himeko • Nova
-    LongName: Himeko • Nova
+    Name: "Химеко: Нова"
+    LongName: "Химеко: Нова"
+  "1512":
+    Name: Robin • Summeretto
+    LongName: Robin • Summeretto
+  "1513":
+    Name: Aventurine • Waveflair
+    LongName: Aventurine • Waveflair
   "8001":
     Name: Келус
     LongName: Келус (Разрушение)
@@ -522,11 +528,11 @@ RelicSets:
     Name: Город тысячи звёзд
     Description2pc: При бонус-атаке повышает силу атаки владельца на 24% на 2 хода. После победы над противником повышает крит. урон всех союзников на 12% на весь бой. Этот эффект не складывается.
   "327":
-    Name: Fallen Star Anchorage
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.
+    Name: Порт падающих звёзд
+    Description2pc: Повышает крит. шанс владельца на 8%. В начале боя, если владелец и ещё один союзник - компаньоны по Освоению, повышает крит. урон владельца на 32%.
   "328":
-    Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.
+    Name: Институт биологических исследований
+    Description2pc: В начале боя, если максимальная энергия владельца равна или превышает 200 ед., за каждую 1 единицу свыше этого значения повышает наносимый владельцем урон на 0.2% до макс. 32%.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -704,6 +710,8 @@ Lightcones:
     Name: Приключения грибочков
   "21065":
     Name: Благоприятный день
+  "21066":
+    Name: A Little Getaway
   "22000":
     Name: Перед началом тренировочной миссии
   "22001":
@@ -720,6 +728,8 @@ Lightcones:
     Name: Полёт к розовому завтра
   "22007":
     Name: Будущее вместе
+  "22008":
+    Name: Race to the Horizon
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -839,11 +849,15 @@ Lightcones:
   "23059":
     Name: Перерождённый в пламени
   "23060":
-    Name: A Star That Lights the Night
+    Name: Когда звезда озаряет ночное небо
   "23061":
-    Name: Flickering Stars
+    Name: Мерцающие звёзды
   "23062":
-    Name: I Am As You Behold
+    Name: Я - всё, что пред взором
+  "23063":
+    Name: Rise and Sing
+  "23064":
+    Name: Summer Rides the Surf
   "24000":
     Name: О падении Эона
   "24001":

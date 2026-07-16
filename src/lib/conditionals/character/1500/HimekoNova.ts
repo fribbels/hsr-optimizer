@@ -5,6 +5,7 @@ import {
   bounce,
 } from 'lib/conditionals/ashblazingCompute'
 import { Welt } from 'lib/conditionals/character/1000/Welt'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -435,7 +436,7 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
-        { characterId: Welt.id, lightCones: [InTheNameOfTheWorld.id] },
+        { characterId: WeltB1.id, lightCones: [InTheNameOfTheWorld.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],
     },
@@ -497,6 +498,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

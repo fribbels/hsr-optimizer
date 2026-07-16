@@ -150,15 +150,18 @@ export function loadCharacterData(characterId: CharacterId): PublicCharacterData
 export function getPublicEntryCount(characterId: CharacterId): number {
   const charData = decompressedCache.get(characterId)
   if (!charData) return 0
-  let max = 0
+  const seen = new Set<string>()
   for (const configData of Object.values(charData.configs)) {
     if (!configData) continue
     for (const boardData of Object.values(configData.teamsById)) {
-      const count = boardData.entries.filter((e) => e.score >= 1.50).length
-      if (count > max) max = count
+      for (const entry of boardData.entries) {
+        if (entry.score >= 1.50) {
+          seen.add(entry.candidateId)
+        }
+      }
     }
   }
-  return max
+  return Math.min(seen.size, 100)
 }
 
 export function getLeaderboardCharacterIds(output: RawLeaderboardOutput): CharacterId[] {

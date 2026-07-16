@@ -1,20 +1,31 @@
 import { ScoringConfigType } from 'types/metadata'
 
-export const LEADERBOARD_CONFIG_TYPES = ['dps', 'support', 'heal', 'shield'] as const
-export type LeaderboardConfigType = typeof LEADERBOARD_CONFIG_TYPES[number]
+export enum LeaderboardConfigType {
+  DPS = 'dps',
+  SUPPORT = 'support',
+  HEAL = 'heal',
+  SHIELD = 'shield',
+}
+
+export const LEADERBOARD_CONFIG_TYPES = [
+  LeaderboardConfigType.DPS,
+  LeaderboardConfigType.SUPPORT,
+  LeaderboardConfigType.HEAL,
+  LeaderboardConfigType.SHIELD,
+] as const
 
 const CONFIG_TYPE_TO_PUBLIC: Record<ScoringConfigType, LeaderboardConfigType> = {
-  [ScoringConfigType.DPS]: 'dps',
-  [ScoringConfigType.BUFFER]: 'support',
-  [ScoringConfigType.HEAL]: 'heal',
-  [ScoringConfigType.SHIELD]: 'shield',
+  [ScoringConfigType.DPS]: LeaderboardConfigType.DPS,
+  [ScoringConfigType.BUFFER]: LeaderboardConfigType.SUPPORT,
+  [ScoringConfigType.HEAL]: LeaderboardConfigType.HEAL,
+  [ScoringConfigType.SHIELD]: LeaderboardConfigType.SHIELD,
 }
 
 const PUBLIC_TO_CONFIG_TYPE: Record<LeaderboardConfigType, ScoringConfigType> = {
-  dps: ScoringConfigType.DPS,
-  support: ScoringConfigType.BUFFER,
-  heal: ScoringConfigType.HEAL,
-  shield: ScoringConfigType.SHIELD,
+  [LeaderboardConfigType.DPS]: ScoringConfigType.DPS,
+  [LeaderboardConfigType.SUPPORT]: ScoringConfigType.BUFFER,
+  [LeaderboardConfigType.HEAL]: ScoringConfigType.HEAL,
+  [LeaderboardConfigType.SHIELD]: ScoringConfigType.SHIELD,
 }
 
 export function isLeaderboardConfigType(value: string): value is LeaderboardConfigType {

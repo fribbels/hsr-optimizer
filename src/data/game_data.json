@@ -8313,6 +8313,201 @@
       },
       "unreleased": false
     },
+    "1512": {
+      "id": "1512",
+      "name": "Robin • Summeretto",
+      "rarity": 5,
+      "path": "Remembrance",
+      "element": "Wind",
+      "traces": {
+        "CRIT Rate": 0.067,
+        "HP%": 0.18,
+        "SPD": 14
+      },
+      "traceTree": [
+        {
+          "id": "1512201_4.5v1",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": [
+            {
+              "id": "1512202_4.5v1",
+              "stat": "HP%",
+              "value": 0.04,
+              "pre": "1512201_4.5v1",
+              "children": []
+            },
+            {
+              "id": "1512203_4.5v1",
+              "stat": "SPD",
+              "value": 2,
+              "pre": "1512201_4.5v1",
+              "children": []
+            }
+          ]
+        },
+        {
+          "id": "1512204_4.5v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1512205_4.5v1",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1512206_4.5v1",
+          "stat": "HP%",
+          "value": 0.06,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1512207_4.5v1",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1512208_4.5v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1512209_4.5v1",
+              "stat": "HP%",
+              "value": 0.08,
+              "pre": "1512208_4.5v1",
+              "children": [
+                {
+                  "id": "1512210_4.5v1",
+                  "stat": "SPD",
+                  "value": 4,
+                  "pre": "1512209_4.5v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 1203.048,
+        "ATK": 601.524,
+        "DEF": 485.1,
+        "SPD": 98,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
+    "1513": {
+      "id": "1513",
+      "name": "Aventurine • Waveflair",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Quantum",
+      "traces": {
+        "DEF%": 0.125,
+        "SPD": 9,
+        "CRIT Rate": 0.187
+      },
+      "traceTree": [
+        {
+          "id": "1513201_4.5v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1513202_4.5v1",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1513203_4.5v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1513204_4.5v1",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1513205_4.5v1",
+          "stat": "CRIT Rate",
+          "value": 0.04,
+          "pre": null,
+          "children": [
+            {
+              "id": "1513206_4.5v1",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1513205_4.5v1",
+              "children": [
+                {
+                  "id": "1513207_4.5v1",
+                  "stat": "CRIT Rate",
+                  "value": 0.04,
+                  "pre": "1513206_4.5v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1513208_4.5v1",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1513209_4.5v1",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1513208_4.5v1",
+              "children": [
+                {
+                  "id": "1513210_4.5v1",
+                  "stat": "CRIT Rate",
+                  "value": 0.053,
+                  "pre": "1513209_4.5v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 140,
+      "stats": {
+        "HP": 1241.856,
+        "ATK": 426.888,
+        "DEF": 751.905,
+        "SPD": 103,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "8001": {
       "id": "8001",
       "name": "Trailblazer",
@@ -12535,6 +12730,40 @@
       },
       "unreleased": false
     },
+    "21066": {
+      "id": "21066",
+      "name": "A Little Getaway",
+      "rarity": 4,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 423.36,
+        "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": -4,
+        "y": -88,
+        "s": 1.05
+      },
+      "superimpositions": {
+        "1": {
+          "ElationDamageAddedRatioBase": 0.2
+        },
+        "2": {
+          "ElationDamageAddedRatioBase": 0.25
+        },
+        "3": {
+          "ElationDamageAddedRatioBase": 0.3
+        },
+        "4": {
+          "ElationDamageAddedRatioBase": 0.35
+        },
+        "5": {
+          "ElationDamageAddedRatioBase": 0.4
+        }
+      },
+      "unreleased": true
+    },
     "22000": {
       "id": "22000",
       "name": "Before the Tutorial Mission Starts",
@@ -12806,6 +13035,40 @@
         }
       },
       "unreleased": false
+    },
+    "22008": {
+      "id": "22008",
+      "name": "Race to the Horizon",
+      "rarity": 4,
+      "path": "Hunt",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 0,
+        "y": -62,
+        "s": 1.07
+      },
+      "superimpositions": {
+        "1": {
+          "AttackAddedRatio": 0.12
+        },
+        "2": {
+          "AttackAddedRatio": 0.15
+        },
+        "3": {
+          "AttackAddedRatio": 0.18
+        },
+        "4": {
+          "AttackAddedRatio": 0.21
+        },
+        "5": {
+          "AttackAddedRatio": 0.24
+        }
+      },
+      "unreleased": true
     },
     "23000": {
       "id": "23000",
@@ -14849,6 +15112,74 @@
       },
       "unreleased": false
     },
+    "23063": {
+      "id": "23063",
+      "name": "Rise and Sing",
+      "rarity": 5,
+      "path": "Remembrance",
+      "stats": {
+        "HP": 1164.24,
+        "ATK": 582.12,
+        "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": -16,
+        "y": -119,
+        "s": 1.25
+      },
+      "superimpositions": {
+        "1": {
+          "HPAddedRatio": 0.3
+        },
+        "2": {
+          "HPAddedRatio": 0.375
+        },
+        "3": {
+          "HPAddedRatio": 0.45
+        },
+        "4": {
+          "HPAddedRatio": 0.525
+        },
+        "5": {
+          "HPAddedRatio": 0.6
+        }
+      },
+      "unreleased": true
+    },
+    "23064": {
+      "id": "23064",
+      "name": "Summer Rides the Surf",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": 50,
+        "y": -146,
+        "s": 1.43
+      },
+      "superimpositions": {
+        "1": {
+          "CriticalChanceBase": 0.18
+        },
+        "2": {
+          "CriticalChanceBase": 0.21
+        },
+        "3": {
+          "CriticalChanceBase": 0.24
+        },
+        "4": {
+          "CriticalChanceBase": 0.27
+        },
+        "5": {
+          "CriticalChanceBase": 0.3
+        }
+      },
+      "unreleased": true
+    },
     "24000": {
       "id": "24000",
       "name": "On the Fall of an Aeon",
@@ -15371,7 +15702,7 @@
     {
       "id": "328",
       "name": "Cosmic Life Sciences Institute",
-      "skills": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%."
+      "skills": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, for every 1 excess point, increases the wearer's DMG dealt by 0.2%, up to a max increase of 32%."
     }
   ]
 }

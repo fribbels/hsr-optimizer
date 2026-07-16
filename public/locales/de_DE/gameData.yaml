@@ -252,8 +252,14 @@ Characters:
     Name: Gilgamesh
     LongName: Gilgamesh
   "1510":
-    Name: Himeko • Nova
-    LongName: Himeko • Nova
+    Name: Himeko – Nova
+    LongName: Himeko – Nova
+  "1512":
+    Name: Robin • Summeretto
+    LongName: Robin • Summeretto
+  "1513":
+    Name: Aventurine • Waveflair
+    LongName: Aventurine • Waveflair
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -522,11 +528,11 @@ RelicSets:
     Name: Stadt der unzähligen Sterne
     Description2pc: Wenn der Träger einen Folgeangriff einsetzt, wird sein ANG für 2 Rd. um 24% erhöht. Wenn ein Gegner besiegt wird, wird der KRIT-SCH aller Verbündeten im aktuellen Kampf um 12% erhöht. Dieser Effekt ist nicht stapelbar.
   "327":
-    Name: Fallen Star Anchorage
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.
+    Name: Ankerplatz des gefallenen Sterns
+    Description2pc: Erhöht die KRIT-Rate des Trägers um 8%. Wenn beim Kampfeintritt sowohl der Träger als auch ein weiteres Teammitglied Trailblaze-Gefährten sind, wird der KRIT-SCH des Trägers um 32% erhöht.
   "328":
-    Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.
+    Name: Institut für kosmische Biowissenschaften
+    Description2pc: Wenn die max. Energie des Trägers beim Kampfeintritt mindestens 200 Pkt. beträgt, wird der verursachte SCH des Trägers für jeden überschüssigen Pkt. um 0.2% erhöht, bis zu einem Maximum von 32%.
 Lightcones:
   "20000":
     Name: Pfeile
@@ -704,6 +710,8 @@ Lightcones:
     Name: Die Abenteuer des pilzigen Pilzes
   "21065":
     Name: Glück des Tages
+  "21066":
+    Name: A Little Getaway
   "22000":
     Name: Bevor das Tutorial beginnt
   "22001":
@@ -720,6 +728,8 @@ Lightcones:
     Name: Flug in einen rosaroten Morgen
   "22007":
     Name: Gemeinsam in die Zukunft
+  "22008":
+    Name: Race to the Horizon
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":
@@ -839,11 +849,15 @@ Lightcones:
   "23059":
     Name: Neue Überreste des versengenden Fegefeuers
   "23060":
-    Name: A Star That Lights the Night
+    Name: Wenn ein Stern den Nachthimmel erhellt
   "23061":
-    Name: Flickering Stars
+    Name: Die leise flackernde Sternenflamme
   "23062":
-    Name: I Am As You Behold
+    Name: Ich bin, wie du mich siehst
+  "23063":
+    Name: Rise and Sing
+  "23064":
+    Name: Summer Rides the Surf
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

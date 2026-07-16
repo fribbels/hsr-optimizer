@@ -1640,7 +1640,7 @@ export default interface Resources {
       "HimekoNova": {
         "Content": {
           "assistSkillBuff": {
-            "content": "Using the Assist Skill is considered as Himeko • Nova using her Skill. Himeko • Nova's All-Type RES PEN increases by {{AssistSkillResPen}}% and CRIT DMG increases by {{AssistSkillCdBUff}}%.",
+            "content": "Using the Assist Skill is considered as Himeko • Nova using her Skill. Himeko • Nova's All-Type RES PEN increases by {{AssistSkillResPen}}% and CRIT DMG increases by {{AssistSkillCdBuff}}%.",
             "text": "Assist Skill buff"
           },
           "companionDecimation": {
@@ -1648,7 +1648,7 @@ export default interface Resources {
             "text": "Companion Protocol: Decimation"
           },
           "companionVerdict": {
-            "content": "Increases DMG dealt by Himeko • Nova by {{VerdictDmgBuff}}%, and additionally increases her Ultimate DMG dealt by {{VeridctUltDmgBuff}}%.",
+            "content": "Increases DMG dealt by Himeko • Nova by {{VerdictDmgBuff}}%, and additionally increases her Ultimate DMG dealt by {{VerdictUltDmgBuff}}%.",
             "text": "Companion Protocol: Verdict"
           },
           "e4ResPen": {
@@ -1661,7 +1661,7 @@ export default interface Resources {
           },
           "navigatorsSemaphore": {
             "content": "When Himeko • Nova has \"Navigator's Semaphore,\" DMG dealt by all allies increases by {{SemaphoreDmgBoost}}%.",
-            "text": "Navigator 's Semaphore"
+            "text": "Navigator's Semaphore"
           },
           "selfUseAssistSkill": {
             "content": "When Himeko uses her assist skill, deals increased damage to all enemies and deals 1 additional instance of damage to a random enemy target.",
@@ -2328,7 +2328,7 @@ export default interface Resources {
             "text": "E4 CD stacks"
           },
           "e6ResPen": {
-            "content": "Rin Tohsaka's All-Type RES PEN increases by 20%. When using Ultimate, gains 24 point(s) of \"Gem Energy\" and 1 extra turn.",
+            "content": "Rin Tohsaka's All-Type RES PEN increases by 20%. When using Ultimate, gains 24 points of \"Gem Energy\" and 1 extra turn.",
             "text": "E6 RES PEN"
           },
           "elegantConduct": {
@@ -3646,7 +3646,7 @@ export default interface Resources {
       "FlickeringStars": {
         "Content": {
           "radiantCrown": {
-            "content": "hen any ally character consumes a total of 4 or more Skill Points in a single turn, the wearer gains \"Radiant Crown,\" lasting for 3 turns. While the wearer has \"Radiant Crown,\" all allies' DMG ignores {{DefPen}}% of the target's DEF, and Skill DMG dealt by the wearer increases by {{DmgBoost}}%.",
+            "content": "When any ally character consumes a total of 4 or more Skill Points in a single turn, the wearer gains \"Radiant Crown,\" lasting for 3 turns. While the wearer has \"Radiant Crown,\" all allies' DMG ignores {{DefPen}}% of the target's DEF, and Skill DMG dealt by the wearer increases by {{DmgBoost}}%.",
             "text": "Radiant Crown"
           }
         }
@@ -3738,7 +3738,7 @@ export default interface Resources {
       "IAmAsYouBehold": {
         "Content": {
           "kingsEntertainment": {
-            "content": "When the wearer enters combat or uses their Ultimate, the wearer gains \"King's Entertainment,\" lasting for 3 turn  s. While the wearer has \"King's Entertainment,\" increases all allies' CRIT DMG by {{CdBoost}}%.",
+            "content": "When the wearer enters combat or uses their Ultimate, the wearer gains \"King's Entertainment,\" lasting for 3 turns. While the wearer has \"King's Entertainment,\" increases all allies' CRIT DMG by {{CdBoost}}%.",
             "text": "King's Entertainment"
           },
           "ultimateEnergyDmgBoost": {
@@ -4978,6 +4978,14 @@ export default interface Resources {
         "LongName": "Himeko • Nova",
         "Name": "Himeko • Nova"
       },
+      "1512": {
+        "LongName": "Robin • Summeretto",
+        "Name": "Robin • Summeretto"
+      },
+      "1513": {
+        "LongName": "Aventurine • Waveflair",
+        "Name": "Aventurine • Waveflair"
+      },
       "8001": {
         "LongName": "Caelus (Destruction)",
         "Name": "Caelus"
@@ -5293,6 +5301,9 @@ export default interface Resources {
       "21065": {
         "Name": "Today's Good Luck"
       },
+      "21066": {
+        "Name": "A Little Getaway"
+      },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"
       },
@@ -5316,6 +5327,9 @@ export default interface Resources {
       },
       "22007": {
         "Name": "Tomorrow, Together"
+      },
+      "22008": {
+        "Name": "Race to the Horizon"
       },
       "23000": {
         "Name": "Night on the Milky Way"
@@ -5502,6 +5516,12 @@ export default interface Resources {
       },
       "23062": {
         "Name": "I Am As You Behold"
+      },
+      "23063": {
+        "Name": "Rise and Sing"
+      },
+      "23064": {
+        "Name": "Summer Rides the Surf"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -5962,39 +5982,57 @@ export default interface Resources {
     }
   },
   "hometab": {
-    "CollapseLabels": {
-      "Explore": "Explore the features",
-      "Join": "Join the community"
+    "CommunityCard": {
+      "Changelog": {
+        "Description": "Check out recent updates, new features, and bug fixes.",
+        "Title": "Changelog"
+      },
+      "Discord": {
+        "Description": "Join thousands of players sharing builds, strategies, and optimization tips.",
+        "Title": "Discord"
+      },
+      "Github": {
+        "Description": "Contribute to the project. Bug reports, features, and pull requests welcome.",
+        "Title": "Github"
+      },
+      "Roadmap": {
+        "Description": "See what's planned and in progress on the project board.",
+        "Title": "Roadmap"
+      }
     },
     "CommunityCollapse": "A huge thanks to all our contributors, translators, users, and everyone who provided feedback, for supporting this project and helping to build it together!",
     "Contributors": {
       "Title": "Our Contributors"
     },
-    "FeatureCards": {
-      "BenchmarkGenerator": {
-        "Title": "Benchmark Generator"
+    "FeatureCard": {
+      "Benchmarks": {
+        "Description": "Determine which relic sets and main stats produce the highest damage for your character. Find the optimal substat distribution for each configuration.",
+        "Features": ["Compare main stat and relic combinations head-to-head", "Two tiers: realistic benchmark and perfection builds", "Expandable rows show stats, rolls, and damage breakdown"],
+        "Title": "Build Benchmarks"
       },
-      "Calculator": {
-        "Content": "Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.",
+      "DamageCalculator": {
+        "Description": "Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.",
+        "Features": ["Customize rotations, teammates, and relics", "See the buff breakdown by source and ability", "Easy-to-use presets to get started with"],
         "Title": "Damage Calculator"
       },
-      "LearnMore": "Learn more",
       "Optimizer": {
-        "Content": "Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.",
-        "Title": "Build Optimizer"
-      },
-      "Organizer": {
-        "Content": "Organize your relics by scoring and sorting relics based on their potential, and find the top relics to upgrade for each character.",
-        "Title": "Relic Organizer"
+        "Description": "Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.",
+        "Features": ["Find best builds for stats, abilities, or rotation damage", "GPU-accelerated compute at billions of builds per second", "Set up teammate conditional buffs for damage calculations"],
+        "Title": "Optimization Engine"
       },
       "RarityAnalysis": {
+        "Description": "Evaluate relic quality using character-specific substat weights that rank each piece against its theoretical maximum.",
+        "Features": ["Estimate days of farming needed to replace a relic", "Visualize high, mid, and low rolls across your substats", "See the reroll dice potential for each piece"],
         "Title": "Rarity Analysis"
       },
       "Showcase": {
-        "Content": "Showcase your character’s stats or prebuild future characters. Simulate their combat damage with DPS score and measure it against the benchmarks.",
+        "Description": "Showcase and share your character's stats or prebuild future characters. Simulate combat damage with DPS score and measure it against the benchmarks.",
+        "Features": ["Full stats display with DPS Score and stats analysis", "Configure teammate buffs for accurate scoring", "Simulate unreleased character stats on current relics"],
         "Title": "Character Showcase"
       },
-      "WarpPlanner": {
+      "Warp": {
+        "Description": "Calculate exact success probabilities for character and light cone banner targets, with pity counters, starlight refunds, and predicted future resources.",
+        "Features": ["Shows expected average warps needed for each target", "Per-patch income tracking for F2P and spending tiers", "Calculates starlight refund from duplicate trades"],
         "Title": "Warp Planner"
       }
     },
@@ -6009,8 +6047,7 @@ export default interface Resources {
       "Message": "Invalid input - This should be your 9 digit ingame UUID",
       "Placeholder": "UID",
       "Search": "Search"
-    },
-    "Welcome": "Welcome to the<1/>Fribbels Star Rail Optimizer"
+    }
   },
   "importSaveTab": {
     "ClearData": {

@@ -1,38 +1,62 @@
-CollapseLabels:
-  Explore: Explore the features
-  Join: Join the community
 CommunityCollapse: >-
   A huge thanks to all our contributors, translators, users,
   and everyone who provided feedback, for supporting this project and helping to build it together!
-FeatureCards:
-  LearnMore: Learn more
+CommunityCard:
+  Discord:
+    Title: Discord
+    Description: Join thousands of players sharing builds, strategies, and optimization tips.
+  Github:
+    Title: Github
+    Description: Contribute to the project. Bug reports, features, and pull requests welcome.
+  Roadmap:
+    Title: Roadmap
+    Description: See what's planned and in progress on the project board.
+  Changelog:
+    Title: Changelog
+    Description: Check out recent updates, new features, and bug fixes.
+FeatureCard:
   Showcase:
     Title: Character Showcase
-    Content: >-
-      Showcase your character’s stats or prebuild future characters.
-      Simulate their combat damage with DPS score and measure it against the benchmarks.
+    Description: Showcase and share your character's stats or prebuild future characters. Simulate combat damage with DPS score and measure it against the benchmarks.
+    Features:
+      - Full stats display with DPS Score and stats analysis
+      - Configure teammate buffs for accurate scoring
+      - Simulate unreleased character stats on current relics
   Optimizer:
-    Title: Build Optimizer
-    Content: >-
-      Optimize your characters to search for the best combination
-      of relics to reach their breakpoints and maximize their stats.
-  Calculator:
-    Title: Damage Calculator
-    Content: >-
-      Calculate damage accurately with fully customizable team setups,
-      buff conditions, and ability rotations to maximize damage output.
-  Organizer:
-    Title: Relic Organizer
-    Content: >-
-      Organize your relics by scoring and sorting relics based on their potential,
-      and find the top relics to upgrade for each character.
-  WarpPlanner:
+    Title: Optimization Engine
+    Description: Optimize your characters to search for the best combination of relics to reach their breakpoints and maximize their stats.
+    Features:
+      - Find best builds for stats, abilities, or rotation damage
+      - GPU-accelerated compute at billions of builds per second
+      - Set up teammate conditional buffs for damage calculations
+  Warp:
     Title: Warp Planner
-  BenchmarkGenerator:
-    Title: Benchmark Generator
+    Description: Calculate exact success probabilities for character and light cone banner targets, with pity counters, starlight refunds, and predicted future resources.
+    Features:
+      - Shows expected average warps needed for each target
+      - Per-patch income tracking for F2P and spending tiers
+      - Calculates starlight refund from duplicate trades
+  DamageCalculator:
+    Title: Damage Calculator
+    Description: Calculate damage accurately with fully customizable team setups, buff conditions, and ability rotations to maximize damage output.
+    Features:
+      - Customize rotations, teammates, and relics
+      - See the buff breakdown by source and ability
+      - Easy-to-use presets to get started with
+  Benchmarks:
+    Title: Build Benchmarks
+    Description: Determine which relic sets and main stats produce the highest damage for your character. Find the optimal substat distribution for each configuration.
+    Features:
+      - Compare main stat and relic combinations head-to-head
+      - 'Two tiers: realistic benchmark and perfection builds'
+      - Expandable rows show stats, rolls, and damage breakdown
   RarityAnalysis:
     Title: Rarity Analysis
-Welcome: Welcome to the<1/>Fribbels Star Rail Optimizer
+    Description: Evaluate relic quality using character-specific substat weights that rank each piece against its theoretical maximum.
+    Features:
+      - Estimate days of farming needed to replace a relic
+      - Visualize high, mid, and low rolls across your substats
+      - See the reroll dice potential for each piece
 Hero:
   Welcome: Welcome to the
   Title: Fribbels Star Rail Optimizer

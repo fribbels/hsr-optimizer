@@ -1,10 +1,36 @@
+import { readFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
-import { resolve } from 'node:path'
+import type { Plugin } from 'vite'
 import { defineConfig } from 'vite'
+
+function serveLeaderboardJson(): Plugin {
+  return {
+    name: 'serve-leaderboard-json',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url?.startsWith('/hsr-optimizer/leaderboard/') && req.url.endsWith('.json')) {
+          const filename = req.url.replace('/hsr-optimizer/leaderboard/', '')
+          const filePath = join(server.config.root, 'public', 'leaderboard', filename)
+          try {
+            const content = readFileSync(filePath, 'utf-8')
+            res.setHeader('Content-Type', 'application/json')
+            res.end(content)
+          } catch {
+            next()
+          }
+          return
+        }
+        next()
+      })
+    },
+  }
+}
 
 export default defineConfig({
   base: '/hsr-optimizer',
   plugins: [
+    serveLeaderboardJson(),
     react(),
   ],
   resolve: {

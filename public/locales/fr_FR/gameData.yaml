@@ -254,6 +254,12 @@ Characters:
   "1510":
     Name: Himeko • Nova
     LongName: Himeko • Nova
+  "1512":
+    Name: Robin • Summeretto
+    LongName: Robin • Summeretto
+  "1513":
+    Name: Aventurine • Waveflair
+    LongName: Aventurine • Waveflair
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -522,11 +528,11 @@ RelicSets:
     Name: Épicentre du cosmos
     Description2pc: "Lorsque le porteur utilise une ATQ de suivi, augmente son ATQ de 24% pendant 2\_tours. Lorsqu'une cible ennemie est éliminée, augmente les DGT critiques de tous les alliés de 12% au cours du combat. Cet effet ne peut pas se cumuler."
   "327":
-    Name: Fallen Star Anchorage
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.
+    Name: Ancrage de l'étoile déchue
+    Description2pc: Augmente les chances de coup critique du porteur de 8%. Lors de l'entrée en combat, si le porteur et un autre coéquipier sont des personnages des Compagnons pionniers, augmente les DGT critiques du porteur de 32%.
   "328":
-    Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.
+    Name: Institut cosmique des Sciences de la Vie
+    Description2pc: Au début d'un combat, si l'énergie max du porteur est supérieure ou égale à 200, augmente les DGT infligés par le porteur de 0.2% par point en excédent, jusqu'à un maximum de 32%.
 Lightcones:
   "20000":
     Name: Flèches
@@ -704,6 +710,8 @@ Lightcones:
     Name: L'Odyssée de Champi
   "21065":
     Name: Un jour de chance
+  "21066":
+    Name: A Little Getaway
   "22000":
     Name: Avant que le tutoriel ne commence
   "22001":
@@ -720,6 +728,8 @@ Lightcones:
     Name: Envol vers un lendemain rosé
   "22007":
     Name: L'avenir nous verra réunis
+  "22008":
+    Name: Race to the Horizon
   "23000":
     Name: Nuit sur la voie lactée
   "23001":
@@ -839,11 +849,15 @@ Lightcones:
   "23059":
     Name: Refonte infernale
   "23060":
-    Name: A Star That Lights the Night
+    Name: Une étoile illuminant la nuit
   "23061":
-    Name: Flickering Stars
+    Name: Étoiles scintillantes
   "23062":
-    Name: I Am As You Behold
+    Name: Je suis tel que tu me vois
+  "23063":
+    Name: Rise and Sing
+  "23064":
+    Name: Summer Rides the Surf
   "24000":
     Name: La chute d'un Aiôn
   "24001":

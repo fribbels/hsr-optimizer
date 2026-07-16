@@ -4,9 +4,13 @@ import {
   ashblazingMulti,
   bounce,
 } from 'lib/conditionals/ashblazingCompute'
+import { Welt } from 'lib/conditionals/character/1000/Welt'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -19,8 +23,11 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
+import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
 import { AGroundedAscent } from 'lib/conditionals/lightcone/5star/AGroundedAscent'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameOfTheWorld'
+import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
   CURRENT_DATA_VERSION,
@@ -425,6 +432,29 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
   ],
+  leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
+        { characterId: WeltB1.id, lightCones: [InTheNameOfTheWorld.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
+        { characterId: TrailblazerRemembranceStelle.id, lightCones: [FlyIntoAPinkTomorrow.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+  ],
 })
 
 const scoring = (): ScoringMetadata => ({
@@ -468,6 +498,7 @@ const scoring = (): ScoringMetadata => ({
   sortOption: SortOption.ULT,
   hiddenColumns: [SortOption.FUA, SortOption.DOT],
   simulation: simulation(),
+  eidolonImage: 4,
 })
 
 const display = {

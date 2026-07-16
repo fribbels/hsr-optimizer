@@ -252,8 +252,14 @@ Characters:
     Name: Gilgamesh
     LongName: Gilgamesh
   "1510":
-    Name: Himeko • Nova
-    LongName: Himeko • Nova
+    Name: Himeko - Nova
+    LongName: Himeko - Nova
+  "1512":
+    Name: Robin • Summeretto
+    LongName: Robin • Summeretto
+  "1513":
+    Name: Aventurine • Waveflair
+    LongName: Aventurine • Waveflair
   "8001":
     Name: Caelus
     LongName: Caelus (A Destruição)
@@ -442,7 +448,7 @@ RelicSets:
   "132":
     Name: Mestre Ferreiro da Consulta Divina
     Description2pc: Aumenta os PV máximos em 12%.
-    Description4pc: Aumenta o Dano CRIT causado pelo usuário a inimigos-alvo no estado de redução de DEF em 28%. Depois que o usuário inflige o estado de redução de DEF a um inimigo-alvo, todos os aliados ganham "Comburente" por 2 rodadas. Esse efeito não pode ser acumulado. O Dano causado por aliados-alvo com "Comburente" aumenta em 15%. Esse efeito pode ser ativado novamente depois que o usuário usa um ataque.
+    Description4pc: Aumenta o Dano CRIT causado pelo usuário a inimigos-alvo no estado de redução de DEF em 28%. Depois que o usuário inflige o estado de redução de DEF a um inimigo-alvo, todos os aliados ganham "Comburente" por 2 rodadas. Este efeito não pode ser acumulado. O Dano causado por aliados-alvo com "Comburente" aumenta em 15%. Este efeito pode ser ativado novamente depois que o usuário usa um ataque.
   "301":
     Name: Estação de Vedação Espacial
     Description2pc: Aumenta em 12% o ATQ do usuário. Quando a VEL do usuário chegar a 120 ou mais, aumenta em um extra de 12% o ATQ do usuário.
@@ -522,11 +528,11 @@ RelicSets:
     Name: Cidade da Convergência Estelar
     Description2pc: Quando o usuário usa um <u>Ataque Extra</u>, aumenta o ATQ em 24% por 2 rodadas. Quando um inimigo-alvo é derrotado, aumenta o Dano CRIT de todos os aliados em 12% pelo resto da batalha atual. Esse efeito não acumula.
   "327":
-    Name: Fallen Star Anchorage
-    Description2pc: Increases the wearer's CRIT Rate by 8%. When entering combat, if the wearer and another teammate are both Trailblaze Companions characters, increases the wearer's CRIT DMG by 32%.
+    Name: Ancoradouro da Estrela Caída
+    Description2pc: Aumenta a Chance de CRIT do usuário em 8%. Ao entrar em combate, se o usuário e outro companheiro de equipe forem ambos personagens "Companheiros de Desbravamento", aumenta o Dano CRIT do usuário em 32%.
   "328":
-    Name: Cosmic Life Sciences Institute
-    Description2pc: When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.
+    Name: Instituto de Ciências da Vida Cósmica
+    Description2pc: Ao entrar em combate, se a Energia Máxima do usuário for maior ou igual a 200, para cada 1 ponto excedente, aumenta o Dano causado pelo usuário em 0.2%, até um aumento máximo de 32%.
 Lightcones:
   "20000":
     Name: Flechas
@@ -704,6 +710,8 @@ Lightcones:
     Name: As Aventuras do Cogumelinho Fofinho
   "21065":
     Name: Boa Sorte de Hoje
+  "21066":
+    Name: A Little Getaway
   "22000":
     Name: Antes do Início da Missão do Tutorial
   "22001":
@@ -720,6 +728,8 @@ Lightcones:
     Name: Rumo ao Amanhã Cor-de-Rosa
   "22007":
     Name: Juntos no Futuro
+  "22008":
+    Name: Race to the Horizon
   "23000":
     Name: Noite na Via Láctea
   "23001":
@@ -839,11 +849,15 @@ Lightcones:
   "23059":
     Name: Reforjado nas Chamas do Inferno
   "23060":
-    Name: A Star That Lights the Night
+    Name: Quando uma Estrela Ilumina o Céu Noturno
   "23061":
-    Name: Flickering Stars
+    Name: Estrelas Cintilantes
   "23062":
-    Name: I Am As You Behold
+    Name: Eu Sou Como Tu Me Vês
+  "23063":
+    Name: Rise and Sing
+  "23064":
+    Name: Summer Rides the Surf
   "24000":
     Name: Na Queda de Um Aeon
   "24001":

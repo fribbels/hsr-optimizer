@@ -37,6 +37,9 @@ export type Namespaces = typeof namespaces[number]
 
 export const isBeta = BASE_PATH === BasePath.BETA
 
+export const defaultNS = 'common'
+export const fallbackNS = ['common', 'gameData'] as const
+
 const supportedLanguages = isBeta ? Object.keys(languages) : completedLocales
 void i18next
   .use(Backend)
@@ -44,8 +47,8 @@ void i18next
   .use(initReactI18next)
   .init<HttpBackendOptions>({
     ns: namespaces,
-    defaultNS: 'common',
-    fallbackNS: ['common', 'gameData'],
+    defaultNS,
+    fallbackNS,
     debug: false,
     supportedLngs: supportedLanguages,
     load: 'currentOnly',

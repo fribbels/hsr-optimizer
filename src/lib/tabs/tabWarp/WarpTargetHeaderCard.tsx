@@ -185,15 +185,19 @@ export function TargetHeaderRow(props: {
   const warpType = getTargetWarpType(target)
   const isChar = warpType === WarpType.CHARACTER
 
-  const signatureLcId = target.characterId ? getCharacterConfig(target.characterId)?.defaultLightCone ?? null : null
+  const characterConfig = target.characterId ? getCharacterConfig(target.characterId) : null
+  const signatureLcId = characterConfig?.defaultLightCone ?? null
   const lcId = target.lightConeId ?? signatureLcId
+  const goalCellBg = isChar && target.characterId
+    ? 'linear-gradient(to right, rgba(0, 0, 0, 0.25) 75%, transparent 100%)'
+    : undefined
   const floor = isChar
     ? getCharacterEidolonFloor(form.getValues().targets, target.characterId, targetIndex)
     : getLightConeSuperimpositionFloor(form.getValues().targets, target.lightConeId, targetIndex)
 
   return (
     <Table.Tr className={unifiedClasses.headerRow}>
-      <Table.Td className={unifiedClasses.goalCell} onClick={select.open}>
+      <Table.Td className={unifiedClasses.goalCell} onClick={select.open} style={{ background: goalCellBg }}>
         <div ref={dragHandleRef} className={unifiedClasses.dragHandle} {...dragHandleProps}>
           <IconGripVertical size={14} />
         </div>

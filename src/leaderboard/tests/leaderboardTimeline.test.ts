@@ -1,14 +1,44 @@
-import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
-import type { LeaderboardSnapshot, LeaderboardSnapshotEntry, UserCharacterWatermark } from 'leaderboard/timeline/timelineTypes'
-import { extractSnapshot, userCharKey, type UserCharCurrentEntry } from 'leaderboard/timeline/extractSnapshot'
-import { deduplicateAndMerge, diffSnapshots, displayScore } from 'leaderboard/timeline/computeTimeline'
-import { deriveTimelinePath, deriveSnapshotPath } from 'leaderboard/timeline/timelineStorage'
-import type { PrivateBoard, PrivateBoardCompleteness, PrivateRankedEntry, PrivateRankedOutput } from 'leaderboard/shared/types'
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { LeaderboardEidolonGroup } from 'leaderboard/shared/eidolonConfig'
-import { ScoringConfigType } from 'types/metadata'
+import { computeCandidateId } from 'leaderboard/shared/hash'
+import {
+  cwd,
+  deleteFile,
+  fileExists,
+  joinPath,
+  writeTextFile,
+} from 'leaderboard/shared/nodeFacade'
+import type {
+  PrivateBoard,
+  PrivateBoardCompleteness,
+  PrivateRankedEntry,
+  PrivateRankedOutput,
+} from 'leaderboard/shared/types'
+import {
+  deduplicateAndMerge,
+  diffSnapshots,
+  displayScore,
+} from 'leaderboard/timeline/computeTimeline'
+import {
+  extractSnapshot,
+  type UserCharCurrentEntry,
+  userCharKey,
+} from 'leaderboard/timeline/extractSnapshot'
+import {
+  deriveSnapshotPath,
+  deriveTimelinePath,
+  readTimeline,
+  writeTimelineArtifacts,
+} from 'leaderboard/timeline/timelineStorage'
+import { TimelineEventType } from 'leaderboard/timeline/timelineTypes'
+import type {
+  LeaderboardSnapshot,
+  LeaderboardSnapshotEntry,
+  LeaderboardTimeline,
+  UserCharacterWatermark,
+} from 'leaderboard/timeline/timelineTypes'
 import type { CharacterId } from 'types/character'
-import { cwd } from 'leaderboard/shared/nodeFacade'
+import { ScoringConfigType } from 'types/metadata'
 import {
   describe,
   expect,
@@ -64,7 +94,9 @@ const DEFAULT_FETCHED_AT = 1782259200 // 2026-06-24T00:00:00Z
 
 const CONFIG_TYPE = 'dps' as LeaderboardConfigType
 
-function makeUserCharEntries(entries: Array<{ uidHash: string, characterId: CharacterId, score: number, rank: number, fetchedAt?: number, configType?: LeaderboardConfigType }>): Map<string, UserCharCurrentEntry> {
+function makeUserCharEntries(
+  entries: Array<{ uidHash: string, characterId: CharacterId, score: number, rank: number, fetchedAt?: number, configType?: LeaderboardConfigType }>,
+): Map<string, UserCharCurrentEntry> {
   const map = new Map<string, UserCharCurrentEntry>()
   for (const e of entries) {
     const ct = e.configType ?? CONFIG_TYPE
@@ -247,7 +279,7 @@ describe('diffSnapshots', () => {
     expect(events[0]).toMatchObject({
       type: TimelineEventType.NEW_CHARACTER,
       characterId: '1001',
-      uidHash: 'user-a',
+      candidateId: computeCandidateId('user-a', '1001'),
       date: '2026-06-24T00:00:00.000Z',
       score: 2.0,
       rank: 1,
@@ -281,7 +313,7 @@ describe('diffSnapshots', () => {
     expect(events[0]).toMatchObject({
       type: TimelineEventType.NEW_BEST,
       characterId: '1001',
-      uidHash: 'user-a',
+      candidateId: computeCandidateId('user-a', '1001'),
       date: '2026-06-24T00:00:00.000Z',
       score: 1.502,
       previousScore: 1.5,
@@ -360,8 +392,8 @@ describe('diffSnapshots', () => {
     const events = diffSnapshots(current, previous, entries)
 
     expect(events).toHaveLength(2)
-    expect(events.find((e) => e.uidHash === 'user-a')).toBeDefined()
-    expect(events.find((e) => e.uidHash === 'user-b')).toBeDefined()
+    expect(events.find((e) => e.candidateId === computeCandidateId('user-a', '1001'))).toBeDefined()
+    expect(events.find((e) => e.candidateId === computeCandidateId('user-b', '1001'))).toBeDefined()
   })
 
   test('build cycling blocked: score returns to previous level after drop does not exceed watermark', () => {
@@ -439,8 +471,8 @@ describe('deduplicateAndMerge', () => {
     const newEvent = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
-      configType: 'dps',
-      uidHash: 'user-a',
+      configType: CONFIG_TYPE,
+      candidateId: 'aaaaaaaaaaaa',
       date: '2026-06-24',
       score: 2.5,
       previousScore: 2.0,
@@ -451,8 +483,8 @@ describe('deduplicateAndMerge', () => {
     const existingEvent = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
-      configType: 'dps',
-      uidHash: 'user-a',
+      configType: CONFIG_TYPE,
+      candidateId: 'aaaaaaaaaaaa',
       date: '2026-06-24',
       score: 2.2,
       previousScore: 2.0,
@@ -471,8 +503,8 @@ describe('deduplicateAndMerge', () => {
     const userA = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
-      configType: 'dps',
-      uidHash: 'user-a',
+      configType: CONFIG_TYPE,
+      candidateId: 'aaaaaaaaaaaa',
       date: '2026-06-24',
       score: 2.5,
       previousScore: 2.0,
@@ -483,8 +515,8 @@ describe('deduplicateAndMerge', () => {
     const userB = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
-      configType: 'dps',
-      uidHash: 'user-b',
+      configType: CONFIG_TYPE,
+      candidateId: 'bbbbbbbbbbbb',
       date: '2026-06-24',
       score: 2.2,
       previousScore: 2.0,
@@ -501,8 +533,8 @@ describe('deduplicateAndMerge', () => {
     const day1 = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
-      configType: 'dps',
-      uidHash: 'user-a',
+      configType: CONFIG_TYPE,
+      candidateId: 'aaaaaaaaaaaa',
       date: '2026-06-23',
       score: 2.0,
       previousScore: 1.5,
@@ -513,8 +545,8 @@ describe('deduplicateAndMerge', () => {
     const day2 = {
       type: TimelineEventType.NEW_BEST as const,
       characterId: '1001' as CharacterId,
-      configType: 'dps',
-      uidHash: 'user-a',
+      configType: CONFIG_TYPE,
+      candidateId: 'aaaaaaaaaaaa',
       date: '2026-06-24',
       score: 2.5,
       previousScore: 2.0,
@@ -532,8 +564,8 @@ describe('deduplicateAndMerge', () => {
       {
         type: TimelineEventType.NEW_BEST as const,
         characterId: '1001' as CharacterId,
-        configType: 'dps',
-        uidHash: 'user-a',
+        configType: CONFIG_TYPE,
+        candidateId: 'aaaaaaaaaaaa',
         date: '2026-06-22',
         score: 1.5,
         previousScore: 1.0,
@@ -544,8 +576,8 @@ describe('deduplicateAndMerge', () => {
       {
         type: TimelineEventType.NEW_BEST as const,
         characterId: '1002' as CharacterId,
-        configType: 'dps',
-        uidHash: 'user-b',
+        configType: CONFIG_TYPE,
+        candidateId: 'bbbbbbbbbbbb',
         date: '2026-06-24',
         score: 2.5,
         previousScore: 2.0,
@@ -556,8 +588,8 @@ describe('deduplicateAndMerge', () => {
       {
         type: TimelineEventType.NEW_CHARACTER as const,
         characterId: '1003' as CharacterId,
-        configType: 'dps',
-        uidHash: 'user-c',
+        configType: CONFIG_TYPE,
+        candidateId: 'cccccccccccc',
         date: '2026-06-23',
         score: 1.8,
         rank: 1,
@@ -576,8 +608,8 @@ describe('deduplicateAndMerge', () => {
     const events = Array.from({ length: 10 }, (_, i) => ({
       type: TimelineEventType.NEW_BEST as const,
       characterId: `char-${i}` as CharacterId,
-      configType: 'dps',
-      uidHash: `user-${i}`,
+      configType: CONFIG_TYPE,
+      candidateId: i.toString(16).padStart(12, '0'),
       date: `2026-06-${String(10 + i).padStart(2, '0')}`,
       score: i + 1,
       previousScore: i,
@@ -590,6 +622,105 @@ describe('deduplicateAndMerge', () => {
     expect(merged).toHaveLength(3)
     expect(merged[0].date).toBe('2026-06-19')
     expect(merged[2].date).toBe('2026-06-17')
+  })
+})
+
+describe('timeline identity migration', () => {
+  test('reads legacy and sanitized v2 events without resetting valid history', () => {
+    const path = joinPath(cwd(), `.leaderboard-timeline-${crypto.randomUUID()}.json`)
+    const uidHash = '31050e4f5f4bb895ba7ba9326e6dead67ca90d494d548632db2f4b0cab5436a3'
+    const candidateId = computeCandidateId(uidHash, '1001')
+
+    try {
+      writeTextFile(
+        path,
+        JSON.stringify({
+          schemaVersion: 2,
+          generatedAt: '2026-06-24T00:00:00Z',
+          events: [
+            {
+              type: TimelineEventType.NEW_BEST,
+              characterId: '1001',
+              configType: 'dps',
+              uidHash,
+              date: '2026-06-24T00:00:00Z',
+              score: 2,
+              previousScore: 1.9,
+              rank: 1,
+              previousRank: 2,
+              buildId: '111111111111',
+            },
+            {
+              type: TimelineEventType.NEW_CHARACTER,
+              characterId: '1002',
+              configType: 'support',
+              candidateId: '222222222222',
+              date: '2026-06-23T00:00:00Z',
+              score: 1.8,
+              rank: 3,
+              entryCount: 12,
+              buildId: '333333333333',
+            },
+            {
+              type: TimelineEventType.NEW_CHARACTER,
+              characterId: '1001',
+              configType: 'dps',
+              uidHash,
+              candidateId: 'ffffffffffff',
+              date: '2026-06-22T00:00:00Z',
+              score: 1.7,
+              rank: 4,
+              entryCount: 8,
+              buildId: '444444444444',
+            },
+          ],
+        }),
+      )
+
+      const events = readTimeline(path)
+
+      expect(events).toHaveLength(2)
+      expect(events[0].candidateId).toBe(candidateId)
+      expect(events[1].candidateId).toBe('222222222222')
+      expect(JSON.stringify(events)).not.toContain('uidHash')
+    } finally {
+      deleteFile(path)
+    }
+  })
+
+  test('public timeline validator rejects UID fields before publication', () => {
+    const timeline: LeaderboardTimeline = {
+      schemaVersion: 2,
+      generatedAt: '2026-06-24T00:00:00Z',
+      events: [{
+        type: TimelineEventType.NEW_CHARACTER,
+        characterId: '1001' as CharacterId,
+        configType: 'dps' as LeaderboardConfigType,
+        candidateId: 'aaaaaaaaaaaa',
+        date: '2026-06-24T00:00:00Z',
+        score: 2,
+        rank: 1,
+        entryCount: 10,
+        buildId: 'bbbbbbbbbbbb',
+      }],
+    }
+    Object.assign(timeline.events[0], { uidHash: 'should-not-publish' })
+
+    const timelinePath = joinPath(cwd(), `.leaderboard-timeline-${crypto.randomUUID()}.json`)
+    const snapshotPath = joinPath(cwd(), `.leaderboard-snapshot-${crypto.randomUUID()}.json`)
+    expect(() =>
+      writeTimelineArtifacts({
+        timeline,
+        timelinePath,
+        snapshot: {
+          generatedAt: timeline.generatedAt,
+          characters: {},
+        },
+        snapshotPath,
+      })
+    ).toThrow('forbidden field "uidHash"')
+    expect(fileExists(timelinePath)).toBe(false)
+    expect(fileExists(snapshotPath)).toBe(false)
   })
 })
 

@@ -132,6 +132,7 @@ function updateLeaderboardUrl() {
 
 export function expandCharacterList() {
   useLeaderboardTabStore.setState({ characterListExpanded: true })
+  clearHashParams()
 }
 
 function resolveActiveConfigType(
@@ -203,8 +204,11 @@ export function selectLeaderboardCharacter(
   deriveAndUpdateEntries()
 
   if (requested?.buildId) {
-    useLeaderboardTabStore.setState({ selectedBuildId: requested.buildId })
-    recomputeDerivedState()
+    const visible = useLeaderboardTabStore.getState().visibleEntries
+    if (visible.some((e) => e.buildId === requested.buildId)) {
+      useLeaderboardTabStore.setState({ selectedBuildId: requested.buildId })
+      recomputeDerivedState()
+    }
   }
 
   updateLeaderboardUrl()

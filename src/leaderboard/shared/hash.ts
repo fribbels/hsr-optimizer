@@ -23,6 +23,10 @@ export function hashUid(uid: string): HashString {
   return sha256Text(uid)
 }
 
+export function computeCandidateId(uidHash: string, characterId: string): string {
+  return hashObject(`${uidHash}#${characterId}`).slice(0, 12)
+}
+
 export function computeBuildId(uidHash: string, characterId: string, configType: string, teamId: string): string {
   return hashObject(`${uidHash}#${characterId}#${configType}#${teamId}`).slice(0, 12)
 }

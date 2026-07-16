@@ -1,8 +1,10 @@
 import i18next from 'i18next'
+import { AventurineWaveflair } from 'lib/conditionals/character/1500/AventurineWaveflair'
 import { Gilgamesh } from 'lib/conditionals/character/1500/Gilgamesh'
 import { HimekoNova } from 'lib/conditionals/character/1500/HimekoNova'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { RinTohsaka } from 'lib/conditionals/character/1500/RinTohsaka'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
 import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
 import { IAmAsYouBehold } from 'lib/conditionals/lightcone/5star/IAmAsYouBehold'
@@ -51,10 +53,11 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char(RobinSummeretto.id), lightConeId: lc(RobinSummeretto.defaultLightCone) },
+    { characterId: char(AventurineWaveflair.id), lightConeId: lc(AventurineWaveflair.defaultLightCone) },
     { characterId: char(HimekoNova.id), lightConeId: lc(AStarThatLightsTheNight.id) },
     { characterId: char(RinTohsaka.id), lightConeId: lc(FlickeringStars.id) },
     { characterId: char(Gilgamesh.id), lightConeId: lc(IAmAsYouBehold.id) },
-    { characterId: char(MortenaxBlade.id), lightConeId: lc(ReforgedInHellfire.id) },
 
     // { characterId: char(CASTORICE), lightConeId: lc(MAKE_FAREWELLS_MORE_BEAUTIFUL) , rerun: true},
     // { characterId: char(HYACINE), lightConeId: lc(LONG_MAY_RAINBOWS_ADORN_THE_SKY) , rerun: true},

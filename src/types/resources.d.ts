@@ -4978,6 +4978,14 @@ export default interface Resources {
         "LongName": "Himeko • Nova",
         "Name": "Himeko • Nova"
       },
+      "1512": {
+        "LongName": "Robin • Summeretto",
+        "Name": "Robin • Summeretto"
+      },
+      "1513": {
+        "LongName": "Aventurine • Waveflair",
+        "Name": "Aventurine • Waveflair"
+      },
       "8001": {
         "LongName": "Caelus (Destruction)",
         "Name": "Caelus"
@@ -5293,6 +5301,9 @@ export default interface Resources {
       "21065": {
         "Name": "Today's Good Luck"
       },
+      "21066": {
+        "Name": "A Little Getaway"
+      },
       "22000": {
         "Name": "Before the Tutorial Mission Starts"
       },
@@ -5316,6 +5327,9 @@ export default interface Resources {
       },
       "22007": {
         "Name": "Tomorrow, Together"
+      },
+      "22008": {
+        "Name": "Race to the Horizon"
       },
       "23000": {
         "Name": "Night on the Milky Way"
@@ -5502,6 +5516,12 @@ export default interface Resources {
       },
       "23062": {
         "Name": "I Am As You Behold"
+      },
+      "23063": {
+        "Name": "Rise and Sing"
+      },
+      "23064": {
+        "Name": "Summer Rides the Surf"
       },
       "24000": {
         "Name": "On the Fall of an Aeon"

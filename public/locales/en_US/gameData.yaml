@@ -254,6 +254,12 @@ Characters:
   "1510":
     Name: Himeko • Nova
     LongName: Himeko • Nova
+  "1512":
+    Name: Summeretto
+    LongName: Robin • Summeretto
+  "1513":
+    Name: Waveflair
+    LongName: Aventurine • Waveflair
   "8001":
     Name: Caelus
     LongName: Caelus (Destruction)
@@ -704,6 +710,8 @@ Lightcones:
     Name: Mushy Shroomy's Adventures
   "21065":
     Name: Today's Good Luck
+  "21066":
+    Name: A Little Getaway
   "22000":
     Name: Before the Tutorial Mission Starts
   "22001":
@@ -720,6 +728,8 @@ Lightcones:
     Name: Fly Into a Pink Tomorrow
   "22007":
     Name: Tomorrow, Together
+  "22008":
+    Name: Race to the Horizon
   "23000":
     Name: Night on the Milky Way
   "23001":
@@ -844,6 +854,10 @@ Lightcones:
     Name: Flickering Stars
   "23062":
     Name: I Am As You Behold
+  "23063":
+    Name: Rise and Sing
+  "23064":
+    Name: Summer Rides the Surf
   "24000":
     Name: On the Fall of an Aeon
   "24001":

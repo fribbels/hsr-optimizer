@@ -119,7 +119,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     buffPriority: BuffPriority.MEMO,
     feverState: true,
-    vibes: 30,
+    vibes: maxVibes / 2,
     songbirdCount: 3,
     deviatedChordCdBuff: true,
     e4MemoSpdBuff: true,
@@ -128,7 +128,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateDefaults = {
     feverState: true,
-    vibes: 30,
+    vibes: maxVibes / 2,
     songbirdCount: 3,
     teammateHPValue: 8000,
     teammateATKValue: 1750,

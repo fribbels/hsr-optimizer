@@ -10,7 +10,7 @@ import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useTranslation } from 'react-i18next'
 
-const MAX_FEED_ENTRIES = 50
+const MAX_FEED_ENTRIES = 100
 const MS_PER_HOUR = 1000 * 60 * 60
 
 function formatRelativeTime(dateString: string): string {
@@ -18,7 +18,7 @@ function formatRelativeTime(dateString: string): string {
   if (diffMs < 0) return '0h'
 
   const hours = Math.floor(diffMs / MS_PER_HOUR)
-  if (hours < 1) return '<1h'
+  if (hours < 1) return '1h'
   if (hours < 24) return `${hours}h`
 
   return `${Math.floor(hours / 24)}d`

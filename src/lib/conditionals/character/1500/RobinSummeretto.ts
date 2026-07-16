@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
@@ -16,6 +17,7 @@ import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForeve
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
+  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -41,7 +43,6 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -66,8 +67,8 @@ export const RobinSummerettoAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RobinSummeretto.Content')
   const tBuff = wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
   const {
     SOURCE_BASIC,
@@ -83,77 +84,30 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     SOURCE_E6,
   } = Source.character('1512')
 
-  // Basic col A @ Lv.6/Lv.7 - 50% of Robin's Max HP
   const basicScaling = basic(e, 0.50, 0.55)
 
-  // Memo Skill col B @ Lv.6/Lv.7 - 150% of Summer Songbirds' Max HP (col A is 0 at every level)
   const memoSkillScaling = memoSkill(e, 1.50, 1.65)
 
-  // Talent cols A/B - memosprite base stat derivation, constant across levels
-  const memoBaseHpScaling = 0.70
-  const memoBaseSpdScaling = 1.80
-
-  // Talent col E (50 Vibes cap), raised by E1
   const maxVibes = (e >= 1) ? 70 : 50
 
-  // Talent cols H/I - Zone DEF ignore, 15% + Vibes x 0.5%
   const talentZoneDefPen = talent(e, 0.15, 0.16)
-  const talentZoneDefPenPerVibe = 0.005
 
-  // Memo Talent cols A/B - Fever DMG boost, 60% + Vibes x 2%
   const memoTalentDmgBoost = memoTalent(e, 0.60, 0.66)
   const memoTalentDmgBoostPerVibe = memoTalent(e, 0.02, 0.022)
 
-  // Memo Talent cols C/D/E - enemy DMG taken by number of Songbirds on field
   const memoTalentVulnerabilityByCount: Record<number, number> = {
     1: memoTalent(e, 0.10, 0.11),
     2: memoTalent(e, 0.15, 0.165),
     3: memoTalent(e, 0.20, 0.22),
   }
 
-  // Technique col B
-  const techniqueDmgBoost = 0.30
-
-  // Bonus Ability 1 (Deviated Chord) - trace values are literals
-  const traceAtkBuffHpScaling = 0.16
-  const traceAtkBuffHpScalingPerVibe = 0.004
   const traceCdBuff = 0.40
   const traceCdBuffPerVibe = 0.01
 
-  // Bonus Ability 3 (Reconstructed Harmony)
-  const traceCrBuff = 0.50
-
-  const e4MemoSpdBuff = 0.20
-  const e4MemoSpdBuffPerVibe = 0.005
-  const e6ResPenValue = 0.20
-  const e6CdBuffValue = 2.00
-  const e6MemoSkillMultiplier = 2
-
-  // Mechanics intentionally not modeled, with reasons:
-  //
-  // - Skill "restores its HP by 100% of Summer Songbirds' Max HP": heals the memosprite itself.
-  //   The optimizer tracks no memosprite current HP and this grants no ally healing, so it has
-  //   no effect on damage or on the heal columns.
-  // - Ultimate (100% action advance, Energy equal to 20% of the ally's Max Energy, "Special
-  //   Guest"): action advance and energy regen are rotation mechanics the damage sim does not
-  //   model. The Vibes that "Special Guest" generates are covered by the vibes slider.
-  // - Talent Fever clauses (Crowd Control dispel/immunity, Robin not taking turns during Fever):
-  //   defensive and turn-order only.
-  // - Memo Talent "Nestle in the Heartbeat of the Sea" (20 Energy on summon) and Bonus Ability 2
-  //   "Improvised Blues" (Groove stacks -> 3 Energy): energy regen is not sim-modeled.
-  // - Memo Talent "Ride the Summer Night Breeze" (50% action advance when the Songbirds leave)
-  //   and the countdown's 140 SPD / 50%-Vibes deduction: turn-order bookkeeping. The sustained
-  //   Vibes level it produces is what the vibes slider represents.
-  // - E1 "+2 Vibes on the first ally Skill each turn" and E4 "immediately gains 12 Vibes":
-  //   Vibes generation rate, represented by the vibes slider. E1's Max Vibes increase to 70 and
-  //   E4's Songbirds SPD buff ARE modeled above.
-  // - E2 (Songbirds record 100% of non-True DMG dealt by allies, then the Memosprite Skill deals
-  //   True DMG equal to 11% + Vibes x 0.1% of that recorded total): the optimizer evaluates a
-  //   single character's rotation and does not track cumulative team damage dealt across turns.
-  //   No hit factory can express a flat damage amount either - every hit scales off ATK/HP/DEF,
-  //   and StatKey.TRUE_DMG_MODIFIER is a multiplier on a hit's own damage, not on an external
-  //   accumulator. Modeling it would require inventing a team-damage-total slider whose value
-  //   the user cannot reasonably estimate.
+  // Not modeled: Skill memosprite self-heal, Ult action advance / Energy, Fever CC immunity,
+  // Energy regen (Memo Talent, Bonus Ability 2), Songbird-exit action advance, and Vibes
+  // generation rates (E1/E4) - the vibes slider stands in for the last.
+  // E2 True DMG needs a cumulative team-damage accumulator the optimizer does not track.
 
   const defaults = {
     buffPriority: BuffPriority.MEMO,
@@ -161,7 +115,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     vibes: 30,
     songbirdCount: 3,
     deviatedChordCdBuff: true,
-    techniqueBuff: false,
     e4MemoSpdBuff: true,
     e6Buffs: true,
   }
@@ -173,7 +126,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     deviatedChordAtkBuff: true,
     deviatedChordCdBuff: false,
     teammateHPValue: 8000,
-    techniqueBuff: false,
     e6Buffs: true,
   }
 
@@ -192,70 +144,44 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     feverState: {
       id: 'feverState',
       formItem: 'switch',
-      text: t('feverState.text'),
-      content: t('feverState.content', {
-        DmgBoost: precisionRound(100 * memoTalentDmgBoost),
-        DmgBoostPerVibe: precisionRound(100 * memoTalentDmgBoostPerVibe),
-        ZoneDefPen: precisionRound(100 * talentZoneDefPen),
-        ZoneDefPenPerVibe: precisionRound(100 * talentZoneDefPenPerVibe),
-      }),
+      text: 'Fever state',
+      content: betaContent,
     },
     vibes: {
       id: 'vibes',
       formItem: 'slider',
-      text: t('vibes.text'),
-      content: t('vibes.content', { MaxVibes: maxVibes }),
+      text: 'Vibes',
+      content: betaContent,
       min: 0,
       max: maxVibes,
     },
     songbirdCount: {
       id: 'songbirdCount',
       formItem: 'slider',
-      text: t('songbirdCount.text'),
-      content: t('songbirdCount.content', {
-        Vulnerability1: precisionRound(100 * memoTalentVulnerabilityByCount[1]),
-        Vulnerability2: precisionRound(100 * memoTalentVulnerabilityByCount[2]),
-        Vulnerability3: precisionRound(100 * memoTalentVulnerabilityByCount[3]),
-      }),
-      // 0 is reachable: the Songbirds disappear when Vibes hit 0, and none are on the
-      // field before the Skill summons Bessie. memoTalentVulnerabilityByCount has no 0 key,
-      // so the `?? 0` at the buff site yields no vulnerability.
+      text: 'Summer Songbirds on field',
+      content: betaContent,
+      // 0 = none on field, before the Skill summons Bessie or after Vibes hit 0
       min: 0,
       max: 3,
     },
     deviatedChordCdBuff: {
       id: 'deviatedChordCdBuff',
       formItem: 'switch',
-      text: t('deviatedChordCdBuff.text'),
-      content: t('deviatedChordCdBuff.content', {
-        CdBuff: precisionRound(100 * traceCdBuff),
-        CdBuffPerVibe: precisionRound(100 * traceCdBuffPerVibe),
-      }),
-    },
-    techniqueBuff: {
-      id: 'techniqueBuff',
-      formItem: 'switch',
-      text: t('techniqueBuff.text'),
-      content: t('techniqueBuff.content', { TechniqueDmgBoost: precisionRound(100 * techniqueDmgBoost) }),
+      text: 'Deviated Chord: CRIT DMG',
+      content: betaContent,
     },
     e4MemoSpdBuff: {
       id: 'e4MemoSpdBuff',
       formItem: 'switch',
-      text: t('e4MemoSpdBuff.text'),
-      content: t('e4MemoSpdBuff.content', {
-        SpdBuff: precisionRound(100 * e4MemoSpdBuff),
-        SpdBuffPerVibe: precisionRound(100 * e4MemoSpdBuffPerVibe),
-      }),
+      text: 'E4 Songbirds SPD buff',
+      content: betaContent,
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: t('e6Buffs.text'),
-      content: t('e6Buffs.content', {
-        ResPen: precisionRound(100 * e6ResPenValue),
-        CdBuff: precisionRound(100 * e6CdBuffValue),
-      }),
+      text: 'E6 buffs',
+      content: betaContent,
       disabled: e < 6,
     },
   }
@@ -264,27 +190,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     feverState: content.feverState,
     vibes: content.vibes,
     songbirdCount: content.songbirdCount,
-    // Deviated Chord branches on whether the ally's ATK exceeds Robin's. The two
-    // branches are mutually exclusive in game - enable the one matching the ally.
+    // Deviated Chord: exclusive branches, enable the one matching the ally's ATK vs Robin's
     deviatedChordAtkBuff: {
       id: 'deviatedChordAtkBuff',
       formItem: 'switch',
-      text: t('deviatedChordAtkBuff.text'),
-      content: t('deviatedChordAtkBuff.content', {
-        AtkBuff: precisionRound(100 * traceAtkBuffHpScaling),
-        AtkBuffPerVibe: precisionRound(100 * traceAtkBuffHpScalingPerVibe),
-      }),
+      text: 'Deviated Chord: ATK',
+      content: betaContent,
     },
     deviatedChordCdBuff: content.deviatedChordCdBuff,
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
-      text: t('teammateHPValue.text'),
-      content: t('teammateHPValue.content'),
+      text: `Robin's Max HP`,
+      content: betaContent,
       min: 0,
-      max: 10000,
+      max: 20000,
     },
-    techniqueBuff: content.techniqueBuff,
     e6Buffs: content.e6Buffs,
   }
 
@@ -311,10 +232,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           memosprite: true,
           memoBaseAtkScaling: 1.00,
           memoBaseDefScaling: 1.00,
-          memoBaseHpScaling,
-          memoBaseHpFlat: 0,
-          memoBaseSpdScaling,
-          memoBaseSpdFlat: 0,
+          memoBaseHpScaling: 0.70,
+          memoBaseSpdScaling: 1.80,
         },
       }
     },
@@ -322,8 +241,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // E6: "The Memosprite Skill's DMG multiplier increases by 100% of the original multiplier"
-      const memoSkillTotalScaling = memoSkillScaling * ((e >= 6 && r.e6Buffs) ? e6MemoSkillMultiplier : 1)
+      // E6: Memosprite Skill multiplier +100% of original
+      const memoSkillTotalScaling = memoSkillScaling * ((e >= 6 && r.e6Buffs) ? 2 : 1)
 
       return {
         [AbilityKind.BASIC]: {
@@ -336,7 +255,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           ],
         },
         [AbilityKind.MEMO_SKILL]: {
-          // AoE "to all enemies" - no enemyCount division
           hits: [
             HitDefinitionBuilder.crit()
               .sourceEntity(RobinSummerettoEntities.SummerSongbirds)
@@ -366,35 +284,34 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Bonus Ability 3: CRIT Rate for Robin and the Summer Songbirds
-      x.buff(StatKey.CR, traceCrBuff, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
+      // Trace: +50% CR
+      x.buff(StatKey.CR, 0.50, x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE))
 
-      // Memo Talent: Fever DMG boost for Robin and the Summer Songbirds
+      // Memo Talent: Fever DMG boost, 60% + Vibes x 2%
       x.buff(
         StatKey.BOOST,
         (r.feverState) ? memoTalentDmgBoost + r.vibes * memoTalentDmgBoostPerVibe : 0,
         x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_MEMO),
       )
 
-      // Bonus Ability 1: Robin's own attacks trigger Vibes gain, and her ATK can never exceed
-      // her own, so she always takes the CRIT DMG branch.
+      // Deviated Chord: Robin's own ATK can never exceed itself, so she always takes the CD branch
       x.buff(
         StatKey.CD,
         (r.deviatedChordCdBuff) ? traceCdBuff + r.vibes * traceCdBuffPerVibe : 0,
         x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_TRACE),
       )
 
-      // E4: Summer Songbirds SPD on entering Fever
+      // E4: Songbirds SPD +20% + Vibes x 0.5%
       x.buff(
         StatKey.SPD_P,
-        (e >= 4 && r.e4MemoSpdBuff && r.feverState) ? e4MemoSpdBuff + r.vibes * e4MemoSpdBuffPerVibe : 0,
+        (e >= 4 && r.e4MemoSpdBuff && r.feverState) ? 0.20 + r.vibes * 0.005 : 0,
         x.target(RobinSummerettoEntities.SummerSongbirds).source(SOURCE_E4),
       )
 
-      // E6: CRIT DMG for Robin and the Summer Songbirds on entering Fever
+      // E6: +200% CD on entering Fever
       x.buff(
         StatKey.CD,
-        (e >= 6 && r.e6Buffs && r.feverState) ? e6CdBuffValue : 0,
+        (e >= 6 && r.e6Buffs && r.feverState) ? 2.00 : 0,
         x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6),
       )
     },
@@ -402,31 +319,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Talent: Zone DEF ignore for all ally targets inside the Zone
+      // Talent: Zone ignores 15% + Vibes x 0.5% of enemy DEF
       x.buff(
         StatKey.DEF_PEN,
-        (m.feverState) ? talentZoneDefPen + m.vibes * talentZoneDefPenPerVibe : 0,
+        (m.feverState) ? talentZoneDefPen + m.vibes * 0.005 : 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_TALENT),
       )
 
-      // Memo Talent: enemies take more DMG based on the number of Songbirds on the field
+      // Memo Talent: enemy DMG taken 10/15/20% by Songbirds on field
       x.buff(
         StatKey.VULNERABILITY,
         memoTalentVulnerabilityByCount[m.songbirdCount] ?? 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_MEMO),
       )
 
-      // Technique: all allies gain a DMG boost for 2 turns at battle start
-      x.buff(
-        StatKey.BOOST,
-        (m.techniqueBuff) ? techniqueDmgBoost : 0,
-        x.targets(TargetTag.FullTeam).source(SOURCE_TECHNIQUE),
-      )
-
-      // E6: ally targets gain All-Type RES PEN (no element scope)
+      // E6: +20% All-Type RES PEN
       x.buff(
         StatKey.RES_PEN,
-        (e >= 6 && m.e6Buffs) ? e6ResPenValue : 0,
+        (e >= 6 && m.e6Buffs) ? 0.20 : 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_E6),
       )
     },
@@ -434,15 +344,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Bonus Ability 1 (ATK branch): ally ATK is higher than Robin's, so they gain flat ATK
-      // equal to a percentage of Robin's Max HP.
+      // Deviated Chord ATK branch: flat ATK from 16% + Vibes x 0.4% of Robin's Max HP
       const atkBuff = (t.deviatedChordAtkBuff)
-        ? (traceAtkBuffHpScaling + t.vibes * traceAtkBuffHpScalingPerVibe) * t.teammateHPValue
+        ? (0.16 + t.vibes * 0.004) * t.teammateHPValue
         : 0
       x.buff(StatKey.ATK, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
 
-      // Bonus Ability 1 (CRIT DMG branch): ally ATK is not higher than Robin's
+      // Deviated Chord CD branch: 40% + Vibes x 1%
       const cdBuff = (t.deviatedChordCdBuff) ? traceCdBuff + t.vibes * traceCdBuffPerVibe : 0
       x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
       x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
@@ -451,9 +360,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => '',
 
-    // No dynamic conditionals: the memosprite's HP/SPD derive from Robin via memoBase*Scaling
-    // entity fields, and Deviated Chord's HP-scaled ATK buff only ever applies to teammates,
-    // where Robin's own Max HP is supplied by the teammateHPValue slider.
     dynamicConditionals: [],
   }
 }
@@ -507,7 +413,7 @@ const simulation = (): SimulationMetadata => ({
     Sets.LushakaTheSunkenSeas,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
-  // TODO(HUMAN): verify deprioritizeBuffs flag - she is a support but the memosprite carries real damage
+  // TODO(HUMAN): verify deprioritizeBuffs flag
   teammates: [
     {
       characterId: Sunday.id,

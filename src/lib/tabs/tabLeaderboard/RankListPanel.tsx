@@ -83,6 +83,7 @@ export function RankListPanel() {
   const entries = useLeaderboardTabStore((s) => s.visibleEntries)
   const selectedBuildId = useLeaderboardTabStore((s) => s.selectedBuildId)
   const selectedCharacterId = useLeaderboardTabStore((s) => s.selectedCharacterId)
+  const scrollToBuildId = useLeaderboardTabStore((s) => s.scrollToBuildId)
   const containerRef = useRef<HTMLDivElement>(null)
   const scrollRef = useRef<OverlayScrollbarsComponentRef>(null)
 
@@ -92,6 +93,22 @@ export function RankListPanel() {
       viewport.scrollTo({ top: 0 })
     }
   }, [selectedCharacterId])
+
+  useEffect(() => {
+    if (!scrollToBuildId) return
+    useLeaderboardTabStore.setState({ scrollToBuildId: null })
+
+    const idx = entries.findIndex((e) => e.buildId === scrollToBuildId)
+    if (idx <= 0) return
+
+    requestAnimationFrame(() => {
+      const viewport = scrollRef.current?.osInstance()?.elements().viewport
+      const rows = containerRef.current?.querySelectorAll<HTMLElement>(`.${classes.tableRow}`)
+      const row = rows?.[idx]
+      if (!viewport || !row) return
+      viewport.scrollTo({ top: row.offsetTop - viewport.clientHeight * 0.20 })
+    })
+  }, [scrollToBuildId, entries])
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return

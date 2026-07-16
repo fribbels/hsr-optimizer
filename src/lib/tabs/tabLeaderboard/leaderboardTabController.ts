@@ -206,7 +206,7 @@ export function selectLeaderboardCharacter(
   if (requested?.buildId) {
     const visible = useLeaderboardTabStore.getState().visibleEntries
     if (visible.some((e) => e.buildId === requested.buildId)) {
-      useLeaderboardTabStore.setState({ selectedBuildId: requested.buildId })
+      useLeaderboardTabStore.setState({ selectedBuildId: requested.buildId, scrollToBuildId: requested.buildId })
       recomputeDerivedState()
     }
   }

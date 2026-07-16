@@ -20,6 +20,7 @@ export interface LeaderboardTabState {
 
   selectedCharacterId: CharacterId | null
   selectedBuildId: string | null
+  scrollToBuildId: string | null
   characterListExpanded: boolean
 
   activeConfigType: LeaderboardConfigType | null
@@ -49,6 +50,7 @@ export const useLeaderboardTabStore = createTabAwareStore<LeaderboardTabState>((
 
   selectedCharacterId: null,
   selectedBuildId: null,
+  scrollToBuildId: null,
   characterListExpanded: true,
 
   activeConfigType: null,

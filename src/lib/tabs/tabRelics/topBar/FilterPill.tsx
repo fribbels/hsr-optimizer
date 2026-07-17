@@ -84,7 +84,9 @@ function FilterPillInner<T extends string | number | boolean>({
           onClick={() => combobox.toggleDropdown()}
           leftSection={activeCount > 0
             ? (
+              // Rendered as a div — leftSection is inside the Button element, and a nested <button> is invalid HTML
               <CloseButton
+                component='div'
                 size={16}
                 iconSize={16}
                 variant='transparent'

@@ -21,12 +21,7 @@
   background: var(--layer-3);
   text-decoration: none;
   box-shadow: var(--shadow-card-flat);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
-}
-
-.card:hover {
-  box-shadow: var(--shadow-card);
-  transform: translateY(-1px);
+  transition: border-color 0.15s ease;
 }
 
 /* Discord brand accent on hover */
@@ -41,7 +36,7 @@
 
 /* GitHub / neutral accent on hover */
 .card.cardDefault:hover {
-  border-color: var(--border-hover);
+  border-color: rgba(240, 240, 240, 0.7);
 }
 
 .cardLabel {

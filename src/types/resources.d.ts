@@ -4980,11 +4980,11 @@ export default interface Resources {
       },
       "1512": {
         "LongName": "Robin • Summeretto",
-        "Name": "Robin • Summeretto"
+        "Name": "Summeretto"
       },
       "1513": {
         "LongName": "Aventurine • Waveflair",
-        "Name": "Aventurine • Waveflair"
+        "Name": "Waveflair"
       },
       "8001": {
         "LongName": "Caelus (Destruction)",
@@ -5826,7 +5826,7 @@ export default interface Resources {
         "Name": "Fallen Star Anchorage"
       },
       "328": {
-        "Description2pc": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, increases the wearer's DMG dealt by 0.2% for every 1 point exceeding this value, up to a max increase of 32%.",
+        "Description2pc": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, for every 1 excess point, increases the wearer's DMG dealt by 0.2%, up to a max increase of 32%.",
         "Name": "Cosmic Life Sciences Institute"
       }
     }

@@ -11,9 +11,10 @@ function isPreNovaflare(id: CharacterId): boolean {
   return !!b1 && !b1.unreleased
 }
 
-export function CharacterAnnouncement({ characterId, teammateCharacterIds }: {
+export function CharacterAnnouncement({ characterId, teammateCharacterIds, mt }: {
   characterId?: CharacterId | null,
   teammateCharacterIds?: CharacterId[],
+  mt?: number,
 }) {
   if (!characterId) return null
 
@@ -38,7 +39,7 @@ export function CharacterAnnouncement({ characterId, teammateCharacterIds }: {
   }
 
   return uniqueMessages.map((message, i) => (
-    <Alert color={message === PRE_NOVAFLARE_MESSAGE ? 'orange' : 'blue'} mt={10} key={i}>
+    <Alert color={message === PRE_NOVAFLARE_MESSAGE ? 'orange' : 'blue'} mt={mt} key={i}>
       {message}
     </Alert>
   ))

@@ -108,7 +108,7 @@ function IntegratedRows({ form, rows, ahaSpeed, t }: {
             form={form}
             row={row}
             ahaSpeed={ahaSpeed}
-            label={t('Calculator.TeammateN', { position: row.slot + 1 })}
+            label={t('Calculator.TeammateN', { position: '' })}
             style={{ transform: offset ? `translateY(${offset}px)` : undefined }}
             isNextSlot={isNextSlot}
           />

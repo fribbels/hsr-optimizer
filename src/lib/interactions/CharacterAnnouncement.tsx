@@ -38,7 +38,7 @@ export function CharacterAnnouncement({ characterId, teammateCharacterIds }: {
   }
 
   return uniqueMessages.map((message, i) => (
-    <Alert color={message === PRE_NOVAFLARE_MESSAGE ? 'orange' : 'blue'} mt={10} key={i}>
+    <Alert color={message === PRE_NOVAFLARE_MESSAGE ? 'orange' : 'blue'} key={i}>
       {message}
     </Alert>
   ))

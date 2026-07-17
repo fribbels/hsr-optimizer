@@ -5,9 +5,8 @@ import {
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { Assets } from 'lib/rendering/assets'
 import { truncate10ths } from 'lib/utils/mathUtils'
-import { getBuildIndex } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
-import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { selectLeaderboardBuild } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useTranslation } from 'react-i18next'
 
 const MAX_FEED_ENTRIES = 100
@@ -41,12 +40,9 @@ function renderScoreDelta(event: TimelineEvent) {
 }
 
 function handleRowClick(event: TimelineEvent) {
-  const index = getBuildIndex()
-  const match = index?.get(event.buildId)
-  selectLeaderboardCharacter(event.characterId, {
-    configType: match?.configType ?? event.configType,
-    teamId: match?.teamId,
-    buildId: match ? event.buildId : undefined,
+  selectLeaderboardBuild(event.buildId, {
+    characterId: event.characterId,
+    configType: event.configType,
   })
 }
 

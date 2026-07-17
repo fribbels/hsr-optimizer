@@ -28,6 +28,7 @@ import {
   getLeaderboardCharacters,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import {
+  type BuildIndexEntry,
   getBuildIndex,
   getLeaderboardCharacterIds,
   getLeaderboardTopScores,
@@ -214,6 +215,42 @@ export function selectLeaderboardCharacter(
   updateLeaderboardUrl()
 }
 
+// Ranks surfaced outside a board (timeline feed, shared links) are all-teams ranks, so land on
+// the all-teams board to match. Builds below its cutoff only exist on their own team board.
+function resolveBoardTeamId(buildId: string, match: BuildIndexEntry): string {
+  const characterData = loadCharacterData(match.characterId)
+  if (!characterData || !isLeaderboardConfigType(match.configType)) return match.teamId
+
+  const visibleAllTeams = deriveVisibleEntries({
+    characterData,
+    activeConfigType: match.configType,
+    activeTeamId: LEADERBOARD_FILTER_ALL,
+    filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+  })
+
+  return visibleAllTeams.some((entry) => entry.buildId === buildId)
+    ? LEADERBOARD_FILTER_ALL
+    : match.teamId
+}
+
+export function selectLeaderboardBuild(
+  buildId: string,
+  fallback?: { characterId: CharacterId, configType: string },
+) {
+  const match = getBuildIndex()?.get(buildId)
+
+  if (!match) {
+    if (fallback) selectLeaderboardCharacter(fallback.characterId, { configType: fallback.configType })
+    return
+  }
+
+  selectLeaderboardCharacter(match.characterId, {
+    configType: match.configType,
+    teamId: resolveBoardTeamId(buildId, match),
+    buildId,
+  })
+}
+
 export function selectLeaderboardEntry(buildId: string) {
   if (buildId === useLeaderboardTabStore.getState().selectedBuildId) return
 
@@ -278,14 +315,6 @@ export async function initializeLeaderboardTab() {
   const buildIdParam = getHashParam('b')
 
   if (buildIdParam) {
-    const index = getBuildIndex()
-    const match = index?.get(buildIdParam)
-    if (match) {
-      selectLeaderboardCharacter(match.characterId, {
-        configType: match.configType,
-        teamId: match.teamId,
-        buildId: buildIdParam,
-      })
-    }
+    selectLeaderboardBuild(buildIdParam)
   }
 }

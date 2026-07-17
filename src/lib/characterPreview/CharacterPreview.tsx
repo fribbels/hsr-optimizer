@@ -681,6 +681,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         <CharacterAnnouncement
           characterId={showcaseMetadata.characterId}
           teammateCharacterIds={layout.activeSimulationMetadata?.teammates.map((t) => t.characterId)}
+          mt={10}
         />
 
         {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (

@@ -20,6 +20,7 @@ export function SelectCardGrid<TId extends string>({
   imageYOffset,
   textRows = 1,
   excludedIds,
+  signatureId,
 }: {
   options: Array<{ id: TId, label: string, rarity: number, deprecated?: boolean }>,
   onSelect: (id: TId) => void,
@@ -30,17 +31,23 @@ export function SelectCardGrid<TId extends string>({
   imageYOffset?: string,
   textRows?: 1 | 2,
   excludedIds?: Set<TId>,
+  signatureId?: TId,
 }) {
-  // Deprecated cards sink below all live cards; within each group, higher rarity first.
-  const sortedOptions = useMemo(
-    () => [...options].sort((a, b) => Number(a.deprecated ?? false) - Number(b.deprecated ?? false) || b.rarity - a.rarity),
-    [options],
-  )
+  // Signature card floats to the top; deprecated cards sink below all live cards; within a group, higher rarity first.
+  const sortedOptions = useMemo(() => {
+    const rankOf = (o: { id: TId, deprecated?: boolean }) => (o.id === signatureId ? 0 : o.deprecated ? 2 : 1)
+    return [...options].sort((a, b) => rankOf(a) - rankOf(b) || b.rarity - a.rarity)
+  }, [options, signatureId])
 
   // Stable base classNames — only recomputed when sort order changes, not on every toggle
   const baseClassNames = useMemo(
-    () => sortedOptions.map((o) => `${classes.card} ${o.deprecated ? classes.deprecatedCard : (rarityClass[o.rarity] ?? '')}`),
-    [sortedOptions],
+    () =>
+      sortedOptions.map((o) =>
+        o.id === signatureId
+          ? `${classes.card} ${classes.signatureCard}`
+          : `${classes.card} ${o.deprecated ? classes.deprecatedCard : (rarityClass[o.rarity] ?? '')}`,
+      ),
+    [sortedOptions, signatureId],
   )
 
   const textOverlayStyle = useMemo(() => ({ height: 18 * textRows }), [textRows])

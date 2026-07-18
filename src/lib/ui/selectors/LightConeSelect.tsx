@@ -4,6 +4,7 @@ import {
   Modal,
   TextInput,
 } from '@mantine/core'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import type { PathName } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -112,6 +113,11 @@ export function LightConeSelect({
     [lightConeOptions, filters],
   )
 
+  const signatureId = useMemo<LightConeId | null>(
+    () => (characterId ? getCharacterConfig(characterId)?.defaultLightCone ?? null : null),
+    [characterId],
+  )
+
   return (
     <>
       <TextInput
@@ -190,6 +196,7 @@ export function LightConeSelect({
                 imageXOffset={LC_CARD_IMAGE_X_OFFSET}
                 imageYOffset={LC_CARD_IMAGE_Y_OFFSET}
                 textRows={2}
+                signatureId={signatureId ?? undefined}
               />
             </OverlayScrollbarsComponent>
           </div>

@@ -50,6 +50,9 @@
   --rarity-3-end: #4A85C8;
   --rarity-deprecated-start: #3a3d42;
   --rarity-deprecated-end: #5b6069;
+  /* In-game special rarity (rarity 06) frame: purple -> light blue */
+  --rarity-signature-start: #8476DB;
+  --rarity-signature-end: #A9CEEA;
   --card-footer-bg: #282B31;
   --card-text-color: #D0D0D2;
   --card-excluded-bg: #6b7280;

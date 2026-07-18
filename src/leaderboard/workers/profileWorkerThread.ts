@@ -52,8 +52,6 @@ parentPort.on<LeaderboardScoreWorkerRequest>('message', async (request) => {
       buildScoreCache: workerState.buildScoreCache,
     })
 
-    workerState.buildScoreCache.flush()
-
     const response: LeaderboardScoreWorkerResponse = {
       id: request.id,
       ok: true,
@@ -111,5 +109,11 @@ function diffBuildScoreCacheStats(
     misses: after.misses - before.misses,
     writes: after.writes - before.writes,
     corruptRowsDeleted: after.corruptRowsDeleted - before.corruptRowsDeleted,
+    flushes: after.flushes - before.flushes,
+    flushedRows: after.flushedRows - before.flushedRows,
+    flushMs: after.flushMs - before.flushMs,
+    // A running max, not a counter; the aggregator combines with Math.max.
+    maxFlushMs: after.maxFlushMs,
+    flushRetries: after.flushRetries - before.flushRetries,
   }
 }

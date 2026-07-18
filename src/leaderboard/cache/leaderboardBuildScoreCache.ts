@@ -12,6 +12,7 @@ import { emptyBuildScoreCacheStats } from 'leaderboard/shared/metrics'
 import {
   homeDir,
   resolvePath,
+  sleepSync,
   type SqliteDatabase,
   type SqliteStatement,
 } from 'leaderboard/shared/nodeFacade'
@@ -28,10 +29,32 @@ export { buildLeaderboardBuildScoreCacheKey, buildStrippedRelicHash } from 'lead
 const DEFAULT_DB_PATH = resolvePath(homeDir(), 'leaderboard-cache/leaderboard-build-score-cache.sqlite')
 const DEFAULT_FLUSH_INTERVAL = 100
 
+// Bounds buffered work lost when the pool terminates without draining.
+const DEFAULT_FLUSH_INTERVAL_MS = 5000
+
+const FLUSH_MAX_ATTEMPTS = 5
+const FLUSH_RETRY_BASE_MS = 100
+
 export type LeaderboardBuildScoreCacheOptions = {
   dbPath?: string,
   leaderboardVersionsHash: string,
   flushInterval?: number,
+  flushIntervalMs?: number,
+}
+
+// node:sqlite exposes the SQLite result code as `errcode`; message is a fallback.
+const SQLITE_BUSY_ERRCODE = 5
+const SQLITE_LOCKED_ERRCODE = 6
+
+type SqliteErrorLike = Error & { errcode?: number }
+
+function isBusyError(error: unknown): boolean {
+  if (!(error instanceof Error)) return false
+
+  const errcode = (error as SqliteErrorLike).errcode
+  if (errcode === SQLITE_BUSY_ERRCODE || errcode === SQLITE_LOCKED_ERRCODE) return true
+
+  return error.message.includes('database is locked')
 }
 
 type LeaderboardBuildScorePendingWrite = {
@@ -48,6 +71,8 @@ type LeaderboardBuildScoreCacheRow = {
 export class LeaderboardBuildScoreCache implements LeaderboardBuildScoreCacheContract {
   private readonly leaderboardVersionsHash: string
   private readonly flushInterval: number
+  private readonly flushIntervalMs: number
+  private lastFlushMs = performance.now()
   private readonly db: SqliteDatabase
 
   private readonly stmtSelect: SqliteStatement<LeaderboardBuildScoreCacheRow>
@@ -67,6 +92,7 @@ export class LeaderboardBuildScoreCache implements LeaderboardBuildScoreCacheCon
   constructor(options: LeaderboardBuildScoreCacheOptions) {
     this.leaderboardVersionsHash = options.leaderboardVersionsHash
     this.flushInterval = options.flushInterval ?? DEFAULT_FLUSH_INTERVAL
+    this.flushIntervalMs = options.flushIntervalMs ?? DEFAULT_FLUSH_INTERVAL_MS
     this.db = openLeaderboardBuildScoreCacheDatabase(options.dbPath ?? DEFAULT_DB_PATH)
 
     this.stmtSelect = this.db.prepare<LeaderboardBuildScoreCacheRow>(
@@ -110,7 +136,10 @@ export class LeaderboardBuildScoreCache implements LeaderboardBuildScoreCacheCon
       createdAt,
     })
 
-    if (this.writeBuffer.length >= this.flushInterval) {
+    if (
+      this.writeBuffer.length >= this.flushInterval
+      || performance.now() - this.lastFlushMs >= this.flushIntervalMs
+    ) {
       this.flush()
     }
   }
@@ -144,6 +173,31 @@ export class LeaderboardBuildScoreCache implements LeaderboardBuildScoreCacheCon
   flush(): void {
     if (this.writeBuffer.length === 0) return
 
+    const startedAt = performance.now()
+    const rowCount = this.writeBuffer.length
+
+    for (let attempt = 1; attempt <= FLUSH_MAX_ATTEMPTS; attempt++) {
+      try {
+        this.commitWriteBuffer()
+
+        const elapsedMs = performance.now() - startedAt
+        this.cacheStats.flushes++
+        this.cacheStats.flushedRows += rowCount
+        this.cacheStats.flushMs += elapsedMs
+        this.cacheStats.maxFlushMs = Math.max(this.cacheStats.maxFlushMs, elapsedMs)
+        this.lastFlushMs = performance.now()
+        return
+      } catch (error) {
+        // Only lock contention is transient; corruption and disk-full must surface.
+        if (!isBusyError(error) || attempt === FLUSH_MAX_ATTEMPTS) throw error
+
+        this.cacheStats.flushRetries++
+        sleepSync(FLUSH_RETRY_BASE_MS * attempt)
+      }
+    }
+  }
+
+  private commitWriteBuffer(): void {
     let transactionStarted = false
     try {
       this.stmtBegin.run()

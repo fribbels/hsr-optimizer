@@ -275,6 +275,11 @@ export type LeaderboardBuildScoreCacheStats = {
   misses: number,
   writes: number,
   corruptRowsDeleted: number,
+  flushes: number,
+  flushedRows: number,
+  flushMs: number,
+  maxFlushMs: number,
+  flushRetries: number,
 }
 
 export type LeaderboardBuildScoreCachePruneOptions = {

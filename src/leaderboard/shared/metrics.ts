@@ -27,6 +27,11 @@ export function emptyBuildScoreCacheStats(): LeaderboardBuildScoreCacheStats {
     misses: 0,
     writes: 0,
     corruptRowsDeleted: 0,
+    flushes: 0,
+    flushedRows: 0,
+    flushMs: 0,
+    maxFlushMs: 0,
+    flushRetries: 0,
   }
 }
 
@@ -37,6 +42,11 @@ export function sumBuildScoreCacheStats(stats: LeaderboardBuildScoreCacheStats[]
     misses: sum.misses + stat.misses,
     writes: sum.writes + stat.writes,
     corruptRowsDeleted: sum.corruptRowsDeleted + stat.corruptRowsDeleted,
+    flushes: sum.flushes + stat.flushes,
+    flushedRows: sum.flushedRows + stat.flushedRows,
+    flushMs: sum.flushMs + stat.flushMs,
+    maxFlushMs: Math.max(sum.maxFlushMs, stat.maxFlushMs),
+    flushRetries: sum.flushRetries + stat.flushRetries,
   }), emptyBuildScoreCacheStats())
 }
 

@@ -14,7 +14,9 @@ export function openLeaderboardBuildScoreCacheDatabase(dbPath: string): SqliteDa
   const absPath = dbPath === ':memory:' ? ':memory:' : resolvePath(cwd(), dbPath)
   if (absPath !== ':memory:') ensureDirectory(dirnamePath(absPath))
   const db = openSqliteDatabase(absPath)
-  db.exec('PRAGMA busy_timeout = 5000')
+  // Every worker thread opens its own connection and WAL allows a single
+  // writer, so a checkpoint can hold the write lock for seconds.
+  db.exec('PRAGMA busy_timeout = 30000')
   db.exec('PRAGMA journal_mode = WAL')
   db.exec('PRAGMA synchronous = NORMAL')
 

@@ -52,9 +52,10 @@ export function deriveVisibleEntries(input: DeriveVisibleEntriesInput): Leaderbo
 
   const qualified = IS_LOCALHOST ? ranked : ranked.filter((e) => e.score >= 1.50)
 
-  const filtered = filterCharacterEidolon !== LEADERBOARD_FILTER_ALL
-    ? qualified.filter((e) => e.eidolonGroup === filterCharacterEidolon)
-    : qualified
+  // Cap by overall rank before the eidolon filter so nothing past the cutoff shows.
+  const topRanked = qualified.slice(0, LEADERBOARD_DISPLAY_TOP_N)
 
-  return filtered.slice(0, LEADERBOARD_DISPLAY_TOP_N)
+  return filterCharacterEidolon !== LEADERBOARD_FILTER_ALL
+    ? topRanked.filter((e) => e.eidolonGroup === filterCharacterEidolon)
+    : topRanked
 }

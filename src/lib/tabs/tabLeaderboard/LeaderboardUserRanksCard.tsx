@@ -124,7 +124,7 @@ export function LeaderboardUserRanksCard() {
     <div className={`${classes.glassPanel} ${classes.userRanksPanel}`}>
       <div className={classes.rankContainer}>
       <div className={classes.rankHeaderRow}>
-        <span className={classes.feedHeader}>Your Characters</span>
+        <span className={classes.feedHeader}>Your Aeons</span>
       </div>
 
       {message && <div className={classes.rankState}>{message}</div>}

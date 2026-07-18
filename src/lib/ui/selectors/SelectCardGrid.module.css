@@ -78,6 +78,22 @@
   );
 }
 
+.deprecatedCard {
+  background: linear-gradient(
+    var(--rarity-deprecated-start) 0px,
+    var(--rarity-deprecated-end) 63px,
+    var(--rarity-deprecated-end) 100%
+  );
+}
+
+.signatureCard {
+  background: linear-gradient(
+    var(--rarity-signature-start) 0px,
+    var(--rarity-signature-end) 63px,
+    var(--rarity-signature-end) 100%
+  );
+}
+
 .searchInput {
   flex: 1;
   flex-shrink: 0;

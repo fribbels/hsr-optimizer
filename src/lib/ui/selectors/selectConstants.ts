@@ -19,7 +19,7 @@ export const CHARACTER_CARD_IMAGE_Y_OFFSET = '-5%'
  * Less zoom than characters since LC icons are smaller/squarer.
  */
 export const LC_CARD_IMAGE_WIDTH = '115px'
-export const LC_CARD_IMAGE_X_OFFSET = '-7%'
+export const LC_CARD_IMAGE_X_OFFSET = '-4%'
 export const LC_CARD_IMAGE_Y_OFFSET = '0%'
 
 /** Card heights for gradient stop points */

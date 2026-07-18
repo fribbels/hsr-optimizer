@@ -115,6 +115,8 @@
   width: 100%;
   border-radius: 50%;
   outline: var(--showcase-outline-light);
+  /* Drawn inward so the ring isn't clipped by the button's overflow: hidden */
+  outline-offset: -1px;
   background: rgba(255, 255, 255, 0.05);
 }
 

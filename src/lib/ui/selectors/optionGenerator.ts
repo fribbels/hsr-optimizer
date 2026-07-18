@@ -1,6 +1,9 @@
 import i18next from 'i18next'
 import { sortAlphabeticEmojiLast } from 'lib/rendering/displayUtils'
-import { getGameMetadata } from 'lib/state/gameMetadata'
+import {
+  getGameMetadata,
+  isPreNovaflare,
+} from 'lib/state/gameMetadata'
 import { clone } from 'lib/utils/objectUtils'
 import { type CharacterId } from 'types/character'
 import { type LightConeId } from 'types/lightCone'
@@ -16,6 +19,7 @@ export function generateCharacterOptions() {
   for (const value of Object.values(characterData)) {
     value.value = value.id
     value.label = t(`${value.id}.LongName`)
+    value.deprecated = isPreNovaflare(value.id)
   }
 
   return Object.values(characterData).sort(sortAlphabeticEmojiLast('label'))
@@ -43,4 +47,4 @@ export function generateLightConeOptions(characterId?: CharacterId) {
 }
 
 export type LcOptions = Record<LightConeId, DBMetadataLightCone & { value: DBMetadataLightCone['id'], label: string }>
-export type CharacterOptions = Record<CharacterId, DBMetadataCharacter & { value: DBMetadataCharacter['id'], label: string }>
+export type CharacterOptions = Record<CharacterId, DBMetadataCharacter & { value: DBMetadataCharacter['id'], label: string, deprecated: boolean }>

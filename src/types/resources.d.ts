@@ -6078,6 +6078,7 @@ export default interface Resources {
         "Disconnected": "Disconnected",
         "DisconnectedHint": "Unable to connect to the scanner. Please check that it is running.",
         "Enable": "Enable Live Import (Recommended)",
+        "ImportDisabledHint": "Disabled while Live Import is on - the scanner is already syncing your inventory. Turn it off below to import manually.",
         "OnlyExistingCharacters": "Only update existing characters",
         "OnlyExistingCharactersTooltip": "Prevents live import from adding characters that are not already in the Characters tab.",
         "Title": "Live Import Controls",

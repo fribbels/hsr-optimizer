@@ -21,7 +21,7 @@ export function SelectCardGrid<TId extends string>({
   textRows = 1,
   excludedIds,
 }: {
-  options: Array<{ id: TId, label: string, rarity: number }>,
+  options: Array<{ id: TId, label: string, rarity: number, deprecated?: boolean }>,
   onSelect: (id: TId) => void,
   getImageSrc: (id: TId) => string,
   cardImageHeight: string,
@@ -31,14 +31,15 @@ export function SelectCardGrid<TId extends string>({
   textRows?: 1 | 2,
   excludedIds?: Set<TId>,
 }) {
+  // Deprecated cards sink below all live cards; within each group, higher rarity first.
   const sortedOptions = useMemo(
-    () => [...options].sort((a: { rarity: number }, b: { rarity: number }) => b.rarity - a.rarity),
+    () => [...options].sort((a, b) => Number(a.deprecated ?? false) - Number(b.deprecated ?? false) || b.rarity - a.rarity),
     [options],
   )
 
   // Stable base classNames — only recomputed when sort order changes, not on every toggle
   const baseClassNames = useMemo(
-    () => sortedOptions.map((o) => `${classes.card} ${rarityClass[o.rarity] ?? ''}`),
+    () => sortedOptions.map((o) => `${classes.card} ${o.deprecated ? classes.deprecatedCard : (rarityClass[o.rarity] ?? '')}`),
     [sortedOptions],
   )
 

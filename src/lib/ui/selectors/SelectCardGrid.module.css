@@ -78,6 +78,14 @@
   );
 }
 
+.deprecatedCard {
+  background: linear-gradient(
+    var(--rarity-deprecated-start) 0px,
+    var(--rarity-deprecated-end) 63px,
+    var(--rarity-deprecated-end) 100%
+  );
+}
+
 .searchInput {
   flex: 1;
   flex-shrink: 0;

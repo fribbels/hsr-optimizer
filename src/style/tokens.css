@@ -48,6 +48,8 @@
   --rarity-4-end: #9F6CD9;
   --rarity-3-start: #2d4cc5;
   --rarity-3-end: #4A85C8;
+  --rarity-deprecated-start: #3a3d42;
+  --rarity-deprecated-end: #5b6069;
   --card-footer-bg: #282B31;
   --card-text-color: #D0D0D2;
   --card-excluded-bg: #6b7280;

@@ -266,53 +266,62 @@ export function ScannerImportSubmenu() {
             </ul>
           </div>
           <Flex direction='column' align='flex-start'>
-            <Flex gap={10} align='center'>
-              <input
-                type='file'
-                accept='.json'
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0]
-                  if (file) {
-                    beforeUpload(file)
-                  }
-                  e.target.value = ''
-                }}
-              />
-              <Button
-                disabled={isLiveImporting}
-                style={{ width: importerTabButtonWidth }}
-                leftSection={<IconUpload size={16} />}
-                loading={loading1}
-                onClick={() => {
-                  setCurrentStage(Stages.LOAD_FILE)
-                  fileInputRef.current?.click()
-                }}
-                variant='default'
-              >
-                {t('Import.Stage1.ButtonText')}
-              </Button>
+            {/* Wrap the row (not the disabled controls) so the hint still shows on hover */}
+            <Tooltip
+              label={t('Import.LiveImport.ImportDisabledHint')}
+              disabled={!isLiveImporting}
+              multiline
+              w={280}
+              position='top'
+            >
+              <Flex gap={10} align='center'>
+                <input
+                  type='file'
+                  accept='.json'
+                  ref={fileInputRef}
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0]
+                    if (file) {
+                      beforeUpload(file)
+                    }
+                    e.target.value = ''
+                  }}
+                />
+                <Button
+                  disabled={isLiveImporting}
+                  style={{ width: importerTabButtonWidth }}
+                  leftSection={<IconUpload size={16} />}
+                  loading={loading1}
+                  onClick={() => {
+                    setCurrentStage(Stages.LOAD_FILE)
+                    fileInputRef.current?.click()
+                  }}
+                  variant='default'
+                >
+                  {t('Import.Stage1.ButtonText')}
+                </Button>
 
-              {t('Import.Stage1.Or')}
+                {t('Import.Stage1.Or')}
 
-              <TextInput
-                style={{ width: importerTabButtonWidth }}
-                className='centered-placeholder'
-                placeholder={t('Import.Stage1.Placeholder')}
-                value=''
-                disabled={loading1 || isLiveImporting}
-                onChange={(e) => {
-                  const text = e.target.value
-                  try {
-                    JSON.parse(text)
-                    uploadedText(text)
-                  } catch {
-                    // Not valid json, ignore
-                  }
-                }}
-              />
-            </Flex>
+                <TextInput
+                  style={{ width: importerTabButtonWidth }}
+                  className='centered-placeholder'
+                  placeholder={t('Import.Stage1.Placeholder')}
+                  value=''
+                  disabled={loading1 || isLiveImporting}
+                  onChange={(e) => {
+                    const text = e.target.value
+                    try {
+                      JSON.parse(text)
+                      uploadedText(text)
+                    } catch {
+                      // Not valid json, ignore
+                    }
+                  }}
+                />
+              </Flex>
+            </Tooltip>
             <Divider w='100%' my={20} label={t('Import.LiveImport.Title') /* Live Import Controls */} labelPosition='center' />
             <Flex direction='column' gap={10}>
               <div>

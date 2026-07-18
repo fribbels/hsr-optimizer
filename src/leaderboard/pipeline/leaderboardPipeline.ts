@@ -33,6 +33,7 @@ import {
 } from 'leaderboard/pipeline/scoringStage'
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
 import { hashObject } from 'leaderboard/shared/hash'
+import { residentSetSizeBytes } from 'leaderboard/shared/nodeFacade'
 import type {
   ParsedExport,
   PrivateRankedEntry,
@@ -115,6 +116,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
         (parseElapsedMs / 1000).toFixed(1)
       }s`,
     )
+    logPhaseMemory('parse')
     if (exportProfileCount === 0) {
       throw new Error('Parsed export contained no profiles; refusing to publish empty leaderboard')
     }
@@ -137,6 +139,7 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
 
     const totalCandidates = profiles.reduce((n, p) => n + p.characters.length, 0)
     console.log(`Pre-filter: kept ${totalCandidates} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
+    logPhaseMemory('prefilter')
 
     console.log(`Scoring ${totalCandidates} candidates across ${profiles.length} profiles`)
 
@@ -222,6 +225,11 @@ async function withSequentialBenchmarks<T>(run: () => Promise<T>): Promise<T> {
   } finally {
     globalThis.SEQUENTIAL_BENCHMARKS = previousSequentialBenchmarks
   }
+}
+
+function logPhaseMemory(phase: string): void {
+  const rssMb = (residentSetSizeBytes() / (1024 * 1024)).toFixed(0)
+  console.log(`[mem] after ${phase}: rss ${rssMb}MB`)
 }
 
 function runBuildScoreCacheMaintenance(input: {

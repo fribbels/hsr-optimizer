@@ -96,6 +96,16 @@ export function commandLineArgs(): string[] {
   return process.argv.slice(2)
 }
 
+export function residentSetSizeBytes(): number {
+  return process.memoryUsage().rss
+}
+
+// Blocking sleep for the synchronous SQLite write path.
+export function sleepSync(ms: number): void {
+  if (ms <= 0) return
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms)
+}
+
 export function setExitCode(code: number): void {
   process.exitCode = code
 }

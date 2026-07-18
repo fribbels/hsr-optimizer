@@ -523,6 +523,15 @@ export function printRunSummary(input: RunSummaryInput): void {
   console.log(`  misses: ${buildScoreCacheStats.misses}`)
   console.log(`  writes: ${buildScoreCacheStats.writes}`)
   console.log(`  corruptRowsDeleted: ${buildScoreCacheStats.corruptRowsDeleted}`)
+  console.log(`  flushes: ${buildScoreCacheStats.flushes}`)
+  console.log(`  flushedRows: ${buildScoreCacheStats.flushedRows}`)
+  if (buildScoreCacheStats.flushes > 0) {
+    console.log(`  rowsPerFlush: ${(buildScoreCacheStats.flushedRows / buildScoreCacheStats.flushes).toFixed(1)}`)
+    console.log(`  avgFlushMs: ${(buildScoreCacheStats.flushMs / buildScoreCacheStats.flushes).toFixed(1)}`)
+  }
+  console.log(`  maxFlushMs: ${buildScoreCacheStats.maxFlushMs.toFixed(1)}`)
+  // Non-zero means workers are exhausting busy_timeout on the WAL write lock.
+  console.log(`  flushRetries: ${buildScoreCacheStats.flushRetries}`)
   const cacheHits = buildScoreCacheStats.l1Hits + buildScoreCacheStats.sqliteHits
   if (cacheHits + buildScoreCacheStats.misses > 0) {
     console.log(`  hitRate: ${((cacheHits / (cacheHits + buildScoreCacheStats.misses)) * 100).toFixed(1)}%`)

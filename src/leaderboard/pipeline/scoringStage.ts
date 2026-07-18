@@ -235,7 +235,8 @@ async function runPerCharacterBatchedScoring(
   const sortedEntries = [...candidatesByChar.entries()].sort((a, b) => a[1].length - b[1].length)
 
   const CHARACTER_CONCURRENCY = 4
-  const characterResults: CharacterResult[] = new Array(sortedEntries.length)
+  // Transiently sparse while filled by index; dense once the await below resolves.
+  const characterResults: CharacterResult[] = []
   let nextIndex = 0
 
   async function processNextCharacter(): Promise<void> {

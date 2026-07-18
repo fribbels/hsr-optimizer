@@ -86,8 +86,6 @@
   );
 }
 
-/* Signature light cone (the selected character's default LC). */
-/* Follows the in-game special rarity (rarity 06) purple -> blue gradient. */
 .signatureCard {
   background: linear-gradient(
     var(--rarity-signature-start) 0px,

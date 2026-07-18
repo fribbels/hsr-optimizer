@@ -42,11 +42,12 @@ export function SelectCardGrid<TId extends string>({
   // Stable base classNames — only recomputed when sort order changes, not on every toggle
   const baseClassNames = useMemo(
     () =>
-      sortedOptions.map((o) =>
-        o.id === signatureId
-          ? `${classes.card} ${classes.signatureCard}`
-          : `${classes.card} ${o.deprecated ? classes.deprecatedCard : (rarityClass[o.rarity] ?? '')}`,
-      ),
+      sortedOptions.map((o) => {
+        const modifier = o.id === signatureId
+          ? classes.signatureCard
+          : o.deprecated ? classes.deprecatedCard : (rarityClass[o.rarity] ?? '')
+        return `${classes.card} ${modifier}`
+      }),
     [sortedOptions, signatureId],
   )
 

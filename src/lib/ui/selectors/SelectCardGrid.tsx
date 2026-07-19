@@ -35,7 +35,7 @@ export function SelectCardGrid<TId extends string>({
 }) {
   // Signature card floats to the top; deprecated cards sink below all live cards; within a group, higher rarity first.
   const sortedOptions = useMemo(() => {
-    const rankOf = (o: { id: TId, deprecated?: boolean }) => (o.id === signatureId ? 0 : o.deprecated ? 2 : 1)
+    const rankOf = (o: { id: TId, rarity: number, deprecated?: boolean }) => (o.id === signatureId && o.rarity === 5 ? 0 : o.deprecated ? 2 : 1)
     return [...options].sort((a, b) => rankOf(a) - rankOf(b) || b.rarity - a.rarity)
   }, [options, signatureId])
 
@@ -43,7 +43,7 @@ export function SelectCardGrid<TId extends string>({
   const baseClassNames = useMemo(
     () =>
       sortedOptions.map((o) => {
-        const modifier = o.id === signatureId
+        const modifier = o.id === signatureId && o.rarity === 5
           ? classes.signatureCard
           : o.deprecated ? classes.deprecatedCard : (rarityClass[o.rarity] ?? '')
         return `${classes.card} ${modifier}`

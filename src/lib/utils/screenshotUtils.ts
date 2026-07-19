@@ -508,6 +508,7 @@ const hideHoverButtonsPlugin: SnapdomPlugin = {
   },
 }
 
+
 /** Fallback: boost blur in the clone when pre-bake is unavailable. */
 function buildBlurMultiplierPlugin(blurMultiplier: number): SnapdomPlugin {
   return {

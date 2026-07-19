@@ -36,6 +36,7 @@ const safeNum = (v: string | number | undefined): string => {
   return String(Number.isFinite(n) ? n : 0)
 }
 
+
 export const ShowcasePortrait = memo(function ShowcasePortrait({
   source,
   character,
@@ -211,12 +212,13 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
             className={styles.overlayTag}
             style={{
               display: artistName ? 'inline-block' : 'none',
-              maxWidth: parentW - 150,
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
             }}
           >
-            {t('CharacterPreview.ArtBy', { artistName: artistName ?? '' }) /* Art by {{artistName}} */}
+            {t('CharacterPreview.ArtBy', {
+              artistName: artistName && artistName.length > 30
+                ? artistName.slice(0, 30) + '…'
+                : artistName ?? '',
+            })}
           </span>
         )}
       </div>

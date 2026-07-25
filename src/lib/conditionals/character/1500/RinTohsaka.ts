@@ -351,7 +351,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
-  leaderboardEnabled: false,
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -386,6 +386,16 @@ const simulation = (): SimulationMetadata => ({
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Archer.id, lightCones: [TheHellWhereIdealsBurn.id] },
+        { characterId: SparkleB1.id, lightCones: [EarthlyEscapade.id, DanceDanceDance.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
   relicSets: [
     [Sets.GeniusOfBrilliantStars, Sets.GeniusOfBrilliantStars],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -454,6 +464,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.TENGOKU_SET,
   ],
+  eidolonImage: 3,
   defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   hiddenColumns: [

@@ -327,7 +327,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const simulation = (): SimulationMetadata => ({
-  leaderboardEnabled: false,
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [
       Stats.CR,
@@ -363,6 +363,16 @@ const simulation = (): SimulationMetadata => ({
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
+  leaderboardTeams: [
+    {
+      deprioritizeBuffs: true,
+      teammates: [
+        { characterId: Saber.id, lightCones: [AThanklessCoronation.id] },
+        { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
+  ],
   relicSets: [
     [Sets.ScholarLostInErudition, Sets.ScholarLostInErudition],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -430,6 +440,7 @@ const scoring = (): ScoringMetadata => ({
   presets: [
     PresetEffects.fnMortenaxAshblazingSet(8),
   ],
+  eidolonImage: 4,
   defaultDamageType: DamageTag.SKILL,
   sortOption: SortOption.SKILL,
   addedColumns: [

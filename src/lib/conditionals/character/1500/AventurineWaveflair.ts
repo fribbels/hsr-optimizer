@@ -105,14 +105,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const basicScaling = basic(e, 1.00, 1.10)
   const skillScaling = skill(e, 2.40, 2.64)
   const ultScaling = ult(e, 4.00, 4.32)
-  const ultSpdBuff = ult(e, 0.25, 0.28)
+  const ultSpdBuff = ult(e, 0.30, 0.336)
 
   const talentSkillElationScaling = talent(e, 0.40, 0.44)
   const talentUltElationScaling = talent(e, 0.72, 0.792)
 
   const elationSkillAoeScaling = elationSkill(e, 0.60, 0.63, 0.66)
   const elationSkillBounceCount = 10
-  const elationSkillBounceScaling = elationSkill(e, 0.15, 0.1575, 0.165)
+  const elationSkillBounceScaling = elationSkill(e, 0.18, 0.189, 0.198)
 
   const fervorMax = (e >= 2) ? 50 : 30
 
@@ -124,7 +124,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedElationSkill: true,
     fervorStacks: 15,
     spdElationConversion: true,
-    cdStacks: 4,
+    traceCdBuff: true,
     e1ResPen: true,
     e4DefPen: true,
     e6Merrymaking: true,
@@ -164,7 +164,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedElationSkill: {
       id: 'enhancedElationSkill',
       formItem: 'switch',
-      text: 'Enhanced Elation Skill (All in)',
+      text: 'Enhanced Elation Skill',
       content: betaContent,
     },
     fervorStacks: {
@@ -181,18 +181,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'SPD to Elation conversion',
       content: betaContent,
     },
-    cdStacks: {
-      id: 'cdStacks',
-      formItem: 'slider',
-      text: 'CD stacks',
+    traceCdBuff: {
+      id: 'traceCdBuff',
+      formItem: 'switch',
+      text: 'Trace CD buff',
       content: betaContent,
-      min: 0,
-      max: 6,
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
-      text: 'E1 All-Type RES PEN',
+      text: 'E1 RES PEN',
       content: betaContent,
       disabled: e < 1,
     },
@@ -236,6 +234,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
       const fervorStacks = r.fervorStacks
+
+      // Trace A2: solo Elation lineup makes his Elation Skill DMG count as a FUA
+      const soloElation = countTeamPath(context, PathNames.Elation) == 1
+      const elationSkillDamageType = soloElation ? DamageTag.ELATION | DamageTag.FUA : DamageTag.ELATION
 
       // ============== BASIC ==============
 
@@ -301,7 +303,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const totalBounceCount = elationSkillBounceCount + bonusFervorBounces
 
       const elationSkillHit = HitDefinitionBuilder.elation()
-        .damageType(DamageTag.ELATION)
+        .damageType(elationSkillDamageType)
         .damageElement(ElementTag.Quantum)
         .elationScaling(elationSkillAoeScaling + totalBounceCount * elationSkillBounceScaling / context.enemyCount)
         .punchlineStacks(punchlineStacks)
@@ -315,7 +317,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // ============== UNIQUE (Talent-triggered Cheers! with fixed 20 Punchline) ==============
 
       const talentCheersHit = HitDefinitionBuilder.elation()
-        .damageType(DamageTag.ELATION)
+        .damageType(elationSkillDamageType)
         .damageElement(ElementTag.Quantum)
         .elationScaling(elationSkillAoeScaling + elationSkillBounceCount * elationSkillBounceScaling / context.enemyCount)
         .punchlineStacks(20)
@@ -347,9 +349,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const otherElationCount = countTeamPath(context, PathNames.Elation) - 1
       x.buff(StatKey.ELATION, otherElationCount > 0 ? 1.00 : 0, x.source(SOURCE_TRACE))
 
-      // Trace A4: +48% base CD + up to 6 stacks of 48% CD
+      // Trace A4: +48% CD, plus a non-stacking +48% CD after a teammate attacks
       x.buff(StatKey.CD, 0.48, x.source(SOURCE_TRACE))
-      x.buff(StatKey.CD, r.cdStacks * 0.48, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CD, r.traceCdBuff ? 0.48 : 0, x.source(SOURCE_TRACE))
 
       // E1: +24% All-Type RES PEN
       x.buff(StatKey.RES_PEN, (e >= 1 && r.e1ResPen) ? 0.24 : 0, x.source(SOURCE_E1))

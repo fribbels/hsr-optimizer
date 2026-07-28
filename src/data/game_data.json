@@ -8417,7 +8417,7 @@
       "path": "Elation",
       "element": "Quantum",
       "traces": {
-        "DEF%": 0.125,
+        "Elation": 0.1,
         "SPD": 9,
         "CRIT Rate": 0.187
       },
@@ -8445,8 +8445,8 @@
         },
         {
           "id": "1513204_4.5v1",
-          "stat": "DEF%",
-          "value": 0.05,
+          "stat": "Elation",
+          "value": 0.04,
           "pre": null,
           "children": []
         },
@@ -8475,8 +8475,8 @@
         },
         {
           "id": "1513208_4.5v1",
-          "stat": "DEF%",
-          "value": 0.075,
+          "stat": "Elation",
+          "value": 0.06,
           "pre": null,
           "children": [
             {
@@ -8497,7 +8497,7 @@
           ]
         }
       ],
-      "max_sp": 140,
+      "max_sp": 130,
       "stats": {
         "HP": 1241.856,
         "ATK": 426.888,

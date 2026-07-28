@@ -77,7 +77,7 @@ const TraceTreeNode = ({
           <div className={classes.nodeText}>
             {`${
               isFlat(node.stat)
-                ? node.value
+                ? node.value.toFixed(1)
                 : precisionRound(node.value * 100) + '%'
             } - ${tCommon(`Stats.${node.stat}`)}`}
           </div>

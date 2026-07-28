@@ -246,11 +246,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      // E6: Memosprite Skill multiplier +100% of original
-      const memoSkillTotalScaling = memoSkillScaling * ((e >= 6 && r.e6Buffs) ? 2 : 1)
-
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -267,7 +262,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .sourceEntity(RobinSummerettoEntities.SummerSongbirds)
               .damageType(DamageTag.MEMO)
               .damageElement(ElementTag.Wind)
-              .hpScaling(memoSkillTotalScaling)
+              .hpScaling(memoSkillScaling)
               .toughnessDmg(10)
               .directHit(true)
               .build(),
@@ -313,13 +308,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         StatKey.SPD_P,
         (e >= 4 && r.e4MemoSpdBuff && r.feverState) ? 0.20 + r.vibes * 0.005 : 0,
         x.target(RobinSummerettoEntities.SummerSongbirds).source(SOURCE_E4),
-      )
-
-      // E6: +200% CD on entering Fever
-      x.buff(
-        StatKey.CD,
-        (e >= 6 && r.e6Buffs && r.feverState) ? 2.00 : 0,
-        x.targets(TargetTag.SelfAndMemosprite).source(SOURCE_E6),
       )
     },
 

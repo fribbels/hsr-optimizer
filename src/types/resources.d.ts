@@ -139,8 +139,7 @@ export default interface Resources {
       "Priority": {
         "Label": "Priority",
         "Options": {
-          "MoveToTop": "Move character to top",
-          "SortByScore": "Sort all characters by score"
+          "MoveToTop": "Move character to top"
         }
       },
       "Scoring": {
@@ -378,7 +377,6 @@ export default interface Resources {
       "NoSelectedLightCone": "No selected light cone",
       "RemoveSuccess": "Successfully removed character",
       "SaveSuccess": "Successfully saved build: {{name}}",
-      "SortByScoreWarning": "Are you sure you want to sort all characters? You will lose any custom rankings you have set.",
       "SwitchSuccess": "Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)",
       "UnequipSuccess": "Successfully unequipped character",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?"

@@ -2,10 +2,6 @@ import type {
   MainStats,
   Parts,
 } from 'lib/constants/constants'
-import {
-  scoreCharacterUsingScorer,
-  scoreCharacterWithRelicsUsingScorer,
-} from 'lib/relics/scoring/characterScore'
 import { scoreCurrentRelic } from 'lib/relics/scoring/currentScore'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'

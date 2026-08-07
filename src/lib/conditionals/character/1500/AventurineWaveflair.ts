@@ -442,7 +442,6 @@ const simulation = (): SimulationMetadata => ({
     [Parts.Body]: [
       Stats.CR,
       Stats.CD,
-      Stats.ATK_P,
     ],
     [Parts.Feet]: [
       Stats.SPD,
@@ -527,16 +526,12 @@ const scoring = (): ScoringMetadata => ({
     [Parts.Body]: [
       Stats.CR,
       Stats.CD,
-      Stats.ATK_P,
     ],
     [Parts.Feet]: [
       Stats.ATK_P,
       Stats.SPD,
     ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Quantum_DMG,
-    ],
+    [Parts.PlanarSphere]: [],
     [Parts.LinkRope]: [
       Stats.ATK_P,
       Stats.ERR,

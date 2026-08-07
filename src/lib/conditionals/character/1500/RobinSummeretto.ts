@@ -100,7 +100,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const memoSkillScaling = memoSkill(e, 1.50, 1.65)
 
-  const maxVibes = (e >= 1) ? 70 : 50
+  const maxVibes = (e >= 2) ? 70 : 50
 
   const talentZoneDefPen = talent(e, 0.15, 0.16)
 
@@ -108,13 +108,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const memoTalentDmgBoostPerVibe = memoTalent(e, 0.02, 0.022)
 
   const memoTalentVulnerabilityByCount: Record<number, number> = {
-    1: memoTalent(e, 0.10, 0.11),
-    2: memoTalent(e, 0.15, 0.165),
-    3: memoTalent(e, 0.20, 0.22),
+    1: memoTalent(e, 0.08, 0.088),
+    2: memoTalent(e, 0.12, 0.132),
+    3: memoTalent(e, 0.16, 0.176),
   }
 
   const traceCdBuff = 0.40
-  const traceCdBuffPerVibe = 0.01
+  const traceCdBuffPerVibe = 0.015
 
   const defaults = {
     buffPriority: BuffPriority.MEMO,
@@ -122,8 +122,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     vibes: maxVibes / 2,
     songbirdCount: 3,
     deviatedChordCdBuff: true,
+    e2ResPen: true,
     e4MemoSpdBuff: true,
-    e6Buffs: true,
+    e6MemoSkillBuff: true,
   }
 
   const teammateDefaults = {
@@ -132,7 +133,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     songbirdCount: 3,
     teammateHPValue: 8000,
     teammateATKValue: 1750,
-    e6Buffs: true,
+    e2ResPen: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -175,6 +176,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Deviated Chord: CRIT DMG',
       content: betaContent,
     },
+    e2ResPen: {
+      id: 'e2ResPen',
+      formItem: 'switch',
+      text: 'E2 RES PEN',
+      content: betaContent,
+      disabled: e < 2,
+    },
     e4MemoSpdBuff: {
       id: 'e4MemoSpdBuff',
       formItem: 'switch',
@@ -182,10 +190,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       disabled: e < 4,
     },
-    e6Buffs: {
-      id: 'e6Buffs',
+    e6MemoSkillBuff: {
+      id: 'e6MemoSkillBuff',
       formItem: 'switch',
-      text: 'E6 buffs',
+      text: 'E6 Memosprite Skill DMG',
       content: betaContent,
       disabled: e < 6,
     },
@@ -213,7 +221,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: 5000,
     },
-    e6Buffs: content.e6Buffs,
+    e2ResPen: content.e2ResPen,
   }
 
   return {
@@ -246,6 +254,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
+      const r = action.characterConditionals as Conditionals<typeof content>
+
+      // E6: Memosprite Skill multiplier +100% of original
+      const memoSkillTotalScaling = memoSkillScaling * ((e >= 6 && r.e6MemoSkillBuff) ? 2 : 1)
+
       return {
         [AbilityKind.BASIC]: {
           hits: [
@@ -262,7 +275,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .sourceEntity(RobinSummerettoEntities.SummerSongbirds)
               .damageType(DamageTag.MEMO)
               .damageElement(ElementTag.Wind)
-              .hpScaling(memoSkillScaling)
+              .hpScaling(memoSkillTotalScaling)
               .toughnessDmg(10)
               .directHit(true)
               .build(),
@@ -328,11 +341,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         x.targets(TargetTag.FullTeam).source(SOURCE_MEMO),
       )
 
-      // E6: +20% All-Type RES PEN
+      // E2: +18% All-Type RES PEN
       x.buff(
         StatKey.RES_PEN,
-        (e >= 6 && m.e6Buffs) ? 0.20 : 0,
-        x.targets(TargetTag.FullTeam).source(SOURCE_E6),
+        (e >= 2 && m.e2ResPen) ? 0.18 : 0,
+        x.targets(TargetTag.FullTeam).source(SOURCE_E2),
       )
     },
 

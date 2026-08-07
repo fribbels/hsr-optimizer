@@ -20,7 +20,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(RiseAndSing.id)
 
-  const sValuesSpd = [0.20, 0.24, 0.28, 0.32, 0.36]
+  const sValuesSpd = [0.20, 0.25, 0.30, 0.35, 0.40]
 
   const defaults = {
     newMelodySpdBuff: true,

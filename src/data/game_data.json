@@ -8326,72 +8326,72 @@
       },
       "traceTree": [
         {
-          "id": "1512201_4.5v1",
+          "id": "1512201_4.5v5",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": [
             {
-              "id": "1512202_4.5v1",
+              "id": "1512202_4.5v5",
               "stat": "HP%",
               "value": 0.04,
-              "pre": "1512201_4.5v1",
+              "pre": "1512201_4.5v5",
               "children": []
             },
             {
-              "id": "1512203_4.5v1",
+              "id": "1512203_4.5v5",
               "stat": "SPD",
               "value": 2,
-              "pre": "1512201_4.5v1",
+              "pre": "1512201_4.5v5",
               "children": []
             }
           ]
         },
         {
-          "id": "1512204_4.5v1",
+          "id": "1512204_4.5v5",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1512205_4.5v1",
+          "id": "1512205_4.5v5",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1512206_4.5v1",
+          "id": "1512206_4.5v5",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1512207_4.5v1",
+          "id": "1512207_4.5v5",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1512208_4.5v1",
+          "id": "1512208_4.5v5",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1512209_4.5v1",
+              "id": "1512209_4.5v5",
               "stat": "HP%",
               "value": 0.08,
-              "pre": "1512208_4.5v1",
+              "pre": "1512208_4.5v5",
               "children": [
                 {
-                  "id": "1512210_4.5v1",
+                  "id": "1512210_4.5v5",
                   "stat": "SPD",
                   "value": 4,
-                  "pre": "1512209_4.5v1",
+                  "pre": "1512209_4.5v5",
                   "children": []
                 }
               ]
@@ -8404,7 +8404,7 @@
         "HP": 1203.048,
         "ATK": 601.524,
         "DEF": 485.1,
-        "SPD": 98,
+        "SPD": 95,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
@@ -8423,50 +8423,50 @@
       },
       "traceTree": [
         {
-          "id": "1513201_4.5v1",
+          "id": "1513201_4.5v5",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1513202_4.5v1",
+          "id": "1513202_4.5v5",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": []
         },
         {
-          "id": "1513203_4.5v1",
+          "id": "1513203_4.5v5",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1513204_4.5v1",
+          "id": "1513204_4.5v5",
           "stat": "Elation",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1513205_4.5v1",
+          "id": "1513205_4.5v5",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1513206_4.5v1",
+              "id": "1513206_4.5v5",
               "stat": "SPD",
               "value": 3,
-              "pre": "1513205_4.5v1",
+              "pre": "1513205_4.5v5",
               "children": [
                 {
-                  "id": "1513207_4.5v1",
+                  "id": "1513207_4.5v5",
                   "stat": "CRIT Rate",
                   "value": 0.04,
-                  "pre": "1513206_4.5v1",
+                  "pre": "1513206_4.5v5",
                   "children": []
                 }
               ]
@@ -8474,22 +8474,22 @@
           ]
         },
         {
-          "id": "1513208_4.5v1",
+          "id": "1513208_4.5v5",
           "stat": "Elation",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1513209_4.5v1",
+              "id": "1513209_4.5v5",
               "stat": "SPD",
               "value": 4,
-              "pre": "1513208_4.5v1",
+              "pre": "1513208_4.5v5",
               "children": [
                 {
-                  "id": "1513210_4.5v1",
+                  "id": "1513210_4.5v5",
                   "stat": "CRIT Rate",
                   "value": 0.053,
-                  "pre": "1513209_4.5v1",
+                  "pre": "1513209_4.5v5",
                   "children": []
                 }
               ]
@@ -8499,10 +8499,10 @@
       ],
       "max_sp": 130,
       "stats": {
-        "HP": 1241.856,
-        "ATK": 426.888,
-        "DEF": 751.905,
-        "SPD": 103,
+        "HP": 1164.24,
+        "ATK": 485.1,
+        "DEF": 606.375,
+        "SPD": 107,
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },

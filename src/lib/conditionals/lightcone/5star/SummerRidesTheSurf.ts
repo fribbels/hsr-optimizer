@@ -19,27 +19,27 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(SummerRidesTheSurf.id)
 
-  const sValuesSpd = [0.20, 0.23, 0.26, 0.29, 0.32]
-  const sValuesElation = [0.36, 0.495, 0.63, 0.765, 0.90]
+  const sValuesSpd = [0.24, 0.28, 0.32, 0.36, 0.40]
+  const sValuesElation = [0.40, 0.55, 0.70, 0.85, 1.00]
 
   const defaults = {
-    hypeSpdBuff: true,
-    trendElationBuff: true,
+    updraftSpdBuff: true,
+    uptrendElationBuff: true,
   }
 
   const content: ContentDefinition<typeof defaults> = {
-    hypeSpdBuff: {
+    updraftSpdBuff: {
       lc: true,
-      id: 'hypeSpdBuff',
+      id: 'updraftSpdBuff',
       formItem: 'switch',
-      text: 'Hype SPD buff',
+      text: 'Updraft SPD buff',
       content: betaContent,
     },
-    trendElationBuff: {
+    uptrendElationBuff: {
       lc: true,
-      id: 'trendElationBuff',
+      id: 'uptrendElationBuff',
       formItem: 'switch',
-      text: 'Trend Elation buff',
+      text: 'Uptrend Elation buff',
       content: betaContent,
     },
   }
@@ -52,8 +52,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.lightConeConditionals as Conditionals<typeof content>
 
-      x.buff(StatKey.SPD_P, r.hypeSpdBuff ? sValuesSpd[s] : 0, x.source(SOURCE_LC))
-      x.buff(StatKey.ELATION, r.trendElationBuff ? sValuesElation[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.SPD_P, r.updraftSpdBuff ? sValuesSpd[s] : 0, x.source(SOURCE_LC))
+      x.buff(StatKey.ELATION, r.uptrendElationBuff ? sValuesElation[s] : 0, x.source(SOURCE_LC))
     },
   }
 }

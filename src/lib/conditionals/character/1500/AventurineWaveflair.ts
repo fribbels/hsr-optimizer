@@ -113,6 +113,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const elationSkillAoeScaling = elationSkill(e, 0.60, 0.63, 0.66)
   const elationSkillBounceCount = 10
   const elationSkillBounceScaling = elationSkill(e, 0.18, 0.189, 0.198)
+  const elationSkillFervorScaling = elationSkill(e, 0.21, 0.2205, 0.231)
 
   const fervorMax = (e >= 2) ? 50 : 30
 
@@ -122,7 +123,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBangerStacks: 60,
     punchlineStacks: 30,
     enhancedElationSkill: true,
-    fervorStacks: 15,
+    fervorStacks: fervorMax,
     spdElationConversion: true,
     traceCdBuff: true,
     e1ResPen: true,
@@ -130,7 +131,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e6Merrymaking: true,
   }
 
-  const teammateDefaults = {}
+  const teammateDefaults = {
+    traceCdBuff: true,
+    e4DefPen: true,
+  }
 
   const content: ContentDefinition<typeof defaults> = {
     ultSpdBuff: {
@@ -210,7 +214,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
   }
 
-  const teammateContent: ContentDefinition<typeof teammateDefaults> = {}
+  const teammateContent: ContentDefinition<typeof teammateDefaults> = {
+    traceCdBuff: content.traceCdBuff,
+    e4DefPen: content.e4DefPen,
+  }
 
   return {
     content: () => Object.values(content),
@@ -297,15 +304,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // ============== ELATION SKILL ==============
 
-      // Base: AoE 60% + 10 bounces × 15% averaged per enemy
-      // Enhanced "All in": same base + fervorStacks × 15% additional bounces averaged per enemy
+      // Base: AoE 60% + 10 bounces × 18% averaged per enemy
+      // Enhanced "All in": same base + fervorStacks × 21% additional bounces averaged per enemy
       const bonusFervorBounces = r.enhancedElationSkill ? fervorStacks : 0
       const totalBounceCount = elationSkillBounceCount + bonusFervorBounces
+      const elationSkillBounceTotal = elationSkillBounceCount * elationSkillBounceScaling
+        + bonusFervorBounces * elationSkillFervorScaling
 
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(elationSkillDamageType)
         .damageElement(ElementTag.Quantum)
-        .elationScaling(elationSkillAoeScaling + totalBounceCount * elationSkillBounceScaling / context.enemyCount)
+        .elationScaling(elationSkillAoeScaling + elationSkillBounceTotal / context.enemyCount)
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(
           r.enhancedElationSkill
@@ -345,25 +354,32 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Ult: SPD buff
       x.buff(StatKey.SPD_P, r.ultSpdBuff ? ultSpdBuff : 0, x.source(SOURCE_ULT))
 
-      // Trace A2: +100% Elation if other Elation characters in team (auto-detected)
+      // Trace A2: +80% Elation if other Elation characters in team (auto-detected)
       const otherElationCount = countTeamPath(context, PathNames.Elation) - 1
-      x.buff(StatKey.ELATION, otherElationCount > 0 ? 1.00 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.ELATION, otherElationCount > 0 ? 0.80 : 0, x.source(SOURCE_TRACE))
 
-      // Trace A4: +48% CD, plus a non-stacking +48% CD after a teammate attacks
+      // Trace A4: +48% CD
       x.buff(StatKey.CD, 0.48, x.source(SOURCE_TRACE))
-      x.buff(StatKey.CD, r.traceCdBuff ? 0.48 : 0, x.source(SOURCE_TRACE))
 
       // E1: +24% All-Type RES PEN
       x.buff(StatKey.RES_PEN, (e >= 1 && r.e1ResPen) ? 0.24 : 0, x.source(SOURCE_E1))
-
-      // E4: Ignores 18% DEF
-      x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefPen) ? 0.18 : 0, x.source(SOURCE_E4))
 
       // E6: Elation DMG merrymakes by 25%
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymaking) ? 0.25 : 0, x.source(SOURCE_E6))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const m = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      // Trace A2: +20% Elation if other Elation characters in team (auto-detected)
+      const otherElationCount = countTeamPath(context, PathNames.Elation) - 1
+      x.buff(StatKey.ELATION, otherElationCount > 0 ? 0.20 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+
+      // Trace A4: non-stacking +48% CD after a teammate attacks
+      x.buff(StatKey.CD, m.traceCdBuff ? 0.48 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+
+      // E4: Ignores 18% DEF
+      x.buff(StatKey.DEF_PEN, (e >= 4 && m.e4DefPen) ? 0.18 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -392,8 +408,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             context,
             SOURCE_TRACE,
             (convertibleValue) => {
-              if (convertibleValue < 160) return 0
-              return 0.30 + Math.min(200, convertibleValue - 160) * 0.01
+              if (convertibleValue < 140) return 0
+              return 0.30 + Math.min(200, convertibleValue - 140) * 0.01
             },
             TargetTag.SelfAndPet,
             true,
@@ -408,9 +424,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             this,
             action,
             context,
-            `0.30 + min(200.0, convertibleValue - 160.0) * 0.01`,
+            `0.30 + min(200.0, convertibleValue - 140.0) * 0.01`,
             `${wgslTrue(r.spdElationConversion)}`,
-            `convertibleValue >= 160.0`,
+            `convertibleValue >= 140.0`,
             TargetTag.SelfAndPet,
             true,
           )
@@ -426,7 +442,6 @@ const simulation = (): SimulationMetadata => ({
     [Parts.Body]: [
       Stats.CR,
       Stats.CD,
-      Stats.ATK_P,
     ],
     [Parts.Feet]: [
       Stats.SPD,
@@ -459,7 +474,7 @@ const simulation = (): SimulationMetadata => ({
   ],
   errRopeEidolon: 0,
   hardBreakpoints: [
-    { stat: Stats.SPD, threshold: 160 },
+    { stat: Stats.SPD, threshold: 140 },
   ],
   relicSets: [
     [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
@@ -494,8 +509,8 @@ const simulation = (): SimulationMetadata => ({
 
 const scoring = (): ScoringMetadata => ({
   stats: {
-    [Stats.ATK]: 0.75,
-    [Stats.ATK_P]: 0.75,
+    [Stats.ATK]: 0.25,
+    [Stats.ATK_P]: 0.25,
     [Stats.DEF]: 0,
     [Stats.DEF_P]: 0,
     [Stats.HP]: 0,
@@ -511,16 +526,12 @@ const scoring = (): ScoringMetadata => ({
     [Parts.Body]: [
       Stats.CR,
       Stats.CD,
-      Stats.ATK_P,
     ],
     [Parts.Feet]: [
       Stats.ATK_P,
       Stats.SPD,
     ],
-    [Parts.PlanarSphere]: [
-      Stats.ATK_P,
-      Stats.Quantum_DMG,
-    ],
+    [Parts.PlanarSphere]: [],
     [Parts.LinkRope]: [
       Stats.ATK_P,
       Stats.ERR,

@@ -1,7 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants } from 'lib/constants/constants'
-import { type DynamicConditional } from 'lib/gpu/conditionals/dynamicConditionals'
 import {
   type BasicStatsArray,
   BasicStatsArrayCore,
@@ -11,10 +10,7 @@ import {
   type BasicKeyType,
 } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
-import {
-  calculateContextConditionalRegistry,
-  wrapTeammateDynamicConditional,
-} from 'lib/optimization/calculateConditionals'
+import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
@@ -57,11 +53,7 @@ import { type SimulationRelicArrayByPart } from 'lib/simulations/statSimulationT
 import type { BaseWorkerInput } from 'lib/worker/workerPool'
 import type { WorkerType } from 'lib/worker/workerUtils'
 import { type Form } from 'types/form'
-import {
-  type CharacterMetadata,
-  type OptimizerAction,
-  type OptimizerContext,
-} from 'types/optimizer'
+import { type OptimizerContext } from 'types/optimizer'
 import { type Relic } from 'types/relic'
 
 export interface OptimizerWorkerInput extends BaseWorkerInput, OptimizerEventData {
@@ -127,24 +119,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
   context.characterController = CharacterConditionalsResolver.get(context)
   context.lightConeController = LightConeConditionalsResolver.get(context)
 
-  function calculateTeammateDynamicConditionals(action: OptimizerAction, teammateMetadata: CharacterMetadata, index: number) {
-    if (teammateMetadata?.characterId) {
-      const teammateCharacterConditionalController = CharacterConditionalsResolver.get(teammateMetadata)
-      ;(teammateCharacterConditionalController.teammateDynamicConditionals ?? [])
-        .forEach((dynamicConditional: DynamicConditional) => {
-          const wrapped = wrapTeammateDynamicConditional(dynamicConditional, index)
-          action.teammateDynamicConditionals.push(wrapped)
-        })
-    }
-  }
-
-  // Setup teammate dynamic conditionals for all actions
   for (const action of context.rotationActions) {
-    action.teammateDynamicConditionals = []
-    if (context.teammate0Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate0Metadata, 0)
-    if (context.teammate1Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate1Metadata, 1)
-    if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
-
     // Reconstruct arrays after transfer
     action.precomputedStats.a = new Float64Array(Object.values(action.precomputedStats.a))
 
@@ -154,11 +129,6 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     }
   }
   for (const action of context.defaultActions) {
-    action.teammateDynamicConditionals = []
-    if (context.teammate0Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate0Metadata, 0)
-    if (context.teammate1Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate1Metadata, 1)
-    if (context.teammate2Metadata?.characterId) calculateTeammateDynamicConditionals(action, context.teammate2Metadata, 2)
-
     // Reconstruct arrays after transfer
     action.precomputedStats.a = new Float64Array(Object.values(action.precomputedStats.a))
 

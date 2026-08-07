@@ -30,6 +30,8 @@ export function calculateContextConditionalRegistry(
   registerConditionals(conditionalRegistry, characterConditionals.dynamicConditionals ?? [])
   registerConditionals(conditionalRegistry, getAllSetDynamicConditionals())
 
+  // Authoritative populator: rebuilt from scratch so repeat calls (worker rehydration) don't accumulate
+  action.teammateDynamicConditionals = []
   registerTeammateConditionals(conditionalRegistry, context.teammate0Metadata, action, 0)
   registerTeammateConditionals(conditionalRegistry, context.teammate1Metadata, action, 1)
   registerTeammateConditionals(conditionalRegistry, context.teammate2Metadata, action, 2)

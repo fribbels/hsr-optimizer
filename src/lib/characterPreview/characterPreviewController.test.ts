@@ -71,8 +71,8 @@ test('leaderboard preview relic scores ignore user scoring overrides', () => {
     const leaderboardPreview = getPreviewRelics(ShowcaseSource.LEADERBOARD, showcaseCharacter, {})
     const showcasePreview = getPreviewRelics(ShowcaseSource.SHOWCASE_TAB, showcaseCharacter, {})
 
-    expect(leaderboardPreview.scoringResults.relics[0].percentScore).toBeGreaterThan(0)
-    expect(showcasePreview.scoringResults.relics[0].percentScore).toBe(0)
+    expect(leaderboardPreview.relics[0].percentScore).toBeGreaterThan(0)
+    expect(showcasePreview.relics[0].percentScore).toBe(0)
   } finally {
     useScoringStore.getState().clearCharacterOverrides(character)
   }

@@ -74,14 +74,4 @@ export const CharacterTabController = {
     useCharacterStore.getState().insertCharacter(focusCharacter, 0)
     SaveState.delayedSave()
   },
-
-  sortByScore: () => {
-    const characters = useCharacterStore.getState().characters
-    const sortedCharacters = characters
-      .map((character) => ({ score: RelicScorer.scoreCharacter(character), character }))
-      .sort((a, b) => b.score.totalScore - a.score.totalScore)
-      .map((x) => x.character)
-    useCharacterStore.getState().setCharacters(sortedCharacters)
-    SaveState.delayedSave()
-  },
 }

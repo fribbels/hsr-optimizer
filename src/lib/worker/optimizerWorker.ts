@@ -1,5 +1,3 @@
-import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
-import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
 import { Constants } from 'lib/constants/constants'
 import {
   type BasicStatsArray,
@@ -10,7 +8,6 @@ import {
   type BasicKeyType,
 } from 'lib/optimization/basicStatsArray'
 import { BufferPacker } from 'lib/optimization/bufferPacker'
-import { calculateContextConditionalRegistry } from 'lib/optimization/calculateConditionals'
 import { calculateBaseMultis } from 'lib/optimization/calculateDamage'
 import {
   calculateBaseStats,
@@ -28,10 +25,7 @@ import {
   type StatKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
-import {
-  ComputedStatsContainer,
-  rebuildEntityRegistry,
-} from 'lib/optimization/engine/container/computedStatsContainer'
+import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   calculateEhp,
   getDamageFunction,
@@ -49,6 +43,7 @@ import {
   type SetsOrnaments,
   type SetsRelics,
 } from 'lib/sets/setConfigRegistry'
+import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { type SimulationRelicArrayByPart } from 'lib/simulations/statSimulationTypes'
 import type { BaseWorkerInput } from 'lib/worker/workerPool'
 import type { WorkerType } from 'lib/worker/workerUtils'
@@ -108,35 +103,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
 
   const { failsBasicThresholdFilter, failsComputedThresholdFilter } = generateResultMinFilter(request, context)
 
-  // Calculate conditional registry for all actions
-  for (const action of context.rotationActions) {
-    calculateContextConditionalRegistry(action, context)
-  }
-  for (const action of context.defaultActions) {
-    calculateContextConditionalRegistry(action, context)
-  }
-
-  context.characterController = CharacterConditionalsResolver.get(context)
-  context.lightConeController = LightConeConditionalsResolver.get(context)
-
-  for (const action of context.rotationActions) {
-    // Reconstruct arrays after transfer
-    action.precomputedStats.a = new Float64Array(Object.values(action.precomputedStats.a))
-
-    // Rebuild entityRegistry from entitiesArray after serialization
-    if (action.config) {
-      rebuildEntityRegistry(action.config)
-    }
-  }
-  for (const action of context.defaultActions) {
-    // Reconstruct arrays after transfer
-    action.precomputedStats.a = new Float64Array(Object.values(action.precomputedStats.a))
-
-    // Rebuild entityRegistry from entitiesArray after serialization
-    if (action.config) {
-      rebuildEntityRegistry(action.config)
-    }
-  }
+  initializeContextConditionals(context)
 
   const limit = Math.min(data.permutations, data.WIDTH)
 

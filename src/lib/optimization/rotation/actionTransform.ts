@@ -112,10 +112,8 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   // ========== PHASE 3: CONFIGURATION ==========
 
-  for (let i = 0; i < allActions.length; i++) {
-    const action = allActions[i]
-
-    const { primaryEntityRegistry, teammateEntityRegistry } = prepareEntitiesForAction(action, context)
+  for (const action of allActions) {
+    const { primaryEntityRegistry } = prepareEntitiesForAction(action, context)
 
     for (const hit of action.hits!) {
       hit.sourceEntityIndex = hit.sourceEntity

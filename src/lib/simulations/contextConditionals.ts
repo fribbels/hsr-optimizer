@@ -9,10 +9,10 @@ export function initializeContextConditionals(context: OptimizerContext) {
   context.lightConeController = LightConeConditionalsResolver.get(context)
 
   for (const action of [...context.rotationActions, ...context.defaultActions]) {
-    // Reconstruct arrays after transfer
+    // Restore values serialized from the typed array.
     action.precomputedStats.a = new Float64Array(Object.values(action.precomputedStats.a))
 
-    // Rebuild entityRegistry from entitiesArray after serialization
+    // Restore the lookup map omitted during serialization.
     if (action.config) {
       rebuildEntityRegistry(action.config)
     }

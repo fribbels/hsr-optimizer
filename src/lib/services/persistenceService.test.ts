@@ -1,12 +1,20 @@
 // @vitest-environment jsdom
+import { Herta } from 'lib/conditionals/character/1000/Herta'
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
+import { Bronya } from 'lib/conditionals/character/1100/Bronya'
+import { Pela } from 'lib/conditionals/character/1100/Pela'
+import { FuXuan } from 'lib/conditionals/character/1200/FuXuan'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
+import { TrailblazerHarmonyStelle } from 'lib/conditionals/character/8000/TrailblazerHarmony'
 import {
   Parts,
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { DefaultSettingOptions } from 'lib/constants/settingsConstants'
+import {
+  DefaultSettingOptions,
+  SettingOptions,
+} from 'lib/constants/settingsConstants'
 import {
   loadSaveData,
   mergePartialRelics,
@@ -76,6 +84,8 @@ const RELIC_FEET = 'e5555555-5555-5555-5555-555555555555'
 
 const RELIC_HEAD_DUP = 'g7777777-7777-7777-7777-777777777777'
 const STALE_CHARACTER_ID = '9999' as CharacterId
+// Jingliu's reworked variant, which supersedes the bare 1212 id
+const REWORKED_JINGLIU_ID = '1212b1' as CharacterId
 
 // ---- Factories ----
 
@@ -444,6 +454,81 @@ describe('mergeRelics — ageIndex dropped during merge', () => {
 
     const stored = getRelicById(RELIC_HEAD_OLD)!
     expect(stored.ageIndex).toBe(99)
+  })
+})
+
+describe('mergeRelics — imported character ordering', () => {
+  // Bronya 1101 (5★), FuXuan 1208 (5★), Herta 1013 (4★), Pela 1106 (4★)
+  // Import order differs from expected output in each case, so a no-op sort fails
+  function formsFor(ids: CharacterId[]) {
+    return ids.map((characterId) => ({ characterId }) as Form)
+  }
+
+  const importForms = formsFor([Pela.id, Bronya.id, FuXuan.id, Herta.id])
+
+  it('sorts a fresh import by rarity, then equipped relic count, then descending id', () => {
+    useRelicStore.getState().setRelics([])
+    useCharacterStore.getState().setCharacters([])
+
+    // Herta has the only equipped relics, but 4★ still ranks below every 5★
+    const hertaHead = makeRelic({ id: RELIC_HEAD_NEW, part: Parts.Head, equippedBy: Herta.id })
+    const hertaBody = makeRelic({ id: RELIC_BODY_NEW, part: Parts.Body, equippedBy: Herta.id })
+
+    mergeRelics([hertaHead, hertaBody], formsFor([Pela.id, Bronya.id, Herta.id, FuXuan.id]))
+
+    expect(getCharacters().map((c) => c.id)).toEqual([
+      FuXuan.id, // 5★, 0 equipped, id 1208
+      Bronya.id, // 5★, 0 equipped, id 1101
+      Herta.id, // 4★, 2 equipped
+      Pela.id, // 4★, 0 equipped, loses to Herta on relic count despite the higher id
+    ])
+  })
+
+  it('ranks outdated pre-rework ids below every standard rarity', () => {
+    useRelicStore.getState().setRelics([])
+    useCharacterStore.getState().setCharacters([])
+
+    // 1212b1 is the current Jingliu, so the bare 1212 is superseded and sinks past the 4★
+    mergeRelics([], formsFor([Pela.id, Jingliu.id, REWORKED_JINGLIU_ID]))
+
+    expect(getCharacters().map((c) => c.id)).toEqual([REWORKED_JINGLIU_ID, Pela.id, Jingliu.id])
+  })
+
+  it('ranks Trailblazer variants last within their rarity and relic count group', () => {
+    useRelicStore.getState().setRelics([])
+    useCharacterStore.getState().setCharacters([])
+
+    // 8006 is the highest id in the import, but the 8xxx series is demoted on the id tiebreak
+    mergeRelics([], formsFor([Bronya.id, FuXuan.id, TrailblazerHarmonyStelle.id]))
+
+    expect(getCharacters().map((c) => c.id)).toEqual([FuXuan.id, Bronya.id, TrailblazerHarmonyStelle.id])
+  })
+
+  it('preserves the order of characters already in the store', () => {
+    useRelicStore.getState().setRelics([])
+    // Pela ahead of Bronya is a manual ranking the import must not undo
+    useCharacterStore.getState().setCharacters([
+      makeCharacter({ id: Pela.id, form: { characterId: Pela.id } as Form }),
+      makeCharacter({ id: Bronya.id, form: { characterId: Bronya.id } as Form }),
+    ])
+
+    mergeRelics([], importForms)
+
+    expect(getCharacters().map((c) => c.id)).toEqual([FuXuan.id, Herta.id, Pela.id, Bronya.id])
+  })
+
+  it('appends the sorted import block when NewCharacterDefaultRank is Last', () => {
+    useGlobalStore.setState({
+      settings: { ...DefaultSettingOptions, NewCharacterDefaultRank: SettingOptions.NewCharacterDefaultRank.Last } as UserSettings,
+    })
+    useRelicStore.getState().setRelics([])
+    useCharacterStore.getState().setCharacters([
+      makeCharacter({ id: Pela.id, form: { characterId: Pela.id } as Form }),
+    ])
+
+    mergeRelics([], importForms)
+
+    expect(getCharacters().map((c) => c.id)).toEqual([Pela.id, FuXuan.id, Bronya.id, Herta.id])
   })
 })
 

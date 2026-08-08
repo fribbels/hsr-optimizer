@@ -480,7 +480,7 @@ describe('mergeRelics — imported character ordering', () => {
       FuXuan.id, // 5★, 0 equipped, id 1208
       Bronya.id, // 5★, 0 equipped, id 1101
       Herta.id, // 4★, 2 equipped
-      Pela.id, // 4★, 0 equipped, loses to Herta on relic count
+      Pela.id, // 4★, 0 equipped, loses to Herta on relic count despite the higher id
     ])
   })
 
@@ -488,7 +488,7 @@ describe('mergeRelics — imported character ordering', () => {
     useRelicStore.getState().setRelics([])
     useCharacterStore.getState().setCharacters([])
 
-    // 1212b1 is the current Jingliu, so the bare 1212 is the superseded id and sinks past the 4★
+    // 1212b1 is the current Jingliu, so the bare 1212 is superseded and sinks past the 4★
     mergeRelics([], formsFor([Pela.id, Jingliu.id, REWORKED_JINGLIU_ID]))
 
     expect(getCharacters().map((c) => c.id)).toEqual([REWORKED_JINGLIU_ID, Pela.id, Jingliu.id])

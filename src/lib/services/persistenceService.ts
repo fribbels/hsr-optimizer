@@ -469,29 +469,25 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
 
 // ─── Helpers (internal) ────────────────────────────────────────
 
-// Trailblazer ids are the 8xxx range
-const TRAILBLAZER_ID_PREFIX = '8'
-// Must stay below the lowest real rarity
-const OUTDATED_VARIANT_RANK = -1
-
 function countEquippedRelics(character: Character): number {
   return Object.values(character.equipped).filter((relicId) => !!relicId).length
 }
 
+// Trailblazer ids are the 8xxx range
 function isTrailblazerId(id: CharacterId): boolean {
-  return id.startsWith(TRAILBLAZER_ID_PREFIX)
+  return id.startsWith('8')
 }
 
 function characterRarityRank(id: CharacterId, metadataCharacters: DBMetadata['characters']): number {
-  // buffedCharacters maps an unbuffed id to its reworked replacement, so a hit means this id is the outdated one
-  if (buffedCharacters[id]) return OUTDATED_VARIANT_RANK
+  // A hit in buffedCharacters (unbuffed id -> reworked replacement) means this id is the outdated one,
+  // so rank it below the lowest real rarity
+  if (buffedCharacters[id]) return -1
   return metadataCharacters[id]?.rarity ?? 0
 }
 
 /*
  * upsertCharacterFromForm adds characters one at a time, which reverses the batch when
- * NewCharacterDefaultRank is First. Sort the new block into 5★, then 4★, then outdated pre-rework
- * ids, leaving characters the user already had in place.
+ * NewCharacterDefaultRank is First. Sort the new block into 5★, then 4★, then outdated ids.
  */
 function sortImportedCharacters(characters: Character[], preExistingCharacterIds: Set<CharacterId>): Character[] {
   const existing: Character[] = []
@@ -517,8 +513,7 @@ function sortImportedCharacters(characters: Character[], preExistingCharacterIds
     const trailblazerDelta = Number(isTrailblazerId(a.id)) - Number(isTrailblazerId(b.id))
     if (trailblazerDelta !== 0) return trailblazerDelta
 
-    // Ids start with a 4 digit numeric part; a base and its reworked variant never tie here
-    // because the outdated one is already ranked into its own tier above
+    // Ids start with a 4 digit numeric part
     return parseInt(b.id) - parseInt(a.id)
   })
 

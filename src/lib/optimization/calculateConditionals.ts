@@ -30,6 +30,8 @@ export function calculateContextConditionalRegistry(
   registerConditionals(conditionalRegistry, characterConditionals.dynamicConditionals ?? [])
   registerConditionals(conditionalRegistry, getAllSetDynamicConditionals())
 
+  // Rebuild the derived list so repeated initialization stays idempotent.
+  action.teammateDynamicConditionals = []
   registerTeammateConditionals(conditionalRegistry, context.teammate0Metadata, action, 0)
   registerTeammateConditionals(conditionalRegistry, context.teammate1Metadata, action, 1)
   registerTeammateConditionals(conditionalRegistry, context.teammate2Metadata, action, 2)

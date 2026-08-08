@@ -12,6 +12,7 @@ import {
   setClose,
   setOpen,
 } from 'lib/hooks/useOpenClose'
+import { buffedCharacters } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import { SortOption } from 'lib/optimization/sortOptions'
@@ -235,6 +236,9 @@ export function resetAll(): void {
 export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
   const oldRelics = getRelics()
 
+  // Existing characters keep their manual ordering, only the new block gets sorted
+  const preExistingCharacterIds = new Set(getCharacters().map((c) => c.id))
+
   // Add new characters
   if (newCharacters) {
     for (const character of newCharacters) {
@@ -386,7 +390,7 @@ export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
     }
     return newC
   })
-  useCharacterStore.getState().setCharacters(cleanedCharacters)
+  useCharacterStore.getState().setCharacters(sortImportedCharacters(cleanedCharacters, preExistingCharacterIds))
 
   void import('lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions').then(({ recalculatePermutations }) => {
     recalculatePermutations()
@@ -464,6 +468,63 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
 }
 
 // ─── Helpers (internal) ────────────────────────────────────────
+
+// Trailblazer ids are the 8xxx range
+const TRAILBLAZER_ID_PREFIX = '8'
+// Must stay below the lowest real rarity
+const OUTDATED_VARIANT_RANK = -1
+
+function countEquippedRelics(character: Character): number {
+  return Object.values(character.equipped).filter((relicId) => !!relicId).length
+}
+
+function isTrailblazerId(id: CharacterId): boolean {
+  return id.startsWith(TRAILBLAZER_ID_PREFIX)
+}
+
+function characterRarityRank(id: CharacterId, metadataCharacters: DBMetadata['characters']): number {
+  // buffedCharacters maps an unbuffed id to its reworked replacement, so a hit means this id is the outdated one
+  if (buffedCharacters[id]) return OUTDATED_VARIANT_RANK
+  return metadataCharacters[id]?.rarity ?? 0
+}
+
+/*
+ * upsertCharacterFromForm adds characters one at a time, which reverses the batch when
+ * NewCharacterDefaultRank is First. Sort the new block into 5★, then 4★, then outdated pre-rework
+ * ids, leaving characters the user already had in place.
+ */
+function sortImportedCharacters(characters: Character[], preExistingCharacterIds: Set<CharacterId>): Character[] {
+  const existing: Character[] = []
+  const imported: Character[] = []
+  for (const character of characters) {
+    if (preExistingCharacterIds.has(character.id)) {
+      existing.push(character)
+    } else {
+      imported.push(character)
+    }
+  }
+
+  if (imported.length === 0) return characters
+
+  const metadataCharacters = getGameMetadata().characters
+  imported.sort((a, b) => {
+    const rarityDelta = characterRarityRank(b.id, metadataCharacters) - characterRarityRank(a.id, metadataCharacters)
+    if (rarityDelta !== 0) return rarityDelta
+
+    const equippedDelta = countEquippedRelics(b) - countEquippedRelics(a)
+    if (equippedDelta !== 0) return equippedDelta
+
+    const trailblazerDelta = Number(isTrailblazerId(a.id)) - Number(isTrailblazerId(b.id))
+    if (trailblazerDelta !== 0) return trailblazerDelta
+
+    // Ids start with a 4 digit numeric part; a base and its reworked variant never tie here
+    // because the outdated one is already ranked into its own tier above
+    return parseInt(b.id) - parseInt(a.id)
+  })
+
+  const prepend = useGlobalStore.getState().settings.NewCharacterDefaultRank === SettingOptions.NewCharacterDefaultRank.First
+  return prepend ? [...imported, ...existing] : [...existing, ...imported]
+}
 
 export function upsertCharacterFromForm(form: Form): Character {
   let found = getCharacterById(form.characterId)

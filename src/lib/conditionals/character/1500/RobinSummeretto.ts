@@ -570,6 +570,7 @@ const supportSimulation = (): SimulationMetadata => ({
   ],
   ornamentSets: [
     Sets.LushakaTheSunkenSeas,
+    Sets.AmphoreusTheEternalLand,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],

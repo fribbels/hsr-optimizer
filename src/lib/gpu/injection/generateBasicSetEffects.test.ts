@@ -6,6 +6,7 @@ import {
   GpuSetMatcher,
 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { WgslStatName } from 'lib/optimization/basicStatsArray'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { SetType } from 'types/setConfig'
 import {
   describe,
@@ -72,8 +73,7 @@ describe('basicP4', () => {
 describe('generateBasicSetEffectsWgsl', () => {
   const wgsl = generateBasicSetEffectsWgsl()
 
-  it('returns a single flat WGSL string', () => {
-    expect(typeof wgsl).toBe('string')
+  it('includes the generated section header', () => {
     expect(wgsl).toContain('// Generated basic set effects')
   })
 
@@ -82,18 +82,14 @@ describe('generateBasicSetEffectsWgsl', () => {
     expect(wgsl).toMatch(/f32\(relic4p\(sets, SET_\w+\)\)/)
     expect(wgsl).toMatch(/f32\(ornament2p\(sets, SET_\w+\)\)/)
 
-    // Matching stays behind the accessor ABI; SET_X constants remain raw registry indices.
     expect(wgsl).not.toContain('1u <<')
   })
 
   it('preserves the grouped base-stat multiply form (base stat multiplied once against a summed percentage)', () => {
-    // HP_P/ATK_P/etc. are base-scaled: every matching term is summed inside a
-    // single set of parens, and the base stat multiplies that sum exactly once.
     expect(wgsl).toMatch(/c\.HP \+= \(baseHP\) \* \(/)
     expect(wgsl).toMatch(/c\.ATK \+= \(baseATK\) \* \(/)
     expect(wgsl).toMatch(/c\.SPD \+= \(baseSPD\) \* \(/)
 
-    // Non-base-scaled stats (e.g. CR) are summed directly onto `c`, with no base multiply.
     expect(wgsl).toMatch(/c\.CR \+= /)
     expect(wgsl).not.toMatch(/c\.CR \+= \(baseCR\)/)
   })
@@ -111,11 +107,20 @@ describe('generateBasicSetEffectsWgsl', () => {
     expect(wgsl).not.toMatch(/relicMatch2|relicMatch4|ornamentMatch2/)
   })
 
-  it('contributes exactly one term per basicP2/basicP4 entry (33 relic + 24 ornament)', () => {
-    const relicTerms = wgsl.match(/f32\(relic[24]p\(sets, SET_\w+\)\)/g) ?? []
-    const ornamentTerms = wgsl.match(/f32\(ornament2p\(sets, SET_\w+\)\)/g) ?? []
+  it('contributes exactly one term per configured basic set effect', () => {
+    const expected: Record<GpuSetMatcher, number> = {
+      [GpuSetMatcher.RELIC_2P]: 0,
+      [GpuSetMatcher.RELIC_4P]: 0,
+      [GpuSetMatcher.ORNAMENT_2P]: 0,
+    }
+    for (const config of setConfigRegistry.values()) {
+      for (const entry of config.conditionals.gpuBasic?.() ?? []) {
+        expected[entry.matchFn]++
+      }
+    }
 
-    expect(relicTerms.length).toBe(33)
-    expect(ornamentTerms.length).toBe(24)
+    expect(wgsl.match(/f32\(relic2p\(sets, SET_\w+\)\)/g) ?? []).toHaveLength(expected[GpuSetMatcher.RELIC_2P])
+    expect(wgsl.match(/f32\(relic4p\(sets, SET_\w+\)\)/g) ?? []).toHaveLength(expected[GpuSetMatcher.RELIC_4P])
+    expect(wgsl.match(/f32\(ornament2p\(sets, SET_\w+\)\)/g) ?? []).toHaveLength(expected[GpuSetMatcher.ORNAMENT_2P])
   })
 })

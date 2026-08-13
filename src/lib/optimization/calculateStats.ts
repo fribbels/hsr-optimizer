@@ -12,8 +12,6 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
-  emptySetMatches,
-  type MutableSetMatches,
   NO_SET,
   type SetMatches,
 } from 'lib/optimization/setMatchState'
@@ -27,66 +25,6 @@ import type {
   OptimizerContext,
   SetConditional,
 } from 'types/optimizer'
-
-export function computeSetMatchesInPlace(
-  target: MutableSetMatches,
-  sets: number[],
-): void {
-  const set0 = sets[0]
-  const set1 = sets[1]
-  const set2 = sets[2]
-  const set3 = sets[3]
-  const set4 = sets[4]
-  const set5 = sets[5]
-
-  if (set0 === set1 && set1 === set2 && set2 === set3) {
-    target.relic2pSetA = set0
-    target.relic2pSetB = NO_SET
-    target.relic4pSet = set0
-  } else {
-    target.relic4pSet = NO_SET
-    target.relic2pSetA = NO_SET
-    target.relic2pSetB = NO_SET
-
-    // Does this slot's set appear again in a later slot?
-    const repeated0 = set0 === set1 || set0 === set2 || set0 === set3
-    const repeated1 = set1 === set2 || set1 === set3
-    const repeated2 = set2 === set3
-
-    // Was it already recorded by an earlier slot holding the same set?
-    const recorded1 = set1 === set0
-    const recorded2 = set2 === set0 || set2 === set1
-
-    // Four slots hold at most two sets with 2+ pieces, so setA then setB is always enough.
-    if (repeated0) {
-      target.relic2pSetA = set0
-    }
-
-    if (repeated1 && !recorded1) {
-      if (target.relic2pSetA === NO_SET) {
-        target.relic2pSetA = set1
-      } else {
-        target.relic2pSetB = set1
-      }
-    }
-
-    if (repeated2 && !recorded2) {
-      if (target.relic2pSetA === NO_SET) {
-        target.relic2pSetA = set2
-      } else {
-        target.relic2pSetB = set2
-      }
-    }
-  }
-
-  target.ornament2pSet = set4 === set5 ? set4 : NO_SET
-}
-
-export function computeSetMatches(sets: number[]): SetMatches {
-  const target = emptySetMatches()
-  computeSetMatchesInPlace(target, sets)
-  return target
-}
 
 export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, matches: SetMatches) {
   if (matches.relic2pSetA !== NO_SET) {

@@ -6,10 +6,8 @@
 // imports every set config, which imports basicStatsArray back - a cycle that leaves
 // WgslStatName undefined at module evaluation time.
 
-// Sentinel meaning "no set matched this slot". Set indices are contiguous registry
-// indices starting at 0 (enforced by assertValidSetConfigList in setConfigRegistry.ts),
-// so a negative value can never collide with a real set. The GPU mirror in
-// lib/gpu/wgsl/structs.wgsl uses 0xFFFFFFFFu, since its fields are u32.
+// Sentinel meaning "no set matched this slot". Registry indices start at 0, so a
+// negative value cannot collide with a real set.
 export const NO_SET = -1
 
 // Explicit match representation for the relic/ornament sets equipped on a build.
@@ -17,9 +15,8 @@ export const NO_SET = -1
 // most one 4-piece set (relic4pSet, which is always equal to relic2pSetA when set).
 // Two ornament slots admit at most one 2-piece set.
 //
-// Every field is either a real set index or NO_SET, so the fields are self-describing
-// and carry no stale values between computations. Read them through the
-// relic2p/relic4p/ornament2p accessors in setMatching.ts.
+// Set-definition code uses the key-based accessors in setMatching.ts. Stat dispatch
+// reads these indices directly after checking NO_SET.
 export type SetMatches = {
   readonly relic2pSetA: number, // NO_SET when unmatched
   readonly relic2pSetB: number, // NO_SET when unmatched
@@ -36,4 +33,61 @@ export function emptySetMatches(): MutableSetMatches {
     relic4pSet: NO_SET,
     ornament2pSet: NO_SET,
   }
+}
+
+export function computeSetMatchesInPlace(
+  target: MutableSetMatches,
+  sets: readonly number[],
+): void {
+  const headSet = sets[0]
+  const handsSet = sets[1]
+  const bodySet = sets[2]
+  const feetSet = sets[3]
+  const planarSet = sets[4]
+  const ropeSet = sets[5]
+
+  if (headSet === handsSet && handsSet === bodySet && bodySet === feetSet) {
+    target.relic2pSetA = headSet
+    target.relic2pSetB = NO_SET
+    target.relic4pSet = headSet
+  } else {
+    target.relic4pSet = NO_SET
+    target.relic2pSetA = NO_SET
+    target.relic2pSetB = NO_SET
+
+    const headRepeats = headSet === handsSet || headSet === bodySet || headSet === feetSet
+    const handsRepeats = handsSet === bodySet || handsSet === feetSet
+    const bodyRepeats = bodySet === feetSet
+    const handsSeenEarlier = handsSet === headSet
+    const bodySeenEarlier = bodySet === headSet || bodySet === handsSet
+
+    // Four relic slots can contain at most two distinct 2-piece matches.
+    if (headRepeats) {
+      target.relic2pSetA = headSet
+    }
+
+    if (handsRepeats && !handsSeenEarlier) {
+      if (target.relic2pSetA === NO_SET) {
+        target.relic2pSetA = handsSet
+      } else {
+        target.relic2pSetB = handsSet
+      }
+    }
+
+    if (bodyRepeats && !bodySeenEarlier) {
+      if (target.relic2pSetA === NO_SET) {
+        target.relic2pSetA = bodySet
+      } else {
+        target.relic2pSetB = bodySet
+      }
+    }
+  }
+
+  target.ornament2pSet = planarSet === ropeSet ? planarSet : NO_SET
+}
+
+export function computeSetMatches(sets: readonly number[]): SetMatches {
+  const target = emptySetMatches()
+  computeSetMatchesInPlace(target, sets)
+  return target
 }

@@ -16,7 +16,6 @@ import {
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
-  computeSetMatchesInPlace,
 } from 'lib/optimization/calculateStats'
 import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
@@ -31,9 +30,11 @@ import {
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
 import {
+  computeSetMatchesInPlace,
   emptySetMatches,
   type MutableSetMatches,
 } from 'lib/optimization/setMatchState'
+import { isSetSolutionValid } from 'lib/optimization/setSolutionBitset'
 import {
   SortOption,
   type SortOptionProperties,
@@ -171,8 +172,8 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     const ornamentSetIndex = encodeOrnamentSetIndex(setP, setL)
 
     // Exit early if sets don't match
-    const relicValid = ((relicSetSolutions[relicSetIndex >>> 5] >> (relicSetIndex & 31)) & 1) === 1
-    const ornamentValid = ((ornamentSetSolutions[ornamentSetIndex >>> 5] >> (ornamentSetIndex & 31)) & 1) === 1
+    const relicValid = isSetSolutionValid(relicSetSolutions, relicSetIndex)
+    const ornamentValid = isSetSolutionValid(ornamentSetSolutions, ornamentSetIndex)
     if (!relicValid || !ornamentValid) {
       continue
     }

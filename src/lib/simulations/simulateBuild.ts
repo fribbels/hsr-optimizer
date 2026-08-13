@@ -15,7 +15,6 @@ import {
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
-  computeSetMatches,
 } from 'lib/optimization/calculateStats'
 import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
@@ -29,6 +28,10 @@ import {
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
 import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  computeSetMatches,
+  type SetMatches,
+} from 'lib/optimization/setMatchState'
 import type {
   SetsOrnaments,
   SetsRelics,
@@ -80,7 +83,7 @@ export function simulateBuild(
 ): SimulateBuildResult {
   // Compute
   let Head: SimulationRelic, Hands: SimulationRelic, Body: SimulationRelic, Feet: SimulationRelic, PlanarSphere: SimulationRelic, LinkRope: SimulationRelic
-  let relicSetIndex: number, ornamentSetIndex: number, setMatches: ReturnType<typeof computeSetMatches>
+  let relicSetIndex: number, ornamentSetIndex: number, setMatches: SetMatches
 
   if (precomputedSets) {
     Head = relics.Head

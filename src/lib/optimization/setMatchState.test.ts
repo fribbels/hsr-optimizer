@@ -1,14 +1,12 @@
 import { type SetKey } from 'lib/constants/constants'
 import {
-  computeSetMatches,
-  computeSetMatchesInPlace,
-} from 'lib/optimization/calculateStats'
-import {
   ornament2p,
   relic2p,
   relic4p,
 } from 'lib/optimization/setMatching'
 import {
+  computeSetMatches,
+  computeSetMatchesInPlace,
   emptySetMatches,
   NO_SET,
   type MutableSetMatches,

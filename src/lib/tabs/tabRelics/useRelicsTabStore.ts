@@ -36,6 +36,13 @@ export enum InsightCharacters {
   Owned,
 }
 
+// Represents the score used to place characters in the Buckets chart.
+// This does not affect Top 10 or EST TBP, which have their own presentation logic.
+export enum BucketPotentialMode {
+  Maximum,
+  Average,
+}
+
 const defaultState: RelicsTabStateValues = {
   focusCharacter: null,
   selectedRelicId: null,
@@ -61,6 +68,8 @@ const defaultState: RelicsTabStateValues = {
     mainStat: [],
     subStat: [],
   },
+  // Preserve the current maximum-potential behavior by default.
+  bucketPotentialMode: BucketPotentialMode.Maximum,
   insightsMode: RelicInsights.Buckets,
   insightsCharacters: InsightCharacters.Custom,
 }
@@ -74,6 +83,7 @@ interface RelicsTabStateValues {
   filters: RelicTabFilters
   insightsMode: RelicInsights
   insightsCharacters: InsightCharacters
+  bucketPotentialMode: BucketPotentialMode
 }
 
 interface RelicsTabStateActions {
@@ -88,6 +98,8 @@ interface RelicsTabStateActions {
 
   setInsightsMode: (mode: RelicInsights) => void
   setInsightsCharacters: (mode: InsightCharacters) => void
+
+  setBucketPotentialMode: (mode: RelicsTabStateValues['bucketPotentialMode']) => void
 }
 
 type RelicsTabState = RelicsTabStateActions & RelicsTabStateValues
@@ -115,6 +127,7 @@ const useRelicsTabStore = createTabAwareStore<RelicsTabState>((set, get) => ({
 
   setInsightsMode: (insightsMode) => set({ insightsMode }),
   setInsightsCharacters: (insightsCharacters) => set({ insightsCharacters }),
+  setBucketPotentialMode: (bucketPotentialMode) => set({ bucketPotentialMode }),
 }))
 
 export { useRelicsTabStore }

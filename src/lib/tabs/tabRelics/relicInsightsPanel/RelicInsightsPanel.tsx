@@ -13,6 +13,7 @@ import { BucketsPanel } from 'lib/tabs/tabRelics/relicInsightsPanel/BucketsPanel
 import { EstbpCard } from 'lib/tabs/tabRelics/relicInsightsPanel/Estbp'
 import { Top10Panel } from 'lib/tabs/tabRelics/relicInsightsPanel/Top10Panel'
 import {
+  type BucketPotentialMode,
   InsightCharacters,
   RelicInsights,
   useRelicsTabStore,
@@ -27,10 +28,11 @@ import type { CharacterId } from 'types/character'
 import { useShallow } from 'zustand/react/shallow'
 
 export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
-  const { insightsCharacters, insightsMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore(
+  const { insightsCharacters, insightsMode, bucketPotentialMode, selectedRelicId, excludedRelicPotentialCharacters } = useRelicsTabStore(
     useShallow((s) => ({
       insightsCharacters: s.insightsCharacters,
       insightsMode: s.insightsMode,
+      bucketPotentialMode: s.bucketPotentialMode,
       selectedRelicId: s.selectedRelicId,
       excludedRelicPotentialCharacters: s.excludedRelicPotentialCharacters,
     })),
@@ -73,17 +75,17 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
     return <div style={{ width: '100%', overflow: 'hidden' }} />
   }
 
-  return <RelicInsightsPanelContent scores={scores} insightsMode={insightsMode} />
+  return <RelicInsightsPanelContent scores={scores} insightsMode={insightsMode} bucketPotentialMode={bucketPotentialMode} />
 })
 
-function RelicInsightsPanelContent({ scores, insightsMode }: { scores: Score[], insightsMode: RelicInsights }) {
+function RelicInsightsPanelContent({ scores, insightsMode, bucketPotentialMode, }: { scores: Score[], insightsMode: RelicInsights, bucketPotentialMode: BucketPotentialMode, }) {
   return (
     <div style={{ width: '100%', overflow: 'hidden' }}>
       <DeferCreate>
         {(() => {
           switch (insightsMode) {
             case RelicInsights.Buckets:
-              return <BucketsPanel scores={scores} width={INSIGHTS_PANEL_WIDTH} />
+              return <BucketsPanel scores={scores} width={INSIGHTS_PANEL_WIDTH} potentialMode={bucketPotentialMode} />
             case RelicInsights.Top10:
               return <Top10Panel scores={scores} width={INSIGHTS_PANEL_WIDTH} />
             case RelicInsights.ESTBP:

@@ -53,6 +53,15 @@ describe('isSetSolutionValid', () => {
     expect(isSetSolutionValid(bitpacked, 15)).toBe(false)
     expect(isSetSolutionValid(bitpacked, 47)).toBe(false)
   })
+
+  it('handles indices above the signed i32 range', () => {
+    const index = 216 ** 4 - 1
+    const packedIndex = Math.floor(index / 32)
+    const bitpacked: number[] = []
+    bitpacked[packedIndex] = 1 << (index & 31)
+
+    expect(isSetSolutionValid(bitpacked, index)).toBe(true)
+  })
 })
 
 describe('computeValidPermutationCount', () => {

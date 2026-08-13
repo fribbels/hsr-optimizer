@@ -39,7 +39,7 @@ const conditionals: SetConditionals = {
     x.buff(StatKey.BOOST, calculateDmgBoost(context), x.source(Source.CosmicLifeSciencesInstitute))
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (ornament2p(*p_sets, SET_CosmicLifeSciencesInstitute) >= 1) {
+    if (ornament2p(*p_sets, SET_CosmicLifeSciencesInstitute)) {
       ${buff.action(AKey.BOOST, calculateDmgBoost(context)).wgsl(action, 2)}
     }
   `,

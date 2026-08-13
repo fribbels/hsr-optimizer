@@ -64,7 +64,7 @@ const conditionals: SetConditionals = {
     basicP4(WgslStatName.SPD_P, -0.08, PoetOfMourningCollapse),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_PoetOfMourningCollapse) >= 1) {
+    if (relic4p(*p_sets, SET_PoetOfMourningCollapse)) {
       let crValue = select(0.0, 0.20, (*p_c).SPD < 110.0) + select(0.0, 0.12, (*p_c).SPD < 95.0);
       ${buff.action(AKey.CR, 'crValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }

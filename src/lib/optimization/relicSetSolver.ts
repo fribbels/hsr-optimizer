@@ -382,7 +382,7 @@ export function bitpackBooleanArray(arr: number[]) {
 }
 
 export function isSetSolutionValid(bitpackedArray: number[], index: number): boolean {
-  const packedIndex = index >> 5
+  const packedIndex = index >>> 5
   const bitIndex = index & 31
   return ((bitpackedArray[packedIndex] >> bitIndex) & 1) === 1
 }

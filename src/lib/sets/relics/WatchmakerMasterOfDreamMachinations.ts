@@ -59,7 +59,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_WatchmakerMasterOfDreamMachinations) >= 1
+      relic4p(*p_sets, SET_WatchmakerMasterOfDreamMachinations)
       && setConditionals.enabledWatchmakerMasterOfDreamMachinations == true
       && ${wgslFalse(action.config.teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations])}
     ) {

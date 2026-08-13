@@ -423,7 +423,7 @@ function collectPenaltyRecords(
     }
   }
 
-  if (user && configType !== ScoringConfigType.DPS && ornament2p(SetKeys.BrokenKeel, x.c.sets)) {
+  if (user && configType !== ScoringConfigType.DPS && ornament2p(SetKeys.BrokenKeel, x.c.setMatches)) {
     if (x.getSelfValue(StatKey.RES) < 0.30) {
       records.push({ stat: Stats.RES, multiplier: 0 })
     }

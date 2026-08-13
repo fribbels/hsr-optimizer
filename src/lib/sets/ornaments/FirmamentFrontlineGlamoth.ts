@@ -56,7 +56,7 @@ const conditionals: SetConditionals = {
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
-    ornament2p(*p_sets, SET_FirmamentFrontlineGlamoth) >= 1
+    ornament2p(*p_sets, SET_FirmamentFrontlineGlamoth)
     && ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 135.0
   ) {
     ${buff.action(AKey.BOOST, `select(0.12, 0.18, ${containerActionVal(SELF_ENTITY_INDEX, AKey.SPD, action.config)} >= 160.0)`).wgsl(action, 2)}

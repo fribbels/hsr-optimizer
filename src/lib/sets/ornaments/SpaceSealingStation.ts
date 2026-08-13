@@ -57,7 +57,7 @@ const SpaceSealingStationConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.ATK],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.SpaceSealingStation, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
+    return ornament2p(SetKeys.SpaceSealingStation, x.c.setMatches) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     const baseAtk = action.config.selfEntity.baseAtk
@@ -72,7 +72,7 @@ const SpaceSealingStationConditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_SpaceSealingStation) >= 1 &&
+  ornament2p(*p_sets, SET_SpaceSealingStation) &&
   (*p_state).SpaceSealingStationConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 120.0
 ) {

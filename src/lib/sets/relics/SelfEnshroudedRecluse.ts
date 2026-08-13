@@ -53,9 +53,9 @@ const conditionals: SetConditionals = {
     }
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic2p(*p_sets, SET_SelfEnshroudedRecluse) >= 1) {
+    if (relic2p(*p_sets, SET_SelfEnshroudedRecluse)) {
       ${buff.hit(HKey.BOOST, 0.10).outputType(OutputTag.SHIELD).wgsl(action, 2)}
-      if (relic4p(*p_sets, SET_SelfEnshroudedRecluse) >= 1) {
+      if (relic4p(*p_sets, SET_SelfEnshroudedRecluse)) {
         ${buff.hit(HKey.BOOST, 0.12).outputType(OutputTag.SHIELD).wgsl(action, 3)}
         if (setConditionals.enabledSelfEnshroudedRecluse == true) {
           ${buff.action(AKey.CD, 0.15).targets(TargetTag.FullTeam).wgsl(action, 4)}

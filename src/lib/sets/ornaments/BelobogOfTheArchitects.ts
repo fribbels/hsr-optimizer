@@ -57,7 +57,7 @@ const BelobogOfTheArchitectsConditional: DynamicConditional = {
   dependsOn: [Stats.EHR],
   chainsTo: [Stats.DEF],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.BelobogOfTheArchitects, x.c.sets) && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.50
+    return ornament2p(SetKeys.BelobogOfTheArchitects, x.c.setMatches) && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.50
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     const baseDef = action.config.selfEntity.baseDef
@@ -72,7 +72,7 @@ const BelobogOfTheArchitectsConditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_BelobogOfTheArchitects) >= 1 &&
+  ornament2p(*p_sets, SET_BelobogOfTheArchitects) &&
   (*p_state).BelobogOfTheArchitectsConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)} >= 0.50
 ) {

@@ -58,7 +58,7 @@ const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.OHB],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135
+    return ornament2p(SetKeys.GiantTreeOfRaptBrooding, x.c.setMatches) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 135
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.OHB, 0.12, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.GiantTreeOfRaptBrooding))
@@ -72,7 +72,7 @@ const GiantTreeOfRaptBrooding135Conditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_GiantTreeOfRaptBrooding) >= 1 &&
+  ornament2p(*p_sets, SET_GiantTreeOfRaptBrooding) &&
   (*p_state).GiantTreeOfRaptBrooding135Conditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 135.0
 ) {
@@ -91,7 +91,7 @@ const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.OHB],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.GiantTreeOfRaptBrooding, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 180
+    return ornament2p(SetKeys.GiantTreeOfRaptBrooding, x.c.setMatches) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 180
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.OHB, 0.08, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.GiantTreeOfRaptBrooding))
@@ -105,7 +105,7 @@ const GiantTreeOfRaptBrooding180Conditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_GiantTreeOfRaptBrooding) >= 1 &&
+  ornament2p(*p_sets, SET_GiantTreeOfRaptBrooding) &&
   (*p_state).GiantTreeOfRaptBrooding180Conditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 180.0
 ) {

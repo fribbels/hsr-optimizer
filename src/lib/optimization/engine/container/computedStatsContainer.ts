@@ -355,8 +355,9 @@ export class ComputedStatsContainer {
     clonedBasic.id = this.c.id
     clonedBasic.relicSetIndex = this.c.relicSetIndex
     clonedBasic.ornamentSetIndex = this.c.ornamentSetIndex
-    clonedBasic.sets = this.c.sets
-    clonedBasic.setsArray = this.c.setsArray
+    // Copy, don't share: the optimizer worker reuses one setMatches object across every
+    // permutation, so a shared reference would leave kept clones showing the last one.
+    clonedBasic.setMatches = { ...this.c.setMatches }
     clonedBasic.weight = this.c.weight
     clone.c = clonedBasic as BasicStatsArray
 
@@ -384,7 +385,8 @@ export class ComputedStatsContainer {
 
   /**
    * Creates a minimal container from raw arrays (for worker result reconstruction).
-   * Does not include config - only suitable for array access.
+   * Has no config and no set state - suitable for array access only. Set queries on the
+   * result always answer "no set matched", whatever the build equipped.
    */
   public static fromArrays(xa: Float64Array, ca: Float32Array): ComputedStatsContainer {
     const container = new ComputedStatsContainer()

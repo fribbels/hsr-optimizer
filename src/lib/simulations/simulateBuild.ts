@@ -15,7 +15,7 @@ import {
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
-  calculateSetCounts,
+  computeSetMatches,
 } from 'lib/optimization/calculateStats'
 import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
@@ -80,7 +80,7 @@ export function simulateBuild(
 ): SimulateBuildResult {
   // Compute
   let Head: SimulationRelic, Hands: SimulationRelic, Body: SimulationRelic, Feet: SimulationRelic, PlanarSphere: SimulationRelic, LinkRope: SimulationRelic
-  let relicSetIndex: number, ornamentSetIndex: number, sets: number[], setCounts: ReturnType<typeof calculateSetCounts>
+  let relicSetIndex: number, ornamentSetIndex: number, setMatches: ReturnType<typeof computeSetMatches>
 
   if (precomputedSets) {
     Head = relics.Head
@@ -91,8 +91,7 @@ export function simulateBuild(
     LinkRope = relics.LinkRope
     relicSetIndex = precomputedSets.relicSetIndex
     ornamentSetIndex = precomputedSets.ornamentSetIndex
-    sets = precomputedSets.sets
-    setCounts = precomputedSets.setCounts
+    setMatches = precomputedSets.setMatches
   } else {
     extractRelics(relics)
     Head = relics.Head
@@ -105,14 +104,13 @@ export function simulateBuild(
     const computed = precomputeSetState(relics)
     relicSetIndex = computed.relicSetIndex
     ornamentSetIndex = computed.ornamentSetIndex
-    sets = computed.sets
-    setCounts = computed.setCounts
+    setMatches = computed.setMatches
   }
 
   const c = (cachedBasicStatsArrayCore ?? new BasicStatsArrayCore(false)) as BasicStatsArray
-  c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, -1)
+  c.init(relicSetIndex, ornamentSetIndex, setMatches, -1)
 
-  calculateBasicSetEffects(c, context, setCounts, sets)
+  calculateBasicSetEffects(c, context, setMatches)
   calculateRelicStats(c, Head, Hands, Body, Feet, PlanarSphere, LinkRope)
   calculateBaseStats(c, context)
   calculateElementalStats(c, context)
@@ -313,9 +311,9 @@ export function precomputeSetState(relics: SimulationRelicByPart): PrecomputedSe
   const relicSetIndex = encodeRelicSetIndex(setH, setG, setB, setF)
   const ornamentSetIndex = encodeOrnamentSetIndex(setP, setL)
   const sets = [setH, setG, setB, setF, setP, setL]
-  const setCounts = calculateSetCounts(sets)
+  const setMatches = computeSetMatches(sets)
 
-  return { setH, setG, setB, setF, setP, setL, relicSetIndex, ornamentSetIndex, sets, setCounts }
+  return { relicSetIndex, ornamentSetIndex, setMatches }
 }
 
 function extractRelics(relics: SimulationRelicByPart) {

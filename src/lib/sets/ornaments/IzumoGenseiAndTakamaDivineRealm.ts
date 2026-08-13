@@ -59,7 +59,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      ornament2p(*p_sets, SET_IzumoGenseiAndTakamaDivineRealm) >= 1
+      ornament2p(*p_sets, SET_IzumoGenseiAndTakamaDivineRealm)
       && setConditionals.enabledIzumoGenseiAndTakamaDivineRealm == true
     ) {
       ${buff.action(AKey.CR, 0.12).wgsl(action, 2)}

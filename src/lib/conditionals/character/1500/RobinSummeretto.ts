@@ -51,8 +51,10 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
+  SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+  SPREAD_RELICS_4P_SUPPORT,
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
@@ -76,6 +78,7 @@ export const RobinSummerettoAbilities: AbilityKind[] = [
   AbilityKind.BASIC,
   AbilityKind.MEMO_SKILL,
   AbilityKind.BREAK,
+  AbilityKind.BUFF,
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
@@ -115,6 +118,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const traceCdBuff = 0.40
   const traceCdBuffPerVibe = 0.015
+
+  const traceAtkBuff = 0.16
+  const traceAtkBuffPerVibe = 0.004
 
   const defaults = {
     buffPriority: BuffPriority.MEMO,
@@ -286,6 +292,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
         },
+        // Deviated Chord's ATK branch, scaling off Robin's own HP. The support benchmark always
+        // reports the ATK value and ignores the CRIT DMG branch that lower-ATK allies would take.
+        [AbilityKind.BUFF]: {
+          hits: [
+            HitDefinitionBuilder.linearBuff()
+              .buffStat(StatKey.ATK)
+              .sourceStat(StatKey.HP)
+              .scaling(traceAtkBuff + r.vibes * traceAtkBuffPerVibe)
+              .build(),
+          ],
+        },
       }
     },
 
@@ -371,7 +388,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const atkBuff = (0.16 + t.vibes * 0.004) * t.teammateHPValue
+          const atkBuff = (traceAtkBuff + t.vibes * traceAtkBuffPerVibe) * t.teammateHPValue
 
           dynamicStatConversionContainer(
             Stats.ATK,
@@ -387,7 +404,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const atkBuff = (0.16 + t.vibes * 0.004) * t.teammateHPValue
+          const atkBuff = (traceAtkBuff + t.vibes * traceAtkBuffPerVibe) * t.teammateHPValue
 
           return gpuDynamicStatConversion(
             Stats.ATK,
@@ -488,12 +505,75 @@ const simulation = (): SimulationMetadata => ({
   relicSets: [
     [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    ...SPREAD_RELICS_4P_SUPPORT,
   ],
   ornamentSets: [
     Sets.AmphoreusTheEternalLand,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],
   deprioritizeBuffs: true,
+  teammates: [
+    {
+      characterId: Aglaea.id,
+      lightCone: TimeWovenIntoGold.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: Hyacine.id,
+      lightCone: MayRainbowsRemainInTheSky.id,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+  ],
+})
+
+const supportSimulation = (): SimulationMetadata => ({
+  parts: {
+    [Parts.Body]: [
+      Stats.HP_P,
+    ],
+    [Parts.Feet]: [
+      Stats.SPD,
+      Stats.HP_P,
+    ],
+    [Parts.PlanarSphere]: [
+      Stats.HP_P,
+    ],
+    [Parts.LinkRope]: [
+      Stats.HP_P,
+    ],
+  },
+  substats: [
+    Stats.HP_P,
+    Stats.HP,
+    Stats.SPD,
+    Stats.RES,
+    Stats.DEF_P,
+  ],
+  buffStat: StatKey.ATK,
+  errRopeEidolon: 0,
+  comboTurnAbilities: [
+    NULL_TURN_ABILITY_NAME,
+  ],
+  relicSets: [
+    [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
+    ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
+    ...SPREAD_RELICS_4P_SUPPORT,
+  ],
+  ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
+    Sets.AmphoreusTheEternalLand,
+    ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
+    ...SPREAD_ORNAMENTS_2P_SUPPORT,
+  ],
   teammates: [
     {
       characterId: Aglaea.id,
@@ -560,6 +640,7 @@ const scoring = (): ScoringMetadata => ({
   hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
   addedColumns: [SortOption.MEMO_SKILL],
   simulation: simulation(),
+  supportSimulation: supportSimulation(),
 })
 
 const display = {

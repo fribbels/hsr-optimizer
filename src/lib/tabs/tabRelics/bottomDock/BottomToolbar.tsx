@@ -65,8 +65,8 @@ export function BottomToolbarRight() {
   ], [t])
 
   const potentialOptions = useMemo(() => [
-    { value: String(BucketPotentialMode.Maximum), label: t('PotentialOptions.Maximum') },
-    { value: String(BucketPotentialMode.Average), label: t('PotentialOptions.Average') },
+    { value: BucketPotentialMode.Maximum, label: t('PotentialOptions.Maximum') },
+    { value: BucketPotentialMode.Average, label: t('PotentialOptions.Average') },
   ], [t])
 
   return (
@@ -115,8 +115,8 @@ export function BottomToolbarRight() {
         {insightsMode === RelicInsights.Buckets && (
           <SegmentedControl
             size='xs'
-            value={String(bucketPotentialMode)}
-            onChange={(value) => setBucketPotentialMode(Number(value) as BucketPotentialMode)}
+            value={bucketPotentialMode}
+            onChange={setBucketPotentialMode}
             data={potentialOptions}
             styles={{ label: { height: 22 } }}
             style={{ width: 160 }}

@@ -8,7 +8,7 @@ import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { type PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
 import { BucketPotentialMode } from 'lib/tabs/tabRelics/useRelicsTabStore'
-import { precisionRound } from 'lib/utils/mathUtils'
+import { truncate10ths } from 'lib/utils/mathUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -189,7 +189,7 @@ function TooltipContent(props: TooltipContentProps) {
       </div>
       <div>
         {data.potentialMode === BucketPotentialMode.Average ? t('AvgPotential') : t('MaxPotential')}
-        {precisionRound(data.potential, 1)}%
+        {truncate10ths(data.potential)}%
       </div>
       {data.potentialMode === BucketPotentialMode.Maximum && (
         <>

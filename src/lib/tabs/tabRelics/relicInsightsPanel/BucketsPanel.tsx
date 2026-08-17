@@ -3,9 +3,12 @@ import {
   OpenCloseIDs,
   setOpen,
 } from 'lib/hooks/useOpenClose'
+import type { PotentialResult } from 'lib/relics/scoring/types'
 import { Assets } from 'lib/rendering/assets'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { type PanelProps } from 'lib/tabs/tabRelics/relicInsightsPanel/RelicInsightsPanel'
+import { BucketPotentialMode } from 'lib/tabs/tabRelics/useRelicsTabStore'
+import { truncate10ths } from 'lib/utils/mathUtils'
 import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -28,10 +31,16 @@ type DataPoint = {
   y: number,
   name: Score['name'],
   id: Score['id'],
+  potential: number,
+  potentialMode: BucketPotentialMode,
   bestAdded: Score['score']['meta']['bestAddedStats'],
   bestUpgraded: Score['score']['meta']['bestUpgradedStats'],
   imgWidth: number,
   imgHeight: number,
+}
+
+type BucketsPanelProps = PanelProps & {
+  potentialMode: BucketPotentialMode,
 }
 
 const DEFAULT_WIDTH = 1222
@@ -42,7 +51,7 @@ const IMG_HEIGHT_NORMAL = 39
 const IMG_WIDTH_COMPACT = 20
 const IMG_HEIGHT_COMPACT = 30
 
-export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight }: PanelProps) => {
+export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight, potentialMode }: BucketsPanelProps) => {
   const chartWidth = propWidth ?? DEFAULT_WIDTH
   const chartHeight = propHeight ?? DEFAULT_HEIGHT
   const compact = chartHeight < 250
@@ -54,7 +63,7 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
   for (let i = 0; i < 10; i++) buckets[i] = []
 
   scores.forEach((score) => {
-    const bucketIndex = Math.min(9, Math.max(0, Math.floor(score.score.bestPct / 10)))
+    const bucketIndex = getBucketIndex(score.score, potentialMode)
     buckets[bucketIndex].push(score)
   })
 
@@ -77,6 +86,8 @@ export const BucketsPanel = memo(({ scores, width: propWidth, height: propHeight
       y: bucketIdx,
       name: score.name,
       id: score.id,
+      potential: getBucketPotential(score.score, potentialMode),
+      potentialMode,
       bestAdded: score.score.meta.bestAddedStats,
       bestUpgraded: score.score.meta.bestUpgradedStats,
       imgWidth,
@@ -158,6 +169,8 @@ function TooltipContent(props: TooltipContentProps) {
   const { t } = useTranslation('relicsTab', { keyPrefix: 'RelicInsights' })
 
   const data = payload?.[0]?.payload
+  if (!data) return null
+
   return (
     <div
       style={{
@@ -172,24 +185,44 @@ function TooltipContent(props: TooltipContentProps) {
       }}
     >
       <div style={{ marginBottom: 5 }}>
-        <u>{data?.name}</u>
+        <u>{data.name}</u>
       </div>
       <div>
-        {data?.bestUpgraded?.length !== 0 && (
-          <>
-            <>{t('UpgradedStats')}</>
-            <>{data?.bestUpgraded?.join(' / ')}</>
-          </>
-        )}
+        {data.potentialMode === BucketPotentialMode.Average ? t('AvgPotential') : t('MaxPotential')}
+        {truncate10ths(data.potential)}%
       </div>
-      <div>
-        {data?.bestAdded?.length !== 0 && (
-          <>
-            <>{t('NewStats')}</>
-            <>{data?.bestAdded?.join(' / ')}</>
-          </>
-        )}
-      </div>
+      {data.potentialMode === BucketPotentialMode.Maximum && (
+        <>
+          <div>
+            {data.bestUpgraded?.length > 0 && (
+              <>
+                <>{t('UpgradedStats')}</>
+                <>{data.bestUpgraded.join(' / ')}</>
+              </>
+            )}
+          </div>
+          <div>
+            {data.bestAdded?.length > 0 && (
+              <>
+                <>{t('NewStats')}</>
+                <>{data.bestAdded.join(' / ')}</>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </div>
   )
+}
+
+type BucketPotential = Pick<PotentialResult, 'averagePct' | 'bestPct'>
+
+export function getBucketPotential(score: BucketPotential, mode: BucketPotentialMode): number {
+  return mode === BucketPotentialMode.Average ? score.averagePct : score.bestPct
+}
+
+export function getBucketIndex(score: BucketPotential, mode: BucketPotentialMode): number {
+  const potential = getBucketPotential(score, mode)
+  // The chart has ten rows, so 100% remains in the highest 90%+ bucket.
+  return Math.min(9, Math.max(0, Math.floor(potential / 10)))
 }

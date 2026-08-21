@@ -1007,8 +1007,8 @@ function computeCommonMultipliers(
 
   m.baseUniversalMulti = x.config.enemyWeaknessBroken ? 1 : 0.9
   m.defMulti = calculateDefMulti(context.enemyLevel, defPen)
-  m.resMulti = 1 - (context.enemyDamageResistance - resPen)
-  m.vulnMulti = 1 + x.getValue(StatKey.VULNERABILITY, hitIndex)
+  m.resMulti = 1 - Math.min(0.90, Math.max(-1.00, context.enemyDamageResistance - resPen))
+  m.vulnMulti = 1 + Math.min(2.50, Math.max(0, x.getValue(StatKey.VULNERABILITY, hitIndex)))
   m.finalDmgMulti = 1 + x.getValue(StatKey.FINAL_DMG_BOOST, hitIndex)
 }
 

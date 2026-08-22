@@ -92,17 +92,40 @@ CharacterPreview:
     NoSelectedLightCone: 光円錐が選択されていません
   RulerLabel:
     dps: ダメージ
+    buffer: "{{stat}} バフ"
     heal: 治癒量
     shield: シールド量
   ComboLabel:
     dps: コンボダメージ
+    buffer: "{{stat}} バフ"
+    heal: コンボ回復
+    shield: コンボシールド
+  ScoreHeader:
+    CustomSpeed: '{{spd}} 基準速度'
+    dps: DPS ベンチマーク
+    buffer: サポートベンチマーク
+    heal: 回復ベンチマーク
+    shield: シールドベンチマーク
   AlgorithmSlider:
     Labels:
+      dps: DPS ベンチマーク
+      buffer: サポートベンチマーク
+      heal: 回復ベンチマーク
+      shield: シールドベンチマーク
       StatScore: サブステータス出現数
       NoneScore: なし
   DetailsSlider:
     Labels:
       CombatStats: 戦闘ステータス
+      CombatStatsSubDps: 戦闘ステータス（サブ DPS）
+      CombatStatsSupport: 戦闘ステータス（サポート）
+      CombatStatsHeal: 戦闘ステータス（ヒーラー）
+      CombatStatsShield: 戦闘ステータス（シールダー）
+  ScoringExplanation:
+    dps: DPS ベンチマーク計算
+    buffer: サポートベンチマーク計算
+    heal: 回復ベンチマーク計算
+    shield: シールドベンチマーク計算
   DMGUpgrades: 与ダメージ強化
   SubstatUpgradeComparisons:
     Header: サブステータス強化比較
@@ -153,6 +176,7 @@ CharacterPreview:
         MEMO_SKILL: 精霊スキル
         MEMO_TALENT: 精霊天賦
         ELATION_SKILL: 愉悦スキル
+        UNIQUE: 特殊ダメージ
         COMBO: コンボ
         BUFF: バフ
         COMBO_HEAL: コンボ回復
@@ -197,6 +221,7 @@ CharacterPreview:
   ScoringDetails:
     Header: DPSスコアはどのように計算されますか？
   EST-TBP:
+    Header: サブステータス出現分析
     RollsCard:
       Perfection: 完璧度
     MetricsCard:

@@ -18,6 +18,26 @@ export function getChangelogContent() {
     },
     {
       title: '',
+      date: '2026-08-26',
+      content: [
+        `Updated content to 4.6v1`,
+        `Added Pearl showcase`,
+        `pearl.webp`,
+        `Added Average Potential view to Relic Insights alongside Maximum Potential`,
+        `Added Leaderboards for Aventurine, Himeko Nova, Rin Tohsaka, and Gilgamesh`,
+        `Added Support Benchmark for Robin Summeretto`,
+        `Robin Summeretto's Deviated Chord teammate conditional now supports automatic or manual ATK / CRIT DMG buff selection`,
+        `Character selectors now gray out pre-Novaflare variants and sort them after current characters`,
+        `Light Cone selectors now highlight and prioritize the selected character's signature Light Cone`,
+        `New character imports now preserve the existing roster order and sort only new entries by rarity, equipped relic count`,
+        `Updated Warp Planner income estimates for version 4.5`,
+        `Fix: Advanced rotations now keep teammate effects aligned with the correct actions and prevent duplicate teammate buffs`,
+        `Fix: Damage calculations now respect the in-game RES and Vulnerability limits`,
+        `Fix: Showcase artist credits and character selection no longer clip or overflow`,
+      ],
+    },
+    {
+      title: '',
       date: '2026-07-16',
       content: [
         `Updated content to 4.5v1`,

@@ -55,7 +55,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.ATK_P, 0.12, AsNavigatorIseeSeesIt),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_AsNavigatorIseeSeesIt) >= 1) {
+    if (relic4p(*p_sets, SET_AsNavigatorIseeSeesIt)) {
       ${buff.hit(HKey.BOOST, `0.18 * f32(setConditionals.valueAsNavigatorIseeSeesIt)`).damageType(DamageTag.SKILL | DamageTag.ULT).wgsl(action, 2)}
     }
   `,

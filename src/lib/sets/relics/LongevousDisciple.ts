@@ -56,7 +56,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.HP_P, 0.12, LongevousDisciple),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_LongevousDisciple) >= 1) {
+    if (relic4p(*p_sets, SET_LongevousDisciple)) {
       ${buff.action(AKey.CR, `0.08 * f32(setConditionals.valueLongevousDisciple)`).wgsl(action, 2)}
     }
   `,

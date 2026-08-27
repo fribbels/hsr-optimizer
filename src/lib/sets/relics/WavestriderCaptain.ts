@@ -56,7 +56,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_WavestriderCaptain) >= 1
+      relic4p(*p_sets, SET_WavestriderCaptain)
       && setConditionals.enabledWavestriderCaptain == true
     ) {
       ${buff.action(AKey.ATK_P, 0.48).wgsl(action, 2)}

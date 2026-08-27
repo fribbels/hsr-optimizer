@@ -4,7 +4,11 @@ import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
 import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
 import { injectSettings } from 'lib/gpu/injection/injectSettings'
 import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
-import { generateSetBitConstants } from 'lib/gpu/injection/setIndexMap'
+import {
+  type GeneratedSetMaskWgsl,
+  generateSetMaskWgsl,
+} from 'lib/gpu/injection/generateSetMaskWgsl'
+import { generateSetIndexConstants } from 'lib/gpu/injection/setIndexMap'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { uniformCompatible } from 'lib/gpu/webgpuDevice'
 import type {
@@ -44,18 +48,19 @@ function generateShaderVariables(context: OptimizerContext, request: Form, gpuPa
 
 export function generateWgsl(context: OptimizerContext, request: Form, relics: RelicsByPart, gpuParams: GpuConstants) {
   let wgsl = ''
+  const setMasks = generateSetMaskWgsl()
 
   context.shaderVariables = generateShaderVariables(context, request, gpuParams)
 
   wgsl = injectSettings(wgsl, context, request, relics)
-  wgsl = injectComputeShader(wgsl)
+  wgsl = injectComputeShader(wgsl, setMasks)
   wgsl = injectUnrolledActions(wgsl, request, context, gpuParams)
   wgsl = injectConditionalsNew(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
   wgsl = injectBasicFilters(wgsl, request)
   wgsl = injectSetFilters(wgsl, request)
   wgsl = injectComputedStats(wgsl)
-  wgsl = injectDispatchMode(wgsl, gpuParams)
+  wgsl = injectDispatchMode(wgsl, gpuParams, setMasks)
 
   return wgsl
 }
@@ -118,11 +123,16 @@ const action${i} = Action( // ${action.actionIndex} ${action.actionName}
   return wgsl
 }
 
-function injectComputeShader(wgsl: string) {
-  wgsl += generateSetBitConstants()
+export function injectComputeShader(wgsl: string, setMasks: GeneratedSetMaskWgsl) {
+  wgsl += generateSetIndexConstants()
   const basicSetEffects = generateBasicSetEffectsWgsl()
-  const injectedComputeShader = computeShader.replace('/* INJECT BASIC SET EFFECTS */', basicSetEffects)
-  const injectedStructs = structs.replace('/* INJECT SET_CONDITIONALS_STRUCT */', generateSetConditionalsStruct())
+  const injectedComputeShader = computeShader
+    .replace('/* INJECT OUTER SET MASKS */', setMasks.outerMaskDeclarations)
+    .replace('/* INJECT SET MATCH CONSTRUCTION */', setMasks.setMatchConstruction)
+    .replace('/* INJECT BASIC SET EFFECTS */', basicSetEffects)
+  const injectedStructs = structs
+    .replace('/* INJECT SET_MASK_DECLARATIONS */', setMasks.declarations)
+    .replace('/* INJECT SET_CONDITIONALS_STRUCT */', generateSetConditionalsStruct())
   wgsl += `
 ${injectedComputeShader}
 
@@ -289,7 +299,11 @@ struct CompactEntry { index: u32, value: f32 }
   return wgsl
 }
 
-function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
+export function injectDispatchMode(
+  wgsl: string,
+  gpuParams: GpuConstants,
+  setMasks: GeneratedSetMaskWgsl,
+): string {
   if (gpuParams.TUPLE_MODE) {
     wgsl = wgsl.replace(
       '/* INJECT OFFSET DECODE */',
@@ -366,19 +380,19 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
                 curH += 1;
                 head = relics[curH];
                 setH = u32(head.v5.z);
-                maskH = 1u << setH;
+${setMasks.outerMaskRefresh.head}
               }
               hands = relics[curG + handsOffset];
               setG = u32(hands.v5.z);
-              maskG = 1u << setG;
+${setMasks.outerMaskRefresh.hands}
             }
             body = relics[curB + bodyOffset];
             setB = u32(body.v5.z);
-            maskB = 1u << setB;
+${setMasks.outerMaskRefresh.body}
           }
           feet = relics[curF + feetOffset];
           setF = u32(feet.v5.z);
-          maskF = 1u << setF;
+${setMasks.outerMaskRefresh.feet}
 
           outerStats = sumOuterRelics(head, hands, body, feet);
         }
@@ -463,19 +477,19 @@ function injectDispatchMode(wgsl: string, gpuParams: GpuConstants): string {
                 curH = (curH + 1) % hSize;
                 head = relics[curH];
                 setH = u32(head.v5.z);
-                maskH = 1u << setH;
+${setMasks.outerMaskRefresh.head}
               }
               hands = relics[curG + handsOffset];
               setG = u32(hands.v5.z);
-              maskG = 1u << setG;
+${setMasks.outerMaskRefresh.hands}
             }
             body = relics[curB + bodyOffset];
             setB = u32(body.v5.z);
-            maskB = 1u << setB;
+${setMasks.outerMaskRefresh.body}
           }
           feet = relics[curF + feetOffset];
           setF = u32(feet.v5.z);
-          maskF = 1u << setF;
+${setMasks.outerMaskRefresh.feet}
 
           outerStats = sumOuterRelics(head, hands, body, feet);
         }

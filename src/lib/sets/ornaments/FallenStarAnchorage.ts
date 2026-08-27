@@ -55,7 +55,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      ornament2p(*p_sets, SET_FallenStarAnchorage) >= 1
+      ornament2p(*p_sets, SET_FallenStarAnchorage)
       && setConditionals.enabledFallenStarAnchorage == true
     ) {
       ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}

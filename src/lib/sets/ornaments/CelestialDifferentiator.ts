@@ -56,7 +56,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      ornament2p(*p_sets, SET_CelestialDifferentiator) >= 1
+      ornament2p(*p_sets, SET_CelestialDifferentiator)
       && setConditionals.enabledCelestialDifferentiator == true
       && (*p_c).CD >= 1.20
     ) {

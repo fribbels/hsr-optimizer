@@ -58,7 +58,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_MessengerTraversingHackerspace) >= 1
+      relic4p(*p_sets, SET_MessengerTraversingHackerspace)
       && setConditionals.enabledMessengerTraversingHackerspace == true
       && ${wgslFalse(action.config.teammateSetEffects[Sets.MessengerTraversingHackerspace])}
     ) {

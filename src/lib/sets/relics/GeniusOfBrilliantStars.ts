@@ -55,7 +55,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.QUANTUM_DMG_BOOST, 0.10, GeniusOfBrilliantStars),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_GeniusOfBrilliantStars) >= 1) {
+    if (relic4p(*p_sets, SET_GeniusOfBrilliantStars)) {
       ${buff.action(AKey.DEF_PEN, `select(0.10, 0.20, setConditionals.enabledGeniusOfBrilliantStars == true)`).wgsl(action, 2)}
     }
   `,

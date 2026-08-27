@@ -61,7 +61,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.IMAGINARY_DMG_BOOST, 0.10, WastelanderOfBanditryDesert),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_WastelanderOfBanditryDesert) >= 1) {
+    if (relic4p(*p_sets, SET_WastelanderOfBanditryDesert)) {
       if (setConditionals.valueWastelanderOfBanditryDesert > 0) {
         ${buff.action(AKey.CR_BOOST, 0.10).wgsl(action, 3)}
       }

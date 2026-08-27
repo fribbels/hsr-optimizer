@@ -60,7 +60,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.FIRE_DMG_BOOST, 0.10, FiresmithOfLavaForging),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_FiresmithOfLavaForging) >= 1) {
+    if (relic4p(*p_sets, SET_FiresmithOfLavaForging)) {
       ${buff.hit(HKey.BOOST, 0.12).damageType(DamageTag.SKILL).wgsl(action, 2)}
       if (setConditionals.enabledFiresmithOfLavaForging == true) {
         ${buff.action(AKey.FIRE_DMG_BOOST, 0.12).wgsl(action, 3)}

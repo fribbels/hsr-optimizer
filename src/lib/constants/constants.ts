@@ -4,10 +4,10 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.5.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.6.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.5v5'
+export const CURRENT_DATA_VERSION = '4.6v1'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
@@ -15,8 +15,7 @@ export const RELIQUARY_DOWNTIME = false
 export const DOWNTIME_VERSION: string = '4.4'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  '1512': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
-  '1513': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1503': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
 }
 
 export const Stats = {
@@ -407,6 +406,8 @@ export const Sets = {
   DivinerOfDistantReach: 'Diviner of Distant Reach',
   AsNavigatorIseeSeesIt: 'As Navigator Isee Sees It',
   DivineQueryingMasterSmith: 'Divine-Querying Master Smith',
+  DreamlitActor: 'Dreamlit Actor',
+  TheEdaciousHeretic: 'The Edacious Heretic',
 
   // Ornaments
   SpaceSealingStation: 'Space Sealing Station',

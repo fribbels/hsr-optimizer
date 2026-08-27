@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1503":
+    Name: Pearl
+    LongName: Pearl
   "1504":
     Name: Ashveil
     LongName: Ashveil
@@ -255,11 +258,11 @@ Characters:
     Name: Himeko - นวดารา
     LongName: Himeko - นวดารา
   "1512":
-    Name: Robin • Summeretto
-    LongName: Robin • Summeretto
+    Name: Robin - คีตะคิมหันต์
+    LongName: Robin - คีตะคิมหันต์
   "1513":
-    Name: Aventurine • Waveflair
-    LongName: Aventurine • Waveflair
+    Name: Aventurine - คลื่นสำราญ
+    LongName: Aventurine - คลื่นสำราญ
   "8001":
     Name: Caelus
     LongName: Caelus (ทำลายล้าง)
@@ -449,6 +452,14 @@ RelicSets:
     Name: Divine-Querying Master Smith
     Description2pc: HP สูงสุดเพิ่มขึ้น 12%
     Description4pc: ผู้สวมใส่สร้าง DMG คริติคอล ต่อศัตรูเป้าหมายที่ติดสถานะลด DEF เพิ่มขึ้น 28% หลังจากผู้สวมใส่ทำให้ศัตรูเป้าหมาย ติดสถานะลด DEF จะทำให้ฝ่ายเราทั้งหมดได้รับ "เชื้อเพลิง" เป็นเวลา 2 เทิร์น โดยเอฟเฟกต์นี้ไม่สามารถซ้อนทับได้ เป้าหมายฝ่ายเราที่มี "เชื้อเพลิง" จะสร้าง DMG เพิ่มขึ้น 15% เอฟเฟกต์นี้จะเกิดได้อีกครั้ง หลังจากที่ผู้สวมใส่ทำการโจมตี
+  "133":
+    Name: Dreamlit Actor
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
+  "134":
+    Name: The Edacious Heretic
+    Description2pc: Increases ATK by 12%.
+    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
   "301":
     Name: Space Sealing Station
     Description2pc: ATK ของผู้สวมใส่เพิ่มขึ้น 12% เมื่อความเร็วของผู้สวมใส่เท่ากับหรือมากกว่า 120 ATK จะเพิ่มขึ้นอีก 12%
@@ -840,6 +851,8 @@ Lightcones:
     Name: Dazzled by a Flowery World
   "23054":
     Name: When She Decided to See
+  "23055":
+    Name: Colors for Tomorrow
   "23056":
     Name: The Finale of a Lie
   "23057":

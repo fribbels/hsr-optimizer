@@ -84,17 +84,32 @@ function injectCarry(tupleMode: boolean, masks = generateSetMaskWgsl()): string 
 }
 
 describe('generateSetMaskWgsl', () => {
-  it('derives the live one-word shape from the 32 relic / 28 ornament registry', () => {
-    expect(getSetRegistryCardinality()).toEqual({ relicSetCount: 32, ornamentSetCount: 28 })
-
+  // Derived from the live registry so that adding a set never needs this test edited. Fixed
+  // cardinalities are covered by the explicit one-word and multi-word cases below.
+  it('declares exactly the mask words the live registry needs', () => {
+    const { relicSetCount, ornamentSetCount } = getSetRegistryCardinality()
     const generated = generateSetMaskWgsl()
-    expect(generated.relicWordCount).toBe(1)
-    expect(generated.ornamentWordCount).toBe(1)
-    expect(generated.declarations).toContain('// Generated capacity-safe set masks: relicWords=1, ornamentWords=1')
-    expect(generated.declarations).toContain('  relicMatch2: u32,')
-    expect(generated.declarations).toContain('  relicMatch4: u32,')
-    expect(generated.declarations).toContain('  ornamentMatch2: u32,')
-    expect(generated.declarations).not.toContain('Word1')
+
+    const families = [
+      { base: 'relicMatch2', setCount: relicSetCount, wordCount: generated.relicWordCount },
+      { base: 'relicMatch4', setCount: relicSetCount, wordCount: generated.relicWordCount },
+      { base: 'ornamentMatch2', setCount: ornamentSetCount, wordCount: generated.ornamentWordCount },
+    ]
+
+    for (const { base, setCount, wordCount } of families) {
+      // The highest set index has to land in the last declared word, with no spare words after it
+      expect(getSetMaskLocation(setCount - 1, setCount)?.wordIndex).toBe(wordCount - 1)
+
+      for (let wordIndex = 0; wordIndex < wordCount; wordIndex++) {
+        const field = wordIndex === 0 ? base : `${base}Word${wordIndex}`
+        expect(generated.declarations).toContain(`  ${field}: u32,`)
+      }
+      expect(generated.declarations).not.toContain(`${base}Word${wordCount}`)
+    }
+
+    expect(generated.declarations).toContain(
+      `// Generated capacity-safe set masks: relicWords=${generated.relicWordCount}, ornamentWords=${generated.ornamentWordCount}`,
+    )
   })
 
   it('emits the beta-equivalent live hot arithmetic with the boolean accessor ABI', () => {

@@ -51,6 +51,7 @@ import { BandOfSizzlingThunder } from 'lib/sets/relics/BandOfSizzlingThunder'
 import { ChampionOfStreetwiseBoxing } from 'lib/sets/relics/ChampionOfStreetwiseBoxing'
 import { DivineQueryingMasterSmith } from 'lib/sets/relics/DivineQueryingMasterSmith'
 import { DivinerOfDistantReach } from 'lib/sets/relics/DivinerOfDistantReach'
+import { DreamlitActor } from 'lib/sets/relics/DreamlitActor'
 import { EagleOfTwilightLine } from 'lib/sets/relics/EagleOfTwilightLine'
 import { EverGloriousMagicalGirl } from 'lib/sets/relics/EverGloriousMagicalGirl'
 import { FiresmithOfLavaForging } from 'lib/sets/relics/FiresmithOfLavaForging'
@@ -71,6 +72,7 @@ import { SacerdosRelivedOrdeal } from 'lib/sets/relics/SacerdosRelivedOrdeal'
 import { ScholarLostInErudition } from 'lib/sets/relics/ScholarLostInErudition'
 import { SelfEnshroudedRecluse } from 'lib/sets/relics/SelfEnshroudedRecluse'
 import { TheAshblazingGrandDuke } from 'lib/sets/relics/TheAshblazingGrandDuke'
+import { TheEdaciousHeretic } from 'lib/sets/relics/TheEdaciousHeretic'
 import { TheWindSoaringValorous } from 'lib/sets/relics/TheWindSoaringValorous'
 import { ThiefOfShootingMeteor } from 'lib/sets/relics/ThiefOfShootingMeteor'
 import { WarriorGoddessOfSunAndThunder } from 'lib/sets/relics/WarriorGoddessOfSunAndThunder'
@@ -112,6 +114,8 @@ const ALL_RELIC_CONFIGS = [
   DivinerOfDistantReach,
   AsNavigatorIseeSeesIt,
   DivineQueryingMasterSmith,
+  DreamlitActor,
+  TheEdaciousHeretic,
 ] as const
 
 const ALL_ORNAMENT_CONFIGS = [

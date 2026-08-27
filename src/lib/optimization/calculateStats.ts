@@ -11,7 +11,10 @@ import {
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { type SetCounts } from 'lib/optimization/setMatching'
+import {
+  NO_SET,
+  type SetMatches,
+} from 'lib/optimization/setMatchState'
 import {
   ornamentIndexToSetConfig,
   relicIndexToSetConfig,
@@ -23,55 +26,19 @@ import type {
   SetConditional,
 } from 'types/optimizer'
 
-export function calculateSetCounts(
-  sets: number[],
-): SetCounts {
-  const maskH = 1 << sets[0]
-  const maskG = 1 << sets[1]
-  const maskB = 1 << sets[2]
-  const maskF = 1 << sets[3]
-
-  return {
-    relicMatch2: (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
-      | (maskG & maskB) | (maskG & maskF) | (maskB & maskF),
-    relicMatch4: maskH & maskG & maskB & maskF,
-    ornamentMatch2: (1 << sets[4]) & (1 << sets[5]),
-  }
-}
-
-export function calculateSetCountsInPlace(
-  setCounts: SetCounts,
-  sets: number[],
-): void {
-  const maskH = 1 << sets[0]
-  const maskG = 1 << sets[1]
-  const maskB = 1 << sets[2]
-  const maskF = 1 << sets[3]
-
-  setCounts.relicMatch2 = (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
-    | (maskG & maskB) | (maskG & maskF) | (maskB & maskF)
-  setCounts.relicMatch4 = maskH & maskG & maskB & maskF
-  setCounts.ornamentMatch2 = (1 << sets[4]) & (1 << sets[5])
-}
-
-export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, setCounts: SetCounts, sets: number[]) {
-  for (let i = 0; i < 4; i++) {
-    const set = sets[i]
-
-    // Skip if this set was already processed by an earlier slot
-    if ((i > 0 && sets[0] === set) || (i > 1 && sets[1] === set) || (i > 2 && sets[2] === set)) continue
-
-    const bit = 1 << set
-    if (setCounts.relicMatch2 & bit) {
-      const conditionals = relicIndexToSetConfig[set].conditionals
-
-      if (conditionals.p2c) conditionals.p2c(c, context)
-      if ((setCounts.relicMatch4 & bit) && conditionals.p4c) conditionals.p4c(c, context)
-    }
+export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerContext, matches: SetMatches) {
+  if (matches.relic2pSetA !== NO_SET) {
+    const conditionals = relicIndexToSetConfig[matches.relic2pSetA].conditionals
+    conditionals.p2c?.(c, context)
+    if (matches.relic4pSet !== NO_SET && conditionals.p4c) conditionals.p4c(c, context)
   }
 
-  if (sets[4] == sets[5]) {
-    ornamentIndexToSetConfig[sets[4]].conditionals.p2c?.(c, context)
+  if (matches.relic2pSetB !== NO_SET) {
+    relicIndexToSetConfig[matches.relic2pSetB].conditionals.p2c?.(c, context)
+  }
+
+  if (matches.ornament2pSet !== NO_SET) {
+    ornamentIndexToSetConfig[matches.ornament2pSet].conditionals.p2c?.(c, context)
   }
 }
 
@@ -144,16 +111,15 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   const setConditionals = action.setConditionals
   const a = x.a
   const c = x.c
-  const sets = c.sets
-  const setsArray = c.setsArray
+  const matches = c.setMatches
 
   transferBaseStats(x, a, c, context)
   calculateMemospriteBaseStats(x, a, c, context)
-  executeNonDynamicCombatSets(x, context, setConditionals, sets, setsArray)
+  executeNonDynamicCombatSets(x, context, setConditionals, matches)
   applyPercentStats(x, a, context)
-  evaluateDynamicSetConditionals(x, sets, setsArray, action, context)
+  evaluateDynamicSetConditionals(x, matches, action, context)
   evaluateDynamicConditionals(x, action, context)
-  evaluateTerminalSetConditionals(x, a, sets, setsArray, action, context)
+  evaluateTerminalSetConditionals(x, a, matches, action, context)
 
   return x
 }
@@ -260,15 +226,14 @@ function applyPercentStats(x: ComputedStatsContainer, a: Float64Array, context: 
   }
 }
 
-function evaluateDynamicSetConditionals(
+export function evaluateDynamicSetConditionals(
   x: ComputedStatsContainer,
-  sets: SetCounts,
-  setsArray: number[],
+  matches: SetMatches,
   action: OptimizerAction,
   context: OptimizerContext,
 ) {
-  if (setsArray[4] == setsArray[5]) {
-    const conditionals = ornamentIndexToSetConfig[setsArray[4]].conditionals.dynamicConditionals
+  if (matches.ornament2pSet !== NO_SET) {
+    const conditionals = ornamentIndexToSetConfig[matches.ornament2pSet].conditionals.dynamicConditionals
     if (conditionals) {
       for (let i = 0; i < conditionals.length; i++) {
         evaluateConditional(conditionals[i], x, action, context)
@@ -298,58 +263,46 @@ function evaluateDynamicConditionals(x: ComputedStatsContainer, action: Optimize
   }
 }
 
-function evaluateTerminalSetConditionals(
+export function evaluateTerminalSetConditionals(
   x: ComputedStatsContainer,
   a: Float64Array,
-  sets: SetCounts,
-  setsArray: number[],
+  matches: SetMatches,
   action: OptimizerAction,
   context: OptimizerContext,
 ) {
   const setConditionals = action.setConditionals
 
   // Terminal ornament set conditionals
-  if (setsArray[4] == setsArray[5]) {
-    ornamentIndexToSetConfig[setsArray[4]].conditionals.p2t?.(x, context, setConditionals)
+  if (matches.ornament2pSet !== NO_SET) {
+    ornamentIndexToSetConfig[matches.ornament2pSet].conditionals.p2t?.(x, context, setConditionals)
   }
 
   // Terminal relic set conditionals
-  if (setsArray[0] === setsArray[1] && setsArray[1] === setsArray[2] && setsArray[2] === setsArray[3]) {
-    relicIndexToSetConfig[setsArray[0]].conditionals.p4t?.(x, context, setConditionals)
+  if (matches.relic4pSet !== NO_SET) {
+    relicIndexToSetConfig[matches.relic4pSet].conditionals.p4t?.(x, context, setConditionals)
   }
 }
 
-function executeNonDynamicCombatSets(
+export function executeNonDynamicCombatSets(
   x: ComputedStatsContainer,
   context: OptimizerContext,
   setConditionals: SetConditional,
-  sets: SetCounts,
-  setsArray: number[],
+  matches: SetMatches,
 ) {
-  const [set0, set1, set2, set3, set4, set5] = setsArray
+  if (matches.ornament2pSet !== NO_SET) {
+    ornamentIndexToSetConfig[matches.ornament2pSet].conditionals.p2x?.(x, context, setConditionals)
+  }
 
-  if (set4 == set5) {
-    const conditionals = ornamentIndexToSetConfig[set4].conditionals
+  if (matches.relic2pSetA !== NO_SET) {
+    const conditionals = relicIndexToSetConfig[matches.relic2pSetA].conditionals
     conditionals.p2x?.(x, context, setConditionals)
+    if (matches.relic4pSet !== NO_SET) {
+      conditionals.p4x?.(x, context, setConditionals)
+    }
   }
 
-  if (set0 === set1 && set1 === set2 && set2 === set3) {
-    const conditionals = relicIndexToSetConfig[set0].conditionals
-    conditionals.p2x?.(x, context, setConditionals)
-    conditionals.p4x?.(x, context, setConditionals)
-    return
-  }
-
-  if (set0 === set1 || set0 === set2 || set0 === set3) {
-    relicIndexToSetConfig[set0].conditionals.p2x?.(x, context, setConditionals)
-  }
-
-  if ((set1 === set2 || set1 === set3) && set1 !== set0) {
-    relicIndexToSetConfig[set1].conditionals.p2x?.(x, context, setConditionals)
-  }
-
-  if (set2 === set3 && set2 !== set0 && set2 !== set1) {
-    relicIndexToSetConfig[set2].conditionals.p2x?.(x, context, setConditionals)
+  if (matches.relic2pSetB !== NO_SET) {
+    relicIndexToSetConfig[matches.relic2pSetB].conditionals.p2x?.(x, context, setConditionals)
   }
 }
 

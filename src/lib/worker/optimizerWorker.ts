@@ -16,7 +16,6 @@ import {
   calculateComputedStats,
   calculateElementalStats,
   calculateRelicStats,
-  calculateSetCountsInPlace,
 } from 'lib/optimization/calculateStats'
 import { resetConditionalState } from 'lib/optimization/conditionalStateUtils'
 import {
@@ -30,7 +29,12 @@ import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import { type SetCounts } from 'lib/optimization/setMatching'
+import {
+  computeSetMatchesInPlace,
+  emptySetMatches,
+  type MutableSetMatches,
+} from 'lib/optimization/setMatchState'
+import { isSetSolutionValid } from 'lib/optimization/setSolutionBitset'
 import {
   SortOption,
   type SortOptionProperties,
@@ -132,7 +136,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
   const failsRatingFilter = ratingFilter(request, context)
 
   const sets = Array.from<number>({ length: 6 })
-  const setCounts: SetCounts = { relicMatch2: 0, relicMatch4: 0, ornamentMatch2: 0 }
+  const setMatches: MutableSetMatches = emptySetMatches()
 
   for (let col = 0; col < limit; col++) {
     const index = data.skip + col
@@ -168,8 +172,8 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     const ornamentSetIndex = encodeOrnamentSetIndex(setP, setL)
 
     // Exit early if sets don't match
-    const relicValid = ((relicSetSolutions[relicSetIndex >> 5] >> (relicSetIndex & 31)) & 1) === 1
-    const ornamentValid = ((ornamentSetSolutions[ornamentSetIndex >> 5] >> (ornamentSetIndex & 31)) & 1) === 1
+    const relicValid = isSetSolutionValid(relicSetSolutions, relicSetIndex)
+    const ornamentValid = isSetSolutionValid(ornamentSetSolutions, ornamentSetIndex)
     if (!relicValid || !ornamentValid) {
       continue
     }
@@ -181,10 +185,10 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     sets[4] = setP
     sets[5] = setL
 
-    calculateSetCountsInPlace(setCounts, sets)
-    c.init(relicSetIndex, ornamentSetIndex, setCounts, sets, col)
+    computeSetMatchesInPlace(setMatches, sets)
+    c.init(relicSetIndex, ornamentSetIndex, setMatches, col)
 
-    calculateBasicSetEffects(c, context, setCounts, sets)
+    calculateBasicSetEffects(c, context, setMatches)
     calculateRelicStats(c, head, hands, body, feet, planarSphere, linkRope)
     calculateBaseStats(c, context)
     calculateElementalStats(c, context)

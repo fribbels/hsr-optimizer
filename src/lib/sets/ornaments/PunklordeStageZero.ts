@@ -57,7 +57,7 @@ const PunklordeStageZeroConditional40: DynamicConditional = {
   dependsOn: [Stats.Elation],
   chainsTo: [Stats.CD],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.PunklordeStageZero, x.c.sets) && x.getActionValueByIndex(StatKey.ELATION, SELF_ENTITY_INDEX) >= 0.40
+    return ornament2p(SetKeys.PunklordeStageZero, x.c.setMatches) && x.getActionValueByIndex(StatKey.ELATION, SELF_ENTITY_INDEX) >= 0.40
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.20, action, context, x.source(Source.PunklordeStageZero))
@@ -71,7 +71,7 @@ const PunklordeStageZeroConditional40: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_PunklordeStageZero) >= 1 &&
+  ornament2p(*p_sets, SET_PunklordeStageZero) &&
   (*p_state).PunklordeStageZeroConditional40${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ELATION, config)} >= 0.40
 ) {
@@ -90,7 +90,7 @@ const PunklordeStageZeroConditional80: DynamicConditional = {
   dependsOn: [Stats.Elation],
   chainsTo: [Stats.CD],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.PunklordeStageZero, x.c.sets) && x.getActionValueByIndex(StatKey.ELATION, SELF_ENTITY_INDEX) >= 0.80
+    return ornament2p(SetKeys.PunklordeStageZero, x.c.setMatches) && x.getActionValueByIndex(StatKey.ELATION, SELF_ENTITY_INDEX) >= 0.80
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.12, action, context, x.source(Source.PunklordeStageZero))
@@ -104,7 +104,7 @@ const PunklordeStageZeroConditional80: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_PunklordeStageZero) >= 1 &&
+  ornament2p(*p_sets, SET_PunklordeStageZero) &&
   (*p_state).PunklordeStageZeroConditional80${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ELATION, config)} >= 0.80
 ) {

@@ -61,7 +61,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.ATK_P, 0.12, RevelryByTheSea),
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
-  if (ornament2p(*p_sets, SET_RevelryByTheSea) >= 1) {
+  if (ornament2p(*p_sets, SET_RevelryByTheSea)) {
     if (${containerActionVal(SELF_ENTITY_INDEX, AKey.ATK, action.config)} >= 3600.0) {
       ${buff.hit(HKey.BOOST, 0.24).damageType(DamageTag.DOT).wgsl(action, 3)}
     } else if (${containerActionVal(SELF_ENTITY_INDEX, AKey.ATK, action.config)} >= 2400.0) {

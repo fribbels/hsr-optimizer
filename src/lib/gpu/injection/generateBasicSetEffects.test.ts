@@ -2,9 +2,11 @@ import { Sets } from 'lib/constants/constants'
 import {
   basicP2,
   basicP4,
+  generateBasicSetEffectsWgsl,
   GpuSetMatcher,
 } from 'lib/gpu/injection/generateBasicSetEffects'
 import { WgslStatName } from 'lib/optimization/basicStatsArray'
+import { setConfigRegistry } from 'lib/sets/setConfigRegistry'
 import { SetType } from 'types/setConfig'
 import {
   describe,
@@ -65,5 +67,60 @@ describe('basicP4', () => {
       matchFn: GpuSetMatcher.RELIC_4P,
       setId: 'PoetOfMourningCollapse',
     })
+  })
+})
+
+describe('generateBasicSetEffectsWgsl', () => {
+  const wgsl = generateBasicSetEffectsWgsl()
+
+  it('includes the generated section header', () => {
+    expect(wgsl).toContain('// Generated basic set effects')
+  })
+
+  it('wraps matcher calls in f32(...) using raw SET_X indices', () => {
+    expect(wgsl).toMatch(/f32\(relic2p\(sets, SET_\w+\)\)/)
+    expect(wgsl).toMatch(/f32\(relic4p\(sets, SET_\w+\)\)/)
+    expect(wgsl).toMatch(/f32\(ornament2p\(sets, SET_\w+\)\)/)
+
+    expect(wgsl).not.toContain('1u <<')
+  })
+
+  it('preserves the grouped base-stat multiply form (base stat multiplied once against a summed percentage)', () => {
+    expect(wgsl).toMatch(/c\.HP \+= \(baseHP\) \* \(/)
+    expect(wgsl).toMatch(/c\.ATK \+= \(baseATK\) \* \(/)
+    expect(wgsl).toMatch(/c\.SPD \+= \(baseSPD\) \* \(/)
+
+    expect(wgsl).toMatch(/c\.CR \+= /)
+    expect(wgsl).not.toMatch(/c\.CR \+= \(baseCR\)/)
+  })
+
+  it('has no switch-dispatch machinery left over', () => {
+    expect(wgsl).not.toContain('SetStatAccum')
+    expect(wgsl).not.toContain('accumRelic2p')
+    expect(wgsl).not.toContain('accumRelic4p')
+    expect(wgsl).not.toContain('accumOrnament2p')
+    expect(wgsl).not.toContain('switch (setIndex)')
+    expect(wgsl).not.toContain('default: {}')
+  })
+
+  it('does not couple basic effects directly to the generated mask storage fields', () => {
+    expect(wgsl).not.toMatch(/relicMatch2|relicMatch4|ornamentMatch2/)
+  })
+
+  it('contributes exactly one term per configured basic set effect', () => {
+    const expected: Record<GpuSetMatcher, number> = {
+      [GpuSetMatcher.RELIC_2P]: 0,
+      [GpuSetMatcher.RELIC_4P]: 0,
+      [GpuSetMatcher.ORNAMENT_2P]: 0,
+    }
+    for (const config of setConfigRegistry.values()) {
+      for (const entry of config.conditionals.gpuBasic?.() ?? []) {
+        expected[entry.matchFn]++
+      }
+    }
+
+    expect(wgsl.match(/f32\(relic2p\(sets, SET_\w+\)\)/g) ?? []).toHaveLength(expected[GpuSetMatcher.RELIC_2P])
+    expect(wgsl.match(/f32\(relic4p\(sets, SET_\w+\)\)/g) ?? []).toHaveLength(expected[GpuSetMatcher.RELIC_4P])
+    expect(wgsl.match(/f32\(ornament2p\(sets, SET_\w+\)\)/g) ?? []).toHaveLength(expected[GpuSetMatcher.ORNAMENT_2P])
   })
 })

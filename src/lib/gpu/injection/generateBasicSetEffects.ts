@@ -34,7 +34,7 @@ export function basicP4(stat: BasicKeyType, value: number, set: SetConfig): Basi
 }
 
 function formatTerm(entry: BasicSetEffectEntry): string {
-  return `${entry.value} * ${entry.matchFn}(sets, SET_${entry.setId})`
+  return `${entry.value} * f32(${entry.matchFn}(sets, SET_${entry.setId}))`
 }
 
 const STAT_ORDER: BasicKeyType[] = [

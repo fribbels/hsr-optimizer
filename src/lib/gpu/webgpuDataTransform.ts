@@ -2,6 +2,7 @@ import {
   type GpuExecutionContext,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
+import { Parts } from 'lib/constants/constants'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   type PerSlotSetRanges,
@@ -247,9 +248,8 @@ export function serializeAssignments(assignments: WorkgroupEntry[]): ArrayBuffer
   return buf
 }
 
-function relicSetToIndex(relic: Relic) {
-  if (relic.set in RelicSetToIndex) {
-    return RelicSetToIndex[relic.set as SetsRelics]
-  }
-  return OrnamentSetToIndex[relic.set as SetsOrnaments]
+function relicSetToIndex(relic: Relic): number {
+  return relic.part === Parts.PlanarSphere || relic.part === Parts.LinkRope
+    ? OrnamentSetToIndex[relic.set as SetsOrnaments]
+    : RelicSetToIndex[relic.set as SetsRelics]
 }

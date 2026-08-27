@@ -68,10 +68,7 @@ fn main(
   var setF = u32(feet.v5.z);
   var setP = u32(planarSphere.v5.z);
 
-  var maskH = 1u << setH;
-  var maskG = 1u << setG;
-  var maskB = 1u << setB;
-  var maskF = 1u << setF;
+  /* INJECT OUTER SET MASKS */
 
   var localValidCount: u32 = 0u;
 
@@ -99,11 +96,7 @@ fn main(
 
     localValidCount += 1u;
 
-    var sets = Sets();
-    sets.relicMatch2 = (maskH & maskG) | (maskH & maskB) | (maskH & maskF)
-                     | (maskG & maskB) | (maskG & maskF) | (maskB & maskF);
-    sets.relicMatch4 = maskH & maskG & maskB & maskF;
-    sets.ornamentMatch2 = (1u << setP) & (1u << setL);
+    /* INJECT SET MATCH CONSTRUCTION */
 
     var c: BasicStats = BasicStats();
 

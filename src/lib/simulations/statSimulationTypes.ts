@@ -5,7 +5,7 @@ import type {
   AbilityKind,
   TurnAbilityName,
 } from 'lib/optimization/rotation/turnAbilityConfig'
-import type { SetCounts } from 'lib/optimization/setMatching'
+import type { SetMatches } from 'lib/optimization/setMatchState'
 import type { SimulationFlags } from 'lib/scoring/simScoringUtils'
 import type {
   SetsOrnaments,
@@ -132,16 +132,9 @@ export type SimulationRelicArrayByPart = {
 }
 
 export type PrecomputedSetState = {
-  setH: number,
-  setG: number,
-  setB: number,
-  setF: number,
-  setP: number,
-  setL: number,
   relicSetIndex: number,
   ornamentSetIndex: number,
-  sets: number[],
-  setCounts: SetCounts,
+  setMatches: SetMatches,
 }
 
 export type BenchmarkSimulationState = {

@@ -52,7 +52,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.DEF_P, 0.15, KnightOfPurityPalace),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_KnightOfPurityPalace) >= 1) {
+    if (relic4p(*p_sets, SET_KnightOfPurityPalace)) {
       ${buff.hit(HKey.BOOST, 0.20).outputType(OutputTag.SHIELD).wgsl(action, 2)}
     }
   `,

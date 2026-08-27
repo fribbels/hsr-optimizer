@@ -16,10 +16,10 @@ import {
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
 import {
-  bitpackBooleanArray,
   buildPerSlotSetRanges,
   enumerateValidQuadsD4,
 } from 'lib/optimization/relicSetSolver'
+import { bitpackBooleanArray } from 'lib/optimization/setSolutionBitset'
 import {
   OrnamentSetToIndex,
   RelicSetToIndex,

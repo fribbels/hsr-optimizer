@@ -7630,6 +7630,105 @@
       },
       "unreleased": false
     },
+    "1503": {
+      "id": "1503",
+      "name": "Pearl",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Ice",
+      "traces": {
+        "Elation": 0.1,
+        "SPD": 9,
+        "DEF%": 0.225,
+        "Effect RES": 0.1
+      },
+      "traceTree": [
+        {
+          "id": "1503201_4.6v1",
+          "stat": "DEF%",
+          "value": 0.05,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1503202_4.6v1",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1503203_4.6v1",
+          "stat": "Effect RES",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1503204_4.6v1",
+          "stat": "Elation",
+          "value": 0.04,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1503205_4.6v1",
+          "stat": "DEF%",
+          "value": 0.075,
+          "pre": null,
+          "children": [
+            {
+              "id": "1503206_4.6v1",
+              "stat": "SPD",
+              "value": 3,
+              "pre": "1503205_4.6v1",
+              "children": [
+                {
+                  "id": "1503207_4.6v1",
+                  "stat": "Effect RES",
+                  "value": 0.06,
+                  "pre": "1503206_4.6v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1503208_4.6v1",
+          "stat": "Elation",
+          "value": 0.06,
+          "pre": null,
+          "children": [
+            {
+              "id": "1503209_4.6v1",
+              "stat": "SPD",
+              "value": 4,
+              "pre": "1503208_4.6v1",
+              "children": [
+                {
+                  "id": "1503210_4.6v1",
+                  "stat": "DEF%",
+                  "value": 0.1,
+                  "pre": "1503209_4.6v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 180,
+      "stats": {
+        "HP": 1203.048,
+        "ATK": 465.696,
+        "DEF": 727.65,
+        "SPD": 99,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "1504": {
       "id": "1504",
       "name": "Ashveil",
@@ -8326,72 +8425,72 @@
       },
       "traceTree": [
         {
-          "id": "1512201_4.5v5",
+          "id": "1512201",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": [
             {
-              "id": "1512202_4.5v5",
+              "id": "1512202",
               "stat": "HP%",
               "value": 0.04,
-              "pre": "1512201_4.5v5",
+              "pre": "1512201",
               "children": []
             },
             {
-              "id": "1512203_4.5v5",
+              "id": "1512203",
               "stat": "SPD",
               "value": 2,
-              "pre": "1512201_4.5v5",
+              "pre": "1512201",
               "children": []
             }
           ]
         },
         {
-          "id": "1512204_4.5v5",
+          "id": "1512204",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1512205_4.5v5",
+          "id": "1512205",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1512206_4.5v5",
+          "id": "1512206",
           "stat": "HP%",
           "value": 0.06,
           "pre": null,
           "children": []
         },
         {
-          "id": "1512207_4.5v5",
+          "id": "1512207",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": []
         },
         {
-          "id": "1512208_4.5v5",
+          "id": "1512208",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1512209_4.5v5",
+              "id": "1512209",
               "stat": "HP%",
               "value": 0.08,
-              "pre": "1512208_4.5v5",
+              "pre": "1512208",
               "children": [
                 {
-                  "id": "1512210_4.5v5",
+                  "id": "1512210",
                   "stat": "SPD",
                   "value": 4,
-                  "pre": "1512209_4.5v5",
+                  "pre": "1512209",
                   "children": []
                 }
               ]
@@ -8408,7 +8507,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1513": {
       "id": "1513",
@@ -8423,50 +8522,50 @@
       },
       "traceTree": [
         {
-          "id": "1513201_4.5v5",
+          "id": "1513201",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1513202_4.5v5",
+          "id": "1513202",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": []
         },
         {
-          "id": "1513203_4.5v5",
+          "id": "1513203",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1513204_4.5v5",
+          "id": "1513204",
           "stat": "Elation",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1513205_4.5v5",
+          "id": "1513205",
           "stat": "CRIT Rate",
           "value": 0.04,
           "pre": null,
           "children": [
             {
-              "id": "1513206_4.5v5",
+              "id": "1513206",
               "stat": "SPD",
               "value": 3,
-              "pre": "1513205_4.5v5",
+              "pre": "1513205",
               "children": [
                 {
-                  "id": "1513207_4.5v5",
+                  "id": "1513207",
                   "stat": "CRIT Rate",
                   "value": 0.04,
-                  "pre": "1513206_4.5v5",
+                  "pre": "1513206",
                   "children": []
                 }
               ]
@@ -8474,22 +8573,22 @@
           ]
         },
         {
-          "id": "1513208_4.5v5",
+          "id": "1513208",
           "stat": "Elation",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1513209_4.5v5",
+              "id": "1513209",
               "stat": "SPD",
               "value": 4,
-              "pre": "1513208_4.5v5",
+              "pre": "1513208",
               "children": [
                 {
-                  "id": "1513210_4.5v5",
+                  "id": "1513210",
                   "stat": "CRIT Rate",
                   "value": 0.053,
-                  "pre": "1513209_4.5v5",
+                  "pre": "1513209",
                   "children": []
                 }
               ]
@@ -8506,7 +8605,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "8001": {
       "id": "8001",
@@ -12762,7 +12861,7 @@
           "ElationDamageAddedRatioBase": 0.4
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "22000": {
       "id": "22000",
@@ -13068,7 +13167,7 @@
           "AttackAddedRatio": 0.24
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23000": {
       "id": "23000",
@@ -14885,6 +14984,40 @@
       },
       "unreleased": false
     },
+    "23055": {
+      "id": "23055",
+      "name": "Colors for Tomorrow",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 1058.4,
+        "ATK": 476.28,
+        "DEF": 595.35
+      },
+      "imageOffset": {
+        "x": 18,
+        "y": -150,
+        "s": 1.25
+      },
+      "superimpositions": {
+        "1": {
+          "DefenceAddedRatio": 0.48
+        },
+        "2": {
+          "DefenceAddedRatio": 0.6
+        },
+        "3": {
+          "DefenceAddedRatio": 0.72
+        },
+        "4": {
+          "DefenceAddedRatio": 0.84
+        },
+        "5": {
+          "DefenceAddedRatio": 0.96
+        }
+      },
+      "unreleased": true
+    },
     "23056": {
       "id": "23056",
       "name": "The Finale of a Lie",
@@ -15144,7 +15277,7 @@
           "HPAddedRatio": 0.6
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23064": {
       "id": "23064",
@@ -15178,7 +15311,7 @@
           "CriticalChanceBase": 0.3
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "24000": {
       "id": "24000",
@@ -15563,6 +15696,16 @@
       "id": "132",
       "name": "Divine-Querying Master Smith",
       "skills": "Increases Max HP by 12%. Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 2 turns. This effect cannot be stacked. The DMG dealt by ally targets with \"Comburent\" increases by 15%. This effect can be triggered again after the wearer uses an attack."
+    },
+    {
+      "id": "133",
+      "name": "Dreamlit Actor",
+      "skills": "Increases SPD by 6%. When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns."
+    },
+    {
+      "id": "134",
+      "name": "The Edacious Heretic",
+      "skills": "Increases ATK by 12%. Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns."
     },
     {
       "id": "301",

@@ -40,7 +40,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'inkSplashVulnerability',
       formItem: 'switch',
-      text: 'Ink Splash vulnerability',
+      text: 'Vulnerability',
       content: betaContent,
     },
   }

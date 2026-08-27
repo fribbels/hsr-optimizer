@@ -108,6 +108,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const maxVibes = (e >= 2) ? 70 : 50
 
+  // Multiples of 10 so the vibe scaled buffs come out as round numbers
+  const defaultVibes = (e >= 2) ? 60 : 30
+
   const talentZoneDefPen = talent(e, 0.15, 0.16)
 
   const memoTalentDmgBoost = memoTalent(e, 0.60, 0.66)
@@ -128,7 +131,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     buffPriority: BuffPriority.MEMO,
     feverState: true,
-    vibes: maxVibes / 2,
+    vibes: defaultVibes,
     songbirdCount: 3,
     deviatedChordCdBuff: true,
     e2ResPen: true,
@@ -138,7 +141,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateDefaults = {
     feverState: true,
-    vibes: maxVibes / 2,
+    vibes: defaultVibes,
     songbirdCount: 3,
     teammateHPValue: 8000,
     deviatedChordBranch: DeviatedChordBranch.WEIGHT_BASED,

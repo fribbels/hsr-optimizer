@@ -303,25 +303,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // ============== HEALS ==============
 
-      const enhancedBasicHealHit = () =>
+      // Lowest HP ally receives the heal twice
+      const healMultiplier = r.lowestHpTargetHeal ? 2 : 1
+
+      const basicHealHits: HitDefinition[] = [
         HitDefinitionBuilder.heal()
           .damageType(DamageTag.BASIC)
-          .defScaling(r.deepLearning ? enhancedBasicHealScaling : 0)
-          .flatHeal(r.deepLearning ? enhancedBasicHealFlat : 0)
-          .build()
+          .defScaling(r.deepLearning ? enhancedBasicHealScaling * healMultiplier : 0)
+          .flatHeal(r.deepLearning ? enhancedBasicHealFlat * healMultiplier : 0)
+          .build(),
+      ]
 
-      const skillHealHit = () =>
+      const skillHealHits: HitDefinition[] = [
         HitDefinitionBuilder.skillHeal()
-          .defScaling(skillHealScaling)
-          .flatHeal(skillHealFlat)
-          .build()
-
-      const basicHealHits: HitDefinition[] = [enhancedBasicHealHit()]
-      const skillHealHits: HitDefinition[] = [skillHealHit()]
-      if (r.lowestHpTargetHeal) {
-        basicHealHits.push(enhancedBasicHealHit())
-        skillHealHits.push(skillHealHit())
-      }
+          .defScaling(skillHealScaling * healMultiplier)
+          .flatHeal(skillHealFlat * healMultiplier)
+          .build(),
+      ]
 
       // ============== ELATION SKILL ==============
 

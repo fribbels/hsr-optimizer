@@ -51,6 +51,7 @@ import { BandOfSizzlingThunder } from 'lib/sets/relics/BandOfSizzlingThunder'
 import { ChampionOfStreetwiseBoxing } from 'lib/sets/relics/ChampionOfStreetwiseBoxing'
 import { DivineQueryingMasterSmith } from 'lib/sets/relics/DivineQueryingMasterSmith'
 import { DivinerOfDistantReach } from 'lib/sets/relics/DivinerOfDistantReach'
+import { DreamlitActor } from 'lib/sets/relics/DreamlitActor'
 import { EagleOfTwilightLine } from 'lib/sets/relics/EagleOfTwilightLine'
 import { EverGloriousMagicalGirl } from 'lib/sets/relics/EverGloriousMagicalGirl'
 import { FiresmithOfLavaForging } from 'lib/sets/relics/FiresmithOfLavaForging'
@@ -112,6 +113,7 @@ const ALL_RELIC_CONFIGS = [
   DivinerOfDistantReach,
   AsNavigatorIseeSeesIt,
   DivineQueryingMasterSmith,
+  DreamlitActor,
 ] as const
 
 const ALL_ORNAMENT_CONFIGS = [

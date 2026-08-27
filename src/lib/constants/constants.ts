@@ -406,6 +406,7 @@ export const Sets = {
   DivinerOfDistantReach: 'Diviner of Distant Reach',
   AsNavigatorIseeSeesIt: 'As Navigator Isee Sees It',
   DivineQueryingMasterSmith: 'Divine-Querying Master Smith',
+  DreamlitActor: 'Dreamlit Actor',
 
   // Ornaments
   SpaceSealingStation: 'Space Sealing Station',

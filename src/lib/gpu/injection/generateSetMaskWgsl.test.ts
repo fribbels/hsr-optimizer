@@ -84,17 +84,20 @@ function injectCarry(tupleMode: boolean, masks = generateSetMaskWgsl()): string 
 }
 
 describe('generateSetMaskWgsl', () => {
-  it('derives the live one-word shape from the 32 relic / 28 ornament registry', () => {
-    expect(getSetRegistryCardinality()).toEqual({ relicSetCount: 32, ornamentSetCount: 28 })
+  it('derives the live two-word relic shape from the 33 relic / 28 ornament registry', () => {
+    expect(getSetRegistryCardinality()).toEqual({ relicSetCount: 33, ornamentSetCount: 28 })
 
     const generated = generateSetMaskWgsl()
-    expect(generated.relicWordCount).toBe(1)
+    expect(generated.relicWordCount).toBe(2)
     expect(generated.ornamentWordCount).toBe(1)
-    expect(generated.declarations).toContain('// Generated capacity-safe set masks: relicWords=1, ornamentWords=1')
+    expect(generated.declarations).toContain('// Generated capacity-safe set masks: relicWords=2, ornamentWords=1')
     expect(generated.declarations).toContain('  relicMatch2: u32,')
+    expect(generated.declarations).toContain('  relicMatch2Word1: u32,')
     expect(generated.declarations).toContain('  relicMatch4: u32,')
+    expect(generated.declarations).toContain('  relicMatch4Word1: u32,')
     expect(generated.declarations).toContain('  ornamentMatch2: u32,')
-    expect(generated.declarations).not.toContain('Word1')
+    expect(generated.declarations).not.toContain('ornamentMatch2Word1')
+    expect(generated.declarations).not.toContain('Word2')
   })
 
   it('emits the beta-equivalent live hot arithmetic with the boolean accessor ABI', () => {

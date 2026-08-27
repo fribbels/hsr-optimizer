@@ -449,6 +449,10 @@ RelicSets:
     Name: Divine-Querying Master Smith
     Description2pc: Increases Max HP by 12%.
     Description4pc: Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain "Comburent" for 2 turns. This effect cannot be stacked. The DMG dealt by ally targets with "Comburent" increases by 15%. This effect can be triggered again after the wearer uses an attack.
+  "133":
+    Name: Dreamlit Actor
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
   "301":
     Name: Space Sealing Station
     Description2pc: Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%.

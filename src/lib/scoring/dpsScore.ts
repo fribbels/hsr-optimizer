@@ -26,9 +26,9 @@ export type SimulationSets = {
 }
 
 export function calculateSimSets(
-  relicSetName0: SetsRelics,
-  relicSetName1: SetsRelics,
-  ornamentSetName: SetsOrnaments,
+  relicSetName0: SetsRelics | undefined,
+  relicSetName1: SetsRelics | undefined,
+  ornamentSetName: SetsOrnaments | undefined,
   metadata: SimulationMetadata,
 ): SimulationSets {
   // Allow equivalent sets
@@ -48,7 +48,14 @@ export function calculateSimSets(
     // Find 2p matches
     // A single array will contain all the 2p options
     if (equivalent[0] != equivalent[1]) {
-      if (equivalent.includes(relicSetName0) && equivalent.includes(relicSetName1)) {
+      // Lone 2p (no second set equipped): keep it and fill the other slot with a sibling from the same 2p list
+      if (relicSetName0 != null && relicSetName1 == null && equivalent.includes(relicSetName0)) {
+        relicSet1 = relicSetName0
+        relicSet2 = equivalent.find((set) => set != relicSetName0) ?? relicSetName0
+        break
+      }
+
+      if (relicSetName0 != null && relicSetName1 != null && equivalent.includes(relicSetName0) && equivalent.includes(relicSetName1)) {
         relicSet1 = relicSetName0
         relicSet2 = relicSetName1
         break

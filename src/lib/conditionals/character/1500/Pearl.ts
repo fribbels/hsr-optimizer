@@ -530,11 +530,14 @@ const healSimulation = (): SimulationMetadata => ({
     WHOLE_BASIC_HEAL,
   ],
   relicSets: [
+    [Sets.PasserbyOfWanderingCloud, Sets.PasserbyOfWanderingCloud],
     [Sets.DreamlitActor, Sets.DreamlitActor],
     [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
+    relics2pByStats(Stats.OHB, Stats.DEF_P),
     ...SPREAD_RELICS_4P_HEAL,
   ],
   ornamentSets: [
+    Sets.LushakaTheSunkenSeas,
     ...SPREAD_ORNAMENTS_2P_HEAL,
   ],
   teammates: [

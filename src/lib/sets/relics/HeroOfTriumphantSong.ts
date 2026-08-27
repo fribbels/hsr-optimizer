@@ -58,7 +58,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_HeroOfTriumphantSong) >= 1
+      relic4p(*p_sets, SET_HeroOfTriumphantSong)
       && setConditionals.enabledHeroOfTriumphantSong == true
     ) {
       ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 2)}

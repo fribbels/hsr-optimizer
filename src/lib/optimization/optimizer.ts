@@ -27,11 +27,11 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   applySemiJoinReduction,
-  bitpackBooleanArray,
   computeValidPermutationCount,
   generateOrnamentSetSolutions,
   generateRelicSetSolutions,
 } from 'lib/optimization/relicSetSolver'
+import { bitpackBooleanArray } from 'lib/optimization/setSolutionBitset'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   type PartCountsBySet,

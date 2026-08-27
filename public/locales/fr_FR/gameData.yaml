@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1503":
+    Name: Pearl
+    LongName: Pearl
   "1504":
     Name: Ashveil
     LongName: Ashveil
@@ -255,11 +258,11 @@ Characters:
     Name: Himeko • Nova
     LongName: Himeko • Nova
   "1512":
-    Name: Robin • Summeretto
-    LongName: Robin • Summeretto
+    Name: Robin • Estivaria
+    LongName: Robin • Estivaria
   "1513":
-    Name: Aventurine • Waveflair
-    LongName: Aventurine • Waveflair
+    Name: Aventurine • Croisette
+    LongName: Aventurine • Croisette
   "8001":
     Name: Caelus
     LongName: Caelus (La Destruction)
@@ -449,6 +452,14 @@ RelicSets:
     Name: Forge de l'artisan céleste
     Description2pc: Augmente les PV max de 12%.
     Description4pc: "Augmente de 28% les DGT critiques infligés par le porteur aux cibles ennemies avec une réduction de DÉF. Lorsque le porteur applique une réduction de DÉF à une cible ennemie, applique l'effet Comburant à tous les alliés pour une durée de 2\_tours. Cet effet n'est pas cumulable. Les DGT infligés par les cibles alliées avec Comburant augmentent de 15%. Cet effet peut se déclencher à nouveau après une attaque du porteur."
+  "133":
+    Name: Dreamlit Actor
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
+  "134":
+    Name: The Edacious Heretic
+    Description2pc: Increases ATK by 12%.
+    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
   "301":
     Name: Station de scellement spatial
     Description2pc: Augmente l'ATQ du porteur de 12%. Lorsque sa VIT est supérieure ou égale à 120, son ATQ augmente encore de 12%.
@@ -711,7 +722,7 @@ Lightcones:
   "21065":
     Name: Un jour de chance
   "21066":
-    Name: A Little Getaway
+    Name: Une pause bien méritée
   "22000":
     Name: Avant que le tutoriel ne commence
   "22001":
@@ -729,7 +740,7 @@ Lightcones:
   "22007":
     Name: L'avenir nous verra réunis
   "22008":
-    Name: Race to the Horizon
+    Name: Course vers l'horizon
   "23000":
     Name: Nuit sur la voie lactée
   "23001":
@@ -840,6 +851,8 @@ Lightcones:
     Name: Écran d'artifice
   "23054":
     Name: Lorsqu'elle décida de voir
+  "23055":
+    Name: Colors for Tomorrow
   "23056":
     Name: Bas les masques
   "23057":
@@ -855,9 +868,9 @@ Lightcones:
   "23062":
     Name: Je suis tel que tu me vois
   "23063":
-    Name: Rise and Sing
+    Name: "À vous\_!"
   "23064":
-    Name: Summer Rides the Surf
+    Name: Un déferlement d'été
   "24000":
     Name: La chute d'un Aiôn
   "24001":

@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1503":
+    Name: Pearl
+    LongName: Pearl
   "1504":
     Name: Ashveil
     LongName: Ashveil
@@ -255,11 +258,11 @@ Characters:
     Name: Himeko - Nova
     LongName: Himeko - Nova
   "1512":
-    Name: Robin • Summeretto
-    LongName: Robin • Summeretto
+    Name: Robin - Summeretto
+    LongName: Robin - Summeretto
   "1513":
-    Name: Aventurine • Waveflair
-    LongName: Aventurine • Waveflair
+    Name: Aventurine - Waveflair
+    LongName: Aventurine - Waveflair
   "8001":
     Name: Caelus
     LongName: Caelus (Hủy Diệt)
@@ -449,6 +452,14 @@ RelicSets:
     Name: Bậc Thầy Rèn Đúc Thỉnh Vấn Tạo Hóa
     Description2pc: Giới Hạn HP tăng 12%.
     Description4pc: Sát Thương Bạo Kích mà người trang bị gây ra cho mục tiêu phe địch ở trạng thái giảm Phòng Thủ tăng 28%. Sau khi người trang bị thi triển trạng thái giảm Phòng Thủ cho mục tiêu phe địch, khiến toàn thể phe ta nhận "Tiếp Lửa", duy trì 2 hiệp, hiệu ứng này không thể cộng dồn, sát thương do mục tiêu phe ta có hiệu ứng "Tiếp Lửa" gây ra tăng 15%. Hiệu ứng này có thể kích hoạt lại sau khi người trang bị thi triển tấn công.
+  "133":
+    Name: Dreamlit Actor
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
+  "134":
+    Name: The Edacious Heretic
+    Description2pc: Increases ATK by 12%.
+    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
   "301":
     Name: Trạm Phong Ấn Không Gian
     Description2pc: Tăng 12% Tấn Công của người trang bị. Khi tốc độ của người trang bị từ 120 trở lên, Tấn Công tăng thêm 12%.
@@ -711,7 +722,7 @@ Lightcones:
   "21065":
     Name: Hôm Nay May Mắn Đấy
   "21066":
-    Name: A Little Getaway
+    Name: Kỳ Nghỉ Ngắn Ngủi
   "22000":
     Name: Trước Khi Bắt Đầu Nhiệm Vụ Tân Thủ
   "22001":
@@ -729,7 +740,7 @@ Lightcones:
   "22007":
     Name: Tương Lai, Có Chúng Ta Cùng Nhau
   "22008":
-    Name: Race to the Horizon
+    Name: Hướng Tới Tận Cùng Đường Chân Trời
   "23000":
     Name: Chuyến Tàu Đêm Trên Dải Ngân Hà
   "23001":
@@ -840,6 +851,8 @@ Lightcones:
     Name: Thế Giới Hoa Lệ Choáng Ngợp
   "23054":
     Name: Khi Cô Ấy Quyết Định Nhìn Thấy
+  "23055":
+    Name: Colors for Tomorrow
   "23056":
     Name: Màn Kết Của Một Lời Nói Dối
   "23057":
@@ -855,9 +868,9 @@ Lightcones:
   "23062":
     Name: Ngươi Thấy Chính Là Ta
   "23063":
-    Name: Rise and Sing
+    Name: Bạn Sẽ Đứng Dậy Cất Tiếng Hát
   "23064":
-    Name: Summer Rides the Surf
+    Name: Ném Mùa Hè Vào Bọt Sóng
   "24000":
     Name: Sự Sụp Đổ Của Aeon
   "24001":

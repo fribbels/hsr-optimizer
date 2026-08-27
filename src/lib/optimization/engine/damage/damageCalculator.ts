@@ -594,18 +594,20 @@ export const AdditionalDamageFunction: DamageFunction = {
   },
 }
 
-// Heal hits use: BaseHeal = (ATK * atkScaling) + (HP * hpScaling) + flatHeal
+// Heal hits use: BaseHeal = (ATK * atkScaling) + (HP * hpScaling) + (DEF * defScaling) + flatHeal
 // Then multiplied by (1 + OHB) * (1 + DMG_BOOST filtered by OutputTag.HEAL)
 export const HealDamageFunction: DamageFunction = {
   apply: (x, action, hitIndex, context) => {
     const hit = action.hits![hitIndex] as HealHit
     const scalingEntityIndex = hit.scalingEntityIndex ?? hit.sourceEntityIndex ?? 0
 
-    // Base heal from scalings (use scalingEntityIndex for ATK/HP)
+    // Base heal from scalings (use scalingEntityIndex for ATK/HP/DEF)
     const atk = x.getValue(StatKey.ATK, hitIndex, scalingEntityIndex)
     const hp = x.getValue(StatKey.HP, hitIndex, scalingEntityIndex)
+    const def = x.getValue(StatKey.DEF, hitIndex, scalingEntityIndex)
     const baseHeal = (hit.atkScaling ?? 0) * atk
       + (hit.hpScaling ?? 0) * hp
+      + (hit.defScaling ?? 0) * def
       + (hit.flatHeal ?? 0)
 
     // OHB multiplier - already filtered by damageType at buff application time
@@ -632,15 +634,17 @@ export const HealDamageFunction: DamageFunction = {
 
     const atkScaling = hit.atkScaling ?? 0
     const hpScaling = hit.hpScaling ?? 0
+    const defScaling = hit.defScaling ?? 0
     const flatHeal = hit.flatHeal ?? 0
     const shouldRecord = hit.recorded !== false
 
     return wgsl`
 {
-  // Base heal calculation (uses scalingEntityIndex for ATK/HP)
+  // Base heal calculation (uses scalingEntityIndex for ATK/HP/DEF)
   let atk = ${getScalingValue(StatKey.ATK)};
   let hp = ${getScalingValue(StatKey.HP)};
-  let baseHeal = ${atkScaling} * atk + ${hpScaling} * hp + ${flatHeal};
+  let def = ${getScalingValue(StatKey.DEF)};
+  let baseHeal = ${atkScaling} * atk + ${hpScaling} * hp + ${defScaling} * def + ${flatHeal};
 
   // OHB multiplier (already filtered by damageType at buff time)
   let ohb = ${getValue(StatKey.OHB)};

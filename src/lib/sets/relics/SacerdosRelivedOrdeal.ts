@@ -67,7 +67,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.SPD_P, 0.06, SacerdosRelivedOrdeal),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal) >= 1) {
+    if (relic4p(*p_sets, SET_SacerdosRelivedOrdeal)) {
       let sacValue = i32(setConditionals.valueSacerdosRelivedOrdeal);
       if (sacValue == 1 || sacValue == 2) {
         ${buff.action(AKey.CD, `0.18 * f32(setConditionals.valueSacerdosRelivedOrdeal)`).wgsl(action, 2)}

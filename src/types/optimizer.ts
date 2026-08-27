@@ -136,6 +136,7 @@ export type OptimizerContext = CharacterMetadata & {
   // Optimizer environment
   resultSort: string,
   primaryAbilityKey: string, // Primary ability from scoringMetadata.sortOption.key (e.g., 'BASIC', 'SKILL')
+  atkStatWeight: number, // ATK% weight from scoringMetadata.stats, 0 for characters that don't scale off ATK
   deprioritizeBuffs: boolean,
 
   // Character data

@@ -64,7 +64,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.CD, 0.16, EverGloriousMagicalGirl),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_EverGloriousMagicalGirl) >= 1) {
+    if (relic4p(*p_sets, SET_EverGloriousMagicalGirl)) {
       ${
     buff.hit(HKey.DEF_PEN, `0.10 + 0.01 * f32(setConditionals.valueEverGloriousMagicalGirl)`).damageType(DamageTag.ELATION).targets(TargetTag.SelfAndMemosprite)
       .wgsl(action, 2)

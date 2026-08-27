@@ -361,7 +361,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const effectiveBrightness = visual.portraitBrightness + (state.darkMode ? DEFAULT_CONFIG.darkMode.brightnessOffset : 0)
   const portraitFilter = buildPortraitFilter(visual.portraitBlur, effectiveBrightness, visual.portraitSaturate, visual.portraitContrast)
 
-  const { displayRelics, scoringResults } = state.previewRelics
+  const { displayRelics, relics } = state.previewRelics
 
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
   const buildScoringType = savedBuildOverride?.scoringConfigType != null
@@ -494,7 +494,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     }
     : baseDisplayDimensions
 
-  const scoredRelics = scoringResults.relics ?? EMPTY_SCORED
+  const scoredRelics = relics ?? EMPTY_SCORED
 
   return (
     <SimScoringContextProvider

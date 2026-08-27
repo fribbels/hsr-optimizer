@@ -416,7 +416,7 @@ fn unrolledAction${index}(
   p_comboShield: ptr<function, f32>,
   p_comboBuff: ptr<function, f32>,
   p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>,
-  p_sets: ptr<function, Sets>,
+  p_sets: ptr<function, SetMatches>,
   p_c: ptr<function, BasicStats>,
   diffATK: f32,
   diffDEF: f32,
@@ -493,7 +493,7 @@ fn unrolledAction${index}(
 fn unrolledAction${index}(
   p_comboBuff: ptr<function, f32>,
   p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>,
-  p_sets: ptr<function, Sets>,
+  p_sets: ptr<function, SetMatches>,
   p_c: ptr<function, BasicStats>,
   diffATK: f32,
   diffDEF: f32,

@@ -128,9 +128,7 @@ export function ScannerImportSubmenu() {
         // Hoyolab import
         const out = hoyolabParser(json)
         const relics = out.relics as Relic[]
-        let characters = out.characters
-        // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
-        characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
+        const characters = out.characters
         characters.forEach((c) => {
           c.characterLevel = 80
           c.lightConeLevel = 80
@@ -151,11 +149,9 @@ export function ScannerImportSubmenu() {
 
       const parser = ScannerSourceToParser[json.source]
       const output = parser.parse(json as ScannerParserJson)
-      let characters: ParsedCharacter[] = output.characters
+      const characters: ParsedCharacter[] = output.characters
       const relics: Relic[] = output.relics
 
-      // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
-      characters = characters.sort((a, b) => b.characterLevel - a.characterLevel)
       characters.forEach((c) => {
         c.characterLevel = 80
         c.lightConeLevel = 80

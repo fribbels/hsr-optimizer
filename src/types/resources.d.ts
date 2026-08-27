@@ -139,8 +139,7 @@ export default interface Resources {
       "Priority": {
         "Label": "Priority",
         "Options": {
-          "MoveToTop": "Move character to top",
-          "SortByScore": "Sort all characters by score"
+          "MoveToTop": "Move character to top"
         }
       },
       "Scoring": {
@@ -378,7 +377,6 @@ export default interface Resources {
       "NoSelectedLightCone": "No selected light cone",
       "RemoveSuccess": "Successfully removed character",
       "SaveSuccess": "Successfully saved build: {{name}}",
-      "SortByScoreWarning": "Are you sure you want to sort all characters? You will lose any custom rankings you have set.",
       "SwitchSuccess": "Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)",
       "UnequipSuccess": "Successfully unequipped character",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?"
@@ -5928,7 +5926,8 @@ export default interface Resources {
       "Title": "Relic Insight",
       "p1": "When a relic is selected in the table above, you can choose an analysis to view a plot of.",
       "p2": "'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<1/>If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<3/>⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.",
-      "p3": "Top 10 takes the top 10 characters that this relic could be best for, and shows the range of \"% perfection\" upgrading this relic could result in."
+      "p3": "Top 10 takes the top 10 characters that this relic could be best for, and shows the range of \"% perfection\" upgrading this relic could result in.",
+      "p4": "Use the Maximum / Average toggle to switch between the best possible upgrade rolls and the projected average potential at the relic's maximum level."
     },
     "RelicLocation": {
       "Title": "Relic Location",
@@ -7849,6 +7848,7 @@ export default interface Resources {
     },
     "RelicInsights": {
       "AvgPotential": "Average potential: ",
+      "MaxPotential": "Maximum potential: ",
       "NewStats": "New stats: ",
       "UpgradedStats": "Upgraded stats: "
     },
@@ -7870,6 +7870,10 @@ export default interface Resources {
         "PlotAll": "Show all characters",
         "PlotCustom": "Show custom characters",
         "PlotOwned": "Show owned characters"
+      },
+      "PotentialOptions": {
+        "Average": "Average",
+        "Maximum": "Maximum"
       },
       "RelicLocator": {
         "Filter": "Auto filter rows",

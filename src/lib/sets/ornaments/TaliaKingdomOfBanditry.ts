@@ -57,7 +57,7 @@ const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.BE],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.TaliaKingdomOfBanditry, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 145
+    return ornament2p(SetKeys.TaliaKingdomOfBanditry, x.c.setMatches) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 145
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.BE, 0.20, action, context, x.source(Source.TaliaKingdomOfBanditry))
@@ -71,7 +71,7 @@ const TaliaKingdomOfBanditryConditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_TaliaKingdomOfBanditry) >= 1 &&
+  ornament2p(*p_sets, SET_TaliaKingdomOfBanditry) &&
   (*p_state).TaliaKingdomOfBanditryConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 145.0
 ) {

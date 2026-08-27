@@ -25,6 +25,7 @@ import {
   FiresmithOfLavaForging as FiresmithOfLavaForgingPreprocessor,
   HunterOfGlacialForestPreprocessor,
   ScholarLostInEruditionPreprocessor,
+  TheEdaciousHereticPreprocessor,
   WavestriderCaptainPreprocessor,
 } from 'lib/optimization/rotation/preprocessor/preprocessSets'
 import { type AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
@@ -55,6 +56,7 @@ const setPreprocessors: AbilityPreprocessorBase[] = [
   new FiresmithOfLavaForgingPreprocessor(),
   new HunterOfGlacialForestPreprocessor(),
   new BandOfSizzlingThunderPreprocessor(),
+  new TheEdaciousHereticPreprocessor(),
 ]
 
 const lightConePreprocessors: AbilityPreprocessorBase[] = [

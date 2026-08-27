@@ -59,7 +59,7 @@ const conditionals: SetConditionals = {
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
-    ornament2p(*p_sets, SET_InertSalsotto) >= 1
+    ornament2p(*p_sets, SET_InertSalsotto)
     && ${containerActionVal(SELF_ENTITY_INDEX, AKey.CR, action.config)} >= 0.50
   ) {
     ${buff.hit(HKey.BOOST, 0.15).damageType(DamageTag.ULT | DamageTag.FUA).wgsl(action, 2)}

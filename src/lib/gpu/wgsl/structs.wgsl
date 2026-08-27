@@ -53,16 +53,7 @@ struct BasicStats {
   ELATION: f32,
 }
 
-struct Sets {
-  relicMatch2: u32,    // bit N set = relic set N has >= 2 pieces
-  relicMatch4: u32,    // bit N set = relic set N has 4 pieces
-  ornamentMatch2: u32, // bit N set = ornament set N has 2 pieces
-}
-
-// Bitmask set accessors: extract whether set at bit index has 2p/4p
-fn relic2p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch2 >> bit) & 1u); }
-fn relic4p(s: Sets, bit: u32) -> f32 { return f32((s.relicMatch4 >> bit) & 1u); }
-fn ornament2p(s: Sets, bit: u32) -> f32 { return f32((s.ornamentMatch2 >> bit) & 1u); }
+/* INJECT SET_MASK_DECLARATIONS */
 
 // START SET_CONDITIONALS_STRUCT
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗

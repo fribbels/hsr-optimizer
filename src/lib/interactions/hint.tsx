@@ -427,6 +427,7 @@ export const Hint = {
               ⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.
             </Trans>
           </p>
+          <p>{t('p4') /* Use the Maximum / Average toggle to switch between maximum and average potential. */}</p>
           <p>
             {
               t(

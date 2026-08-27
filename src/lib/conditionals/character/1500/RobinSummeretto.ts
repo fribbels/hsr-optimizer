@@ -11,10 +11,6 @@ import {
   type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import {
-  dynamicStatConversionContainer,
-  gpuDynamicStatConversion,
-} from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
@@ -22,20 +18,16 @@ import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForeve
 import { TimeWovenIntoGold } from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
-  ConditionalActivation,
-  ConditionalType,
   CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
 } from 'lib/constants/constants'
-import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
   DamageTag,
   ElementTag,
-  SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
@@ -81,6 +73,17 @@ export const RobinSummerettoAbilities: AbilityKind[] = [
   AbilityKind.BUFF,
 ]
 
+// Deviated Chord's ATK branch needs the ally to out-ATK Robin, which is driven by how much ATK the
+// build invests in rather than by base ATK. The ATK scoring weight stands in for that investment.
+// Weights land on 0, 0.25, 0.5, 0.75 and 1, so this cuts between incidental and stacked ATK.
+const ATK_BRANCH_WEIGHT_THRESHOLD = 0.333
+
+enum DeviatedChordBranch {
+  WEIGHT_BASED = 0,
+  ATK = 1,
+  CD = 2,
+}
+
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const tBuff = wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
@@ -105,6 +108,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const maxVibes = (e >= 2) ? 70 : 50
 
+  // Multiples of 10 so the vibe scaled buffs come out as round numbers
+  const defaultVibes = (e >= 2) ? 60 : 30
+
   const talentZoneDefPen = talent(e, 0.15, 0.16)
 
   const memoTalentDmgBoost = memoTalent(e, 0.60, 0.66)
@@ -125,7 +131,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const defaults = {
     buffPriority: BuffPriority.MEMO,
     feverState: true,
-    vibes: maxVibes / 2,
+    vibes: defaultVibes,
     songbirdCount: 3,
     deviatedChordCdBuff: true,
     e2ResPen: true,
@@ -135,10 +141,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateDefaults = {
     feverState: true,
-    vibes: maxVibes / 2,
+    vibes: defaultVibes,
     songbirdCount: 3,
     teammateHPValue: 8000,
-    teammateATKValue: 1750,
+    deviatedChordBranch: DeviatedChordBranch.WEIGHT_BASED,
     e2ResPen: true,
   }
 
@@ -209,8 +215,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     feverState: content.feverState,
     vibes: content.vibes,
     songbirdCount: content.songbirdCount,
-    // Deviated Chord's branch is derived from the ally's ATK vs Robin's, so both sliders feed the
-    // comparison in teammateDynamicConditionals instead of exposing the branch as a toggle.
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
@@ -219,13 +223,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: 20000,
     },
-    teammateATKValue: {
-      id: 'teammateATKValue',
-      formItem: 'slider',
-      text: `Robin's combat ATK`,
+    deviatedChordBranch: {
+      id: 'deviatedChordBranch',
+      formItem: 'select',
+      text: 'Deviated Chord buff',
       content: betaContent,
-      min: 0,
-      max: 5000,
+      options: [
+        { display: 'Weight based', value: DeviatedChordBranch.WEIGHT_BASED, label: 'Weight based' },
+        { display: 'ATK', value: DeviatedChordBranch.ATK, label: 'ATK buff' },
+        { display: 'CD', value: DeviatedChordBranch.CD, label: 'CRIT DMG buff' },
+      ],
+      fullWidth: true,
     },
     e2ResPen: content.e2ResPen,
   }
@@ -367,6 +375,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
+
+      // Comparing live ATK against an assumed value for Robin made the branch flip mid-search, so
+      // the weight based default resolves it once per build and the other options force a branch.
+      const atkBranch = (t.deviatedChordBranch === DeviatedChordBranch.WEIGHT_BASED)
+        ? context.atkStatWeight > ATK_BRANCH_WEIGHT_THRESHOLD
+        : t.deviatedChordBranch === DeviatedChordBranch.ATK
+
+      if (atkBranch) {
+        const atkBuff = (traceAtkBuff + t.vibes * traceAtkBuffPerVibe) * t.teammateHPValue
+        x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+        x.buff(StatKey.ATK, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      } else {
+        const cdBuff = traceCdBuff + t.vibes * traceCdBuffPerVibe
+        x.buff(StatKey.UNCONVERTIBLE_CD_BUFF, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+        x.buff(StatKey.CD, cdBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      }
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
@@ -374,94 +399,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
     dynamicConditionals: [],
 
-    // Deviated Chord: ATK branch when the ally's ATK exceeds Robin's, else CRIT DMG.
-    // The branch lives in the buff value, not `condition`, so the losing branch retracts via its delta.
-    teammateDynamicConditionals: [
-      {
-        id: 'RobinSummerettoDeviatedChordAtk',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.ATK],
-        chainsTo: [Stats.ATK],
-        condition: function() {
-          return true
-        },
-        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-          const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const atkBuff = (traceAtkBuff + t.vibes * traceAtkBuffPerVibe) * t.teammateHPValue
-
-          dynamicStatConversionContainer(
-            Stats.ATK,
-            Stats.ATK,
-            this,
-            x,
-            action,
-            context,
-            SOURCE_TRACE,
-            () => (x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX) > t.teammateATKValue) ? atkBuff : 0,
-            TargetTag.FullTeam,
-          )
-        },
-        gpu: function(action: OptimizerAction, context: OptimizerContext) {
-          const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const atkBuff = (traceAtkBuff + t.vibes * traceAtkBuffPerVibe) * t.teammateHPValue
-
-          return gpuDynamicStatConversion(
-            Stats.ATK,
-            Stats.ATK,
-            this,
-            action,
-            context,
-            `select(0.0, ${atkBuff.toFixed(4)}, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} > ${t.teammateATKValue.toFixed(4)})`,
-            'true',
-            'true',
-            TargetTag.FullTeam,
-          )
-        },
-      },
-      {
-        id: 'RobinSummerettoDeviatedChordCd',
-        type: ConditionalType.ABILITY,
-        activation: ConditionalActivation.CONTINUOUS,
-        dependsOn: [Stats.ATK],
-        chainsTo: [Stats.CD],
-        condition: function() {
-          return true
-        },
-        effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-          const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const cdBuff = traceCdBuff + t.vibes * traceCdBuffPerVibe
-
-          dynamicStatConversionContainer(
-            Stats.ATK,
-            Stats.CD,
-            this,
-            x,
-            action,
-            context,
-            SOURCE_TRACE,
-            () => (x.getActionValueByIndex(StatKey.ATK, SELF_ENTITY_INDEX) > t.teammateATKValue) ? 0 : cdBuff,
-            TargetTag.FullTeam,
-          )
-        },
-        gpu: function(action: OptimizerAction, context: OptimizerContext) {
-          const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
-          const cdBuff = traceCdBuff + t.vibes * traceCdBuffPerVibe
-
-          return gpuDynamicStatConversion(
-            Stats.ATK,
-            Stats.CD,
-            this,
-            action,
-            context,
-            `select(${cdBuff.toFixed(4)}, 0.0, ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} > ${t.teammateATKValue.toFixed(4)})`,
-            'true',
-            'true',
-            TargetTag.FullTeam,
-          )
-        },
-      },
-    ],
+    teammateDynamicConditionals: [],
   }
 }
 

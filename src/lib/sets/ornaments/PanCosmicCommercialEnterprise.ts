@@ -58,7 +58,7 @@ const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
   dependsOn: [Stats.EHR],
   chainsTo: [Stats.ATK],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.PanCosmicCommercialEnterprise, x.c.sets)
+    return ornament2p(SetKeys.PanCosmicCommercialEnterprise, x.c.setMatches)
   },
   effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
     const stateValue = action.conditionalState[this.id] || 0
@@ -80,7 +80,7 @@ const PanCosmicCommercialEnterpriseConditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_PanCosmicCommercialEnterprise) >= 1
+  ornament2p(*p_sets, SET_PanCosmicCommercialEnterprise)
 ) {
   let stateValue: f32 = (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier};
   let buffValue: f32 = min(0.25, 0.25 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)}) * ${config.selfEntity.baseAtk};

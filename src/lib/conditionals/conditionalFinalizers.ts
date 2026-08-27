@@ -15,7 +15,7 @@ import {
 import type { OptimizerAction } from 'types/optimizer'
 
 export function boostAshblazingAtkContainer(x: ComputedStatsContainer, action: OptimizerAction, hitMulti: number) {
-  if (relic4p(SetKeys.TheAshblazingGrandDuke, x.c.sets)) {
+  if (relic4p(SetKeys.TheAshblazingGrandDuke, x.c.setMatches)) {
     const stacks = action.setConditionals.valueTheAshblazingGrandDuke
     const delta = hitMulti - 0.06 * stacks
     const baseATK = x.config.selfEntity.baseAtk
@@ -39,7 +39,7 @@ export function gpuBoostUltAshblazingAtk(action: OptimizerAction, hitMulti: numb
 export function gpuBoostAshblazingAtkContainer(hitMulti: number, action: OptimizerAction) {
   const config = action.config
   return wgsl`
-if (relic4p(*p_sets, SET_TheAshblazingGrandDuke) >= 1) {
+if (relic4p(*p_sets, SET_TheAshblazingGrandDuke)) {
   let ashblazingDelta = ${hitMulti} - 0.06 * f32(setConditionals.valueTheAshblazingGrandDuke);
   let ashblazingBaseATK = ${config.selfEntity.baseAtk};
   ${buff.hit(HKey.ATK, 'ashblazingDelta * ashblazingBaseATK').damageType(DamageTag.FUA).wgsl(action)}

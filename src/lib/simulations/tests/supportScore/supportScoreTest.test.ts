@@ -26,7 +26,10 @@ import {
 } from 'lib/simulations/tests/simTestUtils'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { clone } from 'lib/utils/objectUtils'
-import type { Character } from 'types/character'
+import type {
+  Character,
+  Eidolon,
+} from 'types/character'
 import {
   type ScoringConfig,
   ScoringConfigType,
@@ -346,13 +349,19 @@ test('RobinSummeretto support score scales with HP', () => {
 test('RobinSummeretto support score applies the Deviated Chord Vibes scaling', () => {
   globalThis.SEQUENTIAL_BENCHMARKS = true
 
-  // Vibes cap at 50 below E2 and 70 from E2 onward, so the default Vibes differ by 10 across these
-  // two builds while HP stays identical. Deviated Chord grants 0.4% of her HP per Vibe, and the flat
-  // Lushaka contribution cancels out of the difference.
+  // Vibes cap higher from E2 onward, so the default Vibes differ across these two builds while HP
+  // stays identical. Deviated Chord grants 0.4% of her HP per Vibe, and the flat Lushaka
+  // contribution cancels out of the difference. The gap is read from the defaults so that retuning
+  // them does not need this expectation rewritten.
+  const defaultVibes = (characterEidolon: number) =>
+    RobinSummeretto.conditionals(characterEidolon as Eidolon, false).teammateDefaults!().vibes as number
+  const vibesGap = defaultVibes(6) - defaultVibes(1)
+  expect(vibesGap).toBeGreaterThan(0)
+
   const e1 = robinSummerettoSupportScore(1)
   const e6 = robinSummerettoSupportScore(6)
 
   const hp = e6.originalSimResult!.x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX)
   expect(e1.originalSimResult!.x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX)).toBeCloseTo(hp, 6)
-  expect(e6.originalSimResult!.simScore - e1.originalSimResult!.simScore).toBeCloseTo(10 * 0.004 * hp, 6)
+  expect(e6.originalSimResult!.simScore - e1.originalSimResult!.simScore).toBeCloseTo(vibesGap * 0.004 * hp, 6)
 })

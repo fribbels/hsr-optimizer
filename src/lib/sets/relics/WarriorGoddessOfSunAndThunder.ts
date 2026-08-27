@@ -63,7 +63,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_WarriorGoddessOfSunAndThunder) >= 1
+      relic4p(*p_sets, SET_WarriorGoddessOfSunAndThunder)
       && setConditionals.enabledWarriorGoddessOfSunAndThunder == true
     ) {
       ${buff.action(AKey.SPD_P, 0.06).wgsl(action, 2)}

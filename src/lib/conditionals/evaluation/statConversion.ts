@@ -115,11 +115,12 @@ if (!(${activeConditionWgsl})) {
 let stateValue: f32 = (*p_state).${conditional.id}${action.actionIdentifier};
 let convertibleValue: f32 = ${sourceVal} - ${sourceUnconvertibleVal};
 
-if (!(${thresholdConditionWgsl}) || convertibleValue <= 0) {
+if (convertibleValue <= 0) {
   return;
 }
 
-let buffFull = max(0, ${buffWgsl});
+// Below the threshold the full buff is 0 so any prior state is retracted, matching the CPU buffFn path
+let buffFull = select(0.0, max(0.0, ${buffWgsl}), ${thresholdConditionWgsl});
 let buffDelta = buffFull - stateValue;
 
 (*p_state).${conditional.id}${action.actionIdentifier} += buffDelta;

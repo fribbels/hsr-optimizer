@@ -58,7 +58,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_HunterOfGlacialForest) >= 1
+      relic4p(*p_sets, SET_HunterOfGlacialForest)
       && setConditionals.enabledHunterOfGlacialForest == true
     ) {
       ${buff.action(AKey.CD, 0.25).wgsl(action, 2)}

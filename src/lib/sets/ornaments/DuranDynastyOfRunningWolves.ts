@@ -50,7 +50,7 @@ const conditionals: SetConditionals = {
     }
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (ornament2p(*p_sets, SET_DuranDynastyOfRunningWolves) >= 1) {
+    if (ornament2p(*p_sets, SET_DuranDynastyOfRunningWolves)) {
       ${buff.hit(HKey.BOOST, `0.05 * f32(setConditionals.valueDuranDynastyOfRunningWolves)`).damageType(DamageTag.FUA).wgsl(action, 2)}
       if (setConditionals.valueDuranDynastyOfRunningWolves >= 5) {
         ${buff.action(AKey.CD, 0.25).wgsl(action, 3)}

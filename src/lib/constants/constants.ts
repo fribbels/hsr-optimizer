@@ -11,8 +11,8 @@ export const CURRENT_DATA_VERSION = '4.6v1'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
-export const RELIQUARY_DOWNTIME = false
-export const DOWNTIME_VERSION: string = '4.4'
+export const RELIQUARY_DOWNTIME = true
+export const DOWNTIME_VERSION: string = '4.5'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
   '1503': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,

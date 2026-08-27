@@ -73,9 +73,16 @@ export const RobinSummerettoAbilities: AbilityKind[] = [
   AbilityKind.BUFF,
 ]
 
-// Deviated Chord's ATK branch needs the ally to out-ATK Robin. Scoring weights land on 0, 0.25,
-// 0.5, 0.75 and 1, so this cuts between the incidental-ATK builds and the ones that stack it.
+// Deviated Chord's ATK branch needs the ally to out-ATK Robin, which is driven by how much ATK the
+// build invests in rather than by base ATK. The ATK scoring weight stands in for that investment.
+// Weights land on 0, 0.25, 0.5, 0.75 and 1, so this cuts between incidental and stacked ATK.
 const ATK_BRANCH_WEIGHT_THRESHOLD = 0.333
+
+enum DeviatedChordBranch {
+  WEIGHT_BASED = 0,
+  ATK = 1,
+  CD = 2,
+}
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const tBuff = wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
@@ -134,6 +141,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     vibes: maxVibes / 2,
     songbirdCount: 3,
     teammateHPValue: 8000,
+    deviatedChordBranch: DeviatedChordBranch.WEIGHT_BASED,
     e2ResPen: true,
   }
 
@@ -204,8 +212,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     feverState: content.feverState,
     vibes: content.vibes,
     songbirdCount: content.songbirdCount,
-    // Deviated Chord's branch is picked from the ally's ATK scoring weight rather than a toggle,
-    // so only Robin's HP is needed to size the ATK branch.
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
@@ -213,6 +219,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       content: betaContent,
       min: 0,
       max: 20000,
+    },
+    deviatedChordBranch: {
+      id: 'deviatedChordBranch',
+      formItem: 'select',
+      text: 'Deviated Chord buff',
+      content: betaContent,
+      options: [
+        { display: 'Weight based', value: DeviatedChordBranch.WEIGHT_BASED, label: 'Weight based' },
+        { display: 'ATK', value: DeviatedChordBranch.ATK, label: 'ATK buff' },
+        { display: 'CD', value: DeviatedChordBranch.CD, label: 'CRIT DMG buff' },
+      ],
+      fullWidth: true,
     },
     e2ResPen: content.e2ResPen,
   }
@@ -354,12 +372,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.teammateCharacterConditionals as Conditionals<typeof teammateContent>
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      // Deviated Chord branches on whether the ally out-ATKs Robin. Comparing live ATK against an
-      // assumed value for Robin made the branch flip mid-search, so the ally's ATK scoring weight
-      // stands in for the comparison and keeps one branch fixed for the whole build.
-      if (context.atkStatWeight > ATK_BRANCH_WEIGHT_THRESHOLD) {
+      // Comparing live ATK against an assumed value for Robin made the branch flip mid-search, so
+      // the weight based default resolves it once per build and the other options force a branch.
+      const atkBranch = (t.deviatedChordBranch === DeviatedChordBranch.WEIGHT_BASED)
+        ? context.atkStatWeight > ATK_BRANCH_WEIGHT_THRESHOLD
+        : t.deviatedChordBranch === DeviatedChordBranch.ATK
+
+      if (atkBranch) {
         const atkBuff = (traceAtkBuff + t.vibes * traceAtkBuffPerVibe) * t.teammateHPValue
         x.buff(StatKey.UNCONVERTIBLE_ATK_BUFF, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
         x.buff(StatKey.ATK, atkBuff, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))

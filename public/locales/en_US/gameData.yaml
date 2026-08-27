@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1503":
+    Name: Pearl
+    LongName: Pearl
   "1504":
     Name: Ashveil
     LongName: Ashveil
@@ -255,10 +258,10 @@ Characters:
     Name: Himeko • Nova
     LongName: Himeko • Nova
   "1512":
-    Name: Summeretto
+    Name: Robin • Summeretto
     LongName: Robin • Summeretto
   "1513":
-    Name: Waveflair
+    Name: Aventurine • Waveflair
     LongName: Aventurine • Waveflair
   "8001":
     Name: Caelus
@@ -848,6 +851,8 @@ Lightcones:
     Name: Dazzled by a Flowery World
   "23054":
     Name: When She Decided to See
+  "23055":
+    Name: Colors for Tomorrow
   "23056":
     Name: The Finale of a Lie
   "23057":

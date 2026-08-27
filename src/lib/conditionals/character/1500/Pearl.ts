@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import {
   getYaoguangAhaPunchlineValue,
@@ -44,7 +45,11 @@ import {
   AbilityKind,
   DEFAULT_BASIC_HEAL,
   DEFAULT_SKILL_HEAL,
+  DEFAULT_ULT,
+  END_SKILL_HEAL,
   NULL_TURN_ABILITY_NAME,
+  START_ULT,
+  WHOLE_BASIC_HEAL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
@@ -125,13 +130,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     4: 0.80,
   }
 
-  // Not modeled: Technique, Talent Repellency damage block (E4 upgrades), Ult / E2 action advance and extra turn
-  // (the CB / Punchline sliders stand in for their point grants), Sensory Latitude CB gain + dispel,
-  // Aesthetic Firewall Energy regen.
-  // E6 240% Elation rider on Pearl's enhanced Basic is calculated from the Aesthetic Archetype's stats,
-  // which are not available when optimizing Pearl - dropped.
-  // Elation Skill proc on teammates is applied to every attack, assuming an Elation Skill precedes each.
-
   const defaults = {
     deepLearning: true,
     certifiedBanger: true,
@@ -161,13 +159,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     deepLearning: {
       id: 'deepLearning',
       formItem: 'switch',
-      text: 'Deep Learning enhanced Basic ATK',
+      text: 'Enhanced Basic',
       content: betaContent,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: 'Certified Banger Elation DMG on enhanced Basic',
+      text: 'Basic ATK Elation DMG',
       content: betaContent,
     },
     certifiedBangerStacks: {
@@ -189,7 +187,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     lowestHpTargetHeal: {
       id: 'lowestHpTargetHeal',
       formItem: 'switch',
-      text: 'Lowest HP ally extra heal',
+      text: 'Lowest HP extra heal',
       content: betaContent,
     },
     traceDefToElation: {
@@ -201,27 +199,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentLowHpDmgReduction: {
       id: 'talentLowHpDmgReduction',
       formItem: 'switch',
-      text: 'Ally HP ≤ 50% DMG reduction',
+      text: 'HP ≤ 50% DMG reduction',
       content: betaContent,
     },
     e1ElationShare: {
       id: 'e1ElationShare',
       formItem: 'switch',
-      text: 'E1 Elation share',
+      text: 'E1 Elation buff',
       content: betaContent,
       disabled: e < 1,
     },
     e2Merrymake: {
       id: 'e2Merrymake',
       formItem: 'switch',
-      text: 'E2 Merrymake Elation DMG',
+      text: 'E2 Merrymake',
       content: betaContent,
       disabled: e < 2,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 All-Type RES PEN',
+      text: 'E6 RES PEN',
       content: betaContent,
       disabled: e < 6,
     },
@@ -238,7 +236,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     elationSkillProc: {
       id: 'elationSkillProc',
       formItem: 'switch',
-      text: 'Elation Skill Elation DMG on every attack',
+      text: 'Elation Skill Elation DMG',
       content: betaContent,
     },
     punchlineStacks: content.punchlineStacks,
@@ -247,10 +245,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateElationValue: {
       id: 'teammateElationValue',
       formItem: 'slider',
-      text: "Pearl's Elation",
+      text: 'Pearl\'s Elation',
       content: betaContent,
       min: 0,
-      max: 2.00,
+      max: 3.00,
       percent: true,
     },
     e2Merrymake: content.e2Merrymake,
@@ -519,20 +517,21 @@ const healSimulation = (): SimulationMetadata => ({
     Stats.DEF_P,
     Stats.DEF,
     Stats.SPD,
+    Stats.HP_P,
     Stats.RES,
   ],
   errRopeEidolon: 0,
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
-    DEFAULT_SKILL_HEAL,
-    DEFAULT_BASIC_HEAL,
-    DEFAULT_BASIC_HEAL,
-    DEFAULT_BASIC_HEAL,
+    START_ULT,
+    END_SKILL_HEAL,
+    WHOLE_BASIC_HEAL,
+    WHOLE_BASIC_HEAL,
+    WHOLE_BASIC_HEAL,
   ],
   relicSets: [
     [Sets.DreamlitActor, Sets.DreamlitActor],
     [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
-    relics2pByStats(Stats.DEF_P),
     ...SPREAD_RELICS_4P_HEAL,
   ],
   ornamentSets: [
@@ -540,14 +539,14 @@ const healSimulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sparxie.id,
-      lightCone: DazzledByAFloweryWorld.id,
+      characterId: SilverWolfLv999.id,
+      lightCone: SilverWolfLv999.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SparkleB1.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: Sparxie.id,
+      lightCone: DazzledByAFloweryWorld.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -557,7 +556,6 @@ const healSimulation = (): SimulationMetadata => ({
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
-    // TODO(HUMAN): swap to canonical meta teammates
   ],
   deprioritizeBuffs: true,
 })
@@ -596,7 +594,7 @@ const scoring = (): ScoringMetadata => ({
   },
   presets: [],
   defaultDamageType: DamageTag.BASIC,
-  sortOption: SortOption.SKILL_HEAL,
+  sortOption: SortOption.BASIC_HEAL,
   addedColumns: [SortOption.OHB, SortOption.BASIC_HEAL, SortOption.SKILL_HEAL],
   hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
   healSimulation: healSimulation(),
@@ -604,11 +602,11 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 1024,
-    y: 1024,
-    z: 1,
-  }, // TODO(HUMAN): set imageCenter/showcaseColor post-generation
-  showcaseColor: '#888888', // TODO(HUMAN): set imageCenter/showcaseColor post-generation
+    x: 1016,
+    y: 1001,
+    z: 1.02,
+  },
+  showcaseColor: '#d1d1ff',
 }
 
 export const Pearl: CharacterConfig = {

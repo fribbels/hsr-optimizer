@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1503":
+    Name: Pearl
+    LongName: Pearl
   "1504":
     Name: Ashveil
     LongName: Ashveil
@@ -255,11 +258,11 @@ Characters:
     Name: Himeko Nova
     LongName: Himeko Nova
   "1512":
-    Name: Robin • Summeretto
-    LongName: Robin • Summeretto
+    Name: Robin Estival
+    LongName: Robin Estival
   "1513":
-    Name: Aventurine • Waveflair
-    LongName: Aventurine • Waveflair
+    Name: Aventurino Oleaje
+    LongName: Aventurino Oleaje
   "8001":
     Name: Caelus
     LongName: Caelus (Destrucción)
@@ -449,6 +452,14 @@ RelicSets:
     Name: Gran forja del interrogante divino
     Description2pc: PV máx. +12%.
     Description4pc: El Daño CRIT que el portador inflige a los enemigos con reducción de DEF aumenta en un 28%. Cuando el portador aplica reducción de DEF a un enemigo, todos los aliados obtienen Ignición durante 2 turnos. Este efecto no se puede acumular. El daño que infligen los aliados con Ignición aumenta en un 15%. Este efecto se puede volver a activar después de que el portador lance un ataque.
+  "133":
+    Name: Dreamlit Actor
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
+  "134":
+    Name: The Edacious Heretic
+    Description2pc: Increases ATK by 12%.
+    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
   "301":
     Name: Estación sellaespacios
     Description2pc: El ATQ del portador aumenta en un 12%. Cuando su VEL es igual o superior a 120, el ATQ aumenta en un 12% adicional.
@@ -711,7 +722,7 @@ Lightcones:
   "21065":
     Name: La buena suerte de hoy
   "21066":
-    Name: A Little Getaway
+    Name: Un breve descanso
   "22000":
     Name: Antes de que comience la misión del tutorial
   "22001":
@@ -729,7 +740,7 @@ Lightcones:
   "22007":
     Name: Juntos hacia el futuro
   "22008":
-    Name: Race to the Horizon
+    Name: Hacia el final del horizonte
   "23000":
     Name: Noche en la Vía Láctea
   "23001":
@@ -840,6 +851,8 @@ Lightcones:
     Name: El cautivador mundochispa
   "23054":
     Name: Cuando se decidió a ver
+  "23055":
+    Name: Colors for Tomorrow
   "23056":
     Name: El final de una mentira
   "23057":
@@ -855,9 +868,9 @@ Lightcones:
   "23062":
     Name: Soy lo que ves
   "23063":
-    Name: Rise and Sing
+    Name: Levántate y canta
   "23064":
-    Name: Summer Rides the Surf
+    Name: Verano entre olas
   "24000":
     Name: Sobre la caída de un Eón
   "24001":

@@ -3,9 +3,11 @@ import { AventurineWaveflair } from 'lib/conditionals/character/1500/AventurineW
 import { Gilgamesh } from 'lib/conditionals/character/1500/Gilgamesh'
 import { HimekoNova } from 'lib/conditionals/character/1500/HimekoNova'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { Pearl } from 'lib/conditionals/character/1500/Pearl'
 import { RinTohsaka } from 'lib/conditionals/character/1500/RinTohsaka'
 import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { AStarThatLightsTheNight } from 'lib/conditionals/lightcone/5star/AStarThatLightsTheNight'
+import { ColorsForTomorrow } from 'lib/conditionals/lightcone/5star/ColorsForTomorrow'
 import { FlickeringStars } from 'lib/conditionals/lightcone/5star/FlickeringStars'
 import { IAmAsYouBehold } from 'lib/conditionals/lightcone/5star/IAmAsYouBehold'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
@@ -53,7 +55,7 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
-    // { characterId: char(Pearl.id), lightConeId: lc(ColorsForTomorrow.defaultLightCone) },
+    { characterId: char(Pearl.id), lightConeId: lc(Pearl.defaultLightCone) },
     { characterId: char(RobinSummeretto.id), lightConeId: lc(RobinSummeretto.defaultLightCone) },
     { characterId: char(AventurineWaveflair.id), lightConeId: lc(AventurineWaveflair.defaultLightCone) },
     { characterId: char(RinTohsaka.id), lightConeId: lc(FlickeringStars.id) },

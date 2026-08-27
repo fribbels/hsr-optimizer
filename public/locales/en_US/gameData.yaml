@@ -453,6 +453,10 @@ RelicSets:
     Name: Dreamlit Actor
     Description2pc: Increases SPD by 6%.
     Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
+  "134":
+    Name: The Edacious Heretic
+    Description2pc: Increases ATK by 12%.
+    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
   "301":
     Name: Space Sealing Station
     Description2pc: Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%.

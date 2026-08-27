@@ -11,6 +11,7 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import {
   AKey,
+  HKey,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
@@ -22,6 +23,7 @@ import {
   type SetConditional,
 } from 'types/optimizer'
 import {
+  type SelectOptionContent,
   type SetConditionals,
   type SetConfig,
   type SetDisplay,
@@ -37,31 +39,40 @@ const info = {
 } as const satisfies SetInfo
 
 const display = {
-  conditionalType: ConditionalDataType.BOOLEAN,
+  conditionalType: ConditionalDataType.SELECT,
+  selectionOptions: selectionOptions,
   modifiable: true,
-  defaultValue: true,
+  defaultValue: 2,
 } as const satisfies SetDisplay
 
-// The Elation buff lands on "one other ally target" so it never reaches the wearer.
-// Only the Certified Banger CRIT DMG half applies to the wearer's own combat stats.
+// The Elation buff lands on "one other ally target" so it never reaches the wearer — it is
+// outgoing only. The Certified Banger CRIT DMG half reaches all allies including the wearer.
 const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(0.06, Source.DreamlitActor)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    if (setConditionals.enabledDreamlitActor) {
+    const value = setConditionals.valueDreamlitActor
+    if (value >= 1) {
+      x.buff(StatKey.BOOST, 0.16, x.outputBuff(StatKey.ELATION).source(Source.DreamlitActor))
+    }
+    if (value >= 2) {
       x.buff(StatKey.CD, 0.12, x.targets(TargetTag.FullTeam).source(Source.DreamlitActor))
+      x.buff(StatKey.BOOST, 0.12, x.outputBuff(StatKey.CD).source(Source.DreamlitActor))
     }
   },
   gpuBasic: () => [
     basicP2(WgslStatName.SPD_P, 0.06, DreamlitActor),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (
-      relic4p(*p_sets, SET_DreamlitActor)
-      && setConditionals.enabledDreamlitActor == true
-    ) {
-      ${buff.action(AKey.CD, 0.12).targets(TargetTag.FullTeam).wgsl(action, 2)}
+    if (relic4p(*p_sets, SET_DreamlitActor)) {
+      if (setConditionals.valueDreamlitActor >= 1) {
+        ${buff.hit(HKey.BOOST, 0.16).outputBuff(StatKey.ELATION).wgsl(action, 3)}
+      }
+      if (setConditionals.valueDreamlitActor >= 2) {
+        ${buff.action(AKey.CD, 0.12).targets(TargetTag.FullTeam).wgsl(action, 3)}
+        ${buff.hit(HKey.BOOST, 0.12).outputBuff(StatKey.CD).wgsl(action, 4)}
+      }
     }
   `,
   teammate: [{
@@ -74,6 +85,14 @@ const conditionals: SetConditionals = {
       x.buff(StatKey.CD, 0.12, x.targets(TargetTag.FullTeam).source(Source.DreamlitActor))
     },
   }],
+}
+
+function selectionOptions(): SelectOptionContent[] {
+  return [
+    { display: 'Off', value: 0, label: 'Off' },
+    { display: 'Elation', value: 1, label: 'Elation +16%' },
+    { display: 'CD', value: 2, label: 'Elation +16% | CD +12%' },
+  ]
 }
 
 export const DreamlitActor = {

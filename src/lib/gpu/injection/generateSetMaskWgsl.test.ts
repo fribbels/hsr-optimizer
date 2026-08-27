@@ -84,8 +84,8 @@ function injectCarry(tupleMode: boolean, masks = generateSetMaskWgsl()): string 
 }
 
 describe('generateSetMaskWgsl', () => {
-  it('derives the live two-word relic shape from the 33 relic / 28 ornament registry', () => {
-    expect(getSetRegistryCardinality()).toEqual({ relicSetCount: 33, ornamentSetCount: 28 })
+  it('derives the live two-word relic shape from the 34 relic / 28 ornament registry', () => {
+    expect(getSetRegistryCardinality()).toEqual({ relicSetCount: 34, ornamentSetCount: 28 })
 
     const generated = generateSetMaskWgsl()
     expect(generated.relicWordCount).toBe(2)

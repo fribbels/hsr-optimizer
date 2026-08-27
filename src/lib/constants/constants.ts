@@ -407,6 +407,7 @@ export const Sets = {
   AsNavigatorIseeSeesIt: 'As Navigator Isee Sees It',
   DivineQueryingMasterSmith: 'Divine-Querying Master Smith',
   DreamlitActor: 'Dreamlit Actor',
+  TheEdaciousHeretic: 'The Edacious Heretic',
 
   // Ornaments
   SpaceSealingStation: 'Space Sealing Station',

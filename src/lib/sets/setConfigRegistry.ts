@@ -72,6 +72,7 @@ import { SacerdosRelivedOrdeal } from 'lib/sets/relics/SacerdosRelivedOrdeal'
 import { ScholarLostInErudition } from 'lib/sets/relics/ScholarLostInErudition'
 import { SelfEnshroudedRecluse } from 'lib/sets/relics/SelfEnshroudedRecluse'
 import { TheAshblazingGrandDuke } from 'lib/sets/relics/TheAshblazingGrandDuke'
+import { TheEdaciousHeretic } from 'lib/sets/relics/TheEdaciousHeretic'
 import { TheWindSoaringValorous } from 'lib/sets/relics/TheWindSoaringValorous'
 import { ThiefOfShootingMeteor } from 'lib/sets/relics/ThiefOfShootingMeteor'
 import { WarriorGoddessOfSunAndThunder } from 'lib/sets/relics/WarriorGoddessOfSunAndThunder'
@@ -114,6 +115,7 @@ const ALL_RELIC_CONFIGS = [
   AsNavigatorIseeSeesIt,
   DivineQueryingMasterSmith,
   DreamlitActor,
+  TheEdaciousHeretic,
 ] as const
 
 const ALL_ORNAMENT_CONFIGS = [

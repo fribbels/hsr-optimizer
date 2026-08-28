@@ -173,6 +173,8 @@ Toolbar:
     PlotAll: 显示所有角色
     PlotCustom: 显示自定义角色
     PlotOwned: 显示持有角色
+  PotentialOptions:
+    Maximum: 最大值
   EditRelic: 编辑遗器
   DeleteRelic:
     ButtonText: 删除遗器

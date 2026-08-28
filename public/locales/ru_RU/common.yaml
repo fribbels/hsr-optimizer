@@ -9,6 +9,7 @@ Submit: Отправить
 Ok: Ок
 Yes: 'Да'
 No: 'Нет'
+Loading: Загрузка
 Save: Сохранить
 Saved: Сохранено
 Score: Оценка
@@ -24,6 +25,7 @@ VerifiedRelicHoverText: Доп. статы реликвий одобренные
 Verified4LinerHoverText: Статы реликвии и их количество, подтвержденные оценщиком реликвий (дробная часть значения скорости + 4 начальных стата)
 CombatStats: Статы персонажа при учёте команды
 MemospriteLabel: '{{label}}ᴹ'
+Element: Элемент
 Parts:
   Head: Голова
   Hands: Руки

@@ -23,7 +23,6 @@ CharacterMenu:
   Priority:
     Label: Приоритет
     Options:
-      SortByScore: Отсортировать персонажей по оценке сборки
       MoveToTop: Переместить персонажа на самый верх
 SearchPlaceholder: Поиск
 GridDensityOptions:
@@ -33,7 +32,6 @@ Messages:
   UnequipSuccess: Реликвии персонажа успешно сняты
   NoSelectedCharacter: Нет выбранного персонажа
   SwitchSuccess: 'Успешная смена реликвий с $t(gameData:Characters.{{charId}}.Name)'
-  SortByScoreWarning: Вы уверены, что хотите отсортировать персонажей?
   SaveSuccess: 'Сборка {{name}} успешно сохранена'
   UnequipWarning: 'Вы уверены, что хотите снять реликвии с $t(gameData:Characters.{{charId}}.Name)?'
   DeleteWarning: 'Вы уверены, что хотите удалить $t(gameData:Characters.{{charId}}.Name)?'

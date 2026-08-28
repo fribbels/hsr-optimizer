@@ -149,6 +149,9 @@ Toolbar:
     PlotAll: crwdns43588:0crwdne43588:0
     PlotCustom: crwdns43590:0crwdne43590:0
     PlotOwned: crwdns45774:0crwdne45774:0
+  PotentialOptions:
+    Maximum: crwdns47531:0crwdne47531:0
+    Average: crwdns47533:0crwdne47533:0
   EditRelic: crwdns43592:0crwdne43592:0
   DeleteRelic:
     ButtonText: crwdns43594:0crwdne43594:0
@@ -160,3 +163,4 @@ RelicInsights:
   NewStats: 'crwdns43602:0crwdne43602:0'
   UpgradedStats: 'crwdns43604:0crwdne43604:0'
   AvgPotential: 'crwdns45776:0crwdne45776:0'
+  MaxPotential: 'crwdns47535:0crwdne47535:0'

@@ -122,6 +122,7 @@ RelicInsights:
     see the new stats and/or rolls necessary to reach the max potential of this relic.<3/>⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the
     best new substat per character.
   p3: "Top 10 takes the top 10 characters that this relic could be best for, and shows the range of \"% perfection\" upgrading this relic could result in."
+  p4: Use the Maximum / Average toggle to switch between the best possible upgrade rolls and the projected average potential at the relic's maximum level.
 RelicLocation:
   Title: Relic Location
   p1: When a relic is selected in the grid, its position in the ingame inventory is displayed here.

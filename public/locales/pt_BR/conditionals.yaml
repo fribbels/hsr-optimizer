@@ -1256,6 +1256,10 @@ Characters:
       e4TeamResBuff:
         text: Buff de RES da equipe E4
         content: Quando Gepard está em batalha, a RES ao Efeito de todos os aliados aumenta em 20%.
+  Gilgamesh:
+    Content:
+      e6ResPen:
+        text: E6 RES PEN
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1331,6 +1335,10 @@ Characters:
       e6UltExtraHits:
         text: Ataques extras da Ultimate E6
         content: A Ultimate causa DMG 2 vezes extras. Os ataques extras causam 40% do DMG original por ataque.
+  HimekoNova:
+    Content:
+      e6:
+        text: Buffs E6
   Hook:
     Content:
       enhancedSkill:
@@ -1724,6 +1732,16 @@ Characters:
       e4SpdBuff:
         text: Buff de SPD E4
         content: Enquanto estiver no estado "Forma de vedação", aumenta a SPD de todos os aliados em 12%.
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: Habilidade Aprimorada
+      talentCdBuff:
+        text: Buff de CD de talento
+      ladylikePoise:
+        text: Buff de SPD
+      e6ResPen:
+        text: E6 RES PEN
   Robin:
     Content:
       concertoActive:

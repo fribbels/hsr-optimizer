@@ -478,7 +478,11 @@ const display = {
     z: 1.25,
   },
   showcaseColor: '#c1a2c7',
-  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const KafkaB1: CharacterConfig = {

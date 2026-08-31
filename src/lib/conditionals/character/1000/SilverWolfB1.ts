@@ -392,7 +392,11 @@ const display = {
     z: 1,
   },
   showcaseColor: '#919cee',
-  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const SilverWolfB1: CharacterConfig = {

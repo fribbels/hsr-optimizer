@@ -606,7 +606,11 @@ const display = {
     z: 1.2,
   },
   showcaseColor: '#c7ccf5',
-  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export function getYaoguangAhaPunchlineValue(action: OptimizerAction, context: OptimizerContext): number | undefined {

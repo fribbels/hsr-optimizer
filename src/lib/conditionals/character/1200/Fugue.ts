@@ -423,7 +423,11 @@ const display = {
     z: 1.15,
   },
   showcaseColor: '#f0dfec',
-  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const Fugue: CharacterConfig = {

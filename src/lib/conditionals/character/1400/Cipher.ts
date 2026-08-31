@@ -590,7 +590,11 @@ const display = {
     z: 0.17,
   },
   showcaseColor: '#bbaaff',
-  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const Cipher: CharacterConfig = {

@@ -424,7 +424,11 @@ const display = {
   },
   disableSpine: true,
   showcaseColor: '#bae2d6',
-  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.SHIELD_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const Aventurine: CharacterConfig = {

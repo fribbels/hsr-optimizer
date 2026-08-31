@@ -1,32 +1,24 @@
-CollapseLabels:
-  Explore: 機能を詳しく見る
-  Join: コミュニティに参加
 CommunityCollapse: >-
   本プロジェクトへの支援、ならびに開発への協力に対し、すべての貢献者、翻訳者、ユーザーの皆様、およびフィードバックをお寄せいただいた皆様に深く感謝いたします。
-FeatureCards:
-  LearnMore: 詳しく見る
+CommunityCard:
+  Discord:
+    Title: Discord
+  Github:
+    Title: GitHub
+  Changelog:
+    Title: 更新履歴
+FeatureCard:
   Showcase:
     Title: キャラクターのショーケース
-    Content: >-
-      キャラクターのステータスをショーケースしたり、未所持のキャラクターをあらかじめビルドしたりできます。DPS スコアで戦闘ダメージをシミュレーションし、他のビルドと比較して評価しましょう。
   Optimizer:
-    Content: >-
-      キャラクターを最適化して、目標値に到達し、ステータスを最大化するための最適な遺物の組み合わせを見つけましょう。
-  Calculator:
-    Title: ダメージ計算
-    Content: >-
-      チーム編成、バフ条件、スキル回しを完全にカスタマイズして、ダメージを正確に計算し、最大のダメージを引き出しましょう。
-  Organizer:
-    Title: 遺物の整理
-    Content: >-
-      遺物をスコアやポテンシャルに基づいて整理・ソートし、各キャラクターに最適な強化対象の遺物を見つけましょう。
-  WarpPlanner:
+    Description: キャラクターを最適化して、目標値に到達し、ステータスを最大化するための最適な遺物の組み合わせを見つけましょう。
+  Warp:
     Title: 跳躍計画
-  BenchmarkGenerator:
-    Title: ベンチマーク生成
+  DamageCalculator:
+    Title: ダメージ計算
+    Description: チーム編成、バフ条件、スキル回しを完全にカスタマイズして、与ダメージを正確に計算し、ダメージを最大限引き出しましょう。
   RarityAnalysis:
     Title: レア度分析
-Welcome: "Fribbels Star Rail Optimizer へ<1/>\nようこそ"
 Hero:
   Welcome: ようこそ、
   Title: Fribbels Star Rail Optimizer

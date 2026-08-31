@@ -1,28 +1,13 @@
-CollapseLabels:
-  Explore: Scopri le funzionalità
-  Join: Unisciti alla community
-FeatureCards:
-  LearnMore: Scopri di più
-  Showcase:
-    Title: Vetrina dei Personaggi
-    Content: >-
-      Mostra le statistiche dei tuoi personaggi o costruisci in anticipo personaggi futuri. Simula il loro danno in combattimento con un punteggio DPS e confrontalo con i benchmark.
-  Optimizer:
-    Content: >-
-      Ottimizza i tuoi personaggi cercando le migliori combinazioni di reliquie per raggiungere i loro breakpoint e massimizzare le loro statistiche.
-  Calculator:
-    Title: Calcolatore dei Danni
-    Content: >-
-      Calcola i danni in modo preciso con configurazioni di squadra, condizioni di buff, e rotazioni di abilità completamente personalizzabili per massimizzarne l'output.
-  Organizer:
-    Title: Organizzatore delle Reliquie
-    Content: >-
-      Organizza le tue reliquie valutandole e ordinandole in base al loro potenziale, e trova quelle migliori da potenziare per ogni personaggio.
-  WarpPlanner:
+CommunityCard:
+  Discord:
+    Title: Discord
+  Github:
+    Title: Github
+  Changelog:
+    Title: Modifiche recenti
+FeatureCard:
+  Warp:
     Title: Pianifica Warp
-  BenchmarkGenerator:
-    Title: Generatore Benchmark
-Welcome: Benvenuti su<1/>Ottimizzatore Star Rail di Fribbels
 SearchBar:
   Placeholder: UID
   Label: 'Inserisci il tuo UID per visualizzare i tuoi personaggi in vetrina'

@@ -48,6 +48,7 @@ import {
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_SUPPORT,
 } from 'lib/scoring/scoringConstants'
+import { ScoringType } from 'lib/scoring/scoringTypes'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -595,6 +596,7 @@ const display = {
     z: 1.12,
   },
   showcaseColor: '#86aef4',
+  showcaseScoringOrder: [ScoringType.BUFFER_SCORE, ScoringType.DPS_SCORE],
 }
 
 export const RobinSummeretto: CharacterConfig = {

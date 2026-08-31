@@ -1,13 +1,16 @@
 // @vitest-environment jsdom
 import { Kafka } from 'lib/conditionals/character/1000/Kafka'
 import { Jingliu } from 'lib/conditionals/character/1200/Jingliu'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { ComboType } from 'lib/optimization/rotation/comboType'
+import { ScoringType } from 'lib/scoring/scoringConfig'
 import {
   clearBuilds,
   deleteBuild,
   loadBuildInOptimizer,
   saveBuild,
 } from 'lib/services/buildService'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
 import {
   getCharacterById,
@@ -15,9 +18,11 @@ import {
 } from 'lib/stores/character/characterStore'
 import { createDefaultFormState } from 'lib/stores/optimizerForm/optimizerFormDefaults'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
+import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { Character } from 'types/character'
 import type { Teammate } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
+import { ScoringConfigType } from 'types/metadata'
 import {
   BuildSource,
   type CharacterSavedBuild,
@@ -86,12 +91,13 @@ function makeOptimizerBuild(overrides: Partial<OptimizerSavedBuild> = {}): Optim
 }
 
 function makeCharacter(overrides: Partial<Character> = {}): Character {
+  const characterId = overrides.id ?? Kafka.id
   return {
-    id: Kafka.id,
+    id: characterId,
     equipped: {},
     form: {
       ...createDefaultFormState(),
-      characterId: Kafka.id,
+      characterId,
       lightCone: '21001' as LightConeId,
       resultMinFilter: 0,
       ornamentSets: [],
@@ -114,6 +120,7 @@ function seedCharacter(overrides: Partial<Character> = {}) {
 
 beforeEach(() => {
   useCharacterStore.setState(useCharacterStore.getInitialState())
+  useShowcaseTabStore.setState(useShowcaseTabStore.getInitialState())
 })
 
 // ---- Tests ----
@@ -139,6 +146,55 @@ describe('buildService', () => {
       const character = getCharacterById(Kafka.id)!
       expect(character.builds).toHaveLength(1)
       expect(character.builds![0].name).toBe(BUILD_NAME_1)
+    })
+
+    it('uses Robin Summeretto\'s configured support default and serializes its team', () => {
+      seedCharacter({ id: RobinSummeretto.id })
+
+      saveBuild(BUILD_NAME_1, RobinSummeretto.id, BuildSource.Character, false)
+
+      const build = getCharacterById(RobinSummeretto.id)!.builds![0]
+      const expectedTeam = getGameMetadata().characters[RobinSummeretto.id].scoringMetadata!.supportSimulation!.teammates
+      expect(build.scoringConfigType).toBe(ScoringConfigType.BUFFER)
+      expect(build.team.map((teammate) => teammate?.characterId ?? null)).toEqual(
+        expectedTeam.map((teammate) => teammate.characterId),
+      )
+    })
+
+    it('keeps Robin Summeretto\'s stored DPS selection and serializes its DPS team', () => {
+      seedCharacter({ id: RobinSummeretto.id })
+      useShowcaseTabStore.setState({
+        showcasePreferences: {
+          [RobinSummeretto.id]: { scoringType: ScoringType.DPS_SCORE },
+        },
+      })
+
+      saveBuild(BUILD_NAME_1, RobinSummeretto.id, BuildSource.Character, false)
+
+      const build = getCharacterById(RobinSummeretto.id)!.builds![0]
+      const expectedTeam = getGameMetadata().characters[RobinSummeretto.id].scoringMetadata!.simulation!.teammates
+      expect(build.scoringConfigType).toBe(ScoringConfigType.DPS)
+      expect(build.team.map((teammate) => teammate?.characterId ?? null)).toEqual(
+        expectedTeam.map((teammate) => teammate.characterId),
+      )
+    })
+
+    it.each([
+      ['substat', ScoringType.SUBSTAT_SCORE],
+      ['none', ScoringType.NONE],
+    ])('omits simulation config and team for %s mode', (_label, scoringType) => {
+      seedCharacter({ id: RobinSummeretto.id })
+      useShowcaseTabStore.setState({
+        showcasePreferences: {
+          [RobinSummeretto.id]: { scoringType },
+        },
+      })
+
+      saveBuild(BUILD_NAME_1, RobinSummeretto.id, BuildSource.Character, false)
+
+      const build = getCharacterById(RobinSummeretto.id)!.builds![0]
+      expect(build).not.toHaveProperty('scoringConfigType')
+      expect(build.team).toEqual([null, null, null])
     })
 
     it('with overwrite replaces the matching build by name', () => {

@@ -1,3 +1,4 @@
+import type { ScoringType } from 'lib/scoring/scoringTypes'
 import type {
   CharacterId,
   Eidolon,
@@ -24,6 +25,7 @@ export type CharacterDisplay = {
   },
   disableSpine?: boolean,
   showcaseColor?: string,
+  showcaseScoringOrder?: readonly ScoringType[],
   gridPortraitOffset?: number,
 }
 

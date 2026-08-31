@@ -24,6 +24,7 @@ Import:
     Connected: 接続済み
     Disconnected: 未接続
     DisconnectedHint: スキャナーに接続できません。プログラムが実行中であることを確認してください。
+    ImportDisabledHint: Live Import がオンになっている間は、既にインベントリが同期されているので無効です。手動でインポートするにはオフにする必要があります。
     Enable: Live Import（推奨）
     UpdateCharacters: 装備中の遺物・光円錐の更新
     OnlyExistingCharacters: 既存のキャラクターのみ更新

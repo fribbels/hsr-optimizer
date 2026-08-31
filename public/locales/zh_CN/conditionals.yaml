@@ -1561,6 +1561,10 @@ Characters:
       e4TeamResBuff:
         text: 4魂团队效果抵抗增益
         content: 杰帕德在场时，我方全体的效果抵抗提高20%。
+  Gilgamesh:
+    Content:
+      e6ResPen:
+        text: 6魂属性抗性穿透
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1636,6 +1640,10 @@ Characters:
       e6UltExtraHits:
         text: 6魂终结技额外伤害次数
         content: 终结技额外造成2次伤害，对随机敌方单体各造成等同于原伤害40%的火属性伤害。
+  HimekoNova:
+    Content:
+      e6:
+        text: 6魂增益
   Hook:
     Content:
       enhancedSkill:
@@ -2124,6 +2132,16 @@ Characters:
       e4SpdBuff:
         text: 4魂速度增益
         content: '【结印】状态期间，我方全体速度提高12%。'
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: 强化战技
+      talentCdBuff:
+        text: 天赋暴击伤害增益
+      ladylikePoise:
+        text: 速度增益
+      e6ResPen:
+        text: 6魂属性抗性穿透
   Robin:
     Content:
       concertoActive:

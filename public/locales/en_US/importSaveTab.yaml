@@ -24,6 +24,7 @@ Import:
     Connected: Connected
     Disconnected: Disconnected
     DisconnectedHint: Unable to connect to the scanner. Please check that it is running.
+    ImportDisabledHint: Disabled while Live Import is on - the scanner is already syncing your inventory. Turn it off below to import manually.
     Enable: Enable Live Import (Recommended)
     UpdateCharacters: Enable updating characters' equipped relics and lightcones
     OnlyExistingCharacters: Only update existing characters

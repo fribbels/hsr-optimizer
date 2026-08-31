@@ -1,28 +1,13 @@
-CollapseLabels:
-  Explore: Explorar as funções
-  Join: Junte-se à comunidade
-FeatureCards:
-  LearnMore: Saiba mais
-  Showcase:
-    Title: Apresentação de Personagem
-    Content: >-
-      Exiba as estatísticas de seu personagem ou crie previamente futuros personagens. Simule o dano de combate com a pontuação de DPS e compare-o com os benchmarks.
-  Optimizer:
-    Content: >-
-      Otimize seus personagens para buscar a melhor combinação de relíquias para atingir seus breakpoints e maximizar suas estatísticas.
-  Calculator:
-    Title: Calculadora de Dano
-    Content: >-
-      Calcule o dano com precisão, com configurações de equipe totalmente personalizáveis, condições de bônus e rotações de habilidades para maximizar o dano.
-  Organizer:
-    Title: Organizador de Relíquias
-    Content: >-
-      Organize suas relíquias pontuando e classificando as relíquias com base em seu potencial e encontre as melhores relíquias para aprimorar para cada personagem.
-  WarpPlanner:
+CommunityCard:
+  Discord:
+    Title: Discord
+  Github:
+    Title: Github
+  Changelog:
+    Title: Changelog
+FeatureCard:
+  Warp:
     Title: Planejador de Tiros
-  BenchmarkGenerator:
-    Title: Gerador Benchmark
-Welcome: Bem-vindo ao<1/>Fribbels Star Rail Optimizer
 SearchBar:
   Placeholder: UID
   Label: 'Insira seu UID para ver sua demostração de personagens'

@@ -50,6 +50,7 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { ScoringType } from 'lib/scoring/scoringTypes'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 
@@ -422,6 +423,7 @@ const display = {
     z: 1.15,
   },
   showcaseColor: '#f0dfec',
+  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
 }
 
 export const Fugue: CharacterConfig = {

@@ -45,6 +45,7 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_SHIELD,
 } from 'lib/scoring/scoringConstants'
+import { ScoringType } from 'lib/scoring/scoringTypes'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { floorSafe } from 'lib/utils/mathUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -423,6 +424,7 @@ const display = {
   },
   disableSpine: true,
   showcaseColor: '#bae2d6',
+  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
 }
 
 export const Aventurine: CharacterConfig = {

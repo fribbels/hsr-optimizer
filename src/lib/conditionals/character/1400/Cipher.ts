@@ -65,6 +65,7 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { ScoringType } from 'lib/scoring/scoringTypes'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -589,6 +590,7 @@ const display = {
     z: 0.17,
   },
   showcaseColor: '#bbaaff',
+  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
 }
 
 export const Cipher: CharacterConfig = {

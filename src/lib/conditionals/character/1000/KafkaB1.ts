@@ -65,6 +65,7 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { ScoringType } from 'lib/scoring/scoringTypes'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
@@ -477,6 +478,7 @@ const display = {
     z: 1.25,
   },
   showcaseColor: '#c1a2c7',
+  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
 }
 
 export const KafkaB1: CharacterConfig = {

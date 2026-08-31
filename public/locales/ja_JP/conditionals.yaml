@@ -40,6 +40,11 @@ Lightcones:
         text: '「泡影」付与済み'
         content: >-
           装備キャラの攻撃が敵に命中する時、敵を「泡影」状態にする、1ターン継続。この効果は装備キャラが攻撃を行うたびに、敵それぞれに1回まで発動できる。「泡影」状態の敵に対する装備キャラの与ダメージ+{{DmgBoost}}%、さらに必殺技によるダメージ+{{UltDmgBoost}}%。
+  AStarThatLightsTheNight:
+    Content:
+      sailStacks:
+        text: '「出航」層数'
+        content: '「出航」1層につき、支援スキルダメージ+{{sailDmgBoost}}%。「出航」が3層に達した時、「出航」1層につき、必殺技ダメージ+{{sailDmgBoost}}%。'
   AThanklessCoronation:
     Content:
       ultAtkBoost:
@@ -136,6 +141,11 @@ Lightcones:
       skillUltDmgBoost:
         text: スキル/必殺技ダメ増加
         content: 戦闘スキル、または必殺技を発動した時、その回の攻撃の与ダメージ+30%。
+  FlickeringStars:
+    Content:
+      radiantCrown:
+        text: '「輝く王冠」'
+        content: 任意の味方キャラが自身の1ターン中に合計でSPを4以上消費した時、装備キャラは「輝く王冠」を獲得する。「輝く王冠」は3ターン継続する。装備キャラが「輝く王冠」を持つ時、味方全体の与ダメージはターゲットの防御力を{{DefPen}}%無視し、装備キャラの戦闘スキルダメージ+{{DmgBoost}}%。同系統のスキルは累積できない。
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -146,6 +156,14 @@ Lightcones:
         text: '「朗唱」層数'
         content: >-
           味方が攻撃を行うたび、装備キャラは「朗唱」を1層獲得する。「朗唱」1層につき、装備キャラのEP回復効率+{{RegenBuff}}%、最大で5層累積できる。装備キャラが必殺技を発動する時、「朗唱」を解除し「華彩」を獲得する。「華彩」がある時、装備キャラの攻撃力+{{AtkBuff}}%、味方全体の与ダメージ+{{DmgBuff}}%、1ターン継続。
+  IAmAsYouBehold:
+    Content:
+      ultimateEnergyDmgBoost:
+        text: EP必殺技ダメージバフ
+        content: 装備キャラが必殺技を発動する時、EPを1消費するごとに、この回の必殺技ダメージ+{{DmgBoostStep}}%、最大で+{{MaxDmgBoost}}%。
+      kingsEntertainment:
+        text: '「王の娯楽」'
+        content: 装備キャラが戦闘に入る、または必殺技を発動する時、装備キャラは「王の娯楽」を獲得する。「王の娯楽」は3ターン継続する。装備キャラが「王の娯楽」を持つ時、味方全体の会心ダメージ+{{CdBoost}}%、同系統のスキルは累積できない。
   IfTimeWereAFlower:
     Content:
       presage:
@@ -176,6 +194,8 @@ Lightcones:
       skillAtkBoost:
         text: スキル時の攻撃力増加
         content: 装備キャラが戦闘スキルを発動した時、その攻撃の効果命中+{{EhrBuff}}%、攻撃力+{{AtkBuff}}%。
+      skillEhrBoost:
+        text: スキル時の効果命中バフ
   InTheNight:
     Content:
       spdScalingBuffs:
@@ -1564,8 +1584,28 @@ Characters:
         content: 4凸 ジェパードがフィールド上にいる時、味方全体の効果抵抗+20%。
   Gilgamesh:
     Content:
+      herosHauteurStacks:
+        text: 会心ダメ層数
+        content: この戦闘中、ギルガメッシュが「興」を1獲得するたびに、自身の会心ダメージ+25%。この効果は最大6層まで累積できる。
+      interestSpdStacks:
+        text: '「興」層数'
+        content: '「興」が1あるごとに、ギルガメッシュは自身の速度+10%。'
+      kingsAcknowledgement:
+        text: '「王が認める」'
+        content: >-
+          「王が認める」を獲得し、自身がダメージを与える時、ターゲットの防御力を{{KingsAcknowledgementDefPen}}%無視する。3ターン継続。::BR:: 1凸：ギルガメッシュが「王が認める」を持つ時、「王が認める」の防御力無視効果はギルガメッシュ以外の味方にも適用される。また、「王が認める」を持つギルガメッシュの攻撃力がさらに+60%。
+      kingsBurden:
+        text: '「王が背負う」'
+        content: 自身以外の味方が必殺技を発動する時、ギルガメッシュは「王が背負う」を獲得し、自身の必殺技ダメージ+{{TalentUltDmgBoost}}%、3ターン継続。
+      a6TeamBuff:
+        text: 王の争覇
+        content: ギルガメッシュがフィールドにいる時、味方全体の攻撃力+20%、会心ダメージ+20%。味方の最大EPが140を超えている場合、超過分1につき、攻撃力と会心ダメージがさらに+1%、最大で+100%。
       e6ResPen:
         text: 6凸 全属性耐性貫通
+        content: ギルガメッシュがフィールド上にいる時、味方キャラの全属性耐性貫通+20%。
+      goldenRuleStacks:
+        text: '「黄金律」層数'
+        content: 自身以外の味方が必殺技を発動すると、ギルガメッシュは「黄金律」を1獲得する（最大3まで累積可能）。自身が必殺技を発動する時、所持しているすべての「黄金律」を消費し、消費した「黄金律」1につき、必殺技ダメージの会心ダメージ+100%。
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1643,8 +1683,27 @@ Characters:
         content: 必殺技を発動した時、さらに2ヒットし、1ヒットごとにランダムな敵単体に本来のダメージ40%分の炎属性ダメージを与える。
   HimekoNova:
     Content:
+      navigatorsSemaphore:
+        text: '「導く旗印」'
+        content: 姫子・旅立ちが「導く旗印」を持つ時、味方全体の与ダメージ+{{SemaphoreDmgBoost}}%。
+      selfUseAssistSkill:
+        text: 自身への支援スキル
+        content: 姫子が支援スキルを使用した時、すべての敵に強化されたダメージを与え、さらに1つの追加のダメージをランダムな敵ターゲットに与えます。
+      assistSkillBuff:
+        text: 支援スキルバフ
+        content: 支援スキルの使用は「姫子・旅立ち」が戦闘スキルを発動したものと見なされる。同時に姫子・旅立ちの全属性耐性貫通+{{AssistSkillResPen}}%、会心ダメージ+{{AssistSkillCdBuff}}%。
+      companionVerdict:
+        text: '同行協定 ：裁決'
+        content: 姫子・旅立ちの与ダメージ+{{VerdictDmgBuff}}%、与える必殺技ダメージがさらに+{{VerdictUltDmgBuff}}%。
+      companionDecimation:
+        text: '同行協定：殲滅'
+        content: '「同行協定：殲滅」状態に入る。味方全体の会心ダメージ+{{DecimationCdBuff}}%、戦闘スキルによるダメージの会心ダメージがさらに+{{DecimationSkillCdBuff}}%。'
+      e4ResPen:
+        text: 4凸 全属性耐性貫通
+        content: 天賦「共に灼熱の遠征へ」によって支援スキルを使用する時、全属性耐性貫通アップ効果が味方全体に対して有効となる。姫子・旅立ちがこの効果を獲得する時、全属性耐性貫通がさらに+10%。
       e6:
         text: 6凸 必殺/追加攻撃強化
+        content: 姫子・旅立ちの炎属性耐性貫通+20%。「原動力」の上限が6までアップする。味方が支援スキルを使用または発動する時、支援スキルによるダメージ+75%、姫子・旅立ちは「原動力」を1獲得する。必殺技の間、「超光速粒子ビーム」を発動して攻撃する時、追加で「原動力」を1獲得する。「軌道殲滅パルス砲」を発動する時、所持している「原動力」が6以上の場合、追加で敵全体に姫子・旅立ちの攻撃力160%分の炎属性ダメージを1回与える。
   Hook:
     Content:
       enhancedSkill:
@@ -2138,10 +2197,31 @@ Characters:
     Content:
       enhancedSkill:
         text: 強化状態のスキル
+        content: 遠坂凛が所持している「宝石エネルギー」が15以上、または現在のSPが7以上の場合、戦闘スキル「宝石剣ゼルレッチ」が「第二魔法の実験」に強化される。
+      skillBounces:
+        text: スキルバウンド回数
+        content: '「宝石エネルギー」を3消費して、追加でランダムな敵単体に遠坂凛の攻撃力90%分の量子属性ダメージを与える。なお、このランダムな敵単体への攻撃は「宝石エネルギー」が3以上あり、かつHPが0を超える敵がいるかぎり、最大33回まで繰り返し発動する。発動時、現在のSPが2を超えている場合、残りSPが2になるまで消費する。消費されたSP1につき、即座に「宝石エネルギー」を2獲得する。'
+      enhancedSkillSpConsumed:
+        text: 強化状態スキルのSP消費
+        content: '「宝石エネルギー」を3消費して、追加でランダムな敵単体に遠坂凛の攻撃力90%分の量子属性ダメージを与える。なお、このランダムな敵単体への攻撃は「宝石エネルギー」が3以上あり、かつHPが0を超える敵がいるかぎり、最大33回まで繰り返し発動する。発動時、現在のSPが2を超えている場合、残りSPが2になるまで消費する。消費されたSP1につき、即座に「宝石エネルギー」を2獲得する。'
       talentCdBuff:
         text: 味方全体の会心ダメバフ
+        content: 味方がSPを消費または回復した時、その味方の会心ダメージ+{{TalentCdBuff}}%、2ターン継続。
+      elegantConduct:
+        text: 優雅たれ
+        content: 遠坂凛がフィールド上にいる時、最大SP+2。戦闘に入る時、遠坂凛の攻撃力+150%、量子属性耐性貫通+15%。アーチャーがパーティにいる場合、アーチャーもこの効果を獲得する。
       ladylikePoise:
         text: 速度バフ
+        content: 戦闘に入る時および強化戦闘スキルを発動した後、遠坂凛の速度+20%、3ターン継続。
+      ultDmgTakenDebuff:
+        text: 必殺技敵被ダメージ増加
+        content: 必殺技発動時、味方のSPを1回復し、敵全体の受けるダメージ+{{UltVulnerability}}%、3ターン継続。
+      e2Buffs:
+        text: 2凸 スキルダメージバフ
+        content: 遠坂凛の戦闘スキルダメージ+30%。遠坂凛がフィールド上にいる時、味方全体の戦闘スキルダメージが元のダメージの130%になる。
+      e4TalentCdStacks:
+        text: 4凸 会心ダメアップ層数
+        content: 天賦「宝石魔術」の会心ダメージアップ効果が遠坂凛に適用される時、効果が累積できるようになる。最大で2層累積できる。
       e6ResPen:
         text: 6凸 全属性耐性貫通
   Robin:

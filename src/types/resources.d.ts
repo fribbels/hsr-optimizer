@@ -1,4 +1,4 @@
-export default interface Resources {
+interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -4948,6 +4948,10 @@ export default interface Resources {
         "LongName": "Yao Guang",
         "Name": "Yao Guang"
       },
+      "1503": {
+        "LongName": "Pearl",
+        "Name": "Pearl"
+      },
       "1504": {
         "LongName": "Ashveil",
         "Name": "Ashveil"
@@ -4978,11 +4982,11 @@ export default interface Resources {
       },
       "1512": {
         "LongName": "Robin • Summeretto",
-        "Name": "Summeretto"
+        "Name": "Robin • Summeretto"
       },
       "1513": {
         "LongName": "Aventurine • Waveflair",
-        "Name": "Waveflair"
+        "Name": "Aventurine • Waveflair"
       },
       "8001": {
         "LongName": "Caelus (Destruction)",
@@ -5494,6 +5498,9 @@ export default interface Resources {
       "23054": {
         "Name": "When She Decided to See"
       },
+      "23055": {
+        "Name": "Colors for Tomorrow"
+      },
       "23056": {
         "Name": "The Finale of a Lie"
       },
@@ -5714,6 +5721,16 @@ export default interface Resources {
         "Description2pc": "Increases Max HP by 12%.",
         "Description4pc": "Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 2 turns. This effect cannot be stacked. The DMG dealt by ally targets with \"Comburent\" increases by 15%. This effect can be triggered again after the wearer uses an attack.",
         "Name": "Divine-Querying Master Smith"
+      },
+      "133": {
+        "Description2pc": "Increases SPD by 6%.",
+        "Description4pc": "When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.",
+        "Name": "Dreamlit Actor"
+      },
+      "134": {
+        "Description2pc": "Increases ATK by 12%.",
+        "Description4pc": "Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.",
+        "Name": "The Edacious Heretic"
       },
       "301": {
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%.",
@@ -8028,3 +8045,5 @@ export default interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
+
+export default Resources;

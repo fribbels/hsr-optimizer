@@ -609,7 +609,11 @@ const display = {
     z: 1.02,
   },
   showcaseColor: '#d1d1ff',
-  showcaseScoringOrder: [ScoringType.SUBSTAT_SCORE],
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.HEAL_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const Pearl: CharacterConfig = {

@@ -596,7 +596,12 @@ const display = {
     z: 1.12,
   },
   showcaseColor: '#86aef4',
-  showcaseScoringOrder: [ScoringType.BUFFER_SCORE, ScoringType.DPS_SCORE],
+  showcaseScoringOrder: [
+    ScoringType.BUFFER_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const RobinSummeretto: CharacterConfig = {

@@ -1,33 +1,61 @@
-CollapseLabels:
-  Explore: crwdns41962:0crwdne41962:0
-  Join: crwdns41964:0crwdne41964:0
 CommunityCollapse: >-
   crwdns47106:0crwdne47106:0
-FeatureCards:
-  LearnMore: crwdns41968:0crwdne41968:0
+CommunityCard:
+  Discord:
+    Title: crwdns47651:0crwdne47651:0
+    Description: crwdns47653:0crwdne47653:0
+  Github:
+    Title: crwdns47655:0crwdne47655:0
+    Description: crwdns47657:0crwdne47657:0
+  Roadmap:
+    Title: crwdns47659:0crwdne47659:0
+    Description: crwdns47661:0crwdne47661:0
+  Changelog:
+    Title: crwdns47663:0crwdne47663:0
+    Description: crwdns47665:0crwdne47665:0
+FeatureCard:
   Showcase:
-    Title: crwdns41970:0crwdne41970:0
-    Content: >-
-      crwdns41972:0crwdne41972:0
+    Title: crwdns47667:0crwdne47667:0
+    Description: crwdns47669:0crwdne47669:0
+    Features:
+      - crwdns47671:0crwdne47671:0
+      - crwdns47673:0crwdne47673:0
+      - crwdns47675:0crwdne47675:0
   Optimizer:
-    Title: crwdns47108:0crwdne47108:0
-    Content: >-
-      crwdns41976:0crwdne41976:0
-  Calculator:
-    Title: crwdns41978:0crwdne41978:0
-    Content: >-
-      crwdns41980:0crwdne41980:0
-  Organizer:
-    Title: crwdns41982:0crwdne41982:0
-    Content: >-
-      crwdns41984:0crwdne41984:0
-  WarpPlanner:
-    Title: crwdns47110:0crwdne47110:0
-  BenchmarkGenerator:
-    Title: crwdns47112:0crwdne47112:0
+    Title: crwdns47677:0crwdne47677:0
+    Description: crwdns47679:0crwdne47679:0
+    Features:
+      - crwdns47681:0crwdne47681:0
+      - crwdns47683:0crwdne47683:0
+      - crwdns47685:0crwdne47685:0
+  Warp:
+    Title: crwdns47687:0crwdne47687:0
+    Description: crwdns47689:0crwdne47689:0
+    Features:
+      - crwdns47691:0crwdne47691:0
+      - crwdns47693:0crwdne47693:0
+      - crwdns47695:0crwdne47695:0
+  DamageCalculator:
+    Title: crwdns47697:0crwdne47697:0
+    Description: crwdns47699:0crwdne47699:0
+    Features:
+      - crwdns47701:0crwdne47701:0
+      - crwdns47703:0crwdne47703:0
+      - crwdns47705:0crwdne47705:0
+  Benchmarks:
+    Title: crwdns47707:0crwdne47707:0
+    Description: crwdns47709:0crwdne47709:0
+    Features:
+      - crwdns47711:0crwdne47711:0
+      - 'crwdns47713:0crwdne47713:0'
+      - crwdns47715:0crwdne47715:0
   RarityAnalysis:
-    Title: crwdns47114:0crwdne47114:0
-Welcome: crwdns41986:0crwdne41986:0
+    Title: crwdns47717:0crwdne47717:0
+    Description: crwdns47719:0crwdne47719:0
+    Features:
+      - crwdns47721:0crwdne47721:0
+      - crwdns47723:0crwdne47723:0
+      - crwdns47725:0crwdne47725:0
 Hero:
   Welcome: crwdns47116:0crwdne47116:0
   Title: crwdns47118:0crwdne47118:0

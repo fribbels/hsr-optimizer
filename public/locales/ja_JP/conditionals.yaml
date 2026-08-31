@@ -24,6 +24,9 @@ Common:
   DotTickCoefficient:
     Text: '持続ダメ発生回数係数'
     Content: '敵のターン、起爆、その他の要因による総発生回数を考慮した、ローテーション内の1行動あたりの持続ダメージ割合。※100% ＝ 持続ダメージ1回分'
+  AdditionalTickCoefficient:
+    Text: '付加ダメ発生回数係数'
+    Content: 'スキル回しにない付加ダメージ源に対する乗数で、100%は一回の付加ダメージを表します。'
 Lightcones:
   AGroundedAscent:
     Content:
@@ -288,6 +291,7 @@ Lightcones:
     Content:
       purgatoryState:
         text: 会心ダメバフ
+        content: '「煉獄」状態のターゲットが受ける会心ダメージ+{{cdBuff}}%、装備キャラから受ける会心ダメージはさらに+{{cdBuff}}%。'
   ReforgedRemembrance:
     Content:
       prophetStacks:
@@ -1558,6 +1562,10 @@ Characters:
       e4TeamResBuff:
         text: 4凸 味方効果抵抗アップ
         content: 4凸 ジェパードがフィールド上にいる時、味方全体の効果抵抗+20%。
+  Gilgamesh:
+    Content:
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1633,6 +1641,10 @@ Characters:
       e6UltExtraHits:
         text: 6凸 必殺追加ヒット数
         content: 必殺技を発動した時、さらに2ヒットし、1ヒットごとにランダムな敵単体に本来のダメージ40%分の炎属性ダメージを与える。
+  HimekoNova:
+    Content:
+      e6:
+        text: 6凸 必殺/追加攻撃強化
   Hook:
     Content:
       enhancedSkill:
@@ -1941,12 +1953,25 @@ Characters:
         content: 必殺技を発動する時、自身の与ダメージ+30%、自身の次のターンが終了するまで継続。
   MortenaxBlade:
     Content:
+      infiniteFuryActive:
+        text: '「無量忿怒」状態'
+        content: "\n「無量忿怒」状態では、会心率+20%、会心ダメージ+60.0%。通常攻撃は「魂魄を断つ鋭刃」に強化される。同時に戦闘スキルが解放され、新たな必殺技「千冶は一を鋳り、万劫を燼滅す」を獲得する。"
       ultZone:
         text: 結界有効
+        content: >-
+          結界が展開されている間、敵に攻撃される確率がアップ、自身の受けるダメージ-50%。結界が展開されている間、味方の与ダメージ+50%。パーティに千冶・刃以外の「虚無」の運命を歩むキャラがいる場合、味方の必殺技ダメージ+75%。また、パーティに千冶・刃以外の「虚無」の運命を歩むキャラがいない場合、千冶・刃の与ダメージがさらに+75%。 ::BR:: 1凸：結界が展開されている間、敵全体の全属性耐性-20%。天賦による追加の戦闘スキルを発動した後、「無量忿怒」のカウントダウンの行動順を15%遅延させる。 ::BR:: 4凸：「万淬の心」は味方の与ダメージをさらに50%アップさせる。
       e1ResPen:
         text: 1凸 全属性耐性貫通
+        content: 結界が展開されている間、敵全体の全属性耐性-20%。
       e2FuaDmgBoost:
         text: 2凸 バフ
+        content: 味方キャラが必殺技を発動してダメージを与える時、追加攻撃を行うと見なされる。味方の追加攻撃ダメージ+75%。
+      e4DmgBoost:
+        text: 4凸 与ダメージバフ
+        content: '「万淬の心」は味方の与ダメージをさらに50%アップさせる。'
+      e6EnhancedUlt:
+        text: 6凸 必殺技最終ダメージ
+        content: '「千冶は一を鋳り、万劫を燼滅す」のダメージ倍率が元の倍率の150%になる。'
   Moze:
     Content:
       preyMark:
@@ -2109,6 +2134,16 @@ Characters:
       e4SpdBuff:
         text: 4凸 味方速度バフ
         content: '「結印」状態の間、味方全体の速度+12%。'
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: 強化状態のスキル
+      talentCdBuff:
+        text: 味方全体の会心ダメバフ
+      ladylikePoise:
+        text: 速度バフ
+      e6ResPen:
+        text: 6凸 全属性耐性貫通
   Robin:
     Content:
       concertoActive:

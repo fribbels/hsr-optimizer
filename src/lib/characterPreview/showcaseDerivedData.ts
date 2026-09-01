@@ -4,13 +4,16 @@ import {
   getShowcaseDisplayDimensions,
   getShowcaseMetadata,
   handleTeamSelection,
-  resolveScoringType,
 } from 'lib/characterPreview/characterPreviewController'
 import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import type { SimulationMetadataOverride } from 'lib/characterPreview/characterPreviewTypes'
+import {
+  resolveShowcaseScoringOrder,
+  resolveShowcaseScoringType,
+} from 'lib/characterPreview/scoring/showcaseScoringOrder'
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { SilverWolfB1 } from 'lib/conditionals/character/1000/SilverWolfB1'
 import { Fugue } from 'lib/conditionals/character/1200/Fugue'
@@ -21,6 +24,7 @@ import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import {
   DEFAULT_TEAM,
   type TeamSelection,
@@ -30,18 +34,12 @@ import {
   CONFIG_DISPLAY_ORDER,
   configTypeForScoringType,
   SCORING_CONFIG_REGISTRY,
-} from 'lib/scoring/scoringConfig'
-import {
-  isSimScoreMode,
-  ScoringType,
+  type ScoringType,
 } from 'lib/scoring/scoringConfig'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
-import {
-  getScoringMetadata,
-  useScoringStore,
-} from 'lib/stores/scoring/scoringStore'
+import { useScoringStore } from 'lib/stores/scoring/scoringStore'
 import type {
   Character,
   CharacterId,
@@ -73,6 +71,7 @@ export interface ShowcaseLayout {
   configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>>
   hasSimulation: boolean
   scoringType: ScoringType
+  showcaseScoringOrder: readonly ScoringType[]
   portraitToUse: CustomImageConfig | undefined
   portraitUrl: string
   defaultPortraitUrl: string
@@ -84,7 +83,6 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   const { character, teamSelections, storedScoringType, savedBuildOverride, t } = params
 
   const showcaseMetadata = getShowcaseMetadata(character, t)
-  const scoringMetadata = getScoringMetadata(character.id)
 
   const resolvedTeamSelections: Record<ScoringConfigType, TeamSelection> = {} as Record<ScoringConfigType, TeamSelection>
   for (const configType of CONFIG_DISPLAY_ORDER) {
@@ -116,10 +114,11 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
 
   const hasSimulation = CONFIG_DISPLAY_ORDER.some((configType) => configMetadata[configType] != null)
 
-  let scoringType = resolveScoringType(storedScoringType, scoringMetadata)
-  if (isSimScoreMode(scoringType) && !configMetadata[configTypeForScoringType(scoringType)!]) {
-    scoringType = ScoringType.SUBSTAT_SCORE
-  }
+  const showcaseScoringOrder = resolveShowcaseScoringOrder(
+    getCharacterConfig(character.id)?.display.showcaseScoringOrder,
+    configMetadata,
+  )
+  const scoringType = resolveShowcaseScoringType(storedScoringType, showcaseScoringOrder)
 
   const portraitToUse = getCharacterById(character.id)?.portrait
   const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
@@ -140,6 +139,7 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
     configMetadata,
     hasSimulation,
     scoringType,
+    showcaseScoringOrder,
     portraitToUse,
     portraitUrl,
     defaultPortraitUrl,
@@ -174,7 +174,7 @@ export function resolveEffectiveDeprioritizeBuffs(
   simulation: SimulationMetadata,
 ): boolean {
   const rawOverride = useScoringStore.getState().scoringMetadataOverrides[characterId]
-  if (rawOverride?.simulation != null && 'deprioritizeBuffs' in rawOverride.simulation) {
+  if (rawOverride?.simulation?.deprioritizeBuffs !== undefined) {
     return simulation.deprioritizeBuffs ?? false
   }
 

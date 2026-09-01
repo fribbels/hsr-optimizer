@@ -1,4 +1,3 @@
-import { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import {
   Parts,
   type Sets,

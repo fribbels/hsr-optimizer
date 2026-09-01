@@ -1,12 +1,49 @@
+AHA:
+  Label: アッハの速度
+  Solver:
+    Title: 目標速度ソルバー
+    Output:
+      Teammate0: 一人目の味方の速度
+      Teammate1: 二人目の味方の速度
+      Teammate2: 三人目の味方の速度
+      Teammate3: 四人目の味方の速度
+      AllFilled: 空きスロットがありません
+      AlreadyMet: 目標速度には既に到達しています
+    Input:
+      DesiredAha: 目標アッハ速度
+  Calculator:
+    Title: アッハ速度計算
+    TeammateN: チーム編成 {{position}}
+    Constant: 定数
+    Header:
+      ElationTeammate: "愉悦\n味方"
+      CombatSpeed: "戦闘速度"
+      AhaSpeed: "アッハ\n速度"
+    Formula:
+      Aha: アッハの速度
+      TeammateSymbol: 味方
 EHR:
   Label: 効果命中
   Calculator:
+    Title: デバフ付加計算
+    EHRLabel: '± {{value}}% $t(common:ShortStats.Effect Hit Rate)'
+    EquationLabel:
+      BaseChance: 基礎確率
+      EffectRes: 効果抵抗倍率
+      DebuffRes: デバフ抵抗倍率
+      HitRate: 効果命中倍率
     Input:
       EffectRes: 敵効果抵抗
       DebuffRes: 敵のデバフ抵抗
       BaseChance: デバフ付与基礎確率
       Attempts: 付与試行回数
       HitRate: 効果命中
+      Range: 表示範囲
+    Output:
+      Change: 確率
+      PerAttempt: 一回の試行あたり
+      OverAttempts: '{{count}} 回を超える試行'
   Solver:
+    Title: 目標効果命中ソルバー
     Input: 敵デバフ付与率
     Output: 必要な効果命中

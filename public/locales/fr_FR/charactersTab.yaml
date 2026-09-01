@@ -23,7 +23,6 @@ CharacterMenu:
   Priority:
     Label: Priorité
     Options:
-      SortByScore: Trier tous les personnages par note
       MoveToTop: Placer le personnage en haut
 SearchPlaceholder: Rechercher
 GridDensityOptions:
@@ -33,7 +32,6 @@ Messages:
   UnequipSuccess: Personnage déséquipé avec succès
   NoSelectedCharacter: Aucun personnage sélectionné
   SwitchSuccess: 'Échange de reliques avec $t(gameData:Characters.{{charId}}.Name) réussi'
-  SortByScoreWarning: Êtes-vous sûr de vouloir trier tous les personnages ? Vous perdrez tous les classements personnalisés que vous avez définis.
   SaveSuccess: 'Arsenal {{name}} enregistré avec succès'
   UnequipWarning: 'Êtes-vous sûr de vouloir déséquiper $t(gameData:Characters.{{charId}}.Name)?'
   DeleteWarning: 'Êtes-vous sûr de vouloir supprimer $t(gameData:Characters.{{charId}}.Name)?'

@@ -199,7 +199,9 @@ function mergeTeammate(baseTeammate: ComboTeammate | null, updateTeammate: Combo
   if (!baseTeammate || !updateTeammate) return
   if (baseTeammate.metadata.characterId !== updateTeammate.metadata.characterId) return
   mergeConditionals(baseTeammate.characterConditionals, updateTeammate.characterConditionals)
-  mergeConditionals(baseTeammate.lightConeConditionals, updateTeammate.lightConeConditionals)
+  if (baseTeammate.metadata.lightCone === updateTeammate.metadata.lightCone) {
+    mergeConditionals(baseTeammate.lightConeConditionals, updateTeammate.lightConeConditionals)
+  }
   mergeConditionals(baseTeammate.relicSetConditionals, updateTeammate.relicSetConditionals)
   mergeConditionals(baseTeammate.ornamentSetConditionals, updateTeammate.ornamentSetConditionals)
 }

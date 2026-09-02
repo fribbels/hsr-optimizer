@@ -14,6 +14,7 @@ import {
 import type { Character } from 'types/character'
 import type { Form } from 'types/form'
 import {
+  afterEach,
   beforeEach,
   describe,
   expect,
@@ -35,10 +36,24 @@ vi.mock('lib/optimization/context/calculateContext', () => ({
   generateContext: vi.fn(),
 }))
 
-vi.mock('lib/optimization/optimizer', () => ({
-  calculateCurrentlyEquippedRow: vi.fn(),
-  Optimizer: {},
-}))
+// optimizerFormActions subscribes to the request store at module scope and
+// recalculates permutations in a requestAnimationFrame, so the mock must
+// implement getFilteredRelicCounts even though no test calls it directly.
+vi.mock('lib/optimization/optimizer', async () => {
+  const { zeroCountsBySet } = await import('lib/relics/relicFilters')
+  const zeroCounts = () => ({ Head: 0, Hands: 0, Body: 0, Feet: 0, PlanarSphere: 0, LinkRope: 0 })
+
+  return {
+    calculateCurrentlyEquippedRow: vi.fn(),
+    Optimizer: {
+      getFilteredRelicCounts: vi.fn(() => ({
+        counts: zeroCounts(),
+        preCounts: zeroCounts(),
+        countsBySet: zeroCountsBySet(),
+      })),
+    },
+  }
+})
 
 // ---- Setup ----
 
@@ -69,6 +84,12 @@ function makeCharacter(overrides: Partial<Character> = {}): Character {
 beforeEach(() => {
   useOptimizerRequestStore.setState(useOptimizerRequestStore.getInitialState())
   useCharacterStore.setState(useCharacterStore.getInitialState())
+})
+
+// Drain the pending permutation recalculation frame so it runs inside the test
+// lifecycle instead of firing after the environment is torn down.
+afterEach(async () => {
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
 })
 
 // ---- Tests ----

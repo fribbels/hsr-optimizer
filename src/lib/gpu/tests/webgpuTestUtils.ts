@@ -12,10 +12,10 @@ import type { RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import {
   AKeyNames,
+  GlobalRegister,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { STATS_LENGTH } from 'lib/optimization/engine/config/statsConfig'
-import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { SortOption } from 'lib/optimization/sortOptions'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
@@ -26,6 +26,7 @@ import {
 import { simulateBuild } from 'lib/simulations/simulateBuild'
 import type { SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import type { Form } from 'types/form'
+import type { CharacterId } from 'types/character'
 import type { OptimizerContext } from 'types/optimizer'
 
 export async function runTestRequest(request: Form, relics: RelicsByPart, device: GPUDevice) {
@@ -50,8 +51,9 @@ export async function runTestRequest(request: Form, relics: RelicsByPart, device
   )
 
   const passResult = generateExecutionPass(gpuContext, 0)
-  await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, 10000)
-  const arrayBuffer = passResult.gpuReadBuffer.getMappedRange(0, 10000)
+  const resultByteLength = Float32Array.BYTES_PER_ELEMENT * context.maxContainerArrayLength
+  await passResult.gpuReadBuffer.mapAsync(GPUMapMode.READ, 0, resultByteLength)
+  const arrayBuffer = passResult.gpuReadBuffer.getMappedRange(0, resultByteLength)
   const array = new Float32Array(arrayBuffer)
 
   const relicsByPart = {
@@ -198,46 +200,14 @@ function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: Computed
     analyze(statName, cpu[i], gpu[i], precision)
   }
 
-  // Compare register values for COMBO damage (sum of rotation action registers)
-  // Also extract HEAL and SHIELD values from hit registers based on outputTag
-  let cpuCombo = 0
-  let gpuCombo = 0
-  let cpuHeal = 0
-  let gpuHeal = 0
-  let cpuShield = 0
-  let gpuShield = 0
-  let cpuBuff = 0
-  let gpuBuff = 0
-
-  for (const action of context.rotationActions) {
-    cpuCombo += cpuContainer.getActionRegisterValue(action.registerIndex)
-    gpuCombo += gpuContainer.getActionRegisterValue(action.registerIndex)
-
-    if (action.hits) {
-      for (const hit of action.hits) {
-        const cpuHitValue = cpuContainer.getHitRegisterValue(hit.registerIndex)
-        const gpuHitValue = gpuContainer.getHitRegisterValue(hit.registerIndex)
-        if (hit.outputTag === OutputTag.HEAL) {
-          cpuHeal += cpuHitValue
-          gpuHeal += gpuHitValue
-        } else if (hit.outputTag === OutputTag.SHIELD) {
-          cpuShield += cpuHitValue
-          gpuShield += gpuHitValue
-        }
-      }
-    }
-  }
-
-  for (const action of context.defaultActions) {
-    if (action.hits) {
-      for (const hit of action.hits) {
-        if (hit.outputTag === OutputTag.BUFF) {
-          cpuBuff = cpuContainer.getHitRegisterValue(hit.registerIndex)
-          gpuBuff = gpuContainer.getHitRegisterValue(hit.registerIndex)
-        }
-      }
-    }
-  }
+  const cpuCombo = cpuContainer.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
+  const gpuCombo = gpuContainer.getGlobalRegisterValue(GlobalRegister.COMBO_DMG)
+  const cpuHeal = cpuContainer.getGlobalRegisterValue(GlobalRegister.COMBO_HEAL)
+  const gpuHeal = gpuContainer.getGlobalRegisterValue(GlobalRegister.COMBO_HEAL)
+  const cpuShield = cpuContainer.getGlobalRegisterValue(GlobalRegister.COMBO_SHIELD)
+  const gpuShield = gpuContainer.getGlobalRegisterValue(GlobalRegister.COMBO_SHIELD)
+  const cpuBuff = cpuContainer.getGlobalRegisterValue(GlobalRegister.COMBO_BUFF)
+  const gpuBuff = gpuContainer.getGlobalRegisterValue(GlobalRegister.COMBO_BUFF)
 
   analyze('COMBO_REGISTER', cpuCombo, gpuCombo, getDynamicComboPrecision(Math.max(cpuCombo, gpuCombo)))
   analyze('HEAL_REGISTER', cpuHeal, gpuHeal, P_2)
@@ -293,7 +263,9 @@ export function uncondenseRelics(relicsByPart: RelicsByPart) {
   return relicsByPart
 }
 
-// Jingliu base build +25% CR for crit sets
+const jingliuId: CharacterId = '1212b1'
+
+// Jingliu build +25% CR for crit sets
 export function generateTestRelics() {
   const condensedRelics = {
     Head: [
@@ -307,7 +279,7 @@ export function generateTestRelics() {
           value: 705.6,
         },
         id: 'cd85c14c-a662-4413-a149-a379e6d538d3',
-        equippedBy: '1212',
+        equippedBy: jingliuId,
         condensedStats: [
           [StatKey.CR, 0.11016 + 0.25],
           [StatKey.CD, 0.10368],
@@ -334,7 +306,7 @@ export function generateTestRelics() {
           value: 352.8,
         },
         id: '798657c8-5c5c-4b44-9c5f-f5f094414289',
-        equippedBy: '1212',
+        equippedBy: jingliuId,
         condensedStats: [
           [StatKey.HP_P, 0.03456],
           [StatKey.SPD, 4],
@@ -361,7 +333,7 @@ export function generateTestRelics() {
           value: 64.8,
         },
         id: 'b3376a19-62f9-489e-80e6-8f98335af158',
-        equippedBy: '1212',
+        equippedBy: jingliuId,
         condensedStats: [
           [StatKey.HP, 114.31138],
           [StatKey.ATK_P, 0.07344],
@@ -388,7 +360,7 @@ export function generateTestRelics() {
           value: 25.032,
         },
         id: '92c53d06-80d0-43a8-b896-2feeda419674',
-        equippedBy: '1212',
+        equippedBy: jingliuId,
         condensedStats: [
           [StatKey.ATK, 21.16877],
           [StatKey.ATK_P, 0.11664],
@@ -415,7 +387,7 @@ export function generateTestRelics() {
           value: 38.8803,
         },
         id: '80abbd56-b1a0-4587-a349-754c33627217',
-        equippedBy: '1212',
+        equippedBy: jingliuId,
         condensedStats: [
           [StatKey.DEF, 74.09071],
           [StatKey.CR, 0.05508],
@@ -442,7 +414,7 @@ export function generateTestRelics() {
           value: 43.2,
         },
         id: 'c521dc03-6c6e-45ef-9933-811367312441',
-        equippedBy: '1212',
+        equippedBy: jingliuId,
         condensedStats: [
           [StatKey.HP, 80.44134],
           [StatKey.CR, 0.08424],

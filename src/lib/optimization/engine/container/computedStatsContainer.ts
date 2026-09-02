@@ -167,12 +167,12 @@ export class ComputedStatsContainerConfig {
   public entityStride: number // actionStatsLength + (hitsLength * hitStatsLength)
   public arrayLength: number
 
-  // Register layout: [Stats...][Action Registers][Global Registers][Hit Registers]
+  // Register layout: [Stats...][Action Registers][Hit Registers][Global Registers]
   public registersOffset: number // Where registers start in array
   public actionRegistersLength: number // Number of action registers
   public globalRegistersLength: number // Number of global registers (e.g., COMBO_DMG)
   public hitRegistersLength: number // Number of hit registers
-  public totalRegistersLength: number // action + global + hit registers
+  public totalRegistersLength: number // action + hit + global registers
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
   public entityBaseOffsets: Record<number, number[]> // Per-TargetTag entity base offsets for loop-flipped stat writes

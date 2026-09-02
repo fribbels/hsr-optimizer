@@ -264,6 +264,7 @@ export const Optimizer = {
 
     const sortOption = SortOption[request.resultSort!]
     const showMemo = request.memoDisplay === 'memo'
+      && context.defaultActions[context.defaultActions.length - 1].config.entitiesArray.some((entity) => entity.memosprite)
     const gridSortColumn = (request.statDisplay == 'combat'
       ? (showMemo ? sortOption.memoCombatGridColumn : sortOption.combatGridColumn)
       : (showMemo ? sortOption.memoBasicGridColumn : sortOption.basicGridColumn)) as keyof OptimizerDisplayData

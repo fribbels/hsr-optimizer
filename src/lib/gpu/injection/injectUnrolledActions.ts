@@ -27,7 +27,10 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
-import type { SortOptionKey } from 'lib/optimization/sortOptions'
+import type {
+  SortOptionKey,
+  SortOptionProperties,
+} from 'lib/optimization/sortOptions'
 import { SortOption } from 'lib/optimization/sortOptions'
 import {
   generateSetCombatWgsl,
@@ -60,6 +63,7 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
 `
   let functions = ''
   const defaultActionsRecordBuff = context.defaultActions.some(recordsBuffOutput)
+  const abilitySortCompletionIndex = gpuParams.DEBUG ? -1 : getAbilitySortCompletionIndex(request, context)
 
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
@@ -72,11 +76,9 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
       calls += generateCombatStatFilters(request, context, gpuParams)
     }
 
-    // For ability-damage sorts (BASIC, SKILL, ULT, etc.), the sort value is fully determined
-    // by this single default action. Threshold-check it and skip all remaining actions.
-    // Note: rating filters for other abilities (e.g., minSkill when sorting by BASIC) are
-    // not enforced since those abilities' damage values are never computed.
-    if (!gpuParams.DEBUG && isAbilitySortAction(request, action)) {
+    // Apply rating filters once every required action is calculated.
+    if (i === abilitySortCompletionIndex) {
+      calls += generateRatingFilters(request, context)
       calls += generateSortOptionReturn(request, context)
       calls += '    continue;\n'
       return { calls, functions }
@@ -102,7 +104,7 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
   }
 
   if (!gpuParams.DEBUG) {
-    calls += generateRatingFilters(request, context, gpuParams)
+    calls += generateRatingFilters(request, context)
     calls += generateSortOptionReturn(request, context)
   } else {
     calls += generateDebugContainer(context)
@@ -122,15 +124,28 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
   return { calls, functions }
 }
 
-function isAbilitySortAction(request: Form, action: OptimizerAction): boolean {
+function getAbilitySortCompletionIndex(request: Form, context: OptimizerContext): number {
   const sortOption = SortOption[request.resultSort!]
-  return !!sortOption?.isComputedRating
-    && sortOption.key !== SortOption.COMBO.key
-    && sortOption.key !== SortOption.COMBO_HEAL.key
-    && sortOption.key !== SortOption.COMBO_SHIELD.key
-    && sortOption.key !== SortOption.COMBO_BUFF.key
-    && sortOption.key !== SortOption.EHP.key
-    && action.actionName === sortOption.key
+  if (
+    !sortOption?.isComputedRating
+    || sortOption.statKey != null
+    || sortOption.globalRegisterIndex != null
+  ) {
+    return -1
+  }
+
+  let completionIndex = context.defaultActions.findIndex((action) => action.actionName === sortOption.key)
+  if (completionIndex < 0) return -1
+
+  for (const filterSortOption of Object.values(SortOption)) {
+    const bounds = getRatingFilterBounds(request, filterSortOption)
+    if (!bounds || (!bounds.hasMin && !bounds.hasMax)) continue
+
+    const actionIndex = context.defaultActions.findIndex((action) => action.actionName === filterSortOption.key)
+    completionIndex = Math.max(completionIndex, actionIndex)
+  }
+
+  return completionIndex
 }
 
 function recordsBuffOutput(action: OptimizerAction): boolean {
@@ -157,28 +172,19 @@ const SortOptionBoostKey: Partial<Record<SortOptionKey, AKeyValue>> = {
   CD: AKey.CD_BOOST,
 }
 
-/**
- * Generates WGSL rating filters (BASIC, SKILL, ULT, etc.) that check dmg{i} variables
- * against user-specified min/max thresholds. Injected after all actions compute but before sort.
- */
-function generateRatingFilters(request: Form, context: OptimizerContext, gpuParams: GpuConstants): string {
+/** Generates active ability rating filters. */
+function generateRatingFilters(request: Form, context: OptimizerContext): string {
   const conditions: string[] = []
 
   for (const sortOption of Object.values(SortOption)) {
-    if (!sortOption.minFilterKey || !sortOption.maxFilterKey) continue
-
-    const minVal = request[sortOption.minFilterKey as keyof Form] as number
-    const maxVal = request[sortOption.maxFilterKey as keyof Form] as number
-    const hasMin = minVal > 0
-    const hasMax = maxVal < Constants.MAX_INT
-
-    if (!hasMin && !hasMax) continue
+    const bounds = getRatingFilterBounds(request, sortOption)
+    if (!bounds || (!bounds.hasMin && !bounds.hasMax)) continue
 
     const actionIndex = context.defaultActions.findIndex((a) => a.actionName === sortOption.key)
     if (actionIndex < 0) continue
 
-    if (hasMin) conditions.push(`dmg${actionIndex} < ${sortOption.minFilterKey}`)
-    if (hasMax) conditions.push(`dmg${actionIndex} > ${sortOption.maxFilterKey}`)
+    if (bounds.hasMin) conditions.push(`dmg${actionIndex} < ${sortOption.minFilterKey}`)
+    if (bounds.hasMax) conditions.push(`dmg${actionIndex} > ${sortOption.maxFilterKey}`)
   }
 
   if (conditions.length === 0) return ''
@@ -191,6 +197,17 @@ function generateRatingFilters(request: Form, context: OptimizerContext, gpuPara
       continue;
     }
 `
+}
+
+function getRatingFilterBounds(request: Form, sortOption: SortOptionProperties) {
+  if (!sortOption.minFilterKey || !sortOption.maxFilterKey) return null
+
+  const minVal = request[sortOption.minFilterKey as keyof Form] as number
+  const maxVal = request[sortOption.maxFilterKey as keyof Form] as number
+  return {
+    hasMin: minVal > 0,
+    hasMax: maxVal < Constants.MAX_INT,
+  }
 }
 
 /**

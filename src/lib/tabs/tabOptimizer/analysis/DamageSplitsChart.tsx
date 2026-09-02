@@ -249,14 +249,13 @@ function CustomTooltip({ active, payload, bars }: { active?: boolean, payload?: 
 export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
   const { t } = useTranslation('optimizerTab')
   const { rows, bars, legendItems } = useMemo(() => flattenData(data, t), [data, t])
+  const chartHeight = Math.max(200, rows.length * BAR_HEIGHT + CHART_PADDING)
+  const maxTotal = useMemo(() => Math.max(0, ...rows.map((r) => r.total)), [rows])
+  const renderBarLabel = useMemo(() => createBarLabelRenderer(maxTotal), [maxTotal])
 
   if (rows.length === 0) {
     return null
   }
-
-  const chartHeight = Math.max(200, rows.length * BAR_HEIGHT + CHART_PADDING)
-  const maxTotal = useMemo(() => Math.max(...rows.map((r) => r.total)), [rows])
-  const renderBarLabel = useMemo(() => createBarLabelRenderer(maxTotal), [maxTotal])
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }} className='pre-font'>

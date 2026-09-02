@@ -7,8 +7,13 @@ import {
 import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
 import type { ComboNumberConditional } from 'lib/optimization/combo/comboTypes'
 import { generateContext } from 'lib/optimization/context/calculateContext'
+import { StatKey } from 'lib/optimization/engine/config/keys'
 import { newTransformStateActions } from 'lib/optimization/rotation/actionTransform'
 import { ComboType } from 'lib/optimization/rotation/comboType'
+import {
+  DEFAULT_BUFF,
+  NULL_TURN_ABILITY_NAME,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { initializeContextConditionals } from 'lib/simulations/contextConditionals'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { Metadata } from 'lib/state/metadataInitializer'
@@ -109,4 +114,15 @@ describe('teammate dynamic conditionals are registered exactly once', () => {
     expectSundayConditionals(context.rotationActions)
     expectSundayConditionals(context.defaultActions)
   })
+})
+
+test('advanced rotation buff actions preserve their display stat', () => {
+  const form = generateFullDefaultForm('1101', '21003', 6, 5)
+  form.comboType = ComboType.ADVANCED
+  form.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BUFF]
+
+  const context = generateContext(form)
+  const buffAction = context.rotationActions[0]
+
+  expect(buffAction.buffStat).toBe(StatKey.CD)
 })

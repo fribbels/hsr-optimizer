@@ -9,11 +9,15 @@ import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { AventurineWaveflair } from 'lib/conditionals/character/1500/AventurineWaveflair'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { AThanklessCoronation } from 'lib/conditionals/lightcone/5star/AThanklessCoronation'
 import { EpochEtchedInGoldenBlood } from 'lib/conditionals/lightcone/5star/EpochEtchedInGoldenBlood'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
+import { SummerRidesTheSurf } from 'lib/conditionals/lightcone/5star/SummerRidesTheSurf'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -140,6 +144,8 @@ const baseCharacterLightConeMappings: Array<{ characterId: CharacterId, lightCon
   { characterId: Evernight.id, lightConeId: ToEvernightsStars.id },
   { characterId: PermansorTerrae.id, lightConeId: ThoughWorldsApart.id },
   { characterId: Cyrene.id, lightConeId: ThisLoveForever.id },
+  { characterId: RobinSummeretto.id, lightConeId: RiseAndSing.id },
+  { characterId: AventurineWaveflair.id, lightConeId: SummerRidesTheSurf.id },
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer

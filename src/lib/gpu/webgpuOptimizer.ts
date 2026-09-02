@@ -26,7 +26,11 @@ import { simulateBuild } from 'lib/simulations/simulateBuild'
 import { type SimulationRelicByPart } from 'lib/simulations/statSimulationTypes'
 import { setSortColumn } from 'lib/stores/gridStore'
 import { gridStore } from 'lib/stores/gridStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import {
+  isOptimizationRunActive,
+  ownsOptimizationRun,
+  useOptimizerDisplayStore,
+} from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { activateZeroResultSuggestionsModal } from 'lib/tabs/tabOptimizer/OptimizerSuggestionsModal'
 import { OptimizerTabController } from 'lib/tabs/tabOptimizer/optimizerTabController'
 import { type Form } from 'types/form'
@@ -54,7 +58,7 @@ export async function gpuOptimize(props: {
   }
 
   device.onuncapturederror = (event) => {
-    if (useOptimizerDisplayStore.getState().optimizationInProgress) {
+    if (isOptimizationRunActive(request.optimizationId)) {
       useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
       webgpuCrashNotification()
     }
@@ -75,6 +79,12 @@ export async function gpuOptimize(props: {
     globalThis.WEBGPU_DEBUG,
   )
 
+  // Pipeline creation can outlive the run, so release stale resources before dispatch.
+  if (!ownsOptimizationRun(request.optimizationId)) {
+    destroyPipeline(gpuContext)
+    return
+  }
+
   if (gpuContext.DEBUG) {
     Message.warning('Debug mode is ON', 5)
   }
@@ -87,15 +97,17 @@ export async function gpuOptimize(props: {
     permutationsSearched = await runNaiveDispatch(gpuContext)
   }
 
-  if (useOptimizerDisplayStore.getState().optimizationInProgress) {
+  if (isOptimizationRunActive(request.optimizationId)) {
     useOptimizerDisplayStore.getState().setPermutationsSearched(validPermutations)
     useOptimizerDisplayStore.getState().setOptimizerProgress(1)
   }
-  useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
-  useOptimizerDisplayStore.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+  if (ownsOptimizationRun(request.optimizationId)) {
+    useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
+    useOptimizerDisplayStore.getState().setPermutationsResults(gpuContext.resultsQueue.size())
+  }
 
   setTimeout(() => {
-    outputResults(gpuContext)
+    if (ownsOptimizationRun(request.optimizationId)) outputResults(gpuContext)
     destroyPipeline(gpuContext)
   }, 1)
 }
@@ -150,10 +162,12 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
     }
 
     if (iteration === WARMUP_ITERATIONS - 1) {
-      useOptimizerDisplayStore.setState({
-        optimizerStartTime: Date.now(),
-        optimizerEndTime: null,
-      })
+      if (ownsOptimizationRun(gpuContext.request.optimizationId)) {
+        useOptimizerDisplayStore.setState({
+          optimizerStartTime: Date.now(),
+          optimizerEndTime: null,
+        })
+      }
       displayOffset = permutationsSearched
     }
 
@@ -167,6 +181,7 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
     const progressSnapshot = (iteration + 1) / gpuContext.iterations
     const storeStartTime = useOptimizerDisplayStore.getState().optimizerStartTime
     setTimeout(() => {
+      if (!ownsOptimizationRun(gpuContext.request.optimizationId)) return
       const endTimeToSet = Date.now()
       const msDiff = endTimeToSet - (storeStartTime ?? 0)
 
@@ -184,7 +199,7 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
       })
     }, 0)
 
-    if (gpuContext.permutations <= maxPermNumber || !useOptimizerDisplayStore.getState().optimizationInProgress) {
+    if (gpuContext.permutations <= maxPermNumber || !isOptimizationRunActive(gpuContext.request.optimizationId)) {
       gpuContext.cancelled = true
       break
     }
@@ -333,6 +348,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
     const searchedSnapshot = permutationsSearched
     const progressSnapshot = (batch + 1) / totalBatches
     setTimeout(() => {
+      if (!ownsOptimizationRun(gpuContext.request.optimizationId)) return
       useOptimizerDisplayStore.setState({
         optimizerEndTime: Date.now(),
         permutationsResults: gpuContext.resultsQueue.size(),
@@ -341,7 +357,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
       })
     }, 0)
 
-    if (!useOptimizerDisplayStore.getState().optimizationInProgress) {
+    if (!isOptimizationRunActive(gpuContext.request.optimizationId)) {
       gpuContext.cancelled = true
       break
     }
@@ -350,7 +366,7 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
   // Revisit overflowed batches with tighter threshold
   if (overflowedBatches.length > 0) {
     for (const batchStart of overflowedBatches) {
-      if (!useOptimizerDisplayStore.getState().optimizationInProgress) break
+      if (!isOptimizationRunActive(gpuContext.request.optimizationId)) break
 
       const batchSize = Math.min(BATCH_WGS, gpuContext.assignments.length - batchStart)
       let rawCount: number
@@ -360,7 +376,11 @@ async function runTupleDispatch(gpuContext: GpuExecutionContext): Promise<number
         await gpuContext.compactReadBuffers[0].mapAsync(GPUMapMode.READ)
         const result = processTupleBatch(gpuContext, 0, batchStart, assignments, sizes, localBits, seenIndices)
         rawCount = result.rawCount
-      } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
+      } while (
+        rawCount > gpuContext.COMPACT_LIMIT
+        && retries++ < 100000
+        && isOptimizationRunActive(gpuContext.request.optimizationId)
+      )
     }
   }
 
@@ -466,8 +486,10 @@ async function revisitOverflowedDispatches(
   seenIndices: Set<number>,
   permutationsSearched: number,
 ) {
-  if (overflowedOffsets.length > 0 && useOptimizerDisplayStore.getState().optimizationInProgress) {
+  if (overflowedOffsets.length > 0 && isOptimizationRunActive(gpuContext.request.optimizationId)) {
     for (const overflowOffset of overflowedOffsets) {
+      if (!isOptimizationRunActive(gpuContext.request.optimizationId)) break
+
       let rawCount: number
       let retries = 0
       do {
@@ -481,12 +503,20 @@ async function revisitOverflowedDispatches(
 
         processCompactResults(overflowOffset, count, mappedRange, gpuContext, seenIndices)
         passResult.compactReadBuffer.unmap()
-      } while (rawCount > gpuContext.COMPACT_LIMIT && retries++ < 100000)
+      } while (
+        rawCount > gpuContext.COMPACT_LIMIT
+        && retries++ < 100000
+        && isOptimizationRunActive(gpuContext.request.optimizationId)
+      )
 
       // Update results count but NOT endTime — the main loop's last endTime is the correct final value
       const searchedSnapshot = permutationsSearched
       await new Promise<void>((resolve) =>
         setTimeout(() => {
+          if (!ownsOptimizationRun(gpuContext.request.optimizationId)) {
+            resolve()
+            return
+          }
           const uiState = useOptimizerDisplayStore.getState()
           uiState.setPermutationsResults(gpuContext.resultsQueue.size())
           uiState.setPermutationsSearched(searchedSnapshot)

@@ -111,3 +111,11 @@ export const useOptimizerDisplayStore = createTabAwareStore<OptimizerDisplayStor
   setLightConeSelectModalOpen: (open) => set({ lightConeSelectModalOpen: open }),
   setMenuState: (menuState) => set({ menuState }),
 }))
+
+export function ownsOptimizationRun(runId: string | undefined): boolean {
+  return useOptimizerDisplayStore.getState().optimizationId === runId
+}
+
+export function isOptimizationRunActive(runId: string | undefined): boolean {
+  return useOptimizerDisplayStore.getState().optimizationInProgress && ownsOptimizationRun(runId)
+}

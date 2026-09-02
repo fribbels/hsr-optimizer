@@ -21,6 +21,7 @@ import {
   GlobalRegister,
 } from 'lib/optimization/engine/config/keys'
 import {
+  OutputTag,
   SELF_ENTITY_INDEX,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
@@ -58,6 +59,7 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
     var comboBuff: f32 = 0;
 `
   let functions = ''
+  const defaultActionsRecordBuff = context.defaultActions.some(recordsBuffOutput)
 
   for (let i = 0; i < context.defaultActions.length; i++) {
     const action = context.defaultActions[i]
@@ -68,12 +70,6 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
 
     if (i === 0) {
       calls += generateCombatStatFilters(request, context, gpuParams)
-    }
-
-    if (gpuParams.DEBUG) {
-      calls += i === 0
-        ? `\n    var debugContainer: array<f32, ${context.maxContainerArrayLength}> = container0;\n\n`
-        : generateRegisterCopy(i, action, context)
     }
 
     // For ability-damage sorts (BASIC, SKILL, ULT, etc.), the sort value is fully determined
@@ -87,6 +83,10 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
     }
   }
 
+  if (defaultActionsRecordBuff) {
+    calls += '    let defaultComboBuff = comboBuff;\n'
+  }
+
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
     const actionIndex = context.defaultActions.length + i
@@ -95,15 +95,17 @@ function generateUnrolledActions(request: Form, context: OptimizerContext, gpuPa
     calls += result.actionCall
     functions += result.actionFunction
 
-    if (gpuParams.DEBUG) {
-      calls += generateRegisterCopy(actionIndex, action, context)
-    }
+  }
+
+  if (defaultActionsRecordBuff) {
+    calls += '    comboBuff = defaultComboBuff;\n'
   }
 
   if (!gpuParams.DEBUG) {
     calls += generateRatingFilters(request, context, gpuParams)
     calls += generateSortOptionReturn(request, context)
   } else {
+    calls += generateDebugContainer(context)
     const comboGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_DMG, context)
     const healGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_HEAL, context)
     const shieldGlobalRegIdx = getGlobalRegisterIndexWgsl(GlobalRegister.COMBO_SHIELD, context)
@@ -129,6 +131,10 @@ function isAbilitySortAction(request: Form, action: OptimizerAction): boolean {
     && sortOption.key !== SortOption.COMBO_BUFF.key
     && sortOption.key !== SortOption.EHP.key
     && action.actionName === sortOption.key
+}
+
+function recordsBuffOutput(action: OptimizerAction): boolean {
+  return action.hits?.some((hit) => hit.recorded !== false && hit.outputTag === OutputTag.BUFF) ?? false
 }
 
 const SortOptionToAKey: Partial<Record<SortOptionKey, AKeyValue>> = {
@@ -331,6 +337,32 @@ function generateRegisterCopy(actionIndex: number, action: OptimizerAction, cont
   return code
 }
 
+function generateDebugContainer(context: OptimizerContext): string {
+  const debugActionIndex = context.defaultActions.length - 1
+  const debugAction = context.defaultActions[debugActionIndex]
+  if (!debugAction) throw new Error('WebGPU debug output requires at least one default action')
+
+  let code = `
+    // Match simulateBuild
+    var debugContainer: array<f32, ${context.maxContainerArrayLength}> = container${debugActionIndex};
+`
+
+  if (context.shaderVariables.needsEhp) {
+    const { statements } = generateEhpStatements('debugContainer', debugAction, 'debugEhp')
+    code += `    ${statements.join('\n    ')}\n`
+  }
+
+  for (let i = 0; i < context.defaultActions.length; i++) {
+    if (i !== debugActionIndex) code += generateRegisterCopy(i, context.defaultActions[i], context)
+  }
+  for (let i = 0; i < context.rotationActions.length; i++) {
+    const actionIndex = context.defaultActions.length + i
+    code += generateRegisterCopy(actionIndex, context.rotationActions[i], context)
+  }
+
+  return code
+}
+
 // dprint-ignore
 function unrollAction(index: number, action: OptimizerAction, context: OptimizerContext, gpuParams: GpuConstants, isRotationAction: boolean) {
   const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get(context)
@@ -360,6 +392,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
   //////////
 
   const damageCalculationWgsl = indent(unrollDamageCalculations(action, context, gpuParams), 1)
+  const comboBuffUpdateWgsl = recordsBuffOutput(action) ? '*p_comboBuff = comboBuff;' : ''
 
   //////////
 
@@ -461,7 +494,7 @@ fn unrolledAction${index}(
   *p_comboDmg += comboDmg;
   *p_comboHeal += comboHeal;
   *p_comboShield += comboShield;
-  *p_comboBuff += comboBuff;
+  ${comboBuffUpdateWgsl}
 
   // Return total for debug register copy
   return comboDmg + comboHeal + comboShield + comboBuff;
@@ -534,7 +567,7 @@ fn unrolledAction${index}(
 
   ${damageCalculationWgsl}
 
-  *p_comboBuff += comboBuff;
+  ${comboBuffUpdateWgsl}
 
   return comboDmg + comboHeal + comboShield + comboBuff;
 }
@@ -680,24 +713,12 @@ function generateCombatStatFilters(request: Form, context: OptimizerContext, gpu
 
   // EHP calculation for all entities (needed for filtering or sorting)
   if (context.shaderVariables.needsEhp) {
-    for (let entityIndex = 0; entityIndex < config.entitiesLength; entityIndex++) {
-      const hpIndex = getActionIndex(entityIndex, AKey.HP, config)
-      const defIndex = getActionIndex(entityIndex, AKey.DEF, config)
-      const dmgRedIndex = getActionIndex(entityIndex, AKey.DMG_RED, config)
-      const ehpIndex = getActionIndex(entityIndex, AKey.EHP, config)
-
-      extractions.push(`let ehpHp${entityIndex} = container0[${hpIndex}];`)
-      extractions.push(`let ehpDef${entityIndex} = container0[${defIndex}];`)
-      extractions.push(`let ehpDmgRed${entityIndex} = container0[${dmgRedIndex}];`)
-      extractions.push(
-        `let ehp${entityIndex} = ehpHp${entityIndex} / (1.0 - ehpDef${entityIndex} / (ehpDef${entityIndex} + 200.0 + 10.0 * f32(enemyLevel))) / (1.0 - ehpDmgRed${entityIndex});`,
-      )
-      extractions.push(`container0[${ehpIndex}] = ehp${entityIndex};`)
-    }
+    const ehp = generateEhpStatements('container0', action, 'filterEhp')
+    extractions.push(...ehp.statements)
 
     // EHP filtering uses entity 0 (primary character)
-    if (request.minEhp > 0) conditions.push(`ehp0 < minEhp`)
-    if (request.maxEhp < Constants.MAX_INT) conditions.push(`ehp0 > maxEhp`)
+    if (request.minEhp > 0) conditions.push(`${ehp.primaryValue} < minEhp`)
+    if (request.maxEhp < Constants.MAX_INT) conditions.push(`${ehp.primaryValue} > maxEhp`)
   }
 
   if (extractions.length === 0) return ''
@@ -718,4 +739,30 @@ function generateCombatStatFilters(request: Form, context: OptimizerContext, gpu
       continue;
     }
 `
+}
+
+function generateEhpStatements(containerName: string, action: OptimizerAction, variablePrefix: string) {
+  const statements: string[] = []
+  let primaryValue = ''
+
+  for (let entityIndex = 0; entityIndex < action.config.entitiesLength; entityIndex++) {
+    const hpIndex = getActionIndex(entityIndex, AKey.HP, action.config)
+    const defIndex = getActionIndex(entityIndex, AKey.DEF, action.config)
+    const dmgRedIndex = getActionIndex(entityIndex, AKey.DMG_RED, action.config)
+    const ehpIndex = getActionIndex(entityIndex, AKey.EHP, action.config)
+    const suffix = `${variablePrefix}${entityIndex}`
+    const hp = `${suffix}Hp`
+    const def = `${suffix}Def`
+    const dmgRed = `${suffix}DmgRed`
+    const value = `${suffix}Value`
+
+    statements.push(`let ${hp} = ${containerName}[${hpIndex}];`)
+    statements.push(`let ${def} = ${containerName}[${defIndex}];`)
+    statements.push(`let ${dmgRed} = ${containerName}[${dmgRedIndex}];`)
+    statements.push(`let ${value} = ${hp} / (1.0 - ${def} / (${def} + 200.0 + 10.0 * f32(enemyLevel))) / (1.0 - ${dmgRed});`)
+    statements.push(`${containerName}[${ehpIndex}] = ${value};`)
+    if (entityIndex === 0) primaryValue = value
+  }
+
+  return { statements, primaryValue }
 }

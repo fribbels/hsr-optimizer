@@ -54,7 +54,10 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { setSortColumn } from 'lib/stores/gridStore'
 import { gridStore } from 'lib/stores/gridStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
+import {
+  ownsOptimizationRun,
+  useOptimizerDisplayStore,
+} from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { getRelics } from 'lib/stores/relic/relicStore'
 import {
   activateZeroPermutationsSuggestionsModal,
@@ -73,12 +76,7 @@ import {
   type OptimizerForm,
 } from 'types/form'
 
-// Module-level cancellation flag shared across optimization runs.
-// RACE CONDITION NOTE: If a second optimize() call is triggered before the first finishes,
-// CANCEL is reset to false by the new run while the old run's workers are still in-flight.
-// The old workers will continue running until they complete or the pool is cancelled.
-// The cancel() call sets CANCEL=true and cancels the WorkerPool, which should stop both runs.
-// A per-run cancellation token would be more robust but is not yet implemented.
+// Cancellation stops the current run; ownership checks reject stale callbacks.
 let CANCEL = false
 
 type OptimizerWorkerResult = {
@@ -187,6 +185,12 @@ export const Optimizer = {
   optimize: async function(request: Form) {
     const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
 
+    const runId = request.optimizationId
+    const ownsRun = () => ownsOptimizationRun(runId)
+
+    // A newer run may take ownership before this deferred call starts.
+    if (!ownsRun()) return
+
     // Cancel any in-progress optimization before starting a new one
     if (useOptimizerDisplayStore.getState().optimizationInProgress) {
       workerPool.cancelQueue()
@@ -248,6 +252,7 @@ export const Optimizer = {
 
     // Create a special optimization request for the top row, ignoring filters and with a custom callback
     setTimeout(() => {
+      if (!ownsRun()) return
       void calculateCurrentlyEquippedRow(request)
     }, 200)
 
@@ -274,12 +279,14 @@ export const Optimizer = {
 
     if (computeEngine != COMPUTE_ENGINE_CPU) {
       void getWebgpuDevice(true).then((device) => {
+        if (!ownsRun()) return
         if (device == null) {
           Message.error(t('Error.GPUNotAvailable'), 15)
           // GPU path won't run and CPU path already skipped — stop optimization
           useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
         } else {
           void sleep(200).then(() => {
+            if (!ownsRun()) return
             void gpuOptimize({
               device,
               context: context,
@@ -329,7 +336,7 @@ export const Optimizer = {
       }
 
       function dispatchNextRun() {
-        if (CANCEL || nextRunIndex >= runs.length) return
+        if (CANCEL || !ownsRun() || nextRunIndex >= runs.length) return
         const run = runs[nextRunIndex++]
         inProgress++
 
@@ -367,7 +374,7 @@ export const Optimizer = {
           searched += run.runSize
           inProgress--
 
-          if (CANCEL && resultsShown) {
+          if (!ownsRun() || (CANCEL && resultsShown)) {
             releaseBuffer(result.buffer)
             releaseRetryBuffer(taskInput, result.buffer)
             return
@@ -399,7 +406,7 @@ export const Optimizer = {
         }).catch((error) => {
           // Guard against cancellation — cancelQueue() and terminate() reject with
           // WorkerCancelledError. Don't decrement inProgress or create buffers for these.
-          if (error instanceof WorkerCancelledError || CANCEL) return
+          if (error instanceof WorkerCancelledError || CANCEL || !ownsRun()) return
           console.warn('Optimizer worker error:', error)
           inProgress--
           // Buffer is lost when worker dies — create replacement for the pool

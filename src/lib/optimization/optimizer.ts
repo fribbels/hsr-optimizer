@@ -13,6 +13,7 @@ import { getWebgpuDevice } from 'lib/gpu/webgpuDevice'
 import { gpuOptimize } from 'lib/gpu/webgpuOptimizer'
 import { type RelicsByPart } from 'lib/gpu/webgpuTypes'
 import { Message } from 'lib/interactions/message'
+import { webgpuCrashNotification } from 'lib/interactions/notifications'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   BufferPacker,
@@ -55,6 +56,7 @@ import { getCharacterById } from 'lib/stores/character/characterStore'
 import { setSortColumn } from 'lib/stores/gridStore'
 import { gridStore } from 'lib/stores/gridStore'
 import {
+  isOptimizationRunActive,
   ownsOptimizationRun,
   useOptimizerDisplayStore,
 } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -285,9 +287,9 @@ export const Optimizer = {
           // GPU path won't run and CPU path already skipped — stop optimization
           useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
         } else {
-          void sleep(200).then(() => {
+          return sleep(200).then(() => {
             if (!ownsRun()) return
-            void gpuOptimize({
+            return gpuOptimize({
               device,
               context: context,
               request: request,
@@ -300,9 +302,11 @@ export const Optimizer = {
             })
           })
         }
-      }).catch(() => {
-        // Safety net: if getWebgpuDevice rejects, ensure optimization doesn't stay stuck
+      }).catch((error) => {
+        console.error('WebGPU optimization failed:', error)
+        if (!isOptimizationRunActive(runId)) return
         useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
+        webgpuCrashNotification()
       })
     }
 

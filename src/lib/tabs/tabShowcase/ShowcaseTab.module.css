@@ -112,7 +112,9 @@
 
 .presetImage {
   height: 100%;
-  width: 100%;
+  width: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
   border-radius: 50%;
   outline: var(--showcase-outline-light);
   /* Drawn inward so the ring isn't clipped by the button's overflow: hidden */

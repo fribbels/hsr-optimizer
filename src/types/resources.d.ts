@@ -4982,11 +4982,11 @@ interface Resources {
       },
       "1512": {
         "LongName": "Robin • Summeretto",
-        "Name": "Robin • Summeretto"
+        "Name": "Summeretto"
       },
       "1513": {
         "LongName": "Aventurine • Waveflair",
-        "Name": "Aventurine • Waveflair"
+        "Name": "Waveflair"
       },
       "8001": {
         "LongName": "Caelus (Destruction)",

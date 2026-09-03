@@ -40,6 +40,11 @@ Lightcones:
         text: 泡影负面效果
         content: >-
           当装备者击中敌方目标时，使敌方陷入【泡影】状态，持续1回合。装备者每次攻击时，对每个目标只可触发1次。装备者对陷入【泡影】状态的目标造成的伤害提高{{DmgBoost}}%，终结技造成的伤害额外提高{{UltDmgBoost}}%。
+  AStarThatLightsTheNight:
+    Content:
+      sailStacks:
+        text: 启航层数
+        content: 每层【启航】使助战技伤害提高{{sailDmgBoost}}%，【启航】达到3层时，每层【启航】使终结技伤害提高{{sailDmgBoost}}%。
   AThanklessCoronation:
     Content:
       ultAtkBoost:
@@ -136,6 +141,11 @@ Lightcones:
       skillUltDmgBoost:
         text: 战技 / 终结技伤害提升
         content: 施放战技或终结技时，使本次攻击造成的伤害提高{{DmgBoost}}%
+  FlickeringStars:
+    Content:
+      radiantCrown:
+        text: 闪耀王冠
+        content: 我方任意角色在自身同一回合内累计消耗大于等于4点战技点时，装备者获得【闪耀王冠】，持续3回合。装备者持有【闪耀王冠】时，我方全体造成的伤害无视目标{{DefPen}}%的防御力，装备者造成的战技伤害提高{{DmgBoost}}%。
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -146,6 +156,14 @@ Lightcones:
         text: 歌咏层数
         content: >-
           我方角色每次攻击时，使装备者获得1层【歌咏】，每层【歌咏】使装备者的能量恢复效率提高{{RegenBuff}}%，最多叠加5层。装备者施放终结技时，移除【歌咏】并获得【华彩】，【华彩】使装备者的攻击力提高{{AtkBuff}}%，使我方全体造成的伤害提高{{DmgBuff}}%，持续1回合。
+  IAmAsYouBehold:
+    Content:
+      ultimateEnergyDmgBoost:
+        text: 终结技能量伤害提高
+        content: 装备者施放终结技时，每消耗1点能量值，使本次造成的终结技伤害提高{{DmgBoostStep}}%，最多提高{{MaxDmgBoost}}%。
+      kingsEntertainment:
+        text: 王之娱乐
+        content: 装备者进入战斗或施放终结技时，使装备者获得【王之娱乐】，持续3回合。当装备者持有【王之娱乐】时，我方全体暴击伤害提高{{CdBoost}}%。
   IfTimeWereAFlower:
     Content:
       presage:
@@ -176,6 +194,8 @@ Lightcones:
       skillAtkBoost:
         text: 战技攻击力提升
         content: 当装备者施放战技时，装备者此次攻击的效果命中提高{{EhrBuff}}%，攻击力提高{{AtkBuff}}%。
+      skillEhrBoost:
+        text: 战技效果命中提升
   InTheNight:
     Content:
       spdScalingBuffs:
@@ -1563,8 +1583,28 @@ Characters:
         content: 杰帕德在场时，我方全体的效果抵抗提高20%。
   Gilgamesh:
     Content:
+      herosHauteurStacks:
+        text: 英雄的孤傲爆伤层数
+        content: 本场战斗中，吉尔伽美什每获得1点【兴致】，使自身暴击伤害提高25%，该效果最多叠加6层。
+      interestSpdStacks:
+        text: 兴致层数
+        content: 我方其他目标行动时，吉尔伽美什获得1点【兴致】，每拥有1点【兴致】使自身速度提高10%。
+      kingsAcknowledgement:
+        text: 王来承认
+        content: >-
+          使用战技时，获得【王来承认】，使自身造成伤害时无视目标{{KingsAcknowledgementDefPen}}%的防御力，持续3回合。::BR::1魂：当吉尔伽美什持有【王来承认】时，【王来承认】无视防御力的效果对其他队友也生效，且【王来承认】额外使吉尔伽美什攻击力提高60%。
+      kingsBurden:
+        text: 王来背负
+        content: 我方队友施放终结技时，吉尔伽美什获得【王来背负】，使自身造成的终结技伤害提高{{TalentUltDmgBoost}}%，持续3回合。
+      a6TeamBuff:
+        text: 王霸的竞逐
+        content: 吉尔伽美什在场时，使我方全体目标攻击力提高20%，暴击伤害提高20%。若目标能量上限大于140，每超过1点能量上限使攻击力和暴击伤害额外提高1%，最多额外提高100%。
       e6ResPen:
         text: 6魂属性抗性穿透
+        content: 吉尔伽美什在场时，使我方角色的全属性抗性穿透提高20%。
+      goldenRuleStacks:
+        text: 黄金律层数
+        content: 队友施放终结技时，吉尔伽美什获得1点【黄金律】，最多累计3点。自身施放终结技时消耗全部【黄金律】，每消耗1点【黄金律】使造成的终结技伤害的暴击伤害提高100%。
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1642,8 +1682,27 @@ Characters:
         content: 终结技额外造成2次伤害，对随机敌方单体各造成等同于原伤害40%的火属性伤害。
   HimekoNova:
     Content:
+      navigatorsSemaphore:
+        text: 领航旗语
+        content: 当姬子•启行拥有【领航旗语】时，我方全体造成的伤害提高{{SemaphoreDmgBoost}}%。
+      selfUseAssistSkill:
+        text: 自用助战技
+        content: 姬子•启行使用助战技时，对敌方全体造成伤害，并对随机敌方目标额外造成 1 次伤害。
+      assistSkillBuff:
+        text: 助战技增益
+        content: 使用助战技视为姬子•启行施放了战技，姬子•启行获得全属性抗性穿透提高{{AssistSkillResPen}}%、暴击伤害提高{{AssistSkillCdBuff}}%。
+      companionVerdict:
+        text: '同行协议：裁决'
+        content: 姬子•启行造成的伤害提高{{VerdictDmgBuff}}%，造成的终结技伤害额外提高{{VerdictUltDmgBuff}}%。
+      companionDecimation:
+        text: '同行协议：歼破'
+        content: 我方全体暴击伤害提高{{DecimationCdBuff}}%，战技造成的暴击伤害额外提高{{DecimationSkillCdBuff}}%。
+      e4ResPen:
+        text: 4魂团体抵抗穿透
+        content: 天赋【共赴灼热的远征】使用助战技时，全属性抗性穿透提高效果对我方全体生效，姬子•启行获得该效果时全属性抗性穿透额外提高10%。
       e6:
         text: 6魂增益
+        content: 姬子•启行火属性抗性穿透提高20%。【源能】的上限提高至6点，我方使用或发动助战技时，助战技造成的伤害提高75%，姬子•启行会获得1点【源能】。终结技期间发动【超频粒子光束】攻击时，额外获得1点【源能】。发动【轨道歼灭脉冲】时，若当前【源能】大于等于6点，则额外对敌方全体造成1次等同于姬子•启行160%攻击力的火属性伤害。
   Hook:
     Content:
       enhancedSkill:
@@ -2136,12 +2195,34 @@ Characters:
     Content:
       enhancedSkill:
         text: 强化战技
+        content: 若远坂凛持有的【宝石能量】大于等于15点或当前战技点大于等于7点，战技强化为【第二魔法实验】。
+      skillBounces:
+        text: 战技弹射数量
+        content: 消耗3点【宝石能量】对敌方随机单体目标额外造成量子属性伤害，重复直至【宝石能量】不足3点或无当前生命值大于0的敌方目标，最多重复33轮。施放时，若当前战技点大于2点，将战技点消耗至2点，每消耗1点立即获得2点【宝石能量】。
+      enhancedSkillSpConsumed:
+        text: 强化技战技点消耗
+        content: 消耗3点【宝石能量】对敌方随机单体目标额外造成量子属性伤害，重复直至【宝石能量】不足3点或无当前生命值大于0的敌方目标，最多重复33轮。施放时，若当前战技点大于2点，将战技点消耗至2点，每消耗1点立即获得2点【宝石能量】。
       talentCdBuff:
         text: 天赋暴击伤害增益
+        content: 我方目标消耗或恢复战技点时，使其暴击伤害提高{{TalentCdBuff}}%，持续2回合。
+      elegantConduct:
+        text: 秉持优雅
+        content: 远坂凛在场时，战技点上限额外增加2点。进入战斗时，远坂凛的攻击力提高150%，量子属性抗性穿透提高15%，若Archer在队伍中，Archer也会获得该效果。
       ladylikePoise:
         text: 速度增益
+        content: 进入战斗时和施放强化战技后，远坂凛的速度提高20%，持续3回合。
+      ultDmgTakenDebuff:
+        text: 终结技易伤
+        content: 远坂凛施放终结技时，为我方恢复1个战技点，并使敌方全体受到的伤害提高{{UltVulnerability}}%，持续3回合。
+      e2Buffs:
+        text: 2魂战技伤害增益
+        content: 远坂凛造成的战技伤害提高30%。远坂凛在场时，我方全体造成的战技伤害为原伤害的130%。
+      e4TalentCdStacks:
+        text: 4魂爆伤层数
+        content: 天赋【宝石魔术】的暴击伤害提高效果对远坂凛生效时，效果可以叠加，最多可叠加2层。
       e6ResPen:
         text: 6魂属性抗性穿透
+        content: 远坂凛的全属性抗性穿透提高20%。施放终结技时，获得24点【宝石能量】和1个额外回合。
   Robin:
     Content:
       concertoActive:

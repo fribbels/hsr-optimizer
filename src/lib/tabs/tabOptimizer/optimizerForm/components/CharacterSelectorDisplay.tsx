@@ -7,6 +7,7 @@ import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/charact
 import { Stats } from 'lib/constants/constants'
 import { Hint } from 'lib/interactions/hint'
 import { getAKeyName } from 'lib/optimization/engine/config/keys'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
 import {
   type AbilityKind,
   AbilityMeta,
@@ -126,8 +127,8 @@ export function CharacterSelectorDisplay() {
           // @ts-ignore - BUFF key is handled above, not in i18n
           : t(`SortOptions.${sortOption.key}`)
 
-        const category = AbilityMeta[action as AbilityKind]?.category
-        if (category === 'buff') {
+        const outputTag = AbilityMeta[action as AbilityKind]?.outputTag
+        if (outputTag === OutputTag.BUFF) {
           optimizationOptions.push({ value: sortOption.key, label: label as string })
         } else {
           abilityOptions.push({ value: sortOption.key, label: label as string })

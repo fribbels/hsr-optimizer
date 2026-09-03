@@ -141,16 +141,6 @@ const StatKeyToStat: Record<number, string> = {
   [StatKey.IMAGINARY_DMG_BOOST]: Stats.Imaginary_DMG,
 }
 
-const ignoredStats: Record<number, boolean> = {
-  [StatKey.PHYSICAL_DMG_BOOST]: true,
-  [StatKey.FIRE_DMG_BOOST]: true,
-  [StatKey.ICE_DMG_BOOST]: true,
-  [StatKey.LIGHTNING_DMG_BOOST]: true,
-  [StatKey.WIND_DMG_BOOST]: true,
-  [StatKey.IMAGINARY_DMG_BOOST]: true,
-  [StatKey.QUANTUM_DMG_BOOST]: true,
-}
-
 const overridePrecision: Record<number, number> = {
   // Flat stats (large values, float precision issues)
   [StatKey.HP]: P_2,
@@ -194,7 +184,6 @@ function arrayDelta(cpuContainer: ComputedStatsContainer, gpuContainer: Computed
 
   // Compare stats array values
   for (let i = 0; i < STATS_LENGTH; i++) {
-    if (ignoredStats[i]) continue
     const statName = statNames[i]
     const precision = overridePrecision[i] ?? P_4
     analyze(statName, cpu[i], gpu[i], precision)

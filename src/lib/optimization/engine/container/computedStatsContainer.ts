@@ -538,6 +538,7 @@ export class ComputedStatsContainer {
           source: config._source,
           memo: false,
           damageTags: traceDamageTags,
+          outputTags,
         })
       }
       if (hasMemo) {
@@ -548,6 +549,7 @@ export class ComputedStatsContainer {
           source: config._source,
           memo: true,
           damageTags: traceDamageTags,
+          outputTags,
         })
       }
     }

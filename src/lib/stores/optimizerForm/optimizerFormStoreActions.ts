@@ -1,5 +1,6 @@
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import { LightConeConditionalsResolver } from 'lib/conditionals/resolver/lightConeConditionalsResolver'
+import { DEFAULT_MEMO_DISPLAY, PathNames } from 'lib/constants/constants'
 import { generateConditionalResolverMetadata } from 'lib/optimization/combo/comboInitializers'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -80,6 +81,11 @@ export function computeLoadForm(form: Form): OptimizerRequestState {
   const merged = mergeDefinedValues({ ...defaults }, converted)
   if (converted.setConditionals && defaults.setConditionals) {
     merged.setConditionals = { ...defaults.setConditionals, ...converted.setConditionals }
+  }
+
+  const characterMetadata = merged.characterId ? getGameMetadata().characters?.[merged.characterId] : undefined
+  if (characterMetadata?.path !== PathNames.Remembrance) {
+    merged.memoDisplay = DEFAULT_MEMO_DISPLAY
   }
 
   mergeConditionalDefaults(merged, form)

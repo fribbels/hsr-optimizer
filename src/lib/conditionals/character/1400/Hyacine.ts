@@ -443,7 +443,7 @@ if (
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.SPD],
-        chainsTo: [Stats.OHB],
+        chainsTo: [Stats.OHB, Stats.CD],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
 

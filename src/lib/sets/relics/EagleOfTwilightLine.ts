@@ -1,7 +1,6 @@
 import {
   ConditionalDataType,
   Sets,
-  Stats,
 } from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
@@ -9,9 +8,6 @@ import {
   WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  type OptimizerContext,
-} from 'types/optimizer'
 import {
   type SetConditionals,
   type SetConfig,
@@ -33,10 +29,8 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
-  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-    if (context.elementalDamageType == Stats.Wind_DMG) {
-      c.WIND_DMG_BOOST.buff(0.10, Source.EagleOfTwilightLine)
-    }
+  p2c: (c: BasicStatsArray) => {
+    c.WIND_DMG_BOOST.buff(0.10, Source.EagleOfTwilightLine)
   },
   gpuBasic: () => [
     basicP2(WgslStatName.WIND_DMG_BOOST, 0.10, EagleOfTwilightLine),

@@ -1,5 +1,8 @@
 import { type ComputeEngine } from 'lib/constants/constants'
-import { type WorkgroupEntry } from 'lib/gpu/webgpuDataTransform'
+import {
+  getGpuResultThreshold,
+  type WorkgroupEntry,
+} from 'lib/gpu/webgpuDataTransform'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import {
   destroyPipeline,
@@ -181,7 +184,7 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
     const progressSnapshot = (iteration + 1) / gpuContext.iterations
     const storeStartTime = useOptimizerDisplayStore.getState().optimizerStartTime
     setTimeout(() => {
-      if (!ownsOptimizationRun(gpuContext.request.optimizationId)) return
+      if (!isOptimizationRunActive(gpuContext.request.optimizationId)) return
       const endTimeToSet = Date.now()
       const msDiff = endTimeToSet - (storeStartTime ?? 0)
 
@@ -259,9 +262,7 @@ export function decodeTupleGlobalIndex(
 }
 
 function submitTupleBatch(gpuContext: GpuExecutionContext, batchStart: number, batchSize: number, bufferIndex: number): void {
-  const threshold = gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT
-    ? gpuContext.resultsQueue.topPriority()
-    : 0
+  const threshold = getGpuResultThreshold(gpuContext)
   const paramsBuf = new ArrayBuffer(16)
   new Float32Array(paramsBuf)[0] = threshold
   new Uint32Array(paramsBuf, 4)[0] = batchStart

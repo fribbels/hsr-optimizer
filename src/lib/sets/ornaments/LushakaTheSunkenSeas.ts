@@ -8,9 +8,14 @@ import {
   WgslStatName,
 } from 'lib/optimization/basicStatsArray'
 import { Source } from 'lib/optimization/buffSource'
-import { StatKey } from 'lib/optimization/engine/config/keys'
-import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
+  HKey,
+  StatKey,
+} from 'lib/optimization/engine/config/keys'
+import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
+import {
+  type OptimizerAction,
   type OptimizerContext,
   type SetConditional,
 } from 'types/optimizer'
@@ -48,6 +53,14 @@ const conditionals: SetConditionals = {
   gpuBasic: () => [
     basicP2(WgslStatName.ERR, 0.05, LushakaTheSunkenSeas),
   ],
+  gpu: (action: OptimizerAction) => `
+    if (
+      ornament2p(*p_sets, SET_LushakaTheSunkenSeas)
+      && setConditionals.enabledLushakaTheSunkenSeas == true
+    ) {
+      ${buff.hit(HKey.BOOST, `0.12 * ${action.config.selfEntity.baseAtk}`).outputBuff(StatKey.ATK).wgsl(action, 2)}
+    }
+  `,
   teammate: [{
     value: Sets.LushakaTheSunkenSeas,
     label: (t) => t('TeammateSets.Lushaka.Text'),

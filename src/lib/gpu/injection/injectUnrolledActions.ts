@@ -30,6 +30,7 @@ import {
 } from 'lib/optimization/engine/config/tag'
 import { matchesTargetTag } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { getDamageFunction } from 'lib/optimization/engine/damage/damageCalculator'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import type {
   SortOptionKey,
   SortOptionProperties,
@@ -157,6 +158,21 @@ function getAbilitySortCompletionIndex(request: Form, context: OptimizerContext)
 
 function recordsBuffOutput(action: OptimizerAction): boolean {
   return action.hits?.some((hit) => hit.recorded !== false && hit.outputTag === OutputTag.BUFF) ?? false
+}
+
+function getActionOutputWgsl(action: OptimizerAction): string {
+  switch (AbilityMeta[action.actionType].outputTag) {
+    case OutputTag.DAMAGE:
+      return 'comboDmg'
+    case OutputTag.HEAL:
+      return 'comboHeal'
+    case OutputTag.SHIELD:
+      return 'comboShield'
+    case OutputTag.BUFF:
+      return 'comboBuff'
+    default:
+      return '0.0'
+  }
 }
 
 const SortOptionToAKey: Partial<Record<SortOptionKey, AKeyValue>> = {
@@ -423,6 +439,7 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
 
   const damageCalculationWgsl = indent(unrollDamageCalculations(action, context, gpuParams), 1)
   const comboBuffUpdateWgsl = recordsBuffOutput(action) ? '*p_comboBuff = comboBuff;' : ''
+  const actionOutputWgsl = getActionOutputWgsl(action)
 
   //////////
 
@@ -526,8 +543,7 @@ fn unrolledAction${index}(
   *p_comboShield += comboShield;
   ${comboBuffUpdateWgsl}
 
-  // Return total for debug register copy
-  return comboDmg + comboHeal + comboShield + comboBuff;
+  return ${actionOutputWgsl};
 }
   `
   } else {
@@ -599,7 +615,7 @@ fn unrolledAction${index}(
 
   ${comboBuffUpdateWgsl}
 
-  return comboDmg + comboHeal + comboShield + comboBuff;
+  return ${actionOutputWgsl};
 }
   `
   }
@@ -617,8 +633,7 @@ function unrollDamageCalculations(action: OptimizerAction, context: OptimizerCon
   }
 
   if (gpuParams.DEBUG) {
-    // Set action register with total combo damage
-    code += wgslDebugActionRegister(action, context, 'comboDmg + comboHeal + comboShield + comboBuff') + '\n'
+    code += wgslDebugActionRegister(action, context, getActionOutputWgsl(action)) + '\n'
   }
 
   return wgsl`

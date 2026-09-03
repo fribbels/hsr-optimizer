@@ -1,5 +1,8 @@
 import { type ComputeEngine } from 'lib/constants/constants'
-import { type WorkgroupEntry } from 'lib/gpu/webgpuDataTransform'
+import {
+  getGpuResultThreshold,
+  type WorkgroupEntry,
+} from 'lib/gpu/webgpuDataTransform'
 import { debugWebgpuOutput } from 'lib/gpu/webgpuDebugger'
 import {
   destroyPipeline,
@@ -259,9 +262,7 @@ export function decodeTupleGlobalIndex(
 }
 
 function submitTupleBatch(gpuContext: GpuExecutionContext, batchStart: number, batchSize: number, bufferIndex: number): void {
-  const threshold = gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT
-    ? gpuContext.resultsQueue.topPriority()
-    : 0
+  const threshold = getGpuResultThreshold(gpuContext)
   const paramsBuf = new ArrayBuffer(16)
   new Float32Array(paramsBuf)[0] = threshold
   new Uint32Array(paramsBuf, 4)[0] = batchStart

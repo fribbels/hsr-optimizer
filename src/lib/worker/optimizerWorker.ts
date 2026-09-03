@@ -32,6 +32,7 @@ import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   computeSetMatchesInPlace,
   emptySetMatches,
@@ -139,6 +140,8 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
   const failsBasicStatsFilter = basicStatsFilter(request, memoEntity)
   const failsEhpFilter = ehpFilter(request, displayEntityIndex)
   const failsRatingFilter = ratingFilter(request, context)
+  const rotationActionOutputTags = context.rotationActions.map((action) => AbilityMeta[action.actionType].outputTag)
+  const defaultActionOutputTags = context.defaultActions.map((action) => AbilityMeta[action.actionType].outputTag)
 
   const sets = Array.from<number>({ length: 6 })
   const setMatches: MutableSetMatches = emptySetMatches()
@@ -214,6 +217,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     // Calculate rotation actions for combo damage
     for (let i = 0; i < context.rotationActions.length; i++) {
       const action = context.rotationActions[i]
+      const actionOutputTag = rotationActionOutputTags[i]
       x.setConfig(action.config)
       resetConditionalState(action)
 
@@ -222,32 +226,38 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
-      let sum = 0
+      let actionOutput = 0
       for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
         const hit = action.hits![hitIndex]
         const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
         x.setHitRegisterValue(hit.registerIndex, dmg)
 
-        // Accumulate recorded hits by output tag
         if (hit.recorded !== false) {
-          sum += dmg
-          if (hit.outputTag == OutputTag.DAMAGE) {
+          if (hit.outputTag === actionOutputTag) {
+            if (actionOutputTag === OutputTag.BUFF) {
+              actionOutput = dmg
+            } else {
+              actionOutput += dmg
+            }
+          }
+          if (hit.outputTag === OutputTag.DAMAGE) {
             comboDmg += dmg
-          } else if (hit.outputTag == OutputTag.HEAL) {
+          } else if (hit.outputTag === OutputTag.HEAL) {
             comboHeal += dmg
-          } else if (hit.outputTag == OutputTag.SHIELD) {
+          } else if (hit.outputTag === OutputTag.SHIELD) {
             comboShield += dmg
-          } else if (hit.outputTag == OutputTag.BUFF) {
+          } else if (hit.outputTag === OutputTag.BUFF) {
             comboBuff = dmg
           }
         }
       }
-      x.setActionRegisterValue(action.registerIndex, sum)
+      x.setActionRegisterValue(action.registerIndex, actionOutput)
     }
 
     // Calculate default actions for display stats and store in registers
     for (let i = 0; i < context.defaultActions.length; i++) {
       const action = context.defaultActions[i]
+      const actionOutputTag = defaultActionOutputTags[i]
       x.setConfig(action.config)
       resetConditionalState(action)
 
@@ -256,20 +266,26 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
-      let sum = 0
+      let actionOutput = 0
       for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
         const hit = action.hits![hitIndex]
         const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
         x.setHitRegisterValue(hit.registerIndex, dmg)
 
         if (hit.recorded !== false) {
-          sum += dmg
-          if (hit.outputTag == OutputTag.BUFF) {
+          if (hit.outputTag === actionOutputTag) {
+            if (actionOutputTag === OutputTag.BUFF) {
+              actionOutput = dmg
+            } else {
+              actionOutput += dmg
+            }
+          }
+          if (hit.outputTag === OutputTag.BUFF) {
             comboBuff = dmg
           }
         }
       }
-      x.setActionRegisterValue(action.registerIndex, sum)
+      x.setActionRegisterValue(action.registerIndex, actionOutput)
     }
 
     calculateEhp(x, context)

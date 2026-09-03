@@ -2,7 +2,7 @@ import { MultiSelect, Popover, type Primitive, Text } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import type { ReactNode } from "react"
 
-import classes from './PillMultiSelect.module.css'
+import classes from 'lib/ui/pillSelects/PillMultiSelect.module.css'
 
 namespace PillMultiSelect {
   export interface CoreProps<T extends Primitive> {

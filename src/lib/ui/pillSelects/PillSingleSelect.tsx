@@ -1,7 +1,7 @@
 import {
   CloseButton,
   Combobox,
-  ComboboxOptionProps,
+  type ComboboxOptionProps,
   Input,
   InputBase,
   Popover,
@@ -16,7 +16,7 @@ import {
   useMemo,
 } from 'react'
 
-import classes from './PillSingleSelect.module.css'
+import classes from 'lib/ui/pillSelects/PillSingleSelect.module.css'
 
 namespace PillSingleSelect {
   export interface CoreProps<T> {

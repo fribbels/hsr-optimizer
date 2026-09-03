@@ -23,8 +23,9 @@ import {
   type CombatBuff,
   type CombatBuffGroup,
 } from 'types/form'
-import { BuffPanel } from './BuffPanel'
-import { useCombatBuffStore } from './useCombatBuffsStore'
+import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
+import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
+import { useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
 
 interface BuffGroupPanelProps {
   id: string
@@ -47,7 +48,7 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
   toggleSelection,
 }: BuffGroupPanelProps) {
   const remove = useCallback(() => removeBuff(id), [removeBuff, id])
-  const copyClicked = useCallback(() => copyGroupToClipboard(group, buffs), [group])
+  const copyClicked = useCallback(() => writeBuffToClipboard(group, buffs), [group])
   const [isOpen, { toggle }] = useDisclosure(false)
   return (
     <Group
@@ -207,6 +208,12 @@ function BuffGroupPreview({
 }: PreviewProps) {
   return <span>{group.buffs.length} buffs</span>
 }
+// general idea, 1 line scrolling container containing the preview pills
+// stat pill preview is stat + value
+// modifier preview is targeted action + multiplier scaling + multiplier stat
 
-// TODO: implement
-async function copyGroupToClipboard(group: CombatBuffGroup, buffs: Map<string, CombatBuff>) {}
+// maybe stats can have a pill to render them more densely?
+
+function statBuffPreviewPill() {}
+
+function ActionModifierPreviewPill() {}

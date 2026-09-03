@@ -70,7 +70,7 @@ import type {
   HsrOptimizerSaveFormat,
   UserSettings,
 } from 'types/store'
-import { migrateCombatBuffs } from './migrations/combatBuffs'
+import { migrateCombatBuffs } from 'lib/services/migrations/combatBuffs'
 
 // ─── Public API ────────────────────────────────────────────────
 

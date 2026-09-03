@@ -29,9 +29,9 @@ import {
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
-import { writeBuffToClipboard } from './clipboard'
-import { renderDamageTagPill } from './DamageTagSelect'
-import { renderTargetTagPill } from './TargetTagSelect'
+import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
+import { renderDamageTagPill } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/DamageTagSelect'
+import { renderTargetTagPill } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/TargetTagSelect'
 
 interface BuffPanelContentProps {
   id: string

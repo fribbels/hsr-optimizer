@@ -12,7 +12,7 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type CombatStatBuff } from 'types/form'
-import { PillSingleSelect } from '../../../../../ui/pillSelects/PillSingleSelect'
+import { PillSingleSelect } from 'lib/ui/pillSelects/PillSingleSelect'
 
 export const targetTagValues = [
   // Self not meaningful?

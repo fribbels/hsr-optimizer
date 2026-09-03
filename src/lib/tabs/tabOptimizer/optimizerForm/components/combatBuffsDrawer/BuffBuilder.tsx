@@ -13,16 +13,16 @@ import {
   isHitAKey,
 } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
+import { DamageTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/DamageTagSelect'
+import { StatSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatSelect'
+import { TargetTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/TargetTagSelect'
+import { useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
 import {
   type CombatBuff,
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
 import { useShallow } from 'zustand/react/shallow'
-import { DamageTagSelect } from './DamageTagSelect'
-import { StatSelect } from './StatSelect'
-import { TargetTagSelect } from './TargetTagSelect'
-import { useCombatBuffStore } from './useCombatBuffsStore'
 
 export function BuffBuilder({
   addBuff,

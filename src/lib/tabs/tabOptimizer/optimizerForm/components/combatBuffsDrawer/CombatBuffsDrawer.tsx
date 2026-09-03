@@ -25,8 +25,8 @@ import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type CombatBuff } from 'types/form'
 import { useShallow } from 'zustand/react/shallow'
-import { BuffGroupPanel } from './BuffGroupPanel'
-import { BuffPanel } from './BuffPanel'
+import { BuffGroupPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffGroupPanel'
+import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
 
 export function CombatBuffsDrawer() {
   const { close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)

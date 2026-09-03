@@ -1,7 +1,6 @@
 import {
   ConditionalDataType,
   Sets,
-  Stats,
 } from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
@@ -46,10 +45,8 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
-  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-    if (context.elementalDamageType == Stats.Physical_DMG) {
-      c.PHYSICAL_DMG_BOOST.buff(0.10, Source.ChampionOfStreetwiseBoxing)
-    }
+  p2c: (c: BasicStatsArray) => {
+    c.PHYSICAL_DMG_BOOST.buff(0.10, Source.ChampionOfStreetwiseBoxing)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.ATK_P, 0.05 * setConditionals.valueChampionOfStreetwiseBoxing, x.source(Source.ChampionOfStreetwiseBoxing))

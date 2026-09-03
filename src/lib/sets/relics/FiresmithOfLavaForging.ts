@@ -1,7 +1,6 @@
 import {
   ConditionalDataType,
   Sets,
-  Stats,
 } from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
@@ -45,10 +44,8 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
-  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-    if (context.elementalDamageType == Stats.Fire_DMG) {
-      c.FIRE_DMG_BOOST.buff(0.10, Source.FiresmithOfLavaForging)
-    }
+  p2c: (c: BasicStatsArray) => {
+    c.FIRE_DMG_BOOST.buff(0.10, Source.FiresmithOfLavaForging)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.BOOST, 0.12, x.damageType(DamageTag.SKILL).source(Source.FiresmithOfLavaForging))

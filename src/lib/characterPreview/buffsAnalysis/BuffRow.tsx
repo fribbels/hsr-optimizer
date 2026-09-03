@@ -7,7 +7,7 @@ import {
   getPrimaryDamageTagColor,
   getStatConfig,
   renderPill,
-  translatedLabel,
+  translatedBuffLabel,
 } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import {
   DesignContext,
@@ -38,7 +38,7 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
   const config = getStatConfig(stat)
   const percent = !config?.flat
   const bool = config?.bool
-  const statLabel = translatedLabel(stat, buff.memo)
+  const statLabel = translatedBuffLabel(buff)
 
   let sourceLabel: string
   const source = buff.source

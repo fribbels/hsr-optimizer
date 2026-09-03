@@ -14,8 +14,9 @@ import {
 import {
   formatBuffValue,
   getStatConfig,
+  isOutputBoost,
   renderPill,
-  translatedLabel,
+  translatedBuffLabel,
 } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import {
   DesignContext,
@@ -29,7 +30,10 @@ import {
 import { HitDefinitionRows } from 'lib/characterPreview/buffsAnalysis/HitDefinitionDisplay'
 import type { Buff } from 'lib/optimization/basicStatsArray'
 import { AKeyNames } from 'lib/optimization/engine/config/keys'
-import type { DamageTag } from 'lib/optimization/engine/config/tag'
+import {
+  type DamageTag,
+  OutputTag,
+} from 'lib/optimization/engine/config/tag'
 import type { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -73,7 +77,9 @@ export function collectAllBuffs(buffGroups: BuffGroups): Buff[] {
 }
 
 function getBuffStatKey(buff: Buff): string {
-  return buff.memo ? `memo:${buff.stat}` : buff.stat
+  const memoPrefix = buff.memo ? 'memo:' : ''
+  const outputSuffix = isOutputBoost(buff) ? `:${buff.outputTags ?? OutputTag.DAMAGE}` : ''
+  return `${memoPrefix}${buff.stat}${outputSuffix}`
 }
 
 export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSum[] {
@@ -87,7 +93,7 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
     if (!metaMap.has(key)) {
       metaMap.set(key, {
         stat: buff.stat,
-        label: translatedLabel(buff.stat, buff.memo),
+        label: translatedBuffLabel(buff),
         percent: !config.flat,
       })
       allContributionsMap.set(key, [])
@@ -116,7 +122,7 @@ export function computeStatSums(buffs: Buff[], filter: DamageTag | null): StatSu
     } else {
       sumMap.set(key, {
         stat: buff.stat,
-        label: translatedLabel(buff.stat, buff.memo),
+        label: translatedBuffLabel(buff),
         total: buff.value,
         count: 1,
         percent: !config.flat,

@@ -1174,6 +1174,10 @@ Characters:
       e6UltExtraHits:
         text: E6 Tuyệt Kỹ Gây Thêm Số Lần Sát Thương
         content: Tuyệt Kỹ gây thêm 2 lần sát thương, gây Sát Thương Hỏa cho mỗi kẻ địch ngẫu nhiên bằng 40% sát thương ban đầu.
+  HimekoNova:
+    Content:
+      e6:
+        text: E6 Tăng Gì Đó
   Hook:
     Content:
       enhancedSkill:
@@ -1478,6 +1482,14 @@ Characters:
       e4SpdBuff:
         text: E4 Tăng SPD
         content: Trong thời gian Kết Ấn, Tốc Độ của toàn bộ phe ta tăng 12%.
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: Chiến Kỹ Cường Hóa
+      talentCdBuff:
+        text: Thiên Phú Tăng ST Bạo Kích
+      ladylikePoise:
+        text: Tăng Tốc Độ
   Robin:
     Content:
       concertoActive:

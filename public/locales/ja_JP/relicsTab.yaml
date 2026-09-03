@@ -176,6 +176,7 @@ Toolbar:
     PlotOwned: 獲得したキャラのみ表示
   PotentialOptions:
     Maximum: 完璧
+    Average: 平均
   EditRelic: 遺物を編集
   DeleteRelic:
     ButtonText: 遺物を削除
@@ -187,3 +188,4 @@ RelicInsights:
   NewStats: '新しいステータス：'
   UpgradedStats: 'アップグレードしたステータス：'
   AvgPotential: '平均ポテンシャル：'
+  MaxPotential: '最大ポテンシャル：'

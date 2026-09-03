@@ -3,13 +3,59 @@ CommunityCollapse: >-
 CommunityCard:
   Discord:
     Title: Discord
+    Description: 加入数千名玩家，与大家分享配装、攻略和优化技巧。
   Github:
     Title: Github
+    Description: 参与项目贡献。欢迎提交错误报告、功能建议和拉取请求。
+  Roadmap:
+    Title: 路线图
+    Description: 在项目看板中查看计划中及正在进行的内容。
   Changelog:
     Title: 更新日志
+    Description: 查看近期更新、新功能和漏洞修复。
 FeatureCard:
+  Showcase:
+    Title: 角色展示
+    Description: 展示并分享角色属性，或预先配装未来角色。使用 DPS 评分模拟战斗伤害，并与基准进行对比。
+    Features:
+      - 完整属性展示，包含 DPS 评分与属性分析
+      - 配置队友增益以获得准确评分
+      - 使用当前遗器模拟未实装角色的属性
+  Optimizer:
+    Title: 优化引擎
+    Description: 优化你的角色，寻找最佳遗器组合，以达到属性分界点并最大化角色属性。
+    Features:
+      - 寻找属性、技能或连招伤害的最佳配装
+      - GPU 加速运算，每秒可计算数十亿种配装
+      - 设置队友条件增益以进行伤害计算
   Warp:
     Title: 跃迁规划器
+    Description: 计算角色和光锥卡池目标的准确达成概率，并计入保底计数、星芒返还及预测的未来资源。
+    Features:
+      - 显示每个目标预计所需的平均跃迁次数
+      - 按版本追踪零氪及不同氪金档位的资源收入
+      - 计算重复兑换产生的星芒返还
+  DamageCalculator:
+    Title: 伤害计算
+    Description: 通过完全自定义的队伍配置、增益条件和技能循环来精确计算伤害并最大化输出。
+    Features:
+      - 自定义连招、队友和遗器
+      - 按来源和技能查看增益明细
+      - 易于上手的预设
+  Benchmarks:
+    Title: 配装基准
+    Description: 确定哪些遗器套装和主属性能为角色带来最高伤害。为每种配置找出最佳副词条分配。
+    Features:
+      - 直接比较不同主属性与遗器组合
+      - '两个档位：实用基准与完美配装'
+      - 展开行可查看属性、强化次数和伤害明细
+  RarityAnalysis:
+    Title: 稀有度分析
+    Description: 使用角色专属副词条权重评估遗器质量，并将每件遗器与其理论最高值进行比较。
+    Features:
+      - 预估更换一件遗器所需的刷取天数
+      - 直观查看副词条的高、中、低强化档位
+      - 查看每件遗器的重掷骰子潜力
 Hero:
   Welcome: 欢迎来到
   Title: Fribbels 星穹铁道优化器

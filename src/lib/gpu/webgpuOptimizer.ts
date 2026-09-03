@@ -181,7 +181,7 @@ async function runNaiveDispatch(gpuContext: GpuExecutionContext): Promise<number
     const progressSnapshot = (iteration + 1) / gpuContext.iterations
     const storeStartTime = useOptimizerDisplayStore.getState().optimizerStartTime
     setTimeout(() => {
-      if (!ownsOptimizationRun(gpuContext.request.optimizationId)) return
+      if (!isOptimizationRunActive(gpuContext.request.optimizationId)) return
       const endTimeToSet = Date.now()
       const msDiff = endTimeToSet - (storeStartTime ?? 0)
 

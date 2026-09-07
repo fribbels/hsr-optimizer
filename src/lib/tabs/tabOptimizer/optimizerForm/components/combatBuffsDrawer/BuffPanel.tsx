@@ -17,6 +17,9 @@ import { type TFunction } from 'i18next'
 import { labelToString } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { Message } from 'lib/interactions/message'
 import { getAKeyConfig } from 'lib/optimization/engine/config/keys'
+import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
+import { renderDamageTagPill } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/DamageTagSelect'
+import { renderTargetTagPill } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/TargetTagSelect'
 import {
   Children,
   memo,
@@ -29,9 +32,6 @@ import {
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
-import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
-import { renderDamageTagPill } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/DamageTagSelect'
-import { renderTargetTagPill } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/TargetTagSelect'
 
 interface BuffPanelContentProps {
   id: string
@@ -68,7 +68,15 @@ export const BuffPanel = memo(function BuffPanel({
 
   return (
     <Group gap='xs' justify='space-between' style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}>
-      <Checkbox checked={checked} onClick={() => toggleSelection(id)} />
+      <Box
+        style={{
+          alignSelf: 'stretch',
+          display: 'flex',
+          alignItems: 'flex-start',
+        }}
+      >
+        <Checkbox mt={7} checked={checked} onClick={() => toggleSelection(id)} />
+      </Box>
       {panelContent}
       <Stack gap={2}>
         <ActionIcon aria-label='Copy buff' size={30} onClick={() => writeBuffToClipboard(buff)}>
@@ -94,6 +102,7 @@ function StatBuffPanelContent({
 }: StatBuffPanelContentProps) {
   const { label, flat } = getAKeyConfig(buff.statKey)
   const statLabel = labelToString(label)
+  // TODO: refine visuals
   return (
     <Stack flex={1}>
       <TextInput value={buff.name} onChange={(e) => renameBuff(id, e.currentTarget.value)} placeholder='name this buff?' />

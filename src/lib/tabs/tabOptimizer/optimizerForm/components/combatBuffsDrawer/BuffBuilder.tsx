@@ -16,7 +16,10 @@ import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { DamageTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/DamageTagSelect'
 import { StatSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatSelect'
 import { TargetTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/TargetTagSelect'
-import { useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
+import {
+  type CombatBuffStoreState,
+  useCombatBuffStore,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
 import {
   type CombatBuff,
   CombatBuffType,
@@ -29,7 +32,7 @@ export function BuffBuilder({
 }: {
   addBuff: (buff: CombatBuff) => void,
 }) {
-  const options: Array<SegmentedControlItem<CombatBuffType>> = [
+  const options: Array<SegmentedControlItem<CombatBuffStoreState['buffBuilderMode']>> = [
     { value: CombatBuffType.StatBuff, label: 'Stat buff' },
     { value: CombatBuffType.ActionModifier, label: 'Action modifier', disabled: true },
   ]

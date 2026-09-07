@@ -15,6 +15,9 @@ import {
   IconTrashFilled,
 } from '@tabler/icons-react'
 import { type TFunction } from 'i18next'
+import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
+import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
+import { useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
 import {
   memo,
   useCallback,
@@ -22,10 +25,9 @@ import {
 import {
   type CombatBuff,
   type CombatBuffGroup,
+  type CombatStatBuff,
 } from 'types/form'
-import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
-import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
-import { useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
+import { optimizerTabDefaultGap } from '../../grid/optimizerGridColumns'
 
 interface BuffGroupPanelProps {
   id: string
@@ -131,18 +133,22 @@ function BuffGroupContent({
     />
   )
 
-  const panels = group.buffs.map((id) => (
-    <BuffPanel
-      key={id}
-      id={id}
-      t={t}
-      renameBuff={renameBuff}
-      removeBuff={removeBuff}
-      buff={buffs.get(id)!}
-      toggleSelection={toggleSelection}
-      checked={selectedBuffs.has(id)}
-    />
-  ))
+  const panels = (
+    <Stack gap={optimizerTabDefaultGap}>
+      {group.buffs.map((id) => (
+        <BuffPanel
+          key={id}
+          id={id}
+          t={t}
+          renameBuff={renameBuff}
+          removeBuff={removeBuff}
+          buff={buffs.get(id)!}
+          toggleSelection={toggleSelection}
+          checked={selectedBuffs.has(id)}
+        />
+      ))}
+    </Stack>
+  )
 
   const height = isOpen ? panelsRect.height : previewRect.height
 
@@ -214,6 +220,7 @@ function BuffGroupPreview({
 
 // maybe stats can have a pill to render them more densely?
 
-function statBuffPreviewPill() {}
+const StatBuffPreviewPill = memo(function StatBuffPreviewPill(buff: CombatStatBuff) {
+})
 
 function ActionModifierPreviewPill() {}

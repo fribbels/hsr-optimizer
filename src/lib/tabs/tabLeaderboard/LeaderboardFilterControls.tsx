@@ -28,7 +28,7 @@ interface LeaderboardFilterControlsProps {
   filterCharacterEidolon: LeaderboardEidolonFilter
   onFilterChange: (filters: { teamId?: string, characterEidolon?: string }) => void
   getCharacterName: (characterId: string) => string
-  allTeamsLabel: (teamCount: number) => string
+  allTeamsLabel: string
   eidolonOptions: { value: LeaderboardEidolonFilter, label: string }[]
 }
 
@@ -79,7 +79,7 @@ function renderTeamNamedRows(props: LeaderboardFilterControlsProps, onSelect?: (
         className={`${classes.teamNamedRow} ${classes.teamNamedRowAll} ${allActive ? classes.teamNamedRowActive : ''}`}
         onClick={() => select(LEADERBOARD_FILTER_ALL)}
       >
-        <span className={classes.teamNamedText}>{props.allTeamsLabel(availableTeams.length)}</span>
+        <span className={classes.teamNamedText}>{props.allTeamsLabel}</span>
       </UnstyledButton>
       {availableTeams.map((team) => (
         <TeamNamedButton
@@ -98,7 +98,7 @@ function TeamPopover(props: LeaderboardFilterControlsProps) {
   const [opened, setOpened] = useState(false)
   const availableTeams = props.availableTeams
   const selectedTeam = availableTeams.find((team) => team.teamId === props.activeTeamId)
-  const triggerLabel = selectedTeam ? teamLabel(props, selectedTeam) : props.allTeamsLabel(availableTeams.length)
+  const triggerLabel = selectedTeam ? teamLabel(props, selectedTeam) : props.allTeamsLabel
 
   return (
     <Popover opened={opened} onChange={setOpened} position='bottom-start' width='target' shadow='md' radius='md' offset={4} withinPortal={false}>
@@ -173,7 +173,7 @@ export function LeaderboardFilterControls() {
     filterCharacterEidolon,
     onFilterChange: setLeaderboardFilters,
     getCharacterName: (characterId) => tCharacters(`${characterId as CharacterId}.Name`),
-    allTeamsLabel: (teamCount) => t('AllTeams', { count: teamCount }),
+    allTeamsLabel: t('AllTeams', { count: availableTeams.length }),
     eidolonOptions,
   }
 

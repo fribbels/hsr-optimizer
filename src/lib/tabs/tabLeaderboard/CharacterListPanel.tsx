@@ -7,14 +7,18 @@ import { configTypeToPublic } from 'leaderboard/shared/configTypeMapping'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
 import {
-  IS_LOCALHOST,
   getCharacterLeaderboardConfigTypes,
+  IS_LOCALHOST,
   isCharacterLeaderboardEnabled,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import { getPublicEntryCount } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
+import {
+  compactNumberToLocaleString,
+  percentageToLocaleString,
+} from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import {
@@ -25,12 +29,6 @@ import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 import { ScoringConfigType } from 'types/metadata'
 
-function abbreviateCount(n: number): string {
-  if (n >= 1000) return `${Math.floor(n / 1000)}K`
-  return String(n)
-}
-
-
 const CONFIG_TABS = [
   ScoringConfigType.DPS,
   ScoringConfigType.BUFFER,
@@ -39,18 +37,18 @@ const CONFIG_TABS = [
 ]
 
 type CharacterRow = {
-  id: CharacterId
-  name: string
-  topScore: number
-  entryCount: number
-  publicEntryCount: number
+  id: CharacterId,
+  name: string,
+  topScore: number,
+  entryCount: number,
+  publicEntryCount: number,
 }
 
 function ActiveRow({ row, index, selectedId, selectedType }: {
-  row: CharacterRow
-  index: number
-  selectedId: string | null
-  selectedType: ScoringConfigType | null
+  row: CharacterRow,
+  index: number,
+  selectedId: string | null,
+  selectedType: ScoringConfigType | null,
 }) {
   return (
     <div
@@ -62,21 +60,26 @@ function ActiveRow({ row, index, selectedId, selectedType }: {
         <img src={Assets.getCharacterAvatarById(row.id)} className={classes.avatar} />
         <span className={classes.name}>{row.name}</span>
       </span>
-      <span className={classes.score}>{row.topScore > 0 ? `${truncate10ths(row.topScore * 100).toFixed(1)}%` : '—'}</span>
-      <span className={classes.count}>{row.entryCount > 0 ? `${abbreviateCount(row.publicEntryCount)} / ${abbreviateCount(row.entryCount)}` : '—'}</span>
+      <span className={classes.score}>{row.topScore > 0 ? percentageToLocaleString(truncate10ths(row.topScore * 100), 1) : '—'}</span>
+      <span className={classes.count}>
+        {row.entryCount > 0
+          ? `${compactNumberToLocaleString(row.publicEntryCount)} / ${compactNumberToLocaleString(row.entryCount)}`
+          : '—'}
+      </span>
     </div>
   )
 }
 
-
 function GrowingRow({ row, selectedId, selectedType }: {
-  row: CharacterRow
-  selectedId: string | null
-  selectedType: ScoringConfigType | null
+  row: CharacterRow,
+  selectedId: string | null,
+  selectedType: ScoringConfigType | null,
 }) {
   return (
     <div
-      className={`${classes.row} ${classes.growingRow} ${IS_LOCALHOST ? classes.growingRowClickable : ''} ${IS_LOCALHOST && row.id === selectedId ? classes.selected : ''}`}
+      className={`${classes.row} ${classes.growingRow} ${IS_LOCALHOST ? classes.growingRowClickable : ''} ${
+        IS_LOCALHOST && row.id === selectedId ? classes.selected : ''
+      }`}
       onClick={IS_LOCALHOST ? () => selectLeaderboardCharacter(row.id, selectedType ? { configType: configTypeToPublic(selectedType) } : undefined) : undefined}
     >
       <span className={classes.rank}>—</span>
@@ -85,7 +88,7 @@ function GrowingRow({ row, selectedId, selectedType }: {
         <span className={classes.name}>{row.name}</span>
       </span>
       <span className={classes.score}>—</span>
-      <span className={classes.count}>{row.entryCount > 0 ? abbreviateCount(row.entryCount) : '—'}</span>
+      <span className={classes.count}>{row.entryCount > 0 ? compactNumberToLocaleString(row.entryCount) : '—'}</span>
     </div>
   )
 }
@@ -180,9 +183,7 @@ export function CharacterListPanel() {
       </div>
 
       <OverlayScrollbarsComponent className={classes.list} options={OVERLAY_SCROLLBAR_OPTIONS} defer>
-        {activeRows.map((row, index) => (
-          <ActiveRow key={row.id} row={row} index={index} selectedId={selectedId} selectedType={selectedType} />
-        ))}
+        {activeRows.map((row, index) => <ActiveRow key={row.id} row={row} index={index} selectedId={selectedId} selectedType={selectedType} />)}
         {activeRows.length === 0 && growingRows.length === 0 && (
           <div className={classes.empty}>
             {loading ? <Loader size='lg' /> : tList('Empty')}
@@ -193,9 +194,7 @@ export function CharacterListPanel() {
             <div className={classes.growingDivider}>
               <span>{tList('InsufficientData')}</span>
             </div>
-            {growingRows.map((row) => (
-              <GrowingRow key={row.id} row={row} selectedId={selectedId} selectedType={selectedType} />
-            ))}
+            {growingRows.map((row) => <GrowingRow key={row.id} row={row} selectedId={selectedId} selectedType={selectedType} />)}
           </>
         )}
       </OverlayScrollbarsComponent>

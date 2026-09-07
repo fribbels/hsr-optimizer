@@ -5,8 +5,12 @@ import { LeaderboardTeamDisplay } from 'lib/tabs/tabLeaderboard/LeaderboardTeamD
 import classes from 'lib/tabs/tabLeaderboard/RankListPanel.module.css'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
+import { percentageToLocaleString } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
-import { OverlayScrollbarsComponent, type OverlayScrollbarsComponentRef } from 'overlayscrollbars-react'
+import {
+  OverlayScrollbarsComponent,
+  type OverlayScrollbarsComponentRef,
+} from 'overlayscrollbars-react'
 import {
   useCallback,
   useEffect,
@@ -64,7 +68,7 @@ function RankListEntry({ entry, isSelected }: {
       </span>
 
       <span className={classes.colScore}>
-        <span className={classes.scoreValue}>{truncate10ths(scorePercent).toFixed(1)}%</span>
+        <span className={classes.scoreValue}>{percentageToLocaleString(truncate10ths(scorePercent), 1)}</span>
       </span>
 
       <span className={classes.eidolonTag}>

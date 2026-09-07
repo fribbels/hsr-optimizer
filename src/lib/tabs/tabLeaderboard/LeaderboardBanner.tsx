@@ -1,6 +1,7 @@
 import { Flex } from '@mantine/core'
 import { IconRosette } from '@tabler/icons-react'
 import chroma from 'chroma-js'
+import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
 import { RollStripeBar } from 'lib/characterPreview/scoring/RollStripeBar'
@@ -23,9 +24,13 @@ import type {
   LeaderboardTeammate,
 } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
-import { truncate10ths } from 'lib/utils/mathUtils'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
+import {
+  currentLocale,
+  numberToLocaleString,
+  percentageToLocaleString,
+} from 'lib/utils/i18nUtils'
+import { truncate10ths } from 'lib/utils/mathUtils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LightConeId } from 'types/lightCone'
@@ -101,7 +106,10 @@ function PortraitSection({ portraitSrc, portraitCrop, characterName }: {
 }
 
 function formatFetchedAt(fetchedAt: number): string {
-  return new Date(fetchedAt * 1000).toISOString().slice(0, 10)
+  return new Date(fetchedAt * 1000).toLocaleDateString(currentLocale(), {
+    dateStyle: 'short',
+    timeZone: 'UTC',
+  })
 }
 
 function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
@@ -123,7 +131,7 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
       </span>
       <div className={classes.resultDivider} />
       <span className={classes.score}>
-        {scorePercent != null ? `${scorePercent.toFixed(1)}%` : '--'}
+        {scorePercent != null ? percentageToLocaleString(scorePercent, 1) : '--'}
       </span>
       {scorePercent != null && scorePercent >= 150 && (
         <span className={classes.aeonBadge} style={aeonStyle}>
@@ -225,7 +233,7 @@ function SubstatColumn({ rolls, tierColors }: {
             <Flex align='center' gap={5}>
               <img src={Assets.getStatIcon(roll.stat)} className={classes.statIcon} />
               <span className={classes.statName}>{t(`Stats.${roll.stat}`)}</span>
-              <span className={classes.statValue}>{roll.effective.toFixed(1)}</span>
+              <span className={classes.statValue}>{numberToLocaleString(roll.effective, 1)}</span>
             </Flex>
             <RollStripeBar entry={roll} colors={tierColors} maxRolls={maxRolls} />
           </div>

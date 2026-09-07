@@ -105,6 +105,24 @@ export function numberToLocaleString(number: number, decimals: number = 0, useGr
   return number.toLocaleString(currentLocale(), { maximumFractionDigits: decimals, minimumFractionDigits: decimals, useGrouping })
 }
 
+export function percentageToLocaleString(percentage: number, decimals: number = 0) {
+  return (percentage / 100).toLocaleString(currentLocale(), {
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+    style: 'percent',
+    useGrouping: false,
+  })
+}
+
+export function compactNumberToLocaleString(number: number) {
+  return number.toLocaleString(currentLocale(), {
+    maximumFractionDigits: 0,
+    notation: 'compact',
+    roundingMode: 'floor',
+    useGrouping: false,
+  })
+}
+
 const GROUPED = { maximumFractionDigits: 0, minimumFractionDigits: 0, useGrouping: true }
 const GROUPED_0 = { maximumFractionDigits: 1, minimumFractionDigits: 1, useGrouping: true }
 

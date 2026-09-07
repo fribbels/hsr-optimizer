@@ -1,0 +1,46 @@
+Header:
+  Title: Leaderboards
+  Subtitle: Benchmark rankings based on Showcase tab Aeon builds, scores refreshed daily.
+  ShowcaseButton: Go to Showcase →
+ConfigTypes:
+  dps: DPS
+  support: Support
+  heal: Heal
+  shield: Shield
+UserRanks:
+  Header: Your Aeons
+  BestTeamRank: Best team rank
+  TeamRankLabel: 'Team rank {{rank}}'
+  AllTeamsRankLabel: 'All teams rank {{rank}}'
+  Status:
+    NoUid: No saved UID found.
+    InvalidUid: The saved UID is invalid.
+    Loading: Finding your leaderboard ranks...
+    Unavailable: Ranks are temporarily unavailable.
+Timeline:
+  Header: Global Activity
+  New: NEW
+  HoursAgo: '{{count}}h'
+  DaysAgo: '{{count}}d'
+CharacterList:
+  SearchPlaceholder: Search characters
+  TabLabel: '{{label}} ({{count}})'
+  Columns:
+    Rank: '#'
+    Character: Character
+    TopScore: Top %
+    Entries: Entries
+  Empty: No matching characters
+  InsufficientData: Insufficient data
+Filters:
+  EidolonLabel: Eidolon
+  TeamLabel: Team
+  AllEidolons: All
+  AllTeams: 'All teams ({{count}})'
+Banner:
+  AllTeams: All teams
+  TeamRank: Team rank
+  LightConeModule: Light cone
+  TeamModule: Team
+  SetsModule: Sets
+  SetPieces: '{{count}}pc'

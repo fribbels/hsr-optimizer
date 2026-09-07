@@ -24,6 +24,7 @@ const namespaces = [
   'hint',
   'hometab',
   'importSaveTab',
+  'leaderboardTab',
   'modals',
   'notifications',
   'optimizerTab',

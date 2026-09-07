@@ -1,6 +1,7 @@
 import { Flex } from '@mantine/core'
 import { IconRosette } from '@tabler/icons-react'
 import chroma from 'chroma-js'
+import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
 import { RollStripeBar } from 'lib/characterPreview/scoring/RollStripeBar'
@@ -23,9 +24,13 @@ import type {
   LeaderboardTeammate,
 } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
-import { truncate10ths } from 'lib/utils/mathUtils'
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
-import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
+import {
+  currentLocale,
+  numberToLocaleString,
+  percentageToLocaleString,
+} from 'lib/utils/i18nUtils'
+import { truncate10ths } from 'lib/utils/mathUtils'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { LightConeId } from 'types/lightCone'
@@ -101,7 +106,10 @@ function PortraitSection({ portraitSrc, portraitCrop, characterName }: {
 }
 
 function formatFetchedAt(fetchedAt: number): string {
-  return new Date(fetchedAt * 1000).toISOString().slice(0, 10)
+  return new Date(fetchedAt * 1000).toLocaleDateString(currentLocale(), {
+    dateStyle: 'short',
+    timeZone: 'UTC',
+  })
 }
 
 function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
@@ -111,8 +119,9 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
   fetchedAt: number | undefined,
   isAllTeams: boolean,
 }) {
+  const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Banner' })
   const dateStr = fetchedAt ? formatFetchedAt(fetchedAt) : null
-  const rankingLabel = isAllTeams ? 'All teams' : 'Team rank'
+  const rankingLabel = isAllTeams ? t('AllTeams') : t('TeamRank')
 
   return (
     <Flex align='center' gap={15} px={6}>
@@ -122,7 +131,7 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
       </span>
       <div className={classes.resultDivider} />
       <span className={classes.score}>
-        {scorePercent != null ? `${scorePercent.toFixed(1)}%` : '--'}
+        {scorePercent != null ? percentageToLocaleString(scorePercent, 1) : '--'}
       </span>
       {scorePercent != null && scorePercent >= 150 && (
         <span className={classes.aeonBadge} style={aeonStyle}>
@@ -148,6 +157,9 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
   teammates: LeaderboardTeammate[],
   activeSets: ActiveSet[],
 }) {
+  const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Banner' })
+  const { t: tCommon } = useTranslation('common')
+
   if (!selectedEntry) return null
 
   return (
@@ -155,9 +167,11 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {lcIconSrc && (
         <div className={classes.lcModule}>
           <img src={lcIconSrc} className={classes.lcIcon} />
-          <ModuleStack label='Light cone'>
+          <ModuleStack label={t('LightConeModule')}>
             <div className={classes.lcText}>
-              <span className={classes.lcSuper}>E{eidolon} S{lcSuper}</span>
+              <span className={classes.lcSuper}>
+                {tCommon('EidolonNShort', { eidolon })} {tCommon('SuperimpositionNShort', { superimposition: lcSuper })}
+              </span>
               <span className={classes.lcName}>{lcName}</span>
             </div>
           </ModuleStack>
@@ -167,7 +181,7 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {teammates.length > 0 && (
         <>
           <div className={classes.vsep} />
-          <ModuleStack label='Team'>
+          <ModuleStack label={t('TeamModule')}>
             <Flex align='center'>
               {teammates.map((teammate, index) => (
                 <img
@@ -184,12 +198,12 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {activeSets.length > 0 && (
         <>
           <div className={classes.vsep} />
-          <ModuleStack label='Sets'>
+          <ModuleStack label={t('SetsModule')}>
             <Flex align='center' gap={11}>
               {activeSets.map((s) => (
                 <div key={s.set} className={classes.setBadge}>
                   <img src={Assets.getSetImage(s.set)} className={classes.setIcon} />
-                  <span className={classes.setPieces}>{s.count}pc</span>
+                  <span className={classes.setPieces}>{t('SetPieces', { count: s.count })}</span>
                 </div>
               ))}
             </Flex>
@@ -219,7 +233,7 @@ function SubstatColumn({ rolls, tierColors }: {
             <Flex align='center' gap={5}>
               <img src={Assets.getStatIcon(roll.stat)} className={classes.statIcon} />
               <span className={classes.statName}>{t(`Stats.${roll.stat}`)}</span>
-              <span className={classes.statValue}>{roll.effective.toFixed(1)}</span>
+              <span className={classes.statValue}>{numberToLocaleString(roll.effective, 1)}</span>
             </Flex>
             <RollStripeBar entry={roll} colors={tierColors} maxRolls={maxRolls} />
           </div>

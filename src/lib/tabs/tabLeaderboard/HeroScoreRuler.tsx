@@ -2,6 +2,7 @@ import chroma from 'chroma-js'
 import type { TierColors } from 'lib/characterPreview/scoring/substatRollColors'
 import { SimScoreGrades } from 'lib/scoring/dpsScore'
 import classes from 'lib/tabs/tabLeaderboard/HeroScoreRuler.module.css'
+import { percentageToLocaleString } from 'lib/utils/i18nUtils'
 import { useMemo } from 'react'
 
 const GRADE_KEYS = ['F', 'D', 'C', 'B', 'A', 'S', 'SS', 'SSS', 'WTF', 'AEON'] as const
@@ -66,7 +67,7 @@ export function HeroScoreRuler({ score, tierColors }: HeroScoreRulerProps) {
   const hasScore = score != null
   const fillPct = hasScore ? gPos(score) : 0
   const flagPct = Math.max(7, Math.min(93, fillPct))
-  const valueText = hasScore ? `${score.toFixed(1)}%` : ''
+  const valueText = hasScore ? percentageToLocaleString(score, 1) : ''
 
   const heat = useMemo(() => buildHeat(tierColors), [tierColors])
 
@@ -101,11 +102,11 @@ export function HeroScoreRuler({ score, tierColors }: HeroScoreRulerProps) {
         {THRESHOLDS.map((t) => (
           <div key={`label-${t.grade}`} className={classes.gradeLabel} style={{ left: `${t.left}%` }}>
             <span className={classes.gradeLetter}>{t.grade}</span>
-            <span className={classes.gradePct}>{t.value}%</span>
+            <span className={classes.gradePct}>{percentageToLocaleString(t.value)}</span>
           </div>
         ))}
-        <div className={classes.zeroLabel}>0%</div>
-        <div className={classes.perfLabel}>200%</div>
+        <div className={classes.zeroLabel}>{percentageToLocaleString(0)}</div>
+        <div className={classes.perfLabel}>{percentageToLocaleString(200)}</div>
       </div>
     </div>
   )

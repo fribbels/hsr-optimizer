@@ -1,0 +1,9 @@
+CharacterList:
+  SearchPlaceholder: 搜索角色
+  Columns:
+    Character: 角色
+Filters:
+  EidolonLabel: 星魂
+Banner:
+  LightConeModule: 光锥
+  SetsModule: 套装

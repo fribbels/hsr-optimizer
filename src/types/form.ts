@@ -14,6 +14,7 @@ import type {
 import type { AKeyValue } from 'lib/optimization/engine/config/keys'
 import type {
   DamageTag,
+  ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import type {
@@ -147,6 +148,7 @@ interface CombatBuffCommon {
 export interface CombatStatBuff extends CombatBuffCommon {
   targetTag: TargetTag
   damageTags: DamageTag[]
+  elementTags: ElementTag[]
   statKey: AKeyValue
   value: number
   type: CombatBuffType.StatBuff

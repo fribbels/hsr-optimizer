@@ -35,8 +35,9 @@ export interface CombatBuffStoreState {
   // stat buff builder values
   stat: CombatStatBuff['statKey'] | null
   value: CombatStatBuff['value'] | string
-  damageTags: CombatStatBuff['damageTags']
   targetTag: CombatStatBuff['targetTag'] | null
+  damageTags: CombatStatBuff['damageTags']
+  elementTags: CombatStatBuff['elementTags']
   // action modifier builder values
 }
 
@@ -49,8 +50,9 @@ interface CombatBuffStoreActions {
   // stat buff builder methods
   setStat: (stat: CombatBuffStoreState['stat']) => void
   setValue: (value: CombatBuffStoreState['value']) => void
-  setDamageTags: (damageTags: CombatBuffStoreState['damageTags']) => void
   setTargetTag: (targetTags: CombatBuffStoreState['targetTag']) => void
+  setDamageTags: (damageTags: CombatBuffStoreState['damageTags']) => void
+  setElementTags: (elementTags: CombatBuffStoreState['elementTags']) => void
 }
 
 type CombatBuffStore = CombatBuffStoreActions & CombatBuffStoreState
@@ -69,6 +71,7 @@ function initialStoreState(): CombatBuffStoreState {
     stat: null,
     value: 0,
     damageTags: [],
+    elementTags: [],
     targetTag: null,
   }
 }
@@ -152,6 +155,7 @@ export const useCombatBuffStore = create<CombatBuffStore>()((set, get) => ({
   setValue: (value) => set({ value: value }),
   setDamageTags: (damageTags) => set({ damageTags }),
   setTargetTag: (targetTag) => set({ targetTag }),
+  setElementTags: (elementTags) => set({ elementTags }),
   // action modifier builder
 }))
 

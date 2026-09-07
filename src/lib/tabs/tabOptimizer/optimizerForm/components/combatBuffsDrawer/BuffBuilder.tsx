@@ -26,6 +26,7 @@ import {
   type CombatStatBuff,
 } from 'types/form'
 import { useShallow } from 'zustand/react/shallow'
+import { ElementTagSelect } from './ElementTagSelect'
 
 export function BuffBuilder({
   addBuff,
@@ -67,6 +68,8 @@ function StatBuffBuilder({
     setTargetTag,
     damageTags,
     setDamageTags,
+    elementTags,
+    setElementTags,
   } = useCombatBuffStore(useShallow((s) => ({
     stat: s.stat,
     setStat: s.setStat,
@@ -76,11 +79,13 @@ function StatBuffBuilder({
     setTargetTag: s.setTargetTag,
     damageTags: s.damageTags,
     setDamageTags: s.setDamageTags,
+    elementTags: s.elementTags,
+    setElementTags: s.setElementTags,
   })))
 
   const suffix = getSuffix(stat)
 
-  const damageTagsDisabled = stat !== null && !isHitAKey(stat)
+  const hitTagsDisabled = stat !== null && !isHitAKey(stat)
 
   return (
     // TODO: add <Hint/> to the various selects
@@ -97,7 +102,8 @@ function StatBuffBuilder({
         />
       </Group>
       <TargetTagSelect value={targetTag} onChange={setTargetTag} />
-      <DamageTagSelect disabled={damageTagsDisabled} value={damageTags} onChange={setDamageTags} />
+      <DamageTagSelect disabled={hitTagsDisabled} value={damageTags} onChange={setDamageTags} />
+      <ElementTagSelect disabled={hitTagsDisabled} value={elementTags} onChange={setElementTags} />
       <Button
         onClick={() => {
           console.log(
@@ -106,7 +112,7 @@ function StatBuffBuilder({
             targetTag,
             damageTags,
           )
-          const buff = validateStatBuff(stat, value, damageTags, targetTag)
+          const buff = validateStatBuff(stat, value, damageTags, targetTag, elementTags)
           if (!buff) return
           addBuff(buff)
         }}
@@ -122,6 +128,7 @@ function validateStatBuff(
   value: CombatStatBuff['value'] | string,
   damageTags: CombatStatBuff['damageTags'],
   targetTag: CombatStatBuff['targetTag'] | null,
+  elementTags: CombatStatBuff['elementTags'],
 ): CombatStatBuff | null {
   if (statKey === null) {
     Message.error('stat is missing')
@@ -131,8 +138,8 @@ function validateStatBuff(
     Message.error('invalid value')
     return null
   }
-  if (damageTags.length && !isHitAKey(statKey)) {
-    // this shouldn't fire due to the special handling setStat, but just to be safe
+  if ((damageTags.length + elementTags.length) && !isHitAKey(statKey)) {
+    // this shouldn't fire due to the special handling in setStat, but just to be safe
     Message.error('stat not compatible with damage type filtering')
     return null
   }
@@ -140,6 +147,7 @@ function validateStatBuff(
     statKey,
     value,
     damageTags,
+    elementTags,
     targetTag: targetTag ?? TargetTag.FullTeam,
     type: CombatBuffType.StatBuff,
     name: '',

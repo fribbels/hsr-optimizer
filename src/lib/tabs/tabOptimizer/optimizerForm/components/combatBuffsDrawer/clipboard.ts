@@ -15,6 +15,7 @@ import {
   type CombatStatBuff,
 } from 'types/form'
 import { DamageTagSelect } from './DamageTagSelect'
+import { ElementTagSelect } from './ElementTagSelect'
 import { TargetTagSelect } from './TargetTagSelect'
 
 export enum ClipboardError {
@@ -126,12 +127,13 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
       && 'statKey' in obj
       && 'value' in obj
       && 'damageTags' in obj
+      && 'elementTags' in obj
       && 'targetTag' in obj
       && 'name' in obj
     )
   ) return null
 
-  const { type, statKey, value, damageTags, targetTag, name } = obj
+  const { type, statKey, value, damageTags, elementTags, targetTag, name } = obj
 
   if (type !== CombatBuffType.StatBuff) return null
 
@@ -141,6 +143,8 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
 
   if (!Array.isArray(damageTags) || !damageTags.every(DamageTagSelect.isValidTag)) return null
 
+  if (!Array.isArray(elementTags) || !elementTags.every(ElementTagSelect.isValidTag)) return null
+
   if (!TargetTagSelect.isValidTag(targetTag)) return null
 
   if (!isAKeyValue(statKey) || (damageTags.length && !isHitAKey(statKey))) return null
@@ -149,6 +153,7 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
     type,
     value,
     name,
+    elementTags,
     damageTags,
     targetTag,
     statKey,

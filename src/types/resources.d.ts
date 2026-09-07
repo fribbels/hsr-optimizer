@@ -6193,6 +6193,63 @@ interface Resources {
       "Save": "Save optimizer data"
     }
   },
+  "leaderboardTab": {
+    "Banner": {
+      "AllTeams": "All teams",
+      "LightConeModule": "Light cone",
+      "SetPieces": "{{count}}pc",
+      "SetsModule": "Sets",
+      "TeamModule": "Team",
+      "TeamRank": "Team rank"
+    },
+    "CharacterList": {
+      "Columns": {
+        "Character": "Character",
+        "Entries": "Entries",
+        "Rank": "#",
+        "TopScore": "Top %"
+      },
+      "Empty": "No matching characters",
+      "InsufficientData": "Insufficient data",
+      "SearchPlaceholder": "Search characters",
+      "TabLabel": "{{label}} ({{count}})"
+    },
+    "ConfigTypes": {
+      "dps": "DPS",
+      "heal": "Heal",
+      "shield": "Shield",
+      "support": "Support"
+    },
+    "Filters": {
+      "AllEidolons": "All",
+      "AllTeams": "All teams ({{count}})",
+      "EidolonLabel": "Eidolon",
+      "TeamLabel": "Team"
+    },
+    "Header": {
+      "ShowcaseButton": "Go to Showcase →",
+      "Subtitle": "Benchmark rankings based on Showcase tab Aeon builds, scores refreshed daily.",
+      "Title": "Leaderboards"
+    },
+    "Timeline": {
+      "DaysAgo": "{{count}}d",
+      "Header": "Global Activity",
+      "HoursAgo": "{{count}}h",
+      "New": "NEW"
+    },
+    "UserRanks": {
+      "AllTeamsRankLabel": "All teams rank {{rank}}",
+      "BestTeamRank": "Best team rank",
+      "Header": "Your Aeons",
+      "Status": {
+        "InvalidUid": "The saved UID is invalid.",
+        "Loading": "Finding your leaderboard ranks...",
+        "NoUid": "No saved UID found.",
+        "Unavailable": "Ranks are temporarily unavailable."
+      },
+      "TeamRankLabel": "Team rank {{rank}}"
+    }
+  },
   "modals": {
     "0Perms": {
       "Description": "This means your filters are misconfigured or too restrictive, and no possibilities match the filters. Permutations are shown on the sidebar.",
@@ -7957,6 +8014,7 @@ interface Resources {
     "Tools": {
       "Benchmarks": "Benchmarks",
       "Calculators": "Calculators",
+      "Leaderboards": "Leaderboards",
       "Showcase": "Showcase",
       "Title": "Tools",
       "WarpPlanner": "Warp Planner"

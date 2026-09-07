@@ -3,6 +3,7 @@ import {
   TimelineEventType,
 } from 'leaderboard/timeline/timelineTypes'
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
+import type { TFunction } from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { truncate10ths } from 'lib/utils/mathUtils'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
@@ -12,15 +13,17 @@ import { useTranslation } from 'react-i18next'
 const MAX_FEED_ENTRIES = 100
 const MS_PER_HOUR = 1000 * 60 * 60
 
-function formatRelativeTime(dateString: string): string {
+type TimelineTFunction = TFunction<'leaderboardTab', 'Timeline'>
+
+function formatRelativeTime(dateString: string, t: TimelineTFunction): string {
   const diffMs = Date.now() - new Date(dateString).getTime()
-  if (diffMs < 0) return '0h'
+  if (diffMs < 0) return t('HoursAgo', { count: 0 })
 
   const hours = Math.floor(diffMs / MS_PER_HOUR)
-  if (hours < 1) return '1h'
-  if (hours < 24) return `${hours}h`
+  if (hours < 1) return t('HoursAgo', { count: 1 })
+  if (hours < 24) return t('HoursAgo', { count: hours })
 
-  return `${Math.floor(hours / 24)}d`
+  return t('DaysAgo', { count: Math.floor(hours / 24) })
 }
 
 function renderRank(event: TimelineEvent) {
@@ -30,9 +33,9 @@ function renderRank(event: TimelineEvent) {
   return <span className={style}># {event.rank}</span>
 }
 
-function renderScoreDelta(event: TimelineEvent) {
+function renderScoreDelta(event: TimelineEvent, t: TimelineTFunction) {
   if (event.type === TimelineEventType.NEW_CHARACTER) {
-    return <span className={classes.cellNewLabel}>NEW</span>
+    return <span className={classes.cellNewLabel}>{t('New')}</span>
   }
   const clampedPrevious = Math.max(event.previousScore, TIMELINE_MIN_SCORE)
   const delta = (event.score - clampedPrevious) * 100
@@ -48,13 +51,14 @@ function handleRowClick(event: TimelineEvent) {
 
 export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
   const { t: tGame } = useTranslation('gameData')
+  const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Timeline' })
   const displayed = events.slice(0, MAX_FEED_ENTRIES)
 
   if (displayed.length === 0) return null
 
   return (
     <div className={classes.feedContainer}>
-      <span className={classes.feedHeader}>Global Timeline</span>
+      <span className={classes.feedHeader}>{t('Header')}</span>
       <div className={classes.feedGrid}>
         {displayed.map((event) => {
           const characterId = event.characterId
@@ -68,7 +72,7 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
               className={classes.feedRow}
               onClick={() => handleRowClick(event)}
             >
-              <span className={classes.cellTime}>{formatRelativeTime(event.date)}</span>
+              <span className={classes.cellTime}>{formatRelativeTime(event.date, t)}</span>
               <span className={classes.cellDivider} />
               <span className={classes.cellRankDelta}>{renderRank(event)}</span>
               <img
@@ -77,7 +81,7 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
               />
               <span className={classes.cellName}>{name}</span>
               <span className={classes.cellScore}>{scorePercent}%</span>
-              <span className={classes.cellScoreDelta}>{renderScoreDelta(event)}</span>
+              <span className={classes.cellScoreDelta}>{renderScoreDelta(event, t)}</span>
             </div>
           )
         })}

@@ -12,6 +12,7 @@ import {
   useEffect,
   useRef,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const MEDAL_COLORS: Record<number, string> = {
   1: '#e0b420',
@@ -37,12 +38,12 @@ function RankListEntry({ entry, isSelected }: {
   entry: LeaderboardEntry,
   isSelected: boolean,
 }) {
+  const { t: tCommon } = useTranslation('common')
   const medalColor = MEDAL_COLORS[entry.rank]
   const rowBackground = rowColorBackground(entry.rank)
   const rowColorKeep = isSelected && medalColor ? ` ${classes.rowColorKeep}` : ''
   const scorePercent = entry.score * 100
   const eidolon = entry.characterEidolon
-  const eidolonLabel = `E${eidolon}`
   const lcId = entry.minifiedCharacter.q?.t ? String(entry.minifiedCharacter.q.t) : null
   const lcSuperimpose = entry.minifiedCharacter.q?.r ?? 1
   const colorKey = eidolon >= 6 ? 6 : eidolon >= 2 ? 2 : eidolon
@@ -66,7 +67,9 @@ function RankListEntry({ entry, isSelected }: {
         <span className={classes.scoreValue}>{truncate10ths(scorePercent).toFixed(1)}%</span>
       </span>
 
-      <span className={classes.eidolonTag}>{eidolonLabel} S{lcSuperimpose}</span>
+      <span className={classes.eidolonTag}>
+        {tCommon('EidolonNShort', { eidolon })} {tCommon('SuperimpositionNShort', { superimposition: lcSuperimpose })}
+      </span>
 
       <span className={classes.colLightCone}>
         {lcId && <img className={classes.lcIcon} src={Assets.getLightConeIconById(lcId)} />}

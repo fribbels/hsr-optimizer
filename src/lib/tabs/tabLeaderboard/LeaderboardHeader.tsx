@@ -5,6 +5,7 @@ import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
 import { LeaderboardUserRanksCard } from 'lib/tabs/tabLeaderboard/LeaderboardUserRanksCard'
 import { TimelineFeed } from 'lib/tabs/tabLeaderboard/TimelineFeed'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
+import { useTranslation } from 'react-i18next'
 
 function goToShowcase() {
   navigateTo(AppPages.SHOWCASE)
@@ -12,6 +13,7 @@ function goToShowcase() {
 
 export function LeaderboardHeader() {
   const timelineEvents = useLeaderboardTabStore((s) => s.timelineEvents)
+  const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Header' })
 
   return (
     <div className={classes.header}>
@@ -26,12 +28,10 @@ export function LeaderboardHeader() {
 
       <div className={classes.content}>
         <div className={classes.titleColumn}>
-          <span className={classes.title}>Leaderboards</span>
-          <span className={classes.subtitle}>
-            Benchmark rankings based on Showcase tab Aeon builds, scores refreshed daily.
-          </span>
+          <span className={classes.title}>{t('Title')}</span>
+          <span className={classes.subtitle}>{t('Subtitle')}</span>
           <button type='button' className={classes.showcaseButton} onClick={goToShowcase}>
-            Go to Showcase &rarr;
+            {t('ShowcaseButton')}
           </button>
         </div>
 

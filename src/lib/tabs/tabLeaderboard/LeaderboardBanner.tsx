@@ -111,8 +111,9 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
   fetchedAt: number | undefined,
   isAllTeams: boolean,
 }) {
+  const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Banner' })
   const dateStr = fetchedAt ? formatFetchedAt(fetchedAt) : null
-  const rankingLabel = isAllTeams ? 'All teams' : 'Team rank'
+  const rankingLabel = isAllTeams ? t('AllTeams') : t('TeamRank')
 
   return (
     <Flex align='center' gap={15} px={6}>
@@ -148,6 +149,9 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
   teammates: LeaderboardTeammate[],
   activeSets: ActiveSet[],
 }) {
+  const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Banner' })
+  const { t: tCommon } = useTranslation('common')
+
   if (!selectedEntry) return null
 
   return (
@@ -155,9 +159,11 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {lcIconSrc && (
         <div className={classes.lcModule}>
           <img src={lcIconSrc} className={classes.lcIcon} />
-          <ModuleStack label='Light cone'>
+          <ModuleStack label={t('LightConeModule')}>
             <div className={classes.lcText}>
-              <span className={classes.lcSuper}>E{eidolon} S{lcSuper}</span>
+              <span className={classes.lcSuper}>
+                {tCommon('EidolonNShort', { eidolon })} {tCommon('SuperimpositionNShort', { superimposition: lcSuper })}
+              </span>
               <span className={classes.lcName}>{lcName}</span>
             </div>
           </ModuleStack>
@@ -167,7 +173,7 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {teammates.length > 0 && (
         <>
           <div className={classes.vsep} />
-          <ModuleStack label='Team'>
+          <ModuleStack label={t('TeamModule')}>
             <Flex align='center'>
               {teammates.map((teammate, index) => (
                 <img
@@ -184,12 +190,12 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {activeSets.length > 0 && (
         <>
           <div className={classes.vsep} />
-          <ModuleStack label='Sets'>
+          <ModuleStack label={t('SetsModule')}>
             <Flex align='center' gap={11}>
               {activeSets.map((s) => (
                 <div key={s.set} className={classes.setBadge}>
                   <img src={Assets.getSetImage(s.set)} className={classes.setIcon} />
-                  <span className={classes.setPieces}>{s.count}pc</span>
+                  <span className={classes.setPieces}>{t('SetPieces', { count: s.count })}</span>
                 </div>
               ))}
             </Flex>

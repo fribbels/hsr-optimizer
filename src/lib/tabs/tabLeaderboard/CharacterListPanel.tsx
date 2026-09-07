@@ -32,10 +32,10 @@ function abbreviateCount(n: number): string {
 
 
 const CONFIG_TABS = [
-  { type: ScoringConfigType.DPS, label: 'DPS' },
-  { type: ScoringConfigType.BUFFER, label: 'Support' },
-  { type: ScoringConfigType.HEAL, label: 'Heal' },
-  { type: ScoringConfigType.SHIELD, label: 'Shield' },
+  ScoringConfigType.DPS,
+  ScoringConfigType.BUFFER,
+  ScoringConfigType.HEAL,
+  ScoringConfigType.SHIELD,
 ]
 
 type CharacterRow = {
@@ -97,13 +97,15 @@ export function CharacterListPanel() {
   const topScores = useLeaderboardTabStore((s) => s.topScores)
   const totalEntries = useLeaderboardTabStore((s) => s.totalEntries)
   const { t } = useTranslation('gameData')
+  const { t: tList } = useTranslation('leaderboardTab', { keyPrefix: 'CharacterList' })
+  const { t: tConfig } = useTranslation('leaderboardTab', { keyPrefix: 'ConfigTypes' })
   const [activeType, setActiveType] = useState<ScoringConfigType | null>(null)
   const [search, setSearch] = useState('')
 
   const tabCounts = useMemo(() => {
-    return CONFIG_TABS.map((tab) => ({
-      ...tab,
-      count: characters.filter((id) => getCharacterLeaderboardConfigTypes(id).includes(tab.type)).length,
+    return CONFIG_TABS.map((type) => ({
+      type,
+      count: characters.filter((id) => getCharacterLeaderboardConfigTypes(id).includes(type)).length,
     })).filter((tab) => tab.count > 0)
   }, [characters])
 
@@ -153,7 +155,7 @@ export function CharacterListPanel() {
         <TextInput
           className={classes.search}
           variant='unstyled'
-          placeholder='Search characters'
+          placeholder={tList('SearchPlaceholder')}
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
@@ -164,17 +166,17 @@ export function CharacterListPanel() {
               checked={tab.type === selectedType}
               onChange={() => setActiveType(activeType === tab.type ? null : tab.type)}
             >
-              {tab.label} ({tab.count})
+              {tList('TabLabel', { label: tConfig(configTypeToPublic(tab.type)), count: tab.count })}
             </Chip>
           ))}
         </div>
       </div>
 
       <div className={classes.header}>
-        <span className={classes.rankHeader}>#</span>
-        <span>Character</span>
-        <span className={classes.scoreHeader}>Top %</span>
-        <span className={classes.countHeader}>Entries</span>
+        <span className={classes.rankHeader}>{tList('Columns.Rank')}</span>
+        <span>{tList('Columns.Character')}</span>
+        <span className={classes.scoreHeader}>{tList('Columns.TopScore')}</span>
+        <span className={classes.countHeader}>{tList('Columns.Entries')}</span>
       </div>
 
       <OverlayScrollbarsComponent className={classes.list} options={OVERLAY_SCROLLBAR_OPTIONS} defer>
@@ -183,13 +185,13 @@ export function CharacterListPanel() {
         ))}
         {activeRows.length === 0 && growingRows.length === 0 && (
           <div className={classes.empty}>
-            {loading ? <Loader size='lg' /> : 'No matching characters'}
+            {loading ? <Loader size='lg' /> : tList('Empty')}
           </div>
         )}
         {growingRows.length > 0 && (
           <>
             <div className={classes.growingDivider}>
-              <span>Insufficient data</span>
+              <span>{tList('InsufficientData')}</span>
             </div>
             {growingRows.map((row) => (
               <GrowingRow key={row.id} row={row} selectedId={selectedId} selectedType={selectedType} />

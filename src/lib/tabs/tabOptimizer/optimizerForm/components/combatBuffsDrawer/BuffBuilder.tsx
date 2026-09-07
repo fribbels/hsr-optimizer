@@ -9,7 +9,7 @@ import {
 } from '@mantine/core'
 import { Message } from 'lib/interactions/message'
 import {
-  isFlatStat,
+  getAKeyConfig,
   isHitAKey,
 } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
@@ -157,7 +157,7 @@ function validateStatBuff(
 }
 
 function getSuffix(stat: CombatStatBuff['statKey'] | null): string | undefined {
-  if (stat === null || isFlatStat(stat)) return
+  if (stat === null || getAKeyConfig(stat).flat) return
   return '%'
 }
 

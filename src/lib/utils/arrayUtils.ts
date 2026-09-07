@@ -1,4 +1,4 @@
-export function arrayIncludes<T>(array: T[], element: T): boolean {
+export function arrayIncludes<T>(array: ReadonlyArray<T>, element: T): boolean {
   return array.includes(element)
 }
 
@@ -44,8 +44,10 @@ export function getIndexOf<T>(array: readonly T[], item: unknown): number {
   return array.indexOf(item as T)
 }
 
-export const ArrayFilters = {
-  nonNullable: <T>(x: T) => x != null,
+export namespace ArrayFilters {
+  export function nonNullable<T>(x: T) {
+    return x != null
+  }
 }
 
 export function arrayOfZeroes(n: number): number[] {
@@ -65,4 +67,23 @@ export function arraysShallowEqual<T>(a: T[] | undefined, b: T[] | undefined): b
     if (a[i] !== b[i]) return false
   }
   return true
+}
+
+export function filterMap<T, U extends T>(filter: (item: T) => item is U) {
+  return function<V>(transform: (item: U) => V) {
+    return function(array: Array<T>): V[] {
+      return array.flatMap((item) => filter(item) ? [transform(item)] : [])
+    }
+  }
+}
+
+export function mapFilter<T, U>(transform: (item: T) => U) {
+  return function<V extends U>(filter: (item: U) => item is V) {
+    return function(array: Array<T>): V[] {
+      return array.flatMap((item) => {
+        const transformed = transform(item)
+        return filter(transformed) ? [transformed] : []
+      })
+    }
+  }
 }

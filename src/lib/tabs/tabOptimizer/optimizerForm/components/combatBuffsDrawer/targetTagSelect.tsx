@@ -1,31 +1,11 @@
-import {
-  Combobox,
-  Select,
-} from '@mantine/core'
 import { type TFunction } from 'i18next'
 import { renderPill } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
-import { PillMultiSelect } from 'lib/ui/pillSelects/PillMultiSelect'
-import {
-  useCallback,
-  useMemo,
-} from 'react'
+import { PillSingleSelect } from 'lib/ui/pillSelects/PillSingleSelect'
+import { arrayIncludes } from 'lib/utils/arrayUtils'
+import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { type CombatStatBuff } from 'types/form'
-import { PillSingleSelect } from 'lib/ui/pillSelects/PillSingleSelect'
-
-export const targetTagValues = [
-  // Self not meaningful?
-  // TargetTag.Self,
-  TargetTag.Pet,
-  TargetTag.Memosprite,
-  TargetTag.Summon,
-  TargetTag.FullTeam,
-  TargetTag.SingleTarget,
-  TargetTag.SelfAndPet,
-  TargetTag.SelfAndMemosprite,
-  TargetTag.SelfAndSummon,
-]
 
 export function TargetTagSelect({
   value,
@@ -47,12 +27,31 @@ export function TargetTagSelect({
     <PillSingleSelect
       renderOption={renderDamageTagOption}
       renderValue={renderDamageTagPill}
-      options={targetTagValues}
+      options={TargetTagSelect.tagValues}
       onChange={onChange}
       value={value}
       label='Target tag'
     />
   )
+}
+
+export namespace TargetTagSelect {
+  export const tagValues = [
+    // Self not meaningful?
+    // TargetTag.Self,
+    TargetTag.Pet,
+    TargetTag.Memosprite,
+    TargetTag.Summon,
+    TargetTag.FullTeam,
+    TargetTag.SingleTarget,
+    TargetTag.SelfAndPet,
+    TargetTag.SelfAndMemosprite,
+    TargetTag.SelfAndSummon,
+  ] as const
+  export type TagType = typeof tagValues[number]
+  export function isValidTag(tag: unknown): tag is TagType {
+    return arrayIncludes(tagValues, tag)
+  }
 }
 
 // TODO: colours per target tag, target tag labels

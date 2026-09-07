@@ -6,20 +6,7 @@ import { useTranslation } from 'react-i18next'
 
 import { type TFunction } from 'i18next'
 import { PillMultiSelect } from 'lib/ui/pillSelects/PillMultiSelect'
-
-export const damageTagValues = [
-  DamageTag.BASIC,
-  DamageTag.SKILL,
-  DamageTag.ULT,
-  DamageTag.FUA,
-  DamageTag.DOT,
-  DamageTag.BREAK,
-  DamageTag.SUPER_BREAK,
-  DamageTag.MEMO,
-  DamageTag.ADDITIONAL,
-  DamageTag.ELATION,
-  DamageTag.ASSIST,
-]
+import { arrayIncludes } from 'lib/utils/arrayUtils'
 
 export function DamageTagSelect({
   disabled,
@@ -43,7 +30,7 @@ export function DamageTagSelect({
   }, [t])
   return (
     <PillMultiSelect
-      options={damageTagValues}
+      options={DamageTagSelect.tagValues}
       value={value}
       onChange={onChange}
       label='Damage tags'
@@ -54,6 +41,26 @@ export function DamageTagSelect({
       disabled={disabled}
     />
   )
+}
+
+export namespace DamageTagSelect {
+  export const tagValues = [
+    DamageTag.BASIC,
+    DamageTag.SKILL,
+    DamageTag.ULT,
+    DamageTag.FUA,
+    DamageTag.DOT,
+    DamageTag.BREAK,
+    DamageTag.SUPER_BREAK,
+    DamageTag.MEMO,
+    DamageTag.ADDITIONAL,
+    DamageTag.ELATION,
+    DamageTag.ASSIST,
+  ] as const
+  export type TagType = typeof tagValues[number]
+  export function isValidTag(tag: unknown): tag is TagType {
+    return arrayIncludes(tagValues, tag)
+  }
 }
 
 export function renderDamageTagPill(tag: DamageTag, t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>, active?: boolean) {

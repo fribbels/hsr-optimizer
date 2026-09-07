@@ -20,7 +20,7 @@ import classes from 'lib/ui/pillSelects/PillSingleSelect.module.css'
 
 namespace PillSingleSelect {
   export interface CoreProps<T> {
-    options: Array<T>
+    options: ReadonlyArray<T>
     value: T | null
     onChange: (value: T | null) => void
     renderValue: (value: T) => ReactNode

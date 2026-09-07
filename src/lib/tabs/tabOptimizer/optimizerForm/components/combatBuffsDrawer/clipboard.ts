@@ -2,6 +2,10 @@ import {
   isAKeyValue,
   isHitAKey,
 } from 'lib/optimization/engine/config/keys'
+import {
+  ArrayFilters,
+  mapFilter,
+} from 'lib/utils/arrayUtils'
 import { uuid } from 'lib/utils/miscUtils'
 import {
   type CombatActionModifier,
@@ -10,63 +14,40 @@ import {
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
-import { damageTagValues } from './DamageTagSelect'
-import { targetTagValues } from './TargetTagSelect'
-
-export type ParseError = StatBuffParseError | GenericParseError | ActionModifierParseError | BuffGroupParseError
+import { DamageTagSelect } from './DamageTagSelect'
+import { TargetTagSelect } from './TargetTagSelect'
 
 export enum ClipboardError {
   NotAllowed,
   NotFound,
-}
-
-export enum GenericParseError {
-  InvalidItem,
   SyntaxError,
-  Unknown,
 }
 
-export enum StatBuffParseError {
-  FieldsMissing,
-  TargetTagInvalid,
-  DamageTagInvalid,
-  ValueInvalid,
-  StatInvalid,
-  ConfigInvalid,
-  NameInvalid,
-}
-
-export enum ActionModifierParseError {
-  FieldsMissing,
-}
-
-export enum BuffGroupParseError {
-  FieldsMissing,
-  NameInvalid,
-  BuffsInvalid,
-}
-
-interface TypeToClipboardBuff {
-  [CombatBuffType.StatBuff]: ClipboardStatBuff
-  [CombatBuffType.ActionModifier]: ClipboardActionModifier
-  [CombatBuffType.Group]: ClipboardBuffGroup
-}
-
-type ClipboardBuff = TypeToClipboardBuff[keyof TypeToClipboardBuff]
-
+// Clipboard types exist mostly to serve as a readable representation of the clipboard serialization
+type ClipboardBuff = ClipboardStatBuff | ClipboardActionModifier | ClipboardBuffGroup
 type ClipboardStatBuff = CombatStatBuff
-
 type ClipboardActionModifier = { type: CombatBuffType.ActionModifier }
-
 interface ClipboardBuffGroup {
   type: CombatBuffType.Group
   name: string
   buffs: Array<CombatStatBuff | CombatActionModifier>
 }
 
-export async function writeBuffToClipboard(buff: CombatBuff): Promise<boolean | ClipboardError.NotAllowed>
-export async function writeBuffToClipboard(buff: CombatBuffGroup, buffs: Map<string, CombatBuff>): Promise<boolean | ClipboardError.NotAllowed>
-export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup, buffs?: Map<string, CombatBuff>): Promise<boolean | ClipboardError.NotAllowed> {
+export interface ParsedBuffGroup {
+  group: CombatBuffGroup
+  buffs: Record<string, CombatBuff>
+  type: CombatBuffType.Group
+}
+
+export async function writeBuffToClipboard(buff: CombatBuff): Promise<
+  boolean | ClipboardError.NotAllowed
+>
+export async function writeBuffToClipboard(buff: CombatBuffGroup, buffs: Map<string, CombatBuff>): Promise<
+  boolean | ClipboardError.NotAllowed
+>
+export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup, buffs?: Map<string, CombatBuff>): Promise<
+  boolean | ClipboardError.NotAllowed
+> {
   let blob: ClipboardBuff
   switch (buff.type) {
     case CombatBuffType.StatBuff:
@@ -95,25 +76,33 @@ export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup, b
     })
 }
 
-export async function readBuffFromClipboard() {
+export async function readBuffFromClipboard(): Promise<
+  ClipboardError | CombatStatBuff | CombatActionModifier | ParsedBuffGroup | null
+> {
   const result = await navigator.clipboard.readText()
-    .then<ClipboardBuff>(JSON.parse)
-    .then((maybeBuff) => {
-      switch (maybeBuff.type) {
+    .then(JSON.parse)
+    .then((str) => {
+      return parseStatBuff(str) ?? parseGroup(str) ?? parseActionModifier(str)
+    })
+    .then((buff) => {
+      switch (buff?.type) {
         case undefined:
           break
         case CombatBuffType.StatBuff: {
-          return parseStatBuff(maybeBuff)
+          return buff
         }
         case CombatBuffType.Group: {
-          return parseBuffGroup(maybeBuff)
+          return buff
+        }
+        case CombatBuffType.ActionModifier: {
+          return buff
         }
       }
-      return GenericParseError.InvalidItem
+      return null
     })
     .catch((e: DOMException | SyntaxError) => {
       if (e instanceof SyntaxError) {
-        return GenericParseError.SyntaxError
+        return ClipboardError.SyntaxError
       }
       if (e instanceof DOMException) {
         switch (e.name) {
@@ -123,84 +112,87 @@ export async function readBuffFromClipboard() {
             return ClipboardError.NotFound
         }
       }
-      return GenericParseError.Unknown
+      throw e
     })
   return result
 }
 
-function parseStatBuff({ statKey, value, damageTags, targetTag, name, type }: ClipboardStatBuff): CombatStatBuff | StatBuffParseError {
+function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
+  if (typeof obj !== 'object' || obj === null) return null
+
   if (
-    statKey == undefined
-    || value == undefined
-    || damageTags == undefined
-    || targetTag == undefined
-    || name == undefined
-  ) {
-    return StatBuffParseError.FieldsMissing
+    !(
+      'type' in obj
+      && 'statKey' in obj
+      && 'value' in obj
+      && 'damageTags' in obj
+      && 'targetTag' in obj
+      && 'name' in obj
+    )
+  ) return null
+
+  const { type, statKey, value, damageTags, targetTag, name } = obj
+
+  if (type !== CombatBuffType.StatBuff) return null
+
+  if (typeof value !== 'number' || !isFinite(value)) return null
+
+  if (typeof name !== 'string') return null
+
+  if (!Array.isArray(damageTags) || !damageTags.every(DamageTagSelect.isValidTag)) return null
+
+  if (!TargetTagSelect.isValidTag(targetTag)) return null
+
+  if (!isAKeyValue(statKey) || (damageTags.length && !isHitAKey(statKey))) return null
+
+  return {
+    type,
+    value,
+    name,
+    damageTags,
+    targetTag,
+    statKey,
   }
-  if (!targetTagValues.includes(targetTag)) {
-    return StatBuffParseError.TargetTagInvalid
-  }
-  if (!(damageTags instanceof Array) || !damageTags.reduce((acc, tag) => acc && damageTagValues.includes(tag), true)) {
-    return StatBuffParseError.DamageTagInvalid
-  }
-  if (typeof value !== 'number') {
-    return StatBuffParseError.ValueInvalid
-  }
-  if (!isAKeyValue(statKey)) {
-    return StatBuffParseError.StatInvalid
-  }
-  if (damageTags.length && !isHitAKey(statKey)) {
-    return StatBuffParseError.ConfigInvalid
-  }
-  if (typeof name !== 'string') {
-    return StatBuffParseError.NameInvalid
-  }
-  return { statKey, value, damageTags, targetTag, name, type }
 }
 
-function parseBuffGroup(
-  { name, buffs: clipboardBuffs, type }: ClipboardBuffGroup,
-):
-  | { group: CombatBuffGroup, buffs: Map<string, CombatBuff>, type: CombatBuffType.Group }
-  | BuffGroupParseError
-  | StatBuffParseError
-  | ActionModifierParseError
-{
+const mapFilterBuffs = mapFilter((item) => parseStatBuff(item) ?? parseActionModifier(item))(ArrayFilters.nonNullable)
+function parseGroup(obj: unknown): ParsedBuffGroup | null {
+  if (typeof obj !== 'object' || obj === null) return null
+
   if (
-    name == undefined
-    || clipboardBuffs == undefined
-  ) {
-    return BuffGroupParseError.FieldsMissing
+    !(
+      'type' in obj
+      && 'name' in obj
+      && 'buffs' in obj
+    )
+  ) return null
+
+  const { type, name, buffs } = obj
+
+  if (type !== CombatBuffType.Group) return null
+
+  if (typeof name !== 'string') return null
+
+  if (!Array.isArray(buffs)) return null
+
+  const buffMap: ParsedBuffGroup['buffs'] = {}
+
+  mapFilterBuffs(buffs).forEach((buff) => {
+    buffMap[uuid()] = buff
+  })
+
+  return {
+    type,
+    buffs: buffMap,
+    group: {
+      type,
+      name,
+      buffs: Object.keys(buffMap),
+    },
   }
-  if (!(clipboardBuffs instanceof Array)) return BuffGroupParseError.BuffsInvalid
-  if (typeof name !== 'string') return BuffGroupParseError.NameInvalid
-  const group: CombatBuffGroup = { name, buffs: [], type }
-  const buffs = new Map<string, CombatBuff>()
-  for (const buff of clipboardBuffs) {
-    switch (buff.type) {
-      case CombatBuffType.StatBuff: {
-        const parsed = parseStatBuff(buff)
-        switch (parsed) {
-          case StatBuffParseError.FieldsMissing:
-          case StatBuffParseError.TargetTagInvalid:
-          case StatBuffParseError.DamageTagInvalid:
-          case StatBuffParseError.ValueInvalid:
-          case StatBuffParseError.StatInvalid:
-          case StatBuffParseError.ConfigInvalid:
-          case StatBuffParseError.NameInvalid:
-            return parsed
-          default:
-            const id = uuid()
-            group.buffs.push(id)
-            buffs.set(id, parsed)
-        }
-        break
-      }
-      case CombatBuffType.ActionModifier: {
-        throw new Error('Not implemented yet: CombatBuffType.ActionModifier case')
-      }
-    }
-  }
-  return { group, buffs, type: CombatBuffType.Group }
+}
+
+function parseActionModifier(obj: unknown): CombatActionModifier | null {
+  if (typeof obj !== 'object' || obj === null) return null
+  return null
 }

@@ -6,15 +6,9 @@ import {
   IconFolderOpen,
   IconFolderPlus,
 } from '@tabler/icons-react'
-import { Message } from 'lib/interactions/message'
-import {
-  isAKeyValue,
-  isHitAKey,
-} from 'lib/optimization/engine/config/keys'
-import { type OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
+import { isHitAKey } from 'lib/optimization/engine/config/keys'
+import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { damageTagValues } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/DamageTagSelect'
-import { targetTagValues } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/TargetTagSelect'
 import { uuid } from 'lib/utils/miscUtils'
 import { memo } from 'react'
 import {
@@ -26,17 +20,13 @@ import {
 } from 'types/form'
 import { create } from 'zustand'
 import {
-  ActionModifierParseError,
-  BuffGroupParseError,
   ClipboardError,
-  GenericParseError,
   readBuffFromClipboard,
-  StatBuffParseError,
 } from './clipboard'
 
-interface CombatBuffStoreState {
+export interface CombatBuffStoreState {
   // general purpose values
-  buffBuilderMode: CombatBuffType
+  buffBuilderMode: Exclude<CombatBuffType, CombatBuffType.Group>
   selectedBuffs: Set<string>
   buffs: Map<string, CombatBuff>
   groups: Map<string, CombatBuffGroup>
@@ -171,32 +161,22 @@ async function loadBuffFromClipboard(set: { (partial: Partial<CombatBuffStore>):
     // TODO: Error messages
     case ClipboardError.NotAllowed:
     case ClipboardError.NotFound:
-    case GenericParseError.InvalidItem:
-    case GenericParseError.SyntaxError:
-    case GenericParseError.Unknown:
-    case StatBuffParseError.FieldsMissing:
-    case StatBuffParseError.TargetTagInvalid:
-    case StatBuffParseError.DamageTagInvalid:
-    case StatBuffParseError.ValueInvalid:
-    case StatBuffParseError.StatInvalid:
-    case StatBuffParseError.ConfigInvalid:
-    case StatBuffParseError.NameInvalid:
-    case BuffGroupParseError.FieldsMissing:
-    case BuffGroupParseError.NameInvalid:
-    case BuffGroupParseError.BuffsInvalid:
-    case ActionModifierParseError.FieldsMissing:
+    case ClipboardError.SyntaxError:
+      break
+    case null:
+      // TODO: valid JSON but invalid item
       break
     default:
       switch (buff.type) {
         case CombatBuffType.StatBuff: {
           const { statKey: stat, value, damageTags, targetTag } = buff
-          return set({ stat, value, damageTags, targetTag })
+          return set({ stat, value, damageTags, targetTag, buffBuilderMode: CombatBuffType.StatBuff })
         }
         case CombatBuffType.Group: {
           const { buffs, group } = buff
           const combatBuffs = {
             ...useOptimizerRequestStore.getState().combatBuffs,
-            ...Object.fromEntries(buffs.entries()),
+            ...buffs,
             [uuid()]: group,
           }
           useOptimizerRequestStore.setState({ combatBuffs })

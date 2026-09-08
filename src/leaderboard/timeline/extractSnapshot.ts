@@ -101,12 +101,11 @@ export function extractSnapshot(
   }
 
   // A scoring correction starts a new baseline, including when scores decrease.
-  const prevUserBests = Object.fromEntries(
+  const userBests: Record<string, UserCharacterWatermark> = Object.fromEntries(
     Object.entries(previousSnapshot?.userBests ?? {}).filter(([key]) => key.split(':')[1] !== refreshCharacterId),
   )
-  const userBests: Record<string, UserCharacterWatermark> = { ...prevUserBests }
   for (const [key, entry] of userCharEntries) {
-    const prevWatermark = prevUserBests[key]?.highWatermark ?? -Infinity
+    const prevWatermark = userBests[key]?.highWatermark ?? -Infinity
     userBests[key] = {
       highWatermark: Math.max(prevWatermark, entry.score),
       rank: entry.rank,

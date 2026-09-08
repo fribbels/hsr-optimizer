@@ -18,21 +18,7 @@ const FLAG_REFRESH_OLDEST_CHARACTER = '--refresh-oldest-character'
 const FLAG_PRINT_CONFIG = '--print-config'
 const FLAG_HELP = '--help'
 
-export type LeaderboardCliOptions = Readonly<{
-  exportPath?: string,
-  privateOutputPath: string,
-  publicOutputPath: string,
-  topN: number,
-  topNPublic: number,
-  workerThreads: number,
-  buildScoreCacheDbPath: string,
-  pruneBuildScoreCache: boolean,
-  freshRun: boolean,
-  refreshCharacter?: string,
-  refreshOldestCharacter: boolean,
-  printConfig: boolean,
-  help: boolean,
-}>
+export type LeaderboardCliOptions = Readonly<MutableLeaderboardCliOptions>
 
 export class LeaderboardCliOptionsError extends Error {
   constructor(message: string) {

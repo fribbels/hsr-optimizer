@@ -21,6 +21,7 @@ import {
   TIMELINE_SCHEMA_VERSION,
   TimelineEventType,
 } from 'leaderboard/timeline/timelineTypes'
+import type { CharacterId } from 'types/character'
 
 export function displayScore(score: number): number {
   return Math.trunc(score * 1000)
@@ -119,10 +120,20 @@ export function computeTimelineUpdate(input: {
   timelinePath: string,
   allowedCharacterIds?: Set<string>,
   topNPublic?: number,
+  refreshCharacterId?: CharacterId,
 }): TimelineUpdateResult {
   const previousSnapshot = readSnapshot(input.snapshotPath)
-  const result = extractSnapshot(input.privateOutput, input.totalCounts, previousSnapshot, input.generatedAt, input.allowedCharacterIds, input.topNPublic)
+  const result = extractSnapshot(
+    input.privateOutput,
+    input.totalCounts,
+    previousSnapshot,
+    input.generatedAt,
+    input.allowedCharacterIds,
+    input.topNPublic,
+    input.refreshCharacterId,
+  )
   const newEvents = diffSnapshots(result.snapshot, previousSnapshot, result.userCharEntries, { maxRank: input.topNPublic })
+    .filter((event) => event.characterId !== input.refreshCharacterId)
   const existingEvents = readTimeline(input.timelinePath)
   const events = deduplicateAndMerge(newEvents, existingEvents, 100)
 

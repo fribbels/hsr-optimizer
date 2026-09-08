@@ -342,6 +342,8 @@ export type LeaderboardMetrics = {
 export type LeaderboardScoreWorkerRuntimeConfig = {
   buildScoreCacheDbPath: string,
   leaderboardVersionsHash: string,
+  characterRefreshVersions?: Partial<Record<CharacterId, string>>,
+  flushAfterProfile?: boolean,
 }
 
 export type LeaderboardScoreWorkerRequest = {

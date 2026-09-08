@@ -27,7 +27,6 @@ import { type ScannerParserJson } from 'lib/importer/kelzFormatParser'
 import { Message } from 'lib/interactions/message'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 import {
   getCharacterById,
   getCharacters,

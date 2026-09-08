@@ -1,7 +1,11 @@
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { PrivateRankedOutput } from 'leaderboard/shared/types'
+import type {
+  LeaderboardSnapshot,
+  LeaderboardSnapshotEntry,
+  UserCharacterWatermark,
+} from 'leaderboard/timeline/timelineTypes'
 import type { CharacterId } from 'types/character'
-import type { LeaderboardSnapshot, LeaderboardSnapshotEntry, UserCharacterWatermark } from 'leaderboard/timeline/timelineTypes'
 
 export type SnapshotExtractionResult = {
   snapshot: LeaderboardSnapshot,
@@ -29,6 +33,7 @@ export function extractSnapshot(
   generatedAt: string,
   allowedCharacterIds?: Set<string>,
   topNPublic?: number,
+  refreshCharacterId?: CharacterId,
 ): SnapshotExtractionResult {
   const maxBoardRank = topNPublic ?? 100
   const topScores = new Map<string, number>()
@@ -69,7 +74,7 @@ export function extractSnapshot(
   const characters: Record<string, LeaderboardSnapshotEntry> = {}
   for (let i = 0; i < sorted.length; i++) {
     const [charId, score] = sorted[i]
-    const prevWatermark = previousSnapshot?.characters[charId]?.highWatermark ?? -Infinity
+    const prevWatermark = charId === refreshCharacterId ? -Infinity : previousSnapshot?.characters[charId]?.highWatermark ?? -Infinity
     characters[charId] = {
       topScore: score,
       highWatermark: Math.max(prevWatermark, score),
@@ -95,10 +100,12 @@ export function extractSnapshot(
     }
   }
 
-  const prevUserBests = previousSnapshot?.userBests ?? {}
-  const userBests: Record<string, UserCharacterWatermark> = { ...prevUserBests }
+  // A scoring correction starts a new baseline, including when scores decrease.
+  const userBests: Record<string, UserCharacterWatermark> = Object.fromEntries(
+    Object.entries(previousSnapshot?.userBests ?? {}).filter(([key]) => key.split(':')[1] !== refreshCharacterId),
+  )
   for (const [key, entry] of userCharEntries) {
-    const prevWatermark = prevUserBests[key]?.highWatermark ?? -Infinity
+    const prevWatermark = userBests[key]?.highWatermark ?? -Infinity
     userBests[key] = {
       highWatermark: Math.max(prevWatermark, entry.score),
       rank: entry.rank,

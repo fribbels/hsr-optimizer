@@ -34,7 +34,7 @@ const info = {
   index: 33,
   setType: SetType.RELIC,
   ingameId: '134',
-  twoPieceStatTag: Stats.ATK_P,
+  twoPieceStatTag: Stats.CD,
 } as const satisfies SetInfo
 
 const display = {
@@ -45,7 +45,7 @@ const display = {
 
 const conditionals: SetConditionals = {
   p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-    c.ATK_P.buff(0.12, Source.TheEdaciousHeretic)
+    c.CD.buff(0.16, Source.TheEdaciousHeretic)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     x.buff(StatKey.BOOST, 0.36, x.damageType(DamageTag.BASIC).source(Source.TheEdaciousHeretic))
@@ -54,7 +54,7 @@ const conditionals: SetConditionals = {
     }
   },
   gpuBasic: () => [
-    basicP2(WgslStatName.ATK_P, 0.12, TheEdaciousHeretic),
+    basicP2(WgslStatName.CD, 0.16, TheEdaciousHeretic),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (relic4p(*p_sets, SET_TheEdaciousHeretic)) {

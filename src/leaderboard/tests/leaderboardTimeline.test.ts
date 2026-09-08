@@ -1,3 +1,4 @@
+import { mergeCharacterRefresh } from 'leaderboard/pipeline/characterRefresh'
 import type { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import type { LeaderboardEidolonGroup } from 'leaderboard/shared/eidolonConfig'
 import { computeCandidateId } from 'leaderboard/shared/hash'
@@ -15,6 +16,7 @@ import type {
   PrivateRankedOutput,
 } from 'leaderboard/shared/types'
 import {
+  computeTimelineUpdate,
   deduplicateAndMerge,
   diffSnapshots,
   displayScore,
@@ -93,6 +95,75 @@ function makePrivateOutput(boards: Record<string, PrivateBoard>): PrivateRankedO
 const DEFAULT_FETCHED_AT = 1782259200 // 2026-06-24T00:00:00Z
 
 const CONFIG_TYPE = 'dps' as LeaderboardConfigType
+
+test('character refresh replaces its boards instead of keeping higher old scores', () => {
+  const retained = makeBoard('1002', [{ score: 1.9 }])
+  const previous = makePrivateOutput({
+    oldTeam: makeBoard('1001', [{ score: 2.1 }]),
+    removedTeam: makeBoard('1001', [{ score: 2.0 }]),
+    retained,
+  })
+  const refreshed = makePrivateOutput({ newTeam: makeBoard('1001', [{ score: 1.6 }]) })
+  const merged = mergeCharacterRefresh(previous, refreshed, '1001' as CharacterId)
+  expect(Object.keys(merged.boards).sort()).toEqual(['newTeam', 'retained'])
+  expect(merged.boards.retained).toBe(retained)
+  expect(merged.boards.newTeam.entries[0].score).toBe(1.6)
+  expect(previous.boards.oldTeam.entries[0].score).toBe(2.1)
+})
+
+test('math refresh suppresses achievements and lowers only that character baseline', () => {
+  const characterId = '1001' as CharacterId
+  const previousOutput = makePrivateOutput({
+    refreshed: makeBoard(characterId, [{ score: 2.0, uidHash: 'old' }, { score: 1.6, uidHash: 'improved' }]),
+    retained: makeBoard('1002', [{ score: 1.9, uidHash: 'other' }]),
+  })
+  const previous = extractSnapshot(previousOutput, new Map(), null, '2026-09-06T00:00:00Z').snapshot
+  const dir = joinPath(cwd(), 'plans', 'scratch')
+  const suffix = `${Date.now()}-${Math.random()}`
+  const snapshotPath = joinPath(dir, `refresh-snapshot-${suffix}.json`)
+  const timelinePath = joinPath(dir, `refresh-timeline-${suffix}.json`)
+  try {
+    writeTimelineArtifacts({
+      snapshot: previous,
+      timeline: { schemaVersion: 2, generatedAt: previous.generatedAt, events: [] },
+      snapshotPath,
+      timelinePath,
+    })
+    const output = makePrivateOutput({
+      refreshed: makeBoard(characterId, [{ score: 1.7, uidHash: 'old' }, { score: 1.8, uidHash: 'improved' }]),
+      retained: previousOutput.boards.retained,
+    })
+    const refresh = computeTimelineUpdate({
+      privateOutput: output,
+      totalCounts: new Map(),
+      generatedAt: '2026-09-07T00:00:00Z',
+      snapshotPath,
+      timelinePath,
+      refreshCharacterId: characterId,
+    })
+    expect(refresh.timeline.events).toEqual([])
+    const oldKey = userCharKey('old', characterId, CONFIG_TYPE)
+    const improvedKey = userCharKey('improved', characterId, CONFIG_TYPE)
+    const otherKey = userCharKey('other', '1002' as CharacterId, CONFIG_TYPE)
+    expect(refresh.snapshot.userBests?.[oldKey].highWatermark).toBe(1.7)
+    expect(refresh.snapshot.userBests?.[improvedKey].highWatermark).toBe(1.8)
+    expect(refresh.snapshot.userBests?.[otherKey]).toEqual(previous.userBests?.[otherKey])
+    writeTimelineArtifacts(refresh)
+    output.boards.refreshed = makeBoard(characterId, [{ score: 1.75, uidHash: 'old' }, { score: 1.8, uidHash: 'improved' }])
+    const subsequent = computeTimelineUpdate({
+      privateOutput: output,
+      totalCounts: new Map(),
+      generatedAt: '2026-09-08T00:00:00Z',
+      snapshotPath,
+      timelinePath,
+    })
+    expect(subsequent.timeline.events).toHaveLength(1)
+    expect(subsequent.timeline.events[0]).toMatchObject({ type: TimelineEventType.NEW_BEST, previousScore: 1.7, score: 1.75 })
+  } finally {
+    if (fileExists(snapshotPath)) deleteFile(snapshotPath)
+    if (fileExists(timelinePath)) deleteFile(timelinePath)
+  }
+})
 
 function makeUserCharEntries(
   entries: Array<{ uidHash: string, characterId: CharacterId, score: number, rank: number, fetchedAt?: number, configType?: LeaderboardConfigType }>,

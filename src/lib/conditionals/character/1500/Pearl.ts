@@ -116,6 +116,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const talentDmgReduction = talent(e, 0.30, 0.33)
 
+  // Not simulated: Technique setup; Energy, action advance, extra turns, and Charge lifecycles.
+  // Repellency depletion, cleanse, and E1 fatal-hit recovery require incoming-damage combat state.
+  // E6 extra damage requires the Archetype's combat stats, unavailable in Pearl's own calculation.
+
   // Elation Skill: allies' next attack deals extra Elation DMG, tier = Elation characters in team (Pearl included)
   const elationSkillProcByElationCount: Record<number, number> = {
     1: elationSkill(e, 0.10, 0.105, 0.11),
@@ -124,11 +128,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     4: elationSkill(e, 0.40, 0.42, 0.44),
   }
 
-  // E1: share of Pearl's Elation to all allies, tier = Elation characters in team (Pearl included), capped at 60%
-  const e1ShareRatioByElationCount: Record<number, number> = {
+  const e1ElationBuffByElationCount: Record<number, number> = {
     2: 0.10,
     3: 0.20,
-    4: 0.80,
+    4: 0.60,
   }
 
   const defaults = {
@@ -138,9 +141,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     punchlineStacks: 30,
     lowestHpTargetHeal: false,
     traceDefToElation: true,
+    traceElationToHealing: true,
+    traceEffectRes: true,
     talentLowHpDmgReduction: false,
     e1ElationShare: true,
     e2Merrymake: true,
+    e4ElationSkillBoost: true,
     e6Buffs: true,
   }
 
@@ -148,11 +154,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     deepLearning: true,
     aestheticArchetype: true,
     elationSkillProc: true,
+    certifiedBangerStacks: 35,
     punchlineStacks: 30,
+    traceEffectRes: true,
     talentLowHpDmgReduction: false,
     e1ElationShare: true,
-    teammateElationValue: 1.00,
     e2Merrymake: true,
+    e4ElationSkillBoost: true,
     e6Buffs: true,
   }
 
@@ -197,6 +205,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'DEF to Elation conversion',
       content: betaContent,
     },
+    traceElationToHealing: {
+      id: 'traceElationToHealing',
+      formItem: 'switch',
+      text: 'Elation to OHB conversion',
+      content: betaContent,
+    },
+    traceEffectRes: {
+      id: 'traceEffectRes',
+      formItem: 'switch',
+      text: 'Certified Banger Effect RES',
+      content: betaContent,
+    },
     talentLowHpDmgReduction: {
       id: 'talentLowHpDmgReduction',
       formItem: 'switch',
@@ -216,6 +236,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'E2 Merrymake',
       content: betaContent,
       disabled: e < 2,
+    },
+    e4ElationSkillBoost: {
+      id: 'e4ElationSkillBoost',
+      formItem: 'switch',
+      text: 'E4 Elation Skill Additional DMG',
+      content: betaContent,
+      disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
@@ -240,19 +267,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Elation Skill Elation DMG',
       content: betaContent,
     },
+    certifiedBangerStacks: content.certifiedBangerStacks,
     punchlineStacks: content.punchlineStacks,
+    traceEffectRes: content.traceEffectRes,
     talentLowHpDmgReduction: content.talentLowHpDmgReduction,
     e1ElationShare: content.e1ElationShare,
-    teammateElationValue: {
-      id: 'teammateElationValue',
-      formItem: 'slider',
-      text: 'Pearl\'s Elation',
-      content: betaContent,
-      min: 0,
-      max: 3.00,
-      percent: true,
-    },
     e2Merrymake: content.e2Merrymake,
+    e4ElationSkillBoost: content.e4ElationSkillBoost,
     e6Buffs: content.e6Buffs,
   }
 
@@ -325,10 +346,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // ============== ELATION SKILL ==============
 
       // Pearl's own next-attack proc; ally procs are injected via actionModifiers
+      const e4ElationSkillBoost = (e >= 4 && r.e4ElationSkillBoost) ? 1.00 : 0
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Ice)
-        .elationScaling(elationSkillProcByElationCount[Math.min(4, elationCount)] ?? 0)
+        .elationScaling((elationSkillProcByElationCount[Math.min(4, elationCount)] ?? 0) + e4ElationSkillBoost)
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(0)
         .build()
@@ -352,12 +374,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
           const elationCount = Math.min(4, countTeamPath(context, PathNames.Elation))
           const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? self.ownConditionals.punchlineStacks as number
+          const e4ElationSkillBoost = (e >= 4 && self.ownConditionals.e4ElationSkillBoost) ? 1.00 : 0
 
           action.hits!.push(
             HitDefinitionBuilder.elation()
               .damageType(DamageTag.ELATION)
               .damageElement(attackElement)
-              .elationScaling(elationSkillProcByElationCount[elationCount] ?? 0)
+              .elationScaling((elationSkillProcByElationCount[elationCount] ?? 0) + e4ElationSkillBoost)
               .punchlineStacks(punchlineStacks)
               .toughnessDmg(0)
               .build() as ElationHit,
@@ -391,11 +414,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
+      x.buff(StatKey.RES, (m.traceEffectRes && m.certifiedBangerStacks > 0) ? 0.50 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+
       x.multiplicativeComplement(
         StatKey.DMG_RED,
         (m.talentLowHpDmgReduction) ? talentDmgReduction : 0,
         x.targets(TargetTag.FullTeam).source(SOURCE_TALENT),
       )
+
+      const e1ElationBuff = e1ElationBuffByElationCount[Math.min(4, countTeamPath(context, PathNames.Elation))] ?? 0
+      x.buff(StatKey.ELATION, (e >= 1 && m.e1ElationShare) ? e1ElationBuff : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
 
       x.buff(StatKey.MERRYMAKING, (e >= 2 && m.e2Merrymake) ? 0.15 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E2))
 
@@ -403,12 +431,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const t = action.characterConditionals as Conditionals<typeof teammateContent>
-
-      const e1ShareRatio = e1ShareRatioByElationCount[Math.min(4, countTeamPath(context, PathNames.Elation))] ?? 0
-      const sharedElation = (e >= 1 && t.e1ElationShare) ? Math.min(0.60, e1ShareRatio * t.teammateElationValue) : 0
-      x.buff(StatKey.UNCONVERTIBLE_ELATION_BUFF, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
-      x.buff(StatKey.ELATION, sharedElation, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
@@ -461,42 +483,39 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
       },
       {
-        // E1: Pearl also receives the Elation share of her own Elation
-        id: 'PearlE1ElationShareConditional',
+        // Trace: Elation grants 20% Outgoing Healing
+        id: 'PearlElationHealingConditional',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.CONTINUOUS,
         dependsOn: [Stats.Elation],
-        chainsTo: [Stats.Elation],
+        chainsTo: [Stats.OHB],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          return e >= 1 && r.e1ElationShare
+          return r.traceElationToHealing
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-          const e1ShareRatio = e1ShareRatioByElationCount[Math.min(4, countTeamPath(context, PathNames.Elation))] ?? 0
-
           dynamicStatConversionContainer(
             Stats.Elation,
-            Stats.Elation,
+            Stats.OHB,
             this,
             x,
             action,
             context,
-            SOURCE_E1,
-            (convertibleValue) => Math.min(0.60, e1ShareRatio * convertibleValue),
+            SOURCE_TRACE,
+            (convertibleValue) => 0.20 * convertibleValue,
           )
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          const e1ShareRatio = e1ShareRatioByElationCount[Math.min(4, countTeamPath(context, PathNames.Elation))] ?? 0
 
           return gpuDynamicStatConversion(
             Stats.Elation,
-            Stats.Elation,
+            Stats.OHB,
             this,
             action,
             context,
-            `min(0.60, ${e1ShareRatio.toFixed(2)} * convertibleValue)`,
-            `${wgslTrue(e >= 1 && r.e1ElationShare)}`,
+            `0.20 * convertibleValue`,
+            `${wgslTrue(r.traceElationToHealing)}`,
           )
         },
       },

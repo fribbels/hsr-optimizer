@@ -13,22 +13,12 @@ const FLAG_WORKER_THREADS = '--worker-threads'
 const FLAG_BUILD_SCORE_CACHE_DB_PATH = '--build-score-cache-db-path'
 const FLAG_PRUNE_BUILD_SCORE_CACHE = '--prune-build-score-cache'
 const FLAG_FRESH_RUN = '--fresh-run'
+const FLAG_REFRESH_CHARACTER = '--refresh-character'
+const FLAG_REFRESH_OLDEST_CHARACTER = '--refresh-oldest-character'
 const FLAG_PRINT_CONFIG = '--print-config'
 const FLAG_HELP = '--help'
 
-export type LeaderboardCliOptions = Readonly<{
-  exportPath?: string,
-  privateOutputPath: string,
-  publicOutputPath: string,
-  topN: number,
-  topNPublic: number,
-  workerThreads: number,
-  buildScoreCacheDbPath: string,
-  pruneBuildScoreCache: boolean,
-  freshRun: boolean,
-  printConfig: boolean,
-  help: boolean,
-}>
+export type LeaderboardCliOptions = Readonly<MutableLeaderboardCliOptions>
 
 export class LeaderboardCliOptionsError extends Error {
   constructor(message: string) {
@@ -47,6 +37,8 @@ type MutableLeaderboardCliOptions = {
   buildScoreCacheDbPath: string,
   pruneBuildScoreCache: boolean,
   freshRun: boolean,
+  refreshCharacter?: string,
+  refreshOldestCharacter: boolean,
   printConfig: boolean,
   help: boolean,
 }
@@ -61,6 +53,7 @@ function defaultLeaderboardCliOptions(): MutableLeaderboardCliOptions {
     buildScoreCacheDbPath: resolvePath(homeDir(), 'leaderboard-cache/leaderboard-build-score-cache.sqlite'),
     pruneBuildScoreCache: false,
     freshRun: false,
+    refreshOldestCharacter: false,
     printConfig: false,
     help: false,
   }
@@ -107,6 +100,13 @@ export function parseLeaderboardCliOptions(args: readonly string[]): Leaderboard
       case FLAG_FRESH_RUN:
         options.freshRun = true
         break
+      case FLAG_REFRESH_CHARACTER:
+        options.refreshCharacter = readOptionValue(args, i)
+        i++
+        break
+      case FLAG_REFRESH_OLDEST_CHARACTER:
+        options.refreshOldestCharacter = true
+        break
       case FLAG_PRINT_CONFIG:
         options.printConfig = true
         break
@@ -122,6 +122,13 @@ export function parseLeaderboardCliOptions(args: readonly string[]): Leaderboard
     throw new LeaderboardCliOptionsError(
       `${FLAG_FRESH_RUN} and ${FLAG_PRUNE_BUILD_SCORE_CACHE} cannot be used together`,
     )
+  }
+
+  if (options.refreshCharacter && options.refreshOldestCharacter) {
+    throw new LeaderboardCliOptionsError(`${FLAG_REFRESH_CHARACTER} and ${FLAG_REFRESH_OLDEST_CHARACTER} cannot be used together`)
+  }
+  if ((options.refreshCharacter || options.refreshOldestCharacter) && (options.freshRun || options.pruneBuildScoreCache)) {
+    throw new LeaderboardCliOptionsError('Character refresh cannot be combined with cache maintenance flags')
   }
 
   options.topNPublic = Math.min(options.topNPublic, options.topN)
@@ -146,6 +153,8 @@ export function leaderboardCliUsage(command = 'npm run leaderboard --'): string 
     `  ${FLAG_BUILD_SCORE_CACHE_DB_PATH} <path>`,
     `  ${FLAG_PRUNE_BUILD_SCORE_CACHE}`,
     `  ${FLAG_FRESH_RUN}`,
+    `  ${FLAG_REFRESH_CHARACTER} <id>`,
+    `  ${FLAG_REFRESH_OLDEST_CHARACTER}`,
     `  ${FLAG_PRINT_CONFIG}`,
     `  ${FLAG_HELP}`,
   ].join('\n')

@@ -7,11 +7,11 @@ import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 export const CURRENT_OPTIMIZER_VERSION = 'v4.6.1'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.6v1'
+export const CURRENT_DATA_VERSION = '4.6v3'
 
 // Controls downtime messaging
 export const SHOWCASE_DOWNTIME = false
-export const RELIQUARY_DOWNTIME = true
+export const RELIQUARY_DOWNTIME = false
 export const DOWNTIME_VERSION: string = '4.5'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {

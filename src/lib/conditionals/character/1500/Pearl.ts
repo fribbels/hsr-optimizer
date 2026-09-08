@@ -240,7 +240,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e4ElationSkillBoost: {
       id: 'e4ElationSkillBoost',
       formItem: 'switch',
-      text: 'E4 Elation Skill additional DMG',
+      text: 'E4 Elation Skill Additional DMG',
       content: betaContent,
       disabled: e < 4,
     },

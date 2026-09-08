@@ -15705,7 +15705,7 @@
     {
       "id": "134",
       "name": "The Edacious Heretic",
-      "skills": "Increases ATK by 12%. Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns."
+      "skills": "Increases CRIT DMG by 16%. Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns."
     },
     {
       "id": "301",

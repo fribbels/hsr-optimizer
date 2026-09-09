@@ -20,7 +20,6 @@ import {
   ornament2p,
   SetKeys,
 } from 'lib/optimization/setMatching'
-import { StatCalculator } from 'lib/relics/statCalculator'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
 import type { SimulationStatUpgrade } from 'lib/simulations/scoringUpgrades'
@@ -32,7 +31,6 @@ import type {
 import type { TeammateSetUpgrade } from 'lib/simulations/teammateUpgradeGrouping'
 import { renderThousandsK } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
-import { isFlat } from 'lib/utils/statUtils'
 import type { Form } from 'types/form'
 import type {
   DBMetadataCharacter,
@@ -405,18 +403,8 @@ function collectPenaltyRecords(
       if (user) {
         records.push({ stat: stat as StatsValues, multiplier: 0 })
       }
-    } else if (isFlat(stat)) {
-      const multiplier = (Math.min(1, statValue / threshold) + 1) / 2
-      if (precisionRound(multiplier) < 1) {
-        records.push({ stat: stat as StatsValues, multiplier })
-      }
     } else {
-      const multiplier = Math.min(
-        1,
-        1
-          - (threshold - statValue)
-            / StatCalculator.getMaxedSubstatValue(stat as SubStats, 1.0),
-      )
+      const multiplier = (Math.min(1, statValue / threshold) + 1) / 2
       if (precisionRound(multiplier) < 1) {
         records.push({ stat: stat as StatsValues, multiplier })
       }

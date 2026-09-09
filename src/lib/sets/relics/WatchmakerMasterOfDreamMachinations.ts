@@ -12,6 +12,7 @@ import {
 import { Source } from 'lib/optimization/buffSource'
 import {
   AKey,
+  HKey,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
@@ -64,6 +65,7 @@ const conditionals: SetConditionals = {
       && ${wgslFalse(action.config.teammateSetEffects[Sets.WatchmakerMasterOfDreamMachinations])}
     ) {
       ${buff.action(AKey.BE, 0.30).targets(TargetTag.FullTeam).wgsl(action, 2)}
+      ${buff.hit(HKey.BOOST, 0.30).outputBuff(StatKey.BE).wgsl(action, 2)}
     }
   `,
   teammate: [{

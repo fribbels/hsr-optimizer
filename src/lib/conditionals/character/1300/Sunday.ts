@@ -37,6 +37,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   AbilityKind,
   NULL_TURN_ABILITY_NAME,
@@ -408,8 +409,8 @@ if (cr > 1.00) {
   let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
   (*p_state).${this.id}${action.actionIdentifier} = buffValue;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffValue - stateValue;
+  ${buff.action(StatKey.UNCONVERTIBLE_CD_BUFF, 'buffValue - stateValue').wgsl(action)}
+  ${buff.action(StatKey.CD, 'buffValue - stateValue').wgsl(action)}
 }
 `,
           )

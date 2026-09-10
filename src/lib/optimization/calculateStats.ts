@@ -119,7 +119,6 @@ export function calculateComputedStats(x: ComputedStatsContainer, action: Optimi
   applyPercentStats(x, a, context)
   evaluateDynamicSetConditionals(x, matches, action, context)
   evaluateDynamicConditionals(x, action, context)
-  evaluateTerminalSetConditionals(x, a, matches, action, context)
 
   return x
 }

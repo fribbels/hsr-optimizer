@@ -50,16 +50,10 @@ function normalizeSubstatValue(stat: string, value: number): number {
 export function hashRelic(relic: Relic) {
   const substatValues: number[] = []
   const substatStats: string[] = []
-  const previewSubstatValues: number[] = []
-  const previewSubstatStats: string[] = []
 
   for (const substat of relic.substats) {
     substatValues.push(normalizeSubstatValue(substat.stat, substat.value))
     substatStats.push(substat.stat)
-  }
-  for (const substat of relic.previewSubstats) {
-    previewSubstatValues.push(normalizeSubstatValue(substat.stat, substat.value))
-    previewSubstatStats.push(substat.stat)
   }
   const hashObject = {
     part: relic.part,
@@ -70,8 +64,6 @@ export function hashRelic(relic: Relic) {
     mainValue: Math.floor(relic.main.value),
     substatValues,
     substatStats,
-    previewSubstatValues,
-    previewSubstatStats,
   }
 
   return objectHash(hashObject)

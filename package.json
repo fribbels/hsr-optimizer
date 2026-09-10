@@ -90,7 +90,7 @@
     "postcss-simple-vars": "^7.0.1",
     "typescript": "^6.0.2",
     "vite": "^8.0.16",
-    "vitest": "^4.1.4"
+    "vitest": "^4.1.11"
   },
   "overrides": {
     "selecto": {

@@ -14,6 +14,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
@@ -82,7 +83,7 @@ if (
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} >= 0.80
 ) {
   (*p_state).ItsShowtimeConversionConditional${action.actionIdentifier} = 1.0;
-  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, action.config)} += ${sValuesAtkBuff[s]} * baseATK;
+  ${buff.action(StatKey.ATK, `${sValuesAtkBuff[s]} * baseATK`).wgsl(action)}
 }
     `,
           )

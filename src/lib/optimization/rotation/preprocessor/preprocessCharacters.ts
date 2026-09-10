@@ -39,10 +39,10 @@ export class CastoricePreprocessor extends AbilityPreprocessorBase {
     let memoDmgStacks = this.state.memoDmgStacks
 
     if (kind == AbilityKind.MEMO_SKILL) {
-      const value = memoDmgStacks + 1
+      const value = Math.min(6, memoDmgStacks + 1)
       setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, value)
       setComboNumberCategoryCharacterActivation(comboState, 'memoSkillEnhances', index, Math.min(3, value))
-      memoDmgStacks = Math.min(6, memoDmgStacks + 1)
+      memoDmgStacks = value
     } else if (kind == AbilityKind.MEMO_TALENT) {
       setComboNumberCategoryCharacterActivation(comboState, 'memoDmgStacks', index, memoDmgStacks)
       setComboNumberCategoryCharacterActivation(comboState, 'memoSkillEnhances', index, 1)

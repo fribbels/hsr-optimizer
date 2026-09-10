@@ -10,10 +10,7 @@ import {
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   type BasicStatsArray,
   WgslStatName,
@@ -22,6 +19,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   ornament2p,
   SetKeys,
@@ -86,7 +84,7 @@ if (
   let buffValue: f32 = min(0.25, 0.25 * ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)}) * ${config.selfEntity.baseAtk};
 
   (*p_state).PanCosmicCommercialEnterpriseConditional${action.actionIdentifier} = buffValue;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += buffValue - stateValue;
+  ${buff.action(StatKey.ATK, 'buffValue - stateValue').wgsl(action)}
 }
     `,
     )

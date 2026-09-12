@@ -1,28 +1,13 @@
-CollapseLabels:
-  Explore: 기능 자세히 보기
-  Join: 커뮤니티에 참여
-FeatureCards:
-  LearnMore: 더 알아보기
-  Showcase:
-    Title: 캐릭터 쇼케이스
-    Content: >-
-      캐릭터의 스탯을 확인해 보거나 미출시 캐릭터를 미리 빌드해볼 수 있으며, DPS 점수와 전투 피해량을 시뮬레이션하고 벤치마크와 비교하여 평가할 수 있습니다.
-  Optimizer:
-    Content: >-
-      캐릭터를 최적화하여 목표 점수에 도달하고 성능을 극대화할 수 있는 최고의 유물 조합을 찾아보세요.
-  Calculator:
-    Title: 피해량 계산기
-    Content: >-
-      파티, 버프 조건, 사이클을 모두 커스터마이징하여 정확한 데미지를 계산하고 피해량을 극대화해보세요.
-  Organizer:
-    Title: 유물 모음
-    Content: >-
-      유물을 점수나 잠재력에 따라 점수화하고 정렬하여 각 캐릭터에 가장 적합한 강화 대상 유물을 찾아보세요.
-  WarpPlanner:
+CommunityCard:
+  Discord:
+    Title: Discord
+  Github:
+    Title: Github
+  Changelog:
+    Title: 변경 내역
+FeatureCard:
+  Warp:
     Title: 워프 계획
-  BenchmarkGenerator:
-    Title: 벤치마크 생성기
-Welcome: Fribbels Str Rail Optimizer<1/>오신 것을 환영합니다!
 SearchBar:
   Placeholder: UID
   Label: 'UID를 입력하고 캐릭터 쇼케이스 확인하세요'

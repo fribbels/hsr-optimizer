@@ -840,6 +840,10 @@ Characters:
     Content:
       e2EnemyHp50DmgBoost:
         content: 對目前生命值百分比小於等於50%的敵方目標造成的傷害提高15% 。
+  HimekoNova:
+    Content:
+      e6:
+        text: 6魂增益
   Hysilens:
     Content:
       ehrToDmg:
@@ -868,6 +872,10 @@ Characters:
     Content:
       e1DefPen:
         text: 1魂防禦穿透
+  RinTohsaka:
+    Content:
+      ladylikePoise:
+        text: 速度增益
   Robin:
     Content:
       skillDmgBuff:

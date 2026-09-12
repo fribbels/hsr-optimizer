@@ -190,6 +190,7 @@ ShortDMGTypes:
   Memo_Skill: 精霊スキル
   Memo_Talent: 精霊天賦
   Elation_Skill: 愉悦スキル
+  Unique: 特殊ダメージ
   Dot: 持続
   Break: 撃破
   CV: CV

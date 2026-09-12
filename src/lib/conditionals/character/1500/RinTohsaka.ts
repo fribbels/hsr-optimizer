@@ -320,7 +320,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Talent CD buff on ally SP consume/recover
-      x.buff(StatKey.CD, (m.talentCdBuff) ? talentCdBuffValue : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.CD, (m.talentCdBuff) ? talentCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
       // Ult vulnerability debuff
       x.buff(StatKey.VULNERABILITY, m.ultDmgTakenDebuff ? ultVulnerabilityValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))

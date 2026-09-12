@@ -417,6 +417,8 @@ function unrollAction(index: number, action: OptimizerAction, context: Optimizer
   let characterConditionalWgsl = "// Character conditionals\n"
   let lightConeConditionalWgsl = '// Light cone conditionals\n'
 
+  // Both are interpolated light cone first, then character, matching calculateBaseMultis on the
+  // CPU. Keep that order at every interpolation site below.
   if (characterConditionals.newGpuFinalizeCalculations) {
     characterConditionalWgsl += indent(characterConditionals.newGpuFinalizeCalculations(action, context), 3)
   }
@@ -529,9 +531,9 @@ fn unrolledAction${index}(
 
   ${conditionalSequenceWgsl}
 
-  ${characterConditionalWgsl}
-
   ${lightConeConditionalWgsl}
+
+  ${characterConditionalWgsl}
 
   ${setTerminalWgsl}
 
@@ -605,9 +607,9 @@ fn unrolledAction${index}(
 
   ${conditionalSequenceWgsl}
 
-  ${characterConditionalWgsl}
-
   ${lightConeConditionalWgsl}
+
+  ${characterConditionalWgsl}
 
   ${setTerminalWgsl}
 

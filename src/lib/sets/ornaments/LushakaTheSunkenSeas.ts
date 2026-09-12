@@ -12,6 +12,7 @@ import {
   HKey,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
+import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
@@ -67,7 +68,7 @@ const conditionals: SetConditionals = {
     desc: (t) => t('TeammateSets.Lushaka.Desc'),
     nonstackable: false,
     effect: ({ x }) => {
-      x.buff(StatKey.ATK_P, 0.12, x.source(Source.LushakaTheSunkenSeas))
+      x.buff(StatKey.ATK_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.LushakaTheSunkenSeas))
     },
   }],
 }

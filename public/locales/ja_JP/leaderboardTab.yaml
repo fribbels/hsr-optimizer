@@ -1,0 +1,9 @@
+CharacterList:
+  SearchPlaceholder: キャラを検索
+  Columns:
+    Character: キャラクター
+Filters:
+  EidolonLabel: 星魂
+Banner:
+  LightConeModule: 光円錐
+  SetsModule: セット

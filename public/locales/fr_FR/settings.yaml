@@ -20,3 +20,7 @@ ShowComboDmgWarning:
   Label: Afficher l'avertissement DGT Combo
   Show: 'Par défaut : Afficher l''avertissement'
   Hide: Cacher l'avertissement
+NewCharacterDefaultRank:
+  Label: Rang par défaut pour les nouveaux personnages
+  First: 'Par défaut: Première priorité (Rang #1)'
+  Last: Priorité la plus basse

@@ -1,0 +1,46 @@
+Header:
+  Title: crwdns47729:0crwdne47729:0
+  Subtitle: crwdns47731:0crwdne47731:0
+  ShowcaseButton: crwdns47733:0crwdne47733:0
+ConfigTypes:
+  dps: crwdns47735:0crwdne47735:0
+  support: crwdns47737:0crwdne47737:0
+  heal: crwdns47739:0crwdne47739:0
+  shield: crwdns47741:0crwdne47741:0
+UserRanks:
+  Header: crwdns47743:0crwdne47743:0
+  BestTeamRank: crwdns47745:0crwdne47745:0
+  TeamRankLabel: 'crwdns47747:0{{rank}}crwdne47747:0'
+  AllTeamsRankLabel: 'crwdns47749:0{{rank}}crwdne47749:0'
+  Status:
+    NoUid: crwdns47751:0crwdne47751:0
+    InvalidUid: crwdns47753:0crwdne47753:0
+    Loading: crwdns47755:0crwdne47755:0
+    Unavailable: crwdns47757:0crwdne47757:0
+Timeline:
+  Header: crwdns47759:0crwdne47759:0
+  New: crwdns47761:0crwdne47761:0
+  HoursAgo: 'crwdns47763:0{{count}}crwdne47763:0'
+  DaysAgo: 'crwdns47765:0{{count}}crwdne47765:0'
+CharacterList:
+  SearchPlaceholder: crwdns47767:0crwdne47767:0
+  TabLabel: 'crwdns47769:0{{label}}crwdnd47769:0{{count}}crwdne47769:0'
+  Columns:
+    Rank: 'crwdns47771:0crwdne47771:0'
+    Character: crwdns47773:0crwdne47773:0
+    TopScore: crwdns47775:0crwdne47775:0
+    Entries: crwdns47777:0crwdne47777:0
+  Empty: crwdns47779:0crwdne47779:0
+  InsufficientData: crwdns47781:0crwdne47781:0
+Filters:
+  EidolonLabel: crwdns47783:0crwdne47783:0
+  TeamLabel: crwdns47785:0crwdne47785:0
+  AllEidolons: crwdns47787:0crwdne47787:0
+  AllTeams: 'crwdns47789:0{{count}}crwdne47789:0'
+Banner:
+  AllTeams: crwdns47791:0crwdne47791:0
+  TeamRank: crwdns47793:0crwdne47793:0
+  LightConeModule: crwdns47795:0crwdne47795:0
+  TeamModule: crwdns47797:0crwdne47797:0
+  SetsModule: crwdns47799:0crwdne47799:0
+  SetPieces: 'crwdns47801:0{{count}}crwdne47801:0'

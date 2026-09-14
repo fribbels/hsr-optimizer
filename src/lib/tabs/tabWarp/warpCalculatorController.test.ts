@@ -6,9 +6,11 @@ import {
   WarpIncomeOptions,
 } from 'lib/tabs/tabWarp/warpCalculatorController'
 import {
+  characterWarpCap,
   DEFAULT_WARP_REQUEST,
   DEFAULT_WARP_TARGET,
   EidolonLevel,
+  lightConeWarpCap,
   NONE_WARP_INCOME_OPTION,
   StarlightRefund,
   SuperimpositionLevel,
@@ -181,6 +183,38 @@ test('expected pity values', () => {
   expectWithin1Percent(m.E6S3.wins, 0)
   expectWithin1Percent(m.E6S4.wins, 0)
   expectWithin1Percent(m.E6S5.wins, 0)
+})
+
+test('character pity at the hard cap calculates from the last legal pity value', () => {
+  const request = {
+    ...BASE_REQUEST,
+    passes: 0,
+    targets: [target({
+      targetEidolonLevel: EidolonLevel.E0,
+      targetSuperimpositionLevel: SuperimpositionLevel.NONE,
+    })],
+  }
+  const atHardCap = calculateWarps({ ...request, pityCharacter: characterWarpCap })
+  const atLastLegalPity = calculateWarps({ ...request, pityCharacter: characterWarpCap - 1 })
+
+  expect(atHardCap.targetResults[0].milestoneResults).toEqual(atLastLegalPity.targetResults[0].milestoneResults)
+  expect(atHardCap.targetResults[0].milestoneResults.E0.wins).toBe(0)
+})
+
+test('light cone pity at the hard cap calculates from the last legal pity value', () => {
+  const request = {
+    ...BASE_REQUEST,
+    passes: 0,
+    targets: [target({
+      targetEidolonLevel: EidolonLevel.NONE,
+      targetSuperimpositionLevel: SuperimpositionLevel.S1,
+    })],
+  }
+  const atHardCap = calculateWarps({ ...request, pityLightCone: lightConeWarpCap })
+  const atLastLegalPity = calculateWarps({ ...request, pityLightCone: lightConeWarpCap - 1 })
+
+  expect(atHardCap.targetResults[0].milestoneResults).toEqual(atLastLegalPity.targetResults[0].milestoneResults)
+  expect(atHardCap.targetResults[0].milestoneResults.S1.wins).toBe(0)
 })
 
 test('expected current eidolon and lightcone values', () => {

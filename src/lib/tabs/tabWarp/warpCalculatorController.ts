@@ -334,9 +334,11 @@ function milestoneStats(cumulativePmf: number[], budget: number): WarpMilestoneR
 // PMF (probability mass function) for cost starting at pity position.
 // Result is 1-indexed: result[0] = 0, result[k] = P(costs k warps from pity position).
 function pityAdjustedPmf(distribution: number[], pity: number, warpCap: number): number[] {
-  const slice = distribution.slice(pity, warpCap)
+  // Pity must stay below the hard cap.
+  const boundedPity = Math.min(Math.max(Math.trunc(pity), 0), warpCap - 1)
+  const slice = distribution.slice(boundedPity, warpCap)
   const total = slice.reduce((sum, p) => sum + p, 0)
-  // pity at/beyond the hard cap leaves no probability mass; contribute zero cost rather than NaN.
+  // Avoid NaN for an empty distribution.
   if (total === 0) return [1]
   return [0, ...slice.map((p) => p / total)]
 }

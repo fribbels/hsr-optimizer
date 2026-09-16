@@ -1491,6 +1491,10 @@ Characters:
       e4TeamResBuff:
         text: E4 ↑Сопротивление эффектам команде
         content: Когда Гепард находится на поле боя, сопротивление эффектам всех союзников повышается на 20%.
+  Gilgamesh:
+    Content:
+      e6ResPen:
+        text: E6 Игнор Сопр. Урону
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1566,6 +1570,10 @@ Characters:
       e6UltExtraHits:
         text: E6 Доп. ударов ульты
         content: Сверхспособность Химеко наносит случайным противникам огненный урон 2 дополнительных раза, оба раза наносимый урон равен 40% от изначального урона.
+  HimekoNova:
+    Content:
+      e6:
+        text: E6 баффы
   Hook:
     Content:
       enhancedSkill:
@@ -2039,6 +2047,16 @@ Characters:
       e4SpdBuff:
         text: E4 ↑Скорость команде
         content: Пока Раппа находится в состоянии Форма печати, скорость всех союзников повышается на 12%.
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: Усиленный Навык
+      talentCdBuff:
+        text: '↑Крит урон от таланта'
+      ladylikePoise:
+        text: '↑Скорость после ульты'
+      e6ResPen:
+        text: E6 Игнор Сопр. Урону
   Robin:
     Content:
       concertoActive:

@@ -1361,6 +1361,10 @@ Characters:
       e4TeamResBuff:
         text: 'E4: Bonus d''équipe de RAE'
         content: Lorsque Gepard est en combat, la RÉS aux effets de tous les alliés augmente de 20%.
+  Gilgamesh:
+    Content:
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1436,6 +1440,10 @@ Characters:
       e6UltExtraHits:
         text: 'E6: Coups bonus de l''ULT'
         content: Ultime inflige 2 coups supplémentaires. Chaque coup inflige 40% des dégâts originaux.
+  HimekoNova:
+    Content:
+      e6:
+        text: 'E6: Divers bonus'
   Hook:
     Content:
       enhancedSkill:
@@ -1897,6 +1905,16 @@ Characters:
       e4SpdBuff:
         text: 'E4: Bonus de VIT'
         content: Lorsque Rappa est dans la forme du Sceau, la VIT de tous les alliés augmente de 12%.
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: Compétence améliorée
+      talentCdBuff:
+        text: Bonus de DC du Talent
+      ladylikePoise:
+        text: Bonus de VIT
+      e6ResPen:
+        text: 'E6: PÉN de RÉS'
   Robin:
     Content:
       concertoActive:

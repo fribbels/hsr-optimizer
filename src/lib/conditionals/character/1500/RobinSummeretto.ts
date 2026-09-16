@@ -301,7 +301,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Wind).build(),
           ],
         },
-        // Deviated Chord's ATK branch, scaling off Robin's own HP. The support benchmark always
+        // Deviated Chord's ATK branch, scaling off Robin's own HP. The buffer benchmark always
         // reports the ATK value and ignores the CRIT DMG branch that lower-ATK allies would take.
         [AbilityKind.BUFF]: {
           hits: [

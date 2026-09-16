@@ -101,13 +101,13 @@ CharacterPreview:
   ScoreHeader:
     CustomSpeed: '{{spd}} SPD Benchmark'
     dps: DPS Benchmark
-    buffer: Support Benchmark
+    buffer: Buffer Benchmark
     heal: Heal Benchmark
     shield: Shield Benchmark
   AlgorithmSlider:
     Labels:
       dps: DPS Benchmark
-      buffer: Support Benchmark
+      buffer: Buffer Benchmark
       heal: Heal Benchmark
       shield: Shield Benchmark
       StatScore: Substat Rolls
@@ -116,12 +116,12 @@ CharacterPreview:
     Labels:
       CombatStats: Combat Stats
       CombatStatsSubDps: Combat Stats (Sub DPS)
-      CombatStatsSupport: Combat Stats (Support)
+      CombatStatsBuffer: Combat Stats (Buffer)
       CombatStatsHeal: Combat Stats (Heal)
       CombatStatsShield: Combat Stats (Shield)
   ScoringExplanation:
     dps: DPS Benchmark Calculations
-    buffer: Support Benchmark Calculations
+    buffer: Buffer Benchmark Calculations
     heal: Heal Benchmark Calculations
     shield: Shield Benchmark Calculations
   DMGUpgrades: Damage Upgrades

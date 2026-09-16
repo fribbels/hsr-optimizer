@@ -4,7 +4,7 @@ Header:
   ShowcaseButton: Go to Showcase →
 ConfigTypes:
   dps: DPS
-  support: Support
+  support: Buffer
   heal: Heal
   shield: Shield
 UserRanks:

@@ -27,6 +27,9 @@ export const RECHARTS_TOOLTIP_WRAPPER_STYLE: React.CSSProperties = {
   pointerEvents: 'none',
 }
 
+// Characters tab layout: both panels share this width so the tab bar does not resize when switching
+export const CHARACTERS_TAB_WIDTH = 1593
+
 // Relics tab layout
 export const RELICS_TAB_WIDTH = 1460
 const DIVIDER_WIDTH = 4

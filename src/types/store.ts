@@ -51,6 +51,14 @@ export type GlobalSavedSession = {
   showcasePreciseSpd: boolean,
   sidebarCollapsed: boolean,
   characterGridDensity: CharacterGridDensity,
+  teamShowcaseCharacterIds: (CharacterId | null)[],
+  teamShowcaseSavedTeams: TeamShowcaseSavedTeam[],
+}
+
+export type TeamShowcaseSavedTeam = {
+  id: string,
+  name: string,
+  characterIds: (CharacterId | null)[],
 }
 
 export type UserSettings = {

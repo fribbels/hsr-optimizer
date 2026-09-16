@@ -80,9 +80,9 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
           width: `${tempLcParentW}px`,
           height: `${tempLcParentH}px`,
           boxShadow: showcaseShadow,
-          cursor: source === ShowcaseSource.LEADERBOARD ? 'default' : undefined,
+          cursor: source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM ? 'default' : undefined,
         }}
-        onClick={source !== ShowcaseSource.LEADERBOARD
+        onClick={source !== ShowcaseSource.LEADERBOARD && source !== ShowcaseSource.TEAM
           ? () => {
             setOriginalCharacterModalInitialCharacter?.(character)
             setOriginalCharacterModalOpen?.(true)

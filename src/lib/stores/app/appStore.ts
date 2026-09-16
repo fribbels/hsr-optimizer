@@ -25,6 +25,8 @@ export const savedSessionDefaults: GlobalSavedSession = {
   [SavedSessionKeys.showcasePreciseSpd]: false,
   [SavedSessionKeys.sidebarCollapsed]: false,
   [SavedSessionKeys.characterGridDensity]: 'default',
+  [SavedSessionKeys.teamShowcaseCharacterIds]: [null, null, null, null],
+  [SavedSessionKeys.teamShowcaseSavedTeams]: [],
 }
 
 export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({

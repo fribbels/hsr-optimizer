@@ -517,7 +517,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           flexDirection: 'column',
           width: cardTotalW,
           gap: source === ShowcaseSource.LEADERBOARD ? 16 : undefined,
-          minHeight: forceDebug ? 'auto' : (source === ShowcaseSource.BUILDS_MODAL ? 900 : (source === ShowcaseSource.LEADERBOARD ? undefined : 2000)),
+          minHeight: forceDebug ? 'auto' : (source === ShowcaseSource.BUILDS_MODAL ? 900 : (source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM ? undefined : 2000)),
         }}
       >
         {
@@ -685,13 +685,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           />
         </div>
 
-        <CharacterAnnouncement
-          characterId={showcaseMetadata.characterId}
-          teammateCharacterIds={layout.activeSimulationMetadata?.teammates.map((t) => t.characterId)}
-          mt={10}
-        />
+        {source !== ShowcaseSource.TEAM && (
+          <CharacterAnnouncement
+            characterId={showcaseMetadata.characterId}
+            teammateCharacterIds={layout.activeSimulationMetadata?.teammates.map((t) => t.characterId)}
+            mt={10}
+          />
+        )}
 
-        {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
+        {source !== ShowcaseSource.BUILDS_MODAL && source !== ShowcaseSource.TEAM && !forceDebug && (
           <ShowcaseBuildAnalysis
             showcaseMetadata={showcaseMetadata}
             scoringType={scoringType}

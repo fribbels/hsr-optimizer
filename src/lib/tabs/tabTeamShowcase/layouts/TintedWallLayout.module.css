@@ -1,0 +1,247 @@
+/*
+ * Tinted wall retains the art-led structure with a compact scoring select.
+ * Every outline and focus ring is --color-accent. The only per-character colour left is the faint scrim
+ * tint behind each tile's controls, taken from that character's card seed and passed in as an inline
+ * custom property, plus the active saved team's underline in SavedTeamsPanel.
+ *
+ * Fixed decorative colours (black scrims, translucent white fills) are deliberate: they sit over
+ * arbitrary artwork, where theme tokens cannot guarantee legibility.
+ */
+
+/* Shrinks to the columns' width. The 8px gap is the Characters panel's defaultGap. */
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: fit-content;
+}
+
+/* ----- Header: just the screenshot actions ----- */
+
+/*
+ * A bare 40px row, the same height as the Characters panel's menu button and filter bar, with no rule or
+ * padding of its own so both panels open the same way.
+ */
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* ----- Columns ----- */
+
+.columns {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.gridColumn {
+  flex-shrink: 0;
+}
+
+/* ----- Left column: art tiles ----- */
+
+/*
+ * Four tiles with 8px gaps in the 888px column: (888 - 3 x 8) / 4 = 216px each, so two tiles plus a gap
+ * is 440px, exactly one displayed card row ((888 - 8) / 2). Tiles 1-2 sit beside the top cards, 3-4 the bottom.
+ * Each tile is 196 x 216.
+ */
+.rail {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 8px;
+  /*
+   * The same rule the Characters grid container draws. It is an outline rather than a border so it sits
+   * outside the 196 x 888 box; a border would eat 2px of that box and break the tiles' 216px card-row
+   * alignment.
+   */
+  outline: 1px solid var(--layer-2);
+  border-radius: var(--mantine-radius-sm);
+}
+
+/* --tile-seed is the raw card colour, set inline on filled tiles only, and tints the scrim. */
+.tile {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background-color: var(--layer-inset);
+  border-radius: var(--radius-xs);
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+  transition: outline-color 120ms ease;
+}
+
+/*
+ * The negative offset draws the outline inside the tile's box, so it sits flush with the artwork's edges
+ * instead of ringing it. An element's own outline is not clipped by its own overflow, so it stays visible.
+ */
+.tile[data-active='true'],
+.tile[data-linked='true'],
+.tile:has(.artButton:focus-visible),
+.tile:has(.emptyButton:focus-visible) {
+  outline-color: var(--color-accent);
+}
+
+.artButton {
+  position: absolute;
+  inset: 0;
+  display: block;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.artButton:focus-visible,
+.emptyButton:focus-visible {
+  outline: none;
+}
+
+/* Preview art is a 376x512 bust scaled to 196 wide (267 tall); 12% down keeps the face above the scrim */
+.art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 12%;
+  transition: filter 160ms ease;
+}
+
+.artButton:hover .art {
+  filter: brightness(1.08);
+}
+
+/*
+ * A shorter, lighter fade backs the scoring select.
+ * The scrim ignores the pointer; only its actual controls intercept clicks.
+ */
+.scrim {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 12px 10px;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--tile-seed) 18%, rgba(0, 0, 0, 0.72)) 0%,
+    rgba(0, 0, 0, 0.38) 55%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
+}
+
+/* 196 - 2 x 12 padding = 172px wide select */
+.scoringSlot {
+  pointer-events: auto;
+}
+
+/* Mantine ships as layered CSS, so these unlayered rules win without specificity tricks */
+.scoringInput {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(6px);
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.scoringInput:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+/* The input renders inside the tile, so it inherits that tile's guarded colour */
+.scoringInput:focus,
+.scoringInput:focus-within {
+  border-color: var(--color-accent);
+}
+
+.scoringSection {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.removeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.tile:hover .removeButton,
+.tile:focus-within .removeButton {
+  opacity: 1;
+}
+
+/*
+ * Empty tile: a very faint dashed outline, the whole tile opens the picker. The dash is a pseudo-element
+ * rather than a border so empty and filled tiles get identical flex sizes and stay aligned to the card rows.
+ */
+.tile[data-empty='true'] {
+  background-color: transparent;
+}
+
+.tile[data-empty='true']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: inherit;
+  pointer-events: none;
+  transition: border-color 120ms ease;
+}
+
+.tile[data-empty='true']:hover::before {
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.emptyButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font: inherit;
+  color: var(--text-tertiary);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+
+.emptyLabel {
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.01em;
+}
+
+.tile[data-empty='true']:hover .emptyButton {
+  color: var(--text-secondary);
+}
+
+/* ----- Reduced motion: state changes still apply, just without the fades ----- */
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .art,
+  .scoringInput,
+  .removeButton,
+  .tile[data-empty='true']::before,
+  .emptyButton {
+    transition: none;
+  }
+}

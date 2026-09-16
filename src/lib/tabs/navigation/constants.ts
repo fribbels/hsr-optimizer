@@ -28,6 +28,7 @@ export type PageHash =
   | '#characters'
   | '#relics'
   | '#import'
+  | '#teams'
 
 export enum AppPages {
   HOME = 'HOME',
@@ -70,6 +71,9 @@ export const PageToHash = {
 export const HashToPage = {
   ...flipStringMapping(PageToHash),
   [CALCULATOR_PANEL_HASH[CalculatorPanel.EHR]]: AppPages.CALCULATORS,
+  // Literal rather than CHARACTERS_PANEL_HASH: characterPanels imports BASE_PATH from here, and consuming
+  // its exports at module-eval time makes that cycle order-dependent.
+  ['#teams']: AppPages.CHARACTERS,
 } as const satisfies Record<PageHash, AppPages>
 
 export function getDefaultActiveKey() {

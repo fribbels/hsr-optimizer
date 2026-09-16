@@ -5728,7 +5728,7 @@ interface Resources {
         "Name": "Dreamlit Actor"
       },
       "134": {
-        "Description2pc": "Increases ATK by 12%.",
+        "Description2pc": "Increases CRIT DMG by 16%.",
         "Description4pc": "Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.",
         "Name": "The Edacious Heretic"
       },
@@ -8019,6 +8019,29 @@ interface Resources {
       "Title": "Tools",
       "WarpPlanner": "Warp Planner"
     }
+  },
+  "teamShowcaseTab": {
+    "Buttons": {
+      "AddCharacter": "Add character",
+      "Clear": "Clear team",
+      "CopyScreenshot": "Copy screenshot",
+      "DownloadScreenshot": "Download screenshot",
+      "Remove": "Remove",
+      "Swap": "Swap"
+    },
+    "EmptySlot": "Select a character",
+    "SavedTeams": {
+      "DefaultName": "Team {{index}}",
+      "Delete": "Delete team",
+      "Empty": "No saved teams yet",
+      "Header": "Saved teams",
+      "Rename": "Rename",
+      "Save": "Save team"
+    },
+    "Scoring": {
+      "Label": "Scoring"
+    },
+    "ScreenshotName": "Team"
   },
   "warpCalculatorTab": {
     "ColumnTitles": {

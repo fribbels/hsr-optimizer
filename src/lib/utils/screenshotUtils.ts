@@ -120,6 +120,27 @@ const SCREENSHOT_IMAGE_TYPE = 'png'
 const SCREENSHOT_EXPORT_DPR = 2
 const PREBAKE_MAX_DIMENSION = Math.max(cardTotalW, parentH) * SCREENSHOT_EXPORT_DPR
 
+/**
+ * Marks an ancestor whose CSS transform only shrinks the capture target for on-screen display.
+ * The transform is removed for the duration of the capture so snapdom and the blur pre-bake
+ * measure the element at its true layout size.
+ */
+export const SCREENSHOT_SCALE_WRAPPER_ATTR = 'data-screenshot-scale-wrapper'
+
+export type ScreenshotSize = { width: number, height: number }
+
+const DEFAULT_SCREENSHOT_SIZE: ScreenshotSize = { width: cardTotalW, height: parentH }
+
+function unscaleWrapperForCapture(element: HTMLElement): () => void {
+  const wrapper = element.parentElement?.closest<HTMLElement>(`[${SCREENSHOT_SCALE_WRAPPER_ATTR}]`)
+  if (!wrapper) return () => {}
+  const originalTransform = wrapper.style.transform
+  wrapper.style.transform = 'none'
+  return () => {
+    if (wrapper.isConnected) wrapper.style.transform = originalTransform
+  }
+}
+
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -551,6 +572,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
  * @param elementId - DOM element ID to capture
  * @param action - 'clipboard' uses Web Share API on mobile, clipboard.write on desktop
  * @param characterName - Optional name for the downloaded file
+ * @param size - Capture dimensions in CSS pixels, defaults to a single character card
  *
  * See module-level documentation for details on iOS Safari workarounds.
  */
@@ -558,6 +580,7 @@ export async function screenshotElementById(
   elementId: string,
   action: 'clipboard' | 'download',
   characterName?: string | null,
+  size: ScreenshotSize = DEFAULT_SCREENSHOT_SIZE,
 ): Promise<void> {
   const element = document.getElementById(elementId)
   if (!element) {
@@ -597,8 +620,8 @@ export async function screenshotElementById(
           snapdom(element, {
             scale: 1,
             dpr: SCREENSHOT_EXPORT_DPR,
-            width: cardTotalW,
-            height: parentH,
+            width: size.width,
+            height: size.height,
             backgroundColor: 'transparent',
             outerShadows: true,
             embedFonts: true,
@@ -677,6 +700,7 @@ export async function screenshotElementById(
     }
   }
 
+  const restoreScale = unscaleWrapperForCapture(element)
   let blob
   try {
     blob = await repeatLoadBlob()
@@ -684,6 +708,8 @@ export async function screenshotElementById(
     Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
     console.error(e)
     return
+  } finally {
+    restoreScale()
   }
   handleBlob(blob)
 }

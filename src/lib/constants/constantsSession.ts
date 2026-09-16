@@ -10,4 +10,6 @@ export enum SavedSessionKeys {
   showcasePreciseSpd = 'showcasePreciseSpd',
   sidebarCollapsed = 'sidebarCollapsed',
   characterGridDensity = 'characterGridDensity',
+  teamShowcaseCharacterIds = 'teamShowcaseCharacterIds',
+  teamShowcaseSavedTeams = 'teamShowcaseSavedTeams',
 }

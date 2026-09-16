@@ -1,0 +1,84 @@
+/* Filled card: the whole card is the click target that reopens the picker */
+.cellTarget {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  font: inherit;
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 120ms ease;
+}
+
+.cellTarget:focus-visible {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.cellHint {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--text-primary);
+  background-color: var(--layer-2);
+  border: 1px solid var(--border-default);
+  border-radius: 999px;
+  box-shadow: var(--shadow-card);
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 120ms ease;
+  pointer-events: none;
+}
+
+.cellTarget:hover .cellHint,
+.cellTarget:focus-visible .cellHint {
+  opacity: 1;
+}
+
+/* Empty card: full-cell dashed add target */
+.emptyCellTarget {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  color: var(--text-secondary);
+  background-color: transparent;
+  border: 2px dashed var(--border-default);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+}
+
+.emptyCellTarget:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  outline: none;
+}
+
+.emptyCellIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px dashed currentColor;
+  border-radius: 50%;
+}
+
+.emptyCellLabel {
+  font-size: 15px;
+  font-weight: 600;
+}

@@ -1,0 +1,18 @@
+Buttons:
+  Clear: Clear team
+  CopyScreenshot: Copy screenshot
+  DownloadScreenshot: Download screenshot
+  AddCharacter: Add character
+  Remove: Remove
+  Swap: Swap
+EmptySlot: Select a character
+ScreenshotName: Team
+SavedTeams:
+  Header: Saved teams
+  Save: Save team
+  Delete: Delete team
+  Rename: Rename
+  Empty: No saved teams yet
+  DefaultName: 'Team {{index}}'
+Scoring:
+  Label: Scoring

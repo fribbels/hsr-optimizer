@@ -99,7 +99,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
   effectiveColorMode,
   portraitSwatches,
 }: ShowcaseCustomizationSidebarProps) {
-  if (source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD) return null
+  if (source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM) return null
 
   return (
     <Flex

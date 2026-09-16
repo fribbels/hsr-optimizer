@@ -1,0 +1,28 @@
+.viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+.scaleWrapper {
+  transform-origin: top left;
+}
+
+.grid {
+  display: grid;
+}
+
+.overlayLayer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  pointer-events: none;
+}
+
+.overlayCell {
+  position: relative;
+  pointer-events: none;
+}
+
+.overlayCell > * {
+  pointer-events: auto;
+}

@@ -4,7 +4,6 @@ Header:
   ShowcaseButton: 前往展示 →
 ConfigTypes:
   dps: DPS
-  support: 辅助
   heal: 治疗
   shield: 护盾
 UserRanks:

@@ -47,17 +47,25 @@ export function precomputeExtraActionModifiers(request: Form, context: Optimizer
   })
 }
 
-function parseBuffsFromRequest(request: Form): Array<CombatBuff> {
-  const buffs: Array<CombatBuff> = []
-  Object.values(request.combatBuffs).forEach((buff) => {
+function parseBuffsFromRequest(request: Form) {
+  const disabled = new Set<string>()
+  const enabled = new Map<string, CombatBuff>()
+  const buffs = Object.entries(request.combatBuffs)
+  buffs.forEach(([id, buff]) => {
     switch (buff.type) {
-      case CombatBuffType.ActionModifier:
-      case CombatBuffType.StatBuff:
-        buffs.push(buff)
-        break
       case CombatBuffType.Group:
-        // groups are a decorative feature, all buffs are present as first order members of request.combatBuffs
+        if (buff.disabled) {
+          buff.buffs.forEach((id) => {
+            disabled.add(id)
+            enabled.delete(id)
+          })
+        }
+        return
+      case CombatBuffType.StatBuff:
+      case CombatBuffType.ActionModifier:
+        if (disabled.has(id)) return
+        enabled.set(id, buff)
     }
   })
-  return buffs
+  return enabled.values()
 }

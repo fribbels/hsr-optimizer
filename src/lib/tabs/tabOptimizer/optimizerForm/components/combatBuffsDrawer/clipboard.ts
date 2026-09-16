@@ -129,17 +129,17 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
       && 'damageTags' in obj
       && 'elementTags' in obj
       && 'targetTag' in obj
-      && 'name' in obj
+      && 'disabled' in obj
     )
   ) return null
 
-  const { type, statKey, value, damageTags, elementTags, targetTag, name } = obj
+  const { type, statKey, value, damageTags, elementTags, targetTag, disabled } = obj
 
   if (type !== CombatBuffType.StatBuff) return null
 
-  if (typeof value !== 'number' || !isFinite(value)) return null
+  if (typeof disabled !== 'boolean') return null
 
-  if (typeof name !== 'string') return null
+  if (typeof value !== 'number' || !isFinite(value)) return null
 
   if (!Array.isArray(damageTags) || !damageTags.every(DamageTagSelect.isValidTag)) return null
 
@@ -151,8 +151,8 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
 
   return {
     type,
+    disabled,
     value,
-    name,
     elementTags,
     damageTags,
     targetTag,
@@ -169,14 +169,17 @@ function parseGroup(obj: unknown): ParsedBuffGroup | null {
       'type' in obj
       && 'name' in obj
       && 'buffs' in obj
+      && 'disabled' in obj
     )
   ) return null
 
-  const { type, name, buffs } = obj
+  const { type, name, buffs, disabled } = obj
 
   if (type !== CombatBuffType.Group) return null
 
   if (typeof name !== 'string') return null
+
+  if (typeof disabled !== 'boolean') return null
 
   if (!Array.isArray(buffs)) return null
 
@@ -191,6 +194,7 @@ function parseGroup(obj: unknown): ParsedBuffGroup | null {
     buffs: buffMap,
     group: {
       type,
+      disabled,
       name,
       buffs: Object.keys(buffMap),
     },

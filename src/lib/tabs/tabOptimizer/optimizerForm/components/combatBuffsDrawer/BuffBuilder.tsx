@@ -150,7 +150,7 @@ function validateStatBuff(
     elementTags,
     targetTag: targetTag ?? TargetTag.FullTeam,
     type: CombatBuffType.StatBuff,
-    name: '',
+    disabled: false,
   }
   console.log('adding buff', buff)
   return buff

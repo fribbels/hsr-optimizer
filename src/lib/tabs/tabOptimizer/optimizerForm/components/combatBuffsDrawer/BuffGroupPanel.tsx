@@ -121,8 +121,6 @@ function BuffGroupContent({
   t,
   toggleSelection,
 }: BuffGroupContentProps) {
-  const selectedBuffs = useCombatBuffStore((s) => s.selectedBuffs)
-
   const [previewRef, previewRect] = useResizeObserver()
   const [panelsRef, panelsRect] = useResizeObserver()
 
@@ -135,18 +133,21 @@ function BuffGroupContent({
 
   const panels = (
     <Stack gap={optimizerTabDefaultGap}>
-      {group.buffs.map((id) => (
-        <BuffPanel
-          key={id}
-          id={id}
-          t={t}
-          renameBuff={renameBuff}
-          removeBuff={removeBuff}
-          buff={buffs.get(id)!}
-          toggleSelection={toggleSelection}
-          checked={selectedBuffs.has(id)}
-        />
-      ))}
+      {group.buffs.map((id) => {
+        const buff = buffs.get(id)!
+        return (
+          <BuffPanel
+            key={id}
+            id={id}
+            t={t}
+            renameBuff={renameBuff}
+            removeBuff={removeBuff}
+            buff={buff}
+            toggleSelection={toggleSelection}
+            checked={!buff.disabled}
+          />
+        )
+      })}
     </Stack>
   )
 

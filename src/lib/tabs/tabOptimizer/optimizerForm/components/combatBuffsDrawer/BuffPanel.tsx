@@ -7,7 +7,6 @@ import {
   Group,
   HoverCard,
   Stack,
-  TextInput,
 } from '@mantine/core'
 import {
   IconCopy,
@@ -15,7 +14,6 @@ import {
 } from '@tabler/icons-react'
 import { type TFunction } from 'i18next'
 import { labelToString } from 'lib/characterPreview/buffsAnalysis/buffUtils'
-import { Message } from 'lib/interactions/message'
 import { getAKeyConfig } from 'lib/optimization/engine/config/keys'
 import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
 import { renderDamageTagPill } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/DamageTagSelect'
@@ -78,14 +76,14 @@ export const BuffPanel = memo(function BuffPanel({
         <Checkbox mt={7} checked={checked} onClick={() => toggleSelection(id)} />
       </Box>
       {panelContent}
-      <Stack gap={2}>
+      <Group gap={2}>
         <ActionIcon aria-label='Copy buff' size={30} onClick={() => writeBuffToClipboard(buff)}>
           <IconCopy />
         </ActionIcon>
         <ActionIcon aria-label='Delete buff' onClick={remove} size={30}>
           <IconTrashFilled />
         </ActionIcon>
-      </Stack>
+      </Group>
     </Group>
   )
 })
@@ -105,7 +103,6 @@ function StatBuffPanelContent({
   // TODO: refine visuals
   return (
     <Stack flex={1}>
-      <TextInput value={buff.name} onChange={(e) => renameBuff(id, e.currentTarget.value)} placeholder='name this buff?' />
       <Group>
         <span>{statLabel}</span>
         <span>{`${buff.value}${flat ? '' : '%'}`}</span>

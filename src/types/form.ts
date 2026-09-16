@@ -138,12 +138,13 @@ export interface CombatBuffGroup {
   type: CombatBuffType.Group
   name: string
   buffs: Array<string>
+  disabled: boolean
 }
 
 export type CombatBuff = Prettify<CombatStatBuff | CombatActionModifier>
 
 interface CombatBuffCommon {
-  name: string
+  disabled: boolean
 }
 export interface CombatStatBuff extends CombatBuffCommon {
   targetTag: TargetTag

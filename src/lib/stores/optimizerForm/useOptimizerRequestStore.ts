@@ -70,6 +70,7 @@ type OptimizerRequestActions = {
   updateCombatBuff: (id: string, buff: CombatBuff | CombatBuffGroup) => void,
   nameCombatBuff: (id: string, name: string) => void,
   removeCombatBuff: (id: string) => void,
+  toggleCombatBuff: (id: string) => void,
   clearCombatBuffs: () => void,
   setEnemyField: <K extends keyof EnemyConfigFields>(key: K, value: EnemyConfigFields[K]) => void,
   setStatDisplay: (display: StatDisplay) => void,
@@ -166,6 +167,18 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
       }
       return { combatBuffs: keep }
     }),
+
+  toggleCombatBuff: (id) => {
+    set((state) => ({
+      combatBuffs: {
+        ...state.combatBuffs,
+        [id]: {
+          ...state.combatBuffs[id],
+          disabled: !state.combatBuffs[id],
+        },
+      },
+    }))
+  },
 
   clearCombatBuffs: () => set({ combatBuffs: {} }),
 

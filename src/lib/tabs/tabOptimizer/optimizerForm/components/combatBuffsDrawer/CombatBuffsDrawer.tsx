@@ -18,14 +18,8 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { BuffBuilder } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffBuilder'
 import { BuffGroupPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffGroupPanel'
 import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
-import {
-  FolderIcon,
-  useCombatBuffStore,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
-import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid/optimizerGridColumns'
-import { useCallback } from 'react'
+import { useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
 import { useTranslation } from 'react-i18next'
-import { type CombatBuff } from 'types/form'
 import { useShallow } from 'zustand/react/shallow'
 
 export function CombatBuffsDrawer() {
@@ -54,64 +48,46 @@ function CombatBuffsDrawerContent() {
     addCombatBuff,
     removeCombatBuff,
     renameCombatBuff,
+    toggleCombatBuff,
   } = useOptimizerRequestStore(useShallow((s) => ({
     clearCombatBuffs: s.clearCombatBuffs,
     addCombatBuff: s.addCombatBuff,
     renameCombatBuff: s.nameCombatBuff,
     removeCombatBuff: s.removeCombatBuff,
+    toggleCombatBuff: s.toggleCombatBuff,
   })))
 
   const {
     loadBuffFromClipboard,
-    toggleBuffSelection,
-    selectedBuffs,
     buffs,
     groups,
     groupedBuffs,
-    folderIconClicked,
-    selectionState,
   } = useCombatBuffStore(
     useShallow((s) => ({
       loadBuffFromClipboard: s.loadBuffFromClipboard,
-      toggleBuffSelection: s.toggleBuffSelection,
-      selectedBuffs: s.selectedBuffs,
       buffs: s.buffs,
       groups: s.groups,
       groupedBuffs: s.groupedBuffs,
-      folderIconClicked: s.folderIconClicked,
-      selectionState: s.selectionState,
     })),
   )
-
-  const addBuff = useCallback((buff: CombatBuff) => {
-    if (selectedBuffs.size === 1) {
-      const [groupId] = selectedBuffs
-      if (groups.has(groupId)) return addCombatBuff(buff, groupId)
-    }
-    addCombatBuff(buff)
-  }, [addCombatBuff, selectedBuffs])
-
-  // TODO: implement
-  const clearSelectedBuffs = () => {}
 
   return (
     <Stack gap={defaultGap}>
       <Group>
         <Button
           flex={1}
-          onClick={selectedBuffs.size ? clearSelectedBuffs : clearCombatBuffs}
+          onClick={clearCombatBuffs}
           variant='default'
           leftSection={<IconTrash />}
         >
-          {selectedBuffs.size ? 'Clear Selected' : t('Clear')}
+          {t('Clear')}
         </Button>
-        <FolderIcon selectionState={selectionState} onClick={folderIconClicked} />
         <ActionIcon onClick={loadBuffFromClipboard}>
           <IconClipboard />
         </ActionIcon>
       </Group>
       <Stack gap={defaultGap}>
-        <BuffBuilder addBuff={addBuff} />
+        <BuffBuilder addBuff={addCombatBuff} />
         {groups.entries()
           .map(([id, group]) => (
             <BuffGroupPanel
@@ -122,8 +98,8 @@ function CombatBuffsDrawerContent() {
               removeBuff={removeCombatBuff}
               renameBuff={renameCombatBuff}
               t={tBuffPanel}
-              checked={selectedBuffs.has(id)}
-              toggleSelection={toggleBuffSelection}
+              checked={!group.disabled}
+              toggleSelection={toggleCombatBuff}
             />
           ))}
         {buffs.entries()
@@ -135,8 +111,8 @@ function CombatBuffsDrawerContent() {
               removeBuff={removeCombatBuff}
               renameBuff={renameCombatBuff}
               t={tBuffPanel}
-              checked={selectedBuffs.has(id)}
-              toggleSelection={toggleBuffSelection}
+              checked={!buff.disabled}
+              toggleSelection={toggleCombatBuff}
             />
           ))}
       </Stack>

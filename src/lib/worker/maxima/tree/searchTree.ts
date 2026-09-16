@@ -89,6 +89,9 @@ export class SearchTree {
     public mainStats: string[],
     public damageFunction: (stats: SubstatCounts) => number,
     public substatValidator: SubstatDistributionValidator,
+    // CHASE mode only: SPD has integer bounds and may be split like any other stat.
+    // Otherwise SPD is pinned and never split, even when its bounds differ (perfection raises the max to 6).
+    public spdSplittable: boolean = false,
   ) {
     this.lower = toFloat32Array(lower)
     this.upper = toFloat32Array(upper)
@@ -389,7 +392,7 @@ export class SearchTree {
     let maxStat: number | null = null
     for (let i = 0; i < this.activeStats.length; i++) {
       const statIdx = this.activeStats[i]
-      if (statIdx === SPD_INDEX) continue
+      if (statIdx === SPD_INDEX && !this.spdSplittable) continue
       const range = node.region.upper[statIdx] - node.region.lower[statIdx]
       if (range > maxRange) {
         maxRange = range
@@ -405,7 +408,7 @@ export class SearchTree {
   }
 
   public isStatSplitPossible(statIdx: number, node: ProtoTreeStatNode) {
-    if (statIdx === SPD_INDEX) return false
+    if (statIdx === SPD_INDEX && !this.spdSplittable) return false
     return node.region.upper[statIdx] - node.region.lower[statIdx] > 0
   }
 

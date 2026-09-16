@@ -18,6 +18,7 @@ import type {
 } from 'lib/simulations/statSimulationTypes'
 import { clone } from 'lib/utils/objectUtils'
 import {
+  type ComputeOptimalSimulationSearchStats,
   type ComputeOptimalSimulationWorkerInput,
   type ComputeOptimalSimulationWorkerOutput,
 } from 'lib/worker/computeOptimalSimulationWorkerRunner'
@@ -37,13 +38,14 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
 
   const context = input.context
   initializeContextConditionals(context)
-  const optimalSimulation = computeOptimalSimulationSearch(input)
+  const { simulation: optimalSimulation, searchStats } = computeOptimalSimulationSearch(input)
 
   const { x: _x, ...serializableResult } = optimalSimulation.result!
   optimalSimulation.result = serializableResult as typeof optimalSimulation.result
 
   const workerOutput: ComputeOptimalSimulationWorkerOutput = {
     simulation: optimalSimulation,
+    searchStats,
   }
 
   if (globalThis.SEQUENTIAL_BENCHMARKS) {
@@ -53,7 +55,13 @@ export function computeOptimalSimulationWorker(e: MessageEvent<ComputeOptimalSim
   self.postMessage(workerOutput)
 }
 
-function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInput) {
+type ComputeOptimalSimulationSearchResult = {
+  simulation: Simulation,
+  searchStats: ComputeOptimalSimulationSearchStats,
+}
+
+function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInput): ComputeOptimalSimulationSearchResult {
+  const startMs = performance.now()
   const {
     partialSimulationWrapper,
     inputMinSubstatRollCounts,
@@ -130,6 +138,8 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     )
   }
 
+  // speedRollsMax is only set in CHASE mode, where SPD is a real search dimension
+  const spdSplittable = partialSimulationWrapper.speedRollsMax != null
   const tree = new SearchTree(
     goal,
     minSubstatRollCounts,
@@ -137,15 +147,22 @@ function computeOptimalSimulationSearch(input: ComputeOptimalSimulationWorkerInp
     mainStats,
     damageFunction,
     substatValidator,
+    spdSplittable,
   )
 
   if (tree.root == null) {
     damageFunction(currentSimulation.request.stats, true)
-    return currentSimulation
+    return {
+      simulation: currentSimulation,
+      searchStats: { measurements: tree.measurements, dimensions: tree.dimensions, elapsedMs: performance.now() - startMs },
+    }
   }
 
   const bestPoint = toSubstatCounts(tree.search())
   damageFunction(bestPoint, true)
 
-  return currentSimulation
+  return {
+    simulation: currentSimulation,
+    searchStats: { measurements: tree.measurements, dimensions: tree.dimensions, elapsedMs: performance.now() - startMs },
+  }
 }

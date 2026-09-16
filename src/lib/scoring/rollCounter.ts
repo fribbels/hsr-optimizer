@@ -224,8 +224,8 @@ export function calculateMaxSubstatRollCounts(
     maxCounts[Stats.DEF] = Math.min(10, maxCounts[Stats.DEF])
   }
 
-  // Force speed
-  maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsDeduction
+  // Force speed, unless SPD is a search dimension (CHASE mode) with its own upper bound
+  maxCounts[Stats.SPD] = partialSimulationWrapper.speedRollsMax ?? partialSimulationWrapper.speedRollsDeduction
 
   // Force RES when equalized, capped to available budget
   if (partialSimulationWrapper.resRollsDeduction > 0) {

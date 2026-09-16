@@ -36,8 +36,15 @@ export interface ComputeOptimalSimulationWorkerInput extends BaseWorkerInput {
   configType: ScoringConfigType
 }
 
+export type ComputeOptimalSimulationSearchStats = {
+  measurements: number,
+  dimensions: number,
+  elapsedMs: number,
+}
+
 export interface ComputeOptimalSimulationWorkerOutput extends BaseWorkerOutput {
   simulation: Simulation | null
+  searchStats?: ComputeOptimalSimulationSearchStats
 }
 
 export type ComputeOptimalSimulationPhase = 'benchmark' | 'perfection'

@@ -154,7 +154,10 @@ export type BreakpointRollRequirement = {
 
 export type PartialSimulationWrapper = {
   simulation: Simulation,
+  // Minimum SPD rolls. In FIXED mode this is also the maximum, so SPD is pinned.
   speedRollsDeduction: number,
+  // Maximum SPD rolls when SPD is a search dimension (CHASE mode). Undefined pins SPD to speedRollsDeduction.
+  speedRollsMax?: number,
   resRollsDeduction: number,
   effectiveSubstats: SubStats[],
   poolIndex: number,

@@ -71,6 +71,7 @@ import { type HitDefinition } from 'types/hitConditionalTypes'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
+  SpdBenchmarkMode,
 } from 'types/metadata'
 import {
   type OptimizerAction,
@@ -527,6 +528,7 @@ const simulation = (): SimulationMetadata => ({
   hardBreakpoints: [
     { stat: Stats.SPD, threshold: 160 },
   ],
+  spdBenchmarkMode: SpdBenchmarkMode.CHASE,
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,

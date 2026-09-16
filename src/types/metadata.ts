@@ -30,6 +30,14 @@ export enum ScoringConfigType {
   SHIELD = 'shield',
 }
 
+// FIXED: benchmark builds are pinned to the user's SPD so the comparison isolates non-SPD stat quality.
+// CHASE: SPD is a search dimension. The benchmark picks its own SPD above the hard SPD breakpoint floor,
+// under the SPD diminishing-returns curve. For characters whose damage scales continuously with SPD.
+export enum SpdBenchmarkMode {
+  FIXED = 'fixed',
+  CHASE = 'chase',
+}
+
 export type BreakpointThreshold = {
   stat: SubStats,
   threshold: number,
@@ -108,6 +116,8 @@ export type SimulationMetadata = {
   leaderboardTeams?: LeaderboardTeam[],
   softBreakpoints?: BreakpointThreshold[],
   hardBreakpoints?: BreakpointThreshold[],
+  // Defaults to FIXED when omitted
+  spdBenchmarkMode?: SpdBenchmarkMode,
   buffStat?: AKeyValue,
   combatStatsConfig?: Array<{
     add?: StatsValues,

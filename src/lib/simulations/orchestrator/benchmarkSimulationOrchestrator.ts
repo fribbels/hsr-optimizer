@@ -16,6 +16,7 @@ import {
   Parts,
   Sets,
   Stats,
+  SubStats,
 } from 'lib/constants/constants'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { StatKey } from 'lib/optimization/engine/config/keys'
@@ -47,7 +48,9 @@ import {
   SCORING_CONFIG_REGISTRY,
 } from 'lib/scoring/scoringConfig'
 import type {
+  PartialSimulationWrapper,
   PoolComboState,
+  ScoringParams,
   SimulationFlags,
   SimulationScore,
 } from 'lib/scoring/simScoringUtils'
@@ -106,6 +109,7 @@ import {
   type ScoringConfig,
   type ScoringConfigType,
   type SimulationMetadata,
+  SpdBenchmarkMode,
 } from 'types/metadata'
 import type { OptimizerContext } from 'types/optimizer'
 
@@ -187,6 +191,26 @@ function calculateResRollsDeduction(
   if (resGap <= 0) return 0
   const resMaxedSubValue = StatCalculator.getMaxedSubstatValue(Stats.RES, quality)
   return Math.min(Math.max(0, resGap / resMaxedSubValue), 10)
+}
+
+// Sets the SPD roll bounds for one partial sim. FIXED mode pins SPD to the rolls needed to reach the target.
+// CHASE mode treats that as an integer floor and opens SPD up to the cap so the search can trade SPD against other stats.
+function applySpdRollBounds(
+  partialSimulationWrapper: PartialSimulationWrapper,
+  rollsToTarget: number,
+  scoringParams: ScoringParams,
+  spdChase: boolean,
+) {
+  const cap = spdRollsCap(partialSimulationWrapper.simulation, scoringParams)
+  const deduction = Math.min(Math.max(0, rollsToTarget), cap)
+  if (!spdChase) {
+    partialSimulationWrapper.speedRollsDeduction = deduction
+    return
+  }
+  const floorRolls = Math.ceil(deduction)
+  const budgetCap = scoringParams.substatGoal - (SubStats.length - 1) * scoringParams.freeRolls
+  partialSimulationWrapper.speedRollsDeduction = floorRolls
+  partialSimulationWrapper.speedRollsMax = Math.max(floorRolls, Math.min(cap, budgetCap))
 }
 
 export class BenchmarkSimulationOrchestrator {
@@ -469,6 +493,16 @@ export class BenchmarkSimulationOrchestrator {
     this.originalSim.result = this.originalSimResult
   }
 
+  // SPD is a search dimension only for opted-in characters and only when the user has not pinned a custom SPD benchmark.
+  public isSpdChase(): boolean {
+    return this.metadata.spdBenchmarkMode === SpdBenchmarkMode.CHASE && this.spdBenchmark == null
+  }
+
+  // CHASE mode floor: the hard SPD breakpoint if the character has one, else no floor.
+  public spdChaseFloor(): number {
+    return this.metadata.hardBreakpoints?.find((breakpoint) => breakpoint.stat === Stats.SPD)?.threshold ?? 0
+  }
+
   public precomputePoolState() {
     const pool = this.candidateSetPool ?? [this.simSets!]
 
@@ -526,11 +560,15 @@ export class BenchmarkSimulationOrchestrator {
     const poolComboStates = this.poolComboStates
     const defaultTargetSpd = this.benchmarkCombatSpdTarget!
     const defaultFlags = this.flags
+    const spdChase = this.isSpdChase()
+    const spdChaseFloor = this.spdChaseFloor()
 
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
-      const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
-      const flags = comboState?.flags ?? defaultFlags
+      const targetSpd = spdChase ? spdChaseFloor : (comboState?.combatSpdTarget ?? defaultTargetSpd)
+      const comboFlags = comboState?.flags ?? defaultFlags
+      // CHASE: basic SPD must not be pinned inside the search, or SPD rolls would have no effect
+      const flags: SimulationFlags = spdChase ? { ...comboFlags, benchmarkBasicSpdTarget: 0 } : comboFlags
       const zeroMainsStatResult = poolComboStates ? comboState!.zeroMainsResult : this.zeroMainsStatResult!
 
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
@@ -548,10 +586,7 @@ export class BenchmarkSimulationOrchestrator {
         3,
       )
 
-      partialSimulationWrapper.speedRollsDeduction = Math.min(
-        Math.max(0, rolls),
-        spdRollsCap(partialSimulationWrapper.simulation, clonedBenchmarkScoringParams),
-      )
+      applySpdRollBounds(partialSimulationWrapper, rolls, clonedBenchmarkScoringParams, spdChase)
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
         console.log('Rejected candidate sim with non SPD boots')
         return null
@@ -559,7 +594,14 @@ export class BenchmarkSimulationOrchestrator {
 
       partialSimulationWrapper.resRollsDeduction = calculateResRollsDeduction(simulationResult, flags, clonedBenchmarkScoringParams.quality)
 
+      const spdFloorRolls = partialSimulationWrapper.speedRollsDeduction
       if (!applyHardBreakpoints(partialSimulationWrapper, simulationResult, metadata, clonedBenchmarkScoringParams)) {
+        return null
+      }
+      // CHASE: the SPD floor is a hard requirement, not a pin the budget step may trade away.
+      // Nothing else keeps the benchmark above the breakpoint (the SPD penalty only applies to user builds).
+      if (spdChase && partialSimulationWrapper.speedRollsDeduction < spdFloorRolls) {
+        console.log('Rejected candidate sim: SPD floor does not fit with hard breakpoints')
         return null
       }
 
@@ -640,12 +682,15 @@ export class BenchmarkSimulationOrchestrator {
     const poolComboStates = this.poolComboStates
     const defaultTargetSpd = this.benchmarkCombatSpdTarget!
     const defaultFlags = this.flags
+    const spdChase = this.isSpdChase()
+    const spdChaseFloor = this.spdChaseFloor()
 
     const perfectionStartMs = performance.now()
     const runnerPromises = partialSimulationWrappers.map((partialSimulationWrapper) => {
       const comboState = poolComboStates?.[partialSimulationWrapper.poolIndex]
-      const targetSpd = comboState?.combatSpdTarget ?? defaultTargetSpd
-      const flags = comboState?.flags ?? defaultFlags
+      const targetSpd = spdChase ? spdChaseFloor : (comboState?.combatSpdTarget ?? defaultTargetSpd)
+      const comboFlags = comboState?.flags ?? defaultFlags
+      const flags: SimulationFlags = spdChase ? { ...comboFlags, benchmarkBasicSpdTarget: 0 } : comboFlags
       const zeroMainsStatResult = poolComboStates ? comboState!.zeroMainsResult : this.zeroMainsStatResult!
 
       const simulationResult = runStatSimulations([partialSimulationWrapper.simulation], form, context)[0]
@@ -654,10 +699,7 @@ export class BenchmarkSimulationOrchestrator {
       const finalSpeed = simulationResult.x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX)
       const rolls = precisionRound((targetSpd - finalSpeed) / clonedPerfectionScoringParams.speedRollValue, 3)
 
-      partialSimulationWrapper.speedRollsDeduction = Math.min(
-        Math.max(0, rolls),
-        spdRollsCap(partialSimulationWrapper.simulation, clonedPerfectionScoringParams),
-      )
+      applySpdRollBounds(partialSimulationWrapper, rolls, clonedPerfectionScoringParams, spdChase)
       if (partialSimulationWrapper.speedRollsDeduction >= 26 && partialSimulationWrapper.simulation.request.simFeet != Stats.SPD) {
         console.log('Rejected candidate sim with non SPD boots')
         return null

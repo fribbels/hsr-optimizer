@@ -12,7 +12,7 @@ _Four scoring modes are available depending on the character:_
 - **DPS Benchmark** - measures total damage output (Combo DMG)
 - **Heal Benchmark** - measures total healing output (Combo Heal)
 - **Shield Benchmark** - measures total shield value (Combo Shield)
-- **Support Benchmark** - measures buff value provided to teammates
+- **Buffer Benchmark** - measures buff value provided to teammates
 
 Scores are measured relative only to the chosen team setup and should not be used to compare across different
 configurations.
@@ -86,7 +86,7 @@ from the perfect build.
   per piece, etc)
 - An artificial diminishing returns penalty is applied to substats that exceed a threshold, to simulate the difficulty
   of obtaining multiple rolls in a single stat (see [Diminishing returns](#diminishing-returns))
-- For support / heal / shield modes, substats may also be allocated to RES to match the original character's Effect RES
+- For buffer / heal / shield modes, substats may also be allocated to RES to match the original character's Effect RES
   investment (see [RES equalization](#res-equalization))
 
 This process is repeated through all the possible main stat permutations and substat distributions until the highest
@@ -99,15 +99,15 @@ unpenalized.
 
 - **DPS stats:** `threshold = 12 - (2 * matching main stats)`, `effective = threshold + excess^0.75`
 - **DPS SPD:** `threshold = 12 - (2 * matching main stats)`, `effective = threshold + excess^0.90`
-- **Support / Heal / Shield stats:** `threshold = 6 - (1 * matching main stats)`, `effective = threshold + excess^0.75`
-- **Support / Heal / Shield SPD:** `threshold = 6 - (1 * matching main stats)`, `effective = threshold + excess^0.90`
+- **Buffer / Heal / Shield stats:** `threshold = 6 - (1 * matching main stats)`, `effective = threshold + excess^0.75`
+- **Buffer / Heal / Shield SPD:** `threshold = 6 - (1 * matching main stats)`, `effective = threshold + excess^0.90`
 
 Where `excess = rolls - threshold`.
 
 SPD uses a gentler exponent (0.90 vs 0.75) resulting in less aggressive diminishing returns, since SPD rolls are harder
 to obtain.
 
-Support modes use a lower threshold (halved base and penalty) which effectively lowers the 100% benchmark, making it
+Buffer modes use a lower threshold (halved base and penalty) which effectively lowers the 100% benchmark, making it
 easier to achieve. This was chosen because:
 
 - It helps both single-substat supports (e.g., Sunday stacking CRIT DMG) and multi-substat supports (e.g., Robin
@@ -150,7 +150,7 @@ Stats that are below their breakpoint threshold are highlighted in red in the Co
 
 ### RES equalization
 
-For support / heal / shield scoring, if a character has invested significantly in Effect RES (at least 30% above
+For buffer / heal / shield scoring, if a character has invested significantly in Effect RES (at least 30% above
 baseline), the benchmark simulations will also allocate RES rolls to match. This deducts from the
 benchmark's substat budget, so that characters building RES are scored fairly against benchmarks with equivalent
 RES investment.
@@ -163,7 +163,7 @@ RES equalization does not apply to DPS benchmarks.
 
 ### Flat substat handling
 
-DPS scoring caps flat ATK / HP / DEF substats at 10 rolls in the benchmark simulation. Support / heal / shield modes
+DPS scoring caps flat ATK / HP / DEF substats at 10 rolls in the benchmark simulation. Buffer / heal / shield modes
 do not apply this cap, because flat stats can be the primary scaling stat for certain characters (e.g., flat ATK for
 Robin's buff, flat DEF for Gepard's shield).
 
@@ -304,11 +304,11 @@ builds and see where to improve.
 An often underestimated component of the build is completed BiS set effects. Set effects can play a large part in
 optimizing a character's potential output and rainbow or broken sets will often score worse than full sets.
 
-### Why are support scores sometimes higher or lower than expected?
+### Why are buffer scores sometimes higher or lower than expected?
 
-Support / heal / shield modes use a lower diminishing returns threshold (`6 - (1 * main stats)` vs `12 - (2 * main
+Buffer / heal / shield modes use a lower diminishing returns threshold (`6 - (1 * main stats)` vs `12 - (2 * main
 stats)` for DPS), which lowers the 100% benchmark. This makes scores slightly easier to achieve, reflecting the smaller
 number of substats that support characters typically optimize for.
 
-Additionally, support modes apply [RES equalization](#res-equalization) - if your character has high Effect RES, the
+Additionally, buffer modes apply [RES equalization](#res-equalization) - if your character has high Effect RES, the
 benchmark must also invest in RES rolls, which can change the scoring range.

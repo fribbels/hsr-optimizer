@@ -101,13 +101,11 @@ CharacterPreview:
   ScoreHeader:
     CustomSpeed: '{{spd}}速基准'
     dps: DPS 基准
-    buffer: 辅助基准
     heal: 治疗基准
     shield: 护盾基准
   AlgorithmSlider:
     Labels:
       dps: DPS 基准
-      buffer: 辅助基准
       heal: 治疗基准
       shield: 护盾基准
       StatScore: 副词条升级次数
@@ -116,12 +114,10 @@ CharacterPreview:
     Labels:
       CombatStats: 战斗属性
       CombatStatsSubDps: 战斗属性（副C）
-      CombatStatsSupport: 战斗属性（辅助）
       CombatStatsHeal: "战斗属性（治疗）\n"
       CombatStatsShield: 战斗属性（护盾）
   ScoringExplanation:
     dps: DPS 基准计算
-    buffer: 辅助基准计算
     heal: 治疗基准计算
     shield: 护盾基准计算
   DMGUpgrades: 伤害升级

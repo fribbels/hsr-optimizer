@@ -81,7 +81,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
     teammate2: defaultTeammate() as Teammate,
     resultSort: scoringMetadata?.simulation ? SortOption.COMBO.key : scoringMetadata?.sortOption.key,
     resultsLimit: 1024,
-    combatBuffs: {},
+    combatBuffs: [],
     comboType: ComboType.SIMPLE,
     combo: {
       BASIC: 0,

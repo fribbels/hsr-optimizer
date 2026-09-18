@@ -1,3 +1,4 @@
+import { useDraggable } from '@dnd-kit/react'
 import {
   ActionIcon,
   Badge,
@@ -30,6 +31,7 @@ import {
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
+import { DragHandle } from './DragHandle'
 
 interface BuffPanelContentProps {
   id: string
@@ -55,6 +57,8 @@ export const BuffPanel = memo(function BuffPanel({
 }: BuffPanelProps) {
   const remove = useCallback(() => removeBuff(id), [removeBuff, id])
 
+  const { ref, handleRef } = useDraggable({ id })
+
   const panelContent = useMemo(() => {
     switch (buff.type) {
       case CombatBuffType.StatBuff:
@@ -65,7 +69,13 @@ export const BuffPanel = memo(function BuffPanel({
   }, [buff, id])
 
   return (
-    <Group gap='xs' justify='space-between' style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}>
+    <Group
+      gap='xs'
+      justify='space-between'
+      style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
+      ref={ref}
+    >
+      <DragHandle ref={handleRef} />
       <Box
         style={{
           alignSelf: 'stretch',

@@ -1,3 +1,8 @@
+import { PointerActivationConstraints } from '@dnd-kit/dom'
+import {
+  DragDropProvider,
+  PointerSensor,
+} from '@dnd-kit/react'
 import {
   ActionIcon,
   Button,
@@ -18,8 +23,16 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { BuffBuilder } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffBuilder'
 import { BuffGroupPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffGroupPanel'
 import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
-import { useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
+import {
+  loadBuffFromClipboard,
+  useCombatBuffStore,
+} from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
+import {
+  type CombatBuff,
+  CombatBuffType,
+} from 'types/form'
 import { useShallow } from 'zustand/react/shallow'
 
 export function CombatBuffsDrawer() {
@@ -39,7 +52,15 @@ export function CombatBuffsDrawer() {
   )
 }
 
-function CombatBuffsDrawerContent() {
+const sensors = [
+  PointerSensor.configure({
+    activationConstraints: [
+      new PointerActivationConstraints.Distance({ value: 5 }),
+    ],
+  }),
+]
+
+const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
   const { t: tBuffPanel } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
 
@@ -49,27 +70,15 @@ function CombatBuffsDrawerContent() {
     removeCombatBuff,
     renameCombatBuff,
     toggleCombatBuff,
+    combatBuffs,
   } = useOptimizerRequestStore(useShallow((s) => ({
     clearCombatBuffs: s.clearCombatBuffs,
     addCombatBuff: s.addCombatBuff,
     renameCombatBuff: s.nameCombatBuff,
     removeCombatBuff: s.removeCombatBuff,
     toggleCombatBuff: s.toggleCombatBuff,
+    combatBuffs: s.combatBuffs,
   })))
-
-  const {
-    loadBuffFromClipboard,
-    buffs,
-    groups,
-    groupedBuffs,
-  } = useCombatBuffStore(
-    useShallow((s) => ({
-      loadBuffFromClipboard: s.loadBuffFromClipboard,
-      buffs: s.buffs,
-      groups: s.groups,
-      groupedBuffs: s.groupedBuffs,
-    })),
-  )
 
   return (
     <Stack gap={defaultGap}>
@@ -88,34 +97,46 @@ function CombatBuffsDrawerContent() {
       </Group>
       <Stack gap={defaultGap}>
         <BuffBuilder addBuff={addCombatBuff} />
-        {groups.entries()
-          .map(([id, group]) => (
-            <BuffGroupPanel
-              key={id}
-              id={id}
-              group={group}
-              buffs={groupedBuffs}
-              removeBuff={removeCombatBuff}
-              renameBuff={renameCombatBuff}
-              t={tBuffPanel}
-              checked={!group.disabled}
-              toggleSelection={toggleCombatBuff}
-            />
-          ))}
-        {buffs.entries()
-          .map(([id, buff]) => (
-            <BuffPanel
-              key={id}
-              id={id}
-              buff={buff}
-              removeBuff={removeCombatBuff}
-              renameBuff={renameCombatBuff}
-              t={tBuffPanel}
-              checked={!buff.disabled}
-              toggleSelection={toggleCombatBuff}
-            />
-          ))}
+        <DragDropProvider sensors={sensors}>
+          {combatBuffs
+            .map((buff) => {
+              switch (buff.type) {
+                case CombatBuffType.Group:
+                  const groupedBuffs = combatBuffs.reduce((acc, cur) => {
+                    if (buff.buffs.includes(cur.id)) acc.set(cur.id, cur as CombatBuff)
+                    return acc
+                  }, new Map<string, CombatBuff>())
+                  return (
+                    <BuffGroupPanel
+                      key={buff.id}
+                      id={buff.id}
+                      group={buff}
+                      buffs={groupedBuffs}
+                      removeBuff={removeCombatBuff}
+                      renameBuff={renameCombatBuff}
+                      t={tBuffPanel}
+                      checked={!buff.disabled}
+                      toggleSelection={toggleCombatBuff}
+                    />
+                  )
+                case CombatBuffType.StatBuff:
+                case CombatBuffType.ActionModifier:
+                  return (
+                    <BuffPanel
+                      key={buff.id}
+                      id={buff.id}
+                      buff={buff}
+                      removeBuff={removeCombatBuff}
+                      renameBuff={renameCombatBuff}
+                      t={tBuffPanel}
+                      checked={!buff.disabled}
+                      toggleSelection={toggleCombatBuff}
+                    />
+                  )
+              }
+            })}
+        </DragDropProvider>
       </Stack>
     </Stack>
   )
-}
+})

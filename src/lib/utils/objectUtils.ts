@@ -70,3 +70,7 @@ export function omit<T extends Record<string, unknown>>(obj: T, key: string): T 
 export function setOrOmit<T>(record: Record<string, T>, key: string, value: T | undefined): Record<string, T> {
   return value ? { ...record, [key]: value } : omit(record, key)
 }
+
+export function entries<K extends string | number | symbol, V>(obj: Record<K, V>) {
+  return Object.entries(obj) as Array<[K, V]>
+}

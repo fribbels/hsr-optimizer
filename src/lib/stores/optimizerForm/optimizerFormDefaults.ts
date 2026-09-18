@@ -152,7 +152,7 @@ export function createDefaultFormState(): OptimizerRequestState {
     memoDisplay: DEFAULT_MEMO_DISPLAY,
 
     // Combat buffs
-    combatBuffs: {},
+    combatBuffs: [],
 
     // Team set contribution
     teamRelicSet: undefined,

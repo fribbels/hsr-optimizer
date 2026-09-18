@@ -20,6 +20,7 @@ import {
   type CombatBuffStoreState,
   useCombatBuffStore,
 } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
+import { uuid } from 'lib/utils/miscUtils'
 import {
   type CombatBuff,
   CombatBuffType,
@@ -151,6 +152,7 @@ function validateStatBuff(
     targetTag: targetTag ?? TargetTag.FullTeam,
     type: CombatBuffType.StatBuff,
     disabled: false,
+    id: uuid(),
   }
   console.log('adding buff', buff)
   return buff

@@ -114,7 +114,7 @@ type OptimizerRequestActions = {
 
 type OptimizerRequestStore = OptimizerRequestState & OptimizerRequestActions
 
-export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStore>((set) => ({
+export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStore>((set, get) => ({
   ...createDefaultFormState(),
 
   // ---- Simple setters (Task 8) ----
@@ -131,12 +131,14 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
 
   addCombatBuff: (buff: CombatBuff | CombatBuffGroup, groupId?: string) => {
     set((state) => {
-      const id = uuid()
-      let combatBuffs = { ...state.combatBuffs, [id]: buff }
+      let combatBuffs = [...state.combatBuffs, buff]
       if (groupId) {
-        const group = combatBuffs[groupId]
-        if (group.type !== CombatBuffType.Group) return { combatBuffs }
-        combatBuffs = { ...combatBuffs, [groupId]: { ...group, buffs: [...group.buffs, id] } }
+        const group = combatBuffs.find((b) => b.id === groupId)
+        if (!group || group.type !== CombatBuffType.Group) return { combatBuffs }
+        combatBuffs = combatBuffs.map((b) => {
+          if (b.id !== groupId || b.type !== CombatBuffType.Group) return b
+          return { ...b, buffs: [...b.buffs, buff.id] }
+        })
       }
       return { combatBuffs }
     })
@@ -145,42 +147,50 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
 
   updateCombatBuff: (id, buff) => {
     set((state) => {
-      return { combatBuffs: { ...state.combatBuffs, [id]: buff } }
+      return {
+        combatBuffs: state.combatBuffs.map((b) => {
+          if (b.id !== id) return b
+          return buff
+        }),
+      }
     })
     SaveState.delayedSave()
   },
 
   nameCombatBuff: (id, name) => {
     set((state) => {
-      return { combatBuffs: { ...state.combatBuffs, [id]: { ...state.combatBuffs[id], name } } }
+      return {
+        combatBuffs: state.combatBuffs.map((b) => {
+          if (b.id !== id) return b
+          return { ...b, name }
+        }),
+      }
     })
     SaveState.delayedSave()
   },
 
   removeCombatBuff: (id) =>
     set((state) => {
-      let { [id]: remove, ...keep } = state.combatBuffs
-      for (const buffId in keep) {
-        if (keep[buffId].type === CombatBuffType.Group && keep[buffId].buffs.includes(id)) {
-          keep = { ...keep, [buffId]: { ...keep[buffId], buffs: keep[buffId].buffs.filter((buffId) => buffId !== id) } }
-        }
-      }
-      return { combatBuffs: keep }
+      let combatBuffs = state.combatBuffs.filter((b) => b.id !== id)
+      combatBuffs.forEach((b) => {
+        if (b.type !== CombatBuffType.Group) return
+        b.buffs = b.buffs.filter((buffId) => buffId !== id)
+      })
+      return { combatBuffs }
     }),
 
   toggleCombatBuff: (id) => {
-    set((state) => ({
-      combatBuffs: {
-        ...state.combatBuffs,
-        [id]: {
-          ...state.combatBuffs[id],
-          disabled: !state.combatBuffs[id],
-        },
-      },
-    }))
+    set((state) => {
+      return {
+        combatBuffs: state.combatBuffs.map((b) => {
+          if (b.id !== id) return b
+          return { ...b, disabled: !b.disabled }
+        }),
+      }
+    })
   },
 
-  clearCombatBuffs: () => set({ combatBuffs: {} }),
+  clearCombatBuffs: () => set({ combatBuffs: [] }),
 
   setEnemyField: (key, value) => set({ [key]: value }),
 

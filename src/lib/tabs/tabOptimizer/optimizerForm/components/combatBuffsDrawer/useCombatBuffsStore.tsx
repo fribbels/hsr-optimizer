@@ -18,9 +18,6 @@ import {
 export interface CombatBuffStoreState {
   // general purpose values
   buffBuilderMode: Exclude<CombatBuffType, CombatBuffType.Group>
-  buffs: Map<string, CombatBuff>
-  groups: Map<string, CombatBuffGroup>
-  groupedBuffs: Map<string, CombatBuff>
   // stat buff builder values
   stat: CombatStatBuff['statKey'] | null
   value: CombatStatBuff['value'] | string
@@ -33,7 +30,6 @@ export interface CombatBuffStoreState {
 interface CombatBuffStoreActions {
   // general purpose methods
   setBuffBuilderMode: (mode: CombatBuffStoreState['buffBuilderMode']) => void
-  loadBuffFromClipboard: () => void
   // stat buff builder methods
   setStat: (stat: CombatBuffStoreState['stat']) => void
   setValue: (value: CombatBuffStoreState['value']) => void
@@ -45,12 +41,8 @@ interface CombatBuffStoreActions {
 type CombatBuffStore = CombatBuffStoreActions & CombatBuffStoreState
 
 function initialStoreState(): CombatBuffStoreState {
-  const { buffs, groups, groupedBuffs } = deriveBuffStateFromOptimizerRequestState(useOptimizerRequestStore.getState())
   return {
     buffBuilderMode: CombatBuffType.StatBuff,
-    buffs,
-    groups,
-    groupedBuffs,
     stat: null,
     value: 0,
     damageTags: [],
@@ -59,11 +51,10 @@ function initialStoreState(): CombatBuffStoreState {
   }
 }
 
-export const useCombatBuffStore = create<CombatBuffStore>()((set, get) => ({
+export const useCombatBuffStore = create<CombatBuffStore>()((set) => ({
   ...initialStoreState(),
   // general methods
   setBuffBuilderMode: (mode) => set({ buffBuilderMode: mode }),
-  loadBuffFromClipboard: () => loadBuffFromClipboard(set),
   // stat buff builder
   setStat(stat) {
     if (stat !== null && !isHitAKey(stat)) {
@@ -77,7 +68,7 @@ export const useCombatBuffStore = create<CombatBuffStore>()((set, get) => ({
   // action modifier builder
 }))
 
-async function loadBuffFromClipboard(set: { (partial: Partial<CombatBuffStore>): void }) {
+export async function loadBuffFromClipboard() {
   const buff = await readBuffFromClipboard()
   switch (buff) {
     // TODO: Error messages
@@ -92,51 +83,17 @@ async function loadBuffFromClipboard(set: { (partial: Partial<CombatBuffStore>):
       switch (buff.type) {
         case CombatBuffType.StatBuff: {
           const { statKey: stat, value, damageTags, targetTag } = buff
-          return set({ stat, value, damageTags, targetTag, buffBuilderMode: CombatBuffType.StatBuff })
+          return useCombatBuffStore.setState({ stat, value, damageTags, targetTag, buffBuilderMode: CombatBuffType.StatBuff })
         }
         case CombatBuffType.Group: {
           const { buffs, group } = buff
-          const combatBuffs = {
+          const combatBuffs = [
             ...useOptimizerRequestStore.getState().combatBuffs,
+            group,
             ...buffs,
-            [uuid()]: group,
-          }
+          ]
           useOptimizerRequestStore.setState({ combatBuffs })
         }
       }
   }
-}
-
-useOptimizerRequestStore.subscribe((state, prev) => {
-  if (state.combatBuffs === prev.combatBuffs) return
-
-  // sub because need metadata on buffs to enable selection state handling
-  // CombatBuffsDrawer uses this store's values rather than those in useOptimizerRequestStore
-  const { buffs, groups, groupedBuffs } = deriveBuffStateFromOptimizerRequestState(state)
-
-  useCombatBuffStore.setState({ buffs, groups, groupedBuffs })
-})
-
-function deriveBuffStateFromOptimizerRequestState(state: OptimizerRequestState) {
-  const buffs: CombatBuffStoreState['buffs'] = new Map()
-  const groups: CombatBuffStoreState['groups'] = new Map()
-  const grouped = new Set<string>()
-
-  Object.entries(state.combatBuffs).forEach(([id, buff]) => {
-    if (buff.type === CombatBuffType.Group) {
-      groups.set(id, buff)
-      buff.buffs.forEach((buffId) => {
-        grouped.add(buffId)
-        buffs.delete(buffId)
-      })
-    } else {
-      if (!grouped.has(id)) buffs.set(id, buff)
-    }
-  })
-  const groupedBuffs: CombatBuffStoreState['groupedBuffs'] = new Map(
-    grouped
-      .values()
-      .map((id) => [id, state.combatBuffs[id] as CombatBuff]),
-  )
-  return { buffs, groups, groupedBuffs }
 }

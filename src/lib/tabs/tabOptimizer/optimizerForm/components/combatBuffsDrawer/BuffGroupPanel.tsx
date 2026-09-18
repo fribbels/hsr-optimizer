@@ -1,3 +1,4 @@
+import { useDraggable } from '@dnd-kit/react'
 import {
   ActionIcon,
   Box,
@@ -28,6 +29,7 @@ import {
   type CombatStatBuff,
 } from 'types/form'
 import { optimizerTabDefaultGap } from '../../grid/optimizerGridColumns'
+import { DragHandle } from './DragHandle'
 
 interface BuffGroupPanelProps {
   id: string
@@ -52,29 +54,35 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
   const remove = useCallback(() => removeBuff(id), [removeBuff, id])
   const copyClicked = useCallback(() => writeBuffToClipboard(group, buffs), [group])
   const [isOpen, { toggle }] = useDisclosure(false)
+  const { ref, handleRef } = useDraggable({ id })
   return (
     <Group
       gap='xs'
       justify='space-between'
       style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
+      ref={ref}
     >
       <Box
         onClick={toggle}
         style={{
           alignSelf: 'stretch',
           display: 'flex',
-          alignItems: 'flex-start',
           cursor: 'pointer',
         }}
       >
-        <Checkbox
-          mt={7}
-          checked={checked}
-          onClick={(e) => {
-            e.stopPropagation()
-            toggleSelection(id)
-          }}
-        />
+        <Group gap='xs'>
+          <DragHandle
+            ref={handleRef}
+            onClick={toggle}
+          />
+          <Checkbox
+            checked={checked}
+            onClick={(e) => {
+              e.stopPropagation()
+              toggleSelection(id)
+            }}
+          />
+        </Group>
       </Box>
       <Stack flex={1}>
         <TextInput value={group.name} onChange={(e) => renameBuff(id, e.currentTarget.value)} placeholder='name this group?' />

@@ -1,6 +1,7 @@
 import { AKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { uuid } from 'lib/utils/miscUtils'
+import { entries } from 'lib/utils/objectUtils'
 import {
   type CombatBuff,
   CombatBuffType,
@@ -15,16 +16,11 @@ export function migrateCombatBuffs(saveData: HsrOptimizerSaveFormat) {
   saveData.characters.forEach((character) => {
     if (saveData.completedMigrations?.[MIGRATION_KEY] === MIGRATION_VALUE) return
 
-    const newBuffs: Record<string, CombatBuff> = {}
-    ;(Object.entries(character.form.combatBuffs as unknown as OldCombatBuffs) as Array<[keyof OldCombatBuffs, OldCombatBuffs[keyof OldCombatBuffs]]>)
-      .map(([key, value]) => {
-        if (!value) return
-
-        const migratedEntry = migrateBuffEntry(key, value)
-        if (!migratedEntry) return
-
-        newBuffs[uuid()] = migratedEntry
-      })
+    const newBuffs: Array<CombatBuff> = []
+    entries(character.form.combatBuffs as unknown as OldCombatBuffs).forEach((entry) => {
+      const migratedEntry = migrateBuffEntry(...entry)
+      if (migratedEntry) newBuffs.push(migratedEntry)
+    })
     character.form = { ...character.form, combatBuffs: newBuffs }
   })
   if (saveData.completedMigrations) {
@@ -62,9 +58,11 @@ function migrateBuffEntry<K extends keyof OldCombatBuffs>(key: K, value: OldComb
       statKey: AKey[key],
       value: value * valueMultiplier,
       type: CombatBuffType.StatBuff,
-      name: '',
+      id: uuid(),
       targetTag: TargetTag.FullTeam,
       damageTags: [],
+      elementTags: [],
+      disabled: false,
     }
   }
 }

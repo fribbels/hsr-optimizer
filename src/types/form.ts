@@ -100,7 +100,7 @@ export type Form =
 
     weights: ScoringMetadata['stats'],
 
-    combatBuffs: Record<string, CombatBuff | CombatBuffGroup>,
+    combatBuffs: Array<CombatBuff | CombatBuffGroup>,
 
     // Optimizer additional data
     statSim?: {
@@ -134,18 +134,25 @@ export type Form =
   & StatFilters
   & RatingFilters
 
-export interface CombatBuffGroup {
+interface CombatBuffCommon {
+  disabled: boolean
+  id: string
+}
+
+export enum CombatBuffType {
+  StatBuff,
+  ActionModifier,
+  Group,
+}
+
+export interface CombatBuffGroup extends CombatBuffCommon {
   type: CombatBuffType.Group
   name: string
   buffs: Array<string>
-  disabled: boolean
 }
 
 export type CombatBuff = Prettify<CombatStatBuff | CombatActionModifier>
 
-interface CombatBuffCommon {
-  disabled: boolean
-}
 export interface CombatStatBuff extends CombatBuffCommon {
   targetTag: TargetTag
   damageTags: DamageTag[]
@@ -158,12 +165,6 @@ export interface CombatStatBuff extends CombatBuffCommon {
 export interface CombatActionModifier extends CombatBuffCommon {
   // modify(action: OptimizerAction, context: OptimizerContext): void
   type: CombatBuffType.ActionModifier
-}
-
-export enum CombatBuffType {
-  StatBuff,
-  ActionModifier,
-  Group,
 }
 
 export type RelicSetFilters = Array<[pieces: string] | [pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>

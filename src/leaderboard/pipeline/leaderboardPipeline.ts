@@ -1,6 +1,4 @@
 import { LeaderboardBuildScoreCache } from 'leaderboard/cache/leaderboardBuildScoreCache'
-import { computeTimelineUpdate } from 'leaderboard/timeline/computeTimeline'
-import { deriveTimelinePath, deriveSnapshotPath, writeTimelineArtifacts } from 'leaderboard/timeline/timelineStorage'
 import { parseExport } from 'leaderboard/ingest/exportParser'
 import { preFilterProfiles } from 'leaderboard/ingest/preFilter'
 import {
@@ -8,12 +6,9 @@ import {
   diffProfilePayloads,
 } from 'leaderboard/ingest/profileDiff'
 import {
-  findLatestServerExport,
-  type LeaderboardExportInput,
-} from 'leaderboard/shared/exportResolution'
-import {
   assertPrivateOutputPublishable,
   buildPrivateRankedOutput,
+  readPrivateRankedOutput,
   readProfilePayloadIndex,
   writePrivateRankedOutput,
 } from 'leaderboard/output/privateOutput'
@@ -22,6 +17,14 @@ import {
   validateNoUidInPublicOutput,
   writePublicLeaderboardOutput,
 } from 'leaderboard/output/publicOutput'
+import {
+  mergeCharacterRefresh,
+  mergePublicCharacterRefresh,
+  readCharacterRefreshHistory,
+  REFRESH_NO_WORK,
+  selectOldestCharacter,
+  writeCharacterRefreshHistory,
+} from 'leaderboard/pipeline/characterRefresh'
 import {
   printLeaderboardResults,
   printRunSummary,
@@ -32,16 +35,30 @@ import {
   type RunScoringStageResult,
 } from 'leaderboard/pipeline/scoringStage'
 import type { LeaderboardCliOptions } from 'leaderboard/shared/cliOptions'
+import {
+  findLatestServerExport,
+  type LeaderboardExportInput,
+} from 'leaderboard/shared/exportResolution'
 import { hashObject } from 'leaderboard/shared/hash'
-import { residentSetSizeBytes } from 'leaderboard/shared/nodeFacade'
+import {
+  readTextFile,
+  residentSetSizeBytes,
+} from 'leaderboard/shared/nodeFacade'
 import type {
   ParsedExport,
+  LeaderboardScoringProfile,
   PrivateRankedEntry,
   PrivateRankedOutput,
   ProfilePayloadIndex,
   PublicLeaderboardOutputV3,
 } from 'leaderboard/shared/types'
 import { readLeaderboardVersions } from 'leaderboard/shared/versioning'
+import { computeTimelineUpdate } from 'leaderboard/timeline/computeTimeline'
+import {
+  deriveSnapshotPath,
+  deriveTimelinePath,
+  writeTimelineArtifacts,
+} from 'leaderboard/timeline/timelineStorage'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { useScoringStore } from 'lib/stores/scoring/scoringStore'
@@ -96,9 +113,16 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     const globalVersion = versions.global
     assertScoringStoreClean(useScoringStore.getState().scoringMetadataOverrides)
 
+    const refreshHistory = readCharacterRefreshHistory(options.buildScoreCacheDbPath)
+    const characterRefreshVersions: Partial<Record<CharacterId, string>> = {}
+    for (const [id, record] of Object.entries(refreshHistory)) {
+      characterRefreshVersions[id as CharacterId] = record.cacheVersion
+    }
     const runtimeConfig = {
       buildScoreCacheDbPath: options.buildScoreCacheDbPath,
       leaderboardVersionsHash,
+      characterRefreshVersions,
+      flushAfterProfile: Boolean(options.refreshCharacter || options.refreshOldestCharacter),
     }
 
     runBuildScoreCacheMaintenance({
@@ -131,11 +155,44 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     const prefilterStartMs = performance.now()
     const preFilterResult = preFilterProfiles(parsed.profiles, topN)
     const totalCounts = preFilterResult.totalCounts
-    const profiles = preFilterResult.profiles.filter((p) => p.characters.length > 0)
+    let profiles = preFilterResult.profiles.filter((p) => p.characters.length > 0)
     const prefilterElapsedMs = performance.now() - prefilterStartMs
 
     const payloadIndex = buildProfilePayloadIndex({ profiles: parsed.profiles })
     parsed = undefined
+
+    const allowedCharacterIds = new Set<CharacterId>()
+    for (const character of Object.values(getGameMetadata().characters)) {
+      if (character.rarity !== 5) continue
+      if (!isCharacterLeaderboardEnabled(character.id)) continue
+      allowedCharacterIds.add(character.id)
+    }
+
+    const eligibleCharacterIds = [...allowedCharacterIds].filter((id) => preFilterResult.eligibleCounts.has(id))
+    let refreshCharacterId: CharacterId | undefined
+    if (options.refreshOldestCharacter) {
+      refreshCharacterId = selectOldestCharacter(eligibleCharacterIds, refreshHistory)
+    } else if (options.refreshCharacter) {
+      refreshCharacterId = eligibleCharacterIds.find((id) => id === options.refreshCharacter)
+      if (!refreshCharacterId) {
+        throw new Error(`Character ${options.refreshCharacter} has no eligible leaderboard candidates`)
+      }
+    }
+
+    if (options.refreshOldestCharacter && !refreshCharacterId) {
+      console.log(REFRESH_NO_WORK)
+      return
+    }
+
+    let previousArtifacts: PublishArtifacts | null = null
+    const refreshVersion = new Date().toISOString()
+    if (refreshCharacterId) {
+      previousArtifacts = readRefreshBaseline(privateOutputPath, publicOutputPath)
+      profiles = filterProfilesForCharacter(profiles, refreshCharacterId)
+      characterRefreshVersions[refreshCharacterId] = refreshVersion
+
+      console.log(`Refreshing character ${refreshCharacterId}; ignoring previous cached scores for this character`)
+    }
 
     const totalCandidates = profiles.reduce((n, p) => n + p.characters.length, 0)
     console.log(`Pre-filter: kept ${totalCandidates} candidates across ${profiles.length} profiles in ${(prefilterElapsedMs / 1000).toFixed(1)}s`)
@@ -167,6 +224,9 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       exportInput,
       totalCounts,
       generatedAt,
+      previousOutput: previousArtifacts?.privateOutput ?? null,
+      previousPublicOutput: previousArtifacts?.publicOutput ?? null,
+      refreshCharacterId,
     })
 
     const timelineResult = computeTimelineUpdate({
@@ -176,11 +236,8 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
       snapshotPath: deriveSnapshotPath(options.buildScoreCacheDbPath),
       timelinePath: deriveTimelinePath(publicOutputPath),
       topNPublic,
-      allowedCharacterIds: new Set(
-        Object.values(getGameMetadata().characters)
-          .filter((c) => c.rarity === 5 && isCharacterLeaderboardEnabled(c.id))
-          .map((c) => c.id),
-      ),
+      refreshCharacterId,
+      allowedCharacterIds,
     })
 
     writePublishArtifacts({
@@ -190,6 +247,11 @@ export async function runLeaderboardPipeline(options: LeaderboardCliOptions, wor
     })
 
     writeTimelineArtifacts(timelineResult)
+    if (refreshCharacterId) {
+      refreshHistory[refreshCharacterId] = { completedAt: new Date().toISOString(), cacheVersion: refreshVersion }
+      writeCharacterRefreshHistory(options.buildScoreCacheDbPath, refreshHistory)
+      console.log(`Character ${refreshCharacterId} refresh complete`)
+    }
     console.log(`Timeline: ${timelineResult.timeline.events.length} events, written to ${timelineResult.timelinePath}`)
 
     printLeaderboardResults(artifacts.privateOutput, topNPublic)
@@ -265,7 +327,34 @@ function printFailures(scoring: RunScoringStageResult): void {
   }
 }
 
+function readRefreshBaseline(privateOutputPath: string, publicOutputPath: string): PublishArtifacts {
+  const privateOutput = readPrivateRankedOutput(privateOutputPath)
+  if (!privateOutput) {
+    throw new Error('Run a normal leaderboard update before refreshing a character')
+  }
+  assertPrivateOutputPublishable(privateOutput)
+
+  const publicOutput = JSON.parse(readTextFile(publicOutputPath)) as PublicLeaderboardOutputV3
+  validateNoUidInPublicOutput(publicOutput)
+
+  return { privateOutput, publicOutput }
+}
+
+function filterProfilesForCharacter(profiles: LeaderboardScoringProfile[], characterId: CharacterId): LeaderboardScoringProfile[] {
+  const matchingProfiles: LeaderboardScoringProfile[] = []
+  for (const profile of profiles) {
+    const characters = profile.characters.filter((character) => String(character.unconverted.avatarId) === characterId)
+    if (characters.length > 0) {
+      matchingProfiles.push({ ...profile, characters })
+    }
+  }
+  return matchingProfiles
+}
+
 function buildPublishArtifacts(input: {
+  previousOutput: PrivateRankedOutput | null,
+  previousPublicOutput: PublicLeaderboardOutputV3 | null,
+  refreshCharacterId?: CharacterId,
   entries: PrivateRankedEntry[],
   versions: PrivateRankedOutput['versions'],
   topN: number,
@@ -276,7 +365,7 @@ function buildPublishArtifacts(input: {
   totalCounts: Map<string, number>,
   generatedAt: string,
 }): PublishArtifacts {
-  const privateOutput = buildPrivateRankedOutput({
+  let privateOutput = buildPrivateRankedOutput({
     entries: input.entries,
     versions: input.versions,
     sourceExport: {
@@ -291,12 +380,19 @@ function buildPublishArtifacts(input: {
 
   assertPrivateOutputPublishable(privateOutput)
 
-  const publicOutput = buildPublicOutputFromPrivate({
+  if (input.previousOutput && input.refreshCharacterId) {
+    privateOutput = mergeCharacterRefresh(input.previousOutput, privateOutput, input.refreshCharacterId)
+  }
+
+  let publicOutput = buildPublicOutputFromPrivate({
     privateOutput,
     topNPublic: input.topNPublic,
     totalCounts: input.totalCounts,
     generatedAt: input.generatedAt,
   })
+  if (input.previousPublicOutput && input.refreshCharacterId) {
+    publicOutput = mergePublicCharacterRefresh(input.previousPublicOutput, publicOutput, input.refreshCharacterId)
+  }
   validateNoUidInPublicOutput(publicOutput)
 
   return {

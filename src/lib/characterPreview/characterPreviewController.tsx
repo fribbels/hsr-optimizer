@@ -120,6 +120,7 @@ export function getPreviewRelics(
   relicsById: Partial<Record<string, Relic>>,
   buildOverride?: SavedBuild | null,
 ) {
+  let relics: RelicScoringResult[]
   let scoringResults: ScoringResults
   let displayRelics: PreviewRelics
   const scorer = source === ShowcaseSource.LEADERBOARD
@@ -134,15 +135,15 @@ export function getPreviewRelics(
       PlanarSphere: getRelic(relicsById, character, Parts.PlanarSphere, buildOverride),
       LinkRope: getRelic(relicsById, character, Parts.LinkRope, buildOverride),
     }
-    scoringResults = scorer.scoreCharacterWithRelics(character, Object.values(displayRelics))
+    relics = Object.values(displayRelics).map((relic) => scorer.getCurrentRelicScore(relic, character.id))
   } else {
     const equipped = character.equipped as unknown as PreviewRelics
     const relicsArray = Object.values(equipped)
-    scoringResults = scorer.scoreCharacterWithRelics(character, relicsArray) as ScoringResults
+    relics = relicsArray.map((relic) => scorer.getCurrentRelicScore(relic, character.id))
     displayRelics = equipped
   }
 
-  return { scoringResults, displayRelics }
+  return { relics, displayRelics }
 }
 
 function getRelic(relicsById: Partial<Record<string, Relic>>, character: Character, part: Parts, buildOverride?: SavedBuild | null): Relic | null {

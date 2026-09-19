@@ -6,6 +6,7 @@ import {
   Sets,
 } from 'lib/constants/constants'
 import {
+  BucketPotentialMode,
   InsightCharacters,
   RelicInsights,
   useRelicsTabStore,
@@ -62,6 +63,7 @@ describe('useRelicsTabStore', () => {
       expect(state().excludedRelicPotentialCharacters).toEqual([])
       expect(state().insightsMode).toBe(RelicInsights.Buckets)
       expect(state().insightsCharacters).toBe(InsightCharacters.Custom)
+      expect(state().bucketPotentialMode).toBe(BucketPotentialMode.Maximum)
       expect(state().valueColumns).toHaveLength(7)
       expect(state().filters).toEqual(emptyFilters)
     })
@@ -158,6 +160,11 @@ describe('useRelicsTabStore', () => {
       state().setInsightsCharacters(InsightCharacters.All)
       expect(state().insightsMode).toBe(RelicInsights.Top10)
       expect(state().insightsCharacters).toBe(InsightCharacters.All)
+    })
+
+    it('setBucketPotentialMode updates the bucket potential mode', () => {
+      state().setBucketPotentialMode(BucketPotentialMode.Average)
+      expect(state().bucketPotentialMode).toBe(BucketPotentialMode.Average)
     })
   })
 })

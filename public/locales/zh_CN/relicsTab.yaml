@@ -173,6 +173,9 @@ Toolbar:
     PlotAll: 显示所有角色
     PlotCustom: 显示自定义角色
     PlotOwned: 显示持有角色
+  PotentialOptions:
+    Maximum: 最大值
+    Average: 平均值
   EditRelic: 编辑遗器
   DeleteRelic:
     ButtonText: 删除遗器
@@ -184,3 +187,4 @@ RelicInsights:
   NewStats: '新添加属性：'
   UpgradedStats: '升级的属性：'
   AvgPotential: '平均潜力： '
+  MaxPotential: '最大潜力： '

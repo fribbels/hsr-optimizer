@@ -33,7 +33,10 @@ const teammateRelicSets = [
   Sets.SacerdosRelivedOrdeal,
   Sets.WarriorGoddessOfSunAndThunder,
   Sets.WorldRemakingDeliverer,
+  Sets.SelfEnshroudedRecluse,
   Sets.DivinerOfDistantReach,
+  Sets.DivineQueryingMasterSmith,
+  Sets.DreamlitActor,
 ]
 const teammateOrnamentSets = [
   Sets.BrokenKeel,
@@ -41,6 +44,7 @@ const teammateOrnamentSets = [
   Sets.PenaconyLandOfTheDreams,
   Sets.LushakaTheSunkenSeas,
   Sets.AmphoreusTheEternalLand,
+  Sets.CityOfConvergingStars,
 ]
 
 // Find 4 piece relic sets and 2 piece ornament sets

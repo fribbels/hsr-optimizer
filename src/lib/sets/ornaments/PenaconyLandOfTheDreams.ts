@@ -56,7 +56,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      ornament2p(*p_sets, SET_PenaconyLandOfTheDreams) >= 1
+      ornament2p(*p_sets, SET_PenaconyLandOfTheDreams)
       && setConditionals.enabledPenaconyLandOfTheDreams == true
     ) {
       ${buff.action(AKey.BOOST, 0.10).targets(TargetTag.Memosprite).wgsl(action, 2)}

@@ -10,10 +10,7 @@ import {
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   type BasicStatsArray,
   WgslStatName,
@@ -22,6 +19,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   ornament2p,
   SetKeys,
@@ -57,7 +55,7 @@ const TaliaKingdomOfBanditryConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.BE],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.TaliaKingdomOfBanditry, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 145
+    return ornament2p(SetKeys.TaliaKingdomOfBanditry, x.c.setMatches) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 145
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.BE, 0.20, action, context, x.source(Source.TaliaKingdomOfBanditry))
@@ -71,12 +69,12 @@ const TaliaKingdomOfBanditryConditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_TaliaKingdomOfBanditry) >= 1 &&
+  ornament2p(*p_sets, SET_TaliaKingdomOfBanditry) &&
   (*p_state).TaliaKingdomOfBanditryConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 145.0
 ) {
   (*p_state).TaliaKingdomOfBanditryConditional${action.actionIdentifier} = 1.0;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, config)} += 0.20;
+  ${buff.action(StatKey.BE, 0.20).wgsl(action)}
 }
     `,
     )

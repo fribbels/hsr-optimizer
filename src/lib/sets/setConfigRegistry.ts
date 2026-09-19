@@ -51,6 +51,7 @@ import { BandOfSizzlingThunder } from 'lib/sets/relics/BandOfSizzlingThunder'
 import { ChampionOfStreetwiseBoxing } from 'lib/sets/relics/ChampionOfStreetwiseBoxing'
 import { DivineQueryingMasterSmith } from 'lib/sets/relics/DivineQueryingMasterSmith'
 import { DivinerOfDistantReach } from 'lib/sets/relics/DivinerOfDistantReach'
+import { DreamlitActor } from 'lib/sets/relics/DreamlitActor'
 import { EagleOfTwilightLine } from 'lib/sets/relics/EagleOfTwilightLine'
 import { EverGloriousMagicalGirl } from 'lib/sets/relics/EverGloriousMagicalGirl'
 import { FiresmithOfLavaForging } from 'lib/sets/relics/FiresmithOfLavaForging'
@@ -71,6 +72,7 @@ import { SacerdosRelivedOrdeal } from 'lib/sets/relics/SacerdosRelivedOrdeal'
 import { ScholarLostInErudition } from 'lib/sets/relics/ScholarLostInErudition'
 import { SelfEnshroudedRecluse } from 'lib/sets/relics/SelfEnshroudedRecluse'
 import { TheAshblazingGrandDuke } from 'lib/sets/relics/TheAshblazingGrandDuke'
+import { TheEdaciousHeretic } from 'lib/sets/relics/TheEdaciousHeretic'
 import { TheWindSoaringValorous } from 'lib/sets/relics/TheWindSoaringValorous'
 import { ThiefOfShootingMeteor } from 'lib/sets/relics/ThiefOfShootingMeteor'
 import { WarriorGoddessOfSunAndThunder } from 'lib/sets/relics/WarriorGoddessOfSunAndThunder'
@@ -112,6 +114,8 @@ const ALL_RELIC_CONFIGS = [
   DivinerOfDistantReach,
   AsNavigatorIseeSeesIt,
   DivineQueryingMasterSmith,
+  DreamlitActor,
+  TheEdaciousHeretic,
 ] as const
 
 const ALL_ORNAMENT_CONFIGS = [
@@ -144,6 +148,83 @@ const ALL_ORNAMENT_CONFIGS = [
   FallenStarAnchorage,
   CosmicLifeSciencesInstitute,
 ] as const
+
+// Dense filters have N^4 relic entries and N^2 ornament entries. The next counts
+// would require arrays of length 2^32, which JavaScript arrays cannot represent.
+export const MAX_RELIC_SET_COUNT = 255
+export const MAX_ORNAMENT_SET_COUNT = 65_535
+
+export function assertSetConfigCountCapacity(relicCount: number, ornamentCount: number): void {
+  if (relicCount > MAX_RELIC_SET_COUNT) {
+    throw new Error(`Relic set count ${relicCount} exceeds maximum ${MAX_RELIC_SET_COUNT}`)
+  }
+  if (ornamentCount > MAX_ORNAMENT_SET_COUNT) {
+    throw new Error(`Ornament set count ${ornamentCount} exceeds maximum ${MAX_ORNAMENT_SET_COUNT}`)
+  }
+}
+
+// Validates one family before any index-derived structures are constructed.
+export function assertValidSetConfigList(
+  configs: readonly SetConfig[],
+  label: string,
+  expectedSetType: SetType,
+): void {
+  const seenSetKeys = new Set<string>()
+  const seenIds = new Set<string>()
+  const seenIndices = new Set<number>()
+
+  for (const config of configs) {
+    if (config.info.setType !== expectedSetType) {
+      throw new Error(
+        `${label}: setKey '${config.setKey}' has setType '${config.info.setType}', expected '${expectedSetType}'`,
+      )
+    }
+
+    if (seenSetKeys.has(config.setKey)) {
+      throw new Error(`${label}: duplicate setKey '${config.setKey}'`)
+    }
+    seenSetKeys.add(config.setKey)
+
+    if (seenIds.has(config.id)) {
+      throw new Error(`${label}: duplicate id '${config.id}'`)
+    }
+    seenIds.add(config.id)
+
+    if (seenIndices.has(config.info.index)) {
+      throw new Error(`${label}: duplicate index ${config.info.index} (setKey '${config.setKey}')`)
+    }
+    seenIndices.add(config.info.index)
+  }
+
+  const sortedIndices = [...seenIndices].sort((a, b) => a - b)
+  for (let i = 0; i < sortedIndices.length; i++) {
+    if (sortedIndices[i] !== i) {
+      throw new Error(`${label}: indices must be exactly contiguous from 0, got [${sortedIndices.join(', ')}]`)
+    }
+  }
+}
+
+export function assertValidSetConfigRegistry(
+  relicConfigs: readonly SetConfig[],
+  ornamentConfigs: readonly SetConfig[],
+): void {
+  assertValidSetConfigList(relicConfigs, 'ALL_RELIC_CONFIGS', SetType.RELIC)
+  assertValidSetConfigList(ornamentConfigs, 'ALL_ORNAMENT_CONFIGS', SetType.ORNAMENT)
+  assertSetConfigCountCapacity(relicConfigs.length, ornamentConfigs.length)
+
+  const relicSetKeys = new Set(relicConfigs.map((config) => config.setKey))
+  const relicIds = new Set(relicConfigs.map((config) => config.id))
+  for (const config of ornamentConfigs) {
+    if (relicSetKeys.has(config.setKey)) {
+      throw new Error(`Combined set registry: duplicate setKey '${config.setKey}' across families`)
+    }
+    if (relicIds.has(config.id)) {
+      throw new Error(`Combined set registry: duplicate id '${config.id}' across families`)
+    }
+  }
+}
+
+assertValidSetConfigRegistry(ALL_RELIC_CONFIGS, ALL_ORNAMENT_CONFIGS)
 
 const ALL_CONFIGS = [...ALL_RELIC_CONFIGS, ...ALL_ORNAMENT_CONFIGS] as const
 

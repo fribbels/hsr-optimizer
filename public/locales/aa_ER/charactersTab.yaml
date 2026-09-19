@@ -26,7 +26,6 @@ CharacterMenu:
   Priority:
     Label: crwdns39626:0crwdne39626:0
     Options:
-      SortByScore: crwdns39628:0crwdne39628:0
       MoveToTop: crwdns39630:0crwdne39630:0
 SearchPlaceholder: crwdns39632:0crwdne39632:0
 GridDensityOptions:
@@ -38,7 +37,6 @@ Messages:
   NoSelectedCharacter: crwdns39644:0crwdne39644:0
   NoSelectedLightCone: crwdns47126:0crwdne47126:0
   SwitchSuccess: 'crwdns39646:0$t(gameData:Characters.{{charId}}.Name)crwdne39646:0'
-  SortByScoreWarning: crwdns39648:0crwdne39648:0
   SaveSuccess: 'crwdns39650:0{{name}}crwdne39650:0'
   UnequipWarning: 'crwdns39652:0$t(gameData:Characters.{{charId}}.Name)crwdne39652:0'
   DeleteWarning: 'crwdns39654:0$t(gameData:Characters.{{charId}}.Name)crwdne39654:0'

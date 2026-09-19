@@ -18,6 +18,7 @@ import { useScannerState } from 'lib/tabs/tabImport/ScannerWebsocketClient'
 import { RelicLocator } from 'lib/tabs/tabRelics/RelicLocator'
 import { RelicsTabController } from 'lib/tabs/tabRelics/relicsTabController'
 import {
+  BucketPotentialMode,
   InsightCharacters,
   RelicInsights,
   useRelicsTabStore,
@@ -35,13 +36,15 @@ export function BottomToolbarLeft() {
 }
 
 export function BottomToolbarRight() {
-  const { selectedRelicsIds, insightsMode, setInsightsMode, insightsCharacters, setInsightsCharacters } = useRelicsTabStore(
+  const { selectedRelicsIds, insightsMode, setInsightsMode, insightsCharacters, setInsightsCharacters, bucketPotentialMode, setBucketPotentialMode, } = useRelicsTabStore(
     useShallow((s) => ({
       selectedRelicsIds: s.selectedRelicsIds,
       insightsMode: s.insightsMode,
       setInsightsMode: s.setInsightsMode,
       insightsCharacters: s.insightsCharacters,
       setInsightsCharacters: s.setInsightsCharacters,
+      bucketPotentialMode: s.bucketPotentialMode,
+      setBucketPotentialMode: s.setBucketPotentialMode,
     })),
   )
 
@@ -59,6 +62,11 @@ export function BottomToolbarRight() {
     { value: String(InsightCharacters.All), label: t('PlotOptions.PlotAll') },
     { value: String(InsightCharacters.Custom), label: t('PlotOptions.PlotCustom') },
     { value: String(InsightCharacters.Owned), label: t('PlotOptions.PlotOwned') },
+  ], [t])
+
+  const potentialOptions = useMemo(() => [
+    { value: BucketPotentialMode.Maximum, label: t('PotentialOptions.Maximum') },
+    { value: BucketPotentialMode.Average, label: t('PotentialOptions.Average') },
   ], [t])
 
   return (
@@ -103,6 +111,17 @@ export function BottomToolbarRight() {
         >
           {t('EditRelic')}
         </Button>
+        {/* This setting only changes portrait placement in the Buckets chart. */}
+        {insightsMode === RelicInsights.Buckets && (
+          <SegmentedControl
+            size='xs'
+            value={bucketPotentialMode}
+            onChange={setBucketPotentialMode}
+            data={potentialOptions}
+            styles={{ label: { height: 22 } }}
+            style={{ width: 160 }}
+          />
+        )}
       </Group>
 
       <Group gap={5}>

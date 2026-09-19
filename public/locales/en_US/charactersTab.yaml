@@ -26,7 +26,6 @@ CharacterMenu:
   Priority:
     Label: Priority
     Options:
-      SortByScore: Sort all characters by score
       MoveToTop: Move character to top
 SearchPlaceholder: Search
 GridDensityOptions:
@@ -38,7 +37,6 @@ Messages:
   NoSelectedCharacter: No selected character
   NoSelectedLightCone: No selected light cone
   SwitchSuccess: 'Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)'
-  SortByScoreWarning: Are you sure you want to sort all characters? You will lose any custom rankings you have set.
   SaveSuccess: 'Successfully saved build: {{name}}'
   UnequipWarning: 'Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?'
   DeleteWarning: 'Are you sure you want to delete $t(gameData:Characters.{{charId}}.Name)?'

@@ -284,6 +284,10 @@ Lightcones:
         text: '「遊糸」付与済み（未実装）'
         content: >-
           装備キャラの攻撃が敵に命中する時、その敵が「遊糸」状態でない場合、100%の基礎確率で敵を「遊糸」状態にする。敵が「遊糸」状態の時、感電状態と見なされる。「遊糸」状態の敵はターンが回ってくるたびに、装備キャラの攻撃力{{Multiplier}}%分の雷属性持続ダメージを受ける、1ターン継続。
+  ReforgedInHellfire:
+    Content:
+      purgatoryState:
+        text: 会心ダメバフ
   ReforgedRemembrance:
     Content:
       prophetStacks:

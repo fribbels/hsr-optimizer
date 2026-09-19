@@ -61,7 +61,7 @@ const BrokenKeelConditional: DynamicConditional = {
   dependsOn: [Stats.RES],
   chainsTo: [Stats.CD],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.BrokenKeel, x.c.sets) && x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX) >= 0.30
+    return ornament2p(SetKeys.BrokenKeel, x.c.setMatches) && x.getActionValueByIndex(StatKey.RES, SELF_ENTITY_INDEX) >= 0.30
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.10, action, context, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))
@@ -76,7 +76,7 @@ const BrokenKeelConditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_BrokenKeel) >= 1 &&
+  ornament2p(*p_sets, SET_BrokenKeel) &&
   (*p_state).BrokenKeelConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.RES, config)} >= 0.30
 ) {

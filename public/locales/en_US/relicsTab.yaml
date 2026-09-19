@@ -178,6 +178,9 @@ Toolbar:
     PlotAll: Show all characters
     PlotCustom: Show custom characters
     PlotOwned: Show owned characters
+  PotentialOptions:
+    Maximum: Maximum
+    Average: Average
   EditRelic: Edit relic
   DeleteRelic:
     ButtonText: Delete relic
@@ -189,3 +192,4 @@ RelicInsights:
   NewStats: 'New stats: '
   UpgradedStats: 'Upgraded stats: '
   AvgPotential: 'Average potential: '
+  MaxPotential: 'Maximum potential: '

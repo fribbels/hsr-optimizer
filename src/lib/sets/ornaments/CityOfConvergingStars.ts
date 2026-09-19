@@ -64,7 +64,7 @@ const conditionals: SetConditionals = {
     },
   }],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (ornament2p(*p_sets, SET_CityOfConvergingStars) >= 1) {
+    if (ornament2p(*p_sets, SET_CityOfConvergingStars)) {
       if (setConditionals.valueCityOfConvergingStars == 1 || setConditionals.valueCityOfConvergingStars == 3) {
         ${buff.action(AKey.ATK_P, 0.24).wgsl(action, 2)}
       }

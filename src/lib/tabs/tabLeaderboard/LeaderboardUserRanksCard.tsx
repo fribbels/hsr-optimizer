@@ -1,4 +1,3 @@
-import { LeaderboardConfigType } from 'leaderboard/shared/configTypeMapping'
 import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import { Assets } from 'lib/rendering/assets'
 import { loadCharacterData } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
@@ -11,6 +10,7 @@ import {
 } from 'lib/tabs/tabLeaderboard/leaderboardUidLookup'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
+import { percentageToLocaleString } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
 import { validateUuid } from 'lib/utils/miscUtils'
 import {
@@ -19,13 +19,6 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
-
-const CONFIG_LABELS: Record<LeaderboardConfigType, string> = {
-  [LeaderboardConfigType.DPS]: 'DPS',
-  [LeaderboardConfigType.SUPPORT]: 'Support',
-  [LeaderboardConfigType.HEAL]: 'Heal',
-  [LeaderboardConfigType.SHIELD]: 'Shield',
-}
 
 enum UserRanksStatus {
   NO_UID = 'NO_UID',
@@ -50,19 +43,13 @@ function selectRank(rank: UserLeaderboardRank) {
   })
 }
 
-function statusMessage(state: UserRanksState): string | null {
-  switch (state.status) {
-    case UserRanksStatus.NO_UID:
-      return 'No saved UID found.'
-    case UserRanksStatus.INVALID_UID:
-      return 'The saved UID is invalid.'
-    case UserRanksStatus.LOADING:
-      return 'Finding your leaderboard ranks...'
-    case UserRanksStatus.UNAVAILABLE:
-      return 'Ranks are temporarily unavailable.'
-    case UserRanksStatus.READY:
-      return null
-  }
+type StatusKey = 'NoUid' | 'InvalidUid' | 'Loading' | 'Unavailable'
+
+const STATUS_MESSAGE_KEYS: Partial<Record<UserRanksStatus, StatusKey>> = {
+  [UserRanksStatus.NO_UID]: 'NoUid',
+  [UserRanksStatus.INVALID_UID]: 'InvalidUid',
+  [UserRanksStatus.LOADING]: 'Loading',
+  [UserRanksStatus.UNAVAILABLE]: 'Unavailable',
 }
 
 export function LeaderboardUserRanksCard() {
@@ -73,6 +60,8 @@ export function LeaderboardUserRanksCard() {
   })))
   const [state, setState] = useState<UserRanksState>({ status: UserRanksStatus.LOADING })
   const { t: tGame } = useTranslation('gameData')
+  const { t } = useTranslation('leaderboardTab', { keyPrefix: 'UserRanks' })
+  const { t: tConfig } = useTranslation('leaderboardTab', { keyPrefix: 'ConfigTypes' })
 
   useEffect(() => {
     if (!scorerId) {
@@ -118,52 +107,52 @@ export function LeaderboardUserRanksCard() {
 
   if (state.status === UserRanksStatus.READY && state.ranks.length === 0) return null
 
-  const message = statusMessage(state)
+  const messageKey = STATUS_MESSAGE_KEYS[state.status]
 
   return (
     <div className={`${classes.glassPanel} ${classes.userRanksPanel}`}>
       <div className={classes.rankContainer}>
-      <div className={classes.rankHeaderRow}>
-        <span className={classes.feedHeader}>Your Aeons</span>
-      </div>
-
-      {message && <div className={classes.rankState}>{message}</div>}
-
-      {state.status === UserRanksStatus.READY && state.ranks.length > 0 && (
-        <div className={classes.rankGrid}>
-          {state.ranks.map((rank) => {
-            const nameKey = rank.characterId.startsWith('80') ? 'LongName' : 'Name'
-            const name = tGame(`Characters.${rank.characterId}.${nameKey}`)
-            const isTeamRank = rank.teamId !== LEADERBOARD_FILTER_ALL
-
-            return (
-              <button
-                type='button'
-                key={`${rank.characterId}#${rank.configType}`}
-                className={classes.rankRow}
-                onClick={() => selectRank(rank)}
-              >
-                <span
-                  className={classes.rankNumber}
-                  title={isTeamRank ? 'Best team rank' : undefined}
-                  aria-label={isTeamRank ? `Team rank ${rank.rank}` : `All teams rank ${rank.rank}`}
-                >
-                  # {rank.rank}
-                  {isTeamRank && ' ᵀ'}
-                </span>
-                <img
-                  src={Assets.getCharacterAvatarById(rank.characterId)}
-                  className={classes.rankAvatar}
-                  alt=''
-                />
-                <span className={classes.rankName}>{name}</span>
-                <span className={classes.rankConfig}>{CONFIG_LABELS[rank.configType]}</span>
-                <span className={classes.rankScore}>{truncate10ths(rank.score * 100).toFixed(1)}%</span>
-              </button>
-            )
-          })}
+        <div className={classes.rankHeaderRow}>
+          <span className={classes.feedHeader}>{t('Header')}</span>
         </div>
-      )}
+
+        {messageKey && <div className={classes.rankState}>{t(`Status.${messageKey}`)}</div>}
+
+        {state.status === UserRanksStatus.READY && state.ranks.length > 0 && (
+          <div className={classes.rankGrid}>
+            {state.ranks.map((rank) => {
+              const nameKey = rank.characterId.startsWith('80') ? 'LongName' : 'Name'
+              const name = tGame(`Characters.${rank.characterId}.${nameKey}`)
+              const isTeamRank = rank.teamId !== LEADERBOARD_FILTER_ALL
+
+              return (
+                <button
+                  type='button'
+                  key={`${rank.characterId}#${rank.configType}`}
+                  className={classes.rankRow}
+                  onClick={() => selectRank(rank)}
+                >
+                  <span
+                    className={classes.rankNumber}
+                    title={isTeamRank ? t('BestTeamRank') : undefined}
+                    aria-label={isTeamRank ? t('TeamRankLabel', { rank: rank.rank }) : t('AllTeamsRankLabel', { rank: rank.rank })}
+                  >
+                    # {rank.rank}
+                    {isTeamRank && ' ᵀ'}
+                  </span>
+                  <img
+                    src={Assets.getCharacterAvatarById(rank.characterId)}
+                    className={classes.rankAvatar}
+                    alt=''
+                  />
+                  <span className={classes.rankName}>{name}</span>
+                  <span className={classes.rankConfig}>{tConfig(rank.configType)}</span>
+                  <span className={classes.rankScore}>{percentageToLocaleString(truncate10ths(rank.score * 100), 1)}</span>
+                </button>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-export default interface Resources {
+interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -139,8 +139,7 @@ export default interface Resources {
       "Priority": {
         "Label": "Priority",
         "Options": {
-          "MoveToTop": "Move character to top",
-          "SortByScore": "Sort all characters by score"
+          "MoveToTop": "Move character to top"
         }
       },
       "Scoring": {
@@ -378,7 +377,6 @@ export default interface Resources {
       "NoSelectedLightCone": "No selected light cone",
       "RemoveSuccess": "Successfully removed character",
       "SaveSuccess": "Successfully saved build: {{name}}",
-      "SortByScoreWarning": "Are you sure you want to sort all characters? You will lose any custom rankings you have set.",
       "SwitchSuccess": "Successfully switched relics with $t(gameData:Characters.{{charId}}.Name)",
       "UnequipSuccess": "Successfully unequipped character",
       "UnequipWarning": "Are you sure you want to unequip $t(gameData:Characters.{{charId}}.Name)?"
@@ -4950,6 +4948,10 @@ export default interface Resources {
         "LongName": "Yao Guang",
         "Name": "Yao Guang"
       },
+      "1503": {
+        "LongName": "Pearl",
+        "Name": "Pearl"
+      },
       "1504": {
         "LongName": "Ashveil",
         "Name": "Ashveil"
@@ -5496,6 +5498,9 @@ export default interface Resources {
       "23054": {
         "Name": "When She Decided to See"
       },
+      "23055": {
+        "Name": "Colors for Tomorrow"
+      },
       "23056": {
         "Name": "The Finale of a Lie"
       },
@@ -5717,6 +5722,16 @@ export default interface Resources {
         "Description4pc": "Increases the wearer's CRIT DMG dealt to enemy targets in the DEF reduction state by 28%. After the wearer inflicts the DEF reduction state on an enemy target, all allies gain \"Comburent\" for 2 turns. This effect cannot be stacked. The DMG dealt by ally targets with \"Comburent\" increases by 15%. This effect can be triggered again after the wearer uses an attack.",
         "Name": "Divine-Querying Master Smith"
       },
+      "133": {
+        "Description2pc": "Increases SPD by 6%.",
+        "Description4pc": "When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.",
+        "Name": "Dreamlit Actor"
+      },
+      "134": {
+        "Description2pc": "Increases ATK by 12%.",
+        "Description4pc": "Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.",
+        "Name": "The Edacious Heretic"
+      },
       "301": {
         "Description2pc": "Increases the wearer's ATK by 12%. When the wearer's SPD reaches 120 or higher, the wearer's ATK increases by an extra 12%.",
         "Name": "Space Sealing Station"
@@ -5928,7 +5943,8 @@ export default interface Resources {
       "Title": "Relic Insight",
       "p1": "When a relic is selected in the table above, you can choose an analysis to view a plot of.",
       "p2": "'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.<1/>If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.<3/>⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.",
-      "p3": "Top 10 takes the top 10 characters that this relic could be best for, and shows the range of \"% perfection\" upgrading this relic could result in."
+      "p3": "Top 10 takes the top 10 characters that this relic could be best for, and shows the range of \"% perfection\" upgrading this relic could result in.",
+      "p4": "Use the Maximum / Average toggle to switch between the best possible upgrade rolls and the projected average potential at the relic's maximum level."
     },
     "RelicLocation": {
       "Title": "Relic Location",
@@ -6175,6 +6191,63 @@ export default interface Resources {
       "Import": "Relic scanner importer",
       "Load": "Load optimizer data",
       "Save": "Save optimizer data"
+    }
+  },
+  "leaderboardTab": {
+    "Banner": {
+      "AllTeams": "All teams",
+      "LightConeModule": "Light cone",
+      "SetPieces": "{{count}}pc",
+      "SetsModule": "Sets",
+      "TeamModule": "Team",
+      "TeamRank": "Team rank"
+    },
+    "CharacterList": {
+      "Columns": {
+        "Character": "Character",
+        "Entries": "Entries",
+        "Rank": "#",
+        "TopScore": "Top %"
+      },
+      "Empty": "No matching characters",
+      "InsufficientData": "Insufficient data",
+      "SearchPlaceholder": "Search characters",
+      "TabLabel": "{{label}} ({{count}})"
+    },
+    "ConfigTypes": {
+      "dps": "DPS",
+      "heal": "Heal",
+      "shield": "Shield",
+      "support": "Support"
+    },
+    "Filters": {
+      "AllEidolons": "All",
+      "AllTeams": "All teams ({{count}})",
+      "EidolonLabel": "Eidolon",
+      "TeamLabel": "Team"
+    },
+    "Header": {
+      "ShowcaseButton": "Go to Showcase →",
+      "Subtitle": "Benchmark rankings based on Showcase tab Aeon builds, scores refreshed daily.",
+      "Title": "Leaderboards"
+    },
+    "Timeline": {
+      "DaysAgo": "{{count}}d",
+      "Header": "Global Activity",
+      "HoursAgo": "{{count}}h",
+      "New": "NEW"
+    },
+    "UserRanks": {
+      "AllTeamsRankLabel": "All teams rank {{rank}}",
+      "BestTeamRank": "Best team rank",
+      "Header": "Your Aeons",
+      "Status": {
+        "InvalidUid": "The saved UID is invalid.",
+        "Loading": "Finding your leaderboard ranks...",
+        "NoUid": "No saved UID found.",
+        "Unavailable": "Ranks are temporarily unavailable."
+      },
+      "TeamRankLabel": "Team rank {{rank}}"
     }
   },
   "modals": {
@@ -7849,6 +7922,7 @@ export default interface Resources {
     },
     "RelicInsights": {
       "AvgPotential": "Average potential: ",
+      "MaxPotential": "Maximum potential: ",
       "NewStats": "New stats: ",
       "UpgradedStats": "Upgraded stats: "
     },
@@ -7870,6 +7944,10 @@ export default interface Resources {
         "PlotAll": "Show all characters",
         "PlotCustom": "Show custom characters",
         "PlotOwned": "Show owned characters"
+      },
+      "PotentialOptions": {
+        "Average": "Average",
+        "Maximum": "Maximum"
       },
       "RelicLocator": {
         "Filter": "Auto filter rows",
@@ -7936,6 +8014,7 @@ export default interface Resources {
     "Tools": {
       "Benchmarks": "Benchmarks",
       "Calculators": "Calculators",
+      "Leaderboards": "Leaderboards",
       "Showcase": "Showcase",
       "Title": "Tools",
       "WarpPlanner": "Warp Planner"
@@ -8024,3 +8103,5 @@ export default interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
+
+export default Resources;

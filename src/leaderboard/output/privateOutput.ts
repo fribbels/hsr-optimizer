@@ -1,3 +1,4 @@
+import { atomicWriteJsonFile } from 'leaderboard/output/atomicWrite'
 import {
   configTypeToPublic,
   type LeaderboardConfigType,
@@ -10,7 +11,6 @@ import {
   listDirectory,
   readTextFile,
   removeDirectory,
-  writeTextFile,
 } from 'leaderboard/shared/nodeFacade'
 import type {
   PrivateBoard,
@@ -161,18 +161,21 @@ export function writePrivateRankedOutput(dir: string, output: PrivateRankedOutpu
   const boardsDir = joinPath(dir, 'boards')
   ensureDirectory(boardsDir)
 
-  writeTextFile(joinPath(dir, 'header.json'), JSON.stringify({
-    generatedAt: output.generatedAt,
-    versions: output.versions,
-    sourceExport: output.sourceExport,
-  }))
+  atomicWriteJsonFile(
+    joinPath(dir, 'header.json'),
+    JSON.stringify({
+      generatedAt: output.generatedAt,
+      versions: output.versions,
+      sourceExport: output.sourceExport,
+    }),
+  )
 
   for (const [key, board] of Object.entries(output.boards)) {
     const filename = encodeBoardKeyForFilename(key) + '.json'
-    writeTextFile(joinPath(boardsDir, filename), JSON.stringify({ key, board }))
+    atomicWriteJsonFile(joinPath(boardsDir, filename), JSON.stringify({ key, board }))
   }
 
-  writeTextFile(joinPath(dir, 'payloadIndex.json'), JSON.stringify(output.payloadIndex))
+  atomicWriteJsonFile(joinPath(dir, 'payloadIndex.json'), JSON.stringify(output.payloadIndex))
 }
 
 export function readPrivateRankedOutput(dir: string): PrivateRankedOutput | null {

@@ -1,14 +1,19 @@
 import i18next from 'i18next'
 import {
   handleTeamSelection,
-  resolveScoringType,
 } from 'lib/characterPreview/characterPreviewController'
+import {
+  resolveShowcaseScoringOrder,
+  resolveShowcaseScoringType,
+} from 'lib/characterPreview/scoring/showcaseScoringOrder'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { getDefaultForm } from 'lib/optimization/defaultForm'
 import {
-  CONFIG_FIELD_MAP,
+  CONFIG_DISPLAY_ORDER,
   configTypeForScoringType,
+  SCORING_CONFIG_REGISTRY,
 } from 'lib/scoring/scoringConfig'
 import {
   deserializeBuild,
@@ -35,7 +40,7 @@ import { setCharacter } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormA
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import { ScoringConfigType } from 'types/metadata'
+import type { ScoringConfigType } from 'types/metadata'
 import {
   type Build,
   BuildSource,
@@ -61,14 +66,31 @@ export function saveBuild(
   } else {
     const scoringMetadata = getScoringMetadata(character.id)
     const storedScoringType = useShowcaseTabStore.getState().showcasePreferences[characterId]?.scoringType
-    const effectiveScoringType = resolveScoringType(storedScoringType, scoringMetadata)
-    const configType = configTypeForScoringType(effectiveScoringType) ?? ScoringConfigType.DPS
-    const metadataField = CONFIG_FIELD_MAP[configType]
-    const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceByConfig[characterId]?.[configType]
-    const teamSelection = handleTeamSelection(character, rawTeamSelection, metadataField)
-    const simulation = scoringMetadata[metadataField]
-    const useCustom = simulation && teamSelection !== DEFAULT_TEAM
-    const teammates = useCustom ? simulation.teammates : getGameMetadata().characters[characterId]?.scoringMetadata?.[metadataField]?.teammates
+    const availableSimulationConfigs: Partial<Record<ScoringConfigType, unknown>> = {}
+    for (const configType of CONFIG_DISPLAY_ORDER) {
+      const metadataField = SCORING_CONFIG_REGISTRY[configType].metadataField
+      if (scoringMetadata[metadataField] != null) {
+        availableSimulationConfigs[configType] = scoringMetadata[metadataField]
+      }
+    }
+    const scoringOrder = resolveShowcaseScoringOrder(
+      getCharacterConfig(character.id)?.display.showcaseScoringOrder,
+      availableSimulationConfigs,
+    )
+    const effectiveScoringType = resolveShowcaseScoringType(storedScoringType, scoringOrder)
+    const configType = configTypeForScoringType(effectiveScoringType)
+
+    let teammates
+    if (configType != null) {
+      const metadataField = SCORING_CONFIG_REGISTRY[configType].metadataField
+      const rawTeamSelection = useShowcaseTabStore.getState().showcaseTeamPreferenceByConfig[characterId]?.[configType]
+      const teamSelection = handleTeamSelection(character, rawTeamSelection, metadataField)
+      const simulation = scoringMetadata[metadataField]
+      const useCustom = simulation && teamSelection !== DEFAULT_TEAM
+      teammates = useCustom
+        ? simulation.teammates
+        : getGameMetadata().characters[characterId]?.scoringMetadata?.[metadataField]?.teammates
+    }
     build = serializeFromCharacterTab(name, character, teammates, configType)
   }
 

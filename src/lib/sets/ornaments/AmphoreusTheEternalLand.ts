@@ -57,7 +57,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      ornament2p(*p_sets, SET_AmphoreusTheEternalLand) >= 1
+      ornament2p(*p_sets, SET_AmphoreusTheEternalLand)
       && setConditionals.enabledAmphoreusTheEternalLand == true
       && ${action.config.hasMemosprite}
       && ${wgslFalse(action.config.teammateSetEffects[Sets.AmphoreusTheEternalLand])}

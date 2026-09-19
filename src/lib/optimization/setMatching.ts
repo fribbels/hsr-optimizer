@@ -2,6 +2,7 @@ import {
   type SetKey,
   Sets,
 } from 'lib/constants/constants'
+import { type SetMatches } from 'lib/optimization/setMatchState'
 import {
   OrnamentSetKeyToIndex,
   RelicSetKeyToIndex,
@@ -12,16 +13,15 @@ export const SetKeys: Record<SetKey, SetKey> = Object.fromEntries(
   Object.keys(Sets).map((key) => [key, key]),
 ) as Record<SetKey, SetKey>
 
-export type SetCounts = {
-  relicMatch2: number,
-  relicMatch4: number,
-  ornamentMatch2: number,
+export function relic2p(key: SetKey, matches: SetMatches): boolean {
+  const index = RelicSetKeyToIndex[key]
+  return matches.relic2pSetA === index || matches.relic2pSetB === index
 }
 
-export function ornament2p(key: SetKey, sets: SetCounts) {
-  return (sets.ornamentMatch2 >> OrnamentSetKeyToIndex[key]) & 1
+export function relic4p(key: SetKey, matches: SetMatches): boolean {
+  return matches.relic4pSet === RelicSetKeyToIndex[key]
 }
 
-export function relic4p(key: SetKey, sets: SetCounts) {
-  return (sets.relicMatch4 >> RelicSetKeyToIndex[key]) & 1
+export function ornament2p(key: SetKey, matches: SetMatches): boolean {
+  return matches.ornament2pSet === OrnamentSetKeyToIndex[key]
 }

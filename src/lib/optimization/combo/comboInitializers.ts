@@ -199,7 +199,9 @@ function mergeTeammate(baseTeammate: ComboTeammate | null, updateTeammate: Combo
   if (!baseTeammate || !updateTeammate) return
   if (baseTeammate.metadata.characterId !== updateTeammate.metadata.characterId) return
   mergeConditionals(baseTeammate.characterConditionals, updateTeammate.characterConditionals)
-  mergeConditionals(baseTeammate.lightConeConditionals, updateTeammate.lightConeConditionals)
+  if (baseTeammate.metadata.lightCone === updateTeammate.metadata.lightCone) {
+    mergeConditionals(baseTeammate.lightConeConditionals, updateTeammate.lightConeConditionals)
+  }
   mergeConditionals(baseTeammate.relicSetConditionals, updateTeammate.relicSetConditionals)
   mergeConditionals(baseTeammate.ornamentSetConditionals, updateTeammate.ornamentSetConditionals)
 }
@@ -223,6 +225,18 @@ function mergeConditionals(baseConditionals: ComboConditionals, updateConditiona
       } else {
         const numberBaseConditional = conditional as ComboNumberConditional
         const numberUpdateConditional = updateConditional as ComboNumberConditional
+
+        // A saved rotation can carry values outside the declared range and nothing else re-clamps
+        // on load. Clamp before the dedup below so two out-of-range values that land on the same
+        // bound collapse into one partition.
+        const min = numberBaseConditional.min
+        const max = numberBaseConditional.max
+        numberUpdateConditional.min = min
+        numberUpdateConditional.max = max
+        for (const partition of numberUpdateConditional.partitions) {
+          partition.value = Math.min(Math.max(partition.value, min ?? partition.value), max ?? partition.value)
+        }
+
         const newPartitions = []
 
         const seen: Record<number, ComboSubNumberConditional> = {}
@@ -330,6 +344,8 @@ function generateComboConditionals(
       output[content.id] = {
         type: ConditionalDataType.NUMBER,
         partitions: [valuePartitions],
+        min: content.min,
+        max: content.max,
       }
     } else if (content.formItem === 'select') {
       const value = (conditionals[content.id] ?? defaults[content.id] ?? 0) as number

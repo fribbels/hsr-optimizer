@@ -1,7 +1,6 @@
 import {
   ConditionalDataType,
   Sets,
-  Stats,
 } from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
@@ -43,10 +42,8 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
-  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-    if (context.elementalDamageType == Stats.Lightning_DMG) {
-      c.LIGHTNING_DMG_BOOST.buff(0.10, Source.BandOfSizzlingThunder)
-    }
+  p2c: (c: BasicStatsArray) => {
+    c.LIGHTNING_DMG_BOOST.buff(0.10, Source.BandOfSizzlingThunder)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.enabledBandOfSizzlingThunder) {
@@ -58,7 +55,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_BandOfSizzlingThunder) >= 1
+      relic4p(*p_sets, SET_BandOfSizzlingThunder)
       && setConditionals.enabledBandOfSizzlingThunder == true
     ) {
       ${buff.action(AKey.ATK_P, 0.20).wgsl(action, 2)}

@@ -61,7 +61,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.HP_P, 0.12, DivineQueryingMasterSmith),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_DivineQueryingMasterSmith) >= 1) {
+    if (relic4p(*p_sets, SET_DivineQueryingMasterSmith)) {
       if (setConditionals.valueDivineQueryingMasterSmith >= 1) {
         ${buff.action(AKey.CD_BOOST, 0.28).wgsl(action, 2)}
       }

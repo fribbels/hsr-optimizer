@@ -3,12 +3,16 @@ import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { RuanMei } from 'lib/conditionals/character/1300/RuanMei'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
+import { RiseAndSing } from 'lib/conditionals/lightcone/5star/RiseAndSing'
 import {
   Parts,
   Sets,
   Stats,
 } from 'lib/constants/constants'
+import { StatKey } from 'lib/optimization/engine/config/keys'
+import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { NULL_TURN_ABILITY_NAME } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   executeOrchestrator,
@@ -22,7 +26,10 @@ import {
 } from 'lib/simulations/tests/simTestUtils'
 import { Metadata } from 'lib/state/metadataInitializer'
 import { clone } from 'lib/utils/objectUtils'
-import type { Character } from 'types/character'
+import type {
+  Character,
+  Eidolon,
+} from 'types/character'
 import {
   type ScoringConfig,
   ScoringConfigType,
@@ -38,6 +45,7 @@ void SparkleB1
 void Robin
 void RuanMei
 void Yaoguang
+void RobinSummeretto
 
 Metadata.initialize()
 
@@ -289,4 +297,71 @@ test('Yaoguang support score prepare', () => {
   const orchestrator = prepareOrchestrator(character, bufferConfig(clone(yaoguangSimulation)), singleRelicByPart, {})
   expect(orchestrator.originalSimResult).toBeDefined()
   expect(orchestrator.originalSimResult!.simScore).toBeGreaterThan(0)
+})
+
+function robinSummerettoSupportScore(characterEidolon: number, hpRolls: number = 10) {
+  const character = {
+    form: {
+      characterId: RobinSummeretto.id,
+      characterEidolon,
+      lightCone: RiseAndSing.id,
+      lightConeSuperimposition: 5,
+    },
+  } as Character
+
+  const statSpread = testStatSpread()
+  statSpread[Stats.HP_P] = hpRolls
+
+  const singleRelicByPart = generateTestSingleRelicsByPart(
+    testSets(Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer, Sets.LushakaTheSunkenSeas),
+    testMains(Stats.HP_P, Stats.SPD, Stats.HP_P, Stats.HP_P),
+    statSpread,
+  )
+
+  return prepareOrchestrator(
+    character,
+    bufferConfig(clone(RobinSummeretto.scoring.supportSimulation!)),
+    singleRelicByPart,
+    {},
+  )
+}
+
+test('RobinSummeretto support score prepare', () => {
+  globalThis.SEQUENTIAL_BENCHMARKS = true
+
+  const orchestrator = robinSummerettoSupportScore(6)
+
+  expect(orchestrator.originalSimResult).toBeDefined()
+  expect(orchestrator.originalSimResult!.simScore).toBeGreaterThan(0)
+  expect(orchestrator.baselineSim!.request.simFeet).toBe(Stats.SPD)
+})
+
+test('RobinSummeretto support score scales with HP', () => {
+  globalThis.SEQUENTIAL_BENCHMARKS = true
+
+  // Her ATK buff is a percentage of her own HP, so the buff output must track HP monotonically
+  const lowHp = robinSummerettoSupportScore(6, 0)
+  const highHp = robinSummerettoSupportScore(6, 20)
+
+  expect(highHp.originalSimResult!.simScore).toBeGreaterThan(lowHp.originalSimResult!.simScore)
+})
+
+test('RobinSummeretto support score applies the Deviated Chord Vibes scaling', () => {
+  globalThis.SEQUENTIAL_BENCHMARKS = true
+
+  // Vibes cap higher from E2 onward, so the default Vibes differ across these two builds while HP
+  // stays identical. Deviated Chord grants 0.4% of her HP per Vibe, and the flat Lushaka
+  // contribution cancels out of the difference. The gap is read from the defaults so that retuning
+  // them does not need this expectation rewritten.
+  const defaultVibes = (characterEidolon: number) =>
+    RobinSummeretto.conditionals(characterEidolon as Eidolon, false).teammateDefaults!().vibes as number
+  const vibesGap = defaultVibes(6) - defaultVibes(1)
+  expect(vibesGap).toBeGreaterThan(0)
+
+  const e1 = robinSummerettoSupportScore(1)
+  const e6 = robinSummerettoSupportScore(6)
+
+  const hp = e6.originalSimResult!.x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX)
+  expect(e1.originalSimResult!.x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX)).toBeCloseTo(hp, 6)
+  expect(e6.originalSimResult!.simScore - e1.originalSimResult!.simScore).toBeCloseTo(vibesGap * 0.004 * hp, 6)
 })

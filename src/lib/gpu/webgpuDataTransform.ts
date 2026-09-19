@@ -1,3 +1,4 @@
+import { Parts } from 'lib/constants/constants'
 import {
   type GpuExecutionContext,
   type RelicsByPart,
@@ -15,6 +16,14 @@ import {
 } from 'lib/sets/setConfigRegistry'
 import { type StringToNumberMap } from 'types/common'
 import { type Relic } from 'types/relic'
+
+const EMPTY_QUEUE_RESULT_THRESHOLD = -1
+
+export function getGpuResultThreshold(gpuContext: GpuExecutionContext): number {
+  return gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT
+    ? gpuContext.resultsQueue.topPriority()
+    : EMPTY_QUEUE_RESULT_THRESHOLD
+}
 
 export function generateParamsMatrix(
   offset: number,
@@ -41,7 +50,7 @@ export function generateParamsMatrix(
 
   const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
   const permLimit = Math.min(permStride, gpuContext.permutations - offset)
-  const threshold = gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? gpuContext.resultsQueue.topPriority() : 0
+  const threshold = getGpuResultThreshold(gpuContext)
 
   const buf = new ArrayBuffer(32)
   const f32 = new Float32Array(buf)
@@ -247,9 +256,8 @@ export function serializeAssignments(assignments: WorkgroupEntry[]): ArrayBuffer
   return buf
 }
 
-function relicSetToIndex(relic: Relic) {
-  if (relic.set in RelicSetToIndex) {
-    return RelicSetToIndex[relic.set as SetsRelics]
-  }
-  return OrnamentSetToIndex[relic.set as SetsOrnaments]
+function relicSetToIndex(relic: Relic): number {
+  return relic.part === Parts.PlanarSphere || relic.part === Parts.LinkRope
+    ? OrnamentSetToIndex[relic.set as SetsOrnaments]
+    : RelicSetToIndex[relic.set as SetsRelics]
 }

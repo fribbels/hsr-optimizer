@@ -60,7 +60,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.SPD_P, 0.06, DivinerOfDistantReach),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic4p(*p_sets, SET_DivinerOfDistantReach) >= 1) {
+    if (relic4p(*p_sets, SET_DivinerOfDistantReach)) {
       let divinerCrValue = select(0.0, 0.10, (*p_c).SPD >= 120.0) + select(0.0, 0.08, (*p_c).SPD >= 160.0);
       ${buff.action(AKey.CR, 'divinerCrValue').wgsl(action, 2)}
       if (setConditionals.enabledDivinerOfDistantReach == true && ${wgslFalse(action.config.teammateSetEffects[Sets.DivinerOfDistantReach])}) {

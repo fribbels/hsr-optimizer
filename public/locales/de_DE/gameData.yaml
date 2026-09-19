@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1503":
+    Name: Pearl
+    LongName: Pearl
   "1504":
     Name: Ashveil
     LongName: Ashveil
@@ -255,11 +258,11 @@ Characters:
     Name: Himeko – Nova
     LongName: Himeko – Nova
   "1512":
-    Name: Robin • Summeretto
-    LongName: Robin • Summeretto
+    Name: Robin – Summeretto
+    LongName: Robin – Summeretto
   "1513":
-    Name: Aventurine • Waveflair
-    LongName: Aventurine • Waveflair
+    Name: Aventurin – Wellenflair
+    LongName: Aventurin – Wellenflair
   "8001":
     Name: Caelus
     LongName: Caelus (Die Zerstörung)
@@ -449,6 +452,14 @@ RelicSets:
     Name: Götterbefragender Meisterschmied
     Description2pc: Erhöht die max. LP um 12%.
     Description4pc: Erhöht den KRIT-SCH, den der Träger Gegnern im Status „VTD-Reduktion“ zufügt, um 28%. Nachdem der Träger einem Gegner den Status VTD-Reduktion zugefügt hat, erhalten alle Verbündeten für 2 Rd. „Brandbeschleuniger“. Dieser Effekt ist nicht stapelbar. Der von Verbündeten mit Brandbeschleuniger verursachte SCH wird um 15% erhöht. Dieser Effekt kann erneut ausgelöst werden, nachdem der Träger einen Angriff ausgeführt hat.
+  "133":
+    Name: Dreamlit Actor
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
+  "134":
+    Name: The Edacious Heretic
+    Description2pc: Increases ATK by 12%.
+    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
   "301":
     Name: Raumstation für Versiegelung
     Description2pc: Erhöht ANG des Trägers um 12%. Wenn die GES des Trägers 120 oder höher erreicht, wird sein ANG zusätzlich um 12% erhöht.
@@ -711,7 +722,7 @@ Lightcones:
   "21065":
     Name: Glück des Tages
   "21066":
-    Name: A Little Getaway
+    Name: Kleiner Kurzurlaub
   "22000":
     Name: Bevor das Tutorial beginnt
   "22001":
@@ -729,7 +740,7 @@ Lightcones:
   "22007":
     Name: Gemeinsam in die Zukunft
   "22008":
-    Name: Race to the Horizon
+    Name: Wettrennen zum Horizont
   "23000":
     Name: Nacht auf der Milchstraße
   "23001":
@@ -840,6 +851,8 @@ Lightcones:
     Name: Bezaubert von einer blumigen Welt
   "23054":
     Name: Der Entschluss zu sehen
+  "23055":
+    Name: Colors for Tomorrow
   "23056":
     Name: Das Finale einer Lüge
   "23057":
@@ -855,9 +868,9 @@ Lightcones:
   "23062":
     Name: Ich bin, wie du mich siehst
   "23063":
-    Name: Rise and Sing
+    Name: Steh auf und sing
   "23064":
-    Name: Summer Rides the Surf
+    Name: Hochsommer auf den Wellen
   "24000":
     Name: Der Niedergang eines Äons
   "24001":

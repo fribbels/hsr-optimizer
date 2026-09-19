@@ -23,7 +23,6 @@ CharacterMenu:
   Priority:
     Label: 우선순위
     Options:
-      SortByScore: 캐릭터를 점수 순으로 정렬
       MoveToTop: 캐릭터를 최상단으로 이동
 SearchPlaceholder: 검색
 GridDensityOptions:
@@ -33,7 +32,6 @@ Messages:
   UnequipSuccess: 유물을 제거했습니다.
   NoSelectedCharacter: 선택된 캐릭터가 없습니다.
   SwitchSuccess: '$t(gameData:Characters.{{charId}}.Name)와 유물을 교체했습니다.'
-  SortByScoreWarning: 정말로 모든 캐릭터를 정렬하시겠습니까? 이전 순위 설정이 모두 사라집니다!
   SaveSuccess: '{{name}}의 빌드를 저장했습니다.'
   UnequipWarning: '정말로 $t(gameData:Characters.{{charId}}.Name)의 유물을 제거하시겠습니까?'
   DeleteWarning: '정말로 $t(gameData:Characters.{{charId}}.Name)를 삭제하시겠습니까?'

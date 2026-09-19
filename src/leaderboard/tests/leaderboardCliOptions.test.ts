@@ -26,6 +26,7 @@ describe('leaderboard CLI options', () => {
       buildScoreCacheDbPath: resolvePath(homeDir(), 'leaderboard-cache/leaderboard-build-score-cache.sqlite'),
       pruneBuildScoreCache: false,
       freshRun: false,
+      refreshOldestCharacter: false,
       printConfig: false,
       help: false,
     })
@@ -127,5 +128,13 @@ describe('leaderboard CLI options', () => {
   test('exports usage text for help output', () => {
     expect(leaderboardCliUsage()).toContain('--worker-threads <n>')
     expect(leaderboardCliUsage()).toContain('--fresh-run')
+  })
+
+  test('character refresh selects an explicit character or the oldest without clearing caches', () => {
+    expect(parseLeaderboardCliOptions(['--refresh-character', '1000'])).toMatchObject({ refreshCharacter: '1000', freshRun: false })
+    expect(parseLeaderboardCliOptions(['--refresh-oldest-character'])).toMatchObject({ refreshOldestCharacter: true, freshRun: false })
+    expect(() => parseLeaderboardCliOptions(['--refresh-character', '1000', '--refresh-oldest-character'])).toThrow('cannot be used together')
+    expect(() => parseLeaderboardCliOptions(['--refresh-character', '1000', '--fresh-run'])).toThrow('cache maintenance')
+    expect(() => parseLeaderboardCliOptions(['--refresh-oldest-character', '--prune-build-score-cache'])).toThrow('cache maintenance')
   })
 })

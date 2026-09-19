@@ -6,10 +6,10 @@ import type {
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
+import { buildShowcaseScoringOptions } from 'lib/characterPreview/scoring/showcaseScoringOrder'
 import { EstimatedTbpRelicsDisplay } from 'lib/characterPreview/summary/EstimatedTbpRelicsDisplay'
 import {
-  CONFIG_DISPLAY_ORDER,
-  hasConfig,
+  configTypeForScoringType,
   isSimScoreMode,
   SCORING_CONFIG_REGISTRY,
   ScoringType,
@@ -26,6 +26,7 @@ import type { ScoringConfigType } from 'types/metadata'
 
 interface ShowcaseBuildAnalysisProps {
   scoringType: ScoringType
+  showcaseScoringOrder: readonly ScoringType[]
   showcaseMetadata: ShowcaseMetadata
   displayRelics: PreviewRelics
   source: ShowcaseSource
@@ -34,6 +35,7 @@ interface ShowcaseBuildAnalysisProps {
 
 export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
   scoringType,
+  showcaseScoringOrder,
   showcaseMetadata,
   displayRelics,
   source,
@@ -41,31 +43,22 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
 }: ShowcaseBuildAnalysisProps) {
   const { t } = useTranslation(['charactersTab', 'modals', 'common'])
 
-  const { characterMetadata } = showcaseMetadata
-  const scoringMeta = characterMetadata.scoringMetadata
+  const hasAnySimulation = showcaseScoringOrder.some(isSimScoreMode)
 
-  const hasAnySimulation = CONFIG_DISPLAY_ORDER.some((configType) => hasConfig(scoringMeta, configType))
+  const segmentData = useMemo(() => buildShowcaseScoringOptions(
+    showcaseScoringOrder,
+    (optionScoringType) => {
+      const configType = configTypeForScoringType(optionScoringType)
+      if (configType != null) {
+        const entry = SCORING_CONFIG_REGISTRY[configType]
+        return t(`CharacterPreview.AlgorithmSlider.Labels.${entry.configType}`)
+      }
 
-  const segmentData = useMemo(() => {
-    const segments: { label: string, value: string }[] = []
-    for (const configType of CONFIG_DISPLAY_ORDER) {
-      if (!hasConfig(scoringMeta, configType)) continue
-      const entry = SCORING_CONFIG_REGISTRY[configType]
-      segments.push({
-        label: t(`CharacterPreview.AlgorithmSlider.Labels.${entry.configType}`),
-        value: String(entry.scoringType),
-      })
-    }
-    segments.push({
-      label: t('CharacterPreview.AlgorithmSlider.Labels.StatScore'),
-      value: String(ScoringType.SUBSTAT_SCORE),
-    })
-    segments.push({
-      label: t('CharacterPreview.AlgorithmSlider.Labels.NoneScore'),
-      value: String(ScoringType.NONE),
-    })
-    return segments
-  }, [scoringMeta, t])
+      return optionScoringType === ScoringType.SUBSTAT_SCORE
+        ? t('CharacterPreview.AlgorithmSlider.Labels.StatScore')
+        : t('CharacterPreview.AlgorithmSlider.Labels.NoneScore')
+    },
+  ), [showcaseScoringOrder, t])
 
   const characterId = showcaseMetadata.characterId
   const handleScoringTypeChange = useCallback((selection: string) => {
@@ -99,7 +92,7 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
           </div>
         </div>
       )}
-      {isSimScoreMode(scoringType) && activeConfigType && hasConfig(scoringMeta, activeConfigType) && (
+      {isSimScoreMode(scoringType) && activeConfigType != null && (
         <CharacterScoringSummary
           displayRelics={displayRelics}
           showcaseMetadata={showcaseMetadata}

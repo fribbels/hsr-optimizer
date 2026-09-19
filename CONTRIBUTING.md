@@ -19,6 +19,14 @@ We use the #dev channel on discord https://discord.gg/rDmB4Un7qg for communicati
 Currently, the best balance between legacy dependencies and future direction is `node v26.1.0` - if this changes, it will be reflected in the `.nvmrc` file in the root directory.
 We suggest using a Node version manager such as [NVM](https://github.com/nvm-sh/nvm) or [FNM](https://github.com/Schniz/fnm) to quickly switch between this project and any other node/js project you are working in.
 
+#### Clone the repository
+
+```
+git clone --filter=blob:none https://github.com/fribbels/hsr-optimizer.git
+```
+
+`--filter=blob:none` skips old asset versions, cutting the download from over 1 GB to around 320 MB. You still get the full commit history and all branches; old file contents download on demand.
+
 #### Install project dependencies
 
 `npm install`

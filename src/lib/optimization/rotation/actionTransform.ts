@@ -18,7 +18,6 @@ import {
   defineAction,
   getComboTypeAbilities,
   precomputeConditionals,
-  transformConditionals,
 } from 'lib/optimization/rotation/comboStateTransform'
 import {
   precomputeExtraActionModifiers,
@@ -86,6 +85,9 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
       action.actionType = actionKind
       action.hits = actionDef.hits as Hit[]
+      if (action.hits?.[0]?.damageFunctionType === DamageFunctionType.Buff) {
+        action.buffStat = (action.hits[0] as BuffHitDefinition).buffStat
+      }
 
       for (const modifier of context.actionModifiers) {
         // modifiers coming from external combat buffs don't have the metadata needed to create the ModifierContext (self)
@@ -121,12 +123,8 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
   // ========== PHASE 3: CONFIGURATION ==========
 
-  for (let i = 0; i < allActions.length; i++) {
-    const action = allActions[i]
-    const isDefault = i < defaultActions.length
-    const comboIndex = isDefault ? 0 : (i - defaultActions.length + 1)
-
-    const { primaryEntityRegistry, teammateEntityRegistry } = prepareEntitiesForAction(action, context)
+  for (const action of allActions) {
+    const { primaryEntityRegistry } = prepareEntitiesForAction(action, context)
 
     for (const hit of action.hits!) {
       hit.sourceEntityIndex = hit.sourceEntity
@@ -145,24 +143,6 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
       container.enableTracing()
     }
     action.precomputedStats = container
-
-    if (comboState.comboTeammate0) {
-      action.teammate0.actorId = comboState.comboTeammate0.metadata.characterId
-      action.teammate0.characterConditionals = transformConditionals(comboIndex, comboState.comboTeammate0.characterConditionals)
-      action.teammate0.lightConeConditionals = transformConditionals(comboIndex, comboState.comboTeammate0.lightConeConditionals)
-    }
-
-    if (comboState.comboTeammate1) {
-      action.teammate1.actorId = comboState.comboTeammate1.metadata.characterId
-      action.teammate1.characterConditionals = transformConditionals(comboIndex, comboState.comboTeammate1.characterConditionals)
-      action.teammate1.lightConeConditionals = transformConditionals(comboIndex, comboState.comboTeammate1.lightConeConditionals)
-    }
-
-    if (comboState.comboTeammate2) {
-      action.teammate2.actorId = comboState.comboTeammate2.metadata.characterId
-      action.teammate2.characterConditionals = transformConditionals(comboIndex, comboState.comboTeammate2.characterConditionals)
-      action.teammate2.lightConeConditionals = transformConditionals(comboIndex, comboState.comboTeammate2.lightConeConditionals)
-    }
   }
 
   // ========== CALCULATE MAX ARRAY LENGTH ==========

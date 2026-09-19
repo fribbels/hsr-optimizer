@@ -5,7 +5,11 @@ import {
 } from 'lib/constants/constants'
 import { type BuffSource } from 'lib/optimization/buffSource'
 import { type AKeyType } from 'lib/optimization/engine/config/keys'
-import { type SetCounts } from 'lib/optimization/setMatching'
+import { type OutputTag } from 'lib/optimization/engine/config/tag'
+import {
+  emptySetMatches,
+  type SetMatches,
+} from 'lib/optimization/setMatchState'
 
 export type Buff = {
   stat: AKeyType | BasicKeyType,
@@ -14,6 +18,8 @@ export type Buff = {
   source: BuffSource,
   memo?: boolean,
   damageTags?: number,
+  // Basic-stat traces omit hit-level output metadata.
+  outputTags?: OutputTag,
 }
 
 type BasicStatController = {
@@ -121,8 +127,7 @@ export class BasicStatsArrayCore {
 
   relicSetIndex: number
   ornamentSetIndex: number
-  sets: SetCounts
-  setsArray: number[]
+  setMatches: SetMatches
   id: number
   weight: number
 
@@ -134,8 +139,7 @@ export class BasicStatsArrayCore {
     this.trace = trace
     this.relicSetIndex = 0
     this.ornamentSetIndex = 0
-    this.sets = { relicMatch2: 0, relicMatch4: 0, ornamentMatch2: 0 }
-    this.setsArray = []
+    this.setMatches = emptySetMatches()
     this.id = -1
     this.weight = 0
 
@@ -175,11 +179,10 @@ export class BasicStatsArrayCore {
     })
   }
 
-  init(relicSetIndex: number, ornamentSetIndex: number, sets: SetCounts, setsArray: number[], id: number) {
+  init(relicSetIndex: number, ornamentSetIndex: number, setMatches: SetMatches, id: number) {
     this.relicSetIndex = relicSetIndex
     this.ornamentSetIndex = ornamentSetIndex
-    this.sets = sets
-    this.setsArray = setsArray
+    this.setMatches = setMatches
     this.id = id
 
     this.a.set(cachedBasicBaseStatsArray)

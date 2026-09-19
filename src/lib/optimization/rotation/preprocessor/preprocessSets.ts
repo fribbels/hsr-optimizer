@@ -73,3 +73,17 @@ export class BandOfSizzlingThunderPreprocessor extends TurnTriggeredStackPreproc
     )
   }
 }
+
+export class TheEdaciousHereticPreprocessor extends TurnTriggeredStackPreprocessor {
+  constructor() {
+    super(
+      Sets.TheEdaciousHeretic,
+      {
+        key: Sets.TheEdaciousHeretic,
+        triggerKinds: [AbilityKind.BASIC],
+        activeTurns: 2,
+        activationFn: setComboBooleanCategorySetActivation,
+      },
+    )
+  }
+}

@@ -351,11 +351,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen && m.assistSkillBuff) ? talentResPenValue : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen && m.assistSkillBuff) ? talentResPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
 
       // Decimation: team CD +100%, Skill CD +100%
-      x.buff(StatKey.CD, m.companionDecimation ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
-      x.buff(StatKey.CD, m.companionDecimation ? decimationSkillCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, m.companionDecimation ? decimationCdValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, m.companionDecimation ? decimationSkillCdValue : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_UNIQUE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

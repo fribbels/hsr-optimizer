@@ -23,6 +23,14 @@ features.
 
 - Contributing information: https://github.com/fribbels/hsr-optimizer/blob/main/CONTRIBUTING.md
 
+# Development
+
+See [CONTRIBUTING.md](https://github.com/fribbels/hsr-optimizer/blob/main/CONTRIBUTING.md) for full setup instructions.
+
+```
+git clone --filter=blob:none https://github.com/fribbels/hsr-optimizer.git
+```
+
 # Credits
 
 Shout outs to:

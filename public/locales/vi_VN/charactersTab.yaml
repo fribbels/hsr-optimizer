@@ -23,7 +23,6 @@ CharacterMenu:
   Priority:
     Label: Ưu tiên
     Options:
-      SortByScore: Sắp xếp nhân vật theo điểm
       MoveToTop: Đưa nhân vật lên đầu
 SearchPlaceholder: Tìm Kiếm
 GridDensityOptions:
@@ -33,7 +32,6 @@ Messages:
   UnequipSuccess: Gỡ đồ nhân vật thành công
   NoSelectedCharacter: Không nhân vật được chọn
   SwitchSuccess: 'Đổi dị vật với $t(gameData:Characters.{{charId}}.Name) thành công'
-  SortByScoreWarning: Bạn có chắc rằng mình muốn sắp xếp lại tất cả nhân vật? Mọi sắp xếp thủ công trước đó sẽ bị thay đổi.
   SaveSuccess: 'Lưu lối lên đồ cho {{name}} thành công'
   UnequipWarning: 'Bạn chắc chắn muốn gỡ đồ của $t(gameData:Characters.{{charId}}.Name)?'
   DeleteWarning: 'Bạn chắc chắn muốn xóa đồ của $t(gameData:Characters.{{charId}}.Name)?'

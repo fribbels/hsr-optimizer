@@ -417,6 +417,10 @@ export function startOptimization(): void {
     optimizationInProgress: true,
   })
 
+  // A new search reassigns what result ids mean, so the previous selection is stale
+  useOptimizerDisplayStore.getState().setOptimizerSelectedRowData(null)
+  gridStore.optimizerGridApi()?.deselectAll()
+
   // Clear any stale post-search row filter so new results aren't filtered by a previous run's thresholds
   OptimizerTabController.clearFilterModel()
 

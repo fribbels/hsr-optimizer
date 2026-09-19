@@ -167,12 +167,12 @@ export class ComputedStatsContainerConfig {
   public entityStride: number // actionStatsLength + (hitsLength * hitStatsLength)
   public arrayLength: number
 
-  // Register layout: [Stats...][Action Registers][Global Registers][Hit Registers]
+  // Register layout: [Stats...][Action Registers][Hit Registers][Global Registers]
   public registersOffset: number // Where registers start in array
   public actionRegistersLength: number // Number of action registers
   public globalRegistersLength: number // Number of global registers (e.g., COMBO_DMG)
   public hitRegistersLength: number // Number of hit registers
-  public totalRegistersLength: number // action + global + hit registers
+  public totalRegistersLength: number // action + hit + global registers
 
   public actionBuffIndices: Record<number, number[]> // Cached indices for actionBuff/actionSet
   public entityBaseOffsets: Record<number, number[]> // Per-TargetTag entity base offsets for loop-flipped stat writes
@@ -355,8 +355,9 @@ export class ComputedStatsContainer {
     clonedBasic.id = this.c.id
     clonedBasic.relicSetIndex = this.c.relicSetIndex
     clonedBasic.ornamentSetIndex = this.c.ornamentSetIndex
-    clonedBasic.sets = this.c.sets
-    clonedBasic.setsArray = this.c.setsArray
+    // Copy, don't share: the optimizer worker reuses one setMatches object across every
+    // permutation, so a shared reference would leave kept clones showing the last one.
+    clonedBasic.setMatches = { ...this.c.setMatches }
     clonedBasic.weight = this.c.weight
     clone.c = clonedBasic as BasicStatsArray
 
@@ -384,7 +385,8 @@ export class ComputedStatsContainer {
 
   /**
    * Creates a minimal container from raw arrays (for worker result reconstruction).
-   * Does not include config - only suitable for array access.
+   * Has no config and no set state - suitable for array access only. Set queries on the
+   * result always answer "no set matched", whatever the build equipped.
    */
   public static fromArrays(xa: Float64Array, ca: Float32Array): ComputedStatsContainer {
     const container = new ComputedStatsContainer()
@@ -536,6 +538,7 @@ export class ComputedStatsContainer {
           source: config._source,
           memo: false,
           damageTags: traceDamageTags,
+          outputTags,
         })
       }
       if (hasMemo) {
@@ -546,6 +549,7 @@ export class ComputedStatsContainer {
           source: config._source,
           memo: true,
           damageTags: traceDamageTags,
+          outputTags,
         })
       }
     }

@@ -15,7 +15,10 @@ import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardFilterControls.module.css'
 import { setLeaderboardFilters } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
-import { useState } from 'react'
+import {
+  useMemo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CharacterId } from 'types/character'
 
@@ -25,12 +28,9 @@ interface LeaderboardFilterControlsProps {
   filterCharacterEidolon: LeaderboardEidolonFilter
   onFilterChange: (filters: { teamId?: string, characterEidolon?: string }) => void
   getCharacterName: (characterId: string) => string
+  allTeamsLabel: string
+  eidolonOptions: { value: LeaderboardEidolonFilter, label: string }[]
 }
-
-const EIDOLON_OPTIONS: { value: LeaderboardEidolonFilter, label: string }[] = [
-  { value: LEADERBOARD_FILTER_ALL, label: 'All' },
-  ...EIDOLON_TIERS.map((e, i) => ({ value: EIDOLON_GROUPS[i], label: `E${e}` })),
-]
 
 function characterName(props: LeaderboardFilterControlsProps, characterId: string) {
   return props.getCharacterName(characterId)
@@ -38,10 +38,6 @@ function characterName(props: LeaderboardFilterControlsProps, characterId: strin
 
 function teamLabel(props: LeaderboardFilterControlsProps, team: PublicTeamMeta) {
   return team.teammates.map((teammate) => characterName(props, teammate.characterId)).join(' / ')
-}
-
-function allTeamsLabel(teamCount: number) {
-  return `All teams (${teamCount})`
 }
 
 function TeamNamedButton({ team, active, onSelect, label }: {
@@ -83,7 +79,7 @@ function renderTeamNamedRows(props: LeaderboardFilterControlsProps, onSelect?: (
         className={`${classes.teamNamedRow} ${classes.teamNamedRowAll} ${allActive ? classes.teamNamedRowActive : ''}`}
         onClick={() => select(LEADERBOARD_FILTER_ALL)}
       >
-        <span className={classes.teamNamedText}>{allTeamsLabel(availableTeams.length)}</span>
+        <span className={classes.teamNamedText}>{props.allTeamsLabel}</span>
       </UnstyledButton>
       {availableTeams.map((team) => (
         <TeamNamedButton
@@ -102,7 +98,7 @@ function TeamPopover(props: LeaderboardFilterControlsProps) {
   const [opened, setOpened] = useState(false)
   const availableTeams = props.availableTeams
   const selectedTeam = availableTeams.find((team) => team.teamId === props.activeTeamId)
-  const triggerLabel = selectedTeam ? teamLabel(props, selectedTeam) : allTeamsLabel(availableTeams.length)
+  const triggerLabel = selectedTeam ? teamLabel(props, selectedTeam) : props.allTeamsLabel
 
   return (
     <Popover opened={opened} onChange={setOpened} position='bottom-start' width='target' shadow='md' radius='md' offset={4} withinPortal={false}>
@@ -142,7 +138,7 @@ function renderCharacterEidolonBar(props: LeaderboardFilterControlsProps) {
   return (
     <SegmentedControl
       classNames={{ root: classes.eidolonSegmentedRoot, label: classes.eidolonSegmentedLabel }}
-      data={EIDOLON_OPTIONS.map((option) => ({ value: option.value, label: option.label }))}
+      data={props.eidolonOptions.map((option) => ({ value: option.value, label: option.label }))}
       value={props.filterCharacterEidolon}
       onChange={(value) => props.onFilterChange({ characterEidolon: value })}
       size='xs'
@@ -158,6 +154,16 @@ export function LeaderboardFilterControls() {
   const availableTeams = useLeaderboardTabStore((s) => s.availableTeams)
   const filterCharacterEidolon = useLeaderboardTabStore((s) => s.filterCharacterEidolon)
   const { t: tCharacters } = useTranslation('gameData', { keyPrefix: 'Characters' })
+  const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Filters' })
+  const { t: tCommon } = useTranslation('common')
+
+  const eidolonOptions = useMemo(() => [
+    { value: LEADERBOARD_FILTER_ALL, label: t('AllEidolons') },
+    ...EIDOLON_TIERS.map((eidolon, i) => ({
+      value: EIDOLON_GROUPS[i],
+      label: tCommon('EidolonNShort', { eidolon }),
+    })),
+  ], [t, tCommon])
 
   if (!selectedCharacterId) return null
 
@@ -167,16 +173,18 @@ export function LeaderboardFilterControls() {
     filterCharacterEidolon,
     onFilterChange: setLeaderboardFilters,
     getCharacterName: (characterId) => tCharacters(`${characterId as CharacterId}.Name`),
+    allTeamsLabel: t('AllTeams', { count: availableTeams.length }),
+    eidolonOptions,
   }
 
   return (
     <div className={classes.filterRows}>
       <div className={classes.labeledFilterRow}>
-        <span className={classes.filterLabel}>Eidolon</span>
+        <span className={classes.filterLabel}>{t('EidolonLabel')}</span>
         {renderCharacterEidolonBar(props)}
       </div>
       <div className={classes.labeledFilterRow}>
-        <span className={classes.filterLabel}>Team</span>
+        <span className={classes.filterLabel}>{t('TeamLabel')}</span>
         <TeamPopover {...props} />
       </div>
     </div>

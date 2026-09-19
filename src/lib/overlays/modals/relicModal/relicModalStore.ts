@@ -7,7 +7,8 @@ export type RelicModalConfig = {
   selectedRelic: Relic | null,
   selectedPart?: Parts,
   defaultWearer?: CharacterId,
-  onOk: (relic: Relic) => void,
+  // selectedRelic is what the modal displays at submit time; the prev/next arrows can change it
+  onOk: (relic: Relic, selectedRelic: Relic | null) => void,
   next?: () => void,
   prev?: () => void,
 }

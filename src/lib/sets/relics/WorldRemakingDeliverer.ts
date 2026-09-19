@@ -58,7 +58,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_WorldRemakingDeliverer) >= 1
+      relic4p(*p_sets, SET_WorldRemakingDeliverer)
       && setConditionals.enabledWorldRemakingDeliverer == true
     ) {
       ${buff.action(AKey.HP_P, 0.24).targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}

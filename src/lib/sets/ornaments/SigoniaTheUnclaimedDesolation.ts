@@ -55,7 +55,7 @@ const conditionals: SetConditionals = {
     basicP2(WgslStatName.CR, 0.04, SigoniaTheUnclaimedDesolation),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (ornament2p(*p_sets, SET_SigoniaTheUnclaimedDesolation) >= 1) {
+    if (ornament2p(*p_sets, SET_SigoniaTheUnclaimedDesolation)) {
       ${buff.action(AKey.CD, `0.04 * f32(setConditionals.valueSigoniaTheUnclaimedDesolation)`).wgsl(action, 2)}
     }
   `,

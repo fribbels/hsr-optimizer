@@ -72,9 +72,9 @@ const conditionals: SetConditionals = {
     basicP4(WgslStatName.CR, 0.04, PioneerDiverOfDeadWaters),
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1 && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
+    if (relic2p(*p_sets, SET_PioneerDiverOfDeadWaters) && setConditionals.valuePioneerDiverOfDeadWaters >= 0) {
       ${buff.action(AKey.BOOST, 0.12).wgsl(action, 2)}
-      if (relic4p(*p_sets, SET_PioneerDiverOfDeadWaters) >= 1) {
+      if (relic4p(*p_sets, SET_PioneerDiverOfDeadWaters)) {
         ${buff.action(AKey.CD_BOOST, `getPioneerSetValue(setConditionals.valuePioneerDiverOfDeadWaters)`).wgsl(action, 3)}
         if (setConditionals.valuePioneerDiverOfDeadWaters > 2) {
           ${buff.action(AKey.CR, 0.04).wgsl(action, 4)}

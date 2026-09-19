@@ -50,6 +50,7 @@ import {
   useDebugVisualConfigStore,
 } from 'lib/characterPreview/debugVisualConfigStore'
 import { ShowcaseBuildAnalysis } from 'lib/characterPreview/scoring/ShowcaseBuildAnalysis'
+import { resolveRequestedShowcaseScoringType } from 'lib/characterPreview/scoring/showcaseScoringOrder'
 import { ShowcaseSetBonuses } from 'lib/characterPreview/scoring/ShowcaseSetBonuses'
 import {
   ShowcaseCombatScoreDetailsFooter,
@@ -361,7 +362,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const effectiveBrightness = visual.portraitBrightness + (state.darkMode ? DEFAULT_CONFIG.darkMode.brightnessOffset : 0)
   const portraitFilter = buildPortraitFilter(visual.portraitBlur, effectiveBrightness, visual.portraitSaturate, visual.portraitContrast)
 
-  const { displayRelics, scoringResults } = state.previewRelics
+  const { displayRelics, relics } = state.previewRelics
 
   // Layout: forceDebug disables L2D, forces SUBSTAT_SCORE, hides analysis footer
   const buildScoringType = savedBuildOverride?.scoringConfigType != null
@@ -370,7 +371,12 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const injectedScoringType = injectedScoring
     ? SCORING_CONFIG_REGISTRY[injectedScoring.configType].scoringType
     : undefined
-  const effectiveScoringType = forceDebug ? ScoringType.SUBSTAT_SCORE : (injectedScoringType ?? buildScoringType ?? state.storedScoringType)
+  const requestedScoringType = resolveRequestedShowcaseScoringType({
+    forceDebug,
+    injectedScoringType,
+    buildScoringType,
+    storedScoringType: state.storedScoringType,
+  })
   // Cache-buster: state.scoringMetadata invalidates when scoring overrides change (SPD weight, buff priority)
   const _scoringMetadataCacheBuster = state.scoringMetadata
   // Cache-buster: portrait edits on the showcase tab wouldn't re-run the layout memo otherwise
@@ -382,7 +388,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       const baseLayout = resolveShowcaseLayout({
         character,
         teamSelections: state.teamSelections,
-        storedScoringType: effectiveScoringType,
+        storedScoringType: requestedScoringType,
         savedBuildOverride,
         t,
         ...(injectedScoring?.simulationMetadataOverride && {
@@ -403,7 +409,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     [
       character,
       state.teamSelections,
-      effectiveScoringType,
+      requestedScoringType,
       savedBuildOverride,
       _scoringMetadataCacheBuster,
       _storePortrait,
@@ -479,6 +485,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   const {
     showcaseMetadata,
     scoringType,
+    showcaseScoringOrder,
     portraitUrl,
     portraitToUse,
     displayDimensions: baseDisplayDimensions,
@@ -494,7 +501,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
     }
     : baseDisplayDimensions
 
-  const scoredRelics = scoringResults.relics ?? EMPTY_SCORED
+  const scoredRelics = relics ?? EMPTY_SCORED
 
   return (
     <SimScoringContextProvider
@@ -688,6 +695,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           <ShowcaseBuildAnalysis
             showcaseMetadata={showcaseMetadata}
             scoringType={scoringType}
+            showcaseScoringOrder={showcaseScoringOrder}
             displayRelics={displayRelics}
             source={source}
             activeConfigType={layout.activeConfigType}

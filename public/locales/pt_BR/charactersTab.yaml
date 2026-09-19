@@ -23,7 +23,6 @@ CharacterMenu:
   Priority:
     Label: Prioridade
     Options:
-      SortByScore: Organizar todos os personagens por pontuação
       MoveToTop: Mover personagem para o topo
 SearchPlaceholder: Buscar
 GridDensityOptions:
@@ -33,7 +32,6 @@ Messages:
   UnequipSuccess: Personagem desequipado com sucesso
   NoSelectedCharacter: Não há personagem selecionado
   SwitchSuccess: 'Troca de relíquias com $t(gameData:Characters.{{charId}}.Name) bem sucedida'
-  SortByScoreWarning: Você tem certeza que quer organizar todos os personagens? Você perderá todo o ranking personalizado.
   SaveSuccess: 'Build salva com sucesso: {{name}}'
   UnequipWarning: 'Você tem certeza que quer desequipar $t(gameData:Characters.{{charId}}.Name)?'
   DeleteWarning: 'Você tem certeza que quer deletar $t(gameData:Characters.{{charId}}.Name)?'

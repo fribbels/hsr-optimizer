@@ -44,6 +44,7 @@ parentPort.on<LeaderboardScoreWorkerRequest>('message', async (request) => {
     })
 
     const result = await scoreProfile({
+      characterRefreshVersions: request.runtimeConfig.characterRefreshVersions,
       profile: request.profile,
       versions: request.versions,
       globalVersion: request.globalVersion,
@@ -51,6 +52,9 @@ parentPort.on<LeaderboardScoreWorkerRequest>('message', async (request) => {
       metrics,
       buildScoreCache: workerState.buildScoreCache,
     })
+
+    // Refresh success must include the last buffered scores before workers exit.
+    if (request.runtimeConfig.flushAfterProfile) workerState.buildScoreCache.flush()
 
     const response: LeaderboardScoreWorkerResponse = {
       id: request.id,

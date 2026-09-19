@@ -59,7 +59,7 @@ export function evaluateConditional(conditional: DynamicConditional, x: Computed
 
 export function newConditionalWgslWrapper(conditional: DynamicConditional, action: OptimizerAction, context: OptimizerContext, wgsl: string) {
   return `
-fn evaluate${conditional.id}${action.actionIdentifier}(p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>, p_sets: ptr<function, Sets>, p_state: ptr<function, ConditionalState>) {
+fn evaluate${conditional.id}${action.actionIdentifier}(p_container: ptr<function, array<f32, ${context.maxContainerArrayLength}>>, p_sets: ptr<function, SetMatches>, p_state: ptr<function, ConditionalState>) {
 ${indent(wgsl.trim(), 1)}
 }
   `

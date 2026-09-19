@@ -4,7 +4,6 @@ import {
 } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
 import { expandScoringVariants } from 'leaderboard/scoring/scoringVariants'
-import { CharacterConverter } from 'lib/importer/characterConverter'
 import {
   EIDOLON_TIERS,
   type EidolonTierValue,
@@ -32,6 +31,7 @@ import {
   getDependencyVersions,
 } from 'leaderboard/shared/versioning'
 import { DEFAULT_TEAM } from 'lib/constants/constants'
+import { CharacterConverter } from 'lib/importer/characterConverter'
 import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import { resolveSimulationMetadata } from 'lib/simulations/orchestrator/runDpsScoreBenchmarkOrchestrator'
 import { getGameMetadata } from 'lib/state/gameMetadata'
@@ -43,6 +43,7 @@ import type {
 } from 'types/metadata'
 
 export async function scoreLeaderboardCandidateConfig(input: {
+  refreshVersion?: string,
   candidateConfig: LeaderboardScoreCandidateConfigInput,
   converted: EligibleConverted,
   versions: LeaderboardVersionFile,
@@ -88,6 +89,7 @@ export async function scoreLeaderboardCandidateConfig(input: {
     strippedRelicHash: candidateConfig.strippedRelicHash,
     singleRelicByPart: candidateConfig.strippedRelicHash ? undefined : converted.equipped,
     spdBenchmark: null,
+    refreshVersion: input.refreshVersion,
   })
   metrics.timing('scorer.keyBuild', performance.now() - t0Key)
 
@@ -149,6 +151,7 @@ export async function scoreLeaderboardCandidateConfig(input: {
 }
 
 export async function scoreProfile(input: {
+  characterRefreshVersions?: Partial<Record<CharacterId, string>>,
   profile: LeaderboardScoringProfile,
   versions: LeaderboardVersionFile,
   globalVersion: number,
@@ -244,6 +247,7 @@ export async function scoreProfile(input: {
 
           scoringRuns++
           const result = await scoreLeaderboardCandidateConfig({
+            refreshVersion: input.characterRefreshVersions?.[converted.id],
             candidateConfig: variant,
             converted,
             versions,

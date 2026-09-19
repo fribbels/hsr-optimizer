@@ -1,4 +1,5 @@
 import { type Namespaces } from 'lib/i18n/i18n'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
 import type Resources from 'types/resources'
 
 interface tInput {
@@ -7,7 +8,7 @@ interface tInput {
   args?: Record<string, string>
 }
 
-interface SimpleLabel extends tInput {}
+export interface SimpleLabel extends tInput {}
 
 export interface StatConfigEntry {
   hit?: boolean
@@ -30,6 +31,12 @@ const optimizerTabMisc = createI18nKey<keyof Prefixed['Misc']>('optimizerTab', `
 const optimizerTabCompositeSuffix = createI18nKey<keyof Prefixed['CompositeLabels']['Suffix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Suffix`)
 const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats']>('optimizerTab', `${keyPrefix}.Unconvertible`, 'stat')
 const optimizerTabDmgBoost = createI18nKey<keyof Resources['gameData']['Elements']>('optimizerTab', `${keyPrefix}.ElementalDmgBoost`, 'element')
+
+export function getBoostLabel(outputTags?: OutputTag): SimpleLabel {
+  if (outputTags === OutputTag.SHIELD) return optimizerTabMisc('Shield boost')
+  if (outputTags === OutputTag.HEAL) return commonReadableStat('Outgoing Healing Boost')
+  return optimizerTabCompositeSuffix('DMG Boost')
+}
 
 export const newStatsConfig = {
   // ================ Hit Stats ================

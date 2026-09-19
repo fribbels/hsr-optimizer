@@ -2,10 +2,6 @@ import type {
   MainStats,
   Parts,
 } from 'lib/constants/constants'
-import {
-  scoreCharacterUsingScorer,
-  scoreCharacterWithRelicsUsingScorer,
-} from 'lib/relics/scoring/characterScore'
 import { scoreCurrentRelic } from 'lib/relics/scoring/currentScore'
 import { computeFutureScores } from 'lib/relics/scoring/futureScore'
 import { computeOptimalScore } from 'lib/relics/scoring/optimalScore'
@@ -135,32 +131,6 @@ export class ScoringCache {
     const futureScore = this.getFutureRelicScore(relic, id, withMeta)
     return computePotentialScores(futureScore)
   }
-
-  scoreCharacterWithRelics(
-    character: Character | undefined,
-    relics: Nullable<Relic>[],
-  ): CharacterScoringResult {
-    return scoreCharacterWithRelicsUsingScorer(
-      character,
-      relics,
-      (relic, id) => this.getCurrentRelicScore(relic, id),
-    )
-  }
-
-  scoreCharacter(character: Character | undefined): CharacterScoringResult {
-    if (!character) {
-      return {
-        relics: [],
-        totalScore: 0,
-        totalRating: '',
-        correctMainStats: 0,
-      }
-    }
-    return scoreCharacterUsingScorer(
-      character,
-      (relic, id) => this.getCurrentRelicScore(relic, id),
-    )
-  }
 }
 
 /**
@@ -169,14 +139,6 @@ export class ScoringCache {
 export class RelicScorer extends ScoringCache {
   static scoreCurrentRelic(relic: Relic, id: CharacterId) {
     return new RelicScorer().getCurrentRelicScore(relic, id)
-  }
-
-  static scoreCharacterWithRelics(character: Character, relics: (Nullable<Relic>)[]) {
-    return new RelicScorer().scoreCharacterWithRelics(character, relics)
-  }
-
-  static scoreCharacter(character: Character) {
-    return new RelicScorer().scoreCharacter(character)
   }
 
   static scoreRelicPotential(relic: Relic, characterId: CharacterId, withMeta: boolean = false) {

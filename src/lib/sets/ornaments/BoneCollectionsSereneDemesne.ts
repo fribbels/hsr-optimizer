@@ -58,7 +58,7 @@ const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
   dependsOn: [Stats.HP],
   chainsTo: [Stats.CD],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.BoneCollectionsSereneDemesne, x.c.sets) && x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX) >= 5000
+    return ornament2p(SetKeys.BoneCollectionsSereneDemesne, x.c.setMatches) && x.getActionValueByIndex(StatKey.HP, SELF_ENTITY_INDEX) >= 5000
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     x.buffDynamic(StatKey.CD, 0.28, action, context, x.targets(TargetTag.SelfAndMemosprite).source(Source.BoneCollectionsSereneDemesne))
@@ -72,7 +72,7 @@ const BoneCollectionsSereneDemesneConditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_BoneCollectionsSereneDemesne) >= 1 &&
+  ornament2p(*p_sets, SET_BoneCollectionsSereneDemesne) &&
   (*p_state).BoneCollectionsSereneDemesneConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.HP, config)} >= 5000.0
 ) {

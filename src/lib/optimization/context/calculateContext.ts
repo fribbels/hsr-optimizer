@@ -43,6 +43,10 @@ function generateFiltersContext(request: Form, context: OptimizerContext) {
   // Store the scoring metadata's sortOption key for primary ability stats capture
   const characterMetadata = getGameMetadata().characters[request.characterId]
   context.primaryAbilityKey = characterMetadata?.scoringMetadata?.sortOption?.key ?? ''
+
+  // Stand-in for whether the character out-scales an HP based support's ATK, for kits that branch
+  // on comparing the two. A build-independent proxy avoids branch flapping across the search space.
+  context.atkStatWeight = characterMetadata?.scoringMetadata?.stats?.[Stats.ATK_P] ?? 0
 }
 
 function calculateConditionals(request: Form, context: OptimizerContext) {

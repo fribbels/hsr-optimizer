@@ -10,10 +10,7 @@ import {
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   type BasicStatsArray,
   WgslStatName,
@@ -22,6 +19,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   ornament2p,
   SetKeys,
@@ -57,7 +55,7 @@ const SpaceSealingStationConditional: DynamicConditional = {
   dependsOn: [Stats.SPD],
   chainsTo: [Stats.ATK],
   condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
-    return ornament2p(SetKeys.SpaceSealingStation, x.c.sets) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
+    return ornament2p(SetKeys.SpaceSealingStation, x.c.setMatches) && x.getActionValueByIndex(StatKey.SPD, SELF_ENTITY_INDEX) >= 120
   },
   effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
     const baseAtk = action.config.selfEntity.baseAtk
@@ -72,12 +70,12 @@ const SpaceSealingStationConditional: DynamicConditional = {
       context,
       `
 if (
-  ornament2p(*p_sets, SET_SpaceSealingStation) >= 1 &&
+  ornament2p(*p_sets, SET_SpaceSealingStation) &&
   (*p_state).SpaceSealingStationConditional${action.actionIdentifier} == 0.0 &&
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, config)} >= 120.0
 ) {
   (*p_state).SpaceSealingStationConditional${action.actionIdentifier} = 1.0;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.ATK, config)} += 0.12 * ${config.selfEntity.baseAtk};
+  ${buff.action(StatKey.ATK, 0.12 * config.selfEntity.baseAtk).wgsl(action)}
 }
     `,
     )

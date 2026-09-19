@@ -24,6 +24,9 @@ export type ComboNumberConditional = {
   type: ConditionalDataType.NUMBER,
   partitions: ComboSubNumberConditional[],
   display?: boolean,
+  // Declared slider range, carried so a restored rotation can be re-clamped against it.
+  min?: number,
+  max?: number,
 }
 
 export type ComboSubNumberConditional = {

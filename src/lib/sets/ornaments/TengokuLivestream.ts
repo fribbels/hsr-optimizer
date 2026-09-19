@@ -55,7 +55,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      ornament2p(*p_sets, SET_TengokuLivestream) >= 1
+      ornament2p(*p_sets, SET_TengokuLivestream)
       && setConditionals.enabledTengokuLivestream == true
     ) {
       ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}

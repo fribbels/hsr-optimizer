@@ -23,7 +23,6 @@ CharacterMenu:
   Priority:
     Label: 優先級
     Options:
-      SortByScore: 依照評分排序所有角色
       MoveToTop: 把角色移動到第一位
 SearchPlaceholder: 搜尋
 Messages:
@@ -31,7 +30,6 @@ Messages:
   UnequipSuccess: 成功卸下角色遺器
   NoSelectedCharacter: 未選擇角色
   SwitchSuccess: '成功與$t(gameData:Characters.{{charId}}.Name)互換遺器'
-  SortByScoreWarning: 你確定要對所有角色進行排序嗎？ 你將失去你所設定的任何自訂義排序。
   SaveSuccess: '成功保存配裝: {{name}}'
   UnequipWarning: '你確定你要卸下$t(gameData:Characters.{{charId}}.Name)的遺器嗎?'
   DeleteWarning: '你確定你要刪除$t(gameData:Characters.{{charId}}.Name)嗎?'

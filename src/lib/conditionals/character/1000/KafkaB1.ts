@@ -65,6 +65,7 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { ScoringType } from 'lib/scoring/scoringTypes'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type Eidolon } from 'types/character'
@@ -268,25 +269,48 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
-
-      // Trace: EHR >= 75% grants +100% base ATK
-      const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
-      if (r.ehrBasedBuff && ehrValue >= 0.75) {
-        x.buff(StatKey.ATK, 1.00 * context.baseATK, x.source(SOURCE_TRACE))
-      }
-
       boostAshblazingAtkContainer(x, action, getHitMulti(action, context))
     },
     newGpuFinalizeCalculations: (action: OptimizerAction, context: OptimizerContext) => {
-      const r = action.characterConditionals as Conditionals<typeof content>
+      return gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
+    },
 
-      return wgsl`
-if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} >= 0.75) {
+    dynamicConditionals: [
+      {
+        id: 'KafkaSelfEhrConditional',
+        type: ConditionalType.ABILITY,
+        activation: ConditionalActivation.SINGLE,
+        dependsOn: [Stats.EHR],
+        chainsTo: [Stats.ATK],
+        condition: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          return r.ehrBasedBuff && x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.75
+        },
+        effect: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+          x.buffDynamic(StatKey.ATK, 1.00 * context.baseATK, action, context, x.source(SOURCE_TRACE))
+        },
+        gpu: function(action: OptimizerAction, context: OptimizerContext) {
+          const r = action.characterConditionals as Conditionals<typeof content>
+          const stateKey = `${this.id}${action.actionIdentifier}`
+
+          return newConditionalWgslWrapper(
+            this,
+            action,
+            context,
+            wgsl`
+if (
+  ${wgslTrue(r.ehrBasedBuff)} &&
+  (*p_state).${stateKey} == 0.0 &&
+  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} >= 0.75
+) {
+  (*p_state).${stateKey} = 1.0;
   ${buff.action(AKey.ATK, `1.00 * baseATK`).wgsl(action)}
 }
-      ` + gpuBoostAshblazingAtkContainer(getHitMulti(action, context), action)
-    },
+            `,
+          )
+        },
+      },
+    ],
 
     teammateDynamicConditionals: [
       {
@@ -294,7 +318,7 @@ if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatK
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.SINGLE,
         dependsOn: [Stats.EHR],
-        chainsTo: [],
+        chainsTo: [Stats.ATK],
         condition: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           return x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX) >= 0.75
         },
@@ -306,7 +330,7 @@ if (${wgslTrue(r.ehrBasedBuff)} && ${containerActionVal(SELF_ENTITY_INDEX, StatK
 
           const ehrValue = x.getActionValueByIndex(StatKey.EHR, SELF_ENTITY_INDEX)
           if (ehrValue >= 0.75) {
-            x.buff(StatKey.ATK, 1.00 * context.baseATK, x.source(SOURCE_TRACE))
+            x.buffDynamic(StatKey.ATK, 1.00 * context.baseATK, action, context, x.source(SOURCE_TRACE))
           }
         },
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
@@ -477,6 +501,11 @@ const display = {
     z: 1.25,
   },
   showcaseColor: '#c1a2c7',
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const KafkaB1: CharacterConfig = {

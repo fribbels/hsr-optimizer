@@ -438,10 +438,6 @@ function ingestFullScan(data: ScannerParserJson, options: IngestFullScanOptions)
   if (newScan) {
     if (options.updateCharacters) {
       // TODO: Merge with input form
-      // We sort by the characters ingame level before setting their level to 80 for the optimizer, so the default char order is more natural
-      newScan.characters = newScan.characters.sort(
-        (a, b) => b.characterLevel - a.characterLevel,
-      )
       newScan.characters.forEach((c) => {
         c.characterLevel = 80
         c.lightConeLevel = 80

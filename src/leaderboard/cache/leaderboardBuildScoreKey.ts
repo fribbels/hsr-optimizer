@@ -35,6 +35,7 @@ export function buildLeaderboardBuildScoreCacheKey(input: {
   singleRelicByPart?: PreviewRelics,
   strippedRelicHash?: string,
   spdBenchmark: number | null,
+  refreshVersion?: string,
 }): string {
   // leaderboardEnabled is a UI-only gating flag with no effect on scoring math —
   // excluded so its addition/removal doesn't invalidate every cached build score.
@@ -49,6 +50,7 @@ export function buildLeaderboardBuildScoreCacheKey(input: {
     lightConeSuperimposition: input.lightConeSuperimposition,
     strippedRelicHash: input.strippedRelicHash ?? buildStrippedRelicHash(input.singleRelicByPart!),
     spdBenchmark: input.spdBenchmark,
+    ...(input.refreshVersion ? { refreshVersion: input.refreshVersion } : {}),
   }
 
   return sha256Text(stableJson(preimage))

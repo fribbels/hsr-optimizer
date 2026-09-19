@@ -470,7 +470,7 @@ const supportSimulation = (): SimulationMetadata => ({
     NULL_TURN_ABILITY_NAME,
   ],
   relicSets: [
-    [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
+    [Sets.WorldRemakingDeliverer, Sets.WorldRemakingDeliverer],
     ...SPREAD_RELICS_4P_SUPPORT,
   ],
   ornamentSets: [

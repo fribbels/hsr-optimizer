@@ -59,6 +59,11 @@ SectionTitles:
   Rerun: 復刻
   AdditionalResources: 追加資源
   Calculate: 計算
+  Simple: シンプル
+  MultiTarget: 対複数
+  AddCharacter: キャラクターを追加
+  AddLightCone: 光円錐を追加
+  AddCharacterAndSignature: 光円錐とキャラの追加
 ColumnTitles:
   Goal: 目標
   Chance: "{{ticketCount}} <1/> での成功率"

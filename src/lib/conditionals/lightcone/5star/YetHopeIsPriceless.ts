@@ -75,7 +75,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       const cdValue = x.getActionValueByIndex(StatKey.CD, SELF_ENTITY_INDEX)
       x.buff(
         StatKey.BOOST,
-        (r.fuaDmgBoost) ? sValuesFuaDmg[s] * Math.min(4, floorSafe((cdValue - 1.20) / 0.20)) : 0,
+        (r.fuaDmgBoost) ? sValuesFuaDmg[s] * Math.max(0, Math.min(4, floorSafe((cdValue - 1.20) / 0.20))) : 0,
         x.damageType(DamageTag.FUA).source(SOURCE_LC),
       )
     },
@@ -85,7 +85,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       return wgsl`
 if (${wgslTrue(r.fuaDmgBoost)}) {
   let cdValue = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, action.config)};
-  let fuaDmgBuff = ${sValuesFuaDmg[s]} * min(4.0, floorSafe((cdValue - 1.20) / 0.20));
+  let fuaDmgBuff = ${sValuesFuaDmg[s]} * max(0.0, min(4.0, floorSafe((cdValue - 1.20) / 0.20)));
   ${buff.hit(HKey.BOOST, 'fuaDmgBuff').damageType(DamageTag.FUA).wgsl(action)}
 }
     `

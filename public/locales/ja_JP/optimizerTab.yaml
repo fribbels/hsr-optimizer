@@ -555,6 +555,7 @@ ComboFilter:
     Enabled: 条件付きバフのプリセットは有効です
     Disabled: 条件付きバフのプリセットは無効です
   ComboOptions:
+    Placeholder: アビリティ
     None: 'なし'
     Basic: 通常
     Skill: スキル

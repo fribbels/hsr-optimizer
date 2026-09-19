@@ -63,7 +63,7 @@ const conditionals: SetConditionals = {
   ],
   gpuTerminal: (action: OptimizerAction, context: OptimizerContext) => `
   if (
-    relic4p(*p_sets, SET_IronCavalryAgainstTheScourge) >= 1
+    relic4p(*p_sets, SET_IronCavalryAgainstTheScourge)
     && ${containerActionVal(SELF_ENTITY_INDEX, AKey.BE, action.config)} >= 1.50
   ) {
     ${buff.hit(HKey.DEF_PEN, 0.10).damageType(DamageTag.BREAK).wgsl(action, 2)}

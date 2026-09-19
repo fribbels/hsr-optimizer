@@ -233,6 +233,9 @@ Characters:
   "1502":
     Name: Yao Guang
     LongName: Yao Guang
+  "1503":
+    Name: Pearl
+    LongName: Pearl
   "1504":
     Name: Ashveil
     LongName: Ashveil
@@ -449,6 +452,14 @@ RelicSets:
     Name: Divine-Querying Master Smith
     Description2pc: Max HP +12%.
     Description4pc: CRIT DMG yang diakibatkan pengguna pada target musuh yang terkena status Pengurangan DEF meningkat 28%. Setelah pengguna memberikan status Pengurangan DEF pada target musuh, seluruh rekan tim memperoleh "Comburent" selama 2 giliran. Efek ini tidak dapat ditumpuk. DMG yang diakibatkan rekan tim yang memiliki "Comburent" meningkat 15%. Efek ini dapat dipicu kembali setelah pengguna melancarkan serangan.
+  "133":
+    Name: Dreamlit Actor
+    Description2pc: Increases SPD by 6%.
+    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
+  "134":
+    Name: The Edacious Heretic
+    Description2pc: Increases ATK by 12%.
+    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
   "301":
     Name: Space Sealing Station
     Description2pc: Meningkatkan 12% ATK pengguna. Meningkatkan 12% ATK tambahan ketika SPD pengguna lebih dari atau sama dengan 120.
@@ -840,6 +851,8 @@ Lightcones:
     Name: Dazzled by a Flowery World
   "23054":
     Name: When She Decided to See
+  "23055":
+    Name: Colors for Tomorrow
   "23056":
     Name: The Finale of a Lie
   "23057":

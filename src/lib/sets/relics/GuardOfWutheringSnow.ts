@@ -42,7 +42,7 @@ const conditionals: SetConditionals = {
     x.multiplicativeComplement(StatKey.DMG_RED, 0.08, x.source(Source.GuardOfWutheringSnow))
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (relic2p(*p_sets, SET_GuardOfWutheringSnow) >= 1) {
+    if (relic2p(*p_sets, SET_GuardOfWutheringSnow)) {
       ${buff.actionMultiplicativeComplement(AKey.DMG_RED, 0.08).wgsl(action, 2)}
     }
   `,

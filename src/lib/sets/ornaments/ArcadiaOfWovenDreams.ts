@@ -49,7 +49,7 @@ const conditionals: SetConditionals = {
     )
   },
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
-    if (ornament2p(*p_sets, SET_ArcadiaOfWovenDreams) >= 1) {
+    if (ornament2p(*p_sets, SET_ArcadiaOfWovenDreams)) {
       let arcadiaBuffValue = getArcadiaOfWovenDreamsValue(setConditionals.valueArcadiaOfWovenDreams);
       ${buff.action(AKey.BOOST, 'arcadiaBuffValue').targets(TargetTag.SelfAndMemosprite).wgsl(action, 2)}
     }

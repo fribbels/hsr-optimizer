@@ -3,13 +3,10 @@ import {
   LeaderboardBuildScoreCache,
 } from 'leaderboard/cache/leaderboardBuildScoreCache'
 import { parseLeaderboardBuildScoreCacheValue } from 'leaderboard/cache/leaderboardBuildScoreCacheValue'
-import { parseExport } from 'leaderboard/ingest/exportParser'
 import { isEligibleRaw } from 'leaderboard/ingest/eligibility'
 import type { EligibleConverted } from 'leaderboard/ingest/eligibility'
+import { parseExport } from 'leaderboard/ingest/exportParser'
 import { extractPreFilterSubstats } from 'leaderboard/ingest/preFilterExtractor'
-import { CharacterConverter } from 'lib/importer/characterConverter'
-import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
-import { Metadata } from 'lib/state/metadataInitializer'
 import {
   buildProfilePayloadIndex,
   diffProfilePayloads,
@@ -61,6 +58,10 @@ import {
   type PublicCharacterData,
 } from 'leaderboard/shared/types'
 import {
+  buildDependencyNamespace,
+  getDependencyVersions,
+} from 'leaderboard/shared/versioning'
+import {
   compressedProfileSampleBase64,
   sampleFetchedAt,
   sampleUid,
@@ -68,10 +69,6 @@ import {
 import {
   buildLeaderboardScoreWorkerStateKey,
 } from 'leaderboard/workers/profileWorkerContracts'
-import {
-  buildDependencyNamespace,
-  getDependencyVersions,
-} from 'leaderboard/shared/versioning'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { TrailblazerHarmonyCaelus } from 'lib/conditionals/character/8000/TrailblazerHarmony'
@@ -83,7 +80,10 @@ import {
   Stats,
   type SubStats,
 } from 'lib/constants/constants'
+import { CharacterConverter } from 'lib/importer/characterConverter'
 import type { AugmentedStats } from 'lib/relics/relicAugmenter'
+import { substatPotentialUnits } from 'lib/relics/scoring/scoringConstants'
+import { Metadata } from 'lib/state/metadataInitializer'
 import type { CharacterId } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import {
@@ -668,6 +668,10 @@ describe('leaderboard script contracts', () => {
     }
 
     const baseKey = buildLeaderboardBuildScoreCacheKey(baseInput)
+    expect(buildLeaderboardBuildScoreCacheKey({ ...baseInput, refreshVersion: undefined })).toBe(baseKey)
+    const refreshedKey = buildLeaderboardBuildScoreCacheKey({ ...baseInput, refreshVersion: 'refresh-1' })
+    expect(refreshedKey).not.toBe(baseKey)
+    expect(buildLeaderboardBuildScoreCacheKey({ ...baseInput, refreshVersion: 'refresh-2' })).not.toBe(refreshedKey)
     const sameWithDifferentRelicIds = buildLeaderboardBuildScoreCacheKey({
       ...baseInput,
       singleRelicByPart: makePreviewRelics('relic-b'),
@@ -826,18 +830,24 @@ describe('leaderboard script contracts', () => {
     expect(parseLeaderboardBuildScoreCacheValue('null', 'key')).toBeNull()
 
     // Key mismatch
-    expect(parseLeaderboardBuildScoreCacheValue(JSON.stringify({
-      key: 'other-key',
-      createdAt: new Date().toISOString(),
-      score,
-    }), 'expected-key')).toBeNull()
+    expect(parseLeaderboardBuildScoreCacheValue(
+      JSON.stringify({
+        key: 'other-key',
+        createdAt: new Date().toISOString(),
+        score,
+      }),
+      'expected-key',
+    )).toBeNull()
 
     // Invalid score (Infinity)
-    expect(parseLeaderboardBuildScoreCacheValue(JSON.stringify({
-      key: 'valid-key',
-      createdAt: new Date().toISOString(),
-      score: { ...score, percent: Number.POSITIVE_INFINITY },
-    }), 'valid-key')).toBeNull()
+    expect(parseLeaderboardBuildScoreCacheValue(
+      JSON.stringify({
+        key: 'valid-key',
+        createdAt: new Date().toISOString(),
+        score: { ...score, percent: Number.POSITIVE_INFINITY },
+      }),
+      'valid-key',
+    )).toBeNull()
   })
 
   test('leaderboard build score cache auto-flushes at the configured interval', { timeout: 15_000 }, () => {

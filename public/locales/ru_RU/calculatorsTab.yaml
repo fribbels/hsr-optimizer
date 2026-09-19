@@ -1,5 +1,49 @@
+AHA:
+  Label: Скорость Ахи
+  Solver:
+    Title: 'Как достичь нужной скорости Ахи:'
+    Output:
+      Teammate0: СКР 1-го союзника должна быть
+      Teammate1: СКР 2-го союзника должна быть
+      Teammate2: СКР 3-го союзника должна быть
+      Teammate3: СКР 4-го союзника должна быть
+      AllFilled: Все ячейки заполнены
+      AlreadyMet: Желаемая СКР Ахи достигнута
+    Input:
+      DesiredAha: Желаемая СКР Ахи
+  Calculator:
+    Title: Калькулятор скорости Ахи
+    TeammateN: Союзник {{position}}
+    Constant: Постоянная
+    Header:
+      ElationTeammate: "Союзник \nпути Радости"
+      CombatSpeed: "Скорость\nВ бою"
+      AhaSpeed: "Скорость Ахи"
+    Formula:
+      Aha: Скорость Ахи
+      TeammateSymbol: С
 EHR:
   Label: Шанс эффектов
   Calculator:
+    Title: Калькулятор наложения дебаффов
+    EHRLabel: '± {{value}}% $t(common:ShortStats.Effect Hit Rate)'
+    EquationLabel:
+      BaseChance: Базовый шанс
+      EffectRes: Мультипликатор СопрЭфф
+      DebuffRes: Мультипликатор СопрДебаф
+      HitRate: Мультипликатор ШансЭфф
     Input:
+      EffectRes: СопрЭфф Врага
+      DebuffRes: СопрДебаф Врага
+      BaseChance: БазШанс дебаффа
+      Attempts: Попыток наложить дебафф
       HitRate: Шанс эффектов
+      Range: Диапазон сетки
+    Output:
+      Change: шанс
+      PerAttempt: За попытку
+      OverAttempts: За {{count}} попыток
+  Solver:
+    Title: 'Сколько нужно ШансЭфф если:'
+    Input: Желаемый шанс задебаффать
+    Output: Необходимый ШансЭфф

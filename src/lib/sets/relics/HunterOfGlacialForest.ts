@@ -1,7 +1,6 @@
 import {
   ConditionalDataType,
   Sets,
-  Stats,
 } from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
@@ -43,10 +42,8 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
-  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-    if (context.elementalDamageType == Stats.Ice_DMG) {
-      c.ICE_DMG_BOOST.buff(0.10, Source.HunterOfGlacialForest)
-    }
+  p2c: (c: BasicStatsArray) => {
+    c.ICE_DMG_BOOST.buff(0.10, Source.HunterOfGlacialForest)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.enabledHunterOfGlacialForest) {
@@ -58,7 +55,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      relic4p(*p_sets, SET_HunterOfGlacialForest) >= 1
+      relic4p(*p_sets, SET_HunterOfGlacialForest)
       && setConditionals.enabledHunterOfGlacialForest == true
     ) {
       ${buff.action(AKey.CD, 0.25).wgsl(action, 2)}

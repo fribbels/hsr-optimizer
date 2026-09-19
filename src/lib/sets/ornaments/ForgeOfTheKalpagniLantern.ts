@@ -55,7 +55,7 @@ const conditionals: SetConditionals = {
   ],
   gpu: (action: OptimizerAction, context: OptimizerContext) => `
     if (
-      ornament2p(*p_sets, SET_ForgeOfTheKalpagniLantern) >= 1
+      ornament2p(*p_sets, SET_ForgeOfTheKalpagniLantern)
       && setConditionals.enabledForgeOfTheKalpagniLantern == true
     ) {
       ${buff.action(AKey.BE, 0.40).wgsl(action, 2)}

@@ -407,6 +407,7 @@ const scoring = (): ScoringMetadata => ({
     [Parts.Body]: [
       Stats.CD,
       Stats.CR,
+      Stats.HP_P,
     ],
     [Parts.Feet]: [
       Stats.SPD,

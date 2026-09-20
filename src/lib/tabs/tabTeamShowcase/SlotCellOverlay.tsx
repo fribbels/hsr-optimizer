@@ -6,8 +6,8 @@ import {
   IconUser,
 } from '@tabler/icons-react'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
-import { SlotDragContext } from 'lib/tabs/tabTeamShowcase/slotDrag'
 import styles from 'lib/tabs/tabTeamShowcase/SlotCellOverlay.module.css'
+import { SlotDragContext } from 'lib/tabs/tabTeamShowcase/slotDrag'
 import { SlotScoringSelect } from 'lib/tabs/tabTeamShowcase/SlotScoringSelect'
 import type { SlotScoring } from 'lib/tabs/tabTeamShowcase/teamShowcaseScoring'
 import type { SlotInteractions } from 'lib/tabs/tabTeamShowcase/useSlotInteractions'
@@ -23,46 +23,20 @@ import { useTranslation } from 'react-i18next'
 const ADD_ICON_SIZE = 28
 const CONTROL_ICON_SIZE = 16
 const HANDLE_ICON_SIZE = 44
-/** Mantine's md button is 36px; Change character is the main action and gets half again */
 const CHANGE_CHARACTER_BUTTON_HEIGHT = 54
 const CONTROL_SIZE = 'md'
 
-/** Mantine ships as layered CSS, so these unlayered module rules win without specificity tricks */
 const ART_BUTTON_CLASS_NAMES = { root: styles.artButton }
 const ART_SELECT_CLASS_NAMES = { input: styles.artInput, section: styles.artSection }
-
-// TODO(i18n): card controls copy
-const BENCHMARK_LABEL = 'Benchmark'
-const CARD_LABEL = 'Card options, drag to reorder'
 
 /** A click with no pointer behind it, i.e. keyboard activation, reports zero clicks */
 const KEYBOARD_CLICK_DETAIL = 0
 const POINTER_DOWN_EVENT = 'pointerdown'
 
 /**
- * Interaction layer covering one card cell of the TeamCardGrid. The cards themselves are inert, so this
- * is the only way to interact with a cell. Empty cells are a dashed add target. Filled cells reveal, on
- * tap (or hover on desktop), a gradient scrim along the bottom carrying Change character, the benchmark select and
- * Remove, and a disc at the centre marking the card as something that can be picked up. Tapping the card
- * never opens the picker on its own: on touch a tap is the only input, and it must not swap a character
- * by accident.
- *
- * The whole card is the drag source. The controls are excluded for free, because the sheet holding them
- * sits above the card-wide target rather than inside it, so a press that lands on a control never
- * reaches the card underneath.
- *
- * While any card is being dragged the controls all step aside, and reveal stops responding to the pointer
- * crossing cards, so the grid does not light up behind the card in flight. The dragged card keeps its
- * grip visible. Dropping is what decides which card is revealed next, so the layout owns that, not this.
- *
- * Only one card is ever revealed. The revealed slot lives in the shared interactions and the newest
- * claim wins: hovering, tapping or focusing a card claims it; leaving it, focusing outside it, or a
- * pointer-down anywhere outside it releases it. Reveal is never driven by CSS focus, because a clicked
- * card keeps focus while another is hovered and both would show. Keyboard activation toggles, so a
- * keyboard user can close the card they are on.
- *
- * The overlay is a sibling of the captured grid element, so it can never appear in the screenshot; it
- * is hidden during a capture anyway so the grid visibly clears while the screenshot is taken.
+ * Interaction layer above an inert card. The card-wide target owns reveal and pointer drag; controls sit
+ * above it so they never begin a drag. Shared reveal state keeps one card open, and all controls step
+ * aside while any card moves. This layer is outside the captured grid.
  */
 export function SlotCellOverlay({
   index,
@@ -77,7 +51,6 @@ export function SlotCellOverlay({
   filled: boolean,
   interactions: SlotInteractions,
   scoring: SlotScoring | null,
-  /** A screenshot is being taken */
   capturing: boolean,
   onScoringChange: (scoringType: ScoringType) => void,
   onRemove: () => void,
@@ -151,7 +124,7 @@ export function SlotCellOverlay({
         type='button'
         ref={drag?.setActivatorNodeRef}
         className={styles.cellTarget}
-        aria-label={CARD_LABEL}
+        aria-label={t('CardOptions')}
         aria-expanded={revealed}
         onPointerUp={() => revealSlot(index)}
         onClick={handleClick}
@@ -183,7 +156,7 @@ export function SlotCellOverlay({
             <div className={styles.grow}>
               <SlotScoringSelect
                 size={CONTROL_SIZE}
-                aria-label={BENCHMARK_LABEL}
+                aria-label={t('Benchmark')}
                 scoring={scoring}
                 onChange={onScoringChange}
                 classNames={ART_SELECT_CLASS_NAMES}

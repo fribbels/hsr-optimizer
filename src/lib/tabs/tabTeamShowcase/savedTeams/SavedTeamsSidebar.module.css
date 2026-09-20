@@ -1,0 +1,17 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-height: 0;
+  padding: 8px;
+  background-color: var(--layer-inset);
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.listSlot {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}

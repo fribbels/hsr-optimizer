@@ -121,6 +121,7 @@ const SCREENSHOT_EXPORT_DPR = 2
 const PREBAKE_MAX_DIMENSION = Math.max(cardTotalW, parentH) * SCREENSHOT_EXPORT_DPR
 
 export type ScreenshotSize = { width: number, height: number }
+export type ScreenshotAction = 'clipboard' | 'download'
 
 const DEFAULT_SCREENSHOT_SIZE: ScreenshotSize = { width: cardTotalW, height: parentH }
 
@@ -524,7 +525,6 @@ const hideHoverButtonsPlugin: SnapdomPlugin = {
   },
 }
 
-
 /** Fallback: boost blur in the clone when pre-bake is unavailable. */
 function buildBlurMultiplierPlugin(blurMultiplier: number): SnapdomPlugin {
   return {
@@ -573,7 +573,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
  */
 export async function screenshotElementById(
   elementId: string,
-  action: 'clipboard' | 'download',
+  action: ScreenshotAction,
   characterName?: string | null,
   size: ScreenshotSize = DEFAULT_SCREENSHOT_SIZE,
 ): Promise<void> {

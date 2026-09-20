@@ -24,52 +24,51 @@ import {
   POINTER_DRAG_ACCESSIBILITY,
   usePointerDragSensors,
 } from 'lib/tabs/tabTeamShowcase/pointerDragSensors'
+import styles from 'lib/tabs/tabTeamShowcase/savedTeams/SavedTeamsList.module.css'
+import { useSavedTeamAppearances } from 'lib/tabs/tabTeamShowcase/savedTeams/useSavedTeamAppearances'
 import { TEAM_SIZE } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
-import styles from 'lib/tabs/tabTeamShowcase/trials/savedTeams/SavedTeamsList.module.css'
-import type { SavedTeamsListProps } from 'lib/tabs/tabTeamShowcase/trials/trialTypes'
-import { useSlotAppearances } from 'lib/tabs/tabTeamShowcase/useSlotAppearance'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-react'
 import type { KeyboardEvent } from 'react'
 import {
+  memo,
   useCallback,
+  useMemo,
   useRef,
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type {
-  TeamId,
+  SavedTeamId,
   TeamShowcaseSavedTeam,
 } from 'types/store'
 
 const TOOL_ICON_SIZE = 14
 const KEY_ENTER = 'Enter'
 const KEY_ESCAPE = 'Escape'
-/** Dragging only ever moves a tile up or down, so sideways travel is discarded rather than drawn */
 const DRAG_MODIFIERS = [restrictToVerticalAxis]
 
-/**
- * The scrolling list of saved teams, which can be dragged into any order.
- *
- * A tile is both the drag handle and the button that loads its team, so the two have to be told apart.
- * Movement does that on the way in, through the shared activation thresholds. On the way out a drag still
- * ends in a click, which would load the team the user had only meant to move, so a drag latches a flag
- * that the next click spends.
- */
-export function SavedTeamsList({ state }: SavedTeamsListProps) {
+export function SavedTeamsList({
+  activeSavedTeamId,
+  savedTeams,
+  onLoad,
+  onDelete,
+  onRename,
+  onMove,
+}: {
+  activeSavedTeamId: SavedTeamId | null,
+  savedTeams: TeamShowcaseSavedTeam[],
+  onLoad: (id: SavedTeamId) => void,
+  onDelete: (id: SavedTeamId) => void,
+  onRename: (id: SavedTeamId, name: string) => void,
+  onMove: (from: number, to: number) => void,
+}) {
   const { t } = useTranslation('teamShowcaseTab')
-  const {
-    activeSavedTeamId,
-    savedTeams,
-    loadSavedTeam,
-    deleteSavedTeam,
-    renameSavedTeam,
-    moveSavedTeam,
-  } = state
-
   const sensors = usePointerDragSensors()
   const draggedRef = useRef(false)
-  const teamIds = savedTeams.map((team) => team.id)
+  const teamIds = useMemo(() => savedTeams.map((team) => team.id), [savedTeams])
+  const deleteLabel = t('SavedTeams.Delete')
+  const renameLabel = t('SavedTeams.Rename')
 
   const handleDragStart = useCallback(() => {
     draggedRef.current = true
@@ -77,12 +76,11 @@ export function SavedTeamsList({ state }: SavedTeamsListProps) {
 
   const handleDragEnd = useCallback(({ active, over }: DragEndEvent) => {
     if (!over || active.id === over.id) return
-    const from = teamIds.indexOf(active.id as TeamId)
-    const to = teamIds.indexOf(over.id as TeamId)
-    if (from >= 0 && to >= 0) moveSavedTeam(from, to)
-  }, [moveSavedTeam, teamIds])
+    const from = teamIds.indexOf(active.id as SavedTeamId)
+    const to = teamIds.indexOf(over.id as SavedTeamId)
+    if (from >= 0 && to >= 0) onMove(from, to)
+  }, [onMove, teamIds])
 
-  /** True once per drag, so the click the drag ends in does not also load the team */
   const consumeDrag = useCallback(() => {
     const dragged = draggedRef.current
     draggedRef.current = false
@@ -112,12 +110,12 @@ export function SavedTeamsList({ state }: SavedTeamsListProps) {
                   key={team.id}
                   team={team}
                   active={team.id === activeSavedTeamId}
-                  deleteLabel={t('SavedTeams.Delete')}
-                  renameLabel={t('SavedTeams.Rename')}
+                  deleteLabel={deleteLabel}
+                  renameLabel={renameLabel}
                   consumeDrag={consumeDrag}
-                  onLoad={loadSavedTeam}
-                  onDelete={deleteSavedTeam}
-                  onRename={renameSavedTeam}
+                  onLoad={onLoad}
+                  onDelete={onDelete}
+                  onRename={onRename}
                 />
               ))}
             </SortableContext>
@@ -127,11 +125,41 @@ export function SavedTeamsList({ state }: SavedTeamsListProps) {
   )
 }
 
-/**
- * One saved team. The cover is the load target and the drag handle both; rename and delete appear over it
- * on hover or focus, and being above it they never start a drag of their own.
- */
-function SavedTeamTile({
+interface SavedTeamTileProps {
+  team: TeamShowcaseSavedTeam
+  active: boolean
+  deleteLabel: string
+  renameLabel: string
+  consumeDrag: () => boolean
+  onLoad: (id: SavedTeamId) => void
+  onDelete: (id: SavedTeamId) => void
+  onRename: (id: SavedTeamId, name: string) => void
+}
+
+function SavedTeamTile(props: SavedTeamTileProps) {
+  // Attributes are omitted because they advertise keyboard dragging, while this surface is pointer-only.
+  const {
+    setNodeRef,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: props.team.id })
+
+  return (
+    <div
+      ref={setNodeRef}
+      className={styles.tile}
+      data-active={props.active}
+      data-dragging={isDragging}
+      style={{ transform: CSS.Transform.toString(transform), transition }}
+    >
+      <SavedTeamTileContent {...props} dragListeners={listeners} />
+    </div>
+  )
+}
+
+const SavedTeamTileContent = memo(function SavedTeamTileContent({
   team,
   active,
   deleteLabel,
@@ -140,33 +168,15 @@ function SavedTeamTile({
   onLoad,
   onDelete,
   onRename,
-}: {
-  team: TeamShowcaseSavedTeam,
-  active: boolean,
-  deleteLabel: string,
-  renameLabel: string,
-  consumeDrag: () => boolean,
-  onLoad: (id: TeamId) => void,
-  onDelete: (id: TeamId) => void,
-  onRename: (id: TeamId, name: string) => void,
+  dragListeners,
+}: SavedTeamTileProps & {
+  dragListeners: ReturnType<typeof useSortable>['listeners'],
 }) {
   const [editing, setEditing] = useState(false)
   const [draftName, setDraftName] = useState(team.name)
-  // Enter and Escape close the editor, and removing a focused input may still fire blur afterwards.
-  // This guard keeps that trailing blur from renaming twice or undoing a cancel.
   const editClosedRef = useRef(false)
-  const appearances = useSlotAppearances(team.characterIds)
+  const appearances = useSavedTeamAppearances(team.characterIds)
   const cells = Array.from({ length: TEAM_SIZE }, (_, slot) => appearances[slot] ?? null)
-
-  // dnd-kit's matching `attributes` are left off deliberately: they describe the tile to a screen reader
-  // as keyboard-draggable, and dragging here is pointer-only.
-  const {
-    setNodeRef,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: team.id })
 
   const handleLoad = () => {
     if (consumeDrag()) return
@@ -201,19 +211,13 @@ function SavedTeamTile({
   }
 
   return (
-    <div
-      ref={setNodeRef}
-      className={styles.tile}
-      data-active={active}
-      data-dragging={isDragging}
-      style={{ transform: CSS.Transform.toString(transform), transition }}
-    >
+    <>
       <UnstyledButton
         className={styles.cover}
         aria-label={team.name}
         aria-current={active || undefined}
         onClick={handleLoad}
-        {...listeners}
+        {...dragListeners}
       >
         <span className={styles.mosaic}>
           {cells.map((appearance, slot) => (
@@ -227,6 +231,7 @@ function SavedTeamTile({
                   alt=''
                   draggable={false}
                   decoding='async'
+                  loading='lazy'
                 />
               )}
             </span>
@@ -268,6 +273,6 @@ function SavedTeamTile({
           </Tooltip>
         </div>
       )}
-    </div>
+    </>
   )
-}
+})

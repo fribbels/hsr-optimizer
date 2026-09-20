@@ -9,7 +9,6 @@
   padding-bottom: 200px;
 }
 
-/* One row per axis; skipped entirely when no axis has anything to compare */
 .harnessBar {
   display: flex;
   flex-direction: column;
@@ -36,7 +35,6 @@
   letter-spacing: 0.08em;
 }
 
-/* Long axes wrap onto further lines rather than hiding in a dropdown */
 .harnessOptions {
   display: flex;
   flex-wrap: wrap;

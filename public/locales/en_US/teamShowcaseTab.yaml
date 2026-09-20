@@ -5,7 +5,11 @@ Buttons:
   AddCharacter: Add character
   Remove: Remove
   ChangeCharacter: Change character
-EmptySlot: Select a character
+Panels:
+  Characters: Characters
+  Teams: Teams
+Benchmark: Benchmark
+CardOptions: Card options, drag to reorder
 ScreenshotName: Team
 SavedTeams:
   Header: Gallery
@@ -14,5 +18,3 @@ SavedTeams:
   Rename: Rename
   Empty: No saved teams yet
   DefaultName: 'Team {{index}}'
-Scoring:
-  Label: Scoring

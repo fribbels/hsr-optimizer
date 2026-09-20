@@ -2,6 +2,4 @@ files:
   - source: /public/locales/en_US/*.yaml
     ignore:
       - /public/locales/en_US/gameData.yaml
-      # Team showcase strings are still being reworked; remove this once the UI settles.
-      - /public/locales/en_US/teamShowcaseTab.yaml
     translation: /public/locales/%locale_with_underscore%/%original_file_name%

@@ -8021,25 +8021,27 @@ interface Resources {
     }
   },
   "teamShowcaseTab": {
+    "Benchmark": "Benchmark",
     "Buttons": {
       "AddCharacter": "Add character",
-      "Clear": "Clear team",
+      "ChangeCharacter": "Change character",
+      "Clear": "Clear characters",
       "CopyScreenshot": "Copy screenshot",
       "DownloadScreenshot": "Download screenshot",
-      "Remove": "Remove",
-      "Swap": "Swap"
+      "Remove": "Remove"
     },
-    "EmptySlot": "Select a character",
+    "CardOptions": "Card options, drag to reorder",
+    "Panels": {
+      "Characters": "Characters",
+      "Teams": "Teams"
+    },
     "SavedTeams": {
       "DefaultName": "Team {{index}}",
       "Delete": "Delete team",
       "Empty": "No saved teams yet",
-      "Header": "Saved teams",
+      "Header": "Gallery",
       "Rename": "Rename",
       "Save": "Save team"
-    },
-    "Scoring": {
-      "Label": "Scoring"
     },
     "ScreenshotName": "Team"
   },

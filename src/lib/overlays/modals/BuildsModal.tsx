@@ -36,6 +36,7 @@ import { navigateTo } from 'lib/tabs/navigation/utils'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
+import type { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import {
   type CSSProperties,
   memo,
@@ -152,7 +153,7 @@ function BuildsModalContent() {
     }
   }, [confirm, handleCancel, t])
 
-  function clipboardClicked(action: 'clipboard' | 'download') {
+  function clipboardClicked(action: ScreenshotAction) {
     if (selectedBuild === null || character === null) {
       return
     }

@@ -1,8 +1,10 @@
 import type { TFunction } from 'i18next'
 import { handleTeamSelection } from 'lib/characterPreview/characterPreviewController'
 import {
+  buildShowcaseScoringOptions,
   resolveShowcaseScoringOrder,
   resolveShowcaseScoringType,
+  type ShowcaseScoringOption,
 } from 'lib/characterPreview/scoring/showcaseScoringOrder'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import type { TeamSelection } from 'lib/constants/constants'
@@ -20,14 +22,9 @@ import type {
   SimulationMetadata,
 } from 'types/metadata'
 
-export interface SlotScoringOption {
-  value: ScoringType
-  label: string
-}
-
 /** The scoring algorithms a slot's card can display, and the one it currently shows */
 export interface SlotScoring {
-  options: SlotScoringOption[]
+  options: ShowcaseScoringOption[]
   value: ScoringType
 }
 
@@ -55,7 +52,7 @@ export function resolveSlotScoring(
   )
 
   return {
-    options: order.map((scoringType) => ({ value: scoringType, label: resolveScoringLabel(scoringType, t) })),
+    options: buildShowcaseScoringOptions(order, (scoringType) => resolveScoringLabel(scoringType, t)),
     value: resolveShowcaseScoringType(storedScoringType, order),
   }
 }

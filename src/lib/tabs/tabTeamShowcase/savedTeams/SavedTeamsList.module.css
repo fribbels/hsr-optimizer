@@ -1,14 +1,9 @@
-/*
- * The scrolling saved-teams list.
- * that only changes how a tile looks is a block in the tile section below.
- */
-
 .scroll {
   flex: 1;
   min-height: 0;
 }
 
-/* OverlayScrollbars injects wrapper divs; target the content container for flex layout */
+/* OverlayScrollbars injects wrapper divs; target the content container for flex layout. */
 .scroll :global([data-overlayscrollbars-contents]) {
   display: flex !important;
   flex-direction: column;
@@ -28,16 +23,11 @@
   color: var(--text-secondary);
 }
 
-/* ---------------------------------------------------------------------------
- * Tile, cover style — portraits edge to edge with the name over a dark scrim
- * ------------------------------------------------------------------------- */
-
 .tile {
   position: relative;
   flex-shrink: 0;
 }
 
-/* The tile being dragged rides over the ones it passes, and takes no pointer of its own while it does */
 .tile[data-dragging='true'] {
   z-index: 1;
 }
@@ -48,13 +38,7 @@
   pointer-events: none;
 }
 
-/*
- * The border is always present so hover and selection only change its colour, never the layout.
- *
- * The cover is the drag handle as well as the load button. `manipulation` rather than `none` leaves a
- * finger free to scroll the list over it, which the touch sensor allows by waiting for a press before it
- * takes a drag.
- */
+/* The tile cover is both the load button and drag handle. Manipulation preserves touch scrolling. */
 .cover {
   position: relative;
   display: block;
@@ -82,12 +66,10 @@
   border-color: var(--border-default);
 }
 
-/* Declared after hover so the selection colour holds while hovered. */
 .tile[data-active='true'] .cover {
   border-color: var(--primary-default);
 }
 
-/* The grid gap over the inset background draws the seams between portraits. */
 .mosaic {
   position: absolute;
   inset: 0;
@@ -107,9 +89,7 @@
   display: block;
 }
 
-/* The preview bust is 376x512. Render it at exactly quarter scale (94x128) so the downscale is a clean
- * 4:1 and the head and shoulders fit the 118px cell; the cell crops the sides and the bottom 10px.
- * Centred with a whole-pixel negative margin rather than a percentage transform. */
+/* Default preview busts render at quarter scale for a clean 4:1 downsample. */
 .art[data-custom='false'] {
   position: absolute;
   top: 0;
@@ -119,8 +99,6 @@
   margin-left: -47px;
 }
 
-/* Custom portraits have arbitrary aspect ratios and carry their own focus point, so they crop with
- * object-fit. Nothing is transformed on top of them. */
 .art[data-custom='true'] {
   position: absolute;
   inset: 0;
@@ -130,8 +108,6 @@
   object-position: center top;
 }
 
-/* The one gradient: a plain dark scrim behind the name. tokens.css has no scrim colour, so the alpha
- * is literal. */
 .scrim {
   position: absolute;
   right: 0;
@@ -148,23 +124,20 @@
   bottom: 8px;
   left: 8px;
   display: block;
+  overflow: hidden;
   font-size: 13px;
   line-height: 18px;
   font-weight: 500;
-  text-align: left;
   color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
+  text-align: left;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .tile[data-active='true'] .name {
   color: var(--primary-light);
 }
 
-/* ---------------------------------------------------------------------------
- * Tools and rename, layered above the cover
- * ------------------------------------------------------------------------- */
 .tools {
   position: absolute;
   top: 6px;

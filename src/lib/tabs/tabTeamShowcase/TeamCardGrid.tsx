@@ -11,8 +11,8 @@ import {
   parentH,
 } from 'lib/constants/constantsUi'
 import {
-  type SlotDragHandle,
   SlotDragContext,
+  type SlotDragHandle,
   useSlotDrag,
 } from 'lib/tabs/tabTeamShowcase/slotDrag'
 import styles from 'lib/tabs/tabTeamShowcase/TeamCardGrid.module.css'
@@ -48,23 +48,16 @@ const PITCH_Y = parentH + GRID_GAP
  */
 export function TeamCardGrid({
   characters,
-  scale = DISPLAY_SCALE,
   renderSlotOverlay,
   onSlotReorder,
   onSlotDrop,
-  className,
 }: {
   characters: (Character | null)[],
-  /** Display scale of the full-resolution grid */
-  scale?: number,
-  /** Per-slot controls layered over each card, kept out of the capture */
-  renderSlotOverlay?: (index: number, character: Character | null) => ReactNode,
-  /** A drag rearranged the cards, given as the slot each position now takes its card from */
-  onSlotReorder?: (order: number[]) => void,
-  /** The position a dragged card came to rest in, whether or not anything moved */
-  onSlotDrop?: (landed: number) => void,
-  className?: string,
+  renderSlotOverlay: (index: number, character: Character | null) => ReactNode,
+  onSlotReorder: (order: number[]) => void,
+  onSlotDrop: (landed: number) => void,
 }) {
+  const scale = DISPLAY_SCALE
   const overlayGap = GRID_GAP * scale
   const drag = useSlotDrag({
     count: characters.length,
@@ -79,7 +72,7 @@ export function TeamCardGrid({
   return (
     <DndContext {...drag.dndProps}>
       <div
-        className={[styles.viewport, className].filter(Boolean).join(' ')}
+        className={styles.viewport}
         style={{
           width: GRID_SIZE.width * scale,
           height: GRID_SIZE.height * scale,
@@ -115,27 +108,25 @@ export function TeamCardGrid({
           </div>
         </div>
 
-        {renderSlotOverlay && (
-          <div
-            className={styles.overlayLayer}
-            style={{
-              gridTemplateColumns: '1fr 1fr',
-              gap: overlayGap,
-              '--team-card-radius': `${cardBorderRadius * scale}px`,
-            } as CSSProperties}
-          >
-            {characters.map((character, index) => (
-              <SlotDragCell
-                key={drag.slotKeys[index]}
-                index={index}
-                innerRef={drag.overlayRefs[index]}
-                dragActive={drag.dragActive}
-              >
-                {renderSlotOverlay(index, character)}
-              </SlotDragCell>
-            ))}
-          </div>
-        )}
+        <div
+          className={styles.overlayLayer}
+          style={{
+            'gridTemplateColumns': '1fr 1fr',
+            'gap': overlayGap,
+            '--team-card-radius': `${cardBorderRadius * scale}px`,
+          } as CSSProperties}
+        >
+          {characters.map((character, index) => (
+            <SlotDragCell
+              key={drag.slotKeys[index]}
+              index={index}
+              innerRef={drag.overlayRefs[index]}
+              dragActive={drag.dragActive}
+            >
+              {renderSlotOverlay(index, character)}
+            </SlotDragCell>
+          ))}
+        </div>
       </div>
     </DndContext>
   )

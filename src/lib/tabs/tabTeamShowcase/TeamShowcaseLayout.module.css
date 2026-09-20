@@ -1,0 +1,13 @@
+.columns {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* MAT_BAND and MAT_BORDER in the layout mirror this padding and border. */
+.gridMat {
+  flex-shrink: 0;
+  padding: 8px;
+  background-color: var(--layer-inset);
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+}

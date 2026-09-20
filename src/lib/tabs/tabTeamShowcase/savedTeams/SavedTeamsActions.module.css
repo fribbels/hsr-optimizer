@@ -1,38 +1,19 @@
-/*
- * Action groups for the saved-teams column. The column gives this no box of its own, so a dock block
- * sets its own padding and its own rule against the list.
- *
- * The scaffolding is a vertical stack, the rule that faces the list, and a group that binds controls
- * tighter to each other than to the next group. Every arrangement is built from those rules.
- */
-
-.stack {
+.root {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  gap: 8px;
-}
-
-/* Groups that are meant to read as separate things get more air between them than within them */
-.spaced {
   gap: 12px;
-}
-
-/* Sits above the list, so the rule and the space are on the underside */
-.top {
   padding-bottom: 12px;
   margin-bottom: 12px;
   border-bottom: var(--border-subtle);
 }
 
-/* Controls that belong together, bound at 6px against the 12px between groups */
 .group {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-/* The seam between two groups drawn as a hairline rather than left to the extra gap alone */
 .ruledGroup {
   padding-bottom: 12px;
   border-bottom: var(--border-subtle);
@@ -55,8 +36,6 @@
   border: var(--border-subtle) !important;
   border-style: dashed !important;
 }
-
-/* ----- Heading ----- */
 
 .title {
   margin: 0;

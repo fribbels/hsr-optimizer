@@ -25,84 +25,34 @@ import {
 } from 'react'
 
 /**
- * Drag-to-reorder for the showcase's card slots.
- *
- * Two things make this different from a stock dnd-kit sortable. The cards are expensive to render, and
- * they live in a layer that is scaled down for display while the interaction layer above them is not, so
- * a drag has to move two DOM trees in two coordinate spaces at once.
- *
- * Both are solved the same way: none of the movement goes through React. Everything a moving cell needs
- * is written straight to it, per frame for the card in flight and once per change of target for the card
- * getting out of its way. React state changes twice in a whole drag, at the start and at the drop, and
- * only so that the card controls step aside. Writing both layers inside the same synchronous callback is
- * what stops the card and the hairline edge drawn over it from separating by a frame.
- *
- * Moving over a card swaps with it rather than shifting the rest along. In a 2x2 that holds empty slots,
- * a swap is what "move this card over there" means; a shift would march the empty slot around the grid.
- *
- * The swaps accumulate. Each new card the drag reaches is exchanged with the arrangement currently on
- * screen, not with the one the drag started from, so a drag that crosses several cards leaves each of
- * them where it was last put. Dragging A over B and then down to D turns A B / C D into B A / C D and
- * then into B D / C A, which is the arrangement the drop commits.
+ * Card and overlay cells live in different coordinate spaces, so drag movement writes both DOM layers
+ * together without routing per-frame work through React. Crossing a slot swaps against the currently
+ * visible order; those swaps accumulate into the order committed on drop.
  */
 
-/**
- * The slot under the cursor wins, and only when the cursor is nowhere over the grid does the nearest
- * slot to the card take over.
- *
- * Comparing the dragged card against the slots instead, which is what dnd-kit does by default, reads
- * wrongly here: the card is the same size as a slot, so its centre has to travel half a card before it
- * counts as being over its neighbour, and until then the drop still belongs to the slot it started in.
- * It also depends on the card's measured rect, where the cursor is a live coordinate that cannot go
- * stale. Both of those make the swap look anchored to where the drag began rather than where it is.
- */
+/** Prefer the slot under the pointer; use the nearest card only after the pointer leaves the grid. */
 const slotCollisionDetection: CollisionDetection = (args) => {
   const underPointer = pointerWithin(args)
   return underPointer.length > 0 ? underPointer : closestCenter(args)
 }
 
-/**
- * Transitions are written to the cells rather than kept in the stylesheet, because the drop clears every
- * transform in the same breath as it reorders the slots. A transition still armed at that moment would
- * animate cards away from the positions they had just been put into.
- */
+/** Drop clears transitions before React commits the reordered slots. */
 const SLIDE_TRANSITION = 'transform 120ms cubic-bezier(0.2, 0, 0, 1)'
 const NO_TRANSITION = 'none'
-/**
- * Above the neighbours a card passes over, both in flight and while it settles into the dropped slot.
- *
- * Deliberately far above anything a card uses inside itself, which today reaches 21 on the light cone
- * panel. A resting cell does not build a stacking context of its own, so those inner layers rise into the
- * grid's context and compete with the lifted card directly rather than travelling with their own card.
- * The cells isolate themselves in the stylesheet to stop that, and this margin means the lift holds even
- * where they have not.
- */
+/** Above all isolated card internals while moving and settling. */
 const LIFTED_Z_INDEX = '100'
 const WILL_CHANGE_TRANSFORM = 'transform'
 const TRANSITION_END_EVENT = 'transitionend'
 
-/**
- * A card is only opaque where its portrait is; the rest is glass over whatever sits behind it, which is
- * the mat at rest and another card once it is lifted over one. Carrying a backing in the mat's own colour
- * gives that glass something of its own to sit on, so a lifted card reads the same as a resting one
- * rather than letting the card below show through it.
- */
-/**
- * A resting cell's hairline edge is drawn in the overlay layer, which sits above every card, so it would
- * be painted across a card being dragged past it. The edges of the cells standing still are dropped for
- * the length of the drag, leaving the only edge on screen the one travelling with the card.
- */
-/**
- * How long after the pointer is released to check that the drag actually ended. dnd-kit ends it during
- * the same event, so by the time this runs a healthy drag has already cleared itself and the check finds
- * nothing to do. Only a drag whose end never arrived is still standing, and that one gets taken down.
- */
+/** Deferred so an ordinary dnd-kit drop can consume the final order before recovery resets it. */
 const DRAG_RECOVERY_DELAY = 100
 const RECOVERY_EVENTS = ['pointerup', 'pointercancel', 'blur']
 
+/** Stationary overlay edges hide while a card passes over them. */
 const CELL_EDGE_OPACITY_PROPERTY = '--cell-edge-opacity'
 const HIDDEN_CELL_EDGE = '0'
 
+/** Opaque mat backing prevents underlying cards showing through the lifted card's glass. */
 const CARD_BACKING = 'var(--layer-inset)'
 /** Full-resolution card radius; this node sits inside the scaled capture layer */
 const CARD_BACKING_RADIUS = 'var(--radius-md)'
@@ -178,15 +128,11 @@ export function useSlotDrag({
 
   const cardNodes = useRef<(HTMLDivElement | null)[]>([])
   const overlayNodes = useRef<(HTMLDivElement | null)[]>([])
-  /** Live copies of the drag state, so the movement handlers never depend on a render */
+  /** Live drag state keeps movement handlers independent of React renders. */
   const activeRef = useRef<number | null>(null)
-  /** The arrangement being previewed, as the slot each position currently takes its card from */
-  const orderRef = useRef<number[]>([])
-  /** The position the dragged card has been swapped into so far */
-  const heldRef = useRef<number | null>(null)
-  /** Where the card in flight actually sits, which the drop needs to glide it home from */
-  const offsetRef = useRef({ x: 0, y: 0 })
-  /** The frame booked to write that position to the DOM, 0 when none is booked */
+  const sourceByPositionRef = useRef<number[]>([])
+  const draggedPositionRef = useRef<number | null>(null)
+  const pointerOffsetRef = useRef({ x: 0, y: 0 })
   const frameRef = useRef(0)
 
   if (slotKeys.length !== count) setSlotKeys(createSlotKeys(count))
@@ -203,7 +149,7 @@ export function useSlotDrag({
     applyTransform(overlayNodes.current[index], dx, dy)
   }, [scale])
 
-  const armSlot = useCallback((index: number, transition: string) => {
+  const setSlotTransition = useCallback((index: number, transition: string) => {
     applyTransition(cardNodes.current[index], transition)
     applyTransition(overlayNodes.current[index], transition)
   }, [])
@@ -211,12 +157,12 @@ export function useSlotDrag({
   /** Puts every cell back to rest, with nothing armed that could animate afterwards */
   const clearAll = useCallback(() => {
     for (let index = 0; index < count; index++) {
-      armSlot(index, NO_TRANSITION)
+      setSlotTransition(index, NO_TRANSITION)
       writeSlot(index, 0, 0)
       restCard(cardNodes.current[index])
       restOverlay(overlayNodes.current[index])
     }
-  }, [armSlot, count, writeSlot])
+  }, [count, setSlotTransition, writeSlot])
 
   /** Offset, in display pixels, from slot `from` to slot `to` */
   const offsetBetween = useCallback((from: number, to: number) => ({
@@ -225,7 +171,7 @@ export function useSlotDrag({
   }), [columns, stepX, stepY])
 
   /** Puts every card where the previewed arrangement says it belongs. The dragged one follows the pointer. */
-  const applyOrder = useCallback((order: number[], dragged: number) => {
+  const renderPreviewOrder = useCallback((order: number[], dragged: number) => {
     for (let position = 0; position < order.length; position++) {
       const slot = order[position]
       if (slot === dragged) continue
@@ -238,13 +184,13 @@ export function useSlotDrag({
     const from = toIndex(active.id)
     if (from == null) return
     activeRef.current = from
-    orderRef.current = Array.from({ length: count }, (_, position) => position)
-    heldRef.current = from
-    offsetRef.current = { x: 0, y: 0 }
+    sourceByPositionRef.current = Array.from({ length: count }, (_, position) => position)
+    draggedPositionRef.current = from
+    pointerOffsetRef.current = { x: 0, y: 0 }
 
     // The card in flight has to track the pointer exactly; only the cards it displaces ease into place
     const slide = prefersReducedMotion() ? NO_TRANSITION : SLIDE_TRANSITION
-    for (let index = 0; index < count; index++) armSlot(index, index === from ? NO_TRANSITION : slide)
+    for (let index = 0; index < count; index++) setSlotTransition(index, index === from ? NO_TRANSITION : slide)
 
     liftCard(cardNodes.current[from])
     liftOverlay(overlayNodes.current[from])
@@ -253,14 +199,14 @@ export function useSlotDrag({
     }
 
     setActiveIndex(from)
-  }, [armSlot, count])
+  }, [count, setSlotTransition])
 
   /** Puts the latest position on the card, once, immediately before the browser paints */
   const flushMove = useCallback(() => {
     frameRef.current = 0
     const from = activeRef.current
     if (from == null) return
-    const offset = offsetRef.current
+    const offset = pointerOffsetRef.current
     writeSlot(from, offset.x, offset.y)
   }, [writeSlot])
 
@@ -269,7 +215,7 @@ export function useSlotDrag({
     if (from == null) return
     // Followed one for one. Holding the card inside the grid instead leaves the cursor able to travel on
     // without it, which reads as the card lagging rather than as a card that has been kept in bounds.
-    offsetRef.current = delta
+    pointerOffsetRef.current = delta
 
     // A high-polling mouse reports this ten times per displayed frame, and only the last report before a
     // paint can ever be seen. Booking a frame collapses them into the one write that is worth making.
@@ -278,22 +224,22 @@ export function useSlotDrag({
 
   const handleDragOver = useCallback(({ over }: DragOverEvent) => {
     const from = activeRef.current
-    const held = heldRef.current
+    const held = draggedPositionRef.current
     if (from == null || held == null) return
     const to = over ? toIndex(over.id) : null
     if (to == null || to === held) return
 
     // Exchange with what is on screen at the new position, not with what started there, so cards the
     // drag has already passed over keep the places it put them
-    const order = [...orderRef.current]
+    const order = [...sourceByPositionRef.current]
     const displaced = order[to]
     order[to] = order[held]
     order[held] = displaced
 
-    orderRef.current = order
-    heldRef.current = to
-    applyOrder(order, from)
-  }, [applyOrder])
+    sourceByPositionRef.current = order
+    draggedPositionRef.current = to
+    renderPreviewOrder(order, from)
+  }, [renderPreviewOrder])
 
   const reset = useCallback(() => {
     if (frameRef.current !== 0) {
@@ -302,9 +248,9 @@ export function useSlotDrag({
     }
     clearAll()
     activeRef.current = null
-    orderRef.current = []
-    heldRef.current = null
-    offsetRef.current = { x: 0, y: 0 }
+    sourceByPositionRef.current = []
+    draggedPositionRef.current = null
+    pointerOffsetRef.current = { x: 0, y: 0 }
     setActiveIndex(null)
   }, [clearAll])
 
@@ -343,13 +289,13 @@ export function useSlotDrag({
     }
     // What the drag arrived at, rather than what dnd-kit reports at the drop, so the committed
     // arrangement is always the one that was on screen
-    const order = orderRef.current
-    const landed = heldRef.current ?? from
+    const order = sourceByPositionRef.current
+    const landed = draggedPositionRef.current ?? from
 
     // The node objects outlive the reorder; their slot index does not, so take them before committing
     const cardNode = cardNodes.current[from]
     const overlayNode = overlayNodes.current[from]
-    const offset = offsetRef.current
+    const offset = pointerOffsetRef.current
     const target = offsetBetween(from, landed)
     const settled = [...order]
 

@@ -9,13 +9,13 @@ import {
 } from 'lib/tabs/tabCharacters/characterPanels'
 import styles from 'lib/tabs/tabCharacters/CharactersPanelSwitch.module.css'
 import type { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const ICON_SIZE = 16
 
-// TODO(i18n): the team showcase copy is still being reworked, so these labels stay literal for now.
-const PANEL_LABEL: Record<CharactersPanel, string> = {
-  [CharactersPanel.CHARACTERS]: 'Characters',
-  [CharactersPanel.TEAMS]: 'Teams',
+const PANEL_LABEL_KEY = {
+  [CharactersPanel.CHARACTERS]: 'Panels.Characters',
+  [CharactersPanel.TEAMS]: 'Panels.Teams',
 }
 
 const PANEL_ICON: Record<CharactersPanel, ReactNode> = {
@@ -23,20 +23,17 @@ const PANEL_ICON: Record<CharactersPanel, ReactNode> = {
   [CharactersPanel.TEAMS]: <IconUsersGroup size={ICON_SIZE} />,
 }
 
-/**
- * The Characters / Teams tab list. It lives inside the Characters tab's Tabs wrapper, which owns the
- * value and the change handler. `trailing` renders at the right end of the list, inside it, so the list
- * can span the whole row and its rule runs the full width.
- */
-export function CharactersPanelSwitch({ trailing }: { trailing?: ReactNode }) {
+/** The Characters / Teams tab list; its parent owns the selected value and change handler. */
+export function CharactersPanelSwitch() {
+  const { t } = useTranslation('teamShowcaseTab')
+
   return (
     <Tabs.List className={styles.list}>
       {CHARACTERS_PANELS.map((panel) => (
         <Tabs.Tab key={panel} value={panel} leftSection={PANEL_ICON[panel]}>
-          {PANEL_LABEL[panel]}
+          {t(PANEL_LABEL_KEY[panel])}
         </Tabs.Tab>
       ))}
-      {trailing && <div className={styles.listTrailing}>{trailing}</div>}
     </Tabs.List>
   )
 }

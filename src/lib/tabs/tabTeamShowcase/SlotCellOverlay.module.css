@@ -1,12 +1,4 @@
-/*
- * Interaction layer over one card. When revealed, the card takes a gradient scrim along the bottom, a drag
- * handle on a disc in the centre, and a two-row sheet of glass controls along the bottom edge. The translucent blacks and whites are deliberate: they sit over arbitrary artwork, where
- * theme tokens cannot guarantee legibility, the same reasoning as the rail's scrim.
- *
- * Reveal: data-revealed only, which the component sets from the shared revealed slot, so only one card
- * is ever open. Nothing here reveals on hover or focus; the component owns both so the newest claim
- * wins. Everything hides while a screenshot is being taken.
- */
+/* Translucent controls use fixed contrast because they sit over arbitrary artwork. */
 
 .cell {
   position: absolute;
@@ -47,8 +39,6 @@
   border-color: var(--color-accent);
   outline: none;
 }
-
-/* ----- Reveal ----- */
 
 .cellScrim,
 .handle,
@@ -121,8 +111,6 @@
   pointer-events: none;
 }
 
-/* ----- Scrim: a gradient along the bottom under the sheet; the rest of the card stays as it is ----- */
-
 .cellScrim {
   position: absolute;
   right: 0;
@@ -132,8 +120,6 @@
   border-radius: 0 0 var(--team-card-radius, var(--radius-md)) var(--team-card-radius, var(--radius-md));
   background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 100%);
 }
-
-/* ----- Handle: the reorder mark, flex-centred in the full cell with no percentage offsets ----- */
 
 /*
  * Decoration only: it says the card can be picked up, and the card itself is what gets grabbed. It stays
@@ -161,8 +147,6 @@
   backdrop-filter: blur(6px);
 }
 
-/* ----- Controls ----- */
-
 .artButton,
 .artInput {
   font-weight: 500;
@@ -179,8 +163,7 @@
 }
 
 .artButton:focus-visible,
-.artInput:focus,
-.artInput:focus-within {
+.artInput:focus {
   border-color: var(--color-accent);
   outline: none;
 }
@@ -200,8 +183,6 @@
   min-width: 0;
 }
 
-/* ----- Sheet: two rows along the bottom edge ----- */
-
 .sheet {
   position: absolute;
   right: var(--sheet-inset);
@@ -218,8 +199,6 @@
   align-items: center;
   gap: var(--sheet-gap);
 }
-
-/* ----- Empty card: full-cell dashed add target ----- */
 
 .emptyCellTarget {
   position: absolute;
@@ -265,8 +244,6 @@
   .cellTarget,
   .cellScrim,
   .handle,
-  .handleDisc,
-  .sheet,
   .artButton,
   .artInput,
   .emptyCellTarget {

@@ -22,7 +22,6 @@ import {
   GRID_GAP,
   GRID_SIZE,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
-import { SCREENSHOT_SCALE_WRAPPER_ATTR } from 'lib/utils/screenshotUtils'
 import {
   type CSSProperties,
   type ReactNode,
@@ -90,7 +89,6 @@ export function TeamCardGrid({
           className={styles.scaleWrapper}
           style={{ transform: `scale(${scale})` }}
           inert
-          {...{ [SCREENSHOT_SCALE_WRAPPER_ATTR]: '' }}
         >
           <div
             id={GRID_ELEMENT_ID}

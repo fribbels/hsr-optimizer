@@ -120,26 +120,9 @@ const SCREENSHOT_IMAGE_TYPE = 'png'
 const SCREENSHOT_EXPORT_DPR = 2
 const PREBAKE_MAX_DIMENSION = Math.max(cardTotalW, parentH) * SCREENSHOT_EXPORT_DPR
 
-/**
- * Marks an ancestor whose CSS transform only shrinks the capture target for on-screen display.
- * The transform is removed for the duration of the capture so snapdom and the blur pre-bake
- * measure the element at its true layout size.
- */
-export const SCREENSHOT_SCALE_WRAPPER_ATTR = 'data-screenshot-scale-wrapper'
-
 export type ScreenshotSize = { width: number, height: number }
 
 const DEFAULT_SCREENSHOT_SIZE: ScreenshotSize = { width: cardTotalW, height: parentH }
-
-function unscaleWrapperForCapture(element: HTMLElement): () => void {
-  const wrapper = element.parentElement?.closest<HTMLElement>(`[${SCREENSHOT_SCALE_WRAPPER_ATTR}]`)
-  if (!wrapper) return () => {}
-  const originalTransform = wrapper.style.transform
-  wrapper.style.transform = 'none'
-  return () => {
-    if (wrapper.isConnected) wrapper.style.transform = originalTransform
-  }
-}
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -373,6 +356,17 @@ function supportsCanvasFilter(ctx: CanvasRenderingContext2D): boolean {
   return ctx.filter === 'blur(1px)'
 }
 
+function getImageLayoutSize(img: HTMLImageElement): { width: number, height: number } {
+  const style = getComputedStyle(img)
+  const computedWidth = parseFloat(style.width)
+  const computedHeight = parseFloat(style.height)
+
+  return {
+    width: Number.isFinite(computedWidth) && computedWidth > 0 ? computedWidth : img.offsetWidth,
+    height: Number.isFinite(computedHeight) && computedHeight > 0 ? computedHeight : img.offsetHeight,
+  }
+}
+
 function calculatePreBakedBlurGeometry({
   naturalWidth,
   naturalHeight,
@@ -465,8 +459,9 @@ async function buildPreBakedBlurCache(
     if (!cssBlur || !Number.isFinite(cssBlur)) continue
 
     const src = imageCache.get(img.src) || img.src
-    const rect = img.getBoundingClientRect()
-    if (!rect.width || !rect.height) continue
+    // Use layout-space dimensions so display-only ancestor transforms do not reduce export quality.
+    const layoutSize = getImageLayoutSize(img)
+    if (!layoutSize.width || !layoutSize.height) continue
 
     const canvasImage = await loadCanvasImage(src)
     if (!canvasImage) continue
@@ -474,8 +469,8 @@ async function buildPreBakedBlurCache(
     const geometry = calculatePreBakedBlurGeometry({
       naturalWidth: canvasImage.naturalWidth,
       naturalHeight: canvasImage.naturalHeight,
-      renderedWidth: rect.width,
-      renderedHeight: rect.height,
+      renderedWidth: layoutSize.width,
+      renderedHeight: layoutSize.height,
       cssBlur,
       objectFit: img.style.objectFit,
     })
@@ -700,7 +695,6 @@ export async function screenshotElementById(
     }
   }
 
-  const restoreScale = unscaleWrapperForCapture(element)
   let blob
   try {
     blob = await repeatLoadBlob()
@@ -708,8 +702,6 @@ export async function screenshotElementById(
     Message.error(i18next.t('charactersTab:ScreenshotMessages.ScreenshotFailed.Default'))
     console.error(e)
     return
-  } finally {
-    restoreScale()
   }
   handleBlob(blob)
 }

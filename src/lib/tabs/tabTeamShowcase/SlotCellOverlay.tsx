@@ -1,9 +1,9 @@
 import { Button } from '@mantine/core'
 import {
-  IconArrowsExchange,
   IconArrowsMove,
   IconPlus,
   IconTrash,
+  IconUser,
 } from '@tabler/icons-react'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
 import { SlotDragContext } from 'lib/tabs/tabTeamShowcase/slotDrag'
@@ -23,8 +23,8 @@ import { useTranslation } from 'react-i18next'
 const ADD_ICON_SIZE = 28
 const CONTROL_ICON_SIZE = 16
 const HANDLE_ICON_SIZE = 44
-/** Mantine's md button is 36px; Swap is the main action and gets half again */
-const SWAP_BUTTON_HEIGHT = 54
+/** Mantine's md button is 36px; Change character is the main action and gets half again */
+const CHANGE_CHARACTER_BUTTON_HEIGHT = 54
 const CONTROL_SIZE = 'md'
 
 /** Mantine ships as layered CSS, so these unlayered module rules win without specificity tricks */
@@ -42,7 +42,7 @@ const POINTER_DOWN_EVENT = 'pointerdown'
 /**
  * Interaction layer covering one card cell of the TeamCardGrid. The cards themselves are inert, so this
  * is the only way to interact with a cell. Empty cells are a dashed add target. Filled cells reveal, on
- * tap (or hover on desktop), a gradient scrim along the bottom carrying Swap, the benchmark select and
+ * tap (or hover on desktop), a gradient scrim along the bottom carrying Change character, the benchmark select and
  * Remove, and a disc at the centre marking the card as something that can be picked up. Tapping the card
  * never opens the picker on its own: on touch a tap is the only input, and it must not swap a character
  * by accident.
@@ -171,13 +171,13 @@ export function SlotCellOverlay({
         <div className={styles.sheet}>
           <Button
             size={CONTROL_SIZE}
-            h={SWAP_BUTTON_HEIGHT}
+            h={CHANGE_CHARACTER_BUTTON_HEIGHT}
             fullWidth
             classNames={ART_BUTTON_CLASS_NAMES}
-            leftSection={<IconArrowsExchange size={CONTROL_ICON_SIZE} />}
+            leftSection={<IconUser size={CONTROL_ICON_SIZE} />}
             onClick={openPicker}
           >
-            {t('Buttons.Swap')}
+            {t('Buttons.ChangeCharacter')}
           </Button>
           <div className={styles.sheetRow}>
             <div className={styles.grow}>

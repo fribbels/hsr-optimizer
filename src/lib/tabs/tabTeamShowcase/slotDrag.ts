@@ -104,8 +104,8 @@ const CELL_EDGE_OPACITY_PROPERTY = '--cell-edge-opacity'
 const HIDDEN_CELL_EDGE = '0'
 
 const CARD_BACKING = 'var(--layer-inset)'
-/** Matches the hairline the overlay draws round every card, so the backing does not square off its corners */
-const CARD_BACKING_RADIUS = 'var(--radius-xs)'
+/** Full-resolution card radius; this node sits inside the scaled capture layer */
+const CARD_BACKING_RADIUS = 'var(--radius-md)'
 
 type DraggableResult = ReturnType<typeof useDraggable>
 
@@ -510,4 +510,3 @@ function prefersReducedMotion(): boolean {
 function toIndex(id: UniqueIdentifier): number | null {
   return typeof id === 'number' ? id : null
 }
-

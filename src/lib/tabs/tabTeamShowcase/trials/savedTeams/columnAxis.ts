@@ -16,12 +16,13 @@ import type { TrialOption } from 'lib/tabs/tabTeamShowcase/layouts/trialStyles'
  * between it and the grid have 249px to share. Every spec below spends exactly that or less.
  */
 export const COLUMN_BUDGET = 249
+const MAT_GAP = 14
 
 export enum ColumnWidth {
   SNUG = 'snug',
   ROOMY = 'roomy',
   WIDE = 'wide',
-  WIDE_TIGHT = 'wideTight',
+  WIDEST = 'wideTight',
 }
 
 export interface ColumnFootprint {
@@ -31,15 +32,15 @@ export interface ColumnFootprint {
 }
 
 export const COLUMN_WIDTH_SPECS: Record<ColumnWidth, ColumnFootprint> = {
-  [ColumnWidth.SNUG]: { width: 196, gap: 24 },
-  [ColumnWidth.ROOMY]: { width: 212, gap: 24 },
-  [ColumnWidth.WIDE]: { width: 225, gap: 24 },
-  [ColumnWidth.WIDE_TIGHT]: { width: 235, gap: 14 },
+  [ColumnWidth.SNUG]: { width: 196, gap: MAT_GAP },
+  [ColumnWidth.ROOMY]: { width: 212, gap: MAT_GAP },
+  [ColumnWidth.WIDE]: { width: 225, gap: MAT_GAP },
+  [ColumnWidth.WIDEST]: { width: 235, gap: MAT_GAP },
 }
 
 export const COLUMN_WIDTH_OPTIONS: TrialOption<ColumnWidth>[] = [
   { value: ColumnWidth.SNUG, label: '196 (baseline)' },
   { value: ColumnWidth.ROOMY, label: '212' },
   { value: ColumnWidth.WIDE, label: '225' },
-  { value: ColumnWidth.WIDE_TIGHT, label: '235, tight gap' },
+  { value: ColumnWidth.WIDEST, label: '235' },
 ]

@@ -7,6 +7,7 @@ export const defaultGap = 8
 export const relicCardW = 207
 export const relicCardH = 288
 export const middleColumnWidth = 240
+export const cardBorderRadius = 6
 export const parentH = relicCardH * 3 + defaultGap * 2
 export const parentW = relicCardW * 2 + defaultGap // portrait width (symmetric with relics)
 export const cardTotalW = parentW + defaultGap + middleColumnWidth + defaultGap + parentW

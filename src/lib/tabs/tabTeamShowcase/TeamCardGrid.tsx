@@ -6,6 +6,7 @@ import {
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import {
+  cardBorderRadius,
   cardTotalW,
   parentH,
 } from 'lib/constants/constantsUi'
@@ -23,6 +24,7 @@ import {
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
 import { SCREENSHOT_SCALE_WRAPPER_ATTR } from 'lib/utils/screenshotUtils'
 import {
+  type CSSProperties,
   type ReactNode,
   useCallback,
   useMemo,
@@ -121,7 +123,8 @@ export function TeamCardGrid({
             style={{
               gridTemplateColumns: '1fr 1fr',
               gap: overlayGap,
-            }}
+              '--team-card-radius': `${cardBorderRadius * scale}px`,
+            } as CSSProperties}
           >
             {characters.map((character, index) => (
               <SlotDragCell

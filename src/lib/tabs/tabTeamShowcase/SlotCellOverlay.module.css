@@ -37,7 +37,7 @@
   font: inherit;
   background-color: transparent;
   border: 2px solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: var(--team-card-radius, var(--radius-md));
   cursor: grab;
   touch-action: manipulation;
   transition: border-color 120ms ease;
@@ -55,6 +55,10 @@
 .sheet {
   opacity: 0;
   pointer-events: none;
+}
+
+.cellScrim,
+.handle {
   transition: opacity 120ms ease;
 }
 
@@ -125,7 +129,7 @@
   bottom: 0;
   left: 0;
   height: var(--scrim-height);
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  border-radius: 0 0 var(--team-card-radius, var(--radius-md)) var(--team-card-radius, var(--radius-md));
   background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 100%);
 }
 
@@ -230,7 +234,7 @@
   background-color: transparent;
   border: var(--border-subtle);
   border-style: dashed;
-  border-radius: var(--radius-md);
+  border-radius: var(--team-card-radius, var(--radius-md));
   cursor: pointer;
   transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
 }

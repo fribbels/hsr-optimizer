@@ -65,7 +65,7 @@ function selectionPatch<Key extends keyof TrialSelection>(key: Key, value: Trial
 
 export const useTrialStore = createTabAwareStore<TrialStore>((set) => ({
   actions: readStored('actions', ACTIONS_OPTIONS, ActionsStyle.DOCK_ALL),
-  width: readStored('width', COLUMN_WIDTH_OPTIONS, ColumnWidth.WIDE_TIGHT),
+  width: readStored('width', COLUMN_WIDTH_OPTIONS, ColumnWidth.WIDEST),
   titleBarSlot: null,
 
   setTrial: (key, value) => {

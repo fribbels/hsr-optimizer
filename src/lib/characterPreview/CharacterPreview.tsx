@@ -67,6 +67,7 @@ import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import type { StatsValues } from 'lib/constants/constants'
 import {
+  cardBorderRadius,
   cardTotalW,
   defaultGap,
   middleColumnWidth,
@@ -279,7 +280,7 @@ export function CharacterPreview({
         style={{
           height: parentH,
           width: cardTotalW,
-          borderRadius: 6,
+          borderRadius: cardBorderRadius,
           border: '1px solid rgba(255, 255, 255, 0.1)',
         }}
       />
@@ -561,7 +562,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             'background': 'var(--layer-inset)',
             'backgroundBlendMode': visual.blendMode,
             'overflow': 'hidden',
-            'borderRadius': 6,
+            'borderRadius': cardBorderRadius,
             'transition': showcaseTransition,
             'gap': defaultGap,
           } as React.CSSProperties}
@@ -620,7 +621,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 justifyContent: 'space-between',
                 width: middleColumnWidth,
                 height: '100%',
-                borderRadius: 6,
+                borderRadius: cardBorderRadius,
                 zIndex: 10,
                 transition: showcaseTransition,
                 flex: 1,

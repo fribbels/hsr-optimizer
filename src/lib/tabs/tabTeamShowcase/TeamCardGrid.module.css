@@ -42,6 +42,8 @@
 .overlayCellInner {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+  border-radius: var(--team-card-radius, var(--radius-md));
   pointer-events: auto;
 }
 
@@ -57,7 +59,7 @@
   inset: 0;
   z-index: 1;
   border: var(--border-subtle);
-  border-radius: var(--radius-xs);
+  border-radius: inherit;
   opacity: var(--cell-edge-opacity, 1);
   pointer-events: none;
 }

@@ -4,7 +4,7 @@ Buttons:
   DownloadScreenshot: Download screenshot
   AddCharacter: Add character
   Remove: Remove
-  Swap: Swap
+  ChangeCharacter: Change character
 EmptySlot: Select a character
 ScreenshotName: Team
 SavedTeams:

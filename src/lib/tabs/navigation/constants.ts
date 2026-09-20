@@ -79,7 +79,8 @@ export const HashToPage = {
 export function getDefaultActiveKey() {
   const page = HashToPage[parseHash().hash as PageHash]
 
-  // Redirect #main to HOME for first-time users (no prior save data)
+  // Redirect #main to HOME for first-time users (no prior save data). The URL is rewritten too, so tabs
+  // that pick a sub-panel from the hash on mount (Characters reads #teams) don't see the redirected one.
   if (
     (
       page === AppPages.OPTIMIZER
@@ -88,6 +89,7 @@ export function getDefaultActiveKey() {
     )
     && localStorage.getItem('state') === null
   ) {
+    window.history.replaceState({}, '', BASE_PATH + PageToHash[AppPages.HOME])
     return AppPages.HOME
   }
 

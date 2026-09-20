@@ -1,5 +1,5 @@
 Buttons:
-  Clear: Clear team
+  Clear: Clear characters
   CopyScreenshot: Copy screenshot
   DownloadScreenshot: Download screenshot
   AddCharacter: Add character
@@ -8,7 +8,7 @@ Buttons:
 EmptySlot: Select a character
 ScreenshotName: Team
 SavedTeams:
-  Header: Saved teams
+  Header: Gallery
   Save: Save team
   Delete: Delete team
   Rename: Rename

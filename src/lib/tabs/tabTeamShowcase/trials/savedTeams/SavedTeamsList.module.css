@@ -1,0 +1,192 @@
+/*
+ * The scrolling saved-teams list.
+ * that only changes how a tile looks is a block in the tile section below.
+ */
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+/* OverlayScrollbars injects wrapper divs; target the content container for flex layout */
+.scroll :global([data-overlayscrollbars-contents]) {
+  display: flex !important;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empty {
+  padding: 16px 12px;
+  text-align: center;
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-sm);
+}
+
+.emptyTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tile, cover style — portraits edge to edge with the name over a dark scrim
+ * ------------------------------------------------------------------------- */
+
+.tile {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* The tile being dragged rides over the ones it passes, and takes no pointer of its own while it does */
+.tile[data-dragging='true'] {
+  z-index: 1;
+}
+
+.tile[data-dragging='true'] .tools {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/*
+ * The border is always present so hover and selection only change its colour, never the layout.
+ *
+ * The cover is the drag handle as well as the load button. `manipulation` rather than `none` leaves a
+ * finger free to scroll the list over it, which the touch sensor allows by waiting for a press before it
+ * takes a drag.
+ */
+.cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  background-color: var(--layer-inset);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: grab;
+  touch-action: manipulation;
+  transition: border-color 120ms ease;
+}
+
+.tile[data-dragging='true'] .cover {
+  cursor: grabbing;
+}
+
+.cover:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.tile:hover .cover {
+  border-color: var(--border-default);
+}
+
+/* Declared after hover so the selection colour holds while hovered. */
+.tile[data-active='true'] .cover {
+  border-color: var(--primary-default);
+}
+
+/* The grid gap over the inset background draws the seams between portraits. */
+.mosaic {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background-color: var(--layer-inset);
+}
+
+.cell {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--layer-inset);
+}
+
+.art {
+  display: block;
+}
+
+/* The preview bust is 376x512. Render it at exactly quarter scale (94x128) so the downscale is a clean
+ * 4:1 and the head and shoulders fit the 118px cell; the cell crops the sides and the bottom 10px.
+ * Centred with a whole-pixel negative margin rather than a percentage transform. */
+.art[data-custom='false'] {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 94px;
+  height: 128px;
+  margin-left: -47px;
+}
+
+/* Custom portraits have arbitrary aspect ratios and carry their own focus point, so they crop with
+ * object-fit. Nothing is transformed on top of them. */
+.art[data-custom='true'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* The one gradient: a plain dark scrim behind the name. tokens.css has no scrim colour, so the alpha
+ * is literal. */
+.scrim {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 48px;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+}
+
+.name {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  display: block;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  text-align: left;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile[data-active='true'] .name {
+  color: var(--primary-light);
+}
+
+/* ---------------------------------------------------------------------------
+ * Tools and rename, layered above the cover
+ * ------------------------------------------------------------------------- */
+.tools {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 1;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.tile:hover .tools,
+.tile:focus-within .tools {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.editor {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  left: 6px;
+  z-index: 1;
+}

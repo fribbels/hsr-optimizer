@@ -1,4 +1,35 @@
-/* Filled card: the whole card is the click target that reopens the picker */
+/*
+ * Interaction layer over one card. When revealed, the card takes a gradient scrim along the bottom, a drag
+ * handle on a disc in the centre, and a two-row sheet of glass controls along the bottom edge. The translucent blacks and whites are deliberate: they sit over arbitrary artwork, where
+ * theme tokens cannot guarantee legibility, the same reasoning as the rail's scrim.
+ *
+ * Reveal: data-revealed only, which the component sets from the shared revealed slot, so only one card
+ * is ever open. Nothing here reveals on hover or focus; the component owns both so the newest claim
+ * wins. Everything hides while a screenshot is being taken.
+ */
+
+.cell {
+  position: absolute;
+  inset: 0;
+
+  --scrim-height: 200px;
+  --sheet-inset: 16px;
+  --sheet-gap: 10px;
+
+  /* Glass controls */
+  --control-bg: rgba(255, 255, 255, 0.12);
+  --control-bg-hover: rgba(255, 255, 255, 0.2);
+  --control-border: rgba(255, 255, 255, 0.22);
+  --control-blur: 6px;
+}
+
+/*
+ * The whole card: a tap claims the reveal and never the picker, and a press and drag carries the card to
+ * another slot. The sheet of controls sits above this, so pressing one of them never reaches the card.
+ *
+ * `manipulation` rather than `none` leaves a finger free to scroll the page over the grid. The touch
+ * sensor waits for a short press before it takes over, so scrolling and dragging do not compete.
+ */
 .cellTarget {
   position: absolute;
   inset: 0;
@@ -7,7 +38,8 @@
   background-color: transparent;
   border: 2px solid transparent;
   border-radius: var(--radius-md);
-  cursor: pointer;
+  cursor: grab;
+  touch-action: manipulation;
   transition: border-color 120ms ease;
 }
 
@@ -16,34 +48,175 @@
   outline: none;
 }
 
-.cellHint {
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  font-size: 12px;
-  font-weight: 600;
-  white-space: nowrap;
-  color: var(--text-primary);
-  background-color: var(--layer-2);
-  border: 1px solid var(--border-default);
-  border-radius: 999px;
-  box-shadow: var(--shadow-card);
+/* ----- Reveal ----- */
+
+.cellScrim,
+.handle,
+.sheet {
   opacity: 0;
-  transform: translateX(-50%);
-  transition: opacity 120ms ease;
   pointer-events: none;
+  transition: opacity 120ms ease;
 }
 
-.cellTarget:hover .cellHint,
-.cellTarget:focus-visible .cellHint {
+.cell[data-revealed='true'] .cellScrim,
+.cell[data-revealed='true'] .handle {
   opacity: 1;
 }
 
-/* Empty card: full-cell dashed add target */
+.cell[data-revealed='true'] .sheet {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/*
+ * While a card is in flight every card puts its controls away, so the grid does not light up behind it,
+ * and the card-wide tap target stops responding so the drop lands on the card rather than a reveal.
+ * The card being dragged keeps its grip, which is what the pointer is holding.
+ */
+/*
+ * `visibility` and not just `opacity`, because a fully transparent element is still painted, and these
+ * controls are all glass: four cards' worth of backdrop blur would go on being recomputed underneath a
+ * card that is moving over them.
+ */
+.cell[data-drag-active='true'] .cellScrim,
+.cell[data-drag-active='true'] .handle,
+.cell[data-drag-active='true'] .sheet {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cell[data-drag-active='true'] .cellTarget {
+  pointer-events: none;
+}
+
+/* The card-wide target stops taking the pointer mid-drag, so the cursor comes from the cell instead */
+.cell[data-drag-active='true'] {
+  cursor: grabbing;
+}
+
+.cell[data-dragging='true'] .handle {
+  opacity: 1;
+  visibility: visible;
+}
+
+/*
+ * The disc is the one glass element still on screen while a card moves, and a blur has to be recomputed
+ * every frame against whatever it is passing over. It rides along with its own card's art, so the blur
+ * buys nothing in flight; a flatter fill reads the same and costs nothing.
+ */
+.cell[data-dragging='true'] .handleDisc {
+  background-color: rgba(0, 0, 0, 0.66);
+  backdrop-filter: none;
+}
+
+.cell[data-capturing='true'] .cellScrim,
+.cell[data-capturing='true'] .handle,
+.cell[data-capturing='true'] .sheet {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ----- Scrim: a gradient along the bottom under the sheet; the rest of the card stays as it is ----- */
+
+.cellScrim {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: var(--scrim-height);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 100%);
+}
+
+/* ----- Handle: the reorder mark, flex-centred in the full cell with no percentage offsets ----- */
+
+/*
+ * Decoration only: it says the card can be picked up, and the card itself is what gets grabbed. It stays
+ * transparent to the pointer so that the middle of the card is not a dead spot in the drag surface.
+ */
+.handle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* A translucent disc behind the icon so it reads over bright art */
+.handleDisc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  backdrop-filter: blur(6px);
+}
+
+/* ----- Controls ----- */
+
+.artButton,
+.artInput {
+  font-weight: 500;
+  color: var(--text-primary);
+  background-color: var(--control-bg);
+  border: 1px solid var(--control-border);
+  backdrop-filter: blur(var(--control-blur));
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.artButton:hover,
+.artInput:hover {
+  background-color: var(--control-bg-hover);
+}
+
+.artButton:focus-visible,
+.artInput:focus,
+.artInput:focus-within {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+/* Centred label: the left padding mirrors the chevron's, so the text centres on the whole control */
+.artInput {
+  padding-inline-start: var(--input-padding-inline-end);
+  text-align: center;
+}
+
+.artSection {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ----- Sheet: two rows along the bottom edge ----- */
+
+.sheet {
+  position: absolute;
+  right: var(--sheet-inset);
+  bottom: var(--sheet-inset);
+  left: var(--sheet-inset);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sheet-gap);
+}
+
+.sheetRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sheet-gap);
+}
+
+/* ----- Empty card: full-cell dashed add target ----- */
+
 .emptyCellTarget {
   position: absolute;
   inset: 0;
@@ -55,7 +228,8 @@
   font: inherit;
   color: var(--text-secondary);
   background-color: transparent;
-  border: 2px dashed var(--border-default);
+  border: var(--border-subtle);
+  border-style: dashed;
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
@@ -81,4 +255,17 @@
 .emptyCellLabel {
   font-size: 15px;
   font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cellTarget,
+  .cellScrim,
+  .handle,
+  .handleDisc,
+  .sheet,
+  .artButton,
+  .artInput,
+  .emptyCellTarget {
+    transition: none;
+  }
 }

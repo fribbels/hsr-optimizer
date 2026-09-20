@@ -34,6 +34,7 @@ export function SlotScoringSelect({
       data={data}
       value={String(scoring.value)}
       onChange={(value) => {
+        // Safe cast: every option value is a ScoringType stringified by `data` above
         if (value != null) onChange(Number(value) as ScoringType)
       }}
     />

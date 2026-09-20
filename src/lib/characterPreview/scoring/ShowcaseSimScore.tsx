@@ -84,7 +84,7 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
         ))}
       </div>
 
-      {source !== ShowcaseSource.LEADERBOARD && (
+      {source !== ShowcaseSource.LEADERBOARD && source !== ShowcaseSource.TEAM && (
         <ShowcaseTeamSelectPanel
           characterId={characterId}
           teamSelection={teamSelection}

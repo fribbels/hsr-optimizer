@@ -1,261 +1,143 @@
-import {
-  ActionIcon,
-  Button,
-  Tooltip,
-} from '@mantine/core'
-import {
-  IconCamera,
-  IconDownload,
-  IconPlus,
-  IconTrash,
-  IconX,
-} from '@tabler/icons-react'
-import type { ScoringType } from 'lib/scoring/scoringConfig'
 import type { TeamShowcaseLayoutProps } from 'lib/tabs/tabTeamShowcase/layouts/layoutTypes'
+import { ShowcaseActions } from 'lib/tabs/tabTeamShowcase/layouts/ShowcaseActions'
 import styles from 'lib/tabs/tabTeamShowcase/layouts/TintedWallLayout.module.css'
-import { SavedTeamsPanel } from 'lib/tabs/tabTeamShowcase/SavedTeamsPanel'
+import { useTrialStore } from 'lib/tabs/tabTeamShowcase/layouts/trialStore'
+import {
+  ACTIONS_STYLE_SPECS,
+  ActionsPlacement,
+} from 'lib/tabs/tabTeamShowcase/layouts/trialStyles'
 import { SlotCellOverlay } from 'lib/tabs/tabTeamShowcase/SlotCellOverlay'
 import { SlotPickers } from 'lib/tabs/tabTeamShowcase/SlotPickers'
-import { SlotScoringSelect } from 'lib/tabs/tabTeamShowcase/SlotScoringSelect'
 import { TeamCardGrid } from 'lib/tabs/tabTeamShowcase/TeamCardGrid'
 import {
   DISPLAY_SCALE,
   GRID_SIZE,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
-import type { SlotScoring } from 'lib/tabs/tabTeamShowcase/teamShowcaseScoring'
-import type { SlotAppearance } from 'lib/tabs/tabTeamShowcase/useSlotAppearance'
-import { useSlotAppearances } from 'lib/tabs/tabTeamShowcase/useSlotAppearance'
+import { COLUMN_WIDTH_SPECS } from 'lib/tabs/tabTeamShowcase/trials/savedTeams/columnAxis'
+import { SavedTeamsColumn } from 'lib/tabs/tabTeamShowcase/trials/savedTeams/SavedTeamsColumn'
 import { useSlotInteractions } from 'lib/tabs/tabTeamShowcase/useSlotInteractions'
-import type { CSSProperties } from 'react'
-import { useTranslation } from 'react-i18next'
+import { createPortal } from 'react-dom'
+import { useShallow } from 'zustand/react/shallow'
 
-/**
- * Matches the saved-teams rail so the two side columns are symmetric:
- * 196 + 24 (column gap) + 1108 (grid) + 24 (column gap) + 196 = 1548px, the full width budget.
- */
-const RAIL_WIDTH = 196
 const GRID_SCALE = DISPLAY_SCALE
-/** Side columns end exactly at the grid's top and bottom edges: 1776 x 0.5 = 888px */
-const COLUMN_HEIGHT = GRID_SIZE.height * GRID_SCALE
+/** The mat's band of inset background, and the edge drawn round it. Must match the CSS. */
+const MAT_BAND = 8
+const MAT_BORDER = 1
+/** Everything the mat adds around the grid on one side */
+const MAT_INSET = MAT_BAND + MAT_BORDER
+/** The matted grid: 2210 x 0.6 + 2 x 9 = 1344px of the 1593px tab, leaving 249 for the column and its gap */
+const MATTED_GRID_WIDTH = GRID_SIZE.width * GRID_SCALE + MAT_INSET * 2
+/** The saved-teams column ends exactly at the mat's top and bottom edges: 1770 x 0.6 + 2 x 9 = 1080px */
+const COLUMN_HEIGHT = GRID_SIZE.height * GRID_SCALE + MAT_INSET * 2
 
-/** Matches the Characters panel's menu button and filter bar, which are all 40px tall with a 4px radius */
-const HEADER_BUTTON_STYLE = { height: 40, boxShadow: 'unset', borderRadius: 4 }
-const HEADER_ICON_SIZE = 16
-const SMALL_ICON_SIZE = 14
-const EMPTY_TILE_ICON_SIZE = 22
-
-const SCORING_CLASS_NAMES = {
-  input: styles.scoringInput,
-  section: styles.scoringSection,
+enum ToolbarPosition {
+  NONE = 'none',
+  TOP = 'top',
+  BOTTOM = 'bottom',
 }
 
-/** Inline custom properties consumed by TintedWallLayout.module.css */
-interface TileSeedStyle extends CSSProperties {
-  '--tile-seed': string
-}
-
-/** Hands a tile its character's card colour; the module CSS derives every tinted detail from it */
-function tileSeedStyle(appearance: SlotAppearance | null): TileSeedStyle | undefined {
-  if (appearance == null) return undefined
-  return { '--tile-seed': appearance.seedColor }
+const TOOLBAR_POSITION: Partial<Record<ActionsPlacement, ToolbarPosition>> = {
+  [ActionsPlacement.TOOLBAR_TOP]: ToolbarPosition.TOP,
+  [ActionsPlacement.TOOLBAR_BOTTOM]: ToolbarPosition.BOTTOM,
 }
 
 /**
- * Gallery Wall with each character's own colour, used sparingly. Structure, sizes and whitespace match
- * Gallery Wall exactly. Outlines and focus rings all use the global accent; the character's own card seed
- * colour is used only for the faint scrim tint behind each tile's controls and the active saved team's
- * underline.
+ * The shell: screenshot actions, the saved-teams column on the left and the card grid beside it. The
+ * card grid is fixed, because it is what the screenshot captures; it sits in a mat with the band outside
+ * the capture. The saved-teams column is given a footprint from the width axis and left to lay out its
+ * own insides. The actions axis decides where the actions go; it is currently pinned to the dock, which
+ * means the column renders them and the shell renders none.
  */
 export function TintedWallLayout({ state }: TeamShowcaseLayoutProps) {
-  const { t } = useTranslation('teamShowcaseTab')
-  const { t: tGameData } = useTranslation('gameData')
   const {
-    slots,
     characters,
-    setSlot,
-    clearTeam,
-    hasTeam,
     slotScoring,
     setSlotScoringType,
-    screenshot,
+    setSlot,
+    reorderSlots,
     screenshotLoading,
   } = state
+  const {
+    actionsStyle,
+    columnWidth,
+    titleBarSlot,
+  } = useTrialStore(useShallow((s) => ({
+    actionsStyle: s.actions,
+    columnWidth: s.width,
+    titleBarSlot: s.titleBarSlot,
+  })))
 
   const interactions = useSlotInteractions()
-  const { pickerSlot, setPickerSlot, hoveredSlot, hoverStart, hoverEnd } = interactions
-  const appearances = useSlotAppearances(slots)
+  /**
+   * Revealing on drop hands the controls to the card that came to rest under the pointer. Without it they
+   * stay with the slot the card left, and a cursor already sitting inside the destination never fires the
+   * enter that would bring them back.
+   */
+  const { revealSlot } = interactions
+
+  const footprint = COLUMN_WIDTH_SPECS[columnWidth]
+  const actionsSpec = ACTIONS_STYLE_SPECS[actionsStyle]
+  const toolbarPosition = TOOLBAR_POSITION[actionsSpec.placement] ?? ToolbarPosition.NONE
+
+  const actions = actionsSpec.placement !== ActionsPlacement.DOCK && (
+    <ShowcaseActions
+      state={state}
+      form={actionsSpec.form}
+      includeClear={!actionsSpec.clearInDock}
+      dense={toolbarPosition !== ToolbarPosition.NONE}
+    />
+  )
 
   return (
-    <div className={styles.root}>
-      <header className={styles.header}>
-        <div className={styles.headerActions}>
-          <Button
-            style={HEADER_BUTTON_STYLE}
-            variant='subtle'
-            color='gray'
-            leftSection={<IconTrash size={HEADER_ICON_SIZE} />}
-            disabled={!hasTeam}
-            onClick={clearTeam}
-          >
-            {t('Buttons.Clear')}
-          </Button>
-          <Button
-            style={HEADER_BUTTON_STYLE}
-            variant='default'
-            leftSection={<IconDownload size={HEADER_ICON_SIZE} />}
-            loading={screenshotLoading}
-            disabled={!hasTeam}
-            onClick={() => screenshot('download')}
-          >
-            {t('Buttons.DownloadScreenshot')}
-          </Button>
-          <Button
-            style={HEADER_BUTTON_STYLE}
-            leftSection={<IconCamera size={HEADER_ICON_SIZE} />}
-            loading={screenshotLoading}
-            disabled={!hasTeam}
-            onClick={() => screenshot('clipboard')}
-          >
-            {t('Buttons.CopyScreenshot')}
-          </Button>
-        </div>
-      </header>
+    <div className={styles.root} style={{ width: footprint.width + footprint.gap + MATTED_GRID_WIDTH }}>
+      {actionsSpec.placement === ActionsPlacement.HEADER && (
+        <header className={styles.header} data-align={actionsSpec.align}>
+          {actions}
+        </header>
+      )}
 
-      <div className={styles.columns}>
-        <aside className={styles.rail} style={{ width: RAIL_WIDTH, height: COLUMN_HEIGHT }}>
-          {slots.map((id, index) => (
-            <ArtTile
-              key={index}
-              appearance={appearances[index] ?? null}
-              name={id ? tGameData(`Characters.${id}.Name`) : ''}
-              emptyLabel={t('EmptySlot')}
-              changeLabel={t('Buttons.Swap')}
-              removeLabel={t('Buttons.Remove')}
-              scoringLabel={t('Scoring.Label')}
-              scoring={slotScoring[index] ?? null}
-              active={pickerSlot === index}
-              linked={hoveredSlot === index}
-              onOpen={() => setPickerSlot(index)}
-              onRemove={() => setSlot(index, null)}
-              onScoringChange={(scoringType) => setSlotScoringType(index, scoringType)}
-              onHoverStart={() => hoverStart(index)}
-              onHoverEnd={() => hoverEnd(index)}
-            />
-          ))}
-        </aside>
+      {actionsSpec.placement === ActionsPlacement.TITLE_BAR && titleBarSlot && createPortal(
+        <div className={styles.titleBarActions}>{actions}</div>,
+        titleBarSlot,
+      )}
 
-        <TeamCardGrid
-          className={styles.gridColumn}
-          characters={characters}
-          scale={GRID_SCALE}
-          renderSlotOverlay={(index, character) => (
-            <SlotCellOverlay index={index} filled={character != null} interactions={interactions} />
+      <div className={styles.columns} data-toolbar={toolbarPosition} style={{ gap: footprint.gap }}>
+        <SavedTeamsColumn state={state} width={footprint.width} height={COLUMN_HEIGHT} />
+
+        <div className={styles.gridMat}>
+          {toolbarPosition === ToolbarPosition.TOP && (
+            <div className={styles.toolbar} data-position={toolbarPosition}>{actions}</div>
           )}
-        />
 
-        <SavedTeamsPanel state={state} />
+          <TeamCardGrid
+            characters={characters}
+            scale={GRID_SCALE}
+            onSlotReorder={reorderSlots}
+            onSlotDrop={revealSlot}
+            renderSlotOverlay={(index, character) => (
+              <SlotCellOverlay
+                index={index}
+                filled={character != null}
+                interactions={interactions}
+                scoring={slotScoring[index] ?? null}
+                capturing={screenshotLoading}
+                onScoringChange={(scoringType) => setSlotScoringType(index, scoringType)}
+                onRemove={() => setSlot(index, null)}
+              />
+            )}
+          />
+
+          {toolbarPosition === ToolbarPosition.BOTTOM && (
+            <div className={styles.toolbar} data-position={toolbarPosition}>{actions}</div>
+          )}
+
+          {actionsSpec.placement === ActionsPlacement.SCRIM && (
+            <div className={styles.scrimActions}>{actions}</div>
+          )}
+        </div>
       </div>
 
       <SlotPickers state={state} interactions={interactions} />
-    </div>
-  )
-}
-
-/**
- * One slot as a full-bleed art tile. The art opens the picker; the translucent scoring select sits in a
- * bottom scrim; remove appears on hover or focus.
- * Empty: a faint dashed tile with no character colour.
- */
-function ArtTile({
-  appearance,
-  name,
-  emptyLabel,
-  changeLabel,
-  removeLabel,
-  scoringLabel,
-  scoring,
-  active,
-  linked,
-  onOpen,
-  onRemove,
-  onScoringChange,
-  onHoverStart,
-  onHoverEnd,
-}: {
-  appearance: SlotAppearance | null,
-  name: string,
-  emptyLabel: string,
-  changeLabel: string,
-  removeLabel: string,
-  scoringLabel: string,
-  scoring: SlotScoring | null,
-  active: boolean,
-  linked: boolean,
-  onOpen: () => void,
-  onRemove: () => void,
-  onScoringChange: (scoringType: ScoringType) => void,
-  onHoverStart: () => void,
-  onHoverEnd: () => void,
-}) {
-  const empty = appearance == null
-
-  return (
-    <div
-      className={styles.tile}
-      style={tileSeedStyle(appearance)}
-      data-empty={empty}
-      data-active={active}
-      data-linked={linked}
-      onMouseEnter={onHoverStart}
-      onMouseLeave={onHoverEnd}
-    >
-      {empty
-        ? (
-          <button type='button' className={styles.emptyButton} onClick={onOpen}>
-            <IconPlus size={EMPTY_TILE_ICON_SIZE} stroke={1.5} />
-            <span className={styles.emptyLabel}>{emptyLabel}</span>
-          </button>
-        )
-        : (
-          <>
-            <button type='button' className={styles.artButton} aria-label={`${changeLabel}: ${name}`} onClick={onOpen}>
-              <img
-                className={styles.art}
-                src={appearance.artUrl}
-                style={appearance.artObjectPosition ? { objectPosition: appearance.artObjectPosition } : undefined}
-                alt=''
-                draggable={false}
-                decoding='async'
-              />
-            </button>
-
-            <div className={styles.scrim}>
-              {scoring && (
-                <div className={styles.scoringSlot}>
-                  <SlotScoringSelect
-                    aria-label={scoringLabel}
-                    scoring={scoring}
-                    onChange={onScoringChange}
-                    classNames={SCORING_CLASS_NAMES}
-                  />
-                </div>
-              )}
-            </div>
-
-            <Tooltip label={removeLabel}>
-              <ActionIcon
-                className={styles.removeButton}
-                variant='filled'
-                color='dark'
-                size='sm'
-                aria-label={removeLabel}
-                onClick={onRemove}
-              >
-                <IconX size={SMALL_ICON_SIZE} />
-              </ActionIcon>
-            </Tooltip>
-          </>
-        )}
     </div>
   )
 }

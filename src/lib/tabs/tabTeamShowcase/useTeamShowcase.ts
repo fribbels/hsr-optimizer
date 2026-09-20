@@ -31,7 +31,10 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import type { TeamShowcaseSavedTeam } from 'types/store'
+import type {
+  TeamId,
+  TeamShowcaseSavedTeam,
+} from 'types/store'
 import { useShallow } from 'zustand/react/shallow'
 
 export type TeamSlots = (CharacterId | null)[]
@@ -47,6 +50,8 @@ export interface TeamShowcaseState {
   optionFilter: (option: CharacterOptions[CharacterId]) => boolean
   hasTeam: boolean
   setSlot: (index: number, id: CharacterId | null) => void
+  /** Rearranges the slots, given the slot each position should take its character from */
+  reorderSlots: (order: number[]) => void
   clearTeam: () => void
 
   /** Scoring algorithm options and current value per slot, null for empty slots */
@@ -56,12 +61,14 @@ export interface TeamShowcaseState {
 
   savedTeams: TeamShowcaseSavedTeam[]
   /** Id of the saved team whose members match the current slots exactly, if any */
-  activeSavedTeamId: string | null
+  activeSavedTeamId: TeamId | null
   /** Saves the current slots as a new team; returns the new id, or null when the team is empty */
-  saveCurrentTeam: (name?: string) => string | null
-  loadSavedTeam: (id: string) => void
-  deleteSavedTeam: (id: string) => void
-  renameSavedTeam: (id: string, name: string) => void
+  saveCurrentTeam: (name?: string) => TeamId | null
+  loadSavedTeam: (id: TeamId) => void
+  deleteSavedTeam: (id: TeamId) => void
+  renameSavedTeam: (id: TeamId, name: string) => void
+  /** Moves one saved team to another position in the list */
+  moveSavedTeam: (from: number, to: number) => void
 
   screenshotLoading: boolean
   screenshot: (action: ScreenshotAction) => void
@@ -95,6 +102,10 @@ function readSavedTeams(): TeamShowcaseSavedTeam[] {
 function saveTeams(teams: TeamShowcaseSavedTeam[]) {
   useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.teamShowcaseSavedTeams, teams)
   SaveState.delayedSave()
+}
+
+function isTeamIndex(index: number, teams: TeamShowcaseSavedTeam[]): boolean {
+  return Number.isInteger(index) && index >= 0 && index < teams.length
 }
 
 function sameMembers(a: TeamSlots, b: TeamSlots): boolean {
@@ -151,6 +162,7 @@ export function useTeamShowcase(): TeamShowcaseState {
   )
 
   const ownedIds = useMemo(
+    // Safe cast: the index is keyed by CharacterId, so its keys are CharacterId
     () => new Set(Object.keys(charactersById) as CharacterId[]),
     [charactersById],
   )
@@ -171,6 +183,17 @@ export function useTeamShowcase(): TeamShowcaseState {
     const wasEmpty = current.every((existing) => existing == null)
     saveSlots(id && wasEmpty ? autofillTeammates(next, id, ownedIds) : next)
   }, [ownedIds])
+
+  /**
+   * Writes every position at once. setSlot cannot express a rearrangement: it clears any other slot
+   * holding the same character, so moving characters one at a time would empty the ones it passes over.
+   */
+  const reorderSlots = useCallback((order: number[]) => {
+    const current = readSlots()
+    const next = normalizeSlots(order.map((source) => current[source] ?? null))
+    if (next.every((id, index) => id === current[index])) return
+    saveSlots(next)
+  }, [])
 
   const clearTeam = useCallback(() => saveSlots(normalizeSlots([])), [])
 
@@ -219,16 +242,25 @@ export function useTeamShowcase(): TeamShowcaseState {
     return team.id
   }, [t])
 
-  const loadSavedTeam = useCallback((id: string) => {
+  const loadSavedTeam = useCallback((id: TeamId) => {
     const team = readSavedTeams().find((candidate) => candidate.id === id)
     if (team) saveSlots(normalizeSlots(team.characterIds))
   }, [])
 
-  const deleteSavedTeam = useCallback((id: string) => {
+  const deleteSavedTeam = useCallback((id: TeamId) => {
     saveTeams(readSavedTeams().filter((team) => team.id !== id))
   }, [])
 
-  const renameSavedTeam = useCallback((id: string, name: string) => {
+  const moveSavedTeam = useCallback((from: number, to: number) => {
+    const teams = readSavedTeams()
+    if (from === to || !isTeamIndex(from, teams) || !isTeamIndex(to, teams)) return
+    const next = [...teams]
+    const [moved] = next.splice(from, 1)
+    next.splice(to, 0, moved)
+    saveTeams(next)
+  }, [])
+
+  const renameSavedTeam = useCallback((id: TeamId, name: string) => {
     const trimmed = name.trim()
     if (!trimmed) return
     saveTeams(readSavedTeams().map((team) => (team.id === id ? { ...team, name: trimmed } : team)))
@@ -249,6 +281,7 @@ export function useTeamShowcase(): TeamShowcaseState {
     optionFilter,
     hasTeam,
     setSlot,
+    reorderSlots,
     clearTeam,
     slotScoring,
     setSlotScoringType,
@@ -258,6 +291,7 @@ export function useTeamShowcase(): TeamShowcaseState {
     loadSavedTeam,
     deleteSavedTeam,
     renameSavedTeam,
+    moveSavedTeam,
     screenshotLoading,
     screenshot,
   }

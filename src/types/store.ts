@@ -55,8 +55,11 @@ export type GlobalSavedSession = {
   teamShowcaseSavedTeams: TeamShowcaseSavedTeam[],
 }
 
+/** A user-created saved team. Unlike CharacterId these are generated uuids, not game data keys. */
+export type TeamId = string
+
 export type TeamShowcaseSavedTeam = {
-  id: string,
+  id: TeamId,
   name: string,
   characterIds: (CharacterId | null)[],
 }

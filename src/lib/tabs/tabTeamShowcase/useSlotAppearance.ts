@@ -1,14 +1,8 @@
-import { resolveShowcaseColor } from 'lib/characterPreview/color/showcaseColorService'
-import { ShowcaseColorMode } from 'lib/constants/constants'
-import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { Assets } from 'lib/rendering/assets'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
-import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import type { TeamSlots } from 'lib/tabs/tabTeamShowcase/useTeamShowcase'
 import { useMemo } from 'react'
 import type { CustomImageConfig } from 'types/customImage'
-import { useShallow } from 'zustand/react/shallow'
 
 /** How a filled slot looks on its showcase card, for layouts that echo the card in their own UI */
 export interface SlotAppearance {
@@ -18,8 +12,6 @@ export interface SlotAppearance {
   artUrl: string
   /** `object-position` focus for `artUrl`; undefined for the preview bust, where the layout picks its own */
   artObjectPosition: string | undefined
-  /** The exact seed colour the card resolves for its theme */
-  seedColor: string
 }
 
 /** Custom portraits are cropped tall for the card; focus the top quarter of that crop, where the face usually is */
@@ -35,34 +27,18 @@ function customPortraitFocus(portrait: CustomImageConfig): string | undefined {
   return `${x}% ${y}%`
 }
 
-/** Per-slot card appearance, null for empty slots. Mirrors the colour resolution in CharacterPreview. */
+/** Per-slot card appearance, null for empty slots. */
 export function useSlotAppearances(slots: TeamSlots): (SlotAppearance | null)[] {
-  const globalColorMode = useGlobalStore((s) =>
-    s.savedSession[SavedSessionKeys.showcaseStandardMode] ? ShowcaseColorMode.STANDARD : ShowcaseColorMode.AUTO
-  )
-  const { showcasePreferences, portraitColors } = useShowcaseTabStore(useShallow((s) => ({
-    showcasePreferences: s.showcasePreferences,
-    portraitColors: s.portraitColorByCharacterId,
-  })))
   const charactersById = useCharacterStore((s) => s.charactersById)
 
   return useMemo(() =>
     slots.map((id) => {
       if (!id) return null
       const customPortrait = charactersById[id]?.portrait
-      const previewUrl = Assets.getCharacterPreviewById(id)
-      const { seedColor } = resolveShowcaseColor(
-        id,
-        globalColorMode,
-        showcasePreferences[id],
-        portraitColors[id],
-        !!customPortrait?.imageUrl,
-      )
       return {
         customPortrait,
-        artUrl: customPortrait?.imageUrl ?? previewUrl,
+        artUrl: customPortrait?.imageUrl ?? Assets.getCharacterPreviewById(id),
         artObjectPosition: customPortrait ? customPortraitFocus(customPortrait) : undefined,
-        seedColor,
       }
-    }), [slots, charactersById, globalColorMode, showcasePreferences, portraitColors])
+    }), [slots, charactersById])
 }

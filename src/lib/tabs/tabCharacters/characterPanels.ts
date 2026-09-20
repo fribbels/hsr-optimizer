@@ -3,7 +3,6 @@ import {
   type PageHash,
 } from 'lib/tabs/navigation/constants'
 import { parseHash } from 'lib/tabs/navigation/parseHash'
-import { flipStringMapping } from 'lib/utils/objectUtils'
 
 export enum CharactersPanel {
   CHARACTERS = 'CHARACTERS',
@@ -17,14 +16,22 @@ export const CHARACTERS_PANEL_HASH = {
   [CharactersPanel.TEAMS]: '#teams',
 } as const satisfies Record<CharactersPanel, PageHash>
 
-export const HashToCharactersPanel = flipStringMapping(CHARACTERS_PANEL_HASH) as Record<string, CharactersPanel>
+/** Narrows an arbitrary value to a panel, so callers never have to cast one in */
+export function toCharactersPanel(value: string | null): CharactersPanel | undefined {
+  return CHARACTERS_PANELS.find((panel) => panel === value)
+}
+
+/** Narrows an arbitrary hash to a panel without widening the map to Record<string, ...> */
+export function hashToCharactersPanel(hash: string): CharactersPanel | undefined {
+  return CHARACTERS_PANELS.find((panel) => CHARACTERS_PANEL_HASH[panel] === hash)
+}
 
 export function resolveCharactersPanel(): CharactersPanel {
-  return HashToCharactersPanel[parseHash().hash] ?? CharactersPanel.CHARACTERS
+  return hashToCharactersPanel(parseHash().hash) ?? CharactersPanel.CHARACTERS
 }
 
 export function pushCharactersHash(panel: CharactersPanel) {
-  if (HashToCharactersPanel[parseHash().hash] === panel) return
+  if (hashToCharactersPanel(parseHash().hash) === panel) return
   const route = `${BASE_PATH}${CHARACTERS_PANEL_HASH[panel]}`
   window.history.pushState({}, '', route)
 }

@@ -4,13 +4,16 @@ import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useHashNavigation } from 'lib/tabs/navigation/useHashNavigation'
 import { CharacterRosterPanel } from 'lib/tabs/tabCharacters/CharacterRosterPanel'
 import {
-  CHARACTERS_PANELS,
   CharactersPanel,
-  HashToCharactersPanel,
+  hashToCharactersPanel,
   pushCharactersHash,
   replaceCharactersHash,
   resolveCharactersPanel,
+  toCharactersPanel,
 } from 'lib/tabs/tabCharacters/characterPanels'
+import { CharactersPanelSwitch } from 'lib/tabs/tabCharacters/CharactersPanelSwitch'
+import styles from 'lib/tabs/tabCharacters/CharactersPanelSwitch.module.css'
+import { useTrialStore } from 'lib/tabs/tabTeamShowcase/layouts/trialStore'
 import { TeamShowcaseTab } from 'lib/tabs/tabTeamShowcase/TeamShowcaseTab'
 import {
   useCallback,
@@ -19,14 +22,8 @@ import {
   useState,
 } from 'react'
 
-// TODO(i18n): the team showcase copy is still being reworked, so these labels stay literal for now.
-const PANEL_LABEL: Record<CharactersPanel, string> = {
-  [CharactersPanel.CHARACTERS]: 'Characters',
-  [CharactersPanel.TEAMS]: 'Teams',
-}
-
+/* Tab height and padding live in CharactersPanelSwitch.module.css */
 const TABS_STYLES = {
-  tab: { height: 42, paddingInline: 32 },
   panel: { paddingTop: 10 },
 }
 
@@ -36,11 +33,12 @@ export function CharacterTab() {
   /** The team cards are expensive, so Teams only mounts once visited and then stays mounted. */
   const [teamsMounted, setTeamsMounted] = useState(() => activePanel === CharactersPanel.TEAMS)
   const { addActivationListener } = useContext(TabVisibilityContext)
+  const setTitleBarSlot = useTrialStore((s) => s.setTitleBarSlot)
 
   if (activePanel === CharactersPanel.TEAMS && !teamsMounted) setTeamsMounted(true)
 
   const updateActivePanel = useCallback((hash: string) => {
-    const panel = HashToCharactersPanel[hash]
+    const panel = hashToCharactersPanel(hash)
     if (panel) setActivePanel(panel)
   }, [])
 
@@ -53,20 +51,18 @@ export function CharacterTab() {
   }, [addActivationListener, activePanel])
 
   function handleTabChange(value: string | null) {
-    if (!value || !(CHARACTERS_PANELS as readonly string[]).includes(value)) return
-    const panel = value as CharactersPanel
-    if (panel === activePanel) return
+    const panel = toCharactersPanel(value)
+    if (!panel || panel === activePanel) return
     setActivePanel(panel)
     pushCharactersHash(panel)
   }
 
   return (
     <Tabs w={CHARACTERS_TAB_WIDTH} value={activePanel} onChange={handleTabChange} variant='outline' styles={TABS_STYLES}>
-      <Tabs.List>
-        {CHARACTERS_PANELS.map((panel) => (
-          <Tabs.Tab key={panel} value={panel}>{PANEL_LABEL[panel]}</Tabs.Tab>
-        ))}
-      </Tabs.List>
+      <CharactersPanelSwitch
+        // The slot exists only while Teams shows, so the actions portalled into it never appear beside the roster
+        trailing={activePanel === CharactersPanel.TEAMS && <div ref={setTitleBarSlot} className={styles.titleRowSlot} />}
+      />
 
       <Tabs.Panel value={CharactersPanel.CHARACTERS}>
         <CharacterRosterPanel />

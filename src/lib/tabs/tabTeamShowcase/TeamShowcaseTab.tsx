@@ -1,67 +1,92 @@
-import { SegmentedControl } from '@mantine/core'
+import { Button } from '@mantine/core'
+import { TintedWallLayout } from 'lib/tabs/tabTeamShowcase/layouts/TintedWallLayout'
 import {
-  DEFAULT_TEAM_SHOWCASE_LAYOUT,
-  TEAM_SHOWCASE_LAYOUTS,
-  type TeamShowcaseLayoutKey,
-} from 'lib/tabs/tabTeamShowcase/layouts/layoutRegistry'
+  type TrialSelection,
+  useTrialStore,
+} from 'lib/tabs/tabTeamShowcase/layouts/trialStore'
+import {
+  ACTIONS_OPTIONS,
+  type TrialOption,
+} from 'lib/tabs/tabTeamShowcase/layouts/trialStyles'
 import styles from 'lib/tabs/tabTeamShowcase/TeamShowcaseTab.module.css'
+import { COLUMN_WIDTH_OPTIONS } from 'lib/tabs/tabTeamShowcase/trials/savedTeams/columnAxis'
 import { useTeamShowcase } from 'lib/tabs/tabTeamShowcase/useTeamShowcase'
-import {
-  useCallback,
-  useState,
-} from 'react'
-
-const LAYOUT_STORAGE_KEY = 'teamShowcaseTrialLayout'
-
-function isLayoutKey(value: string | null): value is TeamShowcaseLayoutKey {
-  return TEAM_SHOWCASE_LAYOUTS.some((entry) => entry.key === value)
-}
-
-function readStoredLayout(): TeamShowcaseLayoutKey {
-  try {
-    const stored = localStorage.getItem(LAYOUT_STORAGE_KEY)
-    return isLayoutKey(stored) ? stored : DEFAULT_TEAM_SHOWCASE_LAYOUT
-  } catch {
-    return DEFAULT_TEAM_SHOWCASE_LAYOUT
-  }
-}
+import { useShallow } from 'zustand/react/shallow'
 
 /**
- * Trial harness: shared state lives in useTeamShowcase, each candidate layout is a pure view.
- * The switcher is a development aid and will be removed once a layout is chosen.
+ * Trial harness: shared state lives in useTeamShowcase, the layout is a pure view over it, and each row
+ * in the bar switches one axis of the trial selection with one click. The bar sits below the layout so it
+ * stays out of the design being judged.
+ *
+ * A row with fewer than two options hides itself, which is how a collapsed axis disappears without any
+ * of its code being deleted.
  */
+
+const TRIAL_AXES: { axis: keyof TrialSelection, label: string }[] = [
+  { axis: 'actions', label: 'Actions' },
+  { axis: 'width', label: 'Column width' },
+]
+
+const AXIS_OPTIONS: { [Key in keyof TrialSelection]: TrialOption<TrialSelection[Key]>[] } = {
+  actions: ACTIONS_OPTIONS,
+  width: COLUMN_WIDTH_OPTIONS,
+}
+
+const HAS_ACTIVE_TRIALS = TRIAL_AXES.some(({ axis }) => AXIS_OPTIONS[axis].length > 1)
+
 export function TeamShowcaseTab() {
   const state = useTeamShowcase()
-  const [layoutKey, setLayoutKey] = useState<TeamShowcaseLayoutKey>(readStoredLayout)
-
-  const onLayoutChange = useCallback((value: string) => {
-    if (!isLayoutKey(value)) return
-    setLayoutKey(value)
-    try {
-      localStorage.setItem(LAYOUT_STORAGE_KEY, value)
-    } catch {
-      // Storage is a convenience only
-    }
-  }, [])
-
-  const entry = TEAM_SHOWCASE_LAYOUTS.find((candidate) => candidate.key === layoutKey) ?? TEAM_SHOWCASE_LAYOUTS[0]
-  const Layout = entry.Component
+  const selection = useTrialStore(useShallow((s) => ({
+    actions: s.actions,
+    width: s.width,
+  })))
 
   return (
     <div className={styles.root}>
-      {TEAM_SHOWCASE_LAYOUTS.length > 1 && (
+      <TintedWallLayout state={state} />
+
+      {HAS_ACTIVE_TRIALS && (
         <div className={styles.harnessBar}>
-          <span className={styles.harnessLabel}>Layout trial</span>
-          <SegmentedControl
-            size='xs'
-            value={layoutKey}
-            onChange={onLayoutChange}
-            data={TEAM_SHOWCASE_LAYOUTS.map((candidate) => ({ value: candidate.key, label: candidate.label }))}
-          />
+          {TRIAL_AXES.map(({ axis, label }) => (
+            <TrialGroup
+              key={axis}
+              axis={axis}
+              label={label}
+              options={AXIS_OPTIONS[axis]}
+              value={selection[axis]}
+            />
+          ))}
         </div>
       )}
+    </div>
+  )
+}
 
-      <Layout key={layoutKey} state={state} />
+function TrialGroup<Axis extends keyof TrialSelection>({ axis, label, options, value }: {
+  axis: Axis,
+  label: string,
+  options: TrialOption<TrialSelection[Axis]>[],
+  value: TrialSelection[Axis],
+}) {
+  const setTrial = useTrialStore((s) => s.setTrial)
+  if (options.length < 2) return null
+
+  return (
+    <div className={styles.harnessGroup}>
+      <span className={styles.harnessLabel}>{label}</span>
+      <div className={styles.harnessOptions}>
+        {options.map((option) => (
+          <Button
+            key={option.value}
+            size='xs'
+            variant={option.value === value ? 'filled' : 'default'}
+            aria-pressed={option.value === value}
+            onClick={() => setTrial(axis, option.value)}
+          >
+            {option.label}
+          </Button>
+        ))}
+      </div>
     </div>
   )
 }

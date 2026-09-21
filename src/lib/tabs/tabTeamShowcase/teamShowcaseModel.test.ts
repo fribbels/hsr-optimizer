@@ -6,6 +6,7 @@ import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import {
   autofillTeamSlots,
   buildTeamBenchmarkOverrides,
+  sanitizeTeamSlots,
   TeamBenchmarkOverrideStatus,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
 import type {
@@ -51,12 +52,32 @@ function makeRelic(id: string, set: string): Relic {
 }
 
 describe('teamShowcaseModel', () => {
+  it('removes missing and duplicate characters while preserving slot positions', () => {
+    const charactersById = {
+      [A]: makeCharacter(A, '20000' as LightConeId),
+      [B]: makeCharacter(B, '20001' as LightConeId),
+    }
+
+    expect(sanitizeTeamSlots([A, UNOWNED, A, B], charactersById)).toEqual([A, null, null, B])
+  })
+
   it('fills owned custom teammates in benchmark order while skipping duplicates and the leader', () => {
     const slots = autofillTeamSlots(
       [A, null, null, null],
       A,
       new Set([A, B, C, D]),
       [UNOWNED, A, B, B, C, D],
+    )
+
+    expect(slots).toEqual([A, B, C, D])
+  })
+
+  it('normalizes a partial slot list before autofilling', () => {
+    const slots = autofillTeamSlots(
+      [A],
+      A,
+      new Set([A, B, C, D]),
+      [B, C, D],
     )
 
     expect(slots).toEqual([A, B, C, D])

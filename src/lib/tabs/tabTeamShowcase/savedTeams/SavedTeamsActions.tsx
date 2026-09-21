@@ -74,7 +74,7 @@ export function SavedTeamsActions({
           variant='transparent'
           className={styles.clearButton}
           leftSection={<IconTrash size={ACTION_ICON_SIZE} />}
-          disabled={!hasTeam}
+          disabled={!hasTeam || screenshotPending}
           onClick={onClear}
         >
           {t('Buttons.Clear')}

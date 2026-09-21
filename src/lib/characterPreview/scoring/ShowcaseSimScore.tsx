@@ -66,7 +66,9 @@ export const ShowcaseSimScorePanel = memo(function ShowcaseSimScorePanel({
   source: ShowcaseSource,
   configType?: ScoringConfigType,
 }) {
-  const readonly = source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD
+  const readonly = source === ShowcaseSource.BUILDS_MODAL
+    || source === ShowcaseSource.LEADERBOARD
+    || source === ShowcaseSource.TEAM
   const teamSelection = readonly ? CUSTOM_TEAM : teamSelectionProp
 
   return (

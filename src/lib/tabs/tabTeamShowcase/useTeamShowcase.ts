@@ -147,7 +147,7 @@ export function useTeamShowcase(): TeamShowcaseState {
       if (areTeamSlotsEqual(currentSlots, filled)) return current
       return { slots: filled, benchmarkSyncEnabled: false }
     })
-  }, [charactersById, ownedIds, showcasePreferences, slots, teamPreferences])
+  }, [charactersById, ownedIds, slots, teamPreferences])
 
   /**
    * Writes every position at once. setSlot cannot express a rearrangement: it clears any other slot

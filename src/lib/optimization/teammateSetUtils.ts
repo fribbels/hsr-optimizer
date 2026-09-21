@@ -50,10 +50,14 @@ export function calculateTeammateSets(
   const relics = Object.values(teammateCharacter.equipped)
     .map((id) => id ? relicsById[id] : undefined)
     .filter((relic): relic is Relic => relic != null)
+  const setCounts = new Map<string, number>()
+  for (const relic of relics) {
+    setCounts.set(relic.set, (setCounts.get(relic.set) ?? 0) + 1)
+  }
   const activeTeammateSets: ActiveTeammateSets = {}
 
   for (const set of TEAMMATE_RELIC_SETS) {
-    if (relics.filter((relic) => relic.set === set).length !== 4) continue
+    if (setCounts.get(set) !== 4) continue
     // Messenger's team buff requires an ultimate activation, which equipment alone cannot prove.
     if (set === Sets.MessengerTraversingHackerspace) continue
     if (set === Sets.SacerdosRelivedOrdeal) {
@@ -66,7 +70,7 @@ export function calculateTeammateSets(
   }
 
   for (const set of TEAMMATE_ORNAMENT_SETS) {
-    if (relics.filter((relic) => relic.set === set).length === 2) {
+    if (setCounts.get(set) === 2) {
       activeTeammateSets.teamOrnamentSet = set
     }
   }

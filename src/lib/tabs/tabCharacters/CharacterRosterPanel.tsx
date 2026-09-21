@@ -43,6 +43,10 @@ import { useTranslation } from 'react-i18next'
 
 const densityValues = ['default', 'compact'] as const
 
+function isCharacterGridDensity(value: string): value is CharacterGridDensity {
+  return densityValues.some((density) => density === value)
+}
+
 export function CharacterRosterPanel() {
   // Only sync when optimizer focus changed — otherwise tab revisits stomp the user's selection.
   // Initialize to saved session character so session restore doesn't trigger a sync on first visit.
@@ -67,8 +71,8 @@ export function CharacterRosterPanel() {
   const gridCssVars = precomputedCssVars[density]
 
   const onDensityChange = useCallback((value: string) => {
-    if (!(value in characterGridPresets)) return
-    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.characterGridDensity, value as CharacterGridDensity)
+    if (!isCharacterGridDensity(value)) return
+    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.characterGridDensity, value)
     SaveState.delayedSave()
   }, [])
 

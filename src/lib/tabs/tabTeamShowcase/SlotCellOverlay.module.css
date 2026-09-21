@@ -45,11 +45,6 @@
 .sheet {
   opacity: 0;
   pointer-events: none;
-}
-
-.cellScrim,
-.handle,
-.sheet {
   transition: opacity 120ms ease;
 }
 

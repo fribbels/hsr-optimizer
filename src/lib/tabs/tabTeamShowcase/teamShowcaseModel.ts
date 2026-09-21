@@ -43,7 +43,12 @@ export function sanitizeTeamSlots(
   ids: TeamSlots,
   charactersById: Partial<Record<CharacterId, Character>>,
 ): TeamSlots {
-  return normalizeTeamSlots(ids).map((id) => (id && charactersById[id] ? id : null))
+  const seenIds = new Set<CharacterId>()
+  return normalizeTeamSlots(ids).map((id) => {
+    if (!id || !charactersById[id] || seenIds.has(id)) return null
+    seenIds.add(id)
+    return id
+  })
 }
 
 export function areTeamSlotsEqual(a: TeamSlots, b: TeamSlots): boolean {
@@ -70,7 +75,7 @@ export function autofillTeamSlots(
 ): TeamSlots {
   const candidates = teammateIds.filter((id) => id !== leaderId && ownedIds.has(id))
 
-  const filled = [...slots]
+  const filled = normalizeTeamSlots(slots)
   for (let index = 0; index < filled.length; index++) {
     if (filled[index] != null) continue
     const next = candidates.find((id) => !filled.includes(id))
@@ -93,10 +98,10 @@ export function buildTeamBenchmarkOverrides(
     return emptyBenchmarkOverrideResult(TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE)
   }
 
+  const benchmarkTeammates = completeCharacters.map((character) => buildBenchmarkTeammate(character, relicsById))
   const overridesBySlot = completeCharacters.map((_, focalIndex) => {
-    const teammates: SimulationMetadata['teammates'] = completeCharacters
+    const teammates: SimulationMetadata['teammates'] = benchmarkTeammates
       .filter((__, teammateIndex) => teammateIndex !== focalIndex)
-      .map((teammate) => buildBenchmarkTeammate(teammate, relicsById))
 
     const configOverrides: SimulationMetadataOverrides = {}
     for (const configType of CONFIG_DISPLAY_ORDER) {

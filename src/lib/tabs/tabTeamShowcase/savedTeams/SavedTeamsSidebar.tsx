@@ -43,7 +43,8 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
   moveSavedTeam: (from: number, to: number) => void,
 }) {
   const { t } = useTranslation('teamShowcaseTab')
-  const canSave = hasTeam && activeSavedTeamId == null
+  const screenshotPending = activeScreenshotAction != null
+  const canSave = hasTeam && activeSavedTeamId == null && !screenshotPending
 
   return (
     <aside className={styles.panel}>
@@ -68,7 +69,7 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
         >
           {t('SavedTeams.Save')}
         </Button>
-        <div className={styles.listSlot}>
+        <div className={styles.listSlot} inert={screenshotPending}>
           <SavedTeamsList
             savedTeams={savedTeams}
             activeSavedTeamId={activeSavedTeamId}

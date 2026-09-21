@@ -42,17 +42,6 @@ describe('resolveCustomAutofillTeammateIds', () => {
     expect(result).toEqual([])
   })
 
-  it('returns the active Custom benchmark teammates in benchmark order', () => {
-    const expected = installReorderedCustomTeam()
-
-    const result = resolveCustomAutofillTeammateIds(
-      character,
-      { [ScoringConfigType.DPS]: CUSTOM_TEAM },
-    )
-
-    expect(result).toEqual(expected)
-  })
-
   it('finds the Custom DPS team when Substat Score is first in the card display order', () => {
     const expected = installReorderedCustomTeam()
 

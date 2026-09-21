@@ -1,4 +1,4 @@
-import { useDraggable } from '@dnd-kit/react'
+import { useSortable } from '@dnd-kit/react/sortable'
 import {
   ActionIcon,
   Badge,
@@ -44,6 +44,9 @@ interface BuffPanelProps extends BuffPanelContentProps {
   checked: boolean
   toggleSelection: (id: string) => void
   removeBuff: (key: string) => void
+  index: number
+  group: string
+  noSort?: boolean
 }
 
 export const BuffPanel = memo(function BuffPanel({
@@ -54,10 +57,20 @@ export const BuffPanel = memo(function BuffPanel({
   t,
   checked,
   toggleSelection,
+  index,
+  group,
+  noSort,
 }: BuffPanelProps) {
   const remove = useCallback(() => removeBuff(id), [removeBuff, id])
 
-  const { ref, handleRef } = useDraggable({ id })
+  const { ref, handleRef } = useSortable({
+    id,
+    index,
+    group,
+    type: 'buff',
+    accept: group === 'root' ? ['buff', 'group'] : ['buff'],
+    disabled: noSort,
+  })
 
   const panelContent = useMemo(() => {
     switch (buff.type) {

@@ -1,4 +1,5 @@
-import { useDraggable } from '@dnd-kit/react'
+import { CollisionPriority } from '@dnd-kit/abstract'
+import { useSortable } from '@dnd-kit/react/sortable'
 import {
   ActionIcon,
   Box,
@@ -18,7 +19,6 @@ import {
 import { type TFunction } from 'i18next'
 import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
 import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
-import { useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
 import {
   memo,
   useCallback,
@@ -34,33 +34,42 @@ import { DragHandle } from './DragHandle'
 interface BuffGroupPanelProps {
   id: string
   group: CombatBuffGroup
-  buffs: Map<string, CombatBuff>
   removeBuff: (key: string) => void
   renameBuff: (id: string, name: string) => void
   t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>
   checked: boolean
   toggleSelection: (id: string) => void
+  index: number
+  hovered: boolean
 }
 export const BuffGroupPanel = memo(function BuffGroupPanel({
   id,
   group,
-  buffs,
   removeBuff,
   renameBuff,
   t,
   checked,
   toggleSelection,
+  index,
+  hovered,
 }: BuffGroupPanelProps) {
   const remove = useCallback(() => removeBuff(id), [removeBuff, id])
-  const copyClicked = useCallback(() => writeBuffToClipboard(group, buffs), [group])
+  const copyClicked = useCallback(() => writeBuffToClipboard(group), [group])
   const [isOpen, { toggle }] = useDisclosure(false)
-  const { ref, handleRef } = useDraggable({ id })
+  const { ref: sortableRef, handleRef } = useSortable({
+    id,
+    index,
+    group: 'root',
+    type: 'group',
+    accept: ['buff', 'group'],
+    collisionPriority: CollisionPriority.Low,
+  })
   return (
     <Group
       gap='xs'
       justify='space-between'
-      style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
-      ref={ref}
+      style={{ borderColor: hovered ? 'green' : 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
+      ref={sortableRef}
     >
       <Box
         onClick={toggle}
@@ -88,8 +97,7 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
         <TextInput value={group.name} onChange={(e) => renameBuff(id, e.currentTarget.value)} placeholder='name this group?' />
         <BuffGroupContent
           group={group}
-          isOpen={isOpen}
-          buffs={buffs}
+          isOpen={true || isOpen || hovered}
           t={t}
           renameBuff={renameBuff}
           removeBuff={removeBuff}
@@ -114,7 +122,6 @@ const opacityTransition = 'opacity 100ms ease-out'
 interface BuffGroupContentProps {
   isOpen: boolean
   group: CombatBuffGroup
-  buffs: ReadonlyMap<string, CombatBuff>
   removeBuff: (key: string) => void
   renameBuff: (id: string, name: string) => void
   t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>
@@ -123,7 +130,6 @@ interface BuffGroupContentProps {
 function BuffGroupContent({
   isOpen,
   group,
-  buffs,
   removeBuff,
   renameBuff,
   t,
@@ -134,25 +140,48 @@ function BuffGroupContent({
 
   const preview = (
     <BuffGroupPreview
-      buffs={buffs}
       group={group}
     />
   )
 
-  const panels = (
+  // avoid double registration of the sortable elements
+  const measurementPanels = (
     <Stack gap={optimizerTabDefaultGap}>
-      {group.buffs.map((id) => {
-        const buff = buffs.get(id)!
+      {group.buffs.map((buff, idx) => {
         return (
           <BuffPanel
-            key={id}
-            id={id}
+            key={buff.id}
+            id={buff.id}
             t={t}
             renameBuff={renameBuff}
             removeBuff={removeBuff}
             buff={buff}
             toggleSelection={toggleSelection}
             checked={!buff.disabled}
+            index={idx}
+            group={group.id}
+            noSort
+          />
+        )
+      })}
+    </Stack>
+  )
+
+  const panels = (
+    <Stack gap={optimizerTabDefaultGap}>
+      {group.buffs.map((buff, idx) => {
+        return (
+          <BuffPanel
+            key={buff.id}
+            id={buff.id}
+            t={t}
+            renameBuff={renameBuff}
+            removeBuff={removeBuff}
+            buff={buff}
+            toggleSelection={toggleSelection}
+            checked={!buff.disabled}
+            index={idx}
+            group={group.id}
           />
         )
       })}
@@ -174,7 +203,7 @@ function BuffGroupContent({
         }}
       >
         <div ref={previewRef}>{preview}</div>
-        <div ref={panelsRef}>{panels}</div>
+        <div ref={panelsRef}>{measurementPanels}</div>
       </div>
 
       {/* Visible animated layer */}
@@ -215,11 +244,9 @@ function BuffGroupContent({
 // TODO: implement
 interface PreviewProps {
   group: CombatBuffGroup
-  buffs: ReadonlyMap<string, CombatBuff>
 }
 function BuffGroupPreview({
   group,
-  buffs,
 }: PreviewProps) {
   return <span>{group.buffs.length} buffs</span>
 }

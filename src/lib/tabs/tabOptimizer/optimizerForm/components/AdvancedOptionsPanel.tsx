@@ -22,13 +22,12 @@ export function AdvancedOptionsPanel() {
 
   // Count the # of active buffs to display
   const formCombatBuffs = useOptimizerRequestStore((s) => s.combatBuffs)
-  const buffsActive = useMemo(() => {
-    let activeCount = 0
-    Object.values(formCombatBuffs).forEach((buff) => {
-      if (buff.type !== CombatBuffType.Group) activeCount++
-    })
-    return activeCount
-  }, [formCombatBuffs])
+  const buffsActive = useMemo(() =>
+    formCombatBuffs.reduce((acc, cur) => {
+      if (cur.type !== CombatBuffType.Group) {
+        return acc + 1
+      } else return acc + cur.buffs.length
+    }, 0), [formCombatBuffs])
 
   return (
     <Flex direction='column' gap={optimizerTabDefaultGap}>

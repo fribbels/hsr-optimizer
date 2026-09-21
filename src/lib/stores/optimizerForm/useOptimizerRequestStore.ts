@@ -33,6 +33,10 @@ import {
   type TeammateState,
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
+import {
+  filterMap,
+  mapFilter,
+} from 'lib/utils/arrayUtils'
 import { uuid } from 'lib/utils/miscUtils'
 import {
   type CharacterId,
@@ -67,11 +71,12 @@ type OptimizerRequestActions = {
   setStatFilter: (key: keyof StatFilterState, value: number | undefined) => void,
   setRatingFilter: (key: keyof RatingFilterState, value: number | undefined) => void,
   addCombatBuff: AddCombatBuff,
-  updateCombatBuff: (id: string, buff: CombatBuff | CombatBuffGroup) => void,
+  updateCombatBuffs: (...buffs: Array<CombatBuff | CombatBuffGroup>) => void,
   nameCombatBuff: (id: string, name: string) => void,
   removeCombatBuff: (id: string) => void,
   toggleCombatBuff: (id: string) => void,
   clearCombatBuffs: () => void,
+  setCombatBuffs: (buffs: OptimizerRequestState['combatBuffs']) => void,
   setEnemyField: <K extends keyof EnemyConfigFields>(key: K, value: EnemyConfigFields[K]) => void,
   setStatDisplay: (display: StatDisplay) => void,
   setMemoDisplay: (display: MemoDisplay) => void,
@@ -114,7 +119,7 @@ type OptimizerRequestActions = {
 
 type OptimizerRequestStore = OptimizerRequestState & OptimizerRequestActions
 
-export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStore>((set, get) => ({
+export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStore>((set) => ({
   ...createDefaultFormState(),
 
   // ---- Simple setters (Task 8) ----
@@ -130,29 +135,27 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
     })),
 
   addCombatBuff: (buff: CombatBuff | CombatBuffGroup, groupId?: string) => {
-    set((state) => {
-      let combatBuffs = [...state.combatBuffs, buff]
-      if (groupId) {
-        const group = combatBuffs.find((b) => b.id === groupId)
-        if (!group || group.type !== CombatBuffType.Group) return { combatBuffs }
-        combatBuffs = combatBuffs.map((b) => {
-          if (b.id !== groupId || b.type !== CombatBuffType.Group) return b
-          return { ...b, buffs: [...b.buffs, buff.id] }
-        })
-      }
-      return { combatBuffs }
-    })
+    if (groupId) {
+      set((state) => ({
+        combatBuffs: state.combatBuffs.map((b) => {
+          if (b.id !== groupId) return b
+          if (b.type !== CombatBuffType.Group) return b
+          // assertion enforced by the action's signature
+          return { ...b, buffs: [...b.buffs, buff as CombatBuff] }
+        }),
+      }))
+    } else {
+      set((state) => ({ combatBuffs: [...state.combatBuffs, buff] }))
+    }
     SaveState.delayedSave()
   },
 
-  updateCombatBuff: (id, buff) => {
+  updateCombatBuffs: (...buffs) => {
     set((state) => {
-      return {
-        combatBuffs: state.combatBuffs.map((b) => {
-          if (b.id !== id) return b
-          return buff
-        }),
-      }
+      const { combatBuffs } = state
+      const map = new Map<string, CombatBuff | CombatBuffGroup>()
+      buffs.forEach((buff) => map.set(buff.id, buff))
+      return { combatBuffs: combatBuffs.map((b) => map.get(b.id) ?? b) }
     })
     SaveState.delayedSave()
   },
@@ -169,15 +172,19 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
     SaveState.delayedSave()
   },
 
-  removeCombatBuff: (id) =>
+  removeCombatBuff: (id) => {
     set((state) => {
-      let combatBuffs = state.combatBuffs.filter((b) => b.id !== id)
-      combatBuffs.forEach((b) => {
-        if (b.type !== CombatBuffType.Group) return
-        b.buffs = b.buffs.filter((buffId) => buffId !== id)
-      })
-      return { combatBuffs }
-    }),
+      const { combatBuffs } = state
+      const removedIdx = combatBuffs.findIndex((b) => b.id === id)
+      if (removedIdx === -1) return {}
+      const removed = combatBuffs[removedIdx]
+      if (removed.type === CombatBuffType.Group) {
+        return ({ combatBuffs: combatBuffs.toSpliced(removedIdx, 1, ...removed.buffs) })
+      } else {
+        return ({ combatBuffs: combatBuffs.toSpliced(removedIdx, 1) })
+      }
+    })
+  },
 
   toggleCombatBuff: (id) => {
     set((state) => {
@@ -191,6 +198,8 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
   },
 
   clearCombatBuffs: () => set({ combatBuffs: [] }),
+
+  setCombatBuffs: (combatBuffs) => set({ combatBuffs }),
 
   setEnemyField: (key, value) => set({ [key]: value }),
 

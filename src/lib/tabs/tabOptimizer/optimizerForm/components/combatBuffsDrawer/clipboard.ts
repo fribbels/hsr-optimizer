@@ -28,25 +28,9 @@ export enum ClipboardError {
 type ClipboardBuff = ClipboardStatBuff | ClipboardActionModifier | ClipboardBuffGroup
 type ClipboardStatBuff = CombatStatBuff
 type ClipboardActionModifier = { type: CombatBuffType.ActionModifier }
-interface ClipboardBuffGroup {
-  type: CombatBuffType.Group
-  name: string
-  buffs: Array<CombatStatBuff | CombatActionModifier>
-}
+type ClipboardBuffGroup = CombatBuffGroup
 
-export interface ParsedBuffGroup {
-  group: CombatBuffGroup
-  buffs: Array<CombatBuff>
-  type: CombatBuffType.Group
-}
-
-export async function writeBuffToClipboard(buff: CombatBuff): Promise<
-  boolean | ClipboardError.NotAllowed
->
-export async function writeBuffToClipboard(buff: CombatBuffGroup, buffs: Map<string, CombatBuff>): Promise<
-  boolean | ClipboardError.NotAllowed
->
-export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup, buffs?: Map<string, CombatBuff>): Promise<
+export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup): Promise<
   boolean | ClipboardError.NotAllowed
 > {
   let blob: ClipboardBuff
@@ -58,10 +42,7 @@ export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup, b
       blob = { type: CombatBuffType.ActionModifier }
       break
     case CombatBuffType.Group:
-      blob = {
-        ...buff,
-        buffs: buff.buffs.map((id) => buffs!.get(id)!),
-      }
+      blob = buff
   }
   return await navigator.clipboard.writeText(JSON.stringify(blob))
     .then(() => {
@@ -78,7 +59,7 @@ export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup, b
 }
 
 export async function readBuffFromClipboard(): Promise<
-  ClipboardError | CombatStatBuff | CombatActionModifier | ParsedBuffGroup | null
+  ClipboardError | CombatStatBuff | CombatActionModifier | CombatBuffGroup | null
 > {
   const result = await navigator.clipboard.readText()
     .then(JSON.parse)
@@ -165,7 +146,7 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
 }
 
 const mapFilterBuffs = mapFilter((item) => parseStatBuff(item) ?? parseActionModifier(item))(ArrayFilters.nonNullable)
-function parseGroup(obj: unknown): ParsedBuffGroup | null {
+function parseGroup(obj: unknown): ClipboardBuffGroup | null {
   if (typeof obj !== 'object' || obj === null) return null
 
   if (
@@ -190,18 +171,14 @@ function parseGroup(obj: unknown): ParsedBuffGroup | null {
 
   if (!Array.isArray(buffs)) return null
 
-  const parsedBuffs: ParsedBuffGroup['buffs'] = mapFilterBuffs(buffs)
+  const parsedBuffs: CombatBuffGroup['buffs'] = mapFilterBuffs(buffs)
 
   return {
     type,
+    disabled,
+    name,
     buffs: parsedBuffs,
-    group: {
-      type,
-      disabled,
-      name,
-      buffs: parsedBuffs.map((b) => b.id),
-      id,
-    },
+    id,
   }
 }
 

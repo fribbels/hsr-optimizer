@@ -86,11 +86,9 @@ export async function loadBuffFromClipboard() {
           return useCombatBuffStore.setState({ stat, value, damageTags, targetTag, buffBuilderMode: CombatBuffType.StatBuff })
         }
         case CombatBuffType.Group: {
-          const { buffs, group } = buff
           const combatBuffs = [
             ...useOptimizerRequestStore.getState().combatBuffs,
-            group,
-            ...buffs,
+            buff,
           ]
           useOptimizerRequestStore.setState({ combatBuffs })
         }

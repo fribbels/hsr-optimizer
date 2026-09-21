@@ -1,8 +1,16 @@
+import { CollisionPriority } from '@dnd-kit/abstract'
+import { RestrictToVerticalAxis } from '@dnd-kit/abstract/modifiers'
 import { PointerActivationConstraints } from '@dnd-kit/dom'
+import { move } from '@dnd-kit/helpers'
 import {
   DragDropProvider,
   PointerSensor,
+  useDroppable,
 } from '@dnd-kit/react'
+import {
+  isSortable,
+  isSortableOperation,
+} from '@dnd-kit/react/sortable'
 import {
   ActionIcon,
   Button,
@@ -12,6 +20,7 @@ import {
 } from '@mantine/core'
 import {
   IconClipboard,
+  IconFolderPlus,
   IconTrash,
 } from '@tabler/icons-react'
 import { defaultGap } from 'lib/constants/constantsUi'
@@ -23,14 +32,16 @@ import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerR
 import { BuffBuilder } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffBuilder'
 import { BuffGroupPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffGroupPanel'
 import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
+import { loadBuffFromClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
+import { uuid } from 'lib/utils/miscUtils'
 import {
-  loadBuffFromClipboard,
-  useCombatBuffStore,
-} from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
-import { memo } from 'react'
+  memo,
+  useState,
+} from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   type CombatBuff,
+  type CombatBuffGroup,
   CombatBuffType,
 } from 'types/form'
 import { useShallow } from 'zustand/react/shallow'
@@ -52,17 +63,19 @@ export function CombatBuffsDrawer() {
   )
 }
 
-const sensors = [
-  PointerSensor.configure({
-    activationConstraints: [
-      new PointerActivationConstraints.Distance({ value: 5 }),
-    ],
-  }),
-]
+const sensor = PointerSensor.configure({
+  activationConstraints: [
+    new PointerActivationConstraints.Distance({ value: 5 }),
+  ],
+})
 
 const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
   const { t: tBuffPanel } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
+
+  const [hoveredGroup, setHoveredGroup] = useState<string | null>(null)
+
+  const { ref } = useDroppable({ id: 'root', collisionPriority: CollisionPriority.Lowest })
 
   const {
     clearCombatBuffs,
@@ -71,6 +84,8 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
     renameCombatBuff,
     toggleCombatBuff,
     combatBuffs,
+    setCombatBuffs,
+    updateCombatBuffs,
   } = useOptimizerRequestStore(useShallow((s) => ({
     clearCombatBuffs: s.clearCombatBuffs,
     addCombatBuff: s.addCombatBuff,
@@ -78,6 +93,8 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
     removeCombatBuff: s.removeCombatBuff,
     toggleCombatBuff: s.toggleCombatBuff,
     combatBuffs: s.combatBuffs,
+    setCombatBuffs: s.setCombatBuffs,
+    updateCombatBuffs: s.updateCombatBuffs,
   })))
 
   return (
@@ -91,50 +108,109 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
         >
           {t('Clear')}
         </Button>
+        <ActionIcon
+          onClick={() => {
+            addCombatBuff({
+              id: uuid(),
+              type: CombatBuffType.Group,
+              buffs: [],
+              name: '',
+              disabled: false,
+            })
+          }}
+        >
+          <IconFolderPlus />
+        </ActionIcon>
         <ActionIcon onClick={loadBuffFromClipboard}>
           <IconClipboard />
         </ActionIcon>
       </Group>
       <Stack gap={defaultGap}>
         <BuffBuilder addBuff={addCombatBuff} />
-        <DragDropProvider sensors={sensors}>
-          {combatBuffs
-            .map((buff) => {
-              switch (buff.type) {
-                case CombatBuffType.Group:
-                  const groupedBuffs = combatBuffs.reduce((acc, cur) => {
-                    if (buff.buffs.includes(cur.id)) acc.set(cur.id, cur as CombatBuff)
-                    return acc
-                  }, new Map<string, CombatBuff>())
-                  return (
-                    <BuffGroupPanel
-                      key={buff.id}
-                      id={buff.id}
-                      group={buff}
-                      buffs={groupedBuffs}
-                      removeBuff={removeCombatBuff}
-                      renameBuff={renameCombatBuff}
-                      t={tBuffPanel}
-                      checked={!buff.disabled}
-                      toggleSelection={toggleCombatBuff}
-                    />
-                  )
-                case CombatBuffType.StatBuff:
-                case CombatBuffType.ActionModifier:
-                  return (
-                    <BuffPanel
-                      key={buff.id}
-                      id={buff.id}
-                      buff={buff}
-                      removeBuff={removeCombatBuff}
-                      renameBuff={renameCombatBuff}
-                      t={tBuffPanel}
-                      checked={!buff.disabled}
-                      toggleSelection={toggleCombatBuff}
-                    />
-                  )
+        <DragDropProvider
+          sensors={(d) => [...d, sensor]}
+          modifiers={(d) => [...d, RestrictToVerticalAxis]}
+          onDragOver={(e) => {}}
+          onDragEnd={(e) => {
+            setHoveredGroup(null)
+            const { source } = e.operation
+            if (!isSortable(source)) return
+            const { initialGroup, initialIndex, group, index } = source
+            if (initialGroup === group && initialIndex === index) return
+            if (initialGroup === group) {
+              if (group === 'root') {
+                setCombatBuffs(move(combatBuffs, e))
+              } else {
+                const buffGroup = combatBuffs.find((b): b is CombatBuffGroup => {
+                  return b.id === group && b.type === CombatBuffType.Group
+                })
+                if (!buffGroup) return
+                const newOrder = move(buffGroup.buffs, e)
+                const newGroup = { ...buffGroup, buffs: newOrder }
+                updateCombatBuffs(newGroup)
               }
-            })}
+            } else {
+              const fromGroup = combatBuffs.find((b): b is CombatBuffGroup => {
+                return b.id === initialGroup && b.type === CombatBuffType.Group
+              })
+              const toGroup = combatBuffs.find((b): b is CombatBuffGroup => {
+                return b.id === group && b.type === CombatBuffType.Group
+              })
+              if (fromGroup && toGroup) {
+                const fromBuffs = [...fromGroup.buffs]
+                const toBuffs = [...toGroup.buffs]
+
+                const [removed] = fromBuffs.splice(initialIndex, 1)
+                toBuffs.splice(index, 0, removed)
+
+                const newFrom = { ...fromGroup, buffs: fromBuffs }
+                const newTo = { ...toGroup, buffs: toBuffs }
+
+                updateCombatBuffs(newFrom, newTo)
+              } else if (fromGroup && (group === 'root')) {
+              } else if (toGroup && (initialGroup === 'root')) {
+              }
+            }
+          }}
+        >
+          <Stack gap={defaultGap} ref={ref}>
+            {combatBuffs
+              .map((buff, idx) => {
+                switch (buff.type) {
+                  case CombatBuffType.Group:
+                    return (
+                      <BuffGroupPanel
+                        key={buff.id}
+                        id={buff.id}
+                        group={buff}
+                        removeBuff={removeCombatBuff}
+                        renameBuff={renameCombatBuff}
+                        t={tBuffPanel}
+                        checked={!buff.disabled}
+                        toggleSelection={toggleCombatBuff}
+                        index={idx}
+                        hovered={buff.id === hoveredGroup}
+                      />
+                    )
+                  case CombatBuffType.StatBuff:
+                  case CombatBuffType.ActionModifier:
+                    return (
+                      <BuffPanel
+                        key={buff.id}
+                        id={buff.id}
+                        buff={buff}
+                        removeBuff={removeCombatBuff}
+                        renameBuff={renameCombatBuff}
+                        t={tBuffPanel}
+                        checked={!buff.disabled}
+                        toggleSelection={toggleCombatBuff}
+                        index={idx}
+                        group='root'
+                      />
+                    )
+                }
+              })}
+          </Stack>
         </DragDropProvider>
       </Stack>
     </Stack>

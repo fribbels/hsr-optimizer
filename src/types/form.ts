@@ -148,7 +148,7 @@ export enum CombatBuffType {
 export interface CombatBuffGroup extends CombatBuffCommon {
   type: CombatBuffType.Group
   name: string
-  buffs: Array<string>
+  buffs: Array<CombatBuff>
 }
 
 export type CombatBuff = Prettify<CombatStatBuff | CombatActionModifier>

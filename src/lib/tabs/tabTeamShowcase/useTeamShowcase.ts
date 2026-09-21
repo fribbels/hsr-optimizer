@@ -1,32 +1,38 @@
 import { editShowcasePreferences } from 'lib/characterPreview/customization/showcaseCustomizationController'
 import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
+import { Message } from 'lib/interactions/message'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import {
   GRID_ELEMENT_ID,
   GRID_SIZE,
+  TEAM_SIZE,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
 import {
-  loadTeamSlots,
+  loadSavedTeamSlots,
   readSavedTeams,
-  readTeamSlots,
   writeSavedTeams,
-  writeTeamSlots,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseController'
 import {
   areTeamSlotsEqual,
   autofillTeamSlots,
+  buildTeamBenchmarkOverrides,
   isSavedTeamIndex,
   normalizeTeamSlots,
+  sanitizeTeamSlots,
+  TeamBenchmarkOverrideStatus,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
 import {
+  resolveCustomAutofillTeammateIds,
   resolveSlotScoring,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseScoring'
 import type {
   TeamShowcaseState,
+  TeamSlots,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
 import type { CharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import { uuid } from 'lib/utils/miscUtils'
@@ -39,7 +45,10 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { CharacterId } from 'types/character'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import type {
   SavedTeamId,
   TeamShowcaseSavedTeam,
@@ -47,6 +56,12 @@ import type {
 import { useShallow } from 'zustand/react/shallow'
 
 const EMPTY_TEAM_SELECTIONS = {}
+const EMPTY_BENCHMARK_OVERRIDES: TeamShowcaseState['simulationMetadataOverrides'] = Array.from({ length: TEAM_SIZE })
+
+interface WorkingTeamState {
+  slots: TeamSlots
+  benchmarkSyncEnabled: boolean
+}
 
 /** Cards mount only once the tab has been shown, so background tabs don't run scoring. */
 function useHasActivated(): boolean {
@@ -66,20 +81,31 @@ export function useTeamShowcase(): TeamShowcaseState {
   const { t: tCharacters } = useTranslation('charactersTab')
   const activated = useHasActivated()
 
-  const savedSlots = useGlobalStore((s) => s.savedSession.teamShowcaseCharacterIds)
   const savedTeams = useGlobalStore((s) => s.savedSession.teamShowcaseSavedTeams)
-  const normalizedSavedSlots = useMemo(() => normalizeTeamSlots(savedSlots), [savedSlots])
+  const [workingTeam, setWorkingTeam] = useState<WorkingTeamState>(() => ({
+    slots: normalizeTeamSlots([]),
+    benchmarkSyncEnabled: false,
+  }))
+  const charactersById = useCharacterStore((s) => s.charactersById)
+  const relicsById = useRelicStore((s) => s.relicsById)
   const ownedCharacterIds = useCharacterStore(useShallow((s) => s.characters.map((character) => character.id)))
-  const slotCharacters = useCharacterStore(useShallow((s) => normalizedSavedSlots.map((id) => id ? s.charactersById[id] : undefined)))
-
-  const slots = useMemo(
-    () => normalizedSavedSlots.map((id, index) => id && slotCharacters[index] ? id : null),
-    [normalizedSavedSlots, slotCharacters],
+  const slots = useMemo(() => sanitizeTeamSlots(workingTeam.slots, charactersById), [workingTeam.slots, charactersById])
+  const selectedCharacters = useMemo<(Character | null)[]>(
+    () => slots.map((id) => id ? charactersById[id] ?? null : null),
+    [slots, charactersById],
   )
 
+  useEffect(() => {
+    setWorkingTeam((current) => {
+      const sanitized = sanitizeTeamSlots(current.slots, charactersById)
+      if (areTeamSlotsEqual(current.slots, sanitized)) return current
+      return { slots: sanitized, benchmarkSyncEnabled: false }
+    })
+  }, [charactersById])
+
   const characters = useMemo(
-    () => slots.map((id, index) => (activated && id ? slotCharacters[index] ?? null : null)),
-    [slots, slotCharacters, activated],
+    () => activated ? selectedCharacters : selectedCharacters.map(() => null),
+    [activated, selectedCharacters],
   )
 
   const ownedIds = useMemo(
@@ -92,40 +118,62 @@ export function useTeamShowcase(): TeamShowcaseState {
     [ownedIds],
   )
 
-  const setSlot = useCallback((index: number, id: CharacterId | null) => {
-    const current = readTeamSlots()
-    const next = current.map((existing, i) => {
-      if (i === index) return id
-      // The same character can't fill two slots
-      return existing === id ? null : existing
-    })
+  const { teamPreferences, showcasePreferences } = useShowcaseTabStore(useShallow((s) => ({
+    teamPreferences: s.showcaseTeamPreferenceByConfig,
+    showcasePreferences: s.showcasePreferences,
+  })))
 
-    const wasEmpty = current.every((existing) => existing == null)
-    writeTeamSlots(id && wasEmpty ? autofillTeamSlots(next, id, ownedIds) : next)
-  }, [ownedIds])
+  const setSlot = useCallback((index: number, id: CharacterId | null) => {
+    const shouldAutofill = id != null && slots.every((existing) => existing == null)
+    const selectedCharacter = shouldAutofill ? charactersById[id] : undefined
+    const customTeammateIds = selectedCharacter
+      ? resolveCustomAutofillTeammateIds(
+        selectedCharacter,
+        teamPreferences[selectedCharacter.id] ?? EMPTY_TEAM_SELECTIONS,
+      )
+      : []
+
+    setWorkingTeam((current) => {
+      const currentSlots = sanitizeTeamSlots(current.slots, charactersById)
+      const next = currentSlots.map((existing, i) => {
+        if (i === index) return id
+        // The same character can't fill two slots
+        return existing === id ? null : existing
+      })
+      const wasEmpty = currentSlots.every((existing) => existing == null)
+      const filled = id && wasEmpty
+        ? autofillTeamSlots(next, id, ownedIds, customTeammateIds)
+        : next
+      if (areTeamSlotsEqual(currentSlots, filled)) return current
+      return { slots: filled, benchmarkSyncEnabled: false }
+    })
+  }, [charactersById, ownedIds, showcasePreferences, slots, teamPreferences])
 
   /**
    * Writes every position at once. setSlot cannot express a rearrangement: it clears any other slot
    * holding the same character, so moving characters one at a time would empty the ones it passes over.
    */
   const reorderSlots = useCallback((order: number[]) => {
-    const current = readTeamSlots()
-    const next = normalizeTeamSlots(order.map((source) => current[source] ?? null))
-    writeTeamSlots(next)
+    setWorkingTeam((current) => {
+      const next = normalizeTeamSlots(order.map((source) => current.slots[source] ?? null))
+      if (areTeamSlotsEqual(current.slots, next)) return current
+      return { ...current, slots: next }
+    })
   }, [])
 
-  const clearTeam = useCallback(() => writeTeamSlots(normalizeTeamSlots([])), [])
+  const clearTeam = useCallback(() => {
+    setWorkingTeam((current) => {
+      const emptySlots = normalizeTeamSlots([])
+      if (!current.benchmarkSyncEnabled && areTeamSlotsEqual(current.slots, emptySlots)) return current
+      return { slots: emptySlots, benchmarkSyncEnabled: false }
+    })
+  }, [])
 
   // ----- Per-slot scoring -----
-  const { teamPreferences, showcasePreferences } = useShowcaseTabStore(useShallow((s) => ({
-    teamPreferences: s.showcaseTeamPreferenceByConfig,
-    showcasePreferences: s.showcasePreferences,
-  })))
-
   const slotScoring = useMemo(
     () =>
       slots.map((id, index) => {
-        const character = id ? slotCharacters[index] : undefined
+        const character = id ? selectedCharacters[index] : null
         if (!character) return null
         return resolveSlotScoring(
           character,
@@ -134,36 +182,54 @@ export function useTeamShowcase(): TeamShowcaseState {
           tCharacters,
         )
       }),
-    [slots, slotCharacters, teamPreferences, showcasePreferences, tCharacters],
+    [slots, selectedCharacters, teamPreferences, showcasePreferences, tCharacters],
   )
 
   const setSlotScoringType = useCallback((index: number, scoringType: ScoringType) => {
-    const id = readTeamSlots()[index]
+    const id = slots[index]
     if (!id) return
     editShowcasePreferences(id, { scoringType })
-  }, [])
+  }, [slots])
+
+  // ----- Team-local benchmark overrides -----
+  const simulationMetadataOverrides = useMemo(
+    () =>
+      workingTeam.benchmarkSyncEnabled
+        ? buildTeamBenchmarkOverrides(selectedCharacters, relicsById).overridesBySlot
+        : EMPTY_BENCHMARK_OVERRIDES,
+    [selectedCharacters, relicsById, workingTeam.benchmarkSyncEnabled],
+  )
+  const canSyncBenchmarks = selectedCharacters.every((character) => character != null)
 
   // ----- Saved teams -----
   const activeSavedTeamId = useMemo(
-    () => savedTeams.find((team) => areTeamSlotsEqual(team.characterIds, slots))?.id ?? null,
-    [savedTeams, slots],
+    () =>
+      savedTeams.find((team) =>
+        areTeamSlotsEqual(team.characterIds, slots)
+        && Boolean(team.benchmarkSyncEnabled) === workingTeam.benchmarkSyncEnabled
+      )?.id ?? null,
+    [savedTeams, slots, workingTeam.benchmarkSyncEnabled],
   )
 
   const saveCurrentTeam = useCallback(() => {
-    const current = readTeamSlots()
-    if (current.every((id) => id == null)) return
+    if (slots.every((id) => id == null)) return
     const teams = readSavedTeams()
     const team: TeamShowcaseSavedTeam = {
       id: uuid(),
       name: t('SavedTeams.DefaultName', { index: teams.length + 1 }),
-      characterIds: current,
+      characterIds: slots,
+      benchmarkSyncEnabled: workingTeam.benchmarkSyncEnabled,
     }
     writeSavedTeams([...teams, team])
-  }, [t])
+  }, [slots, t, workingTeam.benchmarkSyncEnabled])
 
   const loadSavedTeam = useCallback((id: SavedTeamId) => {
     const team = readSavedTeams().find((candidate) => candidate.id === id)
-    if (team) loadTeamSlots(team.characterIds)
+    if (!team) return
+    setWorkingTeam({
+      slots: loadSavedTeamSlots(team.characterIds),
+      benchmarkSyncEnabled: Boolean(team.benchmarkSyncEnabled),
+    })
   }, [])
 
   const deleteSavedTeam = useCallback((id: SavedTeamId) => {
@@ -191,6 +257,28 @@ export function useTeamShowcase(): TeamShowcaseState {
     writeSavedTeams(next)
   }, [])
 
+  const syncBenchmarkTeams = useCallback(() => {
+    const validation = buildTeamBenchmarkOverrides(
+      selectedCharacters,
+      relicsById,
+    )
+    if (validation.status === TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE) {
+      Message.error(tCharacters('Messages.NoSelectedLightCone'))
+      return
+    }
+    if (validation.status !== TeamBenchmarkOverrideStatus.READY) return
+
+    setWorkingTeam((current) => ({ ...current, benchmarkSyncEnabled: true }))
+    if (!activeSavedTeamId) return
+    writeSavedTeams(
+      readSavedTeams().map((team) =>
+        team.id === activeSavedTeamId
+          ? { ...team, benchmarkSyncEnabled: true }
+          : team
+      ),
+    )
+  }, [activeSavedTeamId, relicsById, selectedCharacters, tCharacters])
+
   // ----- Screenshot -----
   const { activeAction: activeScreenshotAction, trigger } = useScreenshotAction(GRID_ELEMENT_ID, GRID_SIZE)
   const screenshot = useCallback(
@@ -209,7 +297,10 @@ export function useTeamShowcase(): TeamShowcaseState {
     reorderSlots,
     clearTeam,
     slotScoring,
+    simulationMetadataOverrides,
     setSlotScoringType,
+    canSyncBenchmarks,
+    syncBenchmarkTeams,
     savedTeams,
     activeSavedTeamId,
     saveCurrentTeam,

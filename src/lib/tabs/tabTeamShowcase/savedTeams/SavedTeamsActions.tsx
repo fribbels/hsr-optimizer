@@ -1,8 +1,8 @@
 import { Button } from '@mantine/core'
 import {
-  IconBookmarkPlus,
   IconCamera,
   IconDownload,
+  IconRefresh,
   IconTrash,
 } from '@tabler/icons-react'
 import styles from 'lib/tabs/tabTeamShowcase/savedTeams/SavedTeamsActions.module.css'
@@ -12,17 +12,17 @@ import { useTranslation } from 'react-i18next'
 const ACTION_ICON_SIZE = 16
 
 export function SavedTeamsActions({
-  canSave,
+  canSyncBenchmarks,
   hasTeam,
   activeScreenshotAction,
-  onSave,
+  onSyncBenchmarks,
   onClear,
   onScreenshot,
 }: {
-  canSave: boolean,
+  canSyncBenchmarks: boolean,
   hasTeam: boolean,
   activeScreenshotAction: ScreenshotAction | null,
-  onSave: () => void,
+  onSyncBenchmarks: () => void,
   onClear: () => void,
   onScreenshot: (action: ScreenshotAction) => void,
 }) {
@@ -31,7 +31,7 @@ export function SavedTeamsActions({
 
   return (
     <div className={styles.root}>
-      <div className={`${styles.group} ${styles.ruledGroup}`}>
+      <div className={styles.group}>
         <Button
           fullWidth
           size='sm'
@@ -57,16 +57,16 @@ export function SavedTeamsActions({
       </div>
 
       <div className={styles.group}>
-        <h3 className={styles.title}>{t('SavedTeams.Header')}</h3>
+        <h3 className={styles.title}>{t('Panels.Controls')}</h3>
         <Button
           fullWidth
           size='sm'
-          variant='filled'
-          leftSection={<IconBookmarkPlus size={ACTION_ICON_SIZE} />}
-          disabled={!canSave}
-          onClick={onSave}
+          variant='default'
+          leftSection={<IconRefresh size={ACTION_ICON_SIZE} />}
+          disabled={!canSyncBenchmarks || screenshotPending}
+          onClick={onSyncBenchmarks}
         >
-          {t('SavedTeams.Save')}
+          {t('Buttons.SyncBenchmarkTeams')}
         </Button>
         <Button
           fullWidth

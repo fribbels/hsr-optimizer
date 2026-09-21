@@ -16,3 +16,19 @@
   flex: 1;
   min-height: 0;
 }
+
+.gallerySection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 6px;
+}
+
+.title {
+  margin: 20px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}

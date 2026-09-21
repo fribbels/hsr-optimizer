@@ -1,6 +1,7 @@
 import { Button } from '@mantine/core'
 import {
   IconArrowsMove,
+  IconChartBar,
   IconPlus,
   IconTrash,
   IconUser,
@@ -27,7 +28,7 @@ const CHANGE_CHARACTER_BUTTON_HEIGHT = 54
 const CONTROL_SIZE = 'md'
 
 const ART_BUTTON_CLASS_NAMES = { root: styles.artButton }
-const ART_SELECT_CLASS_NAMES = { input: styles.artInput, section: styles.artSection }
+const ART_SELECT_CLASS_NAMES = { input: `${styles.artInput} ${styles.scoringInput}`, section: styles.artSection }
 
 /** A click with no pointer behind it, i.e. keyboard activation, reports zero clicks */
 const KEYBOARD_CLICK_DETAIL = 0
@@ -64,6 +65,7 @@ export function SlotCellOverlay({
   const drag = useContext(SlotDragContext)
   const dragActive = drag?.dragActive ?? false
   const revealed = revealedSlot === index
+  const selectedScoringLabel = scoring?.options.find((option) => option.value === String(scoring.value))?.label
   const cellRef = useRef<HTMLDivElement>(null)
 
   // A pointer-down anywhere outside this card releases it, which is the only way to dismiss on touch
@@ -154,6 +156,14 @@ export function SlotCellOverlay({
               <SlotScoringSelect
                 size={CONTROL_SIZE}
                 aria-label={t('Benchmark')}
+                leftSection={(
+                  <span className={styles.scoringSelectedValue}>
+                    <IconChartBar className={styles.scoringSelectedIcon} size={CONTROL_ICON_SIZE} />
+                    <span className={styles.scoringSelectedLabel}>{selectedScoringLabel}</span>
+                  </span>
+                )}
+                leftSectionWidth='100%'
+                leftSectionProps={{ className: styles.scoringSelectedSection }}
                 scoring={scoring}
                 onChange={onScoringChange}
                 classNames={ART_SELECT_CLASS_NAMES}

@@ -1,11 +1,39 @@
-import { getScoringMetadata } from 'lib/stores/scoring/scoringStore'
+import type { SimulationMetadataOverrides } from 'lib/characterPreview/characterPreviewTypes'
+import { calculateTeammateSets } from 'lib/optimization/teammateSetUtils'
+import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import { TEAM_SIZE } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
 import type { TeamSlots } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
 import type {
   Character,
   CharacterId,
 } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
+import type { SimulationMetadata } from 'types/metadata'
+import type { Relic } from 'types/relic'
 import type { TeamShowcaseSavedTeam } from 'types/store'
+
+export enum TeamBenchmarkOverrideStatus {
+  INCOMPLETE = 'incomplete',
+  MISSING_LIGHT_CONE = 'missing-light-cone',
+  READY = 'ready',
+}
+
+export interface TeamBenchmarkOverrideResult {
+  status: TeamBenchmarkOverrideStatus
+  overridesBySlot: (SimulationMetadataOverrides | undefined)[]
+}
+
+type CharacterWithLightCone = Character & {
+  form: Character['form'] & { lightCone: LightConeId },
+}
+
+function isCharacter(character: Character | null): character is Character {
+  return character != null
+}
+
+function hasLightCone(character: Character): character is CharacterWithLightCone {
+  return character.form.lightCone != null
+}
 
 export function normalizeTeamSlots(ids: TeamSlots): TeamSlots {
   return Array.from({ length: TEAM_SIZE }, (_, index) => ids[index] ?? null)
@@ -30,6 +58,7 @@ export function areSavedTeamsEqual(a: TeamShowcaseSavedTeam[], b: TeamShowcaseSa
     return team.id === other.id
       && team.name === other.name
       && areTeamSlotsEqual(team.characterIds, other.characterIds)
+      && Boolean(team.benchmarkSyncEnabled) === Boolean(other.benchmarkSyncEnabled)
   })
 }
 
@@ -37,11 +66,9 @@ export function autofillTeamSlots(
   slots: TeamSlots,
   leaderId: CharacterId,
   ownedIds: Set<CharacterId>,
+  teammateIds: CharacterId[],
 ): TeamSlots {
-  const teammates = getScoringMetadata(leaderId).simulation?.teammates ?? []
-  const candidates = teammates
-    .map((teammate) => teammate.characterId)
-    .filter((id) => id !== leaderId && ownedIds.has(id))
+  const candidates = teammateIds.filter((id) => id !== leaderId && ownedIds.has(id))
 
   const filled = [...slots]
   for (let index = 0; index < filled.length; index++) {
@@ -51,6 +78,57 @@ export function autofillTeamSlots(
     filled[index] = next
   }
   return filled
+}
+
+export function buildTeamBenchmarkOverrides(
+  characters: (Character | null)[],
+  relicsById: Partial<Record<string, Relic>>,
+): TeamBenchmarkOverrideResult {
+  if (characters.length !== TEAM_SIZE || !characters.every(isCharacter)) {
+    return emptyBenchmarkOverrideResult(TeamBenchmarkOverrideStatus.INCOMPLETE)
+  }
+
+  const completeCharacters = characters
+  if (!completeCharacters.every(hasLightCone)) {
+    return emptyBenchmarkOverrideResult(TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE)
+  }
+
+  const overridesBySlot = completeCharacters.map((_, focalIndex) => {
+    const teammates: SimulationMetadata['teammates'] = completeCharacters
+      .filter((__, teammateIndex) => teammateIndex !== focalIndex)
+      .map((teammate) => buildBenchmarkTeammate(teammate, relicsById))
+
+    const configOverrides: SimulationMetadataOverrides = {}
+    for (const configType of CONFIG_DISPLAY_ORDER) {
+      configOverrides[configType] = { teammates }
+    }
+    return configOverrides
+  })
+
+  return {
+    status: TeamBenchmarkOverrideStatus.READY,
+    overridesBySlot,
+  }
+}
+
+function emptyBenchmarkOverrideResult(status: TeamBenchmarkOverrideStatus): TeamBenchmarkOverrideResult {
+  return {
+    status,
+    overridesBySlot: Array.from({ length: TEAM_SIZE }),
+  }
+}
+
+function buildBenchmarkTeammate(
+  character: CharacterWithLightCone,
+  relicsById: Partial<Record<string, Relic>>,
+): SimulationMetadata['teammates'][number] {
+  return {
+    characterId: character.id,
+    lightCone: character.form.lightCone,
+    characterEidolon: character.form.characterEidolon,
+    lightConeSuperimposition: character.form.lightConeSuperimposition,
+    ...calculateTeammateSets(character, relicsById),
+  }
 }
 
 export function isSavedTeamIndex(index: number, teams: TeamShowcaseSavedTeam[]): boolean {

@@ -1,3 +1,4 @@
+import type { SimulationMetadataOverrides } from 'lib/characterPreview/characterPreviewTypes'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
 import type { SlotScoring } from 'lib/tabs/tabTeamShowcase/teamShowcaseScoring'
 import type { CharacterOptions } from 'lib/ui/selectors/optionGenerator'
@@ -23,7 +24,10 @@ export interface TeamShowcaseState {
   clearTeam: () => void
 
   slotScoring: (SlotScoring | null)[]
+  simulationMetadataOverrides: (SimulationMetadataOverrides | undefined)[]
   setSlotScoringType: (index: number, scoringType: ScoringType) => void
+  canSyncBenchmarks: boolean
+  syncBenchmarkTeams: () => void
 
   savedTeams: TeamShowcaseSavedTeam[]
   activeSavedTeamId: SavedTeamId | null

@@ -8028,11 +8028,13 @@ interface Resources {
       "Clear": "Clear characters",
       "CopyScreenshot": "Copy screenshot",
       "DownloadScreenshot": "Download screenshot",
-      "Remove": "Remove"
+      "Remove": "Remove",
+      "SyncBenchmarkTeams": "Sync benchmark teams"
     },
     "CardOptions": "Card options, drag to reorder",
     "Panels": {
       "Characters": "Characters",
+      "Controls": "Controls",
       "Teams": "Teams"
     },
     "SavedTeams": {

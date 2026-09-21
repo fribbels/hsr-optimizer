@@ -5,6 +5,7 @@ import {
 } from '@dnd-kit/core'
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import type { SimulationMetadataOverrides } from 'lib/characterPreview/characterPreviewTypes'
 import {
   cardBorderRadius,
   cardTotalW,
@@ -48,12 +49,14 @@ const PITCH_Y = parentH + GRID_GAP
  */
 export function TeamCardGrid({
   characters,
+  simulationMetadataOverrides,
   interactionsEnabled,
   renderSlotOverlay,
   onSlotReorder,
   onSlotDrop,
 }: {
   characters: (Character | null)[],
+  simulationMetadataOverrides: (SimulationMetadataOverrides | undefined)[],
   interactionsEnabled: boolean,
   renderSlotOverlay: (index: number, character: Character | null) => ReactNode,
   onSlotReorder: (order: number[]) => void,
@@ -104,6 +107,7 @@ export function TeamCardGrid({
                   id={`teamShowcaseCard${drag.slotKeys[index]}`}
                   source={ShowcaseSource.TEAM}
                   character={character}
+                  simulationMetadataOverrides={simulationMetadataOverrides[index]}
                 />
               </div>
             ))}

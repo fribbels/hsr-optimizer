@@ -12,6 +12,7 @@ export function TeamShowcaseLayout({ state }: { state: TeamShowcaseState }) {
     slots,
     optionFilter,
     slotScoring,
+    simulationMetadataOverrides,
     setSlotScoringType,
     setSlot,
     reorderSlots,
@@ -20,6 +21,8 @@ export function TeamShowcaseLayout({ state }: { state: TeamShowcaseState }) {
     savedTeams,
     activeSavedTeamId,
     saveCurrentTeam,
+    canSyncBenchmarks,
+    syncBenchmarkTeams,
     clearTeam,
     screenshot,
     loadSavedTeam,
@@ -34,10 +37,12 @@ export function TeamShowcaseLayout({ state }: { state: TeamShowcaseState }) {
       <div className={styles.columns}>
         <SavedTeamsSidebar
           hasTeam={hasTeam}
+          canSyncBenchmarks={canSyncBenchmarks}
           activeScreenshotAction={activeScreenshotAction}
           savedTeams={savedTeams}
           activeSavedTeamId={activeSavedTeamId}
           saveCurrentTeam={saveCurrentTeam}
+          syncBenchmarkTeams={syncBenchmarkTeams}
           clearTeam={clearTeam}
           screenshot={screenshot}
           loadSavedTeam={loadSavedTeam}
@@ -49,6 +54,7 @@ export function TeamShowcaseLayout({ state }: { state: TeamShowcaseState }) {
         <div className={styles.gridMat}>
           <TeamCardGrid
             characters={characters}
+            simulationMetadataOverrides={simulationMetadataOverrides}
             interactionsEnabled={activeScreenshotAction == null}
             onSlotReorder={reorderSlots}
             onSlotDrop={interactions.revealSlot}

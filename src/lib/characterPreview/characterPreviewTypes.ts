@@ -15,6 +15,8 @@ export type SimulationMetadataOverride = {
   deprioritizeBuffs?: boolean,
 }
 
+export type SimulationMetadataOverrides = Partial<Record<ScoringConfigType, SimulationMetadataOverride>>
+
 export type InjectedScoringInput = {
   configType: ScoringConfigType,
   score: InjectedScoreData,

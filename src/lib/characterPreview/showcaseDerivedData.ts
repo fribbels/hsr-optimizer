@@ -9,7 +9,10 @@ import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
-import type { SimulationMetadataOverride } from 'lib/characterPreview/characterPreviewTypes'
+import type {
+  SimulationMetadataOverride,
+  SimulationMetadataOverrides,
+} from 'lib/characterPreview/characterPreviewTypes'
 import {
   resolveShowcaseScoringOrder,
   resolveShowcaseScoringType,
@@ -58,8 +61,7 @@ interface ShowcaseLayoutParams {
   teamSelections: Partial<Record<ScoringConfigType, TeamSelection>>
   storedScoringType: ScoringType | undefined
   savedBuildOverride?: SavedBuild | null
-  simulationMetadataOverride?: SimulationMetadataOverride
-  overrideConfigType?: ScoringConfigType
+  simulationMetadataOverrides?: SimulationMetadataOverrides
   t: TFunction<'gameData'>
 }
 
@@ -94,21 +96,8 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
   for (const configType of CONFIG_DISPLAY_ORDER) {
     const meta = resolveSimulationMetadata(character, configType, resolvedTeamSelections[configType], savedBuildOverride)
     if (meta) {
-      meta.deprioritizeBuffs = resolveEffectiveDeprioritizeBuffs(character.id, meta)
-      configMetadata[configType] = meta
-    }
-  }
-
-  if (params.simulationMetadataOverride && params.overrideConfigType) {
-    const ct = params.overrideConfigType
-    const meta = configMetadata[ct]
-    if (meta) {
-      const override = params.simulationMetadataOverride
-      configMetadata[ct] = {
-        ...meta,
-        ...(override.teammates && { teammates: override.teammates }),
-        ...(override.deprioritizeBuffs != null && { deprioritizeBuffs: override.deprioritizeBuffs }),
-      }
+      const override = params.simulationMetadataOverrides?.[configType]
+      configMetadata[configType] = applySimulationMetadataOverride(character.id, meta, override)
     }
   }
 
@@ -145,6 +134,26 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
     defaultPortraitUrl,
     displayDimensions,
     artistName,
+  }
+}
+
+function applySimulationMetadataOverride(
+  characterId: CharacterId,
+  metadata: SimulationMetadata,
+  override: SimulationMetadataOverride | undefined,
+): SimulationMetadata {
+  const resolved = override
+    ? {
+      ...metadata,
+      ...(override.teammates && { teammates: override.teammates }),
+      ...(override.deprioritizeBuffs != null && { deprioritizeBuffs: override.deprioritizeBuffs }),
+    }
+    : metadata
+
+  if (override?.deprioritizeBuffs != null) return resolved
+  return {
+    ...resolved,
+    deprioritizeBuffs: resolveEffectiveDeprioritizeBuffs(characterId, resolved),
   }
 }
 

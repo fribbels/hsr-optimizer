@@ -3,10 +3,12 @@ Buttons:
   CopyScreenshot: Copy screenshot
   DownloadScreenshot: Download screenshot
   AddCharacter: Add character
-  Remove: Remove
   ChangeCharacter: Change character
+  Remove: Remove
+  SyncBenchmarkTeams: Sync benchmark teams
 Panels:
   Characters: Characters
+  Controls: Controls
   Teams: Teams
 Benchmark: Benchmark
 CardOptions: Card options, drag to reorder

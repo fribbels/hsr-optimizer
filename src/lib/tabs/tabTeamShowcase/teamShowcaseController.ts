@@ -7,7 +7,6 @@ import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import {
   areSavedTeamsEqual,
-  areTeamSlotsEqual,
   normalizeTeamSlots,
   sanitizeTeamSlots,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
@@ -18,30 +17,12 @@ import type {
 } from 'types/character'
 import type { TeamShowcaseSavedTeam } from 'types/store'
 
-export function readTeamSlots(): TeamSlots {
-  const { savedSession } = useGlobalStore.getState()
-  return sanitizeTeamSlots(savedSession.teamShowcaseCharacterIds, useCharacterStore.getState().charactersById)
-}
-
-export function writeTeamSlots(slots: TeamSlots) {
-  if (!updateTeamSlots(slots)) return
-  SaveState.delayedSave()
-}
-
-export function loadTeamSlots(slots: TeamSlots) {
+/** Restores characters referenced by a saved team, then returns slots safe for local working state. */
+export function loadSavedTeamSlots(slots: TeamSlots): TeamSlots {
   const normalized = normalizeTeamSlots(slots)
   const rosterChanged = restoreMissingCharacters(normalized)
-  const slotsChanged = updateTeamSlots(normalized)
-  if (rosterChanged || slotsChanged) SaveState.delayedSave()
-}
-
-function updateTeamSlots(slots: TeamSlots): boolean {
-  const { savedSession, setSavedSessionKey } = useGlobalStore.getState()
-  const sanitized = sanitizeTeamSlots(slots, useCharacterStore.getState().charactersById)
-  if (areTeamSlotsEqual(savedSession.teamShowcaseCharacterIds, sanitized)) return false
-
-  setSavedSessionKey(SavedSessionKeys.teamShowcaseCharacterIds, sanitized)
-  return true
+  if (rosterChanged) SaveState.delayedSave()
+  return sanitizeTeamSlots(normalized, useCharacterStore.getState().charactersById)
 }
 
 function restoreMissingCharacters(slots: TeamSlots): boolean {

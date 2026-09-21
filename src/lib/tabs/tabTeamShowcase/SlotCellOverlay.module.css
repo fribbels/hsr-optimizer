@@ -176,8 +176,38 @@
   text-align: center;
 }
 
+.scoringInput {
+  color: transparent;
+}
+
 .artSection {
   color: rgba(255, 255, 255, 0.72);
+}
+
+.scoringSelectedSection {
+  width: 100%;
+  padding-inline: var(--input-padding-inline-end);
+}
+
+.scoringSelectedValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  gap: 6px;
+  color: var(--text-primary);
+}
+
+.scoringSelectedIcon {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.scoringSelectedLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .grow {
@@ -213,8 +243,7 @@
   font: inherit;
   color: var(--text-secondary);
   background-color: transparent;
-  border: var(--border-subtle);
-  border-style: dashed;
+  border: 1px dashed rgba(255, 255, 255, 0.04);
   border-radius: var(--team-card-radius, var(--radius-md));
   cursor: pointer;
   transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;

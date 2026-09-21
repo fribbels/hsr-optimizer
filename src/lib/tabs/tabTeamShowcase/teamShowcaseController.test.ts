@@ -6,9 +6,8 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import {
-  loadTeamSlots,
+  loadSavedTeamSlots,
   writeSavedTeams,
-  writeTeamSlots,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseController'
 import type { TeamSlots } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
 import type {
@@ -52,7 +51,7 @@ afterEach(() => {
 
 describe('teamShowcaseController', () => {
   it('restores missing saved-team characters at E0 without a light cone', () => {
-    loadTeamSlots([Kafka.id, Jingliu.id, null, null])
+    const slots = loadSavedTeamSlots([Kafka.id, Jingliu.id, null, null])
 
     const state = useCharacterStore.getState()
     const restored = state.charactersById[Jingliu.id]
@@ -60,7 +59,7 @@ describe('teamShowcaseController', () => {
     expect(restored?.form.characterEidolon).toBe(0)
     expect(restored?.form.lightCone).toBeUndefined()
     expect(restored?.equipped).toEqual({})
-    expect(useGlobalStore.getState().savedSession.teamShowcaseCharacterIds).toEqual([
+    expect(slots).toEqual([
       Kafka.id,
       Jingliu.id,
       null,
@@ -69,12 +68,12 @@ describe('teamShowcaseController', () => {
     expect(SaveState.delayedSave).toHaveBeenCalledTimes(1)
   })
 
-  it('sanitizes live slots without mutating a saved-team snapshot', () => {
+  it('sanitizes loaded slots without mutating a saved-team snapshot', () => {
     const snapshot: TeamSlots = [Kafka.id, REMOVED_CHARACTER_ID]
 
-    writeTeamSlots(snapshot)
+    const slots = loadSavedTeamSlots(snapshot)
 
-    expect(useGlobalStore.getState().savedSession.teamShowcaseCharacterIds).toEqual([
+    expect(slots).toEqual([
       Kafka.id,
       null,
       null,
@@ -83,15 +82,10 @@ describe('teamShowcaseController', () => {
     expect(snapshot).toEqual([Kafka.id, REMOVED_CHARACTER_ID])
   })
 
-  it('skips persistence when sanitized slots are unchanged', () => {
-    const slots: TeamSlots = [Kafka.id, REMOVED_CHARACTER_ID]
+  it('does not persist when loading only characters already in the roster', () => {
+    loadSavedTeamSlots([Kafka.id, null, null, null])
 
-    writeTeamSlots(slots)
-    const savedSession = useGlobalStore.getState().savedSession
-    writeTeamSlots(slots)
-
-    expect(SaveState.delayedSave).toHaveBeenCalledTimes(1)
-    expect(useGlobalStore.getState().savedSession).toBe(savedSession)
+    expect(SaveState.delayedSave).not.toHaveBeenCalled()
   })
 
   it('skips structurally identical saved-team writes', () => {
@@ -99,6 +93,7 @@ describe('teamShowcaseController', () => {
       id: SAVED_TEAM_ID,
       name: 'Team 1',
       characterIds: [Kafka.id, null, null, null],
+      benchmarkSyncEnabled: false,
     }
 
     writeSavedTeams([team])
@@ -107,5 +102,20 @@ describe('teamShowcaseController', () => {
 
     expect(SaveState.delayedSave).toHaveBeenCalledTimes(1)
     expect(useGlobalStore.getState().savedSession).toBe(savedSession)
+  })
+
+  it('persists a saved-team sync flag change', () => {
+    const team: TeamShowcaseSavedTeam = {
+      id: SAVED_TEAM_ID,
+      name: 'Team 1',
+      characterIds: [Kafka.id, null, null, null],
+      benchmarkSyncEnabled: false,
+    }
+
+    writeSavedTeams([team])
+    writeSavedTeams([{ ...team, benchmarkSyncEnabled: true }])
+
+    expect(SaveState.delayedSave).toHaveBeenCalledTimes(2)
+    expect(useGlobalStore.getState().savedSession.teamShowcaseSavedTeams[0].benchmarkSyncEnabled).toBe(true)
   })
 })

@@ -15,6 +15,10 @@ import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { useInjectedScoringInput } from 'lib/characterPreview/CharacterPreviewScoringContext'
+import type {
+  InjectedScoringInput,
+  SimulationMetadataOverrides,
+} from 'lib/characterPreview/characterPreviewTypes'
 import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
@@ -113,6 +117,20 @@ const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
 const EMPTY_SCORED: RelicScoringResult[] = []
 
+function mergeInjectedScoringOverride(
+  overrides: SimulationMetadataOverrides | undefined,
+  injectedScoring: InjectedScoringInput | undefined,
+): SimulationMetadataOverrides | undefined {
+  if (!injectedScoring?.simulationMetadataOverride) return overrides
+  return {
+    ...overrides,
+    [injectedScoring.configType]: {
+      ...overrides?.[injectedScoring.configType],
+      ...injectedScoring.simulationMetadataOverride,
+    },
+  }
+}
+
 interface CharacterPreviewProps {
   id: string
   character: Character | ShowcaseTabCharacter | null
@@ -123,6 +141,7 @@ interface CharacterPreviewProps {
   setOriginalCharacterModalOpen?: (open: boolean) => void
   setOriginalCharacterModalInitialCharacter?: (character: Character) => void
   savedBuildOverride?: SavedBuild | null
+  simulationMetadataOverrides?: SimulationMetadataOverrides
 }
 
 globalThis.CARD_DEBUG = false
@@ -327,6 +346,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   forceDebug,
   debugVisualConfig,
   editorOverrides,
+  simulationMetadataOverrides,
 }: CharacterPreviewInnerProps) {
   const injectedScoring = useInjectedScoringInput()
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
@@ -392,10 +412,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         storedScoringType: requestedScoringType,
         savedBuildOverride,
         t,
-        ...(injectedScoring?.simulationMetadataOverride && {
-          simulationMetadataOverride: injectedScoring.simulationMetadataOverride,
-          overrideConfigType: injectedScoring.configType,
-        }),
+        simulationMetadataOverrides: mergeInjectedScoringOverride(simulationMetadataOverrides, injectedScoring),
       })
       if (source === ShowcaseSource.LEADERBOARD) {
         baseLayout.portraitToUse = undefined
@@ -417,6 +434,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       t,
       forceDebug,
       injectedScoring,
+      simulationMetadataOverrides,
     ],
   )
 
@@ -518,7 +536,9 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           flexDirection: 'column',
           width: cardTotalW,
           gap: source === ShowcaseSource.LEADERBOARD ? 16 : undefined,
-          minHeight: forceDebug ? 'auto' : (source === ShowcaseSource.BUILDS_MODAL ? 900 : (source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM ? undefined : 2000)),
+          minHeight: forceDebug
+            ? 'auto'
+            : (source === ShowcaseSource.BUILDS_MODAL ? 900 : (source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM ? undefined : 2000)),
         }}
       >
         {

@@ -101,11 +101,13 @@ CharacterPreview:
   ScoreHeader:
     CustomSpeed: '{{spd}} 基準速度'
     dps: DPS ベンチマーク
+    buffer: バッファーベンチマーク
     heal: 回復ベンチマーク
     shield: シールドベンチマーク
   AlgorithmSlider:
     Labels:
       dps: DPS ベンチマーク
+      buffer: バッファーベンチマーク
       heal: 回復ベンチマーク
       shield: シールドベンチマーク
       StatScore: サブステータス出現数
@@ -114,10 +116,12 @@ CharacterPreview:
     Labels:
       CombatStats: 戦闘ステータス
       CombatStatsSubDps: 戦闘ステータス（サブ DPS）
+      CombatStatsBuffer: 戦闘ステータス（バッファー）
       CombatStatsHeal: 戦闘ステータス（ヒーラー）
       CombatStatsShield: 戦闘ステータス（シールダー）
   ScoringExplanation:
     dps: DPS ベンチマーク計算
+    buffer: バッファーベンチマーク計算
     heal: 回復ベンチマーク計算
     shield: シールドベンチマーク計算
   DMGUpgrades: 与ダメージ強化

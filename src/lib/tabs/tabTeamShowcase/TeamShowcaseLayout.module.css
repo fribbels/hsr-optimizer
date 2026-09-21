@@ -1,9 +1,13 @@
-.columns {
-  display: flex;
-  align-items: flex-start;
+.root {
+  width: fit-content;
 }
 
-/* MAT_BAND and MAT_BORDER in the layout mirror this padding and border. */
+.columns {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+}
+
 .gridMat {
   flex-shrink: 0;
   padding: 8px;

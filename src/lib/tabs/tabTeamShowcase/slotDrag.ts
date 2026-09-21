@@ -36,13 +36,17 @@ const slotCollisionDetection: CollisionDetection = (args) => {
   return underPointer.length > 0 ? underPointer : closestCenter(args)
 }
 
+const SLIDE_DURATION_MS = 120
+const SETTLE_FALLBACK_DELAY_MS = SLIDE_DURATION_MS + 50
 /** Drop clears transitions before React commits the reordered slots. */
-const SLIDE_TRANSITION = 'transform 120ms cubic-bezier(0.2, 0, 0, 1)'
+const SLIDE_TRANSITION = `transform ${SLIDE_DURATION_MS}ms cubic-bezier(0.2, 0, 0, 1)`
 const NO_TRANSITION = 'none'
 /** Above all isolated card internals while moving and settling. */
 const LIFTED_Z_INDEX = '100'
 const WILL_CHANGE_TRANSFORM = 'transform'
 const TRANSITION_END_EVENT = 'transitionend'
+const TRANSITION_CANCEL_EVENT = 'transitioncancel'
+const pendingSettleCleanup = new WeakMap<HTMLElement, () => void>()
 
 /** Deferred so an ordinary dnd-kit drop can consume the final order before recovery resets it. */
 const DRAG_RECOVERY_DELAY = 100
@@ -183,6 +187,7 @@ export function useSlotDrag({
   const handleDragStart = useCallback(({ active }: DragStartEvent) => {
     const from = toIndex(active.id)
     if (from == null) return
+    clearAll()
     activeRef.current = from
     sourceByPositionRef.current = Array.from({ length: count }, (_, position) => position)
     draggedPositionRef.current = from
@@ -199,7 +204,7 @@ export function useSlotDrag({
     }
 
     setActiveIndex(from)
-  }, [count, setSlotTransition])
+  }, [clearAll, count, setSlotTransition])
 
   /** Puts the latest position on the card, once, immediately before the browser paints */
   const flushMove = useCallback(() => {
@@ -392,14 +397,40 @@ function glide(
 /** Lets a cell down once it has finished easing into the slot it was dropped on */
 function onSettled(node: HTMLElement | null | undefined, rest: (settled: HTMLElement) => void) {
   if (!node) return
-  node.addEventListener(TRANSITION_END_EVENT, () => {
+  clearPendingSettle(node)
+
+  let settled = false
+  let timeoutId: number | null = null
+  const cleanup = () => {
+    if (timeoutId != null) window.clearTimeout(timeoutId)
+    node.removeEventListener(TRANSITION_END_EVENT, handleTransition)
+    node.removeEventListener(TRANSITION_CANCEL_EVENT, handleTransition)
+    pendingSettleCleanup.delete(node)
+  }
+  const finish = () => {
+    if (settled) return
+    settled = true
+    cleanup()
     node.style.transition = NO_TRANSITION
     rest(node)
-  }, { once: true })
+  }
+  const handleTransition = (event: TransitionEvent) => {
+    if (event.target === node && event.propertyName === WILL_CHANGE_TRANSFORM) finish()
+  }
+
+  pendingSettleCleanup.set(node, cleanup)
+  node.addEventListener(TRANSITION_END_EVENT, handleTransition)
+  node.addEventListener(TRANSITION_CANCEL_EVENT, handleTransition)
+  timeoutId = window.setTimeout(finish, SETTLE_FALLBACK_DELAY_MS)
+}
+
+function clearPendingSettle(node: HTMLElement) {
+  pendingSettleCleanup.get(node)?.()
 }
 
 function liftCard(node: HTMLElement | null | undefined) {
   if (!node) return
+  clearPendingSettle(node)
   node.style.zIndex = LIFTED_Z_INDEX
   node.style.willChange = WILL_CHANGE_TRANSFORM
   node.style.backgroundColor = CARD_BACKING
@@ -408,6 +439,7 @@ function liftCard(node: HTMLElement | null | undefined) {
 
 function restCard(node: HTMLElement | null | undefined) {
   if (!node) return
+  clearPendingSettle(node)
   node.style.zIndex = ''
   node.style.willChange = ''
   node.style.backgroundColor = ''
@@ -417,12 +449,14 @@ function restCard(node: HTMLElement | null | undefined) {
 /** The overlay cell carries no art, so it only needs to travel above its neighbours */
 function liftOverlay(node: HTMLElement | null | undefined) {
   if (!node) return
+  clearPendingSettle(node)
   node.style.zIndex = LIFTED_Z_INDEX
   node.style.willChange = WILL_CHANGE_TRANSFORM
 }
 
 function restOverlay(node: HTMLElement | null | undefined) {
   if (!node) return
+  clearPendingSettle(node)
   node.style.zIndex = ''
   node.style.willChange = ''
   node.style.removeProperty(CELL_EDGE_OPACITY_PROPERTY)

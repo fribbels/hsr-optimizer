@@ -48,8 +48,14 @@
 }
 
 .cellScrim,
-.handle {
+.handle,
+.sheet {
   transition: opacity 120ms ease;
+}
+
+.sheet {
+  visibility: hidden;
+  transition: opacity 120ms ease, visibility 0s linear 120ms;
 }
 
 .cell[data-revealed='true'] .cellScrim,
@@ -59,7 +65,9 @@
 
 .cell[data-revealed='true'] .sheet {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  transition-delay: 0s;
 }
 
 /*
@@ -78,6 +86,7 @@
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition: none;
 }
 
 .cell[data-drag-active='true'] .cellTarget {
@@ -102,13 +111,6 @@
 .cell[data-dragging='true'] .handleDisc {
   background-color: rgba(0, 0, 0, 0.66);
   backdrop-filter: none;
-}
-
-.cell[data-capturing='true'] .cellScrim,
-.cell[data-capturing='true'] .handle,
-.cell[data-capturing='true'] .sheet {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .cellScrim {
@@ -244,6 +246,7 @@
   .cellTarget,
   .cellScrim,
   .handle,
+  .sheet,
   .artButton,
   .artInput,
   .emptyCellTarget {

@@ -53,7 +53,8 @@ export const useGlobalStore = create<HsrOptimizerStore>()((set) => ({
   setSettings: (x) => set(() => ({ settings: x })),
   setSavedSession: (x) => set(() => ({ savedSession: x })),
   setSavedSessionKey: (key, x) =>
-    set((state) => ({
-      savedSession: { ...state.savedSession, [key]: x },
-    })),
+    set((state) => {
+      if (Object.is(state.savedSession[key], x)) return state
+      return { savedSession: { ...state.savedSession, [key]: x } }
+    }),
 }))

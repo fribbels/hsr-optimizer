@@ -10,6 +10,7 @@ import {
   GRID_SIZE,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
 import {
+  loadTeamSlots,
   readSavedTeams,
   readTeamSlots,
   writeSavedTeams,
@@ -20,7 +21,6 @@ import {
   autofillTeamSlots,
   isSavedTeamIndex,
   normalizeTeamSlots,
-  sanitizeTeamSlots,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
 import {
   resolveSlotScoring,
@@ -68,19 +68,23 @@ export function useTeamShowcase(): TeamShowcaseState {
 
   const savedSlots = useGlobalStore((s) => s.savedSession.teamShowcaseCharacterIds)
   const savedTeams = useGlobalStore((s) => s.savedSession.teamShowcaseSavedTeams)
-  const charactersById = useCharacterStore((s) => s.charactersById)
+  const normalizedSavedSlots = useMemo(() => normalizeTeamSlots(savedSlots), [savedSlots])
+  const ownedCharacterIds = useCharacterStore(useShallow((s) => s.characters.map((character) => character.id)))
+  const slotCharacters = useCharacterStore(useShallow((s) => normalizedSavedSlots.map((id) => id ? s.charactersById[id] : undefined)))
 
-  const slots = useMemo(() => sanitizeTeamSlots(savedSlots, charactersById), [savedSlots, charactersById])
+  const slots = useMemo(
+    () => normalizedSavedSlots.map((id, index) => id && slotCharacters[index] ? id : null),
+    [normalizedSavedSlots, slotCharacters],
+  )
 
   const characters = useMemo(
-    () => slots.map((id) => (activated && id ? charactersById[id] ?? null : null)),
-    [slots, charactersById, activated],
+    () => slots.map((id, index) => (activated && id ? slotCharacters[index] ?? null : null)),
+    [slots, slotCharacters, activated],
   )
 
   const ownedIds = useMemo(
-    // Safe cast: the index is keyed by CharacterId, so its keys are CharacterId
-    () => new Set(Object.keys(charactersById) as CharacterId[]),
-    [charactersById],
+    () => new Set(ownedCharacterIds),
+    [ownedCharacterIds],
   )
 
   const optionFilter = useCallback(
@@ -107,7 +111,6 @@ export function useTeamShowcase(): TeamShowcaseState {
   const reorderSlots = useCallback((order: number[]) => {
     const current = readTeamSlots()
     const next = normalizeTeamSlots(order.map((source) => current[source] ?? null))
-    if (next.every((id, index) => id === current[index])) return
     writeTeamSlots(next)
   }, [])
 
@@ -121,8 +124,8 @@ export function useTeamShowcase(): TeamShowcaseState {
 
   const slotScoring = useMemo(
     () =>
-      slots.map((id) => {
-        const character = id ? charactersById[id] : undefined
+      slots.map((id, index) => {
+        const character = id ? slotCharacters[index] : undefined
         if (!character) return null
         return resolveSlotScoring(
           character,
@@ -131,7 +134,7 @@ export function useTeamShowcase(): TeamShowcaseState {
           tCharacters,
         )
       }),
-    [slots, charactersById, teamPreferences, showcasePreferences, tCharacters],
+    [slots, slotCharacters, teamPreferences, showcasePreferences, tCharacters],
   )
 
   const setSlotScoringType = useCallback((index: number, scoringType: ScoringType) => {
@@ -160,7 +163,7 @@ export function useTeamShowcase(): TeamShowcaseState {
 
   const loadSavedTeam = useCallback((id: SavedTeamId) => {
     const team = readSavedTeams().find((candidate) => candidate.id === id)
-    if (team) writeTeamSlots(normalizeTeamSlots(team.characterIds))
+    if (team) loadTeamSlots(team.characterIds)
   }, [])
 
   const deleteSavedTeam = useCallback((id: SavedTeamId) => {
@@ -179,11 +182,17 @@ export function useTeamShowcase(): TeamShowcaseState {
   const renameSavedTeam = useCallback((id: SavedTeamId, name: string) => {
     const trimmed = name.trim()
     if (!trimmed) return
-    writeSavedTeams(readSavedTeams().map((team) => (team.id === id ? { ...team, name: trimmed } : team)))
+    const teams = readSavedTeams()
+    const index = teams.findIndex((team) => team.id === id)
+    if (index < 0 || teams[index].name === trimmed) return
+
+    const next = [...teams]
+    next[index] = { ...next[index], name: trimmed }
+    writeSavedTeams(next)
   }, [])
 
   // ----- Screenshot -----
-  const { loading: screenshotLoading, trigger } = useScreenshotAction(GRID_ELEMENT_ID, GRID_SIZE)
+  const { activeAction: activeScreenshotAction, trigger } = useScreenshotAction(GRID_ELEMENT_ID, GRID_SIZE)
   const screenshot = useCallback(
     (action: ScreenshotAction) => trigger(action, t('ScreenshotName')),
     [trigger, t],
@@ -208,7 +217,7 @@ export function useTeamShowcase(): TeamShowcaseState {
     deleteSavedTeam,
     renameSavedTeam,
     moveSavedTeam,
-    screenshotLoading,
+    activeScreenshotAction,
     screenshot,
   }
 }

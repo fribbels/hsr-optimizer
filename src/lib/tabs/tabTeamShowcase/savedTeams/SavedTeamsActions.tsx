@@ -6,7 +6,7 @@ import {
   IconTrash,
 } from '@tabler/icons-react'
 import styles from 'lib/tabs/tabTeamShowcase/savedTeams/SavedTeamsActions.module.css'
-import type { ScreenshotAction } from 'lib/utils/screenshotUtils'
+import { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import { useTranslation } from 'react-i18next'
 
 const ACTION_ICON_SIZE = 16
@@ -14,19 +14,20 @@ const ACTION_ICON_SIZE = 16
 export function SavedTeamsActions({
   canSave,
   hasTeam,
-  screenshotLoading,
+  activeScreenshotAction,
   onSave,
   onClear,
   onScreenshot,
 }: {
   canSave: boolean,
   hasTeam: boolean,
-  screenshotLoading: boolean,
+  activeScreenshotAction: ScreenshotAction | null,
   onSave: () => void,
   onClear: () => void,
   onScreenshot: (action: ScreenshotAction) => void,
 }) {
   const { t } = useTranslation('teamShowcaseTab')
+  const screenshotPending = activeScreenshotAction != null
 
   return (
     <div className={styles.root}>
@@ -36,9 +37,9 @@ export function SavedTeamsActions({
           size='sm'
           variant='filled'
           leftSection={<IconCamera size={ACTION_ICON_SIZE} />}
-          loading={screenshotLoading}
-          disabled={!hasTeam}
-          onClick={() => onScreenshot('clipboard')}
+          loading={activeScreenshotAction === ScreenshotAction.Clipboard}
+          disabled={!hasTeam || screenshotPending}
+          onClick={() => onScreenshot(ScreenshotAction.Clipboard)}
         >
           {t('Buttons.CopyScreenshot')}
         </Button>
@@ -47,9 +48,9 @@ export function SavedTeamsActions({
           size='sm'
           variant='default'
           leftSection={<IconDownload size={ACTION_ICON_SIZE} />}
-          loading={screenshotLoading}
-          disabled={!hasTeam}
-          onClick={() => onScreenshot('download')}
+          loading={activeScreenshotAction === ScreenshotAction.Download}
+          disabled={!hasTeam || screenshotPending}
+          onClick={() => onScreenshot(ScreenshotAction.Download)}
         >
           {t('Buttons.DownloadScreenshot')}
         </Button>

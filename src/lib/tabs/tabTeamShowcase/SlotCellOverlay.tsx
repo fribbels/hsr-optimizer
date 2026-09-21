@@ -43,7 +43,6 @@ export function SlotCellOverlay({
   filled,
   interactions,
   scoring,
-  capturing,
   onScoringChange,
   onRemove,
 }: {
@@ -51,7 +50,6 @@ export function SlotCellOverlay({
   filled: boolean,
   interactions: SlotInteractions,
   scoring: SlotScoring | null,
-  capturing: boolean,
   onScoringChange: (scoringType: ScoringType) => void,
   onRemove: () => void,
 }) {
@@ -112,7 +110,6 @@ export function SlotCellOverlay({
       ref={cellRef}
       className={styles.cell}
       data-revealed={revealed}
-      data-capturing={capturing}
       data-drag-active={dragActive}
       data-dragging={drag?.isDragging ?? false}
       onMouseEnter={() => !dragActive && revealSlot(index)}

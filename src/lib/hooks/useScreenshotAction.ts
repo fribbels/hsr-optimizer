@@ -1,5 +1,3 @@
-import i18next from 'i18next'
-import { Message } from 'lib/interactions/message'
 import {
   type ScreenshotAction,
   screenshotElementById,
@@ -7,20 +5,41 @@ import {
 } from 'lib/utils/screenshotUtils'
 import {
   useCallback,
+  useEffect,
+  useRef,
   useState,
 } from 'react'
 
+const SCREENSHOT_START_DELAY_MS = 50
+
 export function useScreenshotAction(elementId: string, size?: ScreenshotSize) {
-  const [loading, setLoading] = useState(false)
+  const [activeAction, setActiveAction] = useState<ScreenshotAction | null>(null)
+  const activeActionRef = useRef<ScreenshotAction | null>(null)
+  const timeoutRef = useRef<number | null>(null)
+  const mountedRef = useRef(true)
+
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+      if (timeoutRef.current != null) window.clearTimeout(timeoutRef.current)
+    }
+  }, [])
 
   const trigger = useCallback((action: ScreenshotAction, name?: string | null) => {
-    setLoading(true)
+    if (activeActionRef.current != null) return
+    activeActionRef.current = action
+    setActiveAction(action)
     // Delay lets the browser paint the loading spinner before capture blocks the thread
-    setTimeout(() => {
+    timeoutRef.current = window.setTimeout(() => {
+      timeoutRef.current = null
       void screenshotElementById(elementId, action, name, size)
-        .finally(() => setLoading(false))
-    }, 50)
+        .finally(() => {
+          activeActionRef.current = null
+          if (mountedRef.current) setActiveAction(null)
+        })
+    }, SCREENSHOT_START_DELAY_MS)
   }, [elementId, size])
 
-  return { loading, trigger }
+  return { activeAction, trigger }
 }

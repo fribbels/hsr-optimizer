@@ -97,6 +97,14 @@ describe('useGlobalStore', () => {
       expect(state().savedSession.optimizerCharacterId).toBeNull()
     })
 
+    it('setSavedSessionKey preserves the session reference when the value is unchanged', () => {
+      const savedSession = state().savedSession
+
+      state().setSavedSessionKey(SavedSessionKeys.teamShowcaseSavedTeams, savedSession.teamShowcaseSavedTeams)
+
+      expect(state().savedSession).toBe(savedSession)
+    })
+
     it('setSavedSession replaces the entire session object', () => {
       const custom = { ...savedSessionDefaults, showcaseDarkMode: true, scoringType: ScoringType.SUBSTAT_SCORE }
       state().setSavedSession(custom)

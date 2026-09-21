@@ -48,11 +48,13 @@ const PITCH_Y = parentH + GRID_GAP
  */
 export function TeamCardGrid({
   characters,
+  interactionsEnabled,
   renderSlotOverlay,
   onSlotReorder,
   onSlotDrop,
 }: {
   characters: (Character | null)[],
+  interactionsEnabled: boolean,
   renderSlotOverlay: (index: number, character: Character | null) => ReactNode,
   onSlotReorder: (order: number[]) => void,
   onSlotDrop: (landed: number) => void,
@@ -108,25 +110,27 @@ export function TeamCardGrid({
           </div>
         </div>
 
-        <div
-          className={styles.overlayLayer}
-          style={{
-            'gridTemplateColumns': '1fr 1fr',
-            'gap': overlayGap,
-            '--team-card-radius': `${cardBorderRadius * scale}px`,
-          } as CSSProperties}
-        >
-          {characters.map((character, index) => (
-            <SlotDragCell
-              key={drag.slotKeys[index]}
-              index={index}
-              innerRef={drag.overlayRefs[index]}
-              dragActive={drag.dragActive}
-            >
-              {renderSlotOverlay(index, character)}
-            </SlotDragCell>
-          ))}
-        </div>
+        {interactionsEnabled && (
+          <div
+            className={styles.overlayLayer}
+            style={{
+              'gridTemplateColumns': '1fr 1fr',
+              'gap': overlayGap,
+              '--team-card-radius': `${cardBorderRadius * scale}px`,
+            } as CSSProperties}
+          >
+            {characters.map((character, index) => (
+              <SlotDragCell
+                key={drag.slotKeys[index]}
+                index={index}
+                innerRef={drag.overlayRefs[index]}
+                dragActive={drag.dragActive}
+              >
+                {renderSlotOverlay(index, character)}
+              </SlotDragCell>
+            ))}
+          </div>
+        )}
       </div>
     </DndContext>
   )

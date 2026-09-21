@@ -36,7 +36,7 @@ import { navigateTo } from 'lib/tabs/navigation/utils'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
-import type { ScreenshotAction } from 'lib/utils/screenshotUtils'
+import { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import {
   type CSSProperties,
   memo,
@@ -88,7 +88,7 @@ function BuildsModalContent() {
   const { t } = useTranslation(['modals', 'gameData', 'common'])
   const [selectedBuild, setSelectedBuild] = useState<string | null>(null)
   const confirm = useConfirmAction()
-  const { loading, trigger: screenshot } = useScreenshotAction('buildPreview')
+  const { activeAction: activeScreenshotAction, trigger: screenshot } = useScreenshotAction('buildPreview')
 
   useScrollLock(true)
 
@@ -153,7 +153,7 @@ function BuildsModalContent() {
     }
   }, [confirm, handleCancel, t])
 
-  function clipboardClicked(action: ScreenshotAction) {
+  function captureScreenshot(action: ScreenshotAction) {
     if (selectedBuild === null || character === null) {
       return
     }
@@ -182,16 +182,18 @@ function BuildsModalContent() {
       <Flex justify='flex-end' gap={8} className={styles.footerActions}>
         <Button
           key='download'
-          loading={loading}
-          onClick={() => clipboardClicked('download')}
+          loading={activeScreenshotAction === ScreenshotAction.Download}
+          disabled={activeScreenshotAction != null}
+          onClick={() => captureScreenshot(ScreenshotAction.Download)}
           className={styles.actionButton}
         >
           <IconDownload size={16} />
         </Button>
         <Button
           key='clipboard'
-          loading={loading}
-          onClick={() => clipboardClicked('clipboard')}
+          loading={activeScreenshotAction === ScreenshotAction.Clipboard}
+          disabled={activeScreenshotAction != null}
+          onClick={() => captureScreenshot(ScreenshotAction.Clipboard)}
           className={styles.actionButton}
         >
           <IconCamera size={16} />

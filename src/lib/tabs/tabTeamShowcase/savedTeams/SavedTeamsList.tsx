@@ -33,6 +33,7 @@ import type { KeyboardEvent } from 'react'
 import {
   memo,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -47,6 +48,8 @@ const TOOL_ICON_SIZE = 14
 const KEY_ENTER = 'Enter'
 const KEY_ESCAPE = 'Escape'
 const DRAG_MODIFIERS = [restrictToVerticalAxis]
+const CLICK_SUPPRESSION_RELEASE_DELAY = 0
+const CLICK_SUPPRESSION_RECOVERY_EVENTS = ['pointerup', 'pointercancel', 'blur']
 
 export function SavedTeamsList({
   activeSavedTeamId,
@@ -65,27 +68,51 @@ export function SavedTeamsList({
 }) {
   const { t } = useTranslation('teamShowcaseTab')
   const sensors = usePointerDragSensors()
-  const draggedRef = useRef(false)
+  const suppressNextClickRef = useRef(false)
+  const suppressionTimerRef = useRef<number | null>(null)
   const teamIds = useMemo(() => savedTeams.map((team) => team.id), [savedTeams])
   const deleteLabel = t('SavedTeams.Delete')
   const renameLabel = t('SavedTeams.Rename')
 
   const handleDragStart = useCallback(() => {
-    draggedRef.current = true
+    if (suppressionTimerRef.current != null) window.clearTimeout(suppressionTimerRef.current)
+    suppressNextClickRef.current = true
+  }, [])
+
+  const scheduleSuppressionRelease = useCallback(() => {
+    if (suppressionTimerRef.current != null) window.clearTimeout(suppressionTimerRef.current)
+    suppressionTimerRef.current = window.setTimeout(() => {
+      suppressionTimerRef.current = null
+      suppressNextClickRef.current = false
+    }, CLICK_SUPPRESSION_RELEASE_DELAY)
   }, [])
 
   const handleDragEnd = useCallback(({ active, over }: DragEndEvent) => {
+    scheduleSuppressionRelease()
     if (!over || active.id === over.id) return
     const from = teamIds.indexOf(active.id as SavedTeamId)
     const to = teamIds.indexOf(over.id as SavedTeamId)
     if (from >= 0 && to >= 0) onMove(from, to)
-  }, [onMove, teamIds])
+  }, [onMove, scheduleSuppressionRelease, teamIds])
 
-  const consumeDrag = useCallback(() => {
-    const dragged = draggedRef.current
-    draggedRef.current = false
-    return dragged
+  const consumeSuppressedClick = useCallback(() => {
+    if (!suppressNextClickRef.current) return false
+    if (suppressionTimerRef.current != null) window.clearTimeout(suppressionTimerRef.current)
+    suppressionTimerRef.current = null
+    suppressNextClickRef.current = false
+    return true
   }, [])
+
+  useEffect(() => {
+    const releaseIfDragging = () => {
+      if (suppressNextClickRef.current) scheduleSuppressionRelease()
+    }
+    for (const event of CLICK_SUPPRESSION_RECOVERY_EVENTS) window.addEventListener(event, releaseIfDragging)
+    return () => {
+      if (suppressionTimerRef.current != null) window.clearTimeout(suppressionTimerRef.current)
+      for (const event of CLICK_SUPPRESSION_RECOVERY_EVENTS) window.removeEventListener(event, releaseIfDragging)
+    }
+  }, [scheduleSuppressionRelease])
 
   return (
     <OverlayScrollbarsComponent className={styles.scroll} options={OVERLAY_SCROLLBAR_OPTIONS} defer>
@@ -103,6 +130,7 @@ export function SavedTeamsList({
             accessibility={POINTER_DRAG_ACCESSIBILITY}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
+            onDragCancel={scheduleSuppressionRelease}
           >
             <SortableContext items={teamIds} strategy={verticalListSortingStrategy}>
               {savedTeams.map((team) => (
@@ -112,7 +140,7 @@ export function SavedTeamsList({
                   active={team.id === activeSavedTeamId}
                   deleteLabel={deleteLabel}
                   renameLabel={renameLabel}
-                  consumeDrag={consumeDrag}
+                  consumeSuppressedClick={consumeSuppressedClick}
                   onLoad={onLoad}
                   onDelete={onDelete}
                   onRename={onRename}
@@ -130,7 +158,7 @@ interface SavedTeamTileProps {
   active: boolean
   deleteLabel: string
   renameLabel: string
-  consumeDrag: () => boolean
+  consumeSuppressedClick: () => boolean
   onLoad: (id: SavedTeamId) => void
   onDelete: (id: SavedTeamId) => void
   onRename: (id: SavedTeamId, name: string) => void
@@ -164,7 +192,7 @@ const SavedTeamTileContent = memo(function SavedTeamTileContent({
   active,
   deleteLabel,
   renameLabel,
-  consumeDrag,
+  consumeSuppressedClick,
   onLoad,
   onDelete,
   onRename,
@@ -179,7 +207,7 @@ const SavedTeamTileContent = memo(function SavedTeamTileContent({
   const cells = Array.from({ length: TEAM_SIZE }, (_, slot) => appearances[slot] ?? null)
 
   const handleLoad = () => {
-    if (consumeDrag()) return
+    if (consumeSuppressedClick()) return
     onLoad(team.id)
   }
 
@@ -262,12 +290,18 @@ const SavedTeamTileContent = memo(function SavedTeamTileContent({
       {!editing && (
         <div className={styles.tools}>
           <Tooltip label={renameLabel}>
-            <ActionIcon variant='default' size='sm' aria-label={renameLabel} onClick={startEditing}>
+            <ActionIcon className={styles.toolButton} variant='default' size='sm' aria-label={renameLabel} onClick={startEditing}>
               <IconPencil size={TOOL_ICON_SIZE} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label={deleteLabel}>
-            <ActionIcon variant='default' size='sm' aria-label={deleteLabel} onClick={() => onDelete(team.id)}>
+            <ActionIcon
+              className={styles.toolButton}
+              variant='default'
+              size='sm'
+              aria-label={deleteLabel}
+              onClick={() => onDelete(team.id)}
+            >
               <IconTrash size={TOOL_ICON_SIZE} />
             </ActionIcon>
           </Tooltip>

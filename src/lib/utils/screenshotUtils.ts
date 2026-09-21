@@ -121,7 +121,10 @@ const SCREENSHOT_EXPORT_DPR = 2
 const PREBAKE_MAX_DIMENSION = Math.max(cardTotalW, parentH) * SCREENSHOT_EXPORT_DPR
 
 export type ScreenshotSize = { width: number, height: number }
-export type ScreenshotAction = 'clipboard' | 'download'
+export enum ScreenshotAction {
+  Clipboard = 'clipboard',
+  Download = 'download',
+}
 
 const DEFAULT_SCREENSHOT_SIZE: ScreenshotSize = { width: cardTotalW, height: parentH }
 
@@ -653,7 +656,7 @@ export async function screenshotElementById(
     const time = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`
     const filename = `${prefix}-${date}-${time}.png`
 
-    if (action === 'clipboard') {
+    if (action === ScreenshotAction.Clipboard) {
       if (mobile) {
         const file = new File([blob], filename, { type: blob.type })
         const canShareFiles = typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })
@@ -681,7 +684,7 @@ export async function screenshotElementById(
       }
     }
 
-    if (action === 'download') {
+    if (action === ScreenshotAction.Download) {
       const fileUrl = window.URL.createObjectURL(blob)
       const anchorElement = document.createElement('a')
       anchorElement.href = fileUrl

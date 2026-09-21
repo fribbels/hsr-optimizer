@@ -9,10 +9,8 @@ import type {
 } from 'types/store'
 
 export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
-  width,
-  height,
   hasTeam,
-  screenshotLoading,
+  activeScreenshotAction,
   savedTeams,
   activeSavedTeamId,
   saveCurrentTeam,
@@ -23,10 +21,8 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
   renameSavedTeam,
   moveSavedTeam,
 }: {
-  width: number,
-  height: number,
   hasTeam: boolean,
-  screenshotLoading: boolean,
+  activeScreenshotAction: ScreenshotAction | null,
   savedTeams: TeamShowcaseSavedTeam[],
   activeSavedTeamId: SavedTeamId | null,
   saveCurrentTeam: () => void,
@@ -38,11 +34,11 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
   moveSavedTeam: (from: number, to: number) => void,
 }) {
   return (
-    <aside className={styles.panel} style={{ width, height }}>
+    <aside className={styles.panel}>
       <SavedTeamsActions
         canSave={hasTeam && activeSavedTeamId == null}
         hasTeam={hasTeam}
-        screenshotLoading={screenshotLoading}
+        activeScreenshotAction={activeScreenshotAction}
         onSave={saveCurrentTeam}
         onClear={clearTeam}
         onScreenshot={screenshot}

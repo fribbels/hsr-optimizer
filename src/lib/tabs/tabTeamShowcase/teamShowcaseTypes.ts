@@ -33,6 +33,6 @@ export interface TeamShowcaseState {
   renameSavedTeam: (id: SavedTeamId, name: string) => void
   moveSavedTeam: (from: number, to: number) => void
 
-  screenshotLoading: boolean
+  activeScreenshotAction: ScreenshotAction | null
   screenshot: (action: ScreenshotAction) => void
 }

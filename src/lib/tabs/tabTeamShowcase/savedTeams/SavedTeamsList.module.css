@@ -156,6 +156,18 @@
   pointer-events: auto;
 }
 
+@media (any-pointer: coarse) {
+  .tools {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .toolButton {
+    width: 36px;
+    height: 36px;
+  }
+}
+
 .editor {
   position: absolute;
   right: 6px;

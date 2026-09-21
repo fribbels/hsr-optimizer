@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  width: 235px;
   min-height: 0;
   padding: 8px;
   background-color: var(--layer-inset);

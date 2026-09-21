@@ -24,13 +24,6 @@ import {
   useState,
 } from 'react'
 
-/**
- * Card and overlay cells live in different coordinate spaces, so drag movement writes both DOM layers
- * together without routing per-frame work through React. Crossing a slot swaps against the currently
- * visible order; those swaps accumulate into the order committed on drop.
- */
-
-/** Prefer the slot under the pointer; use the nearest card only after the pointer leaves the grid. */
 const slotCollisionDetection: CollisionDetection = (args) => {
   const underPointer = pointerWithin(args)
   return underPointer.length > 0 ? underPointer : closestCenter(args)
@@ -38,49 +31,36 @@ const slotCollisionDetection: CollisionDetection = (args) => {
 
 const SLIDE_DURATION_MS = 120
 const SETTLE_FALLBACK_DELAY_MS = SLIDE_DURATION_MS + 50
-/** Drop clears transitions before React commits the reordered slots. */
 const SLIDE_TRANSITION = `transform ${SLIDE_DURATION_MS}ms cubic-bezier(0.2, 0, 0, 1)`
 const NO_TRANSITION = 'none'
-/** Above all isolated card internals while moving and settling. */
 const LIFTED_Z_INDEX = '100'
 const WILL_CHANGE_TRANSFORM = 'transform'
 const TRANSITION_END_EVENT = 'transitionend'
 const TRANSITION_CANCEL_EVENT = 'transitioncancel'
 const pendingSettleCleanup = new WeakMap<HTMLElement, () => void>()
 
-/** Deferred so an ordinary dnd-kit drop can consume the final order before recovery resets it. */
 const DRAG_RECOVERY_DELAY = 100
-const RECOVERY_EVENTS = ['pointerup', 'pointercancel', 'blur']
+const RECOVERY_EVENTS = ['pointerup', 'pointercancel', 'blur'] as const
 
-/** Stationary overlay edges hide while a card passes over them. */
 const CELL_EDGE_OPACITY_PROPERTY = '--cell-edge-opacity'
 const HIDDEN_CELL_EDGE = '0'
 
-/** Opaque mat backing prevents underlying cards showing through the lifted card's glass. */
 const CARD_BACKING = 'var(--layer-inset)'
-/** Full-resolution card radius; this node sits inside the scaled capture layer */
 const CARD_BACKING_RADIUS = 'var(--radius-md)'
 
 type DraggableResult = ReturnType<typeof useDraggable>
 
-/** What a slot's overlay needs to make its card a drag source. Null when the grid has drag disabled. */
 export interface SlotDragHandle {
   setActivatorNodeRef: DraggableResult['setActivatorNodeRef']
-  /**
-   * Only the listeners. dnd-kit's matching `attributes` are deliberately left off: they describe the
-   * element to a screen reader as keyboard-draggable, and dragging here is pointer-only.
-   */
+  // Attributes are omitted because this drag surface is pointer-only.
   listeners: DraggableResult['listeners']
-  /** This slot is the one being dragged */
   isDragging: boolean
-  /** Some slot is being dragged, which is when the card controls stay out of the way */
   dragActive: boolean
 }
 
 export const SlotDragContext = createContext<SlotDragHandle | null>(null)
 
 export interface SlotDragApi {
-  /** Spread onto the DndContext that wraps both layers */
   dndProps: {
     sensors: ReturnType<typeof useSensors>,
     collisionDetection: CollisionDetection,
@@ -91,16 +71,9 @@ export interface SlotDragApi {
     onDragEnd: (event: DragEndEvent) => void,
     onDragCancel: () => void,
   }
-  /**
-   * React key per slot. The keys are permuted on drop so each key stays with its character, which makes
-   * React move the card's DOM node into its new position instead of re-rendering two cards' worth of
-   * content in place. Picking a different character into a slot leaves the key alone, so that still
-   * re-renders rather than remounting.
-   */
+  // Keys move with characters so a reorder moves existing card DOM instead of rebuilding it.
   slotKeys: string[]
-  /** Some slot is being dragged, which is what puts the card controls away */
   dragActive: boolean
-  /** Stable per-slot ref callbacks for the two layers' cells */
   cardRefs: ((node: HTMLDivElement | null) => void)[]
   overlayRefs: ((node: HTMLDivElement | null) => void)[]
 }
@@ -116,28 +89,22 @@ export function useSlotDrag({
 }: {
   count: number,
   columns: number,
-  /** Display scale of the card layer. The overlay layer is unscaled, so it works in display pixels. */
   scale: number,
-  /** Full-resolution distance between the left edges of adjacent columns */
   pitchX: number,
-  /** Full-resolution distance between the top edges of adjacent rows */
   pitchY: number,
-  /** The arrangement the drag settled on, as the slot each position now takes its card from */
   onReorder?: (order: number[]) => void,
-  /** The position the dragged card came to rest in, whether or not anything moved */
   onDrop?: (landed: number) => void,
 }): SlotDragApi {
   const [slotKeys, setSlotKeys] = useState(() => createSlotKeys(count))
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [draggingSlot, setDraggingSlot] = useState<number | null>(null)
 
   const cardNodes = useRef<(HTMLDivElement | null)[]>([])
   const overlayNodes = useRef<(HTMLDivElement | null)[]>([])
-  /** Live drag state keeps movement handlers independent of React renders. */
-  const activeRef = useRef<number | null>(null)
-  const sourceByPositionRef = useRef<number[]>([])
+  const draggedSlotRef = useRef<number | null>(null)
+  const slotOrderRef = useRef<number[]>([])
   const draggedPositionRef = useRef<number | null>(null)
   const pointerOffsetRef = useRef({ x: 0, y: 0 })
-  const frameRef = useRef(0)
+  const moveFrameRef = useRef(0)
 
   if (slotKeys.length !== count) setSlotKeys(createSlotKeys(count))
 
@@ -147,8 +114,7 @@ export function useSlotDrag({
   const stepX = pitchX * scale
   const stepY = pitchY * scale
 
-  /** Moves one slot's two cells by a display-pixel offset. The card layer is inside the scaled wrapper. */
-  const writeSlot = useCallback((index: number, dx: number, dy: number) => {
+  const moveSlot = useCallback((index: number, dx: number, dy: number) => {
     applyTransform(cardNodes.current[index], dx / scale, dy / scale)
     applyTransform(overlayNodes.current[index], dx, dy)
   }, [scale])
@@ -158,124 +124,107 @@ export function useSlotDrag({
     applyTransition(overlayNodes.current[index], transition)
   }, [])
 
-  /** Puts every cell back to rest, with nothing armed that could animate afterwards */
-  const clearAll = useCallback(() => {
+  const resetSlots = useCallback(() => {
     for (let index = 0; index < count; index++) {
       setSlotTransition(index, NO_TRANSITION)
-      writeSlot(index, 0, 0)
+      moveSlot(index, 0, 0)
       restCard(cardNodes.current[index])
       restOverlay(overlayNodes.current[index])
     }
-  }, [count, setSlotTransition, writeSlot])
+  }, [count, moveSlot, setSlotTransition])
 
-  /** Offset, in display pixels, from slot `from` to slot `to` */
-  const offsetBetween = useCallback((from: number, to: number) => ({
+  const getSlotOffset = useCallback((from: number, to: number) => ({
     x: ((to % columns) - (from % columns)) * stepX,
     y: (Math.floor(to / columns) - Math.floor(from / columns)) * stepY,
   }), [columns, stepX, stepY])
 
-  /** Puts every card where the previewed arrangement says it belongs. The dragged one follows the pointer. */
-  const renderPreviewOrder = useCallback((order: number[], dragged: number) => {
+  const renderOrder = useCallback((order: number[], draggedSlot: number) => {
     for (let position = 0; position < order.length; position++) {
       const slot = order[position]
-      if (slot === dragged) continue
-      const offset = offsetBetween(slot, position)
-      writeSlot(slot, offset.x, offset.y)
+      if (slot === draggedSlot) continue
+      const offset = getSlotOffset(slot, position)
+      moveSlot(slot, offset.x, offset.y)
     }
-  }, [offsetBetween, writeSlot])
+  }, [getSlotOffset, moveSlot])
 
   const handleDragStart = useCallback(({ active }: DragStartEvent) => {
-    const from = toIndex(active.id)
-    if (from == null) return
-    clearAll()
-    activeRef.current = from
-    sourceByPositionRef.current = Array.from({ length: count }, (_, position) => position)
-    draggedPositionRef.current = from
+    const draggedSlot = toIndex(active.id)
+    if (draggedSlot == null) return
+    resetSlots()
+    draggedSlotRef.current = draggedSlot
+    slotOrderRef.current = Array.from({ length: count }, (_, position) => position)
+    draggedPositionRef.current = draggedSlot
     pointerOffsetRef.current = { x: 0, y: 0 }
 
-    // The card in flight has to track the pointer exactly; only the cards it displaces ease into place
     const slide = prefersReducedMotion() ? NO_TRANSITION : SLIDE_TRANSITION
-    for (let index = 0; index < count; index++) setSlotTransition(index, index === from ? NO_TRANSITION : slide)
-
-    liftCard(cardNodes.current[from])
-    liftOverlay(overlayNodes.current[from])
     for (let index = 0; index < count; index++) {
-      if (index !== from) hideCellEdge(overlayNodes.current[index])
+      setSlotTransition(index, index === draggedSlot ? NO_TRANSITION : slide)
     }
 
-    setActiveIndex(from)
-  }, [clearAll, count, setSlotTransition])
+    liftCard(cardNodes.current[draggedSlot])
+    liftOverlay(overlayNodes.current[draggedSlot])
+    for (let index = 0; index < count; index++) {
+      if (index !== draggedSlot) hideCellEdge(overlayNodes.current[index])
+    }
 
-  /** Puts the latest position on the card, once, immediately before the browser paints */
+    setDraggingSlot(draggedSlot)
+  }, [count, resetSlots, setSlotTransition])
+
   const flushMove = useCallback(() => {
-    frameRef.current = 0
-    const from = activeRef.current
-    if (from == null) return
+    moveFrameRef.current = 0
+    const draggedSlot = draggedSlotRef.current
+    if (draggedSlot == null) return
     const offset = pointerOffsetRef.current
-    writeSlot(from, offset.x, offset.y)
-  }, [writeSlot])
+    moveSlot(draggedSlot, offset.x, offset.y)
+  }, [moveSlot])
 
   const handleDragMove = useCallback(({ delta }: DragMoveEvent) => {
-    const from = activeRef.current
-    if (from == null) return
-    // Followed one for one. Holding the card inside the grid instead leaves the cursor able to travel on
-    // without it, which reads as the card lagging rather than as a card that has been kept in bounds.
+    if (draggedSlotRef.current == null) return
     pointerOffsetRef.current = delta
 
-    // A high-polling mouse reports this ten times per displayed frame, and only the last report before a
-    // paint can ever be seen. Booking a frame collapses them into the one write that is worth making.
-    if (frameRef.current === 0) frameRef.current = requestAnimationFrame(flushMove)
+    if (moveFrameRef.current === 0) moveFrameRef.current = requestAnimationFrame(flushMove)
   }, [flushMove])
 
   const handleDragOver = useCallback(({ over }: DragOverEvent) => {
-    const from = activeRef.current
-    const held = draggedPositionRef.current
-    if (from == null || held == null) return
-    const to = over ? toIndex(over.id) : null
-    if (to == null || to === held) return
+    const draggedSlot = draggedSlotRef.current
+    const currentPosition = draggedPositionRef.current
+    if (draggedSlot == null || currentPosition == null) return
 
-    // Exchange with what is on screen at the new position, not with what started there, so cards the
-    // drag has already passed over keep the places it put them
-    const order = [...sourceByPositionRef.current]
-    const displaced = order[to]
-    order[to] = order[held]
-    order[held] = displaced
+    const nextPosition = over ? toIndex(over.id) : null
+    if (nextPosition == null || nextPosition === currentPosition) return
 
-    sourceByPositionRef.current = order
-    draggedPositionRef.current = to
-    renderPreviewOrder(order, from)
-  }, [renderPreviewOrder])
+    const nextOrder = [...slotOrderRef.current]
+    const displacedSlot = nextOrder[nextPosition]
+    nextOrder[nextPosition] = nextOrder[currentPosition]
+    nextOrder[currentPosition] = displacedSlot
 
-  const reset = useCallback(() => {
-    if (frameRef.current !== 0) {
-      cancelAnimationFrame(frameRef.current)
-      frameRef.current = 0
+    slotOrderRef.current = nextOrder
+    draggedPositionRef.current = nextPosition
+    renderOrder(nextOrder, draggedSlot)
+  }, [renderOrder])
+
+  const resetDrag = useCallback(() => {
+    if (moveFrameRef.current !== 0) {
+      cancelAnimationFrame(moveFrameRef.current)
+      moveFrameRef.current = 0
     }
-    clearAll()
-    activeRef.current = null
-    sourceByPositionRef.current = []
+    resetSlots()
+    draggedSlotRef.current = null
+    slotOrderRef.current = []
     draggedPositionRef.current = null
     pointerOffsetRef.current = { x: 0, y: 0 }
-    setActiveIndex(null)
-  }, [clearAll])
+    setDraggingSlot(null)
+  }, [resetSlots])
 
-  /**
-   * A drag whose end is never reported leaves the grid stuck mid-drag: the controls stay hidden and the
-   * cursor stays a grab, with no way back short of a reload. dnd-kit misses the end when the press is
-   * released somewhere it is not listening or the window is taken away mid-drag, so the window is watched
-   * too and the cells are let down if the drag has outlived the press that started it.
-   *
-   * The check is deferred rather than run on the spot, because this fires on ordinary drops as well and
-   * clearing there would take the arrangement away before the drop has read it.
-   */
+  // Recover when dnd-kit misses a release outside its listeners. The delay lets normal drops commit first.
   useEffect(() => {
-    if (activeIndex == null) return
+    if (draggingSlot == null) return
 
     let pending = 0
     const recover = () => {
       window.clearTimeout(pending)
       pending = window.setTimeout(() => {
-        if (activeRef.current != null) reset()
+        if (draggedSlotRef.current != null) resetDrag()
       }, DRAG_RECOVERY_DELAY)
     }
 
@@ -284,39 +233,32 @@ export function useSlotDrag({
       window.clearTimeout(pending)
       for (const event of RECOVERY_EVENTS) window.removeEventListener(event, recover)
     }
-  }, [activeIndex, reset])
+  }, [draggingSlot, resetDrag])
 
   const handleDragEnd = useCallback(({ active }: DragEndEvent) => {
-    const from = toIndex(active.id)
-    if (from == null) {
-      reset()
+    const draggedSlot = toIndex(active.id)
+    if (draggedSlot == null) {
+      resetDrag()
       return
     }
-    // What the drag arrived at, rather than what dnd-kit reports at the drop, so the committed
-    // arrangement is always the one that was on screen
-    const order = sourceByPositionRef.current
-    const landed = draggedPositionRef.current ?? from
+    const order = slotOrderRef.current
+    const dropPosition = draggedPositionRef.current ?? draggedSlot
 
-    // The node objects outlive the reorder; their slot index does not, so take them before committing
-    const cardNode = cardNodes.current[from]
-    const overlayNode = overlayNodes.current[from]
+    const cardNode = cardNodes.current[draggedSlot]
+    const overlayNode = overlayNodes.current[draggedSlot]
     const offset = pointerOffsetRef.current
-    const target = offsetBetween(from, landed)
+    const target = getSlotOffset(draggedSlot, dropPosition)
     const settled = [...order]
 
-    // Every transform goes away in the same commit that reorders the slots, so nothing is painted in
-    // between: each displaced card is already standing exactly where the reorder is about to put it.
-    reset()
+    resetDrag()
     if (!isIdentity(settled)) {
       setSlotKeys((keys) => settled.map((slot) => keys[slot]))
       onReorder?.(settled)
     }
-    onDrop?.(landed)
+    onDrop?.(dropPosition)
 
-    // The dropped card is the one exception. It is left under the pointer and eased into its new slot,
-    // which would otherwise be a jump of up to half a card.
     glide(cardNode, overlayNode, offset.x - target.x, offset.y - target.y, scale)
-  }, [offsetBetween, onDrop, onReorder, reset, scale])
+  }, [getSlotOffset, onDrop, onReorder, resetDrag, scale])
 
   const sensors = usePointerDragSensors()
 
@@ -328,25 +270,20 @@ export function useSlotDrag({
     onDragMove: handleDragMove,
     onDragOver: handleDragOver,
     onDragEnd: handleDragEnd,
-    onDragCancel: reset,
-  }), [sensors, handleDragStart, handleDragMove, handleDragOver, handleDragEnd, reset])
+    onDragCancel: resetDrag,
+  }), [sensors, handleDragStart, handleDragMove, handleDragOver, handleDragEnd, resetDrag])
 
   return {
     dndProps,
     slotKeys,
-    dragActive: activeIndex != null,
+    dragActive: draggingSlot != null,
     cardRefs,
     overlayRefs,
   }
 }
 
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
-
 function applyTransform(node: HTMLElement | null | undefined, dx: number, dy: number) {
   if (!node) return
-  // translate3d keeps the moving cell on its own compositor layer
   node.style.transform = dx === 0 && dy === 0 ? '' : `translate3d(${dx}px, ${dy}px, 0)`
 }
 
@@ -355,15 +292,7 @@ function applyTransition(node: HTMLElement | null | undefined, transition: strin
   node.style.transition = transition
 }
 
-/**
- * Leaves the two cells of the dropped card where the pointer released them, then lets them ease back to
- * their slot. The reorder has already moved these nodes, so the starting offset is what is left over
- * between where the card was let go and where its new slot sits.
- *
- * Reading `offsetHeight` between the two writes is what makes it an animation rather than a jump: it
- * forces the browser to take the starting transform as a computed value, which the transition needs
- * something to animate from.
- */
+/** Animates the dropped card from the pointer to its reordered slot. */
 function glide(
   cardNode: HTMLElement | null | undefined,
   overlayNode: HTMLElement | null | undefined,
@@ -394,7 +323,6 @@ function glide(
   onSettled(overlayNode, restOverlay)
 }
 
-/** Lets a cell down once it has finished easing into the slot it was dropped on */
 function onSettled(node: HTMLElement | null | undefined, rest: (settled: HTMLElement) => void) {
   if (!node) return
   clearPendingSettle(node)
@@ -446,7 +374,6 @@ function restCard(node: HTMLElement | null | undefined) {
   node.style.borderRadius = ''
 }
 
-/** The overlay cell carries no art, so it only needs to travel above its neighbours */
 function liftOverlay(node: HTMLElement | null | undefined) {
   if (!node) return
   clearPendingSettle(node)
@@ -477,7 +404,6 @@ function createSlotKeys(count: number): string[] {
   return Array.from({ length: count }, (_, index) => `slot${index}`)
 }
 
-/** Whether the drag ended up putting everything back where it found it */
 function isIdentity(order: number[]): boolean {
   return order.every((slot, position) => slot === position)
 }
@@ -486,7 +412,6 @@ function prefersReducedMotion(): boolean {
   return globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false
 }
 
-/** Droppable ids are slot indices; anything else is not a slot */
 function toIndex(id: UniqueIdentifier): number | null {
   return typeof id === 'number' ? id : null
 }

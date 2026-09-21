@@ -32,20 +32,12 @@ import {
 import type { Character } from 'types/character'
 
 const COLUMNS = 2
-/** Full-resolution distance between the left edges of adjacent cards, and between their top edges */
 const PITCH_X = cardTotalW + GRID_GAP
 const PITCH_Y = parentH + GRID_GAP
 
 /**
- * The 2x2 card grid that the screenshot captures, rendered at full card resolution and
- * shrunk for display. The cards are inert: they take no clicks, hovers, or focus. All
- * interaction comes from `renderSlotOverlay`, which sits in a layer above the grid, outside
- * the captured element, so it never appears in the screenshot. The overlay also draws each
- * card's hairline edge, for the same reason.
- *
- * Both layers are laid out as cells in the same order, and a drag moves the two cells of one slot
- * together. The drag itself lives in `slotDrag.ts`; the overlay reaches its handle through
- * `SlotDragContext` rather than through the render prop, so the prop stays a plain view of a slot.
+ * Full-resolution screenshot grid with an unscaled interaction overlay. The captured card
+ * layer is inert, so controls and hover effects stay out of exported images.
  */
 export function TeamCardGrid({
   characters,
@@ -140,14 +132,7 @@ export function TeamCardGrid({
   )
 }
 
-/**
- * One cell of the overlay layer. The outer node is what dnd-kit measures and is never transformed, so a
- * drag can move the inner node without shifting the drop target out from under the pointer.
- *
- * dnd-kit re-renders every draggable on every pointer move. That is why the handle it hands down is
- * memoized on values that only change when a drag starts or ends: the overlay reads it from context, and
- * an unchanged context value leaves the overlay and the card inside it alone for the length of the drag.
- */
+/** Keeps dnd-kit's measured drop target stationary while its inner cell moves. */
 function SlotDragCell({ index, innerRef, dragActive, children }: {
   index: number,
   innerRef: (node: HTMLDivElement | null) => void,

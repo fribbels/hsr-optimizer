@@ -3,16 +3,6 @@
 .cell {
   position: absolute;
   inset: 0;
-
-  --scrim-height: 200px;
-  --sheet-inset: 16px;
-  --sheet-gap: 10px;
-
-  /* Glass controls */
-  --control-bg: rgba(255, 255, 255, 0.12);
-  --control-bg-hover: rgba(255, 255, 255, 0.2);
-  --control-border: rgba(255, 255, 255, 0.22);
-  --control-blur: 6px;
 }
 
 /*
@@ -48,11 +38,6 @@
   transition: opacity 120ms ease;
 }
 
-.sheet {
-  visibility: hidden;
-  transition: opacity 120ms ease, visibility 0s linear 120ms;
-}
-
 .cell[data-revealed='true'] .cellScrim,
 .cell[data-revealed='true'] .handle {
   opacity: 1;
@@ -60,20 +45,11 @@
 
 .cell[data-revealed='true'] .sheet {
   opacity: 1;
-  visibility: visible;
   pointer-events: auto;
-  transition-delay: 0s;
 }
 
 /*
- * While a card is in flight every card puts its controls away, so the grid does not light up behind it,
- * and the card-wide tap target stops responding so the drop lands on the card rather than a reveal.
- * The card being dragged keeps its grip, which is what the pointer is holding.
- */
-/*
- * `visibility` and not just `opacity`, because a fully transparent element is still painted, and these
- * controls are all glass: four cards' worth of backdrop blur would go on being recomputed underneath a
- * card that is moving over them.
+ * Hide glass controls completely during drag to avoid recomputing their backdrop blur every frame.
  */
 .cell[data-drag-active='true'] .cellScrim,
 .cell[data-drag-active='true'] .handle,
@@ -113,7 +89,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  height: var(--scrim-height);
+  height: 200px;
   border-radius: 0 0 var(--team-card-radius, var(--radius-md)) var(--team-card-radius, var(--radius-md));
   background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 100%);
 }
@@ -148,15 +124,15 @@
 .artInput {
   font-weight: 500;
   color: var(--text-primary);
-  background-color: var(--control-bg);
-  border: 1px solid var(--control-border);
-  backdrop-filter: blur(var(--control-blur));
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
   transition: background-color 120ms ease, border-color 120ms ease;
 }
 
 .artButton:hover,
 .artInput:hover {
-  background-color: var(--control-bg-hover);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 .artButton:focus-visible,
@@ -212,19 +188,19 @@
 
 .sheet {
   position: absolute;
-  right: var(--sheet-inset);
-  bottom: var(--sheet-inset);
-  left: var(--sheet-inset);
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: var(--sheet-gap);
+  gap: 10px;
 }
 
 .sheetRow {
   display: flex;
   align-items: center;
-  gap: var(--sheet-gap);
+  gap: 10px;
 }
 
 .emptyCellTarget {

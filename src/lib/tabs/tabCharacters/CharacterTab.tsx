@@ -10,7 +10,7 @@ import {
   resolveCharactersPanel,
   toCharactersPanel,
 } from 'lib/tabs/tabCharacters/characterPanels'
-import { CharacterRosterPanel } from 'lib/tabs/tabCharacters/CharacterRosterPanel'
+import { CharactersPanelContent } from 'lib/tabs/tabCharacters/CharactersPanelContent'
 import { CharactersPanelSwitch } from 'lib/tabs/tabCharacters/CharactersPanelSwitch'
 import { TeamShowcaseTab } from 'lib/tabs/tabTeamShowcase/TeamShowcaseTab'
 import {
@@ -20,11 +20,6 @@ import {
   useState,
 } from 'react'
 
-/* Tab height and padding live in CharactersPanelSwitch.module.css */
-const TABS_STYLES = {
-  panel: { paddingTop: 10 },
-}
-
 /** Two panels over one hash space, the same arrangement the Calculators tab uses. */
 export function CharacterTab() {
   const [activePanel, setActivePanel] = useState<CharactersPanel>(resolveCharactersPanel)
@@ -32,12 +27,15 @@ export function CharacterTab() {
   const [teamsMounted, setTeamsMounted] = useState(() => activePanel === CharactersPanel.TEAMS)
   const { addActivationListener } = useContext(TabVisibilityContext)
 
-  const updateActivePanel = useCallback((hash: string) => {
-    const panel = hashToCharactersPanel(hash)
-    if (!panel) return
+  const activatePanel = useCallback((panel: CharactersPanel) => {
     setActivePanel(panel)
     if (panel === CharactersPanel.TEAMS) setTeamsMounted(true)
   }, [])
+
+  const updateActivePanel = useCallback((hash: string) => {
+    const panel = hashToCharactersPanel(hash)
+    if (panel) activatePanel(panel)
+  }, [activatePanel])
 
   useHashNavigation(updateActivePanel)
 
@@ -50,19 +48,18 @@ export function CharacterTab() {
   function handleTabChange(value: string | null) {
     const panel = toCharactersPanel(value)
     if (!panel || panel === activePanel) return
-    setActivePanel(panel)
-    if (panel === CharactersPanel.TEAMS) setTeamsMounted(true)
+    activatePanel(panel)
     pushCharactersHash(panel)
   }
 
   return (
-    <Tabs w={CHARACTERS_TAB_WIDTH} value={activePanel} onChange={handleTabChange} variant='outline' styles={TABS_STYLES}>
+    <Tabs w={CHARACTERS_TAB_WIDTH} value={activePanel} onChange={handleTabChange} variant='outline'>
       <CharactersPanelSwitch />
 
-      <Tabs.Panel value={CharactersPanel.CHARACTERS}>
-        <CharacterRosterPanel />
+      <Tabs.Panel value={CharactersPanel.CHARACTERS} pt={10}>
+        <CharactersPanelContent />
       </Tabs.Panel>
-      <Tabs.Panel value={CharactersPanel.TEAMS}>
+      <Tabs.Panel value={CharactersPanel.TEAMS} pt={10}>
         {teamsMounted && <TeamShowcaseTab />}
       </Tabs.Panel>
     </Tabs>

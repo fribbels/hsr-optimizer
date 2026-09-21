@@ -10,7 +10,6 @@ import type {
 import type { LightConeId } from 'types/lightCone'
 import type { SimulationMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
-import type { TeamShowcaseSavedTeam } from 'types/store'
 
 export enum TeamBenchmarkOverrideStatus {
   INCOMPLETE = 'incomplete',
@@ -26,6 +25,7 @@ export interface TeamBenchmarkOverrideResult {
 type CharacterWithLightCone = Character & {
   form: Character['form'] & { lightCone: LightConeId },
 }
+type BenchmarkTeammate = SimulationMetadata['teammates'][number]
 
 function isCharacter(character: Character | null): character is Character {
   return character != null
@@ -55,16 +55,6 @@ export function areTeamSlotsEqual(a: TeamSlots, b: TeamSlots): boolean {
   const normalizedA = normalizeTeamSlots(a)
   const normalizedB = normalizeTeamSlots(b)
   return normalizedA.every((id, index) => id === normalizedB[index])
-}
-
-export function areSavedTeamsEqual(a: TeamShowcaseSavedTeam[], b: TeamShowcaseSavedTeam[]): boolean {
-  return a.length === b.length && a.every((team, index) => {
-    const other = b[index]
-    return team.id === other.id
-      && team.name === other.name
-      && areTeamSlotsEqual(team.characterIds, other.characterIds)
-      && Boolean(team.benchmarkSyncEnabled) === Boolean(other.benchmarkSyncEnabled)
-  })
 }
 
 export function autofillTeamSlots(
@@ -98,17 +88,12 @@ export function buildTeamBenchmarkOverrides(
     return emptyBenchmarkOverrideResult(TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE)
   }
 
-  const benchmarkTeammates = completeCharacters.map((character) => buildBenchmarkTeammate(character, relicsById))
-  const overridesBySlot = completeCharacters.map((_, focalIndex) => {
-    const teammates: SimulationMetadata['teammates'] = benchmarkTeammates
-      .filter((__, teammateIndex) => teammateIndex !== focalIndex)
-
-    const configOverrides: SimulationMetadataOverrides = {}
-    for (const configType of CONFIG_DISPLAY_ORDER) {
-      configOverrides[configType] = { teammates }
-    }
-    return configOverrides
-  })
+  const benchmarkTeammates = completeCharacters.map((character) =>
+    buildBenchmarkTeammate(character, relicsById)
+  )
+  const overridesBySlot = benchmarkTeammates.map((_, focalIndex) =>
+    buildConfigOverrides(benchmarkTeammates.filter((__, index) => index !== focalIndex))
+  )
 
   return {
     status: TeamBenchmarkOverrideStatus.READY,
@@ -126,7 +111,7 @@ function emptyBenchmarkOverrideResult(status: TeamBenchmarkOverrideStatus): Team
 function buildBenchmarkTeammate(
   character: CharacterWithLightCone,
   relicsById: Partial<Record<string, Relic>>,
-): SimulationMetadata['teammates'][number] {
+): BenchmarkTeammate {
   return {
     characterId: character.id,
     lightCone: character.form.lightCone,
@@ -136,6 +121,10 @@ function buildBenchmarkTeammate(
   }
 }
 
-export function isSavedTeamIndex(index: number, teams: TeamShowcaseSavedTeam[]): boolean {
-  return Number.isInteger(index) && index >= 0 && index < teams.length
+function buildConfigOverrides(teammates: BenchmarkTeammate[]): SimulationMetadataOverrides {
+  const overrides: SimulationMetadataOverrides = {}
+  for (const configType of CONFIG_DISPLAY_ORDER) {
+    overrides[configType] = { teammates }
+  }
+  return overrides
 }

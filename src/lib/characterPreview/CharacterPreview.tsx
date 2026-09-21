@@ -15,13 +15,11 @@ import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { useInjectedScoringInput } from 'lib/characterPreview/CharacterPreviewScoringContext'
-import type {
-  InjectedScoringInput,
-  SimulationMetadataOverrides,
-} from 'lib/characterPreview/characterPreviewTypes'
+import type { SimulationMetadataOverrides } from 'lib/characterPreview/characterPreviewTypes'
 import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
+import { getCustomPortraitObjectPosition } from 'lib/characterPreview/customPortraitUtils'
 import {
   modifyCustomColor,
   organizeColors,
@@ -117,18 +115,11 @@ const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
 const EMPTY_SCORED: RelicScoringResult[] = []
 
-function mergeInjectedScoringOverride(
-  overrides: SimulationMetadataOverrides | undefined,
-  injectedScoring: InjectedScoringInput | undefined,
-): SimulationMetadataOverrides | undefined {
-  if (!injectedScoring?.simulationMetadataOverride) return overrides
-  return {
-    ...overrides,
-    [injectedScoring.configType]: {
-      ...overrides?.[injectedScoring.configType],
-      ...injectedScoring.simulationMetadataOverride,
-    },
-  }
+function getPreviewMinHeight(source: ShowcaseSource, forceDebug: boolean | undefined) {
+  if (forceDebug) return 'auto'
+  if (source === ShowcaseSource.BUILDS_MODAL) return 900
+  if (source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM) return undefined
+  return 2000
 }
 
 interface CharacterPreviewProps {
@@ -185,16 +176,6 @@ function ShowcaseBackgroundBlur({
 }) {
   let imgStyle: React.CSSProperties
   if (portraitToUse) {
-    // Custom portrait: "cover" behavior — object-fit:cover + object-position
-    const crop = portraitToUse.customImageParams.croppedAreaPixels
-    const origW = portraitToUse.originalDimensions.width
-    const origH = portraitToUse.originalDimensions.height
-    let objPos = 'center'
-    if (origW > 0 && origH > 0) {
-      const pctX = (crop.x + crop.width / 2) / origW * 100
-      const pctY = (crop.y + crop.height / 2) / origH * 100
-      objPos = `${pctX}% ${pctY}%`
-    }
     imgStyle = {
       position: 'absolute',
       top: 0,
@@ -202,7 +183,7 @@ function ShowcaseBackgroundBlur({
       width: '100%',
       height: '100%',
       objectFit: 'cover',
-      objectPosition: objPos,
+      objectPosition: getCustomPortraitObjectPosition(portraitToUse),
     }
   } else {
     // Default portrait: pixel width + computed top/left (height:auto preserves aspect)
@@ -412,7 +393,9 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         storedScoringType: requestedScoringType,
         savedBuildOverride,
         t,
-        simulationMetadataOverrides: mergeInjectedScoringOverride(simulationMetadataOverrides, injectedScoring),
+        simulationMetadataOverrides,
+        simulationMetadataOverride: injectedScoring?.simulationMetadataOverride,
+        overrideConfigType: injectedScoring?.configType,
       })
       if (source === ShowcaseSource.LEADERBOARD) {
         baseLayout.portraitToUse = undefined
@@ -536,9 +519,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           flexDirection: 'column',
           width: cardTotalW,
           gap: source === ShowcaseSource.LEADERBOARD ? 16 : undefined,
-          minHeight: forceDebug
-            ? 'auto'
-            : (source === ShowcaseSource.BUILDS_MODAL ? 900 : (source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM ? undefined : 2000)),
+          minHeight: getPreviewMinHeight(source, forceDebug),
         }}
       >
         {

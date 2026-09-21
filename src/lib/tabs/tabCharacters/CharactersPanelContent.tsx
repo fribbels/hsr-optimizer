@@ -5,6 +5,12 @@ import {
 import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
 import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import {
+  cardTotalW,
+  CHARACTERS_TAB_WIDTH,
+  defaultGap,
+  parentH,
+} from 'lib/constants/constantsUi'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { SaveState } from 'lib/state/saveState'
@@ -32,22 +38,15 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-
-import {
-  cardTotalW,
-  CHARACTERS_TAB_WIDTH,
-  defaultGap,
-  parentH,
-} from 'lib/constants/constantsUi'
 import { useTranslation } from 'react-i18next'
 
-const densityValues = ['default', 'compact'] as const
+const DENSITY_VALUES = ['default', 'compact'] as const
 
 function isCharacterGridDensity(value: string): value is CharacterGridDensity {
-  return densityValues.some((density) => density === value)
+  return DENSITY_VALUES.some((density) => density === value)
 }
 
-export function CharacterRosterPanel() {
+export function CharactersPanelContent() {
   // Only sync when optimizer focus changed — otherwise tab revisits stomp the user's selection.
   // Initialize to saved session character so session restore doesn't trigger a sync on first visit.
   const { addActivationListener } = useContext(TabVisibilityContext)
@@ -66,11 +65,12 @@ export function CharacterRosterPanel() {
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
 
+  // Density controls the size and width of the saved-character grid.
   const density = useGlobalStore((s) => s.savedSession.characterGridDensity)
   const preset = characterGridPresets[density]
   const gridCssVars = precomputedCssVars[density]
 
-  const onDensityChange = useCallback((value: string) => {
+  const handleDensityChange = useCallback((value: string) => {
     if (!isCharacterGridDensity(value)) return
     useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.characterGridDensity, value)
     SaveState.delayedSave()
@@ -91,7 +91,10 @@ export function CharacterRosterPanel() {
 
   const { t } = useTranslation('charactersTab', { keyPrefix: 'GridDensityOptions' })
 
-  const densityOptions = useMemo(() => densityValues.map((x) => ({ value: x, label: t(x) })), [t])
+  const densityOptions = useMemo(
+    () => DENSITY_VALUES.map((value) => ({ value, label: t(value) })),
+    [t],
+  )
 
   return (
     <Flex
@@ -119,7 +122,7 @@ export function CharacterRosterPanel() {
           <SegmentedControl
             data={densityOptions}
             value={density}
-            onChange={onDensityChange}
+            onChange={handleDensityChange}
             fullWidth
           />
         </Flex>

@@ -5,7 +5,7 @@ import {
   IconRefresh,
   IconTrash,
 } from '@tabler/icons-react'
-import styles from 'lib/tabs/tabTeamShowcase/savedTeams/SavedTeamsActions.module.css'
+import styles from 'lib/tabs/tabTeamShowcase/savedTeams/SavedTeamsSidebar.module.css'
 import { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import { useTranslation } from 'react-i18next'
 

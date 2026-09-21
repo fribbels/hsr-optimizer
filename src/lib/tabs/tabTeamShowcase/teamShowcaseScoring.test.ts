@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { resolveShowcaseScoringData } from 'lib/characterPreview/showcaseDerivedData'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
@@ -51,6 +52,28 @@ describe('resolveCustomAutofillTeammateIds', () => {
     )
 
     expect(result).toEqual(expected)
+  })
+})
+
+describe('resolveShowcaseScoringData overrides', () => {
+  it('resolves injected fields over slot fields without discarding unrelated slot values', () => {
+    const defaultTeammates = getGameMetadata().characters[KafkaB1.id].scoringMetadata.simulation!.teammates
+    const slotTeammates = [...defaultTeammates].reverse()
+    const injectedTeammates = [defaultTeammates[1], defaultTeammates[2], defaultTeammates[0]]
+
+    const result = resolveShowcaseScoringData({
+      character,
+      teamSelections: { [ScoringConfigType.DPS]: DEFAULT_TEAM },
+      storedScoringType: undefined,
+      simulationMetadataOverrides: {
+        [ScoringConfigType.DPS]: { teammates: slotTeammates, deprioritizeBuffs: true },
+      },
+      simulationMetadataOverride: { teammates: injectedTeammates },
+      overrideConfigType: ScoringConfigType.DPS,
+    })
+
+    expect(result.configMetadata[ScoringConfigType.DPS]?.teammates).toEqual(injectedTeammates)
+    expect(result.configMetadata[ScoringConfigType.DPS]?.deprioritizeBuffs).toBe(true)
   })
 })
 

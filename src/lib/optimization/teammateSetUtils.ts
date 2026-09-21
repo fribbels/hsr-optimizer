@@ -5,14 +5,15 @@ import {
   SACERDOS_RELIVED_ORDEAL_2_STACK,
   Sets,
 } from 'lib/constants/constants'
+import type { Sets as SetName } from 'lib/constants/constants'
 import type {
   Character,
   CharacterId,
 } from 'types/character'
 import type { Relic } from 'types/relic'
 
-const TEAMMATE_RELIC_SETS = [
-  Sets.MessengerTraversingHackerspace,
+// Messenger is excluded because equipment alone cannot prove its ultimate activation.
+const TEAMMATE_RELIC_SETS: readonly SetName[] = [
   Sets.WatchmakerMasterOfDreamMachinations,
   Sets.SacerdosRelivedOrdeal,
   Sets.WarriorGoddessOfSunAndThunder,
@@ -23,7 +24,7 @@ const TEAMMATE_RELIC_SETS = [
   Sets.DreamlitActor,
 ]
 
-const TEAMMATE_ORNAMENT_SETS = [
+const TEAMMATE_ORNAMENT_SETS: readonly SetName[] = [
   Sets.BrokenKeel,
   Sets.FleetOfTheAgeless,
   Sets.PenaconyLandOfTheDreams,
@@ -47,33 +48,43 @@ export function calculateTeammateSets(
   teammateCharacter: Character,
   relicsById: Partial<Record<string, Relic>>,
 ): ActiveTeammateSets {
-  const relics = Object.values(teammateCharacter.equipped)
-    .map((id) => id ? relicsById[id] : undefined)
-    .filter((relic): relic is Relic => relic != null)
-  const setCounts = new Map<string, number>()
-  for (const relic of relics) {
-    setCounts.set(relic.set, (setCounts.get(relic.set) ?? 0) + 1)
-  }
-  const activeTeammateSets: ActiveTeammateSets = {}
+  const equippedSetCounts = countEquippedSets(teammateCharacter, relicsById)
+  const relicSet = findEquippedSet(TEAMMATE_RELIC_SETS, equippedSetCounts, 4)
+  const ornamentSet = findEquippedSet(TEAMMATE_ORNAMENT_SETS, equippedSetCounts, 2)
 
-  for (const set of TEAMMATE_RELIC_SETS) {
-    if (setCounts.get(set) !== 4) continue
-    // Messenger's team buff requires an ultimate activation, which equipment alone cannot prove.
-    if (set === Sets.MessengerTraversingHackerspace) continue
-    if (set === Sets.SacerdosRelivedOrdeal) {
-      activeTeammateSets.teamRelicSet = SACERDOS_TWO_STACK_CHARACTERS.has(teammateCharacter.id)
-        ? SACERDOS_RELIVED_ORDEAL_2_STACK
-        : SACERDOS_RELIVED_ORDEAL_1_STACK
-    } else {
-      activeTeammateSets.teamRelicSet = set
-    }
+  return {
+    teamRelicSet: resolveTeammateRelicSet(teammateCharacter.id, relicSet),
+    teamOrnamentSet: ornamentSet,
   }
+}
 
-  for (const set of TEAMMATE_ORNAMENT_SETS) {
-    if (setCounts.get(set) === 2) {
-      activeTeammateSets.teamOrnamentSet = set
-    }
+function countEquippedSets(
+  character: Character,
+  relicsById: Partial<Record<string, Relic>>,
+): Map<SetName, number> {
+  const counts = new Map<SetName, number>()
+
+  for (const relicId of Object.values(character.equipped)) {
+    if (!relicId) continue
+    const set = relicsById[relicId]?.set
+    if (!set) continue
+    counts.set(set, (counts.get(set) ?? 0) + 1)
   }
 
-  return activeTeammateSets
+  return counts
+}
+
+function findEquippedSet(
+  supportedSets: readonly SetName[],
+  equippedSetCounts: Map<SetName, number>,
+  requiredPieces: number,
+): SetName | undefined {
+  return supportedSets.find((set) => equippedSetCounts.get(set) === requiredPieces)
+}
+
+function resolveTeammateRelicSet(characterId: CharacterId, relicSet: SetName | undefined): string | undefined {
+  if (relicSet !== Sets.SacerdosRelivedOrdeal) return relicSet
+  return SACERDOS_TWO_STACK_CHARACTERS.has(characterId)
+    ? SACERDOS_RELIVED_ORDEAL_2_STACK
+    : SACERDOS_RELIVED_ORDEAL_1_STACK
 }

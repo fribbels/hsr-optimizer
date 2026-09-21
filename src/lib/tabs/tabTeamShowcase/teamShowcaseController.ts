@@ -6,7 +6,7 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import {
-  areSavedTeamsEqual,
+  areTeamSlotsEqual,
   normalizeTeamSlots,
   sanitizeTeamSlots,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
@@ -62,4 +62,14 @@ export function writeSavedTeams(teams: TeamShowcaseSavedTeam[]) {
 
   setSavedSessionKey(SavedSessionKeys.teamShowcaseSavedTeams, teams)
   SaveState.delayedSave()
+}
+
+function areSavedTeamsEqual(a: TeamShowcaseSavedTeam[], b: TeamShowcaseSavedTeam[]): boolean {
+  return a.length === b.length && a.every((team, index) => {
+    const other = b[index]
+    return team.id === other.id
+      && team.name === other.name
+      && areTeamSlotsEqual(team.characterIds, other.characterIds)
+      && Boolean(team.benchmarkSyncEnabled) === Boolean(other.benchmarkSyncEnabled)
+  })
 }

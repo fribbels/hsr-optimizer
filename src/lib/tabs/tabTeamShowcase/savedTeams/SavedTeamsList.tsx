@@ -119,7 +119,7 @@ export function SavedTeamsList({
       {savedTeams.length === 0
         ? (
           <div className={styles.empty}>
-            <span className={styles.emptyTitle}>{t('SavedTeams.Empty')}</span>
+            <span>{t('SavedTeams.Empty')}</span>
           </div>
         )
         : (
@@ -253,7 +253,7 @@ const SavedTeamTileContent = memo(function SavedTeamTileContent({
               {appearance && (
                 <img
                   className={styles.art}
-                  data-custom={appearance.customPortrait != null}
+                  data-custom={appearance.usesCustomPortrait}
                   src={appearance.artUrl}
                   style={appearance.artObjectPosition ? { objectPosition: appearance.artObjectPosition } : undefined}
                   alt=''

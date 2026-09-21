@@ -3,7 +3,6 @@ import { useScreenshotAction } from 'lib/hooks/useScreenshotAction'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { Message } from 'lib/interactions/message'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
-import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useRelicStore } from 'lib/stores/relic/relicStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
@@ -13,15 +12,9 @@ import {
   TEAM_SIZE,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
 import {
-  loadSavedTeamSlots,
-  readSavedTeams,
-  writeSavedTeams,
-} from 'lib/tabs/tabTeamShowcase/teamShowcaseController'
-import {
   areTeamSlotsEqual,
   autofillTeamSlots,
   buildTeamBenchmarkOverrides,
-  isSavedTeamIndex,
   normalizeTeamSlots,
   sanitizeTeamSlots,
   TeamBenchmarkOverrideStatus,
@@ -30,12 +23,12 @@ import {
   resolveCustomAutofillTeammateIds,
   resolveSlotScoring,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseScoring'
-import type {
-  TeamShowcaseState,
-  TeamSlots,
-} from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
+import {
+  type WorkingTeamState,
+  useSavedTeams,
+} from 'lib/tabs/tabTeamShowcase/savedTeams/useSavedTeams'
+import type { TeamShowcaseState } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
 import type { CharacterOptions } from 'lib/ui/selectors/optionGenerator'
-import { uuid } from 'lib/utils/miscUtils'
 import type { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import {
   useCallback,
@@ -49,19 +42,10 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import type {
-  SavedTeamId,
-  TeamShowcaseSavedTeam,
-} from 'types/store'
 import { useShallow } from 'zustand/react/shallow'
 
 const EMPTY_TEAM_SELECTIONS = {}
 const EMPTY_BENCHMARK_OVERRIDES: TeamShowcaseState['simulationMetadataOverrides'] = Array.from({ length: TEAM_SIZE })
-
-interface WorkingTeamState {
-  slots: TeamSlots
-  benchmarkSyncEnabled: boolean
-}
 
 /** Cards mount only once the tab has been shown, so background tabs don't run scoring. */
 function useHasActivated(): boolean {
@@ -81,7 +65,6 @@ export function useTeamShowcase(): TeamShowcaseState {
   const { t: tCharacters } = useTranslation('charactersTab')
   const activated = useHasActivated()
 
-  const savedTeams = useGlobalStore((s) => s.savedSession.teamShowcaseSavedTeams)
   const [workingTeam, setWorkingTeam] = useState<WorkingTeamState>(() => ({
     slots: normalizeTeamSlots([]),
     benchmarkSyncEnabled: false,
@@ -124,8 +107,7 @@ export function useTeamShowcase(): TeamShowcaseState {
   })))
 
   const setSlot = useCallback((index: number, id: CharacterId | null) => {
-    const shouldAutofill = id != null && slots.every((existing) => existing == null)
-    const selectedCharacter = shouldAutofill ? charactersById[id] : undefined
+    const selectedCharacter = id ? charactersById[id] : undefined
     const customTeammateIds = selectedCharacter
       ? resolveCustomAutofillTeammateIds(
         selectedCharacter,
@@ -147,7 +129,7 @@ export function useTeamShowcase(): TeamShowcaseState {
       if (areTeamSlotsEqual(currentSlots, filled)) return current
       return { slots: filled, benchmarkSyncEnabled: false }
     })
-  }, [charactersById, ownedIds, slots, teamPreferences])
+  }, [charactersById, ownedIds, teamPreferences])
 
   /**
    * Writes every position at once. setSlot cannot express a rearrangement: it clears any other slot
@@ -201,61 +183,16 @@ export function useTeamShowcase(): TeamShowcaseState {
   )
   const canSyncBenchmarks = selectedCharacters.every((character) => character != null)
 
-  // ----- Saved teams -----
-  const activeSavedTeamId = useMemo(
-    () =>
-      savedTeams.find((team) =>
-        areTeamSlotsEqual(team.characterIds, slots)
-        && Boolean(team.benchmarkSyncEnabled) === workingTeam.benchmarkSyncEnabled
-      )?.id ?? null,
-    [savedTeams, slots, workingTeam.benchmarkSyncEnabled],
-  )
-
-  const saveCurrentTeam = useCallback(() => {
-    if (slots.every((id) => id == null)) return
-    const teams = readSavedTeams()
-    const team: TeamShowcaseSavedTeam = {
-      id: uuid(),
-      name: t('SavedTeams.DefaultName', { index: teams.length + 1 }),
-      characterIds: slots,
-      benchmarkSyncEnabled: workingTeam.benchmarkSyncEnabled,
-    }
-    writeSavedTeams([...teams, team])
-  }, [slots, t, workingTeam.benchmarkSyncEnabled])
-
-  const loadSavedTeam = useCallback((id: SavedTeamId) => {
-    const team = readSavedTeams().find((candidate) => candidate.id === id)
-    if (!team) return
-    setWorkingTeam({
-      slots: loadSavedTeamSlots(team.characterIds),
-      benchmarkSyncEnabled: Boolean(team.benchmarkSyncEnabled),
-    })
-  }, [])
-
-  const deleteSavedTeam = useCallback((id: SavedTeamId) => {
-    writeSavedTeams(readSavedTeams().filter((team) => team.id !== id))
-  }, [])
-
-  const moveSavedTeam = useCallback((from: number, to: number) => {
-    const teams = readSavedTeams()
-    if (from === to || !isSavedTeamIndex(from, teams) || !isSavedTeamIndex(to, teams)) return
-    const next = [...teams]
-    const [moved] = next.splice(from, 1)
-    next.splice(to, 0, moved)
-    writeSavedTeams(next)
-  }, [])
-
-  const renameSavedTeam = useCallback((id: SavedTeamId, name: string) => {
-    const trimmed = name.trim()
-    if (!trimmed) return
-    const teams = readSavedTeams()
-    const index = teams.findIndex((team) => team.id === id)
-    if (index < 0 || teams[index].name === trimmed) return
-
-    const next = [...teams]
-    next[index] = { ...next[index], name: trimmed }
-    writeSavedTeams(next)
-  }, [])
+  const {
+    savedTeams,
+    activeSavedTeamId,
+    saveCurrentTeam,
+    loadSavedTeam,
+    deleteSavedTeam,
+    renameSavedTeam,
+    moveSavedTeam,
+    markBenchmarksSynced,
+  } = useSavedTeams(slots, workingTeam.benchmarkSyncEnabled, setWorkingTeam)
 
   const syncBenchmarkTeams = useCallback(() => {
     const validation = buildTeamBenchmarkOverrides(
@@ -268,16 +205,8 @@ export function useTeamShowcase(): TeamShowcaseState {
     }
     if (validation.status !== TeamBenchmarkOverrideStatus.READY) return
 
-    setWorkingTeam((current) => ({ ...current, benchmarkSyncEnabled: true }))
-    if (!activeSavedTeamId) return
-    writeSavedTeams(
-      readSavedTeams().map((team) =>
-        team.id === activeSavedTeamId
-          ? { ...team, benchmarkSyncEnabled: true }
-          : team
-      ),
-    )
-  }, [activeSavedTeamId, relicsById, selectedCharacters, tCharacters])
+    markBenchmarksSynced()
+  }, [markBenchmarksSynced, relicsById, selectedCharacters, tCharacters])
 
   // ----- Screenshot -----
   const { activeAction: activeScreenshotAction, trigger } = useScreenshotAction(GRID_ELEMENT_ID, GRID_SIZE)

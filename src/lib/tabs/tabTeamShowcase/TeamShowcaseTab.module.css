@@ -1,9 +1,4 @@
-/* Left-aligned like the Characters panel beside it, rather than centred as a standalone page */
 .root {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  /* Matches the roster panel's 200px bottom margin so both panels scroll the same distance */
+  /* Match the Characters panel's scroll distance. */
   padding-bottom: 200px;
 }

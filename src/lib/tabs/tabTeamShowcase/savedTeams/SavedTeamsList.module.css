@@ -12,15 +12,12 @@
 
 .empty {
   padding: 16px 12px;
-  text-align: center;
-  border: 1px dashed var(--border-default);
-  border-radius: var(--radius-sm);
-}
-
-.emptyTitle {
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
+  text-align: center;
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-sm);
 }
 
 .tile {
@@ -58,8 +55,8 @@
 }
 
 .cover:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--color-accent);
 }
 
 .tile:hover .cover {
@@ -83,10 +80,6 @@
   position: relative;
   overflow: hidden;
   background-color: var(--layer-inset);
-}
-
-.art {
-  display: block;
 }
 
 /* Default preview busts render at quarter scale for a clean 4:1 downsample. */
@@ -123,7 +116,6 @@
   right: 8px;
   bottom: 8px;
   left: 8px;
-  display: block;
   overflow: hidden;
   font-size: 13px;
   line-height: 18px;

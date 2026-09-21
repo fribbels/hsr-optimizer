@@ -30,6 +30,9 @@ export type PageHash =
   | '#import'
   | '#teams'
 
+export const CHARACTERS_HASH: PageHash = '#characters'
+export const TEAMS_HASH: PageHash = '#teams'
+
 export enum AppPages {
   HOME = 'HOME',
 
@@ -57,7 +60,7 @@ export const PageToHash = {
   [AppPages.WARP]: '#warp',
 
   [AppPages.OPTIMIZER]: '#main',
-  [AppPages.CHARACTERS]: '#characters',
+  [AppPages.CHARACTERS]: CHARACTERS_HASH,
   [AppPages.RELICS]: '#relics',
   [AppPages.IMPORT]: '#import',
 
@@ -71,16 +74,13 @@ export const PageToHash = {
 export const HashToPage = {
   ...flipStringMapping(PageToHash),
   [CALCULATOR_PANEL_HASH[CalculatorPanel.EHR]]: AppPages.CALCULATORS,
-  // Literal rather than CHARACTERS_PANEL_HASH: characterPanels imports BASE_PATH from here, and consuming
-  // its exports at module-eval time makes that cycle order-dependent.
-  ['#teams']: AppPages.CHARACTERS,
+  [TEAMS_HASH]: AppPages.CHARACTERS,
 } as const satisfies Record<PageHash, AppPages>
 
 export function getDefaultActiveKey() {
   const page = HashToPage[parseHash().hash as PageHash]
 
-  // Redirect #main to HOME for first-time users (no prior save data). The URL is rewritten too, so tabs
-  // that pick a sub-panel from the hash on mount (Characters reads #teams) don't see the redirected one.
+  // First-time users start on Home; keep the URL in sync with the redirected page.
   if (
     (
       page === AppPages.OPTIMIZER

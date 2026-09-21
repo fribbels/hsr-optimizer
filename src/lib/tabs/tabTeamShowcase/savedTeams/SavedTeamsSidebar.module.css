@@ -10,6 +10,37 @@
   border-radius: var(--radius-sm);
 }
 
+.root {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.clearButton {
+  color: var(--text-secondary);
+  background-color: transparent;
+  border: var(--border-subtle);
+  border-style: dashed;
+}
+
+.clearButton:hover {
+  color: var(--text-primary);
+  background-color: var(--layer-2);
+}
+
+.clearButton:disabled,
+.clearButton[data-disabled] {
+  border: var(--border-subtle) !important;
+  border-style: dashed !important;
+}
+
 .listSlot {
   display: flex;
   flex-direction: column;

@@ -43,7 +43,7 @@ export function resolveSlotScoring(
   }
 }
 
-/** Returns an autofill source only when the card's active benchmark explicitly resolves to Custom. */
+/** Uses the first Custom benchmark in the card's display order as its autofill source. */
 export function resolveCustomAutofillTeammateIds(
   character: Character,
   teamSelections: Partial<Record<ScoringConfigType, TeamSelection>>,

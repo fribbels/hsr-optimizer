@@ -14,7 +14,6 @@ import {
 import type { TeamSlots } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
 import type {
   Character,
-  CharacterId,
 } from 'types/character'
 import type { TeamShowcaseSavedTeam } from 'types/store'
 
@@ -28,7 +27,7 @@ export function loadSavedTeamSlots(slots: TeamSlots): TeamSlots {
 
 function restoreMissingCharacters(slots: TeamSlots): boolean {
   const characterState = useCharacterStore.getState()
-  const knownIds = new Set(Object.keys(characterState.charactersById) as CharacterId[])
+  const knownIds = new Set(characterState.characters.map((character) => character.id))
   const metadata = getGameMetadata().characters
   const additions: Character[] = []
 

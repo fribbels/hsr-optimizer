@@ -14,7 +14,10 @@ import type {
   CharacterId,
 } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import type { Relic } from 'types/relic'
+import type {
+  Relic,
+  RelicId,
+} from 'types/relic'
 import type {
   TeamShowcaseBenchmarkMember,
   TeamShowcaseBenchmarkSnapshot,
@@ -31,16 +34,20 @@ export interface TeamBenchmarkSnapshotResult {
   snapshot?: TeamShowcaseBenchmarkSnapshot
 }
 
-export type TeamBenchmarkOverrideVariants = ReadonlyMap<CharacterId, {
+type BenchmarkOverridesByRole = {
   mainDps: SimulationMetadataOverrides
   nonMainDps: SimulationMetadataOverrides
-}>
+}
+
+type BenchmarkOverridesByCharacter = ReadonlyMap<CharacterId, BenchmarkOverridesByRole>
 
 const EMPTY_BENCHMARK_OVERRIDES: (SimulationMetadataOverrides | undefined)[] = Array.from({ length: TEAM_SIZE })
+const EMPTY_BENCHMARK_OVERRIDE_VARIANTS: BenchmarkOverridesByCharacter = new Map()
 
 type CharacterWithLightCone = Character & {
   form: Character['form'] & { lightCone: LightConeId },
 }
+
 function isCharacter(character: Character | null): character is Character {
   return character != null
 }
@@ -91,7 +98,7 @@ export function autofillTeamSlots(
 
 export function captureTeamBenchmarkSnapshot(
   characters: (Character | null)[],
-  relicsById: Partial<Record<string, Relic>>,
+  relicsById: Partial<Record<RelicId, Relic>>,
 ): TeamBenchmarkSnapshotResult {
   if (characters.length !== TEAM_SIZE || !characters.every(isCharacter)) {
     return { status: TeamBenchmarkOverrideStatus.INCOMPLETE }
@@ -112,22 +119,25 @@ export function captureTeamBenchmarkSnapshot(
 
 export function buildTeamBenchmarkOverrideVariants(
   snapshot: TeamShowcaseBenchmarkSnapshot | undefined,
-): TeamBenchmarkOverrideVariants {
-  const members = resolveSnapshotMembers(snapshot)
-  if (!members) return new Map()
+): BenchmarkOverridesByCharacter {
+  const members = getValidSnapshotMembers(snapshot)
+  if (!members) return EMPTY_BENCHMARK_OVERRIDE_VARIANTS
 
-  return new Map(members.map((member) => {
+  const variants = new Map<CharacterId, BenchmarkOverridesByRole>()
+  for (const member of members) {
     const teammates = members.filter((teammate) => teammate.characterId !== member.characterId)
-    return [member.characterId, {
+    variants.set(member.characterId, {
       mainDps: buildConfigOverrides(teammates, false),
       nonMainDps: buildConfigOverrides(teammates, true),
-    }]
-  }))
+    })
+  }
+
+  return variants
 }
 
 export function resolveTeamBenchmarkOverrides(
   slots: TeamSlots,
-  variants: TeamBenchmarkOverrideVariants,
+  variants: BenchmarkOverridesByCharacter,
 ): (SimulationMetadataOverrides | undefined)[] {
   const normalizedSlots = normalizeTeamSlots(slots)
   if (!normalizedSlots.every((id) => id != null && variants.has(id))) {
@@ -154,7 +164,7 @@ export function areBenchmarkSnapshotsEqual(
 
 function buildBenchmarkMember(
   character: CharacterWithLightCone,
-  relicsById: Partial<Record<string, Relic>>,
+  relicsById: Partial<Record<RelicId, Relic>>,
 ): TeamShowcaseBenchmarkMember {
   return {
     characterId: character.id,
@@ -165,7 +175,7 @@ function buildBenchmarkMember(
   }
 }
 
-function resolveSnapshotMembers(
+function getValidSnapshotMembers(
   snapshot: TeamShowcaseBenchmarkSnapshot | undefined,
 ): TeamShowcaseBenchmarkMember[] | undefined {
   if (!snapshot || snapshot.members.length !== TEAM_SIZE) return undefined

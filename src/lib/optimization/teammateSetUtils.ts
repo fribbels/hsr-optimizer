@@ -9,7 +9,10 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import type { Relic } from 'types/relic'
+import type {
+  Relic,
+  RelicId,
+} from 'types/relic'
 
 // Messenger is excluded because equipment alone cannot prove its ultimate activation.
 const TEAMMATE_RELIC_SETS: readonly SetName[] = [
@@ -40,7 +43,7 @@ export interface ActiveTeammateSets {
 /** Finds the supported team buffs supplied by a character's currently equipped sets. */
 export function calculateTeammateSets(
   teammateCharacter: Character,
-  relicsById: Partial<Record<string, Relic>>,
+  relicsById: Partial<Record<RelicId, Relic>>,
 ): ActiveTeammateSets {
   const equippedSetCounts = countEquippedSets(teammateCharacter, relicsById)
   const relicSet = findEquippedSet(TEAMMATE_RELIC_SETS, equippedSetCounts, 4)
@@ -54,7 +57,7 @@ export function calculateTeammateSets(
 
 function countEquippedSets(
   character: Character,
-  relicsById: Partial<Record<string, Relic>>,
+  relicsById: Partial<Record<RelicId, Relic>>,
 ): Map<SetName, number> {
   const counts = new Map<SetName, number>()
 

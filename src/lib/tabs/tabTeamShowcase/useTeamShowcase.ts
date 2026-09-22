@@ -28,7 +28,10 @@ import {
   type WorkingTeamState,
   useSavedTeams,
 } from 'lib/tabs/tabTeamShowcase/savedTeams/useSavedTeams'
-import type { TeamShowcaseState } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
+import type {
+  TeamShowcaseState,
+  TeamSlots,
+} from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
 import type { CharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import type { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import {
@@ -46,6 +49,20 @@ import type {
 import { useShallow } from 'zustand/react/shallow'
 
 const EMPTY_TEAM_SELECTIONS = {}
+
+function selectSlotCharacters(
+  slots: TeamSlots,
+  charactersById: Partial<Record<CharacterId, Character>>,
+): Partial<Record<CharacterId, Character>> {
+  const selected: Partial<Record<CharacterId, Character>> = {}
+  for (const id of slots) {
+    if (!id) continue
+    const character = charactersById[id]
+    if (character) selected[id] = character
+  }
+  return selected
+}
+
 /** Cards mount only once the tab has been shown, so background tabs don't run scoring. */
 function useHasActivated(): boolean {
   const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
@@ -67,22 +84,26 @@ export function useTeamShowcase(): TeamShowcaseState {
   const [workingTeam, setWorkingTeam] = useState<WorkingTeamState>(() => ({
     slots: normalizeTeamSlots([]),
   }))
-  const charactersById = useCharacterStore((s) => s.charactersById)
-  const relicsById = useRelicStore((s) => s.relicsById)
+  const selectedCharactersById = useCharacterStore(useShallow((state) =>
+    selectSlotCharacters(workingTeam.slots, state.charactersById)
+  ))
   const ownedCharacterIds = useCharacterStore(useShallow((s) => s.characters.map((character) => character.id)))
-  const slots = useMemo(() => sanitizeTeamSlots(workingTeam.slots, charactersById), [workingTeam.slots, charactersById])
+  const slots = useMemo(
+    () => sanitizeTeamSlots(workingTeam.slots, selectedCharactersById),
+    [workingTeam.slots, selectedCharactersById],
+  )
   const selectedCharacters = useMemo<(Character | null)[]>(
-    () => slots.map((id) => id ? charactersById[id] ?? null : null),
-    [slots, charactersById],
+    () => slots.map((id) => id ? selectedCharactersById[id] ?? null : null),
+    [slots, selectedCharactersById],
   )
 
   useEffect(() => {
     setWorkingTeam((current) => {
-      const sanitized = sanitizeTeamSlots(current.slots, charactersById)
+      const sanitized = sanitizeTeamSlots(current.slots, selectedCharactersById)
       if (areTeamSlotsEqual(current.slots, sanitized)) return current
       return { slots: sanitized }
     })
-  }, [charactersById])
+  }, [selectedCharactersById])
 
   const characters = useMemo(
     () => activated ? selectedCharacters : selectedCharacters.map(() => null),
@@ -105,6 +126,7 @@ export function useTeamShowcase(): TeamShowcaseState {
   })))
 
   const setSlot = useCallback((index: number, id: CharacterId | null) => {
+    const charactersById = useCharacterStore.getState().charactersById
     const selectedCharacter = id ? charactersById[id] : undefined
     const customTeammateIds = selectedCharacter
       ? resolveCustomAutofillTeammateIds(
@@ -127,7 +149,7 @@ export function useTeamShowcase(): TeamShowcaseState {
       if (areTeamSlotsEqual(currentSlots, filled)) return current
       return { slots: filled }
     })
-  }, [charactersById, ownedIds, teamPreferences])
+  }, [ownedIds, teamPreferences])
 
   /**
    * Writes every position at once. setSlot cannot express a rearrangement: it clears any other slot
@@ -197,7 +219,7 @@ export function useTeamShowcase(): TeamShowcaseState {
   const syncBenchmarkTeams = useCallback(() => {
     const result = captureTeamBenchmarkSnapshot(
       selectedCharacters,
-      relicsById,
+      useRelicStore.getState().relicsById,
     )
     if (result.status === TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE) {
       Message.error(tCharacters('Messages.NoSelectedLightCone'))
@@ -206,7 +228,7 @@ export function useTeamShowcase(): TeamShowcaseState {
     if (result.status !== TeamBenchmarkOverrideStatus.READY || !result.snapshot) return
 
     applyBenchmarkSnapshot(result.snapshot)
-  }, [applyBenchmarkSnapshot, relicsById, selectedCharacters, tCharacters])
+  }, [applyBenchmarkSnapshot, selectedCharacters, tCharacters])
 
   // ----- Screenshot -----
   const { activeAction: activeScreenshotAction, trigger } = useScreenshotAction(GRID_ELEMENT_ID, GRID_SIZE)

@@ -108,7 +108,11 @@ export function useSavedTeams(
   }, [])
 
   const applyBenchmarkSnapshot = useCallback((snapshot: TeamShowcaseBenchmarkSnapshot) => {
-    setWorkingTeam((current) => ({ ...current, benchmarkSnapshot: snapshot }))
+    setWorkingTeam((current) =>
+      areBenchmarkSnapshotsEqual(current.benchmarkSnapshot, snapshot)
+        ? current
+        : { ...current, benchmarkSnapshot: snapshot }
+    )
     if (!activeSavedTeamId) return
 
     writeSavedTeams(readSavedTeams().map((team) =>

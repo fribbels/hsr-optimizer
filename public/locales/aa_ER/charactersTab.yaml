@@ -101,13 +101,13 @@ CharacterPreview:
   ScoreHeader:
     CustomSpeed: 'crwdns47379:0{{spd}}crwdne47379:0'
     dps: crwdns47381:0crwdne47381:0
-    buffer: crwdns47383:0crwdne47383:0
+    buffer: crwdns47805:0crwdne47805:0
     heal: crwdns47385:0crwdne47385:0
     shield: crwdns47387:0crwdne47387:0
   AlgorithmSlider:
     Labels:
       dps: crwdns47389:0crwdne47389:0
-      buffer: crwdns47391:0crwdne47391:0
+      buffer: crwdns47807:0crwdne47807:0
       heal: crwdns47393:0crwdne47393:0
       shield: crwdns47395:0crwdne47395:0
       StatScore: crwdns47285:0crwdne47285:0
@@ -116,12 +116,12 @@ CharacterPreview:
     Labels:
       CombatStats: crwdns39696:0crwdne39696:0
       CombatStatsSubDps: crwdns47397:0crwdne47397:0
-      CombatStatsSupport: crwdns47399:0crwdne47399:0
+      CombatStatsBuffer: crwdns47809:0crwdne47809:0
       CombatStatsHeal: crwdns47401:0crwdne47401:0
       CombatStatsShield: crwdns47403:0crwdne47403:0
   ScoringExplanation:
     dps: crwdns47405:0crwdne47405:0
-    buffer: crwdns47407:0crwdne47407:0
+    buffer: crwdns47811:0crwdne47811:0
     heal: crwdns47409:0crwdne47409:0
     shield: crwdns47411:0crwdne47411:0
   DMGUpgrades: crwdns39700:0crwdne39700:0

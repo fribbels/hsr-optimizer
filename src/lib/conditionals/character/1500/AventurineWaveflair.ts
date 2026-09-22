@@ -551,7 +551,7 @@ const display = {
     y: 1011,
     z: 1.02,
   },
-  showcaseColor: '#bfc7ff',
+  showcaseColor: '#6195ff',
 }
 
 export const AventurineWaveflair: CharacterConfig = {

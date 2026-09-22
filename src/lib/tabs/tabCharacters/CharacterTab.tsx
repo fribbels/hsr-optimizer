@@ -1,6 +1,7 @@
 import { Tabs } from '@mantine/core'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
 import { CHARACTERS_TAB_WIDTH } from 'lib/constants/constantsUi'
+import { NestedTabVisibilityProvider } from 'lib/hooks/NestedTabVisibilityProvider'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
@@ -20,10 +21,14 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react'
+import type { ReactNode } from 'react'
 import type { CharacterId } from 'types/character'
+
+const CHARACTERS_TABS_ID = 'characters-panels'
 
 /** Two panels over one hash space, the same arrangement the Calculators tab uses. */
 export function CharacterTab() {
@@ -33,6 +38,8 @@ export function CharacterTab() {
   const { addActivationListener } = useContext(TabVisibilityContext)
   const savedCharacterId = useGlobalStore.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
   const lastSyncedFocusRef = useRef<CharacterId | undefined>(savedCharacterId)
+  const charactersPanel = useMemo(() => <CharactersPanelContent />, [])
+  const teamsPanel = useMemo(() => <TeamShowcaseTab />, [])
 
   const activatePanel = useCallback((panel: CharactersPanel) => {
     useCharacterTabStore.getState().setActivePanel(panel)
@@ -66,15 +73,37 @@ export function CharacterTab() {
   }
 
   return (
-    <Tabs w={CHARACTERS_TAB_WIDTH} value={activePanel} onChange={handleTabChange} variant='outline'>
+    <Tabs id={CHARACTERS_TABS_ID} w={CHARACTERS_TAB_WIDTH} value={activePanel} onChange={handleTabChange} variant='outline'>
       <CharactersPanelSwitch />
 
-      <Tabs.Panel value={CharactersPanel.CHARACTERS} pt={10}>
-        <CharactersPanelContent />
-      </Tabs.Panel>
-      <Tabs.Panel value={CharactersPanel.TEAMS} pt={10}>
-        {teamsMounted && <TeamShowcaseTab />}
-      </Tabs.Panel>
+      <CharacterPanel panel={CharactersPanel.CHARACTERS} activePanel={activePanel}>
+        {charactersPanel}
+      </CharacterPanel>
+      <CharacterPanel panel={CharactersPanel.TEAMS} activePanel={activePanel}>
+        {teamsMounted ? teamsPanel : null}
+      </CharacterPanel>
     </Tabs>
+  )
+}
+
+function CharacterPanel({ panel, activePanel, children }: {
+  panel: CharactersPanel,
+  activePanel: CharactersPanel,
+  children: ReactNode,
+}) {
+  const active = panel === activePanel
+
+  return (
+    <NestedTabVisibilityProvider active={active}>
+      <div
+        id={`${CHARACTERS_TABS_ID}-panel-${panel}`}
+        role='tabpanel'
+        aria-labelledby={`${CHARACTERS_TABS_ID}-tab-${panel}`}
+        hidden={!active}
+        style={{ paddingTop: 10 }}
+      >
+        {children}
+      </div>
+    </NestedTabVisibilityProvider>
   )
 }

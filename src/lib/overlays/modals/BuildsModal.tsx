@@ -33,6 +33,7 @@ import {
   AppPages,
 } from 'lib/tabs/navigation/constants'
 import { navigateTo } from 'lib/tabs/navigation/utils'
+import { CharactersPanel } from 'lib/tabs/tabCharacters/characterPanels'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import { HeaderText } from 'lib/ui/HeaderText'
@@ -149,6 +150,7 @@ function BuildsModalContent() {
 
       handleCancel()
       useCharacterTabStore.getState().setFocusCharacter(build.characterId)
+      useCharacterTabStore.getState().setActivePanel(CharactersPanel.CHARACTERS)
       navigateTo(AppPages.CHARACTERS)
     }
   }, [confirm, handleCancel, t])

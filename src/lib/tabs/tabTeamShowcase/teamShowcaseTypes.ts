@@ -27,6 +27,7 @@ export interface TeamShowcaseState {
   simulationMetadataOverrides: (SimulationMetadataOverrides | undefined)[]
   setSlotScoringType: (index: number, scoringType: ScoringType) => void
   canSyncBenchmarks: boolean
+  hasSyncedBenchmarks: boolean
   syncBenchmarkTeams: () => void
 
   savedTeams: TeamShowcaseSavedTeam[]

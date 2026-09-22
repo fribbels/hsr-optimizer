@@ -23,7 +23,7 @@ const PANEL_ICON: Record<CharactersPanel, ReactNode> = {
   [CharactersPanel.TEAMS]: <IconUsersGroup size={ICON_SIZE} />,
 }
 
-/** The Characters / Teams tab list; its parent owns the selected value and change handler. */
+/** The Character Builds / Team Showcase tab list; its parent owns selection and navigation. */
 export function CharactersPanelSwitch() {
   const { t } = useTranslation('teamShowcaseTab')
 

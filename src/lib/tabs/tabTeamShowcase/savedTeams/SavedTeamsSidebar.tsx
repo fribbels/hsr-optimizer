@@ -16,6 +16,7 @@ const ACTION_ICON_SIZE = 16
 export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
   hasTeam,
   canSyncBenchmarks,
+  hasSyncedBenchmarks,
   activeScreenshotAction,
   savedTeams,
   activeSavedTeamId,
@@ -30,6 +31,7 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
 }: {
   hasTeam: boolean,
   canSyncBenchmarks: boolean,
+  hasSyncedBenchmarks: boolean,
   activeScreenshotAction: ScreenshotAction | null,
   savedTeams: TeamShowcaseSavedTeam[],
   activeSavedTeamId: SavedTeamId | null,
@@ -50,6 +52,7 @@ export const SavedTeamsSidebar = memo(function SavedTeamsSidebar({
     <aside className={styles.panel}>
       <SavedTeamsActions
         canSyncBenchmarks={canSyncBenchmarks}
+        hasSyncedBenchmarks={hasSyncedBenchmarks}
         hasTeam={hasTeam}
         activeScreenshotAction={activeScreenshotAction}
         onSyncBenchmarks={syncBenchmarkTeams}

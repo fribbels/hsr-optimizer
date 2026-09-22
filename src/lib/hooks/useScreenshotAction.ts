@@ -20,9 +20,15 @@ export function useScreenshotAction(elementId: string, size?: ScreenshotSize) {
 
   useEffect(() => {
     mountedRef.current = true
+    setActiveAction(activeActionRef.current)
+
     return () => {
       mountedRef.current = false
-      if (timeoutRef.current != null) window.clearTimeout(timeoutRef.current)
+      if (timeoutRef.current == null) return
+
+      window.clearTimeout(timeoutRef.current)
+      timeoutRef.current = null
+      activeActionRef.current = null
     }
   }, [])
 

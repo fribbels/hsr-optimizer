@@ -9,13 +9,14 @@ import { useShowcaseTabStore } from 'lib/tabs/tabShowcase/useShowcaseTabStore'
 import {
   GRID_ELEMENT_ID,
   GRID_SIZE,
-  TEAM_SIZE,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
 import {
   areTeamSlotsEqual,
   autofillTeamSlots,
-  buildTeamBenchmarkOverrides,
+  buildTeamBenchmarkOverrideVariants,
+  captureTeamBenchmarkSnapshot,
   normalizeTeamSlots,
+  resolveTeamBenchmarkOverrides,
   sanitizeTeamSlots,
   TeamBenchmarkOverrideStatus,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
@@ -45,8 +46,6 @@ import type {
 import { useShallow } from 'zustand/react/shallow'
 
 const EMPTY_TEAM_SELECTIONS = {}
-const EMPTY_BENCHMARK_OVERRIDES: TeamShowcaseState['simulationMetadataOverrides'] = Array.from({ length: TEAM_SIZE })
-
 /** Cards mount only once the tab has been shown, so background tabs don't run scoring. */
 function useHasActivated(): boolean {
   const { isActiveRef, addActivationListener } = useContext(TabVisibilityContext)
@@ -67,7 +66,6 @@ export function useTeamShowcase(): TeamShowcaseState {
 
   const [workingTeam, setWorkingTeam] = useState<WorkingTeamState>(() => ({
     slots: normalizeTeamSlots([]),
-    benchmarkSyncEnabled: false,
   }))
   const charactersById = useCharacterStore((s) => s.charactersById)
   const relicsById = useRelicStore((s) => s.relicsById)
@@ -82,7 +80,7 @@ export function useTeamShowcase(): TeamShowcaseState {
     setWorkingTeam((current) => {
       const sanitized = sanitizeTeamSlots(current.slots, charactersById)
       if (areTeamSlotsEqual(current.slots, sanitized)) return current
-      return { slots: sanitized, benchmarkSyncEnabled: false }
+      return { slots: sanitized }
     })
   }, [charactersById])
 
@@ -123,11 +121,11 @@ export function useTeamShowcase(): TeamShowcaseState {
         return existing === id ? null : existing
       })
       const wasEmpty = currentSlots.every((existing) => existing == null)
-      const filled = id && wasEmpty
+      const filled = id && wasEmpty && index === 0
         ? autofillTeamSlots(next, id, ownedIds, customTeammateIds)
         : next
       if (areTeamSlotsEqual(currentSlots, filled)) return current
-      return { slots: filled, benchmarkSyncEnabled: false }
+      return { slots: filled }
     })
   }, [charactersById, ownedIds, teamPreferences])
 
@@ -146,8 +144,8 @@ export function useTeamShowcase(): TeamShowcaseState {
   const clearTeam = useCallback(() => {
     setWorkingTeam((current) => {
       const emptySlots = normalizeTeamSlots([])
-      if (!current.benchmarkSyncEnabled && areTeamSlotsEqual(current.slots, emptySlots)) return current
-      return { slots: emptySlots, benchmarkSyncEnabled: false }
+      if (!current.benchmarkSnapshot && areTeamSlotsEqual(current.slots, emptySlots)) return current
+      return { slots: emptySlots }
     })
   }, [])
 
@@ -174,14 +172,16 @@ export function useTeamShowcase(): TeamShowcaseState {
   }, [slots])
 
   // ----- Team-local benchmark overrides -----
+  const benchmarkOverrideVariants = useMemo(
+    () => buildTeamBenchmarkOverrideVariants(workingTeam.benchmarkSnapshot),
+    [workingTeam.benchmarkSnapshot],
+  )
   const simulationMetadataOverrides = useMemo(
-    () =>
-      workingTeam.benchmarkSyncEnabled
-        ? buildTeamBenchmarkOverrides(selectedCharacters, relicsById).overridesBySlot
-        : EMPTY_BENCHMARK_OVERRIDES,
-    [selectedCharacters, relicsById, workingTeam.benchmarkSyncEnabled],
+    () => resolveTeamBenchmarkOverrides(slots, benchmarkOverrideVariants),
+    [slots, benchmarkOverrideVariants],
   )
   const canSyncBenchmarks = selectedCharacters.every((character) => character != null)
+  const hasSyncedBenchmarks = workingTeam.benchmarkSnapshot != null
 
   const {
     savedTeams,
@@ -191,22 +191,22 @@ export function useTeamShowcase(): TeamShowcaseState {
     deleteSavedTeam,
     renameSavedTeam,
     moveSavedTeam,
-    markBenchmarksSynced,
-  } = useSavedTeams(slots, workingTeam.benchmarkSyncEnabled, setWorkingTeam)
+    applyBenchmarkSnapshot,
+  } = useSavedTeams(slots, workingTeam.benchmarkSnapshot, setWorkingTeam)
 
   const syncBenchmarkTeams = useCallback(() => {
-    const validation = buildTeamBenchmarkOverrides(
+    const result = captureTeamBenchmarkSnapshot(
       selectedCharacters,
       relicsById,
     )
-    if (validation.status === TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE) {
+    if (result.status === TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE) {
       Message.error(tCharacters('Messages.NoSelectedLightCone'))
       return
     }
-    if (validation.status !== TeamBenchmarkOverrideStatus.READY) return
+    if (result.status !== TeamBenchmarkOverrideStatus.READY || !result.snapshot) return
 
-    markBenchmarksSynced()
-  }, [markBenchmarksSynced, relicsById, selectedCharacters, tCharacters])
+    applyBenchmarkSnapshot(result.snapshot)
+  }, [applyBenchmarkSnapshot, relicsById, selectedCharacters, tCharacters])
 
   // ----- Screenshot -----
   const { activeAction: activeScreenshotAction, trigger } = useScreenshotAction(GRID_ELEMENT_ID, GRID_SIZE)
@@ -229,6 +229,7 @@ export function useTeamShowcase(): TeamShowcaseState {
     simulationMetadataOverrides,
     setSlotScoringType,
     canSyncBenchmarks,
+    hasSyncedBenchmarks,
     syncBenchmarkTeams,
     savedTeams,
     activeSavedTeamId,

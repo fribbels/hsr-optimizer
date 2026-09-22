@@ -1,4 +1,3 @@
-import { Sparkle } from 'lib/conditionals/character/1300/Sparkle'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import {
   SACERDOS_RELIVED_ORDEAL_1_STACK,
@@ -32,11 +31,6 @@ const TEAMMATE_ORNAMENT_SETS: readonly SetName[] = [
   Sets.AmphoreusTheEternalLand,
   Sets.CityOfConvergingStars,
 ]
-
-const SACERDOS_TWO_STACK_CHARACTERS: ReadonlySet<CharacterId> = new Set([
-  Sunday.id,
-  Sparkle.id,
-])
 
 export interface ActiveTeammateSets {
   teamRelicSet?: string
@@ -84,7 +78,7 @@ function findEquippedSet(
 
 function resolveTeammateRelicSet(characterId: CharacterId, relicSet: SetName | undefined): string | undefined {
   if (relicSet !== Sets.SacerdosRelivedOrdeal) return relicSet
-  return SACERDOS_TWO_STACK_CHARACTERS.has(characterId)
+  return characterId === Sunday.id
     ? SACERDOS_RELIVED_ORDEAL_2_STACK
     : SACERDOS_RELIVED_ORDEAL_1_STACK
 }

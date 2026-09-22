@@ -153,6 +153,7 @@ export function resolveShowcaseScoringData(params: ShowcaseScoringDataParams): R
         : undefined
       configMetadata[configType] = applySimulationMetadataOverrides(
         character.id,
+        configType,
         meta,
         slotOverride,
         injectedOverride,
@@ -176,6 +177,7 @@ export function resolveShowcaseScoringData(params: ShowcaseScoringDataParams): R
 
 function applySimulationMetadataOverrides(
   characterId: CharacterId,
+  configType: ScoringConfigType,
   metadata: SimulationMetadata,
   slotOverride: SimulationMetadataOverride | undefined,
   injectedOverride: SimulationMetadataOverride | undefined,
@@ -186,6 +188,9 @@ function applySimulationMetadataOverrides(
 
   if (deprioritizeBuffs != null) {
     return { ...resolved, deprioritizeBuffs }
+  }
+  if (!SCORING_CONFIG_REGISTRY[configType].supportsDeprioritizeBuffs) {
+    return resolved
   }
 
   return {

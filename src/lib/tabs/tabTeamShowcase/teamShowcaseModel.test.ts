@@ -5,7 +5,9 @@ import {
 import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import {
   autofillTeamSlots,
-  buildTeamBenchmarkOverrides,
+  buildTeamBenchmarkOverrideVariants,
+  captureTeamBenchmarkSnapshot,
+  resolveTeamBenchmarkOverrides,
   sanitizeTeamSlots,
   TeamBenchmarkOverrideStatus,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
@@ -83,7 +85,7 @@ describe('teamShowcaseModel', () => {
     expect(slots).toEqual([A, B, C, D])
   })
 
-  it('builds every focal card from the other three live characters in grid order', () => {
+  it('builds every focal card from the other three captured characters', () => {
     const bEquipped: Character['equipped'] = {
       [Parts.Head]: 'b-head',
       [Parts.Hands]: 'b-hands',
@@ -107,11 +109,13 @@ describe('teamShowcaseModel', () => {
       'b-rope': makeRelic('b-rope', Sets.BrokenKeel),
     }
 
-    const result = buildTeamBenchmarkOverrides(characters, relicsById)
+    const result = captureTeamBenchmarkSnapshot(characters, relicsById)
+    const variants = buildTeamBenchmarkOverrideVariants(result.snapshot)
+    const overridesBySlot = resolveTeamBenchmarkOverrides([A, B, C, D], variants)
 
     expect(result.status).toBe(TeamBenchmarkOverrideStatus.READY)
     for (const configType of CONFIG_DISPLAY_ORDER) {
-      const teammates = result.overridesBySlot[0]?.[configType]?.teammates
+      const teammates = overridesBySlot[0]?.[configType]?.teammates
       expect(teammates?.map((teammate) => teammate.characterId)).toEqual([B, C, D])
       expect(teammates?.[0]).toEqual(expect.objectContaining({
         lightCone: '20001',
@@ -121,7 +125,70 @@ describe('teamShowcaseModel', () => {
         teamOrnamentSet: Sets.BrokenKeel,
       }))
     }
-    expect(result.overridesBySlot[1]?.[ScoringConfigType.DPS]?.teammates?.map((teammate) => teammate.characterId)).toEqual([A, C, D])
+    expect(overridesBySlot[1]?.[ScoringConfigType.DPS]?.teammates?.map((teammate) => teammate.characterId)).toEqual([A, C, D])
+    expect(overridesBySlot[0]?.[ScoringConfigType.DPS]?.deprioritizeBuffs).toBe(false)
+    expect(overridesBySlot[1]?.[ScoringConfigType.DPS]?.deprioritizeBuffs).toBe(true)
+    expect(overridesBySlot[0]?.[ScoringConfigType.BUFFER]?.deprioritizeBuffs).toBeUndefined()
+  })
+
+  it('keeps captured equipment while applying main DPS priority to the current first slot', () => {
+    const characterB = makeCharacter(B, '20001' as LightConeId, {}, 2, 3)
+    const characters = [
+      makeCharacter(A, '20000' as LightConeId),
+      characterB,
+      makeCharacter(C, '20002' as LightConeId),
+      makeCharacter(D, '20003' as LightConeId),
+    ]
+    const result = captureTeamBenchmarkSnapshot(characters, {})
+
+    characterB.form.lightConeSuperimposition = 5
+    const variants = buildTeamBenchmarkOverrideVariants(result.snapshot)
+    const overridesBySlot = resolveTeamBenchmarkOverrides([B, A, C, D], variants)
+
+    expect(overridesBySlot[0]?.[ScoringConfigType.DPS]?.deprioritizeBuffs).toBe(false)
+    expect(overridesBySlot[1]?.[ScoringConfigType.DPS]?.deprioritizeBuffs).toBe(true)
+    expect(overridesBySlot[1]?.[ScoringConfigType.DPS]?.teammates?.[0]).toEqual(expect.objectContaining({
+      characterId: B,
+      lightConeSuperimposition: 3,
+    }))
+  })
+
+  it('preserves each character override when only non-main slots are reordered', () => {
+    const characters = [
+      makeCharacter(A, '20000' as LightConeId),
+      makeCharacter(B, '20001' as LightConeId),
+      makeCharacter(C, '20002' as LightConeId),
+      makeCharacter(D, '20003' as LightConeId),
+    ]
+    const result = captureTeamBenchmarkSnapshot(characters, {})
+    const variants = buildTeamBenchmarkOverrideVariants(result.snapshot)
+
+    const before = resolveTeamBenchmarkOverrides([A, B, C, D], variants)
+    const after = resolveTeamBenchmarkOverrides([A, C, D, B], variants)
+
+    expect(after[0]).toBe(before[0])
+    expect(after[1]).toBe(before[2])
+    expect(after[2]).toBe(before[3])
+    expect(after[3]).toBe(before[1])
+  })
+
+  it('changes only the old and new main DPS overrides when slot one changes', () => {
+    const characters = [
+      makeCharacter(A, '20000' as LightConeId),
+      makeCharacter(B, '20001' as LightConeId),
+      makeCharacter(C, '20002' as LightConeId),
+      makeCharacter(D, '20003' as LightConeId),
+    ]
+    const result = captureTeamBenchmarkSnapshot(characters, {})
+    const variants = buildTeamBenchmarkOverrideVariants(result.snapshot)
+
+    const before = resolveTeamBenchmarkOverrides([A, B, C, D], variants)
+    const after = resolveTeamBenchmarkOverrides([B, A, C, D], variants)
+
+    expect(after[0]).not.toBe(before[1])
+    expect(after[1]).not.toBe(before[0])
+    expect(after[2]).toBe(before[2])
+    expect(after[3]).toBe(before[3])
   })
 
   it('fails the entire override when any selected character has no light cone', () => {
@@ -132,9 +199,9 @@ describe('teamShowcaseModel', () => {
       makeCharacter(D, '20003' as LightConeId),
     ]
 
-    const result = buildTeamBenchmarkOverrides(characters, {})
+    const result = captureTeamBenchmarkSnapshot(characters, {})
 
     expect(result.status).toBe(TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE)
-    expect(result.overridesBySlot.every((override) => override == null)).toBe(true)
+    expect(result.snapshot).toBeUndefined()
   })
 })

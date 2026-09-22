@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
-import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
 import { resolveShowcaseScoringData } from 'lib/characterPreview/showcaseDerivedData'
+import { KafkaB1 } from 'lib/conditionals/character/1000/KafkaB1'
+import { Luocha } from 'lib/conditionals/character/1200/Luocha'
 import {
   CUSTOM_TEAM,
   DEFAULT_TEAM,
@@ -25,6 +26,11 @@ const character: Character = {
   id: KafkaB1.id,
   equipped: {},
   form: getDefaultForm({ id: KafkaB1.id }),
+}
+const healer: Character = {
+  id: Luocha.id,
+  equipped: {},
+  form: getDefaultForm({ id: Luocha.id }),
 }
 
 beforeEach(() => {
@@ -74,6 +80,31 @@ describe('resolveShowcaseScoringData overrides', () => {
 
     expect(result.configMetadata[ScoringConfigType.DPS]?.teammates).toEqual(injectedTeammates)
     expect(result.configMetadata[ScoringConfigType.DPS]?.deprioritizeBuffs).toBe(true)
+  })
+
+  it('derives an absent injected priority from the injected team', () => {
+    const result = resolveShowcaseScoringData({
+      character,
+      teamSelections: { [ScoringConfigType.DPS]: DEFAULT_TEAM },
+      storedScoringType: undefined,
+      simulationMetadataOverride: { teammates: [] },
+      overrideConfigType: ScoringConfigType.DPS,
+    })
+
+    expect(result.configMetadata[ScoringConfigType.DPS]?.deprioritizeBuffs).toBe(false)
+  })
+
+  it('preserves healing isolation when a team override replaces the teammates', () => {
+    const result = resolveShowcaseScoringData({
+      character: healer,
+      teamSelections: { [ScoringConfigType.HEAL]: DEFAULT_TEAM },
+      storedScoringType: undefined,
+      simulationMetadataOverrides: {
+        [ScoringConfigType.HEAL]: { teammates: [] },
+      },
+    })
+
+    expect(result.configMetadata[ScoringConfigType.HEAL]?.deprioritizeBuffs).toBe(true)
   })
 })
 

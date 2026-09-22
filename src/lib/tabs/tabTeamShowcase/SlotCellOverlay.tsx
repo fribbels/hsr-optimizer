@@ -2,6 +2,7 @@ import { Button } from '@mantine/core'
 import {
   IconArrowsMove,
   IconChartBar,
+  IconCrown,
   IconPlus,
   IconTrash,
   IconUser,
@@ -73,7 +74,10 @@ export function SlotCellOverlay({
     if (!revealed) return
     const handlePointerDown = (event: Event) => {
       const cell = cellRef.current
-      if (cell && event.target instanceof Node && !cell.contains(event.target)) concealSlot(index)
+      const target = event.target
+      if (!(target instanceof Node)) return
+      if (target instanceof Element && target.closest('[data-combobox-option]')) return
+      if (cell && !cell.contains(target)) concealSlot(index)
     }
     document.addEventListener(POINTER_DOWN_EVENT, handlePointerDown)
     return () => document.removeEventListener(POINTER_DOWN_EVENT, handlePointerDown)
@@ -82,17 +86,29 @@ export function SlotCellOverlay({
   const openPicker = () => setPickerSlot(index)
 
   if (!filled) {
+    const isMainDpsSlot = index === 0
+    const addCharacterLabel = t(isMainDpsSlot ? 'Buttons.AddMainDps' : 'Buttons.AddCharacter')
+
     return (
       <button
         type='button'
         className={styles.emptyCellTarget}
-        aria-label={t('Buttons.AddCharacter')}
+        aria-label={addCharacterLabel}
         onClick={openPicker}
       >
-        <span className={styles.emptyCellIcon}>
-          <IconPlus size={ADD_ICON_SIZE} />
+        <span className={`${styles.emptyCellIcon} ${isMainDpsSlot ? styles.mainDpsEmptyCellIcon : ''}`}>
+          <svg
+            className={styles.emptyCellIconRing}
+            viewBox='0 0 60 60'
+            aria-hidden='true'
+          >
+            <circle cx='30' cy='30' r='28.5' />
+          </svg>
+          {isMainDpsSlot
+            ? <IconCrown size={ADD_ICON_SIZE} />
+            : <IconPlus size={ADD_ICON_SIZE} />}
         </span>
-        <span className={styles.emptyCellLabel}>{t('Buttons.AddCharacter')}</span>
+        <span className={styles.emptyCellLabel}>{addCharacterLabel}</span>
       </button>
     )
   }

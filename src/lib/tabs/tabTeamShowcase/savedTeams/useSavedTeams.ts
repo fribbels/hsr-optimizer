@@ -4,7 +4,10 @@ import {
   readSavedTeams,
   writeSavedTeams,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseController'
-import { areTeamSlotsEqual } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
+import {
+  areBenchmarkSnapshotsEqual,
+  areTeamSlotsEqual,
+} from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
 import type { TeamSlots } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
 import { uuid } from 'lib/utils/miscUtils'
 import {
@@ -12,33 +15,41 @@ import {
   type SetStateAction,
   useCallback,
   useMemo,
+  useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import type {
   SavedTeamId,
+  TeamShowcaseBenchmarkSnapshot,
   TeamShowcaseSavedTeam,
 } from 'types/store'
 
 export interface WorkingTeamState {
   slots: TeamSlots
-  benchmarkSyncEnabled: boolean
+  benchmarkSnapshot?: TeamShowcaseBenchmarkSnapshot
 }
 
 export function useSavedTeams(
   slots: TeamSlots,
-  benchmarkSyncEnabled: boolean,
+  benchmarkSnapshot: TeamShowcaseBenchmarkSnapshot | undefined,
   setWorkingTeam: Dispatch<SetStateAction<WorkingTeamState>>,
 ) {
   const { t } = useTranslation('teamShowcaseTab')
   const savedTeams = useGlobalStore((state) => state.savedSession.teamShowcaseSavedTeams)
+  const [selectedSavedTeamId, setSelectedSavedTeamId] = useState<SavedTeamId | null>(null)
 
-  const activeSavedTeamId = useMemo(
-    () => savedTeams.find((team) =>
+  const matchingSavedTeams = useMemo(
+    () => savedTeams.filter((team) =>
       areTeamSlotsEqual(team.characterIds, slots)
-      && Boolean(team.benchmarkSyncEnabled) === benchmarkSyncEnabled
-    )?.id ?? null,
-    [benchmarkSyncEnabled, savedTeams, slots],
+      && areBenchmarkSnapshotsEqual(team.benchmarkSnapshot, benchmarkSnapshot)
+    ),
+    [benchmarkSnapshot, savedTeams, slots],
   )
+  const activeSavedTeamId = useMemo(() => {
+    const selectedTeam = matchingSavedTeams.find((team) => team.id === selectedSavedTeamId)
+    if (selectedTeam) return selectedTeam.id
+    return matchingSavedTeams.length === 1 ? matchingSavedTeams[0].id : null
+  }, [matchingSavedTeams, selectedSavedTeamId])
 
   const saveCurrentTeam = useCallback(() => {
     if (slots.every((id) => id == null)) return
@@ -48,23 +59,29 @@ export function useSavedTeams(
       id: uuid(),
       name: t('SavedTeams.DefaultName', { index: teams.length + 1 }),
       characterIds: slots,
-      benchmarkSyncEnabled,
+      benchmarkSnapshot,
     }
     writeSavedTeams([...teams, team])
-  }, [benchmarkSyncEnabled, slots, t])
+    setSelectedSavedTeamId(team.id)
+  }, [benchmarkSnapshot, slots, t])
 
   const loadSavedTeam = useCallback((id: SavedTeamId) => {
     const team = readSavedTeams().find((candidate) => candidate.id === id)
     if (!team) return
 
+    const loadedSlots = loadSavedTeamSlots(team.characterIds)
+    setSelectedSavedTeamId(team.id)
     setWorkingTeam({
-      slots: loadSavedTeamSlots(team.characterIds),
-      benchmarkSyncEnabled: Boolean(team.benchmarkSyncEnabled),
+      slots: loadedSlots,
+      benchmarkSnapshot: areTeamSlotsEqual(loadedSlots, team.characterIds)
+        ? team.benchmarkSnapshot
+        : undefined,
     })
   }, [setWorkingTeam])
 
   const deleteSavedTeam = useCallback((id: SavedTeamId) => {
     writeSavedTeams(readSavedTeams().filter((team) => team.id !== id))
+    setSelectedSavedTeamId((selectedId) => selectedId === id ? null : selectedId)
   }, [])
 
   const moveSavedTeam = useCallback((from: number, to: number) => {
@@ -90,13 +107,13 @@ export function useSavedTeams(
     writeSavedTeams(next)
   }, [])
 
-  const markBenchmarksSynced = useCallback(() => {
-    setWorkingTeam((current) => ({ ...current, benchmarkSyncEnabled: true }))
+  const applyBenchmarkSnapshot = useCallback((snapshot: TeamShowcaseBenchmarkSnapshot) => {
+    setWorkingTeam((current) => ({ ...current, benchmarkSnapshot: snapshot }))
     if (!activeSavedTeamId) return
 
     writeSavedTeams(readSavedTeams().map((team) =>
       team.id === activeSavedTeamId
-        ? { ...team, benchmarkSyncEnabled: true }
+        ? { ...team, benchmarkSnapshot: snapshot }
         : team
     ))
   }, [activeSavedTeamId, setWorkingTeam])
@@ -109,7 +126,7 @@ export function useSavedTeams(
     deleteSavedTeam,
     renameSavedTeam,
     moveSavedTeam,
-    markBenchmarksSynced,
+    applyBenchmarkSnapshot,
   }
 }
 

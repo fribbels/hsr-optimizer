@@ -8024,6 +8024,7 @@ interface Resources {
     "Benchmark": "Benchmark",
     "Buttons": {
       "AddCharacter": "Add character",
+      "AddMainDps": "Add Main DPS",
       "ChangeCharacter": "Change character",
       "Clear": "Clear characters",
       "CopyScreenshot": "Copy screenshot",

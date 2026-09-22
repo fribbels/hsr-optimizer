@@ -14,7 +14,11 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import type { TeamShowcaseSavedTeam } from 'types/store'
+import type { LightConeId } from 'types/lightCone'
+import type {
+  TeamShowcaseBenchmarkSnapshot,
+  TeamShowcaseSavedTeam,
+} from 'types/store'
 import {
   afterEach,
   beforeEach,
@@ -27,6 +31,14 @@ import {
 // Safe test fixture: this deliberately represents a character removed from the owned roster.
 const REMOVED_CHARACTER_ID = '9999' as CharacterId
 const SAVED_TEAM_ID = 'saved-team-1'
+const BENCHMARK_SNAPSHOT: TeamShowcaseBenchmarkSnapshot = {
+  members: [{
+    characterId: Kafka.id,
+    characterEidolon: 0,
+    lightCone: '20001' as LightConeId,
+    lightConeSuperimposition: 1,
+  }],
+}
 
 Metadata.initialize()
 
@@ -93,7 +105,7 @@ describe('teamShowcaseController', () => {
       id: SAVED_TEAM_ID,
       name: 'Team 1',
       characterIds: [Kafka.id, null, null, null],
-      benchmarkSyncEnabled: false,
+      benchmarkSnapshot: BENCHMARK_SNAPSHOT,
     }
 
     writeSavedTeams([team])
@@ -104,18 +116,17 @@ describe('teamShowcaseController', () => {
     expect(useGlobalStore.getState().savedSession).toBe(savedSession)
   })
 
-  it('persists a saved-team sync flag change', () => {
+  it('persists a saved-team benchmark snapshot change', () => {
     const team: TeamShowcaseSavedTeam = {
       id: SAVED_TEAM_ID,
       name: 'Team 1',
       characterIds: [Kafka.id, null, null, null],
-      benchmarkSyncEnabled: false,
     }
 
     writeSavedTeams([team])
-    writeSavedTeams([{ ...team, benchmarkSyncEnabled: true }])
+    writeSavedTeams([{ ...team, benchmarkSnapshot: BENCHMARK_SNAPSHOT }])
 
     expect(SaveState.delayedSave).toHaveBeenCalledTimes(2)
-    expect(useGlobalStore.getState().savedSession.teamShowcaseSavedTeams[0].benchmarkSyncEnabled).toBe(true)
+    expect(useGlobalStore.getState().savedSession.teamShowcaseSavedTeams[0].benchmarkSnapshot).toEqual(BENCHMARK_SNAPSHOT)
   })
 })

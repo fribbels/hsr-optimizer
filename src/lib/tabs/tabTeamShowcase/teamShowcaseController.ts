@@ -6,6 +6,7 @@ import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
 import {
+  areBenchmarkSnapshotsEqual,
   areTeamSlotsEqual,
   normalizeTeamSlots,
   sanitizeTeamSlots,
@@ -70,6 +71,6 @@ function areSavedTeamsEqual(a: TeamShowcaseSavedTeam[], b: TeamShowcaseSavedTeam
     return team.id === other.id
       && team.name === other.name
       && areTeamSlotsEqual(team.characterIds, other.characterIds)
-      && Boolean(team.benchmarkSyncEnabled) === Boolean(other.benchmarkSyncEnabled)
+      && areBenchmarkSnapshotsEqual(team.benchmarkSnapshot, other.benchmarkSnapshot)
   })
 }

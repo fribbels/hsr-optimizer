@@ -22,6 +22,7 @@ export function TeamShowcaseLayout({ state }: { state: TeamShowcaseState }) {
     activeSavedTeamId,
     saveCurrentTeam,
     canSyncBenchmarks,
+    hasSyncedBenchmarks,
     syncBenchmarkTeams,
     clearTeam,
     screenshot,
@@ -38,6 +39,7 @@ export function TeamShowcaseLayout({ state }: { state: TeamShowcaseState }) {
         <SavedTeamsSidebar
           hasTeam={hasTeam}
           canSyncBenchmarks={canSyncBenchmarks}
+          hasSyncedBenchmarks={hasSyncedBenchmarks}
           activeScreenshotAction={activeScreenshotAction}
           savedTeams={savedTeams}
           activeSavedTeamId={activeSavedTeamId}

@@ -1,6 +1,12 @@
-import type { SimulationMetadataOverrides } from 'lib/characterPreview/characterPreviewTypes'
+import type {
+  SimulationMetadataOverride,
+  SimulationMetadataOverrides,
+} from 'lib/characterPreview/characterPreviewTypes'
 import { calculateTeammateSets } from 'lib/optimization/teammateSetUtils'
-import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
+import {
+  CONFIG_DISPLAY_ORDER,
+  SCORING_CONFIG_REGISTRY,
+} from 'lib/scoring/scoringConfig'
 import { TEAM_SIZE } from 'lib/tabs/tabTeamShowcase/teamShowcaseConstants'
 import type { TeamSlots } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
 import type {
@@ -8,8 +14,11 @@ import type {
   CharacterId,
 } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
-import type { SimulationMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
+import type {
+  TeamShowcaseBenchmarkMember,
+  TeamShowcaseBenchmarkSnapshot,
+} from 'types/store'
 
 export enum TeamBenchmarkOverrideStatus {
   INCOMPLETE = 'incomplete',
@@ -17,16 +26,21 @@ export enum TeamBenchmarkOverrideStatus {
   READY = 'ready',
 }
 
-export interface TeamBenchmarkOverrideResult {
+export interface TeamBenchmarkSnapshotResult {
   status: TeamBenchmarkOverrideStatus
-  overridesBySlot: (SimulationMetadataOverrides | undefined)[]
+  snapshot?: TeamShowcaseBenchmarkSnapshot
 }
+
+export type TeamBenchmarkOverrideVariants = ReadonlyMap<CharacterId, {
+  mainDps: SimulationMetadataOverrides
+  nonMainDps: SimulationMetadataOverrides
+}>
+
+const EMPTY_BENCHMARK_OVERRIDES: (SimulationMetadataOverrides | undefined)[] = Array.from({ length: TEAM_SIZE })
 
 type CharacterWithLightCone = Character & {
   form: Character['form'] & { lightCone: LightConeId },
 }
-type BenchmarkTeammate = SimulationMetadata['teammates'][number]
-
 function isCharacter(character: Character | null): character is Character {
   return character != null
 }
@@ -75,43 +89,73 @@ export function autofillTeamSlots(
   return filled
 }
 
-export function buildTeamBenchmarkOverrides(
+export function captureTeamBenchmarkSnapshot(
   characters: (Character | null)[],
   relicsById: Partial<Record<string, Relic>>,
-): TeamBenchmarkOverrideResult {
+): TeamBenchmarkSnapshotResult {
   if (characters.length !== TEAM_SIZE || !characters.every(isCharacter)) {
-    return emptyBenchmarkOverrideResult(TeamBenchmarkOverrideStatus.INCOMPLETE)
+    return { status: TeamBenchmarkOverrideStatus.INCOMPLETE }
   }
 
   const completeCharacters = characters
   if (!completeCharacters.every(hasLightCone)) {
-    return emptyBenchmarkOverrideResult(TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE)
+    return { status: TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE }
   }
-
-  const benchmarkTeammates = completeCharacters.map((character) =>
-    buildBenchmarkTeammate(character, relicsById)
-  )
-  const overridesBySlot = benchmarkTeammates.map((_, focalIndex) =>
-    buildConfigOverrides(benchmarkTeammates.filter((__, index) => index !== focalIndex))
-  )
 
   return {
     status: TeamBenchmarkOverrideStatus.READY,
-    overridesBySlot,
+    snapshot: {
+      members: completeCharacters.map((character) => buildBenchmarkMember(character, relicsById)),
+    },
   }
 }
 
-function emptyBenchmarkOverrideResult(status: TeamBenchmarkOverrideStatus): TeamBenchmarkOverrideResult {
-  return {
-    status,
-    overridesBySlot: Array.from({ length: TEAM_SIZE }),
-  }
+export function buildTeamBenchmarkOverrideVariants(
+  snapshot: TeamShowcaseBenchmarkSnapshot | undefined,
+): TeamBenchmarkOverrideVariants {
+  const members = resolveSnapshotMembers(snapshot)
+  if (!members) return new Map()
+
+  return new Map(members.map((member) => {
+    const teammates = members.filter((teammate) => teammate.characterId !== member.characterId)
+    return [member.characterId, {
+      mainDps: buildConfigOverrides(teammates, false),
+      nonMainDps: buildConfigOverrides(teammates, true),
+    }]
+  }))
 }
 
-function buildBenchmarkTeammate(
+export function resolveTeamBenchmarkOverrides(
+  slots: TeamSlots,
+  variants: TeamBenchmarkOverrideVariants,
+): (SimulationMetadataOverrides | undefined)[] {
+  const normalizedSlots = normalizeTeamSlots(slots)
+  if (!normalizedSlots.every((id) => id != null && variants.has(id))) {
+    return EMPTY_BENCHMARK_OVERRIDES
+  }
+
+  return normalizedSlots.map((id, index) => {
+    if (!id) return undefined
+    const characterVariants = variants.get(id)
+    if (!characterVariants) return undefined
+    return index === 0 ? characterVariants.mainDps : characterVariants.nonMainDps
+  })
+}
+
+export function areBenchmarkSnapshotsEqual(
+  a: TeamShowcaseBenchmarkSnapshot | undefined,
+  b: TeamShowcaseBenchmarkSnapshot | undefined,
+): boolean {
+  if (!a || !b) return a === b
+  if (a.members.length !== b.members.length) return false
+
+  return a.members.every((member, index) => areBenchmarkMembersEqual(member, b.members[index]))
+}
+
+function buildBenchmarkMember(
   character: CharacterWithLightCone,
   relicsById: Partial<Record<string, Relic>>,
-): BenchmarkTeammate {
+): TeamShowcaseBenchmarkMember {
   return {
     characterId: character.id,
     lightCone: character.form.lightCone,
@@ -121,10 +165,39 @@ function buildBenchmarkTeammate(
   }
 }
 
-function buildConfigOverrides(teammates: BenchmarkTeammate[]): SimulationMetadataOverrides {
+function resolveSnapshotMembers(
+  snapshot: TeamShowcaseBenchmarkSnapshot | undefined,
+): TeamShowcaseBenchmarkMember[] | undefined {
+  if (!snapshot || snapshot.members.length !== TEAM_SIZE) return undefined
+
+  const memberIds = new Set(snapshot.members.map((member) => member.characterId))
+  return memberIds.size === TEAM_SIZE ? snapshot.members : undefined
+}
+
+function buildConfigOverrides(
+  teammates: TeamShowcaseBenchmarkMember[],
+  deprioritizeBuffs: boolean,
+): SimulationMetadataOverrides {
   const overrides: SimulationMetadataOverrides = {}
   for (const configType of CONFIG_DISPLAY_ORDER) {
-    overrides[configType] = { teammates }
+    const override: SimulationMetadataOverride = { teammates }
+    if (SCORING_CONFIG_REGISTRY[configType].supportsDeprioritizeBuffs) {
+      override.deprioritizeBuffs = deprioritizeBuffs
+    }
+    overrides[configType] = override
   }
   return overrides
+}
+
+function areBenchmarkMembersEqual(
+  a: TeamShowcaseBenchmarkMember,
+  b: TeamShowcaseBenchmarkMember | undefined,
+): boolean {
+  return b != null
+    && a.characterId === b.characterId
+    && a.characterEidolon === b.characterEidolon
+    && a.lightCone === b.lightCone
+    && a.lightConeSuperimposition === b.lightConeSuperimposition
+    && a.teamRelicSet === b.teamRelicSet
+    && a.teamOrnamentSet === b.teamOrnamentSet
 }

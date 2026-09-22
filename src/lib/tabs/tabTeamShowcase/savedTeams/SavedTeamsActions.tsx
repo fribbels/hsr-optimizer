@@ -1,6 +1,7 @@
 import { Button } from '@mantine/core'
 import {
   IconCamera,
+  IconCheck,
   IconDownload,
   IconRefresh,
   IconTrash,
@@ -13,6 +14,7 @@ const ACTION_ICON_SIZE = 16
 
 export function SavedTeamsActions({
   canSyncBenchmarks,
+  hasSyncedBenchmarks,
   hasTeam,
   activeScreenshotAction,
   onSyncBenchmarks,
@@ -20,6 +22,7 @@ export function SavedTeamsActions({
   onScreenshot,
 }: {
   canSyncBenchmarks: boolean,
+  hasSyncedBenchmarks: boolean,
   hasTeam: boolean,
   activeScreenshotAction: ScreenshotAction | null,
   onSyncBenchmarks: () => void,
@@ -62,7 +65,9 @@ export function SavedTeamsActions({
           fullWidth
           size='sm'
           variant='default'
-          leftSection={<IconRefresh size={ACTION_ICON_SIZE} />}
+          leftSection={hasSyncedBenchmarks
+            ? <IconCheck size={ACTION_ICON_SIZE} />
+            : <IconRefresh size={ACTION_ICON_SIZE} />}
           disabled={!canSyncBenchmarks || screenshotPending}
           onClick={onSyncBenchmarks}
         >

@@ -7,11 +7,11 @@ import {
   hashToCharactersPanel,
   pushCharactersHash,
   replaceCharactersHash,
-  resolveCharactersPanel,
   toCharactersPanel,
 } from 'lib/tabs/tabCharacters/characterPanels'
 import { CharactersPanelContent } from 'lib/tabs/tabCharacters/CharactersPanelContent'
 import { CharactersPanelSwitch } from 'lib/tabs/tabCharacters/CharactersPanelSwitch'
+import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import { TeamShowcaseTab } from 'lib/tabs/tabTeamShowcase/TeamShowcaseTab'
 import {
   useCallback,
@@ -22,13 +22,13 @@ import {
 
 /** Two panels over one hash space, the same arrangement the Calculators tab uses. */
 export function CharacterTab() {
-  const [activePanel, setActivePanel] = useState<CharactersPanel>(resolveCharactersPanel)
+  const activePanel = useCharacterTabStore((state) => state.activePanel)
   /** The team cards are expensive, so Teams only mounts once visited and then stays mounted. */
   const [teamsMounted, setTeamsMounted] = useState(() => activePanel === CharactersPanel.TEAMS)
   const { addActivationListener } = useContext(TabVisibilityContext)
 
   const activatePanel = useCallback((panel: CharactersPanel) => {
-    setActivePanel(panel)
+    useCharacterTabStore.getState().setActivePanel(panel)
     if (panel === CharactersPanel.TEAMS) setTeamsMounted(true)
   }, [])
 
@@ -41,9 +41,9 @@ export function CharacterTab() {
 
   useEffect(() => {
     return addActivationListener(() => {
-      replaceCharactersHash(activePanel)
+      replaceCharactersHash(useCharacterTabStore.getState().activePanel)
     })
-  }, [addActivationListener, activePanel])
+  }, [addActivationListener])
 
   function handleTabChange(value: string | null) {
     const panel = toCharactersPanel(value)

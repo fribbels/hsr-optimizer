@@ -1,0 +1,17 @@
+.root {
+  width: fit-content;
+}
+
+.columns {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+}
+
+.gridMat {
+  flex-shrink: 0;
+  padding: 8px;
+  background-color: var(--layer-inset);
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+}

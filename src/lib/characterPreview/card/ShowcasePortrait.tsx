@@ -105,7 +105,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
 
   const hasCustomPortrait = !!(character.portrait ?? customPortrait)
   const hasSpineData = getSkeletonCount(character.id) != null
-  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D && source !== ShowcaseSource.LEADERBOARD
+  const useSpine = hasSpineData && !disableSpine && !spineFallback && !hasCustomPortrait && showcaseL2D && source !== ShowcaseSource.LEADERBOARD && source !== ShowcaseSource.TEAM
 
   const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
 
@@ -158,7 +158,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
         )}
 
       <div className={styles.buttonColumn} style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
-        {source !== ShowcaseSource.BUILDS_MODAL && source !== ShowcaseSource.LEADERBOARD && (
+        {source !== ShowcaseSource.BUILDS_MODAL && source !== ShowcaseSource.LEADERBOARD && source !== ShowcaseSource.TEAM && (
           <>
             <Button
               style={showcaseButtonStyle}

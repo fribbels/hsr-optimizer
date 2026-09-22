@@ -1,136 +1,109 @@
-import {
-  Flex,
-  SegmentedControl,
-} from '@mantine/core'
-import { CharacterPreview } from 'lib/characterPreview/CharacterPreview'
-import { ShowcaseSource } from 'lib/characterPreview/CharacterPreviewComponents'
+import { Tabs } from '@mantine/core'
 import { SavedSessionKeys } from 'lib/constants/constantsSession'
+import { CHARACTERS_TAB_WIDTH } from 'lib/constants/constantsUi'
+import { NestedTabVisibilityProvider } from 'lib/hooks/NestedTabVisibilityProvider'
 import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
-import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
-import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
-import { useCharacterStore } from 'lib/stores/character/characterStore'
 import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
-import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
+import { useHashNavigation } from 'lib/tabs/navigation/useHashNavigation'
 import {
-  type CharacterGridDensity,
-  characterGridPresets,
-  precomputedCssVars,
-} from 'lib/tabs/tabCharacters/characterGridPresets'
-import { CharacterMenu } from 'lib/tabs/tabCharacters/CharacterMenu'
-import { CharacterTabController } from 'lib/tabs/tabCharacters/characterTabController'
-import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
+  CharactersPanel,
+  hashToCharactersPanel,
+  pushCharactersHash,
+  replaceCharactersHash,
+  toCharactersPanel,
+} from 'lib/tabs/tabCharacters/characterPanels'
+import { CharactersPanelContent } from 'lib/tabs/tabCharacters/CharactersPanelContent'
+import { CharactersPanelSwitch } from 'lib/tabs/tabCharacters/CharactersPanelSwitch'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
+import { TeamShowcaseTab } from 'lib/tabs/tabTeamShowcase/TeamShowcaseTab'
 import {
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react'
-import type {
-  Character,
-  CharacterId,
-} from 'types/character'
+import type { ReactNode } from 'react'
+import type { CharacterId } from 'types/character'
 
-import {
-  cardTotalW,
-  defaultGap,
-  parentH,
-} from 'lib/constants/constantsUi'
-import { useTranslation } from 'react-i18next'
+const CHARACTERS_TABS_ID = 'characters-panels'
 
-const densityValues = ['default', 'compact'] as const
-
+/** Two panels over one hash space, the same arrangement the Calculators tab uses. */
 export function CharacterTab() {
-  // Only sync when optimizer focus changed — otherwise tab revisits stomp the user's selection.
-  // Initialize to saved session character so session restore doesn't trigger a sync on first visit.
+  const activePanel = useCharacterTabStore((state) => state.activePanel)
+  /** The team cards are expensive, so Teams only mounts once visited and then stays mounted. */
+  const [teamsMounted, setTeamsMounted] = useState(() => activePanel === CharactersPanel.TEAMS)
   const { addActivationListener } = useContext(TabVisibilityContext)
-  const savedSessionCharacterId = useGlobalStore.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
-  const lastSyncedFocusRef = useRef<CharacterId | undefined>(savedSessionCharacterId)
+  const savedCharacterId = useGlobalStore.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
+  const lastSyncedFocusRef = useRef<CharacterId | undefined>(savedCharacterId)
+  const charactersPanel = useMemo(() => <CharactersPanelContent />, [])
+  const teamsPanel = useMemo(() => <TeamShowcaseTab />, [])
+
+  const activatePanel = useCallback((panel: CharactersPanel) => {
+    useCharacterTabStore.getState().setActivePanel(panel)
+    if (panel === CharactersPanel.TEAMS) setTeamsMounted(true)
+  }, [])
+
+  const updateActivePanel = useCallback((hash: string) => {
+    const panel = hashToCharactersPanel(hash)
+    if (panel) activatePanel(panel)
+  }, [activatePanel])
+
+  useHashNavigation(updateActivePanel)
+
   useEffect(() => {
     return addActivationListener(() => {
-      const id = useOptimizerDisplayStore.getState().focusCharacterId
-      if (!id) return
-      if (id === lastSyncedFocusRef.current) return
-      lastSyncedFocusRef.current = id
-      useCharacterTabStore.getState().setFocusCharacter(id)
+      replaceCharactersHash(useCharacterTabStore.getState().activePanel)
+
+      const optimizerFocus = useOptimizerDisplayStore.getState().focusCharacterId
+      if (!optimizerFocus || optimizerFocus === lastSyncedFocusRef.current) return
+
+      lastSyncedFocusRef.current = optimizerFocus
+      useCharacterTabStore.getState().setFocusCharacter(optimizerFocus)
     })
   }, [addActivationListener])
 
-  const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
-  const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
-
-  const density = useGlobalStore((s) => s.savedSession.characterGridDensity)
-  const preset = characterGridPresets[density]
-  const gridCssVars = precomputedCssVars[density]
-
-  const onDensityChange = useCallback((value: string) => {
-    if (!(value in characterGridPresets)) return
-    useGlobalStore.getState().setSavedSessionKey(SavedSessionKeys.characterGridDensity, value as CharacterGridDensity)
-    SaveState.delayedSave()
-  }, [])
-
-  const setOriginalCharacterModalInitialCharacter = useCallback((character: Character | null) => {
-    useCharacterModalStore.getState().openOverlay({
-      initialCharacter: character,
-      onOk: CharacterTabController.onCharacterModalOk,
-    })
-  }, [])
-
-  const setOriginalCharacterModalOpen = useCallback((open: boolean) => {
-    if (!open) {
-      useCharacterModalStore.getState().closeOverlay()
-    }
-  }, [])
-
-  const { t } = useTranslation('charactersTab', { keyPrefix: 'GridDensityOptions' })
-
-  const densityOptions = useMemo(() => densityValues.map((x) => ({ value: x, label: t(x) })), [t])
+  function handleTabChange(value: string | null) {
+    const panel = toCharactersPanel(value)
+    if (!panel || panel === activePanel) return
+    activatePanel(panel)
+    pushCharactersHash(panel)
+  }
 
   return (
-    <Flex
-      style={{
-        height: '100%',
-        marginBottom: 200,
-        width: 1593,
-      }}
-      gap={defaultGap}
-    >
-      <Flex direction='column' gap={defaultGap}>
-        <CharacterMenu />
+    <Tabs id={CHARACTERS_TABS_ID} w={CHARACTERS_TAB_WIDTH} value={activePanel} onChange={handleTabChange} variant='outline'>
+      <CharactersPanelSwitch />
 
-        <Flex direction='column' gap={defaultGap} miw={preset.listWidth}>
-          <div
-            id='characterGrid'
-            style={{
-              width: '100%',
-              height: parentH,
-              ...gridCssVars,
-            }}
-          >
-            <CharacterGrid />
-          </div>
-          <SegmentedControl
-            data={densityOptions}
-            value={density}
-            onChange={onDensityChange}
-            fullWidth
-          />
-        </Flex>
-      </Flex>
+      <CharacterPanel panel={CharactersPanel.CHARACTERS} activePanel={activePanel}>
+        {charactersPanel}
+      </CharacterPanel>
+      <CharacterPanel panel={CharactersPanel.TEAMS} activePanel={activePanel}>
+        {teamsMounted ? teamsPanel : null}
+      </CharacterPanel>
+    </Tabs>
+  )
+}
 
-      <Flex direction='column' gap={defaultGap} w={cardTotalW}>
-        <FilterBar />
+function CharacterPanel({ panel, activePanel, children }: {
+  panel: CharactersPanel,
+  activePanel: CharactersPanel,
+  children: ReactNode,
+}) {
+  const active = panel === activePanel
 
-        <CharacterPreview
-          id='characterTabPreview'
-          source={ShowcaseSource.CHARACTER_TAB}
-          character={selectedCharacter}
-          setOriginalCharacterModalOpen={setOriginalCharacterModalOpen}
-          setOriginalCharacterModalInitialCharacter={setOriginalCharacterModalInitialCharacter}
-        />
-      </Flex>
-    </Flex>
+  return (
+    <NestedTabVisibilityProvider active={active}>
+      <div
+        id={`${CHARACTERS_TABS_ID}-panel-${panel}`}
+        role='tabpanel'
+        aria-labelledby={`${CHARACTERS_TABS_ID}-tab-${panel}`}
+        hidden={!active}
+        style={{ paddingTop: 10 }}
+      >
+        {children}
+      </div>
+    </NestedTabVisibilityProvider>
   )
 }

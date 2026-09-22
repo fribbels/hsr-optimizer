@@ -8020,6 +8020,34 @@ export default interface Resources {
       "WarpPlanner": "Warp Planner"
     }
   },
+  "teamShowcaseTab": {
+    "Benchmark": "Benchmark",
+    "Buttons": {
+      "AddCharacter": "Add character",
+      "AddMainDps": "Add Main DPS",
+      "ChangeCharacter": "Change character",
+      "Clear": "Clear characters",
+      "CopyScreenshot": "Copy screenshot",
+      "DownloadScreenshot": "Download screenshot",
+      "Remove": "Remove",
+      "SyncBenchmarkTeams": "Sync benchmark teams"
+    },
+    "CardOptions": "Card options, drag to reorder",
+    "Panels": {
+      "Characters": "Character Builds",
+      "Controls": "Controls",
+      "Teams": "Team Showcase"
+    },
+    "SavedTeams": {
+      "DefaultName": "Team {{index}}",
+      "Delete": "Delete team",
+      "Empty": "No saved teams yet",
+      "Header": "Gallery",
+      "Rename": "Rename",
+      "Save": "Save team"
+    },
+    "ScreenshotName": "Team"
+  },
   "warpCalculatorTab": {
     "ColumnTitles": {
       "Average": "Average # of <1/> required",

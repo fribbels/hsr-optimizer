@@ -27,9 +27,15 @@ const CONTROL_ICON_SIZE = 16
 const HANDLE_ICON_SIZE = 44
 const CHANGE_CHARACTER_BUTTON_HEIGHT = 54
 const CONTROL_SIZE = 'md'
+const SCORING_DROPDOWN_CLASS_NAME = 'team-showcase-scoring-dropdown'
+const SCORING_DROPDOWN_SELECTOR = `.${SCORING_DROPDOWN_CLASS_NAME}`
 
 const ART_BUTTON_CLASS_NAMES = { root: styles.artButton }
-const ART_SELECT_CLASS_NAMES = { input: `${styles.artInput} ${styles.scoringInput}`, section: styles.artSection }
+const ART_SELECT_CLASS_NAMES = {
+  input: `${styles.artInput} ${styles.scoringInput}`,
+  section: styles.artSection,
+  dropdown: SCORING_DROPDOWN_CLASS_NAME,
+}
 
 /** A click with no pointer behind it, i.e. keyboard activation, reports zero clicks */
 const KEYBOARD_CLICK_DETAIL = 0
@@ -76,7 +82,7 @@ export function SlotCellOverlay({
       const cell = cellRef.current
       const target = event.target
       if (!(target instanceof Node)) return
-      if (target instanceof Element && target.closest('[data-combobox-option]')) return
+      if (target instanceof Element && target.closest(SCORING_DROPDOWN_SELECTOR)) return
       if (cell && !cell.contains(target)) concealSlot(index)
     }
     document.addEventListener(POINTER_DOWN_EVENT, handlePointerDown)
@@ -174,11 +180,12 @@ export function SlotCellOverlay({
                 aria-label={t('Benchmark')}
                 leftSection={(
                   <span className={styles.scoringSelectedValue}>
-                    <IconChartBar className={styles.scoringSelectedIcon} size={CONTROL_ICON_SIZE} />
-                    <span className={styles.scoringSelectedLabel}>{selectedScoringLabel}</span>
+                    <IconChartBar size={CONTROL_ICON_SIZE} />
+                    <span>{selectedScoringLabel}</span>
                   </span>
                 )}
                 leftSectionWidth='100%'
+                leftSectionPointerEvents='none'
                 leftSectionProps={{ className: styles.scoringSelectedSection }}
                 scoring={scoring}
                 onChange={onScoringChange}

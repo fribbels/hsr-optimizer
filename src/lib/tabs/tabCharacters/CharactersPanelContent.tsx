@@ -11,12 +11,10 @@ import {
   defaultGap,
   parentH,
 } from 'lib/constants/constantsUi'
-import { TabVisibilityContext } from 'lib/hooks/useTabVisibility'
 import { useCharacterModalStore } from 'lib/overlays/modals/characterModalStore'
 import { SaveState } from 'lib/state/saveState'
 import { useGlobalStore } from 'lib/stores/app/appStore'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
-import { useOptimizerDisplayStore } from 'lib/stores/optimizerUI/useOptimizerDisplayStore'
 import { CharacterGrid } from 'lib/tabs/tabCharacters/CharacterGrid'
 import {
   type CharacterGridDensity,
@@ -29,15 +27,9 @@ import { FilterBar } from 'lib/tabs/tabCharacters/FilterBar'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
 import {
   useCallback,
-  useContext,
-  useEffect,
   useMemo,
-  useRef,
 } from 'react'
-import type {
-  Character,
-  CharacterId,
-} from 'types/character'
+import type { Character } from 'types/character'
 import { useTranslation } from 'react-i18next'
 
 const DENSITY_VALUES = ['default', 'compact'] as const
@@ -47,21 +39,6 @@ function isCharacterGridDensity(value: string): value is CharacterGridDensity {
 }
 
 export function CharactersPanelContent() {
-  // Only sync when optimizer focus changed — otherwise tab revisits stomp the user's selection.
-  // Initialize to saved session character so session restore doesn't trigger a sync on first visit.
-  const { addActivationListener } = useContext(TabVisibilityContext)
-  const savedSessionCharacterId = useGlobalStore.getState().savedSession[SavedSessionKeys.optimizerCharacterId]
-  const lastSyncedFocusRef = useRef<CharacterId | undefined>(savedSessionCharacterId)
-  useEffect(() => {
-    return addActivationListener(() => {
-      const id = useOptimizerDisplayStore.getState().focusCharacterId
-      if (!id) return
-      if (id === lastSyncedFocusRef.current) return
-      lastSyncedFocusRef.current = id
-      useCharacterTabStore.getState().setFocusCharacter(id)
-    })
-  }, [addActivationListener])
-
   const focusCharacter = useCharacterTabStore((s) => s.focusCharacter)
   const selectedCharacter = useCharacterStore((s) => focusCharacter ? s.charactersById[focusCharacter] : null) ?? null
 

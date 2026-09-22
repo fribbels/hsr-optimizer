@@ -158,6 +158,7 @@
 .scoringSelectedSection {
   width: 100%;
   padding-inline: var(--input-padding-inline-end);
+  pointer-events: none;
 }
 
 .scoringSelectedValue {
@@ -170,12 +171,12 @@
   color: var(--text-primary);
 }
 
-.scoringSelectedIcon {
+.scoringSelectedValue svg {
   flex: 0 0 auto;
   color: rgba(255, 255, 255, 0.72);
 }
 
-.scoringSelectedLabel {
+.scoringSelectedValue span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

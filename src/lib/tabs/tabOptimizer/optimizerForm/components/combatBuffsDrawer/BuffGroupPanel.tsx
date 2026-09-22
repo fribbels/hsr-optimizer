@@ -65,7 +65,62 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
     collisionPriority: CollisionPriority.Low,
   })
   return (
-    <Group
+    <>
+      <Stack
+        style={{ borderColor: hovered ? 'green' : 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
+        ref={sortableRef}
+      >
+        <Group>
+          <TextInput
+            flex={1}
+            value={group.name}
+            onChange={(e) => renameBuff(id, e.currentTarget.value)}
+            placeholder='name this group?'
+          />
+          <Group gap='2'>
+            <ActionIcon aria-label='Copy group' size={30} onClick={copyClicked}>
+              <IconCopy />
+            </ActionIcon>
+            <ActionIcon aria-label='Delete group' onClick={remove} size={30}>
+              <IconTrashFilled />
+            </ActionIcon>
+          </Group>
+        </Group>
+        <Group>
+          <Box
+            onClick={toggle}
+            style={{
+              alignSelf: 'stretch',
+              display: 'flex',
+              cursor: 'pointer',
+            }}
+          >
+            <Group gap='xs'>
+              <DragHandle
+                ref={handleRef}
+                onClick={toggle}
+              />
+              <Checkbox
+                checked={checked}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  toggleSelection(id)
+                }}
+              />
+            </Group>
+          </Box>
+          <BuffGroupContent
+            group={group}
+            isOpen={isOpen || hovered}
+            t={t}
+            renameBuff={renameBuff}
+            removeBuff={removeBuff}
+            toggleSelection={toggleSelection}
+          />
+        </Group>
+      </Stack>
+      {
+        /* <Group
       gap='xs'
       justify='space-between'
       style={{ borderColor: hovered ? 'green' : 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
@@ -97,7 +152,7 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
         <TextInput value={group.name} onChange={(e) => renameBuff(id, e.currentTarget.value)} placeholder='name this group?' />
         <BuffGroupContent
           group={group}
-          isOpen={true || isOpen || hovered}
+          isOpen={isOpen || hovered}
           t={t}
           renameBuff={renameBuff}
           removeBuff={removeBuff}
@@ -112,7 +167,9 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
           <IconTrashFilled />
         </ActionIcon>
       </Stack>
-    </Group>
+    </Group>*/
+      }
+    </>
   )
 })
 
@@ -138,60 +195,79 @@ function BuffGroupContent({
   const [previewRef, previewRect] = useResizeObserver()
   const [panelsRef, panelsRect] = useResizeObserver()
 
-  const preview = (
-    <BuffGroupPreview
-      group={group}
-    />
+  const borderStyle = { borderStyle: 'dashed', borderColor: '#afafaf', borderWidth: 2 }
+  const textStyle = { alignItems: 'center', justifyContent: 'center' }
+
+  const preview = group.buffs.length
+    ? (
+      <BuffGroupPreview
+        group={group}
+      />
+    )
+    : (
+      <Stack style={{ ...borderStyle, ...textStyle }}>
+        drop buffs here
+      </Stack>
+    )
+
+  const emptyPanelFallback = (
+    <Stack style={{ ...borderStyle, minHeight: 75, ...textStyle }}>
+      drop buffs here
+    </Stack>
   )
 
   // avoid double registration of the sortable elements
-  const measurementPanels = (
-    <Stack gap={optimizerTabDefaultGap}>
-      {group.buffs.map((buff, idx) => {
-        return (
-          <BuffPanel
-            key={buff.id}
-            id={buff.id}
-            t={t}
-            renameBuff={renameBuff}
-            removeBuff={removeBuff}
-            buff={buff}
-            toggleSelection={toggleSelection}
-            checked={!buff.disabled}
-            index={idx}
-            group={group.id}
-            noSort
-          />
-        )
-      })}
-    </Stack>
-  )
+  const measurementPanels = group.buffs.length
+    ? (
+      <Stack gap={optimizerTabDefaultGap}>
+        {group.buffs.map((buff, idx) => {
+          return (
+            <BuffPanel
+              key={buff.id}
+              id={buff.id}
+              t={t}
+              renameBuff={renameBuff}
+              removeBuff={removeBuff}
+              buff={buff}
+              toggleSelection={toggleSelection}
+              checked={!buff.disabled}
+              index={idx}
+              group={group.id}
+              noSort
+            />
+          )
+        })}
+      </Stack>
+    )
+    : emptyPanelFallback
 
-  const panels = (
-    <Stack gap={optimizerTabDefaultGap}>
-      {group.buffs.map((buff, idx) => {
-        return (
-          <BuffPanel
-            key={buff.id}
-            id={buff.id}
-            t={t}
-            renameBuff={renameBuff}
-            removeBuff={removeBuff}
-            buff={buff}
-            toggleSelection={toggleSelection}
-            checked={!buff.disabled}
-            index={idx}
-            group={group.id}
-          />
-        )
-      })}
-    </Stack>
-  )
+  const panels = group.buffs.length
+    ? (
+      <Stack gap={optimizerTabDefaultGap}>
+        {group.buffs.map((buff, idx) => {
+          return (
+            <BuffPanel
+              key={buff.id}
+              id={buff.id}
+              t={t}
+              renameBuff={renameBuff}
+              removeBuff={removeBuff}
+              buff={buff}
+              toggleSelection={toggleSelection}
+              checked={!buff.disabled}
+              index={idx}
+              group={group.id}
+            />
+          )
+        })}
+      </Stack>
+    )
+    : emptyPanelFallback
 
   const height = isOpen ? panelsRect.height : previewRect.height
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', width: 300 }}>
       {/* Invisible measurement layer */}
       <div
         aria-hidden
@@ -232,6 +308,7 @@ function BuffGroupContent({
             opacity: isOpen ? 1 : 0,
             pointerEvents: isOpen ? 'auto' : 'none',
             transition: opacityTransition,
+            width: '100%',
           }}
         >
           {panels}

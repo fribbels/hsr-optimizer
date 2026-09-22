@@ -36,8 +36,10 @@ import { loadBuffFromClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/compo
 import { uuid } from 'lib/utils/miscUtils'
 import {
   memo,
+  useRef,
   useState,
 } from 'react'
+import { flushSync } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 import {
   type CombatBuff,
@@ -97,6 +99,9 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
     updateCombatBuffs: s.updateCombatBuffs,
   })))
 
+  const sourceParentRef = useRef<Element | null>(null)
+  const snapshot = useRef(structuredClone(combatBuffs))
+
   return (
     <Stack gap={defaultGap}>
       <Group>
@@ -130,47 +135,88 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
         <DragDropProvider
           sensors={(d) => [...d, sensor]}
           modifiers={(d) => [...d, RestrictToVerticalAxis]}
-          onDragOver={(e) => {}}
+          onDragStart={(event) => {
+            snapshot.current = structuredClone(combatBuffs)
+            sourceParentRef.current = event.operation.source?.element?.parentElement ?? null
+          }}
           onDragEnd={(e) => {
-            setHoveredGroup(null)
-            const { source } = e.operation
-            if (!isSortable(source)) return
-            const { initialGroup, initialIndex, group, index } = source
-            if (initialGroup === group && initialIndex === index) return
-            if (initialGroup === group) {
-              if (group === 'root') {
-                setCombatBuffs(move(combatBuffs, e))
+            /**
+             * NOTE: Workaround for issues with "OptimisticSortingPlugin" mutating
+             * the raw DOM, and causing React errors on re-render. We reset the
+             * source to its pre-drag parent before updating the state, and use
+             * "flushSync" to hide the sneaky DOM change.
+             */
+            const sourceElement = e.operation.source?.element
+            const prevParent = sourceParentRef.current
+            sourceParentRef.current = null
+            if (
+              sourceElement
+              && prevParent
+              && sourceElement.parentElement !== prevParent
+            ) {
+              prevParent.appendChild(sourceElement)
+            }
+            if (e.canceled) {
+              setCombatBuffs(snapshot.current)
+              return
+            }
+            flushSync(() => {
+              setHoveredGroup(null)
+              const { source } = e.operation
+              if (!isSortable(source)) return
+              const { initialGroup, initialIndex, group, index } = source
+              if (initialGroup === group && initialIndex === index) return
+              if (initialGroup === group) {
+                if (group === 'root') {
+                  setCombatBuffs(move(combatBuffs, e))
+                } else {
+                  const buffGroup = combatBuffs.find((b): b is CombatBuffGroup => {
+                    return b.id === group && b.type === CombatBuffType.Group
+                  })
+                  if (!buffGroup) return
+                  const newOrder = move(buffGroup.buffs, e)
+                  const newGroup = { ...buffGroup, buffs: newOrder }
+                  updateCombatBuffs(newGroup)
+                }
               } else {
-                const buffGroup = combatBuffs.find((b): b is CombatBuffGroup => {
+                const fromGroup = combatBuffs.find((b): b is CombatBuffGroup => {
+                  return b.id === initialGroup && b.type === CombatBuffType.Group
+                })
+                const toGroup = combatBuffs.find((b): b is CombatBuffGroup => {
                   return b.id === group && b.type === CombatBuffType.Group
                 })
-                if (!buffGroup) return
-                const newOrder = move(buffGroup.buffs, e)
-                const newGroup = { ...buffGroup, buffs: newOrder }
-                updateCombatBuffs(newGroup)
+                if (fromGroup && toGroup) {
+                  const fromBuffs = [...fromGroup.buffs]
+                  const toBuffs = [...toGroup.buffs]
+
+                  const [removed] = fromBuffs.splice(initialIndex, 1)
+                  toBuffs.splice(index, 0, removed)
+
+                  const newFrom = { ...fromGroup, buffs: fromBuffs }
+                  const newTo = { ...toGroup, buffs: toBuffs }
+
+                  updateCombatBuffs(newFrom, newTo)
+                } else if (fromGroup && (group === 'root')) {
+                  const fromBuffs = [...fromGroup.buffs]
+                  const toBuffs = [...combatBuffs]
+
+                  const [removed] = fromBuffs.splice(initialIndex, 1)
+                  toBuffs.splice(index, 0, removed)
+
+                  const newFrom = { ...fromGroup, buffs: fromBuffs }
+                  setCombatBuffs(toBuffs.map((b) => b.id === newFrom.id ? newFrom : b))
+                } else if (toGroup && (initialGroup === 'root')) {
+                  const fromBuffs = [...combatBuffs]
+                  const toBuffs = [...toGroup.buffs]
+
+                  const [removed] = fromBuffs.splice(initialIndex, 1)
+                  toBuffs.splice(index, 0, removed as CombatBuff)
+
+                  const newTo = { ...toGroup, buffs: toBuffs }
+                  setCombatBuffs(fromBuffs.map((b) => b.id === newTo.id ? newTo : b))
+                }
               }
-            } else {
-              const fromGroup = combatBuffs.find((b): b is CombatBuffGroup => {
-                return b.id === initialGroup && b.type === CombatBuffType.Group
-              })
-              const toGroup = combatBuffs.find((b): b is CombatBuffGroup => {
-                return b.id === group && b.type === CombatBuffType.Group
-              })
-              if (fromGroup && toGroup) {
-                const fromBuffs = [...fromGroup.buffs]
-                const toBuffs = [...toGroup.buffs]
-
-                const [removed] = fromBuffs.splice(initialIndex, 1)
-                toBuffs.splice(index, 0, removed)
-
-                const newFrom = { ...fromGroup, buffs: fromBuffs }
-                const newTo = { ...toGroup, buffs: toBuffs }
-
-                updateCombatBuffs(newFrom, newTo)
-              } else if (fromGroup && (group === 'root')) {
-              } else if (toGroup && (initialGroup === 'root')) {
-              }
-            }
+            })
           }}
         >
           <Stack gap={defaultGap} ref={ref}>

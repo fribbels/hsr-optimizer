@@ -19,12 +19,12 @@ export function ElementTagSelect({
 
   const renderPills = useCallback(({ value }: { value?: ElementTag }) => {
     if (!value) return null
-    return renderDamageTagPill(value, t, true)
+    return renderElementTagPill(value, t, true)
   }, [t])
 
   const renderOptions = useCallback(({ option: { value }, checked }: { option: { value: ElementTag }, checked?: boolean }) => {
     if (!value) return null
-    return renderDamageTagPill(value, t, checked)
+    return renderElementTagPill(value, t, checked)
   }, [t])
   return (
     <PillMultiSelect
@@ -57,7 +57,7 @@ export namespace ElementTagSelect {
   }
 }
 
-export function renderDamageTagPill(tag: ElementTag, t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>, active?: boolean) {
+export function renderElementTagPill(tag: ElementTag, t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>, active?: boolean) {
   const label = ElementTag[tag]
   const colour = '#fafa'
   if (!colour) return null

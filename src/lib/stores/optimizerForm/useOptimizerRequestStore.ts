@@ -145,7 +145,16 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
         }),
       }))
     } else {
-      set((state) => ({ combatBuffs: [...state.combatBuffs, buff] }))
+      if (buff.type === CombatBuffType.Group) {
+        set((state) => {
+          const lastGroupIdx = state.combatBuffs.findLastIndex((b) => b.type === CombatBuffType.Group)
+          const idx = lastGroupIdx === -1 ? 0 : lastGroupIdx
+          const combatBuffs = state.combatBuffs.toSpliced(idx, 0, buff)
+          return { combatBuffs }
+        })
+      } else {
+        set((state) => ({ combatBuffs: [...state.combatBuffs, buff] }))
+      }
     }
     SaveState.delayedSave()
   },

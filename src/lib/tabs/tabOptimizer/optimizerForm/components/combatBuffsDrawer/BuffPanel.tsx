@@ -23,6 +23,7 @@ import {
   Children,
   memo,
   type PropsWithChildren,
+  type ReactNode,
   useCallback,
   useMemo,
 } from 'react'
@@ -32,6 +33,7 @@ import {
   type CombatStatBuff,
 } from 'types/form'
 import { DragHandle } from './DragHandle'
+import { renderElementTagPill } from './ElementTagSelect'
 
 interface BuffPanelContentProps {
   id: string
@@ -72,10 +74,21 @@ export const BuffPanel = memo(function BuffPanel({
     disabled: noSort,
   })
 
+  const actionGroup = (
+    <Group gap={2}>
+      <ActionIcon aria-label='Copy buff' size={30} onClick={() => writeBuffToClipboard(buff)}>
+        <IconCopy />
+      </ActionIcon>
+      <ActionIcon aria-label='Delete buff' onClick={remove} size={30}>
+        <IconTrashFilled />
+      </ActionIcon>
+    </Group>
+  )
+
   const panelContent = useMemo(() => {
     switch (buff.type) {
       case CombatBuffType.StatBuff:
-        return <StatBuffPanelContent id={id} buff={buff} renameBuff={renameBuff} t={t} />
+        return <StatBuffPanelContent id={id} buff={buff} renameBuff={renameBuff} t={t} actionGroup={actionGroup} />
       case CombatBuffType.ActionModifier:
         return <></>
     }
@@ -99,20 +112,13 @@ export const BuffPanel = memo(function BuffPanel({
         <Checkbox mt={7} checked={checked} onClick={() => toggleSelection(id)} />
       </Box>
       {panelContent}
-      <Group gap={2}>
-        <ActionIcon aria-label='Copy buff' size={30} onClick={() => writeBuffToClipboard(buff)}>
-          <IconCopy />
-        </ActionIcon>
-        <ActionIcon aria-label='Delete buff' onClick={remove} size={30}>
-          <IconTrashFilled />
-        </ActionIcon>
-      </Group>
     </Group>
   )
 })
 
 interface StatBuffPanelContentProps extends BuffPanelContentProps {
   buff: CombatStatBuff
+  actionGroup: ReactNode
 }
 
 function StatBuffPanelContent({
@@ -120,18 +126,27 @@ function StatBuffPanelContent({
   buff,
   renameBuff,
   t,
+  actionGroup,
 }: StatBuffPanelContentProps) {
   const { label, flat } = getAKeyConfig(buff.statKey)
   const statLabel = labelToString(label)
   // TODO: refine visuals
   return (
     <Stack flex={1}>
-      <Group>
-        <span>{statLabel}</span>
-        <span>{`${buff.value}${flat ? '' : '%'}`}</span>
+      <Group justify='space-between'>
+        <Group ml={5} gap={5}>
+          <span>{statLabel}:</span>
+          <span>{`${buff.value}${flat ? '' : '%'}`}</span>
+        </Group>
+        {actionGroup}
+      </Group>
+      <Group gap={4}>
         {renderTargetTagPill(buff.targetTag, t, true)}
         <TagContainer>
           {buff.damageTags.map((tag) => renderDamageTagPill(tag, t, true))}
+        </TagContainer>
+        <TagContainer>
+          {buff.elementTags.map((tag) => renderElementTagPill(tag, t, true))}
         </TagContainer>
       </Group>
     </Stack>

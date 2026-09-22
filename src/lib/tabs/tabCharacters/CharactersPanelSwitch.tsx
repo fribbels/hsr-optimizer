@@ -16,7 +16,7 @@ const ICON_SIZE = 16
 const PANEL_LABEL_KEY = {
   [CharactersPanel.CHARACTERS]: 'Panels.Characters',
   [CharactersPanel.TEAMS]: 'Panels.Teams',
-}
+} as const satisfies Record<CharactersPanel, string>
 
 const PANEL_ICON: Record<CharactersPanel, ReactNode> = {
   [CharactersPanel.CHARACTERS]: <IconUsers size={ICON_SIZE} />,

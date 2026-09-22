@@ -8034,9 +8034,9 @@ interface Resources {
     },
     "CardOptions": "Card options, drag to reorder",
     "Panels": {
-      "Characters": "Characters",
+      "Characters": "Character Builds",
       "Controls": "Controls",
-      "Teams": "Teams"
+      "Teams": "Team Showcase"
     },
     "SavedTeams": {
       "DefaultName": "Team {{index}}",

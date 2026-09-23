@@ -28,6 +28,7 @@ import {
   OpenCloseIDs,
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
+import { useScrollLock } from 'lib/layout/scrollController'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { BuffBuilder } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffBuilder'
 import { BuffGroupPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffGroupPanel'
@@ -51,6 +52,8 @@ import { useShallow } from 'zustand/react/shallow'
 export function CombatBuffsDrawer() {
   const { close: closeBuffsDrawer, isOpen: isOpenBuffsDrawer } = useOpenClose(OpenCloseIDs.COMBAT_BUFFS_DRAWER)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
+
+  useScrollLock(isOpenBuffsDrawer)
 
   return (
     <Drawer

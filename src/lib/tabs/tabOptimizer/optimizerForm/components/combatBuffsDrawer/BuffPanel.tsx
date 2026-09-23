@@ -46,7 +46,6 @@ interface BuffPanelProps extends BuffPanelContentProps {
   removeBuff: (key: string) => void
   index: number
   group: string
-  noSort?: boolean
 }
 
 export const BuffPanel = memo(function BuffPanel({
@@ -57,7 +56,6 @@ export const BuffPanel = memo(function BuffPanel({
   toggleSelection,
   index,
   group,
-  noSort,
 }: BuffPanelProps) {
   const remove = useCallback(() => removeBuff(buff.id), [removeBuff, buff.id])
 
@@ -67,7 +65,6 @@ export const BuffPanel = memo(function BuffPanel({
     group,
     type: 'buff',
     accept: group === 'root' ? ['buff', 'group'] : ['buff'],
-    disabled: noSort,
   })
 
   const actionGroup = (

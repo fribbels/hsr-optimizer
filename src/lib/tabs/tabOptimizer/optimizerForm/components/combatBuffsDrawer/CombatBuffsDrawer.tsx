@@ -244,7 +244,6 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
                         key={buff.id}
                         buff={buff}
                         removeBuff={removeCombatBuff}
-                        renameBuff={renameCombatBuff}
                         t={tBuffPanel}
                         checked={!buff.disabled}
                         toggleSelection={toggleCombatBuff}

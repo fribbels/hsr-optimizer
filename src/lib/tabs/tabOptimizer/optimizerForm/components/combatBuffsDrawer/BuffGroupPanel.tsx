@@ -110,7 +110,6 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
           group={group}
           isOpen={isOpen || hovered}
           t={t}
-          renameBuff={renameBuff}
           removeBuff={removeBuff}
           toggleSelection={toggleSelection}
         />
@@ -126,7 +125,6 @@ interface BuffGroupContentProps {
   isOpen: boolean
   group: CombatBuffGroup
   removeBuff: (key: string) => void
-  renameBuff: (id: string, name: string) => void
   t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>
   toggleSelection: (id: string) => void
 }
@@ -134,7 +132,6 @@ function BuffGroupContent({
   isOpen,
   group,
   removeBuff,
-  renameBuff,
   t,
   toggleSelection,
 }: BuffGroupContentProps) {
@@ -171,7 +168,6 @@ function BuffGroupContent({
             <BuffPanel
               key={buff.id}
               t={t}
-              renameBuff={renameBuff}
               removeBuff={removeBuff}
               buff={buff}
               toggleSelection={toggleSelection}
@@ -194,7 +190,6 @@ function BuffGroupContent({
             <BuffPanel
               key={buff.id}
               t={t}
-              renameBuff={renameBuff}
               removeBuff={removeBuff}
               buff={buff}
               toggleSelection={toggleSelection}

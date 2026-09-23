@@ -37,7 +37,6 @@ import { renderElementTagPill } from './ElementTagSelect'
 
 interface BuffPanelContentProps {
   buff: CombatBuff
-  renameBuff: (id: string, name: string) => void
   t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>
 }
 
@@ -53,7 +52,6 @@ interface BuffPanelProps extends BuffPanelContentProps {
 export const BuffPanel = memo(function BuffPanel({
   buff,
   removeBuff,
-  renameBuff,
   t,
   checked,
   toggleSelection,
@@ -86,7 +84,7 @@ export const BuffPanel = memo(function BuffPanel({
   const panelContent = useMemo(() => {
     switch (buff.type) {
       case CombatBuffType.StatBuff:
-        return <StatBuffPanelContent buff={buff} renameBuff={renameBuff} t={t} actionGroup={actionGroup} />
+        return <StatBuffPanelContent buff={buff} t={t} actionGroup={actionGroup} />
       case CombatBuffType.ActionModifier:
         return <></>
     }
@@ -121,7 +119,6 @@ interface StatBuffPanelContentProps extends BuffPanelContentProps {
 
 function StatBuffPanelContent({
   buff,
-  renameBuff,
   t,
   actionGroup,
 }: StatBuffPanelContentProps) {

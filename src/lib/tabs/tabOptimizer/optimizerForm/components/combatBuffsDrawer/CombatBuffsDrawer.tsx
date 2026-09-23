@@ -75,8 +75,6 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'CombatBuffs' })
   const { t: tBuffPanel } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
 
-  const [hoveredGroup, setHoveredGroup] = useState<string | null>(null)
-
   const { ref } = useDroppable({ id: 'root', collisionPriority: CollisionPriority.Lowest })
 
   const {
@@ -161,7 +159,6 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
               return
             }
             flushSync(() => {
-              setHoveredGroup(null)
               const { source } = e.operation
               if (!isSortable(source)) return
               const { initialGroup, initialIndex, group, index } = source
@@ -234,7 +231,6 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
                         checked={!buff.disabled}
                         toggleSelection={toggleCombatBuff}
                         index={idx}
-                        hovered={buff.id === hoveredGroup}
                       />
                     )
                   case CombatBuffType.StatBuff:

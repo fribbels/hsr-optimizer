@@ -10,7 +10,7 @@ import {
 } from '@mantine/core'
 import {
   useDisclosure,
-  useResizeObserver,
+  useElementSize,
 } from '@mantine/hooks'
 import {
   IconCopy,
@@ -24,7 +24,6 @@ import {
   useCallback,
 } from 'react'
 import {
-  type CombatBuff,
   type CombatBuffGroup,
   type CombatStatBuff,
 } from 'types/form'
@@ -39,7 +38,6 @@ interface BuffGroupPanelProps {
   checked: boolean
   toggleSelection: (id: string) => void
   index: number
-  hovered: boolean
 }
 export const BuffGroupPanel = memo(function BuffGroupPanel({
   group,
@@ -49,12 +47,11 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
   checked,
   toggleSelection,
   index,
-  hovered,
 }: BuffGroupPanelProps) {
   const remove = useCallback(() => removeBuff(group.id), [removeBuff, group.id])
   const copyClicked = useCallback(() => writeBuffToClipboard(group), [group])
   const [isOpen, { toggle }] = useDisclosure(false)
-  const { ref: sortableRef, handleRef } = useSortable({
+  const { ref, handleRef } = useSortable({
     id: group.id,
     index,
     group: 'root',
@@ -64,8 +61,8 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
   })
   return (
     <Stack
-      style={{ borderColor: hovered ? 'green' : 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
-      ref={sortableRef}
+      style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
+      ref={ref}
     >
       <Group>
         <TextInput
@@ -108,7 +105,7 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
         </Box>
         <BuffGroupContent
           group={group}
-          isOpen={isOpen || hovered}
+          isOpen={isOpen}
           t={t}
           removeBuff={removeBuff}
           toggleSelection={toggleSelection}
@@ -119,7 +116,7 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
 })
 
 const heightTransition = 'height 200ms cubic-bezier(0.4, 0, 0.2, 1)'
-const opacityTransition = 'opacity 100ms ease-out'
+const opacityTransition = 'opacity 200ms ease-out'
 
 interface BuffGroupContentProps {
   isOpen: boolean
@@ -135,123 +132,69 @@ function BuffGroupContent({
   t,
   toggleSelection,
 }: BuffGroupContentProps) {
-  const [previewRef, previewRect] = useResizeObserver()
-  const [panelsRef, panelsRect] = useResizeObserver()
-
-  const borderStyle = { borderStyle: 'dashed', borderColor: '#afafaf', borderWidth: 2 }
-  const textStyle = { alignItems: 'center', justifyContent: 'center' }
-
-  const preview = group.buffs.length
-    ? (
-      <BuffGroupPreview
-        group={group}
-      />
-    )
-    : (
-      <Stack style={{ ...borderStyle, ...textStyle }}>
+  const { ref: fallbackRef, height: fallbackHeight } = useElementSize()
+  const { ref: panelsRef, height: panelsHeight } = useElementSize()
+  const { ref: previewRef, height: previewHeight } = useElementSize()
+  const height = !group.buffs.length
+    ? fallbackHeight
+    : (isOpen
+      ? panelsHeight
+      : previewHeight)
+  return (
+    <div style={{ height, transition: heightTransition }}>
+      <Stack
+        ref={fallbackRef}
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderStyle: 'dashed',
+          borderColor: '#afafaf',
+          borderWidth: 2,
+          position: 'absolute',
+          visibility: group.buffs.length === 0 ? 'visible' : 'hidden',
+          opacity: group.buffs.length === 0 ? 1 : 0,
+          transition: opacityTransition,
+          width: 300,
+        }}
+      >
         drop buffs here
       </Stack>
-    )
-
-  const emptyPanelFallback = (
-    <Stack style={{ ...borderStyle, minHeight: 75, ...textStyle }}>
-      drop buffs here
-    </Stack>
-  )
-
-  // avoid double registration of the sortable elements
-  const measurementPanels = group.buffs.length
-    ? (
-      <Stack gap={optimizerTabDefaultGap}>
-        {group.buffs.map((buff, idx) => {
-          return (
-            <BuffPanel
-              key={buff.id}
-              t={t}
-              removeBuff={removeBuff}
-              buff={buff}
-              toggleSelection={toggleSelection}
-              checked={!buff.disabled}
-              index={idx}
-              group={group.id}
-              noSort
-            />
-          )
-        })}
-      </Stack>
-    )
-    : emptyPanelFallback
-
-  const panels = group.buffs.length
-    ? (
-      <Stack gap={optimizerTabDefaultGap}>
-        {group.buffs.map((buff, idx) => {
-          return (
-            <BuffPanel
-              key={buff.id}
-              t={t}
-              removeBuff={removeBuff}
-              buff={buff}
-              toggleSelection={toggleSelection}
-              checked={!buff.disabled}
-              index={idx}
-              group={group.id}
-            />
-          )
-        })}
-      </Stack>
-    )
-    : emptyPanelFallback
-
-  const height = isOpen ? panelsRect.height : previewRect.height
-
-  return (
-    <div style={{ position: 'relative', width: 300 }}>
-      {/* Invisible measurement layer */}
-      <div
-        aria-hidden
+      <Stack
+        ref={panelsRef}
+        gap={optimizerTabDefaultGap}
         style={{
           position: 'absolute',
-          inset: 0,
-          visibility: 'hidden',
-          pointerEvents: 'none',
+          visibility: group.buffs.length && isOpen ? 'visible' : 'hidden',
+          opacity: group.buffs.length && isOpen ? 1 : 0,
+          transition: opacityTransition,
+          width: 300,
         }}
       >
-        <div ref={previewRef}>{preview}</div>
-        <div ref={panelsRef}>{measurementPanels}</div>
-      </div>
-
-      {/* Visible animated layer */}
+        {group.buffs.map((buff, idx) => {
+          return (
+            <BuffPanel
+              key={buff.id}
+              t={t}
+              removeBuff={removeBuff}
+              buff={buff}
+              toggleSelection={toggleSelection}
+              checked={!buff.disabled}
+              index={idx}
+              group={group.id}
+            />
+          )
+        })}
+      </Stack>
       <div
         style={{
-          height,
-          display: 'grid',
-          overflow: 'hidden',
-          transition: heightTransition,
+          position: 'absolute',
+          visibility: group.buffs.length && !isOpen ? 'visible' : 'hidden',
+          opacity: group.buffs.length && !isOpen ? 1 : 0,
+          transition: opacityTransition,
         }}
+        ref={previewRef}
       >
-        <div
-          style={{
-            gridArea: '1 / 1',
-            opacity: isOpen ? 0 : 1,
-            pointerEvents: isOpen ? 'none' : 'auto',
-            transition: opacityTransition,
-          }}
-        >
-          {preview}
-        </div>
-
-        <div
-          style={{
-            gridArea: '1 / 1',
-            opacity: isOpen ? 1 : 0,
-            pointerEvents: isOpen ? 'auto' : 'none',
-            transition: opacityTransition,
-            width: '100%',
-          }}
-        >
-          {panels}
-        </div>
+        <BuffGroupPreview group={group} />
       </div>
     </div>
   )

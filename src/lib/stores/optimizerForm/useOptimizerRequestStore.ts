@@ -199,8 +199,12 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
     set((state) => {
       return {
         combatBuffs: state.combatBuffs.map((b) => {
-          if (b.id !== id) return b
-          return { ...b, disabled: !b.disabled }
+          if (b.id === id) return { ...b, disabled: !b.disabled }
+          if (b.type !== CombatBuffType.Group) return b
+          const buffIdx = b.buffs.findIndex((b) => b.id === id)
+          if (buffIdx === -1) return b
+          const buff = b.buffs[buffIdx]
+          return { ...b, buffs: b.buffs.toSpliced(buffIdx, 1, { ...buff, disabled: !buff.disabled }) }
         }),
       }
     })

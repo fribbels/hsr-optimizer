@@ -227,7 +227,6 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
                     return (
                       <BuffGroupPanel
                         key={buff.id}
-                        id={buff.id}
                         group={buff}
                         removeBuff={removeCombatBuff}
                         renameBuff={renameCombatBuff}
@@ -243,7 +242,6 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
                     return (
                       <BuffPanel
                         key={buff.id}
-                        id={buff.id}
                         buff={buff}
                         removeBuff={removeCombatBuff}
                         renameBuff={renameCombatBuff}

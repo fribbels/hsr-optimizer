@@ -32,7 +32,6 @@ import { optimizerTabDefaultGap } from '../../grid/optimizerGridColumns'
 import { DragHandle } from './DragHandle'
 
 interface BuffGroupPanelProps {
-  id: string
   group: CombatBuffGroup
   removeBuff: (key: string) => void
   renameBuff: (id: string, name: string) => void
@@ -43,7 +42,6 @@ interface BuffGroupPanelProps {
   hovered: boolean
 }
 export const BuffGroupPanel = memo(function BuffGroupPanel({
-  id,
   group,
   removeBuff,
   renameBuff,
@@ -53,11 +51,11 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
   index,
   hovered,
 }: BuffGroupPanelProps) {
-  const remove = useCallback(() => removeBuff(id), [removeBuff, id])
+  const remove = useCallback(() => removeBuff(group.id), [removeBuff, group.id])
   const copyClicked = useCallback(() => writeBuffToClipboard(group), [group])
   const [isOpen, { toggle }] = useDisclosure(false)
   const { ref: sortableRef, handleRef } = useSortable({
-    id,
+    id: group.id,
     index,
     group: 'root',
     type: 'group',
@@ -65,91 +63,49 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
     collisionPriority: CollisionPriority.Low,
   })
   return (
-    <>
-      <Stack
-        style={{ borderColor: hovered ? 'green' : 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
-        ref={sortableRef}
-      >
-        <Group>
-          <TextInput
-            flex={1}
-            value={group.name}
-            onChange={(e) => renameBuff(id, e.currentTarget.value)}
-            placeholder='name this group?'
-          />
-          <Group gap='2'>
-            <ActionIcon aria-label='Copy group' size={30} onClick={copyClicked}>
-              <IconCopy />
-            </ActionIcon>
-            <ActionIcon aria-label='Delete group' onClick={remove} size={30}>
-              <IconTrashFilled />
-            </ActionIcon>
-          </Group>
-        </Group>
-        <Group>
-          <Box
-            onClick={toggle}
-            style={{
-              alignSelf: 'stretch',
-              display: 'flex',
-              cursor: 'pointer',
-            }}
-          >
-            <Group gap='xs'>
-              <DragHandle
-                ref={handleRef}
-                onClick={toggle}
-              />
-              <Checkbox
-                checked={checked}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  toggleSelection(id)
-                }}
-              />
-            </Group>
-          </Box>
-          <BuffGroupContent
-            group={group}
-            isOpen={isOpen || hovered}
-            t={t}
-            renameBuff={renameBuff}
-            removeBuff={removeBuff}
-            toggleSelection={toggleSelection}
-          />
-        </Group>
-      </Stack>
-      {
-        /* <Group
-      gap='xs'
-      justify='space-between'
+    <Stack
       style={{ borderColor: hovered ? 'green' : 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
       ref={sortableRef}
     >
-      <Box
-        onClick={toggle}
-        style={{
-          alignSelf: 'stretch',
-          display: 'flex',
-          cursor: 'pointer',
-        }}
-      >
-        <Group gap='xs'>
-          <DragHandle
-            ref={handleRef}
-            onClick={toggle}
-          />
-          <Checkbox
-            checked={checked}
-            onClick={(e) => {
-              e.stopPropagation()
-              toggleSelection(id)
-            }}
-          />
+      <Group>
+        <TextInput
+          flex={1}
+          value={group.name}
+          onChange={(e) => renameBuff(group.id, e.currentTarget.value)}
+          placeholder='name this group?'
+        />
+        <Group gap='2'>
+          <ActionIcon aria-label='Copy group' size={30} onClick={copyClicked}>
+            <IconCopy />
+          </ActionIcon>
+          <ActionIcon aria-label='Delete group' onClick={remove} size={30}>
+            <IconTrashFilled />
+          </ActionIcon>
         </Group>
-      </Box>
-      <Stack flex={1}>
-        <TextInput value={group.name} onChange={(e) => renameBuff(id, e.currentTarget.value)} placeholder='name this group?' />
+      </Group>
+      <Group>
+        <Box
+          onClick={toggle}
+          style={{
+            alignSelf: 'stretch',
+            display: 'flex',
+            cursor: 'pointer',
+          }}
+        >
+          <Group gap='xs'>
+            <DragHandle
+              ref={handleRef}
+              onClick={toggle}
+            />
+            <Checkbox
+              checked={checked}
+              onClick={(e) => {
+                e.stopPropagation()
+                toggleSelection(group.id)
+              }}
+            />
+          </Group>
+        </Box>
         <BuffGroupContent
           group={group}
           isOpen={isOpen || hovered}
@@ -158,18 +114,8 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
           removeBuff={removeBuff}
           toggleSelection={toggleSelection}
         />
-      </Stack>
-      <Stack gap={2} style={{ alignSelf: 'flex-start' }}>
-        <ActionIcon aria-label='Copy group' size={30} onClick={copyClicked}>
-          <IconCopy />
-        </ActionIcon>
-        <ActionIcon aria-label='Delete group' onClick={remove} size={30}>
-          <IconTrashFilled />
-        </ActionIcon>
-      </Stack>
-    </Group>*/
-      }
-    </>
+      </Group>
+    </Stack>
   )
 })
 
@@ -224,7 +170,6 @@ function BuffGroupContent({
           return (
             <BuffPanel
               key={buff.id}
-              id={buff.id}
               t={t}
               renameBuff={renameBuff}
               removeBuff={removeBuff}
@@ -248,7 +193,6 @@ function BuffGroupContent({
           return (
             <BuffPanel
               key={buff.id}
-              id={buff.id}
               t={t}
               renameBuff={renameBuff}
               removeBuff={removeBuff}

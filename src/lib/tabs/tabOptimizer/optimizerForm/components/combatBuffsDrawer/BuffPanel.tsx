@@ -36,7 +36,6 @@ import { DragHandle } from './DragHandle'
 import { renderElementTagPill } from './ElementTagSelect'
 
 interface BuffPanelContentProps {
-  id: string
   buff: CombatBuff
   renameBuff: (id: string, name: string) => void
   t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>
@@ -52,7 +51,6 @@ interface BuffPanelProps extends BuffPanelContentProps {
 }
 
 export const BuffPanel = memo(function BuffPanel({
-  id,
   buff,
   removeBuff,
   renameBuff,
@@ -63,10 +61,10 @@ export const BuffPanel = memo(function BuffPanel({
   group,
   noSort,
 }: BuffPanelProps) {
-  const remove = useCallback(() => removeBuff(id), [removeBuff, id])
+  const remove = useCallback(() => removeBuff(buff.id), [removeBuff, buff.id])
 
   const { ref, handleRef } = useSortable({
-    id,
+    id: buff.id,
     index,
     group,
     type: 'buff',
@@ -88,11 +86,11 @@ export const BuffPanel = memo(function BuffPanel({
   const panelContent = useMemo(() => {
     switch (buff.type) {
       case CombatBuffType.StatBuff:
-        return <StatBuffPanelContent id={id} buff={buff} renameBuff={renameBuff} t={t} actionGroup={actionGroup} />
+        return <StatBuffPanelContent buff={buff} renameBuff={renameBuff} t={t} actionGroup={actionGroup} />
       case CombatBuffType.ActionModifier:
         return <></>
     }
-  }, [buff, id])
+  }, [buff])
 
   return (
     <Group
@@ -109,7 +107,7 @@ export const BuffPanel = memo(function BuffPanel({
           alignItems: 'flex-start',
         }}
       >
-        <Checkbox mt={7} checked={checked} onClick={() => toggleSelection(id)} />
+        <Checkbox mt={7} checked={checked} onClick={() => toggleSelection(buff.id)} />
       </Box>
       {panelContent}
     </Group>
@@ -122,7 +120,6 @@ interface StatBuffPanelContentProps extends BuffPanelContentProps {
 }
 
 function StatBuffPanelContent({
-  id,
   buff,
   renameBuff,
   t,

@@ -20,6 +20,7 @@ import {
   sanitizeTeamSlots,
   TeamBenchmarkOverrideStatus,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseModel'
+import { ensureRosterCharacters } from 'lib/tabs/tabTeamShowcase/teamShowcaseController'
 import {
   resolveCustomAutofillTeammateIds,
   resolveSlotScoring,
@@ -32,7 +33,6 @@ import type {
   TeamShowcaseState,
   TeamSlots,
 } from 'lib/tabs/tabTeamShowcase/teamShowcaseTypes'
-import type { CharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import type { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import {
   useCallback,
@@ -115,17 +115,14 @@ export function useTeamShowcase(): TeamShowcaseState {
     [ownedCharacterIds],
   )
 
-  const optionFilter = useCallback(
-    (option: CharacterOptions[CharacterId]) => ownedIds.has(option.id),
-    [ownedIds],
-  )
-
   const { teamPreferences, showcasePreferences } = useShowcaseTabStore(useShallow((s) => ({
     teamPreferences: s.showcaseTeamPreferenceByConfig,
     showcasePreferences: s.showcasePreferences,
   })))
 
   const setSlot = useCallback((index: number, id: CharacterId | null) => {
+    // The picker lists every character, so an unowned pick joins the roster before the slot is sanitized
+    if (id) ensureRosterCharacters([id])
     const charactersById = useCharacterStore.getState().charactersById
     const selectedCharacter = id ? charactersById[id] : undefined
     const customTeammateIds = selectedCharacter
@@ -242,7 +239,6 @@ export function useTeamShowcase(): TeamShowcaseState {
   return {
     slots,
     characters,
-    optionFilter,
     hasTeam,
     setSlot,
     reorderSlots,

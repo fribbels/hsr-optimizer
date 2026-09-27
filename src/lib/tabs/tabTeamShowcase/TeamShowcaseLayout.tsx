@@ -10,7 +10,6 @@ export function TeamShowcaseLayout({ state }: { state: TeamShowcaseState }) {
   const {
     characters,
     slots,
-    optionFilter,
     slotScoring,
     simulationMetadataOverrides,
     setSlotScoringType,
@@ -76,7 +75,6 @@ export function TeamShowcaseLayout({ state }: { state: TeamShowcaseState }) {
 
       <SlotPicker
         slots={slots}
-        optionFilter={optionFilter}
         interactions={interactions}
         onSelect={setSlot}
       />

@@ -20,9 +20,14 @@ import type { TeamShowcaseSavedTeam } from 'types/store'
 /** Restores characters referenced by a saved team, then returns slots safe for local working state. */
 export function loadSavedTeamSlots(slots: TeamSlots): TeamSlots {
   const normalized = normalizeTeamSlots(slots)
-  const rosterChanged = restoreMissingCharacters(normalized)
-  if (rosterChanged) SaveState.delayedSave()
+  ensureRosterCharacters(normalized)
   return sanitizeTeamSlots(normalized, useCharacterStore.getState().charactersById)
+}
+
+/** Adds any unowned characters to the roster with a default form, so slots can hold them. */
+export function ensureRosterCharacters(ids: TeamSlots) {
+  const rosterChanged = restoreMissingCharacters(ids)
+  if (rosterChanged) SaveState.delayedSave()
 }
 
 function restoreMissingCharacters(slots: TeamSlots): boolean {

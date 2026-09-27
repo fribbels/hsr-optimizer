@@ -2,6 +2,7 @@ import {
   aoe,
   ashblazingMulti,
 } from 'lib/conditionals/ashblazingCompute'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -336,8 +337,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

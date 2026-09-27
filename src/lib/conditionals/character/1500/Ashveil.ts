@@ -7,6 +7,7 @@ import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { AventurineWaveflair } from 'lib/conditionals/character/1500/AventurineWaveflair'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
@@ -400,8 +401,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: Tribbie.defaultLightCone,
+      characterId: AventurineWaveflair.id,
+      lightCone: AventurineWaveflair.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

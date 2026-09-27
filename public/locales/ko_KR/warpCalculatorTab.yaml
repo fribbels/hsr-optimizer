@@ -59,6 +59,7 @@ SectionTitles:
   Rerun: 복각
   AdditionalResources: 추가 자원
   Calculate: 계산
+  Simple: 심플
 ColumnTitles:
   Goal: 목표
   Chance: "{{ticketCount}} <1/> 의 성공 확률"

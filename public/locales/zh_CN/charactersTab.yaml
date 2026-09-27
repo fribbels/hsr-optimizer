@@ -26,6 +26,7 @@ CharacterMenu:
   Priority:
     Label: 优先级
     Options:
+      SortByEffectiveSubstats: 按有效副词条排序
       MoveToTop: 将角色移至顶部
 SearchPlaceholder: 搜索
 GridDensityOptions:
@@ -116,7 +117,7 @@ CharacterPreview:
     Labels:
       CombatStats: 战斗属性
       CombatStatsSubDps: 战斗属性（副C）
-      CombatStatsSupport: 战斗属性（辅助）
+      CombatStatsBuffer: 战斗属性（辅助）
       CombatStatsHeal: "战斗属性（治疗）\n"
       CombatStatsShield: 战斗属性（护盾）
   ScoringExplanation:

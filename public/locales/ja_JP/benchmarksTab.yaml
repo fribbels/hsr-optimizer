@@ -31,6 +31,7 @@ ResultsPanel:
   CombatStats: 戦闘ステータス
   Rolls: サブステータス出現数
   Combo: スキル回し
+  Damage: アビリティの詳細
 Messages:
   Error:
     MissingField: キャラクター・光円錐・チーム編成を入力する必要があります

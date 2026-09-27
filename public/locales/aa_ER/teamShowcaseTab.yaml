@@ -1,0 +1,23 @@
+Buttons:
+  Clear: crwdns47815:0crwdne47815:0
+  CopyScreenshot: crwdns47817:0crwdne47817:0
+  DownloadScreenshot: crwdns47819:0crwdne47819:0
+  AddCharacter: crwdns47821:0crwdne47821:0
+  AddMainDps: crwdns47823:0crwdne47823:0
+  ChangeCharacter: crwdns47825:0crwdne47825:0
+  Remove: crwdns47827:0crwdne47827:0
+  SyncBenchmarkTeams: crwdns47829:0crwdne47829:0
+Panels:
+  Characters: crwdns47831:0crwdne47831:0
+  Controls: crwdns47833:0crwdne47833:0
+  Teams: crwdns47835:0crwdne47835:0
+Benchmark: crwdns47837:0crwdne47837:0
+CardOptions: crwdns47839:0crwdne47839:0
+ScreenshotName: crwdns47841:0crwdne47841:0
+SavedTeams:
+  Header: crwdns47843:0crwdne47843:0
+  Save: crwdns47845:0crwdne47845:0
+  Delete: crwdns47847:0crwdne47847:0
+  Rename: crwdns47849:0crwdne47849:0
+  Empty: crwdns47851:0crwdne47851:0
+  DefaultName: 'crwdns47853:0{{index}}crwdne47853:0'

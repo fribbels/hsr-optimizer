@@ -26,9 +26,20 @@ MainStats: メインステータス
 Sets: セット
 UnreleasedDisclaimer: '{{nameList}}の計算はまだ完了していないため、オプティマイザーの結果は正確ではありません'
 SetFilters:
+  OrnamentPlaceholder: オーナメントセットのフィルター
+  RelicPlaceholder: 遺物セットのフィルター
+  4pcLabel: 4セット
+  2pcLabel: 2セット
+  AnyTag: 任意
+  SelectedHeader: 選択したセット
+  RelicListHeader: 遺物セット
+  OrnamentListHeader: オーナメントセット
+  SearchPlaceholder: セットの検索
   RelicSelectedPlaceholder: 遺物
   OrnamentSelectedPlaceholder: オーナメント
+  Revert: 元に戻す
   Done: 完了
+  Clear: 全てクリア
 SortOptions:
   DMGLabel: 与ダメージ計算
   HealLabel: 治癒量計算
@@ -47,6 +58,7 @@ SortOptions:
   MEMO_SKILL: 精霊スキルダメージ順
   MEMO_TALENT: 精霊天賦ダメージ順
   ELATION_SKILL: 愉悦スキルダメージ順
+  UNIQUE: 特殊ダメージ順
   DOT: 持続ダメージ順
   BREAK: 弱点撃破ダメージ順
   HEAL: 治癒量順
@@ -155,6 +167,9 @@ Grid:
       ELATION_SKILL: |-
         愉悦
         スキル
+      UNIQUE: |-
+        特殊
+        ダメージ
       DOT: |-
         持続
       BREAK: |-
@@ -224,6 +239,9 @@ Grid:
       ELATION_SKILL: |-
         愉悦
         スキル
+      UNIQUE: |-
+        特殊
+        ダメージ
       DOT: |-
         持続
       BREAK: |-
@@ -566,6 +584,7 @@ ComboFilter:
     MemoSkill: 精霊スキル
     MemoTalent: 精霊天賦
     ElationSkill: 愉悦スキル
+    Unique: 特殊
     BasicHeal: 通常 回復
     SkillHeal: スキル 回復
     UltHeal: 必殺 回復
@@ -680,6 +699,7 @@ StatSimulation:
 ExpandedDataPanel:
   TeammateUpgrades:
     ColumnHeaders:
+      Ornaments: 味方のセット
       COMBO_DMG: コンボダメ変化量
       COMBO_DMG_P: コンボダメ変化率
   SubstatUpgrades:
@@ -705,6 +725,8 @@ ExpandedDataPanel:
     MEMO: 精霊
     ADDITIONAL: 付加
     ELATION: 愉悦
+    ASSIST: アシスト
+    UNIQUE: 特殊
   DamageSplits:
     Title: スキル回しの内訳
     PieTitle: スキル回し分布
@@ -758,6 +780,7 @@ ExpandedDataPanel:
       E4: 4凸
       E6: 6凸
       ElationSkill: 愉悦スキル
+      Unique: 特殊
       LightCone: 光円錐
       Set: セット
     DefaultAction: デフォルト
@@ -864,8 +887,38 @@ ExpandedDataPanel:
       Unconvertible: '変換不能な$t(common:Stats.{{stat}})'
       ElementalDmgBoost: '$t(gameData:Elements.{{element}}) $t(optimizerTab:ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix.DMG Boost)'
     HitDefinition:
+      AtkScaling: 攻撃力倍率
+      HpScaling: HP倍率
+      DefScaling: 防御力倍率
+      Crit:
+        BeScaling: 撃破特効倍率
+        BeCap: 撃破特効の上限
+        ElationAtkScaling: 愉悦攻撃力倍率
+      Dot:
+        Chance: 持続ダメ確率
+        Split: 持続ダメ分担
+        Stacks: 持続ダメ層数
+      Break:
+        SpecialScaling: 特殊倍率
+      SuperBreak:
+        ExtraModifier: 追加の倍率
+      Additional:
+        CrOverride: 優先会心率
+        CdOverride: 優先会心ダメージ
+      Elation:
+        Scaling: 愉悦倍率
+        Punchline: 爆笑ネタの層数
+        Banger: '「爆笑の褒美」層数'
+      TrueDmg: 確定ダメージ倍率
       Toughness: 削靭値
+      FixedToughness: 固定削靭値
     EnemyConfiguration:
+      Header: 敵
+      Level: 敵レベル
+      Res: ダメージ耐性
       Efres: 効果抵抗
+      Toughness: 削靭値
+      Targets: ターゲット
       Weakness: 弱点属性
       Broken: 弱点撃破状態
+      Enemy: 敵

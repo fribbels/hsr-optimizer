@@ -1,0 +1,46 @@
+Header:
+  Title: リーダーボード
+  Subtitle: ショーケースタブの Aeon ビルドを元にしたベンチマークランキングです。毎日更新されます。
+  ShowcaseButton: ショーケースへ移動 →
+ConfigTypes:
+  dps: DPS
+  support: バッファー
+  heal: ヒーラー
+  shield: シールダー
+UserRanks:
+  Header: 所持中の Aeon
+  BestTeamRank: ベストチームランキング
+  TeamRankLabel: 'チームランキング {{rank}}'
+  AllTeamsRankLabel: '全チームランキング {{rank}}'
+  Status:
+    NoUid: 保存した UID がありません。
+    InvalidUid: 保存した UID は使用できません。
+    Loading: リーダーボードでの順位を取得しています...
+    Unavailable: ランキングは一時的に取得できません。
+Timeline:
+  Header: 最近の変動
+  New: NEW
+  HoursAgo: '{{count}}h'
+  DaysAgo: '{{count}}d'
+CharacterList:
+  SearchPlaceholder: キャラを検索
+  TabLabel: '{{label}}（{{count}}）'
+  Columns:
+    Rank: '#'
+    Character: キャラクター
+    TopScore: 上位 %
+    Entries: エントリー
+  Empty: 該当するキャラクターがいません
+  InsufficientData: データが不足しています
+Filters:
+  EidolonLabel: 星魂
+  TeamLabel: チーム
+  AllEidolons: 全て
+  AllTeams: '全チーム（{{count}}）'
+Banner:
+  AllTeams: 全チーム
+  TeamRank: チームランキング
+  LightConeModule: 光円錐
+  TeamModule: チーム
+  SetsModule: セット
+  SetPieces: '{{count}}セット'

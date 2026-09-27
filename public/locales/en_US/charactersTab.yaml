@@ -26,6 +26,7 @@ CharacterMenu:
   Priority:
     Label: Priority
     Options:
+      SortByEffectiveSubstats: Sort by effective substats
       MoveToTop: Move character to top
 SearchPlaceholder: Search
 GridDensityOptions:

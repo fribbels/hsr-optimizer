@@ -22,6 +22,8 @@ export function getChangelogContent() {
       content: [
         `Added Team Showcase under Characters > Teams: pick 4 characters and screenshot their showcase cards together as a single image`,
         `teams.webp`,
+        `Restored Characters > Character menu > Sort by effective substats, which ranks all characters by their equipped relic scores`,
+        `sort.webp`,
         `Added Leaderboards for Robin Summeretto and Aventurine Waveflair`,
         `Showcase scoring defaults to each character's most relevant score type, and Support Benchmark has been renamed to Buffer Benchmark`,
         `Fix: Various conditional effects fixes`,

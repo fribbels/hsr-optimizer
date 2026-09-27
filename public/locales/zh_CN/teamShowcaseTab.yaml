@@ -1,7 +1,23 @@
 Buttons:
+  Clear: 清除角色
   CopyScreenshot: 复制截图
+  DownloadScreenshot: 下载截图
   AddCharacter: 添加角色
+  AddMainDps: 添加主 DPS
+  ChangeCharacter: 更换角色
+  Remove: 移除
+  SyncBenchmarkTeams: 同步基准队伍
 Panels:
+  Characters: 角色配装
   Controls: 控制
+  Teams: 队伍展示
 Benchmark: 基准
+CardOptions: 卡片选项，拖动以重新排序
 ScreenshotName: 队伍
+SavedTeams:
+  Header: 图库
+  Save: 保存队伍
+  Delete: 删除队伍
+  Rename: 重命名
+  Empty: 暂无已保存的队伍
+  DefaultName: '队伍 {{index}}'

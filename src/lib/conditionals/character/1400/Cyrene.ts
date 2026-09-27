@@ -4,6 +4,7 @@ import { Evernight } from 'lib/conditionals/character/1400/Evernight'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   TrailblazerRemembranceCaelus,
   TrailblazerRemembranceStelle,
@@ -500,14 +501,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Castorice.id,
-      lightCone: MakeFarewellsMoreBeautiful.id,
+      characterId: Evernight.id,
+      lightCone: ToEvernightsStars.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Evernight.id,
-      lightCone: ToEvernightsStars.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

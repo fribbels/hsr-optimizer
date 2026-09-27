@@ -4,6 +4,7 @@ import {
   single,
 } from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
+import { Pearl } from 'lib/conditionals/character/1500/Pearl'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
@@ -481,8 +482,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 5,
     },
     {
-      characterId: HuohuoB1.id,
-      lightCone: NightOfFright.id,
+      characterId: Pearl.id,
+      lightCone: Pearl.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

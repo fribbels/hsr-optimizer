@@ -5,6 +5,7 @@ import {
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -285,8 +286,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Cipher.id,
-      lightCone: LiesAflutterInTheWind.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

@@ -7,6 +7,7 @@ import {
 import { Saber } from 'lib/conditionals/character/1000/Saber'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -389,8 +390,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: MortenaxBlade.id,
-      lightCone: ReforgedInHellfire.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

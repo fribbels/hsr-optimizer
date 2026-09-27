@@ -1,6 +1,9 @@
 import { Feixiao } from 'lib/conditionals/character/1200/Feixiao'
+import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
 import {
   ASHBLAZING_ATK_STACK,
   DamageType,
@@ -321,20 +324,20 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Feixiao.id,
-      lightCone: IVentureForthToHunt.id,
+      characterId: Ashveil.id,
+      lightCone: Ashveil.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: PermansorTerrae.id,
-      lightCone: ThoughWorldsApart.id,
+      characterId: HuohuoB1.id,
+      lightCone: HuohuoB1.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

@@ -4,6 +4,8 @@ import {
 } from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Pearl } from 'lib/conditionals/character/1500/Pearl'
+import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
@@ -25,7 +27,6 @@ import {
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -469,8 +470,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SparkleB1.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: SilverWolfLv999.id,
+      lightCone: SilverWolfLv999.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -481,8 +482,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 5,
     },
     {
-      characterId: HuohuoB1.id,
-      lightCone: NightOfFright.id,
+      characterId: Pearl.id,
+      lightCone: Pearl.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

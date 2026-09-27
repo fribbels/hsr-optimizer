@@ -4,18 +4,18 @@ import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
 
 // Semver defined optimizer version
-export const CURRENT_OPTIMIZER_VERSION = 'v4.6.1'
+export const CURRENT_OPTIMIZER_VERSION = 'v4.6.5'
 
 // Represents the beta data content version, used for display but not for update notifications
-export const CURRENT_DATA_VERSION = '4.6v3'
+export const CURRENT_DATA_VERSION = '4.6v5'
 
 // Controls downtime messaging
-export const SHOWCASE_DOWNTIME = false
-export const RELIQUARY_DOWNTIME = false
-export const DOWNTIME_VERSION: string = '4.5'
+export const SHOWCASE_DOWNTIME = true
+export const RELIQUARY_DOWNTIME = true
+export const DOWNTIME_VERSION: string = '4.6'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  '1503': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  // '1503': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
 }
 
 export const Stats = {

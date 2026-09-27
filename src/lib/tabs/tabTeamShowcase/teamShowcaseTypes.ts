@@ -1,7 +1,6 @@
 import type { SimulationMetadataOverrides } from 'lib/characterPreview/characterPreviewTypes'
 import type { ScoringType } from 'lib/scoring/scoringConfig'
 import type { SlotScoring } from 'lib/tabs/tabTeamShowcase/teamShowcaseScoring'
-import type { CharacterOptions } from 'lib/ui/selectors/optionGenerator'
 import type { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import type {
   Character,
@@ -17,7 +16,6 @@ export type TeamSlots = (CharacterId | null)[]
 export interface TeamShowcaseState {
   slots: TeamSlots
   characters: (Character | null)[]
-  optionFilter: (option: CharacterOptions[CharacterId]) => boolean
   hasTeam: boolean
   setSlot: (index: number, id: CharacterId | null) => void
   reorderSlots: (order: number[]) => void

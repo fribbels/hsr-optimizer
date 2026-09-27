@@ -1,8 +1,8 @@
+import { Parts } from 'lib/constants/constants'
 import {
   type GpuExecutionContext,
   type RelicsByPart,
 } from 'lib/gpu/webgpuTypes'
-import { Parts } from 'lib/constants/constants'
 import { BasicKey } from 'lib/optimization/basicStatsArray'
 import {
   type PerSlotSetRanges,
@@ -16,6 +16,14 @@ import {
 } from 'lib/sets/setConfigRegistry'
 import { type StringToNumberMap } from 'types/common'
 import { type Relic } from 'types/relic'
+
+const EMPTY_QUEUE_RESULT_THRESHOLD = -1
+
+export function getGpuResultThreshold(gpuContext: GpuExecutionContext): number {
+  return gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT
+    ? gpuContext.resultsQueue.topPriority()
+    : EMPTY_QUEUE_RESULT_THRESHOLD
+}
 
 export function generateParamsMatrix(
   offset: number,
@@ -42,7 +50,7 @@ export function generateParamsMatrix(
 
   const permStride = gpuContext.BLOCK_SIZE * gpuContext.CYCLES_PER_INVOCATION
   const permLimit = Math.min(permStride, gpuContext.permutations - offset)
-  const threshold = gpuContext.resultsQueue.size() >= gpuContext.RESULTS_LIMIT ? gpuContext.resultsQueue.topPriority() : 0
+  const threshold = getGpuResultThreshold(gpuContext)
 
   const buf = new ArrayBuffer(32)
   const f32 = new Float32Array(buf)

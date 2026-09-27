@@ -1,3 +1,4 @@
+import { OutputTag } from 'lib/optimization/engine/config/tag'
 import type { SortOptionKey } from 'lib/optimization/sortOptions'
 
 // =============================================================================
@@ -41,39 +42,37 @@ export enum TurnMarker {
 // ABILITY META CONFIG - Single source of truth
 // =============================================================================
 
-type AbilityCategory = 'damage' | 'heal' | 'shield' | 'buff' | 'null'
-
 interface AbilityMetaEntry {
   label: string
   sortKey?: SortOptionKey // matches SortOption key, undefined = no sort option
-  category: AbilityCategory
+  outputTag: OutputTag | null
 }
 
 export const AbilityMeta = {
-  [AbilityKind.NULL]: { label: 'None', sortKey: undefined, category: 'null' },
-  [AbilityKind.BASIC]: { label: 'Basic', sortKey: 'BASIC', category: 'damage' },
-  [AbilityKind.SKILL]: { label: 'Skill', sortKey: 'SKILL', category: 'damage' },
-  [AbilityKind.ULT]: { label: 'Ult', sortKey: 'ULT', category: 'damage' },
-  [AbilityKind.FUA]: { label: 'Fua', sortKey: 'FUA', category: 'damage' },
-  [AbilityKind.DOT]: { label: 'Dot', sortKey: 'DOT', category: 'damage' },
-  [AbilityKind.BREAK]: { label: 'Break', sortKey: 'BREAK', category: 'damage' },
-  [AbilityKind.MEMO_SKILL]: { label: 'MemoSkill', sortKey: 'MEMO_SKILL', category: 'damage' },
-  [AbilityKind.MEMO_TALENT]: { label: 'MemoTalent', sortKey: 'MEMO_TALENT', category: 'damage' },
-  [AbilityKind.ELATION_SKILL]: { label: 'ElationSkill', sortKey: 'ELATION_SKILL', category: 'damage' },
-  [AbilityKind.UNIQUE]: { label: 'Unique', sortKey: 'UNIQUE', category: 'damage' },
+  [AbilityKind.NULL]: { label: 'None', sortKey: undefined, outputTag: null },
+  [AbilityKind.BASIC]: { label: 'Basic', sortKey: 'BASIC', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.SKILL]: { label: 'Skill', sortKey: 'SKILL', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.ULT]: { label: 'Ult', sortKey: 'ULT', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.FUA]: { label: 'Fua', sortKey: 'FUA', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.DOT]: { label: 'Dot', sortKey: 'DOT', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.BREAK]: { label: 'Break', sortKey: 'BREAK', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.MEMO_SKILL]: { label: 'MemoSkill', sortKey: 'MEMO_SKILL', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.MEMO_TALENT]: { label: 'MemoTalent', sortKey: 'MEMO_TALENT', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.ELATION_SKILL]: { label: 'ElationSkill', sortKey: 'ELATION_SKILL', outputTag: OutputTag.DAMAGE },
+  [AbilityKind.UNIQUE]: { label: 'Unique', sortKey: 'UNIQUE', outputTag: OutputTag.DAMAGE },
 
-  [AbilityKind.BASIC_HEAL]: { label: 'BasicHeal', sortKey: 'BASIC_HEAL', category: 'heal' },
-  [AbilityKind.SKILL_HEAL]: { label: 'SkillHeal', sortKey: 'SKILL_HEAL', category: 'heal' },
-  [AbilityKind.ULT_HEAL]: { label: 'UltHeal', sortKey: 'ULT_HEAL', category: 'heal' },
-  [AbilityKind.FUA_HEAL]: { label: 'FuaHeal', sortKey: 'FUA_HEAL', category: 'heal' },
-  [AbilityKind.TALENT_HEAL]: { label: 'TalentHeal', sortKey: 'TALENT_HEAL', category: 'heal' },
-  [AbilityKind.BASIC_SHIELD]: { label: 'BasicShield', sortKey: 'BASIC_SHIELD', category: 'shield' },
-  [AbilityKind.SKILL_SHIELD]: { label: 'SkillShield', sortKey: 'SKILL_SHIELD', category: 'shield' },
-  [AbilityKind.ULT_SHIELD]: { label: 'UltShield', sortKey: 'ULT_SHIELD', category: 'shield' },
-  [AbilityKind.FUA_SHIELD]: { label: 'FuaShield', sortKey: 'FUA_SHIELD', category: 'shield' },
-  [AbilityKind.TALENT_SHIELD]: { label: 'TalentShield', sortKey: 'TALENT_SHIELD', category: 'shield' },
-  [AbilityKind.BUFF]: { label: 'Buff', sortKey: 'BUFF', category: 'buff' },
-} as const
+  [AbilityKind.BASIC_HEAL]: { label: 'BasicHeal', sortKey: 'BASIC_HEAL', outputTag: OutputTag.HEAL },
+  [AbilityKind.SKILL_HEAL]: { label: 'SkillHeal', sortKey: 'SKILL_HEAL', outputTag: OutputTag.HEAL },
+  [AbilityKind.ULT_HEAL]: { label: 'UltHeal', sortKey: 'ULT_HEAL', outputTag: OutputTag.HEAL },
+  [AbilityKind.FUA_HEAL]: { label: 'FuaHeal', sortKey: 'FUA_HEAL', outputTag: OutputTag.HEAL },
+  [AbilityKind.TALENT_HEAL]: { label: 'TalentHeal', sortKey: 'TALENT_HEAL', outputTag: OutputTag.HEAL },
+  [AbilityKind.BASIC_SHIELD]: { label: 'BasicShield', sortKey: 'BASIC_SHIELD', outputTag: OutputTag.SHIELD },
+  [AbilityKind.SKILL_SHIELD]: { label: 'SkillShield', sortKey: 'SKILL_SHIELD', outputTag: OutputTag.SHIELD },
+  [AbilityKind.ULT_SHIELD]: { label: 'UltShield', sortKey: 'ULT_SHIELD', outputTag: OutputTag.SHIELD },
+  [AbilityKind.FUA_SHIELD]: { label: 'FuaShield', sortKey: 'FUA_SHIELD', outputTag: OutputTag.SHIELD },
+  [AbilityKind.TALENT_SHIELD]: { label: 'TalentShield', sortKey: 'TALENT_SHIELD', outputTag: OutputTag.SHIELD },
+  [AbilityKind.BUFF]: { label: 'Buff', sortKey: 'BUFF', outputTag: OutputTag.BUFF },
+} as const satisfies Record<AbilityKind, AbilityMetaEntry>
 
 // Derived union of all combo option label strings (e.g. 'Basic' | 'Skill' | 'Ult' | ...)
 export type ComboOptionLabel = typeof AbilityMeta[AbilityKind]['label']

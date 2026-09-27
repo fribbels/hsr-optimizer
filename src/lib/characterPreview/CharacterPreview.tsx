@@ -15,9 +15,11 @@ import {
   showcaseOnEditPortraitOk,
 } from 'lib/characterPreview/characterPreviewController'
 import { useInjectedScoringInput } from 'lib/characterPreview/CharacterPreviewScoringContext'
+import type { SimulationMetadataOverrides } from 'lib/characterPreview/characterPreviewTypes'
 import { extractPaletteInWorker } from 'lib/characterPreview/color/colorExtractionService'
 import { DEFAULT_CONFIG } from 'lib/characterPreview/color/colorPipelineConfig'
 import type { ColorPipelineConfig } from 'lib/characterPreview/color/colorPipelineConfig'
+import { getCustomPortraitObjectPosition } from 'lib/characterPreview/customPortraitUtils'
 import {
   modifyCustomColor,
   organizeColors,
@@ -67,6 +69,7 @@ import { useSimPreview } from 'lib/characterPreview/useSimScoringHooks'
 import { type BasicStatsObject } from 'lib/conditionals/conditionalConstants'
 import type { StatsValues } from 'lib/constants/constants'
 import {
+  cardBorderRadius,
   cardTotalW,
   defaultGap,
   middleColumnWidth,
@@ -112,6 +115,13 @@ const EMPTY_SWATCHES: string[] = []
 const EMPTY_OPTIONS: ShowcaseTemporaryOptions = {}
 const EMPTY_SCORED: RelicScoringResult[] = []
 
+function getPreviewMinHeight(source: ShowcaseSource, forceDebug: boolean | undefined) {
+  if (forceDebug) return 'auto'
+  if (source === ShowcaseSource.BUILDS_MODAL) return 900
+  if (source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM) return undefined
+  return 2000
+}
+
 interface CharacterPreviewProps {
   id: string
   character: Character | ShowcaseTabCharacter | null
@@ -122,6 +132,7 @@ interface CharacterPreviewProps {
   setOriginalCharacterModalOpen?: (open: boolean) => void
   setOriginalCharacterModalInitialCharacter?: (character: Character) => void
   savedBuildOverride?: SavedBuild | null
+  simulationMetadataOverrides?: SimulationMetadataOverrides
 }
 
 globalThis.CARD_DEBUG = false
@@ -165,16 +176,6 @@ function ShowcaseBackgroundBlur({
 }) {
   let imgStyle: React.CSSProperties
   if (portraitToUse) {
-    // Custom portrait: "cover" behavior — object-fit:cover + object-position
-    const crop = portraitToUse.customImageParams.croppedAreaPixels
-    const origW = portraitToUse.originalDimensions.width
-    const origH = portraitToUse.originalDimensions.height
-    let objPos = 'center'
-    if (origW > 0 && origH > 0) {
-      const pctX = (crop.x + crop.width / 2) / origW * 100
-      const pctY = (crop.y + crop.height / 2) / origH * 100
-      objPos = `${pctX}% ${pctY}%`
-    }
     imgStyle = {
       position: 'absolute',
       top: 0,
@@ -182,7 +183,7 @@ function ShowcaseBackgroundBlur({
       width: '100%',
       height: '100%',
       objectFit: 'cover',
-      objectPosition: objPos,
+      objectPosition: getCustomPortraitObjectPosition(portraitToUse),
     }
   } else {
     // Default portrait: pixel width + computed top/left (height:auto preserves aspect)
@@ -279,7 +280,7 @@ export function CharacterPreview({
         style={{
           height: parentH,
           width: cardTotalW,
-          borderRadius: 6,
+          borderRadius: cardBorderRadius,
           border: '1px solid rgba(255, 255, 255, 0.1)',
         }}
       />
@@ -326,6 +327,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
   forceDebug,
   debugVisualConfig,
   editorOverrides,
+  simulationMetadataOverrides,
 }: CharacterPreviewInnerProps) {
   const injectedScoring = useInjectedScoringInput()
   // Safe narrowing: ShowcaseTabCharacter is structurally compatible with Character for all
@@ -391,10 +393,9 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
         storedScoringType: requestedScoringType,
         savedBuildOverride,
         t,
-        ...(injectedScoring?.simulationMetadataOverride && {
-          simulationMetadataOverride: injectedScoring.simulationMetadataOverride,
-          overrideConfigType: injectedScoring.configType,
-        }),
+        simulationMetadataOverrides,
+        simulationMetadataOverride: injectedScoring?.simulationMetadataOverride,
+        overrideConfigType: injectedScoring?.configType,
       })
       if (source === ShowcaseSource.LEADERBOARD) {
         baseLayout.portraitToUse = undefined
@@ -416,6 +417,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
       t,
       forceDebug,
       injectedScoring,
+      simulationMetadataOverrides,
     ],
   )
 
@@ -517,7 +519,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           flexDirection: 'column',
           width: cardTotalW,
           gap: source === ShowcaseSource.LEADERBOARD ? 16 : undefined,
-          minHeight: forceDebug ? 'auto' : (source === ShowcaseSource.BUILDS_MODAL ? 900 : (source === ShowcaseSource.LEADERBOARD ? undefined : 2000)),
+          minHeight: getPreviewMinHeight(source, forceDebug),
         }}
       >
         {
@@ -561,7 +563,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
             'background': 'var(--layer-inset)',
             'backgroundBlendMode': visual.blendMode,
             'overflow': 'hidden',
-            'borderRadius': 6,
+            'borderRadius': cardBorderRadius,
             'transition': showcaseTransition,
             'gap': defaultGap,
           } as React.CSSProperties}
@@ -620,7 +622,7 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
                 justifyContent: 'space-between',
                 width: middleColumnWidth,
                 height: '100%',
-                borderRadius: 6,
+                borderRadius: cardBorderRadius,
                 zIndex: 10,
                 transition: showcaseTransition,
                 flex: 1,
@@ -685,13 +687,15 @@ const CharacterPreviewInner = memo(function CharacterPreviewInner({
           />
         </div>
 
-        <CharacterAnnouncement
-          characterId={showcaseMetadata.characterId}
-          teammateCharacterIds={layout.activeSimulationMetadata?.teammates.map((t) => t.characterId)}
-          mt={10}
-        />
+        {source !== ShowcaseSource.TEAM && (
+          <CharacterAnnouncement
+            characterId={showcaseMetadata.characterId}
+            teammateCharacterIds={layout.activeSimulationMetadata?.teammates.map((t) => t.characterId)}
+            mt={10}
+          />
+        )}
 
-        {source !== ShowcaseSource.BUILDS_MODAL && !forceDebug && (
+        {source !== ShowcaseSource.BUILDS_MODAL && source !== ShowcaseSource.TEAM && !forceDebug && (
           <ShowcaseBuildAnalysis
             showcaseMetadata={showcaseMetadata}
             scoringType={scoringType}

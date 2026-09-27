@@ -1,13 +1,14 @@
 import { Constants } from 'lib/constants/constants'
+import { generateBasicStatExpression } from 'lib/gpu/injection/displayStats'
 import { generateBasicSetEffectsWgsl } from 'lib/gpu/injection/generateBasicSetEffects'
-import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
-import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
-import { injectSettings } from 'lib/gpu/injection/injectSettings'
-import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
 import {
   type GeneratedSetMaskWgsl,
   generateSetMaskWgsl,
 } from 'lib/gpu/injection/generateSetMaskWgsl'
+import { injectComputedStats } from 'lib/gpu/injection/injectComputedStats'
+import { generateDynamicConditionals } from 'lib/gpu/injection/injectConditionals'
+import { injectSettings } from 'lib/gpu/injection/injectSettings'
+import { injectUnrolledActions } from 'lib/gpu/injection/injectUnrolledActions'
 import { generateSetIndexConstants } from 'lib/gpu/injection/setIndexMap'
 import { indent } from 'lib/gpu/injection/wgslUtils'
 import { uniformCompatible } from 'lib/gpu/webgpuDevice'
@@ -57,7 +58,7 @@ export function generateWgsl(context: OptimizerContext, request: Form, relics: R
   wgsl = injectUnrolledActions(wgsl, request, context, gpuParams)
   wgsl = injectConditionalsNew(wgsl, request, context, gpuParams)
   wgsl = injectGpuParams(wgsl, request, context, gpuParams)
-  wgsl = injectBasicFilters(wgsl, request)
+  wgsl = injectBasicFilters(wgsl, request, context)
   wgsl = injectSetFilters(wgsl, request)
   wgsl = injectComputedStats(wgsl)
   wgsl = injectDispatchMode(wgsl, gpuParams, setMasks)
@@ -144,7 +145,7 @@ ${injectedStructs}
 function filterFn(request: Form) {
   return (text: string) => {
     if (text.length === 0) return text
-    const [, , threshold] = text.split(/[><]/).flatMap((x) => x.split('.')).map((x) => x.trim())
+    const threshold = text.split(/[><]/).at(-1)!.trim()
     const min = threshold.includes('min')
     const max = threshold.includes('max')
     const value = request[threshold as keyof Form]
@@ -197,40 +198,42 @@ if (${conditions.join('\n || ')}) {
   )
 }
 
-function injectBasicFilters(wgsl: string, request: Form) {
+function injectBasicFilters(wgsl: string, request: Form, context: OptimizerContext) {
   const sortOption = SortOption[request.resultSort!]
   const sortKey: string = sortOption.key
   const sortOptionComputed = sortOption.isComputedRating
   const filter = filterFn(request)
+  const config = context.defaultActions[context.defaultActions.length - 1].config
+  const stat = (key: string) => generateBasicStatExpression(request, config, key)
 
   // For basic stats, threshold check is here. For computed ratings (COMBO, damage types),
   // threshold check is in generateSortOptionReturn
   let sortString = ''
   if (!sortOptionComputed) {
-    sortString = `c.${sortKey} < threshold`
+    sortString = `${stat(sortKey)} < threshold`
   }
 
   const basicFilters = [
-    filter('c.SPD < minSpd'),
-    filter('c.SPD > maxSpd'),
-    filter('c.HP  < minHp'),
-    filter('c.HP  > maxHp'),
-    filter('c.ATK < minAtk'),
-    filter('c.ATK > maxAtk'),
-    filter('c.DEF < minDef'),
-    filter('c.DEF > maxDef'),
-    filter('c.CR  < minCr'),
-    filter('c.CR  > maxCr'),
-    filter('c.CD  < minCd'),
-    filter('c.CD  > maxCd'),
-    filter('c.EHR < minEhr'),
-    filter('c.EHR > maxEhr'),
-    filter('c.RES < minRes'),
-    filter('c.RES > maxRes'),
-    filter('c.BE  < minBe'),
-    filter('c.BE  > maxBe'),
-    filter('c.ERR < minErr'),
-    filter('c.ERR > maxErr'),
+    filter(`${stat('SPD')} < minSpd`),
+    filter(`${stat('SPD')} > maxSpd`),
+    filter(`${stat('HP')} < minHp`),
+    filter(`${stat('HP')} > maxHp`),
+    filter(`${stat('ATK')} < minAtk`),
+    filter(`${stat('ATK')} > maxAtk`),
+    filter(`${stat('DEF')} < minDef`),
+    filter(`${stat('DEF')} > maxDef`),
+    filter(`${stat('CR')} < minCr`),
+    filter(`${stat('CR')} > maxCr`),
+    filter(`${stat('CD')} < minCd`),
+    filter(`${stat('CD')} > maxCd`),
+    filter(`${stat('EHR')} < minEhr`),
+    filter(`${stat('EHR')} > maxEhr`),
+    filter(`${stat('RES')} < minRes`),
+    filter(`${stat('RES')} > maxRes`),
+    filter(`${stat('BE')} < minBe`),
+    filter(`${stat('BE')} > maxBe`),
+    filter(`${stat('ERR')} < minErr`),
+    filter(`${stat('ERR')} > maxErr`),
     filter(sortString),
   ].filter((str) => str.length > 0).join(' ||\n')
 

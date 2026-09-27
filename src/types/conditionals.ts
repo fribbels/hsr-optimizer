@@ -65,8 +65,8 @@ export interface ConditionalsController {
   newCalculateBasicEffects?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
   newGpuCalculateBasicEffects?: (action: OptimizerAction, context: OptimizerContext) => string
 
-  // Multipliers that can be evaluated after all stat modifications are complete
-  // No changes to stats should occur at this stage
+  // A finalizer reads finished combat stats and prepares damage modifiers.
+  // It must not change shared combat stats or trigger further stat conversions.
   finalizeCalculations?: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => void
 
   // WGSL implementation of finalizeCalculations to run on GPU

@@ -5,6 +5,7 @@ import {
 } from 'lib/constants/constants'
 import { type BuffSource } from 'lib/optimization/buffSource'
 import { type AKeyType } from 'lib/optimization/engine/config/keys'
+import { type OutputTag } from 'lib/optimization/engine/config/tag'
 import {
   emptySetMatches,
   type SetMatches,
@@ -17,6 +18,8 @@ export type Buff = {
   source: BuffSource,
   memo?: boolean,
   damageTags?: number,
+  // Basic-stat traces omit hit-level output metadata.
+  outputTags?: OutputTag,
 }
 
 type BasicStatController = {

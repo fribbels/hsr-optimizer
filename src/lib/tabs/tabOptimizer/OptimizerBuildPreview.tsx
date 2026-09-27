@@ -57,8 +57,9 @@ export function OptimizerBuildPreview() {
     if (relic) {
       useRelicModalStore.getState().openOverlay({
         selectedRelic: relic,
-        onOk: (editedRelic: Relic) => {
-          RelicModalController.onEditOk(relic, editedRelic)
+        onOk: (editedRelic: Relic, currentRelic: Relic | null) => {
+          if (!currentRelic) return
+          RelicModalController.onEditOk(currentRelic, editedRelic)
         },
         next,
         prev,

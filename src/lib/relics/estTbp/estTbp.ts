@@ -8,6 +8,7 @@ import {
   getRollQualityDistribution,
   thresholdProbability,
 } from 'lib/relics/estTbp/convolution'
+import { RelicRollGrader } from 'lib/relics/relicRollGrader'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { clone } from 'lib/utils/objectUtils'
 import type { Relic } from 'types/relic'
@@ -18,6 +19,9 @@ export function scoreTbp(preRelic: Relic, weights: { [stat: string]: number }): 
     relic.enhance += 3
     relic.substats.push(s)
   })
+  if (relic.previewSubstats.length > 0) {
+    RelicRollGrader.calculateRelicSubstatRolls(relic)
+  }
   // Round away the floating point errors from weight products
   const scoreToBeat = precisionRound(simpleSubstatScoreOfRelic(relic, weights))
 

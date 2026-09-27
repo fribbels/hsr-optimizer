@@ -20,7 +20,7 @@ import {
 
 export type MetadataFieldKey = 'simulation' | 'supportSimulation' | 'healSimulation' | 'shieldSimulation'
 
-type combatStatsSuffixKey = 'Support' | 'Heal' | 'Shield'
+type combatStatsSuffixKey = 'Buffer' | 'Heal' | 'Shield'
 
 export interface ScoringConfigEntry {
   configType: ScoringConfigType
@@ -92,7 +92,7 @@ export const SCORING_CONFIG_REGISTRY: Record<ScoringConfigType, ScoringConfigEnt
     applyResEqualization: true,
     supportsUpgrades: false,
     supportsDeprioritizeBuffs: false,
-    combatStatsSuffix: 'Support',
+    combatStatsSuffix: 'Buffer',
     resultSortKey: SortOption.COMBO_BUFF.key,
   },
   [ScoringConfigType.HEAL]: {

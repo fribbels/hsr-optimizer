@@ -7644,50 +7644,50 @@
       },
       "traceTree": [
         {
-          "id": "1503201_4.6v1",
+          "id": "1503201",
           "stat": "DEF%",
           "value": 0.05,
           "pre": null,
           "children": []
         },
         {
-          "id": "1503202_4.6v1",
+          "id": "1503202",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": []
         },
         {
-          "id": "1503203_4.6v1",
+          "id": "1503203",
           "stat": "Effect RES",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1503204_4.6v1",
+          "id": "1503204",
           "stat": "Elation",
           "value": 0.04,
           "pre": null,
           "children": []
         },
         {
-          "id": "1503205_4.6v1",
+          "id": "1503205",
           "stat": "DEF%",
           "value": 0.075,
           "pre": null,
           "children": [
             {
-              "id": "1503206_4.6v1",
+              "id": "1503206",
               "stat": "SPD",
               "value": 3,
-              "pre": "1503205_4.6v1",
+              "pre": "1503205",
               "children": [
                 {
-                  "id": "1503207_4.6v1",
+                  "id": "1503207",
                   "stat": "Effect RES",
                   "value": 0.06,
-                  "pre": "1503206_4.6v1",
+                  "pre": "1503206",
                   "children": []
                 }
               ]
@@ -7695,22 +7695,22 @@
           ]
         },
         {
-          "id": "1503208_4.6v1",
+          "id": "1503208",
           "stat": "Elation",
           "value": 0.06,
           "pre": null,
           "children": [
             {
-              "id": "1503209_4.6v1",
+              "id": "1503209",
               "stat": "SPD",
               "value": 4,
-              "pre": "1503208_4.6v1",
+              "pre": "1503208",
               "children": [
                 {
-                  "id": "1503210_4.6v1",
+                  "id": "1503210",
                   "stat": "DEF%",
                   "value": 0.1,
-                  "pre": "1503209_4.6v1",
+                  "pre": "1503209",
                   "children": []
                 }
               ]
@@ -7727,7 +7727,7 @@
         "CRIT Rate": 0.05,
         "CRIT DMG": 0.5
       },
-      "unreleased": true
+      "unreleased": false
     },
     "1504": {
       "id": "1504",
@@ -15016,7 +15016,7 @@
           "DefenceAddedRatio": 0.96
         }
       },
-      "unreleased": true
+      "unreleased": false
     },
     "23056": {
       "id": "23056",
@@ -15705,7 +15705,7 @@
     {
       "id": "134",
       "name": "The Edacious Heretic",
-      "skills": "Increases CRIT DMG by 16%. Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns."
+      "skills": "Increases ATK by 12%. Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns."
     },
     {
       "id": "301",

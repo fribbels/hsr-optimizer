@@ -130,7 +130,7 @@ const LightConeConditionalDisplayWrapper = memo(function LightConeConditionalDis
   const superimposition = useOptimizerRequestStore((s) => s.lightConeSuperimposition)
   const charId = useOptimizerRequestStore((s) => s.characterId)
 
-  // Hook into light cone changes to set defaults
+  // Restore settings on character or cone changes, preserving live edits when superimposition changes.
   useEffect(() => {
     if (!charId || !lcId) return
 
@@ -138,15 +138,17 @@ const LightConeConditionalDisplayWrapper = memo(function LightConeConditionalDis
       characterId: charId,
       characterEidolon: 0, // Assuming eidolon is not needed for light cone metadata
       lightCone: lcId,
-      lightConeSuperimposition: superimposition,
+      lightConeSuperimposition: useOptimizerRequestStore.getState().lightConeSuperimposition,
     }, metadata)
     const controller = LightConeConditionalsResolver.get(conditionalResolverMetadata)
     const defaults = { ...controller.defaults() }
-    const lightConeForm = getCharacterById(charId)?.form.lightConeConditionals || {}
-    mergeDefinedValues(defaults, lightConeForm)
+    const savedForm = getCharacterById(charId)?.form
+    if (savedForm?.lightCone === lcId) {
+      mergeDefinedValues(defaults, savedForm.lightConeConditionals)
+    }
 
     useOptimizerRequestStore.getState().setLightConeConditionals(defaults)
-  }, [lcId, superimposition, charId])
+  }, [lcId, charId, metadata])
 
   return (
     <Flex direction='column' justify='space-between' style={{ height: '100%', marginBottom: 8 }}>

@@ -1,0 +1,65 @@
+.viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+.scaleWrapper {
+  transform-origin: top left;
+}
+
+.grid {
+  display: grid;
+}
+
+/*
+ * A drag writes everything a moving cell needs straight onto these nodes, from slotDrag.ts: transform,
+ * transition, stacking, promotion and the backing that keeps the card underneath from showing through.
+ * What these rules contribute is somewhere for that to take effect.
+ *
+ * `isolation` is what keeps the lift meaningful. A card stacks layers inside itself, the light cone panel
+ * as high as 21, and a cell that builds no stacking context of its own lets them rise into the grid's
+ * context, where they outrank a lifted card instead of staying with the card they belong to. The symptom
+ * is a resting card's panels drawn over the card being dragged past them.
+ */
+.cardCell {
+  position: relative;
+  isolation: isolate;
+}
+
+.overlayLayer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  pointer-events: none;
+}
+
+/* The outer cell is what dnd-kit measures, so it stays put; only the inner one moves. */
+.overlayCell {
+  position: relative;
+  pointer-events: none;
+}
+
+.overlayCellInner {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: var(--team-card-radius, var(--radius-md));
+  pointer-events: auto;
+}
+
+/*
+ * The matted rail's cut edge, repeated on each card. Drawn here so the capture never sees it.
+ *
+ * The opacity is a custom property because a drag hides the edges of the cells standing still, and a
+ * pseudo-element cannot be reached to be written to directly; the drag sets the property on the cell.
+ */
+.overlayCellInner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: var(--border-subtle);
+  border-radius: inherit;
+  opacity: var(--cell-edge-opacity, 1);
+  pointer-events: none;
+}

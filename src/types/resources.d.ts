@@ -139,7 +139,8 @@ interface Resources {
       "Priority": {
         "Label": "Priority",
         "Options": {
-          "MoveToTop": "Move character to top"
+          "MoveToTop": "Move character to top",
+          "SortByEffectiveSubstats": "Sort by effective substats"
         }
       },
       "Scoring": {
@@ -154,7 +155,7 @@ interface Resources {
         "Labels": {
           "NoneScore": "None",
           "StatScore": "Substat Rolls",
-          "buffer": "Support Benchmark",
+          "buffer": "Buffer Benchmark",
           "dps": "DPS Benchmark",
           "heal": "Heal Benchmark",
           "shield": "Shield Benchmark"
@@ -231,10 +232,10 @@ interface Resources {
       "DetailsSlider": {
         "Labels": {
           "CombatStats": "Combat Stats",
+          "CombatStatsBuffer": "Combat Stats (Buffer)",
           "CombatStatsHeal": "Combat Stats (Heal)",
           "CombatStatsShield": "Combat Stats (Shield)",
-          "CombatStatsSubDps": "Combat Stats (Sub DPS)",
-          "CombatStatsSupport": "Combat Stats (Support)"
+          "CombatStatsSubDps": "Combat Stats (Sub DPS)"
         }
       },
       "EST-TBP": {
@@ -266,7 +267,7 @@ interface Resources {
       },
       "ScoreHeader": {
         "CustomSpeed": "{{spd}} SPD Benchmark",
-        "buffer": "Support Benchmark",
+        "buffer": "Buffer Benchmark",
         "dps": "DPS Benchmark",
         "heal": "Heal Benchmark",
         "shield": "Shield Benchmark"
@@ -314,7 +315,7 @@ interface Resources {
         "Header": "How is DPS Score calculated?"
       },
       "ScoringExplanation": {
-        "buffer": "Support Benchmark Calculations",
+        "buffer": "Buffer Benchmark Calculations",
         "dps": "DPS Benchmark Calculations",
         "heal": "Heal Benchmark Calculations",
         "shield": "Shield Benchmark Calculations"
@@ -5728,7 +5729,7 @@ interface Resources {
         "Name": "Dreamlit Actor"
       },
       "134": {
-        "Description2pc": "Increases ATK by 12%.",
+        "Description2pc": "Increases CRIT DMG by 16%.",
         "Description4pc": "Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.",
         "Name": "The Edacious Heretic"
       },
@@ -6191,6 +6192,63 @@ interface Resources {
       "Import": "Relic scanner importer",
       "Load": "Load optimizer data",
       "Save": "Save optimizer data"
+    }
+  },
+  "leaderboardTab": {
+    "Banner": {
+      "AllTeams": "All teams",
+      "LightConeModule": "Light cone",
+      "SetPieces": "{{count}}pc",
+      "SetsModule": "Sets",
+      "TeamModule": "Team",
+      "TeamRank": "Team rank"
+    },
+    "CharacterList": {
+      "Columns": {
+        "Character": "Character",
+        "Entries": "Entries",
+        "Rank": "#",
+        "TopScore": "Top %"
+      },
+      "Empty": "No matching characters",
+      "InsufficientData": "Insufficient data",
+      "SearchPlaceholder": "Search characters",
+      "TabLabel": "{{label}} ({{count}})"
+    },
+    "ConfigTypes": {
+      "dps": "DPS",
+      "heal": "Heal",
+      "shield": "Shield",
+      "support": "Buffer"
+    },
+    "Filters": {
+      "AllEidolons": "All",
+      "AllTeams": "All teams ({{count}})",
+      "EidolonLabel": "Eidolon",
+      "TeamLabel": "Team"
+    },
+    "Header": {
+      "ShowcaseButton": "Go to Showcase →",
+      "Subtitle": "Benchmark rankings based on Showcase tab Aeon builds, scores refreshed daily.",
+      "Title": "Leaderboards"
+    },
+    "Timeline": {
+      "DaysAgo": "{{count}}d",
+      "Header": "Global Activity",
+      "HoursAgo": "{{count}}h",
+      "New": "NEW"
+    },
+    "UserRanks": {
+      "AllTeamsRankLabel": "All teams rank {{rank}}",
+      "BestTeamRank": "Best team rank",
+      "Header": "Your Aeons",
+      "Status": {
+        "InvalidUid": "The saved UID is invalid.",
+        "Loading": "Finding your leaderboard ranks...",
+        "NoUid": "No saved UID found.",
+        "Unavailable": "Ranks are temporarily unavailable."
+      },
+      "TeamRankLabel": "Team rank {{rank}}"
     }
   },
   "modals": {
@@ -7957,10 +8015,39 @@ interface Resources {
     "Tools": {
       "Benchmarks": "Benchmarks",
       "Calculators": "Calculators",
+      "Leaderboards": "Leaderboards",
       "Showcase": "Showcase",
       "Title": "Tools",
       "WarpPlanner": "Warp Planner"
     }
+  },
+  "teamShowcaseTab": {
+    "Benchmark": "Benchmark",
+    "Buttons": {
+      "AddCharacter": "Add character",
+      "AddMainDps": "Add Main DPS",
+      "ChangeCharacter": "Change character",
+      "Clear": "Clear characters",
+      "CopyScreenshot": "Copy screenshot",
+      "DownloadScreenshot": "Download screenshot",
+      "Remove": "Remove",
+      "SyncBenchmarkTeams": "Sync benchmark teams"
+    },
+    "CardOptions": "Card options, drag to reorder",
+    "Panels": {
+      "Characters": "Character Builds",
+      "Controls": "Controls",
+      "Teams": "Team Showcase"
+    },
+    "SavedTeams": {
+      "DefaultName": "Team {{index}}",
+      "Delete": "Delete team",
+      "Empty": "No saved teams yet",
+      "Header": "Gallery",
+      "Rename": "Rename",
+      "Save": "Save team"
+    },
+    "ScreenshotName": "Team"
   },
   "warpCalculatorTab": {
     "ColumnTitles": {

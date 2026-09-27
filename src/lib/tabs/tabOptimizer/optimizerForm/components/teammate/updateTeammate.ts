@@ -1,10 +1,11 @@
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { calculateTeammateSets } from 'lib/optimization/teammateSetUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { resolveLcDefaults } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { calculateTeammateSets } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import type {
   Form,
   TeammateProperty,
@@ -23,18 +24,32 @@ export function updateTeammate(changedValues: Partial<Form>) {
   if (updatedTeammate.lightCone) {
     const store = useOptimizerRequestStore.getState()
     const teammate = store.teammates[teammateIndex]
+    if (!teammate.characterId) return
+    const lightConeChanged = teammate.lightCone !== updatedTeammate.lightCone
 
-    const lcDefaults = resolveLcDefaults(teammate as any, getGameMetadata(), true)
-    if (!lcDefaults) return
+    const lcDefaults = resolveLcDefaults(
+      {
+        characterId: teammate.characterId,
+        characterEidolon: teammate.characterEidolon,
+        lightCone: updatedTeammate.lightCone,
+        lightConeSuperimposition: teammate.lightConeSuperimposition,
+      },
+      getGameMetadata(),
+      true,
+    )
+    const lightConeConditionals = lightConeChanged
+      ? { ...lcDefaults }
+      : { ...lcDefaults, ...teammate.lightConeConditionals }
 
-    const mergedConditionals = { ...lcDefaults, ...teammate.lightConeConditionals }
-    useOptimizerRequestStore.getState().setTeammateField(teammateIndex, 'lightConeConditionals', mergedConditionals)
+    store.setTeammateField(teammateIndex, 'lightCone', updatedTeammate.lightCone)
+    store.setTeammateField(teammateIndex, 'lightConeConditionals', lightConeConditionals)
   } else if (updatedTeammate.characterId) {
     const teammateCharacterId = updatedTeammate.characterId
 
     const store = useOptimizerRequestStore.getState()
     const currentTeammate = store.teammates[teammateIndex]
     const teammateCharacter = getCharacterById(teammateCharacterId)
+    const characterChanged = currentTeammate.characterId !== teammateCharacterId
 
     let lightCone = currentTeammate.lightCone
     let lightConeSuperimposition = currentTeammate.lightConeSuperimposition
@@ -46,7 +61,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
       lightCone = teammateCharacter.form.lightCone
       lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
       characterEidolon = teammateCharacter.form.characterEidolon
-      const activeTeammateSets = calculateTeammateSets(teammateCharacter)
+      const activeTeammateSets = calculateTeammateSets(teammateCharacter, useRelicStore.getState().relicsById)
       teamRelicSet = activeTeammateSets.teamRelicSet
       teamOrnamentSet = activeTeammateSets.teamOrnamentSet
     } else {
@@ -59,14 +74,14 @@ export function updateTeammate(changedValues: Partial<Form>) {
       characterEidolon: characterEidolon,
     })
 
-    let characterConditionalsValues = currentTeammate.characterConditionals
-    if (charController.teammateDefaults) {
-      characterConditionalsValues = { ...charController.teammateDefaults(), ...characterConditionalsValues }
-    }
+    const characterDefaults = charController.teammateDefaults?.()
+    const characterConditionalsValues = characterChanged
+      ? { ...characterDefaults }
+      : { ...characterDefaults, ...currentTeammate.characterConditionals }
 
-    let lightConeConditionalsValues = currentTeammate.lightConeConditionals
-    if (lightCone) {
-      const lcDefaults = resolveLcDefaults(
+    const lightConeChanged = currentTeammate.lightCone !== lightCone
+    const lcDefaults = lightCone
+      ? resolveLcDefaults(
         {
           characterId: teammateCharacterId,
           characterEidolon,
@@ -76,10 +91,10 @@ export function updateTeammate(changedValues: Partial<Form>) {
         getGameMetadata(),
         true,
       )
-      if (lcDefaults) {
-        lightConeConditionalsValues = { ...lcDefaults, ...lightConeConditionalsValues }
-      }
-    }
+      : undefined
+    const lightConeConditionalsValues = lightConeChanged
+      ? { ...lcDefaults }
+      : { ...lcDefaults, ...currentTeammate.lightConeConditionals }
 
     useOptimizerRequestStore.getState().setTeammate(teammateIndex, {
       characterId: teammateCharacterId,

@@ -10,10 +10,7 @@ import {
   newConditionalWgslWrapper,
 } from 'lib/gpu/conditionals/dynamicConditionals'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
-import {
-  containerActionVal,
-  p_containerActionVal,
-} from 'lib/gpu/injection/injectUtils'
+import { containerActionVal } from 'lib/gpu/injection/injectUtils'
 import {
   type BasicStatsArray,
   WgslStatName,
@@ -22,6 +19,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { SELF_ENTITY_INDEX } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   ornament2p,
   SetKeys,
@@ -77,7 +75,7 @@ if (
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, config)} >= 0.50
 ) {
   (*p_state).BelobogOfTheArchitectsConditional${action.actionIdentifier} = 1.0;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.DEF, config)} += 0.15 * ${config.selfEntity.baseDef};
+  ${buff.action(StatKey.DEF, 0.15 * config.selfEntity.baseDef).wgsl(action)}
 }
     `,
     )

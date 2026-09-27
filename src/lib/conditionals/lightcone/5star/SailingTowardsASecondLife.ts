@@ -17,6 +17,7 @@ import {
   SELF_ENTITY_INDEX,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
@@ -96,7 +97,7 @@ if (
   ${containerActionVal(SELF_ENTITY_INDEX, StatKey.BE, action.config)} >= 1.50
 ) {
   (*p_state).SailingTowardsASecondLifeConditional${action.actionIdentifier} = 1.0;
-  ${containerActionVal(SELF_ENTITY_INDEX, StatKey.SPD, action.config)} += ${sValuesSpdBuff[s]} * baseSPD;
+  ${buff.action(StatKey.SPD, `${sValuesSpdBuff[s]} * baseSPD`).wgsl(action)}
 }
     `,
           )

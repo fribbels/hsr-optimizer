@@ -4,9 +4,16 @@ import {
   PILL_SIZE,
   TEXT_DIM,
 } from 'lib/characterPreview/buffsAnalysis/designContext'
-import type { AKeyType } from 'lib/optimization/engine/config/keys'
-import type { StatConfigEntry } from 'lib/optimization/engine/config/statsConfig'
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import type { Buff } from 'lib/optimization/basicStatsArray'
+import { type AKeyType } from 'lib/optimization/engine/config/keys'
+import type {
+  SimpleLabel,
+  StatConfigEntry,
+} from 'lib/optimization/engine/config/statsConfig'
+import {
+  getBoostLabel,
+  newStatsConfig,
+} from 'lib/optimization/engine/config/statsConfig'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
 import type { ReactElement } from 'react'
@@ -49,7 +56,21 @@ export function translatedLabel(stat: string, isMemo = false): string {
   return labelToString(config.label, isMemo)
 }
 
-export function labelToString(label: StatConfigEntry['label'], isMemo = false) {
+const BOOST_STAT: AKeyType = 'BOOST'
+
+export function isOutputBoost(buff: Buff): boolean {
+  return buff.stat === BOOST_STAT
+}
+
+export function translatedBuffLabel(buff: Buff): string {
+  if (isOutputBoost(buff)) {
+    return labelToString(getBoostLabel(buff.outputTags), buff.memo)
+  }
+
+  return translatedLabel(buff.stat, buff.memo)
+}
+
+export function labelToString(label: SimpleLabel, isMemo = false) {
   if (typeof label === 'string') {
     return isMemo ? i18next.t('MemospriteLabel', { label }) as string : label
   }

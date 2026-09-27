@@ -12,6 +12,7 @@ import {
   gilgameshFuaSaberUltBoost,
 } from 'lib/conditionals/character/1500/Gilgamesh'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -399,8 +400,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: MortenaxBlade.id,
-      lightCone: MortenaxBlade.defaultLightCone,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

@@ -1,7 +1,6 @@
 import {
   ConditionalDataType,
   Sets,
-  Stats,
 } from 'lib/constants/constants'
 import {
   basicP2,
@@ -47,10 +46,8 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
-  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-    if (context.elementalDamageType == Stats.Quantum_DMG) {
-      c.QUANTUM_DMG_BOOST.buff(0.10, Source.PoetOfMourningCollapse)
-    }
+  p2c: (c: BasicStatsArray) => {
+    c.QUANTUM_DMG_BOOST.buff(0.10, Source.PoetOfMourningCollapse)
   },
   p4c: (c: BasicStatsArray, context: OptimizerContext) => {
     c.SPD_P.buff(-0.08, Source.PoetOfMourningCollapse)

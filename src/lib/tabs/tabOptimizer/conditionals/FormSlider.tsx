@@ -74,9 +74,10 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
   useEffect(() => {
     if (removeForm) return
     const fieldValue = (storeValue ?? min) as number
-    const clamped = Math.min(Math.max(fieldValue, min), max)
-    if (clamped !== fieldValue) {
-      handleConditionalChange(itemName as (string | number)[], clamped)
+    const bounded = Math.min(Math.max(fieldValue, min), max)
+    const normalized = percent ? bounded : Math.round(bounded)
+    if (normalized !== fieldValue) {
+      handleConditionalChange(itemName as (string | number)[], normalized)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: only re-clamp when bounds change; storeValue read for current value, not as trigger
   }, [min, max])
@@ -97,7 +98,10 @@ export const FormSlider: ComponentType<FormSliderProps> = ({
       disabled={disabled}
       onChange={(newValue) => {
         if (handleChange && newValue != null && typeof newValue === 'number') {
-          handleChange(newValue / multiplier)
+          // Count sliders index lookup tables, so a fraction misses every key and yields NaN.
+          // Mantine only clamps on blur, which never fires in the rotation editor's remounting input.
+          const bounded = Math.min(newValue / multiplier, max)
+          handleChange(percent ? bounded : Math.round(bounded))
         }
       }}
       value={precisionRound((displayValue ?? 0) * multiplier)}

@@ -37,6 +37,7 @@ import {
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { buff } from 'lib/optimization/engine/container/gpuBuffBuilder'
 import {
   AbilityKind,
   NULL_TURN_ABILITY_NAME,
@@ -315,7 +316,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           const memoUnconvertibleCr = x.getActionValueByIndex(StatKey.UNCONVERTIBLE_CR_BUFF, memoIndex)
 
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = floorSafe((memoCr - memoUnconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
+          const buffValue = Math.max(0, floorSafe((memoCr - memoUnconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01)
 
           action.conditionalState[this.id] = buffValue
           x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.targets(TargetTag.Memosprite).source(SOURCE_E6))
@@ -347,7 +348,7 @@ let cr = ${containerActionVal(memoIndex, StatKey.CR, config)};
 let unconvertibleCr = ${containerActionVal(memoIndex, StatKey.UNCONVERTIBLE_CR_BUFF, config)};
 
 if (cr > 1.00) {
-  let buffValue: f32 = floorSafe((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01;
+  let buffValue: f32 = max(0.0, floorSafe((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01);
   let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
   (*p_state).${this.id}${action.actionIdentifier} = buffValue;
@@ -377,7 +378,7 @@ if (cr > 1.00) {
           const unconvertibleCr = x.getActionValueByIndex(StatKey.UNCONVERTIBLE_CR_BUFF, SELF_ENTITY_INDEX)
 
           const stateValue = action.conditionalState[this.id] || 0
-          const buffValue = floorSafe((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01
+          const buffValue = Math.max(0, floorSafe((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01)
 
           action.conditionalState[this.id] = buffValue
           x.buffDynamic(StatKey.UNCONVERTIBLE_CD_BUFF, buffValue - stateValue, action, context, x.source(SOURCE_E6))
@@ -404,12 +405,12 @@ let cr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.CR, config)};
 let unconvertibleCr = ${containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CR_BUFF, config)};
 
 if (cr > 1.00) {
-  let buffValue: f32 = floorSafe((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01;
+  let buffValue: f32 = max(0.0, floorSafe((cr - unconvertibleCr - 1.00) / 0.01) * 2.00 * 0.01);
   let stateValue: f32 = (*p_state).${this.id}${action.actionIdentifier};
 
   (*p_state).${this.id}${action.actionIdentifier} = buffValue;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.UNCONVERTIBLE_CD_BUFF, config)} += buffValue - stateValue;
-  ${p_containerActionVal(SELF_ENTITY_INDEX, StatKey.CD, config)} += buffValue - stateValue;
+  ${buff.action(StatKey.UNCONVERTIBLE_CD_BUFF, 'buffValue - stateValue').wgsl(action)}
+  ${buff.action(StatKey.CD, 'buffValue - stateValue').wgsl(action)}
 }
 `,
           )

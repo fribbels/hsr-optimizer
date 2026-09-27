@@ -28,6 +28,10 @@ export type PageHash =
   | '#characters'
   | '#relics'
   | '#import'
+  | '#teams'
+
+export const CHARACTERS_HASH: PageHash = '#characters'
+export const TEAMS_HASH: PageHash = '#teams'
 
 export enum AppPages {
   HOME = 'HOME',
@@ -56,7 +60,7 @@ export const PageToHash = {
   [AppPages.WARP]: '#warp',
 
   [AppPages.OPTIMIZER]: '#main',
-  [AppPages.CHARACTERS]: '#characters',
+  [AppPages.CHARACTERS]: CHARACTERS_HASH,
   [AppPages.RELICS]: '#relics',
   [AppPages.IMPORT]: '#import',
 
@@ -70,12 +74,13 @@ export const PageToHash = {
 export const HashToPage = {
   ...flipStringMapping(PageToHash),
   [CALCULATOR_PANEL_HASH[CalculatorPanel.EHR]]: AppPages.CALCULATORS,
+  [TEAMS_HASH]: AppPages.CHARACTERS,
 } as const satisfies Record<PageHash, AppPages>
 
 export function getDefaultActiveKey() {
   const page = HashToPage[parseHash().hash as PageHash]
 
-  // Redirect #main to HOME for first-time users (no prior save data)
+  // First-time users start on Home; keep the URL in sync with the redirected page.
   if (
     (
       page === AppPages.OPTIMIZER
@@ -84,6 +89,7 @@ export function getDefaultActiveKey() {
     )
     && localStorage.getItem('state') === null
   ) {
+    window.history.replaceState({}, '', BASE_PATH + PageToHash[AppPages.HOME])
     return AppPages.HOME
   }
 

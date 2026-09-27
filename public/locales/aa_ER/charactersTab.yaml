@@ -26,6 +26,7 @@ CharacterMenu:
   Priority:
     Label: crwdns39626:0crwdne39626:0
     Options:
+      SortByEffectiveSubstats: crwdns47855:0crwdne47855:0
       MoveToTop: crwdns39630:0crwdne39630:0
 SearchPlaceholder: crwdns39632:0crwdne39632:0
 GridDensityOptions:

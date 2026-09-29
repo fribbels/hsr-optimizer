@@ -13,6 +13,10 @@ import {
   findTeamMeta,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -109,6 +113,13 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
   const elationSkillBounceCount = 5
   const elationSkillBounceScaling = elationSkill(e, 0.20, 0.21, 0.22)
   const elationSkillVulnerability = 0.16
+
+  // Innate Trace (Faces of Elation ascension): Great Boon multiplier +20% of original (Aha E2: +40%)
+  const ascensionGreatBoonBonusByTier: Record<AhaAscension, number> = {
+    [AhaAscension.NONE]: 0,
+    [AhaAscension.BASE]: 0.20,
+    [AhaAscension.ENHANCED]: 0.40,
+  }
 
   const defaults = {
     punchlineStacks: 30,
@@ -338,11 +349,12 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
           && self.ownConditionals.consumesSkillPoints
           && spUsed > 0
         const greatBoonCount = isDoubleProc ? 2 : 1
+        const ascensionMultiplier = 1 + ascensionGreatBoonBonusByTier[getAhaAscension(action)]
 
         const greatBoonHit = HitDefinitionBuilder.elation()
           .damageType(DamageTag.ELATION)
           .damageElement(attackElement)
-          .elationScaling(talentElationScaling * greatBoonCount)
+          .elationScaling(talentElationScaling * greatBoonCount * ascensionMultiplier)
           .punchlineStacks(certifiedBangerStacks)
           .toughnessDmg(0)
           .build() as ElationHit

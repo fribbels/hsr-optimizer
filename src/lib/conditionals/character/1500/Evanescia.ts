@@ -21,6 +21,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -125,6 +129,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const foxTeacherElationScaling = talent(e, 0.25, 0.275)
 
   const elationSkillScaling = elationSkill(e, 1.10, 1.155, 1.21)
+
+  // Innate Trace (Faces of Elation ascension): DEF ignore 10% (Aha E2: 24%); Ult multiplier +50% (+100%) of original per 500 Party Trick
+  const ascensionDefPenByTier: Record<AhaAscension, number> = {
+    [AhaAscension.NONE]: 0,
+    [AhaAscension.BASE]: 0.10,
+    [AhaAscension.ENHANCED]: 0.24,
+  }
+  const ascensionUltBonusPer500ByTier: Record<AhaAscension, number> = {
+    [AhaAscension.NONE]: 0,
+    [AhaAscension.BASE]: 0.50,
+    [AhaAscension.ENHANCED]: 1.00,
+  }
 
   const defaults = {
     certifiedBanger: true,
@@ -254,6 +270,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E1: extra Elation Skill trigger
       const e1ElationSkillMultiplier = (e >= 1 && r.e1ResPen) ? 2 : 1
 
+      // Accumulated Party Trick is approximated by the held Certified Banger count
+      const ascensionUltMultiplier = 1 + Math.floor(certifiedBangerStacks / 500) * ascensionUltBonusPer500ByTier[getAhaAscension(action)]
+
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Physical)
         .atkScaling(basicScaling)
@@ -284,7 +303,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Ult: AoE + bounces averaged per enemy
       const ultHit = HitDefinitionBuilder.standardUlt()
         .damageElement(ElementTag.Physical)
-        .atkScaling(ultAoeScaling + ultBounceScaling * totalBounceCount / context.enemyCount)
+        .atkScaling((ultAoeScaling + ultBounceScaling * totalBounceCount / context.enemyCount) * ascensionUltMultiplier)
         .toughnessDmg(20 + 5 * totalBounceCount / context.enemyCount)
         .build()
 
@@ -357,6 +376,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, (e >= 1 && r.e1ResPen) ? 0.20 : 0, x.source(SOURCE_E1))
       x.buff(StatKey.CD, (e >= 2 && r.e2CritDmg) ? 0.36 : 0, x.source(SOURCE_E2))
       x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefPen) ? 0.15 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.DEF_PEN, ascensionDefPenByTier[getAhaAscension(action)], x.source(SOURCE_TRACE))
 
       const e6MerrymakeValue = 0.15 + Math.min(r.certifiedBangerStacks, 1000) / 100 * 0.02
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? e6MerrymakeValue : 0, x.source(SOURCE_E6))

@@ -8412,6 +8412,104 @@
       },
       "unreleased": false
     },
+    "1511": {
+      "id": "1511",
+      "name": "Aeon ★ Aha",
+      "rarity": 5,
+      "path": "Elation",
+      "element": "Quantum",
+      "traces": {
+        "SPD": 5,
+        "CRIT Rate": 0.12,
+        "CRIT DMG": 0.373
+      },
+      "traceTree": [
+        {
+          "id": "1511201_4.6v1",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1511202_4.6v1",
+          "stat": "CRIT Rate",
+          "value": 0.027,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1511203_4.6v1",
+          "stat": "CRIT DMG",
+          "value": 0.053,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1511204_4.6v1",
+          "stat": "SPD",
+          "value": 2,
+          "pre": null,
+          "children": []
+        },
+        {
+          "id": "1511205_4.6v1",
+          "stat": "CRIT DMG",
+          "value": 0.08,
+          "pre": null,
+          "children": [
+            {
+              "id": "1511206_4.6v1",
+              "stat": "CRIT Rate",
+              "value": 0.04,
+              "pre": "1511205_4.6v1",
+              "children": [
+                {
+                  "id": "1511207_4.6v1",
+                  "stat": "CRIT DMG",
+                  "value": 0.08,
+                  "pre": "1511206_4.6v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1511208_4.6v1",
+          "stat": "SPD",
+          "value": 3,
+          "pre": null,
+          "children": [
+            {
+              "id": "1511209_4.6v1",
+              "stat": "CRIT Rate",
+              "value": 0.053,
+              "pre": "1511208_4.6v1",
+              "children": [
+                {
+                  "id": "1511210_4.6v1",
+                  "stat": "CRIT DMG",
+                  "value": 0.107,
+                  "pre": "1511209_4.6v1",
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "max_sp": 8,
+      "stats": {
+        "HP": 1047.816,
+        "ATK": 679.14,
+        "DEF": 509.355,
+        "SPD": 94,
+        "CRIT Rate": 0.05,
+        "CRIT DMG": 0.5
+      },
+      "unreleased": true
+    },
     "1512": {
       "id": "1512",
       "name": "Robin • Summeretto",
@@ -13169,6 +13267,24 @@
       },
       "unreleased": false
     },
+    "22009": {
+      "id": "22009",
+      "name": "See You at the World's End!",
+      "rarity": 4,
+      "path": "Elation",
+      "stats": {
+        "HP": 846.72,
+        "ATK": 476.28,
+        "DEF": 396.9
+      },
+      "imageOffset": {
+        "x": 1,
+        "y": 30,
+        "s": 1.1
+      },
+      "superimpositions": {},
+      "unreleased": true
+    },
     "23000": {
       "id": "23000",
       "name": "Night on the Milky Way",
@@ -15313,6 +15429,40 @@
       },
       "unreleased": false
     },
+    "23065": {
+      "id": "23065",
+      "name": "Upon the First Echo of \"Aha\"",
+      "rarity": 5,
+      "path": "Elation",
+      "stats": {
+        "HP": 952.56,
+        "ATK": 582.12,
+        "DEF": 529.2
+      },
+      "imageOffset": {
+        "x": -110,
+        "y": -183,
+        "s": 2.2
+      },
+      "superimpositions": {
+        "1": {
+          "BaseSpeed": 12
+        },
+        "2": {
+          "BaseSpeed": 14
+        },
+        "3": {
+          "BaseSpeed": 16
+        },
+        "4": {
+          "BaseSpeed": 18
+        },
+        "5": {
+          "BaseSpeed": 20
+        }
+      },
+      "unreleased": true
+    },
     "24000": {
       "id": "24000",
       "name": "On the Fall of an Aeon",
@@ -15700,12 +15850,12 @@
     {
       "id": "133",
       "name": "Dreamlit Actor",
-      "skills": "Increases SPD by 6%. When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns."
+      "skills": "Increases SPD by 6%. When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all ally targets' CRIT DMG by 12%, lasting for 3 turns."
     },
     {
       "id": "134",
       "name": "The Edacious Heretic",
-      "skills": "Increases ATK by 12%. Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns."
+      "skills": "Increases CRIT DMG by 16%. Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns."
     },
     {
       "id": "301",
@@ -15846,6 +15996,16 @@
       "id": "328",
       "name": "Cosmic Life Sciences Institute",
       "skills": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, for every 1 excess point, increases the wearer's DMG dealt by 0.2%, up to a max increase of 32%."
+    },
+    {
+      "id": "329",
+      "name": "God's Moment of Joy",
+      "skills": "Increases the wearer's SPD by 6%. When the wearer's Elation reaches 40% or higher, the wearer's action advances by 40% immediately when entering combat."
+    },
+    {
+      "id": "330",
+      "name": "Subspace ASC Center",
+      "skills": "Increases the wearer's SPD by 6%. When the wearer's SPD reaches 145 or higher, increases all allies' Break Effect by 15% after entering combat. This effect cannot stack."
     }
   ]
 }

@@ -119,6 +119,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   // Not simulated: Technique setup; Energy, action advance, extra turns, and Charge lifecycles.
   // Repellency depletion, cleanse, and E1 fatal-hit recovery require incoming-damage combat state.
   // E6 extra damage requires the Archetype's combat stats, unavailable in Pearl's own calculation.
+  // Innate Trace: the Party Trick cap rise is the slider max; extra-turn resource retention is not simulated.
 
   // Elation Skill: allies' next attack deals extra Elation DMG, tier = Elation characters in team (Pearl included)
   const elationSkillProcByElationCount: Record<number, number> = {
@@ -183,7 +184,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Certified Banger points',
       content: betaContent,
       min: 0,
-      max: 50,
+      // Talent cap is 50; the Faces of Elation Innate Trace raises it to 75
+      max: 75,
     },
     punchlineStacks: {
       id: 'punchlineStacks',

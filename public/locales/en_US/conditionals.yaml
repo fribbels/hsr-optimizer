@@ -2668,6 +2668,9 @@ Characters:
       e6CritDmg:
         text: E6 Crit DMG
         content: When using Elation Skill, increases this unit's CRIT DMG by 100% for 3 turns.
+      ultTargetsAha:
+        text: Ult on Aha
+        content: While the Path of Elation is ascended, using the Ultimate on Aeon ★ Aha additionally triggers this unit's Elation Skill once, with its multiplier increased by 200% (Aha E2 - 300%) of the original and calculated with the highest Party Trick held by an ally.
   TrailblazerHarmony:
     Content:
       backupDancer:

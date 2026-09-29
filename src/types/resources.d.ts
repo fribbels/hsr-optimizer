@@ -2929,6 +2929,10 @@ interface Resources {
           "ultCdBuff": {
             "content": "Increases the CRIT DMG of a designated ally by 50% for 3 turns.",
             "text": "Ult CD buff"
+          },
+          "ultTargetsAha": {
+            "content": "While the Path of Elation is ascended, using the Ultimate on Aeon ★ Aha additionally triggers this unit's Elation Skill once, with its multiplier increased by 200% (Aha E2 - 300%) of the original and calculated with the highest Party Trick held by an ally.",
+            "text": "Ult on Aha"
           }
         }
       },

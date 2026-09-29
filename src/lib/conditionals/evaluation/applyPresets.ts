@@ -14,6 +14,7 @@ import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { Pearl } from 'lib/conditionals/character/1500/Pearl'
 import { ResolutionShinesAsPearlsOfSweat } from 'lib/conditionals/lightcone/4star/ResolutionShinesAsPearlsOfSweat'
 import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { LifeShouldBeCastToFlames } from 'lib/conditionals/lightcone/5star/LifeShouldBeCastToFlames'
@@ -224,7 +225,9 @@ export function applySetConditionalPresets(form: Form | BenchmarkForm, teammates
 
   const path = characterMetadata?.path
   form.setConditionals[Sets.HeroOfTriumphantSong][1] = path == PathNames.Remembrance
-  form.setConditionals[Sets.WarriorGoddessOfSunAndThunder][1] = path == PathNames.Remembrance
+  form.setConditionals[Sets.WarriorGoddessOfSunAndThunder][1] = path == PathNames.Remembrance || [
+    Pearl.id,
+  ].includes(form.characterId)
   form.setConditionals[Sets.WorldRemakingDeliverer][1] = path == PathNames.Remembrance
   form.setConditionals[Sets.AmphoreusTheEternalLand][1] = path == PathNames.Remembrance
 

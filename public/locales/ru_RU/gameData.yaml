@@ -257,6 +257,9 @@ Characters:
   "1510":
     Name: "Химеко: Нова"
     LongName: "Химеко: Нова"
+  "1511":
+    Name: Aeon ★ Aha
+    LongName: Aeon ★ Aha
   "1512":
     Name: "Зарянка: Яснопея"
     LongName: "Зарянка: Яснопея"
@@ -455,11 +458,11 @@ RelicSets:
   "133":
     Name: Dreamlit Actor
     Description2pc: Increases SPD by 6%.
-    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.
+    Description4pc: When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all ally targets' CRIT DMG by 12%, lasting for 3 turns.
   "134":
     Name: The Edacious Heretic
-    Description2pc: Increases ATK by 12%.
-    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
+    Description2pc: Increases CRIT DMG by 16%.
+    Description4pc: Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.
   "301":
     Name: Запечатывающая космос станция
     Description2pc: Повышает силу атаки владельца на 12%. Если скорость владельца выше или равна 120 ед., то его сила атаки повышается на доп. 12%.
@@ -544,6 +547,12 @@ RelicSets:
   "328":
     Name: Институт биологических исследований
     Description2pc: В начале боя, если максимальная энергия владельца равна или превышает 200 ед., за каждую 1 единицу свыше этого значения повышает наносимый владельцем урон на 0.2% до макс. 32%.
+  "329":
+    Name: God's Moment of Joy
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's Elation reaches 40% or higher, the wearer's action advances by 40% immediately when entering combat.
+  "330":
+    Name: Subspace ASC Center
+    Description2pc: Increases the wearer's SPD by 6%. When the wearer's SPD reaches 145 or higher, increases all allies' Break Effect by 15% after entering combat. This effect cannot stack.
 Lightcones:
   "20000":
     Name: Стрелы
@@ -741,6 +750,8 @@ Lightcones:
     Name: Будущее вместе
   "22008":
     Name: Гонка к горизонту
+  "22009":
+    Name: See You at the World's End!
   "23000":
     Name: Ночь на Млечном Пути
   "23001":
@@ -871,6 +882,8 @@ Lightcones:
     Name: Встань и пой
   "23064":
     Name: Лето в волнах
+  "23065":
+    Name: Upon the First Echo of "Aha"
   "24000":
     Name: О падении Эона
   "24001":

@@ -14,6 +14,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -183,7 +187,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         hiddenMmrCdStep: precisionRound(100 * mmrCdPerPoint),
       }),
       min: 0,
-      max: 300,
+      // 60 + 240 overflow; the Faces of Elation Innate Trace raises the overflow to 360 (Aha E2: 999)
+      max: 1059,
     },
     spdToElation: {
       id: 'spdToElation',
@@ -354,6 +359,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.50 : 0, x.actionKind(AbilityKind.BASIC).source(SOURCE_E6))
+
+      // Innate Trace (Faces of Elation ascension): +40% CD
+      x.buff(StatKey.CD, (getAhaAscension(action) != AhaAscension.NONE) ? 0.40 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

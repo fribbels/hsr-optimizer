@@ -15,7 +15,7 @@ export const RELIQUARY_DOWNTIME = true
 export const DOWNTIME_VERSION: string = '4.6'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  // '1503': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1511': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
 }
 
 export const Stats = {

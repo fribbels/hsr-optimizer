@@ -42,6 +42,9 @@ const PERCENTAGE_STAT_KEYS = new Set([
   'maxErr',
 ])
 
+const FLAT_STAT_FILTER_TOLERANCE = 0.0001
+const PERCENT_STAT_FILTER_TOLERANCE = 0.000001
+
 /**
  * Convert a display-format store state to an internal-format Form.
  * Pure function — does not mutate the input.
@@ -53,10 +56,13 @@ export function displayToInternal(state: OptimizerRequestState): Form {
   for (const [key, value] of statFilterEntries) {
     const isMin = key.startsWith('min')
     const defaultValue = isMin ? 0 : MAX_INT
-    if (value == null) {
+    if (value == null || value === defaultValue) {
       statFilters[key] = defaultValue
     } else {
-      statFilters[key] = PERCENTAGE_STAT_KEYS.has(key) ? value / 100 : value
+      const isPercent = PERCENTAGE_STAT_KEYS.has(key)
+      const internal = isPercent ? value / 100 : value
+      const tolerance = isPercent ? PERCENT_STAT_FILTER_TOLERANCE : FLAT_STAT_FILTER_TOLERANCE
+      statFilters[key] = isMin ? internal - tolerance : internal + tolerance
     }
   }
 

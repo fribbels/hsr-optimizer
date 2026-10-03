@@ -52,6 +52,7 @@ import {
   WHOLE_BASIC_HEAL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_HEAL,
   SPREAD_RELICS_4P_HEAL,
@@ -613,7 +614,9 @@ const scoring = (): ScoringMetadata => ({
       Stats.DEF_P,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.WARRIOR_SET,
+  ],
   defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC_HEAL,
   addedColumns: [SortOption.OHB, SortOption.BASIC_HEAL, SortOption.SKILL_HEAL],

@@ -347,11 +347,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // ============== ELATION SKILL ==============
 
       // Pearl's own next-attack proc; ally procs are injected via actionModifiers
-      const e4ElationSkillBoost = (e >= 4 && r.e4ElationSkillBoost) ? 1.00 : 0
+      const e4ElationSkillMulti = (e >= 4 && r.e4ElationSkillBoost) ? 2 : 1
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Ice)
-        .elationScaling((elationSkillProcByElationCount[Math.min(4, elationCount)] ?? 0) + e4ElationSkillBoost)
+        .elationScaling((elationSkillProcByElationCount[Math.min(4, elationCount)] ?? 0) * e4ElationSkillMulti)
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(0)
         .build()
@@ -375,13 +375,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
           const elationCount = Math.min(4, countTeamPath(context, PathNames.Elation))
           const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? self.ownConditionals.punchlineStacks as number
-          const e4ElationSkillBoost = (e >= 4 && self.ownConditionals.e4ElationSkillBoost) ? 1.00 : 0
+          const e4ElationSkillMulti = (e >= 4 && self.ownConditionals.e4ElationSkillBoost) ? 2 : 1
 
           action.hits!.push(
             HitDefinitionBuilder.elation()
               .damageType(DamageTag.ELATION)
               .damageElement(attackElement)
-              .elationScaling((elationSkillProcByElationCount[elationCount] ?? 0) + e4ElationSkillBoost)
+              .elationScaling((elationSkillProcByElationCount[elationCount] ?? 0) * e4ElationSkillMulti)
               .punchlineStacks(punchlineStacks)
               .toughnessDmg(0)
               .build() as ElationHit,

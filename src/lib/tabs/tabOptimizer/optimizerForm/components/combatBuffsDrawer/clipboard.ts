@@ -111,15 +111,12 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
       && 'elementTags' in obj
       && 'targetTag' in obj
       && 'disabled' in obj
-      && 'id' in obj
     )
   ) return null
 
-  const { type, statKey, value, damageTags, elementTags, targetTag, disabled, id } = obj
+  const { type, statKey, value, damageTags, elementTags, targetTag, disabled } = obj
 
   if (type !== CombatBuffType.StatBuff) return null
-
-  if (typeof id !== 'string') return null
 
   if (typeof disabled !== 'boolean') return null
 
@@ -141,7 +138,7 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
     damageTags,
     targetTag,
     statKey,
-    id,
+    id: uuid(),
   }
 }
 
@@ -155,17 +152,14 @@ function parseGroup(obj: unknown): ClipboardBuffGroup | null {
       && 'name' in obj
       && 'buffs' in obj
       && 'disabled' in obj
-      && 'id' in obj
     )
   ) return null
 
-  const { type, name, buffs, disabled, id } = obj
+  const { type, name, buffs, disabled } = obj
 
   if (type !== CombatBuffType.Group) return null
 
   if (typeof name !== 'string') return null
-
-  if (typeof id !== 'string') return null
 
   if (typeof disabled !== 'boolean') return null
 
@@ -178,7 +172,7 @@ function parseGroup(obj: unknown): ClipboardBuffGroup | null {
     disabled,
     name,
     buffs: parsedBuffs,
-    id,
+    id: uuid(),
   }
 }
 

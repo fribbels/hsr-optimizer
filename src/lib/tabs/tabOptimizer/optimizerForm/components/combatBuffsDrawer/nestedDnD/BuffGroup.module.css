@@ -35,7 +35,19 @@
 
 .groupPreview {
   align-self: start;
+  min-width: 0;
+  width: 100%;
   z-index: 1;
+}
+
+.previewPills {
+  width: max-content;
+  min-width: 100%;
+}
+
+.previewPill {
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .collapseLayer {

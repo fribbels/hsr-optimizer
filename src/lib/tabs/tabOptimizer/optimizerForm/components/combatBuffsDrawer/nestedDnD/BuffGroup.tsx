@@ -15,6 +15,8 @@ import {
   Collapse,
   Group,
   Paper,
+  Pill,
+  Scroller,
   Stack,
   TextInput,
 } from '@mantine/core'
@@ -24,6 +26,8 @@ import {
   IconTrashFilled,
 } from '@tabler/icons-react'
 import type { TFunction } from 'i18next'
+import { labelToString } from 'lib/characterPreview/buffsAnalysis/buffUtils'
+import { getAKeyConfig } from 'lib/optimization/engine/config/keys'
 import {
   memo,
   useCallback,
@@ -34,7 +38,10 @@ import {
 } from 'react'
 import { useTranslation } from 'react-i18next'
 import { CombatBuffType } from 'types/form'
-import type { CombatBuffGroup } from 'types/form'
+import type {
+  CombatBuff,
+  CombatBuffGroup,
+} from 'types/form'
 import { optimizerTabDefaultGap } from '../../../grid/optimizerGridColumns'
 import { writeBuffToClipboard } from '../clipboard'
 import { Buff } from './Buff'
@@ -244,11 +251,7 @@ function BuffGroupContent({
 
   return (
     <div className={classes.groupContent}>
-      {!isOpen && (
-        <div className={classes.groupPreview}>
-          <BuffGroupPreview group={group} />
-        </div>
-      )}
+      {!isOpen && <BuffGroupPreview group={group} />}
       <Collapse
         expanded={isOpen}
         keepMounted={false}
@@ -283,5 +286,38 @@ interface PreviewProps {
 function BuffGroupPreview({
   group,
 }: PreviewProps) {
-  return <span>{group.buffs.length} buffs</span>
+  return (
+    <Scroller
+      className={classes.groupPreview}
+      h={24}
+      controlSize={20}
+      edgeGradientColor='var(--layer-2)'
+      draggable={false}
+    >
+      <Group className={classes.previewPills} gap={4} wrap='nowrap'>
+        {group.buffs.map((buff) => <BuffPreviewPill key={buff.id} buff={buff} />)}
+      </Group>
+    </Scroller>
+  )
+}
+
+function BuffPreviewPill({ buff }: { buff: CombatBuff }) {
+  let label: string
+  switch (buff.type) {
+    case CombatBuffType.StatBuff: {
+      const { label: statName, flat } = getAKeyConfig(buff.statKey)
+      label = `${labelToString(statName)}: ${buff.value}${flat ? '' : '%'}`
+      break
+    }
+    case CombatBuffType.ActionModifier: {
+      label = 'Action modifier'
+      break
+    }
+  }
+
+  return (
+    <Pill className={classes.previewPill} size='xs' radius='sm' disabled={buff.disabled}>
+      {label}
+    </Pill>
+  )
 }

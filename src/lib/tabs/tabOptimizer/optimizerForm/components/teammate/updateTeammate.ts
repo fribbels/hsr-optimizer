@@ -1,10 +1,11 @@
 import { applyTeamAwareSetConditionalPresetsToStore } from 'lib/conditionals/evaluation/applyPresets'
 import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
+import { calculateTeammateSets } from 'lib/optimization/teammateSetUtils'
 import { getGameMetadata } from 'lib/state/gameMetadata'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { resolveLcDefaults } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { calculateTeammateSets } from 'lib/tabs/tabOptimizer/optimizerForm/components/teammate/teammateCardUtils'
+import { useRelicStore } from 'lib/stores/relic/relicStore'
 import type {
   Form,
   TeammateProperty,
@@ -26,12 +27,16 @@ export function updateTeammate(changedValues: Partial<Form>) {
     if (!teammate.characterId) return
     const lightConeChanged = teammate.lightCone !== updatedTeammate.lightCone
 
-    const lcDefaults = resolveLcDefaults({
-      characterId: teammate.characterId,
-      characterEidolon: teammate.characterEidolon,
-      lightCone: updatedTeammate.lightCone,
-      lightConeSuperimposition: teammate.lightConeSuperimposition,
-    }, getGameMetadata(), true)
+    const lcDefaults = resolveLcDefaults(
+      {
+        characterId: teammate.characterId,
+        characterEidolon: teammate.characterEidolon,
+        lightCone: updatedTeammate.lightCone,
+        lightConeSuperimposition: teammate.lightConeSuperimposition,
+      },
+      getGameMetadata(),
+      true,
+    )
     const lightConeConditionals = lightConeChanged
       ? { ...lcDefaults }
       : { ...lcDefaults, ...teammate.lightConeConditionals }
@@ -56,7 +61,7 @@ export function updateTeammate(changedValues: Partial<Form>) {
       lightCone = teammateCharacter.form.lightCone
       lightConeSuperimposition = teammateCharacter.form.lightConeSuperimposition || 1
       characterEidolon = teammateCharacter.form.characterEidolon
-      const activeTeammateSets = calculateTeammateSets(teammateCharacter)
+      const activeTeammateSets = calculateTeammateSets(teammateCharacter, useRelicStore.getState().relicsById)
       teamRelicSet = activeTeammateSets.teamRelicSet
       teamOrnamentSet = activeTeammateSets.teamOrnamentSet
     } else {

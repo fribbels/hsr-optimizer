@@ -1,0 +1,65 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: 235px;
+  min-height: 0;
+  padding: 8px;
+  background-color: var(--layer-inset);
+  border: var(--border-subtle);
+  border-radius: var(--radius-sm);
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.clearButton {
+  color: var(--text-secondary);
+  background-color: transparent;
+  border: var(--border-subtle);
+  border-style: dashed;
+}
+
+.clearButton:hover {
+  color: var(--text-primary);
+  background-color: var(--layer-2);
+}
+
+.clearButton:disabled,
+.clearButton[data-disabled] {
+  border: var(--border-subtle) !important;
+  border-style: dashed !important;
+}
+
+.listSlot {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.gallerySection {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  gap: 6px;
+}
+
+.title {
+  margin: 20px 0 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}

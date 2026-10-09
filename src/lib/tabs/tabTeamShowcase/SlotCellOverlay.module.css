@@ -1,0 +1,271 @@
+/* Translucent controls use fixed contrast because they sit over arbitrary artwork. */
+
+.cell {
+  position: absolute;
+  inset: 0;
+}
+
+/*
+ * The whole card: a tap claims the reveal and never the picker, and a press and drag carries the card to
+ * another slot. The sheet of controls sits above this, so pressing one of them never reaches the card.
+ *
+ * `manipulation` rather than `none` leaves a finger free to scroll the page over the grid. The touch
+ * sensor waits for a short press before it takes over, so scrolling and dragging do not compete.
+ */
+.cellTarget {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  font: inherit;
+  background-color: transparent;
+  border: 2px solid transparent;
+  border-radius: var(--team-card-radius, var(--radius-md));
+  cursor: grab;
+  touch-action: manipulation;
+  transition: border-color 120ms ease;
+}
+
+.cellTarget:focus-visible {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+.cellScrim,
+.handle,
+.sheet {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.cell[data-revealed='true'] .cellScrim,
+.cell[data-revealed='true'] .handle {
+  opacity: 1;
+}
+
+.cell[data-revealed='true'] .sheet {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/*
+ * Hide glass controls completely during drag to avoid recomputing their backdrop blur every frame.
+ */
+.cell[data-drag-active='true'] .cellScrim,
+.cell[data-drag-active='true'] .handle,
+.cell[data-drag-active='true'] .sheet {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: none;
+}
+
+.cell[data-drag-active='true'] .cellTarget {
+  pointer-events: none;
+}
+
+/* The card-wide target stops taking the pointer mid-drag, so the cursor comes from the cell instead */
+.cell[data-drag-active='true'] {
+  cursor: grabbing;
+}
+
+.cell[data-dragging='true'] .handle {
+  opacity: 1;
+  visibility: visible;
+}
+
+/*
+ * The disc is the one glass element still on screen while a card moves, and a blur has to be recomputed
+ * every frame against whatever it is passing over. It rides along with its own card's art, so the blur
+ * buys nothing in flight; a flatter fill reads the same and costs nothing.
+ */
+.cell[data-dragging='true'] .handleDisc {
+  background-color: rgba(0, 0, 0, 0.66);
+  backdrop-filter: none;
+}
+
+.cellScrim {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 200px;
+  border-radius: 0 0 var(--team-card-radius, var(--radius-md)) var(--team-card-radius, var(--radius-md));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.55) 55%, rgba(0, 0, 0, 0) 100%);
+}
+
+/*
+ * Decoration only: it says the card can be picked up, and the card itself is what gets grabbed. It stays
+ * transparent to the pointer so that the middle of the card is not a dead spot in the drag surface.
+ */
+.handle {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* A translucent disc behind the icon so it reads over bright art */
+.handleDisc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  backdrop-filter: blur(6px);
+}
+
+.artButton,
+.artInput {
+  font-weight: 500;
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(6px);
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+.artButton:hover,
+.artInput:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.artButton:focus-visible,
+.artInput:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+/* Centred label: the left padding mirrors the chevron's, so the text centres on the whole control */
+.artInput {
+  padding-inline-start: var(--input-padding-inline-end);
+  text-align: center;
+}
+
+.scoringInput {
+  color: transparent;
+}
+
+.artSection {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.scoringSelectedSection {
+  width: 100%;
+  padding-inline: var(--input-padding-inline-end);
+  pointer-events: none;
+}
+
+.scoringSelectedValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  gap: 6px;
+  color: var(--text-primary);
+}
+
+.scoringSelectedValue svg {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.scoringSelectedValue span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.sheet {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sheetRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.emptyCellTarget {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font: inherit;
+  color: var(--text-secondary);
+  background-color: transparent;
+  border: 1px dashed rgba(255, 255, 255, 0.02);
+  border-radius: var(--team-card-radius, var(--radius-md));
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease, background-color 120ms ease;
+}
+
+.emptyCellTarget:focus-visible {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 6%, transparent);
+  outline: none;
+}
+
+.emptyCellIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+}
+
+.mainDpsEmptyCellIcon {
+  color: var(--rarity-5-end);
+}
+
+.emptyCellIconRing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-dasharray: 3 4;
+  stroke-linecap: round;
+}
+
+.emptyCellLabel {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cellTarget,
+  .cellScrim,
+  .handle,
+  .sheet,
+  .artButton,
+  .artInput,
+  .emptyCellTarget {
+    transition: none;
+  }
+}

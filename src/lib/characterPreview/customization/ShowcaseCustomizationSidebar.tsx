@@ -69,6 +69,7 @@ import {
 import { ComboboxNumberInput } from 'lib/ui/ComboboxNumberInput'
 import { HorizontalDivider } from 'lib/ui/Dividers'
 import { HeaderText } from 'lib/ui/HeaderText'
+import { ScreenshotAction } from 'lib/utils/screenshotUtils'
 import React, {
   memo,
   useEffect,
@@ -99,7 +100,7 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
   effectiveColorMode,
   portraitSwatches,
 }: ShowcaseCustomizationSidebarProps) {
-  if (source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD) return null
+  if (source === ShowcaseSource.BUILDS_MODAL || source === ShowcaseSource.LEADERBOARD || source === ShowcaseSource.TEAM) return null
 
   return (
     <Flex
@@ -125,22 +126,24 @@ export const ShowcaseCustomizationSidebar = memo(function ShowcaseCustomizationS
 // =============================================================================
 
 const ScreenshotPanel = memo(function ScreenshotPanel({ id }: { id: string }) {
-  const { loading, trigger: screenshot } = useScreenshotAction(id)
+  const { activeAction, trigger: screenshot } = useScreenshotAction(id)
 
   return (
     <Flex direction='column' gap={6} style={cardStyle}>
       <Flex gap={6}>
         <Button
-          loading={loading}
-          onClick={() => screenshot('clipboard', getActiveCharacterName())}
+          loading={activeAction === ScreenshotAction.Clipboard}
+          disabled={activeAction != null}
+          onClick={() => screenshot(ScreenshotAction.Clipboard, getActiveCharacterName())}
           className={classes.actionButton}
           style={{ height: 'auto' }}
         >
           <IconCamera size={18} />
         </Button>
         <Button
-          loading={loading}
-          onClick={() => screenshot('download', getActiveCharacterName())}
+          loading={activeAction === ScreenshotAction.Download}
+          disabled={activeAction != null}
+          onClick={() => screenshot(ScreenshotAction.Download, getActiveCharacterName())}
           className={classes.actionButton}
           style={{ height: 'auto' }}
         >

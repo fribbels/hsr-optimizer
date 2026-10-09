@@ -17,6 +17,7 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
@@ -503,8 +504,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

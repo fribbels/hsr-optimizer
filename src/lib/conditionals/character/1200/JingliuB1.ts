@@ -1,6 +1,8 @@
 import { Bronya } from 'lib/conditionals/character/1100/Bronya'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -289,14 +291,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Bronya.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: MortenaxBlade.id,
+      lightCone: MortenaxBlade.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

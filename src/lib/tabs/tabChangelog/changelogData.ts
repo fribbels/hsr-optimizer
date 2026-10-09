@@ -18,6 +18,22 @@ export function getChangelogContent() {
     },
     {
       title: '',
+      date: '2026-09-27',
+      content: [
+        `Added Team Showcase under Characters > Teams: pick 4 characters and screenshot their showcase cards together as a single image`,
+        `teams.webp`,
+        `Restored Characters > Character menu > Sort by effective substats, which ranks all characters by their equipped relic scores`,
+        `sort.webp`,
+        `Added Leaderboards for Robin Summeretto and Aventurine Waveflair`,
+        `Showcase scoring defaults to each character's most relevant score type, and Support Benchmark has been renamed to Buffer Benchmark`,
+        `Fix: Various conditional effects fixes`,
+        `Fix: Teammate and Light Cone conditionals now reset or persist correctly when switching teammates, Light Cones, or superimposition`,
+        `Balance: Updated default Benchmark teams for many characters to use newer supports like Robin Summeretto`,
+        `Balance: Benchmark breakpoint penalties now use the same rule for all stats, and Sparxie's benchmark now has a ATK breakpoint`,
+      ],
+    },
+    {
+      title: '',
       date: '2026-08-26',
       content: [
         `Updated content to 4.6v1`,

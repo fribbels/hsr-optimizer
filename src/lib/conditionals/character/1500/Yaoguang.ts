@@ -1,6 +1,9 @@
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
+import { Pearl } from 'lib/conditionals/character/1500/Pearl'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
+import { TrailblazerElationStelle } from 'lib/conditionals/character/8000/TrailblazerElation'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -15,7 +18,6 @@ import {
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -533,20 +535,20 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sparxie.id,
-      lightCone: DazzledByAFloweryWorld.id,
+      characterId: Evanescia.id,
+      lightCone: Evanescia.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SparkleB1.id,
-      lightCone: ButTheBattleIsntOver.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      characterId: TrailblazerElationStelle.id,
+      lightCone: TrailblazerElationStelle.defaultLightCone,
+      characterEidolon: 6,
+      lightConeSuperimposition: 5,
     },
     {
-      characterId: HuohuoB1.id,
-      lightCone: NightOfFright.id,
+      characterId: Pearl.id,
+      lightCone: Pearl.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

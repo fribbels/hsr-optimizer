@@ -120,6 +120,14 @@ const SCREENSHOT_IMAGE_TYPE = 'png'
 const SCREENSHOT_EXPORT_DPR = 2
 const PREBAKE_MAX_DIMENSION = Math.max(cardTotalW, parentH) * SCREENSHOT_EXPORT_DPR
 
+export type ScreenshotSize = { width: number, height: number }
+export enum ScreenshotAction {
+  Clipboard = 'clipboard',
+  Download = 'download',
+}
+
+const DEFAULT_SCREENSHOT_SIZE: ScreenshotSize = { width: cardTotalW, height: parentH }
+
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -352,6 +360,17 @@ function supportsCanvasFilter(ctx: CanvasRenderingContext2D): boolean {
   return ctx.filter === 'blur(1px)'
 }
 
+function getImageLayoutSize(img: HTMLImageElement): { width: number, height: number } {
+  const style = getComputedStyle(img)
+  const computedWidth = parseFloat(style.width)
+  const computedHeight = parseFloat(style.height)
+
+  return {
+    width: Number.isFinite(computedWidth) && computedWidth > 0 ? computedWidth : img.offsetWidth,
+    height: Number.isFinite(computedHeight) && computedHeight > 0 ? computedHeight : img.offsetHeight,
+  }
+}
+
 function calculatePreBakedBlurGeometry({
   naturalWidth,
   naturalHeight,
@@ -444,8 +463,9 @@ async function buildPreBakedBlurCache(
     if (!cssBlur || !Number.isFinite(cssBlur)) continue
 
     const src = imageCache.get(img.src) || img.src
-    const rect = img.getBoundingClientRect()
-    if (!rect.width || !rect.height) continue
+    // Use layout-space dimensions so display-only ancestor transforms do not reduce export quality.
+    const layoutSize = getImageLayoutSize(img)
+    if (!layoutSize.width || !layoutSize.height) continue
 
     const canvasImage = await loadCanvasImage(src)
     if (!canvasImage) continue
@@ -453,8 +473,8 @@ async function buildPreBakedBlurCache(
     const geometry = calculatePreBakedBlurGeometry({
       naturalWidth: canvasImage.naturalWidth,
       naturalHeight: canvasImage.naturalHeight,
-      renderedWidth: rect.width,
-      renderedHeight: rect.height,
+      renderedWidth: layoutSize.width,
+      renderedHeight: layoutSize.height,
       cssBlur,
       objectFit: img.style.objectFit,
     })
@@ -508,7 +528,6 @@ const hideHoverButtonsPlugin: SnapdomPlugin = {
   },
 }
 
-
 /** Fallback: boost blur in the clone when pre-bake is unavailable. */
 function buildBlurMultiplierPlugin(blurMultiplier: number): SnapdomPlugin {
   return {
@@ -551,13 +570,15 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
  * @param elementId - DOM element ID to capture
  * @param action - 'clipboard' uses Web Share API on mobile, clipboard.write on desktop
  * @param characterName - Optional name for the downloaded file
+ * @param size - Capture dimensions in CSS pixels, defaults to a single character card
  *
  * See module-level documentation for details on iOS Safari workarounds.
  */
 export async function screenshotElementById(
   elementId: string,
-  action: 'clipboard' | 'download',
+  action: ScreenshotAction,
   characterName?: string | null,
+  size: ScreenshotSize = DEFAULT_SCREENSHOT_SIZE,
 ): Promise<void> {
   const element = document.getElementById(elementId)
   if (!element) {
@@ -597,8 +618,8 @@ export async function screenshotElementById(
           snapdom(element, {
             scale: 1,
             dpr: SCREENSHOT_EXPORT_DPR,
-            width: cardTotalW,
-            height: parentH,
+            width: size.width,
+            height: size.height,
             backgroundColor: 'transparent',
             outerShadows: true,
             embedFonts: true,
@@ -635,7 +656,7 @@ export async function screenshotElementById(
     const time = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`
     const filename = `${prefix}-${date}-${time}.png`
 
-    if (action === 'clipboard') {
+    if (action === ScreenshotAction.Clipboard) {
       if (mobile) {
         const file = new File([blob], filename, { type: blob.type })
         const canShareFiles = typeof navigator.canShare === 'function' && navigator.canShare({ files: [file] })
@@ -663,7 +684,7 @@ export async function screenshotElementById(
       }
     }
 
-    if (action === 'download') {
+    if (action === ScreenshotAction.Download) {
       const fileUrl = window.URL.createObjectURL(blob)
       const anchorElement = document.createElement('a')
       anchorElement.href = fileUrl

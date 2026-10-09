@@ -1,5 +1,6 @@
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import type {
   Conditionals,
   ContentDefinition,
@@ -10,7 +11,6 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { InTheNight } from 'lib/conditionals/lightcone/5star/InTheNight'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
@@ -264,8 +264,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SparkleB1.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

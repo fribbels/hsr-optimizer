@@ -1,8 +1,6 @@
 import { Castorice } from 'lib/conditionals/character/1400/Castorice'
-import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Evernight } from 'lib/conditionals/character/1400/Evernight'
-import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import {
   BuffPriority,
   SKILL_DMG_TYPE,
@@ -15,8 +13,6 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { IfTimeWereAFlower } from 'lib/conditionals/lightcone/5star/IfTimeWereAFlower'
-import { LiesAflutterInTheWind } from 'lib/conditionals/lightcone/5star/LiesAflutterInTheWind'
 import { MakeFarewellsMoreBeautiful } from 'lib/conditionals/lightcone/5star/MakeFarewellsMoreBeautiful'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
 import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForever'
@@ -648,14 +644,14 @@ const healSimulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: Evernight.id,
+      lightCone: ToEvernightsStars.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Cipher.id,
-      lightCone: LiesAflutterInTheWind.id,
+      characterId: Cyrene.id,
+      lightCone: ThisLoveForever.id,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

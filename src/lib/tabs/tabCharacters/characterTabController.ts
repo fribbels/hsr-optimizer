@@ -7,8 +7,12 @@ import * as equipmentService from 'lib/services/equipmentService'
 import * as persistenceService from 'lib/services/persistenceService'
 import { SaveState } from 'lib/state/saveState'
 import { useCharacterStore } from 'lib/stores/character/characterStore'
+import { getRelicById } from 'lib/stores/relic/relicStore'
 import { useCharacterTabStore } from 'lib/tabs/tabCharacters/useCharacterTabStore'
-import type { CharacterId } from 'types/character'
+import type {
+  Character,
+  CharacterId,
+} from 'types/character'
 import type { Form } from 'types/form'
 
 export const CharacterTabController = {
@@ -74,4 +78,24 @@ export const CharacterTabController = {
     useCharacterStore.getState().insertCharacter(focusCharacter, 0)
     SaveState.delayedSave()
   },
+
+  sortByEffectiveSubstats: () => {
+    const scorer = new RelicScorer()
+    const characters = useCharacterStore.getState().characters
+    const sortedCharacters = characters
+      .map((character) => ({ score: scoreEquippedRelics(character, scorer), character }))
+      .sort((a, b) => b.score - a.score)
+      .map((x) => x.character)
+    useCharacterStore.getState().setCharacters(sortedCharacters)
+    SaveState.delayedSave()
+  },
+}
+
+function scoreEquippedRelics(character: Character, scorer: RelicScorer): number {
+  let score = 0
+  for (const relicId of Object.values(character.equipped)) {
+    const relic = getRelicById(relicId)
+    if (relic) score += scorer.scoreRelicPotential(relic, character.id).currentPct
+  }
+  return score
 }

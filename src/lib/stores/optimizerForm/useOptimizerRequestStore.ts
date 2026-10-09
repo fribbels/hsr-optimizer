@@ -34,11 +34,6 @@ import {
 } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import {
-  filterMap,
-  mapFilter,
-} from 'lib/utils/arrayUtils'
-import { uuid } from 'lib/utils/miscUtils'
-import {
   type CharacterId,
   type Eidolon,
 } from 'types/character'
@@ -184,14 +179,26 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
   removeCombatBuff: (id) => {
     set((state) => {
       const { combatBuffs } = state
-      const removedIdx = combatBuffs.findIndex((b) => b.id === id)
-      if (removedIdx === -1) return {}
-      const removed = combatBuffs[removedIdx]
-      if (removed.type === CombatBuffType.Group) {
-        return ({ combatBuffs: combatBuffs.toSpliced(removedIdx, 1, ...removed.buffs) })
-      } else {
-        return ({ combatBuffs: combatBuffs.toSpliced(removedIdx, 1) })
+      const buffs = [...combatBuffs]
+      let idxToRemove
+      for (let i = 0; i < buffs.length; i++) {
+        const buff = buffs[i]
+        if (buff.id === id) {
+          idxToRemove = i
+          break
+        }
+        if (buff.type === CombatBuffType.Group) {
+          const idxToRemove = buff.buffs.findIndex((b) => b.id === id)
+          if (idxToRemove !== -1) {
+            buffs[i] = { ...buff, buffs: buff.buffs.toSpliced(idxToRemove, 1) }
+            break
+          }
+        }
       }
+      if (idxToRemove !== undefined) {
+        buffs.splice(idxToRemove, 1)
+      }
+      return { combatBuffs: buffs }
     })
   },
 

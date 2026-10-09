@@ -1,68 +1,108 @@
-import { CollisionPriority } from '@dnd-kit/abstract'
-import { useSortable } from '@dnd-kit/react/sortable'
-import {
-  ActionIcon,
-  Box,
-  Checkbox,
-  Group,
-  Stack,
-  TextInput,
-} from '@mantine/core'
-import {
-  useDisclosure,
-  useElementSize,
-} from '@mantine/hooks'
-import {
-  IconCopy,
-  IconTrashFilled,
-} from '@tabler/icons-react'
-import { type TFunction } from 'i18next'
-import { BuffPanel } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffPanel'
-import { writeBuffToClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/clipboard'
-import {
-  memo,
-  useCallback,
-} from 'react'
-import {
-  type CombatBuffGroup,
-  type CombatStatBuff,
-} from 'types/form'
-import { optimizerTabDefaultGap } from '../../grid/optimizerGridColumns'
-import { DragHandle } from './DragHandle'
+import { attachInstruction, extractInstruction, Instruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/list-item"
+import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter"
+import { combine } from '@atlaskit/pragmatic-drag-and-drop/utils/combine'
+import { ViewTransition, Fragment, memo, useCallback, useEffect, useRef, useState } from "react"
+import { CombatBuffGroup, CombatBuffType, CombatStatBuff } from "types/form"
+import { DropIndicator } from "./DropIndicator"
+import { optimizerTabDefaultGap } from "../../../grid/optimizerGridColumns"
+import { useTranslation } from "react-i18next"
+import { Stack, Group, TextInput, ActionIcon, Box, Checkbox, Space } from "@mantine/core"
+import { useDisclosure, useElementSize } from "@mantine/hooks"
+import { IconCopy, IconTrashFilled } from "@tabler/icons-react"
+import { TFunction } from "i18next"
+import { writeBuffToClipboard } from "../clipboard"
+import { Buff } from "./Buff"
+
+export function BuffGroup({ buff, removeBuff, renameBuff, toggleSelection }: BuffGroup.Props) {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const [operation, setOperation] = useState<Instruction['operation'] | null>(null)
+  const { id, type } = buff
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+    const cleanup = combine(
+      draggable({
+        element,
+        getInitialData: () => ({
+          id,
+          type
+        }),
+      }),
+      dropTargetForElements({
+        element,
+        getData({ source, input, element }) {
+          return attachInstruction(
+            { id, type },
+            {
+              input,
+              element,
+              operations: {
+                'reorder-before': 'available',
+                'reorder-after': 'available',
+                'combine': source.data.type === CombatBuffType.Group ? 'not-available' : 'available',
+              }
+            }
+          )
+        },
+        canDrop({ source }) {
+          return source.data.type !== CombatBuffType.Group
+        },
+        onDrag({ self, location }) {
+          const isRelevant = location.current.dropTargets[0].element === self.element
+
+          if (!isRelevant) return setOperation(null)
+
+          const instruction = extractInstruction(self.data)
+          setOperation(instruction?.operation ?? null)
+        },
+        onDragLeave() { setOperation(null) },
+        onDrop() { setOperation(null) }
+      }),
+    )
+    return cleanup
+  })
+  const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
+  return (
+    <div ref={ref}>
+      <DropIndicator gap={optimizerTabDefaultGap} position='upper' active={operation === 'reorder-before'} />
+      <BuffGroupPanel
+        group={buff}
+        removeBuff={removeBuff}
+        renameBuff={renameBuff}
+        toggleSelection={toggleSelection}
+        t={t}
+      />
+      <DropIndicator gap={optimizerTabDefaultGap} position='lower' active={operation === 'reorder-after'} />
+    </div>
+  )
+}
+
+export namespace BuffGroup {
+  export type Props = {
+    buff: CombatBuffGroup
+  } & Pick<BuffGroupPanelProps, 'removeBuff' | 'renameBuff' | 'toggleSelection'>
+}
 
 interface BuffGroupPanelProps {
   group: CombatBuffGroup
   removeBuff: (key: string) => void
   renameBuff: (id: string, name: string) => void
   t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>
-  checked: boolean
   toggleSelection: (id: string) => void
-  index: number
 }
 export const BuffGroupPanel = memo(function BuffGroupPanel({
   group,
   removeBuff,
   renameBuff,
   t,
-  checked,
   toggleSelection,
-  index,
 }: BuffGroupPanelProps) {
   const remove = useCallback(() => removeBuff(group.id), [removeBuff, group.id])
   const copyClicked = useCallback(() => writeBuffToClipboard(group), [group])
   const [isOpen, { toggle }] = useDisclosure(false)
-  const { ref, handleRef } = useSortable({
-    id: group.id,
-    index,
-    group: 'root',
-    type: 'group',
-    accept: ['buff', 'group'],
-    collisionPriority: CollisionPriority.Low,
-  })
   return (
     <Stack
       style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
-      ref={ref}
     >
       <Group>
         <TextInput
@@ -90,12 +130,8 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
           }}
         >
           <Group gap='xs'>
-            <DragHandle
-              ref={handleRef}
-              onClick={toggle}
-            />
             <Checkbox
-              checked={checked}
+              checked={!group.disabled}
               onClick={(e) => {
                 e.stopPropagation()
                 toggleSelection(group.id)
@@ -114,9 +150,6 @@ export const BuffGroupPanel = memo(function BuffGroupPanel({
     </Stack>
   )
 })
-
-const heightTransition = 'height 200ms cubic-bezier(0.4, 0, 0.2, 1)'
-const opacityTransition = 'opacity 200ms ease-out'
 
 interface BuffGroupContentProps {
   isOpen: boolean
@@ -141,7 +174,7 @@ function BuffGroupContent({
       ? panelsHeight
       : previewHeight)
   return (
-    <div style={{ height, transition: heightTransition }}>
+    <div style={{ height }}>
       <Stack
         ref={fallbackRef}
         style={{
@@ -153,7 +186,6 @@ function BuffGroupContent({
           position: 'absolute',
           visibility: group.buffs.length === 0 ? 'visible' : 'hidden',
           opacity: group.buffs.length === 0 ? 1 : 0,
-          transition: opacityTransition,
           width: 300,
         }}
       >
@@ -166,22 +198,20 @@ function BuffGroupContent({
           position: 'absolute',
           visibility: group.buffs.length && isOpen ? 'visible' : 'hidden',
           opacity: group.buffs.length && isOpen ? 1 : 0,
-          transition: opacityTransition,
           width: 300,
         }}
       >
-        {group.buffs.map((buff, idx) => {
+        {group.buffs.map((buff) => {
           return (
-            <BuffPanel
-              key={buff.id}
-              t={t}
-              removeBuff={removeBuff}
-              buff={buff}
-              toggleSelection={toggleSelection}
-              checked={!buff.disabled}
-              index={idx}
-              group={group.id}
-            />
+            <ViewTransition key={buff.id} name={`buff-${buff.id}`}>
+              <Buff
+                key={buff.id}
+                removeBuff={removeBuff}
+                buff={buff}
+                toggleSelection={toggleSelection}
+                parent={group.id}
+              />
+            </ViewTransition>
           )
         })}
       </Stack>
@@ -190,7 +220,6 @@ function BuffGroupContent({
           position: 'absolute',
           visibility: group.buffs.length && !isOpen ? 'visible' : 'hidden',
           opacity: group.buffs.length && !isOpen ? 1 : 0,
-          transition: opacityTransition,
         }}
         ref={previewRef}
       >
@@ -218,4 +247,4 @@ function BuffGroupPreview({
 const StatBuffPreviewPill = memo(function StatBuffPreviewPill(buff: CombatStatBuff) {
 })
 
-function ActionModifierPreviewPill() {}
+function ActionModifierPreviewPill() { }

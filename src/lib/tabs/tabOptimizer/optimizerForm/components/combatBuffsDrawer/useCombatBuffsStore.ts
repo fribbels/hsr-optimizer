@@ -17,7 +17,6 @@ import {
 
 export interface CombatBuffStoreState {
   // general purpose values
-  buffs: OptimizerRequestState['combatBuffs']
   buffBuilderMode: Exclude<CombatBuffType, CombatBuffType.Group>
   // stat buff builder values
   stat: CombatStatBuff['statKey'] | null
@@ -30,7 +29,6 @@ export interface CombatBuffStoreState {
 
 interface CombatBuffStoreActions {
   // general purpose methods
-  setBuffs: (buffs: OptimizerRequestState['combatBuffs']) => void
   setBuffBuilderMode: (mode: CombatBuffStoreState['buffBuilderMode']) => void
   // stat buff builder methods
   setStat: (stat: CombatBuffStoreState['stat']) => void
@@ -43,9 +41,7 @@ interface CombatBuffStoreActions {
 type CombatBuffStore = CombatBuffStoreActions & CombatBuffStoreState
 
 function initialStoreState(): CombatBuffStoreState {
-  const buffs = useOptimizerRequestStore.getInitialState().combatBuffs
   return {
-    buffs,
     buffBuilderMode: CombatBuffType.StatBuff,
     stat: null,
     value: 0,
@@ -58,7 +54,6 @@ function initialStoreState(): CombatBuffStoreState {
 export const useCombatBuffStore = create<CombatBuffStore>()((set) => ({
   ...initialStoreState(),
   // general methods
-  setBuffs: (buffs) => set({ buffs }),
   setBuffBuilderMode: (mode) => set({ buffBuilderMode: mode }),
   // stat buff builder
   setStat(stat) {
@@ -100,14 +95,3 @@ export async function loadBuffFromClipboard() {
       }
   }
 }
-
-useOptimizerRequestStore.subscribe((state, prev) => {
-  if (prev.combatBuffs !== state.combatBuffs) {
-    const buffs = useCombatBuffStore.getState().buffs
-    // when a drag ends, we do useOptimizerRequestStore.setState({combatBuffs: buffs})
-    // gate here serves to avoid unnecessarily updating the drawer store afterwards
-    if (state.combatBuffs !== buffs) {
-      useCombatBuffStore.setState({ buffs: state.combatBuffs })
-    }
-  }
-})

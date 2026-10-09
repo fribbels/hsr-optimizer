@@ -57,9 +57,19 @@ export namespace ElementTagSelect {
   }
 }
 
+const ELEMENT_TAG_COLORS: Record<ElementTag, string> = {
+  [ElementTag.None]: '#8c8c8c',
+  [ElementTag.Physical]: '#bebebe',
+  [ElementTag.Fire]: '#ea7866',
+  [ElementTag.Ice]: '#5ec7db',
+  [ElementTag.Lightning]: '#eb77ea',
+  [ElementTag.Wind]: '#62d3a2',
+  [ElementTag.Quantum]: '#9c96f4',
+  [ElementTag.Imaginary]: '#e8d85d',
+}
+
 export function renderElementTagPill(tag: ElementTag, t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>, active?: boolean) {
-  const label = ElementTag[tag]
-  const colour = '#fafa'
-  if (!colour) return null
+  const label = ElementTag[tag].toUpperCase()
+  const colour = ELEMENT_TAG_COLORS[tag]
   return renderPill(ElementTag[tag], colour, label, { active })
 }

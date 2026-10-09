@@ -1,4 +1,5 @@
 import { type TFunction } from 'i18next'
+import { ABILITY_COLORS } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import { renderPill } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { PillSingleSelect } from 'lib/ui/pillSelects/PillSingleSelect'
@@ -54,7 +55,19 @@ export namespace TargetTagSelect {
   }
 }
 
-// TODO: colours per target tag, target tag labels
+const TARGET_TAG_COLORS: Record<TargetTag, string> = {
+  [TargetTag.None]: ABILITY_COLORS.ALL,
+  [TargetTag.Self]: ABILITY_COLORS.UNIQUE,
+  [TargetTag.Pet]: ABILITY_COLORS.FUA,
+  [TargetTag.Memosprite]: ABILITY_COLORS.MEMO,
+  [TargetTag.Summon]: ABILITY_COLORS.ELATION,
+  [TargetTag.FullTeam]: ABILITY_COLORS.ULT,
+  [TargetTag.SingleTarget]: ABILITY_COLORS.BASIC,
+  [TargetTag.SelfAndPet]: ABILITY_COLORS.SKILL,
+  [TargetTag.SelfAndMemosprite]: ABILITY_COLORS.ADDITIONAL,
+  [TargetTag.SelfAndSummon]: ABILITY_COLORS.BREAK,
+}
+
 export function renderTargetTagPill(tag: TargetTag, t: TFunction<'optimizerTab', 'ExpandedDataPanel.DamageTags'>, active?: boolean) {
-  return renderPill(TargetTag[tag], '#fafa', TargetTag[tag], { active })
+  return renderPill(TargetTag[tag], TARGET_TAG_COLORS[tag], TargetTag[tag].toUpperCase(), { active })
 }

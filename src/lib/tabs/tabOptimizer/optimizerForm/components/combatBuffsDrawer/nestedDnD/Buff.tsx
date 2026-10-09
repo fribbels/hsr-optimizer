@@ -10,13 +10,13 @@ import {
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/utils/combine'
 import {
   ActionIcon,
-  Badge,
   Box,
   Checkbox,
   Group,
-  HoverCard,
   Paper,
+  Popover,
   Stack,
+  UnstyledButton,
 } from '@mantine/core'
 import type { FloatingPosition } from '@mantine/core'
 import {
@@ -231,46 +231,65 @@ interface TagContainerProps extends PropsWithChildren {
 
 function TagContainer({ children, popoverPosition }: TagContainerProps) {
   const [first, ...rest] = Children.toArray(children)
-  if (!first) return null
-  const target = (
-    <Group gap={4} wrap='nowrap'>
-      {first}
+  const [opened, setOpened] = useState(false)
+  const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const clearCloseTimeout = useCallback(() => {
+    if (closeTimeout.current !== null) {
+      clearTimeout(closeTimeout.current)
+      closeTimeout.current = null
+    }
+  }, [])
+  const open = useCallback(() => {
+    clearCloseTimeout()
+    setOpened(true)
+  }, [clearCloseTimeout])
+  const scheduleClose = useCallback(() => {
+    clearCloseTimeout()
+    closeTimeout.current = setTimeout(() => {
+      closeTimeout.current = null
+      setOpened(false)
+    }, 150)
+  }, [clearCloseTimeout])
 
-      {rest.length && (
-        <Badge
-          size='xs'
-          variant='light'
-          color='gray'
-          px={5}
+  useEffect(() => clearCloseTimeout, [clearCloseTimeout])
+
+  if (!first) return null
+  return (
+    <Group gap={4} wrap='nowrap' className={classes.tagContainer}>
+      {first}
+      {rest.length > 0 && (
+        <Popover
+          position={popoverPosition ?? 'bottom-start'}
+          withArrow
+          shadow='md'
+          withinPortal
+          opened={opened}
+          onChange={setOpened}
         >
-          +{rest.length}
-        </Badge>
+          <Popover.Target>
+            <UnstyledButton
+              type='button'
+              className={classes.moreTags}
+              aria-label={`Show ${rest.length} more tags`}
+              onMouseEnter={open}
+              onMouseLeave={scheduleClose}
+              onFocus={open}
+            >
+              +{rest.length}
+            </UnstyledButton>
+          </Popover.Target>
+          <Popover.Dropdown
+            p='xs'
+            className={classes.tagPopover}
+            onMouseEnter={open}
+            onMouseLeave={scheduleClose}
+          >
+            <Group gap={4} wrap='wrap'>
+              {rest}
+            </Group>
+          </Popover.Dropdown>
+        </Popover>
       )}
     </Group>
-  )
-  if (!rest.length) return target
-  return (
-    <HoverCard
-      width='max-content'
-      position={popoverPosition}
-      withArrow
-      shadow='md'
-    >
-      <HoverCard.Target>
-        {target}
-      </HoverCard.Target>
-      <HoverCard.Dropdown p='xs'>
-        <Box
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 4,
-            justifyItems: 'center',
-          }}
-        >
-          {rest}
-        </Box>
-      </HoverCard.Dropdown>
-    </HoverCard>
   )
 }

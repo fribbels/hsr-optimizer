@@ -256,7 +256,6 @@ function BuffGroupContent({
         expanded={isOpen}
         keepMounted={false}
         transitionDuration={200}
-        animateOpacity={false}
         className={classes.collapseLayer}
       >
         <Stack gap={optimizerTabDefaultGap}>

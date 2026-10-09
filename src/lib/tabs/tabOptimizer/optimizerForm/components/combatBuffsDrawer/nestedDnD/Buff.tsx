@@ -1,20 +1,58 @@
-import { Children, memo, PropsWithChildren, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { CombatBuff, CombatBuffType, CombatStatBuff } from "types/form"
+import {
+  attachInstruction,
+  extractInstruction,
+} from '@atlaskit/pragmatic-drag-and-drop-hitbox/list-item'
+import type { Instruction } from '@atlaskit/pragmatic-drag-and-drop-hitbox/list-item'
+import {
+  draggable,
+  dropTargetForElements,
+} from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/utils/combine'
-import { draggable, dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter"
-import { attachInstruction, extractInstruction, Instruction } from "@atlaskit/pragmatic-drag-and-drop-hitbox/list-item"
-import { ActionIcon, Badge, Box, Checkbox, FloatingPosition, Group, HoverCard, Paper, Stack } from "@mantine/core"
-import { IconCopy, IconTrashFilled } from "@tabler/icons-react"
-import { TFunction } from "i18next"
-import { labelToString } from "lib/characterPreview/buffsAnalysis/buffUtils"
-import { getAKeyConfig } from "lib/optimization/engine/config/keys"
-import { writeBuffToClipboard } from "../clipboard"
-import { renderDamageTagPill } from "../DamageTagSelect"
-import { renderElementTagPill } from "../ElementTagSelect"
-import { renderTargetTagPill } from "../TargetTagSelect"
-import { useTranslation } from "react-i18next"
-import { DropIndicator } from "./DropIndicator"
-import { optimizerTabDefaultGap } from "../../../grid/optimizerGridColumns"
+import {
+  ActionIcon,
+  Badge,
+  Box,
+  Checkbox,
+  Group,
+  HoverCard,
+  Paper,
+  Stack,
+} from '@mantine/core'
+import type { FloatingPosition } from '@mantine/core'
+import {
+  IconCopy,
+  IconTrashFilled,
+} from '@tabler/icons-react'
+import type { TFunction } from 'i18next'
+import { labelToString } from 'lib/characterPreview/buffsAnalysis/buffUtils'
+import { getAKeyConfig } from 'lib/optimization/engine/config/keys'
+import {
+  Children,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
+import type {
+  PropsWithChildren,
+  ReactNode,
+} from 'react'
+import { useTranslation } from 'react-i18next'
+import { CombatBuffType } from 'types/form'
+import type {
+  CombatBuff,
+  CombatStatBuff,
+} from 'types/form'
+import { optimizerTabDefaultGap } from '../../../grid/optimizerGridColumns'
+import { writeBuffToClipboard } from '../clipboard'
+import { renderDamageTagPill } from '../DamageTagSelect'
+import { renderElementTagPill } from '../ElementTagSelect'
+import { renderTargetTagPill } from '../TargetTagSelect'
+import classes from './Buff.module.css'
+import { CombineIndicator } from './CombineIndicator'
+import { DropIndicator } from './DropIndicator'
 
 export function Buff({ buff, parent, toggleSelection, removeBuff }: Buff.Props) {
   const ref = useRef<HTMLDivElement | null>(null)
@@ -28,12 +66,21 @@ export function Buff({ buff, parent, toggleSelection, removeBuff }: Buff.Props) 
         getInitialData: () => ({
           id: buff.id,
           type: buff.type,
-          parent
-        })
+          parent,
+        }),
       }),
       dropTargetForElements({
         element,
-        getIsSticky() { return true },
+        getIsSticky({ input, element }) {
+          if (parent === undefined) return true
+          const parentGroup = element.closest<HTMLElement>('[data-buff-group-id]')
+          if (!parentGroup) return false
+          const bounds = parentGroup.getBoundingClientRect()
+          return input.clientX >= bounds.left
+            && input.clientX <= bounds.right
+            && input.clientY >= bounds.top
+            && input.clientY <= bounds.bottom
+        },
         getData({ input, source, element }) {
           return attachInstruction(
             { id: buff.id, type: buff.type, parent },
@@ -43,9 +90,9 @@ export function Buff({ buff, parent, toggleSelection, removeBuff }: Buff.Props) 
               operations: {
                 'reorder-before': 'available',
                 'reorder-after': 'available',
-                'combine': (parent === undefined && source.data.type !== CombatBuffType.Group) ? 'available' : 'not-available'
-              }
-            }
+                'combine': (parent === undefined && source.data.type !== CombatBuffType.Group) ? 'available' : 'not-available',
+              },
+            },
           )
         },
         canDrop({ source }) {
@@ -59,9 +106,13 @@ export function Buff({ buff, parent, toggleSelection, removeBuff }: Buff.Props) 
           const instruction = extractInstruction(self.data)
           setOperation(instruction?.operation ?? null)
         },
-        onDragLeave() { setOperation(null) },
-        onDrop() { setOperation(null) }
-      })
+        onDragLeave() {
+          setOperation(null)
+        },
+        onDrop() {
+          setOperation(null)
+        },
+      }),
     )
     return cleanup
   })
@@ -69,12 +120,14 @@ export function Buff({ buff, parent, toggleSelection, removeBuff }: Buff.Props) 
   return (
     <div ref={ref} style={{ position: 'relative' }}>
       <DropIndicator gap={optimizerTabDefaultGap} position='upper' active={operation === 'reorder-before'} />
-      <BuffPanel
-        buff={buff}
-        toggleSelection={toggleSelection}
-        removeBuff={removeBuff}
-        t={t}
-      />
+      <CombineIndicator active={operation === 'combine'}>
+        <BuffPanel
+          buff={buff}
+          toggleSelection={toggleSelection}
+          removeBuff={removeBuff}
+          t={t}
+        />
+      </CombineIndicator>
       <DropIndicator gap={optimizerTabDefaultGap} position='lower' active={operation === 'reorder-after'} />
     </div>
   )
@@ -82,8 +135,8 @@ export function Buff({ buff, parent, toggleSelection, removeBuff }: Buff.Props) 
 
 export namespace Buff {
   export type Props = {
-    buff: CombatBuff
-    parent?: string
+    buff: CombatBuff,
+    parent?: string,
   } & Pick<BuffPanelProps, 'toggleSelection' | 'removeBuff'>
 }
 
@@ -106,16 +159,14 @@ export const BuffPanel = memo(function BuffPanel({
   const remove = useCallback(() => removeBuff(buff.id), [removeBuff, buff.id])
 
   const actionGroup = (
-    <Paper>
-      <Group gap={2}>
-        <ActionIcon aria-label='Copy buff' size={30} onClick={() => writeBuffToClipboard(buff)}>
-          <IconCopy />
-        </ActionIcon>
-        <ActionIcon aria-label='Delete buff' onClick={remove} size={30}>
-          <IconTrashFilled />
-        </ActionIcon>
-      </Group>
-    </Paper>
+    <Group gap={2}>
+      <ActionIcon aria-label='Copy buff' size={30} onClick={() => writeBuffToClipboard(buff)}>
+        <IconCopy />
+      </ActionIcon>
+      <ActionIcon aria-label='Delete buff' onClick={remove} size={30}>
+        <IconTrashFilled />
+      </ActionIcon>
+    </Group>
   )
 
   const panelContent = useMemo(() => {
@@ -128,22 +179,14 @@ export const BuffPanel = memo(function BuffPanel({
   }, [buff])
 
   return (
-    <Group
-      gap='xs'
-      justify='space-between'
-      style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}
-    >
-      <Box
-        style={{
-          alignSelf: 'stretch',
-          display: 'flex',
-          alignItems: 'flex-start',
-        }}
-      >
-        <Checkbox mt={7} checked={!buff.disabled} onClick={() => toggleSelection(buff.id)} />
-      </Box>
-      {panelContent}
-    </Group>
+    <Paper withBorder radius='sm' p={4} shadow='xs'>
+      <Group gap='xs' justify='space-between'>
+        <Box className={classes.checkboxSlot}>
+          <Checkbox mt={7} checked={!buff.disabled} onClick={() => toggleSelection(buff.id)} />
+        </Box>
+        {panelContent}
+      </Group>
+    </Paper>
   )
 })
 

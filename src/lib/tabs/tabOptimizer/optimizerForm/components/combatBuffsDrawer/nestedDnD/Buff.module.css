@@ -1,0 +1,5 @@
+.checkboxSlot {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+}

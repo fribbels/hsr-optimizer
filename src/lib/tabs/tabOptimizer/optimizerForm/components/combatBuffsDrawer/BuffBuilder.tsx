@@ -3,6 +3,7 @@ import {
   Flex,
   Group,
   NumberInput,
+  Paper,
   SegmentedControl,
   type SegmentedControlItem,
   Stack,
@@ -45,11 +46,11 @@ export function BuffBuilder({
   })))
 
   return (
-    <div style={{ borderColor: 'red', borderRadius: 4, borderWidth: 1, borderStyle: 'solid', padding: 4 }}>
+    <Paper withBorder radius='sm' p={4} shadow='xs'>
       <SegmentedControl fullWidth value={mode} onChange={setMode} data={options} data-autofocus />
       <StatBuffBuilder addBuff={addBuff} hidden={mode !== CombatBuffType.StatBuff} />
       <ActionModifierBuilder addBuff={addBuff} hidden={mode !== CombatBuffType.ActionModifier} />
-    </div>
+    </Paper>
   )
 }
 

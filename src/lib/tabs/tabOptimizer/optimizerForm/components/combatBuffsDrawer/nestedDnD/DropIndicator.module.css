@@ -1,0 +1,19 @@
+.indicator {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 2px;
+  border-radius: 1px;
+  background-color: var(--primary-default);
+  pointer-events: none;
+}
+
+.upper {
+  top: var(--drop-offset);
+  transform: translateY(-50%);
+}
+
+.lower {
+  bottom: var(--drop-offset);
+  transform: translateY(50%);
+}

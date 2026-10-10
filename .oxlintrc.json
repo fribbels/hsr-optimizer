@@ -16,6 +16,9 @@
     //    "style": "warn",
     //    "restriction": "warn"
   },
+  "options": {
+    "typeAware": true
+  },
   "rules": {
     // Defaults
     "for-direction": "warn",
@@ -96,6 +99,7 @@
     "react/no-render-return-value": "warn",
     "react/no-string-refs": "warn",
     "react/void-dom-elements-no-children": "warn",
+    "typescript/switch-exhaustiveness-check": "error",
     "typescript/no-duplicate-enum-values": "warn",
     "typescript/no-extra-non-null-assertion": "warn",
     "typescript/no-misused-new": "warn",

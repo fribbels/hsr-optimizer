@@ -11,11 +11,18 @@ import type {
   Eidolon,
 } from 'types/character'
 
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
+import type {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
+import type { Prettify } from 'types/common'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type {
   LightConeId,
@@ -93,9 +100,7 @@ export type Form =
 
     weights: ScoringMetadata['stats'],
 
-    combatBuffs: {
-      [key: string]: number,
-    },
+    combatBuffs: Array<CombatBuff | CombatBuffGroup>,
 
     // Optimizer additional data
     statSim?: {
@@ -128,6 +133,39 @@ export type Form =
   // Min / Max
   & StatFilters
   & RatingFilters
+
+interface CombatBuffCommon {
+  disabled: boolean
+  id: string
+}
+
+export enum CombatBuffType {
+  StatBuff,
+  ActionModifier,
+  Group,
+}
+
+export interface CombatBuffGroup extends CombatBuffCommon {
+  type: CombatBuffType.Group
+  name: string
+  buffs: Array<CombatBuff>
+}
+
+export type CombatBuff = Prettify<CombatStatBuff | CombatActionModifier>
+
+export interface CombatStatBuff extends CombatBuffCommon {
+  targetTag: TargetTag
+  damageTags: DamageTag[]
+  elementTags: ElementTag[]
+  statKey: AKeyValue
+  value: number
+  type: CombatBuffType.StatBuff
+}
+
+export interface CombatActionModifier extends CombatBuffCommon {
+  // modify(action: OptimizerAction, context: OptimizerContext): void
+  type: CombatBuffType.ActionModifier
+}
 
 export type RelicSetFilters = Array<[pieces: string] | [pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>
 export type OrnamentSetFilters = Array<SetsOrnaments>

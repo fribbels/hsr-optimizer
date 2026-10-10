@@ -1,0 +1,14 @@
+.option {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropdown {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: space-around;
+  align-items: center;
+}

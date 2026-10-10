@@ -75,8 +75,8 @@ export function labelToString(label: SimpleLabel, isMemo = false) {
     return isMemo ? i18next.t('MemospriteLabel', { label }) as string : label
   }
 
-  const finalLabel = i18next.t(label.key, label.key, { ns: label.ns, ...label.args }) as string
-  return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) as string : finalLabel
+  const finalLabel = i18next.t(label.key, 'MISSING_KEY', { ns: label.ns, ...label.args }) as string
+  return isMemo ? i18next.t('MemospriteLabel', { label: finalLabel }) : finalLabel
 }
 
 export function formatBuffValue(value: number, percent: boolean): string {

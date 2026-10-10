@@ -1,5 +1,4 @@
 import {
-  CombatBuffs,
   ConditionalDataType,
   Constants,
 } from 'lib/constants/constants'
@@ -123,8 +122,7 @@ export function displayToInternal(state: OptimizerRequestState): Form {
     // Weights — shallow-clone to prevent downstream mutation of store state
     weights: { ...state.weights },
 
-    // Combat buffs (percentage buffs ÷ 100)
-    combatBuffs: convertCombatBuffsToInternal(state.combatBuffs),
+    combatBuffs: state.combatBuffs,
 
     // Combo
     comboStateJson: state.comboStateJson,
@@ -171,29 +169,6 @@ function teammateStateToTeammate(ts: TeammateState): Teammate {
     characterConditionals: { ...ts.characterConditionals },
     lightConeConditionals: { ...ts.lightConeConditionals },
   } as Teammate
-}
-
-function convertCombatBuffsToDisplay(buffs: Record<string, number> | undefined): Record<string, number> {
-  const result: Record<string, number> = {}
-  if (!buffs) return result
-  for (const buff of Object.values(CombatBuffs)) {
-    const value = buffs[buff.key]
-    if (value != null) {
-      result[buff.key] = buff.percent ? value * 100 : value
-    }
-  }
-  return result
-}
-
-function convertCombatBuffsToInternal(buffs: Record<string, number>): Record<string, number> {
-  const result: Record<string, number> = {}
-  for (const buff of Object.values(CombatBuffs)) {
-    const value = buffs[buff.key]
-    if (value != null) {
-      result[buff.key] = buff.percent ? value / 100 : value
-    }
-  }
-  return result
 }
 
 /**
@@ -271,8 +246,7 @@ export function internalFormToState(form: Form): Partial<OptimizerRequestState> 
     // Weights — shallow-clone to prevent shared references (mirrors displayToInternal)
     weights: { ...form.weights },
 
-    // Combat buffs (internal → display: multiply percent buffs by 100)
-    combatBuffs: convertCombatBuffsToDisplay(form.combatBuffs),
+    combatBuffs: form.combatBuffs,
 
     // Combo
     comboStateJson: form.comboStateJson ?? '{}',

@@ -1,27 +1,31 @@
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type { ComboType } from 'lib/optimization/rotation/comboType'
-import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
-import { type SortOption } from 'lib/optimization/sortOptions'
-import { type SimulationRequest } from 'lib/simulations/statSimulationTypes'
-import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
-import {
-  type CharacterId,
-  type Eidolon,
+import type { TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import type { SortOption } from 'lib/optimization/sortOptions'
+import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
+import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
+import type {
+  CharacterId,
+  Eidolon,
 } from 'types/character'
-import { type ConditionalValueMap } from 'types/conditionals'
-import { type Form } from 'types/form'
-import {
-  type LightConeId,
-  type SuperImpositionLevel,
+import type { ConditionalValueMap } from 'types/conditionals'
+import type {
+  CombatBuff,
+  CombatBuffGroup,
+  Form,
+} from 'types/form'
+import type {
+  LightConeId,
+  SuperImpositionLevel,
 } from 'types/lightCone'
-import { type ScoringMetadata } from 'types/metadata'
-import {
-  type RelicEnhance,
-  type RelicGrade,
+import type { ScoringMetadata } from 'types/metadata'
+import type {
+  RelicEnhance,
+  RelicGrade,
 } from 'types/relic'
-import {
-  type MemoDisplay,
-  type StatDisplay,
+import type {
+  MemoDisplay,
+  StatDisplay,
 } from 'types/store'
 
 export type StatSimType = 'benchmarks' | 'substatRolls'
@@ -190,7 +194,7 @@ export type OptimizerRequestState = {
   weights: ScoringMetadata['stats'],
 
   // ── Combat Buffs ──
-  combatBuffs: Record<string, number>,
+  combatBuffs: Array<CombatBuff | CombatBuffGroup>,
 
   // ── Display Preferences (saved per build but only affect UI rendering) ──
   statDisplay: StatDisplay,

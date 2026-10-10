@@ -1,0 +1,40 @@
+.checkboxSlot {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-start;
+}
+
+.tagContainer {
+  flex-wrap: nowrap;
+}
+
+.moreTags {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 18px;
+  padding: 0 5px;
+  border: 1px solid var(--border-default);
+  border-radius: var(--mantine-radius-sm);
+  background-color: var(--layer-1);
+  color: var(--text-secondary);
+  font-size: 10px;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.moreTags:hover {
+  border-color: var(--primary-default);
+  background-color: var(--layer-2);
+  color: var(--text-primary);
+}
+
+.moreTags:focus-visible {
+  outline: 2px solid var(--primary-default);
+  outline-offset: 2px;
+}
+
+.tagPopover {
+  max-width: 280px;
+}

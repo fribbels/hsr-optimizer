@@ -39,8 +39,12 @@ export const DAMAGE_TAG_ENTRIES: DamageTagEntry[] = [
   { tag: DamageTag.ASSIST, key: 'ASSIST', color: ABILITY_COLORS.ASSIST },
 ]
 
-export const DAMAGE_TAG_BY_KEY = new Map<AbilityColorKey, DamageTagEntry>(
+export const DAMAGE_TAG_ENTRY_BY_KEY = new Map<AbilityColorKey, DamageTagEntry>(
   DAMAGE_TAG_ENTRIES.map((e) => [e.key, e]),
+)
+
+export const DAMAGE_TAG_ENTRY_BY_TAG = new Map<DamageTag, DamageTagEntry>(
+  DAMAGE_TAG_ENTRIES.map((e) => [e.tag, e]),
 )
 
 export const ACTION_COLORS: Partial<Record<AbilityKind, string>> = {

@@ -278,7 +278,6 @@ function BuffGroupContent({
   )
 }
 
-// TODO: implement
 interface PreviewProps {
   group: CombatBuffGroup
 }

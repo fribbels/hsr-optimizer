@@ -56,17 +56,11 @@ import {
 export type MainConditionalType = 'characterConditionals' | 'lightConeConditionals'
 export type TeammateConditionalType = 'characterConditionals' | 'lightConeConditionals'
 
-type AddCombatBuff = {
-  (this: void, buff: CombatBuffGroup): void,
-  (this: void, buff: CombatBuff, groupId?: string): void,
-}
-
 type OptimizerRequestActions = {
   // Simple setters (Task 8)
   setStatFilter: (key: keyof StatFilterState, value: number | undefined) => void,
   setRatingFilter: (key: keyof RatingFilterState, value: number | undefined) => void,
-  addCombatBuff: AddCombatBuff,
-  updateCombatBuffs: (...buffs: Array<CombatBuff | CombatBuffGroup>) => void,
+  addCombatBuff: (buff: CombatBuff | CombatBuffGroup) => void,
   nameCombatBuff: (id: string, name: string) => void,
   removeCombatBuff: (id: string) => void,
   toggleCombatBuff: (id: string) => void,
@@ -129,44 +123,24 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
       ratingFilters: { ...state.ratingFilters, [key]: value },
     })),
 
-  addCombatBuff: (buff: CombatBuff | CombatBuffGroup, groupId?: string) => {
-    if (groupId) {
-      set((state) => ({
-        combatBuffs: state.combatBuffs.map((b) => {
-          if (b.id !== groupId) return b
-          if (b.type !== CombatBuffType.Group) return b
-          // assertion enforced by the action's signature
-          return { ...b, buffs: [...b.buffs, buff as CombatBuff] }
-        }),
-      }))
+  addCombatBuff: (buff) => {
+    if (buff.type === CombatBuffType.Group) {
+      set((state) => {
+        const lastGroupIdx = state.combatBuffs.findLastIndex((b) => b.type === CombatBuffType.Group)
+        const idx = lastGroupIdx === -1 ? 0 : lastGroupIdx
+        const combatBuffs = state.combatBuffs.toSpliced(idx, 0, buff)
+        return { combatBuffs }
+      })
     } else {
-      if (buff.type === CombatBuffType.Group) {
-        set((state) => {
-          const lastGroupIdx = state.combatBuffs.findLastIndex((b) => b.type === CombatBuffType.Group)
-          const idx = lastGroupIdx === -1 ? 0 : lastGroupIdx
-          const combatBuffs = state.combatBuffs.toSpliced(idx, 0, buff)
-          return { combatBuffs }
-        })
-      } else {
-        set((state) => ({ combatBuffs: [...state.combatBuffs, buff] }))
-      }
+      set((state) => ({ combatBuffs: [...state.combatBuffs, buff] }))
     }
-    SaveState.delayedSave()
-  },
-
-  updateCombatBuffs: (...buffs) => {
-    set((state) => {
-      const { combatBuffs } = state
-      const map = new Map<string, CombatBuff | CombatBuffGroup>()
-      buffs.forEach((buff) => map.set(buff.id, buff))
-      return { combatBuffs: combatBuffs.map((b) => map.get(b.id) ?? b) }
-    })
     SaveState.delayedSave()
   },
 
   nameCombatBuff: (id, name) => {
     set((state) => {
       return {
+        // only need to iterate top level buffs since only groups have names
         combatBuffs: state.combatBuffs.map((b) => {
           if (b.id !== id) return b
           return { ...b, name }

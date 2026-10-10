@@ -202,7 +202,6 @@ function StatBuffPanelContent({
 }: StatBuffPanelContentProps) {
   const { label, flat } = getAKeyConfig(buff.statKey)
   const statLabel = labelToString(label)
-  // TODO: refine visuals
   return (
     <Stack flex={1}>
       <Group justify='space-between'>

@@ -12,12 +12,12 @@ export function ElementTagSelect({
   onChange,
 }: {
   disabled?: boolean,
-  value: Array<ElementTag>,
-  onChange: (val: Array<ElementTag>) => void,
+  value: Array<ElementTagSelect.TagType>,
+  onChange: (val: Array<ElementTagSelect.TagType>) => void,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
 
-  const renderPills = useCallback(({ value }: { value?: ElementTag }) => {
+  const renderPills = useCallback(({ value }: { value?: ElementTagSelect.TagType }) => {
     if (!value) return null
     return renderElementTagPill(value, t, true)
   }, [t])

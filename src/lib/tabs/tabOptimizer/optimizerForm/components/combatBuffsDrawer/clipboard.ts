@@ -14,9 +14,9 @@ import {
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
-import { DamageTagSelect } from './DamageTagSelect'
-import { ElementTagSelect } from './ElementTagSelect'
-import { TargetTagSelect } from './TargetTagSelect'
+import { DamageTagSelect } from './StatBuffBuilder/DamageTagSelect'
+import { ElementTagSelect } from './StatBuffBuilder/ElementTagSelect'
+import { TargetTagSelect } from './StatBuffBuilder/TargetTagSelect'
 
 export enum ClipboardError {
   NotAllowed,

@@ -14,17 +14,17 @@ export function DamageTagSelect({
   onChange,
 }: {
   disabled?: boolean,
-  value: Array<DamageTag>,
-  onChange: (val: Array<DamageTag>) => void,
+  value: Array<DamageTagSelect.TagType>,
+  onChange: (val: Array<DamageTagSelect.TagType>) => void,
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
 
-  const renderPills = useCallback(({ value }: { value?: DamageTag }) => {
+  const renderPills = useCallback(({ value }: { value?: DamageTagSelect.TagType }) => {
     if (!value) return null
     return renderDamageTagPill(value, t, true)
   }, [t])
 
-  const renderOptions = useCallback(({ option: { value }, checked }: { option: { value: DamageTag }, checked?: boolean }) => {
+  const renderOptions = useCallback(({ option: { value }, checked }: { option: { value: DamageTagSelect.TagType }, checked?: boolean }) => {
     if (!value) return null
     return renderDamageTagPill(value, t, checked)
   }, [t])

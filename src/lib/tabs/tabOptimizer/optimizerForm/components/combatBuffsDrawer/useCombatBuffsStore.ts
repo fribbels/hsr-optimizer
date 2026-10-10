@@ -1,4 +1,5 @@
 import { isHitAKey } from 'lib/optimization/engine/config/keys'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { uuid } from 'lib/utils/miscUtils'
@@ -25,6 +26,7 @@ export interface CombatBuffStoreState {
   damageTags: CombatStatBuff['damageTags']
   elementTags: CombatStatBuff['elementTags']
   // action modifier builder values
+  modifierType: ModifierType
 }
 
 interface CombatBuffStoreActions {
@@ -36,9 +38,13 @@ interface CombatBuffStoreActions {
   setTargetTag: (targetTags: CombatBuffStoreState['targetTag']) => void
   setDamageTags: (damageTags: CombatBuffStoreState['damageTags']) => void
   setElementTags: (elementTags: CombatBuffStoreState['elementTags']) => void
+  // actiom modifier builder methods
+  setModifierType: (modifierType: CombatBuffStoreState['modifierType']) => void
 }
 
 type CombatBuffStore = CombatBuffStoreActions & CombatBuffStoreState
+
+type ModifierType = Omit<DamageFunctionType, DamageFunctionType.Default>
 
 function initialStoreState(): CombatBuffStoreState {
   return {
@@ -48,6 +54,7 @@ function initialStoreState(): CombatBuffStoreState {
     damageTags: [],
     elementTags: [],
     targetTag: null,
+    modifierType: DamageFunctionType.Crit,
   }
 }
 
@@ -66,6 +73,7 @@ export const useCombatBuffStore = create<CombatBuffStore>()((set) => ({
   setTargetTag: (targetTag) => set({ targetTag }),
   setElementTags: (elementTags) => set({ elementTags }),
   // action modifier builder
+  setModifierType: (modifierType) => set({ modifierType }),
 }))
 
 export async function loadBuffFromClipboard() {

@@ -22,6 +22,10 @@ import type {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
+import { ModifierTypeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/ModifierTypeSelect'
+import { DamageTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/DamageTagSelect'
+import { ElementTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/ElementTagSelect'
+import { TargetTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/TargetTagSelect'
 import type { Prettify } from 'types/common'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type {
@@ -154,9 +158,9 @@ export interface CombatBuffGroup extends CombatBuffCommon {
 export type CombatBuff = Prettify<CombatStatBuff | CombatActionModifier>
 
 export interface CombatStatBuff extends CombatBuffCommon {
-  targetTag: TargetTag
-  damageTags: DamageTag[]
-  elementTags: ElementTag[]
+  targetTag: TargetTagSelect.TagType
+  damageTags: Array<DamageTagSelect.TagType>
+  elementTags: Array<ElementTagSelect.TagType>
   statKey: AKeyValue
   value: number
   type: CombatBuffType.StatBuff
@@ -165,6 +169,7 @@ export interface CombatStatBuff extends CombatBuffCommon {
 export interface CombatActionModifier extends CombatBuffCommon {
   // modify(action: OptimizerAction, context: OptimizerContext): void
   type: CombatBuffType.ActionModifier
+  kind: ModifierTypeSelect.TagType
 }
 
 export type RelicSetFilters = Array<[pieces: string] | [pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>

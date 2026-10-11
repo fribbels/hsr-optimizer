@@ -17,6 +17,7 @@ import type {
   ElementTag,
   TargetTag,
 } from 'lib/optimization/engine/config/tag'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import type {
   SetsOrnaments,
   SetsRelics,
@@ -168,13 +169,39 @@ export interface CombatStatBuff extends CombatBuffCommon {
   type: CombatBuffType.StatBuff
 }
 
-export interface CombatActionModifier extends CombatBuffCommon {
-  // modify(action: OptimizerAction, context: OptimizerContext): void
+interface AbstractCombatActionModifier extends CombatBuffCommon {
   type: CombatBuffType.ActionModifier
   kind: ModifierKindSelect.TagType
   element: DamageElementSelect.TagType
   abilities: Array<AbilitySelect.TagType>
 }
+
+interface CritActionModifier extends AbstractCombatActionModifier {
+  kind: DamageFunctionType.Crit
+}
+
+interface DotActionModifier extends AbstractCombatActionModifier {
+  kind: DamageFunctionType.Dot
+}
+
+interface BreakActionModifier extends AbstractCombatActionModifier {
+  kind: DamageFunctionType.Break
+}
+
+interface AdditionalActionModifier extends AbstractCombatActionModifier {
+  kind: DamageFunctionType.Additional
+}
+
+interface ElationActionModifier extends AbstractCombatActionModifier {
+  kind: DamageFunctionType.Elation
+}
+
+export type CombatActionModifier =
+  | CritActionModifier
+  | DotActionModifier
+  | BreakActionModifier
+  | AdditionalActionModifier
+  | ElationActionModifier
 
 export type RelicSetFilters = Array<[pieces: string] | [pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>
 export type OrnamentSetFilters = Array<SetsOrnaments>

@@ -24,6 +24,7 @@ import {
   getAKeyConfig,
   isHitAKey,
 } from '../engine/config/keys'
+import { DamageTag } from '../engine/config/tag'
 import { DamageFunctionType } from '../engine/damage/damageCalculator'
 import type { AbilityKind } from './turnAbilityConfig'
 
@@ -77,35 +78,40 @@ function applyActionModifier(context: OptimizerContext, buff: CombatActionModifi
     switch (buff.kind) {
       case DamageFunctionType.Crit: {
         let builder = HitDefinitionBuilder.crit()
+          .damageType(DamageTag.None)
           .damageElement(buff.element)
+          .directHit(false)
         action.hits!.push(builder.build() as CritHit)
         break
       }
       case DamageFunctionType.Dot: {
         let builder = HitDefinitionBuilder.standardDot()
+          .damageType(DamageTag.DOT)
           .damageElement(buff.element)
+          .directHit(false)
         action.hits!.push(builder.build() as DotHit)
         break
       }
       case DamageFunctionType.Break: {
         let builder = HitDefinitionBuilder.standardBreak(buff.element)
+          .damageType(DamageTag.BREAK)
+          .directHit(false)
         action.hits!.push(builder.build() as BreakHit)
-        break
-      }
-      case DamageFunctionType.SuperBreak: {
-        let builder = HitDefinitionBuilder.standardSuperBreak(buff.element)
-        action.hits!.push(builder.build() as SuperBreakHit)
         break
       }
       case DamageFunctionType.Additional: {
         let builder = HitDefinitionBuilder.standardAdditional()
+          .damageType(DamageTag.ADDITIONAL)
           .damageElement(buff.element)
+          .directHit(false)
         action.hits!.push(builder.build() as AdditionalHit)
         break
       }
       case DamageFunctionType.Elation: {
         let builder = HitDefinitionBuilder.elation()
+          .damageType(DamageTag.ELATION)
           .damageElement(buff.element)
+          .directHit(false)
         action.hits!.push(builder.build() as ElationHit)
         break
       }

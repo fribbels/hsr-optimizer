@@ -176,24 +176,26 @@ interface AbstractCombatActionModifier extends CombatBuffCommon {
   abilities: Array<AbilitySelect.TagType>
 }
 
-interface CritActionModifier extends AbstractCombatActionModifier {
+export interface CritActionModifier extends AbstractCombatActionModifier {
   kind: DamageFunctionType.Crit
 }
 
-interface DotActionModifier extends AbstractCombatActionModifier {
+export interface DotActionModifier extends AbstractCombatActionModifier {
   kind: DamageFunctionType.Dot
 }
 
-interface BreakActionModifier extends AbstractCombatActionModifier {
+export interface BreakActionModifier extends AbstractCombatActionModifier {
   kind: DamageFunctionType.Break
 }
 
-interface AdditionalActionModifier extends AbstractCombatActionModifier {
+export interface AdditionalActionModifier extends AbstractCombatActionModifier {
   kind: DamageFunctionType.Additional
 }
 
-interface ElationActionModifier extends AbstractCombatActionModifier {
+export interface ElationActionModifier extends AbstractCombatActionModifier {
   kind: DamageFunctionType.Elation
+  elationScaling: number
+  punchlineStacks: number
 }
 
 export type CombatActionModifier =

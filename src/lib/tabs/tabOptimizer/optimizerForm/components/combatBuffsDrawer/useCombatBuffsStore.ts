@@ -5,6 +5,7 @@ import {
   CombatActionModifier,
   CombatBuffType,
   type CombatStatBuff,
+  ElationActionModifier,
 } from 'types/form'
 import { create } from 'zustand'
 import {
@@ -25,6 +26,9 @@ export interface CombatBuffStoreState {
   modifierKind: CombatActionModifier['kind'] | null
   damageElement: CombatActionModifier['element'] | null
   abilityTargets: CombatActionModifier['abilities']
+  // elation action modifier
+  elationScaling: ElationActionModifier['elationScaling'] | string
+  punchlineStacks: ElationActionModifier['punchlineStacks'] | string
 }
 
 interface CombatBuffStoreActions {
@@ -40,6 +44,9 @@ interface CombatBuffStoreActions {
   setModifierKind: (modifierKind: CombatBuffStoreState['modifierKind']) => void
   setDamageElement: (damageElement: CombatBuffStoreState['damageElement']) => void
   setAbilityTargets: (abilityTargets: CombatBuffStoreState['abilityTargets']) => void
+  // elation action modifier
+  setElationScaling: (elationScaling: CombatBuffStoreState['elationScaling']) => void
+  setPunchlineStacks: (elationScaling: CombatBuffStoreState['punchlineStacks']) => void
 }
 
 type CombatBuffStore = CombatBuffStoreActions & CombatBuffStoreState
@@ -55,6 +62,8 @@ function initialStoreState(): CombatBuffStoreState {
     modifierKind: DamageFunctionType.Crit,
     damageElement: null,
     abilityTargets: [],
+    elationScaling: '',
+    punchlineStacks: '',
   }
 }
 
@@ -76,6 +85,9 @@ export const useCombatBuffStore = create<CombatBuffStore>()((set) => ({
   setModifierKind: (modifierKind) => set({ modifierKind }),
   setDamageElement: (damageElement) => set({ damageElement }),
   setAbilityTargets: (abilityTargets) => set({ abilityTargets }),
+  // elation action modifier
+  setElationScaling: (elationScaling) => set({ elationScaling }),
+  setPunchlineStacks: (punchlineStacks) => set({ punchlineStacks }),
 }))
 
 export async function loadBuffFromClipboard() {

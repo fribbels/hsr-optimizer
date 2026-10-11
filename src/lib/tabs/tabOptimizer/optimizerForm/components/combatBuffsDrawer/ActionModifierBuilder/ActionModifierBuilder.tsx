@@ -6,6 +6,8 @@ import { ModifierKindSelect } from "./ModifierKindSelect"
 import { optimizerTabDefaultGap } from "../../../grid/optimizerGridColumns"
 import { DamageElementSelect } from "./DamageElementSelect"
 import { AbilitySelect } from "./AbilitySelect"
+import { DamageFunctionType } from "lib/optimization/engine/damage/damageCalculator"
+import { ElationModifierBuilder } from "./ElationModifierBuilder"
 
 export function ActionModifierBuilder({
   addBuff,
@@ -36,6 +38,7 @@ export function ActionModifierBuilder({
         <DamageElementSelect value={damageElement} onChange={setDamageElement} />
       </Group>
       <AbilitySelect value={abilityTargets} onChange={setAbilityTargets} />
+      {modifierKind === DamageFunctionType.Elation && <ElationModifierBuilder />}
       <Button
         onClick={() => {
           const modifier = validateActionModifier()

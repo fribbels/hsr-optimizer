@@ -108,11 +108,14 @@ function applyActionModifier(context: OptimizerContext, buff: CombatActionModifi
         break
       }
       case DamageFunctionType.Elation: {
-        let builder = HitDefinitionBuilder.elation()
+        const hit = HitDefinitionBuilder.elation()
           .damageType(DamageTag.ELATION)
           .damageElement(buff.element)
           .directHit(false)
-        action.hits!.push(builder.build() as ElationHit)
+          .elationScaling(buff.elationScaling)
+          .punchlineStacks(buff.punchlineStacks)
+          .build()
+        action.hits!.push(hit as ElationHit)
         break
       }
     }

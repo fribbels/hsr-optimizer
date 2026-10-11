@@ -7,7 +7,6 @@ import {
 } from '@mantine/core'
 import {
   IconClipboard,
-  IconFolderPlus,
   IconTrash,
 } from '@tabler/icons-react'
 import { defaultGap } from 'lib/constants/constantsUi'
@@ -18,13 +17,9 @@ import {
 import { useScrollLock } from 'lib/layout/scrollController'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { BuffBuilder } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffBuilder'
-import { loadBuffFromClipboard, useCombatBuffStore } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
-import { uuid } from 'lib/utils/miscUtils'
+import { loadBuffFromClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
 import { memo, } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  CombatBuffType,
-} from 'types/form'
 import { useShallow } from 'zustand/react/shallow'
 import { NestedDnD } from './nestedDnD/NestedDnD'
 
@@ -70,19 +65,6 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
         >
           {t('Clear')}
         </Button>
-        <ActionIcon
-          onClick={() => {
-            addCombatBuff({
-              id: uuid(),
-              type: CombatBuffType.Group,
-              buffs: [],
-              name: '',
-              disabled: false,
-            })
-          }}
-        >
-          <IconFolderPlus />
-        </ActionIcon>
         <ActionIcon onClick={loadBuffFromClipboard}>
           <IconClipboard />
         </ActionIcon>

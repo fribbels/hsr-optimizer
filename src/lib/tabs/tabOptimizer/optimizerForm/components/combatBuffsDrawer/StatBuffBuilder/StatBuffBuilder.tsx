@@ -66,12 +66,6 @@ export function StatBuffBuilder({
       <ElementTagSelect disabled={hitTagsDisabled} value={elementTags} onChange={setElementTags} />
       <Button
         onClick={() => {
-          console.log(
-            stat,
-            value,
-            targetTag,
-            damageTags,
-          )
           const buff = validateStatBuff(stat, value, damageTags, targetTag, elementTags)
           if (!buff) return
           addBuff(buff)

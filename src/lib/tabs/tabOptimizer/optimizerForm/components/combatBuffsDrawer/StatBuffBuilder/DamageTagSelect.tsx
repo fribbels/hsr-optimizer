@@ -19,12 +19,12 @@ export function DamageTagSelect({
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
 
-  const renderPills = useCallback(({ value }: { value?: DamageTagSelect.TagType }) => {
+  const renderPills: PillMultiSelect.Props<DamageTagSelect.TagType>['renderPills'] = useCallback((value) => {
     if (!value) return null
     return renderDamageTagPill(value, t, true)
   }, [t])
 
-  const renderOptions = useCallback(({ option: { value }, checked }: { option: { value: DamageTagSelect.TagType }, checked?: boolean }) => {
+  const renderOptions: PillMultiSelect.Props<DamageTagSelect.TagType>['renderOptions'] = useCallback((value, checked) => {
     if (!value) return null
     return renderDamageTagPill(value, t, checked)
   }, [t])
@@ -35,7 +35,6 @@ export function DamageTagSelect({
       onChange={onChange}
       label='Damage tags'
       popoverText='selected stat can not be hit filtered, try using its flat equivalent instead'
-      withPopover
       renderOptions={renderOptions}
       renderPills={renderPills}
       disabled={disabled}

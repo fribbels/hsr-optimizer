@@ -5,30 +5,29 @@ import {
   Text,
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
-import type { ReactNode } from 'react'
+import { useCallback, type ReactNode } from 'react'
 
 import classes from 'lib/ui/pillSelects/PillMultiSelect.module.css'
 
-namespace PillMultiSelect {
-  export interface CoreProps<T extends Primitive> {
+export namespace PillMultiSelect {
+  export interface SelectorProps<T extends Primitive> {
     options: ReadonlyArray<T>
     value: Array<T>
     onChange: (values: Array<T>) => void
-    renderPills: (tag: { value?: T }) => ReactNode
-    renderOptions: (option: { option: { value: T }, checked?: boolean }) => ReactNode
+    renderPills: (value?: T) => ReactNode
+    renderOptions: (value: T, checked?: boolean) => ReactNode
     disabled?: boolean
     label?: string
-  }
-
-  export type PopoverProps = {
-    withPopover: true,
-    popoverText: string,
-  } | {
-    withPopover?: false,
     popoverText?: string,
   }
 
-  export type Props<T extends Primitive> = CoreProps<T> & PopoverProps
+  export type PopoverProps = {
+    popoverText?: string,
+  }
+
+  export type Props<T extends Primitive> = SelectorProps<T>
+    & PopoverProps
+    & Pick<MultiSelect.Props, 'flex' | 'clearable'>
 }
 
 export function PillMultiSelect<T extends Primitive>({
@@ -37,13 +36,37 @@ export function PillMultiSelect<T extends Primitive>({
   onChange,
   renderPills,
   renderOptions,
-  withPopover,
   popoverText,
   disabled,
   label,
+  flex,
+  clearable
 }: PillMultiSelect.Props<T>) {
   const [opened, { close, open }] = useDisclosure(false)
-  return withPopover
+
+  const renderOption: MultiSelect.Props<T>['renderOption'] = useCallback(({ option: { value }, checked }) => {
+    return renderOptions(value, checked)
+  }, [renderOptions])
+  const renderPill: MultiSelect.Props<T>['renderPill'] = useCallback(({ value }) => {
+    return renderPills(value)
+  }, [renderPills])
+
+  const select = (
+    <MultiSelect
+      data={options}
+      value={value}
+      onChange={onChange}
+      label={label}
+      classNames={{ dropdown: classes.dropdown, option: classes.option }}
+      renderOption={renderOption}
+      renderPill={renderPill}
+      comboboxProps={{ width: 'max-content' }}
+      flex={flex}
+      clearable={clearable}
+    />
+  )
+
+  return popoverText?.length
     ? (
       <Popover width={200} position='left' withArrow shadow='md' opened={opened} disabled={!disabled}>
         <Popover.Target>
@@ -52,15 +75,7 @@ export function PillMultiSelect<T extends Primitive>({
             onMouseEnter={open}
             onMouseLeave={close}
           >
-            <TagSelector
-              value={value}
-              onChange={onChange}
-              options={options}
-              renderPills={renderPills}
-              renderOptions={renderOptions}
-              label={label}
-              disabled={disabled}
-            />
+            {select}
           </div>
         </Popover.Target>
         <Popover.Dropdown>
@@ -68,39 +83,5 @@ export function PillMultiSelect<T extends Primitive>({
         </Popover.Dropdown>
       </Popover>
     )
-    : (
-      <TagSelector
-        value={value}
-        onChange={onChange}
-        options={options}
-        renderPills={renderPills}
-        renderOptions={renderOptions}
-        label={label}
-        disabled={disabled}
-      />
-    )
-}
-
-function TagSelector<T extends Primitive>({
-  value,
-  label,
-  onChange,
-  options,
-  renderOptions: renderOption,
-  renderPills: renderPill,
-  disabled,
-}: PillMultiSelect.CoreProps<T>) {
-  return (
-    <MultiSelect
-      value={value}
-      onChange={onChange}
-      data={options}
-      clearable
-      renderPill={renderPill}
-      renderOption={renderOption}
-      classNames={{ dropdown: classes.dropdown, option: classes.option }}
-      label={label}
-      disabled={disabled}
-    />
-  )
+    : select
 }

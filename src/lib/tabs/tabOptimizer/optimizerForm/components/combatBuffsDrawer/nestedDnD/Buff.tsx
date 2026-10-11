@@ -48,7 +48,7 @@ import type {
 import { optimizerTabDefaultGap } from '../../../grid/optimizerGridColumns'
 import { writeBuffToClipboard } from '../clipboard'
 import { renderDamageTagPill } from '../StatBuffBuilder/DamageTagSelect'
-import { renderElementTagPill } from '../StatBuffBuilder/ElementTagSelect'
+import { renderElementTagPill } from '../common/elementTag'
 import { renderTargetTagPill } from '../StatBuffBuilder/TargetTagSelect'
 import classes from './Buff.module.css'
 import { CombineIndicator } from './CombineIndicator'

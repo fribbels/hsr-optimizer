@@ -1,11 +1,21 @@
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { arrayIncludes } from 'lib/utils/arrayUtils'
 import {
   type CombatActionModifier,
   CombatBuffType,
   type CombatStatBuff,
   type Form,
 } from 'types/form'
+import {
+  AdditionalHit,
+  BreakHit,
+  CritHit,
+  DotHit,
+  ElationHit,
+  SuperBreakHit,
+} from 'types/hitConditionalTypes'
 import type {
   OptimizerAction,
   OptimizerContext,
@@ -14,6 +24,8 @@ import {
   getAKeyConfig,
   isHitAKey,
 } from '../engine/config/keys'
+import { DamageFunctionType } from '../engine/damage/damageCalculator'
+import type { AbilityKind } from './turnAbilityConfig'
 
 export function precomputeExtraCombatBuffs(x: ComputedStatsContainer, request: Form): void {
   request.combatBuffs.forEach((buff) => {
@@ -61,7 +73,43 @@ export function precomputeExtraActionModifiers(request: Form, context: Optimizer
 
 function applyActionModifier(context: OptimizerContext, buff: CombatActionModifier) {
   const modify = (action: OptimizerAction, context: OptimizerContext) => {
-    // TODO:
+    if (!arrayIncludes<AbilityKind>(buff.abilities, action.actionType)) return
+    switch (buff.kind) {
+      case DamageFunctionType.Crit: {
+        let builder = HitDefinitionBuilder.crit()
+          .damageElement(buff.element)
+        action.hits!.push(builder.build() as CritHit)
+        break
+      }
+      case DamageFunctionType.Dot: {
+        let builder = HitDefinitionBuilder.standardDot()
+          .damageElement(buff.element)
+        action.hits!.push(builder.build() as DotHit)
+        break
+      }
+      case DamageFunctionType.Break: {
+        let builder = HitDefinitionBuilder.standardBreak(buff.element)
+        action.hits!.push(builder.build() as BreakHit)
+        break
+      }
+      case DamageFunctionType.SuperBreak: {
+        let builder = HitDefinitionBuilder.standardSuperBreak(buff.element)
+        action.hits!.push(builder.build() as SuperBreakHit)
+        break
+      }
+      case DamageFunctionType.Additional: {
+        let builder = HitDefinitionBuilder.standardAdditional()
+          .damageElement(buff.element)
+        action.hits!.push(builder.build() as AdditionalHit)
+        break
+      }
+      case DamageFunctionType.Elation: {
+        let builder = HitDefinitionBuilder.elation()
+          .damageElement(buff.element)
+        action.hits!.push(builder.build() as ElationHit)
+        break
+      }
+    }
   }
   context.actionModifiers.push({ modify })
 }

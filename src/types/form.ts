@@ -22,7 +22,9 @@ import type {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
-import { ModifierTypeSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/ModifierTypeSelect'
+import { AbilitySelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/AbilitySelect'
+import { DamageElementSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/DamageElementSelect'
+import { ModifierKindSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/ModifierKindSelect'
 import { DamageTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/DamageTagSelect'
 import { ElementTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/ElementTagSelect'
 import { TargetTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/TargetTagSelect'
@@ -169,7 +171,9 @@ export interface CombatStatBuff extends CombatBuffCommon {
 export interface CombatActionModifier extends CombatBuffCommon {
   // modify(action: OptimizerAction, context: OptimizerContext): void
   type: CombatBuffType.ActionModifier
-  kind: ModifierTypeSelect.TagType
+  kind: ModifierKindSelect.TagType
+  element: DamageElementSelect.TagType
+  abilities: Array<AbilitySelect.TagType>
 }
 
 export type RelicSetFilters = Array<[pieces: string] | [pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>

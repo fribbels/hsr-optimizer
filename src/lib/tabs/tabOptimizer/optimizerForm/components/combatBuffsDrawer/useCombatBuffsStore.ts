@@ -1,12 +1,8 @@
 import { isHitAKey } from 'lib/optimization/engine/config/keys'
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
-import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
-import { uuid } from 'lib/utils/miscUtils'
 import {
-  type CombatActionModifier,
-  type CombatBuff,
-  type CombatBuffGroup,
+  CombatActionModifier,
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
@@ -26,7 +22,9 @@ export interface CombatBuffStoreState {
   damageTags: CombatStatBuff['damageTags']
   elementTags: CombatStatBuff['elementTags']
   // action modifier builder values
-  modifierType: ModifierType
+  modifierKind: CombatActionModifier['kind'] | null
+  damageElement: CombatActionModifier['element'] | null
+  abilityTargets: CombatActionModifier['abilities']
 }
 
 interface CombatBuffStoreActions {
@@ -39,12 +37,12 @@ interface CombatBuffStoreActions {
   setDamageTags: (damageTags: CombatBuffStoreState['damageTags']) => void
   setElementTags: (elementTags: CombatBuffStoreState['elementTags']) => void
   // actiom modifier builder methods
-  setModifierType: (modifierType: CombatBuffStoreState['modifierType']) => void
+  setModifierKind: (modifierKind: CombatBuffStoreState['modifierKind']) => void
+  setDamageElement: (damageElement: CombatBuffStoreState['damageElement']) => void
+  setAbilityTargets: (abilityTargets: CombatBuffStoreState['abilityTargets']) => void
 }
 
 type CombatBuffStore = CombatBuffStoreActions & CombatBuffStoreState
-
-type ModifierType = Omit<DamageFunctionType, DamageFunctionType.Default>
 
 function initialStoreState(): CombatBuffStoreState {
   return {
@@ -54,7 +52,9 @@ function initialStoreState(): CombatBuffStoreState {
     damageTags: [],
     elementTags: [],
     targetTag: null,
-    modifierType: DamageFunctionType.Crit,
+    modifierKind: DamageFunctionType.Crit,
+    damageElement: null,
+    abilityTargets: [],
   }
 }
 
@@ -73,7 +73,9 @@ export const useCombatBuffStore = create<CombatBuffStore>()((set) => ({
   setTargetTag: (targetTag) => set({ targetTag }),
   setElementTags: (elementTags) => set({ elementTags }),
   // action modifier builder
-  setModifierType: (modifierType) => set({ modifierType }),
+  setModifierKind: (modifierKind) => set({ modifierKind }),
+  setDamageElement: (damageElement) => set({ damageElement }),
+  setAbilityTargets: (abilityTargets) => set({ abilityTargets }),
 }))
 
 export async function loadBuffFromClipboard() {

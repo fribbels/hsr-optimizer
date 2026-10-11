@@ -28,6 +28,7 @@ namespace PillSingleSelect {
     disabled?: boolean
     label?: string
     placeholder?: string
+    flex?: Input.Wrapper.Props['flex']
   }
 
   export type PopoverProps = {
@@ -73,6 +74,7 @@ function PillSingleSelectTarget<T extends Primitive>({
   placeholder,
   disabled,
   label,
+  flex
 }: PillSingleSelect.CoreProps<T>) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
@@ -104,7 +106,7 @@ function PillSingleSelectTarget<T extends Primitive>({
     : <CloseButton aria-label='clear selection' onClick={() => onChange(null)} size='sm' onMouseDown={(e) => e.preventDefault()} />
 
   return (
-    <Input.Wrapper label={label}>
+    <Input.Wrapper label={label} flex={flex}>
       <Combobox store={combobox} withinPortal={false} onOptionSubmit={onOptionSubmit} disabled={disabled}>
         <Combobox.Target>
           <InputBase

@@ -2,7 +2,6 @@ import {
   Paper,
   SegmentedControl,
   type SegmentedControlItem,
-  Stack,
 } from '@mantine/core'
 import {
   type CombatBuffStoreState,
@@ -23,7 +22,7 @@ export function BuffBuilder({
 }) {
   const options: Array<SegmentedControlItem<CombatBuffStoreState['buffBuilderMode']>> = [
     { value: CombatBuffType.StatBuff, label: 'Stat buff' },
-    { value: CombatBuffType.ActionModifier, label: 'Action modifier', disabled: true },
+    { value: CombatBuffType.ActionModifier, label: 'Action modifier' },
   ]
 
   const { mode, setMode } = useCombatBuffStore(useShallow((s) => ({

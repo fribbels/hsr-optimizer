@@ -21,9 +21,7 @@ export namespace ModifierKindSelect {
   }
   export const tagValues = [
     { value: DamageFunctionType.Crit, label: DamageFunctionType[DamageFunctionType.Crit] },
-    { value: DamageFunctionType.Dot, label: DamageFunctionType[DamageFunctionType.Dot] },
     { value: DamageFunctionType.Break, label: DamageFunctionType[DamageFunctionType.Break] },
-    { value: DamageFunctionType.Additional, label: DamageFunctionType[DamageFunctionType.Additional] },
     { value: DamageFunctionType.Elation, label: DamageFunctionType[DamageFunctionType.Elation] },
   ] as const
   export type TagType = typeof tagValues[number]['value']

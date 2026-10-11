@@ -84,27 +84,12 @@ function applyActionModifier(context: OptimizerContext, buff: CombatActionModifi
         action.hits!.push(builder.build() as CritHit)
         break
       }
-      case DamageFunctionType.Dot: {
-        let builder = HitDefinitionBuilder.standardDot()
-          .damageType(DamageTag.DOT)
-          .damageElement(buff.element)
-          .directHit(false)
-        action.hits!.push(builder.build() as DotHit)
-        break
-      }
       case DamageFunctionType.Break: {
         let builder = HitDefinitionBuilder.standardBreak(buff.element)
           .damageType(DamageTag.BREAK)
           .directHit(false)
+          .specialScaling(buff.breakScaling / 100)
         action.hits!.push(builder.build() as BreakHit)
-        break
-      }
-      case DamageFunctionType.Additional: {
-        let builder = HitDefinitionBuilder.standardAdditional()
-          .damageType(DamageTag.ADDITIONAL)
-          .damageElement(buff.element)
-          .directHit(false)
-        action.hits!.push(builder.build() as AdditionalHit)
         break
       }
       case DamageFunctionType.Elation: {
@@ -112,7 +97,7 @@ function applyActionModifier(context: OptimizerContext, buff: CombatActionModifi
           .damageType(DamageTag.ELATION)
           .damageElement(buff.element)
           .directHit(false)
-          .elationScaling(buff.elationScaling)
+          .elationScaling(buff.elationScaling / 100)
           .punchlineStacks(buff.punchlineStacks)
           .build()
         action.hits!.push(hit as ElationHit)

@@ -2,6 +2,7 @@ import { isHitAKey } from 'lib/optimization/engine/config/keys'
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
+  BreakActionModifier,
   CombatActionModifier,
   CombatBuffType,
   type CombatStatBuff,
@@ -26,6 +27,8 @@ export interface CombatBuffStoreState {
   modifierKind: CombatActionModifier['kind'] | null
   damageElement: CombatActionModifier['element'] | null
   abilityTargets: CombatActionModifier['abilities']
+  // break action modifier
+  breakScaling: BreakActionModifier['breakScaling'] | string
   // elation action modifier
   elationScaling: ElationActionModifier['elationScaling'] | string
   punchlineStacks: ElationActionModifier['punchlineStacks'] | string
@@ -44,6 +47,8 @@ interface CombatBuffStoreActions {
   setModifierKind: (modifierKind: CombatBuffStoreState['modifierKind']) => void
   setDamageElement: (damageElement: CombatBuffStoreState['damageElement']) => void
   setAbilityTargets: (abilityTargets: CombatBuffStoreState['abilityTargets']) => void
+  // break action modifier
+  setBreakScaling: (breakScaling: CombatBuffStoreState['breakScaling']) => void
   // elation action modifier
   setElationScaling: (elationScaling: CombatBuffStoreState['elationScaling']) => void
   setPunchlineStacks: (elationScaling: CombatBuffStoreState['punchlineStacks']) => void
@@ -59,11 +64,15 @@ function initialStoreState(): CombatBuffStoreState {
     damageTags: [],
     elementTags: [],
     targetTag: null,
+    // action modifier builder
     modifierKind: DamageFunctionType.Crit,
     damageElement: null,
     abilityTargets: [],
-    elationScaling: '',
-    punchlineStacks: '',
+    // break action modifier
+    breakScaling: 100,
+    // elation action modifier
+    elationScaling: 30,
+    punchlineStacks: 20,
   }
 }
 
@@ -85,6 +94,8 @@ export const useCombatBuffStore = create<CombatBuffStore>()((set) => ({
   setModifierKind: (modifierKind) => set({ modifierKind }),
   setDamageElement: (damageElement) => set({ damageElement }),
   setAbilityTargets: (abilityTargets) => set({ abilityTargets }),
+  // break action modifier
+  setBreakScaling: (breakScaling) => set({ breakScaling }),
   // elation action modifier
   setElationScaling: (elationScaling) => set({ elationScaling }),
   setPunchlineStacks: (punchlineStacks) => set({ punchlineStacks }),

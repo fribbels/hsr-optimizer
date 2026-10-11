@@ -180,16 +180,9 @@ export interface CritActionModifier extends AbstractCombatActionModifier {
   kind: DamageFunctionType.Crit
 }
 
-export interface DotActionModifier extends AbstractCombatActionModifier {
-  kind: DamageFunctionType.Dot
-}
-
 export interface BreakActionModifier extends AbstractCombatActionModifier {
   kind: DamageFunctionType.Break
-}
-
-export interface AdditionalActionModifier extends AbstractCombatActionModifier {
-  kind: DamageFunctionType.Additional
+  breakScaling: number
 }
 
 export interface ElationActionModifier extends AbstractCombatActionModifier {
@@ -200,9 +193,7 @@ export interface ElationActionModifier extends AbstractCombatActionModifier {
 
 export type CombatActionModifier =
   | CritActionModifier
-  | DotActionModifier
   | BreakActionModifier
-  | AdditionalActionModifier
   | ElationActionModifier
 
 export type RelicSetFilters = Array<[pieces: string] | [pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>

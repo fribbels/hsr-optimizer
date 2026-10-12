@@ -1,3 +1,4 @@
+import { Stats } from 'lib/constants/constants'
 import { isHitAKey } from 'lib/optimization/engine/config/keys'
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
@@ -6,6 +7,7 @@ import {
   CombatActionModifier,
   CombatBuffType,
   type CombatStatBuff,
+  CritActionModifier,
   ElationActionModifier,
 } from 'types/form'
 import { create } from 'zustand'
@@ -27,6 +29,10 @@ export interface CombatBuffStoreState {
   modifierKind: CombatActionModifier['kind'] | null
   damageElement: CombatActionModifier['element'] | null
   abilityTargets: CombatActionModifier['abilities']
+  // crit action modifier
+  critDamageType: CritActionModifier['critDamageType']
+  critScalingStat: CritActionModifier['critScalingStat'] | null
+  critScalingValue: CritActionModifier['critScalingValue'] | string
   // break action modifier
   breakScaling: BreakActionModifier['breakScaling'] | string
   // elation action modifier
@@ -47,6 +53,10 @@ interface CombatBuffStoreActions {
   setModifierKind: (modifierKind: CombatBuffStoreState['modifierKind']) => void
   setDamageElement: (damageElement: CombatBuffStoreState['damageElement']) => void
   setAbilityTargets: (abilityTargets: CombatBuffStoreState['abilityTargets']) => void
+  // crit action modifier
+  setCritDamageType: (critDamageType: CombatBuffStoreState['critDamageType']) => void
+  setCritScalingStat: (critScalingStat: CombatBuffStoreState['critScalingStat']) => void
+  setCritScalingValue: (critScalingValue: CombatBuffStoreState['critScalingValue']) => void
   // break action modifier
   setBreakScaling: (breakScaling: CombatBuffStoreState['breakScaling']) => void
   // elation action modifier
@@ -68,6 +78,10 @@ function initialStoreState(): CombatBuffStoreState {
     modifierKind: DamageFunctionType.Crit,
     damageElement: null,
     abilityTargets: [],
+    // crit action modifier
+    critDamageType: [],
+    critScalingStat: Stats.ATK,
+    critScalingValue: 100,
     // break action modifier
     breakScaling: 100,
     // elation action modifier
@@ -94,6 +108,10 @@ export const useCombatBuffStore = create<CombatBuffStore>()((set) => ({
   setModifierKind: (modifierKind) => set({ modifierKind }),
   setDamageElement: (damageElement) => set({ damageElement }),
   setAbilityTargets: (abilityTargets) => set({ abilityTargets }),
+  // crit action modifier
+  setCritDamageType: (critDamageType) => set({ critDamageType }),
+  setCritScalingStat: (critScalingStat) => set({ critScalingStat }),
+  setCritScalingValue: (critScalingValue) => set({ critScalingValue }),
   // break action modifier
   setBreakScaling: (breakScaling) => set({ breakScaling }),
   // elation action modifier

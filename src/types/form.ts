@@ -24,9 +24,10 @@ import type {
 } from 'lib/sets/setConfigRegistry'
 import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import { AbilitySelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/AbilitySelect'
+import { CritModifier } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/ActionModifierBuilder'
 import { DamageElementSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/DamageElementSelect'
 import { ModifierKindSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/ModifierKindSelect'
-import { DamageTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/DamageTagSelect'
+import { DamageTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/common/DamageTagSelect'
 import { ElementTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/ElementTagSelect'
 import { TargetTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/TargetTagSelect'
 import type { Prettify } from 'types/common'
@@ -178,6 +179,9 @@ interface AbstractCombatActionModifier extends CombatBuffCommon {
 
 export interface CritActionModifier extends AbstractCombatActionModifier {
   kind: DamageFunctionType.Crit
+  critDamageType: Array<CritModifier.DamageType>
+  critScalingStat: CritModifier.ScalingStat
+  critScalingValue: number
 }
 
 export interface BreakActionModifier extends AbstractCombatActionModifier {

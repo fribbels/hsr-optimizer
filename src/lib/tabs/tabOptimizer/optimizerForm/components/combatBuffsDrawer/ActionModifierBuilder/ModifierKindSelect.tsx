@@ -6,7 +6,7 @@ export function ModifierKindSelect({ value, onChange }: ModifierKindSelect.Props
   return (
     <Select
       flex={1}
-      data={ModifierKindSelect.tagValues}
+      data={ModifierKindSelect.tagValues.map((x) => ({ value: x, label: DamageFunctionType[x] }))}
       value={value}
       onChange={onChange}
       label='Modifier kind'
@@ -20,11 +20,11 @@ export namespace ModifierKindSelect {
     onChange: (value: TagType | null) => void
   }
   export const tagValues = [
-    { value: DamageFunctionType.Crit, label: DamageFunctionType[DamageFunctionType.Crit] },
-    { value: DamageFunctionType.Break, label: DamageFunctionType[DamageFunctionType.Break] },
-    { value: DamageFunctionType.Elation, label: DamageFunctionType[DamageFunctionType.Elation] },
+    DamageFunctionType.Crit,
+    DamageFunctionType.Break,
+    DamageFunctionType.Elation,
   ] as const
-  export type TagType = typeof tagValues[number]['value']
+  export type TagType = typeof tagValues[number]
   export function isValidTag(tag: unknown): tag is TagType {
     return arrayIncludes(tagValues, tag)
   }

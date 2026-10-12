@@ -14,7 +14,7 @@ import {
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
-import { DamageTagSelect } from './StatBuffBuilder/DamageTagSelect'
+import { DamageTagSelect } from './common/DamageTagSelect'
 import { ElementTagSelect } from './StatBuffBuilder/ElementTagSelect'
 import { TargetTagSelect } from './StatBuffBuilder/TargetTagSelect'
 

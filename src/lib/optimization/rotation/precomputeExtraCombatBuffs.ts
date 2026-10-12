@@ -20,6 +20,7 @@ import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { Stats } from './../../constants/constants'
 import {
   getAKeyConfig,
   isHitAKey,
@@ -78,18 +79,30 @@ function applyActionModifier(context: OptimizerContext, buff: CombatActionModifi
     switch (buff.kind) {
       case DamageFunctionType.Crit: {
         let builder = HitDefinitionBuilder.crit()
-          .damageType(DamageTag.None)
+          .damageType(buff.critDamageType.reduce((acc, cur) => acc |= cur, DamageTag.None))
           .damageElement(buff.element)
           .directHit(false)
+        switch (buff.critScalingStat) {
+          case Stats.ATK:
+            builder = builder.atkScaling(buff.critScalingValue)
+            break
+          case Stats.DEF:
+            builder = builder.defScaling(buff.critScalingValue)
+            break
+          case Stats.HP:
+            builder = builder.hpScaling(buff.critScalingValue)
+            break
+        }
         action.hits!.push(builder.build() as CritHit)
         break
       }
       case DamageFunctionType.Break: {
-        let builder = HitDefinitionBuilder.standardBreak(buff.element)
+        const hit = HitDefinitionBuilder.standardBreak(buff.element)
           .damageType(DamageTag.BREAK)
           .directHit(false)
           .specialScaling(buff.breakScaling / 100)
-        action.hits!.push(builder.build() as BreakHit)
+          .build()
+        action.hits!.push(hit as BreakHit)
         break
       }
       case DamageFunctionType.Elation: {

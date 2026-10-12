@@ -6,7 +6,7 @@ import { uuid } from "lib/utils/miscUtils"
 import { CombatBuff, CombatStatBuff, CombatBuffType } from "types/form"
 import { useShallow } from "zustand/react/shallow"
 import { useCombatBuffStore } from "../useCombatBuffsStore"
-import { DamageTagSelect } from "./DamageTagSelect"
+import { DamageTagSelect } from "../common/DamageTagSelect"
 import { ElementTagSelect } from "./ElementTagSelect"
 import { StatSelect } from "./StatSelect"
 import { TargetTagSelect } from "./TargetTagSelect"
@@ -62,7 +62,14 @@ export function StatBuffBuilder({
         />
       </Group>
       <TargetTagSelect value={targetTag} onChange={setTargetTag} />
-      <DamageTagSelect disabled={hitTagsDisabled} value={damageTags} onChange={setDamageTags} />
+      <DamageTagSelect
+        options={DamageTagSelect.tagValues}
+        disabled={hitTagsDisabled}
+        value={damageTags}
+        onChange={setDamageTags}
+        label='Damage tags'
+        popoverText='selected stat can not be hit filtered, try using its flat equivalent instead'
+      />
       <ElementTagSelect disabled={hitTagsDisabled} value={elementTags} onChange={setElementTags} />
       <Button
         onClick={() => {

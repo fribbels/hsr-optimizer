@@ -47,7 +47,7 @@ import type {
 } from 'types/form'
 import { optimizerTabDefaultGap } from '../../../grid/optimizerGridColumns'
 import { writeBuffToClipboard } from '../clipboard'
-import { renderDamageTagPill } from '../StatBuffBuilder/DamageTagSelect'
+import { renderDamageTagPill } from '../common/DamageTagSelect'
 import { renderElementTagPill } from '../common/elementTag'
 import { renderTargetTagPill } from '../StatBuffBuilder/TargetTagSelect'
 import classes from './Buff.module.css'

@@ -8,15 +8,14 @@ import { type TFunction } from 'i18next'
 import { PillMultiSelect } from 'lib/ui/pillSelects/PillMultiSelect'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 
-export function DamageTagSelect({
+export function DamageTagSelect<T extends DamageTagSelect.TagType>({
   disabled,
   value,
   onChange,
-}: {
-  disabled?: boolean,
-  value: Array<DamageTagSelect.TagType>,
-  onChange: (val: Array<DamageTagSelect.TagType>) => void,
-}) {
+  options,
+  label,
+  popoverText
+}: DamageTagSelect.Props<T>) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
 
   const renderPills: PillMultiSelect.Props<DamageTagSelect.TagType>['renderPills'] = useCallback((value) => {
@@ -30,11 +29,11 @@ export function DamageTagSelect({
   }, [t])
   return (
     <PillMultiSelect
-      options={DamageTagSelect.tagValues}
+      options={options}
       value={value}
       onChange={onChange}
-      label='Damage tags'
-      popoverText='selected stat can not be hit filtered, try using its flat equivalent instead'
+      label={label}
+      popoverText={popoverText}
       renderOptions={renderOptions}
       renderPills={renderPills}
       disabled={disabled}
@@ -43,6 +42,14 @@ export function DamageTagSelect({
 }
 
 export namespace DamageTagSelect {
+  export type Props<T extends TagType> = {
+    disabled?: boolean,
+    value: Array<NoInfer<T>>,
+    onChange: (val: Array<NoInfer<T>>) => void,
+    options: ReadonlyArray<T>
+    label: string
+    popoverText?: string
+  }
   export const tagValues = [
     DamageTag.BASIC,
     DamageTag.SKILL,

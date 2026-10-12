@@ -2,6 +2,7 @@ import {
   isAKeyValue,
   isHitAKey,
 } from 'lib/optimization/engine/config/keys'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   ArrayFilters,
   mapFilter,
@@ -14,6 +15,9 @@ import {
   CombatBuffType,
   type CombatStatBuff,
 } from 'types/form'
+import { AbilitySelect } from './ActionModifierBuilder/AbilitySelect'
+import { CritModifier } from './ActionModifierBuilder/ActionModifierBuilder'
+import { DamageElementSelect } from './ActionModifierBuilder/DamageElementSelect'
 import { DamageTagSelect } from './common/DamageTagSelect'
 import { ElementTagSelect } from './StatBuffBuilder/ElementTagSelect'
 import { TargetTagSelect } from './StatBuffBuilder/TargetTagSelect'
@@ -24,11 +28,7 @@ export enum ClipboardError {
   SyntaxError,
 }
 
-// Clipboard types exist mostly to serve as a readable representation of the clipboard serialization
-type ClipboardBuff = ClipboardStatBuff | ClipboardActionModifier | ClipboardBuffGroup
-type ClipboardStatBuff = CombatStatBuff
-type ClipboardActionModifier = { type: CombatBuffType.ActionModifier }
-type ClipboardBuffGroup = CombatBuffGroup
+type ClipboardBuff = CombatBuff | CombatBuffGroup
 
 export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup): Promise<
   boolean | ClipboardError.NotAllowed
@@ -39,7 +39,7 @@ export async function writeBuffToClipboard(buff: CombatBuff | CombatBuffGroup): 
       blob = buff
       break
     case CombatBuffType.ActionModifier:
-      blob = { type: CombatBuffType.ActionModifier }
+      blob = buff
       break
     case CombatBuffType.Group:
       blob = buff
@@ -99,7 +99,7 @@ export async function readBuffFromClipboard(): Promise<
   return result
 }
 
-function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
+function parseStatBuff(obj: unknown): CombatStatBuff | null {
   if (typeof obj !== 'object' || obj === null) return null
 
   if (
@@ -143,7 +143,7 @@ function parseStatBuff(obj: unknown): ClipboardStatBuff | null {
 }
 
 const mapFilterBuffs = mapFilter((item) => parseStatBuff(item) ?? parseActionModifier(item))(ArrayFilters.nonNullable)
-function parseGroup(obj: unknown): ClipboardBuffGroup | null {
+function parseGroup(obj: unknown): CombatBuffGroup | null {
   if (typeof obj !== 'object' || obj === null) return null
 
   if (
@@ -178,5 +178,84 @@ function parseGroup(obj: unknown): ClipboardBuffGroup | null {
 
 function parseActionModifier(obj: unknown): CombatActionModifier | null {
   if (typeof obj !== 'object' || obj === null) return null
-  return null
+  if (
+    !(
+      'type' in obj
+      && 'kind' in obj
+      && 'element' in obj
+      && 'abilities' in obj
+      && 'disabled' in obj
+    )
+  ) return null
+
+  const { type, kind, element, abilities, disabled } = obj
+
+  if (!Array.isArray(abilities) || !abilities.every(AbilitySelect.isValidTag)) return null
+  if (!DamageElementSelect.isValidTag(element)) return null
+  if (typeof disabled !== 'boolean') return null
+
+  if (type !== CombatBuffType.ActionModifier) return null
+  switch (kind) {
+    case DamageFunctionType.Crit: {
+      if (
+        !(
+          'critDamageType' in obj
+          && 'critScalingStat' in obj
+          && 'critScalingValue' in obj
+        )
+      ) return null
+      const { critDamageType, critScalingStat, critScalingValue } = obj
+      if (!Array.isArray(critDamageType) || !critDamageType.every(CritModifier.isValidDamageType)) return null
+      if (!CritModifier.isScalingStat(critScalingStat)) return null
+      if (typeof critScalingValue !== 'number') return null
+      return {
+        type,
+        kind,
+        element,
+        abilities,
+        disabled,
+        id: uuid(),
+        critDamageType,
+        critScalingStat,
+        critScalingValue,
+      }
+    }
+    case DamageFunctionType.Break: {
+      if (!('breakScaling' in obj)) return null
+      const { breakScaling } = obj
+      if (typeof breakScaling !== 'number') return null
+      return {
+        type,
+        kind,
+        element,
+        abilities,
+        disabled,
+        id: uuid(),
+        breakScaling,
+      }
+    }
+    case DamageFunctionType.Elation: {
+      if (
+        !(
+          'elationScaling' in obj
+          && 'punchlineStacks' in obj
+        )
+      ) return null
+      const { elationScaling, punchlineStacks } = obj
+      if (typeof elationScaling !== 'number') return null
+      if (typeof punchlineStacks !== 'number') return null
+      return {
+        type,
+        kind,
+        element,
+        abilities,
+        disabled,
+        id: uuid(),
+        elationScaling,
+        punchlineStacks,
+      }
+    }
+    default:
+      return null
+  }
 }

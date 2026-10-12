@@ -5,11 +5,12 @@ import { TargetTag } from "lib/optimization/engine/config/tag"
 import { uuid } from "lib/utils/miscUtils"
 import { CombatBuff, CombatStatBuff, CombatBuffType } from "types/form"
 import { useShallow } from "zustand/react/shallow"
-import { useCombatBuffStore } from "../useCombatBuffsStore"
+import { CombatBuffStoreState, useCombatBuffStore } from "../useCombatBuffsStore"
 import { DamageTagSelect } from "../common/DamageTagSelect"
 import { ElementTagSelect } from "./ElementTagSelect"
 import { StatSelect } from "./StatSelect"
 import { TargetTagSelect } from "./TargetTagSelect"
+import { optimizerTabDefaultGap } from "../../../grid/optimizerGridColumns"
 
 
 export function StatBuffBuilder({
@@ -49,7 +50,7 @@ export function StatBuffBuilder({
 
   return (
     // TODO: add <Hint/> to the various selects
-    <Stack gap={4} style={{ display: hidden ? 'none' : undefined }}>
+    <Stack gap={optimizerTabDefaultGap} style={{ display: hidden ? 'none' : undefined }}>
       <Group gap={8}>
         <StatSelect value={stat} onChange={setStat} style={{ flex: 7 }} />
         <NumberInput
@@ -85,11 +86,11 @@ export function StatBuffBuilder({
 }
 
 function validateStatBuff(
-  statKey: CombatStatBuff['statKey'] | null,
-  value: CombatStatBuff['value'] | string,
-  damageTags: CombatStatBuff['damageTags'],
-  targetTag: CombatStatBuff['targetTag'] | null,
-  elementTags: CombatStatBuff['elementTags'],
+  statKey: CombatBuffStoreState['stat'],
+  value: CombatBuffStoreState['value'],
+  damageTags: CombatBuffStoreState['damageTags'],
+  targetTag: CombatBuffStoreState['targetTag'],
+  elementTags: CombatBuffStoreState['elementTags'],
 ): CombatStatBuff | null {
   if (statKey === null) {
     Message.error('stat is missing')

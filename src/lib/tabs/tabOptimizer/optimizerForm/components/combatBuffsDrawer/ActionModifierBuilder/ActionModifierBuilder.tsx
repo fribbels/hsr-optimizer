@@ -1,7 +1,7 @@
 import { Button, Group, NumberInput, Select, Stack } from "@mantine/core"
-import { CombatActionModifier, CombatBuff } from "types/form"
+import { BreakActionModifier, CombatActionModifier, CombatBuff, CombatBuffType, CritActionModifier, ElationActionModifier } from "types/form"
 import { useShallow } from "zustand/react/shallow"
-import { useCombatBuffStore } from "../useCombatBuffsStore"
+import { CombatBuffStoreState, useCombatBuffStore } from "../useCombatBuffsStore"
 import { ModifierKindSelect } from "./ModifierKindSelect"
 import { optimizerTabDefaultGap } from "../../../grid/optimizerGridColumns"
 import { DamageElementSelect } from "./DamageElementSelect"
@@ -13,6 +13,7 @@ import { DamageTag } from "lib/optimization/engine/config/tag"
 import { DamageTagSelect } from "../common/DamageTagSelect"
 import { newStatsConfig } from "lib/optimization/engine/config/statsConfig"
 import { labelToString } from "lib/characterPreview/buffsAnalysis/buffUtils"
+import { uuid } from "lib/utils/miscUtils"
 
 export function ActionModifierBuilder({
   addBuff,
@@ -23,17 +24,29 @@ export function ActionModifierBuilder({
 }) {
   const {
     modifierKind,
-    setModifierKind,
     damageElement,
-    setDamageElement,
     abilityTargets,
+    critDamageType,
+    critScalingStat,
+    critScalingValue,
+    breakScaling,
+    elationScaling,
+    punchlineStacks,
+    setModifierKind,
+    setDamageElement,
     setAbilityTargets,
   } = useCombatBuffStore(useShallow((s) => ({
     modifierKind: s.modifierKind,
-    setModifierKind: s.setModifierKind,
     damageElement: s.damageElement,
-    setDamageElement: s.setDamageElement,
     abilityTargets: s.abilityTargets,
+    critDamageType: s.critDamageType,
+    critScalingStat: s.critScalingStat,
+    critScalingValue: s.critScalingValue,
+    breakScaling: s.breakScaling,
+    elationScaling: s.elationScaling,
+    punchlineStacks: s.punchlineStacks,
+    setModifierKind: s.setModifierKind,
+    setDamageElement: s.setDamageElement,
     setAbilityTargets: s.setAbilityTargets,
   })))
   return (
@@ -48,7 +61,17 @@ export function ActionModifierBuilder({
       {modifierKind === DamageFunctionType.Elation && <ElationElements />}
       <Button
         onClick={() => {
-          const modifier = validateActionModifier()
+          const modifier = validateActionModifier(
+            modifierKind,
+            damageElement,
+            abilityTargets,
+            critDamageType,
+            critScalingStat,
+            critScalingValue,
+            breakScaling,
+            elationScaling,
+            punchlineStacks,
+          )
           if (!modifier) return
           addBuff(modifier)
         }}
@@ -76,7 +99,7 @@ function CritElements() {
     setCritScalingValue: s.setCritScalingValue,
   })))
   return (
-    <Stack>
+    <Stack gap={optimizerTabDefaultGap}>
       <DamageTagSelect
         options={CritModifier.damageTypes}
         value={critDamageType}
@@ -85,6 +108,7 @@ function CritElements() {
       />
       <Group>
         <Select
+          flex={1}
           data={CritModifier.scalingStats.map((stat) => {
             const { label } = newStatsConfig[stat]
             return { value: stat, label: labelToString(label) }
@@ -94,6 +118,7 @@ function CritElements() {
           label='Scaling stat'
         />
         <NumberInput
+          flex={1}
           value={critScalingValue}
           onChange={setCritScalingValue}
           suffix="%"
@@ -171,7 +196,62 @@ function ElationElements() {
   )
 }
 
-function validateActionModifier(): CombatActionModifier | null {
-  //TODO:
-  return null
+function validateActionModifier(
+  modifierKind: CombatBuffStoreState['modifierKind'],
+  damageElement: CombatBuffStoreState['damageElement'],
+  abilityTargets: CombatBuffStoreState['abilityTargets'], // no check needed, empty array = target everything
+  // crit action modifier
+  critDamageType: CombatBuffStoreState['critDamageType'],
+  critScalingStat: CombatBuffStoreState['critScalingStat'],
+  critScalingValue: CombatBuffStoreState['critScalingValue'],
+  // break action modifier
+  breakScaling: CombatBuffStoreState['breakScaling'],
+  // elation action modifier
+  elationScaling: CombatBuffStoreState['elationScaling'],
+  punchlineStacks: CombatBuffStoreState['punchlineStacks'],
+): CombatActionModifier | null {
+  if (modifierKind === null) return null
+  if (damageElement === null) return null
+  const preModifier = {
+    type: CombatBuffType.ActionModifier,
+    disabled: false,
+    id: uuid(),
+    abilities: abilityTargets,
+    element: damageElement
+  } as const
+  switch (modifierKind) {
+    case DamageFunctionType.Crit: {
+      if (critScalingStat === null) return null
+      if (typeof critScalingValue === 'string') return null
+      if (!critDamageType.length) return null
+      const modifier: CritActionModifier = {
+        ...preModifier,
+        kind: modifierKind,
+        critScalingStat,
+        critScalingValue,
+        critDamageType
+      }
+      return modifier
+    }
+    case DamageFunctionType.Break: {
+      if (typeof breakScaling === 'string') return null
+      const modifier: BreakActionModifier = {
+        ...preModifier,
+        kind: modifierKind,
+        breakScaling
+      }
+      return modifier
+    }
+    case DamageFunctionType.Elation: {
+      if (typeof elationScaling === 'string') return null
+      if (typeof punchlineStacks === 'string') return null
+      const modifier: ElationActionModifier = {
+        ...preModifier,
+        kind: modifierKind,
+        elationScaling,
+        punchlineStacks
+      }
+      return modifier
+    }
+  }
 }

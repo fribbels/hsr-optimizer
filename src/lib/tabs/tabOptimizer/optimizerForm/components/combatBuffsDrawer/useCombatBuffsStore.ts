@@ -1,5 +1,8 @@
 import { Stats } from 'lib/constants/constants'
-import { isHitAKey } from 'lib/optimization/engine/config/keys'
+import {
+  AKey,
+  isHitAKey,
+} from 'lib/optimization/engine/config/keys'
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import {
@@ -69,7 +72,7 @@ type CombatBuffStore = CombatBuffStoreActions & CombatBuffStoreState
 function initialStoreState(): CombatBuffStoreState {
   return {
     buffBuilderMode: CombatBuffType.StatBuff,
-    stat: null,
+    stat: AKey.CD,
     value: 0,
     damageTags: [],
     elementTags: [],

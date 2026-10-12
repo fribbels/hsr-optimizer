@@ -75,7 +75,7 @@ export function precomputeExtraActionModifiers(request: Form, context: Optimizer
 
 function applyActionModifier(context: OptimizerContext, buff: CombatActionModifier) {
   const modify = (action: OptimizerAction, context: OptimizerContext) => {
-    if (!arrayIncludes<AbilityKind>(buff.abilities, action.actionType)) return
+    if (buff.abilities.length && !arrayIncludes<AbilityKind>(buff.abilities, action.actionType)) return
     switch (buff.kind) {
       case DamageFunctionType.Crit: {
         let builder = HitDefinitionBuilder.crit()

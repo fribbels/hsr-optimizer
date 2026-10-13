@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { Aglaea } from 'lib/conditionals/character/1400/Aglaea'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
@@ -18,7 +17,6 @@ import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForeve
 import { TimeWovenIntoGold } from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -50,6 +48,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { ScoringType } from 'lib/scoring/scoringTypes'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -88,7 +87,6 @@ enum DeviatedChordBranch {
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const tBuff = wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RobinSummeretto.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
   const {
     SOURCE_BASIC,
@@ -166,13 +164,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'feverState',
       formItem: 'switch',
       text: t('feverState.text'),
-      content: betaContent,
+      content: t('feverState.content', {
+        DamageBoost: precisionRound(100 * memoTalentDmgBoost),
+        DamageBoostPerVibe: precisionRound(100 * memoTalentDmgBoostPerVibe),
+        DefPen: precisionRound(100 * talentZoneDefPen),
+      }),
     },
     vibes: {
       id: 'vibes',
       formItem: 'slider',
       text: t('vibes.text'),
-      content: betaContent,
+      content: t('vibes.content', {
+        MaxVibes: maxVibes,
+        DamageBoostPerVibe: precisionRound(100 * memoTalentDmgBoostPerVibe),
+        DefPenPerVibe: 0.5,
+        AtkBuffPerVibe: precisionRound(100 * traceAtkBuffPerVibe),
+        CritDmgPerVibe: precisionRound(100 * traceCdBuffPerVibe),
+      }),
       min: 0,
       max: maxVibes,
     },
@@ -180,7 +188,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'songbirdCount',
       formItem: 'slider',
       text: t('songbirdCount.text'),
-      content: betaContent,
+      content: t('songbirdCount.content', {
+        Vulnerability1: precisionRound(100 * memoTalentVulnerabilityByCount[1]),
+        Vulnerability2: precisionRound(100 * memoTalentVulnerabilityByCount[2]),
+        Vulnerability3: precisionRound(100 * memoTalentVulnerabilityByCount[3]),
+      }),
       min: 0,
       max: 3,
     },
@@ -188,27 +200,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'deviatedChordCdBuff',
       formItem: 'switch',
       text: t('deviatedChordCdBuff.text'),
-      content: betaContent,
+      content: t('deviatedChordCdBuff.content'),
     },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
       text: t('e2ResPen.text'),
-      content: betaContent,
+      content: t('e2ResPen.content'),
       disabled: e < 2,
     },
     e4MemoSpdBuff: {
       id: 'e4MemoSpdBuff',
       formItem: 'switch',
       text: t('e4MemoSpdBuff.text'),
-      content: betaContent,
+      content: t('e4MemoSpdBuff.content'),
       disabled: e < 4,
     },
     e6MemoSkillBuff: {
       id: 'e6MemoSkillBuff',
       formItem: 'switch',
       text: t('e6MemoSkillBuff.text'),
-      content: betaContent,
+      content: t('e6MemoSkillBuff.content'),
       disabled: e < 6,
     },
   }
@@ -221,7 +233,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'teammateHPValue',
       formItem: 'slider',
       text: t('teammateHPValue.text'),
-      content: betaContent,
+      content: t('teammateHPValue.content'),
       min: 0,
       max: 20000,
     },
@@ -229,7 +241,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'deviatedChordBranch',
       formItem: 'select',
       text: t('deviatedChordBranch.text'),
-      content: betaContent,
+      content: t('deviatedChordBranch.content'),
       options: [
         { display: t('deviatedChordBranch.options.weightBased.display'), value: DeviatedChordBranch.WEIGHT_BASED, label: t('deviatedChordBranch.options.weightBased.label') },
         { display: t('deviatedChordBranch.options.atk.display'), value: DeviatedChordBranch.ATK, label: t('deviatedChordBranch.options.atk.label') },

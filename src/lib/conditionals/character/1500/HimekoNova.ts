@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   aoe,
   ashblazingMulti,
@@ -31,7 +30,6 @@ import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameO
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -84,7 +82,6 @@ export const HimekoNovaAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.HimekoNova.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,

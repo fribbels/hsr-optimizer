@@ -857,36 +857,47 @@ export default interface Resources {
       "AventurineWaveflair": {
         "Content": {
           "certifiedBanger": {
+            "content": "While Aventurine holds Certified Banger, his Skill additionally deals Quantum Elation DMG equal to {{SkillElationDmg}}% and his Ultimate additionally deals Quantum Elation DMG equal to {{UltElationDmg}}%.",
             "text": "Certified Banger"
           },
           "certifiedBangerStacks": {
+            "content": "Set the number of Certified Banger points used to calculate the additional Elation DMG from Aventurine's Skill and Ultimate.",
             "text": "Certified Banger stacks"
           },
           "e1ResPen": {
+            "content": "Increases All-Type RES PEN by 24%.",
             "text": "E1 RES PEN"
           },
           "e4DefPen": {
+            "content": "After Aventurine uses his Skill, increases all allies' DEF PEN by 18% for 3 turns.",
             "text": "E4 DEF ignore"
           },
           "e6Merrymaking": {
+            "content": "Aventurine's Elation DMG Merrymakes by 25%.",
             "text": "E6 Merrymaking"
           },
           "enhancedElationSkill": {
+            "content": "All In! To Summer's Blaze deals {{AoeElationDmg}}% Quantum Elation DMG to all enemies, then bounces {{BounceCount}} times, dealing {{BounceElationDmg}}% Quantum Elation DMG to a random enemy per bounce. It consumes all Fervor and adds one more bounce of {{ElationDmgPerFervor}}% Quantum Elation DMG per point consumed.",
             "text": "Enhanced Elation Skill"
           },
           "fervorStacks": {
+            "content": "Set the Fervor consumed by All In! To Summer's Blaze.",
             "text": "Fervor stacks"
           },
           "punchlineStacks": {
+            "content": "Select the number of punchline the team possesses. This is used to calculate the damage of Elation skills.",
             "text": "Punchline stacks"
           },
           "spdElationConversion": {
+            "content": "When Aventurine's SPD reaches 140, increases his Elation by 30%. Each additional SPD point grants 1% more Elation, up to 200 excess SPD.",
             "text": "SPD to Elation conversion"
           },
           "traceCdBuff": {
+            "content": "After an ally uses Basic ATK, Skill, Follow-Up ATK, or Ultimate, increases all allies' CRIT DMG by 48% for 3 turns.",
             "text": "Trace CD buff"
           },
           "ultSpdBuff": {
+            "content": "When Aventurine uses his Ultimate, increases his SPD by {{SpdBuff}}% for 4 turns.",
             "text": "Ult SPD buff"
           }
         }
@@ -2202,48 +2213,63 @@ export default interface Resources {
       "Pearl": {
         "Content": {
           "aestheticArchetype": {
+            "content": "While Deep Learning is active, the Aesthetic Archetype's attacks additionally deal {{ElationDmg}}% Ice Elation DMG based on the Archetype's stats.",
             "text": "Aesthetic Archetype Elation DMG"
           },
           "certifiedBanger": {
+            "content": "While Deep Learning is active and the Aesthetic Archetype follows the Path of Elation, Pearl's enhanced Basic ATK additionally deals {{ElationDmg}}% Ice Elation DMG while she holds Certified Banger.",
             "text": "Basic ATK Elation DMG"
           },
           "certifiedBangerStacks": {
+            "content": "Set the Certified Banger points used to calculate Elation DMG.",
             "text": "Certified Banger points"
           },
           "deepLearning": {
+            "content": "While Deep Learning is active, Pearl's Basic ATK is enhanced to deal Ice DMG equal to {{BasicDmg}}% of her DEF. It also restores HP to all allies equal to {{BasicHealScaling}}% of her DEF plus {{BasicHealFlat}}. Deep Learning has 3 charges, and Pearl consumes 1 after each enhanced Basic ATK.::BR::E6: Pearl's Enhanced Basic ATK additionally deals 240% Ice Elation DMG based on the Aesthetic Archetype's stats.",
             "text": "Enhanced Basic"
           },
           "e1ElationShare": {
+            "content": "Increases all allies' Elation by 10%/20%/60% when the team has 2/3/4 or more Elation characters, respectively.",
             "text": "E1 Elation buff"
           },
           "e2Merrymake": {
+            "content": "All allies' Elation DMG Merrymakes by 15%.",
             "text": "E2 Merrymake"
           },
           "e4ElationSkillBoost": {
+            "content": "Increases the Elation DMG multiplier granted to all allies by Elation Skill by 100% of its base value.",
             "text": "E4 Elation Skill Additional DMG"
           },
           "e6Buffs": {
+            "content": "While Deep Learning is active, increases all allies' All-Type RES PEN by 20%.::BR::E6: Pearl's Enhanced Basic ATK additionally deals 240% Ice Elation DMG based on the Aesthetic Archetype's stats.",
             "text": "E6 RES PEN"
           },
           "elationSkillProc": {
+            "content": "After each ally's next attack, they deal additional Elation DMG of their attack's Type. The multiplier is {{Elation1}}%/{{Elation2}}%/{{Elation3}}%/{{Elation4}}% with 1/2/3/4 or more Elation characters on the team, respectively.",
             "text": "Elation Skill Elation DMG"
           },
           "lowestHpTargetHeal": {
+            "content": "When Pearl heals all allies with her enhanced Basic ATK or Skill, the ally with the lowest current HP also receives the same healing a second time.",
             "text": "Lowest HP extra heal"
           },
           "punchlineStacks": {
+            "content": "Select the team's Punchline count used to calculate Elation Skill DMG.",
             "text": "Punchline stacks"
           },
           "talentLowHpDmgReduction": {
+            "content": "When an ally's current HP is 50% or lower, reduces the DMG they take by {{DmgReduction}}%.",
             "text": "HP ≤ 50% DMG reduction"
           },
           "traceDefToElation": {
+            "content": "When Pearl's DEF is at least 2400, increases her Elation by 32%. For every 100 DEF above 2400, increases Elation by 3%, counting up to 3600 excess DEF.",
             "text": "DEF to Elation conversion"
           },
           "traceEffectRes": {
+            "content": "While Pearl holds Certified Banger, increases all allies' Effect RES by 50%.",
             "text": "Certified Banger Effect RES"
           },
           "traceElationToHealing": {
+            "content": "Increases Pearl's Outgoing Healing Boost by 20% of her Elation.",
             "text": "Elation to OHB conversion"
           }
         }
@@ -2497,6 +2523,7 @@ export default interface Resources {
       "RobinSummeretto": {
         "Content": {
           "deviatedChordBranch": {
+            "content": "When an ally causes Robin to gain Vibes, an ally with higher ATK than Robin gains an ATK buff equal to (16% + 0.4% per Vibe) of Robin's Max HP. Otherwise, the ally gains CRIT DMG equal to 40% + 1.5% per Vibe, for 2 turns.::BR::Weight based uses the ally's ATK% stat weight to choose a branch: ATK if the weight is above 0.333, or CRIT DMG otherwise. Select ATK or CD to force a branch.",
             "options": {
               "atk": {
                 "display": "ATK",
@@ -2514,27 +2541,35 @@ export default interface Resources {
             "text": "Deviated Chord buff"
           },
           "deviatedChordCdBuff": {
+            "content": "Increases Robin's and the Summer Songbird's CRIT DMG by 40% + 1.5% per Vibe for 2 turns.",
             "text": "Deviated Chord: CRIT DMG"
           },
           "e2ResPen": {
+            "content": "Increases all allies' All-Type RES PEN by 18%.",
             "text": "E2 RES PEN"
           },
           "e4MemoSpdBuff": {
+            "content": "Increases the Summer Songbirds' SPD by 20% plus 0.5% per current Vibe.",
             "text": "E4 SPD buff"
           },
           "e6MemoSkillBuff": {
+            "content": "Increases the Summer Songbirds' Memosprite Skill DMG multiplier by 100% of its original value.",
             "text": "E6 Memosprite Skill DMG"
           },
           "feverState": {
+            "content": "While Robin is in the Fever state, DMG dealt by her and the Summer Songbirds increases by {{DamageBoost}}%, plus {{DamageBoostPerVibe}}% for each Vibe. The Zone also lets allies ignore {{DefPen}}% of enemy DEF + 0.5% per Vibe.",
             "text": "Fever state"
           },
           "songbirdCount": {
+            "content": "While the Summer Songbirds are on the field, increases all enemies' DMG taken based on how many are present: {{Vulnerability1}}%/{{Vulnerability2}}%/{{Vulnerability3}}% for 1/2/3 Songbirds, respectively.",
             "text": "Summer Songbirds"
           },
           "teammateHPValue": {
+            "content": "Set Robin's Max HP, used to calculate the ATK buff granted by Deviated Chords when the ATK branch is active.",
             "text": "Robin's combat HP"
           },
           "vibes": {
+            "content": "Set Robin's current Vibes, up to {{MaxVibes}}.",
             "text": "Vibes"
           }
         }
@@ -3461,6 +3496,7 @@ export default interface Resources {
       "ALittleGetaway": {
         "Content": {
           "elationSkillDefPen": {
+            "content": "During the wearer's Elation Skill, ignores {{DefPen}}% of the target's DEF.",
             "text": "Elation Skill DEF PEN"
           }
         }
@@ -3628,6 +3664,7 @@ export default interface Resources {
       "ColorsForTomorrow": {
         "Content": {
           "inkSplashVulnerability": {
+            "content": "When the wearer uses an Elation Skill on all allies, increases all enemies' DMG taken by {{Vulnerability}}% for 3 turns.",
             "text": "Vulnerability"
           }
         }
@@ -4252,6 +4289,7 @@ export default interface Resources {
       "RaceToTheHorizon": {
         "Content": {
           "fuaCdStacks": {
+            "content": "After the wearer uses a Follow-Up ATK, increases their CRIT DMG by {{CdBuff}}% for 2 turns, stacking up to 10 times.",
             "text": "FUA CD stacks"
           }
         }
@@ -4291,6 +4329,7 @@ export default interface Resources {
       "RiseAndSing": {
         "Content": {
           "newMelodySpdBuff": {
+            "content": "While the wearer has New Melody, increases all allies' SPD by {{SpdBuff}}%.",
             "text": "New Melody SPD buff"
           }
         }
@@ -4412,9 +4451,11 @@ export default interface Resources {
       "SummerRidesTheSurf": {
         "Content": {
           "updraftSpdBuff": {
+            "content": "When the wearer uses an Elation Skill, gains Updraft, which increases the wearer's SPD by {{SpdBuff}}%.",
             "text": "Updraft SPD buff"
           },
           "uptrendElationBuff": {
+            "content": "When the wearer uses an Elation Skill, if the Elation Skill differs from the one used previously, gains Uptrend, which increases the wearer's Elation by {{ElationBuff}}%.",
             "text": "Uptrend Elation buff"
           }
         }

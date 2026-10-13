@@ -1,12 +1,11 @@
-import i18next from 'i18next'
 import {
   type Conditionals,
   type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
@@ -18,7 +17,6 @@ import {
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.RaceToTheHorizon.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(RaceToTheHorizon.id)
 
   const sValuesCdPerStack = [0.03, 0.035, 0.04, 0.045, 0.05]
@@ -33,7 +31,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       id: 'fuaCdStacks',
       formItem: 'slider',
       text: t('fuaCdStacks.text'),
-      content: betaContent,
+      content: t('fuaCdStacks.content', { CdBuff: precisionRound(100 * sValuesCdPerStack[s]) }),
       min: 0,
       max: 10,
     },

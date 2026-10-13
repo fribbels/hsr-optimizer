@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
@@ -29,7 +28,6 @@ import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALi
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   PathNames,
   Sets,
@@ -58,6 +56,7 @@ import {
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -87,7 +86,6 @@ export const AventurineWaveflairAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.AventurineWaveflair.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_TALENT_ELATION_SKILL_3_ULT_BASIC_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -143,19 +141,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'ultSpdBuff',
       formItem: 'switch',
       text: t('ultSpdBuff.text'),
-      content: betaContent,
+      content: t('ultSpdBuff.content', { SpdBuff: precisionRound(100 * ultSpdBuff) }),
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
       text: t('certifiedBanger.text'),
-      content: betaContent,
+      content: t('certifiedBanger.content', {
+        SkillElationDmg: precisionRound(100 * talentSkillElationScaling),
+        UltElationDmg: precisionRound(100 * talentUltElationScaling),
+      }),
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
       text: t('certifiedBangerStacks.text'),
-      content: betaContent,
+      content: t('certifiedBangerStacks.content'),
       min: 0,
       max: 200,
     },
@@ -163,7 +164,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'punchlineStacks',
       formItem: 'slider',
       text: t('punchlineStacks.text'),
-      content: betaContent,
+      content: t('punchlineStacks.content'),
       min: 0,
       max: 100,
     },
@@ -171,13 +172,18 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'enhancedElationSkill',
       formItem: 'switch',
       text: t('enhancedElationSkill.text'),
-      content: betaContent,
+      content: t('enhancedElationSkill.content', {
+        AoeElationDmg: precisionRound(100 * elationSkillAoeScaling),
+        BounceCount: elationSkillBounceCount,
+        BounceElationDmg: precisionRound(100 * elationSkillBounceScaling),
+        ElationDmgPerFervor: precisionRound(100 * elationSkillFervorScaling),
+      }),
     },
     fervorStacks: {
       id: 'fervorStacks',
       formItem: 'slider',
       text: t('fervorStacks.text'),
-      content: betaContent,
+      content: t('fervorStacks.content'),
       min: 0,
       max: fervorMax,
     },
@@ -185,33 +191,33 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'spdElationConversion',
       formItem: 'switch',
       text: t('spdElationConversion.text'),
-      content: betaContent,
+      content: t('spdElationConversion.content'),
     },
     traceCdBuff: {
       id: 'traceCdBuff',
       formItem: 'switch',
       text: t('traceCdBuff.text'),
-      content: betaContent,
+      content: t('traceCdBuff.content'),
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
       text: t('e1ResPen.text'),
-      content: betaContent,
+      content: t('e1ResPen.content'),
       disabled: e < 1,
     },
     e4DefPen: {
       id: 'e4DefPen',
       formItem: 'switch',
       text: t('e4DefPen.text'),
-      content: betaContent,
+      content: t('e4DefPen.content'),
       disabled: e < 4,
     },
     e6Merrymaking: {
       id: 'e6Merrymaking',
       formItem: 'switch',
       text: t('e6Merrymaking.text'),
-      content: betaContent,
+      content: t('e6Merrymaking.content'),
       disabled: e < 6,
     },
   }

@@ -1,4 +1,4 @@
-interface Resources {
+export default interface Resources {
   "benchmarksTab": {
     "LeftPanel": {
       "Header": "Benchmark"
@@ -252,6 +252,7 @@ interface Resources {
       },
       "EditCharacter": "Edit character",
       "EditPortrait": "Edit portrait",
+      "IncompleteSet": "Incomplete set",
       "Messages": {
         "AddedRelic": "Successfully added relic",
         "NoSelectedCharacter": "No selected character",
@@ -429,7 +430,10 @@ interface Resources {
     "LevelShort": "Lv{{level}}",
     "Loading": "Loading",
     "MemospriteLabel": "{{label}}ᴹ",
+    "New": "New",
     "No": "No",
+    "NoResults": "No results",
+    "None": "None",
     "Ok": "Ok",
     "Parts": {
       "Body": "Body",
@@ -481,6 +485,7 @@ interface Resources {
     "Save": "Save",
     "Saved": "Saved",
     "Score": "Score",
+    "Search": "Search",
     "ShortDMGTypes": {
       "Basic": "Basic DMG",
       "Break": "Break DMG",
@@ -597,6 +602,7 @@ interface Resources {
     "Submit": "Submit",
     "SuperimpositionNShort": "S{{superimposition}}",
     "ThousandsSuffix": "K",
+    "Total": "Total",
     "Verified4LinerHoverText": "Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)",
     "VerifiedRelicHoverText": "Relic substats verified by relic scorer (speed decimals)",
     "Yes": "Yes"
@@ -845,6 +851,43 @@ interface Resources {
           "fuaHitsOnTarget": {
             "content": "Upon reaching 7 points of Blind Bet, Aventurine consumes the 7 points to launch a 7-hit follow-up attack, with each hit dealing Imaginary DMG equal to {{talentDmgScaling}}% of Aventurine's DEF to a single random enemy. Blind Bet is capped at 10 points.::BR::E4: When triggering his Talent's follow-up attack, first increases Aventurine's DEF by 40% for 2 turns, and additionally increases the Hits Per Action for his talent's follow-up attack by 3.",
             "text": "FUA hits on target"
+          }
+        }
+      },
+      "AventurineWaveflair": {
+        "Content": {
+          "certifiedBanger": {
+            "text": "Certified Banger"
+          },
+          "certifiedBangerStacks": {
+            "text": "Certified Banger stacks"
+          },
+          "e1ResPen": {
+            "text": "E1 RES PEN"
+          },
+          "e4DefPen": {
+            "text": "E4 DEF ignore"
+          },
+          "e6Merrymaking": {
+            "text": "E6 Merrymaking"
+          },
+          "enhancedElationSkill": {
+            "text": "Enhanced Elation Skill"
+          },
+          "fervorStacks": {
+            "text": "Fervor stacks"
+          },
+          "punchlineStacks": {
+            "text": "Punchline stacks"
+          },
+          "spdElationConversion": {
+            "text": "SPD to Elation conversion"
+          },
+          "traceCdBuff": {
+            "text": "Trace CD buff"
+          },
+          "ultSpdBuff": {
+            "text": "Ult SPD buff"
           }
         }
       },
@@ -2156,6 +2199,55 @@ interface Resources {
           }
         }
       },
+      "Pearl": {
+        "Content": {
+          "aestheticArchetype": {
+            "text": "Aesthetic Archetype Elation DMG"
+          },
+          "certifiedBanger": {
+            "text": "Basic ATK Elation DMG"
+          },
+          "certifiedBangerStacks": {
+            "text": "Certified Banger points"
+          },
+          "deepLearning": {
+            "text": "Enhanced Basic"
+          },
+          "e1ElationShare": {
+            "text": "E1 Elation buff"
+          },
+          "e2Merrymake": {
+            "text": "E2 Merrymake"
+          },
+          "e4ElationSkillBoost": {
+            "text": "E4 Elation Skill Additional DMG"
+          },
+          "e6Buffs": {
+            "text": "E6 RES PEN"
+          },
+          "elationSkillProc": {
+            "text": "Elation Skill Elation DMG"
+          },
+          "lowestHpTargetHeal": {
+            "text": "Lowest HP extra heal"
+          },
+          "punchlineStacks": {
+            "text": "Punchline stacks"
+          },
+          "talentLowHpDmgReduction": {
+            "text": "HP ≤ 50% DMG reduction"
+          },
+          "traceDefToElation": {
+            "text": "DEF to Elation conversion"
+          },
+          "traceEffectRes": {
+            "text": "Certified Banger Effect RES"
+          },
+          "traceElationToHealing": {
+            "text": "Elation to OHB conversion"
+          }
+        }
+      },
       "Pela": {
         "Content": {
           "e4SkillResShred": {
@@ -2402,6 +2494,51 @@ interface Resources {
           }
         }
       },
+      "RobinSummeretto": {
+        "Content": {
+          "deviatedChordBranch": {
+            "options": {
+              "atk": {
+                "display": "ATK",
+                "label": "ATK buff"
+              },
+              "critDmg": {
+                "display": "CD",
+                "label": "CRIT DMG buff"
+              },
+              "weightBased": {
+                "display": "Weight based",
+                "label": "Weight based"
+              }
+            },
+            "text": "Deviated Chord buff"
+          },
+          "deviatedChordCdBuff": {
+            "text": "Deviated Chord: CRIT DMG"
+          },
+          "e2ResPen": {
+            "text": "E2 RES PEN"
+          },
+          "e4MemoSpdBuff": {
+            "text": "E4 SPD buff"
+          },
+          "e6MemoSkillBuff": {
+            "text": "E6 Memosprite Skill DMG"
+          },
+          "feverState": {
+            "text": "Fever state"
+          },
+          "songbirdCount": {
+            "text": "Summer Songbirds"
+          },
+          "teammateHPValue": {
+            "text": "Robin's combat HP"
+          },
+          "vibes": {
+            "text": "Vibes"
+          }
+        }
+      },
       "RuanMei": {
         "Content": {
           "e2AtkBoost": {
@@ -2477,6 +2614,9 @@ interface Resources {
           "enhancedSkill": {
             "content": "If Saber currently possesses \"Core Resonance\" and her Energy can be regenerated to full by consuming \"Core Resonance\" after this instance of Skill attack, then increase the DMG multiplier for this instance of Skill use by {{CoreResonanceExtraScaling}}% for each stack of \"Core Resonance,\" and consume all \"Core Resonance\" to regenerate Energy for Saber after attacking.",
             "text": "Enhanced Skill"
+          },
+          "gilgameshFuaSaberUltBoost": {
+            "text": "Gilgamesh FUA Ult buff"
           },
           "talentDmgBuff": {
             "content": "When any ally target uses an Ultimate, increases DMG dealt by Saber by {{TalentDmgBuff}}% for 2 turns",
@@ -3318,6 +3458,13 @@ interface Resources {
           }
         }
       },
+      "ALittleGetaway": {
+        "Content": {
+          "elationSkillDefPen": {
+            "text": "Elation Skill DEF PEN"
+          }
+        }
+      },
       "ASecretVow": {
         "Content": {
           "enemyHpHigherDmgBoost": {
@@ -3475,6 +3622,13 @@ interface Resources {
           "basicSkillDmgBuff": {
             "content": "Increases the wearer's Basic ATK and Skill DMG by {{DmgBuff}}%.",
             "text": "Basic / Skill DMG buff"
+          }
+        }
+      },
+      "ColorsForTomorrow": {
+        "Content": {
+          "inkSplashVulnerability": {
+            "text": "Vulnerability"
           }
         }
       },
@@ -4095,6 +4249,13 @@ interface Resources {
           }
         }
       },
+      "RaceToTheHorizon": {
+        "Content": {
+          "fuaCdStacks": {
+            "text": "FUA CD stacks"
+          }
+        }
+      },
       "ReforgedInHellfire": {
         "Content": {
           "purgatoryState": {
@@ -4124,6 +4285,13 @@ interface Resources {
           "targetEnsnared": {
             "content": "When the wearer hits an enemy and if the hit enemy is not already Ensnared, then there is a {{BaseChance}}% base chance to Ensnare the hit enemy. Ensnared enemies' DEF decreases by {{DefShred}}% for 1 turn.",
             "text": "Target ensnared"
+          }
+        }
+      },
+      "RiseAndSing": {
+        "Content": {
+          "newMelodySpdBuff": {
+            "text": "New Melody SPD buff"
           }
         }
       },
@@ -4238,6 +4406,16 @@ interface Resources {
           "maxEnergyDmgBoost": {
             "content": "Increases the DMG of the wearer's Basic ATK and Skill by {{DmgBuff}}%. This effect increases by an extra {{DmgBuff}}% when the wearer's current Energy reaches its max level.",
             "text": "Max energy DMG boost"
+          }
+        }
+      },
+      "SummerRidesTheSurf": {
+        "Content": {
+          "updraftSpdBuff": {
+            "text": "Updraft SPD buff"
+          },
+          "uptrendElationBuff": {
+            "text": "Uptrend Elation buff"
           }
         }
       },
@@ -5999,6 +6177,11 @@ interface Resources {
     }
   },
   "hometab": {
+    "ChangelogCta": {
+      "JoinDiscord": "Join Discord",
+      "StarOnGitHub": "Star on GitHub",
+      "SupportOnKoFi": "Support on Ko-fi"
+    },
     "CommunityCard": {
       "Changelog": {
         "Description": "Check out recent updates, new features, and bug fixes.",
@@ -7410,6 +7593,34 @@ interface Resources {
             "Label": "0 debuffs (+4% base CR)"
           }
         },
+        "DivineQueryingMasterSmith": {
+          "CD": {
+            "Display": "CD",
+            "Label": "DEF reduced: CD +28%"
+          },
+          "CDAndDmg": {
+            "Display": "CD + DMG",
+            "Label": "DEF reduced: CD +28% + Comburent DMG +15%"
+          },
+          "Off": {
+            "Display": "Off",
+            "Label": "Off"
+          }
+        },
+        "DreamlitActor": {
+          "CD": {
+            "Display": "CD",
+            "Label": "Elation +16% | CD +12%"
+          },
+          "Elation": {
+            "Display": "Elation",
+            "Label": "Elation +16%"
+          },
+          "Off": {
+            "Display": "Off",
+            "Label": "Off"
+          }
+        },
         "Duran": {
           "Display": "{{stackCount}}x",
           "Label": "{{stackCount}} stacks (+{{buffValue}}% FUA DMG)",
@@ -7632,8 +7843,11 @@ interface Resources {
       "EidolonPlaceholder": "Eidolon",
       "OrnamentsPlaceholder": "Ornaments",
       "RelicsPlaceholder": "Relics",
+      "SelectCharacter": "Select teammate character",
+      "SelectLightcone": "Select teammate light cone",
       "SuperimpositionN": "$t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}}})",
       "SuperimpositionPlaceholder": "Superimposition",
+      "SyncFromRoster": "Sync from roster",
       "TeammateSets": {
         "Ageless": {
           "Desc": "$t(gameData:RelicSets.302.Name) (+8% ATK)",
@@ -7647,9 +7861,17 @@ interface Resources {
           "Desc": "$t(gameData:RelicSets.326.Name) (+12% CD)",
           "Text": "12% CD"
         },
+        "DivineQueryingMasterSmith": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.132.Name) (+15% DMG)",
+          "Text": "15% DMG"
+        },
         "Diviner": {
           "Desc": "4 Piece: $t(gameData:RelicSets.130.Name) (+10% Elation)",
           "Text": "10% Elation"
+        },
+        "DreamlitActor": {
+          "Desc": "4 Piece: $t(gameData:RelicSets.133.Name) (+16% Elation | +12% CD)",
+          "Text": "16% Elation + 12% CD"
         },
         "Keel": {
           "Desc": "$t(gameData:RelicSets.310.Name) (+10% CD)",
@@ -8132,5 +8354,3 @@ interface Resources {
     "TotalAvailable": "Total warps available:"
   }
 }
-
-export default Resources;

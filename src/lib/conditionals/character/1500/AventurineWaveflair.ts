@@ -57,6 +57,7 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -85,6 +86,7 @@ export const AventurineWaveflairAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.AventurineWaveflair.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_TALENT_ELATION_SKILL_3_ULT_BASIC_ELATION_SKILL_5
   const {
@@ -140,19 +142,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultSpdBuff: {
       id: 'ultSpdBuff',
       formItem: 'switch',
-      text: 'Ult SPD buff',
+      text: t('ultSpdBuff.text'),
       content: betaContent,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: 'Certified Banger',
+      text: t('certifiedBanger.text'),
       content: betaContent,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: 'Certified Banger stacks',
+      text: t('certifiedBangerStacks.text'),
       content: betaContent,
       min: 0,
       max: 200,
@@ -160,7 +162,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: 'Punchline stacks',
+      text: t('punchlineStacks.text'),
       content: betaContent,
       min: 0,
       max: 100,
@@ -168,13 +170,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedElationSkill: {
       id: 'enhancedElationSkill',
       formItem: 'switch',
-      text: 'Enhanced Elation Skill',
+      text: t('enhancedElationSkill.text'),
       content: betaContent,
     },
     fervorStacks: {
       id: 'fervorStacks',
       formItem: 'slider',
-      text: 'Fervor stacks',
+      text: t('fervorStacks.text'),
       content: betaContent,
       min: 0,
       max: fervorMax,
@@ -182,33 +184,33 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     spdElationConversion: {
       id: 'spdElationConversion',
       formItem: 'switch',
-      text: 'SPD to Elation conversion',
+      text: t('spdElationConversion.text'),
       content: betaContent,
     },
     traceCdBuff: {
       id: 'traceCdBuff',
       formItem: 'switch',
-      text: 'Trace CD buff',
+      text: t('traceCdBuff.text'),
       content: betaContent,
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
-      text: 'E1 RES PEN',
+      text: t('e1ResPen.text'),
       content: betaContent,
       disabled: e < 1,
     },
     e4DefPen: {
       id: 'e4DefPen',
       formItem: 'switch',
-      text: 'E4 DEF ignore',
+      text: t('e4DefPen.text'),
       content: betaContent,
       disabled: e < 4,
     },
     e6Merrymaking: {
       id: 'e6Merrymaking',
       formItem: 'switch',
-      text: 'E6 Merrymaking',
+      text: t('e6Merrymaking.text'),
       content: betaContent,
       disabled: e < 6,
     },

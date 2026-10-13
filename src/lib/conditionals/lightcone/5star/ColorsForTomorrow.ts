@@ -8,6 +8,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
@@ -17,6 +18,7 @@ import {
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ColorsForTomorrow.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(ColorsForTomorrow.id)
 
@@ -38,7 +40,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'inkSplashVulnerability',
       formItem: 'switch',
-      text: 'Vulnerability',
+      text: t('inkSplashVulnerability.text'),
       content: betaContent,
     },
   }

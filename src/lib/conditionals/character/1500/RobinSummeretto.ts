@@ -87,6 +87,7 @@ enum DeviatedChordBranch {
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const tBuff = wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RobinSummeretto.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
   const {
@@ -164,13 +165,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     feverState: {
       id: 'feverState',
       formItem: 'switch',
-      text: 'Fever state',
+      text: t('feverState.text'),
       content: betaContent,
     },
     vibes: {
       id: 'vibes',
       formItem: 'slider',
-      text: 'Vibes',
+      text: t('vibes.text'),
       content: betaContent,
       min: 0,
       max: maxVibes,
@@ -178,7 +179,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     songbirdCount: {
       id: 'songbirdCount',
       formItem: 'slider',
-      text: 'Summer Songbirds',
+      text: t('songbirdCount.text'),
       content: betaContent,
       min: 0,
       max: 3,
@@ -186,27 +187,27 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     deviatedChordCdBuff: {
       id: 'deviatedChordCdBuff',
       formItem: 'switch',
-      text: 'Deviated Chord: CRIT DMG',
+      text: t('deviatedChordCdBuff.text'),
       content: betaContent,
     },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
-      text: 'E2 RES PEN',
+      text: t('e2ResPen.text'),
       content: betaContent,
       disabled: e < 2,
     },
     e4MemoSpdBuff: {
       id: 'e4MemoSpdBuff',
       formItem: 'switch',
-      text: 'E4 SPD buff',
+      text: t('e4MemoSpdBuff.text'),
       content: betaContent,
       disabled: e < 4,
     },
     e6MemoSkillBuff: {
       id: 'e6MemoSkillBuff',
       formItem: 'switch',
-      text: 'E6 Memosprite Skill DMG',
+      text: t('e6MemoSkillBuff.text'),
       content: betaContent,
       disabled: e < 6,
     },
@@ -219,7 +220,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
-      text: `Robin's combat HP`,
+      text: t('teammateHPValue.text'),
       content: betaContent,
       min: 0,
       max: 20000,
@@ -227,12 +228,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     deviatedChordBranch: {
       id: 'deviatedChordBranch',
       formItem: 'select',
-      text: 'Deviated Chord buff',
+      text: t('deviatedChordBranch.text'),
       content: betaContent,
       options: [
-        { display: 'Weight based', value: DeviatedChordBranch.WEIGHT_BASED, label: 'Weight based' },
-        { display: 'ATK', value: DeviatedChordBranch.ATK, label: 'ATK buff' },
-        { display: 'CD', value: DeviatedChordBranch.CD, label: 'CRIT DMG buff' },
+        { display: t('deviatedChordBranch.options.weightBased.display'), value: DeviatedChordBranch.WEIGHT_BASED, label: t('deviatedChordBranch.options.weightBased.label') },
+        { display: t('deviatedChordBranch.options.atk.display'), value: DeviatedChordBranch.ATK, label: t('deviatedChordBranch.options.atk.label') },
+        { display: t('deviatedChordBranch.options.critDmg.display'), value: DeviatedChordBranch.CD, label: t('deviatedChordBranch.options.critDmg.label') },
       ],
       fullWidth: true,
     },

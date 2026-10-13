@@ -894,6 +894,28 @@ Lightcones:
       initialEhrBuff:
         text: Initial EHR buff
         content: At the start of the battle, the wearer's Effect Hit Rate increases by {{EhrBuff}}% for 3 turns.
+  ALittleGetaway:
+    Content:
+      elationSkillDefPen:
+        text: Elation Skill DEF PEN
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: Vulnerability
+  RaceToTheHorizon:
+    Content:
+      fuaCdStacks:
+        text: FUA CD stacks
+  RiseAndSing:
+    Content:
+      newMelodySpdBuff:
+        text: New Melody SPD buff
+  SummerRidesTheSurf:
+    Content:
+      updraftSpdBuff:
+        text: Updraft SPD buff
+      uptrendElationBuff:
+        text: Uptrend Elation buff
 Characters:
   Acheron:
     Content:
@@ -2228,6 +2250,62 @@ Characters:
       e6ResPen:
         text: E6 RES PEN
         content: Rin Tohsaka's All-Type RES PEN increases by 20%. When using Ultimate, gains 24 points of "Gem Energy" and 1 extra turn.
+  AventurineWaveflair:
+    Content:
+      ultSpdBuff:
+        text: Ult SPD buff
+      certifiedBanger:
+        text: Certified Banger
+      certifiedBangerStacks:
+        text: Certified Banger stacks
+      punchlineStacks:
+        text: Punchline stacks
+      enhancedElationSkill:
+        text: Enhanced Elation Skill
+      fervorStacks:
+        text: Fervor stacks
+      spdElationConversion:
+        text: SPD to Elation conversion
+      traceCdBuff:
+        text: Trace CD buff
+      e1ResPen:
+        text: E1 RES PEN
+      e4DefPen:
+        text: E4 DEF ignore
+      e6Merrymaking:
+        text: E6 Merrymaking
+  Pearl:
+    Content:
+      deepLearning:
+        text: Enhanced Basic
+      certifiedBanger:
+        text: Basic ATK Elation DMG
+      certifiedBangerStacks:
+        text: Certified Banger points
+      punchlineStacks:
+        text: Punchline stacks
+      lowestHpTargetHeal:
+        text: Lowest HP extra heal
+      traceDefToElation:
+        text: DEF to Elation conversion
+      traceElationToHealing:
+        text: Elation to OHB conversion
+      traceEffectRes:
+        text: Certified Banger Effect RES
+      talentLowHpDmgReduction:
+        text: HP ≤ 50% DMG reduction
+      e1ElationShare:
+        text: E1 Elation buff
+      e2Merrymake:
+        text: E2 Merrymake
+      e4ElationSkillBoost:
+        text: E4 Elation Skill Additional DMG
+      e6Buffs:
+        text: E6 RES PEN
+      aestheticArchetype:
+        text: Aesthetic Archetype Elation DMG
+      elationSkillProc:
+        text: Elation Skill Elation DMG
   Robin:
     Content:
       concertoActive:
@@ -2261,6 +2339,36 @@ Characters:
       e2UltSpdBuff:
         text: E2 Ult SPD buff
         content: While the Concerto state is active, all allies' SPD increases by 16%.
+  RobinSummeretto:
+    Content:
+      feverState:
+        text: Fever state
+      vibes:
+        text: Vibes
+      songbirdCount:
+        text: Summer Songbirds
+      deviatedChordCdBuff:
+        text: 'Deviated Chord: CRIT DMG'
+      e2ResPen:
+        text: E2 RES PEN
+      e4MemoSpdBuff:
+        text: E4 SPD buff
+      e6MemoSkillBuff:
+        text: E6 Memosprite Skill DMG
+      teammateHPValue:
+        text: Robin's combat HP
+      deviatedChordBranch:
+        text: Deviated Chord buff
+        options:
+          weightBased:
+            display: Weight based
+            label: Weight based
+          atk:
+            display: ATK
+            label: ATK buff
+          critDmg:
+            display: CD
+            label: CRIT DMG buff
   RuanMei:
     Content:
       skillOvertoneBuff:
@@ -2322,6 +2430,8 @@ Characters:
       e6ResPen:
         text: E6 RES PEN
         content: Wind RES PEN of Ultimate DMG dealt by Saber increases by 20%, and the Overflow Energy that can be accumulated by the Trace "Blessing of the Lake" increases to 200. When using Ultimate for the first time after entering battle, regenerates a fixed 300 Energy for Saber. This effect can be triggered 1 time after every 3 Ultimate uses.
+      gilgameshFuaSaberUltBoost:
+        text: Gilgamesh FUA Ult buff
   Sampo:
     Content:
       targetDotTakenDebuff:

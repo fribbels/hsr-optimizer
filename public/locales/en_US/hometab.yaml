@@ -67,5 +67,9 @@ SearchBar:
   Message: Invalid input - This should be your 9 digit ingame UUID
   Search: Search
 ScrollToExplore: Scroll to explore
+ChangelogCta:
+  JoinDiscord: Join Discord
+  StarOnGitHub: Star on GitHub
+  SupportOnKoFi: Support on Ko-fi
 Contributors:
   Title: Our Contributors

@@ -57,6 +57,7 @@ import {
   SPREAD_RELICS_4P_HEAL,
 } from 'lib/scoring/scoringConstants'
 import { ScoringType } from 'lib/scoring/scoringTypes'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { floorSafe } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -85,6 +86,7 @@ export const PearlAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pearl.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
 
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
@@ -168,19 +170,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     deepLearning: {
       id: 'deepLearning',
       formItem: 'switch',
-      text: 'Enhanced Basic',
+      text: t('deepLearning.text'),
       content: betaContent,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: 'Basic ATK Elation DMG',
+      text: t('certifiedBanger.text'),
       content: betaContent,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: 'Certified Banger points',
+      text: t('certifiedBangerStacks.text'),
       content: betaContent,
       min: 0,
       max: 50,
@@ -188,7 +190,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: 'Punchline stacks',
+      text: t('punchlineStacks.text'),
       content: betaContent,
       min: 0,
       max: 120,
@@ -196,58 +198,58 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     lowestHpTargetHeal: {
       id: 'lowestHpTargetHeal',
       formItem: 'switch',
-      text: 'Lowest HP extra heal',
+      text: t('lowestHpTargetHeal.text'),
       content: betaContent,
     },
     traceDefToElation: {
       id: 'traceDefToElation',
       formItem: 'switch',
-      text: 'DEF to Elation conversion',
+      text: t('traceDefToElation.text'),
       content: betaContent,
     },
     traceElationToHealing: {
       id: 'traceElationToHealing',
       formItem: 'switch',
-      text: 'Elation to OHB conversion',
+      text: t('traceElationToHealing.text'),
       content: betaContent,
     },
     traceEffectRes: {
       id: 'traceEffectRes',
       formItem: 'switch',
-      text: 'Certified Banger Effect RES',
+      text: t('traceEffectRes.text'),
       content: betaContent,
     },
     talentLowHpDmgReduction: {
       id: 'talentLowHpDmgReduction',
       formItem: 'switch',
-      text: 'HP ≤ 50% DMG reduction',
+      text: t('talentLowHpDmgReduction.text'),
       content: betaContent,
     },
     e1ElationShare: {
       id: 'e1ElationShare',
       formItem: 'switch',
-      text: 'E1 Elation buff',
+      text: t('e1ElationShare.text'),
       content: betaContent,
       disabled: e < 1,
     },
     e2Merrymake: {
       id: 'e2Merrymake',
       formItem: 'switch',
-      text: 'E2 Merrymake',
+      text: t('e2Merrymake.text'),
       content: betaContent,
       disabled: e < 2,
     },
     e4ElationSkillBoost: {
       id: 'e4ElationSkillBoost',
       formItem: 'switch',
-      text: 'E4 Elation Skill Additional DMG',
+      text: t('e4ElationSkillBoost.text'),
       content: betaContent,
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 RES PEN',
+      text: t('e6Buffs.text'),
       content: betaContent,
       disabled: e < 6,
     },
@@ -258,13 +260,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     aestheticArchetype: {
       id: 'aestheticArchetype',
       formItem: 'switch',
-      text: 'Aesthetic Archetype Elation DMG',
+      text: t('aestheticArchetype.text'),
       content: betaContent,
     },
     elationSkillProc: {
       id: 'elationSkillProc',
       formItem: 'switch',
-      text: 'Elation Skill Elation DMG',
+      text: t('elationSkillProc.text'),
       content: betaContent,
     },
     certifiedBangerStacks: content.certifiedBangerStacks,

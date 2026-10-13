@@ -23,6 +23,7 @@ import {
 } from 'types/optimizer'
 import {
   type SelectOptionContent,
+  type SetConditionalTFunction,
   type SetConditionals,
   type SetConfig,
   type SetDisplay,
@@ -72,8 +73,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.DivineQueryingMasterSmith,
-    label: () => '15% DMG',
-    desc: () => '4 Piece: Divine-Querying Master Smith (+15% DMG)',
+    label: (t) => t('TeammateSets.DivineQueryingMasterSmith.Text'),
+    desc: (t) => t('TeammateSets.DivineQueryingMasterSmith.Desc'),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.DivineQueryingMasterSmith))
@@ -81,11 +82,11 @@ const conditionals: SetConditionals = {
   }],
 }
 
-function selectionOptions(): SelectOptionContent[] {
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
-    { display: 'Off', value: 0, label: 'Off' },
-    { display: 'CD', value: 1, label: 'DEF reduced: CD +28%' },
-    { display: 'CD + DMG', value: 2, label: 'DEF reduced: CD +28% + Comburent DMG +15%' },
+    { display: t('DivineQueryingMasterSmith.Off.Display'), value: 0, label: t('DivineQueryingMasterSmith.Off.Label') },
+    { display: t('DivineQueryingMasterSmith.CD.Display'), value: 1, label: t('DivineQueryingMasterSmith.CD.Label') },
+    { display: t('DivineQueryingMasterSmith.CDAndDmg.Display'), value: 2, label: t('DivineQueryingMasterSmith.CDAndDmg.Label') },
   ]
 }
 

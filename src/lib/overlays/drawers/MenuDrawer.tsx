@@ -78,6 +78,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
   onNavigate: (item: NavItem) => void,
   anyDrawerOpen: boolean,
 }) {
+  const { t: tCommon } = useTranslation('common')
   const seenFeatures = useNewFeatureStore((s) => s.seenFeatures)
   const navRef = useRef<HTMLDivElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
@@ -163,7 +164,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
                 <>
                   <div className={classes.itemIcon}>{item.icon}</div>
                   <span className={classes.itemLabel}>{item.label}</span>
-                  {isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>New</Badge>}
+                  {isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>{tCommon('New')}</Badge>}
                 </>
               )
               return item.href

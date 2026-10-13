@@ -8,6 +8,7 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
@@ -17,6 +18,7 @@ import {
 } from 'types/optimizer'
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.ALittleGetaway.Content')
   const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(ALittleGetaway.id)
 
@@ -31,7 +33,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'elationSkillDefPen',
       formItem: 'switch',
-      text: 'Elation Skill DEF PEN',
+      text: t('elationSkillDefPen.text'),
       content: betaContent,
     },
   }

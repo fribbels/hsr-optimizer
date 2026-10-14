@@ -44,13 +44,15 @@ function moveBuff(
   position: 'before' | 'after' | 'into',
   target: string,
   buffs: Readonly<OptimizerRequestState['combatBuffs']>,
-): OptimizerRequestState['combatBuffs'] {
+): [OptimizerRequestState['combatBuffs'], boolean] {
+  let groupModified = false
   if (position === 'into') {
     const { idx: sourceIdx, parentIdx: sourceParentIdx } = findBuff(source, buffs)
     const ret = [...buffs]
     // the combine operation is only made available when dropping non-groups, so we know removed can not be a CombatBuffGroup
     let removed: CombatBuff
     if (sourceParentIdx !== undefined) {
+      groupModified = true
       const group = ret[sourceParentIdx] as CombatBuffGroup
       removed = group.buffs[sourceIdx]
       ret[sourceParentIdx] = { ...group, buffs: group.buffs.toSpliced(sourceIdx, 1) }
@@ -71,13 +73,14 @@ function moveBuff(
       }
       ret[targetIdx] = group
     }
-    return ret
+    return [ret, groupModified]
   } else {
     const offset = position === 'after' ? 1 : 0
     const { idx: sourceIdx, parentIdx: sourceParentIdx } = findBuff(source, buffs)
     const ret = [...buffs]
     let removed: CombatBuff | CombatBuffGroup
     if (sourceParentIdx !== undefined) {
+      groupModified = true
       const group = ret[sourceParentIdx] as CombatBuffGroup
       removed = group.buffs[sourceIdx]
       ret[sourceParentIdx] = { ...group, buffs: group.buffs.toSpliced(sourceIdx, 1) }
@@ -86,13 +89,14 @@ function moveBuff(
     }
     const { idx: targetIdx, parentIdx: targetParentIdx } = findBuff(target, ret)
     if (targetParentIdx !== undefined) {
+      groupModified = true
       const group = { ...ret[targetParentIdx] as CombatBuffGroup }
       group.buffs = group.buffs.toSpliced(targetIdx + offset, 0, removed as CombatBuff)
       ret[targetParentIdx] = group
     } else {
       ret.splice(targetIdx + offset, 0, removed)
     }
-    return ret
+    return [ret, groupModified]
   }
 }
 
@@ -130,25 +134,24 @@ export function NestedDnD() {
               const instruction = extractInstruction(target.data)
               if (!instruction || instruction.blocked) return
               let buffs: Array<CombatBuff | CombatBuffGroup>
+              let groupModified
               switch (instruction.operation) {
                 case 'reorder-before': {
-                  buffs = move(sourceId, 'before', targetId)
+                  [buffs, groupModified] = move(sourceId, 'before', targetId)
                   break
                 }
                 case 'reorder-after': {
-                  buffs = move(sourceId, 'after', targetId)
+                  [buffs, groupModified] = move(sourceId, 'after', targetId)
                   break
                 }
                 case 'combine': {
-                  buffs = move(sourceId, 'into', targetId)
+                  [buffs, groupModified] = move(sourceId, 'into', targetId)
                   break
                 }
               }
               startTransition(() => {
-                const isGroupReorder = source.data.type === CombatBuffType.Group
-                  && (instruction.operation === 'reorder-before' || instruction.operation === 'reorder-after')
-                if (isGroupReorder) {
-                  addTransitionType('group-reorder')
+                if (!groupModified) {
+                  addTransitionType('animate-groups')
                 }
                 setBuffs(buffs)
                 useOptimizerRequestStore.setState({ combatBuffs: buffs })
@@ -187,7 +190,7 @@ export function NestedDnD() {
               key={buff.id}
               name={`buff-${buff.id}`}
               // need to disable the view transition when draggin in/out of groups otherwise it spazzes out
-              update={{ 'default': 'none', 'group-reorder': 'group-reorder' }}
+              update={{ 'default': 'none', 'animate-groups': 'animate-groups' }}
             >
               <BuffGroup
                 buff={buff}

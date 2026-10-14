@@ -26,6 +26,8 @@ import {
 import type { TFunction } from 'i18next'
 import { labelToString } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { getAKeyConfig } from 'lib/optimization/engine/config/keys'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   Children,
   memo,
@@ -42,10 +44,12 @@ import type {
 import { useTranslation } from 'react-i18next'
 import { CombatBuffType } from 'types/form'
 import type {
+  CombatActionModifier,
   CombatBuff,
   CombatStatBuff,
 } from 'types/form'
 import { optimizerTabDefaultGap } from '../../../grid/optimizerGridColumns'
+import { AbilitySelect } from '../ActionModifierBuilder/AbilitySelect'
 import { writeBuffToClipboard } from '../clipboard'
 import { renderDamageTagPill } from '../common/DamageTagSelect'
 import { renderElementTagPill } from '../common/elementTag'
@@ -53,6 +57,7 @@ import { renderTargetTagPill } from '../StatBuffBuilder/TargetTagSelect'
 import classes from './Buff.module.css'
 import { CombineIndicator } from './CombineIndicator'
 import { DropIndicator } from './DropIndicator'
+import { splitArray } from 'lib/utils/arrayUtils'
 
 export function Buff({ buff, parent, toggleSelection, removeBuff }: Buff.Props) {
   const ref = useRef<HTMLDivElement | null>(null)
@@ -174,9 +179,9 @@ export const BuffPanel = memo(function BuffPanel({
       case CombatBuffType.StatBuff:
         return <StatBuffPanelContent buff={buff} t={t} actionGroup={actionGroup} />
       case CombatBuffType.ActionModifier:
-        return <></>
+        return <ActionModifierBuffPanelContent buff={buff} t={t} actionGroup={actionGroup} />
     }
-  }, [buff])
+  }, [buff, t, actionGroup])
 
   return (
     <Paper withBorder radius='sm' p={4} shadow='xs'>
@@ -224,12 +229,66 @@ function StatBuffPanelContent({
   )
 }
 
-interface TagContainerProps extends PropsWithChildren {
-  popoverPosition?: FloatingPosition
+interface ActionModifierBuffPanelContentProps extends BuffPanelContentProps {
+  buff: CombatActionModifier
+  actionGroup: ReactNode
 }
 
-function TagContainer({ children, popoverPosition }: TagContainerProps) {
-  const [first, ...rest] = Children.toArray(children)
+function ActionModifierBuffPanelContent({
+  buff,
+  t,
+  actionGroup,
+}: ActionModifierBuffPanelContentProps) {
+  const damageKind = DamageFunctionType[buff.kind]
+  const scaling = (() => {
+    switch (buff.kind) {
+      case DamageFunctionType.Crit:
+        return `${labelToString(newStatsConfig[buff.critScalingStat].label)}: ${buff.critScalingValue}%`
+      case DamageFunctionType.Break:
+        return `Break scaling: ${buff.breakScaling}%`
+      case DamageFunctionType.Elation:
+        return `Elation scaling: ${buff.elationScaling}% · Punchline stacks: ${buff.punchlineStacks}`
+    }
+  })()
+
+  return (
+    <Stack flex={1}>
+      <Group justify='space-between'>
+        <Group ml={5} gap={5}>
+          <span>{`${damageKind} modifier`}</span>
+          {renderElementTagPill(buff.element, t, true)}
+        </Group>
+        {actionGroup}
+      </Group>
+      <Group gap={4}>
+        <span>Targets:</span>
+        {buff.abilities.length
+          ? (
+            <TagContainer maxTags={3}>
+              {buff.abilities.map((ability) => AbilitySelect.renderPill(ability, t, true))}
+            </TagContainer>
+          )
+          : <span>All abilities</span>}
+      </Group>
+      <Group gap={4}>
+        <span>{scaling}</span>
+        {buff.kind === DamageFunctionType.Crit && (
+          <TagContainer maxTags={3}>
+            {buff.critDamageType.map((tag) => renderDamageTagPill(tag, t, true))}
+          </TagContainer>
+        )}
+      </Group>
+    </Stack>
+  )
+}
+
+interface TagContainerProps extends PropsWithChildren {
+  popoverPosition?: FloatingPosition
+  maxTags?: number
+}
+
+function TagContainer({ children, popoverPosition, maxTags = 1 }: TagContainerProps) {
+  const [first, rest] = splitArray(Children.toArray(children), maxTags)
   const [opened, setOpened] = useState(false)
   const closeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null)
   const clearCloseTimeout = useCallback(() => {
@@ -256,7 +315,7 @@ function TagContainer({ children, popoverPosition }: TagContainerProps) {
   return (
     <Group gap={4} wrap='nowrap' className={classes.tagContainer}>
       {first}
-      {rest.length > 0 && (
+      {rest?.length && rest.length > 0 && (
         <Popover
           position={popoverPosition ?? 'bottom-start'}
           withArrow

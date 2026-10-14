@@ -28,6 +28,9 @@ import {
 import type { TFunction } from 'i18next'
 import { labelToString } from 'lib/characterPreview/buffsAnalysis/buffUtils'
 import { getAKeyConfig } from 'lib/optimization/engine/config/keys'
+import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import { ElementTag } from 'lib/optimization/engine/config/tag'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import {
   memo,
   useCallback,
@@ -39,6 +42,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { CombatBuffType } from 'types/form'
 import type {
+  CombatActionModifier,
   CombatBuff,
   CombatBuffGroup,
 } from 'types/form'
@@ -307,10 +311,9 @@ function BuffPreviewPill({ buff }: { buff: CombatBuff }) {
       label = `${labelToString(statName)}: ${buff.value}${flat ? '' : '%'}`
       break
     }
-    case CombatBuffType.ActionModifier: {
-      label = 'Action modifier'
+    case CombatBuffType.ActionModifier:
+      label = getActionModifierPreviewLabel(buff)
       break
-    }
   }
 
   return (
@@ -318,4 +321,16 @@ function BuffPreviewPill({ buff }: { buff: CombatBuff }) {
       {label}
     </Pill>
   )
+}
+
+function getActionModifierPreviewLabel(buff: CombatActionModifier) {
+  const prefix = `${DamageFunctionType[buff.kind]} · ${ElementTag[buff.element]}`
+  switch (buff.kind) {
+    case DamageFunctionType.Crit:
+      return `${prefix} · ${labelToString(newStatsConfig[buff.critScalingStat].label)} ${buff.critScalingValue}%`
+    case DamageFunctionType.Break:
+      return `${prefix} · ${buff.breakScaling}%`
+    case DamageFunctionType.Elation:
+      return `${prefix} · ${buff.elationScaling}% / ${buff.punchlineStacks} stacks`
+  }
 }

@@ -32,7 +32,7 @@ import { type AbilityPreprocessorBase } from 'lib/optimization/rotation/preproce
 import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilities } from 'lib/optimization/rotation/turnPreprocessor'
 import { type Form } from 'types/form'
-import { getTeammateAbilityPreprocessors } from './preprocessTeammate'
+import { getTeammateAbilityPreprocessors } from 'lib/optimization/rotation/preprocessor/preprocessTeammate'
 
 const characterPreprocessors: AbilityPreprocessorBase[] = [
   new AshveilPreprocessor(),

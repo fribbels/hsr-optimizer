@@ -1,5 +1,4 @@
 import {
-  CombatBuffs,
   DEFAULT_MEMO_DISPLAY,
   DEFAULT_STAT_DISPLAY,
   Sets,
@@ -87,14 +86,6 @@ export function createDefaultRatingFilters(): RatingFilterState {
   }
 }
 
-export function createDefaultCombatBuffs(): Record<string, number> {
-  const combatBuffs: Record<string, number> = {}
-  for (const entry of Object.values(CombatBuffs)) {
-    combatBuffs[entry.key] = 0
-  }
-  return combatBuffs
-}
-
 export function createDefaultFormState(): OptimizerRequestState {
   return {
     // Character identity
@@ -161,7 +152,7 @@ export function createDefaultFormState(): OptimizerRequestState {
     memoDisplay: DEFAULT_MEMO_DISPLAY,
 
     // Combat buffs
-    combatBuffs: createDefaultCombatBuffs(),
+    combatBuffs: [],
 
     // Team set contribution
     teamRelicSet: undefined,

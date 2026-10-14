@@ -6,8 +6,8 @@ import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
-import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { blankSimRequest } from 'lib/simulations/utils/requestUtils'
+import { SaveState } from 'lib/state/saveState'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import {
   createDefaultFormState,
@@ -38,7 +38,12 @@ import {
   type Eidolon,
 } from 'types/character'
 import { type ConditionalValueMap } from 'types/conditionals'
-import { type Form } from 'types/form'
+import {
+  type CombatBuff,
+  type CombatBuffGroup,
+  CombatBuffType,
+  type Form,
+} from 'types/form'
 import {
   type LightConeId,
   type SuperImpositionLevel,
@@ -55,7 +60,12 @@ type OptimizerRequestActions = {
   // Simple setters (Task 8)
   setStatFilter: (key: keyof StatFilterState, value: number | undefined) => void,
   setRatingFilter: (key: keyof RatingFilterState, value: number | undefined) => void,
-  setCombatBuff: (key: string, value: number) => void,
+  addCombatBuff: (buff: CombatBuff | CombatBuffGroup) => void,
+  nameCombatBuff: (id: string, name: string) => void,
+  removeCombatBuff: (id: string) => void,
+  toggleCombatBuff: (id: string) => void,
+  clearCombatBuffs: () => void,
+  setCombatBuffs: (buffs: OptimizerRequestState['combatBuffs']) => void,
   setEnemyField: <K extends keyof EnemyConfigFields>(key: K, value: EnemyConfigFields[K]) => void,
   setStatDisplay: (display: StatDisplay) => void,
   setMemoDisplay: (display: MemoDisplay) => void,
@@ -113,10 +123,77 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
       ratingFilters: { ...state.ratingFilters, [key]: value },
     })),
 
-  setCombatBuff: (key, value) =>
-    set((state) => ({
-      combatBuffs: { ...state.combatBuffs, [key]: value },
-    })),
+  addCombatBuff: (buff) => {
+    if (buff.type === CombatBuffType.Group) {
+      set((state) => {
+        const lastGroupIdx = state.combatBuffs.findLastIndex((b) => b.type === CombatBuffType.Group)
+        const idx = lastGroupIdx === -1 ? 0 : lastGroupIdx
+        const combatBuffs = state.combatBuffs.toSpliced(idx, 0, buff)
+        return { combatBuffs }
+      })
+    } else {
+      set((state) => ({ combatBuffs: [...state.combatBuffs, buff] }))
+    }
+    SaveState.delayedSave()
+  },
+
+  nameCombatBuff: (id, name) => {
+    set((state) => {
+      return {
+        // only need to iterate top level buffs since only groups have names
+        combatBuffs: state.combatBuffs.map((b) => {
+          if (b.id !== id) return b
+          return { ...b, name }
+        }),
+      }
+    })
+    SaveState.delayedSave()
+  },
+
+  removeCombatBuff: (id) => {
+    set((state) => {
+      const { combatBuffs } = state
+      const buffs = [...combatBuffs]
+      let idxToRemove
+      for (let i = 0; i < buffs.length; i++) {
+        const buff = buffs[i]
+        if (buff.id === id) {
+          idxToRemove = i
+          break
+        }
+        if (buff.type === CombatBuffType.Group) {
+          const idxToRemove = buff.buffs.findIndex((b) => b.id === id)
+          if (idxToRemove !== -1) {
+            buffs[i] = { ...buff, buffs: buff.buffs.toSpliced(idxToRemove, 1) }
+            break
+          }
+        }
+      }
+      if (idxToRemove !== undefined) {
+        buffs.splice(idxToRemove, 1)
+      }
+      return { combatBuffs: buffs }
+    })
+  },
+
+  toggleCombatBuff: (id) => {
+    set((state) => {
+      return {
+        combatBuffs: state.combatBuffs.map((b) => {
+          if (b.id === id) return { ...b, disabled: !b.disabled }
+          if (b.type !== CombatBuffType.Group) return b
+          const buffIdx = b.buffs.findIndex((b) => b.id === id)
+          if (buffIdx === -1) return b
+          const buff = b.buffs[buffIdx]
+          return { ...b, buffs: b.buffs.toSpliced(buffIdx, 1, { ...buff, disabled: !buff.disabled }) }
+        }),
+      }
+    })
+  },
+
+  clearCombatBuffs: () => set({ combatBuffs: [] }),
+
+  setCombatBuffs: (combatBuffs) => set({ combatBuffs }),
 
   setEnemyField: (key, value) => set({ [key]: value }),
 

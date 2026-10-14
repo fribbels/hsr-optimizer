@@ -1,50 +1,122 @@
-import { CombatBuffs } from 'lib/constants/constants'
+import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import {
-  type AKeyValue,
-  StatKey,
-} from 'lib/optimization/engine/config/keys'
-import { TargetTag } from 'lib/optimization/engine/config/tag'
 import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import type { Form } from 'types/form'
-
-const COMBAT_BUFF_KEY_TO_STAT_KEY: Record<string, AKeyValue> = {
-  ATK: StatKey.ATK,
-  ATK_P: StatKey.ATK_P,
-  HP: StatKey.HP,
-  HP_P: StatKey.HP_P,
-  DEF: StatKey.DEF,
-  DEF_P: StatKey.DEF_P,
-  CR: StatKey.CR,
-  CD: StatKey.CD,
-  SPD: StatKey.SPD,
-  SPD_P: StatKey.SPD_P,
-  BE: StatKey.BE,
-  BOOST: StatKey.BOOST,
-  DEF_PEN: StatKey.DEF_PEN,
-  RES_PEN: StatKey.RES_PEN,
-  EFFECT_RES_PEN: StatKey.EFFECT_RES_PEN,
-  VULNERABILITY: StatKey.VULNERABILITY,
-  BREAK_EFFICIENCY: StatKey.BREAK_EFFICIENCY_BOOST,
-  EHR: StatKey.EHR,
-}
-
-const EXTRA_COMBAT_BUFF_SOURCE = Source.EXTRA_COMBAT_BUFFS
-const COMBAT_BUFFS_ENTRIES = Object.values(CombatBuffs)
+import { arrayIncludes } from 'lib/utils/arrayUtils'
+import {
+  type CombatActionModifier,
+  CombatBuffType,
+  type CombatStatBuff,
+  type Form,
+} from 'types/form'
+import {
+  AdditionalHit,
+  BreakHit,
+  CritHit,
+  DotHit,
+  ElationHit,
+  SuperBreakHit,
+} from 'types/hitConditionalTypes'
+import type {
+  OptimizerAction,
+  OptimizerContext,
+} from 'types/optimizer'
+import { Stats } from './../../constants/constants'
+import {
+  getAKeyConfig,
+  isHitAKey,
+} from '../engine/config/keys'
+import { DamageTag } from '../engine/config/tag'
+import { DamageFunctionType } from '../engine/damage/damageCalculator'
+import type { AbilityKind } from './turnAbilityConfig'
 
 export function precomputeExtraCombatBuffs(x: ComputedStatsContainer, request: Form): void {
-  const buffs = request.combatBuffs
-  if (!buffs) return
+  request.combatBuffs.forEach((buff) => {
+    if (buff.disabled) return
+    if (buff.type === CombatBuffType.StatBuff) applyStatBuff(x, buff)
+    if (buff.type === CombatBuffType.Group) {
+      buff.buffs.forEach((buff) => {
+        if (buff.disabled) return
+        if (buff.type === CombatBuffType.StatBuff) applyStatBuff(x, buff)
+      })
+    }
+  })
+}
 
-  const config = x.targets(TargetTag.FullTeam).source(EXTRA_COMBAT_BUFF_SOURCE)
-
-  for (const entry of COMBAT_BUFFS_ENTRIES) {
-    const value = buffs[entry.key]
-    if (!value) continue
-
-    const statKey = COMBAT_BUFF_KEY_TO_STAT_KEY[entry.key]
-    if (statKey == null) continue
-
+function applyStatBuff(x: ComputedStatsContainer, buff: CombatStatBuff) {
+  const { statKey, value: preValue, targetTag, damageTags, elementTags } = buff
+  const value = getAKeyConfig(statKey).flat ? preValue : (preValue / 100)
+  if (damageTags.length && isHitAKey(statKey)) {
+    const config = x
+      .damageType(damageTags.reduce((acc, cur) => acc |= cur))
+      .elements(elementTags.reduce((acc, cur) => acc |= cur))
+      .targets(targetTag)
+      .source(Source.EXTRA_COMBAT_BUFFS)
+    x.buff(statKey, value, config)
+  } else {
+    const config = x
+      .targets(targetTag)
+      .source(Source.EXTRA_COMBAT_BUFFS)
     x.buff(statKey, value, config)
   }
+}
+
+export function precomputeExtraActionModifiers(request: Form, context: OptimizerContext) {
+  request.combatBuffs.forEach((buff) => {
+    if (buff.disabled) return
+    if (buff.type === CombatBuffType.ActionModifier) applyActionModifier(context, buff)
+    if (buff.type === CombatBuffType.Group) {
+      buff.buffs.forEach((buff) => {
+        if (buff.disabled) return
+        if (buff.type === CombatBuffType.ActionModifier) applyActionModifier(context, buff)
+      })
+    }
+  })
+}
+
+function applyActionModifier(context: OptimizerContext, buff: CombatActionModifier) {
+  const modify = (action: OptimizerAction, context: OptimizerContext) => {
+    if (buff.abilities.length && !arrayIncludes<AbilityKind>(buff.abilities, action.actionType)) return
+    switch (buff.kind) {
+      case DamageFunctionType.Crit: {
+        let builder = HitDefinitionBuilder.crit()
+          .damageType(buff.critDamageType.reduce((acc, cur) => acc |= cur, DamageTag.None))
+          .damageElement(buff.element)
+          .directHit(false)
+        switch (buff.critScalingStat) {
+          case Stats.ATK:
+            builder = builder.atkScaling(buff.critScalingValue)
+            break
+          case Stats.DEF:
+            builder = builder.defScaling(buff.critScalingValue)
+            break
+          case Stats.HP:
+            builder = builder.hpScaling(buff.critScalingValue)
+            break
+        }
+        action.hits!.push(builder.build() as CritHit)
+        break
+      }
+      case DamageFunctionType.Break: {
+        const hit = HitDefinitionBuilder.standardBreak(buff.element)
+          .damageType(DamageTag.BREAK)
+          .directHit(false)
+          .specialScaling(buff.breakScaling / 100)
+          .build()
+        action.hits!.push(hit as BreakHit)
+        break
+      }
+      case DamageFunctionType.Elation: {
+        const hit = HitDefinitionBuilder.elation()
+          .damageType(DamageTag.ELATION)
+          .damageElement(buff.element)
+          .directHit(false)
+          .elationScaling(buff.elationScaling / 100)
+          .punchlineStacks(buff.punchlineStacks)
+          .build()
+        action.hits!.push(hit as ElationHit)
+        break
+      }
+    }
+  }
+  context.actionModifiers.push({ modify })
 }

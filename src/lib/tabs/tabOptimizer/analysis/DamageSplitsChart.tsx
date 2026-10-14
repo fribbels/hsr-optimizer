@@ -297,7 +297,6 @@ export function DamageSplitsChart({ data }: { data: DamageSplitEntry[] }) {
             dataKey={bar.key}
             stackId='a'
             fill={bar.color}
-            // @ts-expect-error recharts shape typing doesn't support custom shape functions
             shape={bar.shape}
             activeBar={false}
             isAnimationActive={false}

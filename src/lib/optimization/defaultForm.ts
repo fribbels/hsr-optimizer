@@ -3,7 +3,6 @@ import {
   applySetConditionalPresets,
 } from 'lib/conditionals/evaluation/applyPresets'
 import {
-  CombatBuffs,
   Constants,
   DEFAULT_MEMO_DISPLAY,
   DEFAULT_STAT_DISPLAY,
@@ -53,11 +52,6 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
   const parts = scoringMetadata?.parts || {}
   const weights = scoringMetadata?.stats || getDefaultWeights()
 
-  const combatBuffs = {} as Record<typeof CombatBuffs[keyof typeof CombatBuffs]['key'], number>
-  Object.values(CombatBuffs).forEach((x) => {
-    combatBuffs[x.key] = 0
-  })
-
   const defaultForm: Partial<Form> = clone({
     characterId: initialCharacter?.id,
     mainBody: parts[Constants.Parts.Body] || [],
@@ -87,7 +81,7 @@ export function getDefaultForm(initialCharacter: { id: CharacterId }) {
     teammate2: defaultTeammate() as Teammate,
     resultSort: scoringMetadata?.simulation ? SortOption.COMBO.key : scoringMetadata?.sortOption.key,
     resultsLimit: 1024,
-    combatBuffs: combatBuffs,
+    combatBuffs: [],
     comboType: ComboType.SIMPLE,
     combo: {
       BASIC: 0,

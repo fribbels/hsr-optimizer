@@ -14,6 +14,7 @@ import { optimizerTabDefaultGap } from 'lib/tabs/tabOptimizer/optimizerForm/grid
 import { HeaderText } from 'lib/ui/HeaderText'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { CombatBuffType } from 'types/form'
 
 export function AdvancedOptionsPanel() {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'AdvancedOptions' })
@@ -21,11 +22,12 @@ export function AdvancedOptionsPanel() {
 
   // Count the # of active buffs to display
   const formCombatBuffs = useOptimizerRequestStore((s) => s.combatBuffs)
-  const buffsActive = useMemo(() => {
-    if (!formCombatBuffs) return 0
-
-    return Object.values(formCombatBuffs).filter((x) => x != null && x !== 0).length
-  }, [formCombatBuffs])
+  const buffsActive = useMemo(() =>
+    formCombatBuffs.reduce((acc, cur) => {
+      if (cur.type !== CombatBuffType.Group) {
+        return acc + 1
+      } else return acc + cur.buffs.length
+    }, 0), [formCombatBuffs])
 
   return (
     <Flex direction='column' gap={optimizerTabDefaultGap}>

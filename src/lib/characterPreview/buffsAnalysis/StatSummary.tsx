@@ -4,8 +4,8 @@ import type {
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import {
   ABILITY_COLORS,
-  DAMAGE_TAG_BY_KEY,
   DAMAGE_TAG_ENTRIES,
+  DAMAGE_TAG_ENTRY_BY_KEY,
 } from 'lib/characterPreview/buffsAnalysis/abilityColors'
 import {
   CardHeader,
@@ -174,7 +174,7 @@ function getContributionTagPills(contributions: StatSumContribution[]): TagColor
 function isPillActive(pillKey: AbilityColorKey, filter: DamageTag | null): boolean {
   if (pillKey === 'ALL') return true
   if (filter === null) return false
-  const entry = DAMAGE_TAG_BY_KEY.get(pillKey)
+  const entry = DAMAGE_TAG_ENTRY_BY_KEY.get(pillKey)
   return entry != null && (entry.tag & filter) !== 0
 }
 
@@ -188,7 +188,7 @@ function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
   return (
     <div style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
       {pills.map((p) => {
-        const tag = p.key === 'ALL' ? null : DAMAGE_TAG_BY_KEY.get(p.key)?.tag ?? null
+        const tag = p.key === 'ALL' ? null : DAMAGE_TAG_ENTRY_BY_KEY.get(p.key)?.tag ?? null
         const active = p.key !== 'ALL' && tag != null && filter != null && (tag & filter) !== 0
         return renderPill(p.key, p.color, t(p.key), { dimmed: !isPillActive(p.key, filter), onClick: () => onFilterChange?.(tag), active })
       })}

@@ -2,6 +2,7 @@
 import gameData from 'data/game_data.json' with { type: 'json' }
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import type { StatKeyValue } from 'lib/optimization/engine/config/keys'
+import type { CharacterId } from 'types/character'
 
 // Semver defined optimizer version
 export const CURRENT_OPTIMIZER_VERSION = 'v4.6.5'
@@ -14,7 +15,7 @@ export const SHOWCASE_DOWNTIME = true
 export const RELIQUARY_DOWNTIME = true
 export const DOWNTIME_VERSION: string = '4.6'
 
-export const CharacterAnnouncementMessages: Record<string, string> = {
+export const CharacterAnnouncementMessages: Partial<Record<CharacterId, string>> = {
   // '1503': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
 }
 
@@ -539,99 +540,6 @@ export const RelicSetFilterOptions = {
 
 export const DEFAULT_STAT_DISPLAY = 'combat'
 export const DEFAULT_MEMO_DISPLAY = 'summoner'
-
-export const CombatBuffs = {
-  ATK: {
-    title: 'ATK',
-    key: 'ATK',
-    percent: false,
-  },
-  ATK_P: {
-    title: 'ATK %',
-    key: 'ATK_P',
-    percent: true,
-  },
-  HP: {
-    title: 'HP',
-    key: 'HP',
-    percent: false,
-  },
-  HP_P: {
-    title: 'HP %',
-    key: 'HP_P',
-    percent: true,
-  },
-  DEF: {
-    title: 'DEF',
-    key: 'DEF',
-    percent: false,
-  },
-  DEF_P: {
-    title: 'DEF %',
-    key: 'DEF_P',
-    percent: true,
-  },
-  CR: {
-    title: 'Crit Rate %',
-    key: 'CR',
-    percent: true,
-  },
-  CD: {
-    title: 'Crit Dmg %',
-    key: 'CD',
-    percent: true,
-  },
-  SPD: {
-    title: 'SPD',
-    key: 'SPD',
-    percent: false,
-  },
-  SPD_P: {
-    title: 'SPD %',
-    key: 'SPD_P',
-    percent: true,
-  },
-  BE: {
-    title: 'BE %',
-    key: 'BE',
-    percent: true,
-  },
-  EHR: {
-    title: 'Effect Hit Rate %',
-    key: 'EHR',
-    percent: true,
-  },
-  BOOST: {
-    title: 'Dmg Boost %',
-    key: 'BOOST',
-    percent: true,
-  },
-  DEF_PEN: {
-    title: 'Def Pen %',
-    key: 'DEF_PEN',
-    percent: true,
-  },
-  RES_PEN: {
-    title: 'Dmg RES PEN %',
-    key: 'RES_PEN',
-    percent: true,
-  },
-  EFFECT_RES_PEN: {
-    title: 'Effect RES PEN %',
-    key: 'EFFECT_RES_PEN',
-    percent: true,
-  },
-  VULNERABILITY: {
-    title: 'Vulnerability %',
-    key: 'VULNERABILITY',
-    percent: true,
-  },
-  BREAK_EFFICIENCY: {
-    title: 'Break Efficiency %',
-    key: 'BREAK_EFFICIENCY',
-    percent: true,
-  },
-} as const
 
 export const ABILITY_LIMIT = 12
 

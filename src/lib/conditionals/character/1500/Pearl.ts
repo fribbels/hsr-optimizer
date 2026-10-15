@@ -525,7 +525,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const healSimulation = (): SimulationMetadata => ({
-  leaderboardEnabled: false,
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.DEF_P, Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.DEF_P],
@@ -622,6 +622,7 @@ const scoring = (): ScoringMetadata => ({
   addedColumns: [SortOption.OHB, SortOption.BASIC_HEAL, SortOption.SKILL_HEAL],
   hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
   healSimulation: healSimulation(),
+  eidolonImage: 3,
 })
 
 const display = {

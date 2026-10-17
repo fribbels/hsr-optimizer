@@ -16,7 +16,6 @@ import {
 import {
   AhaAscension,
   getAhaAscension,
-  getAhaE6Punchline,
 } from 'lib/conditionals/evaluation/ahaAscension'
 import {
   dynamicStatConversionContainer,
@@ -304,7 +303,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
       const certifiedBangerStacks = Math.min(r.certifiedBangerStacks, getAhaAscension(action) == AhaAscension.NONE ? 50 : 75)
 
-      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action))
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const elationCount = countTeamPath(context, PathNames.Elation)
       // Aesthetic Archetype is on the Path of Elation when another Elation ally exists
       const elationArchetype = elationCount >= 2
@@ -382,7 +381,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
           const elationCount = Math.min(4, countTeamPath(context, PathNames.Elation))
           const punchlineStacks = getYaoguangAhaPunchlineValue(action, context)
-            ?? ((self.ownConditionals.punchlineStacks as number) + getAhaE6Punchline(action))
+            ?? (self.ownConditionals.punchlineStacks as number)
           const e4ElationSkillBoost = (e >= 4 && self.ownConditionals.e4ElationSkillBoost) ? 1.00 : 0
 
           action.hits!.push(

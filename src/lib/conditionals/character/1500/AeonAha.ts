@@ -1,6 +1,6 @@
 import i18next from 'i18next'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
-import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
+import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
@@ -11,9 +11,9 @@ import {
   type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
-import { getAhaE6Punchline } from 'lib/conditionals/evaluation/ahaAscension'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
-import { TomorrowTogether } from 'lib/conditionals/lightcone/4star/TomorrowTogether'
+import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
+import { UponTheFirstEchoOfAha } from 'lib/conditionals/lightcone/5star/UponTheFirstEchoOfAha'
 import {
   ConditionalActivation,
   ConditionalType,
@@ -49,11 +49,11 @@ import {
   SPREAD_ORNAMENTS_2P_SUPPORT,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { ScoringType } from 'lib/scoring/scoringTypes'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
-import { type HitDefinition } from 'types/hitConditionalTypes'
 import {
   type ScoringMetadata,
   type SimulationMetadata,
@@ -77,17 +77,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {
-    SOURCE_BASIC,
     SOURCE_SKILL,
     SOURCE_ULT,
     SOURCE_TALENT,
-    SOURCE_TECHNIQUE,
     SOURCE_TRACE,
-    SOURCE_MEMO,
     SOURCE_E1,
-    SOURCE_E2,
-    SOURCE_E4,
-    SOURCE_E6,
     SOURCE_ELATION_SKILL,
   } = Source.character(AeonAha.id)
 
@@ -95,15 +89,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const skillEmanatorElationBuff = skill(e, 0.20, 0.22)
   const skillFuaScaling = skill(e, 0.50, 0.55)
   const ultAoeScaling = ult(e, 2.00, 2.16)
-  const ultBounceCount = 5
   const ultBounceScaling = ult(e, 0.60, 0.648)
   const talentCdBuffValue = talent(e, 0.40, 0.44)
   const elationSkillScaling = elationSkill(e, 0.60, 0.63, 0.66)
 
   // Not modeled: Wishpower economy, Bliss refund, SP recovery, Technique, Aha Instant base SPD,
-  // Ult/A6/E6 action advances (rotation timing); Elation Debt requires enemy Max HP occupation.
+  // Ult/A6/E6 action advances (rotation timing), E6 first-Ult Punchline; Elation Debt requires enemy Max HP occupation.
   // Faces of Elation ascension and its E2 upgrade are consumed by ally Innate Traces through getAhaAscension().
-  // Bonus Ability 1's rider takes the Emanator ally's element; Quantum stands in (only element-filtered buffs differ).
+  // Bonus Ability 1's corresponding element is approximated as Quantum rather than the Emanator ally's element.
 
   const defaults = {
     punchlineStacks: 30,
@@ -114,7 +107,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     traceSpdElation: true,
     e1Merrymake: true,
     e4TeammateCertifiedBangerStacks: 120,
-    e6FirstUltimatePunchline: false,
   }
 
   const teammateDefaults = {
@@ -123,7 +115,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     facesOfElation: true,
     elationSkillTrueDmg: true,
     e1Merrymake: true,
-    e6FirstUltimatePunchline: false,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -146,7 +137,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentCdBuff: {
       id: 'talentCdBuff',
       formItem: 'switch',
-      text: 'Talent CRIT DMG buff',
+      text: 'Talent CD buff',
       content: betaContent,
     },
     facesOfElation: {
@@ -164,7 +155,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     traceSpdElation: {
       id: 'traceSpdElation',
       formItem: 'switch',
-      text: 'SPD to Elation',
+      text: 'SPD to Elation conversion',
       content: betaContent,
     },
     e1Merrymake: {
@@ -183,13 +174,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       max: 600,
       disabled: e < 4,
     },
-    e6FirstUltimatePunchline: {
-      id: 'e6FirstUltimatePunchline',
-      formItem: 'switch',
-      text: 'E6 +100 Punchline on this Aha Instant',
-      content: 'Enable only for the Aha Instant after the first Ultimate. The 100 Punchline is consumed after that action.',
-      disabled: e < 6,
-    },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
@@ -205,10 +189,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'elationSkillTrueDmg',
       formItem: 'switch',
       text: 'Aha Instant True DMG estimate',
-      content: 'Enable for an ally Elation Skill during Aha Instant. Estimates True DMG from this hit; other ally damage in the Instant is not included.',
+      content: betaContent,
     },
     e1Merrymake: content.e1Merrymake,
-    e6FirstUltimatePunchline: content.e6FirstUltimatePunchline,
   }
 
   return {
@@ -232,10 +215,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // E4: teammates' cumulative Certified Banger is added to every Aha Elation hit's Punchline count
       const e4TeammateStacks = (e >= 4) ? r.e4TeammateCertifiedBangerStacks : 0
-      // The first E6 Ultimate grants 100 Punchline for the following Aha Instant.
-      const punchlineStacks = (getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action)))
+      const punchlineStacks = (getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks)
         + e4TeammateStacks
-      // Basic / Skill FUA / Ult use Aha's own Certified Banger count
+
       const certifiedBangerStacks = r.certifiedBangerStacks + e4TeammateStacks
 
       const basicHit = HitDefinitionBuilder.elation()
@@ -246,29 +228,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .toughnessDmg(10)
         .build()
 
-      // Skill: AoE Elation FUA + Bonus Ability 1 20% rider (not an attack instance)
       const skillFuaHit = HitDefinitionBuilder.elation()
-        .damageType(DamageTag.ELATION | DamageTag.FUA)
+        .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Quantum)
-        .elationScaling(skillFuaScaling)
+        .elationScaling(skillFuaScaling + (r.traceFuaElationDmg ? 0.20 : 0))
         .punchlineStacks(certifiedBangerStacks)
         .toughnessDmg(10)
         .build()
 
-      const traceFuaRiderHit = HitDefinitionBuilder.elation()
-        .damageType(DamageTag.ELATION)
-        .damageElement(ElementTag.Quantum)
-        .elationScaling(0.20)
-        .punchlineStacks(certifiedBangerStacks)
-        .toughnessDmg(0)
-        .build()
-
-      const skillHits: HitDefinition[] = [skillFuaHit]
-      if (r.traceFuaElationDmg) {
-        skillHits.push(traceFuaRiderHit)
-      }
-
       // Ult: AoE 200% + 5 bounces x 60% averaged per enemy
+      const ultBounceCount = 5
       const ultHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Quantum)
@@ -282,12 +251,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .damageElement(ElementTag.Quantum)
         .elationScaling(elationSkillScaling)
         .punchlineStacks(punchlineStacks)
+        // Aha's own hit contributes to the Instant tally; the ally buff below excludes this actor.
+        .trueDmgModifier(e >= 4 ? 0.25 : 0.20)
         .toughnessDmg(10)
         .build()
 
       return {
         [AbilityKind.BASIC]: { hits: [basicHit] },
-        [AbilityKind.SKILL]: { hits: skillHits },
+        [AbilityKind.SKILL]: { hits: [skillFuaHit] },
         [AbilityKind.ULT]: { hits: [ultHit] },
         [AbilityKind.ELATION_SKILL]: { hits: [elationSkillHit] },
         [AbilityKind.BREAK]: { hits: [HitDefinitionBuilder.standardBreak(ElementTag.Quantum).build()] },
@@ -306,15 +277,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(
-        StatKey.ELATION,
-        (action.actorId !== context.characterId && m.emanatorElationBuff) ? skillEmanatorElationBuff : 0,
-        x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL),
-      )
-
       x.buff(StatKey.CD, m.talentCdBuff ? talentCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
-      // Approximation: applies True DMG to an ally's Elation Skill hits; the full Aha Instant tally is not tracked.
+      // Approximation: credit each other actor's Elation Skill hit; the full Instant tally is not tracked.
       x.buff(
         StatKey.TRUE_DMG_MODIFIER,
         (action.actorId !== context.characterId && m.elationSkillTrueDmg) ? ((e >= 4) ? 0.25 : 0.20) : 0,
@@ -325,6 +290,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+      const t = action.characterConditionals as Conditionals<typeof teammateContent>
+      x.buff(
+        StatKey.ELATION,
+        t.emanatorElationBuff ? skillEmanatorElationBuff : 0,
+        x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL),
+      )
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {},
@@ -369,7 +340,6 @@ if (
         },
       },
       {
-        // Bonus Ability 3: second tier
         id: 'AeonAhaSpdElation150',
         type: ConditionalType.ABILITY,
         activation: ConditionalActivation.SINGLE,
@@ -445,7 +415,6 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_ELATION_SKILL,
     WHOLE_SKILL,
     WHOLE_ELATION_SKILL,
-    // TODO(HUMAN): verify rotation length vs Wishpower cadence (8 per Ult)
   ],
   errRopeEidolon: 0,
   deprioritizeBuffs: true,
@@ -468,16 +437,16 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sparxie.id,
-      lightCone: Sparxie.defaultLightCone,
+      characterId: SilverWolfLv999.id,
+      lightCone: SilverWolfLv999.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
       characterId: Yaoguang.id,
-      lightCone: Yaoguang.defaultLightCone,
+      lightCone: MushyShroomysAdventures.id,
       characterEidolon: 0,
-      lightConeSuperimposition: 1,
+      lightConeSuperimposition: 5,
     },
     {
       characterId: Pearl.id,
@@ -485,7 +454,6 @@ const simulation = (): SimulationMetadata => ({
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
-    // TODO(HUMAN): swap to canonical meta teammates
   ],
 })
 
@@ -512,14 +480,8 @@ const scoring = (): ScoringMetadata => ({
     [Parts.Feet]: [
       Stats.SPD,
     ],
-    [Parts.PlanarSphere]: [
-      Stats.HP_P,
-      Stats.DEF_P,
-    ],
-    [Parts.LinkRope]: [
-      Stats.DEF_P,
-      Stats.HP_P,
-    ],
+    [Parts.PlanarSphere]: [],
+    [Parts.LinkRope]: [],
   },
   presets: [],
   defaultDamageType: DamageTag.ELATION,
@@ -530,17 +492,21 @@ const scoring = (): ScoringMetadata => ({
 
 const display = {
   imageCenter: {
-    x: 1024,
-    y: 1024,
-    z: 1.00,
+    x: 817,
+    y: 1033,
+    z: 1.28,
   },
-  showcaseColor: '#888888',
-  // TODO(HUMAN): set imageCenter/showcaseColor post-generation
+  showcaseColor: '#b9b3ff',
+  showcaseScoringOrder: [
+    ScoringType.SUBSTAT_SCORE,
+    ScoringType.DPS_SCORE,
+    ScoringType.NONE,
+  ],
 }
 
 export const AeonAha: CharacterConfig = {
   id: '1511',
-  defaultLightCone: TomorrowTogether.id, // TODO(HUMAN): swap to the signature LC once it exists in the LC registry
+  defaultLightCone: UponTheFirstEchoOfAha.id,
   display,
   conditionals,
   get scoring() {

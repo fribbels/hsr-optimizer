@@ -798,6 +798,10 @@ Lightcones:
       initialEhrBuff:
         text: Bonus de TAE initial
         content: Les chances d'appliquer des effets du porteur augmentent de {{EhrBuff}}% pendant 3 tours en début de combat.
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: Vulnérabilité
 Characters:
   Acheron:
     Content:
@@ -1915,6 +1919,16 @@ Characters:
         text: Bonus de VIT
       e6ResPen:
         text: 'E6: PÉN de RÉS'
+  AventurineWaveflair:
+    Content:
+      e1ResPen:
+        text: 'E1: PÉN de RÉS'
+  Pearl:
+    Content:
+      deepLearning:
+        text: Normale améliorée
+      e6Buffs:
+        text: 'E6: PÉN de RÉS'
   Robin:
     Content:
       concertoActive:
@@ -1948,6 +1962,18 @@ Characters:
       e2UltSpdBuff:
         text: 'E2: Bonus d''équipe de VIT'
         content: Lorsque l'état Concerto est actif, la VIT de tous les alliés augmente de 16%.
+  RobinSummeretto:
+    Content:
+      e2ResPen:
+        text: 'E2: PÉN de RÉS'
+      e4MemoSpdBuff:
+        text: 'E4: Bonus de VIT'
+      deviatedChordBranch:
+        options:
+          atk:
+            display: ATQ
+          critDmg:
+            display: DC
   RuanMei:
     Content:
       skillOvertoneBuff:

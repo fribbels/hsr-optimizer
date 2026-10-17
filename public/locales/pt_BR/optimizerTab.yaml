@@ -325,6 +325,18 @@ SetConditionals:
         Display: ATQ
       CdOnly:
         Display: CD
+    DreamlitActor:
+      Off:
+        Display: 'Desligado'
+        Label: 'Desligado'
+      CD:
+        Display: CD
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'Desligado'
+        Label: 'Desligado'
+      CD:
+        Display: CD
   Conditionals:
     DefaultMessage: Habilitado por padrão — efeitos serão aplicados nos cálculos de combate
     Hunter: "Quando habilitado, buff de dano crítico é aplicado aos cálculos de atributos de combate.\n"

@@ -14,7 +14,6 @@ AHA:
   Calculator:
     Title: アッハ速度計算
     TeammateN: チーム編成 {{position}}
-    Constant: 定数
     Header:
       ElationTeammate: "愉悦\n味方"
       CombatSpeed: "戦闘速度"

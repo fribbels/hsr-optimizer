@@ -40,6 +40,11 @@ Lightcones:
         text: crwdns40170:0crwdne40170:0
         content: >-
           crwdns40172:0{{DmgBoost}}crwdnd40172:0{{UltDmgBoost}}crwdne40172:0
+  AStarThatLightsTheNight:
+    Content:
+      sailStacks:
+        text: crwdns47537:0crwdne47537:0
+        content: crwdns47539:0{{sailDmgBoost}}crwdnd47539:0{{sailDmgBoost}}crwdne47539:0
   AThanklessCoronation:
     Content:
       ultAtkBoost:
@@ -136,6 +141,11 @@ Lightcones:
       skillUltDmgBoost:
         text: crwdns44582:0crwdne44582:0
         content: crwdns44584:0{{DmgBoost}}crwdne44584:0
+  FlickeringStars:
+    Content:
+      radiantCrown:
+        text: crwdns47541:0crwdne47541:0
+        content: crwdns47543:0{{DefPen}}crwdnd47543:0{{DmgBoost}}crwdne47543:0
   FlowingNightglow:
     Content:
       cadenzaActive:
@@ -146,6 +156,14 @@ Lightcones:
         text: crwdns40230:0crwdne40230:0
         content: >-
           crwdns43968:0{{RegenBuff}}crwdnd43968:0{{AtkBuff}}crwdnd43968:0{{DmgBuff}}crwdne43968:0
+  IAmAsYouBehold:
+    Content:
+      ultimateEnergyDmgBoost:
+        text: crwdns47545:0crwdne47545:0
+        content: crwdns47547:0{{DmgBoostStep}}crwdnd47547:0{{MaxDmgBoost}}crwdne47547:0
+      kingsEntertainment:
+        text: crwdns47549:0crwdne47549:0
+        content: crwdns47551:0{{CdBoost}}crwdne47551:0
   IfTimeWereAFlower:
     Content:
       presage:
@@ -176,6 +194,8 @@ Lightcones:
       skillAtkBoost:
         text: crwdns45894:0crwdne45894:0
         content: crwdns40256:0{{EhrBuff}}crwdnd40256:0{{AtkBuff}}crwdne40256:0
+      skillEhrBoost:
+        text: crwdns47553:0crwdne47553:0
   InTheNight:
     Content:
       spdScalingBuffs:
@@ -874,6 +894,35 @@ Lightcones:
       initialEhrBuff:
         text: crwdns40618:0crwdne40618:0
         content: crwdns44072:0{{EhrBuff}}crwdne44072:0
+  ALittleGetaway:
+    Content:
+      elationSkillDefPen:
+        text: crwdns47871:0crwdne47871:0
+        content: crwdns47873:0{{DefPen}}crwdne47873:0
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: crwdns47875:0crwdne47875:0
+        content: crwdns47877:0{{Vulnerability}}crwdne47877:0
+  RaceToTheHorizon:
+    Content:
+      fuaCdStacks:
+        text: crwdns47879:0crwdne47879:0
+        content: >-
+          crwdns47881:0{{CdBuff}}crwdne47881:0
+  RiseAndSing:
+    Content:
+      newMelodySpdBuff:
+        text: crwdns47883:0crwdne47883:0
+        content: crwdns47885:0{{SpdBuff}}crwdne47885:0
+  SummerRidesTheSurf:
+    Content:
+      updraftSpdBuff:
+        text: crwdns47887:0crwdne47887:0
+        content: crwdns47889:0{{SpdBuff}}crwdne47889:0
+      uptrendElationBuff:
+        text: crwdns47891:0crwdne47891:0
+        content: crwdns47893:0{{ElationBuff}}crwdne47893:0
 Characters:
   Acheron:
     Content:
@@ -1560,6 +1609,30 @@ Characters:
       e4TeamResBuff:
         text: crwdns40990:0crwdne40990:0
         content: crwdns44330:0crwdne44330:0
+  Gilgamesh:
+    Content:
+      herosHauteurStacks:
+        text: crwdns47555:0crwdne47555:0
+        content: crwdns47557:0crwdne47557:0
+      interestSpdStacks:
+        text: crwdns47559:0crwdne47559:0
+        content: crwdns47561:0crwdne47561:0
+      kingsAcknowledgement:
+        text: crwdns47563:0crwdne47563:0
+        content: >-
+          crwdns47565:0{{KingsAcknowledgementDefPen}}crwdnd47565:0:BR:crwdne47565:0
+      kingsBurden:
+        text: crwdns47567:0crwdne47567:0
+        content: crwdns47569:0{{TalentUltDmgBoost}}crwdne47569:0
+      a6TeamBuff:
+        text: crwdns47571:0crwdne47571:0
+        content: crwdns47573:0crwdne47573:0
+      e6ResPen:
+        text: crwdns47575:0crwdne47575:0
+        content: crwdns47577:0crwdne47577:0
+      goldenRuleStacks:
+        text: crwdns47579:0crwdne47579:0
+        content: crwdns47581:0crwdne47581:0
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1635,6 +1708,29 @@ Characters:
       e6UltExtraHits:
         text: crwdns41078:0crwdne41078:0
         content: crwdns44348:0crwdne44348:0
+  HimekoNova:
+    Content:
+      navigatorsSemaphore:
+        text: crwdns47583:0crwdne47583:0
+        content: crwdns47585:0{{SemaphoreDmgBoost}}crwdne47585:0
+      selfUseAssistSkill:
+        text: crwdns47587:0crwdne47587:0
+        content: crwdns47589:0crwdne47589:0
+      assistSkillBuff:
+        text: crwdns47591:0crwdne47591:0
+        content: crwdns47593:0{{AssistSkillResPen}}crwdnd47593:0{{AssistSkillCdBuff}}crwdne47593:0
+      companionVerdict:
+        text: 'crwdns47595:0crwdne47595:0'
+        content: crwdns47597:0{{VerdictDmgBuff}}crwdnd47597:0{{VerdictUltDmgBuff}}crwdne47597:0
+      companionDecimation:
+        text: 'crwdns47599:0crwdne47599:0'
+        content: crwdns47601:0{{DecimationCdBuff}}crwdnd47601:0{{DecimationSkillCdBuff}}crwdne47601:0
+      e4ResPen:
+        text: crwdns47603:0crwdne47603:0
+        content: crwdns47605:0crwdne47605:0
+      e6:
+        text: crwdns47607:0crwdne47607:0
+        content: crwdns47609:0crwdne47609:0
   Hook:
     Content:
       enhancedSkill:
@@ -2123,6 +2219,127 @@ Characters:
       e4SpdBuff:
         text: crwdns41400:0crwdne41400:0
         content: crwdns41402:0crwdne41402:0
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: crwdns47611:0crwdne47611:0
+        content: crwdns47613:0crwdne47613:0
+      skillBounces:
+        text: crwdns47615:0crwdne47615:0
+        content: crwdns47617:0crwdne47617:0
+      enhancedSkillSpConsumed:
+        text: crwdns47619:0crwdne47619:0
+        content: crwdns47621:0crwdne47621:0
+      talentCdBuff:
+        text: crwdns47623:0crwdne47623:0
+        content: crwdns47625:0{{TalentCdBuff}}crwdne47625:0
+      elegantConduct:
+        text: crwdns47627:0crwdne47627:0
+        content: crwdns47629:0crwdne47629:0
+      ladylikePoise:
+        text: crwdns47631:0crwdne47631:0
+        content: crwdns47633:0crwdne47633:0
+      ultDmgTakenDebuff:
+        text: crwdns47635:0crwdne47635:0
+        content: crwdns47637:0{{UltVulnerability}}crwdne47637:0
+      e2Buffs:
+        text: crwdns47639:0crwdne47639:0
+        content: crwdns47641:0crwdne47641:0
+      e4TalentCdStacks:
+        text: crwdns47643:0crwdne47643:0
+        content: crwdns47645:0crwdne47645:0
+      e6ResPen:
+        text: crwdns47647:0crwdne47647:0
+        content: crwdns47649:0crwdne47649:0
+  AventurineWaveflair:
+    Content:
+      ultSpdBuff:
+        text: crwdns47895:0crwdne47895:0
+        content: crwdns47897:0{{SpdBuff}}crwdne47897:0
+      certifiedBanger:
+        text: crwdns47899:0crwdne47899:0
+        content: >-
+          crwdns47901:0{{SkillElationDmg}}crwdnd47901:0{{UltElationDmg}}crwdne47901:0
+      certifiedBangerStacks:
+        text: crwdns47903:0crwdne47903:0
+        content: crwdns47905:0crwdne47905:0
+      punchlineStacks:
+        text: crwdns47907:0crwdne47907:0
+        content: crwdns47909:0crwdne47909:0
+      enhancedElationSkill:
+        text: crwdns47911:0crwdne47911:0
+        content: >-
+          crwdns47913:0{{AoeElationDmg}}crwdnd47913:0{{BounceCount}}crwdnd47913:0{{BounceElationDmg}}crwdnd47913:0{{ElationDmgPerFervor}}crwdne47913:0
+      fervorStacks:
+        text: crwdns47915:0crwdne47915:0
+        content: crwdns47917:0crwdne47917:0
+      spdElationConversion:
+        text: crwdns47919:0crwdne47919:0
+        content: crwdns47921:0crwdne47921:0
+      traceCdBuff:
+        text: crwdns47923:0crwdne47923:0
+        content: crwdns47925:0crwdne47925:0
+      e1ResPen:
+        text: crwdns47927:0crwdne47927:0
+        content: crwdns47929:0crwdne47929:0
+      e4DefPen:
+        text: crwdns47931:0crwdne47931:0
+        content: crwdns47933:0crwdne47933:0
+      e6Merrymaking:
+        text: crwdns47935:0crwdne47935:0
+        content: crwdns47937:0crwdne47937:0
+  Pearl:
+    Content:
+      deepLearning:
+        text: crwdns47939:0crwdne47939:0
+        content: >-
+          crwdns47941:0{{BasicDmg}}crwdnd47941:0{{BasicHealScaling}}crwdnd47941:0{{BasicHealFlat}}crwdnd47941:0:BR:crwdnd47941:0:E6:crwdne47941:0
+      certifiedBanger:
+        text: crwdns47943:0crwdne47943:0
+        content: crwdns47945:0{{ElationDmg}}crwdne47945:0
+      certifiedBangerStacks:
+        text: crwdns47947:0crwdne47947:0
+        content: crwdns47949:0crwdne47949:0
+      punchlineStacks:
+        text: crwdns47951:0crwdne47951:0
+        content: crwdns47953:0crwdne47953:0
+      lowestHpTargetHeal:
+        text: crwdns47955:0crwdne47955:0
+        content: crwdns47957:0crwdne47957:0
+      traceDefToElation:
+        text: crwdns47959:0crwdne47959:0
+        content: crwdns47961:0crwdne47961:0
+      traceElationToHealing:
+        text: crwdns47963:0crwdne47963:0
+        content: crwdns47965:0crwdne47965:0
+      traceEffectRes:
+        text: crwdns47967:0crwdne47967:0
+        content: crwdns47969:0crwdne47969:0
+      talentLowHpDmgReduction:
+        text: crwdns47971:0crwdne47971:0
+        content: crwdns47973:0{{DmgReduction}}crwdne47973:0
+      e1ElationShare:
+        text: crwdns47975:0crwdne47975:0
+        content: >-
+          crwdns47977:0crwdne47977:0
+      e2Merrymake:
+        text: crwdns47979:0crwdne47979:0
+        content: crwdns47981:0crwdne47981:0
+      e4ElationSkillBoost:
+        text: crwdns47983:0crwdne47983:0
+        content: crwdns47985:0crwdne47985:0
+      e6Buffs:
+        text: crwdns47987:0crwdne47987:0
+        content: >-
+          crwdns47989:0:BR:crwdnd47989:0:E6:crwdne47989:0
+      aestheticArchetype:
+        text: crwdns47991:0crwdne47991:0
+        content: >-
+          crwdns47993:0{{ElationDmg}}crwdne47993:0
+      elationSkillProc:
+        text: crwdns47995:0crwdne47995:0
+        content: >-
+          crwdns47997:0{{Elation1}}crwdnd47997:0{{Elation2}}crwdnd47997:0{{Elation3}}crwdnd47997:0{{Elation4}}crwdne47997:0
   Robin:
     Content:
       concertoActive:
@@ -2156,6 +2373,49 @@ Characters:
       e2UltSpdBuff:
         text: crwdns41436:0crwdne41436:0
         content: crwdns41438:0crwdne41438:0
+  RobinSummeretto:
+    Content:
+      feverState:
+        text: crwdns47999:0crwdne47999:0
+        content: >-
+          crwdns48001:0{{DamageBoost}}crwdnd48001:0{{DamageBoostPerVibe}}crwdnd48001:0{{DefPen}}crwdne48001:0
+      vibes:
+        text: crwdns48003:0crwdne48003:0
+        content: >-
+          crwdns48005:0{{MaxVibes}}crwdne48005:0
+      songbirdCount:
+        text: crwdns48007:0crwdne48007:0
+        content: >-
+          crwdns48009:0{{Vulnerability1}}crwdnd48009:0{{Vulnerability2}}crwdnd48009:0{{Vulnerability3}}crwdne48009:0
+      deviatedChordCdBuff:
+        text: 'crwdns48011:0crwdne48011:0'
+        content: crwdns48013:0crwdne48013:0
+      e2ResPen:
+        text: crwdns48015:0crwdne48015:0
+        content: crwdns48017:0crwdne48017:0
+      e4MemoSpdBuff:
+        text: crwdns48019:0crwdne48019:0
+        content: crwdns48021:0crwdne48021:0
+      e6MemoSkillBuff:
+        text: crwdns48023:0crwdne48023:0
+        content: crwdns48025:0crwdne48025:0
+      teammateHPValue:
+        text: crwdns48027:0crwdne48027:0
+        content: crwdns48029:0crwdne48029:0
+      deviatedChordBranch:
+        text: crwdns48031:0crwdne48031:0
+        content: >-
+          crwdns48033:0:BR:crwdne48033:0
+        options:
+          weightBased:
+            display: crwdns48035:0crwdne48035:0
+            label: crwdns48037:0crwdne48037:0
+          atk:
+            display: crwdns48039:0crwdne48039:0
+            label: crwdns48041:0crwdne48041:0
+          critDmg:
+            display: crwdns48043:0crwdne48043:0
+            label: crwdns48045:0crwdne48045:0
   RuanMei:
     Content:
       skillOvertoneBuff:
@@ -2217,6 +2477,8 @@ Characters:
       e6ResPen:
         text: crwdns45674:0crwdne45674:0
         content: crwdns45718:0crwdne45718:0
+      gilgameshFuaSaberUltBoost:
+        text: crwdns48047:0crwdne48047:0
   Sampo:
     Content:
       targetDotTakenDebuff:

@@ -435,6 +435,20 @@ SetConditionals:
       Both:
         Display: 攻击力 + 爆击伤害
         Label: 攻击力 + 爆击伤害（+24% 攻击力 | +12% 爆伤）
+    DreamlitActor:
+      Off:
+        Display: '关闭'
+        Label: '关闭'
+      Elation:
+        Display: 欢愉度
+      CD:
+        Display: 暴击伤害
+    DivineQueryingMasterSmith:
+      Off:
+        Display: '关闭'
+        Label: '关闭'
+      CD:
+        Display: 暴击伤害
   Conditionals:
     DefaultMessage: 默认启用 - 效果将应用于战斗计算。
     Hunter: 启用后，暴击伤害增益将应用于战斗属性计算。
@@ -634,6 +648,8 @@ TeammateCard:
   OrnamentsPlaceholder: 位面饰品
   TeammateSyncSuccessMessage: 已同步的队友信息
   TeammateSets:
+    DivineQueryingMasterSmith:
+      Text: 15%增伤
     Messenger:
       Desc: '四件套: $t(gameData:RelicSets.114.Name) (+12%速度)'
       Text: 12% 速度

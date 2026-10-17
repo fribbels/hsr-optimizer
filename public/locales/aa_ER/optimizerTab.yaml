@@ -394,6 +394,26 @@ SetConditionals:
       Both:
         Display: crwdns46510:0crwdne46510:0
         Label: crwdns46512:0crwdne46512:0
+    DreamlitActor:
+      Off:
+        Display: 'crwdns48055:0crwdne48055:0'
+        Label: 'crwdns48057:0crwdne48057:0'
+      Elation:
+        Display: crwdns48059:0crwdne48059:0
+        Label: crwdns48061:0crwdne48061:0
+      CD:
+        Display: crwdns48063:0crwdne48063:0
+        Label: crwdns48065:0crwdne48065:0
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'crwdns48067:0crwdne48067:0'
+        Label: 'crwdns48069:0crwdne48069:0'
+      CD:
+        Display: crwdns48071:0crwdne48071:0
+        Label: 'crwdns48073:0crwdne48073:0'
+      CDAndDmg:
+        Display: crwdns48075:0crwdne48075:0
+        Label: 'crwdns48077:0crwdne48077:0'
   Conditionals:
     DefaultMessage: crwdns43054:0crwdne43054:0
     Hunter: crwdns43056:0crwdne43056:0
@@ -591,8 +611,17 @@ TeammateCard:
   SuperimpositionPlaceholder: crwdns43304:0crwdne43304:0
   RelicsPlaceholder: crwdns43306:0crwdne43306:0
   OrnamentsPlaceholder: crwdns43308:0crwdne43308:0
+  SyncFromRoster: crwdns48079:0crwdne48079:0
+  SelectCharacter: crwdns48081:0crwdne48081:0
+  SelectLightcone: crwdns48083:0crwdne48083:0
   TeammateSyncSuccessMessage: crwdns43310:0crwdne43310:0
   TeammateSets:
+    DreamlitActor:
+      Desc: 'crwdns48085:0$t(gameData:RelicSets.133.Name)crwdne48085:0'
+      Text: crwdns48087:0crwdne48087:0
+    DivineQueryingMasterSmith:
+      Desc: 'crwdns48089:0$t(gameData:RelicSets.132.Name)crwdne48089:0'
+      Text: crwdns48091:0crwdne48091:0
     Messenger:
       Desc: 'crwdns43312:0$t(gameData:RelicSets.114.Name)crwdne43312:0'
       Text: crwdns43316:0crwdne43316:0

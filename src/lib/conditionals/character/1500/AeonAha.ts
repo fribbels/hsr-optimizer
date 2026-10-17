@@ -411,7 +411,7 @@ const simulation = (): SimulationMetadata => ({
     START_ULT,
     END_SKILL,
     WHOLE_ELATION_SKILL,
-    WHOLE_BASIC,
+    WHOLE_SKILL,
     WHOLE_ELATION_SKILL,
     WHOLE_SKILL,
     WHOLE_ELATION_SKILL,

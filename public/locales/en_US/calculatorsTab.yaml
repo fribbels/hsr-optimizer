@@ -14,7 +14,7 @@ AHA:
   Calculator:
     Title: Aha Speed Calculator
     TeammateN: Teammate {{position}}
-    Constant: Constant
+    Constant: Aha Global
     Header:
       ElationTeammate: "Elation\nTeammate"
       CombatSpeed: "Combat\nSpeed"

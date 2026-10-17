@@ -93,6 +93,7 @@ export const SaveState = {
         teammate2: ahaSpeedTunerSession.teammate2,
         teammate3: ahaSpeedTunerSession.teammate3,
         desiredAha: ahaSpeedTunerSession.desiredAha,
+        ahaBase: ahaSpeedTunerSession.ahaBase,
       },
       scannerSettings: {
         ingest: scannerState.ingest,

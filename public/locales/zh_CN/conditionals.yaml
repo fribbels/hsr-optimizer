@@ -894,6 +894,10 @@ Lightcones:
       initialEhrBuff:
         text: 初始效果命中增益
         content: 战斗开始时，使装备者的效果命中提高{{EhrBuff}}%，持续3回合。
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: 易伤
 Characters:
   Acheron:
     Content:
@@ -2223,6 +2227,29 @@ Characters:
       e6ResPen:
         text: 6魂属性抗性穿透
         content: 远坂凛的全属性抗性穿透提高20%。施放终结技时，获得24点【宝石能量】和1个额外回合。
+  AventurineWaveflair:
+    Content:
+      certifiedBanger:
+        text: 好活当赏
+      certifiedBangerStacks:
+        text: 好活当赏层数
+      punchlineStacks:
+        text: 笑点层数
+        content: 选择队伍拥有的笑点数量。该数值用于计算欢愉技的伤害。
+      spdElationConversion:
+        text: 速度转欢愉度
+      e1ResPen:
+        text: 1魂抗性穿透
+      e6Merrymaking:
+        text: 6魂增笑
+  Pearl:
+    Content:
+      deepLearning:
+        text: 强化普攻
+      punchlineStacks:
+        text: 笑点层数
+      e6Buffs:
+        text: 6魂属性抗性穿透
   Robin:
     Content:
       concertoActive:
@@ -2256,6 +2283,18 @@ Characters:
       e2UltSpdBuff:
         text: 2魂终结技速度增益
         content: 处于【协奏】状态时，我方全体速度提高16%。
+  RobinSummeretto:
+    Content:
+      e2ResPen:
+        text: 2魂属性抗性穿透
+      e4MemoSpdBuff:
+        text: 4魂速度增益
+      deviatedChordBranch:
+        options:
+          atk:
+            display: 攻击力
+          critDmg:
+            display: 暴击伤害
   RuanMei:
     Content:
       skillOvertoneBuff:

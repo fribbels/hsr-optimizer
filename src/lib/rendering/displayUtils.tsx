@@ -1,4 +1,4 @@
-import { type TFunction } from 'i18next'
+import i18next, { type TFunction } from 'i18next'
 import { Assets } from 'lib/rendering/assets'
 import { currentLocale } from 'lib/utils/i18nUtils'
 import { type ReactNode } from 'react'
@@ -56,7 +56,8 @@ export function generateCharacterList(
     .sort(sortAlphabeticEmojiLast('title'))
 
   if (withNobodyOption) {
-    options.unshift({ value: 'None', label: 'None', title: 'None' })
+    const nobodyLabel = i18next.t('common:None')
+    options.unshift({ value: 'None', label: nobodyLabel, title: nobodyLabel })
   }
 
   return options

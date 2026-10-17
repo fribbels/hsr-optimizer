@@ -116,7 +116,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
                 updateTeammate({ [`teammate${index}` as TeammateProperty]: { characterId: teammateCharacterId } })
                 Message.success(t('TeammateSyncSuccessMessage'))
               }}
-              aria-label='Sync from roster'
+              aria-label={t('SyncFromRoster')}
             >
               <IconRefresh size={16} />
             </ActionIcon>
@@ -155,7 +155,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
           <button
             type='button'
-            aria-label='Select teammate character'
+            aria-label={t('SelectCharacter')}
             className={`${classes.avatar} ${classes.characterAvatar}`}
             onClick={() => setTeammateSelectModalOpen(true)}
             style={{ backgroundImage: `url(${Assets.getCharacterAvatarById(teammateCharacterId)})` }}
@@ -238,7 +238,7 @@ export const TeammateCard = memo(function TeammateCard({ index, dbMetadata }: {
 
           <button
             type='button'
-            aria-label='Select teammate light cone'
+            aria-label={t('SelectLightcone')}
             className={`${classes.avatar} ${classes.lightConeAvatar}`}
             style={{ backgroundImage: `url(${Assets.getLightConeIconById(teammateLightConeId)})` }}
             onClick={() => setTeammateLightConeSelectOpen(true)}

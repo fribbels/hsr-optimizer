@@ -23,10 +23,12 @@ import {
   useRef,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 globalThis.openChangelogModal = () => setOpen(OpenCloseIDs.CHANGELOG_MODAL)
 
 export function ChangelogModal() {
+  const { t } = useTranslation('hometab')
   const { isOpen, close } = useOpenClose(OpenCloseIDs.CHANGELOG_MODAL)
   const [atBottom, setAtBottom] = useState(false)
   const [canDismiss, setCanDismiss] = useState(false)
@@ -117,7 +119,7 @@ export function ChangelogModal() {
         </ul>
         <div className={`${classes.scrollIndicator} ${atBottom ? classes.scrollIndicatorHidden : ''}`}>
           <div className={classes.scrollIndicatorContent}>
-            <span>Scroll to explore</span>
+            <span>{t('ScrollToExplore')}</span>
             <IconChevronDown size={20} />
           </div>
         </div>

@@ -13,6 +13,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 import iconClasses from 'style/icons.module.css'
 
 const inputEllipsisStyles = { input: ellipsisTextStyle }
@@ -54,6 +55,7 @@ export function SearchableCombobox(props: {
   } = props
 
   const [search, setSearch] = useState('')
+  const { t } = useTranslation('common')
 
   const combobox = useCombobox({
     onDropdownOpen: () => searchable && combobox.focusSearchInput(),
@@ -136,7 +138,7 @@ export function SearchableCombobox(props: {
                 </Group>
               </Combobox.Option>
             ))}
-          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t('NoResults')}</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

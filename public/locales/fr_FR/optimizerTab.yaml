@@ -326,6 +326,18 @@ SetConditionals:
         Display: ATQ
       CdOnly:
         Display: DC
+    DreamlitActor:
+      Off:
+        Display: 'Inactif'
+        Label: 'Inactif'
+      CD:
+        Display: DC
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'Inactif'
+        Label: 'Inactif'
+      CD:
+        Display: DC
   Conditionals:
     DefaultMessage: Activé par défaut - les effets s'appliqueront aux calculs de combat.
     Hunter: Lorsque cette option est sélectionnée, le buff de DGT CRIT sera appliqué au calcul des stats de combat.

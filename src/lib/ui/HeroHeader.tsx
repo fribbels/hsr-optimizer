@@ -51,6 +51,7 @@ export function HeroHeader() {
 function SearchBar() {
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
+  const { t: tHome } = useTranslation('hometab')
   const inputRef = useRef<HTMLInputElement>(null)
 
   function handleSearchSubmit() {
@@ -85,7 +86,7 @@ function SearchBar() {
         <Button
           size='md'
           onClick={handleSearchSubmit}
-          aria-label='Search'
+          aria-label={tHome('Search')}
           style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
         >
           <IconSearch size={20} />

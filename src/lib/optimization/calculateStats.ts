@@ -42,39 +42,23 @@ export function calculateBasicSetEffects(c: BasicStatsArray, context: OptimizerC
   }
 }
 
-// TODO: Cleanup
 export function calculateElementalStats(c: BasicStatsArray, context: OptimizerContext) {
   const a = c.a
   const base = context.characterStatsBreakdown.base
   const lc = context.characterStatsBreakdown.lightCone
   const trace = context.characterStatsBreakdown.traces
 
-  // NOTE: c.ELEMENTAL_DMG represents the character's type, while x.ELEMENTAL_DMG represents ALL types.
-  // This is mostly because there isn't a need to split out damage types while we're calculating display stats.
+  // Merge all seven elements, not only the character's own: a hit reads the boost of its own damage element
+  // (e.g. Hysilens' Burn / Shock / Wind Shear DoTs), and some light cones grant every element at once.
+  // The GPU basic stats merge in computeShader.wgsl covers the same seven fields.
   a[BasicKey.ELEMENTAL_DMG] = 0
-  switch (context.elementalDamageType) {
-    case Stats.Physical_DMG:
-      a[BasicKey.PHYSICAL_DMG_BOOST] = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0)
-      break
-    case Stats.Fire_DMG:
-      a[BasicKey.FIRE_DMG_BOOST] = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0)
-      break
-    case Stats.Ice_DMG:
-      a[BasicKey.ICE_DMG_BOOST] = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0)
-      break
-    case Stats.Lightning_DMG:
-      a[BasicKey.LIGHTNING_DMG_BOOST] = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0)
-      break
-    case Stats.Wind_DMG:
-      a[BasicKey.WIND_DMG_BOOST] = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0)
-      break
-    case Stats.Quantum_DMG:
-      a[BasicKey.QUANTUM_DMG_BOOST] = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0)
-      break
-    case Stats.Imaginary_DMG:
-      a[BasicKey.IMAGINARY_DMG_BOOST] = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0)
-      break
-  }
+  a[BasicKey.PHYSICAL_DMG_BOOST] = sumPercentStat(Stats.Physical_DMG, base, lc, trace, c, 0)
+  a[BasicKey.FIRE_DMG_BOOST] = sumPercentStat(Stats.Fire_DMG, base, lc, trace, c, 0)
+  a[BasicKey.ICE_DMG_BOOST] = sumPercentStat(Stats.Ice_DMG, base, lc, trace, c, 0)
+  a[BasicKey.LIGHTNING_DMG_BOOST] = sumPercentStat(Stats.Lightning_DMG, base, lc, trace, c, 0)
+  a[BasicKey.WIND_DMG_BOOST] = sumPercentStat(Stats.Wind_DMG, base, lc, trace, c, 0)
+  a[BasicKey.QUANTUM_DMG_BOOST] = sumPercentStat(Stats.Quantum_DMG, base, lc, trace, c, 0)
+  a[BasicKey.IMAGINARY_DMG_BOOST] = sumPercentStat(Stats.Imaginary_DMG, base, lc, trace, c, 0)
 
   // Elation DMG is calculated independently of character element - it comes from traces/LC only (not relics)
   a[BasicKey.ELATION] = sumPercentStat(Stats.Elation, base, lc, trace, c, 0)

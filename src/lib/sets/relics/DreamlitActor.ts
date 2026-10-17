@@ -24,6 +24,7 @@ import {
 } from 'types/optimizer'
 import {
   type SelectOptionContent,
+  type SetConditionalTFunction,
   type SetConditionals,
   type SetConfig,
   type SetDisplay,
@@ -77,8 +78,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.DreamlitActor,
-    label: () => '16% Elation + 12% CD',
-    desc: () => '4 Piece: Dreamlit Actor (+16% Elation | +12% CD)',
+    label: (t) => t('TeammateSets.DreamlitActor.Text'),
+    desc: (t) => t('TeammateSets.DreamlitActor.Desc'),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.ELATION, 0.16, x.targets(TargetTag.SingleTarget).deferrable().source(Source.DreamlitActor))
@@ -87,11 +88,11 @@ const conditionals: SetConditionals = {
   }],
 }
 
-function selectionOptions(): SelectOptionContent[] {
+function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
-    { display: 'Off', value: 0, label: 'Off' },
-    { display: 'Elation', value: 1, label: 'Elation +16%' },
-    { display: 'CD', value: 2, label: 'Elation +16% | CD +12%' },
+    { display: t('DreamlitActor.Off.Display'), value: 0, label: t('DreamlitActor.Off.Label') },
+    { display: t('DreamlitActor.Elation.Display'), value: 1, label: t('DreamlitActor.Elation.Label') },
+    { display: t('DreamlitActor.CD.Display'), value: 2, label: t('DreamlitActor.CD.Label') },
   ]
 }
 

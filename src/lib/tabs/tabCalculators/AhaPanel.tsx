@@ -23,10 +23,12 @@ export function AhaPanel() {
     },
   })
 
+  const ahaBase = useAhaTuningStore((s) => s.ahaBase)
+
   const { teammate0, teammate1, teammate2, teammate3, desiredAha } = form.getValues()
   const speeds = [teammate0, teammate1, teammate2, teammate3].filter((x): x is number => x !== '')
-  const ahaSpeed = calculateAhaSpeed(speeds)
-  const teammateSpeed = speeds.length >= 4 ? null : calculateNextTeammateSpeed(desiredAha, speeds)
+  const ahaSpeed = calculateAhaSpeed(speeds, ahaBase)
+  const teammateSpeed = speeds.length >= 4 ? null : calculateNextTeammateSpeed(desiredAha, speeds, ahaBase)
   const spdOptions = useMemo(() => buildSpdPresetOptions(tPresets, { skipNoMinimum: true }), [tPresets])
   const desiredValue = desiredAha === '' ? undefined : desiredAha
 
@@ -39,6 +41,7 @@ export function AhaPanel() {
       <AhaPanelContent
         form={form}
         ahaSpeed={ahaSpeed}
+        ahaBase={ahaBase}
         speeds={speeds}
         teammateSpeed={teammateSpeed}
         desiredValue={desiredValue}

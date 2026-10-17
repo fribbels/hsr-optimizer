@@ -47,6 +47,7 @@ Messages:
   ImageUploadFailed: Image upload failed
   InvalidFile: File is not a valid image file
 CharacterPreview:
+  IncompleteSet: Incomplete set
   ScoringSidebar:
     Stats:
       Header: Stats

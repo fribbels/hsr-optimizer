@@ -36,6 +36,7 @@ export function WarpCalculatorTab() {
 
 function WarpPlanner() {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
+  const { t: tCommon } = useTranslation('common')
   const storedWarpRequest = useWarpCalculatorStore((s) => s.request)
 
   const form = useForm<WarpRequest>({
@@ -88,7 +89,7 @@ function WarpPlanner() {
               label: (
                 <Flex align="center" justify="center" gap={6}>
                   {t('MultiTarget')/* Multi Target */}
-                  {isMultiTargetNew && <Badge size="xs" color="blue" variant="filled">New</Badge>}
+                  {isMultiTargetNew && <Badge size="xs" color="blue" variant="filled">{tCommon('New')}</Badge>}
                 </Flex>
               ),
             },

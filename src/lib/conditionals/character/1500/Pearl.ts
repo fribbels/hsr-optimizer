@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
@@ -14,6 +13,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -25,7 +28,6 @@ import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDec
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   PathNames,
   Sets,
@@ -58,6 +60,8 @@ import {
   SPREAD_RELICS_4P_HEAL,
 } from 'lib/scoring/scoringConstants'
 import { ScoringType } from 'lib/scoring/scoringTypes'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { floorSafe } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
@@ -86,7 +90,7 @@ export const PearlAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pearl.Content')
 
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {
@@ -116,10 +120,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultDeepLearningElationScaling = ult(e, 0.60, 0.66)
 
   const talentDmgReduction = talent(e, 0.30, 0.33)
-
-  // Not simulated: Technique setup; Energy, action advance, extra turns, and Charge lifecycles.
-  // Repellency depletion, cleanse, and E1 fatal-hit recovery require incoming-damage combat state.
-  // E6 extra damage requires the Archetype's combat stats, unavailable in Pearl's own calculation.
 
   // Elation Skill: allies' next attack deals extra Elation DMG, tier = Elation characters in team (Pearl included)
   const elationSkillProcByElationCount: Record<number, number> = {
@@ -169,87 +169,91 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     deepLearning: {
       id: 'deepLearning',
       formItem: 'switch',
-      text: 'Enhanced Basic',
-      content: betaContent,
+      text: t('deepLearning.text'),
+      content: t('deepLearning.content', {
+        BasicDmg: precisionRound(100 * enhancedBasicScaling),
+        BasicHealScaling: precisionRound(100 * enhancedBasicHealScaling),
+        BasicHealFlat: precisionRound(enhancedBasicHealFlat),
+      }),
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: 'Basic ATK Elation DMG',
-      content: betaContent,
+      text: t('certifiedBanger.text'),
+      content: t('certifiedBanger.content', { ElationDmg: precisionRound(100 * enhancedBasicElationScaling) }),
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: 'Certified Banger points',
-      content: betaContent,
+      text: t('certifiedBangerStacks.text'),
+      content: t('certifiedBangerStacks.content'),
       min: 0,
-      max: 50,
+      max: 75,
     },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: 'Punchline stacks',
-      content: betaContent,
+      text: t('punchlineStacks.text'),
+      content: t('punchlineStacks.content'),
       min: 0,
       max: 120,
     },
     lowestHpTargetHeal: {
       id: 'lowestHpTargetHeal',
       formItem: 'switch',
-      text: 'Lowest HP extra heal',
-      content: betaContent,
+      text: t('lowestHpTargetHeal.text'),
+      content: t('lowestHpTargetHeal.content'),
     },
     traceDefToElation: {
       id: 'traceDefToElation',
       formItem: 'switch',
-      text: 'DEF to Elation conversion',
-      content: betaContent,
+      text: t('traceDefToElation.text'),
+      content: t('traceDefToElation.content'),
     },
     traceElationToHealing: {
       id: 'traceElationToHealing',
       formItem: 'switch',
-      text: 'Elation to OHB conversion',
-      content: betaContent,
+      text: t('traceElationToHealing.text'),
+      content: t('traceElationToHealing.content'),
     },
     traceEffectRes: {
       id: 'traceEffectRes',
       formItem: 'switch',
-      text: 'Certified Banger Effect RES',
-      content: betaContent,
+      text: t('traceEffectRes.text'),
+      content: t('traceEffectRes.content'),
     },
     talentLowHpDmgReduction: {
       id: 'talentLowHpDmgReduction',
       formItem: 'switch',
-      text: 'HP ≤ 50% DMG reduction',
-      content: betaContent,
+      text: t('talentLowHpDmgReduction.text'),
+      content: t('talentLowHpDmgReduction.content', { DmgReduction: precisionRound(100 * talentDmgReduction) }),
     },
     e1ElationShare: {
       id: 'e1ElationShare',
       formItem: 'switch',
-      text: 'E1 Elation buff',
-      content: betaContent,
+      text: t('e1ElationShare.text'),
+      content: t('e1ElationShare.content'),
       disabled: e < 1,
     },
     e2Merrymake: {
       id: 'e2Merrymake',
       formItem: 'switch',
-      text: 'E2 Merrymake',
-      content: betaContent,
+      text: t('e2Merrymake.text'),
+      content: t('e2Merrymake.content'),
       disabled: e < 2,
     },
     e4ElationSkillBoost: {
       id: 'e4ElationSkillBoost',
       formItem: 'switch',
-      text: 'E4 Elation Skill Additional DMG',
-      content: betaContent,
+      text: t('e4ElationSkillBoost.text'),
+      content: t('e4ElationSkillBoost.content'),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: 'E6 RES PEN',
-      content: betaContent,
+      text: t('e6Buffs.text'),
+      content: t('e6Buffs.content'),
       disabled: e < 6,
     },
   }
@@ -259,14 +263,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     aestheticArchetype: {
       id: 'aestheticArchetype',
       formItem: 'switch',
-      text: 'Aesthetic Archetype Elation DMG',
-      content: betaContent,
+      text: t('aestheticArchetype.text'),
+      content: t('aestheticArchetype.content', { ElationDmg: precisionRound(100 * ultDeepLearningElationScaling) }),
     },
     elationSkillProc: {
       id: 'elationSkillProc',
       formItem: 'switch',
-      text: 'Elation Skill Elation DMG',
-      content: betaContent,
+      text: t('elationSkillProc.text'),
+      content: t('elationSkillProc.content', {
+        Elation1: precisionRound(100 * elationSkillProcByElationCount[1]),
+        Elation2: precisionRound(100 * elationSkillProcByElationCount[2]),
+        Elation3: precisionRound(100 * elationSkillProcByElationCount[3]),
+        Elation4: precisionRound(100 * elationSkillProcByElationCount[4]),
+      }),
     },
     certifiedBangerStacks: content.certifiedBangerStacks,
     punchlineStacks: content.punchlineStacks,
@@ -296,6 +305,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => [...PearlAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+      const certifiedBangerStacks = Math.min(r.certifiedBangerStacks, getAhaAscension(action) == AhaAscension.None ? 50 : 75)
 
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const elationCount = countTeamPath(context, PathNames.Elation)
@@ -318,7 +328,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .damageType(DamageTag.ELATION)
             .damageElement(ElementTag.Ice)
             .elationScaling(enhancedBasicElationScaling)
-            .punchlineStacks(r.certifiedBangerStacks)
+            .punchlineStacks(certifiedBangerStacks)
             .toughnessDmg(0)
             .build(),
         )

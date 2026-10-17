@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { Aglaea } from 'lib/conditionals/character/1400/Aglaea'
 import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
@@ -18,7 +17,6 @@ import { ThisLoveForever } from 'lib/conditionals/lightcone/5star/ThisLoveForeve
 import { TimeWovenIntoGold } from 'lib/conditionals/lightcone/5star/TimeWovenIntoGold'
 import { ToEvernightsStars } from 'lib/conditionals/lightcone/5star/ToEvernightsStars'
 import {
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -50,6 +48,7 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { ScoringType } from 'lib/scoring/scoringTypes'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -87,7 +86,7 @@ enum DeviatedChordBranch {
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const tBuff = wrappedFixedT(withContent).get(null, 'conditionals', 'Common.BuffPriority')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RobinSummeretto.Content')
   const { basic, skill, ult, talent, memoSkill, memoTalent } = AbilityEidolon.SKILL_TALENT_MEMO_TALENT_3_ULT_BASIC_MEMO_SKILL_5
   const {
     SOURCE_BASIC,
@@ -164,50 +163,64 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     feverState: {
       id: 'feverState',
       formItem: 'switch',
-      text: 'Fever state',
-      content: betaContent,
+      text: t('feverState.text'),
+      content: t('feverState.content', {
+        DamageBoost: precisionRound(100 * memoTalentDmgBoost),
+        DamageBoostPerVibe: precisionRound(100 * memoTalentDmgBoostPerVibe),
+        DefPen: precisionRound(100 * talentZoneDefPen),
+      }),
     },
     vibes: {
       id: 'vibes',
       formItem: 'slider',
-      text: 'Vibes',
-      content: betaContent,
+      text: t('vibes.text'),
+      content: t('vibes.content', {
+        MaxVibes: maxVibes,
+        DamageBoostPerVibe: precisionRound(100 * memoTalentDmgBoostPerVibe),
+        DefPenPerVibe: 0.5,
+        AtkBuffPerVibe: precisionRound(100 * traceAtkBuffPerVibe),
+        CritDmgPerVibe: precisionRound(100 * traceCdBuffPerVibe),
+      }),
       min: 0,
       max: maxVibes,
     },
     songbirdCount: {
       id: 'songbirdCount',
       formItem: 'slider',
-      text: 'Summer Songbirds',
-      content: betaContent,
+      text: t('songbirdCount.text'),
+      content: t('songbirdCount.content', {
+        Vulnerability1: precisionRound(100 * memoTalentVulnerabilityByCount[1]),
+        Vulnerability2: precisionRound(100 * memoTalentVulnerabilityByCount[2]),
+        Vulnerability3: precisionRound(100 * memoTalentVulnerabilityByCount[3]),
+      }),
       min: 0,
       max: 3,
     },
     deviatedChordCdBuff: {
       id: 'deviatedChordCdBuff',
       formItem: 'switch',
-      text: 'Deviated Chord: CRIT DMG',
-      content: betaContent,
+      text: t('deviatedChordCdBuff.text'),
+      content: t('deviatedChordCdBuff.content'),
     },
     e2ResPen: {
       id: 'e2ResPen',
       formItem: 'switch',
-      text: 'E2 RES PEN',
-      content: betaContent,
+      text: t('e2ResPen.text'),
+      content: t('e2ResPen.content'),
       disabled: e < 2,
     },
     e4MemoSpdBuff: {
       id: 'e4MemoSpdBuff',
       formItem: 'switch',
-      text: 'E4 SPD buff',
-      content: betaContent,
+      text: t('e4MemoSpdBuff.text'),
+      content: t('e4MemoSpdBuff.content'),
       disabled: e < 4,
     },
     e6MemoSkillBuff: {
       id: 'e6MemoSkillBuff',
       formItem: 'switch',
-      text: 'E6 Memosprite Skill DMG',
-      content: betaContent,
+      text: t('e6MemoSkillBuff.text'),
+      content: t('e6MemoSkillBuff.content'),
       disabled: e < 6,
     },
   }
@@ -219,20 +232,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
-      text: `Robin's combat HP`,
-      content: betaContent,
+      text: t('teammateHPValue.text'),
+      content: t('teammateHPValue.content'),
       min: 0,
       max: 20000,
     },
     deviatedChordBranch: {
       id: 'deviatedChordBranch',
       formItem: 'select',
-      text: 'Deviated Chord buff',
-      content: betaContent,
+      text: t('deviatedChordBranch.text'),
+      content: t('deviatedChordBranch.content'),
       options: [
-        { display: 'Weight based', value: DeviatedChordBranch.WEIGHT_BASED, label: 'Weight based' },
-        { display: 'ATK', value: DeviatedChordBranch.ATK, label: 'ATK buff' },
-        { display: 'CD', value: DeviatedChordBranch.CD, label: 'CRIT DMG buff' },
+        { display: t('deviatedChordBranch.options.weightBased.display'), value: DeviatedChordBranch.WEIGHT_BASED, label: t('deviatedChordBranch.options.weightBased.label') },
+        { display: t('deviatedChordBranch.options.atk.display'), value: DeviatedChordBranch.ATK, label: t('deviatedChordBranch.options.atk.label') },
+        { display: t('deviatedChordBranch.options.critDmg.display'), value: DeviatedChordBranch.CD, label: t('deviatedChordBranch.options.critDmg.label') },
       ],
       fullWidth: true,
     },

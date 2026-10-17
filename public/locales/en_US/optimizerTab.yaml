@@ -436,6 +436,26 @@ SetConditionals:
       Both:
         Display: ATK + CD
         Label: ATK + CD (+24% ATK | +12% CD)
+    DreamlitActor:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      Elation:
+        Display: Elation
+        Label: Elation +16%
+      CD:
+        Display: CD
+        Label: Elation +16% | CD +12%
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      CD:
+        Display: CD
+        Label: 'DEF reduced: CD +28%'
+      CDAndDmg:
+        Display: CD + DMG
+        Label: 'DEF reduced: CD +28% + Comburent DMG +15%'
   Conditionals:
     DefaultMessage: Enabled by default - effects will apply to combat calculations.
     Hunter: When enabled, CRIT DMG buff is applied to Combat stat calculations.
@@ -636,8 +656,17 @@ TeammateCard:
   SuperimpositionPlaceholder: Superimposition
   RelicsPlaceholder: Relics
   OrnamentsPlaceholder: Ornaments
+  SyncFromRoster: Sync from roster
+  SelectCharacter: Select teammate character
+  SelectLightcone: Select teammate light cone
   TeammateSyncSuccessMessage: Synced teammate info
   TeammateSets:
+    DreamlitActor:
+      Desc: '4 Piece: $t(gameData:RelicSets.133.Name) (+16% Elation | +12% CD)'
+      Text: 16% Elation + 12% CD
+    DivineQueryingMasterSmith:
+      Desc: '4 Piece: $t(gameData:RelicSets.132.Name) (+15% DMG)'
+      Text: 15% DMG
     Messenger:
       Desc: '4 Piece: $t(gameData:RelicSets.114.Name) (+12% SPD)'
       Text: 12% SPD

@@ -1,5 +1,7 @@
 CLAUDE.md
 
+resources.d.ts
+
 # Leaderboard
 /output/
 /leaderboard-cache/
@@ -156,6 +158,7 @@ backend/infra.js
 
 # game data files
 src/lib/i18n/*.json
+src/types/resources.d.ts
 shader.txt
 
 # golden data (regenerate with npm run bench:simbuild:generate)

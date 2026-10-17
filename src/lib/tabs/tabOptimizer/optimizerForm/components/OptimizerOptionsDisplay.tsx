@@ -44,6 +44,7 @@ function PriorityCombobox(props: {
   placeholder: string,
 }) {
   const { options, rank, placeholder } = props
+  const { t } = useTranslation('common')
   const [search, setSearch] = useState('')
 
   const combobox = useCombobox({
@@ -112,7 +113,7 @@ function PriorityCombobox(props: {
                 </Group>
               </Combobox.Option>
             ))}
-          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t('NoResults')}</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

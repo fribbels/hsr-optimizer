@@ -26,8 +26,8 @@ export async function runCustomBenchmarkOrchestrator(benchmarkForm: BenchmarkFor
   orchestrator.setSimContext()
   orchestrator.setFlags()
 
-  orchestrator.setBaselineBuild()
   orchestrator.setOriginalBuild(benchmarkForm.basicSpd, true)
+  orchestrator.setBaselineBuild()
 
   orchestrator.flags.forceErrRope = benchmarkForm.errRope
 

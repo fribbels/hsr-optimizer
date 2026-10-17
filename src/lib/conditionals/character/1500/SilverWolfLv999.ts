@@ -14,6 +14,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -117,6 +121,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const talentCBElationScaling = talent(e, 0.40, 0.44)
   const mmrCrPerPoint = talent(e, 0.004, 0.0044)
   const mmrCdPerPoint = talent(e, 0.008, 0.0088)
+  const hiddenMmrCapByAscension: Record<AhaAscension, number> = {
+    [AhaAscension.None]: 60 + 240,
+    [AhaAscension.AhaE0]: 60 + 360,
+    [AhaAscension.AhaE2]: 60 + 999,
+  }
 
   const elationSkillBounceScaling = elationSkill(e, 0.90, 0.945, 0.99)
   const elationSkillBounceCount = 6
@@ -183,7 +192,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         hiddenMmrCdStep: precisionRound(100 * mmrCdPerPoint),
       }),
       min: 0,
-      max: 300,
+      // The slider covers the largest overflow tier.
+      max: 60 + 999,
     },
     spdToElation: {
       id: 'spdToElation',
@@ -244,13 +254,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => [...SilverWolfLv999Abilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+      const hiddenMmr = Math.min(r.hiddenMmr, hiddenMmrCapByAscension[getAhaAscension(action)])
 
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
 
       // E4: Elation Skill Punchline x5
       const elationSkillPunchline = punchlineStacks + ((e >= 4 && r.e4PunchlineBoost) ? punchlineStacks * 5 : 0)
-      const mmrDmgMultiplier = 1 + 0.15 * Math.min(Math.floor(r.hiddenMmr / 60), 2)
+      const mmrDmgMultiplier = 1 + 0.15 * Math.min(Math.floor(hiddenMmr / 60), 2)
 
       const basicHits: HitDefinition[] = []
 
@@ -354,6 +365,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
 
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.50 : 0, x.actionKind(AbilityKind.BASIC).source(SOURCE_E6))
+
+      // Innate Trace (Faces of Elation ascension): +40% CD
+      x.buff(StatKey.CD, (getAhaAscension(action) != AhaAscension.None) ? 0.40 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -425,7 +439,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         },
         effect: function(x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
-          const mmrPoints = r.hiddenMmr
+          const mmrPoints = Math.min(r.hiddenMmr, hiddenMmrCapByAscension[getAhaAscension(action)])
           if (mmrPoints <= 0) return
 
           const prevCrPoints = action.conditionalState['SilverWolfLv999HiddenMmrCrPoints'] ?? 0
@@ -459,16 +473,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         gpu: function(action: OptimizerAction, context: OptimizerContext) {
           const r = action.characterConditionals as Conditionals<typeof content>
           const config = action.config
+          const mmrPoints = Math.min(r.hiddenMmr, hiddenMmrCapByAscension[getAhaAscension(action)])
 
           return newConditionalWgslWrapper(
             this,
             action,
             context,
             `
-if (${r.hiddenMmr} <= 0) {
+if (${mmrPoints} <= 0) {
   return;
 }
-let mmrPoints: f32 = f32(${r.hiddenMmr});
+let mmrPoints: f32 = f32(${mmrPoints});
 
 let prevCrPoints: f32 = (*p_state).SilverWolfLv999HiddenMmrCrPoints${action.actionIdentifier};
 let prevCdPoints: f32 = (*p_state).SilverWolfLv999HiddenMmrConditional${action.actionIdentifier};

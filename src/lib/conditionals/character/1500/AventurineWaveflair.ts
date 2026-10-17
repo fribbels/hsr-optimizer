@@ -15,6 +15,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -116,6 +120,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const elationSkillFervorScaling = elationSkill(e, 0.21, 0.2205, 0.231)
 
   const fervorMax = (e >= 2) ? 50 : 30
+
+  // Innate Trace (Faces of Elation ascension): with Aha as the only other Elation ally, the solo-Elation trace applies and adds team SPD
+  const ascensionSpdByTier: Record<AhaAscension, number> = {
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.15,
+    [AhaAscension.AhaE2]: 0.25,
+  }
+
+  const getAhaOnlyElationAscension = (action: OptimizerAction, context: OptimizerContext): AhaAscension =>
+    countTeamPath(context, PathNames.Elation) == 2 ? getAhaAscension(action) : AhaAscension.None
 
   const defaults = {
     ultSpdBuff: true,
@@ -242,9 +256,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const certifiedBangerStacks = r.certifiedBangerStacks
       const fervorStacks = r.fervorStacks
 
-      // Trace A2: solo Elation lineup makes his Elation Skill DMG count as a FUA
-      const soloElation = countTeamPath(context, PathNames.Elation) == 1
-      const elationSkillDamageType = soloElation ? DamageTag.ELATION | DamageTag.FUA : DamageTag.ELATION
+      // The solo Elation trace also applies when Aha is his only other Elation teammate.
+      const elationCount = countTeamPath(context, PathNames.Elation)
+      const soloTraceActive = elationCount == 1 || getAhaOnlyElationAscension(action, context) != AhaAscension.None
+      const elationSkillDamageType = soloTraceActive ? DamageTag.ELATION | DamageTag.FUA : DamageTag.ELATION
 
       // ============== BASIC ==============
 
@@ -368,7 +383,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymaking) ? 0.25 : 0, x.source(SOURCE_E6))
     },
 
-    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace A2: +20% Elation if other Elation characters in team (auto-detected)
@@ -380,6 +400,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // E4: Ignores 18% DEF
       x.buff(StatKey.DEF_PEN, (e >= 4 && m.e4DefPen) ? 0.18 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+
+      const ascension = getAhaOnlyElationAscension(originalCharacterAction ?? action, context)
+      x.buff(StatKey.SPD_P, ascensionSpdByTier[ascension], x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

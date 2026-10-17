@@ -9,6 +9,7 @@ import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { AventurineWaveflair } from 'lib/conditionals/character/1500/AventurineWaveflair'
 import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { AThanklessCoronation } from 'lib/conditionals/lightcone/5star/AThanklessCoronation'
@@ -146,6 +147,7 @@ const baseCharacterLightConeMappings: Array<{ characterId: CharacterId, lightCon
   { characterId: Cyrene.id, lightConeId: ThisLoveForever.id },
   { characterId: RobinSummeretto.id, lightConeId: RiseAndSing.id },
   { characterId: AventurineWaveflair.id, lightConeId: SummerRidesTheSurf.id },
+  { characterId: AeonAha.id, lightConeId: AeonAha.defaultLightCone },
   { characterId: '8001', lightConeId: basicLc }, // Trailblazer
   { characterId: '8002', lightConeId: basicLc }, // Trailblazer
   { characterId: '8003', lightConeId: basicLc }, // Trailblazer

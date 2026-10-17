@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import {
   aoe,
   ashblazingMulti,
@@ -21,6 +22,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -33,6 +38,7 @@ import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDec
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   ELEMENTAL_DMG_KEY,
   Parts,
   Sets,
@@ -91,6 +97,7 @@ export const EvanesciaAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evanescia.Content')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -126,10 +133,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const elationSkillScaling = elationSkill(e, 1.10, 1.155, 1.21)
 
+  // Faces of Elation grants DEF ignore. The modeled Ultimate bonus activates every third Ultimate.
+  const ascensionDefPenByTier: Record<AhaAscension, number> = {
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.10,
+    [AhaAscension.AhaE2]: 0.24,
+  }
+  const ascensionUltBonusByTier: Record<AhaAscension, number> = {
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.75,
+    [AhaAscension.AhaE2]: 1.50,
+  }
+
   const defaults = {
     certifiedBanger: true,
     punchlineStacks: 30,
     certifiedBangerStacks: 600,
+    ascensionUltActive: true,
     cdToElation: true,
     masterFoxVuln: true,
     e1ResPen: true,
@@ -174,6 +194,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }),
       min: 0,
       max: 1200,
+    },
+    ascensionUltActive: {
+      id: 'ascensionUltActive',
+      formItem: 'switch',
+      text: 'Faces of Elation Ultimate bonus',
+      content: betaContent,
     },
     cdToElation: {
       id: 'cdToElation',
@@ -254,6 +280,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E1: extra Elation Skill trigger
       const e1ElationSkillMultiplier = (e >= 1 && r.e1ResPen) ? 2 : 1
 
+      const ascensionUltMultiplier = 1 + (r.ascensionUltActive ? ascensionUltBonusByTier[getAhaAscension(action)] : 0)
+
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Physical)
         .atkScaling(basicScaling)
@@ -284,7 +312,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // Ult: AoE + bounces averaged per enemy
       const ultHit = HitDefinitionBuilder.standardUlt()
         .damageElement(ElementTag.Physical)
-        .atkScaling(ultAoeScaling + ultBounceScaling * totalBounceCount / context.enemyCount)
+        .atkScaling((ultAoeScaling + ultBounceScaling * totalBounceCount / context.enemyCount) * ascensionUltMultiplier)
         .toughnessDmg(20 + 5 * totalBounceCount / context.enemyCount)
         .build()
 
@@ -296,7 +324,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.elation()
             .damageType(DamageTag.ELATION)
             .damageElement(ElementTag.Physical)
-            .elationScaling(talentUltAoeElationScaling + talentUltBounceElationScaling * totalBounceCount / context.enemyCount)
+            .elationScaling((talentUltAoeElationScaling + talentUltBounceElationScaling * totalBounceCount / context.enemyCount) * ascensionUltMultiplier)
             .punchlineStacks(ultCertifiedBangerStacks)
             .toughnessDmg(0)
             .build(),
@@ -357,6 +385,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.RES_PEN, (e >= 1 && r.e1ResPen) ? 0.20 : 0, x.source(SOURCE_E1))
       x.buff(StatKey.CD, (e >= 2 && r.e2CritDmg) ? 0.36 : 0, x.source(SOURCE_E2))
       x.buff(StatKey.DEF_PEN, (e >= 4 && r.e4DefPen) ? 0.15 : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.DEF_PEN, ascensionDefPenByTier[getAhaAscension(action)], x.source(SOURCE_TRACE))
 
       const e6MerrymakeValue = 0.15 + Math.min(r.certifiedBangerStacks, 1000) / 100 * 0.02
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? e6MerrymakeValue : 0, x.source(SOURCE_E6))

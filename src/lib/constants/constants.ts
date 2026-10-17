@@ -15,7 +15,7 @@ export const RELIQUARY_DOWNTIME = true
 export const DOWNTIME_VERSION: string = '4.6'
 
 export const CharacterAnnouncementMessages: Record<string, string> = {
-  // '1503': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
+  '1511': `${CURRENT_DATA_VERSION} beta - Numbers may change.`,
 }
 
 export const Stats = {
@@ -438,6 +438,8 @@ export const Sets = {
   CityOfConvergingStars: 'City of Converging Stars',
   FallenStarAnchorage: 'Fallen Star Anchorage',
   CosmicLifeSciencesInstitute: 'Cosmic Life Sciences Institute',
+  GodsMomentOfJoy: 'God\'s Moment of Joy',
+  SubspaceASCCenter: 'Subspace ASC Center',
 } as const
 export type SetKey = keyof typeof Sets
 export type Sets = typeof Sets[SetKey]

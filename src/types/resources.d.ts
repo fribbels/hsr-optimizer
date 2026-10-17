@@ -4981,6 +4981,10 @@ interface Resources {
         "LongName": "Himeko • Nova",
         "Name": "Himeko • Nova"
       },
+      "1511": {
+        "LongName": "Aeon ★ Aha",
+        "Name": "Aeon ★ Aha"
+      },
       "1512": {
         "LongName": "Robin • Summeretto",
         "Name": "Summeretto"
@@ -5334,6 +5338,9 @@ interface Resources {
       "22008": {
         "Name": "Race to the Horizon"
       },
+      "22009": {
+        "Name": "See You at the World's End!"
+      },
       "23000": {
         "Name": "Night on the Milky Way"
       },
@@ -5528,6 +5535,9 @@ interface Resources {
       },
       "23064": {
         "Name": "Summer Rides the Surf"
+      },
+      "23065": {
+        "Name": "Upon the First Echo of \"Aha\""
       },
       "24000": {
         "Name": "On the Fall of an Aeon"
@@ -5725,12 +5735,12 @@ interface Resources {
       },
       "133": {
         "Description2pc": "Increases SPD by 6%.",
-        "Description4pc": "When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all allies' CRIT DMG by 12%, lasting for 3 turns.",
+        "Description4pc": "When the wearer uses their Skill or Ultimate on one other ally target, increases the ability target's Elation by 16%, lasting for 3 turns. If the wearer has 10 or more points of Certified Banger, additionally increases all ally targets' CRIT DMG by 12%, lasting for 3 turns.",
         "Name": "Dreamlit Actor"
       },
       "134": {
         "Description2pc": "Increases CRIT DMG by 16%.",
-        "Description4pc": "Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses a Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.",
+        "Description4pc": "Increases DMG dealt by the wearer's Basic ATK by 36%. When the wearer uses Basic ATK, increases the wearer's ATK by 20%, lasting for 2 turns.",
         "Name": "The Edacious Heretic"
       },
       "301": {
@@ -5844,6 +5854,14 @@ interface Resources {
       "328": {
         "Description2pc": "When entering combat, if the wearer's Max Energy is greater than or equal to 200, for every 1 excess point, increases the wearer's DMG dealt by 0.2%, up to a max increase of 32%.",
         "Name": "Cosmic Life Sciences Institute"
+      },
+      "329": {
+        "Description2pc": "Increases the wearer's SPD by 6%. When the wearer's Elation reaches 40% or higher, the wearer's action advances by 40% immediately when entering combat.",
+        "Name": "God's Moment of Joy"
+      },
+      "330": {
+        "Description2pc": "Increases the wearer's SPD by 6%. When the wearer's SPD reaches 145 or higher, increases all allies' Break Effect by 15% after entering combat. This effect cannot stack.",
+        "Name": "Subspace ASC Center"
       }
     }
   },

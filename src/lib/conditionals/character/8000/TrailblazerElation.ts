@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import { getYaoguangAhaPunchlineValue } from 'lib/conditionals/character/1500/Yaoguang'
 import {
   AbilityEidolon,
@@ -8,7 +9,6 @@ import {
 import {
   AhaAscension,
   getAhaAscension,
-  isAhaTrueDmgEnabled,
 } from 'lib/conditionals/evaluation/ahaAscension'
 import {
   dynamicStatConversionContainer,
@@ -19,6 +19,7 @@ import { ElationBrimmingWithBlessings } from 'lib/conditionals/lightcone/5star/E
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   Parts,
   Stats,
 } from 'lib/constants/constants'
@@ -60,6 +61,7 @@ export const TrailblazerElationAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerElation.Content')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_TALENT_ELATION_SKILL_3_ULT_BASIC_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -85,16 +87,17 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const elationSkillBounceScaling = elationSkill(e, 0.20, 0.21, 0.22)
   const elationSkillAoeScaling = elationSkill(e, 0.60, 0.63, 0.66)
 
-  // Innate Trace (Faces of Elation ascension): Ult CD buff +20% (Aha E2: +30%) on all allies; Ult on Aha triggers an Elation Skill at 3x (4x)
+  // Faces of Elation adds to the Ultimate CRIT DMG buff for all allies.
+  // Plot Armor adds 200% or 300% of the original Elation Skill multiplier.
   const ascensionUltCdBonusByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 0.20,
-    [AhaAscension.ENHANCED]: 0.30,
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.20,
+    [AhaAscension.AhaE2]: 0.30,
   }
   const ascensionElationSkillMultiplierByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 3,
-    [AhaAscension.ENHANCED]: 4,
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 1.00 + 2.00,
+    [AhaAscension.AhaE2]: 1.00 + 3.00,
   }
 
   const defaults = {
@@ -103,7 +106,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBangerStacks: 60,
     highestAllyPartyTrick: 60,
     ultCdBuff: false,
-    ultTargetsAha: true,
     atkToElation: true,
     e2UltElation: false,
     e4Vulnerability: true,
@@ -146,8 +148,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     highestAllyPartyTrick: {
       id: 'highestAllyPartyTrick',
       formItem: 'slider',
-      text: t('highestAllyPartyTrick.text'),
-      content: t('highestAllyPartyTrick.content'),
+      text: 'Highest ally Party Trick',
+      content: betaContent,
       min: 0,
       max: 1200,
     },
@@ -156,12 +158,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       formItem: 'switch',
       text: t('ultCdBuff.text'),
       content: t('ultCdBuff.content'),
-    },
-    ultTargetsAha: {
-      id: 'ultTargetsAha',
-      formItem: 'switch',
-      text: t('ultTargetsAha.text'),
-      content: t('ultTargetsAha.content'),
     },
     atkToElation: {
       id: 'atkToElation',
@@ -260,13 +256,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Innate Trace: Ult on Aha triggers an extra Elation Skill, taking the highest ally Party Trick into account.
       // The hit-local True DMG modifier accounts for Aha's delayed 20% damage numerically in this rotation model.
-      const plotArmorMultiplier = r.ultTargetsAha ? ascensionElationSkillMultiplierByTier[getAhaAscension(action)] : 0
+      const plotArmorMultiplier = ascensionElationSkillMultiplierByTier[getAhaAscension(action)]
       const plotArmorHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Lightning)
         .elationScaling(elationSkillScaling * plotArmorMultiplier)
         .punchlineStacks(r.highestAllyPartyTrick)
-        .trueDmgModifier(plotArmorMultiplier > 0 && isAhaTrueDmgEnabled(action) ? 0.20 : 0)
+        .trueDmgModifier(plotArmorMultiplier > 0 ? 0.20 : 0)
         .toughnessDmg(plotArmorMultiplier > 0 ? 20 : 0)
         .build()
 
@@ -301,7 +297,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // Innate Trace: the Ult CD buff grows and reaches all allies while the Path of Elation is ascended
       const ascension = getAhaAscension(originalCharacterAction ?? action)
-      const ultCdTargets = (ascension == AhaAscension.NONE) ? TargetTag.SingleTarget : TargetTag.FullTeam
+      const ultCdTargets = (ascension == AhaAscension.None) ? TargetTag.SingleTarget : TargetTag.FullTeam
       x.buff(StatKey.CD, (m.ultCdBuff) ? ultCdBuffValue + ascensionUltCdBonusByTier[ascension] : 0, x.targets(ultCdTargets).source(SOURCE_ULT))
       x.buff(StatKey.ELATION, (e >= 2 && m.e2UltElation) ? 0.12 : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_E2))
       x.buff(StatKey.VULNERABILITY, (e >= 4 && m.e4Vulnerability) ? 0.10 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))

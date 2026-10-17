@@ -10,6 +10,7 @@ import {
   AshveilPreprocessor,
   CastoricePreprocessor,
   CyrenePreprocessor,
+  EvanesciaPreprocessor,
   HookPreprocessor,
   HysilensE1Preprocessor,
   JingliuB1DefPenPreprocessor,
@@ -48,6 +49,7 @@ const characterPreprocessors: AbilityPreprocessorBase[] = [
   new HysilensE1Preprocessor(),
   new AnaxaCyreneEffectPreprocessor(),
   new CyrenePreprocessor(),
+  new EvanesciaPreprocessor(),
 ]
 
 const setPreprocessors: AbilityPreprocessorBase[] = [

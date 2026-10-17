@@ -1,4 +1,5 @@
 import i18next from 'i18next'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { AventurineWaveflair } from 'lib/conditionals/character/1500/AventurineWaveflair'
 import { Gilgamesh } from 'lib/conditionals/character/1500/Gilgamesh'
 import { HimekoNova } from 'lib/conditionals/character/1500/HimekoNova'
@@ -55,6 +56,7 @@ export function presetCharacters(): Preset[] {
   const lc = (id: LightConeId) => Object.values(DBMetadata.lightCones).some((x) => x.id === id) ? id : null
 
   return [
+    { characterId: char(AeonAha.id), lightConeId: lc(AeonAha.defaultLightCone) },
     { characterId: char(Pearl.id), lightConeId: lc(Pearl.defaultLightCone) },
     { characterId: char(RobinSummeretto.id), lightConeId: lc(RobinSummeretto.defaultLightCone) },
     { characterId: char(AventurineWaveflair.id), lightConeId: lc(AventurineWaveflair.defaultLightCone) },

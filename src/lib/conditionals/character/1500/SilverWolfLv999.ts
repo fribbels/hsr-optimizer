@@ -122,9 +122,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const mmrCrPerPoint = talent(e, 0.004, 0.0044)
   const mmrCdPerPoint = talent(e, 0.008, 0.0088)
   const hiddenMmrCapByAscension: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 300,
-    [AhaAscension.BASE]: 420,
-    [AhaAscension.ENHANCED]: 1059,
+    [AhaAscension.None]: 60 + 240,
+    [AhaAscension.AhaE0]: 60 + 360,
+    [AhaAscension.AhaE2]: 60 + 999,
   }
 
   const elationSkillBounceScaling = elationSkill(e, 0.90, 0.945, 0.99)
@@ -192,8 +192,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         hiddenMmrCdStep: precisionRound(100 * mmrCdPerPoint),
       }),
       min: 0,
-      // 60 + 240 overflow; the Faces of Elation Innate Trace raises the overflow to 360 (Aha E2: 999)
-      max: 1059,
+      // The slider covers the largest overflow tier.
+      max: 60 + 999,
     },
     spdToElation: {
       id: 'spdToElation',
@@ -367,7 +367,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymake) ? 0.50 : 0, x.actionKind(AbilityKind.BASIC).source(SOURCE_E6))
 
       // Innate Trace (Faces of Elation ascension): +40% CD
-      x.buff(StatKey.CD, (getAhaAscension(action) != AhaAscension.NONE) ? 0.40 : 0, x.source(SOURCE_TRACE))
+      x.buff(StatKey.CD, (getAhaAscension(action) != AhaAscension.None) ? 0.40 : 0, x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

@@ -438,6 +438,8 @@ export const Sets = {
   CityOfConvergingStars: 'City of Converging Stars',
   FallenStarAnchorage: 'Fallen Star Anchorage',
   CosmicLifeSciencesInstitute: 'Cosmic Life Sciences Institute',
+  GodsMomentOfJoy: 'God\'s Moment of Joy',
+  SubspaceASCCenter: 'Subspace ASC Center',
 } as const
 export type SetKey = keyof typeof Sets
 export type Sets = typeof Sets[SetKey]

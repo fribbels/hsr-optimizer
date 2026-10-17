@@ -120,11 +120,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const talentDmgReduction = talent(e, 0.30, 0.33)
 
-  // Not simulated: Technique setup; Energy, action advance, extra turns, and Charge lifecycles.
-  // Repellency depletion, cleanse, and E1 fatal-hit recovery require incoming-damage combat state.
-  // E6 extra damage requires the Archetype's combat stats, unavailable in Pearl's own calculation.
-  // Innate Trace: Party Trick cap rises from 50 to 75 while Faces of Elation is active; extra-turn resource retention is not simulated.
-
   // Elation Skill: allies' next attack deals extra Elation DMG, tier = Elation characters in team (Pearl included)
   const elationSkillProcByElationCount: Record<number, number> = {
     1: elationSkill(e, 0.10, 0.105, 0.11),
@@ -188,7 +183,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       text: 'Certified Banger points',
       content: betaContent,
       min: 0,
-      // Talent cap is 50; the Faces of Elation Innate Trace raises it to 75
       max: 75,
     },
     punchlineStacks: {
@@ -301,7 +295,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => [...PearlAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const certifiedBangerStacks = Math.min(r.certifiedBangerStacks, getAhaAscension(action) == AhaAscension.NONE ? 50 : 75)
+      const certifiedBangerStacks = Math.min(r.certifiedBangerStacks, getAhaAscension(action) == AhaAscension.None ? 50 : 75)
 
       const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const elationCount = countTeamPath(context, PathNames.Elation)

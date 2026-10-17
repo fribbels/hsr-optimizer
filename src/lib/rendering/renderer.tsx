@@ -60,7 +60,7 @@ export const Renderer = {
 
   tenths: <T,>(x: ValueFormatterParams<T, number>) => {
     if (x?.value == null) return ''
-    return localeNumber_0(Math.floor(precisionRound(x.value) * 10) / 10)
+    return localeNumber_0(truncate10ths(precisionRound(x.value, 3)))
   },
 
   readableStat: (x: ValueFormatterParams<ScoredRelic, StatsValues>) => {

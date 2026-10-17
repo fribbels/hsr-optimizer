@@ -56,6 +56,7 @@ import {
   WHOLE_BASIC_HEAL,
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
+import { PresetEffects } from 'lib/scoring/presetEffects'
 import {
   SPREAD_ORNAMENTS_2P_HEAL,
   SPREAD_RELICS_4P_HEAL,
@@ -347,11 +348,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // ============== ELATION SKILL ==============
 
       // Pearl's own next-attack proc; ally procs are injected via actionModifiers
-      const e4ElationSkillBoost = (e >= 4 && r.e4ElationSkillBoost) ? 1.00 : 0
+      const e4ElationSkillMulti = (e >= 4 && r.e4ElationSkillBoost) ? 2 : 1
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Ice)
-        .elationScaling((elationSkillProcByElationCount[Math.min(4, elationCount)] ?? 0) + e4ElationSkillBoost)
+        .elationScaling((elationSkillProcByElationCount[Math.min(4, elationCount)] ?? 0) * e4ElationSkillMulti)
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(0)
         .build()
@@ -374,15 +375,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           if (attackElement == null) return
 
           const elationCount = Math.min(4, countTeamPath(context, PathNames.Elation))
-          const punchlineStacks = getYaoguangAhaPunchlineValue(action, context)
-            ?? (self.ownConditionals.punchlineStacks as number)
-          const e4ElationSkillBoost = (e >= 4 && self.ownConditionals.e4ElationSkillBoost) ? 1.00 : 0
+          const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? self.ownConditionals.punchlineStacks as number
+          const e4ElationSkillMulti = (e >= 4 && self.ownConditionals.e4ElationSkillBoost) ? 2 : 1
 
           action.hits!.push(
             HitDefinitionBuilder.elation()
               .damageType(DamageTag.ELATION)
               .damageElement(attackElement)
-              .elationScaling((elationSkillProcByElationCount[elationCount] ?? 0) + e4ElationSkillBoost)
+              .elationScaling((elationSkillProcByElationCount[elationCount] ?? 0) * e4ElationSkillMulti)
               .punchlineStacks(punchlineStacks)
               .toughnessDmg(0)
               .build() as ElationHit,
@@ -526,7 +526,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 }
 
 const healSimulation = (): SimulationMetadata => ({
-  leaderboardEnabled: false,
+  leaderboardEnabled: true,
   parts: {
     [Parts.Body]: [Stats.DEF_P, Stats.OHB],
     [Parts.Feet]: [Stats.SPD, Stats.DEF_P],
@@ -615,12 +615,15 @@ const scoring = (): ScoringMetadata => ({
       Stats.DEF_P,
     ],
   },
-  presets: [],
+  presets: [
+    PresetEffects.WARRIOR_SET,
+  ],
   defaultDamageType: DamageTag.BASIC,
   sortOption: SortOption.BASIC_HEAL,
   addedColumns: [SortOption.OHB, SortOption.BASIC_HEAL, SortOption.SKILL_HEAL],
   hiddenColumns: [SortOption.SKILL, SortOption.ULT, SortOption.FUA, SortOption.DOT],
   healSimulation: healSimulation(),
+  eidolonImage: 3,
 })
 
 const display = {

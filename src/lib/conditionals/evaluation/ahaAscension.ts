@@ -5,22 +5,15 @@ import { type OptimizerAction } from 'types/optimizer'
 export const AEON_AHA_ID = '1511'
 
 export enum AhaAscension {
-  NONE = 0,
-  BASE = 1,
-  ENHANCED = 2,
+  None = 0,
+  AhaE0 = 1,
+  AhaE2 = 2,
 }
 
-// Faces of Elation (Aha's Ult state) ascends the Path of Elation: ally Elation characters activate their Innate
-// Traces at the BASE tier, and Aha's E2 upgrades them to ENHANCED. Reads Aha's facesOfElation toggle from
-// whichever panel she is on. Pass the primary action (originalCharacterAction inside teammate-role containers).
+// Read Aha's Faces of Elation state from the primary action and its teammates.
 export function getAhaAscension(action: OptimizerAction): AhaAscension {
   const ahaAction = findTeamAction(action, AEON_AHA_ID)
-  if (!ahaAction?.characterConditionals.facesOfElation) return AhaAscension.NONE
+  if (!ahaAction?.characterConditionals.facesOfElation) return AhaAscension.None
 
-  return (ahaAction.actorEidolon >= 2) ? AhaAscension.ENHANCED : AhaAscension.BASE
-}
-
-export function isAhaTrueDmgEnabled(action: OptimizerAction): boolean {
-  const ahaAction = findTeamAction(action, AEON_AHA_ID)
-  return !!ahaAction?.characterConditionals.elationSkillTrueDmg
+  return (ahaAction.actorEidolon >= 2) ? AhaAscension.AhaE2 : AhaAscension.AhaE0
 }

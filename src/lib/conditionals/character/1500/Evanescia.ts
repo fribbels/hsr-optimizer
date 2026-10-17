@@ -1,3 +1,4 @@
+import i18next from 'i18next'
 import {
   aoe,
   ashblazingMulti,
@@ -37,6 +38,7 @@ import { WhenSheDecidedToSee } from 'lib/conditionals/lightcone/5star/WhenSheDec
 import {
   ConditionalActivation,
   ConditionalType,
+  CURRENT_DATA_VERSION,
   ELEMENTAL_DMG_KEY,
   Parts,
   Sets,
@@ -95,6 +97,7 @@ export const EvanesciaAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evanescia.Content')
+  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -130,23 +133,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const elationSkillScaling = elationSkill(e, 1.10, 1.155, 1.21)
 
-  // Innate Trace: DEF ignore 10% (Aha E2: 24%); Ult multiplier +75% (+150%) of original per 480 accumulated Party Trick.
+  // Faces of Elation grants DEF ignore. The modeled Ultimate bonus activates every third Ultimate.
   const ascensionDefPenByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 0.10,
-    [AhaAscension.ENHANCED]: 0.24,
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.10,
+    [AhaAscension.AhaE2]: 0.24,
   }
-  const ascensionUltBonusPer480ByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 0.75,
-    [AhaAscension.ENHANCED]: 1.50,
+  const ascensionUltBonusByTier: Record<AhaAscension, number> = {
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.75,
+    [AhaAscension.AhaE2]: 1.50,
   }
 
   const defaults = {
     certifiedBanger: true,
     punchlineStacks: 30,
     certifiedBangerStacks: 600,
-    accumulatedPartyTrick: 600,
+    ascensionUltActive: true,
     cdToElation: true,
     masterFoxVuln: true,
     e1ResPen: true,
@@ -192,13 +195,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: 1200,
     },
-    accumulatedPartyTrick: {
-      id: 'accumulatedPartyTrick',
-      formItem: 'slider',
-      text: t('accumulatedPartyTrick.text'),
-      content: t('accumulatedPartyTrick.content'),
-      min: 0,
-      max: 4800,
+    ascensionUltActive: {
+      id: 'ascensionUltActive',
+      formItem: 'switch',
+      text: 'Faces of Elation Ultimate bonus',
+      content: betaContent,
     },
     cdToElation: {
       id: 'cdToElation',
@@ -279,7 +280,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E1: extra Elation Skill trigger
       const e1ElationSkillMultiplier = (e >= 1 && r.e1ResPen) ? 2 : 1
 
-      const ascensionUltMultiplier = 1 + Math.floor(r.accumulatedPartyTrick / 480) * ascensionUltBonusPer480ByTier[getAhaAscension(action)]
+      const ascensionUltMultiplier = 1 + (r.ascensionUltActive ? ascensionUltBonusByTier[getAhaAscension(action)] : 0)
 
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Physical)
@@ -323,7 +324,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           HitDefinitionBuilder.elation()
             .damageType(DamageTag.ELATION)
             .damageElement(ElementTag.Physical)
-            .elationScaling(talentUltAoeElationScaling + talentUltBounceElationScaling * totalBounceCount / context.enemyCount)
+            .elationScaling((talentUltAoeElationScaling + talentUltBounceElationScaling * totalBounceCount / context.enemyCount) * ascensionUltMultiplier)
             .punchlineStacks(ultCertifiedBangerStacks)
             .toughnessDmg(0)
             .build(),

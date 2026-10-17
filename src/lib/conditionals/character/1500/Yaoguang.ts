@@ -116,9 +116,9 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
 
   // Innate Trace (Faces of Elation ascension): Great Boon multiplier +20% of original (Aha E2: +40%)
   const ascensionGreatBoonBonusByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 0.20,
-    [AhaAscension.ENHANCED]: 0.40,
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.20,
+    [AhaAscension.AhaE2]: 0.40,
   }
 
   const defaults = {

@@ -123,10 +123,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   // Innate Trace (Faces of Elation ascension): with Aha as the only other Elation ally, the solo-Elation trace applies and adds team SPD
   const ascensionSpdByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 0.15,
-    [AhaAscension.ENHANCED]: 0.25,
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.15,
+    [AhaAscension.AhaE2]: 0.25,
   }
+
+  const getAhaOnlyElationAscension = (action: OptimizerAction, context: OptimizerContext): AhaAscension =>
+    countTeamPath(context, PathNames.Elation) == 2 ? getAhaAscension(action) : AhaAscension.None
 
   const defaults = {
     ultSpdBuff: true,
@@ -253,10 +256,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const certifiedBangerStacks = r.certifiedBangerStacks
       const fervorStacks = r.fervorStacks
 
-      // Trace A2: solo Elation lineup makes his Elation Skill DMG count as a FUA; ascension extends this to an Aha-only Elation lineup
+      // The solo Elation trace also applies when Aha is his only other Elation teammate.
       const elationCount = countTeamPath(context, PathNames.Elation)
-      const soloElation = elationCount == 1 || (getAhaAscension(action) != AhaAscension.NONE && elationCount == 2)
-      const elationSkillDamageType = soloElation ? DamageTag.ELATION | DamageTag.FUA : DamageTag.ELATION
+      const soloTraceActive = elationCount == 1 || getAhaOnlyElationAscension(action, context) != AhaAscension.None
+      const elationSkillDamageType = soloTraceActive ? DamageTag.ELATION | DamageTag.FUA : DamageTag.ELATION
 
       // ============== BASIC ==============
 
@@ -398,9 +401,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E4: Ignores 18% DEF
       x.buff(StatKey.DEF_PEN, (e >= 4 && m.e4DefPen) ? 0.18 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
 
-      const ascension = getAhaAscension(originalCharacterAction ?? action)
-      const ahaOnlyElationTeammate = ascension != AhaAscension.NONE && countTeamPath(context, PathNames.Elation) == 2
-      x.buff(StatKey.SPD_P, ahaOnlyElationTeammate ? ascensionSpdByTier[ascension] : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
+      const ascension = getAhaOnlyElationAscension(originalCharacterAction ?? action, context)
+      x.buff(StatKey.SPD_P, ascensionSpdByTier[ascension], x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

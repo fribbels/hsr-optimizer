@@ -32,6 +32,7 @@ import { FirmamentFrontlineGlamoth } from 'lib/sets/ornaments/FirmamentFrontline
 import { FleetOfTheAgeless } from 'lib/sets/ornaments/FleetOfTheAgeless'
 import { ForgeOfTheKalpagniLantern } from 'lib/sets/ornaments/ForgeOfTheKalpagniLantern'
 import { GiantTreeOfRaptBrooding } from 'lib/sets/ornaments/GiantTreeOfRaptBrooding'
+import { GodsMomentOfJoy } from 'lib/sets/ornaments/GodsMomentOfJoy'
 import { InertSalsotto } from 'lib/sets/ornaments/InertSalsotto'
 import { IzumoGenseiAndTakamaDivineRealm } from 'lib/sets/ornaments/IzumoGenseiAndTakamaDivineRealm'
 import { LushakaTheSunkenSeas } from 'lib/sets/ornaments/LushakaTheSunkenSeas'
@@ -43,6 +44,7 @@ import { RutilantArena } from 'lib/sets/ornaments/RutilantArena'
 import { SigoniaTheUnclaimedDesolation } from 'lib/sets/ornaments/SigoniaTheUnclaimedDesolation'
 import { SpaceSealingStation } from 'lib/sets/ornaments/SpaceSealingStation'
 import { SprightlyVonwacq } from 'lib/sets/ornaments/SprightlyVonwacq'
+import { SubspaceASCCenter } from 'lib/sets/ornaments/SubspaceASCCenter'
 import { TaliaKingdomOfBanditry } from 'lib/sets/ornaments/TaliaKingdomOfBanditry'
 import { TengokuLivestream } from 'lib/sets/ornaments/TengokuLivestream'
 import { TheWondrousBananAmusementPark } from 'lib/sets/ornaments/TheWondrousBananAmusementPark'
@@ -147,6 +149,8 @@ const ALL_ORNAMENT_CONFIGS = [
   PunklordeStageZero,
   FallenStarAnchorage,
   CosmicLifeSciencesInstitute,
+  GodsMomentOfJoy,
+  SubspaceASCCenter,
 ] as const
 
 // Dense filters have N^4 relic entries and N^2 ornament entries. The next counts

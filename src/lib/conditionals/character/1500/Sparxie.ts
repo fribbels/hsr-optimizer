@@ -125,14 +125,14 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
 
   // Innate Trace: Elation Skill multiplier increases by 50% (Aha E2: 120%) of its original value.
   const ascensionElationSkillMultiplierByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 1,
-    [AhaAscension.BASE]: 1.50,
-    [AhaAscension.ENHANCED]: 2.20,
+    [AhaAscension.None]: 1,
+    [AhaAscension.AhaE0]: 1.50,
+    [AhaAscension.AhaE2]: 2.20,
   }
   const ascensionDefPenByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 0.15,
-    [AhaAscension.ENHANCED]: 0.20,
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.15,
+    [AhaAscension.AhaE2]: 0.20,
   }
 
   let additionalStacks = 0

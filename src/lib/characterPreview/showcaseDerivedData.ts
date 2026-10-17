@@ -26,6 +26,7 @@ import { TheDahlia } from 'lib/conditionals/character/1300/TheDahlia'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import {
@@ -203,6 +204,7 @@ function applySimulationMetadataOverrides(
 // When these are teammates, they don't count as a "real DPS" for the purpose of
 // keeping another sub DPS in sub mode.
 const SUB_SUB_DPS_CHARACTERS: Set<CharacterId> = new Set([
+  AeonAha.id,
   Aventurine.id,
   Hyacine.id,
   TheDahlia.id,

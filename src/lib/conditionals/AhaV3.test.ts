@@ -3,12 +3,40 @@ import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import { Yaoguang } from 'lib/conditionals/character/1500/Yaoguang'
 import { TrailblazerElationCaelus } from 'lib/conditionals/character/8000/TrailblazerElation'
+import { DamageTag } from 'lib/optimization/engine/config/tag'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { CritHitDefinition, ElationHitDefinition } from 'types/hitConditionalTypes'
 import type { OptimizerAction, OptimizerContext } from 'types/optimizer'
 import { expect, test } from 'vitest'
 
 const context = { enemyCount: 1 } as OptimizerContext
+
+test('Aha Elation Skill includes its own non-True damage in the True DMG estimate', () => {
+  for (const [eidolon, expectedModifier] of [[0, 0.20], [4, 0.25]]) {
+    const controller = AeonAha.conditionals(eidolon, false)
+    const action = {
+      actorId: AeonAha.id,
+      actorEidolon: eidolon,
+      characterConditionals: controller.defaults(),
+    } as OptimizerAction
+    const hit = controller.actionDefinition(action, context)[AbilityKind.ELATION_SKILL]!.hits[0] as ElationHitDefinition
+
+    expect(hit.trueDmgModifier).toBeCloseTo(expectedModifier)
+  }
+})
+
+test('Aha Skill follow-up deals Elation damage without the FUA damage tag', () => {
+  const controller = AeonAha.conditionals(0, false)
+  const action = {
+    actorId: AeonAha.id,
+    actorEidolon: 0,
+    characterConditionals: controller.defaults(),
+  } as OptimizerAction
+  const hit = controller.actionDefinition(action, context)[AbilityKind.SKILL]!.hits[0] as ElationHitDefinition
+
+  expect(hit.damageType).toBe(DamageTag.ELATION)
+  expect(hit.elationScaling).toBeCloseTo(0.70)
+})
 
 function actionWithAha(
   actorId: string,
@@ -28,23 +56,18 @@ function actionWithAha(
   } as unknown as OptimizerAction
 }
 
-test('Sparxie receives v3 Ode scaling and a selected shared E6 Punchline grant', () => {
+test('Sparxie receives v3 Ode scaling and Yaoguang shared Punchline override', () => {
   const controller = Sparxie.conditionals(0, false)
   const base = actionWithAha(Sparxie.id, controller.defaults(), 0, {})
-  const enhanced = actionWithAha(Sparxie.id, controller.defaults(), 6, { e6FirstUltimatePunchline: true })
+  const enhanced = actionWithAha(Sparxie.id, controller.defaults(), 2, {})
 
   const baseHit = controller.actionDefinition(base, context)[AbilityKind.ELATION_SKILL]!.hits[0] as ElationHitDefinition
   const enhancedHit = controller.actionDefinition(enhanced, context)[AbilityKind.ELATION_SKILL]!.hits[0] as ElationHitDefinition
 
   expect(baseHit.elationScaling).toBeCloseTo(5.5 * 1.5)
   expect(enhancedHit.elationScaling).toBeCloseTo(5.5 * 2.2)
-  expect(enhancedHit.punchlineStacks).toBe(baseHit.punchlineStacks + 100)
+  expect(enhancedHit.punchlineStacks).toBe(baseHit.punchlineStacks)
 
-  enhanced.teammate0.characterConditionals.e6FirstUltimatePunchline = false
-  const nextHit = controller.actionDefinition(enhanced, context)[AbilityKind.ELATION_SKILL]!.hits[0] as ElationHitDefinition
-  expect(nextHit.punchlineStacks).toBe(baseHit.punchlineStacks)
-
-  enhanced.teammate0.characterConditionals.e6FirstUltimatePunchline = true
   enhanced.teammate1 = {
     actorId: Yaoguang.id,
     actorEidolon: 0,

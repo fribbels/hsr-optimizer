@@ -20,11 +20,6 @@ export function getAhaAscension(action: OptimizerAction): AhaAscension {
   return (ahaAction.actorEidolon >= 2) ? AhaAscension.ENHANCED : AhaAscension.BASE
 }
 
-export function getAhaE6Punchline(action: OptimizerAction): number {
-  const ahaAction = findTeamAction(action, AEON_AHA_ID)
-  return (ahaAction && ahaAction.actorEidolon >= 6 && ahaAction.characterConditionals.e6FirstUltimatePunchline) ? 100 : 0
-}
-
 export function isAhaTrueDmgEnabled(action: OptimizerAction): boolean {
   const ahaAction = findTeamAction(action, AEON_AHA_ID)
   return !!ahaAction?.characterConditionals.elationSkillTrueDmg

@@ -16,7 +16,6 @@ import {
 import {
   AhaAscension,
   getAhaAscension,
-  getAhaE6Punchline,
 } from 'lib/conditionals/evaluation/ahaAscension'
 import {
   dynamicStatConversionContainer,
@@ -257,7 +256,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const r = action.characterConditionals as Conditionals<typeof content>
       const hiddenMmr = Math.min(r.hiddenMmr, hiddenMmrCapByAscension[getAhaAscension(action)])
 
-      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action))
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
 
       // E4: Elation Skill Punchline x5

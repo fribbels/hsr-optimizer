@@ -8,7 +8,6 @@ import {
 import {
   AhaAscension,
   getAhaAscension,
-  getAhaE6Punchline,
   isAhaTrueDmgEnabled,
 } from 'lib/conditionals/evaluation/ahaAscension'
 import {
@@ -218,7 +217,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action))
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
       const certifiedBangerStacks = r.certifiedBangerStacks
 
       const basicHit = HitDefinitionBuilder.standardBasic()

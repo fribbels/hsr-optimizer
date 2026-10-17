@@ -243,7 +243,7 @@ describe('Pool SPD targeting', () => {
   })
 
   test('Poet entry uses Poet breakpoint SPD targeting (< 95 threshold)', () => {
-    // Castorice with Poet at 0 SPD rolls — baseline SPD should be well below 95
+    // Castorice's zero-mains SPD is below 95 with Poet.
     const o = buildOrchestrator(
       Castorice.id,
       MakeFarewellsMoreBeautiful.id,
@@ -256,6 +256,7 @@ describe('Pool SPD targeting', () => {
     expect(poetState.flags.simPoetActive).toBe(true)
     // Poet breakpoint targeting should push basicSpdTarget below 95
     expect(poetState.basicSpdTarget).toBeLessThan(95)
+    expect(o.baselineSimResult!.x.c.SPD.get()).toBeGreaterThan(95)
   })
 
   test('Non-Poet entry targets originalSpd regardless of default being Poet', () => {

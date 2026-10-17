@@ -18,6 +18,17 @@ export function getChangelogContent() {
     },
     {
       title: '',
+      date: '2026-10-17',
+      content: [
+        `Updated content to 4.7v3`,
+        `Added Aeon ★ Aha showcase`,
+        `aha.webp`,
+        `Added Aeon ★ Aha calculations to the Aha SPD calculator`,
+        `ahaspd.webp`,
+      ],
+    },
+    {
+      title: '',
       date: '2026-09-27',
       content: [
         `Added Team Showcase under Characters > Teams: pick 4 characters and screenshot their showcase cards together as a single image`,

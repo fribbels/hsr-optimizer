@@ -90,6 +90,37 @@ const castoriceDefaultMains = testMains(Stats.CD, Stats.HP_P, Stats.Quantum_DMG,
 const anaxaDefaultMains = testMains(Stats.CD, Stats.SPD, Stats.Wind_DMG, Stats.ATK_P)
 
 describe('Pool SPD targeting', () => {
+  test('baseline SPD boots are capped at the original build target', () => {
+    const o = buildOrchestrator(
+      Anaxa.id,
+      LifeShouldBeCastToFlames.id,
+      anaxaTeammates,
+      testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
+      testMains(Stats.CD, Stats.ATK_P, Stats.Wind_DMG, Stats.ATK_P),
+      testStatSpread(0),
+    )
+
+    expect(o.baselineSimResult!.x.c.SPD.get()).toBeCloseTo(o.flags.benchmarkBasicSpdTarget, 3)
+  })
+
+  test('baseline SPD boots do not gain SPD when the target is higher', () => {
+    const o = buildOrchestrator(
+      Anaxa.id,
+      LifeShouldBeCastToFlames.id,
+      anaxaTeammates,
+      testSets(Sets.ScholarLostInErudition, Sets.ScholarLostInErudition, Sets.RutilantArena),
+      testMains(Stats.CD, Stats.ATK_P, Stats.Wind_DMG, Stats.ATK_P),
+      testStatSpread(0),
+    )
+
+    const cappedSpd = o.baselineSimResult!.x.c.SPD.get()
+    o.flags.benchmarkBasicSpdTarget = 160
+    o.setBaselineBuild()
+
+    expect(o.baselineSimResult!.x.c.SPD.get()).toBeGreaterThan(cappedSpd)
+    expect(o.baselineSimResult!.x.c.SPD.get()).toBeLessThan(160)
+  })
+
   test('Default=Poet, User=Poet (same sets) — pool deduplicates to 1', () => {
     const o = buildOrchestrator(
       Castorice.id,
@@ -212,7 +243,7 @@ describe('Pool SPD targeting', () => {
   })
 
   test('Poet entry uses Poet breakpoint SPD targeting (< 95 threshold)', () => {
-    // Castorice with Poet at 0 SPD rolls — baseline SPD should be well below 95
+    // Castorice's zero-mains SPD is below 95 with Poet.
     const o = buildOrchestrator(
       Castorice.id,
       MakeFarewellsMoreBeautiful.id,
@@ -225,6 +256,7 @@ describe('Pool SPD targeting', () => {
     expect(poetState.flags.simPoetActive).toBe(true)
     // Poet breakpoint targeting should push basicSpdTarget below 95
     expect(poetState.basicSpdTarget).toBeLessThan(95)
+    expect(o.baselineSimResult!.x.c.SPD.get()).toBeGreaterThan(95)
   })
 
   test('Non-Poet entry targets originalSpd regardless of default being Poet', () => {

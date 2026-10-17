@@ -378,10 +378,12 @@ export class BenchmarkSimulationOrchestrator {
     const form = this.form!
     const simSets = this.simSets!
     const context = this.context!
+    const isPoetBaseline = isPoetSet(simSets)
 
     const baselineFlags: SimulationFlags = {
       ...this.flags,
-      benchmarkBasicSpdTarget: 0,
+      benchmarkBasicSpdTarget: isPoetBaseline ? 0 : this.flags.benchmarkBasicSpdTarget,
+      capBasicSpd: !isPoetBaseline,
     }
     const baselineMetadata: SimulationMetadata = {
       ...this.metadata,

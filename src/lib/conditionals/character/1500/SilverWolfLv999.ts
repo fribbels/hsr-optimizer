@@ -192,8 +192,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         hiddenMmrCdStep: precisionRound(100 * mmrCdPerPoint),
       }),
       min: 0,
-      // The slider covers the largest overflow tier.
-      max: 60 + 999,
+      max: 999,
     },
     spdToElation: {
       id: 'spdToElation',

@@ -880,6 +880,14 @@ Characters:
     Content:
       skillDmgBuff:
         text: 戰技傷害增益
+  RobinSummeretto:
+    Content:
+      deviatedChordBranch:
+        options:
+          atk:
+            display: 攻擊力
+          critDmg:
+            display: 暴擊傷害
   Saber:
     Content:
       talentDmgBuff:

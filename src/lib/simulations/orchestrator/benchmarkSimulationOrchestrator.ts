@@ -381,7 +381,7 @@ export class BenchmarkSimulationOrchestrator {
 
     const baselineFlags: SimulationFlags = {
       ...this.flags,
-      benchmarkBasicSpdTarget: 0,
+      capBasicSpd: true,
     }
     const baselineMetadata: SimulationMetadata = {
       ...this.metadata,

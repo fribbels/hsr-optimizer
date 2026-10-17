@@ -81,6 +81,7 @@ export function runStatSimulations(
       trace,
       forcedBasicSpd,
       !!params.skipDefaults,
+      !!params.simulationFlags.capBasicSpd,
     )
 
     const result: RunStatSimulationsResult = {
@@ -309,6 +310,7 @@ export function runSingleStatSimulation(
     false,
     forcedBasicSpd,
     !!params.skipDefaults,
+    !!params.simulationFlags.capBasicSpd,
     state.precomputedSets,
   )
 

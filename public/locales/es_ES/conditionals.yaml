@@ -802,6 +802,10 @@ Lightcones:
       initialEhrBuff:
         text: Mejora de AdE inicial
         content: Al comenzar la batalla, el acierto de efecto del portador aumenta en un {{EhrBuff}}% durante 3 turnos.
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: Vulnerabilidad
 Characters:
   Acheron:
     Content:
@@ -1983,6 +1987,16 @@ Characters:
         text: Mejora de VEL
       e6ResPen:
         text: E6 PEN RES
+  AventurineWaveflair:
+    Content:
+      e1ResPen:
+        text: E1 PEN RES
+  Pearl:
+    Content:
+      deepLearning:
+        text: Básico potenciado
+      e6Buffs:
+        text: E6 PEN RES
   Robin:
     Content:
       concertoActive:
@@ -2016,6 +2030,18 @@ Characters:
       e2UltSpdBuff:
         text: E2 Mejora VEL Definitiva
         content: Cuando está en el estado de Concierto, la VEL de todos los aliados aumenta en un 16%.
+  RobinSummeretto:
+    Content:
+      e2ResPen:
+        text: E2 PEN RES
+      e4MemoSpdBuff:
+        text: E4 Mejora de VEL
+      deviatedChordBranch:
+        options:
+          atk:
+            display: ATQ
+          critDmg:
+            display: DC
   RuanMei:
     Content:
       skillOvertoneBuff:

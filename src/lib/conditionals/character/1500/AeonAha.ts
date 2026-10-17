@@ -155,7 +155,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     traceSpdElation: {
       id: 'traceSpdElation',
       formItem: 'switch',
-      text: 'SPD to Elation conversion',
+      text: 'SPD to Elation',
       content: betaContent,
     },
     e1Merrymake: {

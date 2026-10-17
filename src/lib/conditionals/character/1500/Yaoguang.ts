@@ -15,6 +15,7 @@ import {
 import {
   AhaAscension,
   getAhaAscension,
+  getAhaE6Punchline,
 } from 'lib/conditionals/evaluation/ahaAscension'
 import {
   dynamicStatConversionContainer,
@@ -277,7 +278,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     actionDeclaration: () => [...YaoguangAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
-      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action))
 
       // Combined Elation Skill scaling: AoE base + bounce hits averaged per enemy
       const baseElationScaling = elationSkillAoeScaling + elationSkillBounceCount * elationSkillBounceScaling / context.enemyCount

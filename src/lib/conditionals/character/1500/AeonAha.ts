@@ -11,6 +11,7 @@ import {
   type ContentDefinition,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { getAhaE6Punchline } from 'lib/conditionals/evaluation/ahaAscension'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { TomorrowTogether } from 'lib/conditionals/lightcone/4star/TomorrowTogether'
 import {
@@ -96,26 +97,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const ultAoeScaling = ult(e, 2.00, 2.16)
   const ultBounceCount = 5
   const ultBounceScaling = ult(e, 0.60, 0.648)
-  const talentCdBuffValue = talent(e, 0.24, 0.264)
+  const talentCdBuffValue = talent(e, 0.40, 0.44)
   const elationSkillScaling = elationSkill(e, 0.60, 0.63, 0.66)
 
-  // Not modeled: Wishpower economy, Bliss refund, SP recovery, Technique, Aha Instant base SPD, E6 action advance
-  // (rotation-layer); Elation Debt (Talent enhance, E6 floor) - an enemy Max HP-capped HP occupation not tracked.
+  // Not modeled: Wishpower economy, Bliss refund, SP recovery, Technique, Aha Instant base SPD,
+  // Ult/A6/E6 action advances (rotation timing); Elation Debt requires enemy Max HP occupation.
   // Faces of Elation ascension and its E2 upgrade are consumed by ally Innate Traces through getAhaAscension().
   // Bonus Ability 1's rider takes the Emanator ally's element; Quantum stands in (only element-filtered buffs differ).
 
   const defaults = {
     punchlineStacks: 30,
     certifiedBangerStacks: 60,
-    emanatorElationBuff: false,
     talentCdBuff: true,
     facesOfElation: true,
-    elationSkillTrueDmg: true,
     traceFuaElationDmg: true,
     traceSpdElation: true,
     e1Merrymake: true,
     e4TeammateCertifiedBangerStacks: 120,
-    e6ExtraTurnPunchline: false,
+    e6FirstUltimatePunchline: false,
   }
 
   const teammateDefaults = {
@@ -124,6 +123,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     facesOfElation: true,
     elationSkillTrueDmg: true,
     e1Merrymake: true,
+    e6FirstUltimatePunchline: false,
   }
 
   const content: ContentDefinition<typeof defaults> = {
@@ -143,12 +143,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       min: 0,
       max: 200,
     },
-    emanatorElationBuff: {
-      id: 'emanatorElationBuff',
-      formItem: 'switch',
-      text: 'Emanator of Elation',
-      content: betaContent,
-    },
     talentCdBuff: {
       id: 'talentCdBuff',
       formItem: 'switch',
@@ -159,12 +153,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'facesOfElation',
       formItem: 'switch',
       text: 'Faces of Elation',
-      content: betaContent,
-    },
-    elationSkillTrueDmg: {
-      id: 'elationSkillTrueDmg',
-      formItem: 'switch',
-      text: 'Elation Skill True DMG',
       content: betaContent,
     },
     traceFuaElationDmg: {
@@ -195,21 +183,32 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       max: 600,
       disabled: e < 4,
     },
-    e6ExtraTurnPunchline: {
-      id: 'e6ExtraTurnPunchline',
+    e6FirstUltimatePunchline: {
+      id: 'e6FirstUltimatePunchline',
       formItem: 'switch',
-      text: 'E6 extra turn Punchline',
-      content: betaContent,
+      text: 'E6 +100 Punchline on this Aha Instant',
+      content: 'Enable only for the Aha Instant after the first Ultimate. The 100 Punchline is consumed after that action.',
       disabled: e < 6,
     },
   }
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
-    emanatorElationBuff: content.emanatorElationBuff,
+    emanatorElationBuff: {
+      id: 'emanatorElationBuff',
+      formItem: 'switch',
+      text: 'Emanator of Elation',
+      content: betaContent,
+    },
     talentCdBuff: content.talentCdBuff,
     facesOfElation: content.facesOfElation,
-    elationSkillTrueDmg: content.elationSkillTrueDmg,
+    elationSkillTrueDmg: {
+      id: 'elationSkillTrueDmg',
+      formItem: 'switch',
+      text: 'Aha Instant True DMG estimate',
+      content: 'Enable for an ally Elation Skill during Aha Instant. Estimates True DMG from this hit; other ally damage in the Instant is not included.',
+    },
     e1Merrymake: content.e1Merrymake,
+    e6FirstUltimatePunchline: content.e6FirstUltimatePunchline,
   }
 
   return {
@@ -233,8 +232,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // E4: teammates' cumulative Certified Banger is added to every Aha Elation hit's Punchline count
       const e4TeammateStacks = (e >= 4) ? r.e4TeammateCertifiedBangerStacks : 0
-      // Elation Skill uses the Aha Instant's Punchline; the E6 extra turn is a fixed 40-Punchline Instant
-      const punchlineStacks = ((e >= 6 && r.e6ExtraTurnPunchline) ? 40 : (getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks))
+      // The first E6 Ultimate grants 100 Punchline for the following Aha Instant.
+      const punchlineStacks = (getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action)))
         + e4TeammateStacks
       // Basic / Skill FUA / Ult use Aha's own Certified Banger count
       const certifiedBangerStacks = r.certifiedBangerStacks + e4TeammateStacks
@@ -299,21 +298,26 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      // Faces of Elation: ignores 30% DEF
-      x.buff(StatKey.DEF_PEN, r.facesOfElation ? 0.30 : 0, x.source(SOURCE_ULT))
+      // Faces of Elation: self CRIT Rate and DEF ignore increase at E2.
+      x.buff(StatKey.CR, r.facesOfElation ? ((e >= 2) ? 0.20 : 0.12) : 0, x.source(SOURCE_ULT))
+      x.buff(StatKey.DEF_PEN, r.facesOfElation ? ((e >= 2) ? 0.60 : 0.30) : 0, x.source(SOURCE_ULT))
     },
 
     precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.ELATION, m.emanatorElationBuff ? skillEmanatorElationBuff : 0, x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL))
+      x.buff(
+        StatKey.ELATION,
+        (action.actorId !== context.characterId && m.emanatorElationBuff) ? skillEmanatorElationBuff : 0,
+        x.targets(TargetTag.SingleTarget).source(SOURCE_SKILL),
+      )
 
       x.buff(StatKey.CD, m.talentCdBuff ? talentCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
-      // Elation Skill: True DMG equal to 20% (25% at E4) of the Aha Instant's Elation Skill DMG, split evenly across enemies
+      // Approximation: applies True DMG to an ally's Elation Skill hits; the full Aha Instant tally is not tracked.
       x.buff(
         StatKey.TRUE_DMG_MODIFIER,
-        (m.elationSkillTrueDmg) ? ((e >= 4) ? 0.25 : 0.20) : 0,
+        (action.actorId !== context.characterId && m.elationSkillTrueDmg) ? ((e >= 4) ? 0.25 : 0.20) : 0,
         x.damageType(DamageTag.ELATION).targets(TargetTag.FullTeam).actionKind(AbilityKind.ELATION_SKILL).source(SOURCE_ELATION_SKILL),
       )
 

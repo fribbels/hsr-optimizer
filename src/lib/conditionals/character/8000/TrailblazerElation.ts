@@ -8,6 +8,8 @@ import {
 import {
   AhaAscension,
   getAhaAscension,
+  getAhaE6Punchline,
+  isAhaTrueDmgEnabled,
 } from 'lib/conditionals/evaluation/ahaAscension'
 import {
   dynamicStatConversionContainer,
@@ -100,6 +102,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBanger: true,
     punchlineStacks: 30,
     certifiedBangerStacks: 60,
+    highestAllyPartyTrick: 60,
     ultCdBuff: false,
     ultTargetsAha: true,
     atkToElation: true,
@@ -140,6 +143,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }),
       min: 0,
       max: 200,
+    },
+    highestAllyPartyTrick: {
+      id: 'highestAllyPartyTrick',
+      formItem: 'slider',
+      text: t('highestAllyPartyTrick.text'),
+      content: t('highestAllyPartyTrick.content'),
+      min: 0,
+      max: 1200,
     },
     ultCdBuff: {
       id: 'ultCdBuff',
@@ -207,7 +218,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action))
       const certifiedBangerStacks = r.certifiedBangerStacks
 
       const basicHit = HitDefinitionBuilder.standardBasic()
@@ -248,13 +259,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
         .toughnessDmg(20)
         .build()
 
-      // Innate Trace: Ult on Aha triggers an extra Elation Skill, taking the highest ally Party Trick into account
+      // Innate Trace: Ult on Aha triggers an extra Elation Skill, taking the highest ally Party Trick into account.
+      // The hit-local True DMG modifier accounts for Aha's delayed 20% damage numerically in this rotation model.
       const plotArmorMultiplier = r.ultTargetsAha ? ascensionElationSkillMultiplierByTier[getAhaAscension(action)] : 0
       const plotArmorHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Lightning)
         .elationScaling(elationSkillScaling * plotArmorMultiplier)
-        .punchlineStacks(certifiedBangerStacks)
+        .punchlineStacks(r.highestAllyPartyTrick)
+        .trueDmgModifier(plotArmorMultiplier > 0 && isAhaTrueDmgEnabled(action) ? 0.20 : 0)
         .toughnessDmg(plotArmorMultiplier > 0 ? 20 : 0)
         .build()
 

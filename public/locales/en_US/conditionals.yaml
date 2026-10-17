@@ -1392,6 +1392,9 @@ Characters:
         text: Certified Banger stacks
         content: >-
           When Evanescia possesses "Certified Banger": ::BR:: Using her Skill deals Physical Elation DMG equal to {{skillElationScaling}}% to the attacked enemy target. ::BR:: Using her Ultimate deals Physical Elation DMG equal to {{ultElationScaling}}% to all enemies and deals Physical Elation DMG equal to {{ultBounceElationScaling}}% to the enemy target randomly attacked by Ultimate. When Ultimate deals Elation DMG, it takes into account "Certified Banger" at least equal to Max Energy. ::BR:: "Master Fox's" attack deals Physical Elation DMG equal to {{foxElationScaling}}% of ATK to all enemies.
+      accumulatedPartyTrick:
+        text: Accumulated Party Trick
+        content: Total Party Trick accumulated before the next Ultimate. Each 480 points increases its original multiplier while Faces of Elation is active.
       cdToElation:
         text: CD to Elation conversion
         content: Evanescia gains Elation equal to 20% of her CRIT DMG.
@@ -2653,6 +2656,9 @@ Characters:
       certifiedBangerStacks:
         text: Certified Banger stacks
         content: When the Trailblazer holds "Certified Banger," their Skill additionally deals {{skillAdditionalElationScaling}}% Lightning Elation DMG to all enemies.
+      highestAllyPartyTrick:
+        text: Highest ally Party Trick
+        content: Party Trick held by the ally with the highest amount when Ultimate targets Aha.
       ultCdBuff:
         text: Ult CD buff
         content: Increases the CRIT DMG of a designated ally by 50% for 3 turns.

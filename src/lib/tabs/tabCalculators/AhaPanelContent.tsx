@@ -2,16 +2,16 @@ import {
   CloseButton,
   Divider,
   NumberInput,
+  Select,
 } from '@mantine/core'
 import type { UseFormReturnType } from '@mantine/form'
 import type { TFunction } from 'i18next'
+import { AeonAha } from 'lib/conditionals/character/1500/AeonAha'
 import { Stats } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
+import { getGameMetadata } from 'lib/state/gameMetadata'
 import type { AhaForm as AhaFormValues } from 'lib/stores/ahaTuningStore'
-import {
-  AHA_BASE_SPEED,
-  speedToContributionMultiplier,
-} from 'lib/tabs/tabCalculators/ahaCalculations'
+import { speedToContributionMultiplier } from 'lib/tabs/tabCalculators/ahaCalculations'
 import localClasses from 'lib/tabs/tabCalculators/AhaPanelContent.module.css'
 import sharedClasses from 'lib/tabs/tabCalculators/CalculatorPanel.module.css'
 import {
@@ -21,6 +21,7 @@ import {
 import { HeaderText } from 'lib/ui/HeaderText'
 import { PanelSection } from 'lib/ui/PanelSection'
 import { localeNumber_000 } from 'lib/utils/i18nUtils'
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const classes = { ...sharedClasses, ...localClasses }
@@ -45,6 +46,7 @@ interface TeammateRow {
 export interface AhaPanelContentProps {
   form: AhaFormType
   ahaSpeed: number
+  ahaBase: number
   speeds: number[]
   teammateSpeed: number | null
   desiredValue: number | undefined
@@ -70,8 +72,8 @@ export function AhaPanelContent(props: AhaPanelContentProps) {
   return (
     <div className={classes.panelCompact}>
       <PanelSection title={props.t('Calculator.Title')}>
-        <IntegratedRows form={props.form} rows={rows} ahaSpeed={props.ahaSpeed} t={props.t} />
-        <FormulaSummary rows={rows} ahaSpeed={props.ahaSpeed} t={props.t} />
+        <IntegratedRows form={props.form} rows={rows} ahaSpeed={props.ahaSpeed} ahaBase={props.ahaBase} t={props.t} />
+        <FormulaSummary rows={rows} ahaSpeed={props.ahaSpeed} ahaBase={props.ahaBase} t={props.t} />
       </PanelSection>
       <Divider />
       <PanelSection title={props.t('Solver.Title')}>
@@ -85,10 +87,11 @@ const ROW_HEIGHT = 36
 const ROW_GAP = 3
 const ROW_STEP = ROW_HEIGHT + ROW_GAP
 
-function IntegratedRows({ form, rows, ahaSpeed, t }: {
+function IntegratedRows({ form, rows, ahaSpeed, ahaBase, t }: {
   form: AhaFormType,
   rows: TeammateRow[],
   ahaSpeed: number,
+  ahaBase: number
   t: TFunction<'calculatorsTab', 'AHA'>,
 }) {
   const visualPositions = getVisualPositions(rows)
@@ -97,7 +100,7 @@ function IntegratedRows({ form, rows, ahaSpeed, t }: {
   return (
     <div className={classes.integratedRows}>
       <HeaderRow t={t} />
-      <BaseIntegratedRow ahaSpeed={ahaSpeed} t={t} />
+      <BaseIntegratedRow form={form} ahaSpeed={ahaSpeed} ahaBase={ahaBase} t={t} />
       {rows.map((row, domIndex) => {
         const visualPos = visualPositions[domIndex]
         const offset = (visualPos - domIndex) * ROW_STEP
@@ -143,22 +146,47 @@ function HeaderRow({ t }: { t: TFunction<'calculatorsTab', 'AHA'> }) {
   )
 }
 
-function BaseIntegratedRow({ ahaSpeed, t }: { ahaSpeed: number, t: TFunction<'calculatorsTab', 'AHA'> }) {
+function BaseIntegratedRow({ form, ahaSpeed, ahaBase, t }: {
+  form: AhaFormType,
+  ahaSpeed: number,
+  ahaBase: number
+  t: TFunction<'calculatorsTab', 'AHA'>
+}) {
+  const data = useMemo(() => {
+    const AhaBaseSpd = getGameMetadata().characters[AeonAha.id].stats.SPD
+    const AhaSigMeta = getGameMetadata().lightCones[AeonAha.defaultLightCone].superimpositions
+    return [
+      { value: 80, label: 'Disabled' },
+      { value: AhaBaseSpd, label: 'Enabled: S0' },
+      { value: AhaBaseSpd + AhaSigMeta[1][Stats.SPD], label: 'Enabled: S1' },
+      { value: AhaBaseSpd + AhaSigMeta[2][Stats.SPD], label: 'Enabled: S2' },
+      { value: AhaBaseSpd + AhaSigMeta[3][Stats.SPD], label: 'Enabled: S3' },
+      { value: AhaBaseSpd + AhaSigMeta[4][Stats.SPD], label: 'Enabled: S4' },
+      { value: AhaBaseSpd + AhaSigMeta[5][Stats.SPD], label: 'Enabled: S5' },
+    ]
+  }, [t])
   return (
     <div className={`${classes.integratedRow} ${classes.baseRow}`}>
       <div className={classes.rowSource}>{t('Calculator.Constant')}</div>
-      <div className={classes.rowInputPlaceholder} />
+      <Select
+        form={form.key('ahaBase')}
+        {...form.getInputProps('ahaBase')}
+        defaultValue={data[0]}
+        data={data}
+        clearable={false}
+        allowDeselect={false}
+      />
       <div className={classes.rowTrack}>
         <div
           className={classes.rowSegment}
           style={{
             left: '0%',
-            width: `${(AHA_BASE_SPEED / ahaSpeed) * 100}%`,
+            width: `${(ahaBase / ahaSpeed) * 100}%`,
             background: BASE_COLOR,
           }}
         />
       </div>
-      <div className={classes.rowMeta}>+ {localeNumber_000(AHA_BASE_SPEED)}</div>
+      <div className={classes.rowMeta}>+ {localeNumber_000(ahaBase)}</div>
     </div>
   )
 }
@@ -221,9 +249,10 @@ function IntegratedRow({ form, row, ahaSpeed, label, style, isNextSlot }: {
 
 const RANK_COUNT = 4
 
-function FormulaSummary({ rows, ahaSpeed, t }: {
+function FormulaSummary({ rows, ahaSpeed, ahaBase, t }: {
   rows: TeammateRow[],
   ahaSpeed: number,
+  ahaBase: number,
   t: TFunction<'calculatorsTab', 'AHA'>,
 }) {
   const byRank: (TeammateRow | null)[] = Array.from({ length: RANK_COUNT }, () => null)
@@ -238,7 +267,7 @@ function FormulaSummary({ rows, ahaSpeed, t }: {
       <math display='block' className={classes.formula}>
         <mtext>{t('Calculator.Formula.Aha')}</mtext>
         <mo style={{ padding: '0 5px' }}>=</mo>
-        <mn>{AHA_BASE_SPEED}</mn>
+        <mn>{ahaBase}</mn>
         {byRank.map((row, rank) => {
           const denom = getDenominator(rank)
           return (
@@ -323,7 +352,7 @@ function buildTeammateRows(values: AhaFormValues): TeammateRow[] {
       return a.slot - b.slot
     })
 
-  let cumulative = AHA_BASE_SPEED
+  let cumulative = values.ahaBase
   const rankedRows = new Map<TeammateKey, Pick<TeammateRow, 'rank' | 'contribution' | 'startOffset' | 'color'>>()
 
   speedRows.forEach((row, rank) => {

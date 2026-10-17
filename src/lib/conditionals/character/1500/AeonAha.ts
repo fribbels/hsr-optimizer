@@ -168,7 +168,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e4TeammateCertifiedBangerStacks: {
       id: 'e4TeammateCertifiedBangerStacks',
       formItem: 'slider',
-      text: 'E4 teammate Certified Banger stacks',
+      text: 'E4 teammate CB stacks',
       content: betaContent,
       min: 0,
       max: 600,
@@ -188,7 +188,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     elationSkillTrueDmg: {
       id: 'elationSkillTrueDmg',
       formItem: 'switch',
-      text: 'Aha Instant True DMG estimate',
+      text: 'Aha Instant True DMG',
       content: betaContent,
     },
     e1Merrymake: content.e1Merrymake,
@@ -416,13 +416,11 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_SKILL,
     WHOLE_ELATION_SKILL,
   ],
-  errRopeEidolon: 0,
   deprioritizeBuffs: true,
   hardBreakpoints: [
-    { stat: Stats.SPD, threshold: 125 },
+    { stat: Stats.SPD, threshold: 150 },
   ],
   relicSets: [
-    [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.DreamlitActor, Sets.DreamlitActor],
     [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],
@@ -430,8 +428,7 @@ const simulation = (): SimulationMetadata => ({
     ...SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
   ],
   ornamentSets: [
-    Sets.TengokuLivestream,
-    Sets.PunklordeStageZero,
+    Sets.GodsMomentOfJoy,
     ...SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
     ...SPREAD_ORNAMENTS_2P_SUPPORT,
   ],

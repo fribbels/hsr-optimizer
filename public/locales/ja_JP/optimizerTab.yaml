@@ -420,6 +420,20 @@ SetConditionals:
       Both:
         Display: 攻撃力 + 会心ダメ
         Label: 攻撃力 + 会心ダメ（+24% 攻撃力｜+12% 会心ダメ）
+    DreamlitActor:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      Elation:
+        Display: 愉悦
+      CD:
+        Display: 会心ダメ
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'Off'
+        Label: 'Off'
+      CD:
+        Display: 会心ダメ
   Conditionals:
     DefaultMessage: デフォルトで有効 - セット効果を戦闘計算に反映します。
     Hunter: 有効にすると、会心ダメージバフを戦闘ステータス計算に反映します。
@@ -619,6 +633,8 @@ TeammateCard:
   OrnamentsPlaceholder: オーナメント
   TeammateSyncSuccessMessage: チーム編成を同期しました
   TeammateSets:
+    DivineQueryingMasterSmith:
+      Text: 与ダメ+15%
     Messenger:
       Desc: '4セット：$t(gameData:RelicSets.114.Name)（速度+12%）'
       Text: 速度12%

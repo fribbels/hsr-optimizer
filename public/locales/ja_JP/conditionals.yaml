@@ -894,6 +894,10 @@ Lightcones:
       initialEhrBuff:
         text: 戦闘開始時の効果命中バフ
         content: 戦闘開始時、装備キャラの効果命中+{{EhrBuff}}%、3ターン継続。
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: 敵被ダメージ増加
 Characters:
   Acheron:
     Content:
@@ -2225,6 +2229,29 @@ Characters:
       e6ResPen:
         text: 6凸 全属性耐性貫通
         content: 遠坂凛の全属性耐性貫通+20%。必殺技を発動する時、「宝石エネルギー」を24獲得し、追加ターンを1ターン獲得する。
+  AventurineWaveflair:
+    Content:
+      certifiedBanger:
+        text: 爆笑の褒美
+      certifiedBangerStacks:
+        text: '「爆笑の褒美」層数'
+      punchlineStacks:
+        text: 爆笑ネタの層数
+        content: 味方全体が持っている爆笑ネタの数を指定します。愉悦スキルのダメージ計算に使います。
+      spdElationConversion:
+        text: 速度→愉悦ダメ変換
+      e1ResPen:
+        text: 1凸 全属性耐性貫通
+      e6Merrymaking:
+        text: 6凸 上笑
+  Pearl:
+    Content:
+      deepLearning:
+        text: 強化通常攻撃
+      punchlineStacks:
+        text: 爆笑ネタの層数
+      e6Buffs:
+        text: 6凸 全属性耐性貫通
   Robin:
     Content:
       concertoActive:
@@ -2258,6 +2285,18 @@ Characters:
       e2UltSpdBuff:
         text: 2凸 必殺技の速度バフ
         content: '「協奏」状態の時、味方全体の速度+16%。'
+  RobinSummeretto:
+    Content:
+      e2ResPen:
+        text: 2凸 全属性耐性貫通
+      e4MemoSpdBuff:
+        text: 4凸 味方速度バフ
+      deviatedChordBranch:
+        options:
+          atk:
+            display: 攻撃力
+          critDmg:
+            display: 会心ダメ
   RuanMei:
     Content:
       skillOvertoneBuff:

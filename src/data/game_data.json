@@ -8425,50 +8425,50 @@
       },
       "traceTree": [
         {
-          "id": "1511201_4.6v1",
+          "id": "1511201_4.6v3",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1511202_4.6v1",
+          "id": "1511202_4.6v3",
           "stat": "CRIT Rate",
           "value": 0.027,
           "pre": null,
           "children": []
         },
         {
-          "id": "1511203_4.6v1",
+          "id": "1511203_4.6v3",
           "stat": "CRIT DMG",
           "value": 0.053,
           "pre": null,
           "children": []
         },
         {
-          "id": "1511204_4.6v1",
+          "id": "1511204_4.6v3",
           "stat": "SPD",
           "value": 2,
           "pre": null,
           "children": []
         },
         {
-          "id": "1511205_4.6v1",
+          "id": "1511205_4.6v3",
           "stat": "CRIT DMG",
           "value": 0.08,
           "pre": null,
           "children": [
             {
-              "id": "1511206_4.6v1",
+              "id": "1511206_4.6v3",
               "stat": "CRIT Rate",
               "value": 0.04,
-              "pre": "1511205_4.6v1",
+              "pre": "1511205_4.6v3",
               "children": [
                 {
-                  "id": "1511207_4.6v1",
+                  "id": "1511207_4.6v3",
                   "stat": "CRIT DMG",
                   "value": 0.08,
-                  "pre": "1511206_4.6v1",
+                  "pre": "1511206_4.6v3",
                   "children": []
                 }
               ]
@@ -8476,22 +8476,22 @@
           ]
         },
         {
-          "id": "1511208_4.6v1",
+          "id": "1511208_4.6v3",
           "stat": "SPD",
           "value": 3,
           "pre": null,
           "children": [
             {
-              "id": "1511209_4.6v1",
+              "id": "1511209_4.6v3",
               "stat": "CRIT Rate",
               "value": 0.053,
-              "pre": "1511208_4.6v1",
+              "pre": "1511208_4.6v3",
               "children": [
                 {
-                  "id": "1511210_4.6v1",
+                  "id": "1511210_4.6v3",
                   "stat": "CRIT DMG",
                   "value": 0.107,
-                  "pre": "1511209_4.6v1",
+                  "pre": "1511209_4.6v3",
                   "children": []
                 }
               ]

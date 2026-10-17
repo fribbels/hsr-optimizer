@@ -1,7 +1,7 @@
 import { findTeamAction } from 'lib/conditionals/conditionalUtils'
 import { type OptimizerAction } from 'types/optimizer'
 
-// Aeon ★ Aha is not registered in game_data.json yet, so consumers key on the raw id
+// Keep this id available to every Elation consumer without importing Aha's controller.
 export const AEON_AHA_ID = '1511'
 
 export enum AhaAscension {
@@ -18,4 +18,14 @@ export function getAhaAscension(action: OptimizerAction): AhaAscension {
   if (!ahaAction?.characterConditionals.facesOfElation) return AhaAscension.NONE
 
   return (ahaAction.actorEidolon >= 2) ? AhaAscension.ENHANCED : AhaAscension.BASE
+}
+
+export function getAhaE6Punchline(action: OptimizerAction): number {
+  const ahaAction = findTeamAction(action, AEON_AHA_ID)
+  return (ahaAction && ahaAction.actorEidolon >= 6 && ahaAction.characterConditionals.e6FirstUltimatePunchline) ? 100 : 0
+}
+
+export function isAhaTrueDmgEnabled(action: OptimizerAction): boolean {
+  const ahaAction = findTeamAction(action, AEON_AHA_ID)
+  return !!ahaAction?.characterConditionals.elationSkillTrueDmg
 }

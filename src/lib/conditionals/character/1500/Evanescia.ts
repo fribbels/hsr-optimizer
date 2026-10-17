@@ -23,6 +23,7 @@ import {
 import {
   AhaAscension,
   getAhaAscension,
+  getAhaE6Punchline,
 } from 'lib/conditionals/evaluation/ahaAscension'
 import {
   dynamicStatConversionContainer,
@@ -130,22 +131,23 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const elationSkillScaling = elationSkill(e, 1.10, 1.155, 1.21)
 
-  // Innate Trace (Faces of Elation ascension): DEF ignore 10% (Aha E2: 24%); Ult multiplier +50% (+100%) of original per 500 Party Trick
+  // Innate Trace: DEF ignore 10% (Aha E2: 24%); Ult multiplier +75% (+150%) of original per 480 accumulated Party Trick.
   const ascensionDefPenByTier: Record<AhaAscension, number> = {
     [AhaAscension.NONE]: 0,
     [AhaAscension.BASE]: 0.10,
     [AhaAscension.ENHANCED]: 0.24,
   }
-  const ascensionUltBonusPer500ByTier: Record<AhaAscension, number> = {
+  const ascensionUltBonusPer480ByTier: Record<AhaAscension, number> = {
     [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 0.50,
-    [AhaAscension.ENHANCED]: 1.00,
+    [AhaAscension.BASE]: 0.75,
+    [AhaAscension.ENHANCED]: 1.50,
   }
 
   const defaults = {
     certifiedBanger: true,
     punchlineStacks: 30,
     certifiedBangerStacks: 600,
+    accumulatedPartyTrick: 600,
     cdToElation: true,
     masterFoxVuln: true,
     e1ResPen: true,
@@ -190,6 +192,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       }),
       min: 0,
       max: 1200,
+    },
+    accumulatedPartyTrick: {
+      id: 'accumulatedPartyTrick',
+      formItem: 'slider',
+      text: t('accumulatedPartyTrick.text'),
+      content: t('accumulatedPartyTrick.content'),
+      min: 0,
+      max: 4800,
     },
     cdToElation: {
       id: 'cdToElation',
@@ -257,7 +267,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action))
       const certifiedBangerStacks = r.certifiedBangerStacks
 
       // Ult CB floor = max energy
@@ -270,8 +280,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       // E1: extra Elation Skill trigger
       const e1ElationSkillMultiplier = (e >= 1 && r.e1ResPen) ? 2 : 1
 
-      // Accumulated Party Trick is approximated by the held Certified Banger count
-      const ascensionUltMultiplier = 1 + Math.floor(certifiedBangerStacks / 500) * ascensionUltBonusPer500ByTier[getAhaAscension(action)]
+      const ascensionUltMultiplier = 1 + Math.floor(r.accumulatedPartyTrick / 480) * ascensionUltBonusPer480ByTier[getAhaAscension(action)]
 
       const basicHit = HitDefinitionBuilder.standardBasic()
         .damageElement(ElementTag.Physical)

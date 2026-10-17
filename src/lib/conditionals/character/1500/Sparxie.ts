@@ -23,6 +23,7 @@ import {
 import {
   AhaAscension,
   getAhaAscension,
+  getAhaE6Punchline,
 } from 'lib/conditionals/evaluation/ahaAscension'
 import {
   dynamicStatConversionContainer,
@@ -123,11 +124,11 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
   const elationSkillAoeScaling = elationSkill(e, 0.50, 0.525, 0.55)
   const elationSkillBounceScaling = elationSkill(e, 0.25, 0.2625, 0.275)
 
-  // Innate Trace (Faces of Elation ascension): CD +30% (Aha E2: +120%), team DEF ignore 15% (20%)
-  const ascensionCdByTier: Record<AhaAscension, number> = {
-    [AhaAscension.NONE]: 0,
-    [AhaAscension.BASE]: 0.30,
-    [AhaAscension.ENHANCED]: 1.20,
+  // Innate Trace: Elation Skill multiplier increases by 50% (Aha E2: 120%) of its original value.
+  const ascensionElationSkillMultiplierByTier: Record<AhaAscension, number> = {
+    [AhaAscension.NONE]: 1,
+    [AhaAscension.BASE]: 1.50,
+    [AhaAscension.ENHANCED]: 2.20,
   }
   const ascensionDefPenByTier: Record<AhaAscension, number> = {
     [AhaAscension.NONE]: 0,
@@ -276,7 +277,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
-      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action))
       const certifiedBangerStacks = r.certifiedBangerStacks
       const engagementStacks = r.enhancedBasic ? r.engagementFarmingStacks : 0
 
@@ -338,7 +339,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
-        .elationScaling(elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount)
+        .elationScaling((elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount) * ascensionElationSkillMultiplierByTier[getAhaAscension(action)])
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(6.67 + 1.67 * totalBounces / context.enemyCount)
         .build()
@@ -362,8 +363,6 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       x.buff(StatKey.ELATION, (e >= 4 && r.e4UltElation) ? 0.36 : 0, x.source(SOURCE_E4))
 
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.source(SOURCE_E6))
-
-      x.buff(StatKey.CD, ascensionCdByTier[getAhaAscension(action)], x.source(SOURCE_TRACE))
     },
 
     precomputeMutualEffectsContainer: (

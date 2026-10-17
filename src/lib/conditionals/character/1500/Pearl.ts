@@ -14,6 +14,11 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+  getAhaE6Punchline,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -119,7 +124,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   // Not simulated: Technique setup; Energy, action advance, extra turns, and Charge lifecycles.
   // Repellency depletion, cleanse, and E1 fatal-hit recovery require incoming-damage combat state.
   // E6 extra damage requires the Archetype's combat stats, unavailable in Pearl's own calculation.
-  // Innate Trace: the Party Trick cap rise is the slider max; extra-turn resource retention is not simulated.
+  // Innate Trace: Party Trick cap rises from 50 to 75 while Faces of Elation is active; extra-turn resource retention is not simulated.
 
   // Elation Skill: allies' next attack deals extra Elation DMG, tier = Elation characters in team (Pearl included)
   const elationSkillProcByElationCount: Record<number, number> = {
@@ -297,8 +302,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     actionDeclaration: () => [...PearlAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
+      const certifiedBangerStacks = Math.min(r.certifiedBangerStacks, getAhaAscension(action) == AhaAscension.NONE ? 50 : 75)
 
-      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? r.punchlineStacks
+      const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? (r.punchlineStacks + getAhaE6Punchline(action))
       const elationCount = countTeamPath(context, PathNames.Elation)
       // Aesthetic Archetype is on the Path of Elation when another Elation ally exists
       const elationArchetype = elationCount >= 2
@@ -319,7 +325,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             .damageType(DamageTag.ELATION)
             .damageElement(ElementTag.Ice)
             .elationScaling(enhancedBasicElationScaling)
-            .punchlineStacks(r.certifiedBangerStacks)
+            .punchlineStacks(certifiedBangerStacks)
             .toughnessDmg(0)
             .build(),
         )
@@ -375,7 +381,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           if (attackElement == null) return
 
           const elationCount = Math.min(4, countTeamPath(context, PathNames.Elation))
-          const punchlineStacks = getYaoguangAhaPunchlineValue(action, context) ?? self.ownConditionals.punchlineStacks as number
+          const punchlineStacks = getYaoguangAhaPunchlineValue(action, context)
+            ?? ((self.ownConditionals.punchlineStacks as number) + getAhaE6Punchline(action))
           const e4ElationSkillBoost = (e >= 4 && self.ownConditionals.e4ElationSkillBoost) ? 1.00 : 0
 
           action.hits!.push(

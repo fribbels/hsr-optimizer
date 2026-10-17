@@ -421,6 +421,7 @@ const simulation = (): SimulationMetadata => ({
     { stat: Stats.SPD, threshold: 150 },
   ],
   relicSets: [
+    [Sets.EverGloriousMagicalGirl, Sets.EverGloriousMagicalGirl],
     [Sets.DreamlitActor, Sets.DreamlitActor],
     [Sets.DivinerOfDistantReach, Sets.DivinerOfDistantReach],
     [Sets.SacerdosRelivedOrdeal, Sets.SacerdosRelivedOrdeal],

@@ -122,9 +122,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const mmrCrPerPoint = talent(e, 0.004, 0.0044)
   const mmrCdPerPoint = talent(e, 0.008, 0.0088)
   const hiddenMmrCapByAscension: Record<AhaAscension, number> = {
-    [AhaAscension.None]: 60 + 240,
-    [AhaAscension.AhaE0]: 60 + 360,
-    [AhaAscension.AhaE2]: 60 + 999,
+    [AhaAscension.None]: 300,
+    [AhaAscension.AhaE0]: 360,
+    [AhaAscension.AhaE2]: 999,
   }
 
   const elationSkillBounceScaling = elationSkill(e, 0.90, 0.945, 0.99)

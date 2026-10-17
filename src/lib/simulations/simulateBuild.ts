@@ -27,7 +27,10 @@ import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
-import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityMeta,
+  type TurnAbilityName,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   computeSetMatches,
   type SetMatches,
@@ -79,6 +82,7 @@ export function simulateBuild(
   trace: boolean = false,
   forcedBasicSpd: number = 0,
   skipDefaults: boolean = false,
+  capBasicSpd: boolean = false,
   precomputedSets: PrecomputedSetState | null = null,
 ): SimulateBuildResult {
   // Compute
@@ -119,8 +123,10 @@ export function simulateBuild(
   calculateElementalStats(c, context)
 
   if (forcedBasicSpd) {
-    // Special scoring use case where basic spd stat needs to be enforced
-    c.SPD.set(forcedBasicSpd, Source.NONE)
+    // Cap baseline SPD without raising it to the target.
+    if (!capBasicSpd || c.SPD.get() > forcedBasicSpd) {
+      c.SPD.set(forcedBasicSpd, Source.NONE)
+    }
   }
 
   let comboDmg = 0
@@ -146,6 +152,7 @@ export function simulateBuild(
 
   for (let i = 0; i < context.rotationActions.length; i++) {
     const action = context.rotationActions[i]
+    const actionOutputTag = AbilityMeta[action.actionType].outputTag
     x.setConfig(action.config)
 
     resetConditionalState(action)
@@ -162,7 +169,7 @@ export function simulateBuild(
       rotationBuffSteps!.push({ actionType: action.actionType, snapshot: captureSnapshot(x) })
     }
 
-    let sum = 0
+    let actionOutput = 0
 
     for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
       const hit = action.hits![hitIndex]
@@ -174,7 +181,13 @@ export function simulateBuild(
       }
 
       if (hit.recorded !== false) {
-        sum += dmg
+        if (hit.outputTag === actionOutputTag) {
+          if (actionOutputTag === OutputTag.BUFF) {
+            actionOutput = dmg
+          } else {
+            actionOutput += dmg
+          }
+        }
         if (hit.outputTag === OutputTag.DAMAGE) {
           comboDmg += dmg
         } else if (hit.outputTag === OutputTag.HEAL) {
@@ -187,7 +200,7 @@ export function simulateBuild(
       }
     }
 
-    x.setActionRegisterValue(action.registerIndex, sum)
+    x.setActionRegisterValue(action.registerIndex, actionOutput)
   }
 
   let primaryActionStats: PrimaryActionStats | undefined
@@ -200,6 +213,7 @@ export function simulateBuild(
     rotationDamage = []
     for (let i = 0; i < context.defaultActions.length; i++) {
       const action = context.defaultActions[i]
+      const actionOutputTag = AbilityMeta[action.actionType].outputTag
       x.setConfig(action.config)
 
       resetConditionalState(action)
@@ -234,7 +248,7 @@ export function simulateBuild(
         }
       }
 
-      let sum = 0
+      let actionOutput = 0
 
       for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
         const hit = action.hits![hitIndex]
@@ -246,14 +260,20 @@ export function simulateBuild(
         }
 
         if (hit.recorded !== false) {
-          sum += dmg
+          if (hit.outputTag === actionOutputTag) {
+            if (actionOutputTag === OutputTag.BUFF) {
+              actionOutput = dmg
+            } else {
+              actionOutput += dmg
+            }
+          }
           if (hit.outputTag === OutputTag.BUFF) {
             comboBuff = dmg
           }
         }
       }
 
-      x.setActionRegisterValue(action.registerIndex, sum)
+      x.setActionRegisterValue(action.registerIndex, actionOutput)
     }
 
     calculateEhp(x, context)

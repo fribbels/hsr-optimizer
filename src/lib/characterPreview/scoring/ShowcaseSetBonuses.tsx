@@ -78,12 +78,13 @@ function useSetName(ingameId: RelicSetIngameId): string {
 }
 
 function EmptySetEntry({ count }: { count: number }) {
+  const { t } = useTranslation('charactersTab', { keyPrefix: 'CharacterPreview' })
   return (
     <div className={classes.cardPlain}>
       <img src={DEFAULT_SET_ICON} className={classes.setIconMd} />
       <div className={classes.cardText}>
         <span className={classes.cardPiece}>{count}pc</span>
-        <StatTextSm className={classes.cardName}>Incomplete set</StatTextSm>
+        <StatTextSm className={classes.cardName}>{t('IncompleteSet')}</StatTextSm>
       </div>
     </div>
   )

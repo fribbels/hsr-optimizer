@@ -3,6 +3,7 @@ import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { AventurineWaveflair } from 'lib/conditionals/character/1500/AventurineWaveflair'
 import {
   AbilityEidolon,
   type Conditionals,
@@ -356,8 +357,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: AventurineWaveflair.id,
+      lightCone: AventurineWaveflair.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

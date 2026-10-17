@@ -157,7 +157,7 @@ export function RelicModalContent() {
     if (relicsAreDifferent(selectedRelic, relic)) {
       relic.verified = false
     }
-    onOk(relic)
+    onOk(relic, selectedRelic)
     closeOverlay()
   }
 

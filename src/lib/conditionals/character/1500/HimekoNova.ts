@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   aoe,
   ashblazingMulti,
@@ -10,6 +9,7 @@ import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   boostUltAshblazingAtk,
@@ -30,7 +30,6 @@ import { InTheNameOfTheWorld } from 'lib/conditionals/lightcone/5star/InTheNameO
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { ThoughWorldsApart } from 'lib/conditionals/lightcone/5star/ThoughWorldsApart'
 import {
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -83,7 +82,6 @@ export const HimekoNovaAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.HimekoNova.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
     SOURCE_BASIC,
@@ -351,11 +349,11 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen && m.assistSkillBuff) ? talentResPenValue : 0, x.source(SOURCE_E4))
+      x.buff(StatKey.RES_PEN, (e >= 4 && m.e4ResPen && m.assistSkillBuff) ? talentResPenValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
 
       // Decimation: team CD +100%, Skill CD +100%
-      x.buff(StatKey.CD, m.companionDecimation ? decimationCdValue : 0, x.source(SOURCE_UNIQUE))
-      x.buff(StatKey.CD, m.companionDecimation ? decimationSkillCdValue : 0, x.damageType(DamageTag.SKILL).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, m.companionDecimation ? decimationCdValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_UNIQUE))
+      x.buff(StatKey.CD, m.companionDecimation ? decimationSkillCdValue : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_UNIQUE))
     },
 
     finalizeCalculations: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -414,16 +412,16 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: WeltB1.id,
+      lightCone: WeltB1.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: SparkleB1.id,
-      lightCone: DanceDanceDance.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
-      lightConeSuperimposition: 5,
+      lightConeSuperimposition: 1,
     },
     {
       characterId: PermansorTerrae.id,
@@ -433,6 +431,13 @@ const simulation = (): SimulationMetadata => ({
     },
   ],
   leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+        { characterId: SparkleB1.id, lightCones: [DanceDanceDance.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
     {
       teammates: [
         { characterId: MortenaxBlade.id, lightCones: [ReforgedInHellfire.id] },

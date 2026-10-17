@@ -1,0 +1,23 @@
+Buttons:
+  Clear: Clear characters
+  CopyScreenshot: Copy screenshot
+  DownloadScreenshot: Download screenshot
+  AddCharacter: Add character
+  AddMainDps: Add Main DPS
+  ChangeCharacter: Change character
+  Remove: Remove
+  SyncBenchmarkTeams: Sync benchmark teams
+Panels:
+  Characters: Character Builds
+  Controls: Controls
+  Teams: Team Showcase
+Benchmark: Benchmark
+CardOptions: Card options, drag to reorder
+ScreenshotName: Team
+SavedTeams:
+  Header: Gallery
+  Save: Save team
+  Delete: Delete team
+  Rename: Rename
+  Empty: No saved teams yet
+  DefaultName: 'Team {{index}}'

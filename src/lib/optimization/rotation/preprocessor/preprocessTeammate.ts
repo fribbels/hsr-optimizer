@@ -57,6 +57,7 @@ class CerydraPeeragePreprocessor extends TeammateAbilityPreprocessorBase {
 
   private incrementStacks() {
     this.state.stacks = Math.min(8, this.state.stacks + 1)
+    if (this.state.stacks >= 6) this.state.peerageActive = true
   }
 
   private resetStacks() {

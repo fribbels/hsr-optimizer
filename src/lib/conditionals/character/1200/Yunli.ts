@@ -39,6 +39,7 @@ import { Robin } from 'lib/conditionals/character/1300/Robin'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { FlyIntoAPinkTomorrow } from 'lib/conditionals/lightcone/4star/FlyIntoAPinkTomorrow'
@@ -366,10 +367,10 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 5,
     },
     {
-      characterId: Tingyun.id,
-      lightCone: MemoriesOfThePast.id,
-      characterEidolon: 6,
-      lightConeSuperimposition: 5,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
     },
     {
       characterId: HuohuoB1.id,
@@ -379,6 +380,13 @@ const simulation = (): SimulationMetadata => ({
     },
   ],
   leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: SparkleB1.id, lightCones: [DanceDanceDance.id] },
+        { characterId: Tingyun.id, lightCones: [MemoriesOfThePast.id] },
+        { characterId: HuohuoB1.id, lightCones: [NightOfFright.id] },
+      ],
+    },
     {
       teammates: [
         { characterId: Robin.id, lightCones: [FlowingNightglow.id] },

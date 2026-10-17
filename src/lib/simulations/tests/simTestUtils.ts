@@ -14,6 +14,7 @@ import {
   GlobalRegister,
   StatKey,
 } from 'lib/optimization/engine/config/keys'
+import { OutputTag } from 'lib/optimization/engine/config/tag'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import { StatCalculator } from 'lib/relics/statCalculator'
 import {
@@ -237,13 +238,13 @@ export function collectResults(input: TestInput) {
     for (const [abilityKind, dmg] of Object.entries(actionDamage)) {
       const meta = AbilityMeta[abilityKind as keyof typeof AbilityMeta]
 
-      if (meta?.category === 'heal') {
+      if (meta?.outputTag === OutputTag.HEAL) {
         healValue += dmg ?? 0
-      } else if (meta?.category === 'shield') {
+      } else if (meta?.outputTag === OutputTag.SHIELD) {
         shieldValue += dmg ?? 0
-      } else if (meta?.category === 'buff') {
+      } else if (meta?.outputTag === OutputTag.BUFF) {
         buffValue += dmg ?? 0
-      } else if (meta?.category === 'damage') {
+      } else if (meta?.outputTag === OutputTag.DAMAGE) {
         nameCombatResults[`${abilityKind}_DMG`] = precisionRound(dmg ?? 0, 7)
       }
     }

@@ -1,7 +1,6 @@
 import {
   ConditionalDataType,
   Sets,
-  Stats,
 } from 'lib/constants/constants'
 import { basicP2 } from 'lib/gpu/injection/generateBasicSetEffects'
 import {
@@ -43,10 +42,8 @@ const display = {
 } as const satisfies SetDisplay
 
 const conditionals: SetConditionals = {
-  p2c: (c: BasicStatsArray, context: OptimizerContext) => {
-    if (context.elementalDamageType == Stats.Lightning_DMG) {
-      c.LIGHTNING_DMG_BOOST.buff(0.10, Source.BandOfSizzlingThunder)
-    }
+  p2c: (c: BasicStatsArray) => {
+    c.LIGHTNING_DMG_BOOST.buff(0.10, Source.BandOfSizzlingThunder)
   },
   p4x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
     if (setConditionals.enabledBandOfSizzlingThunder) {

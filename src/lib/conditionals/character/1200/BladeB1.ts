@@ -1,6 +1,8 @@
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Sunday } from 'lib/conditionals/character/1300/Sunday'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   AbilityEidolon,
@@ -274,14 +276,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Tribbie.id,
-      lightCone: IfTimeWereAFlower.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
+      characterId: SparkleB1.id,
+      lightCone: SparkleB1.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

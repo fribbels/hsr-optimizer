@@ -79,6 +79,9 @@ export function newTransformStateActions(comboState: ComboState, request: Form, 
 
       action.actionType = actionKind
       action.hits = actionDef.hits as Hit[]
+      if (action.hits?.[0]?.damageFunctionType === DamageFunctionType.Buff) {
+        action.buffStat = (action.hits[0] as BuffHitDefinition).buffStat
+      }
 
       for (const modifier of context.actionModifiers) {
         const self = buildModifierContext(action, modifier)

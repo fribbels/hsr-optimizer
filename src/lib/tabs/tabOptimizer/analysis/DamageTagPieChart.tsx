@@ -54,6 +54,7 @@ export function DamageTagPieChart({ analysis }: {
   analysis: OptimizerResultAnalysis,
 }) {
   const { t } = useTranslation('optimizerTab')
+  const { t: tCommon } = useTranslation('common')
   const { newX, context } = analysis
   const actions = context.rotationActions.length > 0 ? context.rotationActions : context.defaultActions
 
@@ -169,7 +170,7 @@ export function DamageTagPieChart({ analysis }: {
         <tfoot>
           <tr>
             <td style={{ paddingTop: 6, borderTop: '1px solid var(--border-default)' }}>
-              <span style={{ fontSize: 13, color: '#8899aa', paddingLeft: 18 }}>Total</span>
+              <span style={{ fontSize: 13, color: '#8899aa', paddingLeft: 18 }}>{tCommon('Total')}</span>
             </td>
             <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 6, borderTop: '1px solid var(--border-default)' }}>
               {localeNumberComma(Math.floor(grandTotal))}

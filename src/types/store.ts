@@ -12,6 +12,7 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 import type {
   ScoringMetadataOverride,
   ShowcasePreferences,
@@ -51,6 +52,30 @@ export type GlobalSavedSession = {
   showcasePreciseSpd: boolean,
   sidebarCollapsed: boolean,
   characterGridDensity: CharacterGridDensity,
+  teamShowcaseSavedTeams: TeamShowcaseSavedTeam[],
+}
+
+/** A user-created saved team. Unlike CharacterId these are generated uuids, not game data keys. */
+export type SavedTeamId = string
+
+export type TeamShowcaseBenchmarkMember = {
+  characterId: CharacterId,
+  characterEidolon: number,
+  lightCone: LightConeId,
+  lightConeSuperimposition: number,
+  teamRelicSet?: string,
+  teamOrnamentSet?: string,
+}
+
+export type TeamShowcaseBenchmarkSnapshot = {
+  members: TeamShowcaseBenchmarkMember[],
+}
+
+export type TeamShowcaseSavedTeam = {
+  id: SavedTeamId,
+  name: string,
+  characterIds: (CharacterId | null)[],
+  benchmarkSnapshot?: TeamShowcaseBenchmarkSnapshot,
 }
 
 export type UserSettings = {

@@ -3,6 +3,7 @@ import {
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
+import { WeltB1 } from 'lib/conditionals/character/1000/WeltB1'
 import { Cipher } from 'lib/conditionals/character/1400/Cipher'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Tribbie } from 'lib/conditionals/character/1400/Tribbie'
@@ -347,8 +348,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Cipher.id,
-      lightCone: Cipher.defaultLightCone,
+      characterId: WeltB1.id,
+      lightCone: WeltB1.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

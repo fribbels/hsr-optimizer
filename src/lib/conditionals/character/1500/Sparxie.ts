@@ -4,6 +4,8 @@ import {
 } from 'lib/conditionals/ashblazingCompute'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { Pearl } from 'lib/conditionals/character/1500/Pearl'
+import { SilverWolfLv999 } from 'lib/conditionals/character/1500/SilverWolfLv999'
 import {
   getYaoguangAhaPunchlineValue,
   Yaoguang,
@@ -19,13 +21,16 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { DanceDanceDance } from 'lib/conditionals/lightcone/4star/DanceDanceDance'
 import { MushyShroomysAdventures } from 'lib/conditionals/lightcone/4star/MushyShroomysAdventures'
-import { ButTheBattleIsntOver } from 'lib/conditionals/lightcone/5star/ButTheBattleIsntOver'
 import { DazzledByAFloweryWorld } from 'lib/conditionals/lightcone/5star/DazzledByAFloweryWorld'
 import { EarthlyEscapade } from 'lib/conditionals/lightcone/5star/EarthlyEscapade'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
@@ -117,6 +122,18 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
 
   const elationSkillAoeScaling = elationSkill(e, 0.50, 0.525, 0.55)
   const elationSkillBounceScaling = elationSkill(e, 0.25, 0.2625, 0.275)
+
+  // Innate Trace: Elation Skill multiplier increases by 50% (Aha E2: 120%) of its original value.
+  const ascensionElationSkillMultiplierByTier: Record<AhaAscension, number> = {
+    [AhaAscension.None]: 1,
+    [AhaAscension.AhaE0]: 1.50,
+    [AhaAscension.AhaE2]: 2.20,
+  }
+  const ascensionDefPenByTier: Record<AhaAscension, number> = {
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.15,
+    [AhaAscension.AhaE2]: 0.20,
+  }
 
   let additionalStacks = 0
   if (e >= 1) additionalStacks += 5
@@ -321,7 +338,7 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
-        .elationScaling(elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount)
+        .elationScaling((elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount) * ascensionElationSkillMultiplierByTier[getAhaAscension(action)])
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(6.67 + 1.67 * totalBounces / context.enemyCount)
         .build()
@@ -347,7 +364,12 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       x.buff(StatKey.RES_PEN, (e >= 6 && r.e6ResPen) ? 0.20 : 0, x.source(SOURCE_E6))
     },
 
-    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const r = action.characterConditionals as Conditionals<typeof content>
       const punchlineStacks = r.punchlineStacks
 
@@ -358,6 +380,8 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       // E1: Per Punchline, +1.5% All-Type RES PEN to all allies (max 15%)
       const resPenBuff = (e >= 1 && r.e1PunchlineResPen) ? Math.min(0.15, punchlineStacks * 0.015) : 0
       x.buff(StatKey.RES_PEN, resPenBuff, x.targets(TargetTag.FullTeam).source(SOURCE_E1))
+
+      x.buff(StatKey.DEF_PEN, ascensionDefPenByTier[getAhaAscension(originalCharacterAction ?? action)], x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
@@ -444,6 +468,9 @@ const simulation = (): SimulationMetadata => ({
     Stats.ATK_P,
     Stats.ATK,
   ],
+  softBreakpoints: [
+    { stat: Stats.ATK, threshold: 3600 },
+  ],
   comboTurnAbilities: [
     NULL_TURN_ABILITY_NAME,
     START_ULT,
@@ -466,8 +493,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SparkleB1.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: SilverWolfLv999.id,
+      lightCone: SilverWolfLv999.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -478,8 +505,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 5,
     },
     {
-      characterId: HuohuoB1.id,
-      lightCone: NightOfFright.id,
+      characterId: Pearl.id,
+      lightCone: Pearl.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

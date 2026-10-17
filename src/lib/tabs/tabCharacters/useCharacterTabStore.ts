@@ -4,6 +4,8 @@ import {
 } from 'lib/constants/constants'
 import { getCharacterById } from 'lib/stores/character/characterStore'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
+import { resolveCharactersPanel } from 'lib/tabs/tabCharacters/characterPanels'
+import type { CharactersPanel } from 'lib/tabs/tabCharacters/characterPanels'
 import { clone } from 'lib/utils/objectUtils'
 import type {
   CharacterId,
@@ -22,11 +24,13 @@ const defaultFilters: CharacterTabFilters = {
 }
 
 type CharacterTabValues = {
+  activePanel: CharactersPanel,
   focusCharacter: CharacterId | null,
   filters: CharacterTabFilters,
 }
 
 type CharacterTabActions = {
+  setActivePanel: (activePanel: CharactersPanel) => void,
   setFocusCharacter: (focusCharacter: CharacterId | null) => void,
 
   setNameFilter: (name: CharacterTabFilters['name']) => void,
@@ -37,9 +41,11 @@ type CharacterTabActions = {
 type CharacterTabState = CharacterTabValues & CharacterTabActions
 
 export const useCharacterTabStore = createTabAwareStore<CharacterTabState>((set) => ({
+  activePanel: resolveCharactersPanel(),
   focusCharacter: null,
   filters: clone(defaultFilters),
 
+  setActivePanel: (activePanel) => set({ activePanel }),
   setFocusCharacter: (focusCharacter) =>
     set(() => {
       if (!focusCharacter) return { focusCharacter: null }

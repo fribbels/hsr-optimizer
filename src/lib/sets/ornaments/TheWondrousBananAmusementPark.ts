@@ -46,7 +46,7 @@ const conditionals: SetConditionals = {
     c.CD.buff(0.16, Source.TheWondrousBananAmusementPark)
   },
   p2x: (x: ComputedStatsContainer, context: OptimizerContext, setConditionals: SetConditional) => {
-    if (setConditionals.enabledTheWondrousBananAmusementPark) {
+    if (x.config.hasSummons && setConditionals.enabledTheWondrousBananAmusementPark) {
       x.buff(StatKey.CD, 0.32, x.source(Source.TheWondrousBananAmusementPark))
     }
   },
@@ -57,6 +57,7 @@ const conditionals: SetConditionals = {
     if (
       ornament2p(*p_sets, SET_TheWondrousBananAmusementPark)
       && setConditionals.enabledTheWondrousBananAmusementPark == true
+      && ${action.config.hasSummons}
     ) {
       ${buff.action(AKey.CD, 0.32).wgsl(action, 2)}
     }

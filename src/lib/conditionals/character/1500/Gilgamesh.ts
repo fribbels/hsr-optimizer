@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   aoe,
   ashblazingMulti,
@@ -7,6 +6,7 @@ import {
 import { Saber } from 'lib/conditionals/character/1000/Saber'
 import { HuohuoB1 } from 'lib/conditionals/character/1200/HuohuoB1'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostAshblazingAtkContainer,
   gpuBoostAshblazingAtkContainer,
@@ -25,7 +25,6 @@ import { IAmAsYouBehold } from 'lib/conditionals/lightcone/5star/IAmAsYouBehold'
 import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import {
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -80,7 +79,6 @@ export const GilgameshAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Gilgamesh.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, ult, talent } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_BASIC,
@@ -389,8 +387,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: MortenaxBlade.id,
-      lightCone: ReforgedInHellfire.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

@@ -1,0 +1,169 @@
+.scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+/* OverlayScrollbars injects wrapper divs; target the content container for flex layout. */
+.scroll :global([data-overlayscrollbars-contents]) {
+  display: flex !important;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.empty {
+  padding: 16px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+  border: 1px dashed var(--border-default);
+  border-radius: var(--radius-sm);
+}
+
+.tile {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.tile[data-dragging='true'] {
+  z-index: 1;
+}
+
+.tile[data-dragging='true'] .tools {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* The tile cover is both the load button and drag handle. Manipulation preserves touch scrolling. */
+.cover {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 120px;
+  overflow: hidden;
+  background-color: var(--layer-inset);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: grab;
+  touch-action: manipulation;
+  transition: border-color 120ms ease;
+}
+
+.tile[data-dragging='true'] .cover {
+  cursor: grabbing;
+}
+
+.cover:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--color-accent);
+}
+
+.tile:hover .cover {
+  border-color: var(--border-default);
+}
+
+.tile[data-active='true'] .cover {
+  border-color: var(--primary-default);
+}
+
+.mosaic {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background-color: var(--layer-inset);
+}
+
+.cell {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--layer-inset);
+}
+
+/* Default preview busts render at quarter scale for a clean 4:1 downsample. */
+.art[data-custom='false'] {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 94px;
+  height: 128px;
+  margin-left: -47px;
+}
+
+.art[data-custom='true'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.scrim {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 48px;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0));
+}
+
+.name {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile[data-active='true'] .name {
+  color: var(--primary-light);
+}
+
+.tools {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 1;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.tile:hover .tools,
+.tile:focus-within .tools {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (any-pointer: coarse) {
+  .tools {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .toolButton {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.editor {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  left: 6px;
+  z-index: 1;
+}

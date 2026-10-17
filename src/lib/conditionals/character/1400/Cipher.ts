@@ -10,6 +10,7 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
 import {
   ASHBLAZING_ATK_STACK,
 } from 'lib/conditionals/conditionalConstants'
@@ -508,8 +509,8 @@ const simulation = (): SimulationMetadata => ({
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
+      characterId: Ashveil.id,
+      lightCone: Ashveil.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

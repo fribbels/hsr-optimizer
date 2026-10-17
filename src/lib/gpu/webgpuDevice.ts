@@ -10,7 +10,11 @@ export function uniformCompatible(): boolean {
   return navigator.gpu?.wgslLanguageFeatures?.has('uniform_buffer_standard_layout') ?? false
 }
 
+// Reuse one device, Firefox leaks memory for each new device
+let cachedDevice: GPUDevice | undefined
+
 export async function getWebgpuDevice(notify?: boolean) {
+  if (cachedDevice) return cachedDevice
   try {
     const adapter: GPUAdapter | null = await navigator?.gpu?.requestAdapter()
 
@@ -18,9 +22,15 @@ export async function getWebgpuDevice(notify?: boolean) {
       throw new Error('WebGPU adapter not available')
     }
 
-    return await adapter.requestDevice({
+    const device = await adapter.requestDevice({
       requiredLimits: {},
     })
+    // Request a new device after a loss
+    void device.lost.then(() => {
+      if (cachedDevice === device) cachedDevice = undefined
+    })
+    cachedDevice = device
+    return device
   } catch (e) {
     if (notify) {
       console.error('Webgpu not supported', e)

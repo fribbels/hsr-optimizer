@@ -9,7 +9,10 @@ import type {
   ShowcaseDisplayDimensions,
   ShowcaseMetadata,
 } from 'lib/characterPreview/characterPreviewController'
-import type { SimulationMetadataOverride } from 'lib/characterPreview/characterPreviewTypes'
+import type {
+  SimulationMetadataOverride,
+  SimulationMetadataOverrides,
+} from 'lib/characterPreview/characterPreviewTypes'
 import {
   resolveShowcaseScoringOrder,
   resolveShowcaseScoringType,
@@ -53,14 +56,25 @@ import type {
 
 // ===== Layout Resolution (character-dependent, no color) =====
 
-interface ShowcaseLayoutParams {
+interface ShowcaseScoringDataParams {
   character: Character
   teamSelections: Partial<Record<ScoringConfigType, TeamSelection>>
   storedScoringType: ScoringType | undefined
   savedBuildOverride?: SavedBuild | null
+  simulationMetadataOverrides?: SimulationMetadataOverrides
   simulationMetadataOverride?: SimulationMetadataOverride
   overrideConfigType?: ScoringConfigType
+}
+
+interface ShowcaseLayoutParams extends ShowcaseScoringDataParams {
   t: TFunction<'gameData'>
+}
+
+export interface ResolvedShowcaseScoringData {
+  configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>>
+  resolvedTeamSelections: Record<ScoringConfigType, TeamSelection>
+  scoringType: ScoringType
+  showcaseScoringOrder: readonly ScoringType[]
 }
 
 export interface ShowcaseLayout {
@@ -80,45 +94,17 @@ export interface ShowcaseLayout {
 }
 
 export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLayout {
-  const { character, teamSelections, storedScoringType, savedBuildOverride, t } = params
+  const { character, t } = params
 
   const showcaseMetadata = getShowcaseMetadata(character, t)
-
-  const resolvedTeamSelections: Record<ScoringConfigType, TeamSelection> = {} as Record<ScoringConfigType, TeamSelection>
-  for (const configType of CONFIG_DISPLAY_ORDER) {
-    const entry = SCORING_CONFIG_REGISTRY[configType]
-    resolvedTeamSelections[configType] = handleTeamSelection(character, teamSelections[configType], entry.metadataField)
-  }
-
-  const configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>> = {}
-  for (const configType of CONFIG_DISPLAY_ORDER) {
-    const meta = resolveSimulationMetadata(character, configType, resolvedTeamSelections[configType], savedBuildOverride)
-    if (meta) {
-      meta.deprioritizeBuffs = resolveEffectiveDeprioritizeBuffs(character.id, meta)
-      configMetadata[configType] = meta
-    }
-  }
-
-  if (params.simulationMetadataOverride && params.overrideConfigType) {
-    const ct = params.overrideConfigType
-    const meta = configMetadata[ct]
-    if (meta) {
-      const override = params.simulationMetadataOverride
-      configMetadata[ct] = {
-        ...meta,
-        ...(override.teammates && { teammates: override.teammates }),
-        ...(override.deprioritizeBuffs != null && { deprioritizeBuffs: override.deprioritizeBuffs }),
-      }
-    }
-  }
+  const {
+    configMetadata,
+    resolvedTeamSelections,
+    scoringType,
+    showcaseScoringOrder,
+  } = resolveShowcaseScoringData(params)
 
   const hasSimulation = CONFIG_DISPLAY_ORDER.some((configType) => configMetadata[configType] != null)
-
-  const showcaseScoringOrder = resolveShowcaseScoringOrder(
-    getCharacterConfig(character.id)?.display.showcaseScoringOrder,
-    configMetadata,
-  )
-  const scoringType = resolveShowcaseScoringType(storedScoringType, showcaseScoringOrder)
 
   const portraitToUse = getCharacterById(character.id)?.portrait
   const defaultPortraitUrl = Assets.getCharacterPortraitById(character.id)
@@ -145,6 +131,71 @@ export function resolveShowcaseLayout(params: ShowcaseLayoutParams): ShowcaseLay
     defaultPortraitUrl,
     displayDimensions,
     artistName,
+  }
+}
+
+export function resolveShowcaseScoringData(params: ShowcaseScoringDataParams): ResolvedShowcaseScoringData {
+  const { character, teamSelections, storedScoringType, savedBuildOverride } = params
+
+  const resolvedTeamSelections: Record<ScoringConfigType, TeamSelection> = {} as Record<ScoringConfigType, TeamSelection>
+  for (const configType of CONFIG_DISPLAY_ORDER) {
+    const entry = SCORING_CONFIG_REGISTRY[configType]
+    resolvedTeamSelections[configType] = handleTeamSelection(character, teamSelections[configType], entry.metadataField)
+  }
+
+  const configMetadata: Partial<Record<ScoringConfigType, SimulationMetadata>> = {}
+  for (const configType of CONFIG_DISPLAY_ORDER) {
+    const meta = resolveSimulationMetadata(character, configType, resolvedTeamSelections[configType], savedBuildOverride)
+    if (meta) {
+      const slotOverride = params.simulationMetadataOverrides?.[configType]
+      const injectedOverride = params.overrideConfigType === configType
+        ? params.simulationMetadataOverride
+        : undefined
+      configMetadata[configType] = applySimulationMetadataOverrides(
+        character.id,
+        configType,
+        meta,
+        slotOverride,
+        injectedOverride,
+      )
+    }
+  }
+
+  const showcaseScoringOrder = resolveShowcaseScoringOrder(
+    getCharacterConfig(character.id)?.display.showcaseScoringOrder,
+    configMetadata,
+  )
+  const scoringType = resolveShowcaseScoringType(storedScoringType, showcaseScoringOrder)
+
+  return {
+    configMetadata,
+    resolvedTeamSelections,
+    scoringType,
+    showcaseScoringOrder,
+  }
+}
+
+function applySimulationMetadataOverrides(
+  characterId: CharacterId,
+  configType: ScoringConfigType,
+  metadata: SimulationMetadata,
+  slotOverride: SimulationMetadataOverride | undefined,
+  injectedOverride: SimulationMetadataOverride | undefined,
+): SimulationMetadata {
+  const teammates = injectedOverride?.teammates ?? slotOverride?.teammates ?? metadata.teammates
+  const deprioritizeBuffs = injectedOverride?.deprioritizeBuffs ?? slotOverride?.deprioritizeBuffs
+  const resolved = { ...metadata, teammates }
+
+  if (deprioritizeBuffs != null) {
+    return { ...resolved, deprioritizeBuffs }
+  }
+  if (!SCORING_CONFIG_REGISTRY[configType].supportsDeprioritizeBuffs) {
+    return resolved
+  }
+
+  return {
+    ...resolved,
+    deprioritizeBuffs: resolveEffectiveDeprioritizeBuffs(characterId, resolved),
   }
 }
 

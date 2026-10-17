@@ -12,6 +12,7 @@ import {
   gilgameshFuaSaberUltBoost,
 } from 'lib/conditionals/character/1500/Gilgamesh'
 import { MortenaxBlade } from 'lib/conditionals/character/1500/MortenaxBlade'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import {
   boostUltAshblazingAtk,
   gpuBoostUltAshblazingAtk,
@@ -188,7 +189,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     gilgameshFuaBuff: {
       id: 'gilgameshFuaBuff',
       formItem: 'switch',
-      text: 'Gilgamesh FUA Ult buff',
+      text: t('gilgameshFuaSaberUltBoost.text'),
       content: 'Gilgamesh Joint FUA: Saber\'s next Ultimate DMG becomes 200% of original.',
     },
     e1DmgBuff: {
@@ -399,8 +400,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: MortenaxBlade.id,
-      lightCone: MortenaxBlade.defaultLightCone,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

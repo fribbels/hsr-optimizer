@@ -37,6 +37,7 @@ const HEADER_LABEL_GAP = 4
 export function WarpSettingsPanel({ form }: { form: UseFormReturnType<WarpRequest> }) {
   const { t } = useTranslation('warpCalculatorTab', { keyPrefix: 'SectionTitles' })
   const { t: tPity } = useTranslation('warpCalculatorTab', { keyPrefix: 'PityCounter' })
+  const { t: tCommon } = useTranslation('common')
 
   return (
     <Flex style={{ marginBottom: 30 }}>
@@ -70,7 +71,7 @@ export function WarpSettingsPanel({ form }: { form: UseFormReturnType<WarpReques
           <Flex direction='column' gap={HEADER_LABEL_GAP} style={{ overflow: 'hidden' }}>
             <HeaderText>{t('AdditionalResources') /* Additional resources */}</HeaderText>
             <MultiSelectPills
-              placeholder='None'
+              placeholder={tCommon('None')}
               clearable
               size='xs'
               maxDisplayedValues={0}

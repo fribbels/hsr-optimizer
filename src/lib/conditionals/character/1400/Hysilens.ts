@@ -384,7 +384,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       return `
 if (${wgslTrue(r.ehrToDmg)}) {
-  let dmgBuff = min(0.90, 0.15 * floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} - 0.60) / 0.10));
+  let dmgBuff = max(0.0, min(0.90, 0.15 * floorSafe((${containerActionVal(SELF_ENTITY_INDEX, StatKey.EHR, action.config)} - 0.60) / 0.10)));
   ${buff.action(AKey.BOOST, 'dmgBuff').wgsl(action)}
 }
 ` + gpuBoostUltAshblazingAtk(action, ultHitMulti(context))

@@ -6,6 +6,7 @@ export interface AhaForm {
   teammate2: number | ''
   teammate3: number | ''
   desiredAha: number | ''
+  ahaBase: number
 }
 
 export const useAhaTuningStore = create<AhaForm>()(() => ({
@@ -14,4 +15,5 @@ export const useAhaTuningStore = create<AhaForm>()(() => ({
   teammate2: '',
   teammate3: '',
   desiredAha: 135,
+  ahaBase: 80,
 }))

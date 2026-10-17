@@ -1,0 +1,30 @@
+/*
+ * Characters / Teams tab list: Mantine's outline variant, with the active tab filled on the raised layer
+ * so it stands off the page, and the rule under the list running the full width of the tab.
+ */
+
+/* The list spans the whole tab width so its rule does too. */
+.list {
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.list [role='tab'] {
+  height: 42px;
+  padding-inline: 32px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease;
+}
+
+.list [role='tab']:hover {
+  color: var(--text-primary);
+}
+
+/* Active tab sits on a raised surface; inactive tabs stay flush with the page */
+.list [role='tab'][data-active] {
+  color: var(--text-primary);
+  background-color: var(--layer-1);
+  border-bottom-color: var(--layer-1);
+}

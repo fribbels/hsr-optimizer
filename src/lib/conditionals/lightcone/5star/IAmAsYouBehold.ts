@@ -1,9 +1,7 @@
-import i18next from 'i18next'
 import {
   type Conditionals,
   type ContentDefinition,
 } from 'lib/conditionals/conditionalUtils'
-import { CURRENT_DATA_VERSION } from 'lib/constants/constants'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import {
@@ -28,7 +26,6 @@ const I_AM_AS_YOU_BEHOLD_ID = '23062' as unknown as LightConeId
 
 const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Lightcones.IAmAsYouBehold.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { SOURCE_LC } = Source.lightCone(I_AM_AS_YOU_BEHOLD_ID)
 
   const sValuesErr = [0.10, 0.125, 0.15, 0.175, 0.20]

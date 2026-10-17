@@ -74,7 +74,7 @@ function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t:
     const key = e.key as ReturnType<typeof generateItems>[number]['children'][number]['key']
     const { focusCharacter } = useCharacterTabStore.getState()
     const selectedCharacter = getCharacterById(focusCharacter ?? undefined)
-    if (!selectedCharacter && !(key === 'scoring' || key === 'add')) {
+    if (!selectedCharacter && !(key === 'scoring' || key === 'sortByEffectiveSubstats' || key === 'add')) {
       return Message.error(t('Messages.NoSelectedCharacter')) // No selected character
     }
     switch (key) {
@@ -83,6 +83,10 @@ function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t:
           initialCharacter: null,
           onOk: CharacterTabController.onCharacterModalOk,
         })
+        break
+
+      case 'sortByEffectiveSubstats':
+        CharacterTabController.sortByEffectiveSubstats()
         break
 
       case 'scoring':
@@ -188,6 +192,10 @@ function generateItems(t: TFunction<'charactersTab'>) {
       type: 'group' as const,
       label: t('CharacterMenu.Priority.Label'), /* Priority */
       children: [
+        {
+          label: t('CharacterMenu.Priority.Options.SortByEffectiveSubstats'), /* Sort by effective substats */
+          key: 'sortByEffectiveSubstats' as const,
+        },
         {
           label: t('CharacterMenu.Priority.Options.MoveToTop'), /* Move character to top */
           key: 'moveToTop' as const,

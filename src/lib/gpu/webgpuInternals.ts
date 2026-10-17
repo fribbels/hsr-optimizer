@@ -88,12 +88,11 @@ export async function initializeGpuPipeline(
 
   // Params buffer: 16 bytes for tuple mode (threshold + batchOffset + padding), 32 bytes for naive (8 floats)
   const paramsMatrixBufferSize = TUPLE_MODE ? 16 : Float32Array.BYTES_PER_ELEMENT * 8
-  const resultMatrixBufferSize = Float32Array.BYTES_PER_ELEMENT * BLOCK_SIZE * CYCLES_PER_INVOCATION
-  // Only DEBUG mode needs the full results buffer
-  const resultBufferSize = DEBUG ? resultMatrixBufferSize : 4
+  // DEBUG writes one full stats container per invocation. Release mode does not use this buffer.
+  const resultMatrixBufferSize = getResultMatrixBufferSize(DEBUG, BLOCK_SIZE, context.maxContainerArrayLength)
   const resultMatrixBuffers: [GPUBuffer, GPUBuffer] = [
-    device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
-    device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
+    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
+    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC }),
   ]
   const paramsMatrixBuffer = device.createBuffer({
     size: paramsMatrixBufferSize,
@@ -200,23 +199,19 @@ export async function initializeGpuPipeline(
   const bindGroups2: [GPUBindGroup, GPUBindGroup] = [0, 1].map((i) =>
     device.createBindGroup({
       layout: computePipeline.getBindGroupLayout(2),
-      entries: (
-        DEBUG
-          ? [
-            { binding: 0, resource: { buffer: resultMatrixBuffers[i] } },
-          ]
-          : [
-            { binding: 1, resource: { buffer: compactCountBuffers[i] } },
-            { binding: 2, resource: { buffer: compactResultsBuffers[i] } },
-            { binding: 3, resource: { buffer: validCountBuffers[i] } },
-          ]
+      entries: getResultBindGroupEntries(
+        DEBUG,
+        resultMatrixBuffers[i],
+        compactCountBuffers[i],
+        compactResultsBuffers[i],
+        validCountBuffers[i],
       ),
     })
   ) as [GPUBindGroup, GPUBindGroup]
 
   const gpuReadBuffers: [GPUBuffer, GPUBuffer] = [
-    device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
-    device.createBuffer({ size: resultBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
+    device.createBuffer({ size: resultMatrixBufferSize, usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ }),
   ]
 
   const iterations = Math.ceil(permutations / BLOCK_SIZE / CYCLES_PER_INVOCATION)
@@ -286,10 +281,8 @@ export function submitGpuDispatch(gpuContext: GpuExecutionContext, paramsData: A
 
   const commandEncoder = device.createCommandEncoder()
 
-  if (!gpuContext.DEBUG) {
-    commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
-    commandEncoder.clearBuffer(validCountBuffer, 0, 4)
-  }
+  commandEncoder.clearBuffer(validCountBuffer, 0, 4)
+  if (!gpuContext.DEBUG) commandEncoder.clearBuffer(compactCountBuffer, 0, 4)
 
   const passEncoder = commandEncoder.beginComputePass()
   passEncoder.setPipeline(gpuContext.computePipeline)
@@ -325,6 +318,29 @@ export function generateExecutionPass(gpuContext: GpuExecutionContext, offset: n
     gpuReadBuffer: gpuContext.gpuReadBuffers[bufferIndex],
     compactReadBuffer: gpuContext.compactReadBuffers[bufferIndex],
   }
+}
+
+export function getResultMatrixBufferSize(debug: boolean, blockSize: number, containerLength: number): number {
+  return debug ? Float32Array.BYTES_PER_ELEMENT * blockSize * containerLength : 4
+}
+
+export function getResultBindGroupEntries(
+  debug: boolean,
+  resultMatrixBuffer: GPUBuffer,
+  compactCountBuffer: GPUBuffer,
+  compactResultsBuffer: GPUBuffer,
+  validCountBuffer: GPUBuffer,
+): GPUBindGroupEntry[] {
+  return debug
+    ? [
+      { binding: 0, resource: { buffer: resultMatrixBuffer } },
+      { binding: 3, resource: { buffer: validCountBuffer } },
+    ]
+    : [
+      { binding: 1, resource: { buffer: compactCountBuffer } },
+      { binding: 2, resource: { buffer: compactResultsBuffer } },
+      { binding: 3, resource: { buffer: validCountBuffer } },
+    ]
 }
 
 async function generatePipeline(device: GPUDevice, wgsl: string) {

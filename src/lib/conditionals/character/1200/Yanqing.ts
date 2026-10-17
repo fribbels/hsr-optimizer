@@ -2,6 +2,8 @@ import {
   ashblazingMulti,
   single,
 } from 'lib/conditionals/ashblazingCompute'
+import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { ASHBLAZING_ATK_STACK } from 'lib/conditionals/conditionalConstants'
 import {
   boostAshblazingAtkContainer,
@@ -341,14 +343,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Bronya.id,
-      lightCone: ButTheBattleIsntOver.id,
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
     {
-      characterId: Robin.id,
-      lightCone: FlowingNightglow.id,
+      characterId: SparkleB1.id,
+      lightCone: SparkleB1.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },

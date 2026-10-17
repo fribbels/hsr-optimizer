@@ -4,7 +4,10 @@ import {
 } from 'lib/conditionals/conditionalUtils'
 import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
-import { DamageTag } from 'lib/optimization/engine/config/tag'
+import {
+  DamageTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
@@ -44,7 +47,7 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
       const t = action.lightConeConditionals as Conditionals<typeof teammateContent>
 
-      x.buff(StatKey.BOOST, (t.skillDmgBoost) ? sValuesSkillDmg[s] : 0, x.damageType(DamageTag.SKILL).source(SOURCE_LC))
+      x.buff(StatKey.BOOST, (t.skillDmgBoost) ? sValuesSkillDmg[s] : 0, x.damageType(DamageTag.SKILL).targets(TargetTag.FullTeam).source(SOURCE_LC))
     },
   }
 }

@@ -5,13 +5,18 @@ import { LeaderboardTeamDisplay } from 'lib/tabs/tabLeaderboard/LeaderboardTeamD
 import classes from 'lib/tabs/tabLeaderboard/RankListPanel.module.css'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
+import { percentageToLocaleString } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
-import { OverlayScrollbarsComponent, type OverlayScrollbarsComponentRef } from 'overlayscrollbars-react'
+import {
+  OverlayScrollbarsComponent,
+  type OverlayScrollbarsComponentRef,
+} from 'overlayscrollbars-react'
 import {
   useCallback,
   useEffect,
   useRef,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const MEDAL_COLORS: Record<number, string> = {
   1: '#e0b420',
@@ -37,12 +42,12 @@ function RankListEntry({ entry, isSelected }: {
   entry: LeaderboardEntry,
   isSelected: boolean,
 }) {
+  const { t: tCommon } = useTranslation('common')
   const medalColor = MEDAL_COLORS[entry.rank]
   const rowBackground = rowColorBackground(entry.rank)
   const rowColorKeep = isSelected && medalColor ? ` ${classes.rowColorKeep}` : ''
   const scorePercent = entry.score * 100
   const eidolon = entry.characterEidolon
-  const eidolonLabel = `E${eidolon}`
   const lcId = entry.minifiedCharacter.q?.t ? String(entry.minifiedCharacter.q.t) : null
   const lcSuperimpose = entry.minifiedCharacter.q?.r ?? 1
   const colorKey = eidolon >= 6 ? 6 : eidolon >= 2 ? 2 : eidolon
@@ -63,10 +68,12 @@ function RankListEntry({ entry, isSelected }: {
       </span>
 
       <span className={classes.colScore}>
-        <span className={classes.scoreValue}>{truncate10ths(scorePercent).toFixed(1)}%</span>
+        <span className={classes.scoreValue}>{percentageToLocaleString(truncate10ths(scorePercent), 1)}</span>
       </span>
 
-      <span className={classes.eidolonTag}>{eidolonLabel} S{lcSuperimpose}</span>
+      <span className={classes.eidolonTag}>
+        {tCommon('EidolonNShort', { eidolon })} {tCommon('SuperimpositionNShort', { superimposition: lcSuperimpose })}
+      </span>
 
       <span className={classes.colLightCone}>
         {lcId && <img className={classes.lcIcon} src={Assets.getLightConeIconById(lcId)} />}

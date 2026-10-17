@@ -88,5 +88,9 @@ export function handleWork(relic: Relic, weights: Record<string, number>): Promi
 }
 
 function hashRun(relic: Relic, weights: Record<string, number>): string {
-  return objectHash({ relic: hashRelic(relic), weights: objectHash(weights) })
+  const previewSubstats = relic.previewSubstats.map((substat) => ({
+    stat: substat.stat,
+    value: substat.value,
+  }))
+  return objectHash({ relic: hashRelic(relic), previewSubstats, weights: objectHash(weights) })
 }

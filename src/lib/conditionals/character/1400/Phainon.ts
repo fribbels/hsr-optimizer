@@ -7,6 +7,7 @@ import {
   cyreneSpecialEffectEidolonUpgraded,
 } from 'lib/conditionals/character/1400/Cyrene'
 import { PermansorTerrae } from 'lib/conditionals/character/1400/PermansorTerrae'
+import { RobinSummeretto } from 'lib/conditionals/character/1500/RobinSummeretto'
 import { TrailblazerRemembranceStelle } from 'lib/conditionals/character/8000/TrailblazerRemembrance'
 import {
   AbilityEidolon,
@@ -453,8 +454,14 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: SparkleB1.id,
-      lightCone: DanceDanceDance.id,
+      characterId: Cyrene.id,
+      lightCone: Cyrene.defaultLightCone,
+      characterEidolon: 0,
+      lightConeSuperimposition: 1,
+    },
+    {
+      characterId: RobinSummeretto.id,
+      lightCone: RobinSummeretto.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -464,14 +471,15 @@ const simulation = (): SimulationMetadata => ({
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
-    {
-      characterId: Sunday.id,
-      lightCone: AGroundedAscent.id,
-      characterEidolon: 0,
-      lightConeSuperimposition: 1,
-    },
   ],
   leaderboardTeams: [
+    {
+      teammates: [
+        { characterId: SparkleB1.id, lightCones: [DanceDanceDance.id] },
+        { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },
+        { characterId: Sunday.id, lightCones: [AGroundedAscent.id] },
+      ],
+    },
     {
       teammates: [
         { characterId: Cerydra.id, lightCones: [EpochEtchedInGoldenBlood.id] },

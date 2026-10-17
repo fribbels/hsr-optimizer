@@ -2,20 +2,14 @@ import { Flex } from '@mantine/core'
 import type { TFunction } from 'i18next'
 import {
   Constants,
-  SACERDOS_RELIVED_ORDEAL_1_STACK,
-  SACERDOS_RELIVED_ORDEAL_2_STACK,
-  Sets,
 } from 'lib/constants/constants'
 import { Assets } from 'lib/rendering/assets'
 import {
   teammateOrnamentOptions,
   teammateRelicOptions,
 } from 'lib/sets/setConfigRegistry'
-import { getRelicById } from 'lib/stores/relic/relicStore'
 import iconClasses from 'style/icons.module.css'
 
-import { ArrayFilters } from 'lib/utils/arrayUtils'
-import type { Character } from 'types/character'
 import type { ReactElement } from 'types/components'
 
 const labelRender = (set: string, text: string) => (
@@ -26,60 +20,6 @@ const labelRender = (set: string, text: string) => (
     </div>
   </Flex>
 )
-
-const teammateRelicSets = [
-  Sets.MessengerTraversingHackerspace,
-  Sets.WatchmakerMasterOfDreamMachinations,
-  Sets.SacerdosRelivedOrdeal,
-  Sets.WarriorGoddessOfSunAndThunder,
-  Sets.WorldRemakingDeliverer,
-  Sets.SelfEnshroudedRecluse,
-  Sets.DivinerOfDistantReach,
-  Sets.DivineQueryingMasterSmith,
-  Sets.DreamlitActor,
-]
-const teammateOrnamentSets = [
-  Sets.BrokenKeel,
-  Sets.FleetOfTheAgeless,
-  Sets.PenaconyLandOfTheDreams,
-  Sets.LushakaTheSunkenSeas,
-  Sets.AmphoreusTheEternalLand,
-  Sets.CityOfConvergingStars,
-]
-
-// Find 4 piece relic sets and 2 piece ornament sets
-export function calculateTeammateSets(teammateCharacter: Character) {
-  const relics = Object.values(teammateCharacter.equipped).map((id) => getRelicById(id)).filter(ArrayFilters.nonNullable)
-  const activeTeammateSets: {
-    teamRelicSet?: string,
-    teamOrnamentSet?: string,
-  } = {}
-  for (const set of teammateRelicSets) {
-    if (relics.filter((relic) => relic.set === set).length === 4) {
-      if (set === Sets.MessengerTraversingHackerspace) continue
-      if (set === Sets.SacerdosRelivedOrdeal) {
-        if (
-          teammateCharacter.id === '1313' // Sunday
-          || teammateCharacter.id === '1306' // Sparkle
-        ) {
-          activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_2_STACK
-        } else {
-          activeTeammateSets.teamRelicSet = SACERDOS_RELIVED_ORDEAL_1_STACK
-        }
-      } else {
-        activeTeammateSets.teamRelicSet = set
-      }
-    }
-  }
-
-  for (const set of teammateOrnamentSets) {
-    if (relics.filter((relic) => relic.set === set).length === 2) {
-      activeTeammateSets.teamOrnamentSet = set
-    }
-  }
-
-  return activeTeammateSets
-}
 
 export type OptionRender = {
   value: string,

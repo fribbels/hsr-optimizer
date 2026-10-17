@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
+import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import { ThusBurnsTheDawn } from 'lib/conditionals/lightcone/5star/ThusBurnsTheDawn'
 import { initializeComboState } from 'lib/optimization/combo/comboInitializers'
 import type {
@@ -68,6 +69,26 @@ test('LC preprocessor stale state — buffActive does not leak across runs', () 
   // buffActive = true from run 1 causes this to be incorrectly true.
   expect(dmgBuff2).toBeDefined()
   expect(dmgBuff2!.activations[1]).toBe(false)
+})
+
+test('Evanescia preprocessor activates the Ode bonus on every third Ultimate', () => {
+  const form = getDefaultForm({ id: Evanescia.id })
+  form.comboPreprocessor = false
+  const request = normalizeForm(form)
+  const comboState = initializeComboState(request, false)
+  comboState.comboTurnAbilities = [
+    NULL_TURN_ABILITY_NAME,
+    DEFAULT_ULT,
+    WHOLE_BASIC,
+    DEFAULT_ULT,
+    DEFAULT_ULT,
+    DEFAULT_ULT,
+  ]
+
+  precomputeConditionalActivations(comboState, request)
+
+  const bonus = comboState.comboCharacter.characterConditionals.ascensionUltActive as ComboBooleanConditional
+  expect(bonus.activations.slice(1, 6)).toEqual([false, false, false, true, false])
 })
 
 /**

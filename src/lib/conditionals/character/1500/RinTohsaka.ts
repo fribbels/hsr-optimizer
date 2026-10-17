@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import {
   aoe,
   ashblazingMulti,
@@ -28,7 +27,6 @@ import { NightOfFright } from 'lib/conditionals/lightcone/5star/NightOfFright'
 import { ReforgedInHellfire } from 'lib/conditionals/lightcone/5star/ReforgedInHellfire'
 import { TheHellWhereIdealsBurn } from 'lib/conditionals/lightcone/5star/TheHellWhereIdealsBurn'
 import {
-  CURRENT_DATA_VERSION,
   Parts,
   Sets,
   Stats,
@@ -84,7 +82,6 @@ export const RinTohsakaAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.RinTohsaka.Content')
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
   const { basic, skill, talent, ult } = AbilityEidolon.SKILL_BASIC_3_ULT_TALENT_5
   const {
     SOURCE_TALENT,
@@ -320,7 +317,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Talent CD buff on ally SP consume/recover
-      x.buff(StatKey.CD, (m.talentCdBuff) ? talentCdBuffValue : 0, x.source(SOURCE_TALENT))
+      x.buff(StatKey.CD, (m.talentCdBuff) ? talentCdBuffValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_TALENT))
 
       // Ult vulnerability debuff
       x.buff(StatKey.VULNERABILITY, m.ultDmgTakenDebuff ? ultVulnerabilityValue : 0, x.targets(TargetTag.FullTeam).source(SOURCE_ULT))

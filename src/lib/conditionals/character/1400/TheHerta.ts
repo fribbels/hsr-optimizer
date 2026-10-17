@@ -346,8 +346,8 @@ const simulation = (): SimulationMetadata => ({
   ],
   teammates: [
     {
-      characterId: Jade.id,
-      lightCone: YetHopeIsPriceless.id,
+      characterId: Anaxa.id,
+      lightCone: Anaxa.defaultLightCone,
       characterEidolon: 0,
       lightConeSuperimposition: 1,
     },
@@ -368,6 +368,13 @@ const simulation = (): SimulationMetadata => ({
     {
       teammates: [
         { characterId: Anaxa.id, lightCones: [LifeShouldBeCastToFlames.id] },
+        { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
+        { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
+      ],
+    },
+    {
+      teammates: [
+        { characterId: Jade.id, lightCones: [YetHopeIsPriceless.id] },
         { characterId: Tribbie.id, lightCones: [IfTimeWereAFlower.id] },
         { characterId: PermansorTerrae.id, lightCones: [ThoughWorldsApart.id] },
       ],

@@ -24,11 +24,15 @@ import {
   type StatKeyValue,
 } from 'lib/optimization/engine/config/keys'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
-import { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  ComputedStatsContainer,
+  type OptimizerEntity,
+} from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   calculateEhp,
   getDamageFunction,
 } from 'lib/optimization/engine/damage/damageCalculator'
+import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import {
   computeSetMatchesInPlace,
   emptySetMatches,
@@ -102,10 +106,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
   const combatDisplay = request.statDisplay === 'combat'
   const baseDisplay = !combatDisplay
   const memoDisplay = request.memoDisplay === 'memo'
-  const summonerDisplay = !memoDisplay
   let passCount = 0
-
-  const { failsBasicThresholdFilter, failsComputedThresholdFilter } = generateResultMinFilter(request, context)
 
   initializeContextConditionals(context)
 
@@ -117,12 +118,11 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
   // Initialize arrays once with maximum size (performance optimization)
   x.initializeArrays(context.maxContainerArrayLength, context)
 
-  // Find memosprite entity index from first default action
+  const displayConfig = context.defaultActions[context.defaultActions.length - 1]?.config
   let memospriteEntityIndex = -1
-  if (context.defaultActions.length > 0) {
-    const firstAction = context.defaultActions[0]
-    for (let i = 1; i < firstAction.config.entitiesLength; i++) {
-      const entity = firstAction.config.entitiesArray[i]
+  if (displayConfig) {
+    for (let i = 0; i < displayConfig.entitiesLength; i++) {
+      const entity = displayConfig.entitiesArray[i]
       if (entity.memosprite) {
         memospriteEntityIndex = i
         break
@@ -130,10 +130,18 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     }
   }
 
+  const displayEntityIndex = (memoDisplay && memospriteEntityIndex >= 0) ? memospriteEntityIndex : 0
+  const memoEntity = memoDisplay && memospriteEntityIndex >= 0 && displayConfig
+    ? displayConfig.entitiesArray[memospriteEntityIndex]
+    : undefined
+  const { failsBasicThresholdFilter, failsComputedThresholdFilter } = generateResultMinFilter(request, context, displayEntityIndex, memoEntity)
+
   const failsCombatStatsFilter = combatStatsFilter(request)
-  const failsBasicStatsFilter = basicStatsFilter(request)
-  const failsEhpFilter = ehpFilter(request)
+  const failsBasicStatsFilter = basicStatsFilter(request, memoEntity)
+  const failsEhpFilter = ehpFilter(request, displayEntityIndex)
   const failsRatingFilter = ratingFilter(request, context)
+  const rotationActionOutputTags = context.rotationActions.map((action) => AbilityMeta[action.actionType].outputTag)
+  const defaultActionOutputTags = context.defaultActions.map((action) => AbilityMeta[action.actionType].outputTag)
 
   const sets = Array.from<number>({ length: 6 })
   const setMatches: MutableSetMatches = emptySetMatches()
@@ -194,7 +202,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     calculateElementalStats(c, context)
 
     // Exit early on base display filters failing
-    if (baseDisplay && summonerDisplay && (failsBasicThresholdFilter(c.a) || failsBasicStatsFilter(c))) {
+    if (baseDisplay && (failsBasicThresholdFilter(c.a) || failsBasicStatsFilter(c))) {
       continue
     }
 
@@ -209,6 +217,7 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     // Calculate rotation actions for combo damage
     for (let i = 0; i < context.rotationActions.length; i++) {
       const action = context.rotationActions[i]
+      const actionOutputTag = rotationActionOutputTags[i]
       x.setConfig(action.config)
       resetConditionalState(action)
 
@@ -217,32 +226,38 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
-      let sum = 0
+      let actionOutput = 0
       for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
         const hit = action.hits![hitIndex]
         const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
         x.setHitRegisterValue(hit.registerIndex, dmg)
 
-        // Accumulate recorded hits by output tag
         if (hit.recorded !== false) {
-          sum += dmg
-          if (hit.outputTag == OutputTag.DAMAGE) {
+          if (hit.outputTag === actionOutputTag) {
+            if (actionOutputTag === OutputTag.BUFF) {
+              actionOutput = dmg
+            } else {
+              actionOutput += dmg
+            }
+          }
+          if (hit.outputTag === OutputTag.DAMAGE) {
             comboDmg += dmg
-          } else if (hit.outputTag == OutputTag.HEAL) {
+          } else if (hit.outputTag === OutputTag.HEAL) {
             comboHeal += dmg
-          } else if (hit.outputTag == OutputTag.SHIELD) {
+          } else if (hit.outputTag === OutputTag.SHIELD) {
             comboShield += dmg
-          } else if (hit.outputTag == OutputTag.BUFF) {
+          } else if (hit.outputTag === OutputTag.BUFF) {
             comboBuff = dmg
           }
         }
       }
-      x.setActionRegisterValue(action.registerIndex, sum)
+      x.setActionRegisterValue(action.registerIndex, actionOutput)
     }
 
     // Calculate default actions for display stats and store in registers
     for (let i = 0; i < context.defaultActions.length; i++) {
       const action = context.defaultActions[i]
+      const actionOutputTag = defaultActionOutputTags[i]
       x.setConfig(action.config)
       resetConditionalState(action)
 
@@ -251,20 +266,26 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
       calculateComputedStats(x, action, context)
       calculateBaseMultis(x, action, context)
 
-      let sum = 0
+      let actionOutput = 0
       for (let hitIndex = 0; hitIndex < action.hits!.length; hitIndex++) {
         const hit = action.hits![hitIndex]
         const dmg = getDamageFunction(hit.damageFunctionType).apply(x, action, hitIndex, context)
         x.setHitRegisterValue(hit.registerIndex, dmg)
 
         if (hit.recorded !== false) {
-          sum += dmg
-          if (hit.outputTag == OutputTag.BUFF) {
+          if (hit.outputTag === actionOutputTag) {
+            if (actionOutputTag === OutputTag.BUFF) {
+              actionOutput = dmg
+            } else {
+              actionOutput += dmg
+            }
+          }
+          if (hit.outputTag === OutputTag.BUFF) {
             comboBuff = dmg
           }
         }
       }
-      x.setActionRegisterValue(action.registerIndex, sum)
+      x.setActionRegisterValue(action.registerIndex, actionOutput)
     }
 
     calculateEhp(x, context)
@@ -273,9 +294,6 @@ export function optimizerWorker(e: MessageEvent<OptimizerWorkerInput>) {
     x.setGlobalRegisterValue(GlobalRegister.COMBO_HEAL, comboHeal)
     x.setGlobalRegisterValue(GlobalRegister.COMBO_SHIELD, comboShield)
     x.setGlobalRegisterValue(GlobalRegister.COMBO_BUFF, comboBuff)
-
-    // Display mode filtering using entity-aware filters
-    const displayEntityIndex = (memoDisplay && memospriteEntityIndex >= 0) ? memospriteEntityIndex : 0
 
     // Combat stats filtering
     if (combatDisplay && failsCombatStatsFilter(x, displayEntityIndex)) {
@@ -312,9 +330,41 @@ function addBasicConditionIfNeeded(
   statKey: StatKeyValue,
   min: number,
   max: number,
+  transform?: BasicStatTransform,
 ) {
-  if (min !== 0 || max !== Constants.MAX_INT) {
+  if (min === 0 && max === Constants.MAX_INT) return
+
+  if (!transform) {
     conditions.push((c) => c.a[statKey] < min || c.a[statKey] > max)
+    return
+  }
+
+  const [scale, flat] = transform
+  conditions.push((c) => {
+    const value = scale * c.a[statKey] + flat
+    return value < min || value > max
+  })
+}
+
+type BasicStatTransform = readonly [scale: number, flat: number]
+
+function getMemoBasicStatTransform(
+  statKey: number,
+  memoEntity?: OptimizerEntity,
+): BasicStatTransform | undefined {
+  if (!memoEntity) return undefined
+
+  switch (statKey) {
+    case StatKey.HP:
+      return [memoEntity.memoBaseHpScaling ?? 0, memoEntity.memoBaseHpFlat ?? 0]
+    case StatKey.ATK:
+      return [memoEntity.memoBaseAtkScaling ?? 0, memoEntity.memoBaseAtkFlat ?? 0]
+    case StatKey.DEF:
+      return [memoEntity.memoBaseDefScaling ?? 0, memoEntity.memoBaseDefFlat ?? 0]
+    case StatKey.SPD:
+      return [memoEntity.memoBaseSpdScaling ?? 0, memoEntity.memoBaseSpdFlat ?? 0]
+    default:
+      return undefined
   }
 }
 
@@ -349,19 +399,22 @@ function addCombatBoostedConditionIfNeeded(
   }
 }
 
-function basicStatsFilter(request: Form) {
+function basicStatsFilter(request: Form, memoEntity?: OptimizerEntity) {
   const conditions: ((c: BasicStatsArray) => boolean)[] = []
+  const add = (statKey: StatKeyValue, min: number, max: number) => {
+    addBasicConditionIfNeeded(conditions, statKey, min, max, getMemoBasicStatTransform(statKey, memoEntity))
+  }
 
-  addBasicConditionIfNeeded(conditions, StatKey.HP, request.minHp, request.maxHp)
-  addBasicConditionIfNeeded(conditions, StatKey.ATK, request.minAtk, request.maxAtk)
-  addBasicConditionIfNeeded(conditions, StatKey.DEF, request.minDef, request.maxDef)
-  addBasicConditionIfNeeded(conditions, StatKey.SPD, request.minSpd, request.maxSpd)
-  addBasicConditionIfNeeded(conditions, StatKey.CR, request.minCr, request.maxCr)
-  addBasicConditionIfNeeded(conditions, StatKey.CD, request.minCd, request.maxCd)
-  addBasicConditionIfNeeded(conditions, StatKey.EHR, request.minEhr, request.maxEhr)
-  addBasicConditionIfNeeded(conditions, StatKey.RES, request.minRes, request.maxRes)
-  addBasicConditionIfNeeded(conditions, StatKey.BE, request.minBe, request.maxBe)
-  addBasicConditionIfNeeded(conditions, StatKey.ERR, request.minErr, request.maxErr)
+  add(StatKey.HP, request.minHp, request.maxHp)
+  add(StatKey.ATK, request.minAtk, request.maxAtk)
+  add(StatKey.DEF, request.minDef, request.maxDef)
+  add(StatKey.SPD, request.minSpd, request.maxSpd)
+  add(StatKey.CR, request.minCr, request.maxCr)
+  add(StatKey.CD, request.minCd, request.maxCd)
+  add(StatKey.EHR, request.minEhr, request.maxEhr)
+  add(StatKey.RES, request.minRes, request.maxRes)
+  add(StatKey.BE, request.minBe, request.maxBe)
+  add(StatKey.ERR, request.minErr, request.maxErr)
 
   return (c: BasicStatsArray) => conditions.some((condition) => condition(c))
 }
@@ -383,7 +436,7 @@ function combatStatsFilter(request: Form) {
   return (x: ComputedStatsContainer, entityIndex: number) => conditions.some((condition) => condition(x, entityIndex))
 }
 
-function ehpFilter(request: Form) {
+function ehpFilter(request: Form, displayEntityIndex: number) {
   const minEhp = request.minEhp
   const maxEhp = request.maxEhp
 
@@ -392,7 +445,7 @@ function ehpFilter(request: Form) {
   }
 
   return (x: ComputedStatsContainer) => {
-    const ehp = x.a[StatKey.EHP]
+    const ehp = x.getActionValueByIndex(StatKey.EHP, displayEntityIndex)
     return ehp < minEhp || ehp > maxEhp
   }
 }
@@ -426,15 +479,24 @@ function ratingFilter(request: Form, context: OptimizerContext) {
 
 // Returns threshold filters that skip builds whose sort value is below the rising min floor.
 // Basic stats can be checked before simulation (early exit), computed ratings only after.
-function generateResultMinFilter(request: Form, context: OptimizerContext) {
+function generateResultMinFilter(
+  request: Form,
+  context: OptimizerContext,
+  displayEntityIndex: number,
+  memoEntity?: OptimizerEntity,
+) {
   const threshold = request.resultMinFilter
   const sortOption = SortOption[request.resultSort!] as SortOptionProperties
   const pass = () => false
 
   if (!sortOption.isComputedRating) {
     const key = BasicKey[sortOption.key as BasicKeyType]
+    const transform = getMemoBasicStatTransform(key, memoEntity)
+    const getValue = transform
+      ? (c: Float32Array) => transform[0] * c[key] + transform[1]
+      : (c: Float32Array) => c[key]
     return {
-      failsBasicThresholdFilter: (c: Float32Array) => c[key] < threshold,
+      failsBasicThresholdFilter: (c: Float32Array) => getValue(c) < threshold,
       failsComputedThresholdFilter: pass,
     }
   }
@@ -443,7 +505,7 @@ function generateResultMinFilter(request: Form, context: OptimizerContext) {
 
   if (sortOption.statKey != null) {
     const statKey = sortOption.statKey
-    getComputedValue = (x) => x.a[statKey]
+    getComputedValue = (x) => x.getActionValueByIndex(statKey, displayEntityIndex)
   } else if (sortOption.globalRegisterIndex != null) {
     const globalRegisterIndex = sortOption.globalRegisterIndex
     getComputedValue = (x) => x.getGlobalRegisterValue(globalRegisterIndex)

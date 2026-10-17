@@ -78,6 +78,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
   onNavigate: (item: NavItem) => void,
   anyDrawerOpen: boolean,
 }) {
+  const { t: tCommon } = useTranslation('common')
   const seenFeatures = useNewFeatureStore((s) => s.seenFeatures)
   const navRef = useRef<HTMLDivElement>(null)
   const indicatorRef = useRef<HTMLDivElement>(null)
@@ -163,7 +164,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
                 <>
                   <div className={classes.itemIcon}>{item.icon}</div>
                   <span className={classes.itemLabel}>{item.label}</span>
-                  {isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>New</Badge>}
+                  {isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>{tCommon('New')}</Badge>}
                 </>
               )
               return item.href
@@ -259,7 +260,7 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
       label: t('Tools.Title'),
       items: [
         { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
-        { key: AppPages.LEADERBOARD, label: 'Leaderboards', icon: <IconTrophy size={16} />, newFeatureKey: NewFeatureKey.LEADERBOARD },
+        { key: AppPages.LEADERBOARD, label: t('Tools.Leaderboards'), icon: <IconTrophy size={16} />, newFeatureKey: NewFeatureKey.LEADERBOARD },
         { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
         { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
         { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },

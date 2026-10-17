@@ -762,6 +762,10 @@ Lightcones:
       initialEhrBuff:
         text: Buff inicial de EHR
         content: No início da batalha, a Taxa de Acerto de Efeito do portador aumenta em {{EhrBuff}}% por 3 turnos.
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: Vulnerabilidade
 Characters:
   Acheron:
     Content:
@@ -1742,6 +1746,12 @@ Characters:
         text: Buff de SPD
       e6ResPen:
         text: E6 RES PEN
+  Pearl:
+    Content:
+      deepLearning:
+        text: Básico Aprimorado
+      e6Buffs:
+        text: E6 RES PEN
   Robin:
     Content:
       concertoActive:
@@ -1773,6 +1783,18 @@ Characters:
       e2UltSpdBuff:
         text: Buff de SPD da Ult E2
         content: Enquanto o estado Concerto estiver ativo, a SPD de todos os aliados aumenta em 16%.
+  RobinSummeretto:
+    Content:
+      e2ResPen:
+        text: E2 RES PEN
+      e4MemoSpdBuff:
+        text: Buff de SPD E4
+      deviatedChordBranch:
+        options:
+          atk:
+            display: ATQ
+          critDmg:
+            display: CD
   RuanMei:
     Content:
       skillOvertoneBuff:

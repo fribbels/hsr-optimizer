@@ -158,11 +158,11 @@ function BaseIntegratedRow({ form, ahaSpeed, ahaBase, t }: {
     return [
       { value: 80, label: 'Disabled' },
       { value: AhaBaseSpd, label: 'Enabled: S0' },
-      { value: AhaBaseSpd + AhaSigMeta[1].BaseSpeed, label: 'Enabled: S1' },
-      { value: AhaBaseSpd + AhaSigMeta[2].BaseSpeed, label: 'Enabled: S2' },
-      { value: AhaBaseSpd + AhaSigMeta[3].BaseSpeed, label: 'Enabled: S3' },
-      { value: AhaBaseSpd + AhaSigMeta[4].BaseSpeed, label: 'Enabled: S4' },
-      { value: AhaBaseSpd + AhaSigMeta[5].BaseSpeed, label: 'Enabled: S5' },
+      { value: AhaBaseSpd + AhaSigMeta[1][Stats.SPD], label: 'Enabled: S1' },
+      { value: AhaBaseSpd + AhaSigMeta[2][Stats.SPD], label: 'Enabled: S2' },
+      { value: AhaBaseSpd + AhaSigMeta[3][Stats.SPD], label: 'Enabled: S3' },
+      { value: AhaBaseSpd + AhaSigMeta[4][Stats.SPD], label: 'Enabled: S4' },
+      { value: AhaBaseSpd + AhaSigMeta[5][Stats.SPD], label: 'Enabled: S5' },
     ]
   }, [t])
   return (

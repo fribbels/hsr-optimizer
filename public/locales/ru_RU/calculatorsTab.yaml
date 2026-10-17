@@ -14,7 +14,6 @@ AHA:
   Calculator:
     Title: Калькулятор скорости Ахи
     TeammateN: Союзник {{position}}
-    Constant: Постоянная
     Header:
       ElationTeammate: "Союзник \nпути Радости"
       CombatSpeed: "Скорость\nВ бою"

@@ -28,18 +28,22 @@ export function migrateCombatBuffs(saveData: HsrOptimizerSaveFormat) {
   } else saveData.completedMigrations = { [MIGRATION_KEY]: MIGRATION_VALUE }
 }
 
-function migrateBuffEntry<K extends keyof OldCombatBuffs>(key: K, value: OldCombatBuffs[K]): CombatStatBuff | undefined {
+function migrateBuffEntry(key: keyof OldCombatBuffs, value: OldCombatBuffs[keyof OldCombatBuffs]): CombatStatBuff | undefined {
+  let fixedKey
   const valueMultiplier = (() => {
     switch (key) {
       case 'HP':
       case 'SPD':
       case 'ATK':
       case 'DEF':
+        fixedKey = key as typeof key
         return 1
+      case 'BREAK_EFFICIENCY':
+        fixedKey = 'BREAK_EFFICIENCY_BOOST' as const
+        return 100
       case 'ATK_P':
       case 'BE':
       case 'BOOST':
-      case 'BREAK_EFFICIENCY':
       case 'CD':
       case 'CR':
       case 'DEF_P':
@@ -50,12 +54,13 @@ function migrateBuffEntry<K extends keyof OldCombatBuffs>(key: K, value: OldComb
       case 'RES_PEN':
       case 'SPD_P':
       case 'VULNERABILITY':
+        fixedKey = key as typeof key
         return 100
     }
   })()
   if (value) {
     return {
-      statKey: AKey[key],
+      statKey: AKey[fixedKey],
       value: value * valueMultiplier,
       type: CombatBuffType.StatBuff,
       id: uuid(),

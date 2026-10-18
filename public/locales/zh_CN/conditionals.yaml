@@ -894,10 +894,35 @@ Lightcones:
       initialEhrBuff:
         text: 初始效果命中增益
         content: 战斗开始时，使装备者的效果命中提高{{EhrBuff}}%，持续3回合。
+  ALittleGetaway:
+    Content:
+      elationSkillDefPen:
+        text: 欢愉技防御穿透
+        content: 装备者施放欢愉技期间无视目标{{DefPen}}%的防御力。
   ColorsForTomorrow:
     Content:
       inkSplashVulnerability:
         text: 易伤
+        content: 装备者对我方全体施放欢愉技时，使敌方全体受到的伤害提高{{Vulnerability}}%，持续3回合。
+  RaceToTheHorizon:
+    Content:
+      fuaCdStacks:
+        text: 追加攻击爆伤层数
+        content: >-
+          装备者施放追加攻击后，使装备者的暴击伤害提高{{CdBuff}}%，持续2回合，该效果最多叠加10层。
+  RiseAndSing:
+    Content:
+      newMelodySpdBuff:
+        text: 新声速度增益
+        content: 装备者持有【新声】时，我方全体速度提高{{SpdBuff}}%。
+  SummerRidesTheSurf:
+    Content:
+      updraftSpdBuff:
+        text: 风口速度增益
+        content: 装备者施放欢愉技时，获得【风口】，【风口】使装备者的速度提高{{SpdBuff}}%。
+      uptrendElationBuff:
+        text: 潮流欢愉度增益
+        content: 若施放的欢愉技与上一次施放的欢愉技不同，则额外获得【潮流】，【潮流】使装备者的欢愉度提高{{ElationBuff}}%。
 Characters:
   Acheron:
     Content:
@@ -2229,27 +2254,93 @@ Characters:
         content: 远坂凛的全属性抗性穿透提高20%。施放终结技时，获得24点【宝石能量】和1个额外回合。
   AventurineWaveflair:
     Content:
+      ultSpdBuff:
+        text: 终结技速度增益
+        content: 当沙金使用终结技时，自身速度提高{{SpdBuff}}%，持续4回合。
       certifiedBanger:
         text: 好活当赏
+        content: >-
+          砂金•戏浪持有【好活当赏】时，战技额外对敌方全体造成{{SkillElationDmg}}%量子属性欢愉伤害，终结技额外对敌方全体造成{{UltElationDmg}}%量子属性欢愉伤害。
       certifiedBangerStacks:
         text: 好活当赏层数
+        content: 设置用于计算砂金战技和终结技额外欢愉度伤害的「好活当赏」点数。
       punchlineStacks:
         text: 笑点层数
         content: 选择队伍拥有的笑点数量。该数值用于计算欢愉技的伤害。
+      enhancedElationSkill:
+        text: 强化欢愉技
+        content: >-
+          【All in！敬炽烈一夏】对敌方全体造成{{AoeElationDmg}}%量子属性欢愉伤害，并额外造成{{BounceCount}}次伤害，每次伤害对随机敌方单体造成{{BounceElationDmg}}%量子属性欢愉伤害。施放时会消耗所有【热意】，每消耗1点【热意】都会额外对随机敌方单体造成1次{{ElationDmgPerFervor}}%量子属性欢愉伤害。
+      fervorStacks:
+        text: 热意点数
+        content: 设置「All in！盛夏烈焰」消耗的【热意】点数。
       spdElationConversion:
         text: 速度转欢愉度
+        content: 速度大于等于140时，使自身欢愉度提高30%，之后每超过1点速度使自身欢愉度额外提高1%，最多计入200点超出的速度。
+      traceCdBuff:
+        text: 行迹爆伤增益
+        content: 队友施放普攻、战技、追加攻击或终结技后，使我方全体暴击伤害提高48%，持续3回合。
       e1ResPen:
         text: 1魂抗性穿透
+        content: 全属性抗性穿透提高24%。
+      e4DefPen:
+        text: 4魂无视防御
+        content: 砂金•戏浪施放战技时，使我方全体造成的伤害无视敌方目标18%的防御力，持续3回合。
       e6Merrymaking:
         text: 6魂增笑
+        content: 砂金•戏浪造成的欢愉伤害增笑25%。
   Pearl:
     Content:
       deepLearning:
         text: 强化普攻
+        content: >-
+          【深度学习】时，真珠的普攻获得强化，对敌方全体造成等同于真珠{{BasicDmg}}%防御力的冰属性伤害，为我方全体目标回复等同于真珠{{BasicHealScaling}}%防御力+{{BasicHealFlat}}的生命值且攻击后，【深度学习】具有3点充能，真珠施放强化普攻后消耗1点充能。::BR::6魂：真珠的强化普攻额外造成240%的冰属性欢愉伤害，该次欢愉伤害使用【美学底本】的属性值计算。
+      certifiedBanger:
+        text: 普攻欢愉伤害
+        content: '【深度学习】时，若【美学底本】为「欢愉」命途，真珠持有【好活当赏】时，其强化普攻攻击后，额外造成{{ElationDmg}}%的冰属性欢愉伤害。'
+      certifiedBangerStacks:
+        text: 好货当赏点数
+        content: 设置用于计算欢愉度伤害的【好活当赏】点数。
       punchlineStacks:
         text: 笑点层数
+        content: 选择用于计算欢愉技伤害的队伍笑点数量。
+      lowestHpTargetHeal:
+        text: 生命值最低目标额外治疗
+        content: 真珠通过强化普攻或战技为我方全体恢复生命值时，当前生命值最低的我方目标还会额外受到1次等量治疗。
+      traceDefToElation:
+        text: 防御力转欢愉度
+        content: 真珠的防御力大于等于2400时，使自身欢愉度提高32%，之后每超过100点防御力使自身欢愉度提高3%，最多计入3600点超出的防御力。
+      traceElationToHealing:
+        text: 欢愉度转治疗量加成
+        content: 真珠获得等同于自身欢愉度20%的治疗量加成。
+      traceEffectRes:
+        text: 好活当赏抗性提升
+        content: 持有【好活当赏】时，我方全体目标的效果抵抗提高50%。
+      talentLowHpDmgReduction:
+        text: 生命值 ≤ 50%时伤害降低
+        content: 我方目标当前生命值百分比小于等于50%时，受到的伤害降低{{DmgReduction}}%。
+      e1ElationShare:
+        text: 1魂欢愉度增益
+        content: >-
+          队伍中「欢愉」命途角色数量等于2/3/4或以上时，使我方全体欢愉度提高10%/20%/60%。
+      e2Merrymake:
+        text: 2魂增笑
+        content: 我方全体目标的欢愉伤害增笑15%。
+      e4ElationSkillBoost:
+        text: 4魂欢愉技额外伤害
+        content: 欢愉技为我方全体目标提供的欢愉伤害倍率提高原倍率的100%。
       e6Buffs:
         text: 6魂属性抗性穿透
+        content: >-
+          【深度学习】时，我方全体目标的全属性抗性穿透提高20%。::BR::6魂：真珠的强化普攻额外造成240%的冰属性欢愉伤害，该次欢愉伤害使用【美学底本】的属性值计算。
+      aestheticArchetype:
+        text: 美学底本欢愉伤害
+        content: >-
+          【深度学习】时，【美学底本】的攻击额外造成{{ElationDmg}}%的冰属性欢愉伤害，该次伤害使用【美学底本】的属性值计算。
+      elationSkillProc:
+        text: 欢愉技欢愉伤害
+        content: >-
+          队伍中「欢愉」命途角色数量等于1/2/3/4或以上时，使我方全体目标下一次攻击后，对攻击目标额外造成{{Elation1}}%/{{Elation2}}%/{{Elation3}}%/{{Elation4}}%的对应属性欢愉伤害。
   Robin:
     Content:
       concertoActive:
@@ -2285,16 +2376,47 @@ Characters:
         content: 处于【协奏】状态时，我方全体速度提高16%。
   RobinSummeretto:
     Content:
+      feverState:
+        text: Fever状态
+        content: >-
+          处于【Fever】状态时，使知更鸟•晴歌与「晴空乐手」造成的伤害提高{{DamageBoost}}% + 气氛值*{{DamageBoostPerVibe}}%。结界内我方目标造成伤害时无视敌方目标（{{DefPen}}% + 气氛值*0.5%防御力。
+      vibes:
+        text: 气氛值点数
+        content: >-
+          设置知更鸟当前拥有的「气氛值」点数，上限为 {{MaxVibes}}点。
+      songbirdCount:
+        text: 晴空乐手
+        content: >-
+          「晴空乐手」在场时，根据成员数量使敌方全体受到的伤害分别提高{{Vulnerability1}}%/{{Vulnerability2}}%/{{Vulnerability3}}%。
+      deviatedChordCdBuff:
+        text: '偏离和弦：爆伤'
+        content: 使知更鸟•晴歌与「晴空乐手」的暴击伤害提高40% + 气氛值*1.5%，持续2回合。
       e2ResPen:
         text: 2魂属性抗性穿透
+        content: 我方目标的全属性抗性穿透提高18%。
       e4MemoSpdBuff:
         text: 4魂速度增益
+        content: '「晴空乐手」的速度提高20%+当前气氛值*0.5%。'
+      e6MemoSkillBuff:
+        text: 6魂忆灵技伤害
+        content: 忆灵技的伤害倍率提高原倍率的100%。
+      teammateHPValue:
+        text: 知更鸟战斗中生命值
+        content: 设置知更鸟的生命值上限，用于计算攻击力分支生效时「偏离和弦」提供的攻击力加成。
       deviatedChordBranch:
+        text: 偏离和弦增益
+        content: >-
+          我方目标使知更鸟•晴歌获得气氛值时，若攻击力大于知更鸟•晴歌，则使该目标的攻击力提高等同于知更鸟•晴歌的生命上限的16% + 气氛值*0.4%，否则使该目标的暴击伤害提高40% + 气氛值*1.5%，持续2回合。::BR::权重计算会根据我方角色的攻击力百分比自动选择分支。权重高于0.333时选择攻击力分支，否则选择暴击伤害分支。选择「攻击力」或「暴击伤害」可强制指定分支。
         options:
+          weightBased:
+            display: 基于权重
+            label: 基于权重
           atk:
             display: 攻击力
+            label: 攻击力增益
           critDmg:
             display: 暴击伤害
+            label: 暴击伤害增益
   RuanMei:
     Content:
       skillOvertoneBuff:
@@ -2356,6 +2478,8 @@ Characters:
       e6ResPen:
         text: 6魂属性抗性穿透
         content: Saber造成的终结技伤害的风属性抗性穿透提高20%，行迹【湖之祝福】可积攒的溢出能量提高到200点。进入战斗首次施放终结技后，为Saber固定恢复300点能量，该效果每再施放3次终结技可触发1次。
+      gilgameshFuaSaberUltBoost:
+        text: 吉尔伽美什连携追加攻击终结技增益
   Sampo:
     Content:
       targetDotTakenDebuff:

@@ -441,14 +441,20 @@ SetConditionals:
         Label: '关闭'
       Elation:
         Display: 欢愉度
+        Label: 欢愉度 +16%
       CD:
         Display: 暴击伤害
+        Label: 欢愉度 +16% | 暴击伤害 +12%
     DivineQueryingMasterSmith:
       Off:
         Display: '关闭'
         Label: '关闭'
       CD:
         Display: 暴击伤害
+        Label: '防御力降：暴击伤害 +28%'
+      CDAndDmg:
+        Display: 暴击伤害 + 伤害加成
+        Label: '防御力降低：暴击伤害 +28% + 焚心伤害 +15%'
   Conditionals:
     DefaultMessage: 默认启用 - 效果将应用于战斗计算。
     Hunter: 启用后，暴击伤害增益将应用于战斗属性计算。
@@ -646,9 +652,16 @@ TeammateCard:
   SuperimpositionPlaceholder: 叠影
   RelicsPlaceholder: 遗器
   OrnamentsPlaceholder: 位面饰品
+  SyncFromRoster: 从角色列表同步
+  SelectCharacter: 选择队友角色
+  SelectLightcone: 选择队友光锥
   TeammateSyncSuccessMessage: 已同步的队友信息
   TeammateSets:
+    DreamlitActor:
+      Desc: '4 件套：$t(gameData:RelicSets.133.Name)（欢愉度 +16% | 暴击伤害 +12%）'
+      Text: 16% 欢愉度 + 12% 暴击伤害
     DivineQueryingMasterSmith:
+      Desc: '四件套：$t(gameData:RelicSets.132.Name)（+15%伤害加成）'
       Text: 15%增伤
     Messenger:
       Desc: '四件套: $t(gameData:RelicSets.114.Name) (+12%速度)'

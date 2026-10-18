@@ -10,10 +10,10 @@ import {
 } from 'types/form'
 import {
   AdditionalHit,
-  BreakHit,
-  CritHit,
+  type BreakHit,
+  type CritHit,
   DotHit,
-  ElationHit,
+  type ElationHit,
   SuperBreakHit,
 } from 'types/hitConditionalTypes'
 import type {
@@ -45,12 +45,25 @@ export function precomputeExtraCombatBuffs(x: ComputedStatsContainer, request: F
 function applyStatBuff(x: ComputedStatsContainer, buff: CombatStatBuff) {
   const { statKey, value: preValue, targetTag, damageTags, elementTags } = buff
   const value = getAKeyConfig(statKey).flat ? preValue : (preValue / 100)
-  if (damageTags.length && isHitAKey(statKey)) {
-    const config = x
-      .damageType(damageTags.reduce((acc, cur) => acc |= cur))
-      .elements(elementTags.reduce((acc, cur) => acc |= cur))
-      .targets(targetTag)
-      .source(Source.EXTRA_COMBAT_BUFFS)
+  if (isHitAKey(statKey)) {
+    let config
+    if (damageTags.length && elementTags.length) {
+      config = x
+        .damageType(damageTags.reduce((acc, cur) => acc |= cur))
+        .elements(elementTags.reduce((acc, cur) => acc |= cur))
+        .targets(targetTag)
+    } else if (damageTags.length) {
+      config = x
+        .damageType(damageTags.reduce((acc, cur) => acc |= cur))
+        .targets(targetTag)
+    } else if (elementTags.length) {
+      config = x
+        .elements(elementTags.reduce((acc, cur) => acc |= cur))
+        .targets(targetTag)
+    } else {
+      config = x.targets(targetTag)
+    }
+    config = config.source(Source.EXTRA_COMBAT_BUFFS)
     x.buff(statKey, value, config)
   } else {
     const config = x

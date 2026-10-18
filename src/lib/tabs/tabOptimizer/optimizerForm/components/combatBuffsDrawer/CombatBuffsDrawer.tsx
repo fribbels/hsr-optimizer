@@ -15,10 +15,12 @@ import {
   useOpenClose,
 } from 'lib/hooks/useOpenClose'
 import { useScrollLock } from 'lib/layout/scrollController'
+import { SaveState } from 'lib/state/saveState'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { BuffBuilder } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/BuffBuilder'
 import { loadBuffFromClipboard } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/useCombatBuffsStore'
-import { memo, } from 'react'
+import { memo, useCallback } from 'react'
+import type { CombatBuff } from 'types/form'
 import { useTranslation } from 'react-i18next'
 import { useShallow } from 'zustand/react/shallow'
 import { NestedDnD } from './nestedDnD/NestedDnD'
@@ -54,6 +56,11 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
     addCombatBuff: s.addCombatBuff,
   })))
 
+  const addBuff = useCallback((buff: CombatBuff) => {
+    addCombatBuff(buff)
+    SaveState.delayedSave()
+  }, [addCombatBuff])
+
   return (
     <Stack gap={defaultGap}>
       <Group>
@@ -70,7 +77,7 @@ const CombatBuffsDrawerContent = memo(function CombatBuffsDrawerContent() {
         </ActionIcon>
       </Group>
       <Stack gap={defaultGap}>
-        <BuffBuilder addBuff={addCombatBuff} />
+        <BuffBuilder addBuff={addBuff} />
         <NestedDnD />
       </Stack>
     </Stack>

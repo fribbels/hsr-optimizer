@@ -7,7 +7,6 @@ import type {
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import { blankSimRequest } from 'lib/simulations/utils/requestUtils'
-import { SaveState } from 'lib/state/saveState'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import {
   createDefaultFormState,
@@ -134,7 +133,6 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
     } else {
       set((state) => ({ combatBuffs: [...state.combatBuffs, buff] }))
     }
-    SaveState.delayedSave()
   },
 
   nameCombatBuff: (id, name) => {
@@ -147,7 +145,6 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
         }),
       }
     })
-    SaveState.delayedSave()
   },
 
   removeCombatBuff: (id) => {

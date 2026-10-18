@@ -5,12 +5,14 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter'
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/utils/combine'
 import { Stack } from '@mantine/core'
+import { SaveState } from 'lib/state/saveState'
 import type { OptimizerRequestState } from 'lib/stores/optimizerForm/optimizerFormTypes'
 import { useOptimizerRequestStore } from 'lib/stores/optimizerForm/useOptimizerRequestStore'
 import { uuid } from 'lib/utils/miscUtils'
 import {
   addTransitionType,
   startTransition,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -181,6 +183,11 @@ export function NestedDnD() {
     toggleCombatBuff: s.toggleCombatBuff,
   })))
 
+  const renameBuff = useCallback((id: string, name: string) => {
+    renameCombatBuff(id, name)
+    SaveState.delayedSave()
+  }, [renameCombatBuff])
+
   return (
     <Stack gap={optimizerTabDefaultGap} ref={ref}>
       {buffs.map((buff) => {
@@ -195,7 +202,7 @@ export function NestedDnD() {
               <BuffGroup
                 buff={buff}
                 removeBuff={removeCombatBuff}
-                renameBuff={renameCombatBuff}
+                renameBuff={renameBuff}
                 toggleSelection={toggleCombatBuff}
               />
             </ViewTransition>

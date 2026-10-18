@@ -60,9 +60,9 @@ import {
   SPREAD_RELICS_4P_HEAL,
 } from 'lib/scoring/scoringConstants'
 import { ScoringType } from 'lib/scoring/scoringTypes'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
-import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { floorSafe } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -92,7 +92,7 @@ export const PearlAbilities: AbilityKind[] = [
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pearl.Content')
 
-  const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
+  const { basic, skill, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
@@ -116,8 +116,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const skillHealScaling = skill(e, 0.12, 0.132)
   const skillHealFlat = skill(e, 240, 264)
-
-  const ultDeepLearningElationScaling = ult(e, 0.60, 0.66)
 
   const talentDmgReduction = talent(e, 0.30, 0.33)
 
@@ -153,7 +151,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateDefaults = {
     deepLearning: true,
-    aestheticArchetype: true,
     elationSkillProc: true,
     certifiedBangerStacks: 35,
     punchlineStacks: 30,
@@ -260,12 +257,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     deepLearning: content.deepLearning,
-    aestheticArchetype: {
-      id: 'aestheticArchetype',
-      formItem: 'switch',
-      text: t('aestheticArchetype.text'),
-      content: t('aestheticArchetype.content', { ElationDmg: precisionRound(100 * ultDeepLearningElationScaling) }),
-    },
     elationSkillProc: {
       id: 'elationSkillProc',
       formItem: 'switch',
@@ -376,9 +367,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     actionModifiers: () => [
       {
-        // Elation Skill: ally's attack additionally deals Elation DMG of the attacker's element
+        // Elation Skill: ally's next attack additionally deals Elation DMG of the attacker's element, modeled as their next Elation Skill
         modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
           if (!self.isTeammate || !self.ownConditionals.elationSkillProc) return
+          if (action.actionType !== AbilityKind.ELATION_SKILL) return
 
           const attackElement = action.hits?.find((hit) => hit.directHit && hit.damageElement !== ElementTag.None)?.damageElement
           if (attackElement == null) return
@@ -393,25 +385,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(attackElement)
               .elationScaling((elationSkillProcByElationCount[elationCount] ?? 0) * e4ElationSkillMulti)
               .punchlineStacks(punchlineStacks)
-              .toughnessDmg(0)
-              .build() as ElationHit,
-          )
-        },
-      },
-      {
-        // Ult Deep Learning: the Aesthetic Archetype additionally deals Ice Elation DMG with its own stats
-        modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
-          if (!self.isTeammate || !self.ownConditionals.deepLearning || !self.ownConditionals.aestheticArchetype) return
-
-          const hasDirectHit = action.hits?.some((hit) => hit.directHit)
-          if (!hasDirectHit) return
-
-          action.hits!.push(
-            HitDefinitionBuilder.elation()
-              .damageType(DamageTag.ELATION)
-              .damageElement(ElementTag.Ice)
-              .elationScaling(ultDeepLearningElationScaling)
-              .punchlineStacks(self.ownConditionals.punchlineStacks as number)
               .toughnessDmg(0)
               .build() as ElationHit,
           )

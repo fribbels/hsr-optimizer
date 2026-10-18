@@ -47,6 +47,7 @@ Messages:
   ImageUploadFailed: 图片上传失败
   InvalidFile: 文件不是有效的图片文件
 CharacterPreview:
+  IncompleteSet: 套装未凑齐
   ScoringSidebar:
     Stats:
       Header: 属性

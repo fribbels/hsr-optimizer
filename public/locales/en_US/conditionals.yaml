@@ -2338,10 +2338,6 @@ Characters:
         text: E6 RES PEN
         content: >-
           While Deep Learning is active, increases all allies' All-Type RES PEN by 20%.::BR::E6: Pearl's Enhanced Basic ATK additionally deals 240% Ice Elation DMG based on the Aesthetic Archetype's stats.
-      aestheticArchetype:
-        text: Aesthetic Archetype Elation DMG
-        content: >-
-          While Deep Learning is active, the Aesthetic Archetype's attacks additionally deal {{ElationDmg}}% Ice Elation DMG based on the Archetype's stats.
       elationSkillProc:
         text: Elation Skill Elation DMG
         content: >-

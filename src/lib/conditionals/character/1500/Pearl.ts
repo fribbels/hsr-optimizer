@@ -153,7 +153,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateDefaults = {
     deepLearning: true,
-    aestheticArchetype: true,
     elationSkillProc: true,
     certifiedBangerStacks: 35,
     punchlineStacks: 30,
@@ -260,12 +259,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {
     deepLearning: content.deepLearning,
-    aestheticArchetype: {
-      id: 'aestheticArchetype',
-      formItem: 'switch',
-      text: t('aestheticArchetype.text'),
-      content: t('aestheticArchetype.content', { ElationDmg: precisionRound(100 * ultDeepLearningElationScaling) }),
-    },
     elationSkillProc: {
       id: 'elationSkillProc',
       formItem: 'switch',
@@ -321,6 +314,19 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           .toughnessDmg(r.deepLearning ? 30 : 10)
           .build(),
       ]
+
+      // Approximate the Archetype's stats with Pearl's for the enhanced Basic's extra hit.
+      if (r.deepLearning) {
+        basicHits.push(
+          HitDefinitionBuilder.elation()
+            .damageType(DamageTag.ELATION)
+            .damageElement(ElementTag.Ice)
+            .elationScaling(ultDeepLearningElationScaling)
+            .punchlineStacks(r.punchlineStacks)
+            .toughnessDmg(0)
+            .build(),
+        )
+      }
 
       if (r.deepLearning && r.certifiedBanger && elationArchetype) {
         basicHits.push(
@@ -393,25 +399,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(attackElement)
               .elationScaling((elationSkillProcByElationCount[elationCount] ?? 0) * e4ElationSkillMulti)
               .punchlineStacks(punchlineStacks)
-              .toughnessDmg(0)
-              .build() as ElationHit,
-          )
-        },
-      },
-      {
-        // Ult Deep Learning: the Aesthetic Archetype additionally deals Ice Elation DMG with its own stats
-        modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
-          if (!self.isTeammate || !self.ownConditionals.deepLearning || !self.ownConditionals.aestheticArchetype) return
-
-          const hasDirectHit = action.hits?.some((hit) => hit.directHit)
-          if (!hasDirectHit) return
-
-          action.hits!.push(
-            HitDefinitionBuilder.elation()
-              .damageType(DamageTag.ELATION)
-              .damageElement(ElementTag.Ice)
-              .elationScaling(ultDeepLearningElationScaling)
-              .punchlineStacks(self.ownConditionals.punchlineStacks as number)
               .toughnessDmg(0)
               .build() as ElationHit,
           )

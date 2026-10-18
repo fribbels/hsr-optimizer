@@ -1,6 +1,9 @@
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { Source } from 'lib/optimization/buffSource'
-import type { ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
+import {
+  type ComputedStatsContainer,
+  Operator,
+} from 'lib/optimization/engine/container/computedStatsContainer'
 import { arrayIncludes } from 'lib/utils/arrayUtils'
 import {
   type CombatActionModifier,
@@ -44,7 +47,8 @@ export function precomputeExtraCombatBuffs(x: ComputedStatsContainer, request: F
 
 function applyStatBuff(x: ComputedStatsContainer, buff: CombatStatBuff) {
   const { statKey, value: preValue, targetTag, damageTags, elementTags } = buff
-  const value = getAKeyConfig(statKey).flat ? preValue : (preValue / 100)
+  const keyConfig = getAKeyConfig(statKey)
+  const value = keyConfig.flat ? preValue : (preValue / 100)
   if (isHitAKey(statKey)) {
     let config
     if (damageTags.length && elementTags.length) {
@@ -64,12 +68,12 @@ function applyStatBuff(x: ComputedStatsContainer, buff: CombatStatBuff) {
       config = x.targets(targetTag)
     }
     config = config.source(Source.EXTRA_COMBAT_BUFFS)
-    x.buff(statKey, value, config)
+    x.internalBuff(statKey, value, keyConfig.buffOperator ?? Operator.ADD, config)
   } else {
     const config = x
       .targets(targetTag)
       .source(Source.EXTRA_COMBAT_BUFFS)
-    x.buff(statKey, value, config)
+    x.internalBuff(statKey, value, keyConfig.buffOperator ?? Operator.ADD, config)
   }
 }
 

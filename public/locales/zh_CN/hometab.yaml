@@ -66,5 +66,9 @@ SearchBar:
   Message: 输入无效 - 这应该是你游戏中的9位数UUID
   Search: 搜索
 ScrollToExplore: 向下滚动以探索
+ChangelogCta:
+  JoinDiscord: 加入 Discord 社区
+  StarOnGitHub: 在 GitHub 上点亮星星
+  SupportOnKoFi: 通过 Ko-fi 支持我们
 Contributors:
   Title: 贡献者

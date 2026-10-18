@@ -92,7 +92,7 @@ export const PearlAbilities: AbilityKind[] = [
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Pearl.Content')
 
-  const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
+  const { basic, skill, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
     SOURCE_SKILL,
@@ -116,8 +116,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const skillHealScaling = skill(e, 0.12, 0.132)
   const skillHealFlat = skill(e, 240, 264)
-
-  const ultDeepLearningElationScaling = ult(e, 0.60, 0.66)
 
   const talentDmgReduction = talent(e, 0.30, 0.33)
 
@@ -314,19 +312,6 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
           .toughnessDmg(r.deepLearning ? 30 : 10)
           .build(),
       ]
-
-      // Approximate the Archetype's stats with Pearl's for the enhanced Basic's extra hit.
-      if (r.deepLearning) {
-        basicHits.push(
-          HitDefinitionBuilder.elation()
-            .damageType(DamageTag.ELATION)
-            .damageElement(ElementTag.Ice)
-            .elationScaling(ultDeepLearningElationScaling)
-            .punchlineStacks(r.punchlineStacks)
-            .toughnessDmg(0)
-            .build(),
-        )
-      }
 
       if (r.deepLearning && r.certifiedBanger && elationArchetype) {
         basicHits.push(

@@ -802,6 +802,10 @@ Lightcones:
       initialEhrBuff:
         text: Mejora de AdE inicial
         content: Al comenzar la batalla, el acierto de efecto del portador aumenta en un {{EhrBuff}}% durante 3 turnos.
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: Vulnerabilidad
 Characters:
   Acheron:
     Content:
@@ -1418,6 +1422,10 @@ Characters:
       e4TeamResBuff:
         text: E4 Mejora RES al equipo
         content: Cuando Gepard está en la batalla, la RES a efecto de todos los aliados aumenta en un 20%.
+  Gilgamesh:
+    Content:
+      e6ResPen:
+        text: E6 PEN RES
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1493,6 +1501,10 @@ Characters:
       e6UltExtraHits:
         text: E6 Golpes extra de la Definitiva
         content: La habilidad definitiva inflige daño 2 veces adicionales. Cada vez, inflige a un enemigo al azar un Daño de Fuego equivalente al 40% del daño original recibido.
+  HimekoNova:
+    Content:
+      e6:
+        text: E6 Mejoras
   Hook:
     Content:
       enhancedSkill:
@@ -1965,6 +1977,26 @@ Characters:
       e4SpdBuff:
         text: E4 Mejora de VEL
         content: Durante el estado de Forma de sello, la VEL de todos los aliados aumenta en un 12%.
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: Habilidad potenciada
+      talentCdBuff:
+        text: Mejora DC Talento
+      ladylikePoise:
+        text: Mejora de VEL
+      e6ResPen:
+        text: E6 PEN RES
+  AventurineWaveflair:
+    Content:
+      e1ResPen:
+        text: E1 PEN RES
+  Pearl:
+    Content:
+      deepLearning:
+        text: Básico potenciado
+      e6Buffs:
+        text: E6 PEN RES
   Robin:
     Content:
       concertoActive:
@@ -1998,6 +2030,18 @@ Characters:
       e2UltSpdBuff:
         text: E2 Mejora VEL Definitiva
         content: Cuando está en el estado de Concierto, la VEL de todos los aliados aumenta en un 16%.
+  RobinSummeretto:
+    Content:
+      e2ResPen:
+        text: E2 PEN RES
+      e4MemoSpdBuff:
+        text: E4 Mejora de VEL
+      deviatedChordBranch:
+        options:
+          atk:
+            display: ATQ
+          critDmg:
+            display: DC
   RuanMei:
     Content:
       skillOvertoneBuff:

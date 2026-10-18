@@ -309,6 +309,18 @@ SetConditionals:
         Display: Tấn Công
       CdOnly:
         Display: CD
+    DreamlitActor:
+      Off:
+        Display: 'Tắt'
+        Label: 'Tắt'
+      CD:
+        Display: CD
+    DivineQueryingMasterSmith:
+      Off:
+        Display: 'Tắt'
+        Label: 'Tắt'
+      CD:
+        Display: CD
   Conditionals:
     DefaultMessage: Mặc định được bật – các hiệu ứng sẽ áp dụng vào tính toán chiến đấu
     Hunter: Khi được bật, buff SÁT THƯƠNG CHÍ MẠNG (CRIT DMG) sẽ được áp dụng vào các phép tính chỉ số Chiến đấu

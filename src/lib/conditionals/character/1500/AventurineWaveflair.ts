@@ -1,4 +1,3 @@
-import i18next from 'i18next'
 import { SparkleB1 } from 'lib/conditionals/character/1300/SparkleB1'
 import { Hyacine } from 'lib/conditionals/character/1400/Hyacine'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
@@ -15,6 +14,10 @@ import {
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
 import {
+  AhaAscension,
+  getAhaAscension,
+} from 'lib/conditionals/evaluation/ahaAscension'
+import {
   dynamicStatConversionContainer,
   gpuDynamicStatConversion,
 } from 'lib/conditionals/evaluation/statConversion'
@@ -29,7 +32,6 @@ import { TheFinaleOfALie } from 'lib/conditionals/lightcone/5star/TheFinaleOfALi
 import {
   ConditionalActivation,
   ConditionalType,
-  CURRENT_DATA_VERSION,
   Parts,
   PathNames,
   Sets,
@@ -57,6 +59,8 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
@@ -85,7 +89,7 @@ export const AventurineWaveflairAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.AventurineWaveflair.Content')
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_TALENT_ELATION_SKILL_3_ULT_BASIC_ELATION_SKILL_5
   const {
     SOURCE_BASIC,
@@ -117,6 +121,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
   const fervorMax = (e >= 2) ? 50 : 30
 
+  // Innate Trace (Faces of Elation ascension): with Aha as the only other Elation ally, the solo-Elation trace applies and adds team SPD
+  const ascensionSpdByTier: Record<AhaAscension, number> = {
+    [AhaAscension.None]: 0,
+    [AhaAscension.AhaE0]: 0.15,
+    [AhaAscension.AhaE2]: 0.25,
+  }
+
+  const getAhaOnlyElationAscension = (action: OptimizerAction, context: OptimizerContext): AhaAscension =>
+    countTeamPath(context, PathNames.Elation) == 2 ? getAhaAscension(action) : AhaAscension.None
+
   const defaults = {
     ultSpdBuff: true,
     certifiedBanger: true,
@@ -140,76 +154,84 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultSpdBuff: {
       id: 'ultSpdBuff',
       formItem: 'switch',
-      text: 'Ult SPD buff',
-      content: betaContent,
+      text: t('ultSpdBuff.text'),
+      content: t('ultSpdBuff.content', { SpdBuff: precisionRound(100 * ultSpdBuff) }),
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: 'Certified Banger',
-      content: betaContent,
+      text: t('certifiedBanger.text'),
+      content: t('certifiedBanger.content', {
+        SkillElationDmg: precisionRound(100 * talentSkillElationScaling),
+        UltElationDmg: precisionRound(100 * talentUltElationScaling),
+      }),
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: 'Certified Banger stacks',
-      content: betaContent,
+      text: t('certifiedBangerStacks.text'),
+      content: t('certifiedBangerStacks.content'),
       min: 0,
       max: 200,
     },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: 'Punchline stacks',
-      content: betaContent,
+      text: t('punchlineStacks.text'),
+      content: t('punchlineStacks.content'),
       min: 0,
       max: 100,
     },
     enhancedElationSkill: {
       id: 'enhancedElationSkill',
       formItem: 'switch',
-      text: 'Enhanced Elation Skill',
-      content: betaContent,
+      text: t('enhancedElationSkill.text'),
+      content: t('enhancedElationSkill.content', {
+        AoeElationDmg: precisionRound(100 * elationSkillAoeScaling),
+        BounceCount: elationSkillBounceCount,
+        BounceElationDmg: precisionRound(100 * elationSkillBounceScaling),
+        ElationDmgPerFervor: precisionRound(100 * elationSkillFervorScaling),
+      }),
     },
     fervorStacks: {
       id: 'fervorStacks',
       formItem: 'slider',
-      text: 'Fervor stacks',
-      content: betaContent,
+      text: t('fervorStacks.text'),
+      content: t('fervorStacks.content'),
       min: 0,
       max: fervorMax,
     },
     spdElationConversion: {
       id: 'spdElationConversion',
       formItem: 'switch',
-      text: 'SPD to Elation conversion',
-      content: betaContent,
+      text: t('spdElationConversion.text'),
+      content: t('spdElationConversion.content'),
     },
     traceCdBuff: {
       id: 'traceCdBuff',
       formItem: 'switch',
-      text: 'Trace CD buff',
-      content: betaContent,
+      text: t('traceCdBuff.text'),
+      content: t('traceCdBuff.content'),
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
-      text: 'E1 RES PEN',
-      content: betaContent,
+      text: t('e1ResPen.text'),
+      content: t('e1ResPen.content'),
       disabled: e < 1,
     },
     e4DefPen: {
       id: 'e4DefPen',
       formItem: 'switch',
-      text: 'E4 DEF ignore',
-      content: betaContent,
+      text: t('e4DefPen.text'),
+      content: t('e4DefPen.content'),
       disabled: e < 4,
     },
     e6Merrymaking: {
       id: 'e6Merrymaking',
       formItem: 'switch',
-      text: 'E6 Merrymaking',
-      content: betaContent,
+      text: t('e6Merrymaking.text'),
+      content: t('e6Merrymaking.content'),
       disabled: e < 6,
     },
   }
@@ -242,9 +264,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       const certifiedBangerStacks = r.certifiedBangerStacks
       const fervorStacks = r.fervorStacks
 
-      // Trace A2: solo Elation lineup makes his Elation Skill DMG count as a FUA
-      const soloElation = countTeamPath(context, PathNames.Elation) == 1
-      const elationSkillDamageType = soloElation ? DamageTag.ELATION | DamageTag.FUA : DamageTag.ELATION
+      // The solo Elation trace also applies when Aha is his only other Elation teammate.
+      const elationCount = countTeamPath(context, PathNames.Elation)
+      const soloTraceActive = elationCount == 1 || getAhaOnlyElationAscension(action, context) != AhaAscension.None
+      const elationSkillDamageType = soloTraceActive ? DamageTag.ELATION | DamageTag.FUA : DamageTag.ELATION
 
       // ============== BASIC ==============
 
@@ -368,7 +391,12 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       x.buff(StatKey.MERRYMAKING, (e >= 6 && r.e6Merrymaking) ? 0.25 : 0, x.source(SOURCE_E6))
     },
 
-    precomputeMutualEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {
+    precomputeMutualEffectsContainer: (
+      x: ComputedStatsContainer,
+      action: OptimizerAction,
+      context: OptimizerContext,
+      originalCharacterAction?: OptimizerAction,
+    ) => {
       const m = action.characterConditionals as Conditionals<typeof teammateContent>
 
       // Trace A2: +20% Elation if other Elation characters in team (auto-detected)
@@ -380,6 +408,9 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
 
       // E4: Ignores 18% DEF
       x.buff(StatKey.DEF_PEN, (e >= 4 && m.e4DefPen) ? 0.18 : 0, x.targets(TargetTag.FullTeam).source(SOURCE_E4))
+
+      const ascension = getAhaOnlyElationAscension(originalCharacterAction ?? action, context)
+      x.buff(StatKey.SPD_P, ascensionSpdByTier[ascension], x.targets(TargetTag.FullTeam).source(SOURCE_TRACE))
     },
 
     precomputeTeammateEffectsContainer: (x: ComputedStatsContainer, action: OptimizerAction, context: OptimizerContext) => {

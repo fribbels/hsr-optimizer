@@ -849,6 +849,10 @@ Lightcones:
       initialEhrBuff:
         text: '↑Шанс Эффектов в начале боя'
         content: В начале боя шанс попадания эффектов владельца повышается на {{EhrBuff}}% на 3 хода.
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: Слабость
 Characters:
   Acheron:
     Content:
@@ -1491,6 +1495,10 @@ Characters:
       e4TeamResBuff:
         text: E4 ↑Сопротивление эффектам команде
         content: Когда Гепард находится на поле боя, сопротивление эффектам всех союзников повышается на 20%.
+  Gilgamesh:
+    Content:
+      e6ResPen:
+        text: E6 Игнор Сопр. Урону
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1566,6 +1574,10 @@ Characters:
       e6UltExtraHits:
         text: E6 Доп. ударов ульты
         content: Сверхспособность Химеко наносит случайным противникам огненный урон 2 дополнительных раза, оба раза наносимый урон равен 40% от изначального урона.
+  HimekoNova:
+    Content:
+      e6:
+        text: E6 баффы
   Hook:
     Content:
       enhancedSkill:
@@ -2039,6 +2051,37 @@ Characters:
       e4SpdBuff:
         text: E4 ↑Скорость команде
         content: Пока Раппа находится в состоянии Форма печати, скорость всех союзников повышается на 12%.
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: Усиленный Навык
+      talentCdBuff:
+        text: '↑Крит урон от таланта'
+      ladylikePoise:
+        text: '↑Скорость после ульты'
+      e6ResPen:
+        text: E6 Игнор Сопр. Урону
+  AventurineWaveflair:
+    Content:
+      certifiedBanger:
+        text: Настоящий хит
+      certifiedBangerStacks:
+        text: Стаков Хита
+      punchlineStacks:
+        text: Стаков Юмора
+        content: Установите количество Юмора, которым владеет команда. Значение используется для вычисления урона навыка Радости.
+      e1ResPen:
+        text: E1 Игнор Сопр. Урону
+      e6Merrymaking:
+        text: E6 Баффы
+  Pearl:
+    Content:
+      deepLearning:
+        text: '↑Базовая Атака'
+      punchlineStacks:
+        text: Стаков Юмора
+      e6Buffs:
+        text: E6 Игнор Сопр. Урону
   Robin:
     Content:
       concertoActive:
@@ -2072,6 +2115,18 @@ Characters:
       e2UltSpdBuff:
         text: E2 ↑Скорость от ульты
         content: Состояние Концерт повышает скорость всех союзников на 16%.
+  RobinSummeretto:
+    Content:
+      e2ResPen:
+        text: E2 Игнор Сопр. Урону
+      e4MemoSpdBuff:
+        text: E4 ↑Скорость команде
+      deviatedChordBranch:
+        options:
+          atk:
+            display: Сила атаки
+          critDmg:
+            display: КУ
   RuanMei:
     Content:
       skillOvertoneBuff:

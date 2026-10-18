@@ -1,5 +1,4 @@
 import {
-  AHA_BASE_SPEED,
   calculateAhaSpeed,
   calculateNextTeammateSpeed,
   speedToContributionMultiplier,
@@ -16,6 +15,8 @@ interface AhaContribution {
   multiplier: number
   contribution: number
 }
+
+const AHA_BASE_SPEED = 80
 
 function calculateContributions(speeds: Array<number>): AhaContribution[] {
   const sorted = [...speeds].sort((a, b) => b - a)
@@ -46,39 +47,39 @@ describe('speedToContributionMultiplier', () => {
 
 describe('calculateAhaSpeed', () => {
   it('returns base speed with no teammates', () => {
-    expect(calculateAhaSpeed([])).toBe(AHA_BASE_SPEED)
+    expect(calculateAhaSpeed([], AHA_BASE_SPEED)).toBe(AHA_BASE_SPEED)
   })
 
   it('single teammate at 200 speed', () => {
     // 80 + 200/5 = 80 + 40 = 120
-    expect(calculateAhaSpeed([200])).toBeCloseTo(120)
+    expect(calculateAhaSpeed([200], AHA_BASE_SPEED)).toBeCloseTo(120)
   })
 
   it('two teammates', () => {
     // sorted: [200, 100]
     // 80 + 200/5 + 100/10 = 80 + 40 + 10 = 130
-    expect(calculateAhaSpeed([200, 100])).toBeCloseTo(130)
+    expect(calculateAhaSpeed([200, 100], AHA_BASE_SPEED)).toBeCloseTo(130)
   })
 
   it('four teammates, applies weighted formula', () => {
     // sorted: [200, 160, 140, 100]
     // 80 + 200/5 + 160/10 + 140/20 + 100/40
     // = 80 + 40 + 16 + 7 + 2.5 = 145.5
-    expect(calculateAhaSpeed([200, 160, 140, 100])).toBeCloseTo(145.5)
+    expect(calculateAhaSpeed([200, 160, 140, 100], AHA_BASE_SPEED)).toBeCloseTo(145.5)
   })
 
   it('sorts speeds descending before applying weights', () => {
     // [100, 200] sorted => [200, 100]
     // 80 + 200/5 + 100/10 = 130
-    expect(calculateAhaSpeed([100, 200])).toBeCloseTo(130)
+    expect(calculateAhaSpeed([100, 200], AHA_BASE_SPEED)).toBeCloseTo(130)
     // Same result regardless of input order
-    expect(calculateAhaSpeed([100, 200])).toBeCloseTo(calculateAhaSpeed([200, 100]))
+    expect(calculateAhaSpeed([100, 200], AHA_BASE_SPEED)).toBeCloseTo(calculateAhaSpeed([200, 100], AHA_BASE_SPEED))
   })
 
   it('does not mutate the input array', () => {
     const speeds = [100, 200, 150]
     const copy = [...speeds]
-    calculateAhaSpeed(speeds)
+    calculateAhaSpeed(speeds, AHA_BASE_SPEED)
     expect(speeds).toEqual(copy)
   })
 
@@ -86,18 +87,18 @@ describe('calculateAhaSpeed', () => {
     // sorted: [150, 150, 150, 150]
     // 80 + 150/5 + 150/10 + 150/20 + 150/40
     // = 80 + 30 + 15 + 7.5 + 3.75 = 136.25
-    expect(calculateAhaSpeed([150, 150, 150, 150])).toBeCloseTo(136.25)
+    expect(calculateAhaSpeed([150, 150, 150, 150], AHA_BASE_SPEED)).toBeCloseTo(136.25)
   })
 
   it('single teammate at 0 speed', () => {
-    expect(calculateAhaSpeed([0])).toBe(AHA_BASE_SPEED)
+    expect(calculateAhaSpeed([0], AHA_BASE_SPEED)).toBe(AHA_BASE_SPEED)
   })
 
   it('three teammates', () => {
     // sorted: [180, 135, 100]
     // 80 + 180/5 + 135/10 + 100/20
     // = 80 + 36 + 13.5 + 5 = 134.5
-    expect(calculateAhaSpeed([180, 135, 100])).toBeCloseTo(134.5)
+    expect(calculateAhaSpeed([180, 135, 100], AHA_BASE_SPEED)).toBeCloseTo(134.5)
   })
 })
 
@@ -130,7 +131,7 @@ describe('calculateContributions', () => {
     const speeds = [180, 135, 120, 100]
     const contributions = calculateContributions(speeds)
     const totalContribution = contributions.reduce((sum, c) => sum + c.contribution, 0)
-    expect(totalContribution).toBeCloseTo(calculateAhaSpeed(speeds) - AHA_BASE_SPEED)
+    expect(totalContribution).toBeCloseTo(calculateAhaSpeed(speeds, AHA_BASE_SPEED) - AHA_BASE_SPEED)
   })
 
   it('does not mutate input array', () => {
@@ -143,46 +144,46 @@ describe('calculateContributions', () => {
 
 describe('calculateNextTeammateSpeed', () => {
   it('returns null for empty string target', () => {
-    expect(calculateNextTeammateSpeed('', [100, 200])).toBeNull()
+    expect(calculateNextTeammateSpeed('', [100, 200], AHA_BASE_SPEED)).toBeNull()
   })
 
   it('with no existing teammates, solves for single teammate', () => {
     // target = 120, base = 80, so need 40 from one teammate
     // 40 / (1/5) = 40 * 5 = 200
-    expect(calculateNextTeammateSpeed(120, [])).toBeCloseTo(200)
+    expect(calculateNextTeammateSpeed(120, [], AHA_BASE_SPEED)).toBeCloseTo(200)
   })
 
   it('does not mutate the input array', () => {
     const speeds = [180, 135]
     const copy = [...speeds]
-    calculateNextTeammateSpeed(135, speeds)
+    calculateNextTeammateSpeed(135, speeds, AHA_BASE_SPEED)
     expect(speeds).toEqual(copy)
   })
 
   it('round-trips with calculateAhaSpeed for 1 existing teammate', () => {
     const existing = [180]
     const target = 130
-    const needed = calculateNextTeammateSpeed(target, existing)
+    const needed = calculateNextTeammateSpeed(target, existing, AHA_BASE_SPEED)
     expect(needed).not.toBeNull()
-    const resultSpeed = calculateAhaSpeed([...existing, needed!])
+    const resultSpeed = calculateAhaSpeed([...existing, needed!], AHA_BASE_SPEED)
     expect(resultSpeed).toBeCloseTo(target)
   })
 
   it('round-trips with calculateAhaSpeed for 2 existing teammates', () => {
     const existing = [180, 135]
     const target = 140
-    const needed = calculateNextTeammateSpeed(target, existing)
+    const needed = calculateNextTeammateSpeed(target, existing, AHA_BASE_SPEED)
     expect(needed).not.toBeNull()
-    const resultSpeed = calculateAhaSpeed([...existing, needed!])
+    const resultSpeed = calculateAhaSpeed([...existing, needed!], AHA_BASE_SPEED)
     expect(resultSpeed).toBeCloseTo(target)
   })
 
   it('round-trips with calculateAhaSpeed for 3 existing teammates', () => {
     const existing = [180, 135, 120]
     const target = 145
-    const needed = calculateNextTeammateSpeed(target, existing)
+    const needed = calculateNextTeammateSpeed(target, existing, AHA_BASE_SPEED)
     expect(needed).not.toBeNull()
-    const resultSpeed = calculateAhaSpeed([...existing, needed!])
+    const resultSpeed = calculateAhaSpeed([...existing, needed!], AHA_BASE_SPEED)
     expect(resultSpeed).toBeCloseTo(target)
   })
 
@@ -190,10 +191,10 @@ describe('calculateNextTeammateSpeed', () => {
     const existing = [100]
     const target = 150
     // Need a very fast teammate that becomes rank 0
-    const needed = calculateNextTeammateSpeed(target, existing)
+    const needed = calculateNextTeammateSpeed(target, existing, AHA_BASE_SPEED)
     expect(needed).not.toBeNull()
     expect(needed!).toBeGreaterThan(100)
-    const resultSpeed = calculateAhaSpeed([...existing, needed!])
+    const resultSpeed = calculateAhaSpeed([...existing, needed!], AHA_BASE_SPEED)
     expect(resultSpeed).toBeCloseTo(target)
   })
 
@@ -202,10 +203,10 @@ describe('calculateNextTeammateSpeed', () => {
     const target = 125
     // Current: 80 + 200/5 = 120, need +5 more
     // New teammate slots as rank 1: need * (1/10) = 5, so need = 50
-    const needed = calculateNextTeammateSpeed(target, existing)
+    const needed = calculateNextTeammateSpeed(target, existing, AHA_BASE_SPEED)
     expect(needed).not.toBeNull()
     expect(needed!).toBeLessThan(200)
-    const resultSpeed = calculateAhaSpeed([...existing, needed!])
+    const resultSpeed = calculateAhaSpeed([...existing, needed!], AHA_BASE_SPEED)
     expect(resultSpeed).toBeCloseTo(target)
   })
 
@@ -213,22 +214,22 @@ describe('calculateNextTeammateSpeed', () => {
     // With 3 very slow teammates, reaching a high target may require negative speed
     const existing = [50, 50, 50]
     const target = 120
-    const needed = calculateNextTeammateSpeed(target, existing)
+    const needed = calculateNextTeammateSpeed(target, existing, AHA_BASE_SPEED)
     expect(needed).not.toBeNull()
     // Whether negative or not, the math should still round-trip
-    const resultSpeed = calculateAhaSpeed([...existing, needed!])
+    const resultSpeed = calculateAhaSpeed([...existing, needed!], AHA_BASE_SPEED)
     expect(resultSpeed).toBeCloseTo(target)
   })
 
   it('default form values produce expected Aha speed', () => {
     // Default: teammate0=180, teammate1=135, rest empty, desiredAha=135
     const speeds = [180, 135]
-    const ahaSpeed = calculateAhaSpeed(speeds)
+    const ahaSpeed = calculateAhaSpeed(speeds, AHA_BASE_SPEED)
     // 80 + 180/5 + 135/10 = 80 + 36 + 13.5 = 129.5
     expect(ahaSpeed).toBeCloseTo(129.5)
 
-    const needed = calculateNextTeammateSpeed(135, speeds)
+    const needed = calculateNextTeammateSpeed(135, speeds, AHA_BASE_SPEED)
     expect(needed).not.toBeNull()
-    expect(calculateAhaSpeed([...speeds, needed!])).toBeCloseTo(135)
+    expect(calculateAhaSpeed([...speeds, needed!], AHA_BASE_SPEED)).toBeCloseTo(135)
   })
 })

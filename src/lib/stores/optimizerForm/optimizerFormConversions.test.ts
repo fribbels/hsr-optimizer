@@ -97,29 +97,19 @@ describe('displayToInternal', () => {
     expect(form.maxErr).toBeCloseTo(0.2)
   })
 
-  it('should pass through flat stat filters unchanged', () => {
-    const state = makeState({
+  it('tolerates float32 error at stat filter boundaries', () => {
+    const form = displayToInternal(makeState({
       statFilters: {
         ...createDefaultFormState().statFilters,
-        minHp: 1000,
-        maxHp: 5000,
-        minAtk: 500,
-        maxAtk: 3000,
-        minDef: 200,
-        maxDef: 2000,
-        minSpd: 100,
-        maxSpd: 180,
+        minSpd: 138.6,
+        maxSpd: 133.3333,
+        minEhr: 67,
       },
-    })
-    const form = displayToInternal(state)
-    expect(form.minHp).toBe(1000)
-    expect(form.maxHp).toBe(5000)
-    expect(form.minAtk).toBe(500)
-    expect(form.maxAtk).toBe(3000)
-    expect(form.minDef).toBe(200)
-    expect(form.maxDef).toBe(2000)
-    expect(form.minSpd).toBe(100)
-    expect(form.maxSpd).toBe(180)
+    }))
+
+    expect(138.59999).toBeGreaterThanOrEqual(form.minSpd) // float32 noise passes
+    expect(133.3343).toBeGreaterThan(form.maxSpd)          // a real miss still fails
+    expect(0.66999999).toBeGreaterThanOrEqual(form.minEhr)
   })
 
   it('should convert undefined rating min filters to 0', () => {

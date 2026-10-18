@@ -14,6 +14,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export type FilterOption<T> = {
   value: T,
@@ -40,6 +41,7 @@ function FilterPillInner<T extends string | number | boolean>({
   flex = 1,
   columns = 1,
 }: FilterPillProps<T>) {
+  const { t } = useTranslation('common')
   const [search, setSearch] = useState('')
   const optionValues = useMemo(() => new Set(options.map((o) => o.value)), [options])
   const activeCount = useMemo(() => selected.filter((v) => optionValues.has(v)).length, [selected, optionValues])
@@ -109,7 +111,7 @@ function FilterPillInner<T extends string | number | boolean>({
           <Combobox.Search
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
-            placeholder='Search...'
+            placeholder={t('Search')}
           />
         )}
         <Combobox.Options
@@ -141,7 +143,7 @@ function FilterPillInner<T extends string | number | boolean>({
               </Combobox.Option>
             )
           })}
-          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>No results</Combobox.Empty>}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t('NoResults')}</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

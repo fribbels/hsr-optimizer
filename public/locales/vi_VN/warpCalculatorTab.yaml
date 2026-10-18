@@ -59,6 +59,7 @@ SectionTitles:
   Rerun: Rerun
   AdditionalResources: Nguồn khác
   Calculate: Tính
+  Simple: Đơn giản
 ColumnTitles:
   Goal: Mục Tiêu
   Chance: "Tỉ lệ thành công với {{ticketCount}} <1/>"

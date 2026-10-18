@@ -38,6 +38,12 @@ SetConditionals:
         Display: 攻擊力
       CdOnly:
         Display: 暴擊傷害
+    DreamlitActor:
+      CD:
+        Display: 暴擊傷害
+    DivineQueryingMasterSmith:
+      CD:
+        Display: 暴擊傷害
 CombatBuffs:
   ATK: 攻擊力
   ATK_P: 攻擊力 %

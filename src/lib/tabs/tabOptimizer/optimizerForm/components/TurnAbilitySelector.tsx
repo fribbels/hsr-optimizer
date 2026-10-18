@@ -114,7 +114,7 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
     <CascaderSelect
       data={options}
       value={value}
-      placeholder='Ability'
+      placeholder={t('ComboOptions.Placeholder')}
       variant='unstyled'
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}
@@ -153,7 +153,7 @@ export function ControlledTurnAbilitySelector({
       style={style}
       data={options}
       value={value || null}
-      placeholder='Ability'
+      placeholder={t('ComboOptions.Placeholder')}
       styles={{ input: { fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }}
       clearable
       onClear={handleClear}

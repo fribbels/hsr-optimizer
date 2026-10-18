@@ -82,6 +82,7 @@ export function simulateBuild(
   trace: boolean = false,
   forcedBasicSpd: number = 0,
   skipDefaults: boolean = false,
+  capBasicSpd: boolean = false,
   precomputedSets: PrecomputedSetState | null = null,
 ): SimulateBuildResult {
   // Compute
@@ -122,8 +123,10 @@ export function simulateBuild(
   calculateElementalStats(c, context)
 
   if (forcedBasicSpd) {
-    // Special scoring use case where basic spd stat needs to be enforced
-    c.SPD.set(forcedBasicSpd, Source.NONE)
+    // Cap baseline SPD without raising it to the target.
+    if (!capBasicSpd || c.SPD.get() > forcedBasicSpd) {
+      c.SPD.set(forcedBasicSpd, Source.NONE)
+    }
   }
 
   let comboDmg = 0

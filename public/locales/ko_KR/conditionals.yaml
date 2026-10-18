@@ -802,6 +802,10 @@ Lightcones:
       initialEhrBuff:
         text: 전투 진입 버프
         content: '전투 시작 시 장착한 캐릭터의 효과 명중이 {{EhrBuff}}% 증가한다. 지속 시간: 3턴'
+  ColorsForTomorrow:
+    Content:
+      inkSplashVulnerability:
+        text: 취약
 Characters:
   Acheron:
     Content:
@@ -1421,6 +1425,10 @@ Characters:
       e4TeamResBuff:
         text: 4돌 팀 효과 저항 버프
         content: 게파드가 필드에 있으면 모든 아군의 효과 저항이 20% 증가한다
+  Gilgamesh:
+    Content:
+      e6ResPen:
+        text: 6돌 속성 저항 관통
   Guinaifen:
     Content:
       talentDebuffStacks:
@@ -1496,6 +1504,10 @@ Characters:
       e6UltExtraHits:
         text: 6돌 추가 피해
         content: 필살기는 추가로 2회 피해를 주고, 임의의 적에게 각각 기존 피해 40%만큼의 화염 속성 피해를 준다.
+  HimekoNova:
+    Content:
+      e6:
+        text: 6돌 버프
   Hook:
     Content:
       enhancedSkill:
@@ -1970,6 +1982,26 @@ Characters:
       e4SpdBuff:
         text: 4돌 속도 버프
         content: '[결인] 상태 동안 모든 아군의 속도가 12% 증가한다.'
+  RinTohsaka:
+    Content:
+      enhancedSkill:
+        text: 강화 전투 스킬
+      talentCdBuff:
+        text: 특성 치피 버프
+      ladylikePoise:
+        text: 속도 버프
+      e6ResPen:
+        text: 6돌 속성 저항 관통
+  AventurineWaveflair:
+    Content:
+      e1ResPen:
+        text: 1돌 속저관
+  Pearl:
+    Content:
+      deepLearning:
+        text: 강화 공격
+      e6Buffs:
+        text: 6돌 속성 저항 관통
   Robin:
     Content:
       concertoActive:
@@ -2003,6 +2035,18 @@ Characters:
       e2UltSpdBuff:
         text: 2돌 속도 버프
         content: '[협주] 상태일 시 모든 아군의 속도가 16% 증가한다. 특성의 에너지 회복 효과가 추가로 1pt 증가한다.'
+  RobinSummeretto:
+    Content:
+      e2ResPen:
+        text: 2돌 속성 저항 감소
+      e4MemoSpdBuff:
+        text: 4돌 속도 버프
+      deviatedChordBranch:
+        options:
+          atk:
+            display: 공격력
+          critDmg:
+            display: 치피
   RuanMei:
     Content:
       skillOvertoneBuff:

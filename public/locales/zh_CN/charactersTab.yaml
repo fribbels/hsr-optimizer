@@ -26,6 +26,7 @@ CharacterMenu:
   Priority:
     Label: 优先级
     Options:
+      SortByEffectiveSubstats: 按有效副词条排序
       MoveToTop: 将角色移至顶部
 SearchPlaceholder: 搜索
 GridDensityOptions:
@@ -46,6 +47,7 @@ Messages:
   ImageUploadFailed: 图片上传失败
   InvalidFile: 文件不是有效的图片文件
 CharacterPreview:
+  IncompleteSet: 套装未凑齐
   ScoringSidebar:
     Stats:
       Header: 属性
@@ -116,7 +118,7 @@ CharacterPreview:
     Labels:
       CombatStats: 战斗属性
       CombatStatsSubDps: 战斗属性（副C）
-      CombatStatsSupport: 战斗属性（辅助）
+      CombatStatsBuffer: 战斗属性（辅助）
       CombatStatsHeal: "战斗属性（治疗）\n"
       CombatStatsShield: 战斗属性（护盾）
   ScoringExplanation:

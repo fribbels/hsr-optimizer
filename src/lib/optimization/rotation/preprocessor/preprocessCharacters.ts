@@ -10,6 +10,7 @@ import { Hysilens } from 'lib/conditionals/character/1400/Hysilens'
 import { Phainon } from 'lib/conditionals/character/1400/Phainon'
 import { TheHerta } from 'lib/conditionals/character/1400/TheHerta'
 import { Ashveil } from 'lib/conditionals/character/1500/Ashveil'
+import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 import type { ComboState } from 'lib/optimization/combo/comboTypes'
 import { AbilityTriggeredStackPreprocessor } from 'lib/optimization/rotation/preprocessor/utils/abilityTriggeredStackPreprocessor'
 import {
@@ -324,5 +325,26 @@ export class CyrenePreprocessor extends AbilityPreprocessorBase {
     if (kind == AbilityKind.MEMO_SKILL) {
       this.state.memoSkillCounter++
     }
+  }
+}
+
+export class EvanesciaPreprocessor extends AbilityPreprocessorBase {
+  id = Evanescia.id
+  defaultState = { ultCount: 0 }
+  state = { ...this.defaultState }
+
+  reset() {
+    this.state = { ...this.defaultState }
+  }
+
+  processAbility(turnAbility: TurnAbility, index: number, comboState: ComboState) {
+    if (turnAbility.kind == AbilityKind.ULT) this.state.ultCount++
+
+    setComboBooleanCategoryCharacterActivation(
+      comboState,
+      'ascensionUltActive',
+      index,
+      turnAbility.kind == AbilityKind.ULT && this.state.ultCount % 3 == 0,
+    )
   }
 }

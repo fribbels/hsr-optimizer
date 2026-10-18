@@ -1,26 +1,13 @@
-CollapseLabels:
-  Explore: Khám phá các tính năng
-  Join: Tham gia cộng đồng
-FeatureCards:
-  LearnMore: Tìm hiểu thêm
-  Showcase:
-    Title: Showcase Nhân vật
-    Content: >-
-      Trình bày chỉ số của nhân vật hoặc lên đồ trước nhân vật tương lai. Mô phỏng sát thương của họ với điểm DPS và đo lường nó so với các chuẩn mực.
-  Optimizer:
-    Content: >-
-      Tối ưu hóa nhân vật của bạn để tìm kiếm sự kết hợp tốt nhất của di vật nhằm đạt được các điểm ngưỡng và tối đa hóa các chỉ số của chúng.
-  Calculator:
-    Title: Tính Sát Thương
-    Content: >-
-      Tính toán sát thương một cách chính xác với các thiết lập đội hình có thể tùy chỉnh, điều kiện buff và thứ tự dùng kỹ năng để tối đa hóa lượng sát thương.
-  Organizer:
-    Title: Trình quản lý di vật
-    Content: >-
-      Quản lý di vật của bạn bằng cách đánh giá và sắp xếp chúng theo tiềm năng, và tìm ra những di vật tốt nhất để nâng cấp cho từng nhân vật.
-  WarpPlanner:
+CommunityCard:
+  Discord:
+    Title: Discord
+  Github:
+    Title: Github
+  Changelog:
+    Title: Nhật ký thay đổi
+FeatureCard:
+  Warp:
     Title: Kế Hoạch Gacha
-Welcome: Chào mừng đến <1/>Trình tối ưu hóa Star Rail của Fribbels!
 SearchBar:
   Placeholder: UID
   Label: 'Hãy nhập UID để xem showcase nhân vật '

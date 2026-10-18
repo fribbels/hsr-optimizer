@@ -20,7 +20,7 @@ UserRanks:
 Timeline:
   Header: 全局动态
   New: 新
-  HoursAgo: '{{count}}小时前'
+  HoursAgo: '{{count}}时前'
   DaysAgo: '{{count}}天前'
 CharacterList:
   SearchPlaceholder: 搜索角色

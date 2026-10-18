@@ -367,7 +367,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     actionModifiers: () => [
       {
-        // Elation Skill: ally's Elation Skill additionally deals Elation DMG of the attacker's element
+        // Elation Skill: ally's next attack additionally deals Elation DMG of the attacker's element, modeled as their next Elation Skill
         modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
           if (!self.isTeammate || !self.ownConditionals.elationSkillProc) return
           if (action.actionType !== AbilityKind.ELATION_SKILL) return

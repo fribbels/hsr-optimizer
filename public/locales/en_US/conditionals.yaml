@@ -2341,7 +2341,7 @@ Characters:
       elationSkillProc:
         text: Elation Skill Elation DMG
         content: >-
-          After each ally's next Elation Skill, they deal additional Elation DMG of their attack's Type. The multiplier is {{Elation1}}%/{{Elation2}}%/{{Elation3}}%/{{Elation4}}% with 1/2/3/4 or more Elation characters on the team, respectively.
+          After each ally's next attack (modeled as their next Elation Skill), they deal additional Elation DMG of their attack's Type. The multiplier is {{Elation1}}%/{{Elation2}}%/{{Elation3}}%/{{Elation4}}% with 1/2/3/4 or more Elation characters on the team, respectively.
   Robin:
     Content:
       concertoActive:

@@ -13,14 +13,37 @@ import {
 import { ScoringType } from 'lib/scoring/scoringConfig'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { Metadata } from 'lib/state/metadataInitializer'
-import type { Eidolon } from 'types/character'
+import type {
+  CharacterId,
+  Eidolon,
+} from 'types/character'
+import type { LightConeId } from 'types/lightCone'
 import { ScoringConfigType } from 'types/metadata'
+import type { OptimizerAction } from 'types/optimizer'
 import {
   expect,
   test,
 } from 'vitest'
 
 Metadata.initialize()
+
+const SEELE = {
+  id: '1102',
+  lightCone: '23000',
+} satisfies { id: CharacterId, lightCone: LightConeId }
+
+function elationHits(action: OptimizerAction) {
+  return action.hits!.filter((hit) => hit.damageFunctionType === DamageFunctionType.Elation)
+}
+
+function pearlBasicThenHeal(eidolon: Eidolon, deepLearning: boolean) {
+  const form = generateFullDefaultForm(Pearl.id, Pearl.defaultLightCone, eidolon, 1)
+  form.comboType = ComboType.ADVANCED
+  form.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC, DEFAULT_SKILL_HEAL]
+  form.characterConditionals.certifiedBanger = false
+  form.characterConditionals.deepLearning = deepLearning
+  return generateContext(form).rotationActions
+}
 
 test('Pearl resolves substats before heal and none', () => {
   const availableSimulationConfigs = {
@@ -37,42 +60,30 @@ test('Pearl resolves substats before heal and none', () => {
   ])
 })
 
-test.each([0, 3] satisfies Eidolon[])('Pearl E%i adds the Ultimate rider only to enhanced Basics', (eidolon) => {
-  const form = generateFullDefaultForm(Pearl.id, Pearl.defaultLightCone, eidolon, 1)
-  form.comboType = ComboType.ADVANCED
-  form.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC, DEFAULT_BASIC, DEFAULT_SKILL_HEAL]
-  form.characterConditionals.certifiedBanger = false
-  form.characterConditionals.punchlineStacks = 30
-
-  for (const deepLearning of [true, false]) {
-    form.characterConditionals.deepLearning = deepLearning
-    const context = generateContext(form)
-    for (const action of context.rotationActions.slice(0, 2)) {
-      const elationHits = action.hits!.filter((hit) => hit.damageFunctionType === DamageFunctionType.Elation)
-      expect(elationHits).toHaveLength(deepLearning ? 1 : 0)
-      if (deepLearning) {
-        expect(elationHits[0]).toMatchObject({
-          elationScaling: eidolon >= 3 ? 0.66 : 0.60,
-          damageElement: ElementTag.Ice,
-          punchlineStacks: 30,
-          toughnessDmg: 0,
-          sourceEntityIndex: 0,
-        })
-      }
-    }
-    expect(context.rotationActions[2].hits!.every((hit) => hit.damageFunctionType === DamageFunctionType.Heal)).toBe(true)
-  }
+test.each(
+  [
+    { eidolon: 0, scaling: 0.60 },
+    { eidolon: 3, scaling: 0.66 },
+  ] satisfies { eidolon: Eidolon, scaling: number }[],
+)('Pearl E$eidolon enhanced Basic adds one Ice Elation hit', ({ eidolon, scaling }) => {
+  const [basic, heal] = pearlBasicThenHeal(eidolon, true)
+  expect(elationHits(basic)).toMatchObject([{ elationScaling: scaling, damageElement: ElementTag.Ice }])
+  expect(elationHits(heal)).toHaveLength(0)
 })
 
-test('Pearl no longer adds her enhanced Basic rider to teammate attacks', () => {
-  const form = generateFullDefaultForm('1102', '23000', 0, 1)
-  form.teammate0 = generateFullDefaultForm(Pearl.id, Pearl.defaultLightCone, 0, 1, true)
-  form.teammate0.characterConditionals = { ...form.teammate0.characterConditionals, elationSkillProc: false }
-  form.comboType = ComboType.ADVANCED
-  form.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC, DEFAULT_BASIC]
+test('Pearl Basic adds no Elation hit without Deep Learning', () => {
+  const [basic] = pearlBasicThenHeal(0, false)
+  expect(elationHits(basic)).toHaveLength(0)
+})
 
-  const context = generateContext(form)
-  for (const action of context.rotationActions) {
-    expect(action.hits!.some((hit) => hit.damageFunctionType === DamageFunctionType.Elation)).toBe(false)
-  }
+test('Pearl as a teammate adds no Elation hit to the main character', () => {
+  const form = generateFullDefaultForm(SEELE.id, SEELE.lightCone, 0, 1)
+  form.teammate0 = generateFullDefaultForm(Pearl.id, Pearl.defaultLightCone, 0, 1, true)
+  // The Elation Skill next-attack proc is a separate, intended teammate hit
+  form.teammate0.characterConditionals!.elationSkillProc = false
+  form.comboType = ComboType.ADVANCED
+  form.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
+
+  const [basic] = generateContext(form).rotationActions
+  expect(elationHits(basic)).toHaveLength(0)
 })

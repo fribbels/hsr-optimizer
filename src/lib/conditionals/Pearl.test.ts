@@ -1,12 +1,14 @@
 // @vitest-environment jsdom
 import { resolveShowcaseScoringOrder } from 'lib/characterPreview/scoring/showcaseScoringOrder'
 import { Pearl } from 'lib/conditionals/character/1500/Pearl'
+import { Sparxie } from 'lib/conditionals/character/1500/Sparxie'
 import { generateContext } from 'lib/optimization/context/calculateContext'
 import { ElementTag } from 'lib/optimization/engine/config/tag'
 import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import {
   DEFAULT_BASIC,
+  DEFAULT_ELATION_SKILL,
   DEFAULT_SKILL_HEAL,
   NULL_TURN_ABILITY_NAME,
 } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -85,5 +87,20 @@ test('Pearl as a teammate adds no Elation hit to the main character', () => {
   form.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
 
   const [basic] = generateContext(form).rotationActions
+  expect(elationHits(basic)).toHaveLength(0)
+})
+
+test('Pearl Elation Skill proc applies to the ally Elation Skill only', () => {
+  const form = generateFullDefaultForm(Sparxie.id, Sparxie.defaultLightCone, 0, 1)
+  form.teammate0 = generateFullDefaultForm(Pearl.id, Pearl.defaultLightCone, 0, 1, true)
+  form.teammate0.characterConditionals!.elationSkillProc = true
+  // Keep Sparxie's own Basic free of Talent Elation hits
+  form.characterConditionals.enhancedBasic = false
+  form.comboType = ComboType.ADVANCED
+  form.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_ELATION_SKILL, DEFAULT_BASIC]
+
+  const [elationSkill, basic] = generateContext(form).rotationActions
+  expect(elationHits(elationSkill)).toHaveLength(2)
+  expect(elationHits(elationSkill)[1]).toMatchObject({ damageElement: ElementTag.Fire })
   expect(elationHits(basic)).toHaveLength(0)
 })

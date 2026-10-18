@@ -60,9 +60,9 @@ import {
   SPREAD_RELICS_4P_HEAL,
 } from 'lib/scoring/scoringConstants'
 import { ScoringType } from 'lib/scoring/scoringTypes'
+import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
-import { relics2pByStats } from 'lib/sets/setConfigRegistry'
 import { floorSafe } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
@@ -382,9 +382,10 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     },
     actionModifiers: () => [
       {
-        // Elation Skill: ally's attack additionally deals Elation DMG of the attacker's element
+        // Elation Skill: ally's Elation Skill additionally deals Elation DMG of the attacker's element
         modify: (action: OptimizerAction, context: OptimizerContext, self: ModifierContext) => {
           if (!self.isTeammate || !self.ownConditionals.elationSkillProc) return
+          if (action.actionType !== AbilityKind.ELATION_SKILL) return
 
           const attackElement = action.hits?.find((hit) => hit.directHit && hit.damageElement !== ElementTag.None)?.damageElement
           if (attackElement == null) return

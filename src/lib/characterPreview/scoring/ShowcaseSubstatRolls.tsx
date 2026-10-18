@@ -1,4 +1,5 @@
 import { type PreviewRelics } from 'lib/characterPreview/characterPreviewController'
+import { RollCountDisplay } from 'lib/characterPreview/scoring/RollCountDisplay'
 import { RollStripeBar } from 'lib/characterPreview/scoring/RollStripeBar'
 import classes from 'lib/characterPreview/scoring/ShowcaseSubstatRolls.module.css'
 import { computeTierColors } from 'lib/characterPreview/scoring/substatRollColors'
@@ -53,7 +54,7 @@ export const ShowcaseSubstatRolls = memo(function ShowcaseSubstatRolls({
               <StatTextSm>{t(`Stats.${entry.stat}`)}</StatTextSm>
             </div>
             <StatTextSm className={classes.rollCount}>
-              {entry.effective.toFixed(1)}
+              <RollCountDisplay effective={entry.effective} total={entry.total} />
             </StatTextSm>
           </div>
           <RollStripeBar entry={entry} colors={tierColors} maxRolls={maxRolls} />

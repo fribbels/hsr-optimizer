@@ -5,6 +5,7 @@ import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import type { PreviewRelics } from 'lib/characterPreview/characterPreviewController'
 import { DEFAULT_SHOWCASE_COLOR } from 'lib/characterPreview/color/showcaseColorService'
 import { RollStripeBar } from 'lib/characterPreview/scoring/RollStripeBar'
+import { RollCountDisplay } from 'lib/characterPreview/scoring/RollCountDisplay'
 import {
   computeTierColors,
   type TierColors,
@@ -27,7 +28,6 @@ import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTa
 import { LoadingBlurredImage } from 'lib/ui/LoadingBlurredImage'
 import {
   currentLocale,
-  numberToLocaleString,
   percentageToLocaleString,
 } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
@@ -233,7 +233,7 @@ function SubstatColumn({ rolls, tierColors }: {
             <Flex align='center' gap={5}>
               <img src={Assets.getStatIcon(roll.stat)} className={classes.statIcon} />
               <span className={classes.statName}>{t(`Stats.${roll.stat}`)}</span>
-              <span className={classes.statValue}>{numberToLocaleString(roll.effective, 1)}</span>
+              <span className={classes.statValue}><RollCountDisplay effective={roll.effective} total={roll.total} leaderboard /></span>
             </Flex>
             <RollStripeBar entry={roll} colors={tierColors} maxRolls={maxRolls} />
           </div>

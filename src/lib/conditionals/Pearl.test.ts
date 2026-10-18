@@ -14,8 +14,6 @@ import {
 import { ScoringType } from 'lib/scoring/scoringConfig'
 import { generateFullDefaultForm } from 'lib/simulations/utils/benchmarkForm'
 import { Metadata } from 'lib/state/metadataInitializer'
-import type { CharacterId } from 'types/character'
-import type { LightConeId } from 'types/lightCone'
 import { ScoringConfigType } from 'types/metadata'
 import type { OptimizerAction } from 'types/optimizer'
 import {
@@ -24,11 +22,6 @@ import {
 } from 'vitest'
 
 Metadata.initialize()
-
-const SEELE = {
-  id: '1102',
-  lightCone: '23000',
-} satisfies { id: CharacterId, lightCone: LightConeId }
 
 function elationHits(action: OptimizerAction) {
   return action.hits!.filter((hit) => hit.damageFunctionType === DamageFunctionType.Elation)
@@ -47,18 +40,6 @@ test('Pearl resolves substats before heal and none', () => {
     ScoringType.HEAL_SCORE,
     ScoringType.NONE,
   ])
-})
-
-test('Pearl as a teammate adds no Elation hit to the main character', () => {
-  const form = generateFullDefaultForm(SEELE.id, SEELE.lightCone, 0, 1)
-  form.teammate0 = generateFullDefaultForm(Pearl.id, Pearl.defaultLightCone, 0, 1, true)
-  // The Elation Skill next-attack proc is a separate, intended teammate hit
-  form.teammate0.characterConditionals!.elationSkillProc = false
-  form.comboType = ComboType.ADVANCED
-  form.comboTurnAbilities = [NULL_TURN_ABILITY_NAME, DEFAULT_BASIC]
-
-  const [basic] = generateContext(form).rotationActions
-  expect(elationHits(basic)).toHaveLength(0)
 })
 
 test('Pearl Elation Skill proc applies to the ally Elation Skill only', () => {

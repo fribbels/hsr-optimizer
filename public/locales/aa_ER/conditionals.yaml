@@ -2293,7 +2293,7 @@ Characters:
       deepLearning:
         text: crwdns47939:0crwdne47939:0
         content: >-
-          crwdns47941:0{{BasicDmg}}crwdnd47941:0{{BasicHealScaling}}crwdnd47941:0{{BasicHealFlat}}crwdnd47941:0:BR:crwdnd47941:0:E6:crwdne47941:0
+          crwdns48093:0{{BasicDmg}}crwdnd48093:0{{BasicHealScaling}}crwdnd48093:0{{BasicHealFlat}}crwdne48093:0
       certifiedBanger:
         text: crwdns47943:0crwdne47943:0
         content: crwdns47945:0{{ElationDmg}}crwdne47945:0
@@ -2331,15 +2331,11 @@ Characters:
       e6Buffs:
         text: crwdns47987:0crwdne47987:0
         content: >-
-          crwdns47989:0:BR:crwdnd47989:0:E6:crwdne47989:0
-      aestheticArchetype:
-        text: crwdns47991:0crwdne47991:0
-        content: >-
-          crwdns47993:0{{ElationDmg}}crwdne47993:0
+          crwdns48095:0crwdne48095:0
       elationSkillProc:
         text: crwdns47995:0crwdne47995:0
         content: >-
-          crwdns47997:0{{Elation1}}crwdnd47997:0{{Elation2}}crwdnd47997:0{{Elation3}}crwdnd47997:0{{Elation4}}crwdne47997:0
+          crwdns48097:0{{Elation1}}crwdnd48097:0{{Elation2}}crwdnd48097:0{{Elation3}}crwdnd48097:0{{Elation4}}crwdne48097:0
   Robin:
     Content:
       concertoActive:

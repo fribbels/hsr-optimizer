@@ -97,13 +97,13 @@ function applyActionModifier(context: OptimizerContext, buff: CombatActionModifi
           .directHit(false)
         switch (buff.critScalingStat) {
           case Stats.ATK:
-            builder = builder.atkScaling(buff.critScalingValue)
+            builder = builder.atkScaling(buff.critScalingValue / 100)
             break
           case Stats.DEF:
-            builder = builder.defScaling(buff.critScalingValue)
+            builder = builder.defScaling(buff.critScalingValue / 100)
             break
           case Stats.HP:
-            builder = builder.hpScaling(buff.critScalingValue)
+            builder = builder.hpScaling(buff.critScalingValue / 100)
             break
         }
         action.hits!.push(builder.build() as CritHit)

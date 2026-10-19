@@ -13,8 +13,6 @@ export function Sidebar() {
   const breakpointShowXL = sidebarBehavior === SettingOptions.PermutationsSidebarBehavior.ShowXL
   const breakpointShowXXL = sidebarBehavior === SettingOptions.PermutationsSidebarBehavior.ShowXXL
 
-  // replacing ?? with || breaks the logic
-  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
   const isFullSize = breakpointNoShow || !((lg && breakpointShowXL && !xl) || (lg && breakpointShowXXL && !xxl))
 
   return <OptimizerSidebar isFullSize={isFullSize} />

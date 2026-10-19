@@ -71,6 +71,7 @@ import type {
   HsrOptimizerSaveFormat,
   UserSettings,
 } from 'types/store'
+import { migrateCombatBuffs } from 'lib/services/migrations/combatBuffs'
 
 // ─── Public API ────────────────────────────────────────────────
 
@@ -89,6 +90,10 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
 
   // Remove invalid characters
   saveData.characters = saveData.characters.filter((x) => dbCharacters[x.id])
+
+  migrateCombatBuffs(saveData)
+
+  console.log('migrated buffs', saveData)
 
   try {
     migrateNovaflare(saveData, dbCharacters)

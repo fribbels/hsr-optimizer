@@ -1,8 +1,6 @@
 // @vitest-environment jsdom
-import { CombatBuffs } from 'lib/constants/constants'
 import { ComboType } from 'lib/optimization/rotation/comboType'
 import {
-  createDefaultCombatBuffs,
   createDefaultFormState,
   createDefaultRatingFilters,
   createDefaultStatFilters,
@@ -62,20 +60,6 @@ describe('createDefaultRatingFilters', () => {
     for (const key of keys) {
       expect(filters[key as keyof typeof filters]).toBeUndefined()
     }
-  })
-})
-
-describe('createDefaultCombatBuffs', () => {
-  it('should have a key for every CombatBuff set to 0', () => {
-    const buffs = createDefaultCombatBuffs()
-    for (const entry of Object.values(CombatBuffs)) {
-      expect(buffs[entry.key]).toBe(0)
-    }
-  })
-
-  it('should have the correct number of keys', () => {
-    const buffs = createDefaultCombatBuffs()
-    expect(Object.keys(buffs)).toHaveLength(Object.keys(CombatBuffs).length)
   })
 })
 

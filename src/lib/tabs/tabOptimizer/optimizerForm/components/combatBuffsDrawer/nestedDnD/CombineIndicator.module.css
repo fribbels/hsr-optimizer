@@ -1,0 +1,9 @@
+.root {
+  border-radius: var(--mantine-radius-sm);
+  transition: box-shadow 120ms ease;
+}
+
+.active {
+  box-shadow: 0 0 0 2px var(--primary-default),
+    0 0 10px color-mix(in srgb, var(--primary-default) 35%, transparent);
+}

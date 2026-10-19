@@ -1,6 +1,7 @@
 import { type Namespaces } from 'lib/i18n/i18n'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import type Resources from 'types/resources'
+import { Operator } from '../container/computedStatsContainer'
 
 interface tInput {
   ns: Namespaces
@@ -16,6 +17,7 @@ export interface StatConfigEntry {
   bool?: boolean
   default?: number
   label: SimpleLabel
+  buffOperator?: Operator
 }
 
 const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) => (value: K): SimpleLabel =>
@@ -63,7 +65,7 @@ export const newStatsConfig = {
   RES_PEN: { hit: true, label: optimizerTabCompositeSuffix('RES PEN') },
   DEF_PEN: { hit: true, label: optimizerTabCompositeSuffix('DEF PEN') },
   BREAK_EFFICIENCY_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Break Efficiency boost') },
-  FINAL_DMG_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Final DMG multiplier') },
+  FINAL_DMG_BOOST: { hit: true, label: optimizerTabCompositeSuffix('Final DMG multiplier'), buffOperator: Operator.MULTIPLICATIVE_BOOST },
   TRUE_DMG_MODIFIER: { hit: true, label: optimizerTabCompositeSuffix('True DMG multiplier') },
 
   // ================ Action Stats ================
@@ -94,7 +96,7 @@ export const newStatsConfig = {
   UNCONVERTIBLE_ELATION_BUFF: { label: optimizerTabUnconvertible('Elation') },
 
   // EHP
-  DMG_RED: { label: optimizerTabMisc('DMG reduction') }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction), uses MULTIPLICATIVE_COMPLEMENT operator
+  DMG_RED: { label: optimizerTabMisc('DMG reduction'), buffOperator: Operator.MULTIPLICATIVE_COMPLEMENT }, // Dmg reduction for EHP calcs - defaults to 0 (no reduction)
   EHP: { flat: true, label: optimizerTabMisc('Effective HP') },
 
   EFFECT_RES_PEN: { label: optimizerTabMisc('Effect RES PEN') },

@@ -1,0 +1,55 @@
+.dropTarget {
+  position: relative;
+}
+
+.collapseToggle {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 40px;
+  cursor: pointer;
+}
+
+.emptyDropHint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 300px;
+  padding: 8px;
+  border: 2px dashed var(--border-default);
+  color: var(--text-secondary);
+}
+
+.groupContent {
+  display: grid;
+  width: 300px;
+  min-height: 24px;
+}
+
+.groupPreview,
+.collapseLayer {
+  grid-area: 1 / 1;
+}
+
+.groupPreview {
+  align-self: start;
+  min-width: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.previewPills {
+  width: max-content;
+  min-width: 100%;
+}
+
+.previewPill {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.collapseLayer {
+  min-height: 0;
+}

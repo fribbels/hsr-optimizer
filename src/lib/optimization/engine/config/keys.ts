@@ -1,4 +1,7 @@
-import { newStatsConfig } from 'lib/optimization/engine/config/statsConfig'
+import {
+  newStatsConfig,
+  type StatConfigEntry,
+} from 'lib/optimization/engine/config/statsConfig'
 
 // ============== Types ==============
 
@@ -36,10 +39,22 @@ export function getAKeyName(key: AKeyValue): AKeyType {
   return AKeyNames[key]
 }
 
+export function getAKeyConfig(key: AKeyValue): StatConfigEntry {
+  return newStatsConfig[getAKeyName(key)]
+}
+
+export function isHitAKey(key: AKeyValue): key is HitAKeyValue {
+  return getAKeyConfig(key).hit === true
+}
+
+export function isAKeyValue(key: unknown): key is AKeyValue {
+  return typeof key === 'number' && key >= 0 && key < ACTION_STATS_LENGTH
+}
+
 // ============== HKey ==============
 
 const hitStatEntries = Object.entries(newStatsConfig)
-  .filter(([_, value]) => (value as { hit?: boolean }).hit)
+  .filter(([_, value]) => (value as StatConfigEntry).hit)
 
 export type HKeyType = (typeof hitStatEntries)[number][0]
 

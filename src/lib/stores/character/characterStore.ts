@@ -90,3 +90,14 @@ useCharacterStore.subscribe((state, prev) => {
     useOptimizerRequestStore.getState().setRelicFilterField('rank', rank)
   }
 })
+
+// update combat buffs in real time via subscription to allow early buffs to be saved without an optimizer run
+// can not be done via a setter in useOptimizerRequestStore due to cyclical dependancy
+useOptimizerRequestStore.subscribe((state, prev) => {
+  if (state.combatBuffs === prev.combatBuffs) return
+  const currentFocusId = state.characterId
+  if (!currentFocusId) return
+  const character = useCharacterStore.getState().charactersById[currentFocusId]
+  if (!character) return
+  useCharacterStore.getState().setCharacter({ ...character, form: { ...character.form, combatBuffs: state.combatBuffs } })
+})

@@ -11,11 +11,26 @@ import type {
   Eidolon,
 } from 'types/character'
 
+import type { AKeyValue } from 'lib/optimization/engine/config/keys'
+import type {
+  DamageTag,
+  ElementTag,
+  TargetTag,
+} from 'lib/optimization/engine/config/tag'
+import { DamageFunctionType } from 'lib/optimization/engine/damage/damageCalculator'
 import type {
   SetsOrnaments,
   SetsRelics,
 } from 'lib/sets/setConfigRegistry'
 import type { SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
+import { AbilitySelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/AbilitySelect'
+import { CritModifier } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/ActionModifierBuilder'
+import { DamageElementSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/DamageElementSelect'
+import { ModifierKindSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/ActionModifierBuilder/ModifierKindSelect'
+import { DamageTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/common/DamageTagSelect'
+import { ElementTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/ElementTagSelect'
+import { TargetTagSelect } from 'lib/tabs/tabOptimizer/optimizerForm/components/combatBuffsDrawer/StatBuffBuilder/TargetTagSelect'
+import type { Prettify } from 'types/common'
 import type { ConditionalValueMap } from 'types/conditionals'
 import type {
   LightConeId,
@@ -93,9 +108,7 @@ export type Form =
 
     weights: ScoringMetadata['stats'],
 
-    combatBuffs: {
-      [key: string]: number,
-    },
+    combatBuffs: Array<CombatBuff | CombatBuffGroup>,
 
     // Optimizer additional data
     statSim?: {
@@ -128,6 +141,64 @@ export type Form =
   // Min / Max
   & StatFilters
   & RatingFilters
+
+interface CombatBuffCommon {
+  disabled: boolean
+  id: string
+}
+
+export enum CombatBuffType {
+  StatBuff,
+  ActionModifier,
+  Group,
+}
+
+export interface CombatBuffGroup extends CombatBuffCommon {
+  type: CombatBuffType.Group
+  name: string
+  buffs: Array<CombatBuff>
+}
+
+export type CombatBuff = Prettify<CombatStatBuff | CombatActionModifier>
+
+export interface CombatStatBuff extends CombatBuffCommon {
+  targetTag: TargetTagSelect.TagType
+  damageTags: Array<DamageTagSelect.TagType>
+  elementTags: Array<ElementTagSelect.TagType>
+  statKey: AKeyValue
+  value: number
+  type: CombatBuffType.StatBuff
+}
+
+interface AbstractCombatActionModifier extends CombatBuffCommon {
+  type: CombatBuffType.ActionModifier
+  kind: ModifierKindSelect.TagType
+  element: DamageElementSelect.TagType
+  abilities: Array<AbilitySelect.TagType>
+}
+
+export interface CritActionModifier extends AbstractCombatActionModifier {
+  kind: DamageFunctionType.Crit
+  critDamageType: Array<CritModifier.DamageType>
+  critScalingStat: CritModifier.ScalingStat
+  critScalingValue: number
+}
+
+export interface BreakActionModifier extends AbstractCombatActionModifier {
+  kind: DamageFunctionType.Break
+  breakScaling: number
+}
+
+export interface ElationActionModifier extends AbstractCombatActionModifier {
+  kind: DamageFunctionType.Elation
+  elationScaling: number
+  punchlineStacks: number
+}
+
+export type CombatActionModifier =
+  | CritActionModifier
+  | BreakActionModifier
+  | ElationActionModifier
 
 export type RelicSetFilters = Array<[pieces: string] | [pieces: string, set: SetsRelics] | [pieces: string, set1: SetsRelics, set2: SetsRelics]>
 export type OrnamentSetFilters = Array<SetsOrnaments>

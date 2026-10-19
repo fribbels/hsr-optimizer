@@ -170,6 +170,18 @@ export function ScannerWebsocket() {
           case AppPages.OPTIMIZER:
             gridStore.optimizerGridApi()?.redrawRows()
             break
+          case AppPages.HOME:
+          case AppPages.CHARACTERS:
+          case AppPages.IMPORT:
+          case AppPages.CHANGELOG:
+          case AppPages.SHOWCASE:
+          case AppPages.WARP:
+          case AppPages.BENCHMARKS:
+          case AppPages.CALCULATORS:
+          case AppPages.LEADERBOARD:
+          case AppPages.WEBGPU_TEST:
+          case AppPages.METADATA_TEST:
+            break
         }
       })
 

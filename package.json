@@ -33,7 +33,7 @@
     "typecheck:fast": "tsgo --noEmit -p ./tsconfig.fast.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"
+    "update-resources": "npx tsx src/scripts/uniques.ts && npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

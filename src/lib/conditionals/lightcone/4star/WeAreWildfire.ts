@@ -36,8 +36,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'initialDmgReductionBuff',
       formItem: 'switch',
-      text: t('Content.initialDmgReductionBuff.text'),
-      content: t('Content.initialDmgReductionBuff.content', {
+      text: t(($) => $.Content.initialDmgReductionBuff.text),
+      content: t(($) => $.Content.initialDmgReductionBuff.content, {
         Healing: precisionRound(100 * sValuesHealing[s]),
         DmgReduction: sValues[s],
       }),

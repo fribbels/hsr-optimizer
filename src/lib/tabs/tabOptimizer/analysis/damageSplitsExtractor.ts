@@ -47,12 +47,12 @@ const DAMAGE_TAG_FLAGS = Object.values(DamageTag)
   .sort((a, b) => a - b)
 
 export function decodeDamageTypeLabel(damageType: number, t: TFunction<'optimizerTab'>): string {
-  if (damageType === TRUE_DMG_SEGMENT_TYPE) return t(`ExpandedDataPanel.DamageSplits.Legend.${DAMAGE_TAG_NAMES[TRUE_DMG_SEGMENT_TYPE]}`)
+  if (damageType === TRUE_DMG_SEGMENT_TYPE) return t(($) => $.ExpandedDataPanel.DamageSplits.Legend[DAMAGE_TAG_NAMES[TRUE_DMG_SEGMENT_TYPE]])
   const parts: string[] = []
   for (const flag of DAMAGE_TAG_FLAGS) {
     if (damageType & flag) {
       if (flag in DAMAGE_TAG_NAMES) {
-        parts.push(t(`ExpandedDataPanel.DamageSplits.Legend.${DAMAGE_TAG_NAMES[flag as keyof typeof DAMAGE_TAG_NAMES]}`))
+        parts.push(t(($) => $.ExpandedDataPanel.DamageSplits.Legend[DAMAGE_TAG_NAMES[flag as keyof typeof DAMAGE_TAG_NAMES]]))
       } else {
         parts.push(`Unknown(${flag})`)
       }
@@ -183,7 +183,7 @@ function formatActionName(
   comboIndex?: number,
 ): string {
   const labelKey = AbilityMeta[action.actionType].label
-  const label = t(`ComboFilter.ComboOptions.${labelKey}`)
+  const label = t(($) => $.ComboFilter.ComboOptions[labelKey])
 
   if (mode === 'default') {
     return label

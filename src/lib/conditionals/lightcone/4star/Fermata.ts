@@ -30,8 +30,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'enemyShockWindShear',
       formItem: 'switch',
-      text: t('Content.enemyShockWindShear.text'),
-      content: t('Content.enemyShockWindShear.content', { DmgBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.enemyShockWindShear.text),
+      content: t(($) => $.Content.enemyShockWindShear.content, { DmgBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

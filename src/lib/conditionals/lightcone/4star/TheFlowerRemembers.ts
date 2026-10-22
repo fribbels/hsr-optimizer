@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'memoCdBoost',
       formItem: 'switch',
-      text: t('memoCdBoost.text'),
-      content: t('memoCdBoost.content', { CritDmgBuff: precisionRound(100 * sValuesMemoCd[s]) }),
+      text: t(($) => $.memoCdBoost.text),
+      content: t(($) => $.memoCdBoost.content, { CritDmgBuff: precisionRound(100 * sValuesMemoCd[s]) }),
     },
   }
 

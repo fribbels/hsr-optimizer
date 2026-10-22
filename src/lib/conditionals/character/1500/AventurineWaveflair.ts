@@ -59,12 +59,12 @@ import {
 } from 'lib/optimization/rotation/turnAbilityConfig'
 import { SortOption } from 'lib/optimization/sortOptions'
 import { PresetEffects } from 'lib/scoring/presetEffects'
-import { wrappedFixedT } from 'lib/utils/i18nUtils'
-import { precisionRound } from 'lib/utils/mathUtils'
 import {
   SPREAD_ORNAMENTS_2P_GENERAL_CONDITIONALS,
   SPREAD_RELICS_4P_GENERAL_CONDITIONALS,
 } from 'lib/scoring/scoringConstants'
+import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type Eidolon } from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
@@ -154,14 +154,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultSpdBuff: {
       id: 'ultSpdBuff',
       formItem: 'switch',
-      text: t('ultSpdBuff.text'),
-      content: t('ultSpdBuff.content', { SpdBuff: precisionRound(100 * ultSpdBuff) }),
+      text: t(($) => $.ultSpdBuff.text),
+      content: t(($) => $.ultSpdBuff.content, { SpdBuff: precisionRound(100 * ultSpdBuff) }),
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: t('certifiedBanger.text'),
-      content: t('certifiedBanger.content', {
+      text: t(($) => $.certifiedBanger.text),
+      content: t(($) => $.certifiedBanger.content, {
         SkillElationDmg: precisionRound(100 * talentSkillElationScaling),
         UltElationDmg: precisionRound(100 * talentUltElationScaling),
       }),
@@ -169,24 +169,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: t('certifiedBangerStacks.text'),
-      content: t('certifiedBangerStacks.content'),
+      text: t(($) => $.certifiedBangerStacks.text),
+      content: t(($) => $.certifiedBangerStacks.content),
       min: 0,
       max: 200,
     },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: t('punchlineStacks.text'),
-      content: t('punchlineStacks.content'),
+      text: t(($) => $.punchlineStacks.text),
+      content: t(($) => $.punchlineStacks.content),
       min: 0,
       max: 100,
     },
     enhancedElationSkill: {
       id: 'enhancedElationSkill',
       formItem: 'switch',
-      text: t('enhancedElationSkill.text'),
-      content: t('enhancedElationSkill.content', {
+      text: t(($) => $.enhancedElationSkill.text),
+      content: t(($) => $.enhancedElationSkill.content, {
         AoeElationDmg: precisionRound(100 * elationSkillAoeScaling),
         BounceCount: elationSkillBounceCount,
         BounceElationDmg: precisionRound(100 * elationSkillBounceScaling),
@@ -196,42 +196,42 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     fervorStacks: {
       id: 'fervorStacks',
       formItem: 'slider',
-      text: t('fervorStacks.text'),
-      content: t('fervorStacks.content'),
+      text: t(($) => $.fervorStacks.text),
+      content: t(($) => $.fervorStacks.content),
       min: 0,
       max: fervorMax,
     },
     spdElationConversion: {
       id: 'spdElationConversion',
       formItem: 'switch',
-      text: t('spdElationConversion.text'),
-      content: t('spdElationConversion.content'),
+      text: t(($) => $.spdElationConversion.text),
+      content: t(($) => $.spdElationConversion.content),
     },
     traceCdBuff: {
       id: 'traceCdBuff',
       formItem: 'switch',
-      text: t('traceCdBuff.text'),
-      content: t('traceCdBuff.content'),
+      text: t(($) => $.traceCdBuff.text),
+      content: t(($) => $.traceCdBuff.content),
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
-      text: t('e1ResPen.text'),
-      content: t('e1ResPen.content'),
+      text: t(($) => $.e1ResPen.text),
+      content: t(($) => $.e1ResPen.content),
       disabled: e < 1,
     },
     e4DefPen: {
       id: 'e4DefPen',
       formItem: 'switch',
-      text: t('e4DefPen.text'),
-      content: t('e4DefPen.content'),
+      text: t(($) => $.e4DefPen.text),
+      content: t(($) => $.e4DefPen.content),
       disabled: e < 4,
     },
     e6Merrymaking: {
       id: 'e6Merrymaking',
       formItem: 'switch',
-      text: t('e6Merrymaking.text'),
-      content: t('e6Merrymaking.content'),
+      text: t(($) => $.e6Merrymaking.text),
+      content: t(($) => $.e6Merrymaking.content),
       disabled: e < 6,
     },
   }

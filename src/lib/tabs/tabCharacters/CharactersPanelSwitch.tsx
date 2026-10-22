@@ -14,8 +14,8 @@ import { useTranslation } from 'react-i18next'
 const ICON_SIZE = 16
 
 const PANEL_LABEL_KEY = {
-  [CharactersPanel.CHARACTERS]: 'Panels.Characters',
-  [CharactersPanel.TEAMS]: 'Panels.Teams',
+  [CharactersPanel.CHARACTERS]: 'Characters',
+  [CharactersPanel.TEAMS]: 'Teams',
 } as const satisfies Record<CharactersPanel, string>
 
 const PANEL_ICON: Record<CharactersPanel, ReactNode> = {
@@ -31,7 +31,7 @@ export function CharactersPanelSwitch() {
     <Tabs.List className={styles.list}>
       {CHARACTERS_PANELS.map((panel) => (
         <Tabs.Tab key={panel} value={panel} leftSection={PANEL_ICON[panel]}>
-          {t($ => $[PANEL_LABEL_KEY[panel]])}
+          {t($ => $.Panels[PANEL_LABEL_KEY[panel]])}
         </Tabs.Tab>
       ))}
     </Tabs.List>

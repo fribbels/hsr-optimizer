@@ -123,14 +123,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultBuffActive: {
       id: 'ultBuffActive',
       formItem: 'switch',
-      text: t('Content.ultBuffActive.text'),
-      content: t('Content.ultBuffActive.content', { ultCdBuffValue: precisionRound(100 * ultCdBuffValue) }),
+      text: t(($) => $.Content.ultBuffActive.text),
+      content: t(($) => $.Content.ultBuffActive.content, { ultCdBuffValue: precisionRound(100 * ultCdBuffValue) }),
     },
     soulsteelBuffActive: {
       id: 'soulsteelBuffActive',
       formItem: 'switch',
-      text: t('Content.soulsteelBuffActive.text'),
-      content: t('Content.soulsteelBuffActive.content', {
+      text: t(($) => $.Content.soulsteelBuffActive.text),
+      content: t(($) => $.Content.soulsteelBuffActive.content, {
         talentCdBuffValue: precisionRound(100 * talentCdBuffValue),
         talentCrBuffValue: precisionRound(100 * talentCrBuffValue),
         ultCdBuffValue: precisionRound(100 * ultCdBuffValue),
@@ -139,21 +139,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     critSpdBuff: {
       id: 'critSpdBuff',
       formItem: 'switch',
-      text: t('Content.critSpdBuff.text'),
-      content: t('Content.critSpdBuff.content'),
+      text: t(($) => $.Content.critSpdBuff.text),
+      content: t(($) => $.Content.critSpdBuff.content),
     },
     e1TargetFrozen: {
       id: 'e1TargetFrozen',
       formItem: 'switch',
-      text: t('Content.e1TargetFrozen.text'),
-      content: t('Content.e1TargetFrozen.content'),
+      text: t(($) => $.Content.e1TargetFrozen.text),
+      content: t(($) => $.Content.e1TargetFrozen.content),
       disabled: (e < 1),
     },
     e4CurrentHp80: {
       id: 'e4CurrentHp80',
       formItem: 'switch',
-      text: t('Content.e4CurrentHp80.text'),
-      content: t('Content.e4CurrentHp80.content'),
+      text: t(($) => $.Content.e4CurrentHp80.text),
+      content: t(($) => $.Content.e4CurrentHp80.content),
       disabled: (e < 4),
     },
   }

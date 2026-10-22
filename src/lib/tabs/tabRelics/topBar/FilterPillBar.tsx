@@ -82,7 +82,7 @@ export function FilterPillBar() {
   const partOptions: FilterOption<Parts>[] = useMemo(() =>
     Object.values(Constants.Parts).map((part) => ({
       value: part,
-      label: tParts(part),
+      label: tParts($ => $[part]),
       icon: <img src={Assets.getPart(part)} style={{ width: 22, height: 22 }} />,
     })), [tParts])
 
@@ -105,28 +105,28 @@ export function FilterPillBar() {
   const relicSetOptions: FilterOption<Sets>[] = useMemo(() =>
     Object.values(SetsRelics).filter((x) => !UnreleasedSets[x]).map((set) => ({
       value: set,
-      label: tSets(`${setToId[set]}.Name`),
+      label: tSets($ => $[setToId[set]].Name),
       icon: <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 22, height: 22 }} />,
     })), [tSets])
 
   const ornamentSetOptions: FilterOption<Sets>[] = useMemo(() =>
     Object.values(SetsOrnaments).filter((x) => !UnreleasedSets[x]).map((set) => ({
       value: set,
-      label: tSets(`${setToId[set]}.Name`),
+      label: tSets($ => $[setToId[set]].Name),
       icon: <img src={Assets.getSetImage(set, Constants.Parts.PlanarSphere)} style={{ width: 22, height: 22 }} />,
     })), [tSets])
 
   const mainStatOptions: FilterOption<MainStats>[] = useMemo(() =>
     Constants.MainStats.map((stat) => ({
       value: stat,
-      label: isStatsValues(stat) ? tStats(stat) : stat,
+      label: isStatsValues(stat) ? tStats($ => $[stat]) : stat,
       icon: <img src={Assets.getStatIcon(stat, true)} style={{ width: 22, height: 22 }} />,
     })), [tStats])
 
   const subStatOptions: FilterOption<SubStats>[] = useMemo(() =>
     Constants.SubStats.map((stat) => ({
       value: stat,
-      label: isStatsValues(stat) ? tStats(stat) : stat,
+      label: isStatsValues(stat) ? tStats($ => $[stat]) : stat,
       icon: <img src={Assets.getStatIcon(stat, true)} style={{ width: 22, height: 22 }} />,
     })), [tStats])
 

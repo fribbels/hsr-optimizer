@@ -32,8 +32,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'atkBoostStacks',
       formItem: 'slider',
-      text: t('Content.atkBoostStacks.text'),
-      content: t('Content.atkBoostStacks.content', { AtkBuff: precisionRound(100 * sValuesAtkStacks[s]) }),
+      text: t(($) => $.Content.atkBoostStacks.text),
+      content: t(($) => $.Content.atkBoostStacks.content, { AtkBuff: precisionRound(100 * sValuesAtkStacks[s]) }),
       min: 0,
       max: 4,
     },
@@ -41,8 +41,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'weaknessBreakDmgBuff',
       formItem: 'switch',
-      text: t('Content.weaknessBreakDmgBuff.text'),
-      content: t('Content.weaknessBreakDmgBuff.content', { DmgBuff: precisionRound(100 * sValuesDmgBuff[s]) }),
+      text: t(($) => $.Content.weaknessBreakDmgBuff.text),
+      content: t(($) => $.Content.weaknessBreakDmgBuff.content, { DmgBuff: precisionRound(100 * sValuesDmgBuff[s]) }),
     },
   }
 

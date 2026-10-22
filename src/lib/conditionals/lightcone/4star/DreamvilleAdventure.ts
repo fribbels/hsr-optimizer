@@ -42,22 +42,22 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'ultDmgBuff',
       formItem: 'switch',
-      text: t('Content.ultDmgBuff.text'),
-      content: t('Content.ultDmgBuff.content', { DmgBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.ultDmgBuff.text),
+      content: t(($) => $.Content.ultDmgBuff.content, { DmgBuff: precisionRound(100 * sValues[s]) }),
     },
     skillDmgBuff: {
       lc: true,
       id: 'skillDmgBuff',
       formItem: 'switch',
-      text: t('Content.skillDmgBuff.text'),
-      content: t('Content.skillDmgBuff.content', { DmgBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.skillDmgBuff.text),
+      content: t(($) => $.Content.skillDmgBuff.content, { DmgBuff: precisionRound(100 * sValues[s]) }),
     },
     basicDmgBuff: {
       lc: true,
       id: 'basicDmgBuff',
       formItem: 'switch',
-      text: t('Content.basicDmgBuff.text'),
-      content: t('Content.basicDmgBuff.content', { DmgBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.basicDmgBuff.text),
+      content: t(($) => $.Content.basicDmgBuff.content, { DmgBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

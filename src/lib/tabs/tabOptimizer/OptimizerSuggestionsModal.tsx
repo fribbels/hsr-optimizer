@@ -51,16 +51,16 @@ function convertRootCauseToDisplay(rootCause: ZeroPermRootCause | ZeroResultRoot
   return (
     <Flex justify='space-between' align='center' h={45} key={rootCause} gap={10}>
       <div style={{ width: 550 }}>
-        {t($ => $[fixes.descriptionKey])}
+        {t($ => fixes.descriptionSelector($))}
       </div>
       <Button
         onClick={() => {
           fixes.applyFix()
-          Message.success(t($ => $[fixes.successMessageKey]), 2)
+          Message.success(t($ => fixes.successMessageSelector($)), 2)
         }}
         style={{ width: 350 }}
       >
-        {t($ => $[fixes.buttonTextKey])}
+        {t($ => fixes.buttonTextSelector($))}
       </Button>
     </Flex>
   );

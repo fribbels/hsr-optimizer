@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'activeShieldDmgDecrease',
       formItem: 'switch',
-      text: t('Content.activeShieldDmgDecrease.text'),
-      content: t('Content.activeShieldDmgDecrease.content', {
+      text: t(($) => $.Content.activeShieldDmgDecrease.text),
+      content: t(($) => $.Content.activeShieldDmgDecrease.content, {
         ShieldHp: precisionRound(100 * sValuesShieldHp[s]),
         DmgReduction: precisionRound(100 * sValues[s]),
       }),

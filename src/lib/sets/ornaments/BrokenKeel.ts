@@ -99,8 +99,8 @@ const conditionals: SetConditionals = {
   dynamicConditionals: [BrokenKeelConditional],
   teammate: [{
     value: Sets.BrokenKeel,
-    label: (t) => t('TeammateSets.Keel.Text'),
-    desc: (t) => t('TeammateSets.Keel.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Keel.Text),
+    desc: (t) => t(($) => $.TeammateSets.Keel.Desc),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.CD, 0.10, x.targets(TargetTag.FullTeam).source(Source.BrokenKeel))

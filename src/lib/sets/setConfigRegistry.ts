@@ -239,7 +239,7 @@ export type RelicSetIngameId = AllConfigItems['info']['ingameId']
 type DisplayWithI18nKey = Extract<AllConfigItems['display'], { conditionalI18nKey: string }>
 export type SetConditionalI18nKey =
   | DisplayWithI18nKey['conditionalI18nKey']
-  | 'Conditionals.DefaultMessage'
+  | 'DefaultMessage'
 
 export type SetConditionalFieldInfo = {
   fieldName: string,
@@ -392,7 +392,7 @@ export function encodeOrnamentSetIndex(setP: number, setL: number): number {
 // ── Usage ──
 
 export function setToConditionalKey(set: Sets): SetConditionalI18nKey {
-  return setToConditionalKeyMap.get(set) ?? 'Conditionals.DefaultMessage'
+  return setToConditionalKeyMap.get(set) ?? 'DefaultMessage'
 }
 
 export function getTeammateOption(key: string): TeammateOption | undefined {

@@ -181,7 +181,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
           disabled: disabled,
           id: setName,
           text: t($ => $[setToId[setName]].Name),
-          content: setConditionalsTFunction(setToConditionalKey(setName)),
+          content: setConditionalsTFunction(($) => $.Conditionals[setToConditionalKey(setName)]),
         }]
       } else if (category.type === ConditionalDataType.NUMBER) {
         content = [{
@@ -189,7 +189,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
           disabled: disabled,
           id: setName,
           text: t($ => $[setToId[setName]].Name),
-          content: setConditionalsTFunction(setToConditionalKey(setName)),
+          content: setConditionalsTFunction(($) => $.Conditionals[setToConditionalKey(setName)]),
           min: 0,
           max: 10,
         }]
@@ -199,7 +199,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
           disabled: disabled,
           id: setName,
           text: t($ => $[setToId[setName]].Name),
-          content: setConditionalsTFunction(setToConditionalKey(setName)),
+          content: setConditionalsTFunction(($) => $.Conditionals[setToConditionalKey(setName)]),
           options: setContent[setName],
         }]
       } else {

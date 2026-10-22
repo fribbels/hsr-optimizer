@@ -42,7 +42,7 @@ function UploadFileStage(props: {
     <Flex className={classes.stageContainer}>
       <Flex direction='column' gap={10}>
         <div>
-          {props.t('Stage1.Label') /* Load your optimizer data from a file. */}
+          {props.t(($) => $.Stage1.Label) /* Load your optimizer data from a file. */}
         </div>
         <input
           type='file'
@@ -58,7 +58,7 @@ function UploadFileStage(props: {
           onClick={props.onUploadClick}
           variant='default'
         >
-          {props.t('Stage1.ButtonText') /* Load save data */}
+          {props.t(($) => $.Stage1.ButtonText) /* Load save data */}
         </Button>
       </Flex>
     </Flex>
@@ -81,7 +81,7 @@ function ConfirmDataStage(props: {
         <Flex direction='column' gap={10} style={displayStyle}>
           {
             /* Invalid save file, please try a different file. Did you mean to use the Relic scanner import tab? */
-            props.t('Stage2.ErrorMsg')
+            props.t(($) => $.Stage2.ErrorMsg)
           }
         </Flex>
       </Flex>
@@ -94,11 +94,11 @@ function ConfirmDataStage(props: {
         <div>
           {
             /* File contains {n relics} and {m characters}. Replace your current data with the uploaded data? */
-            props.t('Stage2.Label', { relicCount: props.currentSave.relics.length, characterCount: props.currentSave.characters.length })
+            props.t(($) => $.Stage2.Label, { relicCount: props.currentSave.relics.length, characterCount: props.currentSave.characters.length })
           }
         </div>
         <Button w={importerTabButtonWidth} leftSection={<IconFileImport size={16} />} onClick={props.onConfirm} loading={props.loading}>
-          {props.t('Stage2.ButtonText') /* Use uploaded data */}
+          {props.t(($) => $.Stage2.ButtonText) /* Use uploaded data */}
         </Button>
       </Flex>
     </Flex>
@@ -110,7 +110,7 @@ function CompletedStage(props: { currentStage: Stages, t: LoadDataTranslate }) {
     <Flex className={classes.stageContainer}>
       <Flex direction='column' gap={10} style={{ display: props.currentStage >= Stages.FINISHED ? 'flex' : 'none' }}>
         <div>
-          {props.t('Stage3.SuccessMessage') /* Done! */}
+          {props.t(($) => $.Stage3.SuccessMessage) /* Done! */}
         </div>
       </Flex>
     </Flex>

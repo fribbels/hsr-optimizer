@@ -140,26 +140,26 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ehrToAtkConversion: {
       id: 'ehrToAtkConversion',
       formItem: 'switch',
-      text: t('ehrToAtkConversion.text'),
-      content: t('ehrToAtkConversion.content'),
+      text: t(($) => $.ehrToAtkConversion.text),
+      content: t(($) => $.ehrToAtkConversion.content),
     },
     skillResShredDebuff: {
       id: 'skillResShredDebuff',
       formItem: 'switch',
-      text: t('skillResShredDebuff.text'),
-      content: t('skillResShredDebuff.content', { SkillResShred: precisionRound(100 * skillResShredValue) }),
+      text: t(($) => $.skillResShredDebuff.text),
+      content: t(($) => $.skillResShredDebuff.content, { SkillResShred: precisionRound(100 * skillResShredValue) }),
     },
     skillWeaknessResShredDebuff: {
       id: 'skillWeaknessResShredDebuff',
       formItem: 'switch',
-      text: t('skillWeaknessResShredDebuff.text'),
-      content: t('skillWeaknessResShredDebuff.content', { ImplantBaseChance: precisionRound(skill(e, 120, 128)) }),
+      text: t(($) => $.skillWeaknessResShredDebuff.text),
+      content: t(($) => $.skillWeaknessResShredDebuff.content, { ImplantBaseChance: precisionRound(skill(e, 120, 128)) }),
     },
     talentDefShredDebuff: {
       id: 'talentDefShredDebuff',
       formItem: 'switch',
-      text: t('talentDefShredDebuff.text'),
-      content: t('talentDefShredDebuff.content', {
+      text: t(($) => $.talentDefShredDebuff.text),
+      content: t(($) => $.talentDefShredDebuff.content, {
         BugBaseChance: precisionRound(100 * bugBaseChance),
         BugAtkDown: talent(e, 10, 11),
         BugDefDown: talent(e, 12, 13.2),
@@ -169,8 +169,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultDefShredDebuff: {
       id: 'ultDefShredDebuff',
       formItem: 'switch',
-      text: t('ultDefShredDebuff.text'),
-      content: t('ultDefShredDebuff.content', {
+      text: t(($) => $.ultDefShredDebuff.text),
+      content: t(($) => $.ultDefShredDebuff.content, {
         UltDefShred: precisionRound(100 * ultDefShredValue),
         UltBaseChance: precisionRound(100 * ultBaseChance),
       }),
@@ -178,16 +178,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     targetDebuffs: {
       id: 'targetDebuffs',
       formItem: 'slider',
-      text: t('targetDebuffs.text'),
-      content: t('targetDebuffs.content', { BugBaseChance: precisionRound(100 * bugBaseChance) }),
+      text: t(($) => $.targetDebuffs.text),
+      content: t(($) => $.targetDebuffs.content, { BugBaseChance: precisionRound(100 * bugBaseChance) }),
       min: 0,
       max: 5,
     },
     e2Vulnerability: {
       id: 'e2Vulnerability',
       formItem: 'switch',
-      text: t('e2Vulnerability.text'),
-      content: t('e2Vulnerability.content'),
+      text: t(($) => $.e2Vulnerability.text),
+      content: t(($) => $.e2Vulnerability.content),
       disabled: e < 2,
     },
   }

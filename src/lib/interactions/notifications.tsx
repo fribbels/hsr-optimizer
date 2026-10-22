@@ -28,13 +28,13 @@ export function webgpuNotSupportedNotification() {
   const t = i18next.getFixedT(null, 'notifications', 'GPU')
   try {
     notifications.show({
-      title: t('Message'),
+      title: t(($) => $.Message),
       message: (
         <Flex direction='column'>
-          <div>{t('Description.l1')}</div>
+          <div>{t(($) => $.Description.l1)}</div>
           <div>
             <ul>
-              <li>{t('Description.l2')}</li>
+              <li>{t(($) => $.Description.l2)}</li>
               <li>
                 <Trans
                   ns='notifications'
@@ -44,7 +44,7 @@ export function webgpuNotSupportedNotification() {
               </li>
             </ul>
           </div>
-          <p>{t('Description.l4')}</p>
+          <p>{t(($) => $.Description.l4)}</p>
           <p>
             <Trans
               ns='notifications'
@@ -70,10 +70,10 @@ export function webgpuCrashNotification() {
   const t = i18next.getFixedT(null, 'notifications', 'GPUCrash')
   try {
     notifications.show({
-      title: t('Message'),
+      title: t(($) => $.Message),
       message: (
         <Flex direction='column' gap={10}>
-          <div>{t('Description.l1')}</div>
+          <div>{t(($) => $.Description.l1)}</div>
           <div>
             <Trans
               ns='notifications'

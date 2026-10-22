@@ -69,7 +69,7 @@ const DEBUFF_RES_OPTIONS = [
 function generateRangeOptions(t: TFunction<'calculatorsTab', 'EHR'>) {
   return Array.from({ length: 10 }, (_, idx) => {
     const v = (idx + 1) * 10
-    const label = t('Calculator.EHRLabel', { value: v })
+    const label = t(($) => $.Calculator.EHRLabel, { value: v })
     return { value: v.toString(), label }
   })
 }
@@ -92,29 +92,29 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
 
   return (
     <div className={classes.panelCompact}>
-      <PanelSection title={t('Calculator.Title')}>
+      <PanelSection title={t(($) => $.Calculator.Title)}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }}>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center' }}>
-            <InputField label={t('Calculator.Input.HitRate')} field='effectHitRate' form={form} />
-            <InputField label={t('Calculator.Input.BaseChance')} field='baseChance' form={form} />
-            <InputField label={t('Calculator.Input.Attempts')} field='attempts' form={form} noSuffix />
+            <InputField label={t(($) => $.Calculator.Input.HitRate)} field='effectHitRate' form={form} />
+            <InputField label={t(($) => $.Calculator.Input.BaseChance)} field='baseChance' form={form} />
+            <InputField label={t(($) => $.Calculator.Input.Attempts)} field='attempts' form={form} noSuffix />
           </div>
 
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center' }}>
             <SelectField
-              label={t('Calculator.Input.EffectRes')}
+              label={t(($) => $.Calculator.Input.EffectRes)}
               data={EFFECT_RES_OPTIONS}
               value={String(values.effectRes)}
               onChange={(v) => form.setFieldValue('effectRes', Number(v))}
             />
             <SelectField
-              label={t('Calculator.Input.DebuffRes')}
+              label={t(($) => $.Calculator.Input.DebuffRes)}
               data={DEBUFF_RES_OPTIONS}
               value={String(values.debuffRes)}
               onChange={(v) => form.setFieldValue('debuffRes', Number(v))}
             />
             <SelectField
-              label={t('Calculator.Input.Range')}
+              label={t(($) => $.Calculator.Input.Range)}
               data={rangeData}
               value={String(windowHalf)}
               onChange={(v) => setWindowHalf(Number(v))}
@@ -133,7 +133,7 @@ export function EhrPanelContent({ form, applicationRate, requiredEhr, t }: EhrPa
         <EhrGrid {...vizProps} />
       </PanelSection>
       <Divider />
-      <PanelSection title={t('Solver.Title')}>
+      <PanelSection title={t(($) => $.Solver.Title)}>
         <ReverseSolve form={form} requiredEhr={requiredEhr} t={t} />
       </PanelSection>
     </div>
@@ -215,7 +215,7 @@ function FormulaDisplay({ values, clampedRate, t }: {
             </mfrac>
             <mo>)</mo>
           </mrow>
-          <mtext style={LABEL_STYLE}>{t('Calculator.EquationLabel.BaseChance')}</mtext>
+          <mtext style={LABEL_STYLE}>{t(($) => $.Calculator.EquationLabel.BaseChance)}</mtext>
         </munder>
         <mo style={{ padding: '0 5px' }}>×</mo>
         <munder>
@@ -229,7 +229,7 @@ function FormulaDisplay({ values, clampedRate, t }: {
             </mfrac>
             <mo>)</mo>
           </mrow>
-          <mtext style={LABEL_STYLE}>{t('Calculator.EquationLabel.HitRate')}</mtext>
+          <mtext style={LABEL_STYLE}>{t(($) => $.Calculator.EquationLabel.HitRate)}</mtext>
         </munder>
         <mo style={{ padding: '0 5px' }}>×</mo>
         <munder>
@@ -243,7 +243,7 @@ function FormulaDisplay({ values, clampedRate, t }: {
             </mfrac>
             <mo>)</mo>
           </mrow>
-          <mtext style={LABEL_STYLE}>{t('Calculator.EquationLabel.EffectRes')}</mtext>
+          <mtext style={LABEL_STYLE}>{t(($) => $.Calculator.EquationLabel.EffectRes)}</mtext>
         </munder>
         <mo style={{ padding: '0 5px' }}>×</mo>
         <munder>
@@ -257,7 +257,7 @@ function FormulaDisplay({ values, clampedRate, t }: {
             </mfrac>
             <mo>)</mo>
           </mrow>
-          <mtext style={LABEL_STYLE}>{t('Calculator.EquationLabel.DebuffRes')}</mtext>
+          <mtext style={LABEL_STYLE}>{t(($) => $.Calculator.EquationLabel.DebuffRes)}</mtext>
         </munder>
         <mo style={{ padding: '0 5px' }}>=</mo>
       </math>
@@ -273,10 +273,10 @@ function FormulaDisplay({ values, clampedRate, t }: {
                 <mtext
                   style={{ fontSize: 22, color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}
                 >
-                  {t('Calculator.Output.Change')}
+                  {t(($) => $.Calculator.Output.Change)}
                 </mtext>
               </mrow>
-              <mtext style={LABEL_STYLE}>{t('Calculator.Output.PerAttempt')}</mtext>
+              <mtext style={LABEL_STYLE}>{t(($) => $.Calculator.Output.PerAttempt)}</mtext>
             </munder>
             <mo style={{ padding: '0 10px' }}>=</mo>
           </>
@@ -294,10 +294,14 @@ function FormulaDisplay({ values, clampedRate, t }: {
               {localeNumber_00(clampedRate)}%
             </mn>
             <mtext style={{ fontSize: 22, color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12, transform: 'translateY(-1px)' }}>
-              {t('Calculator.Output.Change')}
+              {t(($) => $.Calculator.Output.Change)}
             </mtext>
           </mrow>
-          <mtext style={LABEL_STYLE}>{attempts > 1 ? t('Calculator.Output.OverAttempts', { count: attempts }) : t('Calculator.Output.PerAttempt')}</mtext>
+          <mtext style={LABEL_STYLE}>
+            {attempts > 1
+              ? t(($) => $.Calculator.Output.OverAttempts, { count: attempts })
+              : t(($) => $.Calculator.Output.PerAttempt)}
+          </mtext>
         </munder>
       </math>
     </div>
@@ -314,7 +318,7 @@ function ReverseSolve({ form, requiredEhr, t }: {
   return (
     <div className={classes.reverse}>
       <div className={classes.reverseInput}>
-        <HeaderText>{t('Solver.Input')}</HeaderText>
+        <HeaderText>{t(($) => $.Solver.Input)}</HeaderText>
         <NumberInput
           key={form.key('desiredHitRate')}
           {...form.getInputProps('desiredHitRate')}
@@ -326,7 +330,7 @@ function ReverseSolve({ form, requiredEhr, t }: {
         />
       </div>
       <div className={classes.reverseOutput} style={{ opacity: isComputable ? undefined : 0.3 }}>
-        <HeaderText>{t('Solver.Output')}</HeaderText>
+        <HeaderText>{t(($) => $.Solver.Output)}</HeaderText>
         <span>
           {isComputable ? `${localeNumber_00(requiredEhr)}%` : ''}
         </span>

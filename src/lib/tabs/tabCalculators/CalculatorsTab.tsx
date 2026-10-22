@@ -29,11 +29,6 @@ const PANEL_ICONS: Record<CalculatorPanel, string> = {
   [CalculatorPanel.EHR]: Stats.EHR,
 }
 
-const PANEL_I18N_LABEL = {
-  [CalculatorPanel.AHA]: 'AHA.Label',
-  [CalculatorPanel.EHR]: 'EHR.Label',
-} as const
-
 export function CalculatorsTab() {
   const { t } = useTranslation('calculatorsTab')
   const [activePanel, setActivePanel] = useState<CalculatorPanel>(resolveCalculatorPanel)
@@ -74,7 +69,7 @@ export function CalculatorsTab() {
             <Tabs.Tab key={panel} value={panel}>
               <Flex align='center' gap={8}>
                 <img src={Assets.getStatIcon(PANEL_ICONS[panel])} alt='' style={{ height: 20 }} />
-                {t($ => $[PANEL_I18N_LABEL[panel]])}
+                {t($ => $[panel].Label)}
               </Flex>
             </Tabs.Tab>
           ))}

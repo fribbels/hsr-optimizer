@@ -38,8 +38,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'cadenzaActive',
       formItem: 'switch',
-      text: t('Content.cadenzaActive.text'),
-      content: t('Content.cadenzaActive.content', {
+      text: t(($) => $.Content.cadenzaActive.text),
+      content: t(($) => $.Content.cadenzaActive.content, {
         RegenBuff: precisionRound(100 * sValuesErr[s]),
         AtkBuff: precisionRound(100 * sValuesAtkBuff[s]),
         DmgBuff: precisionRound(100 * sValuesDmgBuff[s]),
@@ -49,8 +49,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'cantillationStacks',
       formItem: 'slider',
-      text: t('Content.cantillationStacks.text'),
-      content: t('Content.cantillationStacks.content', {
+      text: t(($) => $.Content.cantillationStacks.text),
+      content: t(($) => $.Content.cantillationStacks.content, {
         RegenBuff: precisionRound(100 * sValuesErr[s]),
         AtkBuff: precisionRound(100 * sValuesAtkBuff[s]),
         DmgBuff: precisionRound(100 * sValuesDmgBuff[s]),

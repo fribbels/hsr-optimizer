@@ -68,8 +68,8 @@ function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatS
   const hash = hashSim(simulation)
   for (const sim of existingSimulations) {
     if (hash === hashSim(sim)) {
-      Message.error(i18next.t($ => $.StatSimulation.DuplicateSimMessage, {
-        ns: "optimizerTab"
+      Message.error(i18next.t(($) => $.StatSimulation.DuplicateSimMessage, {
+        ns: 'optimizerTab',
       }))
       return null
     }
@@ -100,8 +100,8 @@ function hashSim(sim: Simulation) {
 
 function validateRequest(request: SimulationRequest) {
   if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
-    Message.error(i18next.t($ => $.StatSimulation.MissingMainstatsMessage, {
-      ns: "optimizerTab"
+    Message.error(i18next.t(($) => $.StatSimulation.MissingMainstatsMessage, {
+      ns: 'optimizerTab',
     })) // 'Missing simulation main stats'
     return false
   }
@@ -141,8 +141,8 @@ export function overwriteStatSimulationBuild() {
   for (const sim of existingSimulations) {
     if (sim.key === selectedKey) continue
     if (hash === hashSim(sim)) {
-      Message.error(i18next.t($ => $.StatSimulation.DuplicateSimMessage, {
-        ns: "optimizerTab"
+      Message.error(i18next.t(($) => $.StatSimulation.DuplicateSimMessage, {
+        ns: 'optimizerTab',
       }))
       return
     }
@@ -209,12 +209,12 @@ export function importOptimizerBuild() {
   const t = i18next.getFixedT(null, 'optimizerTab', 'StatSimulation')
 
   if (!selectedRow) {
-    Message.warning(t('NothingToImport')) // 'Run the optimizer first, then select a row from the optimizer results to import'
+    Message.warning(t(($) => $.NothingToImport)) // 'Run the optimizer first, then select a row from the optimizer results to import'
     return
   }
 
   if (selectedRow.statSim) {
-    Message.warning(t('BuildAlreadyImported')) // 'The selected optimizer build is already a simulation'
+    Message.warning(t(($) => $.BuildAlreadyImported)) // 'The selected optimizer build is already a simulation'
     return
   }
 

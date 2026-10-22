@@ -128,14 +128,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enemyProofOfDebtDebuff: {
       id: 'enemyProofOfDebtDebuff',
       formItem: 'switch',
-      text: t('Content.enemyProofOfDebtDebuff.text'),
-      content: t('Content.enemyProofOfDebtDebuff.content', { proofOfDebtFuaVulnerability: precisionRound(100 * proofOfDebtFuaVulnerability) }),
+      text: t(($) => $.Content.enemyProofOfDebtDebuff.text),
+      content: t(($) => $.Content.enemyProofOfDebtDebuff.content, { proofOfDebtFuaVulnerability: precisionRound(100 * proofOfDebtFuaVulnerability) }),
     },
     numbyEnhancedState: {
       id: 'numbyEnhancedState',
       formItem: 'switch',
-      text: t('Content.numbyEnhancedState.text'),
-      content: t('Content.numbyEnhancedState.content', {
+      text: t(($) => $.Content.numbyEnhancedState.text),
+      content: t(($) => $.Content.numbyEnhancedState.content, {
         enhancedStateFuaCdBoost: precisionRound(100 * enhancedStateFuaCdBoost),
         enhancedStateFuaScalingBoost: precisionRound(100 * enhancedStateFuaScalingBoost),
       }),
@@ -143,8 +143,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e1DebtorStacks: {
       id: 'e1DebtorStacks',
       formItem: 'slider',
-      text: t('Content.e1DebtorStacks.text'),
-      content: t('Content.e1DebtorStacks.content'),
+      text: t(($) => $.Content.e1DebtorStacks.text),
+      content: t(($) => $.Content.e1DebtorStacks.content),
       min: 0,
       max: 2,
       disabled: e < 1,

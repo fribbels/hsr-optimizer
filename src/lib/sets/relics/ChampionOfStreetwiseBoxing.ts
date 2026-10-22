@@ -38,7 +38,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Streetwise',
+  conditionalI18nKey: 'Streetwise',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 5,
@@ -63,9 +63,9 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 6 }).map((_val, i) => ({
-    display: t('Streetwise.Display', { stackCount: i }),
+    display: t(($) => $.Streetwise.Display, { stackCount: i }),
     value: i,
-    label: t('Streetwise.Label', { stackCount: i, buffValue: 5 * i }),
+    label: t(($) => $.Streetwise.Label, { stackCount: i, buffValue: 5 * i }),
   }))
 }
 

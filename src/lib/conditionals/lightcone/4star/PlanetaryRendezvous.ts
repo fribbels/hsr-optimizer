@@ -36,8 +36,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta:
       lc: true,
       id: 'alliesSameElement',
       formItem: 'switch',
-      text: t('Content.alliesSameElement.text'),
-      content: t('Content.alliesSameElement.content', { DmgBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.alliesSameElement.text),
+      content: t(($) => $.Content.alliesSameElement.content, { DmgBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

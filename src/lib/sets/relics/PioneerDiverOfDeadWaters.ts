@@ -38,7 +38,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Diver',
+  conditionalI18nKey: 'Diver',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 2,
@@ -87,34 +87,34 @@ const conditionals: SetConditionals = {
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
     {
-      display: t('Diver.Off.Display'),
+      display: t(($) => $.Diver.Off.Display),
       value: -1,
-      label: t('Diver.Off.Label'),
+      label: t(($) => $.Diver.Off.Label),
     },
     {
-      display: t('Diver.1Debuff.Display'),
+      display: t(($) => $.Diver['1Debuff'].Display),
       value: 0,
-      label: t('Diver.1Debuff.Label'),
+      label: t(($) => $.Diver['1Debuff'].Label),
     },
     {
-      display: t('Diver.2Debuff.Display'),
+      display: t(($) => $.Diver['2Debuff'].Display),
       value: 1,
-      label: t('Diver.2Debuff.Label'),
+      label: t(($) => $.Diver['2Debuff'].Label),
     },
     {
-      display: t('Diver.3Debuff.Display'),
+      display: t(($) => $.Diver['3Debuff'].Display),
       value: 2,
-      label: t('Diver.3Debuff.Label'),
+      label: t(($) => $.Diver['3Debuff'].Label),
     },
     {
-      display: t('Diver.2+Debuff.Display'),
+      display: t(($) => $.Diver['2+Debuff'].Display),
       value: 3,
-      label: t('Diver.2+Debuff.Label'),
+      label: t(($) => $.Diver['2+Debuff'].Label),
     },
     {
-      display: t('Diver.3+Debuff.Display'),
+      display: t(($) => $.Diver['3+Debuff'].Display),
       value: 4,
-      label: t('Diver.3+Debuff.Label'),
+      label: t(($) => $.Diver['3+Debuff'].Label),
     },
   ]
 }

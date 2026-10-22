@@ -104,8 +104,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedUlt: {
       id: 'enhancedUlt',
       formItem: 'switch',
-      text: t('Content.enhancedUlt.text'),
-      content: t('Content.enhancedUlt.content', {
+      text: t(($) => $.Content.enhancedUlt.text),
+      content: t(($) => $.Content.enhancedUlt.content, {
         ultScaling: precisionRound(100 * ultScaling),
         ultEnhancedScaling: precisionRound(100 * ultEnhancedScaling),
         ultEnhancedScaling2: precisionRound(100 * ultEnhancedScaling2),
@@ -114,8 +114,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentStacks: {
       id: 'talentStacks',
       formItem: 'slider',
-      text: t('Content.talentStacks.text'),
-      content: t('Content.talentStacks.content', { talentAtkScalingValue: precisionRound(100 * talentAtkScalingValue) }),
+      text: t(($) => $.Content.talentStacks.text),
+      content: t(($) => $.Content.talentStacks.content, { talentAtkScalingValue: precisionRound(100 * talentAtkScalingValue) }),
       min: 0,
       max: 2,
     },

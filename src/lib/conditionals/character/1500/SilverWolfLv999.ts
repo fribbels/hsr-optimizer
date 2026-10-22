@@ -152,22 +152,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     godmodePlayer: {
       id: 'godmodePlayer',
       formItem: 'switch',
-      text: t('godmodePlayer.text'),
-      content: t('godmodePlayer.content', { lootboxScaling: precisionRound(100 * mysteryBoxElationScaling) }),
+      text: t(($) => $.godmodePlayer.text),
+      content: t(($) => $.godmodePlayer.content, { lootboxScaling: precisionRound(100 * mysteryBoxElationScaling) }),
     },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: t('punchlineStacks.text'),
-      content: t('punchlineStacks.content'),
+      text: t(($) => $.punchlineStacks.text),
+      content: t(($) => $.punchlineStacks.content),
       min: 0,
       max: 100,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: t('certifiedBanger.text'),
-      content: t('certifiedBanger.content', {
+      text: t(($) => $.certifiedBanger.text),
+      content: t(($) => $.certifiedBanger.content, {
         lootboxScaling: precisionRound(100 * mysteryBoxElationScaling),
         talentCBScaling: precisionRound(100 * talentCBElationScaling),
       }),
@@ -175,8 +175,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: t('certifiedBangerStacks.text'),
-      content: t('certifiedBangerStacks.content', {
+      text: t(($) => $.certifiedBangerStacks.text),
+      content: t(($) => $.certifiedBangerStacks.content, {
         lootboxScaling: precisionRound(100 * mysteryBoxElationScaling),
         talentCBScaling: precisionRound(100 * talentCBElationScaling),
       }),
@@ -186,8 +186,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     hiddenMmr: {
       id: 'hiddenMmr',
       formItem: 'slider',
-      text: t('hiddenMmr.text'),
-      content: t('hiddenMmr.content', {
+      text: t(($) => $.hiddenMmr.text),
+      content: t(($) => $.hiddenMmr.content, {
         hiddenMmrCrStep: precisionRound(100 * mmrCrPerPoint),
         hiddenMmrCdStep: precisionRound(100 * mmrCdPerPoint),
       }),
@@ -197,35 +197,35 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     spdToElation: {
       id: 'spdToElation',
       formItem: 'switch',
-      text: t('spdToElation.text'),
-      content: t('spdToElation.content'),
+      text: t(($) => $.spdToElation.text),
+      content: t(($) => $.spdToElation.content),
     },
     e1Vulnerability: {
       id: 'e1Vulnerability',
       formItem: 'switch',
-      text: t('e1Vulnerability.text'),
-      content: t('e1Vulnerability.content'),
+      text: t(($) => $.e1Vulnerability.text),
+      content: t(($) => $.e1Vulnerability.content),
       disabled: e < 1,
     },
     e4PunchlineBoost: {
       id: 'e4PunchlineBoost',
       formItem: 'switch',
-      text: t('e4PunchlineBoost.text'),
-      content: t('e4PunchlineBoost.content'),
+      text: t(($) => $.e4PunchlineBoost.text),
+      content: t(($) => $.e4PunchlineBoost.content),
       disabled: e < 4,
     },
     e6Merrymake: {
       id: 'e6Merrymake',
       formItem: 'switch',
-      text: t('e6Merrymake.text'),
-      content: t('e6Merrymake.content'),
+      text: t(($) => $.e6Merrymake.text),
+      content: t(($) => $.e6Merrymake.content),
       disabled: e < 6,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: t('e6ResPen.text'),
-      content: t('e6ResPen.content'),
+      text: t(($) => $.e6ResPen.text),
+      content: t(($) => $.e6ResPen.content),
       disabled: e < 6,
     },
   }

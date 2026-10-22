@@ -44,7 +44,7 @@ export const RelicStatRow = memo(
             src={Assets.getStatIcon(stat.stat)}
             className={iconClasses.statIcon}
           />
-          {t(`ReadableStats.${stat.stat}`)}
+          {t($ => $.ReadableStats[stat.stat])}
         </div>
         {!main
           ? (

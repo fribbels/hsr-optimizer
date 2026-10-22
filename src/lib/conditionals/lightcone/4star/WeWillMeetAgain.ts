@@ -33,8 +33,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, wearerMeta:
       lc: true,
       id: 'extraDmgProc',
       formItem: 'switch',
-      text: t('Content.extraDmgProc.text'),
-      content: t('Content.extraDmgProc.content', { Multiplier: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.extraDmgProc.text),
+      content: t(($) => $.Content.extraDmgProc.content, { Multiplier: precisionRound(100 * sValues[s]) }),
     },
   }
 

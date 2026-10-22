@@ -42,8 +42,8 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       lc: true,
       id: 'spConsumedStacks',
       formItem: 'slider',
-      text: t('spConsumedStacks.text'),
-      content: t('spConsumedStacks.content', { defShred: precisionRound(100 * sValuesDefPen[s]) }),
+      text: t(($) => $.spConsumedStacks.text),
+      content: t(($) => $.spConsumedStacks.content, { defShred: precisionRound(100 * sValuesDefPen[s]) }),
       min: 0,
       max: 4,
     },
@@ -51,8 +51,8 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       lc: true,
       id: 'elationBuff',
       formItem: 'switch',
-      text: t('elationBuff.text'),
-      content: t('elationBuff.content', { elationBuff: precisionRound(100 * sValuesElation[s]) }),
+      text: t(($) => $.elationBuff.text),
+      content: t(($) => $.elationBuff.content, { elationBuff: precisionRound(100 * sValuesElation[s]) }),
     },
   }
 

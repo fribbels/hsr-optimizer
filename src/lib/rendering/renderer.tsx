@@ -65,14 +65,14 @@ export const Renderer = {
 
   readableStat: (x: ValueFormatterParams<ScoredRelic, StatsValues>) => {
     if (x?.value == null) return ''
-    return i18next.t($ => $.ShortReadableStats[x.value], {
+    return i18next.t($ => $.ShortReadableStats[x.value!], {
       ns: "common"
     });
   },
 
   readablePart: (x: ValueFormatterParams<ScoredRelic, Parts>) => {
     if (x?.value == null) return ''
-    return i18next.t($ => $.ReadableParts[x.value], {
+    return i18next.t($ => $.ReadableParts[x.value!], {
       ns: "common"
     });
   },
@@ -135,7 +135,7 @@ export const Renderer = {
         <Tooltip
           openDelay={400}
           label={i18next.t($ => $.Verified4LinerHoverText)}
-          // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
+        // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
         >
           <RingedCircleCheckIcon color={circleColor} />
         </Tooltip>

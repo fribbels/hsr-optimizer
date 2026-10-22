@@ -21,8 +21,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'healingBasedDmgProc',
       formItem: 'switch',
-      text: t('Content.healingBasedDmgProc.text'),
-      content: t('Content.healingBasedDmgProc.content', { Multiplier: precisionRound(sValuesBonusMultiplier[s] * 100) }),
+      text: t(($) => $.Content.healingBasedDmgProc.text),
+      content: t(($) => $.Content.healingBasedDmgProc.content, { Multiplier: precisionRound(sValuesBonusMultiplier[s] * 100) }),
     },
   }
 

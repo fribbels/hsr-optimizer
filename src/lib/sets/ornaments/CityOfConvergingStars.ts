@@ -34,7 +34,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.CityOfConvergingStars',
+  conditionalI18nKey: 'CityOfConvergingStars',
   modifiable: true,
   selectionOptions: selectionOptions,
   defaultValue: 3,
@@ -56,8 +56,8 @@ const conditionals: SetConditionals = {
   },
   teammate: [{
     value: Sets.CityOfConvergingStars,
-    label: (t) => t('TeammateSets.CityOfConvergingStars.Text'),
-    desc: (t) => t('TeammateSets.CityOfConvergingStars.Desc'),
+    label: (t) => t(($) => $.TeammateSets.CityOfConvergingStars.Text),
+    desc: (t) => t(($) => $.TeammateSets.CityOfConvergingStars.Desc),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.CD, 0.12, x.targets(TargetTag.FullTeam).source(Source.CityOfConvergingStars))
@@ -84,24 +84,24 @@ const conditionals: SetConditionals = {
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
     {
-      display: t('CityOfConvergingStars.Off.Display'),
+      display: t(($) => $.CityOfConvergingStars.Off.Display),
       value: 0,
-      label: t('CityOfConvergingStars.Off.Label'),
+      label: t(($) => $.CityOfConvergingStars.Off.Label),
     },
     {
-      display: t('CityOfConvergingStars.AtkOnly.Display'),
+      display: t(($) => $.CityOfConvergingStars.AtkOnly.Display),
       value: 1,
-      label: t('CityOfConvergingStars.AtkOnly.Label'),
+      label: t(($) => $.CityOfConvergingStars.AtkOnly.Label),
     },
     {
-      display: t('CityOfConvergingStars.CdOnly.Display'),
+      display: t(($) => $.CityOfConvergingStars.CdOnly.Display),
       value: 2,
-      label: t('CityOfConvergingStars.CdOnly.Label'),
+      label: t(($) => $.CityOfConvergingStars.CdOnly.Label),
     },
     {
-      display: t('CityOfConvergingStars.Both.Display'),
+      display: t(($) => $.CityOfConvergingStars.Both.Display),
       value: 3,
-      label: t('CityOfConvergingStars.Both.Label'),
+      label: t(($) => $.CityOfConvergingStars.Both.Label),
     },
   ]
 }

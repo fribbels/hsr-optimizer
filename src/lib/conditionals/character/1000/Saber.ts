@@ -190,7 +190,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       id: 'gilgameshFuaBuff',
       formItem: 'switch',
       text: t(($) => $.gilgameshFuaSaberUltBoost.text),
-      content: 'Gilgamesh Joint FUA: Saber\'s next Ultimate DMG becomes 200% of original.' as number,
+      content: t(($) => $.gilgameshFuaSaberUltBoost.content),
     },
     e1DmgBuff: {
       id: 'e1DmgBuff',

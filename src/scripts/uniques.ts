@@ -5,7 +5,6 @@ import {
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { AbilityKind } from '../lib/optimization/rotation/turnAbilityConfig'
-import { type CharacterId } from '../types/character'
 import { type CharacterConfig } from '../types/characterConfig'
 
 async function getCharacterFiles(dir: string): Promise<string[]> {
@@ -35,13 +34,13 @@ async function run() {
     characterConfigs.push(...Object.values(characterModule).filter(isCharacterConfig))
   }
 
-  const hasUnique: CharacterId[] = characterConfigs.map((config) => {
+  const hasUnique: string[] = characterConfigs.map((config) => {
     const id = config.id
     const abilities = config.conditionals(0, false).actionDeclaration()
     if (abilities.includes(AbilityKind.UNIQUE)) return id
   }).filter((id) => id !== undefined).map((id) => `'${id}'`)
 
-  const type = `export type UniqueAbilityOwner = ${hasUnique.join(' | ')}`
+  const type = `export type UniqueAbilityOwner = 'Default' | ${hasUnique.join(' | ')}`
   await writeFile('src/types/uniqueAbility.ts', type)
 }
 

@@ -175,7 +175,7 @@ function ComboBasicDefinition() {
           style={{ display: comboType === ComboType.SIMPLE ? 'flex' : 'none' }}
           gap={3}
         >
-          {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} />)}
+          {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} id={characterId ?? 'Default'} />)}
         </Flex>
       </Flex>
 

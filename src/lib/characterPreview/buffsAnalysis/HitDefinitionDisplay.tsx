@@ -31,11 +31,13 @@ import {
   useContext,
 } from 'react'
 import { useTranslation } from 'react-i18next'
+import { type CharacterId } from 'types/character'
 import type { Hit } from 'types/hitConditionalTypes'
 import type {
   OptimizerAction,
   OptimizerContext,
 } from 'types/optimizer'
+import { type UniqueAbilityOwner } from 'types/uniqueAbility'
 
 function pct(v: number): string {
   return `${Math.round(v * 100)}%`
@@ -83,9 +85,11 @@ function buildRows(hit: Hit, t: TFunction<'optimizerTab', 'ExpandedDataPanel'>, 
 
   const addElementRow = () => {
     const i18nKey = ELEMENT_I18N_KEYS[hit.damageElement]
-    if (i18nKey) rows.push({ value: i18next.t($ => $.Elements[i18nKey], {
-      ns: "gameData"
-    }), label: i18next.t($ => $.Element) })
+    if (i18nKey) rows.push({
+      value: i18next.t($ => $.Elements[i18nKey], {
+        ns: "gameData"
+      }), label: i18next.t($ => $.Element)
+    })
   }
 
   switch (hit.damageFunctionType) {
@@ -146,7 +150,7 @@ function HitSubHeader({ label }: { label: string }) {
   )
 }
 
-function HitRow({ hit, isLastHit, abilityKind }: { hit: Hit, isLastHit: boolean, abilityKind: AbilityKind }) {
+function HitRow({ hit, isLastHit, abilityKind, id }: { hit: Hit, isLastHit: boolean, abilityKind: AbilityKind, id: CharacterId }) {
   const options = useContext(DesignContext)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel' })
   const onFilterChange = useContext(FilterChangeContext)
@@ -164,7 +168,17 @@ function HitRow({ hit, isLastHit, abilityKind }: { hit: Hit, isLastHit: boolean,
       .filter((e) => (hit.damageType & e.tag) !== 0)
       .map((e) => {
         const active = selectedFilter != null && (e.tag & selectedFilter) !== 0
-        return renderPill(String(e.tag), e.color, t($ => $.DamageTags[e.key]), { onClick: () => onFilterChange?.(e.tag), active });
+        return renderPill(
+          String(e.tag),
+          e.color,
+          t($ => e.key === 'UNIQUE'
+            ? $.DamageTags[e.key][id as UniqueAbilityOwner]
+            : $.DamageTags[e.key]),
+          {
+            onClick: () => onFilterChange?.(e.tag),
+            active
+          }
+        );
       })
     : []
 
@@ -207,15 +221,19 @@ function HitRow({ hit, isLastHit, abilityKind }: { hit: Hit, isLastHit: boolean,
   )
 }
 
-function ActionHitGroup({ action, isLastAction, t }: {
+function ActionHitGroup({ action, isLastAction, t, id }: {
   action: OptimizerAction,
   isLastAction: boolean,
   t: TFunction<'optimizerTab'>,
+  id: CharacterId
 }) {
   const hits = action.hits ?? []
   if (hits.length === 0) return null
 
-  const label = t($ => $.ComboFilter.ComboOptions[AbilityMeta[action.actionType].label])
+  const actionType = action.actionType
+  const label = t($ => actionType === AbilityKind.UNIQUE
+    ? $.ComboFilter.ComboOptions[AbilityMeta[AbilityKind.UNIQUE].label][id as UniqueAbilityOwner]
+    : $.ComboFilter.ComboOptions[AbilityMeta[actionType].label])
 
   return (
     <>
@@ -234,6 +252,7 @@ function ActionHitGroup({ action, isLastAction, t }: {
               hit={hit}
               isLastHit={isLastAction && i === hits.length - 1}
               abilityKind={action.actionType}
+              id={id}
             />
           </Fragment>
         )
@@ -258,6 +277,7 @@ export function HitDefinitionRows({ context, selectedAction }: {
           action={action}
           isLastAction={actionIndex === actions.length - 1}
           t={t}
+          id={context.characterId}
         />
       ))}
     </>

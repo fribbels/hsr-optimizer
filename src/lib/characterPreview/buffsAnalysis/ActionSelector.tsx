@@ -11,6 +11,8 @@ import type { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
 import { AbilityMeta } from 'lib/optimization/rotation/turnAbilityConfig'
 import type { RotationStepEntry } from 'lib/simulations/combatBuffsAnalysis'
 import { useTranslation } from 'react-i18next'
+import { CharacterId } from 'types/character'
+import { type UniqueAbilityOwner } from 'types/uniqueAbility'
 
 type ActionItem = {
   label: string,
@@ -20,10 +22,11 @@ type ActionItem = {
   index: number,
 }
 
-export function ActionSelector({ rotationSteps, selectedAction, onActionChange }: {
+export function ActionSelector({ rotationSteps, selectedAction, onActionChange, id }: {
   rotationSteps: RotationStepEntry[],
   selectedAction: number | null,
   onActionChange: (action: number | null) => void,
+  id: CharacterId | 'Default'
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
   const { t: tCombo } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter.ComboOptions' })
@@ -40,7 +43,11 @@ export function ActionSelector({ rotationSteps, selectedAction, onActionChange }
 
   const stepItems: ActionItem[] = rotationSteps.map((step, index) => {
     const meta = AbilityMeta[step.actionType as AbilityKind]
-    const label = meta?.label ? tCombo($ => $[meta.label]) : step.actionType
+    const label = meta?.label
+      ? tCombo($ => meta.label === 'Unique'
+        ? $[meta.label][id as UniqueAbilityOwner]
+        : $[meta.label])
+      : step.actionType
 
     return {
       label: `${index + 1}. ${label}`,

@@ -115,8 +115,8 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   // only the character scoring column will pass as null as all other info is available synchronously
   const headerText = props.percent !== null
     ? t($ => $.CharacterPreview.ScoringColumn[props.type].Header, {
-    score: truncate10ths(precisionRound(props.percent * 100)).toFixed(1)
-  })
+      score: truncate10ths(precisionRound(props.percent * 100)).toFixed(1)
+    })
     : null
 
   if (!isAsyncProps(props) && !props.simulation.result) return null
@@ -186,7 +186,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
 
   const combatStats = isAsyncProps(props) ? null : props.originalSimResult.x.toComputedStatsObject()
   if (!isAsyncProps(props)) {
-    ;(combatStats as Record<string, number>)[props.elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, props.element)
+    ; (combatStats as Record<string, number>)[props.elementalDmgValue] = getElementalDmgFromContainer(props.originalSimResult.x, props.element)
     if (props.characterMetadata.path === PathNames.Elation) {
       combatStats![Stats.Elation] = props.originalSimResult.x.getSelfValue(StatsToStatKey[Stats.Elation])
     }
@@ -298,17 +298,18 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
             configType={props.configType}
             header={abilityHeader}
             wrapperClassName={classes.abilityDamageSection}
+            id={props.characterId}
           />
         </Suspense>
       )
       : hasSyncAbilityData
-      ? (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.abilityDamageSection}>
-          {abilityHeader}
-          <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} />
-        </div>
-      )
-      : null
+        ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.abilityDamageSection}>
+            {abilityHeader}
+            <AbilityDamageSummary rotationDamage={syncRotationDamage!} configType={props.configType} id={props.characterId} />
+          </div>
+        )
+        : null
   } else {
     const entry = SCORING_CONFIG_REGISTRY[props.configType]
     const buffStat = getScoringMetadata(props.characterId)[CONFIG_FIELD_MAP[props.configType]]?.buffStat
@@ -420,7 +421,7 @@ function setSelector(type: ScoringColumnKind.BENCHMARK | ScoringColumnKind.PERFE
 }
 
 const highlightClass = `${classes.columnCardFilled} ${classes.columnHighlightFilled}`
-export const CharacterScoringColumn = memo(function(props: ExternalScoringColumnProps) {
+export const CharacterScoringColumn = memo(function (props: ExternalScoringColumnProps) {
   const preview = useSimPreview(props.configType)
   if (preview === null) return null
   return (
@@ -440,7 +441,7 @@ export const CharacterScoringColumn = memo(function(props: ExternalScoringColumn
   )
 })
 
-export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnProps) {
+export const BaselineScoringColumn = memo(function (props: ExternalScoringColumnProps) {
   const preview = useSimPreview(props.configType)
   if (preview === null) return null
   return (
@@ -461,7 +462,7 @@ export const BaselineScoringColumn = memo(function(props: ExternalScoringColumnP
 })
 
 const defaultClass = classes.columnCardFilled
-export const SimulationScoringColumn = memo(function(props: ExternalSimulationScoringColumnProps) {
+export const SimulationScoringColumn = memo(function (props: ExternalSimulationScoringColumnProps) {
   const scoringPipeline = useScoringPipeline(props.configType)
   const isBenchmark = props.type === ScoringColumnKind.BENCHMARK
   return (

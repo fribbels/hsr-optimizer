@@ -7,6 +7,8 @@ import classes from 'lib/characterPreview/buffsAnalysis/FilterBar.module.css'
 import type { Buff } from 'lib/optimization/basicStatsArray'
 import type { DamageTag } from 'lib/optimization/engine/config/tag'
 import { useTranslation } from 'react-i18next'
+import { type CharacterId } from 'types/character'
+import { type UniqueAbilityOwner } from 'types/uniqueAbility'
 
 export function computeRelevantTags(allBuffs: Buff[]): Set<DamageTag> {
   const tags = new Set<DamageTag>()
@@ -31,10 +33,11 @@ export function buffMatchesFilter(buff: Buff, filter: DamageTag | null): boolean
   return (buff.damageTags & filter) !== 0
 }
 
-export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
+export function FilterBar({ selectedFilter, onFilterChange, relevantTags, id }: {
   selectedFilter: DamageTag | null,
   onFilterChange: (f: DamageTag | null) => void,
   relevantTags: Set<DamageTag>,
+  id: CharacterId | 'Default'
 }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
   const visibleEntries = DAMAGE_TAG_ENTRIES.filter((e) => relevantTags.has(e.tag))
@@ -52,7 +55,9 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
           (entry) => (
             <FilterButton
               key={entry.tag}
-              label={t($ => $[entry.key])}
+              label={t($ => entry.key === 'UNIQUE'
+                ? $[entry.key][id as UniqueAbilityOwner]
+                : $[entry.key])}
               color={entry.color}
               isActive={selectedFilter != null && (selectedFilter & entry.tag) !== 0}
               onClick={() => onFilterChange(entry.tag)}

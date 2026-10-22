@@ -79,7 +79,6 @@ export function labelToString(label: SimpleLabel, isMemo = false) {
 
   const finalLabel = i18next.t($ => $[label.key], {
     ...label.args,
-    ...label.key,
     ns: label.ns
   }) as string
   return isMemo ? i18next.t($ => $.MemospriteLabel, {

@@ -39,7 +39,7 @@ export function CardShell({ avatarSrc, children }: { avatarSrc: string, children
   )
 }
 
-export function BuffGroup({ id, buffs, buffType }: { id: string, buffs: Buff[], buffType: BUFF_TYPE }) {
+export function BuffGroup({ id, buffs, buffType, characterId }: { id: string, buffs: Buff[], buffType: BUFF_TYPE, characterId: CharacterId | 'Default' }) {
   const { t: tGameData } = useTranslation('gameData')
 
   const src = getBuffSourceIcon(id, buffType)
@@ -57,7 +57,7 @@ export function BuffGroup({ id, buffs, buffType }: { id: string, buffs: Buff[], 
   return (
     <CardShell avatarSrc={src}>
       <CardHeader label={name} />
-      {buffs.map((buff, i) => <BuffRow key={i} buff={buff} isLast={i === buffs.length - 1} />)}
+      {buffs.map((buff, i) => <BuffRow key={i} buff={buff} isLast={i === buffs.length - 1} id={characterId} />)}
     </CardShell>
   )
 }

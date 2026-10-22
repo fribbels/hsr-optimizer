@@ -33,7 +33,7 @@ import {
   useState,
 } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Character } from 'types/character'
+import type { Character, CharacterId } from 'types/character'
 import type { StringToNumberMap } from 'types/common'
 import type { ReactElement } from 'types/components'
 import type {
@@ -369,7 +369,7 @@ function generateComboGrid(characters: DBMetadataCharacter[], t: TFunction<'opti
 
     const text = combo
       .filter((x) => x != NULL_TURN_ABILITY_NAME)
-      .map((action) => formatComboAction(action, t))
+      .map((action) => formatComboAction(action, t, character.id))
       .join(' - ')
 
     comboByCharacter.push([
@@ -380,8 +380,8 @@ function generateComboGrid(characters: DBMetadataCharacter[], t: TFunction<'opti
   return comboByCharacter
 }
 
-function formatComboAction(action: TurnAbilityName, t: TFunction<'optimizerTab', 'ComboFilter'>) {
-  return toI18NVisual(toTurnAbility(action), t)
+function formatComboAction(action: TurnAbilityName, t: TFunction<'optimizerTab', 'ComboFilter'>, id: CharacterId) {
+  return toI18NVisual(toTurnAbility(action), t, id)
 }
 
 // =========================================== ConditionalSetsPresetsDashboard ===========================================
@@ -569,8 +569,8 @@ function CharacterColorGridDashboard() {
   const debugVisualConfig = useDebugVisualConfigStore()
 
   // No-op callbacks since we don't need modal functionality in the grid view
-  const setOriginalCharacterModalOpen = useCallback(() => {}, [])
-  const setOriginalCharacterModalInitialCharacter = useCallback(() => {}, [])
+  const setOriginalCharacterModalOpen = useCallback(() => { }, [])
+  const setOriginalCharacterModalInitialCharacter = useCallback(() => { }, [])
 
   if (characters.length === 0) {
     return <div style={{ padding: 20 }}>No characters imported. Import characters to see the color grid.</div>

@@ -59,7 +59,7 @@ export function DamageSplits({ analysis }: {
   const actions = mode === 'default' ? context.defaultActions : context.rotationActions
 
   const data = useMemo(
-    () => extractDamageSplits(newX, actions, mode, t),
+    () => extractDamageSplits(newX, actions, mode, t, analysis.context.characterId),
     [newX, actions, mode, t],
   )
 

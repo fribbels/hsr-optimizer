@@ -18,7 +18,7 @@ Grid:
       RES: 效果抵抗
       BE: 擊破特攻
       OHB: 治療量加成
-      ERR: 能量恢復效率
+      ERR: 能量恢復
 Sidebar:
   GPUOptions:
     EngineSwitchSuccessMsg:

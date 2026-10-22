@@ -284,7 +284,7 @@ Relic:
     Error:
       PartMissing: 部件输入框缺失
       MainstatMissing: 主属性缺失
-      SetMissing: 部件输入框缺失
+      SetMissing: 套装输入框缺失
       EnhanceMissing: 强化等级输入框缺失
       GradeMissing: 稀有度输入框缺失
       EnhanceInvalid: 强化等级无效

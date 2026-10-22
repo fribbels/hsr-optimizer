@@ -2299,7 +2299,7 @@ Characters:
       deepLearning:
         text: Enhanced Basic
         content: >-
-          While Deep Learning is active, Pearl's Basic ATK is enhanced to deal Ice DMG equal to {{BasicDmg}}% of her DEF. It also restores HP to all allies equal to {{BasicHealScaling}}% of her DEF plus {{BasicHealFlat}}. Deep Learning has 3 charges, and Pearl consumes 1 after each enhanced Basic ATK.::BR::E6: Pearl's Enhanced Basic ATK additionally deals 240% Ice Elation DMG based on the Aesthetic Archetype's stats.
+          While Deep Learning is active, Pearl's Basic ATK is enhanced to deal Ice DMG equal to {{BasicDmg}}% of her DEF. It also restores HP to all allies equal to {{BasicHealScaling}}% of her DEF plus {{BasicHealFlat}}. Deep Learning has 3 charges, and Pearl consumes 1 after each enhanced Basic ATK.
       certifiedBanger:
         text: Basic ATK Elation DMG
         content: While Deep Learning is active and the Aesthetic Archetype follows the Path of Elation, Pearl's enhanced Basic ATK additionally deals {{ElationDmg}}% Ice Elation DMG while she holds Certified Banger.
@@ -2337,15 +2337,11 @@ Characters:
       e6Buffs:
         text: E6 RES PEN
         content: >-
-          While Deep Learning is active, increases all allies' All-Type RES PEN by 20%.::BR::E6: Pearl's Enhanced Basic ATK additionally deals 240% Ice Elation DMG based on the Aesthetic Archetype's stats.
-      aestheticArchetype:
-        text: Aesthetic Archetype Elation DMG
-        content: >-
-          While Deep Learning is active, the Aesthetic Archetype's attacks additionally deal {{ElationDmg}}% Ice Elation DMG based on the Archetype's stats.
+          While Deep Learning is active, increases all allies' All-Type RES PEN by 20%.
       elationSkillProc:
         text: Elation Skill Elation DMG
         content: >-
-          After each ally's next attack, they deal additional Elation DMG of their attack's Type. The multiplier is {{Elation1}}%/{{Elation2}}%/{{Elation3}}%/{{Elation4}}% with 1/2/3/4 or more Elation characters on the team, respectively.
+          After each ally's next attack (modeled as their next Elation Skill), they deal additional Elation DMG of their attack's Type. The multiplier is {{Elation1}}%/{{Elation2}}%/{{Elation3}}%/{{Elation4}}% with 1/2/3/4 or more Elation characters on the team, respectively.
   Robin:
     Content:
       concertoActive:

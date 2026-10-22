@@ -211,7 +211,7 @@ CharacterPreview:
       Mainstats: 0% 基准主词条
       Abilities: 0% 基准技能明细
     Perfect:
-      Header: '完美角色配装 ({{score}}%)'
+      Header: '完美配装 ({{score}}%)'
       Sets: 200% 完美套装
       BasicStats: 200% 完美 <1>基础属性</1>
       CombatStats: 200% 完美<1>战斗属性</1>

@@ -658,44 +658,44 @@ TeammateCard:
   TeammateSyncSuccessMessage: 已同步的队友信息
   TeammateSets:
     DreamlitActor:
-      Desc: '4 件套：$t(gameData:RelicSets.133.Name)（欢愉度 +16% | 暴击伤害 +12%）'
-      Text: 16% 欢愉度 + 12% 暴击伤害
+      Desc: '4 件套：$t(gameData:RelicSets.133.Name)（+16%欢愉度  | +12%暴伤 ）'
+      Text: 16%欢愉度 + 12%暴伤
     DivineQueryingMasterSmith:
       Desc: '四件套：$t(gameData:RelicSets.132.Name)（+15%伤害加成）'
-      Text: 15%增伤
+      Text: 15%伤害加成
     Messenger:
       Desc: '四件套: $t(gameData:RelicSets.114.Name) (+12%速度)'
-      Text: 12% 速度
+      Text: 12%速度
     Watchmaker:
       Desc: '四件套: $t(gameData:RelicSets.118.Name) (+30%击破特攻)'
-      Text: 30% 击破特攻
+      Text: 30%击破特攻
     Sacerdos1Stack:
-      Desc: '四件套: $t(gameData:RelicSets.121.Name) (+18%暴击伤害)'
-      Text: 18% 爆伤
+      Desc: '四件套: $t(gameData:RelicSets.121.Name) (+18%暴伤)'
+      Text: 18%爆伤
     Sacerdos2Stack:
-      Desc: '四件套: $t(gameData:RelicSets.121.Name) (+36%暴击伤害)'
+      Desc: '四件套: $t(gameData:RelicSets.121.Name) (+36%暴伤)'
       Text: 36%暴伤
     Warrior:
-      Desc: '四件套: $t(gameData:RelicSets.125.Name) (+15%暴击伤害)'
-      Text: 15% 爆伤
+      Desc: '四件套: $t(gameData:RelicSets.125.Name) (+15%暴伤)'
+      Text: 15%爆伤
     WorldRemaking:
-      Desc: '四件套：$t(gameData:RelicSets.127.Name)（+15%增伤）'
-      Text: 15%增伤
+      Desc: '四件套：$t(gameData:RelicSets.127.Name)（+15%伤害加成）'
+      Text: 15%伤害加成
     SelfEnshrouded:
-      Desc: '四件套: $t(gameData:RelicSets.128.Name)（+15%暴击伤害）'
-      Text: 15% 爆伤
+      Desc: '四件套: $t(gameData:RelicSets.128.Name)（+15%暴伤）'
+      Text: 15%爆伤
     Diviner:
       Desc: '4件套：$t(gameData:RelicSets.130.Name)（+10%欢愉度）'
       Text: 10%欢愉度
     Keel:
-      Desc: '$t(gameData:RelicSets.310.Name) (+10%暴击伤害)'
+      Desc: '$t(gameData:RelicSets.310.Name) (+10%暴伤)'
       Text: 10%暴伤
     Ageless:
       Desc: '$t(gameData:RelicSets.302.Name) (+8%攻击力)'
       Text: 8%攻击力
     Penacony:
-      Desc: '$t(gameData:RelicSets.312.Name) (+10%同属性增伤)'
-      Text: 10%增伤
+      Desc: '$t(gameData:RelicSets.312.Name) (+10%同属性伤害加成)'
+      Text: 10%伤害加成
     Lushaka:
       Desc: '$t(gameData:RelicSets.317.Name) (+12%攻击力)'
       Text: 12%攻击力
@@ -703,8 +703,8 @@ TeammateCard:
       Desc: '$t(gameData:RelicSets.323.Name)（+8%速度）'
       Text: 8% 速度
     CityOfConvergingStars:
-      Desc: '$t(gameData:RelicSets.326.Name) （+12% 暴伤）'
-      Text: 12% 爆伤
+      Desc: '$t(gameData:RelicSets.326.Name) （+12%暴伤）'
+      Text: 12%爆伤
 StatSimulation:
   DuplicateSimMessage: 相同属性的模拟已存在
   MissingMainstatsMessage: 模拟主属性缺失
@@ -857,14 +857,14 @@ ExpandedDataPanel:
           'ATK % boost': 攻击力%提升
           Crit Rate boost: 暴击率提升
           Crit DMG boost: 暴击伤害提升
-          DMG Boost: 伤害提高
+          DMG Boost: 伤害提升
           Vulnerability: 易伤
           RES PEN: 抗性穿透
           DEF PEN: 防御穿透
           Break DEF PEN: 击破防御穿透
           Toughness DMG: 韧性伤害值
           Fixed Toughness DMG: 固定韧性伤害
-          Super Break multiplier: 击破特攻倍率
+          Super Break multiplier: 超击破倍率
           Break Efficiency boost: 击破效率提升
           True DMG multiplier: 真实伤害倍率
           Final DMG multiplier: 最终伤害倍率
@@ -896,7 +896,7 @@ ExpandedDataPanel:
         Combo DMG: 连招伤害
         Dot base chance: 持续伤害基础几率
         Effect RES PEN: 效果抵抗穿透
-        Dot DMG split: 持续伤害
+        Dot DMG split: 持续伤害分摊
         Dot stacks: 持续伤害层数
         Heal ability type: 治疗技能类型
         Heal flat: 基础治疗量

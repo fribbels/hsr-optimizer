@@ -1,6 +1,10 @@
-import { readFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
+import { i18nextHMRPlugin } from 'i18next-hmr/vite'
+import { readFileSync } from 'node:fs'
+import {
+  join,
+  resolve,
+} from 'node:path'
 import type { Plugin } from 'vite'
 import { defineConfig } from 'vite'
 
@@ -31,6 +35,7 @@ export default defineConfig({
   base: '/hsr-optimizer',
   plugins: [
     serveLeaderboardJson(),
+    i18nextHMRPlugin({ localesDir: 'public/locales' }),
     react(),
   ],
   resolve: {
@@ -98,12 +103,6 @@ export default defineConfig({
         '**/.*/**',
       ],
     },
-  },
-  test: {
-    environment: 'node',
-    slowTestThreshold: 500,
-    exclude: ['node_modules/**', 'tests/**', 'plans/**'],
-    execArgv: ['--no-webstorage'],
   },
   worker: {
     format: 'iife',

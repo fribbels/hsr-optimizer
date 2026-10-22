@@ -1,1 +1,26 @@
-
+Title: 設置
+RelicEquippingBehavior:
+  Label: 裝備其他角色所裝備的遺器
+  Replace: '預設：替換遺器而不交換'
+  Swap: 與該遺器裝備者交換遺器
+PermutationsSidebarBehavior:
+  Label: 在較小螢幕上最小化優化器側邊工具列
+  ShowXL: '預設：若側邊工具列大部分被隱藏，則最小化工具列'
+  ShowXXL: 若側邊工具列的任何部分被隱藏，則最小化工具列
+  NoShow: 始終將工具列保持在右側
+ExpandedInfoPanelPosition:
+  Label: 優化器擴展資訊面板位置
+  Above: 在遺器預覽上方顯示擴展資訊
+  Below: '預設：在遺器預覽下方顯示擴展資訊'
+ShowLocatorInRelicsModal:
+  Label: 遺物編輯器中的遺物定位器
+  Yes: 在遺物編輯器中顯示遺物定位器
+  No: '預設：在遺物編輯器中不顯示遺物定位器'
+ShowComboDmgWarning:
+  Label: 顯示連招傷害警告
+  Show: '預設：顯示警告'
+  Hide: 隱藏警告
+NewCharacterDefaultRank:
+  Label: 新角色預設排序
+  First: '預設：最高優先級（第1位）'
+  Last: 最低優先級

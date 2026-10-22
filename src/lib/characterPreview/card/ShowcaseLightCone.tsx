@@ -69,7 +69,9 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
               boxShadow: showcaseShadow,
             }}
           >
-            {`${t('SuperimpositionNShort', { superimposition: lightConeSuperimposition })} - ${lightConeName}`}
+            {`${t($ => $.SuperimpositionNShort, {
+              superimposition: lightConeSuperimposition
+            })} - ${lightConeName}`}
           </div>
         </div>
       )}
@@ -98,5 +100,5 @@ export const ShowcaseLightConeSmall = memo(function ShowcaseLightConeSmall({
         />
       </div>
     </div>
-  )
+  );
 })

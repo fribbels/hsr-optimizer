@@ -164,7 +164,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
                 <>
                   <div className={classes.itemIcon}>{item.icon}</div>
                   <span className={classes.itemLabel}>{item.label}</span>
-                  {isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>{tCommon('New')}</Badge>}
+                  {isNew && <Badge size='xs' color='blue' variant='filled' className={classes.newBadgeFloat}>{tCommon($ => $.New)}</Badge>}
                 </>
               )
               return item.href
@@ -190,7 +190,7 @@ function SidebarNavExpanded({ groups, activeKey, onNavigate, anyDrawerOpen }: {
         </div>
       ))}
     </div>
-  )
+  );
 }
 
 // ---- Collapsed sidebar (icon-only with tooltips) ----
@@ -257,47 +257,47 @@ export function MenuDrawer({ collapsed }: { collapsed: boolean }) {
 
   const groups: NavGroup[] = useMemo(() => [
     {
-      label: t('Tools.Title'),
+      label: t($ => $.Tools.Title),
       items: [
-        { key: AppPages.SHOWCASE, label: t('Tools.Showcase'), icon: <IconStarFilled size={16} /> },
-        { key: AppPages.LEADERBOARD, label: t('Tools.Leaderboards'), icon: <IconTrophy size={16} />, newFeatureKey: NewFeatureKey.LEADERBOARD },
-        { key: AppPages.BENCHMARKS, label: t('Tools.Benchmarks'), icon: <IconLayoutGrid size={16} /> },
-        { key: AppPages.CALCULATORS, label: t('Tools.Calculators'), icon: <IconCalculator size={16} /> },
-        { key: AppPages.WARP, label: t('Tools.WarpPlanner'), icon: <IconDiamond size={16} /> },
+        { key: AppPages.SHOWCASE, label: t($ => $.Tools.Showcase), icon: <IconStarFilled size={16} /> },
+        { key: AppPages.LEADERBOARD, label: t($ => $.Tools.Leaderboards), icon: <IconTrophy size={16} />, newFeatureKey: NewFeatureKey.LEADERBOARD },
+        { key: AppPages.BENCHMARKS, label: t($ => $.Tools.Benchmarks), icon: <IconLayoutGrid size={16} /> },
+        { key: AppPages.CALCULATORS, label: t($ => $.Tools.Calculators), icon: <IconCalculator size={16} /> },
+        { key: AppPages.WARP, label: t($ => $.Tools.WarpPlanner), icon: <IconDiamond size={16} /> },
       ],
     },
     {
-      label: t('Optimization.Title'),
+      label: t($ => $.Optimization.Title),
       items: [
-        { key: AppPages.OPTIMIZER, label: t('Optimization.Optimizer'), icon: <IconTrendingUp size={16} /> },
-        { key: AppPages.CHARACTERS, label: t('Optimization.Characters'), icon: <IconUser size={16} /> },
-        { key: AppPages.RELICS, label: t('Optimization.Relics'), icon: <IconChartRadar size={16} /> },
-        { key: AppPages.IMPORT, label: t('Optimization.Import'), icon: <IconUpload size={16} /> },
+        { key: AppPages.OPTIMIZER, label: t($ => $.Optimization.Optimizer), icon: <IconTrendingUp size={16} /> },
+        { key: AppPages.CHARACTERS, label: t($ => $.Optimization.Characters), icon: <IconUser size={16} /> },
+        { key: AppPages.RELICS, label: t($ => $.Optimization.Relics), icon: <IconChartRadar size={16} /> },
+        { key: AppPages.IMPORT, label: t($ => $.Optimization.Import), icon: <IconUpload size={16} /> },
         {
           key: 'link settings',
-          label: t('Optimization.Settings'),
+          label: t($ => $.Optimization.Settings),
           icon: <IconSettings size={16} />,
           onClick: () => setOpen(OpenCloseIDs.SETTINGS_DRAWER),
         },
         {
           key: 'link gettingstarted',
-          label: t('Optimization.Start'),
+          label: t($ => $.Optimization.Start),
           icon: <IconBook size={16} />,
           onClick: () => setOpen(OpenCloseIDs.GETTING_STARTED_DRAWER),
         },
       ],
     },
     {
-      label: t('Links.Title'),
+      label: t($ => $.Links.Title),
       items: [
-        { key: AppPages.HOME, label: t('Links.Home'), icon: <IconHome size={16} /> },
-        { key: AppPages.CHANGELOG, label: t('Links.Changelog'), icon: <IconList size={16} /> },
-        { key: 'link donate', label: t('Links.Kofi'), icon: <CoffeeIcon />, href: 'https://ko-fi.com/fribbels' },
-        { key: 'link discord', label: t('Links.Discord'), icon: <DiscordIcon />, href: 'https://discord.gg/rDmB4Un7qg' },
-        { key: 'link github', label: t('Links.Github'), icon: <GithubIcon />, href: 'https://github.com/fribbels/hsr-optimizer' },
+        { key: AppPages.HOME, label: t($ => $.Links.Home), icon: <IconHome size={16} /> },
+        { key: AppPages.CHANGELOG, label: t($ => $.Links.Changelog), icon: <IconList size={16} /> },
+        { key: 'link donate', label: t($ => $.Links.Kofi), icon: <CoffeeIcon />, href: 'https://ko-fi.com/fribbels' },
+        { key: 'link discord', label: t($ => $.Links.Discord), icon: <DiscordIcon />, href: 'https://discord.gg/rDmB4Un7qg' },
+        { key: 'link github', label: t($ => $.Links.Github), icon: <GithubIcon />, href: 'https://github.com/fribbels/hsr-optimizer' },
         officialOnly
-          ? { key: 'link leaks', label: t('Links.Leaks'), icon: <IconLink size={16} />, href: 'https://fribbels.github.io/hsr-optimizer/' }
-          : { key: 'link leaks free', label: t('Links.Unleak'), icon: <IconLink size={16} />, href: 'https://starrailoptimizer.github.io/' },
+          ? { key: 'link leaks', label: t($ => $.Links.Leaks), icon: <IconLink size={16} />, href: 'https://fribbels.github.io/hsr-optimizer/' }
+          : { key: 'link leaks free', label: t($ => $.Links.Unleak), icon: <IconLink size={16} />, href: 'https://starrailoptimizer.github.io/' },
       ],
     },
   ], [t])

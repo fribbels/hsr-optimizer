@@ -156,7 +156,7 @@ export function BenchmarksTab(): ReactElement {
   return (
     <Flex direction='column' className={styles.container} align='center' gap='xl'>
       <ColorizedTitleWithInfo
-        text={t('Title') /* 'Benchmark Generator' */}
+        text={t($ => $.Title) /* 'Benchmark Generator' */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/benchmark-generator.md'
       />
 
@@ -168,7 +168,7 @@ export function BenchmarksTab(): ReactElement {
 
       <BenchmarkResults />
     </Flex>
-  )
+  );
 }
 
 function BenchmarkInputs({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
@@ -194,7 +194,7 @@ function LeftPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   return (
     <Flex direction='column' gap={GAP}>
       <Flex direction='column' gap={GAP}>
-        <HeaderText>{t('Header') /* Benchmark */}</HeaderText>
+        <HeaderText>{t($ => $.Header) /* Benchmark */}</HeaderText>
         <CenteredImage
           src={Assets.getCharacterPreviewById(characterId)}
           containerW={250}
@@ -208,7 +208,7 @@ function LeftPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
         imageOffset={lcOffset}
       />
     </Flex>
-  )
+  );
 }
 
 function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
@@ -218,7 +218,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   return (
     <Flex direction='column' gap={GAP} className={styles.middlePanel} justify='space-between'>
       <Flex direction='column' gap={GAP}>
-        <HeaderText>{t('CharacterHeader') /* Character */}</HeaderText>
+        <HeaderText>{t($ => $.CharacterHeader) /* Character */}</HeaderText>
         <CharacterSelect
           value={form.values.characterId}
           onChange={(id: CharacterId | null) => {
@@ -232,7 +232,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
       </Flex>
 
       <Flex direction='column' gap={GAP}>
-        <HeaderText>{t('LCHeader') /* Light Cone */}</HeaderText>
+        <HeaderText>{t($ => $.LCHeader) /* Light Cone */}</HeaderText>
         <LightConeSelect
           value={form.values.lightCone}
           characterId={characterId}
@@ -246,7 +246,7 @@ function MiddlePanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
       <TeammatesSection />
     </Flex>
-  )
+  );
 }
 
 function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
@@ -257,7 +257,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
   return (
     <Flex direction='column' className={styles.rightPanel} justify='space-between'>
       <Flex direction='column' gap={GAP}>
-        <HeaderText>{t('Settings.Header') /* Settings */}</HeaderText>
+        <HeaderText>{t($ => $.Settings.Header) /* Settings */}</HeaderText>
 
         <SpdBenchmarkSetting form={form} />
         <BenchmarkSetting label='ERR' itemName='errRope' form={form}>
@@ -269,7 +269,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
 
         <CustomHorizontalDivider height={8} />
 
-        <HeaderText>{t('SetsHeader') /* Benchmark sets */}</HeaderText>
+        <HeaderText>{t($ => $.SetsHeader) /* Benchmark sets */}</HeaderText>
 
         <Flex direction='column' gap={5}>
           <SetsSection simType={StatSimTypes.Benchmarks} form={form} />
@@ -278,7 +278,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
             leftSection={<IconSettings size={16} />}
             variant='default'
           >
-            {tOptimizerTab('SetConditionals.Title') /* Conditional set effects */}
+            {tOptimizerTab($ => $.SetConditionals.Title) /* Conditional set effects */}
           </Button>
         </Flex>
       </Flex>
@@ -290,7 +290,7 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           leftSection={<IconBoltFilled size={16} />}
           className={styles.generateButton}
         >
-          {t('ButtonText.Generate') /* Generate benchmarks */}
+          {t($ => $.ButtonText.Generate) /* Generate benchmarks */}
         </Button>
         <Button
           onClick={handleResetBenchmarks}
@@ -298,11 +298,11 @@ function RightPanel({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
           variant='default'
           leftSection={<IconTrash size={16} />}
         >
-          {t('ButtonText.Clear') /* Clear */}
+          {t($ => $.ButtonText.Clear) /* Clear */}
         </Button>
       </Flex>
     </Flex>
-  )
+  );
 }
 
 function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> }) {
@@ -313,7 +313,7 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
 
   return (
     <Flex align='center' gap={10} justify='space-between'>
-      {t('SPD')}
+      {t($ => $.SPD)}
       <ComboboxNumberInput
         value={form.getInputProps('basicSpd').value}
         onChange={(val) => form.setFieldValue('basicSpd', val ?? 0)}
@@ -321,5 +321,5 @@ function SpdBenchmarkSetting({ form }: { form: UseFormReturnType<BenchmarkForm> 
         style={{ width: 80 }}
       />
     </Flex>
-  )
+  );
 }

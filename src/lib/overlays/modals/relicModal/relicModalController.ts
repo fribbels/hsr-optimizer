@@ -186,7 +186,9 @@ export const RelicModalController = {
 
     equipmentService.upsertRelicWithEquipment(updatedRelic)
 
-    Message.success(i18next.t('modals:Relic.Messages.EditSuccess') /* Successfully edited relic */)
+    Message.success(i18next.t($ => $.Relic.Messages.EditSuccess, {
+      ns: "modals"
+    }) /* Successfully edited relic */)
 
     setTimeout(() => {
       SaveState.delayedSave()

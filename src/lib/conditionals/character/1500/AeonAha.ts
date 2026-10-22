@@ -73,7 +73,10 @@ export const AeonAhaAbilities: AbilityKind[] = [
 ]
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
-  const betaContent = i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION })
+  const betaContent = i18next.t($ => $.BetaMessage, {
+    ns: 'conditionals',
+    Version: CURRENT_DATA_VERSION
+  })
 
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {

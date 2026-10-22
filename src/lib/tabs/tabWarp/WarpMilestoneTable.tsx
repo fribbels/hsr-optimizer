@@ -27,9 +27,19 @@ const chanceThreshold = 0.0005
 
 function translateLabel(label: string) {
   const t = i18next.getFixedT(null, ['warpCalculatorTab', 'common'])
-  if (/^S\d$/.test(label)) return t('common:SuperimpositionNShort', { superimposition: label.charAt(1) })
-  if (/^E\d$/.test(label)) return t('common:EidolonNShort', { eidolon: label.charAt(1) })
-  return t('warpCalculatorTab:TargetLabel', { superimposition: label.charAt(3), eidolon: label.charAt(1) })
+  if (/^S\d$/.test(label)) return t($ => $.SuperimpositionNShort, {
+    ns: "common",
+    superimposition: label.charAt(1)
+  });
+  if (/^E\d$/.test(label)) return t($ => $.EidolonNShort, {
+    ns: "common",
+    eidolon: label.charAt(1)
+  });
+  return t($ => $.TargetLabel, {
+    ns: "warpCalculatorTab",
+    superimposition: label.charAt(3),
+    eidolon: label.charAt(1)
+  });
 }
 
 export type WarpMilestoneRowData = { label: string, warps: number, wins: number }
@@ -47,12 +57,12 @@ export function WarpTableHeader({ request, goalColStyle }: { request: EnrichedWa
   return (
     <Table.Thead>
       <Table.Tr>
-        <Table.Th style={{ textAlign: 'center', ...goalColStyle }}>{t('Goal') /* Goal */}</Table.Th>
+        <Table.Th style={{ textAlign: 'center', ...goalColStyle }}>{t($ => $.Goal) /* Goal */}</Table.Th>
         <Table.Th style={{ textAlign: 'center' }}>
           <Flex justify='center' align='center' gap={4}>
             <Trans
               t={t}
-              i18nKey='Chance'
+              i18nKey={$ => $.Chance}
               values={{ ticketCount: localeNumberComma(request.warps) }}
               components={{ 1: <PassIcon /> }}
             />
@@ -60,12 +70,12 @@ export function WarpTableHeader({ request, goalColStyle }: { request: EnrichedWa
         </Table.Th>
         <Table.Th style={{ textAlign: 'center' }}>
           <Flex justify='center' align='center' gap={4}>
-            <Trans t={t} i18nKey='Average' components={{ 1: <PassIcon /> }} />
+            <Trans t={t} i18nKey={$ => $.Average} components={{ 1: <PassIcon /> }} />
           </Flex>
         </Table.Th>
       </Table.Tr>
     </Table.Thead>
-  )
+  );
 }
 
 export function WarpMilestoneRows({ milestones, rowKeyPrefix }: { milestones: WarpMilestoneRowData[], rowKeyPrefix?: string }) {

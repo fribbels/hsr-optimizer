@@ -30,8 +30,8 @@ export const SetRow = memo(function SetRow({ config, checked, dimmed, onToggle }
     >
       <img className={classes.setImg} src={Assets.getSetImage(name)} alt='' />
       <Text size='xs' truncate fw={checked ? 600 : undefined} c={checked ? undefined : 'dimmed'} style={{ flex: 1, minWidth: 0 }}>
-        {t(`RelicSets.${ingameId}.Name`)}
+        {t($ => $.RelicSets[ingameId].Name)}
       </Text>
     </UnstyledButton>
-  )
+  );
 })

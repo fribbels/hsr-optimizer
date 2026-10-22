@@ -295,12 +295,12 @@ function FormulaSummary({ rows, ahaSpeed, ahaBase, t }: {
             {localeNumber_000(ahaSpeed)}
           </mn>
           <mtext style={{ fontSize: 22, color: 'rgba(255, 255, 255, 0.5)', paddingLeft: 12 }}>
-            {tStats(Stats.SPD)}
+            {tStats($ => $[Stats.SPD])}
           </mtext>
         </mrow>
       </math>
     </div>
-  )
+  );
 }
 
 function ReverseSolve(props: AhaPanelContentProps) {

@@ -22,7 +22,7 @@ export function CombatBuffsDrawer() {
 
   return (
     <Drawer
-      title={t('Title')} // 'Extra combat buffs'
+      title={t($ => $.Title)} // 'Extra combat buffs'
       position='right'
       onClose={closeBuffsDrawer}
       opened={isOpenBuffsDrawer}
@@ -30,7 +30,7 @@ export function CombatBuffsDrawer() {
     >
       {isOpenBuffsDrawer && <CombatBuffsDrawerContent />}
     </Drawer>
-  )
+  );
 }
 
 function CombatBuffsDrawerContent() {
@@ -50,10 +50,10 @@ function CombatBuffsDrawerContent() {
         variant='default'
         onClick={() => useOptimizerRequestStore.setState({ combatBuffs: createDefaultCombatBuffs() })}
       >
-        {t('Clear')}
+        {t($ => $.Clear)}
       </Button>
     </Flex>
-  )
+  );
 }
 
 function CombatBuff({ title, name }: { title: string, name: string }) {

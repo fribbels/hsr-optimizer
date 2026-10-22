@@ -32,7 +32,7 @@ export function SettingsDrawer() {
 
   return (
     <Drawer
-      title={t('Title')} /* 'Settings' */
+      title={t($ => $.Title)} /* 'Settings' */
       position='right'
       onClose={closeSettingsDrawer}
       opened={isOpenSettingsDrawer}
@@ -40,7 +40,7 @@ export function SettingsDrawer() {
     >
       {isOpenSettingsDrawer && <SettingsDrawerContent />}
     </Drawer>
-  )
+  );
 }
 
 function SettingsDrawerContent() {
@@ -74,7 +74,7 @@ function SettingsDrawerContent() {
       {(Object.keys(SettingOptions) as (keyof typeof SettingOptions)[])
         .map((option) => (
           <Flex justify='space-between' align='center' key={option}>
-            <div>{t(`${option}.Label`)}</div>
+            <div>{t($ => $[option].Label)}</div>
             <Select
               style={{ width: 500 }}
               data={optionsMap[option]}
@@ -84,5 +84,5 @@ function SettingsDrawerContent() {
           </Flex>
         ))}
     </Flex>
-  )
+  );
 }

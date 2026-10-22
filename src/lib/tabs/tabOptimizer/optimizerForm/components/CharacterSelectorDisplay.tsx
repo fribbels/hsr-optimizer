@@ -84,17 +84,25 @@ export function CharacterSelectorDisplay() {
     })),
   )
 
-  const eidolonOptions = useMemo(() => Array.from({ length: 7 }, (_, i) => ({ value: i, label: t('common:EidolonNShort', { eidolon: i }) })), [t])
+  const eidolonOptions = useMemo(() => Array.from({ length: 7 }, (_, i) => ({ value: i, label: t($ => $.EidolonNShort, {
+    ns: "common",
+    eidolon: i
+  }) })), [t])
 
   const superimpositionOptions = useMemo(
-    () => Array.from({ length: 5 }, (_, i) => ({ value: i + 1, label: t('common:SuperimpositionNShort', { superimposition: i + 1 }) })),
+    () => Array.from({ length: 5 }, (_, i) => ({ value: i + 1, label: t($ => $.SuperimpositionNShort, {
+      ns: "common",
+      superimposition: i + 1
+    }) })),
     [t],
   )
 
   const resultLimitOptions = useMemo(() =>
     Array.from({ length: 11 }, (_, i) => 64 * Math.pow(2, i))
       .filter((v) => v <= 65536)
-      .map((v) => ({ value: v, label: t('ResultLimitN', { limit: v }) })), [t])
+      .map((v) => ({ value: v, label: t($ => $.ResultLimitN, {
+      limit: v
+    }) })), [t])
 
   const resultSortOptions = useMemo(() => { // `Sorted by ${key}`
     // Get available actions for the selected character
@@ -109,7 +117,7 @@ export function CharacterSelectorDisplay() {
 
     // Optimization group: COMBO always first, then EHP, plus any buff-category actions
     const optimizationOptions: { value: SortOptionKey, label: string }[] = [
-      { value: SortOption.COMBO.key, label: t('SortOptions.COMBO') },
+      { value: SortOption.COMBO.key, label: t($ => $.SortOptions.COMBO) },
     ]
 
     // Abilities group: individual ability damage/heal/shield options
@@ -125,7 +133,7 @@ export function CharacterSelectorDisplay() {
         const label = sortKey === SortOption.BUFF.key
           ? `Sorted by ${buffStat != null ? getAKeyName(buffStat) : ''} Buff`
           // @ts-ignore - BUFF key is handled above, not in i18n
-          : t(`SortOptions.${sortOption.key}`)
+          : t($ => $.SortOptions[sortOption.key])
 
         const outputTag = AbilityMeta[action as AbilityKind]?.outputTag
         if (outputTag === OutputTag.BUFF) {
@@ -137,36 +145,36 @@ export function CharacterSelectorDisplay() {
     }
 
     // EHP always in optimization
-    optimizationOptions.push({ value: SortOption.EHP.key, label: t('SortOptions.EHP') })
+    optimizationOptions.push({ value: SortOption.EHP.key, label: t($ => $.SortOptions.EHP) })
 
     const groups: { label: string, options: { value: SortOptionKey, label: string }[] }[] = [
       {
-        label: t('SortOptions.StatLabel'),
+        label: t($ => $.SortOptions.StatLabel),
         options: [
-          { value: SortOption.HP.key, label: t('SortOptions.HP') },
-          { value: SortOption.ATK.key, label: t('SortOptions.ATK') },
-          { value: SortOption.DEF.key, label: t('SortOptions.DEF') },
-          { value: SortOption.SPD.key, label: t('SortOptions.SPD') },
-          { value: SortOption.CR.key, label: t('SortOptions.CR') },
-          { value: SortOption.CD.key, label: t('SortOptions.CD') },
-          { value: SortOption.EHR.key, label: t('SortOptions.EHR') },
-          { value: SortOption.RES.key, label: t('SortOptions.RES') },
-          { value: SortOption.BE.key, label: t('SortOptions.BE') },
-          { value: SortOption.OHB.key, label: t('SortOptions.OHB') },
-          { value: SortOption.ERR.key, label: t('SortOptions.ERR') },
+          { value: SortOption.HP.key, label: t($ => $.SortOptions.HP) },
+          { value: SortOption.ATK.key, label: t($ => $.SortOptions.ATK) },
+          { value: SortOption.DEF.key, label: t($ => $.SortOptions.DEF) },
+          { value: SortOption.SPD.key, label: t($ => $.SortOptions.SPD) },
+          { value: SortOption.CR.key, label: t($ => $.SortOptions.CR) },
+          { value: SortOption.CD.key, label: t($ => $.SortOptions.CD) },
+          { value: SortOption.EHR.key, label: t($ => $.SortOptions.EHR) },
+          { value: SortOption.RES.key, label: t($ => $.SortOptions.RES) },
+          { value: SortOption.BE.key, label: t($ => $.SortOptions.BE) },
+          { value: SortOption.OHB.key, label: t($ => $.SortOptions.OHB) },
+          { value: SortOption.ERR.key, label: t($ => $.SortOptions.ERR) },
         ],
       },
     ]
 
     if (abilityOptions.length > 0) {
       groups.push({
-        label: t('SortOptions.AbilityLabel'),
+        label: t($ => $.SortOptions.AbilityLabel),
         options: abilityOptions,
       })
     }
 
     groups.push({
-      label: t('SortOptions.OptimizationLabel'),
+      label: t($ => $.SortOptions.OptimizationLabel),
       options: optimizationOptions,
     })
 
@@ -178,7 +186,7 @@ export function CharacterSelectorDisplay() {
   return (
     <Flex direction='column' gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('CharacterSelector.Character') /* Character */}</HeaderText>
+        <HeaderText>{t($ => $.CharacterSelector.Character) /* Character */}</HeaderText>
         <TooltipImage type={Hint.character()} />
       </Flex>
       <Flex direction='column' gap={optimizerTabDefaultGap}>
@@ -204,7 +212,7 @@ export function CharacterSelectorDisplay() {
         />
       </Flex>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('CharacterSelector.Lightcone') /* Light cone */}</HeaderText>
+        <HeaderText>{t($ => $.CharacterSelector.Lightcone) /* Light cone */}</HeaderText>
         <TooltipImage type={Hint.lightCone()} />
       </Flex>
       <Flex direction='column' gap={optimizerTabDefaultGap}>
@@ -226,13 +234,13 @@ export function CharacterSelectorDisplay() {
       </Flex>
 
       <Flex justify='space-between' align='center' style={{ marginTop: 20 }}>
-        <HeaderText>{t('CharacterSelector.Presets') /* Presets */}</HeaderText>
+        <HeaderText>{t($ => $.CharacterSelector.Presets) /* Presets */}</HeaderText>
       </Flex>
 
       <RecommendedPresetsButton />
 
       <Flex justify='space-between' align='center' style={{ marginTop: 20 }}>
-        <HeaderText>{t('CharacterSelector.Target') /* Optimization target */}</HeaderText>
+        <HeaderText>{t($ => $.CharacterSelector.Target) /* Optimization target */}</HeaderText>
       </Flex>
 
       <Select
@@ -242,7 +250,7 @@ export function CharacterSelectorDisplay() {
         onChange={(val) => {
           if (val != null) useOptimizerRequestStore.getState().setResultsLimit(Number(val))
         }}
-        placeholder={t('CharacterSelector.ResultsPlaceholder')} // 'Find top results'
+        placeholder={t($ => $.CharacterSelector.ResultsPlaceholder)} // 'Find top results'
         maxDropdownHeight={800}
       />
 
@@ -273,8 +281,8 @@ export function CharacterSelectorDisplay() {
           width: 'auto',
           styles: { groupLabel: { textAlign: 'center' } },
         }}
-        placeholder={t('CharacterSelector.TargetPlaceholder')} // 'Sorted by'
+        placeholder={t($ => $.CharacterSelector.TargetPlaceholder)} // 'Sorted by'
       />
     </Flex>
-  )
+  );
 }

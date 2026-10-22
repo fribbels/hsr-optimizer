@@ -98,10 +98,16 @@ export function saveBuild(
   const idx = builds.findIndex((x) => x.name === name)
 
   if (overwrite) {
-    if (idx === -1) return { error: i18next.t('charactersTab:Messages.NoMatchingBuild', { name }) }
+    if (idx === -1) return { error: i18next.t($ => $.Messages.NoMatchingBuild, {
+      ns: "charactersTab",
+      name
+    }) };
     builds[idx] = build
   } else {
-    if (idx !== -1) return { error: i18next.t('charactersTab:Messages.BuildAlreadyExists', { name }) }
+    if (idx !== -1) return { error: i18next.t($ => $.Messages.BuildAlreadyExists, {
+      ns: "charactersTab",
+      name
+    }) };
     builds.push(build)
   }
 

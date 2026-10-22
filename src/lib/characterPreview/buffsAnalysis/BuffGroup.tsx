@@ -45,11 +45,11 @@ export function BuffGroup({ id, buffs, buffType }: { id: string, buffs: Buff[], 
   const src = getBuffSourceIcon(id, buffType)
   let name: string
   if (buffType === BUFF_TYPE.PRIMARY || buffType === BUFF_TYPE.CHARACTER) {
-    name = tGameData(`Characters.${id as CharacterId}.Name`)
+    name = tGameData($ => $.Characters[id as CharacterId].Name)
   } else if (buffType === BUFF_TYPE.LIGHTCONE) {
-    name = tGameData(`Lightcones.${id as LightConeId}.Name`)
+    name = tGameData($ => $.Lightcones[id as LightConeId].Name)
   } else if (buffType === BUFF_TYPE.SETS) {
-    name = tGameData(`RelicSets.${setToId[Sets[id as SetKey]]}.Name`)
+    name = tGameData($ => $.RelicSets[setToId[Sets[id as SetKey]]].Name)
   } else {
     name = id
   }

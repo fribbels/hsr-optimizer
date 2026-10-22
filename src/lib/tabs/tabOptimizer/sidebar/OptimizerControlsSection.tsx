@@ -86,7 +86,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
     >
       <ManyPermsModal startSearch={startOptimization} manyPermsModalOpen={manyPermsModalOpen} setManyPermsModalOpen={setManyPermsModalOpen} />
       <Flex direction='column' gap={5}>
-        <HeaderText>{t('ControlsGroup.Header') /* Controls */}</HeaderText>
+        <HeaderText>{t($ => $.ControlsGroup.Header) /* Controls */}</HeaderText>
         <Flex gap={defaultGap} style={controlsGapStyle} direction='column'>
           <Flex gap={defaultGap}>
             <Button
@@ -95,7 +95,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
               onClick={startClicked}
               style={startButtonStyle}
             >
-              {t('ControlsGroup.Start') /* Start optimizer */}
+              {t($ => $.ControlsGroup.Start) /* Start optimizer */}
             </Button>
           </Flex>
 
@@ -103,7 +103,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
 
           <Flex gap={defaultGap} justify='space-around'>
             <Button variant='default' onClick={cancelClicked} style={buttonStyle}>
-              {tCommon('Cancel') /* Cancel */}
+              {tCommon($ => $.Cancel) /* Cancel */}
             </Button>
 
             <Button
@@ -111,14 +111,14 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
               style={buttonStyle}
               onClick={() =>
                 modals.openConfirmModal({
-                  title: t('ControlsGroup.ResetConfirm.Title'),
-                  children: t('ControlsGroup.ResetConfirm.Description'),
-                  labels: { confirm: tCommon('Yes'), cancel: tCommon('No') },
+                  title: t($ => $.ControlsGroup.ResetConfirm.Title),
+                  children: t($ => $.ControlsGroup.ResetConfirm.Description),
+                  labels: { confirm: tCommon($ => $.Yes), cancel: tCommon($ => $.No) },
                   centered: true,
                   onConfirm: resetClicked,
                 })}
             >
-              {tCommon('Reset') /* Reset */}
+              {tCommon($ => $.Reset) /* Reset */}
             </Button>
           </Flex>
         </Flex>
@@ -126,7 +126,7 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
 
       <Flex direction='column' gap={5} style={statViewStyle}>
         <Flex justify='space-between' align='center'>
-          <HeaderText>{t('StatViewGroup.Header') /* Stat and filter view */}</HeaderText>
+          <HeaderText>{t($ => $.StatViewGroup.Header) /* Stat and filter view */}</HeaderText>
           <TooltipImage type={Hint.statDisplay()} />
         </Flex>
 
@@ -138,11 +138,11 @@ export const OptimizerControlsSection = memo(function OptimizerControlsSection({
       {!isFullSize
         && (
           <Flex direction='column' gap={3} style={statViewStyle}>
-            <HeaderText>{t('ComputeEngine') /* Compute engine */}</HeaderText>
+            <HeaderText>{t($ => $.ComputeEngine) /* Compute engine */}</HeaderText>
             <ComputeEngineSelect />
             <ProgressDisplay />
           </Flex>
         )}
     </Flex>
-  )
+  );
 })

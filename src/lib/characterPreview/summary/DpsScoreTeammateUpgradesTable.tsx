@@ -14,7 +14,7 @@ export const DpsScoreTeammateUpgradesTable = memo(function DpsScoreTeammateUpgra
   return (
     <div style={{ display: 'flex', gap: defaultGap, flexDirection: 'column', width: '100%', alignItems: 'center' }}>
       <div style={{ fontSize: 24, fontWeight: 500, color: 'var(--text-secondary)' }}>
-        {t('CharacterPreview.SubstatUpgradeComparisons.TeammatesHeader')}
+        {t($ => $.CharacterPreview.SubstatUpgradeComparisons.TeammatesHeader)}
       </div>
       <TeammateUpgrades
         groupedUpgrades={result.teammateOrnamentUpgradeResults}
@@ -22,5 +22,5 @@ export const DpsScoreTeammateUpgradesTable = memo(function DpsScoreTeammateUpgra
         variant='characters'
       />
     </div>
-  )
+  );
 })

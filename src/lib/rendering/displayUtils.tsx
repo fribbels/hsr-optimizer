@@ -56,7 +56,9 @@ export function generateCharacterList(
     .sort(sortAlphabeticEmojiLast('title'))
 
   if (withNobodyOption) {
-    const nobodyLabel = i18next.t('common:None')
+    const nobodyLabel = i18next.t($ => $.None, {
+      ns: "common"
+    })
     options.unshift({ value: 'None', label: nobodyLabel, title: nobodyLabel })
   }
 

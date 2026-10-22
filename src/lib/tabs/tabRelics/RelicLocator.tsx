@@ -111,9 +111,9 @@ export function RelicLocator(props: { relic: Relic | null, compact?: boolean, st
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                 <LocatorFilterImage filters={locatorFilters} compact={compact} />
                 <div style={compact ? { fontSize: 13 } : undefined}>
-                  {t('Location', {
+                  {t($ => $.Location, {
                     rowIndex: Math.ceil((relicPositionIndex + 1) / inventoryWidth),
-                    columnIndex: relicPositionIndex % inventoryWidth + 1,
+                    columnIndex: relicPositionIndex % inventoryWidth + 1
                   })}
                 </div>
                 <IconSettings size={compact ? 20 : 24} />
@@ -122,7 +122,7 @@ export function RelicLocator(props: { relic: Relic | null, compact?: boolean, st
             : (
               <div style={{ display: 'flex', width: '100%', paddingBottom: compact ? 0 : 2, justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ width: compact ? 4 : 10 }}></div>
-                <div style={compact ? { fontSize: 13 } : undefined}>{t('NoneSelected')}</div>
+                <div style={compact ? { fontSize: 13 } : undefined}>{t($ => $.NoneSelected)}</div>
                 <div style={{ width: compact ? 14 : 24 }} />
               </div>
             )}
@@ -132,7 +132,7 @@ export function RelicLocator(props: { relic: Relic | null, compact?: boolean, st
         <div style={{ display: 'flex', gap: 8, minWidth: 260 }}>
           <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <HeaderText>{t('Width') /* Inventory width */}</HeaderText>
+              <HeaderText>{t($ => $.Width) /* Inventory width */}</HeaderText>
               <TooltipImage type={Hint.locatorParams()} />
             </div>
             <NumberInput
@@ -145,7 +145,7 @@ export function RelicLocator(props: { relic: Relic | null, compact?: boolean, st
 
           <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <HeaderText>{t('Filter') /* Auto filter rows */}</HeaderText>
+              <HeaderText>{t($ => $.Filter) /* Auto filter rows */}</HeaderText>
               <TooltipImage type={Hint.relicLocation()} />
             </div>
             <NumberInput
@@ -158,7 +158,7 @@ export function RelicLocator(props: { relic: Relic | null, compact?: boolean, st
         </div>
       </Popover.Dropdown>
     </Popover>
-  )
+  );
 }
 
 function LocatorFilterImage(props: { filters: LocatorFilters, compact?: boolean }) {

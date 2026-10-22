@@ -182,7 +182,7 @@ function RollsCard({ relic, potential, weights }: {
       <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 4 }} className={styles.perfectionSection}>
         <HorizontalDivider style={{ margin: 0, marginBlock: 0, marginTop: 13, marginBottom: 0, paddingBottom: 2 }} />
         <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <span className={styles.label}>{t('Perfection') /* Perfection */}</span>
+          <span className={styles.label}>{t($ => $.Perfection) /* Perfection */}</span>
           <span>{percentDisplay}%</span>
         </div>
         <div className={styles.progressBarOuter}>
@@ -203,7 +203,7 @@ function RollsCard({ relic, potential, weights }: {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 const ScoringMetricCard = memo(function ScoringMetric({ potential, relic, weights }: {
@@ -220,7 +220,7 @@ const ScoringMetricCard = memo(function ScoringMetric({ potential, relic, weight
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <span className={styles.metricLabel}>
-          {t('Rolls')}
+          {t($ => $.Rolls)}
         </span>
         <span className={styles.metricValue}>
           {rolls === null ? '-' : localeNumber_0(rolls)}
@@ -228,14 +228,14 @@ const ScoringMetricCard = memo(function ScoringMetric({ potential, relic, weight
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <span className={styles.metricLabel}>
-          {t('Potential')}
+          {t($ => $.Potential)}
         </span>
         <span className={styles.metricValue}>
           {potential !== null ? localeNumber_0(potential.rerollAvgPct === 0 ? 0 : potential.rerollAvgPct - potential.currentPct) + '%' : '-'}
         </span>
       </div>
     </div>
-  )
+  );
 })
 
 const EstbpMetricCard = memo(function EstbpMetricCard({ relic, weights }: {
@@ -261,7 +261,7 @@ const EstbpMetricCard = memo(function EstbpMetricCard({ relic, weights }: {
     >
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <span className={styles.metricLabel}>
-          {t('Days')}
+          {t($ => $.Days)}
         </span>
         {estbpPromise !== null
           ? (
@@ -278,7 +278,7 @@ const EstbpMetricCard = memo(function EstbpMetricCard({ relic, weights }: {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <span className={styles.metricLabel}>
-          {t('TBP')}
+          {t($ => $.TBP)}
         </span>
         {estbpPromise !== null
           ? (
@@ -294,7 +294,7 @@ const EstbpMetricCard = memo(function EstbpMetricCard({ relic, weights }: {
           : '-'}
       </div>
     </div>
-  )
+  );
 })
 
 const highRollColor = '#0e7eff'

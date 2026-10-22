@@ -44,7 +44,7 @@ export function SavedTeamsActions({
           disabled={!hasTeam || screenshotPending}
           onClick={() => onScreenshot(ScreenshotAction.Clipboard)}
         >
-          {t('Buttons.CopyScreenshot')}
+          {t($ => $.Buttons.CopyScreenshot)}
         </Button>
         <Button
           fullWidth
@@ -55,12 +55,12 @@ export function SavedTeamsActions({
           disabled={!hasTeam || screenshotPending}
           onClick={() => onScreenshot(ScreenshotAction.Download)}
         >
-          {t('Buttons.DownloadScreenshot')}
+          {t($ => $.Buttons.DownloadScreenshot)}
         </Button>
       </div>
 
       <div className={styles.group}>
-        <h3 className={styles.title}>{t('Panels.Controls')}</h3>
+        <h3 className={styles.title}>{t($ => $.Panels.Controls)}</h3>
         <Button
           fullWidth
           size='sm'
@@ -71,7 +71,7 @@ export function SavedTeamsActions({
           disabled={!canSyncBenchmarks || screenshotPending}
           onClick={onSyncBenchmarks}
         >
-          {t('Buttons.SyncBenchmarkTeams')}
+          {t($ => $.Buttons.SyncBenchmarkTeams)}
         </Button>
         <Button
           fullWidth
@@ -82,9 +82,9 @@ export function SavedTeamsActions({
           disabled={!hasTeam || screenshotPending}
           onClick={onClear}
         >
-          {t('Buttons.Clear')}
+          {t($ => $.Buttons.Clear)}
         </Button>
       </div>
     </div>
-  )
+  );
 }

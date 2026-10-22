@@ -121,7 +121,7 @@ function ResultRow({ rank, scorePercent, aeonStyle, fetchedAt, isAllTeams }: {
 }) {
   const { t } = useTranslation('leaderboardTab', { keyPrefix: 'Banner' })
   const dateStr = fetchedAt ? formatFetchedAt(fetchedAt) : null
-  const rankingLabel = isAllTeams ? t('AllTeams') : t('TeamRank')
+  const rankingLabel = isAllTeams ? t($ => $.AllTeams) : t($ => $.TeamRank)
 
   return (
     <Flex align='center' gap={15} px={6}>
@@ -167,10 +167,14 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {lcIconSrc && (
         <div className={classes.lcModule}>
           <img src={lcIconSrc} className={classes.lcIcon} />
-          <ModuleStack label={t('LightConeModule')}>
+          <ModuleStack label={t($ => $.LightConeModule)}>
             <div className={classes.lcText}>
               <span className={classes.lcSuper}>
-                {tCommon('EidolonNShort', { eidolon })} {tCommon('SuperimpositionNShort', { superimposition: lcSuper })}
+                {tCommon($ => $.EidolonNShort, {
+                  eidolon
+                })} {tCommon($ => $.SuperimpositionNShort, {
+                superimposition: lcSuper
+              })}
               </span>
               <span className={classes.lcName}>{lcName}</span>
             </div>
@@ -181,7 +185,7 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {teammates.length > 0 && (
         <>
           <div className={classes.vsep} />
-          <ModuleStack label={t('TeamModule')}>
+          <ModuleStack label={t($ => $.TeamModule)}>
             <Flex align='center'>
               {teammates.map((teammate, index) => (
                 <img
@@ -198,12 +202,14 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
       {activeSets.length > 0 && (
         <>
           <div className={classes.vsep} />
-          <ModuleStack label={t('SetsModule')}>
+          <ModuleStack label={t($ => $.SetsModule)}>
             <Flex align='center' gap={11}>
               {activeSets.map((s) => (
                 <div key={s.set} className={classes.setBadge}>
                   <img src={Assets.getSetImage(s.set)} className={classes.setIcon} />
-                  <span className={classes.setPieces}>{t('SetPieces', { count: s.count })}</span>
+                  <span className={classes.setPieces}>{t($ => $.SetPieces, {
+                    count: s.count
+                  })}</span>
                 </div>
               ))}
             </Flex>
@@ -211,7 +217,7 @@ function ModuleRow({ selectedEntry, eidolon, lcId, lcSuper, lcName, lcIconSrc, t
         </>
       )}
     </div>
-  )
+  );
 }
 
 function SubstatColumn({ rolls, tierColors }: {
@@ -232,7 +238,7 @@ function SubstatColumn({ rolls, tierColors }: {
           <div key={roll.stat} className={classes.subRow}>
             <Flex align='center' gap={5}>
               <img src={Assets.getStatIcon(roll.stat)} className={classes.statIcon} />
-              <span className={classes.statName}>{t(`Stats.${roll.stat}`)}</span>
+              <span className={classes.statName}>{t($ => $.Stats[roll.stat])}</span>
               <span className={classes.statValue}><RollCountDisplay effective={roll.effective} total={roll.total} leaderboard /></span>
             </Flex>
             <RollStripeBar entry={roll} colors={tierColors} maxRolls={maxRolls} />
@@ -240,7 +246,7 @@ function SubstatColumn({ rolls, tierColors }: {
         ))}
       </div>
     </>
-  )
+  );
 }
 
 export function LeaderboardBanner() {
@@ -253,7 +259,7 @@ export function LeaderboardBanner() {
 
   const characterId = selectedCharacterId
   const nameKey = characterId?.startsWith('80') ? 'LongName' : 'Name'
-  const characterName = characterId ? tGame(`Characters.${characterId}.${nameKey}`) : ''
+  const characterName = characterId ? tGame($ => $.Characters[characterId][nameKey]) : ''
   const scoringMetadata = useScoringMetadata(characterId)
 
   const rankImage = scoringMetadata?.eidolonImage ?? DEFAULT_RANK_IMAGE
@@ -292,7 +298,7 @@ export function LeaderboardBanner() {
   const lcId = selectedEntry?.minifiedCharacter.q?.t ? String(selectedEntry.minifiedCharacter.q.t) as LightConeId : null
   const lcSuper = selectedEntry?.minifiedCharacter.q?.r ?? 1
   const lcIconSrc = lcId ? Assets.getLightConeIconById(lcId) : null
-  const lcName = lcId ? tGame(`Lightcones.${lcId}.Name`) : ''
+  const lcName = lcId ? tGame($ => $.Lightcones[lcId].Name) : ''
 
   return (
     <div className={classes.root}>

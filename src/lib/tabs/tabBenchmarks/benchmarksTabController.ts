@@ -119,7 +119,10 @@ export function handleBenchmarkFormSubmit(benchmarkForm: BenchmarkForm) {
       })
       .catch((error) => {
         console.error('Benchmark generation failed:', error)
-        Message.error(i18next.t('benchmarksTab:Messages.Error.GenerationFailed', 'Benchmark generation failed'))
+        Message.error(i18next.t($ => $.Messages.Error.GenerationFailed, {
+          ns: "benchmarksTab",
+          defaultValue: 'Benchmark generation failed'
+        }))
         setLoading(false)
       })
   }, 350)

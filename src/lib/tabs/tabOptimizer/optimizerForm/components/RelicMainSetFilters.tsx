@@ -50,7 +50,7 @@ function MainStatBody() {
       size='xs'
       className={inputClasses.compactPadding}
       style={mainStatStyle}
-      placeholder={t('Parts.Body')}
+      placeholder={t($ => $.Parts.Body)}
       leftSectionWidth={25}
       leftSection={<img className={classes.partIcon} style={{ marginLeft: 5 }} src={Assets.getPart(Parts.Body)} />}
       value={value}
@@ -62,16 +62,16 @@ function MainStatBody() {
         </Flex>
       )}
       data={[
-        { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
-        { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
-        { value: Constants.Stats.DEF_P, label: t('ShortStats.DEF%') },
-        { value: Constants.Stats.CR, label: t('ShortStats.CRIT Rate') },
-        { value: Constants.Stats.CD, label: t('ShortStats.CRIT DMG') },
-        { value: Constants.Stats.EHR, label: t('ShortStats.Effect Hit Rate') },
-        { value: Constants.Stats.OHB, label: t('ShortStats.Outgoing Healing Boost') },
+        { value: Constants.Stats.HP_P, label: t($ => $.ShortStats["HP%"]) },
+        { value: Constants.Stats.ATK_P, label: t($ => $.ShortStats["ATK%"]) },
+        { value: Constants.Stats.DEF_P, label: t($ => $.ShortStats["DEF%"]) },
+        { value: Constants.Stats.CR, label: t($ => $.ShortStats["CRIT Rate"]) },
+        { value: Constants.Stats.CD, label: t($ => $.ShortStats["CRIT DMG"]) },
+        { value: Constants.Stats.EHR, label: t($ => $.ShortStats["Effect Hit Rate"]) },
+        { value: Constants.Stats.OHB, label: t($ => $.ShortStats["Outgoing Healing Boost"]) },
       ]}
     />
-  )
+  );
 }
 
 function MainStatFeet() {
@@ -83,7 +83,7 @@ function MainStatFeet() {
       size='xs'
       className={inputClasses.compactPadding}
       style={mainStatStyle}
-      placeholder={t('Parts.Feet')}
+      placeholder={t($ => $.Parts.Feet)}
       leftSectionWidth={25}
       leftSection={<img className={classes.partIcon} style={{ marginLeft: 5 }} src={Assets.getPart(Parts.Feet)} />}
       value={value}
@@ -95,13 +95,13 @@ function MainStatFeet() {
         </Flex>
       )}
       data={[
-        { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
-        { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
-        { value: Constants.Stats.DEF_P, label: t('ShortStats.DEF%') },
-        { value: Constants.Stats.SPD, label: t('ShortStats.SPD') },
+        { value: Constants.Stats.HP_P, label: t($ => $.ShortStats["HP%"]) },
+        { value: Constants.Stats.ATK_P, label: t($ => $.ShortStats["ATK%"]) },
+        { value: Constants.Stats.DEF_P, label: t($ => $.ShortStats["DEF%"]) },
+        { value: Constants.Stats.SPD, label: t($ => $.ShortStats.SPD) },
       ]}
     />
-  )
+  );
 }
 
 function MainStatPlanarSphere() {
@@ -113,7 +113,7 @@ function MainStatPlanarSphere() {
       size='xs'
       className={inputClasses.compactPadding}
       style={mainStatStyle}
-      placeholder={t('Parts.PlanarSphere')}
+      placeholder={t($ => $.Parts.PlanarSphere)}
       maxDropdownHeight={400}
       leftSectionWidth={25}
       leftSection={<img className={classes.partIcon} style={{ marginLeft: 5 }} src={Assets.getPart(Parts.PlanarSphere)} />}
@@ -126,19 +126,19 @@ function MainStatPlanarSphere() {
         </Flex>
       )}
       data={[
-        { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
-        { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
-        { value: Constants.Stats.DEF_P, label: t('ShortStats.DEF%') },
-        { value: Constants.Stats.Physical_DMG, label: t('ShortStats.Physical DMG Boost') },
-        { value: Constants.Stats.Fire_DMG, label: t('ShortStats.Fire DMG Boost') },
-        { value: Constants.Stats.Ice_DMG, label: t('ShortStats.Ice DMG Boost') },
-        { value: Constants.Stats.Lightning_DMG, label: t('ShortStats.Lightning DMG Boost') },
-        { value: Constants.Stats.Wind_DMG, label: t('ShortStats.Wind DMG Boost') },
-        { value: Constants.Stats.Quantum_DMG, label: t('ShortStats.Quantum DMG Boost') },
-        { value: Constants.Stats.Imaginary_DMG, label: t('ShortStats.Imaginary DMG Boost') },
+        { value: Constants.Stats.HP_P, label: t($ => $.ShortStats["HP%"]) },
+        { value: Constants.Stats.ATK_P, label: t($ => $.ShortStats["ATK%"]) },
+        { value: Constants.Stats.DEF_P, label: t($ => $.ShortStats["DEF%"]) },
+        { value: Constants.Stats.Physical_DMG, label: t($ => $.ShortStats["Physical DMG Boost"]) },
+        { value: Constants.Stats.Fire_DMG, label: t($ => $.ShortStats["Fire DMG Boost"]) },
+        { value: Constants.Stats.Ice_DMG, label: t($ => $.ShortStats["Ice DMG Boost"]) },
+        { value: Constants.Stats.Lightning_DMG, label: t($ => $.ShortStats["Lightning DMG Boost"]) },
+        { value: Constants.Stats.Wind_DMG, label: t($ => $.ShortStats["Wind DMG Boost"]) },
+        { value: Constants.Stats.Quantum_DMG, label: t($ => $.ShortStats["Quantum DMG Boost"]) },
+        { value: Constants.Stats.Imaginary_DMG, label: t($ => $.ShortStats["Imaginary DMG Boost"]) },
       ]}
     />
-  )
+  );
 }
 
 function MainStatLinkRope() {
@@ -150,7 +150,7 @@ function MainStatLinkRope() {
       size='xs'
       className={inputClasses.compactPadding}
       style={mainStatStyle}
-      placeholder={t('Parts.LinkRope')}
+      placeholder={t($ => $.Parts.LinkRope)}
       leftSectionWidth={25}
       leftSection={<img className={classes.partIcon} style={{ marginLeft: 5 }} src={Assets.getPart(Parts.LinkRope)} />}
       value={value}
@@ -162,14 +162,14 @@ function MainStatLinkRope() {
         </Flex>
       )}
       data={[
-        { value: Constants.Stats.HP_P, label: t('ShortStats.HP%') },
-        { value: Constants.Stats.ATK_P, label: t('ShortStats.ATK%') },
-        { value: Constants.Stats.DEF_P, label: t('ShortStats.DEF%') },
-        { value: Constants.Stats.BE, label: t('ShortStats.Break Effect') },
-        { value: Constants.Stats.ERR, label: t('ShortStats.Energy Regeneration Rate') },
+        { value: Constants.Stats.HP_P, label: t($ => $.ShortStats["HP%"]) },
+        { value: Constants.Stats.ATK_P, label: t($ => $.ShortStats["ATK%"]) },
+        { value: Constants.Stats.DEF_P, label: t($ => $.ShortStats["DEF%"]) },
+        { value: Constants.Stats.BE, label: t($ => $.ShortStats["Break Effect"]) },
+        { value: Constants.Stats.ERR, label: t($ => $.ShortStats["Energy Regeneration Rate"]) },
       ]}
     />
-  )
+  );
 }
 
 const relicBoxIcon = Assets.getDefaultRelic()
@@ -237,11 +237,11 @@ function RelicSetFilterRow() {
         )
         : (
           <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>
-            {t('RelicPlaceholder')}
+            {t($ => $.RelicPlaceholder)}
           </span>
         )}
     </PillsInput>
-  )
+  );
 }
 
 function OrnamentSetFilterRow() {
@@ -283,11 +283,11 @@ function OrnamentSetFilterRow() {
         )
         : (
           <span style={{ fontSize: 14, fontWeight: 'normal', cursor: 'pointer', marginBottom: 1, color: 'var(--mantine-color-default-color)' }}>
-            {t('OrnamentPlaceholder')}
+            {t($ => $.OrnamentPlaceholder)}
           </span>
         )}
     </PillsInput>
-  )
+  );
 }
 
 export function RelicMainSetFilters() {
@@ -296,7 +296,7 @@ export function RelicMainSetFilters() {
   return (
     <Flex direction='column' gap={optimizerTabDefaultGap}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('MainStats') /* Main stats */}</HeaderText>
+        <HeaderText>{t($ => $.MainStats) /* Main stats */}</HeaderText>
         <TooltipImage type={Hint.mainStats()} />
       </Flex>
       <Flex direction='column' gap={7}>
@@ -307,7 +307,7 @@ export function RelicMainSetFilters() {
       </Flex>
 
       <Flex justify='space-between' align='center' className={classes.setsHeader}>
-        <HeaderText>{t('Sets') /* Sets */}</HeaderText>
+        <HeaderText>{t($ => $.Sets) /* Sets */}</HeaderText>
         <TooltipImage type={Hint.sets()} />
       </Flex>
 
@@ -317,11 +317,11 @@ export function RelicMainSetFilters() {
           onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
           leftSection={<IconSettings size={16} />}
         >
-          {t('SetConditionals.Title') /* Conditional set effects */}
+          {t($ => $.SetConditionals.Title) /* Conditional set effects */}
         </Button>
         <RelicSetFilterRow />
         <OrnamentSetFilterRow />
       </Flex>
     </Flex>
-  )
+  );
 }

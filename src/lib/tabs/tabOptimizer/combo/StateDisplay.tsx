@@ -36,7 +36,7 @@ export function StateDisplay() {
               <ComboConditionalsGroupRow conditionalType='lightCone' actionCount={actionCount} originKey='comboCharacterLightCone' />
             </DeferCreate>
             <DeferCreate>
-              <GroupDivider text={t('GroupHeaders.Sets')} />
+              <GroupDivider text={t($ => $.GroupHeaders.Sets)} />
               <SetSelectors />
             </DeferCreate>
             <SetDisplayRows actionCount={actionCount} />
@@ -46,7 +46,7 @@ export function StateDisplay() {
         {hasTeammate0 && (
           <>
             <DeferCreate>
-              <GroupDivider text={t('GroupHeaders.Teammate1')} />
+              <GroupDivider text={t($ => $.GroupHeaders.Teammate1)} />
               <ComboConditionalsGroupRow conditionalType='character' actionCount={actionCount} originKey='comboTeammate0' />
             </DeferCreate>
             <DeferCreate>
@@ -62,7 +62,7 @@ export function StateDisplay() {
         {hasTeammate1 && (
           <>
             <DeferCreate>
-              <GroupDivider text={t('GroupHeaders.Teammate2')} />
+              <GroupDivider text={t($ => $.GroupHeaders.Teammate2)} />
               <ComboConditionalsGroupRow conditionalType='character' actionCount={actionCount} originKey='comboTeammate1' />
             </DeferCreate>
             <DeferCreate>
@@ -78,7 +78,7 @@ export function StateDisplay() {
         {hasTeammate2 && (
           <>
             <DeferCreate>
-              <GroupDivider text={t('GroupHeaders.Teammate3')} />
+              <GroupDivider text={t($ => $.GroupHeaders.Teammate3)} />
               <ComboConditionalsGroupRow conditionalType='character' actionCount={actionCount} originKey='comboTeammate2' />
             </DeferCreate>
             <DeferCreate>
@@ -92,5 +92,5 @@ export function StateDisplay() {
         )}
       </Flex>
     </DeferCreateProvider>
-  )
+  );
 }

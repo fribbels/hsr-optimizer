@@ -28,10 +28,10 @@ export function LeaderboardHeader() {
 
       <div className={classes.content}>
         <div className={classes.titleColumn}>
-          <span className={classes.title}>{t('Title')}</span>
-          <span className={classes.subtitle}>{t('Subtitle')}</span>
+          <span className={classes.title}>{t($ => $.Title)}</span>
+          <span className={classes.subtitle}>{t($ => $.Subtitle)}</span>
           <button type='button' className={classes.showcaseButton} onClick={goToShowcase}>
-            {t('ShowcaseButton')}
+            {t($ => $.ShowcaseButton)}
           </button>
         </div>
 
@@ -44,5 +44,5 @@ export function LeaderboardHeader() {
         )}
       </div>
     </div>
-  )
+  );
 }

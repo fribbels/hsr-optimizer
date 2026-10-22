@@ -68,7 +68,9 @@ function saveStatSimulationRequest(simRequest: SimulationRequest, simType: StatS
   const hash = hashSim(simulation)
   for (const sim of existingSimulations) {
     if (hash === hashSim(sim)) {
-      Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))
+      Message.error(i18next.t($ => $.StatSimulation.DuplicateSimMessage, {
+        ns: "optimizerTab"
+      }))
       return null
     }
   }
@@ -98,7 +100,9 @@ function hashSim(sim: Simulation) {
 
 function validateRequest(request: SimulationRequest) {
   if (!request.simBody || !request.simFeet || !request.simLinkRope || !request.simPlanarSphere) {
-    Message.error(i18next.t('optimizerTab:StatSimulation.MissingMainstatsMessage')) // 'Missing simulation main stats'
+    Message.error(i18next.t($ => $.StatSimulation.MissingMainstatsMessage, {
+      ns: "optimizerTab"
+    })) // 'Missing simulation main stats'
     return false
   }
 
@@ -137,7 +141,9 @@ export function overwriteStatSimulationBuild() {
   for (const sim of existingSimulations) {
     if (sim.key === selectedKey) continue
     if (hash === hashSim(sim)) {
-      Message.error(i18next.t('optimizerTab:StatSimulation.DuplicateSimMessage'))
+      Message.error(i18next.t($ => $.StatSimulation.DuplicateSimMessage, {
+        ns: "optimizerTab"
+      }))
       return
     }
   }

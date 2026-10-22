@@ -182,11 +182,11 @@ function TooltipContent(props: TooltipContentProps) {
       <u>{data.name}</u>
       <div>
         <>
-          <>{t('AvgPotential')}{precisionRound(data.x, 1)}%</>
+          <>{t($ => $.AvgPotential)}{precisionRound(data.x, 1)}%</>
         </>
       </div>
     </div>
-  )
+  );
 }
 
 function onClick(id: CharacterId) {

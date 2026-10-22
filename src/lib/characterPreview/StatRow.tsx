@@ -209,7 +209,7 @@ export function getStatRenderValues(statValue: number, customValue: number, stat
 export function statToLabel(stat: StatsValues, t: TFunction<'common'>, i18n: i18n) {
   return READABLE_STAT_KEYS.has(stat)
     ? (i18n.exists(`ReadableStats.${stat}`)
-      ? t(`ReadableStats.${stat as StatsValues}`)
+      ? t($ => $.ReadableStats[stat as StatsValues])
       : t(`DMGTypes.${stat}` as never))
-    : t(`Stats.${stat as StatsValues}`)
+    : t($ => $.Stats[stat as StatsValues]);
 }

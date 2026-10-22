@@ -198,16 +198,16 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
 
   const { spdPrecisionOptions, spdWeightOptions, buffPriorityOptions } = useMemo(() => ({
     spdPrecisionOptions: [
-      { value: false, label: tScoring('SpdPrecision.Low') /* '.0' */ },
-      { value: true, label: tScoring('SpdPrecision.High') /* '.000' */ },
+      { value: false, label: tScoring($ => $.SpdPrecision.Low) /* '.0' */ },
+      { value: true, label: tScoring($ => $.SpdPrecision.High) /* '.000' */ },
     ],
     spdWeightOptions: [
-      { value: 1, label: tScoring('SpdWeight.Max') /* '100%' */ },
-      { value: 0, label: tScoring('SpdWeight.Min') /* '0%' */ },
+      { value: 1, label: tScoring($ => $.SpdWeight.Max) /* '100%' */ },
+      { value: 0, label: tScoring($ => $.SpdWeight.Min) /* '0%' */ },
     ],
     buffPriorityOptions: [
-      { value: false, label: tScoring('BuffPriority.High') /* 'Main' */ },
-      { value: true, label: tScoring('BuffPriority.Low') /* 'Sub' */ },
+      { value: false, label: tScoring($ => $.BuffPriority.High) /* 'Main' */ },
+      { value: true, label: tScoring($ => $.BuffPriority.Low) /* 'Sub' */ },
     ],
   }), [tScoring])
 
@@ -216,7 +216,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
       <Flex justify='space-between' align='center' style={{ position: 'relative' }}>
         <span></span>
         <HeaderText className={classes.centeredHeader}>
-          {tScoring('Stats.Header') /* Stats */}
+          {tScoring($ => $.Stats.Header) /* Stats */}
         </HeaderText>
         <a
           href='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/score-customization.md'
@@ -233,7 +233,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
       {scoringType === ScoringType.DPS_SCORE && (
         <>
           <HeaderText className={classes.headerCenteredMb}>
-            {tScoring('BuffPriority.Header') /* DPS mode */}
+            {tScoring($ => $.BuffPriority.Header) /* DPS mode */}
           </HeaderText>
           <SegmentedControl
             data={buffPriorityOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
@@ -247,7 +247,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
       {scoringType !== ScoringType.NONE && (
         <>
           <HeaderText className={classes.headerCenteredMb}>
-            {tScoring('SpdWeight.Header') /* SPD weight */}
+            {tScoring($ => $.SpdWeight.Header) /* SPD weight */}
           </HeaderText>
           <SegmentedControl
             data={spdWeightOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
@@ -259,7 +259,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
       )}
 
       <HeaderText className={classes.headerCenteredMb}>
-        {tScoring('SpdPrecision.Header') /* SPD precision */}
+        {tScoring($ => $.SpdPrecision.Header) /* SPD precision */}
       </HeaderText>
       <SegmentedControl
         data={spdPrecisionOptions.map((o) => ({ label: o.label, value: String(o.value) }))}
@@ -272,7 +272,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
         <>
           <HorizontalDivider />
           <HeaderText className={classes.headerCenteredMb}>
-            {tScoring('BenchmarkSpd.Header') /* SPD benchmark */}
+            {tScoring($ => $.BenchmarkSpd.Header) /* SPD benchmark */}
           </HeaderText>
           <SpdBenchmarkCombobox
             spdBenchmark={spdBenchmark}
@@ -292,7 +292,7 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
         }}
         variant='default'
       >
-        {tScoring('Stats.WeightsButton') /* Weights */}
+        {tScoring($ => $.Stats.WeightsButton) /* Weights */}
       </Button>
 
       <Button
@@ -300,10 +300,10 @@ const ScoringPanel = memo(function ScoringPanel({ characterId, scoringType }: {
         onClick={onTraceClick}
         variant='default'
       >
-        {tScoring('Stats.ButtonText') /* Traces */}
+        {tScoring($ => $.Stats.ButtonText) /* Traces */}
       </Button>
     </Flex>
-  )
+  );
 })
 
 // =============================================================================
@@ -413,7 +413,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
   return (
     <Flex direction='column' gap={6} style={cardStyle}>
       <HeaderText className={classes.headerCentered}>
-        {tCustomization('Label')}
+        {tCustomization($ => $.Label)}
       </HeaderText>
 
       <HorizontalDivider />
@@ -458,9 +458,9 @@ const CustomizationPanel = memo(function CustomizationPanel({
         orientation='vertical'
         fullWidth
         data={[
-          { value: ShowcaseColorMode.AUTO, label: tCustomization('Modes.Auto') },
-          { value: ShowcaseColorMode.CUSTOM, label: tCustomization('Modes.Custom') },
-          { value: ShowcaseColorMode.STANDARD, label: tCustomization('Modes.Standard') },
+          { value: ShowcaseColorMode.AUTO, label: tCustomization($ => $.Modes.Auto) },
+          { value: ShowcaseColorMode.CUSTOM, label: tCustomization($ => $.Modes.Custom) },
+          { value: ShowcaseColorMode.STANDARD, label: tCustomization($ => $.Modes.Standard) },
         ]}
         value={effectiveColorMode}
         onChange={(value) => onColorModeChange(value as ShowcaseColorMode)}
@@ -470,7 +470,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
         <>
           <HorizontalDivider />
           <HeaderText className={classes.headerCenteredMb} style={{ marginBottom: 1 }}>
-            {tCustomization('ShowUID') /* Show UID */}
+            {tCustomization($ => $.ShowUID) /* Show UID */}
           </HeaderText>
           <SegmentedControl
             data={[
@@ -486,7 +486,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
 
       <HorizontalDivider />
       <HeaderText className={classes.headerCenteredMb} style={{ marginBottom: 1 }}>
-        {tCustomization('ShowL2D') /* Animations */}
+        {tCustomization($ => $.ShowL2D) /* Animations */}
       </HeaderText>
       <SegmentedControl
         data={[
@@ -499,7 +499,7 @@ const CustomizationPanel = memo(function CustomizationPanel({
         onChange={(value) => onShowL2DChange(value === 'true')}
       />
     </Flex>
-  )
+  );
 })
 
 // =============================================================================
@@ -520,10 +520,10 @@ function SpdBenchmarkCombobox(props: {
       skipNoMinimum: true,
       disableAbove: spdFilter,
       extraGroups: [{
-        group: tCharacterTab('BenchmarkOptionsLabel'),
+        group: tCharacterTab($ => $.BenchmarkOptionsLabel),
         items: [
-          { label: tCharacterTab('CurrentSpdLabel'), value: '-1' },
-          { label: tCharacterTab('BaseSpdLabel'), value: '0' },
+          { label: tCharacterTab($ => $.CurrentSpdLabel), value: '-1' },
+          { label: tCharacterTab($ => $.BaseSpdLabel), value: '0' },
         ],
       }],
     }), [t, tCharacterTab, spdFilter])
@@ -563,5 +563,5 @@ function getActiveCharacterName() {
       return
   }
   if (!charId) return
-  return t(`${charId}.LongName`)
+  return t($ => $[charId].LongName);
 }

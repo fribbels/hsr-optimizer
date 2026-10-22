@@ -26,12 +26,12 @@ export function GettingStartedDrawer() {
     // Manually save for test files
     persistenceService.loadSaveData(JSON.parse(JSON.stringify(sampleSave)) as HsrOptimizerSaveFormat, false)
     SaveState.save()
-    Message.success(t('TryOut.SuccessMessage')) // 'Successfully loaded data'
+    Message.success(t($ => $.TryOut.SuccessMessage)) // 'Successfully loaded data'
   }
 
   return (
     <Drawer
-      title={t('TryOut.Header')} /* 'Try it out!' */
+      title={t($ => $.TryOut.Header)} /* 'Try it out!' */
       position='right'
       onClose={closeBeginnerDrawer}
       opened={isOpenBeginnerDrawer}
@@ -40,7 +40,7 @@ export function GettingStartedDrawer() {
       {isOpenBeginnerDrawer && (
         <Flex direction='column' gap={20}>
           <ColorizedLinkWithIcon
-            text={t('TryOut.DocumentationTitle') /* See full guide */}
+            text={t($ => $.TryOut.DocumentationTitle) /* See full guide */}
             linkIcon={true}
             url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/optimizer.md'
           />
@@ -50,21 +50,27 @@ export function GettingStartedDrawer() {
             style={{ width: 200 }}
             onClick={() =>
               modals.openConfirmModal({
-                title: t('common:Confirm'),
+                title: t($ => $.Confirm, {
+                  ns: "common"
+                }),
                 children: (
                   <Flex style={{ whiteSpace: 'preserve-breaks', textAlign: 'center' }}>
-                    {t('TryOut.description')}
+                    {t($ => $.TryOut.description)}
                   </Flex>
                 ),
-                labels: { confirm: t('common:Yes'), cancel: t('common:Cancel') },
+                labels: { confirm: t($ => $.Yes, {
+                  ns: "common"
+                }), cancel: t($ => $.Cancel, {
+                  ns: "common"
+                }) },
                 centered: true,
                 onConfirm: tryItOutClicked,
               })}
           >
-            {t('TryOut.ButtonText') /* Try it out! */}
+            {t($ => $.TryOut.ButtonText) /* Try it out! */}
           </Button>
         </Flex>
       )}
     </Drawer>
-  )
+  );
 }

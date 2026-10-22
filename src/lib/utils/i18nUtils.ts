@@ -155,7 +155,9 @@ export function isStatsValues(key: string): key is StatsValues {
 export function renderThousandsK(n: number, precision: number = 0) {
   const factor = 10 ** precision
   const units = Math.floor((Number(n) / 1000) * factor)
-  const suffix = i18next.t('common:ThousandsSuffix')
+  const suffix = i18next.t($ => $.ThousandsSuffix, {
+    ns: "common"
+  })
 
   if (precision === 0) {
     return `${units}${suffix}`

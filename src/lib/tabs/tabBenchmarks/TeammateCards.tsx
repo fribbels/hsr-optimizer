@@ -12,14 +12,14 @@ export function TeammatesSection() {
   const { t } = useTranslation('benchmarksTab', { keyPrefix: 'MiddlePanel' })
   return (
     <Flex direction='column'>
-      <HeaderText>{t('TeammatesHeader')}</HeaderText>
+      <HeaderText>{t($ => $.TeammatesHeader)}</HeaderText>
       <Flex justify='space-around'>
         <Teammate index={0} />
         <Teammate index={1} />
         <Teammate index={2} />
       </Flex>
     </Flex>
-  )
+  );
 }
 
 export function Teammate({ index }: { index: number }) {
@@ -58,7 +58,9 @@ export function Teammate({ index }: { index: number }) {
         />
 
         <OverlayText
-          text={t('EidolonNShort', { eidolon: characterEidolon })}
+          text={t($ => $.EidolonNShort, {
+            eidolon: characterEidolon
+          })}
           top={-12}
         />
 
@@ -84,10 +86,12 @@ export function Teammate({ index }: { index: number }) {
         </div>
 
         <OverlayText
-          text={t('SuperimpositionNShort', { superimposition: lightConeSuperimposition })}
+          text={t($ => $.SuperimpositionNShort, {
+            superimposition: lightConeSuperimposition
+          })}
           top={-18}
         />
       </Flex>
     </div>
-  )
+  );
 }

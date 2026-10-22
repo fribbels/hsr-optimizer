@@ -25,13 +25,13 @@ export function WarpCalculatorTab() {
   return (
     <Flex direction="column" style={{ maxWidth: 950, width: '100%' }} align='center' gap="xl">
       <ColorizedTitleWithInfo
-        text={t('SectionTitles.Planner')/* Warp Planner */}
+        text={t($ => $.SectionTitles.Planner)/* Warp Planner */}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/warp-planner.md'
       />
 
       <WarpPlanner/>
     </Flex>
-  )
+  );
 }
 
 function WarpPlanner() {
@@ -83,13 +83,13 @@ function WarpPlanner() {
           fullWidth
           size='sm'
           data={[
-            { value: PlannerMode.SIMPLE, label: t('Simple')/* Simple */ },
+            { value: PlannerMode.SIMPLE, label: t($ => $.Simple)/* Simple */ },
             {
               value: PlannerMode.MULTI,
               label: (
                 <Flex align="center" justify="center" gap={6}>
-                  {t('MultiTarget')/* Multi Target */}
-                  {isMultiTargetNew && <Badge size="xs" color="blue" variant="filled">{tCommon('New')}</Badge>}
+                  {t($ => $.MultiTarget)/* Multi Target */}
+                  {isMultiTargetNew && <Badge size="xs" color="blue" variant="filled">{tCommon($ => $.New)}</Badge>}
                 </Flex>
               ),
             },
@@ -109,7 +109,7 @@ function WarpPlanner() {
               w={210}
               size='xs'
               maxDropdownHeight={400}
-              leftSection={<span style={{ fontSize: 12, whiteSpace: 'nowrap', paddingLeft: 2 }}>{t('Strategy')/* Strategy */}:</span>}
+              leftSection={<span style={{ fontSize: 12, whiteSpace: 'nowrap', paddingLeft: 2 }}>{t($ => $.Strategy)/* Strategy */}:</span>}
               leftSectionWidth={62} leftSectionPointerEvents='none'
               styles={{ input: { paddingLeft: 68 } }}
               data={generateStrategyOptions()}
@@ -131,7 +131,7 @@ function WarpPlanner() {
         )}
       </Paper>
     </div>
-  )
+  );
 }
 
 function QuickResultsTable(props: { targetResults: WarpTargetResult[]; request: EnrichedWarpRequest }) {
@@ -190,13 +190,13 @@ function WarpSummary(props: { enriched: EnrichedWarpRequest }) {
 function generateStrategyOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'StrategyLabels')
   return [
-    { value: String(WarpStrategy.S1), label: t('S1')/* 'S1 first' */ },
-    { value: String(WarpStrategy.E0), label: t('E0')/* 'E0 first' */ },
-    { value: String(WarpStrategy.E1), label: t('E1')/* 'E1 first' */ },
-    { value: String(WarpStrategy.E2), label: t('E2')/* 'E2 first' */ },
-    { value: String(WarpStrategy.E3), label: t('E3')/* 'E3 first' */ },
-    { value: String(WarpStrategy.E4), label: t('E4')/* 'E4 first' */ },
-    { value: String(WarpStrategy.E5), label: t('E5')/* 'E5 first' */ },
-    { value: String(WarpStrategy.E6), label: t('E6')/* 'E6 first' */ },
-  ]
+    { value: String(WarpStrategy.S1), label: t($ => $.S1)/* 'S1 first' */ },
+    { value: String(WarpStrategy.E0), label: t($ => $.E0)/* 'E0 first' */ },
+    { value: String(WarpStrategy.E1), label: t($ => $.E1)/* 'E1 first' */ },
+    { value: String(WarpStrategy.E2), label: t($ => $.E2)/* 'E2 first' */ },
+    { value: String(WarpStrategy.E3), label: t($ => $.E3)/* 'E3 first' */ },
+    { value: String(WarpStrategy.E4), label: t($ => $.E4)/* 'E4 first' */ },
+    { value: String(WarpStrategy.E5), label: t($ => $.E5)/* 'E5 first' */ },
+    { value: String(WarpStrategy.E6), label: t($ => $.E6)/* 'E6 first' */ },
+  ];
 }

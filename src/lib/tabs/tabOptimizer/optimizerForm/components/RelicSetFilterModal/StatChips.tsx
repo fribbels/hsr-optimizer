@@ -33,10 +33,10 @@ export function StatChips({ slotA, onPick }: {
             styles={chipStyles}
             onClick={() => onPick({ type: TwoPieceSlotType.Stat, value: tag })}
           >
-            {tCommon(`ShortStats.${tag}`)}
+            {tCommon($ => $.ShortStats[tag])}
             <Text span size='xs' c='dimmed' ml={4}>×{count}</Text>
           </Button>
-        )
+        );
       })}
       <Button
         variant='default'
@@ -45,8 +45,8 @@ export function StatChips({ slotA, onPick }: {
         styles={chipStyles}
         onClick={() => onPick({ type: TwoPieceSlotType.Any })}
       >
-        {t('AnyTag')}
+        {t($ => $.AnyTag)}
       </Button>
     </Group>
-  )
+  );
 }

@@ -165,7 +165,7 @@ function LeaderboardCharacterBoard({ character, sim, showSubDps, t }: {
 }) {
   const teams = sim.leaderboardTeams
   const defaultTeam = sim.teammates
-  const charName = t(`Characters.${character.id}.${character.id.startsWith('80') ? 'LongName' : 'Name'}`)
+  const charName = t($ => $.Characters[character.id][character.id.startsWith('80') ? 'LongName' : 'Name'])
 
   const rows: ReactElement[] = []
 

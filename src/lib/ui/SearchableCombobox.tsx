@@ -138,9 +138,9 @@ export function SearchableCombobox(props: {
                 </Group>
               </Combobox.Option>
             ))}
-          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t('NoResults')}</Combobox.Empty>}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t($ => $.NoResults)}</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>
-  )
+  );
 }

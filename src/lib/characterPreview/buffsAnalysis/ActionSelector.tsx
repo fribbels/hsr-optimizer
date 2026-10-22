@@ -31,7 +31,7 @@ export function ActionSelector({ rotationSteps, selectedAction, onActionChange }
   if (rotationSteps.length <= 1) return null
 
   const defaultItem: ActionItem = {
-    label: t('DefaultAction'),
+    label: t($ => $.DefaultAction),
     color: ABILITY_COLORS.ALL,
     isActive: selectedAction === null,
     onClick: () => onActionChange(null),
@@ -40,7 +40,7 @@ export function ActionSelector({ rotationSteps, selectedAction, onActionChange }
 
   const stepItems: ActionItem[] = rotationSteps.map((step, index) => {
     const meta = AbilityMeta[step.actionType as AbilityKind]
-    const label = meta?.label ? tCombo(meta.label) : step.actionType
+    const label = meta?.label ? tCombo($ => $[meta.label]) : step.actionType
 
     return {
       label: `${index + 1}. ${label}`,

@@ -132,17 +132,27 @@ export function getBuffStatShortLabel(buffStat: AKeyValue): string {
 export function resolveRulerLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {
   if (buffStat != null) {
     const stat = getBuffStatShortLabel(buffStat).toLocaleUpperCase(currentLocale())
-    return i18next.t('charactersTab:CharacterPreview.RulerLabel.buffer', { stat })
+    return i18next.t($ => $.CharacterPreview.RulerLabel.buffer, {
+      ns: "charactersTab",
+      stat
+    });
   }
-  return i18next.t(`charactersTab:CharacterPreview.RulerLabel.${entry.configType}`)
+  return i18next.t($ => $.CharacterPreview.RulerLabel[entry.configType], {
+    ns: "charactersTab"
+  });
 }
 
 export function resolveComboLabel(entry: ScoringConfigEntry, buffStat?: AKeyValue): string {
   if (buffStat != null) {
     const stat = getBuffStatShortLabel(buffStat).toLocaleUpperCase(currentLocale())
-    return i18next.t('charactersTab:CharacterPreview.ComboLabel.buffer', { stat })
+    return i18next.t($ => $.CharacterPreview.ComboLabel.buffer, {
+      ns: "charactersTab",
+      stat
+    });
   }
-  return i18next.t(`charactersTab:CharacterPreview.ComboLabel.${entry.configType}`)
+  return i18next.t($ => $.CharacterPreview.ComboLabel[entry.configType], {
+    ns: "charactersTab"
+  });
 }
 
 export const CONFIG_FIELD_MAP: Record<ScoringConfigType, MetadataFieldKey> = Object.fromEntries(

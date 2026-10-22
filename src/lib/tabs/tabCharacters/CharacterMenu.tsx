@@ -48,7 +48,7 @@ export function CharacterMenu() {
             rightSection={<IconChevronDown size={16} />}
             variant='default'
           >
-            {t('CharacterMenu.ButtonText') /* Character menu */}
+            {t($ => $.CharacterMenu.ButtonText) /* Character menu */}
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
@@ -66,7 +66,7 @@ export function CharacterMenu() {
         </Menu.Dropdown>
       </Menu>
     </>
-  )
+  );
 }
 
 function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t: TFunction<'charactersTab'>) {
@@ -75,7 +75,7 @@ function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t:
     const { focusCharacter } = useCharacterTabStore.getState()
     const selectedCharacter = getCharacterById(focusCharacter ?? undefined)
     if (!selectedCharacter && !(key === 'scoring' || key === 'sortByEffectiveSubstats' || key === 'add')) {
-      return Message.error(t('Messages.NoSelectedCharacter')) // No selected character
+      return Message.error(t($ => $.Messages.NoSelectedCharacter)); // No selected character
     }
     switch (key) {
       case 'add':
@@ -96,10 +96,12 @@ function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t:
 
       case 'delete':
         if (
-          !await confirm(
-            t('Messages.DeleteWarning', { charId: focusCharacter ?? '' }),
+          !(await confirm(
+            t($ => $.Messages.DeleteWarning, {
+              charId: focusCharacter ?? ''
+            }),
             { confirmProps: { 'data-autofocus': true } },
-          )
+          ))
         ) return
         CharacterTabController.removeFocusCharacter()
         break
@@ -126,7 +128,9 @@ function generateOnClickHandler(confirm: ReturnType<typeof useConfirmAction>, t:
         break
 
       case 'unequip':
-        if (!await confirm(t('Messages.UnequipWarning', { charId: focusCharacter ?? '' }))) return
+        if (!(await confirm(t($ => $.Messages.UnequipWarning, {
+          charId: focusCharacter ?? ''
+        })))) return
         CharacterTabController.unequipFocusCharacter()
         break
 
@@ -148,26 +152,26 @@ function generateItems(t: TFunction<'charactersTab'>) {
     {
       key: 'character group' as const,
       type: 'group' as const,
-      label: t('CharacterMenu.Character.Label'), /* Character */
+      label: t($ => $.CharacterMenu.Character.Label), /* Character */
       children: [
         {
-          label: t('CharacterMenu.Character.Options.Add'), /* Add new character */
+          label: t($ => $.CharacterMenu.Character.Options.Add), /* Add new character */
           key: 'add' as const,
         },
         {
-          label: t('CharacterMenu.Character.Options.Edit'), /* Edit character / light cone */
+          label: t($ => $.CharacterMenu.Character.Options.Edit), /* Edit character / light cone */
           key: 'edit' as const,
         },
         {
-          label: t('CharacterMenu.Character.Options.Switch'), /* Switch relics with */
+          label: t($ => $.CharacterMenu.Character.Options.Switch), /* Switch relics with */
           key: 'switchRelics' as const,
         },
         {
-          label: t('CharacterMenu.Character.Options.Unequip'), /* Unequip character */
+          label: t($ => $.CharacterMenu.Character.Options.Unequip), /* Unequip character */
           key: 'unequip' as const,
         },
         {
-          label: t('CharacterMenu.Character.Options.Delete'), /* Delete character */
+          label: t($ => $.CharacterMenu.Character.Options.Delete), /* Delete character */
           key: 'delete' as const,
         },
       ],
@@ -175,14 +179,14 @@ function generateItems(t: TFunction<'charactersTab'>) {
     {
       key: 'builds group' as const,
       type: 'group' as const,
-      label: t('CharacterMenu.Build.Label'), /* Builds */
+      label: t($ => $.CharacterMenu.Build.Label), /* Builds */
       children: [
         {
-          label: t('CharacterMenu.Build.Options.Save'), /* Save current build */
+          label: t($ => $.CharacterMenu.Build.Options.Save), /* Save current build */
           key: 'saveBuild' as const,
         },
         {
-          label: t('CharacterMenu.Build.Options.View'), /* View saved builds */
+          label: t($ => $.CharacterMenu.Build.Options.View), /* View saved builds */
           key: 'viewBuilds' as const,
         },
       ],
@@ -190,14 +194,14 @@ function generateItems(t: TFunction<'charactersTab'>) {
     {
       key: 'priority group' as const,
       type: 'group' as const,
-      label: t('CharacterMenu.Priority.Label'), /* Priority */
+      label: t($ => $.CharacterMenu.Priority.Label), /* Priority */
       children: [
         {
-          label: t('CharacterMenu.Priority.Options.SortByEffectiveSubstats'), /* Sort by effective substats */
+          label: t($ => $.CharacterMenu.Priority.Options.SortByEffectiveSubstats), /* Sort by effective substats */
           key: 'sortByEffectiveSubstats' as const,
         },
         {
-          label: t('CharacterMenu.Priority.Options.MoveToTop'), /* Move character to top */
+          label: t($ => $.CharacterMenu.Priority.Options.MoveToTop), /* Move character to top */
           key: 'moveToTop' as const,
         },
       ],
@@ -205,13 +209,13 @@ function generateItems(t: TFunction<'charactersTab'>) {
     {
       key: 'scoring group' as const,
       type: 'group' as const,
-      label: t('CharacterMenu.Scoring.Label'), /* Scoring */
+      label: t($ => $.CharacterMenu.Scoring.Label), /* Scoring */
       children: [
         {
-          label: t('CharacterMenu.Scoring.Options.ScoringModal'), /* Scoring algorithm */
+          label: t($ => $.CharacterMenu.Scoring.Options.ScoringModal), /* Scoring algorithm */
           key: 'scoring' as const,
         },
       ],
     },
-  ]
+  ];
 }

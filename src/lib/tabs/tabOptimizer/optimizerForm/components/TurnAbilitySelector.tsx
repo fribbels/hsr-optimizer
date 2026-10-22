@@ -66,10 +66,10 @@ function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter
     })
     const declared = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
     const actions = [...new Set([...declared, ...ALWAYS_INCLUDED_KINDS])]
-    return actions.map((kind) => mapKindToGroup(kind, t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`), t))
+    return actions.map((kind) => mapKindToGroup(kind, t($ => $.ComboOptions[ComboOptionsLabelMapping[kind]]), t));
   }
 
-  return ALL_ABILITIES.map((kind) => mapKindToGroup(kind, t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`), t))
+  return ALL_ABILITIES.map((kind) => mapKindToGroup(kind, t($ => $.ComboOptions[ComboOptionsLabelMapping[kind]]), t));
 }
 
 export function TurnAbilitySelector({ index, disabled }: { index: number, disabled: boolean }) {
@@ -91,7 +91,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number, disabl
     <CascaderSelect
       data={options}
       value={value || null}
-      placeholder={t('ComboOptions.Placeholder')}
+      placeholder={t($ => $.ComboOptions.Placeholder)}
       variant='unstyled'
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}
@@ -99,7 +99,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number, disabl
       disabled={disabled}
       onChange={handleChange}
     />
-  )
+  );
 }
 
 export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName, index: number }) {
@@ -114,15 +114,15 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
     <CascaderSelect
       data={options}
       value={value}
-      placeholder={t('ComboOptions.Placeholder')}
+      placeholder={t($ => $.ComboOptions.Placeholder)}
       variant='unstyled'
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}
       styles={compactInputStyles}
       disabled={true}
-      onChange={() => {}}
+      onChange={() => { }}
     />
-  )
+  );
 }
 
 export function ControlledTurnAbilitySelector({
@@ -153,11 +153,11 @@ export function ControlledTurnAbilitySelector({
       style={style}
       data={options}
       value={value || null}
-      placeholder={t('ComboOptions.Placeholder')}
+      placeholder={t($ => $.ComboOptions.Placeholder)}
       styles={{ input: { fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }}
       clearable
       onClear={handleClear}
       onChange={handleChange}
     />
-  )
+  );
 }

@@ -132,12 +132,12 @@ function buildCharacterOptions(): SearchableComboboxOption[] {
   const t = i18next.getFixedT(null, 'gameData', 'Characters')
   const chars = Object.values(getGameMetadata().characters)
   return chars
-    .sort((a, b) => t(`${a.id}.LongName`).localeCompare(t(`${b.id}.LongName`)))
+    .sort((a, b) => t($ => $[a.id].LongName).localeCompare(t($ => $[b.id].LongName)))
     .map((c) => ({
       value: c.id,
-      label: t(`${c.id}.LongName`),
+      label: t($ => $[c.id].LongName),
       icon: Assets.getCharacterAvatarById(c.id),
-    }))
+    }));
 }
 
 function computePortraitStyle(center: ImageCenter, tempInnerW: number, containerH: number) {
@@ -336,10 +336,10 @@ function LightConeCenterEditor({ showCrosshairs }: { showCrosshairs: boolean }) 
     return lcs
       .map((lc) => ({
         value: lc.id,
-        label: t(`Lightcones.${lc.id}.Name`),
+        label: t($ => $.Lightcones[lc.id].Name),
         icon: Assets.getLightConeIconById(lc.id),
       }))
-      .sort((a, b) => a.label.localeCompare(b.label))
+      .sort((a, b) => a.label.localeCompare(b.label));
   }, [t])
 
   useEffect(() => {
@@ -423,7 +423,7 @@ function LightConeCenterEditor({ showCrosshairs }: { showCrosshairs: boolean }) 
                 zIndex: 21,
               }}
             >
-              {`S5 - ${t(`Lightcones.${selectedLcId}.Name`)}`}
+              {`S5 - ${t($ => $.Lightcones[selectedLcId].Name)}`}
             </div>
           </Flex>
         )}
@@ -480,7 +480,7 @@ function LightConeCenterEditor({ showCrosshairs }: { showCrosshairs: boolean }) 
         <Button size='xs' variant='subtle' onClick={handleReset}>Reset</Button>
       </Flex>
     </Flex>
-  )
+  );
 }
 
 // =========================================== Mock Relic Factory ===========================================
@@ -557,12 +557,12 @@ function buildLightConeOptions(): SearchableComboboxOption[] {
   const t = i18next.getFixedT(null, 'gameData', 'Lightcones')
   const lcs = Object.values(getGameMetadata().lightCones)
   return lcs
-    .sort((a, b) => t(`${a.id}.Name`).localeCompare(t(`${b.id}.Name`)))
+    .sort((a, b) => t($ => $[a.id].Name).localeCompare(t($ => $[b.id].Name)))
     .map((lc) => ({
       value: lc.id,
-      label: t(`${lc.id}.Name`),
+      label: t($ => $[lc.id].Name),
       icon: Assets.getLightConeIconById(lc.id),
-    }))
+    }));
 }
 
 function CharacterPreviewEditor() {
@@ -692,7 +692,7 @@ function CharacterPreviewEditor() {
   }, [selectedCharId])
 
   // Config strings with proper character name
-  const characterName = selectedCharId ? t(`${selectedCharId}.LongName`) : 'Unknown'
+  const characterName = selectedCharId ? t($ => $[selectedCharId].LongName) : 'Unknown'
   const imageCenterString = `imageCenter: { x: ${Math.round(imageCenter.x)}, y: ${Math.round(imageCenter.y)}, z: ${
     Number(imageCenter.z.toFixed(2))
   } }, // ${characterName}`

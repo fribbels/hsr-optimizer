@@ -187,7 +187,10 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
             className={teammateClasses.teammateAvatar}
           />
 
-          <OverlayText text={t('common:EidolonNShort', { eidolon: teammate?.characterEidolon ?? 0 })} top={-12} />
+          <OverlayText text={t($ => $.EidolonNShort, {
+            ns: "common",
+            eidolon: teammate?.characterEidolon ?? 0
+          })} top={-12} />
         </div>
 
         <div className={teammateClasses.iconWrapper}>
@@ -208,13 +211,16 @@ const CharacterPreviewScoringTeammate = memo(function CharacterPreviewScoringTea
           )}
 
           <OverlayText
-            text={t('common:SuperimpositionNShort', { superimposition: teammate?.lightConeSuperimposition ?? 0 })}
+            text={t($ => $.SuperimpositionNShort, {
+              ns: "common",
+              superimposition: teammate?.lightConeSuperimposition ?? 0
+            })}
             top={-18}
           />
         </div>
       </div>
     </div>
-  )
+  );
 })
 
 export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, tempOptions, configType }: {
@@ -226,9 +232,11 @@ export const ShowcaseScoreHeader = memo(function ShowcaseScoreHeader({ relics, t
 
   let titleRender: string
   if (tempOptions?.spdBenchmark != null) {
-    titleRender = t('CharacterPreview.ScoreHeader.CustomSpeed', { spd: formatSpd(tempOptions.spdBenchmark) })
+    titleRender = t($ => $.CharacterPreview.ScoreHeader.CustomSpeed, {
+      spd: formatSpd(tempOptions.spdBenchmark)
+    })
   } else {
-    titleRender = t(`CharacterPreview.ScoreHeader.${configType}`)
+    titleRender = t($ => $.CharacterPreview.ScoreHeader[configType])
   }
 
   return (
@@ -252,9 +260,9 @@ function ShowcaseScoreHeaderReady({ relics, configType, t }: {
   if (result === null) {
     return (
       <StatText className={styles.scoreHeaderText} style={{ filter: 'blur(2px)' }}>
-        {tCommon('Loading')}
+        {tCommon($ => $.Loading)}
       </StatText>
-    )
+    );
   }
 
   const verified = Object.values(relics).filter((x) => x?.verified).length === 6
@@ -284,11 +292,11 @@ function createOnCharacterModalOk(
   return (form: CharacterModalForm): boolean => {
     const t = i18next.getFixedT(null, 'charactersTab', 'CharacterPreview.Messages')
     if (!form.characterId) {
-      Message.error(t('NoSelectedCharacter'))
+      Message.error(t($ => $.NoSelectedCharacter))
       return false
     }
     if (!form.lightCone) {
-      Message.error(t('NoSelectedLightCone'))
+      Message.error(t($ => $.NoSelectedLightCone))
       return false
     }
 
@@ -302,7 +310,7 @@ function createOnCharacterModalOk(
 
     useShowcaseTabStore.getState().setShowcaseTeamPreference(characterId, configType, CUSTOM_TEAM)
     return true
-  }
+  };
 }
 
 const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
@@ -335,7 +343,9 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
             content: (
               <div className={styles.settingsModalContent}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <HeaderText>{t('modals:ScoreFooter.ModalTitle') /* Combat sim scoring settings */}</HeaderText>
+                  <HeaderText>{t($ => $.ScoreFooter.ModalTitle, {
+                    ns: "modals"
+                  }) /* Combat sim scoring settings */}</HeaderText>
                   <Button
                     leftSection={<IconRefresh size={16} />}
                     onClick={() => {
@@ -343,10 +353,14 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
                       SaveState.delayedSave()
                       if (teamSelection !== DEFAULT_TEAM) onTeamChange(DEFAULT_TEAM)
 
-                      Message.success(t('modals:ScoreFooter.ResetSuccessMsg') /* Reset to default teams */)
+                      Message.success(t($ => $.ScoreFooter.ResetSuccessMsg, {
+                        ns: "modals"
+                      }) /* Reset to default teams */)
                     }}
                   >
-                    {t('modals:ScoreFooter.ResetButtonText') /* Reset custom team to default */}
+                    {t($ => $.ScoreFooter.ResetButtonText, {
+                      ns: "modals"
+                    }) /* Reset custom team to default */}
                   </Button>
                   <Button
                     leftSection={<IconArrowsExchange size={16} />}
@@ -355,10 +369,14 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
                       SaveState.delayedSave()
                       if (teamSelection !== CUSTOM_TEAM) onTeamChange(CUSTOM_TEAM)
 
-                      Message.success(t('modals:ScoreFooter.SyncSuccessMsg') /* Synced teammates */)
+                      Message.success(t($ => $.ScoreFooter.SyncSuccessMsg, {
+                        ns: "modals"
+                      }) /* Synced teammates */)
                     }}
                   >
-                    {t('modals:ScoreFooter.SyncButtonText') /* Sync imported eidolons / light cones */}
+                    {t($ => $.ScoreFooter.SyncButtonText, {
+                      ns: "modals"
+                    }) /* Sync imported eidolons / light cones */}
                   </Button>
                 </div>
               </div>
@@ -375,7 +393,9 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
           value: DEFAULT_TEAM,
           label: (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              {t('modals:ScoreFooter.TeamOptions.Default') /* Default */}
+              {t($ => $.ScoreFooter.TeamOptions.Default, {
+                ns: "modals"
+              }) /* Default */}
             </div>
           ),
         },
@@ -391,7 +411,9 @@ const ShowcaseTeamSelectPanel = memo(function ShowcaseTeamSelectPanel({
           value: CUSTOM_TEAM,
           label: (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              {t('modals:ScoreFooter.TeamOptions.Custom') /* Custom */}
+              {t($ => $.ScoreFooter.TeamOptions.Custom, {
+                ns: "modals"
+              }) /* Custom */}
             </div>
           ),
         },

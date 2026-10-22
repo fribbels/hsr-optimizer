@@ -42,7 +42,7 @@ function pct(v: number): string {
 }
 
 function num(v: number): string {
-  return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.?0+$/, '')
+  return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.?0+$/, '');
 }
 
 type ElementI18nKey = 'Physical' | 'Fire' | 'Ice' | 'Thunder' | 'Wind' | 'Quantum' | 'Imaginary'
@@ -77,51 +77,53 @@ function buildRows(hit: Hit, t: TFunction<'optimizerTab', 'ExpandedDataPanel'>, 
     rows.push({ value: value(v), label })
   }
 
-  add(hit.atkScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.AtkScaling'))
-  add(hit.hpScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.HpScaling'))
-  add(hit.defScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.DefScaling'))
+  add(hit.atkScaling, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.AtkScaling))
+  add(hit.hpScaling, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.HpScaling))
+  add(hit.defScaling, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.DefScaling))
 
   const addElementRow = () => {
     const i18nKey = ELEMENT_I18N_KEYS[hit.damageElement]
-    if (i18nKey) rows.push({ value: i18next.t(`gameData:Elements.${i18nKey}`), label: i18next.t('Element') })
+    if (i18nKey) rows.push({ value: i18next.t($ => $.Elements[i18nKey], {
+      ns: "gameData"
+    }), label: i18next.t($ => $.Element) })
   }
 
   switch (hit.damageFunctionType) {
     case DamageFunctionType.Crit:
-      add(hit.beScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.Crit.BeScaling'))
-      add(hit.beCap, num, t('BuffsAnalysisDisplay.HitDefinition.Crit.BeCap'))
-      add(hit.elationAtkScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.Crit.ElationAtkScaling'))
+      add(hit.beScaling, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.Crit.BeScaling))
+      add(hit.beCap, num, t($ => $.BuffsAnalysisDisplay.HitDefinition.Crit.BeCap))
+      add(hit.elationAtkScaling, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.Crit.ElationAtkScaling))
       break
     case DamageFunctionType.Dot:
-      add(hit.dotBaseChance, pct, t('BuffsAnalysisDisplay.HitDefinition.Dot.Chance'))
-      add(hit.dotSplit, num, t('BuffsAnalysisDisplay.HitDefinition.Dot.Split'))
-      add(hit.dotStacks, String, t('BuffsAnalysisDisplay.HitDefinition.Dot.Stacks'))
+      add(hit.dotBaseChance, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.Dot.Chance))
+      add(hit.dotSplit, num, t($ => $.BuffsAnalysisDisplay.HitDefinition.Dot.Split))
+      add(hit.dotStacks, String, t($ => $.BuffsAnalysisDisplay.HitDefinition.Dot.Stacks))
       break
     case DamageFunctionType.Break:
       addElementRow()
-      add(hit.specialScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.Break.SpecialScaling'))
+      add(hit.specialScaling, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.Break.SpecialScaling))
       break
     case DamageFunctionType.SuperBreak:
       addElementRow()
-      add(hit.extraSuperBreakModifier, pct, t('BuffsAnalysisDisplay.HitDefinition.SuperBreak.ExtraModifier'))
+      add(hit.extraSuperBreakModifier, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.SuperBreak.ExtraModifier))
       break
     case DamageFunctionType.Additional:
-      add(hit.crOverride, pct, t('BuffsAnalysisDisplay.HitDefinition.Additional.CrOverride'))
-      add(hit.cdOverride, pct, t('BuffsAnalysisDisplay.HitDefinition.Additional.CdOverride'))
+      add(hit.crOverride, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.Additional.CrOverride))
+      add(hit.cdOverride, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.Additional.CdOverride))
       break
     case DamageFunctionType.Elation:
-      add(hit.elationScaling, pct, t('BuffsAnalysisDisplay.HitDefinition.Elation.Scaling'))
+      add(hit.elationScaling, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.Elation.Scaling))
       if (abilityKind === AbilityKind.ELATION_SKILL) {
-        add(hit.punchlineStacks, String, t('BuffsAnalysisDisplay.HitDefinition.Elation.Punchline'))
+        add(hit.punchlineStacks, String, t($ => $.BuffsAnalysisDisplay.HitDefinition.Elation.Punchline))
       } else {
-        add(hit.punchlineStacks, String, t('BuffsAnalysisDisplay.HitDefinition.Elation.Banger'))
+        add(hit.punchlineStacks, String, t($ => $.BuffsAnalysisDisplay.HitDefinition.Elation.Banger))
       }
       break
   }
 
-  add(hit.trueDmgModifier, pct, t('BuffsAnalysisDisplay.HitDefinition.TrueDmg'))
-  add(hit.toughnessDmg, num, t('BuffsAnalysisDisplay.HitDefinition.Toughness'))
-  add(hit.fixedToughnessDmg, num, t('BuffsAnalysisDisplay.HitDefinition.FixedToughness'))
+  add(hit.trueDmgModifier, pct, t($ => $.BuffsAnalysisDisplay.HitDefinition.TrueDmg))
+  add(hit.toughnessDmg, num, t($ => $.BuffsAnalysisDisplay.HitDefinition.Toughness))
+  add(hit.fixedToughnessDmg, num, t($ => $.BuffsAnalysisDisplay.HitDefinition.FixedToughness))
 
   return rows
 }
@@ -154,7 +156,7 @@ function HitRow({ hit, isLastHit, abilityKind }: { hit: Hit, isLastHit: boolean,
 
   const rows = buildRows(hit, t, abilityKind)
   const fnLabel = FUNCTION_LABELS[hit.damageFunctionType]
-    ? t(`BuffsAnalysisDisplay.DamageFunctions.${FUNCTION_LABELS[hit.damageFunctionType]!}`)
+    ? t($ => $.BuffsAnalysisDisplay.DamageFunctions[FUNCTION_LABELS[hit.damageFunctionType]!])
     : undefined
 
   const tagPills = hit.outputTag === OutputTag.DAMAGE
@@ -162,7 +164,7 @@ function HitRow({ hit, isLastHit, abilityKind }: { hit: Hit, isLastHit: boolean,
       .filter((e) => (hit.damageType & e.tag) !== 0)
       .map((e) => {
         const active = selectedFilter != null && (e.tag & selectedFilter) !== 0
-        return renderPill(String(e.tag), e.color, t(`DamageTags.${e.key}`), { onClick: () => onFilterChange?.(e.tag), active })
+        return renderPill(String(e.tag), e.color, t($ => $.DamageTags[e.key]), { onClick: () => onFilterChange?.(e.tag), active });
       })
     : []
 
@@ -213,14 +215,14 @@ function ActionHitGroup({ action, isLastAction, t }: {
   const hits = action.hits ?? []
   if (hits.length === 0) return null
 
-  const label = t(`ComboFilter.ComboOptions.${AbilityMeta[action.actionType].label}`)
+  const label = t($ => $.ComboFilter.ComboOptions[AbilityMeta[action.actionType].label])
 
   return (
     <>
       <CardHeader label={label} />
       {hits.map((hit, i) => {
         const fnLabel = FUNCTION_LABELS[hit.damageFunctionType]
-          ? t(`ExpandedDataPanel.BuffsAnalysisDisplay.DamageFunctions.${FUNCTION_LABELS[hit.damageFunctionType]!}`)
+          ? t($ => $.ExpandedDataPanel.BuffsAnalysisDisplay.DamageFunctions[FUNCTION_LABELS[hit.damageFunctionType]!])
           : undefined
         const subHeader = hits.length > 1 && fnLabel
           ? `${i + 1}. ${fnLabel}`
@@ -237,7 +239,7 @@ function ActionHitGroup({ action, isLastAction, t }: {
         )
       })}
     </>
-  )
+  );
 }
 
 export function HitDefinitionRows({ context, selectedAction }: {

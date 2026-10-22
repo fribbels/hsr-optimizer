@@ -31,9 +31,9 @@ export function CharactersPanelSwitch() {
     <Tabs.List className={styles.list}>
       {CHARACTERS_PANELS.map((panel) => (
         <Tabs.Tab key={panel} value={panel} leftSection={PANEL_ICON[panel]}>
-          {t(PANEL_LABEL_KEY[panel])}
+          {t($ => $[PANEL_LABEL_KEY[panel]])}
         </Tabs.Tab>
       ))}
     </Tabs.List>
-  )
+  );
 }

@@ -44,16 +44,16 @@ export function WarpSettingsPanel({ form }: { form: UseFormReturnType<WarpReques
       <Flex direction='column' flex={1}>
         <Title>
           <Flex justify='center' gap={10}>
-            {t('Settings') /* Settings */}
+            {t($ => $.Settings) /* Settings */}
           </Flex>
         </Title>
 
         <div className={classes.settingsGrid}>
-          <ResourceNumberField label={t('Jades') /* Jades */} icon={Assets.getJade()} field='jades' form={form} />
-          <ResourceNumberField label={t('Passes') /* Passes */} icon={Assets.getPass()} field='passes' form={form} />
+          <ResourceNumberField label={t($ => $.Jades) /* Jades */} icon={Assets.getJade()} field='jades' form={form} />
+          <ResourceNumberField label={t($ => $.Passes) /* Passes */} icon={Assets.getPass()} field='passes' form={form} />
 
           <Flex direction='column' gap={HEADER_LABEL_GAP}>
-            <HeaderText>{t('Starlight') /* Starlight */}</HeaderText>
+            <HeaderText>{t($ => $.Starlight) /* Starlight */}</HeaderText>
             <Select
               leftSection={resourceIcon(Assets.getStarlight())}
               leftSectionWidth={34}
@@ -69,9 +69,9 @@ export function WarpSettingsPanel({ form }: { form: UseFormReturnType<WarpReques
           </Flex>
 
           <Flex direction='column' gap={HEADER_LABEL_GAP} style={{ overflow: 'hidden' }}>
-            <HeaderText>{t('AdditionalResources') /* Additional resources */}</HeaderText>
+            <HeaderText>{t($ => $.AdditionalResources) /* Additional resources */}</HeaderText>
             <MultiSelectPills
-              placeholder={tCommon('None')}
+              placeholder={tCommon($ => $.None)}
               clearable
               size='xs'
               maxDisplayedValues={0}
@@ -94,19 +94,19 @@ export function WarpSettingsPanel({ form }: { form: UseFormReturnType<WarpReques
 
       <Flex direction='column' flex={1}>
         <Flex>
-          <Title flex={1}>{t('Character') /* Character */}</Title>
-          <Title flex={1}>{t('LightCone') /* Light Cone */}</Title>
+          <Title flex={1}>{t($ => $.Character) /* Character */}</Title>
+          <Title flex={1}>{t($ => $.LightCone) /* Light Cone */}</Title>
         </Flex>
 
         <div className={classes.settingsGrid}>
-          <PityField label={tPity('PityCounter') /* Pity counter */} field='pityCharacter' max={89} form={form} />
-          <PityField label={tPity('PityCounter') /* Pity counter */} field='pityLightCone' max={79} form={form} />
-          <GuaranteedField label={tPity('Guaranteed') /* Guaranteed */} field='guaranteedCharacter' form={form} />
-          <GuaranteedField label={tPity('Guaranteed') /* Guaranteed */} field='guaranteedLightCone' form={form} />
+          <PityField label={tPity($ => $.PityCounter) /* Pity counter */} field='pityCharacter' max={89} form={form} />
+          <PityField label={tPity($ => $.PityCounter) /* Pity counter */} field='pityLightCone' max={79} form={form} />
+          <GuaranteedField label={tPity($ => $.Guaranteed) /* Guaranteed */} field='guaranteedCharacter' form={form} />
+          <GuaranteedField label={tPity($ => $.Guaranteed) /* Guaranteed */} field='guaranteedLightCone' form={form} />
         </div>
       </Flex>
     </Flex>
-  )
+  );
 }
 
 function Title(props: { children: ReactNode, flex?: number }) {
@@ -188,31 +188,33 @@ function generateIncomeOptions() {
   const types = [WarpIncomeType.F2P, WarpIncomeType.EXPRESS, WarpIncomeType.BP_EXPRESS]
 
   return types.map((type) => ({
-    group: t(`Type.${type}`),
+    group: t($ => $.Type[type]),
     items: WarpIncomeOptions
       .filter((option) => option.type === type)
       .map((option) => {
         const totalPhases = Math.max(...WarpIncomeOptions.filter((o) => o.type === type && o.version === option.version).map((o) => o.phase))
-        const labelPrefix = t('Label', {
+        const labelPrefix = t($ => $.Label, {
           versionNumber: option.version,
           phaseNumber: option.phase,
-          totalPhases: totalPhases,
-          type: t(`Type.${option.type}`),
+          totalPhases,
+          type: t($ => $.Type[option.type])
         })
         return {
           value: option.id,
           label: `${labelPrefix} +${localeNumberComma(option.passes)}`,
         }
       }),
-  }))
+  }));
 }
 
 function generateStarlightOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'RefundLabels')
   return Object.values(StarlightRefund).map((refund) => ({
     value: refund,
-    label: t(`${refund}_FULL`, { Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG) }),
-  }))
+    label: t($ => $[refund]._FULL, {
+      Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG)
+    }),
+  }));
 }
 
 function refundLabel(starlight: StarlightRefund, showDecimal: boolean = false) {

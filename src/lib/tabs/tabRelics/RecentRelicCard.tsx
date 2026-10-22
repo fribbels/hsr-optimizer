@@ -63,7 +63,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
       .map((id) => ({
         id,
         rarity: chars[id].rarity,
-        name: tCharacters(`${id}.Name`),
+        name: tCharacters($ => $[id].Name),
         score: RelicScorer.scoreRelicPotential(relic, id, false),
         isSelected: id === scoringCharacter,
         icon: Assets.getCharacterAvatarById(id),
@@ -84,7 +84,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
         const bRank = characterList.findIndex((c) => c.id === b.id)
         return (aRank === -1 ? 999 : aRank) - (bRank === -1 ? 999 : bRank)
       })
-      .slice(0, 5)
+      .slice(0, 5);
   }, [relic, scoringCharacter, excludedRelicPotentialCharacters, tCharacters])
 
   // Skip render if no relic
@@ -133,7 +133,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                 className={classes.sectionLabel}
                 style={{ color: token.colorTextSecondary }}
               >
-                {t('Potential') /* POTENTIAL */}
+                {t($ => $.Potential) /* POTENTIAL */}
               </div>
             </div>
 
@@ -147,13 +147,13 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                 className={classes.statText}
                 style={{ color: token.colorTextSecondary }}
               >
-                {t('Avg') /* AVG */}: <span className={classes.scoreHighlight} style={{ color: getColorAtPercent(avgPotential) }}>{avgPotential}%</span>
+                {t($ => $.Avg) /* AVG */}: <span className={classes.scoreHighlight} style={{ color: getColorAtPercent(avgPotential) }}>{avgPotential}%</span>
               </div>
               <div
                 className={classes.statText}
                 style={{ color: token.colorTextSecondary }}
               >
-                {t('Max') /* MAX */}: <span className={classes.scoreHighlight} style={{ color: getColorAtPercent(maxPotential) }}>{maxPotential}%</span>
+                {t($ => $.Max) /* MAX */}: <span className={classes.scoreHighlight} style={{ color: getColorAtPercent(maxPotential) }}>{maxPotential}%</span>
               </div>
             </div>
           </div>
@@ -169,7 +169,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                 className={classes.sectionLabel}
                 style={{ color: token.colorTextSecondary }}
               >
-                {t('BestFor') /* BEST FOR */}
+                {t($ => $.BestFor) /* BEST FOR */}
               </div>
 
               <div className={classes.characterList} style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
@@ -207,7 +207,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                           </div>
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                          <Tooltip label={t('Tooltip') /* Average and maximum potential scores for this character */}>
+                          <Tooltip label={t($ => $.Tooltip) /* Average and maximum potential scores for this character */}>
                             <div className={classes.scoreText}>
                               <span style={{ color: getColorAtPercent(avgPct) }}>{avgPct}%</span>
                               <span style={{ color: token.colorTextSecondary }}>/</span>
@@ -222,7 +222,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
                         <Progress.Section value={maxPct - avgPct} color={getColorAtPercent(maxPct)} />
                       </Progress.Root>
                     </div>
-                  )
+                  );
                 })}
               </div>
             </div>
@@ -230,7 +230,7 @@ export const RecentRelicCard = memo((props: RelicCardProps) => {
         )}
       </div>
     </div>
-  )
+  );
 })
 
 RecentRelicCard.displayName = 'RecentRelicCard'

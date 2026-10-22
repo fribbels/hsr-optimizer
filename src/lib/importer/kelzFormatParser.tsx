@@ -240,7 +240,7 @@ function generateBuffedCharacterIdMap() {
     const unbuffedId = id.replace(/b\d+/g, '') as CharacterId
     record[unbuffedId] = id
     return record
-  }, {} as Partial<Record<CharacterId, CharacterId>>)
+  }, {} as Partial<Record<CharacterId, CharacterId>>);
 }
 
 export const buffedCharacters = generateBuffedCharacterIdMap()
@@ -367,9 +367,10 @@ function parseMainStat(relic: V4ParserRelic, part: string) {
 function readRelicStats(relic: V4ParserRelic, substatList: V4ParserSubstat[], part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
   const mainStat = parseMainStat(relic, part)
   if (!mainStat) {
-    throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
+    throw new Error(i18next.t($ => $.Import.ParserError.BadMainstat, {
+      ns: "importSaveTab",
       mainstat: relic.mainstat,
-      part,
+      part
     }) /* `Could not parse mainstat for relic with mainstat ${relic.mainstat} and part ${part}` */)
   }
   const partId = mapPartIdToIndex(part)

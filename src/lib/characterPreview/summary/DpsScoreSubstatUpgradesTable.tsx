@@ -95,7 +95,7 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta, configType }: 
     >
       <Table.Thead>
         <Table.Tr>
-          <Table.Th className={styles.headerCell}>{t('SubStatUpgrade')}</Table.Th>
+          <Table.Th className={styles.headerCell}>{t($ => $.SubStatUpgrade)}</Table.Th>
           {sharedCols.map((col) => <Table.Th key={col.key} className={styles.centeredCell}>{col.title}</Table.Th>)}
         </Table.Tr>
       </Table.Thead>
@@ -113,7 +113,9 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta, configType }: 
               <div style={{ display: 'flex' }}>
                 <img src={Assets.getStatIcon(stat)} className={styles.statIcon} style={{ width: iconSize, height: iconSize }} />
                 <span className={styles.statLabel}>
-                  {t('AddedRoll', { stat: tCommon(stat) })}
+                  {t($ => $.AddedRoll, {
+                    stat: tCommon($ => $[stat])
+                  })}
                 </span>
               </div>
             </Table.Td>
@@ -122,7 +124,7 @@ export const DpsScoreSubstatUpgradesTable = memo(function({ meta, configType }: 
         ))}
       </Table.Tbody>
     </Table>
-  )
+  );
 })
 
 const SuspendedValues = memo(function({ stat, resolvedScore, upgradeByStatMap, sharedCols }: {

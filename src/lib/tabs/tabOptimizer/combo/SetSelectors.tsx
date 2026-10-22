@@ -69,7 +69,7 @@ export function SetSelectors() {
       <SetSelector
         selected={displayedRelicSets}
         options={relicSetOptions}
-        placeholder={t('Sets')} // 'Relic set conditionals'
+        placeholder={t($ => $.Sets)} // 'Relic set conditionals'
         submit={(arr) => {
           useComboDrawerStore.getState().updateSelectedSets(arr, false)
           persistSelectedSets()
@@ -78,12 +78,12 @@ export function SetSelectors() {
       <SetSelector
         selected={displayedOrnamentSets}
         options={ornamentOptions}
-        placeholder={t('Ornaments')} // 'Ornament set conditionals'
+        placeholder={t($ => $.Ornaments)} // 'Ornament set conditionals'
         submit={(arr) => {
           useComboDrawerStore.getState().updateSelectedSets(arr, true)
           persistSelectedSets()
         }}
       />
     </Flex>
-  )
+  );
 }

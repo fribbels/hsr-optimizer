@@ -13,7 +13,7 @@ export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, star
   const { t } = useTranslation('modals', { keyPrefix: 'ManyPerms' })
   return (
     <Modal
-      title={t('Title') /* Very large search requested */}
+      title={t($ => $.Title) /* Very large search requested */}
       opened={manyPermsModalOpen}
       size={900}
       centered
@@ -23,7 +23,7 @@ export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, star
         <Flex direction='column' style={{ marginTop: 30, marginBottom: 15 }} gap={16}>
           <div>
             {
-              t('Text')
+              t($ => $.Text)
               // This optimization search will take a substantial amount of time to finish.
               // You may want to enable the GPU acceleration setting or limit the search to only certain sets and main stats,
               // or use the Substat weight filter to reduce the number of permutations.
@@ -34,7 +34,7 @@ export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, star
               onClick={() => setManyPermsModalOpen(false)}
               style={{ width: 250 }}
             >
-              {t('Cancel') /* Cancel search */}
+              {t($ => $.Cancel) /* Cancel search */}
             </Button>
             <Button
               onClick={() => {
@@ -43,11 +43,11 @@ export function ManyPermsModal({ manyPermsModalOpen, setManyPermsModalOpen, star
               }}
               style={{ width: 250 }}
             >
-              {t('Proceed') /* Proceed with search */}
+              {t($ => $.Proceed) /* Proceed with search */}
             </Button>
           </Flex>
         </Flex>
       )}
     </Modal>
-  )
+  );
 }

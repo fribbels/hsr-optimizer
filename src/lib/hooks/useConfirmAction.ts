@@ -16,14 +16,14 @@ export function useConfirmAction() {
   return useCallback((content: ReactNode, options?: ConfirmActionOptions) => {
     return new Promise<boolean>((resolve) => {
       modals.openConfirmModal({
-        title: t('Confirm'),
+        title: t($ => $.Confirm),
         children: content,
-        labels: { confirm: t('Confirm'), cancel: t('Cancel') },
+        labels: { confirm: t($ => $.Confirm), cancel: t($ => $.Cancel) },
         centered: true,
         confirmProps: options?.confirmProps,
         onConfirm: () => resolve(true),
         onCancel: () => resolve(false),
       })
-    })
-  }, [t])
+    });
+  }, [t]);
 }

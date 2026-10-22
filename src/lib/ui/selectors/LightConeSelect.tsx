@@ -124,7 +124,7 @@ export function LightConeSelect({
         readOnly
         style={selectStyle}
         value={selectedLabel}
-        placeholder={t('Placeholder')}
+        placeholder={t($ => $.Placeholder)}
         onClick={open}
         rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
         rightSection={clearable && value
@@ -147,7 +147,7 @@ export function LightConeSelect({
         centered
         size='90%'
         styles={LC_MODAL_STYLES}
-        title={t('Title')}
+        title={t($ => $.Title)}
       >
         {isOpen && (
           <div className={classes.modalContent}>
@@ -155,7 +155,7 @@ export function LightConeSelect({
               <TextInput
                 className={classes.searchInput}
                 styles={SEARCH_INPUT_STYLES}
-                placeholder={t('Placeholder')}
+                placeholder={t($ => $.Placeholder)}
                 ref={inputRef}
                 autoFocus
                 onChange={setNameFilter}
@@ -203,5 +203,5 @@ export function LightConeSelect({
         )}
       </Modal>
     </>
-  )
+  );
 }

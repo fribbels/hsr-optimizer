@@ -168,7 +168,7 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
 
   return (
     <Stack gap={0}>
-      <Divider label={t('SelectedHeader')} labelPosition='center' mx='sm' mt='xs' />
+      <Divider label={t($ => $.SelectedHeader)} labelPosition='center' mx='sm' mt='xs' />
 
       <ResultsCollector
         checked4p={checked4p}
@@ -186,14 +186,14 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
         <Stack gap={10}>
           <TextInput
             data-autofocus
-            placeholder={t('SearchPlaceholder')}
+            placeholder={t($ => $.SearchPlaceholder)}
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
             size='xs'
             rightSection={search && <CloseButton size='xs' onClick={() => setSearch('')} />}
           />
 
-          <Divider label={t('RelicListHeader')} labelPosition='center' />
+          <Divider label={t($ => $.RelicListHeader)} labelPosition='center' />
 
           <Group gap={10} wrap='nowrap'>
             <SegmentedControl
@@ -201,8 +201,8 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
               onChange={handleModeSwitch}
               size='xs'
               data={[
-                { label: t('4pcLabel'), value: RelicSetMode.FourPiece },
-                { label: t('2pcLabel'), value: RelicSetMode.TwoPiece },
+                { label: t($ => $["4pcLabel"]), value: RelicSetMode.FourPiece },
+                { label: t($ => $["2pcLabel"]), value: RelicSetMode.TwoPiece },
               ]}
             />
             {mode === RelicSetMode.TwoPiece && <StatChips slotA={slotA} onPick={pick2p} />}
@@ -215,7 +215,7 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
             search={search}
           />
 
-          <Divider label={t('OrnamentListHeader')} labelPosition='center' />
+          <Divider label={t($ => $.OrnamentListHeader)} labelPosition='center' />
           <SetGrid
             configs={ornamentIndexToSetConfig}
             checkedNames={checkedOrnaments as Set<string>}
@@ -226,9 +226,9 @@ export function RelicSetFilterModalContent({ close }: { close: () => void }) {
       </Box>
 
       <Group className={classes.footer} p='sm' justify='flex-end' gap={6}>
-        <Button variant='default' size='xs' onClick={handleRevert}>{t('Revert')}</Button>
-        <Button variant='filled' size='xs' onClick={close}>{t('Done')}</Button>
+        <Button variant='default' size='xs' onClick={handleRevert}>{t($ => $.Revert)}</Button>
+        <Button variant='filled' size='xs' onClick={close}>{t($ => $.Done)}</Button>
       </Group>
     </Stack>
-  )
+  );
 }

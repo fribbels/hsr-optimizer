@@ -79,7 +79,7 @@ const TraceTreeNode = ({
               isFlat(node.stat)
                 ? node.value.toFixed(1)
                 : precisionRound(node.value * 100) + '%'
-            } - ${tCommon(`Stats.${node.stat}`)}`}
+            } - ${tCommon($ => $.Stats[node.stat])}`}
           </div>
         </Flex>
       </Flex>
@@ -99,7 +99,7 @@ const TraceTreeNode = ({
         </Collapse>
       )}
     </div>
-  )
+  );
 }
 
 function StatTracesDrawerContent({ close }: { close: () => void }) {
@@ -191,7 +191,7 @@ function StatTracesDrawerContent({ close }: { close: () => void }) {
     SaveState.delayedSave()
 
     setTimeout(() => {
-      Message.success(tCommon('Saved'))
+      Message.success(tCommon($ => $.Saved))
       setLoading(false)
       close()
     }, 500)
@@ -200,7 +200,7 @@ function StatTracesDrawerContent({ close }: { close: () => void }) {
   return (
     <Flex direction='column' gap={15} style={{ display: statTraceDrawerFocusCharacter ? 'flex' : 'none' }}>
       <HeaderText>
-        {t('Header') /* Activated stat traces (all enabled by default) */}
+        {t($ => $.Header) /* Activated stat traces (all enabled by default) */}
       </HeaderText>
 
       <div className={classes.treeContainer}>
@@ -221,10 +221,10 @@ function StatTracesDrawerContent({ close }: { close: () => void }) {
         loading={loading}
         onClick={handleSave}
       >
-        {t('ButtonText') /* Save changes */}
+        {t($ => $.ButtonText) /* Save changes */}
       </Button>
     </Flex>
-  )
+  );
 }
 
 export function StatTracesDrawer() {
@@ -233,7 +233,7 @@ export function StatTracesDrawer() {
 
   return (
     <Drawer
-      title={t('Title')}
+      title={t($ => $.Title)}
       position='right'
       onClose={closeTracesDrawer}
       opened={isOpenTracesDrawer}
@@ -241,5 +241,5 @@ export function StatTracesDrawer() {
     >
       {isOpenTracesDrawer && <StatTracesDrawerContent close={closeTracesDrawer} />}
     </Drawer>
-  )
+  );
 }

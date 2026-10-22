@@ -35,7 +35,7 @@ function openConfirmModal(t: TFunction<'relicScorerTab', 'DPSScoreDisclaimer'>) 
         {/* I will not compare Combo DMG or DPS Score against different teams, light cones, eidolons, or versions. */}
       </Text>
     ),
-    labels: { confirm: tCommon('Confirm'), cancel: tCommon('Cancel') },
+    labels: { confirm: tCommon($ => $.Confirm), cancel: tCommon($ => $.Cancel) },
     centered: true,
     cancelProps: { variant: 'subtle' },
     styles: {

@@ -23,7 +23,7 @@ export function arrowDirection(increase: boolean) {
 
 export function toI18NVisual(ability: TurnAbility, t: TFunction<'optimizerTab', 'ComboFilter'>): string {
   if (!ability || ability === NULL_TURN_ABILITY) return ''
-  const abilityKindVisual: string = t(`ComboOptions.${ComboOptionsLabelMapping[ability.kind]}`)
+  const abilityKindVisual = t(($) => $.ComboOptions[ComboOptionsLabelMapping[ability.kind]])
 
   switch (ability.marker) {
     case TurnMarker.START:

@@ -109,14 +109,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedSkill: {
       id: 'enhancedSkill',
       formItem: 'switch',
-      text: t('Content.enhancedSkill.text'),
-      content: t('Content.enhancedSkill.content', { skillEnhancedScaling: precisionRound(100 * skillEnhancedScaling) }),
+      text: t(($) => $.Content.enhancedSkill.text),
+      content: t(($) => $.Content.enhancedSkill.content, { skillEnhancedScaling: precisionRound(100 * skillEnhancedScaling) }),
     },
     targetBurned: {
       id: 'targetBurned',
       formItem: 'switch',
-      text: t('Content.targetBurned.text'),
-      content: t('Content.targetBurned.content', { targetBurnedExtraScaling: precisionRound(100 * targetBurnedExtraScaling) }),
+      text: t(($) => $.Content.targetBurned.text),
+      content: t(($) => $.Content.targetBurned.content, { targetBurnedExtraScaling: precisionRound(100 * targetBurnedExtraScaling) }),
     },
   }
 

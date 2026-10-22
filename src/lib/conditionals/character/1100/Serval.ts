@@ -102,14 +102,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     targetShocked: {
       id: 'targetShocked',
       formItem: 'switch',
-      text: t('Content.targetShocked.text'),
-      content: t('Content.targetShocked.content', { talentExtraDmgScaling: precisionRound(100 * talentExtraDmgScaling) }),
+      text: t(($) => $.Content.targetShocked.text),
+      content: t(($) => $.Content.targetShocked.content, { talentExtraDmgScaling: precisionRound(100 * talentExtraDmgScaling) }),
     },
     enemyDefeatedBuff: {
       id: 'enemyDefeatedBuff',
       formItem: 'switch',
-      text: t('Content.enemyDefeatedBuff.text'),
-      content: t('Content.enemyDefeatedBuff.content'),
+      text: t(($) => $.Content.enemyDefeatedBuff.text),
+      content: t(($) => $.Content.enemyDefeatedBuff.content),
     },
   }
 

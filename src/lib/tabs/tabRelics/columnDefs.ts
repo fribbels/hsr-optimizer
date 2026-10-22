@@ -16,136 +16,136 @@ import { Renderer } from 'lib/rendering/renderer'
 export function generateValueColumnOptions(t: TFunction<'relicsTab', 'RelicGrid'>) {
   return [
     {
-      label: t('ValueColumns.SelectedCharacter.Label'), /* Selected character */
+      label: t(($) => $.ValueColumns.SelectedCharacter.Label), /* Selected character */
       options: [
         /* 'Selected Char\nScore' | 'Selected character: Score' */
         {
-          column: t('ValueColumns.SelectedCharacter.ScoreCol.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.ScoreCol.Header),
           value: 'weights.currentPct',
-          label: t('ValueColumns.SelectedCharacter.ScoreCol.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.ScoreCol.Label),
           percent: true,
         },
         /* 'Selected Char\nAvg Potential' | 'Selected character: Average potential' */
         {
-          column: t('ValueColumns.SelectedCharacter.AvgPotCol.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.AvgPotCol.Header),
           value: 'weights.potentialSelected.averagePct',
-          label: t('ValueColumns.SelectedCharacter.AvgPotCol.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.AvgPotCol.Label),
           percent: true,
         },
         /* 'Selected Char\nMax Potential' | 'Selected character: Max potential' */
         {
-          column: t('ValueColumns.SelectedCharacter.MaxPotCol.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.MaxPotCol.Header),
           value: 'weights.potentialSelected.bestPct',
-          label: t('ValueColumns.SelectedCharacter.MaxPotCol.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.MaxPotCol.Label),
           percent: true,
         },
         // Selected Char\nReroll Avg | Selected character: Reroll average potential
         {
-          column: t('ValueColumns.SelectedCharacter.RerollAvg.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.RerollAvg.Header),
           value: 'weights.rerollAvgSelected',
-          label: t('ValueColumns.SelectedCharacter.RerollAvg.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.RerollAvg.Label),
           percent: true,
         },
         // Selected Char\nΔ Reroll Avg | Selected character: Reroll average delta potential
         {
-          column: t('ValueColumns.SelectedCharacter.RerollAvgDelta.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.RerollAvgDelta.Header),
           value: 'weights.rerollAvgSelectedDelta',
-          label: t('ValueColumns.SelectedCharacter.RerollAvgDelta.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.RerollAvgDelta.Label),
           percent: true,
         },
         // Selected Char\n∆ Reroll AVG\nVS Equipped | Selected character: Reroll average delta potential vs equipped
         {
-          column: t('ValueColumns.SelectedCharacter.RerollAvgEquippedDelta.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.RerollAvgEquippedDelta.Header),
           value: 'weights.rerollAvgSelectedEquippedDelta',
-          label: t('ValueColumns.SelectedCharacter.RerollAvgEquippedDelta.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.RerollAvgEquippedDelta.Label),
           percent: true,
         },
         // Selected Char\nBlocked Reroll\nAvg| Selected character: Blocked reroll average potential
         {
-          column: t('ValueColumns.SelectedCharacter.BlockedRerollAvg.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.BlockedRerollAvg.Header),
           value: 'weights.blockedRerollAvgSelected',
-          label: t('ValueColumns.SelectedCharacter.BlockedRerollAvg.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.BlockedRerollAvg.Label),
           percent: true,
         },
         // Selected Char\nΔ Blocked Reroll\nAvg | Selected character: Blocked reroll average delta potential
         {
-          column: t('ValueColumns.SelectedCharacter.BlockedRerollAvgDelta.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.BlockedRerollAvgDelta.Header),
           value: 'weights.blockedRerollAvgSelectedDelta',
-          label: t('ValueColumns.SelectedCharacter.BlockedRerollAvgDelta.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.BlockedRerollAvgDelta.Label),
           percent: true,
         },
         // Selected Char\n∆ Blocked Reroll\nAVG VS Equipped | Selected character: Blocked reroll average delta potential vs equipped
         {
-          column: t('ValueColumns.SelectedCharacter.BlockedRerollAvgEquippedDelta.Header'),
+          column: t(($) => $.ValueColumns.SelectedCharacter.BlockedRerollAvgEquippedDelta.Header),
           value: 'weights.blockedRerollAvgSelectedEquippedDelta',
-          label: t('ValueColumns.SelectedCharacter.BlockedRerollAvgEquippedDelta.Label'),
+          label: t(($) => $.ValueColumns.SelectedCharacter.BlockedRerollAvgEquippedDelta.Label),
           percent: true,
           width: 80,
         },
       ],
     },
     {
-      label: t('ValueColumns.CustomCharacters.Label'), /* Custom characters */
+      label: t(($) => $.ValueColumns.CustomCharacters.Label), /* Custom characters */
       options: [
         /* 'Custom Chars\nAvg Potential' | 'Custom characters: Average potential' */
         {
-          column: t('ValueColumns.CustomCharacters.AvgPotCol.Header'),
+          column: t(($) => $.ValueColumns.CustomCharacters.AvgPotCol.Header),
           value: 'weights.potentialAllCustom.averagePct',
-          label: t('ValueColumns.CustomCharacters.AvgPotCol.Label'),
+          label: t(($) => $.ValueColumns.CustomCharacters.AvgPotCol.Label),
           percent: true,
         },
         /* 'Custom Chars\nMax Potential' | 'Custom characters: Max potential' */
         {
-          column: t('ValueColumns.CustomCharacters.MaxPotCol.Header'),
+          column: t(($) => $.ValueColumns.CustomCharacters.MaxPotCol.Header),
           value: 'weights.potentialAllCustom.bestPct',
-          label: t('ValueColumns.CustomCharacters.MaxPotCol.Label'),
+          label: t(($) => $.ValueColumns.CustomCharacters.MaxPotCol.Label),
           percent: true,
         },
         // Custom Chars\nAvg Reroll | Custom characters: Average reroll potential
         {
-          column: t('ValueColumns.CustomCharacters.RerollAvg.Header'),
+          column: t(($) => $.ValueColumns.CustomCharacters.RerollAvg.Header),
           value: 'weights.rerollAllCustom',
-          label: t('ValueColumns.CustomCharacters.RerollAvg.Label'),
+          label: t(($) => $.ValueColumns.CustomCharacters.RerollAvg.Label),
           percent: true,
         },
         // Custom Chars\nAvg Blocked Reroll | Custom characters: Average blocked reroll potential
         {
-          column: t('ValueColumns.CustomCharacters.BlockedRerollAvg.Header'),
+          column: t(($) => $.ValueColumns.CustomCharacters.BlockedRerollAvg.Header),
           value: 'weights.blockedRerollAllCustom',
-          label: t('ValueColumns.CustomCharacters.BlockedRerollAvg.Label'),
+          label: t(($) => $.ValueColumns.CustomCharacters.BlockedRerollAvg.Label),
           percent: true,
         },
       ],
     },
     {
-      label: t('ValueColumns.AllCharacters.Label'), /* All characters */
+      label: t(($) => $.ValueColumns.AllCharacters.Label), /* All characters */
       options: [
         /* 'All Chars\nAvg Potential' | 'All characters: Average potential' */
         {
-          column: t('ValueColumns.AllCharacters.AvgPotCol.Header'),
+          column: t(($) => $.ValueColumns.AllCharacters.AvgPotCol.Header),
           value: 'weights.potentialAllAll.averagePct',
-          label: t('ValueColumns.AllCharacters.AvgPotCol.Label'),
+          label: t(($) => $.ValueColumns.AllCharacters.AvgPotCol.Label),
           percent: true,
         },
         /* 'All Chars\nMax Potential' | 'All characters: Max potential' */
         {
-          column: t('ValueColumns.AllCharacters.MaxPotCol.Header'),
+          column: t(($) => $.ValueColumns.AllCharacters.MaxPotCol.Header),
           value: 'weights.potentialAllAll.bestPct',
-          label: t('ValueColumns.AllCharacters.MaxPotCol.Label'),
+          label: t(($) => $.ValueColumns.AllCharacters.MaxPotCol.Label),
           percent: true,
         },
         // All Chars\nAvg Reroll | All characters: Average reroll potential
         {
-          column: t('ValueColumns.AllCharacters.RerollAvg.Header'),
+          column: t(($) => $.ValueColumns.AllCharacters.RerollAvg.Header),
           value: 'weights.rerollAllAll',
-          label: t('ValueColumns.AllCharacters.RerollAvg.Label'),
+          label: t(($) => $.ValueColumns.AllCharacters.RerollAvg.Label),
           percent: true,
         },
         // All Chars\nAvg Blocked Reroll | All characters: Average blocked reroll potential
         {
-          column: t('ValueColumns.AllCharacters.BlockedRerollAvg.Header'),
+          column: t(($) => $.ValueColumns.AllCharacters.BlockedRerollAvg.Header),
           value: 'weights.blockedRerollAllAll',
-          label: t('ValueColumns.AllCharacters.BlockedRerollAvg.Label'),
+          label: t(($) => $.ValueColumns.AllCharacters.BlockedRerollAvg.Label),
           percent: true,
         },
       ],
@@ -185,13 +185,13 @@ export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>):
   return [
     {
       field: 'equippedBy',
-      headerName: t('Headers.EquippedBy'),
+      headerName: t(($) => $.Headers.EquippedBy),
       width: 40,
       cellRenderer: CharacterIconCellRenderer,
     },
     {
       field: 'set',
-      headerName: t('Headers.Set'),
+      headerName: t(($) => $.Headers.Set),
       width: 40,
       cellRenderer: AnySetCellRenderer,
     },
@@ -209,91 +209,91 @@ export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>):
     },
     {
       field: 'part',
-      headerName: t('Headers.Part'),
+      headerName: t(($) => $.Headers.Part),
       width: 55,
       valueFormatter: Renderer.readablePart,
     },
     {
       field: 'main.stat',
-      headerName: t('Headers.MainStat'),
+      headerName: t(($) => $.Headers.MainStat),
       width: 78,
       valueFormatter: Renderer.readableStat,
     },
     {
       field: 'main.value',
-      headerName: t('Headers.MainValue'),
+      headerName: t(($) => $.Headers.MainValue),
       width: 50,
       valueFormatter: Renderer.mainValueRenderer,
     },
     {
       field: `augmentedStats.${Stats.HP_P}`,
-      headerName: t('Headers.HPP'),
+      headerName: t(($) => $.Headers.HPP),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.ATK_P}`,
-      headerName: t('Headers.ATKP'),
+      headerName: t(($) => $.Headers.ATKP),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.DEF_P}`,
-      headerName: t('Headers.DEFP'),
+      headerName: t(($) => $.Headers.DEFP),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.HP}`,
-      headerName: t('Headers.HP'),
+      headerName: t(($) => $.Headers.HP),
       valueFormatter: Renderer.hideZeroesFloor,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.ATK}`,
-      headerName: t('Headers.ATK'),
+      headerName: t(($) => $.Headers.ATK),
       valueFormatter: Renderer.hideZeroesFloor,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.DEF}`,
-      headerName: t('Headers.DEF'),
+      headerName: t(($) => $.Headers.DEF),
       valueFormatter: Renderer.hideZeroesFloor,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.SPD}`,
-      headerName: t('Headers.SPD'),
+      headerName: t(($) => $.Headers.SPD),
       valueFormatter: Renderer.hideZeroes10thsRelicTabSpd,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.CR}`,
-      headerName: t('Headers.CR'),
+      headerName: t(($) => $.Headers.CR),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.CD}`,
-      headerName: t('Headers.CD'),
+      headerName: t(($) => $.Headers.CD),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.EHR}`,
-      headerName: t('Headers.EHR'),
+      headerName: t(($) => $.Headers.EHR),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.RES}`,
-      headerName: t('Headers.RES'),
+      headerName: t(($) => $.Headers.RES),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },
     {
       field: `augmentedStats.${Stats.BE}`,
-      headerName: t('Headers.BE'),
+      headerName: t(($) => $.Headers.BE),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },
@@ -301,7 +301,7 @@ export function generateBaselineColDefs(t: TFunction<'relicsTab', 'RelicGrid'>):
       // we use colId when applying the gradient, default value is the field, cv has no associated field so we need to explicitly set the id
       colId: 'cv',
       valueGetter: calculateCv,
-      headerName: t('Headers.CV'),
+      headerName: t(($) => $.Headers.CV),
       valueFormatter: Renderer.hideZeroesX100Tenths,
       cellStyle: Gradient.getRelicGradient,
     },

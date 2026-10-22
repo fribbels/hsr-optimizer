@@ -146,49 +146,49 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     buffPriority: {
       id: 'buffPriority',
       formItem: 'select',
-      text: tBuff('Text'),
-      content: tBuff('Content'),
+      text: tBuff(($) => $.Text),
+      content: tBuff(($) => $.Content),
       options: [
-        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
+        { display: tBuff(($) => $.Self), value: BuffPriority.SELF, label: tBuff(($) => $.Self) },
+        { display: tBuff(($) => $.Memo), value: BuffPriority.MEMO, label: tBuff(($) => $.Memo) },
       ],
       fullWidth: true,
     },
     memoTalentDmgBuff: {
       id: 'memoTalentDmgBuff',
       formItem: 'switch',
-      text: t('Content.memoTalentDmgBuff.text'),
-      content: t('Content.memoTalentDmgBuff.content', {
+      text: t(($) => $.Content.memoTalentDmgBuff.text),
+      content: t(($) => $.Content.memoTalentDmgBuff.content, {
         MemoTalentDmgBuff: precisionRound(100 * memoTalentDmgBoost),
       }),
     },
     traceCritBuffs: {
       id: 'traceCritBuffs',
       formItem: 'switch',
-      text: t('Content.traceCritBuffs.text'),
-      content: t('Content.traceCritBuffs.content'),
+      text: t(($) => $.Content.traceCritBuffs.text),
+      content: t(($) => $.Content.traceCritBuffs.content),
     },
     skillMemoCdBuff: {
       id: 'skillMemoCdBuff',
       formItem: 'switch',
-      text: t('Content.skillMemoCdBuff.text'),
-      content: t('Content.skillMemoCdBuff.content', {
+      text: t(($) => $.Content.skillMemoCdBuff.text),
+      content: t(($) => $.Content.skillMemoCdBuff.content, {
         SkillMemoCdBuff: precisionRound(100 * skillCdScaling),
       }),
     },
     talentMemoCdBuff: {
       id: 'talentMemoCdBuff',
       formItem: 'switch',
-      text: t('Content.talentMemoCdBuff.text'),
-      content: t('Content.talentMemoCdBuff.content', {
+      text: t(($) => $.Content.talentMemoCdBuff.text),
+      content: t(($) => $.Content.talentMemoCdBuff.content, {
         TalentCdScaling: precisionRound(100 * talentCdScaling),
       }),
     },
     memoriaStacks: {
       id: 'memoriaStacks',
       formItem: 'slider',
-      text: t('Content.memoriaStacks.text'),
-      content: t('Content.memoriaStacks.content', {
+      text: t(($) => $.Content.memoriaStacks.text),
+      content: t(($) => $.Content.memoriaStacks.content, {
         MemoSkillScaling: precisionRound(100 * memoSkillScaling),
         MemoSkillAdditionalScaling: precisionRound(100 * memoSkillAdditionalScaling),
         MemoSkillEnhancedScaling: precisionRound(100 * memoSkillEnhancedScaling),
@@ -199,8 +199,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedState: {
       id: 'enhancedState',
       formItem: 'switch',
-      text: t('Content.enhancedState.text'),
-      content: t('Content.enhancedState.content', {
+      text: t(($) => $.Content.enhancedState.text),
+      content: t(($) => $.Content.enhancedState.content, {
         UltVulnScaling: precisionRound(100 * ultVulnScaling),
         UltDmgBoostScaling: precisionRound(100 * ultDmgBoostScaling),
       }),
@@ -208,35 +208,35 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: t('Content.cyreneSpecialEffect.text'),
-      content: t('Content.cyreneSpecialEffect.content'),
+      text: t(($) => $.Content.cyreneSpecialEffect.text),
+      content: t(($) => $.Content.cyreneSpecialEffect.content),
     },
     e1FinalDmg: {
       id: 'e1FinalDmg',
       formItem: 'switch',
-      text: t('Content.e1FinalDmg.text'),
-      content: t('Content.e1FinalDmg.content'),
+      text: t(($) => $.Content.e1FinalDmg.text),
+      content: t(($) => $.Content.e1FinalDmg.content),
       disabled: e < 1,
     },
     e2CdBuff: {
       id: 'e2CdBuff',
       formItem: 'switch',
-      text: t('Content.e2CdBuff.text'),
-      content: t('Content.e2CdBuff.content'),
+      text: t(($) => $.Content.e2CdBuff.text),
+      content: t(($) => $.Content.e2CdBuff.content),
       disabled: e < 2,
     },
     e4Buffs: {
       id: 'e4Buffs',
       formItem: 'switch',
-      text: t('Content.e4Buffs.text'),
-      content: t('Content.e4Buffs.content'),
+      text: t(($) => $.Content.e4Buffs.text),
+      content: t(($) => $.Content.e4Buffs.content),
       disabled: e < 4,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: t('Content.e6ResPen.text'),
-      content: t('Content.e6ResPen.content'),
+      text: t(($) => $.Content.e6ResPen.text),
+      content: t(($) => $.Content.e6ResPen.content),
       disabled: e < 6,
     },
   }
@@ -247,14 +247,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     skillMemoCdBuff: {
       id: 'skillMemoCdBuff',
       formItem: 'switch',
-      text: t('TeammateContent.skillMemoCdBuff.text'),
-      content: t('TeammateContent.skillMemoCdBuff.content', { SkillCdScaling: precisionRound(100 * skillCdScaling) }),
+      text: t(($) => $.TeammateContent.skillMemoCdBuff.text),
+      content: t(($) => $.TeammateContent.skillMemoCdBuff.content, { SkillCdScaling: precisionRound(100 * skillCdScaling) }),
     },
     evernightCombatCD: {
       id: 'evernightCombatCD',
       formItem: 'slider',
-      text: t('TeammateContent.evernightCombatCD.text'),
-      content: t('TeammateContent.evernightCombatCD.content', { SkillCdScaling: precisionRound(100 * skillCdScaling) }),
+      text: t(($) => $.TeammateContent.evernightCombatCD.text),
+      content: t(($) => $.TeammateContent.evernightCombatCD.content, { SkillCdScaling: precisionRound(100 * skillCdScaling) }),
       min: 0,
       max: 5.00,
       percent: true,

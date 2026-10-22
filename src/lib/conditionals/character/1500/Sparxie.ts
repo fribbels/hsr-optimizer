@@ -164,22 +164,22 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     enhancedBasic: {
       id: 'enhancedBasic',
       formItem: 'switch',
-      text: t('enhancedBasic.text'),
-      content: t('enhancedBasic.content'),
+      text: t(($) => $.enhancedBasic.text),
+      content: t(($) => $.enhancedBasic.content),
     },
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: t('punchlineStacks.text'),
-      content: t('punchlineStacks.content'),
+      text: t(($) => $.punchlineStacks.text),
+      content: t(($) => $.punchlineStacks.content),
       min: 0,
       max: 100,
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: t('certifiedBangerStacks.text'),
-      content: t('certifiedBangerStacks.content', {
+      text: t(($) => $.certifiedBangerStacks.text),
+      content: t(($) => $.certifiedBangerStacks.content, {
         ebaAdjacentScaling: precisionRound(100 * talentEngagementElationScaling),
         ebaPrimaryScaling: precisionRound(100 * talentMainElationScaling),
         ebaBounceScaling: precisionRound(100 * talentEngagementElationScaling),
@@ -191,16 +191,16 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     engagementFarmingStacks: {
       id: 'engagementFarmingStacks',
       formItem: 'slider',
-      text: t('engagementFarmingStacks.text'),
-      content: t('engagementFarmingStacks.content', { ebaBounceScaling: precisionRound(100 * talentEngagementElationScaling) }),
+      text: t(($) => $.engagementFarmingStacks.text),
+      content: t(($) => $.engagementFarmingStacks.content, { ebaBounceScaling: precisionRound(100 * talentEngagementElationScaling) }),
       min: 0,
       max: 20,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: t('certifiedBanger.text'),
-      content: t('certifiedBanger.content', {
+      text: t(($) => $.certifiedBanger.text),
+      content: t(($) => $.certifiedBanger.content, {
         ebaAdjacentScaling: precisionRound(100 * talentEngagementElationScaling),
         ebaPrimaryScaling: precisionRound(100 * talentMainElationScaling),
         ebaBounceScaling: precisionRound(100 * talentEngagementElationScaling),
@@ -210,27 +210,27 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     atkToElation: {
       id: 'atkToElation',
       formItem: 'switch',
-      text: t('atkToElation.text'),
-      content: t('atkToElation.content'),
+      text: t(($) => $.atkToElation.text),
+      content: t(($) => $.atkToElation.content),
     },
     punchlineCritDmg: {
       id: 'punchlineCritDmg',
       formItem: 'switch',
-      text: t('punchlineCritDmg.text'),
-      content: t('punchlineCritDmg.content'),
+      text: t(($) => $.punchlineCritDmg.text),
+      content: t(($) => $.punchlineCritDmg.content),
     },
     e1PunchlineResPen: {
       id: 'e1PunchlineResPen',
       formItem: 'switch',
-      text: t('e1PunchlineResPen.text'),
-      content: t('e1PunchlineResPen.content'),
+      text: t(($) => $.e1PunchlineResPen.text),
+      content: t(($) => $.e1PunchlineResPen.content),
       disabled: e < 1,
     },
     e2ThrillStacks: {
       id: 'e2ThrillStacks',
       formItem: 'slider',
-      text: t('e2ThrillStacks.text'),
-      content: t('e2ThrillStacks.content'),
+      text: t(($) => $.e2ThrillStacks.text),
+      content: t(($) => $.e2ThrillStacks.content),
       min: 0,
       max: 4,
       disabled: e < 2,
@@ -238,15 +238,15 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
     e4UltElation: {
       id: 'e4UltElation',
       formItem: 'switch',
-      text: t('e4UltElation.text'),
-      content: t('e4UltElation.content'),
+      text: t(($) => $.e4UltElation.text),
+      content: t(($) => $.e4UltElation.content),
       disabled: e < 4,
     },
     e6ResPen: {
       id: 'e6ResPen',
       formItem: 'switch',
-      text: t('e6ResPen.text'),
-      content: t('e6ResPen.content'),
+      text: t(($) => $.e6ResPen.text),
+      content: t(($) => $.e6ResPen.content),
       disabled: e < 6,
     },
   }
@@ -338,7 +338,10 @@ const conditionals: CharacterConditionalFunction = (e, withContent) => {
       const elationSkillHit = HitDefinitionBuilder.elation()
         .damageType(DamageTag.ELATION)
         .damageElement(ElementTag.Fire)
-        .elationScaling((elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount) * ascensionElationSkillMultiplierByTier[getAhaAscension(action)])
+        .elationScaling(
+          (elationSkillAoeScaling + totalBounces * elationSkillBounceScaling / context.enemyCount)
+            * ascensionElationSkillMultiplierByTier[getAhaAscension(action)],
+        )
         .punchlineStacks(punchlineStacks)
         .toughnessDmg(6.67 + 1.67 * totalBounces / context.enemyCount)
         .build()

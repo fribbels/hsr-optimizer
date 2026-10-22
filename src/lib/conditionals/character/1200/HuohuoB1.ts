@@ -103,21 +103,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultBuff: {
       id: 'ultBuff',
       formItem: 'switch',
-      text: t('Content.ultBuff.text'),
-      content: t('Content.ultBuff.content', { ultBuffValue: precisionRound(100 * ultBuffValue) }),
+      text: t(($) => $.Content.ultBuff.text),
+      content: t(($) => $.Content.ultBuff.content, { ultBuffValue: precisionRound(100 * ultBuffValue) }),
     },
     skillBuff: {
       id: 'skillBuff',
       formItem: 'switch',
-      text: t('Content.skillBuff.text'),
-      content: t('Content.skillBuff.content'),
+      text: t(($) => $.Content.skillBuff.text),
+      content: t(($) => $.Content.skillBuff.content),
       disabled: e < 1,
     },
     e6DmgBuff: {
       id: 'e6DmgBuff',
       formItem: 'switch',
-      text: t('Content.e6DmgBuff.text'),
-      content: t('Content.e6DmgBuff.content'),
+      text: t(($) => $.Content.e6DmgBuff.text),
+      content: t(($) => $.Content.e6DmgBuff.content),
       disabled: e < 6,
     },
   }

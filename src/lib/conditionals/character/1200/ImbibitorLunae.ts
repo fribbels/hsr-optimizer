@@ -115,8 +115,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     basicEnhanced: {
       id: 'basicEnhanced',
       formItem: 'slider',
-      text: t('Content.basicEnhanced.text'),
-      content: t('Content.basicEnhanced.content', {
+      text: t(($) => $.Content.basicEnhanced.text),
+      content: t(($) => $.Content.basicEnhanced.content, {
         basicScaling: precisionRound(100 * basicScaling),
         basicEnhanced1Scaling: precisionRound(100 * basicEnhanced1Scaling),
         basicEnhanced2Scaling: precisionRound(100 * basicEnhanced2Scaling),
@@ -128,24 +128,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     skillOutroarStacks: {
       id: 'skillOutroarStacks',
       formItem: 'slider',
-      text: t('Content.skillOutroarStacks.text'),
-      content: t('Content.skillOutroarStacks.content', { outroarStackCdValue: precisionRound(100 * outroarStackCdValue) }),
+      text: t(($) => $.Content.skillOutroarStacks.text),
+      content: t(($) => $.Content.skillOutroarStacks.content, { outroarStackCdValue: precisionRound(100 * outroarStackCdValue) }),
       min: 0,
       max: 4,
     },
     talentRighteousHeartStacks: {
       id: 'talentRighteousHeartStacks',
       formItem: 'slider',
-      text: t('Content.talentRighteousHeartStacks.text'),
-      content: t('Content.talentRighteousHeartStacks.content', { righteousHeartDmgValue: precisionRound(100 * righteousHeartDmgValue) }),
+      text: t(($) => $.Content.talentRighteousHeartStacks.text),
+      content: t(($) => $.Content.talentRighteousHeartStacks.content, { righteousHeartDmgValue: precisionRound(100 * righteousHeartDmgValue) }),
       min: 0,
       max: righteousHeartStackMax,
     },
     e6ResPenStacks: {
       id: 'e6ResPenStacks',
       formItem: 'slider',
-      text: t('Content.e6ResPenStacks.text'),
-      content: t('Content.e6ResPenStacks.content'),
+      text: t(($) => $.Content.e6ResPenStacks.text),
+      content: t(($) => $.Content.e6ResPenStacks.content),
       min: 0,
       max: 3,
       disabled: e < 6,

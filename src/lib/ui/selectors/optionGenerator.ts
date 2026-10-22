@@ -18,7 +18,7 @@ export function generateCharacterOptions() {
 
   for (const value of Object.values(characterData)) {
     value.value = value.id
-    value.label = t(`${value.id}.LongName`)
+    value.label = t(($) => $[value.id].LongName)
     value.deprecated = isPreNovaflare(value.id)
   }
 
@@ -38,7 +38,7 @@ export function generateLightConeOptions(characterId?: CharacterId) {
 
   for (const value of Object.values(lcData)) {
     value.value = value.id
-    value.label = t(`${value.id}.Name`)
+    value.label = t(($) => $[value.id].Name)
   }
 
   return Object.values(lcData)

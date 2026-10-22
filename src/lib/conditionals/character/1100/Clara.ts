@@ -116,8 +116,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultBuff: {
       id: 'ultBuff',
       formItem: 'switch',
-      text: t('Content.ultBuff.text'),
-      content: t('Content.ultBuff.content', {
+      text: t(($) => $.Content.ultBuff.text),
+      content: t(($) => $.Content.ultBuff.content, {
         ultFuaExtraScaling: precisionRound(100 * ultFuaExtraScaling),
         ultDmgReductionValue: precisionRound(100 * ultDmgReductionValue),
       }),
@@ -125,21 +125,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentEnemyMarked: {
       id: 'talentEnemyMarked',
       formItem: 'switch',
-      text: t('Content.talentEnemyMarked.text'),
-      content: t('Content.talentEnemyMarked.content', { skillScaling: precisionRound(100 * skillScaling) }),
+      text: t(($) => $.Content.talentEnemyMarked.text),
+      content: t(($) => $.Content.talentEnemyMarked.content, { skillScaling: precisionRound(100 * skillScaling) }),
     },
     e2UltAtkBuff: {
       id: 'e2UltAtkBuff',
       formItem: 'switch',
-      text: t('Content.e2UltAtkBuff.text'),
-      content: t('Content.e2UltAtkBuff.content'),
+      text: t(($) => $.Content.e2UltAtkBuff.text),
+      content: t(($) => $.Content.e2UltAtkBuff.content),
       disabled: e < 2,
     },
     e4DmgReductionBuff: {
       id: 'e4DmgReductionBuff',
       formItem: 'switch',
-      text: t('Content.e4DmgReductionBuff.text'),
-      content: t('Content.e4DmgReductionBuff.content'),
+      text: t(($) => $.Content.e4DmgReductionBuff.text),
+      content: t(($) => $.Content.e4DmgReductionBuff.content),
       disabled: e < 4,
     },
   }

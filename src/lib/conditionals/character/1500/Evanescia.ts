@@ -97,9 +97,9 @@ export const EvanesciaAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Evanescia.Content')
-  const betaContent = i18next.t($ => $.BetaMessage, {
+  const betaContent = i18next.t(($) => $.BetaMessage, {
     ns: 'conditionals',
-    Version: CURRENT_DATA_VERSION
+    Version: CURRENT_DATA_VERSION,
   })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.ULT_BASIC_ELATION_SKILL_3_SKILL_TALENT_ELATION_SKILL_5
   const {
@@ -169,16 +169,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: t('punchlineStacks.text'),
-      content: t('punchlineStacks.content'),
+      text: t(($) => $.punchlineStacks.text),
+      content: t(($) => $.punchlineStacks.content),
       min: 0,
       max: 100,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: t('certifiedBanger.text'),
-      content: t('certifiedBanger.content', {
+      text: t(($) => $.certifiedBanger.text),
+      content: t(($) => $.certifiedBanger.content, {
         skillElationScaling: precisionRound(100 * talentSkillElationScaling),
         ultElationScaling: precisionRound(100 * talentUltAoeElationScaling),
         ultBounceElationScaling: precisionRound(100 * talentUltBounceElationScaling),
@@ -188,8 +188,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: t('certifiedBangerStacks.text'),
-      content: t('certifiedBangerStacks.content', {
+      text: t(($) => $.certifiedBangerStacks.text),
+      content: t(($) => $.certifiedBangerStacks.content, {
         skillElationScaling: precisionRound(100 * talentSkillElationScaling),
         ultElationScaling: precisionRound(100 * talentUltAoeElationScaling),
         ultBounceElationScaling: precisionRound(100 * talentUltBounceElationScaling),
@@ -207,41 +207,41 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     cdToElation: {
       id: 'cdToElation',
       formItem: 'switch',
-      text: t('cdToElation.text'),
-      content: t('cdToElation.content'),
+      text: t(($) => $.cdToElation.text),
+      content: t(($) => $.cdToElation.content),
     },
     masterFoxVuln: {
       id: 'masterFoxVuln',
       formItem: 'switch',
-      text: t('masterFoxVuln.text'),
-      content: t('masterFoxVuln.content'),
+      text: t(($) => $.masterFoxVuln.text),
+      content: t(($) => $.masterFoxVuln.content),
     },
     e1ResPen: {
       id: 'e1ResPen',
       formItem: 'switch',
-      text: t('e1ResPen.text'),
-      content: t('e1ResPen.content'),
+      text: t(($) => $.e1ResPen.text),
+      content: t(($) => $.e1ResPen.content),
       disabled: e < 1,
     },
     e2CritDmg: {
       id: 'e2CritDmg',
       formItem: 'switch',
-      text: t('e2CritDmg.text'),
-      content: t('e2CritDmg.content'),
+      text: t(($) => $.e2CritDmg.text),
+      content: t(($) => $.e2CritDmg.content),
       disabled: e < 2,
     },
     e4DefPen: {
       id: 'e4DefPen',
       formItem: 'switch',
-      text: t('e4DefPen.text'),
-      content: t('e4DefPen.content'),
+      text: t(($) => $.e4DefPen.text),
+      content: t(($) => $.e4DefPen.content),
       disabled: e < 4,
     },
     e6Merrymake: {
       id: 'e6Merrymake',
       formItem: 'switch',
-      text: t('e6Merrymake.text'),
-      content: t('e6Merrymake.content'),
+      text: t(($) => $.e6Merrymake.text),
+      content: t(($) => $.e6Merrymake.content),
       disabled: e < 6,
     },
   }

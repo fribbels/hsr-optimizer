@@ -43,7 +43,7 @@ export const RelicsTabController = {
   editClicked() {
     const { selectedRelicId } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
-    if (!selectedRelicId) return Message.error(t('NoRelicSelected'))
+    if (!selectedRelicId) return Message.error(t(($) => $.NoRelicSelected))
     const relic = getRelicById(selectedRelicId)
     if (!relic) return
     useRelicModalStore.getState().openOverlay({
@@ -63,12 +63,12 @@ export const RelicsTabController = {
   deleteConfirmed() {
     const { selectedRelicsIds, setSelectedRelicsIds } = useRelicsTabStore.getState()
     const t = i18next.getFixedT(null, 'relicsTab', 'Messages')
-    if (!selectedRelicsIds.length) return Message.error(t('NoRelicSelected'))
+    if (!selectedRelicsIds.length) return Message.error(t(($) => $.NoRelicSelected))
     setSelectedRelicsIds([])
     selectedRelicsIds.forEach((id) => equipmentService.removeRelic(id))
     SaveState.permitEmptySave()
     SaveState.delayedSave()
-    Message.success(t('DeleteRelicSuccess'))
+    Message.success(t(($) => $.DeleteRelicSuccess))
   },
 
   onRelicModalOk(relic: Relic) {
@@ -82,7 +82,7 @@ export const RelicsTabController = {
       equipmentService.upsertRelicWithEquipment(relic)
       setSelectedRelicsIds([relic.id])
       SaveState.delayedSave()
-      Message.success(t('AddRelicSuccess'))
+      Message.success(t(($) => $.AddRelicSuccess))
 
       setTimeout(() => {
         const api = gridStore.relicsGridApi()

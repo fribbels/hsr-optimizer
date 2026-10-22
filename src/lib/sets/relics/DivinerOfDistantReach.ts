@@ -40,7 +40,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Diviner',
+  conditionalI18nKey: 'Diviner',
   modifiable: true,
   defaultValue: true,
 } as const satisfies SetDisplay
@@ -70,8 +70,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.DivinerOfDistantReach,
-    label: (t) => t('TeammateSets.Diviner.Text'),
-    desc: (t) => t('TeammateSets.Diviner.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Diviner.Text),
+    desc: (t) => t(($) => $.TeammateSets.Diviner.Desc),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.ELATION, 0.10, x.targets(TargetTag.FullTeam).source(Source.DivinerOfDistantReach))

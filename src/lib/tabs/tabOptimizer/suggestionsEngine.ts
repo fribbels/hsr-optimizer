@@ -28,6 +28,7 @@ import {
 import { navigateTo } from 'lib/tabs/navigation/utils'
 import { recalculatePermutations } from 'lib/tabs/tabOptimizer/optimizerForm/optimizerFormActions'
 import type { Form } from 'types/form'
+import type Resources from 'types/resources'
 
 // ---- Zero Permutations ----
 
@@ -46,89 +47,145 @@ export enum ZeroPermRootCause {
   MINIMUM_ROLLS = 'MINIMUM_ROLLS',
 }
 
+type SelectorInput = Resources['modals']
+
 function mainStatFixes(part: Exclude<Parts, typeof Parts.Head | typeof Parts.Hands>) {
   return {
-    descriptionKey: `0Perms.RootCauses.${part}_MAIN.Description` as const,
-    buttonTextKey: `0Perms.RootCauses.${part}_MAIN.ButtonText` as const,
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses[`${part}_MAIN`].Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses[`${part}_MAIN`].ButtonText
+    },
     applyFix: () => {
       useOptimizerRequestStore.getState().setMainStats(`main${part}` as MainStatPart, [])
     },
-    successMessageKey: `0Perms.RootCauses.${part}_MAIN.SuccessMessage` as const,
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses[`${part}_MAIN`].SuccessMessage
+    },
   }
 }
 
 export const ZeroPermRootCauseFixes = {
   [ZeroPermRootCause.IMPORT]: {
-    descriptionKey: '0Perms.RootCauses.IMPORT.Description',
-    buttonTextKey: '0Perms.RootCauses.IMPORT.ButtonText',
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.IMPORT.Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.IMPORT.ButtonText
+    },
     applyFix: () => {
       navigateTo(AppPages.IMPORT)
       setClose(OpenCloseIDs.ZERO_PERMS_MODAL)
     },
-    successMessageKey: '0Perms.RootCauses.IMPORT.SuccessMessage',
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.IMPORT.SuccessMessage
+    },
   },
   [ZeroPermRootCause.BODY_MAIN]: mainStatFixes(Parts.Body),
   [ZeroPermRootCause.FEET_MAIN]: mainStatFixes(Parts.Feet),
   [ZeroPermRootCause.PLANAR_SPHERE_MAIN]: mainStatFixes(Parts.PlanarSphere),
   [ZeroPermRootCause.LINK_ROPE_MAIN]: mainStatFixes(Parts.LinkRope),
   [ZeroPermRootCause.RELIC_SETS]: {
-    descriptionKey: '0Perms.RootCauses.RELIC_SETS.Description',
-    buttonTextKey: '0Perms.RootCauses.RELIC_SETS.ButtonText',
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.RELIC_SETS.Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.RELIC_SETS.ButtonText
+    },
     applyFix: () => {
       const current = useOptimizerRequestStore.getState().setFilters
       useOptimizerRequestStore.getState().setSetFilters({ ...current, fourPiece: [], twoPieceCombos: [] })
     },
-    successMessageKey: '0Perms.RootCauses.RELIC_SETS.SuccessMessage',
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.RELIC_SETS.SuccessMessage
+    },
   },
   [ZeroPermRootCause.ORNAMENT_SETS]: {
-    descriptionKey: '0Perms.RootCauses.ORNAMENT_SETS.Description',
-    buttonTextKey: '0Perms.RootCauses.ORNAMENT_SETS.ButtonText',
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.ORNAMENT_SETS.Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.ORNAMENT_SETS.ButtonText
+    },
     applyFix: () => {
       const current = useOptimizerRequestStore.getState().setFilters
       useOptimizerRequestStore.getState().setSetFilters({ ...current, ornaments: [] })
     },
-    successMessageKey: '0Perms.RootCauses.ORNAMENT_SETS.SuccessMessage',
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.ORNAMENT_SETS.SuccessMessage
+    },
   },
   [ZeroPermRootCause.KEEP_CURRENT]: {
-    descriptionKey: '0Perms.RootCauses.KEEP_CURRENT.Description',
-    buttonTextKey: '0Perms.RootCauses.KEEP_CURRENT.ButtonText',
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.KEEP_CURRENT.Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.KEEP_CURRENT.ButtonText
+    },
     applyFix: () => {
       useOptimizerRequestStore.getState().setRelicFilterField('keepCurrentRelics', false)
     },
-    successMessageKey: '0Perms.RootCauses.KEEP_CURRENT.SuccessMessage',
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.KEEP_CURRENT.SuccessMessage
+    },
   },
   [ZeroPermRootCause.PRIORITY]: {
-    descriptionKey: '0Perms.RootCauses.PRIORITY.Description',
-    buttonTextKey: '0Perms.RootCauses.PRIORITY.ButtonText',
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.PRIORITY.Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.PRIORITY.ButtonText
+    },
     applyFix: () => {
       useCharacterStore.getState().insertCharacter(useOptimizerDisplayStore.getState().focusCharacterId!, 0)
       recalculatePermutations()
     },
-    successMessageKey: '0Perms.RootCauses.PRIORITY.SuccessMessage',
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.PRIORITY.SuccessMessage
+    },
   },
   [ZeroPermRootCause.EXCLUDE_ENABLED]: {
-    descriptionKey: '0Perms.RootCauses.EXCLUDE_ENABLED.Description',
-    buttonTextKey: '0Perms.RootCauses.EXCLUDE_ENABLED.ButtonText',
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.EXCLUDE_ENABLED.Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.EXCLUDE_ENABLED.ButtonText
+    },
     applyFix: () => {
       useOptimizerRequestStore.getState().setRelicFilterField('exclude', [])
     },
-    successMessageKey: '0Perms.RootCauses.EXCLUDE_ENABLED.SuccessMessage',
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.EXCLUDE_ENABLED.SuccessMessage
+    },
   },
   [ZeroPermRootCause.EQUIPPED_DISABLED]: {
-    descriptionKey: '0Perms.RootCauses.EQUIPPED_DISABLED.Description',
-    buttonTextKey: '0Perms.RootCauses.EQUIPPED_DISABLED.ButtonText',
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.EQUIPPED_DISABLED.Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.EQUIPPED_DISABLED.ButtonText
+    },
     applyFix: () => {
       useOptimizerRequestStore.getState().setRelicFilterField('includeEquippedRelics', true)
     },
-    successMessageKey: '0Perms.RootCauses.EQUIPPED_DISABLED.SuccessMessage',
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.EQUIPPED_DISABLED.SuccessMessage
+    },
   },
   [ZeroPermRootCause.MINIMUM_ROLLS]: {
-    descriptionKey: '0Perms.RootCauses.MINIMUM_ROLLS.Description',
-    buttonTextKey: '0Perms.RootCauses.MINIMUM_ROLLS.ButtonText',
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.MINIMUM_ROLLS.Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.MINIMUM_ROLLS.ButtonText
+    },
     applyFix: () => {
       useOptimizerRequestStore.getState().setWeight('minWeightedRolls', 0)
     },
-    successMessageKey: '0Perms.RootCauses.MINIMUM_ROLLS.SuccessMessage',
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Perms'].RootCauses.MINIMUM_ROLLS.SuccessMessage
+    },
   },
 } as const
 
@@ -274,13 +331,17 @@ export enum ZeroResultRootCause {
   STAT_VIEW = 'STAT_VIEW',
 }
 
-function filterFixes(filter: ZeroResultRootCause) {
+function filterFixes(filter: Exclude<ZeroResultRootCause, ZeroResultRootCause.STAT_VIEW>) {
   const split = filter.split('_')
   const formAddress = split[0].toLowerCase()
     + split.slice(1).map((s) => s[0] + s.slice(1).toLowerCase()).join('')
   return {
-    descriptionKey: `0Results.RootCauses.${filter}.Description` as const,
-    buttonTextKey: `0Results.RootCauses.${filter}.ButtonText` as const,
+    descriptionSelector: (input: SelectorInput) => {
+      return input['0Results'].RootCauses[filter].Description
+    },
+    buttonTextSelector: (input: SelectorInput) => {
+      return input['0Results'].RootCauses[filter].ButtonText
+    },
     applyFix: () => {
       const store = useOptimizerRequestStore.getState()
       if (formAddress in store.statFilters) {
@@ -289,7 +350,9 @@ function filterFixes(filter: ZeroResultRootCause) {
         store.setRatingFilter(formAddress as keyof RatingFilterState, undefined)
       }
     },
-    successMessageKey: `0Results.RootCauses.${filter}.SuccessMessage` as const,
+    successMessageSelector: (input: SelectorInput) => {
+      return input['0Results'].RootCauses[filter].SuccessMessage
+    },
   }
 }
 
@@ -335,13 +398,19 @@ export const ZeroResultRootCauseFixes = {
   [ZeroResultRootCause.MAX_COMBO]: filterFixes(ZeroResultRootCause.MAX_COMBO),
   [ZeroResultRootCause.MIN_COMBO]: filterFixes(ZeroResultRootCause.MIN_COMBO),
   [ZeroResultRootCause.STAT_VIEW]: {
-    descriptionKey: `0Results.RootCauses.StatView.Description`,
-    buttonTextKey: `0Results.RootCauses.StatView.ButtonText`,
+    descriptionKey: (input: SelectorInput) => {
+      return input['0Results'].RootCauses.StatView.Description
+    },
+    buttonTextKey: (input: SelectorInput) => {
+      return input['0Results'].RootCauses.StatView.ButtonText
+    },
     applyFix: () => {
       const setStatDisplay = useOptimizerRequestStore.getState().setStatDisplay
       setStatDisplay('combat')
     },
-    successMessageKey: '0Results.RootCauses.StatView.SuccessMessage',
+    successMessageKey: (input: SelectorInput) => {
+      return input['0Results'].RootCauses.StatView.SuccessMessage
+    },
   },
 } as const
 

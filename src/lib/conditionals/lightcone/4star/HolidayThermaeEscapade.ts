@@ -35,8 +35,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'vulnerability',
       formItem: 'switch',
-      text: t('vulnerability.text'),
-      content: t('vulnerability.content', { Vulnerability: precisionRound(100 * sValuesVulnerability[s]) }),
+      text: t(($) => $.vulnerability.text),
+      content: t(($) => $.vulnerability.content, { Vulnerability: precisionRound(100 * sValuesVulnerability[s]) }),
     },
   }
 

@@ -128,20 +128,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     skillDefShred: {
       id: 'skillDefShred',
       formItem: 'switch',
-      text: t('Content.skillDefShred.text'),
-      content: t('Content.skillDefShred.content', { skillDefShredScaling: precisionRound(100 * skillDefShredValue) }),
+      text: t(($) => $.Content.skillDefShred.text),
+      content: t(($) => $.Content.skillDefShred.content, { skillDefShredScaling: precisionRound(100 * skillDefShredValue) }),
     },
     epiphanyDebuff: {
       id: 'epiphanyDebuff',
       formItem: 'switch',
-      text: t('Content.epiphanyDebuff.text'),
-      content: t('Content.epiphanyDebuff.content', { epiphanyVulnerability: precisionRound(100 * epiphanyDmgTakenBoost) }),
+      text: t(($) => $.Content.epiphanyDebuff.text),
+      content: t(($) => $.Content.epiphanyDebuff.content, { epiphanyVulnerability: precisionRound(100 * epiphanyDmgTakenBoost) }),
     },
     arcanaStacks: {
       id: 'arcanaStacks',
       formItem: 'slider',
-      text: t('Content.arcanaStacks.text'),
-      content: t('Content.arcanaStacks.content', {
+      text: t(($) => $.Content.arcanaStacks.text),
+      content: t(($) => $.Content.arcanaStacks.content, {
         dotBaseScaling: precisionRound(100 * dotScaling),
         arcanaAdditionalScaling: precisionRound(100 * arcanaStackMultiplier),
         arcanaStackLimit,
@@ -152,14 +152,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ehrToDmgBoost: {
       id: 'ehrToDmgBoost',
       formItem: 'switch',
-      text: t('Content.ehrToDmgBoost.text'),
-      content: t('Content.ehrToDmgBoost.content', {}),
+      text: t(($) => $.Content.ehrToDmgBoost.text),
+      content: t(($) => $.Content.ehrToDmgBoost.content, {}),
     },
     tickCoefficient: {
       id: 'tickCoefficient',
       formItem: 'slider',
-      text: tDot('Text'),
-      content: tDot('Content'),
+      text: tDot(($) => $.Text),
+      content: tDot(($) => $.Content),
       min: 0,
       max: 10,
       percent: true,
@@ -167,15 +167,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e1ResReduction: {
       id: 'e1ResReduction',
       formItem: 'switch',
-      text: t('Content.e1ResReduction.text'),
-      content: t('Content.e1ResReduction.content', {}),
+      text: t(($) => $.Content.e1ResReduction.text),
+      content: t(($) => $.Content.e1ResReduction.content, {}),
       disabled: e < 1,
     },
     e4Vulnerability: {
       id: 'e4Vulnerability',
       formItem: 'switch',
-      text: t('Content.e4Vulnerability.text'),
-      content: t('Content.e4Vulnerability.content', {}),
+      text: t(($) => $.Content.e4Vulnerability.text),
+      content: t(($) => $.Content.e4Vulnerability.content, {}),
       disabled: e < 4,
     },
   }
@@ -187,8 +187,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     combatEhr: {
       id: 'combatEhr',
       formItem: 'slider',
-      text: t('TeammateContent.combatEhr.text'),
-      content: t('TeammateContent.combatEhr.content'),
+      text: t(($) => $.TeammateContent.combatEhr.text),
+      content: t(($) => $.TeammateContent.combatEhr.content),
       min: 0,
       max: 1.20,
       percent: true,

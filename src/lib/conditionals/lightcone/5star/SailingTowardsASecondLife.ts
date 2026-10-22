@@ -45,15 +45,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'breakDmgDefShred',
       formItem: 'switch',
-      text: t('Content.breakDmgDefShred.text'),
-      content: t('Content.breakDmgDefShred.content', { DefIgnore: precisionRound(100 * sValuesDefShred[s]) }),
+      text: t(($) => $.Content.breakDmgDefShred.text),
+      content: t(($) => $.Content.breakDmgDefShred.content, { DefIgnore: precisionRound(100 * sValuesDefShred[s]) }),
     },
     spdBuffConditional: {
       lc: true,
       id: 'spdBuffConditional',
       formItem: 'switch',
-      text: t('Content.spdBuffConditional.text'),
-      content: t('Content.spdBuffConditional.content', { SpdBuff: precisionRound(100 * sValuesSpdBuff[s]) }),
+      text: t(($) => $.Content.spdBuffConditional.text),
+      content: t(($) => $.Content.spdBuffConditional.content, { SpdBuff: precisionRound(100 * sValuesSpdBuff[s]) }),
     },
   }
 

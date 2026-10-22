@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'deathFlower',
       formItem: 'switch',
-      text: t('deathFlower.text'),
-      content: t('deathFlower.content', { DefIgnore: precisionRound(100 * sValuesDefPen[s]) }),
+      text: t(($) => $.deathFlower.text),
+      content: t(($) => $.deathFlower.content, { DefIgnore: precisionRound(100 * sValuesDefPen[s]) }),
     },
   }
 

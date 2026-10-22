@@ -36,7 +36,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Genius',
+  conditionalI18nKey: 'Genius',
   modifiable: true,
   defaultValue: true,
 } as const satisfies SetDisplay

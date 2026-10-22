@@ -211,7 +211,7 @@ function generateStarlightOptions() {
   const t = i18next.getFixedT(null, 'warpCalculatorTab', 'RefundLabels')
   return Object.values(StarlightRefund).map((refund) => ({
     value: refund,
-    label: t($ => $[refund]._FULL, {
+    label: t($ => $[refund + '_FULL' as `${StarlightRefund}_FULL`], {
       Percentage: refundLabel(refund, refund === StarlightRefund.REFUND_AVG)
     }),
   }));

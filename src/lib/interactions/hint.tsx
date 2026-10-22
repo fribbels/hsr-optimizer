@@ -565,7 +565,7 @@ export const Hint = {
       }), /* Relic Insight */
       content: (
         <Flex direction='column' gap={10}>
-          <p>{t('p1') /* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
+          <p>{t(($) => $.p1) /* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
           <p>
             <Trans ns='hint' i18nKey={$ => $.RelicInsights.p2}>
               'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.
@@ -575,12 +575,16 @@ export const Hint = {
               ⚠️ Relics with missing substats may have misleadingly high buckets, as best-case upgrade analysis assumes the best new substat per character.
             </Trans>
           </p>
-          <p>{t('p4') /* Use the Maximum / Average toggle to switch between maximum and average potential. */}</p>
           <p>
             {
-              t(
-                'p3',
-              ) /* 'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in. */
+              t(($) => $.p4)
+              /* Use the Maximum / Average toggle to switch between maximum and average potential. */
+            }
+          </p>
+          <p>
+            {
+              t(($) => $.p3)
+              /* 'Top 10' takes the top 10 characters that this relic could be best for, and shows the range of '% perfection' upgrading this relic could result in. */
             }
           </p>
         </Flex>

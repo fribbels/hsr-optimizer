@@ -6,8 +6,8 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import { AbilityKind } from 'lib/optimization/rotation/turnAbilityConfig'
-import { precisionRound } from 'lib/utils/mathUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'elationSkillDefPen',
       formItem: 'switch',
-      text: t('elationSkillDefPen.text'),
-      content: t('elationSkillDefPen.content', { DefPen: precisionRound(100 * sValuesDefPen[s]) }),
+      text: t(($) => $.elationSkillDefPen.text),
+      content: t(($) => $.elationSkillDefPen.content, { DefPen: precisionRound(100 * sValuesDefPen[s]) }),
     },
   }
 

@@ -124,7 +124,7 @@ export const CharacterCardCombatStats = memo(
     }
 
     const suffix = (deprioritizeBuffs ? 'SubDps' : SCORING_CONFIG_REGISTRY[configType].combatStatsSuffix) ?? ''
-    const titleRender = tCharactersTab($ => $.CharacterPreview.DetailsSlider.Labels.CombatStats[suffix])
+    const titleRender = tCharactersTab($ => $.CharacterPreview.DetailsSlider.Labels[`CombatStats${suffix}` as const])
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>

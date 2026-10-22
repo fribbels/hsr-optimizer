@@ -184,20 +184,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     navigatorsSemaphore: {
       id: 'navigatorsSemaphore',
       formItem: 'switch',
-      text: t('navigatorsSemaphore.text'),
-      content: t('navigatorsSemaphore.content', { SemaphoreDmgBoost: precisionRound(100 * skillDmgBuffValue) }),
+      text: t(($) => $.navigatorsSemaphore.text),
+      content: t(($) => $.navigatorsSemaphore.content, { SemaphoreDmgBoost: precisionRound(100 * skillDmgBuffValue) }),
     },
     selfUseAssistSkill: {
       id: 'selfUseAssistSkill',
       formItem: 'switch',
-      text: t('selfUseAssistSkill.text'),
-      content: t('selfUseAssistSkill.content'),
+      text: t(($) => $.selfUseAssistSkill.text),
+      content: t(($) => $.selfUseAssistSkill.content),
     },
     assistSkillBuff: {
       id: 'assistSkillBuff',
       formItem: 'switch',
-      text: t('assistSkillBuff.text'),
-      content: t('assistSkillBuff.content', {
+      text: t(($) => $.assistSkillBuff.text),
+      content: t(($) => $.assistSkillBuff.content, {
         AssistSkillResPen: precisionRound(100 * talentResPenValue),
         AssistSkillCdBuff: precisionRound(100 * talentCdBuffValue),
       }),
@@ -205,8 +205,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     companionVerdict: {
       id: 'companionVerdict',
       formItem: 'switch',
-      text: t('companionVerdict.text'),
-      content: t('companionVerdict.content', {
+      text: t(($) => $.companionVerdict.text),
+      content: t(($) => $.companionVerdict.content, {
         VerdictDmgBuff: precisionRound(100 * verdictDmgBoostValue),
         VerdictUltDmgBuff: precisionRound(100 * verdictUltDmgBoostValue),
       }),
@@ -214,8 +214,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     companionDecimation: {
       id: 'companionDecimation',
       formItem: 'switch',
-      text: t('companionDecimation.text'),
-      content: t('companionDecimation.content', {
+      text: t(($) => $.companionDecimation.text),
+      content: t(($) => $.companionDecimation.content, {
         DecimationCdBuff: precisionRound(100 * decimationCdValue),
         DecimationSkillCdBuff: precisionRound(100 * decimationSkillCdValue),
       }),
@@ -223,15 +223,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e4ResPen: {
       id: 'e4ResPen',
       formItem: 'switch',
-      text: t('e4ResPen.text'),
-      content: t('e4ResPen.content'),
+      text: t(($) => $.e4ResPen.text),
+      content: t(($) => $.e4ResPen.content),
       disabled: e < 4,
     },
     e6: {
       id: 'e6',
       formItem: 'switch',
-      text: t('e6.text'),
-      content: t('e6.content'),
+      text: t(($) => $.e6.text),
+      content: t(($) => $.e6.content),
       disabled: e < 6,
     },
   }

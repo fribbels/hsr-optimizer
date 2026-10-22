@@ -34,7 +34,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Arcadia',
+  conditionalI18nKey: 'Arcadia',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 4,
@@ -60,9 +60,9 @@ function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 8 }).map((_val, i) => {
     const allyCount = i + 1
     return {
-      display: t('Arcadia.Display', { allyCount }),
+      display: t(($) => $.Arcadia.Display, { allyCount }),
       value: allyCount,
-      label: t('Arcadia.Label', {
+      label: t(($) => $.Arcadia.Label, {
         buffValue: Math.max(12 * (4 - allyCount), 9 * (allyCount - 4)),
         allyCount,
       }),

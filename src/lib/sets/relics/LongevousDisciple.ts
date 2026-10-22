@@ -39,7 +39,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Longevous',
+  conditionalI18nKey: 'Longevous',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 2,
@@ -64,9 +64,9 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 3 }).map((_val, i) => ({
-    display: t('Longevous.Display', { stackCount: i }),
+    display: t(($) => $.Longevous.Display, { stackCount: i }),
     value: i,
-    label: t('Longevous.Label', { stackCount: i, buffValue: 8 * i }),
+    label: t(($) => $.Longevous.Label, { stackCount: i, buffValue: 8 * i }),
   }))
 }
 

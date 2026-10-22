@@ -49,8 +49,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'defPen',
       formItem: 'switch',
-      text: t('Content.defPen.text'),
-      content: t('Content.defPen.content', {
+      text: t(($) => $.Content.defPen.text),
+      content: t(($) => $.Content.defPen.content, {
         DefShred: precisionRound(100 * sValuesDefPen[s]),
         AdditionalDefShred: precisionRound(100 * sValuesDefPenAdditional[s]),
       }),
@@ -63,8 +63,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'additionalDefPen',
       formItem: 'switch',
-      text: t('TeammateContent.additionalDefPen.text'),
-      content: t('TeammateContent.additionalDefPen.content', {
+      text: t(($) => $.TeammateContent.additionalDefPen.text),
+      content: t(($) => $.TeammateContent.additionalDefPen.content, {
         DefShred: precisionRound(100 * sValuesDefPen[s]),
         AdditionalDefShred: precisionRound(100 * sValuesDefPenAdditional[s]),
       }),

@@ -77,9 +77,8 @@ function GrowingRow({ row, selectedId, selectedType }: {
 }) {
   return (
     <div
-      className={`${classes.row} ${classes.growingRow} ${IS_LOCALHOST ? classes.growingRowClickable : ''} ${
-        IS_LOCALHOST && row.id === selectedId ? classes.selected : ''
-      }`}
+      className={`${classes.row} ${classes.growingRow} ${IS_LOCALHOST ? classes.growingRowClickable : ''} ${IS_LOCALHOST && row.id === selectedId ? classes.selected : ''
+        }`}
       onClick={IS_LOCALHOST ? () => selectLeaderboardCharacter(row.id, selectedType ? { configType: configTypeToPublic(selectedType) } : undefined) : undefined}
     >
       <span className={classes.rank}>—</span>
@@ -170,7 +169,7 @@ export function CharacterListPanel() {
               onChange={() => setActiveType(activeType === tab.type ? null : tab.type)}
             >
               {tList($ => $.TabLabel, {
-                label: tConfig(configTypeToPublic(tab.type)),
+                label: tConfig($ => $[configTypeToPublic(tab.type)]),
                 count: tab.count
               })}
             </Chip>

@@ -91,17 +91,17 @@ export function generateSpdPresets(t: TFunction<'optimizerTab', 'Presets'>): Spd
   const aaPresets = buildPresets(AA_SPD_BREAKPOINTS, t, 'AaSpdValues')
 
   // The "no minimum speed" entry for AA uses the MoC label
-  aaPresets.AA_SPD0.label = t('SpdValues.SPD0')
+  aaPresets.AA_SPD0.label = t(($) => $.SpdValues.SPD0)
 
   const categories: SpdPresetCategory[] = [
     {
       key: 'moc',
-      label: t('SpdCategories.MemoryOfChaos'),
+      label: t(($) => $.SpdCategories.MemoryOfChaos),
       presets: mocPresets,
     },
     {
       key: 'aa',
-      label: t('SpdCategories.AnomalyArbitration'),
+      label: t(($) => $.SpdCategories.AnomalyArbitration),
       presets: aaPresets,
     },
   ]

@@ -35,8 +35,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'inBattleAtkBuff',
       formItem: 'switch',
-      text: t('Content.inBattleAtkBuff.text'),
-      content: t('Content.inBattleAtkBuff.content', { AtkBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.inBattleAtkBuff.text),
+      content: t(($) => $.Content.inBattleAtkBuff.content, { AtkBuff: precisionRound(100 * sValues[s]) }),
     },
   }
   const teammateContent: ContentDefinition<typeof teammateDefaults> = {

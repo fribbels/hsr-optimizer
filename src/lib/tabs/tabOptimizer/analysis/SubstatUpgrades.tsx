@@ -91,7 +91,7 @@ export function DamageUpgrades({ analysis }: {
         <Table.Thead>
           <Table.Tr>
             <Table.Th className={tableClasses.substatHeader}>{t($ => $.ColumnHeaders.Substat)}</Table.Th>
-            <Table.Th className={tableClasses.columnHeader}>{t($ => $.ColumnHeaders[group.key]._P)}</Table.Th>
+            <Table.Th className={tableClasses.columnHeader}>{t($ => $.ColumnHeaders[`${group.key}_P`])}</Table.Th>
             <Table.Th className={tableClasses.columnHeader}>{t($ => $.ColumnHeaders[group.key])}</Table.Th>
           </Table.Tr>
         </Table.Thead>

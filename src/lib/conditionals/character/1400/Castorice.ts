@@ -138,45 +138,45 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     buffPriority: {
       id: 'buffPriority',
       formItem: 'select',
-      text: tBuff('Text'),
-      content: tBuff('Content'),
+      text: tBuff(($) => $.Text),
+      content: tBuff(($) => $.Content),
       options: [
-        { display: tBuff('Self'), value: BuffPriority.SELF, label: tBuff('Self') },
-        { display: tBuff('Memo'), value: BuffPriority.MEMO, label: tBuff('Memo') },
+        { display: tBuff(($) => $.Self), value: BuffPriority.SELF, label: tBuff(($) => $.Self) },
+        { display: tBuff(($) => $.Memo), value: BuffPriority.MEMO, label: tBuff(($) => $.Memo) },
       ],
       fullWidth: true,
     },
     memospriteActive: {
       id: 'memospriteActive',
       formItem: 'switch',
-      text: t('memospriteActive.text'),
-      content: t('memospriteActive.content', { ResDown: precisionRound(100 * ultTerritoryResPen) }),
+      text: t(($) => $.memospriteActive.text),
+      content: t(($) => $.memospriteActive.content, { ResDown: precisionRound(100 * ultTerritoryResPen) }),
     },
     spdBuff: {
       id: 'spdBuff',
       formItem: 'switch',
-      text: t('spdBuff.text'),
-      content: t('spdBuff.content'),
+      text: t(($) => $.spdBuff.text),
+      content: t(($) => $.spdBuff.content),
     },
     teamDmgBoost: {
       id: 'teamDmgBoost',
       formItem: 'switch',
-      text: t('teamDmgBoost.text'),
-      content: t('teamDmgBoost.content'),
+      text: t(($) => $.teamDmgBoost.text),
+      content: t(($) => $.teamDmgBoost.content),
     },
     talentDmgStacks: {
       id: 'talentDmgStacks',
       formItem: 'slider',
-      text: t('talentDmgStacks.text'),
-      content: t('talentDmgStacks.content', { DmgBuff: precisionRound(100 * talentDmgBoost) }),
+      text: t(($) => $.talentDmgStacks.text),
+      content: t(($) => $.talentDmgStacks.content, { DmgBuff: precisionRound(100 * talentDmgBoost) }),
       min: 0,
       max: 3,
     },
     memoSkillEnhances: {
       id: 'memoSkillEnhances',
       formItem: 'slider',
-      text: t('memoSkillEnhances.text'),
-      content: t('memoSkillEnhances.content', {
+      text: t(($) => $.memoSkillEnhances.text),
+      content: t(($) => $.memoSkillEnhances.content, {
         Multiplier1Enhance: precisionRound(100 * memoSkillScaling2),
         Multiplier2Enhance: precisionRound(100 * memoSkillScaling3),
       }),
@@ -186,16 +186,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     memoDmgStacks: {
       id: 'memoDmgStacks',
       formItem: 'slider',
-      text: t('memoDmgStacks.text'),
-      content: t('memoDmgStacks.content'),
+      text: t(($) => $.memoDmgStacks.text),
+      content: t(($) => $.memoDmgStacks.content),
       min: 0, // Set to 0 for rotation preprocessor
       max: 6,
     },
     memoTalentHits: {
       id: 'memoTalentHits',
       formItem: 'slider',
-      text: t('memoTalentHits.text'),
-      content: t('memoTalentHits.content', {
+      text: t(($) => $.memoTalentHits.text),
+      content: t(($) => $.memoTalentHits.content, {
         BounceCount: e >= 6 ? 9 : 6,
         Scaling: precisionRound(100 * memoTalentScaling),
       }),
@@ -205,21 +205,21 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     cyreneSpecialEffect: {
       id: 'cyreneSpecialEffect',
       formItem: 'switch',
-      text: t('cyreneSpecialEffect.text'),
-      content: t('cyreneSpecialEffect.content'),
+      text: t(($) => $.cyreneSpecialEffect.text),
+      content: t(($) => $.cyreneSpecialEffect.content),
     },
     e1EnemyHp50: {
       id: 'e1EnemyHp50',
       formItem: 'switch',
-      text: t('e1EnemyHp50.text'),
-      content: t('e1EnemyHp50.content'),
+      text: t(($) => $.e1EnemyHp50.text),
+      content: t(($) => $.e1EnemyHp50.content),
       disabled: e < 1,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: t('e6Buffs.text'),
-      content: t('e6Buffs.content'),
+      text: t(($) => $.e6Buffs.text),
+      content: t(($) => $.e6Buffs.content),
       disabled: e < 6,
     },
   }

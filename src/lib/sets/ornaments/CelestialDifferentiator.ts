@@ -37,7 +37,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Differentiator',
+  conditionalI18nKey: 'Differentiator',
   modifiable: true,
   defaultValue: false,
 } as const satisfies SetDisplay

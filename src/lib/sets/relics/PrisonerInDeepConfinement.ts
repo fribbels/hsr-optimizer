@@ -39,7 +39,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Prisoner',
+  conditionalI18nKey: 'Prisoner',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 0,
@@ -64,9 +64,9 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 4 }).map((_val, i) => ({
-    display: t('Prisoner.Display', { stackCount: i }),
+    display: t(($) => $.Prisoner.Display, { stackCount: i }),
     value: i,
-    label: t('Prisoner.Label', { stackCount: i, buffValue: 6 * i }),
+    label: t(($) => $.Prisoner.Label, { stackCount: i, buffValue: 6 * i }),
   }))
 }
 

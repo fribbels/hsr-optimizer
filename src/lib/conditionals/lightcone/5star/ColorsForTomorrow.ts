@@ -6,8 +6,8 @@ import { Source } from 'lib/optimization/buffSource'
 import { StatKey } from 'lib/optimization/engine/config/keys'
 import { TargetTag } from 'lib/optimization/engine/config/tag'
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
-import { precisionRound } from 'lib/utils/mathUtils'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
+import { precisionRound } from 'lib/utils/mathUtils'
 import { type LightConeConditionalsController } from 'types/conditionals'
 import { type SuperImpositionLevel } from 'types/lightCone'
 import { type LightConeConfig } from 'types/lightConeConfig'
@@ -38,8 +38,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'inkSplashVulnerability',
       formItem: 'switch',
-      text: t('inkSplashVulnerability.text'),
-      content: t('inkSplashVulnerability.content', { Vulnerability: precisionRound(100 * sValuesVulnerability[s]) }),
+      text: t(($) => $.inkSplashVulnerability.text),
+      content: t(($) => $.inkSplashVulnerability.content, { Vulnerability: precisionRound(100 * sValuesVulnerability[s]) }),
     },
   }
 

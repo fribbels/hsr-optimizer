@@ -97,8 +97,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e4TeamResBuff: {
       id: 'e4TeamResBuff',
       formItem: 'switch',
-      text: t('Content.e4TeamResBuff.text'),
-      content: t('Content.e4TeamResBuff.content'),
+      text: t(($) => $.Content.e4TeamResBuff.text),
+      content: t(($) => $.Content.e4TeamResBuff.content),
       disabled: e < 4,
     },
   }

@@ -108,15 +108,15 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     fieldActive: {
       id: 'fieldActive',
       formItem: 'switch',
-      text: t('Content.fieldActive.text'),
-      content: t('Content.fieldActive.content'),
+      text: t(($) => $.Content.fieldActive.text),
+      content: t(($) => $.Content.fieldActive.content),
       // disabled: e < 1, Not disabling this one since technically the field can be active at E0
     },
     e6ResReduction: {
       id: 'e6ResReduction',
       formItem: 'switch',
-      text: t('Content.e6ResReduction.text'),
-      content: t('Content.e6ResReduction.content'),
+      text: t(($) => $.Content.e6ResReduction.text),
+      content: t(($) => $.Content.e6ResReduction.content),
       disabled: e < 6,
     },
   }

@@ -37,10 +37,9 @@ export function HeroHeader() {
         align='center'
         justify='space-between'
       >
+        <p>{t($ => $.Hero.Welcome)}</p>
         <h1 className={classes.headerTitle}>
-          <Trans t={t} i18nKey={$ => $.Welcome}>
-            Welcome to the<br />Fribbels Star Rail Optimizer
-          </Trans>
+          {t($ => $.Hero.Title)}
         </h1>
         <SearchBar />
       </Flex>
@@ -51,7 +50,6 @@ export function HeroHeader() {
 function SearchBar() {
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
-  const { t: tHome } = useTranslation('hometab')
   const inputRef = useRef<HTMLInputElement>(null)
 
   function handleSearchSubmit() {
@@ -86,7 +84,7 @@ function SearchBar() {
         <Button
           size='md'
           onClick={handleSearchSubmit}
-          aria-label={tHome($ => $.Search)}
+          aria-label={t($ => $.Search)}
           style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
         >
           <IconSearch size={20} />

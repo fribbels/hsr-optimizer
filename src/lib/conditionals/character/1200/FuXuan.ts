@@ -96,14 +96,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentActive: {
       id: 'talentActive',
       formItem: 'switch',
-      text: t('Content.talentActive.text'),
-      content: t('Content.talentActive.content', { talentDmgReductionValue: precisionRound(100 * talentDmgReductionValue) }),
+      text: t(($) => $.Content.talentActive.text),
+      content: t(($) => $.Content.talentActive.content, { talentDmgReductionValue: precisionRound(100 * talentDmgReductionValue) }),
     },
     skillActive: {
       id: 'skillActive',
       formItem: 'switch',
-      text: t('Content.skillActive.text'),
-      content: t('Content.skillActive.content', {
+      text: t(($) => $.Content.skillActive.text),
+      content: t(($) => $.Content.skillActive.content, {
         skillHpBuffValue: precisionRound(100 * skillHpBuffValue),
         skillCrBuffValue: precisionRound(100 * skillCrBuffValue),
       }),
@@ -111,8 +111,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e6TeamHpLostPercent: {
       id: 'e6TeamHpLostPercent',
       formItem: 'slider',
-      text: t('Content.e6TeamHpLostPercent.text'),
-      content: t('Content.e6TeamHpLostPercent.content'),
+      text: t(($) => $.Content.e6TeamHpLostPercent.text),
+      content: t(($) => $.Content.e6TeamHpLostPercent.content),
       min: 0,
       max: 1.2,
       percent: true,
@@ -126,8 +126,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
-      text: t('TeammateContent.teammateHPValue.text'),
-      content: t('TeammateContent.teammateHPValue.content', { skillHpBuffValue: precisionRound(100 * skillHpBuffValue) }),
+      text: t(($) => $.TeammateContent.teammateHPValue.text),
+      content: t(($) => $.TeammateContent.teammateHPValue.content, { skillHpBuffValue: precisionRound(100 * skillHpBuffValue) }),
       min: 0,
       max: 10000,
     },

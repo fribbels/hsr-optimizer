@@ -140,14 +140,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     weaknessBrokenUlt: {
       id: 'weaknessBrokenUlt',
       formItem: 'switch',
-      text: t('Content.weaknessBrokenUlt.text'),
-      content: t('Content.weaknessBrokenUlt.content'),
+      text: t(($) => $.Content.weaknessBrokenUlt.text),
+      content: t(($) => $.Content.weaknessBrokenUlt.content),
     },
     talentDmgBuff: {
       id: 'talentDmgBuff',
       formItem: 'switch',
-      text: t('Content.talentDmgBuff.text'),
-      content: t('Content.talentDmgBuff.content', {
+      text: t(($) => $.Content.talentDmgBuff.text),
+      content: t(($) => $.Content.talentDmgBuff.content, {
         FuaMultiplier: precisionRound(100 * fuaScaling),
         DmgBuff: precisionRound(100 * talentDmgBuff),
       }),
@@ -155,28 +155,28 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     skillAtkBuff: {
       id: 'skillAtkBuff',
       formItem: 'switch',
-      text: t('Content.skillAtkBuff.text'),
-      content: t('Content.skillAtkBuff.content'),
+      text: t(($) => $.Content.skillAtkBuff.text),
+      content: t(($) => $.Content.skillAtkBuff.content),
     },
     e1OriginalDmgBoost: {
       id: 'e1OriginalDmgBoost',
       formItem: 'switch',
-      text: t('Content.e1OriginalDmgBoost.text'),
-      content: t('Content.e1OriginalDmgBoost.content'),
+      text: t(($) => $.Content.e1OriginalDmgBoost.text),
+      content: t(($) => $.Content.e1OriginalDmgBoost.content),
       disabled: e < 1,
     },
     e4Buffs: {
       id: 'e4Buffs',
       formItem: 'switch',
-      text: t('Content.e4Buffs.text'),
-      content: t('Content.e4Buffs.content'),
+      text: t(($) => $.Content.e4Buffs.text),
+      content: t(($) => $.Content.e4Buffs.content),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: t('Content.e6Buffs.text'),
-      content: t('Content.e6Buffs.content'),
+      text: t(($) => $.Content.e6Buffs.text),
+      content: t(($) => $.Content.e6Buffs.content),
       disabled: e < 6,
     },
   }

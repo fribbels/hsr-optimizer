@@ -130,14 +130,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedSkill: {
       id: 'enhancedSkill',
       formItem: 'switch',
-      text: t('Content.enhancedSkill.text'),
-      content: t('Content.enhancedSkill.content'),
+      text: t(($) => $.Content.enhancedSkill.text),
+      content: t(($) => $.Content.enhancedSkill.content),
     },
     eruditionTeammate: {
       id: 'eruditionTeammate',
       formItem: 'switch',
-      text: t('Content.eruditionTeammate.text'),
-      content: t('Content.eruditionTeammate.content', {
+      text: t(($) => $.Content.eruditionTeammate.text),
+      content: t(($) => $.Content.eruditionTeammate.content, {
         PrimaryScalingBonus: precisionRound(talentStackScaling * 100),
         AdjacentScalingBonus: precisionRound(talentStackScaling * 0.5 * 100),
       }),
@@ -145,14 +145,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultAtkBuff: {
       id: 'ultAtkBuff',
       formItem: 'switch',
-      text: t('Content.ultAtkBuff.text'),
-      content: t('Content.ultAtkBuff.content', { AtkBuff: precisionRound(ultAtkBuffScaling * 100) }),
+      text: t(($) => $.Content.ultAtkBuff.text),
+      content: t(($) => $.Content.ultAtkBuff.content, { AtkBuff: precisionRound(ultAtkBuffScaling * 100) }),
     },
     interpretationStacks: {
       id: 'interpretationStacks',
       formItem: 'slider',
-      text: t('Content.interpretationStacks.text'),
-      content: t('Content.interpretationStacks.content', {
+      text: t(($) => $.Content.interpretationStacks.text),
+      content: t(($) => $.Content.interpretationStacks.content, {
         PrimaryScalingBonus: precisionRound(talentStackScaling * 100),
         AdjacentScalingBonus: precisionRound(talentStackScaling * 0.5 * 100),
       }),
@@ -162,30 +162,30 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     totalInterpretationStacks: {
       id: 'totalInterpretationStacks',
       formItem: 'slider',
-      text: t('Content.totalInterpretationStacks.text'),
-      content: t('Content.totalInterpretationStacks.content'),
+      text: t(($) => $.Content.totalInterpretationStacks.text),
+      content: t(($) => $.Content.totalInterpretationStacks.content),
       min: 1,
       max: 99,
     },
     e1BonusStacks: {
       id: 'e1BonusStacks',
       formItem: 'switch',
-      text: t('Content.e1BonusStacks.text'),
-      content: t('Content.e1BonusStacks.content'),
+      text: t(($) => $.Content.e1BonusStacks.text),
+      content: t(($) => $.Content.e1BonusStacks.content),
       disabled: e < 1,
     },
     e4EruditionSpdBuff: {
       id: 'e4EruditionSpdBuff',
       formItem: 'switch',
-      text: t('Content.e4EruditionSpdBuff.text'),
-      content: t('Content.e4EruditionSpdBuff.content'),
+      text: t(($) => $.Content.e4EruditionSpdBuff.text),
+      content: t(($) => $.Content.e4EruditionSpdBuff.content),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: t('Content.e6Buffs.text'),
-      content: t('Content.e6Buffs.content'),
+      text: t(($) => $.Content.e6Buffs.text),
+      content: t(($) => $.Content.e6Buffs.content),
       disabled: e < 6,
     },
   }

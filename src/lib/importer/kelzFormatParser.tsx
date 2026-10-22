@@ -141,14 +141,14 @@ export class KelzFormatParser { // TODO abstract class
     }
 
     if (json.source != this.config.sourceString) {
-      throw new Error(tError('BadSource', {
+      throw new Error(tError(($) => $.BadSource, {
         jsonSource: json.source,
         configSource: this.config.sourceString,
       }) /* `Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'` */)
     }
 
     if (json.version !== this.config.latestOutputVersion) {
-      throw new Error(tError('BadVersion', {
+      throw new Error(tError(($) => $.BadVersion, {
         jsonVersion: json.version,
         configVersion: this.config.latestOutputVersion,
       }) /* `Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'` */)
@@ -163,7 +163,7 @@ export class KelzFormatParser { // TODO abstract class
         (
           <div>
             {/* `Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:` */}
-            {tError('OutdatedVersion', { buildVersion })}{' '}
+            {tError(($) => $.OutdatedVersion, { buildVersion })}{' '}
             <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
           </div>
         ),
@@ -193,7 +193,7 @@ export class KelzFormatParser { // TODO abstract class
     }
     // "Scanner file is outdated / may contain invalid information. Please update your scanner."
     if (this.badRollInfo) {
-      Message.warning(tWarning('BadRollInfo'), 10)
+      Message.warning(tWarning(($) => $.BadRollInfo), 10)
     }
 
     if (json.characters) {

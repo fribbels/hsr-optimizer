@@ -49,15 +49,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'fuaDmgBoost',
       formItem: 'switch',
-      text: t('Content.fuaDmgBoost.text'),
-      content: t('Content.fuaDmgBoost.content', { DmgBuff: precisionRound(sValuesFuaDmg[s] * 100) }),
+      text: t(($) => $.Content.fuaDmgBoost.text),
+      content: t(($) => $.Content.fuaDmgBoost.content, { DmgBuff: precisionRound(sValuesFuaDmg[s] * 100) }),
     },
     ultFuaDefShred: {
       lc: true,
       id: 'ultFuaDefShred',
       formItem: 'switch',
-      text: t('Content.ultFuaDefShred.text'),
-      content: t('Content.ultFuaDefShred.content', { DefShred: precisionRound(sValuesUltFuaDefShred[s] * 100) }),
+      text: t(($) => $.Content.ultFuaDefShred.text),
+      content: t(($) => $.Content.ultFuaDefShred.content, { DefShred: precisionRound(sValuesUltFuaDefShred[s] * 100) }),
     },
   }
 

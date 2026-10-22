@@ -32,8 +32,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'prophetStacks',
       formItem: 'slider',
-      text: t('Content.prophetStacks.text'),
-      content: t('Content.prophetStacks.content', {
+      text: t(($) => $.Content.prophetStacks.text),
+      content: t(($) => $.Content.prophetStacks.content, {
         AtkBuff: precisionRound(100 * sValuesAtk[s]),
         DefIgnore: precisionRound(100 * sValuesDotPen[s]),
       }),

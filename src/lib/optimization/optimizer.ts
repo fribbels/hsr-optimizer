@@ -284,7 +284,7 @@ export const Optimizer = {
       void getWebgpuDevice(true).then((device) => {
         if (!ownsRun()) return
         if (device == null) {
-          Message.error(t('Error.GPUNotAvailable'), 15)
+          Message.error(t(($) => $.Error.GPUNotAvailable), 15)
           // GPU path won't run and CPU path already skipped — stop optimization
           useOptimizerDisplayStore.getState().setOptimizationInProgress(false)
         } else {

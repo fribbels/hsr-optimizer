@@ -88,8 +88,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     benedictionBuff: {
       id: 'benedictionBuff',
       formItem: 'switch',
-      text: t('Content.benedictionBuff.text'),
-      content: t('Content.benedictionBuff.content', {
+      text: t(($) => $.Content.benedictionBuff.text),
+      content: t(($) => $.Content.benedictionBuff.content, {
         skillAtkBoostScaling: precisionRound(100 * skillAtkBoostScaling),
         skillAtkBoostMax: precisionRound(100 * skillAtkBoostMax),
         skillLightningDmgBoostScaling: precisionRound(100 * skillLightningDmgBoostScaling),
@@ -98,20 +98,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     skillSpdBuff: {
       id: 'skillSpdBuff',
       formItem: 'switch',
-      text: t('Content.skillSpdBuff.text'),
-      content: t('Content.skillSpdBuff.content'),
+      text: t(($) => $.Content.skillSpdBuff.text),
+      content: t(($) => $.Content.skillSpdBuff.content),
     },
     ultDmgBuff: {
       id: 'ultDmgBuff',
       formItem: 'switch',
-      text: t('Content.ultDmgBuff.text'),
-      content: t('Content.ultDmgBuff.content', { ultDmgBoost: precisionRound(100 * ultDmgBoost) }),
+      text: t(($) => $.Content.ultDmgBuff.text),
+      content: t(($) => $.Content.ultDmgBuff.content, { ultDmgBoost: precisionRound(100 * ultDmgBoost) }),
     },
     ultSpdBuff: {
       id: 'ultSpdBuff',
       formItem: 'switch',
-      text: t('Content.ultSpdBuff.text'),
-      content: t('Content.ultSpdBuff.content'),
+      text: t(($) => $.Content.ultSpdBuff.text),
+      content: t(($) => $.Content.ultSpdBuff.content),
       disabled: e < 1,
     },
   }
@@ -121,8 +121,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateAtkBuffValue: {
       id: 'teammateAtkBuffValue',
       formItem: 'slider',
-      text: t('TeammateContent.teammateAtkBuffValue.text'),
-      content: t('TeammateContent.teammateAtkBuffValue.content', {
+      text: t(($) => $.TeammateContent.teammateAtkBuffValue.text),
+      content: t(($) => $.TeammateContent.teammateAtkBuffValue.content, {
         skillAtkBoostScaling: precisionRound(100 * skillAtkBoostScaling),
         skillAtkBoostMax: precisionRound(100 * skillAtkBoostMax),
         skillLightningDmgBoostScaling: precisionRound(100 * skillLightningDmgBoostScaling),

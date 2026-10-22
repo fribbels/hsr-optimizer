@@ -35,8 +35,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'elationBuff',
       formItem: 'switch',
-      text: t('elationBuff.text'),
-      content: t('elationBuff.content', { elationBuff: precisionRound(100 * sValuesElation[s]) }),
+      text: t(($) => $.elationBuff.text),
+      content: t(($) => $.elationBuff.content, { elationBuff: precisionRound(100 * sValuesElation[s]) }),
     },
   }
 

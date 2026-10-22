@@ -108,10 +108,10 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
             <Table.Th className={styles.expandColumn} />
             <Table.Th className={styles.comboColumn}>{t($ => $.Combo)}</Table.Th>
             <Table.Th className={styles.deltaColumn}>{t($ => $.Delta)}</Table.Th>
-            <Table.Th className={styles.centeredColumn}>{tCommon('Body')}</Table.Th>
-            <Table.Th className={styles.centeredColumn}>{tCommon('Feet')}</Table.Th>
-            <Table.Th className={styles.centeredColumn}>{tCommon('PlanarSphere')}</Table.Th>
-            <Table.Th className={styles.centeredColumn}>{tCommon('LinkRope')}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon(($) => $.Body)}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon(($) => $.Feet)}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon(($) => $.PlanarSphere)}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon(($) => $.LinkRope)}</Table.Th>
             <Table.Th className={styles.setsColumn}>{t($ => $.Sets)}</Table.Th>
           </Table.Tr>
         </Table.Thead>

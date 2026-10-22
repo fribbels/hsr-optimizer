@@ -71,12 +71,12 @@ export function AhaPanelContent(props: AhaPanelContentProps) {
 
   return (
     <div className={classes.panelCompact}>
-      <PanelSection title={props.t('Calculator.Title')}>
+      <PanelSection title={props.t(($) => $.Calculator.Title)}>
         <IntegratedRows form={props.form} rows={rows} ahaSpeed={props.ahaSpeed} ahaBase={props.ahaBase} t={props.t} />
         <FormulaSummary rows={rows} ahaSpeed={props.ahaSpeed} ahaBase={props.ahaBase} t={props.t} />
       </PanelSection>
       <Divider />
-      <PanelSection title={props.t('Solver.Title')}>
+      <PanelSection title={props.t(($) => $.Solver.Title)}>
         <ReverseSolve {...props} />
       </PanelSection>
     </div>
@@ -111,7 +111,7 @@ function IntegratedRows({ form, rows, ahaSpeed, ahaBase, t }: {
             form={form}
             row={row}
             ahaSpeed={ahaSpeed}
-            label={t('Calculator.TeammateN', { position: '' })}
+            label={t(($) => $.Calculator.TeammateN, { position: '' })}
             style={{ transform: offset ? `translateY(${offset}px)` : undefined }}
             isNextSlot={isNextSlot}
           />
@@ -134,13 +134,13 @@ function HeaderRow({ t }: { t: TFunction<'calculatorsTab', 'AHA'> }) {
   return (
     <div className={`${classes.integratedRow} ${classes.headerRow}`}>
       <div className={classes.headerCell}>
-        {t('Calculator.Header.ElationTeammate')}
+        {t(($) => $.Calculator.Header.ElationTeammate)}
       </div>
       <div className={classes.headerCell}>
-        {t('Calculator.Header.CombatSpeed')}
+        {t(($) => $.Calculator.Header.CombatSpeed)}
       </div>
       <div className={classes.headerCell}>
-        {t('Calculator.Header.AhaSpeed')}
+        {t(($) => $.Calculator.Header.AhaSpeed)}
       </div>
     </div>
   )
@@ -167,7 +167,7 @@ function BaseIntegratedRow({ form, ahaSpeed, ahaBase, t }: {
   }, [t])
   return (
     <div className={`${classes.integratedRow} ${classes.baseRow}`}>
-      <div className={classes.rowSource}>{t('Calculator.Constant')}</div>
+      <div className={classes.rowSource}>{t(($) => $.Calculator.Constant)}</div>
       <Select
         form={form.key('ahaBase')}
         {...form.getInputProps('ahaBase')}
@@ -265,7 +265,7 @@ function FormulaSummary({ rows, ahaSpeed, ahaBase, t }: {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0' }}>
       <math display='block' className={classes.formula}>
-        <mtext>{t('Calculator.Formula.Aha')}</mtext>
+        <mtext>{t(($) => $.Calculator.Formula.Aha)}</mtext>
         <mo style={{ padding: '0 5px' }}>=</mo>
         <mn>{ahaBase}</mn>
         {byRank.map((row, rank) => {
@@ -279,7 +279,7 @@ function FormulaSummary({ rows, ahaSpeed, ahaBase, t }: {
                   ? <mn style={{ color: row.color }}>{localeNumber_000(row.speed)}</mn>
                   : (
                     <msub style={{ color: '#8b8b8b' }}>
-                      <mi>{t('Calculator.Formula.TeammateSymbol')}</mi>
+                      <mi>{t(($) => $.Calculator.Formula.TeammateSymbol)}</mi>
                       <mn>{rank + 1}</mn>
                     </msub>
                   )}
@@ -321,7 +321,7 @@ function ReverseSolve(props: AhaPanelContentProps) {
   return (
     <div className={classes.reverse}>
       <div className={classes.reverseInput}>
-        <HeaderText>{t('Solver.Input.DesiredAha')}</HeaderText>
+        <HeaderText>{t(($) => $.Solver.Input.DesiredAha)}</HeaderText>
         <ComboboxNumberInput
           value={desiredValue}
           onChange={onDesiredChange}
@@ -332,10 +332,10 @@ function ReverseSolve(props: AhaPanelContentProps) {
       <div className={classes.reverseOutput} style={{ opacity: !allSlotsFilled && teammateSpeed === null ? 0.3 : undefined }}>
         <HeaderText>
           {allSlotsFilled
-            ? t('Solver.Output.AllFilled')
+            ? t(($) => $.Solver.Output.AllFilled)
             : (targetAlreadyMet
-              ? t('Solver.Output.AlreadyMet')
-              : t(`Solver.Output.Teammate${speeds.length as 0 | 1 | 2 | 3}`))}
+              ? t(($) => $.Solver.Output.AlreadyMet)
+              : t(($) => $.Solver.Output[`Teammate${speeds.length as 0 | 1 | 2 | 3}`]))}
         </HeaderText>
         <span>{outputValue}</span>
       </div>

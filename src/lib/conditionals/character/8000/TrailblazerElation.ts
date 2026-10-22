@@ -61,9 +61,9 @@ export const TrailblazerElationAbilities: AbilityKind[] = [
 
 const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.TrailblazerElation.Content')
-  const betaContent = i18next.t($ => $.BetaMessage, {
+  const betaContent = i18next.t(($) => $.BetaMessage, {
     ns: 'conditionals',
-    Version: CURRENT_DATA_VERSION
+    Version: CURRENT_DATA_VERSION,
   })
   const { basic, skill, ult, talent, elationSkill } = AbilityEidolon.SKILL_TALENT_ELATION_SKILL_3_ULT_BASIC_ELATION_SKILL_5
   const {
@@ -125,24 +125,24 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     punchlineStacks: {
       id: 'punchlineStacks',
       formItem: 'slider',
-      text: t('punchlineStacks.text'),
-      content: t('punchlineStacks.content'),
+      text: t(($) => $.punchlineStacks.text),
+      content: t(($) => $.punchlineStacks.content),
       min: 0,
       max: 100,
     },
     certifiedBanger: {
       id: 'certifiedBanger',
       formItem: 'switch',
-      text: t('certifiedBanger.text'),
-      content: t('certifiedBanger.content', {
+      text: t(($) => $.certifiedBanger.text),
+      content: t(($) => $.certifiedBanger.content, {
         skillAdditionalElationScaling: precisionRound(100 * talentSkillElationScaling),
       }),
     },
     certifiedBangerStacks: {
       id: 'certifiedBangerStacks',
       formItem: 'slider',
-      text: t('certifiedBangerStacks.text'),
-      content: t('certifiedBangerStacks.content', {
+      text: t(($) => $.certifiedBangerStacks.text),
+      content: t(($) => $.certifiedBangerStacks.content, {
         skillAdditionalElationScaling: precisionRound(100 * talentSkillElationScaling),
       }),
       min: 0,
@@ -159,34 +159,34 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultCdBuff: {
       id: 'ultCdBuff',
       formItem: 'switch',
-      text: t('ultCdBuff.text'),
-      content: t('ultCdBuff.content'),
+      text: t(($) => $.ultCdBuff.text),
+      content: t(($) => $.ultCdBuff.content),
     },
     atkToElation: {
       id: 'atkToElation',
       formItem: 'switch',
-      text: t('atkToElation.text'),
-      content: t('atkToElation.content'),
+      text: t(($) => $.atkToElation.text),
+      content: t(($) => $.atkToElation.content),
     },
     e2UltElation: {
       id: 'e2UltElation',
       formItem: 'switch',
-      text: t('e2UltElation.text'),
-      content: t('e2UltElation.content'),
+      text: t(($) => $.e2UltElation.text),
+      content: t(($) => $.e2UltElation.content),
       disabled: e < 2,
     },
     e4Vulnerability: {
       id: 'e4Vulnerability',
       formItem: 'switch',
-      text: t('e4Vulnerability.text'),
-      content: t('e4Vulnerability.content'),
+      text: t(($) => $.e4Vulnerability.text),
+      content: t(($) => $.e4Vulnerability.content),
       disabled: e < 4,
     },
     e6CritDmg: {
       id: 'e6CritDmg',
       formItem: 'switch',
-      text: t('e6CritDmg.text'),
-      content: t('e6CritDmg.content'),
+      text: t(($) => $.e6CritDmg.text),
+      content: t(($) => $.e6CritDmg.content),
       disabled: e < 6,
     },
   }

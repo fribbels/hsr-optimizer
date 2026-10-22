@@ -117,8 +117,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultEnhanced: {
       id: 'ultEnhanced',
       formItem: 'switch',
-      text: t('Content.ultEnhanced.text'),
-      content: t('Content.ultEnhanced.content', {
+      text: t(($) => $.Content.ultEnhanced.text),
+      content: t(($) => $.Content.ultEnhanced.content, {
         ultEnhancedExtraHitScaling: precisionRound(100 * ultEnhancedExtraHitScaling),
         ultEnhancedScaling: precisionRound(100 * ultEnhancedScaling),
       }),
@@ -126,14 +126,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enemyHp50: {
       id: 'enemyHp50',
       formItem: 'switch',
-      text: t('Content.enemyHp50.text'),
-      content: t('Content.enemyHp50.content'),
+      text: t(($) => $.Content.enemyHp50.text),
+      content: t(($) => $.Content.enemyHp50.content),
     },
     talentStacks: {
       id: 'talentStacks',
       formItem: 'slider',
-      text: t('Content.talentStacks.text'),
-      content: t('Content.talentStacks.content', {
+      text: t(($) => $.Content.talentStacks.text),
+      content: t(($) => $.Content.talentStacks.content, {
         talentMaxStacks: precisionRound(talentMaxStacks),
         talentCrStackValue: precisionRound(100 * talentCrStackValue),
       }),
@@ -143,16 +143,16 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultEnhancedExtraHits: {
       id: 'ultEnhancedExtraHits',
       formItem: 'slider',
-      text: t('Content.ultEnhancedExtraHits.text'),
-      content: t('Content.ultEnhancedExtraHits.content', { ultEnhancedExtraHitScaling: precisionRound(100 * ultEnhancedExtraHitScaling) }),
+      text: t(($) => $.Content.ultEnhancedExtraHits.text),
+      content: t(($) => $.Content.ultEnhancedExtraHits.content, { ultEnhancedExtraHitScaling: precisionRound(100 * ultEnhancedExtraHitScaling) }),
       min: 0,
       max: 6,
     },
     e2UltAtkBuff: {
       id: 'e2UltAtkBuff',
       formItem: 'switch',
-      text: t('Content.e2UltAtkBuff.text'),
-      content: t('Content.e2UltAtkBuff.content'),
+      text: t(($) => $.Content.e2UltAtkBuff.text),
+      content: t(($) => $.Content.e2UltAtkBuff.content),
       disabled: e < 2,
     },
   }

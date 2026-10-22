@@ -38,8 +38,8 @@ const conditionals: LightConeConditionalFunction = (s, withContent) => {
       lc: true,
       id: 'umbraDevourerBuff',
       formItem: 'switch',
-      text: t('umbraDevourerBuff.text'),
-      content: t('umbraDevourerBuff.content', {
+      text: t(($) => $.umbraDevourerBuff.text),
+      content: t(($) => $.umbraDevourerBuff.content, {
         atkBuff: precisionRound(100 * sValuesAtk[s]),
         vulnerability: precisionRound(100 * sValuesVulnerability[s]),
       }),

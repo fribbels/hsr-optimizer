@@ -36,8 +36,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'maskActive',
       formItem: 'switch',
-      text: t('Content.maskActive.text'),
-      content: t('Content.maskActive.content', {
+      text: t(($) => $.Content.maskActive.text),
+      content: t(($) => $.Content.maskActive.content, {
         CritRateBuff: precisionRound(100 * sValuesCr[s]),
         CritDmgBuff: precisionRound(100 * sValuesCd[s]),
       }),

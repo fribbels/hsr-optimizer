@@ -34,8 +34,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'initialSpdBuff',
       formItem: 'switch',
-      text: t('Content.initialSpdBuff.text'),
-      content: t('Content.initialSpdBuff.content', { SpdBuff: sValues[s] }),
+      text: t(($) => $.Content.initialSpdBuff.text),
+      content: t(($) => $.Content.initialSpdBuff.content, { SpdBuff: sValues[s] }),
     },
   }
 

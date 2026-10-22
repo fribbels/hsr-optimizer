@@ -30,8 +30,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'missedCritCrBuff',
       formItem: 'switch',
-      text: t('Content.missedCritCrBuff.text'),
-      content: t('Content.missedCritCrBuff.content', { CritBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.missedCritCrBuff.text),
+      content: t(($) => $.Content.missedCritCrBuff.content, { CritBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

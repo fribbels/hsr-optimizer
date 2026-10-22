@@ -217,7 +217,7 @@ function FormSetConditionalsContent({ storeType }: { storeType: SetConditionalsS
           description={t($ => $.RelicDescription, {
             id: setToId[set]
           })}
-          conditional={t(setToConditionalKey(set))}
+          conditional={t($ => $.Conditionals[setToConditionalKey(set)])}
           selectOptions={config.display.selectionOptions?.(tSelectOptions)}
         />
       );
@@ -234,7 +234,7 @@ function FormSetConditionalsContent({ storeType }: { storeType: SetConditionalsS
           description={t($ => $.PlanarDescription, {
             id: setToId[set]
           })}
-          conditional={t(setToConditionalKey(set))}
+          conditional={t($ => $.Conditionals[setToConditionalKey(set)])}
           selectOptions={config.display.selectionOptions?.(tSelectOptions)}
         />
       );

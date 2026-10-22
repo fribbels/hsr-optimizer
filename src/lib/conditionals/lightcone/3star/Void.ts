@@ -30,8 +30,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'initialEhrBuff',
       formItem: 'switch',
-      text: t('Content.initialEhrBuff.text'),
-      content: t('Content.initialEhrBuff.content', { EhrBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.initialEhrBuff.text),
+      content: t(($) => $.Content.initialEhrBuff.content, { EhrBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

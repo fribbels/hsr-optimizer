@@ -1,5 +1,49 @@
+AHA:
+  Label: 阿哈速度
+  Solver:
+    Title: 目標速度求解器
+    Output:
+      Teammate0: 1號隊友速度
+      Teammate1: 2號隊友速度
+      Teammate2: 3號隊友速度
+      Teammate3: 4號隊友速度
+      AllFilled: 所有欄位均已佔用
+      AlreadyMet: 已達到目標速度
+    Input:
+      DesiredAha: 目標阿哈速度
+  Calculator:
+    Title: 阿哈速度計算器
+    TeammateN: 隊友{{position}}
+    Constant: 阿哈速度切換
+    Header:
+      ElationTeammate: "歡愉\n隊友"
+      CombatSpeed: "戰鬥\n速度"
+      AhaSpeed: "阿哈\n速度"
+    Formula:
+      Aha: 阿哈速度
+      TeammateSymbol: 隊友
 EHR:
   Label: 效果命中
   Calculator:
+    Title: 減益施加計算器
+    EHRLabel: '± {{value}}% $t(common:ShortStats.Effect Hit Rate)'
+    EquationLabel:
+      BaseChance: 基礎機率
+      EffectRes: 效果抵抗倍率
+      DebuffRes: 減益抵抗倍率
+      HitRate: 效果命中倍率
     Input:
+      EffectRes: 敵方效果抵抗
+      DebuffRes: 敵方減益抵抗
+      BaseChance: 減益基礎機率
+      Attempts: 施加次數
       HitRate: 效果命中
+      Range: 網格範圍
+    Output:
+      Change: 機率
+      PerAttempt: 每次施加
+      OverAttempts: 經過{{count}}次施加
+  Solver:
+    Title: 目標效果命中求解器
+    Input: 目標減益機率
+    Output: 所需效果命中

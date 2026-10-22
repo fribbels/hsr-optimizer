@@ -1,2 +1,74 @@
+CommunityCollapse: >-
+  衷心感謝所有貢獻者、翻譯者、使用者以及提供回饋的每一位，感謝你們對本項目的支持與共同建設！
+CommunityCard:
+  Discord:
+    Title: Discord
+    Description: 加入數千名玩家，與大家分享配裝、攻略和優化技巧。
+  Github:
+    Title: Github
+    Description: 參與專案貢獻。歡迎提交錯誤回報、功能建議和拉取請求。
+  Roadmap:
+    Title: 路線圖
+    Description: 在專案看板中查看計畫中及正在進行的內容。
+  Changelog:
+    Title: 更新日誌
+    Description: 查看近期更新、新功能和錯誤修復。
+FeatureCard:
+  Showcase:
+    Title: 人物表示
+    Description: 展示並分享角色屬性，或預先配裝未來角色。使用 DPS 評分模擬戰鬥傷害，並與基準進行比較。
+    Features:
+      - 完整屬性展示，包含 DPS 評分與屬性分析
+      - 設定隊友增益以取得準確評分
+      - 使用目前遺器模擬未實裝角色的屬性
+  Optimizer:
+    Title: 優化引擎
+    Description: 優化你的角色，尋找最佳遺器組合，以達到屬性閾值並最大化角色屬性。
+    Features:
+      - 尋找屬性、技能或連招傷害的最佳配裝
+      - GPU 加速運算，每秒可計算數十億種配裝
+      - 設定隊友條件增益以進行傷害計算
+  Warp:
+    Title: 躍遷規劃器
+    Description: 計算角色和光錐卡池目標的準確達成機率，並計入保底計數、星芒返還及預測的未來資源。
+    Features:
+      - 顯示每個目標預計所需的平均躍遷次數
+      - 按版本追蹤零氪及不同課金檔位的資源收入
+      - 計算重複兌換產生的星芒返還
+  DamageCalculator:
+    Title: 傷害計算
+    Description: 透過完全自訂的隊伍配置、增益條件和技能循環精確計算傷害並最大化輸出。
+    Features:
+      - 自訂連招、隊友和遺器
+      - 按來源和技能查看增益明細
+      - 易於上手的預設
+  Benchmarks:
+    Title: 配裝基準
+    Description: 確定哪些遺器套裝和主屬性能為角色帶來最高傷害，並為每種配置找出最佳副詞條分配。
+    Features:
+      - 直接比較不同主屬性與遺器組合
+      - '兩個檔位：實用基準與完美配裝'
+      - 展開各列可查看屬性、強化次數和傷害明細
+  RarityAnalysis:
+    Title: 稀有度分析
+    Description: 使用角色專屬副詞條權重評估遺器品質，並將每件遺器與其理論最高值進行比較。
+    Features:
+      - 預估更換一件遺器所需的刷取天數
+      - 直觀查看副詞條的高、中、低強化檔位
+      - 查看每件遺器的重擲骰子潛力
+Hero:
+  Welcome: 歡迎來到
+  Title: Fribbels 星穹鐵道優化器
 SearchBar:
+  Placeholder: UID
+  Label: '輸入你的 UID 以查看展示角色'
+  Api: '使用 Enka Network'
+  Message: 輸入無效 - 這應該是你遊戲中的9位數UUID
   Search: 搜尋
+ScrollToExplore: 向下捲動以探索
+ChangelogCta:
+  JoinDiscord: 加入 Discord 社群
+  StarOnGitHub: 在 GitHub 上點亮星星
+  SupportOnKoFi: 透過 Ko-fi 支持我們
+Contributors:
+  Title: 貢獻者們

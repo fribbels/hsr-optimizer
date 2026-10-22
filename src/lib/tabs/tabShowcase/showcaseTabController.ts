@@ -116,11 +116,11 @@ export function handleCharacterModalOk(form: CharacterModalForm): boolean {
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
 
   if (!form.characterId) {
-    Message.error(t('NoCharacterSelected'))
+    Message.error(t(($) => $.NoCharacterSelected))
     return false
   }
   if (!form.lightCone) {
-    Message.error(t('NoSelectedLightCone'))
+    Message.error(t(($) => $.NoSelectedLightCone))
     return false
   }
 

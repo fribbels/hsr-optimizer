@@ -38,8 +38,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'breakDmgBuff',
       formItem: 'switch',
-      text: t('breakDmgBuff.text'),
-      content: t('breakDmgBuff.content', { BreakBoost: precisionRound(100 * sValuesBreakDmg[s]) }),
+      text: t(($) => $.breakDmgBuff.text),
+      content: t(($) => $.breakDmgBuff.content, { BreakBoost: precisionRound(100 * sValuesBreakDmg[s]) }),
     },
   }
 

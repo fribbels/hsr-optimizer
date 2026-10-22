@@ -125,8 +125,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     preyMark: {
       id: 'preyMark',
       formItem: 'switch',
-      text: t('Content.preyMark.text'),
-      content: t('Content.preyMark.content', {
+      text: t(($) => $.Content.preyMark.text),
+      content: t(($) => $.Content.preyMark.content, {
         PreyAdditionalMultiplier: precisionRound(100 * additionalDmgScaling),
         FuaScaling: precisionRound(100 * fuaScaling),
       }),
@@ -134,22 +134,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e2CdBoost: {
       id: 'e2CdBoost',
       formItem: 'switch',
-      text: t('Content.e2CdBoost.text'),
-      content: t('Content.e2CdBoost.content'),
+      text: t(($) => $.Content.e2CdBoost.text),
+      content: t(($) => $.Content.e2CdBoost.content),
       disabled: e < 2,
     },
     e4DmgBuff: {
       id: 'e4DmgBuff',
       formItem: 'switch',
-      text: t('Content.e4DmgBuff.text'),
-      content: t('Content.e4DmgBuff.content'),
+      text: t(($) => $.Content.e4DmgBuff.text),
+      content: t(($) => $.Content.e4DmgBuff.content),
       disabled: e < 4,
     },
     e6MultiplierIncrease: {
       id: 'e6MultiplierIncrease',
       formItem: 'switch',
-      text: t('Content.e6MultiplierIncrease.text'),
-      content: t('Content.e6MultiplierIncrease.content'),
+      text: t(($) => $.Content.e6MultiplierIncrease.text),
+      content: t(($) => $.Content.e6MultiplierIncrease.content),
       disabled: e < 6,
     },
   }

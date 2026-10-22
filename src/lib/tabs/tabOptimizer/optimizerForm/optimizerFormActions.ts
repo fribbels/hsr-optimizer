@@ -253,25 +253,25 @@ export function validateForm(form: Form): boolean {
   console.log('validate', form)
   const t = i18next.getFixedT(null, 'optimizerTab', 'ValidationMessages')
   if (!form.lightCone || !form.lightConeSuperimposition) {
-    Message.error(t('Error.MissingLightCone'))
+    Message.error(t(($) => $.Error.MissingLightCone))
     console.log('Missing light cone')
     return false
   }
 
   if (!form.characterId || form.characterEidolon == undefined) {
-    Message.error(t('Error.MissingCharacter'))
+    Message.error(t(($) => $.Error.MissingCharacter))
     console.log('Missing character')
     return false
   }
 
   if (!form.resultsLimit || !form.resultSort) {
-    Message.error(t('Error.MissingTarget'))
+    Message.error(t(($) => $.Error.MissingTarget))
     console.log('Missing optimization target fields')
     return false
   }
 
   if (Object.values(Constants.SubStats).map((stat) => form.weights[stat]).filter((x) => !!x).length === 0) {
-    Message.error(t('Error.TopPercent'), 10)
+    Message.error(t(($) => $.Error.TopPercent), 10)
     console.log('Top percent')
     return false
   }
@@ -281,12 +281,12 @@ export function validateForm(form: Form): boolean {
   const charMeta = metadata.characters[form.characterId]
 
   if (lcMeta.path != charMeta.path) {
-    Message.warning(t('Warning.PathMismatch'), 10)
+    Message.warning(t(($) => $.Warning.PathMismatch), 10)
     console.log('Path mismatch')
   }
 
   if (charMeta.scoringMetadata.simulation && (!form.teammate0?.characterId || !form.teammate1?.characterId || !form.teammate2?.characterId)) {
-    Message.warning(t('Warning.MissingTeammates'), 10)
+    Message.warning(t(($) => $.Warning.MissingTeammates), 10)
     console.log('Missing teammates')
   }
 
@@ -316,7 +316,9 @@ export function equipClicked(): void {
   const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
 
   equipmentService.equipRelicIds(Object.values(build), characterId)
-  Message.success(i18next.t('optimizerTab:Sidebar.ResultsGroup.EquipSuccessMessage') /*'Equipped relics'*/)
+  Message.success(i18next.t(($) => $.Sidebar.ResultsGroup.EquipSuccessMessage, {
+    ns: 'optimizerTab',
+  }) /*'Equipped relics'*/)
   OptimizerTabController.setTopRow(row)
   useOptimizerDisplayStore.getState().setOptimizerBuild(build)
   SaveState.delayedSave()

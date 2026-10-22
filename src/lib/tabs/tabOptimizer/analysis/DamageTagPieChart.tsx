@@ -84,7 +84,7 @@ export function DamageTagPieChart({ analysis }: {
       }}
     >
       <span style={{ fontSize: 15, color: chartColor, borderBottom: '1px solid var(--border-default)', paddingBottom: 4 }}>
-        {t('ExpandedDataPanel.DamageSplits.PieTitle') /* Combo Distribution */}
+        {t($ => $.ExpandedDataPanel.DamageSplits.PieTitle) /* Combo Distribution */}
       </span>
 
       <PieChart width={PIE_SIZE} height={PIE_SIZE}>
@@ -170,7 +170,7 @@ export function DamageTagPieChart({ analysis }: {
         <tfoot>
           <tr>
             <td style={{ paddingTop: 6, borderTop: '1px solid var(--border-default)' }}>
-              <span style={{ fontSize: 13, color: '#8899aa', paddingLeft: 18 }}>{tCommon('Total')}</span>
+              <span style={{ fontSize: 13, color: '#8899aa', paddingLeft: 18 }}>{tCommon($ => $.Total)}</span>
             </td>
             <td style={{ textAlign: 'right', fontSize: 13, color: chartColor, paddingTop: 6, borderTop: '1px solid var(--border-default)' }}>
               {localeNumberComma(Math.floor(grandTotal))}
@@ -182,5 +182,5 @@ export function DamageTagPieChart({ analysis }: {
         </tfoot>
       </table>
     </div>
-  )
+  );
 }

@@ -22,8 +22,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'defScalingUltDmg',
       formItem: 'switch',
-      text: t('Content.defScalingUltDmg.text'),
-      content: t('Content.defScalingUltDmg.content', { Multiplier: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.defScalingUltDmg.text),
+      content: t(($) => $.Content.defScalingUltDmg.content, { Multiplier: precisionRound(100 * sValues[s]) }),
     },
   }
 

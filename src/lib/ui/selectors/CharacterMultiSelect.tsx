@@ -145,8 +145,8 @@ export function CharacterMultiSelect({
           >
             <Pill.Group style={{ flexWrap: 'nowrap', overflow: 'hidden' }}>
               {value.size > 0
-                ? <Pill>{t('MultiSelect.Placeholder')} +{value.size}</Pill>
-                : <PillsInput.Field placeholder={t('MultiSelect.Placeholder')} readOnly pointer />}
+                ? <Pill>{t($ => $.MultiSelect.Placeholder)} +{value.size}</Pill>
+                : <PillsInput.Field placeholder={t($ => $.MultiSelect.Placeholder)} readOnly pointer />}
             </Pill.Group>
           </PillsInput>
         )
@@ -155,7 +155,7 @@ export function CharacterMultiSelect({
             style={selectStyle}
             value={multiSelectValue}
             data={multiSelectData}
-            placeholder={t('MultiSelect.Placeholder')}
+            placeholder={t($ => $.MultiSelect.Placeholder)}
             clearable
             maxValues={0}
             onClear={() => onChange(new Set())}
@@ -171,7 +171,7 @@ export function CharacterMultiSelect({
         centered
         size='90%'
         styles={CHARACTER_MODAL_STYLES}
-        title={t('MultiSelect.ModalTitle')}
+        title={t($ => $.MultiSelect.ModalTitle)}
       >
         {isOpen && (
           <div className={classes.modalContent}>
@@ -180,17 +180,17 @@ export function CharacterMultiSelect({
                 <TextInput
                   className={classes.searchInput}
                   styles={SEARCH_INPUT_STYLES}
-                  placeholder={t('SearchPlaceholder')}
+                  placeholder={t($ => $.SearchPlaceholder)}
                   ref={inputRef}
                   autoFocus
                   onChange={setNameFilter}
                 />
                 <Flex gap={12}>
                   <Button variant='default' onClick={excludeAll} className={classes.bulkActionButton}>
-                    {t('ExcludeButton')}
+                    {t($ => $.ExcludeButton)}
                   </Button>
                   <Button variant='default' onClick={clearAll} className={classes.bulkActionButton}>
-                    {t('ClearButton')}
+                    {t($ => $.ClearButton)}
                   </Button>
                 </Flex>
               </Flex>
@@ -231,5 +231,5 @@ export function CharacterMultiSelect({
         )}
       </Modal>
     </>
-  )
+  );
 }

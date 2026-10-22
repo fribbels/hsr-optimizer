@@ -81,22 +81,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     talentBuffStacks: {
       id: 'talentBuffStacks',
       formItem: 'slider',
-      text: t('Content.talentBuffStacks.text'),
-      content: t('Content.talentBuffStacks.content', { talentStacksAtkBuff: precisionRound(100 * talentStacksAtkBuff) }),
+      text: t(($) => $.Content.talentBuffStacks.text),
+      content: t(($) => $.Content.talentBuffStacks.content, { talentStacksAtkBuff: precisionRound(100 * talentStacksAtkBuff) }),
       min: 0,
       max: 5,
     },
     ultSpdBuff: {
       id: 'ultSpdBuff',
       formItem: 'switch',
-      text: t('Content.ultSpdBuff.text'),
-      content: t('Content.ultSpdBuff.content', { ultSpdBuffValue }),
+      text: t(($) => $.Content.ultSpdBuff.text),
+      content: t(($) => $.Content.ultSpdBuff.content, { ultSpdBuffValue }),
     },
     fireDmgBoost: {
       id: 'fireDmgBoost',
       formItem: 'switch',
-      text: t('Content.fireDmgBoost.text'),
-      content: t('Content.fireDmgBoost.content'),
+      text: t(($) => $.Content.fireDmgBoost.text),
+      content: t(($) => $.Content.fireDmgBoost.content),
     },
   }
 

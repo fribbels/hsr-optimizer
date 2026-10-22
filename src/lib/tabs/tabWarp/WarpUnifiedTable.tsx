@@ -131,13 +131,13 @@ export function WarpUnifiedTable(props: {
 
           <Flex gap={8} py={4}>
             <Button variant='subtle' size='xs' leftSection={<IconPlus size={14} />} onClick={addCharAndSig.open}>
-              {t('AddCharacterAndSignature') /* Add character and signature */}
+              {t($ => $.AddCharacterAndSignature) /* Add character and signature */}
             </Button>
             <Button variant='subtle' size='xs' leftSection={<IconPlus size={14} />} onClick={addChar.open}>
-              {t('AddCharacter') /* Add character */}
+              {t($ => $.AddCharacter) /* Add character */}
             </Button>
             <Button variant='subtle' size='xs' leftSection={<IconPlus size={14} />} onClick={addLc.open}>
-              {t('AddLightCone') /* Add light cone */}
+              {t($ => $.AddLightCone) /* Add light cone */}
             </Button>
             <HiddenSelectHost>
               <CharacterSelect
@@ -172,7 +172,7 @@ export function WarpUnifiedTable(props: {
         </Flex>
       </SortableContext>
     </DndContext>
-  )
+  );
 }
 
 function SortableTargetGroup(props: {

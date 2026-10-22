@@ -188,7 +188,7 @@ function TooltipContent(props: TooltipContentProps) {
         <u>{data.name}</u>
       </div>
       <div>
-        {data.potentialMode === BucketPotentialMode.Average ? t('AvgPotential') : t('MaxPotential')}
+        {data.potentialMode === BucketPotentialMode.Average ? t($ => $.AvgPotential) : t($ => $.MaxPotential)}
         {truncate10ths(data.potential)}%
       </div>
       {data.potentialMode === BucketPotentialMode.Maximum && (
@@ -196,7 +196,7 @@ function TooltipContent(props: TooltipContentProps) {
           <div>
             {data.bestUpgraded?.length > 0 && (
               <>
-                <>{t('UpgradedStats')}</>
+                <>{t($ => $.UpgradedStats)}</>
                 <>{data.bestUpgraded.join(' / ')}</>
               </>
             )}
@@ -204,7 +204,7 @@ function TooltipContent(props: TooltipContentProps) {
           <div>
             {data.bestAdded?.length > 0 && (
               <>
-                <>{t('NewStats')}</>
+                <>{t($ => $.NewStats)}</>
                 <>{data.bestAdded.join(' / ')}</>
               </>
             )}
@@ -212,7 +212,7 @@ function TooltipContent(props: TooltipContentProps) {
         </>
       )}
     </div>
-  )
+  );
 }
 
 type BucketPotential = Pick<PotentialResult, 'averagePct' | 'bestPct'>

@@ -38,12 +38,12 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
 
   if (id.length !== 9) {
     handleFetchFailure()
-    Message.error(t('InvalidIdWarning') /* Invalid ID */)
+    Message.error(t(($) => $.InvalidIdWarning) /* Invalid ID */)
     return
   }
 
   if (latestRefreshDate) {
-    Message.warning(t('ThrottleWarning', /* Please wait {{seconds}} seconds before retrying */ {
+    Message.warning(t(($) => $.ThrottleWarning, /* Please wait {{seconds}} seconds before retrying */ {
       seconds: Math.max(1, Math.ceil(THROTTLE_SECONDS - (new Date().getTime() - latestRefreshDate.getTime()) / 1000)),
     }))
     handleFetchFailure()
@@ -78,7 +78,7 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
         characters = processEnkaData(data)
       } else {
         handleFetchFailure()
-        Message.error(t('IdLoadError') /* Error loading ID */)
+        Message.error(t(($) => $.IdLoadError) /* Error loading ID */)
         return
       }
 
@@ -100,17 +100,17 @@ export function submitForm(form: ShowcaseTabForm, options?: { skipCooldown?: boo
         // First load — delay lets hidden components pre-render, images cache, and L2D animations initialize
         setTimeout(() => {
           useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loaded)
-          Message.success(t('SuccessMsg') /* Successfully loaded profile */)
+          Message.success(t(($) => $.SuccessMsg) /* Successfully loaded profile */)
         }, 1500)
       } else {
         // Re-fetch from Loaded — instant, no delay needed
         useShowcaseTabStore.getState().setScreen(ShowcaseScreen.Loaded)
-        Message.success(t('SuccessMsg') /* Successfully loaded profile */)
+        Message.success(t(($) => $.SuccessMsg) /* Successfully loaded profile */)
       }
     })
     .catch((error) => {
       setTimeout(() => {
-        Message.warning(t('LookupError') /* Error during lookup, please try again in a bit */)
+        Message.warning(t(($) => $.LookupError) /* Error during lookup, please try again in a bit */)
         console.error('Fetch error:', error)
         handleFetchFailure()
       }, 1000 * 5)

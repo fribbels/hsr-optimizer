@@ -65,7 +65,9 @@ export async function expectBenchmarkResultsToMatch(
     // @ts-expect-error - Error type narrowing in test assertion
     const message = error.message
     throw new Error(`
-${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} BENCHMARK
+${i18next.t($ => $.Characters[input.character.characterId].LongName, {
+      ns: "gameData"
+    })} BENCHMARK
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

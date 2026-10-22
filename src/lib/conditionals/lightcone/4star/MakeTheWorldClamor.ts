@@ -32,8 +32,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'ultDmgBuff',
       formItem: 'switch',
-      text: t('Content.ultDmgBuff.text'),
-      content: t('Content.ultDmgBuff.content', {
+      text: t(($) => $.Content.ultDmgBuff.text),
+      content: t(($) => $.Content.ultDmgBuff.content, {
         Energy: sValuesEnergy[s],
         DmgBuff: precisionRound(100 * sValues[s]),
       }),

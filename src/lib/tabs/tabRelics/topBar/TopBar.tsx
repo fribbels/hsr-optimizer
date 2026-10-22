@@ -90,7 +90,7 @@ export function TopBar() {
           showIcon={false}
         />
         <Button variant='default' onClick={handleScoringClick} size='xs' fullWidth>
-          {t('RelicFilterBar.ScoringButton')}
+          {t($ => $.RelicFilterBar.ScoringButton)}
         </Button>
       </div>
 
@@ -110,9 +110,9 @@ export function TopBar() {
           h='100%'
           style={{ border: 'var(--border-subtle)' }}
         >
-          {t('RelicFilterBar.Clear')}
+          {t($ => $.RelicFilterBar.Clear)}
         </Button>
       </div>
     </div>
-  )
+  );
 }

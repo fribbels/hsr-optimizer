@@ -95,12 +95,12 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
   const content = (
     <Flex direction='column' gap={12}>
       <Flex direction='column' gap={4}>
-        <HeaderText>{t('DescriptionHeader') /* Set description */}</HeaderText>
+        <HeaderText>{t($ => $.DescriptionHeader) /* Set description */}</HeaderText>
         <Text size='xs'>{ColorizeNumbers(description)}</Text>
       </Flex>
 
       <Flex direction='column' gap={4}>
-        <HeaderText>{t('EffectHeader') /* Enabled effect */}</HeaderText>
+        <HeaderText>{t($ => $.EffectHeader) /* Enabled effect */}</HeaderText>
         <Text size='xs'>{conditional}</Text>
       </Flex>
     </Flex>
@@ -158,7 +158,9 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
               whiteSpace: 'nowrap',
             }}
           >
-            {t('SetName', { id: setToId[set] })}
+            {t($ => $.SetName, {
+              id: setToId[set]
+            })}
           </div>
           <Flex style={{ width: setConditionalsWidth }} justify='flex-end'>
             {inputType}
@@ -166,11 +168,13 @@ function ConditionalSetOption({ set, description, conditional, selectOptions, st
         </Flex>
       </HoverCard.Target>
       <HoverCard.Dropdown style={{ fontSize: 13 }}>
-        <Text fw={600} mb={4} size='sm'>{t('SetName', { id: setToId[set] })}</Text>
+        <Text fw={600} mb={4} size='sm'>{t($ => $.SetName, {
+          id: setToId[set]
+        })}</Text>
         {content}
       </HoverCard.Dropdown>
     </HoverCard>
-  )
+  );
 }
 
 export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
@@ -185,7 +189,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
 
   return (
     <Drawer
-      title={t('Title')} // 'Conditional set effects'
+      title={t($ => $.Title)} // 'Conditional set effects'
       position='right'
       onClose={close}
       opened={isOpen}
@@ -194,7 +198,7 @@ export function FormSetConditionals({ id }: { id: OpenCloseIDs }) {
     >
       {hasOpened && <FormSetConditionalsContent storeType={storeType} />}
     </Drawer>
-  )
+  );
 }
 
 function FormSetConditionalsContent({ storeType }: { storeType: SetConditionalsStoreType }) {
@@ -210,11 +214,13 @@ function FormSetConditionalsContent({ storeType }: { storeType: SetConditionalsS
           set={set}
           storeType={storeType}
           p4Checked={!config.display.modifiable}
-          description={t('RelicDescription', { id: setToId[set] })}
-          conditional={t(setToConditionalKey(set))}
+          description={t($ => $.RelicDescription, {
+            id: setToId[set]
+          })}
+          conditional={t($ => $.Conditionals[setToConditionalKey(set)])}
           selectOptions={config.display.selectionOptions?.(tSelectOptions)}
         />
-      )
+      );
     })
 
     const ornamentOptions = ornamentIndexToSetConfig.map((config) => {
@@ -225,11 +231,13 @@ function FormSetConditionalsContent({ storeType }: { storeType: SetConditionalsS
           set={set}
           storeType={storeType}
           p2Checked={!config.display.modifiable}
-          description={t('PlanarDescription', { id: setToId[set] })}
-          conditional={t(setToConditionalKey(set))}
+          description={t($ => $.PlanarDescription, {
+            id: setToId[set]
+          })}
+          conditional={t($ => $.Conditionals[setToConditionalKey(set)])}
           selectOptions={config.display.selectionOptions?.(tSelectOptions)}
         />
-      )
+      );
     })
 
     return { relicOptions, ornamentOptions }

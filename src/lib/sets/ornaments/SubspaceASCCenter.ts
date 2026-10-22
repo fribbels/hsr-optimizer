@@ -97,7 +97,10 @@ const conditionals: SetConditionals = {
   teammate: [{
     value: Sets.SubspaceASCCenter,
     label: () => 'Subspace ASC Center (145 SPD)',
-    desc: () => i18next.t('BetaMessage', { ns: 'conditionals', Version: CURRENT_DATA_VERSION }),
+    desc: () => i18next.t($ => $.BetaMessage, {
+      ns: 'conditionals',
+      Version: CURRENT_DATA_VERSION
+    }),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.BE, 0.15, x.targets(TargetTag.FullTeam).source(Source.SubspaceASCCenter))

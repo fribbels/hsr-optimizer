@@ -37,7 +37,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Lushaka',
+  conditionalI18nKey: 'Lushaka',
   modifiable: true,
   defaultValue: true,
 } as const satisfies SetDisplay
@@ -64,8 +64,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.LushakaTheSunkenSeas,
-    label: (t) => t('TeammateSets.Lushaka.Text'),
-    desc: (t) => t('TeammateSets.Lushaka.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Lushaka.Text),
+    desc: (t) => t(($) => $.TeammateSets.Lushaka.Desc),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.ATK_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.LushakaTheSunkenSeas))

@@ -36,8 +36,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'purgatoryState',
       formItem: 'switch',
-      text: t('text'),
-      content: t('content', { cdBuff: precisionRound(100 * sValuesTeamCd[s]) }),
+      text: t(($) => $.text),
+      content: t(($) => $.content, { cdBuff: precisionRound(100 * sValuesTeamCd[s]) }),
     },
   }
 

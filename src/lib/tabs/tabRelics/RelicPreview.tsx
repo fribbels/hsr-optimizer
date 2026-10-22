@@ -85,10 +85,10 @@ export const RelicPreview = memo(function RelicPreview(props: {
 
   // Memoize merged relic object to avoid recreation on every render
   const relic = useMemo<Relic>(() =>
-    ({
+    (({
       ...PLACEHOLDER_RELIC,
-      ...props.relic,
-    }) as Relic, [props.relic])
+      ...props.relic
+    }) as Relic), [props.relic])
 
   const relicSrc = relic.set ? Assets.getSetImage(relic.set, relic.part) : Assets.getBlank()
   const equippedBySrc = relic.equippedBy ? Assets.getCharacterAvatarById(relic.equippedBy) : Assets.getBlank()
@@ -226,10 +226,10 @@ const ScoreFooter = memo(function ScoreFooter({ score }: { score?: RelicScoringR
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex' }}>
           <img src={icon} className={iconClasses.statIcon}></img>
-          {scored ? `${t('Score')}${asterisk ? ' *' : ''}` : ''}
+          {scored ? `${t($ => $.Score)}${asterisk ? ' *' : ''}` : ''}
         </div>
         {scored ? `${score.percentScore.toFixed(1)} (${score.rating})` : ''}
       </div>
     </>
-  )
+  );
 })

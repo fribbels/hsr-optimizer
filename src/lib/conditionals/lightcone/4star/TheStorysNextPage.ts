@@ -31,8 +31,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'ohbBuff',
       formItem: 'switch',
-      text: t('ohbBuff.text'),
-      content: t('ohbBuff.content', { OHBBuff: precisionRound(100 * sValuesOhb[s]) }),
+      text: t(($) => $.ohbBuff.text),
+      content: t(($) => $.ohbBuff.content, { OHBBuff: precisionRound(100 * sValuesOhb[s]) }),
     },
   }
 

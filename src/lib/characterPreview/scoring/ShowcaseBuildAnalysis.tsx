@@ -51,12 +51,12 @@ export const ShowcaseBuildAnalysis = memo(function ShowcaseBuildAnalysis({
       const configType = configTypeForScoringType(optionScoringType)
       if (configType != null) {
         const entry = SCORING_CONFIG_REGISTRY[configType]
-        return t(`CharacterPreview.AlgorithmSlider.Labels.${entry.configType}`)
+        return t($ => $.CharacterPreview.AlgorithmSlider.Labels[entry.configType]);
       }
 
       return optionScoringType === ScoringType.SUBSTAT_SCORE
-        ? t('CharacterPreview.AlgorithmSlider.Labels.StatScore')
-        : t('CharacterPreview.AlgorithmSlider.Labels.NoneScore')
+        ? t($ => $.CharacterPreview.AlgorithmSlider.Labels.StatScore)
+        : t($ => $.CharacterPreview.AlgorithmSlider.Labels.NoneScore);
     },
   ), [showcaseScoringOrder, t])
 

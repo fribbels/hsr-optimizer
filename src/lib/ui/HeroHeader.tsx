@@ -37,21 +37,19 @@ export function HeroHeader() {
         align='center'
         justify='space-between'
       >
+        <p>{t($ => $.Hero.Welcome)}</p>
         <h1 className={classes.headerTitle}>
-          <Trans t={t} i18nKey='Welcome'>
-            Welcome to the<br />Fribbels Star Rail Optimizer
-          </Trans>
+          {t($ => $.Hero.Title)}
         </h1>
         <SearchBar />
       </Flex>
     </div>
-  )
+  );
 }
 
 function SearchBar() {
   const scorerId = useShowcaseTabStore((s) => s.savedSession.scorerId)
   const { t } = useTranslation('hometab', { keyPrefix: 'SearchBar' })
-  const { t: tHome } = useTranslation('hometab')
   const inputRef = useRef<HTMLInputElement>(null)
 
   function handleSearchSubmit() {
@@ -60,7 +58,7 @@ function SearchBar() {
 
     const validated = validateUuid(uuid)
     if (!validated) {
-      return Message.warning(t('Message') /* 'Invalid input - This should be your 9 digit ingame UUID' */)
+      return Message.warning(t($ => $.Message) /* 'Invalid input - This should be your 9 digit ingame UUID' */);
     }
 
     navigateTo(AppPages.SHOWCASE, new URLSearchParams(`?id=${uuid}`))
@@ -76,17 +74,17 @@ function SearchBar() {
     >
       <Flex justify='space-between' w='100%'>
         <Flex className={classes.searchBarLabel}>
-          {t('Label') /* Enter your UUID to showcase characters: */}
+          {t($ => $.Label) /* Enter your UUID to showcase characters: */}
         </Flex>
         <div className={classes.searchBarApi}>
-          <ColorizedLinkWithIcon text={t('Api') /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
+          <ColorizedLinkWithIcon text={t($ => $.Api) /* Uses Enka.Network */} noUnderline={true} url='https://enka.network/?hsr' />
         </div>
       </Flex>
       <Flex w='100%' gap={0}>
         <Button
           size='md'
           onClick={handleSearchSubmit}
-          aria-label={tHome('Search')}
+          aria-label={t($ => $.Search)}
           style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
         >
           <IconSearch size={20} />
@@ -94,7 +92,7 @@ function SearchBar() {
         <TextInput
           ref={inputRef}
           size='md'
-          placeholder={t('Placeholder') /* 'UID' */}
+          placeholder={t($ => $.Placeholder) /* 'UID' */}
           style={{ flex: 1 }}
           styles={{ input: { fontSize: 16, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 } }}
           defaultValue={scorerId ?? ''}
@@ -104,5 +102,5 @@ function SearchBar() {
         />
       </Flex>
     </Flex>
-  )
+  );
 }

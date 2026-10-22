@@ -47,16 +47,16 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean, { character
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: t('Content.dmgBoost.text'),
-      content: t('Content.dmgBoost.content', { DmgBuff: precisionRound(100 * sValuesDmg[s]) }),
+      text: t(($) => $.Content.dmgBoost.text),
+      content: t(($) => $.Content.dmgBoost.content, { DmgBuff: precisionRound(100 * sValuesDmg[s]) }),
       disabled: !isValidWearer,
     },
     enhancedBasicBoost: {
       lc: true,
       id: 'enhancedBasicBoost',
       formItem: 'switch',
-      text: t('Content.enhancedBasicBoost.text'),
-      content: t('Content.enhancedBasicBoost.content', { DmgBoost: precisionRound(100 * sValuesEnhancedBasicDmg[s]) }),
+      text: t(($) => $.Content.enhancedBasicBoost.text),
+      content: t(($) => $.Content.enhancedBasicBoost.content, { DmgBoost: precisionRound(100 * sValuesEnhancedBasicDmg[s]) }),
     },
   }
 

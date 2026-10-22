@@ -30,8 +30,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'selfAttackedDefBuff',
       formItem: 'switch',
-      text: t('Content.selfAttackedDefBuff.text'),
-      content: t('Content.selfAttackedDefBuff.content', { DefBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.selfAttackedDefBuff.text),
+      content: t(($) => $.Content.selfAttackedDefBuff.content, { DefBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

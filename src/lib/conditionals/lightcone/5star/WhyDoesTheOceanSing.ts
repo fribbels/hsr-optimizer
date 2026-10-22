@@ -41,8 +41,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'dotVulnStacks',
       formItem: 'slider',
-      text: t('dotVulnStacks.text'),
-      content: t('dotVulnStacks.content', { DotVuln: precisionRound(100 * sValuesDotVuln[s]) }),
+      text: t(($) => $.dotVulnStacks.text),
+      content: t(($) => $.dotVulnStacks.content, { DotVuln: precisionRound(100 * sValuesDotVuln[s]) }),
       min: 0,
       max: 6,
     },
@@ -50,8 +50,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'spdBuff',
       formItem: 'switch',
-      text: t('spdBuff.text'),
-      content: t('spdBuff.content', { SpdBuff: precisionRound(100 * sValuesSpd[s]) }),
+      text: t(($) => $.spdBuff.text),
+      content: t(($) => $.spdBuff.content, { SpdBuff: precisionRound(100 * sValuesSpd[s]) }),
     },
   }
 

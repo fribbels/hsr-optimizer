@@ -142,14 +142,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     blockActive: {
       id: 'blockActive',
       formItem: 'switch',
-      text: t('Content.blockActive.text'),
-      content: t('Content.blockActive.content'),
+      text: t(($) => $.Content.blockActive.text),
+      content: t(($) => $.Content.blockActive.content),
     },
     ultCull: {
       id: 'ultCull',
       formItem: 'switch',
-      text: t('Content.ultCull.text'),
-      content: t('Content.ultCull.content', {
+      text: t(($) => $.Content.ultCull.text),
+      content: t(($) => $.Content.ultCull.content, {
         CullScaling: precisionRound(100 * ultCullScaling),
         CullAdjacentScaling: precisionRound(100 * 0.5 * ultCullScaling),
         CullAdditionalScaling: precisionRound(100 * ultCullHitsScaling),
@@ -158,8 +158,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultCullHits: {
       id: 'ultCullHits',
       formItem: 'slider',
-      text: t('Content.ultCullHits.text'),
-      content: t('Content.ultCullHits.content', {
+      text: t(($) => $.Content.ultCullHits.text),
+      content: t(($) => $.Content.ultCullHits.content, {
         CullScaling: precisionRound(100 * ultCullScaling),
         CullAdjacentScaling: precisionRound(100 * 0.5 * ultCullScaling),
         CullAdditionalScaling: precisionRound(100 * ultCullHitsScaling),
@@ -170,35 +170,35 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     counterAtkBuff: {
       id: 'counterAtkBuff',
       formItem: 'switch',
-      text: t('Content.counterAtkBuff.text'),
-      content: t('Content.counterAtkBuff.content'),
+      text: t(($) => $.Content.counterAtkBuff.text),
+      content: t(($) => $.Content.counterAtkBuff.content),
     },
     e1UltBuff: {
       id: 'e1UltBuff',
       formItem: 'switch',
-      text: t('Content.e1UltBuff.text'),
-      content: t('Content.e1UltBuff.content'),
+      text: t(($) => $.Content.e1UltBuff.text),
+      content: t(($) => $.Content.e1UltBuff.content),
       disabled: e < 1,
     },
     e2DefShred: {
       id: 'e2DefShred',
       formItem: 'switch',
-      text: t('Content.e2DefShred.text'),
-      content: t('Content.e2DefShred.content'),
+      text: t(($) => $.Content.e2DefShred.text),
+      content: t(($) => $.Content.e2DefShred.content),
       disabled: e < 2,
     },
     e4ResBuff: {
       id: 'e4ResBuff',
       formItem: 'switch',
-      text: t('Content.e4ResBuff.text'),
-      content: t('Content.e4ResBuff.content'),
+      text: t(($) => $.Content.e4ResBuff.text),
+      content: t(($) => $.Content.e4ResBuff.content),
       disabled: e < 4,
     },
     e6Buffs: {
       id: 'e6Buffs',
       formItem: 'switch',
-      text: t('Content.e6Buffs.text'),
-      content: t('Content.e6Buffs.content'),
+      text: t(($) => $.Content.e6Buffs.text),
+      content: t(($) => $.Content.e6Buffs.content),
       disabled: e < 6,
     },
   }

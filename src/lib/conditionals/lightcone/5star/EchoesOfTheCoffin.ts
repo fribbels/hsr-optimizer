@@ -36,8 +36,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'postUltSpdBuff',
       formItem: 'switch',
-      text: t('Content.postUltSpdBuff.text'),
-      content: t('Content.postUltSpdBuff.content', {
+      text: t(($) => $.Content.postUltSpdBuff.text),
+      content: t(($) => $.Content.postUltSpdBuff.content, {
         EnergyRecovered: precisionRound(sValuesEnergy[s]),
         SpdBuff: precisionRound(sValues[s]),
       }),

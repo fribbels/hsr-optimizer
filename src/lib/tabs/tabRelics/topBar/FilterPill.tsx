@@ -111,7 +111,7 @@ function FilterPillInner<T extends string | number | boolean>({
           <Combobox.Search
             value={search}
             onChange={(e) => setSearch(e.currentTarget.value)}
-            placeholder={t('Search')}
+            placeholder={t($ => $.Search)}
           />
         )}
         <Combobox.Options
@@ -143,11 +143,11 @@ function FilterPillInner<T extends string | number | boolean>({
               </Combobox.Option>
             )
           })}
-          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t('NoResults')}</Combobox.Empty>}
+          {combobox.dropdownOpened && filteredOptions.length === 0 && <Combobox.Empty>{t($ => $.NoResults)}</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>
-  )
+  );
 }
 
 export const FilterPill = memo(FilterPillInner) as typeof FilterPillInner

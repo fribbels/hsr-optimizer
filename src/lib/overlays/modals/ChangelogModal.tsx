@@ -119,7 +119,7 @@ export function ChangelogModal() {
         </ul>
         <div className={`${classes.scrollIndicator} ${atBottom ? classes.scrollIndicatorHidden : ''}`}>
           <div className={classes.scrollIndicatorContent}>
-            <span>{t('ScrollToExplore')}</span>
+            <span>{t($ => $.ScrollToExplore)}</span>
             <IconChevronDown size={20} />
           </div>
         </div>
@@ -129,5 +129,5 @@ export function ChangelogModal() {
         <CtaCards />
       </div>
     </Modal>
-  )
+  );
 }

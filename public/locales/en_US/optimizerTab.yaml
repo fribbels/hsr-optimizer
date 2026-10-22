@@ -58,7 +58,20 @@ SortOptions:
   MEMO_SKILL: Sorted by Memo Skill DMG
   MEMO_TALENT: Sorted by Memo Talent DMG
   ELATION_SKILL: Sorted by Elation Skill DMG
-  UNIQUE: Sorted by Unique DMG
+  UNIQUE:
+    1014: Sorted by Excalibur DMG
+    1015: Sorted by Unlimited Blade Works DMG
+    1309: Sorted by Concerto DMG
+    1403: Sorted by Numinosity DMG
+    1505: Sorted by Master Fox DMG
+    1506: Sorted by Certified Banger DMG
+    1508: Sorted by Gandr DMG
+    1509: Sorted by Enkidu DMG
+    1510: Sorted by Decimation DMG
+    1513: Sorted by Cheers! DMG
+    8009: Sorted by Plot Armor DMG
+    8010: Sorted by Plot Armor DMG
+    Default: Sorted by Unique DMG
   DOT: Sorted by DoT DMG
   BREAK: Sorted by Break DMG
   HEAL: Sorted by Heal
@@ -173,9 +186,46 @@ Grid:
       ELATION_SKILL: |-
         ELATION
         SKILL
-      UNIQUE: |-
-        UNIQUE
-        DMG
+      UNIQUE:
+        1014: |-
+          EXCALIBUR
+          DMG
+        1015: |-
+          UNLIMITED BLADE WORKS
+          DMG
+        1309: |-
+          CONCERTO
+          DMG
+        1403: |-
+          NUMINOSITY
+          DMG
+        1505: |-
+          MASTER FOX
+          DMG
+        1506: |-
+          CERTIFIED BANGER
+          DMG
+        1508: |-
+          GANDR
+          DMG
+        1509: |-
+          ENKIDU
+          DMG
+        1510: |-
+          DECIMATION
+          DMG
+        1513: |-
+          CHEERS!
+          DMG
+        8009: |-
+          PLOT ARMOR
+          DMG
+        8010: |-
+          PLOT ARMOR
+          DMG
+        Default: |-
+          UNIQUE
+          DMG
       DOT: |-
         DOT
         DMG
@@ -253,9 +303,46 @@ Grid:
       ELATION_SKILL: |-
         ELATION
         SKILL
-      UNIQUE: |-
-        UNIQUE
-        DMG
+      UNIQUE:
+        1014: |-
+          EXCALIBUR
+          DMG
+        1015: |-
+          UNLIMITED BLADE WORKS
+          DMG
+        1309: |-
+          CONCERTO
+          DMG
+        1403: |-
+          NUMINOSITY
+          DMG
+        1505: |-
+          MASTER FOX
+          DMG
+        1506: |-
+          CERTIFIED BANGER
+          DMG
+        1508: |-
+          GANDR
+          DMG
+        1509: |-
+          ENKIDU
+          DMG
+        1510: |-
+          DECIMATION
+          DMG
+        1513: |-
+          CHEERS!
+          DMG
+        8009: |-
+          PLOT ARMOR
+          DMG
+        8010: |-
+          PLOT ARMOR
+          DMG
+        Default: |-
+          UNIQUE
+          DMG
       DOT: |-
         DOT
         DMG
@@ -623,7 +710,20 @@ ComboFilter:
     MemoSkill: Skillᴹ
     MemoTalent: Talentᴹ
     ElationSkill: Elation Skill
-    Unique: Unique
+    Unique:
+      1014: Excalibur
+      1015: Unlimited Blade Works
+      1309: Concerto
+      1403: Numinosity
+      1505: Master Fox
+      1506: Certified Banger
+      1508: Gandr
+      1509: Enkidu
+      1510: Decimation
+      1513: Cheers!
+      8009: Plot Armor
+      8010: PLOT ARMOR
+      Default: Unique
     BasicHeal: Basic HEAL
     SkillHeal: Skill HEAL
     UltHeal: Ult HEAL
@@ -774,7 +874,20 @@ ExpandedDataPanel:
     ADDITIONAL: ADDITIONAL
     ELATION: ELATION
     ASSIST: ASSIST
-    UNIQUE: UNIQUE
+    UNIQUE:
+      1014: EXCALIBUR
+      1015: UNLIMITED BLADE WORKS
+      1309: CONCERTO
+      1403: NUMINOSITY
+      1505: MASTER FOX
+      1506: CERTIFIED BANGER
+      1508: GANDR
+      1509: ENKIDU
+      1510: DECIMATION
+      1513: CHEERS!
+      8009: PLOT ARMOR
+      8010: PLOT ARMOR
+      Default: Unique
   DamageSplits:
     Title: Combo Breakdown
     PieTitle: Combo Distribution
@@ -828,7 +941,20 @@ ExpandedDataPanel:
       E4: E4
       E6: E6
       ElationSkill: Elation Skill
-      Unique: Unique
+      Unique:
+        1014: Excalibur
+        1015: Unlimited Blade Works
+        1309: Concerto
+        1403: Numinosity
+        1505: Master Fox
+        1506: Certified Banger
+        1508: Gandr
+        1509: Enkidu
+        1510: Decimation
+        1513: Cheers!
+        8009: Plot Armor
+        8010: PLOT ARMOR
+        Default: Unique
       LightCone: Light Cone
       Set: Set
     DefaultAction: Default

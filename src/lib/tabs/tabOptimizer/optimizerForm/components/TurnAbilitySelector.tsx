@@ -6,7 +6,6 @@ import {
   ComboOptionsLabelMapping,
   createAbility,
   NULL_TURN_ABILITY_NAME,
-  type TurnAbility,
   type TurnAbilityName,
   TurnMarker,
 } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -25,6 +24,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { type CharacterId } from 'types/character'
 import type { CharacterConditionalsController } from 'types/conditionals'
+import { type UniqueAbilityOwner } from 'types/uniqueAbility'
 
 const compactInputStyles = {
   input: {
@@ -41,14 +41,14 @@ function IndexLabel({ index }: { index: number }) {
   return <span style={{ fontSize: 12, whiteSpace: 'nowrap', width: '100%', textAlign: 'left' }}>{`${index}.`}</span>
 }
 
-function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimizerTab', 'ComboFilter'>): CascaderGroup {
+function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimizerTab', 'ComboFilter'>, id: CharacterId | 'Default'): CascaderGroup {
   return {
     label: groupLabel,
     options: Object.values(TurnMarker).map((marker) => {
       const turnAbility = createAbility(kind, marker)
       return {
         value: turnAbility.name,
-        label: toI18NVisual(turnAbility, t),
+        label: toI18NVisual(turnAbility, t, id),
       }
     }),
   }
@@ -58,18 +58,34 @@ function mapKindToGroup(kind: string, groupLabel: string, t: TFunction<'optimize
 // full character turns (including buff skills / transformation ults) — not just damage actions.
 const ALWAYS_INCLUDED_KINDS: AbilityKind[] = [AbilityKind.SKILL, AbilityKind.ULT]
 
-function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: string, characterEidolon?: number): CascaderData {
-  if (characterId && characterEidolon != null) {
+function generateAbilityGroupedOptions(t: TFunction<'optimizerTab', 'ComboFilter'>, characterId?: CharacterId | 'Default', characterEidolon?: number): CascaderData {
+  if (characterId && characterEidolon != null && characterId !== 'Default') {
     const characterConditionals: CharacterConditionalsController = CharacterConditionalsResolver.get({
-      characterId: characterId as CharacterId,
+      characterId: characterId,
       characterEidolon: characterEidolon,
     })
     const declared = characterConditionals.actionDeclaration ? characterConditionals.actionDeclaration() : []
     const actions = [...new Set([...declared, ...ALWAYS_INCLUDED_KINDS])]
-    return actions.map((kind) => mapKindToGroup(kind, t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`), t))
+    return actions.map((kind) => mapKindToGroup(
+      kind,
+      t($ => kind === AbilityKind.UNIQUE
+        ? $.ComboOptions[ComboOptionsLabelMapping[kind]][characterId as UniqueAbilityOwner]
+        : $.ComboOptions[ComboOptionsLabelMapping[kind]]
+      ),
+      t,
+      characterId
+    ));
   }
 
-  return ALL_ABILITIES.map((kind) => mapKindToGroup(kind, t(`ComboOptions.${ComboOptionsLabelMapping[kind]}`), t))
+  return ALL_ABILITIES.map((kind) => mapKindToGroup(
+    kind,
+    t($ => kind === AbilityKind.UNIQUE
+      ? $.ComboOptions[ComboOptionsLabelMapping[kind]].Default
+      : $.ComboOptions[ComboOptionsLabelMapping[kind]]
+    ),
+    t,
+    'Default'
+  ));
 }
 
 export function TurnAbilitySelector({ index, disabled }: { index: number, disabled: boolean }) {
@@ -91,7 +107,7 @@ export function TurnAbilitySelector({ index, disabled }: { index: number, disabl
     <CascaderSelect
       data={options}
       value={value || null}
-      placeholder={t('ComboOptions.Placeholder')}
+      placeholder={t($ => $.ComboOptions.Placeholder)}
       variant='unstyled'
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}
@@ -99,12 +115,12 @@ export function TurnAbilitySelector({ index, disabled }: { index: number, disabl
       disabled={disabled}
       onChange={handleChange}
     />
-  )
+  );
 }
 
-export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbilityName, index: number }) {
+export function TurnAbilitySelectorSimple({ value, index, id }: { value: TurnAbilityName, index: number, id: CharacterId | 'Default' }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ComboFilter' })
-  const options = useMemo(() => generateAbilityGroupedOptions(t), [t])
+  const options = useMemo(() => generateAbilityGroupedOptions(t, id), [t])
 
   if (value == null) {
     return null
@@ -114,15 +130,15 @@ export function TurnAbilitySelectorSimple({ value, index }: { value: TurnAbility
     <CascaderSelect
       data={options}
       value={value}
-      placeholder={t('ComboOptions.Placeholder')}
+      placeholder={t($ => $.ComboOptions.Placeholder)}
       variant='unstyled'
       leftSection={<IndexLabel index={index} />}
       leftSectionWidth={24}
       styles={compactInputStyles}
       disabled={true}
-      onChange={() => {}}
+      onChange={() => { }}
     />
-  )
+  );
 }
 
 export function ControlledTurnAbilitySelector({
@@ -153,11 +169,11 @@ export function ControlledTurnAbilitySelector({
       style={style}
       data={options}
       value={value || null}
-      placeholder={t('ComboOptions.Placeholder')}
+      placeholder={t($ => $.ComboOptions.Placeholder)}
       styles={{ input: { fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' } }}
       clearable
       onClear={handleClear}
       onChange={handleChange}
     />
-  )
+  );
 }

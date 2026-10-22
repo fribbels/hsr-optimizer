@@ -133,36 +133,36 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     beConversion: {
       id: 'beConversion',
       formItem: 'switch',
-      text: t('Content.beConversion.text'),
-      content: t('Content.beConversion.content'),
+      text: t(($) => $.Content.beConversion.text),
+      content: t(($) => $.Content.beConversion.content),
     },
     befogState: {
       id: 'befogState',
       formItem: 'switch',
-      text: t('Content.befogState.text'),
-      content: t('Content.befogState.content', {
+      text: t(($) => $.Content.befogState.text),
+      content: t(($) => $.Content.befogState.content, {
         BefogVulnerability: precisionRound(100 * ultBreakVulnerability),
       }),
     },
     e1DefShred: {
       id: 'e1DefShred',
       formItem: 'switch',
-      text: t('Content.e1DefShred.text'),
-      content: t('Content.e1DefShred.content'),
+      text: t(($) => $.Content.e1DefShred.text),
+      content: t(($) => $.Content.e1DefShred.content),
       disabled: e < 1,
     },
     e2BeBuff: {
       id: 'e2BeBuff',
       formItem: 'switch',
-      text: t('Content.e2BeBuff.text'),
-      content: t('Content.e2BeBuff.content'),
+      text: t(($) => $.Content.e2BeBuff.text),
+      content: t(($) => $.Content.e2BeBuff.content),
       disabled: e < 2,
     },
     e6ResShred: {
       id: 'e6ResShred',
       formItem: 'switch',
-      text: t('Content.e6ResShred.text'),
-      content: t('Content.e6ResShred.content'),
+      text: t(($) => $.Content.e6ResShred.text),
+      content: t(($) => $.Content.e6ResShred.content),
       disabled: e < 6,
     },
   }

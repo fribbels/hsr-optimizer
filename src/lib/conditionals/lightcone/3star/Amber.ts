@@ -30,8 +30,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'hp50DefBuff',
       formItem: 'switch',
-      text: t('Content.hp50DefBuff.text'),
-      content: t('Content.hp50DefBuff.content', { DefBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.hp50DefBuff.text),
+      content: t(($) => $.Content.hp50DefBuff.content, { DefBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

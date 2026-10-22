@@ -24,14 +24,14 @@ export function ClearDataSubmenu() {
       setLoading(false)
       persistenceService.resetAll()
 
-      Message.success(t('SuccessMessage') /* Cleared data */)
+      Message.success(t($ => $.SuccessMessage) /* Cleared data */)
     }, importerTabSpinnerMs)
   }
 
   return (
     <Flex direction='column' gap={5}>
       <div>
-        {t('Label') /* Clear all optimizer data. */}
+        {t($ => $.Label) /* Clear all optimizer data. */}
       </div>
       <Button
         leftSection={<IconTrash size={16} />}
@@ -39,15 +39,15 @@ export function ClearDataSubmenu() {
         w={importerTabButtonWidth}
         onClick={() =>
           modals.openConfirmModal({
-            title: t('WarningTitle'),
-            children: t('WarningDescription'),
-            labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+            title: t($ => $.WarningTitle),
+            children: t($ => $.WarningDescription),
+            labels: { confirm: tCommon($ => $.Yes), cancel: tCommon($ => $.Cancel) },
             centered: true,
             onConfirm: clearDataClicked,
           })}
       >
-        {t('ButtonText') /* Clear data */}
+        {t($ => $.ButtonText) /* Clear data */}
       </Button>
     </Flex>
-  )
+  );
 }

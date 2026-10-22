@@ -27,7 +27,7 @@ export function EnemyConfigurationsDrawer() {
 
   return (
     <Drawer
-      title={t('Title')} // 'Enemy configurations'
+      title={t($ => $.Title)} // 'Enemy configurations'
       position='right'
       onClose={closeEnemyDrawer}
       opened={isOpenEnemyDrawer}
@@ -35,7 +35,7 @@ export function EnemyConfigurationsDrawer() {
     >
       {isOpenEnemyDrawer && <EnemyConfigurationsDrawerContent />}
     </Drawer>
-  )
+  );
 }
 
 function EnemyConfigurationsDrawerContent() {
@@ -64,25 +64,34 @@ function EnemyConfigurationsDrawerContent() {
   const enemyLevelOptions = useMemo(() =>
     Array.from({ length: 100 }, (_, i) => 100 - i).map((level) => ({
       value: level,
-      label: t('LevelOptionLabel', { level, defense: 200 + 10 * level }),
+      label: t($ => $.LevelOptionLabel, {
+        level,
+        defense: 200 + 10 * level
+      }),
     })), [t])
 
   const enemyCountOptions = useMemo(() =>
     [1, 3, 5].map((count) => ({
       value: count,
-      label: t('CountOptionLabel', { targetCount: count }),
+      label: t($ => $.CountOptionLabel, {
+        targetCount: count
+      }),
     })), [t])
 
   const enemyResistanceOptions = useMemo(() =>
     [20, 40, 60].map((res) => ({
       value: res / 100,
-      label: t('DmgResOptionLabel', { resistance: res }),
+      label: t($ => $.DmgResOptionLabel, {
+        resistance: res
+      }),
     })), [t])
 
   const enemyEffectResistanceOptions = useMemo(() =>
     [0, 10, 20, 30, 40].map((res) => ({
       value: res / 100,
-      label: t('EffResOptionLabel', { resistance: res }),
+      label: t($ => $.EffResOptionLabel, {
+        resistance: res
+      }),
     })), [t])
 
   const enemyMaxToughnessOptions = useMemo(() =>
@@ -90,13 +99,15 @@ function EnemyConfigurationsDrawerContent() {
       .filter((v) => v >= 1)
       .map((toughness) => ({
         value: toughness,
-        label: t('ToughnessOptionLabel', { toughness: toughness / 3 }),
+        label: t($ => $.ToughnessOptionLabel, {
+          toughness: toughness / 3
+        }),
       })), [t])
 
   return (
     <Flex direction='column' gap={10}>
       <Flex justify='space-between' align='center' style={{ marginBottom: 5 }}>
-        <HeaderText>{t('StatHeader') /* Enemy stat options */}</HeaderText>
+        <HeaderText>{t($ => $.StatHeader) /* Enemy stat options */}</HeaderText>
         <TooltipImage type={Hint.enemyOptions()} />
       </Flex>
 
@@ -149,7 +160,7 @@ function EnemyConfigurationsDrawerContent() {
           onChange={(event) => setEnemyAndRecalculate('enemyElementalWeak', event.currentTarget.checked)}
           style={{ marginRight: 5 }}
         />
-        <div>{t('WeaknessLabel') /* Elemental weakness */}</div>
+        <div>{t($ => $.WeaknessLabel) /* Elemental weakness */}</div>
       </Flex>
 
       <Flex align='center'>
@@ -158,8 +169,8 @@ function EnemyConfigurationsDrawerContent() {
           onChange={(event) => setEnemyAndRecalculate('enemyWeaknessBroken', event.currentTarget.checked)}
           style={{ marginRight: 5 }}
         />
-        <div>{t('BrokenLabel') /* Weakness broken */}</div>
+        <div>{t($ => $.BrokenLabel) /* Weakness broken */}</div>
       </Flex>
     </Flex>
-  )
+  );
 }

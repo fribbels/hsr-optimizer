@@ -1,38 +1,67 @@
+import type { SelectorParam } from 'i18next'
 import { type Namespaces } from 'lib/i18n/i18n'
 import { OutputTag } from 'lib/optimization/engine/config/tag'
 import type Resources from 'types/resources'
 
-interface tInput {
-  ns: Namespaces
-  key: string
+interface NamespacedStatLabel<Ns extends Namespaces> {
+  ns: Ns
+  selector: SelectorParam<Ns>
   args?: Record<string, string>
 }
 
-export interface SimpleLabel extends tInput {}
+export type StatLabel =
+  | NamespacedStatLabel<'common'>
+  | NamespacedStatLabel<'optimizerTab'>
 
 export interface StatConfigEntry {
   hit?: boolean
   flat?: boolean
   bool?: boolean
   default?: number
-  label: SimpleLabel
+  label: StatLabel
 }
 
-const createI18nKey = <K extends string>(ns: SimpleLabel['ns'], path: string, argName?: string) => (value: K): SimpleLabel =>
+const createI18nKey = <Ns extends Namespaces, K extends string>(
+  ns: Ns,
+  selector: (value: K) => SelectorParam<Ns>,
+  argName?: string,
+) =>
+(value: K): NamespacedStatLabel<Ns> =>
   argName
-    ? { ns, key: path, args: { [argName]: value } }
-    : { ns, key: `${path}.${value}` }
+    ? { ns, selector: selector(value), args: { [argName]: value } }
+    : { ns, selector: selector(value) }
 
-const keyPrefix = 'ExpandedDataPanel.BuffsAnalysisDisplay.Stats'
 type Prefixed = Resources['optimizerTab']['ExpandedDataPanel']['BuffsAnalysisDisplay']['Stats']
 
-const commonReadableStat = createI18nKey<keyof Resources['common']['ReadableStats']>('common', 'ReadableStats')
-const optimizerTabMisc = createI18nKey<keyof Prefixed['Misc']>('optimizerTab', `${keyPrefix}.Misc`)
-const optimizerTabCompositeSuffix = createI18nKey<keyof Prefixed['CompositeLabels']['Suffix']>('optimizerTab', `${keyPrefix}.CompositeLabels.Suffix`)
-const optimizerTabUnconvertible = createI18nKey<keyof Resources['common']['Stats']>('optimizerTab', `${keyPrefix}.Unconvertible`, 'stat')
-const optimizerTabDmgBoost = createI18nKey<keyof Resources['gameData']['Elements']>('optimizerTab', `${keyPrefix}.ElementalDmgBoost`, 'element')
+const commonReadableStat = createI18nKey(
+  'common',
+  (value: keyof Resources['common']['ReadableStats']) =>
+    ($: Parameters<SelectorParam<'common'>>[0]): string => $.ReadableStats[value],
+)
+const optimizerTabMisc = createI18nKey(
+  'optimizerTab',
+  (value: keyof Prefixed['Misc']) =>
+    ($: Parameters<SelectorParam<'optimizerTab'>>[0]): string => $.ExpandedDataPanel.BuffsAnalysisDisplay.Stats.Misc[value],
+)
+const optimizerTabCompositeSuffix = createI18nKey(
+  'optimizerTab',
+  (value: keyof Prefixed['CompositeLabels']['Suffix']) =>
+    ($: Parameters<SelectorParam<'optimizerTab'>>[0]): string => $.ExpandedDataPanel.BuffsAnalysisDisplay.Stats.CompositeLabels.Suffix[value],
+)
+const optimizerTabUnconvertible = createI18nKey(
+  'optimizerTab',
+  (_value: keyof Resources['common']['Stats']) =>
+    ($: Parameters<SelectorParam<'optimizerTab'>>[0]): string => $.ExpandedDataPanel.BuffsAnalysisDisplay.Stats.Unconvertible,
+  'stat',
+)
+const optimizerTabDmgBoost = createI18nKey(
+  'optimizerTab',
+  (_value: keyof Resources['gameData']['Elements']) =>
+    ($: Parameters<SelectorParam<'optimizerTab'>>[0]): string => $.ExpandedDataPanel.BuffsAnalysisDisplay.Stats.ElementalDmgBoost,
+  'element',
+)
 
-export function getBoostLabel(outputTags?: OutputTag): SimpleLabel {
+export function getBoostLabel(outputTags?: OutputTag): StatLabel {
   if (outputTags === OutputTag.SHIELD) return optimizerTabMisc('Shield boost')
   if (outputTags === OutputTag.HEAL) return commonReadableStat('Outgoing Healing Boost')
   return optimizerTabCompositeSuffix('DMG Boost')

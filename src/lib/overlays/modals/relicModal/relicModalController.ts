@@ -91,7 +91,7 @@ export function computeMainStatOptions(part: Parts | undefined): MainStatOption[
   if (!part) return []
   const tStats = i18next.getFixedT(null, 'common', 'Stats')
   return Object.entries(Constants.PartsMainStats[part]).map((entry) => ({
-    label: tStats(entry[1] as StatsValues),
+    label: tStats(($) => $[entry[1] as StatsValues]),
     value: entry[1],
     icon: Assets.getStatIcon(entry[1], true),
   }))
@@ -186,7 +186,9 @@ export const RelicModalController = {
 
     equipmentService.upsertRelicWithEquipment(updatedRelic)
 
-    Message.success(i18next.t('modals:Relic.Messages.EditSuccess') /* Successfully edited relic */)
+    Message.success(i18next.t(($) => $.Relic.Messages.EditSuccess, {
+      ns: 'modals',
+    }) /* Successfully edited relic */)
 
     setTimeout(() => {
       SaveState.delayedSave()
@@ -206,69 +208,69 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   const t = i18next.getFixedT(null, 'modals', 'Relic.Messages.Error')
 
   if (!relicForm.part) {
-    return Message.error(t('PartMissing') /* Part field is missing */)
+    return Message.error(t(($) => $.PartMissing) /* Part field is missing */)
   }
   if (!relicForm.mainStatType) {
-    return Message.error(t('MainstatMissing') /* Main stat is missing */)
+    return Message.error(t(($) => $.MainstatMissing) /* Main stat is missing */)
   }
   if (!relicForm.mainStatValue) {
-    return Message.error(t('MainstatMissing') /* Main stat is missing */)
+    return Message.error(t(($) => $.MainstatMissing) /* Main stat is missing */)
   }
   if (!relicForm.set) {
-    return Message.error(t('SetMissing') /* Set field is missing */)
+    return Message.error(t(($) => $.SetMissing) /* Set field is missing */)
   }
   if (relicForm.enhance == undefined) {
-    return Message.error(t('EnhanceMissing') /* Enhance field is missing */)
+    return Message.error(t(($) => $.EnhanceMissing) /* Enhance field is missing */)
   }
   if (relicForm.grade == undefined) {
-    return Message.error(t('GradeMissing') /* Grade field is missing */)
+    return Message.error(t(($) => $.GradeMissing) /* Grade field is missing */)
   }
   if (relicForm.grade > 5 || relicForm.grade < 2) {
-    return Message.error(t('GradeInvalid') /* Grade value is invalid */)
+    return Message.error(t(($) => $.GradeInvalid) /* Grade value is invalid */)
   }
   if (relicForm.enhance > 15 || relicForm.enhance < 0) {
-    return Message.error(t('EnhanceInvalid') /* Enhance value is invalid */)
+    return Message.error(t(($) => $.EnhanceInvalid) /* Enhance value is invalid */)
   }
   if (relicForm.enhance > relicForm.grade * 3) {
-    return Message.error(t('EnhanceTooHigh') /* Enhance value is too high for this grade */)
+    return Message.error(t(($) => $.EnhanceTooHigh) /* Enhance value is too high for this grade */)
   }
   if (!arrayIncludes(SetsRelicsNames, relicForm.set) && !arrayIncludes(SetsOrnamentsNames, relicForm.set)) {
-    return Message.error(t('SetInvalid') /* Set value is invalid */)
+    return Message.error(t(($) => $.SetInvalid) /* Set value is invalid */)
   }
   if (arrayIncludes(SetsRelicsNames, relicForm.set) && partIsOrnament(relicForm.part)) {
-    return Message.error(t('SetNotOrnament') /* The selected set is not an ornament set */)
+    return Message.error(t(($) => $.SetNotOrnament) /* The selected set is not an ornament set */)
   }
   if (arrayIncludes(SetsOrnamentsNames, relicForm.set) && partIsRelic(relicForm.part)) {
-    return Message.error(t('SetNotRelic') /* The selected set is not a relic set */)
+    return Message.error(t(($) => $.SetNotRelic) /* The selected set is not a relic set */)
   }
   if (
     relicForm.substatType0 != undefined && invalidValue(relicForm.substatValue0) || relicForm.substatType0 == undefined && relicForm.substatValue0 != undefined
   ) {
-    return Message.error(t('SubNInvalid', { number: 1 }) /* Substat 1 is invalid */)
+    return Message.error(t(($) => $.SubNInvalid, { number: 1 }) /* Substat 1 is invalid */)
   }
   if (
     relicForm.substatType1 != undefined && invalidValue(relicForm.substatValue1) || relicForm.substatType1 == undefined && relicForm.substatValue1 != undefined
   ) {
-    return Message.error(t('SubNInvalid', { number: 2 }) /* Substat 2 is invalid */)
+    return Message.error(t(($) => $.SubNInvalid, { number: 2 }) /* Substat 2 is invalid */)
   }
   if (
     relicForm.substatType2 != undefined && invalidValue(relicForm.substatValue2) || relicForm.substatType2 == undefined && relicForm.substatValue2 != undefined
   ) {
-    return Message.error(t('SubNInvalid', { number: 3 }) /* Substat 3 is invalid */)
+    return Message.error(t(($) => $.SubNInvalid, { number: 3 }) /* Substat 3 is invalid */)
   }
   if (
     relicForm.substatType3 != undefined && invalidValue(relicForm.substatValue3) || relicForm.substatType3 == undefined && relicForm.substatValue3 != undefined
   ) {
-    return Message.error(t('SubNInvalid', { number: 4 }) /* Substat 4 is invalid */)
+    return Message.error(t(($) => $.SubNInvalid, { number: 4 }) /* Substat 4 is invalid */)
   }
 
   const formSubstats = getPopulatedRelicFormSubstats(relicForm)
   const substatTypes = formSubstats.map((substat) => substat.stat)
   if (new Set(substatTypes).size !== substatTypes.length) {
-    return Message.error(t('DuplicateSubs') /* Duplicate substats, only one of each type is allowed */)
+    return Message.error(t(($) => $.DuplicateSubs) /* Duplicate substats, only one of each type is allowed */)
   }
   if (substatTypes.includes(relicForm.mainStatType as SubStats)) {
-    return Message.error(t('MainAsSub') /* Substat type is the same as the main stat */)
+    return Message.error(t(($) => $.MainAsSub) /* Substat type is the same as the main stat */)
   }
 
   const numericSubstats = formSubstats.map((substat) => ({
@@ -277,20 +279,20 @@ export function validateRelic(relicForm: RelicForm): Relic | void {
   }))
 
   if (numericSubstats.some((substat) => substat.value >= 1000)) {
-    return Message.error(t('SubTooBig') /* Substat value is too big */)
+    return Message.error(t(($) => $.SubTooBig) /* Substat value is too big */)
   }
   if (relicForm.mainStatValue >= 1000) {
-    return Message.error(t('MainTooBig') /* Main stat value is too big */)
+    return Message.error(t(($) => $.MainTooBig) /* Main stat value is too big */)
   }
   if (numericSubstats.some((substat) => substat.value < 0)) {
-    return Message.error(t('SubTooSmall') /* Substat values should be positive */)
+    return Message.error(t(($) => $.SubTooSmall) /* Substat values should be positive */)
   }
   if (numericSubstats.some((substat) => substat.value === 0 && !substat.isPreview)) {
-    return Message.error(t('SubTooSmall') /* Substat values should be positive */)
+    return Message.error(t(($) => $.SubTooSmall) /* Substat values should be positive */)
   }
 
   if (relicForm.mainStatValue <= 0) {
-    return Message.error(t('MainTooSmall') /* Main stat values should be positive */)
+    return Message.error(t(($) => $.MainTooSmall) /* Main stat values should be positive */)
   }
 
   const relic: Relic = {

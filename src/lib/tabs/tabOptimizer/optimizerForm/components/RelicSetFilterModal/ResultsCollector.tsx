@@ -43,7 +43,7 @@ export function ResultsCollector(
         <Group gap={5} wrap='wrap' align='center' className={classes.collectorRow}>
           {checked4p.size === 0 && combos.length === 0 && !pendingSlotA && (
             <Text size='xs' c='dimmed'>
-              {t('RelicSelectedPlaceholder')}
+              {t($ => $.RelicSelectedPlaceholder)}
             </Text>
           )}
           <FourPieceBadges checked4p={checked4p} onRemove={onRemove4p} />
@@ -54,7 +54,7 @@ export function ResultsCollector(
         <Group gap={5} wrap='wrap' align='center' className={classes.collectorRow}>
           {checkedOrnaments.size === 0 && (
             <Text size='xs' c='dimmed'>
-              {t('OrnamentSelectedPlaceholder')}
+              {t($ => $.OrnamentSelectedPlaceholder)}
             </Text>
           )}
           <OrnamentBadges checkedOrnaments={checkedOrnaments} onRemove={onRemoveOrnament} />
@@ -63,9 +63,9 @@ export function ResultsCollector(
 
       {hasAnything && (
         <Button variant='subtle' size='compact-xs' onClick={onClearAll}>
-          {t('Clear')}
+          {t($ => $.Clear)}
         </Button>
       )}
     </Group>
-  )
+  );
 }

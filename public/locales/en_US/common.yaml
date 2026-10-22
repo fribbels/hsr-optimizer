@@ -195,7 +195,20 @@ ShortDMGTypes:
   Memo_Skill: Skillᴹ DMG
   Memo_Talent: Talentᴹ DMG
   Elation_Skill: Elation Skill DMG
-  Unique: Unique DMG
+  Unique:
+    1014: Excalibur DMG
+    1015: Unlimited Blade Works DMG
+    1309: Concerto DMG
+    1403: Numinosity DMG
+    1505: Master Fox DMG
+    1506: Certified Banger DMG
+    1508: Gandr DMG
+    1509: Enkidu DMG
+    1510: Decimation DMG
+    1513: Cheers! DMG
+    8009: Plot Armor DMG
+    8010: Plot Armor DMG
+    Default: Unique DMG
   Dot: Dot DMG
   Break: Break DMG
   CV: CV

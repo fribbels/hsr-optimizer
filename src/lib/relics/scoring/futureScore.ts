@@ -232,8 +232,12 @@ export function computeFutureScores(
       }
     }
 
-    bestAddedStats.forEach((s, i) => bestAddedStats[i] = i18next.t(`common:Stats.${s}`) as SubStats)
-    bestUpgradedStats.forEach((s, i) => bestUpgradedStats[i] = i18next.t(`common:Stats.${s}`) as SubStats)
+    bestAddedStats.forEach((s, i) => bestAddedStats[i] = i18next.t($ => $.Stats[s], {
+      ns: "common"
+    }) as SubStats)
+    bestUpgradedStats.forEach((s, i) => bestUpgradedStats[i] = i18next.t($ => $.Stats[s], {
+      ns: "common"
+    }) as SubStats)
 
     levelupMetadata = {
       bestAddedStats: bestAddedStats,

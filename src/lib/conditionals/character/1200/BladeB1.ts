@@ -105,14 +105,14 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     enhancedStateActive: {
       id: 'enhancedStateActive',
       formItem: 'switch',
-      text: t('enhancedStateActive.text'),
-      content: t('enhancedStateActive.content', { DmgBuff: precisionRound(100 * enhancedStateDmgBoost) }),
+      text: t(($) => $.enhancedStateActive.text),
+      content: t(($) => $.enhancedStateActive.content, { DmgBuff: precisionRound(100 * enhancedStateDmgBoost) }),
     },
     hpPercentLostTotal: {
       id: 'hpPercentLostTotal',
       formItem: 'slider',
-      text: t('hpPercentLostTotal.text'),
-      content: t('hpPercentLostTotal.content', {
+      text: t(($) => $.hpPercentLostTotal.text),
+      content: t(($) => $.hpPercentLostTotal.content, {
         UltHpScaling: precisionRound(100 * ultHpScaling),
         HpTallyUltScaling: precisionRound(100 * ultLostHpScaling),
       }),
@@ -123,22 +123,22 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     e1BasicUltMultiBoost: {
       id: 'e1BasicUltMultiBoost',
       formItem: 'switch',
-      text: t('e1BasicUltMultiBoost.text'),
-      content: t('e1BasicUltMultiBoost.content'),
+      text: t(($) => $.e1BasicUltMultiBoost.text),
+      content: t(($) => $.e1BasicUltMultiBoost.content),
       disabled: e < 1,
     },
     e2CrBuff: {
       id: 'e2CrBuff',
       formItem: 'switch',
-      text: t('e2CrBuff.text'),
-      content: t('e2CrBuff.content'),
+      text: t(($) => $.e2CrBuff.text),
+      content: t(($) => $.e2CrBuff.content),
       disabled: e < 2,
     },
     e4MaxHpIncreaseStacks: {
       id: 'e4MaxHpIncreaseStacks',
       formItem: 'slider',
-      text: t('e4MaxHpIncreaseStacks.text'),
-      content: t('e4MaxHpIncreaseStacks.content'),
+      text: t(($) => $.e4MaxHpIncreaseStacks.text),
+      content: t(($) => $.e4MaxHpIncreaseStacks.content),
       min: 0,
       max: 2,
       disabled: e < 4,

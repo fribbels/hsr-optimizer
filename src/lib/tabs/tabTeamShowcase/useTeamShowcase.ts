@@ -219,7 +219,7 @@ export function useTeamShowcase(): TeamShowcaseState {
       useRelicStore.getState().relicsById,
     )
     if (result.status === TeamBenchmarkOverrideStatus.MISSING_LIGHT_CONE) {
-      Message.error(tCharacters('Messages.NoSelectedLightCone'))
+      Message.error(tCharacters($ => $.Messages.NoSelectedLightCone))
       return
     }
     if (result.status !== TeamBenchmarkOverrideStatus.READY || !result.snapshot) return
@@ -230,7 +230,7 @@ export function useTeamShowcase(): TeamShowcaseState {
   // ----- Screenshot -----
   const { activeAction: activeScreenshotAction, trigger } = useScreenshotAction(GRID_ELEMENT_ID, GRID_SIZE)
   const screenshot = useCallback(
-    (action: ScreenshotAction) => trigger(action, t('ScreenshotName')),
+    (action: ScreenshotAction) => trigger(action, t($ => $.ScreenshotName)),
     [trigger, t],
   )
 

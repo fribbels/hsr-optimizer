@@ -76,7 +76,7 @@ export function SimulatedBuildsGrid() {
       {statSimulations.length === 0
         ? (
           <Flex justify='center' align='center' style={{ padding: 16, opacity: 0.5 }}>
-            {t('NoStatSimulations') /* 'No custom stat simulations selected' */}
+            {t($ => $.NoStatSimulations) /* 'No custom stat simulations selected' */}
           </Flex>
         )
         : (
@@ -109,5 +109,5 @@ export function SimulatedBuildsGrid() {
           </Flex>
         )}
     </div>
-  )
+  );
 }

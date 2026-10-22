@@ -23,7 +23,7 @@ export function GenerateBasicSetsOptions(): { value: string, label: ReactElement
           <Flex gap={5} align='center'>
             <img src={Assets.getSetImage(x, Constants.Parts.Head)} style={{ width: 21, height: 21 }} />
             <div style={{ display: 'inline-block', overflow: 'hidden', textOverflow: 'ellipsis', width: 250, whiteSpace: 'nowrap' }}>
-              {tGameData(`${setToId[x]}.Name`)}
+              {tGameData($ => $[setToId[x]].Name)}
             </div>
           </Flex>
         ),

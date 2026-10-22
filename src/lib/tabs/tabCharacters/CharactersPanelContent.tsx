@@ -69,7 +69,7 @@ export function CharactersPanelContent() {
   const { t } = useTranslation('charactersTab', { keyPrefix: 'GridDensityOptions' })
 
   const densityOptions = useMemo(
-    () => DENSITY_VALUES.map((value) => ({ value, label: t(value) })),
+    () => DENSITY_VALUES.map((value) => ({ value, label: t($ => $[value]) })),
     [t],
   )
 

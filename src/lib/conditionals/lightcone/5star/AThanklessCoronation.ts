@@ -33,15 +33,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'ultAtkBoost',
       formItem: 'switch',
-      text: t('ultAtkBoost.text'),
-      content: t('ultAtkBoost.content', { UltAtkBuff: precisionRound(100 * sValuesUltAtk[s]) }),
+      text: t(($) => $.ultAtkBoost.text),
+      content: t(($) => $.ultAtkBoost.content, { UltAtkBuff: precisionRound(100 * sValuesUltAtk[s]) }),
     },
     energyAtkBuff: {
       lc: true,
       id: 'energyAtkBuff',
       formItem: 'switch',
-      text: t('energyAtkBuff.text'),
-      content: t('energyAtkBuff.content', { EnergyAtkBuff: precisionRound(100 * sValuesEnergyAtk[s]) }),
+      text: t(($) => $.energyAtkBuff.text),
+      content: t(($) => $.energyAtkBuff.content, { EnergyAtkBuff: precisionRound(100 * sValuesEnergyAtk[s]) }),
     },
   }
 

@@ -39,7 +39,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Messenger',
+  conditionalI18nKey: 'Messenger',
   modifiable: true,
   defaultValue: false,
 } as const satisfies SetDisplay
@@ -67,8 +67,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.MessengerTraversingHackerspace,
-    label: (t) => t('TeammateSets.Messenger.Text'),
-    desc: (t) => t('TeammateSets.Messenger.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Messenger.Text),
+    desc: (t) => t(($) => $.TeammateSets.Messenger.Desc),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.SPD_P, 0.12, x.targets(TargetTag.FullTeam).source(Source.MessengerTraversingHackerspace))

@@ -44,7 +44,7 @@ export function LeaderboardTab() {
   const { t: tGame } = useTranslation('gameData')
 
   const nameKey = selectedCharacterId?.startsWith('80') ? 'LongName' : 'Name'
-  const characterName = selectedCharacterId ? tGame(`Characters.${selectedCharacterId as CharacterId}.${nameKey}`) : ''
+  const characterName = selectedCharacterId ? tGame($ => $.Characters[selectedCharacterId as CharacterId][nameKey]) : ''
 
   const browsingClass = characterListExpanded ? classes.panelVisible : classes.panelHidden
   const detailClass = characterListExpanded ? classes.panelHidden : classes.panelVisible

@@ -55,7 +55,7 @@ export function ComboFilters() {
   return (
     <Flex direction='column' gap={optimizerTabDefaultGap + 3}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('Header') /* Rotation COMBO formula */}</HeaderText>
+        <HeaderText>{t($ => $.Header) /* Rotation COMBO formula */}</HeaderText>
         <TooltipImage type={Hint.comboFilters()} />
       </Flex>
       <SegmentedControl
@@ -63,8 +63,8 @@ export function ComboFilters() {
         value={comboType}
         onChange={(value) => useOptimizerRequestStore.getState().setComboType(value as ComboType)}
         data={[
-          { label: t('ModeSelector.Simple'), value: ComboType.SIMPLE },
-          { label: t('ModeSelector.Advanced'), value: ComboType.ADVANCED },
+          { label: t($ => $.ModeSelector.Simple), value: ComboType.SIMPLE },
+          { label: t($ => $.ModeSelector.Advanced), value: ComboType.ADVANCED },
         ]}
       />
 
@@ -79,11 +79,11 @@ export function ComboFilters() {
           leftSection={<IconSettings size={16} stroke={1.5} />}
           disabled={comboType === ComboType.SIMPLE}
         >
-          {t('RotationButton')}
+          {t($ => $.RotationButton)}
         </Button>
       </Flex>
     </Flex>
-  )
+  );
 }
 
 export function addAbility(abilities: TurnAbilityName[]): TurnAbilityName[] {
@@ -175,13 +175,13 @@ function ComboBasicDefinition() {
           style={{ display: comboType === ComboType.SIMPLE ? 'flex' : 'none' }}
           gap={3}
         >
-          {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} />)}
+          {Array.from({ length: ABILITY_LIMIT }, (_, i) => <TurnAbilitySelectorSimple key={i + 1} value={defaultComboTurnAbilities[i + 1]} index={i + 1} id={characterId ?? 'Default'} />)}
         </Flex>
       </Flex>
 
       <Flex direction='column' gap={controlSize / 2} w={controlSize}>
         <Flex direction='column' gap={5}>
-          <Tooltip label={t('RowControls.ResetTooltip')} position='right' openDelay={300} withArrow>
+          <Tooltip label={t($ => $.RowControls.ResetTooltip)} position='right' openDelay={300} withArrow>
             <ActionIcon
               variant='default'
               w='100%'
@@ -189,9 +189,9 @@ function ComboBasicDefinition() {
               disabled={disabled}
               onClick={() =>
                 modals.openConfirmModal({
-                  title: tCommon('Confirm'),
-                  children: t('RowControls.ResetConfirm.Description'),
-                  labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                  title: tCommon($ => $.Confirm),
+                  children: t($ => $.RowControls.ResetConfirm.Description),
+                  labels: { confirm: tCommon($ => $.Yes), cancel: tCommon($ => $.Cancel) },
                   centered: true,
                   onConfirm: () => resetClicked(),
                 })}
@@ -199,19 +199,19 @@ function ComboBasicDefinition() {
               <IconRefresh size={16} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('RowControls.AddTooltip')} position='right' openDelay={300} withArrow>
+          <Tooltip label={t($ => $.RowControls.AddTooltip)} position='right' openDelay={300} withArrow>
             <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => add()} disabled={disabled}>
               <IconPlus size={16} />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label={t('RowControls.RemoveTooltip')} position='right' openDelay={300} withArrow>
+          <Tooltip label={t($ => $.RowControls.RemoveTooltip)} position='right' openDelay={300} withArrow>
             <ActionIcon variant='default' w='100%' h={controlSize} onClick={() => minus()} disabled={disabled}>
               <IconMinus size={16} />
             </ActionIcon>
           </Tooltip>
         </Flex>
 
-        <Tooltip label={t('RowControls.PresetsTooltip')} position='right' openDelay={300} withArrow>
+        <Tooltip label={t($ => $.RowControls.PresetsTooltip)} position='right' openDelay={300} withArrow>
           <SegmentedControl
             orientation='vertical'
             fullWidth
@@ -221,7 +221,7 @@ function ComboBasicDefinition() {
               const enabled = value === 'true'
               useOptimizerRequestStore.getState().setComboPreprocessor(enabled)
               notifications.show({
-                message: enabled ? t('Presets.Enabled') : t('Presets.Disabled'),
+                message: enabled ? t($ => $.Presets.Enabled) : t($ => $.Presets.Disabled),
                 autoClose: 2000,
               })
             }}
@@ -244,7 +244,7 @@ function ComboBasicDefinition() {
         </Tooltip>
       </Flex>
     </Flex>
-  )
+  );
 }
 
 function ComboOptionRowSelect({ index, disabled }: { index: number, disabled: boolean }) {

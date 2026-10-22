@@ -54,7 +54,7 @@ export function RelicsTab() {
             }}
           >
             <Accordion.Item value='1'>
-              <Accordion.Control>{t('RecentlyUpdatedRelics.Header')}</Accordion.Control>
+              <Accordion.Control>{t($ => $.RecentlyUpdatedRelics.Header)}</Accordion.Control>
               <Accordion.Panel>
                 <RecentRelics />
               </Accordion.Panel>
@@ -69,5 +69,5 @@ export function RelicsTab() {
         <BottomDock />
       </DeferCreateProvider>
     </div>
-  )
+  );
 }

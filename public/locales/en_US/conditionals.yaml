@@ -2481,6 +2481,7 @@ Characters:
         content: Wind RES PEN of Ultimate DMG dealt by Saber increases by 20%, and the Overflow Energy that can be accumulated by the Trace "Blessing of the Lake" increases to 200. When using Ultimate for the first time after entering battle, regenerates a fixed 300 Energy for Saber. This effect can be triggered 1 time after every 3 Ultimate uses.
       gilgameshFuaSaberUltBoost:
         text: Gilgamesh FUA Ult buff
+        content: "Gilgamesh Joint FUA: Saber's next Ultimate DMG becomes 200% of original."
   Sampo:
     Content:
       targetDotTakenDebuff:

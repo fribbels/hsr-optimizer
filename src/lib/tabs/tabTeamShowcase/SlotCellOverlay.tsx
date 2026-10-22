@@ -93,7 +93,7 @@ export function SlotCellOverlay({
 
   if (!filled) {
     const isMainDpsSlot = index === 0
-    const addCharacterLabel = t(isMainDpsSlot ? 'Buttons.AddMainDps' : 'Buttons.AddCharacter')
+    const addCharacterLabel = t($ => isMainDpsSlot ? $.Buttons.AddMainDps : $.Buttons.AddCharacter)
 
     return (
       <button
@@ -145,7 +145,7 @@ export function SlotCellOverlay({
         type='button'
         ref={drag?.setActivatorNodeRef}
         className={styles.cellTarget}
-        aria-label={t('CardOptions')}
+        aria-label={t($ => $.CardOptions)}
         aria-expanded={revealed}
         onPointerUp={() => revealSlot(index)}
         onClick={handleClick}
@@ -171,13 +171,13 @@ export function SlotCellOverlay({
             leftSection={<IconUser size={CONTROL_ICON_SIZE} />}
             onClick={openPicker}
           >
-            {t('Buttons.ChangeCharacter')}
+            {t($ => $.Buttons.ChangeCharacter)}
           </Button>
           <div className={styles.sheetRow}>
             <div className={styles.grow}>
               <SlotScoringSelect
                 size={CONTROL_SIZE}
-                aria-label={t('Benchmark')}
+                aria-label={t($ => $.Benchmark)}
                 leftSection={(
                   <span className={styles.scoringSelectedValue}>
                     <IconChartBar size={CONTROL_ICON_SIZE} />
@@ -200,12 +200,12 @@ export function SlotCellOverlay({
                 leftSection={<IconTrash size={CONTROL_ICON_SIZE} />}
                 onClick={onRemove}
               >
-                {t('Buttons.Remove')}
+                {t($ => $.Buttons.Remove)}
               </Button>
             </div>
           </div>
         </div>
       )}
     </div>
-  )
+  );
 }

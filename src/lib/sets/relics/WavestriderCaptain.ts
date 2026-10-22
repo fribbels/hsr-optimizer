@@ -37,7 +37,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Wavestrider',
+  conditionalI18nKey: 'Wavestrider',
   modifiable: true,
   defaultValue: true,
 } as const satisfies SetDisplay

@@ -89,7 +89,7 @@ function HeroSection() {
 
     const validated = validateUuid(uuid)
     if (!validated) {
-      return Message.warning(t('SearchBar.Message'))
+      return Message.warning(t($ => $.SearchBar.Message));
     }
 
     navigateTo(AppPages.SHOWCASE, new URLSearchParams(`id=${uuid}`))
@@ -108,26 +108,26 @@ function HeroSection() {
 
       <div className={classes.heroContent}>
         <div>
-          <p className={classes.heroWelcome}>{t('Hero.Welcome')}</p>
-          <h1 className={classes.heroTitle}>{t('Hero.Title')}</h1>
+          <p className={classes.heroWelcome}>{t($ => $.Hero.Welcome)}</p>
+          <h1 className={classes.heroTitle}>{t($ => $.Hero.Title)}</h1>
         </div>
 
         <div className={classes.heroBottomSection}>
           <div className={classes.searchBarContainer}>
             <div className={classes.searchBarHeader}>
               <span className={classes.searchBarLabel}>
-                {t('SearchBar.Label')}
+                {t($ => $.SearchBar.Label)}
               </span>
               <span className={classes.searchBarApi}>
                 <a href='https://enka.network/?hsr' target='_blank' rel='noreferrer'>
-                  {t('SearchBar.Api')}
+                  {t($ => $.SearchBar.Api)}
                 </a>
               </span>
             </div>
             <div className={classes.searchBarInputRow}>
               <Button
                 size='md'
-                aria-label={t('SearchBar.Search')}
+                aria-label={t($ => $.SearchBar.Search)}
                 onClick={handleSearchSubmit}
                 style={{
                   borderTopRightRadius: 0,
@@ -138,7 +138,7 @@ function HeroSection() {
               </Button>
               <TextInput
                 ref={inputRef}
-                placeholder={t('SearchBar.Placeholder')}
+                placeholder={t($ => $.SearchBar.Placeholder)}
                 size='md'
                 style={{ flex: 1 }}
                 styles={{
@@ -157,13 +157,13 @@ function HeroSection() {
           </div>
 
           <div className={classes.scrollIndicator}>
-            <span>{t('ScrollToExplore')}</span>
+            <span>{t($ => $.ScrollToExplore)}</span>
             <IconChevronDown size={20} />
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 interface FadeSectionProps {
@@ -215,15 +215,17 @@ const EMPTY_FEATURES: string[] = []
 function FeatureCard({ feature, background, image, align }: FeatureCardProps) {
   const { t } = useTranslation('hometab', { keyPrefix: `FeatureCard.${feature}`! })
   const isLeft = align === 'left'
-  const translatedFeatures = t('Features', { returnObjects: true })
+  const translatedFeatures = t($ => $.Features, {
+    returnObjects: true
+  })
   const features = Array.isArray(translatedFeatures)
     ? translatedFeatures
     : EMPTY_FEATURES
 
   const textBlock = (
     <div className={classes.textBlock}>
-      <h2 className={classes.sectionTitle}>{t('Title')}</h2>
-      <p className={classes.sectionDescription}>{t('Description')}</p>
+      <h2 className={classes.sectionTitle}>{t($ => $.Title)}</h2>
+      <p className={classes.sectionDescription}>{t($ => $.Description)}</p>
       <FeatureList features={features} />
     </div>
   )
@@ -274,32 +276,32 @@ function CommunitySection() {
         <div className={classes.communityGrid}>
           <CommunityCard
             icon={<IconBrandDiscord size={28} />}
-            title={t('Discord.Title')}
-            description={t('Discord.Description')}
+            title={t($ => $.Discord.Title)}
+            description={t($ => $.Discord.Description)}
             href='https://discord.gg/rDmB4Un7qg'
             iconColor='#ffffff'
             iconBg='#5865F2'
           />
           <CommunityCard
             icon={<IconBrandGithub size={28} />}
-            title={t('Github.Title')}
-            description={t('Github.Description')}
+            title={t($ => $.Github.Title)}
+            description={t($ => $.Github.Description)}
             href='https://github.com/fribbels/hsr-optimizer'
             iconColor='#ffffff'
             iconBg='#24292f'
           />
           <CommunityCard
             icon={<IconLayoutKanban size={28} />}
-            title={t('Roadmap.Title')}
-            description={t('Roadmap.Description')}
+            title={t($ => $.Roadmap.Title)}
+            description={t($ => $.Roadmap.Description)}
             href='https://github.com/users/fribbels/projects/2'
             iconColor='#ffffff'
             iconBg='#2d8a85'
           />
           <CommunityCard
             icon={<IconHistory size={28} />}
-            title={t('Changelog.Title')}
-            description={t('Changelog.Description')}
+            title={t($ => $.Changelog.Title)}
+            description={t($ => $.Changelog.Description)}
             href={BASE_PATH + PageToHash[AppPages.CHANGELOG]}
             iconColor='#ffffff'
             iconBg='#b8863b'
@@ -313,7 +315,7 @@ function CommunitySection() {
         <ContributorsSection />
       </FadeSection>
     </section>
-  )
+  );
 }
 
 function ContributorsSection() {
@@ -322,19 +324,19 @@ function ContributorsSection() {
   return (
     <div className={classes.contributorsSection}>
       <div className={classes.contributorsHeader}>
-        <h3 className={classes.contributorsTitle}>{t('Contributors.Title')}</h3>
-        <p className={classes.contributorsSubtitle}>{t('CommunityCollapse')}</p>
+        <h3 className={classes.contributorsTitle}>{t($ => $.Contributors.Title)}</h3>
+        <p className={classes.contributorsSubtitle}>{t($ => $.CommunityCollapse)}</p>
       </div>
       <a href='https://github.com/fribbels/hsr-optimizer/graphs/contributors' target='_blank' rel='noreferrer' className={classes.contributorsLink}>
         <img
           src='https://contrib.rocks/image?repo=fribbels/hsr-optimizer&columns=10&anon=1'
-          alt={t('Contributors.Title')}
+          alt={t($ => $.Contributors.Title)}
           className={classes.contributorsImage}
           loading='lazy'
         />
       </a>
     </div>
-  )
+  );
 }
 
 interface CommunityCardProps {

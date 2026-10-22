@@ -169,7 +169,7 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
                 setOriginalCharacterModalOpen(true)
               }}
             >
-              {t('CharacterPreview.EditCharacter') /* Edit character */}
+              {t($ => $.CharacterPreview.EditCharacter) /* Edit character */}
             </Button>
             <Button
               style={showcaseButtonStyle}
@@ -177,14 +177,14 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
               leftSection={<IconEdit size={16} />}
               onClick={() => setEditPortraitModalOpen(true)}
             >
-              {t('CharacterPreview.EditPortrait') /* Edit portrait */}
+              {t($ => $.CharacterPreview.EditPortrait) /* Edit portrait */}
             </Button>
           </>
         )}
       </div>
       {editPortraitModalOpen && (
         <EditImageModal
-          title={t('CharacterPreview.EditPortrait') /* Edit portrait */}
+          title={t($ => $.CharacterPreview.EditPortrait) /* Edit portrait */}
           aspectRatio={parentW / tempParentH}
           existingConfig={customPortrait ?? character.portrait}
           open={editPortraitModalOpen}
@@ -214,14 +214,14 @@ export const ShowcasePortrait = memo(function ShowcasePortrait({
               display: artistName ? 'inline-block' : 'none',
             }}
           >
-            {t('CharacterPreview.ArtBy', {
+            {t($ => $.CharacterPreview.ArtBy, {
               artistName: artistName && artistName.length > 30
                 ? artistName.slice(0, 30) + '…'
-                : artistName ?? '',
+                : artistName ?? ''
             })}
           </span>
         )}
       </div>
     </div>
-  )
+  );
 })

@@ -28,27 +28,27 @@ export function webgpuNotSupportedNotification() {
   const t = i18next.getFixedT(null, 'notifications', 'GPU')
   try {
     notifications.show({
-      title: t('Message'),
+      title: t(($) => $.Message),
       message: (
         <Flex direction='column'>
-          <div>{t('Description.l1')}</div>
+          <div>{t(($) => $.Description.l1)}</div>
           <div>
             <ul>
-              <li>{t('Description.l2')}</li>
+              <li>{t(($) => $.Description.l2)}</li>
               <li>
                 <Trans
                   ns='notifications'
-                  i18nKey='GPU.Description.l3'
+                  i18nKey={$ => $.GPU.Description.l3}
                   components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true} /> }}
                 />
               </li>
             </ul>
           </div>
-          <p>{t('Description.l4')}</p>
+          <p>{t(($) => $.Description.l4)}</p>
           <p>
             <Trans
               ns='notifications'
-              i18nKey='GPUCrash.Description.l2'
+              i18nKey={$ => $.GPUCrash.Description.l2}
               components={{
                 CustomLink: (
                   <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true} />
@@ -70,14 +70,14 @@ export function webgpuCrashNotification() {
   const t = i18next.getFixedT(null, 'notifications', 'GPUCrash')
   try {
     notifications.show({
-      title: t('Message'),
+      title: t(($) => $.Message),
       message: (
         <Flex direction='column' gap={10}>
-          <div>{t('Description.l1')}</div>
+          <div>{t(($) => $.Description.l1)}</div>
           <div>
             <Trans
               ns='notifications'
-              i18nKey='GPUCrash.Description.l2'
+              i18nKey={$ => $.GPUCrash.Description.l2}
               components={{
                 CustomLink: (
                   <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true} />

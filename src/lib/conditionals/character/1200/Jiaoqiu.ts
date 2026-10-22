@@ -114,8 +114,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ashenRoastStacks: {
       id: 'ashenRoastStacks',
       formItem: 'slider',
-      text: t('Content.ashenRoastStacks.text'),
-      content: t('Content.ashenRoastStacks.content', {
+      text: t(($) => $.Content.ashenRoastStacks.text),
+      content: t(($) => $.Content.ashenRoastStacks.content, {
         AshenRoastInitialVulnerability: precisionRound(100 * talentVulnerabilityBase),
         AshenRoastAdditionalVulnerability: precisionRound(100 * talentVulnerabilityScaling),
         AshenRoastDotMultiplier: precisionRound(100 * talentDotScaling),
@@ -126,8 +126,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ultFieldActive: {
       id: 'ultFieldActive',
       formItem: 'switch',
-      text: t('Content.ultFieldActive.text'),
-      content: t('Content.ultFieldActive.content', {
+      text: t(($) => $.Content.ultFieldActive.text),
+      content: t(($) => $.Content.ultFieldActive.content, {
         UltScaling: precisionRound(100 * ultScaling),
         UltVulnerability: precisionRound(100 * ultVulnerabilityScaling),
         ZoneDebuffChance: precisionRound(100 * ult(e, 0.6, 0.62)),
@@ -136,28 +136,28 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     ehrToAtkBoost: {
       id: 'ehrToAtkBoost',
       formItem: 'switch',
-      text: t('Content.ehrToAtkBoost.text'),
-      content: t('Content.ehrToAtkBoost.content'),
+      text: t(($) => $.Content.ehrToAtkBoost.text),
+      content: t(($) => $.Content.ehrToAtkBoost.content),
     },
     e1DmgBoost: {
       id: 'e1DmgBoost',
       formItem: 'switch',
-      text: t('Content.e1DmgBoost.text'),
-      content: t('Content.e1DmgBoost.content'),
+      text: t(($) => $.Content.e1DmgBoost.text),
+      content: t(($) => $.Content.e1DmgBoost.content),
       disabled: e < 1,
     },
     e2Dot: {
       id: 'e2Dot',
       formItem: 'switch',
-      text: t('Content.e2Dot.text'),
-      content: t('Content.e2Dot.content'),
+      text: t(($) => $.Content.e2Dot.text),
+      content: t(($) => $.Content.e2Dot.content),
       disabled: e < 2,
     },
     e6ResShred: {
       id: 'e6ResShred',
       formItem: 'switch',
-      text: t('Content.e6ResShred.text'),
-      content: t('Content.e6ResShred.content'),
+      text: t(($) => $.Content.e6ResShred.text),
+      content: t(($) => $.Content.e6ResShred.content),
       disabled: e < 6,
     },
   }

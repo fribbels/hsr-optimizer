@@ -30,8 +30,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'defeatedEnemyCdBuff',
       formItem: 'switch',
-      text: t('Content.defeatedEnemyCdBuff.text'),
-      content: t('Content.defeatedEnemyCdBuff.content', { DmgBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.defeatedEnemyCdBuff.text),
+      content: t(($) => $.Content.defeatedEnemyCdBuff.content, { DmgBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

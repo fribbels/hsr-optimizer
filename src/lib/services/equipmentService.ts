@@ -148,7 +148,9 @@ export function switchRelics(fromId: CharacterId, toId: CharacterId): void {
  * Removes a relic: unequips it, then deletes from store.
  */
 export function removeRelic(relicId: RelicId): void {
-  if (!relicId) return Message.error(i18next.t('relicsTab:Messages.UnableToDeleteRelic'))
+  if (!relicId) return Message.error(i18next.t($ => $.Messages.UnableToDeleteRelic, {
+    ns: "relicsTab"
+  }));
   unequipRelic(relicId)
   useRelicStore.getState().deleteRelic(relicId)
 }

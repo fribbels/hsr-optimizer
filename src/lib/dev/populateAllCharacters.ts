@@ -163,7 +163,7 @@ export function populateAllCharacters() {
   // Remove existing buffed characters from the store
   for (const char of [...store.characters]) {
     if (/^\d+$/.test(char.id) && allCharIds.has(`${char.id}b1`)) {
-      removed.push(`${t(`${char.id}.LongName`)} (buffed version removed)`)
+      removed.push(`${t(($) => $[char.id].LongName)} (buffed version removed)`)
       store.removeCharacter(char.id)
     }
   }
@@ -173,7 +173,7 @@ export function populateAllCharacters() {
 
   for (const charMeta of Object.values(metadata.characters)) {
     const charId = charMeta.id as CharacterId
-    const charName = t(`${charId}.LongName`)
+    const charName = t(($) => $[charId].LongName)
 
     // Skip buffed versions: if ID is numeric and {id}b1 exists, this is the buffed version
     if (/^\d+$/.test(charId) && allCharIds.has(`${charId}b1`)) {
@@ -230,8 +230,8 @@ export function populateAllCharacters() {
   // Sort the full list (existing + new) by name and clear all custom portraits
   const allCharacters = [...useCharacterStore.getState().characters]
   allCharacters.sort((a, b) => {
-    const nameA = t(`${a.id}.LongName`)
-    const nameB = t(`${b.id}.LongName`)
+    const nameA = t(($) => $[a.id].LongName)
+    const nameB = t(($) => $[b.id].LongName)
     return nameA.localeCompare(nameB)
   })
   for (const char of allCharacters) {

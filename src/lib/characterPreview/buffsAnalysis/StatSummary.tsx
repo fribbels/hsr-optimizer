@@ -37,7 +37,9 @@ import {
 import type { BuffGroups } from 'lib/simulations/combatBuffsAnalysis'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import { type CharacterId } from 'types/character'
 import type { OptimizerContext } from 'types/optimizer'
+import { type UniqueAbilityOwner } from 'types/uniqueAbility'
 
 // Summary totals filter: only sums universal buffs when unfiltered, sums universal + matching when filtered
 function buffMatchesSumFilter(buff: Buff, filter: DamageTag | null): boolean {
@@ -178,7 +180,7 @@ function isPillActive(pillKey: AbilityColorKey, filter: DamageTag | null): boole
   return entry != null && (entry.tag & filter) !== 0
 }
 
-function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
+function SummaryTagPills(props: { allContributions: StatSumContribution[], id: CharacterId | 'Default' }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
   const filter = useContext(FilterContext)
   const onFilterChange = useContext(FilterChangeContext)
@@ -190,15 +192,25 @@ function SummaryTagPills(props: { allContributions: StatSumContribution[] }) {
       {pills.map((p) => {
         const tag = p.key === 'ALL' ? null : DAMAGE_TAG_BY_KEY.get(p.key)?.tag ?? null
         const active = p.key !== 'ALL' && tag != null && filter != null && (tag & filter) !== 0
-        return renderPill(p.key, p.color, t(p.key), { dimmed: !isPillActive(p.key, filter), onClick: () => onFilterChange?.(tag), active })
+        return renderPill(
+          p.key,
+          p.color,
+          t($ => p.key === 'UNIQUE' ? $[p.key][props.id as UniqueAbilityOwner] : $[p.key]),
+          {
+            dimmed: !isPillActive(p.key, filter),
+            onClick: () => onFilterChange?.(tag),
+            active
+          }
+        );
       })}
     </div>
-  )
+  );
 }
 
 export function StatSummaryTable(props: {
   sums: StatSum[],
   avatarSrc: string,
+  id: CharacterId | 'Default'
 }) {
   const options = useContext(DesignContext)
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.BuffsAnalysisDisplay' })
@@ -207,7 +219,7 @@ export function StatSummaryTable(props: {
 
   return (
     <CardShell avatarSrc={props.avatarSrc}>
-      <CardHeader label={t('SummaryLabel')} />
+      <CardHeader label={t($ => $.SummaryLabel)} />
       {props.sums.map((sum, i) => (
         <div
           key={sum.label}
@@ -229,7 +241,7 @@ export function StatSummaryTable(props: {
             <span style={ellipsisStyle(options.fontSize)}>{sum.label}</span>
           </div>
 
-          <SummaryTagPills allContributions={sum.allContributions} />
+          <SummaryTagPills allContributions={sum.allContributions} id={props.id} />
 
           <span style={sourceLabelStyle}>
             {'x' + sum.count}
@@ -237,7 +249,7 @@ export function StatSummaryTable(props: {
         </div>
       ))}
     </CardShell>
-  )
+  );
 }
 
 export function HitDefinitionTable(props: {

@@ -37,7 +37,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Penacony',
+  conditionalI18nKey: 'Penacony',
   modifiable: true,
   defaultValue: true,
 } as const satisfies SetDisplay
@@ -64,8 +64,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.PenaconyLandOfTheDreams,
-    label: (t) => t('TeammateSets.Penacony.Text'),
-    desc: (t) => t('TeammateSets.Penacony.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Penacony.Text),
+    desc: (t) => t(($) => $.TeammateSets.Penacony.Desc),
     nonstackable: false,
     effect: ({ x, characterElement, teammateElement }) => {
       if (characterElement != teammateElement) return

@@ -104,7 +104,7 @@ function CharacterModalContent() {
       <div>
         <Flex direction='column' gap={10}>
           <Flex direction='column' gap={5}>
-            <HeaderText>{t('Character')}</HeaderText>
+            <HeaderText>{t($ => $.Character)}</HeaderText>
             <CharacterSelect
               value={characterForm.getValues().characterId ?? null}
               onChange={(characterId: CharacterId | null) => {
@@ -124,19 +124,33 @@ function CharacterModalContent() {
               value={String(characterForm.getValues().characterEidolon ?? 0)}
               onChange={(val: string) => characterForm.setFieldValue('characterEidolon', Number(val))}
               data={[
-                { label: t('EidolonButton', { eidolon: 0 }), value: '0' },
-                { label: t('EidolonButton', { eidolon: 1 }), value: '1' },
-                { label: t('EidolonButton', { eidolon: 2 }), value: '2' },
-                { label: t('EidolonButton', { eidolon: 3 }), value: '3' },
-                { label: t('EidolonButton', { eidolon: 4 }), value: '4' },
-                { label: t('EidolonButton', { eidolon: 5 }), value: '5' },
-                { label: t('EidolonButton', { eidolon: 6 }), value: '6' },
+                { label: t($ => $.EidolonButton, {
+                  eidolon: 0
+                }), value: '0' },
+                { label: t($ => $.EidolonButton, {
+                  eidolon: 1
+                }), value: '1' },
+                { label: t($ => $.EidolonButton, {
+                  eidolon: 2
+                }), value: '2' },
+                { label: t($ => $.EidolonButton, {
+                  eidolon: 3
+                }), value: '3' },
+                { label: t($ => $.EidolonButton, {
+                  eidolon: 4
+                }), value: '4' },
+                { label: t($ => $.EidolonButton, {
+                  eidolon: 5
+                }), value: '5' },
+                { label: t($ => $.EidolonButton, {
+                  eidolon: 6
+                }), value: '6' },
               ]}
             />
           </Flex>
 
           <Flex direction='column' gap={5}>
-            <HeaderText>{t('Lightcone')}</HeaderText>
+            <HeaderText>{t($ => $.Lightcone)}</HeaderText>
             <LightConeSelect
               value={characterForm.getValues().lightCone ?? null}
               characterId={characterId}
@@ -152,27 +166,37 @@ function CharacterModalContent() {
                 characterForm.setFieldValue('lightConeSuperimposition', Number(val))
               }}
               data={[
-                { label: t('SuperimpositionButton', { superimposition: 1 }), value: '1' },
-                { label: t('SuperimpositionButton', { superimposition: 2 }), value: '2' },
-                { label: t('SuperimpositionButton', { superimposition: 3 }), value: '3' },
-                { label: t('SuperimpositionButton', { superimposition: 4 }), value: '4' },
-                { label: t('SuperimpositionButton', { superimposition: 5 }), value: '5' },
+                { label: t($ => $.SuperimpositionButton, {
+                  superimposition: 1
+                }), value: '1' },
+                { label: t($ => $.SuperimpositionButton, {
+                  superimposition: 2
+                }), value: '2' },
+                { label: t($ => $.SuperimpositionButton, {
+                  superimposition: 3
+                }), value: '3' },
+                { label: t($ => $.SuperimpositionButton, {
+                  superimposition: 4
+                }), value: '4' },
+                { label: t($ => $.SuperimpositionButton, {
+                  superimposition: 5
+                }), value: '5' },
               ]}
             />
           </Flex>
 
           {config.showSetSelection && (
             <Flex direction='column' gap={5}>
-              <HeaderText>{t('Sets')}</HeaderText>
+              <HeaderText>{t($ => $.Sets)}</HeaderText>
               <SetSelect
                 data={relicSetData}
-                placeholder={tTeammateCard('RelicsPlaceholder')}
+                placeholder={tTeammateCard($ => $.RelicsPlaceholder)}
                 fieldKey='teamRelicSet'
                 form={characterForm}
               />
               <SetSelect
                 data={ornamentSetData}
-                placeholder={tTeammateCard('OrnamentsPlaceholder')}
+                placeholder={tTeammateCard($ => $.OrnamentsPlaceholder)}
                 fieldKey='teamOrnamentSet'
                 form={characterForm}
               />
@@ -182,14 +206,14 @@ function CharacterModalContent() {
       </div>
       <Flex justify='flex-end' gap={8} style={{ marginTop: 16 }}>
         <Button key='back' variant='default' onClick={closeOverlay}>
-          {tCommon('Cancel')}
+          {tCommon($ => $.Cancel)}
         </Button>
         <Button key='submit' onClick={onModalOk}>
-          {tCommon('Save')}
+          {tCommon($ => $.Save)}
         </Button>
       </Flex>
     </>
-  )
+  );
 }
 
 function SetSelect({

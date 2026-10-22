@@ -40,15 +40,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'shieldBoost',
       formItem: 'switch',
-      text: t('shieldBoost.text'),
-      content: t('shieldBoost.content', { ShieldBuff: precisionRound(100 * sValuesShieldBoost[s]) }),
+      text: t(($) => $.shieldBoost.text),
+      content: t(($) => $.shieldBoost.content, { ShieldBuff: precisionRound(100 * sValuesShieldBoost[s]) }),
     },
     dmgBoost: {
       lc: true,
       id: 'dmgBoost',
       formItem: 'switch',
-      text: t('dmgBoost.text'),
-      content: t('dmgBoost.content', { DmgBuff: precisionRound(100 * sValuesDmgBoost[s]) }),
+      text: t(($) => $.dmgBoost.text),
+      content: t(($) => $.dmgBoost.content, { DmgBuff: precisionRound(100 * sValuesDmgBoost[s]) }),
     },
   }
 

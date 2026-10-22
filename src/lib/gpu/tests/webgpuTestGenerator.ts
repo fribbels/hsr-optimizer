@@ -255,11 +255,15 @@ export function generateE0S1CharacterTest(characterId: CharacterId, lightConeId:
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return testWrapper(
-    `E0S1 ${i18next.t(`gameData:Characters.${characterId}.LongName`)} — ${i18next.t(`gameData:Lightcones.${lightConeId}.Name`)}`,
+    `E0S1 ${i18next.t($ => $.Characters[characterId].LongName, {
+      ns: "gameData"
+    })} — ${i18next.t($ => $.Lightcones[lightConeId].Name, {
+      ns: "gameData"
+    })}`,
     request,
     relics,
     device,
-  )
+  );
 }
 
 export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId: LightConeId, device: GPUDevice) {
@@ -273,11 +277,15 @@ export function generateE6S5CharacterTest(characterId: CharacterId, lightConeId:
 
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   return testWrapper(
-    `E6S5 ${i18next.t(`gameData:Characters.${characterId}.LongName`)} — ${i18next.t(`gameData:Lightcones.${lightConeId}.Name`)}`,
+    `E6S5 ${i18next.t($ => $.Characters[characterId].LongName, {
+      ns: "gameData"
+    })} — ${i18next.t($ => $.Lightcones[lightConeId].Name, {
+      ns: "gameData"
+    })}`,
     request,
     relics,
     device,
-  )
+  );
 }
 
 export function addE6S5Teammate(request: Form, index: number, characterId: CharacterId, lightConeId: LightConeId) {

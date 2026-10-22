@@ -111,20 +111,20 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     healAbility: {
       id: 'healAbility',
       formItem: 'select',
-      text: tHeal('Text'),
-      content: tHeal('Content'),
+      text: tHeal(($) => $.Text),
+      content: tHeal(($) => $.Content),
       options: [
-        { display: tHeal('Skill'), value: SKILL_DMG_TYPE, label: tHeal('Skill') },
-        { display: tHeal('Ult'), value: ULT_DMG_TYPE, label: tHeal('Ult') },
-        { display: tHeal('Talent'), value: NONE_TYPE, label: tHeal('Talent') },
+        { display: tHeal(($) => $.Skill), value: SKILL_DMG_TYPE, label: tHeal(($) => $.Skill) },
+        { display: tHeal(($) => $.Ult), value: ULT_DMG_TYPE, label: tHeal(($) => $.Ult) },
+        { display: tHeal(($) => $.Talent), value: NONE_TYPE, label: tHeal(($) => $.Talent) },
       ],
       fullWidth: true,
     },
     skillBuff: {
       id: 'skillBuff',
       formItem: 'switch',
-      text: t('Content.skillBuff.text'),
-      content: t('Content.skillBuff.content', {
+      text: t(($) => $.Content.skillBuff.text),
+      content: t(($) => $.Content.skillBuff.content, {
         skillHpPercentBuff: precisionRound(100 * skillHpPercentBuff),
         skillHpFlatBuff: skillHpFlatBuff,
       }),
@@ -136,8 +136,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateHPValue: {
       id: 'teammateHPValue',
       formItem: 'slider',
-      text: t('TeammateContent.teammateHPValue.text'),
-      content: t('TeammateContent.teammateHPValue.content', {
+      text: t(($) => $.TeammateContent.teammateHPValue.text),
+      content: t(($) => $.TeammateContent.teammateHPValue.content, {
         skillHpPercentBuff: precisionRound(100 * skillHpPercentBuff),
         skillHpFlatBuff: skillHpFlatBuff,
       }),

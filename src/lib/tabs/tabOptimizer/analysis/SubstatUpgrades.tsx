@@ -90,9 +90,9 @@ export function DamageUpgrades({ analysis }: {
       >
         <Table.Thead>
           <Table.Tr>
-            <Table.Th className={tableClasses.substatHeader}>{t('ColumnHeaders.Substat')}</Table.Th>
-            <Table.Th className={tableClasses.columnHeader}>{t(`ColumnHeaders.${group.key}_P`)}</Table.Th>
-            <Table.Th className={tableClasses.columnHeader}>{t(`ColumnHeaders.${group.key}`)}</Table.Th>
+            <Table.Th className={tableClasses.substatHeader}>{t($ => $.ColumnHeaders.Substat)}</Table.Th>
+            <Table.Th className={tableClasses.columnHeader}>{t($ => $.ColumnHeaders[`${group.key}_P`])}</Table.Th>
+            <Table.Th className={tableClasses.columnHeader}>{t($ => $.ColumnHeaders[group.key])}</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -101,7 +101,7 @@ export function DamageUpgrades({ analysis }: {
               <Table.Td className={tableClasses.centeredCell}>
                 <div style={{ display: 'flex' }}>
                   <img src={Assets.getStatIcon(item.key)} className={classes.statIcon} />
-                  {tCommon(item.key)}
+                  {tCommon($ => $[item.key])}
                 </div>
               </Table.Td>
               <Table.Td className={tableClasses.centeredCell}>

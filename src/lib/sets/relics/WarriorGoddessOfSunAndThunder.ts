@@ -40,7 +40,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.WarriorGoddess',
+  conditionalI18nKey: 'WarriorGoddess',
   modifiable: true,
   defaultValue: false,
 } as const satisfies SetDisplay
@@ -75,8 +75,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.WarriorGoddessOfSunAndThunder,
-    label: (t) => t('TeammateSets.Warrior.Text'),
-    desc: (t) => t('TeammateSets.Warrior.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Warrior.Text),
+    desc: (t) => t(($) => $.TeammateSets.Warrior.Desc),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.CD, 0.15, x.targets(TargetTag.FullTeam).source(Source.WarriorGoddessOfSunAndThunder))

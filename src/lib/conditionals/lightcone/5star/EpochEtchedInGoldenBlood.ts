@@ -34,8 +34,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'skillDmgBoost',
       formItem: 'switch',
-      text: t('skillDmgBoost.text'),
-      content: t('skillDmgBoost.content', { DmgBuff: precisionRound(100 * sValuesSkillDmg[s]) }),
+      text: t(($) => $.skillDmgBoost.text),
+      content: t(($) => $.skillDmgBoost.content, { DmgBuff: precisionRound(100 * sValuesSkillDmg[s]) }),
     },
   }
 

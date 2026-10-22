@@ -43,7 +43,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.MagicalGirl',
+  conditionalI18nKey: 'MagicalGirl',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 10,
@@ -75,9 +75,9 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 11 }).map((_val, i) => ({
-    display: t('MagicalGirl.Display', { stackCount: i }),
+    display: t(($) => $.MagicalGirl.Display, { stackCount: i }),
     value: i,
-    label: t('MagicalGirl.Label', { stackCount: i }),
+    label: t(($) => $.MagicalGirl.Label, { stackCount: i }),
   }))
 }
 

@@ -34,8 +34,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'healingBuff',
       formItem: 'switch',
-      text: t('Content.healingBuff.text'),
-      content: t('Content.healingBuff.content', { HealingBuff: precisionRound(100 * sValues[s]) }),
+      text: t(($) => $.Content.healingBuff.text),
+      content: t(($) => $.Content.healingBuff.content, { HealingBuff: precisionRound(100 * sValues[s]) }),
     },
   }
 

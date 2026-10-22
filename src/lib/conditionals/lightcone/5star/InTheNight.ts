@@ -47,8 +47,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'spdScalingBuffs',
       formItem: 'switch',
-      text: t('Content.spdScalingBuffs.text'),
-      content: t('Content.spdScalingBuffs.content', {
+      text: t(($) => $.Content.spdScalingBuffs.text),
+      content: t(($) => $.Content.spdScalingBuffs.content, {
         DmgBuff: precisionRound(100 * sValuesDmg[s]),
         CritBuff: precisionRound(100 * sValuesCd[s]),
       }),

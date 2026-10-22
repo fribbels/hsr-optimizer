@@ -112,8 +112,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     concertoActive: {
       id: 'concertoActive',
       formItem: 'switch',
-      text: t('Content.concertoActive.text'),
-      content: t('Content.concertoActive.content', {
+      text: t(($) => $.Content.concertoActive.text),
+      content: t(($) => $.Content.concertoActive.content, {
         ultAtkBuffScalingValue: precisionRound(100 * ultAtkBuffScalingValue),
         ultAtkBuffFlatValue: ultAtkBuffFlatValue,
         ultScaling: precisionRound(100 * ultScaling),
@@ -122,41 +122,41 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     skillDmgBuff: {
       id: 'skillDmgBuff',
       formItem: 'switch',
-      text: t('Content.skillDmgBuff.text'),
-      content: t('Content.skillDmgBuff.content', { skillDmgBuffValue: precisionRound(100 * skillDmgBuffValue) }),
+      text: t(($) => $.Content.skillDmgBuff.text),
+      content: t(($) => $.Content.skillDmgBuff.content, { skillDmgBuffValue: precisionRound(100 * skillDmgBuffValue) }),
     },
     talentCdBuff: {
       id: 'talentCdBuff',
       formItem: 'switch',
-      text: t('Content.talentCdBuff.text'),
-      content: t('Content.talentCdBuff.content', { talentCdBuffValue: precisionRound(100 * talentCdBuffValue) }),
+      text: t(($) => $.Content.talentCdBuff.text),
+      content: t(($) => $.Content.talentCdBuff.content, { talentCdBuffValue: precisionRound(100 * talentCdBuffValue) }),
     },
     e1UltResPen: {
       id: 'e1UltResPen',
       formItem: 'switch',
-      text: t('Content.e1UltResPen.text'),
-      content: t('Content.e1UltResPen.content'),
+      text: t(($) => $.Content.e1UltResPen.text),
+      content: t(($) => $.Content.e1UltResPen.content),
       disabled: e < 1,
     },
     e2UltSpdBuff: {
       id: 'e2UltSpdBuff',
       formItem: 'switch',
-      text: t('TeammateContent.e2UltSpdBuff.text'),
-      content: t('TeammateContent.e2UltSpdBuff.content'),
+      text: t(($) => $.TeammateContent.e2UltSpdBuff.text),
+      content: t(($) => $.TeammateContent.e2UltSpdBuff.content),
       disabled: e < 2,
     },
     e4TeamResBuff: {
       id: 'e4TeamResBuff',
       formItem: 'switch',
-      text: t('Content.e4TeamResBuff.text'),
-      content: t('Content.e4TeamResBuff.content'),
+      text: t(($) => $.Content.e4TeamResBuff.text),
+      content: t(($) => $.Content.e4TeamResBuff.content),
       disabled: e < 4,
     },
     e6UltCDBoost: {
       id: 'e6UltCDBoost',
       formItem: 'switch',
-      text: t('Content.e6UltCDBoost.text'),
-      content: t('Content.e6UltCDBoost.content'),
+      text: t(($) => $.Content.e6UltCDBoost.text),
+      content: t(($) => $.Content.e6UltCDBoost.content),
       disabled: e < 6,
     },
   }
@@ -167,8 +167,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     teammateATKValue: {
       id: 'teammateATKValue',
       formItem: 'slider',
-      text: t('TeammateContent.teammateATKValue.text'),
-      content: t('TeammateContent.teammateATKValue.content', {
+      text: t(($) => $.TeammateContent.teammateATKValue.text),
+      content: t(($) => $.TeammateContent.teammateATKValue.content, {
         ultAtkBuffFlatValue: precisionRound(ultAtkBuffFlatValue),
         ultAtkBuffScalingValue: precisionRound(100 * ultAtkBuffScalingValue),
       }),
@@ -179,8 +179,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
     traceFuaCdBoost: {
       id: 'traceFuaCdBoost',
       formItem: 'switch',
-      text: t('TeammateContent.traceFuaCdBoost.text'),
-      content: t('TeammateContent.traceFuaCdBoost.content'),
+      text: t(($) => $.TeammateContent.traceFuaCdBoost.text),
+      content: t(($) => $.TeammateContent.traceFuaCdBoost.content),
     },
     e1UltResPen: content.e1UltResPen,
     e2UltSpdBuff: content.e2UltSpdBuff,

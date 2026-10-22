@@ -55,8 +55,8 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
             fullWidth
             style={{ width: `${STAT_SIMULATION_GRID_WIDTH}px` }}
             data={[
-              { label: t('ModeSelector.Off'), value: StatSimTypes.Disabled },
-              { label: t('ModeSelector.RollCount'), value: StatSimTypes.SubstatRolls },
+              { label: t($ => $.ModeSelector.Off), value: StatSimTypes.Disabled },
+              { label: t($ => $.ModeSelector.RollCount), value: StatSimTypes.SubstatRolls },
             ]}
           />
 
@@ -72,10 +72,10 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
               onClick={startOptimizerStatSimulation}
               leftSection={<IconChevronDown size={16} />}
             >
-              {t('FooterLabels.Simulate')}
+              {t($ => $.FooterLabels.Simulate)}
             </Button>
             <Button variant='default' style={{ width: 200 }} disabled={isHidden()} onClick={importOptimizerBuild} leftSection={<IconChevronUp size={16} />}>
-              {t('FooterLabels.Import')}
+              {t($ => $.FooterLabels.Import)}
             </Button>
             <Button
               variant='default'
@@ -84,7 +84,7 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
               onClick={() => setOpen(OpenCloseIDs.OPTIMIZER_SETS_DRAWER)}
               leftSection={<IconSettings size={16} />}
             >
-              {t('FooterLabels.Conditionals')}
+              {t($ => $.FooterLabels.Conditionals)}
             </Button>
           </Flex>
         </Flex>
@@ -112,9 +112,9 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
               disabled={isHidden()}
               onClick={() =>
                 modals.openConfirmModal({
-                  title: t('DeletePopup.Title'),
-                  children: t('DeletePopup.Description'),
-                  labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                  title: t($ => $.DeletePopup.Title),
+                  children: t($ => $.DeletePopup.Description),
+                  labels: { confirm: tCommon($ => $.Yes), cancel: tCommon($ => $.Cancel) },
                   centered: true,
                   onConfirm: deleteAllStatSimulationBuilds,
                 })}
@@ -127,5 +127,5 @@ export const StatSimulationDisplay = memo(function StatSimulationDisplay() {
         <SimulationInputs />
       </Flex>
     </FormCard>
-  )
+  );
 })

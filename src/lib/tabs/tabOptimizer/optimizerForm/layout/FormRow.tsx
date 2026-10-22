@@ -54,8 +54,8 @@ export function TeammateFormRow({ id, children }: { id: string, children: ReactN
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'TeammateRow' })
 
   return (
-    <FormRow id={id} label={t('Header')}>
+    <FormRow id={id} label={t($ => $.Header)}>
       {children}
     </FormRow>
-  )
+  );
 }

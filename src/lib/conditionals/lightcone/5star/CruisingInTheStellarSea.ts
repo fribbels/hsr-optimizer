@@ -32,15 +32,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'enemyHp50CrBoost',
       formItem: 'switch',
-      text: t('Content.enemyHp50CrBoost.text'),
-      content: t('Content.enemyHp50CrBoost.content', { CritBuff: precisionRound(100 * sValuesCr[s]) }),
+      text: t(($) => $.Content.enemyHp50CrBoost.text),
+      content: t(($) => $.Content.enemyHp50CrBoost.content, { CritBuff: precisionRound(100 * sValuesCr[s]) }),
     },
     enemyDefeatedAtkBuff: {
       lc: true,
       id: 'enemyDefeatedAtkBuff',
       formItem: 'switch',
-      text: t('Content.enemyDefeatedAtkBuff.text'),
-      content: t('Content.enemyDefeatedAtkBuff.content', { AtkBuff: precisionRound(100 * sValuesAtk[s]) }),
+      text: t(($) => $.Content.enemyDefeatedAtkBuff.text),
+      content: t(($) => $.Content.enemyDefeatedAtkBuff.content, { AtkBuff: precisionRound(100 * sValuesAtk[s]) }),
     },
   }
 

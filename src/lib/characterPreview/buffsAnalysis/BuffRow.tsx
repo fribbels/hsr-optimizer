@@ -25,8 +25,10 @@ import {
 import type { ReactElement } from 'react'
 import { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import { type CharacterId } from 'types/character'
+import { type UniqueAbilityOwner } from 'types/uniqueAbility'
 
-export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
+export function BuffRow({ buff, isLast, id }: { buff: Buff, isLast: boolean, id: CharacterId | 'Default' }) {
   const options = useContext(DesignContext)
   const activeFilter = useContext(FilterContext)
   const dimmed = !buffMatchesFilter(buff, activeFilter)
@@ -45,23 +47,25 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
   switch (source.buffType) {
     case BUFF_TYPE.CHARACTER:
       if (source.ability === BUFF_ABILITY.CYRENE_ODE_TO) {
-        sourceLabel = tGameData('Characters.1415.Name')
+        sourceLabel = tGameData($ => $.Characters[1415].Name)
       } else {
-        sourceLabel = tOptimizerTab(`Sources.${source.ability}`)
+        sourceLabel = tOptimizerTab($ => source.ability === 'Unique'
+          ? $.Sources[source.ability][id as UniqueAbilityOwner]
+          : $.Sources[source.ability])
       }
       break
     case BUFF_TYPE.LIGHTCONE:
-      sourceLabel = tOptimizerTab('Sources.LightCone')
+      sourceLabel = tOptimizerTab($ => $.Sources.LightCone)
       break
     case BUFF_TYPE.SETS:
-      sourceLabel = tOptimizerTab('Sources.Set')
+      sourceLabel = tOptimizerTab($ => $.Sources.Set)
       break
     default:
       sourceLabel = source.label
   }
 
   const value = bool
-    ? tOptimizerTab(`Values.${buff.value ? 'BoolTrue' : 'BoolFalse'}`)
+    ? tOptimizerTab($ => $.Values[buff.value ? 'BoolTrue' : 'BoolFalse'])
     : formatBuffValue(buff.value, percent)
 
   let rowBackground: string | undefined
@@ -96,7 +100,7 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
         {statLabel}
       </span>
 
-      <DamageTagPills damageTags={buff.damageTags} />
+      <DamageTagPills damageTags={buff.damageTags} id={id} />
 
       <span
         style={{
@@ -111,7 +115,7 @@ export function BuffRow({ buff, isLast }: { buff: Buff, isLast: boolean }) {
   )
 }
 
-function DamageTagPills({ damageTags }: { damageTags?: number }) {
+function DamageTagPills({ damageTags, id }: { damageTags?: number, id: CharacterId | 'Default' }) {
   const { t } = useTranslation('optimizerTab', { keyPrefix: 'ExpandedDataPanel.DamageTags' })
   const onFilterChange = useContext(FilterChangeContext)
   const selectedFilter = useContext(FilterContext)
@@ -119,16 +123,26 @@ function DamageTagPills({ damageTags }: { damageTags?: number }) {
   if (damageTags == null) {
     return (
       <div style={{ display: 'flex', gap: 2, flexWrap: 'wrap', flexShrink: 0 }}>
-        {renderPill('ALL', ABILITY_COLORS.ALL, t('ALL'), { onClick: () => onFilterChange?.(null) })}
+        {renderPill('ALL', ABILITY_COLORS.ALL, t($ => $.ALL), { onClick: () => onFilterChange?.(null) })}
       </div>
-    )
+    );
   }
 
   const pills: ReactElement[] = []
   for (const entry of DAMAGE_TAG_ENTRIES) {
     if ((damageTags & entry.tag) !== 0) {
       const active = selectedFilter != null && (entry.tag & selectedFilter) !== 0
-      pills.push(renderPill(String(entry.tag), entry.color, t(entry.key), { onClick: () => onFilterChange?.(entry.tag), active }))
+      pills.push(renderPill(
+        String(entry.tag),
+        entry.color,
+        t($ => entry.key === 'UNIQUE'
+          ? $[entry.key][id as UniqueAbilityOwner]
+          : $[entry.key]),
+        {
+          onClick: () => onFilterChange?.(entry.tag),
+          active
+        }
+      ))
     }
   }
 

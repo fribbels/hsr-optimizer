@@ -90,22 +90,34 @@ export function MainStatsSection({ simType }: { simType: StatSimType }) {
   const BodyStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.CR, Stats.CD, Stats.EHR, Stats.OHB]
       .map((x) => {
-        return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
-      })
+        return { value: x, short: t($ => $.ShortStat, {
+          stat: x
+        }), label: t($ => $.LabelStat, {
+          stat: x
+        }) };
+      });
   }, [t])
 
   const FeetStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.SPD]
       .map((x) => {
-        return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
-      })
+        return { value: x, short: t($ => $.ShortStat, {
+          stat: x
+        }), label: t($ => $.LabelStat, {
+          stat: x
+        }) };
+      });
   }, [t])
 
   const LinkRopeStatOptions = useMemo(() => {
     return [Stats.HP_P, Stats.ATK_P, Stats.DEF_P, Stats.BE, Stats.ERR]
       .map((x) => {
-        return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
-      })
+        return { value: x, short: t($ => $.ShortStat, {
+          stat: x
+        }), label: t($ => $.LabelStat, {
+          stat: x
+        }) };
+      });
   }, [t])
 
   const PlanarSphereStatOptions = useMemo(() => {
@@ -122,27 +134,31 @@ export function MainStatsSection({ simType }: { simType: StatSimType }) {
       Stats.Imaginary_DMG,
     ]
       .map((x) => {
-        return { value: x, short: t('ShortStat', { stat: x }), label: t('LabelStat', { stat: x }) }
-      })
+        return { value: x, short: t($ => $.ShortStat, {
+          stat: x
+        }), label: t($ => $.LabelStat, {
+          stat: x
+        }) };
+      });
   }, [t])
 
   return (
     <>
-      <HeaderText>{t('Header')}</HeaderText>
+      <HeaderText>{t($ => $.Header)}</HeaderText>
       <Flex direction='column' gap={5}>
         <Flex gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
-          <MainStatSelector placeholder={t('BodyPlaceholder')} part={Parts.Body} options={BodyStatOptions} simType={simType} />
-          <MainStatSelector placeholder={t('FeetPlaceholder')} part={Parts.Feet} options={FeetStatOptions} simType={simType} />
+          <MainStatSelector placeholder={t($ => $.BodyPlaceholder)} part={Parts.Body} options={BodyStatOptions} simType={simType} />
+          <MainStatSelector placeholder={t($ => $.FeetPlaceholder)} part={Parts.Feet} options={FeetStatOptions} simType={simType} />
         </Flex>
         <Flex gap={5} w={STAT_SIMULATION_OPTIONS_WIDTH}>
           <MainStatSelector
-            placeholder={t('SpherePlaceholder')}
+            placeholder={t($ => $.SpherePlaceholder)}
             part={Parts.PlanarSphere}
             options={PlanarSphereStatOptions}
             simType={simType}
           />
           <MainStatSelector
-            placeholder={t('RopePlaceholder')}
+            placeholder={t($ => $.RopePlaceholder)}
             part={Parts.LinkRope}
             options={LinkRopeStatOptions}
             simType={simType}
@@ -150,5 +166,5 @@ export function MainStatsSection({ simType }: { simType: StatSimType }) {
         </Flex>
       </Flex>
     </>
-  )
+  );
 }

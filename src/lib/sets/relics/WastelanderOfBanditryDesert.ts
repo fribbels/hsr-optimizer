@@ -38,7 +38,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Wastelander',
+  conditionalI18nKey: 'Wastelander',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 1,
@@ -72,19 +72,19 @@ const conditionals: SetConditionals = {
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return [
     {
-      display: t('Wastelander.Off.Display'),
+      display: t(($) => $.Wastelander.Off.Display),
       value: 0,
-      label: t('Wastelander.Off.Label'),
+      label: t(($) => $.Wastelander.Off.Label),
     },
     {
-      display: t('Wastelander.Debuffed.Display'),
+      display: t(($) => $.Wastelander.Debuffed.Display),
       value: 1,
-      label: t('Wastelander.Debuffed.Label'),
+      label: t(($) => $.Wastelander.Debuffed.Label),
     },
     {
-      display: t('Wastelander.Imprisoned.Display'),
+      display: t(($) => $.Wastelander.Imprisoned.Display),
       value: 2,
-      label: t('Wastelander.Imprisoned.Label'),
+      label: t(($) => $.Wastelander.Imprisoned.Label),
     },
   ]
 }

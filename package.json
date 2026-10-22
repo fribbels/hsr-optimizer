@@ -33,7 +33,7 @@
     "typecheck:fast": "tsgo --noEmit -p ./tsconfig.fast.json",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "update-resources": "npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"
+    "update-resources": "npx tsx src/scripts/uniques.ts && npx i18next-resources-for-ts interface -i ./public/locales/en_US -o ./src/types/resources.d.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -81,6 +81,7 @@
     "@webgpu/types": "^0.1.69",
     "dprint": "^0.54.0",
     "gh-pages": "^6.3.0",
+    "i18next-hmr": "^3.3.5",
     "i18next-resources-for-ts": "^2.0.2",
     "jsdom": "^29.0.2",
     "oxlint": "^1.60.0",

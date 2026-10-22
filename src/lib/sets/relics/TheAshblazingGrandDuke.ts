@@ -36,7 +36,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.SELECT,
-  conditionalI18nKey: 'Conditionals.Ashblazing',
+  conditionalI18nKey: 'Ashblazing',
   selectionOptions: selectionOptions,
   modifiable: true,
   defaultValue: 0,
@@ -63,9 +63,9 @@ const conditionals: SetConditionals = {
 
 function selectionOptions(t: SetConditionalTFunction): SelectOptionContent[] {
   return Array.from({ length: 9 }).map((_val, i) => ({
-    display: t('Ashblazing.Display', { stackCount: i }),
+    display: t(($) => $.Ashblazing.Display, { stackCount: i }),
     value: i,
-    label: t('Ashblazing.Label', { stackCount: i, buffValue: 6 * i }),
+    label: t(($) => $.Ashblazing.Label, { stackCount: i, buffValue: 6 * i }),
   }))
 }
 

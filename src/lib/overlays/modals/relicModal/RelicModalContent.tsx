@@ -107,20 +107,24 @@ export function RelicModalContent() {
     return Object.entries(SetsRelics)
       .filter((x) => !UnreleasedSets[x[1]])
       .map((entry) => ({
-        label: t(`gameData:RelicSets.${setToId[entry[1]]}.Name`),
+        label: t($ => $.RelicSets[setToId[entry[1]]].Name, {
+          ns: "gameData"
+        }),
         value: entry[1],
         icon: Assets.getSetImage(entry[1]),
-      }))
+      }));
   }, [t])
 
   const planarOptions: SearchableComboboxOption[] = useMemo(() => {
     return Object.entries(SetsOrnaments)
       .filter((x) => !UnreleasedSets[x[1]])
       .map((entry) => ({
-        label: t(`gameData:RelicSets.${setToId[entry[1]]}.Name`),
+        label: t($ => $.RelicSets[setToId[entry[1]]].Name, {
+          ns: "gameData"
+        }),
         value: entry[1],
         icon: Assets.getSetImage(entry[1]),
-      }))
+      }));
   }, [t])
 
   function getSetOptions(part?: Parts) {
@@ -172,10 +176,10 @@ export function RelicModalContent() {
 
   return (
     <Flex direction='column' gap={5}>
-      {isLiveImport && <Alert color='yellow'>{t('Relic.LiveImportWarning') /* Live import mode is enabled, your changes might be overwritten. */}</Alert>}
+      {isLiveImport && <Alert color='yellow'>{t($ => $.Relic.LiveImportWarning) /* Live import mode is enabled, your changes might be overwritten. */}</Alert>}
       <div className={modalClasses.relicGrid}>
         <Flex direction='column' gap={5}>
-          <HeaderText>{t('Relic.Part') /* Part */}</HeaderText>
+          <HeaderText>{t($ => $.Relic.Part) /* Part */}</HeaderText>
 
           <SegmentedControl
             size='md'
@@ -191,17 +195,17 @@ export function RelicModalContent() {
             ]}
           />
 
-          <HeaderText>{t('Relic.Set') /* Set */}</HeaderText>
+          <HeaderText>{t($ => $.Relic.Set) /* Set */}</HeaderText>
           <SearchableCombobox
             clearable
             dropdownMaxHeight={350}
-            placeholder={t('Relic.Set') /* Set */}
+            placeholder={t($ => $.Relic.Set) /* Set */}
             options={setOptions}
             value={formValues.set}
             onChange={(val) => relicForm.setFieldValue('set', val as RelicForm['set'])}
           />
 
-          <HeaderText>{t('Relic.Enhance') /* Enhance / Grade */}</HeaderText>
+          <HeaderText>{t($ => $.Relic.Enhance) /* Enhance / Grade */}</HeaderText>
 
           <Flex gap={10}>
             <SearchableCombobox
@@ -227,7 +231,7 @@ export function RelicModalContent() {
             />
           </Flex>
 
-          <HeaderText>{t('Relic.Mainstat') /* Main stat */}</HeaderText>
+          <HeaderText>{t($ => $.Relic.Mainstat) /* Main stat */}</HeaderText>
 
           <Flex gap={10}>
             <SearchableCombobox
@@ -245,7 +249,7 @@ export function RelicModalContent() {
         <div />
 
         <Flex direction='column' gap={5}>
-          <HeaderText>{t('Relic.Wearer') /* Equipped by */}</HeaderText>
+          <HeaderText>{t($ => $.Relic.Wearer) /* Equipped by */}</HeaderText>
           <SearchableCombobox
             options={characterOptions.map((opt) => ({
               value: opt.value,
@@ -266,9 +270,9 @@ export function RelicModalContent() {
       </div>
 
       <div className={modalClasses.relicGrid} style={{ rowGap: 5 }}>
-        <HeaderText>{t('Relic.Substat') /* Substats */}</HeaderText>
+        <HeaderText>{t($ => $.Relic.Substat) /* Substats */}</HeaderText>
         <div />
-        <HeaderText>{t('Relic.Upgrades') /* Substat upgrades */}</HeaderText>
+        <HeaderText>{t($ => $.Relic.Upgrades) /* Substat upgrades */}</HeaderText>
 
         <SubstatInput
           index={0}
@@ -305,13 +309,17 @@ export function RelicModalContent() {
 
         <Flex gap={10} style={{ width: 180 }}>
           <Button variant='default' onClick={handleCancel} style={{ flex: 1 }}>
-            {t('common:Cancel')}
+            {t($ => $.Cancel, {
+              ns: "common"
+            })}
           </Button>
           <Button onClick={handleOk} style={{ flex: 1 }}>
-            {t('common:Submit')}
+            {t($ => $.Submit, {
+              ns: "common"
+            })}
           </Button>
         </Flex>
       </Flex>
     </Flex>
-  )
+  );
 }

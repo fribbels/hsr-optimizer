@@ -35,15 +35,15 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'enemyDebuffedDmgBoost',
       formItem: 'switch',
-      text: t('Content.enemyDebuffedDmgBoost.text'),
-      content: t('Content.enemyDebuffedDmgBoost.content', { DmgBuff: precisionRound(100 * sValuesDmg[s]) }),
+      text: t(($) => $.Content.enemyDebuffedDmgBoost.text),
+      content: t(($) => $.Content.enemyDebuffedDmgBoost.content, { DmgBuff: precisionRound(100 * sValuesDmg[s]) }),
     },
     skillAtkBoost: {
       lc: true,
       id: 'skillAtkBoost',
       formItem: 'switch',
-      text: t('Content.skillAtkBoost.text'),
-      content: t('Content.skillAtkBoost.content', {
+      text: t(($) => $.Content.skillAtkBoost.text),
+      content: t(($) => $.Content.skillAtkBoost.content, {
         EhrBuff: precisionRound(100 * sValuesEhr[s]),
         AtkBuff: precisionRound(100 * sValuesAtk[s]),
       }),
@@ -52,8 +52,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'skillEhrBoost',
       formItem: 'switch',
-      text: t('Content.skillEhrBoost.text'),
-      content: t('Content.skillAtkBoost.content', {
+      text: t(($) => $.Content.skillEhrBoost.text),
+      content: t(($) => $.Content.skillAtkBoost.content, {
         EhrBuff: precisionRound(100 * sValuesEhr[s]),
         AtkBuff: precisionRound(100 * sValuesAtk[s]),
       }),

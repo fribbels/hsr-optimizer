@@ -38,7 +38,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Deliverer',
+  conditionalI18nKey: 'Deliverer',
   modifiable: true,
   defaultValue: true,
 } as const satisfies SetDisplay
@@ -67,8 +67,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.WorldRemakingDeliverer,
-    label: (t) => t('TeammateSets.WorldRemaking.Text'),
-    desc: (t) => t('TeammateSets.WorldRemaking.Desc'),
+    label: (t) => t(($) => $.TeammateSets.WorldRemaking.Text),
+    desc: (t) => t(($) => $.TeammateSets.WorldRemaking.Desc),
     nonstackable: false,
     effect: ({ x }) => {
       x.buff(StatKey.BOOST, 0.15, x.targets(TargetTag.FullTeam).source(Source.WorldRemakingDeliverer))

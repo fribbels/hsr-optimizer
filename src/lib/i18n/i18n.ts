@@ -1,5 +1,6 @@
 import i18next from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import { HMRPlugin } from 'i18next-hmr/plugin'
 import Backend, { type HttpBackendOptions } from 'i18next-http-backend'
 import yaml from 'js-yaml'
 import {
@@ -43,25 +44,35 @@ export const defaultNS = 'common'
 export const fallbackNS = ['common', 'gameData'] as const
 
 const supportedLanguages = isBeta ? Object.keys(languages) : completedLocales
-void i18next
+const i18n = i18next
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
-  .init<HttpBackendOptions>({
-    ns: namespaces,
-    defaultNS,
-    fallbackNS,
-    debug: false,
-    supportedLngs: supportedLanguages,
-    load: 'currentOnly',
-    fallbackLng: 'en_US',
-    interpolation: {
-      escapeValue: false, // not needed for react as it escapes by default
+
+if (import.meta.env.DEV) {
+  i18n.use(
+    new HMRPlugin({
+      silent: true,
+      vite: { client: true },
+    }),
+  )
+}
+
+i18n.init<HttpBackendOptions>({
+  ns: namespaces,
+  defaultNS,
+  fallbackNS,
+  debug: false,
+  supportedLngs: supportedLanguages,
+  load: 'currentOnly',
+  fallbackLng: 'en_US',
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
+  backend: {
+    loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.yaml',
+    parse: function(data: string) {
+      return yaml.load(data) as Record<string, any>
     },
-    backend: {
-      loadPath: BASE_PATH + '/locales/{{lng}}/{{ns}}.yaml',
-      parse: function(data: string) {
-        return yaml.load(data) as Record<string, any>
-      },
-    },
-  })
+  },
+})

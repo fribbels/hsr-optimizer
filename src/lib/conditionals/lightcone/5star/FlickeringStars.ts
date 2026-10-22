@@ -44,8 +44,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'radiantCrown',
       formItem: 'switch',
-      text: t('radiantCrown.text'),
-      content: t('radiantCrown.content', { DefPen: precisionRound(100 * sValuesDefPen[s]), DmgBoost: precisionRound(100 * sValuesSkillDmg[s]) }),
+      text: t(($) => $.radiantCrown.text),
+      content: t(($) => $.radiantCrown.content, { DefPen: precisionRound(100 * sValuesDefPen[s]), DmgBoost: precisionRound(100 * sValuesSkillDmg[s]) }),
     },
   }
 

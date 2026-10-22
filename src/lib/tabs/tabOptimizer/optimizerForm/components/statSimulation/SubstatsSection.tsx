@@ -14,22 +14,46 @@ export function SubstatsSection({ simType, title, total }: { simType: StatSimTyp
     <Flex direction='column'>
       <HeaderText>{title}</HeaderText>
       <Flex direction='column' gap={5}>
-        <StatInput simType={simType} name={Stats.ATK_P} label={t('SubstatSelectorLabel', { stat: Stats.ATK_P })} />
-        <StatInput simType={simType} name={Stats.ATK} label={t('SubstatSelectorLabel', { stat: Stats.ATK })} />
-        <StatInput simType={simType} name={Stats.CR} label={t('SubstatSelectorLabel', { stat: Stats.CR })} />
-        <StatInput simType={simType} name={Stats.CD} label={t('SubstatSelectorLabel', { stat: Stats.CD })} />
-        <StatInput simType={simType} name={Stats.SPD} label={t('SubstatSelectorLabel', { stat: Stats.SPD })} />
-        <StatInput simType={simType} name={Stats.BE} label={t('SubstatSelectorLabel', { stat: Stats.BE })} />
-        <StatInput simType={simType} name={Stats.HP_P} label={t('SubstatSelectorLabel', { stat: Stats.HP_P })} />
-        <StatInput simType={simType} name={Stats.HP} label={t('SubstatSelectorLabel', { stat: Stats.HP })} />
-        <StatInput simType={simType} name={Stats.DEF_P} label={t('SubstatSelectorLabel', { stat: Stats.DEF_P })} />
-        <StatInput simType={simType} name={Stats.DEF} label={t('SubstatSelectorLabel', { stat: Stats.DEF })} />
-        <StatInput simType={simType} name={Stats.EHR} label={t('SubstatSelectorLabel', { stat: Stats.EHR })} />
-        <StatInput simType={simType} name={Stats.RES} label={t('SubstatSelectorLabel', { stat: Stats.RES })} />
+        <StatInput simType={simType} name={Stats.ATK_P} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.ATK_P
+        })} />
+        <StatInput simType={simType} name={Stats.ATK} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.ATK
+        })} />
+        <StatInput simType={simType} name={Stats.CR} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.CR
+        })} />
+        <StatInput simType={simType} name={Stats.CD} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.CD
+        })} />
+        <StatInput simType={simType} name={Stats.SPD} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.SPD
+        })} />
+        <StatInput simType={simType} name={Stats.BE} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.BE
+        })} />
+        <StatInput simType={simType} name={Stats.HP_P} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.HP_P
+        })} />
+        <StatInput simType={simType} name={Stats.HP} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.HP
+        })} />
+        <StatInput simType={simType} name={Stats.DEF_P} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.DEF_P
+        })} />
+        <StatInput simType={simType} name={Stats.DEF} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.DEF
+        })} />
+        <StatInput simType={simType} name={Stats.EHR} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.EHR
+        })} />
+        <StatInput simType={simType} name={Stats.RES} label={t($ => $.SubstatSelectorLabel, {
+          stat: Stats.RES
+        })} />
         {(simType === 'substatRolls') && (
           <Flex justify='space-between' align='center' w={STAT_SIMULATION_STATS_WIDTH}>
             <div>
-              {t('TotalRolls')}
+              {t($ => $.TotalRolls)}
             </div>
             <InputNumberStyled
               hideControls
@@ -45,5 +69,5 @@ export function SubstatsSection({ simType, title, total }: { simType: StatSimTyp
         )}
       </Flex>
     </Flex>
-  )
+  );
 }

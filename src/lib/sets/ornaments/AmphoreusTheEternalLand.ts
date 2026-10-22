@@ -38,7 +38,7 @@ const info = {
 
 const display = {
   conditionalType: ConditionalDataType.BOOLEAN,
-  conditionalI18nKey: 'Conditionals.Amphoreus',
+  conditionalI18nKey: 'Amphoreus',
   modifiable: true,
   defaultValue: false,
 } as const satisfies SetDisplay
@@ -67,8 +67,8 @@ const conditionals: SetConditionals = {
   `,
   teammate: [{
     value: Sets.AmphoreusTheEternalLand,
-    label: (t) => t('TeammateSets.Amphoreus.Text'),
-    desc: (t) => t('TeammateSets.Amphoreus.Desc'),
+    label: (t) => t(($) => $.TeammateSets.Amphoreus.Text),
+    desc: (t) => t(($) => $.TeammateSets.Amphoreus.Desc),
     nonstackable: true,
     effect: ({ x }) => {
       x.buff(StatKey.SPD_P, 0.08, x.targets(TargetTag.FullTeam).source(Source.AmphoreusTheEternalLand))

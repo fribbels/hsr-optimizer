@@ -100,9 +100,9 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
       )}
       <Table.Thead>
         <Table.Tr>
-          <Table.Th className={classes.substatHeader}>{t('Ornaments')}</Table.Th>
-          <Table.Th className={classes.columnHeader}>{t('COMBO_DMG_P')}</Table.Th>
-          <Table.Th className={classes.columnHeader}>{t('COMBO_DMG')}</Table.Th>
+          <Table.Th className={classes.substatHeader}>{t($ => $.Ornaments)}</Table.Th>
+          <Table.Th className={classes.columnHeader}>{t($ => $.COMBO_DMG_P)}</Table.Th>
+          <Table.Th className={classes.columnHeader}>{t($ => $.COMBO_DMG)}</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -119,13 +119,13 @@ export const TeammateUpgrades = memo(function TeammateUpgrades({ groupedUpgrades
         {showSwaps && swapRows.map((group, idx) => <SwapRow key={idx} group={group} baseSimScore={baseSimScore} showArrow={isCharactersTab} />)}
       </Table.Tbody>
     </Table>
-  )
+  );
 })
 
 function SetRow({ row, showName, showArrow }: { row: SetCentricRow, showName?: boolean, showArrow?: boolean }) {
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
   const setId = setToId[row.setValue as keyof typeof setToId]
-  const setName = setId ? t(`${setId}.Name`) : ''
+  const setName = setId ? t($ => $[setId].Name) : ''
 
   return (
     <Table.Tr>

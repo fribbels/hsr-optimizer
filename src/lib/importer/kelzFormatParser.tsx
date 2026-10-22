@@ -141,14 +141,14 @@ export class KelzFormatParser { // TODO abstract class
     }
 
     if (json.source != this.config.sourceString) {
-      throw new Error(tError('BadSource', {
+      throw new Error(tError(($) => $.BadSource, {
         jsonSource: json.source,
         configSource: this.config.sourceString,
       }) /* `Incorrect source string, was '${json.source}', expected '${this.config.sourceString}'` */)
     }
 
     if (json.version !== this.config.latestOutputVersion) {
-      throw new Error(tError('BadVersion', {
+      throw new Error(tError(($) => $.BadVersion, {
         jsonVersion: json.version,
         configVersion: this.config.latestOutputVersion,
       }) /* `Incorrect json version, was '${json.version}', expected '${this.config.latestOutputVersion}'` */)
@@ -163,7 +163,7 @@ export class KelzFormatParser { // TODO abstract class
         (
           <div>
             {/* `Your scanner version ${buildVersion} is out of date and may result in incorrect imports! Please update to the latest version from Github:` */}
-            {tError('OutdatedVersion', { buildVersion })}{' '}
+            {tError(($) => $.OutdatedVersion, { buildVersion })}{' '}
             <a target='_blank' style={{ color: '#3f8eff' }} href={this.config.releases} rel='noreferrer'>{this.config.releases}</a>
           </div>
         ),
@@ -193,7 +193,7 @@ export class KelzFormatParser { // TODO abstract class
     }
     // "Scanner file is outdated / may contain invalid information. Please update your scanner."
     if (this.badRollInfo) {
-      Message.warning(tWarning('BadRollInfo'), 10)
+      Message.warning(tWarning(($) => $.BadRollInfo), 10)
     }
 
     if (json.characters) {
@@ -240,7 +240,7 @@ function generateBuffedCharacterIdMap() {
     const unbuffedId = id.replace(/b\d+/g, '') as CharacterId
     record[unbuffedId] = id
     return record
-  }, {} as Partial<Record<CharacterId, CharacterId>>)
+  }, {} as Partial<Record<CharacterId, CharacterId>>);
 }
 
 export const buffedCharacters = generateBuffedCharacterIdMap()
@@ -367,9 +367,10 @@ function parseMainStat(relic: V4ParserRelic, part: string) {
 function readRelicStats(relic: V4ParserRelic, substatList: V4ParserSubstat[], part: string, grade: number, enhance: number, scanner: KelzFormatParser) {
   const mainStat = parseMainStat(relic, part)
   if (!mainStat) {
-    throw new Error(i18next.t('importSaveTab:Import.ParserError.BadMainstat', {
+    throw new Error(i18next.t($ => $.Import.ParserError.BadMainstat, {
+      ns: "importSaveTab",
       mainstat: relic.mainstat,
-      part,
+      part
     }) /* `Could not parse mainstat for relic with mainstat ${relic.mainstat} and part ${part}` */)
   }
   const partId = mapPartIdToIndex(part)

@@ -71,8 +71,8 @@ export function SavedTeamsList({
   const suppressNextClickRef = useRef(false)
   const suppressionTimerRef = useRef<number | null>(null)
   const teamIds = useMemo(() => savedTeams.map((team) => team.id), [savedTeams])
-  const deleteLabel = t('SavedTeams.Delete')
-  const renameLabel = t('SavedTeams.Rename')
+  const deleteLabel = t($ => $.SavedTeams.Delete)
+  const renameLabel = t($ => $.SavedTeams.Rename)
 
   const handleDragStart = useCallback(() => {
     if (suppressionTimerRef.current != null) window.clearTimeout(suppressionTimerRef.current)
@@ -119,7 +119,7 @@ export function SavedTeamsList({
       {savedTeams.length === 0
         ? (
           <div className={styles.empty}>
-            <span>{t('SavedTeams.Empty')}</span>
+            <span>{t($ => $.SavedTeams.Empty)}</span>
           </div>
         )
         : (
@@ -150,7 +150,7 @@ export function SavedTeamsList({
           </DndContext>
         )}
     </OverlayScrollbarsComponent>
-  )
+  );
 }
 
 interface SavedTeamTileProps {

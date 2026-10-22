@@ -106,13 +106,13 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
         <Table.Thead>
           <Table.Tr>
             <Table.Th className={styles.expandColumn} />
-            <Table.Th className={styles.comboColumn}>{t('Combo')}</Table.Th>
-            <Table.Th className={styles.deltaColumn}>{t('Delta')}</Table.Th>
-            <Table.Th className={styles.centeredColumn}>{tCommon('Body')}</Table.Th>
-            <Table.Th className={styles.centeredColumn}>{tCommon('Feet')}</Table.Th>
-            <Table.Th className={styles.centeredColumn}>{tCommon('PlanarSphere')}</Table.Th>
-            <Table.Th className={styles.centeredColumn}>{tCommon('LinkRope')}</Table.Th>
-            <Table.Th className={styles.setsColumn}>{t('Sets')}</Table.Th>
+            <Table.Th className={styles.comboColumn}>{t($ => $.Combo)}</Table.Th>
+            <Table.Th className={styles.deltaColumn}>{t($ => $.Delta)}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon(($) => $.Body)}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon(($) => $.Feet)}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon(($) => $.PlanarSphere)}</Table.Th>
+            <Table.Th className={styles.centeredColumn}>{tCommon(($) => $.LinkRope)}</Table.Th>
+            <Table.Th className={styles.setsColumn}>{t($ => $.Sets)}</Table.Th>
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>
@@ -178,7 +178,7 @@ function BenchmarkTable({ dataSource }: { dataSource: BenchmarkRow[] }) {
         </Flex>
       )}
     </div>
-  )
+  );
 }
 
 function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: BenchmarkRow[], dataSource200: BenchmarkRow[] }) {
@@ -187,12 +187,16 @@ function PercentageTabs({ dataSource100, dataSource200 }: { dataSource100: Bench
   const items = useMemo(() => [
     {
       key: '100',
-      label: t('100', { Speed: precisionRound(spd).toLocaleString(currentLocale()) }),
+      label: t($ => $[100], {
+        Speed: precisionRound(spd).toLocaleString(currentLocale())
+      }),
       children: <BenchmarkTable dataSource={dataSource100} />,
     },
     {
       key: '200',
-      label: t('200', { Speed: precisionRound(spd).toLocaleString(currentLocale()) }),
+      label: t($ => $[200], {
+        Speed: precisionRound(spd).toLocaleString(currentLocale())
+      }),
       children: <BenchmarkTable dataSource={dataSource200} />,
     },
   ], [t, spd, dataSource100, dataSource200])
@@ -228,7 +232,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
   return (
     <Flex className={styles.expandedRow} gap={10} justify='space-around'>
       <Flex direction='column' className={styles.statsColumn} align='center' gap={5} flex={1}>
-        <HeaderText className={styles.sectionHeader}>{t('BasicStats') /* Basic Stats */}</HeaderText>
+        <HeaderText className={styles.sectionHeader}>{t($ => $.BasicStats) /* Basic Stats */}</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -244,7 +248,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
       <VerticalDivider />
 
       <Flex direction='column' className={styles.statsColumn} align='center' gap={5} flex={1}>
-        <HeaderText className={styles.sectionHeader}>{t('CombatStats') /* Combat Stats */}</HeaderText>
+        <HeaderText className={styles.sectionHeader}>{t($ => $.CombatStats) /* Combat Stats */}</HeaderText>
 
         <CharacterStatSummary
           characterId={characterId}
@@ -260,7 +264,7 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
       <VerticalDivider />
 
       <Flex direction='column' align='center' gap={5} flex={1}>
-        <HeaderText className={styles.sectionHeader}>{t('Rolls') /* Substat Rolls */}</HeaderText>
+        <HeaderText className={styles.sectionHeader}>{t($ => $.Rolls) /* Substat Rolls */}</HeaderText>
 
         <SubstatRollsSummary
           simRequest={simulation.request}
@@ -274,20 +278,22 @@ function ExpandedRow({ row }: { row: BenchmarkRow }) {
       <VerticalDivider />
 
       <Flex direction='column' align='center' gap={5} flex={1}>
-        <HeaderText className={styles.sectionHeader}>{t('Damage') /* Ability Damage */}</HeaderText>
-        <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} configType={row.orchestrator.configType} />
+        <HeaderText className={styles.sectionHeader}>{t($ => $.Damage) /* Ability Damage */}</HeaderText>
+        <AbilityDamageSummary rotationDamage={simulation.result!.rotationDamage ?? []} configType={row.orchestrator.configType} id={characterId} />
       </Flex>
     </Flex>
-  )
+  );
 }
 
 function StatCell({ stat }: { stat: SubStats }) {
   return (
     <Flex align='center' justify='center' gap={2}>
       <img src={Assets.getStatIcon(stat)} className={styles.statIcon} />
-      <span>{i18next.t(`common:ReadableStats.${stat}`)}</span>
+      <span>{i18next.t($ => $.ReadableStats[stat], {
+        ns: "common"
+      })}</span>
     </Flex>
-  )
+  );
 }
 
 function SetsCell({ row }: { row: BenchmarkRow }) {

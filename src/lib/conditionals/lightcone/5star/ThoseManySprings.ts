@@ -38,8 +38,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'unarmoredVulnerability',
       formItem: 'switch',
-      text: t('Content.unarmoredVulnerability.text'),
-      content: t('Content.unarmoredVulnerability.content', {
+      text: t(($) => $.Content.unarmoredVulnerability.text),
+      content: t(($) => $.Content.unarmoredVulnerability.content, {
         UnarmoredVulnerability: precisionRound(sValuesVulnerability[s] * 100),
         CorneredVulnerability: precisionRound(sValuesVulnerabilityEnhanced[s] * 100),
       }),
@@ -48,8 +48,8 @@ const conditionals = (s: SuperImpositionLevel, withContent: boolean): LightConeC
       lc: true,
       id: 'corneredVulnerability',
       formItem: 'switch',
-      text: t('Content.corneredVulnerability.text'),
-      content: t('Content.corneredVulnerability.content', {
+      text: t(($) => $.Content.corneredVulnerability.text),
+      content: t(($) => $.Content.corneredVulnerability.content, {
         UnarmoredVulnerability: precisionRound(sValuesVulnerability[s] * 100),
         CorneredVulnerability: precisionRound(sValuesVulnerabilityEnhanced[s] * 100),
       }),

@@ -103,7 +103,7 @@ export const CharacterCardCombatStats = memo(
 
       const isElationDmg = stat === Stats.Elation
       const isElementalDmg = !isElationDmg && damageStats[stat] != null
-      const statName = isElementalDmg ? t('DamagePercent') : t(`ReadableStats.${stat}`)
+      const statName = isElementalDmg ? t($ => $.DamagePercent) : t($ => $.ReadableStats[stat])
 
       // Best arrows 🠙 🠡 🡑 🠙 ↑ ↑ ⬆
       const penaltyColor = penalized ? '#ff9a9a' : undefined
@@ -124,7 +124,7 @@ export const CharacterCardCombatStats = memo(
     }
 
     const suffix = (deprioritizeBuffs ? 'SubDps' : SCORING_CONFIG_REGISTRY[configType].combatStatsSuffix) ?? ''
-    const titleRender = tCharactersTab(`CharacterPreview.DetailsSlider.Labels.CombatStats${suffix}`)
+    const titleRender = tCharactersTab($ => $.CharacterPreview.DetailsSlider.Labels.CombatStats[suffix])
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: 4, paddingRight: 6, marginBottom: 1 }}>

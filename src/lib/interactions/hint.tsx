@@ -11,12 +11,20 @@ export type HintContent = {
 export const Hint = {
   ratingFilters: (): HintContent => {
     return {
-      title: i18next.t('hint:RatingFilter.Title'),
+      title: i18next.t($ => $.RatingFilter.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:RatingFilter.p1')}</p>
-          <p>{i18next.t('hint:RatingFilter.p2')}</p>
-          <p>{i18next.t('hint:RatingFilter.p3')}</p>
+          <p>{i18next.t($ => $.RatingFilter.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.RatingFilter.p2, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.RatingFilter.p3, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          Title: Rating filters,
@@ -25,16 +33,22 @@ export const Hint = {
          p3: Heal / Shield - Other ability calculations, based on the environmental factors in character passives / light cone passives / enemy options.
          */
       ),
-    }
+    };
   },
 
   comboFilters: (): HintContent => {
     return {
-      title: i18next.t('hint:ComboFilters.Title'),
+      title: i18next.t($ => $.ComboFilters.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:ComboFilters.p1')}</p>
-          <p>{i18next.t('hint:ComboFilters.p2')}</p>
+          <p>{i18next.t($ => $.ComboFilters.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.ComboFilters.p2, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          Title: Combo rotation,
@@ -42,32 +56,44 @@ export const Hint = {
          p2: The "Presets" option allows you to disable the pre-processor if you so desire.
          */
       ),
-    }
+    };
   },
 
   combatBuffs: (): HintContent => {
     return {
-      title: i18next.t('hint:CombatBuffs.Title'),
+      title: i18next.t($ => $.CombatBuffs.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:CombatBuffs.p1')}</p>
+          <p>{i18next.t($ => $.CombatBuffs.p1, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Combat buffs",
          "p1": "Additional team buffs to apply to the calculations. Note that buffs from character / light cone self-buffs and passives and traces are already included in calculations."
          */
       ),
-    }
+    };
   },
 
   statFilters: (): HintContent => {
     return {
-      title: i18next.t('hint:StatFilters.Title'),
+      title: i18next.t($ => $.StatFilters.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:StatFilters.p1')}</p>
-          <p>{i18next.t('hint:StatFilters.p2')}</p>
-          <p>{i18next.t('hint:StatFilters.p3')}</p>
+          <p>{i18next.t($ => $.StatFilters.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.StatFilters.p2, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.StatFilters.p3, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Stat filters",
@@ -76,31 +102,41 @@ export const Hint = {
          "p3": "NOTE: Ingame speed decimals are truncated so you may see speed values ingame higher than shown here. This is because the OCR importer can't detect the hidden decimals."
          */
       ),
-    }
+    };
   },
 
   mainStats: (): HintContent => {
     return {
-      title: i18next.t('hint:Mainstats.Title'),
+      title: i18next.t($ => $.Mainstats.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:Mainstats.p1')}</p>
+          <p>{i18next.t($ => $.Mainstats.p1, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Main stats",
          "p1": "Select main stats to use for optimization search. Multiple values can be selected for more options"
          */
       ),
-    }
+    };
   },
 
   sets: (): HintContent => {
     return {
-      title: i18next.t('hint:Sets.Title'),
+      title: i18next.t($ => $.Sets.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:Sets.p1')}</p>
-          <p>{i18next.t('hint:Sets.p2')}</p>
+          <p>{i18next.t($ => $.Sets.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Sets.p2, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Sets",
@@ -108,31 +144,41 @@ export const Hint = {
          "p2": "Set effects will be accounted for in calculations, use the Conditional set effects menu to customize which effects are active."
          */
       ),
-    }
+    };
   },
 
   character: (): HintContent => {
     return {
-      title: i18next.t('hint:Character.Title'),
+      title: i18next.t($ => $.Character.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:Character.p1')}</p>
+          <p>{i18next.t($ => $.Character.p1, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Character",
          "p1": "Select the character and eidolon. Character is assumed to be level 80 with maxed traces in optimization calcs."
          */
       ),
-    }
+    };
   },
 
   characterPassives: (): HintContent => {
     return {
-      title: i18next.t('hint:CharacterPassives.Title'),
+      title: i18next.t($ => $.CharacterPassives.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:CharacterPassives.p1')}</p>
-          <p>{i18next.t('hint:CharacterPassives.p2')}</p>
+          <p>{i18next.t($ => $.CharacterPassives.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.CharacterPassives.p2, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Character passives",
@@ -140,16 +186,22 @@ export const Hint = {
          "p2": "Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here."
          */
       ),
-    }
+    };
   },
 
   lightConePassives: (): HintContent => {
     return {
-      title: i18next.t('hint:LightconePassives.Title'),
+      title: i18next.t($ => $.LightconePassives.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:LightconePassives.p1')}</p>
-          <p>{i18next.t('hint:LightconePassives.p2')}</p>
+          <p>{i18next.t($ => $.LightconePassives.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.LightconePassives.p2, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Light cone passives",
@@ -157,16 +209,22 @@ export const Hint = {
          "p2": "Effects that rely on combat stats or environment state will be applied by default, so only the options that require user input are listed here."
          */
       ),
-    }
+    };
   },
 
   lightCone: (): HintContent => {
     return {
-      title: i18next.t('hint:Lightcone.Title'),
+      title: i18next.t($ => $.Lightcone.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:Lightcone.p1')}</p>
-          <p>{i18next.t('hint:Lightcone.p2')}</p>
+          <p>{i18next.t($ => $.Lightcone.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Lightcone.p2, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Light cone",
@@ -174,18 +232,28 @@ export const Hint = {
          "p2": "Superimposition and passive effects are applied under the Light cone passives panel."
          */
       ),
-    }
+    };
   },
 
   actions: (): HintContent => {
     return {
-      title: i18next.t('hint:Actions.Title'),
+      title: i18next.t($ => $.Actions.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:Actions.p1')}</p>
-          <p>{i18next.t('hint:Actions.p2')}</p>
-          <p>{i18next.t('hint:Actions.p3')}</p>
-          <p>{i18next.t('hint:Actions.p4')}</p>
+          <p>{i18next.t($ => $.Actions.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Actions.p2, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Actions.p3, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Actions.p4, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Actions",
@@ -195,16 +263,22 @@ export const Hint = {
          "p4": "Clear pins - Clear all the builds that you pinned to the top of the grid"
          */
       ),
-    }
+    };
   },
 
   builds: (): HintContent => {
     return {
-      title: i18next.t('hint:Builds.Title'),
+      title: i18next.t($ => $.Builds.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:Builds.p1')}</p>
-          <p>{i18next.t('hint:Builds.p2')}</p>
+          <p>{i18next.t($ => $.Builds.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Builds.p2, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
           Title: Builds
@@ -212,79 +286,93 @@ export const Hint = {
           p2: Load - Load a saved build into the optimizer. This includes teammates, conditionals, and combo settings
         */
       ),
-    }
+    };
   },
 
   optimizerOptions: (): HintContent => {
     return {
-      title: i18next.t('hint:OptimizerOptions.Title'), /* Optimizer options */
+      title: i18next.t($ => $.OptimizerOptions.Title, {
+        ns: "hint"
+      }), /* Optimizer options */
       content: (
         <Flex direction='column' gap={10}>
           <p>
-            <Trans ns='hint' i18nKey='OptimizerOptions.AllowEquipped'>
+            <Trans ns='hint' i18nKey={$ => $.OptimizerOptions.AllowEquipped}>
               <strong>Allow equipped relics</strong>
               - When enabled, the optimizer will allow using currently equipped by a character for the search. Otherwise equipped relics are excluded
             </Trans>
           </p>
           <p>
-            <Trans ns='hint' i18nKey='OptimizerOptions.PriorityFilter'>
+            <Trans ns='hint' i18nKey={$ => $.OptimizerOptions.PriorityFilter}>
               <strong>Character priority filter</strong>
               - When this option is enabled, the character may only steal relics from lower priority characters. The optimizer will ignore relics equipped by
               higher priority characters on the list. Change character ranks from the priority selector or by dragging them on the Characters page.
             </Trans>
           </p>
           <p>
-            <Trans ns='hint' i18nKey='OptimizerOptions.KeepCurrent'>
+            <Trans ns='hint' i18nKey={$ => $.OptimizerOptions.KeepCurrent}>
               <strong>Keep current relics</strong>
               - The character must use its currently equipped items, and the optimizer will try to fill in empty slots
             </Trans>
           </p>
           <p>
-            <Trans ns='hint' i18nKey='OptimizerOptions.Priority'>
+            <Trans ns='hint' i18nKey={$ => $.OptimizerOptions.Priority}>
               <strong>Priority</strong>
               - See: Character priority filter. Changing this setting will change the character's priority
             </Trans>
           </p>
           <p>
-            <Trans ns='hint' i18nKey='OptimizerOptions.Exclude'>
+            <Trans ns='hint' i18nKey={$ => $.OptimizerOptions.Exclude}>
               <strong>Exclude</strong>
               - Select specific characters' equipped relics to exclude for the search. This setting overrides the priority filter
             </Trans>
           </p>
           <p>
-            <Trans ns='hint' i18nKey='OptimizerOptions.Enhance'>
+            <Trans ns='hint' i18nKey={$ => $.OptimizerOptions.Enhance}>
               <strong>Enhance / rarity</strong>
               - Select the minimum enhance to search for and minimum stars for relics to include
             </Trans>
           </p>
           <p>
-            <Trans ns='hint' i18nKey='OptimizerOptions.BoostMain'>
+            <Trans ns='hint' i18nKey={$ => $.OptimizerOptions.BoostMain}>
               <strong>Boost main stat</strong>
               - Calculates relic mains stats as if they were this level (or their max if they can't reach this level) if they are currently below it. Substats
               are not changed accordingly, so builds with lower level relics may be stronger once you level them.
             </Trans>
           </p>
           <p>
-            <Trans ns='hint' i18nKey='OptimizerOptions.DPSMode'>
+            <Trans ns='hint' i18nKey={$ => $.OptimizerOptions.DPSMode}>
               <strong>DPS mode</strong>
               - Select whether the character should be the primary target for supportive buffs (Main DPS) or not (Sub DPS) for optimizer stat calculations
             </Trans>
           </p>
         </Flex>
       ),
-    }
+    };
   },
 
   relics: (): HintContent => {
     return {
-      title: i18next.t('hint:Relics.Title'),
+      title: i18next.t($ => $.Relics.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:Relics.p1')}</p>
-          <p>{i18next.t('hint:Relics.p2')}</p>
-          <p>{i18next.t('hint:Relics.p3')}</p>
-          <p>{i18next.t('hint:Relics.p4')}</p>
-          <p>{i18next.t('hint:Relics.p5')}</p>
+          <p>{i18next.t($ => $.Relics.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Relics.p2, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Relics.p3, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Relics.p4, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.Relics.p5, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Relics",
@@ -295,18 +383,28 @@ export const Hint = {
          "p5": "All characters: Max potential - The highest possible potential value of the relic, out of all characters in the game."
          */
       ),
-    }
+    };
   },
 
   optimizationDetails: (): HintContent => {
     return {
-      title: i18next.t('hint:OptimizationDetails.Title'),
+      title: i18next.t($ => $.OptimizationDetails.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:OptimizationDetails.p1')}</p>
-          <p>{i18next.t('hint:OptimizationDetails.p2')}</p>
-          <p>{i18next.t('hint:OptimizationDetails.p3')}</p>
-          <p>{i18next.t('hint:OptimizationDetails.p4')}</p>
+          <p>{i18next.t($ => $.OptimizationDetails.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.OptimizationDetails.p2, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.OptimizationDetails.p3, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.OptimizationDetails.p4, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Optimization details",
@@ -316,21 +414,37 @@ export const Hint = {
          "p4": "Results - Number of displayed results that satisfy the stat filters"
          */
       ),
-    }
+    };
   },
 
   enemyOptions: (): HintContent => {
     return {
-      title: i18next.t('hint:EnemyOptions.Title'),
+      title: i18next.t($ => $.EnemyOptions.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:EnemyOptions.p1')}</p>
-          <p>{i18next.t('hint:EnemyOptions.p2')}</p>
-          <p>{i18next.t('hint:EnemyOptions.p3')}</p>
-          <p>{i18next.t('hint:EnemyOptions.p4')}</p>
-          <p>{i18next.t('hint:EnemyOptions.p5')}</p>
-          <p>{i18next.t('hint:EnemyOptions.p6')}</p>
-          <p>{i18next.t('hint:EnemyOptions.p7')}</p>
+          <p>{i18next.t($ => $.EnemyOptions.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.EnemyOptions.p2, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.EnemyOptions.p3, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.EnemyOptions.p4, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.EnemyOptions.p5, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.EnemyOptions.p6, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.EnemyOptions.p7, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /* Title: Enemy options
       p1: Level - Enemy level, affects enemy DEF calculations
@@ -341,18 +455,28 @@ export const Hint = {
       p6: Elemental weakness - Whether the enemy is weak to the character's type. Enabling this sets enemy elemental RES % to 0.
       p7: Weakness broken - Whether the enemy's toughness bar is broken. Affects damage calculations and certain character passives. */
       ),
-    }
+    };
   },
 
   substatWeightFilter: (): HintContent => {
     return {
-      title: i18next.t('hint:SubstatWeightFilter.Title'),
+      title: i18next.t($ => $.SubstatWeightFilter.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:SubstatWeightFilter.p1')}</p>
-          <p>{i18next.t('hint:SubstatWeightFilter.p2')}</p>
-          <p>{i18next.t('hint:SubstatWeightFilter.p3')}</p>
-          <p>{i18next.t('hint:SubstatWeightFilter.p4')}</p>
+          <p>{i18next.t($ => $.SubstatWeightFilter.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.SubstatWeightFilter.p2, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.SubstatWeightFilter.p3, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.SubstatWeightFilter.p4, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Substat weight filter",
@@ -362,17 +486,25 @@ export const Hint = {
          "p4": "Note that setting the minimum rolls too low may result in some builds not being displayed, if the filter ends up excludes a key relic. Use this filter with caution, but on large searches it makes a large impact on reducing search time."
          */
       ),
-    }
+    };
   },
 
   statDisplay: (): HintContent => {
     return {
-      title: i18next.t('hint:StatDisplay.Title'),
+      title: i18next.t($ => $.StatDisplay.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:StatDisplay.p1')}</p>
-          <p>{i18next.t('hint:StatDisplay.p2')}</p>
-          <p>{i18next.t('hint:StatDisplay.p3')}</p>
+          <p>{i18next.t($ => $.StatDisplay.p1, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.StatDisplay.p2, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.StatDisplay.p3, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Stat and filter view",
@@ -381,22 +513,36 @@ export const Hint = {
          "p3": "Combat stats - The character's stats with all stat modifiers in combat included: ability buffs, character & light cone passives, teammates, conditional set effects, etc."
          */
       ),
-    }
+    };
   },
 
   valueColumns: (): HintContent => {
     return {
-      title: i18next.t('hint:ValueColumns.Title'),
+      title: i18next.t($ => $.ValueColumns.Title, {
+        ns: "hint"
+      }),
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:ValueColumns.p1')}</p>
+          <p>{i18next.t($ => $.ValueColumns.p1, {
+            ns: "hint"
+          })}</p>
           <p>
-            <b>{i18next.t('hint:ValueColumns.p2')}</b>
+            <b>{i18next.t($ => $.ValueColumns.p2, {
+              ns: "hint"
+            })}</b>
           </p>
-          <p>{i18next.t('hint:ValueColumns.p3')}</p>
-          <p>{i18next.t('hint:ValueColumns.p4')}</p>
-          <p>{i18next.t('hint:ValueColumns.p5')}</p>
-          <p>{i18next.t('hint:ValueColumns.p6')}</p>
+          <p>{i18next.t($ => $.ValueColumns.p3, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.ValueColumns.p4, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.ValueColumns.p5, {
+            ns: "hint"
+          })}</p>
+          <p>{i18next.t($ => $.ValueColumns.p6, {
+            ns: "hint"
+          })}</p>
         </Flex>
         /*
          "Title": "Value Columns",
@@ -408,18 +554,20 @@ export const Hint = {
          "p6": "Potential",
          */
       ),
-    }
+    };
   },
 
   relicInsight: (): HintContent => {
     const t = i18next.getFixedT(null, 'hint', 'RelicInsights')
     return {
-      title: i18next.t('hint:RelicInsights.Title'), /* Relic Insight */
+      title: i18next.t($ => $.RelicInsights.Title, {
+        ns: "hint"
+      }), /* Relic Insight */
       content: (
         <Flex direction='column' gap={10}>
           <p>{t('p1') /* When a relic is selected in the table above, you can choose an analysis to view a plot of. */}</p>
           <p>
-            <Trans ns='hint' i18nKey='RelicInsights.p2'>
+            <Trans ns='hint' i18nKey={$ => $.RelicInsights.p2}>
               'Buckets' looks at how perfect this relic could be (with the best possible upgrade rolls) for each character, and buckets them into percentages.
               <br />
               If you hover over a character portrait you'll see the new stats and/or rolls necessary to reach the max potential of this relic.
@@ -437,32 +585,46 @@ export const Hint = {
           </p>
         </Flex>
       ),
-    }
+    };
   },
 
   relicLocation: (): HintContent => {
     return {
-      title: i18next.t('hint:RelicLocation.Title'), /* Relic Location */
+      title: i18next.t($ => $.RelicLocation.Title, {
+        ns: "hint"
+      }), /* Relic Location */
       content: (
         <Flex direction='column' gap={10}>
-          <p>{i18next.t('hint:RelicLocation.p1') /* When a relic is selected in the grid, its position in the ingame inventory is displayed here. */}</p>
+          <p>{i18next.t($ => $.RelicLocation.p1, {
+            ns: "hint"
+          }) /* When a relic is selected in the grid, its position in the ingame inventory is displayed here. */}</p>
           <p>
             {
-              i18next.t('hint:RelicLocation.p2')
+              i18next.t($ => $.RelicLocation.p2, {
+                ns: "hint"
+              })
               /* If the set / part filters are active, apply those same filters ingame, then sort by Date Obtained (newest first) to find the relic. */
             }
           </p>
 
           <Flex direction='column'>
-            <div>{i18next.t('hint:RelicLocation.p3') /* ⚠️Usage notes⚠️ */}</div>
+            <div>{i18next.t($ => $.RelicLocation.p3, {
+              ns: "hint"
+            }) /* ⚠️Usage notes⚠️ */}</div>
             <ul>
-              <li>{i18next.t('hint:RelicLocation.p4') /* This is only supported with Reliquary Archiver import */}</li>
+              <li>{i18next.t($ => $.RelicLocation.p4, {
+                ns: "hint"
+              }) /* This is only supported with Reliquary Archiver import */}</li>
               <li>
-                {i18next.t('hint:RelicLocation.p5') /* If new relics were deleted or obtained since the last import, they must be re-scanned and imported */}
+                {i18next.t($ => $.RelicLocation.p5, {
+                  ns: "hint"
+                }) /* If new relics were deleted or obtained since the last import, they must be re-scanned and imported */}
               </li>
               <li>
                 {
-                  i18next.t('hint:RelicLocation.p6')
+                  i18next.t($ => $.RelicLocation.p6, {
+                    ns: "hint"
+                  })
                   /* Select the appropriate Inventory width setting to get accurate locations. The width depends on the ingame screen and menu width */
                 }
               </li>
@@ -470,22 +632,24 @@ export const Hint = {
           </Flex>
         </Flex>
       ),
-    }
+    };
   },
 
   locatorParams: (): HintContent => {
     return {
-      title: i18next.t('hint:LocatorParams.Title'), /* Relic Locator Options */
+      title: i18next.t($ => $.LocatorParams.Title, {
+        ns: "hint"
+      }), /* Relic Locator Options */
       content: (
         <Flex direction='column' gap={8}>
           <p>
-            <Trans ns='hint' i18nKey='LocatorParams.p1'>
+            <Trans ns='hint' i18nKey={$ => $.LocatorParams.p1}>
               <strong>Inventory Width</strong>
               - Select the number of columns the inventory has ingame so that the relic locator can find your relic accurately
             </Trans>
           </p>
           <p>
-            <Trans ns='hint' i18nKey='LocatorParams.p2'>
+            <Trans ns='hint' i18nKey={$ => $.LocatorParams.p2}>
               <strong>Auto Filter rows</strong>
               - Maximum number of rows before the relic locator applies a part/set filter to try and bring the searched relic closer to the top of your
               inventory
@@ -493,13 +657,17 @@ export const Hint = {
           </p>
         </Flex>
       ),
-    }
+    };
   },
 
   showcaseUid: (): HintContent => {
     return {
-      title: i18next.t('relicScorerTab:SubmissionBar.Placeholder'),
-      content: <p>{i18next.t('relicScorerTab:Header.WithoutVersion')}</p>,
-    }
+      title: i18next.t($ => $.SubmissionBar.Placeholder, {
+        ns: "relicScorerTab"
+      }),
+      content: <p>{i18next.t($ => $.Header.WithoutVersion, {
+        ns: "relicScorerTab"
+      })}</p>,
+    };
   },
 }

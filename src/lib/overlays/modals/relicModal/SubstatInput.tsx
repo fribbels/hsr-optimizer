@@ -106,11 +106,11 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
 
   const substatOptionsMemoized = useMemo(() => {
     return Constants.SubStats.map((substatOption) => ({
-      label: tStats(substatOption),
+      label: tStats($ => $[substatOption]),
       value: substatOption,
       icon: Assets.getStatIcon(substatOption, true),
       disabled: substatOption === mainStatType,
-    }))
+    }));
   }, [mainStatType, tStats])
 
   function handlePreviewToggle() {
@@ -135,14 +135,14 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
             }
             updateSubstat({ stat: val as SubStats, value: '0', isPreview: false })
           }}
-          placeholder={t('SubstatPlaceholder')}
+          placeholder={t($ => $.SubstatPlaceholder)}
           style={COMBOBOX_STYLE}
           dropdownMaxHeight={750}
           clearable
         />
 
         <Tooltip
-          label={stat === Stats.SPD ? t('SpdInputWarning') : ''}
+          label={stat === Stats.SPD ? t($ => $.SpdInputWarning) : ''}
           position='top'
           events={TOOLTIP_EVENTS}
           disabled={stat !== Stats.SPD}
@@ -185,5 +185,5 @@ export function SubstatInput({ index, upgrades, relicForm, plusThree }: {
         })}
       </Flex>
     </div>
-  )
+  );
 }

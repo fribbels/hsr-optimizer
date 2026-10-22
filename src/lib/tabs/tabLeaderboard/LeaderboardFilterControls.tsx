@@ -158,10 +158,12 @@ export function LeaderboardFilterControls() {
   const { t: tCommon } = useTranslation('common')
 
   const eidolonOptions = useMemo(() => [
-    { value: LEADERBOARD_FILTER_ALL, label: t('AllEidolons') },
+    { value: LEADERBOARD_FILTER_ALL, label: t($ => $.AllEidolons) },
     ...EIDOLON_TIERS.map((eidolon, i) => ({
       value: EIDOLON_GROUPS[i],
-      label: tCommon('EidolonNShort', { eidolon }),
+      label: tCommon($ => $.EidolonNShort, {
+        eidolon
+      }),
     })),
   ], [t, tCommon])
 
@@ -172,21 +174,23 @@ export function LeaderboardFilterControls() {
     availableTeams,
     filterCharacterEidolon,
     onFilterChange: setLeaderboardFilters,
-    getCharacterName: (characterId) => tCharacters(`${characterId as CharacterId}.Name`),
-    allTeamsLabel: t('AllTeams', { count: availableTeams.length }),
+    getCharacterName: (characterId) => tCharacters($ => $[characterId as CharacterId].Name),
+    allTeamsLabel: t($ => $.AllTeams, {
+      count: availableTeams.length
+    }),
     eidolonOptions,
   }
 
   return (
     <div className={classes.filterRows}>
       <div className={classes.labeledFilterRow}>
-        <span className={classes.filterLabel}>{t('EidolonLabel')}</span>
+        <span className={classes.filterLabel}>{t($ => $.EidolonLabel)}</span>
         {renderCharacterEidolonBar(props)}
       </div>
       <div className={classes.labeledFilterRow}>
-        <span className={classes.filterLabel}>{t('TeamLabel')}</span>
+        <span className={classes.filterLabel}>{t($ => $.TeamLabel)}</span>
         <TeamPopover {...props} />
       </div>
     </div>
-  )
+  );
 }

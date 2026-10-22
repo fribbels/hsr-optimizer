@@ -27,7 +27,9 @@ function expectSingleResultsToMatch(actual: TestResultByName, expected: TestResu
       // @ts-expect-error - Error type narrowing in test assertion
       const message = error.message
       throw new Error(`
-${i18next.t(`gameData:Characters.${input.character.characterId}.LongName`)} ${key} ${view}
+${i18next.t($ => $.Characters[input.character.characterId].LongName, {
+        ns: "gameData"
+      })} ${key} ${view}
 ${message}
 ${JSON.stringify(input, null, 2)}
       `)

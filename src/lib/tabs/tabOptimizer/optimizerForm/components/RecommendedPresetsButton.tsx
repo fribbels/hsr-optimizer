@@ -38,17 +38,21 @@ export function RecommendedPresetsButton() {
     })
 
     return [{
-      key: t('StandardLabel', { id: character.id }),
-      label: t('StandardLabel', { id: character.id }),
+      key: t($ => $.StandardLabel, {
+        id: character.id
+      }),
+      label: t($ => $.StandardLabel, {
+        id: character.id
+      }),
       children: groupedChildren,
-    }]
+    }];
   }, [optimizerTabFocusCharacter, t, categories])
 
   const handlePresetClick = (key: string) => {
     if (allPresets[key]) {
       applySpdPreset(allPresets[key].value!, optimizerTabFocusCharacter)
     } else {
-      Message.warning(t('PresetNotAvailable') /* 'Preset not available, please select another option' */)
+      Message.warning(t($ => $.PresetNotAvailable) /* 'Preset not available, please select another option' */)
     }
   }
 
@@ -59,7 +63,7 @@ export function RecommendedPresetsButton() {
           style={{ flex: 1, borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
           onClick={() => applySpdPreset(allPresets.SPD0.value!, optimizerTabFocusCharacter)}
         >
-          {t('RecommendedPresets') /* Recommended presets */}
+          {t($ => $.RecommendedPresets) /* Recommended presets */}
         </Button>
         <Menu.Target>
           <Button style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0, padding: '0 8px' }}>
@@ -83,5 +87,5 @@ export function RecommendedPresetsButton() {
         )}
       </Menu.Dropdown>
     </Menu>
-  )
+  );
 }

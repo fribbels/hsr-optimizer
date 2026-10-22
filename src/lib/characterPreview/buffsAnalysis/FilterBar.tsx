@@ -43,7 +43,7 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
     <div style={{ display: 'flex', justifyContent: 'center' }} className={classes.filterBarOuter}>
       <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
         <FilterButton
-          label={t('ALL')}
+          label={t($ => $.ALL)}
           color={ABILITY_COLORS.ALL}
           isActive={selectedFilter === null}
           onClick={() => onFilterChange(null)}
@@ -52,7 +52,7 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
           (entry) => (
             <FilterButton
               key={entry.tag}
-              label={t(entry.key)}
+              label={t($ => $[entry.key])}
               color={entry.color}
               isActive={selectedFilter != null && (selectedFilter & entry.tag) !== 0}
               onClick={() => onFilterChange(entry.tag)}
@@ -61,7 +61,7 @@ export function FilterBar({ selectedFilter, onFilterChange, relevantTags }: {
         )}
       </div>
     </div>
-  )
+  );
 }
 
 function FilterButton({ label, color, isActive, onClick }: {

@@ -65,12 +65,16 @@ export const Renderer = {
 
   readableStat: (x: ValueFormatterParams<ScoredRelic, StatsValues>) => {
     if (x?.value == null) return ''
-    return i18next.t(`common:ShortReadableStats.${x.value}`)
+    return i18next.t($ => $.ShortReadableStats[x.value], {
+      ns: "common"
+    });
   },
 
   readablePart: (x: ValueFormatterParams<ScoredRelic, Parts>) => {
     if (x?.value == null) return ''
-    return i18next.t(`common:ReadableParts.${x.value}`)
+    return i18next.t($ => $.ReadableParts[x.value], {
+      ns: "common"
+    });
   },
 
   hideZeroesFloor: <T,>(x: ValueFormatterParams<T, number>) => {
@@ -130,23 +134,23 @@ export const Renderer = {
       return (
         <Tooltip
           openDelay={400}
-          label={i18next.t('Verified4LinerHoverText')}
+          label={i18next.t($ => $.Verified4LinerHoverText)}
           // Relic substats and initial roll count verified by relic scorer (accurate speed decimals + 4 initial substats)
         >
           <RingedCircleCheckIcon color={circleColor} />
         </Tooltip>
-      )
+      );
     }
     if (is4Liner) return <RingedCircleIcon color={circleColor} />
     if (relic.verified) {
       return (
         <Tooltip
           openDelay={400}
-          label={i18next.t('VerifiedRelicHoverText') /* Relic substats verified by relic scorer (speed decimals) */}
+          label={i18next.t($ => $.VerifiedRelicHoverText) /* Relic substats verified by relic scorer (speed decimals) */}
         >
           <IconCircleCheckFilled size={16} style={{ ...ICON_BLOCK_STYLE, color: color }} />
         </Tooltip>
-      )
+      );
     }
     return <CircleIcon color={circleColor} />
   },

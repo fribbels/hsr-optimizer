@@ -74,7 +74,7 @@ const DEFAULT_SET_ICON = Assets.getDefaultRelic()
 
 function useSetName(ingameId: RelicSetIngameId): string {
   const { t } = useTranslation('gameData', { keyPrefix: 'RelicSets' })
-  return t(`${ingameId}.Name`)
+  return t($ => $[ingameId].Name);
 }
 
 function EmptySetEntry({ count }: { count: number }) {
@@ -84,10 +84,10 @@ function EmptySetEntry({ count }: { count: number }) {
       <img src={DEFAULT_SET_ICON} className={classes.setIconMd} />
       <div className={classes.cardText}>
         <span className={classes.cardPiece}>{count}pc</span>
-        <StatTextSm className={classes.cardName}>{t('IncompleteSet')}</StatTextSm>
+        <StatTextSm className={classes.cardName}>{t($ => $.IncompleteSet)}</StatTextSm>
       </div>
     </div>
-  )
+  );
 }
 
 function ActiveSetEntry({ entry }: { entry: DisplayEntry & { active: true } }) {

@@ -114,9 +114,9 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
 
   // only the character scoring column will pass as null as all other info is available synchronously
   const headerText = props.percent !== null
-    ? t(`CharacterPreview.ScoringColumn.${props.type}.Header`, {
-      score: truncate10ths(precisionRound(props.percent * 100)).toFixed(1),
-    })
+    ? t($ => $.CharacterPreview.ScoringColumn[props.type].Header, {
+    score: truncate10ths(precisionRound(props.percent * 100)).toFixed(1)
+  })
     : null
 
   if (!isAsyncProps(props) && !props.simulation.result) return null
@@ -128,7 +128,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   const setsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap, alignItems: 'center' }}>
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
-        {t(`CharacterPreview.ScoringColumn.${props.type}.Sets`)}
+        {t($ => $.CharacterPreview.ScoringColumn[props.type].Sets)}
       </div>
       <div style={{ display: 'flex', height: 60, alignItems: 'center' }}>
         {isAsyncProps(props)
@@ -151,7 +151,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   const basicStatsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
-        <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.BasicStats`}>
+        <Trans t={t} i18nKey={$ => $.CharacterPreview.ScoringColumn[props.type].BasicStats}>
           build type <u>basic stats</u>
         </Trans>
       </div>
@@ -195,7 +195,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   const combatStatsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }} className={classes.statPreviewSection}>
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
-        <Trans t={t} i18nKey={`CharacterPreview.ScoringColumn.${props.type}.CombatStats`}>
+        <Trans t={t} i18nKey={$ => $.CharacterPreview.ScoringColumn[props.type].CombatStats}>
           build type <u>combat stats</u>
         </Trans>
       </div>
@@ -231,7 +231,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   const substatsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
-        {t(`CharacterPreview.ScoringColumn.${props.type}.Substats`)}
+        {t($ => $.CharacterPreview.ScoringColumn[props.type].Substats)}
       </div>
       {isAsyncProps(props)
         ? (
@@ -259,7 +259,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
   const mainstatsBlock = (
     <div style={{ display: 'flex', flexDirection: 'column', gap: defaultGap }}>
       <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
-        {t(`CharacterPreview.ScoringColumn.${props.type}.Mainstats`)}
+        {t($ => $.CharacterPreview.ScoringColumn[props.type].Mainstats)}
       </div>
       <div style={{ display: 'flex', gap: defaultGap, justifyContent: 'space-around' }}>
         {isAsyncProps(props)
@@ -278,7 +278,7 @@ const ScoringColumn = memo(function ScoringColumn(props: ScoringColumnProps) {
 
   const abilityHeader = (
     <div className={classes.sectionLabel} style={{ color: highlight ? highlightColor : '' }}>
-      {t(`CharacterPreview.ScoringColumn.${props.type}.Abilities`)}
+      {t($ => $.CharacterPreview.ScoringColumn[props.type].Abilities)}
     </div>
   )
 
@@ -386,20 +386,20 @@ const SuspendedHeader = memo(function SuspendedHeader({ t, configType, avatarSrc
           promise={promise}
           selector={(result: SimulationScore | null) => {
             if (!result) return null
-            return t('CharacterPreview.ScoringColumn.Character.Header', {
-              score: truncate10ths(precisionRound(result.percent * 100)).toFixed(1),
-            })
+            return t($ => $.CharacterPreview.ScoringColumn.Character.Header, {
+              score: truncate10ths(precisionRound(result.percent * 100)).toFixed(1)
+            });
           }}
         />
       </div>
     </div>
-  )
+  );
 })
 
 function Fallback({ t }: {
   t: TFunction<readonly ['charactersTab', 'common'], undefined>,
 }) {
-  const headerText = t('CharacterPreview.ScoringColumn.Character.LoadingHeader')
+  const headerText = t($ => $.CharacterPreview.ScoringColumn.Character.LoadingHeader)
   return (
     <>
       {headerText}

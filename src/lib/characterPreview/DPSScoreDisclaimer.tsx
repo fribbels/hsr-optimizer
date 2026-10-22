@@ -25,13 +25,13 @@ function openConfirmModal(t: TFunction<'relicScorerTab', 'DPSScoreDisclaimer'>) 
   modals.openConfirmModal({
     title: (
       <Text fw={600} size='lg' style={{ color: '#f87171' }}>
-        {t('Confirmation.Title')}
+        {t($ => $.Confirmation.Title)}
         {/* Acknowledge and hide warning */}
       </Text>
     ),
     children: (
       <Text size='md' style={{ padding: '8px 0' }}>
-        {t('Confirmation.Body')}
+        {t($ => $.Confirmation.Body)}
         {/* I will not compare Combo DMG or DPS Score against different teams, light cones, eidolons, or versions. */}
       </Text>
     ),
@@ -58,7 +58,7 @@ export function DPSScoreDisclaimer() {
       <div className={styles.header}>
         <IconAlertTriangle size={20} color='#ef4444' />
         <Text fw={600} size='md' style={{ color: '#f0d0d0' }}>
-          {t('Title')}
+          {t($ => $.Title)}
           {/* Do NOT use Combo DMG or DPS Score to compare teams, light cones, or eidolons! */}
         </Text>
       </div>
@@ -67,13 +67,13 @@ export function DPSScoreDisclaimer() {
         <ul className={styles.bulletList}>
           <li>
             <Text size='md'>
-              {t('Body.l1')}
+              {t($ => $.Body.l1)}
               {/* Combo DMG and DPS Score measure how much damage your build deals in a fixed ability rotation, specific to your current team setup. */}
             </Text>
           </li>
           <li>
             <Text size='md'>
-              {t('Body.l2')}
+              {t($ => $.Body.l2)}
               {
                 /* Different teams, light cones, eidolons, or beta versions can all affect the rotation, and the resulting scores cannot be meaningfully compared
               against each other. */
@@ -82,7 +82,7 @@ export function DPSScoreDisclaimer() {
           </li>
           <li>
             <Text size='md'>
-              {t('Body.l3')}
+              {t($ => $.Body.l3)}
               {
                 /* Within your current team setup, use Combo DMG to see how different relics, main stats, and set effects impact your rotation damage. DPS Score
               compares your Combo DMG against simulated benchmark builds with optimally distributed substats at the same speed, showing how close your relics
@@ -92,7 +92,7 @@ export function DPSScoreDisclaimer() {
           </li>
           <li>
             <Text size='md'>
-              {t('Body.l4')}
+              {t($ => $.Body.l4)}
               {
                 /* Benchmarks are generated to match your character's combat speed. Builds at different speed targets are scored against fundamentally different
               benchmarks, so their scores should not be compared. This is why when comparing two builds at different speeds, you might see the slower one have
@@ -109,9 +109,9 @@ export function DPSScoreDisclaimer() {
           fullWidth
           onClick={() => openConfirmModal(t)}
         >
-          {t('ButtonText')}
+          {t($ => $.ButtonText)}
         </Button>
       </div>
     </div>
-  )
+  );
 }

@@ -86,8 +86,14 @@ function SaveBuildModalContent() {
     }
     Message.success(
       mode === 'overwrite'
-        ? i18next.t('modals:SaveBuild.ConfirmOverwrite.SuccessMessage', { name: inputName })
-        : i18next.t('charactersTab:Messages.SaveSuccess', { name: inputName }),
+        ? i18next.t($ => $.SaveBuild.ConfirmOverwrite.SuccessMessage, {
+        ns: "modals",
+        name: inputName
+      })
+        : i18next.t($ => $.Messages.SaveSuccess, {
+        ns: "charactersTab",
+        name: inputName
+      }),
     )
     closeOverlay()
   }
@@ -97,7 +103,7 @@ function SaveBuildModalContent() {
   }
 
   const handleOverwrite = async () => {
-    const res = await confirm(t('ConfirmOverwrite.Content'))
+    const res = await confirm(t($ => $.ConfirmOverwrite.Content))
     if (res) {
       handleSave('overwrite')
     }
@@ -125,7 +131,7 @@ function SaveBuildModalContent() {
     <Flex gap={10} className={styles.outerFlex}>
       <Flex direction='column' className={styles.leftColumn}>
         <TextInput
-          label={t('Label')}
+          label={t($ => $.Label)}
           value={inputName}
           onChange={(e) => {
             const value = e.currentTarget.value
@@ -136,21 +142,21 @@ function SaveBuildModalContent() {
         />
         <Divider className={styles.divider} />
         <Button variant='default' onClick={closeOverlay} className={styles.actionButton}>
-          {tCommon('Cancel')}
+          {tCommon($ => $.Cancel)}
         </Button>
         <Tooltip
           label={saveDisabled
-            ? nameTaken ? t('Tooltip.SaveDisabled.NameTaken') : t('Tooltip.SaveDisabled.NoName')
+            ? nameTaken ? t($ => $.Tooltip.SaveDisabled.NameTaken) : t($ => $.Tooltip.SaveDisabled.NoName)
             : ''}
           position='right'
         >
           <Button onClick={onModalOk} className={styles.actionButton} disabled={saveDisabled}>
-            {tCommon('Save')}
+            {tCommon($ => $.Save)}
           </Button>
         </Tooltip>
-        <Tooltip label={overwriteDisabled ? t('Tooltip.OverwriteDisabled') : ''} position='right'>
+        <Tooltip label={overwriteDisabled ? t($ => $.Tooltip.OverwriteDisabled) : ''} position='right'>
           <Button onClick={handleOverwrite} className={styles.actionButton} disabled={overwriteDisabled}>
-            {t('Overwrite')}
+            {t($ => $.Overwrite)}
           </Button>
         </Tooltip>
         <Divider className={styles.divider} />
@@ -164,5 +170,5 @@ function SaveBuildModalContent() {
       </Flex>
       <BuildPreview character={character} build={previewBuild} />
     </Flex>
-  )
+  );
 }

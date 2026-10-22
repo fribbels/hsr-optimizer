@@ -57,7 +57,9 @@ export function useSavedTeams(
     const teams = readSavedTeams()
     const team: TeamShowcaseSavedTeam = {
       id: uuid(),
-      name: t('SavedTeams.DefaultName', { index: teams.length + 1 }),
+      name: t($ => $.SavedTeams.DefaultName, {
+        index: teams.length + 1
+      }),
       characterIds: slots,
       benchmarkSnapshot,
     }

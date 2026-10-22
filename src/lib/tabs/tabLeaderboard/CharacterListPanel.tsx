@@ -127,11 +127,11 @@ export function CharacterListPanel() {
 
         return {
           id,
-          name: t(`Characters.${id}.${id.startsWith('80') ? 'LongName' : 'Name'}`),
+          name: t($ => $.Characters[id][id.startsWith('80') ? 'LongName' : 'Name']),
           topScore,
           entryCount,
           publicEntryCount: getPublicEntryCount(id),
-        }
+        };
       })
       .filter((row) => normalizedSearch.length === 0 || row.name.toLowerCase().includes(normalizedSearch))
 
@@ -158,7 +158,7 @@ export function CharacterListPanel() {
         <TextInput
           className={classes.search}
           variant='unstyled'
-          placeholder={tList('SearchPlaceholder')}
+          placeholder={tList($ => $.SearchPlaceholder)}
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
@@ -169,35 +169,38 @@ export function CharacterListPanel() {
               checked={tab.type === selectedType}
               onChange={() => setActiveType(activeType === tab.type ? null : tab.type)}
             >
-              {tList('TabLabel', { label: tConfig(configTypeToPublic(tab.type)), count: tab.count })}
+              {tList($ => $.TabLabel, {
+                label: tConfig(configTypeToPublic(tab.type)),
+                count: tab.count
+              })}
             </Chip>
           ))}
         </div>
       </div>
 
       <div className={classes.header}>
-        <span className={classes.rankHeader}>{tList('Columns.Rank')}</span>
-        <span>{tList('Columns.Character')}</span>
-        <span className={classes.scoreHeader}>{tList('Columns.TopScore')}</span>
-        <span className={classes.countHeader}>{tList('Columns.Entries')}</span>
+        <span className={classes.rankHeader}>{tList($ => $.Columns.Rank)}</span>
+        <span>{tList($ => $.Columns.Character)}</span>
+        <span className={classes.scoreHeader}>{tList($ => $.Columns.TopScore)}</span>
+        <span className={classes.countHeader}>{tList($ => $.Columns.Entries)}</span>
       </div>
 
       <OverlayScrollbarsComponent className={classes.list} options={OVERLAY_SCROLLBAR_OPTIONS} defer>
         {activeRows.map((row, index) => <ActiveRow key={row.id} row={row} index={index} selectedId={selectedId} selectedType={selectedType} />)}
         {activeRows.length === 0 && growingRows.length === 0 && (
           <div className={classes.empty}>
-            {loading ? <Loader size='lg' /> : tList('Empty')}
+            {loading ? <Loader size='lg' /> : tList($ => $.Empty)}
           </div>
         )}
         {growingRows.length > 0 && (
           <>
             <div className={classes.growingDivider}>
-              <span>{tList('InsufficientData')}</span>
+              <span>{tList($ => $.InsufficientData)}</span>
             </div>
             {growingRows.map((row) => <GrowingRow key={row.id} row={row} selectedId={selectedId} selectedType={selectedType} />)}
           </>
         )}
       </OverlayScrollbarsComponent>
     </div>
-  )
+  );
 }

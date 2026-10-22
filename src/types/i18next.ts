@@ -8,7 +8,7 @@ declare module 'i18next' {
     defaultNS: typeof defaultNS
     fallbackNS: typeof fallbackNS
     resources: Resources
-    enableSelector: false
+    enableSelector: true
   }
 }
 // npx i18next-resources-for-ts interface -i ./public/locales/en -o ./src/types/resources.d.ts

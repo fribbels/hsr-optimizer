@@ -53,20 +53,20 @@ export function BottomToolbarRight() {
   const { t: tCommon } = useTranslation('common')
 
   const relicInsightOptions = useMemo(() => [
-    { value: String(RelicInsights.Buckets), label: t('InsightOptions.Buckets') },
-    { value: String(RelicInsights.Top10), label: t('InsightOptions.Top10') },
-    { value: String(RelicInsights.ESTBP), label: t('InsightOptions.ESTBP') },
+    { value: String(RelicInsights.Buckets), label: t($ => $.InsightOptions.Buckets) },
+    { value: String(RelicInsights.Top10), label: t($ => $.InsightOptions.Top10) },
+    { value: String(RelicInsights.ESTBP), label: t($ => $.InsightOptions.ESTBP) },
   ], [t])
 
   const characterPlotOptions = useMemo(() => [
-    { value: String(InsightCharacters.All), label: t('PlotOptions.PlotAll') },
-    { value: String(InsightCharacters.Custom), label: t('PlotOptions.PlotCustom') },
-    { value: String(InsightCharacters.Owned), label: t('PlotOptions.PlotOwned') },
+    { value: String(InsightCharacters.All), label: t($ => $.PlotOptions.PlotAll) },
+    { value: String(InsightCharacters.Custom), label: t($ => $.PlotOptions.PlotCustom) },
+    { value: String(InsightCharacters.Owned), label: t($ => $.PlotOptions.PlotOwned) },
   ], [t])
 
   const potentialOptions = useMemo(() => [
-    { value: BucketPotentialMode.Maximum, label: t('PotentialOptions.Maximum') },
-    { value: BucketPotentialMode.Average, label: t('PotentialOptions.Average') },
+    { value: BucketPotentialMode.Maximum, label: t($ => $.PotentialOptions.Maximum) },
+    { value: BucketPotentialMode.Average, label: t($ => $.PotentialOptions.Average) },
   ], [t])
 
   return (
@@ -80,9 +80,9 @@ export function BottomToolbarRight() {
           disabled={isLiveImport}
           onClick={RelicsTabController.addClicked}
         >
-          {t('AddRelic')}
+          {t($ => $.AddRelic)}
         </Button>
-        <Tooltip label={isLiveImport ? t('LiveImportTooltip') : ''} disabled={!isLiveImport}>
+        <Tooltip label={isLiveImport ? t($ => $.LiveImportTooltip) : ''} disabled={!isLiveImport}>
           <Button
             variant='default'
             size='xs'
@@ -91,14 +91,16 @@ export function BottomToolbarRight() {
             disabled={selectedRelicsIds.length === 0 || isLiveImport}
             onClick={() =>
               modals.openConfirmModal({
-                title: tCommon('Confirm'),
-                children: t('DeleteRelic.Warning', { count: selectedRelicsIds.length }),
-                labels: { confirm: tCommon('Yes'), cancel: tCommon('Cancel') },
+                title: tCommon($ => $.Confirm),
+                children: t($ => $.DeleteRelic.Warning, {
+                  count: selectedRelicsIds.length
+                }),
+                labels: { confirm: tCommon($ => $.Yes), cancel: tCommon($ => $.Cancel) },
                 centered: true,
                 onConfirm: RelicsTabController.deleteConfirmed,
               })}
           >
-            {t('DeleteRelic.ButtonText')}
+            {t($ => $.DeleteRelic.ButtonText)}
           </Button>
         </Tooltip>
         <Button
@@ -109,7 +111,7 @@ export function BottomToolbarRight() {
           disabled={selectedRelicsIds.length !== 1}
           onClick={RelicsTabController.editClicked}
         >
-          {t('EditRelic')}
+          {t($ => $.EditRelic)}
         </Button>
         {/* This setting only changes portrait placement in the Buckets chart. */}
         {insightsMode === RelicInsights.Buckets && (
@@ -144,5 +146,5 @@ export function BottomToolbarRight() {
         />
       </Group>
     </Group>
-  )
+  );
 }

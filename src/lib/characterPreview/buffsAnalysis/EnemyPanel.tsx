@@ -21,14 +21,14 @@ function formatEnemyRows(
   tCommon: TFunction<'common'>,
 ): EnemyRow[] {
   return [
-    { label: t('Level'), value: `${context.enemyLevel}` },
-    { label: t('Res'), value: `${(context.enemyDamageResistance * 100).toFixed(0)}%` },
-    { label: t('Efres'), value: `${(context.enemyEffectResistance * 100).toFixed(0)}%` },
-    { label: t('Toughness'), value: `${context.enemyMaxToughness}` },
-    { label: t('Targets'), value: `${context.enemyCount}` },
-    { label: t('Weakness'), value: context.enemyElementalWeak ? tCommon('Yes') : tCommon('No') },
-    { label: t('Broken'), value: context.enemyWeaknessBroken ? tCommon('Yes') : tCommon('No') },
-  ]
+    { label: t($ => $.Level), value: `${context.enemyLevel}` },
+    { label: t($ => $.Res), value: `${(context.enemyDamageResistance * 100).toFixed(0)}%` },
+    { label: t($ => $.Efres), value: `${(context.enemyEffectResistance * 100).toFixed(0)}%` },
+    { label: t($ => $.Toughness), value: `${context.enemyMaxToughness}` },
+    { label: t($ => $.Targets), value: `${context.enemyCount}` },
+    { label: t($ => $.Weakness), value: context.enemyElementalWeak ? tCommon($ => $.Yes) : tCommon($ => $.No) },
+    { label: t($ => $.Broken), value: context.enemyWeaknessBroken ? tCommon($ => $.Yes) : tCommon($ => $.No) },
+  ];
 }
 
 export function EnemyPanel({ avatarSrc, context }: {
@@ -44,7 +44,7 @@ export function EnemyPanel({ avatarSrc, context }: {
 
   return (
     <CardShell avatarSrc={avatarSrc}>
-      <CardHeader label={t('Header')} />
+      <CardHeader label={t($ => $.Header)} />
       {rows.map((row, i) => (
         <div
           key={row.label}
@@ -61,10 +61,10 @@ export function EnemyPanel({ avatarSrc, context }: {
           </span>
           <span style={ellipsisStyle(options.fontSize)}>{row.label}</span>
           <span style={sourceLabelStyle}>
-            {t('Enemy')}
+            {t($ => $.Enemy)}
           </span>
         </div>
       ))}
     </CardShell>
-  )
+  );
 }

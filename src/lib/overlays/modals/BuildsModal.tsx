@@ -103,9 +103,9 @@ function BuildsModalContent() {
   if (!character?.builds?.length) {
     return (
       <>
-        {t('Builds.NoBuilds.NoneSaved')}
+        {t($ => $.Builds.NoBuilds.NoneSaved)}
       </>
-    )
+    );
   }
 
   const handleCancel = useCallback(() => {
@@ -114,22 +114,30 @@ function BuildsModalContent() {
   }, [closeOverlay])
 
   const handleDeleteAllBuilds = async () => {
-    const characterName = t(`gameData:Characters.${character.id}.Name`)
-    const result = await confirm(t('Builds.ConfirmDelete.DeleteAll'))
+    const characterName = t($ => $.Characters[character.id].Name, {
+      ns: "gameData"
+    })
+    const result = await confirm(t($ => $.Builds.ConfirmDelete.DeleteAll))
     if (result) {
       setSelectedBuild(null)
       buildService.clearBuilds(character.id)
-      Message.success(t('Builds.ConfirmDelete.SuccessMessageAll', { characterName }))
+      Message.success(t($ => $.Builds.ConfirmDelete.SuccessMessageAll, {
+        characterName
+      }))
       closeOverlay()
     }
   }
 
   const handleDeleteSingleBuild = useCallback(async (name: string) => {
-    const result = await confirm(t('Builds.ConfirmDelete.DeleteSingle', { name }))
+    const result = await confirm(t($ => $.Builds.ConfirmDelete.DeleteSingle, {
+      name
+    }))
     if (result) {
       setSelectedBuild(null)
       buildService.deleteBuild(character.id, name)
-      Message.success(t('Builds.ConfirmDelete.SuccessMessageSingle', { name }))
+      Message.success(t($ => $.Builds.ConfirmDelete.SuccessMessageSingle, {
+        name
+      }))
       const fresh = getCharacterById(character.id)
       if (!fresh?.builds?.length) closeOverlay()
     }
@@ -137,10 +145,12 @@ function BuildsModalContent() {
 
   const handleEquip = useCallback(async (build: SavedBuild) => {
     const needsConfirm = stealsRelics(build)
-    const confirmed = needsConfirm ? await confirm(t('Builds.ConfirmEquip.Content')) : true
+    const confirmed = needsConfirm ? await confirm(t($ => $.Builds.ConfirmEquip.Content)) : true
     if (confirmed) {
       buildService.equipBuildRelics(build.characterId, build.equipped)
-      Message.success(t('Builds.ConfirmEquip.SuccessMessage', { buildName: build.name }))
+      Message.success(t($ => $.Builds.ConfirmEquip.SuccessMessage, {
+        buildName: build.name
+      }))
 
       if (build.team.filter((x) => x !== null).length === 3) {
         const update = { teammates: build.team as SavedTeammate[] }
@@ -160,7 +170,9 @@ function BuildsModalContent() {
       return
     }
     const charId = character.id
-    screenshot(action, `${t(`gameData:Characters.${charId}.LongName`)}_${selectedBuild}`)
+    screenshot(action, `${t($ => $.Characters[charId].LongName, {
+      ns: "gameData"
+    })}_${selectedBuild}`)
   }
 
   const build = selectedBuild !== null
@@ -201,14 +213,16 @@ function BuildsModalContent() {
           <IconCamera size={16} />
         </Button>
         <Button key='delete' color='red' onClick={() => handleDeleteAllBuilds()}>
-          {t('Builds.DeleteAll')}
+          {t($ => $.Builds.DeleteAll)}
         </Button>
         <Button key='back' variant='default' onClick={handleCancel}>
-          {t('common:Cancel')}
+          {t($ => $.Cancel, {
+            ns: "common"
+          })}
         </Button>
       </Flex>
     </>
-  )
+  );
 }
 
 export const BuildPreview = memo(function BuildPreview(props: { character: Character | null, build: SavedBuild | null }) {
@@ -353,7 +367,7 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
                   void handleEquip(build)
                 }}
               >
-                {t('Equip')}
+                {t($ => $.Equip)}
               </Button>
               <Button
                 size='xs'
@@ -362,7 +376,7 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
                   closeModal?.()
                 }}
               >
-                {t('Load')}
+                {t($ => $.Load)}
               </Button>
             </Flex>
             <Button
@@ -378,7 +392,7 @@ const BuildCard = memo(function BuildCard(props: BuildCardProps) {
         )}
       </Flex>
     </div>
-  )
+  );
 })
 
 const teammateImgStyle: CSSProperties = { height: 42 }

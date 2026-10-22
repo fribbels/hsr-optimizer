@@ -38,7 +38,7 @@ export function webgpuNotSupportedNotification() {
               <li>
                 <Trans
                   ns='notifications'
-                  i18nKey='GPU.Description.l3'
+                  i18nKey={$ => $.GPU.Description.l3}
                   components={{ CustomLink: <ColorizedLinkWithIcon url='https://github.com/gpuweb/gpuweb/wiki/Implementation-Status' linkIcon={true} /> }}
                 />
               </li>
@@ -48,7 +48,7 @@ export function webgpuNotSupportedNotification() {
           <p>
             <Trans
               ns='notifications'
-              i18nKey='GPUCrash.Description.l2'
+              i18nKey={$ => $.GPUCrash.Description.l2}
               components={{
                 CustomLink: (
                   <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true} />
@@ -77,7 +77,7 @@ export function webgpuCrashNotification() {
           <div>
             <Trans
               ns='notifications'
-              i18nKey='GPUCrash.Description.l2'
+              i18nKey={$ => $.GPUCrash.Description.l2}
               components={{
                 CustomLink: (
                   <ColorizedLinkWithIcon url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/troubleshooting.md#gpu' linkIcon={true} />

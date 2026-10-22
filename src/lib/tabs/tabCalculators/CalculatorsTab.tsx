@@ -74,7 +74,7 @@ export function CalculatorsTab() {
             <Tabs.Tab key={panel} value={panel}>
               <Flex align='center' gap={8}>
                 <img src={Assets.getStatIcon(PANEL_ICONS[panel])} alt='' style={{ height: 20 }} />
-                {t(PANEL_I18N_LABEL[panel])}
+                {t($ => $[PANEL_I18N_LABEL[panel]])}
               </Flex>
             </Tabs.Tab>
           ))}
@@ -88,5 +88,5 @@ export function CalculatorsTab() {
         </Tabs.Panel>
       </Tabs>
     </Flex>
-  )
+  );
 }

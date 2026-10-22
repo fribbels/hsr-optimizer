@@ -23,7 +23,7 @@ export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: {
   return (
     <Flex direction='column'>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('Header')}</HeaderText>
+        <HeaderText>{t($ => $.Header)}</HeaderText>
         <TooltipImage type={Hint.builds()} />
       </Flex>
       <Flex gap={defaultGap} justify='space-around'>
@@ -32,16 +32,16 @@ export const BuildsSection = React.memo(function BuildsSection({ isFullSize }: {
           style={{ flex: 1 }}
           onClick={() => useSaveBuildModalStore.getState().openOverlay({ source: BuildSource.Optimizer, characterId: focusCharacter })}
         >
-          {t('Save')}
+          {t($ => $.Save)}
         </Button>
         <Button
           variant='default'
           style={{ flex: 1 }}
           onClick={() => useBuildsModalStore.getState().openOverlay({ characterId: focusCharacter })}
         >
-          {t('Load')}
+          {t($ => $.Load)}
         </Button>
       </Flex>
     </Flex>
-  )
+  );
 })

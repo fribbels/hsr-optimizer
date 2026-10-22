@@ -110,7 +110,7 @@ export function CharacterSelect({
         readOnly
         style={selectStyle}
         value={selectedLabel}
-        placeholder={t('SingleSelect.Placeholder')}
+        placeholder={t($ => $.SingleSelect.Placeholder)}
         onClick={open}
         leftSection={showIcon && value ? <img src={Assets.getCharacterAvatarById(value)} className={iconClasses.icon20} /> : null}
         rightSectionPointerEvents={clearable && value ? 'all' : 'none'}
@@ -134,7 +134,7 @@ export function CharacterSelect({
         centered
         size='90%'
         styles={CHARACTER_MODAL_STYLES}
-        title={t('SingleSelect.ModalTitle')}
+        title={t($ => $.SingleSelect.ModalTitle)}
       >
         {isOpen && (
           <div className={classes.modalContent}>
@@ -142,7 +142,7 @@ export function CharacterSelect({
               <TextInput
                 className={classes.searchInput}
                 styles={SEARCH_INPUT_STYLES}
-                placeholder={t('SearchPlaceholder')}
+                placeholder={t($ => $.SearchPlaceholder)}
                 ref={inputRef}
                 autoFocus
                 onChange={setNameFilter}
@@ -189,5 +189,5 @@ export function CharacterSelect({
         )}
       </Modal>
     </>
-  )
+  );
 }

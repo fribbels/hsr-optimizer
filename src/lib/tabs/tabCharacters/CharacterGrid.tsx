@@ -141,8 +141,8 @@ export function CharacterGrid() {
       const meta = getGameMetadata().characters[char.id]
       if (filters.element.length && !filters.element.includes(meta.element)) return false
       if (filters.path.length && !filters.path.includes(meta.path)) return false
-      return tGameData(`${meta.id}.LongName`).toLowerCase().includes(filters.name)
-    })
+      return tGameData($ => $[meta.id].LongName).toLowerCase().includes(filters.name);
+    });
   }, [characters, filters, tGameData])
 
   const rankMap = useMemo(
@@ -209,9 +209,17 @@ export function CharacterGrid() {
   const handleRemove = useCallback((characterId: CharacterId) => {
     const t = i18next.getFixedT(null, 'charactersTab')
     modals.openConfirmModal({
-      title: i18next.t('common:Confirm'),
-      children: t('Messages.DeleteWarning', { charId: characterId }),
-      labels: { confirm: i18next.t('common:Confirm'), cancel: i18next.t('common:Cancel') },
+      title: i18next.t($ => $.Confirm, {
+        ns: "common"
+      }),
+      children: t($ => $.Messages.DeleteWarning, {
+        charId: characterId
+      }),
+      labels: { confirm: i18next.t($ => $.Confirm, {
+        ns: "common"
+      }), cancel: i18next.t($ => $.Cancel, {
+        ns: "common"
+      }) },
       centered: true,
       confirmProps: { 'data-autofocus': true },
       onConfirm: () => CharacterTabController.removeCharacter(characterId),
@@ -400,10 +408,10 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
   const { t } = useTranslation('common')
   const { t: tCharactersTab } = useTranslation('charactersTab')
   const { t: tGameData } = useTranslation('gameData', { keyPrefix: 'Characters' })
-  const longName = tGameData(`${character.id}.LongName`) as string
-  const characterName = longName.includes('(') ? longName : tGameData(`${character.id}.Name`)
-  const editLabel = tCharactersTab('CharacterMenu.Character.Options.Edit')
-  const deleteLabel = tCharactersTab('CharacterMenu.Character.Options.Delete')
+  const longName = tGameData($ => $[character.id].LongName) as string
+  const characterName = longName.includes('(') ? longName : tGameData($ => $[character.id].Name)
+  const editLabel = tCharactersTab($ => $.CharacterMenu.Character.Options.Edit)
+  const deleteLabel = tCharactersTab($ => $.CharacterMenu.Character.Options.Delete)
 
   // Form data for eidolon/LC
   const eidolon = character.form?.characterEidolon ?? 0
@@ -451,8 +459,12 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         >
           <div className={classes.name}>{characterName}</div>
           <div className={classes.subtitle}>
-            <span className={classes.subtitleBadge}>{t('EidolonNShort', { eidolon })}</span>
-            <span className={classes.subtitleBadge}>{t('SuperimpositionNShort', { superimposition })}</span>
+            <span className={classes.subtitleBadge}>{t($ => $.EidolonNShort, {
+              eidolon
+            })}</span>
+            <span className={classes.subtitleBadge}>{t($ => $.SuperimpositionNShort, {
+              superimposition
+            })}</span>
             <EquipDotInline characterId={character.id} />
           </div>
         </div>
@@ -503,7 +515,7 @@ const CharacterRowContent = memo(function CharacterRowContent({ character, rank,
         </Tooltip>
       </div>
     </>
-  )
+  );
 }, (prev, next) => {
   return prev.character.id === next.character.id
     && prev.rank === next.rank

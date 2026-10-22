@@ -24,10 +24,10 @@ export const CharacterConditionalsDisplay = memo(function CharacterConditionalsD
   if (!id || !characterOptionMapping[characterId]) {
     return (
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('CharacterPassives') /* Character passives */}</HeaderText>
+        <HeaderText>{t($ => $.CharacterPassives) /* Character passives */}</HeaderText>
         <TooltipImage type={Hint.characterPassives()} />
       </Flex>
-    )
+    );
   }
 
   const characterFn = characterOptionMapping[characterId]
@@ -42,11 +42,11 @@ export const CharacterConditionalsDisplay = memo(function CharacterConditionalsD
       {(teammateIndex == null)
         && (
           <Flex justify='space-between' align='center'>
-            <HeaderText>{t('CharacterPassives') /* Character passives */}</HeaderText>
+            <HeaderText>{t($ => $.CharacterPassives) /* Character passives */}</HeaderText>
             <TooltipImage type={Hint.characterPassives()} />
           </Flex>
         )}
       <DisplayFormControl content={content} teammateIndex={teammateIndex} />
     </Flex>
-  )
+  );
 })

@@ -316,7 +316,9 @@ export function equipClicked(): void {
   const build = OptimizerTabController.calculateRelicIdsFromId(row.id) as Build
 
   equipmentService.equipRelicIds(Object.values(build), characterId)
-  Message.success(i18next.t('optimizerTab:Sidebar.ResultsGroup.EquipSuccessMessage') /*'Equipped relics'*/)
+  Message.success(i18next.t($ => $.Sidebar.ResultsGroup.EquipSuccessMessage, {
+    ns: "optimizerTab"
+  }) /*'Equipped relics'*/)
   OptimizerTabController.setTopRow(row)
   useOptimizerDisplayStore.getState().setOptimizerBuild(build)
   SaveState.delayedSave()

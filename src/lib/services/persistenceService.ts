@@ -463,8 +463,14 @@ export function mergePartialRelics(newRelics: Relic[] = [], sourceCharacters: { 
 
   // Updated stats for ${updatedOldRelics.length} existing relics
   // Added ${addedNewRelics.length} new relics
-  if (updatedOldRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.OldRelics', { count: updatedOldRelics.length }), 8)
-  if (addedNewRelics.length) Message.success(i18next.t('importSaveTab:PartialImport.NewRelics', { count: addedNewRelics.length }), 8)
+  if (updatedOldRelics.length) Message.success(i18next.t($ => $.PartialImport.OldRelics, {
+    ns: "importSaveTab",
+    count: updatedOldRelics.length
+  }), 8)
+  if (addedNewRelics.length) Message.success(i18next.t($ => $.PartialImport.NewRelics, {
+    ns: "importSaveTab",
+    count: addedNewRelics.length
+  }), 8)
 }
 
 // ─── Helpers (internal) ────────────────────────────────────────

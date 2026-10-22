@@ -59,7 +59,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
       })
       .map((char) => ({
         id: char.id,
-        name: t(`${char.id}.Name`),
+        name: t($ => $[char.id].Name),
         score: RelicScorer.scoreRelicPotential(selectedRelic, char.id, true),
         owned: getCharacterById(char.id) != undefined,
       }))
@@ -68,7 +68,7 @@ export const RelicInsightsPanel = memo(function RelicInsightsPanel() {
         if (b.score.bestPct === a.score.bestPct) {
           return sortAlphabeticEmojiLast('name')(a, b)
         } else return b.score.bestPct - a.score.bestPct
-      })
+      });
   }, [insightsCharacters, selectedRelic, excludedRelicPotentialCharacters, t, scoringVersion, characterCount])
 
   if (!selectedRelic) {

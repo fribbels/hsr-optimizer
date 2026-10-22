@@ -85,11 +85,11 @@ function StatValueRow({ stat, form }: { stat: SubStats, form: UseFormReturnType<
       <Flex>
         <img src={Assets.getStatIcon(stat)} className={classes.statIcon}></img>
         <div className={classes.statText}>
-          {t(`ReadableStats.${stat}`)}
+          {t($ => $.ReadableStats[stat])}
         </div>
       </Flex>
     </Flex>
-  )
+  );
 }
 
 function ResetAllCharactersButton({ focusCharacter, form }: {
@@ -114,16 +114,20 @@ function ResetAllCharactersButton({ focusCharacter, form }: {
       color='red'
       onClick={() =>
         modals.openConfirmModal({
-          title: t('Scoring.ResetAllConfirm.Title'),
-          children: t('Scoring.ResetAllConfirm.Description'),
-          labels: { confirm: t('common:Yes'), cancel: t('common:No') },
+          title: t($ => $.Scoring.ResetAllConfirm.Title),
+          children: t($ => $.Scoring.ResetAllConfirm.Description),
+          labels: { confirm: t($ => $.Yes, {
+            ns: "common"
+          }), cancel: t($ => $.No, {
+            ns: "common"
+          }) },
           centered: true,
           onConfirm: resetAllCharacters,
         })}
     >
-      {t('Scoring.Footer.ResetAll') /* Reset all characters */}
+      {t($ => $.Scoring.Footer.ResetAll) /* Reset all characters */}
     </Button>
-  )
+  );
 }
 
 export function ScoringModal() {
@@ -209,7 +213,7 @@ function ScoringModalContent({ close }: { close: () => void }) {
   return (
     <>
       <div>
-        <TitleDivider label={t('Scoring.StatWeightsHeader') /* Stat weights */} labelPosition='center' />
+        <TitleDivider label={t($ => $.Scoring.StatWeightsHeader) /* Stat weights */} labelPosition='center' />
 
         <Flex gap={20}>
           <Flex direction='column' gap={5}>
@@ -231,22 +235,40 @@ function ScoringModalContent({ close }: { close: () => void }) {
               <Flex direction='column' gap={defaultGap * 2} style={{ width: '100%' }}>
                 <Flex direction='column' gap={1}>
                   <div className={classes.partLabel}>
-                    {t('common:Parts.Body')}
+                    {t($ => $.Parts.Body, {
+                      ns: "common"
+                    })}
                   </div>
                   <MultiSelect
                     className={classes.partMultiSelect}
                     clearable
                     style={{ width: selectWidth }}
-                    placeholder={t('common:Parts.Body')}
+                    placeholder={t($ => $.Parts.Body, {
+                      ns: "common"
+                    })}
                     renderOption={statRenderOption}
                     data={[
-                      { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
-                      { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
-                      { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
-                      { value: Stats.CR, label: t(`common:Stats.${Stats.CR}`) },
-                      { value: Stats.CD, label: t(`common:Stats.${Stats.CD}`) },
-                      { value: Stats.OHB, label: t(`common:Stats.${Stats.OHB}`) },
-                      { value: Stats.EHR, label: t(`common:Stats.${Stats.EHR}`) },
+                      { value: Stats.HP_P, label: t($ => $.Stats[Stats.HP_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.ATK_P, label: t($ => $.Stats[Stats.ATK_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.DEF_P, label: t($ => $.Stats[Stats.DEF_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.CR, label: t($ => $.Stats[Stats.CR], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.CD, label: t($ => $.Stats[Stats.CD], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.OHB, label: t($ => $.Stats[Stats.OHB], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.EHR, label: t($ => $.Stats[Stats.EHR], {
+                        ns: "common"
+                      }) },
                     ]}
                     {...scoringAlgorithmForm.getInputProps(`parts.${Parts.Body}`)}
                   />
@@ -254,19 +276,31 @@ function ScoringModalContent({ close }: { close: () => void }) {
 
                 <Flex direction='column' gap={1}>
                   <div className={classes.partLabel}>
-                    {t('common:Parts.Feet')}
+                    {t($ => $.Parts.Feet, {
+                      ns: "common"
+                    })}
                   </div>
                   <MultiSelect
                     className={classes.partMultiSelect}
                     clearable
                     style={{ width: selectWidth }}
-                    placeholder={t('common:Parts.Feet')}
+                    placeholder={t($ => $.Parts.Feet, {
+                      ns: "common"
+                    })}
                     renderOption={statRenderOption}
                     data={[
-                      { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
-                      { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
-                      { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
-                      { value: Stats.SPD, label: t(`common:Stats.${Stats.SPD}`) },
+                      { value: Stats.HP_P, label: t($ => $.Stats[Stats.HP_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.ATK_P, label: t($ => $.Stats[Stats.ATK_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.DEF_P, label: t($ => $.Stats[Stats.DEF_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.SPD, label: t($ => $.Stats[Stats.SPD], {
+                        ns: "common"
+                      }) },
                     ]}
                     {...scoringAlgorithmForm.getInputProps(`parts.${Parts.Feet}`)}
                   />
@@ -274,26 +308,50 @@ function ScoringModalContent({ close }: { close: () => void }) {
 
                 <Flex direction='column' gap={1}>
                   <div className={classes.partLabel}>
-                    {t('common:Parts.PlanarSphere')}
+                    {t($ => $.Parts.PlanarSphere, {
+                      ns: "common"
+                    })}
                   </div>
                   <MultiSelect
                     className={classes.partMultiSelect}
                     clearable
                     style={{ width: selectWidth }}
-                    placeholder={t('common:Parts.PlanarSphere')}
+                    placeholder={t($ => $.Parts.PlanarSphere, {
+                      ns: "common"
+                    })}
                     maxDropdownHeight={400}
                     renderOption={statRenderOption}
                     data={[
-                      { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
-                      { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
-                      { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
-                      { value: Stats.Physical_DMG, label: t(`common:Stats.${Stats.Physical_DMG}`) },
-                      { value: Stats.Fire_DMG, label: t(`common:Stats.${Stats.Fire_DMG}`) },
-                      { value: Stats.Ice_DMG, label: t(`common:Stats.${Stats.Ice_DMG}`) },
-                      { value: Stats.Lightning_DMG, label: t(`common:Stats.${Stats.Lightning_DMG}`) },
-                      { value: Stats.Wind_DMG, label: t(`common:Stats.${Stats.Wind_DMG}`) },
-                      { value: Stats.Quantum_DMG, label: t(`common:Stats.${Stats.Quantum_DMG}`) },
-                      { value: Stats.Imaginary_DMG, label: t(`common:Stats.${Stats.Imaginary_DMG}`) },
+                      { value: Stats.HP_P, label: t($ => $.Stats[Stats.HP_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.ATK_P, label: t($ => $.Stats[Stats.ATK_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.DEF_P, label: t($ => $.Stats[Stats.DEF_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.Physical_DMG, label: t($ => $.Stats[Stats.Physical_DMG], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.Fire_DMG, label: t($ => $.Stats[Stats.Fire_DMG], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.Ice_DMG, label: t($ => $.Stats[Stats.Ice_DMG], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.Lightning_DMG, label: t($ => $.Stats[Stats.Lightning_DMG], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.Wind_DMG, label: t($ => $.Stats[Stats.Wind_DMG], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.Quantum_DMG, label: t($ => $.Stats[Stats.Quantum_DMG], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.Imaginary_DMG, label: t($ => $.Stats[Stats.Imaginary_DMG], {
+                        ns: "common"
+                      }) },
                     ]}
                     {...scoringAlgorithmForm.getInputProps(`parts.${Parts.PlanarSphere}`)}
                   />
@@ -301,20 +359,34 @@ function ScoringModalContent({ close }: { close: () => void }) {
 
                 <Flex direction='column' gap={1}>
                   <div className={classes.partLabel}>
-                    {t('common:Parts.LinkRope')}
+                    {t($ => $.Parts.LinkRope, {
+                      ns: "common"
+                    })}
                   </div>
                   <MultiSelect
                     className={classes.partMultiSelect}
                     clearable
                     style={{ width: selectWidth }}
-                    placeholder={t('common:Parts.LinkRope')}
+                    placeholder={t($ => $.Parts.LinkRope, {
+                      ns: "common"
+                    })}
                     renderOption={statRenderOption}
                     data={[
-                      { value: Stats.HP_P, label: t(`common:Stats.${Stats.HP_P}`) },
-                      { value: Stats.ATK_P, label: t(`common:Stats.${Stats.ATK_P}`) },
-                      { value: Stats.DEF_P, label: t(`common:Stats.${Stats.DEF_P}`) },
-                      { value: Stats.BE, label: t(`common:Stats.${Stats.BE}`) },
-                      { value: Stats.ERR, label: t(`common:Stats.${Stats.ERR}`) },
+                      { value: Stats.HP_P, label: t($ => $.Stats[Stats.HP_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.ATK_P, label: t($ => $.Stats[Stats.ATK_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.DEF_P, label: t($ => $.Stats[Stats.DEF_P], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.BE, label: t($ => $.Stats[Stats.BE], {
+                        ns: "common"
+                      }) },
+                      { value: Stats.ERR, label: t($ => $.Stats[Stats.ERR], {
+                        ns: "common"
+                      }) },
                     ]}
                     {...scoringAlgorithmForm.getInputProps(`parts.${Parts.LinkRope}`)}
                   />
@@ -354,16 +426,18 @@ function ScoringModalContent({ close }: { close: () => void }) {
       </div>
       <Flex justify='flex-end' gap={8} className={classes.footerActions}>
         <Button key='back' variant='default' onClick={close}>
-          {t('common:Cancel') /* Cancel */}
+          {t($ => $.Cancel, {
+            ns: "common"
+          }) /* Cancel */}
         </Button>
         <Button key='default' variant='default' onClick={handleResetDefault}>
-          {t('Scoring.Footer.Reset') /* Reset to default */}
+          {t($ => $.Scoring.Footer.Reset) /* Reset to default */}
         </Button>
         <ResetAllCharactersButton key='resetAll' focusCharacter={scoringAlgorithmFocusCharacter} form={scoringAlgorithmForm} />
         <Button key='submit' onClick={onModalOk}>
-          {t('Scoring.Footer.Save') /* Save changes */}
+          {t($ => $.Scoring.Footer.Save) /* Save changes */}
         </Button>
       </Flex>
     </>
-  )
+  );
 }

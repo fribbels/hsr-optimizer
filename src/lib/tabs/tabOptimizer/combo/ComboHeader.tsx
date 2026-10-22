@@ -27,12 +27,12 @@ export function ComboDrawerTitle() {
   return (
     <div style={{ width: 'fit-content' }}>
       <ColorizedLinkWithIcon
-        text={t('Title')}
+        text={t($ => $.Title)}
         url='https://github.com/fribbels/hsr-optimizer/blob/main/docs/guides/en/advanced-rotations.md'
         linkIcon={true}
       />
     </div>
-  )
+  );
 }
 
 export const ComboHeader = memo(function ComboHeader() {

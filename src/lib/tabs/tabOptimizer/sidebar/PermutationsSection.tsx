@@ -23,28 +23,28 @@ export const PermutationsSection = React.memo(function PermutationsSection({ isF
   return (
     <Flex direction='column' gap={isFullSize ? 10 : 5} miw={211}>
       <Flex justify='space-between' align='center'>
-        <HeaderText>{t('Permutations') /* Permutations */}</HeaderText>
+        <HeaderText>{t($ => $.Permutations) /* Permutations */}</HeaderText>
         <TooltipImage type={Hint.optimizationDetails()} />
       </Flex>
 
       {isFullSize && (
         <Flex direction='column'>
-          <PermutationDisplay left={tCommon('Head')} right={permutationDetails.Head} total={permutationDetails.HeadTotal} />
-          <PermutationDisplay left={tCommon('Hands')} right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
-          <PermutationDisplay left={tCommon('Body')} right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
-          <PermutationDisplay left={tCommon('Feet')} right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
-          <PermutationDisplay left={tCommon('PlanarSphere')} right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
-          <PermutationDisplay left={tCommon('LinkRope')} right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
+          <PermutationDisplay left={tCommon($ => $.Head)} right={permutationDetails.Head} total={permutationDetails.HeadTotal} />
+          <PermutationDisplay left={tCommon($ => $.Hands)} right={permutationDetails.Hands} total={permutationDetails.HandsTotal} />
+          <PermutationDisplay left={tCommon($ => $.Body)} right={permutationDetails.Body} total={permutationDetails.BodyTotal} />
+          <PermutationDisplay left={tCommon($ => $.Feet)} right={permutationDetails.Feet} total={permutationDetails.FeetTotal} />
+          <PermutationDisplay left={tCommon($ => $.PlanarSphere)} right={permutationDetails.PlanarSphere} total={permutationDetails.PlanarSphereTotal} />
+          <PermutationDisplay left={tCommon($ => $.LinkRope)} right={permutationDetails.LinkRope} total={permutationDetails.LinkRopeTotal} />
         </Flex>
       )}
 
       <Flex direction='column'>
-        <PermutationDisplay left={t('Perms') /* Perms */} right={permutations} />
-        <PermutationDisplay left={t('Searched') /* Searched */} right={permutationsSearched} />
-        <PermutationDisplay left={t('Results') /* Results */} right={permutationsResults} />
+        <PermutationDisplay left={t($ => $.Perms) /* Perms */} right={permutations} />
+        <PermutationDisplay left={t($ => $.Searched) /* Searched */} right={permutationsSearched} />
+        <PermutationDisplay left={t($ => $.Results) /* Results */} right={permutationsResults} />
       </Flex>
 
       {isFullSize && <ProgressDisplay />}
     </Flex>
-  )
+  );
 })

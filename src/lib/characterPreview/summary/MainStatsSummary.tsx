@@ -59,15 +59,15 @@ export const MainStatsSummary = memo(function MainStatsSummary({
                 ? <SuspenseNode promise={promise} selector={selector(part, mode, t)} />
                 : (
                   <span className={classes.statName}>
-                    {partToStat![part] ? t(`ReadableStats.${partToStat![part]}`).replace('Boost', '') : ''}
+                    {partToStat![part] ? t($ => $.ReadableStats[partToStat![part]]).replace('Boost', '') : ''}
                   </span>
                 )}
             </div>
-          )
+          );
         })}
       </div>
     </div>
-  )
+  );
 })
 
 const partToSelectorString = {
@@ -88,8 +88,8 @@ function selector(
     const stat = result[selectorString].request[partToSelectorString[part]] as MainStats
     return (
       <span className={classes.statName}>
-        {stat ? t(`ReadableStats.${stat}`).replace('Boost', '') : ''}
+        {stat ? t($ => $.ReadableStats[stat]).replace('Boost', '') : ''}
       </span>
-    )
-  }
+    );
+  };
 }

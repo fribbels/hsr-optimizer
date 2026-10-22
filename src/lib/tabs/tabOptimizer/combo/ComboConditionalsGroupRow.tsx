@@ -123,10 +123,10 @@ export function ContentRows({
   return (
     <div style={columnStyle}>
       {content.length === 0
-        ? <div style={{ marginLeft: 5 }}>{t('NoConditionals') /* No conditional passives */}</div>
+        ? <div style={{ marginLeft: 5 }}>{t($ => $.NoConditionals) /* No conditional passives */}</div>
         : content}
     </div>
-  )
+  );
 }
 
 export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow({
@@ -180,7 +180,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
           formItem: 'switch',
           disabled: disabled,
           id: setName,
-          text: t(`${setToId[setName]}.Name`),
+          text: t($ => $[setToId[setName]].Name),
           content: setConditionalsTFunction(setToConditionalKey(setName)),
         }]
       } else if (category.type === ConditionalDataType.NUMBER) {
@@ -188,7 +188,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
           formItem: 'slider',
           disabled: disabled,
           id: setName,
-          text: t(`${setToId[setName]}.Name`),
+          text: t($ => $[setToId[setName]].Name),
           content: setConditionalsTFunction(setToConditionalKey(setName)),
           min: 0,
           max: 10,
@@ -198,7 +198,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
           formItem: 'select',
           disabled: disabled,
           id: setName,
-          text: t(`${setToId[setName]}.Name`),
+          text: t($ => $[setToId[setName]].Name),
           content: setConditionalsTFunction(setToConditionalKey(setName)),
           options: setContent[setName],
         }]
@@ -217,7 +217,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
           {
             formItem: 'switch',
             id: setName,
-            text: t(`${setId}.Name`),
+            text: t($ => $[setId].Name),
             content: option.desc(teammateSetsTFunction),
           },
         ]
@@ -236,7 +236,7 @@ export const ComboConditionalsGroupRow = memo(function ComboConditionalsGroupRow
           {
             formItem: 'switch',
             id: setName,
-            text: t(`${setId}.Name`),
+            text: t($ => $[setId].Name),
             content: option.desc(teammateSetsTFunction),
           },
         ]

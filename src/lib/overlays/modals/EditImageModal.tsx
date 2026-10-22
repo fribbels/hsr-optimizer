@@ -63,7 +63,9 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
   open,
   setOpen,
   onOk,
-  title = i18next.t('modals:EditImage.DefaultTitle'), /* Edit image */
+  title = i18next.t($ => $.EditImage.DefaultTitle, {
+    ns: "modals"
+  }), /* Edit image */
   width = 400,
   defaultImageUrl,
 }) => {
@@ -197,7 +199,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
     if (!imageResult.valid) {
       setIsVerificationLoading(false)
       console.error('File is not a valid image file')
-      Message.error(t('InvalidFile'))
+      Message.error(t($ => $.InvalidFile))
       return false
     }
     if (imageResult.dimensions) {
@@ -208,7 +210,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
     const imgurResult = await uploadToImgur(file)
     setIsVerificationLoading(false)
     if (!imgurResult) {
-      Message.error(t('ImageUploadFailed'))
+      Message.error(t($ => $.ImageUploadFailed))
       return false
     }
     if (imgurResult.dimensions) {
@@ -309,9 +311,9 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
               onChange={onRadioChange}
               value={radio}
               data={[
-                { label: t('Upload.Radio.Upload'), /* Upload image */ value: 'upload' },
-                { label: t('Upload.Radio.Url'), /* Enter image URL */ value: 'url' },
-                ...(defaultImageUrl ? [{ label: t('Upload.Radio.Default'), /* Use default image */ value: 'default' }] : []),
+                { label: t($ => $.Upload.Radio.Upload), /* Upload image */ value: 'upload' },
+                { label: t($ => $.Upload.Radio.Url), /* Enter image URL */ value: 'url' },
+                ...(defaultImageUrl ? [{ label: t($ => $.Upload.Radio.Default), /* Use default image */ value: 'default' }] : []),
               ]}
             />
           </div>
@@ -336,8 +338,8 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
                       <p>
                         <IconInbox />
                       </p>
-                      <p>{t('Upload.Upload.Method') /* Click or drag image file to this area to upload */}</p>
-                      <p className={styles.dimmedText}>{t('Upload.Upload.Limit') /* Accepts .jpg .jpeg .png .gif .webp (Max: 20MB) */}</p>
+                      <p>{t($ => $.Upload.Upload.Method) /* Click or drag image file to this area to upload */}</p>
+                      <p className={styles.dimmedText}>{t($ => $.Upload.Upload.Limit) /* Accepts .jpg .jpeg .png .gif .webp (Max: 20MB) */}</p>
                     </Flex>
                   )}
               </Dropzone>
@@ -347,7 +349,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
           {radio === 'url' && (
             <div className={styles.urlInputWrapper}>
               <TextInput
-                label={t('Upload.Url.Label') /* Image */}
+                label={t($ => $.Upload.Url.Label) /* Image */}
                 autoComplete='off'
                 {...customImageForm.getInputProps('imageUrl')}
               />
@@ -401,7 +403,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
           </div>
           <Flex className={styles.zoomRow} gap={8} align='center'>
             <label className={styles.zoomLabel}>
-              {t('Edit.Zoom') /* Zoom */}
+              {t($ => $.Edit.Zoom) /* Zoom */}
             </label>
             <Slider
               className={styles.zoomSlider}
@@ -417,19 +419,19 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
             <div className={styles.hintGroup}>
               <div className={styles.hintRow}>
                 <IconGripVertical size={18} />
-                {t('Edit.Drag') /* Drag to move */}
+                {t($ => $.Edit.Drag) /* Drag to move */}
               </div>
               <div className={styles.hintRow}>
                 <IconZoomIn size={18} />
-                {t('Edit.Pinch') /* Pinch or scroll to zoom */}
+                {t($ => $.Edit.Pinch) /* Pinch or scroll to zoom */}
               </div>
             </div>
             <div className={styles.artistGroup}>
               <div className={styles.artistLabel}>
-                {t('Edit.ArtBy') /* (Optional) Art by: */}
+                {t($ => $.Edit.ArtBy) /* (Optional) Art by: */}
               </div>
               <TextInput
-                placeholder={t('Edit.CreditPlaceholder') /* Credit the artist if possible */}
+                placeholder={t($ => $.Edit.CreditPlaceholder) /* Credit the artist if possible */}
                 autoComplete='off'
                 {...customImageForm.getInputProps('artistName')}
               />
@@ -458,7 +460,7 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
                 {steps.map((item) => ( // make this cleaner if ever adding more steps
                   <Stepper.Step
                     key={item.title}
-                    label={item.title == 'Provide image' ? t('Upload.Title') /* Provide image */ : t('Edit.Title') /* Crop image */}
+                    label={item.title == 'Provide image' ? t($ => $.Upload.Title) /* Provide image */ : t($ => $.Edit.Title) /* Crop image */}
                   />
                 ))}
               </Stepper>
@@ -472,31 +474,31 @@ export const EditImageModal: React.FC<EditImageModalProps> = ({
         <Flex key={1} justify='flex-end'>
           <Flex className={styles.footerActions} justify='center' align='center' gap={8}>
             <Button onClick={() => setOpen(false)}>
-              {tCommon('Cancel') /* Cancel */}
+              {tCommon($ => $.Cancel) /* Cancel */}
             </Button>
             {(current > 0 && existingConfig) && (
               <Button onClick={prev} color='red'>
-                {t('Footer.Change') /* Change image */}
+                {t($ => $.Footer.Change) /* Change image */}
               </Button>
             )}
             {(current > 0 && !existingConfig) && (
               <Button onClick={prev}>
-                {t('Footer.Previous') /* Previous */}
+                {t($ => $.Footer.Previous) /* Previous */}
               </Button>
             )}
             {current < steps.length - 1 && (
               <Button onClick={next} loading={isVerificationLoading && radio !== 'upload'} disabled={radio === 'upload'}>
-                {t('Footer.Next') /* Next */}
+                {t($ => $.Footer.Next) /* Next */}
               </Button>
             )}
             {current === steps.length - 1 && (
               <Button onClick={handleOk}>
-                {tCommon('Submit') /* Submit */}
+                {tCommon($ => $.Submit) /* Submit */}
               </Button>
             )}
           </Flex>
         </Flex>
       </Modal>
     </div>
-  )
+  );
 }

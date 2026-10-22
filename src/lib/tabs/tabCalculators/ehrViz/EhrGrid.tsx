@@ -114,7 +114,7 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
             whiteSpace: 'nowrap',
           }}
         >
-          {t(Stats.EHR)}
+          {t($ => $[Stats.EHR])}
         </span>
       )}
       <div
@@ -145,7 +145,7 @@ function GridRow({ ehr, snappedEhr, nearestRes, currentColor, baseChance, debuff
         return <GridCell key={res} rate={rate} isSelectedCol={res === nearestRes} />
       })}
     </div>
-  )
+  );
 }
 
 function GridHeaderRow({ nearestRes, currentColor, t }: {
@@ -184,7 +184,7 @@ function GridHeaderRow({ nearestRes, currentColor, t }: {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {t(Stats.RES)}
+                {t($ => $[Stats.RES])}
               </span>
             )}
             <span
@@ -193,10 +193,10 @@ function GridHeaderRow({ nearestRes, currentColor, t }: {
               {res}%
             </span>
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
 export const EhrGrid = memo(function EhrGrid({ baseChance, effectHitRate, effectRes, debuffRes, attempts, windowHalf }: EhrVizProps) {

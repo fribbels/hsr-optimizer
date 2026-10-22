@@ -43,8 +43,8 @@ const substatToPriority: Record<string, number> = {
 
 function renderStat(x: Stat, simType: StatSimTypes, t: TFunction<'common', 'ShortStats'>) {
   return simType === StatSimTypes.SubstatRolls
-    ? `${t(x.stat)} x ${x.value}`
-    : `${t(x.stat)} ${x.value}${isFlat(x.stat) ? '' : '%'}`
+    ? `${t($ => $[x.stat])} x ${x.value}`
+    : `${t($ => $[x.stat])} ${x.value}${isFlat(x.stat) ? '' : '%'}`;
 }
 
 export function StatSimulationName(props: { sim: Simulation }) {

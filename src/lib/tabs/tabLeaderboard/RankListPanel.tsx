@@ -72,7 +72,11 @@ function RankListEntry({ entry, isSelected }: {
       </span>
 
       <span className={classes.eidolonTag}>
-        {tCommon('EidolonNShort', { eidolon })} {tCommon('SuperimpositionNShort', { superimposition: lcSuperimpose })}
+        {tCommon($ => $.EidolonNShort, {
+          eidolon
+        })} {tCommon($ => $.SuperimpositionNShort, {
+        superimposition: lcSuperimpose
+      })}
       </span>
 
       <span className={classes.colLightCone}>
@@ -83,7 +87,7 @@ function RankListEntry({ entry, isSelected }: {
         <LeaderboardTeamDisplay teammates={entry.team} />
       </span>
     </div>
-  )
+  );
 }
 
 export function RankListPanel() {

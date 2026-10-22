@@ -7,8 +7,8 @@ import {
 import type { Buff } from 'lib/optimization/basicStatsArray'
 import { type AKeyType } from 'lib/optimization/engine/config/keys'
 import type {
-  SimpleLabel,
   StatConfigEntry,
+  StatLabel,
 } from 'lib/optimization/engine/config/statsConfig'
 import {
   getBoostLabel,
@@ -70,20 +70,33 @@ export function translatedBuffLabel(buff: Buff): string {
   return translatedLabel(buff.stat, buff.memo)
 }
 
-export function labelToString(label: SimpleLabel, isMemo = false) {
+export function labelToString(label: StatLabel, isMemo = false) {
   if (typeof label === 'string') {
     return isMemo ? i18next.t($ => $.MemospriteLabel, {
       label
-    }) as string : label;
+    }) : label;
   }
 
-  const finalLabel = i18next.t($ => $[label.key], {
-    ...label.args,
-    ns: label.ns
-  }) as string
+  const finalLabel = (() => {
+    switch (label.ns) {
+      case 'common': {
+        return i18next.t($ => label.selector($), {
+          ...label.args,
+          ns: label.ns
+        })
+      }
+      case 'optimizerTab': {
+        return i18next.t($ => label.selector($), {
+          ...label.args,
+          ns: label.ns
+        })
+      }
+      default: return null as never
+    }
+  })()
   return isMemo ? i18next.t($ => $.MemospriteLabel, {
     label: finalLabel
-  }) as string : finalLabel;
+  }) : finalLabel;
 }
 
 export function formatBuffValue(value: number, percent: boolean): string {

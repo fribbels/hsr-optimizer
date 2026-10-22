@@ -395,7 +395,7 @@ Lightcones:
   ThoughWorldsApart:
     Content:
       dmgBoost:
-        text: 伤害提高
+        text: 伤害提升
         content: 装备者施放终结技时，使我方全体获得【卫戍】，【卫戍】持续3回合。获得【卫戍】的目标，造成的伤害提高{{DmgBuff}}%，若目标拥有召唤物则造成的伤害额外提高{{SummonDmgBuff}}%。
   ThusBurnsTheDawn:
     Content:
@@ -558,7 +558,7 @@ Lightcones:
   FlyIntoAPinkTomorrow:
     Content:
       dmgBoost:
-        text: 伤害提高
+        text: 伤害提升
         content: 使我方全体目标造成的伤害提高{{DmgBuff}}%。
       enhancedBasicBoost:
         text: 开拓者强化普攻

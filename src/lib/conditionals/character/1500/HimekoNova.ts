@@ -114,6 +114,8 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
   const selfAssistRandomScaling = skill(e, 0.32, 0.348)
   const allyAssistAoeScaling = skill(e, 1.60, 1.76)
   const allyAssistRandomScaling = skill(e, 0.24, 0.264)
+  const selfAssistBounces = e >= 1 ? 5 : 4
+  const allyAssistBounces = 3
   const verdictDmgBoostValue = skill(e, 1.00, 1.10)
   const verdictUltDmgBoostValue = skill(e, 1.00, 1.10)
   const decimationCdValue = skill(e, 1.00, 1.10)
@@ -298,13 +300,13 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
               .damageElement(ElementTag.Fire)
               .atkScaling(
                 r.selfUseAssistSkill
-                  ? (selfAssistAoeScaling + selfAssistRandomScaling * 4 / context.enemyCount)
-                  : (allyAssistAoeScaling + allyAssistRandomScaling * 3 / context.enemyCount),
+                  ? (selfAssistAoeScaling + selfAssistRandomScaling * selfAssistBounces / context.enemyCount)
+                  : (allyAssistAoeScaling + allyAssistRandomScaling * allyAssistBounces / context.enemyCount),
               )
               .toughnessDmg(
                 r.selfUseAssistSkill
-                  ? (10 + 5 * 4 / context.enemyCount)
-                  : (10 + 5 * 3 / context.enemyCount),
+                  ? (10 + 5 * selfAssistBounces / context.enemyCount)
+                  : (10 + 5 * allyAssistBounces / context.enemyCount),
               )
               .build(),
           ],

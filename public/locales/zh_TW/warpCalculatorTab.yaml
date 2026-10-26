@@ -1,2 +1,71 @@
+StrategyLabels:
+  S1: 優先疊1
+  E0: 優先0魂
+  E1: 優先1魂
+  E2: 優先2魂
+  E3: 優先3魂
+  E4: 優先4魂
+  E5: 優先5魂
+  E6: 優先6魂
+RefundLabels:
+  REFUND_NONE: 無
+  REFUND_NONE_FULL: 無
+  REFUND_LOW: "{{Percentage}}%返還"
+  REFUND_LOW_FULL: "{{Percentage}}%返還（低）"
+  REFUND_AVG: "{{Percentage}}%返還"
+  REFUND_AVG_FULL: "{{Percentage}}%返還（中）"
+  REFUND_HIGH: "{{Percentage}}%返還"
+  REFUND_HIGH_FULL: "{{Percentage}}%返還（高）"
+EidolonLevels:
+  NONE: 無
+  E0: 0魂
+  E1: 1魂
+  E2: 2魂
+  E3: 3魂
+  E4: 4魂
+  E5: 5魂
+  E6: 6魂
+SuperimpositionLevels:
+  NONE: 無
+  S1: 疊1
+  S2: 疊2
+  S3: 疊3
+  S4: 疊4
+  S5: 疊5
+IncomeOptions:
+  Label: "[版本{{versionNumber}} ({{phaseNumber}}/{{totalPhases}}) | {{type}}]: "
+  Type:
+    0: 無
+    1: 零氪
+    2: 月卡
+    3: 戰令和月卡
+PityCounter:
+  PityCounter: 小保底計數
+  CurrentEidolonSuperImp: 當前
+  Guaranteed: 大保底
+TotalAvailable: "可用躍遷總數："
 SectionTitles:
+  Planner: 躍遷規劃器
+  Results: 結果
+  Settings: 設定
   Character: 角色
+  LightCone: 光錐
+  Passes: 專票
+  Jades: 星瓊
+  Strategy: 策略
+  Starlight: 星芒
+  Banner: 卡池
+  New: 新
+  Rerun: 復刻
+  AdditionalResources: 額外資源
+  Calculate: 計算
+  Simple: 簡易
+  MultiTarget: 多目標
+  AddCharacter: 添加角色
+  AddLightCone: 添加光錐
+  AddCharacterAndSignature: 添加角色及專屬光錐
+ColumnTitles:
+  Goal: 目標
+  Chance: "使用{{ticketCount}} <1/>的成功概率"
+  Average: "平均需要的<1/>數量"
+TargetLabel: "$t(common:EidolonNShort, {\"eidolon\": {{eidolon}}})\n$t(common:SuperimpositionNShort, {\"superimposition\": {{superimposition}}})"

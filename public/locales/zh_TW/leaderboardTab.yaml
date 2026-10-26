@@ -1,3 +1,46 @@
+Header:
+  Title: 排行榜
+  Subtitle: 基準排名依據展示頁面的 Aeon 配裝，評分每日更新。
+  ShowcaseButton: 前往展示 →
+ConfigTypes:
+  dps: DPS
+  support: 輔助
+  heal: 治療
+  shield: 護盾
+UserRanks:
+  Header: 你的 Aeon
+  BestTeamRank: 最佳隊伍排名
+  TeamRankLabel: '隊伍排名{{rank}}'
+  AllTeamsRankLabel: '全部隊伍排名{{rank}}'
+  Status:
+    NoUid: 未找到已儲存的 UID。
+    InvalidUid: 已儲存的 UID 無效。
+    Loading: 正在查詢你的排行榜排名...
+    Unavailable: 排名暫時無法使用。
+Timeline:
+  Header: 全域動態
+  New: 新
+  HoursAgo: '{{count}}時前'
+  DaysAgo: '{{count}}天前'
 CharacterList:
+  SearchPlaceholder: 搜尋角色
+  TabLabel: '{{label}}（{{count}}）'
   Columns:
+    Rank: '#'
     Character: 角色
+    TopScore: 前 %
+    Entries: 條目數
+  Empty: 無符合條件的角色
+  InsufficientData: 資料不足
+Filters:
+  EidolonLabel: 星魂
+  TeamLabel: 隊伍
+  AllEidolons: 全部
+  AllTeams: '全部隊伍（{{count}}）'
+Banner:
+  AllTeams: 全部隊伍
+  TeamRank: 隊伍排名
+  LightConeModule: 光錐
+  TeamModule: 隊伍
+  SetsModule: 套裝
+  SetPieces: '{{count}}件套'

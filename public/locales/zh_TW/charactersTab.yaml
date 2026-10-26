@@ -1,5 +1,8 @@
 ScreenshotMessages:
   ScreenshotSuccess: 截圖已複製至剪貼簿
+  ScreenshotFailed:
+    Default: 無法將截圖保存到剪貼簿，請嘗試右側的下載按鈕
+    NotAllowed: 瀏覽器拒絕了剪貼簿存取權限，請在截圖時保持網頁處於目前視窗。
   DownloadSuccess: 已下載截圖
 CharacterMenu:
   ButtonText: 角色選單
@@ -23,17 +26,51 @@ CharacterMenu:
   Priority:
     Label: 優先級
     Options:
+      SortByEffectiveSubstats: 按有效副詞條排序
       MoveToTop: 把角色移動到第一位
 SearchPlaceholder: 搜尋
+GridDensityOptions:
+  default: 預設
+  compact: 緊湊
 Messages:
   RemoveSuccess: 成功移除角色
   UnequipSuccess: 成功卸下角色遺器
   NoSelectedCharacter: 未選擇角色
+  NoSelectedLightCone: 無選定光錐
   SwitchSuccess: '成功與$t(gameData:Characters.{{charId}}.Name)互換遺器'
   SaveSuccess: '成功保存配裝: {{name}}'
   UnequipWarning: '你確定你要卸下$t(gameData:Characters.{{charId}}.Name)的遺器嗎?'
   DeleteWarning: '你確定你要刪除$t(gameData:Characters.{{charId}}.Name)嗎?'
+  NoBuilds: '嘗試覆盖配裝 {{name}}，但 $t(gameData:Characters.{{charId}}.Name) 没有已保存的配裝。'
+  NoMatchingBuild: '嘗試覆盖配裝 {{name}}，但{{name}}沒有已保存的配裝。'
+  BuildAlreadyExists: '配裝名稱{{name}}已經存在'
+  ImageUploadFailed: 圖片上傳失敗了
+  InvalidFile: 檔案不是有效的圖片檔案
 CharacterPreview:
+  IncompleteSet: 套裝未湊齊
+  ScoringSidebar:
+    Stats:
+      Header: 統計
+      ButtonText: 行跡
+      WeightsButton: 權重
+    SpdPrecision:
+      Header: 速度精度
+      Low: '.0'
+      High: '.000'
+    SpdWeight:
+      Header: 速度權重
+      Max: 100%
+      Min: 0%
+    BenchmarkSpd:
+      Header: 速度基準
+      BenchmarkOptionsLabel: 基準選擇
+      CurrentSpdLabel: 當前速度-基準將與你的基礎速度匹配
+      BaseSpdLabel: 基礎速度-基準將以最低速度配裝為目標
+      CommonBreakpointsLabel: 常見速度閾值預設（速度增益額外單獨考慮）
+    BuffPriority:
+      Header: DPS模式
+      High: 主C
+      Low: 副C
   CustomizationSidebar:
     Label: 自訂
     Modes:
@@ -41,6 +78,8 @@ CharacterPreview:
       Custom: 自訂
       Standard: 標準
     PaletteLabel: 頭像色調
+    ShowUID: 顯示 UID
+    ShowL2D: 動畫
   ArtBy: '{{artistName}}的作品'
   EditCharacter: 編輯角色
   EditPortrait: 編輯角色圖像
@@ -50,16 +89,66 @@ CharacterPreview:
     SavedPortrait: 成功保存角色圖像
     RevertedPortrait: 成功還原角色圖像
     NoSelectedCharacter: 未選擇角色
+    NoSelectedLightCone: 無選定光錐
+  RulerLabel:
+    dps: 傷害
+    buffer: "{{stat}}增益"
+    heal: 治療量
+    shield: 護盾值
   ComboLabel:
     dps: 連招傷害
+    buffer: "{{stat}}增益"
+    heal: 連招治療量
+    shield: 連招護盾量
+  ScoreHeader:
+    CustomSpeed: '{{spd}}速基準'
+    dps: DPS 基準
+    buffer: 輔助基準
+    heal: 治療基準
+    shield: 護盾基準
+  AlgorithmSlider:
+    Labels:
+      dps: DPS 基準
+      buffer: 輔助基準
+      heal: 治療基準
+      shield: 護盾基準
+      StatScore: 副詞條升級次數
+      NoneScore: 無
   DetailsSlider:
     Labels:
       CombatStats: 戰鬥屬性
+      CombatStatsSubDps: 戰鬥屬性（副C）
+      CombatStatsBuffer: 戰鬥屬性（輔助）
+      CombatStatsHeal: 戰鬥屬性（治療）
+      CombatStatsShield: 戰鬥屬性（護盾）
+  ScoringExplanation:
+    dps: DPS 基準計算
+    buffer: 輔助基準計算
+    heal: 治療基準計算
+    shield: 護盾基準計算
   DMGUpgrades: 傷害升級
   SubstatUpgradeComparisons:
     Header: 副詞條升級比較
+    MainStatHeader: 主词条升级比较
+    TeammatesHeader: 隊友遺器強化對比
+    AddedRoll: '+1x {{stat}}副詞條'
+    SubStatUpgrade: 副屬性
+    MainStatUpgrade: 主屬性條升級
+    TeammateUpgrade: 隊友升級
+    DpsScorePercentUpgrade: DPS評分 Δ %
+    UpgradedDpsScore: 升級後DPS評分
+    ComboDmgPercentUpgrade: 連招傷害Δ%
+    ComboDmgUpgrade: 連招傷害Δ%
   BuildAnalysis:
+    ScoringNote: >-
+      DPS評分通過對比相同隊伍、光錐和命座下的基準配裝傷害，來評估配裝質量。評分和連招傷害僅相對於所選隊伍配置衡量，不應與不同配置進行對比。
+    RelicRarityHeader: 主屬性升级比较
+    RelicRarityNote: |-
+      預計開拓力衡量依據人物屬性權重升級每個遺器所需的預期刷取天數和開拓力。
+      這是用於刷取優先級的稀有度統計指標，並不反映也不影響DPS評分和連招傷害。
+    Header: DPS評分計算
     SimulationTeammates: 模擬隊友
+    SimulatedBenchmarks: 模擬基準配裝
     SimulationSets: 模擬套裝
     Rotation:
       Header: 連招傷害循環
@@ -67,10 +156,17 @@ CharacterPreview:
       SKILL: 戰技
       ULT: 終結技
       FUA: 追加攻擊
-      MEMO_SKILL: 憶靈戰技
+      MEMO_SKILL: 憶靈技
+      MEMO_TALENT: 憶靈天賦
       BREAKS: '擊破次數'
     CombatResults:
+      Header: 基準結果
+      Primary: 主要技能
       Character: 角色
+      Benchmark: 基準
+      Baseline: 基準
+      Maximum: 最大值
+      Score: DPS 評分
       Abilities:
         BASIC: 普攻傷害
         SKILL: 戰技傷害
@@ -78,22 +174,59 @@ CharacterPreview:
         FUA: 追加攻擊傷害
         DOT: 持續傷害
         BREAK: 擊破傷害
+        MEMO_SKILL: 憶靈技伤害
+        MEMO_TALENT: 憶靈天賦傷害
+        ELATION_SKILL: 歡愉技傷害
+        UNIQUE: 特殊傷害
         COMBO: 連招傷害
+        BUFF: 增益
+        COMBO_HEAL: 連招治療量
+        COMBO_SHIELD: 連招護盾量
+    CombatBuffs:
+      Header: 戰鬥增益
+      SubDpsHeader: 戰鬥增益（副C）
   ScoringColumn:
     Character:
+      LoadingHeader: 角色配裝
       Header: '角色配裝 ({{score}}%)'
+      Sets: 角色套裝
+      BasicStats: 角色<1>基礎屬性</1>
       CombatStats: 角色<1>戰鬥屬性</1>
       Substats: 角色遺器副詞條 (最少升級次數)
       Mainstats: 角色遺器主詞條
+      Abilities: 角色技能明細
     Benchmark:
       Header: '基準配裝 ({{score}}%)'
+      Sets: 100% 基準套裝
+      BasicStats: 100% 基準<1>基礎屬性</1>
       CombatStats: 100% 基準<1>戰鬥屬性</1>
       Substats: 100% 基準副詞條 (最少升級次數)
       Mainstats: 100% 基準主詞條
+      Abilities: 100% 基準技能明細
+    Baseline:
+      Header: '基準配裝（{{score}}%）'
+      Sets: 0% 基準套裝
+      BasicStats: 0% 基準<1>基礎屬性</1>
+      CombatStats: 0% 基準<1>戰鬥屬性</1>
+      Substats: 0% 基準副詞條
+      Mainstats: 0% 基準主屬性
+      Abilities: 0% 基準技能明細
     Perfect:
       Header: '完美配装 ({{score}}%)'
+      Sets: 200% 完美套裝
+      BasicStats: 200% 完美<1>基礎屬性</1>
       CombatStats: 200% 完美<1>戰鬥屬性</1>
       Substats: 200% 完美副詞條 (最大升級次數)
       Mainstats: 200% 完美主詞條
+      Abilities: 200% 完美技能明細
   ScoringDetails:
     Header: DPS評分是如何計算的?
+  EST-TBP:
+    Header: 副詞條強化分析
+    RollsCard:
+      Perfection: 完美
+    MetricsCard:
+      Days: 天數
+      Rolls: 加權重詞條數
+      TBP: 預計開拓力
+      Potential: 重擲潛力

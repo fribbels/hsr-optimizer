@@ -6,6 +6,7 @@ import {
 import type { TimelineEvent } from 'leaderboard/timeline/timelineTypes'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/LeaderboardHeader.module.css'
+import { getLeaderboardRankColor } from 'lib/tabs/tabLeaderboard/leaderboardRankColor'
 import { selectLeaderboardBuild } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { percentageToLocaleString } from 'lib/utils/i18nUtils'
 import { truncate10ths } from 'lib/utils/mathUtils'
@@ -27,20 +28,13 @@ function formatRelativeTime(dateString: string, t: TimelineTFunction): string {
   return t('DaysAgo', { count: Math.floor(hours / 24) })
 }
 
-function renderRank(event: TimelineEvent) {
-  const style = event.type === TimelineEventType.NEW_CHARACTER
-    ? classes.cellNewLabel
-    : classes.cellGreen
-  return <span className={style}># {event.rank}</span>
-}
-
 function renderScoreDelta(event: TimelineEvent, t: TimelineTFunction) {
   if (event.type === TimelineEventType.NEW_CHARACTER) {
-    return <span className={classes.cellNewLabel}>{t('New')}</span>
+    return <span>{t('New')}</span>
   }
   const clampedPrevious = Math.max(event.previousScore, TIMELINE_MIN_SCORE)
   const delta = (event.score - clampedPrevious) * 100
-  return <span className={classes.cellGreen}>+{percentageToLocaleString(delta, 1)}</span>
+  return <span>+{percentageToLocaleString(delta, 1)}</span>
 }
 
 function handleRowClick(event: TimelineEvent) {
@@ -71,11 +65,12 @@ export function TimelineFeed({ events }: { events: TimelineEvent[] }) {
             <div
               key={`${event.candidateId}#${event.configType}#${event.type}#${event.date}`}
               className={classes.feedRow}
+              style={{ color: getLeaderboardRankColor(event.rank) }}
               onClick={() => handleRowClick(event)}
             >
               <span className={classes.cellTime}>{formatRelativeTime(event.date, t)}</span>
               <span className={classes.cellDivider} />
-              <span className={classes.cellRankDelta}>{renderRank(event)}</span>
+              <span className={classes.cellRankDelta}># {event.rank}</span>
               <img
                 src={Assets.getCharacterAvatarById(characterId)}
                 className={classes.cellAvatar}

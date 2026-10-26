@@ -1,13 +1,19 @@
 /* ── Header container ── */
 
 .header {
+  --lb-rank-top-3: #ffe267;
+  --lb-rank-top-10: #e8c3ef;
+  --lb-rank-top-25: #91c8ff;
+  --lb-rank-top-50: #8fbea3;
+  --lb-rank-remaining: #9ea8b6;
+
   position: relative;
   overflow: hidden;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
   background: #0b0d13;
-  height: 310px;
+  height: 410px;
   width: 100%;
 }
 
@@ -60,7 +66,8 @@
 }
 
 .title {
-  font-size: 32px;
+  margin-bottom: 10px;
+  font-size: 36px;
   font-weight: 700;
   color: var(--lb-text-1);
   text-transform: uppercase;
@@ -174,7 +181,7 @@
 
 .rankName {
   overflow: hidden;
-  color: var(--lb-text-2);
+  color: inherit;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -193,13 +200,13 @@
 }
 
 .rankNumber {
-  color: #8cc8ff;
+  color: inherit;
   padding-left: 4px;
   line-height: 24px;
 }
 
 .rankScore {
-  color: var(--lb-text-1);
+  color: inherit;
   text-align: right;
 }
 
@@ -303,14 +310,14 @@
 }
 
 .cellName {
-  color: var(--lb-text-2);
+  color: inherit;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .cellScore {
-  color: var(--lb-text-1);
+  color: inherit;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -320,17 +327,6 @@
   font-size: 12px;
   font-variant-numeric: tabular-nums;
   text-align: right;
-}
-
-/* ── Cell color variants ── */
-
-.cellGreen {
-  color: #69f0ae;
-  opacity: 0.7;
-}
-
-.cellNewLabel {
-  color: #8cc8ff;
 }
 
 .cellDash {

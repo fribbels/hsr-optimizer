@@ -4,14 +4,19 @@ import {
   TextInput,
 } from '@mantine/core'
 import { configTypeToPublic } from 'leaderboard/shared/configTypeMapping'
+import { LEADERBOARD_FILTER_ALL } from 'leaderboard/shared/eidolonConfig'
 import { Assets } from 'lib/rendering/assets'
 import classes from 'lib/tabs/tabLeaderboard/CharacterListPanel.module.css'
+import { deriveVisibleEntries } from 'lib/tabs/tabLeaderboard/deriveVisibleEntries'
 import {
   getCharacterLeaderboardConfigTypes,
   IS_LOCALHOST,
   isCharacterLeaderboardEnabled,
 } from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
-import { getPublicEntryCount } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import {
+  getPublicEntryCount,
+  loadCharacterData,
+} from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
@@ -122,7 +127,20 @@ export function CharacterListPanel() {
     const all = characters
       .filter((id) => selectedType == null || getCharacterLeaderboardConfigTypes(id).includes(selectedType))
       .map((id) => {
-        const topScore = topScores[id] ?? 0
+        let topScore = topScores[id] ?? 0
+        let publicEntryCount = getPublicEntryCount(id)
+
+        if (selectedType != null) {
+          const entries = deriveVisibleEntries({
+            characterData: loadCharacterData(id),
+            activeConfigType: configTypeToPublic(selectedType),
+            activeTeamId: LEADERBOARD_FILTER_ALL,
+            filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+          })
+          topScore = entries[0]?.score ?? 0
+          publicEntryCount = entries.length
+        }
+
         const entryCount = totalEntries[id] ?? 0
 
         return {
@@ -130,7 +148,7 @@ export function CharacterListPanel() {
           name: t(`Characters.${id}.${id.startsWith('80') ? 'LongName' : 'Name'}`),
           topScore,
           entryCount,
-          publicEntryCount: getPublicEntryCount(id),
+          publicEntryCount,
         }
       })
       .filter((row) => normalizedSearch.length === 0 || row.name.toLowerCase().includes(normalizedSearch))

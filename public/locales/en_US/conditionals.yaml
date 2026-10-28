@@ -2392,6 +2392,9 @@ Characters:
       deviatedChordCdBuff:
         text: 'Deviated Chord: CRIT DMG'
         content: Increases Robin's and the Summer Songbird's CRIT DMG by 40% + 1.5% per Vibe for 2 turns.
+      techniqueDmgBuff:
+        text: Technique DMG buff
+        content: "At the start of battle, increases all allies' DMG dealt by 30%, lasting for 2 turns."
       e2ResPen:
         text: E2 RES PEN
         content: Increases all allies' All-Type RES PEN by 18%.

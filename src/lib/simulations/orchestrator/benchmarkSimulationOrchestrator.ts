@@ -37,6 +37,7 @@ import {
   calculateSimSets,
 } from 'lib/scoring/dpsScore'
 import type { SimulationSets } from 'lib/scoring/dpsScore'
+import { normalizeSimulationMetadata } from 'lib/scoring/normalizeScoringMetadata'
 import {
   applyHardBreakpoints,
   calculateMaxSubstatRollCounts,
@@ -237,7 +238,7 @@ export class BenchmarkSimulationOrchestrator {
   public brokenKeelResTarget: number = 0
 
   constructor(metadata: SimulationMetadata) {
-    this.metadata = metadata
+    this.metadata = normalizeSimulationMetadata(metadata)
     this.flags = {
       overcapCritRate: false,
       simPoetActive: false,
@@ -335,9 +336,9 @@ export class BenchmarkSimulationOrchestrator {
 
   public setSimForm(form: SimpleCharacter) {
     const metadata = this.metadata
-    const { characterId, characterEidolon, lightCone, lightConeSuperimposition } = form
+    const { characterId, characterEidolon, characterEx, lightCone, lightConeSuperimposition } = form
 
-    const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false)
+    const simulationForm: Form = generateFullDefaultForm(characterId, lightCone, characterEidolon, lightConeSuperimposition, false, characterEx)
 
     metadata.teammates.forEach((teammate, idx) => {
       if (!teammate?.characterId) return
@@ -351,6 +352,7 @@ export class BenchmarkSimulationOrchestrator {
             teammate.characterEidolon,
             teammate.lightConeSuperimposition,
             true,
+            teammate.characterEx,
           )
           simulationForm[`teammate${idx}`].teamRelicSet = teammate.teamRelicSet
           simulationForm[`teammate${idx}`].teamOrnamentSet = teammate.teamOrnamentSet

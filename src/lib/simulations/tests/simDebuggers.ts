@@ -55,7 +55,6 @@ function equipTestCharacter() {
   })
   SaveState.delayedSave()
 
-  // @ts-expect-error - Test helper passes partial character data
   persistenceService.upsertCharacterFromForm(testInput.character)
   SaveState.delayedSave()
 

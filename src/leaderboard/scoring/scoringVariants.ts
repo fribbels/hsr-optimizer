@@ -8,8 +8,11 @@ import {
 import type {
   LeaderboardScoreCandidateConfigInput,
   LeaderboardScoringCandidate,
+  LeaderboardSimulationMetadata,
 } from 'leaderboard/shared/types'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import { SCORING_CONFIG_REGISTRY } from 'lib/scoring/scoringConfig'
+import type { Teammate } from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import type {
   LeaderboardTeam,
@@ -81,22 +84,26 @@ function buildSimulationMetadata(input: {
   team: LeaderboardTeam,
   tierEidolon: EidolonTierValue,
   lcCombo: LightConeId[],
-}): SimulationMetadata {
-  const teammates: SimulationMetadata['teammates'] = input.team.teammates.map((t, i) => {
+}): LeaderboardSimulationMetadata {
+  const teammates: Teammate[] = input.team.teammates.map((t, i) => {
     const fixed = FIXED_TEAMMATE_OVERRIDES[t.characterId]
     const cap = TEAMMATE_EIDOLON_CAPS[t.characterId]
     const baseEidolon = fixed?.eidolon ?? input.tierEidolon
+    const characterConfig = getCharacterConfig(t.characterId)
+    const defaultEx = characterConfig ? characterConfig.supportedExFlags : 0
+    const characterEx = t.characterEx ?? defaultEx
     return {
       characterId: t.characterId,
       lightCone: input.lcCombo[i],
       characterEidolon: cap != null ? Math.min(baseEidolon, cap) : baseEidolon,
+      characterEx,
       lightConeSuperimposition: getTeammateLcSuperimposition(t.characterId, input.lcCombo[i]),
       teamRelicSet: t.teamRelicSet,
       teamOrnamentSet: t.teamOrnamentSet,
     }
   })
 
-  const metadata: SimulationMetadata = {
+  const metadata = {
     ...input.baseMetadata,
     teammates,
     leaderboardTeams: undefined,

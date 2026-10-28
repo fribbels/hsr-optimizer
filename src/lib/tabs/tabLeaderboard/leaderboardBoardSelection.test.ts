@@ -8,6 +8,7 @@ import type {
 import type * as LeaderboardCharacterHelpers from 'lib/tabs/tabLeaderboard/leaderboardCharacterHelpers'
 import type * as LeaderboardDataLoader from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import type { BuildIndexEntry } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
+import { LeaderboardExFilter } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import type { CharacterId } from 'types/character'
 import { ScoringConfigType } from 'types/metadata'
 import {
@@ -123,6 +124,48 @@ const { useLeaderboardTabStore } = await import('lib/tabs/tabLeaderboard/useLead
 const { deriveVisibleEntries } = await import('lib/tabs/tabLeaderboard/deriveVisibleEntries')
 
 describe('leaderboard board selection', () => {
+  test('EX filter retains mixed ranks and treats old entries as EX off', () => {
+    const data = makeCharacterData()
+    data.configs.dps!.teamsById[TEAM_B].entries[1].data.character.ex = 1
+    const input = {
+      characterData: data,
+      activeConfigType: LeaderboardConfigType.DPS,
+      activeTeamId: LEADERBOARD_FILTER_ALL,
+      filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+    }
+    const on = deriveVisibleEntries({ ...input, filterCharacterEx: LeaderboardExFilter.On })
+    expect(on.map((entry) => [entry.buildId, entry.rank])).toEqual([['b2', 3]])
+    const off = deriveVisibleEntries({ ...input, filterCharacterEx: LeaderboardExFilter.Off })
+    expect(off.map((entry) => entry.rank)).toEqual([1, 2, 4, 5, 6])
+    expect(off.every((entry) => entry.characterEx === 0)).toBe(true)
+  })
+
+  test('EX filtering cannot pull a build past the mixed top-100 cutoff', () => {
+    const data = makeCharacterData()
+    const target = data.configs.dps!.teamsById[TEAM_A].entries[2]
+    target.data.character.ex = 1
+    data.configs.dps!.teamsById[TEAM_B].entries = Array.from(
+      { length: 100 },
+      (_, index) => makeEntry(`crowd-${index}`, 1.9 - index * 0.001, `crowd-${index}`, TEAM_B),
+    )
+    expect(deriveVisibleEntries({
+      characterData: data,
+      activeConfigType: LeaderboardConfigType.DPS,
+      activeTeamId: LEADERBOARD_FILTER_ALL,
+      filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+      filterCharacterEx: LeaderboardExFilter.On,
+    })).toEqual([])
+  })
+
+  test('linked builds clear EX filter and use compressed character EX in preview', () => {
+    characterDataFixture.configs.dps!.teamsById[TEAM_A].entries[2].data.character.ex = 1
+    useLeaderboardTabStore.setState({ filterCharacterEx: LeaderboardExFilter.Off })
+    selectLeaderboardBuild(TARGET_BUILD_ID)
+    const state = useLeaderboardTabStore.getState()
+    expect(state.filterCharacterEx).toBe(LeaderboardExFilter.All)
+    expect(state.selectedBuildId).toBe(TARGET_BUILD_ID)
+    expect(state.expandedCharacter?.form.characterEx).toBe(1)
+  })
   beforeEach(() => {
     characterDataFixture = makeCharacterData()
     useLeaderboardTabStore.setState({
@@ -141,6 +184,7 @@ describe('leaderboard board selection', () => {
         activeConfigType: LeaderboardConfigType.DPS,
         activeTeamId,
         filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+        filterCharacterEx: LeaderboardExFilter.All,
       }).find((e) => e.buildId === TARGET_BUILD_ID)?.rank
 
     expect(rankOn(TEAM_A)).toBe(3)
@@ -159,8 +203,10 @@ describe('leaderboard board selection', () => {
   test('falls back to the team board when the build is outside the all-teams cutoff', () => {
     // 100 stronger builds on TEAM_B push the target past LEADERBOARD_DISPLAY_TOP_N on all-teams,
     // while it stays reachable at the top of TEAM_A.
-    characterDataFixture.configs.dps!.teamsById[TEAM_B].entries = Array.from({ length: 100 }, (_, i) =>
-      makeEntry(`cand-crowd-${i}`, 1.9 - i * 0.001, `crowd-${i}`, TEAM_B))
+    characterDataFixture.configs.dps!.teamsById[TEAM_B].entries = Array.from(
+      { length: 100 },
+      (_, i) => makeEntry(`cand-crowd-${i}`, 1.9 - i * 0.001, `crowd-${i}`, TEAM_B),
+    )
 
     selectLeaderboardBuild(TARGET_BUILD_ID)
 

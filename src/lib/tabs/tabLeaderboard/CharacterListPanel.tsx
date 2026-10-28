@@ -18,6 +18,7 @@ import {
   loadCharacterData,
 } from 'lib/tabs/tabLeaderboard/leaderboardDataLoader'
 import { selectLeaderboardCharacter } from 'lib/tabs/tabLeaderboard/leaderboardTabController'
+import { LeaderboardExFilter } from 'lib/tabs/tabLeaderboard/leaderboardTabTypes'
 import { useLeaderboardTabStore } from 'lib/tabs/tabLeaderboard/useLeaderboardTabStore'
 import { OVERLAY_SCROLLBAR_OPTIONS } from 'lib/ui/selectors/selectConstants'
 import {
@@ -136,6 +137,7 @@ export function CharacterListPanel() {
             activeConfigType: configTypeToPublic(selectedType),
             activeTeamId: LEADERBOARD_FILTER_ALL,
             filterCharacterEidolon: LEADERBOARD_FILTER_ALL,
+            filterCharacterEx: LeaderboardExFilter.All,
           })
           topScore = entries[0]?.score ?? 0
           publicEntryCount = entries.length

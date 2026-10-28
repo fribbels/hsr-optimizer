@@ -6,7 +6,7 @@ import { Cyrene } from 'lib/conditionals/character/1400/Cyrene'
 import { Evanescia } from 'lib/conditionals/character/1500/Evanescia'
 
 export const LEADERBOARD_VERSIONS: LeaderboardVersionFile = {
-  global: 3,
+  global: 4,
   characters: {
     [Archer.id]: 1,
     [Aglaea.id]: 2,

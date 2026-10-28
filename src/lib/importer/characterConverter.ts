@@ -12,7 +12,10 @@ import type { ShowcaseTabCharacter } from 'lib/tabs/tabShowcase/useShowcaseTabSt
 import { precisionRound } from 'lib/utils/mathUtils'
 import { uuid } from 'lib/utils/miscUtils'
 import { isFlat } from 'lib/utils/statUtils'
-import type { CharacterId } from 'types/character'
+import type {
+  CharacterId,
+  ExFlags,
+} from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 import type { Relic } from 'types/relic'
 
@@ -58,6 +61,8 @@ export type UnconvertedCharacter = {
   relicList?: PreRelic[],
   equipment?: PreLightCone,
   rank?: number,
+  // TODO: Map EX from upstream profile data once its schema is verified.
+  characterEx?: ExFlags,
   avatarId: number | string, // API sends number; dataProcessors may append enhancedId suffix
 }
 
@@ -120,6 +125,7 @@ export const CharacterConverter = {
       form: {
         characterId: id,
         characterEidolon: characterEidolon,
+        characterEx: character.characterEx ?? 0,
         lightCone: lightConeId,
         lightConeSuperimposition: lightConeSuperimposition,
       },

@@ -1,3 +1,5 @@
+import { getSupportedFlags } from 'lib/conditionals/exEidolons'
+import { getCharacterConfig } from 'lib/conditionals/resolver/characterConfigRegistry'
 import type { SetConditionals } from 'lib/optimization/combo/comboTypes'
 import type { ComboType } from 'lib/optimization/rotation/comboType'
 import { type TurnAbilityName } from 'lib/optimization/rotation/turnAbilityConfig'
@@ -9,6 +11,9 @@ import type {
 import type { SimulationRequest } from 'lib/simulations/statSimulationTypes'
 import { blankSimRequest } from 'lib/simulations/utils/requestUtils'
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
+import {
+  normalizeExState,
+} from 'lib/stores/optimizerForm/optimizerExState'
 import {
   createDefaultFormState,
   createDefaultTeammate,
@@ -36,6 +41,7 @@ import { type SetFilters } from 'lib/stores/optimizerForm/setFilterTypes'
 import {
   type CharacterId,
   type Eidolon,
+  type ExFlags,
 } from 'types/character'
 import { type ConditionalValueMap } from 'types/conditionals'
 import { type Form } from 'types/form'
@@ -80,6 +86,7 @@ type OptimizerRequestActions = {
   removeOrnamentFilter: (name: SetsOrnaments) => void,
   setWeight: (stat: keyof OptimizerRequestState['weights'], value: number) => void,
   setEidolon: (eidolon: Eidolon) => void,
+  setEx: (mask: ExFlags) => void,
   setLightCone: (lcId: LightConeId | undefined) => void,
   setLightConeSuperimposition: (si: SuperImpositionLevel) => void,
   setCharacterConditionals: (conds: ConditionalValueMap) => void,
@@ -157,8 +164,18 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
 
   setTeammateField: (index, key, value) =>
     set((state) => {
+      if (state.teammates[index][key] === value) return state
       const teammates: [TeammateState, TeammateState, TeammateState] = [...state.teammates]
       teammates[index] = { ...teammates[index], [key]: value }
+      if (key === 'characterEx') {
+        const teammate = teammates[index]
+        const supportedFlags = teammate.characterId ? getCharacterConfig(teammate.characterId)?.supportedExFlags ?? 0 : 0
+        teammate.characterEx = getSupportedFlags(teammate.characterEx, supportedFlags)
+        if (teammate.characterEx === state.teammates[index].characterEx) return state
+
+        return normalizeExState({ ...state, teammates })
+      }
+
       return { teammates }
     }),
 
@@ -198,6 +215,13 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
     })),
 
   setEidolon: (eidolon) => set({ characterEidolon: eidolon }),
+  setEx: (mask) =>
+    set((state) => {
+      const supportedFlags = state.characterId ? getCharacterConfig(state.characterId)?.supportedExFlags ?? 0 : 0
+      const characterEx = getSupportedFlags(mask, supportedFlags)
+      if (state.characterEx === characterEx) return state
+      return normalizeExState({ ...state, characterEx })
+    }),
 
   setLightCone: (lcId) => set({ lightCone: lcId }),
 
@@ -232,7 +256,7 @@ export const useOptimizerRequestStore = createTabAwareStore<OptimizerRequestStor
 
   applySuggestionFixes: (fixes) => set((state) => computeApplySuggestionFixes(state, fixes)),
 
-  setCharacterId: (id) => set({ characterId: id }),
+  setCharacterId: (id) => set((state) => state.characterId === id ? state : { characterId: id }),
 
   loadForm: (form) => set(() => computeLoadForm(form)),
 

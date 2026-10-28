@@ -61,7 +61,10 @@ import type {
   Character,
   CharacterId,
 } from 'types/character'
-import type { Form } from 'types/form'
+import type {
+  Form,
+  ImportedCharacterForm,
+} from 'types/form'
 import type { LightConeId } from 'types/lightCone'
 import type { DBMetadata } from 'types/metadata'
 import type { Relic } from 'types/relic'
@@ -164,6 +167,12 @@ export function loadSaveData(saveData: HsrOptimizerSaveFormat, autosave = true, 
       // When new session items are added, set user's save to the default
       const overriddenSavedSessionDefaults: GlobalSavedSession = { ...savedSessionDefaults, ...session }
 
+      for (const team of overriddenSavedSessionDefaults.teamShowcaseSavedTeams) {
+        for (const member of team.benchmarkSnapshot?.members ?? []) {
+          member.characterEx = member.characterEx ?? 0
+        }
+      }
+
       useGlobalStore.getState().setSavedSession(overriddenSavedSessionDefaults)
 
       // Restore sidebar collapsed state
@@ -233,7 +242,7 @@ export function resetAll(): void {
 
 // These relics may be missing speed decimals depending on the importer.
 // We overwrite any existing relics with imported ones.
-export function mergeRelics(newRelics: Relic[], newCharacters: Form[]): void {
+export function mergeRelics(newRelics: Relic[], newCharacters: ImportedCharacterForm[]): void {
   const oldRelics = getRelics()
 
   // Existing characters keep their manual ordering, only the new block gets sorted
@@ -521,17 +530,24 @@ function sortImportedCharacters(characters: Character[], preExistingCharacterIds
   return prepend ? [...imported, ...existing] : [...existing, ...imported]
 }
 
-export function upsertCharacterFromForm(form: Form): Character {
+export function upsertCharacterFromForm(form: ImportedCharacterForm): Character {
   let found = getCharacterById(form.characterId)
   if (found) {
-    const updated = { ...found, form: { ...found.form, ...form } }
+    const updated = {
+      ...found,
+      form: {
+        ...found.form,
+        ...form,
+        characterEx: form.characterEx ?? found.form.characterEx,
+      },
+    }
     useCharacterStore.getState().setCharacter(updated)
     return updated
   } else {
     const defaultForm = getDefaultForm({ id: form.characterId })
     const newChar = {
       id: form.characterId,
-      form: { ...defaultForm, ...form },
+      form: { ...defaultForm, ...form, characterEx: form.characterEx ?? 0 },
       equipped: {},
     } as Character
     const prepend = useGlobalStore.getState().settings.NewCharacterDefaultRank === SettingOptions.NewCharacterDefaultRank.First
@@ -547,6 +563,10 @@ function deduplicateStringArray<T extends string[] | null | undefined>(arr: T) {
 }
 
 function migrateCharacterForm(character: Character, dbCharacters: DBMetadata['characters']) {
+  character.form.characterEx = character.form.characterEx ?? 0
+  for (const teammate of [character.form.teammate0, character.form.teammate1, character.form.teammate2]) {
+    if (teammate) teammate.characterEx = teammate.characterEx ?? 0
+  }
   // Clear legacy statSim formats that lack the current required shape
   if (character.form?.statSim) {
     const ss = character.form.statSim

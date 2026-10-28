@@ -4,6 +4,7 @@ import {
 } from 'lib/constants/constants'
 import { CONFIG_DISPLAY_ORDER } from 'lib/scoring/scoringConfig'
 import {
+  areBenchmarkSnapshotsEqual,
   autofillTeamSlots,
   buildTeamBenchmarkOverrideVariants,
   captureTeamBenchmarkSnapshot,
@@ -54,6 +55,20 @@ function makeRelic(id: string, set: string): Relic {
 }
 
 describe('teamShowcaseModel', () => {
+  it('captures EX in teammate overrides and compares normalized snapshots', () => {
+    const characters = [A, B, C, D].map((id) => makeCharacter(id, '20000' as LightConeId))
+    const original = captureTeamBenchmarkSnapshot(characters, {}).snapshot
+    expect(original).toBeDefined()
+    if (!original) throw new Error('Expected complete snapshot')
+    const copy = { members: original.members.map((member) => ({ ...member })) }
+    expect(areBenchmarkSnapshotsEqual(original, copy)).toBe(true)
+    characters[1].form.characterEx = 1
+    const updated = captureTeamBenchmarkSnapshot(characters, {}).snapshot
+    expect(areBenchmarkSnapshotsEqual(original, updated)).toBe(false)
+    const overrides = resolveTeamBenchmarkOverrides([A, B, C, D], buildTeamBenchmarkOverrideVariants(updated))
+    expect(overrides[0]?.[ScoringConfigType.DPS]?.teammates?.[0].characterEx).toBe(1)
+  })
+
   it('removes missing and duplicate characters while preserving slot positions', () => {
     const charactersById = {
       [A]: makeCharacter(A, '20000' as LightConeId),

@@ -114,18 +114,22 @@ export function syncShowcaseUrl(): void {
  */
 export function handleCharacterModalOk(form: CharacterModalForm): boolean {
   const t = i18next.getFixedT(null, 'relicScorerTab', 'Messages')
+  const { characterId, lightCone, ...values } = form
 
-  if (!form.characterId) {
+  if (!characterId) {
     Message.error(t('NoCharacterSelected'))
     return false
   }
-  if (!form.lightCone) {
+  if (!lightCone) {
     Message.error(t('NoSelectedLightCone'))
     return false
   }
 
-  // Safe cast: after guards, characterId and lightCone are non-null
-  useShowcaseTabStore.getState().applyCharacterOverride(form as ShowcaseTabCharacter['form'])
+  useShowcaseTabStore.getState().applyCharacterOverride({
+    ...values,
+    characterId,
+    lightCone,
+  })
   return true
 }
 
@@ -139,11 +143,19 @@ export function importShowcaseCharacters(mode: 'relics' | 'singleCharacter' | 'm
   let newCharacters: ShowcaseTabCharacter[] = []
 
   if (mode === 'singleCharacter' && selectedCharacter?.form) {
-    persistenceService.upsertCharacterFromForm(selectedCharacter.form as Form)
+    persistenceService.upsertCharacterFromForm({
+      ...selectedCharacter.form,
+      characterId: selectedCharacter.id,
+      lightCone: selectedCharacter.form.lightCone ?? undefined,
+    })
     newCharacters = [selectedCharacter]
   } else if (mode === 'multiCharacter' && availableCharacters) {
     availableCharacters.forEach((char) => {
-      persistenceService.upsertCharacterFromForm(char.form as Form)
+      persistenceService.upsertCharacterFromForm({
+        ...char.form,
+        characterId: char.id,
+        lightCone: char.form.lightCone ?? undefined,
+      })
     })
     newCharacters = availableCharacters
   }

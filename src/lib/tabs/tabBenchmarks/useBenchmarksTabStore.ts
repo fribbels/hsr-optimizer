@@ -9,13 +9,17 @@ import type { BenchmarkSimulationOrchestrator } from 'lib/simulations/orchestrat
 import { createTabAwareStore } from 'lib/stores/infrastructure/createTabAwareStore'
 import { computeSetSetConditional } from 'lib/stores/optimizerForm/optimizerFormStoreActions'
 import { clone } from 'lib/utils/objectUtils'
-import type { CharacterId } from 'types/character'
+import type {
+  CharacterId,
+  ExFlags,
+} from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
 export type BenchmarkForm = {
   characterId: CharacterId,
   lightCone: LightConeId,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightConeSuperimposition: number,
   basicSpd: number,
   errRope: boolean,
@@ -33,6 +37,7 @@ export type SimpleCharacter = {
   characterId: CharacterId,
   lightCone: LightConeId,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightConeSuperimposition: number,
 }
 
@@ -40,6 +45,7 @@ export type SimpleCharacterSets = {
   characterId: CharacterId,
   lightCone: LightConeId,
   characterEidolon: number,
+  characterEx: ExFlags,
   lightConeSuperimposition: number,
   teamOrnamentSet?: string,
   teamRelicSet?: string,
@@ -109,6 +115,7 @@ export const useBenchmarksTabStore = createTabAwareStore<BenchmarksTabState>((se
     const character: SimpleCharacterSets = {
       characterId: form.characterId,
       characterEidolon: form.characterEidolon,
+      characterEx: form.characterEx,
       lightCone: form.lightCone,
       lightConeSuperimposition: form.lightConeSuperimposition,
       teamRelicSet: form.teamRelicSet,

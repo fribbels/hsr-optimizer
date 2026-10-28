@@ -1,3 +1,4 @@
+import { CharacterConditionalsResolver } from 'lib/conditionals/resolver/characterConditionalsResolver'
 import type { Sets } from 'lib/constants/constants'
 import type {
   ComboBooleanConditional,
@@ -30,7 +31,11 @@ import {
   WavestriderCaptainPreprocessor,
 } from 'lib/optimization/rotation/preprocessor/preprocessSets'
 import { type AbilityPreprocessorBase } from 'lib/optimization/rotation/preprocessor/utils/preprocessUtils'
-import { toTurnAbility } from 'lib/optimization/rotation/turnAbilityConfig'
+import {
+  AbilityKind,
+  NULL_TURN_ABILITY,
+  toTurnAbility,
+} from 'lib/optimization/rotation/turnAbilityConfig'
 import { preprocessTurnAbilities } from 'lib/optimization/rotation/turnPreprocessor'
 import { type Form } from 'types/form'
 import { getTeammateAbilityPreprocessors } from './preprocessTeammate'
@@ -100,7 +105,13 @@ export function precomputeConditionalActivations(comboState: ComboState, request
   for (const preprocessor of filteredCharacterPreprocessors) preprocessor.reset()
   for (const preprocessor of filteredLightConePreprocessors) preprocessor.reset()
 
-  const comboTurnAbilities = preprocessTurnAbilities(comboState.comboTurnAbilities.map(toTurnAbility))
+  const hasFua = CharacterConditionalsResolver.get(comboState.comboCharacter.metadata).actionDeclaration().includes(AbilityKind.FUA)
+  // Keep each saved conditional index, while preventing an unavailable FUA from
+  // changing turn normalization or triggering/consuming automatic effects.
+  const comboTurnAbilities = preprocessTurnAbilities(comboState.comboTurnAbilities.map((name) => {
+    const ability = toTurnAbility(name)
+    return !hasFua && ability.kind === AbilityKind.FUA ? NULL_TURN_ABILITY : ability
+  }))
 
   for (let i = 1; i < comboTurnAbilities.length; i++) {
     const turnAbility = comboTurnAbilities[i]

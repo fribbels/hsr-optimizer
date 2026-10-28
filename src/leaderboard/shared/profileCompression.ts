@@ -1,11 +1,12 @@
 import type { UnconvertedCharacter } from 'lib/importer/characterConverter'
+import type { ExFlags } from 'types/character'
 import type { LightConeId } from 'types/lightCone'
 
 /*
  * Minified JSON key mapping (must stay in sync with server Lambda):
  *
  * Root:    a = characters array
- * Char:    a = avatarId, r = rank, e = enhancedId
+ * Char:    a = avatarId, r = rank, e = enhancedId, ex = characterEx
  * Equip:   q = equipment, q.t = tid, q.r = rank
  * Relic:   l = relicList, t = tid, v = level, m = mainAffixId, u = subAffixList
  * Sub:     a = affixId, c = cnt, s = step
@@ -19,6 +20,7 @@ export type MinifiedCharacter = {
   a: number,
   r?: number,
   e?: number,
+  ex?: ExFlags,
   q?: { t: number, r: number },
   l?: MinifiedRelic[],
 }
@@ -56,6 +58,7 @@ function minifyCharacter(char: Record<string, unknown>): MinifiedCharacter {
   const result: MinifiedCharacter = { a: char.avatarId as number }
   if (char.rank != null) result.r = char.rank as number
   if (char.enhancedId) result.e = char.enhancedId as number
+  if (char.characterEx != null) result.ex = char.characterEx as ExFlags
 
   if (char.equipment) {
     const equip = char.equipment as Record<string, unknown>
@@ -93,6 +96,7 @@ function expandCharacter(char: MinifiedCharacter): UnconvertedCharacter {
 
   const result: UnconvertedCharacter = { avatarId }
   if (char.r != null) result.rank = char.r
+  if (char.ex != null) result.characterEx = char.ex
 
   if (char.q) {
     result.equipment = {

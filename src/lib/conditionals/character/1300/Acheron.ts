@@ -19,6 +19,7 @@ import {
   countTeamPath,
   createEnum,
 } from 'lib/conditionals/conditionalUtils'
+import { hasExEidolon } from 'lib/conditionals/exEidolons'
 import { HitDefinitionBuilder } from 'lib/conditionals/hitDefinitionBuilder'
 import { AlongThePassingShore } from 'lib/conditionals/lightcone/5star/AlongThePassingShore'
 import { MayRainbowsRemainInTheSky } from 'lib/conditionals/lightcone/5star/MayRainbowsRemainInTheSky'
@@ -39,6 +40,7 @@ import {
 import { type ComputedStatsContainer } from 'lib/optimization/engine/container/computedStatsContainer'
 import {
   AbilityKind,
+  DEFAULT_FUA,
   END_SKILL,
   END_ULT,
   NULL_TURN_ABILITY_NAME,
@@ -55,7 +57,11 @@ import {
 } from 'lib/scoring/scoringConstants'
 import { wrappedFixedT } from 'lib/utils/i18nUtils'
 import { precisionRound } from 'lib/utils/mathUtils'
-import { type Eidolon } from 'types/character'
+import {
+  type Eidolon,
+  ExEidolon,
+  type ExFlags,
+} from 'types/character'
 import { type CharacterConfig } from 'types/characterConfig'
 import { type CharacterConditionalsController } from 'types/conditionals'
 import {
@@ -74,7 +80,8 @@ export const AcheronAbilities: AbilityKind[] = [
   AbilityKind.BREAK,
 ]
 
-const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsController => {
+const conditionals = (e: Eidolon, withContent: boolean, ex: ExFlags): CharacterConditionalsController => {
+  const ex1 = hasExEidolon(ex, ExEidolon.EX1)
   const t = wrappedFixedT(withContent).get(null, 'conditionals', 'Characters.Acheron')
   const { basic, skill, ult, talent } = AbilityEidolon.ULT_BASIC_3_SKILL_TALENT_5
   const {
@@ -220,7 +227,7 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
       },
     }),
 
-    actionDeclaration: () => [...AcheronAbilities],
+    actionDeclaration: () => ex1 ? [...AcheronAbilities, AbilityKind.FUA] : [...AcheronAbilities],
     actionDefinition: (action: OptimizerAction, context: OptimizerContext) => {
       const r = action.characterConditionals as Conditionals<typeof content>
 
@@ -269,6 +276,25 @@ const conditionals = (e: Eidolon, withContent: boolean): CharacterConditionalsCo
             HitDefinitionBuilder.standardBreak(ElementTag.Lightning).build(),
           ],
         },
+        ...(ex1
+          ? {
+            [AbilityKind.FUA]: {
+              hits: [
+                // Put the FUA first: the engine uses the first hit to check
+                // whether direct-attack buffs apply to this action.
+                HitDefinitionBuilder.standardFua()
+                  .damageElement(ElementTag.Lightning)
+                  .atkScaling(3.00)
+                  .toughnessDmg(10)
+                  .build(),
+                HitDefinitionBuilder.standardAdditional()
+                  .damageElement(ElementTag.Lightning)
+                  .atkScaling(0.80)
+                  .build(),
+              ],
+            },
+          }
+          : {}),
       }
     },
     actionModifiers: () => [],
@@ -337,6 +363,7 @@ const simulation = (): SimulationMetadata => ({
     WHOLE_ULT,
     START_SKILL,
     END_ULT,
+    DEFAULT_FUA,
   ],
   relicSets: [
     [Sets.PioneerDiverOfDeadWaters, Sets.PioneerDiverOfDeadWaters],
@@ -425,7 +452,6 @@ const scoring = (): ScoringMetadata => ({
   defaultDamageType: DamageTag.ULT,
   sortOption: SortOption.ULT,
   hiddenColumns: [
-    SortOption.FUA,
     SortOption.DOT,
   ],
   simulation: simulation(),
@@ -444,6 +470,7 @@ const display = {
 
 export const Acheron: CharacterConfig = {
   id: '1308',
+  supportedExFlags: ExEidolon.EX1,
   defaultLightCone: AlongThePassingShore.id,
   display,
   conditionals,

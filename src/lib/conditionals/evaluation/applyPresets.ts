@@ -105,6 +105,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
   const charController = CharacterConditionalsResolver.get({
     characterId: form.characterId,
     characterEidolon: form.characterEidolon,
+    characterEx: form.characterEx,
   })
   form.characterConditionals = charController.defaults ? { ...charController.defaults() } : {}
   form.lightConeConditionals = resolveLcDefaults(form, dbMetadata, false) ?? {}
@@ -117,6 +118,7 @@ export function applySpdPreset(spd: number, characterId: CharacterId | null | un
     const tmCharController = CharacterConditionalsResolver.get({
       characterId: teammate.characterId,
       characterEidolon: teammate.characterEidolon,
+      characterEx: teammate.characterEx,
     })
     teammate.characterConditionals = tmCharController.teammateDefaults ? { ...tmCharController.teammateDefaults() } : {}
     teammate.lightConeConditionals = resolveLcDefaults(teammate as any, dbMetadata, true) ?? {}

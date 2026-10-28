@@ -1,11 +1,12 @@
 import { characterConfigRegistry } from 'lib/conditionals/resolver/characterConfigRegistry'
 import type {
   CharacterId,
-  Eidolon,
+  ExFlags,
 } from 'types/character'
+import type { CharacterConditionalFunction } from 'types/characterConfig'
 import type { CharacterConditionalsController } from 'types/conditionals'
 
-export type CharacterConditionalFunction = (e: Eidolon, withContent: boolean) => CharacterConditionalsController
+export type { CharacterConditionalFunction } from 'types/characterConfig'
 
 export const characterOptionMapping = {} as Record<CharacterId, CharacterConditionalFunction>
 
@@ -31,8 +32,9 @@ export const CharacterConditionalsResolver = {
   get: (request: {
     characterId: CharacterId,
     characterEidolon: number,
+    characterEx: ExFlags,
   }, withContent = false): CharacterConditionalsController => {
     const characterFn = characterOptionMapping[request.characterId]
-    return characterFn(request.characterEidolon, withContent)
+    return characterFn(request.characterEidolon, withContent, request.characterEx)
   },
 }

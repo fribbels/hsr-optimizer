@@ -11,7 +11,7 @@ import {
   localeNumberComma,
   renderThousandsK,
 } from 'lib/utils/i18nUtils'
-import type { ReactNode } from 'react'
+import type { ReactElement } from 'react'
 import {
   type CSSProperties,
   Fragment,
@@ -57,7 +57,7 @@ type FlattenedBar = {
   damageType: number,
   label: string,
   color: string,
-  shape: (props: { x: number, y: number, width: number, height: number }) => ReactNode,
+  shape: (props: { x: number, y: number, width: number, height: number }) => ReactElement | null,
 }
 
 type LegendItem = {
